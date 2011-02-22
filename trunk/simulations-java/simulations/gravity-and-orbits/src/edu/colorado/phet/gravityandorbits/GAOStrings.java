@@ -50,16 +50,17 @@ public class GAOStrings {
     public static final String VELOCITY = getString( "velocity" );
     public static final String ON = getString( "on" );
     public static final String OFF = getString( "off" );
-    //These strings not currently used, but may be put in as tooltips or labels later
-    public static final String SUN_AND_PLANET = getString( "sunAndPlanet" );
-    public static final String SUN_PLANET_AND_MOON = getString( "sunPlanetAndMoon" );
-    public static final String PLANET_AND_MOON = getString( "planetAndMoon" );
-    public static final String PLANET_AND_SPACE_STATION = getString( "planetAndSpaceStation" );
 
     public static final String PATTERN_LABEL = getString( "pattern.0label" );
     public static final String PATTERN_VALUE_UNITS = getString( "pattern.0value.1units" );
     public static final String ZOOM_IN = getString( "zoomIn" );
     public static final String ZOOM_OUT = getString( "zoomOut" );
+
+    //These strings not currently used, but may be put in as tooltips or labels later
+    public static final String SUN_AND_PLANET = getString( "sunAndPlanet" );
+    public static final String SUN_PLANET_AND_MOON = getString( "sunPlanetAndMoon" );
+    public static final String PLANET_AND_MOON = getString( "planetAndMoon" );
+    public static final String PLANET_AND_SPACE_STATION = getString( "planetAndSpaceStation" );
 
     private static String getString( String key ) {
         return GravityAndOrbitsApplication.RESOURCES.getLocalizedString( key );

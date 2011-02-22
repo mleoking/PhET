@@ -40,16 +40,18 @@ public class GAOTimeSlider extends PNode {
         }} );
     }
 
+    /**
+     * This is the Swing part of the GAOTimeSlider
+     */
     public static class GAOInnerSlider extends VerticalLayoutPanel {
         private final LinearValueControl linearSlider;
 
-        public GAOInnerSlider( double min, double max, String textFieldPattern, final Property<Double> valueProperty,
-                               String title, final ObservableProperty<Color> labelColor ) {
+        public GAOInnerSlider( final double min, final double max, String textFieldPattern, final Property<Double> valueProperty,
+                               final String title, final ObservableProperty<Color> labelColor ) {
             linearSlider = new LinearValueControl( min, max, "", textFieldPattern, "" );
             linearSlider.setTextFieldVisible( false );
-            Hashtable<Object, Object> table = new Hashtable<Object, Object>();
 
-            Function1<String, JLabel> label = new Function1<String, JLabel>() {
+            final Function1<String, JLabel> labelMaker = new Function1<String, JLabel>() {
                 public JLabel apply( String s ) {
                     return new JLabel( s ) {{
                         labelColor.addObserver( new SimpleObserver() {
@@ -61,11 +63,16 @@ public class GAOTimeSlider extends PNode {
                 }
             };
 
-            table.put( new Double( min ), label.apply( PhetCommonResources.getString( "Common.time.slow" ) ) );
-            table.put( new Double( max ), label.apply( PhetCommonResources.getString( "Common.time.fast" ) ) );
-            final JLabel value = label.apply( title );
-            value.setFont( new PhetFont( Font.ITALIC, PhetFont.getDefaultFontSize() ) );
-            table.put( new Double( ( max + min ) / 2 ), value );
+            //Create the Hash table of labels (Double => JComponent)
+            Hashtable<Object, Object> table = new Hashtable<Object, Object>() {{
+                put( new Double( min ), labelMaker.apply( PhetCommonResources.getString( "Common.time.slow" ) ) );
+                put( new Double( max ), labelMaker.apply( PhetCommonResources.getString( "Common.time.fast" ) ) );
+
+                final JLabel value = labelMaker.apply( title );
+                value.setFont( new PhetFont( Font.ITALIC, PhetFont.getDefaultFontSize() ) );
+                put( new Double( ( max + min ) / 2 ), value );
+            }};
+
             linearSlider.setTickLabels( table );
             valueProperty.addObserver( new SimpleObserver() {
                 public void update() {

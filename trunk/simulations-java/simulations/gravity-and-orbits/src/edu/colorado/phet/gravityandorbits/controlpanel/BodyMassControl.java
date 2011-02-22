@@ -23,6 +23,7 @@ import edu.colorado.phet.gravityandorbits.model.Body;
 import edu.colorado.phet.gravityandorbits.view.BodyNode;
 import edu.colorado.phet.gravityandorbits.view.Scale;
 
+import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createSinglePointScaleInvertedYMapping;
 import static edu.colorado.phet.gravityandorbits.controlpanel.GravityAndOrbitsControlPanel.CONTROL_FONT;
 import static edu.colorado.phet.gravityandorbits.controlpanel.GravityAndOrbitsControlPanel.FOREGROUND;
 import static edu.colorado.phet.gravityandorbits.view.GravityAndOrbitsCanvas.STAGE_SIZE;
@@ -35,9 +36,9 @@ import static edu.colorado.phet.gravityandorbits.view.GravityAndOrbitsCanvas.STA
 public class BodyMassControl extends VerticalLayoutPanel {
     public static final int MIN = 0;
     public static final int MAX = 100000;
+    private static double SNAP_TOLERANCE = 0.08;//Percentage of the range the slider must be in to snap to a named label tick
 
     private boolean updatingSlider = false;
-    private double SNAP_TOLERANCE = 0.08;//Percentage of the range the slider must be in to snap to a named label tick
 
     public BodyMassControl( final Body body, double min, double max, final String minLabel, final String maxLabel,
                             final double labelValue, final String valueLabel ) {//for showing a label for a specific body such as "earth"
@@ -51,8 +52,8 @@ public class BodyMassControl extends VerticalLayoutPanel {
                 setFont( CONTROL_FONT );
                 setForeground( FOREGROUND );
             }} );
-            final BodyNode bodyNode = new BodyNode( body, new Property<ModelViewTransform>( ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( STAGE_SIZE.width * 0.30, STAGE_SIZE.height * 0.5 ),
-                                                                                                                                                       1//using a scale of 1 instead of 1E-9 fixes a problem that caused transparent pixels to appear around an image, making the rendered part smaller than it should have been
+            final BodyNode bodyNode = new BodyNode( body, new Property<ModelViewTransform>( createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( STAGE_SIZE.width * 0.30, STAGE_SIZE.height * 0.5 ),
+                                                                                                                                    1//using a scale of 1 instead of 1E-9 fixes a problem that caused transparent pixels to appear around an image, making the rendered part smaller than it should have been
             ) ),
                                                     new Property<Scale>( Scale.REAL ), new Property<ImmutableVector2D>( new ImmutableVector2D( 0, 0 ) ), null, -Math.PI / 4, null );
             final Image image = bodyNode.renderImage( 22 );
