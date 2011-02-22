@@ -1,3 +1,4 @@
+2/22/11 fix test app to use same canvas size as the sim
 2/22/11 tweak model-view transform so that 60 of largest atom fit on balance scale's beam
 2/22/11 add an equation containing P to dev version of first tab, for testing largest atom size
 2/22/11 make balance scale's beam 5% longer
