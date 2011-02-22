@@ -15,7 +15,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
 public class PlusNode extends PPath {
 
     public PlusNode() {
-        this( 20, 20, 6 );
+        this( 30, 30, 9 );
     }
 
     private PlusNode( double width, double height, double thickness ) {
