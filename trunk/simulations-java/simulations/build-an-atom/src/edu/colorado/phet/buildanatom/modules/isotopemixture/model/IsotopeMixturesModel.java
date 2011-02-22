@@ -103,9 +103,10 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
                         ArrayList<Bucket> newBucketList = new ArrayList<Bucket>();
                         for ( int i = 0; i < getValue().size(); i++ ){
                             ImmutableAtom atom = getValue().get( i );
+                            String bucketCaption = AtomIdentifier.getName( atom ) + "-" + atom.getMassNumber();
                             newBucketList.add( new Bucket(new Point2D.Double(
                                     bucketXOffset + interBucketDistanceX * i, bucketYOffset),
-                                    BUCKET_SIZE, isotopeColorMap.get( atom ), AtomIdentifier.getName( atom )) );
+                                    BUCKET_SIZE, isotopeColorMap.get( atom ), bucketCaption) );
                         }
                         bucketListProperty.setValue( newBucketList );
 
