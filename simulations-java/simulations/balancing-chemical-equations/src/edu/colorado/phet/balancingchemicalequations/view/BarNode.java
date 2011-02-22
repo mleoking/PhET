@@ -42,7 +42,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 public class BarNode extends PComposite {
 
     private static final int MAX_NUMBER_OF_ATOMS = 12;
-    private static final PDimension MAX_BAR_SIZE = new PDimension( 25, 80 );
+    private static final PDimension MAX_BAR_SIZE = new PDimension( 25, 90 );
     private static final PDimension ARROW_SIZE = new PDimension( 1.5 * MAX_BAR_SIZE.getWidth(), 10 );
     private static final Stroke STROKE = new BasicStroke( 1f );
     private static final Color STROKE_COLOR = Color.BLACK;
