@@ -19,6 +19,14 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  */
 public class ParticleBucket extends Bucket {
 
+    // ------------------------------------------------------------------------
+    // Class Data
+    // ------------------------------------------------------------------------
+
+    // ------------------------------------------------------------------------
+    // Instance Data
+    // ------------------------------------------------------------------------
+
     // Particles that are in this bucket.
     private final ArrayList<SphericalParticle> containedParticles = new ArrayList<SphericalParticle>();
 
@@ -57,6 +65,10 @@ public class ParticleBucket extends Bucket {
         }
     };
 
+    // ------------------------------------------------------------------------
+    // Constructor(s)
+    // ------------------------------------------------------------------------
+
     /**
      * Constructor.
      */
@@ -74,6 +86,10 @@ public class ParticleBucket extends Bucket {
     public ParticleBucket( Point2D position, Dimension2D size, Color baseColor, String caption, double particleRadius ) {
         this(position, size, baseColor, caption, particleRadius, 1, 0);
     }
+
+    // ------------------------------------------------------------------------
+    // Methods
+    // ------------------------------------------------------------------------
 
     public void reset() {
         containedParticles.clear();
