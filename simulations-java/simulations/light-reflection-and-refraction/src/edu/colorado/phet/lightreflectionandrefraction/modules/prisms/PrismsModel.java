@@ -87,6 +87,17 @@ public class PrismsModel extends LRRModel {
                                                                           Math.PI / 2 ) );//turn it so that the circular part is on the left, not on the top
                 }
             }} ) ) );
+
+            //Diverging lens: half an hourglass shape
+            add( new Prism( new Polygon( new ArrayList<ImmutableVector2D>() {{
+                int numSamples = 200;
+                for ( int i = numSamples / 2; i < numSamples; i++ ) {
+                    add( ImmutableVector2D.parseAngleAndMagnitude( a / 2, (double) i / numSamples * Math.PI * 2 +
+                                                                          Math.PI / 2 ) );//turn it so that the circular part is on the left, not on the top
+                }
+                add( new ImmutableVector2D( a * 0.6, a / 2 ) );
+                add( new ImmutableVector2D( a * 0.6, -a / 2 ) );
+            }} ) ) );
         }};
     }
 
