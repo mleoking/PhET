@@ -9,6 +9,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.model.SettableProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -30,7 +31,7 @@ public class FaucetNode extends PNode {
         public RadioButton( String name, SettableProperty<Boolean> selected ) {
             super( name, selected, true );
             setBackground( TRANSPARENT );
-            setFont( new PhetFont( 14, true ) );
+            setFont( new PhetFont( 18, true ) );
         }
     }
 
@@ -38,7 +39,7 @@ public class FaucetNode extends PNode {
         addChild( new PImage( FluidPressureAndFlowApplication.RESOURCES.getImage( "faucet.png" ) ) {{
             setScale( 0.75 );
             setOffset( -27, 0 );
-            addChild( new PSwing( new JSlider( 0, 100 ) {{
+            final PSwing sliderNode = new PSwing( new JSlider( 0, 100 ) {{
                 setBackground( TRANSPARENT );
                 setPaintTicks( true );//to make the slider thumb wider on Windows 7
                 setPreferredSize( new Dimension( 120, getPreferredSize().height ) );
@@ -60,14 +61,16 @@ public class FaucetNode extends PNode {
                         setVisible( !faucetFlowLevel.automatic.getValue() );
                     }
                 } );
-            }} );
-            addChild( new PSwing( new JPanel() {{
+            }};
+            addChild( sliderNode );
+            addChild( new PSwing( new VerticalLayoutPanel() {{
+                setInsets( new Insets( -6, 0, 0, 0 ) );//Bring the radio buttons a bit closer together
                 add( new RadioButton( FPAFStrings.MATCH_LEAKAGE, faucetFlowLevel.automatic ) );
                 add( new RadioButton( FPAFStrings.MANUAL, not( faucetFlowLevel.automatic ) ) );
                 setBackground( TRANSPARENT );
             }} ) {{
-                setScale( 1.4 );
-                setOffset( 10, 45 );
+                setOffset( sliderNode.getFullBounds().getMaxX() - getFullBounds().getWidth(),//Right align with slider
+                           45 );
             }} );
         }} );
         setOffset( 20, 10 );

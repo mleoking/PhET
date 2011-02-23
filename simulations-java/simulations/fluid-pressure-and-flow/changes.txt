@@ -1,3 +1,4 @@
+Converted horizontal layout to vertical for faucet radio buttons
 Converted from ButtonExpander to MinimizeMaximizeNode for fluid density control
 Converted control panels to use ControlPanelNode
 Made the handle on the top of the water tower 25% bigger
