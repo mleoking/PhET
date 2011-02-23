@@ -8,6 +8,7 @@ import java.awt.geom.Point2D;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.model.And;
 import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.Function1;
@@ -40,7 +41,7 @@ public class LightReflectionAndRefractionCanvas<T extends LRRModel> extends Phet
     protected final PNode lightWaveLayer = new PNode();
     protected final PNode beforeLightLayer = new PNode();
 
-    public LightReflectionAndRefractionCanvas( final T model, final Function1<Double, Double> clampDragAngle, final Function1<Double, Boolean> clockwiseArrowNotAtMax, final Function1<Double, Boolean> ccwArrowNotAtMax, boolean showNormal ) {
+    public LightReflectionAndRefractionCanvas( final T model, BooleanProperty moduleActive, final Function1<Double, Double> clampDragAngle, final Function1<Double, Boolean> clockwiseArrowNotAtMax, final Function1<Double, Boolean> ccwArrowNotAtMax, boolean showNormal ) {
         this.showNormal = new BooleanProperty( showNormal );
         this.model = model;
         // Root of our scene graph
@@ -98,14 +99,19 @@ public class LightReflectionAndRefractionCanvas<T extends LRRModel> extends Phet
         } );
 
         //No time readout
-        addChild( new FloatingClockControlNode( new BooleanProperty( true ) {{
-            addObserver( new SimpleObserver() {
-                public void update() {
-                    if ( getValue() ) { model.getClock().start(); }
-                    else { model.getClock().pause(); }
+        final BooleanProperty clockRunningPressed = new BooleanProperty( true );
+        final And clockRunning = clockRunningPressed.and( moduleActive );
+        clockRunning.addObserver( new SimpleObserver() {
+            public void update() {
+                if ( clockRunning.getValue() ) {
+                    model.getClock().start();
                 }
-            } );
-        }}, null, model.getClock(), "Reset", new Property<Color>( Color.white ) ) {{
+                else {
+                    model.getClock().pause();
+                }
+            }
+        } );
+        addChild( new FloatingClockControlNode( clockRunningPressed, null, model.getClock(), "Reset", new Property<Color>( Color.white ) ) {{
             setOffset( stageSize.width * 3 / 4 - getFullBounds().getWidth() / 2, stageSize.getHeight() - getFullBounds().getHeight() );
             laserView.addObserver( new SimpleObserver() {
                 public void update() {

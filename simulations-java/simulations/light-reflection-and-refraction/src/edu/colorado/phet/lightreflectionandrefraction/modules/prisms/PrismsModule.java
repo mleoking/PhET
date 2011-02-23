@@ -9,6 +9,6 @@ import edu.colorado.phet.lightreflectionandrefraction.modules.LRRModule;
 public class PrismsModule extends LRRModule<PrismsModel> {
     public PrismsModule() {
         super( "Prism Break", new PrismsModel() );
-        setSimulationPanel( new PrismsCanvas( getLRRModel() ) );
+        setSimulationPanel( new PrismsCanvas( getLRRModel(), moduleActive ) );
     }
 }

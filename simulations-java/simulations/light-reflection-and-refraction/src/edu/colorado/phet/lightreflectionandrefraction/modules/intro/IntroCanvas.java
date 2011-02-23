@@ -4,6 +4,7 @@ package edu.colorado.phet.lightreflectionandrefraction.modules.intro;
 import java.awt.*;
 import java.awt.geom.Line2D;
 
+import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.Function1;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
@@ -19,8 +20,8 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * @author Sam Reid
  */
 public class IntroCanvas extends LightReflectionAndRefractionCanvas<IntroModel> {
-    public IntroCanvas( IntroModel model ) {
-        super( model, new Function1<Double, Double>() {
+    public IntroCanvas( IntroModel model, BooleanProperty moduleActive ) {
+        super( model, moduleActive, new Function1<Double, Double>() {
             public Double apply( Double angle ) {
                 if ( angle < -Math.PI / 2 ) { angle = Math.PI; }
                 if ( angle < Math.PI / 2 && angle > 0 ) { angle = Math.PI / 2; }

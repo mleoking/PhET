@@ -3,6 +3,7 @@ package edu.colorado.phet.lightreflectionandrefraction.modules.prisms;
 
 import java.awt.*;
 
+import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.Function1;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.VoidFunction0;
@@ -18,8 +19,8 @@ import edu.umd.cs.piccolo.PNode;
 public class PrismsCanvas extends LightReflectionAndRefractionCanvas<PrismsModel> {
     private PNode prismLayer = new PNode();
 
-    public PrismsCanvas( final PrismsModel model ) {
-        super( model, new Function1.Identity<Double>(), new Function1.Constant<Double, Boolean>( true ), new Function1.Constant<Double, Boolean>( true ), false );
+    public PrismsCanvas( final PrismsModel model, BooleanProperty moduleActive ) {
+        super( model, moduleActive, new Function1.Identity<Double>(), new Function1.Constant<Double, Boolean>( true ), new Function1.Constant<Double, Boolean>( true ), false );
         for ( Prism prism : model.getPrisms() ) {
             addChild( new PrismNode( transform, prism, model.prismMedium ) );
         }

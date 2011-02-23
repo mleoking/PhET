@@ -1,3 +1,4 @@
+Fixed: Keep track of whether the module is active for making sure only one clock is running at a time
 Fixed layer for intensity meter
 Fixed: light rays should be in the front layer
 Turned "normal" off by default in prism tab
