@@ -195,7 +195,7 @@ public class BalanceScaleNode extends PComposite {
 
         public void setHighlighted( boolean highlighted ) {
             setPaint( highlighted ? BCEConstants.BALANCED_HIGHLIGHT_COLOR : Color.BLACK );
-            setStroke( highlighted ? new BasicStroke( 2f ) : null );
+            setStroke( highlighted ? new BasicStroke( 1f ) : null );
         }
     }
 

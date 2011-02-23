@@ -10,11 +10,11 @@ import java.util.ArrayList;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.balancingchemicalequations.BCEConstants;
 import edu.colorado.phet.balancingchemicalequations.model.Equation;
 import edu.colorado.phet.balancingchemicalequations.model.EquationTerm;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
+import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.controls.IntegerSpinner;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -198,12 +198,11 @@ public class EquationNode extends PhetPNode  {
             textNode = new PText();
             textNode.setFont( FONT );
             textNode.setTextPaint( COEFFICIENT_COLOR );
-            addChild( textNode );
-            textNode.setVisible( !editable );
 
             // editable spinner
             final IntegerSpinner spinner = new IntegerSpinner( range );
             spinner.setForeground( COEFFICIENT_COLOR );
+            spinner.setFont( FONT );
             spinner.setValue( coefficientProperty.getValue() );
             spinner.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
@@ -211,17 +210,25 @@ public class EquationNode extends PhetPNode  {
                 }
             } );
             spinnerNode = new PSwing( spinner );
-            spinnerNode.scale( BCEConstants.SWING_SCALE );
+            if ( PhetUtilities.isMacintosh() ) {
+                spinnerNode.scale( 1.75 ); //WORKAROUND: JSpinner font changes are ignored on Mac
+            }
+
+            // rendering order
             addChild( spinnerNode );
-            spinnerNode.setVisible( editable );
+            addChild( textNode );
 
             // layout
             spinnerNode.setOffset( 0, 0 );
             textNode.addPropertyChangeListener( PROPERTY_FULL_BOUNDS, new PropertyChangeListener() {
                 public void propertyChange( PropertyChangeEvent evt ) {
-                    textNode.setOffset( spinnerNode.getFullBoundsReference().getMaxX() - textNode.getFullBoundsReference().getWidth(), 0 );
+                    textNode.setOffset( spinnerNode.getFullBoundsReference().getMaxX() - textNode.getFullBoundsReference().getWidth() - 12, 0 ); // right justified
                 }
             } );
+
+            // visibility
+            textNode.setVisible( !editable );
+            spinnerNode.setVisible( editable );
 
             // coefficient observer
             this.coefficientProperty = coefficientProperty;
