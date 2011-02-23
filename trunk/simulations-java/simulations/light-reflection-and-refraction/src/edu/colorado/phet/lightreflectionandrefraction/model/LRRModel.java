@@ -2,14 +2,11 @@
 package edu.colorado.phet.lightreflectionandrefraction.model;
 
 import java.awt.*;
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.math.Function;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
@@ -103,41 +100,6 @@ public class LRRModel {
                 updateModel();
             }
         }.observe( laser.on, laser.angle, intensityMeter.sensorPosition, intensityMeter.enabled, laser.color );
-    }
-
-    /*
-     Checks whether the intensity meter should absorb the ray, and if so adds a truncated ray.
-     If the intensity meter misses the ray, the original ray is added.
-     */
-    protected boolean addAndAbsorb( LightRay ray ) {
-        boolean rayAbsorbed = ray.intersects( intensityMeter.getSensorShape() ) && intensityMeter.enabled.getValue();
-        if ( rayAbsorbed ) {
-            Point2D[] intersects = MathUtil.getLineCircleIntersection( intensityMeter.getSensorShape(), ray.toLine2D() );
-            if ( intersects != null && intersects[0] != null && intersects[1] != null ) {
-                double x = intersects[0].getX() + intersects[1].getX();
-                double y = intersects[0].getY() + intersects[1].getY();
-                LightRay interrupted = new LightRay( ray.tail.getValue(), new ImmutableVector2D( x / 2, y / 2 ), 1.0, ray.getWavelength(), ray.getPowerFraction(), laser.color.getValue().getColor(),
-                                                     ray.getWaveWidth(), ray.getNumWavelengthsPhaseOffset(), ray.getOppositeMedium(), ray.phase.getValue(), false, ray.extendBackwards );
-                boolean isForward = ray.toVector2D().dot( interrupted.toVector2D() ) > 0;
-                if ( interrupted.getLength() < ray.getLength() && isForward ) {
-                    addRay( interrupted );
-                }
-                else {
-                    addRay( ray );
-                    rayAbsorbed = false;
-                }
-            }
-        }
-        else {
-            addRay( ray );
-        }
-        if ( rayAbsorbed ) {
-            intensityMeter.addRayReading( new Reading( ray.getPowerFraction() ) );
-        }
-        else {
-            intensityMeter.addRayReading( Reading.MISS );
-        }
-        return rayAbsorbed;
     }
 
     protected void addRay( LightRay ray ) {

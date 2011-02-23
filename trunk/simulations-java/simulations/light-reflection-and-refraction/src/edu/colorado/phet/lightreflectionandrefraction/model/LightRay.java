@@ -31,8 +31,9 @@ public class LightRay {
     private boolean extend;
 
     public LightRay( ImmutableVector2D tail, ImmutableVector2D tip, double indexOfRefraction, double wavelength,
-                     double powerFraction, Color color, double waveWidth, double numWavelengthsPhaseOffset, Shape oppositeMedium//for clipping
-            , double initialPhase,
+                     double powerFraction, Color color, double waveWidth, double numWavelengthsPhaseOffset,
+                     Shape oppositeMedium,//for clipping
+                     double initialPhase,
                      boolean extend,//has to be an integral number of wavelength so that the phases work out correctly, turing this up too high past 1E6 causes things not to render properly
                      boolean extendBackwards ) {
         this.oppositeMedium = oppositeMedium;
