@@ -89,21 +89,20 @@ public class LRRModel {
     private final ArrayList<VoidFunction0> modelUpdateListeners = new ArrayList<VoidFunction0>();
 
     public LRRModel() {
-        this.clock = new ConstantDtClock( 30.0 );
-
+        this.clock = new ConstantDtClock( 30.0 ) {{
+            addClockListener( new ClockAdapter() {
+                public void simulationTimeChanged( ClockEvent clockEvent ) {
+                    for ( LightRay ray : rays ) {
+                        ray.step( clockEvent.getSimulationTimeChange() );
+                    }
+                }
+            } );
+        }};
         new RichSimpleObserver() {
             public void update() {
                 updateModel();
             }
         }.observe( laser.on, laser.angle, intensityMeter.sensorPosition, intensityMeter.enabled, laser.color );
-
-        clock.addClockListener( new ClockAdapter() {
-            public void simulationTimeChanged( ClockEvent clockEvent ) {
-                for ( LightRay ray : rays ) {
-                    ray.step( clockEvent.getSimulationTimeChange() );
-                }
-            }
-        } );
     }
 
     /*
