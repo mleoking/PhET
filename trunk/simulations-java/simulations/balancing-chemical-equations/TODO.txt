@@ -4,10 +4,15 @@ DESIGN ISSUES
 - which representations are needed for Game, and how will they all fit in the play area?
 
 HIGH PRIORITY
-- "Game" module with 2/3/11 design meeting changes
-- in "Game", two possible labels below frowny face: "X not balanced" or "Check Mark balanced\nX not simplified"
-- after "Check" is pressed, show bar charts or balance scales in a popup that obscures part of play area and has a "Try Again" or "Next" button and face.
-- largest molecule diameter is too large to fit on balance scales
+- Game: populate and center GameOverNode at end of game
+- Game: toggle coefficients between editable and read-only
+- Game: multi-column support to boxes
+- Game: disable highlighting of arrows, etc. when equation is balanced, until after Check button is pressed
+- Game: smiley face
+- Game: frowny face with 2 possible labels: "X not balanced" or "Check Mark balanced\nX not simplified"
+- Game: on incorrect guess, show bar charts or balance scales in a popup that obscures part of play area and has a "Try Again" or "Next" button and face.
+- Game: rewrite GameScoreBoardNode to use Property<T>
+- Game: rewrite GameOverNode to use Property<T>
 
 MEDIUM PRIORITY
 - PNode.toImage looks lousy for atoms and molecules
