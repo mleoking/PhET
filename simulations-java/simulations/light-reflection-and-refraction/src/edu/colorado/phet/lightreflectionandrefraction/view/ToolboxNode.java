@@ -3,6 +3,7 @@ package edu.colorado.phet.lightreflectionandrefraction.view;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -61,7 +62,7 @@ public class ToolboxNode extends PNode {
                         node.translate( -node.getFullBounds().getWidth() / 2, node.getFullBounds().getHeight() / 2 );//Center on the mouse
                         final PropertyChangeListener pcl = new PropertyChangeListener() {
                             public void propertyChange( PropertyChangeEvent evt ) {
-                                intersect = ToolboxNode.this.getGlobalFullBounds().intersects( node.getGlobalFullBounds() );
+                                intersect = ToolboxNode.this.getGlobalFullBounds().contains( node.getGlobalFullBounds().getCenter2D() );
                             }
                         };
                         node.addPropertyChangeListener( PROPERTY_FULL_BOUNDS, pcl );
@@ -119,8 +120,10 @@ public class ToolboxNode extends PNode {
                         final PropertyChangeListener pcl = new PropertyChangeListener() {
                             public void propertyChange( PropertyChangeEvent evt ) {
                                 if ( node != null ) {
-                                    intersect = ToolboxNode.this.getGlobalFullBounds().intersects( node.getSensorGlobalFullBounds() ) ||
-                                                ToolboxNode.this.getGlobalFullBounds().intersects( node.getBodyGlobalFullBounds() );
+                                    final Rectangle2D sensorBounds = node.getSensorGlobalFullBounds();
+                                    final Rectangle2D bodyBounds = node.getBodyGlobalFullBounds();
+                                    intersect = ToolboxNode.this.getGlobalFullBounds().contains( sensorBounds.getCenterX(), sensorBounds.getCenterY() ) ||
+                                                ToolboxNode.this.getGlobalFullBounds().contains( bodyBounds.getCenterX(), bodyBounds.getCenterY() );
                                 }
                             }
                         };
