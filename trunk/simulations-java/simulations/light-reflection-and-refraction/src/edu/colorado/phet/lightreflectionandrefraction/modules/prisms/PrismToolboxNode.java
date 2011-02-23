@@ -53,7 +53,7 @@ public class PrismToolboxNode extends PNode {
                             this.createdNode = boundNode;
                             final PropertyChangeListener pcl = new PropertyChangeListener() {
                                 public void propertyChange( PropertyChangeEvent evt ) {
-                                    intersect = PrismToolboxNode.this.getGlobalFullBounds().intersects( boundNode.getGlobalFullBounds() );
+                                    intersect = PrismToolboxNode.this.getGlobalFullBounds().contains( boundNode.getGlobalFullBounds().getCenter2D() );
                                 }
                             };
                             boundNode.addPropertyChangeListener( PROPERTY_FULL_BOUNDS, pcl );

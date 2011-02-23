@@ -1,3 +1,4 @@
+Made it so that an object's center must be over the toolbox for it be removed from the play area (instead of any intersection)
 Fixed: Prisms toolbox items take up more space than necessary
 Made it possible to drag out multiple prisms with the same shape
 Added reset all for the first tab
