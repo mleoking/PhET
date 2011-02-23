@@ -136,6 +136,9 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
              prototypeIsotope.getNumNeutrons() != atom.getNumNeutrons() ||
              prototypeIsotope.getNumElectrons() != atom.getNumElectrons()){
 
+            // Clear the test chamber.
+            testChamber.removeAllIsotopes();
+
             // Remove all existing interactive isotope instances.
             List<MovableAtom> interactiveIsotopesCopy = new ArrayList<MovableAtom>( interactiveIsotopes );
             interactiveIsotopes.clear();

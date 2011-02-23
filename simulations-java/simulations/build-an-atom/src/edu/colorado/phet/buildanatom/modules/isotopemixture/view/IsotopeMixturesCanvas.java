@@ -153,15 +153,24 @@ public class IsotopeMixturesCanvas extends PhetPCanvas {
             final PieChartNode pieChart = new PieChartNode( new PieValue[] { new PieValue( 100, Color.red ) },
                     new Rectangle(0, 0, SIZE.width, SIZE.height ) );
             addChild( pieChart );
-            model.getPossibleIsotopesProperty().addObserver( new SimpleObserver() {
+            model.getIsotopeTestChamber().getIsotopeCountProperty().addObserver( new SimpleObserver(){
                 public void update() {
-                    PieValue[] pieSlices = new PieValue[model.getPossibleIsotopesProperty().getValue().size()];
-                    int isotopeCount = 0;
-                    for ( ImmutableAtom atom : model.getPossibleIsotopesProperty().getValue() ){
-                        pieSlices[isotopeCount++] = new PieValue( 100, model.getColorForIsotope( atom ) );
+                    int isotopeCount = model.getIsotopeTestChamber().getIsotopeCountProperty().getValue();
+                    // Hide the chart if there is nothing in the chamber.
+                    pieChart.setVisible( isotopeCount > 0 );
+                    if ( isotopeCount > 0 ){
+                        // Update the proportions.
+                        PieValue[] pieSlices = new PieValue[model.getPossibleIsotopesProperty().getValue().size()];
+                        int sliceCount = 0;
+                        for ( ImmutableAtom isotope : model.getPossibleIsotopesProperty().getValue() ){
+                            pieSlices[sliceCount++] =
+                                new PieValue( model.getIsotopeTestChamber().getIsotopeProportion( isotope ),
+                                        model.getColorForIsotope( isotope ) );
+                        }
+                        pieChart.setPieValues( pieSlices );
                     }
-                    pieChart.setPieValues( pieSlices );
                 }
+
             });
         }
     }
