@@ -87,4 +87,10 @@ public class PrismsCanvas extends LightReflectionAndRefractionCanvas<PrismsModel
     public void removePrismNode( PrismNode node ) {
         prismLayer.removeChild( node );
     }
+
+    @Override
+    public void resetAll() {
+        super.resetAll();
+        prismLayer.removeAllChildren();//TODO: see PrismToolboxNode for how prism nodes are created and managed; it doesn't use normal MVC pattern
+    }
 }

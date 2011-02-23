@@ -1,3 +1,4 @@
+Fixed: Prisms aren't removed on reset all
 Fixed: Intensity meter causes incorrect wave mode representation (phase is incorrect)
 Fixed: Toolbox objects should move slightly when clicked (to cue user that they are draggable)
 Fixed: Wavelength doesn't reset
