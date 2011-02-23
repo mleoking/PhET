@@ -1,3 +1,4 @@
+Moved water tower legs to the back layer to prevent sticking into the water tank
 Fixed: Water drops should get smaller as they go faster
 Fixed: Fluid Density text field is not wide enough to display the value (problem in all modules)
 Fixed: On Mac, in default locations, pressure sensors are partially obscured by control panel
