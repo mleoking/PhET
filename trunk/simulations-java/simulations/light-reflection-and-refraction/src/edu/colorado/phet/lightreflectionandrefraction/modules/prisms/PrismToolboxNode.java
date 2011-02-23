@@ -38,7 +38,8 @@ public class PrismToolboxNode extends PNode {
                     PrismNode createdNode = null;//Last created node that events should be forwarded to
                     boolean intersect = false;
 
-                    public void mouseDragged( PInputEvent event ) {
+                    @Override
+                    public void mousePressed( PInputEvent event ) {
                         if ( createdNode == null ) {
                             final Point2D positionRelativeTo = event.getPositionRelativeTo( getParent().getParent().getParent() );//why?
                             Point2D modelPoint = transform.viewToModel( positionRelativeTo );
@@ -71,6 +72,9 @@ public class PrismToolboxNode extends PNode {
 
                             canvas.addPrismNode( createdNode );
                         }
+                    }
+
+                    public void mouseDragged( PInputEvent event ) {
                         createdNode.translate( transform.viewToModelDelta( event.getDeltaRelativeTo( getParent() ) ) );
                     }
 

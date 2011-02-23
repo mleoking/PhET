@@ -52,7 +52,8 @@ public class ToolboxNode extends PNode {
                 ProtractorNode node = null;
                 boolean intersect = false;
 
-                public void mouseDragged( PInputEvent event ) {
+                @Override
+                public void mousePressed( PInputEvent event ) {
                     showProtractor.setValue( true );
                     setVisible( false );
                     if ( node == null ) {
@@ -80,6 +81,9 @@ public class ToolboxNode extends PNode {
 
                         canvas.addChild( node );
                     }
+                }
+
+                public void mouseDragged( PInputEvent event ) {
                     node.doDrag( event );
                 }
 
@@ -111,7 +115,7 @@ public class ToolboxNode extends PNode {
                 IntensityMeterNode node = null;
                 boolean intersect = false;
 
-                public void mouseDragged( PInputEvent event ) {
+                public void mousePressed( PInputEvent event ) {
                     intensityMeter.enabled.setValue( true );
                     if ( node == null ) {
                         node = new IntensityMeterNode( transform, intensityMeter );
@@ -157,6 +161,9 @@ public class ToolboxNode extends PNode {
 
                         canvas.addChildBehindLight( node );
                     }
+                }
+
+                public void mouseDragged( PInputEvent event ) {
                     node.doTranslate( transform.viewToModelDelta( event.getDeltaRelativeTo( getParent() ) ) );
                 }
 
