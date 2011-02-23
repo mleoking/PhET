@@ -23,8 +23,6 @@ public class FPAFStrings {
     public static final String GASOLINE = getString( "gasoline" );
     public static final String WATER = getString( "water" );
     public static final String HONEY = getString( "honey" );
-    public static final String FLUID_DENSITY_MORE = getString( "fluidDensityMore" );
-    public static final String FLUID_DENSITY_LESS = getString( "fluidDensityLess" );
     public static final String QUESTION_MARK = getString( "questionMark" );
     public static final String SENSOR_PATTERN = getString( "sensorPattern" );
     public static final String UNITS = getString( "units" );
