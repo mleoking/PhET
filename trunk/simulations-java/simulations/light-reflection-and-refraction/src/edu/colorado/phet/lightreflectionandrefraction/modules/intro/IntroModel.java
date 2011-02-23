@@ -27,6 +27,7 @@ public class IntroModel extends LRRModel {
     public final Property<Medium> bottomMedium = new Property<Medium>( new Medium( new Rectangle2D.Double( -1, -1, 2, 1 ), WATER, colorMappingFunction.getValue().apply( WATER.index ) ) );
 
     public IntroModel() {
+        super( PI * 3 / 4 );
         colorMappingFunction.addObserver( new SimpleObserver() {
             public void update() {
                 topMedium.setValue( new Medium( topMedium.getValue().getShape(), topMedium.getValue().getMediumState(), colorMappingFunction.getValue().apply( topMedium.getValue().getIndexOfRefraction() ) ) );

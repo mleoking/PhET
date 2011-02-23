@@ -76,7 +76,7 @@ public class LRRModel {
     final double modelHeight = modelWidth * 0.7;
 
     private ArrayList<VoidFunction1<LightRay>> rayAddedListeners = new ArrayList<VoidFunction1<LightRay>>();
-    protected final Laser laser = new Laser( 8.125E-6 );
+    protected final Laser laser;
     protected final IntensityMeter intensityMeter = new IntensityMeter( modelWidth * 0.3, -modelHeight * 0.3, modelWidth * 0.4, -modelHeight * 0.3 );
     //Alphas may be ignored, see MediumNode
     public static final Color AIR_COLOR = Color.white;
@@ -85,7 +85,8 @@ public class LRRModel {
     public static final Color DIAMOND_COLOR = new Color( 78, 79, 164 );
     private final ArrayList<VoidFunction0> modelUpdateListeners = new ArrayList<VoidFunction0>();
 
-    public LRRModel() {
+    public LRRModel( double laserAngle ) {
+        laser = new Laser( 8.125E-6, laserAngle );
         this.clock = new ConstantDtClock( 30.0 ) {{
             addClockListener( new ClockAdapter() {
                 public void simulationTimeChanged( ClockEvent clockEvent ) {

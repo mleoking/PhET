@@ -7,19 +7,19 @@ import edu.colorado.phet.lightreflectionandrefraction.view.LaserColor;
 
 import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.parseAngleAndMagnitude;
 import static edu.colorado.phet.lightreflectionandrefraction.model.LRRModel.WAVELENGTH_RED;
-import static java.lang.Math.PI;
 
 /**
  * @author Sam Reid
  */
 public class Laser {
     public final Property<Double> distanceFromOrigin;
-    public final Property<Double> angle = new Property<Double>( PI * 3 / 4 );
+    public final Property<Double> angle;
     public final Property<Boolean> on = new Property<Boolean>( false );
     public final Property<LaserColor> color = new Property<LaserColor>( new LaserColor.OneColor( WAVELENGTH_RED ) );
 
-    public Laser( double distFromOrigin ) {
+    public Laser( double distFromOrigin, double angle ) {
         this.distanceFromOrigin = new Property<Double>( distFromOrigin );
+        this.angle = new Property<Double>( angle );
     }
 
     public ImmutableVector2D getEmissionPoint() {
