@@ -21,8 +21,7 @@ import edu.colorado.phet.lightreflectionandrefraction.model.Medium;
 import edu.colorado.phet.lightreflectionandrefraction.util.RichSimpleObserver;
 import edu.colorado.phet.lightreflectionandrefraction.view.LaserColor;
 
-import static java.lang.Math.pow;
-import static java.lang.Math.sqrt;
+import static java.lang.Math.*;
 
 /**
  * @author Sam Reid
@@ -37,6 +36,7 @@ public class PrismsModel extends LRRModel {
     public final ArrayList<VoidFunction1<Intersection>> intersectionListeners = new ArrayList<VoidFunction1<Intersection>>();
 
     public PrismsModel() {
+        super( PI );
         new RichSimpleObserver() {
             public void update() {
                 updateModel();

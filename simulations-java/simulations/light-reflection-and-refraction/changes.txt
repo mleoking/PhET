@@ -1,3 +1,4 @@
+Fixed: Default laser angle should be smaller or zero in prism tab
 Fixed: Prisms aren't removed on reset all
 Fixed: Intensity meter causes incorrect wave mode representation (phase is incorrect)
 Fixed: Toolbox objects should move slightly when clicked (to cue user that they are draggable)
