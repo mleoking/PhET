@@ -16,9 +16,9 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.util.Function1;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.VoidFunction1;
+import edu.colorado.phet.lightreflectionandrefraction.util.RichSimpleObserver;
 
 import static java.lang.Math.pow;
 
@@ -91,17 +91,11 @@ public class LRRModel {
     public LRRModel() {
         this.clock = new ConstantDtClock( 30.0 );
 
-        SimpleObserver updateRays = new SimpleObserver() {
+        new RichSimpleObserver() {
             public void update() {
                 updateModel();
             }
-        };
-//        updateRays.observe(topMedium,bottomMedium,laser.on,laser.angle,intensityMeter.sensorPosition);
-        laser.on.addObserver( updateRays );
-        laser.angle.addObserver( updateRays );
-        intensityMeter.sensorPosition.addObserver( updateRays );
-        intensityMeter.enabled.addObserver( updateRays );
-        laser.color.addObserver( updateRays );
+        }.observe( laser.on, laser.angle, intensityMeter.sensorPosition, intensityMeter.enabled, laser.color );
 
         clock.addClockListener( new ClockAdapter() {
             public void simulationTimeChanged( ClockEvent clockEvent ) {
@@ -110,8 +104,6 @@ public class LRRModel {
                 }
             }
         } );
-
-//        clock.start();
     }
 
     /*
