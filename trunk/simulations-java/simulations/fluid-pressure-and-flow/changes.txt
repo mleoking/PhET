@@ -1,3 +1,4 @@
+Fixed: On Mac, in default locations, pressure sensors are partially obscured by control panel
 Proposed solution for faucet slider not being vertically centered in faucet handle on mac
 Converted horizontal layout to vertical for faucet radio buttons
 Converted from ButtonExpander to MinimizeMaximizeNode for fluid density control
