@@ -21,11 +21,13 @@ import edu.colorado.phet.buildanatom.view.BucketHoleNode;
 import edu.colorado.phet.buildanatom.view.PeriodicTableControlNode;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PieChartNode;
 import edu.colorado.phet.common.piccolophet.nodes.PieChartNode.PieValue;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PText;
 
 /**
  * Canvas for the tab where the user builds an atom.
@@ -133,15 +135,18 @@ public class IsotopeMixturesCanvas extends PhetPCanvas {
             }
         });
 
-        // TODO: For debug, put a marker at 0,0 in model space.
-        addWorldChild( new PhetPPath( mvt.createTransformedShape( new Ellipse2D.Double(-5, -5, 10, 10) ), Color.PINK ) );
-
         // Add the pie chart to the canvas.
         final PNode pieChart = new IsotopeProprotionPieChart( model );
-        pieChart.setOffset( 720, 230 );
+        pieChart.setOffset( 650, 190 );
         chamberLayer.addChild( pieChart );
     }
 
+    /**
+     * Class that represents a pie chart portraying the proportion of the
+     * various isotopes in the test chamber.
+     *
+     * @author John Blanco
+     */
     private static class IsotopeProprotionPieChart extends PNode {
 
         private static final Dimension SIZE = new Dimension( 100, 100 );
@@ -150,8 +155,13 @@ public class IsotopeMixturesCanvas extends PhetPCanvas {
          * Constructor.
          */
         public IsotopeProprotionPieChart( final IsotopeMixturesModel model ) {
+            // TODO: i18n
+            PText title = new PText("Percent Composition");
+            title.setFont( new PhetFont( 20, true ) );
+            addChild( title );
             final PieChartNode pieChart = new PieChartNode( new PieValue[] { new PieValue( 100, Color.red ) },
                     new Rectangle(0, 0, SIZE.width, SIZE.height ) );
+            pieChart.setOffset( title.getFullBoundsReference().getCenterX(), title.getFullBoundsReference().getMaxY() + 10 );
             addChild( pieChart );
             model.getIsotopeTestChamber().getIsotopeCountProperty().addObserver( new SimpleObserver(){
                 public void update() {
