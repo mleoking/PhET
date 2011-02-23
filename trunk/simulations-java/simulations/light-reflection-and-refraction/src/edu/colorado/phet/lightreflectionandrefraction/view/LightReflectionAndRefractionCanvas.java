@@ -159,4 +159,12 @@ public class LightReflectionAndRefractionCanvas<T extends LRRModel> extends Phet
     public void removeChild( PNode node ) {
         rootNode.removeChild( node );
     }
+
+    public void removeChildBehindLight( PNode node ) {
+        beforeLightLayer.removeChild( node );
+    }
+
+    public void addChildBehindLight( PNode node ) {
+        beforeLightLayer.addChild( node );
+    }
 }

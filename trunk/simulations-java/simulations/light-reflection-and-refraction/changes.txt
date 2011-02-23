@@ -1,3 +1,4 @@
+Fixed layer for intensity meter
 Fixed: light rays should be in the front layer
 Turned "normal" off by default in prism tab
 Added a diverging lens

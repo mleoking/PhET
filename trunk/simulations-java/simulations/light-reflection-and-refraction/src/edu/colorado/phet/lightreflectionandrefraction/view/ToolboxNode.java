@@ -126,7 +126,7 @@ public class ToolboxNode extends PNode {
                                     node.removePropertyChangeListener( pcl );
                                     intensityMeter.enabled.setValue( false );
                                     sensorThumbnailRef.setVisible( true );
-                                    canvas.removeChild( node );
+                                    canvas.removeChildBehindLight( node );
                                     node = null;//signify that we should create + init a new one on next drag so that it drags from the right location.
                                 }
                             }
@@ -139,7 +139,7 @@ public class ToolboxNode extends PNode {
                             public void mouseReleased( PInputEvent event ) {
                                 if ( intersect && node != null ) {
                                     node.removePropertyChangeListener( pcl );
-                                    canvas.removeChild( node );
+                                    canvas.removeChildBehindLight( node );
                                     intensityMeter.enabled.setValue( false );
                                     sensorThumbnailRef.setVisible( true );
                                     node = null;
@@ -147,9 +147,9 @@ public class ToolboxNode extends PNode {
                             }
                         } );
 
-                        canvas.addChild( node );
+                        canvas.addChildBehindLight( node );
                     }
-                    node.doDrag( event );
+                    node.doTranslate( transform.viewToModelDelta( event.getDeltaRelativeTo( getParent() ) ) );
                 }
 
                 public void mouseReleased( PInputEvent event ) {
@@ -157,7 +157,7 @@ public class ToolboxNode extends PNode {
                         intensityMeter.enabled.setValue( false );
                         sensorThumbnailRef.setVisible( true );
 //                        node.removePropertyChangeListener( pcl );//TODO: what to do about this?
-                        canvas.removeChild( node );
+                        canvas.removeChildBehindLight( node );
                         node = null;
                     }
                 }

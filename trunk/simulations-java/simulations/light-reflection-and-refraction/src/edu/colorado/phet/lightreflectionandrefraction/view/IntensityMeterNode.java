@@ -2,10 +2,7 @@
 package edu.colorado.phet.lightreflectionandrefraction.view;
 
 import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.GeneralPath;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
+import java.awt.geom.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -126,8 +123,13 @@ public class IntensityMeterNode extends PNode {
 //        addChild( sensorHotSpotDebugger );
     }
 
-    public void doDrag( PInputEvent event ) {
-        intensityMeter.translateAll( transform.viewToModelDelta( event.getDeltaRelativeTo( getParent() ) ) );
+    private void doDrag( PInputEvent event ) {
+        final Dimension2D delta = transform.viewToModelDelta( event.getDeltaRelativeTo( getParent() ) );
+        doTranslate( delta );
+    }
+
+    public void doTranslate( Dimension2D delta ) {
+        intensityMeter.translateAll( delta );
     }
 
     public Rectangle2D getSensorGlobalFullBounds() {
