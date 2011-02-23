@@ -341,7 +341,13 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
                     SIZE.getWidth(),
                     SIZE.getHeight() );
 
+        // List of isotopes that are inside the chamber.  This is updated as
+        // isotopes come and go.
         private final List<MovableAtom> containedIsotopes = new ArrayList<MovableAtom>();
+
+        // Property that tracks the number of isotopes in the chamber.  This
+        // can be monitored in order to update the view.
+        private final Property<Integer> isotopeCountProperty = new Property<Integer>( 0 );
 
         public Dimension2D getTestChamberSize() {
             return SIZE;
@@ -398,6 +404,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
         public void addIsotope( MovableAtom isotope ){
             if ( isIsotopePositionedOverChamber( isotope ) ){
                 containedIsotopes.add( isotope );
+                updateCountProperty();
                 // If the edges of the isotope are outside of the container,
                 // move it to be fully inside.
                 double protrusion = isotope.getPosition().getX() + isotope.getRadius() - TEST_CHAMBER_RECT.getMaxX();
@@ -433,6 +440,24 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
 
         public void removeIsotope( MovableAtom isotope ){
             containedIsotopes.remove( isotope );
+            updateCountProperty();
+        }
+
+        public void removeAllIsotopes(){
+            containedIsotopes.clear();
+            updateCountProperty();
+        }
+
+        /**
+         * Get the property that tracks the number of isotopes in the chamber.
+         * This can be monitored to trigger updates to view elements.
+         */
+        public Property<Integer> getIsotopeCountProperty(){
+            return isotopeCountProperty;
+        }
+
+        private void updateCountProperty(){
+            isotopeCountProperty.setValue( containedIsotopes.size() );
         }
 
         /**
@@ -446,7 +471,16 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
          */
         public double getIsotopeProportion( ImmutableAtom isotopeConfig ){
             assert isotopeConfig.getCharge() == 0;
-            return 0; // TBD.
+            // TODO: This could be done by a map that is updated each time an
+            // atom is added if better performance is needed.  This should be
+            // decided before publishing this sim.
+            int isotopeCount = 0;
+            for ( MovableAtom isotope : containedIsotopes ){
+                if ( isotopeConfig.equals( isotope.getAtomConfiguration() )){
+                    isotopeCount++;
+                }
+            }
+            return (double)isotopeCount / (double)containedIsotopes.size();
         }
 
         /**
