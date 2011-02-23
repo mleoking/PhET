@@ -20,7 +20,7 @@ import edu.umd.cs.piccolo.nodes.PText;
  * @author Sam Reid
  */
 public class PrismToolboxNode extends PNode {
-    public PrismToolboxNode( final LightReflectionAndRefractionCanvas canvas, final ModelViewTransform transform, final PrismsModel model ) {
+    public PrismToolboxNode( final PrismsCanvas canvas, final ModelViewTransform transform, final PrismsModel model ) {
         final PText titleLabel = new PText( "Prisms" ) {{
             setFont( LightReflectionAndRefractionCanvas.labelFont );
         }};
@@ -63,16 +63,16 @@ public class PrismToolboxNode extends PNode {
                                     if ( intersect ) {
                                         thumbnailRef.setVisible( true );
                                         node.removePropertyChangeListener( pcl );
-                                        canvas.removeChild( node );
+                                        canvas.removePrismNode( node );
                                         node = null;
                                         model.removePrism( copy );
                                     }
                                 }
                             } );
 
-                            canvas.addChild( node );
+                            canvas.addPrismNode( node );
                         }
-                        node.doDrag( event );
+                        node.translate( transform.viewToModelDelta( event.getDeltaRelativeTo( getParent() ) ) );
                     }
                 } );
                 addInputEventListener( new CursorHandler() );

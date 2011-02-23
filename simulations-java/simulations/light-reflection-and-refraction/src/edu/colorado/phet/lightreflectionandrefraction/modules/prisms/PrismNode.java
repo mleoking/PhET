@@ -44,8 +44,11 @@ public class PrismNode extends PNode {
         } );
     }
 
-    public void doDrag( PInputEvent event ) {
-        final Dimension2D delta = transform.viewToModelDelta( event.getDeltaRelativeTo( getParent() ) );
+    private void doDrag( PInputEvent event ) {
+        translate( transform.viewToModelDelta( event.getDeltaRelativeTo( getParent() ) ) );
+    }
+
+    public void translate( Dimension2D delta ) {
         prism.translate( delta.getWidth(), delta.getHeight() );
     }
 }

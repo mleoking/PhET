@@ -38,6 +38,7 @@ public class LightReflectionAndRefractionCanvas<T extends LRRModel> extends Phet
     protected final PDimension stageSize;
     protected final PNode lightRayLayer = new PNode();
     protected final PNode lightWaveLayer = new PNode();
+    protected final PNode beforeLightLayer = new PNode();
 
     public LightReflectionAndRefractionCanvas( final T model, final Function1<Double, Double> clampDragAngle, final Function1<Double, Boolean> clockwiseArrowNotAtMax, final Function1<Double, Boolean> ccwArrowNotAtMax, boolean showNormal ) {
         this.showNormal = new BooleanProperty( showNormal );
@@ -112,6 +113,7 @@ public class LightReflectionAndRefractionCanvas<T extends LRRModel> extends Phet
                 }
             } );
         }} );
+        addChild( beforeLightLayer );
         addChild( lightRayLayer );
         addChild( lightWaveLayer );
 
