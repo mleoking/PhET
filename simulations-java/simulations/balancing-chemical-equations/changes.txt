@@ -1,3 +1,4 @@
+2/23/11 partial implementation of game view
 2/23/11 first pass at game model, untested and not hooked up to view
 2/23/11 change stroke width to 1.5 for bars, arrows, equals sign, balance scale beam (to match look of 0.00.06)
 2/23/11 workaround: scale spinners on Mac, set font size for spinners on other platforms

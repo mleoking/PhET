@@ -19,7 +19,7 @@ public class GameModule extends BCEModule {
 
     public GameModule( BCEGlobalProperties globalProperties ) {
         super( globalProperties.getFrame(), BCEStrings.GAME, new BCEClock(), true /* startsPaused */ );
-        model = new GameModel( getClock() );
+        model = new GameModel();
         canvas = new GameCanvas( model, globalProperties, this );
         setSimulationPanel( canvas );
     }

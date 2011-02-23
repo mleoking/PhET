@@ -4,11 +4,12 @@ package edu.colorado.phet.balancingchemicalequations.module.game;
 
 import java.util.HashMap;
 
+import edu.colorado.phet.balancingchemicalequations.model.BCEClock;
 import edu.colorado.phet.balancingchemicalequations.model.Equation;
 import edu.colorado.phet.balancingchemicalequations.model.GameProblemsFactory;
+import edu.colorado.phet.balancingchemicalequations.model.OneProductEquation.WaterEquation;
 import edu.colorado.phet.common.games.GameSettings;
 import edu.colorado.phet.common.phetcommon.model.Property;
-import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
@@ -22,13 +23,15 @@ public class GameModel {
     /** The set of prompts that the user sees during the game. */
     public enum GamePrompt { START_GAME, CHECK, TRY_AGAIN, SHOW_ANSWER, NEXT, NEW_GAME };
 
+    private static final IntegerRange COEFFICENTS_RANGE = new IntegerRange( 0, 10 );
     private static final IntegerRange LEVELS_RANGE = new IntegerRange( 1, 3, 1 );
-    private static final int PROBLEMS_PER_GAME = 5;
+    private static final int PROBLEMS_PER_GAME = 2;//XXX 5
     private static final int POINTS_FIRST_ATTEMPT = 2;  // points to award for correct guess on 1st attempt
     private static final int POINTS_SECOND_ATTEMPT = 1; // points to award for correct guess on 2nd attempt
 
     private final Property<Integer> pointsProperty; // how many points the user has earned for the current game
     private final Property<GamePrompt> gamePromptProperty;
+    private final Property<Equation> currentEquationProperty;
 
     private final GameProblemsFactory problemsFactory; // generates problem sets
     private final GameSettings gameSettings;
@@ -41,13 +44,16 @@ public class GameModel {
     private boolean isNewBestTime; // is the time for this game a new best time?
     private boolean isGameCompleted; // was the game played to completion?
 
-    public GameModel( IClock clock ) {
+    public GameModel() {
         gamePromptProperty = new Property<GamePrompt>( GamePrompt.START_GAME );
         pointsProperty = new Property<Integer>( 0 );
+        currentEquationProperty = new Property<Equation>( new WaterEquation() );
         problemsFactory = new GameProblemsFactory();
         gameSettings = new GameSettings( LEVELS_RANGE, true /* sound */, true /* timer */ );
         bestTimes = new HashMap<Integer,Long>();
-        timer = new GameTimer( clock );
+        timer = new GameTimer( new BCEClock() );
+        problemSet = problemsFactory.createProblemSet( PROBLEMS_PER_GAME, gameSettings.level.getValue() );
+        problemIndex = 0;
     }
 
     public long getTime() {
@@ -105,6 +111,7 @@ public class GameModel {
         isGameCompleted = false;
         timer.start();
         setPoints( 0 );
+        setCurrentEquation( problemSet[problemIndex] );
         setGamePrompt( GamePrompt.CHECK );
     }
 
@@ -163,8 +170,9 @@ public class GameModel {
      */
     public void next() {
         if ( problemIndex < problemSet.length - 1 ) {
-            problemIndex++;
             attempts = 0;
+            problemIndex++;
+            setCurrentEquation( problemSet[problemIndex] );
             setGamePrompt( GamePrompt.CHECK );
         }
         else {
@@ -179,8 +187,16 @@ public class GameModel {
         setGamePrompt( GamePrompt.START_GAME );
     }
 
+    private void setCurrentEquation( Equation equation ) {
+        currentEquationProperty.setValue( equation );
+    }
+
     public Equation getCurrentEquation() {
-        return problemSet[problemIndex];
+        return currentEquationProperty.getValue();
+    }
+
+    public Property<Equation> getCurrentEquationProperty() {
+        return currentEquationProperty;
     }
 
     public boolean isNewBestTime() {
@@ -207,5 +223,21 @@ public class GameModel {
 
     private void setBestTime( int level, long time ) {
         bestTimes.put( level, time );
+    }
+
+    public IntegerRange getCoefficientsRange() {
+        return COEFFICENTS_RANGE;
+    }
+
+    public int getProblemIndex() {
+        return problemIndex;
+    }
+
+    public int getNumberOfProblems() {
+        return problemSet.length;
+    }
+
+    public int getMaxScore() {
+        return PROBLEMS_PER_GAME * POINTS_FIRST_ATTEMPT;
     }
 }
