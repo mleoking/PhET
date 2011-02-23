@@ -1,3 +1,4 @@
+Fixed: Fluid Density text field is not wide enough to display the value (problem in all modules)
 Fixed: On Mac, in default locations, pressure sensors are partially obscured by control panel
 Proposed solution for faucet slider not being vertically centered in faucet handle on mac
 Converted horizontal layout to vertical for faucet radio buttons
