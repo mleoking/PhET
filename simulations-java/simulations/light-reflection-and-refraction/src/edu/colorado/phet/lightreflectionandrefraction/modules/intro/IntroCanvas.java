@@ -34,7 +34,7 @@ public class IntroCanvas extends LightReflectionAndRefractionCanvas<IntroModel> 
             public Boolean apply( Double aDouble ) {
                 return aDouble > Math.PI / 2;
             }
-        } );
+        }, true );
         mediumNode.addChild( new MediumNode( transform, model.topMedium ) );
         mediumNode.addChild( new MediumNode( transform, model.bottomMedium ) );
 

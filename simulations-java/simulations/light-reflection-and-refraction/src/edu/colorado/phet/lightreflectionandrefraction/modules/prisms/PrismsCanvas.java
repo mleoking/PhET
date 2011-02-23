@@ -16,7 +16,7 @@ import edu.colorado.phet.lightreflectionandrefraction.view.MediumControlPanel;
  */
 public class PrismsCanvas extends LightReflectionAndRefractionCanvas<PrismsModel> {
     public PrismsCanvas( final PrismsModel model ) {
-        super( model, new Function1.Identity<Double>(), new Function1.Constant<Double, Boolean>( true ), new Function1.Constant<Double, Boolean>( true ) );
+        super( model, new Function1.Identity<Double>(), new Function1.Constant<Double, Boolean>( true ), new Function1.Constant<Double, Boolean>( true ), false );
         for ( Prism prism : model.getPrisms() ) {
             addChild( new PrismNode( transform, prism, model.prismMedium ) );
         }
