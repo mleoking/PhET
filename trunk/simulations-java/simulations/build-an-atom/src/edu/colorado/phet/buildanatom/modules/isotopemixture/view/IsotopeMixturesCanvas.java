@@ -139,6 +139,12 @@ public class IsotopeMixturesCanvas extends PhetPCanvas {
         final PNode pieChart = new IsotopeProprotionPieChart( model );
         pieChart.setOffset( 650, 190 );
         chamberLayer.addChild( pieChart );
+
+        // Add the average atomic mass indicator to the canvas.
+        PNode averageAtomicMassIndicator = new AverageAtomicMassIndicator( model );
+        averageAtomicMassIndicator.setOffset( pieChart.getOffset().getX(),
+                pieChart.getFullBoundsReference().getMaxY() + 10 );
+        chamberLayer.addChild( averageAtomicMassIndicator );
     }
 
     /**
