@@ -41,6 +41,7 @@ public class LightReflectionAndRefractionCanvas<T extends LRRModel> extends Phet
     protected final PNode lightRayLayer = new PNode();
     protected final PNode lightWaveLayer = new PNode();
     protected final PNode beforeLightLayer = new PNode();
+    public BooleanProperty clockRunningPressed;
 
     public LightReflectionAndRefractionCanvas( final T model, BooleanProperty moduleActive, final Function1<Double, Double> clampDragAngle,
                                                final Function1<Double, Boolean> clockwiseArrowNotAtMax, final Function1<Double, Boolean> ccwArrowNotAtMax, boolean showNormal, Resettable resetAll ) {
@@ -101,7 +102,7 @@ public class LightReflectionAndRefractionCanvas<T extends LRRModel> extends Phet
         } );
 
         //No time readout
-        final BooleanProperty clockRunningPressed = new BooleanProperty( true );
+        clockRunningPressed = new BooleanProperty( true );
         final And clockRunning = clockRunningPressed.and( moduleActive );
         clockRunning.addObserver( new SimpleObserver() {
             public void update() {
@@ -180,5 +181,6 @@ public class LightReflectionAndRefractionCanvas<T extends LRRModel> extends Phet
         showNormal.reset();
         showProtractor.reset();
         laserView.reset();
+        clockRunningPressed.reset();
     }
 }
