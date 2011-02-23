@@ -1,3 +1,4 @@
+Fixed: Prisms toolbox items take up more space than necessary
 Made it possible to drag out multiple prisms with the same shape
 Added reset all for the first tab
 Fixed: Keep track of whether the module is active for making sure only one clock is running at a time
