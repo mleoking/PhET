@@ -1,3 +1,4 @@
+# 0.00.21 (49147) Feb 23, 2011
 Fixed: Reset all should restart the clock if it was paused
 Fixed: Default laser angle should be smaller or zero in prism tab
 Fixed: Prisms aren't removed on reset all
