@@ -4,6 +4,7 @@ package edu.colorado.phet.buildanatom.modules.isotopemixture.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Stroke;
 import java.util.List;
 
@@ -12,8 +13,8 @@ import edu.colorado.phet.buildanatom.modules.isotopemixture.model.IsotopeMixture
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.common.piccolophet.nodes.PieChartNode.PieValue;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
@@ -37,7 +38,7 @@ public class AverageAtomicMassIndicator extends PNode {
         addChild( title );
 
         // Add the bar that makes up "spine" of the indicator.
-        final double barOffsetY = title.getFullBoundsReference().getMaxY() + 30;
+        final double barOffsetY = title.getFullBoundsReference().getMaxY() + 40;
         DoubleGeneralPath barShape = new DoubleGeneralPath( 0, 0 );
         barShape.lineTo( INDICATOR_WIDTH, 0 );
         PNode barNode = new PhetPPath( barShape.getGeneralPath(), new BasicStroke(3), Color.BLACK ){{
@@ -72,12 +73,24 @@ public class AverageAtomicMassIndicator extends PNode {
      * Convenience class for creating tick marks.
      */
     private static class IsotopeTickMark extends PNode {
+
+        // Constants that control overall appearance, tweak as needed.
         private static final double TICK_MARK_HEIGHT = 10;
         private static final Stroke TICK_MARK_STROKE = new BasicStroke( 5 );
+        private static final Font LABEL_FONT = new PhetFont(18);
+
         public IsotopeTickMark( ImmutableAtom isotopeConfig ){
+            // Create the tick mark itself.  It is positioned such that
+            // (0,0) is the center of the mark.
             DoubleGeneralPath shape = new DoubleGeneralPath( 0, -TICK_MARK_HEIGHT / 2 );
             shape.lineTo( 0, TICK_MARK_HEIGHT / 2 );
             addChild( new PhetPPath(shape.getGeneralPath(), TICK_MARK_STROKE, Color.BLACK));
+            // Create the label that goes above the tick mark.
+            HTMLNode label = new HTMLNode( "<html><sup>" + isotopeConfig.getMassNumber() + "</sup>" + isotopeConfig.getSymbol() + "</html>" ){{
+                setFont( LABEL_FONT );
+                setOffset( -getFullBoundsReference().width / 2, -getFullBoundsReference().height - TICK_MARK_HEIGHT / 2 );
+            }};
+            addChild( label );
         }
     }
 }
