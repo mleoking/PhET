@@ -18,6 +18,7 @@ import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 import edu.colorado.phet.lightreflectionandrefraction.model.LRRModel;
 import edu.colorado.phet.lightreflectionandrefraction.model.LightRay;
 import edu.colorado.phet.lightreflectionandrefraction.model.Medium;
+import edu.colorado.phet.lightreflectionandrefraction.util.RichSimpleObserver;
 import edu.colorado.phet.lightreflectionandrefraction.view.LaserColor;
 
 import static java.lang.Math.pow;
@@ -36,17 +37,23 @@ public class PrismsModel extends LRRModel {
     public final ArrayList<VoidFunction1<Intersection>> intersectionListeners = new ArrayList<VoidFunction1<Intersection>>();
 
     public PrismsModel() {
-        final SimpleObserver updateModel = new SimpleObserver() {
+        new RichSimpleObserver() {
             public void update() {
                 updateModel();
             }
-        };
+        }.observe( outerMedium, prismMedium, manyRays, laser.color, showReflections );
+    }
 
-        outerMedium.addObserver( updateModel );
-        prismMedium.addObserver( updateModel );
-        manyRays.addObserver( updateModel );
-        laser.color.addObserver( updateModel );
-        showReflections.addObserver( updateModel );
+    @Override
+    public void resetAll() {
+        super.resetAll();
+        while ( prisms.size() > 0 ) {
+            removePrism( prisms.get( 0 ) );//TODO: need to remove the graphic for this too
+        }
+        manyRays.reset();
+        outerMedium.reset();
+        prismMedium.reset();
+        showReflections.reset();
     }
 
     public static ArrayList<Prism> getPrismPrototypes() {

@@ -10,6 +10,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
+import edu.colorado.phet.lightreflectionandrefraction.view.LRARResetAllButtonNode;
 import edu.colorado.phet.lightreflectionandrefraction.view.LightReflectionAndRefractionCanvas;
 import edu.colorado.phet.lightreflectionandrefraction.view.MediumControlPanel;
 import edu.umd.cs.piccolo.PNode;
@@ -48,8 +49,13 @@ public class PrismsCanvas extends LightReflectionAndRefractionCanvas<PrismsModel
         }};
         beforeLightLayer.addChild( prismMediumControlPanel );
 
-        final LaserControlPanelNode laserControlPanelNode = new LaserControlPanelNode( model.manyRays, laserView, model.getLaser().color, model.showReflections, showNormal ) {{
+        final LRARResetAllButtonNode resetButton = new LRARResetAllButtonNode( resetAll, this ) {{
             setOffset( stageSize.width - getFullBounds().getWidth() - 10, prismMediumControlPanel.getFullBounds().getMinY() - 10 - getFullBounds().getHeight() );
+        }};
+        beforeLightLayer.addChild( resetButton );
+
+        final LaserControlPanelNode laserControlPanelNode = new LaserControlPanelNode( model.manyRays, laserView, model.getLaser().color, model.showReflections, showNormal ) {{
+            setOffset( stageSize.width - getFullBounds().getWidth() - 10, resetButton.getFullBounds().getMinY() - 10 - getFullBounds().getHeight() );
         }};
         beforeLightLayer.addChild( laserControlPanelNode );
 
@@ -80,9 +86,5 @@ public class PrismsCanvas extends LightReflectionAndRefractionCanvas<PrismsModel
 
     public void removePrismNode( PrismNode node ) {
         prismLayer.removeChild( node );
-    }
-
-    public void resetAll() {
-        super.resetAll();
     }
 }
