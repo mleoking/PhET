@@ -16,11 +16,17 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class WaterDropNode extends PNode {
     public WaterDropNode( final ModelViewTransform transform, final WaterDrop waterDrop, Property<Double> fluidDensity ) {
-        double r = transform.modelToViewDeltaX( waterDrop.getRadius() );
+        double r = transform.modelToViewDeltaX( waterDrop.radius.getValue() );
         addChild( new PhetPPath( new Ellipse2D.Double( -r, -r, r * 2, r * 2 ), new Color( PoolNode.getTopColor( fluidDensity.getValue() ).getRGB() ) ) {{
             waterDrop.position.addObserver( new SimpleObserver() {
                 public void update() {
                     setOffset( transform.modelToView( waterDrop.position.getValue().toPoint2D() ) );
+                }
+            } );
+            waterDrop.radius.addObserver( new SimpleObserver() {
+                public void update() {
+                    double r = transform.modelToViewDeltaX( waterDrop.radius.getValue() );
+                    setPathTo( new Ellipse2D.Double( -r, -r, r * 2, r * 2 ) );
                 }
             } );
         }} );
