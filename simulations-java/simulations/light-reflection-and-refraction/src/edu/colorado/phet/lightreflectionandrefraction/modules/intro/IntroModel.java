@@ -2,6 +2,7 @@
 package edu.colorado.phet.lightreflectionandrefraction.modules.intro;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
@@ -10,8 +11,10 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.lightreflectionandrefraction.model.LRRModel;
 import edu.colorado.phet.lightreflectionandrefraction.model.LightRay;
 import edu.colorado.phet.lightreflectionandrefraction.model.Medium;
+import edu.colorado.phet.lightreflectionandrefraction.model.Reading;
 
 import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.parseAngleAndMagnitude;
+import static edu.colorado.phet.common.phetcommon.math.MathUtil.getLineCircleIntersection;
 import static java.lang.Math.*;
 
 /**
@@ -104,6 +107,41 @@ public class IntroModel extends LRRModel {
             }
             incidentRay.moveToFront();//For wave view
         }
+    }
+
+    /*
+     Checks whether the intensity meter should absorb the ray, and if so adds a truncated ray.
+     If the intensity meter misses the ray, the original ray is added.
+     */
+    protected boolean addAndAbsorb( LightRay ray ) {
+        boolean rayAbsorbed = ray.intersects( intensityMeter.getSensorShape() ) && intensityMeter.enabled.getValue();
+        if ( rayAbsorbed ) {
+            Point2D[] intersects = getLineCircleIntersection( intensityMeter.getSensorShape(), ray.toLine2D() );
+            if ( intersects != null && intersects[0] != null && intersects[1] != null ) {
+                double x = intersects[0].getX() + intersects[1].getX();
+                double y = intersects[0].getY() + intersects[1].getY();
+                LightRay interrupted = new LightRay( ray.tail.getValue(), new ImmutableVector2D( x / 2, y / 2 ), 1.0, ray.getWavelength(), ray.getPowerFraction(), laser.color.getValue().getColor(),
+                                                     ray.getWaveWidth(), ray.getNumWavelengthsPhaseOffset(), ray.getOppositeMedium(), ray.phase.getValue(), false, ray.extendBackwards );
+                boolean isForward = ray.toVector2D().dot( interrupted.toVector2D() ) > 0; //don't let the wave intersect the intensity meter if it is behind the laser emission point
+                if ( interrupted.getLength() < ray.getLength() && isForward ) {
+                    addRay( interrupted );
+                }
+                else {
+                    addRay( ray );
+                    rayAbsorbed = false;
+                }
+            }
+        }
+        else {
+            addRay( ray );
+        }
+        if ( rayAbsorbed ) {
+            intensityMeter.addRayReading( new Reading( ray.getPowerFraction() ) );
+        }
+        else {
+            intensityMeter.addRayReading( Reading.MISS );
+        }
+        return rayAbsorbed;
     }
 
     @Override
