@@ -7,15 +7,18 @@ import java.beans.PropertyChangeListener;
 import java.util.HashMap;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.text.JTextComponent;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.nodes.MinimizeMaximizeNode;
 import edu.colorado.phet.fluidpressureandflow.FPAFStrings;
 import edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowModule;
 import edu.colorado.phet.fluidpressureandflow.model.FluidPressureAndFlowModel;
-import edu.colorado.phet.fluidpressureandflow.modules.fluidpressure.ButtonExpander;
+import edu.colorado.phet.fluidpressureandflow.modules.fluidpressure.FluidPressureControlPanel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -73,12 +76,22 @@ public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> ext
                     }
                 } );
             }};
-            final ButtonExpander fluidDensityExpander = new ButtonExpander( FPAFStrings.FLUID_DENSITY_MORE, FPAFStrings.FLUID_DENSITY_LESS, module.fluidDensityControlVisible ) {{
-                setOffset( fluidDensityControl.getFullBounds().getX(), fluidDensityControl.getFullBounds().getY() - getFullBounds().getHeight() );
+            MinimizeMaximizeNode minimizeMaximizeNode = new MinimizeMaximizeNode( FPAFStrings.FLUID_DENSITY, MinimizeMaximizeNode.BUTTON_LEFT, FluidPressureControlPanel.CONTROL_FONT, Color.black, 10 ) {{
+                addChangeListener( new ChangeListener() {
+                    public void stateChanged( ChangeEvent e ) {
+                        module.fluidDensityControlVisible.setValue( isMaximized() );
+                    }
+                } );
+                module.fluidDensityControlVisible.addObserver( new SimpleObserver() {
+                    public void update() {
+                        setMaximized( module.fluidDensityControlVisible.getValue() );
+                    }
+                } );
+                translate( 0, -getFullBounds().getHeight() );
             }};
 
             addChild( fluidDensityControl );
-            addChild( fluidDensityExpander );
+            addChild( minimizeMaximizeNode );
         }
     }
 
