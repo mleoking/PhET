@@ -5,6 +5,7 @@ package edu.colorado.phet.buildanatom.modules.isotopemixture.view;
 import java.awt.Color;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.geom.Dimension2D;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -104,11 +105,7 @@ public class IsotopeMixturesCanvas extends PhetPCanvas {
         // will be moved. As with all elements in this model, the shape and
         // position are considered to be two separate things.
         final PhetPPath testChamberNode = new PhetPPath( Color.BLACK ){{
-            setPathTo( new Rectangle2D.Double( 0, 0,
-                mvt.modelToViewDifferentialXDouble( model.getIsotopeTestChamberSize().getWidth() ),
-                mvt.modelToViewDifferentialYDouble( -model.getIsotopeTestChamberSize().getHeight() ) ) );
-            setOffset( mvt.modelToViewXDouble( model.getIsotopeTestChamberPosition().getX() ),
-                    mvt.modelToViewYDouble( -model.getIsotopeTestChamberPosition().getY() ) );
+            setPathTo( mvt.createTransformedShape( model.getIsotopeTestChamber().getTestChamberRect() ) );
         }};
         chamberLayer.addChild( testChamberNode );
 

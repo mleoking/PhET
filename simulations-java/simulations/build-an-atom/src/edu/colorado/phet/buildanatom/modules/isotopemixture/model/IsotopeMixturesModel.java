@@ -41,21 +41,6 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
     // Class Data
     // -----------------------------------------------------------------------
 
-    // Size of the "test chamber", which is the area in model space into which
-    // the isotopes can be dragged in order to contribute to the current
-    // average atomic weight.
-    private static final Dimension2D ISOTOPE_TEST_CHAMBER_SIZE = new PDimension( 3500, 3000 ); // In picometers.
-
-    // Rectangle that defines the location of the test chamber.  This is
-    // set up so that the center of the test chamber is at (0, 0) in model
-    // space.
-    private static final Rectangle2D ISOTOPE_TEST_CHAMBER_RECT =
-        new Rectangle2D.Double(
-                -ISOTOPE_TEST_CHAMBER_SIZE.getWidth() / 2,
-                -ISOTOPE_TEST_CHAMBER_SIZE.getHeight() / 2,
-                ISOTOPE_TEST_CHAMBER_SIZE.getWidth(),
-                ISOTOPE_TEST_CHAMBER_SIZE.getHeight() );
-
     // Size of the buckets that will hold the isotopes.
     private static final Dimension2D BUCKET_SIZE = new PDimension( 1000, 400 ); // In picometers.
 
@@ -82,6 +67,9 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
 
     private final BuildAnAtomClock clock;
 
+    // The test chamber into and out of which the isotopes can be moved.
+    private final IsotopeTestChamber testChamber = new IsotopeTestChamber();
+
     // This atom is the "prototype isotope", meaning that it is set in order
     // to set the atomic weight of the family of isotopes that are currently
     // in use.
@@ -105,9 +93,6 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
     // List that contains the isotope instances that the user can move
     // between the buckets and the test chamber.
     private final List<MovableAtom> interactiveIsotopes = new ArrayList<MovableAtom>();
-
-    // List of isotopes that are currently in the test chamber.
-    private final List<MovableAtom> isotopesInTestChamber = new ArrayList<MovableAtom>();
 
     // Matches isotopes to colors used to portray them as well as the buckets
     // in which they can reside, etc.
@@ -190,9 +175,9 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
 
             // Create a new list of buckets based on the new list of stable
             // isotopes.
-            double bucketYOffset = ISOTOPE_TEST_CHAMBER_RECT.getMinY() - 400;
-            double interBucketDistanceX = (ISOTOPE_TEST_CHAMBER_RECT.getWidth() * 1.2) / newIsotopeList.size();
-            double bucketXOffset = ISOTOPE_TEST_CHAMBER_RECT.getMinX() + interBucketDistanceX / 2;
+            double bucketYOffset = testChamber.getTestChamberRect().getMinY() - 400;
+            double interBucketDistanceX = (testChamber.getTestChamberRect().getWidth() * 1.2) / newIsotopeList.size();
+            double bucketXOffset = testChamber.getTestChamberRect().getMinX() + interBucketDistanceX / 2;
             ArrayList<MonoIsotopeParticleBucket> newBucketList = new ArrayList<MonoIsotopeParticleBucket>();
             for ( int i = 0; i < newIsotopeList.size(); i++ ) {
                 ImmutableAtom isotope = newIsotopeList.get( i );
@@ -247,25 +232,10 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
     }
 
     /**
-     * Get the size of the test chamber.  Note that this is just the size, and
-     * that the position is obtained separately.
-     *
-     * @return
+     * Get a reference to the test chamber model.
      */
-    public Dimension2D getIsotopeTestChamberSize() {
-        return ISOTOPE_TEST_CHAMBER_SIZE;
-    }
-
-    /**
-     * Get the position of the test chamber rectangle.  The position is
-     * defined such that the center of the chamber corresponds to (0,0) in
-     * model space.
-     *
-     * @return - The position of the upper left corner, in model space, of the
-     * isotope test chamber.
-     */
-    public Point2D getIsotopeTestChamberPosition() {
-        return new Point2D.Double( ISOTOPE_TEST_CHAMBER_RECT.getX(), ISOTOPE_TEST_CHAMBER_RECT.getY() );
+    public IsotopeTestChamber getIsotopeTestChamber(){
+        return testChamber;
     }
 
     public Property<List<ImmutableAtom>> getPossibleIsotopesProperty() {
@@ -306,11 +276,14 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
     protected final SphericalParticle.Adapter isotopeGrabbedListener = new SphericalParticle.Adapter() {
         @Override
         public void grabbedByUser( SphericalParticle particle ) {
-            if ( isotopesInTestChamber.contains( particle ) ){
-                // The particle is considered removed as soon as it is grabbed.
-                isotopesInTestChamber.remove( particle );
+            assert particle instanceof MovableAtom;
+            MovableAtom isotope = (MovableAtom)particle;
+            if ( testChamber.isIsotopeContained( isotope ) ){
+                // The particle is considered removed from the test chamber as
+                // soon as it is grabbed.
+                testChamber.removeIsotope( isotope );
             }
-            particle.addListener( isotopeDroppedListener );
+            isotope.addListener( isotopeDroppedListener );
         }
     };
 
@@ -319,38 +292,9 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
         public void droppedByUser( SphericalParticle particle ) {
             assert particle instanceof MovableAtom;
             MovableAtom isotope = (MovableAtom)particle;
-            if ( ISOTOPE_TEST_CHAMBER_RECT.contains( particle.getPosition() ) ){
-                // Dropped inside the test chamber, so add it to the list of
-                // particles that are within it.
-                isotopesInTestChamber.add( isotope );
-
-                // Test if the edges of the isotope are outside the chamber
-                // (since we've only tested the center so far) and, if they
-                // are, move the particle to compensate.
-                double protrusion = isotope.getPosition().getX() + isotope.getRadius() - ISOTOPE_TEST_CHAMBER_RECT.getMaxX();
-                if (protrusion >= 0){
-                    isotope.setPositionAndDestination( isotope.getPosition().getX() - protrusion,
-                            isotope.getPosition().getY() );
-                }
-                else{
-                    protrusion =  ISOTOPE_TEST_CHAMBER_RECT.getMinX() - (isotope.getPosition().getX() - isotope.getRadius());
-                    if (protrusion >= 0){
-                        isotope.setPositionAndDestination( isotope.getPosition().getX() + protrusion,
-                                isotope.getPosition().getY() );
-                    }
-                }
-                protrusion = isotope.getPosition().getY() + isotope.getRadius() - ISOTOPE_TEST_CHAMBER_RECT.getMaxY();
-                if (protrusion >= 0){
-                    isotope.setPositionAndDestination( isotope.getPosition().getX(),
-                            isotope.getPosition().getY() - protrusion );
-                }
-                else{
-                    protrusion =  ISOTOPE_TEST_CHAMBER_RECT.getMinY() - (isotope.getPosition().getY() - isotope.getRadius());
-                    if (protrusion >= 0){
-                        isotope.setPositionAndDestination( isotope.getPosition().getX(),
-                                isotope.getPosition().getY() + protrusion );
-                    }
-                }
+            if ( testChamber.isIsotopePositionedOverChamber( isotope ) ){
+                // Dropped inside the test chamber, so add it to the chamber.
+                testChamber.addIsotope( isotope );
             }
             else{
                 // Particle was dropped outside of the test chamber, so return
@@ -369,5 +313,149 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
 
     public class Adapter implements Listener {
         public void isotopeInstanceAdded( MovableAtom atom ) {}
+    }
+
+    //------------------------------------------------------------------------
+    // Inner Classes and Interfaces
+    //------------------------------------------------------------------------
+
+    /**
+     * Class that represents a "test chamber" where multiple isotopes can be
+     * placed.  The test chamber calculates the average atomic mass and the
+     * proportions of the various isotopes.
+     */
+    public static class IsotopeTestChamber {
+
+        // Size of the "test chamber", which is the area in model space into which
+        // the isotopes can be dragged in order to contribute to the current
+        // average atomic weight.
+        private static final Dimension2D SIZE = new PDimension( 3500, 3000 ); // In picometers.
+
+        // Rectangle that defines the location of the test chamber.  This is
+        // set up so that the center of the test chamber is at (0, 0) in model
+        // space.
+        private static final Rectangle2D TEST_CHAMBER_RECT =
+            new Rectangle2D.Double(
+                    -SIZE.getWidth() / 2,
+                    -SIZE.getHeight() / 2,
+                    SIZE.getWidth(),
+                    SIZE.getHeight() );
+
+        private final List<MovableAtom> containedIsotopes = new ArrayList<MovableAtom>();
+
+        public Dimension2D getTestChamberSize() {
+            return SIZE;
+        }
+
+        public Rectangle2D getTestChamberRect() {
+            return TEST_CHAMBER_RECT;
+        }
+
+        /**
+         * Get the position of the chamber.  The position is defined as the
+         * center of the chamber, not as the upper left corner or any other
+         * point.
+         *
+         * @return
+         */
+        public Point2D getPosition() {
+            return new Point2D.Double( TEST_CHAMBER_RECT.getCenterX(), TEST_CHAMBER_RECT.getCenterY() );
+        }
+
+        /**
+         * Test whether an isotope is within the chamber.  This is strictly
+         * a 2D test that looks as the isotopes center position and determines
+         * if it is within the bounds of the chamber rectangle.
+         * @param isotop
+         * @return
+         */
+        public boolean isIsotopePositionedOverChamber( MovableAtom isotope ){
+            return TEST_CHAMBER_RECT.contains( isotope.getPosition() );
+        }
+
+        /**
+         * Returns true if the specified isotope instance was previously added
+         * to the chamber.
+         *
+         * @param isotope
+         * @return
+         */
+        public boolean isIsotopeContained( MovableAtom isotope ){
+            return containedIsotopes.contains( isotope );
+        }
+
+        /**
+         * Add the specified isotope to the chamber.  This method requires
+         * the the position of the isotope be within the chamber rectangle,
+         * or the isotope will not be added.
+         *
+         * In cases where an isotope is in a position where the center is
+         * within the chamber but the edges are not, the isotope will be moved
+         * so that it is fully contained within the chamber.
+         *
+         * @param isotope
+         */
+        public void addIsotope( MovableAtom isotope ){
+            if ( isIsotopePositionedOverChamber( isotope ) ){
+                containedIsotopes.add( isotope );
+                // If the edges of the isotope are outside of the container,
+                // move it to be fully inside.
+                double protrusion = isotope.getPosition().getX() + isotope.getRadius() - TEST_CHAMBER_RECT.getMaxX();
+                if (protrusion >= 0){
+                    isotope.setPositionAndDestination( isotope.getPosition().getX() - protrusion,
+                            isotope.getPosition().getY() );
+                }
+                else{
+                    protrusion =  TEST_CHAMBER_RECT.getMinX() - (isotope.getPosition().getX() - isotope.getRadius());
+                    if (protrusion >= 0){
+                        isotope.setPositionAndDestination( isotope.getPosition().getX() + protrusion,
+                                isotope.getPosition().getY() );
+                    }
+                }
+                protrusion = isotope.getPosition().getY() + isotope.getRadius() - TEST_CHAMBER_RECT.getMaxY();
+                if (protrusion >= 0){
+                    isotope.setPositionAndDestination( isotope.getPosition().getX(),
+                            isotope.getPosition().getY() - protrusion );
+                }
+                else{
+                    protrusion =  TEST_CHAMBER_RECT.getMinY() - (isotope.getPosition().getY() - isotope.getRadius());
+                    if (protrusion >= 0){
+                        isotope.setPositionAndDestination( isotope.getPosition().getX(),
+                                isotope.getPosition().getY() + protrusion );
+                    }
+                }
+            }
+            else{
+                // This isotope is not positioned correctly.
+                System.err.println(getClass().getName() + " - Warning: Ignoring attempt to add incorrectly located isotope to test chamber.");
+            }
+        }
+
+        public void removeIsotope( MovableAtom isotope ){
+            containedIsotopes.remove( isotope );
+        }
+
+        /**
+         * Get the proportion of isotopes currently within the chamber that
+         * match the specified configuration.  Note that electrons are
+         * ignored.
+         *
+         * @param isotopeConfig - Atom representing the configuration in
+         * question, MUST BE NEUTRAL.
+         * @return
+         */
+        public double getIsotopeProportion( ImmutableAtom isotopeConfig ){
+            assert isotopeConfig.getCharge() == 0;
+            return 0; // TBD.
+        }
+
+        /**
+         * Add the isotope to the chamber, and move it to an open location.
+         *
+         * @param isotope
+         */
+        public void addIsotopeToOpenLocation( MovableAtom isotope ){
+
+        }
     }
 }
