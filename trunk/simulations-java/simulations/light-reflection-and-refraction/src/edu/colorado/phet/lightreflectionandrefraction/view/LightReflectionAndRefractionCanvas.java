@@ -29,7 +29,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 public class LightReflectionAndRefractionCanvas<T extends LRRModel> extends PhetPCanvas {
     public static final PhetFont labelFont = new PhetFont( 16 );
     private PNode rootNode;
-    public final BooleanProperty showNormal = new BooleanProperty( true );
+    public final BooleanProperty showNormal;
     public final BooleanProperty showProtractor = new BooleanProperty( false );
     public final Property<LaserView> laserView = new Property<LaserView>( LaserView.RAY );
     protected final PNode mediumNode;
@@ -39,7 +39,8 @@ public class LightReflectionAndRefractionCanvas<T extends LRRModel> extends Phet
     protected final PNode lightRayLayer = new PNode();
     protected final PNode lightWaveLayer = new PNode();
 
-    public LightReflectionAndRefractionCanvas( final T model, final Function1<Double, Double> clampDragAngle, final Function1<Double, Boolean> clockwiseArrowNotAtMax, final Function1<Double, Boolean> ccwArrowNotAtMax ) {
+    public LightReflectionAndRefractionCanvas( final T model, final Function1<Double, Double> clampDragAngle, final Function1<Double, Boolean> clockwiseArrowNotAtMax, final Function1<Double, Boolean> ccwArrowNotAtMax, boolean showNormal ) {
+        this.showNormal = new BooleanProperty( showNormal );
         this.model = model;
         // Root of our scene graph
         rootNode = new PNode();
