@@ -25,7 +25,7 @@ public class RightArrowNode extends ArrowNode {
 
     public RightArrowNode( boolean highlighted ) {
         super( TAIL_LOCATION, TIP_LOCATION, HEAD_HEIGHT, HEAD_WIDTH, TAIL_WIDTH );
-        setStroke( new BasicStroke( 2f ) );
+        setStroke( new BasicStroke( 1f ) );
         setStrokePaint( Color.BLACK );
         setHighlighted( highlighted );
     }

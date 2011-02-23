@@ -151,7 +151,7 @@ public class BarChartsNode extends PComposite {
         public EqualsSignNode( boolean highlighted ) {
 
             Rectangle2D shape = new Rectangle2D.Double( 0, 0, BAR_WIDTH, BAR_HEIGHT );
-            Stroke stroke = new BasicStroke( 2f );
+            Stroke stroke = new BasicStroke( 1f );
             Color strokeColor = Color.BLACK;
 
             topBarNode = new PPath( shape );
