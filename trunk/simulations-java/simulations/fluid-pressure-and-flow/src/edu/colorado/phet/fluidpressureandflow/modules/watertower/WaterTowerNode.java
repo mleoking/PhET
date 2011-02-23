@@ -30,6 +30,15 @@ import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowApplica
 public class WaterTowerNode extends PNode {
 
     public WaterTowerNode( final ModelViewTransform transform, final WaterTower waterTower, final Property<Double> fluidDensity ) {
+        //Legs
+        //in the back layer to prevent sticking into the water tank
+        addChild( new PhetPPath( Color.black ) {{
+            waterTower.tankBottomCenter.addObserver( new SimpleObserver() {
+                public void update() {
+                    setPathTo( transform.modelToView( waterTower.getSupportShape() ) );
+                }
+            } );
+        }} );
 
         //Handle
         addChild( new PImage( RESOURCES.getImage( "handle.png" ) ) {{
@@ -67,14 +76,6 @@ public class WaterTowerNode extends PNode {
                     shape.subtract( new Area( new Rectangle2D.Double( -3.6203504908994, waterTower.getTankShape().getCenterY(), 0.6203504908994 * 2, 10 ) ) );
                     shape.subtract( new Area( waterTower.getTankShape() ) );
                     setPathTo( transform.modelToView( shape ) );
-                }
-            } );
-        }} );
-
-        addChild( new PhetPPath( Color.black ) {{
-            waterTower.tankBottomCenter.addObserver( new SimpleObserver() {
-                public void update() {
-                    setPathTo( transform.modelToView( waterTower.getSupportShape() ) );
                 }
             } );
         }} );
