@@ -1,3 +1,4 @@
+Fixed: Intensity meter causes incorrect wave mode representation (phase is incorrect)
 Fixed: Toolbox objects should move slightly when clicked (to cue user that they are draggable)
 Fixed: Wavelength doesn't reset
 Made it so that an object's center must be over the toolbox for it be removed from the play area (instead of any intersection)
