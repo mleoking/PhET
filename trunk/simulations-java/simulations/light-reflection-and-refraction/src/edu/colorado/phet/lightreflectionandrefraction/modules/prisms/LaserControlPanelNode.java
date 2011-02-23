@@ -89,9 +89,6 @@ public class LaserControlPanelNode extends ControlPanelNode {
             add( new MyRadioButton<Boolean>( "Single Ray", multipleRays, false ) );
             add( new MyRadioButton<Boolean>( "Multiple Rays", multipleRays, true ) );
             add( new JSeparator() );
-            add( new MyRadioButton<LaserView>( "Ray", laserView, LaserView.RAY ) );
-            add( new MyRadioButton<LaserView>( "Wave", laserView, LaserView.WAVE ) );
-            add( new JSeparator() );
             add( new PhetTitledPanel( "Reflections" ) {{
                 add( new MyRadioButton<Boolean>( "Show", showReflections, true ) );
                 add( new MyRadioButton<Boolean>( "Hide", showReflections, false ) );

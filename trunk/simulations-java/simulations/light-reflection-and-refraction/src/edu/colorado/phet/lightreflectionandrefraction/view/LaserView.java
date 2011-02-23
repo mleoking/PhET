@@ -14,12 +14,31 @@ public abstract class LaserView {
         public PNode createNode( ModelViewTransform transform, LightRay lightRay ) {
             return new LightRayNode( transform, lightRay );
         }
+
+        @Override
+        public PNode getLayer( PNode lightRayLayer, PNode lightWaveLayer ) {
+            return lightRayLayer;
+        }
     };
     public static final LaserView WAVE = new LaserView() {
         public PNode createNode( ModelViewTransform transform, LightRay lightRay ) {
             return new LightWaveNode( transform, lightRay );
         }
+
+        @Override
+        public PNode getLayer( PNode lightRayLayer, PNode lightWaveLayer ) {
+            return lightWaveLayer;
+        }
     };
 
     public abstract PNode createNode( ModelViewTransform transform, LightRay lightRay );
+
+    /**
+     * Determine which layer to put the PNode in.
+     *
+     * @param lightRayLayer
+     * @param lightWaveLayer
+     * @return
+     */
+    public abstract PNode getLayer( PNode lightRayLayer, PNode lightWaveLayer );
 }

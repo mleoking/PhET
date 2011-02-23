@@ -36,7 +36,8 @@ public class LightReflectionAndRefractionCanvas<T extends LRRModel> extends Phet
     protected final T model;
     protected final ModelViewTransform transform;
     protected final PDimension stageSize;
-    protected final PNode rayLayer = new PNode();
+    protected final PNode lightRayLayer = new PNode();
+    protected final PNode lightWaveLayer = new PNode();
 
     public LightReflectionAndRefractionCanvas( final T model, final Function1<Double, Double> clampDragAngle, final Function1<Double, Boolean> clockwiseArrowNotAtMax, final Function1<Double, Boolean> ccwArrowNotAtMax ) {
         this.model = model;
@@ -71,7 +72,8 @@ public class LightReflectionAndRefractionCanvas<T extends LRRModel> extends Phet
         final VoidFunction1<LightRay> addLightRayNode = new VoidFunction1<LightRay>() {
             public void apply( LightRay lightRay ) {
                 final PNode node = laserView.getValue().createNode( transform, lightRay );
-                rayLayer.addChild( node );
+                final PNode layer = laserView.getValue().getLayer( lightRayLayer, lightWaveLayer );
+                layer.addChild( node );
                 lightRay.addMoveToFrontListener( new VoidFunction0() {
                     public void apply() {
                         node.moveToFront();
@@ -79,7 +81,7 @@ public class LightReflectionAndRefractionCanvas<T extends LRRModel> extends Phet
                 } );//TODO: memory leak
                 lightRay.addRemovalListener( new VoidFunction0() {
                     public void apply() {
-                        rayLayer.removeChild( node );
+                        layer.removeChild( node );
                     }
                 } );
             }
@@ -109,9 +111,10 @@ public class LightReflectionAndRefractionCanvas<T extends LRRModel> extends Phet
                 }
             } );
         }} );
-        addChild( rayLayer );
+        addChild( lightRayLayer );
+        addChild( lightWaveLayer );
 
-        final WhiteLightNode whiteLightNode = new WhiteLightNode( rayLayer );
+        final WhiteLightNode whiteLightNode = new WhiteLightNode( lightRayLayer );
         addChild( whiteLightNode );
 
         //Switch between light renderers for white vs nonwhite light
@@ -119,7 +122,8 @@ public class LightReflectionAndRefractionCanvas<T extends LRRModel> extends Phet
             public void update() {
                 boolean white = model.getLaser().color.getValue() == LaserColor.WHITE_LIGHT;
                 whiteLightNode.setVisible( white );
-                rayLayer.setVisible( !white );
+                lightRayLayer.setVisible( !white );
+                lightWaveLayer.setVisible( !white );
             }
         } );
 //
@@ -131,6 +135,7 @@ public class LightReflectionAndRefractionCanvas<T extends LRRModel> extends Phet
             }
         } );
         //Update coalesced events every 30 ms
+        //TODO: put this in the module clock so it's not running when this tab isn't active
         Timer timer = new Timer( 30, new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 if ( dirty[0] ) {
