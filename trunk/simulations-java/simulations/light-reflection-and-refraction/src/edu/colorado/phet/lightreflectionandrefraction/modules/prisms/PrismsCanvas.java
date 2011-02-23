@@ -10,11 +10,14 @@ import edu.colorado.phet.common.phetcommon.util.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.lightreflectionandrefraction.view.LightReflectionAndRefractionCanvas;
 import edu.colorado.phet.lightreflectionandrefraction.view.MediumControlPanel;
+import edu.umd.cs.piccolo.PNode;
 
 /**
  * @author Sam Reid
  */
 public class PrismsCanvas extends LightReflectionAndRefractionCanvas<PrismsModel> {
+    private PNode prismLayer = new PNode();
+
     public PrismsCanvas( final PrismsModel model ) {
         super( model, new Function1.Identity<Double>(), new Function1.Constant<Double, Boolean>( true ), new Function1.Constant<Double, Boolean>( true ), false );
         for ( Prism prism : model.getPrisms() ) {
@@ -29,24 +32,24 @@ public class PrismsCanvas extends LightReflectionAndRefractionCanvas<PrismsModel
             }
         } );
 
-        addChild( new ControlPanelNode( new MediumControlPanel( this, model.outerMedium, model.colorMappingFunction ) ) {{
+        beforeLightLayer.addChild( new ControlPanelNode( new MediumControlPanel( this, model.outerMedium, model.colorMappingFunction ) ) {{
             setOffset( stageSize.width - getFullBounds().getWidth() - 10, 10 );
         }} );
 
         final ControlPanelNode prismToolbox = new ControlPanelNode( new PrismToolboxNode( this, transform, model ) ) {{
             setOffset( 10, stageSize.height - getFullBounds().getHeight() - 10 );
         }};
-        addChild( prismToolbox );
+        beforeLightLayer.addChild( prismToolbox );
 
         final ControlPanelNode prismMediumControlPanel = new ControlPanelNode( new MediumControlPanel( this, model.prismMedium, model.colorMappingFunction ) ) {{
             setOffset( prismToolbox.getFullBounds().getMaxX() + 10, stageSize.height - getFullBounds().getHeight() - 10 );
         }};
-        addChild( prismMediumControlPanel );
+        beforeLightLayer.addChild( prismMediumControlPanel );
 
         final LaserControlPanelNode laserControlPanelNode = new LaserControlPanelNode( model.manyRays, laserView, model.getLaser().color, model.showReflections, showNormal ) {{
             setOffset( stageSize.width - getFullBounds().getWidth() - 10, prismMediumControlPanel.getFullBounds().getMinY() - 10 - getFullBounds().getHeight() );
         }};
-        addChild( laserControlPanelNode );
+        beforeLightLayer.addChild( laserControlPanelNode );
 
         showNormal.addObserver( new SimpleObserver() {
             public void update() {
@@ -66,5 +69,14 @@ public class PrismsCanvas extends LightReflectionAndRefractionCanvas<PrismsModel
                 }
             }
         } );
+        beforeLightLayer.addChild( prismLayer );
+    }
+
+    public void addPrismNode( PrismNode node ) {
+        prismLayer.addChild( node );
+    }
+
+    public void removePrismNode( PrismNode node ) {
+        prismLayer.removeChild( node );
     }
 }
