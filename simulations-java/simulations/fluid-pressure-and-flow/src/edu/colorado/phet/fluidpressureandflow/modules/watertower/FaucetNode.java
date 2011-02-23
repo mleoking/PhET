@@ -8,6 +8,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.model.SettableProperty;
+import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
@@ -54,7 +55,7 @@ public class FaucetNode extends PNode {
                     }
                 } );
             }} ) {{
-                translate( 186, 0 );
+                translate( 186, -2 + ( PhetUtilities.isMacintosh() ? -8 : 0 ) );//Mac sliders render lower than windows slider, so have to compensate
                 //Faucet slider should be invisible when in "auto" mode
                 faucetFlowLevel.automatic.addObserver( new SimpleObserver() {
                     public void update() {
