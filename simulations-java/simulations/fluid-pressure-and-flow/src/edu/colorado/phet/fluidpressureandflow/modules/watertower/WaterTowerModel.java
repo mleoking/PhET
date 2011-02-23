@@ -28,8 +28,8 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
     private ArrayList<SimpleObserver> velocityUpdateListeners = new ArrayList<SimpleObserver>();
 
     public WaterTowerModel() {
-        addPressureSensor( new PressureSensor( this, 31.8, 20.1 ) );
-        addPressureSensor( new PressureSensor( this, 31.8, 26.5 ) );
+        addPressureSensor( new PressureSensor( this, 29, 20.1 ) );
+        addPressureSensor( new PressureSensor( this, 29, 26.5 ) );
         addVelocitySensor( new VelocitySensor( this, 37.7, 30.6 ) );
         addVelocitySensor( new VelocitySensor( this, 37.7, 30.6 ) );
         getClock().addClockListener( new ClockAdapter() {
