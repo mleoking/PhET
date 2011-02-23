@@ -3,12 +3,11 @@
 package edu.colorado.phet.buildanatom.modules.isotopemixture.view;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.awt.geom.Dimension2D;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
@@ -138,19 +137,32 @@ public class IsotopeMixturesCanvas extends PhetPCanvas {
         addWorldChild( new PhetPPath( mvt.createTransformedShape( new Ellipse2D.Double(-5, -5, 10, 10) ), Color.PINK ) );
 
         // Add the pie chart to the canvas.
-        final PieChartNode pieChart = new PieChartNode( new PieValue[] { new PieValue( 100, Color.red ) }, new Rectangle(0, 0, 100, 100)){{
-            setOffset( 720, 230 );
-        }};
+        final PNode pieChart = new IsotopeProprotionPieChart( model );
+        pieChart.setOffset( 720, 230 );
         chamberLayer.addChild( pieChart );
-        model.getPossibleIsotopesProperty().addObserver( new SimpleObserver() {
-            public void update() {
-                PieValue[] pieSlices = new PieValue[model.getPossibleIsotopesProperty().getValue().size()];
-                int isotopeCount = 0;
-                for ( ImmutableAtom atom : model.getPossibleIsotopesProperty().getValue() ){
-                    pieSlices[isotopeCount++] = new PieValue( 100, model.getColorForIsotope( atom ) );
+    }
+
+    private static class IsotopeProprotionPieChart extends PNode {
+
+        private static final Dimension SIZE = new Dimension( 100, 100 );
+
+        /**
+         * Constructor.
+         */
+        public IsotopeProprotionPieChart( final IsotopeMixturesModel model ) {
+            final PieChartNode pieChart = new PieChartNode( new PieValue[] { new PieValue( 100, Color.red ) },
+                    new Rectangle(0, 0, SIZE.width, SIZE.height ) );
+            addChild( pieChart );
+            model.getPossibleIsotopesProperty().addObserver( new SimpleObserver() {
+                public void update() {
+                    PieValue[] pieSlices = new PieValue[model.getPossibleIsotopesProperty().getValue().size()];
+                    int isotopeCount = 0;
+                    for ( ImmutableAtom atom : model.getPossibleIsotopesProperty().getValue() ){
+                        pieSlices[isotopeCount++] = new PieValue( 100, model.getColorForIsotope( atom ) );
+                    }
+                    pieChart.setPieValues( pieSlices );
                 }
-                pieChart.setPieValues( pieSlices );
-            }
-        });
+            });
+        }
     }
 }
