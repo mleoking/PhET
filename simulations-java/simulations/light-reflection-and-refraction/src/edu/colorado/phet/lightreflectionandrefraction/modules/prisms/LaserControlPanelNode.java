@@ -23,6 +23,7 @@ import edu.colorado.phet.lightreflectionandrefraction.model.LRRModel;
 import edu.colorado.phet.lightreflectionandrefraction.view.LaserColor;
 import edu.colorado.phet.lightreflectionandrefraction.view.LaserView;
 import edu.colorado.phet.lightreflectionandrefraction.view.LightReflectionAndRefractionCanvas;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -63,13 +64,17 @@ public class LaserControlPanelNode extends ControlPanelNode {
             }} );
             add( new PhetPCanvas() {{
                 final WavelengthControl wavelengthControl = new WavelengthControl( 150, 27 ) {{
+                    final PNode wc = this;
                     setWavelength( wavelengthProperty.getValue() * 1E9 );
                     laserColor.addObserver( new SimpleObserver() {
                         public void update() {
                             final boolean disabled = laserColor.getValue() == LaserColor.WHITE_LIGHT;
-                            setTransparency( disabled ? 0.3f : 1f );
+                            wc.setTransparency( disabled ? 0.3f : 1f );
                             setPickable( !disabled );
                             setChildrenPickable( !disabled );
+                            if ( !disabled ) {
+                                setWavelength( laserColor.getValue().getWavelength() * 1E9 );
+                            }
                         }
                     } );
                     addChangeListener( new ChangeListener() {
