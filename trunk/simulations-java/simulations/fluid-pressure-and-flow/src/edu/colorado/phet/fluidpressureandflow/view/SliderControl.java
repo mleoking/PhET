@@ -23,14 +23,15 @@ public class SliderControl extends PNode {
     public SliderControl( String title, String units, double min, double max, final Property<Double> property, final HashMap<Double, TickLabel> tickLabels ) {
         final PSwing pswing = new PSwing( new LinearValueControl( min, max, property.getValue(), title, "0.00", units ) {
             {
-                setTickLabels( new Hashtable() {{
+                setTickLabels( new Hashtable<Object, Object>() {{
                     for ( Double s : tickLabels.keySet() ) {
                         put( s, tickLabels.get( s ) );
                     }
                 }} );
                 setMajorTicksVisible( false );
                 setMinorTicksVisible( false );
-                setFont( new PhetFont( 16, true ) );
+                setFont( new PhetFont( 14, true ) );
+                getTextField().setColumns( 5 );
                 FluidPressureCanvas.makeTransparent( this );
                 addChangeListener( new ChangeListener() {
                     public void stateChanged( ChangeEvent e ) {
