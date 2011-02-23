@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.geom.Line2D;
 
 import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.util.Function1;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
@@ -20,7 +21,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * @author Sam Reid
  */
 public class IntroCanvas extends LightReflectionAndRefractionCanvas<IntroModel> {
-    public IntroCanvas( IntroModel model, BooleanProperty moduleActive ) {
+    public IntroCanvas( IntroModel model, BooleanProperty moduleActive, final Resettable resetAll ) {
         super( model, moduleActive, new Function1<Double, Double>() {
             public Double apply( Double angle ) {
                 if ( angle < -Math.PI / 2 ) { angle = Math.PI; }
@@ -35,7 +36,7 @@ public class IntroCanvas extends LightReflectionAndRefractionCanvas<IntroModel> 
             public Boolean apply( Double aDouble ) {
                 return aDouble > Math.PI / 2;
             }
-        }, true );
+        }, true, resetAll );
         mediumNode.addChild( new MediumNode( transform, model.topMedium ) );
         mediumNode.addChild( new MediumNode( transform, model.bottomMedium ) );
 
@@ -74,6 +75,10 @@ public class IntroCanvas extends LightReflectionAndRefractionCanvas<IntroModel> 
 
         beforeLightLayer.addChild( new ControlPanelNode( new ToolboxNode( this, transform, showProtractor, showNormal, model.getIntensityMeter() ) ) {{
             setOffset( 10, stageSize.height - getFullBounds().getHeight() - 10 );
+        }} );
+
+        beforeLightLayer.addChild( new LRARResetAllButtonNode( resetAll, this ) {{
+            setOffset( stageSize.getWidth() - getFullBounds().getWidth() - 10, stageSize.getHeight() - getFullBounds().getHeight() - 10 );
         }} );
     }
 }

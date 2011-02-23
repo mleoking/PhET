@@ -40,6 +40,11 @@ public class ToolboxNode extends PNode {
         final int ICON_HEIGHT = 100;
         final BufferedImage image = BufferedImageUtils.multiScaleToHeight( LightReflectionAndRefractionApplication.RESOURCES.getImage( "protractor.png" ), ICON_HEIGHT );
         final PImage protractor = new PImage( image ) {{
+            showProtractor.addObserver( new SimpleObserver() {
+                public void update() {
+                    setVisible( !showProtractor.getValue() );
+                }
+            } );
             final PImage protractorThumbRef = this;
             setOffset( 0, titleLabel.getFullBounds().getMaxY() );
             addInputEventListener( new PBasicInputEventHandler() {

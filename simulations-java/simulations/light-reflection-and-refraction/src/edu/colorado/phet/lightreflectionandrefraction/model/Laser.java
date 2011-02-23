@@ -25,4 +25,11 @@ public class Laser {
     public ImmutableVector2D getEmissionPoint() {
         return parseAngleAndMagnitude( distanceFromOrigin.getValue(), angle.getValue() );
     }
+
+    public void resetAll() {
+        distanceFromOrigin.reset();
+        angle.reset();
+        on.reset();
+        color.reset();
+    }
 }

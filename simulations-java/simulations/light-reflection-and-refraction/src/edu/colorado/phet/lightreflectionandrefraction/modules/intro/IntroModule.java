@@ -7,8 +7,17 @@ import edu.colorado.phet.lightreflectionandrefraction.modules.LRRModule;
  * @author Sam Reid
  */
 public class IntroModule extends LRRModule<IntroModel> {
+    public IntroCanvas canvas;
+
     public IntroModule() {
         super( "Intro", new IntroModel() );
-        setSimulationPanel( new IntroCanvas( getLRRModel(), moduleActive ) );
+        canvas = new IntroCanvas( getLRRModel(), moduleActive, resetAll );
+        setSimulationPanel( canvas );
+    }
+
+    @Override
+    protected void resetAll() {
+        super.resetAll();
+        canvas.resetAll();
     }
 }

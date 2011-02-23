@@ -11,6 +11,7 @@ import javax.swing.*;
 import edu.colorado.phet.common.phetcommon.model.And;
 import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.Property;
+import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.util.Function1;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.VoidFunction0;
@@ -41,7 +42,8 @@ public class LightReflectionAndRefractionCanvas<T extends LRRModel> extends Phet
     protected final PNode lightWaveLayer = new PNode();
     protected final PNode beforeLightLayer = new PNode();
 
-    public LightReflectionAndRefractionCanvas( final T model, BooleanProperty moduleActive, final Function1<Double, Double> clampDragAngle, final Function1<Double, Boolean> clockwiseArrowNotAtMax, final Function1<Double, Boolean> ccwArrowNotAtMax, boolean showNormal ) {
+    public LightReflectionAndRefractionCanvas( final T model, BooleanProperty moduleActive, final Function1<Double, Double> clampDragAngle,
+                                               final Function1<Double, Boolean> clockwiseArrowNotAtMax, final Function1<Double, Boolean> ccwArrowNotAtMax, boolean showNormal, Resettable resetAll ) {
         this.showNormal = new BooleanProperty( showNormal );
         this.model = model;
         // Root of our scene graph
@@ -172,5 +174,11 @@ public class LightReflectionAndRefractionCanvas<T extends LRRModel> extends Phet
 
     public void addChildBehindLight( PNode node ) {
         beforeLightLayer.addChild( node );
+    }
+
+    public void resetAll() {
+        showNormal.reset();
+        showProtractor.reset();
+        laserView.reset();
     }
 }
