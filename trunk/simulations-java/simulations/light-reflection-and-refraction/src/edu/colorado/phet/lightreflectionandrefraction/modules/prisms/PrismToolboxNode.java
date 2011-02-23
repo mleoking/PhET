@@ -35,12 +35,11 @@ public class PrismToolboxNode extends PNode {
                 setOffset( x[0], titleLabel.getFullBounds().getMaxY() );
                 x[0] = x[0] + getFullBounds().getWidth() + 10;
                 addInputEventListener( new PBasicInputEventHandler() {
-                    PrismNode node = null;
+                    PrismNode createdNode = null;//Last created node that events should be forwarded to
                     boolean intersect = false;
 
                     public void mouseDragged( PInputEvent event ) {
-                        setVisible( false );
-                        if ( node == null ) {
+                        if ( createdNode == null ) {
                             final Point2D positionRelativeTo = event.getPositionRelativeTo( getParent().getParent().getParent() );//why?
                             Point2D modelPoint = transform.viewToModel( positionRelativeTo );
                             final Prism copy = prism.copy();
@@ -50,29 +49,33 @@ public class PrismToolboxNode extends PNode {
                             model.addPrism( copy );
                             //there is no callback for node creation here, so we create the node ourselves.
                             //In a normal MVC scheme though, addPrism would create the node, and that would cause problems for this technique
-                            node = new PrismNode( transform, copy, model.prismMedium );
-
+                            final PrismNode boundNode = new PrismNode( transform, copy, model.prismMedium );
+                            this.createdNode = boundNode;
                             final PropertyChangeListener pcl = new PropertyChangeListener() {
                                 public void propertyChange( PropertyChangeEvent evt ) {
-                                    intersect = PrismToolboxNode.this.getGlobalFullBounds().intersects( node.getGlobalFullBounds() );
+                                    intersect = PrismToolboxNode.this.getGlobalFullBounds().intersects( boundNode.getGlobalFullBounds() );
                                 }
                             };
-                            node.addPropertyChangeListener( PROPERTY_FULL_BOUNDS, pcl );
-                            node.addInputEventListener( new PBasicInputEventHandler() {
+                            boundNode.addPropertyChangeListener( PROPERTY_FULL_BOUNDS, pcl );
+                            boundNode.addInputEventListener( new PBasicInputEventHandler() {
                                 public void mouseReleased( PInputEvent event ) {
                                     if ( intersect ) {
                                         thumbnailRef.setVisible( true );
-                                        node.removePropertyChangeListener( pcl );
-                                        canvas.removePrismNode( node );
-                                        node = null;
+                                        boundNode.removePropertyChangeListener( pcl );
+                                        canvas.removePrismNode( boundNode );
+                                        createdNode = null;
                                         model.removePrism( copy );
                                     }
                                 }
                             } );
 
-                            canvas.addPrismNode( node );
+                            canvas.addPrismNode( createdNode );
                         }
-                        node.translate( transform.viewToModelDelta( event.getDeltaRelativeTo( getParent() ) ) );
+                        createdNode.translate( transform.viewToModelDelta( event.getDeltaRelativeTo( getParent() ) ) );
+                    }
+
+                    public void mouseReleased( PInputEvent event ) {
+                        createdNode = null;
                     }
                 } );
                 addInputEventListener( new CursorHandler() );
