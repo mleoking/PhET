@@ -29,7 +29,7 @@ public class PrismToolboxNode extends PNode {
         final double[] x = { 0 };
         for ( final Prism prism : PrismsModel.getPrismPrototypes() ) {
             PrismNode prismNode = new PrismNode( transform, prism, model.prismMedium );
-            Image image = prismNode.toImage( 100, 100, null );
+            Image image = prismNode.toImage( (int) ( prismNode.getFullBounds().getWidth() * 100 / prismNode.getFullBounds().getHeight() ), 100, null );
             final PImage thumbnail = new PImage( image ) {{
                 final PImage thumbnailRef = this;
                 setOffset( x[0], titleLabel.getFullBounds().getMaxY() );
