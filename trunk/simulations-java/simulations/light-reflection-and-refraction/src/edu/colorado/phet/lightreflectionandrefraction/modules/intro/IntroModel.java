@@ -105,4 +105,11 @@ public class IntroModel extends LRRModel {
             incidentRay.moveToFront();//For wave view
         }
     }
+
+    @Override
+    public void resetAll() {
+        super.resetAll();
+        topMedium.reset();
+        bottomMedium.reset();
+    }
 }

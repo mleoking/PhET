@@ -205,4 +205,9 @@ public class LRRModel {
     public void addModelUpdateListener( VoidFunction0 listener ) {
         modelUpdateListeners.add( listener );
     }
+
+    public void resetAll() {
+        laser.resetAll();
+        intensityMeter.resetAll();
+    }
 }

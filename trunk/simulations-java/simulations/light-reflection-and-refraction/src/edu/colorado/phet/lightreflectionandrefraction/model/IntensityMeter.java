@@ -64,4 +64,11 @@ public class IntensityMeter {
         translateBody( dimension2D );
         translateSensor( dimension2D );
     }
+
+    public void resetAll() {
+        sensorPosition.reset();
+        bodyPosition.reset();
+        enabled.reset();
+        reading.reset();
+    }
 }
