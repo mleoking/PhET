@@ -35,7 +35,7 @@ public class PrismsCanvas extends BendingLightCanvas<PrismsModel> {
             }
         } );
 
-        beforeLightLayer.addChild( new ControlPanelNode( new MediumControlPanel( this, model.outerMedium, model.colorMappingFunction ) ) {{
+        beforeLightLayer.addChild( new ControlPanelNode( new MediumControlPanel( this, model.outerMedium, model.colorMappingFunction, "Environment:" ) ) {{
             setOffset( stageSize.width - getFullBounds().getWidth() - 10, 10 );
         }} );
 
@@ -44,7 +44,7 @@ public class PrismsCanvas extends BendingLightCanvas<PrismsModel> {
         }};
         beforeLightLayer.addChild( prismToolbox );
 
-        final ControlPanelNode prismMediumControlPanel = new ControlPanelNode( new MediumControlPanel( this, model.prismMedium, model.colorMappingFunction ) ) {{
+        final ControlPanelNode prismMediumControlPanel = new ControlPanelNode( new MediumControlPanel( this, model.prismMedium, model.colorMappingFunction, "Objects:" ) ) {{
             setOffset( prismToolbox.getFullBounds().getMaxX() + 10, stageSize.height - getFullBounds().getHeight() - 10 );
         }};
         beforeLightLayer.addChild( prismMediumControlPanel );

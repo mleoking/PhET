@@ -1,3 +1,4 @@
+Renamed labels for index of refraction: should say "objects" and "environment"
 Made "index of refraction (n)" bold
 Switched to protractor image with 5 degree tick marks
 Turned off reflections by default in prism tab
