@@ -1,3 +1,4 @@
+2/24/11 push "Hide molecules" feature into BoxesNode, to remove duplicate code in canvases
 2/24/11 implement "Hide molecules" feature for Game
 2/24/11 rename GamePrompt to GameState, document the approach used in Game
 2/24/11 change internal terminology from "problems" to "equations" in Game

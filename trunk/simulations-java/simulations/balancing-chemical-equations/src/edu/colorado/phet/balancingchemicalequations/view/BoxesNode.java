@@ -38,7 +38,8 @@ public class BoxesNode extends PComposite {
     private Equation equation;
     private boolean balancedHighlightEnabled;
 
-    public BoxesNode( final Property<Equation> equationProperty, IntegerRange coefficientRange, HorizontalAligner aligner, final Property<Color> boxColorProperty ) {
+    public BoxesNode( final Property<Equation> equationProperty, IntegerRange coefficientRange, HorizontalAligner aligner,
+            final Property<Color> boxColorProperty, final Property<Boolean> moleculesVisibleProperty ) {
 
         this.coefficientRange = coefficientRange;
         this.aligner = aligner;
@@ -106,9 +107,15 @@ public class BoxesNode extends PComposite {
                 productsBoxNode.setPaint( boxColorProperty.getValue() );
             }
         } );
+        // molecules visibility
+        moleculesVisibleProperty.addObserver( new SimpleObserver() {
+            public void update() {
+                setMoleculesVisible( moleculesVisibleProperty.getValue() );
+            }
+        } );
     }
 
-    public void setMoleculesVisible( boolean moleculesVisible ) {
+    private void setMoleculesVisible( boolean moleculesVisible ) {
         moleculesParentNode.setVisible( moleculesVisible );
         moleculesHiddenHodeLeft.setVisible( !moleculesVisible );
         moleculesHiddenHodeRight.setVisible( !moleculesVisible );
