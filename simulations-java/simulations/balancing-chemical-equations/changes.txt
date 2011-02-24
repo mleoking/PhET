@@ -1,3 +1,4 @@
+2/24/11 consistent handling of vertical spacing in Game
 2/24/11 rename "Balance Equation" tab to "Introduction"
 2/24/11 rename "Game" tab to "Balancing Game"
 2/24/11 make popups for game results draggable, in case they obscure something

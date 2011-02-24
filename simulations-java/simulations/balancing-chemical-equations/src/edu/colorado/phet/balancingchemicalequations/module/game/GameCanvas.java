@@ -159,20 +159,21 @@ public class GameCanvas extends BCECanvas {
 
         // layout of children of problemParentNode
         {
+            final double ySpacing = 25;
             double x, y;
 
             equationLabelNode.setOffset( 0, 0 );
 
-            y = equationLabelNode.getFullBoundsReference().getMaxY() + 20;
+            y = equationLabelNode.getFullBoundsReference().getMaxY() + ySpacing;
             equationNode.setOffset( 0, y );
 
             // boxes below equation
-            y = equationNode.getFullBoundsReference().getMaxY() + 25;
+            y = equationNode.getFullBoundsReference().getMaxY() + ySpacing;
             boxesNode.setOffset( 0, y );
 
             // buttons centered below boxes
             x = boxesNode.getFullBoundsReference().getCenterX() - ( checkButton.getFullBoundsReference().getWidth() / 2 );
-            y = boxesNode.getFullBoundsReference().getMaxY() + 15;
+            y = boxesNode.getFullBoundsReference().getMaxY() + ySpacing;
             checkButton.setOffset( x, y );
             x = boxesNode.getFullBoundsReference().getCenterX() - ( tryAgainButton.getFullBoundsReference().getWidth() / 2 );
             tryAgainButton.setOffset( x, y );
@@ -183,7 +184,7 @@ public class GameCanvas extends BCECanvas {
 
             // scoreboard at bottom
             x = 0;
-            y = checkButton.getFullBoundsReference().getMaxY() + 15;
+            y = checkButton.getFullBoundsReference().getMaxY() + ySpacing;
             scoreboardNode.setOffset( x, y );
 
             // game result indicators, centered between boxes
