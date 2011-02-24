@@ -31,7 +31,7 @@ public class MediumControlPanel extends PNode {
         }
     };
 
-    public MediumControlPanel( final PhetPCanvas phetPCanvas, final Property<Medium> medium, final Property<Function1<Double, Color>> colorMappingFunction, final String name ) {
+    public MediumControlPanel( final PhetPCanvas phetPCanvas, final Property<Medium> medium, final Property<Function1<Double, Color>> colorMappingFunction, final String name, boolean textFieldVisible ) {
         final MediumState initialMediumState = medium.getValue().getMediumState();
         final PText materialLabel = new PText( name ) {{
             setFont( labelFont );
@@ -87,7 +87,7 @@ public class MediumControlPanel extends PNode {
         }};
         addChild( comboBoxPSwing );
 
-        final PSwing slider = new PSwing( new IndexOfRefractionSlider( medium, colorMappingFunction, "" ) {{
+        final PSwing slider = new PSwing( new IndexOfRefractionSlider( medium, colorMappingFunction, "", textFieldVisible ) {{
             getTextField().setFont( labelFont );
         }} ) {{
             medium.addObserver( new SimpleObserver() {
