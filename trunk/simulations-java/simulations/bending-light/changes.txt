@@ -1,3 +1,4 @@
+Switched to protractor image with 5 degree tick marks
 Turned off reflections by default in prism tab
 Renamed to Bending Light
 Made the incident beam width independent of incident angle
