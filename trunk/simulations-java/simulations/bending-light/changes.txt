@@ -1,3 +1,4 @@
+Moved light behind controls
 Got rid of numeric readout of index of refraction on prism break tab
 Renamed labels for index of refraction: should say "objects" and "environment"
 Made "index of refraction (n)" bold

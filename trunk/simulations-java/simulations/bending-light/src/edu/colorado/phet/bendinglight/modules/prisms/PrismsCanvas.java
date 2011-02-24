@@ -35,7 +35,7 @@ public class PrismsCanvas extends BendingLightCanvas<PrismsModel> {
             }
         } );
 
-        beforeLightLayer.addChild( new ControlPanelNode( new MediumControlPanel( this, model.outerMedium, model.colorMappingFunction, "Environment:", false ) ) {{
+        afterLightLayer.addChild( new ControlPanelNode( new MediumControlPanel( this, model.outerMedium, model.colorMappingFunction, "Environment:", false ) ) {{
             setOffset( stageSize.width - getFullBounds().getWidth() - 10, 10 );
         }} );
 
@@ -47,17 +47,17 @@ public class PrismsCanvas extends BendingLightCanvas<PrismsModel> {
         final ControlPanelNode prismMediumControlPanel = new ControlPanelNode( new MediumControlPanel( this, model.prismMedium, model.colorMappingFunction, "Objects:", false ) ) {{
             setOffset( prismToolbox.getFullBounds().getMaxX() + 10, stageSize.height - getFullBounds().getHeight() - 10 );
         }};
-        beforeLightLayer.addChild( prismMediumControlPanel );
+        afterLightLayer.addChild( prismMediumControlPanel );
 
         final BendingLightResetAllButtonNode resetButton = new BendingLightResetAllButtonNode( resetAll, this ) {{
             setOffset( stageSize.width - getFullBounds().getWidth() - 10, prismMediumControlPanel.getFullBounds().getMinY() - 10 - getFullBounds().getHeight() );
         }};
-        beforeLightLayer.addChild( resetButton );
+        afterLightLayer.addChild( resetButton );
 
         final LaserControlPanelNode laserControlPanelNode = new LaserControlPanelNode( model.manyRays, laserView, model.getLaser().color, model.showReflections, showNormal ) {{
             setOffset( stageSize.width - getFullBounds().getWidth() - 10, resetButton.getFullBounds().getMinY() - 10 - getFullBounds().getHeight() );
         }};
-        beforeLightLayer.addChild( laserControlPanelNode );
+        afterLightLayer.addChild( laserControlPanelNode );
 
         showNormal.addObserver( new SimpleObserver() {
             public void update() {

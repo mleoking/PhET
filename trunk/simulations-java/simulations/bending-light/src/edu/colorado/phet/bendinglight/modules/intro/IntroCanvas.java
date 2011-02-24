@@ -40,19 +40,19 @@ public class IntroCanvas extends BendingLightCanvas<IntroModel> {
         mediumNode.addChild( new MediumNode( transform, model.topMedium ) );
         mediumNode.addChild( new MediumNode( transform, model.bottomMedium ) );
 
-        beforeLightLayer.addChild( new ControlPanelNode( new MediumControlPanel( this, model.topMedium, model.colorMappingFunction, "Material:", true ) ) {{
+        afterLightLayer.addChild( new ControlPanelNode( new MediumControlPanel( this, model.topMedium, model.colorMappingFunction, "Material:", true ) ) {{
             setOffset( stageSize.width - getFullBounds().getWidth() - 10, transform.modelToViewY( 0 ) - 10 - getFullBounds().getHeight() );
         }} );
-        beforeLightLayer.addChild( new ControlPanelNode( new MediumControlPanel( this, model.bottomMedium, model.colorMappingFunction, "Material:", true ) ) {{
+        afterLightLayer.addChild( new ControlPanelNode( new MediumControlPanel( this, model.bottomMedium, model.colorMappingFunction, "Material:", true ) ) {{
             setOffset( stageSize.width - getFullBounds().getWidth() - 10, transform.modelToViewY( 0 ) + 10 );
         }} );
 
         //add a line that will show the border between the mediums even when both n's are the same... Just a thin line will be fine.
-        beforeLightLayer.addChild( new PhetPPath( transform.modelToView( new Line2D.Double( -1, 0, 1, 0 ) ), new BasicStroke( 0.5f ), Color.gray ) {{
+        afterLightLayer.addChild( new PhetPPath( transform.modelToView( new Line2D.Double( -1, 0, 1, 0 ) ), new BasicStroke( 0.5f ), Color.gray ) {{
             setPickable( false );
         }} );
 
-        beforeLightLayer.addChild( new NormalLine( transform, model.getHeight() ) {{
+        afterLightLayer.addChild( new NormalLine( transform, model.getHeight() ) {{
             showNormal.addObserver( new SimpleObserver() {
                 public void update() {
                     setVisible( showNormal.getValue() );
@@ -60,7 +60,7 @@ public class IntroCanvas extends BendingLightCanvas<IntroModel> {
             } );
         }} );
 
-        beforeLightLayer.addChild( new ControlPanelNode( new PNode() {{
+        afterLightLayer.addChild( new ControlPanelNode( new PNode() {{
             final PText title = new PText( "Laser View" ) {{setFont( labelFont );}};
             addChild( title );
             addChild( new PSwing( new VerticalLayoutPanel() {{
@@ -77,7 +77,7 @@ public class IntroCanvas extends BendingLightCanvas<IntroModel> {
             setOffset( 10, stageSize.height - getFullBounds().getHeight() - 10 );
         }} );
 
-        beforeLightLayer.addChild( new BendingLightResetAllButtonNode( resetAll, this ) {{
+        afterLightLayer.addChild( new BendingLightResetAllButtonNode( resetAll, this ) {{
             setOffset( stageSize.getWidth() - getFullBounds().getWidth() - 10, stageSize.getHeight() - getFullBounds().getHeight() - 10 );
         }} );
     }
