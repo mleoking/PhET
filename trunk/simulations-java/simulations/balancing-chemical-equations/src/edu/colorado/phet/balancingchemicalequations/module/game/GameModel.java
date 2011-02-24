@@ -25,7 +25,7 @@ public class GameModel {
 
     private static final IntegerRange COEFFICENTS_RANGE = new IntegerRange( 0, 10 );
     private static final IntegerRange LEVELS_RANGE = new IntegerRange( 1, 3, 1 );
-    private static final int PROBLEMS_PER_GAME = 2;//XXX 5
+    private static final int PROBLEMS_PER_GAME = 5;
     private static final int POINTS_FIRST_ATTEMPT = 2;  // points to award for correct guess on 1st attempt
     private static final int POINTS_SECOND_ATTEMPT = 1; // points to award for correct guess on 2nd attempt
 
@@ -35,7 +35,7 @@ public class GameModel {
 
     private final GameProblemsFactory problemsFactory; // generates problem sets
     private final GameSettings gameSettings;
-    private final HashMap<Integer,Long> bestTimes; // best times for each level, maps level to time in ms
+    private final HashMap<Integer,Long> bestTimes; // best times, maps level to time in ms
     private final GameTimer timer;
 
     private Equation[] problemSet; // the current set of problems, equations to be balanced
@@ -51,6 +51,9 @@ public class GameModel {
         problemsFactory = new GameProblemsFactory();
         gameSettings = new GameSettings( LEVELS_RANGE, true /* sound */, true /* timer */ );
         bestTimes = new HashMap<Integer,Long>();
+        for ( int i = gameSettings.level.getMin(); i <= gameSettings.level.getMax(); i++ ) {
+            bestTimes.put( i, 0L );
+        }
         timer = new GameTimer( new BCEClock() );
         problemSet = problemsFactory.createProblemSet( PROBLEMS_PER_GAME, gameSettings.level.getValue() );
         problemIndex = 0;
@@ -135,7 +138,8 @@ public class GameModel {
                 timer.stop();
                 isGameCompleted = true;
                 // check for new best time
-                if ( isPerfectScore() && getTime() < getBestTime( gameSettings.level.getValue() ) ) {
+                long previousBestTime = getBestTime( gameSettings.level.getValue() );
+                if ( isPerfectScore() && ( previousBestTime == 0 || getTime() < previousBestTime ) ) {
                     isNewBestTime = true;
                     setBestTime( gameSettings.level.getValue(), getTime() );
                 }
