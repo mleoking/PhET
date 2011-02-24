@@ -46,12 +46,12 @@ import edu.colorado.phet.balancingchemicalequations.model.TwoProductEquation.Equ
 import edu.colorado.phet.balancingchemicalequations.model.TwoProductEquation.MethaneEquation;
 
 /**
- * Factory that creates problem sets, based on game level.
+ * Factory that creates sets of equations, based on game level.
  * The design document specifies which equations correspond to which game levels.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class GameProblemsFactory {
+public class GameEquationsFactory {
 
     // Level 1
     private static final ArrayList<Class <? extends Equation>> LEVEL1_LIST = new ArrayList<Class<? extends Equation>>() {{
@@ -115,7 +115,7 @@ public class GameProblemsFactory {
     /**
      * Default constructor.
      */
-    public GameProblemsFactory() {}
+    public GameEquationsFactory() {}
 
     /**
      * Creates a problem set.
@@ -227,7 +227,7 @@ public class GameProblemsFactory {
 
     // test
     public static void main( String[] args ) {
-        GameProblemsFactory factory = new GameProblemsFactory();
+        GameEquationsFactory factory = new GameEquationsFactory();
         for ( int level = 1; level < 4; level++ ) {
             System.out.println( "LEVEL " + level );
             Equation[] equations = factory.createProblemSet( 5, level );
