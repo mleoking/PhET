@@ -76,7 +76,6 @@ public class GameProblemsFactory {
         add( Equation_P4_6H2_4PH3.class );
         add( Equation_P4_6F2_4PF3.class );
         add( Equation_P4_6Cl2_4PCl3.class );
-        add( Equation_P4_10Cl2_4PCl5.class );
         add( Equation_PCl3_Cl2_PCl5.class );
         add( Equation_2SO2_O2_2SO3.class );
     }};

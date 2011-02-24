@@ -1,3 +1,4 @@
+2/24/11 reduce max coefficient in Game to 7, delete 1 equation that had higher coefficents (P4 + 10Cl2 -> 4PCl5)
 2/24/11 tweak atom scaling factor with KL, make smaller atoms smaller
 2/24/11 tweak some molecule conformations with KL
 2/23/11 fix recording of best times
