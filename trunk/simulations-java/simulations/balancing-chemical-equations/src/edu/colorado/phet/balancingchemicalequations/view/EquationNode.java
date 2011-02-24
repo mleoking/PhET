@@ -40,13 +40,16 @@ public class EquationNode extends PhetPNode  {
     private static final Color COEFFICIENT_COLOR = Color.BLACK;
 
     private final IntegerRange coefficientRange;
-    private boolean editable;
     private final HorizontalAligner aligner;
-    private ArrayList<TermNode> termNodes;
-    private Equation equation;
+    private final ArrayList<TermNode> termNodes;
+
     private final SimpleObserver coefficientsObserver;
     private final RightArrowNode arrowNode;
     private final PNode termsParent;
+
+    private Equation equation;
+    private boolean editable;
+    private boolean balancedHighlightEnabled;
 
     /**
      * Constructor.
@@ -63,6 +66,7 @@ public class EquationNode extends PhetPNode  {
         this.editable = editable;
         this.aligner = aligner;
         this.termNodes = new ArrayList<TermNode>();
+        this.balancedHighlightEnabled = true;
 
         // arrow node, in a fixed location
         arrowNode = new RightArrowNode( equationProperty.getValue().isBalanced() );
@@ -78,7 +82,7 @@ public class EquationNode extends PhetPNode  {
         // if the coefficient changes...
         coefficientsObserver = new SimpleObserver() {
             public void update() {
-                arrowNode.setHighlighted( equation.isBalanced() );
+                arrowNode.setHighlighted( equation.isBalanced() && balancedHighlightEnabled );
             }
         };
         // if the equation changes...
@@ -104,6 +108,13 @@ public class EquationNode extends PhetPNode  {
 
     public boolean isEditable() {
         return editable;
+    }
+
+    public void setBalancedHighlightEnabled( boolean enabled ) {
+        if ( enabled != balancedHighlightEnabled ) {
+            balancedHighlightEnabled = enabled;
+            arrowNode.setHighlighted( equation.isBalanced() && balancedHighlightEnabled );
+        }
     }
 
     /*

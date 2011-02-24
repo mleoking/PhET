@@ -42,10 +42,12 @@ public class BarChartsNode extends PComposite {
     private final SimpleObserver coefficientsObserver;
 
     private Equation equation;
+    private boolean balancedHighlightEnabled;
 
     public BarChartsNode( final Property<Equation> equationProperty, HorizontalAligner aligner ) {
 
         this.aligner = aligner;
+        balancedHighlightEnabled = true;
 
         reactantsChartParent = new PComposite();
         addChild( reactantsChartParent );
@@ -73,6 +75,13 @@ public class BarChartsNode extends PComposite {
                 BarChartsNode.this.equation.addCoefficientsObserver( coefficientsObserver );
             }
         } );
+    }
+
+    public void setBalancedHighlightEnabled( boolean enabled ) {
+        if ( enabled != balancedHighlightEnabled ) {
+            balancedHighlightEnabled = enabled;
+            equalsSignNode.setHighlighted( equation.isBalanced() && balancedHighlightEnabled );
+        }
     }
 
     /*
@@ -109,7 +118,7 @@ public class BarChartsNode extends PComposite {
         equalsSignNode.setVisible( equation.isAllCoefficientsZero() || equation.isBalanced() );
         notEqualsSignNode.setVisible( !equalsSignNode.getVisible() );
         // highlight
-        equalsSignNode.setHighlighted( equation.isBalanced() );
+        equalsSignNode.setHighlighted( equation.isBalanced() && balancedHighlightEnabled );
     }
 
     /*
