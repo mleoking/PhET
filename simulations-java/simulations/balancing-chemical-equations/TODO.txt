@@ -7,10 +7,11 @@ HIGH PRIORITY
 - Game: reward for perfect score
 - Game: rewrite GameScoreBoardNode to use Property<T>
 - Game: rewrite GameOverNode to use Property<T>
+- rename GamePrompt to GameState, document the approach used in Game
+- add scales/bars to "balanced, not simplified" popup
 
 MEDIUM PRIORITY
-- Game: on incorrect guess, show bar charts or balance scales in a popup that obscures part of play area and has a "Try Again" or "Next" button and face.
-- C2H5OH symbol overlaps "+" sign in equation (smaller font? different layout?...)
+- C2H5OH symbol overlaps "+" sign in equation (bug? smaller font? different layout?...)
 - rename package module.balanceequation to module.introduction
 
 LOW PRIORITY

@@ -6,7 +6,7 @@ import java.util.HashMap;
 
 import edu.colorado.phet.balancingchemicalequations.model.BCEClock;
 import edu.colorado.phet.balancingchemicalequations.model.Equation;
-import edu.colorado.phet.balancingchemicalequations.model.GameProblemsFactory;
+import edu.colorado.phet.balancingchemicalequations.model.GameEquationsFactory;
 import edu.colorado.phet.balancingchemicalequations.model.OneProductEquation.WaterEquation;
 import edu.colorado.phet.common.games.GameSettings;
 import edu.colorado.phet.common.phetcommon.model.Property;
@@ -33,13 +33,13 @@ public class GameModel {
     private final Property<GamePrompt> gamePromptProperty;
     private final Property<Equation> currentEquationProperty;
 
-    private final GameProblemsFactory problemsFactory; // generates problem sets
+    private final GameEquationsFactory problemsFactory; // generates problem sets
     private final GameSettings gameSettings;
     private final HashMap<Integer,Long> bestTimes; // best times, maps level to time in ms
     private final GameTimer timer;
 
-    private Equation[] problemSet; // the current set of problems, equations to be balanced
-    private int problemIndex; // index of the current problem
+    private Equation[] equations; // the current set of equations to be balanced
+    private int equationIndex; // index of the equation that the user is working on
     private int attempts; // how many attempts the user has made at solving the current challenge
     private boolean isNewBestTime; // is the time for this game a new best time?
     private boolean isGameCompleted; // was the game played to completion?
@@ -48,15 +48,15 @@ public class GameModel {
         gamePromptProperty = new Property<GamePrompt>( GamePrompt.START_GAME );
         pointsProperty = new Property<Integer>( 0 );
         currentEquationProperty = new Property<Equation>( new WaterEquation() );
-        problemsFactory = new GameProblemsFactory();
+        problemsFactory = new GameEquationsFactory();
         gameSettings = new GameSettings( LEVELS_RANGE, true /* sound */, true /* timer */ );
         bestTimes = new HashMap<Integer,Long>();
         for ( int i = gameSettings.level.getMin(); i <= gameSettings.level.getMax(); i++ ) {
             bestTimes.put( i, 0L );
         }
         timer = new GameTimer( new BCEClock() );
-        problemSet = problemsFactory.createProblemSet( PROBLEMS_PER_GAME, gameSettings.level.getValue() );
-        problemIndex = 0;
+        equations = problemsFactory.createProblemSet( PROBLEMS_PER_GAME, gameSettings.level.getValue() ); // needs to be non-null after initialization
+        equationIndex = 0;
     }
 
     public long getTime() {
@@ -107,14 +107,14 @@ public class GameModel {
      * Called when the user presses the "Start Game" button.
      */
     public void startGame() {
-        problemSet = problemsFactory.createProblemSet( PROBLEMS_PER_GAME, gameSettings.level.getValue() );
-        problemIndex = 0;
+        equations = problemsFactory.createProblemSet( PROBLEMS_PER_GAME, gameSettings.level.getValue() );
+        equationIndex = 0;
         attempts = 0;
         isNewBestTime = false;
         isGameCompleted = false;
         timer.start();
         setPoints( 0 );
-        setCurrentEquation( problemSet[problemIndex] );
+        setCurrentEquation( equations[equationIndex] );
         setGamePrompt( GamePrompt.CHECK );
     }
 
@@ -123,7 +123,7 @@ public class GameModel {
      */
     public void check() {
         attempts++;
-        if ( problemSet[problemIndex].isBalancedWithLowestCoefficients() ) {
+        if ( equations[equationIndex].isBalancedWithLowestCoefficients() ) {
 
             // award points
             if ( attempts == 1 ) {
@@ -134,7 +134,7 @@ public class GameModel {
             }
 
             // end the game
-            if ( problemIndex == problemSet.length - 1 ) {
+            if ( equationIndex == equations.length - 1 ) {
                 timer.stop();
                 isGameCompleted = true;
                 // check for new best time
@@ -173,10 +173,10 @@ public class GameModel {
      * Called when the user presses the "Next" button.
      */
     public void next() {
-        if ( problemIndex < problemSet.length - 1 ) {
+        if ( equationIndex < equations.length - 1 ) {
             attempts = 0;
-            problemIndex++;
-            setCurrentEquation( problemSet[problemIndex] );
+            equationIndex++;
+            setCurrentEquation( equations[equationIndex] );
             setGamePrompt( GamePrompt.CHECK );
         }
         else {
@@ -233,12 +233,12 @@ public class GameModel {
         return COEFFICENTS_RANGE;
     }
 
-    public int getProblemIndex() {
-        return problemIndex;
+    public int getEquationIndex() {
+        return equationIndex;
     }
 
-    public int getNumberOfProblems() {
-        return problemSet.length;
+    public int getNumberOfEquations() {
+        return equations.length;
     }
 
     public int getMaxScore() {

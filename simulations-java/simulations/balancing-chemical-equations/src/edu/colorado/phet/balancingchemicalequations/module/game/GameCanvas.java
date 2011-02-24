@@ -267,8 +267,8 @@ public class GameCanvas extends BCECanvas {
     }
 
     private void updateEquationLabel() {
-        int index = model.getProblemIndex() + 1;
-        int total = model.getNumberOfProblems();
+        int index = model.getEquationIndex() + 1;
+        int total = model.getNumberOfEquations();
         String s = MessageFormat.format( BCEStrings.EQUATION_0_OF_1, index, total );
         equationLabelNode.setText( s );
     }
