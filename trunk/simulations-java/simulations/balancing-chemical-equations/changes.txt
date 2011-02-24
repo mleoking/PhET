@@ -1,3 +1,4 @@
+2/23/11 indicators for 3 game outcomes: balanced, not balanced, balance but not simplified
 2/23/11 make smiley face larger in first tab, smaller in Game tab
 2/23/11 add smiley/frowny face to Game
 2/23/11 disable highlight of arrows, etc. in Game while user is solving a problem
