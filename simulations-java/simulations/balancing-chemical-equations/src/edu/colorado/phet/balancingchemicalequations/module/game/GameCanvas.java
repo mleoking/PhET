@@ -38,7 +38,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  */
 public class GameCanvas extends BCECanvas {
 
-    private static final Dimension BOX_SIZE = new Dimension( 475, 440 );
+    private static final Dimension BOX_SIZE = new Dimension( 475, 400 );
     private static final double BOX_SEPARATION = 90;
     private static final Color BUTTONS_COLOR = Color.YELLOW;
     private static final int BUTTONS_FONT_SIZE = 30;
@@ -186,16 +186,8 @@ public class GameCanvas extends BCECanvas {
             y = checkButton.getFullBoundsReference().getMaxY() + 15;
             scoreboardNode.setOffset( x, y );
 
-            // balance indicators centered between boxes
-            x = boxesNode.getFullBoundsReference().getCenterX() - ( balancedNode.getFullBoundsReference().getWidth() / 2 );
-            y = boxesNode.getFullBoundsReference().getCenterY() - ( balancedNode.getFullBoundsReference().getHeight() / 2 );
-            balancedNode.setOffset( x, y );
-            x = boxesNode.getFullBoundsReference().getCenterX() - ( notBalancedNode.getFullBoundsReference().getWidth() / 2 );
-            y = boxesNode.getFullBoundsReference().getCenterY() - ( notBalancedNode.getFullBoundsReference().getHeight() / 2 );
-            notBalancedNode.setOffset( x, y );
-            x = boxesNode.getFullBoundsReference().getCenterX() - ( balancedNotSimplifiedNode.getFullBoundsReference().getWidth() / 2 );
-            y = boxesNode.getFullBoundsReference().getCenterY() - ( balancedNotSimplifiedNode.getFullBoundsReference().getHeight() / 2 );
-            balancedNotSimplifiedNode.setOffset( x, y );
+            // game result indicators, centered between boxes
+            updateGameResultsLayout();
 
             // dev answer below left box
             x = 0;
@@ -373,6 +365,7 @@ public class GameCanvas extends BCECanvas {
     }
 
     private void setBalancedIndicatorVisible( boolean visible ) {
+        updateGameResultsLayout();
         balancedNode.setVisible( false );
         notBalancedNode.setVisible( false );
         balancedNotSimplifiedNode.setVisible( false );
@@ -433,5 +426,17 @@ public class GameCanvas extends BCECanvas {
         double x = gamePlayParentNode.getFullBoundsReference().getCenterX() - ( gameOverNode.getFullBoundsReference().getWidth() / 2 );
         double y = gamePlayParentNode.getFullBoundsReference().getCenterY() - ( gameOverNode.getFullBoundsReference().getHeight() / 2 );
         gameOverNode.setOffset( x, y );
+    }
+
+    private void updateGameResultsLayout() {
+        double x = boxesNode.getFullBoundsReference().getCenterX() - ( balancedNode.getFullBoundsReference().getWidth() / 2 );
+        double y = boxesNode.getFullBoundsReference().getCenterY() - ( balancedNode.getFullBoundsReference().getHeight() / 2 );
+        balancedNode.setOffset( x, y );
+        x = boxesNode.getFullBoundsReference().getCenterX() - ( notBalancedNode.getFullBoundsReference().getWidth() / 2 );
+        y = boxesNode.getFullBoundsReference().getCenterY() - ( notBalancedNode.getFullBoundsReference().getHeight() / 2 );
+        notBalancedNode.setOffset( x, y );
+        x = boxesNode.getFullBoundsReference().getCenterX() - ( balancedNotSimplifiedNode.getFullBoundsReference().getWidth() / 2 );
+        y = boxesNode.getFullBoundsReference().getCenterY() - ( balancedNotSimplifiedNode.getFullBoundsReference().getHeight() / 2 );
+        balancedNotSimplifiedNode.setOffset( x, y );
     }
 }
