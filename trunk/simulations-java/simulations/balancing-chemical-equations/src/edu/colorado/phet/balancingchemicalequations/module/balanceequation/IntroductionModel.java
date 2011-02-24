@@ -19,14 +19,14 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class BalanceEquationModel {
+public class IntroductionModel {
 
     private static final IntegerRange COEFFICENTS_RANGE = new IntegerRange( 0, 3 );
 
     private final ArrayList<Equation> equations;
     private Property<Equation> currentEquationProperty;
 
-    public BalanceEquationModel( final boolean dev ) {
+    public IntroductionModel( final boolean dev ) {
         equations = new ArrayList<Equation>() {{
             add( new WaterEquation() );
             add( new AmmoniaEquation() );

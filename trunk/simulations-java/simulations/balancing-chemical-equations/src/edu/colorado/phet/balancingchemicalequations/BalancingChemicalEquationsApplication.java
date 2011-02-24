@@ -6,7 +6,7 @@ import javax.swing.JMenu;
 
 import edu.colorado.phet.balancingchemicalequations.control.BCEOptionMenu;
 import edu.colorado.phet.balancingchemicalequations.control.DeveloperColorsMenuItem;
-import edu.colorado.phet.balancingchemicalequations.module.balanceequation.BalanceEquationModule;
+import edu.colorado.phet.balancingchemicalequations.module.balanceequation.IntroductionModule;
 import edu.colorado.phet.balancingchemicalequations.module.game.GameModule;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
@@ -26,7 +26,7 @@ public class BalancingChemicalEquationsApplication extends PiccoloPhetApplicatio
         BCEGlobalProperties globalProperties = new BCEGlobalProperties( getPhetFrame(), config.isDev() );
 
         // modules
-        addModule( new BalanceEquationModule( globalProperties ) );
+        addModule( new IntroductionModule( globalProperties ) );
         addModule( new GameModule( globalProperties ) );
 
         // Options menu

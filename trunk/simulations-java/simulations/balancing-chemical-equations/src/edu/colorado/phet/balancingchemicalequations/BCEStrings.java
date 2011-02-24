@@ -15,13 +15,13 @@ public class BCEStrings {
 
     public static final String AMMONIA = getString( "ammonia" );
     public static final String BALANCED = getString( "balanced" );
-    public static final String BALANCE_EQUATION = getString( "balanceEquation" );
     public static final String BALANCE_SCALES = getString( "balanceScales" );
+    public static final String BALANCING_GAME = getString( "balancingGame" );
     public static final String BAR_CHARTS = getString( "barCharts" );
     public static final String CHECK = getString( "check" );
     public static final String EQUATION_0_OF_1 = getString( "equation0of1" );
-    public static final String GAME = getString( "game" );
     public static final String HIDE_MOLECULES = getString( "hideMolecules" );
+    public static final String INTRODUCTION = getString( "introduction" );
     public static final String METHANE = getString( "methane" );
     public static final String MOLECULES_ARE_HIDDEN = getString( "moleculesAreHidden" );
     public static final String NEXT = getString( "next" );

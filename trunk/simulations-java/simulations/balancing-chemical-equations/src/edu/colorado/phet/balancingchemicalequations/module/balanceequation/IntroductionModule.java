@@ -12,15 +12,15 @@ import edu.colorado.phet.balancingchemicalequations.model.BCEClock;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class BalanceEquationModule extends BCEModule {
+public class IntroductionModule extends BCEModule {
 
-    private final BalanceEquationModel model;
-    private final BalanceEquationCanvas canvas;
+    private final IntroductionModel model;
+    private final IntroductionCanvas canvas;
 
-    public BalanceEquationModule( BCEGlobalProperties globalProperties ) {
-        super( globalProperties.getFrame(), BCEStrings.BALANCE_EQUATION, new BCEClock(), true /* startsPaused */ );
-        model = new BalanceEquationModel( globalProperties.isDev() );
-        canvas = new BalanceEquationCanvas( model, globalProperties, this );
+    public IntroductionModule( BCEGlobalProperties globalProperties ) {
+        super( globalProperties.getFrame(), BCEStrings.INTRODUCTION, new BCEClock(), true /* startsPaused */ );
+        model = new IntroductionModel( globalProperties.isDev() );
+        canvas = new IntroductionCanvas( model, globalProperties, this );
         setSimulationPanel( canvas );
     }
 

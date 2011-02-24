@@ -1,3 +1,5 @@
+2/24/11 rename "Balance Equation" tab to "Introduction"
+2/24/11 rename "Game" tab to "Balancing Game"
 2/24/11 make popups for game results draggable, in case they obscure something
 2/24/11 reduce height of Game boxes since max coefficient is smaller
 2/24/11 reduce max coefficient in Game to 7, delete 1 equation that had higher coefficents (P4 + 10Cl2 -> 4PCl5)
