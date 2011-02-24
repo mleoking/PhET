@@ -1,3 +1,4 @@
+# 0.00.08 (49223) Feb 24, 2011
 2/24/11 dev version to demonstrate Game
 2/24/11 tweak the equation layout so that symbols like C2H5OH don't crowd the plus signs
 2/24/11 rename package module.balanceequation to module.introduction
