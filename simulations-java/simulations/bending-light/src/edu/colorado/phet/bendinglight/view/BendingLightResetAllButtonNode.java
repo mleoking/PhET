@@ -11,7 +11,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
  */
 public class BendingLightResetAllButtonNode extends ResetAllButtonNode {
     public BendingLightResetAllButtonNode( final Resettable resettable, final Component parent ) {
-        super( resettable, parent, 18, Color.black, Color.lightGray );
+        super( resettable, parent, 18, Color.black, Color.yellow );
         setConfirmationEnabled( false );
     }
 }
