@@ -149,10 +149,21 @@ public class EquationNode extends PhetPNode  {
             termNode.setOffset( xOffsets[i] - ( termNode.getFullBoundsReference().getWidth() / 2 ), 0 );
 
             // plus sign, centered between 2 terms
-            if ( i > 0 ) {
+            if ( terms.length > 1 && i < terms.length - 1 ) {
+
                 PlusNode plusNode = new PlusNode();
                 termsParent.addChild( plusNode );
-                double x =  xOffsets[i] - ( ( xOffsets[i] - xOffsets[i-1] ) / 2 ) - ( plusNode.getFullBoundsReference().getWidth() / 2 ); // centered between 2 offsets
+
+                /*
+                 * Make sure that the term doesn't get to close to the plus sign.
+                 * If it does, then shift the plus sign a bit to the right.
+                 */
+                double x = xOffsets[i] + ( ( xOffsets[i + 1] - xOffsets[i] ) / 2 ) - ( plusNode.getFullBoundsReference().getWidth() / 2 ); // centered between 2 offsets
+                final double minSeparation = 20;
+                final double separation = x - termNode.getFullBoundsReference().getMaxX();
+                if ( separation < minSeparation ) {
+                    x += ( minSeparation - separation );
+                }
                 double y = ( SymbolNode.getCapHeight() / 2 ) - ( plusNode.getFullBoundsReference().getHeight() / 2 );
                 plusNode.setOffset( x, y );
             }
