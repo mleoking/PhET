@@ -1,3 +1,4 @@
+Changed the background color for control panels
 Made reset all button yellow
 Converted radio buttons for reflections into checkbox
 Moved light behind controls
