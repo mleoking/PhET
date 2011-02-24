@@ -44,6 +44,7 @@ public class GameCanvas extends BCECanvas {
     private static final int BUTTONS_FONT_SIZE = 30;
 
     private final GameModel model;
+    private final GameAudioPlayer audioPlayer;
 
     // top-level nodes
     private final PNode gameSettingsNode;
@@ -62,6 +63,7 @@ public class GameCanvas extends BCECanvas {
         super( globalProperties.getCanvasColorProperty() );
 
         this.model = model;
+        this.audioPlayer = new GameAudioPlayer( model.getGameSettings().soundEnabled.getValue() );
 
         HorizontalAligner aligner = new HorizontalAligner( BOX_SIZE, BOX_SEPARATION );
 
@@ -92,6 +94,7 @@ public class GameCanvas extends BCECanvas {
         checkButton = new ButtonNode( BCEStrings.CHECK, BUTTONS_FONT_SIZE, BUTTONS_COLOR );
         checkButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
+                playGuessAudio();
                 model.check();
             }
         } );
@@ -256,6 +259,12 @@ public class GameCanvas extends BCECanvas {
                 }
             } );
 
+            model.getGameSettings().soundEnabled.addObserver( new SimpleObserver() {
+                public void update() {
+                    audioPlayer.setEnabled( model.getGameSettings().soundEnabled.getValue() );
+                }
+            } );
+
             model.addPointsObserver( new SimpleObserver() {
                 public void update() {
                     scoreboardNode.setScore( model.getPoints() );
@@ -339,6 +348,7 @@ public class GameCanvas extends BCECanvas {
     }
 
     public void initNewGame() {
+        playGameOverAudio();
         setTopLevelNodeVisible( gameOverNode );
     }
 
@@ -381,6 +391,27 @@ public class GameCanvas extends BCECanvas {
             else {
                 notBalancedNode.setVisible( true );
             }
+        }
+    }
+
+    private void playGuessAudio() {
+        if ( model.getCurrentEquation().isBalancedWithLowestCoefficients() ) {
+            audioPlayer.correctAnswer();
+        }
+        else {
+            audioPlayer.wrongAnswer();
+        }
+    }
+
+    private void playGameOverAudio() {
+        if ( model.getPoints() == 0 ) {
+            audioPlayer.gameOverZeroScore();
+        }
+        else if ( model.getPoints() < model.getMaxScore() ) {
+            audioPlayer.gameOverImperfectScore();
+        }
+        else {
+            audioPlayer.gameOverPerfectScore();
         }
     }
 }
