@@ -11,6 +11,7 @@ import edu.colorado.phet.bendinglight.model.MediumState;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.Function1;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -110,7 +111,7 @@ public class MediumControlPanel extends PNode {
         addChild( unknown );
 
         final PText indexOfRefractionLabel = new PText( "Index of Refraction (n)" ) {{
-            setFont( labelFont );
+            setFont( new PhetFont( 16, true ) );
             setOffset( 0, slider.getFullBounds().getMaxY() );
         }};
         addChild( indexOfRefractionLabel );
