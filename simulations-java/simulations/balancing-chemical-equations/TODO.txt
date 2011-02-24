@@ -5,7 +5,7 @@ DESIGN ISSUES
 
 HIGH PRIORITY
 - Game: populate and center GameOverNode at end of game
-- Game: sounds
+- Game: reward for perfect score
 - Game: rewrite GameScoreBoardNode to use Property<T>
 - Game: rewrite GameOverNode to use Property<T>
 
