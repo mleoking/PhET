@@ -1,3 +1,4 @@
+Turned off reflections by default in prism tab
 Renamed to Bending Light
 Made the incident beam width independent of incident angle
 # 0.00.21 (49147) Feb 23, 2011
