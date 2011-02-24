@@ -5,7 +5,6 @@ DESIGN ISSUES
 
 HIGH PRIORITY
 - add scales/bars to "balanced, not simplified" popup
-- rename package module.balanceequation to module.introduction
 - Game: reward for perfect score
 
 MEDIUM PRIORITY
