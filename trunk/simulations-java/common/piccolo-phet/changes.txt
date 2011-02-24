@@ -1,3 +1,4 @@
+2/23/11 #2753, moved color to PhetColorScheme
 2/23/2011 Changed measuring tape cross hair color from red to Color( 255, 85, 0 ) to improve color blind support, see #2753
 2/15/11 Moved WavelengthControl and TestWavelengthControl to piccolo-phet
 Added JComboBox to the list of ignored types in ControlPanelNode.transparifySwing

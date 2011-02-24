@@ -1,3 +1,4 @@
+2/23/11 #2753, moved color to PhetColorScheme
 2/21/11 #2747, some recommended changes to ColorControl
 2/21/11 #2746, open color chooser when clicking on label in ColorControl
 2/19/11 Iterate on a copy of the observer list to avoid ConcurrentModificationException, see #2741
