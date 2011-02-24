@@ -14,9 +14,9 @@ public class BCEStrings {
     private BCEStrings() {}
 
     public static final String AMMONIA = getString( "ammonia" );
+    public static final String BALANCED = getString( "balanced" );
     public static final String BALANCE_EQUATION = getString( "balanceEquation" );
     public static final String BALANCE_SCALES = getString( "balanceScales" );
-    public static final String BALANCE_THE_EQUATION = getString( "balanceTheEquation" );
     public static final String BAR_CHARTS = getString( "barCharts" );
     public static final String CHECK = getString( "check" );
     public static final String EQUATION_0_OF_1 = getString( "equation0of1" );
@@ -26,6 +26,8 @@ public class BCEStrings {
     public static final String MOLECULES_ARE_HIDDEN = getString( "moleculesAreHidden" );
     public static final String NEXT = getString( "next" );
     public static final String NONE = getString( "none" );
+    public static final String NOT_BALANCED = getString( "notBalanced" );
+    public static final String NOT_SIMPLIFIED = getString( "notSimplified" );
     public static final String SHOW_ANSWER = getString( "showAnswer" );
     public static final String TRY_AGAIN = getString( "tryAgain" );
     public static final String WATER = getString( "water" );

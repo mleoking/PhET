@@ -78,7 +78,7 @@ public class GameCanvas extends BCECanvas {
         // Equation label
         equationLabelNode = new PText( "?" );
         equationLabelNode.setTextPaint( Color.BLACK );
-        equationLabelNode.setFont( new PhetFont( 26 ) );
+        equationLabelNode.setFont( new PhetFont( 20 ) );
 
         // Equation
         equationNode = new EquationNode( model.getCurrentEquationProperty(), model.getCoefficientsRange(), true, aligner );
