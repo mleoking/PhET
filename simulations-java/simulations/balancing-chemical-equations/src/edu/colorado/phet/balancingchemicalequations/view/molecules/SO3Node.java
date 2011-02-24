@@ -34,7 +34,8 @@ public class SO3Node extends PComposite {
         double x = 0;
         double y = 0;
         centerNode.setOffset( x, y );
-        y = centerNode.getFullBoundsReference().getMinX();
+        x = centerNode.getXOffset() + ( 0.1 * topNode.getFullBoundsReference().getWidth() );
+        y = centerNode.getFullBoundsReference().getMinX() + ( 0.1 * topNode.getFullBoundsReference().getHeight() );
         topNode.setOffset( x, y );
         x = centerNode.getFullBoundsReference().getMinX();
         y = centerNode.getYOffset() + ( 0.25 * leftNode.getFullBoundsReference().getHeight() );
