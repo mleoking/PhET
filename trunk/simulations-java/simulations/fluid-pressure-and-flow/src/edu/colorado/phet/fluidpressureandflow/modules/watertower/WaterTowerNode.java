@@ -47,7 +47,7 @@ public class WaterTowerNode extends PNode {
                     return new Point2D.Double( waterTower.tankBottomCenter.getValue().getX(), MathUtil.clamp( 0, modelLocation.getY(), WaterTower.MAX_Y ) );
                 }
             } ) );
-            scale( 2.1875 );
+            scale( 0.45 );
             addInputEventListener( new CursorHandler( Cursor.getPredefinedCursor( Cursor.N_RESIZE_CURSOR ) ) );
             waterTower.tankBottomCenter.addObserver( new SimpleObserver() {
                 public void update() {
