@@ -308,6 +308,7 @@ public class GameCanvas extends BCECanvas {
         setTopLevelNodeVisible( problemParentNode );
         setButtonNodeVisible( nextButton );
         equationNode.setEditable( false );
+        model.getCurrentEquation().balance(); // show the correct answer
     }
 
     public void initNewGame() {
