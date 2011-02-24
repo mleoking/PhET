@@ -1,3 +1,4 @@
+Made it so the intensity meter adds up multiple beams instead of reporting ???
 Changed the background color for control panels
 Made reset all button yellow
 Converted radio buttons for reflections into checkbox

@@ -38,10 +38,18 @@ public class Reading {
     }
 
     public String getString() {
+        return format( value );
+    }
+
+    public static String format( double value ) {
         return new DecimalFormat( "0.00" ).format( value * 100 ) + "%";
     }
 
     public boolean isHit() {
         return true;
+    }
+
+    public double getValue() {
+        return value;
     }
 }
