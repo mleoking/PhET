@@ -23,7 +23,6 @@ import edu.colorado.phet.common.phetcommon.util.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
-import edu.colorado.phet.common.piccolophet.nodes.FaceNode;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -54,7 +53,7 @@ public class GameCanvas extends BCECanvas {
     private final BoxesNode boxesNode;
     private final ButtonNode checkButton, tryAgainButton, showAnswerButton, nextButton;
     private final GameScoreboardNode scoreboardNode;
-    private final FaceNode faceNode;
+    private final PNode balancedNode, notBalancedNode, balancedNotSimplifiedNode;
 
     public GameCanvas( final GameModel model, BCEGlobalProperties globalProperties, Resettable resettable ) {
         super( globalProperties.getCanvasColorProperty() );
@@ -121,8 +120,10 @@ public class GameCanvas extends BCECanvas {
             }
         } );
 
-        // Smiley/frowny face
-        faceNode = new FaceNode( 150, Color.YELLOW );
+        // Balance indicators
+        balancedNode = new BalancedNode();
+        notBalancedNode = new NotBalancedNode();
+        balancedNotSimplifiedNode = new BalancedNotSimplifiedNode();
 
         // Dev, shows balanced coefficients
         final BalancedEquationNode balancedEquationNode = new BalancedEquationNode( model.getCurrentEquationProperty() );
@@ -151,7 +152,9 @@ public class GameCanvas extends BCECanvas {
         gamePlayParentNode.addChild( showAnswerButton );
         gamePlayParentNode.addChild( nextButton );
         gamePlayParentNode.addChild( scoreboardNode );
-        gamePlayParentNode.addChild( faceNode );
+        gamePlayParentNode.addChild( balancedNode );
+        gamePlayParentNode.addChild( notBalancedNode );
+        gamePlayParentNode.addChild( balancedNotSimplifiedNode );
         gamePlayParentNode.addChild( balancedEquationNode );
 
         // layout of children of problemParentNode
@@ -183,10 +186,16 @@ public class GameCanvas extends BCECanvas {
             y = checkButton.getFullBoundsReference().getMaxY() + 15;
             scoreboardNode.setOffset( x, y );
 
-            // face above buttons
-            x = checkButton.getFullBoundsReference().getCenterX() - ( faceNode.getFullBoundsReference().getWidth() / 2 );
-            y = checkButton.getFullBoundsReference().getMinY() - faceNode.getFullBoundsReference().getHeight() - 20;
-            faceNode.setOffset( x, y );
+            // balance indicators centered between boxes
+            x = boxesNode.getFullBoundsReference().getCenterX() - ( balancedNode.getFullBoundsReference().getWidth() / 2 );
+            y = boxesNode.getFullBoundsReference().getCenterY() - ( balancedNode.getFullBoundsReference().getHeight() / 2 );
+            balancedNode.setOffset( x, y );
+            x = boxesNode.getFullBoundsReference().getCenterX() - ( notBalancedNode.getFullBoundsReference().getWidth() / 2 );
+            y = boxesNode.getFullBoundsReference().getCenterY() - ( notBalancedNode.getFullBoundsReference().getHeight() / 2 );
+            notBalancedNode.setOffset( x, y );
+            x = boxesNode.getFullBoundsReference().getCenterX() - ( balancedNotSimplifiedNode.getFullBoundsReference().getWidth() / 2 );
+            y = boxesNode.getFullBoundsReference().getCenterY() - ( balancedNotSimplifiedNode.getFullBoundsReference().getHeight() / 2 );
+            balancedNotSimplifiedNode.setOffset( x, y );
 
             // dev answer below left box
             x = 0;
@@ -296,7 +305,7 @@ public class GameCanvas extends BCECanvas {
     public void initCheck() {
         setTopLevelNodeVisible( gamePlayParentNode );
         setButtonNodeVisible( checkButton );
-        setFaceVisible( false );
+        setBalancedIndicatorVisible( false );
         equationNode.setEditable( true );
         setBalancedHighlightEnabled( false );
     }
@@ -304,7 +313,7 @@ public class GameCanvas extends BCECanvas {
     public void initTryAgain() {
         setTopLevelNodeVisible( gamePlayParentNode );
         setButtonNodeVisible( tryAgainButton );
-        setFaceVisible( true );
+        setBalancedIndicatorVisible( true );
         equationNode.setEditable( false );
         setBalancedHighlightEnabled( false );
     }
@@ -312,7 +321,7 @@ public class GameCanvas extends BCECanvas {
     public void initShowAnswer() {
         setTopLevelNodeVisible( gamePlayParentNode );
         setButtonNodeVisible( showAnswerButton );
-        setFaceVisible( true );
+        setBalancedIndicatorVisible( true );
         equationNode.setEditable( false );
         setBalancedHighlightEnabled( false );
     }
@@ -320,7 +329,7 @@ public class GameCanvas extends BCECanvas {
     public void initNext() {
         setTopLevelNodeVisible( gamePlayParentNode );
         setButtonNodeVisible( nextButton );
-        setFaceVisible( true );
+        setBalancedIndicatorVisible( model.getCurrentEquation().isBalancedWithLowestCoefficients() );
         equationNode.setEditable( false );
         model.getCurrentEquation().balance(); // show the correct answer
         setBalancedHighlightEnabled( true );
@@ -355,15 +364,19 @@ public class GameCanvas extends BCECanvas {
         //TODO add bars and scales here if we use those representations in Game
     }
 
-    private void setFaceVisible( boolean visible ) {
-        faceNode.setVisible( visible );
+    private void setBalancedIndicatorVisible( boolean visible ) {
+        balancedNode.setVisible( false );
+        notBalancedNode.setVisible( false );
+        balancedNotSimplifiedNode.setVisible( false );
         if ( visible ) {
             if ( model.getCurrentEquation().isBalancedWithLowestCoefficients() ) {
-                faceNode.smile();
+                balancedNode.setVisible( true );
+            }
+            else if ( model.getCurrentEquation().isBalanced() ) {
+                balancedNotSimplifiedNode.setVisible( true );
             }
             else {
-                faceNode.frown();
-                //TODO indicate that success requires lowest coefficients
+                notBalancedNode.setVisible( true );
             }
         }
     }
