@@ -122,7 +122,7 @@ public class GameCanvas extends BCECanvas {
         } );
 
         // Smiley/frowny face
-        faceNode = new FaceNode( 300, new Color( 255, 255, 0, 180 ) );
+        faceNode = new FaceNode( 150, Color.YELLOW );
 
         // Dev, shows balanced coefficients
         final BalancedEquationNode balancedEquationNode = new BalancedEquationNode( model.getCurrentEquationProperty() );
@@ -183,9 +183,9 @@ public class GameCanvas extends BCECanvas {
             y = checkButton.getFullBoundsReference().getMaxY() + 15;
             scoreboardNode.setOffset( x, y );
 
-            // face centered on boxes
-            x = boxesNode.getFullBoundsReference().getCenterX() - ( faceNode.getFullBoundsReference().getWidth() / 2 );
-            y = boxesNode.getFullBoundsReference().getCenterY() - ( faceNode.getFullBoundsReference().getHeight() / 2 );
+            // face above buttons
+            x = checkButton.getFullBoundsReference().getCenterX() - ( faceNode.getFullBoundsReference().getWidth() / 2 );
+            y = checkButton.getFullBoundsReference().getMinY() - faceNode.getFullBoundsReference().getHeight() - 20;
             faceNode.setOffset( x, y );
 
             // dev answer below left box
