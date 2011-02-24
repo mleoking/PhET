@@ -4,15 +4,15 @@ DESIGN ISSUES
 - which representations are needed for Game, and how will they all fit in the play area?
 
 HIGH PRIORITY
-- Game: reward for perfect score
-- Game: rewrite GameScoreBoardNode to use Property<T>
-- Game: rewrite GameOverNode to use Property<T>
 - rename GamePrompt to GameState, document the approach used in Game
 - add scales/bars to "balanced, not simplified" popup
+- rename package module.balanceequation to module.introduction
+- rename package module.balanceequation to module.introduction
+- Game: reward for perfect score
 
 MEDIUM PRIORITY
-- C2H5OH symbol overlaps "+" sign in equation (bug? smaller font? different layout?...)
-- rename package module.balanceequation to module.introduction
+- Game: rewrite GameScoreBoardNode to use Property<T>
+- Game: rewrite GameOverNode to use Property<T>
 
 LOW PRIORITY
 - delete TestMoleculeNodes from build properties before publishing 1.00
