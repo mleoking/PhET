@@ -31,6 +31,7 @@ public class PhetColorScheme {
     public static final Color PINK =            new Color(255, 153, 204);
     public static final Color GOLD =            new Color(255, 235, 0);
     public static final Color TAN_ORANGE =      new Color(236, 153, 55);
+    public static final Color RED_ALTERNATIVE = new Color( 255, 85, 0 );//Reddish color that also looks good in colorblind tests, see #2753
 
     public static final Color TOTAL_ENERGY =        TAN_ORANGE;
     public static final Color KINETIC_ENERGY =      GREEN;

@@ -9,6 +9,7 @@ import java.text.DecimalFormat;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -242,16 +243,14 @@ public class MeasuringTape extends PhetPNode {
     }
 
     static class CrossHairGraphic extends PNode {
-        private static final Color COLOR = new Color( 255, 85, 0 );//Reddish color that also looks good in colorblind tests, see #2753
-
         public CrossHairGraphic( int length ) {
             PPath verticalStroke = new PPath( new Line2D.Double( length / 2, 0, length / 2, length ) );
             verticalStroke.setStroke( new BasicStroke( 2 ) );
-            verticalStroke.setStrokePaint( COLOR );
+            verticalStroke.setStrokePaint( PhetColorScheme.RED_ALTERNATIVE );
 
             PPath horizStroke = new PPath( new Line2D.Double( 0, length / 2, length, length / 2 ) );
             horizStroke.setStroke( new BasicStroke( 2 ) );
-            horizStroke.setStrokePaint( COLOR );
+            horizStroke.setStrokePaint( PhetColorScheme.RED_ALTERNATIVE );
 
             addChild( verticalStroke );
             addChild( horizStroke );
