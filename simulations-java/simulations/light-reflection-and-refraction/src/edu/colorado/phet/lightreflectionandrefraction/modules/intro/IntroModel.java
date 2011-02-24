@@ -58,7 +58,8 @@ public class IntroModel extends LRRModel {
 
             final double sourcePower = 1.0;
             double a = WAVELENGTH_RED * 5;//cross section of incident light, used to compute wave widths
-            double sourceWaveWidth = a * Math.cos( theta1 );
+
+            double sourceWaveWidth = a / 2;//This one fixes the input beam to be a fixed width independent of angle
 
             //According to http://en.wikipedia.org/wiki/Wavelength
             //lambda = lambda0 / n(lambda0)
@@ -96,7 +97,12 @@ public class IntroModel extends LRRModel {
                     if ( Double.isNaN( theta2 ) || Double.isInfinite( theta2 ) ) {}
                     else {
                         double transmittedPowerRatio = getTransmittedPower( n1, n2, cos( theta1 ), cos( theta2 ) );
-                        double transmittedWaveWidth = a * Math.cos( theta2 );
+
+                        double beamHalfWidth = a / 2;
+                        double extentInterceptedHalfWidth = beamHalfWidth / Math.sin( Math.PI / 2 - theta1 ) / 2;
+                        double transmittedBeamHalfWidth = Math.cos( theta2 ) * extentInterceptedHalfWidth;
+                        double transmittedWaveWidth = transmittedBeamHalfWidth * 2;
+
                         final LightRay transmittedRay = new LightRay( new ImmutableVector2D(),
                                                                       parseAngleAndMagnitude( 1, theta2 - Math.PI / 2 ), n2, transmittedWavelength,
                                                                       transmittedPowerRatio * sourcePower, color, transmittedWaveWidth, incidentRay.getNumberOfWavelengths(), top, 0.0, true, true ) {
