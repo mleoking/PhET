@@ -49,7 +49,7 @@ public class GameCanvas extends BCECanvas {
     // top-level nodes
     private final PNode gameSettingsNode;
     private final PNode gamePlayParentNode;
-    private final GameOverNode gameOverNode;
+    private GameOverNode gameOverNode;
 
     // children of problemParentNode, related to interacting with problems
     private final PText equationLabelNode;
@@ -138,13 +138,7 @@ public class GameCanvas extends BCECanvas {
         }
 
         // Game results
-        gameOverNode = new GameOverNode( 1,1,1,new DecimalFormat("0"),1,1,false,false );//XXX
-        gameOverNode.scale( BCEConstants.SWING_SCALE );
-        gameOverNode.addGameOverListener( new GameOverListener() {
-            public void newGamePressed() {
-                model.newGame();
-            }
-        } );
+        gameOverNode = new GameOverNode( 1, 1, 1, new DecimalFormat( "0" ), 1, 1, false, false );//XXX dummy, replaced each time the game is completed
 
         // rendering order
         addChild( gameSettingsNode );
@@ -349,6 +343,7 @@ public class GameCanvas extends BCECanvas {
 
     public void initNewGame() {
         playGameOverAudio();
+        updateGameOverNode();
         setTopLevelNodeVisible( gameOverNode );
     }
 
@@ -413,5 +408,30 @@ public class GameCanvas extends BCECanvas {
         else {
             audioPlayer.gameOverPerfectScore();
         }
+    }
+
+    private void updateGameOverNode() {
+
+        // remove the old node
+        removeChild( gameOverNode );
+
+        // add a new node
+        int level = model.getGameSettings().level.getValue();
+        gameOverNode = new GameOverNode( level, model.getPoints(), model.getMaxScore(), new DecimalFormat( "0" ),
+                model.getTime(), model.getBestTime( level ), model.isNewBestTime(), model.getGameSettings().timerEnabled.getValue());
+        gameOverNode.scale( BCEConstants.SWING_SCALE );
+        addChild( gameOverNode );
+
+        // listen for "New Game" button press
+        gameOverNode.addGameOverListener( new GameOverListener() {
+            public void newGamePressed() {
+                model.newGame();
+            }
+        } );
+
+        // center
+        double x = gamePlayParentNode.getFullBoundsReference().getCenterX() - ( gameOverNode.getFullBoundsReference().getWidth() / 2 );
+        double y = gamePlayParentNode.getFullBoundsReference().getCenterY() - ( gameOverNode.getFullBoundsReference().getHeight() / 2 );
+        gameOverNode.setOffset( x, y );
     }
 }

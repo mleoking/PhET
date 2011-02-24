@@ -1,3 +1,4 @@
+2/23/11 create and center "Game Over" display at completion of game
 2/23/11 add sounds to Game
 2/23/11 indicators for 3 game outcomes: balanced, not balanced, balance but not simplified
 2/23/11 make smiley face larger in first tab, smaller in Game tab
