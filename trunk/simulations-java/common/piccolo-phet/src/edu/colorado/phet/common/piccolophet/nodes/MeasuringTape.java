@@ -242,18 +242,16 @@ public class MeasuringTape extends PhetPNode {
     }
 
     static class CrossHairGraphic extends PNode {
-        private int length;
+        private Color color = new Color( 255, 85, 0 );//Reddish color that also looks good in colorblind tests, see #2753
 
         public CrossHairGraphic( int length ) {
-            this.length = length;
-
             PPath verticalStroke = new PPath( new Line2D.Double( length / 2, 0, length / 2, length ) );
             verticalStroke.setStroke( new BasicStroke( 2 ) );
-            verticalStroke.setStrokePaint( Color.red );
+            verticalStroke.setStrokePaint( color );
 
             PPath horizStroke = new PPath( new Line2D.Double( 0, length / 2, length, length / 2 ) );
             horizStroke.setStroke( new BasicStroke( 2 ) );
-            horizStroke.setStrokePaint( Color.red );
+            horizStroke.setStrokePaint( color );
 
             addChild( verticalStroke );
             addChild( horizStroke );
