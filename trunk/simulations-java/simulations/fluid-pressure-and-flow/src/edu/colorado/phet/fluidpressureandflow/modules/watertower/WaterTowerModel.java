@@ -31,7 +31,7 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
         addPressureSensor( new PressureSensor( this, 29, 20.1 ) );
         addPressureSensor( new PressureSensor( this, 29, 26.5 ) );
         addVelocitySensor( new VelocitySensor( this, 37.7, 30.6 ) );
-        addVelocitySensor( new VelocitySensor( this, 37.7, 30.6 ) );
+        addVelocitySensor( new VelocitySensor( this, 37.7, 33.6 ) );
         getClock().addClockListener( new ClockAdapter() {
             public void clockTicked( ClockEvent clockEvent ) {
                 double velocity = Math.sqrt( 2 * g * waterTower.getWaterLevel() );//Toricelli's theorem, one of the main learning goals of this tab
