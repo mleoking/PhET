@@ -23,6 +23,7 @@ import edu.colorado.phet.common.phetcommon.util.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.FaceNode;
 import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -44,7 +45,7 @@ public class GameCanvas extends BCECanvas {
 
     // top-level nodes
     private final PNode gameSettingsNode;
-    private final PNode problemParentNode;
+    private final PNode gamePlayParentNode;
     private final GameOverNode gameOverNode;
 
     // children of problemParentNode, related to interacting with problems
@@ -53,6 +54,7 @@ public class GameCanvas extends BCECanvas {
     private final BoxesNode boxesNode;
     private final ButtonNode checkButton, tryAgainButton, showAnswerButton, nextButton;
     private final GameScoreboardNode scoreboardNode;
+    private final FaceNode faceNode;
 
     public GameCanvas( final GameModel model, BCEGlobalProperties globalProperties, Resettable resettable ) {
         super( globalProperties.getCanvasColorProperty() );
@@ -71,7 +73,7 @@ public class GameCanvas extends BCECanvas {
         gameSettingsNode.scale( BCEConstants.SWING_SCALE );
 
         // Parent node for all nodes visible while the user is working on problems
-        problemParentNode = new PhetPNode();
+        gamePlayParentNode = new PhetPNode();
 
         // Equation label
         equationLabelNode = new PText( "?" );
@@ -110,6 +112,7 @@ public class GameCanvas extends BCECanvas {
             }
         } );
 
+        // Scoreboard
         scoreboardNode = new GameScoreboardNode( model.getGameSettings().level.getMax(), model.getMaxScore(), new DecimalFormat( "0" ) );
         scoreboardNode.setBackgroundWidth( boxesNode.getFullBoundsReference().getWidth() );
         scoreboardNode.addGameScoreboardListener( new GameScoreboardListener() {
@@ -117,6 +120,9 @@ public class GameCanvas extends BCECanvas {
                 model.newGame();
             }
         } );
+
+        // Smiley/frowny face
+        faceNode = new FaceNode( 300, new Color( 255, 255, 0, 180 ) );
 
         // Dev, shows balanced coefficients
         final BalancedEquationNode balancedEquationNode = new BalancedEquationNode( model.getCurrentEquationProperty() );
@@ -135,17 +141,18 @@ public class GameCanvas extends BCECanvas {
 
         // rendering order
         addChild( gameSettingsNode );
-        addChild( problemParentNode );
+        addChild( gamePlayParentNode );
         addChild( gameOverNode );
-        problemParentNode.addChild( equationLabelNode );
-        problemParentNode.addChild( equationNode );
-        problemParentNode.addChild( boxesNode );
-        problemParentNode.addChild( checkButton );
-        problemParentNode.addChild( tryAgainButton );
-        problemParentNode.addChild( showAnswerButton );
-        problemParentNode.addChild( nextButton );
-        problemParentNode.addChild( scoreboardNode );
-        problemParentNode.addChild( balancedEquationNode );
+        gamePlayParentNode.addChild( equationLabelNode );
+        gamePlayParentNode.addChild( equationNode );
+        gamePlayParentNode.addChild( boxesNode );
+        gamePlayParentNode.addChild( checkButton );
+        gamePlayParentNode.addChild( tryAgainButton );
+        gamePlayParentNode.addChild( showAnswerButton );
+        gamePlayParentNode.addChild( nextButton );
+        gamePlayParentNode.addChild( scoreboardNode );
+        gamePlayParentNode.addChild( faceNode );
+        gamePlayParentNode.addChild( balancedEquationNode );
 
         // layout of children of problemParentNode
         {
@@ -176,6 +183,11 @@ public class GameCanvas extends BCECanvas {
             y = checkButton.getFullBoundsReference().getMaxY() + 15;
             scoreboardNode.setOffset( x, y );
 
+            // face centered on boxes
+            x = boxesNode.getFullBoundsReference().getCenterX() - ( faceNode.getFullBoundsReference().getWidth() / 2 );
+            y = boxesNode.getFullBoundsReference().getCenterY() - ( faceNode.getFullBoundsReference().getHeight() / 2 );
+            faceNode.setOffset( x, y );
+
             // dev answer below left box
             x = 0;
             y = boxesNode.getFullBoundsReference().getMaxY() + 5;
@@ -185,12 +197,12 @@ public class GameCanvas extends BCECanvas {
         // layout of top-level nodes
         {
             double x, y;
-            problemParentNode.setOffset( 0, 0 );
-            x = problemParentNode.getFullBoundsReference().getCenterX() - ( gameSettingsNode.getFullBoundsReference().getWidth() / 2 );
-            y = problemParentNode.getFullBoundsReference().getCenterY() - ( gameSettingsNode.getFullBoundsReference().getHeight() / 2 );
+            gamePlayParentNode.setOffset( 0, 0 );
+            x = gamePlayParentNode.getFullBoundsReference().getCenterX() - ( gameSettingsNode.getFullBoundsReference().getWidth() / 2 );
+            y = gamePlayParentNode.getFullBoundsReference().getCenterY() - ( gameSettingsNode.getFullBoundsReference().getHeight() / 2 );
             gameSettingsNode.setOffset( x, y );
-            x = problemParentNode.getFullBoundsReference().getCenterX() - ( gameOverNode.getFullBoundsReference().getWidth() / 2 );
-            x = problemParentNode.getFullBoundsReference().getCenterY() - ( gameOverNode.getFullBoundsReference().getHeight() / 2 );
+            x = gamePlayParentNode.getFullBoundsReference().getCenterX() - ( gameOverNode.getFullBoundsReference().getWidth() / 2 );
+            x = gamePlayParentNode.getFullBoundsReference().getCenterY() - ( gameOverNode.getFullBoundsReference().getHeight() / 2 );
             gameOverNode.setOffset( x, y );
         }
 
@@ -282,29 +294,33 @@ public class GameCanvas extends BCECanvas {
     }
 
     public void initCheck() {
-        setTopLevelNodeVisible( problemParentNode );
+        setTopLevelNodeVisible( gamePlayParentNode );
         setButtonNodeVisible( checkButton );
+        setFaceVisible( false );
         equationNode.setEditable( true );
         setBalancedHighlightEnabled( false );
     }
 
     public void initTryAgain() {
-        setTopLevelNodeVisible( problemParentNode );
+        setTopLevelNodeVisible( gamePlayParentNode );
         setButtonNodeVisible( tryAgainButton );
+        setFaceVisible( true );
         equationNode.setEditable( false );
         setBalancedHighlightEnabled( false );
     }
 
     public void initShowAnswer() {
-        setTopLevelNodeVisible( problemParentNode );
+        setTopLevelNodeVisible( gamePlayParentNode );
         setButtonNodeVisible( showAnswerButton );
+        setFaceVisible( true );
         equationNode.setEditable( false );
         setBalancedHighlightEnabled( false );
     }
 
     public void initNext() {
-        setTopLevelNodeVisible( problemParentNode );
+        setTopLevelNodeVisible( gamePlayParentNode );
         setButtonNodeVisible( nextButton );
+        setFaceVisible( true );
         equationNode.setEditable( false );
         model.getCurrentEquation().balance(); // show the correct answer
         setBalancedHighlightEnabled( true );
@@ -317,7 +333,7 @@ public class GameCanvas extends BCECanvas {
     private void setTopLevelNodeVisible( PNode topLevelNode ) {
         // hide all top-level nodes
         gameSettingsNode.setVisible( false );
-        problemParentNode.setVisible( false );
+        gamePlayParentNode.setVisible( false );
         gameOverNode.setVisible( false );
         // make one visible
         topLevelNode.setVisible( true );
@@ -337,5 +353,18 @@ public class GameCanvas extends BCECanvas {
         equationNode.setBalancedHighlightEnabled( enabled );
         boxesNode.setBalancedHighlightEnabled( enabled );
         //TODO add bars and scales here if we use those representations in Game
+    }
+
+    private void setFaceVisible( boolean visible ) {
+        faceNode.setVisible( visible );
+        if ( visible ) {
+            if ( model.getCurrentEquation().isBalancedWithLowestCoefficients() ) {
+                faceNode.smile();
+            }
+            else {
+                faceNode.frown();
+                //TODO indicate that success requires lowest coefficients
+            }
+        }
     }
 }
