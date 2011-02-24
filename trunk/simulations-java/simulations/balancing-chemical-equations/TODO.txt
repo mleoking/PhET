@@ -6,8 +6,7 @@ DESIGN ISSUES
 HIGH PRIORITY
 - Game: populate and center GameOverNode at end of game
 - Game: multi-column support to boxes
-- Game: smiley face
-- Game: frowny face with 2 possible labels: "X not balanced" or "Check Mark balanced\nX not simplified"
+- Game: indicate 2 types of failure: "X not balanced" or "Check Mark balanced\nX not simplified"
 - Game: rewrite GameScoreBoardNode to use Property<T>
 - Game: rewrite GameOverNode to use Property<T>
 
