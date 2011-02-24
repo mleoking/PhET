@@ -32,14 +32,17 @@ public class BoxesNode extends PComposite {
     private final HorizontalAligner aligner;
     private final PComposite moleculesParentNode;
     private final SimpleObserver coefficientsObserver;
-    private Equation equation;
     private final RightArrowNode arrowNode;
     private final HTMLNode moleculesHiddenHodeLeft, moleculesHiddenHodeRight;
+
+    private Equation equation;
+    private boolean balancedHighlightEnabled;
 
     public BoxesNode( final Property<Equation> equationProperty, IntegerRange coefficientRange, HorizontalAligner aligner, final Property<Color> boxColorProperty ) {
 
         this.coefficientRange = coefficientRange;
         this.aligner = aligner;
+        balancedHighlightEnabled = true;
 
         // boxes
         final BoxNode reactantsBoxNode = new BoxNode( aligner.getBoxSizeReference() );
@@ -111,11 +114,18 @@ public class BoxesNode extends PComposite {
         moleculesHiddenHodeRight.setVisible( !moleculesVisible );
     }
 
+    public void setBalancedHighlightEnabled( boolean enabled ) {
+        if ( enabled != balancedHighlightEnabled ) {
+            balancedHighlightEnabled = enabled;
+            arrowNode.setHighlighted( equation.isBalanced() && balancedHighlightEnabled );
+        }
+    }
+
     private void updateNode() {
         moleculesParentNode.removeAllChildren();
         updateMolecules( equation.getReactants(), aligner.getReactantXOffsets( equation ) );
         updateMolecules( equation.getProducts(), aligner.getProductXOffsets( equation ) );
-        arrowNode.setHighlighted( equation.isBalanced() );
+        arrowNode.setHighlighted( equation.isBalanced() && balancedHighlightEnabled );
     }
 
     private void updateMolecules( EquationTerm[] terms, double[] xOffsets ) {

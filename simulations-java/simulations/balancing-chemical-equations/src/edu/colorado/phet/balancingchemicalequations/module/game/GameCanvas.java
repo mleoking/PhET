@@ -278,41 +278,39 @@ public class GameCanvas extends BCECanvas {
     }
 
     public void initStartGame() {
-        System.out.println( "GameCanvas.initStartGame" );//XXX
         setTopLevelNodeVisible( gameSettingsNode );
     }
 
     public void initCheck() {
-        System.out.println( "GameCanvas.initCheck" );//XXX
         setTopLevelNodeVisible( problemParentNode );
         setButtonNodeVisible( checkButton );
         equationNode.setEditable( true );
+        setBalancedHighlightEnabled( false );
     }
 
     public void initTryAgain() {
-        System.out.println( "GameCanvas.initTryAgain" );//XXX
         setTopLevelNodeVisible( problemParentNode );
         setButtonNodeVisible( tryAgainButton );
         equationNode.setEditable( false );
+        setBalancedHighlightEnabled( false );
     }
 
     public void initShowAnswer() {
-        System.out.println( "GameCanvas.initShowAnwer" );//XXX
         setTopLevelNodeVisible( problemParentNode );
         setButtonNodeVisible( showAnswerButton );
         equationNode.setEditable( false );
+        setBalancedHighlightEnabled( false );
     }
 
     public void initNext() {
-        System.out.println( "GameCanvas.initNext" );//XXX
         setTopLevelNodeVisible( problemParentNode );
         setButtonNodeVisible( nextButton );
         equationNode.setEditable( false );
         model.getCurrentEquation().balance(); // show the correct answer
+        setBalancedHighlightEnabled( true );
     }
 
     public void initNewGame() {
-        System.out.println( "GameCanvas.initNewGame" );//XXX
         setTopLevelNodeVisible( gameOverNode );
     }
 
@@ -333,5 +331,11 @@ public class GameCanvas extends BCECanvas {
         nextButton.setVisible( false );
         // make one visible
         buttonNode.setVisible( true );
+    }
+
+    private void setBalancedHighlightEnabled( boolean enabled ) {
+        equationNode.setBalancedHighlightEnabled( enabled );
+        boxesNode.setBalancedHighlightEnabled( enabled );
+        //TODO add bars and scales here if we use those representations in Game
     }
 }
