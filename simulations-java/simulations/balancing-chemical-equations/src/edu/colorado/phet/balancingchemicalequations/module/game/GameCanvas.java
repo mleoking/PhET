@@ -26,7 +26,6 @@ import edu.colorado.phet.common.phetcommon.util.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
-import edu.colorado.phet.reactantsproductsandleftovers.RPALStrings;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -105,7 +104,7 @@ public class GameCanvas extends BCECanvas {
                 model.tryAgain();
             }
         } );
-        showAnswerButton = new ButtonNode( RPALStrings.BUTTON_SHOW_ANSWER, BUTTONS_FONT_SIZE, BUTTONS_COLOR );
+        showAnswerButton = new ButtonNode( BCEStrings.SHOW_ANSWER, BUTTONS_FONT_SIZE, BUTTONS_COLOR );
         showAnswerButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 model.showAnswer();
