@@ -279,59 +279,58 @@ public class GameCanvas extends BCECanvas {
 
     public void initStartGame() {
         System.out.println( "GameCanvas.initStartGame" );//XXX
-        gameSettingsNode.setVisible( true );
-        problemParentNode.setVisible( false );
-        gameOverNode.setVisible( false );
+        setTopLevelNodeVisible( gameSettingsNode );
     }
 
     public void initCheck() {
         System.out.println( "GameCanvas.initCheck" );//XXX
-        gameSettingsNode.setVisible( false );
-        problemParentNode.setVisible( true );
-        gameOverNode.setVisible( false );
-        checkButton.setVisible( true );
-        tryAgainButton.setVisible( false );
-        showAnswerButton.setVisible( false );
-        nextButton.setVisible( false );
+        setTopLevelNodeVisible( problemParentNode );
+        setButtonNodeVisible( checkButton );
+        equationNode.setEditable( true );
     }
 
     public void initTryAgain() {
         System.out.println( "GameCanvas.initTryAgain" );//XXX
-        gameSettingsNode.setVisible( false );
-        problemParentNode.setVisible( true );
-        gameOverNode.setVisible( false );
-        checkButton.setVisible( false );
-        tryAgainButton.setVisible( true );
-        showAnswerButton.setVisible( false );
-        nextButton.setVisible( false );
+        setTopLevelNodeVisible( problemParentNode );
+        setButtonNodeVisible( tryAgainButton );
+        equationNode.setEditable( false );
     }
 
     public void initShowAnswer() {
         System.out.println( "GameCanvas.initShowAnwer" );//XXX
-        gameSettingsNode.setVisible( false );
-        problemParentNode.setVisible( true );
-        gameOverNode.setVisible( false );
-        checkButton.setVisible( false );
-        tryAgainButton.setVisible( false );
-        showAnswerButton.setVisible( true );
-        nextButton.setVisible( false );
+        setTopLevelNodeVisible( problemParentNode );
+        setButtonNodeVisible( showAnswerButton );
+        equationNode.setEditable( false );
     }
 
     public void initNext() {
         System.out.println( "GameCanvas.initNext" );//XXX
-        gameSettingsNode.setVisible( false );
-        problemParentNode.setVisible( true );
-        gameOverNode.setVisible( false );
-        checkButton.setVisible( false );
-        tryAgainButton.setVisible( false );
-        showAnswerButton.setVisible( false );
-        nextButton.setVisible( true );
+        setTopLevelNodeVisible( problemParentNode );
+        setButtonNodeVisible( nextButton );
+        equationNode.setEditable( false );
     }
 
     public void initNewGame() {
         System.out.println( "GameCanvas.initNewGame" );//XXX
+        setTopLevelNodeVisible( gameOverNode );
+    }
+
+    private void setTopLevelNodeVisible( PNode topLevelNode ) {
+        // hide all top-level nodes
         gameSettingsNode.setVisible( false );
         problemParentNode.setVisible( false );
-        gameOverNode.setVisible( true );
+        gameOverNode.setVisible( false );
+        // make one visible
+        topLevelNode.setVisible( true );
+    }
+
+    private void setButtonNodeVisible( ButtonNode buttonNode ) {
+        // hide all button nodes
+        checkButton.setVisible( false );
+        tryAgainButton.setVisible( false );
+        showAnswerButton.setVisible( false );
+        nextButton.setVisible( false );
+        // make one visible
+        buttonNode.setVisible( true );
     }
 }
