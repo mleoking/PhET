@@ -20,7 +20,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  */
 public class ControlPanelNode extends PNode {
     public ControlPanelNode( final PNode content ) {
-        this( content, Color.lightGray, new BasicStroke( 2 ), Color.darkGray );
+        this( content, new Color( 238, 238, 238 ), new BasicStroke( 2 ), Color.gray );
     }
 
     public ControlPanelNode( final PNode content, Color backgroundColor, BasicStroke borderStroke, Color borderColor ) {
