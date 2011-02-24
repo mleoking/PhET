@@ -1,12 +1,12 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.bendinglight.modules.prisms;
 
-import edu.colorado.phet.bendinglight.modules.LRRModule;
+import edu.colorado.phet.bendinglight.modules.BendingLightModule;
 
 /**
  * @author Sam Reid
  */
-public class PrismsModule extends LRRModule<PrismsModel> {
+public class PrismsModule extends BendingLightModule<PrismsModel> {
     public PrismsCanvas canvas;
 
     public PrismsModule() {

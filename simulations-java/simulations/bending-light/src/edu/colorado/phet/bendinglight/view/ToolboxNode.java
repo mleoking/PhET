@@ -8,7 +8,7 @@ import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import edu.colorado.phet.bendinglight.LightReflectionAndRefractionApplication;
+import edu.colorado.phet.bendinglight.BendingLightApplication;
 import edu.colorado.phet.bendinglight.model.IntensityMeter;
 import edu.colorado.phet.bendinglight.modules.intro.NormalLine;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
@@ -26,20 +26,20 @@ import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
-import static edu.colorado.phet.bendinglight.model.LRRModel.WAVELENGTH_RED;
+import static edu.colorado.phet.bendinglight.model.BendingLightModel.WAVELENGTH_RED;
 
 /**
  * @author Sam Reid
  */
 public class ToolboxNode extends PNode {
-    public ToolboxNode( final LightReflectionAndRefractionCanvas canvas, final ModelViewTransform transform,
+    public ToolboxNode( final BendingLightCanvas canvas, final ModelViewTransform transform,
                         final BooleanProperty showProtractor, BooleanProperty showNormal, final IntensityMeter intensityMeter ) {
         final PText titleLabel = new PText( "Toolbox" ) {{
-            setFont( LightReflectionAndRefractionCanvas.labelFont );
+            setFont( BendingLightCanvas.labelFont );
         }};
         addChild( titleLabel );
         final int ICON_HEIGHT = 100;
-        final BufferedImage image = BufferedImageUtils.multiScaleToHeight( LightReflectionAndRefractionApplication.RESOURCES.getImage( "protractor.png" ), ICON_HEIGHT );
+        final BufferedImage image = BufferedImageUtils.multiScaleToHeight( BendingLightApplication.RESOURCES.getImage( "protractor.png" ), ICON_HEIGHT );
         final PImage protractor = new PImage( image ) {{
             showProtractor.addObserver( new SimpleObserver() {
                 public void update() {
@@ -183,7 +183,7 @@ public class ToolboxNode extends PNode {
         addChild( sensorThumbnail );
 
         final PSwing showNormalCheckBox = new PSwing( new PropertyCheckBox( "Show Normal", showNormal ) {{
-            setFont( LightReflectionAndRefractionCanvas.labelFont );
+            setFont( BendingLightCanvas.labelFont );
             setBackground( new Color( 0, 0, 0, 0 ) );
         }} ) {{
             setOffset( sensorThumbnail.getFullBounds().getMaxX() + 10, titleLabel.getFullBounds().getMaxY() );

@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-import edu.colorado.phet.bendinglight.model.LRRModel;
+import edu.colorado.phet.bendinglight.model.BendingLightModel;
 import edu.colorado.phet.bendinglight.model.LightRay;
 import edu.colorado.phet.bendinglight.model.Medium;
 import edu.colorado.phet.bendinglight.util.RichSimpleObserver;
@@ -26,7 +26,7 @@ import static java.lang.Math.*;
 /**
  * @author Sam Reid
  */
-public class PrismsModel extends LRRModel {
+public class PrismsModel extends BendingLightModel {
     private ArrayList<Prism> prisms = new ArrayList<Prism>();
     public final Property<Boolean> manyRays = new Property<Boolean>( false );//show multiple beams to help show how lenses work
     public final Property<Medium> outerMedium = new Property<Medium>( new Medium( new Rectangle2D.Double( -1, 0, 2, 1 ), AIR, colorMappingFunction.getValue().apply( AIR.index ) ) );

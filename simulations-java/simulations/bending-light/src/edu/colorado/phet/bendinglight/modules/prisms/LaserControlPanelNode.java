@@ -9,10 +9,10 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.bendinglight.model.LRRModel;
+import edu.colorado.phet.bendinglight.model.BendingLightModel;
+import edu.colorado.phet.bendinglight.view.BendingLightCanvas;
 import edu.colorado.phet.bendinglight.view.LaserColor;
 import edu.colorado.phet.bendinglight.view.LaserView;
-import edu.colorado.phet.bendinglight.view.LightReflectionAndRefractionCanvas;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.model.SettableProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -36,19 +36,19 @@ public class LaserControlPanelNode extends ControlPanelNode {
             class MyRadioButton<T> extends PropertyRadioButton<T> {
                 MyRadioButton( String text, SettableProperty<T> property, T value ) {
                     super( text, property, value );
-                    setFont( LightReflectionAndRefractionCanvas.labelFont );
+                    setFont( BendingLightCanvas.labelFont );
                 }
             }
 
             //TODO: Wow, this is too messy.  It should be cleaned up
-            final Property<Double> wavelengthProperty = new Property<Double>( LRRModel.WAVELENGTH_RED );
+            final Property<Double> wavelengthProperty = new Property<Double>( BendingLightModel.WAVELENGTH_RED );
             wavelengthProperty.addObserver( new SimpleObserver() {
                 public void update() {
                     laserColor.setValue( new LaserColor.OneColor( wavelengthProperty.getValue() ) );
                 }
             } );
             add( new JRadioButton( "One Color", laserColor.getValue() != LaserColor.WHITE_LIGHT ) {{
-                setFont( LightReflectionAndRefractionCanvas.labelFont );
+                setFont( BendingLightCanvas.labelFont );
                 final SimpleObserver updateSelected = new SimpleObserver() {
                     public void update() {
                         setSelected( laserColor.getValue() != LaserColor.WHITE_LIGHT );
@@ -98,7 +98,7 @@ public class LaserControlPanelNode extends ControlPanelNode {
                 add( new MyRadioButton<Boolean>( "Show", showReflections, true ) );
                 add( new MyRadioButton<Boolean>( "Hide", showReflections, false ) );
             }} );
-            add( new PropertyCheckBox( "Show Normal", showNormal ) {{setFont( LightReflectionAndRefractionCanvas.labelFont );}} );
+            add( new PropertyCheckBox( "Show Normal", showNormal ) {{setFont( BendingLightCanvas.labelFont );}} );
         }} ) );
     }
 }

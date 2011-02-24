@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import edu.colorado.phet.bendinglight.model.LRRModel;
+import edu.colorado.phet.bendinglight.model.BendingLightModel;
 import edu.colorado.phet.bendinglight.model.Medium;
 import edu.colorado.phet.bendinglight.model.MediumState;
 import edu.colorado.phet.common.phetcommon.model.Property;
@@ -17,14 +17,14 @@ import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PComboBox;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
-import static edu.colorado.phet.bendinglight.view.LightReflectionAndRefractionCanvas.labelFont;
+import static edu.colorado.phet.bendinglight.view.BendingLightCanvas.labelFont;
 
 /**
  * @author Sam Reid
  */
 public class MediumControlPanel extends PNode {
 
-    MediumState CUSTOM = new MediumState( "Custom", LRRModel.MYSTERY_B.index + 1.2 ) {
+    MediumState CUSTOM = new MediumState( "Custom", BendingLightModel.MYSTERY_B.index + 1.2 ) {
         public boolean isCustom() {
             return true;
         }
@@ -37,11 +37,11 @@ public class MediumControlPanel extends PNode {
         }};
         addChild( materialLabel );
         final Object[] mediumStates = new Object[] {
-                LRRModel.AIR,
-                LRRModel.WATER,
-                LRRModel.GLASS,
-                LRRModel.MYSTERY_A,
-                LRRModel.MYSTERY_B,
+                BendingLightModel.AIR,
+                BendingLightModel.WATER,
+                BendingLightModel.GLASS,
+                BendingLightModel.MYSTERY_A,
+                BendingLightModel.MYSTERY_B,
                 CUSTOM,
         };
         final PComboBox comboBox = new PComboBox( mediumStates ) {

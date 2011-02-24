@@ -1,7 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.bendinglight.modules;
 
-import edu.colorado.phet.bendinglight.model.LRRModel;
+import edu.colorado.phet.bendinglight.model.BendingLightModel;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
@@ -9,7 +9,7 @@ import edu.colorado.phet.common.phetcommon.model.Resettable;
 /**
  * @author Sam Reid
  */
-public class LRRModule<T extends LRRModel> extends Module {
+public class BendingLightModule<T extends BendingLightModel> extends Module {
     private final T model;
     protected final BooleanProperty moduleActive = new BooleanProperty( isActive() );//Keep track of whether the module is active for making sure only one clock is running at a time
     protected final Resettable resetAll = new Resettable() {
@@ -22,7 +22,7 @@ public class LRRModule<T extends LRRModel> extends Module {
         model.resetAll();
     }
 
-    public LRRModule( String name, T model ) {
+    public BendingLightModule( String name, T model ) {
         super( name, model.getClock() );
         this.model = model;
         setClockControlPanel( null );

@@ -64,7 +64,7 @@ public class LightRay {
     }
 
     public double getSpeed() {
-        return LRRModel.SPEED_OF_LIGHT / indexOfRefraction;
+        return BendingLightModel.SPEED_OF_LIGHT / indexOfRefraction;
     }
 
     public void propagate( double dt ) {
@@ -169,7 +169,7 @@ public class LightRay {
     }
 
     public void step( double dt ) {
-        final double deltaPhase = getSpeed() / LRRModel.SPEED_OF_LIGHT * 100;
+        final double deltaPhase = getSpeed() / BendingLightModel.SPEED_OF_LIGHT * 100;
         phase.setValue( phase.getValue() + deltaPhase * dt );
     }
 

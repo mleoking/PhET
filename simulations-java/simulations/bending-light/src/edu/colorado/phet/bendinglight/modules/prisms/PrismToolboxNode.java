@@ -7,7 +7,7 @@ import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import edu.colorado.phet.bendinglight.view.LightReflectionAndRefractionCanvas;
+import edu.colorado.phet.bendinglight.view.BendingLightCanvas;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.umd.cs.piccolo.PNode;
@@ -22,7 +22,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 public class PrismToolboxNode extends PNode {
     public PrismToolboxNode( final PrismsCanvas canvas, final ModelViewTransform transform, final PrismsModel model ) {
         final PText titleLabel = new PText( "Prisms" ) {{
-            setFont( LightReflectionAndRefractionCanvas.labelFont );
+            setFont( BendingLightCanvas.labelFont );
         }};
         addChild( titleLabel );
 

@@ -3,8 +3,8 @@ package edu.colorado.phet.bendinglight.modules.prisms;
 
 import java.awt.*;
 
-import edu.colorado.phet.bendinglight.view.LRARResetAllButtonNode;
-import edu.colorado.phet.bendinglight.view.LightReflectionAndRefractionCanvas;
+import edu.colorado.phet.bendinglight.view.BendingLightCanvas;
+import edu.colorado.phet.bendinglight.view.BendingLightResetAllButtonNode;
 import edu.colorado.phet.bendinglight.view.MediumControlPanel;
 import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
@@ -18,7 +18,7 @@ import edu.umd.cs.piccolo.PNode;
 /**
  * @author Sam Reid
  */
-public class PrismsCanvas extends LightReflectionAndRefractionCanvas<PrismsModel> {
+public class PrismsCanvas extends BendingLightCanvas<PrismsModel> {
     private PNode prismLayer = new PNode();
 
     public PrismsCanvas( final PrismsModel model, BooleanProperty moduleActive, Resettable resetAll ) {
@@ -49,7 +49,7 @@ public class PrismsCanvas extends LightReflectionAndRefractionCanvas<PrismsModel
         }};
         beforeLightLayer.addChild( prismMediumControlPanel );
 
-        final LRARResetAllButtonNode resetButton = new LRARResetAllButtonNode( resetAll, this ) {{
+        final BendingLightResetAllButtonNode resetButton = new BendingLightResetAllButtonNode( resetAll, this ) {{
             setOffset( stageSize.width - getFullBounds().getWidth() - 10, prismMediumControlPanel.getFullBounds().getMinY() - 10 - getFullBounds().getHeight() );
         }};
         beforeLightLayer.addChild( resetButton );

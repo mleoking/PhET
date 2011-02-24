@@ -19,7 +19,7 @@ import edu.colorado.phet.common.phetcommon.util.VoidFunction1;
 
 import static java.lang.Math.pow;
 
-public class LRRModel {
+public class BendingLightModel {
     protected final List<LightRay> rays = new LinkedList<LightRay>();
     private ConstantDtClock clock;
 
@@ -85,7 +85,7 @@ public class LRRModel {
     public static final Color DIAMOND_COLOR = new Color( 78, 79, 164 );
     private final ArrayList<VoidFunction0> modelUpdateListeners = new ArrayList<VoidFunction0>();
 
-    public LRRModel( double laserAngle ) {
+    public BendingLightModel( double laserAngle ) {
         laser = new Laser( 8.125E-6, laserAngle );
         this.clock = new ConstantDtClock( 30.0 ) {{
             addClockListener( new ClockAdapter() {

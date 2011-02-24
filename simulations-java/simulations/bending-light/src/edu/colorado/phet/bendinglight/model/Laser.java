@@ -5,7 +5,7 @@ import edu.colorado.phet.bendinglight.view.LaserColor;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Property;
 
-import static edu.colorado.phet.bendinglight.model.LRRModel.WAVELENGTH_RED;
+import static edu.colorado.phet.bendinglight.model.BendingLightModel.WAVELENGTH_RED;
 import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.parseAngleAndMagnitude;
 
 /**

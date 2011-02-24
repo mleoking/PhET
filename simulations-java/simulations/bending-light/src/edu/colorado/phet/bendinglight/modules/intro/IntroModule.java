@@ -1,12 +1,12 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.bendinglight.modules.intro;
 
-import edu.colorado.phet.bendinglight.modules.LRRModule;
+import edu.colorado.phet.bendinglight.modules.BendingLightModule;
 
 /**
  * @author Sam Reid
  */
-public class IntroModule extends LRRModule<IntroModel> {
+public class IntroModule extends BendingLightModule<IntroModel> {
     public IntroCanvas canvas;
 
     public IntroModule() {
