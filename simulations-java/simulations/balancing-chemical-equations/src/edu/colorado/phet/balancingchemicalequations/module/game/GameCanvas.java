@@ -59,7 +59,7 @@ public class GameCanvas extends BCECanvas {
     private final GameScoreboardNode scoreboardNode;
     private final PNode balancedNode, notBalancedNode, balancedNotSimplifiedNode;
 
-    public GameCanvas( final GameModel model, BCEGlobalProperties globalProperties, Resettable resettable ) {
+    public GameCanvas( final GameModel model, final BCEGlobalProperties globalProperties, Resettable resettable ) {
         super( globalProperties.getCanvasColorProperty() );
 
         this.model = model;
@@ -255,6 +255,12 @@ public class GameCanvas extends BCECanvas {
             model.addTimeObserver( new SimpleObserver() {
                 public void update() {
                     scoreboardNode.setTime( model.getTime() );
+                }
+            } );
+
+            globalProperties.getMoleculesVisibleProperty().addObserver( new SimpleObserver() {
+                public void update() {
+                    boxesNode.setMoleculesVisible( globalProperties.getMoleculesVisibleProperty().getValue() );
                 }
             } );
         }

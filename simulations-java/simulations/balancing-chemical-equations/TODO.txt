@@ -4,12 +4,9 @@ DESIGN ISSUES
 - which representations are needed for Game, and how will they all fit in the play area?
 
 HIGH PRIORITY
-- rename GamePrompt to GameState, document the approach used in Game
 - add scales/bars to "balanced, not simplified" popup
 - rename package module.balanceequation to module.introduction
-- rename package module.balanceequation to module.introduction
 - Game: reward for perfect score
-- implement "Hide molecules" feature for Game
 
 MEDIUM PRIORITY
 - Game: rewrite GameScoreBoardNode to use Property<T>
