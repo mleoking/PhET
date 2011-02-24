@@ -52,11 +52,12 @@ public class IntensityMeter {
         if ( hits.size() == 0 ) {
             reading.setValue( Reading.MISS );
         }
-        else if ( hits.size() == 1 ) {
-            reading.setValue( hits.get( 0 ) );
-        }
         else {
-            reading.setValue( Reading.MULTI );
+            double total = 0.0;
+            for ( Reading hit : hits ) {
+                total += hit.getValue();
+            }
+            reading.setValue( new Reading( total ) );
         }
     }
 
