@@ -6,6 +6,9 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Stroke;
+import java.awt.geom.Dimension2D;
+import java.awt.geom.Rectangle2D;
+import java.awt.geom.RoundRectangle2D;
 import java.util.List;
 
 import edu.colorado.phet.buildanatom.model.ImmutableAtom;
@@ -17,6 +20,7 @@ import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * A Piccolo2D node that monitors that average atomic mass of a set of
@@ -67,6 +71,12 @@ public class AverageAtomicMassIndicator extends PNode {
                 }
             }
         });
+
+        // Add the moving readout.
+        PNode readoutPointer = new ReadoutPointer( model );
+        readoutPointer.setOffset( barNode.getFullBoundsReference().getCenterX(), barOffsetY + 20 );
+        addChild( readoutPointer );
+
     }
 
     /**
@@ -91,6 +101,38 @@ public class AverageAtomicMassIndicator extends PNode {
                 setOffset( -getFullBoundsReference().width / 2, -getFullBoundsReference().height - TICK_MARK_HEIGHT / 2 );
             }};
             addChild( label );
+        }
+    }
+
+    /**
+     * This class define the "readout pointer", which is an indicator
+     * that contains a textual indication of the average atomic mass and
+     * also has a pointer on the top that can be used to indicate the position
+     * on a linear scale.
+     *
+     * This node is set up such that the (0,0) point is at the top center of
+     * the node, which is where the point of the pointer exists.  This is done
+     * to make it easy to position the node under the mass indication line.
+     *
+     * @author John Blanco
+     */
+    private static final class ReadoutPointer extends PNode {
+
+        private static final Dimension2D SIZE = new PDimension( 90, 25 );
+        private static final Stroke OUTLINE_STROKE = new BasicStroke( 3 );
+        private static final double TRIANGULAR_POINTER_HEIGHT = 10;
+
+        public ReadoutPointer ( IsotopeMixturesModel model ){
+            PNode readoutBackgroundNode = new PhetPPath( new RoundRectangle2D.Double( -SIZE.getWidth() / 2, 0, SIZE.getWidth(), SIZE.getHeight(), 5, 5), Color.WHITE, new BasicStroke( 3 ), Color.BLACK );
+            addChild( readoutBackgroundNode );
+
+            DoubleGeneralPath pointerShape = new DoubleGeneralPath(0, 0);
+            pointerShape.moveTo( -TRIANGULAR_POINTER_HEIGHT, -TRIANGULAR_POINTER_HEIGHT / 2 );
+            pointerShape.moveTo( -TRIANGULAR_POINTER_HEIGHT, TRIANGULAR_POINTER_HEIGHT / 2 );
+            pointerShape.closePath();
+//            PNode triangularPointerNode = new PhetPPath( pointerShape.getGeneralPath(), new Color( 0, 143, 212 ) );
+            PNode triangularPointerNode = new PhetPPath( new Rectangle2D.Double( -10, -10, 20, 20 ), new Color( 0, 143, 212 ) );
+            addChild( triangularPointerNode );
         }
     }
 }
