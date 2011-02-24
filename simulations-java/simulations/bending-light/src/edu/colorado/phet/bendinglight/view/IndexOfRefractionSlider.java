@@ -20,8 +20,9 @@ import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValu
  * @author Sam Reid
  */
 public class IndexOfRefractionSlider extends LinearValueControl {
-    public IndexOfRefractionSlider( final Property<Medium> medium, final Property<Function1<Double, Color>> colorMappingFunction, String text ) {
+    public IndexOfRefractionSlider( final Property<Medium> medium, final Property<Function1<Double, Color>> colorMappingFunction, String text, boolean textFieldVisible ) {
         super( 1, 1.6, medium.getValue().getIndexOfRefraction(), text, "0.00", "", new HorizontalLayoutStrategy() );
+        setTextFieldVisible( textFieldVisible );
         setSignifyOutOfBounds( false );
         setTickLabels( new Hashtable<Object, Object>() {{
             put( BendingLightModel.AIR.index, new TickLabel( "Air" ) );
