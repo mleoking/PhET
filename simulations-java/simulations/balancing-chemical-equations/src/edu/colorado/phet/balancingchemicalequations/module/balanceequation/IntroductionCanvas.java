@@ -24,7 +24,7 @@ import edu.umd.cs.piccolo.PNode;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class BalanceEquationCanvas extends BCECanvas {
+public class IntroductionCanvas extends BCECanvas {
 
     private static final Dimension BOX_SIZE = new Dimension( 475, 220 );
     private static final double BOX_SEPARATION = 90;
@@ -32,7 +32,7 @@ public class BalanceEquationCanvas extends BCECanvas {
     private final Property<BalanceChoice> balanceChoiceProperty; // determines the visual representation of "balanced"
     private final BoxesNode boxesNode;
 
-    public BalanceEquationCanvas( final BalanceEquationModel model, final BCEGlobalProperties globalProperties, Resettable resettable ) {
+    public IntroductionCanvas( final IntroductionModel model, final BCEGlobalProperties globalProperties, Resettable resettable ) {
         super( globalProperties.getCanvasColorProperty() );
 
         HorizontalAligner aligner = new HorizontalAligner( BOX_SIZE, BOX_SEPARATION );
