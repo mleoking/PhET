@@ -48,7 +48,8 @@ public class IntroductionCanvas extends BCECanvas {
         addChild( equationNode );
 
         // boxes that show molecules corresponding to the equation coefficients
-        boxesNode = new BoxesNode( model.getCurrentEquationProperty(), model.getCoefficientsRange(), aligner, globalProperties.getBoxColorProperty() );
+        boxesNode = new BoxesNode( model.getCurrentEquationProperty(), model.getCoefficientsRange(), aligner,
+                globalProperties.getBoxColorProperty(), globalProperties.getMoleculesVisibleProperty() );
         addChild( boxesNode );
 
         // control for choosing the visual representation of "balanced"
@@ -139,13 +140,6 @@ public class IntroductionCanvas extends BCECanvas {
                 balanceScalesNode.setVisible( balanceChoiceProperty.getValue().equals( BalanceChoice.BALANCE_SCALES ) );
             }
         } );
-
-        globalProperties.getMoleculesVisibleProperty().addObserver( new SimpleObserver() {
-            public void update() {
-                boxesNode.setMoleculesVisible( globalProperties.getMoleculesVisibleProperty().getValue() );
-            }
-        } );
-
     }
 
     public void reset() {

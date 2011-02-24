@@ -88,7 +88,8 @@ public class GameCanvas extends BCECanvas {
         equationNode = new EquationNode( model.getCurrentEquationProperty(), model.getCoefficientsRange(), true, aligner );
 
         // boxes that show molecules corresponding to the equation coefficients
-        boxesNode = new BoxesNode( model.getCurrentEquationProperty(), model.getCoefficientsRange(), aligner, globalProperties.getBoxColorProperty() );
+        boxesNode = new BoxesNode( model.getCurrentEquationProperty(), model.getCoefficientsRange(), aligner,
+                globalProperties.getBoxColorProperty(), globalProperties.getMoleculesVisibleProperty() );
 
         // buttons
         checkButton = new ButtonNode( BCEStrings.CHECK, BUTTONS_FONT_SIZE, BUTTONS_COLOR );
@@ -255,12 +256,6 @@ public class GameCanvas extends BCECanvas {
             model.addTimeObserver( new SimpleObserver() {
                 public void update() {
                     scoreboardNode.setTime( model.getTime() );
-                }
-            } );
-
-            globalProperties.getMoleculesVisibleProperty().addObserver( new SimpleObserver() {
-                public void update() {
-                    boxesNode.setMoleculesVisible( globalProperties.getMoleculesVisibleProperty().getValue() );
                 }
             } );
         }
