@@ -5,12 +5,15 @@ DESIGN ISSUES
 
 HIGH PRIORITY
 - Game: populate and center GameOverNode at end of game
-- Game: multi-column support to boxes
+- Game: sounds
 - Game: rewrite GameScoreBoardNode to use Property<T>
 - Game: rewrite GameOverNode to use Property<T>
 
 MEDIUM PRIORITY
 - Game: on incorrect guess, show bar charts or balance scales in a popup that obscures part of play area and has a "Try Again" or "Next" button and face.
+- C2H5OH symbol overlaps "+" sign in equation (smaller font? different layout?...)
+- PCl5 molecules overlap in box (make box taller? arrange molecules in 2 columns?...)
+- Kelly says some molecule conformations are a bit off, and some atoms are hard to count
 
 LOW PRIORITY
 - delete TestMoleculeNodes from build properties before publishing 1.00
