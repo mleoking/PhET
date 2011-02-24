@@ -22,7 +22,6 @@ import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.WavelengthControl;
-import edu.colorado.phet.common.piccolophet.swing.PhetTitledPanel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -94,10 +93,7 @@ public class LaserControlPanelNode extends ControlPanelNode {
             add( new MyRadioButton<Boolean>( "Single Ray", multipleRays, false ) );
             add( new MyRadioButton<Boolean>( "Multiple Rays", multipleRays, true ) );
             add( new JSeparator() );
-            add( new PhetTitledPanel( "Reflections" ) {{
-                add( new MyRadioButton<Boolean>( "Show", showReflections, true ) );
-                add( new MyRadioButton<Boolean>( "Hide", showReflections, false ) );
-            }} );
+            add( new PropertyCheckBox( "Show Reflections", showReflections ) {{setFont( BendingLightCanvas.labelFont );}} );
             add( new PropertyCheckBox( "Show Normal", showNormal ) {{setFont( BendingLightCanvas.labelFont );}} );
         }} ) );
     }
