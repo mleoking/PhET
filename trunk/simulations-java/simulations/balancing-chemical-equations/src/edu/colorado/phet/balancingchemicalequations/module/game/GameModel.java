@@ -23,7 +23,7 @@ public class GameModel {
     /** The set of prompts that the user sees during the game. */
     public enum GamePrompt { START_GAME, CHECK, TRY_AGAIN, SHOW_ANSWER, NEXT, NEW_GAME };
 
-    private static final IntegerRange COEFFICENTS_RANGE = new IntegerRange( 0, 10 );
+    private static final IntegerRange COEFFICENTS_RANGE = new IntegerRange( 0, 7 );
     private static final IntegerRange LEVELS_RANGE = new IntegerRange( 1, 3, 1 );
     private static final int PROBLEMS_PER_GAME = 5;
     private static final int POINTS_FIRST_ATTEMPT = 2;  // points to award for correct guess on 1st attempt
