@@ -11,11 +11,11 @@ import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 /**
  * @author Sam Reid
  */
-public class LightReflectionAndRefractionApplication extends PiccoloPhetApplication {
-    private static final String NAME = "light-reflection-and-refraction";
+public class BendingLightApplication extends PiccoloPhetApplication {
+    private static final String NAME = "bending-light";
     public static final PhetResources RESOURCES = new PhetResources( NAME );
 
-    public LightReflectionAndRefractionApplication( PhetApplicationConfig config ) {
+    public BendingLightApplication( PhetApplicationConfig config ) {
         super( config );
         final IntroModule introModule = new IntroModule();
         addModule( introModule );
@@ -51,6 +51,6 @@ public class LightReflectionAndRefractionApplication extends PiccoloPhetApplicat
     }
 
     public static void main( String[] args ) {
-        new PhetApplicationLauncher().launchSim( args, NAME, LightReflectionAndRefractionApplication.class );
+        new PhetApplicationLauncher().launchSim( args, NAME, BendingLightApplication.class );
     }
 }

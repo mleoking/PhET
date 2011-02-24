@@ -8,7 +8,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
-import edu.colorado.phet.bendinglight.LightReflectionAndRefractionApplication;
+import edu.colorado.phet.bendinglight.BendingLightApplication;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -27,7 +27,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class ProtractorNode extends PNode {
     public ProtractorNode( final ModelViewTransform transform, final Property<Boolean> showProtractor, double x, double y ) {
-        final BufferedImage image = BufferedImageUtils.multiScaleToHeight( LightReflectionAndRefractionApplication.RESOURCES.getImage( "protractor.png" ), 250 );
+        final BufferedImage image = BufferedImageUtils.multiScaleToHeight( BendingLightApplication.RESOURCES.getImage( "protractor.png" ), 250 );
         addChild( new PImage( image ) {{
             setOffset( transform.modelToViewX( 0 ) - getFullBounds().getWidth() / 2, transform.modelToViewY( 0 ) - getFullBounds().getHeight() / 2 );
             showProtractor.addObserver( new SimpleObserver() {

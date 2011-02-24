@@ -7,14 +7,14 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.bendinglight.model.LRRModel;
+import edu.colorado.phet.bendinglight.model.BendingLightModel;
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.util.Function1;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 
 public class MediumColorDialog extends JDialog {
 
-    public MediumColorDialog( PhetFrame frame, final LRRModel thisisMyModel ) {
+    public MediumColorDialog( PhetFrame frame, final BendingLightModel thisisMyModel ) {
         super( frame, false );
 
         setContentPane( new JTabbedPane() {
@@ -24,13 +24,13 @@ public class MediumColorDialog extends JDialog {
             final JColorChooser diamondChooser;
 
             {
-                airChooser = createChooser( LRRModel.AIR_COLOR );
+                airChooser = createChooser( BendingLightModel.AIR_COLOR );
                 addTab( "Air", airChooser );
-                waterChooser = createChooser( LRRModel.WATER_COLOR );
+                waterChooser = createChooser( BendingLightModel.WATER_COLOR );
                 addTab( "Water", waterChooser );
-                glassChooser = createChooser( LRRModel.GLASS_COLOR );
+                glassChooser = createChooser( BendingLightModel.GLASS_COLOR );
                 addTab( "Glass", glassChooser );
-                diamondChooser = createChooser( LRRModel.DIAMOND_COLOR );
+                diamondChooser = createChooser( BendingLightModel.DIAMOND_COLOR );
                 addTab( "Diamond", diamondChooser );
             }
 
@@ -51,16 +51,16 @@ public class MediumColorDialog extends JDialog {
                 final Color diamondColor = diamondChooser.getColor();
                 thisisMyModel.colorMappingFunction.setValue( new Function1<Double, Color>() {
                     public Color apply( Double value ) {
-                        if ( value < LRRModel.WATER.index ) {
-                            double ratio = new Function.LinearFunction( 1.0, LRRModel.WATER.index, 0, 1 ).evaluate( value );
+                        if ( value < BendingLightModel.WATER.index ) {
+                            double ratio = new Function.LinearFunction( 1.0, BendingLightModel.WATER.index, 0, 1 ).evaluate( value );
                             return colorBlend( airColor, waterColor, ratio );
                         }
-                        else if ( value < LRRModel.GLASS.index ) {
-                            double ratio = new Function.LinearFunction( LRRModel.WATER.index, LRRModel.GLASS.index, 0, 1 ).evaluate( value );
+                        else if ( value < BendingLightModel.GLASS.index ) {
+                            double ratio = new Function.LinearFunction( BendingLightModel.WATER.index, BendingLightModel.GLASS.index, 0, 1 ).evaluate( value );
                             return colorBlend( waterColor, glassColor, ratio );
                         }
-                        else if ( value < LRRModel.DIAMOND.index ) {
-                            double ratio = new Function.LinearFunction( LRRModel.GLASS.index, LRRModel.DIAMOND.index, 0, 1 ).evaluate( value );
+                        else if ( value < BendingLightModel.DIAMOND.index ) {
+                            double ratio = new Function.LinearFunction( BendingLightModel.GLASS.index, BendingLightModel.DIAMOND.index, 0, 1 ).evaluate( value );
                             return colorBlend( glassColor, diamondColor, ratio );
                         }
                         else {

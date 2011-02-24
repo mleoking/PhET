@@ -6,7 +6,7 @@ import java.awt.geom.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import edu.colorado.phet.bendinglight.LightReflectionAndRefractionApplication;
+import edu.colorado.phet.bendinglight.BendingLightApplication;
 import edu.colorado.phet.bendinglight.model.IntensityMeter;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -38,7 +38,7 @@ public class IntensityMeterNode extends PNode {
             }
         } );
 
-        sensorNode = new PImage( LightReflectionAndRefractionApplication.RESOURCES.getImage( "intensity_meter_probe.png" ) ) {{
+        sensorNode = new PImage( BendingLightApplication.RESOURCES.getImage( "intensity_meter_probe.png" ) ) {{
             intensityMeter.sensorPosition.addObserver( new SimpleObserver() {
                 public void update() {
                     final Point2D.Double sensorViewPoint = transform.modelToView( intensityMeter.sensorPosition.getValue() ).toPoint2D();
@@ -62,7 +62,7 @@ public class IntensityMeterNode extends PNode {
             setChildrenPickable( false );
         }};
 
-        bodyNode = new PImage( LightReflectionAndRefractionApplication.RESOURCES.getImage( "intensity_meter_box.png" ) ) {{
+        bodyNode = new PImage( BendingLightApplication.RESOURCES.getImage( "intensity_meter_box.png" ) ) {{
             intensityMeter.bodyPosition.addObserver( new SimpleObserver() {
                 public void update() {
                     setOffset( transform.modelToView( intensityMeter.bodyPosition.getValue() ).toPoint2D() );

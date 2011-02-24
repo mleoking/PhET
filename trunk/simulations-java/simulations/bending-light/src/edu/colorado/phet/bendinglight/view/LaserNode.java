@@ -6,7 +6,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
-import edu.colorado.phet.bendinglight.LightReflectionAndRefractionApplication;
+import edu.colorado.phet.bendinglight.BendingLightApplication;
 import edu.colorado.phet.bendinglight.model.Laser;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
@@ -30,7 +30,7 @@ import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.*
 public class LaserNode extends PNode {
 
     public LaserNode( final ModelViewTransform transform, final Laser laser, final Property<Boolean> showDragHandles, final Function1<Double, Double> clampDragAngle ) {
-        final BufferedImage image = flipY( flipX( LightReflectionAndRefractionApplication.RESOURCES.getImage( "laser.png" ) ) );
+        final BufferedImage image = flipY( flipX( BendingLightApplication.RESOURCES.getImage( "laser.png" ) ) );
         final PNode clockwiseDragArrow = new PNode() {{
             addChild( new ArrowNode( new Point2D.Double( image.getWidth() / 2, image.getHeight() / 2 ), new Point2D.Double( image.getWidth() / 2, image.getHeight() / 2 - 150 ), 20, 20, 10 ) {{
                 setPaint( Color.green );
@@ -94,8 +94,8 @@ public class LaserNode extends PNode {
             } );
         }} );
 
-        final BufferedImage pressed = flipY( flipX( multiScaleToHeight( LightReflectionAndRefractionApplication.RESOURCES.getImage( "button_pressed.png" ), 42 ) ) );
-        final BufferedImage unpressed = flipY( flipX( multiScaleToHeight( LightReflectionAndRefractionApplication.RESOURCES.getImage( "button_unpressed.png" ), 42 ) ) );
+        final BufferedImage pressed = flipY( flipX( multiScaleToHeight( BendingLightApplication.RESOURCES.getImage( "button_pressed.png" ), 42 ) ) );
+        final BufferedImage unpressed = flipY( flipX( multiScaleToHeight( BendingLightApplication.RESOURCES.getImage( "button_unpressed.png" ), 42 ) ) );
         addChild( new PImage( pressed ) {{
             setOffset( -getFullBounds().getWidth() / 2 + image.getWidth() / 2, -getFullBounds().getHeight() / 2 + image.getHeight() / 2 );
             addInputEventListener( new CursorHandler() );

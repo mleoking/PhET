@@ -7,7 +7,7 @@ import java.util.Hashtable;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.bendinglight.model.LRRModel;
+import edu.colorado.phet.bendinglight.model.BendingLightModel;
 import edu.colorado.phet.bendinglight.model.Medium;
 import edu.colorado.phet.bendinglight.model.MediumState;
 import edu.colorado.phet.common.phetcommon.model.Property;
@@ -24,9 +24,9 @@ public class IndexOfRefractionSlider extends LinearValueControl {
         super( 1, 1.6, medium.getValue().getIndexOfRefraction(), text, "0.00", "", new HorizontalLayoutStrategy() );
         setSignifyOutOfBounds( false );
         setTickLabels( new Hashtable<Object, Object>() {{
-            put( LRRModel.AIR.index, new TickLabel( "Air" ) );
-            put( LRRModel.WATER.index, new TickLabel( "Water" ) );
-            put( LRRModel.GLASS.index, new TickLabel( "Glass" ) );
+            put( BendingLightModel.AIR.index, new TickLabel( "Air" ) );
+            put( BendingLightModel.WATER.index, new TickLabel( "Water" ) );
+            put( BendingLightModel.GLASS.index, new TickLabel( "Glass" ) );
 //            put( LRRModel.N_DIAMOND, new TickLabel( "Diamond" ) );//commented out while we determine how to handle overlapping labels
         }} );
         getSlider().setMinorTickSpacing( 0 );

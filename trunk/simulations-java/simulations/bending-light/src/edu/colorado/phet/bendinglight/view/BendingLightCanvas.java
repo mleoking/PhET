@@ -8,7 +8,7 @@ import java.awt.geom.Point2D;
 
 import javax.swing.*;
 
-import edu.colorado.phet.bendinglight.model.LRRModel;
+import edu.colorado.phet.bendinglight.model.BendingLightModel;
 import edu.colorado.phet.bendinglight.model.LightRay;
 import edu.colorado.phet.common.phetcommon.model.And;
 import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
@@ -28,7 +28,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 /**
  * @author Sam Reid
  */
-public class LightReflectionAndRefractionCanvas<T extends LRRModel> extends PhetPCanvas {
+public class BendingLightCanvas<T extends BendingLightModel> extends PhetPCanvas {
     public static final PhetFont labelFont = new PhetFont( 16 );
     private PNode rootNode;
     public final BooleanProperty showNormal;
@@ -43,8 +43,8 @@ public class LightReflectionAndRefractionCanvas<T extends LRRModel> extends Phet
     protected final PNode beforeLightLayer = new PNode();
     public BooleanProperty clockRunningPressed;
 
-    public LightReflectionAndRefractionCanvas( final T model, BooleanProperty moduleActive, final Function1<Double, Double> clampDragAngle,
-                                               final Function1<Double, Boolean> clockwiseArrowNotAtMax, final Function1<Double, Boolean> ccwArrowNotAtMax, boolean showNormal, Resettable resetAll ) {
+    public BendingLightCanvas( final T model, BooleanProperty moduleActive, final Function1<Double, Double> clampDragAngle,
+                               final Function1<Double, Boolean> clockwiseArrowNotAtMax, final Function1<Double, Boolean> ccwArrowNotAtMax, boolean showNormal, Resettable resetAll ) {
         this.showNormal = new BooleanProperty( showNormal );
         this.model = model;
         // Root of our scene graph

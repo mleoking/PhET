@@ -20,7 +20,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 /**
  * @author Sam Reid
  */
-public class IntroCanvas extends LightReflectionAndRefractionCanvas<IntroModel> {
+public class IntroCanvas extends BendingLightCanvas<IntroModel> {
     public IntroCanvas( IntroModel model, BooleanProperty moduleActive, final Resettable resetAll ) {
         super( model, moduleActive, new Function1<Double, Double>() {
             public Double apply( Double angle ) {
@@ -77,7 +77,7 @@ public class IntroCanvas extends LightReflectionAndRefractionCanvas<IntroModel> 
             setOffset( 10, stageSize.height - getFullBounds().getHeight() - 10 );
         }} );
 
-        beforeLightLayer.addChild( new LRARResetAllButtonNode( resetAll, this ) {{
+        beforeLightLayer.addChild( new BendingLightResetAllButtonNode( resetAll, this ) {{
             setOffset( stageSize.getWidth() - getFullBounds().getWidth() - 10, stageSize.getHeight() - getFullBounds().getHeight() - 10 );
         }} );
     }

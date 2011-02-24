@@ -7,7 +7,7 @@ import java.awt.geom.Area;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
-import edu.colorado.phet.bendinglight.LightReflectionAndRefractionApplication;
+import edu.colorado.phet.bendinglight.BendingLightApplication;
 import edu.colorado.phet.bendinglight.model.Laser;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.And;
@@ -51,7 +51,7 @@ public class LaserNodeDragHandle extends PNode {
                 setVisible( showArrow.getValue() );
             }
         } );
-        final BufferedImage image = flipY( flipX( LightReflectionAndRefractionApplication.RESOURCES.getImage( "laser.png" ) ) );
+        final BufferedImage image = flipY( flipX( BendingLightApplication.RESOURCES.getImage( "laser.png" ) ) );
 
         final SimpleObserver update = new SimpleObserver() {
             public void update() {

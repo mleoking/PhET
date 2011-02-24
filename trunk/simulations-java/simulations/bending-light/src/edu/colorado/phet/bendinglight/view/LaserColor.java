@@ -3,7 +3,7 @@ package edu.colorado.phet.bendinglight.view;
 
 import java.awt.*;
 
-import edu.colorado.phet.bendinglight.model.LRRModel;
+import edu.colorado.phet.bendinglight.model.BendingLightModel;
 import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 
 /**
@@ -18,7 +18,7 @@ public abstract class LaserColor {
     };
 
     public double getWavelength() {
-        return LRRModel.WAVELENGTH_RED;
+        return BendingLightModel.WAVELENGTH_RED;
     }
 
     public static class OneColor extends LaserColor {

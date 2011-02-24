@@ -9,8 +9,8 @@ import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 /**
  * @author Sam Reid
  */
-public class LRARResetAllButtonNode extends ResetAllButtonNode {
-    public LRARResetAllButtonNode( final Resettable resettable, final Component parent ) {
+public class BendingLightResetAllButtonNode extends ResetAllButtonNode {
+    public BendingLightResetAllButtonNode( final Resettable resettable, final Component parent ) {
         super( resettable, parent, 18, Color.black, Color.lightGray );
         setConfirmationEnabled( false );
     }
