@@ -135,7 +135,7 @@ public class GameModel {
                 timer.stop();
                 isGameCompleted = true;
                 // check for new best time
-                if ( getTime() < getBestTime( gameSettings.level.getValue() ) ) {
+                if ( isPerfectScore() && getTime() < getBestTime( gameSettings.level.getValue() ) ) {
                     isNewBestTime = true;
                     setBestTime( gameSettings.level.getValue(), getTime() );
                 }
@@ -239,5 +239,9 @@ public class GameModel {
 
     public int getMaxScore() {
         return PROBLEMS_PER_GAME * POINTS_FIRST_ATTEMPT;
+    }
+
+    private boolean isPerfectScore() {
+        return getPoints() == getMaxScore();
     }
 }
