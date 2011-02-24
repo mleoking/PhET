@@ -10,3 +10,4 @@ squeezer_background.png source=PhET notes=copied from gene-network
 pressure_meter_center.png source=PhET notes=drawn by NP
 pressure_meter_left.png source=PhET notes=drawn by NP
 pressure_meter_right.png source=PhET notes=drawn by NP
+handle.png source=PhET notes=drawn by NP

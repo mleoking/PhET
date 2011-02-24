@@ -1,3 +1,4 @@
+Fixed: handle on water tower looks fuzzy because it is scaled up
 Use PhetColorScheme.RED_ALTERNATIVE color to improve color blindness support
 Moved velocity sensor initial condition so they don't overlap
 Moved water tower legs to the back layer to prevent sticking into the water tank
