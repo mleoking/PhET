@@ -5,7 +5,6 @@ DESIGN ISSUES
 
 HIGH PRIORITY
 - Game: populate and center GameOverNode at end of game
-- Game: toggle coefficients between editable and read-only
 - Game: multi-column support to boxes
 - Game: disable highlighting of arrows, etc. when equation is balanced, until after Check button is pressed
 - Game: smiley face
