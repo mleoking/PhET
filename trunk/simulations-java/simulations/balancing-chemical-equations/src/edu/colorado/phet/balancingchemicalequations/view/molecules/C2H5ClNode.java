@@ -62,7 +62,7 @@ public class C2H5ClNode extends PComposite {
         x = centerNode.getXOffset();
         y = centerNode.getFullBoundsReference().getMaxY();
         smallBottomRightNode.setOffset( x, y );
-        x = centerNode.getFullBoundsReference().getMaxX();
+        x = centerNode.getFullBoundsReference().getMaxX() + ( 0.125 * rightNode.getFullBoundsReference().getWidth() );
         y = centerNode.getYOffset();
         rightNode.setOffset( x, y );
 

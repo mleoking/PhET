@@ -1,3 +1,4 @@
+2/24/11 tweak some molecule conformations with KL
 2/23/11 fix recording of best times
 2/23/11 create and center "Game Over" display at completion of game
 2/23/11 add sounds to Game
