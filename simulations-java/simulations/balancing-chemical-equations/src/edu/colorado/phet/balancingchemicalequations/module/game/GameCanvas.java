@@ -12,7 +12,7 @@ import java.text.MessageFormat;
 import edu.colorado.phet.balancingchemicalequations.BCEConstants;
 import edu.colorado.phet.balancingchemicalequations.BCEGlobalProperties;
 import edu.colorado.phet.balancingchemicalequations.BCEStrings;
-import edu.colorado.phet.balancingchemicalequations.module.game.GameModel.GamePrompt;
+import edu.colorado.phet.balancingchemicalequations.module.game.GameModel.GameState;
 import edu.colorado.phet.balancingchemicalequations.view.*;
 import edu.colorado.phet.balancingchemicalequations.view.game.GameResultNode.BalancedNode;
 import edu.colorado.phet.balancingchemicalequations.view.game.GameResultNode.BalancedNotSimplifiedNode;
@@ -216,15 +216,9 @@ public class GameCanvas extends BCECanvas {
                 }
             } );
 
-            model.addGamePromptObserver( new SimpleObserver() {
+            model.addGameStateObserver( new SimpleObserver() {
                 public void update() {
-                    handleGamePromptChange( model.getGamePrompt() );
-                }
-            } );
-
-            model.addTimeObserver( new SimpleObserver() {
-                public void update() {
-                    //TODO update scoreboard
+                    handleGameStateChange( model.getGameState() );
                 }
             } );
 
@@ -273,23 +267,23 @@ public class GameCanvas extends BCECanvas {
         equationLabelNode.setText( s );
     }
 
-    private void handleGamePromptChange( GamePrompt prompt ) {
-        if ( prompt == GamePrompt.START_GAME ) {
+    private void handleGameStateChange( GameState prompt ) {
+        if ( prompt == GameState.START_GAME ) {
             initStartGame();
         }
-        else if ( prompt == GamePrompt.CHECK ) {
+        else if ( prompt == GameState.CHECK ) {
             initCheck();
         }
-        else if ( prompt == GamePrompt.TRY_AGAIN ) {
+        else if ( prompt == GameState.TRY_AGAIN ) {
             initTryAgain();
         }
-        else if ( prompt == GamePrompt.SHOW_ANSWER ) {
+        else if ( prompt == GameState.SHOW_ANSWER ) {
             initShowAnswer();
         }
-        else if ( prompt == GamePrompt.NEXT ) {
+        else if ( prompt == GameState.NEXT ) {
             initNext();
         }
-        else if ( prompt == GamePrompt.NEW_GAME ) {
+        else if ( prompt == GameState.NEW_GAME ) {
             initNewGame();
         }
         else {
@@ -362,7 +356,6 @@ public class GameCanvas extends BCECanvas {
     private void setBalancedHighlightEnabled( boolean enabled ) {
         equationNode.setBalancedHighlightEnabled( enabled );
         boxesNode.setBalancedHighlightEnabled( enabled );
-        //TODO add bars and scales here if we use those representations in Game
     }
 
     private void setBalancedIndicatorVisible( boolean visible ) {

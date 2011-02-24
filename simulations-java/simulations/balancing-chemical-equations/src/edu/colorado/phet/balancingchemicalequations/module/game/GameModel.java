@@ -20,8 +20,13 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  */
 public class GameModel {
 
-    /** The set of prompts that the user sees during the game. */
-    public enum GamePrompt { START_GAME, CHECK, TRY_AGAIN, SHOW_ANSWER, NEXT, NEW_GAME };
+    /**
+     * The set of game state.
+     * For lack of better names, the state names correspond to the main action that
+     * the user can take in that state.  For example. the CHECK state is the where
+     * the user can enter coefficients and press the "Check" button to check their answer.
+     */
+    public enum GameState { START_GAME, CHECK, TRY_AGAIN, SHOW_ANSWER, NEXT, NEW_GAME };
 
     private static final IntegerRange COEFFICENTS_RANGE = new IntegerRange( 0, 7 );
     private static final IntegerRange LEVELS_RANGE = new IntegerRange( 1, 3, 1 );
@@ -30,7 +35,7 @@ public class GameModel {
     private static final int POINTS_SECOND_ATTEMPT = 1; // points to award for correct guess on 2nd attempt
 
     private final Property<Integer> pointsProperty; // how many points the user has earned for the current game
-    private final Property<GamePrompt> gamePromptProperty;
+    private final Property<GameState> gameStateProperty;
     private final Property<Equation> currentEquationProperty;
 
     private final GameEquationsFactory problemsFactory; // generates problem sets
@@ -45,7 +50,7 @@ public class GameModel {
     private boolean isGameCompleted; // was the game played to completion?
 
     public GameModel() {
-        gamePromptProperty = new Property<GamePrompt>( GamePrompt.START_GAME );
+        gameStateProperty = new Property<GameState>( GameState.START_GAME );
         pointsProperty = new Property<Integer>( 0 );
         currentEquationProperty = new Property<Equation>( new WaterEquation() );
         problemsFactory = new GameEquationsFactory();
@@ -71,16 +76,16 @@ public class GameModel {
         timer.removeTimeObserver( o );
     }
 
-    private void setGamePrompt( GamePrompt value ) {
-        gamePromptProperty.setValue( value );
+    private void setGameState( GameState value ) {
+        gameStateProperty.setValue( value );
     }
 
-    public GamePrompt getGamePrompt() {
-        return gamePromptProperty.getValue();
+    public GameState getGameState() {
+        return gameStateProperty.getValue();
     }
 
-    public void addGamePromptObserver( SimpleObserver o ) {
-        gamePromptProperty.addObserver( o );
+    public void addGameStateObserver( SimpleObserver o ) {
+        gameStateProperty.addObserver( o );
     }
 
     private void setPoints( int points ) {
@@ -115,7 +120,7 @@ public class GameModel {
         timer.start();
         setPoints( 0 );
         setCurrentEquation( equations[equationIndex] );
-        setGamePrompt( GamePrompt.CHECK );
+        setGameState( GameState.CHECK );
     }
 
     /**
@@ -145,13 +150,13 @@ public class GameModel {
                 }
             }
 
-            setGamePrompt( GamePrompt.NEXT );
+            setGameState( GameState.NEXT );
         }
         else if ( attempts < 2 ) {
-            setGamePrompt( GamePrompt.TRY_AGAIN );
+            setGameState( GameState.TRY_AGAIN );
         }
         else {
-            setGamePrompt( GamePrompt.SHOW_ANSWER );
+            setGameState( GameState.SHOW_ANSWER );
         }
     }
 
@@ -159,14 +164,14 @@ public class GameModel {
      * Called when the user presses the "Try Again" button.
      */
     public void tryAgain() {
-        setGamePrompt( GamePrompt.CHECK );
+        setGameState( GameState.CHECK );
     }
 
     /**
      * Called when the user presses the "Show Answer" button.
      */
     public void showAnswer() {
-        setGamePrompt( GamePrompt.NEXT );
+        setGameState( GameState.NEXT );
     }
 
     /**
@@ -177,10 +182,10 @@ public class GameModel {
             attempts = 0;
             equationIndex++;
             setCurrentEquation( equations[equationIndex] );
-            setGamePrompt( GamePrompt.CHECK );
+            setGameState( GameState.CHECK );
         }
         else {
-            setGamePrompt( GamePrompt.NEW_GAME );
+            setGameState( GameState.NEW_GAME );
         }
     }
 
@@ -188,7 +193,7 @@ public class GameModel {
      * Called when the user presses the "New Game" button.
      */
     public void newGame() {
-        setGamePrompt( GamePrompt.START_GAME );
+        setGameState( GameState.START_GAME );
     }
 
     private void setCurrentEquation( Equation equation ) {
