@@ -41,6 +41,7 @@ public class BendingLightCanvas<T extends BendingLightModel> extends PhetPCanvas
     protected final PNode lightRayLayer = new PNode();
     protected final PNode lightWaveLayer = new PNode();
     protected final PNode beforeLightLayer = new PNode();
+    protected final PNode afterLightLayer = new PNode();
     public BooleanProperty clockRunningPressed;
 
     public BendingLightCanvas( final T model, BooleanProperty moduleActive, final Function1<Double, Double> clampDragAngle,
@@ -114,7 +115,7 @@ public class BendingLightCanvas<T extends BendingLightModel> extends PhetPCanvas
                 }
             }
         } );
-        addChild( new FloatingClockControlNode( clockRunningPressed, null, model.getClock(), "Reset", new Property<Color>( Color.white ) ) {{
+        afterLightLayer.addChild( new FloatingClockControlNode( clockRunningPressed, null, model.getClock(), "Reset", new Property<Color>( Color.white ) ) {{
             setOffset( stageSize.width * 3 / 4 - getFullBounds().getWidth() / 2, stageSize.getHeight() - getFullBounds().getHeight() );
             laserView.addObserver( new SimpleObserver() {
                 public void update() {
@@ -128,6 +129,8 @@ public class BendingLightCanvas<T extends BendingLightModel> extends PhetPCanvas
 
         final WhiteLightNode whiteLightNode = new WhiteLightNode( lightRayLayer );
         addChild( whiteLightNode );
+
+        addChild( afterLightLayer );
 
         //Switch between light renderers for white vs nonwhite light
         model.getLaser().color.addObserver( new SimpleObserver() {

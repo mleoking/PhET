@@ -102,7 +102,7 @@ public class WhiteLightNode extends PImage {
         //Cleanup and show the image.
         graphics.dispose();
         setImage( image );
-        moveToFront();
+//        moveToFront();
     }
 
     //Add the specified point to the HashMap (creating a new entry if necessary, otherwise adding it to existing values.
