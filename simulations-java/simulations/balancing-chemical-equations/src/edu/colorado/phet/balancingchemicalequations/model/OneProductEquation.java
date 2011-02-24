@@ -189,13 +189,6 @@ public abstract class OneProductEquation extends Equation {
         }
     }
 
-    // P4 + 10 Cl2 -> 4 PCl5
-    public static class Equation_P4_10Cl2_4PCl5 extends OneProductEquation {
-        public Equation_P4_10Cl2_4PCl5() {
-            super( new EquationTerm( 1, new P4() ), new EquationTerm( 10, new Cl2() ), new EquationTerm( 4, new PCl5() ) );
-        }
-    }
-
     // PCl3 + Cl2 -> PCl5
     public static class Equation_PCl3_Cl2_PCl5 extends OneProductEquation {
         public Equation_PCl3_Cl2_PCl5() {
