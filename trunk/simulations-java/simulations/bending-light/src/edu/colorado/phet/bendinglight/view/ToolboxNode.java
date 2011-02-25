@@ -190,7 +190,7 @@ public class ToolboxNode extends PNode {
         }};
         addChild( showNormalCheckBox );
 
-        NormalLine normalLine = new NormalLine( transform, modelHeight, 4 );
+        NormalLine normalLine = new NormalLine( transform, modelHeight, 9, 30, 30 );
         PImage normalLineThumbnail = new PImage( normalLine.toImage( 67, 67, new Color( 0, 0, 0, 0 ) ) ) {{
             setOffset( showNormalCheckBox.getFullBounds().getCenterX(), showNormalCheckBox.getFullBounds().getMaxY() );
         }};
