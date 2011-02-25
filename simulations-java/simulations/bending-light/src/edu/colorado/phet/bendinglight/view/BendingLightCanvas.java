@@ -122,6 +122,15 @@ public class BendingLightCanvas<T extends BendingLightModel> extends PhetPCanvas
                     setVisible( laserView.getValue().equals( LaserView.WAVE ) );
                 }
             } );
+            final double dt = model.getClock().getDt();
+            final Property<Double> value = new Property<Double>( dt ) {{
+                addObserver( new SimpleObserver() {
+                    public void update() {
+                        model.getClock().setDt( getValue() );
+                    }
+                } );
+            }};
+            addChild( new SimSpeedSlider( dt / 2, value, dt * 2, 0, new Property<Color>( Color.black ) ) );
         }} );
         addChild( beforeLightLayer );
         addChild( lightRayLayer );
