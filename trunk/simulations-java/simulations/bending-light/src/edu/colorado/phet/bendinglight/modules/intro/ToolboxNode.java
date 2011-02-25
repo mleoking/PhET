@@ -40,8 +40,8 @@ public class ToolboxNode extends PNode {
             setFont( BendingLightCanvas.labelFont );
         }};
         addChild( titleLabel );
-        final int ICON_HEIGHT = 100;
-        final BufferedImage image = BufferedImageUtils.multiScaleToHeight( BendingLightApplication.RESOURCES.getImage( "protractor.png" ), ICON_HEIGHT );
+        final int ICON_WIDTH = 110;
+        final BufferedImage image = BufferedImageUtils.multiScaleToWidth( BendingLightApplication.RESOURCES.getImage( "protractor.png" ), ICON_WIDTH );
         final PImage protractor = new PImage( image ) {{
             showProtractor.addObserver( new SimpleObserver() {
                 public void update() {
@@ -49,7 +49,7 @@ public class ToolboxNode extends PNode {
                 }
             } );
             final PImage protractorThumbRef = this;
-            setOffset( 0, titleLabel.getFullBounds().getMaxY() );
+            setOffset( 0, titleLabel.getFullBounds().getMaxY() + 4 );
             addInputEventListener( new PBasicInputEventHandler() {
                 ProtractorNode node = null;
                 boolean intersect = false;
@@ -111,7 +111,9 @@ public class ToolboxNode extends PNode {
         final IntensityMeterNode iconNode = new IntensityMeterNode( transform, new IntensityMeter( modelWidth * 0.3, -modelHeight * 0.3, modelWidth * 0.4, -modelHeight * 0.3 ) {{
             enabled.setValue( true );
         }} );
-        final PImage sensorThumbnail = new PImage( iconNode.toImage( (int) ( 100.0 * iconNode.getFullBounds().getWidth() / iconNode.getFullBounds().getHeight() ), 100, new Color( 0, 0, 0, 0 ) ) ) {{
+//        int sensorIconHeight = (int) ( 100.0 * iconNode.getFullBounds().getWidth() / iconNode.getFullBounds().getHeight() );
+        int sensorIconHeight = (int) ( iconNode.getFullBounds().getHeight() / iconNode.getFullBounds().getWidth() * ICON_WIDTH );
+        final PImage sensorThumbnail = new PImage( iconNode.toImage( ICON_WIDTH, sensorIconHeight, new Color( 0, 0, 0, 0 ) ) ) {{
             final PImage sensorThumbnailRef = this;
             addInputEventListener( new PBasicInputEventHandler() {
                 IntensityMeterNode node = null;
@@ -180,22 +182,19 @@ public class ToolboxNode extends PNode {
                 }
             } );
             addInputEventListener( new CursorHandler() );
-            setOffset( protractor.getFullBounds().getMaxX() + 10, protractor.getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
+            setOffset( 0, protractor.getFullBounds().getMaxY() );
         }};
         addChild( sensorThumbnail );
+
+        final PImage normalLineThumbnail = new PImage( new NormalLine( transform, modelHeight, 9, 30, 30 ).toImage( 5, 67, new Color( 0, 0, 0, 0 ) ) );
 
         final PSwing showNormalCheckBox = new PSwing( new PropertyCheckBox( "Show Normal", showNormal ) {{
             setFont( BendingLightCanvas.labelFont );
             setBackground( new Color( 0, 0, 0, 0 ) );
-        }} ) {{
-            setOffset( sensorThumbnail.getFullBounds().getMaxX() + 10, titleLabel.getFullBounds().getMaxY() );
-        }};
+        }} );
+        normalLineThumbnail.setOffset( Math.max( sensorThumbnail.getFullBounds().getMaxX(), showNormalCheckBox.getFullBounds().getMaxX() ) + 8, sensorThumbnail.getFullBounds().getMaxY() + 5 );
+        showNormalCheckBox.setOffset( 0, normalLineThumbnail.getFullBounds().getCenterY() - showNormalCheckBox.getFullBounds().getHeight() / 2 );
         addChild( showNormalCheckBox );
-
-        NormalLine normalLine = new NormalLine( transform, modelHeight, 9, 30, 30 );
-        PImage normalLineThumbnail = new PImage( normalLine.toImage( 67, 67, new Color( 0, 0, 0, 0 ) ) ) {{
-            setOffset( showNormalCheckBox.getFullBounds().getCenterX(), showNormalCheckBox.getFullBounds().getMaxY() );
-        }};
         addChild( normalLineThumbnail );
         titleLabel.setOffset( getFullBounds().getWidth() / 2 - titleLabel.getFullBounds().getWidth() / 2, 0 );
     }
