@@ -1,3 +1,4 @@
+Improved design for index of refraction control
 Improved normal line in the toolbox
 Made it so the intensity meter adds up multiple beams instead of reporting ???
 Changed the background color for control panels
