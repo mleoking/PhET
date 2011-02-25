@@ -36,7 +36,7 @@ public class PrismsModel extends BendingLightModel {
     public final ArrayList<VoidFunction1<Intersection>> intersectionListeners = new ArrayList<VoidFunction1<Intersection>>();
 
     public PrismsModel() {
-        super( PI );
+        super( PI, false );
         new RichSimpleObserver() {
             public void update() {
                 updateModel();

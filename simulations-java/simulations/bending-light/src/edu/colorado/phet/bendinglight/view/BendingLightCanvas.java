@@ -73,6 +73,7 @@ public class BendingLightCanvas<T extends BendingLightModel> extends PhetPCanvas
         laserView.addObserver( new SimpleObserver() {
             public void update() {
                 model.updateModel();//TODO: Maybe it would be better just to regenerate view, but now we just do this by telling the model to recompute and repopulate
+                model.getLaser().wave.setValue( laserView.getValue() == LaserView.WAVE );// synchronize view and model representations of whether it is wave or not
             }
         } );
 
