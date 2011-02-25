@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.bendinglight.view;
+package edu.colorado.phet.bendinglight.modules.intro;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -10,7 +10,9 @@ import java.beans.PropertyChangeListener;
 
 import edu.colorado.phet.bendinglight.BendingLightApplication;
 import edu.colorado.phet.bendinglight.model.IntensityMeter;
-import edu.colorado.phet.bendinglight.modules.intro.NormalLine;
+import edu.colorado.phet.bendinglight.view.BendingLightCanvas;
+import edu.colorado.phet.bendinglight.view.IntensityMeterNode;
+import edu.colorado.phet.bendinglight.view.ProtractorNode;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
