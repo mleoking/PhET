@@ -1,3 +1,4 @@
+Added "low" and "high" labels to the left and right of the index of refraction slider (prism tab only)
 Made the toolbox vertical instead of horizontal
 Added a time speed slider
 Improved design for index of refraction control

@@ -42,7 +42,7 @@ public class MediumControlPanel extends PNode {
     private static final int MIN = 1;
     private static final double MAX = 1.6;
 
-    public MediumControlPanel( final PhetPCanvas phetPCanvas, final Property<Medium> medium, final Property<Function1<Double, Color>> colorMappingFunction, final String name, boolean textFieldVisible ) {
+    public MediumControlPanel( final PhetPCanvas phetPCanvas, final Property<Medium> medium, final Property<Function1<Double, Color>> colorMappingFunction, final String name, final boolean textFieldVisible ) {
         this.medium = medium;
         this.colorMappingFunction = colorMappingFunction;
         final MediumState initialMediumState = medium.getValue().getMediumState();
@@ -107,57 +107,72 @@ public class MediumControlPanel extends PNode {
         //However, for unknown reasons, some text was always clipped off, and we decided to proceed by doing the layout in Piccolo, which resolved the problem.
         final PNode slider = new PNode() {{
             final PNode topComponent = new PNode() {{
-                final PText label = new PText( "Index of Refraction (n):" ) {{setFont( BendingLightCanvas.labelFont );}};
+                final PText label = new PText( textFieldVisible ? "Index of Refraction (n):" : "Index of Refraction (n)" ) {{setFont( BendingLightCanvas.labelFont );}};
                 addChild( label );
-                addChild( new PSwing( new JTextField( new DecimalFormat( "0.00" ).format( medium.getValue().getIndexOfRefraction() ), 4 ) {{
-                    setFont( BendingLightCanvas.labelFont );
-                    addActionListener( new ActionListener() {
-                        public void actionPerformed( ActionEvent e ) {
-                            double value = Double.parseDouble( getText() );
-                            if ( value > MIN && value < MAX ) {
-                                setIndexOfRefraction( value );
+                if ( textFieldVisible ) {
+                    addChild( new PSwing( new JTextField( new DecimalFormat( "0.00" ).format( medium.getValue().getIndexOfRefraction() ), 4 ) {{
+                        setFont( BendingLightCanvas.labelFont );
+                        addActionListener( new ActionListener() {
+                            public void actionPerformed( ActionEvent e ) {
+                                double value = Double.parseDouble( getText() );
+                                if ( value > MIN && value < MAX ) {
+                                    setIndexOfRefraction( value );
+                                }
+                            }
+                        } );
+                        medium.addObserver( new SimpleObserver() {
+                            public void update() {
+                                setText( new DecimalFormat( "0.00" ).format( medium.getValue().getIndexOfRefraction() ) );
+                            }
+                        } );
+                    }} ) {{
+                        setOffset( label.getFullBounds().getMaxX() + 10, label.getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
+                    }} );
+                }
+            }};
+            addChild( topComponent );
+
+            class LowHighLabel extends JLabel {
+                LowHighLabel( String text, boolean visible ) {
+                    super( text );
+                    setFont( new PhetFont( 14 ) );
+                    setVisible( visible );
+                }
+            }
+
+            addChild( new PSwing( new JPanel() {{
+                add( new LowHighLabel( "low", !textFieldVisible ) );
+                add( new JSlider( 0, 10000 ) {{
+                    final Function.LinearFunction mapping = new Function.LinearFunction( getMinimum(), getMaximum(), MIN, MAX );
+                    addChangeListener( new ChangeListener() {
+                        public void stateChanged( ChangeEvent e ) {
+                            if ( isFocusOwner() ) {//Only send events if caused by user, otherwise selecting "mystery b" causes buggy behavior
+                                final double indexOfRefraction = mapping.evaluate( getValue() );
+                                setIndexOfRefraction( indexOfRefraction );
                             }
                         }
                     } );
                     medium.addObserver( new SimpleObserver() {
                         public void update() {
-                            setText( new DecimalFormat( "0.00" ).format( medium.getValue().getIndexOfRefraction() ) );
+                            setValue( (int) mapping.createInverse().evaluate( medium.getValue().getIndexOfRefraction() ) );
                         }
                     } );
-                }} ) {{
-                    setOffset( label.getFullBounds().getMaxX() + 10, label.getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
-                }} );
-            }};
-            addChild( topComponent );
-
-            addChild( new PSwing( new JSlider( 0, 10000 ) {{
-                final Function.LinearFunction mapping = new Function.LinearFunction( getMinimum(), getMaximum(), MIN, MAX );
-                addChangeListener( new ChangeListener() {
-                    public void stateChanged( ChangeEvent e ) {
-                        if ( isFocusOwner() ) {//Only send events if caused by user, otherwise selecting "mystery b" causes buggy behavior
-                            final double indexOfRefraction = mapping.evaluate( getValue() );
-                            setIndexOfRefraction( indexOfRefraction );
-                        }
-                    }
-                } );
-                medium.addObserver( new SimpleObserver() {
-                    public void update() {
-                        setValue( (int) mapping.createInverse().evaluate( medium.getValue().getIndexOfRefraction() ) );
-                    }
-                } );
-                setPaintTicks( true );
-                setPaintLabels( true );
-                setLabelTable( new Hashtable<Object, Object>() {{
-                    put( (int) mapping.createInverse().evaluate( BendingLightModel.AIR.index ), new TickLabel( "Air" ) );
-                    put( (int) mapping.createInverse().evaluate( BendingLightModel.WATER.index ), new TickLabel( "Water" ) );
-                    put( (int) mapping.createInverse().evaluate( BendingLightModel.GLASS.index ), new TickLabel( "Glass" ) );
+                    setPaintTicks( true );
+                    setPaintLabels( true );
+                    setLabelTable( new Hashtable<Object, Object>() {{
+                        put( (int) mapping.createInverse().evaluate( BendingLightModel.AIR.index ), new TickLabel( "Air" ) );
+                        put( (int) mapping.createInverse().evaluate( BendingLightModel.WATER.index ), new TickLabel( "Water" ) );
+                        put( (int) mapping.createInverse().evaluate( BendingLightModel.GLASS.index ), new TickLabel( "Glass" ) );
 //            put( LRRModel.N_DIAMOND, new TickLabel( "Diamond" ) );//commented out while we determine how to handle overlapping labels
+                    }} );
+                    setPreferredSize( new Dimension( Math.max( (int) topComponent.getFullBounds().getWidth(), 200 ), getPreferredSize().height ) );
                 }} );
-                setPreferredSize( new Dimension( (int) topComponent.getFullBounds().getWidth(), getPreferredSize().height ) );
+                add( new LowHighLabel( "high", !textFieldVisible ) );
             }} ) {{
                 setOffset( 0, topComponent.getFullBounds().getMaxY() );
             }} );
             setOffset( 0, topLabel.getFullBounds().getMaxY() + 10 );
+            topComponent.setOffset( getFullBounds().getWidth() / 2 - topComponent.getFullBounds().getWidth() / 2, 0 );
         }};
 
         medium.addObserver( new SimpleObserver() {
@@ -178,6 +193,7 @@ public class MediumControlPanel extends PNode {
             } );
         }};
         addChild( unknown );
+        topLabel.setOffset( getFullBounds().getCenterX() - topLabel.getFullBounds().getWidth() / 2, 0 );
         topLabel.setOffset( getFullBounds().getCenterX() - topLabel.getFullBounds().getWidth() / 2, 0 );
     }
 
