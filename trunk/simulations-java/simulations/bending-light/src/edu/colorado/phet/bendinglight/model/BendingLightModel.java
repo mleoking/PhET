@@ -84,8 +84,8 @@ public class BendingLightModel {
     public static final Color DIAMOND_COLOR = new Color( 78, 79, 164 );
     private final ArrayList<VoidFunction0> modelUpdateListeners = new ArrayList<VoidFunction0>();
 
-    public BendingLightModel( double laserAngle ) {
-        laser = new Laser( 8.125E-6, laserAngle );
+    public BendingLightModel( double laserAngle, boolean topLeftQuadrant ) {
+        laser = new Laser( 8.125E-6, laserAngle, topLeftQuadrant );
         this.clock = new ConstantDtClock( 30.0 ) {{
             addClockListener( new ClockAdapter() {
                 public void simulationTimeChanged( ClockEvent clockEvent ) {
