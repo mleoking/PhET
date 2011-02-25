@@ -1,3 +1,4 @@
+Made the toolbox vertical instead of horizontal
 Added a time speed slider
 Improved design for index of refraction control
 Improved normal line in the toolbox
