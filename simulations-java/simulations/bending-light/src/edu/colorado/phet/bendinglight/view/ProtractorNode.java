@@ -27,7 +27,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class ProtractorNode extends PNode {
     public ProtractorNode( final ModelViewTransform transform, final Property<Boolean> showProtractor, double x, double y ) {
-        final BufferedImage image = BufferedImageUtils.multiScaleToHeight( BendingLightApplication.RESOURCES.getImage( "protractor.png" ), 250 );
+        final BufferedImage image = newProtractorImage( 250 );
         addChild( new PImage( image ) {{
             setOffset( transform.modelToViewX( 0 ) - getFullBounds().getWidth() / 2, transform.modelToViewY( 0 ) - getFullBounds().getHeight() / 2 );
             showProtractor.addObserver( new SimpleObserver() {
@@ -58,9 +58,13 @@ public class ProtractorNode extends PNode {
         translate( point2D.getX() + getFullBounds().getWidth() / 2, point2D.getY() - getFullBounds().getHeight() / 2 );
     }
 
+    public static BufferedImage newProtractorImage( int height ) {
+        return BufferedImageUtils.multiScaleToHeight( BendingLightApplication.RESOURCES.getImage( "protractor.png" ), height );
+    }
+
     public void doDrag( PInputEvent event ) {
         final PDimension delta = event.getDeltaRelativeTo( getParent() );
-        translate( delta.width, delta.height );
+        translate( delta.width / getScale(), delta.height / getScale() );
     }
 
     @Override

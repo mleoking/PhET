@@ -6,6 +6,7 @@ import java.awt.*;
 import edu.colorado.phet.bendinglight.view.BendingLightCanvas;
 import edu.colorado.phet.bendinglight.view.BendingLightResetAllButtonNode;
 import edu.colorado.phet.bendinglight.view.MediumControlPanel;
+import edu.colorado.phet.bendinglight.view.ProtractorNode;
 import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.util.Function1;
@@ -54,7 +55,7 @@ public class PrismsCanvas extends BendingLightCanvas<PrismsModel> {
         }};
         afterLightLayer.addChild( resetButton );
 
-        final LaserControlPanelNode laserControlPanelNode = new LaserControlPanelNode( model.manyRays, laserView, model.getLaser().color, model.showReflections, showNormal ) {{
+        final LaserControlPanelNode laserControlPanelNode = new LaserControlPanelNode( model.manyRays, model.getLaser().color, model.showReflections, showNormal, showProtractor ) {{
             setOffset( stageSize.width - getFullBounds().getWidth() - 10, resetButton.getFullBounds().getMinY() - 10 - getFullBounds().getHeight() );
         }};
         afterLightLayer.addChild( laserControlPanelNode );
@@ -78,6 +79,15 @@ public class PrismsCanvas extends BendingLightCanvas<PrismsModel> {
             }
         } );
         beforeLightLayer.addChild( prismLayer );
+
+        addChild( new ProtractorNode( transform, showProtractor, 0, 0 ) {{
+            showProtractor.addObserver( new SimpleObserver() {
+                public void update() {
+                    setVisible( showProtractor.getValue() );
+                }
+            } );
+            scale( 0.65 );
+        }} );
     }
 
     public void addPrismNode( PrismNode node ) {
