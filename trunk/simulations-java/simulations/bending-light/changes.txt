@@ -1,3 +1,4 @@
+Added a small protractor to the prism tab
 Prevent laser from going to 90 degrees when in wave mode, should go until laser bumps into edge.
 Added "low" and "high" labels to the left and right of the index of refraction slider (prism tab only)
 Made the toolbox vertical instead of horizontal

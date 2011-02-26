@@ -12,10 +12,11 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.bendinglight.model.BendingLightModel;
 import edu.colorado.phet.bendinglight.view.BendingLightCanvas;
 import edu.colorado.phet.bendinglight.view.LaserColor;
-import edu.colorado.phet.bendinglight.view.LaserView;
+import edu.colorado.phet.bendinglight.view.ProtractorNode;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.model.SettableProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
@@ -30,7 +31,8 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * @author Sam Reid
  */
 public class LaserControlPanelNode extends ControlPanelNode {
-    public LaserControlPanelNode( final Property<Boolean> multipleRays, final Property<LaserView> laserView, final Property<LaserColor> laserColor, final Property<Boolean> showReflections, final SettableProperty<Boolean> showNormal ) {
+    public LaserControlPanelNode( final Property<Boolean> multipleRays, final Property<LaserColor> laserColor,
+                                  final Property<Boolean> showReflections, final SettableProperty<Boolean> showNormal, final Property<Boolean> showProtractor ) {
         super( new PSwing( new VerticalLayoutPanel() {{
             class MyRadioButton<T> extends PropertyRadioButton<T> {
                 MyRadioButton( String text, SettableProperty<T> property, T value ) {
@@ -95,6 +97,10 @@ public class LaserControlPanelNode extends ControlPanelNode {
             add( new JSeparator() );
             add( new PropertyCheckBox( "Show Reflections", showReflections ) {{setFont( BendingLightCanvas.labelFont );}} );
             add( new PropertyCheckBox( "Show Normal", showNormal ) {{setFont( BendingLightCanvas.labelFont );}} );
+            add( new HorizontalLayoutPanel() {{
+                add( new PropertyCheckBox( "Show Protractor", showProtractor ) {{setFont( BendingLightCanvas.labelFont );}} );
+                add( new JLabel( new ImageIcon( ProtractorNode.newProtractorImage( 40 ) ) ) );
+            }} );
         }} ) );
     }
 }
