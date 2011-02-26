@@ -28,15 +28,15 @@ public class PrismsCanvas extends BendingLightCanvas<PrismsModel> {
             addChild( new PrismNode( transform, prism, model.prismMedium ) );
         }
 
-        model.outerMedium.addObserver( new SimpleObserver() {
+        model.environment.addObserver( new SimpleObserver() {
             public void update() {
-                final Color color = model.colorMappingFunction.getValue().apply( model.outerMedium.getValue().getIndexOfRefraction() );
+                final Color color = model.colorMappingFunction.getValue().apply( model.environment.getValue().getIndexOfRefraction() );
                 setBackground( new Color( 255 - color.getRed(), 255 - color.getGreen(), 255 - color.getBlue() ) );
 //                setBackground( Color.black );
             }
         } );
 
-        afterLightLayer.addChild( new ControlPanelNode( new MediumControlPanel( this, model.outerMedium, model.colorMappingFunction, "Environment:", false ) ) {{
+        afterLightLayer.addChild( new ControlPanelNode( new MediumControlPanel( this, model.environment, model.colorMappingFunction, "Environment:", false ) ) {{
             setOffset( stageSize.width - getFullBounds().getWidth() - 10, 10 );
         }} );
 
