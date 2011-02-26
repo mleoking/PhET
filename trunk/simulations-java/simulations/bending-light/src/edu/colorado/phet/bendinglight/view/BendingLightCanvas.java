@@ -21,7 +21,6 @@ import edu.colorado.phet.common.phetcommon.util.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.FloatingClockControlNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -116,23 +115,6 @@ public class BendingLightCanvas<T extends BendingLightModel> extends PhetPCanvas
                 }
             }
         } );
-        afterLightLayer.addChild( new FloatingClockControlNode( clockRunningPressed, null, model.getClock(), "Reset", new Property<Color>( Color.white ) ) {{
-            setOffset( stageSize.width * 3 / 4 - getFullBounds().getWidth() / 2, stageSize.getHeight() - getFullBounds().getHeight() );
-            laserView.addObserver( new SimpleObserver() {
-                public void update() {
-                    setVisible( laserView.getValue().equals( LaserView.WAVE ) );
-                }
-            } );
-            final double dt = model.getClock().getDt();
-            final Property<Double> value = new Property<Double>( dt ) {{
-                addObserver( new SimpleObserver() {
-                    public void update() {
-                        model.getClock().setDt( getValue() );
-                    }
-                } );
-            }};
-            addChild( new SimSpeedSlider( dt / 2, value, dt * 2, 0, new Property<Color>( Color.black ) ) );
-        }} );
         addChild( beforeLightLayer );
         addChild( lightRayLayer );
         addChild( lightWaveLayer );
