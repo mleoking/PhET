@@ -76,7 +76,7 @@ public class ShinyPanel extends JPanel {
 
     private void layoutAll() {
         invalidate();
-        validateTree();
+        validate();
         revalidate();
         doLayout();
         repaint();
