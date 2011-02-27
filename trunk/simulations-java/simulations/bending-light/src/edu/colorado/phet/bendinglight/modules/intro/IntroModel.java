@@ -47,7 +47,7 @@ public class IntroModel extends BendingLightModel {
         final Rectangle bottom = new Rectangle( -10, -10, 20, 10 );
         final Rectangle top = new Rectangle( -10, 0, 20, 10 );
         if ( laser.on.getValue() ) {
-            final ImmutableVector2D tail = new ImmutableVector2D( laser.getEmissionPoint() );
+            final ImmutableVector2D tail = new ImmutableVector2D( laser.emissionPoint.getValue() );
 
             double n1 = topMedium.getValue().getIndexOfRefraction();
             double n2 = bottomMedium.getValue().getIndexOfRefraction();

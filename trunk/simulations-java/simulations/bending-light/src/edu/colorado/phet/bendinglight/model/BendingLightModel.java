@@ -99,7 +99,7 @@ public class BendingLightModel {
             public void update() {
                 updateModel();
             }
-        }.observe( laser.on, laser.angle, intensityMeter.sensorPosition, intensityMeter.enabled, laser.color );
+        }.observe( laser.on, laser.angle, laser.emissionPoint, intensityMeter.sensorPosition, intensityMeter.enabled, laser.color );
     }
 
     protected void addRay( LightRay ray ) {
