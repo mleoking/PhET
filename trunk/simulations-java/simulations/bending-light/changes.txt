@@ -1,3 +1,4 @@
+Added translation drag handles to the laser
 Added a protractor to the prism tab, and made it rotatable and smaller
 Moved clock controls to the left (intro tab)
 Fixed: allow light to move directly from prism to prism so that prisms can overlap

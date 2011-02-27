@@ -29,9 +29,9 @@ import static java.lang.Math.toRadians;
 /**
  * @author Sam Reid
  */
-public class LaserNodeDragHandle extends PNode {
+public class RotationDragHandle extends PNode {
 
-    public LaserNodeDragHandle( final ModelViewTransform transform, final Laser laser, final double deltaAngleDegrees, final BooleanProperty showDragHandles, final Function1<Double, Boolean> notAtMax ) {
+    public RotationDragHandle( final ModelViewTransform transform, final Laser laser, final double deltaAngleDegrees, final BooleanProperty showDragHandles, final Function1<Double, Boolean> notAtMax ) {
         ObservableProperty<Boolean> notAtMaximum = new ObservableProperty<Boolean>() {
             {
                 laser.angle.addObserver( new SimpleObserver() {

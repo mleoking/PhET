@@ -64,10 +64,14 @@ public class BendingLightCanvas<T extends BendingLightModel> extends PhetPCanvas
         mediumNode = new PNode();
         addChild( mediumNode );
 
-        final BooleanProperty showDragHandles = new BooleanProperty( false );
-        addChild( new LaserNodeDragHandle( transform, model.getLaser(), 10, showDragHandles, clockwiseArrowNotAtMax ) );
-        addChild( new LaserNodeDragHandle( transform, model.getLaser(), -10, showDragHandles, ccwArrowNotAtMax ) );
-        addChild( new LaserNode( transform, model.getLaser(), showDragHandles, clampDragAngle ) );
+        final BooleanProperty showRotationDragHandles = new BooleanProperty( false );
+        addChild( new RotationDragHandle( transform, model.getLaser(), 10, showRotationDragHandles, clockwiseArrowNotAtMax ) );
+        addChild( new RotationDragHandle( transform, model.getLaser(), -10, showRotationDragHandles, ccwArrowNotAtMax ) );
+//        addChild( new TranslationDragHandle( transform, model.getLaser(), -100, 0, showRotationDragHandles ) );
+//        addChild( new TranslationDragHandle( transform, model.getLaser(), 0, -100, showRotationDragHandles ) );
+//        addChild( new TranslationDragHandle( transform, model.getLaser(), 100, 0, showRotationDragHandles ) );
+//        addChild( new TranslationDragHandle( transform, model.getLaser(), 0, 100, showRotationDragHandles ) );
+        addChild( new LaserNode( transform, model.getLaser(), showRotationDragHandles, clampDragAngle ) );
 
         laserView.addObserver( new SimpleObserver() {
             public void update() {
