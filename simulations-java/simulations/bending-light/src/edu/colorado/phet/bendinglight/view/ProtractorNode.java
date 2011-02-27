@@ -2,15 +2,13 @@
 package edu.colorado.phet.bendinglight.view;
 
 import java.awt.*;
-import java.awt.geom.Area;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
+import java.awt.geom.*;
 import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.bendinglight.BendingLightApplication;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Property;
+import edu.colorado.phet.common.phetcommon.util.Function2;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
@@ -26,26 +24,37 @@ import edu.umd.cs.piccolo.util.PDimension;
  * @author Sam Reid
  */
 public class ProtractorNode extends PNode {
-    public ProtractorNode( final ModelViewTransform transform, final Property<Boolean> showProtractor, double x, double y ) {
-        final BufferedImage image = newProtractorImage( 250 );
-        addChild( new PImage( image ) {{
-            setOffset( transform.modelToViewX( 0 ) - getFullBounds().getWidth() / 2, transform.modelToViewY( 0 ) - getFullBounds().getHeight() / 2 );
+    private final ModelViewTransform transform;
+    private final ProtractorModel protractorModel;
+    private final BufferedImage image;
+    private final double scale;
+
+    public ProtractorNode( final ModelViewTransform transform, final Property<Boolean> showProtractor, final ProtractorModel protractorModel,
+                           Function2<Shape, Shape, Shape> translateShape, Function2<Shape, Shape, Shape> rotateShape,
+                           double scale ) {//Passed in as a separate arg since this node modifies its entire transform
+        this.scale = scale;
+        this.transform = transform;
+        this.protractorModel = protractorModel;
+        image = newProtractorImage( 250 );
+        final PImage imageNode = new PImage( image ) {{
             showProtractor.addObserver( new SimpleObserver() {
                 public void update() {
                     ProtractorNode.this.setVisible( showProtractor.getValue() );
                 }
             } );
-        }} );
+        }};
+        addChild( imageNode );
         final Ellipse2D.Double outerShape = new Ellipse2D.Double( 0, 0, image.getWidth(), image.getHeight() );
-        Area draggableShape = new Area( outerShape ) {{
+        Area outerRimShape = new Area( outerShape ) {{
             final double rx = image.getWidth() * 0.3;//tuned to the given image
             final double ry = image.getHeight() * 0.3;
-            subtract( new Area( new Ellipse2D.Double( outerShape.getCenterX() - rx, outerShape.getCenterY() - ry, rx * 2, ry * 2 ) ) );
-            add( new Area( new Rectangle2D.Double( 20, outerShape.getCenterY(), outerShape.getWidth() - 40, 38 ) ) );
+            subtract( new Area( new Ellipse2D.Double( outerShape.getCenterX() - rx, outerShape.getCenterY() - ry, rx * 2, ry * 2 ) ) );//cut out the semicircles in the middle
         }};
-        addChild( new PhetPPath( draggableShape, new Color( 0, 0, 0, 0 ) ) {{
-//        addChild( new PhetPPath( draggableShape, new Color( 255,0,0,128 ) ) {{//For debugging the drag hit area
-            setOffset( transform.modelToViewX( 0 ) - getFullBounds().getWidth() / 2, transform.modelToViewY( 0 ) - getFullBounds().getHeight() / 2 );
+
+        Rectangle2D.Double innerBarShape = new Rectangle2D.Double( 20, outerShape.getCenterY(), outerShape.getWidth() - 40, 38 );
+
+//        addChild( new PhetPPath( innerBarShape, new Color( 0, 255, 0, 128 ) ) {{//For debugging the drag hit area
+        addChild( new PhetPPath( translateShape.apply( innerBarShape, outerRimShape ), new Color( 0, 0, 0, 0 ) ) {{//For debugging the drag hit area
             addInputEventListener( new CursorHandler() );
             addInputEventListener( new PBasicInputEventHandler() {
                 public void mouseDragged( PInputEvent event ) {
@@ -54,8 +63,41 @@ public class ProtractorNode extends PNode {
             } );
         }} );
 
-        final Point2D point2D = transform.modelToViewDelta( new ImmutableVector2D( x, y ) ).toPoint2D();
-        translate( point2D.getX() + getFullBounds().getWidth() / 2, point2D.getY() - getFullBounds().getHeight() / 2 );
+        //        addChild( new PhetPPath( outerRimShape, new Color( 255, 0, 0, 128 ) ) {{//For debugging the drag hit area
+        addChild( new PhetPPath( rotateShape.apply( innerBarShape, outerRimShape ), new Color( 0, 0, 0, 0 ) ) {{
+            addInputEventListener( new CursorHandler() );
+            addInputEventListener( new PBasicInputEventHandler() {
+                Point2D start = null;
+
+                public void mousePressed( PInputEvent event ) {
+                    start = event.getPositionRelativeTo( getParent() );
+                }
+
+                public void mouseDragged( PInputEvent event ) {
+                    Point2D end = event.getPositionRelativeTo( getParent() );
+                    double startAngle = new ImmutableVector2D( getFullBounds().getCenter2D(), start ).getAngle();
+                    double angle = new ImmutableVector2D( getFullBounds().getCenter2D(), end ).getAngle();
+                    double deltaAngle = angle - startAngle;
+                    protractorModel.angle.setValue( protractorModel.angle.getValue() + deltaAngle );
+                }
+            } );
+        }} );
+
+        final SimpleObserver updateTransform = new SimpleObserver() {
+            public void update() {
+                doUpdateTransform();
+            }
+        };
+        protractorModel.position.addObserver( updateTransform );
+        protractorModel.angle.addObserver( updateTransform );
+    }
+
+    protected void doUpdateTransform() {
+        setTransform( new AffineTransform() );
+        setScale( scale );
+        final Point2D point2D = transform.modelToView( protractorModel.position.getValue() ).toPoint2D();
+        setOffset( ( point2D.getX() - image.getWidth() / 2 ) * scale, ( point2D.getY() - image.getHeight() / 2 ) * scale );
+        rotateAboutPoint( protractorModel.angle.getValue(), image.getWidth() / 2, image.getHeight() / 2 );
     }
 
     public static BufferedImage newProtractorImage( int height ) {
@@ -64,7 +106,7 @@ public class ProtractorNode extends PNode {
 
     public void doDrag( PInputEvent event ) {
         final PDimension delta = event.getDeltaRelativeTo( getParent() );
-        translate( delta.width / getScale(), delta.height / getScale() );
+        protractorModel.translate( transform.viewToModelDelta( new ImmutableVector2D( delta.width / getScale(), delta.height / getScale() ) ) );
     }
 
     @Override
