@@ -2,6 +2,7 @@
 package edu.colorado.phet.bendinglight.modules.intro;
 
 import java.awt.*;
+import java.awt.geom.Area;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
@@ -12,9 +13,11 @@ import edu.colorado.phet.bendinglight.BendingLightApplication;
 import edu.colorado.phet.bendinglight.model.IntensityMeter;
 import edu.colorado.phet.bendinglight.view.BendingLightCanvas;
 import edu.colorado.phet.bendinglight.view.IntensityMeterNode;
+import edu.colorado.phet.bendinglight.view.ProtractorModel;
 import edu.colorado.phet.bendinglight.view.ProtractorNode;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.util.Function2;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -61,8 +64,15 @@ public class ToolboxNode extends PNode {
                     if ( node == null ) {
                         final Point2D positionRelativeTo = event.getPositionRelativeTo( getParent().getParent().getParent() );//why?
                         Point2D model = transform.viewToModel( positionRelativeTo );
-                        node = new ProtractorNode( transform, showProtractor, model.getX(), model.getY() );
-                        node.translate( -node.getFullBounds().getWidth() / 2, node.getFullBounds().getHeight() / 2 );//Center on the mouse
+                        node = new ProtractorNode( transform, showProtractor, new ProtractorModel( model.getX(), model.getY() ), new Function2<Shape, Shape, Shape>() {
+                            public Shape apply( Shape innerBar, final Shape outerCircle ) {
+                                return new Area( innerBar ) {{add( new Area( outerCircle ) );}};
+                            }
+                        }, new Function2<Shape, Shape, Shape>() {
+                            public Shape apply( Shape innerBar, Shape outerCircle ) {
+                                return new Rectangle2D.Double( 0, 0, 0, 0 );//empty shape since shouldn't be rotatable in this tab
+                            }
+                        }, 1 );
                         final PropertyChangeListener pcl = new PropertyChangeListener() {
                             public void propertyChange( PropertyChangeEvent evt ) {
                                 intersect = ToolboxNode.this.getGlobalFullBounds().contains( node.getGlobalFullBounds().getCenter2D() );
