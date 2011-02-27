@@ -384,7 +384,7 @@ public class ModulePanel extends JPanel {
         rightPanel.invalidate();
         leftPanel.invalidate();
         invalidate();
-        validateTree();
+        validate();
         doLayout();
         repaint();
     }

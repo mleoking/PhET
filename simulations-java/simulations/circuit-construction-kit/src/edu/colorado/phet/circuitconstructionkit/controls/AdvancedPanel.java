@@ -97,7 +97,7 @@ public class AdvancedPanel extends VerticalLayoutPanel {
             listener.advancedPanelShown(this);
         }
         validateAll();
-        validateTree();
+        validate();
     }
 
     private void validateAll() {
@@ -126,7 +126,7 @@ public class AdvancedPanel extends VerticalLayoutPanel {
             listener.advancedPanelHidden(this);
         }
         validateAll();
-        validateTree();
+        validate();
     }
 
     ArrayList listeners = new ArrayList();

@@ -1,3 +1,4 @@
+2/27/11 #2756, replaced validateTree() with validate()
 2/23/11 #2753, moved color to PhetColorScheme
 2/21/11 #2747, some recommended changes to ColorControl
 2/21/11 #2746, open color chooser when clicking on label in ColorControl
