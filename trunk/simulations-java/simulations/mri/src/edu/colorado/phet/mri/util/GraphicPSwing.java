@@ -64,14 +64,12 @@ public class GraphicPSwing extends PNode {
         pSwing.setVisible( false );
         JComponent component = pSwing.getComponent();
         component.invalidate();
-//        component.validateTree();
         component.revalidate();
         component.doLayout();
         component.repaint();
         GraphicPSwing.this.invalidateFullBounds();
         GraphicPSwing.this.invalidatePaint();
         GraphicPSwing.super.repaint();
-
 
         pSwing.setVisible( true );
     }
