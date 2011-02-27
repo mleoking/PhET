@@ -1,7 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.bendinglight.modules.prisms;
 
-import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -138,10 +137,10 @@ public class PrismsModel extends BendingLightModel {
     protected void propagateRays() {
         super.propagateRays();
         if ( laser.on.getValue() ) {
-            final ImmutableVector2D tail = new ImmutableVector2D( laser.getEmissionPoint() );
+            final ImmutableVector2D tail = new ImmutableVector2D( laser.emissionPoint.getValue() );
 
-            final boolean laserInPrism = laserInPrism();
-            final ImmutableVector2D directionUnitVector = new ImmutableVector2D( tail.toPoint2D(), new Point2D.Double() ).getNormalizedInstance();
+            final boolean laserInPrism = isLaserInPrism();
+            final ImmutableVector2D directionUnitVector = laser.getDirectionUnitVector();
 
             final double wavelength = laser.color.getValue().getWavelength();
 
@@ -174,9 +173,9 @@ public class PrismsModel extends BendingLightModel {
         }
     }
 
-    private boolean laserInPrism() {
+    private boolean isLaserInPrism() {
         for ( Prism prism : prisms ) {
-            if ( prism.contains( laser.getEmissionPoint() ) ) { return true; }
+            if ( prism.contains( laser.emissionPoint.getValue() ) ) { return true; }
         }
         return false;
     }

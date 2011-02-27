@@ -35,7 +35,7 @@ public class TranslationDragHandle extends PNode {
             public void update() {
                 removeAllChildren();
                 final PNode counterClockwiseDragArrow = new PNode() {{
-                    Point2D pt = transform.modelToView( laser.getEmissionPoint().toPoint2D() );
+                    Point2D pt = transform.modelToView( laser.emissionPoint.getValue().toPoint2D() );
                     ImmutableVector2D vec = ImmutableVector2D.parseAngleAndMagnitude( image.getWidth() / 2, -laser.angle.getValue() );
                     addChild( new PhetPPath( new Arrow( new Point2D.Double( pt.getX() + vec.getX(), pt.getY() + vec.getY() ), new ImmutableVector2D( dx, dy ), 10, 10, 5, 2, true ).getShape(), Color.green, new BasicStroke( 1 ), Color.black ) );
                     setPickable( false );
@@ -44,7 +44,6 @@ public class TranslationDragHandle extends PNode {
                 addChild( counterClockwiseDragArrow );
             }
         };
-        laser.distanceFromOrigin.addObserver( update );
         laser.angle.addObserver( update );
     }
 

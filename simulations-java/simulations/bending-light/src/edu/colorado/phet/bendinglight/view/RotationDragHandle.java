@@ -57,7 +57,7 @@ public class RotationDragHandle extends PNode {
             public void update() {
                 removeAllChildren();
                 final PNode counterClockwiseDragArrow = new PNode() {{
-                    final double distance = transform.modelToViewDeltaX( laser.distanceFromOrigin.getValue() ) + image.getWidth() * 0.85;
+                    final double distance = transform.modelToViewDeltaX( laser.distanceFromPivot ) + image.getWidth() * 0.85;
                     final Point2D viewOrigin = transform.modelToView( 0, 0 );
                     final double laserAngleInDegrees = toDegrees( laser.angle.getValue() );
                     Arc2D.Double arc = new Arc2D.Double( -distance + viewOrigin.getX(), -distance + viewOrigin.getY(), 2 * distance, 2 * distance, laserAngleInDegrees, deltaAngleDegrees, Arc2D.OPEN );
@@ -79,7 +79,6 @@ public class RotationDragHandle extends PNode {
                 addChild( counterClockwiseDragArrow );
             }
         };
-        laser.distanceFromOrigin.addObserver( update );
         laser.angle.addObserver( update );
     }
 
