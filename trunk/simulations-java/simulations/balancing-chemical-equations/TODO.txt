@@ -10,7 +10,9 @@ MEDIUM PRIORITY
 - Game: generalize GameRewardNode and migrate to games project
 
 LOW PRIORITY
+- account for arrow head offset in layout of bars in chart
 - delete TestMoleculeNodes from build properties before publishing 1.00
+- make sure that color for "molecules are hidden" in BoxesNode works with the background color we choose
 
 MIGRATE TO COMMON
 - replace molecule image files in RPAL with Piccolo code from BCE

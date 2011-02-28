@@ -16,7 +16,7 @@ import javax.swing.SwingConstants;
 import edu.colorado.phet.balancingchemicalequations.BCEConstants;
 import edu.colorado.phet.balancingchemicalequations.BCEGlobalProperties;
 import edu.colorado.phet.balancingchemicalequations.BCEStrings;
-import edu.colorado.phet.balancingchemicalequations.control.BalanceChoiceNode.BalanceChoice;
+import edu.colorado.phet.balancingchemicalequations.control.BalancedRepresentationChoiceNode.BalancedRepresentation;
 import edu.colorado.phet.balancingchemicalequations.module.game.GameModel.GameState;
 import edu.colorado.phet.balancingchemicalequations.view.*;
 import edu.colorado.phet.balancingchemicalequations.view.game.BalancedNode;
@@ -137,17 +137,11 @@ public class GameCanvas extends BCECanvas {
         balancedNode = new BalancedNode();
         balancedNotSimplifiedNode = new BalancedNotSimplifiedNode();
         notBalancedNode = new NotBalancedNode( model.getCurrentEquationProperty(), globalProperties.getShowChartsAndScalesInGame() );
-        notBalancedNode.addPropertyChangeListener( new PropertyChangeListener() {
-            public void propertyChange( PropertyChangeEvent event ) {
-                /*
-                 * Bounds of this node will change when bar charts and balance scales are visible,
-                 * as specified by the global property showChartsAndScalesInGame.
-                 */
-                if ( event.getPropertyName().equals( PNode.PROPERTY_FULL_BOUNDS ) ) {
-                    updateGameResultsLayout();
-                }
+        notBalancedNode.addSizeChangedListener( new VoidFunction0() {
+            public void apply() {
+                updateGameResultsLayout();
             }
-        } );
+        });
 
         // Dev, shows balanced coefficients
         final BalancedEquationNode balancedEquationNode = new BalancedEquationNode( model.getCurrentEquationProperty() );
@@ -319,7 +313,7 @@ public class GameCanvas extends BCECanvas {
 
     public void initStartGame() {
         setTopLevelNodeVisible( gameSettingsNode );
-        notBalancedNode.setBalanceChoice( getRandomBalanceChoice() );
+        notBalancedNode.setBalancedRepresentation( getRandomBalanceChoice() );
     }
 
     public void initCheck() {
@@ -353,7 +347,7 @@ public class GameCanvas extends BCECanvas {
         equationNode.setEditable( false );
         model.getCurrentEquation().balance(); // show the correct answer
         setBalancedHighlightEnabled( true );
-        notBalancedNode.setBalanceChoice( getRandomBalanceChoice() );
+        notBalancedNode.setBalancedRepresentation( getRandomBalanceChoice() );
     }
 
     public void initNewGame() {
@@ -462,7 +456,7 @@ public class GameCanvas extends BCECanvas {
         }
     }
 
-    private BalanceChoice getRandomBalanceChoice() {
-        return ( Math.random() < 0.5 ) ? BalanceChoice.BALANCE_SCALES : BalanceChoice.BAR_CHARTS;
+    private BalancedRepresentation getRandomBalanceChoice() {
+        return ( Math.random() < 0.5 ) ? BalancedRepresentation.BALANCE_SCALES : BalancedRepresentation.BAR_CHARTS;
     }
 }

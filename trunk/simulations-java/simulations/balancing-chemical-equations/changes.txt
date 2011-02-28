@@ -1,3 +1,4 @@
+2/28/11 first pass at showing bar charts or balanace scales in "not balanced" popup
 2/28/11 randomly choose bar charts or balance scales for each Game problem
 2/28/11 make "not balanced" result aware of the current equation
 2/28/11 move GameResultNode inner subclasses to their own files

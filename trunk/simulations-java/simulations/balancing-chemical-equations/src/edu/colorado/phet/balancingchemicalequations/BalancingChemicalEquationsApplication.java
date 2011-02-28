@@ -12,6 +12,7 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBoxMenuItem;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
+import edu.umd.cs.piccolo.util.PDebug;
 
 /**
  * The main application for the "Balancing Chemical Equations" simulation.

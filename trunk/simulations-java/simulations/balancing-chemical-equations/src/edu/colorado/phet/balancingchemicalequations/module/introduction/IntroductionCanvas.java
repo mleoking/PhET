@@ -9,8 +9,8 @@ import java.beans.PropertyChangeListener;
 
 import edu.colorado.phet.balancingchemicalequations.BCEConstants;
 import edu.colorado.phet.balancingchemicalequations.BCEGlobalProperties;
-import edu.colorado.phet.balancingchemicalequations.control.BalanceChoiceNode;
-import edu.colorado.phet.balancingchemicalequations.control.BalanceChoiceNode.BalanceChoice;
+import edu.colorado.phet.balancingchemicalequations.control.BalancedRepresentationChoiceNode;
+import edu.colorado.phet.balancingchemicalequations.control.BalancedRepresentationChoiceNode.BalancedRepresentation;
 import edu.colorado.phet.balancingchemicalequations.control.EquationChoiceNode;
 import edu.colorado.phet.balancingchemicalequations.view.*;
 import edu.colorado.phet.common.phetcommon.model.Property;
@@ -29,7 +29,7 @@ public class IntroductionCanvas extends BCECanvas {
     private static final Dimension BOX_SIZE = new Dimension( 475, 220 );
     private static final double BOX_SEPARATION = 90;
 
-    private final Property<BalanceChoice> balanceChoiceProperty; // determines the visual representation of "balanced"
+    private final Property<BalancedRepresentation> balanceChoiceProperty; // determines the visual representation of "balanced"
     private final BoxesNode boxesNode;
 
     public IntroductionCanvas( final IntroductionModel model, final BCEGlobalProperties globalProperties, Resettable resettable ) {
@@ -37,7 +37,7 @@ public class IntroductionCanvas extends BCECanvas {
 
         HorizontalAligner aligner = new HorizontalAligner( BOX_SIZE, BOX_SEPARATION );
 
-        balanceChoiceProperty = new Property<BalanceChoice>( BalanceChoice.NONE );
+        balanceChoiceProperty = new Property<BalancedRepresentation>( BalancedRepresentation.NONE );
 
         // control for choosing an equation
         EquationChoiceNode equationChoiceNode = new EquationChoiceNode( model.getEquations(), model.getCurrentEquationProperty(), globalProperties.getCanvasColorProperty() );
@@ -53,7 +53,7 @@ public class IntroductionCanvas extends BCECanvas {
         addChild( boxesNode );
 
         // control for choosing the visual representation of "balanced"
-        BalanceChoiceNode balanceChoiceNode = new BalanceChoiceNode( balanceChoiceProperty, globalProperties.getCanvasColorProperty() );
+        BalancedRepresentationChoiceNode balanceChoiceNode = new BalancedRepresentationChoiceNode( balanceChoiceProperty, globalProperties.getCanvasColorProperty() );
         addChild( balanceChoiceNode );
 
         // bar charts
@@ -136,8 +136,8 @@ public class IntroductionCanvas extends BCECanvas {
         // observers
         balanceChoiceProperty.addObserver( new SimpleObserver() {
             public void update() {
-                barChartsNode.setVisible( balanceChoiceProperty.getValue().equals( BalanceChoice.BAR_CHARTS ) );
-                balanceScalesNode.setVisible( balanceChoiceProperty.getValue().equals( BalanceChoice.BALANCE_SCALES ) );
+                barChartsNode.setVisible( balanceChoiceProperty.getValue().equals( BalancedRepresentation.BAR_CHARTS ) );
+                balanceScalesNode.setVisible( balanceChoiceProperty.getValue().equals( BalancedRepresentation.BALANCE_SCALES ) );
             }
         } );
     }

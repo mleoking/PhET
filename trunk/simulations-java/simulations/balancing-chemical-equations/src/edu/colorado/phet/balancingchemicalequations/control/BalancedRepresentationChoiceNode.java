@@ -21,11 +21,11 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class BalanceChoiceNode extends PhetPNode {
+public class BalancedRepresentationChoiceNode extends PhetPNode {
 
-    public static enum BalanceChoice { NONE, BALANCE_SCALES, BAR_CHARTS };
+    public static enum BalancedRepresentation { NONE, BALANCE_SCALES, BAR_CHARTS };
 
-    public BalanceChoiceNode( Property<BalanceChoice> balanceChoiceProperty, Property<Color> backgroundProperty ) {
+    public BalancedRepresentationChoiceNode( Property<BalancedRepresentation> balanceChoiceProperty, Property<Color> backgroundProperty ) {
         addChild( new PSwing( new BalanceChoicePanel( balanceChoiceProperty, backgroundProperty ) ) );
         scale( BCEConstants.SWING_SCALE ); // scale this control, setting font size for radio buttons doesn't increase button size on Mac
     }
@@ -34,14 +34,14 @@ public class BalanceChoiceNode extends PhetPNode {
      * Swing component.
      */
     private static class BalanceChoicePanel extends GridPanel {
-        public BalanceChoicePanel( Property<BalanceChoice> balanceChoiceProperty, final Property<Color> backgroundProperty ) {
+        public BalanceChoicePanel( Property<BalancedRepresentation> balanceChoiceProperty, final Property<Color> backgroundProperty ) {
             setAnchor( Anchor.WEST );
             setGridX( GridBagConstraints.RELATIVE ); // horizontal layout
             setGridY( 0 ); // horizontal layout
 
-            add( new PropertyRadioButton<BalanceChoice>( BCEStrings.NONE, balanceChoiceProperty, BalanceChoice.NONE ) );
-            add( new PropertyRadioButton<BalanceChoice>( BCEStrings.BALANCE_SCALES, balanceChoiceProperty, BalanceChoice.BALANCE_SCALES ) );
-            add( new PropertyRadioButton<BalanceChoice>( BCEStrings.BAR_CHARTS, balanceChoiceProperty, BalanceChoice.BAR_CHARTS ) );
+            add( new PropertyRadioButton<BalancedRepresentation>( BCEStrings.NONE, balanceChoiceProperty, BalancedRepresentation.NONE ) );
+            add( new PropertyRadioButton<BalancedRepresentation>( BCEStrings.BALANCE_SCALES, balanceChoiceProperty, BalancedRepresentation.BALANCE_SCALES ) );
+            add( new PropertyRadioButton<BalancedRepresentation>( BCEStrings.BAR_CHARTS, balanceChoiceProperty, BalancedRepresentation.BAR_CHARTS ) );
 
             // #2710 workaround, must do this after adding all components!
             backgroundProperty.addObserver( new SimpleObserver() {
