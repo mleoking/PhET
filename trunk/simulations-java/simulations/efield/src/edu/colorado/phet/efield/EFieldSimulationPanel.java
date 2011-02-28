@@ -20,6 +20,7 @@ import edu.colorado.phet.efield.core.ParticleContainer;
 import edu.colorado.phet.efield.core.RandomSystemFactory;
 import edu.colorado.phet.efield.electricField.*;
 import edu.colorado.phet.efield.gui.*;
+import edu.colorado.phet.efield.gui.Painter;
 import edu.colorado.phet.efield.gui.addRemove.AddRemove;
 import edu.colorado.phet.efield.gui.addRemove.PanelAdapter;
 import edu.colorado.phet.efield.gui.addRemove.SystemAdapter;
