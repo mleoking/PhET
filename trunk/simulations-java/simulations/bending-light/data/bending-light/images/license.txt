@@ -4,3 +4,5 @@ intensity_meter_box.png author=phet notes=NP
 intensity_meter_probe.png author=phet notes=NP
 laser.png author=phet notes=NP
 protractor.png author=phet notes=NP
+laser_knob.png author=phet notes=N
+velocity_detector.png author=phet notes=NP
