@@ -8,7 +8,7 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.colorado.phet.capacitorlab.util.Dimension3D;
-import edu.colorado.phet.capacitorlab.util.ShapeUtils;
+import edu.colorado.phet.common.phetcommon.view.util.ShapeUtils;
 
 /**
  * Creates 2D projections of shapes that are related to the 3D boxes.
