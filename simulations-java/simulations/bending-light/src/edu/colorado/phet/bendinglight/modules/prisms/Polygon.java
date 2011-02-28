@@ -11,6 +11,7 @@ import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.common.phetcommon.math.PolygonUtils;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 
 import static java.lang.Double.isNaN;
@@ -36,6 +37,10 @@ public class Polygon {
         }
         path.closePath();
         return path.getGeneralPath();
+    }
+
+    public ImmutableVector2D getPoint( int i ) {
+        return points.get( i );
     }
 
     public Polygon getTranslatedInstance( final double dx, final double dy ) {
@@ -70,5 +75,38 @@ public class Polygon {
 
     public Rectangle2D getBounds() {
         return toShape().getBounds2D();
+    }
+
+    public Polygon getRotatedInstance( final double deltaAngle ) {
+        final ImmutableVector2D centroid = getCentroid();//cache for performance
+        return new Polygon( new ArrayList<ImmutableVector2D>() {{
+            for ( ImmutableVector2D point : points ) {
+                ImmutableVector2D vectorAboutCentroid = point.getSubtractedInstance( centroid );
+                final ImmutableVector2D rotated = vectorAboutCentroid.getRotatedInstance( deltaAngle );
+                add( rotated.getAddedInstance( centroid ) );
+            }
+        }} );
+    }
+
+    //This is a weighted sum of vertices, so not an exact center.
+//    private ImmutableVector2D getMyCentroid() {
+//        Vector2D sum = new Vector2D();
+//        for ( ImmutableVector2D point : points ) {
+//            sum.add( point );
+//        }
+//        final Vector2D scale = sum.scale( 1.0 / points.size() );
+//        return scale;
+//    }
+
+    private Point2D[] toPointArray() {
+        Point2D[] array = new Point2D[points.size()];
+        for ( int i = 0; i < array.length; i++ ) {
+            array[i] = points.get( i ).toPoint2D();
+        }
+        return array;
+    }
+
+    public ImmutableVector2D getCentroid() {
+        return new ImmutableVector2D( PolygonUtils.getCentroid( toPointArray() ) );
     }
 }
