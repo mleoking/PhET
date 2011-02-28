@@ -3,7 +3,6 @@ package edu.colorado.phet.bendinglight.view;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
@@ -14,6 +13,7 @@ import edu.colorado.phet.bendinglight.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.*;
 import edu.colorado.phet.common.phetcommon.util.Function1;
+import edu.colorado.phet.common.phetcommon.util.Function2;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -24,7 +24,6 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
-import edu.umd.cs.piccolo.util.PDimension;
 
 import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.*;
 
@@ -33,10 +32,13 @@ import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.*
  */
 public class LaserNode extends PNode {
 
-    public LaserNode( final ModelViewTransform transform, final Laser laser,
+    public LaserNode( final ModelViewTransform transform,
+                      final Laser laser,
                       final Property<Boolean> showRotationDragHandles,
                       final Property<Boolean> showTranslationDragHandles,
-                      final Function1<Double, Double> clampDragAngle ) {
+                      final Function1<Double, Double> clampDragAngle,
+                      Function2<Shape, Shape, Shape> translationRegion,//(full, front)=>selected
+                      Function2<Shape, Shape, Shape> rotationRegion ) {//full,back => selected
         final BufferedImage image = flipY( flipX( BendingLightApplication.RESOURCES.getImage( "laser.png" ) ) );
         final PNode clockwiseDragArrow = new PNode() {{
             addChild( new ArrowNode( new Point2D.Double( image.getWidth() / 2, image.getHeight() / 2 ), new Point2D.Double( image.getWidth() / 2, image.getHeight() / 2 - 150 ), 20, 20, 10 ) {{
@@ -91,6 +93,7 @@ public class LaserNode extends PNode {
 
         Rectangle2D.Double frontRectangle = new Rectangle2D.Double( 0, 0, image.getWidth() / 2, image.getHeight() );
         Rectangle2D.Double backRectangle = new Rectangle2D.Double( image.getWidth() / 2, 0, image.getWidth() / 2, image.getHeight() );
+        Rectangle2D.Double fullRectangle = new Rectangle2D.Double( 0, 0, image.getWidth(), image.getHeight() );
 
         class DragRegion extends PhetPPath {
             DragRegion( Shape shape, Paint fill, final VoidFunction1<PInputEvent> eventHandler, final BooleanProperty isMouseOver, final BooleanProperty isDragging ) {
@@ -120,14 +123,19 @@ public class LaserNode extends PNode {
             }
         }
 
-        addChild( new DragRegion( frontRectangle, new Color( 255, 0, 0, 128 ), new VoidFunction1<PInputEvent>() {
+        final Color dragRegionColor = new Color( 255, 0, 0, 0 );
+        final Color rotationRegionColor = new Color( 0, 0, 255, 0 );
+
+        //For debugging
+//        final Color dragRegionColor = new Color( 255, 0, 0, 128 );
+//        final Color rotationRegionColor = new Color( 0, 0, 255, 128 );
+
+        addChild( new DragRegion( translationRegion.apply( fullRectangle, frontRectangle ), dragRegionColor, new VoidFunction1<PInputEvent>() {
             public void apply( PInputEvent event ) {
-                final PDimension delta = event.getDeltaRelativeTo( getParent().getParent() );
-                Dimension2D modelDelta = transform.viewToModelDelta( delta );
-                laser.translate( modelDelta.getWidth(), modelDelta.getHeight() );
+                laser.translate( transform.viewToModelDelta( event.getDeltaRelativeTo( getParent().getParent() ) ) );
             }
         }, mouseOverTranslationPart, draggingTranslation ) );
-        addChild( new DragRegion( backRectangle, new Color( 0, 0, 255, 128 ), new VoidFunction1<PInputEvent>() {
+        addChild( new DragRegion( rotationRegion.apply( fullRectangle, backRectangle ), rotationRegionColor, new VoidFunction1<PInputEvent>() {
             public void apply( PInputEvent event ) {
                 ImmutableVector2D modelPoint = new ImmutableVector2D( transform.viewToModel( event.getPositionRelativeTo( getParent().getParent() ) ) );
                 ImmutableVector2D vector = modelPoint.getSubtractedInstance( laser.pivot.getValue() );

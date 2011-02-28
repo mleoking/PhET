@@ -1,6 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.bendinglight.model;
 
+import java.awt.geom.Dimension2D;
+
 import edu.colorado.phet.bendinglight.view.LaserColor;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Property;
@@ -40,6 +42,10 @@ public class Laser {
         on.reset();
         color.reset();
         wave.reset();
+    }
+
+    public void translate( Dimension2D delta ) {
+        translate( delta.getWidth(), delta.getHeight() );
     }
 
     public void translate( double dx, double dy ) {
