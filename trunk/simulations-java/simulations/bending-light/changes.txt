@@ -1,4 +1,4 @@
-# 0.00.22 (49314) Feb 28, 2011
+Fixed: laser can be dragged too far into the lower medium when in wave mode
 Fixed drag regions based on the new laser image
 Switched to a different laser image for the prism tab
 Added rotation drag handles to the prism objects
