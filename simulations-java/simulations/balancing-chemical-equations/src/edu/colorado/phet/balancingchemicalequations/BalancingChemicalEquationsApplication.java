@@ -10,6 +10,7 @@ import edu.colorado.phet.balancingchemicalequations.module.introduction.Introduc
 import edu.colorado.phet.balancingchemicalequations.module.game.GameModule;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
+import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBoxMenuItem;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 
 /**
@@ -35,6 +36,7 @@ public class BalancingChemicalEquationsApplication extends PiccoloPhetApplicatio
         // Developer menu
         JMenu developerMenu = getPhetFrame().getDeveloperMenu();
         developerMenu.add( new DeveloperColorsMenuItem( globalProperties ) );
+        developerMenu.add( new PropertyCheckBoxMenuItem( "Show charts and scales in Game", globalProperties.getShowChartsAndScalesInGame() ) );
     }
 
     public static void main( final String[] args ) throws ClassNotFoundException {
