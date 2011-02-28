@@ -48,7 +48,8 @@ public class BendingLightCanvas<T extends BendingLightModel> extends PhetPCanvas
                                boolean showNormal,
                                Resettable resetAll,
                                final Function2<Shape, Shape, Shape> laserTranslationRegion,
-                               final Function2<Shape, Shape, Shape> laserRotationRegion ) {
+                               final Function2<Shape, Shape, Shape> laserRotationRegion,
+                               String laserImageName ) {
         this.showNormal = new BooleanProperty( showNormal );
         this.model = model;
         // Root of our scene graph
@@ -76,7 +77,7 @@ public class BendingLightCanvas<T extends BendingLightModel> extends PhetPCanvas
         addChild( new TranslationDragHandle( transform, model.getLaser(), 0, -100, showTranslationDragHandles ) );
         addChild( new TranslationDragHandle( transform, model.getLaser(), 100, 0, showTranslationDragHandles ) );
         addChild( new TranslationDragHandle( transform, model.getLaser(), 0, 100, showTranslationDragHandles ) );
-        addChild( new LaserNode( transform, model.getLaser(), showRotationDragHandles, showTranslationDragHandles, clampDragAngle, laserTranslationRegion, laserRotationRegion ) );
+        addChild( new LaserNode( transform, model.getLaser(), showRotationDragHandles, showTranslationDragHandles, clampDragAngle, laserTranslationRegion, laserRotationRegion, laserImageName ) );
 
         laserView.addObserver( new SimpleObserver() {
             public void update() {

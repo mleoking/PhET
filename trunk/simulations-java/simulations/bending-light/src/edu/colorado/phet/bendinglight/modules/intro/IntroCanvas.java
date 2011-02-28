@@ -49,7 +49,7 @@ public class IntroCanvas extends BendingLightCanvas<IntroModel> {
                     public Shape apply( Shape full, Shape back ) {
                         return full; //rotation if the user clicks anywhere on the object.
                     }
-                } );
+                }, "laser.png" );
         mediumNode.addChild( new MediumNode( transform, model.topMedium ) );
         mediumNode.addChild( new MediumNode( transform, model.bottomMedium ) );
 

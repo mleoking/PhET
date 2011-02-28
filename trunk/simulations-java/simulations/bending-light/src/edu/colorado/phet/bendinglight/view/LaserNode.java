@@ -38,8 +38,9 @@ public class LaserNode extends PNode {
                       final Property<Boolean> showTranslationDragHandles,
                       final Function1<Double, Double> clampDragAngle,
                       Function2<Shape, Shape, Shape> translationRegion,//(full, front)=>selected
-                      Function2<Shape, Shape, Shape> rotationRegion ) {//full,back => selected
-        final BufferedImage image = flipY( flipX( BendingLightApplication.RESOURCES.getImage( "laser.png" ) ) );
+                      Function2<Shape, Shape, Shape> rotationRegion, //full,back => selected
+                      String imageName ) {
+        final BufferedImage image = flipY( flipX( BendingLightApplication.RESOURCES.getImage( imageName ) ) );
         final PNode clockwiseDragArrow = new PNode() {{
             addChild( new ArrowNode( new Point2D.Double( image.getWidth() / 2, image.getHeight() / 2 ), new Point2D.Double( image.getWidth() / 2, image.getHeight() / 2 - 150 ), 20, 20, 10 ) {{
                 setPaint( Color.green );
