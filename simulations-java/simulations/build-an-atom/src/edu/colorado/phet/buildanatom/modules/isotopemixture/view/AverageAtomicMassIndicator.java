@@ -137,6 +137,14 @@ public class AverageAtomicMassIndicator extends PNode {
             PNode readoutBackgroundNode = new PhetPPath( new RoundRectangle2D.Double( -SIZE.getWidth() / 2, TRIANGULAR_POINTER_HEIGHT, SIZE.getWidth(), SIZE.getHeight(), 5, 5), Color.WHITE, new BasicStroke( 3 ), Color.BLACK );
             addChild( readoutBackgroundNode );
 
+            // Add the textual readout.
+            PText textualReadout = new PText(){{
+                setFont( new PhetFont() );
+            }};
+            readoutBackgroundNode.addChild( textualReadout );
+            // Observe the average atomic weight property in the model and
+            // update the textual readout whenever it changes.
+            // TODO:
         }
     }
 }
