@@ -27,19 +27,32 @@ public abstract class GameResultNode extends PComposite {
     private static final double MARGIN = 20;
     private static final double FACE_DIAMETER = 100;
 
+    private final boolean smile;
+
     public GameResultNode( boolean smile ) {
+        this.smile = smile;
+
+        // make draggable
+        addInputEventListener( new PDragEventHandler() );
+        addInputEventListener( new CursorHandler() );
+
+        updateNode();
+    }
+
+    protected void updateNode() {
+
+        removeAllChildren();
+
+        PNode parentNode = new PComposite();
+        addChild( parentNode );
 
         FaceNode faceNode = new FaceNode( FACE_DIAMETER );
         if ( !smile ) {
             faceNode.frown();
         }
-
-        PNode parentNode = new PComposite();
+        parentNode.addChild( faceNode );
 
         PNode iconsAndTextNode = createIconsAndText( FONT );
-
-        // rendering order for parentNode children
-        parentNode.addChild( faceNode );
         parentNode.addChild( iconsAndTextNode );
 
         // layout
@@ -49,24 +62,20 @@ public abstract class GameResultNode extends PComposite {
         faceNode.setOffset( x, y );
         x = ( maxWidth / 2 ) - ( iconsAndTextNode.getFullBoundsReference().getWidth() / 2 );
         y = faceNode.getFullBoundsReference().getMaxY() + 20;
-        iconsAndTextNode.setOffset( x, y );
+        iconsAndTextNode.setOffset( x - PNodeLayoutUtils.getOriginXOffset( iconsAndTextNode ), y - PNodeLayoutUtils.getOriginYOffset( iconsAndTextNode ) );
         parentNode.setOffset( -PNodeLayoutUtils.getOriginXOffset( parentNode ), -PNodeLayoutUtils.getOriginYOffset( parentNode ) );
 
         // now add a transparent background
-        double w = parentNode.getFullBoundsReference().getWidth() + ( 2 * MARGIN );
-        double h = parentNode.getFullBoundsReference().getHeight() + ( 2 * MARGIN );
+        double w = getFullBoundsReference().getWidth() + ( 2 * MARGIN );
+        double h = getFullBoundsReference().getHeight() + ( 2 * MARGIN );
         PPath backgroundNode = new PPath( new Rectangle2D.Double( 0, 0, w, h ) );
         backgroundNode.setPaint( BACKGROUND );
         addChild( backgroundNode );
-        addChild( parentNode );
+        backgroundNode.moveToBack();
 
         // layout the top-level nodes
         backgroundNode.setOffset( 0, 0 );
-        parentNode.setOffset( parentNode.getXOffset() + MARGIN, parentNode.getYOffset() + MARGIN );
-
-        // make draggable
-        addInputEventListener( new PDragEventHandler() );
-        addInputEventListener( new CursorHandler() );
+        parentNode.translate( MARGIN, MARGIN );
     }
 
     protected abstract PNode createIconsAndText( PhetFont font );
