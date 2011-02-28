@@ -8,7 +8,7 @@ import java.awt.Stroke;
 
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.colorado.phet.capacitorlab.shapes.BoxShapeFactory;
-import edu.colorado.phet.capacitorlab.util.Dimension3D;
+import edu.colorado.phet.common.phetcommon.math.Dimension3D;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.nodes.PPath;

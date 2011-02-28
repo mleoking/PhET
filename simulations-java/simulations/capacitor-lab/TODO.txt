@@ -48,6 +48,5 @@ GENERAL BUGS
 - #2557, dragging is broken for PSwing nodes on Mac
 
 MIGRATE TO PHETCOMMON
-- Dimension3D
 
 --
