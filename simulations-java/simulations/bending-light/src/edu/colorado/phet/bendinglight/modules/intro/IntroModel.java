@@ -53,7 +53,7 @@ public class IntroModel extends BendingLightModel {
             double n2 = bottomMedium.getValue().getIndexOfRefraction();
 
             //Snell's law, see http://en.wikipedia.org/wiki/Snell's_law
-            final double theta1 = laser.angle.getValue() - Math.PI / 2;
+            final double theta1 = laser.getAngle() - Math.PI / 2;
             double theta2 = asin( n1 / n2 * sin( theta1 ) );
 
             final double sourcePower = 1.0;
@@ -88,7 +88,7 @@ public class IntroModel extends BendingLightModel {
                 }
                 double reflectedWaveWidth = sourceWaveWidth;
                 addAndAbsorb( new LightRay( new ImmutableVector2D(),
-                                            parseAngleAndMagnitude( 1, Math.PI - laser.angle.getValue() ), n1, WAVELENGTH_RED / n1, reflectedPowerRatio * sourcePower, color, reflectedWaveWidth, incidentRay.getNumberOfWavelengths(), bottom, 0.0, true, false ) );
+                                            parseAngleAndMagnitude( 1, Math.PI - laser.getAngle() ), n1, WAVELENGTH_RED / n1, reflectedPowerRatio * sourcePower, color, reflectedWaveWidth, incidentRay.getNumberOfWavelengths(), bottom, 0.0, true, false ) );
 
                 if ( hasTransmittedRay ) {
                     //Transmitted

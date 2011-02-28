@@ -1,3 +1,4 @@
+Fixed laser translation and rotation
 Added initial support for laser translation
 Added translation drag handles to the laser
 Added a protractor to the prism tab, and made it rotatable and smaller

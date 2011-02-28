@@ -100,18 +100,18 @@ public class LaserNode extends PNode {
         } ) );
         addChild( new DragRegion( backRectangle, new Color( 0, 0, 255, 128 ), new VoidFunction1<PInputEvent>() {
             public void apply( PInputEvent event ) {
-                Point2D viewPt = event.getPositionRelativeTo( getParent().getParent() );
-                ImmutableVector2D modelPoint = new ImmutableVector2D( transform.viewToModel( viewPt ) );
-                final double angle = modelPoint.getAngle();
+                ImmutableVector2D modelPoint = new ImmutableVector2D( transform.viewToModel( event.getPositionRelativeTo( getParent().getParent() ) ) );
+                ImmutableVector2D vector = modelPoint.getSubtractedInstance( laser.pivot.getValue() );
+                final double angle = vector.getAngle();
                 double after = clampDragAngle.apply( angle );
-                laser.angle.setValue( after );
+                laser.setAngle( after );
             }
         } ) );
 
         final RichSimpleObserver updateLaser = new RichSimpleObserver() {
             public void update() {
                 Point2D emissionPoint = transform.modelToView( laser.emissionPoint.getValue() ).toPoint2D();
-                final double angle = transform.modelToView( ImmutableVector2D.parseAngleAndMagnitude( 1, laser.angle.getValue() ) ).getAngle();
+                final double angle = transform.modelToView( ImmutableVector2D.parseAngleAndMagnitude( 1, laser.getAngle() ) ).getAngle();
 
                 final AffineTransform t = new AffineTransform();
                 t.translate( emissionPoint.getX(), emissionPoint.getY() );
@@ -121,7 +121,7 @@ public class LaserNode extends PNode {
                 LaserNode.this.setTransform( t );
             }
         };
-        updateLaser.observe( laser.angle, laser.emissionPoint );
+        updateLaser.observe( laser.pivot, laser.emissionPoint );
 
         final BufferedImage pressed = flipY( flipX( multiScaleToHeight( BendingLightApplication.RESOURCES.getImage( "button_pressed.png" ), 42 ) ) );
         final BufferedImage unpressed = flipY( flipX( multiScaleToHeight( BendingLightApplication.RESOURCES.getImage( "button_unpressed.png" ), 42 ) ) );
