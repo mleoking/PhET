@@ -9,8 +9,8 @@ import java.awt.geom.Rectangle2D;
 import edu.colorado.phet.capacitorlab.model.Battery;
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.colorado.phet.capacitorlab.model.Polarity;
-import edu.colorado.phet.capacitorlab.util.ShapeUtils;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
+import edu.colorado.phet.common.phetcommon.view.util.ShapeUtils;
 
 /**
  * Creates 2D projections of shapes that are related to the 3D battery model.

@@ -6,10 +6,10 @@ import java.awt.geom.Dimension2D;
 
 import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit.BatteryCapacitorCircuitChangeListener;
 import edu.colorado.phet.capacitorlab.shapes.VoltmeterShapeFactory;
-import edu.colorado.phet.capacitorlab.util.ShapeUtils;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.view.util.ShapeUtils;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
