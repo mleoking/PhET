@@ -20,6 +20,7 @@ import edu.colorado.phet.signalcircuit.electron.wire1d.propagators.CompositeProp
 import edu.colorado.phet.signalcircuit.electron.wire1d.propagators.ForcePropagator;
 import edu.colorado.phet.signalcircuit.electron.wire1d.propagators.WireEndPropagator;
 import edu.colorado.phet.signalcircuit.paint.*;
+import edu.colorado.phet.signalcircuit.paint.Painter;
 import edu.colorado.phet.signalcircuit.paint.animate.Movie;
 import edu.colorado.phet.signalcircuit.paint.animate.PointSource;
 import edu.colorado.phet.signalcircuit.paint.animate.laws.AnimateAdder;

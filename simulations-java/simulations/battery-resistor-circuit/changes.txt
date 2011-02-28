@@ -1,3 +1,4 @@
+2/27/2011 #2757 Fixed ambiguous reference to class Painter
 # 1.03.00 (37970) Jan 8, 2010
 1/8/10 public version for milestone "full redeploy, 2010 Q1"
 # 1.02.01 (37335) Dec 11, 2009
