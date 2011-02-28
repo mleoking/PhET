@@ -36,6 +36,7 @@ public class Laser {
         };
         wave.addObserver( clampAngle );
         emissionPoint = new Property<ImmutableVector2D>( parseAngleAndMagnitude( distanceFromPivot, angle ) );
+        emissionPoint.addObserver( clampAngle );
     }
 
     public void resetAll() {
