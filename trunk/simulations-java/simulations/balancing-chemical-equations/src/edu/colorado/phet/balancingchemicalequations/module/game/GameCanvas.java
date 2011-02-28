@@ -16,6 +16,7 @@ import javax.swing.SwingConstants;
 import edu.colorado.phet.balancingchemicalequations.BCEConstants;
 import edu.colorado.phet.balancingchemicalequations.BCEGlobalProperties;
 import edu.colorado.phet.balancingchemicalequations.BCEStrings;
+import edu.colorado.phet.balancingchemicalequations.control.BalanceChoiceNode.BalanceChoice;
 import edu.colorado.phet.balancingchemicalequations.module.game.GameModel.GameState;
 import edu.colorado.phet.balancingchemicalequations.view.*;
 import edu.colorado.phet.balancingchemicalequations.view.game.BalancedNode;
@@ -61,7 +62,8 @@ public class GameCanvas extends BCECanvas {
     private final BoxesNode boxesNode;
     private final ButtonNode checkButton, tryAgainButton, showAnswerButton, nextButton;
     private final GameScoreboardNode scoreboardNode;
-    private final PNode balancedNode, balancedNotSimplifiedNode, notBalancedNode;
+    private final PNode balancedNode, balancedNotSimplifiedNode;
+    private final NotBalancedNode notBalancedNode;
 
     public GameCanvas( final GameModel model, final BCEGlobalProperties globalProperties, Resettable resettable ) {
         super( globalProperties.getCanvasColorProperty() );
@@ -317,6 +319,7 @@ public class GameCanvas extends BCECanvas {
 
     public void initStartGame() {
         setTopLevelNodeVisible( gameSettingsNode );
+        notBalancedNode.setBalanceChoice( getRandomBalanceChoice() );
     }
 
     public void initCheck() {
@@ -350,6 +353,7 @@ public class GameCanvas extends BCECanvas {
         equationNode.setEditable( false );
         model.getCurrentEquation().balance(); // show the correct answer
         setBalancedHighlightEnabled( true );
+        notBalancedNode.setBalanceChoice( getRandomBalanceChoice() );
     }
 
     public void initNewGame() {
@@ -456,5 +460,9 @@ public class GameCanvas extends BCECanvas {
         if ( notBalancedNode.getFullBoundsReference().getMaxY() >= checkButton.getFullBoundsReference().getMinY() ) {
             PNodeLayoutUtils.alignInside( notBalancedNode, boxesNode, SwingConstants.BOTTOM, SwingConstants.CENTER );
         }
+    }
+
+    private BalanceChoice getRandomBalanceChoice() {
+        return ( Math.random() < 0.5 ) ? BalanceChoice.BALANCE_SCALES : BalanceChoice.BAR_CHARTS;
     }
 }
