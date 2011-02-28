@@ -7,7 +7,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Stroke;
 import java.awt.geom.Dimension2D;
-import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 import java.text.DecimalFormat;
 import java.util.List;
@@ -33,7 +32,7 @@ public class AverageAtomicMassIndicator extends PNode {
 
     private static double INDICATOR_WIDTH = 300; // In screen units, which is close to pixels.
 
-    private double massSpan = 0; // In amu.
+    private double massSpan = 1; // In amu.
     private double minMass = 0; // In amu.
     private double maxMass = 0; // In amu.
 
@@ -87,21 +86,35 @@ public class AverageAtomicMassIndicator extends PNode {
                 // Add the new tick marks.
                 for ( ImmutableAtom isotope : model.getPossibleIsotopesProperty().getValue() ){
                     IsotopeTickMark tickMark = new IsotopeTickMark( isotope );
-                    tickMark.setOffset( calcOffsetFromAtomicMass( isotope.getAtomicMass() ), barOffsetY );
+                    tickMark.setOffset( calcXOffsetFromAtomicMass( isotope.getAtomicMass() ), barOffsetY );
                     tickMarkLayer.addChild( tickMark );
                 }
             }
-        });
+        }, false );
 
         // Add the moving readout.
-        PNode readoutPointer = new ReadoutPointer( model );
+        final PNode readoutPointer = new ReadoutPointer( model );
         readoutPointer.setOffset( barNode.getFullBoundsReference().getCenterX(), barOffsetY + 20 );
         addChild( readoutPointer );
 
+        // Add a listener to position the moving readout in a location that
+        // corresponds to the average atomic mass.
+        model.getIsotopeTestChamber().getAverageAtomicMassProperty().addObserver( new SimpleObserver() {
+            public void update() {
+                readoutPointer.setOffset( calcXOffsetFromAtomicMass( model.getIsotopeTestChamber().getAverageAtomicMassProperty().getValue() ), barOffsetY  );
+            }
+        });
     }
 
-    private double calcOffsetFromAtomicMass( double atomicMass ){
-        return (atomicMass - minMass) / massSpan * INDICATOR_WIDTH;
+    /**
+     * Calculate the X offset on the bar given the atomic mass.  This is
+     * clamped to never return a value less than 0.
+     *
+     * @param atomicMass
+     * @return
+     */
+    private double calcXOffsetFromAtomicMass( double atomicMass ){
+        return Math.max( ( atomicMass - minMass ) / massSpan * INDICATOR_WIDTH, 0 );
     }
 
     /**
