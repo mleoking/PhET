@@ -2,9 +2,10 @@
 
 package edu.colorado.phet.balancingchemicalequations.view.game;
 
-import java.awt.Color;
+import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
+import edu.colorado.phet.common.phetcommon.util.Function1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.FaceNode;
@@ -27,19 +28,13 @@ public abstract class GameResultNode extends PComposite {
     private static final double MARGIN = 20;
     private static final double FACE_DIAMETER = 100;
 
-    private final boolean smile;
-
-    public GameResultNode( boolean smile ) {
-        this.smile = smile;
+    public GameResultNode( boolean smile,
+                           Function1<PhetFont,PNode> createIconsAndText//This is a function that creates the content of the dialog that will appear below the face node
+    ) {
 
         // make draggable
         addInputEventListener( new PDragEventHandler() );
         addInputEventListener( new CursorHandler() );
-
-        updateNode();
-    }
-
-    protected void updateNode() {
 
         removeAllChildren();
 
@@ -52,7 +47,7 @@ public abstract class GameResultNode extends PComposite {
         }
         parentNode.addChild( faceNode );
 
-        PNode iconsAndTextNode = createIconsAndText( FONT );
+        PNode iconsAndTextNode = createIconsAndText.apply( FONT );
         parentNode.addChild( iconsAndTextNode );
 
         // layout
@@ -78,5 +73,5 @@ public abstract class GameResultNode extends PComposite {
         parentNode.translate( MARGIN, MARGIN );
     }
 
-    protected abstract PNode createIconsAndText( PhetFont font );
+//    protected abstract PNode createIconsAndText( PhetFont font );
 }
