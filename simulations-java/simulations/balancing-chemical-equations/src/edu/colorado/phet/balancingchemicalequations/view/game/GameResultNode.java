@@ -5,19 +5,13 @@ package edu.colorado.phet.balancingchemicalequations.view.game;
 import java.awt.Color;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.balancingchemicalequations.BCEResources;
-import edu.colorado.phet.balancingchemicalequations.BCEStrings;
-import edu.colorado.phet.common.phetcommon.model.Property;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.FaceNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
-import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
-import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
@@ -76,118 +70,4 @@ public abstract class GameResultNode extends PComposite {
     }
 
     protected abstract PNode createIconsAndText( PhetFont font );
-
-    /**
-     * Indicator that equation is balanced.
-     * Smiley face, check mark, and text.
-     */
-    public static class BalancedNode extends GameResultNode {
-
-        public BalancedNode() {
-            super( true /* smile */ );
-        }
-
-        protected PNode createIconsAndText( PhetFont font ) {
-            PNode parentNode = new PNode();
-
-            PImage iconNode = new PImage( BCEResources.getImage( "Check-Mark-u2713.png" ) );
-            parentNode.addChild( iconNode );
-
-            PText textNode = new PText( BCEStrings.BALANCED );
-            textNode.setFont( font );
-            parentNode.addChild( textNode );
-
-            // layout
-            iconNode.setOffset( 0, 0 );
-            double x = iconNode.getFullBoundsReference().getMaxX() + 2;
-            double y = iconNode.getFullBoundsReference().getCenterY() - ( textNode.getFullBoundsReference().getHeight() / 2 );
-            textNode.setOffset( x, y );
-
-            return parentNode;
-        }
-    }
-
-    /**
-     * Indicator that equation is not balanced, by any definition of balanced.
-     * Frowny face, big "X" and text.
-     */
-    public static class NotBalancedNode extends GameResultNode {
-
-        public NotBalancedNode( final Property<Boolean> verboseProperty ) {
-            super( false /* smile */ );
-            verboseProperty.addObserver( new SimpleObserver() {
-                public void update() {
-                    //TODO rebuild this node with or without bar charts or balance scales
-                    System.out.println( "NotBalancedNode.update " + verboseProperty.getValue() );//XXX
-                }
-            } );
-        }
-
-        protected PNode createIconsAndText( PhetFont font ) {
-            PNode parentNode = new PNode();
-
-            PImage iconNode = new PImage( BCEResources.getImage( "Heavy-Ballot-X-u2718.png" ) );
-            parentNode.addChild( iconNode );
-
-            PText textNode = new PText( BCEStrings.NOT_BALANCED );
-            textNode.setFont( font );
-            parentNode.addChild( textNode );
-
-            // layout
-            iconNode.setOffset( 0, 0 );
-            double x = iconNode.getFullBoundsReference().getMaxX() + 2;
-            double y = iconNode.getFullBoundsReference().getCenterY() - ( textNode.getFullBoundsReference().getHeight() / 2 );
-            textNode.setOffset( x, y );
-
-            return parentNode;
-        }
-    }
-
-    /**
-     * Indicator that equation is balanced, but not simplified (not lowest coefficients).
-     * Frowny face, check mark for balanced, big "X" for not simplified.
-     */
-    public static class BalancedNotSimplifiedNode extends GameResultNode {
-
-        public BalancedNotSimplifiedNode() {
-            super( false /* smile */ );
-        }
-
-        @Override
-        protected PNode createIconsAndText( PhetFont font ) {
-
-            PNode parentNode = new PNode();
-
-            PImage checkNode = new PImage( BCEResources.getImage( "Check-Mark-u2713.png" ) );
-            parentNode.addChild( checkNode );
-
-            PText balancedTextNode = new PText( BCEStrings.BALANCED );
-            balancedTextNode.setFont( font );
-            parentNode.addChild( balancedTextNode );
-
-            PImage xNode = new PImage( BCEResources.getImage( "Heavy-Ballot-X-u2718.png" ) );
-            parentNode.addChild( xNode );
-
-            PText notSimplifiedTextNode = new PText( BCEStrings.NOT_SIMPLIFIED );
-            notSimplifiedTextNode.setFont( font );
-            parentNode.addChild( notSimplifiedTextNode );
-
-            // layout
-            final double maxImageWidth = Math.max( checkNode.getFullBoundsReference().getWidth(), xNode.getFullBoundsReference().getWidth() );
-            double x = maxImageWidth - checkNode.getFullBoundsReference().getWidth();
-            double y = 0;
-            checkNode.setOffset( x, y );
-            x = checkNode.getFullBoundsReference().getMaxX() + 2;
-            y = checkNode.getFullBoundsReference().getCenterY() - ( balancedTextNode.getFullBoundsReference().getHeight() / 2 );
-            balancedTextNode.setOffset( x, y );
-            x = maxImageWidth - xNode.getFullBoundsReference().getWidth();
-            y = Math.max( checkNode.getFullBoundsReference().getMaxY(), balancedTextNode.getFullBoundsReference().getMaxY() ) + 4;
-            xNode.setOffset( x, y );
-            x = balancedTextNode.getXOffset();
-            y = xNode.getFullBoundsReference().getCenterY() - ( notSimplifiedTextNode.getFullBoundsReference().getHeight() / 2 );
-            notSimplifiedTextNode.setOffset( x, y );
-
-            return parentNode;
-        }
-    }
 }

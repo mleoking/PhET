@@ -18,9 +18,9 @@ import edu.colorado.phet.balancingchemicalequations.BCEGlobalProperties;
 import edu.colorado.phet.balancingchemicalequations.BCEStrings;
 import edu.colorado.phet.balancingchemicalequations.module.game.GameModel.GameState;
 import edu.colorado.phet.balancingchemicalequations.view.*;
-import edu.colorado.phet.balancingchemicalequations.view.game.GameResultNode.BalancedNode;
-import edu.colorado.phet.balancingchemicalequations.view.game.GameResultNode.BalancedNotSimplifiedNode;
-import edu.colorado.phet.balancingchemicalequations.view.game.GameResultNode.NotBalancedNode;
+import edu.colorado.phet.balancingchemicalequations.view.game.BalancedNode;
+import edu.colorado.phet.balancingchemicalequations.view.game.BalancedNotSimplifiedNode;
+import edu.colorado.phet.balancingchemicalequations.view.game.NotBalancedNode;
 import edu.colorado.phet.common.games.*;
 import edu.colorado.phet.common.games.GameOverNode.GameOverListener;
 import edu.colorado.phet.common.games.GameScoreboardNode.GameScoreboardListener;
@@ -134,7 +134,7 @@ public class GameCanvas extends BCECanvas {
         // Balance indicators
         balancedNode = new BalancedNode();
         balancedNotSimplifiedNode = new BalancedNotSimplifiedNode();
-        notBalancedNode = new NotBalancedNode( globalProperties.getShowChartsAndScalesInGame() );
+        notBalancedNode = new NotBalancedNode( model.getCurrentEquationProperty(), globalProperties.getShowChartsAndScalesInGame() );
         notBalancedNode.addPropertyChangeListener( new PropertyChangeListener() {
             public void propertyChange( PropertyChangeEvent event ) {
                 /*
