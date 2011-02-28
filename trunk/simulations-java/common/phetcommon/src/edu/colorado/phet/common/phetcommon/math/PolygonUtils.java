@@ -1,6 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 
-package edu.colorado.phet.capacitorlab.util;
+package edu.colorado.phet.common.phetcommon.math;
 
 import java.awt.geom.Point2D;
 
@@ -24,7 +24,7 @@ public class PolygonUtils {
      */
     public static double getArea( Point2D[] p ) {
         double a = 0;
-        for ( int i = 0; i < p.length - 1; i++ ) {
+        for ( int i = 0; i < p.length; i++ ) {
             int j = ( i + 1 ) % p.length;
             a += ( p[i].getX() * p[j].getY() );
             a -= ( p[j].getX() * p[i].getY() );
