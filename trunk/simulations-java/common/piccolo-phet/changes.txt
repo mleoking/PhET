@@ -1,3 +1,4 @@
+2/28/11 add PNodeLayoutUtils.alignInside, with test app TestAlignInside
 Changed the background color for ControlPanelNode
 2/23/11 #2753, moved color to PhetColorScheme
 2/23/2011 Changed measuring tape cross hair color from red to Color( 255, 85, 0 ) to improve color blind support, see #2753
