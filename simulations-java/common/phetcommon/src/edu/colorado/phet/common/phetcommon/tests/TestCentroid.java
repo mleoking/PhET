@@ -1,6 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 
-package edu.colorado.phet.capacitorlab.test;
+package edu.colorado.phet.common.phetcommon.tests;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
