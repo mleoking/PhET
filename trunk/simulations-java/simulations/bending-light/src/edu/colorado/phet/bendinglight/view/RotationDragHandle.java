@@ -34,7 +34,7 @@ public class RotationDragHandle extends PNode {
     public RotationDragHandle( final ModelViewTransform transform, final Laser laser, final double deltaAngleDegrees, final BooleanProperty showDragHandles, final Function1<Double, Boolean> notAtMax ) {
         ObservableProperty<Boolean> notAtMaximum = new ObservableProperty<Boolean>() {
             {
-                laser.angle.addObserver( new SimpleObserver() {
+                laser.emissionPoint.addObserver( new SimpleObserver() {
                     public void update() {
                         notifyObservers();
                     }
@@ -42,7 +42,7 @@ public class RotationDragHandle extends PNode {
             }
 
             public Boolean getValue() {
-                return notAtMax.apply( laser.angle.getValue() );
+                return notAtMax.apply( laser.getAngle() );
             }
         };
         final And showArrow = showDragHandles.and( notAtMaximum );
@@ -57,9 +57,9 @@ public class RotationDragHandle extends PNode {
             public void update() {
                 removeAllChildren();
                 final PNode counterClockwiseDragArrow = new PNode() {{
-                    final double distance = transform.modelToViewDeltaX( laser.distanceFromPivot ) + image.getWidth() * 0.85;
-                    final Point2D viewOrigin = transform.modelToView( 0, 0 );
-                    final double laserAngleInDegrees = toDegrees( laser.angle.getValue() );
+                    final double distance = transform.modelToViewDeltaX( laser.getDistanceFromPivot() ) + image.getWidth() * 0.85;
+                    final Point2D viewOrigin = transform.modelToView( laser.pivot.getValue() ).toPoint2D();
+                    final double laserAngleInDegrees = toDegrees( laser.getAngle() );
                     Arc2D.Double arc = new Arc2D.Double( -distance + viewOrigin.getX(), -distance + viewOrigin.getY(), 2 * distance, 2 * distance, laserAngleInDegrees, deltaAngleDegrees, Arc2D.OPEN );
                     final Shape arrowBody = new BasicStroke( 10, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER ).createStrokedShape( arc );
 
@@ -79,7 +79,7 @@ public class RotationDragHandle extends PNode {
                 addChild( counterClockwiseDragArrow );
             }
         };
-        laser.angle.addObserver( update );
+        laser.emissionPoint.addObserver( update );
     }
 
 }
