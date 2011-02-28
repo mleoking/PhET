@@ -8,8 +8,6 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
-import sun.awt.WindowClosingListener;
-
 import edu.colorado.phet.balancingchemicalequations.BCEConstants;
 import edu.colorado.phet.balancingchemicalequations.BCEResources;
 import edu.colorado.phet.balancingchemicalequations.BCEStrings;
@@ -131,10 +129,10 @@ public class NotBalancedNode extends GameResultNode {
         PNode balanceRepresentationNode = null;
         if ( balanceRepresentation != null ) {
             HorizontalAligner aligner = new HorizontalAligner( new Dimension( 475, 400 ), 90 ); //XXX constants
-            if ( balanceRepresentation == balanceRepresentation.BALANCE_SCALES ) {
+            if ( balanceRepresentation == BalancedRepresentation.BALANCE_SCALES ) {
                 balanceRepresentationNode = new BalanceScalesNode( equationProperty, aligner );
             }
-            else  if ( balanceRepresentation == balanceRepresentation.BAR_CHARTS ) {
+            else  if ( balanceRepresentation == BalancedRepresentation.BAR_CHARTS ) {
                 balanceRepresentationNode = new BarChartsNode( equationProperty, aligner );
             }
         }
