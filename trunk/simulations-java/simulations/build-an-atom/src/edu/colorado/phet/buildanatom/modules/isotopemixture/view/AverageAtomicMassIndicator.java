@@ -119,20 +119,24 @@ public class AverageAtomicMassIndicator extends PNode {
     private static final class ReadoutPointer extends PNode {
 
         private static final Dimension2D SIZE = new PDimension( 90, 25 );
-        private static final Stroke OUTLINE_STROKE = new BasicStroke( 3 );
-        private static final double TRIANGULAR_POINTER_HEIGHT = 10;
+        private static final double TRIANGULAR_POINTER_HEIGHT = 15;
+        private static final double TRIANGULAR_POINTER_WIDTH = 20;
 
         public ReadoutPointer ( IsotopeMixturesModel model ){
-            PNode readoutBackgroundNode = new PhetPPath( new RoundRectangle2D.Double( -SIZE.getWidth() / 2, 0, SIZE.getWidth(), SIZE.getHeight(), 5, 5), Color.WHITE, new BasicStroke( 3 ), Color.BLACK );
+
+            // Add the triangular pointer.  This is created such that the
+            // point of the triangle is at (0,0) for this node.
+            DoubleGeneralPath pointerShape = new DoubleGeneralPath(0, 0);
+            pointerShape.lineTo( -TRIANGULAR_POINTER_WIDTH / 2, TRIANGULAR_POINTER_HEIGHT );
+            pointerShape.lineTo( TRIANGULAR_POINTER_WIDTH / 2, TRIANGULAR_POINTER_HEIGHT );
+            pointerShape.closePath();
+            PNode triangularPointerNode = new PhetPPath( pointerShape.getGeneralPath(), new Color( 0, 143, 212 ) );
+            addChild( triangularPointerNode );
+
+            // Create the background for the readout.
+            PNode readoutBackgroundNode = new PhetPPath( new RoundRectangle2D.Double( -SIZE.getWidth() / 2, TRIANGULAR_POINTER_HEIGHT, SIZE.getWidth(), SIZE.getHeight(), 5, 5), Color.WHITE, new BasicStroke( 3 ), Color.BLACK );
             addChild( readoutBackgroundNode );
 
-            DoubleGeneralPath pointerShape = new DoubleGeneralPath(0, 0);
-            pointerShape.moveTo( -TRIANGULAR_POINTER_HEIGHT, -TRIANGULAR_POINTER_HEIGHT / 2 );
-            pointerShape.moveTo( -TRIANGULAR_POINTER_HEIGHT, TRIANGULAR_POINTER_HEIGHT / 2 );
-            pointerShape.closePath();
-//            PNode triangularPointerNode = new PhetPPath( pointerShape.getGeneralPath(), new Color( 0, 143, 212 ) );
-            PNode triangularPointerNode = new PhetPPath( new Rectangle2D.Double( -10, -10, 20, 20 ), new Color( 0, 143, 212 ) );
-            addChild( triangularPointerNode );
         }
     }
 }
