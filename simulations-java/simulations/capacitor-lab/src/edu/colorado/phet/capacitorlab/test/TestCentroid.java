@@ -12,7 +12,7 @@ import java.awt.geom.Point2D;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
-import edu.colorado.phet.capacitorlab.util.PolygonUtils;
+import edu.colorado.phet.common.phetcommon.math.PolygonUtils;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.nodes.PPath;
