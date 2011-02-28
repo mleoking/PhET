@@ -7,6 +7,8 @@ import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.balancingchemicalequations.BCEResources;
 import edu.colorado.phet.balancingchemicalequations.BCEStrings;
+import edu.colorado.phet.common.phetcommon.model.Property;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.FaceNode;
@@ -111,8 +113,14 @@ public abstract class GameResultNode extends PComposite {
      */
     public static class NotBalancedNode extends GameResultNode {
 
-        public NotBalancedNode() {
+        public NotBalancedNode( final Property<Boolean> verboseProperty ) {
             super( false /* smile */ );
+            verboseProperty.addObserver( new SimpleObserver() {
+                public void update() {
+                    //TODO rebuild this node with or without bar charts or balance scales
+                    System.out.println( "NotBalancedNode.update " + verboseProperty.getValue() );//XXX
+                }
+            } );
         }
 
         protected PNode createIconsAndText( PhetFont font ) {

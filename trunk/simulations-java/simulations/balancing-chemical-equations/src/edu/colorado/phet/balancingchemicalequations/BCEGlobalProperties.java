@@ -23,6 +23,7 @@ public class BCEGlobalProperties implements Resettable {
     private final boolean isDev;
     private final Property<Color> canvasColorProperty = new Property<Color>( BCEConstants.CANVAS_BACKGROUND );
     private final Property<Color> boxColorProperty = new Property<Color>( BCEConstants.BOX_COLOR );
+    private final Property<Boolean> showChartsAndScalesInGame = new Property<Boolean>( true );
 
     public BCEGlobalProperties( Frame frame, boolean isDev ) {
         this.frame = frame;
@@ -49,9 +50,14 @@ public class BCEGlobalProperties implements Resettable {
         return boxColorProperty;
     }
 
+    public Property<Boolean> getShowChartsAndScalesInGame() {
+        return showChartsAndScalesInGame;
+    }
+
     public void reset() {
         moleculesVisibleProperty.reset();
         canvasColorProperty.reset();
         boxColorProperty.reset();
+        showChartsAndScalesInGame.reset();
     }
 }

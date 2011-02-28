@@ -128,7 +128,7 @@ public class GameCanvas extends BCECanvas {
 
         // Balance indicators
         balancedNode = new BalancedNode();
-        notBalancedNode = new NotBalancedNode();
+        notBalancedNode = new NotBalancedNode( globalProperties.getShowChartsAndScalesInGame() );
         balancedNotSimplifiedNode = new BalancedNotSimplifiedNode();
 
         // Dev, shows balanced coefficients
