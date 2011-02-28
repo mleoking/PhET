@@ -6,8 +6,12 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.text.DecimalFormat;
 import java.text.MessageFormat;
+
+import javax.swing.SwingConstants;
 
 import edu.colorado.phet.balancingchemicalequations.BCEConstants;
 import edu.colorado.phet.balancingchemicalequations.BCEGlobalProperties;
@@ -26,6 +30,7 @@ import edu.colorado.phet.common.phetcommon.util.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
+import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -56,7 +61,7 @@ public class GameCanvas extends BCECanvas {
     private final BoxesNode boxesNode;
     private final ButtonNode checkButton, tryAgainButton, showAnswerButton, nextButton;
     private final GameScoreboardNode scoreboardNode;
-    private final PNode balancedNode, notBalancedNode, balancedNotSimplifiedNode;
+    private final PNode balancedNode, balancedNotSimplifiedNode, notBalancedNode;
 
     public GameCanvas( final GameModel model, final BCEGlobalProperties globalProperties, Resettable resettable ) {
         super( globalProperties.getCanvasColorProperty() );
@@ -68,6 +73,7 @@ public class GameCanvas extends BCECanvas {
 
         // Game settings
         VoidFunction0 startFunction = new VoidFunction0() {
+
             public void apply() {
                 model.startGame();
             }
@@ -87,8 +93,7 @@ public class GameCanvas extends BCECanvas {
         equationNode = new EquationNode( model.getCurrentEquationProperty(), model.getCoefficientsRange(), true, aligner );
 
         // boxes that show molecules corresponding to the equation coefficients
-        boxesNode = new BoxesNode( model.getCurrentEquationProperty(), model.getCoefficientsRange(), aligner,
-                globalProperties.getBoxColorProperty(), globalProperties.getMoleculesVisibleProperty() );
+        boxesNode = new BoxesNode( model.getCurrentEquationProperty(), model.getCoefficientsRange(), aligner, globalProperties.getBoxColorProperty(), globalProperties.getMoleculesVisibleProperty() );
 
         // buttons
         checkButton = new ButtonNode( BCEStrings.CHECK, BUTTONS_FONT_SIZE, BUTTONS_COLOR );
@@ -128,8 +133,19 @@ public class GameCanvas extends BCECanvas {
 
         // Balance indicators
         balancedNode = new BalancedNode();
-        notBalancedNode = new NotBalancedNode( globalProperties.getShowChartsAndScalesInGame() );
         balancedNotSimplifiedNode = new BalancedNotSimplifiedNode();
+        notBalancedNode = new NotBalancedNode( globalProperties.getShowChartsAndScalesInGame() );
+        notBalancedNode.addPropertyChangeListener( new PropertyChangeListener() {
+            public void propertyChange( PropertyChangeEvent event ) {
+                /*
+                 * Bounds of this node will change when bar charts and balance scales are visible,
+                 * as specified by the global property showChartsAndScalesInGame.
+                 */
+                if ( event.getPropertyName().equals( PNode.PROPERTY_FULL_BOUNDS ) ) {
+                    updateGameResultsLayout();
+                }
+            }
+        } );
 
         // Dev, shows balanced coefficients
         final BalancedEquationNode balancedEquationNode = new BalancedEquationNode( model.getCurrentEquationProperty() );
@@ -153,8 +169,8 @@ public class GameCanvas extends BCECanvas {
         gamePlayParentNode.addChild( nextButton );
         gamePlayParentNode.addChild( scoreboardNode );
         gamePlayParentNode.addChild( balancedNode );
-        gamePlayParentNode.addChild( notBalancedNode );
         gamePlayParentNode.addChild( balancedNotSimplifiedNode );
+        gamePlayParentNode.addChild( notBalancedNode );
         gamePlayParentNode.addChild( balancedEquationNode );
 
         // layout of children of problemParentNode
@@ -211,48 +227,56 @@ public class GameCanvas extends BCECanvas {
         // Observers
         {
             globalProperties.getMoleculesVisibleProperty().addObserver( new SimpleObserver() {
+
                 public void update() {
                     // TODO hide molecules in boxes
                 }
             } );
 
             model.addGameStateObserver( new SimpleObserver() {
+
                 public void update() {
                     handleGameStateChange( model.getGameState() );
                 }
             } );
 
             model.getCurrentEquationProperty().addObserver( new SimpleObserver() {
+
                 public void update() {
                     updateEquationLabel();
                 }
             } );
 
             model.getGameSettings().level.addObserver( new SimpleObserver() {
+
                 public void update() {
                     scoreboardNode.setLevel( model.getGameSettings().level.getValue() );
                 }
             } );
 
             model.getGameSettings().timerEnabled.addObserver( new SimpleObserver() {
+
                 public void update() {
                     scoreboardNode.setTimerVisible( model.getGameSettings().timerEnabled.getValue() );
                 }
             } );
 
             model.getGameSettings().soundEnabled.addObserver( new SimpleObserver() {
+
                 public void update() {
                     audioPlayer.setEnabled( model.getGameSettings().soundEnabled.getValue() );
                 }
             } );
 
             model.addPointsObserver( new SimpleObserver() {
+
                 public void update() {
                     scoreboardNode.setScore( model.getPoints() );
                 }
             } );
 
             model.addTimeObserver( new SimpleObserver() {
+
                 public void update() {
                     scoreboardNode.setTime( model.getTime() );
                 }
@@ -359,11 +383,11 @@ public class GameCanvas extends BCECanvas {
     }
 
     private void setBalancedIndicatorVisible( boolean visible ) {
-        updateGameResultsLayout();
         balancedNode.setVisible( false );
-        notBalancedNode.setVisible( false );
         balancedNotSimplifiedNode.setVisible( false );
+        notBalancedNode.setVisible( false );
         if ( visible ) {
+            updateGameResultsLayout();
             if ( model.getCurrentEquation().isBalancedWithLowestCoefficients() ) {
                 balancedNode.setVisible( true );
             }
@@ -404,8 +428,7 @@ public class GameCanvas extends BCECanvas {
 
         // add a new node
         int level = model.getGameSettings().level.getValue();
-        gameOverNode = new GameOverNode( level, model.getPoints(), model.getMaxScore(), new DecimalFormat( "0" ),
-                model.getTime(), model.getBestTime( level ), model.isNewBestTime(), model.getGameSettings().timerEnabled.getValue());
+        gameOverNode = new GameOverNode( level, model.getPoints(), model.getMaxScore(), new DecimalFormat( "0" ), model.getTime(), model.getBestTime( level ), model.isNewBestTime(), model.getGameSettings().timerEnabled.getValue() );
         gameOverNode.scale( BCEConstants.SWING_SCALE );
         addChild( gameOverNode );
 
@@ -423,14 +446,15 @@ public class GameCanvas extends BCECanvas {
     }
 
     private void updateGameResultsLayout() {
-        double x = boxesNode.getFullBoundsReference().getCenterX() - ( balancedNode.getFullBoundsReference().getWidth() / 2 );
-        double y = boxesNode.getFullBoundsReference().getCenterY() - ( balancedNode.getFullBoundsReference().getHeight() / 2 );
-        balancedNode.setOffset( x, y );
-        x = boxesNode.getFullBoundsReference().getCenterX() - ( notBalancedNode.getFullBoundsReference().getWidth() / 2 );
-        y = boxesNode.getFullBoundsReference().getCenterY() - ( notBalancedNode.getFullBoundsReference().getHeight() / 2 );
-        notBalancedNode.setOffset( x, y );
-        x = boxesNode.getFullBoundsReference().getCenterX() - ( balancedNotSimplifiedNode.getFullBoundsReference().getWidth() / 2 );
-        y = boxesNode.getFullBoundsReference().getCenterY() - ( balancedNotSimplifiedNode.getFullBoundsReference().getHeight() / 2 );
-        balancedNotSimplifiedNode.setOffset( x, y );
+
+        // centered between boxes
+        PNodeLayoutUtils.alignInside( balancedNode, boxesNode, SwingConstants.CENTER, SwingConstants.CENTER );
+        PNodeLayoutUtils.alignInside( balancedNotSimplifiedNode, boxesNode, SwingConstants.CENTER, SwingConstants.CENTER );
+        PNodeLayoutUtils.alignInside( notBalancedNode, boxesNode, SwingConstants.CENTER, SwingConstants.CENTER );
+
+        // ensure that the most verbose results don't cover the buttons
+        if ( notBalancedNode.getFullBoundsReference().getMaxY() >= checkButton.getFullBoundsReference().getMinY() ) {
+            PNodeLayoutUtils.alignInside( notBalancedNode, boxesNode, SwingConstants.BOTTOM, SwingConstants.CENTER );
+        }
     }
 }

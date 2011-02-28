@@ -1,3 +1,5 @@
+2/28/11 replace duplicate alignment code in GameCanvas with PNodeLayoutUtils.alignInside
+2/28/11 adjust layout when "Not Balanaced" popup bounds changes
 2/28/11 add developer control for showing/hiding bar charts and balance scales in Game
 # 0.00.08 (49226) Feb 24, 2011
 2/24/11 dev version to demonstrate Game
