@@ -9,6 +9,7 @@ import java.awt.Stroke;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
+import java.text.DecimalFormat;
 import java.util.List;
 
 import edu.colorado.phet.buildanatom.model.ImmutableAtom;
@@ -121,8 +122,9 @@ public class AverageAtomicMassIndicator extends PNode {
         private static final Dimension2D SIZE = new PDimension( 90, 25 );
         private static final double TRIANGULAR_POINTER_HEIGHT = 15;
         private static final double TRIANGULAR_POINTER_WIDTH = 20;
+        private static final DecimalFormat READOUT_FORMATTER = new DecimalFormat( "0.#####" );
 
-        public ReadoutPointer ( IsotopeMixturesModel model ){
+        public ReadoutPointer ( final IsotopeMixturesModel model ){
 
             // Add the triangular pointer.  This is created such that the
             // point of the triangle is at (0,0) for this node.
@@ -134,17 +136,24 @@ public class AverageAtomicMassIndicator extends PNode {
             addChild( triangularPointerNode );
 
             // Create the background for the readout.
-            PNode readoutBackgroundNode = new PhetPPath( new RoundRectangle2D.Double( -SIZE.getWidth() / 2, TRIANGULAR_POINTER_HEIGHT, SIZE.getWidth(), SIZE.getHeight(), 5, 5), Color.WHITE, new BasicStroke( 3 ), Color.BLACK );
+            final PNode readoutBackgroundNode = new PhetPPath( new RoundRectangle2D.Double( -SIZE.getWidth() / 2, TRIANGULAR_POINTER_HEIGHT, SIZE.getWidth(), SIZE.getHeight(), 5, 5), Color.WHITE, new BasicStroke( 3 ), Color.BLACK );
             addChild( readoutBackgroundNode );
 
             // Add the textual readout.
-            PText textualReadout = new PText(){{
-                setFont( new PhetFont() );
+            final PText textualReadout = new PText(){{
+                setFont( new PhetFont( 12 ) );
             }};
             readoutBackgroundNode.addChild( textualReadout );
             // Observe the average atomic weight property in the model and
             // update the textual readout whenever it changes.
-            // TODO:
+            model.getIsotopeTestChamber().getAverageAtomicMassProperty().addObserver( new SimpleObserver() {
+                public void update() {
+                    textualReadout.setText( READOUT_FORMATTER.format( model.getIsotopeTestChamber().getAverageAtomicMassProperty().getValue() ) );
+                    textualReadout.centerFullBoundsOnPoint(
+                            readoutBackgroundNode.getFullBoundsReference().getCenterX(),
+                            readoutBackgroundNode.getFullBounds().getCenterY() );
+                }
+            });
         }
     }
 }
