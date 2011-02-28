@@ -9,7 +9,11 @@ package edu.colorado.phet.common.phetcommon.math;
  */
 public class Dimension3D {
 
-    double width, height, depth;
+    private double width, height, depth;
+
+    public Dimension3D() {
+        this( 0, 0, 0 );
+    }
 
     public Dimension3D( double width, double height, double depth ) {
         this.width = width;
