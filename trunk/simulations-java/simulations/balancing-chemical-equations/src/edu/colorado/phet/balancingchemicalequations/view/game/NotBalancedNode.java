@@ -16,6 +16,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 /**
  * Indicator that equation is not balanced, by any definition of balanced.
  * Frowny face, big "X" and text.
+ * Optionally displays a bar chart or balance scale.
  */
 public class NotBalancedNode extends GameResultNode {
 
@@ -41,6 +42,9 @@ public class NotBalancedNode extends GameResultNode {
     }
 
     public void setBalanceChoice( BalanceChoice balanceChoice ) {
+        if ( !( balanceChoice == BalanceChoice.BALANCE_SCALES || balanceChoice == BalanceChoice.BAR_CHARTS ) ) {
+            throw new IllegalArgumentException( "illegal value for balanceChoice: " + balanceChoice );
+        }
         if ( balanceChoice != this.balanceChoice ) {
             this.balanceChoice = balanceChoice;
             //TODO rebuild this node
