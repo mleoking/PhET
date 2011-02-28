@@ -3,7 +3,6 @@
 package edu.colorado.phet.balancingchemicalequations.view.game;
 
 import java.awt.Dimension;
-import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
@@ -20,7 +19,6 @@ import edu.colorado.phet.balancingchemicalequations.view.BarChartsNode;
 import edu.colorado.phet.balancingchemicalequations.view.HorizontalAligner;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.util.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
@@ -35,81 +33,18 @@ import edu.umd.cs.piccolo.nodes.PText;
  */
 public class NotBalancedNode extends GameResultNode {
 
-    private final ArrayList<VoidFunction0> sizeChangedListeners;
-    private BalancedRepresentation balanceRepresentation;
-    private final Property<Equation> equationProperty;
-    private final SimpleObserver coefficientsObserver;
+    private final boolean showChartsAndScalesInGame;
+    private final BalancedRepresentation balancedRepresentation;
 
     private Equation equation;
 
-    public NotBalancedNode( final Property<Equation> equationProperty, final Property<Boolean> verboseProperty ) {
+    public NotBalancedNode( Equation equation, boolean showChartsAndScalesInGame, final BalancedRepresentation balancedRepresentation ) {
         super( false /* smile */ );
-
-        this.sizeChangedListeners = new ArrayList<VoidFunction0>();
-        balanceRepresentation = BalancedRepresentation.BALANCE_SCALES;
-        this.equationProperty = equationProperty;
-
-        equation = equationProperty.getValue();
-        coefficientsObserver = new SimpleObserver() {
-            public void update() {
-                updateNode();
-            }
-        };
-
-        equationProperty.addObserver( new SimpleObserver() {
-            public void update() {
-                equation.removeCoefficientsObserver( coefficientsObserver );
-                NotBalancedNode.this.equation = equationProperty.getValue();
-                equation.addCoefficientsObserver( coefficientsObserver );
-                updateNode();
-            }
-        } );
-
-        verboseProperty.addObserver( new SimpleObserver() {
-            public void update() {
-                updateNode();
-            }
-        } );
+        this.showChartsAndScalesInGame = showChartsAndScalesInGame;
+        this.balancedRepresentation = balancedRepresentation;
+        this.equation = equation;
 
         updateNode();
-    }
-
-    @Override
-    public void setVisible( boolean visible ) {
-        super.setVisible( visible );
-        updateNode();
-    }
-
-    protected void updateNode() {
-        if ( getVisible() ) {
-            super.updateNode();
-            notifySizeChanged();
-        }
-    }
-
-    public void addSizeChangedListener( VoidFunction0 listener ) {
-        sizeChangedListeners.add( listener );
-    }
-
-    public void removeSizeChangedListener( VoidFunction0 listener ) {
-        sizeChangedListeners.remove( listener );
-    }
-
-    private void notifySizeChanged() {
-        if ( sizeChangedListeners != null ) {
-            ArrayList<VoidFunction0> listenersCopy = new ArrayList<VoidFunction0>( sizeChangedListeners );
-            for ( VoidFunction0 listener : listenersCopy ) {
-                listener.apply();
-            }
-        }
-    }
-
-    public void setBalancedRepresentation( BalancedRepresentation balancedRepresentation ) {
-        assert( balancedRepresentation != BalancedRepresentation.NONE );
-        if ( balancedRepresentation != this.balanceRepresentation ) {
-            this.balanceRepresentation = balancedRepresentation;
-            updateNode();
-        }
     }
 
     @Override
@@ -127,13 +62,15 @@ public class NotBalancedNode extends GameResultNode {
         iconAndTextNode.addChild( textNode );
 
         PNode balanceRepresentationNode = null;
-        if ( balanceRepresentation != null ) {
-            HorizontalAligner aligner = new HorizontalAligner( new Dimension( 475, 400 ), 90 ); //XXX constants
-            if ( balanceRepresentation == BalancedRepresentation.BALANCE_SCALES ) {
-                balanceRepresentationNode = new BalanceScalesNode( equationProperty, aligner );
-            }
-            else  if ( balanceRepresentation == BalancedRepresentation.BAR_CHARTS ) {
-                balanceRepresentationNode = new BarChartsNode( equationProperty, aligner );
+        if ( showChartsAndScalesInGame ) {
+            if ( balancedRepresentation != null ) {
+                HorizontalAligner aligner = new HorizontalAligner( new Dimension( 475, 400 ), 90 ); //XXX constants
+                if ( balancedRepresentation == BalancedRepresentation.BALANCE_SCALES ) {
+                    balanceRepresentationNode = new BalanceScalesNode( new Property<Equation>( equation ), aligner );
+                }
+                else if ( balancedRepresentation == BalancedRepresentation.BAR_CHARTS ) {
+                    balanceRepresentationNode = new BarChartsNode( new Property<Equation>( equation ), aligner );
+                }
             }
         }
 
@@ -148,6 +85,7 @@ public class NotBalancedNode extends GameResultNode {
             balanceRepresentationNode.setOffset( x, y );
             parentNode.addChild( balanceRepresentationNode );
         }
+
 
         return parentNode;
     }
@@ -166,10 +104,7 @@ public class NotBalancedNode extends GameResultNode {
         for ( EquationTerm term : products ) {
             term.setActualCoefficient( 15 );
         }
-        Property<Equation> equationProperty = new Property<Equation>( equation );
-
-        NotBalancedNode node = new NotBalancedNode( equationProperty, new Property<Boolean>( true ) );
-        node.setBalancedRepresentation( BalancedRepresentation.BAR_CHARTS );
+        NotBalancedNode node = new NotBalancedNode( equation, true, BalancedRepresentation.BAR_CHARTS );
         node.setOffset( 200, 200 );
         canvas.addWorldChild( node );
 

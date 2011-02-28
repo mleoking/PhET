@@ -19,6 +19,7 @@ import edu.colorado.phet.balancingchemicalequations.module.game.GameModel.GameSt
 import edu.colorado.phet.balancingchemicalequations.view.*;
 import edu.colorado.phet.balancingchemicalequations.view.game.BalancedNode;
 import edu.colorado.phet.balancingchemicalequations.view.game.BalancedNotSimplifiedNode;
+import edu.colorado.phet.balancingchemicalequations.view.game.GameResultNode;
 import edu.colorado.phet.balancingchemicalequations.view.game.NotBalancedNode;
 import edu.colorado.phet.common.games.*;
 import edu.colorado.phet.common.games.GameOverNode.GameOverListener;
@@ -47,6 +48,7 @@ public class GameCanvas extends BCECanvas {
     private static final int BUTTONS_FONT_SIZE = 30;
 
     private final GameModel model;
+    private final BCEGlobalProperties globalProperties;
     private final GameAudioPlayer audioPlayer;
 
     // top-level nodes
@@ -60,13 +62,14 @@ public class GameCanvas extends BCECanvas {
     private final BoxesNode boxesNode;
     private final ButtonNode checkButton, tryAgainButton, showAnswerButton, nextButton;
     private final GameScoreboardNode scoreboardNode;
-    private final PNode balancedNode, balancedNotSimplifiedNode;
-    private final NotBalancedNode notBalancedNode;
+    private PNode gameResultNode;
+    private BalancedRepresentation balancedRepresentation;
 
     public GameCanvas( final GameModel model, final BCEGlobalProperties globalProperties, Resettable resettable ) {
         super( globalProperties.getCanvasColorProperty() );
 
         this.model = model;
+        this.globalProperties = globalProperties;
         this.audioPlayer = new GameAudioPlayer( model.getGameSettings().soundEnabled.getValue() );
 
         HorizontalAligner aligner = new HorizontalAligner( BOX_SIZE, BOX_SEPARATION );
@@ -131,16 +134,6 @@ public class GameCanvas extends BCECanvas {
             }
         } );
 
-        // Balance indicators
-        balancedNode = new BalancedNode();
-        balancedNotSimplifiedNode = new BalancedNotSimplifiedNode();
-        notBalancedNode = new NotBalancedNode( model.getCurrentEquationProperty(), globalProperties.getShowChartsAndScalesInGame() );
-        notBalancedNode.addSizeChangedListener( new VoidFunction0() {
-            public void apply() {
-                updateGameResultsLayout();
-            }
-        });
-
         // Dev, shows balanced coefficients
         final BalancedEquationNode balancedEquationNode = new BalancedEquationNode( model.getCurrentEquationProperty() );
         if ( globalProperties.isDev() ) {
@@ -162,9 +155,6 @@ public class GameCanvas extends BCECanvas {
         gamePlayParentNode.addChild( showAnswerButton );
         gamePlayParentNode.addChild( nextButton );
         gamePlayParentNode.addChild( scoreboardNode );
-        gamePlayParentNode.addChild( balancedNode );
-        gamePlayParentNode.addChild( balancedNotSimplifiedNode );
-        gamePlayParentNode.addChild( notBalancedNode );
         gamePlayParentNode.addChild( balancedEquationNode );
 
         // layout of children of problemParentNode
@@ -196,9 +186,6 @@ public class GameCanvas extends BCECanvas {
             x = 0;
             y = checkButton.getFullBoundsReference().getMaxY() + ySpacing;
             scoreboardNode.setOffset( x, y );
-
-            // game result indicators, centered between boxes
-            updateGameResultsLayout();
 
             // dev answer below left box
             x = 0;
@@ -311,7 +298,11 @@ public class GameCanvas extends BCECanvas {
 
     public void initStartGame() {
         setTopLevelNodeVisible( gameSettingsNode );
-        notBalancedNode.setBalancedRepresentation( getRandomBalanceChoice() );
+        randomizeBalancedRepresentation();
+    }
+
+    private void randomizeBalancedRepresentation() {
+        balancedRepresentation = getRandomBalanceChoice();
     }
 
     public void initCheck() {
@@ -345,7 +336,7 @@ public class GameCanvas extends BCECanvas {
         equationNode.setEditable( false );
         model.getCurrentEquation().balance(); // show the correct answer
         setBalancedHighlightEnabled( true );
-        notBalancedNode.setBalancedRepresentation( getRandomBalanceChoice() );
+        randomizeBalancedRepresentation();
     }
 
     public void initNewGame() {
@@ -378,21 +369,36 @@ public class GameCanvas extends BCECanvas {
         boxesNode.setBalancedHighlightEnabled( enabled );
     }
 
+    /**
+     * Creates and adds a new GameResultNode
+     * @param visible
+     */
     private void setBalancedIndicatorVisible( boolean visible ) {
-        balancedNode.setVisible( false );
-        balancedNotSimplifiedNode.setVisible( false );
-        notBalancedNode.setVisible( false );
+        if ( gameResultNode != null ) {
+            removeChild( gameResultNode );
+            gameResultNode = null;
+        }
         if ( visible ) {
-            updateGameResultsLayout();
             if ( model.getCurrentEquation().isBalancedWithLowestCoefficients() ) {
-                balancedNode.setVisible( true );
+                gameResultNode = new BalancedNode();
             }
             else if ( model.getCurrentEquation().isBalanced() ) {
-                balancedNotSimplifiedNode.setVisible( true );
+                gameResultNode = new BalancedNotSimplifiedNode();
             }
             else {
-                notBalancedNode.setVisible( true );
+                gameResultNode = new NotBalancedNode( model.getCurrentEquationProperty().getValue(), globalProperties.getShowChartsAndScalesInGame().getValue(), balancedRepresentation );
             }
+            // game result indicators, centered between boxes
+
+            // centered between boxes
+            PNodeLayoutUtils.alignInside( gameResultNode, boxesNode, SwingConstants.CENTER, SwingConstants.CENTER );
+
+            // ensure that the most verbose results don't cover the buttons
+            if ( gameResultNode.getFullBoundsReference().getMaxY() >= checkButton.getFullBoundsReference().getMinY() ) {
+                PNodeLayoutUtils.alignInside( gameResultNode, boxesNode, SwingConstants.BOTTOM, SwingConstants.CENTER );
+            }
+
+            addChild( gameResultNode );//Puts it in the front
         }
     }
 
@@ -439,19 +445,6 @@ public class GameCanvas extends BCECanvas {
         double x = gamePlayParentNode.getFullBoundsReference().getCenterX() - ( gameOverNode.getFullBoundsReference().getWidth() / 2 );
         double y = gamePlayParentNode.getFullBoundsReference().getCenterY() - ( gameOverNode.getFullBoundsReference().getHeight() / 2 );
         gameOverNode.setOffset( x, y );
-    }
-
-    private void updateGameResultsLayout() {
-
-        // centered between boxes
-        PNodeLayoutUtils.alignInside( balancedNode, boxesNode, SwingConstants.CENTER, SwingConstants.CENTER );
-        PNodeLayoutUtils.alignInside( balancedNotSimplifiedNode, boxesNode, SwingConstants.CENTER, SwingConstants.CENTER );
-        PNodeLayoutUtils.alignInside( notBalancedNode, boxesNode, SwingConstants.CENTER, SwingConstants.CENTER );
-
-        // ensure that the most verbose results don't cover the buttons
-        if ( notBalancedNode.getFullBoundsReference().getMaxY() >= checkButton.getFullBoundsReference().getMinY() ) {
-            PNodeLayoutUtils.alignInside( notBalancedNode, boxesNode, SwingConstants.BOTTOM, SwingConstants.CENTER );
-        }
     }
 
     private BalancedRepresentation getRandomBalanceChoice() {
