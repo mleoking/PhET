@@ -65,13 +65,14 @@ public class BendingLightCanvas<T extends BendingLightModel> extends PhetPCanvas
         addChild( mediumNode );
 
         final BooleanProperty showRotationDragHandles = new BooleanProperty( false );
+        final BooleanProperty showTranslationDragHandles = new BooleanProperty( false );
         addChild( new RotationDragHandle( transform, model.getLaser(), 10, showRotationDragHandles, clockwiseArrowNotAtMax ) );
         addChild( new RotationDragHandle( transform, model.getLaser(), -10, showRotationDragHandles, ccwArrowNotAtMax ) );
-//        addChild( new TranslationDragHandle( transform, model.getLaser(), -100, 0, showRotationDragHandles ) );
-//        addChild( new TranslationDragHandle( transform, model.getLaser(), 0, -100, showRotationDragHandles ) );
-//        addChild( new TranslationDragHandle( transform, model.getLaser(), 100, 0, showRotationDragHandles ) );
-//        addChild( new TranslationDragHandle( transform, model.getLaser(), 0, 100, showRotationDragHandles ) );
-        addChild( new LaserNode( transform, model.getLaser(), showRotationDragHandles, clampDragAngle ) );
+        addChild( new TranslationDragHandle( transform, model.getLaser(), -100, 0, showTranslationDragHandles ) );
+        addChild( new TranslationDragHandle( transform, model.getLaser(), 0, -100, showTranslationDragHandles ) );
+        addChild( new TranslationDragHandle( transform, model.getLaser(), 100, 0, showTranslationDragHandles ) );
+        addChild( new TranslationDragHandle( transform, model.getLaser(), 0, 100, showTranslationDragHandles ) );
+        addChild( new LaserNode( transform, model.getLaser(), showRotationDragHandles, showTranslationDragHandles, clampDragAngle ) );
 
         laserView.addObserver( new SimpleObserver() {
             public void update() {

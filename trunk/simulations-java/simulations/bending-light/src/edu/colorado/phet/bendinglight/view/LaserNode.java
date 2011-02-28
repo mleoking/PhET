@@ -12,9 +12,7 @@ import edu.colorado.phet.bendinglight.BendingLightApplication;
 import edu.colorado.phet.bendinglight.model.Laser;
 import edu.colorado.phet.bendinglight.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
-import edu.colorado.phet.common.phetcommon.model.Or;
-import edu.colorado.phet.common.phetcommon.model.Property;
+import edu.colorado.phet.common.phetcommon.model.*;
 import edu.colorado.phet.common.phetcommon.util.Function1;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.VoidFunction1;
@@ -35,7 +33,10 @@ import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.*
  */
 public class LaserNode extends PNode {
 
-    public LaserNode( final ModelViewTransform transform, final Laser laser, final Property<Boolean> showDragHandles, final Function1<Double, Double> clampDragAngle ) {
+    public LaserNode( final ModelViewTransform transform, final Laser laser,
+                      final Property<Boolean> showRotationDragHandles,
+                      final Property<Boolean> showTranslationDragHandles,
+                      final Function1<Double, Double> clampDragAngle ) {
         final BufferedImage image = flipY( flipX( BendingLightApplication.RESOURCES.getImage( "laser.png" ) ) );
         final PNode clockwiseDragArrow = new PNode() {{
             addChild( new ArrowNode( new Point2D.Double( image.getWidth() / 2, image.getHeight() / 2 ), new Point2D.Double( image.getWidth() / 2, image.getHeight() / 2 - 150 ), 20, 20, 10 ) {{
@@ -47,14 +48,42 @@ public class LaserNode extends PNode {
         }};
 
         addChild( clockwiseDragArrow );
-        final BooleanProperty mouseOver = new BooleanProperty( false );
-        final BooleanProperty dragging = new BooleanProperty( false );
+        final BooleanProperty mouseOverRotationPart = new BooleanProperty( false );
+        final BooleanProperty mouseOverTranslationPart = new BooleanProperty( false );
+        final BooleanProperty draggingRotation = new BooleanProperty( false );
+        final BooleanProperty draggingTranslation = new BooleanProperty( false );
 
-        final Or doShowArrow = mouseOver.or( dragging );
-
-        doShowArrow.addObserver( new SimpleObserver() {
+        final Or doShowRotationArrows = mouseOverRotationPart.or( draggingRotation );
+        doShowRotationArrows.addObserver( new SimpleObserver() {
             public void update() {
-                showDragHandles.setValue( doShowArrow.getValue() );
+                showRotationDragHandles.setValue( doShowRotationArrows.getValue() );
+            }
+        } );
+
+        //Couldn't use phetcommon Not since this uses nonsettable parent
+        class ObservableNot extends ObservableProperty<Boolean> {
+            private ObservableProperty<Boolean> parent;
+
+            public ObservableNot( final ObservableProperty<Boolean> parent ) {
+                this.parent = parent;
+                parent.addObserver( new SimpleObserver() {
+                    public void update() {
+                        notifyObservers();
+                    }
+                } );
+            }
+
+            public Boolean getValue() {
+                return !parent.getValue();
+            }
+
+        }
+
+        final Or doShowTranslationArrows = mouseOverTranslationPart.or( draggingTranslation );
+        final And a = new And( doShowTranslationArrows, new ObservableNot( doShowRotationArrows ) );
+        a.addObserver( new SimpleObserver() {
+            public void update() {
+                showTranslationDragHandles.setValue( doShowTranslationArrows.getValue() );
             }
         } );
 
@@ -64,24 +93,24 @@ public class LaserNode extends PNode {
         Rectangle2D.Double backRectangle = new Rectangle2D.Double( image.getWidth() / 2, 0, image.getWidth() / 2, image.getHeight() );
 
         class DragRegion extends PhetPPath {
-            DragRegion( Shape shape, Paint fill, final VoidFunction1<PInputEvent> eventHandler ) {
+            DragRegion( Shape shape, Paint fill, final VoidFunction1<PInputEvent> eventHandler, final BooleanProperty isMouseOver, final BooleanProperty isDragging ) {
                 super( shape, fill );
                 addInputEventListener( new CursorHandler() );
                 addInputEventListener( new PBasicInputEventHandler() {
                     public void mouseEntered( PInputEvent event ) {
-                        mouseOver.setValue( true );
+                        isMouseOver.setValue( true );
                     }
 
                     public void mouseExited( PInputEvent event ) {
-                        mouseOver.setValue( false );
+                        isMouseOver.setValue( false );
                     }
 
                     public void mouseReleased( PInputEvent event ) {
-                        dragging.setValue( false );
+                        isDragging.setValue( false );
                     }
 
                     public void mousePressed( PInputEvent event ) {
-                        dragging.setValue( true );
+                        isDragging.setValue( true );
                     }
 
                     public void mouseDragged( PInputEvent event ) {
@@ -97,7 +126,7 @@ public class LaserNode extends PNode {
                 Dimension2D modelDelta = transform.viewToModelDelta( delta );
                 laser.translate( modelDelta.getWidth(), modelDelta.getHeight() );
             }
-        } ) );
+        }, mouseOverTranslationPart, draggingTranslation ) );
         addChild( new DragRegion( backRectangle, new Color( 0, 0, 255, 128 ), new VoidFunction1<PInputEvent>() {
             public void apply( PInputEvent event ) {
                 ImmutableVector2D modelPoint = new ImmutableVector2D( transform.viewToModel( event.getPositionRelativeTo( getParent().getParent() ) ) );
@@ -106,7 +135,7 @@ public class LaserNode extends PNode {
                 double after = clampDragAngle.apply( angle );
                 laser.setAngle( after );
             }
-        } ) );
+        }, mouseOverRotationPart, draggingRotation ) );
 
         final RichSimpleObserver updateLaser = new RichSimpleObserver() {
             public void update() {
