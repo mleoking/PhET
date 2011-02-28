@@ -42,6 +42,7 @@ public class NotBalancedNode extends GameResultNode {
     }
 
     public void setBalanceChoice( BalanceChoice balanceChoice ) {
+        System.out.println( "NotBalanceNode.setBalanceChoice " + balanceChoice );//XXX
         if ( !( balanceChoice == BalanceChoice.BALANCE_SCALES || balanceChoice == BalanceChoice.BAR_CHARTS ) ) {
             throw new IllegalArgumentException( "illegal value for balanceChoice: " + balanceChoice );
         }
