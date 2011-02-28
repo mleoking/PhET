@@ -14,10 +14,7 @@ import edu.colorado.phet.common.phetcommon.model.And;
 import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
-import edu.colorado.phet.common.phetcommon.util.Function1;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.util.VoidFunction0;
-import edu.colorado.phet.common.phetcommon.util.VoidFunction1;
+import edu.colorado.phet.common.phetcommon.util.*;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -43,8 +40,15 @@ public class BendingLightCanvas<T extends BendingLightModel> extends PhetPCanvas
     protected final PNode afterLightLayer = new PNode();
     public BooleanProperty clockRunningPressed;
 
-    public BendingLightCanvas( final T model, BooleanProperty moduleActive, final Function1<Double, Double> clampDragAngle,
-                               final Function1<Double, Boolean> clockwiseArrowNotAtMax, final Function1<Double, Boolean> ccwArrowNotAtMax, boolean showNormal, Resettable resetAll ) {
+    public BendingLightCanvas( final T model,
+                               BooleanProperty moduleActive,
+                               final Function1<Double, Double> clampDragAngle,
+                               final Function1<Double, Boolean> clockwiseArrowNotAtMax,
+                               final Function1<Double, Boolean> ccwArrowNotAtMax,
+                               boolean showNormal,
+                               Resettable resetAll,
+                               final Function2<Shape, Shape, Shape> laserTranslationRegion,
+                               final Function2<Shape, Shape, Shape> laserRotationRegion ) {
         this.showNormal = new BooleanProperty( showNormal );
         this.model = model;
         // Root of our scene graph
@@ -72,7 +76,7 @@ public class BendingLightCanvas<T extends BendingLightModel> extends PhetPCanvas
         addChild( new TranslationDragHandle( transform, model.getLaser(), 0, -100, showTranslationDragHandles ) );
         addChild( new TranslationDragHandle( transform, model.getLaser(), 100, 0, showTranslationDragHandles ) );
         addChild( new TranslationDragHandle( transform, model.getLaser(), 0, 100, showTranslationDragHandles ) );
-        addChild( new LaserNode( transform, model.getLaser(), showRotationDragHandles, showTranslationDragHandles, clampDragAngle ) );
+        addChild( new LaserNode( transform, model.getLaser(), showRotationDragHandles, showTranslationDragHandles, clampDragAngle, laserTranslationRegion, laserRotationRegion ) );
 
         laserView.addObserver( new SimpleObserver() {
             public void update() {

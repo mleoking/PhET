@@ -1,3 +1,4 @@
+Made it so the laser only rotates in the intro tab, and rotates or translates in the prism tab based on grab region
 Improved drag arrows for laser rotation and translation
 Fixed laser translation and rotation
 Added initial support for laser translation

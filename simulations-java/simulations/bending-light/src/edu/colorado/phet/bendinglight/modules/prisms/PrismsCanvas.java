@@ -17,7 +17,15 @@ public class PrismsCanvas extends BendingLightCanvas<PrismsModel> {
     private PNode prismLayer = new PNode();
 
     public PrismsCanvas( final PrismsModel model, BooleanProperty moduleActive, Resettable resetAll ) {
-        super( model, moduleActive, new Function1.Identity<Double>(), new Function1.Constant<Double, Boolean>( true ), new Function1.Constant<Double, Boolean>( true ), false, resetAll );
+        super( model, moduleActive, new Function1.Identity<Double>(), new Function1.Constant<Double, Boolean>( true ), new Function1.Constant<Double, Boolean>( true ), false, resetAll, new Function2<Shape, Shape, Shape>() {
+            public Shape apply( Shape full, Shape front ) {
+                return front;
+            }
+        }, new Function2<Shape, Shape, Shape>() {
+            public Shape apply( Shape full, Shape back ) {
+                return back;
+            }
+        } );
         for ( Prism prism : model.getPrisms() ) {
             addChild( new PrismNode( transform, prism, model.prismMedium ) );
         }
