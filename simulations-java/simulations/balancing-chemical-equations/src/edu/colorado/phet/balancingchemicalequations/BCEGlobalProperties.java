@@ -10,6 +10,7 @@ import edu.colorado.phet.common.phetcommon.model.Resettable;
 
 /**
  * Encapsulates all global properties.
+ * These are generally things that can be controlled from the menu bar.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
