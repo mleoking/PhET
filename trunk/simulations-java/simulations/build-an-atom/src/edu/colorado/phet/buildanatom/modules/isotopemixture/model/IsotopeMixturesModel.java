@@ -329,6 +329,10 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
      */
     public static class IsotopeTestChamber {
 
+        // ------------------------------------------------------------------------
+        // Class Data
+        // ------------------------------------------------------------------------
+
         // Size of the "test chamber", which is the area in model space into which
         // the isotopes can be dragged in order to contribute to the current
         // average atomic weight.
@@ -344,6 +348,10 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
                     SIZE.getWidth(),
                     SIZE.getHeight() );
 
+        // ------------------------------------------------------------------------
+        // Instance Data
+        // ------------------------------------------------------------------------
+
         // List of isotopes that are inside the chamber.  This is updated as
         // isotopes come and go.
         private final List<MovableAtom> containedIsotopes = new ArrayList<MovableAtom>();
@@ -351,6 +359,18 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
         // Property that tracks the number of isotopes in the chamber.  This
         // can be monitored in order to update the view.
         private final Property<Integer> isotopeCountProperty = new Property<Integer>( 0 );
+
+        // Property that tracks the average atomic mass of all isotopes in
+        // the chamber.
+        private final Property<Double> averageAtomicMassProperty = new Property<Double>( 0.0 );
+
+        // ------------------------------------------------------------------------
+        // Constructor(s)
+        // ------------------------------------------------------------------------
+
+        // ------------------------------------------------------------------------
+        // Methods
+        // ------------------------------------------------------------------------
 
         public Dimension2D getTestChamberSize() {
             return SIZE;
@@ -408,6 +428,10 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
             if ( isIsotopePositionedOverChamber( isotope ) ){
                 containedIsotopes.add( isotope );
                 updateCountProperty();
+                // Update the average atomic mass.
+                averageAtomicMassProperty.setValue( ( averageAtomicMassProperty.getValue() *
+                        ( isotopeCountProperty.getValue() - 1 ) + isotope.getAtomConfiguration().getAtomicMass() ) /
+                        isotopeCountProperty.getValue() );
                 // If the edges of the isotope are outside of the container,
                 // move it to be fully inside.
                 double protrusion = isotope.getPosition().getX() + isotope.getRadius() - TEST_CHAMBER_RECT.getMaxX();
@@ -444,11 +468,20 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
         public void removeIsotope( MovableAtom isotope ){
             containedIsotopes.remove( isotope );
             updateCountProperty();
+            // Update the average atomic mass.
+            if ( isotopeCountProperty.getValue() > 0 ){
+                averageAtomicMassProperty.setValue( ( averageAtomicMassProperty.getValue() * ( isotopeCountProperty.getValue() + 1 )
+                        - isotope.getAtomConfiguration().getAtomicMass() ) / isotopeCountProperty.getValue() );
+            }
+            else{
+                averageAtomicMassProperty.setValue( 0.0 );
+            }
         }
 
         public void removeAllIsotopes(){
             containedIsotopes.clear();
             updateCountProperty();
+            averageAtomicMassProperty.setValue( 0.0 );
         }
 
         /**
@@ -457,6 +490,15 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
          */
         public Property<Integer> getIsotopeCountProperty(){
             return isotopeCountProperty;
+        }
+
+        /**
+         * Get the property that tracks the average atomic mass of the
+         * isotopes in the chamber.  This can be monitored to trigger update
+         * events.
+         */
+        public Property<Double> getAverageAtomicMassProperty(){
+            return averageAtomicMassProperty;
         }
 
         private void updateCountProperty(){
