@@ -32,14 +32,13 @@ public class TestCentroid extends JFrame {
         Graphics2D g2 = (Graphics2D) g;
         g2.setStroke( new BasicStroke( 2f ) );
 
-        double xOffset = 50;
-        double yOffset = 50;
-
-        // points that define a polygon (in this case, a parallelogram)
+        // points that define a polygon (in this case, a parallelogram), clockwise from upper left
+        final double xOffset = 50;
+        final double yOffset = 50;
         Point2D p0 = new Point2D.Double( xOffset, yOffset );
-        Point2D p1 = new Point2D.Double( xOffset + 80, yOffset + 160 );
+        Point2D p1 = new Point2D.Double( xOffset + 240, yOffset );
         Point2D p2 = new Point2D.Double( xOffset + 320, yOffset + 160 );
-        Point2D p3 = new Point2D.Double( xOffset + 240, yOffset );
+        Point2D p3 = new Point2D.Double( xOffset + 80, yOffset + 160 );
         Point2D[] points = new Point2D[] { p0, p1, p2, p3 };
 
         // draw the polygon
