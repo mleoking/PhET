@@ -1,3 +1,4 @@
+2/28/11 migrate Dimension3D to phetcommon.math
 2/28/11 migrate ShapeUtils to phetcommon.view.utils
 2/28/11 #2758 migrate PolygonUtils from capacitor-lab to phetcommon.math
 12/10/10 use PropertyRadioButton for selection of dielectric charge view

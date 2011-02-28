@@ -7,7 +7,7 @@ import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
-import edu.colorado.phet.capacitorlab.util.Dimension3D;
+import edu.colorado.phet.common.phetcommon.math.Dimension3D;
 import edu.colorado.phet.common.phetcommon.view.util.ShapeUtils;
 
 /**

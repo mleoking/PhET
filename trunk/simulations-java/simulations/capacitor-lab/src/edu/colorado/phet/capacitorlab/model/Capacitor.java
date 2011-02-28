@@ -6,7 +6,7 @@ import java.awt.Shape;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.shapes.CapacitorShapeFactory;
-import edu.colorado.phet.capacitorlab.util.Dimension3D;
+import edu.colorado.phet.common.phetcommon.math.Dimension3D;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
