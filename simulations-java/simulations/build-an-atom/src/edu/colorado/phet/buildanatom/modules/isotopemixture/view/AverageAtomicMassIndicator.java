@@ -33,6 +33,10 @@ public class AverageAtomicMassIndicator extends PNode {
 
     private static double INDICATOR_WIDTH = 300; // In screen units, which is close to pixels.
 
+    private double massSpan = 0; // In amu.
+    private double minMass = 0; // In amu.
+    private double maxMass = 0; // In amu.
+
     public AverageAtomicMassIndicator( final IsotopeMixturesModel model ){
 
         // Add the title.
@@ -46,7 +50,7 @@ public class AverageAtomicMassIndicator extends PNode {
         final double barOffsetY = title.getFullBoundsReference().getMaxY() + 40;
         DoubleGeneralPath barShape = new DoubleGeneralPath( 0, 0 );
         barShape.lineTo( INDICATOR_WIDTH, 0 );
-        PNode barNode = new PhetPPath( barShape.getGeneralPath(), new BasicStroke(3), Color.BLACK ){{
+        final PNode barNode = new PhetPPath( barShape.getGeneralPath(), new BasicStroke(3), Color.BLACK ){{
             setOffset( 0, barOffsetY );
         }};
         addChild( barNode );
@@ -58,16 +62,32 @@ public class AverageAtomicMassIndicator extends PNode {
         // Listen for changes to the list of possible isotopes and update the
         // tick marks when changes occur.
         model.getPossibleIsotopesProperty().addObserver( new SimpleObserver() {
+            private static final double ADJUSTMENT_FACTOR = 0.2; // Sets how far beyond the mass span the basic line goes.
             public void update() {
                 tickMarkLayer.removeAllChildren();
                 List< ImmutableAtom > possibleIsotopeList = model.getPossibleIsotopesProperty().getValue();
-                double interTickSpacingX = INDICATOR_WIDTH / possibleIsotopeList.size();
-                double tickMarkStartOffsetX = interTickSpacingX / 2;
-                int tickMarkCount = 0;
+                minMass = Double.POSITIVE_INFINITY;
+                maxMass = 0;
+                for ( ImmutableAtom isotope : possibleIsotopeList ){
+                    if ( isotope.getAtomicMass() > maxMass){
+                        maxMass = isotope.getAtomicMass();
+                    }
+                    if ( isotope.getAtomicMass() < minMass){
+                        minMass = isotope.getAtomicMass();
+                    }
+                }
+                massSpan = ( maxMass - minMass ) * (1 + ADJUSTMENT_FACTOR); // Make the span a little larger.
+                if ( massSpan < 1 ){
+                    massSpan = 1; // Mass span can't be zero.
+                }
+                // Adjust the range so that there is some space at the ends of the line.
+                minMass -= massSpan * ADJUSTMENT_FACTOR / 2;
+                maxMass += massSpan * ADJUSTMENT_FACTOR / 2;
+
+                // Add the new tick marks.
                 for ( ImmutableAtom isotope : model.getPossibleIsotopesProperty().getValue() ){
                     IsotopeTickMark tickMark = new IsotopeTickMark( isotope );
-                    tickMark.setOffset( tickMarkStartOffsetX + interTickSpacingX * tickMarkCount, barOffsetY );
-                    tickMarkCount++;
+                    tickMark.setOffset( calcOffsetFromAtomicMass( isotope.getAtomicMass() ), barOffsetY );
                     tickMarkLayer.addChild( tickMark );
                 }
             }
@@ -78,6 +98,10 @@ public class AverageAtomicMassIndicator extends PNode {
         readoutPointer.setOffset( barNode.getFullBoundsReference().getCenterX(), barOffsetY + 20 );
         addChild( readoutPointer );
 
+    }
+
+    private double calcOffsetFromAtomicMass( double atomicMass ){
+        return (atomicMass - minMass) / massSpan * INDICATOR_WIDTH;
     }
 
     /**
@@ -119,7 +143,7 @@ public class AverageAtomicMassIndicator extends PNode {
      */
     private static final class ReadoutPointer extends PNode {
 
-        private static final Dimension2D SIZE = new PDimension( 90, 25 );
+        private static final Dimension2D SIZE = new PDimension( 120, 25 );
         private static final double TRIANGULAR_POINTER_HEIGHT = 15;
         private static final double TRIANGULAR_POINTER_WIDTH = 20;
         private static final DecimalFormat READOUT_FORMATTER = new DecimalFormat( "0.#####" );
@@ -141,14 +165,15 @@ public class AverageAtomicMassIndicator extends PNode {
 
             // Add the textual readout.
             final PText textualReadout = new PText(){{
-                setFont( new PhetFont( 12 ) );
+                setFont( new PhetFont( 16 ) );
             }};
-            readoutBackgroundNode.addChild( textualReadout );
+            addChild( textualReadout );
             // Observe the average atomic weight property in the model and
             // update the textual readout whenever it changes.
             model.getIsotopeTestChamber().getAverageAtomicMassProperty().addObserver( new SimpleObserver() {
                 public void update() {
-                    textualReadout.setText( READOUT_FORMATTER.format( model.getIsotopeTestChamber().getAverageAtomicMassProperty().getValue() ) );
+                    // TODO: i18n
+                    textualReadout.setText( READOUT_FORMATTER.format( model.getIsotopeTestChamber().getAverageAtomicMassProperty().getValue() ) + " amu" );
                     textualReadout.centerFullBoundsOnPoint(
                             readoutBackgroundNode.getFullBoundsReference().getCenterX(),
                             readoutBackgroundNode.getFullBounds().getCenterY() );
