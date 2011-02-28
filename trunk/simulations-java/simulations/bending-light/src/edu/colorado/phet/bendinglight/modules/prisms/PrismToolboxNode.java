@@ -75,7 +75,7 @@ public class PrismToolboxNode extends PNode {
                     }
 
                     public void mouseDragged( PInputEvent event ) {
-                        createdNode.translate( transform.viewToModelDelta( event.getDeltaRelativeTo( getParent() ) ) );
+                        createdNode.prism.translate( transform.viewToModelDelta( event.getDeltaRelativeTo( getParent() ) ) );
                     }
 
                     public void mouseReleased( PInputEvent event ) {
