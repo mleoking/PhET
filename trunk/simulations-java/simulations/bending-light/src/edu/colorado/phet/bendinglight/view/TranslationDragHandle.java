@@ -37,7 +37,7 @@ public class TranslationDragHandle extends PNode {
                 final PNode counterClockwiseDragArrow = new PNode() {{
                     Point2D pt = transform.modelToView( laser.emissionPoint.getValue().toPoint2D() );
                     ImmutableVector2D vec = ImmutableVector2D.parseAngleAndMagnitude( image.getWidth() / 2, -laser.getAngle() );
-                    addChild( new PhetPPath( new Arrow( new Point2D.Double( pt.getX() + vec.getX(), pt.getY() + vec.getY() ), new ImmutableVector2D( dx, dy ), 10, 10, 5, 2, true ).getShape(), Color.green, new BasicStroke( 1 ), Color.black ) );
+                    addChild( new PhetPPath( new Arrow( new Point2D.Double( pt.getX() + vec.getX(), pt.getY() + vec.getY() ), new ImmutableVector2D( dx, dy ), 20, 20, 10, 2, true ).getShape(), Color.green, new BasicStroke( 1 ), Color.black ) );
                     setPickable( false );
                     setChildrenPickable( false );
                 }};

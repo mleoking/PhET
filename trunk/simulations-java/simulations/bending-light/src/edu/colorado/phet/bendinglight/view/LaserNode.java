@@ -92,8 +92,10 @@ public class LaserNode extends PNode {
 
         addChild( new PImage( image ) );
 
-        Rectangle2D.Double frontRectangle = new Rectangle2D.Double( 0, 0, image.getWidth() / 2, image.getHeight() );
-        Rectangle2D.Double backRectangle = new Rectangle2D.Double( image.getWidth() / 2, 0, image.getWidth() / 2, image.getHeight() );
+        //Drag handlers can choose which of these regions to use for drag events
+        double fractionBackToRotateHandle = 34.0 / 177.0;//for the rotatable laser, just use the part of the image that looks like a knob be used for rotation
+        Rectangle2D.Double frontRectangle = new Rectangle2D.Double( 0, 0, image.getWidth() * (1-fractionBackToRotateHandle), image.getHeight() );
+        Rectangle2D.Double backRectangle = new Rectangle2D.Double( image.getWidth() * (1-fractionBackToRotateHandle), 0, image.getWidth() * fractionBackToRotateHandle, image.getHeight() );
         Rectangle2D.Double fullRectangle = new Rectangle2D.Double( 0, 0, image.getWidth(), image.getHeight() );
 
         class DragRegion extends PhetPPath {

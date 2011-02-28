@@ -1,3 +1,4 @@
+Fixed drag regions based on the new laser image
 Switched to a different laser image for the prism tab
 Added rotation drag handles to the prism objects
 Made it so the laser only rotates in the intro tab, and rotates or translates in the prism tab based on grab region
