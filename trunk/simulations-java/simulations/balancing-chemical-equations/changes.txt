@@ -1,7 +1,7 @@
-3/1/11 change request: add layout support for reverse reactions (1 reactant, 2 products)
-3/1/11 rename equation base classes to support reverse reactions
-3/1/11 change request: "H2 + O2 -> H2O" to "H2O -> H2 + O2" (reverse reaction) in first tab
-3/1/11 allow equations with 1 reactant in the model, to support reverse reactions
+3/1/11 change request: add layout support for decomposition reactions (1 reactant, 2 products)
+3/1/11 rename equation base classes to support decomposition reactions
+3/1/11 change request: "H2 + O2 -> H2O" to "H2O -> H2 + O2" (decomposition reaction) in first tab
+3/1/11 allow equations with 1 reactant in the model, to support decomposition reactions
 3/1/11 change request: move "Make Ammonia" radio button first in button panel
 # 0.00.10 (49356) Mar 1, 2011
 3/1/11 add test-game-reward to build file, so that team can experiment with reward parameters

@@ -8,7 +8,7 @@ import edu.colorado.phet.balancingchemicalequations.model.Molecule.H2O;
 import edu.colorado.phet.balancingchemicalequations.model.Molecule.O2;
 
 /**
- * Base class for equations with 1 reactant and 2 products (reverse reactions).
+ * Base class for equations with 1 reactant and 2 products (decomposition reactions).
  * This base class adds no new functionality to Equation, it simply provides a more convenient constructor.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
