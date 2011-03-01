@@ -1,3 +1,4 @@
+3/1/11 revert to horizontal layout of equation choice radio buttons
 3/1/11 add game reward node, identical to what was done in RPAL, but using atoms, molecules and smiley faces
 3/1/11 fix: add game results "popup" to gamePlayParent node, not directly to canvas
 3/1/11 fix: hide game results "popup" when game is completed
