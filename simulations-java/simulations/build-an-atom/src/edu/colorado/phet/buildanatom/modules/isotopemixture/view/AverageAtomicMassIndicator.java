@@ -32,9 +32,8 @@ public class AverageAtomicMassIndicator extends PNode {
 
     private static double INDICATOR_WIDTH = 300; // In screen units, which is close to pixels.
 
-    private double massSpan = 1; // In amu.
+    private double massSpan = 3; // In amu.
     private double minMass = 0; // In amu.
-    private double maxMass = 0; // In amu.
 
     public AverageAtomicMassIndicator( final IsotopeMixturesModel model ){
 
@@ -65,23 +64,25 @@ public class AverageAtomicMassIndicator extends PNode {
             public void update() {
                 tickMarkLayer.removeAllChildren();
                 List< ImmutableAtom > possibleIsotopeList = model.getPossibleIsotopesProperty().getValue();
+                double lightestIsotopeMass = Double.POSITIVE_INFINITY;
+                double heaviestIsotopeMass = 0;
                 minMass = Double.POSITIVE_INFINITY;
-                maxMass = 0;
                 for ( ImmutableAtom isotope : possibleIsotopeList ){
-                    if ( isotope.getAtomicMass() > maxMass){
-                        maxMass = isotope.getAtomicMass();
+                    if ( isotope.getAtomicMass() > heaviestIsotopeMass ) {
+                        heaviestIsotopeMass = isotope.getAtomicMass();
                     }
-                    if ( isotope.getAtomicMass() < minMass){
-                        minMass = isotope.getAtomicMass();
+                    if ( isotope.getAtomicMass() < lightestIsotopeMass ) {
+                        lightestIsotopeMass = isotope.getAtomicMass();
                     }
                 }
-                massSpan = ( maxMass - minMass ) * (1 + ADJUSTMENT_FACTOR); // Make the span a little larger.
-                if ( massSpan < 1 ){
-                    massSpan = 1; // Mass span can't be zero.
+                massSpan = heaviestIsotopeMass - lightestIsotopeMass;
+                if ( massSpan < 2 ){
+                    massSpan = 2; // Mass span must be at least 2 or the spacing doesn't look good.
                 }
-                // Adjust the range so that there is some space at the ends of the line.
-                minMass -= massSpan * ADJUSTMENT_FACTOR / 2;
-                maxMass += massSpan * ADJUSTMENT_FACTOR / 2;
+                // Adjust the span so that there is some space at the ends of the line.
+                massSpan *= 1.2;
+                // Set the low end of the mass range, needed for positioning on line.
+                minMass = (heaviestIsotopeMass + lightestIsotopeMass) / 2 - massSpan / 2;
 
                 // Add the new tick marks.
                 for ( ImmutableAtom isotope : model.getPossibleIsotopesProperty().getValue() ){
