@@ -52,14 +52,14 @@ public abstract class OneProductEquation extends Equation {
     // N2 + 3 H2 -> 2NH3
     public static class AmmoniaEquation extends OneProductEquation {
         public AmmoniaEquation() {
-            super( BCEStrings.AMMONIA, new EquationTerm( 1, new N2() ), new EquationTerm( 3, new H2() ), new EquationTerm( 2, new NH3() ) );
+            super( BCEStrings.AMMONIA_EQUATION_NAME, new EquationTerm( 1, new N2() ), new EquationTerm( 3, new H2() ), new EquationTerm( 2, new NH3() ) );
         }
     }
 
     // 2 H2 + O2 -> 2 H2O
     public static class WaterEquation extends OneProductEquation {
         public WaterEquation() {
-            super( BCEStrings.WATER, new EquationTerm( 2, new H2() ), new EquationTerm( 1, new O2() ), new EquationTerm( 2, new H2O() ) );
+            super( BCEStrings.WATER_EQUATION_NAME, new EquationTerm( 2, new H2() ), new EquationTerm( 1, new O2() ), new EquationTerm( 2, new H2O() ) );
         }
     }
 
