@@ -1,3 +1,4 @@
+3-1-2010: #2732, Made it so the maximize chart button node just has the graph label instead of the string "Maximize X Graph"
 8-16-2010: Improved horizontal layout for charts
 8-3-2010: Improved layout for charts, make sure all vertical space is efficiently used
 7-23-2010: Added a drop shadow to play area slider node label text
