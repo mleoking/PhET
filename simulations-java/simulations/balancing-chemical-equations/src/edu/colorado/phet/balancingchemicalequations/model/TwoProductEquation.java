@@ -48,7 +48,7 @@ public abstract class TwoProductEquation extends Equation {
     // CH4 + 2 O2 -> CO2 + 2 H2O
     public static class MethaneEquation extends TwoProductEquation {
         public MethaneEquation() {
-            super( BCEStrings.METHANE, new EquationTerm( 1, new CH4() ), new EquationTerm( 2, new O2() ), new EquationTerm( 1, new CO2() ), new EquationTerm( 2, new H2O() ) );
+            super( BCEStrings.METHANE_EQUATION_NAME, new EquationTerm( 1, new CH4() ), new EquationTerm( 2, new O2() ), new EquationTerm( 1, new CO2() ), new EquationTerm( 2, new H2O() ) );
         }
     }
 
