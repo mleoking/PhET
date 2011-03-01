@@ -1,3 +1,4 @@
+Made prisms glass instead of water by default
 Fixed: sim speed slider goes too fast on my computers. The useable ranges looks like its the 1st 20% or so, should be recalibrated
 # 0.00.23 (49333) Feb 28, 2011
 Improved support for white background
