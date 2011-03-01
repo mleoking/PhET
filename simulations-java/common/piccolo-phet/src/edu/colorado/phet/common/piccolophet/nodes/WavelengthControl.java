@@ -11,21 +11,8 @@
 
 package edu.colorado.phet.common.piccolophet.nodes;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.Image;
-import java.awt.Insets;
-import java.awt.Stroke;
-import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+import java.awt.*;
+import java.awt.event.*;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -41,8 +28,8 @@ import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
-import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 import edu.colorado.phet.common.phetcommon.view.util.SpectrumImageFactory.LinearSpectrumImageFactory;
+import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.ConstrainedDragHandler;
@@ -132,9 +119,9 @@ public class WavelengthControl extends PhetPNode {
      */
     public WavelengthControl( int trackWidth, int trackHeight ) {
         this( trackWidth, trackHeight,
-                VisibleColor.MIN_WAVELENGTH, VisibleColor.MAX_WAVELENGTH,
-                UV_TRACK_COLOR, UV_LABEL_COLOR,
-                IR_TRACK_COLOR, IR_LABEL_COLOR );
+              VisibleColor.MIN_WAVELENGTH, VisibleColor.MAX_WAVELENGTH,
+              UV_TRACK_COLOR, UV_LABEL_COLOR,
+              IR_TRACK_COLOR, IR_LABEL_COLOR );
     }
 
     /**
@@ -147,11 +134,11 @@ public class WavelengthControl extends PhetPNode {
      * @param maxWavelength maximum wavelength, in nanometers
      */
     public WavelengthControl( int trackWidth, int trackHeight,
-            double minWavelength, double maxWavelength ) {
+                              double minWavelength, double maxWavelength ) {
         this( trackWidth, trackHeight,
-                minWavelength, maxWavelength,
-                UV_TRACK_COLOR, UV_LABEL_COLOR,
-                IR_TRACK_COLOR, IR_LABEL_COLOR );
+              minWavelength, maxWavelength,
+              UV_TRACK_COLOR, UV_LABEL_COLOR,
+              IR_TRACK_COLOR, IR_LABEL_COLOR );
     }
 
     /**
@@ -162,24 +149,20 @@ public class WavelengthControl extends PhetPNode {
      * @param trackHeight
      * @param minWavelength minimum wavelength, in nanometers
      * @param maxWavelength maximum wavelength, in nanometers
-     * @param uvTrackColor color used for UV label
-     * @param uvLabelColor color used for UV track
-     * @param irTrackColor color used for IR label
-     * @param irLabelColor color used for IR track
+     * @param uvTrackColor  color used for UV label
+     * @param uvLabelColor  color used for UV track
+     * @param irTrackColor  color used for IR label
+     * @param irLabelColor  color used for IR track
      * @throws IllegalArgumentException if minWavelength >= maxWavelength
-     * @throws UnsupportedOperationException if the entire visible spectrum is not included in wavelength range
      */
     public WavelengthControl( int trackWidth, int trackHeight,
-            double minWavelength, double maxWavelength,
-            Color uvTrackColor, Color uvLabelColor,
-            Color irTrackColor, Color irLabelColor ) {
+                              double minWavelength, double maxWavelength,
+                              Color uvTrackColor, Color uvLabelColor,
+                              Color irTrackColor, Color irLabelColor ) {
         super();
 
         if ( minWavelength >= maxWavelength ) {
             throw new IllegalArgumentException( "have you reversed the minWavelength and maxWavelength args?" );
-        }
-        if ( minWavelength > VisibleColor.MIN_WAVELENGTH || maxWavelength < VisibleColor.MAX_WAVELENGTH ) {
-            throw new UnsupportedOperationException( "entire visible spectrum must be shown" );
         }
 
         _minWavelength = minWavelength;
@@ -267,6 +250,7 @@ public class WavelengthControl extends PhetPNode {
 
     /**
      * Gets the min wavelength for the control's range.
+     *
      * @return double
      */
     public double getMinWavelength() {
@@ -275,6 +259,7 @@ public class WavelengthControl extends PhetPNode {
 
     /**
      * Gets the max wavelength for the control's range.
+     *
      * @return double
      */
     public double getMaxWavelength() {
@@ -334,7 +319,7 @@ public class WavelengthControl extends PhetPNode {
      *
      * @return Color
      */
-    public Color getWavelengthColor( ) {
+    public Color getWavelengthColor() {
         return getWavelengthColor( _wavelength );
     }
 
@@ -362,6 +347,7 @@ public class WavelengthControl extends PhetPNode {
 
     /**
      * Set the number of columns in the editable text field.
+     *
      * @param columns
      */
     public void setTextFieldColumns( int columns ) {
@@ -404,6 +390,7 @@ public class WavelengthControl extends PhetPNode {
 
     /**
      * Sets the size of the slider knob.
+     *
      * @param width
      * @param height
      */
@@ -413,6 +400,7 @@ public class WavelengthControl extends PhetPNode {
 
     /**
      * Sets the stroke used to outline the slider knob.
+     *
      * @return
      */
     public void setKnobStroke( Stroke stroke ) {
@@ -421,6 +409,7 @@ public class WavelengthControl extends PhetPNode {
 
     /**
      * Sets the color used to stroke the slider knob.
+     *
      * @return
      */
     public void setKnobStrokeColor( Color strokeColor ) {
@@ -429,6 +418,7 @@ public class WavelengthControl extends PhetPNode {
 
     /**
      * Adds a listener to the knob, so we tell when we're dragging it.
+     *
      * @param listener
      */
     public void addKnobListener( PInputEventListener listener ) {
@@ -552,7 +542,7 @@ public class WavelengthControl extends PhetPNode {
 
     /**
      * Updates drag bounds for the knob.
-     * <p>
+     * <p/>
      * HACK: This is public because of a problem with ConstrainedDragHandler.
      * ConstrainedDragHandler works in global coordinates, but WavelengthControl
      * has no way of knowing when its global position has changed.
@@ -562,7 +552,7 @@ public class WavelengthControl extends PhetPNode {
     public void updateDragBounds() {
         PBounds trackGFB = _track.getGlobalFullBounds();
         PBounds knobGFB = _knob.getGlobalFullBounds();
-        Rectangle2D dragBounds = new Rectangle2D.Double( trackGFB.getX() - (knobGFB.getWidth()/2), trackGFB.getY(), trackGFB.getWidth(), trackGFB.getHeight() );
+        Rectangle2D dragBounds = new Rectangle2D.Double( trackGFB.getX() - ( knobGFB.getWidth() / 2 ), trackGFB.getY(), trackGFB.getWidth(), trackGFB.getHeight() );
         _dragHandler.setDragBounds( dragBounds );
     }
 
@@ -616,9 +606,9 @@ public class WavelengthControl extends PhetPNode {
 
         /* Constructor */
         public Track( int trackWidth, int trackHeight,
-                double minWavelength, double maxWavelength,
-                Color uvTrackColor, Color uvLabelColor,
-                Color irTrackColor, Color irLabelColor ) {
+                      double minWavelength, double maxWavelength,
+                      Color uvTrackColor, Color uvLabelColor,
+                      Color irTrackColor, Color irLabelColor ) {
             super();
 
             final double totalBandwidth = maxWavelength - minWavelength;
@@ -649,7 +639,7 @@ public class WavelengthControl extends PhetPNode {
 
                     // center in the UV portion of the track
                     uvLabel.setOffset( ( uvTrackWidth - uvLabel.getFullBounds().getWidth() ) / 2,
-                            ( trackHeight - uvLabel.getFullBounds().getHeight() ) / 2 );
+                                       ( trackHeight - uvLabel.getFullBounds().getHeight() ) / 2 );
                 }
             }
 
@@ -669,7 +659,7 @@ public class WavelengthControl extends PhetPNode {
 
                     // center in the IR portion of the track
                     irLabel.setOffset( trackWidth - irTrackWidth + ( ( irTrackWidth - irLabel.getFullBounds().getWidth() ) / 2 ),
-                            ( trackHeight - irLabel.getFullBounds().getHeight() ) / 2 );
+                                       ( trackHeight - irLabel.getFullBounds().getHeight() ) / 2 );
                 }
             }
         }
@@ -709,6 +699,7 @@ public class WavelengthControl extends PhetPNode {
                 public void focusGained( FocusEvent e ) {
                     _formattedTextField.selectAll();
                 }
+
                 /* Processes the text field when it loses focus. */
                 public void focusLost( FocusEvent e ) {
                     try {
@@ -806,7 +797,7 @@ public class WavelengthControl extends PhetPNode {
         /* Constructor */
         public Cursor( double width, double height ) {
             super();
-            setPathTo( new Rectangle2D.Double( -width/2, 0, width, height ) );
+            setPathTo( new Rectangle2D.Double( -width / 2, 0, width, height ) );
             setStroke( CURSOR_STROKE );
             setStrokePaint( CURSOR_COLOR );
         }
@@ -841,9 +832,9 @@ public class WavelengthControl extends PhetPNode {
      */
     private void fireChangeEvent( ChangeEvent event ) {
         Object[] listeners = _listenerList.getListenerList();
-        for( int i = 0; i < listeners.length; i += 2 ) {
-            if( listeners[i] == ChangeListener.class ) {
-                ( (ChangeListener)listeners[i + 1] ).stateChanged( event );
+        for ( int i = 0; i < listeners.length; i += 2 ) {
+            if ( listeners[i] == ChangeListener.class ) {
+                ( (ChangeListener) listeners[i + 1] ).stateChanged( event );
             }
         }
     }
@@ -851,10 +842,10 @@ public class WavelengthControl extends PhetPNode {
     public static void main( String[] args ) {
         new JFrame() {{
             setContentPane( new PhetPCanvas() {{
-                getLayer().addChild( new WavelengthControl( 200, 50 ){{setOffset( 100,100 );}} );
+                getLayer().addChild( new WavelengthControl( 200, 50 ) {{setOffset( 100, 100 );}} );
             }} );
             setDefaultCloseOperation( EXIT_ON_CLOSE );
-            setSize( 500,500 );
+            setSize( 500, 500 );
         }}.setVisible( true );
     }
 }
