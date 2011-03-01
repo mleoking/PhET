@@ -30,7 +30,7 @@ public class GameModel {
 
     private static final IntegerRange COEFFICENTS_RANGE = new IntegerRange( 0, 7 );
     private static final IntegerRange LEVELS_RANGE = new IntegerRange( 1, 3, 1 );
-    private static final int PROBLEMS_PER_GAME = 1;
+    private static final int PROBLEMS_PER_GAME = 5;
     private static final int POINTS_FIRST_ATTEMPT = 2;  // points to award for correct guess on 1st attempt
     private static final int POINTS_SECOND_ATTEMPT = 1; // points to award for correct guess on 2nd attempt
 
