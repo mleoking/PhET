@@ -12,6 +12,8 @@ LOW PRIORITY
 - delete TestMoleculeNodes from build properties before publishing 1.00
 - make sure that color for "molecules are hidden" in BoxesNode works with the background color we choose
 - change keys to make values for verbose equation names
+- Emily colors: boxes=[102,102,102] canvas=white or canvas=[204,204,255]
+- Kelly: "Make Water" -> "Separate Water"?
 
 MIGRATE TO COMMON
 - replace molecule image files in RPAL with Piccolo code from BCE
