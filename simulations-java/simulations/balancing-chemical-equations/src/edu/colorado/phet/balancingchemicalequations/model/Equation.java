@@ -34,8 +34,9 @@ public abstract class Equation {
     public Equation( String name, final EquationTerm[] reactants, final EquationTerm[] products ) {
 
         // check arguments
-        if ( reactants.length < 2 ) {
-            throw new IllegalArgumentException( "equation requires at least 2 reactants" );
+        if ( reactants.length < 1 ) {
+            //NOTE: 2 reactants were required until we needed to support reverse reactions
+            throw new IllegalArgumentException( "equation requires at least 1 reactant" );
         }
         if ( products.length < 1 ) {
             throw new IllegalArgumentException( "equation requires at least 1 product" );

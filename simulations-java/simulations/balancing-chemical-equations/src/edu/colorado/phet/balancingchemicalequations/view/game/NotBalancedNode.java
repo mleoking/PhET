@@ -13,7 +13,7 @@ import edu.colorado.phet.balancingchemicalequations.BCEStrings;
 import edu.colorado.phet.balancingchemicalequations.control.BalancedRepresentationChoiceNode.BalancedRepresentation;
 import edu.colorado.phet.balancingchemicalequations.model.Equation;
 import edu.colorado.phet.balancingchemicalequations.model.EquationTerm;
-import edu.colorado.phet.balancingchemicalequations.model.OneProductEquation.WaterEquation;
+import edu.colorado.phet.balancingchemicalequations.model.OneProductEquation.MakeAmmoniaEquation;
 import edu.colorado.phet.balancingchemicalequations.view.BalanceScalesNode;
 import edu.colorado.phet.balancingchemicalequations.view.BarChartsNode;
 import edu.colorado.phet.balancingchemicalequations.view.HorizontalAligner;
@@ -81,7 +81,7 @@ public class NotBalancedNode extends GameResultNode {
         PhetPCanvas canvas = new PhetPCanvas( BCEConstants.CANVAS_RENDERING_SIZE );
         canvas.setPreferredSize( new Dimension( 1024, 768 ) );
 
-        Equation equation = new WaterEquation();
+        Equation equation = new MakeAmmoniaEquation();
         EquationTerm[] reactants = equation.getReactants();
         for ( EquationTerm term : reactants ) {
             term.setActualCoefficient( 15 );

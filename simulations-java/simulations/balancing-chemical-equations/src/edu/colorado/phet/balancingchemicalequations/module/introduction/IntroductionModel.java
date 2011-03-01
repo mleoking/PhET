@@ -5,9 +5,9 @@ package edu.colorado.phet.balancingchemicalequations.module.introduction;
 import java.util.ArrayList;
 
 import edu.colorado.phet.balancingchemicalequations.model.Equation;
-import edu.colorado.phet.balancingchemicalequations.model.OneProductEquation.AmmoniaEquation;
-import edu.colorado.phet.balancingchemicalequations.model.OneProductEquation.WaterEquation;
-import edu.colorado.phet.balancingchemicalequations.model.TwoProductEquation.MethaneEquation;
+import edu.colorado.phet.balancingchemicalequations.model.OneProductEquation.MakeAmmoniaEquation;
+import edu.colorado.phet.balancingchemicalequations.model.ReversedEquation.SeparateWaterEquation;
+import edu.colorado.phet.balancingchemicalequations.model.TwoProductEquation.CombustMethaneEquation;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -27,9 +27,9 @@ public class IntroductionModel {
 
     public IntroductionModel( final boolean dev ) {
         equations = new ArrayList<Equation>() {{
-            add( new AmmoniaEquation() );
-            add( new WaterEquation() );
-            add( new MethaneEquation() );
+            add( new MakeAmmoniaEquation() );
+            add( new SeparateWaterEquation() );
+            add( new CombustMethaneEquation() );
         }};
         currentEquationProperty = new Property<Equation>( equations.get( 0 ) );
     }
