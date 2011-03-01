@@ -1,7 +1,7 @@
 TODO list for balancing-chemical-equations
 
 HIGH PRIORITY
-- Game: add additional reverse reactions
+- Game: add additional decomposition reactions
 
 MEDIUM PRIORITY
 - Game: rewrite GameScoreBoardNode to use Property<T>
