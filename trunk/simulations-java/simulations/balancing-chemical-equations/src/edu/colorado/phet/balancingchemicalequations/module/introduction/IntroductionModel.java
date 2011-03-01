@@ -4,9 +4,8 @@ package edu.colorado.phet.balancingchemicalequations.module.introduction;
 
 import java.util.ArrayList;
 
-import edu.colorado.phet.balancingchemicalequations.model.*;
+import edu.colorado.phet.balancingchemicalequations.model.Equation;
 import edu.colorado.phet.balancingchemicalequations.model.OneProductEquation.AmmoniaEquation;
-import edu.colorado.phet.balancingchemicalequations.model.OneProductEquation.Equation_P4_6F2_4PF3;
 import edu.colorado.phet.balancingchemicalequations.model.OneProductEquation.WaterEquation;
 import edu.colorado.phet.balancingchemicalequations.model.TwoProductEquation.MethaneEquation;
 import edu.colorado.phet.common.phetcommon.model.Property;
@@ -31,9 +30,6 @@ public class IntroductionModel {
             add( new WaterEquation() );
             add( new AmmoniaEquation() );
             add( new MethaneEquation() );
-            if ( dev ) {
-                add( new Equation_P4_6F2_4PF3() );
-            }
         }};
         currentEquationProperty = new Property<Equation>( equations.get( 0 ) );
     }

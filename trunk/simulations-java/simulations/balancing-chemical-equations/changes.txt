@@ -1,3 +1,5 @@
+2/28/11 use more verbose names for equations in first tab, use vertical layout of radio buttons
+2/28/11 remove P4 + 6F2 -> 4PF3 from first tab (dev)
 2/28/11 standardize placement of answer, below left box
 2/28/11 add "Developer->Show answer" menu item, off by default
 2/28/11 account for arrow head offset in layout of bars in chart, so that bar doesn't move around horizontally

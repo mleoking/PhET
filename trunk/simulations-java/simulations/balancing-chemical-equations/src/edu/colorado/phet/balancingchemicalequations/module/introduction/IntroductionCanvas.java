@@ -87,7 +87,7 @@ public class IntroductionCanvas extends BCECanvas {
             equationChoiceNode.setOffset( x, 0 );
 
             // equation below choices
-            y = equationChoiceNode.getFullBoundsReference().getMaxY() + 38;
+            y = equationChoiceNode.getFullBoundsReference().getMaxY() + 25;
             equationNode.setOffset( 0, y );
 
             // boxes below equation
