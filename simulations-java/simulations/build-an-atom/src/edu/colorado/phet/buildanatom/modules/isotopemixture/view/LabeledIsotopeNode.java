@@ -47,14 +47,18 @@ public class LabeledIsotopeNode extends PNode {
         // Create a gradient that gives the particles a 3D look.  The numbers
         // used were empirically determined.
         double radius = isotope.getRadius();
-        Paint particlePaint = new RoundGradientPaint( -radius / 1.5, -radius / 1.5,
-                ColorUtils.brighterColor( baseColor, 0.8 ), new Point2D.Double( radius, radius ),
-                baseColor );
+        double transformedRadius = mvt.modelToViewDifferentialX( radius );
+        Paint particlePaint = new RoundGradientPaint(
+                transformedRadius / 2,
+                -transformedRadius / 2,
+                ColorUtils.brighterColor( baseColor, 0.8 ),
+                new Point2D.Double( transformedRadius / 2, transformedRadius / 2 ),
+                ColorUtils.darkerColor( baseColor, 0.2 ) );
         sphericalNode = new SphericalNode( mvt.modelToViewDifferentialX( radius * 2 ), particlePaint, false );
         addChild( sphericalNode );
 
         // Create, scale, and add the label, assuming the isotope is large enough.
-        if ( mvt.modelToViewDifferentialX( radius ) > MIN_RADIUS_FOR_LABEL ){
+        if ( transformedRadius > MIN_RADIUS_FOR_LABEL ){
             HTMLNode labelNode = new HTMLNode(){{
                 setHTML( "<html><sup>" + isotope.getAtomConfiguration().getMassNumber() + "</sup>" + isotope.getAtomConfiguration().getSymbol() + "</html>" );
                 setFont( new PhetFont(12, true) );
