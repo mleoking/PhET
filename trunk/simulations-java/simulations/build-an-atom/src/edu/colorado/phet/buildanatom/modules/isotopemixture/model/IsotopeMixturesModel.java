@@ -12,6 +12,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import edu.colorado.phet.buildanatom.model.AtomIdentifier;
 import edu.colorado.phet.buildanatom.model.Bucket;
@@ -63,6 +64,9 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
     private static final Color [] ISOTOPE_COLORS = new Color [] { new Color( 180, 82, 205), Color.green,
         new Color(255, 69, 0), new Color( 139, 90, 43 ) };
 
+    // Random number generator for positioning isotopes.
+    private static final Random RAND = new Random();
+
     // Enum of atom size settings.
     public enum IsotopeSize { SMALL, LARGE };
 
@@ -103,11 +107,15 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
     // Property that determines whether the user's mix or nature's mix is
     // being displayed.  When this is set to true, indicating that nature's
     // mix should be displayed, the isotope size property is ignored.
-    private final BooleanProperty showNaturesMix = new BooleanProperty( false );
+    private final BooleanProperty showingNaturesMix = new BooleanProperty( false );
 
-    // List that contains the isotope instances that the user can move
-    // between the buckets and the test chamber.
-    private final List<MovableAtom> interactiveIsotopes = new ArrayList<MovableAtom>();
+    // List that contains the isotope instances that the user can be moved by
+    // the user between the buckets and the test chamber.
+    private final List<MovableAtom> usersMixOfIsotopes = new ArrayList<MovableAtom>();
+
+    // List that contains the isotope instances that are shown in the test
+    // chamber to represent nature's mix of isotopes.
+    private final List<MovableAtom> naturesMixOfIsotopes = new ArrayList<MovableAtom>();
 
     // Matches isotopes to colors used to portray them as well as the buckets
     // in which they can reside, etc.
@@ -123,12 +131,28 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
     public IsotopeMixturesModel( BuildAnAtomClock clock ) {
         this.clock = clock;
 
-        // Listen to our own atom size property.
+        // Listen to our own atom size property so that things can be
+        // reconfigured when this property changes.
         isotopeSizeProperty.addObserver( new SimpleObserver() {
             public void update() {
                 // Set the configuration again, which will create a different
                 // size atom now that the size has been changed.
                 setAtomConfiguration( prototypeIsotope );
+            }
+        }, false );
+
+        // Listen to our own "showing nature's mix" property so that we can
+        // show and hide the appropriate isotopes when the value changes.
+        showingNaturesMix.addObserver( new SimpleObserver() {
+            public void update() {
+                if ( showingNaturesMix.getValue() == true ){
+                    hideUsersMix();
+                    showNaturesMix();
+                }
+                else{
+                    showUsersMix();
+                    hideNaturesMix();
+                }
             }
         }, false );
     }
@@ -162,10 +186,20 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
         // Clear the test chamber.
         testChamber.removeAllIsotopes();
 
-        // Remove all existing interactive isotope instances.
-        List<MovableAtom> interactiveIsotopesCopy = new ArrayList<MovableAtom>( interactiveIsotopes );
-        interactiveIsotopes.clear();
-        for ( MovableAtom isotope : interactiveIsotopesCopy ){
+        // Remove all existing isotope instances from the user's mix.
+        List<MovableAtom> usersMixOfIsotopesCopy = new ArrayList<MovableAtom>( usersMixOfIsotopes );
+        usersMixOfIsotopes.clear();
+        for ( MovableAtom isotope : usersMixOfIsotopesCopy ){
+            // Signal the isotope that it has been removed from the model.
+            isotope.removeListener( isotopeGrabbedListener );
+            isotope.removeFromModel();
+        }
+
+        // Remove all existing isotopes from nature's mix.  Note that this
+        // list is not repopulated until it is needed.
+        List<MovableAtom> naturesMixOfIsotopesCopy = new ArrayList<MovableAtom>( naturesMixOfIsotopes );
+        naturesMixOfIsotopes.clear();
+        for ( MovableAtom isotope : naturesMixOfIsotopesCopy ){
             // Signal the isotope that it has been removed from the model.
             isotope.removeListener( isotopeGrabbedListener );
             isotope.removeFromModel();
@@ -237,7 +271,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
                         isotopeRadius, new Point2D.Double(0, 0), clock );
                 movableIsotope.addListener( isotopeGrabbedListener );
                 isotopeBucket.addIsotopeInstance( movableIsotope );
-                interactiveIsotopes.add( movableIsotope );
+                usersMixOfIsotopes.add( movableIsotope );
                 notifyIsotopeInstanceAdded( movableIsotope );
             }
         }
@@ -281,7 +315,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
     }
 
     public BooleanProperty getShowNaturesMix() {
-        return showNaturesMix;
+        return showingNaturesMix;
     }
 
     public Color getColorForIsotope( ImmutableAtom isotope ) {
@@ -308,22 +342,60 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
     }
 
     /**
-     * Archive the user's mix of isotopes.  This is generally done when
-     * switching to show nature's mix.
+     * Hide the user's mix of isotopes.  This is generally done when
+     * switching to show nature's mix.  It is accomplished by sending
+     * notifications of removal for each isotope but keeping them around.
      */
-    private void archiveUsersMix(){
-
+    private void hideUsersMix(){
+        for ( MovableAtom isotope : usersMixOfIsotopes ){
+            if ( testChamber.getTestChamberRect().contains( isotope.getPosition() ) ){
+                testChamber.removeIsotope( isotope );
+            }
+            isotope.getPartOfModelProperty().setValue( false );
+        }
     }
 
     /**
-     * Restore the user's mix from the archive.  This is generally done when
-     * switching from nature's mix back to user's mix.
+     * Show the user's mix.  This is intended to be called after the user's
+     * mix of isotopes was previously hidden.
      */
-    private void restoreUsersMix(){
-
+    private void showUsersMix(){
+        // Set each isotope to be back in the model.
+        for ( MovableAtom isotope : usersMixOfIsotopes ){
+            if ( testChamber.getTestChamberRect().contains( isotope.getPosition() )){
+                testChamber.addIsotope( isotope );
+            }
+            isotope.getPartOfModelProperty().setValue( true );
+            notifyIsotopeInstanceAdded( isotope );
+        }
     }
 
-    // ------------------------------------------------------------------------
+    private void showNaturesMix(){
+        if ( naturesMixOfIsotopes.size() == 0 ){
+            // This is the first time that nature's mix has been shown since
+            // the user selected the current element, so populate the list.
+            for ( ImmutableAtom isotopeConfig : getPossibleIsotopesProperty().getValue() ){
+                MovableAtom newIsotope = new MovableAtom( isotopeConfig.getNumProtons(),
+                        isotopeConfig.getNumNeutrons(), SMALL_ISOTOPE_RADIUS, new Point2D.Double( (RAND.nextDouble() - 0.5) * 100, (RAND.nextDouble() - 0.5) * 100 ), clock );
+                naturesMixOfIsotopes.add( newIsotope );
+            }
+        }
+        // Send out notifications of the isotopes being added to the model.
+        for ( MovableAtom isotope : naturesMixOfIsotopes ){
+            testChamber.addIsotope( isotope );
+            isotope.getPartOfModelProperty().setValue( true );
+            notifyIsotopeInstanceAdded( isotope );
+        }
+    }
+
+    private void hideNaturesMix(){
+        for ( MovableAtom isotope : naturesMixOfIsotopes ){
+            testChamber.removeIsotope( isotope );
+            isotope.getPartOfModelProperty().setValue( false );
+        }
+    }
+
+    // -----------------------------------------------------------------------
     // Inner Classes and Interfaces
     //------------------------------------------------------------------------
 
@@ -368,10 +440,6 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
     public class Adapter implements Listener {
         public void isotopeInstanceAdded( MovableAtom atom ) {}
     }
-
-    //------------------------------------------------------------------------
-    // Inner Classes and Interfaces
-    //------------------------------------------------------------------------
 
     /**
      * Class that represents a "test chamber" where multiple isotopes can be
