@@ -32,7 +32,7 @@ public class BoxesNode extends PComposite {
      * true = create molecule stacks from top down
      * false = create molecule stacks from bottom up
      */
-    private static final boolean STACK_TOP_DOWN = false;
+    private static final boolean TOP_DOWN_STACKS = true;
 
     private final IntegerRange coefficientRange;
     private final HorizontalAligner aligner;
@@ -147,7 +147,7 @@ public class BoxesNode extends PComposite {
             int numberOfMolecules = terms[i].getActualCoefficient();
             Image moleculeImage = terms[i].getMolecule().getImage();
             double y = 0;
-            if ( STACK_TOP_DOWN ) {
+            if ( TOP_DOWN_STACKS ) {
                 y = yMargin + ( rowHeight / 2 );
             }
             else {
@@ -157,7 +157,7 @@ public class BoxesNode extends PComposite {
                 PImage imageNode = new PImage( moleculeImage );
                 moleculesParentNode.addChild( imageNode );
                 imageNode.setOffset( xOffsets[i] - ( imageNode.getFullBoundsReference().getWidth() / 2 ), y - ( imageNode.getFullBoundsReference().getHeight()  / 2 ) );
-                if ( STACK_TOP_DOWN ) {
+                if ( TOP_DOWN_STACKS ) {
                     y += rowHeight;
                 }
                 else {

@@ -1,5 +1,6 @@
+3/1/11 restore molecule stacking to top down
 # 0.00.12 (49385) Mar 1, 2011
-3/1/11 dev version that creates molecules stacks from bottom up, to correspond to behavior of spinner arrows and bar charts
+3/1/11 dev version that creates molecule stacks from bottom up, to correspond to behavior of spinner arrows and bar charts
 # 0.00.11 (49382) Mar 1, 2011
 3/1/11 dev version that adds support for decomposition reactions
 3/1/11 change request: add layout support for decomposition reactions (1 reactant, 2 products)
@@ -23,12 +24,12 @@
 2/28/11 account for arrow head offset in layout of bars in chart, so that bar doesn't move around horizontally
 2/28/11 make GameResultNode use Function1 for creating content below face node
 2/28/11 make NotBalancedNode immutable, create popups as needed
-2/28/11 first pass at showing bar charts or balanace scales in "not balanced" popup
+2/28/11 first pass at showing bar charts or balance scales in "not balanced" popup
 2/28/11 randomly choose bar charts or balance scales for each Game problem
 2/28/11 make "not balanced" result aware of the current equation
 2/28/11 move GameResultNode inner subclasses to their own files
 2/28/11 replace duplicate alignment code in GameCanvas with PNodeLayoutUtils.alignInside
-2/28/11 adjust layout when "Not Balanaced" popup bounds changes
+2/28/11 adjust layout when "Not Balanced" popup bounds changes
 2/28/11 feature request: add developer control for showing/hiding bar charts and balance scales in Game
 # 0.00.08 (49226) Feb 24, 2011
 2/24/11 dev version to demonstrate Game
@@ -44,7 +45,7 @@
 2/24/11 rename "Game" tab to "Balancing Game"
 2/24/11 make popups for game results draggable, in case they obscure something
 2/24/11 reduce height of Game boxes since max coefficient is smaller
-2/24/11 reduce max coefficient in Game to 7, delete 1 equation that had higher coefficents (P4 + 10Cl2 -> 4PCl5)
+2/24/11 reduce max coefficient in Game to 7, delete 1 equation that had higher coefficients (P4 + 10Cl2 -> 4PCl5)
 2/24/11 tweak atom scaling factor with KL, make smaller atoms smaller
 2/24/11 tweak some molecule conformations with KL
 2/23/11 fix recording of best times
