@@ -11,7 +11,7 @@ public class IntroModule extends BendingLightModule<IntroModel> {
 
     public IntroModule() {
         super( "Intro", new IntroModel() );
-        canvas = new IntroCanvas( getLRRModel(), moduleActive, resetAll );
+        canvas = new IntroCanvas( getBendingLightModel(), moduleActive, resetAll );
         setSimulationPanel( canvas );
     }
 

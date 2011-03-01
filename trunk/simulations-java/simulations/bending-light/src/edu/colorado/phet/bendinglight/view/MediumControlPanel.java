@@ -163,7 +163,6 @@ public class MediumControlPanel extends PNode {
                         put( (int) mapping.createInverse().evaluate( BendingLightModel.AIR.index ), new TickLabel( "Air" ) );
                         put( (int) mapping.createInverse().evaluate( BendingLightModel.WATER.index ), new TickLabel( "Water" ) );
                         put( (int) mapping.createInverse().evaluate( BendingLightModel.GLASS.index ), new TickLabel( "Glass" ) );
-//            put( LRRModel.N_DIAMOND, new TickLabel( "Diamond" ) );//commented out while we determine how to handle overlapping labels
                     }} );
                     setPreferredSize( new Dimension( Math.max( (int) topComponent.getFullBounds().getWidth(), 200 ), getPreferredSize().height ) );
                 }} );
