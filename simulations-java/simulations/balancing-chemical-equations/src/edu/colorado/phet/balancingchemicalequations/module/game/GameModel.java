@@ -21,10 +21,10 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 public class GameModel {
 
     /**
-     * The set of game state.
+     * The set of game states.
      * For lack of better names, the state names correspond to the main action that
-     * the user can take in that state.  For example. the CHECK state is the where
-     * the user can enter coefficients and press the "Check" button to check their answer.
+     * the user can take in that state.  For example. the CHECK state is where the user
+     * can enter coefficients and press the "Check" button to check their answer.
      */
     public enum GameState { START_GAME, CHECK, TRY_AGAIN, SHOW_ANSWER, NEXT, NEW_GAME };
 
