@@ -1,7 +1,6 @@
 TODO list for balancing-chemical-equations
 
 HIGH PRIORITY
-- change request: layout support for reverse reactions (1 reactant, 2 products) in HorizontalAdjuster
 - Game: add additional reverse reactions
 
 MEDIUM PRIORITY
