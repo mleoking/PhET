@@ -6,13 +6,12 @@ import javax.swing.JMenu;
 
 import edu.colorado.phet.balancingchemicalequations.control.BCEOptionMenu;
 import edu.colorado.phet.balancingchemicalequations.control.DeveloperColorsMenuItem;
-import edu.colorado.phet.balancingchemicalequations.module.introduction.IntroductionModule;
 import edu.colorado.phet.balancingchemicalequations.module.game.GameModule;
+import edu.colorado.phet.balancingchemicalequations.module.introduction.IntroductionModule;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBoxMenuItem;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
-import edu.umd.cs.piccolo.util.PDebug;
 
 /**
  * The main application for the "Balancing Chemical Equations" simulation.
@@ -37,7 +36,8 @@ public class BalancingChemicalEquationsApplication extends PiccoloPhetApplicatio
         // Developer menu
         JMenu developerMenu = getPhetFrame().getDeveloperMenu();
         developerMenu.add( new DeveloperColorsMenuItem( globalProperties ) );
-        developerMenu.add( new PropertyCheckBoxMenuItem( "Show charts and scales in Game", globalProperties.getShowChartsAndScalesInGame() ) );
+        developerMenu.add( new PropertyCheckBoxMenuItem( "Show answers", globalProperties.getShowAnswersProperty() ) );
+        developerMenu.add( new PropertyCheckBoxMenuItem( "Show charts/scales in Game", globalProperties.getShowChartsAndScalesInGameProperty() ) );
     }
 
     public static void main( final String[] args ) throws ClassNotFoundException {

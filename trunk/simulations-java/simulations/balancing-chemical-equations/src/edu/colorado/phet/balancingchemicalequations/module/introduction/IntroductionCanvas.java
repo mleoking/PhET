@@ -4,8 +4,6 @@ package edu.colorado.phet.balancingchemicalequations.module.introduction;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 import edu.colorado.phet.balancingchemicalequations.BCEConstants;
 import edu.colorado.phet.balancingchemicalequations.BCEGlobalProperties;
@@ -17,7 +15,6 @@ import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
-import edu.umd.cs.piccolo.PNode;
 
 /**
  * Canvas for the "Balance Equation" module.
@@ -73,11 +70,10 @@ public class IntroductionCanvas extends BCECanvas {
         resetAllButtonNode.scale( BCEConstants.SWING_SCALE );
         addChild( resetAllButtonNode );
 
-        // Dev, shows balanced coefficients
-        final BalancedEquationNode balancedEquationNode = new BalancedEquationNode( model.getCurrentEquationProperty() );
-        if ( globalProperties.isDev() ) {
-            addChild( balancedEquationNode );
-        }
+        // Shows the answer (dev)
+        final DevAnswerNode answerNode = new DevAnswerNode( model.getCurrentEquationProperty() );
+        addChild( answerNode );
+        answerNode.setVisible( globalProperties.getShowAnswersProperty().getValue() );
 
         /*
          * Layout - all of the major visual representations have x-offset=0,
@@ -118,19 +114,10 @@ public class IntroductionCanvas extends BCECanvas {
             y = balanceChoiceNode.getFullBoundsReference().getMinY();
             resetAllButtonNode.setOffset( x, y );
 
-            // answer right-justified below Reset All button
-            x = resetAllButtonNode.getFullBoundsReference().getMaxX() - balancedEquationNode.getFullBoundsReference().getWidth();
-            y = resetAllButtonNode.getFullBoundsReference().getMaxY() + 4;
-            balancedEquationNode.setOffset( x, y );
-            balancedEquationNode.addPropertyChangeListener( new PropertyChangeListener() {
-                public void propertyChange( PropertyChangeEvent evt ) {
-                    if ( evt.getPropertyName().equals( PNode.PROPERTY_FULL_BOUNDS ) ) {
-                        double x = resetAllButtonNode.getFullBoundsReference().getMaxX() - balancedEquationNode.getFullBoundsReference().getWidth();
-                        double y = resetAllButtonNode.getFullBoundsReference().getMaxY() + 4;
-                        balancedEquationNode.setOffset( x, y );
-                    }
-                }
-            } );
+            // answer left-justified below boxes
+            x = boxesNode.getFullBoundsReference().getMinX();
+            y = boxesNode.getFullBoundsReference().getMaxY() + 4;
+            answerNode.setOffset( x, y );
         }
 
         // observers
@@ -138,6 +125,11 @@ public class IntroductionCanvas extends BCECanvas {
             public void update() {
                 barChartsNode.setVisible( balanceChoiceProperty.getValue().equals( BalancedRepresentation.BAR_CHARTS ) );
                 balanceScalesNode.setVisible( balanceChoiceProperty.getValue().equals( BalancedRepresentation.BALANCE_SCALES ) );
+            }
+        } );
+        globalProperties.getShowAnswersProperty().addObserver( new SimpleObserver() {
+            public void update() {
+                answerNode.setVisible( globalProperties.getShowAnswersProperty().getValue() );
             }
         } );
     }
