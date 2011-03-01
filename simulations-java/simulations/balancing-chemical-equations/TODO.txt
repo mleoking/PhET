@@ -10,8 +10,9 @@ MEDIUM PRIORITY
 LOW PRIORITY
 - delete test apps from build properties before publishing 1.00
 - make sure that color for "molecules are hidden" in BoxesNode works with the background color we choose
-- Emily colors: boxes=[102,102,102] canvas=white or canvas=[204,204,255]
-- Kelly: "Make Water" -> "Separate Water"?
+- Kelly colors: boxes=black, canvas=gray[204,204,204]
+- Emily colors: boxes=gray[102,102,102], canvas=white or blue[204,204,255]
+- Kathy colors: boxes=black, canvas=blue[142,153,193]
 
 MIGRATE TO COMMON
 - replace molecule image files in RPAL with Piccolo code from BCE
