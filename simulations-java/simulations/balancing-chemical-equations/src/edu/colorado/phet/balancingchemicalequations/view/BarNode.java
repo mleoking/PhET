@@ -70,6 +70,10 @@ public class BarNode extends PComposite {
         }
     }
 
+    public double getBarWidth() {
+        return MAX_BAR_SIZE.getWidth();
+    }
+
     // update geometry to match numberOfAtoms
     private void update() {
 
@@ -119,20 +123,28 @@ public class BarNode extends PComposite {
         numberNode.setFont( new PhetFont( 18 ) );
         addChild( numberNode );
 
+        // invisible node with constant width, this simplifies horizontal layout when arrow appears/disappears
+        final double invisibleWidth = ARROW_SIZE.getWidth() + 10;
+        PPath invisibleNode = new PPath( new Rectangle2D.Double( -invisibleWidth / 2, -1, invisibleWidth, 1 ) );
+        invisibleNode.setStroke( STROKE );
+        addChild( invisibleNode );
+        invisibleNode.setVisible( false );
+
         // layout
         {
             // bar at origin
             double x = 0;
             double y = 0;
             barNode.setOffset( x, y );
+            invisibleNode.setOffset( barNode.getOffset() );
 
             // symbol centered below bar
-            x = barNode.getFullBoundsReference().getCenterX();
-            y = barNode.getFullBoundsReference().getMaxY() + 4;
+            x = invisibleNode.getFullBoundsReference().getCenterX();
+            y = invisibleNode.getFullBoundsReference().getMaxY() + 4;
             symbolNode.setOffset( x, y );
 
             // icon to left of symbol
-            x = barNode.getFullBoundsReference().getCenterX() - ( iconNode.getFullBoundsReference().getWidth() / 2 ) - 4;
+            x = invisibleNode.getFullBoundsReference().getCenterX() - ( iconNode.getFullBoundsReference().getWidth() / 2 ) - 4;
             if ( iconNode.getFullBoundsReference().getHeight() < symbolNode.getFullBoundsReference().getHeight() ) {
                 y = symbolNode.getFullBoundsReference().getCenterY();
             }
@@ -142,7 +154,7 @@ public class BarNode extends PComposite {
             iconNode.setOffset( x, y );
 
             // number above bar
-            x = barNode.getFullBoundsReference().getCenterX() - ( numberNode.getFullBoundsReference().getWidth() / 2 );
+            x = invisibleNode.getFullBoundsReference().getCenterX() - ( numberNode.getFullBoundsReference().getWidth() / 2 );
             y = barNode.getFullBoundsReference().getMinY() - 4 - ( numberNode.getFullBoundsReference().getHeight() );
             numberNode.setOffset( x, y );
         }

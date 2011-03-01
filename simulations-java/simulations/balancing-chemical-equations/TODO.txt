@@ -1,7 +1,6 @@
 TODO list for balancing-chemical-equations
 
 HIGH PRIORITY
-- Game: display balance scales or bar graphs when an incorrect answer is given.
 - Game: display a reward at the completion of a perfect game.
 
 MEDIUM PRIORITY
@@ -10,7 +9,6 @@ MEDIUM PRIORITY
 - Game: generalize GameRewardNode and migrate to games project
 
 LOW PRIORITY
-- account for arrow head offset in layout of bars in chart
 - delete TestMoleculeNodes from build properties before publishing 1.00
 - make sure that color for "molecules are hidden" in BoxesNode works with the background color we choose
 
