@@ -1,3 +1,5 @@
+# 0.00.11 (49382) Mar 1, 2011
+3/1/11 dev version that adds support for decomposition reactions
 3/1/11 change request: add layout support for decomposition reactions (1 reactant, 2 products)
 3/1/11 rename equation base classes to support decomposition reactions
 3/1/11 change request: "H2 + O2 -> H2O" to "H2O -> H2 + O2" (decomposition reaction) in first tab
