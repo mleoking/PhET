@@ -62,7 +62,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
         new Color(255, 69, 0), new Color( 139, 90, 43 ) };
 
     // Enum of atom size settings.
-    private enum AtomSize { SMALL, LARGE };
+    public enum AtomSize { SMALL, LARGE };
 
     // -----------------------------------------------------------------------
     // Instance Data

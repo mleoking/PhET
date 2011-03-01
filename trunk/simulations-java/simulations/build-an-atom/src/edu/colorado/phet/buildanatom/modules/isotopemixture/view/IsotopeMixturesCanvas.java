@@ -6,8 +6,11 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.Point2D.Double;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
@@ -15,6 +18,7 @@ import edu.colorado.phet.buildanatom.model.Bucket;
 import edu.colorado.phet.buildanatom.model.ImmutableAtom;
 import edu.colorado.phet.buildanatom.modules.isotopemixture.model.IsotopeMixturesModel;
 import edu.colorado.phet.buildanatom.modules.isotopemixture.model.MovableAtom;
+import edu.colorado.phet.buildanatom.modules.isotopemixture.model.IsotopeMixturesModel.AtomSize;
 import edu.colorado.phet.buildanatom.modules.isotopemixture.model.IsotopeMixturesModel.Listener;
 import edu.colorado.phet.buildanatom.view.BucketFrontNode;
 import edu.colorado.phet.buildanatom.view.BucketHoleNode;
@@ -23,6 +27,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PieChartNode;
 import edu.colorado.phet.common.piccolophet.nodes.PieChartNode.PieValue;
@@ -37,6 +42,8 @@ public class IsotopeMixturesCanvas extends PhetPCanvas {
     //----------------------------------------------------------------------------
     // Class Data
     //----------------------------------------------------------------------------
+
+    private static final Color BUTTON_COLOR = new Color(255, 153, 0);
 
     //----------------------------------------------------------------------------
     // Instance Data
@@ -86,6 +93,8 @@ public class IsotopeMixturesCanvas extends PhetPCanvas {
         rootNode.addChild( particleLayer );
         final PNode bucketFrontLayer = new PNode();
         rootNode.addChild( bucketFrontLayer );
+        final PNode controlsLayer = new PNode();
+        rootNode.addChild( controlsLayer );
 
         // Listen to the model for events that concern the canvas.
         model.addListener( new Listener() {
@@ -116,7 +125,7 @@ public class IsotopeMixturesCanvas extends PhetPCanvas {
             setOffset( testChamberNode.getFullBoundsReference().getMaxX() + 15, testChamberNode.getFullBoundsReference().getMinY() );
             setScale( 1.1 ); // Empirically determined.
         }};
-        chamberLayer.addChild( periodicTableNode );
+        controlsLayer.addChild( periodicTableNode );
 
         // Listen to the bucket list property in the model and update our
         // buckets if and when the list changes.
@@ -138,13 +147,46 @@ public class IsotopeMixturesCanvas extends PhetPCanvas {
         // Add the pie chart to the canvas.
         final PNode pieChart = new IsotopeProprotionPieChart( model );
         pieChart.setOffset( 650, 190 );
-        chamberLayer.addChild( pieChart );
+        controlsLayer.addChild( pieChart );
 
         // Add the average atomic mass indicator to the canvas.
         PNode averageAtomicMassIndicator = new AverageAtomicMassIndicator( model );
         averageAtomicMassIndicator.setOffset( pieChart.getOffset().getX(),
                 pieChart.getFullBoundsReference().getMaxY() + 10 );
-        chamberLayer.addChild( averageAtomicMassIndicator );
+        controlsLayer.addChild( averageAtomicMassIndicator );
+
+        // Add the button that allows the user to select between the smaller
+        // and larger atoms.
+        final Point2D buttonLocation = new Point2D.Double( 355, 650 );
+        // TODO: i18n
+        final ButtonNode moreAtomsButton = new ButtonNode( "More", 20, BUTTON_COLOR ){{
+            centerFullBoundsOnPoint( buttonLocation.getX(), buttonLocation.getY() );
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    model.getAtomSizeProperty().setValue( AtomSize.SMALL );
+                }
+            });
+        }};
+        controlsLayer.addChild( moreAtomsButton );
+        // TODO: i18n
+        final ButtonNode lessAtomsButton = new ButtonNode( "Less", 20, BUTTON_COLOR ){{
+            centerFullBoundsOnPoint( buttonLocation.getX(), buttonLocation.getY() );
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    model.getAtomSizeProperty().setValue( AtomSize.LARGE );
+                }
+            });
+        }};
+        controlsLayer.addChild( lessAtomsButton );
+
+        // Listen to the atom size setting and control the visibility of the
+        // buttons accordingly.
+        model.getAtomSizeProperty().addObserver( new SimpleObserver() {
+            public void update() {
+                moreAtomsButton.setVisible( model.getAtomSizeProperty().getValue() == AtomSize.LARGE );
+                lessAtomsButton.setVisible( model.getAtomSizeProperty().getValue() == AtomSize.SMALL );
+            }
+        });
     }
 
     /**
