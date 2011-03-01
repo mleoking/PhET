@@ -28,6 +28,12 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 public class BoxesNode extends PComposite {
 
+    /*
+     * true = create molecule stacks from top down
+     * false = create molecule stacks from bottom up
+     */
+    private static final boolean STACK_TOP_DOWN = false;
+
     private final IntegerRange coefficientRange;
     private final HorizontalAligner aligner;
     private final PComposite moleculesParentNode;
@@ -140,12 +146,23 @@ public class BoxesNode extends PComposite {
         for ( int i = 0; i < terms.length; i++ ) {
             int numberOfMolecules = terms[i].getActualCoefficient();
             Image moleculeImage = terms[i].getMolecule().getImage();
-            double y = yMargin + ( rowHeight / 2 );
+            double y = 0;
+            if ( STACK_TOP_DOWN ) {
+                y = yMargin + ( rowHeight / 2 );
+            }
+            else {
+                y = aligner.getBoxSizeReference().getHeight() - yMargin - ( rowHeight / 2 );
+            }
             for ( int j = 0; j < numberOfMolecules; j++ ) {
                 PImage imageNode = new PImage( moleculeImage );
                 moleculesParentNode.addChild( imageNode );
                 imageNode.setOffset( xOffsets[i] - ( imageNode.getFullBoundsReference().getWidth() / 2 ), y - ( imageNode.getFullBoundsReference().getHeight()  / 2 ) );
-                y += rowHeight;
+                if ( STACK_TOP_DOWN ) {
+                    y += rowHeight;
+                }
+                else {
+                    y -= rowHeight;
+                }
             }
         }
     }

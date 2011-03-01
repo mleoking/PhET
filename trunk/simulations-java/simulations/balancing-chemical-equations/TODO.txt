@@ -2,6 +2,7 @@ TODO list for balancing-chemical-equations
 
 HIGH PRIORITY
 - Game: add additional decomposition reactions
+- grow molecule stacks from bottom up in boxes?
 
 MEDIUM PRIORITY
 - Game: rewrite GameScoreBoardNode to use Property<T>
