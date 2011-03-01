@@ -31,7 +31,7 @@ import edu.colorado.phet.balancingchemicalequations.model.Molecule.SO2;
 
 /**
  * Base class for equations with 2 products.
- * This base class adds no new functionality to Equation, it simply provides a more convenient constructor.
+ * This base class adds no new functionality to Equation, it simply provides convenient constructors.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
