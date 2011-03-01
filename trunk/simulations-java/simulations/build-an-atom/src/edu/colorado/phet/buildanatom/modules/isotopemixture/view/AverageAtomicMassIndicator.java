@@ -101,7 +101,13 @@ public class AverageAtomicMassIndicator extends PNode {
         // corresponds to the average atomic mass.
         model.getIsotopeTestChamber().getAverageAtomicMassProperty().addObserver( new SimpleObserver() {
             public void update() {
-                readoutPointer.setOffset( calcXOffsetFromAtomicMass( model.getIsotopeTestChamber().getAverageAtomicMassProperty().getValue() ), barOffsetY  );
+                if ( model.getIsotopeTestChamber().getIsotopeCountProperty().getValue() > 0 ){
+                    readoutPointer.setOffset( calcXOffsetFromAtomicMass( model.getIsotopeTestChamber().getAverageAtomicMassProperty().getValue() ), barOffsetY  );
+                    readoutPointer.setVisible( true );
+                }
+                else{
+                    readoutPointer.setVisible( false );
+                }
             }
         });
     }
