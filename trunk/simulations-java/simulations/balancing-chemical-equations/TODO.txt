@@ -11,6 +11,7 @@ MEDIUM PRIORITY
 LOW PRIORITY
 - delete TestMoleculeNodes from build properties before publishing 1.00
 - make sure that color for "molecules are hidden" in BoxesNode works with the background color we choose
+- change keys to make values for verbose equation names
 
 MIGRATE TO COMMON
 - replace molecule image files in RPAL with Piccolo code from BCE
