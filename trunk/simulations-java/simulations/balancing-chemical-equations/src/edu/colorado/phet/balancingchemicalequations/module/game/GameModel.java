@@ -7,7 +7,7 @@ import java.util.HashMap;
 import edu.colorado.phet.balancingchemicalequations.model.BCEClock;
 import edu.colorado.phet.balancingchemicalequations.model.Equation;
 import edu.colorado.phet.balancingchemicalequations.model.GameEquationsFactory;
-import edu.colorado.phet.balancingchemicalequations.model.OneProductEquation.MakeAmmoniaEquation;
+import edu.colorado.phet.balancingchemicalequations.model.TwoReactantsOneProductEquation.MakeAmmoniaEquation;
 import edu.colorado.phet.common.games.GameSettings;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;

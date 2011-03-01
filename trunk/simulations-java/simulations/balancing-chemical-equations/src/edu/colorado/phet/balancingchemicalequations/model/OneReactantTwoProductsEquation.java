@@ -8,23 +8,23 @@ import edu.colorado.phet.balancingchemicalequations.model.Molecule.H2O;
 import edu.colorado.phet.balancingchemicalequations.model.Molecule.O2;
 
 /**
- * This was added rather late during development.
- * It was decided that some reversed reactions should be included, and here they live.
+ * Base class for equations with 1 reactant and 2 products (reverse reactions).
  * This base class adds no new functionality to Equation, it simply provides a more convenient constructor.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ReversedEquation extends Equation {
+public class OneReactantTwoProductsEquation extends Equation {
 
-    protected ReversedEquation( String name, EquationTerm reactant1, EquationTerm product1, EquationTerm product2 ) {
+    protected OneReactantTwoProductsEquation( String name, EquationTerm reactant1, EquationTerm product1, EquationTerm product2 ) {
         super( name, new EquationTerm[] { reactant1 }, new EquationTerm[] { product1, product2 } );
     }
 
-    protected ReversedEquation( EquationTerm reactant1, EquationTerm product1, EquationTerm product2 ) {
+    protected OneReactantTwoProductsEquation( EquationTerm reactant1, EquationTerm product1, EquationTerm product2 ) {
         super( new EquationTerm[] { reactant1 }, new EquationTerm[] { product1, product2 } );
     }
 
-    public static class SeparateWaterEquation extends ReversedEquation {
+    // 2 H2O -> 2 H2 + O2
+    public static class SeparateWaterEquation extends OneReactantTwoProductsEquation {
         public SeparateWaterEquation() {
             super( BCEStrings.SEPARATE_WATER, new EquationTerm( 2, new H2O() ), new EquationTerm( 2, new H2() ), new EquationTerm( 1, new O2() ) );
         }
