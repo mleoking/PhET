@@ -79,7 +79,12 @@ public class WhiteLightNode extends PImage {
             }
         }
 
+        float whiteLimit = 0.2f;//Don't let things become completely white, since the background is white
+        final float maxChannel = 1 - whiteLimit;
+        final float scale = 2f;//extra factor to make it white instead of cream/orange
+
         //Iterate over the sample points and draw them in the BufferedImage
+        //TODO: could maybe speed up by caching colors for individual points
         for ( Point point : map.keySet() ) {
             final float[] samples = map.get( point );
             float intensity = samples[3];
@@ -88,17 +93,13 @@ public class WhiteLightNode extends PImage {
             float max = samples[0];
             if ( samples[1] > max ) { max = samples[1]; }
             if ( samples[2] > max ) { max = samples[2]; }
-            if ( max > 1 ) {
-                final float scale = 2f;//extra factor to make it white instead of cream/orange
 
-                float whiteLimit = 0.2f;//Don't let things become completely white, since the background is white
-                samples[0] = (float) MathUtil.clamp( 0, samples[0] / max * scale - whiteLimit, 1 - whiteLimit );
-                samples[1] = (float) MathUtil.clamp( 0, samples[1] / max * scale - whiteLimit, 1 - whiteLimit );
-                samples[2] = (float) MathUtil.clamp( 0, samples[2] / max * scale - whiteLimit, 1 - whiteLimit );
-                intensity = intensity * max;
-            }
-            float alpha = (float) Math.sqrt( intensity / 3 );
-            alpha = (float) MathUtil.clamp( 0, alpha, 1 );
+            samples[0] = (float) MathUtil.clamp( 0, samples[0] / max * scale - whiteLimit, maxChannel );
+            samples[1] = (float) MathUtil.clamp( 0, samples[1] / max * scale - whiteLimit, maxChannel );
+            samples[2] = (float) MathUtil.clamp( 0, samples[2] / max * scale - whiteLimit, maxChannel );
+            intensity = intensity * max;
+
+            float alpha = (float) MathUtil.clamp( 0, Math.sqrt( intensity / 6 ), 1 );//don't let it become fully opaque or it looks too dark against white background
             graphics.setPaint( new Color( samples[0], samples[1], samples[2], alpha ) );
             graphics.fillRect( point.x, point.y, 1, 1 );
         }
