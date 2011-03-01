@@ -40,8 +40,8 @@ public class EquationChoiceNode extends PhetPNode {
     private static class EquationChoicePanel extends GridPanel {
         public EquationChoicePanel( ArrayList<Equation> equations, Property<Equation> currentEquationProperty, final Property<Color> backgroundProperty ) {
             setAnchor( Anchor.WEST );
-            setGridX( GridBagConstraints.RELATIVE ); // horizontal layout
-            setGridY( 0 ); // horizontal layout
+            setGridX( 0 ); // vertical layout
+            setGridY( GridBagConstraints.RELATIVE );
 
             for ( Equation equation : equations ) {
                 add( new PropertyRadioButton<Equation>( HTMLUtils.toHTMLString( equation.getName() ), currentEquationProperty, equation ) );
