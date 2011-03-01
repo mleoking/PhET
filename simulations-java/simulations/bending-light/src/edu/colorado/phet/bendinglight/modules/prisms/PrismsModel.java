@@ -29,7 +29,7 @@ public class PrismsModel extends BendingLightModel {
     private ArrayList<Prism> prisms = new ArrayList<Prism>();
     public final Property<Boolean> manyRays = new Property<Boolean>( false );//show multiple beams to help show how lenses work
     public final Property<Medium> environment = new Property<Medium>( new Medium( new Rectangle2D.Double( -1, 0, 2, 1 ), AIR, colorMappingFunction.getValue().apply( AIR.index ) ) );
-    public final Property<Medium> prismMedium = new Property<Medium>( new Medium( new Rectangle2D.Double( -1, -1, 2, 1 ), WATER, colorMappingFunction.getValue().apply( WATER.index ) ) );
+    public final Property<Medium> prismMedium = new Property<Medium>( new Medium( new Rectangle2D.Double( -1, -1, 2, 1 ), GLASS, colorMappingFunction.getValue().apply( GLASS.index ) ) );
     public final Property<Boolean> showReflections = new Property<Boolean>( false );//If false, will hide non TIR reflections
     public final ArrayList<Intersection> intersections = new ArrayList<Intersection>();
     public final ArrayList<VoidFunction1<Intersection>> intersectionListeners = new ArrayList<VoidFunction1<Intersection>>();
