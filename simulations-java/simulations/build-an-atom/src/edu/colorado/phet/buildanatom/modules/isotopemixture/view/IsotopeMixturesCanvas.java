@@ -184,14 +184,16 @@ public class IsotopeMixturesCanvas extends PhetPCanvas {
         }};
         controlsLayer.addChild( lessAtomsButton );
 
-        // Listen to the atom size setting and control the visibility of the
-        // isotope size buttons accordingly.
-        model.getAtomSizeProperty().addObserver( new SimpleObserver() {
+        // Create a simple observer that will update the button visibility and
+        // hook it up to be triggered on changes to relevant model properties.
+        SimpleObserver buttonVizUpdater = new SimpleObserver() {
             public void update() {
-                moreAtomsButton.setVisible( model.getAtomSizeProperty().getValue() == IsotopeSize.LARGE );
-                lessAtomsButton.setVisible( model.getAtomSizeProperty().getValue() == IsotopeSize.SMALL );
+                moreAtomsButton.setVisible( model.getAtomSizeProperty().getValue() == IsotopeSize.LARGE && model.getShowNaturesMix().getValue() == false );
+                lessAtomsButton.setVisible( model.getAtomSizeProperty().getValue() == IsotopeSize.SMALL && model.getShowNaturesMix().getValue() == false );
             }
-        });
+        };
+        model.getAtomSizeProperty().addObserver( buttonVizUpdater );
+        model.getShowNaturesMix().addObserver( buttonVizUpdater );
 
         // Add the radio buttons that allow the user to choose between their
         // mix and nature's mix.
