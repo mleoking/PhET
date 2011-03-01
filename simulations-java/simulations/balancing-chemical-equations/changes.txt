@@ -1,3 +1,4 @@
+3/1/11 change request: add layout support for reverse reactions (1 reactant, 2 products)
 3/1/11 rename equation base classes to support reverse reactions
 3/1/11 change request: "H2 + O2 -> H2O" to "H2O -> H2 + O2" (reverse reaction) in first tab
 3/1/11 allow equations with 1 reactant in the model, to support reverse reactions
