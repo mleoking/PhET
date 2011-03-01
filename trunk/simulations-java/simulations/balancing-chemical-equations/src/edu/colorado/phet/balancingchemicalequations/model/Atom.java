@@ -7,6 +7,9 @@ import java.awt.Color;
 /**
  * Base class for atoms.
  * Inner classes for each specific atom.
+ * <p>
+ * Reference for atom radii:
+ * Chemistry: The Molecular Nature of Matter and Change, 5th Edition, Silberberg.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
