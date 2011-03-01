@@ -18,7 +18,7 @@ import edu.colorado.phet.buildanatom.model.Bucket;
 import edu.colorado.phet.buildanatom.model.ImmutableAtom;
 import edu.colorado.phet.buildanatom.modules.isotopemixture.model.IsotopeMixturesModel;
 import edu.colorado.phet.buildanatom.modules.isotopemixture.model.MovableAtom;
-import edu.colorado.phet.buildanatom.modules.isotopemixture.model.IsotopeMixturesModel.AtomSize;
+import edu.colorado.phet.buildanatom.modules.isotopemixture.model.IsotopeMixturesModel.IsotopeSize;
 import edu.colorado.phet.buildanatom.modules.isotopemixture.model.IsotopeMixturesModel.Listener;
 import edu.colorado.phet.buildanatom.view.BucketFrontNode;
 import edu.colorado.phet.buildanatom.view.BucketHoleNode;
@@ -161,7 +161,7 @@ public class IsotopeMixturesCanvas extends PhetPCanvas {
             centerFullBoundsOnPoint( buttonLocation.getX(), buttonLocation.getY() );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    model.getAtomSizeProperty().setValue( AtomSize.SMALL );
+                    model.getAtomSizeProperty().setValue( IsotopeSize.SMALL );
                 }
             });
         }};
@@ -171,7 +171,7 @@ public class IsotopeMixturesCanvas extends PhetPCanvas {
             centerFullBoundsOnPoint( buttonLocation.getX(), buttonLocation.getY() );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    model.getAtomSizeProperty().setValue( AtomSize.LARGE );
+                    model.getAtomSizeProperty().setValue( IsotopeSize.LARGE );
                 }
             });
         }};
@@ -181,8 +181,8 @@ public class IsotopeMixturesCanvas extends PhetPCanvas {
         // buttons accordingly.
         model.getAtomSizeProperty().addObserver( new SimpleObserver() {
             public void update() {
-                moreAtomsButton.setVisible( model.getAtomSizeProperty().getValue() == AtomSize.LARGE );
-                lessAtomsButton.setVisible( model.getAtomSizeProperty().getValue() == AtomSize.SMALL );
+                moreAtomsButton.setVisible( model.getAtomSizeProperty().getValue() == IsotopeSize.LARGE );
+                lessAtomsButton.setVisible( model.getAtomSizeProperty().getValue() == IsotopeSize.SMALL );
             }
         });
     }
