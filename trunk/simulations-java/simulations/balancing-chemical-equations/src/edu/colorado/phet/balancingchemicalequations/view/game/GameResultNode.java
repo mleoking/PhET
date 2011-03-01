@@ -28,9 +28,11 @@ public abstract class GameResultNode extends PComposite {
     private static final double MARGIN = 20;
     private static final double FACE_DIAMETER = 100;
 
-    public GameResultNode( boolean smile,
-                           Function1<PhetFont,PNode> createIconsAndText//This is a function that creates the content of the dialog that will appear below the face node
-    ) {
+    /**
+     * @param smile
+     * @param createContentFunction function that creates the content of the dialog that will appear below the face node
+     */
+    public GameResultNode( boolean smile, Function1<PhetFont, PNode> createContentFunction ) {
 
         // make draggable
         addInputEventListener( new PDragEventHandler() );
@@ -47,7 +49,7 @@ public abstract class GameResultNode extends PComposite {
         }
         parentNode.addChild( faceNode );
 
-        PNode iconsAndTextNode = createIconsAndText.apply( FONT );
+        PNode iconsAndTextNode = createContentFunction.apply( FONT );
         parentNode.addChild( iconsAndTextNode );
 
         // layout
@@ -72,6 +74,4 @@ public abstract class GameResultNode extends PComposite {
         backgroundNode.setOffset( 0, 0 );
         parentNode.translate( MARGIN, MARGIN );
     }
-
-//    protected abstract PNode createIconsAndText( PhetFont font );
 }

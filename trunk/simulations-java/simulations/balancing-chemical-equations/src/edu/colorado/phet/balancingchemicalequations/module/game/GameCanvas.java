@@ -19,7 +19,6 @@ import edu.colorado.phet.balancingchemicalequations.module.game.GameModel.GameSt
 import edu.colorado.phet.balancingchemicalequations.view.*;
 import edu.colorado.phet.balancingchemicalequations.view.game.BalancedNode;
 import edu.colorado.phet.balancingchemicalequations.view.game.BalancedNotSimplifiedNode;
-import edu.colorado.phet.balancingchemicalequations.view.game.GameResultNode;
 import edu.colorado.phet.balancingchemicalequations.view.game.NotBalancedNode;
 import edu.colorado.phet.common.games.*;
 import edu.colorado.phet.common.games.GameOverNode.GameOverListener;
@@ -50,6 +49,8 @@ public class GameCanvas extends BCECanvas {
     private final GameModel model;
     private final BCEGlobalProperties globalProperties;
     private final GameAudioPlayer audioPlayer;
+    private final GameOverListener newGameButtonListener;
+    private final HorizontalAligner aligner;
 
     // top-level nodes
     private final PNode gameSettingsNode;
@@ -62,6 +63,7 @@ public class GameCanvas extends BCECanvas {
     private final BoxesNode boxesNode;
     private final ButtonNode checkButton, tryAgainButton, showAnswerButton, nextButton;
     private final GameScoreboardNode scoreboardNode;
+
     private PNode gameResultNode;
     private BalancedRepresentation balancedRepresentation;
 
@@ -71,8 +73,7 @@ public class GameCanvas extends BCECanvas {
         this.model = model;
         this.globalProperties = globalProperties;
         this.audioPlayer = new GameAudioPlayer( model.getGameSettings().soundEnabled.getValue() );
-
-        HorizontalAligner aligner = new HorizontalAligner( BOX_SIZE, BOX_SEPARATION );
+        this.aligner = new HorizontalAligner( BOX_SIZE, BOX_SEPARATION );
 
         // Game settings
         VoidFunction0 startFunction = new VoidFunction0() {
@@ -140,13 +141,9 @@ public class GameCanvas extends BCECanvas {
             addChild( balancedEquationNode );
         }
 
-        // Game results
-        gameOverNode = new GameOverNode( 1, 1, 1, new DecimalFormat( "0" ), 1, 1, false, false );//XXX dummy, replaced each time the game is completed
-
         // rendering order
         addChild( gameSettingsNode );
         addChild( gamePlayParentNode );
-        addChild( gameOverNode );
         gamePlayParentNode.addChild( equationLabelNode );
         gamePlayParentNode.addChild( equationNode );
         gamePlayParentNode.addChild( boxesNode );
@@ -193,71 +190,61 @@ public class GameCanvas extends BCECanvas {
             balancedEquationNode.setOffset( x, y );
         }
 
-        // layout of top-level nodes
+        // layout of static top-level nodes
         {
             double x, y;
             gamePlayParentNode.setOffset( 0, 0 );
             x = gamePlayParentNode.getFullBoundsReference().getCenterX() - ( gameSettingsNode.getFullBoundsReference().getWidth() / 2 );
             y = gamePlayParentNode.getFullBoundsReference().getCenterY() - ( gameSettingsNode.getFullBoundsReference().getHeight() / 2 );
             gameSettingsNode.setOffset( x, y );
-            x = gamePlayParentNode.getFullBoundsReference().getCenterX() - ( gameOverNode.getFullBoundsReference().getWidth() / 2 );
-            x = gamePlayParentNode.getFullBoundsReference().getCenterY() - ( gameOverNode.getFullBoundsReference().getHeight() / 2 );
-            gameOverNode.setOffset( x, y );
         }
+
+        // Listeners
+        newGameButtonListener = new GameOverListener() {
+            public void newGamePressed() {
+                model.newGame();
+            }
+        };
 
         // Observers
         {
-            globalProperties.getMoleculesVisibleProperty().addObserver( new SimpleObserver() {
-
-                public void update() {
-                    // TODO hide molecules in boxes
-                }
-            } );
-
             model.addGameStateObserver( new SimpleObserver() {
-
                 public void update() {
                     handleGameStateChange( model.getGameState() );
                 }
             } );
 
             model.getCurrentEquationProperty().addObserver( new SimpleObserver() {
-
                 public void update() {
                     updateEquationLabel();
                 }
             } );
 
             model.getGameSettings().level.addObserver( new SimpleObserver() {
-
                 public void update() {
                     scoreboardNode.setLevel( model.getGameSettings().level.getValue() );
                 }
             } );
 
             model.getGameSettings().timerEnabled.addObserver( new SimpleObserver() {
-
                 public void update() {
                     scoreboardNode.setTimerVisible( model.getGameSettings().timerEnabled.getValue() );
                 }
             } );
 
             model.getGameSettings().soundEnabled.addObserver( new SimpleObserver() {
-
                 public void update() {
                     audioPlayer.setEnabled( model.getGameSettings().soundEnabled.getValue() );
                 }
             } );
 
             model.addPointsObserver( new SimpleObserver() {
-
                 public void update() {
                     scoreboardNode.setScore( model.getPoints() );
                 }
             } );
 
             model.addTimeObserver( new SimpleObserver() {
-
                 public void update() {
                     scoreboardNode.setTime( model.getTime() );
                 }
@@ -308,7 +295,7 @@ public class GameCanvas extends BCECanvas {
     public void initCheck() {
         setTopLevelNodeVisible( gamePlayParentNode );
         setButtonNodeVisible( checkButton );
-        setBalancedIndicatorVisible( false );
+        setResultsPopupVisible( false );
         equationNode.setEditable( true );
         setBalancedHighlightEnabled( false );
     }
@@ -316,7 +303,7 @@ public class GameCanvas extends BCECanvas {
     public void initTryAgain() {
         setTopLevelNodeVisible( gamePlayParentNode );
         setButtonNodeVisible( tryAgainButton );
-        setBalancedIndicatorVisible( true );
+        setResultsPopupVisible( true );
         equationNode.setEditable( false );
         setBalancedHighlightEnabled( false );
     }
@@ -324,7 +311,7 @@ public class GameCanvas extends BCECanvas {
     public void initShowAnswer() {
         setTopLevelNodeVisible( gamePlayParentNode );
         setButtonNodeVisible( showAnswerButton );
-        setBalancedIndicatorVisible( true );
+        setResultsPopupVisible( true );
         equationNode.setEditable( false );
         setBalancedHighlightEnabled( false );
     }
@@ -332,7 +319,7 @@ public class GameCanvas extends BCECanvas {
     public void initNext() {
         setTopLevelNodeVisible( gamePlayParentNode );
         setButtonNodeVisible( nextButton );
-        setBalancedIndicatorVisible( model.getCurrentEquation().isBalancedWithLowestCoefficients() );
+        setResultsPopupVisible( model.getCurrentEquation().isBalancedWithLowestCoefficients() );
         equationNode.setEditable( false );
         model.getCurrentEquation().balance(); // show the correct answer
         setBalancedHighlightEnabled( true );
@@ -349,7 +336,9 @@ public class GameCanvas extends BCECanvas {
         // hide all top-level nodes
         gameSettingsNode.setVisible( false );
         gamePlayParentNode.setVisible( false );
-        gameOverNode.setVisible( false );
+        if ( gameOverNode != null ) {
+            gameOverNode.setVisible( false );
+        }
         // make one visible
         topLevelNode.setVisible( true );
     }
@@ -370,15 +359,19 @@ public class GameCanvas extends BCECanvas {
     }
 
     /**
-     * Creates and adds a new GameResultNode
+     * Controls the visibility of the games results "popup".
+     * This tells the user whether their guess is correct or not.
+     *
      * @param visible
      */
-    private void setBalancedIndicatorVisible( boolean visible ) {
+    private void setResultsPopupVisible( boolean visible ) {
         if ( gameResultNode != null ) {
             removeChild( gameResultNode );
             gameResultNode = null;
         }
         if ( visible ) {
+
+            // evaluate the user's answer and create the proper type of node
             if ( model.getCurrentEquation().isBalancedWithLowestCoefficients() ) {
                 gameResultNode = new BalancedNode();
             }
@@ -386,19 +379,16 @@ public class GameCanvas extends BCECanvas {
                 gameResultNode = new BalancedNotSimplifiedNode();
             }
             else {
-                gameResultNode = new NotBalancedNode( model.getCurrentEquationProperty().getValue(), globalProperties.getShowChartsAndScalesInGame().getValue(), balancedRepresentation );
+                gameResultNode = new NotBalancedNode( model.getCurrentEquationProperty().getValue(), globalProperties.getShowChartsAndScalesInGame().getValue(), balancedRepresentation, aligner );
             }
-            // game result indicators, centered between boxes
 
-            // centered between boxes
+            // Layout, ideally centered between the boxes, but guarantee that buttons are not covered.
             PNodeLayoutUtils.alignInside( gameResultNode, boxesNode, SwingConstants.CENTER, SwingConstants.CENTER );
-
-            // ensure that the most verbose results don't cover the buttons
             if ( gameResultNode.getFullBoundsReference().getMaxY() >= checkButton.getFullBoundsReference().getMinY() ) {
                 PNodeLayoutUtils.alignInside( gameResultNode, boxesNode, SwingConstants.BOTTOM, SwingConstants.CENTER );
             }
 
-            addChild( gameResultNode );//Puts it in the front
+            addChild( gameResultNode ); // visible and in front
         }
     }
 
@@ -426,7 +416,11 @@ public class GameCanvas extends BCECanvas {
     private void updateGameOverNode() {
 
         // remove the old node
-        removeChild( gameOverNode );
+        if ( gameOverNode != null ) {
+            removeChild( gameOverNode );
+            gameOverNode.removeGameOverListener( newGameButtonListener );
+            gameOverNode = null;
+        }
 
         // add a new node
         int level = model.getGameSettings().level.getValue();
@@ -435,18 +429,17 @@ public class GameCanvas extends BCECanvas {
         addChild( gameOverNode );
 
         // listen for "New Game" button press
-        gameOverNode.addGameOverListener( new GameOverListener() {
-            public void newGamePressed() {
-                model.newGame();
-            }
-        } );
+        gameOverNode.addGameOverListener( newGameButtonListener );
 
-        // center
+        // layout, centered
         double x = gamePlayParentNode.getFullBoundsReference().getCenterX() - ( gameOverNode.getFullBoundsReference().getWidth() / 2 );
         double y = gamePlayParentNode.getFullBoundsReference().getCenterY() - ( gameOverNode.getFullBoundsReference().getHeight() / 2 );
         gameOverNode.setOffset( x, y );
     }
 
+    /*
+     * Generates a random value for the representation shown in the "Not Balanced" popup.
+     */
     private BalancedRepresentation getRandomBalanceChoice() {
         return ( Math.random() < 0.5 ) ? BalancedRepresentation.BALANCE_SCALES : BalancedRepresentation.BAR_CHARTS;
     }
