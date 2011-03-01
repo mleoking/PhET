@@ -1,3 +1,4 @@
+Show visible spectrum only up to 700nm for red, before it starts looking too black, see #2763
 Made prisms glass instead of water by default
 Fixed: sim speed slider goes too fast on my computers. The useable ranges looks like its the 1st 20% or so, should be recalibrated
 # 0.00.23 (49333) Feb 28, 2011

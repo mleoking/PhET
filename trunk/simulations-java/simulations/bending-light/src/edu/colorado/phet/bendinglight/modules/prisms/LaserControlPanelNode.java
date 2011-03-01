@@ -20,6 +20,7 @@ import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
+import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.WavelengthControl;
@@ -64,7 +65,7 @@ public class LaserControlPanelNode extends ControlPanelNode {
                 laserColor.addObserver( updateSelected );
             }} );
             add( new PhetPCanvas() {{
-                final WavelengthControl wavelengthControl = new WavelengthControl( 150, 27 ) {{
+                final WavelengthControl wavelengthControl = new WavelengthControl( 150, 27, VisibleColor.MIN_WAVELENGTH, 700 ) {{//only go to 700nm because after that the reds are too black
                     final PNode wc = this;
                     setWavelength( wavelengthProperty.getValue() * 1E9 );
                     laserColor.addObserver( new SimpleObserver() {
@@ -85,7 +86,7 @@ public class LaserControlPanelNode extends ControlPanelNode {
                     } );
                 }};
                 PBounds bounds = wavelengthControl.getFullBounds();
-                wavelengthControl.translate( -bounds.getX() + 5, -bounds.getY() );
+                wavelengthControl.translate( -bounds.getX() + 17, -bounds.getY() );
                 setPreferredSize( new Dimension( (int) ( bounds.getWidth() + 40 ), (int) bounds.getHeight() ) );
                 getLayer().addChild( wavelengthControl );
                 setBorder( null );
