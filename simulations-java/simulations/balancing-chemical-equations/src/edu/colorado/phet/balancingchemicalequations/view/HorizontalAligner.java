@@ -4,8 +4,6 @@ package edu.colorado.phet.balancingchemicalequations.view;
 
 import java.awt.Dimension;
 
-import javax.swing.SwingConstants;
-
 import edu.colorado.phet.balancingchemicalequations.model.Equation;
 import edu.colorado.phet.balancingchemicalequations.model.EquationTerm;
 
@@ -53,7 +51,7 @@ public class HorizontalAligner {
      * @return
      */
     public double[] getReactantXOffsets( Equation equation ) {
-        return getXOffsets( equation.getReactants(), SwingConstants.RIGHT, 0 /* left edge of left box */ );
+        return getXOffsets( equation.getReactants(), false /* right justified */, 0 /* left edge of left box */ );
     }
 
     /**
@@ -63,30 +61,38 @@ public class HorizontalAligner {
      * @return
      */
     public double[] getProductXOffsets( Equation equation ) {
-        return getXOffsets( equation.getProducts(), SwingConstants.LEFT, boxSize.getWidth() + boxSeparation /* left edge of right box */ );
+        return getXOffsets( equation.getProducts(), true /* left justified */, boxSize.getWidth() + boxSeparation /* left edge of right box */ );
     }
 
     /*
      * Gets the x offsets for a set of terms.
      * The box is divided up into columns and terms are centered in the columns.
-     * In the general case, N terms will divide the box into N columns.
-     * In the special case of 1 term, the box will be divided into 2 columns,
-     * and the single term will be placed in the column that corresponds to alignment.
-     *
      * @param terms
-     * @param alignment
+     * @param leftJustified
      * @param xAdjustment
      */
-    private double[] getXOffsets( EquationTerm[] terms, int alignment, double xAdjustment ) {
-        assert( alignment == SwingConstants.LEFT || alignment == SwingConstants.RIGHT );
+    private double[] getXOffsets( EquationTerm[] terms, boolean leftJustified, double xAdjustment ) {
         final int numberOfTerms = terms.length;
-        final double columnWidth = boxSize.getWidth() / Math.max( 2, numberOfTerms );
-        double x = xAdjustment + columnWidth / 2;
         double[] xOffsets = new double[ numberOfTerms ];
-        if ( numberOfTerms == 1 && alignment == SwingConstants.RIGHT ) {
-            xOffsets[0] = x + columnWidth;
+        if ( numberOfTerms == 1 ) {
+            /*
+             * In the special case of 1 term, the box is divided into 2 columns,
+             * and the single term is centered in the column that corresponds to alignment.
+             */
+            if ( leftJustified ) {
+                xOffsets[0] = xAdjustment + ( 0.25 * boxSize.getWidth() );
+            }
+            else {
+                xOffsets[0] = xAdjustment + ( 0.75 * boxSize.getWidth() );
+            }
         }
         else {
+            /*
+             * In the general case of N terms, the box is divided into N columns,
+             * and one term is centered in each column.
+             */
+            final double columnWidth = boxSize.getWidth() / numberOfTerms;
+            double x = xAdjustment + columnWidth / 2;
             for ( int i = 0; i < numberOfTerms; i++ ) {
                 xOffsets[i] = x;
                 x += columnWidth;
