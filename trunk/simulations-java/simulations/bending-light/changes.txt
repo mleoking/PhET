@@ -1,3 +1,4 @@
+Improved support for white background
 Fixed: laser is offscreen at some aspect ratios in the prism tab
 Switched to white background instead of black
 # 0.00.22 (49318) Feb 28, 2011
