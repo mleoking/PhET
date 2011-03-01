@@ -58,7 +58,7 @@ public class PrismsCanvas extends BendingLightCanvas<PrismsModel> {
         }};
         afterLightLayer.addChild( resetButton );
 
-        final LaserControlPanelNode laserControlPanelNode = new LaserControlPanelNode( model.manyRays, model.getLaser().color, model.showReflections, showNormal, showProtractor ) {{
+        final LaserControlPanelNode laserControlPanelNode = new LaserControlPanelNode( model.manyRays, model.getLaser().color, model.showReflections, showNormal, showProtractor, model.wavelengthProperty ) {{
             setOffset( stageSize.width - getFullBounds().getWidth() - 10, resetButton.getFullBounds().getMinY() - 10 - getFullBounds().getHeight() );
         }};
         afterLightLayer.addChild( laserControlPanelNode );

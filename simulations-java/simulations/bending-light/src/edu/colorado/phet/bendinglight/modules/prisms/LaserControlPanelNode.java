@@ -6,11 +6,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.bendinglight.model.BendingLightModel;
 import edu.colorado.phet.bendinglight.view.BendingLightCanvas;
+import edu.colorado.phet.bendinglight.view.BendingLightWavelengthControl;
 import edu.colorado.phet.bendinglight.view.LaserColor;
 import edu.colorado.phet.bendinglight.view.ProtractorNode;
 import edu.colorado.phet.common.phetcommon.model.Property;
@@ -20,11 +18,8 @@ import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
-import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
-import edu.colorado.phet.common.piccolophet.nodes.WavelengthControl;
-import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -33,7 +28,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  */
 public class LaserControlPanelNode extends ControlPanelNode {
     public LaserControlPanelNode( final Property<Boolean> multipleRays, final Property<LaserColor> laserColor,
-                                  final Property<Boolean> showReflections, final SettableProperty<Boolean> showNormal, final Property<Boolean> showProtractor ) {
+                                  final Property<Boolean> showReflections, final SettableProperty<Boolean> showNormal, final Property<Boolean> showProtractor, final Property<Double> wavelengthProperty ) {
         super( new PSwing( new VerticalLayoutPanel() {{
             class MyRadioButton<T> extends PropertyRadioButton<T> {
                 MyRadioButton( String text, SettableProperty<T> property, T value ) {
@@ -43,12 +38,6 @@ public class LaserControlPanelNode extends ControlPanelNode {
             }
 
             //TODO: Wow, this is too messy.  It should be cleaned up
-            final Property<Double> wavelengthProperty = new Property<Double>( BendingLightModel.WAVELENGTH_RED );
-            wavelengthProperty.addObserver( new SimpleObserver() {
-                public void update() {
-                    laserColor.setValue( new LaserColor.OneColor( wavelengthProperty.getValue() ) );
-                }
-            } );
             add( new JRadioButton( "One Color", laserColor.getValue() != LaserColor.WHITE_LIGHT ) {{
                 setFont( BendingLightCanvas.labelFont );
                 final SimpleObserver updateSelected = new SimpleObserver() {
@@ -65,28 +54,9 @@ public class LaserControlPanelNode extends ControlPanelNode {
                 laserColor.addObserver( updateSelected );
             }} );
             add( new PhetPCanvas() {{
-                final WavelengthControl wavelengthControl = new WavelengthControl( 150, 27, VisibleColor.MIN_WAVELENGTH, 700 ) {{//only go to 700nm because after that the reds are too black
-                    final PNode wc = this;
-                    setWavelength( wavelengthProperty.getValue() * 1E9 );
-                    laserColor.addObserver( new SimpleObserver() {
-                        public void update() {
-                            final boolean disabled = laserColor.getValue() == LaserColor.WHITE_LIGHT;
-                            wc.setTransparency( disabled ? 0.3f : 1f );
-                            setPickable( !disabled );
-                            setChildrenPickable( !disabled );
-                            if ( !disabled ) {
-                                setWavelength( laserColor.getValue().getWavelength() * 1E9 );
-                            }
-                        }
-                    } );
-                    addChangeListener( new ChangeListener() {
-                        public void stateChanged( ChangeEvent e ) {
-                            wavelengthProperty.setValue( getWavelength() / 1E9 );
-                        }
-                    } );
-                }};
+                final BendingLightWavelengthControl wavelengthControl = new BendingLightWavelengthControl( wavelengthProperty, laserColor );
+                wavelengthControl.setOffset( 17, 0 );
                 PBounds bounds = wavelengthControl.getFullBounds();
-                wavelengthControl.translate( -bounds.getX() + 17, -bounds.getY() );
                 setPreferredSize( new Dimension( (int) ( bounds.getWidth() + 40 ), (int) bounds.getHeight() ) );
                 getLayer().addChild( wavelengthControl );
                 setBorder( null );

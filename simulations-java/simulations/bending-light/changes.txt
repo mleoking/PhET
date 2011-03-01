@@ -1,3 +1,4 @@
+Added a wavelength control to the "more tools" tab
 Added stub for new "more tools" tab
 # 0.00.24 (49343) Mar 1, 2011
 Show visible spectrum only up to 700nm for red, before it starts looking too black, see #2763

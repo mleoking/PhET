@@ -11,6 +11,7 @@ import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.util.Function1;
 import edu.colorado.phet.common.phetcommon.util.Function2;
+import edu.colorado.phet.common.phetcommon.util.Function3;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
@@ -25,7 +26,8 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * @author Sam Reid
  */
 public class IntroCanvas extends BendingLightCanvas<IntroModel> {
-    public IntroCanvas( final IntroModel model, BooleanProperty moduleActive, final Resettable resetAll ) {
+    public IntroCanvas( final IntroModel model, BooleanProperty moduleActive, final Resettable resetAll,
+                        final Function3<IntroModel, Double, Double, PNode> additionalLaserControls ) {//(model,x,y)
         super( model, moduleActive, new Function1<Double, Double>() {
             public Double apply( Double angle ) {
                 if ( angle < -Math.PI / 2 ) { angle = Math.PI; }
@@ -76,12 +78,15 @@ public class IntroCanvas extends BendingLightCanvas<IntroModel> {
         afterLightLayer.addChild( new ControlPanelNode( new PNode() {{
             final PText title = new PText( "Laser View" ) {{setFont( labelFont );}};
             addChild( title );
-            addChild( new PSwing( new VerticalLayoutPanel() {{
+            final PSwing radioButtonPanel = new PSwing( new VerticalLayoutPanel() {{
                 add( new PropertyRadioButton<LaserView>( "Ray", laserView, LaserView.RAY ) {{setFont( labelFont );}} );
                 add( new PropertyRadioButton<LaserView>( "Wave", laserView, LaserView.WAVE ) {{setFont( labelFont );}} );
             }} ) {{
                 setOffset( 0, title.getFullBounds().getMaxY() );
-            }} );
+            }};
+            addChild( radioButtonPanel );
+            final PNode additionalControl = additionalLaserControls.apply( model, 30.0, radioButtonPanel.getFullBounds().getMaxY() + 5 );
+            addChild( additionalControl );
         }} ) {{
             setOffset( 5, 5 );
         }} );
