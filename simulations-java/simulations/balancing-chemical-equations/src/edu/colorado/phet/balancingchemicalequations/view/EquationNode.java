@@ -155,7 +155,7 @@ public class EquationNode extends PhetPNode  {
                 termsParent.addChild( plusNode );
 
                 /*
-                 * Make sure that the term doesn't get to close to the plus sign.
+                 * Make sure that the term doesn't get too close to the plus sign.
                  * If it does, then shift the plus sign a bit to the right.
                  */
                 double x = xOffsets[i] + ( ( xOffsets[i + 1] - xOffsets[i] ) / 2 ) - ( plusNode.getFullBoundsReference().getWidth() / 2 ); // centered between 2 offsets
