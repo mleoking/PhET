@@ -10,6 +10,7 @@ import edu.colorado.phet.balancingchemicalequations.model.Molecule.O2;
 /**
  * This was added rather late during development.
  * It was decided that some reversed reactions should be included, and here they live.
+ * This base class adds no new functionality to Equation, it simply provides a more convenient constructor.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
