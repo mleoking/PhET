@@ -1,3 +1,4 @@
+# 0.00.12 (49385) Mar 1, 2011
 3/1/11 dev version that creates molecules stacks from bottom up, to correspond to behavior of spinner arrows and bar charts
 # 0.00.11 (49382) Mar 1, 2011
 3/1/11 dev version that adds support for decomposition reactions
