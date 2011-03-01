@@ -23,6 +23,7 @@ import edu.colorado.phet.buildanatom.model.ImmutableAtom;
 import edu.colorado.phet.buildanatom.model.MonoIsotopeParticleBucket;
 import edu.colorado.phet.buildanatom.model.SphericalParticle;
 import edu.colorado.phet.buildanatom.modules.game.model.SimpleAtom;
+import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -98,6 +99,11 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
     // applies to the user's mix, whereas nature's mix always uses small
     // atoms.
     private final Property<IsotopeSize> isotopeSizeProperty = new Property<IsotopeSize>( IsotopeSize.LARGE );
+
+    // Property that determines whether the user's mix or nature's mix is
+    // being displayed.  When this is set to true, indicating that nature's
+    // mix should be displayed, the isotope size property is ignored.
+    private final BooleanProperty showNaturesMix = new BooleanProperty( false );
 
     // List that contains the isotope instances that the user can move
     // between the buckets and the test chamber.
@@ -272,6 +278,10 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
 
     public Property<IsotopeSize> getAtomSizeProperty(){
         return isotopeSizeProperty;
+    }
+
+    public BooleanProperty getShowNaturesMix() {
+        return showNaturesMix;
     }
 
     public Color getColorForIsotope( ImmutableAtom isotope ) {
