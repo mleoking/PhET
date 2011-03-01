@@ -8,7 +8,7 @@ MEDIUM PRIORITY
 - Game: generalize GameRewardNode and migrate to games project
 
 LOW PRIORITY
-- delete TestMoleculeNodes from build properties before publishing 1.00
+- delete test apps from build properties before publishing 1.00
 - make sure that color for "molecules are hidden" in BoxesNode works with the background color we choose
 - Emily colors: boxes=[102,102,102] canvas=white or canvas=[204,204,255]
 - Kelly: "Make Water" -> "Separate Water"?
