@@ -307,6 +307,22 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
         }
     }
 
+    /**
+     * Archive the user's mix of isotopes.  This is generally done when
+     * switching to show nature's mix.
+     */
+    private void archiveUsersMix(){
+
+    }
+
+    /**
+     * Restore the user's mix from the archive.  This is generally done when
+     * switching from nature's mix back to user's mix.
+     */
+    private void restoreUsersMix(){
+
+    }
+
     // ------------------------------------------------------------------------
     // Inner Classes and Interfaces
     //------------------------------------------------------------------------
