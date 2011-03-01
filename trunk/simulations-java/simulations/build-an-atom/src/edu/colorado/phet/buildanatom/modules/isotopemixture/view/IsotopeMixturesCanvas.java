@@ -43,8 +43,6 @@ public class IsotopeMixturesCanvas extends PhetPCanvas {
     // Class Data
     //----------------------------------------------------------------------------
 
-    private static final Color BUTTON_COLOR = new Color(255, 153, 0);
-
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
@@ -159,7 +157,7 @@ public class IsotopeMixturesCanvas extends PhetPCanvas {
         // and larger atoms.
         final Point2D buttonLocation = new Point2D.Double( 355, 650 );
         // TODO: i18n
-        final ButtonNode moreAtomsButton = new ButtonNode( "More", 20, BUTTON_COLOR ){{
+        final ButtonNode moreAtomsButton = new ButtonNode( "More", 20, new Color(255, 153, 0) ){{
             centerFullBoundsOnPoint( buttonLocation.getX(), buttonLocation.getY() );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -169,7 +167,7 @@ public class IsotopeMixturesCanvas extends PhetPCanvas {
         }};
         controlsLayer.addChild( moreAtomsButton );
         // TODO: i18n
-        final ButtonNode lessAtomsButton = new ButtonNode( "Less", 20, BUTTON_COLOR ){{
+        final ButtonNode lessAtomsButton = new ButtonNode( "Less", 20, new Color( 0, 178, 138 ) ){{
             centerFullBoundsOnPoint( buttonLocation.getX(), buttonLocation.getY() );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
