@@ -1,3 +1,4 @@
+3/1/11 add test-game-reward to build file, so that team can experiment with reward parameters
 3/1/11 change request: revert to horizontal layout of equation choice radio buttons
 3/1/11 change request: change "Make Water" to "Separate Water"
 3/1/11 add game reward node, identical to what was done in RPAL, but using atoms, molecules and smiley faces
