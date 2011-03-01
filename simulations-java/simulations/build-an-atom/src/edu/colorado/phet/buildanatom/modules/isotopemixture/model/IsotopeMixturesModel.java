@@ -50,16 +50,19 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
     // on reality.  The smaller size is used when we want to show a lot of
     // atoms at once.
     private static final double LARGE_ISOTOPE_RADIUS = 83; // in picometers.
-    private static final double SMALL_ISOTOPE_RADIUS = 5; // in picometers.
+    private static final double SMALL_ISOTOPE_RADIUS = 30; // in picometers.
 
     // Numbers of isotopes that are placed into the buckets when a new atomic
     // number is selected.
     private static final int NUM_LARGE_ISOTOPES_PER_BUCKET = 9;
-    private static final int NUM_SMALL_ISOTOPES_PER_BUCKET = 1;
+    private static final int NUM_SMALL_ISOTOPES_PER_BUCKET = 90;
 
     // List of colors which will be used to represent the various isotopes.
     private static final Color [] ISOTOPE_COLORS = new Color [] { new Color( 180, 82, 205), Color.green,
         new Color(255, 69, 0), new Color( 139, 90, 43 ) };
+
+    // Enum of atom size settings.
+    private enum AtomSize { SMALL, LARGE };
 
     // -----------------------------------------------------------------------
     // Instance Data
@@ -89,6 +92,11 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
     // configuration for a given element.
     private final Property<List<MonoIsotopeParticleBucket>> bucketListProperty =
             new Property<List<MonoIsotopeParticleBucket>>( new ArrayList<MonoIsotopeParticleBucket>() );
+
+    // Property that contains the size setting for the atoms.  This only
+    // applies to the user's mix, whereas nature's mix always uses small
+    // atoms.
+    private final Property<AtomSize> atomSizeProperty = new Property<AtomSize>( AtomSize.LARGE );
 
     // List that contains the isotope instances that the user can move
     // between the buckets and the test chamber.
@@ -247,6 +255,10 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
 
     public Property<List<MonoIsotopeParticleBucket>> getBucketListProperty() {
         return bucketListProperty;
+    }
+
+    public Property<AtomSize> getAtomSizeProperty(){
+        return atomSizeProperty;
     }
 
     public Color getColorForIsotope( ImmutableAtom isotope ) {
