@@ -36,7 +36,7 @@ public class BalancedNotSimplifiedNode extends GameResultNode {
                 notSimplifiedTextNode.setFont( font );
                 parentNode.addChild( notSimplifiedTextNode );
 
-                // layout
+                // layout: icons on left, text of right
                 final double maxImageWidth = Math.max( checkNode.getFullBoundsReference().getWidth(), xNode.getFullBoundsReference().getWidth() );
                 double x = maxImageWidth - checkNode.getFullBoundsReference().getWidth();
                 double y = 0;

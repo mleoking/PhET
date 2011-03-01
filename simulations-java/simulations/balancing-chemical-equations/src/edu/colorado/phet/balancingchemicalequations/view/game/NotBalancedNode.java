@@ -19,7 +19,6 @@ import edu.colorado.phet.balancingchemicalequations.view.BarChartsNode;
 import edu.colorado.phet.balancingchemicalequations.view.HorizontalAligner;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.Function1;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
@@ -34,7 +33,7 @@ import edu.umd.cs.piccolo.nodes.PText;
  */
 public class NotBalancedNode extends GameResultNode {
 
-    public NotBalancedNode( final Equation equation, final boolean showChartsAndScalesInGame, final BalancedRepresentation balancedRepresentation ) {
+    public NotBalancedNode( final Equation equation, final boolean showChartsAndScalesInGame, final BalancedRepresentation balancedRepresentation, final HorizontalAligner aligner ) {
         super( false /* smile */, new Function1<PhetFont, PNode>() {
             public PNode apply( PhetFont font ) {
                 PNode parentNode = new PNode();
@@ -52,7 +51,6 @@ public class NotBalancedNode extends GameResultNode {
                 PNode balanceRepresentationNode = null;
                 if ( showChartsAndScalesInGame ) {
                     if ( balancedRepresentation != null ) {
-                        HorizontalAligner aligner = new HorizontalAligner( new Dimension( 475, 400 ), 90 ); //XXX constants
                         if ( balancedRepresentation == BalancedRepresentation.BALANCE_SCALES ) {
                             balanceRepresentationNode = new BalanceScalesNode( new Property<Equation>( equation ), aligner );
                         }
@@ -62,7 +60,7 @@ public class NotBalancedNode extends GameResultNode {
                     }
                 }
 
-                // layout
+                // layout: icon to left of text, optional bar charts or balance scales center underneath
                 iconNode.setOffset( 0, 0 );
                 double x = iconNode.getFullBoundsReference().getMaxX() + 2;
                 double y = iconNode.getFullBoundsReference().getCenterY() - ( textNode.getFullBoundsReference().getHeight() / 2 );
@@ -92,7 +90,8 @@ public class NotBalancedNode extends GameResultNode {
         for ( EquationTerm term : products ) {
             term.setActualCoefficient( 15 );
         }
-        NotBalancedNode node = new NotBalancedNode( equation, true, BalancedRepresentation.BAR_CHARTS );
+
+        NotBalancedNode node = new NotBalancedNode( equation, true, BalancedRepresentation.BAR_CHARTS, new HorizontalAligner( new Dimension( 475, 400 ), 90 ) );
         node.setOffset( 200, 200 );
         canvas.addWorldChild( node );
 

@@ -28,7 +28,7 @@ public class BalancedNode extends GameResultNode {
                 textNode.setFont( phetFont );
                 parentNode.addChild( textNode );
 
-                // layout
+                // layout: icon to left of text
                 iconNode.setOffset( 0, 0 );
                 double x = iconNode.getFullBoundsReference().getMaxX() + 2;
                 double y = iconNode.getFullBoundsReference().getCenterY() - ( textNode.getFullBoundsReference().getHeight() / 2 );
