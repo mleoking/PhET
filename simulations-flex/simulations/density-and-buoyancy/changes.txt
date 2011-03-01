@@ -1,3 +1,5 @@
+# 1.04.09 (49359) Mar 1, 2011
+3/1/11 fixing lso issue
 # 1.04.08 (49336) Feb 28, 2011
 Added debug information to FlashCommon, Preferences, Statistics
 # 1.04.07 (48416) Jan 31, 2011
