@@ -37,7 +37,7 @@ public class PrismsModel extends BendingLightModel {
     public Function1<Double, Double> prismIndexOfRefraction;
 
     public PrismsModel() {
-        super( PI, false );
+        super( PI, false, DEFAULT_DIST_FROM_PIVOT * 0.9 );
         new RichSimpleObserver() {
             public void update() {
                 updateModel();
