@@ -7,12 +7,14 @@ import java.util.LinkedList;
 import java.util.List;
 
 import edu.colorado.phet.bendinglight.util.RichSimpleObserver;
+import edu.colorado.phet.bendinglight.view.LaserColor;
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.util.Function1;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.VoidFunction1;
 
@@ -84,6 +86,7 @@ public class BendingLightModel {
     public static final Color GLASS_COLOR = new Color( 171, 169, 212 );
     public static final Color DIAMOND_COLOR = new Color( 78, 79, 164 );
     private final ArrayList<VoidFunction0> modelUpdateListeners = new ArrayList<VoidFunction0>();
+    public Property<Double> wavelengthProperty;
 
     public BendingLightModel( double laserAngle, boolean topLeftQuadrant, final double laserDistanceFromPivot ) {
         laser = new Laser( laserDistanceFromPivot, laserAngle, topLeftQuadrant );
@@ -101,6 +104,14 @@ public class BendingLightModel {
                 updateModel();
             }
         }.observe( laser.on, laser.pivot, laser.emissionPoint, intensityMeter.sensorPosition, intensityMeter.enabled, laser.color );
+
+        wavelengthProperty = new Property<Double>( BendingLightModel.WAVELENGTH_RED ) {{
+            addObserver( new SimpleObserver() {
+                public void update() {
+                    laser.color.setValue( new LaserColor.OneColor( getValue() ) );
+                }
+            } );
+        }};
     }
 
     protected void addRay( LightRay ray ) {
