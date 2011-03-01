@@ -10,6 +10,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.bendinglight.model.BendingLightModel;
 import edu.colorado.phet.bendinglight.model.LightRay;
+import edu.colorado.phet.bendinglight.modules.prisms.WhiteLightNode;
 import edu.colorado.phet.common.phetcommon.model.And;
 import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.Property;
