@@ -16,11 +16,27 @@ public class GameModule extends BCEModule {
 
     private final GameModel model;
     private final GameCanvas canvas;
+    private boolean rewardWasRunning = false; // was the game reward animation running when this module was deactivated?
 
     public GameModule( BCEGlobalProperties globalProperties ) {
         super( globalProperties.getFrame(), BCEStrings.BALANCING_GAME, new BCEClock(), true /* startsPaused */ );
         model = new GameModel();
         canvas = new GameCanvas( model, globalProperties, this );
         setSimulationPanel( canvas );
+    }
+
+    @Override
+    public void activate() {
+        super.activate();
+        if ( rewardWasRunning ) {
+            canvas.getRewardNode().play();
+        }
+    }
+
+    @Override
+    public void deactivate() {
+        super.deactivate();
+        rewardWasRunning = canvas.getRewardNode().isRunning();
+        canvas.getRewardNode().pause();
     }
 }

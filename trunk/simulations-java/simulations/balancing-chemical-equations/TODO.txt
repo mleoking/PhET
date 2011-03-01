@@ -1,7 +1,6 @@
 TODO list for balancing-chemical-equations
 
 HIGH PRIORITY
-- Game: display a reward at the completion of a perfect game.
 - Game: add some reverse reactions?
 
 MEDIUM PRIORITY

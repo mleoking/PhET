@@ -1,3 +1,6 @@
+3/1/11 add game reward node, identical to what was done in RPAL, but using atoms, molecules and smiley faces
+3/1/11 fix: add game results "popup" to gamePlayParent node, not directly to canvas
+3/1/11 fix: hide game results "popup" when game is completed
 # 0.00.09 (49327) Feb 28, 2011
 2/28/11 dev version that displays bar charts or balances scales in the Game for "unbalanced" answers
 2/28/11 use more verbose names for equations in first tab, use vertical layout of radio buttons

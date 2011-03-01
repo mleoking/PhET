@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.Dimension2D;
 import java.text.DecimalFormat;
 import java.text.MessageFormat;
 
@@ -19,6 +20,7 @@ import edu.colorado.phet.balancingchemicalequations.module.game.GameModel.GameSt
 import edu.colorado.phet.balancingchemicalequations.view.*;
 import edu.colorado.phet.balancingchemicalequations.view.game.BalancedNode;
 import edu.colorado.phet.balancingchemicalequations.view.game.BalancedNotSimplifiedNode;
+import edu.colorado.phet.balancingchemicalequations.view.game.GameRewardNode;
 import edu.colorado.phet.balancingchemicalequations.view.game.NotBalancedNode;
 import edu.colorado.phet.common.games.*;
 import edu.colorado.phet.common.games.GameOverNode.GameOverListener;
@@ -32,6 +34,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
@@ -56,6 +59,7 @@ public class GameCanvas extends BCECanvas {
     private final PNode gameSettingsNode;
     private final PNode gamePlayParentNode;
     private GameOverNode gameOverNode;
+    private final GameRewardNode gameRewardNode;
 
     // children of problemParentNode, related to interacting with problems
     private final PText equationLabelNode;
@@ -74,6 +78,7 @@ public class GameCanvas extends BCECanvas {
         this.globalProperties = globalProperties;
         this.audioPlayer = new GameAudioPlayer( model.getGameSettings().soundEnabled.getValue() );
         this.aligner = new HorizontalAligner( BOX_SIZE, BOX_SEPARATION );
+        this.gameRewardNode = new GameRewardNode();
 
         // Game settings
         VoidFunction0 startFunction = new VoidFunction0() {
@@ -140,6 +145,7 @@ public class GameCanvas extends BCECanvas {
         answerNode.setVisible( globalProperties.getShowAnswersProperty().getValue() );
 
         // rendering order
+        addChild( gameRewardNode );
         addChild( gameSettingsNode );
         addChild( gamePlayParentNode );
         gamePlayParentNode.addChild( equationLabelNode );
@@ -256,6 +262,14 @@ public class GameCanvas extends BCECanvas {
         }
     }
 
+    /**
+     * Gets the game reward node, so we can play/pause the animation
+     * when the associated Module is activated/deactivated.
+     */
+    public GameRewardNode getRewardNode() {
+        return gameRewardNode;
+    }
+
     private void updateEquationLabel() {
         int index = model.getEquationIndex() + 1;
         int total = model.getNumberOfEquations();
@@ -288,6 +302,7 @@ public class GameCanvas extends BCECanvas {
     }
 
     public void initStartGame() {
+        setGameRewardVisible( false );
         setTopLevelNodeVisible( gameSettingsNode );
         randomizeBalancedRepresentation();
     }
@@ -331,9 +346,18 @@ public class GameCanvas extends BCECanvas {
     }
 
     public void initNewGame() {
+        setResultsPopupVisible( false );
+        setGameRewardVisible( true );
         playGameOverAudio();
         updateGameOverNode();
         setTopLevelNodeVisible( gameOverNode );
+    }
+
+    private void setGameRewardVisible( boolean visible ) {
+        if ( visible ) {
+            gameRewardNode.setLevel( model.getGameSettings().level.getValue(), model.isPerfectScore() );
+        }
+        gameRewardNode.setVisible( visible );
     }
 
     private void setTopLevelNodeVisible( PNode topLevelNode ) {
@@ -370,7 +394,7 @@ public class GameCanvas extends BCECanvas {
      */
     private void setResultsPopupVisible( boolean visible ) {
         if ( gameResultNode != null ) {
-            removeChild( gameResultNode );
+            gamePlayParentNode.removeChild( gameResultNode );
             gameResultNode = null;
         }
         if ( visible ) {
@@ -392,7 +416,7 @@ public class GameCanvas extends BCECanvas {
                 PNodeLayoutUtils.alignInside( gameResultNode, boxesNode, SwingConstants.BOTTOM, SwingConstants.CENTER );
             }
 
-            addChild( gameResultNode ); // visible and in front
+            gamePlayParentNode.addChild( gameResultNode ); // visible and in front
         }
     }
 
@@ -446,5 +470,19 @@ public class GameCanvas extends BCECanvas {
      */
     private BalancedRepresentation getRandomBalanceChoice() {
         return ( Math.random() < 0.5 ) ? BalancedRepresentation.BALANCE_SCALES : BalancedRepresentation.BAR_CHARTS;
+    }
+
+    /*
+     * Called when the canvas size changes.
+     */
+    @Override
+    protected void updateLayout() {
+        super.updateLayout();
+        Dimension2D worldSize = getWorldSize();
+        if ( worldSize.getWidth() > 0 && worldSize.getHeight() > 0 ) {
+            // make the reward fill the play area
+            PBounds newBounds = new PBounds( 0, 0, worldSize.getWidth(), worldSize.getHeight() );
+            gameRewardNode.setBounds( newBounds );
+        }
     }
 }
