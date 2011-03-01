@@ -34,8 +34,8 @@ public class PrismsCanvas extends BendingLightCanvas<PrismsModel> {
         model.environment.addObserver( new SimpleObserver() {
             public void update() {
                 final Color color = model.colorMappingFunction.getValue().apply( model.environment.getValue().getIndexOfRefraction() );
-                setBackground( new Color( 255 - color.getRed(), 255 - color.getGreen(), 255 - color.getBlue() ) );
-//                setBackground( Color.black );
+//                setBackground( new Color( 255 - color.getRed(), 255 - color.getGreen(), 255 - color.getBlue() ) ); //black background
+                setBackground( new Color( color.getRed(), color.getGreen(), color.getBlue() ) );//white background
             }
         } );
 

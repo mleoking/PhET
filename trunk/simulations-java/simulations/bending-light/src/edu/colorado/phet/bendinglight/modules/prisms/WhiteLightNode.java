@@ -1,10 +1,12 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.bendinglight.view;
+package edu.colorado.phet.bendinglight.modules.prisms;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
+import edu.colorado.phet.bendinglight.view.BresenhamLineAlgorithm;
+import edu.colorado.phet.bendinglight.view.LightRayNode;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -88,9 +90,11 @@ public class WhiteLightNode extends PImage {
             if ( samples[2] > max ) { max = samples[2]; }
             if ( max > 1 ) {
                 final float scale = 2f;//extra factor to make it white instead of cream/orange
-                samples[0] = Math.min( samples[0] / max * scale, 1 );
-                samples[1] = Math.min( samples[1] / max * scale, 1 );
-                samples[2] = Math.min( samples[2] / max * scale, 1 );
+
+                float whiteLimit = 0.2f;//Don't let things become completely white, since the background is white
+                samples[0] = (float) MathUtil.clamp( 0, samples[0] / max * scale - whiteLimit, 1 - whiteLimit );
+                samples[1] = (float) MathUtil.clamp( 0, samples[1] / max * scale - whiteLimit, 1 - whiteLimit );
+                samples[2] = (float) MathUtil.clamp( 0, samples[2] / max * scale - whiteLimit, 1 - whiteLimit );
                 intensity = intensity * max;
             }
             float alpha = (float) Math.sqrt( intensity / 3 );
