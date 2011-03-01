@@ -1,10 +1,11 @@
-3/1/11 revert to horizontal layout of equation choice radio buttons
+3/1/11 change request: revert to horizontal layout of equation choice radio buttons
+3/1/11 change request: change "Make Water" to "Separate Water"
 3/1/11 add game reward node, identical to what was done in RPAL, but using atoms, molecules and smiley faces
 3/1/11 fix: add game results "popup" to gamePlayParent node, not directly to canvas
 3/1/11 fix: hide game results "popup" when game is completed
 # 0.00.09 (49327) Feb 28, 2011
 2/28/11 dev version that displays bar charts or balances scales in the Game for "unbalanced" answers
-2/28/11 use more verbose names for equations in first tab, use vertical layout of radio buttons
+2/28/11 change request: use more verbose names for equations in first tab, use vertical layout of radio buttons
 2/28/11 remove P4 + 6F2 -> 4PF3 from first tab (dev)
 2/28/11 standardize placement of answer, below left box
 2/28/11 add "Developer->Show answer" menu item, off by default
@@ -17,7 +18,7 @@
 2/28/11 move GameResultNode inner subclasses to their own files
 2/28/11 replace duplicate alignment code in GameCanvas with PNodeLayoutUtils.alignInside
 2/28/11 adjust layout when "Not Balanaced" popup bounds changes
-2/28/11 add developer control for showing/hiding bar charts and balance scales in Game
+2/28/11 feature request: add developer control for showing/hiding bar charts and balance scales in Game
 # 0.00.08 (49226) Feb 24, 2011
 2/24/11 dev version to demonstrate Game
 2/24/11 change "molecules are hidden" color to white, so it's visible on default black background
