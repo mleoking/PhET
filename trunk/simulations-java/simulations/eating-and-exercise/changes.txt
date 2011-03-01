@@ -1,3 +1,4 @@
+# 1.03.01 (49348) Mar 1, 2011
 Removed unused references to RulerNode, see #2678
 1/28/10 clean up ScaleNode to investigate #2141
 # 1.03.00 (37990) Jan 9, 2010
