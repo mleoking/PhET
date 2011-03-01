@@ -80,6 +80,7 @@ public class IntroductionCanvas extends BCECanvas {
          * and handle their own horizontal alignment via HorizontalAligner.
          */
         {
+            double ySpacing = 35;
             double x, y;
 
             // equation choices above equation, right justified
@@ -87,11 +88,11 @@ public class IntroductionCanvas extends BCECanvas {
             equationChoiceNode.setOffset( x, 0 );
 
             // equation below choices
-            y = equationChoiceNode.getFullBoundsReference().getMaxY() + 25;
+            y = equationChoiceNode.getFullBoundsReference().getMaxY() + ySpacing;
             equationNode.setOffset( 0, y );
 
             // boxes below equation
-            y = equationNode.getFullBoundsReference().getMaxY() + 22;
+            y = equationNode.getFullBoundsReference().getMaxY() + ySpacing;
             boxesNode.setOffset( 0, y );
 
             // face node between boxes
@@ -106,7 +107,7 @@ public class IntroductionCanvas extends BCECanvas {
             balanceScalesNode.setOffset( 0, y );
 
             // balance choices below bar charts and balance scales, left justified
-            y = Math.max( barChartsNode.getFullBoundsReference().getMaxY(), balanceScalesNode.getFullBoundsReference().getMaxY() ) + 28;
+            y = Math.max( barChartsNode.getFullBoundsReference().getMaxY(), balanceScalesNode.getFullBoundsReference().getMaxY() ) + ySpacing;
             balanceChoiceNode.setOffset( 0, y );
 
             // Reset All button at bottom right
