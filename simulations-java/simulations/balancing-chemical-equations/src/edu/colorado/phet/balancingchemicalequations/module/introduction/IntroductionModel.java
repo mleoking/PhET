@@ -27,8 +27,8 @@ public class IntroductionModel {
 
     public IntroductionModel( final boolean dev ) {
         equations = new ArrayList<Equation>() {{
-            add( new WaterEquation() );
             add( new AmmoniaEquation() );
+            add( new WaterEquation() );
             add( new MethaneEquation() );
         }};
         currentEquationProperty = new Property<Equation>( equations.get( 0 ) );

@@ -1,3 +1,4 @@
+3/1/11 move "Make Ammonia" radio button first in button panel
 # 0.00.10 (49356) Mar 1, 2011
 3/1/11 add test-game-reward to build file, so that team can experiment with reward parameters
 3/1/11 change request: revert to horizontal layout of equation choice radio buttons
