@@ -19,6 +19,7 @@ import edu.colorado.phet.common.phetcommon.util.VoidFunction1;
 import static java.lang.Math.pow;
 
 public class BendingLightModel {
+    protected static final double DEFAULT_DIST_FROM_PIVOT = 8.125E-6;
     protected final List<LightRay> rays = new LinkedList<LightRay>();
     private ConstantDtClock clock;
 
@@ -84,8 +85,8 @@ public class BendingLightModel {
     public static final Color DIAMOND_COLOR = new Color( 78, 79, 164 );
     private final ArrayList<VoidFunction0> modelUpdateListeners = new ArrayList<VoidFunction0>();
 
-    public BendingLightModel( double laserAngle, boolean topLeftQuadrant ) {
-        laser = new Laser( 8.125E-6, laserAngle, topLeftQuadrant );
+    public BendingLightModel( double laserAngle, boolean topLeftQuadrant, final double laserDistanceFromPivot ) {
+        laser = new Laser( laserDistanceFromPivot, laserAngle, topLeftQuadrant );
         this.clock = new ConstantDtClock( 30.0 ) {{
             addClockListener( new ClockAdapter() {
                 public void simulationTimeChanged( ClockEvent clockEvent ) {
