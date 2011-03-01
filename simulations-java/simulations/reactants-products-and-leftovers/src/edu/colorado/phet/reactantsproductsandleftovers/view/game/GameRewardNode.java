@@ -38,11 +38,11 @@ import edu.umd.cs.piccolo.util.PBounds;
 
 /**
  * The reward that is displayed when the game is completed with a perfect score.
- * 
+ *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class GameRewardNode extends PhetPNode {
-    
+
     private static final int DEFAULT_CLOCK_DELAY = 60; // ms
     private static final double FACE_DIAMETER = 40; // size of smiley face images
 
@@ -54,10 +54,10 @@ public class GameRewardNode extends PhetPNode {
     private int population;
     private int motionDelta;
     private IMotionStrategy motionStrategy;
-    
+
     /**
      * An image node that has an associated motion delta.
-     * The motion delta is used by an IMotionStrategy to determine 
+     * The motion delta is used by an IMotionStrategy to determine
      * how far an MovingImageNode moves on each animation step.
      */
     private static class MovingImageNode extends PImage {
@@ -72,12 +72,12 @@ public class GameRewardNode extends PhetPNode {
         public int getMotionDelta() {
             return motionDelta;
         }
-        
+
         public void setMotionDelta( int motionDelta ) {
             this.motionDelta = motionDelta;
         }
     }
-    
+
     /**
      * Zero-args constructor.
      * The this(...) arguments are not really relevant, just something to get us started.
@@ -103,7 +103,7 @@ public class GameRewardNode extends PhetPNode {
 
         this.clock = new ConstantDtClock( DEFAULT_CLOCK_DELAY, 1 );
         this.clock.pause();
-        
+
         // used for sandwich images
         sandwichShopModel = new SandwichShopModel();
         // select the sandwich with the most ingredients
@@ -153,7 +153,7 @@ public class GameRewardNode extends PhetPNode {
         // initial state
         setBounds( bounds );
     }
-    
+
     /**
      * Sets the animation parameters based on game difficulty level
      * and whether the user got a perfect score.
@@ -162,12 +162,12 @@ public class GameRewardNode extends PhetPNode {
      */
     public void setLevel( int level, boolean perfectScore ) {
         if ( perfectScore ) {
-            
+
             // all levels share these settings for a perfect score
             setClockDelay( 40 );
             setPopulation( 200 );
             setMotionDelta( 10 );
-            
+
             switch ( level ) {
             case 1:
                 // show only molecules
@@ -175,21 +175,21 @@ public class GameRewardNode extends PhetPNode {
                 setSmileyFacesVisible( false );
                 setSandwichesVisible( false );
                 break;
-                
+
             case 2:
                 // show only smiley faces
                 setMoleculesVisible( false );
                 setSmileyFacesVisible( true );
                 setSandwichesVisible( false );
                 break;
-                
+
             case 3:
                 // show only sandwiches
                 setMoleculesVisible( false );
                 setSmileyFacesVisible( false );
                 setSandwichesVisible( true );
                 break;
-                
+
             default:
                 throw new IllegalArgumentException( "unsupported level: " + level );
             }
@@ -306,7 +306,7 @@ public class GameRewardNode extends PhetPNode {
     private boolean isSandwichesVisible() {
         return images.contains( sandwichShopModel.getReaction().getProduct(0).getImage() );
     }
-    
+
     private void setMoleculesVisible( boolean visible ) {
         if ( visible != isMoleculesVisible() ) {
             if ( visible ) {
@@ -326,7 +326,7 @@ public class GameRewardNode extends PhetPNode {
     private boolean isMoleculesVisible() {
         return images.contains( RPALImages.ALL_MOLECULES[0] );
     }
-    
+
     private void setMotionStrategy( IMotionStrategy motionStrategy ) {
         this.motionStrategy = motionStrategy;
     }
@@ -361,7 +361,7 @@ public class GameRewardNode extends PhetPNode {
      * Adds a random node, with a random motion delta, at a random location within this node's bounds.
      */
     private void addRandomNode() {
-        
+
         // choose a random motion delta
         int delta = (int) Math.max( 1, Math.random() * motionDelta );
 
@@ -386,7 +386,7 @@ public class GameRewardNode extends PhetPNode {
         double y = bounds.getY() + ( Math.random() * bounds.getHeight() );
         return new Point2D.Double( x, y );
     }
-    
+
     /**
      * This node plays when it's visible, pauses when it's invisible.
      * @param visible
@@ -415,7 +415,7 @@ public class GameRewardNode extends PhetPNode {
     public void pause() {
         clock.pause();
     }
-    
+
     /**
      * Is the animation running?
      * @return
@@ -447,12 +447,12 @@ public class GameRewardNode extends PhetPNode {
          */
         public void step( MovingImageNode node, PBounds bounds );
     }
-    
+
     /**
      * Node jitters around, doing a simple random walk.
      */
     public static class JitteryMotionStrategy implements IMotionStrategy {
-        
+
         public void step( MovingImageNode node, PBounds bounds ) {
             // walk a distance in a random direction
             double x = node.getXOffset() + ( getRandomDirection() * node.getMotionDelta() );
@@ -462,12 +462,12 @@ public class GameRewardNode extends PhetPNode {
             y = Math.max( bounds.getMinY(), Math.min( y, bounds.getMaxY() ) );
             node.setOffset( x, y );
         }
-        
+
         private int getRandomDirection() {
             return ( Math.random() > 0.5 ) ? 1 : -1;
         }
     }
-    
+
     /**
      * Node falls vertically.
      */
@@ -509,31 +509,31 @@ public class GameRewardNode extends PhetPNode {
         };
         canvas.setBackground( RPALConstants.CANVAS_BACKGROUND );
         canvas.addWorldChild( rewardNode );
-        
+
         final IMotionStrategy jitteryMotionStrategy = new JitteryMotionStrategy();
         final IMotionStrategy fallingMotionStrategy = new FallingMotionStrategy();
-        
+
         final JRadioButton jitteryMotionButton = new JRadioButton( "jittery" );
         jitteryMotionButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 rewardNode.setMotionStrategy( jitteryMotionStrategy );
             }
         });
-        
+
         final JRadioButton fallingMotionButton = new JRadioButton( "falling" );
         fallingMotionButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 rewardNode.setMotionStrategy( fallingMotionStrategy );
             }
         });
-        
+
         ButtonGroup motionGroup = new ButtonGroup();
         motionGroup.add( jitteryMotionButton );
         motionGroup.add( fallingMotionButton );
-        
+
         rewardNode.setMotionStrategy( fallingMotionStrategy );
         fallingMotionButton.setSelected( true );
-        
+
         JPanel motionControlPanel = new JPanel();
         motionControlPanel.setBorder( new TitledBorder( "Motion Strategy" ) );
         EasyGridBagLayout motionControlPanelLayout = new EasyGridBagLayout( motionControlPanel );
@@ -542,8 +542,8 @@ public class GameRewardNode extends PhetPNode {
         int column = 0;
         motionControlPanelLayout.addComponent( jitteryMotionButton, row, column++ );
         motionControlPanelLayout.addComponent( fallingMotionButton, row, column++ );
-        
-        final LinearValueControl clockDelayControl = new LinearValueControl( clockDelayRange.getMin(), clockDelayRange.getMax(), "clock speed:", "##0", "ms" );
+
+        final LinearValueControl clockDelayControl = new LinearValueControl( clockDelayRange.getMin(), clockDelayRange.getMax(), "clock delay:", "##0", "ms" );
         clockDelayControl.setToolTipText( "how frequently the simulation clock ticks" );
         clockDelayControl.setValue( rewardNode.getClockDelay() );
         clockDelayControl.addChangeListener( new ChangeListener() {
@@ -578,7 +578,7 @@ public class GameRewardNode extends PhetPNode {
                 rewardNode.setMoleculesVisible( moleculesCheckBox.isSelected() );
             }
         } );
-        
+
         final JCheckBox smileyFacesCheckBox = new JCheckBox( "show smiley faces" );
         smileyFacesCheckBox.setSelected( rewardNode.isSmileyFacesVisible() );
         smileyFacesCheckBox.setToolTipText( "determines whether smiley faces will be shown" );
@@ -596,7 +596,7 @@ public class GameRewardNode extends PhetPNode {
                 rewardNode.setSandwichesVisible( sandwichesCheckBox.isSelected() );
             }
         } );
-        
+
         JPanel devControlPanel = new JPanel();
         devControlPanel.setBorder( new TitledBorder( "Developer Controls" ) );
         EasyGridBagLayout devControlPanelLayout = new EasyGridBagLayout( devControlPanel );
