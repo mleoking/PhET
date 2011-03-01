@@ -18,10 +18,6 @@ public class BendingLightModule<T extends BendingLightModel> extends Module {
         }
     };
 
-    protected void resetAll() {
-        model.resetAll();
-    }
-
     public BendingLightModule( String name, T model ) {
         super( name, model.getClock() );
         this.model = model;
@@ -38,8 +34,11 @@ public class BendingLightModule<T extends BendingLightModel> extends Module {
         } );
     }
 
+    protected void resetAll() {
+        model.resetAll();
+    }
 
-    public T getLRRModel() {
+    public T getBendingLightModel() {
         return model;
     }
 }

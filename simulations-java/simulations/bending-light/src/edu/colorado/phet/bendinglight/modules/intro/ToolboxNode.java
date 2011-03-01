@@ -114,7 +114,7 @@ public class ToolboxNode extends PNode {
         }};
         addChild( protractor );
 
-        //TODO: some constants copied from LRRModel
+        //TODO: some constants copied from BendingLightModel
         //TODO: functionality and some code copied from protractor toolbox item above
         final double modelWidth = WAVELENGTH_RED * 62;
         final double modelHeight = modelWidth * 0.7;

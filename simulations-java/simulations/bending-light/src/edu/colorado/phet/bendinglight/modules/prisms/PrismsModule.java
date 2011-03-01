@@ -11,7 +11,7 @@ public class PrismsModule extends BendingLightModule<PrismsModel> {
 
     public PrismsModule() {
         super( "Prism Break", new PrismsModel() );
-        canvas = new PrismsCanvas( getLRRModel(), moduleActive, resetAll );
+        canvas = new PrismsCanvas( getBendingLightModel(), moduleActive, resetAll );
         setSimulationPanel( canvas );
     }
 
