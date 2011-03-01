@@ -50,16 +50,16 @@ public abstract class OneProductEquation extends Equation {
     }
 
     // N2 + 3 H2 -> 2NH3
-    public static class AmmoniaEquation extends OneProductEquation {
-        public AmmoniaEquation() {
-            super( BCEStrings.AMMONIA_EQUATION_NAME, new EquationTerm( 1, new N2() ), new EquationTerm( 3, new H2() ), new EquationTerm( 2, new NH3() ) );
+    public static class MakeAmmoniaEquation extends OneProductEquation {
+        public MakeAmmoniaEquation() {
+            super( BCEStrings.MAKE_AMMONIA, new EquationTerm( 1, new N2() ), new EquationTerm( 3, new H2() ), new EquationTerm( 2, new NH3() ) );
         }
     }
 
     // 2 H2 + O2 -> 2 H2O
-    public static class WaterEquation extends OneProductEquation {
-        public WaterEquation() {
-            super( BCEStrings.WATER_EQUATION_NAME, new EquationTerm( 2, new H2() ), new EquationTerm( 1, new O2() ), new EquationTerm( 2, new H2O() ) );
+    public static class Equation_2H2_O2_2H2O extends OneProductEquation {
+        public Equation_2H2_O2_2H2O() {
+            super( new EquationTerm( 2, new H2() ), new EquationTerm( 1, new O2() ), new EquationTerm( 2, new H2O() ) );
         }
     }
 

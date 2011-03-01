@@ -7,7 +7,7 @@ import java.util.HashMap;
 import edu.colorado.phet.balancingchemicalequations.model.BCEClock;
 import edu.colorado.phet.balancingchemicalequations.model.Equation;
 import edu.colorado.phet.balancingchemicalequations.model.GameEquationsFactory;
-import edu.colorado.phet.balancingchemicalequations.model.OneProductEquation.WaterEquation;
+import edu.colorado.phet.balancingchemicalequations.model.OneProductEquation.MakeAmmoniaEquation;
 import edu.colorado.phet.common.games.GameSettings;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
@@ -52,7 +52,7 @@ public class GameModel {
     public GameModel() {
         gameStateProperty = new Property<GameState>( GameState.START_GAME );
         pointsProperty = new Property<Integer>( 0 );
-        currentEquationProperty = new Property<Equation>( new WaterEquation() );
+        currentEquationProperty = new Property<Equation>( new MakeAmmoniaEquation() );
         problemsFactory = new GameEquationsFactory();
         gameSettings = new GameSettings( LEVELS_RANGE, true /* sound */, true /* timer */ );
         bestTimes = new HashMap<Integer,Long>();

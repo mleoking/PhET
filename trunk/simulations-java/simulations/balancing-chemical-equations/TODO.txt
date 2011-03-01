@@ -1,9 +1,8 @@
 TODO list for balancing-chemical-equations
 
 HIGH PRIORITY
-- change request: layout support for reactions with 1 reactant (reverse reactions)
-- change request: "H2 + O2 -> H2O" to "H2O -> H2 + O2" in first tab
-- Game: add some reverse reactions?
+- change request: layout support for reverse reactions (1 reactant, 2 products)
+- Game: add additional reverse reactions
 
 MEDIUM PRIORITY
 - Game: rewrite GameScoreBoardNode to use Property<T>
