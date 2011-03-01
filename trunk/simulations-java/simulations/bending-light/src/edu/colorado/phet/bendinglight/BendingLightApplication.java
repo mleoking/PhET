@@ -20,34 +20,6 @@ public class BendingLightApplication extends PiccoloPhetApplication {
         final IntroModule introModule = new IntroModule();
         addModule( introModule );
         addModule( new PrismsModule() );
-//        getPhetFrame().addMenu( new JMenu( "Developer" ) {{
-//            add( new JMenuItem( "Medium colors" ) {{
-//                addActionListener( new ActionListener() {
-//                    public void actionPerformed( ActionEvent e ) {
-//                        new MediumColorDialog( getPhetFrame(), introModule.getLRRModel() ).setVisible( true );
-//                    }
-//                } );
-//            }} );
-//            add( new JMenuItem( "Laser Color" ) {{
-//                addActionListener( new ActionListener() {
-//                    public void actionPerformed( ActionEvent e ) {
-//                        ColorChooserFactory.showDialog( "Laser Color", getPhetFrame(), introModule.getLRRModel().getLaser().color.getValue(), new ColorChooserFactory.Listener() {
-//                            public void colorChanged( Color color ) {
-//                                introModule.getLRRModel().getLaser().color.setValue( color );
-//                            }
-//
-//                            public void ok( Color color ) {
-//                                introModule.getLRRModel().getLaser().color.setValue( color );
-//                            }
-//
-//                            public void cancelled( Color originalColor ) {
-//                                introModule.getLRRModel().getLaser().color.setValue( originalColor );
-//                            }
-//                        } );
-//                    }
-//                } );
-//            }} );
-//        }} );
     }
 
     public static void main( String[] args ) {
