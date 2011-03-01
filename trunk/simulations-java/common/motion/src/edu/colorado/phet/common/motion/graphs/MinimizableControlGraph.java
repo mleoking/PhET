@@ -65,7 +65,7 @@ public class MinimizableControlGraph extends PNode {
 
         addChild( graphChild );
 
-        JButton maximizeButton = new JButton( "Maximize " + label + " graph" );
+        JButton maximizeButton = new JButton( label );
         maximizeButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 setMinimized( false );
