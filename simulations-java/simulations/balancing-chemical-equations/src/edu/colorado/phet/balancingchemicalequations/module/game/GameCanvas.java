@@ -135,11 +135,9 @@ public class GameCanvas extends BCECanvas {
             }
         } );
 
-        // Dev, shows balanced coefficients
-        final BalancedEquationNode balancedEquationNode = new BalancedEquationNode( model.getCurrentEquationProperty() );
-        if ( globalProperties.isDev() ) {
-            addChild( balancedEquationNode );
-        }
+        // Shows the answer (dev)
+        final DevAnswerNode answerNode = new DevAnswerNode( model.getCurrentEquationProperty() );
+        answerNode.setVisible( globalProperties.getShowAnswersProperty().getValue() );
 
         // rendering order
         addChild( gameSettingsNode );
@@ -152,7 +150,7 @@ public class GameCanvas extends BCECanvas {
         gamePlayParentNode.addChild( showAnswerButton );
         gamePlayParentNode.addChild( nextButton );
         gamePlayParentNode.addChild( scoreboardNode );
-        gamePlayParentNode.addChild( balancedEquationNode );
+        gamePlayParentNode.addChild( answerNode );
 
         // layout of children of problemParentNode
         {
@@ -187,7 +185,7 @@ public class GameCanvas extends BCECanvas {
             // dev answer below left box
             x = 0;
             y = boxesNode.getFullBoundsReference().getMaxY() + 5;
-            balancedEquationNode.setOffset( x, y );
+            answerNode.setOffset( x, y );
         }
 
         // layout of static top-level nodes
@@ -247,6 +245,12 @@ public class GameCanvas extends BCECanvas {
             model.addTimeObserver( new SimpleObserver() {
                 public void update() {
                     scoreboardNode.setTime( model.getTime() );
+                }
+            } );
+
+            globalProperties.getShowAnswersProperty().addObserver( new SimpleObserver() {
+                public void update() {
+                    answerNode.setVisible( globalProperties.getShowAnswersProperty().getValue() );
                 }
             } );
         }
@@ -379,7 +383,7 @@ public class GameCanvas extends BCECanvas {
                 gameResultNode = new BalancedNotSimplifiedNode();
             }
             else {
-                gameResultNode = new NotBalancedNode( model.getCurrentEquationProperty().getValue(), globalProperties.getShowChartsAndScalesInGame().getValue(), balancedRepresentation, aligner );
+                gameResultNode = new NotBalancedNode( model.getCurrentEquationProperty().getValue(), globalProperties.getShowChartsAndScalesInGameProperty().getValue(), balancedRepresentation, aligner );
             }
 
             // Layout, ideally centered between the boxes, but guarantee that buttons are not covered.
