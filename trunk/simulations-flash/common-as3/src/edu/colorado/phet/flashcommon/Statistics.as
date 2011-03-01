@@ -36,7 +36,9 @@ public class Statistics {
         messageError = false;
 
         // shortcut to FlashCommon, but now with type-checking!
+        debug("Statistics.init getting flash common instance\n");
         common = FlashCommon.getInstance();
+        debug("Finished: Statistics.init getting flash common instance\n");
 
         // make this object accessible from _level0.statistics
         // should only be one copy of Statistics (singleton-like)

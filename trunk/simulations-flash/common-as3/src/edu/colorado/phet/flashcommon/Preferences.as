@@ -35,7 +35,7 @@ public class Preferences {
 
     // constructor
     public function Preferences() {
-        //debug("Preferences initializing\n");
+        debug("Preferences initializing\n");
 
         // shortcut to FlashCommon, but now with type-checking!
         common = FlashCommon.getInstance();
@@ -45,7 +45,9 @@ public class Preferences {
         common.preferences = this;
 
         // load the shared object into sharedObject
+        debug("Preferences constructor calling load()\n");
         load();
+        debug("Finished: Preferences constructor calling load()\n");
 
         // set "constant" strings
         FIELD_SKIPPED_REVISION = common.getSimName() + "_skippedRevision";
@@ -70,6 +72,8 @@ public class Preferences {
         // for resetting sharedobject data
         //		Key.addListener(this);
         /////////////////////////////////////////
+
+        debug("Checking to see if shared object data exists\n");
 
         // if it is the first time simulations have been run from
         // their domain, we need to fill in default values.
@@ -129,7 +133,13 @@ public class Preferences {
     // load the preferences data into sharedObject
     public function load(): void {
         //debug("Preferences: Loading shared object\n");
-        sharedObject = SharedObject.getLocal( "phetPrefs", "/" );
+        try {
+            //Have to use a different namespace than is used for AS2 because otherwise loading AS2 LSO in AS3 causes an unhandleable error, which causes the sim to be broken on startup, see #2762
+            sharedObject = SharedObject.getLocal( "phetPrefsAS3", "/" );
+        }
+        catch( o: Object ) {
+            debug( "Preferences.load caught exception: " + o );
+        }
     }
 
     // unload the preferences data from sharedObject. this prevents Flash from saving

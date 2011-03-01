@@ -104,6 +104,7 @@ public class FlashCommon {
      * This is a singleton class. No easy way to enforce, so for now, don't call this.
      */
     public function FlashCommon() {
+        instance = this;
     }
 
     public static function getArg( key: String ): String {
@@ -176,10 +177,14 @@ public class FlashCommon {
         //        keyboardHandler = new KeyboardHandler();
 
         // load the statistics handler, but do not send the session-start message!!!
+        debug("Loading statistics\n");
         statistics = new Statistics();
+        debug("Finished loading statistics\n");
 
         // load preferences data
+        debug("Loading preferences\n");
         preferences = new Preferences();
+        debug("Finished loading preferences\n");
 
         // DEVELOPMENT: load the inspector
         if ( getDev() ) {
