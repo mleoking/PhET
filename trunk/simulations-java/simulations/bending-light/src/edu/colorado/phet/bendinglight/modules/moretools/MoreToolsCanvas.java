@@ -21,7 +21,7 @@ public class MoreToolsCanvas extends IntroCanvas {
                     setOffset( x, y );
                 }};
             }
-        } );
+        }, 0 );
         addChild( new AmplitudeSensorNode( transform, new AmplitudeSensor() ) );
     }
 }

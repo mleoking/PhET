@@ -48,7 +48,7 @@ public class BendingLightCanvas<T extends BendingLightModel> extends PhetPCanvas
                                Resettable resetAll,
                                final Function2<Shape, Shape, Shape> laserTranslationRegion,
                                final Function2<Shape, Shape, Shape> laserRotationRegion,
-                               String laserImageName ) {
+                               String laserImageName, final double centerOffsetLeft ) {
         this.showNormal = new BooleanProperty( showNormal );
         this.model = model;
         // Root of our scene graph
@@ -63,7 +63,7 @@ public class BendingLightCanvas<T extends BendingLightModel> extends PhetPCanvas
 
         final double scale = stageSize.getHeight() / model.getHeight();
         transform = ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ),
-                                                                               new Point2D.Double( stageSize.getWidth() / 2 - 150, stageSize.getHeight() / 2 ),
+                                                                               new Point2D.Double( stageSize.getWidth() / 2 - centerOffsetLeft, stageSize.getHeight() / 2 ),
                                                                                scale );
         mediumNode = new PNode();
         addChild( mediumNode );

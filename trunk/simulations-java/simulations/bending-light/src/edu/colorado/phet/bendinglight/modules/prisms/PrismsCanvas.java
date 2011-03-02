@@ -26,7 +26,7 @@ public class PrismsCanvas extends BendingLightCanvas<PrismsModel> {
                     public Shape apply( Shape full, Shape back ) {
                         return back;
                     }
-                }, "laser_knob.png" );
+                }, "laser_knob.png", 150 );
         for ( Prism prism : model.getPrisms() ) {
             addChild( new PrismNode( transform, prism, model.prismMedium ) );
         }
