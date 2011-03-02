@@ -197,10 +197,10 @@ public class MediumControlPanel extends PNode {
     }
 
     private void setIndexOfRefraction( double indexOfRefraction ) {
-        medium.setValue( new Medium( medium.getValue().getShape(), new MediumState( "Custom", indexOfRefraction ), colorMappingFunction.getValue().apply( indexOfRefraction ) ) );
+        medium.setValue( new Medium( medium.getValue().shape, new MediumState( "Custom", indexOfRefraction ), colorMappingFunction.getValue().apply( indexOfRefraction ) ) );
     }
 
     private void setMediumState( MediumState mediumState, Property<Medium> medium, Property<Function1<Double, Color>> colorMappingFunction ) {
-        medium.setValue( new Medium( medium.getValue().getShape(), mediumState, colorMappingFunction.getValue().apply( mediumState.index ) ) );
+        medium.setValue( new Medium( medium.getValue().shape, mediumState, colorMappingFunction.getValue().apply( mediumState.index ) ) );
     }
 }

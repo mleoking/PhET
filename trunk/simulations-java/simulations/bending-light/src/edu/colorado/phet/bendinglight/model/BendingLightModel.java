@@ -14,10 +14,8 @@ import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import edu.colorado.phet.common.phetcommon.util.Function1;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.util.VoidFunction0;
-import edu.colorado.phet.common.phetcommon.util.VoidFunction1;
+import edu.colorado.phet.common.phetcommon.util.*;
+import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 
 import static java.lang.Math.pow;
 
@@ -42,6 +40,8 @@ public class BendingLightModel {
             return true;
         }
     };
+    public final Function2<Double, Double, Double> environmentDispersion; //(wavelength,mediumBaseIndexOfRefraction) => true index of refraction
+    public final Function2<Double, Double, Double> prismDispersion;
 
     //TODO: some of this code is duplicated with the other instantiations of color mapping function
     public Property<Function1<Double, Color>> colorMappingFunction = new Property<Function1<Double, Color>>( new Function1<Double, Color>() {
@@ -120,6 +120,17 @@ public class BendingLightModel {
                 getLaser().wave.setValue( laserView.getValue() == LaserView.WAVE );// synchronize view and model representations of whether it is wave or not
             }
         } );
+        final Function.LinearFunction dispersionFunction = new Function.LinearFunction( WAVELENGTH_RED, VisibleColor.MAX_WAVELENGTH / 1E9, 0, 0.04 ); // A function that uses the default value for RED, and changes the index of refraction by +/- 0.04
+        environmentDispersion = new Function2<Double, Double, Double>() {
+            public Double apply( Double wavelength, Double mediumBaseIndex ) {
+                return mediumBaseIndex + dispersionFunction.evaluate( wavelength );
+            }
+        };
+        prismDispersion = new Function2<Double, Double, Double>() {
+            public Double apply( Double wavelength, Double mediumBaseIndex ) {
+                return mediumBaseIndex + dispersionFunction.evaluate( wavelength );
+            }
+        };
     }
 
     protected void addRay( LightRay ray ) {

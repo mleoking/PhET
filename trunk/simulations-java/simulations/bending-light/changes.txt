@@ -1,3 +1,4 @@
+Moved dispersion functions to the base model class
 Moved wave sensor to the toolbox
 More tools tab: Moved laser and play area to the right
 Added wires to the amplitude sensor

@@ -15,11 +15,11 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class MediumNode extends PNode {
     public MediumNode( final ModelViewTransform transform, final Property<Medium> medium ) {
-        addChild( new PhetPPath( medium.getValue().getColor() ) {{
+        addChild( new PhetPPath( medium.getValue().color ) {{
             medium.addObserver( new SimpleObserver() {
                 public void update() {
-                    setPathTo( transform.modelToView( medium.getValue().getShape() ) );
-                    final Color color = medium.getValue().getColor();
+                    setPathTo( transform.modelToView( medium.getValue().shape ) );
+                    final Color color = medium.getValue().color;
                     setPaint( new Color( color.getRed(), color.getGreen(), color.getBlue()
 //                            , color.getAlpha()//ignoring alpha, but left in the code in case we go back to it.
                     ) );

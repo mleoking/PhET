@@ -7,9 +7,9 @@ import java.awt.*;
  * @author Sam Reid
  */
 public class Medium {
-    private final Shape shape;
-    private MediumState mediumState;
-    private final Color color;
+    public final Shape shape;
+    private final MediumState mediumState;
+    public final Color color;
 
     public Medium( Shape shape, MediumState mediumState, Color color ) {
         this.shape = shape;
@@ -21,16 +21,8 @@ public class Medium {
         return mediumState.index;
     }
 
-    public Shape getShape() {
-        return shape;
-    }
-
-    public Color getColor() {
-        return color;
-    }
-
     public boolean isMystery() {
-        return mediumState.isMystery();
+        return mediumState.mystery;
     }
 
     public MediumState getMediumState() {

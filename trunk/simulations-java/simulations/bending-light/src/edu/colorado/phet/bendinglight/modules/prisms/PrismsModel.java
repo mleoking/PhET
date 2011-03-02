@@ -11,11 +11,10 @@ import edu.colorado.phet.bendinglight.model.LightRay;
 import edu.colorado.phet.bendinglight.model.Medium;
 import edu.colorado.phet.bendinglight.util.RichSimpleObserver;
 import edu.colorado.phet.bendinglight.view.LaserColor;
-import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.Property;
-import edu.colorado.phet.common.phetcommon.util.Function1;
+import edu.colorado.phet.common.phetcommon.util.Function2;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
@@ -33,8 +32,6 @@ public class PrismsModel extends BendingLightModel {
     public final Property<Boolean> showReflections = new Property<Boolean>( false );//If false, will hide non TIR reflections
     public final ArrayList<Intersection> intersections = new ArrayList<Intersection>();
     public final ArrayList<VoidFunction1<Intersection>> intersectionListeners = new ArrayList<VoidFunction1<Intersection>>();
-    public Function1<Double, Double> environmentIndexOfRefraction;
-    public Function1<Double, Double> prismIndexOfRefraction;
 
     public PrismsModel() {
         super( PI, false, DEFAULT_DIST_FROM_PIVOT * 0.9 );
@@ -43,17 +40,6 @@ public class PrismsModel extends BendingLightModel {
                 updateModel();
             }
         }.observe( environment, prismMedium, manyRays, laser.color, showReflections );
-        final Function.LinearFunction dispersionFunction = new Function.LinearFunction( WAVELENGTH_RED, VisibleColor.MAX_WAVELENGTH / 1E9, 0, 0.04 ); // A function that uses the default value for RED, and changes the index of refraction by +/- 0.04
-        environmentIndexOfRefraction = new Function1<Double, Double>() {
-            public Double apply( Double wavelength ) {
-                return environment.getValue().getIndexOfRefraction() + dispersionFunction.evaluate( wavelength );
-            }
-        };
-        prismIndexOfRefraction = new Function1<Double, Double>() {
-            public Double apply( Double wavelength ) {
-                return prismMedium.getValue().getIndexOfRefraction() + dispersionFunction.evaluate( wavelength );
-            }
-        };
     }
 
     @Override
@@ -146,13 +132,13 @@ public class PrismsModel extends BendingLightModel {
 
             //This can be used to show the main central ray
             if ( !manyRays.getValue() ) {
-                propagateColor( new Ray( tail, directionUnitVector, 1.0, laserInPrism ? prismIndexOfRefraction : environmentIndexOfRefraction, wavelength ) );
+                propagateColor( new Ray( tail, directionUnitVector, 1.0, laserInPrism ? prismDispersion : environmentDispersion, wavelength, laserInPrism ? prismMedium.getValue().getIndexOfRefraction() : environment.getValue().getIndexOfRefraction() ) );
             }
             else {
                 //Many parallel rays
                 for ( double x = -WAVELENGTH_RED; x <= WAVELENGTH_RED * 1.1; x += WAVELENGTH_RED / 2 ) {
                     ImmutableVector2D offsetDir = directionUnitVector.getRotatedInstance( Math.PI / 2 ).getScaledInstance( x );
-                    propagateColor( new Ray( tail.getAddedInstance( offsetDir ), directionUnitVector, 1.0, laserInPrism ? prismIndexOfRefraction : environmentIndexOfRefraction, wavelength ) );
+                    propagateColor( new Ray( tail.getAddedInstance( offsetDir ), directionUnitVector, 1.0, laserInPrism ? prismDispersion : environmentDispersion, wavelength, laserInPrism ? prismMedium.getValue().getIndexOfRefraction() : environment.getValue().getIndexOfRefraction() ) );
                 }
             }
         }
@@ -165,7 +151,7 @@ public class PrismsModel extends BendingLightModel {
             final double max = VisibleColor.MAX_WAVELENGTH / 1E9;
             double dw = ( max - min ) / 16;//This number sets the number of (equally spaced wavelength) rays to show in a white beam.  More rays looks better but is more computationally intensive.
             for ( double wavelength = min; wavelength <= max; wavelength += dw ) {
-                propagate( new Ray( incidentRay.tail, incidentRay.directionUnitVector, incidentRay.power, incidentRay.indexOfRefraction, wavelength ), 0 );
+                propagate( new Ray( incidentRay.tail, incidentRay.directionUnitVector, incidentRay.power, incidentRay.indexOfRefraction, wavelength, incidentRay.mediumIndexOfRefraction ), 0 );
             }
         }
         else {
@@ -187,7 +173,7 @@ public class PrismsModel extends BendingLightModel {
         }
         Intersection intersection = getIntersection( incidentRay, prisms );
         ImmutableVector2D L = incidentRay.directionUnitVector;
-        final double n1 = incidentRay.indexOfRefraction.apply( incidentRay.wavelength );
+        final double n1 = incidentRay.indexOfRefraction.apply( incidentRay.wavelength, incidentRay.mediumIndexOfRefraction );
 
         if ( intersection != null ) {
             ImmutableVector2D pointOnOtherSide = new ImmutableVector2D( intersection.getPoint() ).getAddedInstance( incidentRay.directionUnitVector.getInstanceOfMagnitude( 1E-12 ) );
@@ -197,9 +183,10 @@ public class PrismsModel extends BendingLightModel {
                     outputInsidePrism = true;
                 }
             }
-            Function1<Double, Double> otherMediumIndexOfRefraction = outputInsidePrism ? prismIndexOfRefraction : environmentIndexOfRefraction;
+            Function2<Double, Double, Double> otherMediumIndexOfRefraction = outputInsidePrism ? prismDispersion : environmentDispersion;
+            double otherMediumIndexValue = outputInsidePrism ? prismMedium.getValue().getIndexOfRefraction() : environment.getValue().getIndexOfRefraction();
 
-            final double n2 = otherMediumIndexOfRefraction.apply( incidentRay.wavelength );
+            final double n2 = otherMediumIndexOfRefraction.apply( incidentRay.wavelength, outputInsidePrism ? prismMedium.getValue().getIndexOfRefraction() : environment.getValue().getIndexOfRefraction() );
 
             ImmutableVector2D point = intersection.getPoint();
             ImmutableVector2D n = intersection.getUnitNormal();
@@ -218,8 +205,8 @@ public class PrismsModel extends BendingLightModel {
             final double reflectedPower = totalInternalReflection ? 1 : MathUtil.clamp( 0, getReflectedPower( n1, n2, cosTheta1, cosTheta2 ), 1 );
             final double transmittedPower = totalInternalReflection ? 0 : MathUtil.clamp( 0, getTransmittedPower( n1, n2, cosTheta1, cosTheta2 ), 1 );
 
-            Ray reflected = new Ray( point.getAddedInstance( incidentRay.directionUnitVector.getScaledInstance( -1E-12 ) ), vReflect, incidentRay.power * reflectedPower, incidentRay.indexOfRefraction, incidentRay.wavelength );
-            Ray refracted = new Ray( point.getAddedInstance( incidentRay.directionUnitVector.getScaledInstance( +1E-12 ) ), vRefract, incidentRay.power * transmittedPower, otherMediumIndexOfRefraction, incidentRay.wavelength );
+            Ray reflected = new Ray( point.getAddedInstance( incidentRay.directionUnitVector.getScaledInstance( -1E-12 ) ), vReflect, incidentRay.power * reflectedPower, incidentRay.indexOfRefraction, incidentRay.wavelength, incidentRay.mediumIndexOfRefraction );
+            Ray refracted = new Ray( point.getAddedInstance( incidentRay.directionUnitVector.getScaledInstance( +1E-12 ) ), vRefract, incidentRay.power * transmittedPower, otherMediumIndexOfRefraction, incidentRay.wavelength, otherMediumIndexValue );
             if ( showReflections.getValue() || totalInternalReflection ) {
                 propagate( reflected, count + 1 );
             }

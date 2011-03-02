@@ -31,8 +31,8 @@ public class IntroModel extends BendingLightModel {
         super( PI * 3 / 4, true, DEFAULT_DIST_FROM_PIVOT );
         colorMappingFunction.addObserver( new SimpleObserver() {
             public void update() {
-                topMedium.setValue( new Medium( topMedium.getValue().getShape(), topMedium.getValue().getMediumState(), colorMappingFunction.getValue().apply( topMedium.getValue().getIndexOfRefraction() ) ) );
-                bottomMedium.setValue( new Medium( bottomMedium.getValue().getShape(), bottomMedium.getValue().getMediumState(), colorMappingFunction.getValue().apply( bottomMedium.getValue().getIndexOfRefraction() ) ) );
+                topMedium.setValue( new Medium( topMedium.getValue().shape, topMedium.getValue().getMediumState(), colorMappingFunction.getValue().apply( topMedium.getValue().getIndexOfRefraction() ) ) );
+                bottomMedium.setValue( new Medium( bottomMedium.getValue().shape, bottomMedium.getValue().getMediumState(), colorMappingFunction.getValue().apply( bottomMedium.getValue().getIndexOfRefraction() ) ) );
             }
         } );
         SimpleObserver updateRays = new SimpleObserver() {
