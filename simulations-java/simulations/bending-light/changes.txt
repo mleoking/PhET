@@ -1,3 +1,4 @@
+Fixed: Medium line should go behind the toolbox and tools
 Fixed: Wave mode should change color with wavelength
 Made rays change angle when wavelength changes
 Moved dispersion functions to the base model class
