@@ -32,17 +32,17 @@ import static edu.colorado.phet.bendinglight.view.BendingLightCanvas.labelFont;
  */
 public class MediumControlPanel extends PNode {
 
-    MediumState CUSTOM = new MediumState( "Custom", BendingLightModel.MYSTERY_B.index + 1.2 ) {
-        public boolean isCustom() {
-            return true;
-        }
-    };
+    private final MediumState CUSTOM = new MediumState( "Custom", BendingLightModel.MYSTERY_B.index + 1.2, false, true );
     private final Property<Medium> medium;
     private final Property<Function1<Double, Color>> colorMappingFunction;
     private static final int MIN = 1;
     private static final double MAX = 1.6;
 
-    public MediumControlPanel( final PhetPCanvas phetPCanvas, final Property<Medium> medium, final Property<Function1<Double, Color>> colorMappingFunction, final String name, final boolean textFieldVisible ) {
+    public MediumControlPanel( final PhetPCanvas phetPCanvas,
+                               final Property<Medium> medium,
+                               final Property<Function1<Double, Color>> colorMappingFunction,
+                               final String name,
+                               final boolean textFieldVisible ) {
         this.medium = medium;
         this.colorMappingFunction = colorMappingFunction;
         final MediumState initialMediumState = medium.getValue().getMediumState();
@@ -63,7 +63,7 @@ public class MediumControlPanel extends PNode {
                     addActionListener( new ActionListener() {
                         public void actionPerformed( ActionEvent e ) {
                             MediumState selected = (MediumState) getSelectedItem();
-                            if ( !selected.isCustom() ) {
+                            if ( !selected.custom ) {
                                 setMediumState( selected, medium, colorMappingFunction );
                             }
                         }
