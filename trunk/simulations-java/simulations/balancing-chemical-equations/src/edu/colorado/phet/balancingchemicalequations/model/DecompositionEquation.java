@@ -31,7 +31,7 @@ import edu.colorado.phet.balancingchemicalequations.model.Molecule.SO3;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class DecompositionEquation extends Equation {
+public abstract class DecompositionEquation extends Equation {
 
     private DecompositionEquation( int r1, Molecule reactant1, int p1, Molecule product1, int p2, Molecule product2 ) {
         super( new EquationTerm[] { new EquationTerm( r1, reactant1 ) }, new EquationTerm[] { new EquationTerm( p1, product1 ), new EquationTerm( p2, product2 ) } );
