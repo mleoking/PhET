@@ -6,6 +6,7 @@ import java.awt.geom.*;
 import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.bendinglight.BendingLightApplication;
+import edu.colorado.phet.bendinglight.modules.intro.ToolboxNode;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.Function2;
@@ -14,7 +15,6 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -23,7 +23,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 /**
  * @author Sam Reid
  */
-public class ProtractorNode extends PNode {
+public class ProtractorNode extends ToolboxNode.DoDragNode {
     private final ModelViewTransform transform;
     private final ProtractorModel protractorModel;
     private final BufferedImage image;
