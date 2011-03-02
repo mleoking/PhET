@@ -20,6 +20,7 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
  *
  * @author ?
  * @version $Revision$
+ * @deprecated use ModelViewTransform instead
  */
 public class ModelViewTransform2D {
 
