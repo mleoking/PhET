@@ -1,11 +1,12 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.phetcommon.math;
 
+import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.io.Serializable;
 
 /**
- * ImmutableVector2D represents an (x,y) offset in Cartesian coordinates.  
+ * ImmutableVector2D represents an (x,y) offset in Cartesian coordinates.
  * This class is immutable, which means that it cannot be modified.
  * There is a subclass Vector2D that adds mutable functionality.
  *
@@ -56,11 +57,15 @@ public class ImmutableVector2D implements Serializable {
 
     @Override
     public String toString() {
-        return getClass().getName().replaceAll( ".*\\.", "" ) + "["+x+", "+y+"]";
+        return getClass().getName().replaceAll( ".*\\.", "" ) + "[" + x + ", " + y + "]";
     }
 
     public ImmutableVector2D getAddedInstance( ImmutableVector2D v ) {
         return getAddedInstance( v.getX(), v.getY() );
+    }
+
+    public ImmutableVector2D getAddedInstance( Dimension2D delta ) {
+        return getAddedInstance( delta.getWidth(), delta.getHeight() );
     }
 
     public ImmutableVector2D getAddedInstance( double x, double y ) {
@@ -160,7 +165,7 @@ public class ImmutableVector2D implements Serializable {
         return parseAngleAndMagnitude( getMagnitude(), getAngle() + angle );
     }
 
-    public double getDistance(ImmutableVector2D immutableVector2D){
+    public double getDistance( ImmutableVector2D immutableVector2D ) {
         return getSubtractedInstance( immutableVector2D ).getMagnitude();
     }
 
@@ -169,23 +174,28 @@ public class ImmutableVector2D implements Serializable {
         return vector.getScaledInstance( r );
     }
 
-    public ImmutableVector2D plus(ImmutableVector2D v){
+    public ImmutableVector2D plus( ImmutableVector2D v ) {
         return getAddedInstance( v );
     }
 
-    public ImmutableVector2D minus(ImmutableVector2D v){
+    public ImmutableVector2D plus( Dimension2D v ) {
+        return getAddedInstance( v );
+    }
+
+    public ImmutableVector2D minus( ImmutableVector2D v ) {
         return getSubtractedInstance( v );
     }
 
-    public ImmutableVector2D times(double scale){
+    public ImmutableVector2D times( double scale ) {
         return getScaledInstance( scale );
     }
 
     public static void main( String[] args ) {
-        System.out.println(new ImmutableVector2D( 1,2 ));
-        System.out.println(new Vector2D( 1,2 ));
-        System.out.println(new Vector2D( 1,2 ){{
+        System.out.println( new ImmutableVector2D( 1, 2 ) );
+        System.out.println( new Vector2D( 1, 2 ) );
+        System.out.println( new Vector2D( 1, 2 ) {{
             setX( 3 );
-        }});
+        }} );
     }
+
 }

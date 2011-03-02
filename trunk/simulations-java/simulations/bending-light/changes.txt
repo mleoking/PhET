@@ -1,3 +1,4 @@
+Started support for amplitude sensor
 Made the velocity sensor accessible from the toolbox
 Added a velocity sensor
 Added a wavelength control to the "more tools" tab
