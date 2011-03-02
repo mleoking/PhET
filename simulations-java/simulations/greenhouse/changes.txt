@@ -1,3 +1,5 @@
+# 3.02.00 (49411) Mar 2, 2011
+3/2/11 > New version containing several fixes, see the rest of the change log for details.
 # 3.01.17 (49053) Feb 18, 2011
 2/18/11 > Fixed tool tips on Photon Absorption tab, improved alignment of translated strings.
 # 3.01.16 (48648) Feb 4, 2011
