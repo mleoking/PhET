@@ -113,6 +113,12 @@ public class IsotopeMixturesCanvas extends PhetPCanvas {
                         particleLayer.removeChild( isotopeNode );
                     }
                 }, false);
+                // If the model is portraying "nature's mix" of isotopes,
+                // disallow user interaction with these particles.
+                if ( model.getShowingNaturesMixProperty().getValue() ){
+                    isotopeNode.setPickable( false );
+                    isotopeNode.setChildrenPickable( false );
+                }
             }
         });
 
