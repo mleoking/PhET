@@ -30,16 +30,8 @@ public class BendingLightModel {
     public static final MediumState WATER = new MediumState( "Water", 1.333 );
     public static final MediumState GLASS = new MediumState( "Glass", 1.5 );
     public static final MediumState DIAMOND = new MediumState( "Diamond", 2.419 );
-    public static final MediumState MYSTERY_A = new MediumState( "Mystery A", DIAMOND.index ) {
-        public boolean isMystery() {
-            return true;
-        }
-    };
-    public static final MediumState MYSTERY_B = new MediumState( "Mystery B", 1.4 ) {
-        public boolean isMystery() {
-            return true;
-        }
-    };
+    public static final MediumState MYSTERY_A = new MediumState( "Mystery A", DIAMOND.index, true );
+    public static final MediumState MYSTERY_B = new MediumState( "Mystery B", 1.4, true );
     public final Function2<Double, Double, Double> environmentDispersion; //(wavelength,mediumBaseIndexOfRefraction) => true index of refraction
     public final Function2<Double, Double, Double> prismDispersion;
 
