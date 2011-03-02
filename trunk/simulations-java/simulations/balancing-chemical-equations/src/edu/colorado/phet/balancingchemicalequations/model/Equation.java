@@ -16,29 +16,22 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  */
 public abstract class Equation {
 
-    public final String name;
     public final EquationTerm[] reactants, products;
     public final Property<Boolean> balancedProperty;
     public final Property<Boolean> balancedWithLowestCoefficientsProperty;
 
-    public Equation( final EquationTerm[] reactants, final EquationTerm[] products ) {
-        this( createName( reactants, products ), reactants, products );
-    }
-
     /**
      * Constructor.
-     * @param name user-visible name for the equation
      * @param reactants
      * @param products
      */
-    public Equation( String name, final EquationTerm[] reactants, final EquationTerm[] products ) {
+    public Equation( final EquationTerm[] reactants, final EquationTerm[] products ) {
 
         // check arguments
         if ( !( ( reactants.length > 1 && products.length > 0 ) || ( reactants.length > 0 && products.length > 1 ) ) ) {
             throw new IllegalArgumentException( "equation requires at least 2 reactants and 1 product, or 1 reactant and 2 products" );
         }
 
-        this.name = name;
         this.reactants = reactants;
         this.products = products;
         this.balancedProperty = new Property<Boolean>( false );
@@ -92,8 +85,14 @@ public abstract class Equation {
         balancedProperty.setValue( balanced );
     }
 
+    /**
+     * Gets the display name for the equation.
+     * By default, this is a plaintext representation of the equation, eg "H2 + O2 -> H2O".
+     * Subclasses may override this to provice a more user-friendly name, eg "make water".
+     * @return
+     */
     public String getName() {
-        return name;
+        return createName( reactants, products );
     }
 
     /**

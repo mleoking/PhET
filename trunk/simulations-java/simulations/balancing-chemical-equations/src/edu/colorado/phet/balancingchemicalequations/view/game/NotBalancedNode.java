@@ -13,7 +13,7 @@ import edu.colorado.phet.balancingchemicalequations.BCEStrings;
 import edu.colorado.phet.balancingchemicalequations.control.BalancedRepresentationChoiceNode.BalancedRepresentation;
 import edu.colorado.phet.balancingchemicalequations.model.Equation;
 import edu.colorado.phet.balancingchemicalequations.model.EquationTerm;
-import edu.colorado.phet.balancingchemicalequations.model.TwoReactantsTwoProductsEquation.Equation_CH4_2O2_CO2_2H2O;
+import edu.colorado.phet.balancingchemicalequations.model.SynthesisEquation.Equation_CH4_2O2_CO2_2H2O;
 import edu.colorado.phet.balancingchemicalequations.view.BalanceScalesNode;
 import edu.colorado.phet.balancingchemicalequations.view.BarChartsNode;
 import edu.colorado.phet.balancingchemicalequations.view.HorizontalAligner;
@@ -77,6 +77,7 @@ public class NotBalancedNode extends GameResultNode {
         } );
     }
 
+    // test
     public static void main( String[] args ) {
         PhetPCanvas canvas = new PhetPCanvas( BCEConstants.CANVAS_RENDERING_SIZE );
         canvas.setPreferredSize( new Dimension( 1024, 768 ) );
@@ -92,7 +93,7 @@ public class NotBalancedNode extends GameResultNode {
         }
 
         NotBalancedNode node = new NotBalancedNode( equation, true, BalancedRepresentation.BAR_CHARTS, new HorizontalAligner( new Dimension( 475, 400 ), 90 ) );
-        node.setOffset( 200, 200 );
+        node.setOffset( 20, 200 );
         canvas.addWorldChild( node );
 
         JFrame frame = new JFrame();
