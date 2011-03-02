@@ -79,8 +79,8 @@ public class IntroCanvas extends BendingLightCanvas<IntroModel> {
             final PText title = new PText( "Laser View" ) {{setFont( labelFont );}};
             addChild( title );
             final PSwing radioButtonPanel = new PSwing( new VerticalLayoutPanel() {{
-                add( new PropertyRadioButton<LaserView>( "Ray", laserView, LaserView.RAY ) {{setFont( labelFont );}} );
-                add( new PropertyRadioButton<LaserView>( "Wave", laserView, LaserView.WAVE ) {{setFont( labelFont );}} );
+                add( new PropertyRadioButton<LaserView>( "Ray", model.laserView, LaserView.RAY ) {{setFont( labelFont );}} );
+                add( new PropertyRadioButton<LaserView>( "Wave", model.laserView, LaserView.WAVE ) {{setFont( labelFont );}} );
             }} ) {{
                 setOffset( 0, title.getFullBounds().getMaxY() );
             }};
@@ -101,9 +101,9 @@ public class IntroCanvas extends BendingLightCanvas<IntroModel> {
         }} );
 
         afterLightLayer.addChild( new FloatingClockControlNode( clockRunningPressed, null, model.getClock(), "Reset", new Property<Color>( Color.white ) ) {{
-            laserView.addObserver( new SimpleObserver() {
+            model.laserView.addObserver( new SimpleObserver() {
                 public void update() {
-                    setVisible( laserView.getValue().equals( LaserView.WAVE ) );
+                    setVisible( model.laserView.getValue().equals( LaserView.WAVE ) );
                 }
             } );
             final double dt = model.getClock().getDt();

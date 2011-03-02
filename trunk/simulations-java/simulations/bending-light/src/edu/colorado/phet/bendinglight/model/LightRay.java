@@ -188,4 +188,17 @@ public class LightRay {
     public Shape getOppositeMedium() {
         return oppositeMedium;
     }
+
+    public boolean contains( ImmutableVector2D position, boolean waveMode ) {
+        if ( waveMode ) {
+            return getWaveShape().contains( position.getX(), position.getY() );
+        }
+        else {
+            return new BasicStroke( (float) getRayWidth() ).createStrokedShape( toLine2D() ).contains( position.toPoint2D() );
+        }
+    }
+
+    public double getRayWidth() {
+        return 1.5992063492063494E-7;//At the default transform, this yields a 4 pixel wide stroke
+    }
 }

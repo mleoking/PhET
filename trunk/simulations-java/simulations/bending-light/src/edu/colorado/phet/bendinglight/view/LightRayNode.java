@@ -27,7 +27,7 @@ public class LightRayNode extends PNode {
         this.lightRay = lightRay;
         float powerFraction = (float) lightRay.getPowerFraction();
         Color color = lightRay.getColor();
-        ppath = new PhetPPath( new BasicStroke( 4 ), new Color( color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f, (float) Math.sqrt( powerFraction ) ) ) {{
+        ppath = new PhetPPath( new BasicStroke( (float) transform.modelToViewDeltaX( lightRay.getRayWidth() ) ), new Color( color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f, (float) Math.sqrt( powerFraction ) ) ) {{
             lightRay.addObserver( new SimpleObserver() {
                 public void update() {
                     final Point2D.Double start = lightRay.tip.getValue().toPoint2D();

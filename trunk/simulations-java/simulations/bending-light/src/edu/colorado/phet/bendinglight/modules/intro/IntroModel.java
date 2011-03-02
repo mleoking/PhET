@@ -9,6 +9,7 @@ import edu.colorado.phet.bendinglight.model.BendingLightModel;
 import edu.colorado.phet.bendinglight.model.LightRay;
 import edu.colorado.phet.bendinglight.model.Medium;
 import edu.colorado.phet.bendinglight.model.Reading;
+import edu.colorado.phet.bendinglight.view.LaserView;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -105,9 +106,7 @@ public class IntroModel extends BendingLightModel {
 
                         final LightRay transmittedRay = new LightRay( new ImmutableVector2D(),
                                                                       parseAngleAndMagnitude( 1, theta2 - Math.PI / 2 ), n2, transmittedWavelength,
-                                                                      transmittedPowerRatio * sourcePower, color, transmittedWaveWidth, incidentRay.getNumberOfWavelengths(), top, 0.0, true, true ) {
-
-                        };
+                                                                      transmittedPowerRatio * sourcePower, color, transmittedWaveWidth, incidentRay.getNumberOfWavelengths(), top, 0.0, true, true );
                         addAndAbsorb( transmittedRay );
                     }
                 }
@@ -156,5 +155,14 @@ public class IntroModel extends BendingLightModel {
         super.resetAll();
         topMedium.reset();
         bottomMedium.reset();
+    }
+
+    protected double getSpeed( ImmutableVector2D position ) {
+        for ( LightRay ray : rays ) {
+            if ( ray.contains( position, laserView.getValue() == LaserView.WAVE ) ) {
+                return ray.getSpeed();
+            }
+        }
+        return Double.NaN;
     }
 }
