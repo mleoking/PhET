@@ -381,12 +381,24 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
     private void showNaturesMix(){
         if ( naturesMixOfIsotopes.size() == 0 ){
             // This is the first time that nature's mix has been shown since
-            // the user selected the current element, so populate the list.
-            double totalNumIsotopes = 1000;  // TODO: Make this a constant if actually used.
-            for ( ImmutableAtom isotopeConfig : getPossibleIsotopesProperty().getValue() ){
+            // the user selected the current element, so the isotope instances
+            // need to be created.
+            int totalNumIsotopes = 1000;  // TODO: Make this a constant if actually used.
+
+            // Get the list of possible isotopes and then sort it by abundance
+            // so that the least abundant are added last, thus assuring that
+            // they will be visible.
+            ArrayList<ImmutableAtom> possibleIsotopesCopy = new ArrayList<ImmutableAtom>(getPossibleIsotopesProperty().getValue());
+            Collections.sort( possibleIsotopesCopy,  new Comparator<IAtom>(){
+                    public int compare( IAtom atom2, IAtom atom1 ) {
+                        return new Double(AtomIdentifier.getNaturalAbundance( atom1 )).compareTo( AtomIdentifier.getNaturalAbundance( atom2 ) );
+                    }
+                } );
+
+            for ( ImmutableAtom isotopeConfig : possibleIsotopesCopy ){
                 int numToCreate = (int)Math.round( totalNumIsotopes * AtomIdentifier.getNaturalAbundance( isotopeConfig ) );
                 if ( numToCreate == 0 ){
-                    System.out.println("Warning, quantity at zero for " + AtomIdentifier.getName( isotopeConfig ) + "-" + isotopeConfig.getMassNumber());
+                    System.err.println("Warning, quantity at zero for " + AtomIdentifier.getName( isotopeConfig ) + "-" + isotopeConfig.getMassNumber());
                     numToCreate = 1;
                 }
                 for ( int i = 0; i < numToCreate; i++){
