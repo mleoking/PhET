@@ -32,7 +32,7 @@ public class PrismNode extends PNode {
             } );
             prismMedium.addObserver( new SimpleObserver() {
                 public void update() {
-                    final Color color = prismMedium.getValue().getColor();
+                    final Color color = prismMedium.getValue().color;
                     Function1<Integer, Integer> darker = new Function1<Integer, Integer>() {
                         public Integer apply( Integer value ) {
                             return Math.min( value - 28, 255 );
