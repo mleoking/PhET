@@ -37,7 +37,8 @@ public class LightWaveNode extends PNode {
         final ImmutableVector2D directionVector = transform.modelToViewDelta( lightRay.toVector2D() ).getNormalizedInstance();
         final ImmutableVector2D waveVector = directionVector.getScaledInstance( viewWavelength );
 
-        final Color red = new Color( 1f, 0, 0, (float) Math.sqrt( lightRay.getPowerFraction() ) );
+        Color color = lightRay.getColor();
+        final Color red = new Color( color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f, (float) Math.sqrt( lightRay.getPowerFraction() ) );
         final Color black = new Color( 0, 0, 0, (float) Math.sqrt( lightRay.getPowerFraction() ) );
 
         //For debugging the phase of the transmitted wave
