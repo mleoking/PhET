@@ -249,8 +249,8 @@ public class Body implements IBodyColors {
     }
 
     public void allBodiesUpdated() {
-        //Only add to the path if the object hasn't collided
-        if ( !collidedProperty.getValue() ) {
+        //Only add to the path if the object hasn't collided and if the user isn't dragging it
+        if ( !collidedProperty.getValue() && !isUserControlled() ) {
             addPathPoint();
         }
     }
