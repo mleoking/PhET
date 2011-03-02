@@ -197,74 +197,11 @@ public class MembraneChannelsControlPanel extends ControlPanel {
         potassiumGatedChannelControlButton.setEnabled( model.getNumGatedPotassiumChannels() > 0 );
 
         // Update the icon and the text.
-        sodiumGatedChannelControlButton.setIcon(
-                createButtonLabelImage( MembraneChannelTypes.SODIUM_GATED_CHANNEL,
+        sodiumGatedChannelControlButton.setIcon( new ChannelControlButtonIcon( MembraneChannelTypes.SODIUM_GATED_CHANNEL,
                 model.getGatedSodiumChannelOpenness() > 0.5 ) );
 
-        potassiumGatedChannelControlButton.setIcon(
-                createButtonLabelImage( MembraneChannelTypes.POTASSIUM_GATED_CHANNEL,
+        potassiumGatedChannelControlButton.setIcon( new ChannelControlButtonIcon( MembraneChannelTypes.POTASSIUM_GATED_CHANNEL,
                 model.getGatedPotassiumChannelOpenness() > 0.5 ) );
-    }
-
-    private ImageIcon createButtonLabelImage( MembraneChannelTypes channelType, boolean open ){
-        String channelImageName;
-        final PNode particleNode;
-        String directionText;
-        ModelViewTransform2D mvt = new ModelViewTransform2D( new Point2D.Double( 0, 0 ), new Point2D.Double( 0, 0 ), 7, false );
-        if (channelType == MembraneChannelTypes.POTASSIUM_GATED_CHANNEL ){
-            particleNode = new ParticleNode(new PotassiumIon(), mvt);
-            if ( open ){
-                channelImageName = "blue_gate_close_icon.png";
-                // TODO: i18n
-                directionText = "Close";
-            }
-            else{
-                channelImageName = "blue_gate_open_icon.png";
-                // TODO: i18n
-                directionText = "Open";
-            }
-        }
-        else {
-            // Assume sodium.
-            particleNode = new ParticleNode(new SodiumIon(), mvt);
-            if ( open ){
-                channelImageName = "green_gate_close_icon.png";
-                // TODO: i18n
-                directionText = "Close";
-            }
-            else{
-                channelImageName = "green_gate_open_icon.png";
-                // TODO: i18n
-                directionText = "Open";
-            }
-        }
-        final PNode channelImageNode = new PImage( MembraneChannelsResources.getImage( channelImageName ) );
-        final PNode directionTextNode = new PText( directionText ){{
-            setFont( new PhetFont( 12 ) );
-        }};
-        // TODO: i18n
-        final PNode channelTextNode = new PText( "channels" ){{
-            setFont( new PhetFont( 12 ) );
-        }};
-
-        PNode container = new PNode(){{
-            // Put all the pieces together in one place.  There are some
-            // "tweak factors" in here, adjust as needed for optimal look.
-            addChild( channelImageNode );
-            directionTextNode.setOffset(
-                    channelImageNode.getFullBoundsReference().getMaxX() + 4,
-                    channelImageNode.getFullBoundsReference().getCenterY() - directionTextNode.getFullBoundsReference().height / 2 );
-            addChild( directionTextNode );
-            particleNode.setOffset(
-                    directionTextNode.getFullBoundsReference().getMaxX() + 10,
-                    channelImageNode.getFullBoundsReference().getCenterY());
-            addChild( particleNode );
-            channelTextNode.setOffset(
-                    particleNode.getFullBoundsReference().getMaxX() + 4,
-                    channelImageNode.getFullBoundsReference().getCenterY() - channelTextNode.getFullBoundsReference().height / 2 );
-            addChild( channelTextNode );
-        }};
-        return new ImageIcon( container.toImage() );
     }
 
     private void updateClearParticlesButton(){
@@ -315,6 +252,75 @@ public class MembraneChannelsControlPanel extends ControlPanel {
         public void removedFromModel() {
             particle.removeListener( this );
             membraneChannelsControlPanel.updateClearParticlesButton();
+        }
+    }
+
+    /**
+     * Helper class for creating the label for the buttons that control
+     * whether the channels are open or closed.  This uses Piccolo2D as a
+     * way to easily put text and images together into a single image.
+     */
+    private static class ChannelControlButtonIcon extends ImageIcon{
+        ChannelControlButtonIcon( MembraneChannelTypes channelType, boolean open ){
+            // Create the various pieces that make up the icon.
+            String channelImageName;
+            final PNode particleNode;
+            String directionText;
+            ModelViewTransform2D mvt = new ModelViewTransform2D( new Point2D.Double( 0, 0 ), new Point2D.Double( 0, 0 ), 7, false );
+            if (channelType == MembraneChannelTypes.POTASSIUM_GATED_CHANNEL ){
+                particleNode = new ParticleNode(new PotassiumIon(), mvt);
+                if ( open ){
+                    channelImageName = "blue_gate_close_icon.png";
+                    // TODO: i18n
+                    directionText = "Close";
+                }
+                else{
+                    channelImageName = "blue_gate_open_icon.png";
+                    // TODO: i18n
+                    directionText = "Open";
+                }
+            }
+            else {
+                // Assume sodium.
+                particleNode = new ParticleNode(new SodiumIon(), mvt);
+                if ( open ){
+                    channelImageName = "green_gate_close_icon.png";
+                    // TODO: i18n
+                    directionText = "Close";
+                }
+                else{
+                    channelImageName = "green_gate_open_icon.png";
+                    // TODO: i18n
+                    directionText = "Open";
+                }
+            }
+            final PNode channelImageNode = new PImage( MembraneChannelsResources.getImage( channelImageName ) );
+            final PNode directionTextNode = new PText( directionText ){{
+                setFont( new PhetFont( 12 ) );
+            }};
+            // TODO: i18n
+            final PNode channelTextNode = new PText( "channels" ){{
+                setFont( new PhetFont( 12 ) );
+            }};
+
+            PNode container = new PNode(){{
+                // Put all the pieces together in one place.  There are some
+                // "tweak factors" in here, adjust as needed for optimal look.
+                addChild( channelImageNode );
+                directionTextNode.setOffset(
+                        channelImageNode.getFullBoundsReference().getMaxX() + 4,
+                        channelImageNode.getFullBoundsReference().getCenterY() - directionTextNode.getFullBoundsReference().height / 2 );
+                addChild( directionTextNode );
+                particleNode.setOffset(
+                        directionTextNode.getFullBoundsReference().getMaxX() + 10,
+                        channelImageNode.getFullBoundsReference().getCenterY());
+                addChild( particleNode );
+                channelTextNode.setOffset(
+                        particleNode.getFullBoundsReference().getMaxX() + 4,
+                        channelImageNode.getFullBoundsReference().getCenterY() - channelTextNode.getFullBoundsReference().height / 2 );
+                addChild( channelTextNode );
+            }};
+            setImage( container.toImage() );
         }
     }
 }
