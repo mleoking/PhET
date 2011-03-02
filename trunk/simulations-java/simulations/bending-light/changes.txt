@@ -1,3 +1,4 @@
+Made the velocity sensor accessible from the toolbox
 Added a velocity sensor
 Added a wavelength control to the "more tools" tab
 Added stub for new "more tools" tab

@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 
+import edu.colorado.phet.bendinglight.modules.moretools.MoreToolsModel;
 import edu.colorado.phet.bendinglight.view.*;
 import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.Property;
@@ -91,7 +92,7 @@ public class IntroCanvas extends BendingLightCanvas<IntroModel> {
             setOffset( 5, 5 );
         }} );
 
-        final ControlPanelNode toolbox = new ControlPanelNode( new ToolboxNode( this, transform, showProtractor, showNormal, model.getIntensityMeter() ) ) {{
+        final ControlPanelNode toolbox = new ControlPanelNode( new ToolboxNode( this, transform, showProtractor, showNormal, model.getIntensityMeter(), ( model instanceof MoreToolsModel ) ? ( (MoreToolsModel) model ).velocitySensor : null ) ) {{
             setOffset( 10, stageSize.height - getFullBounds().getHeight() - 10 );
         }};
         beforeLightLayer.addChild( toolbox );

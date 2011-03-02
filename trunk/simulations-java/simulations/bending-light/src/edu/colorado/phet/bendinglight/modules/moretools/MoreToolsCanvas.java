@@ -4,7 +4,6 @@ package edu.colorado.phet.bendinglight.modules.moretools;
 import edu.colorado.phet.bendinglight.modules.intro.IntroCanvas;
 import edu.colorado.phet.bendinglight.modules.intro.IntroModel;
 import edu.colorado.phet.bendinglight.view.BendingLightWavelengthControl;
-import edu.colorado.phet.bendinglight.view.VelocitySensorNode;
 import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.util.Function3;
@@ -22,6 +21,5 @@ public class MoreToolsCanvas extends IntroCanvas {
                 }};
             }
         } );
-        addChild( new VelocitySensorNode( transform, model.velocitySensor ) );
     }
 }

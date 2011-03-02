@@ -5,23 +5,20 @@ import java.awt.*;
 import java.awt.geom.Area;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import edu.colorado.phet.bendinglight.BendingLightApplication;
 import edu.colorado.phet.bendinglight.model.IntensityMeter;
-import edu.colorado.phet.bendinglight.view.BendingLightCanvas;
-import edu.colorado.phet.bendinglight.view.IntensityMeterNode;
-import edu.colorado.phet.bendinglight.view.ProtractorModel;
-import edu.colorado.phet.bendinglight.view.ProtractorNode;
+import edu.colorado.phet.bendinglight.model.VelocitySensor;
+import edu.colorado.phet.bendinglight.view.*;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.Function2;
+import edu.colorado.phet.common.phetcommon.util.Function3;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
-import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -31,40 +28,25 @@ import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
+import static edu.colorado.phet.bendinglight.BendingLightApplication.RESOURCES;
 import static edu.colorado.phet.bendinglight.model.BendingLightModel.WAVELENGTH_RED;
+import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.multiScaleToWidth;
 
 /**
  * @author Sam Reid
  */
 public class ToolboxNode extends PNode {
     public ToolboxNode( final BendingLightCanvas canvas, final ModelViewTransform transform,
-                        final BooleanProperty showProtractor, BooleanProperty showNormal, final IntensityMeter intensityMeter ) {
+                        final BooleanProperty showProtractor, BooleanProperty showNormal, final IntensityMeter intensityMeter, final VelocitySensor velocitySensor ) {
         final PText titleLabel = new PText( "Toolbox" ) {{
             setFont( BendingLightCanvas.labelFont );
         }};
         addChild( titleLabel );
         final int ICON_WIDTH = 110;
-        final BufferedImage image = BufferedImageUtils.multiScaleToWidth( BendingLightApplication.RESOURCES.getImage( "protractor.png" ), ICON_WIDTH );
-        final PImage protractor = new PImage( image ) {{
-            showProtractor.addObserver( new SimpleObserver() {
-                public void update() {
-                    setVisible( !showProtractor.getValue() );
-                }
-            } );
-            final PImage protractorThumbRef = this;
-            setOffset( 0, titleLabel.getFullBounds().getMaxY() + 4 );
-            addInputEventListener( new PBasicInputEventHandler() {
-                ProtractorNode node = null;
-                boolean intersect = false;
-
-                @Override
-                public void mousePressed( PInputEvent event ) {
-                    showProtractor.setValue( true );
-                    setVisible( false );
-                    if ( node == null ) {
-                        final Point2D positionRelativeTo = event.getPositionRelativeTo( getParent().getParent().getParent() );//why?
-                        Point2D model = transform.viewToModel( positionRelativeTo );
-                        node = new ProtractorNode( transform, showProtractor, new ProtractorModel( model.getX(), model.getY() ), new Function2<Shape, Shape, Shape>() {
+        final PNode protractor = new Tool( multiScaleToWidth( RESOURCES.getImage( "protractor.png" ), ICON_WIDTH ), showProtractor, titleLabel.getFullBounds().getMaxY() + 4,
+                                           transform, this, canvas, new Function3<ModelViewTransform, Property<Boolean>, Point2D, DoDragNode>() {
+                    public DoDragNode apply( ModelViewTransform transform, Property<Boolean> showTool, Point2D model ) {
+                        return new ProtractorNode( transform, showTool, new ProtractorModel( model.getX(), model.getY() ), new Function2<Shape, Shape, Shape>() {
                             public Shape apply( Shape innerBar, final Shape outerCircle ) {
                                 return new Area( innerBar ) {{add( new Area( outerCircle ) );}};
                             }
@@ -73,46 +55,31 @@ public class ToolboxNode extends PNode {
                                 return new Rectangle2D.Double( 0, 0, 0, 0 );//empty shape since shouldn't be rotatable in this tab
                             }
                         }, 1 );
-                        final PropertyChangeListener pcl = new PropertyChangeListener() {
-                            public void propertyChange( PropertyChangeEvent evt ) {
-                                intersect = ToolboxNode.this.getGlobalFullBounds().contains( node.getGlobalFullBounds().getCenter2D() );
-                            }
-                        };
-                        node.addPropertyChangeListener( PROPERTY_FULL_BOUNDS, pcl );
-                        node.addInputEventListener( new PBasicInputEventHandler() {
-                            public void mouseReleased( PInputEvent event ) {
-                                if ( intersect ) {
-                                    showProtractor.setValue( false );
-                                    protractorThumbRef.setVisible( true );
-                                    node.removePropertyChangeListener( pcl );
-                                    canvas.removeChild( node );
-                                    node = null;
-                                }
-                            }
-                        } );
-
-                        canvas.addChild( node );
                     }
-                }
-
-                public void mouseDragged( PInputEvent event ) {
-                    node.doDrag( event );
-                }
-
-                //This is when the user drags the object out of the toolbox then drops it right back in the toolbox.
-                public void mouseReleased( PInputEvent event ) {
-                    if ( intersect ) {
-                        showProtractor.setValue( false );
-                        protractorThumbRef.setVisible( true );
-                        canvas.removeChild( node );
-                        node = null;
-                        //TODO: how to remove pcl?
-                    }
-                }
-            } );
-            addInputEventListener( new CursorHandler() );
-        }};
+                } );
         addChild( protractor );
+        PNode bottomTool = protractor;
+
+        if ( velocitySensor != null ) {
+            final VelocitySensorNode velocitySensorNode = new VelocitySensorNode( transform, new VelocitySensor() );
+            Property<Boolean> showVelocitySensor = new Property<Boolean>( false );
+            final PNode velocitySensorX = new Tool( velocitySensorNode.toImage( ICON_WIDTH, (int) ( velocitySensorNode.getFullBounds().getHeight() / velocitySensorNode.getFullBounds().getWidth() * ICON_WIDTH ), new Color( 0, 0, 0, 0 ) ),
+                                                    showVelocitySensor, protractor.getFullBounds().getMaxY() + 4,
+                                                    transform, this, canvas, new Function3<ModelViewTransform, Property<Boolean>, Point2D, DoDragNode>() {
+                        public DoDragNode apply( ModelViewTransform transform, final Property<Boolean> showTool, final Point2D model ) {
+                            velocitySensor.position.setValue( new ImmutableVector2D( model ) );
+                            return new VelocitySensorNode( transform, velocitySensor ) {{
+                                showTool.addObserver( new SimpleObserver() {
+                                    public void update() {
+                                        setVisible( showTool.getValue() );
+                                    }
+                                } );
+                            }};
+                        }
+                    } );
+            addChild( velocitySensorX );
+            bottomTool = velocitySensorX;
+        }
 
         //TODO: some constants copied from BendingLightModel
         //TODO: functionality and some code copied from protractor toolbox item above
@@ -123,6 +90,7 @@ public class ToolboxNode extends PNode {
         }} );
 //        int sensorIconHeight = (int) ( 100.0 * iconNode.getFullBounds().getWidth() / iconNode.getFullBounds().getHeight() );
         int sensorIconHeight = (int) ( iconNode.getFullBounds().getHeight() / iconNode.getFullBounds().getWidth() * ICON_WIDTH );
+        final PNode finalBottomTool = bottomTool;
         final PImage sensorThumbnail = new PImage( iconNode.toImage( ICON_WIDTH, sensorIconHeight, new Color( 0, 0, 0, 0 ) ) ) {{
             final PImage sensorThumbnailRef = this;
             addInputEventListener( new PBasicInputEventHandler() {
@@ -192,7 +160,7 @@ public class ToolboxNode extends PNode {
                 }
             } );
             addInputEventListener( new CursorHandler() );
-            setOffset( 0, protractor.getFullBounds().getMaxY() );
+            setOffset( 0, finalBottomTool.getFullBounds().getMaxY() );
         }};
         addChild( sensorThumbnail );
 
@@ -207,5 +175,74 @@ public class ToolboxNode extends PNode {
         addChild( showNormalCheckBox );
         addChild( normalLineThumbnail );
         titleLabel.setOffset( getFullBounds().getWidth() / 2 - titleLabel.getFullBounds().getWidth() / 2, 0 );
+    }
+
+    public abstract static class DoDragNode extends PNode {
+        public abstract void doDrag( PInputEvent event );
+    }
+
+    private static class Tool extends PNode {
+        private Tool( Image thumbnail, final Property<Boolean> showTool, final double y, final ModelViewTransform transform, final ToolboxNode toolbox, final BendingLightCanvas canvas,
+                      final Function3<ModelViewTransform, Property<Boolean>, Point2D, DoDragNode> nodeMaker ) {
+            final PImage thumbnailIcon = new PImage( thumbnail ) {{
+                showTool.addObserver( new SimpleObserver() {
+                    public void update() {
+                        setVisible( !showTool.getValue() );
+                    }
+                } );
+                final PImage thumbRef = this;
+                setOffset( 0, y );
+                addInputEventListener( new PBasicInputEventHandler() {
+                    DoDragNode node = null;
+                    boolean intersect = false;
+
+                    @Override
+                    public void mousePressed( PInputEvent event ) {
+                        showTool.setValue( true );
+                        setVisible( false );
+                        if ( node == null ) {
+                            node = nodeMaker.apply( transform, showTool, transform.viewToModel( event.getPositionRelativeTo( getParent().getParent().getParent().getParent() ) ) );
+                            final PropertyChangeListener pcl = new PropertyChangeListener() {
+                                public void propertyChange( PropertyChangeEvent evt ) {
+                                    intersect = toolbox.getGlobalFullBounds().contains( node.getGlobalFullBounds().getCenter2D() );
+                                }
+                            };
+                            node.addPropertyChangeListener( PROPERTY_FULL_BOUNDS, pcl );
+                            node.addInputEventListener( new PBasicInputEventHandler() {
+                                public void mouseReleased( PInputEvent event ) {
+                                    if ( intersect ) {
+                                        showTool.setValue( false );
+                                        thumbRef.setVisible( true );
+                                        node.removePropertyChangeListener( pcl );
+                                        canvas.removeChild( node );
+                                        node = null;
+                                    }
+                                }
+                            } );
+
+                            canvas.addChild( node );
+                        }
+                    }
+
+                    public void mouseDragged( PInputEvent event ) {
+                        node.doDrag( event );
+                    }
+
+                    //This is when the user drags the object out of the toolbox then drops it right back in the toolbox.
+                    public void mouseReleased( PInputEvent event ) {
+                        if ( intersect ) {
+                            showTool.setValue( false );
+                            thumbRef.setVisible( true );
+                            canvas.removeChild( node );
+                            node = null;
+                            //TODO: how to remove pcl?
+                        }
+                    }
+                } );
+                addInputEventListener( new CursorHandler() );
+            }};
+
+            addChild( thumbnailIcon );
+        }
     }
 }
