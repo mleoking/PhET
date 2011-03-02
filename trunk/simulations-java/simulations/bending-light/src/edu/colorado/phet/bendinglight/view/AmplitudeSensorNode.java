@@ -17,6 +17,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
 
 import static edu.colorado.phet.bendinglight.BendingLightApplication.RESOURCES;
+import static java.awt.Color.white;
 
 /**
  * @author Sam Reid
@@ -28,7 +29,7 @@ public class AmplitudeSensorNode extends ToolboxNode.DoDragNode {
     public AmplitudeSensorNode( final ModelViewTransform transform, final AmplitudeSensor amplitudeSensor ) {
         this.transform = transform;
         this.amplitudeSensor = amplitudeSensor;
-        final Rectangle titleBounds = new Rectangle( 18, 10, 96 - 18, 32 - 10 );
+        final Rectangle titleBounds = new Rectangle( 63, 90, 37, 14 );
         final PImage bodyNode = new PImage( RESOURCES.getImage( "wave_detector_box.png" ) ) {{
             addInputEventListener( new CursorHandler() );
             addInputEventListener( new PBasicInputEventHandler() {
@@ -43,6 +44,11 @@ public class AmplitudeSensorNode extends ToolboxNode.DoDragNode {
                     setOffset( viewPoint.getX() - getFullBounds().getWidth() / 2, viewPoint.getY() - getFullBounds().getHeight() );
                 }
             } );
+            addChild( new PText( "Time" ) {{
+                setFont( new PhetFont( 18 ) );
+                setTextPaint( white );
+                setOffset( titleBounds.getCenterX() - getFullBounds().getWidth() / 2, titleBounds.getCenterY() - getFullBounds().getHeight() / 2 );
+            }} );
         }};
 
         class ProbeNode extends PNode {
@@ -70,13 +76,6 @@ public class AmplitudeSensorNode extends ToolboxNode.DoDragNode {
         addChild( bodyNode );
         addChild( probe1Node );
         addChild( probe2Node );
-        addChild( new PText( "Speed" ) {{
-            setFont( new PhetFont( 22 ) );
-            setOffset( titleBounds.getCenterX() - getFullBounds().getWidth() / 2, titleBounds.getCenterY() - getFullBounds().getHeight() / 2 );
-        }} );
-
-        //Copied from similar code in IntensityMeterNode
-
     }
 
     @Override
