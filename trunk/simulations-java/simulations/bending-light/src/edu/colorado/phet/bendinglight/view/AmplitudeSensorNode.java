@@ -44,7 +44,6 @@ public class AmplitudeSensorNode extends ToolboxNode.DoDragNode {
                 }
             } );
         }};
-        addChild( bodyNode );
 
         class ProbeNode extends PNode {
             public ProbeNode( final AmplitudeSensor.Probe probe, String imageName ) {
@@ -64,13 +63,20 @@ public class AmplitudeSensorNode extends ToolboxNode.DoDragNode {
                 } );
             }
         }
-        addChild( new ProbeNode( amplitudeSensor.probe1, "wave_detector_probe_dark.png" ) );
-        addChild( new ProbeNode( amplitudeSensor.probe2, "wave_detector_probe_light.png" ) );
-
+        final ProbeNode probe1Node = new ProbeNode( amplitudeSensor.probe1, "wave_detector_probe_dark.png" );
+        final ProbeNode probe2Node = new ProbeNode( amplitudeSensor.probe2, "wave_detector_probe_light.png" );
+        addChild( new WireNode( probe1Node, bodyNode, new Color( 92, 93, 95 ) ) );//color taken from the image
+        addChild( new WireNode( probe2Node, bodyNode, new Color( 204, 206, 208 ) ) );
+        addChild( bodyNode );
+        addChild( probe1Node );
+        addChild( probe2Node );
         addChild( new PText( "Speed" ) {{
             setFont( new PhetFont( 22 ) );
             setOffset( titleBounds.getCenterX() - getFullBounds().getWidth() / 2, titleBounds.getCenterY() - getFullBounds().getHeight() / 2 );
         }} );
+
+        //Copied from similar code in IntensityMeterNode
+
     }
 
     @Override
