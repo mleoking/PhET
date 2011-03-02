@@ -64,7 +64,7 @@ public class IntroCanvas extends BendingLightCanvas<IntroModel> {
         }} );
 
         //add a line that will show the border between the mediums even when both n's are the same... Just a thin line will be fine.
-        afterLightLayer.addChild( new PhetPPath( transform.modelToView( new Line2D.Double( -1, 0, 1, 0 ) ), new BasicStroke( 0.5f ), Color.gray ) {{
+        beforeLightLayer.addChild( new PhetPPath( transform.modelToView( new Line2D.Double( -1, 0, 1, 0 ) ), new BasicStroke( 0.5f ), Color.gray ) {{
             setPickable( false );
         }} );
 
