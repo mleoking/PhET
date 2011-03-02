@@ -52,7 +52,7 @@ public class GameModel {
     public GameModel( final BCEGlobalProperties globalProperties ) {
         gameStateProperty = new Property<GameState>( GameState.START_GAME );
         pointsProperty = new Property<Integer>( 0 );
-        equationsFactory = new GameEquationsFactory( globalProperties.getPlayAllEquationsProperty() );
+        equationsFactory = new GameEquationsFactory( globalProperties.playAllEquations );
         gameSettings = new GameSettings( LEVELS_RANGE, true /* sound */, true /* timer */ );
         bestTimes = new HashMap<Integer,Long>();
         for ( int i = gameSettings.level.getMin(); i <= gameSettings.level.getMax(); i++ ) {

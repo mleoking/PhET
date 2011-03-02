@@ -25,7 +25,7 @@ public class BalancingChemicalEquationsApplication extends PiccoloPhetApplicatio
         super( config );
 
         // Global settings
-        BCEGlobalProperties globalProperties = new BCEGlobalProperties( getPhetFrame(), config.isDev() );
+        BCEGlobalProperties globalProperties = new BCEGlobalProperties( getPhetFrame() );
 
         // modules
         addModule( new IntroductionModule( globalProperties ) );
@@ -38,10 +38,10 @@ public class BalancingChemicalEquationsApplication extends PiccoloPhetApplicatio
         JMenu developerMenu = getPhetFrame().getDeveloperMenu();
         developerMenu.add( new JSeparator() );
         developerMenu.add( new DeveloperColorsMenuItem( globalProperties ) );
-        developerMenu.add( new PropertyCheckBoxMenuItem( "Show answers", globalProperties.getShowAnswersProperty() ) );
+        developerMenu.add( new PropertyCheckBoxMenuItem( "Show answers", globalProperties.showAnswers ) );
         developerMenu.add( new JSeparator() );
-        developerMenu.add( new PropertyCheckBoxMenuItem( "Game: show charts/scales", globalProperties.getShowChartsAndScalesInGameProperty() ) );
-        developerMenu.add( new PropertyCheckBoxMenuItem( "Game: play all equations", globalProperties.getPlayAllEquationsProperty() ) );
+        developerMenu.add( new PropertyCheckBoxMenuItem( "Game: show charts/scales", globalProperties.showChartsAndScalesInGame ) );
+        developerMenu.add( new PropertyCheckBoxMenuItem( "Game: play all equations", globalProperties.playAllEquations ) );
     }
 
     public static void main( final String[] args ) throws ClassNotFoundException {

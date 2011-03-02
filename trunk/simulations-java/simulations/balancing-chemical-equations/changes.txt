@@ -1,3 +1,4 @@
+3/2/11 simplify global properties by making them "public static final" and deleting getters
 3/2/11 add "Developer->Game: play all equations" menu item, allows you to play all equations for a Game level
 3/2/11 change order of equations in GameEquationFactory to match order in the design doc
 3/2/11 add separators in Developer menu

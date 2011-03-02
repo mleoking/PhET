@@ -18,8 +18,8 @@ public class IntroductionModule extends BCEModule {
     private final IntroductionCanvas canvas;
 
     public IntroductionModule( BCEGlobalProperties globalProperties ) {
-        super( globalProperties.getFrame(), BCEStrings.INTRODUCTION, new BCEClock(), true /* startsPaused */ );
-        model = new IntroductionModel( globalProperties.isDev() );
+        super( BCEStrings.INTRODUCTION, new BCEClock(), true /* startsPaused */ );
+        model = new IntroductionModel();
         canvas = new IntroductionCanvas( model, globalProperties, this );
         setSimulationPanel( canvas );
     }

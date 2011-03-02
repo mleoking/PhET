@@ -25,7 +25,7 @@ public class IntroductionModel {
     private final ArrayList<Equation> equations;
     private Property<Equation> currentEquationProperty;
 
-    public IntroductionModel( final boolean dev ) {
+    public IntroductionModel() {
         equations = new ArrayList<Equation>() {{
             add( new Equation_N2_3H2_2NH3() );
             add( new Equation_2H2O_2H2_O2() );
