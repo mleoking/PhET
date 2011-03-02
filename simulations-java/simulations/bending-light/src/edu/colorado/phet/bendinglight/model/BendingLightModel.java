@@ -8,6 +8,7 @@ import java.util.List;
 
 import edu.colorado.phet.bendinglight.util.RichSimpleObserver;
 import edu.colorado.phet.bendinglight.view.LaserColor;
+import edu.colorado.phet.bendinglight.view.LaserView;
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
@@ -24,6 +25,7 @@ public class BendingLightModel {
     protected static final double DEFAULT_DIST_FROM_PIVOT = 8.125E-6;
     protected final List<LightRay> rays = new LinkedList<LightRay>();
     private ConstantDtClock clock;
+    public final Property<LaserView> laserView = new Property<LaserView>( LaserView.RAY );
 
     public static final MediumState VACUUM = new MediumState( "Vacuum", 1.0 );
     public static final MediumState AIR = new MediumState( "Air", 1.000293 );
@@ -103,7 +105,7 @@ public class BendingLightModel {
             public void update() {
                 updateModel();
             }
-        }.observe( laser.on, laser.pivot, laser.emissionPoint, intensityMeter.sensorPosition, intensityMeter.enabled, laser.color );
+        }.observe( laser.on, laser.pivot, laser.emissionPoint, intensityMeter.sensorPosition, intensityMeter.enabled, laser.color, laserView );
 
         wavelengthProperty = new Property<Double>( BendingLightModel.WAVELENGTH_RED ) {{
             addObserver( new SimpleObserver() {
@@ -112,6 +114,12 @@ public class BendingLightModel {
                 }
             } );
         }};
+        laserView.addObserver( new SimpleObserver() {
+            public void update() {
+                updateModel();//TODO: Maybe it would be better just to regenerate view, but now we just do this by telling the model to recompute and repopulate
+                getLaser().wave.setValue( laserView.getValue() == LaserView.WAVE );// synchronize view and model representations of whether it is wave or not
+            }
+        } );
     }
 
     protected void addRay( LightRay ray ) {
@@ -183,5 +191,6 @@ public class BendingLightModel {
     public void resetAll() {
         laser.resetAll();
         intensityMeter.resetAll();
+        laserView.reset();
     }
 }

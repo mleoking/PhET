@@ -2,16 +2,15 @@
 package edu.colorado.phet.bendinglight.modules.moretools;
 
 import edu.colorado.phet.bendinglight.modules.BendingLightModule;
-import edu.colorado.phet.bendinglight.modules.intro.IntroModel;
 
 /**
  * @author Sam Reid
  */
-public class MoreToolsModule extends BendingLightModule<IntroModel> {
+public class MoreToolsModule extends BendingLightModule<MoreToolsModel> {
     public MoreToolsCanvas canvas;
 
     public MoreToolsModule() {
-        super( "More Tools", new IntroModel() );
+        super( "More Tools", new MoreToolsModel() );
         canvas = new MoreToolsCanvas( getBendingLightModel(), moduleActive, resetAll );
         setSimulationPanel( canvas );
     }

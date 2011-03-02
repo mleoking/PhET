@@ -13,7 +13,6 @@ import edu.colorado.phet.bendinglight.model.LightRay;
 import edu.colorado.phet.bendinglight.modules.prisms.WhiteLightNode;
 import edu.colorado.phet.common.phetcommon.model.And;
 import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
-import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.util.*;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -30,7 +29,6 @@ public class BendingLightCanvas<T extends BendingLightModel> extends PhetPCanvas
     private PNode rootNode;
     public final BooleanProperty showNormal;
     public final BooleanProperty showProtractor = new BooleanProperty( false );
-    public final Property<LaserView> laserView = new Property<LaserView>( LaserView.RAY );
     protected final PNode mediumNode;
     protected final T model;
     protected final ModelViewTransform transform;
@@ -81,17 +79,10 @@ public class BendingLightCanvas<T extends BendingLightModel> extends PhetPCanvas
         addChild( new TranslationDragHandle( transform, model.getLaser(), 0, arrowLength, showTranslationDragHandles ) );
         addChild( new LaserNode( transform, model.getLaser(), showRotationDragHandles, showTranslationDragHandles, clampDragAngle, laserTranslationRegion, laserRotationRegion, laserImageName ) );
 
-        laserView.addObserver( new SimpleObserver() {
-            public void update() {
-                model.updateModel();//TODO: Maybe it would be better just to regenerate view, but now we just do this by telling the model to recompute and repopulate
-                model.getLaser().wave.setValue( laserView.getValue() == LaserView.WAVE );// synchronize view and model representations of whether it is wave or not
-            }
-        } );
-
         final VoidFunction1<LightRay> addLightRayNode = new VoidFunction1<LightRay>() {
             public void apply( LightRay lightRay ) {
-                final PNode node = laserView.getValue().createNode( transform, lightRay );
-                final PNode layer = laserView.getValue().getLayer( lightRayLayer, lightWaveLayer );
+                final PNode node = model.laserView.getValue().createNode( transform, lightRay );
+                final PNode layer = model.laserView.getValue().getLayer( lightRayLayer, lightWaveLayer );
                 layer.addChild( node );
                 lightRay.addMoveToFrontListener( new VoidFunction0() {
                     public void apply() {
@@ -187,7 +178,6 @@ public class BendingLightCanvas<T extends BendingLightModel> extends PhetPCanvas
     public void resetAll() {
         showNormal.reset();
         showProtractor.reset();
-        laserView.reset();
         clockRunningPressed.reset();
     }
 }
