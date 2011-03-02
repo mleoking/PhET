@@ -31,8 +31,8 @@ public class IntroModel extends BendingLightModel {
         super( PI * 3 / 4, true, DEFAULT_DIST_FROM_PIVOT );
         colorMappingFunction.addObserver( new SimpleObserver() {
             public void update() {
-                topMedium.setValue( new Medium( topMedium.getValue().shape, topMedium.getValue().getMediumState(), colorMappingFunction.getValue().apply( topMedium.getValue().getIndexOfRefraction() ) ) );
-                bottomMedium.setValue( new Medium( bottomMedium.getValue().shape, bottomMedium.getValue().getMediumState(), colorMappingFunction.getValue().apply( bottomMedium.getValue().getIndexOfRefraction() ) ) );
+                topMedium.setValue( new Medium( topMedium.getValue().shape, topMedium.getValue().getMediumState(), colorMappingFunction.getValue().apply( getN1() ) ) );
+                bottomMedium.setValue( new Medium( bottomMedium.getValue().shape, bottomMedium.getValue().getMediumState(), colorMappingFunction.getValue().apply( getN2() ) ) );
             }
         } );
         SimpleObserver updateRays = new SimpleObserver() {
@@ -50,8 +50,8 @@ public class IntroModel extends BendingLightModel {
         if ( laser.on.getValue() ) {
             final ImmutableVector2D tail = new ImmutableVector2D( laser.emissionPoint.getValue() );
 
-            double n1 = topMedium.getValue().getIndexOfRefraction();
-            double n2 = bottomMedium.getValue().getIndexOfRefraction();
+            double n1 = getN1();
+            double n2 = getN2();
 
             //Snell's law, see http://en.wikipedia.org/wiki/Snell's_law
             final double theta1 = laser.getAngle() - Math.PI / 2;
@@ -113,6 +113,14 @@ public class IntroModel extends BendingLightModel {
             }
             incidentRay.moveToFront();//For wave view
         }
+    }
+
+    protected double getN1() {
+        return topMedium.getValue().getIndexOfRefraction();
+    }
+
+    protected double getN2() {
+        return bottomMedium.getValue().getIndexOfRefraction();
     }
 
     /*
