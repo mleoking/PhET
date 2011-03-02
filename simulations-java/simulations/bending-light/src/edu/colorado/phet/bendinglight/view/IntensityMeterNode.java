@@ -2,9 +2,10 @@
 package edu.colorado.phet.bendinglight.view;
 
 import java.awt.*;
-import java.awt.geom.*;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Dimension2D;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.bendinglight.BendingLightApplication;
 import edu.colorado.phet.bendinglight.model.IntensityMeter;
@@ -101,22 +102,7 @@ public class IntensityMeterNode extends PNode {
             } );
         }} );
 
-        addChild( new PhetPPath( new BasicStroke( 8, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_ROUND, 1f ), Color.gray ) {{
-            final PropertyChangeListener listener = new PropertyChangeListener() {
-                public void propertyChange( PropertyChangeEvent evt ) {
-                    final GeneralPath path = new GeneralPath();
-                    path.moveTo( (float) sensorNode.getFullBounds().getCenterX(), (float) sensorNode.getFullBounds().getMaxY() );
-
-                    path.curveTo( (float) sensorNode.getFullBounds().getCenterX(), (float) sensorNode.getFullBounds().getMaxY() + 60,
-                                  (float) bodyNode.getFullBounds().getX() - 60, (float) bodyNode.getFullBounds().getCenterY(),
-                                  (float) bodyNode.getFullBounds().getX(), (float) bodyNode.getFullBounds().getCenterY() );
-
-                    setPathTo( path );
-                }
-            };
-            sensorNode.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, listener );
-            bodyNode.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, listener );
-        }} );
+        addChild( new WireNode( sensorNode, bodyNode, Color.gray ) );
 
         addChild( bodyNode );
         addChild( sensorNode );

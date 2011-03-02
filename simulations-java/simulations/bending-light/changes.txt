@@ -1,3 +1,4 @@
+Added wires to the amplitude sensor
 Started support for amplitude sensor
 Made the velocity sensor accessible from the toolbox
 Added a velocity sensor
