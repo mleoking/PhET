@@ -1,3 +1,4 @@
+Reversed the initial velocity of the moon so it will orbit counterclockwise, resolves #2766
 Removed unnecessary calls to setBackground
 Switched to use ControlPanelNode
 # 1.00.00 (48733) Feb 7, 2011
