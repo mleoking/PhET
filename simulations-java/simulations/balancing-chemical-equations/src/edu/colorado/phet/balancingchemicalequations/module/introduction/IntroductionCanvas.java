@@ -30,14 +30,14 @@ public class IntroductionCanvas extends BCECanvas {
     private final BoxesNode boxesNode;
 
     public IntroductionCanvas( final IntroductionModel model, final BCEGlobalProperties globalProperties, Resettable resettable ) {
-        super( globalProperties.getCanvasColorProperty() );
+        super( globalProperties.canvasColor );
 
         HorizontalAligner aligner = new HorizontalAligner( BOX_SIZE, BOX_SEPARATION );
 
         balanceChoiceProperty = new Property<BalancedRepresentation>( BalancedRepresentation.NONE );
 
         // control for choosing an equation
-        EquationChoiceNode equationChoiceNode = new EquationChoiceNode( model.getEquations(), model.getCurrentEquationProperty(), globalProperties.getCanvasColorProperty() );
+        EquationChoiceNode equationChoiceNode = new EquationChoiceNode( model.getEquations(), model.getCurrentEquationProperty(), globalProperties.canvasColor );
         addChild( equationChoiceNode );
 
         // equation, in formula format
@@ -46,11 +46,11 @@ public class IntroductionCanvas extends BCECanvas {
 
         // boxes that show molecules corresponding to the equation coefficients
         boxesNode = new BoxesNode( model.getCurrentEquationProperty(), model.getCoefficientsRange(), aligner,
-                globalProperties.getBoxColorProperty(), globalProperties.getMoleculesVisibleProperty() );
+                globalProperties.boxColor, globalProperties.moleculesVisible );
         addChild( boxesNode );
 
         // control for choosing the visual representation of "balanced"
-        BalancedRepresentationChoiceNode balanceChoiceNode = new BalancedRepresentationChoiceNode( balanceChoiceProperty, globalProperties.getCanvasColorProperty() );
+        BalancedRepresentationChoiceNode balanceChoiceNode = new BalancedRepresentationChoiceNode( balanceChoiceProperty, globalProperties.canvasColor );
         addChild( balanceChoiceNode );
 
         // bar charts
@@ -66,14 +66,14 @@ public class IntroductionCanvas extends BCECanvas {
         addChild( faceNode );
 
         // Reset All button
-        final ResetAllButtonNode resetAllButtonNode = new ResetAllButtonNode( resettable, globalProperties.getFrame(), 12, Color.BLACK, Color.WHITE );
+        final ResetAllButtonNode resetAllButtonNode = new ResetAllButtonNode( resettable, globalProperties.frame, 12, Color.BLACK, Color.WHITE );
         resetAllButtonNode.scale( BCEConstants.SWING_SCALE );
         addChild( resetAllButtonNode );
 
         // Shows the answer (dev)
         final DevAnswerNode answerNode = new DevAnswerNode( model.getCurrentEquationProperty() );
         addChild( answerNode );
-        answerNode.setVisible( globalProperties.getShowAnswersProperty().getValue() );
+        answerNode.setVisible( globalProperties.showAnswers.getValue() );
 
         /*
          * Layout - all of the major visual representations have x-offset=0,
@@ -128,9 +128,9 @@ public class IntroductionCanvas extends BCECanvas {
                 balanceScalesNode.setVisible( balanceChoiceProperty.getValue().equals( BalancedRepresentation.BALANCE_SCALES ) );
             }
         } );
-        globalProperties.getShowAnswersProperty().addObserver( new SimpleObserver() {
+        globalProperties.showAnswers.addObserver( new SimpleObserver() {
             public void update() {
-                answerNode.setVisible( globalProperties.getShowAnswersProperty().getValue() );
+                answerNode.setVisible( globalProperties.showAnswers.getValue() );
             }
         } );
     }

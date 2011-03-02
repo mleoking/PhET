@@ -8,7 +8,6 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.balancingchemicalequations.BCEGlobalProperties;
 import edu.colorado.phet.balancingchemicalequations.BCEStrings;
-import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
 
@@ -19,20 +18,19 @@ import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
  */
 public class BCEOptionMenu extends OptionsMenu {
 
-    public BCEOptionMenu( BCEGlobalProperties globalProperties ) {
+    public BCEOptionMenu( final BCEGlobalProperties globalProperties ) {
 
         // Show molecules (check box)
-        final Property<Boolean> moleculesVisibleProperty = globalProperties.getMoleculesVisibleProperty();
-        final JCheckBoxMenuItem hideMoleculesMenuItem = new JCheckBoxMenuItem( BCEStrings.HIDE_MOLECULES, moleculesVisibleProperty.getValue() );
+        final JCheckBoxMenuItem hideMoleculesMenuItem = new JCheckBoxMenuItem( BCEStrings.HIDE_MOLECULES, globalProperties.moleculesVisible.getValue() );
         add( hideMoleculesMenuItem );
         hideMoleculesMenuItem.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                moleculesVisibleProperty.setValue( !hideMoleculesMenuItem.isSelected() );
+                globalProperties.moleculesVisible.setValue( !hideMoleculesMenuItem.isSelected() );
             }
         } );
-        moleculesVisibleProperty.addObserver( new SimpleObserver() {
+        globalProperties.moleculesVisible.addObserver( new SimpleObserver() {
             public void update() {
-                hideMoleculesMenuItem.setSelected( !moleculesVisibleProperty.getValue() );
+                hideMoleculesMenuItem.setSelected( !globalProperties.moleculesVisible.getValue() );
             }
         } );
     }

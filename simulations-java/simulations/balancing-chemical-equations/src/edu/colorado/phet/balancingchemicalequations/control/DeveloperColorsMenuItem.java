@@ -43,18 +43,18 @@ public class DeveloperColorsMenuItem extends JCheckBoxMenuItem {
             }
         });
 
-        globalProperties.getCanvasColorProperty().addObserver( new SimpleObserver() {
+        globalProperties.canvasColor.addObserver( new SimpleObserver() {
             public void update() {
                 if ( dialog != null ) {
-                    dialog.setCanvasColor( globalProperties.getCanvasColorProperty().getValue() );
+                    dialog.setCanvasColor( globalProperties.canvasColor.getValue() );
                 }
             }
         } );
 
-        globalProperties.getBoxColorProperty().addObserver( new SimpleObserver() {
+        globalProperties.boxColor.addObserver( new SimpleObserver() {
             public void update() {
                 if ( dialog != null ) {
-                    dialog.setBoxColor( globalProperties.getBoxColorProperty().getValue() );
+                    dialog.setBoxColor( globalProperties.boxColor.getValue() );
                 }
             }
         } );
@@ -87,24 +87,24 @@ public class DeveloperColorsMenuItem extends JCheckBoxMenuItem {
         private final ColorControl canvasColorControl, boxColorControl;
 
         public DeveloperColorsDialog( final BCEGlobalProperties globalProperties ) {
-            super( globalProperties.getFrame() );
+            super( globalProperties.frame );
             super.setTitle( "Colors" );
             super.setModal( false );
             super.setResizable( false );
 
             // canvas (play area)
-            canvasColorControl = new ColorControl( globalProperties.getFrame(), "play area:", globalProperties.getCanvasColorProperty().getValue() );
+            canvasColorControl = new ColorControl( globalProperties.frame, "play area:", globalProperties.canvasColor.getValue() );
             canvasColorControl.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
-                    globalProperties.getCanvasColorProperty().setValue( canvasColorControl.getColor() );
+                    globalProperties.canvasColor.setValue( canvasColorControl.getColor() );
                 }
             } );
 
             // boxes
-            boxColorControl = new ColorControl( globalProperties.getFrame(), "boxes:", globalProperties.getBoxColorProperty().getValue() );
+            boxColorControl = new ColorControl( globalProperties.frame, "boxes:", globalProperties.boxColor.getValue() );
             boxColorControl.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
-                    globalProperties.getBoxColorProperty().setValue( boxColorControl.getColor() );
+                    globalProperties.boxColor.setValue( boxColorControl.getColor() );
                 }
             } );
 

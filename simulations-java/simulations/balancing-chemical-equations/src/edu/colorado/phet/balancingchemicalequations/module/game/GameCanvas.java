@@ -72,7 +72,7 @@ public class GameCanvas extends BCECanvas {
     private BalancedRepresentation balancedRepresentation;
 
     public GameCanvas( final GameModel model, final BCEGlobalProperties globalProperties, Resettable resettable ) {
-        super( globalProperties.getCanvasColorProperty() );
+        super( globalProperties.canvasColor );
 
         this.model = model;
         this.globalProperties = globalProperties;
@@ -102,7 +102,7 @@ public class GameCanvas extends BCECanvas {
         equationNode = new EquationNode( model.getCurrentEquationProperty(), model.getCoefficientsRange(), true, aligner );
 
         // boxes that show molecules corresponding to the equation coefficients
-        boxesNode = new BoxesNode( model.getCurrentEquationProperty(), model.getCoefficientsRange(), aligner, globalProperties.getBoxColorProperty(), globalProperties.getMoleculesVisibleProperty() );
+        boxesNode = new BoxesNode( model.getCurrentEquationProperty(), model.getCoefficientsRange(), aligner, globalProperties.boxColor, globalProperties.moleculesVisible );
 
         // buttons
         checkButton = new ButtonNode( BCEStrings.CHECK, BUTTONS_FONT_SIZE, BUTTONS_COLOR );
@@ -142,7 +142,7 @@ public class GameCanvas extends BCECanvas {
 
         // Shows the answer (dev)
         final DevAnswerNode answerNode = new DevAnswerNode( model.getCurrentEquationProperty() );
-        answerNode.setVisible( globalProperties.getShowAnswersProperty().getValue() );
+        answerNode.setVisible( globalProperties.showAnswers.getValue() );
 
         // rendering order
         addChild( gameRewardNode );
@@ -254,9 +254,9 @@ public class GameCanvas extends BCECanvas {
                 }
             } );
 
-            globalProperties.getShowAnswersProperty().addObserver( new SimpleObserver() {
+            globalProperties.showAnswers.addObserver( new SimpleObserver() {
                 public void update() {
-                    answerNode.setVisible( globalProperties.getShowAnswersProperty().getValue() );
+                    answerNode.setVisible( globalProperties.showAnswers.getValue() );
                 }
             } );
         }
@@ -407,7 +407,7 @@ public class GameCanvas extends BCECanvas {
                 gameResultNode = new BalancedNotSimplifiedNode();
             }
             else {
-                gameResultNode = new NotBalancedNode( model.getCurrentEquationProperty().getValue(), globalProperties.getShowChartsAndScalesInGameProperty().getValue(), balancedRepresentation, aligner );
+                gameResultNode = new NotBalancedNode( model.getCurrentEquationProperty().getValue(), globalProperties.showChartsAndScalesInGame.getValue(), balancedRepresentation, aligner );
             }
 
             // Layout, ideally centered between the boxes, but guarantee that buttons are not covered.
