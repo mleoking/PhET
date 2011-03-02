@@ -3,7 +3,6 @@ package edu.colorado.phet.bendinglight.modules.moretools;
 
 import edu.colorado.phet.bendinglight.modules.intro.IntroCanvas;
 import edu.colorado.phet.bendinglight.modules.intro.IntroModel;
-import edu.colorado.phet.bendinglight.view.AmplitudeSensorNode;
 import edu.colorado.phet.bendinglight.view.BendingLightWavelengthControl;
 import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
@@ -22,6 +21,5 @@ public class MoreToolsCanvas extends IntroCanvas {
                 }};
             }
         }, 0 );
-        addChild( new AmplitudeSensorNode( transform, new AmplitudeSensor() ) );
     }
 }

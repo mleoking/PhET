@@ -10,6 +10,7 @@ import java.beans.PropertyChangeListener;
 
 import edu.colorado.phet.bendinglight.model.IntensityMeter;
 import edu.colorado.phet.bendinglight.model.VelocitySensor;
+import edu.colorado.phet.bendinglight.modules.moretools.AmplitudeSensor;
 import edu.colorado.phet.bendinglight.view.*;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
@@ -36,8 +37,13 @@ import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.m
  * @author Sam Reid
  */
 public class ToolboxNode extends PNode {
-    public ToolboxNode( final BendingLightCanvas canvas, final ModelViewTransform transform,
-                        final BooleanProperty showProtractor, BooleanProperty showNormal, final IntensityMeter intensityMeter, final VelocitySensor velocitySensor ) {
+    public ToolboxNode( final BendingLightCanvas canvas,
+                        final ModelViewTransform transform,
+                        final BooleanProperty showProtractor,
+                        BooleanProperty showNormal,
+                        final IntensityMeter intensityMeter,
+                        final VelocitySensor velocitySensor,
+                        final AmplitudeSensor amplitudeSensor ) {
         final PText titleLabel = new PText( "Toolbox" ) {{
             setFont( BendingLightCanvas.labelFont );
         }};
@@ -79,6 +85,27 @@ public class ToolboxNode extends PNode {
                     } );
             addChild( velocitySensorX );
             bottomTool = velocitySensorX;
+        }
+
+        if ( amplitudeSensor != null ) {
+            final AmplitudeSensorNode amplitudeSensorNode = new AmplitudeSensorNode( transform, new AmplitudeSensor() );
+            Property<Boolean> showAmplitudeSensor = new Property<Boolean>( false );
+            final PNode amplitudeTool = new Tool( amplitudeSensorNode.toImage( ICON_WIDTH, (int) ( amplitudeSensorNode.getFullBounds().getHeight() / amplitudeSensorNode.getFullBounds().getWidth() * ICON_WIDTH ), new Color( 0, 0, 0, 0 ) ),
+                                                  showAmplitudeSensor, bottomTool.getFullBounds().getMaxY() + 4,
+                                                  transform, this, canvas, new Function3<ModelViewTransform, Property<Boolean>, Point2D, DoDragNode>() {
+                        public DoDragNode apply( ModelViewTransform transform, final Property<Boolean> showTool, final Point2D model ) {
+                            amplitudeSensor.bodyPosition.setValue( new ImmutableVector2D( model ) );
+                            return new AmplitudeSensorNode( transform, amplitudeSensor ) {{
+                                showTool.addObserver( new SimpleObserver() {
+                                    public void update() {
+                                        setVisible( showTool.getValue() );
+                                    }
+                                } );
+                            }};
+                        }
+                    } );
+            addChild( amplitudeTool );
+            bottomTool = amplitudeTool;
         }
 
         //TODO: some constants copied from BendingLightModel
