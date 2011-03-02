@@ -13,7 +13,7 @@ public class IntroModule extends BendingLightModule<IntroModel> {
 
     public IntroModule() {
         super( "Intro", new IntroModel() );
-        canvas = new IntroCanvas( getBendingLightModel(), moduleActive, resetAll, new Function3.Constant<IntroModel, Double, Double, PNode>( new PNode() ) );
+        canvas = new IntroCanvas( getBendingLightModel(), moduleActive, resetAll, new Function3.Constant<IntroModel, Double, Double, PNode>( new PNode() ), 150 );
         setSimulationPanel( canvas );
     }
 

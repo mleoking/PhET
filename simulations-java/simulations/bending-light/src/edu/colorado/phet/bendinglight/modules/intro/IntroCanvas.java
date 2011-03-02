@@ -28,7 +28,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  */
 public class IntroCanvas extends BendingLightCanvas<IntroModel> {
     public IntroCanvas( final IntroModel model, BooleanProperty moduleActive, final Resettable resetAll,
-                        final Function3<IntroModel, Double, Double, PNode> additionalLaserControls ) {//(model,x,y)
+                        final Function3<IntroModel, Double, Double, PNode> additionalLaserControls, double centerOffsetLeft ) {//(model,x,y)
         super( model, moduleActive, new Function1<Double, Double>() {
             public Double apply( Double angle ) {
                 if ( angle < -Math.PI / 2 ) { angle = Math.PI; }
@@ -52,7 +52,7 @@ public class IntroCanvas extends BendingLightCanvas<IntroModel> {
                     public Shape apply( Shape full, Shape back ) {
                         return full; //rotation if the user clicks anywhere on the object.
                     }
-                }, "laser.png" );
+                }, "laser.png", centerOffsetLeft );
         mediumNode.addChild( new MediumNode( transform, model.topMedium ) );
         mediumNode.addChild( new MediumNode( transform, model.bottomMedium ) );
 
