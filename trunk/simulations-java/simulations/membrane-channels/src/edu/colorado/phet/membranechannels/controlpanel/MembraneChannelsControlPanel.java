@@ -271,13 +271,11 @@ public class MembraneChannelsControlPanel extends ControlPanel {
                 particleNode = new ParticleNode(new PotassiumIon(), mvt);
                 if ( open ){
                     channelImageName = "blue_gate_close_icon.png";
-                    // TODO: i18n
-                    directionText = "Close";
+                    directionText = MembraneChannelsStrings.CLOSE;
                 }
                 else{
                     channelImageName = "blue_gate_open_icon.png";
-                    // TODO: i18n
-                    directionText = "Open";
+                    directionText = MembraneChannelsStrings.OPEN;
                 }
             }
             else {
@@ -285,21 +283,18 @@ public class MembraneChannelsControlPanel extends ControlPanel {
                 particleNode = new ParticleNode(new SodiumIon(), mvt);
                 if ( open ){
                     channelImageName = "green_gate_close_icon.png";
-                    // TODO: i18n
-                    directionText = "Close";
+                    directionText = MembraneChannelsStrings.CLOSE;
                 }
                 else{
                     channelImageName = "green_gate_open_icon.png";
-                    // TODO: i18n
-                    directionText = "Open";
+                    directionText = MembraneChannelsStrings.OPEN;
                 }
             }
             final PNode channelImageNode = new PImage( MembraneChannelsResources.getImage( channelImageName ) );
             final PNode directionTextNode = new PText( directionText ){{
                 setFont( new PhetFont( 12 ) );
             }};
-            // TODO: i18n
-            final PNode channelTextNode = new PText( "channels" ){{
+            final PNode channelTextNode = new PText( MembraneChannelsStrings.CHANNELS ){{
                 setFont( new PhetFont( 12 ) );
             }};
 
