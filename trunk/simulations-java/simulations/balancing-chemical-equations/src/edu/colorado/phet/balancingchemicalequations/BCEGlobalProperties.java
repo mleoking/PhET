@@ -16,61 +16,28 @@ import edu.colorado.phet.common.phetcommon.model.Resettable;
  */
 public class BCEGlobalProperties implements Resettable {
 
-    // user properties
-    private final Frame frame;
-    private final Property<Boolean> moleculesVisibleProperty = new Property<Boolean>( true );
+    public final Frame frame; // parent frame for secondary windows
 
-    // developer controls
-    private final boolean isDev;
-    private final Property<Color> canvasColorProperty = new Property<Color>( BCEConstants.CANVAS_BACKGROUND );
-    private final Property<Color> boxColorProperty = new Property<Color>( BCEConstants.BOX_COLOR );
-    private final Property<Boolean> showChartsAndScalesInGameProperty = new Property<Boolean>( true );
-    private final Property<Boolean> showAnswersProperty = new Property<Boolean>( false );
-    private final Property<Boolean> playAllEquations = new Property<Boolean>( false );
+    // user controls (Options menu)
+    public final Property<Boolean> moleculesVisible = new Property<Boolean>( true ); // are molecules visible in boxes?
 
-    public BCEGlobalProperties( Frame frame, boolean isDev ) {
+    // developer controls (Developer menu)
+    public final Property<Color> canvasColor = new Property<Color>( BCEConstants.CANVAS_BACKGROUND );
+    public final Property<Color> boxColor = new Property<Color>( BCEConstants.BOX_COLOR );
+    public final Property<Boolean> showAnswers = new Property<Boolean>( false ); // shows the answers in all tabs
+    public final Property<Boolean> showChartsAndScalesInGame = new Property<Boolean>( true ); // shows chart or scale in "Not Balanced" popup
+    public final Property<Boolean> playAllEquations = new Property<Boolean>( false ); // plays all equations for a specified game level
+
+    public BCEGlobalProperties( Frame frame ) {
         this.frame = frame;
-        this.isDev = isDev;
-    }
-
-    public Frame getFrame() {
-        return frame;
-    }
-
-    public Property<Boolean> getMoleculesVisibleProperty() {
-        return moleculesVisibleProperty;
-    }
-
-    public boolean isDev() {
-        return isDev;
-    }
-
-    public Property<Color> getCanvasColorProperty() {
-        return canvasColorProperty;
-    }
-
-    public Property<Color> getBoxColorProperty() {
-        return boxColorProperty;
-    }
-
-    public Property<Boolean> getShowChartsAndScalesInGameProperty() {
-        return showChartsAndScalesInGameProperty;
-    }
-
-    public Property<Boolean> getShowAnswersProperty() {
-        return showAnswersProperty;
-    }
-
-    public Property<Boolean> getPlayAllEquationsProperty() {
-        return playAllEquations;
     }
 
     public void reset() {
-        moleculesVisibleProperty.reset();
-        canvasColorProperty.reset();
-        boxColorProperty.reset();
-        showChartsAndScalesInGameProperty.reset();
-        showAnswersProperty.reset();
+        moleculesVisible.reset();
+        canvasColor.reset();
+        boxColor.reset();
+        showAnswers.reset();
+        showChartsAndScalesInGame.reset();
         playAllEquations.reset();
     }
 }
