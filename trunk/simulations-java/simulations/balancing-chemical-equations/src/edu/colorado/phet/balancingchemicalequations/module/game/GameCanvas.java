@@ -76,7 +76,7 @@ public class GameCanvas extends BCECanvas {
 
         this.model = model;
         this.globalProperties = globalProperties;
-        this.audioPlayer = new GameAudioPlayer( model.getGameSettings().soundEnabled.getValue() );
+        this.audioPlayer = new GameAudioPlayer( model.settings.soundEnabled.getValue() );
         this.aligner = new HorizontalAligner( BOX_SIZE, BOX_SEPARATION );
         this.gameRewardNode = new GameRewardNode();
 
@@ -87,7 +87,7 @@ public class GameCanvas extends BCECanvas {
                 model.startGame();
             }
         };
-        gameSettingsNode = new PSwing( new GameSettingsPanel( model.getGameSettings(), startFunction ) );
+        gameSettingsNode = new PSwing( new GameSettingsPanel( model.settings, startFunction ) );
         gameSettingsNode.scale( BCEConstants.SWING_SCALE );
 
         // Parent node for all nodes visible while the user is working on problems
@@ -132,7 +132,7 @@ public class GameCanvas extends BCECanvas {
         } );
 
         // Scoreboard
-        scoreboardNode = new GameScoreboardNode( model.getGameSettings().level.getMax(), model.getMaxScore(), new DecimalFormat( "0" ) );
+        scoreboardNode = new GameScoreboardNode( model.settings.level.getMax(), model.getMaxScore(), new DecimalFormat( "0" ) );
         scoreboardNode.setBackgroundWidth( boxesNode.getFullBoundsReference().getWidth() );
         scoreboardNode.addGameScoreboardListener( new GameScoreboardListener() {
             public void newGamePressed() {
@@ -212,9 +212,9 @@ public class GameCanvas extends BCECanvas {
 
         // Observers
         {
-            model.addGameStateObserver( new SimpleObserver() {
+            model.state.addObserver( new SimpleObserver() {
                 public void update() {
-                    handleGameStateChange( model.getGameState() );
+                    handleGameStateChange( model.state.getValue() );
                 }
             } );
 
@@ -224,33 +224,33 @@ public class GameCanvas extends BCECanvas {
                 }
             } );
 
-            model.getGameSettings().level.addObserver( new SimpleObserver() {
+            model.settings.level.addObserver( new SimpleObserver() {
                 public void update() {
-                    scoreboardNode.setLevel( model.getGameSettings().level.getValue() );
+                    scoreboardNode.setLevel( model.settings.level.getValue() );
                 }
             } );
 
-            model.getGameSettings().timerEnabled.addObserver( new SimpleObserver() {
+            model.settings.timerEnabled.addObserver( new SimpleObserver() {
                 public void update() {
-                    scoreboardNode.setTimerVisible( model.getGameSettings().timerEnabled.getValue() );
+                    scoreboardNode.setTimerVisible( model.settings.timerEnabled.getValue() );
                 }
             } );
 
-            model.getGameSettings().soundEnabled.addObserver( new SimpleObserver() {
+            model.settings.soundEnabled.addObserver( new SimpleObserver() {
                 public void update() {
-                    audioPlayer.setEnabled( model.getGameSettings().soundEnabled.getValue() );
+                    audioPlayer.setEnabled( model.settings.soundEnabled.getValue() );
                 }
             } );
 
-            model.addPointsObserver( new SimpleObserver() {
+            model.points.addObserver( new SimpleObserver() {
                 public void update() {
-                    scoreboardNode.setScore( model.getPoints() );
+                    scoreboardNode.setScore( model.points.getValue() );
                 }
             } );
 
-            model.addTimeObserver( new SimpleObserver() {
+            model.timer.time.addObserver( new SimpleObserver() {
                 public void update() {
-                    scoreboardNode.setTime( model.getTime() );
+                    scoreboardNode.setTime( model.timer.time.getValue() );
                 }
             } );
 
@@ -355,7 +355,7 @@ public class GameCanvas extends BCECanvas {
 
     private void setGameRewardVisible( boolean visible ) {
         if ( visible ) {
-            gameRewardNode.setLevel( model.getGameSettings().level.getValue(), model.isPerfectScore() );
+            gameRewardNode.setLevel( model.settings.level.getValue(), model.isPerfectScore() );
         }
         gameRewardNode.setVisible( visible );
     }
@@ -430,14 +430,14 @@ public class GameCanvas extends BCECanvas {
     }
 
     private void playGameOverAudio() {
-        if ( model.getPoints() == 0 ) {
+        if ( model.points.getValue() == 0 ) {
             audioPlayer.gameOverZeroScore();
         }
-        else if ( model.getPoints() < model.getMaxScore() ) {
-            audioPlayer.gameOverImperfectScore();
+        else if ( model.isPerfectScore() ) {
+            audioPlayer.gameOverPerfectScore();
         }
         else {
-            audioPlayer.gameOverPerfectScore();
+            audioPlayer.gameOverImperfectScore();
         }
     }
 
@@ -451,8 +451,9 @@ public class GameCanvas extends BCECanvas {
         }
 
         // add a new node
-        int level = model.getGameSettings().level.getValue();
-        gameOverNode = new GameOverNode( level, model.getPoints(), model.getMaxScore(), new DecimalFormat( "0" ), model.getTime(), model.getBestTime( level ), model.isNewBestTime(), model.getGameSettings().timerEnabled.getValue() );
+        int level = model.settings.level.getValue();
+        gameOverNode = new GameOverNode( level, model.points.getValue(), model.getMaxScore(), new DecimalFormat( "0" ),
+                model.timer.time.getValue(), model.getBestTime( level ), model.isNewBestTime(), model.settings.timerEnabled.getValue() );
         gameOverNode.scale( BCEConstants.SWING_SCALE );
         addChild( gameOverNode );
 
