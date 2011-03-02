@@ -9,14 +9,15 @@ import static edu.colorado.phet.membranechannels.MembraneChannelsResources.getSt
  * We load all strings as statics so that we will be warned at startup time of any missing strings.
  */
 public class MembraneChannelsStrings {
-    
+
     /* not intended for instantiation */
     private MembraneChannelsStrings() {}
-    
+
     public static final String TITLE_MEMBRANE_CHANNELS_MODULE = getString( "ModuleTitle.MembraneChannelsModule" );
     public static final String SHOW_CONCENTRATIONS = getString( "controlPanel.showConcentrations" );
-    public static final String CLOSE_CHANNELS = getString( "controlPanel.closeChannels" );
-    public static final String OPEN_CHANNELS = getString( "controlPanel.openChannels" );
+    public static final String CLOSE = getString( "controlPanel.close" );
+    public static final String OPEN = getString( "controlPanel.open" );
+    public static final String CHANNELS = getString( "controlPanel.channels" );
     public static final String CLEAR_PARTICLES = getString( "controlPanel.clearParticles" );
     public static final String GATED_CHANNELS = getString( "toolBox.gatedChannels" );
     public static final String LEAKAGE_CHANNELS = getString( "toolBox.leakageChannels" );

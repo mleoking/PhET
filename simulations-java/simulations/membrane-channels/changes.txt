@@ -1,3 +1,4 @@
+Added an icon between "Open" and "Channels" on the buttons to make it clearer what they do if they are grayed out.
 Fixed an issue with alignment of text on buttons.
 # 0.16.08 (48713) Feb 7, 2011
 2/7/11 Depoloying release candidate to dev.
