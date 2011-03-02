@@ -188,22 +188,22 @@ public class IsotopeMixturesCanvas extends PhetPCanvas {
         // hook it up to be triggered on changes to relevant model properties.
         SimpleObserver buttonVizUpdater = new SimpleObserver() {
             public void update() {
-                moreAtomsButton.setVisible( model.getAtomSizeProperty().getValue() == IsotopeSize.LARGE && model.getShowNaturesMix().getValue() == false );
-                lessAtomsButton.setVisible( model.getAtomSizeProperty().getValue() == IsotopeSize.SMALL && model.getShowNaturesMix().getValue() == false );
+                moreAtomsButton.setVisible( model.getAtomSizeProperty().getValue() == IsotopeSize.LARGE && model.getShowingNaturesMixProperty().getValue() == false );
+                lessAtomsButton.setVisible( model.getAtomSizeProperty().getValue() == IsotopeSize.SMALL && model.getShowingNaturesMixProperty().getValue() == false );
             }
         };
         model.getAtomSizeProperty().addObserver( buttonVizUpdater );
-        model.getShowNaturesMix().addObserver( buttonVizUpdater );
+        model.getShowingNaturesMixProperty().addObserver( buttonVizUpdater );
 
         // Add the radio buttons that allow the user to choose between their
         // mix and nature's mix.
         JPanel radioButtonPanel = new VerticalLayoutPanel();
-        PropertyRadioButton<Boolean> usersMixRadioButton = new PropertyRadioButton<Boolean>( "My mix of isotopes", model.getShowNaturesMix(), false ){{
+        PropertyRadioButton<Boolean> usersMixRadioButton = new PropertyRadioButton<Boolean>( "My mix of isotopes", model.getShowingNaturesMixProperty(), false ){{
             setBackground( BACKGROUND_COLOR );
             setFont( new PhetFont( 20 ) );
         }};
         radioButtonPanel.add( usersMixRadioButton );
-        PropertyRadioButton<Boolean> naturesMixRadioButton = new PropertyRadioButton<Boolean>( "Nature's mix of isotopes", model.getShowNaturesMix(), true ){{
+        PropertyRadioButton<Boolean> naturesMixRadioButton = new PropertyRadioButton<Boolean>( "Nature's mix of isotopes", model.getShowingNaturesMixProperty(), true ){{
             setBackground( BACKGROUND_COLOR );
             setFont( new PhetFont( 20 ) );
         }};

@@ -202,9 +202,6 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
             isotope.removeFromModel();
         }
 
-        // Always start with showing user's mix.
-        showingNaturesMix.setValue( false );
-
         // Update the prototype atom (a.k.a. isotope) configuration.
         prototypeIsotope.setNumProtons( atom.getNumProtons() );
         prototypeIsotope.setNumElectrons( atom.getNumElectrons() );
@@ -259,21 +256,12 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
             bucket.getPartOfModelProperty().setValue( false );
         }
 
-        // Add the instances of each isotope to the appropriate bucket.
-        for ( ImmutableAtom isotope : newIsotopeList ) {
-            MonoIsotopeParticleBucket isotopeBucket = getBucketForIsotope( isotope );
-            assert isotopeBucket != null; // If there is no bucket for this isotope, there is a bug.
-
-            // Create each isotope instance and add to appropriate bucket.
-            int numIsotopesPerBucket = isotopeSizeProperty.getValue() == IsotopeSize.LARGE ? NUM_LARGE_ISOTOPES_PER_BUCKET : NUM_SMALL_ISOTOPES_PER_BUCKET;
-            for ( int i = 0; i < numIsotopesPerBucket; i++){
-                MovableAtom movableIsotope = new MovableAtom( isotope.getNumProtons(), isotope.getNumNeutrons(),
-                        isotopeRadius, new Point2D.Double(0, 0), clock );
-                movableIsotope.addListener( isotopeGrabbedListener );
-                isotopeBucket.addIsotopeInstance( movableIsotope );
-                usersMixOfIsotopes.add( movableIsotope );
-                notifyIsotopeInstanceAdded( movableIsotope );
-            }
+        // Add the actual isotopes.
+        if ( showingNaturesMix.getValue() ){
+            showNaturesMix();
+        }
+        else{
+            showUsersMix();
         }
     }
 
@@ -314,7 +302,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
         return isotopeSizeProperty;
     }
 
-    public BooleanProperty getShowNaturesMix() {
+    public BooleanProperty getShowingNaturesMixProperty() {
         return showingNaturesMix;
     }
 
@@ -360,7 +348,27 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
      * mix of isotopes was previously hidden.
      */
     private void showUsersMix(){
-        // Set each isotope to be back in the model.
+        if ( usersMixOfIsotopes.size() == 0 ){
+            // This is the first time that the user's mix has been shown since
+            // the current element was selected.  Create the individual
+            // isotope instances and add them to the bucket.
+            double isotopeRadius = isotopeSizeProperty.getValue() == IsotopeSize.LARGE ? LARGE_ISOTOPE_RADIUS : SMALL_ISOTOPE_RADIUS;
+            for ( ImmutableAtom isotope : possibleIsotopesProperty.getValue() ) {
+                MonoIsotopeParticleBucket isotopeBucket = getBucketForIsotope( isotope );
+                assert isotopeBucket != null; // If there is no bucket for this isotope, there is a bug.
+
+                // Create each isotope instance and add to appropriate bucket.
+                int numIsotopesPerBucket = isotopeSizeProperty.getValue() == IsotopeSize.LARGE ? NUM_LARGE_ISOTOPES_PER_BUCKET : NUM_SMALL_ISOTOPES_PER_BUCKET;
+                for ( int i = 0; i < numIsotopesPerBucket; i++){
+                    MovableAtom movableIsotope = new MovableAtom( isotope.getNumProtons(), isotope.getNumNeutrons(),
+                            isotopeRadius, new Point2D.Double(0, 0), clock );
+                    movableIsotope.addListener( isotopeGrabbedListener );
+                    isotopeBucket.addIsotopeInstance( movableIsotope );
+                    usersMixOfIsotopes.add( movableIsotope );
+                }
+            }
+        }
+        // Set each isotope to be in the model.
         for ( MovableAtom isotope : usersMixOfIsotopes ){
             if ( testChamber.getTestChamberRect().contains( isotope.getPosition() )){
                 testChamber.addIsotope( isotope );
