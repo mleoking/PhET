@@ -1,3 +1,4 @@
+3/2/11 divide Equation class hierarchy into synthesis and decomposition equations, simplify convenience constructors
 3/2/11 reverse reactions for level-1 Game, as shown in the design doc
 3/1/11 restore molecule stacking to top down
 # 0.00.12 (49385) Mar 1, 2011

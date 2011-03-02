@@ -1,8 +1,6 @@
 TODO list for balancing-chemical-equations
 
 HIGH PRIORITY
-- Game: add additional decomposition reactions
-- grow molecule stacks from bottom up in boxes?
 
 MEDIUM PRIORITY
 - Game: rewrite GameScoreBoardNode to use Property<T>
@@ -11,6 +9,7 @@ MEDIUM PRIORITY
 LOW PRIORITY
 - delete test apps from build properties before publishing 1.00
 - make sure that color for "molecules are hidden" in BoxesNode works with the background color we choose
+- grow molecule stacks from bottom up in boxes?
 - Kelly colors: boxes=black, canvas=gray[204,204,204]
 - Emily colors: boxes=gray[102,102,102], canvas=white or blue[204,204,255]
 - Kathy colors: boxes=black, canvas=blue[142,153,193]
