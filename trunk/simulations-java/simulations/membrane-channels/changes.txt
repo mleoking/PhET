@@ -1,3 +1,5 @@
+# 1.00.00 (49417) Mar 2, 2011
+3/2/11 >Initial deployment to production server.
 Added an icon between "Open" and "Channels" on the buttons to make it clearer what they do if they are grayed out.
 Fixed an issue with alignment of text on buttons.
 # 0.16.08 (48713) Feb 7, 2011
