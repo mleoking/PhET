@@ -43,6 +43,7 @@ import edu.colorado.phet.balancingchemicalequations.model.SynthesisEquation.Equa
 import edu.colorado.phet.balancingchemicalequations.model.SynthesisEquation.Equation_P4_6H2_4PH3;
 import edu.colorado.phet.balancingchemicalequations.model.SynthesisEquation.Equation_SO2_2H2_S_2H2O;
 import edu.colorado.phet.balancingchemicalequations.model.SynthesisEquation.Equation_SO2_3H2_H2S_2H2O;
+import edu.colorado.phet.common.phetcommon.model.Property;
 
 /**
  * Factory that creates sets of equations, based on game level.
@@ -79,9 +80,9 @@ public class GameEquationsFactory {
 
     // Level 2
     private static final ArrayList<Class <? extends Equation>> LEVEL2_LIST = new ArrayList<Class<? extends Equation>>() {{
-        add( Equation_CH4_2O2_CO2_2H2O.class );
         add( Equation_2C_2H2O_CH4_CO2.class );
         add( Equation_CH4_H2O_3H2_CO.class );
+        add( Equation_CH4_2O2_CO2_2H2O.class );
         add( Equation_C2H4_3O2_2CO2_2H2O.class );
         add( Equation_C2H6_Cl2_C2H5Cl_HCl.class );
         add( Equation_CH4_4S_CS2_2H2S.class );
@@ -110,30 +111,64 @@ public class GameEquationsFactory {
         add( LEVEL3_LIST );
     }};
 
+    /*
+     * Developer control.
+     * If true, the factory returns the complete set of equations for a specified level.
+     */
+    private Property<Boolean> playAllEquationsProperty;
+
     /**
      * Default constructor.
      */
-    public GameEquationsFactory() {}
+    public GameEquationsFactory( Property<Boolean> playAllEquationsProperty ) {
+        this.playAllEquationsProperty = playAllEquationsProperty;
+    }
 
     /**
-     * Creates a problem set.
-     * The set will contain no duplicates if numberOfProblems <= the number of equations for the level.
-     *
+     * Creates a set of equations to be used in the game.
      * @param numberOfProblems
      * @param level 1-N
      */
     public Equation[] createProblemSet( int numberOfProblems, int level ) {
-
         if ( level < 1 || level > LEVEL_LISTS.size() ) {
             throw new IllegalArgumentException( "unsupported level: " + level );
         }
+        if ( playAllEquationsProperty.getValue() ) {
+            return createAllEquations( level );
+        }
+        else {
+            return createNEquations( numberOfProblems, level );
+        }
+    }
 
+    /*
+     * Creates a set of equations to be used in the game.
+     * The set will contain no duplicates if numberOfProblems <= the number of equations for the level.
+     * @param numberOfProblems
+     * @param level 1, 2 or 3
+     */
+    private Equation[] createNEquations( int numberOfProblems, int level ) {
         ArrayList<Class<? extends Equation>> equationClasses = new ArrayList<Class<? extends Equation>>();
         for ( int i = 0; i < numberOfProblems; i++ ) {
             equationClasses.add( getRandomEquationClass( level, equationClasses ) );
         }
-        assert( equationClasses.size() == numberOfProblems );
+        assert ( equationClasses.size() == numberOfProblems );
 
+        Equation[] equations = new Equation[equationClasses.size()];
+        for ( int i = 0; i < equations.length; i++ ) {
+            equations[i] = instantiateEquation( equationClasses.get( i ) );
+        }
+
+        return equations;
+    }
+
+    /*
+     * Creates a complete set of equations for a specified level.
+     * This is used for debugging in dev mode.
+     * @param level
+     */
+    private Equation[] createAllEquations( int level ) {
+        ArrayList<Class<? extends Equation>> equationClasses = LEVEL_LISTS.get( level - 1 );
         Equation[] equations = new Equation[equationClasses.size()];
         for ( int i = 0; i < equations.length; i++ ) {
             equations[i] = instantiateEquation( equationClasses.get( i ) );
@@ -225,7 +260,7 @@ public class GameEquationsFactory {
 
     // test
     public static void main( String[] args ) {
-        GameEquationsFactory factory = new GameEquationsFactory();
+        GameEquationsFactory factory = new GameEquationsFactory( new Property<Boolean>( false ) );
         for ( int level = 1; level < 4; level++ ) {
             System.out.println( "LEVEL " + level );
             Equation[] equations = factory.createProblemSet( 5, level );

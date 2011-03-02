@@ -3,6 +3,7 @@
 package edu.colorado.phet.balancingchemicalequations;
 
 import javax.swing.JMenu;
+import javax.swing.JSeparator;
 
 import edu.colorado.phet.balancingchemicalequations.control.BCEOptionMenu;
 import edu.colorado.phet.balancingchemicalequations.control.DeveloperColorsMenuItem;
@@ -35,9 +36,12 @@ public class BalancingChemicalEquationsApplication extends PiccoloPhetApplicatio
 
         // Developer menu
         JMenu developerMenu = getPhetFrame().getDeveloperMenu();
+        developerMenu.add( new JSeparator() );
         developerMenu.add( new DeveloperColorsMenuItem( globalProperties ) );
         developerMenu.add( new PropertyCheckBoxMenuItem( "Show answers", globalProperties.getShowAnswersProperty() ) );
-        developerMenu.add( new PropertyCheckBoxMenuItem( "Show charts/scales in Game", globalProperties.getShowChartsAndScalesInGameProperty() ) );
+        developerMenu.add( new JSeparator() );
+        developerMenu.add( new PropertyCheckBoxMenuItem( "Game: show charts/scales", globalProperties.getShowChartsAndScalesInGameProperty() ) );
+        developerMenu.add( new PropertyCheckBoxMenuItem( "Game: play all equations", globalProperties.getPlayAllEquationsProperty() ) );
     }
 
     public static void main( final String[] args ) throws ClassNotFoundException {

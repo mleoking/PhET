@@ -4,6 +4,7 @@ package edu.colorado.phet.balancingchemicalequations.module.game;
 
 import java.util.HashMap;
 
+import edu.colorado.phet.balancingchemicalequations.BCEGlobalProperties;
 import edu.colorado.phet.balancingchemicalequations.model.BCEClock;
 import edu.colorado.phet.balancingchemicalequations.model.Equation;
 import edu.colorado.phet.balancingchemicalequations.model.GameEquationsFactory;
@@ -29,7 +30,7 @@ public class GameModel {
 
     private static final IntegerRange COEFFICENTS_RANGE = new IntegerRange( 0, 7 );
     private static final IntegerRange LEVELS_RANGE = new IntegerRange( 1, 3, 1 );
-    private static final int PROBLEMS_PER_GAME = 5;
+    private static final int EQUATIONS_PER_GAME = 5;
     private static final int POINTS_FIRST_ATTEMPT = 2;  // points to award for correct guess on 1st attempt
     private static final int POINTS_SECOND_ATTEMPT = 1; // points to award for correct guess on 2nd attempt
 
@@ -37,7 +38,7 @@ public class GameModel {
     private final Property<GameState> gameStateProperty;
     private final Property<Equation> currentEquationProperty;
 
-    private final GameEquationsFactory problemsFactory; // generates problem sets
+    private final GameEquationsFactory equationsFactory; // generates problem sets
     private final GameSettings gameSettings;
     private final HashMap<Integer,Long> bestTimes; // best times, maps level to time in ms
     private final GameTimer timer;
@@ -48,17 +49,17 @@ public class GameModel {
     private boolean isNewBestTime; // is the time for this game a new best time?
     private boolean isGameCompleted; // was the game played to completion?
 
-    public GameModel() {
+    public GameModel( final BCEGlobalProperties globalProperties ) {
         gameStateProperty = new Property<GameState>( GameState.START_GAME );
         pointsProperty = new Property<Integer>( 0 );
-        problemsFactory = new GameEquationsFactory();
+        equationsFactory = new GameEquationsFactory( globalProperties.getPlayAllEquationsProperty() );
         gameSettings = new GameSettings( LEVELS_RANGE, true /* sound */, true /* timer */ );
         bestTimes = new HashMap<Integer,Long>();
         for ( int i = gameSettings.level.getMin(); i <= gameSettings.level.getMax(); i++ ) {
             bestTimes.put( i, 0L );
         }
         timer = new GameTimer( new BCEClock() );
-        equations = problemsFactory.createProblemSet( PROBLEMS_PER_GAME, gameSettings.level.getValue() ); // needs to be non-null after initialization
+        equations = equationsFactory.createProblemSet( EQUATIONS_PER_GAME, gameSettings.level.getValue() ); // needs to be non-null after initialization
         equationIndex = 0;
         currentEquationProperty = new Property<Equation>( equations[equationIndex] );
     }
@@ -111,7 +112,7 @@ public class GameModel {
      * Called when the user presses the "Start Game" button.
      */
     public void startGame() {
-        equations = problemsFactory.createProblemSet( PROBLEMS_PER_GAME, gameSettings.level.getValue() );
+        equations = equationsFactory.createProblemSet( EQUATIONS_PER_GAME, gameSettings.level.getValue() );
         equationIndex = 0;
         attempts = 0;
         isNewBestTime = false;
@@ -246,7 +247,7 @@ public class GameModel {
     }
 
     public int getMaxScore() {
-        return PROBLEMS_PER_GAME * POINTS_FIRST_ATTEMPT;
+        return getNumberOfEquations() * POINTS_FIRST_ATTEMPT;
     }
 
     public boolean isPerfectScore() {
