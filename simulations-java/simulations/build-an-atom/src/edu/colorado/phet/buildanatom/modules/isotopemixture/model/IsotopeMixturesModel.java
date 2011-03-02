@@ -64,9 +64,6 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
     private static final Color [] ISOTOPE_COLORS = new Color [] { new Color( 180, 82, 205), Color.green,
         new Color(255, 69, 0), new Color( 139, 90, 43 ) };
 
-    // Random number generator for positioning isotopes.
-    private static final Random RAND = new Random();
-
     // Enum of atom size settings.
     public enum IsotopeSize { SMALL, LARGE };
 
@@ -204,6 +201,9 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
             isotope.removeListener( isotopeGrabbedListener );
             isotope.removeFromModel();
         }
+
+        // Always start with showing user's mix.
+        showingNaturesMix.setValue( false );
 
         // Update the prototype atom (a.k.a. isotope) configuration.
         prototypeIsotope.setNumProtons( atom.getNumProtons() );
@@ -374,10 +374,22 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
         if ( naturesMixOfIsotopes.size() == 0 ){
             // This is the first time that nature's mix has been shown since
             // the user selected the current element, so populate the list.
+            double totalNumIsotopes = 1000;  // TODO: Make this a constant if actually used.
             for ( ImmutableAtom isotopeConfig : getPossibleIsotopesProperty().getValue() ){
-                MovableAtom newIsotope = new MovableAtom( isotopeConfig.getNumProtons(),
-                        isotopeConfig.getNumNeutrons(), SMALL_ISOTOPE_RADIUS, new Point2D.Double( (RAND.nextDouble() - 0.5) * 100, (RAND.nextDouble() - 0.5) * 100 ), clock );
-                naturesMixOfIsotopes.add( newIsotope );
+                int numToCreate = (int)Math.round( totalNumIsotopes * AtomIdentifier.getNaturalAbundance( isotopeConfig ) );
+                if ( numToCreate == 0 ){
+                    System.out.println("Warning, quantity at zero for " + AtomIdentifier.getName( isotopeConfig ) + "-" + isotopeConfig.getMassNumber());
+                    numToCreate = 1;
+                }
+                for ( int i = 0; i < numToCreate; i++){
+                    MovableAtom newIsotope = new MovableAtom(
+                            isotopeConfig.getNumProtons(),
+                            isotopeConfig.getNumNeutrons(),
+                            SMALL_ISOTOPE_RADIUS,
+                            testChamber.generateRandomLocation(),
+                            clock );
+                    naturesMixOfIsotopes.add( newIsotope );
+                }
             }
         }
         // Send out notifications of the isotopes being added to the model.
@@ -386,6 +398,10 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
             isotope.getPartOfModelProperty().setValue( true );
             notifyIsotopeInstanceAdded( isotope );
         }
+    }
+
+    private void populateNaturesMixList(){
+
     }
 
     private void hideNaturesMix(){
@@ -466,6 +482,9 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
                     -SIZE.getHeight() / 2,
                     SIZE.getWidth(),
                     SIZE.getHeight() );
+
+        // Random number generator for generating positions.
+        private static final Random RAND = new Random();
 
         // ------------------------------------------------------------------------
         // Instance Data
@@ -648,12 +667,13 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
         }
 
         /**
-         * Add the isotope to the chamber, and move it to an open location.
-         *
-         * @param isotope
+         * Generate a random location within the test chamber.
+         * @return
          */
-        public void addIsotopeToOpenLocation( MovableAtom isotope ){
-
+        public Point2D generateRandomLocation(){
+            return new Point2D.Double(
+                    TEST_CHAMBER_RECT.getMinX() + RAND.nextDouble() * TEST_CHAMBER_RECT.getWidth(),
+                    TEST_CHAMBER_RECT.getMinY() + RAND.nextDouble() * TEST_CHAMBER_RECT.getHeight() );
         }
     }
 }
