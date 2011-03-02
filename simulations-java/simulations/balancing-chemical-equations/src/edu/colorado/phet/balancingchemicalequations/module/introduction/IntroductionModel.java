@@ -5,9 +5,9 @@ package edu.colorado.phet.balancingchemicalequations.module.introduction;
 import java.util.ArrayList;
 
 import edu.colorado.phet.balancingchemicalequations.model.Equation;
-import edu.colorado.phet.balancingchemicalequations.model.TwoReactantsOneProductEquation.MakeAmmoniaEquation;
-import edu.colorado.phet.balancingchemicalequations.model.OneReactantTwoProductsEquation.SeparateWaterEquation;
-import edu.colorado.phet.balancingchemicalequations.model.TwoReactantsTwoProductsEquation.CombustMethaneEquation;
+import edu.colorado.phet.balancingchemicalequations.model.DecompositionEquation.Equation_2H2O_2H2_O2;
+import edu.colorado.phet.balancingchemicalequations.model.TwoReactantsOneProductEquation.Equation_N2_3H2_2NH3;
+import edu.colorado.phet.balancingchemicalequations.model.TwoReactantsTwoProductsEquation.Equation_CH4_2O2_CO2_2H2O;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -27,9 +27,9 @@ public class IntroductionModel {
 
     public IntroductionModel( final boolean dev ) {
         equations = new ArrayList<Equation>() {{
-            add( new MakeAmmoniaEquation() );
-            add( new SeparateWaterEquation() );
-            add( new CombustMethaneEquation() );
+            add( new Equation_N2_3H2_2NH3() );
+            add( new Equation_2H2O_2H2_O2() );
+            add( new Equation_CH4_2O2_CO2_2H2O() );
         }};
         currentEquationProperty = new Property<Equation>( equations.get( 0 ) );
     }

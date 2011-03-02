@@ -4,30 +4,27 @@ package edu.colorado.phet.balancingchemicalequations.model;
 
 import java.util.ArrayList;
 
-import edu.colorado.phet.balancingchemicalequations.model.TwoReactantsOneProductEquation.Equation_2CO_O2_2CO2;
+import edu.colorado.phet.balancingchemicalequations.model.DecompositionEquation.Equation_2CO2_2CO_O2;
+import edu.colorado.phet.balancingchemicalequations.model.DecompositionEquation.Equation_2CO_C_CO2;
+import edu.colorado.phet.balancingchemicalequations.model.DecompositionEquation.Equation_2HCl_H2_Cl2;
+import edu.colorado.phet.balancingchemicalequations.model.DecompositionEquation.Equation_2NH3_N2_3H2;
+import edu.colorado.phet.balancingchemicalequations.model.DecompositionEquation.Equation_2NO2_2NO_O2;
+import edu.colorado.phet.balancingchemicalequations.model.DecompositionEquation.Equation_2NO_N2_O2;
+import edu.colorado.phet.balancingchemicalequations.model.DecompositionEquation.Equation_2SO3_2SO2_O2;
+import edu.colorado.phet.balancingchemicalequations.model.DecompositionEquation.Equation_4PCl3_P4_6Cl2;
+import edu.colorado.phet.balancingchemicalequations.model.DecompositionEquation.Equation_C2H6_C2H4_H2;
+import edu.colorado.phet.balancingchemicalequations.model.DecompositionEquation.Equation_CH3OH_CO_2H2;
+import edu.colorado.phet.balancingchemicalequations.model.DecompositionEquation.Equation_PCl5_PCl3_Cl2;
 import edu.colorado.phet.balancingchemicalequations.model.TwoReactantsOneProductEquation.Equation_2C_O2_2CO;
 import edu.colorado.phet.balancingchemicalequations.model.TwoReactantsOneProductEquation.Equation_2H2_O2_2H2O;
 import edu.colorado.phet.balancingchemicalequations.model.TwoReactantsOneProductEquation.Equation_2N2_O2_2N2O;
-import edu.colorado.phet.balancingchemicalequations.model.TwoReactantsOneProductEquation.Equation_2NO_O2_2NO2;
-import edu.colorado.phet.balancingchemicalequations.model.TwoReactantsOneProductEquation.Equation_2SO2_O2_2SO3;
 import edu.colorado.phet.balancingchemicalequations.model.TwoReactantsOneProductEquation.Equation_C2H2_2H2_C2H6;
-import edu.colorado.phet.balancingchemicalequations.model.TwoReactantsOneProductEquation.Equation_C2H4_H2_C2H6;
 import edu.colorado.phet.balancingchemicalequations.model.TwoReactantsOneProductEquation.Equation_CH2O_H2_CH3OH;
-import edu.colorado.phet.balancingchemicalequations.model.TwoReactantsOneProductEquation.Equation_CO_2H2_CH3OH;
 import edu.colorado.phet.balancingchemicalequations.model.TwoReactantsOneProductEquation.Equation_C_2S_CS2;
-import edu.colorado.phet.balancingchemicalequations.model.TwoReactantsOneProductEquation.Equation_C_CO2_2CO;
 import edu.colorado.phet.balancingchemicalequations.model.TwoReactantsOneProductEquation.Equation_C_O2_CO2;
-import edu.colorado.phet.balancingchemicalequations.model.TwoReactantsOneProductEquation.Equation_H2_Cl2_2HCl;
 import edu.colorado.phet.balancingchemicalequations.model.TwoReactantsOneProductEquation.Equation_H2_F2_2HF;
-import edu.colorado.phet.balancingchemicalequations.model.TwoReactantsOneProductEquation.Equation_N2_3H2_2NH3;
-import edu.colorado.phet.balancingchemicalequations.model.TwoReactantsOneProductEquation.Equation_N2_O2_2NO;
-import edu.colorado.phet.balancingchemicalequations.model.TwoReactantsOneProductEquation.Equation_P4_6Cl2_4PCl3;
 import edu.colorado.phet.balancingchemicalequations.model.TwoReactantsOneProductEquation.Equation_P4_6F2_4PF3;
 import edu.colorado.phet.balancingchemicalequations.model.TwoReactantsOneProductEquation.Equation_P4_6H2_4PH3;
-import edu.colorado.phet.balancingchemicalequations.model.TwoReactantsOneProductEquation.Equation_PCl3_Cl2_PCl5;
-import edu.colorado.phet.balancingchemicalequations.model.TwoReactantsOneProductEquation.MakeAmmoniaEquation;
-import edu.colorado.phet.balancingchemicalequations.model.OneReactantTwoProductsEquation.SeparateWaterEquation;
-import edu.colorado.phet.balancingchemicalequations.model.TwoReactantsTwoProductsEquation.CombustMethaneEquation;
 import edu.colorado.phet.balancingchemicalequations.model.TwoReactantsTwoProductsEquation.Equation_2C2H2_5O2_4CO2_2H2O;
 import edu.colorado.phet.balancingchemicalequations.model.TwoReactantsTwoProductsEquation.Equation_2C2H6_7O2_4CO2_6H2O;
 import edu.colorado.phet.balancingchemicalequations.model.TwoReactantsTwoProductsEquation.Equation_2C_2H2O_CH4_CO2;
@@ -39,6 +36,7 @@ import edu.colorado.phet.balancingchemicalequations.model.TwoReactantsTwoProduct
 import edu.colorado.phet.balancingchemicalequations.model.TwoReactantsTwoProductsEquation.Equation_C2H4_3O2_2CO2_2H2O;
 import edu.colorado.phet.balancingchemicalequations.model.TwoReactantsTwoProductsEquation.Equation_C2H5OH_3O2_2CO2_3H2O;
 import edu.colorado.phet.balancingchemicalequations.model.TwoReactantsTwoProductsEquation.Equation_C2H6_Cl2_C2H5Cl_HCl;
+import edu.colorado.phet.balancingchemicalequations.model.TwoReactantsTwoProductsEquation.Equation_CH4_2O2_CO2_2H2O;
 import edu.colorado.phet.balancingchemicalequations.model.TwoReactantsTwoProductsEquation.Equation_CH4_4S_CS2_2H2S;
 import edu.colorado.phet.balancingchemicalequations.model.TwoReactantsTwoProductsEquation.Equation_CH4_H2O_3H2_CO;
 import edu.colorado.phet.balancingchemicalequations.model.TwoReactantsTwoProductsEquation.Equation_CS2_3O2_CO2_2SO2;
@@ -56,34 +54,32 @@ public class GameEquationsFactory {
 
     // Level 1
     private static final ArrayList<Class <? extends Equation>> LEVEL1_LIST = new ArrayList<Class<? extends Equation>>() {{
-        add( MakeAmmoniaEquation.class );
-        add( SeparateWaterEquation.class );
         add( Equation_2H2_O2_2H2O.class );
         add( Equation_H2_F2_2HF.class );
-        add( Equation_H2_Cl2_2HCl.class );
-        add( Equation_CO_2H2_CH3OH.class );
+        add( Equation_2HCl_H2_Cl2.class );
+        add( Equation_CH3OH_CO_2H2.class );
         add( Equation_CH2O_H2_CH3OH.class );
-        add( Equation_C2H4_H2_C2H6.class );
+        add( Equation_C2H6_C2H4_H2.class );
         add( Equation_C2H2_2H2_C2H6.class );
         add( Equation_C_O2_CO2.class );
         add( Equation_2C_O2_2CO.class );
-        add( Equation_2CO_O2_2CO2.class );
-        add( Equation_C_CO2_2CO.class );
+        add( Equation_2CO2_2CO_O2.class );
+        add( Equation_2CO_C_CO2.class );
         add( Equation_C_2S_CS2.class );
-        add( Equation_N2_3H2_2NH3.class );
-        add( Equation_N2_O2_2NO.class );
-        add( Equation_2NO_O2_2NO2.class );
+        add( Equation_2NH3_N2_3H2.class );
+        add( Equation_2NO_N2_O2.class );
+        add( Equation_2NO2_2NO_O2.class );
         add( Equation_2N2_O2_2N2O.class );
         add( Equation_P4_6H2_4PH3.class );
         add( Equation_P4_6F2_4PF3.class );
-        add( Equation_P4_6Cl2_4PCl3.class );
-        add( Equation_PCl3_Cl2_PCl5.class );
-        add( Equation_2SO2_O2_2SO3.class );
+        add( Equation_4PCl3_P4_6Cl2.class );
+        add( Equation_PCl5_PCl3_Cl2.class );
+        add( Equation_2SO3_2SO2_O2.class );
     }};
 
     // Level 2
     private static final ArrayList<Class <? extends Equation>> LEVEL2_LIST = new ArrayList<Class<? extends Equation>>() {{
-        add( CombustMethaneEquation.class );
+        add( Equation_CH4_2O2_CO2_2H2O.class );
         add( Equation_2C_2H2O_CH4_CO2.class );
         add( Equation_CH4_H2O_3H2_CO.class );
         add( Equation_C2H4_3O2_2CO2_2H2O.class );

@@ -46,8 +46,8 @@ public abstract class TwoReactantsTwoProductsEquation extends Equation {
     }
 
     // CH4 + 2 O2 -> CO2 + 2 H2O
-    public static class CombustMethaneEquation extends TwoReactantsTwoProductsEquation {
-        public CombustMethaneEquation() {
+    public static class Equation_CH4_2O2_CO2_2H2O extends TwoReactantsTwoProductsEquation {
+        public Equation_CH4_2O2_CO2_2H2O() {
             super( BCEStrings.COMBUST_METHANE, new EquationTerm( 1, new CH4() ), new EquationTerm( 2, new O2() ), new EquationTerm( 1, new CO2() ), new EquationTerm( 2, new H2O() ) );
         }
     }
