@@ -1,3 +1,4 @@
+# 1.00.01 (49396) Mar 2, 2011
 Don't add to the path if the user is dragging the body, see #2767
 Reversed the initial velocity of the moon so it will orbit counterclockwise, resolves #2766
 Removed unnecessary calls to setBackground
