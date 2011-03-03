@@ -240,15 +240,13 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas implements Resettable 
 
             // Add the caption for the numerical readout.
             // TODO: i18n
-            final PText readoutCaption = new PText("This Isotope"){{
+            final PText readoutCaption = new PText( BuildAnAtomStrings.THIS_ISOTOPE ){{
                 setFont( new PhetFont( 18 ) );
                 valueBackground.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, new PropertyChangeListener() {
                     public void propertyChange( PropertyChangeEvent evt ) {
                           centerFullBoundsOnPoint(
                                   valueBackground.getFullBoundsReference().getCenterX(),
                                   valueBackground.getFullBoundsReference().getMinY() - getFullBoundsReference().height / 2 - 2 );
-//                          valueBackground.getFullBoundsReference().getCenterX(),
-//                          valueBackground.getFullBoundsReference().getMinY() - getFullBoundsReference().height - 4 );
                     }
                 });
             }};
