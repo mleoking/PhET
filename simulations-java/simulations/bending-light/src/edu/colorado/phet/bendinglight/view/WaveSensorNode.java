@@ -64,7 +64,7 @@ public class WaveSensorNode extends ToolboxNode.DoDragNode {
                 probe.position.addObserver( new SimpleObserver() {
                     public void update() {
                         final Point2D.Double viewPoint = transform.modelToView( probe.position.getValue() ).toPoint2D();
-                        setOffset( viewPoint.getX() - getFullBounds().getWidth() / 2, viewPoint.getY() - getFullBounds().getHeight() );
+                        setOffset( viewPoint.getX() - getFullBounds().getWidth() / 2, viewPoint.getY() - getFullBounds().getHeight() / 2 );
                     }
                 } );
             }
