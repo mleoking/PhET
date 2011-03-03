@@ -36,6 +36,7 @@
     <classpathentry kind="src" path="build-tools/contrib/securechannelfacade/src/main/java"/>
     <classpathentry kind="lib" path="build-tools/contrib/scala/scala-compiler.jar"/>
 	<classpathentry kind="lib" path="build-tools/contrib/scala/scala-library.jar"/>
+	<classpathentry kind="lib" path="build-tools/contrib/yuicompressor/yuicompressor-2.4.4.jar"/>
 	
 	<!-- commond code, all sims -->
 	<classpathentry kind="src" path="simulations-common/data"/>
