@@ -1,3 +1,5 @@
+Fixed: When wave sensor comes out of toolbox, one probe should be centered on mouse
+Fixed: Wave sensor should move all together when coming out of the toolbox.
 Fixed layout of wave sensor in toolbox
 Fixed: Wave sensor probes aren’t exactly at 0, they are up by half a height
 Fixed: Medium line should go behind the toolbox and tools

@@ -2,6 +2,7 @@
 package edu.colorado.phet.bendinglight.modules.moretools;
 
 import java.awt.geom.Dimension2D;
+import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Property;
@@ -35,6 +36,20 @@ public class WaveSensor {
         bodyPosition.setValue( bodyPosition.getValue().plus( dimension2D ) );
     }
 
+    /*
+     * Moves the sensor body and probes until the hot spot (center of one probe) is on the specified position.
+     */
+    public void translateToHotSpot( Point2D position ) {
+        ImmutableVector2D delta = new ImmutableVector2D( position ).minus( probe1.position.getValue() );
+        translateAll( delta );
+    }
+
+    public void translateAll( ImmutableVector2D delta ) {
+        probe1.translate( delta );
+        probe2.translate( delta );
+        bodyPosition.setValue( bodyPosition.getValue().plus( delta ) );
+    }
+
     public static class Probe {
         public final Property<ImmutableVector2D> position;
         public final Property<Double> value = new Property<Double>( 0.0 );
@@ -44,6 +59,10 @@ public class WaveSensor {
         }
 
         public void translate( Dimension2D delta ) {
+            position.setValue( position.getValue().plus( delta ) );
+        }
+
+        public void translate( ImmutableVector2D delta ) {
             position.setValue( position.getValue().plus( delta ) );
         }
     }
