@@ -102,7 +102,7 @@ public class IntroModel extends BendingLightModel {
 
                         double beamHalfWidth = a / 2;
                         double extentInterceptedHalfWidth = beamHalfWidth / Math.sin( Math.PI / 2 - theta1 ) / 2;
-                        double transmittedBeamHalfWidth = Math.cos( theta2 ) * extentInterceptedHalfWidth;
+                        double transmittedBeamHalfWidth = cos( theta2 ) * extentInterceptedHalfWidth;
                         double transmittedWaveWidth = transmittedBeamHalfWidth * 2;
 
                         final LightRay transmittedRay = new LightRay( new ImmutableVector2D(),
@@ -178,7 +178,8 @@ public class IntroModel extends BendingLightModel {
     protected Option<Double> getWaveValue( ImmutableVector2D position ) {
         for ( LightRay ray : rays ) {
             if ( ray.contains( position, laserView.getValue() == LaserView.WAVE ) ) {
-                return new Option.Some<Double>( Math.cos( getClock().getSimulationTime() * 10 ) );//TODO: use actual value for wave amplitude
+//                System.out.println( "ray.getFrequency() = " + ray.getFrequency() + ", t = " + getClock().getSimulationTime() );
+                return new Option.Some<Double>( Math.sqrt( ray.getPowerFraction() ) * cos( rays.indexOf( ray ) * Math.PI / 4 + getClock().getSimulationTime() * ray.getFrequency() / 4E14 * 10 ) );//TODO: use actual value for wave phase
             }
         }
         return new Option.None<Double>();

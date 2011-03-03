@@ -207,4 +207,8 @@ public class LightRay {
     public ImmutableVector2D getVelocity() {
         return tip.getValue().minus( tail.getValue() ).getNormalizedInstance().times( getSpeed() );
     }
+
+    public double getFrequency() {
+        return getSpeed() / getWavelength();
+    }
 }
