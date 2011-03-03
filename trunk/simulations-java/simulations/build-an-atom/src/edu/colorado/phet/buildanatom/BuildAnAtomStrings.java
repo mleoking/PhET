@@ -201,5 +201,6 @@ public class BuildAnAtomStrings {
     public static final String TITLE_ERROR = PhetCommonResources.getString( "Common.title.error" );
 
     public static final String NATURUAL_ABUNDANCE = getString( "naturalAbundance" );
+    public static final String THIS_ISOTOPE = getString( "thisIsotope" );
     public static final String VERY_SMALL = getString( "verySmall" );
 }
