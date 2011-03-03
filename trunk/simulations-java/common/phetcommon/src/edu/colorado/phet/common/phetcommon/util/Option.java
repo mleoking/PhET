@@ -2,6 +2,16 @@
 package edu.colorado.phet.common.phetcommon.util;
 
 /**
+ * The option pattern is an alternative to using null return values.
+ * See: http://www.codecommit.com/blog/scala/the-option-pattern
+ * <p/>
+ * Sample usage:
+ * <pre>
+ * {@code
+ * setText(value.isNone() ? "?" : new DecimalFormat( "0.0" ).format(value.get()))
+ * }
+ * </pre>
+ *
  * @author Sam Reid
  */
 public abstract class Option<T> {
