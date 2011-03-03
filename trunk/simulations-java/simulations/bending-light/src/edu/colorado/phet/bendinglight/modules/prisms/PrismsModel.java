@@ -137,8 +137,8 @@ public class PrismsModel extends BendingLightModel {
             else {
                 //Many parallel rays
                 for ( double x = -WAVELENGTH_RED; x <= WAVELENGTH_RED * 1.1; x += WAVELENGTH_RED / 2 ) {
-                    ImmutableVector2D offsetDir = directionUnitVector.getRotatedInstance( Math.PI / 2 ).getScaledInstance( x );
-                    propagateColor( new Ray( tail.getAddedInstance( offsetDir ), directionUnitVector, 1.0, laserInPrism ? prismDispersion : environmentDispersion, wavelength, laserInPrism ? prismMedium.getValue().getIndexOfRefraction() : environment.getValue().getIndexOfRefraction() ) );
+                    ImmutableVector2D offsetDir = directionUnitVector.getRotatedInstance( Math.PI / 2 ).times( x );
+                    propagateColor( new Ray( tail.plus( offsetDir ), directionUnitVector, 1.0, laserInPrism ? prismDispersion : environmentDispersion, wavelength, laserInPrism ? prismMedium.getValue().getIndexOfRefraction() : environment.getValue().getIndexOfRefraction() ) );
                 }
             }
         }
@@ -176,7 +176,7 @@ public class PrismsModel extends BendingLightModel {
         final double n1 = incidentRay.indexOfRefraction.apply( incidentRay.wavelength, incidentRay.mediumIndexOfRefraction );
 
         if ( intersection != null ) {
-            ImmutableVector2D pointOnOtherSide = new ImmutableVector2D( intersection.getPoint() ).getAddedInstance( incidentRay.directionUnitVector.getInstanceOfMagnitude( 1E-12 ) );
+            ImmutableVector2D pointOnOtherSide = new ImmutableVector2D( intersection.getPoint() ).plus( incidentRay.directionUnitVector.getInstanceOfMagnitude( 1E-12 ) );
             boolean outputInsidePrism = false;
             for ( Prism prism : prisms ) {
                 if ( prism.contains( pointOnOtherSide ) ) {
@@ -192,21 +192,21 @@ public class PrismsModel extends BendingLightModel {
             ImmutableVector2D n = intersection.getUnitNormal();
             addIntersection( intersection );
             //See http://en.wikipedia.org/wiki/Snell's_law#Vector_form
-            double cosTheta1 = n.dot( L.getScaledInstance( -1 ) );
+            double cosTheta1 = n.dot( L.times( -1 ) );
             final double cosTheta2Radicand = 1 - pow( n1 / n2, 2 ) * ( 1 - pow( cosTheta1, 2 ) );
             double cosTheta2 = sqrt( cosTheta2Radicand );
 
             boolean totalInternalReflection = cosTheta2Radicand < 0;
-            ImmutableVector2D vReflect = L.getAddedInstance( n.getScaledInstance( 2 * cosTheta1 ) );
+            ImmutableVector2D vReflect = L.plus( n.times( 2 * cosTheta1 ) );
             ImmutableVector2D vRefract = cosTheta1 > 0 ?
-                                         L.getScaledInstance( n1 / n2 ).getAddedInstance( n.getScaledInstance( n1 / n2 * cosTheta1 - cosTheta2 ) ) :
-                                         L.getScaledInstance( n1 / n2 ).getAddedInstance( n.getScaledInstance( n1 / n2 * cosTheta1 + cosTheta2 ) );
+                                         L.times( n1 / n2 ).plus( n.times( n1 / n2 * cosTheta1 - cosTheta2 ) ) :
+                                         L.times( n1 / n2 ).plus( n.times( n1 / n2 * cosTheta1 + cosTheta2 ) );
 
             final double reflectedPower = totalInternalReflection ? 1 : MathUtil.clamp( 0, getReflectedPower( n1, n2, cosTheta1, cosTheta2 ), 1 );
             final double transmittedPower = totalInternalReflection ? 0 : MathUtil.clamp( 0, getTransmittedPower( n1, n2, cosTheta1, cosTheta2 ), 1 );
 
-            Ray reflected = new Ray( point.getAddedInstance( incidentRay.directionUnitVector.getScaledInstance( -1E-12 ) ), vReflect, incidentRay.power * reflectedPower, incidentRay.indexOfRefraction, incidentRay.wavelength, incidentRay.mediumIndexOfRefraction );
-            Ray refracted = new Ray( point.getAddedInstance( incidentRay.directionUnitVector.getScaledInstance( +1E-12 ) ), vRefract, incidentRay.power * transmittedPower, otherMediumIndexOfRefraction, incidentRay.wavelength, otherMediumIndexValue );
+            Ray reflected = new Ray( point.plus( incidentRay.directionUnitVector.times( -1E-12 ) ), vReflect, incidentRay.power * reflectedPower, incidentRay.indexOfRefraction, incidentRay.wavelength, incidentRay.mediumIndexOfRefraction );
+            Ray refracted = new Ray( point.plus( incidentRay.directionUnitVector.times( +1E-12 ) ), vRefract, incidentRay.power * transmittedPower, otherMediumIndexOfRefraction, incidentRay.wavelength, otherMediumIndexValue );
             if ( showReflections.getValue() || totalInternalReflection ) {
                 propagate( reflected, count + 1 );
             }
@@ -215,7 +215,7 @@ public class PrismsModel extends BendingLightModel {
             addRay( new LightRay( incidentRay.tail, intersection.getPoint(), n1, WAVELENGTH_RED / n1, incidentRay.power, new VisibleColor( incidentRay.wavelength * 1E9 ), waveWidth, 0, null, 0, true, false ) );
         }
         else {
-            addRay( new LightRay( incidentRay.tail, incidentRay.tail.getAddedInstance( incidentRay.directionUnitVector.getScaledInstance( 1 ) )//1 meter long ray
+            addRay( new LightRay( incidentRay.tail, incidentRay.tail.plus( incidentRay.directionUnitVector.times( 1 ) )//1 meter long ray
                     , n1, WAVELENGTH_RED / n1, incidentRay.power, new VisibleColor( incidentRay.wavelength * 1E9 ), waveWidth, 0, null, 0, true, false ) );
         }
     }

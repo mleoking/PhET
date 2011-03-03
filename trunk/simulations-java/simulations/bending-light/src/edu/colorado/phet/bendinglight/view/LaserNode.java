@@ -141,7 +141,7 @@ public class LaserNode extends PNode {
         addChild( new DragRegion( rotationRegion.apply( fullRectangle, backRectangle ), rotationRegionColor, new VoidFunction1<PInputEvent>() {
             public void apply( PInputEvent event ) {
                 ImmutableVector2D modelPoint = new ImmutableVector2D( transform.viewToModel( event.getPositionRelativeTo( getParent().getParent() ) ) );
-                ImmutableVector2D vector = modelPoint.getSubtractedInstance( laser.pivot.getValue() );
+                ImmutableVector2D vector = modelPoint.minus( laser.pivot.getValue() );
                 final double angle = vector.getAngle();
                 double after = clampDragAngle.apply( angle );
                 laser.setAngle( after );

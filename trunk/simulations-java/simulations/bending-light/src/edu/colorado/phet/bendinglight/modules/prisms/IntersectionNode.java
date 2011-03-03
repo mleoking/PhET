@@ -17,8 +17,8 @@ public class IntersectionNode extends PNode {
         ImmutableVector2D center = transform.modelToView( intersection.getPoint() );
         ImmutableVector2D norm = transform.modelToViewDelta( intersection.getUnitNormal() ).getNormalizedInstance();
         int normalLength = 100;
-        addChild( new PhetPPath( new Line2D.Double( center.getAddedInstance( norm.getScaledInstance( normalLength / 2 ) ).toPoint2D(),
-                                                    center.getAddedInstance( norm.getScaledInstance( -normalLength / 2 ) ).toPoint2D() ),
+        addChild( new PhetPPath( new Line2D.Double( center.plus( norm.times( normalLength / 2 ) ).toPoint2D(),
+                                                    center.plus( norm.times( -normalLength / 2 ) ).toPoint2D() ),
                                  new BasicStroke( 2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1f, new float[] { 10, 5 }, 0 ), Color.darkGray ) {{
         }} );
     }

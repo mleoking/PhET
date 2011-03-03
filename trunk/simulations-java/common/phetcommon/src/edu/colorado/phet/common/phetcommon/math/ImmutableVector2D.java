@@ -178,6 +178,10 @@ public class ImmutableVector2D implements Serializable {
         return vector.getScaledInstance( r );
     }
 
+    public ImmutableVector2D plus( double x, double y ) {
+        return getAddedInstance( x, y );
+    }
+
     public ImmutableVector2D plus( ImmutableVector2D v ) {
         return getAddedInstance( v );
     }

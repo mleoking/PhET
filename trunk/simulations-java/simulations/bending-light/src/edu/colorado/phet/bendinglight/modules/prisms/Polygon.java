@@ -46,7 +46,7 @@ public class Polygon {
     public Polygon getTranslatedInstance( final double dx, final double dy ) {
         return new Polygon( new ArrayList<ImmutableVector2D>() {{
             for ( ImmutableVector2D point : points ) {
-                add( point.getAddedInstance( dx, dy ) );
+                add( point.plus( dx, dy ) );
             }
         }} );
     }
@@ -60,7 +60,7 @@ public class Polygon {
         }
         for ( Line2D.Double lineSegment : lineSegments ) {
             Point2D.Double intersection = MathUtil.getLineSegmentsIntersection( lineSegment, new Line2D.Double( incidentRay.tail.toPoint2D(),
-                                                                                                                incidentRay.tail.getAddedInstance( incidentRay.directionUnitVector.getScaledInstance( 1 ) ).toPoint2D() ) );
+                                                                                                                incidentRay.tail.plus( incidentRay.directionUnitVector.times( 1 ) ).toPoint2D() ) );
             if ( intersection != null && !isNaN( intersection.getX() ) && !isNaN( intersection.getY() ) ) {
                 //Choose the normal vector that points the opposite direction of the incoming ray
                 ImmutableVector2D normal1 = new ImmutableVector2D( lineSegment.getP1(), lineSegment.getP2() ).getRotatedInstance( +Math.PI / 2 ).getNormalizedInstance();
@@ -81,9 +81,9 @@ public class Polygon {
         final ImmutableVector2D centroid = getCentroid();//cache for performance
         return new Polygon( new ArrayList<ImmutableVector2D>() {{
             for ( ImmutableVector2D point : points ) {
-                ImmutableVector2D vectorAboutCentroid = point.getSubtractedInstance( centroid );
+                ImmutableVector2D vectorAboutCentroid = point.minus( centroid );
                 final ImmutableVector2D rotated = vectorAboutCentroid.getRotatedInstance( deltaAngle );
-                add( rotated.getAddedInstance( centroid ) );
+                add( rotated.plus( centroid ) );
             }
         }} );
     }

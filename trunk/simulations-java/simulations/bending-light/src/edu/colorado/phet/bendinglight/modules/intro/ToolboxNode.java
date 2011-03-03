@@ -153,7 +153,7 @@ public class ToolboxNode extends PNode {
                             }
                         } );
                         final ImmutableVector2D modelPt = new ImmutableVector2D( transform.viewToModel( event.getPositionRelativeTo( getParent().getParent().getParent() ) ) );
-                        final ImmutableVector2D delta = modelPt.getSubtractedInstance( intensityMeter.sensorPosition.getValue() );
+                        final ImmutableVector2D delta = modelPt.minus( intensityMeter.sensorPosition.getValue() );
                         intensityMeter.translateAll( new PDimension( delta.getX(), delta.getY() ) );
                         node.addPropertyChangeListener( PROPERTY_FULL_BOUNDS, pcl );
                         node.addInputEventListener( new PBasicInputEventHandler() {

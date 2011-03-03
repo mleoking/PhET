@@ -71,16 +71,16 @@ public class LightRay {
 
     public void propagate( double dt ) {
         propagateTip( dt );
-        tail.setValue( tail.getValue().getAddedInstance( getDelta( dt ) ) );
+        tail.setValue( tail.getValue().plus( getDelta( dt ) ) );
     }
 
     public void propagateTip( double dt ) {
-        tip.setValue( tip.getValue().getAddedInstance( getDelta( dt ) ) );
+        tip.setValue( tip.getValue().plus( getDelta( dt ) ) );
     }
 
     private ImmutableVector2D getDelta( double dt ) {
-        ImmutableVector2D unitDirection = tip.getValue().getSubtractedInstance( tail.getValue() ).getNormalizedInstance();
-        return unitDirection.getScaledInstance( getSpeed() * dt );
+        ImmutableVector2D unitDirection = tip.getValue().minus( tail.getValue() ).getNormalizedInstance();
+        return unitDirection.times( getSpeed() * dt );
     }
 
     public void remove() {
@@ -107,7 +107,7 @@ public class LightRay {
     }
 
     public double getLength() {
-        return tip.getValue().getSubtractedInstance( tail.getValue() ).getMagnitude();
+        return tip.getValue().minus( tail.getValue() ).getMagnitude();
     }
 
     public ImmutableVector2D toVector2D() {
@@ -154,12 +154,12 @@ public class LightRay {
 
     //Have to extend the line so that it can be clipped against the opposite medium, so it will won't show any missing triangular chips.
     private Line2D.Double getExtendedLine() {
-        return new Line2D.Double( tail.getValue().toPoint2D(), tip.getValue().getAddedInstance( getUnitVector().getScaledInstance( getExtensionFactor() ) ).toPoint2D() );
+        return new Line2D.Double( tail.getValue().toPoint2D(), tip.getValue().plus( getUnitVector().times( getExtensionFactor() ) ).toPoint2D() );
     }
 
     //Use this one for the transmitted beam
     private Line2D.Double getExtendedLineBackwards() {
-        return new Line2D.Double( tail.getValue().getAddedInstance( getUnitVector().getScaledInstance( -getExtensionFactor() ) ).toPoint2D(), tip.getValue().toPoint2D() );
+        return new Line2D.Double( tail.getValue().plus( getUnitVector().times( -getExtensionFactor() ) ).toPoint2D(), tip.getValue().toPoint2D() );
     }
 
     private ImmutableVector2D getUnitVector() {

@@ -24,11 +24,11 @@ public class IntensityMeter {
     }
 
     public void translateSensor( Dimension2D delta ) {
-        sensorPosition.setValue( sensorPosition.getValue().getAddedInstance( delta.getWidth(), delta.getHeight() ) );
+        sensorPosition.setValue( sensorPosition.getValue().plus( delta ) );
     }
 
     public void translateBody( Dimension2D delta ) {
-        bodyPosition.setValue( bodyPosition.getValue().getAddedInstance( delta.getWidth(), delta.getHeight() ) );
+        bodyPosition.setValue( bodyPosition.getValue().plus( delta ) );
     }
 
     public Ellipse2D.Double getSensorShape() {

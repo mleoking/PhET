@@ -64,8 +64,8 @@ public class RotationDragHandle extends PNode {
                     final Shape arrowBody = new BasicStroke( 10, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER ).createStrokedShape( arc );
 
                     double EPSILON = 0.1;
-                    ImmutableVector2D arrowTail = new ImmutableVector2D( viewOrigin ).getAddedInstance( parseAngleAndMagnitude( distance, toRadians( -laserAngleInDegrees - deltaAngleDegrees * ( 1 - EPSILON ) ) ) );
-                    ImmutableVector2D arrowTip = new ImmutableVector2D( viewOrigin ).getAddedInstance( parseAngleAndMagnitude( distance, toRadians( -laserAngleInDegrees - deltaAngleDegrees * 1.1 ) ) );
+                    ImmutableVector2D arrowTail = new ImmutableVector2D( viewOrigin ).plus( parseAngleAndMagnitude( distance, toRadians( -laserAngleInDegrees - deltaAngleDegrees * ( 1 - EPSILON ) ) ) );
+                    ImmutableVector2D arrowTip = new ImmutableVector2D( viewOrigin ).plus( parseAngleAndMagnitude( distance, toRadians( -laserAngleInDegrees - deltaAngleDegrees * 1.1 ) ) );
 
                     final Shape arrowHead = new Arrow( arrowTail.toPoint2D(), arrowTip.toPoint2D(), 20, 20, 0, 1.0, false ).getShape();
                     Area area = new Area( arrowBody ) {{
