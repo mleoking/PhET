@@ -7,6 +7,10 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Property;
+import edu.colorado.phet.common.phetcommon.model.clock.Clock;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.util.Function0;
 import edu.colorado.phet.common.phetcommon.util.Option;
 
 /**
@@ -29,7 +33,7 @@ public class WaveSensor {
     }};
     public final Property<ImmutableVector2D> bodyPosition = new Property<ImmutableVector2D>( new ImmutableVector2D( 4.882500000000015E-6, -3.1298076923077013E-6 ) );
 
-    public WaveSensor() {
+    public WaveSensor( final Clock clock, final Function0<Option<Double>> probe1Value, final Function0<Option<Double>> probe2Value ) {
         //This code helps to come up with a good set of defaults for the values.
 //        public static String toCode( ImmutableVector2D v ) {
 //        return "new ImmutableVector2D(" + v.getX() + "," + v.getY() + ")";
@@ -43,6 +47,22 @@ public class WaveSensor {
 //        };
 //        probe1.position.addObserver( simpleObserver );
 //        probe2.position.addObserver( simpleObserver );
+        clock.addClockListener( new ClockAdapter() {
+            public void simulationTimeChanged( ClockEvent clockEvent ) {
+//                updateProbeSample( probe1, probe1Value, clock );
+//                updateProbeSample( probe2, probe2Value, clock );
+            }
+        } );
+    }
+
+    private void updateProbeSample( Probe probe, Function0<Option<Double>> probe1Value, Clock clock ) {
+        final Option<Double> value = probe1Value.apply();
+        if ( value.isSome() ) {
+            probe.addSample( new Option.Some<ImmutableVector2D>( new ImmutableVector2D( clock.getSimulationTime(), value.get() ) ) );
+        }
+        else {
+            probe.addSample( new Option.None<ImmutableVector2D>() );
+        }
     }
 
     public void translateBody( Dimension2D dimension2D ) {
@@ -76,6 +96,12 @@ public class WaveSensor {
 
         public void translate( ImmutableVector2D delta ) {
             position.setValue( position.getValue().plus( delta ) );
+        }
+
+        public void addSample( final Option<ImmutableVector2D> sample ) {
+            series.setValue( new ArrayList<Option<ImmutableVector2D>>( series.getValue() ) {{
+                add( sample );
+            }} );
         }
     }
 }

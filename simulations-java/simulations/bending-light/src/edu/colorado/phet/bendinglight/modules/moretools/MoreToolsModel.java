@@ -4,6 +4,8 @@ package edu.colorado.phet.bendinglight.modules.moretools;
 import edu.colorado.phet.bendinglight.model.VelocitySensor;
 import edu.colorado.phet.bendinglight.modules.intro.IntroModel;
 import edu.colorado.phet.bendinglight.util.RichSimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.Function0;
+import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.VoidFunction0;
 
 /**
@@ -11,7 +13,15 @@ import edu.colorado.phet.common.phetcommon.util.VoidFunction0;
  */
 public class MoreToolsModel extends IntroModel {
     public final VelocitySensor velocitySensor = new VelocitySensor();
-    public final WaveSensor waveSensor = new WaveSensor();
+    public final WaveSensor waveSensor = new WaveSensor( getClock(), new Function0<Option<Double>>() {
+        public Option<Double> apply() {
+            return new Option.Some<Double>( 1.0 );
+        }
+    }, new Function0<Option<Double>>() {
+        public Option<Double> apply() {
+            return new Option.Some<Double>( 1.0 );
+        }
+    } );
 
     public MoreToolsModel() {
         final VoidFunction0 updateReading = new VoidFunction0() {

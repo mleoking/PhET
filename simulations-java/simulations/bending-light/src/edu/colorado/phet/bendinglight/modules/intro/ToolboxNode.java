@@ -15,9 +15,8 @@ import edu.colorado.phet.bendinglight.view.*;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.Property;
-import edu.colorado.phet.common.phetcommon.util.Function2;
-import edu.colorado.phet.common.phetcommon.util.Function3;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.common.phetcommon.util.*;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -88,7 +87,8 @@ public class ToolboxNode extends PNode {
         }
 
         if ( waveSensor != null ) {
-            final WaveSensorNode waveSensorNode = new WaveSensorNode( transform, new WaveSensor() );
+            final Function0.Constant<Option<Double>> value = new Function0.Constant<Option<Double>>( new Option.None<Double>() );
+            final WaveSensorNode waveSensorNode = new WaveSensorNode( transform, new WaveSensor( new ConstantDtClock(), value, value ) );
             Property<Boolean> showWaveSensor = new Property<Boolean>( false );
             final PNode waveTool = new Tool( waveSensorNode.toImage( ICON_WIDTH, (int) ( waveSensorNode.getFullBounds().getHeight() / waveSensorNode.getFullBounds().getWidth() * ICON_WIDTH ), new Color( 0, 0, 0, 0 ) ),
                                              showWaveSensor, bottomTool.getFullBounds().getMaxY() + 4,
