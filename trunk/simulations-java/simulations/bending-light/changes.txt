@@ -1,3 +1,4 @@
+# 0.00.25 (49436) Mar 2, 2011
 Started support for charting in wave sensor
 Added a velocity vector arrow to the velocity sensor
 Fixed: Velocity sensor shouldn’t read 0.0 c in the toolbox
