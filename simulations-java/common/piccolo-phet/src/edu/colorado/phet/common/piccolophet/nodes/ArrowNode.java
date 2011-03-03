@@ -25,7 +25,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
 public class ArrowNode extends PPath {
 
     Arrow arrow;
-    
+
     /**
      * Constructor.
      *
@@ -60,36 +60,40 @@ public class ArrowNode extends PPath {
         arrow = new Arrow( tailLocation, tipLocation, headHeight, headWidth, tailWidth, fractionalHeadHeight, scaleTailToo );
         updateShape();
     }
-    
+
     /**
      * Sets the new location for both the tail and the tip of the arrow.  This
      * method can be used to translate or rotate the arrow.
      */
-    public void setTipAndTailLocations(Point2D newTipLocation, Point2D newTailLocation){
+    public void setTipAndTailLocations( Point2D newTipLocation, Point2D newTailLocation ) {
         arrow.setTipAndTailLocations( newTipLocation, newTailLocation );
         updateShape();
     }
 
-    public Point2D getTipLocation(){
+    public void setTipAndTailLocations( double x1, double y1, double x2, double y2 ) {
+        setTipAndTailLocations( new Point2D.Double( x1, y1 ), new Point2D.Double( x2, y2 ) );
+    }
+
+    public Point2D getTipLocation() {
         return arrow.getTipLocation();
     }
 
-    public void setTailWidth(double tailWidth) {
-        arrow.setTailWidth(tailWidth);
+    public void setTailWidth( double tailWidth ) {
+        arrow.setTailWidth( tailWidth );
         updateShape();
     }
 
     private void updateShape() {
-        setPathTo(arrow.getShape());
+        setPathTo( arrow.getShape() );
     }
 
-    public void setHeadHeight(double headHeight){
-        arrow.setHeadHeight(headHeight);
+    public void setHeadHeight( double headHeight ) {
+        arrow.setHeadHeight( headHeight );
         updateShape();
     }
-    
-    public void setHeadWidth(double headWidth){
-        arrow.setHeadWidth(headWidth);
+
+    public void setHeadWidth( double headWidth ) {
+        arrow.setHeadWidth( headWidth );
         updateShape();
     }
 }
