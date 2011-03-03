@@ -174,4 +174,13 @@ public class IntroModel extends BendingLightModel {
         }
         return new Option.None<ImmutableVector2D>();
     }
+
+    protected Option<Double> getWaveValue( ImmutableVector2D position ) {
+        for ( LightRay ray : rays ) {
+            if ( ray.contains( position, laserView.getValue() == LaserView.WAVE ) ) {
+                return new Option.Some<Double>( Math.cos( getClock().getSimulationTime() * 10 ) );//TODO: use actual value for wave amplitude
+            }
+        }
+        return new Option.None<Double>();
+    }
 }
