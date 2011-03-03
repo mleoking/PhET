@@ -5,6 +5,8 @@ package edu.colorado.phet.common.photonabsorption.model.atoms;
 import java.awt.Color;
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
+
 
 /**
  * Class that represents an atom of oxygen in the model.
@@ -17,7 +19,7 @@ public class OxygenAtom extends Atom {
     // Class Data
     //------------------------------------------------------------------------
 
-    private static final Color REPRESENTATION_COLOR = new Color( 255, 85, 0 );
+    private static final Color REPRESENTATION_COLOR = PhetColorScheme.RED_ALTERNATIVE;
     public static final double MASS = 12.011;   // In atomic mass units (AMU).
     private static final double RADIUS = 73;     // In picometers.
 
