@@ -1,3 +1,4 @@
+3/3/11 Added docs for Option<T>
 3/2/11 #123, made ModelViewTransform2D deprecated
 2/28/11 #2758 migrate PolygonUtils from capacitor-lab to phetcommon
 2/27/11 #2756, replaced validateTree() with validate()
