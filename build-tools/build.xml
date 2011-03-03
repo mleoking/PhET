@@ -57,6 +57,7 @@
     <property name="jsch.jar" location="${dir.build-tools}/contrib/jsch/jsch.jar"/>
     <property name="scala-compiler.jar" location="${dir.build-tools}/contrib/scala/scala-compiler.jar"/>
     <property name="scala-library.jar" location="${dir.build-tools}/contrib/scala/scala-library.jar"/>
+    <property name="yuicompressor.jar" location="${dir.build-tools}/contrib/yuicompressor/yuicompressor-2.4.4.jar"/>
     <property name="junit.jar" location="${dir.contrib}/junit/junit.jar"/>
     <property name="jnlp.jar" location="${dir.contrib}/javaws/jnlp.jar"/>
 
@@ -100,7 +101,7 @@
     <!-- PhET task implementations -->
     <property name="phet-build-gui-classname" value="edu.colorado.phet.buildtools.gui.PhetBuildGUITask"/>
     <property name="phetbuild-classpath-jars"
-              value="${proguard.jar}:${apache.commons.lang.jar}:${jsch.jar}:${scala-compiler.jar}:${scala-library.jar}:${junit.jar}:${jnlp.jar}"/>
+              value="${proguard.jar}:${apache.commons.lang.jar}:${jsch.jar}:${scala-compiler.jar}:${scala-library.jar}:${yuicompressor.jar}:${junit.jar}:${jnlp.jar}"/>
     <property name="phetbuild-classpath" value="${phetbuild-classes-dir}:${phetbuild-classpath-jars}"/>
 
     <!-- =================================================================== -->
@@ -148,7 +149,7 @@
             <manifest>
                 <attribute name="Main-Class" value="edu.colorado.phet.buildtools.gui.PhetBuildGUI"/>
                 <attribute name="Class-Path"
-                           value="${proguard.jar} ${apache.commons.lang.jar} ${jsch.jar} ${scala-compiler.jar} ${scala-library.jar} ${junit.jar} ${jnlp.jar} ${ant-dependencies} ${tools.jar}"/>
+                           value="${proguard.jar} ${apache.commons.lang.jar} ${jsch.jar} ${scala-compiler.jar} ${scala-library.jar} ${yuicompressor.jar} ${junit.jar} ${jnlp.jar} ${ant-dependencies} ${tools.jar}"/>
             </manifest>
         </jar>
     </target>
