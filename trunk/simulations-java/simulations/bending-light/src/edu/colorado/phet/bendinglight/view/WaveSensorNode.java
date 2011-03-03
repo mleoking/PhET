@@ -6,6 +6,7 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.bendinglight.modules.intro.ToolboxNode;
 import edu.colorado.phet.bendinglight.modules.moretools.WaveSensor;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -35,7 +36,7 @@ public class WaveSensorNode extends ToolboxNode.DoDragNode {
             addInputEventListener( new PBasicInputEventHandler() {
                 @Override
                 public void mouseDragged( PInputEvent event ) {
-                    doDrag( event );
+                    waveSensor.translateBody( transform.viewToModelDelta( event.getDeltaRelativeTo( getParent() ) ) );
                 }
             } );
             waveSensor.bodyPosition.addObserver( new SimpleObserver() {
@@ -80,6 +81,6 @@ public class WaveSensorNode extends ToolboxNode.DoDragNode {
 
     @Override
     public void doDrag( PInputEvent event ) {
-        waveSensor.translateBody( transform.viewToModelDelta( event.getDeltaRelativeTo( getParent() ) ) );
+        waveSensor.translateAll( new ImmutableVector2D( transform.viewToModelDelta( event.getDeltaRelativeTo( getParent() ) ) ) );
     }
 }

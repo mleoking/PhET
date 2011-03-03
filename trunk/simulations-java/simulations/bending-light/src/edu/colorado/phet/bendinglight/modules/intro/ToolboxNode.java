@@ -94,7 +94,7 @@ public class ToolboxNode extends PNode {
                                              showWaveSensor, bottomTool.getFullBounds().getMaxY() + 4,
                                              transform, this, canvas, new Function3<ModelViewTransform, Property<Boolean>, Point2D, DoDragNode>() {
                         public DoDragNode apply( ModelViewTransform transform, final Property<Boolean> showTool, final Point2D model ) {
-                            waveSensor.bodyPosition.setValue( new ImmutableVector2D( model ) );
+                            waveSensor.translateToHotSpot( model );
                             return new WaveSensorNode( transform, waveSensor ) {{
                                 showTool.addObserver( new SimpleObserver() {
                                     public void update() {

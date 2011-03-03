@@ -42,6 +42,10 @@ public class ImmutableVector2D implements Serializable {
         this( finalPt.getX() - initialPt.getX(), finalPt.getY() - initialPt.getY() );
     }
 
+    public ImmutableVector2D( Dimension2D v ) {
+        this( v.getWidth(), v.getHeight() );
+    }
+
     @Override
     public boolean equals( Object obj ) {
         boolean result = true;
