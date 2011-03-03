@@ -21,6 +21,7 @@ import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
 import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
 import edu.colorado.phet.buildanatom.model.Atom;
+import edu.colorado.phet.buildanatom.model.AtomIdentifier;
 import edu.colorado.phet.buildanatom.model.IDynamicAtom;
 import edu.colorado.phet.buildanatom.modules.interactiveisotope.model.InteractiveIsotopeModel;
 import edu.colorado.phet.buildanatom.view.ElementNameIndicator;
@@ -239,7 +240,6 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas implements Resettable 
             addChild( value );
 
             // Add the caption for the numerical readout.
-            // TODO: i18n
             final PText readoutCaption = new PText( BuildAnAtomStrings.THIS_ISOTOPE ){{
                 setFont( new PhetFont( 18 ) );
                 valueBackground.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, new PropertyChangeListener() {
@@ -256,6 +256,23 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas implements Resettable 
             final TwoItemPieChartNode pieChart = new TwoItemPieChartNode( PIE_CHART_DIAMETER,
                     atom.getNaturalAbundance(), 1 - atom.getNaturalAbundance() );
             addChild( pieChart );
+
+            // Add caption for right side of pie chart.  This caption labels
+            // the section of the pie chart the refers to other isotopes.
+            final HTMLNode otherIsotopesCaption = new HTMLNode(){{
+                setFont( new PhetFont( 18 ) );
+                atom.addObserver( new SimpleObserver() {
+                    public void update() {
+                        setHTML( "<html><center>Other<br>" + atom.getName() + "<br>Isotopes</html>" );
+                        setOffset(
+                                pieChart.getFullBoundsReference().getMaxX() + 4,
+                                pieChart.getFullBoundsReference().getCenterY() - getFullBoundsReference().height / 2 );
+                    }
+                });
+            }};
+
+            addChild( otherIsotopesCaption );
+
 
             // Figure out what the max width of the readout will be so that
             // things can be laid out in a way that will make the width of
