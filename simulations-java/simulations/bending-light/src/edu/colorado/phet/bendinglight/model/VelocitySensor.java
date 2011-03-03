@@ -15,6 +15,6 @@ public class VelocitySensor {
     public final Property<Option<ImmutableVector2D>> value = new Property<Option<ImmutableVector2D>>( new Option.None<ImmutableVector2D>() );
 
     public void translate( Dimension2D delta ) {
-        position.setValue( position.getValue().getAddedInstance( delta.getWidth(), delta.getHeight() ) );
+        position.setValue( position.getValue().plus( delta.getWidth(), delta.getHeight() ) );
     }
 }

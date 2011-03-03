@@ -50,18 +50,18 @@ public class Laser {
     }
 
     public void translate( double dx, double dy ) {
-        emissionPoint.setValue( emissionPoint.getValue().getAddedInstance( dx, dy ) );
-        pivot.setValue( pivot.getValue().getAddedInstance( dx, dy ) );
+        emissionPoint.setValue( emissionPoint.getValue().plus( dx, dy ) );
+        pivot.setValue( pivot.getValue().plus( dx, dy ) );
     }
 
     public ImmutableVector2D getDirectionUnitVector() {
-        return pivot.getValue().getSubtractedInstance( emissionPoint.getValue() ).getNormalizedInstance();//TODO: why is this flipped by 180 degrees?
+        return pivot.getValue().minus( emissionPoint.getValue() ).getNormalizedInstance();//TODO: why is this flipped by 180 degrees?
     }
 
     //Rotate about the fixed pivot
     public void setAngle( double angle ) {
         double distFromPivot = pivot.getValue().getDistance( emissionPoint.getValue() );
-        emissionPoint.setValue( ImmutableVector2D.parseAngleAndMagnitude( distFromPivot, angle ).getAddedInstance( pivot.getValue() ) );
+        emissionPoint.setValue( ImmutableVector2D.parseAngleAndMagnitude( distFromPivot, angle ).plus( pivot.getValue() ) );
     }
 
     public double getAngle() {
@@ -69,6 +69,6 @@ public class Laser {
     }
 
     public double getDistanceFromPivot() {
-        return emissionPoint.getValue().getSubtractedInstance( pivot.getValue() ).getMagnitude();
+        return emissionPoint.getValue().minus( pivot.getValue() ).getMagnitude();
     }
 }
