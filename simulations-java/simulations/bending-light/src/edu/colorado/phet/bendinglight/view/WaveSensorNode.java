@@ -25,6 +25,9 @@ import static java.awt.Color.white;
  * @author Sam Reid
  */
 public class WaveSensorNode extends ToolboxNode.DoDragNode {
+    final Color darkProbeColor = new Color( 88, 89, 91 );//color taken from the image
+    final Color lightProbeColor = new Color( 147, 149, 152 );
+
     private final ModelViewTransform transform;
     private final WaveSensor waveSensor;
 
@@ -53,11 +56,8 @@ public class WaveSensorNode extends ToolboxNode.DoDragNode {
                 setOffset( titleBounds.getCenterX() - getFullBounds().getWidth() / 2, titleBounds.getCenterY() - getFullBounds().getHeight() / 2 );
             }} );
             addChild( new ChartNode( chartArea, new ArrayList<ChartNode.Series>() {{
-                add( new ChartNode.Series() {{
-                    for ( int i = 0; i < 200; i++ ) {
-                        addPoint( i / 100.0, Math.sin( i / 100.0 * 10 ) );
-                    }
-                }} );
+                add( new ChartNode.Series( waveSensor.probe1.series, darkProbeColor ) );
+                add( new ChartNode.Series( waveSensor.probe2.series, lightProbeColor ) );
             }} ) );
         }};
 
@@ -81,8 +81,8 @@ public class WaveSensorNode extends ToolboxNode.DoDragNode {
         }
         final ProbeNode probe1Node = new ProbeNode( waveSensor.probe1, "wave_detector_probe_dark.png" );
         final ProbeNode probe2Node = new ProbeNode( waveSensor.probe2, "wave_detector_probe_light.png" );
-        addChild( new WireNode( probe1Node, bodyNode, new Color( 92, 93, 95 ) ) );//color taken from the image
-        addChild( new WireNode( probe2Node, bodyNode, new Color( 204, 206, 208 ) ) );
+        addChild( new WireNode( probe1Node, bodyNode, darkProbeColor ) );
+        addChild( new WireNode( probe2Node, bodyNode, lightProbeColor ) );
         addChild( bodyNode );
         addChild( probe1Node );
         addChild( probe2Node );

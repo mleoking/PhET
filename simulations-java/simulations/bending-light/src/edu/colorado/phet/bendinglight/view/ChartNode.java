@@ -37,10 +37,16 @@ public class ChartNode extends PNode {
     }
 
     public static class Series {
-        public final Property<ArrayList<Option<ImmutableVector2D>>> path = new Property<ArrayList<Option<ImmutableVector2D>>>( new ArrayList<Option<ImmutableVector2D>>() );
+        public final Property<ArrayList<Option<ImmutableVector2D>>> path;
+        private final Color color;
+
+        public Series( Property<ArrayList<Option<ImmutableVector2D>>> path, Color color ) {
+            this.path = path;
+            this.color = color;
+        }
 
         public Paint getColor() {
-            return Color.blue;
+            return color;
         }
 
         public void addPoint( final double x, final double y ) {
