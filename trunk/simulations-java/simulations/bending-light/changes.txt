@@ -1,3 +1,4 @@
+Fixed: Wave sensor probes aren’t exactly at 0, they are up by half a height
 Fixed: Medium line should go behind the toolbox and tools
 Fixed: Wave mode should change color with wavelength
 Made rays change angle when wavelength changes
