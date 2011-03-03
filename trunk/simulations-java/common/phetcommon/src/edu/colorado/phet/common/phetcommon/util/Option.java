@@ -4,16 +4,26 @@ package edu.colorado.phet.common.phetcommon.util;
 /**
  * @author Sam Reid
  */
-public interface Option<T> {
-    T get();
+public abstract class Option<T> {
+    public abstract T get();
 
-    public static class None<T> implements Option<T> {
+    public abstract boolean isSome();
+
+    public boolean isNone() {
+        return !isSome();
+    }
+
+    public static class None<T> extends Option<T> {
         public T get() {
             throw new UnsupportedOperationException( "Cannot get value on none." );
         }
+
+        public boolean isSome() {
+            return false;
+        }
     }
 
-    public static class Some<T> implements Option<T> {
+    public static class Some<T> extends Option<T> {
         private final T value;
 
         public Some( T value ) {
@@ -22,6 +32,10 @@ public interface Option<T> {
 
         public T get() {
             return value;
+        }
+
+        public boolean isSome() {
+            return true;
         }
     }
 }
