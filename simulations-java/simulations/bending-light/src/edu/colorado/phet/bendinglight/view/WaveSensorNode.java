@@ -3,6 +3,7 @@ package edu.colorado.phet.bendinglight.view;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 
 import edu.colorado.phet.bendinglight.modules.intro.ToolboxNode;
 import edu.colorado.phet.bendinglight.modules.moretools.WaveSensor;
@@ -31,6 +32,7 @@ public class WaveSensorNode extends ToolboxNode.DoDragNode {
         this.transform = transform;
         this.waveSensor = waveSensor;
         final Rectangle titleBounds = new Rectangle( 63, 90, 37, 14 );
+        final Rectangle chartArea = new Rectangle( 15, 15, 131, 68 );
         final PImage bodyNode = new PImage( RESOURCES.getImage( "wave_detector_box.png" ) ) {{
             addInputEventListener( new CursorHandler() );
             addInputEventListener( new PBasicInputEventHandler() {
@@ -50,6 +52,13 @@ public class WaveSensorNode extends ToolboxNode.DoDragNode {
                 setTextPaint( white );
                 setOffset( titleBounds.getCenterX() - getFullBounds().getWidth() / 2, titleBounds.getCenterY() - getFullBounds().getHeight() / 2 );
             }} );
+            addChild( new ChartNode( chartArea, new ArrayList<ChartNode.Series>() {{
+                add( new ChartNode.Series() {{
+                    for ( int i = 0; i < 200; i++ ) {
+                        addPoint( i / 100.0, Math.sin( i / 100.0 * 10 ) );
+                    }
+                }} );
+            }} ) );
         }};
 
         class ProbeNode extends PNode {

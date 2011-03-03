@@ -46,7 +46,7 @@ public class VelocitySensorNode extends ToolboxNode.DoDragNode {
             velocitySensor.value.addObserver( new SimpleObserver() {
                 public void update() {
                     final Option<ImmutableVector2D> value = velocitySensor.value.getValue();
-                    setText( ( value instanceof Option.None<?> ) ? "?" :
+                    setText( ( value.isNone() ) ? "?" :
                              new DecimalFormat( "0.0" ).format( value.get().getMagnitude() / BendingLightModel.SPEED_OF_LIGHT ) + " c" );
                     setOffset( readoutBounds.getCenterX() - getFullBounds().getWidth() / 2, readoutBounds.getCenterY() - getFullBounds().getHeight() / 2 );
                 }
@@ -60,7 +60,7 @@ public class VelocitySensorNode extends ToolboxNode.DoDragNode {
             velocitySensor.value.addObserver( new SimpleObserver() {
                 public void update() {
                     final Option<ImmutableVector2D> value = velocitySensor.value.getValue();
-                    if ( value instanceof Option.None<?> ) {
+                    if ( value.isNone() ) {
                         setVisible( false );
                     }
                     else {
