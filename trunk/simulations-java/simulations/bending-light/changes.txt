@@ -1,3 +1,4 @@
+Fixed: Velocity sensor shouldn’t read 0.0 c in the toolbox
 Fixed: When wave sensor comes out of toolbox, one probe should be centered on mouse
 Fixed: Wave sensor should move all together when coming out of the toolbox.
 Fixed layout of wave sensor in toolbox
