@@ -94,7 +94,7 @@ public class IntroCanvas extends BendingLightCanvas<IntroModel> {
 
         final ControlPanelNode toolbox = new ControlPanelNode( new ToolboxNode( this, transform, showProtractor, showNormal, model.getIntensityMeter(),
                                                                                 ( model instanceof MoreToolsModel ) ? ( (MoreToolsModel) model ).velocitySensor : null,
-                                                                                ( model instanceof MoreToolsModel ) ? ( (MoreToolsModel) model ).amplitudeSensor : null ) ) {{
+                                                                                ( model instanceof MoreToolsModel ) ? ( (MoreToolsModel) model ).waveSensor : null ) ) {{
             setOffset( 10, stageSize.height - getFullBounds().getHeight() - 10 );
         }};
         beforeLightLayer.addChild( toolbox );

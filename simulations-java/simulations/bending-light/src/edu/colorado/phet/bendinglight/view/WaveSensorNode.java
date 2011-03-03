@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.bendinglight.modules.intro.ToolboxNode;
-import edu.colorado.phet.bendinglight.modules.moretools.AmplitudeSensor;
+import edu.colorado.phet.bendinglight.modules.moretools.WaveSensor;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -22,13 +22,13 @@ import static java.awt.Color.white;
 /**
  * @author Sam Reid
  */
-public class AmplitudeSensorNode extends ToolboxNode.DoDragNode {
+public class WaveSensorNode extends ToolboxNode.DoDragNode {
     private final ModelViewTransform transform;
-    private final AmplitudeSensor amplitudeSensor;
+    private final WaveSensor waveSensor;
 
-    public AmplitudeSensorNode( final ModelViewTransform transform, final AmplitudeSensor amplitudeSensor ) {
+    public WaveSensorNode( final ModelViewTransform transform, final WaveSensor waveSensor ) {
         this.transform = transform;
-        this.amplitudeSensor = amplitudeSensor;
+        this.waveSensor = waveSensor;
         final Rectangle titleBounds = new Rectangle( 63, 90, 37, 14 );
         final PImage bodyNode = new PImage( RESOURCES.getImage( "wave_detector_box.png" ) ) {{
             addInputEventListener( new CursorHandler() );
@@ -38,9 +38,9 @@ public class AmplitudeSensorNode extends ToolboxNode.DoDragNode {
                     doDrag( event );
                 }
             } );
-            amplitudeSensor.bodyPosition.addObserver( new SimpleObserver() {
+            waveSensor.bodyPosition.addObserver( new SimpleObserver() {
                 public void update() {
-                    final Point2D.Double viewPoint = transform.modelToView( amplitudeSensor.bodyPosition.getValue() ).toPoint2D();
+                    final Point2D.Double viewPoint = transform.modelToView( waveSensor.bodyPosition.getValue() ).toPoint2D();
                     setOffset( viewPoint.getX() - getFullBounds().getWidth() / 2, viewPoint.getY() - getFullBounds().getHeight() );
                 }
             } );
@@ -52,7 +52,7 @@ public class AmplitudeSensorNode extends ToolboxNode.DoDragNode {
         }};
 
         class ProbeNode extends PNode {
-            public ProbeNode( final AmplitudeSensor.Probe probe, String imageName ) {
+            public ProbeNode( final WaveSensor.Probe probe, String imageName ) {
                 addChild( new PImage( RESOURCES.getImage( imageName ) ) );
                 addInputEventListener( new CursorHandler() );
                 addInputEventListener( new PBasicInputEventHandler() {
@@ -69,8 +69,8 @@ public class AmplitudeSensorNode extends ToolboxNode.DoDragNode {
                 } );
             }
         }
-        final ProbeNode probe1Node = new ProbeNode( amplitudeSensor.probe1, "wave_detector_probe_dark.png" );
-        final ProbeNode probe2Node = new ProbeNode( amplitudeSensor.probe2, "wave_detector_probe_light.png" );
+        final ProbeNode probe1Node = new ProbeNode( waveSensor.probe1, "wave_detector_probe_dark.png" );
+        final ProbeNode probe2Node = new ProbeNode( waveSensor.probe2, "wave_detector_probe_light.png" );
         addChild( new WireNode( probe1Node, bodyNode, new Color( 92, 93, 95 ) ) );//color taken from the image
         addChild( new WireNode( probe2Node, bodyNode, new Color( 204, 206, 208 ) ) );
         addChild( bodyNode );
@@ -80,6 +80,6 @@ public class AmplitudeSensorNode extends ToolboxNode.DoDragNode {
 
     @Override
     public void doDrag( PInputEvent event ) {
-        amplitudeSensor.translateBody( transform.viewToModelDelta( event.getDeltaRelativeTo( getParent() ) ) );
+        waveSensor.translateBody( transform.viewToModelDelta( event.getDeltaRelativeTo( getParent() ) ) );
     }
 }
