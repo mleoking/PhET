@@ -13,6 +13,8 @@ import java.awt.Stroke;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.text.DecimalFormat;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
@@ -41,6 +43,7 @@ import edu.colorado.phet.common.piccolophet.nodes.PieChartNode;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PieChartNode.PieValue;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PLine;
 import edu.umd.cs.piccolox.util.LineShape;
@@ -234,6 +237,22 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas implements Resettable 
             final PhetPPath valueBackground = new PhetPPath( Color.white, new BasicStroke( 1 ), Color.darkGray );
             addChild( valueBackground );
             addChild( value );
+
+            // Add the caption for the numerical readout.
+            // TODO: i18n
+            final PText readoutCaption = new PText("This Isotope"){{
+                setFont( new PhetFont( 18 ) );
+                valueBackground.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, new PropertyChangeListener() {
+                    public void propertyChange( PropertyChangeEvent evt ) {
+                          centerFullBoundsOnPoint(
+                                  valueBackground.getFullBoundsReference().getCenterX(),
+                                  valueBackground.getFullBoundsReference().getMinY() - getFullBoundsReference().height / 2 - 4 );
+//                          valueBackground.getFullBoundsReference().getCenterX(),
+//                          valueBackground.getFullBoundsReference().getMinY() - getFullBoundsReference().height - 4 );
+                    }
+                });
+            }};
+            addChild( readoutCaption );
 
             // Add the pie chart.
             final TwoItemPieChartNode pieChart = new TwoItemPieChartNode( PIE_CHART_DIAMETER,
