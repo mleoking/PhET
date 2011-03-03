@@ -246,7 +246,7 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas implements Resettable 
                     public void propertyChange( PropertyChangeEvent evt ) {
                           centerFullBoundsOnPoint(
                                   valueBackground.getFullBoundsReference().getCenterX(),
-                                  valueBackground.getFullBoundsReference().getMinY() - getFullBoundsReference().height / 2 - 4 );
+                                  valueBackground.getFullBoundsReference().getMinY() - getFullBoundsReference().height / 2 - 2 );
 //                          valueBackground.getFullBoundsReference().getCenterX(),
 //                          valueBackground.getFullBoundsReference().getMinY() - getFullBoundsReference().height - 4 );
                     }
