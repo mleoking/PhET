@@ -8,10 +8,13 @@ import java.text.DecimalFormat;
 import edu.colorado.phet.bendinglight.model.BendingLightModel;
 import edu.colorado.phet.bendinglight.model.VelocitySensor;
 import edu.colorado.phet.bendinglight.modules.intro.ToolboxNode;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -42,9 +45,32 @@ public class VelocitySensorNode extends ToolboxNode.DoDragNode {
             setFont( new PhetFont( 32 ) );
             velocitySensor.value.addObserver( new SimpleObserver() {
                 public void update() {
-                    final double value = velocitySensor.value.getValue();
-                    setText( Double.isNaN( value ) ? "?" : new DecimalFormat( "0.0" ).format( value / BendingLightModel.SPEED_OF_LIGHT ) + " c" );
+                    final Option<ImmutableVector2D> value = velocitySensor.value.getValue();
+                    setText( ( value instanceof Option.None<?> ) ? "?" :
+                             new DecimalFormat( "0.0" ).format( value.get().getMagnitude() / BendingLightModel.SPEED_OF_LIGHT ) + " c" );
                     setOffset( readoutBounds.getCenterX() - getFullBounds().getWidth() / 2, readoutBounds.getCenterY() - getFullBounds().getHeight() / 2 );
+                }
+            } );
+        }} );
+
+        addChild( new ArrowNode( new Point2D.Double(), new Point2D.Double( 100, 100 ), 20, 20, 10 ) {{
+            setPaint( Color.blue );
+            setStrokePaint( Color.black );
+            setStroke( new BasicStroke( 1 ) );
+            velocitySensor.value.addObserver( new SimpleObserver() {
+                public void update() {
+                    final Option<ImmutableVector2D> value = velocitySensor.value.getValue();
+                    if ( value instanceof Option.None<?> ) {
+                        setVisible( false );
+                    }
+                    else {
+                        ImmutableVector2D v = transform.modelToViewDelta( value.get() ).times( 1.5E-14 );
+                        setTipAndTailLocations( imageNode.getFullBounds().getCenterX() + v.getX() / 2, imageNode.getFullBounds().getMaxY() + v.getY() / 2,
+                                                imageNode.getFullBounds().getCenterX() - v.getX() / 2, imageNode.getFullBounds().getMaxY() - v.getY() / 2 );
+                        setVisible( true );
+                    }
+//                    setText( Double.isNaN( value ) ? "?" : new DecimalFormat( "0.0" ).format( value / BendingLightModel.SPEED_OF_LIGHT ) + " c" );
+//                    setOffset( readoutBounds.getCenterX() - getFullBounds().getWidth() / 2, readoutBounds.getCenterY() - getFullBounds().getHeight() / 2 );
                 }
             } );
         }} );

@@ -12,6 +12,7 @@ import edu.colorado.phet.bendinglight.model.Reading;
 import edu.colorado.phet.bendinglight.view.LaserView;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Property;
+import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.parseAngleAndMagnitude;
@@ -165,12 +166,12 @@ public class IntroModel extends BendingLightModel {
         bottomMedium.reset();
     }
 
-    protected double getSpeed( ImmutableVector2D position ) {
+    protected Option<ImmutableVector2D> getVelocity( ImmutableVector2D position ) {
         for ( LightRay ray : rays ) {
             if ( ray.contains( position, laserView.getValue() == LaserView.WAVE ) ) {
-                return ray.getSpeed();
+                return new Option.Some<ImmutableVector2D>( ray.getVelocity() );
             }
         }
-        return Double.NaN;
+        return new Option.None<ImmutableVector2D>();
     }
 }

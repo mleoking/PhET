@@ -16,7 +16,7 @@ public class MoreToolsModel extends IntroModel {
     public MoreToolsModel() {
         final VoidFunction0 updateReading = new VoidFunction0() {
             public void apply() {
-                velocitySensor.value.setValue( getSpeed( velocitySensor.position.getValue() ) );
+                velocitySensor.value.setValue( getVelocity( velocitySensor.position.getValue() ) );
             }
         };
         addModelUpdateListener( updateReading );

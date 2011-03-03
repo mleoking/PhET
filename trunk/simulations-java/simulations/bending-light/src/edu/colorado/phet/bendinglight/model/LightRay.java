@@ -201,4 +201,8 @@ public class LightRay {
     public double getRayWidth() {
         return 1.5992063492063494E-7;//At the default transform, this yields a 4 pixel wide stroke
     }
+
+    public ImmutableVector2D getVelocity() {
+        return tip.getValue().minus( tail.getValue() ).getNormalizedInstance().times( getSpeed() );
+    }
 }
