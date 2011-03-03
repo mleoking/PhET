@@ -87,7 +87,7 @@ public class ToolboxNode extends PNode {
         }
 
         if ( waveSensor != null ) {
-            final Function0.Constant<Option<Double>> value = new Function0.Constant<Option<Double>>( new Option.None<Double>() );
+            final Function1.Constant<ImmutableVector2D, Option<Double>> value = new Function1.Constant<ImmutableVector2D, Option<Double>>( new Option.None<Double>() );
             final WaveSensorNode waveSensorNode = new WaveSensorNode( transform, new WaveSensor( new ConstantDtClock(), value, value ) );
             Property<Boolean> showWaveSensor = new Property<Boolean>( false );
             final PNode waveTool = new Tool( waveSensorNode.toImage( ICON_WIDTH, (int) ( waveSensorNode.getFullBounds().getHeight() / waveSensorNode.getFullBounds().getWidth() * ICON_WIDTH ), new Color( 0, 0, 0, 0 ) ),

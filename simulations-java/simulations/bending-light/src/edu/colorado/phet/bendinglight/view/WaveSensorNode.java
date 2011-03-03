@@ -55,7 +55,7 @@ public class WaveSensorNode extends ToolboxNode.DoDragNode {
                 setTextPaint( white );
                 setOffset( titleBounds.getCenterX() - getFullBounds().getWidth() / 2, titleBounds.getCenterY() - getFullBounds().getHeight() / 2 );
             }} );
-            addChild( new ChartNode( chartArea, new ArrayList<ChartNode.Series>() {{
+            addChild( new ChartNode( waveSensor.clock, chartArea, new ArrayList<ChartNode.Series>() {{
                 add( new ChartNode.Series( waveSensor.probe1.series, darkProbeColor ) );
                 add( new ChartNode.Series( waveSensor.probe2.series, lightProbeColor ) );
             }} ) );
