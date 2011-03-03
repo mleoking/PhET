@@ -200,6 +200,6 @@ public class BuildAnAtomStrings {
     public static final String TITLE_ISOTOPE_MIXTURES_MODULE = getString( "title.isotopeMixtures" );
     public static final String TITLE_ERROR = PhetCommonResources.getString( "Common.title.error" );
 
-    public static final String ABUNDANCE = getString( "abundance" );
+    public static final String NATURUAL_ABUNDANCE = getString( "naturalAbundance" );
     public static final String VERY_SMALL = getString( "verySmall" );
 }
