@@ -88,7 +88,7 @@ public class PhotonEmitterNode extends PNode {
 
         // Add the slider that will control the rate of photon emission.
         Dimension emissionControlSliderSize = new Dimension( 100, 30 ); // This may be adjusted as needed for best look.
-        emissionRateControlSlider = new IntensitySlider( Color.RED, IntensitySlider.HORIZONTAL, emissionControlSliderSize );
+        emissionRateControlSlider = new IntensitySlider( new Color( 255, 85, 0 ), IntensitySlider.HORIZONTAL, emissionControlSliderSize );
         emissionRateControlSlider.setMinimum( 0 );
         emissionRateControlSlider.setMaximum( SLIDER_RANGE );
         emissionRateControlSlider.addChangeListener( new ChangeListener() {
@@ -231,7 +231,7 @@ public class PhotonEmitterNode extends PNode {
 
             // Update the color of the slider.
             if ( model.getEmittedPhotonWavelength() == WavelengthConstants.IR_WAVELENGTH ) {
-                emissionRateControlSlider.setColor( Color.RED );
+                emissionRateControlSlider.setColor( new Color( 255, 85, 0 ) );
             }
             else if ( model.getEmittedPhotonWavelength() == WavelengthConstants.VISIBLE_WAVELENGTH ) {
                 emissionRateControlSlider.setColor( Color.YELLOW );
