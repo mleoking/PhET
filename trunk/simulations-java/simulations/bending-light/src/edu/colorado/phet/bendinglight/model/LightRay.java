@@ -11,6 +11,8 @@ import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.VoidFunction0;
 
+import static edu.colorado.phet.bendinglight.model.BendingLightModel.SPEED_OF_LIGHT;
+
 /**
  * @author Sam Reid
  */
@@ -64,7 +66,7 @@ public class LightRay {
     }
 
     public double getSpeed() {
-        return BendingLightModel.SPEED_OF_LIGHT / indexOfRefraction;
+        return SPEED_OF_LIGHT / indexOfRefraction;
     }
 
     public void propagate( double dt ) {
@@ -169,7 +171,7 @@ public class LightRay {
     }
 
     public void step( double dt ) {
-        final double deltaPhase = getSpeed() / BendingLightModel.SPEED_OF_LIGHT * 100;
+        final double deltaPhase = getSpeed() / SPEED_OF_LIGHT * 100;
         phase.setValue( phase.getValue() + deltaPhase * dt );
     }
 
