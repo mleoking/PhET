@@ -9,13 +9,15 @@ import edu.colorado.phet.gravityandorbits.view.Scale;
  * @author Sam Reid
  */
 public class CartoonModeList extends ModeList {
-    private static final double SUN_RADIUS = RealModeList.SUN_RADIUS;
-    private static final double SUN_MASS = RealModeList.SUN_MASS;
+    //Use the real radius for the earth, and base other values on that
+    private static final double EARTH_RADIUS = RealModeList.EARTH_RADIUS;
+    private static final double EARTH_ORBITAL_SPEED_AT_PERIHELION = 30;
+    public static final double EARTH_MASS = RealModeList.EARTH_MASS / 1E6;
 
-    private static final double EARTH_RADIUS = SUN_RADIUS / 2;
-    public static final double EARTH_MASS = SUN_MASS / 100;
-    public static final double EARTH_PERIHELION = SUN_RADIUS * 3;
-    private static final double EARTH_ORBITAL_SPEED_AT_PERIHELION = 3E4;
+    private static final double SUN_RADIUS = EARTH_RADIUS * 2;
+    private static final double SUN_MASS = EARTH_MASS * 100;
+
+    public static final double EARTH_PERIHELION = SUN_RADIUS * 4;
 
     private static final double MOON_MASS = 7.3477E23;
     private static final double MOON_RADIUS = EARTH_RADIUS / 2;
@@ -36,6 +38,7 @@ public class CartoonModeList extends ModeList {
                new BodySpec( SUN_RADIUS, SUN_MASS, new ImmutableVector2D( 0, 0 ), new ImmutableVector2D( 0, 0 ) ),
                new BodySpec( EARTH_RADIUS, EARTH_MASS, new ImmutableVector2D( EARTH_PERIHELION, 0 ), new ImmutableVector2D( 0, EARTH_ORBITAL_SPEED_AT_PERIHELION ) ),
                new BodySpec( MOON_RADIUS, MOON_MASS, new ImmutableVector2D( MOON_X, MOON_Y ), new ImmutableVector2D( MOON_SPEED, 0 ) ),
-               new BodySpec( SPACE_STATION_RADIUS, SPACE_STATION_MASS, new ImmutableVector2D( EARTH_PERIHELION + SPACE_STATION_PERIGEE + EARTH_RADIUS, 0 ), new ImmutableVector2D( 0, SPACE_STATION_SPEED ) ) );
+               new BodySpec( SPACE_STATION_RADIUS, SPACE_STATION_MASS, new ImmutableVector2D( EARTH_PERIHELION + SPACE_STATION_PERIGEE + EARTH_RADIUS, 0 ), new ImmutableVector2D( 0, SPACE_STATION_SPEED ) ),
+               2500 );
     }
 }
