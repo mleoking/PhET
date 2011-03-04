@@ -78,12 +78,12 @@ public class PeriodicTableControlNode extends PNode {
         }
         // Add in a single entry to represent the lanthanide series.
         addElement( atom, table, 57 );
-        for ( int i = 71; i <= 88; i++ ) {
+        for ( int i = 72; i <= 88; i++ ) {
             addElement( atom, table, i );
         }
         // Add in a single entry to represent the actinide series.
         addElement( atom, table, 89 );
-        for ( int i = 103; i <= 112; i++ ) {
+        for ( int i = 104; i <= 112; i++ ) {
             addElement( atom, table, i );
         }
 
@@ -109,6 +109,7 @@ public class PeriodicTableControlNode extends PNode {
             elementCell = buttonElementCell;
         }
         else{
+            // Add a non-interactive element cell.
             elementCell = new BasicElementCell( atom, atomicNumber, backgroundColor );
         }
         final Point gridPoint = getGridPoint( atomicNumber );
