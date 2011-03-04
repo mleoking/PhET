@@ -78,6 +78,6 @@ public class ExplosionNode extends PNode {
     }
 
     private ImmutableVector2D getPosition( Property<ModelViewTransform> modelViewTransform, Body body ) {
-        return modelViewTransform.getValue().modelToView( body.getPosition( body.getScaleProperty().getValue() ) );
+        return modelViewTransform.getValue().modelToView( body.getPosition() );
     }
 }

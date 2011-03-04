@@ -25,7 +25,6 @@ public class VectorNode extends PNode {
     private final Body body;
     private final Property<ModelViewTransform> modelViewTransform;
     private final double scale;
-    private final double cartoonScale;
     private Property<ImmutableVector2D> property;
     private ArrowNode arrowNode;
 
@@ -35,7 +34,6 @@ public class VectorNode extends PNode {
         this.body = body;
         this.modelViewTransform = modelViewTransform;
         this.scale = scale;
-        this.cartoonScale = cartoonScale;
         new And( visible, new Not( body.getCollidedProperty() ) ) {{
             addObserver( new SimpleObserver() {
                 public void update() {

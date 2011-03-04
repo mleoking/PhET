@@ -14,7 +14,6 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.gravityandorbits.model.Body;
-import edu.colorado.phet.gravityandorbits.model.CartoonPositionMap;
 import edu.umd.cs.piccolo.PComponent;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -62,31 +61,9 @@ public class BodyNode extends PNode {
                 @Override
                 public void mouseDragged( PInputEvent event ) {
                     ImmutableVector2D childCartoonPosition = null;
-                    if ( scaleProperty.getValue() == Scale.REAL ) {
-                        final Dimension2D delta = modelViewTransform.getValue().viewToModelDelta( event.getDeltaRelativeTo( getParent() ) );
-                        body.translate( new Point2D.Double( delta.getWidth(), delta.getHeight() ) );
-                    }
-                    else {
-                        final Dimension2D cartoonDelta = modelViewTransform.getValue().viewToModelDelta( event.getDeltaRelativeTo( getParent() ) );
-                        ImmutableVector2D newCartoonPosition = body.getCartoonPosition().getAddedInstance( cartoonDelta.getWidth(), cartoonDelta.getHeight() );
-                        //find the physical coordinates so that the body will have the right coordinates in the selected scale
-                        if ( body.getParent() == null ) {
-                            body.setPosition( newCartoonPosition.getX(), newCartoonPosition.getY() );
-                        }
-                        else {
-                            ImmutableVector2D x = new CartoonPositionMap( body.getCartoonOffsetScale() ).toReal( newCartoonPosition, body.getParent().getPosition() );
-                            body.setPosition( x.getX(), x.getY() );
-                        }
-                    }
+                    final Dimension2D delta = modelViewTransform.getValue().viewToModelDelta( event.getDeltaRelativeTo( getParent() ) );
+                    body.translate( new Point2D.Double( delta.getWidth(), delta.getHeight() ) );
                     body.notifyUserModifiedPosition();
-
-                    //determine child real global coordinates in new parent frame
-                    //won't work until we have a good inverse computation in the CartoonPositionMap
-                    if ( childCartoonPosition != null ) {
-                        final ImmutableVector2D x = child.globalCartoonToReal( childCartoonPosition );
-                        child.setPosition( x.getX(), x.getY() );
-//                        System.out.println("old child cartoon = "+childCartoonPosition+", new = "+child.getPosition(Scale.CARTOON));
-                    }
                 }
 
                 @Override
@@ -164,7 +141,7 @@ public class BodyNode extends PNode {
     }
 
     private ImmutableVector2D getPosition( Property<ModelViewTransform> modelViewTransform, Body body ) {
-        return modelViewTransform.getValue().modelToView( body.getPosition( scaleProperty.getValue() ) );
+        return modelViewTransform.getValue().modelToView( body.getPosition() );
     }
 
     private double getViewDiameter() {
