@@ -74,6 +74,18 @@ public abstract class BodyRenderer extends PNode {
 
         private SphericalNode sphereNode;
 
+        public SphereRenderer( final Color color, final Color highlight, double viewDiameter ) {
+            this( new IBodyColors() {
+                public Color getHighlight() {
+                    return highlight;
+                }
+
+                public Color getColor() {
+                    return color;
+                }
+            }, viewDiameter );
+        }
+
         public SphereRenderer( IBodyColors body, double viewDiameter ) {
             super( body );
             sphereNode = new SphericalNode( viewDiameter, createPaint( viewDiameter ), false );
