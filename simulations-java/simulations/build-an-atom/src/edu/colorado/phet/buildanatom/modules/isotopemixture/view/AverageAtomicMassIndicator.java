@@ -185,7 +185,7 @@ public class AverageAtomicMassIndicator extends PNode {
 
             // Add the textual readout.
             final PText textualReadout = new PText(){{
-                setFont( new PhetFont( 16 ) );
+                setFont( new PhetFont( 18 ) );
             }};
             addChild( textualReadout );
             // Observe the average atomic weight property in the model and
