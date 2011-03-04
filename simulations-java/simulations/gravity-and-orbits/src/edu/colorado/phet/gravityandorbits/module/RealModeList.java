@@ -31,6 +31,11 @@ public class RealModeList extends ModeList {
     private static final double SPACE_STATION_SPEED = 7706;
     private static final double SPACE_STATION_PERIGEE = 347000;
 
+    // Add in some initial -x velocity to offset the earth-moon barycenter drift
+    //This value was computed by sampling the total momentum in GravityAndOrbitsModel for this mode
+    static ImmutableVector2D sampledSystemMomentum = new ImmutableVector2D( 7.421397422188586E25, -1.080211713202125E22 );
+    static ImmutableVector2D velocityOffset = sampledSystemMomentum.getScaledInstance( -1 / ( EARTH_MASS + MOON_MASS ) );
+
     public RealModeList( Property<Boolean> clockPausedProperty, Property<Boolean> gravityEnabledProperty, Property<Scale> scaleProperty, Property<Boolean> stepping, Property<Boolean> rewinding, Property<Double> timeSpeedScaleProperty ) {
         super( new ModeListParameter( clockPausedProperty, gravityEnabledProperty, scaleProperty, stepping, rewinding, timeSpeedScaleProperty ),
                new BodySpec( SUN_RADIUS, SUN_MASS, new ImmutableVector2D( 0, 0 ), new ImmutableVector2D( 0, 0 ) ),

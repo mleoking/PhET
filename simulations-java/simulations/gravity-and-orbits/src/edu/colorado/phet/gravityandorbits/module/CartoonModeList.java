@@ -19,10 +19,9 @@ public class CartoonModeList extends ModeList {
 
     public static final double EARTH_PERIHELION = SUN_RADIUS * 4;
 
-    private static final double MOON_MASS = 7.3477E23;
+    private static final double MOON_MASS = EARTH_MASS / 100;
     private static final double MOON_RADIUS = EARTH_RADIUS / 2;
-    private static final double MOON_EARTH_SPEED = -1.01E3;
-    private static final double MOON_SPEED = MOON_EARTH_SPEED * 50;
+    private static final double MOON_SPEED = -10;
     public static final double MOON_PERIGEE = SUN_RADIUS * 2;
     private static final double MOON_X = EARTH_PERIHELION;
     private static final double MOON_Y = MOON_PERIGEE;
