@@ -27,7 +27,6 @@ import edu.colorado.phet.gravityandorbits.view.Scale;
  */
 public class Body implements IBodyColors {
     private final ClockRewindProperty<ImmutableVector2D> positionProperty;//physical position
-    private final Property<ImmutableVector2D> scaledPositionProperty;//position accounting for scale (i.e. cartoon or real)
     private final ClockRewindProperty<ImmutableVector2D> velocityProperty;
     private final Property<ImmutableVector2D> accelerationProperty;
     private final Property<ImmutableVector2D> forceProperty;
@@ -84,7 +83,6 @@ public class Body implements IBodyColors {
         diameterProperty = new Property<Double>( diameter );
         collidedProperty = new ClockRewindProperty<Boolean>( clockPaused, stepping, rewinding, false );
         density = mass / getVolume();
-        scaledPositionProperty = new Property<ImmutableVector2D>( getPosition() );
 
         //Determine whether the object should be 'returnable', i.e. whether a 'return' button node
         //is shown on the canvas that allows the user to bring back a destroyed or lost object
@@ -101,16 +99,6 @@ public class Body implements IBodyColors {
         }};
 
         //Synchronize the scaled position, which accounts for the scale
-        final SimpleObserver updateScaledPosition = new SimpleObserver() {
-            public void update() {
-                scaledPositionProperty.setValue( getPosition() );
-            }
-        };
-        scaleProperty.addObserver( updateScaledPosition );
-        positionProperty.addObserver( updateScaledPosition );
-        if ( parent != null ) {
-            parent.positionProperty.addObserver( updateScaledPosition );
-        }
         collidedProperty.addObserver( new SimpleObserver() {
             public void update() {
                 if ( collidedProperty.getValue() ) {
@@ -143,10 +131,6 @@ public class Body implements IBodyColors {
 
     public Property<Integer> getClockTicksSinceExplosion() {
         return clockTicksSinceExplosion;
-    }
-
-    public Property<ImmutableVector2D> getScaledPositionProperty() {
-        return scaledPositionProperty;
     }
 
     private double getVolume() {

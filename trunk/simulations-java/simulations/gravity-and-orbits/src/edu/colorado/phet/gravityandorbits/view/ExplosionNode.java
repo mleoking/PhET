@@ -3,7 +3,6 @@
 package edu.colorado.phet.gravityandorbits.view;
 
 import java.awt.*;
-import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
@@ -64,11 +63,10 @@ public class ExplosionNode extends PNode {
                 }
             } );
 
-        }} );//collisions are always cartoon?
-        body.getScaledPositionProperty().addObserver( new SimpleObserver() {
+        }} );
+        body.getPositionProperty().addObserver( new SimpleObserver() {
             public void update() {
-                final Point2D.Double point = getPosition( modelViewTransform, body ).toPoint2D();
-                setOffset( point.getX(), point.getY() );
+                setOffset( getPosition( modelViewTransform, body ).toPoint2D() );
             }
         } );
     }
