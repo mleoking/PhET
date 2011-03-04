@@ -25,12 +25,9 @@ public class CartoonModeList extends ModeList {
     private static final double SPACE_STATION_RADIUS = 109;
 
     public static final double EARTH_PERIHELION = RealModeList.EARTH_PERIHELION;
-    private static final double MOON_PERIGEE = SUN_RADIUS * 0.7;
     private static final double MOON_X = EARTH_PERIHELION;
-    private static final double MOON_Y = MOON_PERIGEE;
-
-    //see http://en.wikipedia.org/wiki/International_Space_Station
-    private static final double SPACE_STATION_PERIGEE = 347000;
+    private static final double MOON_Y = SUN_RADIUS * 0.7;
+    private static final double SPACE_STATION_PERIGEE = 347000;//see http://en.wikipedia.org/wiki/International_Space_Station
 
     public CartoonModeList( Property<Boolean> clockPausedProperty, Property<Boolean> gravityEnabledProperty, Property<Scale> scaleProperty, Property<Boolean> stepping, Property<Boolean> rewinding, Property<Double> timeSpeedScaleProperty ) {
         super( new ModeListParameter( clockPausedProperty, gravityEnabledProperty, scaleProperty, stepping, rewinding, timeSpeedScaleProperty ),
