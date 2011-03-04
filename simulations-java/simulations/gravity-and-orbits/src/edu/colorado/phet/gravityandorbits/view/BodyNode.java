@@ -5,6 +5,8 @@ package edu.colorado.phet.gravityandorbits.view;
 import java.awt.*;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Property;
@@ -127,13 +129,15 @@ public class BodyNode extends PNode {
                 setTextPaint( Color.white );
                 setFont( new PhetFont( 18, true ) );
             }} );
+            final PropertyChangeListener updateVisibility = new PropertyChangeListener() {
+                public void propertyChange( PropertyChangeEvent evt ) {
+                    setVisible( bodyRenderer.getGlobalFullBounds().getWidth() <= 10 );
+                }
+            };
+            bodyRenderer.addPropertyChangeListener( PROPERTY_FULL_BOUNDS, updateVisibility );
+            updateVisibility.propertyChange( null );
         }};
         addChild( arrowIndicator );
-        scaleProperty.addObserver( new SimpleObserver() {
-            public void update() {
-                arrowIndicator.setVisible( scaleProperty.getValue().getShowLabelArrows() );
-            }
-        } );
     }
 
     private ImmutableVector2D getPosition( Property<ModelViewTransform> modelViewTransform, Body body ) {
