@@ -87,7 +87,7 @@ public class BuildAnAtomCanvas extends PhetPCanvas implements Resettable {
         rootNode.addChild( new InteractiveSchematicAtomNode(model, mvt, orbitalViewProperty ));
 
         // Show the name of the element.
-        ElementNameIndicator elementNameIndicator = new ElementNameIndicator( model.getAtom(), showName );
+        ElementNameIndicator elementNameIndicator = new ElementNameIndicator( model.getAtom(), showName, false );
         // Position the name indicator above the nucleus
         elementNameIndicator.setOffset( mvt.modelToViewX( 0 ), mvt.modelToViewY( Atom.ELECTRON_SHELL_1_RADIUS * 3.0 / 4.0 ) + elementNameIndicator.getFullBounds().getHeight() / 2 );
         rootNode.addChild( elementNameIndicator );
