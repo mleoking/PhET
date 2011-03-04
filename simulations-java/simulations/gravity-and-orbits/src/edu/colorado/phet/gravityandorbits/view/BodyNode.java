@@ -60,7 +60,6 @@ public class BodyNode extends PNode {
 
                 @Override
                 public void mouseDragged( PInputEvent event ) {
-                    ImmutableVector2D childCartoonPosition = null;
                     final Dimension2D delta = modelViewTransform.getValue().viewToModelDelta( event.getDeltaRelativeTo( getParent() ) );
                     body.translate( new Point2D.Double( delta.getWidth(), delta.getHeight() ) );
                     body.notifyUserModifiedPosition();

@@ -19,7 +19,6 @@ public class GAOStrings {
     public static final String TO_SCALE = getString( "toScale" );
 
     public static final String BILLION_BILLION_SPACE_STATION_MASSES = getString( "billionBillionSpaceStationMasses" );
-    public static final String CARTOON = getString( "cartoon" );
     public static final String EARTH = getString( "earth" );
     public static final String EARTH_DAY = getString( "earthDay" );
     public static final String EARTH_DAYS = getString( "earthDays" );
