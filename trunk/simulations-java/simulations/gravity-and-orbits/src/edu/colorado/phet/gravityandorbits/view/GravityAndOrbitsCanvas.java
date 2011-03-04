@@ -128,7 +128,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
 
         //Earth System button
         final Color buttonForegroundColor = Color.BLACK;
-        final ButtonNode earthValuesButton = new ButtonNode( GAOStrings.EARTH_VALUES, (int) ( GravityAndOrbitsControlPanel.CONTROL_FONT.getSize() * 1.3 ), buttonForegroundColor, buttonBackgroundColor ) {{
+        final ButtonNode earthValuesButton = new ButtonNode( GAOStrings.RESTART, (int) ( GravityAndOrbitsControlPanel.CONTROL_FONT.getSize() * 1.3 ), buttonForegroundColor, buttonBackgroundColor ) {{
             setOffset( controlPanelNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, controlPanelNode.getFullBounds().getMaxY() + 5 );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
