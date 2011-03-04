@@ -102,7 +102,6 @@ public class BodyNode extends PNode {
             }
         };
         body.getPositionProperty().addObserver( updatePosition );
-        body.getScaledPositionProperty().addObserver( updatePosition );//updates when body's parent moves too
         modelViewTransform.addObserver( updatePosition );
         scaleProperty.addObserver( updatePosition );
 

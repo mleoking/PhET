@@ -50,7 +50,7 @@ public class GrabbableVectorNode extends VectorNode {
             }
         };
         property.addObserver( updateGrabArea );
-        body.getScaledPositionProperty().addObserver( updateGrabArea );
+        body.getPositionProperty().addObserver( updateGrabArea );
         modelViewTransform.addObserver( updateGrabArea );
         addChild( grabArea );
         //Add the drag handler

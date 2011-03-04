@@ -5,6 +5,7 @@ package edu.colorado.phet.gravityandorbits.view;
 import java.awt.*;
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.bendinglight.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.And;
 import edu.colorado.phet.common.phetcommon.model.Not;
@@ -45,23 +46,19 @@ public class VectorNode extends PNode {
             setPaint( fill );
             setStrokePaint( outline );
         }};
-        final SimpleObserver updateArrow = new SimpleObserver() {
+        new RichSimpleObserver() {
             public void update() {
                 final Point2D tail = getTail();
                 arrowNode.setTipAndTailLocations( getTip( tail ), tail );
             }
-        };
-        property.addObserver( updateArrow );
-        body.getScaledPositionProperty().addObserver( updateArrow );
-        modelViewTransform.addObserver( updateArrow );
+        }.observe( property, body.getPositionProperty(), modelViewTransform, body.getScaleProperty() );
         addChild( arrowNode );
         arrowNode.setPickable( false );
         arrowNode.setChildrenPickable( false );
-        body.getScaleProperty().addObserver( updateArrow );
     }
 
     private Point2D getTail() {
-        return modelViewTransform.getValue().modelToView( body.getScaledPositionProperty().getValue().toPoint2D() );
+        return modelViewTransform.getValue().modelToView( body.getPositionProperty().getValue().toPoint2D() );
     }
 
     protected Point2D getTip() {
