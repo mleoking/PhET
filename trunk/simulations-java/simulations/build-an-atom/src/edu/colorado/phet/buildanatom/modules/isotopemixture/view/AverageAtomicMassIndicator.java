@@ -60,7 +60,6 @@ public class AverageAtomicMassIndicator extends PNode {
         // Listen for changes to the list of possible isotopes and update the
         // tick marks when changes occur.
         model.getPossibleIsotopesProperty().addObserver( new SimpleObserver() {
-            private static final double ADJUSTMENT_FACTOR = 0.2; // Sets how far beyond the mass span the basic line goes.
             public void update() {
                 tickMarkLayer.removeAllChildren();
                 List< ImmutableAtom > possibleIsotopeList = model.getPossibleIsotopesProperty().getValue();
@@ -180,7 +179,8 @@ public class AverageAtomicMassIndicator extends PNode {
             addChild( triangularPointerNode );
 
             // Create the background for the readout.
-            final PNode readoutBackgroundNode = new PhetPPath( new RoundRectangle2D.Double( -SIZE.getWidth() / 2, TRIANGULAR_POINTER_HEIGHT, SIZE.getWidth(), SIZE.getHeight(), 5, 5), Color.WHITE, new BasicStroke( 3 ), Color.BLACK );
+            final PNode readoutBackgroundNode = new PhetPPath( new RoundRectangle2D.Double( -SIZE.getWidth() / 2,
+                    TRIANGULAR_POINTER_HEIGHT, SIZE.getWidth(), SIZE.getHeight(), 5, 5), Color.WHITE, new BasicStroke( 1 ), Color.BLACK );
             addChild( readoutBackgroundNode );
 
             // Add the textual readout.
