@@ -57,6 +57,8 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas implements Resettable 
     // Class Data
     //----------------------------------------------------------------------------
 
+    private static final Color BACKGROUND_COLOR = BuildAnAtomConstants.CANVAS_BACKGROUND;
+
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
@@ -95,7 +97,7 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas implements Resettable 
                 2.0, // "Zoom factor" - smaller zooms out, larger zooms in.
                 true );
 
-        setBackground( BuildAnAtomConstants.CANVAS_BACKGROUND );
+        setBackground( BACKGROUND_COLOR );
 
         // Root of our scene graph
         rootNode = new PNode();
@@ -135,7 +137,7 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas implements Resettable 
         // Add the interactive periodic table that allows the user to select
         // the current element.
         final PeriodicTableControlNode periodicTableNode = new PeriodicTableControlNode( model,
-                10, BuildAnAtomConstants.CANVAS_BACKGROUND ) {
+                10, BACKGROUND_COLOR ) {
             {
                 setScale( 1.3 );
                 setOffset( STAGE_SIZE.width - getFullBoundsReference().width - 20, 20 );
@@ -175,8 +177,8 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas implements Resettable 
                 BuildAnAtomDefaults.STAGE_SIZE.height - resetButtonNode.getFullBoundsReference().height );
 
         // Add the legend/particle count indicator.
-        ParticleCountLegend particleCountLegend = new ParticleCountLegend( model.getAtom(), Color.WHITE );
-        particleCountLegend.setScale( 1.25 );
+        ParticleCountLegend particleCountLegend = new ParticleCountLegend( model.getAtom(), BACKGROUND_COLOR );
+        particleCountLegend.setScale( 1.1 );
         particleCountLegend.setOffset( 20, 10 );
         rootNode.addChild( particleCountLegend );
 
@@ -338,7 +340,7 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas implements Resettable 
     private static class TwoItemPieChartNode extends PNode {
 
         private static final Color LEFT_SLICE_COLOR = new Color( 134, 102, 172 );
-        private static final Color RIGHT_SLICE_COLOR = BuildAnAtomConstants.CANVAS_BACKGROUND;
+        private static final Color RIGHT_SLICE_COLOR = BACKGROUND_COLOR;
 
         private final PieValue[] pieSlices = new PieValue[] {
                 new PieValue( 100, LEFT_SLICE_COLOR ),
