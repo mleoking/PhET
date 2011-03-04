@@ -25,9 +25,9 @@ public class CartoonModeList extends ModeList {
                400,
                21600,
                //Keeping the scale factors similar keeps both objects closer to the same scale
-               SUN_RADIUS * 50, EARTH_RADIUS * 500,
+               SUN_RADIUS * 50, EARTH_RADIUS * 1100,
                SUN_RADIUS * 50, EARTH_RADIUS * 50, MOON_RADIUS * 20,
                EARTH_RADIUS * 15, MOON_RADIUS * 15,
-               EARTH_RADIUS * 0.9, SPACE_STATION_RADIUS * 3 );
+               EARTH_RADIUS * 0.8, SPACE_STATION_RADIUS * 8 );
     }
 }
