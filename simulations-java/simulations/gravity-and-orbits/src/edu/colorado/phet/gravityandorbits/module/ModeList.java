@@ -27,31 +27,26 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class ModeList extends ArrayList<GravityAndOrbitsMode> {
 
-    private static final double SUN_RADIUS = 6.955E8;
-    private static final double SUN_MASS = 1.989E30;
+    public static class BodySpec {
+        public final double radius;
+        public final double mass;
+        public final ImmutableVector2D position;
+        public final ImmutableVector2D velocity;
 
-    private static final double EARTH_RADIUS = 6.371E6;
-    public static final double EARTH_MASS = 5.9736E24;
-    public static final double EARTH_PERIHELION = 147098290E3;
-    private static final double EARTH_ORBITAL_SPEED_AT_PERIHELION = 30300;
+        public BodySpec( double radius, double mass, ImmutableVector2D position, ImmutableVector2D velocity ) {
+            this.radius = radius;
+            this.mass = mass;
+            this.position = position;
+            this.velocity = velocity;
+        }
+    }
 
-    private static final double MOON_MASS = 7.3477E22;
-    private static final double MOON_RADIUS = 1737.1E3;
-    private static final double MOON_EARTH_SPEED = -1.01E3;
-    private static final double MOON_SPEED = MOON_EARTH_SPEED;
-    public static final double MOON_PERIGEE = 391370E3;
-    private static final double MOON_X = EARTH_PERIHELION;
-    private static final double MOON_Y = MOON_PERIGEE;
+    final BodySpec sun;
+    final BodySpec earth;
+    final BodySpec moon;
+    final BodySpec spaceStation;
 
-    //see http://en.wikipedia.org/wiki/International_Space_Station
-    private static final double SPACE_STATION_RADIUS = 109;
-    public static final double SPACE_STATION_MASS = 369914;
-    private static final double SPACE_STATION_SPEED = 7706;
-    private static final double SPACE_STATION_PERIGEE = 347000;
-    private final int SEC_PER_MOON_ORBIT = 28 * 24 * 60 * 60;
-    private final int SEC_PER_SPACE_STATION_ORBIT = 90 * 60;
     public static final double SUN_MODES_VELOCITY_SCALE = 200 / 4.466E-5;
-    private final Line2D.Double initialMeasuringTapeLocationSunModes = new Line2D.Double( 0, -EARTH_PERIHELION / 6, EARTH_PERIHELION, -EARTH_PERIHELION / 6 );
 
     public static final double SECONDS_PER_MINUTE = 60;
     private Property<Scale> scaleProperty;
@@ -98,13 +93,16 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
             return MessageFormat.format( GAOStrings.PATTERN_VALUE_UNITS, value, units );
         }
     };
-    private final int SEC_PER_YEAR = 365 * 24 * 60 * 60;
 
-    public ModeList( Property<Boolean> clockPausedProperty, Property<Boolean> gravityEnabledProperty, Property<Scale> scaleProperty, Property<Boolean> stepping, Property<Boolean> rewinding, Property<Double> timeSpeedScaleProperty ) {
+    public ModeList( Property<Boolean> clockPausedProperty, Property<Boolean> gravityEnabledProperty, Property<Scale> scaleProperty, Property<Boolean> stepping, Property<Boolean> rewinding, Property<Double> timeSpeedScaleProperty, BodySpec sun, final BodySpec earth, final BodySpec moon, BodySpec spaceStation ) {
         this.scaleProperty = scaleProperty;
         this.clockPausedProperty = clockPausedProperty;
         this.stepping = stepping;
         this.rewinding = rewinding;
+        this.sun = sun;
+        this.earth = earth;
+        this.moon = moon;
+        this.spaceStation = spaceStation;
         Function2<BodyNode, Property<Boolean>, PNode> readoutInEarthMasses = new Function2<BodyNode, Property<Boolean>, PNode>() {
             public PNode apply( BodyNode bodyNode, Property<Boolean> visible ) {
                 return new EarthMassReadoutNode( bodyNode, visible );
@@ -113,26 +111,28 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
 
         //Create the modes.
         final int cartoonDiameterScaleFactor = 650;//use same scale for earth and moon so relative radii sizes are the same, also use same values for both modes so they look the same
+        Line2D.Double initialMeasuringTapeLocationSunModes = new Line2D.Double( 0, -earth.position.getX() / 6, earth.position.getX(), -earth.position.getX() / 6 );
+        int SEC_PER_YEAR = 365 * 24 * 60 * 60;
         add( new GravityAndOrbitsMode( GAOStrings.SUN_AND_PLANET, VectorNode.FORCE_SCALE * 100 * 1.2, false, GravityAndOrbitsClock.DEFAULT_DT, days,
                                        createIconImage( true, true, false, false ), SEC_PER_YEAR, clockPausedProperty, SUN_MODES_VELOCITY_SCALE, readoutInEarthMasses,
                                        initialMeasuringTapeLocationSunModes, 1.25, new ImmutableVector2D( 0, 0 ),
-                                       gravityEnabledProperty, EARTH_PERIHELION / 2, new Point2D.Double( 0, 0 ), stepping, rewinding, timeSpeedScaleProperty ) {
+                                       gravityEnabledProperty, earth.position.getX() / 2, new Point2D.Double( 0, 0 ), stepping, rewinding, timeSpeedScaleProperty ) {
             {
                 final Body sun = createSun( getMaxPathLength() );
                 addBody( sun );
-                addBody( createPlanet( sun, 0, EARTH_ORBITAL_SPEED_AT_PERIHELION, getMaxPathLength(), cartoonDiameterScaleFactor ) );
+                addBody( createPlanet( sun, 0, earth.velocity.getY(), getMaxPathLength(), cartoonDiameterScaleFactor ) );
             }
         } );
         add( new GravityAndOrbitsMode( GAOStrings.SUN_PLANET_AND_MOON, VectorNode.FORCE_SCALE * 100 * 1.2, false, GravityAndOrbitsClock.DEFAULT_DT, days,
                                        createIconImage( true, true, true, false ), SEC_PER_YEAR, clockPausedProperty, SUN_MODES_VELOCITY_SCALE, readoutInEarthMasses,
                                        initialMeasuringTapeLocationSunModes, 1.25, new ImmutableVector2D( 0, 0 ),
-                                       gravityEnabledProperty, EARTH_PERIHELION / 2, new Point2D.Double( 0, 0 ), stepping, rewinding, timeSpeedScaleProperty ) {
+                                       gravityEnabledProperty, earth.position.getX() / 2, new Point2D.Double( 0, 0 ), stepping, rewinding, timeSpeedScaleProperty ) {
             {
                 final Body sun = createSun( getMaxPathLength() );
                 addBody( sun );
-                final Body earth = createPlanet( sun, 0, EARTH_ORBITAL_SPEED_AT_PERIHELION, getMaxPathLength(), cartoonDiameterScaleFactor );
+                final Body earth = createPlanet( sun, 0, ModeList.this.earth.velocity.getY(), getMaxPathLength(), cartoonDiameterScaleFactor );
                 addBody( earth );
-                final Body moon = createMoon( earth, MOON_SPEED, EARTH_ORBITAL_SPEED_AT_PERIHELION,
+                final Body moon = createMoon( earth, ModeList.this.moon.velocity.getX(), ModeList.this.earth.velocity.getY(),
                                               false,//no room for the slider
                                               getMaxPathLength(), 17 * 9, cartoonDiameterScaleFactor, 25,
                                               false );//so it doesn't intersect with earth mass readout
@@ -141,11 +141,12 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
         } );
         final double planetCartoonDiameterScale = 13;
         final double moonCartoonDiameterScale = 13;//moon and planet need to use same cartoon scale so relative sizes are correct
+        int SEC_PER_MOON_ORBIT = 28 * 24 * 60 * 60;
         add( new GravityAndOrbitsMode( GAOStrings.PLANET_AND_MOON, VectorNode.FORCE_SCALE * 100 / 2 * 0.9, false, GravityAndOrbitsClock.DEFAULT_DT / 3, days,
                                        createIconImage( false, true, true, false ), SEC_PER_MOON_ORBIT, clockPausedProperty, SUN_MODES_VELOCITY_SCALE / 100 * 6, readoutInEarthMasses,
-                                       new Line2D.Double( EARTH_PERIHELION, -MOON_PERIGEE / 4, EARTH_PERIHELION + MOON_PERIGEE, -MOON_PERIGEE / 4 ), 400,
-                                       new ImmutableVector2D( EARTH_PERIHELION, 0 ),
-                                       gravityEnabledProperty, MOON_PERIGEE / 2, new Point2D.Double( EARTH_PERIHELION, 0 ), stepping, rewinding, timeSpeedScaleProperty ) {
+                                       new Line2D.Double( earth.position.getX(), -moon.position.getY() / 4, moon.position.getX() + moon.position.getY(), -moon.position.getY() / 4 ), 400,
+                                       new ImmutableVector2D( earth.position.getX(), 0 ),
+                                       gravityEnabledProperty, moon.position.getY() / 2, new Point2D.Double( earth.position.getX(), 0 ), stepping, rewinding, timeSpeedScaleProperty ) {
             // Add in some initial -x velocity to offset the earth-moon barycenter drift
             //This value was computed by sampling the total momentum in GravityAndOrbitsModel for this mode
             ImmutableVector2D sampledSystemMomentum = new ImmutableVector2D( 7.421397422188586E25, -1.080211713202125E22 );
@@ -153,12 +154,12 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
             final Body earth;
 
             {
-                ImmutableVector2D velocityOffset = sampledSystemMomentum.getScaledInstance( -1 / ( EARTH_MASS + MOON_MASS ) );
+                ImmutableVector2D velocityOffset = sampledSystemMomentum.getScaledInstance( -1 / ( ModeList.this.earth.mass + moon.mass ) );
                 earth = createPlanet( null, velocityOffset.getX(), velocityOffset.getY(), getMaxPathLength(),
                                       planetCartoonDiameterScale );//scale so it is a similar size to other modes
 
                 addBody( earth );
-                addBody( createMoon( earth, MOON_SPEED, 0, true, getMaxPathLength(), 1, moonCartoonDiameterScale, 1, true ) );
+                addBody( createMoon( earth, moon.velocity.getX(), 0, true, getMaxPathLength(), 1, moonCartoonDiameterScale, 1, true ) );
             }
         } );
         Function2<BodyNode, Property<Boolean>, PNode> spaceStationMassReadoutFactory = new Function2<BodyNode, Property<Boolean>, PNode>() {
@@ -166,13 +167,14 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
                 return new SpaceStationMassReadoutNode( bodyNode, visible );
             }
         };
+        int SEC_PER_SPACE_STATION_ORBIT = 90 * 60;
         add( new GravityAndOrbitsMode( GAOStrings.PLANET_AND_SPACE_STATION, VectorNode.FORCE_SCALE * 10000 * 1000 * 10000 * 100 * 3, false,
                                        GravityAndOrbitsClock.DEFAULT_DT / 10000 * 9, minutes,
                                        createIconImage( false, true, false, true ), SEC_PER_SPACE_STATION_ORBIT, clockPausedProperty,
                                        SUN_MODES_VELOCITY_SCALE / 10000, spaceStationMassReadoutFactory,
-                                       new Line2D.Double( EARTH_PERIHELION, -EARTH_RADIUS / 6, EARTH_PERIHELION + SPACE_STATION_PERIGEE + EARTH_RADIUS, -EARTH_RADIUS / 6 ),
-                                       400 * 54, new ImmutableVector2D( EARTH_PERIHELION, 0 ),
-                                       gravityEnabledProperty, SPACE_STATION_PERIGEE * 15, new Point2D.Double( EARTH_PERIHELION, 0 ), stepping, rewinding, timeSpeedScaleProperty ) {
+                                       new Line2D.Double( earth.position.getX(), -earth.radius / 6, spaceStation.position.getX(), -earth.radius / 6 ),
+                                       400 * 54, new ImmutableVector2D( earth.position.getX(), 0 ),
+                                       gravityEnabledProperty, ( spaceStation.position.getX() - earth.position.getX() ) * 15, new Point2D.Double( earth.position.getX(), 0 ), stepping, rewinding, timeSpeedScaleProperty ) {
             final Body earth = createPlanet( null, 0, 0, getMaxPathLength(), planetCartoonDiameterScale * 1.5 * 1.5 / 54 );
 
             {
@@ -203,28 +205,28 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
     }
 
     private Body createSpaceStation( Body earth, int maxPathLength ) {
-        return new Body( earth, GAOStrings.SATELLITE, EARTH_PERIHELION + SPACE_STATION_PERIGEE + EARTH_RADIUS, 0, SPACE_STATION_RADIUS * 2 * 1000, 0,
-                         SPACE_STATION_SPEED, SPACE_STATION_MASS, Color.gray, Color.white, 25000 / 80.0 / 54, 1,
+        return new Body( earth, GAOStrings.SATELLITE, spaceStation.position.getX(), 0, spaceStation.radius * 2 * 1000, 0,
+                         spaceStation.velocity.getY(), spaceStation.mass, Color.gray, Color.white, 25000 / 80.0 / 54, 1,
                          getImageRenderer( "space-station.png" ), scaleProperty, -Math.PI / 4, true, maxPathLength, 1, true,
-                         SPACE_STATION_MASS, GAOStrings.SPACE_STATION, clockPausedProperty, stepping, rewinding );
+                         spaceStation.mass, GAOStrings.SPACE_STATION, clockPausedProperty, stepping, rewinding );
     }
 
     private Body createMoon( Body earth, double vx, double vy, boolean massSettable, int maxPathLength, final double cartoonOffsetScale,
                              final double cartoonDiameterScaleFactor, double cartoonForceVectorScale, final boolean massReadoutBelow ) {
-        return new Body( earth, GAOStrings.MOON, MOON_X, MOON_Y, MOON_RADIUS * 2, vx, vy, MOON_MASS, Color.magenta, Color.white,
+        return new Body( earth, GAOStrings.MOON, moon.position.getX(), moon.position.getY(), moon.radius * 2, vx, vy, moon.mass, Color.magenta, Color.white,
                          cartoonDiameterScaleFactor, cartoonOffsetScale,//putting this number too large makes a kink or curly-q in the moon trajectory, which should be avoided
-                         getRenderer( "moon.png", MOON_MASS ), scaleProperty, -3 * Math.PI / 4, massSettable, maxPathLength,
-                         cartoonForceVectorScale, massReadoutBelow, MOON_MASS, GAOStrings.OUR_MOON, clockPausedProperty, stepping, rewinding );
+                         getRenderer( "moon.png", moon.mass ), scaleProperty, -3 * Math.PI / 4, massSettable, maxPathLength,
+                         cartoonForceVectorScale, massReadoutBelow, moon.mass, GAOStrings.OUR_MOON, clockPausedProperty, stepping, rewinding );
     }
 
     private Body createPlanet( Body sun, double vx, double vy, int maxPathLength, final double cartoonDiameterScaleFactor ) {
-        return new Body( sun, GAOStrings.PLANET, EARTH_PERIHELION, 0, EARTH_RADIUS * 2, vx, vy, EARTH_MASS, Color.gray, Color.lightGray,
-                         cartoonDiameterScaleFactor, 1, getRenderer( "earth_satellite.gif", EARTH_MASS ), scaleProperty, -Math.PI / 4, true,
-                         maxPathLength, 1, true, EARTH_MASS, GAOStrings.EARTH, clockPausedProperty, stepping, rewinding );
+        return new Body( sun, GAOStrings.PLANET, earth.position.getX(), 0, earth.radius * 2, vx, vy, earth.mass, Color.gray, Color.lightGray,
+                         cartoonDiameterScaleFactor, 1, getRenderer( "earth_satellite.gif", earth.mass ), scaleProperty, -Math.PI / 4, true,
+                         maxPathLength, 1, true, earth.mass, GAOStrings.EARTH, clockPausedProperty, stepping, rewinding );
     }
 
     private Body createSun( int maxPathLength ) {
-        return new Body( null, GAOStrings.SUN, 0, 0, SUN_RADIUS * 2, 0, 0, SUN_MASS, Color.yellow, Color.white, 50, 1,
-                         SUN_RENDERER, scaleProperty, -Math.PI / 4, true, maxPathLength, 1, true, SUN_MASS, GAOStrings.OUR_SUN, clockPausedProperty, stepping, rewinding );
+        return new Body( null, GAOStrings.SUN, 0, 0, sun.radius * 2, 0, 0, sun.mass, Color.yellow, Color.white, 50, 1,
+                         SUN_RENDERER, scaleProperty, -Math.PI / 4, true, maxPathLength, 1, true, sun.mass, GAOStrings.OUR_SUN, clockPausedProperty, stepping, rewinding );
     }
 }

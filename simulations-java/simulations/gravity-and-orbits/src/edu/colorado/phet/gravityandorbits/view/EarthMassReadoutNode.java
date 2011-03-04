@@ -7,7 +7,7 @@ import java.text.MessageFormat;
 
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.gravityandorbits.GAOStrings;
-import edu.colorado.phet.gravityandorbits.module.ModeList;
+import edu.colorado.phet.gravityandorbits.module.RealModeList;
 
 /**
  * Provides a textual readout of a Body's mass in "earth masses"
@@ -23,7 +23,7 @@ public class EarthMassReadoutNode extends MassReadoutNode {
     @Override
     protected String createText() {
         double massKG = bodyNode.getBody().getMass();
-        double earthMasses = massKG / ModeList.EARTH_MASS;
+        double earthMasses = massKG / RealModeList.EARTH_MASS;
         String value, units;
         if ( earthMasses > 1E3 ) {
             value = new DecimalFormat( "0" ).format( Math.round( earthMasses / 1E3 ) );
