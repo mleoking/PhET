@@ -12,7 +12,7 @@ public class RealModeList extends ModeList {
     public static final double SUN_RADIUS = 6.955E8;
     public static final double SUN_MASS = 1.989E30;
 
-    private static final double EARTH_RADIUS = 6.371E6;
+    public static final double EARTH_RADIUS = 6.371E6;
     public static final double EARTH_MASS = 5.9736E24;
     public static final double EARTH_PERIHELION = 147098290E3;
     private static final double EARTH_ORBITAL_SPEED_AT_PERIHELION = 30300;
@@ -36,6 +36,6 @@ public class RealModeList extends ModeList {
                new BodySpec( SUN_RADIUS, SUN_MASS, new ImmutableVector2D( 0, 0 ), new ImmutableVector2D( 0, 0 ) ),
                new BodySpec( EARTH_RADIUS, EARTH_MASS, new ImmutableVector2D( EARTH_PERIHELION, 0 ), new ImmutableVector2D( 0, EARTH_ORBITAL_SPEED_AT_PERIHELION ) ),
                new BodySpec( MOON_RADIUS, MOON_MASS, new ImmutableVector2D( MOON_X, MOON_Y ), new ImmutableVector2D( MOON_SPEED, 0 ) ),
-               new BodySpec( SPACE_STATION_RADIUS, SPACE_STATION_MASS, new ImmutableVector2D( EARTH_PERIHELION + SPACE_STATION_PERIGEE + EARTH_RADIUS, 0 ), new ImmutableVector2D( 0, SPACE_STATION_SPEED ) ) );
+               new BodySpec( SPACE_STATION_RADIUS, SPACE_STATION_MASS, new ImmutableVector2D( EARTH_PERIHELION + SPACE_STATION_PERIGEE + EARTH_RADIUS, 0 ), new ImmutableVector2D( 0, SPACE_STATION_SPEED ) ), 1.25 );
     }
 }

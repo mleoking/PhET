@@ -29,7 +29,7 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
 
     private ModeListParameter p;
 
-    public ModeList( final ModeListParameter p, final BodySpec sun, final BodySpec earth, final BodySpec moon, final BodySpec spaceStation ) {
+    public ModeList( final ModeListParameter p, final BodySpec sun, final BodySpec earth, final BodySpec moon, final BodySpec spaceStation, final double sunPlanetZoom ) {
         this.p = p;
         Function2<BodyNode, Property<Boolean>, PNode> readoutInEarthMasses = new Function2<BodyNode, Property<Boolean>, PNode>() {
             public PNode apply( BodyNode bodyNode, Property<Boolean> visible ) {
@@ -50,7 +50,7 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
                                        SUN_MODES_VELOCITY_SCALE,
                                        readoutInEarthMasses,
                                        initialMeasuringTapeLocationSunModes,
-                                       1.25,
+                                       sunPlanetZoom,
                                        new ImmutableVector2D( 0, 0 ),
                                        earth.position.getX() / 2,
                                        new Point2D.Double( 0, 0 ),
