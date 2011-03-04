@@ -60,14 +60,13 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
     private ModeListParameter p;
 
     public ModeList( final ModeListParameter p, final BodyPrototype sun, final BodyPrototype earth, final BodyPrototype moon, final BodyPrototype spaceStation,
-                     final double sunModesZoom,
+                     final double sunModesZoom, final double planetAndMoonModeZoom, final double spaceStationZoom,
                      final double spaceStationVx, final double spaceStationVy,
                      final double sunModeEarthVX, final double sunModeEarthVY,
                      final double sunModeMoonVX, final double sunModeMoonVY,
                      final double earthModeMoonVx, final double earthModeMoonVy,
-                     double sunModeDt,
-                     final double planetModeZoom,
-                     final double spaceStationZoom, final double sunModeSunRadius, final double sunModeEarthRadius,
+                     final double sunModeDt,
+                     final double sunModeSunRadius, final double sunModeEarthRadius,
                      final double threeModeSunRadius, final double threeModeEarthRadius, final double threeModeMoonRadius,
                      final double earthModeEarthRadius, final double earthModeMoonRadius, final double spaceStationModeEarthRadius,
                      final double spaceStationModeSpaceStationRadius ) {
@@ -133,7 +132,7 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
                                        SUN_MODES_VELOCITY_SCALE * 0.06,
                                        readoutInEarthMasses,
                                        new Line2D.Double( earth.x, -moon.y / 4, moon.x + moon.y, -moon.y / 4 ),
-                                       planetModeZoom,
+                                       planetAndMoonModeZoom,
                                        new ImmutableVector2D( earth.x, 0 ),
                                        moon.y / 2,
                                        new Point2D.Double( earth.x, 0 ),
