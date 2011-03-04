@@ -267,17 +267,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
         }} );
     }
 
-    private Body getChild( Body parent, ArrayList<Body> bodies ) {
-        for ( Body body : bodies ) {
-            if ( body.getParent() == parent ) {
-                return body;
-            }
-        }
-        return null;
-    }
-
     public void addChild( PNode node ) {
         _rootNode.addChild( node );
     }
-
 }
