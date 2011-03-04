@@ -19,6 +19,10 @@ import edu.colorado.phet.gravityandorbits.model.Body;
 import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsClock;
 import edu.colorado.phet.gravityandorbits.view.*;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PImage;
+
+import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.multiScaleToWidth;
+import static edu.colorado.phet.gravityandorbits.GravityAndOrbitsApplication.RESOURCES;
 
 /**
  * GravityAndOrbitsModeList enumerates and declares the possible modes in the GravityAndOrbitsModule, such as "Sun & Earth" mode.
@@ -134,18 +138,18 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
     private Image createIconImage( final boolean sun, final boolean earth, final boolean moon, final boolean spaceStation, final BodyPrototype sunSpec, final BodyPrototype earthSpec, final BodyPrototype moonSpec, final BodyPrototype spaceStationSpec ) {
         return new PNode() {
             {
-                int inset = 20;//distance between icons
+                int inset = 5;//distance between icons
                 addChild( new PhetPPath( new Rectangle2D.Double( 20, 0, 1, 1 ), new Color( 0, 0, 0, 0 ) ) );
-                addIcon( inset, createSun( 0, sunSpec ).createRenderer( 30 ), sun );
-                addIcon( inset, createPlanet( 0, 0, 0, earthSpec ).createRenderer( 25 ), earth );
-                addIcon( inset, createMoon( 0, 0, true, 0, true, moonSpec ).createRenderer( 20 ), moon );
-                addIcon( inset, createSpaceStation( 0, spaceStationSpec ).createRenderer( 30 ), spaceStation );
+                addIcon( inset, new PImage( new BodyRenderer.SphereRenderer( Color.yellow, Color.white, 30 ).toImage() ), sun );
+                addIcon( inset, new PImage( multiScaleToWidth( RESOURCES.getImage( "earth_satellite.gif" ), 30 ) ), earth );
+                addIcon( inset, new PImage( multiScaleToWidth( RESOURCES.getImage( "moon.png" ), 30 ) ), moon );
+                addIcon( inset, new PImage( multiScaleToWidth( RESOURCES.getImage( "space-station.png" ), 30 ) ), spaceStation );
             }
 
-            private void addIcon( int inset, PNode sunIcon, boolean sun ) {
-                addChild( sunIcon );
-                sunIcon.setOffset( getFullBounds().getMaxX() + inset + sunIcon.getFullBounds().getWidth() / 2, 0 );
-                sunIcon.setVisible( sun );
+            private void addIcon( int inset, PNode icon, boolean visible ) {
+                addChild( icon );
+                icon.setOffset( getFullBounds().getMaxX() + inset + icon.getFullBounds().getWidth() / 2, 0 );
+                icon.setVisible( visible );
             }
         }.toImage();
     }
