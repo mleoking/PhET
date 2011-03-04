@@ -93,7 +93,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
         Color VELOCITY_VECTOR_COLOR_OUTLINE = Color.darkGray;
 
         for ( Body body : model.getBodies() ) {
-            final BodyNode bodyNode = new BodyNode( body, modelViewTransformProperty, module.getScaleProperty(), mousePositionProperty, this, body.getLabelAngle(), getChild( body, model.getBodies() ) );
+            final BodyNode bodyNode = new BodyNode( body, modelViewTransformProperty, module.getScaleProperty(), mousePositionProperty, this, body.getLabelAngle() );
             addChild( bodyNode );
             addChild( mode.getMassReadoutFactory().apply( bodyNode, module.getShowMassProperty() ) );
         }

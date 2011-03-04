@@ -30,14 +30,12 @@ public class BodyNode extends PNode {
     private final Property<ModelViewTransform> modelViewTransform;
     private final Body body;
     private final PNode arrowIndicator;
-    private final Property<Scale> scaleProperty;
     private final BodyRenderer bodyRenderer;
 
     public BodyNode( final Body body, final Property<ModelViewTransform> modelViewTransform, final Property<Scale> scaleProperty,
-                     final Property<ImmutableVector2D> mousePositionProperty, final PComponent parentComponent, final double labelAngle, final Body child ) {
+                     final Property<ImmutableVector2D> mousePositionProperty, final PComponent parentComponent, final double labelAngle ) {
         this.modelViewTransform = modelViewTransform;
         this.body = body;
-        this.scaleProperty = scaleProperty;
         body.getCollidedProperty().addObserver( new SimpleObserver() {
             public void update() {
                 setVisible( !body.getCollidedProperty().getValue() );
