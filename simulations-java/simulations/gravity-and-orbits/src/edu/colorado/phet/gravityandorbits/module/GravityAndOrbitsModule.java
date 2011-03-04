@@ -11,7 +11,6 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
-import edu.colorado.phet.gravityandorbits.GAOStrings;
 import edu.colorado.phet.gravityandorbits.model.CartoonPositionMap;
 import edu.colorado.phet.gravityandorbits.view.Scale;
 
@@ -54,16 +53,17 @@ public class GravityAndOrbitsModule extends PiccoloModule {
     private final Property<Boolean> rewinding = new Property<Boolean>( false );
     private final ArrayList<GravityAndOrbitsMode> modes = new GravityAndOrbitsModeList( clockPausedProperty, gravityEnabledProperty, scaleProperty, stepping, rewinding, timeSpeedScaleProperty );
     private final Property<GravityAndOrbitsMode> modeProperty = new Property<GravityAndOrbitsMode>( modes.get( 0 ) );
-    private final Property<Boolean> whiteBackgroundProperty = new Property<Boolean>( false );
+    private final Property<Boolean> whiteBackgroundProperty;
 
     public ArrayList<GravityAndOrbitsMode> getModes() {
         return new ArrayList<GravityAndOrbitsMode>( modes );
     }
 
-    public GravityAndOrbitsModule( final PhetFrame phetFrame, String[] commandLineArgs ) {
-        super( GAOStrings.GRAVITY_AND_ORBITS_NAME,
+    public GravityAndOrbitsModule( final PhetFrame phetFrame, String[] commandLineArgs, Property<Boolean> whiteBackgroundProperty, final String name ) {
+        super( name,
 //        super( "Gravity and Orbits" + ": " + Arrays.asList( commandLineArgs ),//For simsharing
                new ConstantDtClock( 30, 1 ) );//TODO: I don't think this clock is used since each mode has its own clock; perhaps this just runs the active tab?
+        this.whiteBackgroundProperty = whiteBackgroundProperty;
         getModulePanel().setLogoPanel( null );
         for ( GravityAndOrbitsMode mode : modes ) {
             mode.init( this );
