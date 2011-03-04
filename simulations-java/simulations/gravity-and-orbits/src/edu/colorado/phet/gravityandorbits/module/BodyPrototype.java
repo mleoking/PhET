@@ -9,15 +9,11 @@ public class BodyPrototype {
     public final double mass;
     public final double x;
     public final double y;
-    public final double vx;
-    public final double vy;
 
-    public BodyPrototype( double radius, double mass, double x, double y, double vx, double vy ) {
+    public BodyPrototype( double radius, double mass, double x, double y ) {
         this.radius = radius;
         this.mass = mass;
         this.x = x;
         this.y = y;
-        this.vx = vx;
-        this.vy = vy;
     }
 }
