@@ -75,7 +75,6 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
     private final Function2<Body, Double, BodyRenderer> SUN_RENDERER = new Function2<Body, Double, BodyRenderer>() {
         public BodyRenderer apply( Body body, Double viewDiameter ) {
             return new BodyRenderer.SphereRenderer( body, viewDiameter );
-//            return new BodyRenderer.ImageRenderer( body, viewDiameter, "sun.png" );
         }
     };
 

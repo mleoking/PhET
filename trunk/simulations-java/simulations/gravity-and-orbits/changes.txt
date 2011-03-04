@@ -1,3 +1,4 @@
+Changed cartoon sun to match up parameters with real sun
 Renamed "Earth Values" to "Restart"
 Removed measuring tape from intro tab
 Removed cartoon scaling

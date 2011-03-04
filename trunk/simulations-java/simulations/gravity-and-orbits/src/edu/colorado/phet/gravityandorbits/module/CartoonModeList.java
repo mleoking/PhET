@@ -9,8 +9,8 @@ import edu.colorado.phet.gravityandorbits.view.Scale;
  * @author Sam Reid
  */
 public class CartoonModeList extends ModeList {
-    private static final double SUN_RADIUS = 4E10;
-    private static final double SUN_MASS = 2E30;
+    private static final double SUN_RADIUS = RealModeList.SUN_RADIUS;
+    private static final double SUN_MASS = RealModeList.SUN_MASS;
 
     private static final double EARTH_RADIUS = SUN_RADIUS / 2;
     public static final double EARTH_MASS = SUN_MASS / 100;
