@@ -4,14 +4,10 @@ package edu.colorado.phet.gravityandorbits.controlpanel;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
-import java.awt.image.BufferedImage;
-import java.awt.image.RescaleOp;
 import java.text.MessageFormat;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.*;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -21,7 +17,6 @@ import edu.colorado.phet.gravityandorbits.model.Body;
 import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsModel;
 import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsMode;
 import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsModule;
-import edu.colorado.phet.gravityandorbits.view.Scale;
 
 /**
  * Control panel for a GravityAndOrbitsMode (one control panel per mode).  Multiple control panels
@@ -104,52 +99,7 @@ public class GravityAndOrbitsControlPanel extends VerticalLayoutPanel {
             add( new GAOCheckBox( GAOStrings.GRID, module.getShowGridProperty() ) );
             //Panel with measuring tape.
             if ( module.showMeasuringTape ) {
-                add( new GAOCheckBox( GAOStrings.MEASURING_TAPE, module.getMeasuringTapeVisibleProperty() ) {
-                    {
-                        final Icon defaultIcon = getIcon();
-                        final Icon disabledUnselectedIcon = grayOut( UIManager.getIcon( "CheckBox.icon" ) );
-                        final Icon disabledSelectedIcon = disabledUnselectedIcon;//todo: find a way to get this from the UIManager; until this is fixed just render as unselected when disabled
-
-                        module.getScaleProperty().addObserver( new SimpleObserver() {
-                            public void update() {
-                                setEnabled( module.getScaleProperty().getValue() == Scale.REAL );//only enable the measuring tape in real scale
-                                setForeground( module.getScaleProperty().getValue() == Scale.REAL ? Color.white : Color.darkGray );
-                                if ( isEnabled() ) {
-                                    iconFixWorkaround( defaultIcon );
-                                }
-                                else {
-                                    if ( isSelected() ) {
-                                        iconFixWorkaround( disabledSelectedIcon );
-                                    }
-                                    else {
-                                        iconFixWorkaround( disabledUnselectedIcon );
-                                    }
-                                }
-                                iconFixWorkaround( isEnabled() ? defaultIcon : disabledUnselectedIcon );
-                            }
-
-                            //Sets the icon, but only on Windows.  This is because on the Windows L&F, the check box icon itself still looks clickable even when disabled.
-                            //Applying this fix to Linux causes the checkbox to not render; not sure what it would do to Mac (which looks good without the workaround), therefore we just apply the workaround to Windows.
-                            //Tested that this works properly on Windows with both Java 1.6 and 1.5
-                            private void iconFixWorkaround( Icon icon ) {
-                                if ( PhetUtilities.isWindows() ) {
-                                    setIcon( icon );
-                                }
-                            }
-                        } );
-                    }
-
-                    private Icon grayOut( Icon checkBoxIcon ) {
-                        final BufferedImage image = toImage( this, checkBoxIcon );
-
-                        float[] scales = { 1f, 1f, 1f, 0.5f };//TODO: what about OS's that don't use an alpha channel?
-                        float[] offsets = new float[4];
-
-                        final BufferedImage filtered = new RescaleOp( scales, offsets, null ).filter( image, null );
-                        final Icon disabledIcon = new ImageIcon( filtered );
-                        return disabledIcon;
-                    }
-                } );
+                add( new GAOCheckBox( GAOStrings.MEASURING_TAPE, module.getMeasuringTapeVisibleProperty() ) );
             }
         }} );
 
@@ -165,13 +115,5 @@ public class GravityAndOrbitsControlPanel extends VerticalLayoutPanel {
     private static void setFontsAndColors( JComponent component ) {
         component.setFont( CONTROL_FONT );
         component.setForeground( FOREGROUND );
-    }
-
-    public static BufferedImage toImage( Component component, Icon icon ) {
-        BufferedImage image = new BufferedImage( icon.getIconWidth(), icon.getIconHeight(), BufferedImage.TYPE_4BYTE_ABGR_PRE );//guessing type based on experience with mac problems
-        Graphics2D g2 = image.createGraphics();
-        icon.paintIcon( component, g2, 0, 0 );
-        g2.dispose();
-        return image;
     }
 }
