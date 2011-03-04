@@ -1642,4 +1642,23 @@ public class AtomIdentifier {
         }
         return isotopeList;
     }
+
+    /**
+     * Get a list of all isotopes that are considered stable.  This is needed
+     * because the complete list of isotopes used by this class includes some
+     * that exist on earth but are not stable, such as carbon-14.
+     *
+     * @param atomicNumber
+     * @return
+     */
+    public static ArrayList<ImmutableAtom> getStableIsotopes( int atomicNumber ){
+        ArrayList<ImmutableAtom> isotopeList = getAllIsotopes( atomicNumber );
+        ArrayList<ImmutableAtom> stableIsotopeList = new ArrayList<ImmutableAtom>( isotopeList );
+        for ( ImmutableAtom isotope : isotopeList ){
+            if ( !isStable(isotope) ){
+                stableIsotopeList.remove( isotope );
+            }
+        }
+        return stableIsotopeList;
+    }
 }
