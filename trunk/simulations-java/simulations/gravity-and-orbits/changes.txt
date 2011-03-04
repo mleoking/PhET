@@ -1,3 +1,4 @@
+Only show arrow indicators when body is too small
 # 1.00.02 (49477) Mar 4, 2011
 Changed cartoon sun to match up parameters with real sun
 Renamed "Earth Values" to "Restart"
