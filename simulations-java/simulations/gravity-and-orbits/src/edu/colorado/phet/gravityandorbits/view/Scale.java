@@ -7,6 +7,7 @@ package edu.colorado.phet.gravityandorbits.view;
  * Cartoon scale modifies the sizes and locations of the bodies, Real shows everything to scale.
  *
  * @author Sam Reid
+ * @deprecated TODO: Remove this class since cartoon scaling has been removed
  */
 public class Scale {
     public static final Scale REAL = new Real();
