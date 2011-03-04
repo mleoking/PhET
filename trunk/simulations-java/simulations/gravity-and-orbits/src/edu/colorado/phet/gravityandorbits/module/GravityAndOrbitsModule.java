@@ -8,6 +8,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.common.phetcommon.util.Function1;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
@@ -51,8 +52,9 @@ public class GravityAndOrbitsModule extends PiccoloModule {
     }};
     private final Property<Boolean> stepping = new Property<Boolean>( false );
     private final Property<Boolean> rewinding = new Property<Boolean>( false );
-    private final ArrayList<GravityAndOrbitsMode> modes = new GravityAndOrbitsModeList( clockPausedProperty, gravityEnabledProperty, scaleProperty, stepping, rewinding, timeSpeedScaleProperty );
-    private final Property<GravityAndOrbitsMode> modeProperty = new Property<GravityAndOrbitsMode>( modes.get( 0 ) );
+
+    private final ArrayList<GravityAndOrbitsMode> modes;
+    private final Property<GravityAndOrbitsMode> modeProperty;
     private final Property<Boolean> whiteBackgroundProperty;
     public final boolean showMeasuringTape;
 
@@ -60,8 +62,10 @@ public class GravityAndOrbitsModule extends PiccoloModule {
         return new ArrayList<GravityAndOrbitsMode>( modes );
     }
 
-    public GravityAndOrbitsModule( final PhetFrame phetFrame, Property<Boolean> whiteBackgroundProperty, final String name, boolean showMeasuringTape ) {
+    public GravityAndOrbitsModule( final PhetFrame phetFrame, Property<Boolean> whiteBackgroundProperty, final String name, boolean showMeasuringTape, Function1<ModeListParameter, ArrayList<GravityAndOrbitsMode>> createModes ) {
         super( name, new ConstantDtClock( 30, 1 ) );//TODO: I don't think this clock is used since each mode has its own clock; perhaps this just runs the active tab?
+        modes = createModes.apply( new ModeListParameter( clockPausedProperty, gravityEnabledProperty, scaleProperty, stepping, rewinding, timeSpeedScaleProperty ) );
+        modeProperty = new Property<GravityAndOrbitsMode>( modes.get( 0 ) );
         this.whiteBackgroundProperty = whiteBackgroundProperty;
         this.showMeasuringTape = showMeasuringTape;
         getModulePanel().setLogoPanel( null );

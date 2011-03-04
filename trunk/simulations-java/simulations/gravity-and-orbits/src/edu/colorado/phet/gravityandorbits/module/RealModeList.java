@@ -25,7 +25,7 @@ import edu.umd.cs.piccolo.PNode;
  *
  * @author Sam Reid
  */
-public class GravityAndOrbitsModeList extends ArrayList<GravityAndOrbitsMode> {
+public class RealModeList extends ArrayList<GravityAndOrbitsMode> {
 
     public static final double SECONDS_PER_MINUTE = 60;
     private Property<Scale> scaleProperty;
@@ -99,7 +99,7 @@ public class GravityAndOrbitsModeList extends ArrayList<GravityAndOrbitsMode> {
     public static final double SUN_MODES_VELOCITY_SCALE = 200 / 4.466E-5;
     private final Line2D.Double initialMeasuringTapeLocationSunModes = new Line2D.Double( 0, -EARTH_PERIHELION / 6, EARTH_PERIHELION, -EARTH_PERIHELION / 6 );
 
-    public GravityAndOrbitsModeList( Property<Boolean> clockPausedProperty, Property<Boolean> gravityEnabledProperty, Property<Scale> scaleProperty, Property<Boolean> stepping, Property<Boolean> rewinding, Property<Double> timeSpeedScaleProperty ) {
+    public RealModeList( Property<Boolean> clockPausedProperty, Property<Boolean> gravityEnabledProperty, Property<Scale> scaleProperty, Property<Boolean> stepping, Property<Boolean> rewinding, Property<Double> timeSpeedScaleProperty ) {
         this.scaleProperty = scaleProperty;
         this.clockPausedProperty = clockPausedProperty;
         this.stepping = stepping;
