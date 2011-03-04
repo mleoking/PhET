@@ -273,6 +273,7 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas implements Resettable 
                         setOffset(
                                 pieChart.getFullBoundsReference().getMaxX() + 4,
                                 pieChart.getFullBoundsReference().getCenterY() - getFullBoundsReference().height / 2 );
+                        setVisible( atom.getNaturalAbundance() < 1.0 ); // Don't show if no other isotopes exist.
                     }
                 });
             }};
