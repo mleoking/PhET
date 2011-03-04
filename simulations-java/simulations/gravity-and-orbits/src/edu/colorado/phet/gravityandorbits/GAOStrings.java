@@ -44,7 +44,6 @@ public class GAOStrings {
     public static final String SPACE_STATION = getString( "spaceStation" );
     public static final String SPACE_STATION_MASS = getString( "spaceStationMass" );
     public static final String SPACE_STATION_MASSES = getString( "spaceStationMasses" );
-    public static final String SCALE = getString( "scale" );
     public static final String SATELLITE = getString( "satellite" );
     public static final String SHOW = getString( "show" );
     public static final String RESET = getString( "reset" );

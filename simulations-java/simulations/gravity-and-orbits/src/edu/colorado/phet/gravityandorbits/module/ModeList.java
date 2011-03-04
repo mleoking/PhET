@@ -205,7 +205,7 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
 
     private Body createSpaceStation( Body earth, int maxPathLength ) {
         return new Body( earth, GAOStrings.SATELLITE, spaceStation.position.getX(), 0, spaceStation.radius * 2 * 1000, 0,
-                         spaceStation.velocity.getY(), spaceStation.mass, Color.gray, Color.white, 25000 / 80.0 / 54, 1,
+                         spaceStation.velocity.getY(), spaceStation.mass, Color.gray, Color.white, 1,
                          getImageRenderer( "space-station.png" ), scaleProperty, -Math.PI / 4, true, maxPathLength, 1, true,
                          spaceStation.mass, GAOStrings.SPACE_STATION, clockPausedProperty, stepping, rewinding );
     }
@@ -213,19 +213,19 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
     private Body createMoon( Body earth, double vx, double vy, boolean massSettable, int maxPathLength, final double cartoonOffsetScale,
                              final double cartoonDiameterScaleFactor, double cartoonForceVectorScale, final boolean massReadoutBelow ) {
         return new Body( earth, GAOStrings.MOON, moon.position.getX(), moon.position.getY(), moon.radius * 2, vx, vy, moon.mass, Color.magenta, Color.white,
-                         cartoonDiameterScaleFactor, cartoonOffsetScale,//putting this number too large makes a kink or curly-q in the moon trajectory, which should be avoided
+                         cartoonOffsetScale,//putting this number too large makes a kink or curly-q in the moon trajectory, which should be avoided
                          getRenderer( "moon.png", moon.mass ), scaleProperty, -3 * Math.PI / 4, massSettable, maxPathLength,
                          cartoonForceVectorScale, massReadoutBelow, moon.mass, GAOStrings.OUR_MOON, clockPausedProperty, stepping, rewinding );
     }
 
     private Body createPlanet( Body sun, double vx, double vy, int maxPathLength, final double cartoonDiameterScaleFactor ) {
         return new Body( sun, GAOStrings.PLANET, earth.position.getX(), 0, earth.radius * 2, vx, vy, earth.mass, Color.gray, Color.lightGray,
-                         cartoonDiameterScaleFactor, 1, getRenderer( "earth_satellite.gif", earth.mass ), scaleProperty, -Math.PI / 4, true,
+                         1, getRenderer( "earth_satellite.gif", earth.mass ), scaleProperty, -Math.PI / 4, true,
                          maxPathLength, 1, true, earth.mass, GAOStrings.EARTH, clockPausedProperty, stepping, rewinding );
     }
 
     private Body createSun( int maxPathLength ) {
-        return new Body( null, GAOStrings.SUN, 0, 0, sun.radius * 2, 0, 0, sun.mass, Color.yellow, Color.white, 50, 1,
+        return new Body( null, GAOStrings.SUN, 0, 0, sun.radius * 2, 0, 0, sun.mass, Color.yellow, Color.white, 1,
                          SUN_RENDERER, scaleProperty, -Math.PI / 4, true, maxPathLength, 1, true, sun.mass, GAOStrings.OUR_SUN, clockPausedProperty, stepping, rewinding );
     }
 }

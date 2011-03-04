@@ -44,9 +44,7 @@ public class Body implements IBodyColors {
     private final ArrayList<PathPoint> path = new ArrayList<PathPoint>();
     private final Property<Scale> scaleProperty;
     private final boolean massSettable;
-    private final double cartoonDiameterScaleFactor;
     private final Body parent;
-    private final double cartoonOffsetScale;
     private final Function2<Body, Double, BodyRenderer> renderer;//function that creates a PNode for this Body
     private final double labelAngle;
     private final int maxPathLength;
@@ -63,7 +61,7 @@ public class Body implements IBodyColors {
 
     public Body( Body parent,//the parent body that this body is in orbit around, used in cartoon mode to exaggerate locations
                  final String name, double x, double y, double diameter, double vx, double vy, double mass, Color color, Color highlight,
-                 double cartoonDiameterScaleFactor, double cartoonOffsetScale,
+                 double cartoonOffsetScale,
                  Function2<Body, Double, BodyRenderer> renderer,// way to associate the graphical representation directly instead of later with conditional logic or map
                  final Property<Scale> scaleProperty, double labelAngle, boolean massSettable,
                  int maxPathLength,
@@ -80,8 +78,6 @@ public class Body implements IBodyColors {
         this.name = name;
         this.color = color;
         this.highlight = highlight;
-        this.cartoonDiameterScaleFactor = cartoonDiameterScaleFactor;
-        this.cartoonOffsetScale = cartoonOffsetScale;
         this.renderer = renderer;
         this.labelAngle = labelAngle;
         positionProperty = new ClockRewindProperty<ImmutableVector2D>( clockPaused, stepping, rewinding, new ImmutableVector2D( x, y ) );
@@ -99,7 +95,7 @@ public class Body implements IBodyColors {
         returnable = new BooleanProperty( false ) {{
             final SimpleObserver obs = new SimpleObserver() {
                 public void update() {
-                    setValue( collidedProperty.getValue() || !bounds.getValue().contains( getPosition( scaleProperty.getValue() ).toPoint2D() ) );
+                    setValue( collidedProperty.getValue() || !bounds.getValue().contains( getPosition().toPoint2D() ) );
                 }
             };
             bounds.addObserver( obs );
@@ -111,7 +107,7 @@ public class Body implements IBodyColors {
         //Synchronize the scaled position, which accounts for the scale
         final SimpleObserver updateScaledPosition = new SimpleObserver() {
             public void update() {
-                scaledPositionProperty.setValue( getPosition( scaleProperty.getValue() ) );
+                scaledPositionProperty.setValue( getPosition() );
             }
         };
         scaleProperty.addObserver( updateScaledPosition );
@@ -256,7 +252,7 @@ public class Body implements IBodyColors {
     }
 
     private void addPathPoint() {
-        PathPoint pathPoint = new PathPoint( getPosition(), getCartoonPosition() );
+        PathPoint pathPoint = new PathPoint( getPosition() );
         path.add( pathPoint );
         while ( path.size() > maxPathLength ) {//start removing data after 2 orbits of the default system
             path.remove( 0 );
@@ -346,33 +342,8 @@ public class Body implements IBodyColors {
         return renderer.apply( this, viewDiameter );
     }
 
-    public double getCartoonDiameterScaleFactor() {
-        return cartoonDiameterScaleFactor;
-    }
-
     public Body getParent() {
         return parent;
-    }
-
-    public double getCartoonOffsetScale() {
-        return cartoonOffsetScale;
-    }
-
-    public ImmutableVector2D getCartoonPosition() {
-        if ( getParent() != null ) {
-            return new CartoonPositionMap( cartoonOffsetScale ).toCartoon( getName(), getPosition(), getParent().getPosition(), this, getParent() );
-        }
-        else {
-            return getPosition();//those without parents have a cartoon position equal to their physical position
-        }
-    }
-
-    public ImmutableVector2D getPosition( Scale scale ) {
-        return getPosition();
-    }
-
-    public double getDiameter( Scale scale ) {
-        return getDiameter();
     }
 
     public double getLabelAngle() {
@@ -408,10 +379,10 @@ public class Body implements IBodyColors {
         final Scale myScale = Scale.REAL;
         final Scale otherScale = Scale.REAL;
 
-        final ImmutableVector2D myPosition = getPosition( myScale );
-        final ImmutableVector2D yourPosition = body.getPosition( otherScale );
+        final ImmutableVector2D myPosition = getPosition();
+        final ImmutableVector2D yourPosition = body.getPosition();
         double distance = myPosition.getSubtractedInstance( yourPosition ).getMagnitude();
-        double radiiSum = getDiameter( myScale ) / 2 + body.getDiameter( otherScale ) / 2;
+        double radiiSum = getDiameter() / 2 + body.getDiameter() / 2;
         return distance < radiiSum;
     }
 
@@ -461,14 +432,9 @@ public class Body implements IBodyColors {
         return new MultiwayOr( Arrays.asList( positionProperty.different(), velocityProperty.different(), massProperty.different(), collidedProperty.different() ) );
     }
 
-    public ImmutableVector2D globalCartoonToReal( ImmutableVector2D childCartoonPosition ) {
-        //constrain the child Body to remain stationary
-        return new CartoonPositionMap( cartoonOffsetScale ).toReal( childCartoonPosition, getParent().getPosition() );
-    }
-
     //Unexplodes and returns objects to the stage
     public void returnBody() {
-        if ( collidedProperty.getValue() || !bounds.getValue().contains( getPosition( scaleProperty.getValue() ).toPoint2D() ) ) {
+        if ( collidedProperty.getValue() || !bounds.getValue().contains( getPosition().toPoint2D() ) ) {
             setCollided( false );
             clearPath();//so there is no sudden jump in path from old to new location
             positionProperty.reset();
@@ -478,11 +444,9 @@ public class Body implements IBodyColors {
 
     public static class PathPoint {
         public final ImmutableVector2D point;
-        public final ImmutableVector2D cartoonPoint;
 
-        public PathPoint( ImmutableVector2D point, ImmutableVector2D cartoonPoint ) {
+        public PathPoint( ImmutableVector2D point ) {
             this.point = point;
-            this.cartoonPoint = cartoonPoint;
         }
     }
 

@@ -1,6 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 
-package edu.colorado.phet.gravityandorbits.view;
+package edu.colorado.phet.gravityandorbits.test;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
