@@ -10,6 +10,9 @@ import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsModule;
 
+import static edu.colorado.phet.gravityandorbits.GAOStrings.INTRO;
+import static edu.colorado.phet.gravityandorbits.GAOStrings.TO_SCALE;
+
 /**
  * The main application for Gravity and Orbits.
  *
@@ -18,18 +21,26 @@ import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsModule;
 public class GravityAndOrbitsApplication extends PiccoloPhetApplication {
     public static final String PROJECT_NAME = "gravity-and-orbits";
     public static final PhetResources RESOURCES = new PhetResources( GravityAndOrbitsApplication.PROJECT_NAME );
-    private final GravityAndOrbitsModule gravityAndOrbitsModule;
+
+    private final GravityAndOrbitsModule intro;
+    private final GravityAndOrbitsModule toScale;
+    private final Property<Boolean> whiteBackgroundProperty = new Property<Boolean>( false );
 
     public GravityAndOrbitsApplication( PhetApplicationConfig config ) {
         super( config );
-        gravityAndOrbitsModule = new GravityAndOrbitsModule( getPhetFrame(), config.getCommandLineArgs() );
-        addModule( gravityAndOrbitsModule );
-        final Property<Boolean> whiteBackgroundProperty = gravityAndOrbitsModule.getWhiteBackgroundProperty();
+        intro = new GravityAndOrbitsModule( getPhetFrame(), config.getCommandLineArgs(), whiteBackgroundProperty, INTRO );
+        addModule( intro );
+        toScale = new GravityAndOrbitsModule( getPhetFrame(), config.getCommandLineArgs(), whiteBackgroundProperty, TO_SCALE );
+        addModule( toScale );
         getPhetFrame().addMenu( new OptionsMenu() {{addWhiteBackgroundCheckBoxMenuItem( whiteBackgroundProperty );}} );
     }
 
-    public GravityAndOrbitsModule getGravityAndOrbitsModule() {
-        return gravityAndOrbitsModule;
+    public GravityAndOrbitsModule getIntro() {
+        return intro;
+    }
+
+    public GravityAndOrbitsModule getToScale() {
+        return toScale;
     }
 
     public static void main( final String[] args ) throws ClassNotFoundException {
