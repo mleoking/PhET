@@ -7,7 +7,7 @@ import java.text.MessageFormat;
 
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.gravityandorbits.GAOStrings;
-import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsModeList;
+import edu.colorado.phet.gravityandorbits.module.RealModeList;
 
 /**
  * Shows the mass of a Body in terms of space station masses.
@@ -23,7 +23,7 @@ public class SpaceStationMassReadoutNode extends MassReadoutNode {
     @Override
     protected String createText() {
         double massKG = bodyNode.getBody().getMass();
-        double spaceStationMasses = massKG / GravityAndOrbitsModeList.SPACE_STATION_MASS;
+        double spaceStationMasses = massKG / RealModeList.SPACE_STATION_MASS;
         String value, units;
         if ( spaceStationMasses > 1E18 ) {
             value = new DecimalFormat( "0" ).format( spaceStationMasses / 1E18 );
