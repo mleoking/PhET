@@ -1,3 +1,4 @@
+Renamed "Earth Values" to "Restart"
 Removed measuring tape from intro tab
 Removed cartoon scaling
 Removed scaling control panel
