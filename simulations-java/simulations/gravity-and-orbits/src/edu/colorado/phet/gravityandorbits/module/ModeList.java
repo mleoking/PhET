@@ -27,6 +27,32 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class ModeList extends ArrayList<GravityAndOrbitsMode> {
 
+    private static final double SUN_RADIUS = 6.955E8;
+    private static final double SUN_MASS = 1.989E30;
+
+    private static final double EARTH_RADIUS = 6.371E6;
+    public static final double EARTH_MASS = 5.9736E24;
+    public static final double EARTH_PERIHELION = 147098290E3;
+    private static final double EARTH_ORBITAL_SPEED_AT_PERIHELION = 30300;
+
+    private static final double MOON_MASS = 7.3477E22;
+    private static final double MOON_RADIUS = 1737.1E3;
+    private static final double MOON_EARTH_SPEED = -1.01E3;
+    private static final double MOON_SPEED = MOON_EARTH_SPEED;
+    public static final double MOON_PERIGEE = 391370E3;
+    private static final double MOON_X = EARTH_PERIHELION;
+    private static final double MOON_Y = MOON_PERIGEE;
+
+    //see http://en.wikipedia.org/wiki/International_Space_Station
+    private static final double SPACE_STATION_RADIUS = 109;
+    public static final double SPACE_STATION_MASS = 369914;
+    private static final double SPACE_STATION_SPEED = 7706;
+    private static final double SPACE_STATION_PERIGEE = 347000;
+    private final int SEC_PER_MOON_ORBIT = 28 * 24 * 60 * 60;
+    private final int SEC_PER_SPACE_STATION_ORBIT = 90 * 60;
+    public static final double SUN_MODES_VELOCITY_SCALE = 200 / 4.466E-5;
+    private final Line2D.Double initialMeasuringTapeLocationSunModes = new Line2D.Double( 0, -EARTH_PERIHELION / 6, EARTH_PERIHELION, -EARTH_PERIHELION / 6 );
+
     public static final double SECONDS_PER_MINUTE = 60;
     private Property<Scale> scaleProperty;
     private Property<Boolean> clockPausedProperty;
@@ -57,27 +83,6 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
 //            return new BodyRenderer.ImageRenderer( body, viewDiameter, "sun.png" );
         }
     };
-    private static final double SUN_RADIUS = 6.955E8;
-    private static final double SUN_MASS = 1.989E30;
-
-    private static final double EARTH_RADIUS = 6.371E6;
-    public static final double EARTH_MASS = 5.9736E24;
-    public static final double EARTH_PERIHELION = 147098290E3;
-    private static final double EARTH_ORBITAL_SPEED_AT_PERIHELION = 30300;
-
-    private static final double MOON_MASS = 7.3477E22;
-    private static final double MOON_RADIUS = 1737.1E3;
-    private static final double MOON_EARTH_SPEED = -1.01E3;
-    private static final double MOON_SPEED = MOON_EARTH_SPEED;
-    public static final double MOON_PERIGEE = 391370E3;
-    private static final double MOON_X = EARTH_PERIHELION;
-    private static final double MOON_Y = MOON_PERIGEE;
-
-    //see http://en.wikipedia.org/wiki/International_Space_Station
-    private static final double SPACE_STATION_RADIUS = 109;
-    public static final double SPACE_STATION_MASS = 369914;
-    private static final double SPACE_STATION_SPEED = 7706;
-    private static final double SPACE_STATION_PERIGEE = 347000;
 
     private static final Function1<Double, String> days = new Function1<Double, String>() {
         public String apply( Double time ) {
@@ -94,10 +99,6 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
         }
     };
     private final int SEC_PER_YEAR = 365 * 24 * 60 * 60;
-    private final int SEC_PER_MOON_ORBIT = 28 * 24 * 60 * 60;
-    private final int SEC_PER_SPACE_STATION_ORBIT = 90 * 60;
-    public static final double SUN_MODES_VELOCITY_SCALE = 200 / 4.466E-5;
-    private final Line2D.Double initialMeasuringTapeLocationSunModes = new Line2D.Double( 0, -EARTH_PERIHELION / 6, EARTH_PERIHELION, -EARTH_PERIHELION / 6 );
 
     public ModeList( Property<Boolean> clockPausedProperty, Property<Boolean> gravityEnabledProperty, Property<Scale> scaleProperty, Property<Boolean> stepping, Property<Boolean> rewinding, Property<Double> timeSpeedScaleProperty ) {
         this.scaleProperty = scaleProperty;
@@ -226,5 +227,4 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
         return new Body( null, GAOStrings.SUN, 0, 0, SUN_RADIUS * 2, 0, 0, SUN_MASS, Color.yellow, Color.white, 50, 1,
                          SUN_RENDERER, scaleProperty, -Math.PI / 4, true, maxPathLength, 1, true, SUN_MASS, GAOStrings.OUR_SUN, clockPausedProperty, stepping, rewinding );
     }
-
 }
