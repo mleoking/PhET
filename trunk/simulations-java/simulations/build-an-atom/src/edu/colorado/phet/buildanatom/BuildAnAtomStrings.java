@@ -69,8 +69,8 @@ public class BuildAnAtomStrings {
     public static final String ELEMENT_SILICON_NAME = getString( "element.silicon.name" );
     public static final String ELEMENT_PHOSPHORUS_SYMBOL = getString( "element.phosphorus.symbol" );
     public static final String ELEMENT_PHOSPHORUS_NAME = getString( "element.phosphorus.name" );
-    public static final String ELEMENT_SULPHUR_SYMBOL = getString( "element.sulphur.symbol" );
-    public static final String ELEMENT_SULPHER_NAME = getString( "element.sulphur.name" );
+    public static final String ELEMENT_SULFUR_SYMBOL = getString( "element.sulfur.symbol" );
+    public static final String ELEMENT_SULFUR_NAME = getString( "element.sulfur.name" );
     public static final String ELEMENT_CHLORINE_SYMBOL = getString( "element.chlorine.symbol" );
     public static final String ELEMENT_CHLORINE_NAME = getString( "element.chlorine.name" );
     public static final String ELEMENT_ARGON_SYMBOL = getString( "element.argon.symbol" );

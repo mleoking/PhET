@@ -44,7 +44,7 @@ public class AtomIdentifier {
             put( 13, new String( BuildAnAtomStrings.ELEMENT_ALUMINUM_NAME ) );
             put( 14, new String( BuildAnAtomStrings.ELEMENT_SILICON_NAME ) );
             put( 15, new String( BuildAnAtomStrings.ELEMENT_PHOSPHORUS_NAME ) );
-            put( 16, new String( BuildAnAtomStrings.ELEMENT_SULPHER_NAME ) );
+            put( 16, new String( BuildAnAtomStrings.ELEMENT_SULFUR_NAME ) );
             put( 17, new String( BuildAnAtomStrings.ELEMENT_CHLORINE_NAME ) );
             put( 18, new String( BuildAnAtomStrings.ELEMENT_ARGON_NAME ) );
             put( 19, new String( BuildAnAtomStrings.ELEMENT_POTASSIUM_NAME ) );
@@ -110,7 +110,7 @@ public class AtomIdentifier {
             "13 \tALUMINIUM \tAl \t26.982\n" +
             "14 \tSILICON \tSi \t28.086\n" +
             "15 \tPHOSPHORUS \tP \t30.974\n" +
-            "16 \tSULPHUR \tS \t32.064\n" +
+            "16 \tSULFUR \tS \t32.064\n" +
             "17 \tCHLORINE \tCl \t35.453\n" +
             "18 \tARGON \tAr \t39.948\n" +
             "19 \tPOTASSIUM \tK \t39.102\n" +
@@ -246,7 +246,7 @@ public class AtomIdentifier {
         "Al", // 13, ALUMINIUM
         "Si", // 14, SILICON
         "P", // 15, PHOSPHORUS
-        "S", // 16, SULPHUR
+        "S", // 16, SULFUR
         "Cl", // 17, CHLORINE
         "Ar", // 18, ARGON
         "K", // 19, POTASSIUM
