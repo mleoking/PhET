@@ -66,6 +66,9 @@
                             <origin>$RIP_BASE_DIR$/ar_SA</origin>
                         </distributionDirectory>
                         <distributionDirectory>
+                            <origin>$RIP_BASE_DIR$/en/sponsor-list</origin>
+                        </distributionDirectory>
+                        <distributionDirectory>
                             <origin>$RIP_BASE_DIR$/files</origin>
                         </distributionDirectory>
                         <distributionDirectory>
