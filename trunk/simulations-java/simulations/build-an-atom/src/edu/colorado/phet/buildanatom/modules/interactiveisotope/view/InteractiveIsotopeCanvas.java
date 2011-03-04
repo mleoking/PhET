@@ -160,7 +160,7 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas implements Resettable 
         final PDimension abundanceWindowSize = new PDimension( 400, 150 );
         final PNode abundanceIndicatorNode = new AbundanceIndicatorNode( model.getAtom() );
         abundanceIndicatorNode.setOffset(
-                65,
+                0,
                 abundanceWindowSize.getHeight() - abundanceIndicatorNode.getFullBoundsReference().height - 10 );
         abundanceWindow = new MaximizeControlNode( BuildAnAtomStrings.NATURUAL_ABUNDANCE, abundanceWindowSize, abundanceIndicatorNode, true );
         abundanceWindow.setOffset( indicatorWindowPosX, symbolWindow.getFullBoundsReference().getMaxY() + 30 );
@@ -216,8 +216,8 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas implements Resettable 
         private static final double WIDEST_ABUNDANCE_TO_SHOW = 99.99999; // Should match the resolution of the ABUNDANCE_FORMATTER
         private static final Font READOUT_FONT = new PhetFont( 20 );
         private static final int PIE_CHART_DIAMETER = 100; // In screen coords, which is close to pixels.
-        private static final int CONNECTING_LINE_LEGNTH = 20; // In screen coords, which is close to pixels.
-        private static final Stroke CONNECTING_LINE_STROKE = new BasicStroke(2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{2, 2}, 0);
+        private static final int CONNECTING_LINE_LEGNTH = 40; // In screen coords, which is close to pixels.
+        private static final Stroke CONNECTING_LINE_STROKE = new BasicStroke(2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{5, 3}, 0);
         private final int RECTANGLE_INSET_X = 6;
 
         public AbundanceIndicatorNode( final IDynamicAtom atom ) {
@@ -272,7 +272,6 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas implements Resettable 
             }};
 
             addChild( otherIsotopesCaption );
-
 
             // Figure out what the max width of the readout will be so that
             // things can be laid out in a way that will make the width of
@@ -335,7 +334,7 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas implements Resettable 
     private static class TwoItemPieChartNode extends PNode {
 
         private static final Color LEFT_SLICE_COLOR = new Color( 134, 102, 172 );
-        private static final Color RIGHT_SLICE_COLOR = ColorUtils.darkerColor( BuildAnAtomConstants.CANVAS_BACKGROUND, 0.3 );
+        private static final Color RIGHT_SLICE_COLOR = BuildAnAtomConstants.CANVAS_BACKGROUND;
 
         private final PieValue[] pieSlices = new PieValue[] {
                 new PieValue( 100, LEFT_SLICE_COLOR ),
