@@ -42,7 +42,7 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
         int SEC_PER_YEAR = 365 * 24 * 60 * 60;
         final double SUN_MODES_VELOCITY_SCALE = 4.48E6;
         add( new GravityAndOrbitsMode( GAOStrings.SUN_AND_PLANET,
-                                       VectorNode.FORCE_SCALE * 100 * 1.2,
+                                       VectorNode.FORCE_SCALE * 120,
                                        false,
                                        GravityAndOrbitsClock.DEFAULT_DT,
                                        days,
@@ -60,7 +60,7 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
             addBody( createPlanet( 0, earth.velocity.getY(), getMaxPathLength(), earth ) );
         }} );
         add( new GravityAndOrbitsMode( GAOStrings.SUN_PLANET_AND_MOON,
-                                       VectorNode.FORCE_SCALE * 100 * 1.2,
+                                       VectorNode.FORCE_SCALE * 120,
                                        false,
                                        GravityAndOrbitsClock.DEFAULT_DT,
                                        days,
@@ -151,7 +151,7 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
     }
 
     private Body createSpaceStation( int maxPathLength, BodyPrototype body ) {
-        return new Body( GAOStrings.SATELLITE, body.position.getX(), 0, body.radius * 2 * 1000, 0,
+        return new Body( GAOStrings.SATELLITE, body.position.getX(), 0, body.radius * 2000, 0,
                          body.velocity.getY(), body.mass, Color.gray, Color.white,
                          getImageRenderer( "space-station.png" ), p.scaleProperty, -Math.PI / 4, true, maxPathLength, true,
                          body.mass, GAOStrings.SPACE_STATION, p.clockPausedProperty, p.stepping, p.rewinding );
