@@ -22,13 +22,11 @@ public class RealModeList extends ModeList {
                MOON,
                SPACE_STATION,
                1.25,
-               0, SPACE_STATION_SPEED,
+               400, 21600, 0, SPACE_STATION_SPEED,
                0, EARTH_ORBITAL_SPEED_AT_PERIHELION,
                MOON_SPEED, EARTH_ORBITAL_SPEED_AT_PERIHELION,
                MOON_SPEED, 0,
                GravityAndOrbitsClock.DEFAULT_DT,
-               400,
-               21600,
                SUN_RADIUS, EARTH_RADIUS, SUN_RADIUS, EARTH_RADIUS, MOON_RADIUS, EARTH_RADIUS, MOON_RADIUS, EARTH_RADIUS, SPACE_STATION_RADIUS );
     }
 }
