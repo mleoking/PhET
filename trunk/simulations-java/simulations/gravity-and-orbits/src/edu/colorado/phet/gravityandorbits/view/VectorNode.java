@@ -71,7 +71,7 @@ public class VectorNode extends PNode {
     }
 
     private Point2D.Double getTip( Point2D tail ) {
-        final Point2D force = modelViewTransform.getValue().modelToViewDelta( property.getValue().getScaledInstance( scale * ( ( body.getScaleProperty().getValue() == Scale.CARTOON ) ? cartoonScale : 1.0 ) ).toPoint2D() );
+        final Point2D force = modelViewTransform.getValue().modelToViewDelta( property.getValue().getScaledInstance( scale ).toPoint2D() );
         return new Point2D.Double( force.getX() + tail.getX(), force.getY() + tail.getY() );
     }
 }

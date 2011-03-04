@@ -74,7 +74,7 @@ public class PathNode extends PNode {
         } );
         final Body.PathListener listener = new Body.PathListener() {
             public void pointAdded( Body.PathPoint point ) {
-                ImmutableVector2D pt = transform.getValue().modelToView( scaleProperty.getValue() == Scale.CARTOON && point.cartoonPoint != null ? point.cartoonPoint : point.point );
+                ImmutableVector2D pt = transform.getValue().modelToView( point.point );
                 points.add( pt );
                 pathNode.repaint();
             }

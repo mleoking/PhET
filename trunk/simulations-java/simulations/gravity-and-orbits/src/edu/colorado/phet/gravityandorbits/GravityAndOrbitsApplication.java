@@ -28,9 +28,9 @@ public class GravityAndOrbitsApplication extends PiccoloPhetApplication {
 
     public GravityAndOrbitsApplication( PhetApplicationConfig config ) {
         super( config );
-        intro = new GravityAndOrbitsModule( getPhetFrame(), config.getCommandLineArgs(), whiteBackgroundProperty, INTRO );
+        intro = new GravityAndOrbitsModule( getPhetFrame(), whiteBackgroundProperty, INTRO );
         addModule( intro );
-        toScale = new GravityAndOrbitsModule( getPhetFrame(), config.getCommandLineArgs(), whiteBackgroundProperty, TO_SCALE );
+        toScale = new GravityAndOrbitsModule( getPhetFrame(), whiteBackgroundProperty, TO_SCALE );
         addModule( toScale );
         getPhetFrame().addMenu( new OptionsMenu() {{addWhiteBackgroundCheckBoxMenuItem( whiteBackgroundProperty );}} );
     }

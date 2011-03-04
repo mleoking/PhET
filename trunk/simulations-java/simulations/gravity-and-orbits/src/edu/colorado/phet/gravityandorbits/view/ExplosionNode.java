@@ -74,7 +74,7 @@ public class ExplosionNode extends PNode {
     }
 
     private double getMaxViewDiameter( Body body, Property<ModelViewTransform> modelViewTransform ) {
-        return modelViewTransform.getValue().modelToViewDeltaX( body.getDiameter( Scale.CARTOON ) ) * 2;
+        return modelViewTransform.getValue().modelToViewDeltaX( body.getDiameter() ) * 2;
     }
 
     private ImmutableVector2D getPosition( Property<ModelViewTransform> modelViewTransform, Body body ) {

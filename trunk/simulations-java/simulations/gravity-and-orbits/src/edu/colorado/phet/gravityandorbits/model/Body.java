@@ -368,21 +368,11 @@ public class Body implements IBodyColors {
     }
 
     public ImmutableVector2D getPosition( Scale scale ) {
-        if ( scale == Scale.CARTOON && parent != null ) {
-            return getCartoonPosition();
-        }
-        else {
-            return getPosition();
-        }
+        return getPosition();
     }
 
     public double getDiameter( Scale scale ) {
-        if ( scale == Scale.CARTOON ) {
-            return getCartoonDiameterScaleFactor() * getDiameter();
-        }
-        else {
-            return getDiameter();
-        }
+        return getDiameter();
     }
 
     public double getLabelAngle() {
