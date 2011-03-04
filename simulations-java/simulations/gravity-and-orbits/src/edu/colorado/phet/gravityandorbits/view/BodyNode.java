@@ -62,11 +62,6 @@ public class BodyNode extends PNode {
                 @Override
                 public void mouseDragged( PInputEvent event ) {
                     ImmutableVector2D childCartoonPosition = null;
-                    if ( child != null && child.getScaleProperty().getValue() == Scale.CARTOON ) {
-                        //store global coordinates of child
-                        childCartoonPosition = child.getPosition( Scale.CARTOON );
-                    }
-
                     if ( scaleProperty.getValue() == Scale.REAL ) {
                         final Dimension2D delta = modelViewTransform.getValue().viewToModelDelta( event.getDeltaRelativeTo( getParent() ) );
                         body.translate( new Point2D.Double( delta.getWidth(), delta.getHeight() ) );
@@ -174,9 +169,6 @@ public class BodyNode extends PNode {
 
     private double getViewDiameter() {
         double viewDiameter = modelViewTransform.getValue().modelToViewDeltaX( body.getDiameter() );
-        if ( scaleProperty.getValue() == Scale.CARTOON ) {
-            viewDiameter = viewDiameter * body.getCartoonDiameterScaleFactor();
-        }
         return Math.max( viewDiameter, 2 );
     }
 

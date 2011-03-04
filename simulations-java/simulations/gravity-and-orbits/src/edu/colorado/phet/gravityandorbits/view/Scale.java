@@ -9,7 +9,6 @@ package edu.colorado.phet.gravityandorbits.view;
  * @author Sam Reid
  */
 public class Scale {
-    public static final Scale CARTOON = new Cartoon();
     public static final Scale REAL = new Real();
     private final boolean showLabelArrows;
 
@@ -19,12 +18,6 @@ public class Scale {
 
     public boolean getShowLabelArrows() {
         return showLabelArrows;
-    }
-
-    private static class Cartoon extends Scale {
-        public Cartoon() {
-            super( false );
-        }
     }
 
     private static class Real extends Scale {

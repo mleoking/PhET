@@ -1,3 +1,6 @@
+Removed cartoon scaling
+Removed scaling control panel
+Moved measuring tape from "scaling" panel to "show" panel
 Started a new module
 # 1.00.01 (49396) Mar 2, 2011
 Don't add to the path if the user is dragging the body, see #2767

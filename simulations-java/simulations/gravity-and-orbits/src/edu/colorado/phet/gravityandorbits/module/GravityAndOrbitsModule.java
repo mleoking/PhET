@@ -41,7 +41,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
     private final Property<Boolean> clockPausedProperty = new Property<Boolean>( true );
     private final Property<Double> timeSpeedScaleProperty = new Property<Double>( ( 0.1 + 2 ) / 4 );//one quarter of the way up between 1/10 and 2 scale factors
     private final Property<Boolean> measuringTapeVisibleProperty = new Property<Boolean>( false );
-    private final Property<Scale> scaleProperty = new Property<Scale>( Scale.CARTOON );
+    private final Property<Scale> scaleProperty = new Property<Scale>( Scale.REAL );
     private final Property<Boolean> gravityEnabledProperty = new Property<Boolean>( true ) {{
         addObserver( new SimpleObserver() {
             public void update() {
@@ -59,10 +59,8 @@ public class GravityAndOrbitsModule extends PiccoloModule {
         return new ArrayList<GravityAndOrbitsMode>( modes );
     }
 
-    public GravityAndOrbitsModule( final PhetFrame phetFrame, String[] commandLineArgs, Property<Boolean> whiteBackgroundProperty, final String name ) {
-        super( name,
-//        super( "Gravity and Orbits" + ": " + Arrays.asList( commandLineArgs ),//For simsharing
-               new ConstantDtClock( 30, 1 ) );//TODO: I don't think this clock is used since each mode has its own clock; perhaps this just runs the active tab?
+    public GravityAndOrbitsModule( final PhetFrame phetFrame, Property<Boolean> whiteBackgroundProperty, final String name ) {
+        super( name, new ConstantDtClock( 30, 1 ) );//TODO: I don't think this clock is used since each mode has its own clock; perhaps this just runs the active tab?
         this.whiteBackgroundProperty = whiteBackgroundProperty;
         getModulePanel().setLogoPanel( null );
         for ( GravityAndOrbitsMode mode : modes ) {

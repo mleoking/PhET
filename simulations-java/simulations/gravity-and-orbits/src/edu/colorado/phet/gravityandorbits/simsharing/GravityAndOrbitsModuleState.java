@@ -7,7 +7,6 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsMode;
 import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsModule;
-import edu.colorado.phet.gravityandorbits.view.Scale;
 
 /**
  * @author Sam Reid
@@ -22,7 +21,6 @@ public class GravityAndOrbitsModuleState implements Serializable {
     private final boolean gravityEnabled;
     private final ArrayList<GravityAndOrbitsModeState> modeStates;
     private final int selectedMode;
-    private final boolean cartoonScale;
     private final boolean showMeasuringTape;
 
     public GravityAndOrbitsModuleState( GravityAndOrbitsModule module ) {
@@ -37,7 +35,6 @@ public class GravityAndOrbitsModuleState implements Serializable {
         }
         selectedMode = module.getModeIndex();
         showGrid = module.getShowGridProperty().getValue();
-        cartoonScale = module.getScaleProperty().getValue() == Scale.CARTOON;
         showMeasuringTape = module.getMeasuringTapeVisibleProperty().getValue();
     }
 
@@ -52,7 +49,6 @@ public class GravityAndOrbitsModuleState implements Serializable {
         }
         m.setModeIndex( selectedMode );
         m.getShowGridProperty().setValue( showGrid );
-        m.getScaleProperty().setValue( cartoonScale ? Scale.CARTOON : Scale.REAL );
         m.getMeasuringTapeVisibleProperty().setValue( showMeasuringTape );
     }
 

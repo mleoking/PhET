@@ -102,73 +102,53 @@ public class GravityAndOrbitsControlPanel extends VerticalLayoutPanel {
             add( new GAOCheckBox( GAOStrings.MASS, module.getShowMassProperty() ) );
             add( new GAOCheckBox( GAOStrings.PATH, module.getShowPathProperty() ) );
             add( new GAOCheckBox( GAOStrings.GRID, module.getShowGridProperty() ) );
-        }} );
-
-        // "Scale" subpanel
-        add( new VerticalLayoutPanel() {{
-            setOpaque( false );
-            setBorder( new PhetTitledBorder( new PhetLineBorder( Color.white ), GAOStrings.SCALE ) {{
-                setTitleColor( Color.white );
-                setTitleFont( CONTROL_FONT );
-            }} );
-            setFillNone();
-            setAnchor( GridBagConstraints.WEST );
-
-            add( new GAORadioButton<Scale>( GAOStrings.CARTOON, module.getScaleProperty(), Scale.CARTOON ) );
-            add( new GAORadioButton<Scale>( GAOStrings.REAL, module.getScaleProperty(), Scale.REAL ) );
-
             //Panel with measuring tape.
-            add( new JPanel() {{
-                setOpaque( false );
-                add( Box.createRigidArea( new Dimension( 25, 1 ) ) );
+            add( new GAOCheckBox( GAOStrings.MEASURING_TAPE, module.getMeasuringTapeVisibleProperty() ) {
+                {
+                    final Icon defaultIcon = getIcon();
+                    final Icon disabledUnselectedIcon = grayOut( UIManager.getIcon( "CheckBox.icon" ) );
+                    final Icon disabledSelectedIcon = disabledUnselectedIcon;//todo: find a way to get this from the UIManager; until this is fixed just render as unselected when disabled
 
-                add( new GAOCheckBox( GAOStrings.MEASURING_TAPE, module.getMeasuringTapeVisibleProperty() ) {
-                    {
-                        final Icon defaultIcon = getIcon();
-                        final Icon disabledUnselectedIcon = grayOut( UIManager.getIcon( "CheckBox.icon" ) );
-                        final Icon disabledSelectedIcon = disabledUnselectedIcon;//todo: find a way to get this from the UIManager; until this is fixed just render as unselected when disabled
-
-                        module.getScaleProperty().addObserver( new SimpleObserver() {
-                            public void update() {
-                                setEnabled( module.getScaleProperty().getValue() == Scale.REAL );//only enable the measuring tape in real scale
-                                setForeground( module.getScaleProperty().getValue() == Scale.REAL ? Color.white : Color.darkGray );
-                                if ( isEnabled() ) {
-                                    iconFixWorkaround( defaultIcon );
+                    module.getScaleProperty().addObserver( new SimpleObserver() {
+                        public void update() {
+                            setEnabled( module.getScaleProperty().getValue() == Scale.REAL );//only enable the measuring tape in real scale
+                            setForeground( module.getScaleProperty().getValue() == Scale.REAL ? Color.white : Color.darkGray );
+                            if ( isEnabled() ) {
+                                iconFixWorkaround( defaultIcon );
+                            }
+                            else {
+                                if ( isSelected() ) {
+                                    iconFixWorkaround( disabledSelectedIcon );
                                 }
                                 else {
-                                    if ( isSelected() ) {
-                                        iconFixWorkaround( disabledSelectedIcon );
-                                    }
-                                    else {
-                                        iconFixWorkaround( disabledUnselectedIcon );
-                                    }
-                                }
-                                iconFixWorkaround( isEnabled() ? defaultIcon : disabledUnselectedIcon );
-                            }
-
-                            //Sets the icon, but only on Windows.  This is because on the Windows L&F, the check box icon itself still looks clickable even when disabled.
-                            //Applying this fix to Linux causes the checkbox to not render; not sure what it would do to Mac (which looks good without the workaround), therefore we just apply the workaround to Windows.
-                            //Tested that this works properly on Windows with both Java 1.6 and 1.5
-                            private void iconFixWorkaround( Icon icon ) {
-                                if ( PhetUtilities.isWindows() ) {
-                                    setIcon( icon );
+                                    iconFixWorkaround( disabledUnselectedIcon );
                                 }
                             }
-                        } );
-                    }
+                            iconFixWorkaround( isEnabled() ? defaultIcon : disabledUnselectedIcon );
+                        }
 
-                    private Icon grayOut( Icon checkBoxIcon ) {
-                        final BufferedImage image = toImage( this, checkBoxIcon );
+                        //Sets the icon, but only on Windows.  This is because on the Windows L&F, the check box icon itself still looks clickable even when disabled.
+                        //Applying this fix to Linux causes the checkbox to not render; not sure what it would do to Mac (which looks good without the workaround), therefore we just apply the workaround to Windows.
+                        //Tested that this works properly on Windows with both Java 1.6 and 1.5
+                        private void iconFixWorkaround( Icon icon ) {
+                            if ( PhetUtilities.isWindows() ) {
+                                setIcon( icon );
+                            }
+                        }
+                    } );
+                }
 
-                        float[] scales = { 1f, 1f, 1f, 0.5f };//TODO: what about OS's that don't use an alpha channel?
-                        float[] offsets = new float[4];
+                private Icon grayOut( Icon checkBoxIcon ) {
+                    final BufferedImage image = toImage( this, checkBoxIcon );
 
-                        final BufferedImage filtered = new RescaleOp( scales, offsets, null ).filter( image, null );
-                        final Icon disabledIcon = new ImageIcon( filtered );
-                        return disabledIcon;
-                    }
-                } );
-            }} );
+                    float[] scales = { 1f, 1f, 1f, 0.5f };//TODO: what about OS's that don't use an alpha channel?
+                    float[] offsets = new float[4];
+
+                    final BufferedImage filtered = new RescaleOp( scales, offsets, null ).filter( image, null );
+                    final Icon disabledIcon = new ImageIcon( filtered );
+                    return disabledIcon;
+                }
+            } );
         }} );
 
         // Mass sliders
