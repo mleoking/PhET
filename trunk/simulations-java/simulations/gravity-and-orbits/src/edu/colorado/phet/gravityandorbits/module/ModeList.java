@@ -130,7 +130,11 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
                                        new Point2D.Double( earth.x, 0 ),
                                        p ) {{
             addBody( createPlanet( 0, 0, getMaxPathLength(), earth ) );
-            addBody( createSpaceStation( getMaxPathLength(), spaceStation ) );
+
+            addBody( new Body( GAOStrings.SATELLITE, spaceStation.x, 0, spaceStation.radius * 2000, 0,
+                               spaceStation.vy, spaceStation.mass, Color.gray, Color.white,
+                               getImageRenderer( "space-station.png" ), p.scaleProperty, -Math.PI / 4, true, getMaxPathLength(), true,
+                               spaceStation.mass, GAOStrings.SPACE_STATION, p.clockPausedProperty, p.stepping, p.rewinding ) );
         }} );
     }
 
@@ -152,13 +156,6 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
                 icon.setVisible( visible );
             }
         }.toImage();
-    }
-
-    private Body createSpaceStation( int maxPathLength, BodyPrototype body ) {
-        return new Body( GAOStrings.SATELLITE, body.x, 0, body.radius * 2000, 0,
-                         body.vy, body.mass, Color.gray, Color.white,
-                         getImageRenderer( "space-station.png" ), p.scaleProperty, -Math.PI / 4, true, maxPathLength, true,
-                         body.mass, GAOStrings.SPACE_STATION, p.clockPausedProperty, p.stepping, p.rewinding );
     }
 
     private Body createMoon( double vx, double vy, boolean massSettable, int maxPathLength, final boolean massReadoutBelow, BodyPrototype body ) {
