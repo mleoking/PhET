@@ -63,50 +63,41 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
                                        new ImmutableVector2D( 0, 0 ),
                                        earth.position.getX() / 2,
                                        new Point2D.Double( 0, 0 ),
-                                       p ) {
-            {
-                final Body sun = createSun( getMaxPathLength() );
-                addBody( sun );
-                addBody( createPlanet( sun, 0, earth.velocity.getY(), getMaxPathLength() ) );
-            }
-        } );
+                                       p ) {{
+            final Body sun = createSun( getMaxPathLength() );
+            addBody( sun );
+            addBody( createPlanet( sun, 0, earth.velocity.getY(), getMaxPathLength() ) );
+        }} );
         add( new GravityAndOrbitsMode( GAOStrings.SUN_PLANET_AND_MOON, VectorNode.FORCE_SCALE * 100 * 1.2, false, GravityAndOrbitsClock.DEFAULT_DT, days,
                                        createIconImage( true, true, true, false ), SEC_PER_YEAR, SUN_MODES_VELOCITY_SCALE, readoutInEarthMasses,
                                        initialMeasuringTapeLocationSunModes, 1.25, new ImmutableVector2D( 0, 0 ),
-                                       earth.position.getX() / 2, new Point2D.Double( 0, 0 ), p ) {
-            {
-                final Body sun = createSun( getMaxPathLength() );
-                addBody( sun );
-                final Body earth = createPlanet( sun, 0, ModeList.this.earth.velocity.getY(), getMaxPathLength() );
-                addBody( earth );
-                final Body moon = createMoon( earth, ModeList.this.moon.velocity.getX(), ModeList.this.earth.velocity.getY(),
-                                              false,//no room for the slider
-                                              getMaxPathLength(),
-                                              false );//so it doesn't intersect with earth mass readout
-                addBody( moon );
-            }
-        } );
+                                       earth.position.getX() / 2, new Point2D.Double( 0, 0 ), p ) {{
+            final Body sun = createSun( getMaxPathLength() );
+            addBody( sun );
+            final Body earth = createPlanet( sun, 0, ModeList.this.earth.velocity.getY(), getMaxPathLength() );
+            addBody( earth );
+            final Body moon = createMoon( earth, ModeList.this.moon.velocity.getX(), ModeList.this.earth.velocity.getY(),
+                                          false,//no room for the slider
+                                          getMaxPathLength(),
+                                          false );//so it doesn't intersect with earth mass readout
+            addBody( moon );
+        }} );
         int SEC_PER_MOON_ORBIT = 28 * 24 * 60 * 60;
         add( new GravityAndOrbitsMode( GAOStrings.PLANET_AND_MOON, VectorNode.FORCE_SCALE * 100 / 2 * 0.9, false, GravityAndOrbitsClock.DEFAULT_DT / 3, days,
                                        createIconImage( false, true, true, false ), SEC_PER_MOON_ORBIT, SUN_MODES_VELOCITY_SCALE / 100 * 6, readoutInEarthMasses,
                                        new Line2D.Double( earth.position.getX(), -moon.position.getY() / 4, moon.position.getX() + moon.position.getY(), -moon.position.getY() / 4 ), 400,
                                        new ImmutableVector2D( earth.position.getX(), 0 ),
-                                       moon.position.getY() / 2, new Point2D.Double( earth.position.getX(), 0 ), p ) {
+                                       moon.position.getY() / 2, new Point2D.Double( earth.position.getX(), 0 ), p ) {{
             // Add in some initial -x velocity to offset the earth-moon barycenter drift
             //This value was computed by sampling the total momentum in GravityAndOrbitsModel for this mode
             ImmutableVector2D sampledSystemMomentum = new ImmutableVector2D( 7.421397422188586E25, -1.080211713202125E22 );
+            ImmutableVector2D velocityOffset = sampledSystemMomentum.getScaledInstance( -1 / ( ModeList.this.earth.mass + moon.mass ) );
+            final Body earth = createPlanet( null, velocityOffset.getX(), velocityOffset.getY(), getMaxPathLength()
+            );//scale so it is a similar size to other modes
 
-            final Body earth;
-
-            {
-                ImmutableVector2D velocityOffset = sampledSystemMomentum.getScaledInstance( -1 / ( ModeList.this.earth.mass + moon.mass ) );
-                earth = createPlanet( null, velocityOffset.getX(), velocityOffset.getY(), getMaxPathLength()
-                );//scale so it is a similar size to other modes
-
-                addBody( earth );
-                addBody( createMoon( earth, moon.velocity.getX(), 0, true, getMaxPathLength(), true ) );
-            }
-        } );
+            addBody( earth );
+            addBody( createMoon( earth, moon.velocity.getX(), 0, true, getMaxPathLength(), true ) );
+        }} );
         Function2<BodyNode, Property<Boolean>, PNode> spaceStationMassReadoutFactory = new Function2<BodyNode, Property<Boolean>, PNode>() {
             public PNode apply( BodyNode bodyNode, Property<Boolean> visible ) {
                 return new SpaceStationMassReadoutNode( bodyNode, visible );
@@ -119,14 +110,11 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
                                        SUN_MODES_VELOCITY_SCALE / 10000, spaceStationMassReadoutFactory,
                                        new Line2D.Double( earth.position.getX(), -earth.radius / 6, spaceStation.position.getX(), -earth.radius / 6 ),
                                        400 * 54, new ImmutableVector2D( earth.position.getX(), 0 ),
-                                       ( spaceStation.position.getX() - earth.position.getX() ) * 15, new Point2D.Double( earth.position.getX(), 0 ), p ) {
+                                       ( spaceStation.position.getX() - earth.position.getX() ) * 15, new Point2D.Double( earth.position.getX(), 0 ), p ) {{
             final Body earth = createPlanet( null, 0, 0, getMaxPathLength() );
-
-            {
-                addBody( earth );
-                addBody( createSpaceStation( earth, getMaxPathLength() ) );
-            }
-        } );
+            addBody( earth );
+            addBody( createSpaceStation( earth, getMaxPathLength() ) );
+        }} );
     }
 
     //Creates an image that can be used for the mode icon, showing the nodes of each body in the mode.
@@ -182,8 +170,7 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
         };
     }
 
-    public static Function2<Body, Double, BodyRenderer> getRenderer( final String image,
-                                                                     final double targetMass ) {//the mass for which to use the image
+    public static Function2<Body, Double, BodyRenderer> getRenderer( final String image, final double targetMass ) {//the mass for which to use the image
         return new Function2<Body, Double, BodyRenderer>() {
             public BodyRenderer apply( Body body, Double viewDiameter ) {
                 return new BodyRenderer.SwitchableBodyRenderer( body, targetMass, new BodyRenderer.ImageRenderer( body, viewDiameter, image ),
