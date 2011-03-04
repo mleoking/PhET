@@ -208,7 +208,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
         prototypeIsotope.setNumNeutrons( atom.getNumNeutrons() );
 
         // Get a list of all stable isotopes for the current atomic number.
-        ArrayList<ImmutableAtom> newIsotopeList = AtomIdentifier.getAllIsotopes( atom.getNumProtons() );
+        ArrayList<ImmutableAtom> newIsotopeList = AtomIdentifier.getStableIsotopes( atom.getNumProtons() );
 
         // Sort from lightest to heaviest.
         Collections.sort( newIsotopeList, new Comparator<IAtom>(){
@@ -418,10 +418,6 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
             isotope.getPartOfModelProperty().setValue( true );
             notifyIsotopeInstanceAdded( isotope );
         }
-    }
-
-    private void populateNaturesMixList(){
-
     }
 
     private void hideNaturesMix(){
