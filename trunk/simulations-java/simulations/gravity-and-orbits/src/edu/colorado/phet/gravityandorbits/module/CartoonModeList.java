@@ -9,18 +9,18 @@ import edu.colorado.phet.gravityandorbits.view.Scale;
  * @author Sam Reid
  */
 public class CartoonModeList extends ModeList {
-    private static final double SUN_RADIUS = 6.955E8 * 60;
-    private static final double SUN_MASS = 1.989E30;
+    private static final double SUN_RADIUS = 4E10;
+    private static final double SUN_MASS = 2E30;
 
     private static final double EARTH_RADIUS = SUN_RADIUS / 2;
-    public static final double EARTH_MASS = 5.9736E24;
-    public static final double EARTH_PERIHELION = SUN_RADIUS * 4;
-    private static final double EARTH_ORBITAL_SPEED_AT_PERIHELION = 30300;
+    public static final double EARTH_MASS = SUN_MASS / 100;
+    public static final double EARTH_PERIHELION = SUN_RADIUS * 3;
+    private static final double EARTH_ORBITAL_SPEED_AT_PERIHELION = 3E4;
 
     private static final double MOON_MASS = 7.3477E23;
     private static final double MOON_RADIUS = EARTH_RADIUS / 2;
     private static final double MOON_EARTH_SPEED = -1.01E3;
-    private static final double MOON_SPEED = MOON_EARTH_SPEED * 100;
+    private static final double MOON_SPEED = MOON_EARTH_SPEED * 50;
     public static final double MOON_PERIGEE = SUN_RADIUS * 2;
     private static final double MOON_X = EARTH_PERIHELION;
     private static final double MOON_Y = MOON_PERIGEE;
