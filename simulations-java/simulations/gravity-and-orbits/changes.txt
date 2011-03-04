@@ -1,3 +1,4 @@
+Removed measuring tape from intro tab
 Removed cartoon scaling
 Removed scaling control panel
 Moved measuring tape from "scaling" panel to "show" panel
