@@ -42,7 +42,6 @@ public class Body implements IBodyColors {
     private final ArrayList<PathPoint> path = new ArrayList<PathPoint>();
     private final Property<Scale> scaleProperty;
     private final boolean massSettable;
-    private final Body parent;
     private final Function2<Body, Double, BodyRenderer> renderer;//function that creates a PNode for this Body
     private final double labelAngle;
     private final int maxPathLength;
@@ -56,8 +55,7 @@ public class Body implements IBodyColors {
     private Property<Shape> bounds = new Property<Shape>( new Rectangle2D.Double( 0, 0, 0, 0 ) );//if the object leaves these model bounds, then it can be "returned" using a return button on the canvas
     private BooleanProperty returnable;
 
-    public Body( Body parent,//the parent body that this body is in orbit around, used in cartoon mode to exaggerate locations
-                 final String name, double x, double y, double diameter, double vx, double vy, double mass, Color color, Color highlight,
+    public Body( final String name, double x, double y, double diameter, double vx, double vy, double mass, Color color, Color highlight,
                  Function2<Body, Double, BodyRenderer> renderer,// way to associate the graphical representation directly instead of later with conditional logic or map
                  final Property<Scale> scaleProperty, double labelAngle, boolean massSettable,
                  int maxPathLength,
@@ -69,7 +67,6 @@ public class Body implements IBodyColors {
         this.tickValue = tickValue;
         this.tickLabel = tickLabel;
         assert renderer != null;
-        this.parent = parent;
         this.name = name;
         this.color = color;
         this.highlight = highlight;
@@ -320,10 +317,6 @@ public class Body implements IBodyColors {
 
     public BodyRenderer createRenderer( double viewDiameter ) {
         return renderer.apply( this, viewDiameter );
-    }
-
-    public Body getParent() {
-        return parent;
     }
 
     public double getLabelAngle() {
