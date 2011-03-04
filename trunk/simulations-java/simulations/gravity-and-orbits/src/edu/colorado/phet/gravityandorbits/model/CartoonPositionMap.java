@@ -5,7 +5,7 @@ package edu.colorado.phet.gravityandorbits.model;
 import java.util.HashMap;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.gravityandorbits.module.ModeList;
+import edu.colorado.phet.gravityandorbits.module.RealModeList;
 
 import static java.lang.Math.exp;
 
@@ -103,7 +103,7 @@ public class CartoonPositionMap {
         // xoff,P = dist + dist * (scale - 1) * exp(-dist/D/K)
 
         double cpDist = cartoonPosition.getDistance( parentPosition );
-        double s = new Bisection( cpDist, cartoonOffsetScale, DEFAULT_DIST, K, ModeList.EARTH_PERIHELION * 10 ).bisect();
+        double s = new Bisection( cpDist, cartoonOffsetScale, DEFAULT_DIST, K, RealModeList.EARTH_PERIHELION * 10 ).bisect();
 
         //R = P + Xoff * (C-P) / |C-P|
 //        return parentPosition.getAddedInstance( cartoonPosition.getScaledInstance( s ) )/cartoonPosition.getMagnitude();
