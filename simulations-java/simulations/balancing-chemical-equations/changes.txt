@@ -1,3 +1,4 @@
+3/4/11 feature request: add close button to Game popups
 # 0.00.13 (49404) Mar 2, 2011
 3/2/11 simplify game model and timer by making properties "public static final" and deleting getters
 3/2/11 simplify global properties by making them "public static final" and deleting getters
