@@ -35,8 +35,7 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
     public static final double SECONDS_PER_MINUTE = 60;
     private ModeListParameter p;
 
-    public ModeList( ModeListParameter p,
-                     BodySpec sun, final BodySpec earth, final BodySpec moon, BodySpec spaceStation ) {
+    public ModeList( ModeListParameter p, BodySpec sun, final BodySpec earth, final BodySpec moon, BodySpec spaceStation ) {
         this.p = p;
         this.sun = sun;
         this.earth = earth;
@@ -51,10 +50,20 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
         //Create the modes.
         Line2D.Double initialMeasuringTapeLocationSunModes = new Line2D.Double( 0, -earth.position.getX() / 6, earth.position.getX(), -earth.position.getX() / 6 );
         int SEC_PER_YEAR = 365 * 24 * 60 * 60;
-        add( new GravityAndOrbitsMode( GAOStrings.SUN_AND_PLANET, VectorNode.FORCE_SCALE * 100 * 1.2, false, GravityAndOrbitsClock.DEFAULT_DT, days,
-                                       createIconImage( true, true, false, false ), SEC_PER_YEAR, p.clockPausedProperty, SUN_MODES_VELOCITY_SCALE, readoutInEarthMasses,
-                                       initialMeasuringTapeLocationSunModes, 1.25, new ImmutableVector2D( 0, 0 ),
-                                       p.gravityEnabledProperty, earth.position.getX() / 2, new Point2D.Double( 0, 0 ), p.stepping, p.rewinding, p.timeSpeedScaleProperty ) {
+        add( new GravityAndOrbitsMode( GAOStrings.SUN_AND_PLANET,
+                                       VectorNode.FORCE_SCALE * 100 * 1.2,
+                                       false,
+                                       GravityAndOrbitsClock.DEFAULT_DT, days,
+                                       createIconImage( true, true, false, false ),
+                                       SEC_PER_YEAR,
+                                       SUN_MODES_VELOCITY_SCALE,
+                                       readoutInEarthMasses,
+                                       initialMeasuringTapeLocationSunModes,
+                                       1.25,
+                                       new ImmutableVector2D( 0, 0 ),
+                                       earth.position.getX() / 2,
+                                       new Point2D.Double( 0, 0 ),
+                                       p ) {
             {
                 final Body sun = createSun( getMaxPathLength() );
                 addBody( sun );
@@ -62,9 +71,9 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
             }
         } );
         add( new GravityAndOrbitsMode( GAOStrings.SUN_PLANET_AND_MOON, VectorNode.FORCE_SCALE * 100 * 1.2, false, GravityAndOrbitsClock.DEFAULT_DT, days,
-                                       createIconImage( true, true, true, false ), SEC_PER_YEAR, p.clockPausedProperty, SUN_MODES_VELOCITY_SCALE, readoutInEarthMasses,
+                                       createIconImage( true, true, true, false ), SEC_PER_YEAR, SUN_MODES_VELOCITY_SCALE, readoutInEarthMasses,
                                        initialMeasuringTapeLocationSunModes, 1.25, new ImmutableVector2D( 0, 0 ),
-                                       p.gravityEnabledProperty, earth.position.getX() / 2, new Point2D.Double( 0, 0 ), p.stepping, p.rewinding, p.timeSpeedScaleProperty ) {
+                                       earth.position.getX() / 2, new Point2D.Double( 0, 0 ), p ) {
             {
                 final Body sun = createSun( getMaxPathLength() );
                 addBody( sun );
@@ -79,10 +88,10 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
         } );
         int SEC_PER_MOON_ORBIT = 28 * 24 * 60 * 60;
         add( new GravityAndOrbitsMode( GAOStrings.PLANET_AND_MOON, VectorNode.FORCE_SCALE * 100 / 2 * 0.9, false, GravityAndOrbitsClock.DEFAULT_DT / 3, days,
-                                       createIconImage( false, true, true, false ), SEC_PER_MOON_ORBIT, p.clockPausedProperty, SUN_MODES_VELOCITY_SCALE / 100 * 6, readoutInEarthMasses,
+                                       createIconImage( false, true, true, false ), SEC_PER_MOON_ORBIT, SUN_MODES_VELOCITY_SCALE / 100 * 6, readoutInEarthMasses,
                                        new Line2D.Double( earth.position.getX(), -moon.position.getY() / 4, moon.position.getX() + moon.position.getY(), -moon.position.getY() / 4 ), 400,
                                        new ImmutableVector2D( earth.position.getX(), 0 ),
-                                       p.gravityEnabledProperty, moon.position.getY() / 2, new Point2D.Double( earth.position.getX(), 0 ), p.stepping, p.rewinding, p.timeSpeedScaleProperty ) {
+                                       moon.position.getY() / 2, new Point2D.Double( earth.position.getX(), 0 ), p ) {
             // Add in some initial -x velocity to offset the earth-moon barycenter drift
             //This value was computed by sampling the total momentum in GravityAndOrbitsModel for this mode
             ImmutableVector2D sampledSystemMomentum = new ImmutableVector2D( 7.421397422188586E25, -1.080211713202125E22 );
@@ -106,11 +115,11 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
         int SEC_PER_SPACE_STATION_ORBIT = 90 * 60;
         add( new GravityAndOrbitsMode( GAOStrings.PLANET_AND_SPACE_STATION, VectorNode.FORCE_SCALE * 10000 * 1000 * 10000 * 100 * 3, false,
                                        GravityAndOrbitsClock.DEFAULT_DT / 10000 * 9, minutes,
-                                       createIconImage( false, true, false, true ), SEC_PER_SPACE_STATION_ORBIT, p.clockPausedProperty,
+                                       createIconImage( false, true, false, true ), SEC_PER_SPACE_STATION_ORBIT,
                                        SUN_MODES_VELOCITY_SCALE / 10000, spaceStationMassReadoutFactory,
                                        new Line2D.Double( earth.position.getX(), -earth.radius / 6, spaceStation.position.getX(), -earth.radius / 6 ),
                                        400 * 54, new ImmutableVector2D( earth.position.getX(), 0 ),
-                                       p.gravityEnabledProperty, ( spaceStation.position.getX() - earth.position.getX() ) * 15, new Point2D.Double( earth.position.getX(), 0 ), p.stepping, p.rewinding, p.timeSpeedScaleProperty ) {
+                                       ( spaceStation.position.getX() - earth.position.getX() ) * 15, new Point2D.Double( earth.position.getX(), 0 ), p ) {
             final Body earth = createPlanet( null, 0, 0, getMaxPathLength() );
 
             {

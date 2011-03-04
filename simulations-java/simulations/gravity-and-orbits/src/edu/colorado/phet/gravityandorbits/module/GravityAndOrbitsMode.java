@@ -73,10 +73,10 @@ public abstract class GravityAndOrbitsMode {
     public GravityAndOrbitsMode( final String name,//mode name, currently used only for debugging, i18n not required
                                  double forceScale, boolean active, double dt, Function1<Double, String> timeFormatter, Image iconImage,
                                  double defaultOrbitalPeriod,//for determining the length of the path
-                                 final Property<Boolean> clockPaused, double velocityScale, Function2<BodyNode, Property<Boolean>, PNode> massReadoutFactory,
+                                 double velocityScale, Function2<BodyNode, Property<Boolean>, PNode> massReadoutFactory,
                                  Line2D.Double initialMeasuringTapeLocation, double defaultZoomScale, ImmutableVector2D zoomOffset,
-                                 Property<Boolean> gravityEnabledProperty, double gridSpacing, Point2D.Double gridCenter, Property<Boolean> stepping, Property<Boolean> rewinding,
-                                 Property<Double> timeSpeedScaleProperty ) {
+                                 double gridSpacing, Point2D.Double gridCenter,
+                                 final ModeListParameter p ) {
         this.dt = dt;
         this.defaultZoomScale = defaultZoomScale;
         this.zoomOffset = zoomOffset;
@@ -87,8 +87,8 @@ public abstract class GravityAndOrbitsMode {
         this.velocityScale = velocityScale;
         this.gridSpacing = gridSpacing;
         this.gridCenter = gridCenter;
-        this.rewinding = rewinding;
-        this.timeSpeedScaleProperty = timeSpeedScaleProperty;
+        this.rewinding = p.rewinding;
+        this.timeSpeedScaleProperty = p.timeSpeedScaleProperty;
         this.active = new Property<Boolean>( active );
         this.timeFormatter = timeFormatter;
         this.massReadoutFactory = massReadoutFactory;
@@ -100,7 +100,7 @@ public abstract class GravityAndOrbitsMode {
             }
         } );
 
-        model = new GravityAndOrbitsModel( new GravityAndOrbitsClock( dt, stepping, timeSpeedScaleProperty ), gravityEnabledProperty );
+        model = new GravityAndOrbitsModel( new GravityAndOrbitsClock( dt, p.stepping, timeSpeedScaleProperty ), p.gravityEnabledProperty );
 
         this.rewindClockTime = 0;
         getClock().addClockListener( new ClockAdapter() {
@@ -112,11 +112,11 @@ public abstract class GravityAndOrbitsMode {
 
         SimpleObserver updateClockRunning = new SimpleObserver() {
             public void update() {
-                final boolean running = !clockPaused.getValue() && isActive();
+                final boolean running = !p.clockPausedProperty.getValue() && isActive();
                 model.getClock().setRunning( running );
             }
         };
-        clockPaused.addObserver( updateClockRunning );
+        p.clockPausedProperty.addObserver( updateClockRunning );
         this.active.addObserver( updateClockRunning );
         measuringTapeStartPoint = new Property<ImmutableVector2D>( new ImmutableVector2D( initialMeasuringTapeLocation.getP1() ) );
         measuringTapeEndPoint = new Property<ImmutableVector2D>( new ImmutableVector2D( initialMeasuringTapeLocation.getP2() ) );
