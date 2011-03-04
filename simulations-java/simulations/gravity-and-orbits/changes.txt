@@ -1,4 +1,5 @@
 Only show arrow indicators when body is too small
+Improved intro mode parameters
 # 1.00.02 (49477) Mar 4, 2011
 Changed cartoon sun to match up parameters with real sun
 Renamed "Earth Values" to "Restart"
