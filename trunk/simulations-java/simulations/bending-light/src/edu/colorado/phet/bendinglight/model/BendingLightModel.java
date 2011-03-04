@@ -112,7 +112,7 @@ public class BendingLightModel {
                 getLaser().wave.setValue( laserView.getValue() == LaserView.WAVE );// synchronize view and model representations of whether it is wave or not
             }
         } );
-        final Function.LinearFunction dispersionFunction = new Function.LinearFunction( WAVELENGTH_RED, VisibleColor.MAX_WAVELENGTH / 1E9, 0, 0.04 ); // A function that uses the default value for RED, and changes the index of refraction by +/- 0.04
+        final Function.LinearFunction dispersionFunction = new Function.LinearFunction( VisibleColor.MIN_WAVELENGTH / 1E9, VisibleColor.MAX_WAVELENGTH / 1E9, 0, 0.04 * 1.5 ); // A function that uses the default value for RED, and changes the index of refraction by +/- 0.04
         environmentDispersion = new Function2<Double, Double, Double>() {
             public Double apply( Double wavelength, Double mediumBaseIndex ) {
                 return mediumBaseIndex + dispersionFunction.evaluate( wavelength );
