@@ -29,7 +29,7 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
 
     private ModeListParameter p;
 
-    public ModeList( final ModeListParameter p, final BodySpec sun, final BodySpec earth, final BodySpec moon, final BodySpec spaceStation, final double sunModesZoom ) {
+    public ModeList( final ModeListParameter p, final BodyPrototype sun, final BodyPrototype earth, final BodyPrototype moon, final BodyPrototype spaceStation, final double sunModesZoom ) {
         this.p = p;
         Function2<BodyNode, Property<Boolean>, PNode> readoutInEarthMasses = new Function2<BodyNode, Property<Boolean>, PNode>() {
             public PNode apply( BodyNode bodyNode, Property<Boolean> visible ) {
@@ -131,7 +131,7 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
     }
 
     //Creates an image that can be used for the mode icon, showing the nodes of each body in the mode.
-    private Image createIconImage( final boolean sun, final boolean earth, final boolean moon, final boolean spaceStation, final BodySpec sunSpec, final BodySpec earthSpec, final BodySpec moonSpec, final BodySpec spaceStationSpec ) {
+    private Image createIconImage( final boolean sun, final boolean earth, final boolean moon, final boolean spaceStation, final BodyPrototype sunSpec, final BodyPrototype earthSpec, final BodyPrototype moonSpec, final BodyPrototype spaceStationSpec ) {
         return new PNode() {
             {
                 int inset = 20;//distance between icons
@@ -150,27 +150,27 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
         }.toImage();
     }
 
-    private Body createSpaceStation( int maxPathLength, BodySpec body ) {
+    private Body createSpaceStation( int maxPathLength, BodyPrototype body ) {
         return new Body( GAOStrings.SATELLITE, body.position.getX(), 0, body.radius * 2 * 1000, 0,
                          body.velocity.getY(), body.mass, Color.gray, Color.white,
                          getImageRenderer( "space-station.png" ), p.scaleProperty, -Math.PI / 4, true, maxPathLength, true,
                          body.mass, GAOStrings.SPACE_STATION, p.clockPausedProperty, p.stepping, p.rewinding );
     }
 
-    private Body createMoon( double vx, double vy, boolean massSettable, int maxPathLength, final boolean massReadoutBelow, BodySpec body ) {
+    private Body createMoon( double vx, double vy, boolean massSettable, int maxPathLength, final boolean massReadoutBelow, BodyPrototype body ) {
         return new Body( GAOStrings.MOON, body.position.getX(), body.position.getY(), body.radius * 2, vx, vy, body.mass, Color.magenta, Color.white,
                          //putting this number too large makes a kink or curly-q in the moon trajectory, which should be avoided
                          getRenderer( "moon.png", body.mass ), p.scaleProperty, -3 * Math.PI / 4, massSettable, maxPathLength,
                          massReadoutBelow, body.mass, GAOStrings.OUR_MOON, p.clockPausedProperty, p.stepping, p.rewinding );
     }
 
-    private Body createPlanet( double vx, double vy, int maxPathLength, BodySpec body ) {
+    private Body createPlanet( double vx, double vy, int maxPathLength, BodyPrototype body ) {
         return new Body( GAOStrings.PLANET, body.position.getX(), 0, body.radius * 2, vx, vy, body.mass, Color.gray, Color.lightGray,
                          getRenderer( "earth_satellite.gif", body.mass ), p.scaleProperty, -Math.PI / 4, true,
                          maxPathLength, true, body.mass, GAOStrings.EARTH, p.clockPausedProperty, p.stepping, p.rewinding );
     }
 
-    private Body createSun( int maxPathLength, BodySpec body ) {
+    private Body createSun( int maxPathLength, BodyPrototype body ) {
         return new Body( GAOStrings.SUN, 0, 0, body.radius * 2, 0, 0, body.mass, Color.yellow, Color.white,
                          SUN_RENDERER, p.scaleProperty, -Math.PI / 4, true, maxPathLength, true, body.mass, GAOStrings.OUR_SUN, p.clockPausedProperty, p.stepping, p.rewinding );
     }
