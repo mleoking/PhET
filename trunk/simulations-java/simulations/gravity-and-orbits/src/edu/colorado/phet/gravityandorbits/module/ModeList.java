@@ -38,7 +38,7 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
         };
 
         //Create the modes.
-        Line2D.Double initialMeasuringTapeLocationSunModes = new Line2D.Double( 0, -earth.position.getX() / 6, earth.position.getX(), -earth.position.getX() / 6 );
+        Line2D.Double initialMeasuringTapeLocationSunModes = new Line2D.Double( 0, -earth.x / 6, earth.x, -earth.x / 6 );
         int SEC_PER_YEAR = 365 * 24 * 60 * 60;
         final double SUN_MODES_VELOCITY_SCALE = 4.48E6;
         add( new GravityAndOrbitsMode( GAOStrings.SUN_AND_PLANET,
@@ -53,11 +53,11 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
                                        initialMeasuringTapeLocationSunModes,
                                        sunModesZoom,
                                        new ImmutableVector2D( 0, 0 ),
-                                       earth.position.getX() / 2,
+                                       earth.x / 2,
                                        new Point2D.Double( 0, 0 ),
                                        p ) {{
             addBody( createSun( getMaxPathLength(), sun ) );
-            addBody( createPlanet( 0, earth.velocity.getY(), getMaxPathLength(), earth ) );
+            addBody( createPlanet( 0, earth.vy, getMaxPathLength(), earth ) );
         }} );
         add( new GravityAndOrbitsMode( GAOStrings.SUN_PLANET_AND_MOON,
                                        VectorNode.FORCE_SCALE * 120,
@@ -71,12 +71,12 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
                                        initialMeasuringTapeLocationSunModes,
                                        sunModesZoom,
                                        new ImmutableVector2D( 0, 0 ),
-                                       earth.position.getX() / 2,
+                                       earth.x / 2,
                                        new Point2D.Double( 0, 0 ),
                                        p ) {{
             addBody( createSun( getMaxPathLength(), sun ) );
-            addBody( createPlanet( 0, earth.velocity.getY(), getMaxPathLength(), earth ) );
-            addBody( createMoon( moon.velocity.getX(), earth.velocity.getY(),
+            addBody( createPlanet( 0, earth.vy, getMaxPathLength(), earth ) );
+            addBody( createMoon( moon.vx, earth.vy,
                                  false,//no room for the slider
                                  getMaxPathLength(),
                                  false, moon ) );//so it doesn't intersect with earth mass readout
@@ -91,11 +91,11 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
                                        SEC_PER_MOON_ORBIT,
                                        SUN_MODES_VELOCITY_SCALE * 0.06,
                                        readoutInEarthMasses,
-                                       new Line2D.Double( earth.position.getX(), -moon.position.getY() / 4, moon.position.getX() + moon.position.getY(), -moon.position.getY() / 4 ),
+                                       new Line2D.Double( earth.x, -moon.y / 4, moon.x + moon.y, -moon.y / 4 ),
                                        400,
-                                       new ImmutableVector2D( earth.position.getX(), 0 ),
-                                       moon.position.getY() / 2,
-                                       new Point2D.Double( earth.position.getX(), 0 ),
+                                       new ImmutableVector2D( earth.x, 0 ),
+                                       moon.y / 2,
+                                       new Point2D.Double( earth.x, 0 ),
                                        p ) {{
             // Add in some initial -x velocity to offset the earth-moon barycenter drift
             //This value was computed by sampling the total momentum in GravityAndOrbitsModel for this mode
@@ -103,7 +103,7 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
             ImmutableVector2D velocityOffset = sampledSystemMomentum.getScaledInstance( -1 / ( earth.mass + moon.mass ) );
             //scale so it is a similar size to other modes
             addBody( createPlanet( velocityOffset.getX(), velocityOffset.getY(), getMaxPathLength(), earth ) );
-            addBody( createMoon( moon.velocity.getX(), 0, true, getMaxPathLength(), true, moon ) );
+            addBody( createMoon( moon.vx, 0, true, getMaxPathLength(), true, moon ) );
         }} );
         Function2<BodyNode, Property<Boolean>, PNode> spaceStationMassReadoutFactory = new Function2<BodyNode, Property<Boolean>, PNode>() {
             public PNode apply( BodyNode bodyNode, Property<Boolean> visible ) {
@@ -119,11 +119,11 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
                                        5400,
                                        SUN_MODES_VELOCITY_SCALE / 10000,
                                        spaceStationMassReadoutFactory,
-                                       new Line2D.Double( earth.position.getX(), -earth.radius / 6, spaceStation.position.getX(), -earth.radius / 6 ),
+                                       new Line2D.Double( earth.x, -earth.radius / 6, spaceStation.x, -earth.radius / 6 ),
                                        21600,
-                                       new ImmutableVector2D( earth.position.getX(), 0 ),
-                                       ( spaceStation.position.getX() - earth.position.getX() ) * 15,
-                                       new Point2D.Double( earth.position.getX(), 0 ),
+                                       new ImmutableVector2D( earth.x, 0 ),
+                                       ( spaceStation.x - earth.x ) * 15,
+                                       new Point2D.Double( earth.x, 0 ),
                                        p ) {{
             addBody( createPlanet( 0, 0, getMaxPathLength(), earth ) );
             addBody( createSpaceStation( getMaxPathLength(), spaceStation ) );
@@ -151,21 +151,21 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
     }
 
     private Body createSpaceStation( int maxPathLength, BodyPrototype body ) {
-        return new Body( GAOStrings.SATELLITE, body.position.getX(), 0, body.radius * 2000, 0,
-                         body.velocity.getY(), body.mass, Color.gray, Color.white,
+        return new Body( GAOStrings.SATELLITE, body.x, 0, body.radius * 2000, 0,
+                         body.vy, body.mass, Color.gray, Color.white,
                          getImageRenderer( "space-station.png" ), p.scaleProperty, -Math.PI / 4, true, maxPathLength, true,
                          body.mass, GAOStrings.SPACE_STATION, p.clockPausedProperty, p.stepping, p.rewinding );
     }
 
     private Body createMoon( double vx, double vy, boolean massSettable, int maxPathLength, final boolean massReadoutBelow, BodyPrototype body ) {
-        return new Body( GAOStrings.MOON, body.position.getX(), body.position.getY(), body.radius * 2, vx, vy, body.mass, Color.magenta, Color.white,
+        return new Body( GAOStrings.MOON, body.x, body.y, body.radius * 2, vx, vy, body.mass, Color.magenta, Color.white,
                          //putting this number too large makes a kink or curly-q in the moon trajectory, which should be avoided
                          getRenderer( "moon.png", body.mass ), p.scaleProperty, -3 * Math.PI / 4, massSettable, maxPathLength,
                          massReadoutBelow, body.mass, GAOStrings.OUR_MOON, p.clockPausedProperty, p.stepping, p.rewinding );
     }
 
     private Body createPlanet( double vx, double vy, int maxPathLength, BodyPrototype body ) {
-        return new Body( GAOStrings.PLANET, body.position.getX(), 0, body.radius * 2, vx, vy, body.mass, Color.gray, Color.lightGray,
+        return new Body( GAOStrings.PLANET, body.x, 0, body.radius * 2, vx, vy, body.mass, Color.gray, Color.lightGray,
                          getRenderer( "earth_satellite.gif", body.mass ), p.scaleProperty, -Math.PI / 4, true,
                          maxPathLength, true, body.mass, GAOStrings.EARTH, p.clockPausedProperty, p.stepping, p.rewinding );
     }
