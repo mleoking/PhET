@@ -11,11 +11,9 @@ import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.util.Function1;
 import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
-import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsMode;
-import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsModule;
-import edu.colorado.phet.gravityandorbits.module.ModeListParameter;
-import edu.colorado.phet.gravityandorbits.module.RealModeList;
+import edu.colorado.phet.gravityandorbits.module.*;
 
+import static edu.colorado.phet.gravityandorbits.GAOStrings.INTRO;
 import static edu.colorado.phet.gravityandorbits.GAOStrings.TO_SCALE;
 
 /**
@@ -27,18 +25,18 @@ public class GravityAndOrbitsApplication extends PiccoloPhetApplication {
     public static final String PROJECT_NAME = "gravity-and-orbits";
     public static final PhetResources RESOURCES = new PhetResources( GravityAndOrbitsApplication.PROJECT_NAME );
 
-    //    private final GravityAndOrbitsModule intro;
+    private final GravityAndOrbitsModule intro;
     private final GravityAndOrbitsModule toScale;
     private final Property<Boolean> whiteBackgroundProperty = new Property<Boolean>( false );
 
     public GravityAndOrbitsApplication( PhetApplicationConfig config ) {
         super( config );
-//        intro = new GravityAndOrbitsModule( getPhetFrame(), whiteBackgroundProperty, INTRO, false, new Function1<ModeListParameter, ArrayList<GravityAndOrbitsMode>>() {
-//            public ArrayList<GravityAndOrbitsMode> apply( ModeListParameter p ) {
-//                return new CartoonModeList( p.clockPausedProperty, p.gravityEnabledProperty, p.scaleProperty, p.stepping, p.rewinding, p.timeSpeedScaleProperty );
-//            }
-//        } );
-//        addModule( intro );
+        intro = new GravityAndOrbitsModule( getPhetFrame(), whiteBackgroundProperty, INTRO, false, new Function1<ModeListParameter, ArrayList<GravityAndOrbitsMode>>() {
+            public ArrayList<GravityAndOrbitsMode> apply( ModeListParameter p ) {
+                return new CartoonModeList( p.clockPausedProperty, p.gravityEnabledProperty, p.scaleProperty, p.stepping, p.rewinding, p.timeSpeedScaleProperty );
+            }
+        } );
+        addModule( intro );
         toScale = new GravityAndOrbitsModule( getPhetFrame(), whiteBackgroundProperty, TO_SCALE, true, new Function1<ModeListParameter, ArrayList<GravityAndOrbitsMode>>() {
             public ArrayList<GravityAndOrbitsMode> apply( ModeListParameter p ) {
                 return new RealModeList( p.clockPausedProperty, p.gravityEnabledProperty, p.scaleProperty, p.stepping, p.rewinding, p.timeSpeedScaleProperty );
@@ -48,10 +46,10 @@ public class GravityAndOrbitsApplication extends PiccoloPhetApplication {
         getPhetFrame().addMenu( new OptionsMenu() {{addWhiteBackgroundCheckBoxMenuItem( whiteBackgroundProperty );}} );
     }
 
-    //    public GravityAndOrbitsModule getIntro() {
-//        return intro;
-//    }
-//
+    public GravityAndOrbitsModule getIntro() {
+        return intro;
+    }
+
     public GravityAndOrbitsModule getToScale() {
         return toScale;
     }
