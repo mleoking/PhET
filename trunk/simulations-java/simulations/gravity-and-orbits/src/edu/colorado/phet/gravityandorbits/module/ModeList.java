@@ -38,7 +38,8 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
                      final double spaceStationVx, final double spaceStationVy,
                      final double sunModeEarthVX, final double sunModeEarthVY,
                      final double sunModeMoonVX, final double sunModeMoonVY,
-                     final double earthModeMoonVx, final double earthModeMoonVy ) {
+                     final double earthModeMoonVx, final double earthModeMoonVy,
+                     double sunModeDt ) {
         this.p = p;
         Function2<BodyNode, Property<Boolean>, PNode> readoutInEarthMasses = new Function2<BodyNode, Property<Boolean>, PNode>() {
             public PNode apply( BodyNode bodyNode, Property<Boolean> visible ) {
@@ -53,7 +54,7 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
         add( new GravityAndOrbitsMode( GAOStrings.SUN_AND_PLANET,
                                        VectorNode.FORCE_SCALE * 120,
                                        false,
-                                       GravityAndOrbitsClock.DEFAULT_DT,
+                                       sunModeDt,
                                        days,
                                        createIconImage( true, true, false, false ),
                                        SEC_PER_YEAR,
@@ -71,7 +72,7 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
         add( new GravityAndOrbitsMode( GAOStrings.SUN_PLANET_AND_MOON,
                                        VectorNode.FORCE_SCALE * 120,
                                        false,
-                                       GravityAndOrbitsClock.DEFAULT_DT,
+                                       sunModeDt,
                                        days,
                                        createIconImage( true, true, true, false ),
                                        SEC_PER_YEAR,
