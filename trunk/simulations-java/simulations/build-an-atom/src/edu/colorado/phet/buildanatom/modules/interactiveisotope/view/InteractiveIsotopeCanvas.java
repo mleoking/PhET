@@ -21,7 +21,6 @@ import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
 import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
 import edu.colorado.phet.buildanatom.model.Atom;
-import edu.colorado.phet.buildanatom.model.AtomIdentifier;
 import edu.colorado.phet.buildanatom.model.IDynamicAtom;
 import edu.colorado.phet.buildanatom.modules.interactiveisotope.model.InteractiveIsotopeModel;
 import edu.colorado.phet.buildanatom.view.ElementNameIndicator;
@@ -34,7 +33,6 @@ import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
-import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -181,6 +179,12 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas implements Resettable 
         particleCountLegend.setScale( 1.25 );
         particleCountLegend.setOffset( 20, 10 );
         rootNode.addChild( particleCountLegend );
+
+        // Close up the maximizable nodes that contain some of the indicators.
+        // This is done here rather than when they are constructed because
+        // they need to be at their full size for initial layout.
+        symbolWindow.setMaximized( false );
+        abundanceWindow.setMaximized( false );
     }
 
     //----------------------------------------------------------------------------
@@ -197,8 +201,8 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas implements Resettable 
         model.reset();
 
         // Reset the view componenets.
-        symbolWindow.setMaximized( true );
-        abundanceWindow.setMaximized( true );
+        symbolWindow.setMaximized( false );
+        abundanceWindow.setMaximized( false );
         scaleNode.reset();
     }
 
