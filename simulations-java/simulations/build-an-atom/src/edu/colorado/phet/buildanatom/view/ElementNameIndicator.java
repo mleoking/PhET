@@ -19,7 +19,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 public class ElementNameIndicator extends PNode {
     private final PText elementName;
 
-    public ElementNameIndicator( final IDynamicAtom atom, final BooleanProperty showLabels ) {
+    public ElementNameIndicator( final IDynamicAtom atom, final BooleanProperty showLabels, final boolean showMassNumber ) {
         elementName = new PText() {
             {
                 setFont( new PhetFont( 18, true ) );
@@ -30,7 +30,13 @@ public class ElementNameIndicator extends PNode {
 
         final SimpleObserver update = new SimpleObserver() {
             public void update() {
-                elementName.setText( atom.getNumProtons() > 0 ? atom.getName() : " " );  // Can't set to a 0-length string or it can mess up layout in canvas.
+                if ( atom.getNumProtons() > 0 ){
+                    elementName.setText( atom.getName() + ( showMassNumber ? "-" + atom.getMassNumber() : "" ) );
+                }
+                else{
+                    // Can't set to a 0-length string or it can mess up layout in canvas.
+                    elementName.setText( " " );
+                }
                 elementName.setOffset( -elementName.getFullBoundsReference().width / 2, -elementName.getFullBoundsReference().height / 2 );
                 elementName.setVisible( showLabels.getValue() );
             }

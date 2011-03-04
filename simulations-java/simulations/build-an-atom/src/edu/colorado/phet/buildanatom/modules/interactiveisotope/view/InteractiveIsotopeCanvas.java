@@ -120,7 +120,7 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas implements Resettable 
         rootNode.addChild( atomAndBucketNode );
 
         // Add indicator that shows the name of the element.
-        ElementNameIndicator elementNameIndicator = new ElementNameIndicator( model.getAtom(), new BooleanProperty( true ) );
+        ElementNameIndicator elementNameIndicator = new ElementNameIndicator( model.getAtom(), new BooleanProperty( true ), true );
         elementNameIndicator.setOffset( mvt.modelToViewX( 0 ), mvt.modelToViewY( Atom.ELECTRON_SHELL_1_RADIUS ) + elementNameIndicator.getFullBounds().getHeight() / 2 );
         rootNode.addChild( elementNameIndicator );
 
