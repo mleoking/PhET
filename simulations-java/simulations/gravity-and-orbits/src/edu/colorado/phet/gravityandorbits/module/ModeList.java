@@ -40,7 +40,7 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
         //Create the modes.
         Line2D.Double initialMeasuringTapeLocationSunModes = new Line2D.Double( 0, -earth.position.getX() / 6, earth.position.getX(), -earth.position.getX() / 6 );
         int SEC_PER_YEAR = 365 * 24 * 60 * 60;
-        final double SUN_MODES_VELOCITY_SCALE = 200 / 4.466E-5;
+        final double SUN_MODES_VELOCITY_SCALE = 4.48E6;
         add( new GravityAndOrbitsMode( GAOStrings.SUN_AND_PLANET,
                                        VectorNode.FORCE_SCALE * 100 * 1.2,
                                        false,
@@ -83,13 +83,13 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
         }} );
         int SEC_PER_MOON_ORBIT = 28 * 24 * 60 * 60;
         add( new GravityAndOrbitsMode( GAOStrings.PLANET_AND_MOON,
-                                       VectorNode.FORCE_SCALE * 100 / 2 * 0.9,
+                                       VectorNode.FORCE_SCALE * 45,
                                        false,
                                        GravityAndOrbitsClock.DEFAULT_DT / 3,
                                        days,
                                        createIconImage( false, true, true, false, sun, earth, moon, spaceStation ),
                                        SEC_PER_MOON_ORBIT,
-                                       SUN_MODES_VELOCITY_SCALE / 100 * 6,
+                                       SUN_MODES_VELOCITY_SCALE * 0.06,
                                        readoutInEarthMasses,
                                        new Line2D.Double( earth.position.getX(), -moon.position.getY() / 4, moon.position.getX() + moon.position.getY(), -moon.position.getY() / 4 ),
                                        400,
@@ -111,16 +111,16 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
             }
         };
         add( new GravityAndOrbitsMode( GAOStrings.PLANET_AND_SPACE_STATION,
-                                       VectorNode.FORCE_SCALE * 10000 * 1000 * 10000 * 100 * 3,
+                                       VectorNode.FORCE_SCALE * 3E13,
                                        false,
-                                       GravityAndOrbitsClock.DEFAULT_DT / 10000 * 9,
+                                       GravityAndOrbitsClock.DEFAULT_DT * 9E-4,
                                        minutes,
                                        createIconImage( false, true, false, true, sun, earth, moon, spaceStation ),
-                                       90 * 60,
+                                       5400,
                                        SUN_MODES_VELOCITY_SCALE / 10000,
                                        spaceStationMassReadoutFactory,
                                        new Line2D.Double( earth.position.getX(), -earth.radius / 6, spaceStation.position.getX(), -earth.radius / 6 ),
-                                       400 * 54,
+                                       21600,
                                        new ImmutableVector2D( earth.position.getX(), 0 ),
                                        ( spaceStation.position.getX() - earth.position.getX() ) * 15,
                                        new Point2D.Double( earth.position.getX(), 0 ),
