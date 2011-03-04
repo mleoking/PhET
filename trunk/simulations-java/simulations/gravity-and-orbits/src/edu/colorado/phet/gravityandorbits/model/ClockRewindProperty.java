@@ -66,10 +66,8 @@ public class ClockRewindProperty<T> extends Property<T> {
         return different;
     }
 
-    /**
-     * Makes this public for use in gravity and orbits.
-     *
-     * @return
+    /*
+     *Makes this public for use in gravity and orbits.
      */
     @Override
     public T getInitialValue() {

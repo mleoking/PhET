@@ -68,12 +68,8 @@ public class ModelState {
         return newPosition.getSubtractedInstance( source.position ).getNormalizedInstance();
     }
 
-    /**
+    /*
      * Get the force on body at its proposed new position, unconventional but necessary for velocity verlet.
-     *
-     * @param target
-     * @param newTargetPosition
-     * @return
      */
     public ImmutableVector2D getForce( BodyState target, ImmutableVector2D newTargetPosition, Property<Boolean> gravityEnabledProperty ) {
         ImmutableVector2D sum = new ImmutableVector2D(); //zero vector, for no gravity
