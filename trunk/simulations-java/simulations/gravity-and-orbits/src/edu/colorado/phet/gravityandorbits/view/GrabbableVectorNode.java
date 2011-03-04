@@ -30,8 +30,8 @@ public class GrabbableVectorNode extends VectorNode {
     private PhetPPath grabArea;
 
     public GrabbableVectorNode( final Body body, final Property<ModelViewTransform> modelViewTransform, final Property<Boolean> visible, final Property<ImmutableVector2D> property,
-                                final double scale, final double cartoonScale, Color fill, Color outline ) {
-        super( body, modelViewTransform, visible, property, scale, cartoonScale, fill, outline );
+                                final double scale, Color fill, Color outline ) {
+        super( body, modelViewTransform, visible, property, scale, fill, outline );
         final Point2D tip = getTip();
         grabArea = new PhetPPath( new Ellipse2D.Double( 0, 0, 40, 40 ), new Color( 0, 0, 0, 0 ), new BasicStroke( 3 ), Color.lightGray ) {{
             final PNode parent = this;

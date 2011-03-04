@@ -22,7 +22,6 @@ import edu.colorado.phet.gravityandorbits.view.Scale;
 /**
  * Body is a single point mass in the Gravity and Orbits simluation, such as the Earth, Sun, Moon or Space Station.
  * This class also keeps track of body related data such as the path.
- * The Body can be in cartoon scale (not to scale) or real scale, which can change both the location and the size.
  *
  * @author Sam Reid
  */
@@ -48,7 +47,6 @@ public class Body implements IBodyColors {
     private final Function2<Body, Double, BodyRenderer> renderer;//function that creates a PNode for this Body
     private final double labelAngle;
     private final int maxPathLength;
-    private final double cartoonForceScale;
     private final boolean massReadoutBelow;
     private final ClockRewindProperty<Boolean> collidedProperty;
     private final Property<Integer> clockTicksSinceExplosion = new Property<Integer>( 0 );
@@ -61,15 +59,13 @@ public class Body implements IBodyColors {
 
     public Body( Body parent,//the parent body that this body is in orbit around, used in cartoon mode to exaggerate locations
                  final String name, double x, double y, double diameter, double vx, double vy, double mass, Color color, Color highlight,
-                 double cartoonOffsetScale,
                  Function2<Body, Double, BodyRenderer> renderer,// way to associate the graphical representation directly instead of later with conditional logic or map
                  final Property<Scale> scaleProperty, double labelAngle, boolean massSettable,
                  int maxPathLength,
-                 double cartoonForceScale, boolean massReadoutBelow, double tickValue, String tickLabel, Property<Boolean> clockPaused, Property<Boolean> stepping, Property<Boolean> rewinding ) {
+                 boolean massReadoutBelow, double tickValue, String tickLabel, Property<Boolean> clockPaused, Property<Boolean> stepping, Property<Boolean> rewinding ) {
         this.scaleProperty = scaleProperty;//Multiplied with mode scale to arrive at total scale for forces for this body, provides body-specific force scaling that is independent of cartoon/real modes
         this.massSettable = massSettable;
         this.maxPathLength = maxPathLength;
-        this.cartoonForceScale = cartoonForceScale;
         this.massReadoutBelow = massReadoutBelow;
         this.tickValue = tickValue;
         this.tickLabel = tickLabel;
@@ -461,10 +457,6 @@ public class Body implements IBodyColors {
     @Override
     public String toString() {
         return "name = " + getName() + ", mass = " + getMass();
-    }
-
-    public double getCartoonForceScale() {
-        return cartoonForceScale;
     }
 
     public Property<Shape> getBounds() {

@@ -29,7 +29,7 @@ public class VectorNode extends PNode {
     private ArrowNode arrowNode;
 
     public VectorNode( final Body body, final Property<ModelViewTransform> modelViewTransform, final Property<Boolean> visible,
-                       final Property<ImmutableVector2D> property, final double scale, final double cartoonScale, final Color fill, final Color outline ) {
+                       final Property<ImmutableVector2D> property, final double scale, final Color fill, final Color outline ) {
         this.property = property;
         this.body = body;
         this.modelViewTransform = modelViewTransform;

@@ -12,7 +12,6 @@ import edu.colorado.phet.common.phetcommon.util.Function1;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
-import edu.colorado.phet.gravityandorbits.model.CartoonPositionMap;
 import edu.colorado.phet.gravityandorbits.view.Scale;
 
 /**
@@ -43,13 +42,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
     private final Property<Double> timeSpeedScaleProperty = new Property<Double>( ( 0.1 + 2 ) / 4 );//one quarter of the way up between 1/10 and 2 scale factors
     private final Property<Boolean> measuringTapeVisibleProperty = new Property<Boolean>( false );
     private final Property<Scale> scaleProperty = new Property<Scale>( Scale.REAL );
-    private final Property<Boolean> gravityEnabledProperty = new Property<Boolean>( true ) {{
-        addObserver( new SimpleObserver() {
-            public void update() {
-                CartoonPositionMap.alphaLocked = !getValue();
-            }
-        } );
-    }};
+    private final Property<Boolean> gravityEnabledProperty = new Property<Boolean>( true );//TODO: remove
     private final Property<Boolean> stepping = new Property<Boolean>( false );
     private final Property<Boolean> rewinding = new Property<Boolean>( false );
 
