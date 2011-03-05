@@ -1,3 +1,4 @@
+# 1.00.03 (49525) Mar 4, 2011
 Fixed: Path can still be used to draw
 Removed confirmation dialog for reset all button
 Only show arrow indicators when body is too small
