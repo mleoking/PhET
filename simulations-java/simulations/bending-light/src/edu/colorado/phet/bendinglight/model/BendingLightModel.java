@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import edu.colorado.phet.bendinglight.util.RichSimpleObserver;
 import edu.colorado.phet.bendinglight.view.LaserColor;
 import edu.colorado.phet.bendinglight.view.LaserView;
 import edu.colorado.phet.common.phetcommon.math.Function;
