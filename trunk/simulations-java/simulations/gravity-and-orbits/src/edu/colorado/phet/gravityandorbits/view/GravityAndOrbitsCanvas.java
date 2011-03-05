@@ -141,6 +141,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
         //Reset all button
         addChild( new ResetAllButtonNode( module, this, (int) ( GravityAndOrbitsControlPanel.CONTROL_FONT.getSize() * 1.3 ), buttonForegroundColor, buttonBackgroundColor ) {{
             setOffset( earthValuesButton.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, earthValuesButton.getFullBounds().getMaxY() + 5 );
+            setConfirmationEnabled( false );
         }} );
 
         //See docs in mode.rewind

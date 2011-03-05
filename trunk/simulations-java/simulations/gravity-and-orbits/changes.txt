@@ -1,3 +1,4 @@
+Removed confirmation dialog for reset all button
 Only show arrow indicators when body is too small
 Improved intro mode parameters
 # 1.00.02 (49477) Mar 4, 2011
