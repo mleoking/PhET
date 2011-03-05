@@ -1,3 +1,4 @@
+Made earth the same size in sun/earth/moon mode as it is in sun/earth mode
 Fixed: force vectors are too large in "intro" in sun/earth/moon mode
 # 1.00.05 (49529) Mar 4, 2011
 Fixed: the "to scale" tab should start in earth/satellite mode
