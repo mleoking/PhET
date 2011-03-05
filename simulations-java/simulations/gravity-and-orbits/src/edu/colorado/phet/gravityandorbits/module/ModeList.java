@@ -63,6 +63,7 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
     public static class Mode {
         double zoom;
         double dt = DEFAULT_DT;
+        protected double forceScale;
         public Line2D.Double initialMeasuringTapeLocation;
 
         public Mode( double zoom ) {
@@ -77,6 +78,7 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
         public SunEarth() {
             super( 1.25 );
             initialMeasuringTapeLocation = new Line2D.Double( 0, -earth.x / 6, earth.x, -earth.x / 6 );
+            forceScale = VectorNode.FORCE_SCALE * 120;
         }
     }
 
@@ -88,6 +90,7 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
         public SunEarthMoon() {
             super( 1.25 );
             initialMeasuringTapeLocation = new Line2D.Double( 0, -earth.x / 6, earth.x, -earth.x / 6 );
+            forceScale = VectorNode.FORCE_SCALE * 120;
         }
 
     }
@@ -99,6 +102,7 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
         public EarthMoon() {
             super( 400 );
             initialMeasuringTapeLocation = new Line2D.Double( earth.x, -moon.y / 4, moon.x + moon.y, -moon.y / 4 );
+            forceScale = VectorNode.FORCE_SCALE * 45;
         }
     }
 
@@ -109,6 +113,7 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
         public EarthSpaceStation() {
             super( 21600 );
             initialMeasuringTapeLocation = new Line2D.Double( earth.x, -earth.radius / 6, spaceStation.x, -earth.radius / 6 );
+            forceScale = VectorNode.FORCE_SCALE * 3E13;
         }
     }
 
@@ -124,7 +129,7 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
         int SEC_PER_YEAR = 365 * 24 * 60 * 60;
         final double SUN_MODES_VELOCITY_SCALE = 4.48E6;
         add( new GravityAndOrbitsMode( GAOStrings.SUN_AND_PLANET,
-                                       VectorNode.FORCE_SCALE * 120,
+                                       sunEarth.forceScale,
                                        false,
                                        sunEarth.dt,
                                        days,
@@ -142,7 +147,7 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
             addBody( createEarth( sunEarth.earth.vx, sunEarth.earth.vy, getMaxPathLength(), sunEarth.earth ) );
         }} );
         add( new GravityAndOrbitsMode( GAOStrings.SUN_PLANET_AND_MOON,
-                                       VectorNode.FORCE_SCALE * 120,
+                                       sunEarthMoon.forceScale,
                                        false,
                                        sunEarthMoon.dt,
                                        days,
@@ -165,7 +170,7 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
         }} );
         int SEC_PER_MOON_ORBIT = 28 * 24 * 60 * 60;
         add( new GravityAndOrbitsMode( GAOStrings.PLANET_AND_MOON,
-                                       VectorNode.FORCE_SCALE * 45,
+                                       earthMoon.forceScale,
                                        false,
                                        GravityAndOrbitsClock.DEFAULT_DT / 3,
                                        days,
@@ -193,7 +198,7 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
             }
         };
         add( new GravityAndOrbitsMode( GAOStrings.PLANET_AND_SPACE_STATION,
-                                       VectorNode.FORCE_SCALE * 3E13,
+                                       earthSpaceStation.forceScale,
                                        false,
                                        GravityAndOrbitsClock.DEFAULT_DT * 9E-4,
                                        minutes,

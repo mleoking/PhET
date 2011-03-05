@@ -21,6 +21,7 @@ public class CartoonModeList extends ModeList {
                     earth.mass *= 200;
                     moon.vx *= 4;
                     moon.y *= 10;
+                    forceScale /= 200;//to balance increased mass
                 }}, new EarthMoon() {{
                     earth.radius *= 15;
                     moon.radius *= 15;
