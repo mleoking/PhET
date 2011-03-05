@@ -71,52 +71,43 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
     }
 
     public static class SunEarth extends Mode {
-        BodyPrototype2 sun;
-        BodyPrototype2 earth;
+        BodyPrototype sun = new BodyPrototype( SUN_MASS, SUN_RADIUS, 0, 0, 0, 0 );
+        BodyPrototype earth = new BodyPrototype( EARTH_MASS, EARTH_RADIUS, EARTH_PERIHELION, 0, 0, EARTH_ORBITAL_SPEED_AT_PERIHELION );
 
         public SunEarth() {
             super( 1.25 );
-            this.sun = new BodyPrototype2( SUN_MASS, SUN_RADIUS, 0, 0, 0, 0 );
-            this.earth = new BodyPrototype2( EARTH_MASS, EARTH_RADIUS, EARTH_PERIHELION, 0, 0, EARTH_ORBITAL_SPEED_AT_PERIHELION );
             initialMeasuringTapeLocation = new Line2D.Double( 0, -earth.x / 6, earth.x, -earth.x / 6 );
         }
     }
 
     public static class SunEarthMoon extends Mode {
-        BodyPrototype2 sun;
-        BodyPrototype2 earth;
-        BodyPrototype2 moon;
+        BodyPrototype sun = new BodyPrototype( SUN_MASS, SUN_RADIUS, 0, 0, 0, 0 );
+        BodyPrototype earth = new BodyPrototype( EARTH_MASS, EARTH_RADIUS, EARTH_PERIHELION, 0, 0, EARTH_ORBITAL_SPEED_AT_PERIHELION );
+        BodyPrototype moon = new BodyPrototype( MOON_MASS, MOON_RADIUS, MOON_X, MOON_Y, MOON_SPEED, EARTH_ORBITAL_SPEED_AT_PERIHELION );
 
         public SunEarthMoon() {
             super( 1.25 );
-            this.sun = new BodyPrototype2( SUN_MASS, SUN_RADIUS, 0, 0, 0, 0 );
-            this.earth = new BodyPrototype2( EARTH_MASS, EARTH_RADIUS, EARTH_PERIHELION, 0, 0, EARTH_ORBITAL_SPEED_AT_PERIHELION );
-            this.moon = new BodyPrototype2( MOON_MASS, MOON_RADIUS, MOON_X, MOON_Y, MOON_SPEED, EARTH_ORBITAL_SPEED_AT_PERIHELION );
             initialMeasuringTapeLocation = new Line2D.Double( 0, -earth.x / 6, earth.x, -earth.x / 6 );
         }
 
     }
 
     public static class EarthMoon extends Mode {
-        BodyPrototype2 earth;
-        BodyPrototype2 moon;
+        BodyPrototype earth = new BodyPrototype( EARTH_MASS, EARTH_RADIUS, EARTH_PERIHELION, 0, 0, 0 );
+        BodyPrototype moon = new BodyPrototype( MOON_MASS, MOON_RADIUS, MOON_X, MOON_Y, MOON_SPEED, 0 );
 
         public EarthMoon() {
             super( 400 );
-            this.earth = new BodyPrototype2( EARTH_MASS, EARTH_RADIUS, EARTH_PERIHELION, 0, 0, 0 );
-            this.moon = new BodyPrototype2( MOON_MASS, MOON_RADIUS, MOON_X, MOON_Y, MOON_SPEED, 0 );
             initialMeasuringTapeLocation = new Line2D.Double( earth.x, -moon.y / 4, moon.x + moon.y, -moon.y / 4 );
         }
     }
 
     public static class EarthSpaceStation extends Mode {
-        BodyPrototype2 earth;
-        BodyPrototype2 spaceStation;
+        BodyPrototype earth = new BodyPrototype( EARTH_MASS, EARTH_RADIUS, 0, 0, 0, 0 );
+        BodyPrototype spaceStation = new BodyPrototype( SPACE_STATION_MASS, SPACE_STATION_RADIUS, SPACE_STATION_PERIGEE + EARTH_RADIUS + SPACE_STATION_RADIUS, 0, 0, SPACE_STATION_SPEED );
 
         public EarthSpaceStation() {
             super( 21600 );
-            this.earth = new BodyPrototype2( EARTH_MASS, EARTH_RADIUS, 0, 0, 0, 0 );
-            this.spaceStation = new BodyPrototype2( SPACE_STATION_MASS, SPACE_STATION_RADIUS, SPACE_STATION_PERIGEE + EARTH_RADIUS + SPACE_STATION_RADIUS, 0, 0, SPACE_STATION_SPEED );
             initialMeasuringTapeLocation = new Line2D.Double( earth.x, -earth.radius / 6, spaceStation.x, -earth.radius / 6 );
         }
     }
@@ -246,20 +237,20 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
         }.toImage();
     }
 
-    private Body createMoon( double vx, double vy, boolean massSettable, int maxPathLength, final boolean massReadoutBelow, BodyPrototype2 body ) {
+    private Body createMoon( double vx, double vy, boolean massSettable, int maxPathLength, final boolean massReadoutBelow, BodyPrototype body ) {
         return new Body( GAOStrings.MOON, body.x, body.y, body.radius * 2, vx, vy, body.mass, Color.magenta, Color.white,
                          //putting this number too large makes a kink or curly-q in the moon trajectory, which should be avoided
                          getRenderer( "moon.png", body.mass ), p.scaleProperty, -3 * Math.PI / 4, massSettable, maxPathLength,
                          massReadoutBelow, body.mass, GAOStrings.OUR_MOON, p.clockPausedProperty, p.stepping, p.rewinding );
     }
 
-    private Body createEarth( double vx, double vy, int maxPathLength, BodyPrototype2 body ) {
+    private Body createEarth( double vx, double vy, int maxPathLength, BodyPrototype body ) {
         return new Body( GAOStrings.PLANET, body.x, 0, body.radius * 2, vx, vy, body.mass, Color.gray, Color.lightGray,
                          getRenderer( "earth_satellite.gif", body.mass ), p.scaleProperty, -Math.PI / 4, true,
                          maxPathLength, true, body.mass, GAOStrings.EARTH, p.clockPausedProperty, p.stepping, p.rewinding );
     }
 
-    private Body createSun( int maxPathLength, BodyPrototype2 body ) {
+    private Body createSun( int maxPathLength, BodyPrototype body ) {
         return new Body( GAOStrings.SUN, 0, 0, body.radius * 2, 0, 0, body.mass, Color.yellow, Color.white,
                          SUN_RENDERER, p.scaleProperty, -Math.PI / 4, true, maxPathLength, true, body.mass, GAOStrings.OUR_SUN, p.clockPausedProperty, p.stepping, p.rewinding );
     }
