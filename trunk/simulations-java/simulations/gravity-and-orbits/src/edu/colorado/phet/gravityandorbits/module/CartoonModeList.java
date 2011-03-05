@@ -28,10 +28,11 @@ public class CartoonModeList extends ModeList {
                     earth.radius *= 1100;
                     moon.radius *= 100 * 8;
 
-                    earth.mass *= 7500;
+                    final int earthMassScaleFactor = 7500;
+                    earth.mass *= earthMassScaleFactor;
                     moon.vx *= 4 * 3.5 * alpha;
                     moon.y = earth.radius * 2;
-                    forceScale /= 200;//to balance increased mass
+                    forceScale /= earthMassScaleFactor;//to balance increased mass
                 }}, new EarthMoon() {{
                     earth.radius *= 15;
                     moon.radius *= 15;
