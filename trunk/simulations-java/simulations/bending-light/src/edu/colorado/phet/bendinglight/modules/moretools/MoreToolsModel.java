@@ -3,10 +3,10 @@ package edu.colorado.phet.bendinglight.modules.moretools;
 
 import edu.colorado.phet.bendinglight.model.VelocitySensor;
 import edu.colorado.phet.bendinglight.modules.intro.IntroModel;
-import edu.colorado.phet.bendinglight.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.Function1;
 import edu.colorado.phet.common.phetcommon.util.Option;
+import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.VoidFunction0;
 
 /**

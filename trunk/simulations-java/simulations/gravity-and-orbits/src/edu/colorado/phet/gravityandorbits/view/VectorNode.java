@@ -5,11 +5,11 @@ package edu.colorado.phet.gravityandorbits.view;
 import java.awt.*;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.bendinglight.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.And;
 import edu.colorado.phet.common.phetcommon.model.Not;
 import edu.colorado.phet.common.phetcommon.model.Property;
+import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;

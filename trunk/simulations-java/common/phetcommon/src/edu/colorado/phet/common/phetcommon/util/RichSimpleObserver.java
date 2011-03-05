@@ -1,11 +1,10 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.bendinglight.util;
+package edu.colorado.phet.common.phetcommon.util;
 
 import edu.colorado.phet.common.phetcommon.model.Property;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
- * Adds convenience functionality to SimpleObserver
+ * Adds convenience functionality to SimpleObserver.  Right now it just adds one additional function, but it may add more later.
  *
  * @author Sam Reid
  */

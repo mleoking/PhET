@@ -9,13 +9,9 @@ import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.bendinglight.BendingLightApplication;
 import edu.colorado.phet.bendinglight.model.Laser;
-import edu.colorado.phet.bendinglight.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.*;
-import edu.colorado.phet.common.phetcommon.util.Function1;
-import edu.colorado.phet.common.phetcommon.util.Function2;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.util.VoidFunction1;
+import edu.colorado.phet.common.phetcommon.util.*;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
