@@ -166,7 +166,7 @@ public class Body implements IBodyColors {
         translate( delta.getX(), delta.getY() );
 
         //Only add to the path if the object hasn't collided
-        if ( !collidedProperty.getValue() ) {
+        if ( !collidedProperty.getValue() && !userControlled ) {
             addPathPoint();
         }
     }

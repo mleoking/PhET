@@ -1,3 +1,4 @@
+Fixed: Path can still be used to draw
 Removed confirmation dialog for reset all button
 Only show arrow indicators when body is too small
 Improved intro mode parameters
