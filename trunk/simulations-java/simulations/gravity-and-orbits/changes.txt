@@ -1,3 +1,4 @@
+# 1.00.06 (49535) Mar 5, 2011
 Made earth the same size in sun/earth/moon mode as it is in sun/earth mode
 Fixed: force vectors are too large in "intro" in sun/earth/moon mode
 # 1.00.05 (49529) Mar 4, 2011
