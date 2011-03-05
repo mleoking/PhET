@@ -405,6 +405,10 @@ public class Body implements IBodyColors {
         }
     }
 
+    public boolean isCollided() {
+        return collidedProperty.getValue();
+    }
+
     public static class PathPoint {
         public final ImmutableVector2D point;
 

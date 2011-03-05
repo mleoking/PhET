@@ -70,9 +70,11 @@ public class GravityAndOrbitsModule extends PiccoloModule {
                 SwingUtilities.invokeLater( new Runnable() {
                     public void run() {
                         setSimulationPanel( getMode().getCanvas() );
-                        phetFrame.invalidate();
-                        phetFrame.validate();
-                        phetFrame.doLayout();
+                        if ( phetFrame != null ) {
+                            phetFrame.invalidate();
+                            phetFrame.validate();
+                            phetFrame.doLayout();
+                        }
                     }
                 } );
                 updateActiveModule();
