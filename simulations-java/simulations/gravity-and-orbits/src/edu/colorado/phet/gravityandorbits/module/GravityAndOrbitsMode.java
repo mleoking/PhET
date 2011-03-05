@@ -69,6 +69,7 @@ public abstract class GravityAndOrbitsMode {
     private double defaultZoomScale;
     private ImmutableVector2D zoomOffset;
     private Property<Double> zoomLevel = new Property<Double>( 1.0 );//additional scale factor on top of defaultZoomScale
+    public final ModeListParameter p;
 
     public GravityAndOrbitsMode( final String name,//mode name, currently used only for debugging, i18n not required
                                  double forceScale, boolean active, double dt, Function1<Double, String> timeFormatter, Image iconImage,
@@ -78,6 +79,7 @@ public abstract class GravityAndOrbitsMode {
                                  double gridSpacing, Point2D.Double gridCenter,
                                  final ModeListParameter p ) {
         this.dt = dt;
+        this.p = p;
         this.defaultZoomScale = defaultZoomScale;
         this.zoomOffset = zoomOffset;
         this.name = name;

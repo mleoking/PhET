@@ -33,7 +33,7 @@ public class GravityAndOrbitsApplication extends PiccoloPhetApplication {
         super( config );
         intro = new GravityAndOrbitsModule( getPhetFrame(), whiteBackgroundProperty, INTRO, false, new Function1<ModeListParameter, ArrayList<GravityAndOrbitsMode>>() {
             public ArrayList<GravityAndOrbitsMode> apply( ModeListParameter p ) {
-                return new CartoonModeList( p.clockPausedProperty, p.gravityEnabledProperty, p.scaleProperty, p.stepping, p.rewinding, p.timeSpeedScaleProperty );
+                return new CartoonModeList( p.clockPausedProperty, p.gravityEnabledProperty, p.scaleProperty, p.stepping, p.rewinding, p.timeSpeedScaleProperty, 0.9530999999999998 );
             }
         }, 0 );
         addModule( intro );
