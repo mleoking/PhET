@@ -51,14 +51,10 @@ public class GravityAndOrbitsModule extends PiccoloModule {
     private final Property<Boolean> whiteBackgroundProperty;
     public final boolean showMeasuringTape;
 
-    public ArrayList<GravityAndOrbitsMode> getModes() {
-        return new ArrayList<GravityAndOrbitsMode>( modes );
-    }
-
-    public GravityAndOrbitsModule( final PhetFrame phetFrame, Property<Boolean> whiteBackgroundProperty, final String name, boolean showMeasuringTape, Function1<ModeListParameter, ArrayList<GravityAndOrbitsMode>> createModes ) {
+    public GravityAndOrbitsModule( final PhetFrame phetFrame, Property<Boolean> whiteBackgroundProperty, final String name, boolean showMeasuringTape, Function1<ModeListParameter, ArrayList<GravityAndOrbitsMode>> createModes, int initialMode ) {
         super( name, new ConstantDtClock( 30, 1 ) );//TODO: I don't think this clock is used since each mode has its own clock; perhaps this just runs the active tab?
         modes = createModes.apply( new ModeListParameter( clockPausedProperty, gravityEnabledProperty, scaleProperty, stepping, rewinding, timeSpeedScaleProperty ) );
-        modeProperty = new Property<GravityAndOrbitsMode>( modes.get( 0 ) );
+        modeProperty = new Property<GravityAndOrbitsMode>( modes.get( initialMode ) );
         this.whiteBackgroundProperty = whiteBackgroundProperty;
         this.showMeasuringTape = showMeasuringTape;
         getModulePanel().setLogoPanel( null );
@@ -93,6 +89,10 @@ public class GravityAndOrbitsModule extends PiccoloModule {
 
     private GravityAndOrbitsMode getMode() {
         return modeProperty.getValue();
+    }
+
+    public ArrayList<GravityAndOrbitsMode> getModes() {
+        return new ArrayList<GravityAndOrbitsMode>( modes );
     }
 
     private void updateActiveModule() {
