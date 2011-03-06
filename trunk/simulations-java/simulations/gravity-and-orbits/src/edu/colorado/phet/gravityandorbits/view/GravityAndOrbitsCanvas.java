@@ -190,7 +190,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
         final MultiwayOr anythingReturnable = new MultiwayOr( new ArrayList<Property<Boolean>>() {{
             for ( Body body : model.getBodies() ) {add( body.getReturnable() );}
         }} );
-        addChild( new ButtonNode( "Return Object", buttonBackgroundColor ) {{
+        addChild( new ButtonNode( GAOStrings.RETURN_OBJECT, buttonBackgroundColor ) {{
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     model.returnObjects();

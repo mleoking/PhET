@@ -39,7 +39,6 @@ public class GAOStrings {
     public static final String GRID = getString( "grid" );
     public static final String PHYSICS = getString( "physics" );
     public static final String PLANET = getString( "planet" );
-    public static final String REAL = getString( "real" );
     public static final String SPACE_STATION = getString( "spaceStation" );
     public static final String SPACE_STATION_MASS = getString( "spaceStationMass" );
     public static final String SPACE_STATION_MASSES = getString( "spaceStationMasses" );
@@ -63,6 +62,8 @@ public class GAOStrings {
     public static final String SUN_PLANET_AND_MOON = getString( "sunPlanetAndMoon" );
     public static final String PLANET_AND_MOON = getString( "planetAndMoon" );
     public static final String PLANET_AND_SPACE_STATION = getString( "planetAndSpaceStation" );
+
+    public static final String RETURN_OBJECT = getString( "returnObject" );
 
     private static String getString( String key ) {
         return GravityAndOrbitsApplication.RESOURCES.getLocalizedString( key );
