@@ -155,7 +155,7 @@ public class GravityAndOrbitsModel {
     //Unexplodes and returns objects to the stage
     public void returnObjects() {
         for ( Body body : bodies ) {
-            body.returnBody();
+            body.returnBody( this );
         }
     }
 }
