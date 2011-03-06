@@ -396,13 +396,20 @@ public class Body implements IBodyColors {
     }
 
     //Unexplodes and returns objects to the stage
-    public void returnBody() {
+    public void returnBody( GravityAndOrbitsModel model ) {
         if ( collidedProperty.getValue() || !bounds.getValue().contains( getPosition().toPoint2D() ) ) {
             setCollided( false );
             clearPath();//so there is no sudden jump in path from old to new location
-            positionProperty.reset();
-            velocityProperty.reset();
+            doReturnBody( model );
         }
+    }
+
+    /*
+     * Template method.
+     */
+    protected void doReturnBody( GravityAndOrbitsModel model ) {
+        positionProperty.reset();
+        velocityProperty.reset();
     }
 
     public boolean isCollided() {
