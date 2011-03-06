@@ -158,4 +158,13 @@ public class GravityAndOrbitsModel {
             body.returnBody( this );
         }
     }
+
+    public Body getBody( String name ) {
+        for ( Body body : bodies ) {
+            if ( body.getName().equalsIgnoreCase( name ) ) {
+                return body;
+            }
+        }
+        return null;
+    }
 }
