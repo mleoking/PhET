@@ -1,3 +1,4 @@
+3/6/11 Changed red to color-blind friendly red in PhetColorScheme
 3/4/11 Moved RichSimpleObserver to common from bending-light
 3/3/11 Added docs for Option<T>
 3/2/11 #123, made ModelViewTransform2D deprecated
