@@ -146,7 +146,7 @@ public class Body implements IBodyColors {
         return highlight;
     }
 
-    public Property<ImmutableVector2D> getPositionProperty() {
+    public ClockRewindProperty<ImmutableVector2D> getPositionProperty() {
         return positionProperty;
     }
 
@@ -271,7 +271,7 @@ public class Body implements IBodyColors {
         clearPath();
     }
 
-    public Property<ImmutableVector2D> getVelocityProperty() {
+    public ClockRewindProperty<ImmutableVector2D> getVelocityProperty() {
         return velocityProperty;
     }
 

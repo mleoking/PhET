@@ -17,6 +17,7 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.gravityandorbits.GAOStrings;
 import edu.colorado.phet.gravityandorbits.model.Body;
 import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsClock;
+import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsModel;
 import edu.colorado.phet.gravityandorbits.view.*;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -289,7 +290,24 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
         return new Body( GAOStrings.MOON, body.x, body.y, body.radius * 2, body.vx, body.vy, body.mass, Color.magenta, Color.white,
                          //putting this number too large makes a kink or curly-q in the moon trajectory, which should be avoided
                          getRenderer( "moon.png", body.mass ), p.scaleProperty, -3 * Math.PI / 4, massSettable, maxPathLength,
-                         massReadoutBelow, body.mass, GAOStrings.OUR_MOON, p.clockPausedProperty, p.stepping, p.rewinding );
+                         massReadoutBelow, body.mass, GAOStrings.OUR_MOON, p.clockPausedProperty, p.stepping, p.rewinding ) {
+            @Override
+            protected void doReturnBody( GravityAndOrbitsModel model ) {
+                super.doReturnBody( model );
+                Body earth = model.getBody( "Planet" );
+                //Restore the moon near the earth and with the same relative velocity vector
+                if ( earth != null ) {
+                    ImmutableVector2D relativePosition = getPositionProperty().getInitialValue().minus( earth.getPositionProperty().getInitialValue() );
+                    getPositionProperty().setValue( earth.getPosition().plus( relativePosition ) );
+
+                    ImmutableVector2D relativeVelocity = getVelocityProperty().getInitialValue().minus( earth.getVelocityProperty().getInitialValue() );
+                    getVelocityProperty().setValue( earth.getVelocity().plus( relativeVelocity ) );
+                }
+                else {
+                    throw new RuntimeException( "Couldn't find planet." );
+                }
+            }
+        };
     }
 
     private Body createEarth( int maxPathLength, BodyPrototype body ) {
