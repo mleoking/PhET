@@ -13,6 +13,7 @@ import edu.colorado.phet.common.phetcommon.model.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.Function1;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -117,8 +118,8 @@ public class MeasuringTape extends PNode {
 
         public CrossHairGraphic( final Property<ImmutableVector2D> point, final Property<ModelViewTransform> transform ) {
             addChild( new PhetPPath( new Ellipse2D.Double( -crossHairsRadius, -crossHairsRadius, crossHairsRadius * 2, crossHairsRadius * 2 ), new Color( 0, 0, 0, 0 ) ) );
-            addChild( new PhetPPath( new Line2D.Double( -crossHairsRadius, 0, crossHairsRadius, 0 ), new BasicStroke( 2 ), Color.red ) );
-            addChild( new PhetPPath( new Line2D.Double( 0, -crossHairsRadius, 0, crossHairsRadius ), new BasicStroke( 2 ), Color.red ) );
+            addChild( new PhetPPath( new Line2D.Double( -crossHairsRadius, 0, crossHairsRadius, 0 ), new BasicStroke( 2 ), PhetColorScheme.RED_ALTERNATIVE ) );
+            addChild( new PhetPPath( new Line2D.Double( 0, -crossHairsRadius, 0, crossHairsRadius ), new BasicStroke( 2 ), PhetColorScheme.RED_ALTERNATIVE ) );
             final SimpleObserver updateOffset = new SimpleObserver() {
                 public void update() {
                     setOffset( transform.getValue().modelToView( point.getValue() ).toPoint2D() );
