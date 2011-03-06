@@ -27,12 +27,12 @@ public class CartoonModeList extends ModeList {
                     sun.radius *= 50;
                     earth.radius *= 1100;
                     moon.radius *= 800;
-
-                    final int earthMassScaleFactor = 7500;
+                    final int earthMassScaleFactor = 20000;
                     earth.mass *= earthMassScaleFactor;
-                    moon.vx *= 14 * alpha;
+                    moon.vx *= alpha;
                     moon.y = earth.radius * 2;
-                    forceScale /= earthMassScaleFactor;//to balance increased mass
+                    moon.mass *= earthMassScaleFactor;
+                    forceScale *= 0.8 / earthMassScaleFactor;//to balance increased mass
                 }}, new EarthMoon() {{
                     earth.radius *= 15;
                     moon.radius *= 15;
@@ -82,7 +82,7 @@ public class CartoonModeList extends ModeList {
 //                            }
                             new Thread( new Runnable() {
                                 public void run() {
-                                    runSim( alpha + 0.0001 );
+                                    runSim( alpha + 0.01 );
                                 }
                             } ).start();
                         }
