@@ -7,7 +7,7 @@ import edu.colorado.phet.common.phetcommon.model.Property;
 /**
  * A term in a chemical equation.
  * The "balanced coefficient" is the lowest coefficient value that will balance the equation, and is immutable.
- * The "actual coefficient" is the coefficient set by the user.
+ * The "user coefficient" is the coefficient set by the user.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -15,7 +15,7 @@ public class EquationTerm {
 
     private final Molecule molecule;
     private final int balancedCoefficient;
-    private final Property<Integer> actualCoefficientProperty;
+    private final Property<Integer> userCoefficientProperty;
 
     public EquationTerm( int balancedCoefficient, Molecule molecule ) {
         this( balancedCoefficient, molecule, 0 );
@@ -24,11 +24,11 @@ public class EquationTerm {
     private EquationTerm( int balancedCoefficient, Molecule molecule, int actualCoefficient ) {
         this.molecule = molecule;
         this.balancedCoefficient = balancedCoefficient;
-        this.actualCoefficientProperty =  new Property<Integer>( actualCoefficient );
+        this.userCoefficientProperty =  new Property<Integer>( actualCoefficient );
     }
 
     public void reset() {
-        actualCoefficientProperty.reset();
+        userCoefficientProperty.reset();
     }
 
     public Molecule getMolecule() {
@@ -39,15 +39,15 @@ public class EquationTerm {
         return balancedCoefficient;
     }
 
-    public void setActualCoefficient( int actualCoefficient ) {
-        actualCoefficientProperty.setValue( actualCoefficient );
+    public void setUserCoefficient( int actualCoefficient ) {
+        userCoefficientProperty.setValue( actualCoefficient );
     }
 
-    public int getActualCoefficient() {
-        return actualCoefficientProperty.getValue();
+    public int getUserCoefficient() {
+        return userCoefficientProperty.getValue();
     }
 
-    public Property<Integer> getActualCoefficientProperty() {
-        return actualCoefficientProperty;
+    public Property<Integer> getUserCoefficientProperty() {
+        return userCoefficientProperty;
     }
 }
