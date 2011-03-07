@@ -36,15 +36,15 @@ public class IntroductionCanvas extends BCECanvas {
         balanceChoiceProperty = new Property<BalancedRepresentation>( BalancedRepresentation.NONE );
 
         // control for choosing an equation
-        EquationChoiceNode equationChoiceNode = new EquationChoiceNode( model.getEquations(), model.getCurrentEquationProperty(), globalProperties.canvasColor );
+        EquationChoiceNode equationChoiceNode = new EquationChoiceNode( model.getEquations(), model.currentEquation, globalProperties.canvasColor );
         addChild( equationChoiceNode );
 
         // equation, in formula format
-        final EquationNode equationNode = new EquationNode( model.getCurrentEquationProperty(), model.getCoefficientsRange(), true /* editable */, aligner );
+        final EquationNode equationNode = new EquationNode( model.currentEquation, model.getCoefficientsRange(), true /* editable */, aligner );
         addChild( equationNode );
 
         // boxes that show molecules corresponding to the equation coefficients
-        boxesNode = new BoxesNode( model.getCurrentEquationProperty(), model.getCoefficientsRange(), aligner,
+        boxesNode = new BoxesNode( model.currentEquation, model.getCoefficientsRange(), aligner,
                 globalProperties.boxColor, globalProperties.moleculesVisible );
         addChild( boxesNode );
 
@@ -53,15 +53,15 @@ public class IntroductionCanvas extends BCECanvas {
         addChild( balanceChoiceNode );
 
         // bar charts
-        final BarChartsNode barChartsNode = new BarChartsNode( model.getCurrentEquationProperty(), aligner );
+        final BarChartsNode barChartsNode = new BarChartsNode( model.currentEquation, aligner );
         addChild( barChartsNode );
 
         // balance scales
-        final BalanceScalesNode balanceScalesNode = new BalanceScalesNode( model.getCurrentEquationProperty(), aligner );
+        final BalanceScalesNode balanceScalesNode = new BalanceScalesNode( model.currentEquation, aligner );
         addChild( balanceScalesNode );
 
         // smiley face
-        IntroductionFaceNode faceNode = new IntroductionFaceNode( model.getCurrentEquationProperty() );
+        IntroductionFaceNode faceNode = new IntroductionFaceNode( model.currentEquation );
         addChild( faceNode );
 
         // Reset All button
@@ -70,7 +70,7 @@ public class IntroductionCanvas extends BCECanvas {
         addChild( resetAllButtonNode );
 
         // Shows the answer (dev)
-        final DevAnswerNode answerNode = new DevAnswerNode( model.getCurrentEquationProperty() );
+        final DevAnswerNode answerNode = new DevAnswerNode( model.currentEquation );
         addChild( answerNode );
         answerNode.setVisible( globalProperties.showAnswers.getValue() );
 

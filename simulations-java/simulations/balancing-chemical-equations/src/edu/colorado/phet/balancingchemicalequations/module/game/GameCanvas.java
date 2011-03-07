@@ -15,6 +15,7 @@ import javax.swing.SwingConstants;
 import edu.colorado.phet.balancingchemicalequations.BCEConstants;
 import edu.colorado.phet.balancingchemicalequations.BCEGlobalProperties;
 import edu.colorado.phet.balancingchemicalequations.BCEStrings;
+import edu.colorado.phet.balancingchemicalequations.model.Equation;
 import edu.colorado.phet.balancingchemicalequations.module.game.GameModel.GameState;
 import edu.colorado.phet.balancingchemicalequations.view.*;
 import edu.colorado.phet.balancingchemicalequations.view.game.BalancedNode;
@@ -44,7 +45,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 public class GameCanvas extends BCECanvas {
 
     private static final Dimension BOX_SIZE = new Dimension( 475, 400 );
-    private static final double BOX_SEPARATION = 90;
+    private static final double BOX_SEPARATION = 90; // horizontal spacing between boxes
     private static final Color BUTTONS_COLOR = Color.YELLOW;
     private static final int BUTTONS_FONT_SIZE = 30;
 
@@ -56,20 +57,26 @@ public class GameCanvas extends BCECanvas {
 
     // top-level nodes
     private final PNode gameSettingsNode;
-    private final PNode gamePlayParentNode;
+    private final PNode gamePlayParentNode; // parent of all nodes during game play
     private GameOverNode gameOverNode;
     private final GameRewardNode gameRewardNode;
+    private PNode popupNode; // looks like a dialog, tells user how they did
 
-    // children of problemParentNode, related to interacting with problems
-    private final PText equationLabelNode;
+    // children of gamePlayParentNode
+    private final PText equationLabelNode; // labels the equation, eg, "Equation 2 of 5"
     private final EquationNode equationNode;
     private final BoxesNode boxesNode;
     private final ButtonNode checkButton, tryAgainButton, showAnswerButton, nextButton;
     private final GameScoreboardNode scoreboardNode;
 
-    private PNode gameResultNode;
-    private BalancedRepresentation balancedRepresentation;
+    private BalancedRepresentation balancedRepresentation; // which representation to use in the "Not Balanced" popup
 
+    /**
+     * Constructor
+     * @param model
+     * @param globalProperties global properties, many of which are accessed via the menu bar
+     * @param resettable rest when the Reset All button is pressed
+     */
     public GameCanvas( final GameModel model, final BCEGlobalProperties globalProperties, Resettable resettable ) {
         super( globalProperties.canvasColor );
 
@@ -81,7 +88,6 @@ public class GameCanvas extends BCECanvas {
 
         // Game settings
         VoidFunction0 startFunction = new VoidFunction0() {
-
             public void apply() {
                 model.startGame();
             }
@@ -89,19 +95,19 @@ public class GameCanvas extends BCECanvas {
         gameSettingsNode = new PSwing( new GameSettingsPanel( model.settings, startFunction ) );
         gameSettingsNode.scale( BCEConstants.SWING_SCALE );
 
-        // Parent node for all nodes visible while the user is working on problems
+        // Parent node for all nodes visible while the user playing a game
         gamePlayParentNode = new PhetPNode();
 
         // Equation label
-        equationLabelNode = new PText( "?" );
+        equationLabelNode = new PText( "?" ); // dummy value for layout, gets filled in later
         equationLabelNode.setTextPaint( Color.BLACK );
         equationLabelNode.setFont( new PhetFont( 20 ) );
 
         // Equation
-        equationNode = new EquationNode( model.getCurrentEquationProperty(), model.getCoefficientsRange(), true, aligner );
+        equationNode = new EquationNode( model.currentEquation, model.getCoefficientsRange(), true, aligner );
 
         // boxes that show molecules corresponding to the equation coefficients
-        boxesNode = new BoxesNode( model.getCurrentEquationProperty(), model.getCoefficientsRange(), aligner, globalProperties.boxColor, globalProperties.moleculesVisible );
+        boxesNode = new BoxesNode( model.currentEquation, model.getCoefficientsRange(), aligner, globalProperties.boxColor, globalProperties.moleculesVisible );
 
         // buttons
         checkButton = new ButtonNode( BCEStrings.CHECK, BUTTONS_FONT_SIZE, BUTTONS_COLOR );
@@ -131,7 +137,7 @@ public class GameCanvas extends BCECanvas {
         } );
 
         // Scoreboard
-        scoreboardNode = new GameScoreboardNode( model.settings.level.getMax(), model.getMaxScore(), new DecimalFormat( "0" ) );
+        scoreboardNode = new GameScoreboardNode( model.settings.level.getMax(), model.getPerfectScore(), new DecimalFormat( "0" ) );
         scoreboardNode.setBackgroundWidth( boxesNode.getFullBoundsReference().getWidth() );
         scoreboardNode.addGameScoreboardListener( new GameScoreboardListener() {
             public void newGamePressed() {
@@ -140,7 +146,7 @@ public class GameCanvas extends BCECanvas {
         } );
 
         // Shows the answer (dev)
-        final DevAnswerNode answerNode = new DevAnswerNode( model.getCurrentEquationProperty() );
+        final DevAnswerNode answerNode = new DevAnswerNode( model.currentEquation );
         answerNode.setVisible( globalProperties.showAnswers.getValue() );
 
         // rendering order
@@ -157,13 +163,14 @@ public class GameCanvas extends BCECanvas {
         gamePlayParentNode.addChild( scoreboardNode );
         gamePlayParentNode.addChild( answerNode );
 
-        // layout of children of problemParentNode
+        // layout: children of gamePlayParentNode
         {
             final double ySpacing = 25;
             double x, y;
 
             equationLabelNode.setOffset( 0, 0 );
 
+            // equation below the label
             y = equationLabelNode.getFullBoundsReference().getMaxY() + ySpacing;
             equationNode.setOffset( 0, y );
 
@@ -193,7 +200,7 @@ public class GameCanvas extends BCECanvas {
             answerNode.setOffset( x, y );
         }
 
-        // layout of static top-level nodes
+        // layout: static top-level nodes
         {
             double x, y;
             gamePlayParentNode.setOffset( 0, 0 );
@@ -202,7 +209,7 @@ public class GameCanvas extends BCECanvas {
             gameSettingsNode.setOffset( x, y );
         }
 
-        // Listeners
+        // listener that will be added/removed to/from dynamic "Game Over" node
         newGameButtonListener = new GameOverListener() {
             public void newGamePressed() {
                 model.newGame();
@@ -217,7 +224,7 @@ public class GameCanvas extends BCECanvas {
                 }
             } );
 
-            model.getCurrentEquationProperty().addObserver( new SimpleObserver() {
+            model.currentEquation.addObserver( new SimpleObserver() {
                 public void update() {
                     updateEquationLabel();
                 }
@@ -269,47 +276,58 @@ public class GameCanvas extends BCECanvas {
         return gameRewardNode;
     }
 
+    /*
+     * Updates the label on the equation, eg "Equation 2 of 5".
+     */
     private void updateEquationLabel() {
-        int index = model.getEquationIndex() + 1;
+        int index = model.getCurrentEquationIndex() + 1;
         int total = model.getNumberOfEquations();
         String s = MessageFormat.format( BCEStrings.EQUATION_0_OF_1, index, total );
         equationLabelNode.setText( s );
     }
 
-    private void handleGameStateChange( GameState prompt ) {
-        if ( prompt == GameState.START_GAME ) {
+    /*
+     * Call an initializer to handle setup of the canvas for a specified state.
+     * See the javadoc for GameState for the semantics of states and the significance of their names.
+     */
+    private void handleGameStateChange( GameState state ) {
+        if ( state == GameState.START_GAME ) {
             initStartGame();
         }
-        else if ( prompt == GameState.CHECK ) {
+        else if ( state == GameState.CHECK ) {
             initCheck();
         }
-        else if ( prompt == GameState.TRY_AGAIN ) {
+        else if ( state == GameState.TRY_AGAIN ) {
             initTryAgain();
         }
-        else if ( prompt == GameState.SHOW_ANSWER ) {
+        else if ( state == GameState.SHOW_ANSWER ) {
             initShowAnswer();
         }
-        else if ( prompt == GameState.NEXT ) {
+        else if ( state == GameState.NEXT ) {
             initNext();
         }
-        else if ( prompt == GameState.NEW_GAME ) {
+        else if ( state == GameState.NEW_GAME ) {
             initNewGame();
         }
         else {
-            throw new UnsupportedOperationException( "unsupported GamePrompt: " + prompt );
+            throw new UnsupportedOperationException( "unsupported GameState: " + state );
         }
     }
 
+    /*
+     * Put the game in the state where the "Start Game" button is visible.
+     * This occurs when the "Game Settings" display is visible.
+     */
     public void initStartGame() {
         setGameRewardVisible( false );
         setTopLevelNodeVisible( gameSettingsNode );
         randomizeBalancedRepresentation();
     }
 
-    private void randomizeBalancedRepresentation() {
-        balancedRepresentation = getRandomBalanceChoice();
-    }
-
+    /*
+     * Put the game in the state where the "Check" button is visible.
+     * This occurs during game play.
+     */
     public void initCheck() {
         setTopLevelNodeVisible( gamePlayParentNode );
         setButtonNodeVisible( checkButton );
@@ -318,6 +336,10 @@ public class GameCanvas extends BCECanvas {
         setBalancedHighlightEnabled( false );
     }
 
+    /*
+     * Put the game in the state where the "Try Again" button is visible.
+     * This occurs during game play.
+     */
     public void initTryAgain() {
         setTopLevelNodeVisible( gamePlayParentNode );
         setButtonNodeVisible( tryAgainButton );
@@ -326,6 +348,10 @@ public class GameCanvas extends BCECanvas {
         setBalancedHighlightEnabled( false );
     }
 
+    /*
+     * Put the game in the state where the "Show Answer" button is visible.
+     * This occurs during game play.
+     */
     public void initShowAnswer() {
         setTopLevelNodeVisible( gamePlayParentNode );
         setButtonNodeVisible( showAnswerButton );
@@ -334,16 +360,24 @@ public class GameCanvas extends BCECanvas {
         setBalancedHighlightEnabled( false );
     }
 
+    /*
+     * Put the game in the state where the "Next" button is visible.
+     * This occurs during game play.
+     */
     public void initNext() {
         setTopLevelNodeVisible( gamePlayParentNode );
         setButtonNodeVisible( nextButton );
-        setResultsPopupVisible( model.getCurrentEquation().isBalancedAndSimplified() );
+        setResultsPopupVisible( model.currentEquation.getValue().isBalancedAndSimplified() );
         equationNode.setEditable( false );
-        model.getCurrentEquation().balance(); // show the correct answer
+        model.currentEquation.getValue().balance(); // show the correct answer
         setBalancedHighlightEnabled( true );
         randomizeBalancedRepresentation();
     }
 
+    /*
+     * Put the game in the state where the "New Game" button is visible.
+     * This occurs when the game has been completed and the "Game Over" display is visible.
+     */
     public void initNewGame() {
         setResultsPopupVisible( false );
         setGameRewardVisible( true );
@@ -352,6 +386,10 @@ public class GameCanvas extends BCECanvas {
         setTopLevelNodeVisible( gameOverNode );
     }
 
+    /*
+     * Make the game reward (animation) visible.
+     * If visible == true, this creates a new reward for the current game level and score.
+     */
     private void setGameRewardVisible( boolean visible ) {
         if ( visible ) {
             gameRewardNode.setLevel( model.settings.level.getValue(), model.isPerfectScore() );
@@ -359,6 +397,10 @@ public class GameCanvas extends BCECanvas {
         gameRewardNode.setVisible( visible );
     }
 
+    /*
+     * Makes one of the top-level nodes visible.
+     * Visibility of the top-level nodes is mutually exclusive.
+     */
     private void setTopLevelNodeVisible( PNode topLevelNode ) {
         // hide all top-level nodes
         gameSettingsNode.setVisible( false );
@@ -370,6 +412,10 @@ public class GameCanvas extends BCECanvas {
         topLevelNode.setVisible( true );
     }
 
+    /*
+     * Make one of the buttons visible.
+     * Visibility of the buttons is mutually exclusive.
+     */
     private void setButtonNodeVisible( ButtonNode buttonNode ) {
         // hide all button nodes
         checkButton.setVisible( false );
@@ -380,6 +426,11 @@ public class GameCanvas extends BCECanvas {
         buttonNode.setVisible( true );
     }
 
+    /*
+     * Turns on/off the highlighting feature that indicates whether the equation is balanced.
+     * We need to be able to control this so that a balanced equation doesn't highlight
+     * until after the user presses the Check button.
+     */
     private void setBalancedHighlightEnabled( boolean enabled ) {
         equationNode.setBalancedHighlightEnabled( enabled );
         boxesNode.setBalancedHighlightEnabled( enabled );
@@ -392,35 +443,39 @@ public class GameCanvas extends BCECanvas {
      * @param visible
      */
     private void setResultsPopupVisible( boolean visible ) {
-        if ( gameResultNode != null ) {
-            gamePlayParentNode.removeChild( gameResultNode );
-            gameResultNode = null;
+        if ( popupNode != null ) {
+            gamePlayParentNode.removeChild( popupNode );
+            popupNode = null;
         }
         if ( visible ) {
 
             // evaluate the user's answer and create the proper type of node
-            if ( model.getCurrentEquation().isBalancedAndSimplified() ) {
-                gameResultNode = new BalancedNode();
+            Equation equation = model.currentEquation.getValue();
+            if ( equation.isBalancedAndSimplified() ) {
+                popupNode = new BalancedNode();
             }
-            else if ( model.getCurrentEquation().isBalanced() ) {
-                gameResultNode = new BalancedNotSimplifiedNode();
+            else if ( equation.isBalanced() ) {
+                popupNode = new BalancedNotSimplifiedNode();
             }
             else {
-                gameResultNode = new NotBalancedNode( model.getCurrentEquationProperty().getValue(), globalProperties.showChartsAndScalesInGame.getValue(), balancedRepresentation, aligner );
+                popupNode = new NotBalancedNode( equation, globalProperties.showChartsAndScalesInGame.getValue(), balancedRepresentation, aligner );
             }
 
             // Layout, ideally centered between the boxes, but guarantee that buttons are not covered.
-            PNodeLayoutUtils.alignInside( gameResultNode, boxesNode, SwingConstants.CENTER, SwingConstants.CENTER );
-            if ( gameResultNode.getFullBoundsReference().getMaxY() >= checkButton.getFullBoundsReference().getMinY() ) {
-                PNodeLayoutUtils.alignInside( gameResultNode, boxesNode, SwingConstants.BOTTOM, SwingConstants.CENTER );
+            PNodeLayoutUtils.alignInside( popupNode, boxesNode, SwingConstants.CENTER, SwingConstants.CENTER );
+            if ( popupNode.getFullBoundsReference().getMaxY() >= checkButton.getFullBoundsReference().getMinY() ) {
+                PNodeLayoutUtils.alignInside( popupNode, boxesNode, SwingConstants.BOTTOM, SwingConstants.CENTER );
             }
 
-            gamePlayParentNode.addChild( gameResultNode ); // visible and in front
+            gamePlayParentNode.addChild( popupNode ); // visible and in front
         }
     }
 
+    /*
+     * Plays the audio that corresponds to the accuracy of the user's guess.
+     */
     private void playGuessAudio() {
-        if ( model.getCurrentEquation().isBalancedAndSimplified() ) {
+        if ( model.currentEquation.getValue().isBalancedAndSimplified() ) {
             audioPlayer.correctAnswer();
         }
         else {
@@ -428,6 +483,9 @@ public class GameCanvas extends BCECanvas {
         }
     }
 
+    /*
+     * Plays the audio that corresponds to the final results at the end of a game.
+     */
     private void playGameOverAudio() {
         if ( model.points.getValue() == 0 ) {
             audioPlayer.gameOverZeroScore();
@@ -440,6 +498,10 @@ public class GameCanvas extends BCECanvas {
         }
     }
 
+    /*
+     * Creates the "Game Over" node that show the results at the end of a game.
+     * Cleans up any previously-existing node.
+     */
     private void updateGameOverNode() {
 
         // remove the old node
@@ -451,7 +513,7 @@ public class GameCanvas extends BCECanvas {
 
         // add a new node
         int level = model.settings.level.getValue();
-        gameOverNode = new GameOverNode( level, model.points.getValue(), model.getMaxScore(), new DecimalFormat( "0" ),
+        gameOverNode = new GameOverNode( level, model.points.getValue(), model.getPerfectScore(), new DecimalFormat( "0" ),
                 model.timer.time.getValue(), model.getBestTime( level ), model.isNewBestTime(), model.settings.timerEnabled.getValue() );
         gameOverNode.scale( BCEConstants.SWING_SCALE );
         addChild( gameOverNode );
@@ -468,8 +530,8 @@ public class GameCanvas extends BCECanvas {
     /*
      * Generates a random value for the representation shown in the "Not Balanced" popup.
      */
-    private BalancedRepresentation getRandomBalanceChoice() {
-        return ( Math.random() < 0.5 ) ? BalancedRepresentation.BALANCE_SCALES : BalancedRepresentation.BAR_CHARTS;
+    private void randomizeBalancedRepresentation() {
+        balancedRepresentation = ( Math.random() < 0.5 ) ? BalancedRepresentation.BALANCE_SCALES : BalancedRepresentation.BAR_CHARTS;
     }
 
     /*
@@ -480,7 +542,7 @@ public class GameCanvas extends BCECanvas {
         super.updateLayout();
         Dimension2D worldSize = getWorldSize();
         if ( worldSize.getWidth() > 0 && worldSize.getHeight() > 0 ) {
-            // make the reward fill the play area
+            // make the reward animation fill the play area
             PBounds newBounds = new PBounds( 0, 0, worldSize.getWidth(), worldSize.getHeight() );
             gameRewardNode.setBounds( newBounds );
         }
