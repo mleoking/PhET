@@ -460,7 +460,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
                 popupNode = new BalancedNotSimplifiedNode();
             }
             else {
-                popupNode = new NotBalancedNode( equation, globalProperties.showChartsAndScalesInGame.getValue(), balancedRepresentation, aligner );
+                popupNode = new NotBalancedNode( equation, ( globalProperties.showChartsAndScalesInGame.getValue() ? balancedRepresentation : BalancedRepresentation.NONE ), aligner );
             }
 
             // Layout, ideally centered between the boxes, but guarantee that buttons are not covered.
