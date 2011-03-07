@@ -11,7 +11,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.buildanatom.model.Bucket;
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 
@@ -29,12 +29,12 @@ public class BucketHoleNode extends PNode {
     // Constructor(s)
     // ------------------------------------------------------------------------
 
-    public BucketHoleNode( Bucket bucket, ModelViewTransform2D mvt ) {
+    public BucketHoleNode( Bucket bucket, ModelViewTransform mvt ) {
 
         // Create a scaling transform based on the provided MVT, since we only
         // want the scaling portion and we want to avoid any translation.
-        AffineTransform scaleTransform = AffineTransform.getScaleInstance( mvt.getAffineTransform().getScaleX(),
-                mvt.getAffineTransform().getScaleY() );
+        AffineTransform scaleTransform = AffineTransform.getScaleInstance( mvt.getTransform().getScaleX(),
+                mvt.getTransform().getScaleY() );
 
         // Create the scaled shape.
         Shape scaledHoleShape = scaleTransform.createTransformedShape( bucket.getHoleShape() );
