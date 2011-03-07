@@ -8,7 +8,6 @@ import java.awt.Dimension;
 import edu.colorado.phet.balancingchemicalequations.BCEConstants;
 import edu.colorado.phet.balancingchemicalequations.BCEGlobalProperties;
 import edu.colorado.phet.balancingchemicalequations.control.BalancedRepresentationChoiceNode;
-import edu.colorado.phet.balancingchemicalequations.control.BalancedRepresentationChoiceNode.BalancedRepresentation;
 import edu.colorado.phet.balancingchemicalequations.control.EquationChoiceNode;
 import edu.colorado.phet.balancingchemicalequations.view.*;
 import edu.colorado.phet.common.phetcommon.model.Property;

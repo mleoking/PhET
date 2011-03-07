@@ -7,6 +7,7 @@ import java.awt.GridBagConstraints;
 
 import edu.colorado.phet.balancingchemicalequations.BCEConstants;
 import edu.colorado.phet.balancingchemicalequations.BCEStrings;
+import edu.colorado.phet.balancingchemicalequations.view.BalancedRepresentation;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
@@ -17,13 +18,10 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * Panel of radio buttons for selecting the visual representation for "balanced".
- * "Balanced" is represented as either a bar chart, or a balance scale.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class BalancedRepresentationChoiceNode extends PhetPNode {
-
-    public static enum BalancedRepresentation { NONE, BALANCE_SCALES, BAR_CHARTS };
 
     public BalancedRepresentationChoiceNode( Property<BalancedRepresentation> balanceChoiceProperty, Property<Color> backgroundProperty ) {
         addChild( new PSwing( new BalanceChoicePanel( balanceChoiceProperty, backgroundProperty ) ) );
