@@ -11,7 +11,7 @@ import java.awt.geom.Ellipse2D;
 import edu.colorado.phet.buildanatom.model.Atom;
 import edu.colorado.phet.buildanatom.model.ElectronShell;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 
@@ -33,10 +33,10 @@ public class ElectronOrbitalNode extends PNode {
     /**
      * Constructor.
      */
-    public ElectronOrbitalNode( final ModelViewTransform2D mvt, final OrbitalViewProperty orbitalViewProperty,
+    public ElectronOrbitalNode( final ModelViewTransform mvt, final OrbitalViewProperty orbitalViewProperty,
             final Atom atom, final ElectronShell electronShell, final boolean allowsUserInput ) {
 
-        final Shape electronShellShape = mvt.createTransformedShape( new Ellipse2D.Double(
+        final Shape electronShellShape = mvt.modelToView( new Ellipse2D.Double(
                 -electronShell.getRadius(),
                 -electronShell.getRadius(),
                 electronShell.getRadius() * 2,

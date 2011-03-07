@@ -15,7 +15,7 @@ import edu.colorado.phet.buildanatom.model.ImmutableAtom;
 import edu.colorado.phet.buildanatom.modules.game.model.BuildAnAtomGameModel;
 import edu.colorado.phet.buildanatom.modules.game.model.Problem;
 import edu.colorado.phet.common.games.GameAudioPlayer;
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.FaceNode;
@@ -37,11 +37,10 @@ public abstract class ProblemView extends StateView {
 
     // Transform used by all problem views that present a schematic on the
     // left side.
-    public static final ModelViewTransform2D SCHEMATIC_PROBLEM_MVT = new ModelViewTransform2D(
+    public static final ModelViewTransform SCHEMATIC_PROBLEM_MVT = ModelViewTransform.createSinglePointScaleInvertedYMapping(
             new Point2D.Double( 0, 0 ),
             new Point( (int) Math.round( BuildAnAtomDefaults.STAGE_SIZE.width * 0.27 ), (int) Math.round( BuildAnAtomDefaults.STAGE_SIZE.height * 0.45 ) ),
-            2.0,
-            true );
+            2.0 );
 
     private final GameButtonNode checkButton;
     private final PText problemNumberDisplay;

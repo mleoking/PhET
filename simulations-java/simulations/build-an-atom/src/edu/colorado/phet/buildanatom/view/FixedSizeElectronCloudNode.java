@@ -11,7 +11,7 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.buildanatom.model.Atom;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 
@@ -35,13 +35,13 @@ public class FixedSizeElectronCloudNode extends PNode {
     /**
      * Constructor.
      */
-    public FixedSizeElectronCloudNode( final ModelViewTransform2D mvt, final OrbitalViewProperty orbitalView, final Atom atom ) {
+    public FixedSizeElectronCloudNode( final ModelViewTransform mvt, final OrbitalViewProperty orbitalView, final Atom atom ) {
 
         // This representation is always the diameter of the outermost
         // electron shell, which is assumed to be the last one on the list
         // supplied by the atom.
         final double radius = atom.getElectronShells().get( atom.getElectronShells().size() - 1 ).getRadius();
-        Shape electronShellShape = mvt.createTransformedShape( new Ellipse2D.Double( atom.getPosition().getX() - radius,
+        Shape electronShellShape = mvt.modelToView( new Ellipse2D.Double( atom.getPosition().getX() - radius,
                 atom.getPosition().getY() - radius, radius * 2, radius * 2) );
 
         // Create the paint for depicting the electron cloud.  This is lighter

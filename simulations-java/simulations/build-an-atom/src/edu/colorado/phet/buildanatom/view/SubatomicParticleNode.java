@@ -7,9 +7,10 @@ import java.awt.Paint;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.buildanatom.model.SphericalParticle;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.SphericalNode;
@@ -25,14 +26,14 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class SubatomicParticleNode extends PNode {
 
-    private final ModelViewTransform2D mvt;
+    private final ModelViewTransform mvt;
     private final SphericalNode sphericalNode;
     private final SphericalParticle subatomicParticle;
 
     /**
      * Constructor.
      */
-    public SubatomicParticleNode( final ModelViewTransform2D mvt, final SphericalParticle subatomicParticle, final Color baseColor ) {
+    public SubatomicParticleNode( final ModelViewTransform mvt, final SphericalParticle subatomicParticle, final Color baseColor ) {
         this.mvt = mvt;
         this.subatomicParticle = subatomicParticle;
         double radius = subatomicParticle.getRadius();
@@ -41,7 +42,7 @@ public class SubatomicParticleNode extends PNode {
         Paint particlePaint = new RoundGradientPaint( -radius / 1.5, -radius / 1.5,
                 ColorUtils.brighterColor( baseColor, 0.8 ), new Point2D.Double( radius, radius ),
                 baseColor );
-        sphericalNode = new SphericalNode( mvt.modelToViewDifferentialX( subatomicParticle.getDiameter() ),
+        sphericalNode = new SphericalNode( mvt.modelToViewDeltaX( subatomicParticle.getDiameter() ),
                 particlePaint, false );
         addChild( sphericalNode );
 
@@ -65,9 +66,10 @@ public class SubatomicParticleNode extends PNode {
 
             @Override
             public void mouseDragged( PInputEvent event ) {
-                PDimension delta = event.getDeltaRelativeTo( getParent() );
-                Point2D modelDelta = mvt.viewToModelDifferential( delta.width, delta.height );
-                subatomicParticle.setPositionAndDestination( subatomicParticle.getPosition().getX() + modelDelta.getX(),
+                PDimension viewDelta = event.getDeltaRelativeTo( getParent() );
+                ImmutableVector2D modelDelta = mvt.viewToModelDelta( new ImmutableVector2D( viewDelta ) );
+                subatomicParticle.setPositionAndDestination(
+                        subatomicParticle.getPosition().getX() + modelDelta.getX(),
                         subatomicParticle.getPosition().getY() + modelDelta.getY() );
             }
 
@@ -80,7 +82,7 @@ public class SubatomicParticleNode extends PNode {
     }
 
     private void updatePosition() {
-        Point2D location = mvt.modelToViewDouble( subatomicParticle.getPosition() );
+        Point2D location = mvt.modelToView( subatomicParticle.getPosition() );
         sphericalNode.setOffset( location );
     }
 }

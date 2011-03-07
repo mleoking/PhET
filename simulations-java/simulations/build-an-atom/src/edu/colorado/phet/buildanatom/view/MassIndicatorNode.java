@@ -13,7 +13,7 @@ import edu.colorado.phet.buildanatom.BuildAnAtomResources;
 import edu.colorado.phet.buildanatom.model.Atom;
 import edu.colorado.phet.buildanatom.model.ElectronShell;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -56,7 +56,7 @@ public class MassIndicatorNode extends PNode {
         final PNode atomNode = new PNode();
         //Make it small enough so it looks to scale, but also so we don't have to indicate atomic substructure
         double scale = 1.0 / 5;
-        ModelViewTransform2D mvt = new ModelViewTransform2D( new Rectangle2D.Double( 0, 0, 1, 1 ), new Rectangle2D.Double( 0, 0, scale, scale ), false );
+        ModelViewTransform mvt = ModelViewTransform.createRectangleMapping( new Rectangle2D.Double( 0, 0, 1, 1 ), new Rectangle2D.Double( 0, 0, scale, scale ) );
         for ( ElectronShell electronShell : atom.getElectronShells() ) {
             atomNode.addChild( new ElectronOrbitalNode( mvt, orbitalViewProperty, atom, electronShell, false ) );
         }

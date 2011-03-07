@@ -15,7 +15,7 @@ import edu.colorado.phet.buildanatom.model.SphericalParticle;
 import edu.colorado.phet.buildanatom.view.BucketNode;
 import edu.colorado.phet.buildanatom.view.OrbitalViewProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
@@ -36,7 +36,7 @@ public class InteractiveSchematicAtomNode extends SchematicAtomNode {
     /**
      * Constructor.
      */
-    public InteractiveSchematicAtomNode( final BuildAnAtomModel model, ModelViewTransform2D mvt, final OrbitalViewProperty orbitalView ) {
+    public InteractiveSchematicAtomNode( final BuildAnAtomModel model, ModelViewTransform mvt, final OrbitalViewProperty orbitalView ) {
         super( model.getAtom(), mvt, orbitalView );
 
         this.model = model;
@@ -46,7 +46,7 @@ public class InteractiveSchematicAtomNode extends SchematicAtomNode {
 
         // Add the buckets that hold the sub-atomic particles.
         BucketNode electronBucketNode = new BucketNode( model.getElectronBucket(), mvt );
-        electronBucketNode.setOffset( mvt.modelToViewDouble( model.getElectronBucket().getPosition() ) );
+        electronBucketNode.setOffset( mvt.modelToView( model.getElectronBucket().getPosition() ) );
         backLayer.addChild( electronBucketNode.getHoleLayer() );
         frontLayer.addChild( electronBucketNode.getContainerLayer() );
         for ( SphericalParticle electron : model.getElectronBucket().getParticleList() ) {
@@ -56,7 +56,7 @@ public class InteractiveSchematicAtomNode extends SchematicAtomNode {
             addElectron( (Electron) electron );
         }
         BucketNode protonBucketNode = new BucketNode( model.getProtonBucket(), mvt );
-        protonBucketNode.setOffset( mvt.modelToViewDouble( model.getProtonBucket().getPosition() ) );
+        protonBucketNode.setOffset( mvt.modelToView( model.getProtonBucket().getPosition() ) );
         backLayer.addChild( protonBucketNode.getHoleLayer() );
         frontLayer.addChild( protonBucketNode.getContainerLayer() );
         for ( SphericalParticle proton : model.getProtonBucket().getParticleList() ) {
@@ -66,7 +66,7 @@ public class InteractiveSchematicAtomNode extends SchematicAtomNode {
             addProton( (Proton) proton );
         }
         BucketNode neutronBucketNode = new BucketNode( model.getNeutronBucket(), mvt );
-        neutronBucketNode.setOffset( mvt.modelToViewDouble( model.getNeutronBucket().getPosition() ) );
+        neutronBucketNode.setOffset( mvt.modelToView( model.getNeutronBucket().getPosition() ) );
         backLayer.addChild( neutronBucketNode.getHoleLayer() );
         frontLayer.addChild( neutronBucketNode.getContainerLayer() );
         for ( SphericalParticle neutron : model.getNeutronBucket().getParticleList() ) {
@@ -86,7 +86,7 @@ public class InteractiveSchematicAtomNode extends SchematicAtomNode {
     }
 
     private static class CenterMarkerNode extends PNode {
-        public CenterMarkerNode( final BuildAnAtomModel model, ModelViewTransform2D mvt ) {
+        public CenterMarkerNode( final BuildAnAtomModel model, ModelViewTransform mvt ) {
 
             model.getAtom().addObserver( new SimpleObserver() {
                 public void update() {
@@ -106,7 +106,7 @@ public class InteractiveSchematicAtomNode extends SchematicAtomNode {
                     model.getAtom().getPosition().getY() + xMarkerSize / 2 );
             nucleusXMarkerModelCoords.lineTo( model.getAtom().getPosition().getX() + xMarkerSize / 2,
                     model.getAtom().getPosition().getY() - xMarkerSize / 2 );
-            Shape nucleusXMarkerShape = mvt.createTransformedShape( nucleusXMarkerModelCoords.getGeneralPath() );
+            Shape nucleusXMarkerShape = mvt.modelToView( nucleusXMarkerModelCoords.getGeneralPath() );
             PNode nucleusXMarkerNode = new PhetPPath( nucleusXMarkerShape, new BasicStroke( 4f ), new Color( 255, 0, 0, 75 ) );
             addChild( nucleusXMarkerNode );
         }
