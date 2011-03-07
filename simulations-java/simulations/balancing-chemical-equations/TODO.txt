@@ -16,4 +16,3 @@ LOW PRIORITY
 - Kathy colors: boxes=black, canvas=blue[142,153,193]
 
 MIGRATE TO COMMON
-- replace molecule image files in RPAL with Piccolo code from BCE
