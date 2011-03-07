@@ -30,6 +30,7 @@ public abstract class GameResultNode extends PhetPNode {
     private static final PhetFont FONT = new PhetFont( 24 );
     private static final Color BACKGROUND = new Color( 180, 205, 255 );
     private static final double MARGIN = 20;
+    private static final double TITLE_BAR_HEIGHT = 25;
     private static final double FACE_DIAMETER = 100;
 
     /**
@@ -71,19 +72,25 @@ public abstract class GameResultNode extends PhetPNode {
         contentNode.setOffset( x - PNodeLayoutUtils.getOriginXOffset( contentNode ), y - PNodeLayoutUtils.getOriginYOffset( contentNode ) );
         parentNode.setOffset( -PNodeLayoutUtils.getOriginXOffset( parentNode ), -PNodeLayoutUtils.getOriginYOffset( parentNode ) );
 
-        // add a transparent background
-        double w = getFullBoundsReference().getWidth() + ( 2 * MARGIN );
-        double h = getFullBoundsReference().getHeight() + ( 2 * MARGIN );
-        PPath backgroundNode = new PPath( new Rectangle2D.Double( 0, 0, w, h ) );
+        // title bar
+        double titleBarWidth = getFullBoundsReference().getWidth() + ( 2 * MARGIN );
+        PPath titleBarNode = new PPath( new Rectangle2D.Double( 0, 0, titleBarWidth, TITLE_BAR_HEIGHT ) );
+        titleBarNode.setPaint( new Color( 155, 180, 230 ) );
+        addChild( titleBarNode );
+        titleBarNode.moveToBack();
+
+        // background
+        double h = getFullBoundsReference().getHeight() + ( 2 * MARGIN ) + TITLE_BAR_HEIGHT;
+        PPath backgroundNode = new PPath( new Rectangle2D.Double( 0, 0, titleBarWidth, h ) );
         backgroundNode.setPaint( BACKGROUND );
         addChild( backgroundNode );
         backgroundNode.moveToBack();
-        backgroundNode.setOffset( 0, 0 );
-        parentNode.translate( MARGIN, MARGIN );
+        parentNode.translate( MARGIN, TITLE_BAR_HEIGHT + MARGIN );
 
         // close button at upper-right
+        final double margin = 3;
         PImage closeButtonNode = new PImage( PhetCommonResources.getImage( PhetCommonResources.IMAGE_CLOSE_BUTTON ) );
-        closeButtonNode.scale( 1.5 );
+        closeButtonNode.scale( ( titleBarNode.getFullBoundsReference().getHeight() - ( 2 * margin ) ) / closeButtonNode.getFullBoundsReference().getHeight() );
         addChild( closeButtonNode );
         closeButtonNode.addInputEventListener( new PBasicInputEventHandler() {
             @Override
@@ -91,8 +98,8 @@ public abstract class GameResultNode extends PhetPNode {
                 setVisible( false );
             }
         });
-        x = backgroundNode.getFullBoundsReference().getMaxX() - closeButtonNode.getFullBoundsReference().getWidth() - 5;
-        y = backgroundNode.getFullBoundsReference().getMinY() + 5;
+        x = backgroundNode.getFullBoundsReference().getMaxX() - closeButtonNode.getFullBoundsReference().getWidth() - margin;
+        y = backgroundNode.getFullBoundsReference().getMinY() + margin;
         closeButtonNode.setOffset( x, y );
     }
 }

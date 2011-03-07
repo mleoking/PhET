@@ -3,7 +3,6 @@ TODO list for balancing-chemical-equations
 HIGH PRIORITY
 
 MEDIUM PRIORITY
-- add a title bar to game popups
 - Game: rewrite GameScoreBoardNode to use Property<T>
 - Game: rewrite GameTimer to use Property<T>
 - Game: generalize GameRewardNode and migrate to games project
