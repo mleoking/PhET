@@ -35,6 +35,16 @@ import edu.colorado.phet.balancingchemicalequations.model.Molecule.SMolecule;
  */
 public abstract class SynthesisEquation extends Equation {
 
+    /*
+     * Convenience constructor.
+     *
+     * @param r1 balanced coefficient for reactant1
+     * @param reactant1
+     * @param r2 balanced coefficient for reactant2
+     * @param reactant2
+     * @param p1 balanced coefficient for product1
+     * @param product1
+     */
     private SynthesisEquation( int r1, Molecule reactant1, int r2, Molecule reactant2, int p1, Molecule product1 ) {
         super( new EquationTerm[] { new EquationTerm( r1, reactant1 ), new EquationTerm( r2, reactant2 ) }, new EquationTerm[] { new EquationTerm( p1, product1 ) } );
     }
@@ -96,7 +106,7 @@ public abstract class SynthesisEquation extends Equation {
 
         @Override
         public String getName() {
-            return BCEStrings.MAKE_AMMONIA;
+            return BCEStrings.MAKE_AMMONIA; // this equation has a fancy name
         }
     }
 
