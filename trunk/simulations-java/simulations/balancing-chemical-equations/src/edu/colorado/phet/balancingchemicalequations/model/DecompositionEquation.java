@@ -50,8 +50,8 @@ public abstract class DecompositionEquation extends Equation {
     }
 
     // 2 H2O -> 2 H2 + O2
-    public static class Equation_2H2O_2H2_O2 extends DecompositionEquation {
-        public Equation_2H2O_2H2_O2() {
+    public static class Decomposition_2H2O_2H2_O2 extends DecompositionEquation {
+        public Decomposition_2H2O_2H2_O2() {
             super( 2, new H2O(), 2, new H2(), 1, new O2() );
         }
 
@@ -62,78 +62,78 @@ public abstract class DecompositionEquation extends Equation {
     }
 
     // 2 HCl -> H2 + Cl2
-    public static class Equation_2HCl_H2_Cl2 extends DecompositionEquation {
-        public Equation_2HCl_H2_Cl2() {
+    public static class Decomposition_2HCl_H2_Cl2 extends DecompositionEquation {
+        public Decomposition_2HCl_H2_Cl2() {
             super( 2, new HCl(), 1, new H2(), 1, new Cl2() );
         }
     }
 
     // CH3OH -> CO + 2 H2
-    public static class Equation_CH3OH_CO_2H2 extends DecompositionEquation {
-        public Equation_CH3OH_CO_2H2() {
+    public static class Decomposition_CH3OH_CO_2H2 extends DecompositionEquation {
+        public Decomposition_CH3OH_CO_2H2() {
             super( 1, new CH3OH(), 1, new CO(), 2, new H2() );
         }
     }
 
     // C2H6 -> C2H4 + H2
-    public static class Equation_C2H6_C2H4_H2 extends DecompositionEquation {
-        public Equation_C2H6_C2H4_H2() {
+    public static class Decomposition_C2H6_C2H4_H2 extends DecompositionEquation {
+        public Decomposition_C2H6_C2H4_H2() {
             super( 1, new C2H6(), 1, new C2H4(), 1, new H2() );
         }
     }
 
     // 2 CO2 -> 2 CO + O2
-    public static class Equation_2CO2_2CO_O2 extends DecompositionEquation {
-        public Equation_2CO2_2CO_O2() {
+    public static class Decomposition_2CO2_2CO_O2 extends DecompositionEquation {
+        public Decomposition_2CO2_2CO_O2() {
             super( 2, new CO2(), 2, new CO(), 1, new O2() );
         }
     }
 
     // 2 CO -> C + CO2
-    public static class Equation_2CO_C_CO2 extends DecompositionEquation {
-        public Equation_2CO_C_CO2() {
+    public static class Decomposition_2CO_C_CO2 extends DecompositionEquation {
+        public Decomposition_2CO_C_CO2() {
             super( 2, new CO(), 1, new CMolecule(), 1, new CO2() );
         }
     }
 
     // 2 NH3 -> N2 + 3 H2
-    public static class Equation_2NH3_N2_3H2 extends DecompositionEquation {
-        public Equation_2NH3_N2_3H2() {
+    public static class Decomposition_2NH3_N2_3H2 extends DecompositionEquation {
+        public Decomposition_2NH3_N2_3H2() {
             super( 2, new NH3(), 1, new N2(), 3, new H2() );
         }
     }
 
     // 2 NO -> N2 + O2
-    public static class Equation_2NO_N2_O2 extends DecompositionEquation {
-        public Equation_2NO_N2_O2() {
+    public static class Decomposition_2NO_N2_O2 extends DecompositionEquation {
+        public Decomposition_2NO_N2_O2() {
             super( 2, new NO(), 1, new N2(), 1, new O2() );
         }
     }
 
     // 2 NO2 -> 2 NO + O2
-    public static class Equation_2NO2_2NO_O2 extends DecompositionEquation {
-        public Equation_2NO2_2NO_O2() {
+    public static class Decomposition_2NO2_2NO_O2 extends DecompositionEquation {
+        public Decomposition_2NO2_2NO_O2() {
             super( 2, new NO2(), 2, new NO(), 1, new O2() );
         }
     }
 
     // 4 PCl3 -> P4 + 6 Cl2
-    public static class Equation_4PCl3_P4_6Cl2 extends DecompositionEquation {
-        public Equation_4PCl3_P4_6Cl2() {
+    public static class Decomposition_4PCl3_P4_6Cl2 extends DecompositionEquation {
+        public Decomposition_4PCl3_P4_6Cl2() {
             super( 4, new PCl3(), 1, new P4(), 6, new Cl2() );
         }
     }
 
     // PCl5 -> PCl3 + Cl2
-    public static class Equation_PCl5_PCl3_Cl2 extends DecompositionEquation {
-        public Equation_PCl5_PCl3_Cl2() {
+    public static class Decomposition_PCl5_PCl3_Cl2 extends DecompositionEquation {
+        public Decomposition_PCl5_PCl3_Cl2() {
             super( 1, new PCl5(), 1, new PCl3(), 1, new Cl2() );
         }
     }
 
     // 2 SO3 -> 2 SO2 + O2
-    public static class Equation_2SO3_2SO2_O2 extends DecompositionEquation {
-        public Equation_2SO3_2SO2_O2() {
+    public static class Decomposition_2SO3_2SO2_O2 extends DecompositionEquation {
+        public Decomposition_2SO3_2SO2_O2() {
             super( 2, new SO3(), 2, new SO2(), 1, new O2() );
         }
     }
