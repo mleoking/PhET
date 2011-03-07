@@ -36,26 +36,22 @@ public class AverageAtomicMassIndicator extends PNode {
     private double minMass = 0; // In amu.
 
     public AverageAtomicMassIndicator( final IsotopeMixturesModel model ){
-
-        // Add the title.
-        // TODO: i18n
-        PText title = new PText("Average Atomic Mass"){{
-            setFont( new PhetFont(20, true) );
-        }};
-        addChild( title );
+        // Root node onto which all other nodes are added.  This is done so
+        // so that the root node can be offset at the end of construction in
+        // such a way that the (0,0) location will be in the upper left corner.
+        PNode rootNode = new PNode();
+        addChild( rootNode );
 
         // Add the bar that makes up "spine" of the indicator.
-        final double barOffsetY = title.getFullBoundsReference().getMaxY() + 40;
+        final double barOffsetY =  0;
         DoubleGeneralPath barShape = new DoubleGeneralPath( 0, 0 );
         barShape.lineTo( INDICATOR_WIDTH, 0 );
-        final PNode barNode = new PhetPPath( barShape.getGeneralPath(), new BasicStroke(3), Color.BLACK ){{
-            setOffset( 0, barOffsetY );
-        }};
-        addChild( barNode );
+        final PNode barNode = new PhetPPath( barShape.getGeneralPath(), new BasicStroke(3), Color.BLACK );
+        rootNode.addChild( barNode );
 
         // Add the layer where the tick marks will be maintained.
         final PNode tickMarkLayer = new PNode();
-        addChild( tickMarkLayer );
+        rootNode.addChild( tickMarkLayer );
 
         // Listen for changes to the list of possible isotopes and update the
         // tick marks when changes occur.
@@ -95,7 +91,7 @@ public class AverageAtomicMassIndicator extends PNode {
         // Add the moving readout.
         final PNode readoutPointer = new ReadoutPointer( model );
         readoutPointer.setOffset( barNode.getFullBoundsReference().getCenterX(), barOffsetY + 20 );
-        addChild( readoutPointer );
+        rootNode.addChild( readoutPointer );
 
         // Add a listener to position the moving readout in a location that
         // corresponds to the average atomic mass.
@@ -110,6 +106,10 @@ public class AverageAtomicMassIndicator extends PNode {
                 }
             }
         });
+
+        // Set the root node's offset so that the (0,0) location for this node
+        // is in the upper left.
+        rootNode.setOffset( 0, IsotopeTickMark.OVERALL_HEIGHT );
     }
 
     /**
@@ -124,25 +124,28 @@ public class AverageAtomicMassIndicator extends PNode {
     }
 
     /**
-     * Convenience class for creating tick marks.
+     * Convenience class for creating tick marks.  This includes both the
+     * actual mark and the label.
      */
     private static class IsotopeTickMark extends PNode {
 
         // Constants that control overall appearance, tweak as needed.
-        private static final double TICK_MARK_HEIGHT = 10;
+        public static final double OVERALL_HEIGHT = 40;
+        private static final double TICK_MARK_LINE_HEIGHT = 10;
+        private static final double TICK_MARK_LABEL_HEIGHT = OVERALL_HEIGHT - TICK_MARK_LINE_HEIGHT;
         private static final Stroke TICK_MARK_STROKE = new BasicStroke( 5 );
-        private static final Font LABEL_FONT = new PhetFont(18);
 
         public IsotopeTickMark( ImmutableAtom isotopeConfig ){
             // Create the tick mark itself.  It is positioned such that
             // (0,0) is the center of the mark.
-            DoubleGeneralPath shape = new DoubleGeneralPath( 0, -TICK_MARK_HEIGHT / 2 );
-            shape.lineTo( 0, TICK_MARK_HEIGHT / 2 );
+            DoubleGeneralPath shape = new DoubleGeneralPath( 0, -TICK_MARK_LINE_HEIGHT / 2 );
+            shape.lineTo( 0, TICK_MARK_LINE_HEIGHT / 2 );
             addChild( new PhetPPath(shape.getGeneralPath(), TICK_MARK_STROKE, Color.BLACK));
             // Create the label that goes above the tick mark.
             HTMLNode label = new HTMLNode( "<html><sup>" + isotopeConfig.getMassNumber() + "</sup>" + isotopeConfig.getSymbol() + "</html>" ){{
-                setFont( LABEL_FONT );
-                setOffset( -getFullBoundsReference().width / 2, -getFullBoundsReference().height - TICK_MARK_HEIGHT / 2 );
+                setFont( new PhetFont() );
+                setScale( TICK_MARK_LABEL_HEIGHT / getFullBoundsReference().height );
+                setOffset( -getFullBoundsReference().width / 2, -getFullBoundsReference().height - TICK_MARK_LINE_HEIGHT / 2 );
             }};
             addChild( label );
         }
