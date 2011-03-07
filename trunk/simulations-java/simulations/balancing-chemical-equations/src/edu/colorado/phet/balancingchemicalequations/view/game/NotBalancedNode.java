@@ -39,11 +39,10 @@ public class NotBalancedNode extends GamePopupNode {
      * Constructor.
      *
      * @param equation the equation
-     * @param showChartsAndScalesInGame should we should the optional representation?
-     * @param balancedRepresentation which optional representation should we show?
+     * @param balancedRepresentation which representation of "balanced" should we show?
      * @param aligner specifies horizontal layout, for aligning with other user-interface components
      */
-    public NotBalancedNode( final Equation equation, final boolean showChartsAndScalesInGame, final BalancedRepresentation balancedRepresentation, final HorizontalAligner aligner ) {
+    public NotBalancedNode( final Equation equation, final BalancedRepresentation balancedRepresentation, final HorizontalAligner aligner ) {
         super( false /* smile */, new Function1<PhetFont, PNode>() {
             public PNode apply( PhetFont font ) {
                 PNode parentNode = new PNode();
@@ -57,17 +56,16 @@ public class NotBalancedNode extends GamePopupNode {
                 textNode.setFont( font );
                 iconAndTextNode.addChild( textNode );
 
-                // optional balance scales or bar charts
+                // representation of "balanced"
                 PNode balanceRepresentationNode = null;
-                if ( showChartsAndScalesInGame ) {
-                    if ( balancedRepresentation != null ) {
-                        if ( balancedRepresentation == BalancedRepresentation.BALANCE_SCALES ) {
-                            balanceRepresentationNode = new BalanceScalesNode( new Property<Equation>( equation ), aligner );
-                        }
-                        else if ( balancedRepresentation == BalancedRepresentation.BAR_CHARTS ) {
-                            balanceRepresentationNode = new BarChartsNode( new Property<Equation>( equation ), aligner );
-                        }
-                    }
+                if ( balancedRepresentation == BalancedRepresentation.BALANCE_SCALES ) {
+                    balanceRepresentationNode = new BalanceScalesNode( new Property<Equation>( equation ), aligner );
+                }
+                else if ( balancedRepresentation == BalancedRepresentation.BAR_CHARTS ) {
+                    balanceRepresentationNode = new BarChartsNode( new Property<Equation>( equation ), aligner );
+                }
+                else {
+                    // BalancedRepresentation.NONE, show nothing
                 }
 
                 // layout: icon to left of text, optional bar charts or balance scales centered underneath
@@ -102,7 +100,7 @@ public class NotBalancedNode extends GamePopupNode {
             term.setUserCoefficient( 15 );
         }
 
-        NotBalancedNode node = new NotBalancedNode( equation, true, BalancedRepresentation.BAR_CHARTS, new HorizontalAligner( new Dimension( 475, 400 ), 90 ) );
+        NotBalancedNode node = new NotBalancedNode( equation, BalancedRepresentation.BAR_CHARTS, new HorizontalAligner( new Dimension( 475, 400 ), 90 ) );
         node.setOffset( 20, 200 );
         canvas.addWorldChild( node );
 
