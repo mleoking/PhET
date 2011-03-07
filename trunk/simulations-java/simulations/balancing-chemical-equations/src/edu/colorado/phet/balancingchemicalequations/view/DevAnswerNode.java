@@ -11,6 +11,7 @@ import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 
 /**
  * Debug node that shows the balanced equation.
+ * No i18n is required, since this is only visible to developers.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

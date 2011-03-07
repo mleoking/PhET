@@ -9,7 +9,10 @@ import edu.colorado.phet.balancingchemicalequations.model.EquationTerm;
 
 /**
  * Encapsulates the strategy used to horizontally aligning terms in an equation
- * with columns of molecules in the "boxes" view.
+ * with columns of molecules in the "boxes" view.  Base on knowledge of the
+ * size and separation of the boxes, we determine the x-axis offset for each
+ * term in the equation.  This offset is relative to a local coordinate system
+ * where the origin is at (0,0).
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -20,7 +23,7 @@ public class HorizontalAligner {
 
     /**
      * Constructor.
-     * @param boxWidth width of one of the 2 boxes
+     * @param boxWidth width of one of the 2 boxes (both boxes are assumed to be the same size)
      * @param boxSeparation horizontal separation between the left and right boxes
      */
     public HorizontalAligner( Dimension boxSize, double boxSeparation ) {

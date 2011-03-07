@@ -13,7 +13,7 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
- * Model for the "Balance Equation" module.
+ * Model for the "Introduction" module.
  * This model has a small set of equations, one of which is the current equation that we're operating on.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)

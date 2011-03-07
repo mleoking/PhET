@@ -8,7 +8,7 @@ import edu.colorado.phet.balancingchemicalequations.BCEStrings;
 import edu.colorado.phet.balancingchemicalequations.model.BCEClock;
 
 /**
- * The "Balance Equation" module.
+ * The "Introduction" module.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

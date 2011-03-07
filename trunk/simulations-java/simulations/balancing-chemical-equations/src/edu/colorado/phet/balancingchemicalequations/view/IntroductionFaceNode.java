@@ -8,16 +8,16 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.nodes.FaceNode;
 
 /**
- * Face node used in the "Balance Equation" module to indicate when the equation is balanced.
+ * Face node used in the "Introduction" module to indicate when the equation is balanced.
  * The face is always a smiley, but is visible only when the equation is balanced.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class BalanceEquationFaceNode extends FaceNode {
+public class IntroductionFaceNode extends FaceNode {
 
     private Equation equation;
 
-    public BalanceEquationFaceNode( final Property<Equation> currentEquationProperty ) {
+    public IntroductionFaceNode( final Property<Equation> currentEquationProperty ) {
         super( 120 );
         smile();
 

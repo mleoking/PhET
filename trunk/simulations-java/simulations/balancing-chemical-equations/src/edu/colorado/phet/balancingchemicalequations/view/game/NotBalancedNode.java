@@ -27,27 +27,37 @@ import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
 
 /**
- * Indicator that equation is not balanced, by any definition of balanced.
- * Frowny face, big "X" and text.
+ * Indicator that an equation is not balanced, by any definition of balanced.
+ * This looks like a dialog, and contains a frowny face, big "X" for "not balanced".
  * Optionally displays a bar chart or balance scale.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class NotBalancedNode extends GameResultNode {
 
+    /**
+     * Constructor.
+     *
+     * @param equation the equation
+     * @param showChartsAndScalesInGame should we should the optional representation?
+     * @param balancedRepresentation which optional representation should we show?
+     * @param aligner specifies horizontal layout, for aligning with other user-interface components
+     */
     public NotBalancedNode( final Equation equation, final boolean showChartsAndScalesInGame, final BalancedRepresentation balancedRepresentation, final HorizontalAligner aligner ) {
         super( false /* smile */, new Function1<PhetFont, PNode>() {
             public PNode apply( PhetFont font ) {
                 PNode parentNode = new PNode();
 
+                // icon and text
                 PNode iconAndTextNode = new PNode();
                 parentNode.addChild( iconAndTextNode );
-
                 PImage iconNode = new PImage( BCEResources.getImage( "Heavy-Ballot-X-u2718.png" ) );
                 iconAndTextNode.addChild( iconNode );
-
                 PText textNode = new PText( BCEStrings.NOT_BALANCED );
                 textNode.setFont( font );
                 iconAndTextNode.addChild( textNode );
 
+                // optional balance scales or bar charts
                 PNode balanceRepresentationNode = null;
                 if ( showChartsAndScalesInGame ) {
                     if ( balancedRepresentation != null ) {
@@ -60,7 +70,7 @@ public class NotBalancedNode extends GameResultNode {
                     }
                 }
 
-                // layout: icon to left of text, optional bar charts or balance scales center underneath
+                // layout: icon to left of text, optional bar charts or balance scales centered underneath
                 iconNode.setOffset( 0, 0 );
                 double x = iconNode.getFullBoundsReference().getMaxX() + 2;
                 double y = iconNode.getFullBoundsReference().getCenterY() - ( textNode.getFullBoundsReference().getHeight() / 2 );

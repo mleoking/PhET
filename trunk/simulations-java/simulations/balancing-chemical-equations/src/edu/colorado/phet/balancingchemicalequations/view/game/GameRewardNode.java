@@ -62,15 +62,18 @@ public class GameRewardNode extends PhetPNode {
     private static final int DEFAULT_CLOCK_DELAY = 60; // ms
     private static final double FACE_DIAMETER = 40; // size of smiley face images
 
-    private final ConstantDtClock clock;
+    private final ConstantDtClock clock; // clock that controls the animation
+
+    // types of images
     private final Image faceImage;
     private final ArrayList<Image> atomImages;
     private final ArrayList<Image> moleculeImages;
-    private final ArrayList<Image> imagePool;
 
-    private int population;
-    private int motionDelta;
-    private IMotionStrategy motionStrategy;
+    private final ArrayList<Image> imagePool; // images currently in use by the animation
+
+    private int population; // number of images in the animation
+    private int motionDelta; // nominal motion of each image
+    private IMotionStrategy motionStrategy; // type of motion
 
     /**
      * An image node that has an associated motion delta.
@@ -121,7 +124,7 @@ public class GameRewardNode extends PhetPNode {
         this.clock = new ConstantDtClock( DEFAULT_CLOCK_DELAY, 1 );
         this.clock.pause();
 
-        // images list, includes everything by default
+        // images
         {
             // atoms
             atomImages = new ArrayList<Image>();
@@ -175,7 +178,7 @@ public class GameRewardNode extends PhetPNode {
             FaceNode faceNode = new FaceNode( FACE_DIAMETER );
             faceImage = faceNode.toImage();
 
-            // image pool
+            // image pool, images that are in use by the animation
             imagePool = new ArrayList<Image>();
         }
 
@@ -235,14 +238,15 @@ public class GameRewardNode extends PhetPNode {
             }
         }
         else {
+            // In case we ever decide to show something for imperfect scores...
+            // These settings give the feeling of slow and not exciting.
+            setClockDelay( 40 );
+            setPopulation( 50 );
+            setMotionDelta( 2 );
             // show nothing
             setAtomsVisible( false );
             setMoleculesVisible( false );
             setSmileyFacesVisible( false );
-            // these settings give the feeling of slow and not exciting, included in case we ever decide to show something
-            setClockDelay( 40 );
-            setPopulation( 50 );
-            setMotionDelta( 2 );
         }
     }
 
@@ -358,7 +362,7 @@ public class GameRewardNode extends PhetPNode {
     }
 
     /*
-     * Updates them images to match to the current population.
+     * Updates the image nodes to match the current population.
      * If removeImages is true, all existing nodes are removed.
      * Otherwise, nodes are added/removed to match the population.
      * The last node added is the first one removed.
@@ -509,7 +513,7 @@ public class GameRewardNode extends PhetPNode {
 
     /**
      * This application was provided to team members so that they could experiment with settings.
-     * During one stage of development, it was published to dev as flavor "game-rewards-prototype".
+     * During one stage of development, it was published to dev as flavor "test-game-reward".
      */
     public static void main( String[] args ) {
 

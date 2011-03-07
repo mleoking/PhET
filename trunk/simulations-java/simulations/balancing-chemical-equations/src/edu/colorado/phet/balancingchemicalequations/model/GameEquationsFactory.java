@@ -126,10 +126,10 @@ public class GameEquationsFactory {
 
     /**
      * Creates a set of equations to be used in the game.
-     * @param numberOfProblems
+     * @param numberOfEquations
      * @param level 1-N
      */
-    public Equation[] createProblemSet( int numberOfProblems, int level ) {
+    public Equation[] createEquations( int numberOfEquations, int level ) {
         if ( level < 1 || level > LEVEL_LISTS.size() ) {
             throw new IllegalArgumentException( "unsupported level: " + level );
         }
@@ -137,22 +137,22 @@ public class GameEquationsFactory {
             return createAllEquations( level );
         }
         else {
-            return createNEquations( numberOfProblems, level );
+            return createNEquations( numberOfEquations, level );
         }
     }
 
     /*
      * Creates a set of equations to be used in the game.
-     * The set will contain no duplicates if numberOfProblems <= the number of equations for the level.
-     * @param numberOfProblems
+     * The set will contain no duplicates if numberOfEquations <= the number of equations for the level.
+     * @param numberOfEquations
      * @param level 1, 2 or 3
      */
-    private Equation[] createNEquations( int numberOfProblems, int level ) {
+    private Equation[] createNEquations( int numberOfEquations, int level ) {
         ArrayList<Class<? extends Equation>> equationClasses = new ArrayList<Class<? extends Equation>>();
-        for ( int i = 0; i < numberOfProblems; i++ ) {
+        for ( int i = 0; i < numberOfEquations; i++ ) {
             equationClasses.add( getRandomEquationClass( level, equationClasses ) );
         }
-        assert ( equationClasses.size() == numberOfProblems );
+        assert ( equationClasses.size() == numberOfEquations );
 
         Equation[] equations = new Equation[equationClasses.size()];
         for ( int i = 0; i < equations.length; i++ ) {
@@ -178,8 +178,8 @@ public class GameEquationsFactory {
 
     /*
      * Creates a random equation class for a specified level.
-     * Will not select a class that is already in the problem set, unless the problem set
-     * already contains all possible problems.
+     * Will not select a class that is already in the equation set, unless the equation set
+     * already contains all possible equations for the level.
      */
     private Class<? extends Equation> getRandomEquationClass( int level, ArrayList<Class<? extends Equation>> equationClasses ) {
 
@@ -187,7 +187,7 @@ public class GameEquationsFactory {
         int equationIndex = getRandomEquationIndex( level );
         Class<? extends Equation> equationClass = getEquationClass( level, equationIndex );
 
-        // If this is a duplicate, find the next one that's not in the problem set.
+        // If this is a duplicate, find the next one that's not in the equation set.
         final int originalIndex = equationIndex;
         while ( equationClasses.contains( equationClass ) ) {
             equationIndex = getNextEquationIndex( level, equationIndex );
@@ -263,7 +263,7 @@ public class GameEquationsFactory {
         GameEquationsFactory factory = new GameEquationsFactory( new Property<Boolean>( false ) );
         for ( int level = 1; level < 4; level++ ) {
             System.out.println( "LEVEL " + level );
-            Equation[] equations = factory.createProblemSet( 5, level );
+            Equation[] equations = factory.createEquations( 5, level );
             for ( Equation equation : equations ) {
                 System.out.println( equation.getName() );
             }

@@ -160,7 +160,7 @@ public class BarNode extends PComposite {
         }
     }
 
-    // Test cases
+    // test
     public static void main( String[] args ) {
 
         final int numberOfAtoms = 0;

@@ -26,7 +26,9 @@ import edu.colorado.phet.balancingchemicalequations.model.Molecule.SO3;
 
 /**
  * Base class for decomposition equations.
+ * In a decomposition reaction, a more complex substance breaks down into its more simple parts.
  * All decomposition equations in this sim have 1 reactant and 2 products.
+ * <p>
  * This base class adds no new functionality to Equation, it simply provides a more convenient constructor.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)

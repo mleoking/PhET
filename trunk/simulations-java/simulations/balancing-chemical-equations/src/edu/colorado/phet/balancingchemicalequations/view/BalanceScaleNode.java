@@ -24,6 +24,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  * A balance scale, depicts the relationship between the atom count
  * on the left and right side of an equation.
  * <p>
+ * The 2 main parts of a balance scale are the fulcrum and the beam.
  * Origin is at the tip of the fulcrum.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)

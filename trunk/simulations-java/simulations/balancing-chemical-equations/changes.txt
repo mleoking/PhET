@@ -1,3 +1,4 @@
+3/7/11 code doc
 3/7/11 change "actual coefficient" to "user coefficient" in code, to match terminology in model.txt
 3/7/11 differentiate between synthesis and displacement reactions in the Equation class hierarchy
 3/7/11 revise model.txt based on KL's feedback
