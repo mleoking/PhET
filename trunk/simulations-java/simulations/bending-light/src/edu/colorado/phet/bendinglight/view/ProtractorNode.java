@@ -5,20 +5,21 @@ import java.awt.*;
 import java.awt.geom.*;
 import java.awt.image.BufferedImage;
 
-import edu.colorado.phet.bendinglight.BendingLightApplication;
 import edu.colorado.phet.bendinglight.modules.intro.ToolboxNode;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.Function2;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
-import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PDimension;
+
+import static edu.colorado.phet.bendinglight.BendingLightApplication.RESOURCES;
+import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.multiScaleToHeight;
 
 /**
  * @author Sam Reid
@@ -35,7 +36,7 @@ public class ProtractorNode extends ToolboxNode.DoDragNode {
         this.scale = scale;
         this.transform = transform;
         this.protractorModel = protractorModel;
-        image = newProtractorImage( 250 );
+        image = RESOURCES.getImage( "protractor.png" );
         final PImage imageNode = new PImage( image ) {{
             showProtractor.addObserver( new SimpleObserver() {
                 public void update() {
@@ -101,7 +102,7 @@ public class ProtractorNode extends ToolboxNode.DoDragNode {
     }
 
     public static BufferedImage newProtractorImage( int height ) {
-        return BufferedImageUtils.multiScaleToHeight( BendingLightApplication.RESOURCES.getImage( "protractor.png" ), height );
+        return multiScaleToHeight( RESOURCES.getImage( "protractor.png" ), height );
     }
 
     public void doDrag( PInputEvent event ) {
