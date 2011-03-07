@@ -89,6 +89,32 @@ public class AtomIdentifier {
             add( new Isotope( 20, 10 ) );
             add( new Isotope( 21, 11 ) );
             add( new Isotope( 22, 12 ) );
+            // Na
+            add( new Isotope( 23, 12 ) );
+            // Mg
+            add( new Isotope( 24, 12 ) );
+            add( new Isotope( 25, 13 ) );
+            add( new Isotope( 26, 14 ) );
+            // Al
+            add( new Isotope( 27, 14 ) );
+            // Si
+            add( new Isotope( 28, 14 ) );
+            add( new Isotope( 29, 15 ) );
+            add( new Isotope( 30, 16 ) );
+            // P
+            add( new Isotope( 31, 16 ) );
+            // S
+            add( new Isotope( 32, 16 ) );
+            add( new Isotope( 33, 17 ) );
+            add( new Isotope( 34, 18 ) );
+            add( new Isotope( 36, 20 ) );
+            // Cl
+            add( new Isotope( 35, 18 ) );
+            add( new Isotope( 37, 20 ) );
+            // Ar
+            add( new Isotope( 36, 18 ) );
+            add( new Isotope( 38, 20 ) );
+            add( new Isotope( 40, 22 ) );
         }
     };
 
