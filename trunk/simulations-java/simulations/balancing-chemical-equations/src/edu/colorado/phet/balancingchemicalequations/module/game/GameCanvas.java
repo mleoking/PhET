@@ -150,9 +150,9 @@ public class GameCanvas extends BCECanvas {
         answerNode.setVisible( globalProperties.showAnswers.getValue() );
 
         // rendering order
-        addChild( gameRewardNode );
-        addChild( gameSettingsNode );
-        addChild( gamePlayParentNode );
+        addWorldChild( gameRewardNode );
+        addWorldChild( gameSettingsNode );
+        addWorldChild( gamePlayParentNode );
         gamePlayParentNode.addChild( equationLabelNode );
         gamePlayParentNode.addChild( equationNode );
         gamePlayParentNode.addChild( boxesNode );
@@ -506,7 +506,7 @@ public class GameCanvas extends BCECanvas {
 
         // remove the old node
         if ( gameOverNode != null ) {
-            removeChild( gameOverNode );
+            removeWorldChild( gameOverNode );
             gameOverNode.removeGameOverListener( newGameButtonListener );
             gameOverNode = null;
         }
@@ -516,15 +516,13 @@ public class GameCanvas extends BCECanvas {
         gameOverNode = new GameOverNode( level, model.points.getValue(), model.getPerfectScore(), new DecimalFormat( "0" ),
                 model.timer.time.getValue(), model.getBestTime( level ), model.isNewBestTime(), model.settings.timerEnabled.getValue() );
         gameOverNode.scale( BCEConstants.SWING_SCALE );
-        addChild( gameOverNode );
+        addWorldChild( gameOverNode );
 
         // listen for "New Game" button press
         gameOverNode.addGameOverListener( newGameButtonListener );
 
         // layout, centered
-        double x = gamePlayParentNode.getFullBoundsReference().getCenterX() - ( gameOverNode.getFullBoundsReference().getWidth() / 2 );
-        double y = gamePlayParentNode.getFullBoundsReference().getCenterY() - ( gameOverNode.getFullBoundsReference().getHeight() / 2 );
-        gameOverNode.setOffset( x, y );
+        centerNode( gameOverNode );
     }
 
     /*
@@ -542,9 +540,15 @@ public class GameCanvas extends BCECanvas {
         super.updateLayout();
         Dimension2D worldSize = getWorldSize();
         if ( worldSize.getWidth() > 0 && worldSize.getHeight() > 0 ) {
+
             // make the reward animation fill the play area
             PBounds newBounds = new PBounds( 0, 0, worldSize.getWidth(), worldSize.getHeight() );
             gameRewardNode.setBounds( newBounds );
+
+            // center top-level nodes
+            centerNode( gameSettingsNode );
+            centerNode( gameOverNode );
+            centerNode( gamePlayParentNode );
         }
     }
 }
