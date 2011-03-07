@@ -149,10 +149,12 @@ public class GameCanvas extends BCECanvas {
         final DevAnswerNode answerNode = new DevAnswerNode( model.currentEquation );
         answerNode.setVisible( globalProperties.showAnswers.getValue() );
 
-        // rendering order
+        // add top-level stuff to world so that we have centering control
         addWorldChild( gameRewardNode );
         addWorldChild( gameSettingsNode );
         addWorldChild( gamePlayParentNode );
+
+        // game play, rendering order
         gamePlayParentNode.addChild( equationLabelNode );
         gamePlayParentNode.addChild( equationNode );
         gamePlayParentNode.addChild( boxesNode );
