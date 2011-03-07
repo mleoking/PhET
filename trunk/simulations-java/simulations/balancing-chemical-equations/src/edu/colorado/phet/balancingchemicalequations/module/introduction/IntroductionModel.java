@@ -10,7 +10,6 @@ import edu.colorado.phet.balancingchemicalequations.model.Equation;
 import edu.colorado.phet.balancingchemicalequations.model.SynthesisEquation.Synthesis_N2_3H2_2NH3;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
  * Model for the "Introduction" module.
@@ -22,8 +21,10 @@ public class IntroductionModel {
 
     private static final IntegerRange COEFFICENTS_RANGE = new IntegerRange( 0, 3 );
 
+    // properties directly accessible by clients
+    public final Property<Equation> currentEquation;
+
     private final ArrayList<Equation> equations;
-    private Property<Equation> currentEquationProperty;
 
     public IntroductionModel() {
         equations = new ArrayList<Equation>() {{
@@ -31,14 +32,14 @@ public class IntroductionModel {
             add( new Decomposition_2H2O_2H2_O2() );
             add( new Displacement_CH4_2O2_CO2_2H2O() );
         }};
-        currentEquationProperty = new Property<Equation>( equations.get( 0 ) );
+        currentEquation = new Property<Equation>( equations.get( 0 ) );
     }
 
     public void reset() {
         for ( Equation equation : equations ) {
             equation.reset();
         }
-        currentEquationProperty.reset();
+        currentEquation.reset();
     }
 
     public IntegerRange getCoefficientsRange() {
@@ -47,28 +48,5 @@ public class IntroductionModel {
 
     public ArrayList<Equation> getEquations() {
         return equations;
-    }
-
-    public void setCurrentEquation( Equation equation ) {
-        if ( !equations.contains( equation ) ) {
-            throw new IllegalArgumentException( "equation is not part of this model: " + equation );
-        }
-        currentEquationProperty.setValue( equation );
-    }
-
-    public Equation getCurrentEquation() {
-        return currentEquationProperty.getValue();
-    }
-
-    public Property<Equation> getCurrentEquationProperty() {
-        return currentEquationProperty;
-    }
-
-    public void addCurrentEquationObserver( SimpleObserver o ) {
-        currentEquationProperty.addObserver( o );
-    }
-
-    public void removeCurrentEquationObserver( SimpleObserver o ) {
-        currentEquationProperty.removeObserver( o );
     }
 }

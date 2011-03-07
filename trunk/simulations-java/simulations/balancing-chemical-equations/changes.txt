@@ -1,3 +1,7 @@
+3/7/11 cleanup game factory, change game problems from Equation[] to ArrayList<Equation>
+3/7/11 make properties public final in IntroductionModel
+3/7/11 delete accessors for currentEquation property in GameModel, use public access
+3/7/11 rename GameResultNode to GamePopupNode, since that's what team members call it
 3/7/11 rename concrete equations to indicate subtype, useful for reading equations list in game factory
 3/7/11 delete Equation.isAllCoefficientsZero, this is not needed since it's included in isBalanced
 3/7/11 change terminology in code from "balanced with lowest coefficients" to "balanced and simplified", to match model.txt and user interface

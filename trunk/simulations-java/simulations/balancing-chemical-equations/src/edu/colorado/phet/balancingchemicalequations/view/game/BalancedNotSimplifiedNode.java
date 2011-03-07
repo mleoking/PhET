@@ -16,7 +16,7 @@ import edu.umd.cs.piccolo.nodes.PText;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class BalancedNotSimplifiedNode extends GameResultNode {
+public class BalancedNotSimplifiedNode extends GamePopupNode {
 
     public BalancedNotSimplifiedNode() {
         super( false /* smile */, new Function1<PhetFont, PNode>() {

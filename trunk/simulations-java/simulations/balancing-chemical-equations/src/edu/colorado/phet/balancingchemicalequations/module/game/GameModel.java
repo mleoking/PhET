@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.balancingchemicalequations.module.game;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import edu.colorado.phet.balancingchemicalequations.BCEGlobalProperties;
@@ -43,12 +44,16 @@ public class GameModel {
     private final GameEquationsFactory equationsFactory; // generates problem sets
     private final HashMap<Integer,Long> bestTimes; // best times, maps level to time in ms
 
-    private Equation[] equations; // the current set of equations to be balanced
-    private int equationIndex; // index of the equation that the user is working on
+    private ArrayList<Equation> equations; // the current set of equations to be balanced
+    private int currentEquationIndex; // index of the current equation that the user is working on
     private int attempts; // how many attempts the user has made at solving the current challenge
     private boolean isNewBestTime; // is the time for this game a new best time?
     private boolean isGameCompleted; // was the game played to completion?
 
+    /**
+     * Constructor
+     * @param globalProperties global properties, many of which are accessed via the menu bar
+     */
     public GameModel( final BCEGlobalProperties globalProperties ) {
         state = new Property<GameState>( GameState.START_GAME );
         points = new Property<Integer>( 0 );
@@ -60,8 +65,8 @@ public class GameModel {
         }
         timer = new GameTimer( new BCEClock() );
         equations = equationsFactory.createEquations( EQUATIONS_PER_GAME, settings.level.getValue() ); // needs to be non-null after initialization
-        equationIndex = 0;
-        currentEquation = new Property<Equation>( equations[equationIndex] );
+        currentEquationIndex = 0;
+        currentEquation = new Property<Equation>( equations.get( currentEquationIndex ) );
     }
 
     /**
@@ -69,13 +74,13 @@ public class GameModel {
      */
     public void startGame() {
         equations = equationsFactory.createEquations( EQUATIONS_PER_GAME, settings.level.getValue() );
-        equationIndex = 0;
+        currentEquationIndex = 0;
         attempts = 0;
         isNewBestTime = false;
         isGameCompleted = false;
         timer.start();
         points.setValue( 0 );
-        setCurrentEquation( equations[equationIndex] );
+        currentEquation.setValue( equations.get( currentEquationIndex ) );
         state.setValue( GameState.CHECK );
     }
 
@@ -84,7 +89,7 @@ public class GameModel {
      */
     public void check() {
         attempts++;
-        if ( equations[equationIndex].isBalancedAndSimplified() ) {
+        if ( currentEquation.getValue().isBalancedAndSimplified() ) {
 
             // award points
             if ( attempts == 1 ) {
@@ -95,14 +100,14 @@ public class GameModel {
             }
 
             // end the game
-            if ( equationIndex == equations.length - 1 ) {
+            if ( currentEquationIndex == equations.size() - 1 ) {
                 timer.stop();
                 isGameCompleted = true;
                 // check for new best time
                 long previousBestTime = getBestTime( settings.level.getValue() );
                 if ( isPerfectScore() && ( previousBestTime == 0 || timer.time.getValue() < previousBestTime ) ) {
                     isNewBestTime = true;
-                    setBestTime( settings.level.getValue(), timer.time.getValue() );
+                    bestTimes.put( settings.level.getValue(), timer.time.getValue() );
                 }
             }
 
@@ -134,10 +139,10 @@ public class GameModel {
      * Called when the user presses the "Next" button.
      */
     public void next() {
-        if ( equationIndex < equations.length - 1 ) {
+        if ( currentEquationIndex < equations.size() - 1 ) {
             attempts = 0;
-            equationIndex++;
-            setCurrentEquation( equations[equationIndex] );
+            currentEquationIndex++;
+            currentEquation.setValue( equations.get( currentEquationIndex ) );
             state.setValue( GameState.CHECK );
         }
         else {
@@ -150,18 +155,6 @@ public class GameModel {
      */
     public void newGame() {
         state.setValue( GameState.START_GAME );
-    }
-
-    private void setCurrentEquation( Equation equation ) {
-        currentEquation.setValue( equation );
-    }
-
-    public Equation getCurrentEquation() {
-        return currentEquation.getValue();
-    }
-
-    public Property<Equation> getCurrentEquationProperty() {
-        return currentEquation;
     }
 
     public boolean isNewBestTime() {
@@ -186,27 +179,23 @@ public class GameModel {
         return bestTime;
     }
 
-    private void setBestTime( int level, long time ) {
-        bestTimes.put( level, time );
-    }
-
     public IntegerRange getCoefficientsRange() {
         return COEFFICENTS_RANGE;
     }
 
-    public int getEquationIndex() {
-        return equationIndex;
+    public int getCurrentEquationIndex() {
+        return currentEquationIndex;
     }
 
     public int getNumberOfEquations() {
-        return equations.length;
+        return equations.size();
     }
 
-    public int getMaxScore() {
+    public int getPerfectScore() {
         return getNumberOfEquations() * POINTS_FIRST_ATTEMPT;
     }
 
     public boolean isPerfectScore() {
-        return points.getValue() == getMaxScore();
+        return points.getValue() == getPerfectScore();
     }
 }

@@ -33,7 +33,7 @@ import edu.umd.cs.piccolo.nodes.PText;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class NotBalancedNode extends GameResultNode {
+public class NotBalancedNode extends GamePopupNode {
 
     /**
      * Constructor.

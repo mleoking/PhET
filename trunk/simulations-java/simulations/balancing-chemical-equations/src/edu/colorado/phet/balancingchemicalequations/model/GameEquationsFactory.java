@@ -3,6 +3,7 @@
 package edu.colorado.phet.balancingchemicalequations.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import edu.colorado.phet.balancingchemicalequations.model.DecompositionEquation.Decomposition_2CO2_2CO_O2;
 import edu.colorado.phet.balancingchemicalequations.model.DecompositionEquation.Decomposition_2CO_C_CO2;
@@ -54,7 +55,7 @@ import edu.colorado.phet.common.phetcommon.model.Property;
 public class GameEquationsFactory {
 
     // Level 1
-    private static final ArrayList<Class <? extends Equation>> LEVEL1_LIST = new ArrayList<Class<? extends Equation>>() {{
+    private static final ArrayList<Class <? extends Equation>> LEVEL1_CLASSES = new ArrayList<Class<? extends Equation>>() {{
         add( Synthesis_2H2_O2_2H2O.class );
         add( Synthesis_H2_F2_2HF.class );
         add( Decomposition_2HCl_H2_Cl2.class );
@@ -79,7 +80,7 @@ public class GameEquationsFactory {
     }};
 
     // Level 2
-    private static final ArrayList<Class <? extends Equation>> LEVEL2_LIST = new ArrayList<Class<? extends Equation>>() {{
+    private static final ArrayList<Class <? extends Equation>> LEVEL2_CLASSES = new ArrayList<Class<? extends Equation>>() {{
         add( Displacement_2C_2H2O_CH4_CO2.class );
         add( Displacement_CH4_H2O_3H2_CO.class );
         add( Displacement_CH4_2O2_CO2_2H2O.class );
@@ -94,7 +95,7 @@ public class GameEquationsFactory {
     }};
 
     // Level 3
-    private static final ArrayList<Class <? extends Equation>>LEVEL3_LIST = new ArrayList<Class<? extends Equation>>() {{
+    private static final ArrayList<Class <? extends Equation>>LEVEL3_CLASSES = new ArrayList<Class<? extends Equation>>() {{
         add( Displacement_2C2H6_7O2_4CO2_6H2O.class );
         add( Displacement_2C2H2_5O2_4CO2_2H2O.class );
         add( Displacement_C2H5OH_3O2_2CO2_3H2O.class );
@@ -104,11 +105,11 @@ public class GameEquationsFactory {
         add( Displacement_4NH3_6NO_5N2_6H2O.class );
     }};
 
-    // list of lists, so we can use level as an index to the proper list
-    private static ArrayList< ArrayList<Class <? extends Equation>>> LEVEL_LISTS = new ArrayList<ArrayList<Class<? extends Equation>>>() {{
-        add( LEVEL1_LIST );
-        add( LEVEL2_LIST );
-        add( LEVEL3_LIST );
+    // map of game levels to lists of equation classes
+    private static HashMap< Integer, ArrayList<Class <? extends Equation>>> LEVEL_TO_CLASSES_MAP = new HashMap<Integer, ArrayList<Class<? extends Equation>>>() {{
+        put( 1, LEVEL1_CLASSES );
+        put( 2, LEVEL2_CLASSES );
+        put( 3, LEVEL3_CLASSES );
     }};
 
     /*
@@ -129,51 +130,50 @@ public class GameEquationsFactory {
      * @param numberOfEquations
      * @param level 1-N
      */
-    public Equation[] createEquations( int numberOfEquations, int level ) {
-        if ( level < 1 || level > LEVEL_LISTS.size() ) {
+    public ArrayList<Equation> createEquations( int numberOfEquations, int level ) {
+
+        // validate level
+        if ( !LEVEL_TO_CLASSES_MAP.containsKey( level ) ) {
             throw new IllegalArgumentException( "unsupported level: " + level );
         }
+
+        // get classes
+        ArrayList<Class<? extends Equation>> equationClasses = null;
         if ( playAllEquationsProperty.getValue() ) {
-            return createAllEquations( level );
+            equationClasses = getEquationClasses( level ); // gets all classes for the level
         }
         else {
-            return createNEquations( numberOfEquations, level );
+            equationClasses = getEquationClasses( level, numberOfEquations );
         }
+
+        // instantiate equations
+        ArrayList<Equation> equations = new ArrayList<Equation>();
+        for ( Class<? extends Equation> equationClass : equationClasses ) {
+            equations.add( instantiateEquation( equationClass ) );
+        }
+        return equations;
     }
 
     /*
-     * Creates a set of equations to be used in the game.
-     * The set will contain no duplicates if numberOfEquations <= the number of equations for the level.
+     * Gets all equation classes for a level.
+     */
+    private ArrayList<Class <? extends Equation>> getEquationClasses( int level ) {
+        return LEVEL_TO_CLASSES_MAP.get( level );
+    }
+
+    /*
+     * Gets a set of equation classes to be used in the game.
+     * The set will contain no duplicates if numberOfEquations <= the number of equation classes for the level.
      * @param numberOfEquations
      * @param level 1, 2 or 3
      */
-    private Equation[] createNEquations( int numberOfEquations, int level ) {
+    private ArrayList<Class<? extends Equation>> getEquationClasses( int level, int numberOfEquations ) {
         ArrayList<Class<? extends Equation>> equationClasses = new ArrayList<Class<? extends Equation>>();
         for ( int i = 0; i < numberOfEquations; i++ ) {
             equationClasses.add( getRandomEquationClass( level, equationClasses ) );
         }
         assert ( equationClasses.size() == numberOfEquations );
-
-        Equation[] equations = new Equation[equationClasses.size()];
-        for ( int i = 0; i < equations.length; i++ ) {
-            equations[i] = instantiateEquation( equationClasses.get( i ) );
-        }
-
-        return equations;
-    }
-
-    /*
-     * Creates a complete set of equations for a specified level.
-     * This is used for debugging in dev mode.
-     * @param level
-     */
-    private Equation[] createAllEquations( int level ) {
-        ArrayList<Class<? extends Equation>> equationClasses = LEVEL_LISTS.get( level - 1 );
-        Equation[] equations = new Equation[equationClasses.size()];
-        for ( int i = 0; i < equations.length; i++ ) {
-            equations[i] = instantiateEquation( equationClasses.get( i ) );
-        }
-        return equations;
+        return equationClasses;
     }
 
     /*
@@ -204,15 +204,15 @@ public class GameEquationsFactory {
     /*
      * Gets an Equation class for a specified level and index.
      */
-    private Class<? extends Equation> getEquationClass( int level, int reactionIndex ) {
-        return getEquationList( level ).get( reactionIndex );
+    private Class<? extends Equation> getEquationClass( int level, int equationIndex ) {
+        return getEquationClasses( level ).get( equationIndex );
     }
 
     /*
      * Gets the number of equations for a specified level.
      */
     private int getNumberOfEquations( int level ) {
-        return getEquationList( level ).size();
+        return getEquationClasses( level ).size();
     }
 
     /*
@@ -234,20 +234,12 @@ public class GameEquationsFactory {
     }
 
     /*
-     * Gets the list of equations for a level.
-     * Levels are numbered from 1-N, as in the model.
-     */
-    private ArrayList<Class <? extends Equation>> getEquationList( int level ) {
-        return LEVEL_LISTS.get( level - 1 );
-    }
-
-    /*
      * Uses reflection to instantiate an Equation by class.
      */
-    private static Equation instantiateEquation( Class<? extends Equation> c ) {
+    private static Equation instantiateEquation( Class<? extends Equation> equationClass ) {
         Equation equation = null;
         try {
-            equation = c.newInstance();
+            equation = equationClass.newInstance();
         }
         catch ( InstantiationException e ) {
             e.printStackTrace();
@@ -260,10 +252,10 @@ public class GameEquationsFactory {
 
     // test
     public static void main( String[] args ) {
-        GameEquationsFactory factory = new GameEquationsFactory( new Property<Boolean>( false ) );
+        GameEquationsFactory factory = new GameEquationsFactory( new Property<Boolean>( true ) );
         for ( int level = 1; level < 4; level++ ) {
             System.out.println( "LEVEL " + level );
-            Equation[] equations = factory.createEquations( 5, level );
+            ArrayList<Equation> equations = factory.createEquations( 5, level );
             for ( Equation equation : equations ) {
                 System.out.println( equation.getName() );
             }
