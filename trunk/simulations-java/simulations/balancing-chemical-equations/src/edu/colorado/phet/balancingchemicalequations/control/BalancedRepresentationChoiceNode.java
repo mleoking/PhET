@@ -23,6 +23,12 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  */
 public class BalancedRepresentationChoiceNode extends PhetPNode {
 
+    /**
+     * Constructor
+     *
+     * @param balanceChoiceProperty the property that denotes the current representation selection
+     * @param backgroundProperty color of the background
+     */
     public BalancedRepresentationChoiceNode( Property<BalancedRepresentation> balanceChoiceProperty, Property<Color> backgroundProperty ) {
         addChild( new PSwing( new BalanceChoicePanel( balanceChoiceProperty, backgroundProperty ) ) );
         scale( BCEConstants.SWING_SCALE ); // scale this control, setting font size for radio buttons doesn't increase button size on Mac

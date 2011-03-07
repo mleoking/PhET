@@ -25,7 +25,9 @@ import edu.colorado.phet.common.phetcommon.view.util.GridPanel.Anchor;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 /**
- * Developer control menu item for miscellaneous colors.
+ * Developer menu item for miscellaneous colors.
+ * This menu item opens a dialog box with color chips for each color that can be modified.
+ * No i18n is required.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -37,12 +39,15 @@ public class DeveloperColorsMenuItem extends JCheckBoxMenuItem {
     public DeveloperColorsMenuItem( final BCEGlobalProperties globalProperties ) {
         super( "Colors..." );
         this.globalProperties = globalProperties;
+
+        // the menu item was changed
         addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
                 handleColorsDialog();
             }
         });
 
+        // update the dialog if the canvas color changes
         globalProperties.canvasColor.addObserver( new SimpleObserver() {
             public void update() {
                 if ( dialog != null ) {
@@ -51,6 +56,7 @@ public class DeveloperColorsMenuItem extends JCheckBoxMenuItem {
             }
         } );
 
+         // update the dialog if the box color changes
         globalProperties.boxColor.addObserver( new SimpleObserver() {
             public void update() {
                 if ( dialog != null ) {
@@ -60,6 +66,9 @@ public class DeveloperColorsMenuItem extends JCheckBoxMenuItem {
         } );
     }
 
+    /*
+     * Open or close the dialog, depending on whether the menu item is selected.
+     */
     private void handleColorsDialog() {
         if ( isSelected() ) {
             dialog = new DeveloperColorsDialog( globalProperties );
@@ -82,6 +91,10 @@ public class DeveloperColorsMenuItem extends JCheckBoxMenuItem {
         }
     }
 
+    /*
+     * Dialog with color chips for each color that can be modified.
+     * No i18n is required.
+     */
     private static class DeveloperColorsDialog extends PaintImmediateDialog {
 
         private final ColorControl canvasColorControl, boxColorControl;
