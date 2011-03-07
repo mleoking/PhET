@@ -5,7 +5,7 @@ package edu.colorado.phet.balancingchemicalequations;
 import javax.swing.JMenu;
 import javax.swing.JSeparator;
 
-import edu.colorado.phet.balancingchemicalequations.control.BCEOptionMenu;
+import edu.colorado.phet.balancingchemicalequations.control.BCEOptionsMenu;
 import edu.colorado.phet.balancingchemicalequations.control.DeveloperColorsMenuItem;
 import edu.colorado.phet.balancingchemicalequations.module.game.GameModule;
 import edu.colorado.phet.balancingchemicalequations.module.introduction.IntroductionModule;
@@ -32,7 +32,7 @@ public class BalancingChemicalEquationsApplication extends PiccoloPhetApplicatio
         addModule( new GameModule( globalProperties ) );
 
         // Options menu
-        getPhetFrame().addMenu( new BCEOptionMenu( globalProperties ) );
+        getPhetFrame().addMenu( new BCEOptionsMenu( globalProperties ) );
 
         // Developer menu
         JMenu developerMenu = getPhetFrame().getDeveloperMenu();

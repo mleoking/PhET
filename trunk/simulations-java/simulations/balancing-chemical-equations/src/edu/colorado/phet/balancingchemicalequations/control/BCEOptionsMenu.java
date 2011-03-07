@@ -16,9 +16,9 @@ import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class BCEOptionMenu extends OptionsMenu {
+public class BCEOptionsMenu extends OptionsMenu {
 
-    public BCEOptionMenu( final BCEGlobalProperties globalProperties ) {
+    public BCEOptionsMenu( final BCEGlobalProperties globalProperties ) {
 
         // Show molecules (check box)
         final JCheckBoxMenuItem hideMoleculesMenuItem = new JCheckBoxMenuItem( BCEStrings.HIDE_MOLECULES, globalProperties.moleculesVisible.getValue() );
