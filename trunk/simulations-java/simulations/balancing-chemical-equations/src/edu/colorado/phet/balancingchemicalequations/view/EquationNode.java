@@ -97,6 +97,10 @@ public class EquationNode extends PhetPNode  {
         } );
     }
 
+    /**
+     * Controls whether the coefficients are editable (spinner) or read-only (labels).
+     * @param editable
+     */
     public void setEditable( boolean editable ) {
         if ( editable != this.editable ) {
             this.editable = editable;
@@ -106,10 +110,12 @@ public class EquationNode extends PhetPNode  {
         }
     }
 
-    public boolean isEditable() {
-        return editable;
-    }
-
+    /**
+     * Enables or disables the highlighting feature.
+     * When enabled, the arrow between the left and right sides of the equation will light up when the equation is balanced.
+     * This is enabled by default, but we want to disable in the Game until the user presses the "Check" button.
+     * @param enabled
+     */
     public void setBalancedHighlightEnabled( boolean enabled ) {
         if ( enabled != balancedHighlightEnabled ) {
             balancedHighlightEnabled = enabled;

@@ -41,7 +41,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  */
 public class BarNode extends PComposite {
 
-    private static final int MAX_NUMBER_OF_ATOMS = 12;
+    private static final int MAX_NUMBER_OF_ATOMS = 12; // arrow appears when this number is exceeded
     private static final PDimension MAX_BAR_SIZE = new PDimension( 40, 135 );
     private static final PDimension ARROW_SIZE = new PDimension( 1.5 * MAX_BAR_SIZE.getWidth(), 15 );
     private static final Stroke STROKE = new BasicStroke( 1.5f );
@@ -56,10 +56,6 @@ public class BarNode extends PComposite {
         update();
     }
 
-    public Atom getAtom() {
-        return atom;
-    }
-
     public void setNumberOfAtoms( int numberOfAtoms ) {
         if ( numberOfAtoms < 0 ) {
             throw new IllegalArgumentException( "numberOfAtoms must be >= 0: " + numberOfAtoms );
@@ -68,10 +64,6 @@ public class BarNode extends PComposite {
             this.numberOfAtoms = numberOfAtoms;
             update();
         }
-    }
-
-    public double getBarWidth() {
-        return MAX_BAR_SIZE.getWidth();
     }
 
     // update geometry to match numberOfAtoms

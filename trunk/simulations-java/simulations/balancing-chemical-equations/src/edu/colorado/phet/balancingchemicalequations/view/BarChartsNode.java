@@ -44,6 +44,11 @@ public class BarChartsNode extends PComposite {
     private Equation equation;
     private boolean balancedHighlightEnabled;
 
+    /**
+     * Constructor
+     * @param equationProperty the equation that the chart is representing
+     * @param aligner provides layout information to ensure horizontal alignment with other user-interface elements
+     */
     public BarChartsNode( final Property<Equation> equationProperty, HorizontalAligner aligner ) {
 
         this.aligner = aligner;
@@ -77,6 +82,12 @@ public class BarChartsNode extends PComposite {
         } );
     }
 
+    /**
+     * Enables or disables the highlighting feature.
+     * When enabled, the equals sign will light up when the equation is balanced.
+     * This is enabled by default, but we want to disable in the Game until the user presses the "Check" button.
+     * @param enabled
+     */
     public void setBalancedHighlightEnabled( boolean enabled ) {
         if ( enabled != balancedHighlightEnabled ) {
             balancedHighlightEnabled = enabled;

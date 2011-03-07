@@ -38,7 +38,7 @@ public class BalancedNotSimplifiedNode extends GamePopupNode {
                 notSimplifiedTextNode.setFont( font );
                 parentNode.addChild( notSimplifiedTextNode );
 
-                // layout: icons on left, text of right
+                // layout: icons on left, text on right
                 final double maxImageWidth = Math.max( checkNode.getFullBoundsReference().getWidth(), xNode.getFullBoundsReference().getWidth() );
                 double x = maxImageWidth - checkNode.getFullBoundsReference().getWidth();
                 double y = 0;
