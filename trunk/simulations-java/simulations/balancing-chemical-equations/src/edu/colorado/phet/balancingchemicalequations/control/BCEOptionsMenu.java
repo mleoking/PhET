@@ -20,7 +20,7 @@ public class BCEOptionsMenu extends OptionsMenu {
 
     public BCEOptionsMenu( final BCEGlobalProperties globalProperties ) {
 
-        // Show molecules (check box)
+        // Hide molecules (check box)
         final JCheckBoxMenuItem hideMoleculesMenuItem = new JCheckBoxMenuItem( BCEStrings.HIDE_MOLECULES, globalProperties.moleculesVisible.getValue() );
         add( hideMoleculesMenuItem );
         hideMoleculesMenuItem.addChangeListener( new ChangeListener() {
