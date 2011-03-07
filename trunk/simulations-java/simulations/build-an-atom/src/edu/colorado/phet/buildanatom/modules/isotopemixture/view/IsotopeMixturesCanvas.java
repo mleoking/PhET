@@ -166,8 +166,8 @@ public class IsotopeMixturesCanvas extends PhetPCanvas {
         pieChartWindow = new MaximizeControlNode( "Percent Composition", new PDimension( 400, 150 ), pieChart, true );
         pieChartWindow.setOffset( indicatorWindowX, periodicTableNode.getFullBoundsReference().getMaxY() + 30 );
         controlsLayer.addChild( pieChartWindow );
-        pieChart.setOffset( 650, 190 );
-        controlsLayer.addChild( pieChart );
+        pieChart.setOffset( 150, 40 ); // Empirically determined, tweak as needed.
+        pieChartWindow.addChild( pieChart );
 
         // Add the average atomic mass indicator to the canvas.
         PNode averageAtomicMassIndicator = new AverageAtomicMassIndicator( model );
@@ -177,7 +177,7 @@ public class IsotopeMixturesCanvas extends PhetPCanvas {
         controlsLayer.addChild( averageAtomicMassWindow );
         averageAtomicMassIndicator.setOffset(
                 averageAtomicMassWindow.getFullBoundsReference().width / 2 - averageAtomicMassIndicator.getFullBoundsReference().width / 2,
-                30 );
+                30 /* Empirically determined, tweak as needed. */ );
         averageAtomicMassWindow.addChild( averageAtomicMassIndicator );
 
         // Add the button that allows the user to select between the smaller
