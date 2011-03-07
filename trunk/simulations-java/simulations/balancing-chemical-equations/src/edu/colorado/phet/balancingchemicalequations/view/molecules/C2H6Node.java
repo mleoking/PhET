@@ -8,7 +8,7 @@ import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * CH3OH molecule.
+ * C2H6 molecule.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
