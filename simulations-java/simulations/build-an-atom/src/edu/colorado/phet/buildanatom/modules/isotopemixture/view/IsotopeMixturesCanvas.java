@@ -22,6 +22,7 @@ import edu.colorado.phet.buildanatom.modules.isotopemixture.model.IsotopeMixture
 import edu.colorado.phet.buildanatom.modules.isotopemixture.model.IsotopeMixturesModel.Listener;
 import edu.colorado.phet.buildanatom.view.BucketFrontNode;
 import edu.colorado.phet.buildanatom.view.BucketHoleNode;
+import edu.colorado.phet.buildanatom.view.MaximizeControlNode;
 import edu.colorado.phet.buildanatom.view.PeriodicTableControlNode;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
@@ -35,6 +36,7 @@ import edu.colorado.phet.common.piccolophet.nodes.PieChartNode;
 import edu.colorado.phet.common.piccolophet.nodes.PieChartNode.PieValue;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
@@ -58,6 +60,10 @@ public class IsotopeMixturesCanvas extends PhetPCanvas {
 
     // Transform.
     private final ModelViewTransform mvt;
+
+    // Nodes that hide and show the pie chart and mass indicator.
+    private final MaximizeControlNode pieChartWindow;
+    private final MaximizeControlNode averageAtomicMassWindow;
 
     //----------------------------------------------------------------------------
     // Constructor(s)
@@ -154,15 +160,25 @@ public class IsotopeMixturesCanvas extends PhetPCanvas {
         });
 
         // Add the pie chart to the canvas.
+        double indicatorWindowX = 600;
         final PNode pieChart = new IsotopeProprotionPieChart( model );
+        // TODO: i18n
+        pieChartWindow = new MaximizeControlNode( "Percent Composition", new PDimension( 400, 150 ), pieChart, true );
+        pieChartWindow.setOffset( indicatorWindowX, periodicTableNode.getFullBoundsReference().getMaxY() + 30 );
+        controlsLayer.addChild( pieChartWindow );
         pieChart.setOffset( 650, 190 );
         controlsLayer.addChild( pieChart );
 
         // Add the average atomic mass indicator to the canvas.
         PNode averageAtomicMassIndicator = new AverageAtomicMassIndicator( model );
-        averageAtomicMassIndicator.setOffset( pieChart.getOffset().getX(),
-                pieChart.getFullBoundsReference().getMaxY() + 10 );
-        controlsLayer.addChild( averageAtomicMassIndicator );
+        // TODO: i18n
+        averageAtomicMassWindow = new MaximizeControlNode( "Average Atomic Mass", new PDimension( 400, 120 ), averageAtomicMassIndicator, true );
+        averageAtomicMassWindow.setOffset( indicatorWindowX, pieChartWindow.getFullBoundsReference().getMaxY() + 30 );
+        controlsLayer.addChild( averageAtomicMassWindow );
+        averageAtomicMassIndicator.setOffset(
+                averageAtomicMassWindow.getFullBoundsReference().width / 2 - averageAtomicMassIndicator.getFullBoundsReference().width / 2,
+                30 );
+        averageAtomicMassWindow.addChild( averageAtomicMassIndicator );
 
         // Add the button that allows the user to select between the smaller
         // and larger atoms.
@@ -233,13 +249,9 @@ public class IsotopeMixturesCanvas extends PhetPCanvas {
          * Constructor.
          */
         public IsotopeProprotionPieChart( final IsotopeMixturesModel model ) {
-            // TODO: i18n
-            PText title = new PText("Percent Composition");
-            title.setFont( new PhetFont( 20, true ) );
-            addChild( title );
             final PieChartNode pieChart = new PieChartNode( new PieValue[] { new PieValue( 100, Color.red ) },
                     new Rectangle(0, 0, SIZE.width, SIZE.height ) );
-            pieChart.setOffset( title.getFullBoundsReference().getCenterX(), title.getFullBoundsReference().getMaxY() + 10 );
+            pieChart.setOffset( 0, 0 );
             addChild( pieChart );
             model.getIsotopeTestChamber().getIsotopeCountProperty().addObserver( new SimpleObserver(){
                 public void update() {
