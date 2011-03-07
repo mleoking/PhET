@@ -35,6 +35,16 @@ import edu.colorado.phet.balancingchemicalequations.model.Molecule.SO3;
  */
 public abstract class DecompositionEquation extends Equation {
 
+    /*
+     * Convenience constructor.
+     *
+     * @param r1 balanced coefficient for reactant1
+     * @param reactant1
+     * @param p1 balanced coefficient for product1
+     * @param product1
+     * @param p2 balanced coefficient for product2
+     * @param product2
+     */
     private DecompositionEquation( int r1, Molecule reactant1, int p1, Molecule product1, int p2, Molecule product2 ) {
         super( new EquationTerm[] { new EquationTerm( r1, reactant1 ) }, new EquationTerm[] { new EquationTerm( p1, product1 ), new EquationTerm( p2, product2 ) } );
     }
@@ -47,7 +57,7 @@ public abstract class DecompositionEquation extends Equation {
 
         @Override
         public String getName() {
-            return BCEStrings.SEPARATE_WATER;
+            return BCEStrings.SEPARATE_WATER; // this equation has a fancy name
         }
     }
 

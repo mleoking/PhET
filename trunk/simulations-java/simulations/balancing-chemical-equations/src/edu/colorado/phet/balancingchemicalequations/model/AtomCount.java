@@ -3,7 +3,9 @@
 package edu.colorado.phet.balancingchemicalequations.model;
 
 /**
- * Data structure for describing atom counts.
+ * Data structure for describing how many times an atom appears in an equation.
+ * There are separate counts for the left-hand (reactants) and right-hand (products)
+ * sides of the equation.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
