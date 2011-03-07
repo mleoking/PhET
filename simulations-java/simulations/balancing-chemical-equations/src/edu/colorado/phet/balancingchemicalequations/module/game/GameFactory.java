@@ -1,6 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 
-package edu.colorado.phet.balancingchemicalequations.model;
+package edu.colorado.phet.balancingchemicalequations.module.game;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,6 +34,7 @@ import edu.colorado.phet.balancingchemicalequations.model.DisplacementEquation.D
 import edu.colorado.phet.balancingchemicalequations.model.DisplacementEquation.Displacement_OF2_H2O_O2_2HF;
 import edu.colorado.phet.balancingchemicalequations.model.DisplacementEquation.Displacement_SO2_2H2_S_2H2O;
 import edu.colorado.phet.balancingchemicalequations.model.DisplacementEquation.Displacement_SO2_3H2_H2S_2H2O;
+import edu.colorado.phet.balancingchemicalequations.model.*;
 import edu.colorado.phet.balancingchemicalequations.model.SynthesisEquation.Synthesis_2C_O2_2CO;
 import edu.colorado.phet.balancingchemicalequations.model.SynthesisEquation.Synthesis_2H2_O2_2H2O;
 import edu.colorado.phet.balancingchemicalequations.model.SynthesisEquation.Synthesis_2N2_O2_2N2O;
@@ -47,12 +48,14 @@ import edu.colorado.phet.balancingchemicalequations.model.SynthesisEquation.Synt
 import edu.colorado.phet.common.phetcommon.model.Property;
 
 /**
- * Factory that creates sets of equations, based on game level.
+ * Factory that creates a game.
+ * A game is a set of equations to be balanced.
+ * The equations are chosen based on a game level.
  * The design document specifies which equations correspond to which game levels.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class GameEquationsFactory {
+/* package private */ class GameFactory {
 
     // Level 1
     private static final ArrayList<Class <? extends Equation>> LEVEL1_CLASSES = new ArrayList<Class<? extends Equation>>() {{
@@ -121,7 +124,7 @@ public class GameEquationsFactory {
     /**
      * Default constructor.
      */
-    public GameEquationsFactory( Property<Boolean> playAllEquationsProperty ) {
+    public GameFactory( Property<Boolean> playAllEquationsProperty ) {
         this.playAllEquationsProperty = playAllEquationsProperty;
     }
 
@@ -252,13 +255,15 @@ public class GameEquationsFactory {
 
     // test
     public static void main( String[] args ) {
-        GameEquationsFactory factory = new GameEquationsFactory( new Property<Boolean>( true ) );
+        GameFactory factory = new GameFactory( new Property<Boolean>( false ) );
         for ( int level = 1; level < 4; level++ ) {
             System.out.println( "LEVEL " + level );
             ArrayList<Equation> equations = factory.createEquations( 5, level );
             for ( Equation equation : equations ) {
                 System.out.println( equation.getName() );
             }
+            System.out.println( "(" + equations.size() + " equations)" );
+            System.out.println();
         }
     }
 }

@@ -8,7 +8,6 @@ import java.util.HashMap;
 import edu.colorado.phet.balancingchemicalequations.BCEGlobalProperties;
 import edu.colorado.phet.balancingchemicalequations.model.BCEClock;
 import edu.colorado.phet.balancingchemicalequations.model.Equation;
-import edu.colorado.phet.balancingchemicalequations.model.GameEquationsFactory;
 import edu.colorado.phet.common.games.GameSettings;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
@@ -41,7 +40,7 @@ public class GameModel {
     public final GameSettings settings;
     public final GameTimer timer;
 
-    private final GameEquationsFactory equationsFactory; // generates problem sets
+    private final GameFactory equationsFactory; // generates problem sets
     private final HashMap<Integer,Long> bestTimes; // best times, maps level to time in ms
 
     private ArrayList<Equation> equations; // the current set of equations to be balanced
@@ -57,7 +56,7 @@ public class GameModel {
     public GameModel( final BCEGlobalProperties globalProperties ) {
         state = new Property<GameState>( GameState.START_GAME );
         points = new Property<Integer>( 0 );
-        equationsFactory = new GameEquationsFactory( globalProperties.playAllEquations );
+        equationsFactory = new GameFactory( globalProperties.playAllEquations );
         settings = new GameSettings( LEVELS_RANGE, true /* sound */, true /* timer */ );
         bestTimes = new HashMap<Integer,Long>();
         for ( int i = settings.level.getMin(); i <= settings.level.getMax(); i++ ) {
