@@ -74,10 +74,14 @@ public class BoxesNode extends PComposite {
         addChild( moleculesParentNode );
 
         // "molecules are hidden" message
-        moleculesHiddenLeftNode = new HTMLNode( BCEStrings.MOLECULES_ARE_HIDDEN, Color.WHITE, new PhetFont( 18 ) );
-        addChild( moleculesHiddenLeftNode );
-        moleculesHiddenRightNode = new HTMLNode( BCEStrings.MOLECULES_ARE_HIDDEN, Color.WHITE, new PhetFont( 18 ) );
-        addChild( moleculesHiddenRightNode );
+        {
+            Color color = Color.WHITE;
+            PhetFont font = new PhetFont( 18 );
+            moleculesHiddenLeftNode = new HTMLNode( BCEStrings.MOLECULES_ARE_HIDDEN, color, font );
+            addChild( moleculesHiddenLeftNode );
+            moleculesHiddenRightNode = new HTMLNode( BCEStrings.MOLECULES_ARE_HIDDEN, color, font );
+            addChild( moleculesHiddenRightNode );
+        }
 
         // layout
         double x = 0;
