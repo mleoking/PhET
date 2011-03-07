@@ -16,7 +16,7 @@ import edu.colorado.phet.buildanatom.model.Neutron;
 import edu.colorado.phet.buildanatom.model.Proton;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
@@ -34,7 +34,7 @@ public class ParticleCountLegend extends PNode {
         int get();
     }
 
-    private static final ModelViewTransform2D NO_TRANSFORM = new ModelViewTransform2D( new Rectangle2D.Double( 0, 0, 1, 1 ), new Rectangle2D.Double( 0, 0, 1, 1 ), false );
+    private static final ModelViewTransform NO_TRANSFORM = ModelViewTransform.createIdentity();
     //Particles shouldn't animate, this is only used for compatibility with ProtonNode and other related classes
     //Another way to solve this would be to factor out a parent class from NeutronNode that just does rendering (i.e. doesn't need a reference to a Neutron)
     private static final ConstantDtClock NO_CLOCK = new ConstantDtClock( 1000, 1 );

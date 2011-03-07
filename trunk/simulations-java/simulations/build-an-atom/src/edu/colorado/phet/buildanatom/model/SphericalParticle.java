@@ -5,6 +5,7 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Property;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
@@ -158,8 +159,8 @@ public abstract class SphericalParticle {
         setPosition( position.getValue().getX() + dx, position.getValue().getY() + dy );
     }
 
-    public void translate( Point2D point2D ) {
-        translate( point2D.getX(), point2D.getY() );
+    public void translate( ImmutableVector2D vector2D ) {
+        translate( vector2D.getX(), vector2D.getY() );
     }
 
     public void reset() {

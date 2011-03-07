@@ -13,9 +13,10 @@ import edu.colorado.phet.buildanatom.model.Atom;
 import edu.colorado.phet.buildanatom.model.Electron;
 import edu.colorado.phet.buildanatom.model.ElectronShell;
 import edu.colorado.phet.common.phetcommon.math.Function;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
@@ -44,7 +45,7 @@ public class ResizingElectronCloudNode extends PNode {
     /**
      * Constructor.
      */
-    public ResizingElectronCloudNode( final ModelViewTransform2D mvt, final OrbitalViewProperty orbitalView, final Atom atom ) {
+    public ResizingElectronCloudNode( final ModelViewTransform mvt, final OrbitalViewProperty orbitalView, final Atom atom ) {
 
         // This representation only pays attention to the first two shells.
         // This may need to be changed if this is ever expanded to use more
@@ -60,7 +61,7 @@ public class ResizingElectronCloudNode extends PNode {
             public void update() {
                 Function.LinearFunction electronCountToRadiusFunction = new Function.LinearFunction( 1, getTotalElectronCapacity(), minRadius, maxRadius );
                 double radius = electronCountToRadiusFunction.evaluate( getElectronCount() );
-                final Shape electronShellShape = mvt.createTransformedShape( new Ellipse2D.Double( -radius, -radius, radius * 2, radius * 2 ) );
+                final Shape electronShellShape = mvt.modelToView( new Ellipse2D.Double( -radius, -radius, radius * 2, radius * 2 ) );
                 electronCloudNode.setPathTo( electronShellShape );
                 Function.LinearFunction electronCountToAlphaMapping = new Function.LinearFunction( 0, getTotalElectronCapacity(), 50, 175 );//Map to alpha values between 50 and 200
                 int alpha = getElectronCount() == 0 ? 0 : (int) electronCountToAlphaMapping.evaluate( getElectronCount() );//But if there are no electrons, be transparent
@@ -116,7 +117,7 @@ public class ResizingElectronCloudNode extends PNode {
                     @Override
                     public void mouseDragged( PInputEvent event ) {
                         PDimension delta = event.getDeltaRelativeTo( getParent() );
-                        grabbedElectron.translate( mvt.viewToModelDifferential( delta.width, delta.height ) );
+                        grabbedElectron.translate( mvt.viewToModel( new ImmutableVector2D( delta ) ) );
                         grabbedElectron.setDestination( grabbedElectron.getPosition() ); //So it doesn't run away
                     }
 

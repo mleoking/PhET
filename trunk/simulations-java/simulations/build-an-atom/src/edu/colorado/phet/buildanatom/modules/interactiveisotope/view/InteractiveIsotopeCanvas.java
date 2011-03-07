@@ -32,7 +32,7 @@ import edu.colorado.phet.buildanatom.view.SymbolIndicatorNode;
 import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -70,7 +70,7 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas implements Resettable 
     private final PNode rootNode;
 
     // Transform.
-    private final ModelViewTransform2D mvt;
+    private final ModelViewTransform mvt;
 
     private final MaximizeControlNode symbolWindow;
     private final MaximizeControlNode abundanceWindow;
@@ -91,11 +91,10 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas implements Resettable 
         // factors for the point in the view can be adjusted to shift the
         // center right or left, and the scale factor can be adjusted to zoom
         // in or out (smaller numbers zoom out, larger ones zoom in).
-        mvt = new ModelViewTransform2D(
+        mvt = ModelViewTransform.createSinglePointScaleInvertedYMapping(
                 new Point2D.Double( 0, 0 ),
                 new Point( (int) Math.round( STAGE_SIZE.width * 0.32 ), (int) Math.round( STAGE_SIZE.height * 0.49 ) ),
-                2.0, // "Zoom factor" - smaller zooms out, larger zooms in.
-                true );
+                2.0 ); // "Zoom factor" - smaller zooms out, larger zooms in.
 
         setBackground( BACKGROUND_COLOR );
 
@@ -110,7 +109,7 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas implements Resettable 
             {
                 // The scale needs to sit just below the atom, and there are some
                 // "tweak factors" needed to get it looking right.
-                setOffset( mvt.modelToViewXDouble( 0 ) - getFullBoundsReference().width / 2, 530 );
+                setOffset( mvt.modelToViewX( 0 ) - getFullBoundsReference().width / 2, 530 );
             }
         };
 

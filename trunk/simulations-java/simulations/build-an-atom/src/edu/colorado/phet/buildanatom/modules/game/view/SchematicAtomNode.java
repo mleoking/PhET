@@ -21,7 +21,7 @@ import edu.colorado.phet.buildanatom.view.ProtonNode;
 import edu.colorado.phet.buildanatom.view.ResizingElectronCloudNode;
 import edu.colorado.phet.buildanatom.view.SubatomicParticleNode;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -40,7 +40,7 @@ public class SchematicAtomNode extends PNode {
     protected final Atom atom;
 
     // Model-view transform.
-    private final ModelViewTransform2D mvt;
+    private final ModelViewTransform mvt;
 
     // Property that controls whether the electrons are depicted as particles
     // or as a cloud when they are a part of the atom.
@@ -71,7 +71,7 @@ public class SchematicAtomNode extends PNode {
      * @param orbitalViewProperty - A property that controls how the electrons
      * are represented.
      */
-    public SchematicAtomNode( final Atom atom, ModelViewTransform2D mvt, final OrbitalViewProperty orbitalViewProperty ) {
+    public SchematicAtomNode( final Atom atom, ModelViewTransform mvt, final OrbitalViewProperty orbitalViewProperty ) {
         this( atom, mvt, orbitalViewProperty, true, true, true );
     }
 
@@ -89,7 +89,7 @@ public class SchematicAtomNode extends PNode {
      * @param electronsAreInteractive - Flag that controls whether electrons can
      * be picked up and moved.
      */
-    public SchematicAtomNode( final Atom atom, ModelViewTransform2D mvt, final OrbitalViewProperty orbitalViewProperty,
+    public SchematicAtomNode( final Atom atom, ModelViewTransform mvt, final OrbitalViewProperty orbitalViewProperty,
             boolean protonsAreInteractive, boolean neutronsAreInteractive, boolean electronsAreInteractive ) {
         this.protonsAreInteractive = protonsAreInteractive;
         this.electronsAreInteractive = electronsAreInteractive;

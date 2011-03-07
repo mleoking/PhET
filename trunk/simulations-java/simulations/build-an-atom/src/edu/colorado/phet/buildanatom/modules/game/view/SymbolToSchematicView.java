@@ -14,7 +14,7 @@ import edu.colorado.phet.buildanatom.view.OrbitalView;
 import edu.colorado.phet.buildanatom.view.OrbitalViewProperty;
 import edu.colorado.phet.buildanatom.view.SymbolIndicatorNode;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 
 /**
  * Piccolo view for the game problem in which the user is shown the symbol view of an atom and is asked to create the
@@ -34,11 +34,10 @@ public class SymbolToSchematicView extends ProblemView {
         symbolIndicatorNode.setOffset( 100, BuildAnAtomDefaults.STAGE_SIZE.height / 2 - symbolIndicatorNode.getFullBounds().getHeight() / 2 );
 
         final BuildAnAtomModel buildAnAtomModel = new BuildAnAtomModel( getClock() ) {{reset();}};
-        interactiveSchematicAtomNode=new InteractiveSchematicAtomNode( buildAnAtomModel, new ModelViewTransform2D(
+        interactiveSchematicAtomNode=new InteractiveSchematicAtomNode( buildAnAtomModel, ModelViewTransform.createSinglePointScaleInvertedYMapping(
                 new Point2D.Double( 0, 0 ),
                 new Point( (int) Math.round( BuildAnAtomDefaults.STAGE_SIZE.width * 0.70 ), (int) Math.round( BuildAnAtomDefaults.STAGE_SIZE.height * 0.35 ) ),
-                1.5,
-                true ),
+                1.5 ),
                 new OrbitalViewProperty( OrbitalView.PARTICLES ) );
         buildAnAtomModel.getAtom().addObserver( new SimpleObserver() {
             public void update() {

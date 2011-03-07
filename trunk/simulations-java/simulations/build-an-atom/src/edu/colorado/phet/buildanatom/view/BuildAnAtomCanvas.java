@@ -22,7 +22,7 @@ import edu.colorado.phet.buildanatom.modules.game.view.InteractiveSchematicAtomN
 import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
@@ -46,7 +46,7 @@ public class BuildAnAtomCanvas extends PhetPCanvas implements Resettable {
     private final PNode rootNode;
 
     // Transform.
-    private final ModelViewTransform2D mvt;
+    private final ModelViewTransform mvt;
 
     // Variable needed to able to reset the canvas.
     private final OrbitalViewProperty orbitalViewProperty = new OrbitalViewProperty( OrbitalView.PARTICLES );
@@ -72,11 +72,10 @@ public class BuildAnAtomCanvas extends PhetPCanvas implements Resettable {
         // factors for the point in the view can be adjusted to shift the
         // center right or left, and the scale factor can be adjusted to zoom
         // in or out (smaller numbers zoom out, larger ones zoom in).
-        mvt = new ModelViewTransform2D(
+        mvt = ModelViewTransform.createSinglePointScaleInvertedYMapping(
                 new Point2D.Double( 0, 0 ),
                 new Point( (int) Math.round( BuildAnAtomDefaults.STAGE_SIZE.width * 0.30 ), (int) Math.round( BuildAnAtomDefaults.STAGE_SIZE.height * 0.45 ) ),
-                2.0,
-                true );
+                2.0 );
 
         setBackground( BuildAnAtomConstants.CANVAS_BACKGROUND );
 
