@@ -57,8 +57,8 @@ public class DisplacementEquation extends Equation {
     }
 
     // CH4 + 2 O2 -> CO2 + 2 H2O
-    public static class Equation_CH4_2O2_CO2_2H2O extends DisplacementEquation {
-        public Equation_CH4_2O2_CO2_2H2O() {
+    public static class Displacement_CH4_2O2_CO2_2H2O extends DisplacementEquation {
+        public Displacement_CH4_2O2_CO2_2H2O() {
             super( 1, new CH4(), 2, new O2(), 1, new CO2(), 2, new H2O() );
         }
 
@@ -69,120 +69,120 @@ public class DisplacementEquation extends Equation {
     }
 
     // 2 C + 2 H2O -> CH4 + CO2
-    public static class Equation_2C_2H2O_CH4_CO2 extends DisplacementEquation {
-        public Equation_2C_2H2O_CH4_CO2() {
+    public static class Displacement_2C_2H2O_CH4_CO2 extends DisplacementEquation {
+        public Displacement_2C_2H2O_CH4_CO2() {
             super( 2, new CMolecule(), 2, new H2O(), 1, new CH4(), 1, new CO2() );
         }
     }
 
     // CH4 + H2O -> 3 H2 + CO
-    public static class Equation_CH4_H2O_3H2_CO extends DisplacementEquation {
-        public Equation_CH4_H2O_3H2_CO() {
+    public static class Displacement_CH4_H2O_3H2_CO extends DisplacementEquation {
+        public Displacement_CH4_H2O_3H2_CO() {
             super( 1, new CH4(), 1, new H2O(), 3, new H2(), 1, new CO() );
         }
     }
 
     // C2H4 + 3 O2 -> 2 CO2 + 2 H2O
-    public static class Equation_C2H4_3O2_2CO2_2H2O extends DisplacementEquation {
-        public Equation_C2H4_3O2_2CO2_2H2O() {
+    public static class Displacement_C2H4_3O2_2CO2_2H2O extends DisplacementEquation {
+        public Displacement_C2H4_3O2_2CO2_2H2O() {
             super( 1, new C2H4(), 3, new O2(), 2, new CO2(), 2, new H2O() );
         }
     }
 
     // C2H6 + Cl2 -> C2H5Cl + HCl
-    public static class Equation_C2H6_Cl2_C2H5Cl_HCl extends DisplacementEquation {
-        public Equation_C2H6_Cl2_C2H5Cl_HCl() {
+    public static class Displacement_C2H6_Cl2_C2H5Cl_HCl extends DisplacementEquation {
+        public Displacement_C2H6_Cl2_C2H5Cl_HCl() {
             super( 1, new C2H6(), 1, new Cl2(), 1, new C2H5Cl(), 1, new HCl() );
         }
     }
 
     // CH4 + 4 S -> CS2 + 2 H2S
-    public static class Equation_CH4_4S_CS2_2H2S extends DisplacementEquation {
-        public Equation_CH4_4S_CS2_2H2S() {
+    public static class Displacement_CH4_4S_CS2_2H2S extends DisplacementEquation {
+        public Displacement_CH4_4S_CS2_2H2S() {
             super( 1, new CH4(), 4, new SMolecule(), 1, new CS2(), 2, new H2S() );
         }
     }
 
     // CS2 + 3 O2 -> CO2 + 2 SO2
-    public static class Equation_CS2_3O2_CO2_2SO2 extends DisplacementEquation {
-        public Equation_CS2_3O2_CO2_2SO2() {
+    public static class Displacement_CS2_3O2_CO2_2SO2 extends DisplacementEquation {
+        public Displacement_CS2_3O2_CO2_2SO2() {
             super( 1, new CS2(), 3, new O2(), 1, new CO2(), 2, new SO2() );
         }
     }
 
     // SO2 + 2 H2 -> S + 2 H2O
-    public static class Equation_SO2_2H2_S_2H2O extends DisplacementEquation {
-        public Equation_SO2_2H2_S_2H2O() {
+    public static class Displacement_SO2_2H2_S_2H2O extends DisplacementEquation {
+        public Displacement_SO2_2H2_S_2H2O() {
             super( 1, new SO2(), 2, new H2(), 1, new SMolecule(), 2, new H2O() );
         }
     }
 
     // SO2 + 3 H2 -> H2S + 2 H2O
-    public static class Equation_SO2_3H2_H2S_2H2O extends DisplacementEquation {
-        public Equation_SO2_3H2_H2S_2H2O() {
+    public static class Displacement_SO2_3H2_H2S_2H2O extends DisplacementEquation {
+        public Displacement_SO2_3H2_H2S_2H2O() {
             super( 1, new SO2(), 3, new H2(), 1, new H2S(), 2, new H2O() );
         }
     }
 
     // 2 F2 + H2O -> OF2 + 2 HF
-    public static class Equation_2F2_H2O_OF2_2HF extends DisplacementEquation {
-        public Equation_2F2_H2O_OF2_2HF() {
+    public static class Displacement_2F2_H2O_OF2_2HF extends DisplacementEquation {
+        public Displacement_2F2_H2O_OF2_2HF() {
             super( 2, new F2(), 1, new H2O(), 1, new OF2(), 2, new HF() );
         }
     }
 
     // OF2 + H2O -> O2 + 2 HF
-    public static class Equation_OF2_H2O_O2_2HF extends DisplacementEquation {
-        public Equation_OF2_H2O_O2_2HF() {
+    public static class Displacement_OF2_H2O_O2_2HF extends DisplacementEquation {
+        public Displacement_OF2_H2O_O2_2HF() {
             super( 1, new OF2(), 1, new H2O(), 1, new O2(), 2, new HF() );
         }
     }
 
     // 2 C2H6 + 7 O2 -> 4 CO2 + 6 H2O
-    public static class Equation_2C2H6_7O2_4CO2_6H2O extends DisplacementEquation {
-        public Equation_2C2H6_7O2_4CO2_6H2O() {
+    public static class Displacement_2C2H6_7O2_4CO2_6H2O extends DisplacementEquation {
+        public Displacement_2C2H6_7O2_4CO2_6H2O() {
             super( 2, new C2H6(), 7, new O2(), 4, new CO2(), 6, new H2O() );
         }
     }
 
     // 2 C2H2 + 5 O2 -> 4 CO2 + 2 H2O
-    public static class Equation_2C2H2_5O2_4CO2_2H2O extends DisplacementEquation {
-        public Equation_2C2H2_5O2_4CO2_2H2O() {
+    public static class Displacement_2C2H2_5O2_4CO2_2H2O extends DisplacementEquation {
+        public Displacement_2C2H2_5O2_4CO2_2H2O() {
             super( 2, new C2H2(), 5, new O2(), 4, new CO2(), 2, new H2O() );
         }
     }
 
     // C2H5OH + 3 O2 -> 2 CO2 + 3 H2O
-    public static class Equation_C2H5OH_3O2_2CO2_3H2O extends DisplacementEquation {
-        public Equation_C2H5OH_3O2_2CO2_3H2O() {
+    public static class Displacement_C2H5OH_3O2_2CO2_3H2O extends DisplacementEquation {
+        public Displacement_C2H5OH_3O2_2CO2_3H2O() {
             super( 1, new C2H5OH(), 3, new O2(), 2, new CO2(), 3, new H2O() );
         }
     }
 
     // 4 NH3 + 3 O2 -> 2 N2 + 6 H2O
-    public static class Equation_4NH3_3O2_2N2_6H2O extends DisplacementEquation {
-        public Equation_4NH3_3O2_2N2_6H2O() {
+    public static class Displacement_4NH3_3O2_2N2_6H2O extends DisplacementEquation {
+        public Displacement_4NH3_3O2_2N2_6H2O() {
             super( 4, new NH3(), 3, new O2(), 2, new N2(), 6, new H2O() );
         }
     }
 
     // 4 NH3 + 5 O2 -> 4 NO + 6 H2O
-    public static class Equation_4NH3_5O2_4NO_6H2O extends DisplacementEquation {
-        public Equation_4NH3_5O2_4NO_6H2O() {
+    public static class Displacement_4NH3_5O2_4NO_6H2O extends DisplacementEquation {
+        public Displacement_4NH3_5O2_4NO_6H2O() {
             super( 4, new NH3(), 5, new O2(), 4, new NO(), 6, new H2O() );
         }
     }
 
     // 4 NH3 + 7 O2 -> 4 NO2 + 6 H2O
-    public static class Equation_4NH3_7O2_4NO2_6H2O extends DisplacementEquation {
-        public Equation_4NH3_7O2_4NO2_6H2O() {
+    public static class Displacement_4NH3_7O2_4NO2_6H2O extends DisplacementEquation {
+        public Displacement_4NH3_7O2_4NO2_6H2O() {
             super( 4, new NH3(), 7, new O2(), 4, new NO2(), 6, new H2O() );
         }
     }
 
     // 4 NH3 + 6 NO -> 5 N2 + 6 H2O
-    public static class Equation_4NH3_6NO_5N2_6H2O extends DisplacementEquation {
-        public Equation_4NH3_6NO_5N2_6H2O() {
+    public static class Displacement_4NH3_6NO_5N2_6H2O extends DisplacementEquation {
+        public Displacement_4NH3_6NO_5N2_6H2O() {
             super( 4, new NH3(), 6, new NO(), 5, new N2(), 6, new H2O() );
         }
     }

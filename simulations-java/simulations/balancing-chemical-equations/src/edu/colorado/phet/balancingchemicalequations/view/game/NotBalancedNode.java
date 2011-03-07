@@ -10,7 +10,7 @@ import javax.swing.WindowConstants;
 import edu.colorado.phet.balancingchemicalequations.BCEConstants;
 import edu.colorado.phet.balancingchemicalequations.BCEResources;
 import edu.colorado.phet.balancingchemicalequations.BCEStrings;
-import edu.colorado.phet.balancingchemicalequations.model.DisplacementEquation.Equation_CH4_2O2_CO2_2H2O;
+import edu.colorado.phet.balancingchemicalequations.model.DisplacementEquation.Displacement_CH4_2O2_CO2_2H2O;
 import edu.colorado.phet.balancingchemicalequations.model.Equation;
 import edu.colorado.phet.balancingchemicalequations.model.EquationTerm;
 import edu.colorado.phet.balancingchemicalequations.view.BalanceScalesNode;
@@ -92,7 +92,7 @@ public class NotBalancedNode extends GameResultNode {
         PhetPCanvas canvas = new PhetPCanvas( BCEConstants.CANVAS_RENDERING_SIZE );
         canvas.setPreferredSize( new Dimension( 1024, 768 ) );
 
-        Equation equation = new Equation_CH4_2O2_CO2_2H2O();
+        Equation equation = new Displacement_CH4_2O2_CO2_2H2O();
         EquationTerm[] reactants = equation.getReactants();
         for ( EquationTerm term : reactants ) {
             term.setUserCoefficient( 15 );
