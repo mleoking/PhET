@@ -28,6 +28,7 @@ public class EquationChoiceNode extends PhetPNode {
      * Constructor.
      * @param equations the set of Equation choices
      * @param currentEquationProperty the property that denotes the current equation selection
+     * @param backgroundProperty color of the background
      */
     public EquationChoiceNode( ArrayList<Equation> equations, Property<Equation> currentEquationProperty, Property<Color> backgroundProperty ) {
         addChild( new PSwing( new EquationChoicePanel( equations, currentEquationProperty, backgroundProperty ) ) );
