@@ -17,7 +17,7 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class IntroductionModel {
+/* package private */ class IntroductionModel {
 
     private static final IntegerRange COEFFICENTS_RANGE = new IntegerRange( 0, 3 );
 

@@ -42,7 +42,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class GameCanvas extends BCECanvas {
+/* package private */ class GameCanvas extends BCECanvas {
 
     private static final Dimension BOX_SIZE = new Dimension( 475, 400 );
     private static final double BOX_SEPARATION = 90; // horizontal spacing between boxes

@@ -29,7 +29,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class BalanceScaleNode extends PComposite {
+/* package private */ class BalanceScaleNode extends PComposite {
 
     private static final PDimension FULCRUM_SIZE = new PDimension( 60, 45 );
     private static final double BEAM_LENGTH = 315;

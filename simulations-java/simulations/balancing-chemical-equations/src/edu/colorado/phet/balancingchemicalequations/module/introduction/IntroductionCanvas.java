@@ -20,7 +20,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class IntroductionCanvas extends BCECanvas {
+/* package private */ class IntroductionCanvas extends BCECanvas {
 
     private static final Dimension BOX_SIZE = new Dimension( 475, 220 );
     private static final double BOX_SEPARATION = 90;
