@@ -12,11 +12,11 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * Visual representation of an equation as a set of balance scales, one for each atom type.
- * The left side of the scale is the reactants, the right side is the products.
+ * The left side of each scale is the reactants, the right side is the products.
  * <p>
  * This implementation is very brute force, just about everything is recreated each time
  * a coefficient is changed in the equations.  But we have a small number of coefficients,
- * and nothing else is happening in the sim.  So we're trading efficiency for simplcity of
+ * and nothing else is happening in the sim.  So we're trading efficiency for simplicity of
  * implementation.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)

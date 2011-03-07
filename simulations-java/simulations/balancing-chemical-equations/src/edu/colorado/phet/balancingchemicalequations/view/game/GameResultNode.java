@@ -20,8 +20,8 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * Base class for all indicators used in the Game to tell the user
- * whether their guess is balanced or unbalanced.
+ * Base class for all indicators used in the Game to tell the user whether their guess is balanced or unbalanced.
+ * These indicators look like a dialog (aka "popup").
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -58,7 +58,7 @@ public abstract class GameResultNode extends PhetPNode {
         }
         parentNode.addChild( faceNode );
 
-        // content
+        // content (stuff below the face), function provided by subclasses
         PNode contentNode = createContentFunction.apply( FONT );
         parentNode.addChild( contentNode );
 

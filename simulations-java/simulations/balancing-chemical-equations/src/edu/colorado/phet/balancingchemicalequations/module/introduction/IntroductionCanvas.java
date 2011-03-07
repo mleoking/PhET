@@ -17,7 +17,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 
 /**
- * Canvas for the "Balance Equation" module.
+ * Canvas for the "Introduction" module.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -62,7 +62,7 @@ public class IntroductionCanvas extends BCECanvas {
         addChild( balanceScalesNode );
 
         // smiley face
-        BalanceEquationFaceNode faceNode = new BalanceEquationFaceNode( model.getCurrentEquationProperty() );
+        IntroductionFaceNode faceNode = new IntroductionFaceNode( model.getCurrentEquationProperty() );
         addChild( faceNode );
 
         // Reset All button

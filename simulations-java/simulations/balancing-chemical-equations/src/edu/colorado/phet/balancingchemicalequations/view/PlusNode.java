@@ -23,7 +23,7 @@ public class PlusNode extends PPath {
         setStroke( null );
         setPaint( Color.BLACK );
 
-        // coordinate, clockwise from upper left
+        // coordinates, clockwise from upper left
         float x1 = 0f;
         float x2 = (float) ( width / 2 - thickness / 2 );
         float x3 = (float) ( width / 2 + thickness / 2 );
@@ -33,7 +33,7 @@ public class PlusNode extends PPath {
         float y3 = (float) ( height / 2 + thickness / 2 );
         float y4 = (float) height;
 
-        // clockwise, from upper left
+        // path
         GeneralPath path = new GeneralPath();
         path.moveTo( x2, y1 );
         path.lineTo( x3, y1 );

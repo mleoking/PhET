@@ -59,7 +59,7 @@ public class GameModel {
             bestTimes.put( i, 0L );
         }
         timer = new GameTimer( new BCEClock() );
-        equations = equationsFactory.createProblemSet( EQUATIONS_PER_GAME, settings.level.getValue() ); // needs to be non-null after initialization
+        equations = equationsFactory.createEquations( EQUATIONS_PER_GAME, settings.level.getValue() ); // needs to be non-null after initialization
         equationIndex = 0;
         currentEquation = new Property<Equation>( equations[equationIndex] );
     }
@@ -68,7 +68,7 @@ public class GameModel {
      * Called when the user presses the "Start Game" button.
      */
     public void startGame() {
-        equations = equationsFactory.createProblemSet( EQUATIONS_PER_GAME, settings.level.getValue() );
+        equations = equationsFactory.createEquations( EQUATIONS_PER_GAME, settings.level.getValue() );
         equationIndex = 0;
         attempts = 0;
         isNewBestTime = false;

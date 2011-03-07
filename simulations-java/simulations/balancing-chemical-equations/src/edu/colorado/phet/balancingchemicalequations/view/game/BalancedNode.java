@@ -11,8 +11,10 @@ import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
 
 /**
- * Indicator that equation is balanced.
- * Smiley face, check mark, and text.
+ * Indicator that an equation is balanced.
+ * This looks like a dialog, and contains a smiley face, and check mark for balanced
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class BalancedNode extends GameResultNode {
 

@@ -11,8 +11,10 @@ import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
 
 /**
- * Indicator that equation is balanced, but not simplified (not lowest coefficients).
- * Frowny face, check mark for balanced, big "X" for not simplified.
+ * Indicator that an equation is balanced, but not simplified (not lowest coefficients).
+ * This looks like a dialog, and contains a frowny face, check mark for "balanced", and big "X" for "not simplified".
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class BalancedNotSimplifiedNode extends GameResultNode {
 
