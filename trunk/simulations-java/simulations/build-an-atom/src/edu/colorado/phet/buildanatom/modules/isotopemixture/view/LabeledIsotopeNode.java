@@ -11,10 +11,11 @@ import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
 import edu.colorado.phet.buildanatom.modules.isotopemixture.model.MovableAtom;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -42,19 +43,19 @@ public class LabeledIsotopeNode extends PNode {
     /**
      * Constructor.
      */
-    public LabeledIsotopeNode( final ModelViewTransform2D mvt, final MovableAtom isotope, final Color baseColor ) {
+    public LabeledIsotopeNode( final ModelViewTransform mvt, final MovableAtom isotope, final Color baseColor ) {
 
         // Create a gradient that gives the particles a 3D look.  The numbers
         // used were empirically determined.
         double radius = isotope.getRadius();
-        double transformedRadius = mvt.modelToViewDifferentialX( radius );
+        double transformedRadius = mvt.modelToViewDeltaX( radius );
         Paint particlePaint = new RoundGradientPaint(
                 transformedRadius / 2,
                 -transformedRadius / 2,
                 ColorUtils.brighterColor( baseColor, 0.8 ),
                 new Point2D.Double( transformedRadius / 2, transformedRadius / 2 ),
                 ColorUtils.darkerColor( baseColor, 0.2 ) );
-        sphericalNode = new SphericalNode( mvt.modelToViewDifferentialX( radius * 2 ), particlePaint, false );
+        sphericalNode = new SphericalNode( mvt.modelToViewDeltaX( radius * 2 ), particlePaint, false );
         addChild( sphericalNode );
 
         // Create, scale, and add the label, assuming the isotope is large enough.
@@ -75,7 +76,7 @@ public class LabeledIsotopeNode extends PNode {
         // changes.
         isotope.addPositionListener( new SimpleObserver(){
             public void update() {
-                sphericalNode.setOffset( mvt.modelToViewDouble( isotope.getPosition() ) );
+                sphericalNode.setOffset( mvt.modelToView( isotope.getPosition() ) );
             }
         });
 
@@ -95,7 +96,7 @@ public class LabeledIsotopeNode extends PNode {
             @Override
             public void mouseDragged( PInputEvent event ) {
                 PDimension delta = event.getDeltaRelativeTo( getParent() );
-                Point2D modelDelta = mvt.viewToModelDifferential( delta.width, delta.height );
+                ImmutableVector2D modelDelta = mvt.viewToModelDelta( new ImmutableVector2D( delta.width, delta.height ) );
                 isotope.setPositionAndDestination( isotope.getPosition().getX() + modelDelta.getX(),
                         isotope.getPosition().getY() + modelDelta.getY() );
             }
@@ -115,7 +116,7 @@ public class LabeledIsotopeNode extends PNode {
         canvas.setPreferredSize( new Dimension( 400, 400 ) );
 
         // Add the item being testing.
-        LabeledIsotopeNode isotopeNode = new LabeledIsotopeNode( new ModelViewTransform2D(),
+        LabeledIsotopeNode isotopeNode = new LabeledIsotopeNode( ModelViewTransform.createIdentity(),
                 new MovableAtom(1, 0, 20, new Point2D.Double( 0, 0 ), new ConstantDtClock()), Color.RED );
         isotopeNode.setOffset( 100, 100 );
         canvas.addWorldChild( isotopeNode );
