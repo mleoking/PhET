@@ -84,7 +84,7 @@ public class GameModel {
      */
     public void check() {
         attempts++;
-        if ( equations[equationIndex].isBalancedWithLowestCoefficients() ) {
+        if ( equations[equationIndex].isBalancedAndSimplified() ) {
 
             // award points
             if ( attempts == 1 ) {

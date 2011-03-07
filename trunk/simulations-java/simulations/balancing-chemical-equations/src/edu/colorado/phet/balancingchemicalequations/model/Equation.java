@@ -11,6 +11,10 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  * Base class for all chemical equations.
  * A chemical equation has 2 sets of terms, reactants and products.
  * During the chemical reaction represented by the equation, reactants are transformed into products.
+ * <p>
+ * An equation is "balanced" when each term's user coefficient is an integer multiple N of
+ * the balanced coefficient, N is the same for all terms in the equation, and N >= 1.
+ * An equation is "balanced and simplified" when it is balanced and N=1.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -18,7 +22,7 @@ public abstract class Equation {
 
     public final EquationTerm[] reactants, products;
     public final Property<Boolean> balancedProperty;
-    public final Property<Boolean> balancedWithLowestCoefficientsProperty;
+    public final Property<Boolean> balancedAndSimplifiedProperty;
 
     /**
      * Constructor.
@@ -35,19 +39,21 @@ public abstract class Equation {
         this.reactants = reactants;
         this.products = products;
         this.balancedProperty = new Property<Boolean>( false );
-        this.balancedWithLowestCoefficientsProperty = new Property<Boolean>( false );
+        this.balancedAndSimplifiedProperty = new Property<Boolean>( false );
 
         // equation is balanced if all terms are balanced.
-        SimpleObserver o = new SimpleObserver() {
-            public void update() {
-                updateBalancedProperties();
+        {
+            SimpleObserver coefficientObserver = new SimpleObserver() {
+                public void update() {
+                    updateBalancedProperties();
+                }
+            };
+            for ( EquationTerm term : reactants ) {
+                term.getUserCoefficientProperty().addObserver( coefficientObserver );
             }
-        };
-        for ( EquationTerm term : reactants ) {
-            term.getUserCoefficientProperty().addObserver( o );
-        }
-        for ( EquationTerm term : products ) {
-            term.getUserCoefficientProperty().addObserver( o );
+            for ( EquationTerm term : products ) {
+                term.getUserCoefficientProperty().addObserver( coefficientObserver );
+            }
         }
     }
 
@@ -81,7 +87,7 @@ public abstract class Equation {
             balanced = balanced && ( product.getUserCoefficient() == multiplier * product.getBalancedCoefficient() );
         }
 
-        balancedWithLowestCoefficientsProperty.setValue( balanced && ( multiplier == 1 ) ); // set the more specific property first
+        balancedAndSimplifiedProperty.setValue( balanced && ( multiplier == 1 ) ); // set the more specific property first
         balancedProperty.setValue( balanced );
     }
 
@@ -119,14 +125,14 @@ public abstract class Equation {
         return balancedProperty;
     }
 
-    public boolean isBalancedWithLowestCoefficients() {
-        return balancedWithLowestCoefficientsProperty.getValue();
+    public boolean isBalancedAndSimplified() {
+        return balancedAndSimplifiedProperty.getValue();
     }
 
-    public Property<Boolean> getBalancedWithLowestCoefficientsProperty() {
-        return balancedWithLowestCoefficientsProperty;
-    }
-
+    /**
+     * Balances the equation by copying the balanced coefficient value to
+     * the user coefficient value for each term in the equation.
+     */
     public void balance() {
         for ( EquationTerm term : reactants ) {
             term.setUserCoefficient( term.getBalancedCoefficient() );
@@ -136,26 +142,8 @@ public abstract class Equation {
         }
     }
 
-    public boolean isAllCoefficientsZero() {
-        boolean allZero = true;
-        for ( EquationTerm term : reactants ) {
-            if ( term.getUserCoefficient() > 0 ) {
-                allZero = false;
-                break;
-            }
-        }
-        if ( allZero ) {
-            for ( EquationTerm term : products ) {
-                if ( term.getUserCoefficient() > 0 ) {
-                    allZero = false;
-                }
-            }
-        }
-        return allZero;
-    }
-
     /**
-     * Returns a count of each type of atom.
+     * Returns a count of each type of atom, based on the user coefficients.
      * <p>
      * The order of atoms will be the same order that they are encountered in the reactant terms.
      * For example, if the left-hand side of the equation is CH4 + O2, then the order of atoms
@@ -169,7 +157,7 @@ public abstract class Equation {
     }
 
     /*
-     * Sets atom counts for on collection of terms (reactants or products).
+     * Sets atom counts for a collection of terms (reactants or products).
      * This is a brute force algorithm, but our number of terms is always small,
      * and this is easy to implement and understand.
      *
@@ -233,7 +221,7 @@ public abstract class Equation {
 
     /*
      * Creates an HTML string that shows the equation formula.
-     * Used for equations that don't have a more general name (eg, "make water").
+     * Used for equations that don't have a more general name (eg, "Make Ammonia").
      */
     private static String createName( EquationTerm[] reactants, final EquationTerm[] products ) {
         StringBuffer b = new StringBuffer();

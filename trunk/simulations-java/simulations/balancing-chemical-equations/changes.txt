@@ -1,3 +1,5 @@
+3/7/11 delete Equation.isAllCoefficientsZero, this is not needed since it's included in isBalanced
+3/7/11 change terminology in code from "balanced with lowest coefficients" to "balanced and simplified", to match model.txt and user interface
 3/7/11 code doc
 3/7/11 change "actual coefficient" to "user coefficient" in code, to match terminology in model.txt
 3/7/11 differentiate between synthesis and displacement reactions in the Equation class hierarchy
