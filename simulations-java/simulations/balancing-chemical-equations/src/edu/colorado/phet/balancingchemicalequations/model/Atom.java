@@ -17,7 +17,7 @@ public abstract class Atom {
 
     private final String symbol;
     private final double radius; // picometers
-    private final Color color;
+    private final Color color; // color used in visual representations
 
     public Atom( String symbol, double radius, Color color ) {
         this.symbol = symbol;
