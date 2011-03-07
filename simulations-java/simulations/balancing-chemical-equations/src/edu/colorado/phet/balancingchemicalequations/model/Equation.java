@@ -44,10 +44,10 @@ public abstract class Equation {
             }
         };
         for ( EquationTerm term : reactants ) {
-            term.getActualCoefficientProperty().addObserver( o );
+            term.getUserCoefficientProperty().addObserver( o );
         }
         for ( EquationTerm term : products ) {
-            term.getActualCoefficientProperty().addObserver( o );
+            term.getUserCoefficientProperty().addObserver( o );
         }
     }
 
@@ -69,16 +69,16 @@ public abstract class Equation {
     private void updateBalancedProperties() {
 
         // Get integer multiplier from the first reactant term.
-        final int multiplier = (int)( reactants[0].getActualCoefficient() / reactants[0].getBalancedCoefficient() );
+        final int multiplier = (int)( reactants[0].getUserCoefficient() / reactants[0].getBalancedCoefficient() );
 
         boolean balanced = ( multiplier > 0 );
 
         // Check each term to see if the actual coefficient is the same integer multiple of the balanced coefficient.
         for ( EquationTerm reactant : reactants ) {
-            balanced = balanced && ( reactant.getActualCoefficient() == multiplier * reactant.getBalancedCoefficient() );
+            balanced = balanced && ( reactant.getUserCoefficient() == multiplier * reactant.getBalancedCoefficient() );
         }
         for ( EquationTerm product : products ) {
-            balanced = balanced && ( product.getActualCoefficient() == multiplier * product.getBalancedCoefficient() );
+            balanced = balanced && ( product.getUserCoefficient() == multiplier * product.getBalancedCoefficient() );
         }
 
         balancedWithLowestCoefficientsProperty.setValue( balanced && ( multiplier == 1 ) ); // set the more specific property first
@@ -129,24 +129,24 @@ public abstract class Equation {
 
     public void balance() {
         for ( EquationTerm term : reactants ) {
-            term.setActualCoefficient( term.getBalancedCoefficient() );
+            term.setUserCoefficient( term.getBalancedCoefficient() );
         }
         for ( EquationTerm term : products ) {
-            term.setActualCoefficient( term.getBalancedCoefficient() );
+            term.setUserCoefficient( term.getBalancedCoefficient() );
         }
     }
 
     public boolean isAllCoefficientsZero() {
         boolean allZero = true;
         for ( EquationTerm term : reactants ) {
-            if ( term.getActualCoefficient() > 0 ) {
+            if ( term.getUserCoefficient() > 0 ) {
                 allZero = false;
                 break;
             }
         }
         if ( allZero ) {
             for ( EquationTerm term : products ) {
-                if ( term.getActualCoefficient() > 0 ) {
+                if ( term.getUserCoefficient() > 0 ) {
                     allZero = false;
                 }
             }
@@ -185,10 +185,10 @@ public abstract class Equation {
                     // add to an existing count
                     if ( count.getAtom().getClass().equals( atom.getClass() ) ) {
                         if ( isReactants ) {
-                            count.setReactantsCount( count.getReactantsCount() + term.getActualCoefficient() );
+                            count.setReactantsCount( count.getReactantsCount() + term.getUserCoefficient() );
                         }
                         else {
-                            count.setProductsCount( count.getProductsCount() + term.getActualCoefficient() );
+                            count.setProductsCount( count.getProductsCount() + term.getUserCoefficient() );
                         }
                         found = true;
                         break;
@@ -197,10 +197,10 @@ public abstract class Equation {
                 // if no existing count was found, create one.
                 if ( !found ) {
                     if ( isReactants ) {
-                        atomCounts.add( new AtomCount( atom, term.getActualCoefficient(), 0 ) );
+                        atomCounts.add( new AtomCount( atom, term.getUserCoefficient(), 0 ) );
                     }
                     else {
-                        atomCounts.add( new AtomCount( atom, 0, term.getActualCoefficient() ) );
+                        atomCounts.add( new AtomCount( atom, 0, term.getUserCoefficient() ) );
                     }
                 }
             }
@@ -212,10 +212,10 @@ public abstract class Equation {
      */
     public void addCoefficientsObserver( SimpleObserver observer ) {
         for ( EquationTerm term : reactants ) {
-            term.getActualCoefficientProperty().addObserver( observer );
+            term.getUserCoefficientProperty().addObserver( observer );
         }
         for ( EquationTerm term : products ) {
-            term.getActualCoefficientProperty().addObserver( observer );
+            term.getUserCoefficientProperty().addObserver( observer );
         }
     }
 
@@ -224,10 +224,10 @@ public abstract class Equation {
      */
     public void removeCoefficientsObserver( SimpleObserver observer ) {
         for ( EquationTerm term : reactants ) {
-            term.getActualCoefficientProperty().removeObserver( observer );
+            term.getUserCoefficientProperty().removeObserver( observer );
         }
         for ( EquationTerm term : products ) {
-            term.getActualCoefficientProperty().removeObserver( observer );
+            term.getUserCoefficientProperty().removeObserver( observer );
         }
     }
 

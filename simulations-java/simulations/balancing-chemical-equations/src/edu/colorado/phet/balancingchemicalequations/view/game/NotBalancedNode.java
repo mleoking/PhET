@@ -85,11 +85,11 @@ public class NotBalancedNode extends GameResultNode {
         Equation equation = new Equation_CH4_2O2_CO2_2H2O();
         EquationTerm[] reactants = equation.getReactants();
         for ( EquationTerm term : reactants ) {
-            term.setActualCoefficient( 15 );
+            term.setUserCoefficient( 15 );
         }
         EquationTerm[] products = equation.getProducts();
         for ( EquationTerm term : products ) {
-            term.setActualCoefficient( 15 );
+            term.setUserCoefficient( 15 );
         }
 
         NotBalancedNode node = new NotBalancedNode( equation, true, BalancedRepresentation.BAR_CHARTS, new HorizontalAligner( new Dimension( 475, 400 ), 90 ) );

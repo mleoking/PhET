@@ -181,7 +181,7 @@ public class EquationNode extends PhetPNode  {
         public TermNode( IntegerRange coefficientRange, EquationTerm term, boolean editable ) {
 
             // coefficient
-            coefficientNode = new CoefficientNode( coefficientRange, term.getActualCoefficientProperty(), editable );
+            coefficientNode = new CoefficientNode( coefficientRange, term.getUserCoefficientProperty(), editable );
             addChild( coefficientNode );
 
             // molecule symbol

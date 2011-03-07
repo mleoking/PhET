@@ -144,7 +144,7 @@ public class BoxesNode extends PComposite {
         final double yMargin = 10;
         final double rowHeight = ( aligner.getBoxSizeReference().getHeight() - ( 2 * yMargin ) ) / ( coefficientRange.getMax() );
         for ( int i = 0; i < terms.length; i++ ) {
-            int numberOfMolecules = terms[i].getActualCoefficient();
+            int numberOfMolecules = terms[i].getUserCoefficient();
             Image moleculeImage = terms[i].getMolecule().getImage();
             double y = 0;
             if ( TOP_DOWN_STACKS ) {
