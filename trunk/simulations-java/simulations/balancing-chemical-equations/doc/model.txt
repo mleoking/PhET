@@ -1,8 +1,7 @@
 Description of the model used in "Balancing Chemical Equations"
 
-This simulation contains equations for synthesis and decomposition reactions.
-Our synthesis reactions have 2 reactants and 1 or 2 products.
-Our decomposition reactions have 1 reactant and 2 products.
+This simulation contains equations for reactions that have 2 reactants
+and 1 or 2 products, or 1 reactant and 2 products.
 
 Each equation is described as a set terms, where a term is a coefficient and 
 a molecule or atom.  Reactant terms are on the left-hand side of the equation, 
