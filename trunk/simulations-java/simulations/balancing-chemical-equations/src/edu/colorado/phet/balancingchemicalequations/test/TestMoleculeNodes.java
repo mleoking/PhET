@@ -66,7 +66,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class TestMoleculeNodes extends JFrame {
+/* package private */ class TestMoleculeNodes extends JFrame {
 
     public TestMoleculeNodes() {
         super( TestMoleculeNodes.class.getName() );

@@ -17,7 +17,7 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class GameModel {
+/* package private */ class GameModel {
 
     /**
      * The set of game states.

@@ -39,7 +39,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class BarNode extends PComposite {
+/* package private */ class BarNode extends PComposite {
 
     private static final int MAX_NUMBER_OF_ATOMS = 12; // arrow appears when this number is exceeded
     private static final PDimension MAX_BAR_SIZE = new PDimension( 40, 135 );
