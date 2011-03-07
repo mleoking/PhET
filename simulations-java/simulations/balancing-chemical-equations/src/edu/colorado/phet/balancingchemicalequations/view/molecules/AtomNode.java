@@ -15,14 +15,17 @@ import edu.colorado.phet.common.piccolophet.nodes.ShadedSphereNode;
  */
 public class AtomNode extends ShadedSphereNode {
 
+    private static final double RATE_OF_CHANGE = 0.75; // >0 and <1, increase this to make small atoms appear smaller
+    private static final double MAX_RADIUS = new P().getRadius();
+    private static final double MODEL_TO_VIEW_SCALE = 0.11;
+
+    /*
+     * There is a large difference between the radii of the smallest and largest atoms.
+     * This function adjusts scaling so that the difference is still noticeable, but not as large.
+     */
     private static final Function1<Double, Double> RADIUS_SCALING_FUNCTION = new Function1<Double,Double>() {
-
-        private final double RATE_OF_CHANGE = 0.75; // >0 and <1, increase this to make small atoms appear smaller
-        private final double maxRadius = new P().getRadius();
-        private final double MODEL_TO_VIEW_SCALE = 0.11;
-
         public Double apply( Double radius ) {
-            final double adjustedRadius = ( maxRadius - RATE_OF_CHANGE * ( maxRadius - radius ) );
+            final double adjustedRadius = ( MAX_RADIUS - RATE_OF_CHANGE * ( MAX_RADIUS - radius ) );
             return MODEL_TO_VIEW_SCALE * adjustedRadius;
         }
     };

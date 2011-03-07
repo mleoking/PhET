@@ -43,6 +43,13 @@ public class BalanceScaleNode extends PComposite {
     private final BeamNode beamNode;
     private final PNode atomPilesParentNode;
 
+    /**
+     * Constructor.
+     * @param atom the atom that we're displaying on the scale
+     * @param leftNumberOfAtoms
+     * @param rightNumberOfAtoms
+     * @param highlighted whether the beam is highlighted (used to indicate whether the scale is balanaced)
+     */
     public BalanceScaleNode( Atom atom, int leftNumberOfAtoms, int rightNumberOfAtoms, boolean highlighted ) {
 
         this.atom = atom;
@@ -62,6 +69,11 @@ public class BalanceScaleNode extends PComposite {
         updateNode();
     }
 
+    /**
+     * Sets the number of atoms on the left and right sides of the beam.
+     * @param leftNumberOfAtoms
+     * @param rightNumberOfAtoms
+     */
     public void setNumberOfAtoms( int leftNumberOfAtoms, int rightNumberOfAtoms ) {
         if ( leftNumberOfAtoms != this.leftNumberOfAtoms || rightNumberOfAtoms != this.rightNumberOfAtoms ) {
             this.leftNumberOfAtoms = leftNumberOfAtoms;
@@ -70,6 +82,10 @@ public class BalanceScaleNode extends PComposite {
         }
     }
 
+    /**
+     * Determines whether the beam is highlighted, use to indicate whether the scale is balanced.
+     * @param highlighted
+     */
     public void setHighlighted( boolean highlighted ) {
         beamNode.setHighlighted( highlighted );
     }

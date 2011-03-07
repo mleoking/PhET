@@ -21,7 +21,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * A pair of boxes that show the number of molecules indicated by the equation coefficients.
+ * A pair of boxes that show the number of molecules indicated by the equation's user coefficients.
  * Left box is for the reactants, right box is for the products.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
@@ -39,11 +39,19 @@ public class BoxesNode extends PComposite {
     private final PComposite moleculesParentNode;
     private final SimpleObserver coefficientsObserver;
     private final RightArrowNode arrowNode;
-    private final HTMLNode moleculesHiddenHodeLeft, moleculesHiddenHodeRight;
+    private final HTMLNode moleculesHiddenLeftNode, moleculesHiddenRightNode;
 
     private Equation equation;
     private boolean balancedHighlightEnabled;
 
+    /**
+     * Constructor
+     * @param equationProperty the equation
+     * @param coefficientRange range of the coefficients
+     * @param aligner provides layout information to ensure horizontal alignment with other user-interface elements
+     * @param boxColorProperty fill color of the boxes
+     * @param moleculesVisibleProperty whether molecules are visible in the boxes
+     */
     public BoxesNode( final Property<Equation> equationProperty, IntegerRange coefficientRange, HorizontalAligner aligner,
             final Property<Color> boxColorProperty, final Property<Boolean> moleculesVisibleProperty ) {
 
@@ -66,10 +74,10 @@ public class BoxesNode extends PComposite {
         addChild( moleculesParentNode );
 
         // "molecules are hidden" message
-        moleculesHiddenHodeLeft = new HTMLNode( BCEStrings.MOLECULES_ARE_HIDDEN, Color.WHITE, new PhetFont( 18 ) );
-        addChild( moleculesHiddenHodeLeft );
-        moleculesHiddenHodeRight = new HTMLNode( BCEStrings.MOLECULES_ARE_HIDDEN, Color.WHITE, new PhetFont( 18 ) );
-        addChild( moleculesHiddenHodeRight );
+        moleculesHiddenLeftNode = new HTMLNode( BCEStrings.MOLECULES_ARE_HIDDEN, Color.WHITE, new PhetFont( 18 ) );
+        addChild( moleculesHiddenLeftNode );
+        moleculesHiddenRightNode = new HTMLNode( BCEStrings.MOLECULES_ARE_HIDDEN, Color.WHITE, new PhetFont( 18 ) );
+        addChild( moleculesHiddenRightNode );
 
         // layout
         double x = 0;
@@ -82,12 +90,12 @@ public class BoxesNode extends PComposite {
         x = reactantsBoxNode.getFullBoundsReference().getMaxX() + aligner.getBoxSeparation();
         y = reactantsBoxNode.getYOffset();
         productsBoxNode.setOffset( x, y );
-        x = reactantsBoxNode.getFullBoundsReference().getCenterX() - ( moleculesHiddenHodeLeft.getFullBoundsReference().getWidth() / 2 );
-        y = reactantsBoxNode.getFullBoundsReference().getCenterY() - ( moleculesHiddenHodeLeft.getFullBoundsReference().getHeight() / 2 );
-        moleculesHiddenHodeLeft.setOffset( x, y );
-        x = productsBoxNode.getFullBoundsReference().getCenterX() - ( moleculesHiddenHodeRight.getFullBoundsReference().getWidth() / 2 );
-        y = productsBoxNode.getFullBoundsReference().getCenterY() - ( moleculesHiddenHodeRight.getFullBoundsReference().getHeight() / 2 );
-        moleculesHiddenHodeRight.setOffset( x, y );
+        x = reactantsBoxNode.getFullBoundsReference().getCenterX() - ( moleculesHiddenLeftNode.getFullBoundsReference().getWidth() / 2 );
+        y = reactantsBoxNode.getFullBoundsReference().getCenterY() - ( moleculesHiddenLeftNode.getFullBoundsReference().getHeight() / 2 );
+        moleculesHiddenLeftNode.setOffset( x, y );
+        x = productsBoxNode.getFullBoundsReference().getCenterX() - ( moleculesHiddenRightNode.getFullBoundsReference().getWidth() / 2 );
+        y = productsBoxNode.getFullBoundsReference().getCenterY() - ( moleculesHiddenRightNode.getFullBoundsReference().getHeight() / 2 );
+        moleculesHiddenRightNode.setOffset( x, y );
 
         // coefficient changes
         coefficientsObserver = new SimpleObserver() {
@@ -119,12 +127,21 @@ public class BoxesNode extends PComposite {
         } );
     }
 
+    /*
+     * Shows or hides the molecules in the boxes.
+     */
     private void setMoleculesVisible( boolean moleculesVisible ) {
         moleculesParentNode.setVisible( moleculesVisible );
-        moleculesHiddenHodeLeft.setVisible( !moleculesVisible );
-        moleculesHiddenHodeRight.setVisible( !moleculesVisible );
+        moleculesHiddenLeftNode.setVisible( !moleculesVisible );
+        moleculesHiddenRightNode.setVisible( !moleculesVisible );
     }
 
+    /**
+     * Enables or disables the highlighting feature.
+     * When enabled, the arrow between the boxes will light up when the equation is balanced.
+     * This is enabled by default, but we want to disable in the Game until the user presses the "Check" button.
+     * @param enabled
+     */
     public void setBalancedHighlightEnabled( boolean enabled ) {
         if ( enabled != balancedHighlightEnabled ) {
             balancedHighlightEnabled = enabled;
@@ -132,14 +149,20 @@ public class BoxesNode extends PComposite {
         }
     }
 
+    /*
+     * Updates the number of molecules and whether the arrow is highlighted.
+     */
     private void updateNode() {
         moleculesParentNode.removeAllChildren();
-        updateMolecules( equation.getReactants(), aligner.getReactantXOffsets( equation ) );
-        updateMolecules( equation.getProducts(), aligner.getProductXOffsets( equation ) );
+        createMolecules( equation.getReactants(), aligner.getReactantXOffsets( equation ) );
+        createMolecules( equation.getProducts(), aligner.getProductXOffsets( equation ) );
         arrowNode.setHighlighted( equation.isBalanced() && balancedHighlightEnabled );
     }
 
-    private void updateMolecules( EquationTerm[] terms, double[] xOffsets ) {
+    /*
+     * Creates molecules in the boxes for one set of terms (reactants or products).
+     */
+    private void createMolecules( EquationTerm[] terms, double[] xOffsets ) {
         assert( terms.length == xOffsets.length );
         final double yMargin = 10;
         final double rowHeight = ( aligner.getBoxSizeReference().getHeight() - ( 2 * yMargin ) ) / ( coefficientRange.getMax() );
@@ -167,7 +190,7 @@ public class BoxesNode extends PComposite {
         }
     }
 
-    /**
+    /*
      * A simple box.
      */
     private static class BoxNode extends PPath {
