@@ -74,14 +74,10 @@ public class BoxesNode extends PComposite {
         addChild( moleculesParentNode );
 
         // "molecules are hidden" message
-        {
-            Color color = Color.WHITE;
-            PhetFont font = new PhetFont( 18 );
-            moleculesHiddenLeftNode = new HTMLNode( BCEStrings.MOLECULES_ARE_HIDDEN, color, font );
-            addChild( moleculesHiddenLeftNode );
-            moleculesHiddenRightNode = new HTMLNode( BCEStrings.MOLECULES_ARE_HIDDEN, color, font );
-            addChild( moleculesHiddenRightNode );
-        }
+        moleculesHiddenLeftNode = new MoleculesAreHiddenNode();
+        addChild( moleculesHiddenLeftNode );
+        moleculesHiddenRightNode = new MoleculesAreHiddenNode();
+        addChild( moleculesHiddenRightNode );
 
         // layout
         double x = 0;
@@ -202,6 +198,15 @@ public class BoxesNode extends PComposite {
             super( new Rectangle2D.Double( 0, 0, boxSize.getWidth(), boxSize.getHeight() ) );
             setStrokePaint( Color.BLACK );
             setStroke( new BasicStroke( 1f ) );
+        }
+    }
+
+    /*
+     * The "molecules are hidden" message.
+     */
+    private static class MoleculesAreHiddenNode extends HTMLNode {
+        public MoleculesAreHiddenNode() {
+            super( BCEStrings.MOLECULES_ARE_HIDDEN, Color.WHITE, new PhetFont( 18 ) );
         }
     }
 }
