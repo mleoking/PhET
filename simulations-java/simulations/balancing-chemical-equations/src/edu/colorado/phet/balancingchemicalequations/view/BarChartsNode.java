@@ -115,7 +115,7 @@ public class BarChartsNode extends PComposite {
      */
     private void updateEqualitySign() {
         // visibility
-        equalsSignNode.setVisible( equation.isAllCoefficientsZero() || equation.isBalanced() );
+        equalsSignNode.setVisible( equation.isBalanced() );
         notEqualsSignNode.setVisible( !equalsSignNode.getVisible() );
         // highlight
         equalsSignNode.setHighlighted( equation.isBalanced() && balancedHighlightEnabled );

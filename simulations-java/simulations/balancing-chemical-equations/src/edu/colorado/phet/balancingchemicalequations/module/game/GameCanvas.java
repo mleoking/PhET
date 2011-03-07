@@ -337,7 +337,7 @@ public class GameCanvas extends BCECanvas {
     public void initNext() {
         setTopLevelNodeVisible( gamePlayParentNode );
         setButtonNodeVisible( nextButton );
-        setResultsPopupVisible( model.getCurrentEquation().isBalancedWithLowestCoefficients() );
+        setResultsPopupVisible( model.getCurrentEquation().isBalancedAndSimplified() );
         equationNode.setEditable( false );
         model.getCurrentEquation().balance(); // show the correct answer
         setBalancedHighlightEnabled( true );
@@ -399,7 +399,7 @@ public class GameCanvas extends BCECanvas {
         if ( visible ) {
 
             // evaluate the user's answer and create the proper type of node
-            if ( model.getCurrentEquation().isBalancedWithLowestCoefficients() ) {
+            if ( model.getCurrentEquation().isBalancedAndSimplified() ) {
                 gameResultNode = new BalancedNode();
             }
             else if ( model.getCurrentEquation().isBalanced() ) {
@@ -420,7 +420,7 @@ public class GameCanvas extends BCECanvas {
     }
 
     private void playGuessAudio() {
-        if ( model.getCurrentEquation().isBalancedWithLowestCoefficients() ) {
+        if ( model.getCurrentEquation().isBalancedAndSimplified() ) {
             audioPlayer.correctAnswer();
         }
         else {
