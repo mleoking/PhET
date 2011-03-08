@@ -14,8 +14,6 @@ public interface VoidFunction0 {
 
     /**
      * A VoidFunction which causes no side effects.
-     *
-     * @param <T>
      */
     public static class Null implements VoidFunction0 {
         public void apply() {
