@@ -1,3 +1,4 @@
+Migrated ThreeImageNode from Fluid Pressure and Flow
 3/1/11 #2763, Removed UnsupportedOperationException when not showing the full visible spectrum
 2/28/11 add PNodeLayoutUtils.alignInside, with test app TestAlignInside
 Changed the background color for ControlPanelNode
