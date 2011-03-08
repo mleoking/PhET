@@ -19,9 +19,9 @@ import static akka.actor.Actors.remote;
  * @author Sam Reid
  */
 public class Server {
-    public static int PORT = 2552;
-    public static String HOST_IP_ADDRESS = "localhost";
-//    public static String HOST_IP_ADDRESS = "128.138.145.107";//phet-server
+    public static int PORT = 44100;
+    //        public static String HOST_IP_ADDRESS = "localhost";
+    public static String HOST_IP_ADDRESS = "128.138.145.107";//phet-server
 
     private HashMap<StudentID, ArrayList<Object>> dataPoints = new HashMap<StudentID, ArrayList<Object>>();
     public static String[] names = new String[] { "Alice", "Bob", "Charlie", "Danielle", "Earl", "Frankie", "Gail", "Hank", "Isabelle", "Joe", "Kim", "Lucy", "Mikey", "Nathan", "Ophelia", "Parker", "Quinn", "Rusty", "Shirley", "Tina", "Uther Pendragon", "Vivian", "Walt", "Xander", "Yolanda", "Zed" };
