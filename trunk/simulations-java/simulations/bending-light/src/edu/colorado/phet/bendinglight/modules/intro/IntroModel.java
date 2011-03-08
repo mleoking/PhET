@@ -51,10 +51,10 @@ public class IntroModel extends BendingLightModel {
         if ( laser.on.getValue() ) {
             final ImmutableVector2D tail = new ImmutableVector2D( laser.emissionPoint.getValue() );
 
-            double n1 = getN1();
-            double n2 = getN2();
+            //Snell's law, see http://en.wikipedia.org/wiki/Snell's_law for definition of n1, n2, theta1, theta2
+            final double n1 = getN1();
+            final double n2 = getN2();
 
-            //Snell's law, see http://en.wikipedia.org/wiki/Snell's_law
             final double theta1 = laser.getAngle() - Math.PI / 2;
             double theta2 = asin( n1 / n2 * sin( theta1 ) );
 
@@ -66,7 +66,11 @@ public class IntroModel extends BendingLightModel {
             //According to http://en.wikipedia.org/wiki/Wavelength
             //lambda = lambda0 / n(lambda0)
             final Color color = laser.color.getValue().getColor();
-            final LightRay incidentRay = new LightRay( tail, new ImmutableVector2D(), n1, WAVELENGTH_RED / n1, sourcePower, color, sourceWaveWidth, incomingRayPhase, bottom, incomingRayPhase, true, false );
+            final double wavelengthInTopMedium = laser.color.getValue().getWavelength() / n1;
+
+            //Since the n1 depends on the wavelength, when you change the wavelength, the wavelengthInTopMedium also changes (seemingly in the opposite direction)
+//            System.out.println( "wavelength = "+laser.color.getValue().getWavelength()+", n1="+n1+", wavelengthInTopMedium = " + wavelengthInTopMedium );
+            final LightRay incidentRay = new LightRay( tail, new ImmutableVector2D(), n1, wavelengthInTopMedium, sourcePower, color, sourceWaveWidth, incomingRayPhase, bottom, incomingRayPhase, true, false );
             incidentRay.phase.addObserver( new SimpleObserver() {
                 public void update() {
 //                            incomingRayPhase = incidentRay.phase.getValue();//TODO: this is buggy
@@ -90,7 +94,7 @@ public class IntroModel extends BendingLightModel {
                 }
                 double reflectedWaveWidth = sourceWaveWidth;
                 addAndAbsorb( new LightRay( new ImmutableVector2D(),
-                                            parseAngleAndMagnitude( 1, Math.PI - laser.getAngle() ), n1, WAVELENGTH_RED / n1, reflectedPowerRatio * sourcePower, color, reflectedWaveWidth, incidentRay.getNumberOfWavelengths(), bottom, 0.0, true, false ) );
+                                            parseAngleAndMagnitude( 1, Math.PI - laser.getAngle() ), n1, wavelengthInTopMedium, reflectedPowerRatio * sourcePower, color, reflectedWaveWidth, incidentRay.getNumberOfWavelengths(), bottom, 0.0, true, false ) );
 
                 if ( hasTransmittedRay ) {
                     //Transmitted
