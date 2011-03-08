@@ -56,7 +56,7 @@ public class PrismsModel extends BendingLightModel {
 
     public static ArrayList<Prism> getPrismPrototypes() {
         return new ArrayList<Prism>() {{
-            final double a = WAVELENGTH_RED * 10;//characteristic length scale
+            final double a = CHARACTERISTIC_LENGTH * 10;//characteristic length scale
             final double b = a / 4;//characteristic length scale
             //Square
             add( new Prism( new ImmutableVector2D(),
@@ -166,7 +166,7 @@ public class PrismsModel extends BendingLightModel {
     }
 
     private void propagate( Ray incidentRay, int count ) {
-        double waveWidth = WAVELENGTH_RED * 5;
+        double waveWidth = CHARACTERISTIC_LENGTH * 5;
         if ( count > 50 || incidentRay.power < 0.001 ) {//binary recursion: 2^10 = 1024
             return;
         }

@@ -9,11 +9,12 @@ import java.util.List;
 import edu.colorado.phet.bendinglight.view.LaserColor;
 import edu.colorado.phet.bendinglight.view.LaserView;
 import edu.colorado.phet.common.phetcommon.math.Function;
-import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import edu.colorado.phet.common.phetcommon.util.*;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.Function2;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
@@ -70,8 +71,10 @@ public class BendingLightModel {
 
     public static final double SPEED_OF_LIGHT = 2.99792458e8;
     public static final double WAVELENGTH_RED = 650E-9;
+    //A good size for the units being used in the sim; used to determine the dimensions of various model objects
+    public static final double CHARACTERISTIC_LENGTH = WAVELENGTH_RED;
 
-    final double modelWidth = WAVELENGTH_RED * 62;
+    final double modelWidth = CHARACTERISTIC_LENGTH * 62;
     final double modelHeight = modelWidth * 0.7;
 
     private ArrayList<VoidFunction1<LightRay>> rayAddedListeners = new ArrayList<VoidFunction1<LightRay>>();
@@ -107,7 +110,7 @@ public class BendingLightModel {
                 public void apply( Double value ) {
                     laser.color.setValue( new LaserColor.OneColor( value ) );
                 }
-            });
+            } );
         }};
         laserView.addObserver( new SimpleObserver() {
             public void update() {

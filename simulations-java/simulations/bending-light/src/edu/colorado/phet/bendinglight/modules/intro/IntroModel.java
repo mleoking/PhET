@@ -59,7 +59,7 @@ public class IntroModel extends BendingLightModel {
             double theta2 = asin( n1 / n2 * sin( theta1 ) );
 
             final double sourcePower = 1.0;
-            double a = WAVELENGTH_RED * 5;//cross section of incident light, used to compute wave widths
+            double a = CHARACTERISTIC_LENGTH * 5;//cross section of incident light, used to compute wave widths
 
             double sourceWaveWidth = a / 2;//This one fixes the input beam to be a fixed width independent of angle
 

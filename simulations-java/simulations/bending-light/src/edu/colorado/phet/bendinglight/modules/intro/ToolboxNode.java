@@ -39,7 +39,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 import static edu.colorado.phet.bendinglight.BendingLightApplication.RESOURCES;
-import static edu.colorado.phet.bendinglight.model.BendingLightModel.WAVELENGTH_RED;
+import static edu.colorado.phet.bendinglight.model.BendingLightModel.CHARACTERISTIC_LENGTH;
 import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.multiScaleToWidth;
 
 /**
@@ -120,7 +120,7 @@ public class ToolboxNode extends PNode {
 
         //TODO: some constants copied from BendingLightModel
         //TODO: functionality and some code copied from protractor toolbox item above
-        final double modelWidth = WAVELENGTH_RED * 62;
+        final double modelWidth = CHARACTERISTIC_LENGTH * 62;
         final double modelHeight = modelWidth * 0.7;
         final IntensityMeterNode iconNode = new IntensityMeterNode( transform, new IntensityMeter( modelWidth * 0.3, -modelHeight * 0.3, modelWidth * 0.4, -modelHeight * 0.3 ) {{
             enabled.setValue( true );
