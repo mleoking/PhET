@@ -7,13 +7,14 @@ import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.bendinglight.modules.moretools.MoreToolsModel;
 import edu.colorado.phet.bendinglight.view.*;
+import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.model.Resettable;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.Function2;
 import edu.colorado.phet.common.phetcommon.util.function.Function3;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
@@ -69,9 +70,9 @@ public class IntroCanvas extends BendingLightCanvas<IntroModel> {
         }} );
 
         afterLightLayer.addChild( new NormalLine( transform, model.getHeight() ) {{
-            showNormal.addObserver( new SimpleObserver() {
-                public void update() {
-                    setVisible( showNormal.getValue() );
+            showNormal.addObserver( new VoidFunction1<Boolean>() {
+                public void apply( Boolean value ) {
+                    setVisible( value );
                 }
             } );
         }} );

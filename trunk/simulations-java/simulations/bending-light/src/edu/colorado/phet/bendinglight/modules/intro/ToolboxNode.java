@@ -20,6 +20,7 @@ import edu.colorado.phet.common.phetcommon.util.*;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.Function2;
 import edu.colorado.phet.common.phetcommon.util.function.Function3;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -77,11 +78,11 @@ public class ToolboxNode extends PNode {
                         public DoDragNode apply( ModelViewTransform transform, final Property<Boolean> showTool, final Point2D model ) {
                             velocitySensor.position.setValue( new ImmutableVector2D( model ) );
                             return new VelocitySensorNode( transform, velocitySensor ) {{
-                                showTool.addObserver( new SimpleObserver() {
-                                    public void update() {
-                                        setVisible( showTool.getValue() );
+                                showTool.addObserver( new VoidFunction1<Boolean>() {
+                                    public void apply( Boolean visible ) {
+                                        setVisible( visible );
                                     }
-                                } );
+                                });
                             }};
                         }
                     } );
