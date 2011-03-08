@@ -127,35 +127,34 @@ public class PrismsModel extends BendingLightModel {
 
             final boolean laserInPrism = isLaserInPrism();
             final ImmutableVector2D directionUnitVector = laser.getDirectionUnitVector();
-
-            final double wavelength = laser.color.getValue().getWavelength();
-
             //This can be used to show the main central ray
             if ( !manyRays.getValue() ) {
-                propagateColor( new Ray( tail, directionUnitVector, 1.0, laserInPrism ? prismDispersion : environmentDispersion, wavelength, laserInPrism ? prismMedium.getValue().getIndexOfRefraction() : environment.getValue().getIndexOfRefraction() ) );
+                propagate( tail, directionUnitVector, 1.0, laserInPrism ? prismDispersion : environmentDispersion,
+                           laserInPrism ? prismMedium.getValue().getIndexOfRefraction() : environment.getValue().getIndexOfRefraction() );
             }
             else {
                 //Many parallel rays
                 for ( double x = -WAVELENGTH_RED; x <= WAVELENGTH_RED * 1.1; x += WAVELENGTH_RED / 2 ) {
                     ImmutableVector2D offsetDir = directionUnitVector.getRotatedInstance( Math.PI / 2 ).times( x );
-                    propagateColor( new Ray( tail.plus( offsetDir ), directionUnitVector, 1.0, laserInPrism ? prismDispersion : environmentDispersion, wavelength, laserInPrism ? prismMedium.getValue().getIndexOfRefraction() : environment.getValue().getIndexOfRefraction() ) );
+                    propagate( tail.plus( offsetDir ), directionUnitVector, 1.0, laserInPrism ? prismDispersion : environmentDispersion,
+                               laserInPrism ? prismMedium.getValue().getIndexOfRefraction() : environment.getValue().getIndexOfRefraction() );
                 }
             }
         }
     }
 
-    //Determines whether to use white light or single color light
-    private void propagateColor( Ray incidentRay ) {
+    private void propagate( ImmutableVector2D tail, ImmutableVector2D directionUnitVector, double power, Function2<Double, Double, Double> indexOfRefraction, double mediumIndexOfRefraction ) {
+        //Determines whether to use white light or single color light
         if ( laser.color.getValue() == LaserColor.WHITE_LIGHT ) {
             final double min = VisibleColor.MIN_WAVELENGTH / 1E9;
             final double max = VisibleColor.MAX_WAVELENGTH / 1E9;
             double dw = ( max - min ) / 16;//This number sets the number of (equally spaced wavelength) rays to show in a white beam.  More rays looks better but is more computationally intensive.
             for ( double wavelength = min; wavelength <= max; wavelength += dw ) {
-                propagate( new Ray( incidentRay.tail, incidentRay.directionUnitVector, incidentRay.power, incidentRay.indexOfRefraction, wavelength, incidentRay.mediumIndexOfRefraction ), 0 );
+                propagate( new Ray( tail, directionUnitVector, power, indexOfRefraction, wavelength, mediumIndexOfRefraction ), 0 );
             }
         }
         else {
-            propagate( incidentRay, 0 );
+            propagate( new Ray( tail, directionUnitVector, power, indexOfRefraction, laser.color.getValue().getWavelength(), mediumIndexOfRefraction ), 0 );
         }
     }
 
@@ -174,7 +173,7 @@ public class PrismsModel extends BendingLightModel {
         Intersection intersection = getIntersection( incidentRay, prisms );
         ImmutableVector2D L = incidentRay.directionUnitVector;
         final double n1 = incidentRay.indexOfRefraction.apply( incidentRay.wavelength, incidentRay.mediumIndexOfRefraction );
-        final double wavelengthInN1 = laser.color.getValue().getWavelength() / n1;
+        final double wavelengthInN1 = incidentRay.wavelength / n1;
         if ( intersection != null ) {
             ImmutableVector2D pointOnOtherSide = new ImmutableVector2D( intersection.getPoint() ).plus( incidentRay.directionUnitVector.getInstanceOfMagnitude( 1E-12 ) );
             boolean outputInsidePrism = false;
