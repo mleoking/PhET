@@ -9,8 +9,8 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.util.VoidFunction0;
-import edu.colorado.phet.common.phetcommon.util.VoidFunction1;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
 /**
  * This is the model for Gravity and Orbits; there is one GravityAndOrbitsModel per each GravityAndOrbitsMode, and it uses ModelState to update the physics.

@@ -4,7 +4,7 @@ package edu.colorado.phet.bendinglight.modules.prisms;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.util.VoidFunction0;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 
 /**
  * @author Sam Reid

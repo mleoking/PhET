@@ -4,7 +4,7 @@ package edu.colorado.phet.balancingchemicalequations.view.molecules;
 
 import edu.colorado.phet.balancingchemicalequations.model.Atom;
 import edu.colorado.phet.balancingchemicalequations.model.Atom.P;
-import edu.colorado.phet.common.phetcommon.util.Function1;
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.piccolophet.nodes.ShadedSphereNode;
 
 /**

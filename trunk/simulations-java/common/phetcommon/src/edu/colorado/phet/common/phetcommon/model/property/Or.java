@@ -3,7 +3,7 @@ package edu.colorado.phet.common.phetcommon.model.property;
 
 import java.util.List;
 
-import edu.colorado.phet.common.phetcommon.util.Function2;
+import edu.colorado.phet.common.phetcommon.util.function.Function2;
 
 /**
  * Returns a boolean AND over Property arguments.  This provides read-only access;

@@ -2,7 +2,7 @@
 package edu.colorado.phet.bendinglight.modules.intro;
 
 import edu.colorado.phet.bendinglight.modules.BendingLightModule;
-import edu.colorado.phet.common.phetcommon.util.Function3;
+import edu.colorado.phet.common.phetcommon.util.function.Function3;
 import edu.umd.cs.piccolo.PNode;
 
 /**

@@ -27,7 +27,7 @@ import edu.colorado.phet.common.games.GameOverNode.GameOverListener;
 import edu.colorado.phet.common.games.GameScoreboardNode.GameScoreboardListener;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.util.VoidFunction0;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;

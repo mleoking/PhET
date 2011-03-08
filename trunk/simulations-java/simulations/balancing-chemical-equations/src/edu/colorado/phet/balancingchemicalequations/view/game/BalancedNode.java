@@ -4,7 +4,7 @@ package edu.colorado.phet.balancingchemicalequations.view.game;
 
 import edu.colorado.phet.balancingchemicalequations.BCEResources;
 import edu.colorado.phet.balancingchemicalequations.BCEStrings;
-import edu.colorado.phet.common.phetcommon.util.Function1;
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;

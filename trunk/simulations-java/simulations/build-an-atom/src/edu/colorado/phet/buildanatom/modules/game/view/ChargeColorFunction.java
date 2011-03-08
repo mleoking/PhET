@@ -5,7 +5,7 @@ package edu.colorado.phet.buildanatom.modules.game.view;
 import java.awt.Color;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.Function0;
+import edu.colorado.phet.common.phetcommon.util.function.Function0;
 
 /**
  * This function returns a different color value based on the property with

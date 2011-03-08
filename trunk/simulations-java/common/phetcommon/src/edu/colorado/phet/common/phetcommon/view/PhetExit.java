@@ -4,7 +4,7 @@ package edu.colorado.phet.common.phetcommon.view;
 
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.util.VoidFunction0;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 
 /**
  * PhetExit encapsulates the various ways of exiting a sim.  It also sends out notifications before System.exit(0) is

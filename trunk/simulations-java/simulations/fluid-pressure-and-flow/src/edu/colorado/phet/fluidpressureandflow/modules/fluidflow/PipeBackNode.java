@@ -8,7 +8,7 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.Function1;
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;

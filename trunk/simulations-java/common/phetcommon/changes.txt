@@ -1,3 +1,4 @@
+3/7/11 #2731, Repackaged Function classes from util/ to util/function/
 3/7/11 #2731, Moved Property<T> and related classes to a new package model.property
 3/6/11 Changed red to color-blind friendly red in PhetColorScheme
 3/4/11 Moved RichSimpleObserver to common from bending-light

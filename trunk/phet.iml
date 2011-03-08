@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module relativePaths="true" type="JAVA_MODULE" version="4">
+  <component name="FacetManager">
+    <facet type="scala" name="Scala">
+      <configuration>
+        <option name="compilerLibraryLevel" value="Global" />
+        <option name="compilerLibraryName" value="scala-compiler-2.8.0" />
+      </configuration>
+    </facet>
+  </component>
   <component name="Flex.Build.Configuration">
     <option name="DO_BUILD" value="true" />
     <option name="USE_DEFAULT_SDK_CONFIG_FILE" value="false" />

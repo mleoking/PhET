@@ -18,7 +18,7 @@ import edu.colorado.phet.balancingchemicalequations.view.BalancedRepresentation;
 import edu.colorado.phet.balancingchemicalequations.view.BarChartsNode;
 import edu.colorado.phet.balancingchemicalequations.view.HorizontalAligner;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.Function1;
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;

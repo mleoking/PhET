@@ -7,6 +7,10 @@ import edu.colorado.phet.bendinglight.view.*;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.util.*;
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
+import edu.colorado.phet.common.phetcommon.util.function.Function2;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.umd.cs.piccolo.PNode;
 

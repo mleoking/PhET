@@ -6,7 +6,7 @@ import edu.colorado.phet.bendinglight.modules.intro.IntroModel;
 import edu.colorado.phet.bendinglight.view.BendingLightWavelengthControl;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
-import edu.colorado.phet.common.phetcommon.util.Function3;
+import edu.colorado.phet.common.phetcommon.util.function.Function3;
 import edu.umd.cs.piccolo.PNode;
 
 /**

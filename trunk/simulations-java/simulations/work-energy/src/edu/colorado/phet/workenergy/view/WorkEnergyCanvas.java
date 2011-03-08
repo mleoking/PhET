@@ -11,7 +11,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.Function1;
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.clock.TimeSpeedSlider;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;

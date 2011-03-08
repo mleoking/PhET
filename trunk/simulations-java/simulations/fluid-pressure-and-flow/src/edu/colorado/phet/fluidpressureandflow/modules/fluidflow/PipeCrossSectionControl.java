@@ -3,7 +3,7 @@ package edu.colorado.phet.fluidpressureandflow.modules.fluidflow;
 
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.util.Function1;
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.fluidpressureandflow.model.CrossSection;
 import edu.umd.cs.piccolo.PNode;

@@ -6,7 +6,7 @@ import java.awt.Color;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
-import edu.colorado.phet.common.phetcommon.util.Function1;
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;

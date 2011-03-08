@@ -19,7 +19,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.util.VoidFunction0;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
 import edu.colorado.phet.common.phetcommon.view.util.GridPanel;

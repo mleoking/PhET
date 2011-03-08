@@ -8,7 +8,7 @@ import java.util.Random;
 
 import edu.colorado.phet.buildanatom.developer.ProblemTypeSelectionDialog;
 import edu.colorado.phet.buildanatom.model.ImmutableAtom;
-import edu.colorado.phet.common.phetcommon.util.Function1;
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
 
 /**
  * Represents an ordered list of Problems corresponding to a particular difficulty level.
