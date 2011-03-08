@@ -18,7 +18,7 @@ import edu.colorado.phet.buildanatom.model.Bucket;
 import edu.colorado.phet.buildanatom.model.ImmutableAtom;
 import edu.colorado.phet.buildanatom.modules.isotopemixture.model.IsotopeMixturesModel;
 import edu.colorado.phet.buildanatom.modules.isotopemixture.model.MovableAtom;
-import edu.colorado.phet.buildanatom.modules.isotopemixture.model.IsotopeMixturesModel.IsotopeSize;
+import edu.colorado.phet.buildanatom.modules.isotopemixture.model.IsotopeMixturesModel.InteractivityMode;
 import edu.colorado.phet.buildanatom.modules.isotopemixture.model.IsotopeMixturesModel.Listener;
 import edu.colorado.phet.buildanatom.view.BucketFrontNode;
 import edu.colorado.phet.buildanatom.view.BucketHoleNode;
@@ -35,7 +35,6 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PieChartNode;
 import edu.colorado.phet.common.piccolophet.nodes.PieChartNode.PieValue;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -188,7 +187,7 @@ public class IsotopeMixturesCanvas extends PhetPCanvas {
             centerFullBoundsOnPoint( buttonLocation.getX(), buttonLocation.getY() );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    model.getAtomSizeProperty().setValue( IsotopeSize.SMALL );
+                    model.getInteractivityModeProperty().setValue( InteractivityMode.SLIDERS_AND_SMALL_ATOMS );
                 }
             });
         }};
@@ -198,7 +197,7 @@ public class IsotopeMixturesCanvas extends PhetPCanvas {
             centerFullBoundsOnPoint( buttonLocation.getX(), buttonLocation.getY() );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    model.getAtomSizeProperty().setValue( IsotopeSize.LARGE );
+                    model.getInteractivityModeProperty().setValue( InteractivityMode.BUCKETS_AND_LARGE_ATOMS );
                 }
             });
         }};
@@ -208,11 +207,11 @@ public class IsotopeMixturesCanvas extends PhetPCanvas {
         // hook it up to be triggered on changes to relevant model properties.
         SimpleObserver buttonVizUpdater = new SimpleObserver() {
             public void update() {
-                moreAtomsButton.setVisible( model.getAtomSizeProperty().getValue() == IsotopeSize.LARGE && model.getShowingNaturesMixProperty().getValue() == false );
-                lessAtomsButton.setVisible( model.getAtomSizeProperty().getValue() == IsotopeSize.SMALL && model.getShowingNaturesMixProperty().getValue() == false );
+                moreAtomsButton.setVisible( model.getInteractivityModeProperty().getValue() == InteractivityMode.BUCKETS_AND_LARGE_ATOMS && model.getShowingNaturesMixProperty().getValue() == false );
+                lessAtomsButton.setVisible( model.getInteractivityModeProperty().getValue() == InteractivityMode.SLIDERS_AND_SMALL_ATOMS && model.getShowingNaturesMixProperty().getValue() == false );
             }
         };
-        model.getAtomSizeProperty().addObserver( buttonVizUpdater );
+        model.getInteractivityModeProperty().addObserver( buttonVizUpdater );
         model.getShowingNaturesMixProperty().addObserver( buttonVizUpdater );
 
         // Add the radio buttons that allow the user to choose between their
