@@ -103,11 +103,11 @@ public class BendingLightModel {
         }.observe( laser.on, laser.pivot, laser.emissionPoint, intensityMeter.sensorPosition, intensityMeter.enabled, laser.color, laserView );
 
         wavelengthProperty = new Property<Double>( BendingLightModel.WAVELENGTH_RED ) {{
-            addObserver( new SimpleObserver() {
-                public void update() {
-                    laser.color.setValue( new LaserColor.OneColor( getValue() ) );
+            addObserver( new VoidFunction1<Double>() {
+                public void apply( Double value ) {
+                    laser.color.setValue( new LaserColor.OneColor( value ) );
                 }
-            } );
+            });
         }};
         laserView.addObserver( new SimpleObserver() {
             public void update() {
