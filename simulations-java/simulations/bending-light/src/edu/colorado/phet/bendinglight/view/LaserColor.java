@@ -12,14 +12,18 @@ import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 public abstract class LaserColor {
     public static final LaserColor WHITE_LIGHT = new LaserColor() {
         @Override
+        public double getWavelength() {
+            new RuntimeException( "GetWavelength shouldn't be called for white light" ).printStackTrace();
+            return BendingLightModel.WAVELENGTH_RED;
+        }
+
+        @Override
         public Color getColor() {
             return Color.gray;
         }
     };
 
-    public double getWavelength() {
-        return BendingLightModel.WAVELENGTH_RED;
-    }
+    public abstract double getWavelength();
 
     public static class OneColor extends LaserColor {
         private double wavelength;
