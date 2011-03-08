@@ -26,9 +26,13 @@ public class ThumbnailGenerator {
 
     public BufferedImage generateThumbnail( GravityAndOrbitsApplicationState response ) {
         response.apply( application );
-        BufferedImage image = new BufferedImage( application.getPhetFrame().getWidth(), application.getPhetFrame().getHeight(), BufferedImage.TYPE_INT_ARGB_PRE );
+        return toImage( application.getPhetFrame() );
+    }
+
+    public static BufferedImage toImage( JFrame frame ) {
+        BufferedImage image = new BufferedImage( frame.getWidth(), frame.getHeight(), BufferedImage.TYPE_INT_ARGB_PRE );
         Graphics2D g2 = image.createGraphics();
-        application.getPhetFrame().getContentPane().paint( g2 );
+        frame.getContentPane().paint( g2 );
         g2.dispose();
         return image;
     }

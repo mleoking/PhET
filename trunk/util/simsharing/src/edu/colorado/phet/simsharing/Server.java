@@ -9,6 +9,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import edu.colorado.phet.gravityandorbits.simsharing.GravityAndOrbitsApplicationState;
+import edu.colorado.phet.gravityandorbits.simsharing.SerializableBufferedImage;
+
 import static akka.actor.Actors.actorOf;
 import static akka.actor.Actors.remote;
 
@@ -17,8 +20,8 @@ import static akka.actor.Actors.remote;
  */
 public class Server {
     public static int PORT = 2552;
-    //    public static String IP_ADDRESS = "localhost";
-    public static String IP_ADDRESS = "128.138.145.107";
+    public static String HOST_IP_ADDRESS = "localhost";
+//    public static String HOST_IP_ADDRESS = "128.138.145.107";//phet-server
 
     private HashMap<StudentID, ArrayList<Object>> dataPoints = new HashMap<StudentID, ArrayList<Object>>();
     public static String[] names = new String[] { "Alice", "Bob", "Charlie", "Danielle", "Earl", "Frankie", "Gail", "Hank", "Isabelle", "Joe", "Kim", "Lucy", "Mikey", "Nathan", "Ophelia", "Parker", "Quinn", "Rusty", "Shirley", "Tina", "Uther Pendragon", "Vivian", "Walt", "Xander", "Yolanda", "Zed" };
@@ -30,22 +33,30 @@ public class Server {
         new Server().start();
     }
 
+    public Object getLatestDataPoint( StudentID id ) {
+        final ArrayList<Object> objects = dataPoints.get( id );
+        if ( objects != null ) {
+            return objects.get( objects.size() - 1 );
+        }
+        else { return null; }
+    }
+
     private void start() {
-        remote().start( IP_ADDRESS, PORT ).register( "server", actorOf( new Creator<Actor>() {
+        remote().start( HOST_IP_ADDRESS, PORT ).register( "server", actorOf( new Creator<Actor>() {
             public Actor create() {
                 return new UntypedActor() {
                     public void onReceive( Object o ) {
                         if ( o instanceof TeacherDataRequest ) {
                             TeacherDataRequest request = (TeacherDataRequest) o;
-                            final ArrayList<Object> objects = dataPoints.get( request.getStudentID() );
-                            if ( objects != null && objects.size() > 0 ) {
-                                getContext().replySafe( objects.get( objects.size() - 1 ) );
+                            Object data = getLatestDataPoint( request.getStudentID() );
+                            if ( data != null ) {
+                                getContext().replySafe( data );
                             }
                             else {
                                 getContext().replySafe( null );
                             }
                         }
-                        else if ( o instanceof GetStudentID ) {
+                        else if ( o instanceof RegisterStudent ) {
                             final StudentID studentID = new StudentID( connectionCount, names[connectionCount % names.length] );
                             getContext().replySafe( studentID );
                             connectionCount = connectionCount + 1;
@@ -56,7 +67,12 @@ public class Server {
                             students.remove( studentExit.getStudentID() );
                         }
                         else if ( o instanceof GetStudentList ) {
-                            getContext().replySafe( new StudentList( students ) );
+                            ArrayList<Pair<StudentID, SerializableBufferedImage>> list = new ArrayList<Pair<StudentID, SerializableBufferedImage>>();
+                            for ( StudentID student : students ) {
+                                final GravityAndOrbitsApplicationState latestDataPoint = (GravityAndOrbitsApplicationState) getLatestDataPoint( student );
+                                list.add( new Pair<StudentID, SerializableBufferedImage>( student, latestDataPoint.getThumbnail() ) );
+                            }
+                            getContext().replySafe( new StudentList( list ) );
                         }
                         else if ( o instanceof StudentDataSample ) {
                             StudentDataSample studentDataSample = (StudentDataSample) o;

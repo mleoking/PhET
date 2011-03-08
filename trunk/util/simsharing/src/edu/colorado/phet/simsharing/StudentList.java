@@ -4,17 +4,19 @@ package edu.colorado.phet.simsharing;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import edu.colorado.phet.gravityandorbits.simsharing.SerializableBufferedImage;
+
 /**
  * @author Sam Reid
  */
 public class StudentList implements Serializable {
-    ArrayList<StudentID> studentIDs;
+    private final ArrayList<Pair<StudentID, SerializableBufferedImage>> studentIDs;
 
-    public StudentList( ArrayList<StudentID> studentIDs ) {
+    public StudentList( ArrayList<Pair<StudentID, SerializableBufferedImage>> studentIDs ) {
         this.studentIDs = studentIDs;
     }
 
-    public StudentID[] toArray() {
-        return studentIDs.toArray( new StudentID[studentIDs.size()] );
+    public ArrayList<Pair<StudentID, SerializableBufferedImage>> getStudentIDs() {
+        return studentIDs;
     }
 }
