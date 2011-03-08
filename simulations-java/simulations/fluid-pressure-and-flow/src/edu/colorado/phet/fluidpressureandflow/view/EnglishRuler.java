@@ -3,8 +3,8 @@ package edu.colorado.phet.fluidpressureandflow.view;
 
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.model.ObservableProperty;
-import edu.colorado.phet.common.phetcommon.model.Property;
+import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.fluidpressureandflow.model.Units;
 

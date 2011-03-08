@@ -139,7 +139,6 @@
       <excludeFolder url="file://$MODULE_DIR$/simulations-java/ant_output" />
       <excludeFolder url="file://$MODULE_DIR$/simulations-java/contrib/piccolo2d/swt" />
       <excludeFolder url="file://$MODULE_DIR$/simulations-java/contrib/piccolo2d/swt-examples" />
-      <excludeFolder url="file://$MODULE_DIR$/util/simsharing/src" />
     </content>
     <content url="file://$MODULE_DIR$/../../samreid-unfuddle" />
     <orderEntry type="inheritedJdk" />

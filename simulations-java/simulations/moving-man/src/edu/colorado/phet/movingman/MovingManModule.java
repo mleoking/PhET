@@ -2,7 +2,7 @@
 package edu.colorado.phet.movingman;
 
 import edu.colorado.phet.common.motion.charts.ChartCursor;
-import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.model.*;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;

@@ -45,7 +45,7 @@ import edu.colorado.phet.balancingchemicalequations.model.SynthesisEquation.Synt
 import edu.colorado.phet.balancingchemicalequations.model.SynthesisEquation.Synthesis_H2_F2_2HF;
 import edu.colorado.phet.balancingchemicalequations.model.SynthesisEquation.Synthesis_P4_6F2_4PF3;
 import edu.colorado.phet.balancingchemicalequations.model.SynthesisEquation.Synthesis_P4_6H2_4PH3;
-import edu.colorado.phet.common.phetcommon.model.Property;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 
 /**
  * Factory that creates a game.

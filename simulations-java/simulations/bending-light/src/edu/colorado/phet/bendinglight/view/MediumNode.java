@@ -4,7 +4,7 @@ package edu.colorado.phet.bendinglight.view;
 import java.awt.*;
 
 import edu.colorado.phet.bendinglight.model.Medium;
-import edu.colorado.phet.common.phetcommon.model.Property;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;

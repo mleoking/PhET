@@ -4,7 +4,7 @@ package edu.colorado.phet.bendinglight.modules.prisms;
 import java.awt.*;
 
 import edu.colorado.phet.bendinglight.view.*;
-import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.util.*;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;

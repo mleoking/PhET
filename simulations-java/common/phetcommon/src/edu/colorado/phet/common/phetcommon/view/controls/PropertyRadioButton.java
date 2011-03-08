@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JRadioButton;
 
-import edu.colorado.phet.common.phetcommon.model.SettableProperty;
+import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**

@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.buildanatom.developer;
 
-import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 
 /**
  * This class contains properties that affect aspects of the simulation's

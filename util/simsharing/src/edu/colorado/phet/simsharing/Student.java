@@ -62,14 +62,14 @@ public class Student {
                 count++;
             }
         };
-        application.getGravityAndOrbitsModule().addModelSteppedListener( new SimpleObserver() {
+        application.getIntro().addModelSteppedListener( new SimpleObserver() {
             public void update() {
                 updateSharing.apply();
             }
         } );
         new Timer( 30, new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                if ( application.getGravityAndOrbitsModule().getModeProperty().getValue().getModel().getClock().isPaused() ) {
+                if ( application.getIntro().getModeProperty().getValue().getModel().getClock().isPaused() ) {
                     updateSharing.apply();
                 }
             }
@@ -86,7 +86,7 @@ public class Student {
                 } );
             }
         } ).start();
-        application.getGravityAndOrbitsModule().getClockPausedProperty().setValue( false );
+        application.getIntro().getClockPausedProperty().setValue( false );
     }
 
     public static class Classroom {

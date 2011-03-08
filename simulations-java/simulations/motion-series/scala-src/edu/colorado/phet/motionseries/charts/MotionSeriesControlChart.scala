@@ -11,16 +11,15 @@ import edu.colorado.phet.scalacommon.util.Observable
 import edu.colorado.phet.common.piccolophet.PhetPCanvas
 import java.lang.Math.PI
 import java.beans.{PropertyChangeEvent, PropertyChangeListener}
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont
-import edu.colorado.phet.common.phetcommon.model.BooleanProperty
 import edu.colorado.phet.recordandplayback.model.RecordAndPlaybackModel.{HistoryClearListener, HistoryRemainderClearListener}
 import edu.umd.cs.piccolo.nodes.PText
 import edu.colorado.phet.common.piccolophet.nodes.{PhetPPath, ShadowHTMLNode}
 import java.awt.geom.{RoundRectangle2D, Rectangle2D}
 import java.text.DecimalFormat
 import java.awt.{BasicStroke, Color}
-import edu.colorado.phet.common.phetcommon.view.graphics.Arrow
 import edu.umd.cs.piccolo.event.{PInputEvent, PBasicInputEventHandler}
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty
 
 object ChartDefaults {
   val LABEL_OFFSET_DY = 5 //distance between bottom of the chart and top of the time axis label

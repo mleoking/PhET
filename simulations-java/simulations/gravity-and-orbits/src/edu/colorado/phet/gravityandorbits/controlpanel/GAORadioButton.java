@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.gravityandorbits.controlpanel;
 
-import edu.colorado.phet.common.phetcommon.model.Property;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
 
 /**

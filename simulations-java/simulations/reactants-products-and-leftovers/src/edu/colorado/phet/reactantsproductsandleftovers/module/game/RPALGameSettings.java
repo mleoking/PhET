@@ -3,7 +3,7 @@
 package edu.colorado.phet.reactantsproductsandleftovers.module.game;
 
 import edu.colorado.phet.common.games.GameSettings;
-import edu.colorado.phet.common.phetcommon.model.Property;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.reactantsproductsandleftovers.module.game.GameChallenge.ChallengeVisibility;
 

@@ -5,7 +5,7 @@ import java.awt.geom.Dimension2D;
 
 import edu.colorado.phet.bendinglight.view.LaserColor;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.model.Property;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 import static edu.colorado.phet.bendinglight.model.BendingLightModel.WAVELENGTH_RED;

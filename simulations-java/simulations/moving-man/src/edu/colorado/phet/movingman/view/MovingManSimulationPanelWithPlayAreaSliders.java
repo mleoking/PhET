@@ -3,7 +3,7 @@ package edu.colorado.phet.movingman.view;
 
 import edu.colorado.phet.common.motion.charts.MotionSliderNode;
 import edu.colorado.phet.common.motion.charts.PlayAreaSliderControl;
-import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.motion.charts.TextBox;
 import edu.colorado.phet.movingman.MovingManColorScheme;
 import edu.colorado.phet.movingman.model.MovingMan;

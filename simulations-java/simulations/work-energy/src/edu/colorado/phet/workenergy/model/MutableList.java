@@ -3,7 +3,7 @@ package edu.colorado.phet.workenergy.model;
 
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.model.Property;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 
 /**
  * @author Sam Reid

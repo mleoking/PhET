@@ -10,7 +10,7 @@ import edu.colorado.phet.balancingchemicalequations.BCEGlobalProperties;
 import edu.colorado.phet.balancingchemicalequations.control.BalancedRepresentationChoiceNode;
 import edu.colorado.phet.balancingchemicalequations.control.EquationChoiceNode;
 import edu.colorado.phet.balancingchemicalequations.view.*;
-import edu.colorado.phet.common.phetcommon.model.Property;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;

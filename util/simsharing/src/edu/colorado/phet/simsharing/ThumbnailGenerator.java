@@ -20,7 +20,7 @@ public class ThumbnailGenerator {
     public ThumbnailGenerator() {
         application = GAOHelper.launchApplication( new String[0] );
         application.getPhetFrame().setTitle( application.getPhetFrame().getTitle() + ": Screenshot Generator" );
-        application.getGravityAndOrbitsModule().setTeacherMode( true );
+        application.getIntro().setTeacherMode( true );
         application.getPhetFrame().setState( Frame.ICONIFIED );
     }
 
