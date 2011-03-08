@@ -10,13 +10,19 @@ import java.beans.PropertyChangeListener;
 
 import edu.colorado.phet.bendinglight.model.IntensityMeter;
 import edu.colorado.phet.bendinglight.model.VelocitySensor;
+import edu.colorado.phet.bendinglight.modules.moretools.VelocitySensorNode;
 import edu.colorado.phet.bendinglight.modules.moretools.WaveSensor;
-import edu.colorado.phet.bendinglight.view.*;
+import edu.colorado.phet.bendinglight.modules.moretools.WaveSensorNode;
+import edu.colorado.phet.bendinglight.view.BendingLightCanvas;
+import edu.colorado.phet.bendinglight.view.IntensityMeterNode;
+import edu.colorado.phet.bendinglight.view.ProtractorModel;
+import edu.colorado.phet.bendinglight.view.ProtractorNode;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import edu.colorado.phet.common.phetcommon.util.*;
+import edu.colorado.phet.common.phetcommon.util.Option;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.Function2;
 import edu.colorado.phet.common.phetcommon.util.function.Function3;
@@ -82,7 +88,7 @@ public class ToolboxNode extends PNode {
                                     public void apply( Boolean visible ) {
                                         setVisible( visible );
                                     }
-                                });
+                                } );
                             }};
                         }
                     } );

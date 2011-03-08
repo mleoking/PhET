@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.bendinglight.view;
+package edu.colorado.phet.bendinglight.modules.moretools;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -42,12 +42,12 @@ public class VelocitySensorNode extends ToolboxNode.DoDragNode {
             setOffset( titleBounds.getCenterX() - getFullBounds().getWidth() / 2, titleBounds.getCenterY() - getFullBounds().getHeight() / 2 );
         }} );
         addChild( new PText() {{
-            setFont( new PhetFont( 32 ) );
+            setFont( new PhetFont( 26 ) );
             velocitySensor.value.addObserver( new SimpleObserver() {
                 public void update() {
                     final Option<ImmutableVector2D> value = velocitySensor.value.getValue();
                     setText( ( value.isNone() ) ? "?" :
-                             new DecimalFormat( "0.0" ).format( value.get().getMagnitude() / BendingLightModel.SPEED_OF_LIGHT ) + " c" );
+                             new DecimalFormat( "0.00" ).format( value.get().getMagnitude() / BendingLightModel.SPEED_OF_LIGHT ) + " c" );
                     setOffset( readoutBounds.getCenterX() - getFullBounds().getWidth() / 2, readoutBounds.getCenterY() - getFullBounds().getHeight() / 2 );
                 }
             } );
