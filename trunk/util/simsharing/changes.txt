@@ -1,3 +1,4 @@
+# 00.00.04 (49604) Mar 8, 2011
 Send images as part of the data payload
 # 00.00.03 (48121) Jan 20, 2011
 # 00.00.02 (48120) Jan 20, 2011
