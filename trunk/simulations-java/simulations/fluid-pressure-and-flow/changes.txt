@@ -1,3 +1,4 @@
+Improvements for ThreeImageNode
 Simplified ThreePatchImageNode, factoring out a new subclass ThreePatchImagePressureNode
 Fixed: handle on water tower looks fuzzy because it is scaled up
 Use PhetColorScheme.RED_ALTERNATIVE color to improve color blindness support

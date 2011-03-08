@@ -19,10 +19,10 @@ import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowApplica
  * @author Sam Reid
  */
 public class ThreePatchImagePressureNode extends PNode {
-    private ThreePatchImageNode imageNode;
+    private ThreeImageNode imageNode;
 
     public ThreePatchImagePressureNode( final Property<String> text ) {
-        imageNode = new ThreePatchImageNode( RESOURCES.getImage( "pressure_meter_left.png" ), RESOURCES.getImage( "pressure_meter_center.png" ), RESOURCES.getImage( "pressure_meter_right.png" ) );
+        imageNode = new ThreeImageNode( RESOURCES.getImage( "pressure_meter_left.png" ), RESOURCES.getImage( "pressure_meter_center.png" ), RESOURCES.getImage( "pressure_meter_right.png" ) );
         addChild( imageNode );
 
         final PText textNode = new PText( text.getValue() ) {{
@@ -36,7 +36,7 @@ public class ThreePatchImagePressureNode extends PNode {
                 //Update the text itself.
                 textNode.setText( text.getValue() );
 
-                imageNode.setCenterComponentWidth( textNode.getFullBounds().getWidth() );
+                imageNode.setCenterWidth( textNode.getFullBounds().getWidth() );
 
                 //Position the text node just to the right of the leftPatch and centered vertically.
                 textNode.setOffset( imageNode.leftPatch.getFullBounds().getMaxX(), imageNode.centerPatch.getFullBounds().getHeight() / 2 - textNode.getFullBounds().getHeight() / 2 );
