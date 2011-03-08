@@ -64,8 +64,11 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
     private static final Color [] ISOTOPE_COLORS = new Color [] { new Color( 180, 82, 205), Color.green,
         new Color(255, 69, 0), new Color( 139, 90, 43 ) };
 
-    // Enum of atom size settings.
-    public enum IsotopeSize { SMALL, LARGE };
+    // Enum of the possible interactivity types.
+    public enum InteractivityMode {
+        BUCKETS_AND_LARGE_ATOMS,  // The user is dragging large isotopes between the test chamber and a set of buckets.
+        SLIDERS_AND_SMALL_ATOMS   // The user is adding and removing small isotopes to/from the chamber using sliders.
+    }
 
     // -----------------------------------------------------------------------
     // Instance Data
@@ -96,10 +99,10 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
     private final Property<List<MonoIsotopeParticleBucket>> bucketListProperty =
             new Property<List<MonoIsotopeParticleBucket>>( new ArrayList<MonoIsotopeParticleBucket>() );
 
-    // Property that contains the size setting for the atoms.  This only
-    // applies to the user's mix, whereas nature's mix always uses small
-    // atoms.
-    private final Property<IsotopeSize> isotopeSizeProperty = new Property<IsotopeSize>( IsotopeSize.LARGE );
+    // Property that determines the type of user interactivity is allowed.
+    // See the enum that describes the modes for more information.
+    private final Property<InteractivityMode> interactivityModeProperty =
+        new Property<InteractivityMode>( InteractivityMode.BUCKETS_AND_LARGE_ATOMS );
 
     // Property that determines whether the user's mix or nature's mix is
     // being displayed.  When this is set to true, indicating that nature's
@@ -128,9 +131,9 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
     public IsotopeMixturesModel( BuildAnAtomClock clock ) {
         this.clock = clock;
 
-        // Listen to our own atom size property so that things can be
+        // Listen to our own interactive mode property so that things can be
         // reconfigured when this property changes.
-        isotopeSizeProperty.addObserver( new SimpleObserver() {
+        interactivityModeProperty.addObserver( new SimpleObserver() {
             public void update() {
                 // Set the configuration again, which will create a different
                 // size atom now that the size has been changed.
@@ -232,7 +235,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
 
         // Figure out the atom radius to use based on the current atom size
         // setting.
-        double isotopeRadius = isotopeSizeProperty.getValue() == IsotopeSize.LARGE ? LARGE_ISOTOPE_RADIUS : SMALL_ISOTOPE_RADIUS;
+        double isotopeRadius = interactivityModeProperty.getValue() == InteractivityMode.BUCKETS_AND_LARGE_ATOMS ? LARGE_ISOTOPE_RADIUS : SMALL_ISOTOPE_RADIUS;
 
         // Create a new list of buckets based on the new list of stable
         // isotopes.
@@ -294,12 +297,12 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
         return possibleIsotopesProperty;
     }
 
-    public Property<List<MonoIsotopeParticleBucket>> getBucketListProperty() {
-        return bucketListProperty;
+    public Property<InteractivityMode> getInteractivityModeProperty() {
+        return interactivityModeProperty;
     }
 
-    public Property<IsotopeSize> getAtomSizeProperty(){
-        return isotopeSizeProperty;
+    public Property<List<MonoIsotopeParticleBucket>> getBucketListProperty() {
+        return bucketListProperty;
     }
 
     public BooleanProperty getShowingNaturesMixProperty() {
@@ -352,13 +355,13 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
             // This is the first time that the user's mix has been shown since
             // the current element was selected.  Create the individual
             // isotope instances and add them to the bucket.
-            double isotopeRadius = isotopeSizeProperty.getValue() == IsotopeSize.LARGE ? LARGE_ISOTOPE_RADIUS : SMALL_ISOTOPE_RADIUS;
+            double isotopeRadius = interactivityModeProperty.getValue() == InteractivityMode.BUCKETS_AND_LARGE_ATOMS ? LARGE_ISOTOPE_RADIUS : SMALL_ISOTOPE_RADIUS;
             for ( ImmutableAtom isotope : possibleIsotopesProperty.getValue() ) {
                 MonoIsotopeParticleBucket isotopeBucket = getBucketForIsotope( isotope );
                 assert isotopeBucket != null; // If there is no bucket for this isotope, there is a bug.
 
                 // Create each isotope instance and add to appropriate bucket.
-                int numIsotopesPerBucket = isotopeSizeProperty.getValue() == IsotopeSize.LARGE ? NUM_LARGE_ISOTOPES_PER_BUCKET : NUM_SMALL_ISOTOPES_PER_BUCKET;
+                int numIsotopesPerBucket = interactivityModeProperty.getValue() == InteractivityMode.BUCKETS_AND_LARGE_ATOMS ? NUM_LARGE_ISOTOPES_PER_BUCKET : NUM_SMALL_ISOTOPES_PER_BUCKET;
                 for ( int i = 0; i < numIsotopesPerBucket; i++){
                     MovableAtom movableIsotope = new MovableAtom( isotope.getNumProtons(), isotope.getNumNeutrons(),
                             isotopeRadius, new Point2D.Double(0, 0), clock );
