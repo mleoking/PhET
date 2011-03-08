@@ -1,3 +1,4 @@
+Factored out CHARACTERISTIC_LENGTH instead of using WAVELENGTH_RED everywhere
 Fixed: Made LaserColor.getWavelength() abstract and prevented from being called for white light
 Fixed: Wavelength seems to get longer when moving to blue
 Added another decimal point to the speed readout
