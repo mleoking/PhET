@@ -17,17 +17,21 @@ import static java.lang.System.currentTimeMillis;
  */
 public class GravityAndOrbitsApplicationState implements Serializable {
 
-    private final GravityAndOrbitsModuleState moduleState;
+    private final GravityAndOrbitsModuleState introState;
+    private final GravityAndOrbitsModuleState toScaleState;
     private final long timestamp;
     private final Dimension frameSize;
     private final SerializableBufferedImage thumbnail;
+    private final int activeModule;
 
     public GravityAndOrbitsApplicationState( GravityAndOrbitsApplication gravityAndOrbitsApplication ) {
         final PhetFrame frame = gravityAndOrbitsApplication.getPhetFrame();
-        moduleState = new GravityAndOrbitsModuleState( gravityAndOrbitsApplication.getToScale() );
+        introState = new GravityAndOrbitsModuleState( gravityAndOrbitsApplication.getIntro() );
+        toScaleState = new GravityAndOrbitsModuleState( gravityAndOrbitsApplication.getToScale() );
         timestamp = currentTimeMillis();
         frameSize = new Dimension( frame.getWidth(), frame.getHeight() );
         thumbnail = new SerializableBufferedImage( BufferedImageUtils.multiScaleToWidth( toImage( frame ), 320 ) );
+        activeModule = gravityAndOrbitsApplication.indexOf( gravityAndOrbitsApplication.getActiveModule() );
     }
 
     public SerializableBufferedImage getThumbnail() {
@@ -36,7 +40,9 @@ public class GravityAndOrbitsApplicationState implements Serializable {
 
     public void apply( GravityAndOrbitsApplication application ) {
 //        System.out.println( "round trip time: " + ( System.currentTimeMillis() - timestamp ) );
-        moduleState.apply( application.getToScale() );
+        application.setActiveModule( activeModule );
+        introState.apply( application.getIntro() );
+        toScaleState.apply( application.getToScale() );
         if ( application.getPhetFrame().getSize().width != frameSize.width || application.getPhetFrame().getSize().height != frameSize.height ) {
             application.getPhetFrame().setSize( frameSize );
         }
@@ -45,7 +51,7 @@ public class GravityAndOrbitsApplicationState implements Serializable {
     @Override
     public String toString() {
         return "GravityAndOrbitsApplicationState{" +
-               "moduleState=" + moduleState +
+               "moduleState=" + introState +
                ", timestamp=" + timestamp +
                '}';
     }
