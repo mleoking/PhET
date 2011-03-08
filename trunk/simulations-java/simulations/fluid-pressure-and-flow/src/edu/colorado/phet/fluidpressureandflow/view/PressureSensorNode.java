@@ -5,17 +5,23 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.nodes.ThreeImageNode;
 import edu.colorado.phet.fluidpressureandflow.model.Pool;
 import edu.colorado.phet.fluidpressureandflow.model.PressureSensor;
 import edu.colorado.phet.fluidpressureandflow.model.Units;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PText;
+
+import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowApplication.RESOURCES;
 
 /**
  * @author Sam Reid
  */
 public class PressureSensorNode extends SensorNode<Double> {
-
     public PressureSensorNode( final ModelViewTransform transform, final PressureSensor sensor, final Property<Units.Unit> units ) {
         this( transform, sensor, units, null );
     }
@@ -29,8 +35,29 @@ public class PressureSensorNode extends SensorNode<Double> {
     public PressureSensorNode( final ModelViewTransform transform, final PressureSensor sensor, final Property<Units.Unit> units, final Pool pool ) {
         super( transform, sensor, units );
 
-        addChild( new ThreePatchImagePressureNode( text ) {{
+        addChild( new PNode() {{
             translate( 0, -getFullBounds().getHeight() / 2 );//make its hot spot be its opening which is on its center left
+
+            final ThreeImageNode imageNode = new ThreeImageNode( RESOURCES.getImage( "pressure_meter_left.png" ), RESOURCES.getImage( "pressure_meter_center.png" ), RESOURCES.getImage( "pressure_meter_right.png" ) );
+            addChild( imageNode );
+
+            final PText textNode = new PText( text.getValue() ) {{
+                setFont( new PhetFont( 20, true ) );
+            }};
+            addChild( textNode );
+
+            //Layout based on the size of the text string
+            text.addObserver( new SimpleObserver() {
+                public void update() {
+                    //Update the text itself.
+                    textNode.setText( text.getValue() );
+
+                    imageNode.setCenterWidth( textNode.getFullBounds().getWidth() );
+
+                    //Position the text node just to the right of the leftPatch and centered vertically.
+                    textNode.setOffset( imageNode.leftPatch.getFullBounds().getMaxX(), imageNode.centerPatch.getFullBounds().getHeight() / 2 - textNode.getFullBounds().getHeight() / 2 );
+                }
+            } );
         }} );
         addInputEventListener( new RelativeDragHandler( this, transform, sensor.location, new Function1<Point2D, Point2D>() {
             //TODO: Factor pool to subclass or general constraint method
