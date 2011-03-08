@@ -1,12 +1,13 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.bendinglight.view;
+package edu.colorado.phet.bendinglight.modules.moretools;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.bendinglight.modules.intro.ToolboxNode;
-import edu.colorado.phet.bendinglight.modules.moretools.WaveSensor;
+import edu.colorado.phet.bendinglight.view.ChartNode;
+import edu.colorado.phet.bendinglight.view.WireNode;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
