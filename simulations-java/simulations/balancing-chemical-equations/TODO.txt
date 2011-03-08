@@ -3,9 +3,6 @@ TODO list for balancing-chemical-equations
 HIGH PRIORITY
 
 MEDIUM PRIORITY
-- Game: rewrite GameScoreBoardNode to use Property<T>
-- Game: rewrite GameTimer to use Property<T>
-- Game: generalize GameRewardNode and migrate to games project
 
 LOW PRIORITY
 - screenshots before publishing 1.00
