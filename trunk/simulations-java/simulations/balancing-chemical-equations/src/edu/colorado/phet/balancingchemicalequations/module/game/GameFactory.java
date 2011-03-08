@@ -18,12 +18,19 @@ import edu.colorado.phet.balancingchemicalequations.model.DecompositionEquation.
 import edu.colorado.phet.balancingchemicalequations.model.DecompositionEquation.Decomposition_PCl5_PCl3_Cl2;
 import edu.colorado.phet.balancingchemicalequations.model.DisplacementEquation.Displacement_2C2H2_5O2_4CO2_2H2O;
 import edu.colorado.phet.balancingchemicalequations.model.DisplacementEquation.Displacement_2C2H6_7O2_4CO2_6H2O;
+import edu.colorado.phet.balancingchemicalequations.model.DisplacementEquation.Displacement_2CO2_3H2O_C2H5OH_3O2;
 import edu.colorado.phet.balancingchemicalequations.model.DisplacementEquation.Displacement_2C_2H2O_CH4_CO2;
 import edu.colorado.phet.balancingchemicalequations.model.DisplacementEquation.Displacement_2F2_H2O_OF2_2HF;
+import edu.colorado.phet.balancingchemicalequations.model.DisplacementEquation.Displacement_2N2_6H2O_4NH3_3O2;
+import edu.colorado.phet.balancingchemicalequations.model.DisplacementEquation.Displacement_4CO2_2H2O_2C2H2_5O2;
+import edu.colorado.phet.balancingchemicalequations.model.DisplacementEquation.Displacement_4CO2_6H2O_2C2H6_7O2;
 import edu.colorado.phet.balancingchemicalequations.model.DisplacementEquation.Displacement_4NH3_3O2_2N2_6H2O;
 import edu.colorado.phet.balancingchemicalequations.model.DisplacementEquation.Displacement_4NH3_5O2_4NO_6H2O;
 import edu.colorado.phet.balancingchemicalequations.model.DisplacementEquation.Displacement_4NH3_6NO_5N2_6H2O;
 import edu.colorado.phet.balancingchemicalequations.model.DisplacementEquation.Displacement_4NH3_7O2_4NO2_6H2O;
+import edu.colorado.phet.balancingchemicalequations.model.DisplacementEquation.Displacement_4NO2_6H2O_4NH3_7O2;
+import edu.colorado.phet.balancingchemicalequations.model.DisplacementEquation.Displacement_4NO_6H2O_4NH3_5O2;
+import edu.colorado.phet.balancingchemicalequations.model.DisplacementEquation.Displacement_5N2_6H2O_4NH3_6NO;
 import edu.colorado.phet.balancingchemicalequations.model.DisplacementEquation.Displacement_C2H4_3O2_2CO2_2H2O;
 import edu.colorado.phet.balancingchemicalequations.model.DisplacementEquation.Displacement_C2H5OH_3O2_2CO2_3H2O;
 import edu.colorado.phet.balancingchemicalequations.model.DisplacementEquation.Displacement_C2H6_Cl2_C2H5Cl_HCl;
@@ -100,12 +107,19 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
     // Level 3
     private static final ArrayList<Class <? extends Equation>>LEVEL3_CLASSES = new ArrayList<Class<? extends Equation>>() {{
         add( Displacement_2C2H6_7O2_4CO2_6H2O.class );
+        add( Displacement_4CO2_6H2O_2C2H6_7O2.class );
         add( Displacement_2C2H2_5O2_4CO2_2H2O.class );
+        add( Displacement_4CO2_2H2O_2C2H2_5O2.class );
         add( Displacement_C2H5OH_3O2_2CO2_3H2O.class );
+        add( Displacement_2CO2_3H2O_C2H5OH_3O2.class );
         add( Displacement_4NH3_3O2_2N2_6H2O.class );
+        add( Displacement_2N2_6H2O_4NH3_3O2.class );
         add( Displacement_4NH3_5O2_4NO_6H2O.class );
+        add( Displacement_4NO_6H2O_4NH3_5O2.class );
         add( Displacement_4NH3_7O2_4NO2_6H2O.class );
+        add( Displacement_4NO2_6H2O_4NH3_7O2.class );
         add( Displacement_4NH3_6NO_5N2_6H2O.class );
+        add( Displacement_5N2_6H2O_4NH3_6NO.class );
     }};
 
     // map of game levels to lists of equation classes
