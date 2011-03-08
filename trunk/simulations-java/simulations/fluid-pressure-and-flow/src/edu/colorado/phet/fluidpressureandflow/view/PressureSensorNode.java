@@ -29,7 +29,7 @@ public class PressureSensorNode extends SensorNode<Double> {
     public PressureSensorNode( final ModelViewTransform transform, final PressureSensor sensor, final Property<Units.Unit> units, final Pool pool ) {
         super( transform, sensor, units );
 
-        addChild( new ThreePatchImageNode( text ) {{
+        addChild( new ThreePatchImagePressureNode( text ) {{
             translate( 0, -getFullBounds().getHeight() / 2 );//make its hot spot be its opening which is on its center left
         }} );
         addInputEventListener( new RelativeDragHandler( this, transform, sensor.location, new Function1<Point2D, Point2D>() {
