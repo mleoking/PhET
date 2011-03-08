@@ -25,8 +25,10 @@ public class BCEGlobalProperties implements Resettable {
     public final Property<Color> canvasColor = new Property<Color>( BCEConstants.CANVAS_BACKGROUND );
     public final Property<Color> boxColor = new Property<Color>( BCEConstants.BOX_COLOR );
     public final Property<Boolean> showAnswers = new Property<Boolean>( false ); // shows the answers in all tabs
-    public final Property<Boolean> showChartsAndScalesInGame = new Property<Boolean>( true ); // shows chart or scale in "Not Balanced" popup
     public final Property<Boolean> playAllEquations = new Property<Boolean>( false ); // plays all equations for a specified game level
+    public final Property<Boolean> showPopupChartsAndScales = new Property<Boolean>( true ); // shows chart or scale in "Not Balanced" game popup
+    public final Property<Boolean> showPopupCloseButton = new Property<Boolean>( true ); // show close button on game popups
+    public final Property<Boolean> showPopupTitleBar = new Property<Boolean>( true ); // show top bar on game pops
 
     public BCEGlobalProperties( Frame frame ) {
         this.frame = frame;
@@ -37,7 +39,9 @@ public class BCEGlobalProperties implements Resettable {
         canvasColor.reset();
         boxColor.reset();
         showAnswers.reset();
-        showChartsAndScalesInGame.reset();
         playAllEquations.reset();
+        showPopupChartsAndScales.reset();
+        showPopupCloseButton.reset();
+        showPopupTitleBar.reset();
     }
 }
