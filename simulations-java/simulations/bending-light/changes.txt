@@ -1,3 +1,4 @@
+Fixed: Wavelength seems to get longer when moving to blue
 Added another decimal point to the speed readout
 Switched to protractor image with 1-degree tick marks
 # 0.00.25 (49436) Mar 2, 2011
