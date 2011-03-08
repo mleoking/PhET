@@ -15,11 +15,11 @@ import java.util.Arrays;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
-import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
 import edu.colorado.phet.gravityandorbits.GravityAndOrbitsApplication;
 import edu.colorado.phet.gravityandorbits.simsharing.GravityAndOrbitsApplicationState;
+import edu.colorado.phet.gravityandorbits.simsharing.SerializableBufferedImage;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -46,9 +46,10 @@ public class Teacher {
     }
 
     public class StudentComponent extends PNode {
-        private StudentID studentID;
+        private final StudentID studentID;
+        private final PImage thumbnail;
 
-        public StudentComponent( final StudentID studentID, final VoidFunction0 watch, final ThumbnailGenerator thumbnailGenerator ) {
+        public StudentComponent( final StudentID studentID, final VoidFunction0 watch ) {
             this.studentID = studentID;
             addChild( new PText( studentID.getName() ) );
             final ButtonNode buttonNode = new ButtonNode( "Watch" ) {{
@@ -63,54 +64,45 @@ public class Teacher {
             final int width = 200;
             double aspectRatio = 1024.0 / 768;
             final int imageHeight = (int) ( width / aspectRatio );
-            addChild( new PImage( createImage( width, imageHeight, Color.black ) ) {{
-                setOffset( buttonNode.getFullBounds().getMaxX() + 10, 0 );
-                new Timer( 100,//Grab a new screenshot every second//TODO: could be batched together
-                           new ActionListener() {
-                               public void actionPerformed( ActionEvent e ) {
-                                   final GravityAndOrbitsApplicationState response = (GravityAndOrbitsApplicationState) server.sendRequestReply( new TeacherDataRequest( studentID ) );
-                                   if ( response != null ) {
-                                       System.out.println( "Got thumbnail response: response" );
-                                       final BufferedImage fullImage = thumbnailGenerator.generateThumbnail( response );
-                                       final BufferedImage scaled = BufferedImageUtils.multiScaleToHeight( fullImage, imageHeight );
-                                       setImage( scaled );
-                                   }
-                               }
-                           } ).start();
-            }} );
-        }
-
-        private BufferedImage createImage( final int width, final int imageHeight, final Color color ) {
-            return new BufferedImage( width, imageHeight, BufferedImage.TYPE_INT_ARGB_PRE ) {{
+            thumbnail = new PImage( new BufferedImage( width, imageHeight, BufferedImage.TYPE_INT_ARGB_PRE ) {{
                 Graphics2D g2 = createGraphics();
-                g2.setPaint( color );
+                g2.setPaint( Color.black );
                 g2.fill( new Rectangle( 0, 0, getWidth(), getHeight() ) );
                 g2.dispose();
+            }} ) {{
+                setOffset( buttonNode.getFullBounds().getMaxX() + 10, 0 );
             }};
+            addChild( thumbnail );
+        }
+
+        public void setThumbnail( BufferedImage thumbnail ) {
+            this.thumbnail.setImage( thumbnail );
         }
     }
 
     private void start() {
-        server = Actors.remote().actorFor( "server", Server.IP_ADDRESS, Server.PORT );
+        server = Actors.remote().actorFor( "server", Server.HOST_IP_ADDRESS, Server.PORT );
         JFrame studentListFrame = new JFrame( "Students" );
-        final ThumbnailGenerator thumbnailGenerator = new ThumbnailGenerator();
+//        final ThumbnailGenerator thumbnailGenerator = new ThumbnailGenerator();
         studentListFrame.setContentPane( new PSwingCanvas() {{
             getLayer().addChild( new PNode() {{
-                new Timer( 1000,//Look for new students every second
+                new Timer( 50,//Look for new students this often
                            new ActionListener() {
                                public void actionPerformed( ActionEvent e ) {
                                    double y = 0;
-                                   final StudentID[] newData = ( (StudentList) server.sendRequestReply( new GetStudentList() ) ).toArray();
-                                   for ( final StudentID studentID : newData ) {
+                                   final StudentList newData = (StudentList) server.sendRequestReply( new GetStudentList() );
+                                   for ( final Pair<StudentID, SerializableBufferedImage> elm : newData.getStudentIDs() ) {
+                                       final StudentID studentID = elm._1;
                                        StudentComponent component = getComponent( studentID );
                                        if ( component == null ) {
                                            component = new StudentComponent( studentID, new VoidFunction0() {
                                                public void apply() {
                                                    watch( studentID );
                                                }
-                                           }, thumbnailGenerator );
+                                           } );
                                            addChild( component );
                                        }
+                                       component.setThumbnail( elm._2.getBufferedImage() );
                                        component.setOffset( 0, y + 2 );
                                        y = component.getFullBounds().getMaxY();
                                    }
@@ -141,15 +133,17 @@ public class Teacher {
                 //Have to launch from non-swing-thread otherwise receive:
                 //Exception in thread "AWT-EventQueue-0" java.lang.Error: Cannot call invokeAndWait from the event dispatcher thread
                 final GravityAndOrbitsApplication application = GAOHelper.launchApplication( args );
+                System.out.println( "application = " + application );
                 application.getPhetFrame().setTitle( application.getPhetFrame().getTitle() + ": Teacher Edition" );
                 application.getIntro().setTeacherMode( true );
+
                 while ( true ) {
-                    final GravityAndOrbitsApplicationState response = (GravityAndOrbitsApplicationState) server.sendRequestReply( new TeacherDataRequest( studentID ) );
-                    if ( response != null ) {
+                    final GravityAndOrbitsApplicationState state = (GravityAndOrbitsApplicationState) server.sendRequestReply( new TeacherDataRequest( studentID ) );
+                    if ( state != null ) {
                         try {
                             SwingUtilities.invokeAndWait( new Runnable() {
                                 public void run() {
-                                    response.apply( application );
+                                    state.apply( application );
                                 }
                             } );
                         }

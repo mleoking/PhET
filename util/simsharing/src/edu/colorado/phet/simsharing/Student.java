@@ -38,7 +38,7 @@ public class Student {
         final GravityAndOrbitsApplication application = GAOHelper.launchApplication( args );
         application.getPhetFrame().setTitle( application.getPhetFrame().getTitle() + ": Student Edition" );
         final int N = 1;
-        final ActorRef server = Actors.remote().actorFor( "server", Server.IP_ADDRESS, Server.PORT );
+        final ActorRef server = Actors.remote().actorFor( "server", Server.HOST_IP_ADDRESS, Server.PORT );
 
         PhetExit.addExitListener( new VoidFunction0() {
             public void apply() {
@@ -49,13 +49,26 @@ public class Student {
         } );
 
         final VoidFunction0 updateSharing = new VoidFunction0() {
+            public boolean startedMessage = false;
+            public boolean finishedMessage = false;
+
             public void apply() {
                 if ( count % N == 0 ) {
                     GravityAndOrbitsApplicationState state = new GravityAndOrbitsApplicationState( application );
                     if ( studentID == null ) {
-                        System.out.println( "No ID Yet, not sending data..." );
+                        if ( !startedMessage ) {
+                            System.out.print( "Awaiting ID" );
+                            startedMessage = true;
+                        }
+                        else {
+                            System.out.print( "." );
+                        }
                     }
                     else {
+                        if ( !finishedMessage ) {
+                            System.out.println( "\nReceived ID: " + studentID );
+                            finishedMessage = true;
+                        }
                         server.sendOneWay( new StudentDataSample( studentID, state ) );
                     }
                 }
@@ -78,7 +91,7 @@ public class Student {
         new Thread( new Runnable() {
             public void run() {
                 //be careful, this part blocks:
-                studentID = (StudentID) server.sendRequestReply( new GetStudentID() );
+                studentID = (StudentID) server.sendRequestReply( new RegisterStudent() );
                 SwingUtilities.invokeLater( new Runnable() {
                     public void run() {
                         application.getPhetFrame().setTitle( application.getPhetFrame().getTitle() + ", id = " + studentID );

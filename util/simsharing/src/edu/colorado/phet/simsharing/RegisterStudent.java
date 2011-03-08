@@ -6,5 +6,5 @@ import java.io.Serializable;
 /**
  * @author Sam Reid
  */
-public class GetStudentID implements Serializable {
+public class RegisterStudent implements Serializable {
 }
