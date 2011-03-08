@@ -9,7 +9,7 @@ import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.gravityandorbits.GravityAndOrbitsApplication;
 
-import static edu.colorado.phet.simsharing.ThumbnailGenerator.toImage;
+//import static edu.colorado.phet.simsharing.ThumbnailGenerator.toImage;
 import static java.lang.System.currentTimeMillis;
 
 /**
@@ -30,7 +30,8 @@ public class GravityAndOrbitsApplicationState implements Serializable {
         toScaleState = new GravityAndOrbitsModuleState( gravityAndOrbitsApplication.getToScale() );
         timestamp = currentTimeMillis();
         frameSize = new Dimension( frame.getWidth(), frame.getHeight() );
-        thumbnail = new SerializableBufferedImage( BufferedImageUtils.multiScaleToWidth( toImage( frame ), 320 ) );
+        thumbnail = null;
+//        thumbnail = new SerializableBufferedImage( BufferedImageUtils.multiScaleToWidth( toImage( frame ), 320 ) );
         activeModule = gravityAndOrbitsApplication.indexOf( gravityAndOrbitsApplication.getActiveModule() );
     }
 
