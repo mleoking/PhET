@@ -1,3 +1,4 @@
+3/8/11 add Developer menu items for visibility of close button and top bar in game popups
 # 0.00.15 (49596) Mar 7, 2011
 3/7/11 dev version with bar at top of Game popups, plus lots of internal refactors and cleanup
 3/7/11 remove boolean flag from "Not Balanced" popup, pass in NONE to hide chart/scales

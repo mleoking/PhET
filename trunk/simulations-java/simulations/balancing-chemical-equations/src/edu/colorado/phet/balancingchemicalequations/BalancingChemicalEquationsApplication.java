@@ -40,8 +40,11 @@ public class BalancingChemicalEquationsApplication extends PiccoloPhetApplicatio
         developerMenu.add( new DeveloperColorsMenuItem( globalProperties ) );
         developerMenu.add( new PropertyCheckBoxMenuItem( "Show answers", globalProperties.showAnswers ) );
         developerMenu.add( new JSeparator() );
-        developerMenu.add( new PropertyCheckBoxMenuItem( "Game: show charts/scales", globalProperties.showChartsAndScalesInGame ) );
         developerMenu.add( new PropertyCheckBoxMenuItem( "Game: play all equations", globalProperties.playAllEquations ) );
+        developerMenu.add( new JSeparator() );
+        developerMenu.add( new PropertyCheckBoxMenuItem( "Game Popups: show charts/scales", globalProperties.showPopupChartsAndScales ) );
+        developerMenu.add( new PropertyCheckBoxMenuItem( "Game Popups: show close button", globalProperties.showPopupCloseButton ) );
+        developerMenu.add( new PropertyCheckBoxMenuItem( "Game Popups: show top bar", globalProperties.showPopupTitleBar ) );
     }
 
     public static void main( final String[] args ) throws ClassNotFoundException {

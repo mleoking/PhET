@@ -454,13 +454,14 @@ import edu.umd.cs.piccolox.pswing.PSwing;
             // evaluate the user's answer and create the proper type of node
             Equation equation = model.currentEquation.getValue();
             if ( equation.isBalancedAndSimplified() ) {
-                popupNode = new BalancedNode();
+                popupNode = new BalancedNode( globalProperties.showPopupCloseButton.getValue(), globalProperties.showPopupTitleBar.getValue() );
             }
             else if ( equation.isBalanced() ) {
-                popupNode = new BalancedNotSimplifiedNode();
+                popupNode = new BalancedNotSimplifiedNode( globalProperties.showPopupCloseButton.getValue(), globalProperties.showPopupTitleBar.getValue() );
             }
             else {
-                popupNode = new NotBalancedNode( equation, ( globalProperties.showChartsAndScalesInGame.getValue() ? balancedRepresentation : BalancedRepresentation.NONE ), aligner );
+                popupNode = new NotBalancedNode( equation, globalProperties.showPopupCloseButton.getValue(), globalProperties.showPopupTitleBar.getValue(),
+                        ( globalProperties.showPopupChartsAndScales.getValue() ? balancedRepresentation : BalancedRepresentation.NONE ), aligner );
             }
 
             // Layout, ideally centered between the boxes, but guarantee that buttons are not covered.

@@ -36,8 +36,10 @@ public abstract class GamePopupNode extends PhetPNode {
     /**
      * @param smile
      * @param createContentFunction function that creates the content of the dialog that will appear below the face node
+     * @param closeButtonVisible
+     * @param titleBarVisible
      */
-    public GamePopupNode( boolean smile, Function1<PhetFont, PNode> createContentFunction ) {
+    public GamePopupNode( boolean smile, boolean closeButtonVisible, boolean titleBarVisible, Function1<PhetFont, PNode> createContentFunction ) {
 
         // make draggable
         addInputEventListener( new CursorHandler() );
@@ -78,6 +80,7 @@ public abstract class GamePopupNode extends PhetPNode {
         titleBarNode.setPaint( new Color( 155, 180, 230 ) );
         addChild( titleBarNode );
         titleBarNode.moveToBack();
+        titleBarNode.setVisible( titleBarVisible );
 
         // background
         double h = getFullBoundsReference().getHeight() + ( 2 * MARGIN ) + TITLE_BAR_HEIGHT;
@@ -101,5 +104,6 @@ public abstract class GamePopupNode extends PhetPNode {
         x = backgroundNode.getFullBoundsReference().getMaxX() - closeButtonNode.getFullBoundsReference().getWidth() - margin;
         y = backgroundNode.getFullBoundsReference().getMinY() + margin;
         closeButtonNode.setOffset( x, y );
+        closeButtonNode.setVisible( closeButtonVisible );
     }
 }

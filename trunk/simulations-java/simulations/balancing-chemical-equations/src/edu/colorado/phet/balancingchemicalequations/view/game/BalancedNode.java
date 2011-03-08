@@ -18,8 +18,8 @@ import edu.umd.cs.piccolo.nodes.PText;
  */
 public class BalancedNode extends GamePopupNode {
 
-    public BalancedNode() {
-        super( true /* smile */ , new Function1<PhetFont, PNode>() {
+    public BalancedNode( boolean closeButtonVisible, boolean titleBarVisible ) {
+        super( true /* smile */, closeButtonVisible, titleBarVisible, new Function1<PhetFont, PNode>() {
             public PNode apply( PhetFont phetFont ) {
                 PNode parentNode = new PNode();
 
