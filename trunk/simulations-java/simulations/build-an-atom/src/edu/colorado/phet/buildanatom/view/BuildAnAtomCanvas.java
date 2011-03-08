@@ -19,7 +19,7 @@ import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
 import edu.colorado.phet.buildanatom.model.Atom;
 import edu.colorado.phet.buildanatom.model.BuildAnAtomModel;
 import edu.colorado.phet.buildanatom.modules.game.view.InteractiveSchematicAtomNode;
-import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;

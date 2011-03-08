@@ -2,7 +2,7 @@
 package edu.colorado.phet.workenergy.model;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.model.Property;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 
 /**
  * @author Sam Reid

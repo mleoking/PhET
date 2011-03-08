@@ -12,7 +12,7 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.capacitorlab.test.TestPropertyT.TestModel.TestModelListener;
-import edu.colorado.phet.common.phetcommon.model.Property;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 

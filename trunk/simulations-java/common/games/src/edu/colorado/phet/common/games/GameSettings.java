@@ -2,8 +2,8 @@
 
 package edu.colorado.phet.common.games;
 
-import edu.colorado.phet.common.phetcommon.model.ConstrainedIntegerProperty;
-import edu.colorado.phet.common.phetcommon.model.Property;
+import edu.colorado.phet.common.phetcommon.model.property.ConstrainedIntegerProperty;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 
 /**

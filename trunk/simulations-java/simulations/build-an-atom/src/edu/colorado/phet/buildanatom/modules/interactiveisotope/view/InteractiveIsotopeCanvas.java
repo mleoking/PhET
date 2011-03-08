@@ -29,7 +29,7 @@ import edu.colorado.phet.buildanatom.view.ParticleCountLegend;
 import edu.colorado.phet.buildanatom.view.PeriodicTableControlNode;
 import edu.colorado.phet.buildanatom.view.StabilityIndicator;
 import edu.colorado.phet.buildanatom.view.SymbolIndicatorNode;
-import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;

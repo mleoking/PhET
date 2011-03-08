@@ -8,7 +8,7 @@ import java.awt.image.BufferedImage;
 import edu.colorado.phet.bendinglight.BendingLightApplication;
 import edu.colorado.phet.bendinglight.model.Laser;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;

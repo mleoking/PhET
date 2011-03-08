@@ -9,7 +9,7 @@ import edu.colorado.phet.balancingchemicalequations.BCEGlobalProperties;
 import edu.colorado.phet.balancingchemicalequations.model.BCEClock;
 import edu.colorado.phet.balancingchemicalequations.model.Equation;
 import edu.colorado.phet.common.games.GameSettings;
-import edu.colorado.phet.common.phetcommon.model.Property;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 
 /**

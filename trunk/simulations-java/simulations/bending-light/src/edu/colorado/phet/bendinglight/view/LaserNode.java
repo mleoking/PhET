@@ -10,7 +10,7 @@ import java.awt.image.BufferedImage;
 import edu.colorado.phet.bendinglight.BendingLightApplication;
 import edu.colorado.phet.bendinglight.model.Laser;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.model.*;
+import edu.colorado.phet.common.phetcommon.model.property.*;
 import edu.colorado.phet.common.phetcommon.util.*;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;

@@ -2,12 +2,12 @@ package edu.colorado.phet.motionseries.model
 
 import collection.mutable.ArrayBuffer
 import edu.colorado.phet.scalacommon.math.Vector2D
-import edu.colorado.phet.common.phetcommon.model.BooleanProperty
 import edu.colorado.phet.motionseries.MotionSeriesDefaults
 import edu.colorado.phet.motionseries.Predef._
 import java.lang.Math.PI
 import edu.colorado.phet.motionseries.charts.MutableDouble
 import edu.colorado.phet.motionseries.util.{MutableRange, ScalaMutableBoolean}
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty
 
 class MotionSeriesObject(_position: MutableDouble,
                          _velocity: MutableDouble,

@@ -15,7 +15,7 @@ import edu.colorado.phet.bendinglight.model.BendingLightModel;
 import edu.colorado.phet.bendinglight.model.Medium;
 import edu.colorado.phet.bendinglight.model.MediumState;
 import edu.colorado.phet.common.phetcommon.math.Function;
-import edu.colorado.phet.common.phetcommon.model.Property;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.Function1;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;

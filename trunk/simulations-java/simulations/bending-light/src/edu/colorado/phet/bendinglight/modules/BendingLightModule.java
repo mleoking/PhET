@@ -3,7 +3,7 @@ package edu.colorado.phet.bendinglight.modules;
 
 import edu.colorado.phet.bendinglight.model.BendingLightModel;
 import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 
 /**

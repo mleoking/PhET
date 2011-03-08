@@ -1,6 +1,6 @@
 package edu.colorado.phet.buildanatom.view;
 
-import edu.colorado.phet.common.phetcommon.model.Property;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 
 /**
  * Property class based on an enumeration of the different representations

@@ -7,8 +7,8 @@ import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.bendinglight.modules.moretools.MoreToolsModel;
 import edu.colorado.phet.bendinglight.view.*;
-import edu.colorado.phet.common.phetcommon.model.BooleanProperty;
-import edu.colorado.phet.common.phetcommon.model.Property;
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.util.Function1;
 import edu.colorado.phet.common.phetcommon.util.Function2;

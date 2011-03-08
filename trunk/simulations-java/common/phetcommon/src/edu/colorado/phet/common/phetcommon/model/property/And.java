@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.common.phetcommon.model;
+package edu.colorado.phet.common.phetcommon.model.property;
 
 import edu.colorado.phet.common.phetcommon.util.Function2;
 

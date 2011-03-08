@@ -2,7 +2,7 @@
 package edu.colorado.phet.insidemagnets;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.model.Property;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 
 /**
  * @author Sam Reid

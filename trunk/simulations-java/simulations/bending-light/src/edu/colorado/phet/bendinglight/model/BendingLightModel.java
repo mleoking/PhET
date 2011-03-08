@@ -9,7 +9,7 @@ import java.util.List;
 import edu.colorado.phet.bendinglight.view.LaserColor;
 import edu.colorado.phet.bendinglight.view.LaserView;
 import edu.colorado.phet.common.phetcommon.math.Function;
-import edu.colorado.phet.common.phetcommon.model.Property;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;

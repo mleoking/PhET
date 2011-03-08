@@ -17,7 +17,7 @@ import java.text.DecimalFormat;
 import javax.swing.JPanel;
 
 import edu.colorado.phet.buildanatom.model.IDynamicAtom;
-import edu.colorado.phet.common.phetcommon.model.Property;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;

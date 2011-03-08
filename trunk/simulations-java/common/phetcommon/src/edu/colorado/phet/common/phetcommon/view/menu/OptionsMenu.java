@@ -4,7 +4,7 @@ package edu.colorado.phet.common.phetcommon.view.menu;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.phetcommon.model.SettableProperty;
+import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBoxMenuItem;
 

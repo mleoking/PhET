@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.common.phetcommon.model;
+package edu.colorado.phet.common.phetcommon.model.property;
 
 /**
  * Property<T> can be used to represent a value of type T in a MVC style pattern.  It remembers its default value and can be reset.

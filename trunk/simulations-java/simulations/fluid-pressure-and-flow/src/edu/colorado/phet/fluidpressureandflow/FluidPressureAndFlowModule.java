@@ -2,10 +2,10 @@
 package edu.colorado.phet.fluidpressureandflow;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.model.And;
-import edu.colorado.phet.common.phetcommon.model.ObservableProperty;
-import edu.colorado.phet.common.phetcommon.model.Property;
-import edu.colorado.phet.common.phetcommon.model.ValueEquals;
+import edu.colorado.phet.common.phetcommon.model.property.And;
+import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.model.property.ValueEquals;
 import edu.colorado.phet.fluidpressureandflow.model.FluidPressureAndFlowModel;
 import edu.colorado.phet.fluidpressureandflow.model.Units;
 

@@ -142,7 +142,7 @@ public class Teacher {
                 //Exception in thread "AWT-EventQueue-0" java.lang.Error: Cannot call invokeAndWait from the event dispatcher thread
                 final GravityAndOrbitsApplication application = GAOHelper.launchApplication( args );
                 application.getPhetFrame().setTitle( application.getPhetFrame().getTitle() + ": Teacher Edition" );
-                application.getGravityAndOrbitsModule().setTeacherMode( true );
+                application.getIntro().setTeacherMode( true );
                 while ( true ) {
                     final GravityAndOrbitsApplicationState response = (GravityAndOrbitsApplicationState) server.sendRequestReply( new TeacherDataRequest( studentID ) );
                     if ( response != null ) {

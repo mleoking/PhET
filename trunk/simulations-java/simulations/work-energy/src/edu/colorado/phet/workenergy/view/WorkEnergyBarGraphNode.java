@@ -3,7 +3,7 @@ package edu.colorado.phet.workenergy.view;
 
 import java.awt.*;
 
-import edu.colorado.phet.common.phetcommon.model.Property;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.colorado.phet.common.piccolophet.nodes.barchart.BarChartNode;

@@ -10,7 +10,7 @@ import edu.colorado.phet.buildanatom.modules.game.view.GameOverStateView;
 import edu.colorado.phet.buildanatom.modules.game.view.GameSettingsStateView;
 import edu.colorado.phet.buildanatom.modules.game.view.StateView;
 import edu.colorado.phet.common.games.GameSettings;
-import edu.colorado.phet.common.phetcommon.model.Property;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 
