@@ -5,7 +5,7 @@ package edu.colorado.phet.gravityandorbits.model;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.VoidFunction0;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 
 /**
  * This is a property that can be rewound, and when rewound it goes back

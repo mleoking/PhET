@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.common.phetcommon.model.property;
 
-import edu.colorado.phet.common.phetcommon.util.Function2;
+import edu.colorado.phet.common.phetcommon.util.function.Function2;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**

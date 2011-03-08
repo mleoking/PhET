@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.common.phetcommon.util;
+package edu.colorado.phet.common.phetcommon.util.function;
 
 /**
  * A zero-parameter function that returns a value of type T.
