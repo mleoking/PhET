@@ -3,13 +3,15 @@
 package edu.colorado.phet.gravityandorbits.simsharing;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.Serializable;
+
+import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.gravityandorbits.GravityAndOrbitsApplication;
 
-//import static edu.colorado.phet.simsharing.ThumbnailGenerator.toImage;
 import static java.lang.System.currentTimeMillis;
 
 /**
@@ -30,8 +32,7 @@ public class GravityAndOrbitsApplicationState implements Serializable {
         toScaleState = new GravityAndOrbitsModuleState( gravityAndOrbitsApplication.getToScale() );
         timestamp = currentTimeMillis();
         frameSize = new Dimension( frame.getWidth(), frame.getHeight() );
-        thumbnail = null;
-//        thumbnail = new SerializableBufferedImage( BufferedImageUtils.multiScaleToWidth( toImage( frame ), 320 ) );
+        thumbnail = new SerializableBufferedImage( BufferedImageUtils.multiScaleToWidth( toImage( frame ), 320 ) );
         activeModule = gravityAndOrbitsApplication.indexOf( gravityAndOrbitsApplication.getActiveModule() );
     }
 
@@ -55,5 +56,13 @@ public class GravityAndOrbitsApplicationState implements Serializable {
                "moduleState=" + introState +
                ", timestamp=" + timestamp +
                '}';
+    }
+
+    public static BufferedImage toImage( JFrame frame ) {
+        BufferedImage image = new BufferedImage( frame.getWidth(), frame.getHeight(), BufferedImage.TYPE_INT_ARGB_PRE );
+        Graphics2D g2 = image.createGraphics();
+        frame.getContentPane().paint( g2 );
+        g2.dispose();
+        return image;
     }
 }

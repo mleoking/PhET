@@ -42,7 +42,7 @@ public class SerializableBufferedImage implements Serializable {
             BufferedImage image = bufferedImage;
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             try {
-                ImageIO.write( image, "png", baos );
+                ImageIO.write( image, "png", baos );//TODO: try JPG
             }
             catch ( IOException e ) {
                 throw new IllegalStateException( e.toString() );
