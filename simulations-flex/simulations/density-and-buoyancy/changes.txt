@@ -1,3 +1,4 @@
+Fixed scale bug where it reported incorrect forces while being controlled by the user. This has a side-effect where the scale can be dragged into the ground, but will pop back into the scene when released.
 # 1.04.09 (49359) Mar 1, 2011
 3/1/11 fixing lso issue
 # 1.04.08 (49336) Feb 28, 2011
