@@ -59,7 +59,6 @@ public class BuoyancyContainer extends AbstractDBContainer {
         attachForceCheckbox( FlexSimStrings.get( 'forceArrows.gravity', 'Gravity' ), buoyancyCanvas.gravityArrowsVisible, DensityConstants.GRAVITY_COLOR );
         attachForceCheckbox( FlexSimStrings.get( 'forceArrows.buoyancy', 'Buoyancy' ), buoyancyCanvas.buoyancyArrowsVisible, DensityConstants.BUOYANCY_COLOR );
         attachForceCheckbox( FlexSimStrings.get( 'forceArrows.contact', 'Contact' ), buoyancyCanvas.contactArrowsVisible, DensityConstants.CONTACT_COLOR );
-        attachForceCheckbox( FlexSimStrings.get( 'forceArrows.fluidDrag', 'Fluid Drag' ), buoyancyCanvas.fluidDragArrowsVisible, DensityConstants.FLUID_DRAG_COLOR );
 
         addChild( arrowControlPanel );
 

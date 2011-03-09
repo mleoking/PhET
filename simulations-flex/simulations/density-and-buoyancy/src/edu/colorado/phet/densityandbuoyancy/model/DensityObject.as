@@ -26,10 +26,9 @@ public class DensityObject {
     private var velocityArrowModel: ArrowModel = new ArrowModel( 0, 0 );
     private var gravityForceArrowModel: ArrowModel = new ArrowModel( 0, 0 );
     private var buoyancyForceArrowModel: ArrowModel = new ArrowModel( 0, 0 );
-    private var dragForceArrowModel: ArrowModel = new ArrowModel( 0, 0 );
     private var contactForceArrowModel: ArrowModel = new ArrowModel( 0, 0 );
 
-    private const _forceVectors: Array = [gravityForceArrowModel,buoyancyForceArrowModel,dragForceArrowModel,contactForceArrowModel];
+    private const _forceVectors: Array = [gravityForceArrowModel,buoyancyForceArrowModel,contactForceArrowModel];
     private var model: DensityModel;
 
     private var body: b2Body;
@@ -163,10 +162,6 @@ public class DensityObject {
         return buoyancyForceArrowModel;
     }
 
-    public function getDragForceArrowModel(): ArrowModel {
-        return dragForceArrowModel;
-    }
-
     public function getX(): Number {
         return x.value;
     }
@@ -272,7 +267,6 @@ public class DensityObject {
         velocityArrowModel.setValue( body.GetLinearVelocity().x, body.GetLinearVelocity().y );//todo: use estimated velocity here?
         gravityForceArrowModel.setValue( getGravityForce().x, getGravityForce().y );
         buoyancyForceArrowModel.setValue( getBuoyancyForce().x, getBuoyancyForce().y );
-        dragForceArrowModel.setValue( getViewDragForce().x, getViewDragForce().y );
         contactForceArrowModel.setValue( getNetContactForce().x, getNetContactForce().y );
         mytrace( "FRAME" );
 

@@ -30,7 +30,6 @@ public class BuoyancyCanvas extends AbstractDBCanvas {
     public const gravityArrowsVisible: BooleanProperty = new BooleanProperty( false );
     public const buoyancyArrowsVisible: BooleanProperty = new BooleanProperty( false );
     public const contactArrowsVisible: BooleanProperty = new BooleanProperty( false );
-    public const fluidDragArrowsVisible: BooleanProperty = new BooleanProperty( false );
     public const vectorValuesVisible: BooleanProperty = new BooleanProperty( false );
 
     public function BuoyancyCanvas( container: BuoyancyContainer, extendedPool: Boolean, showExactLiquidColor: Boolean ) {
@@ -73,7 +72,6 @@ public class BuoyancyCanvas extends AbstractDBCanvas {
         buoyancyArrowsVisible.reset();
         gravityArrowsVisible.reset();
         contactArrowsVisible.reset();
-        fluidDragArrowsVisible.reset();
     }
 
     public function setMode( mode: Mode ): void {
@@ -128,10 +126,8 @@ public class BuoyancyCanvas extends AbstractDBCanvas {
                                                            createOffset( densityObject.getBuoyancyForceArrowModel(), densityObject, 0 ), true );
             const contactForceNode: ArrowNode = new ArrowNode( densityObject, densityObject.getContactForceArrowModel(), DensityConstants.CONTACT_COLOR, contactArrowsVisible, mainCamera, mainViewport, vectorValuesVisible,
                                                                createOffset( densityObject.getContactForceArrowModel(), densityObject, offset ), false );
-            const dragForceNode: ArrowNode = new ArrowNode( densityObject, densityObject.getDragForceArrowModel(), DensityConstants.FLUID_DRAG_COLOR, fluidDragArrowsVisible, mainCamera, mainViewport, vectorValuesVisible,
-                                                            createOffset( densityObject.getDragForceArrowModel(), densityObject, -offset ), false );
 
-            const arrowList: Array = [gravityNode, buoyancyNode, contactForceNode, dragForceNode];
+            const arrowList: Array = [gravityNode, buoyancyNode, contactForceNode];
             for each ( var arrowNode: ArrowNode in arrowList ) {
                 densityObjectNode.addArrowNode( arrowNode );
             }
@@ -169,7 +165,6 @@ public class BuoyancyCanvas extends AbstractDBCanvas {
         densityObject.getGravityForceArrowModel().addListener( update );
         densityObject.getBuoyancyForceArrowModel().addListener( update );
         densityObject.getContactForceArrowModel().addListener( update );
-        densityObject.getDragForceArrowModel().addListener( update );
         return offsetX;
     }
 
