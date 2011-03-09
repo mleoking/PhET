@@ -18,8 +18,8 @@ public class SerializableBufferedImage implements Serializable {
 
     public SerializableBufferedImage( BufferedImage bufferedImage ) {
         this.byteImage = toByteArray( bufferedImage, "JPG" );
-        byte[] png = toByteArray( bufferedImage, "PNG" );
-        System.out.println( "jpg.length = " + byteImage.length + ", png.length = " + png.length );
+//        byte[] png = toByteArray( bufferedImage, "PNG" );
+//        System.out.println( "jpg.length = " + byteImage.length + ", png.length = " + png.length );
         //        ARGB: jpg.length = 10907, png.length = 16049
         //        RGB: jpg.length = 9014, png.length = 14667
     }
