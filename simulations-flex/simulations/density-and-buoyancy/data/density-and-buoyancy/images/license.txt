@@ -1,5 +1,4 @@
 aluminum.jpg source=microsoft clip art notes=Sam Reid modified this based on microsoft clip art
-bottle.png source=microsoft clip art notes=SRR modified this based on microsoft clip art MC900340242
 custom.jpg license=Apache 2.0 notes=SRR modified this based on wall.jpg
 ice.jpg source=microsoft clip art notes=SRR modified this based on microsoft clip art "Melting ice cubes"
 scale-front.jpg author=phet notes=Jon Olson
