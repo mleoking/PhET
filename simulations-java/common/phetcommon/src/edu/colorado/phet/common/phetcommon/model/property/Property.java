@@ -19,8 +19,8 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction2;
 public class Property<T> extends SettableProperty<T> {
     private T value;
     private final T initialValue;
-    private ArrayList<VoidFunction1<T>> newValueObservers = new ArrayList<VoidFunction1<T>>();//Listeners that receive the new value in the callback
-    private ArrayList<VoidFunction2<T,T>> newAndOldValueObservers = new ArrayList<VoidFunction2<T,T>>();//Listeners that receive the new and old values in the callback
+    private final ArrayList<VoidFunction1<T>> newValueObservers = new ArrayList<VoidFunction1<T>>();//Listeners that receive the new value in the callback
+    private final ArrayList<VoidFunction2<T,T>> newAndOldValueObservers = new ArrayList<VoidFunction2<T,T>>();//Listeners that receive the new and old values in the callback
 
     public Property( T value ) {
         this.initialValue = value;
