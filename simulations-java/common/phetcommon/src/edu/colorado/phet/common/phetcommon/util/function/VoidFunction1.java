@@ -13,7 +13,7 @@ public interface VoidFunction1<T> {
     void apply( T t );
 
     /**
-     * A VoidFunction which causes no side effects.
+     * A VoidFunction1 which causes no side effects.
      *
      * @param <T>
      */
