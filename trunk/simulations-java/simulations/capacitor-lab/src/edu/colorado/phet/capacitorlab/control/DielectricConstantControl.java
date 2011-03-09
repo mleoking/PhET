@@ -20,11 +20,12 @@ public class DielectricConstantControl extends LinearValueControl {
     private static final String LABEL = MessageFormat.format( CLStrings.PATTERN_LABEL, CLStrings.DIELECTRIC_CONSTANT );
     private static final String TEXTFIELD_PATTERN = "0.000";
     private static final String UNITS = "";
-    
+
     public DielectricConstantControl( double value ) {
         super( MIN, MAX, LABEL, TEXTFIELD_PATTERN, UNITS );
         setValue( value );
         setTickPattern( "0" );
         setTextFieldColumns( 4 );
+        setMinorTickSpacing( 1 );
     }
 }
