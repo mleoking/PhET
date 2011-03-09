@@ -1,58 +1,67 @@
 package edu.colorado.phet.reids.admin;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Hashtable;
 
 import javax.swing.*;
 
 public class OrderedReportFrame {
     private JFrame frame = new JFrame();
-    private TimesheetModel selection;
 
     public OrderedReportFrame( TimesheetModel selection ) {
-        this.selection = selection;
+        System.out.println( "Selection time = " + selection.getTotalTimeSeconds() );
         final Hashtable<String, Long> table = new Hashtable<String, Long>();
+//        long sum1 = 0;
         for ( int i = 0; i < selection.getEntryCount(); i++ ) {
             Entry e = selection.getEntry( i );
             Long time = table.get( e.getCategory() );
             if ( time == null ) { time = 0L; }
             time = time + e.getElapsedSeconds();
             table.put( e.getCategory(), time );
+//            sum1 += e.getElapsedSeconds();
         }
-
-        ArrayList<String> sortedKeys = new ArrayList<String>( table.keySet() );
-        Collections.sort( sortedKeys, new Comparator<String>() {
-            public int compare( String o1, String o2 ) {
-                return -Double.compare( table.get( o1 ), table.get( o2 ) );//reverse so most used appear first
-            }
-        } );
+//        System.out.println( "sum1 = " + sum1 );
+//
+//        long sum2=0;
+//        for ( Long v : table.values() ) {
+//            sum2 += v;
+//        }
+//        System.out.println( "sum2 = " + sum2 );
 
         String text = "Total time: " + Util.secondsToElapsedTimeString( selection.getTotalTimeSeconds() ) + "\n";
         text += "Number of entries: " + selection.getEntryCount() + "\n";
-        text += "Numer of categories: " + sortedKeys.size() + "\n";
-
+        text += "Number of categories: " + table.keySet().size() + "\n";
         text += "\n";
 
+        long totalTime = 0;
+        ArrayList<String> keys = new ArrayList<String>( table.keySet().size() );
         for ( String key : new MonthlyReportFilter().getAllCategories() ) {
-            final Long sec = table.get( key );
+            final Long sec = table.get( key ) == null ? 0L : table.get( key );
 
             final String timeStr = sec == null ? "" : Util.secondsToElapsedTimeDecimal( sec );
             System.out.println( key + "\t" + timeStr );
             text += key + "\t" + timeStr + "\n";
+            keys.remove( key );
+
+            totalTime += sec;
         }
+
+        String epilogue = "*************** Unused report, these values did not get accounted for *******************\n";
+        epilogue += "Didn't handle keys: " + keys + "\n";
+        for ( String key : keys ) {
+            Long sec = table.get( key );
+            epilogue += "key = " + key + ", value = " + Util.secondsToElapsedTimeDecimal( sec ) + "\n";
+        }
+
+        epilogue += "time in the TimesheetModel: " + Util.secondsToElapsedTimeDecimal( selection.getTotalTimeSeconds() ) + "\n";
+        epilogue += "time in the outputted spreadsheet (not account for unhandled keys): " + Util.secondsToElapsedTimeDecimal( totalTime ) + "\n";
+
+        text += "\n" + epilogue;
+        System.out.println( "unused = " + epilogue );
+
 
         frame.setContentPane( new JScrollPane( new JTextArea( text ) ) );
         frame.setSize( 800, 600 );
-    }
-
-    //Gets the tasks completed in the specified category, sorted by time taken
-    private Entry[] getTaskLines( String category ) {
-        Entry[] entries = selection.getEntriesForCategory( category );
-        Arrays.sort( entries, new Comparator<Entry>() {
-            public int compare( Entry o1, Entry o2 ) {
-                return -Double.compare( o1.getElapsedSeconds(), o2.getElapsedSeconds() );
-            }
-        } );
-        return entries;
     }
 
     public void setVisible( boolean b ) {
