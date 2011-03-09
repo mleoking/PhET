@@ -112,12 +112,12 @@ public class Property<T> extends SettableProperty<T> {
         } );
         enabled.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean newValue ) {
-                System.out.println( "VoidFunction1 enabled=" + newValue );
+                System.out.println( "VoidFunction1 newValue=" + newValue );
             }
         } );
         enabled.addObserver( new VoidFunction2<Boolean,Boolean>() {
             public void apply( Boolean newValue, Boolean oldValue ) {
-                System.out.println( "VoidFunction1 new=" + newValue + " old=" + oldValue );
+                System.out.println( "VoidFunction1 newValue=" + newValue + " oldValue=" + oldValue );
             }
         } );
         enabled.setValue( !enabled.getValue() );
