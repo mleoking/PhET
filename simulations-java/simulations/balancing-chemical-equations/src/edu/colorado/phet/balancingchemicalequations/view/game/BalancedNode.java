@@ -2,6 +2,8 @@
 
 package edu.colorado.phet.balancingchemicalequations.view.game;
 
+import java.awt.Font;
+
 import edu.colorado.phet.balancingchemicalequations.BCEResources;
 import edu.colorado.phet.balancingchemicalequations.BCEStrings;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
@@ -9,6 +11,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
+
 
 /**
  * Indicator that an equation is balanced.
@@ -18,7 +21,7 @@ import edu.umd.cs.piccolo.nodes.PText;
  */
 public class BalancedNode extends GamePopupNode {
 
-    public BalancedNode( boolean closeButtonVisible, boolean titleBarVisible ) {
+    public BalancedNode( final int points, boolean closeButtonVisible, boolean titleBarVisible ) {
         super( true /* smile */, closeButtonVisible, titleBarVisible, new Function1<PhetFont, PNode>() {
             public PNode apply( PhetFont phetFont ) {
                 PNode parentNode = new PNode();
@@ -30,11 +33,18 @@ public class BalancedNode extends GamePopupNode {
                 textNode.setFont( phetFont );
                 parentNode.addChild( textNode );
 
-                // layout: icon to left of text
+                PText pointsNode = new PText( "+" + String.valueOf( points ) );
+                pointsNode.setFont( new PhetFont( Font.BOLD, 40 ) );
+                parentNode.addChild( pointsNode );
+
+                // layout: icon to left of text, points centered below
                 iconNode.setOffset( 0, 0 );
                 double x = iconNode.getFullBoundsReference().getMaxX() + 2;
                 double y = iconNode.getFullBoundsReference().getCenterY() - ( textNode.getFullBoundsReference().getHeight() / 2 );
                 textNode.setOffset( x, y );
+                x = iconNode.getFullBoundsReference().getMinX() + ( ( textNode.getFullBoundsReference().getMaxX() - iconNode.getFullBoundsReference().getMinX() ) /  2 ) - ( pointsNode.getFullBoundsReference().getWidth() / 2 );
+                y = Math.max( iconNode.getFullBoundsReference().getMaxY(), textNode.getFullBoundsReference().getMaxY() ) + 5;
+                pointsNode.setOffset( x, y );
 
                 return parentNode;
             }
