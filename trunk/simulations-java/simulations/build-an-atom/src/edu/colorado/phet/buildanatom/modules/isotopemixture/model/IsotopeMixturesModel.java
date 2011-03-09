@@ -695,4 +695,40 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
                     TEST_CHAMBER_RECT.getMinY() + RAND.nextDouble() * TEST_CHAMBER_RECT.getHeight() );
         }
     }
+
+    /**
+     * This class is the model representation of a linear control that allows
+     * the user to add or remove isotopes from the test chamber.  It is
+     * admittedly a little odd to have a class like this that is really more
+     * of a view sort of thing, but it was needed in order to be consistent
+     * with the buckets, which are the other UI device that the user has for
+     * moving isotopes into and out of the test chamber.  The buckets must
+     * have a presence in the model so that the isotopes that are outside of
+     * the chamber have somewhere to go, so this class allows buckets and
+     * other controls to be handled consistently between the model and view.
+     */
+    public static class LinearAddRemoveIsotopesControl {
+        private static final Dimension2D SIZE = new PDimension( 200, 50 );
+        private static final int CAPACITY = 75;
+        private final Point2D centerPosition = new Point2D.Double();
+        private final ImmutableAtom atomConfig;
+        private final Property<Integer> remainingCapacityProperty = new Property<Integer>( CAPACITY );
+
+        public LinearAddRemoveIsotopesControl( IsotopeMixturesModel model, ImmutableAtom atomConfig, Point2D position ){
+            this.atomConfig = atomConfig;
+            this.centerPosition.setLocation( position );
+        }
+
+        public Dimension2D getSize(){
+            return SIZE;
+        }
+
+        public Point2D getCenterPositionRef(){
+            return centerPosition;
+        }
+
+        public ImmutableAtom getAtomConfig(){
+            return atomConfig;
+        }
+    }
 }
