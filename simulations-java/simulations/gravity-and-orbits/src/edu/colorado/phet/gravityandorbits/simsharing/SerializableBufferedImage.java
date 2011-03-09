@@ -17,7 +17,11 @@ public class SerializableBufferedImage implements Serializable {
     private byte[] byteImage = null;
 
     public SerializableBufferedImage( BufferedImage bufferedImage ) {
-        this.byteImage = toByteArray( bufferedImage );
+        this.byteImage = toByteArray( bufferedImage, "JPG" );
+        byte[] png = toByteArray( bufferedImage, "PNG" );
+        System.out.println( "jpg.length = " + byteImage.length + ", png.length = " + png.length );
+        //        ARGB: jpg.length = 10907, png.length = 16049
+        //        RGB: jpg.length = 9014, png.length = 14667
     }
 
     public BufferedImage getBufferedImage() {
@@ -37,12 +41,12 @@ public class SerializableBufferedImage implements Serializable {
         }
     }
 
-    private byte[] toByteArray( BufferedImage bufferedImage ) {
+    private byte[] toByteArray( BufferedImage bufferedImage, String format ) {
         if ( bufferedImage != null ) {
             BufferedImage image = bufferedImage;
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             try {
-                ImageIO.write( image, "png", baos );//TODO: try JPG
+                ImageIO.write( image, format, baos );
             }
             catch ( IOException e ) {
                 throw new IllegalStateException( e.toString() );
