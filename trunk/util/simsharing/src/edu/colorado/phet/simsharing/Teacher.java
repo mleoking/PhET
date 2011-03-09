@@ -41,6 +41,7 @@ public class Teacher {
     }
 
     public static void main( String[] args ) throws IOException {
+        Server.parseArgs( args );
         SimSharing.init();
         new Teacher( args ).start();
     }

@@ -1,3 +1,4 @@
+Added overrides for host to facilitate local testing and remote deployments
 Fixed dependency from gravity-and-orbits onto simsharing
 # 00.00.05 (49606) Mar 8, 2011
 # 00.00.04 (49604) Mar 8, 2011

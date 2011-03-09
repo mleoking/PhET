@@ -7,7 +7,9 @@ import akka.japi.Creator;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 import edu.colorado.phet.gravityandorbits.simsharing.GravityAndOrbitsApplicationState;
 import edu.colorado.phet.gravityandorbits.simsharing.SerializableBufferedImage;
@@ -20,8 +22,7 @@ import static akka.actor.Actors.remote;
  */
 public class Server {
     public static int PORT = 44100;
-    //        public static String HOST_IP_ADDRESS = "localhost";
-    public static String HOST_IP_ADDRESS = "128.138.145.107";//phet-server
+    public static String HOST_IP_ADDRESS = "128.138.145.107";//phet-server, but can be mutated to specify a different host
 
     private HashMap<StudentID, ArrayList<Object>> dataPoints = new HashMap<StudentID, ArrayList<Object>>();
     public static String[] names = new String[] { "Alice", "Bob", "Charlie", "Danielle", "Earl", "Frankie", "Gail", "Hank", "Isabelle", "Joe", "Kim", "Lucy", "Mikey", "Nathan", "Ophelia", "Parker", "Quinn", "Rusty", "Shirley", "Tina", "Uther Pendragon", "Vivian", "Walt", "Xander", "Yolanda", "Zed" };
@@ -29,8 +30,20 @@ public class Server {
     private ArrayList<StudentID> students = new ArrayList<StudentID>();
 
     public static void main( String[] args ) throws IOException {
+        Server.parseArgs( args );
         SimSharing.init();
         new Server().start();
+    }
+
+    /*
+    * Use phet-server for deployments, but localhost for local testing.
+     */
+    public static void parseArgs( String[] args ) {
+        final List<String> list = Arrays.asList( args );
+        if ( list.contains( "-host" ) ) {
+            HOST_IP_ADDRESS = args[list.indexOf( "-host" ) + 1];
+        }
+        System.out.println( "Using host: " + HOST_IP_ADDRESS );
     }
 
     public Object getLatestDataPoint( StudentID id ) {
