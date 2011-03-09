@@ -29,7 +29,6 @@
     <string key="forceArrows.gravity" value="Gravity"/>
     <string key="forceArrows.buoyancy" value="Buoyancy"/>
     <string key="forceArrows.contact" value="Contact"/>
-    <string key="forceArrows.fluidDrag" value="Fluid Drag"/>
     <string key="material.styrofoam" value="Styrofoam"/>
     <string key="material.wood" value="Wood"/>
     <string key="material.lead" value="Lead"/>
