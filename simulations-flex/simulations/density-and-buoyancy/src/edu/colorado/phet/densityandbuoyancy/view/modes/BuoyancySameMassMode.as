@@ -15,7 +15,7 @@ public class BuoyancySameMassMode extends BuoyancyMode {
         super( canvas );
         //Showing the blocks as partially floating allows easier visualization of densities
         const material: Material = Material.WOOD;
-        const mass: Number = DensityConstants.DEFAULT_BLOCK_MASS * 2.4;
+        const mass: Number = DensityConstants.DEFAULT_BLOCK_MASS * 2.5;
         const volume: Number = mass / material.getDensity();
         const height: Number = Math.pow( volume, 1.0 / 3 );
         woodBlock = Block.newBlockDensityMass( material.getDensity(), mass, -DensityConstants.POOL_WIDTH_X / 2, height, new ColorTransform( 0.5, 0.5, 0 ), canvas.model, material );
