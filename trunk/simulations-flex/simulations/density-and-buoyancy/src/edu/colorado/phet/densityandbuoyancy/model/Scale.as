@@ -59,6 +59,14 @@ public class Scale extends Cuboid {
         }
     }
 
+    /*
+     * Fixed scale bug where it reported incorrect forces while being controlled by the user.
+     * By setting the mass to zero, the physics engine can come up with the right normal forces.
+     */
+    override protected function isStatic():Boolean {
+        return super.isStatic() || userControlled;
+    }
+
     override public function registerContact( point: b2ContactResult ): void {
         super.registerContact( point );
 
