@@ -31,6 +31,7 @@ public class MonthlyReportFilter {
         allList.add( "molecules-and-light" );
         allList.add( "isotopes-and-atomic-mass" );
         allList.add( "balloons-and-static-electricity" );
+        allList.add( "solutions" );
         allList.add( "licensing" );
         allList.add( "leave:sick:family" );
         allList.add( "leave:sick:personal" );
@@ -38,7 +39,15 @@ public class MonthlyReportFilter {
     }
 
     public ArrayList<String> getAllCategories() {
-        return allList;
+        return removeDuplicates( allList );//Have to remove duplicates or there can be overcounting
+    }
+
+    private ArrayList<String> removeDuplicates( ArrayList<String> allList ) {
+        ArrayList<String> x = new ArrayList<String>();
+        for ( String s : allList ) {
+            if ( !x.contains( s ) ) { x.add( s ); }
+        }
+        return x;
     }
 
     public static ArrayList<String> getPredefinedCategories() {
@@ -149,6 +158,8 @@ public class MonthlyReportFilter {
         if ( category.equals( "piccolo-phet" ) ) { return mapCategory( "Common Code" ); }
         if ( category.equals( "isotopes" ) ) { return mapCategory( "isotopes-and-atomic-mass" ); }
         if ( category.equals( "phet-help" ) ) { return mapCategory( "Customer Support" ); }
+        if ( category.equals( "phethelp" ) ) { return mapCategory( "Customer Support" ); }
+        if ( category.equals( "ksu-credits" ) ) { return mapCategory( "KSU Translation Credits" ); }
 
         System.out.println( "No match found for the category: " + category );
         return "unknown: " + category;
