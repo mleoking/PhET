@@ -48,6 +48,7 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
     private int attempts; // how many attempts the user has made at solving the current challenge
     private boolean isNewBestTime; // is the time for this game a new best time?
     private boolean isGameCompleted; // was the game played to completion?
+    private int currentPoints; // how many points were earned for the current equation
 
     /**
      * Constructor
@@ -78,6 +79,7 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
         isNewBestTime = false;
         isGameCompleted = false;
         timer.start();
+        currentPoints = 0;
         points.setValue( 0 );
         currentEquation.setValue( equations.get( currentEquationIndex ) );
         state.setValue( GameState.CHECK );
@@ -92,11 +94,16 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 
             // award points
             if ( attempts == 1 ) {
-                points.setValue( points.getValue() + POINTS_FIRST_ATTEMPT );
+                currentPoints = POINTS_FIRST_ATTEMPT;
+
             }
             else if ( attempts == 2 ) {
-                points.setValue( points.getValue() + POINTS_SECOND_ATTEMPT );
+                currentPoints = POINTS_SECOND_ATTEMPT;
             }
+            else {
+                currentPoints = 0;
+            }
+            points.setValue( points.getValue() + currentPoints );
 
             // end the game
             if ( currentEquationIndex == equations.size() - 1 ) {
@@ -140,6 +147,7 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
     public void next() {
         if ( currentEquationIndex < equations.size() - 1 ) {
             attempts = 0;
+            currentPoints = 0;
             currentEquationIndex++;
             currentEquation.setValue( equations.get( currentEquationIndex ) );
             state.setValue( GameState.CHECK );
@@ -178,22 +186,53 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
         return bestTime;
     }
 
+    /**
+     * Gets the number of points earned for the current equation.
+     * @return
+     */
+    public int getCurrentPoints() {
+        return currentPoints;
+    }
+
+    /**
+     * Gets the range of the user coefficients.
+     * @return
+     */
     public IntegerRange getCoefficientsRange() {
         return COEFFICENTS_RANGE;
     }
 
+    /**
+     * Gets the current equation, which is the equation that is being played.
+     * @return
+     */
     public int getCurrentEquationIndex() {
         return currentEquationIndex;
     }
 
+    /**
+     * Gets the number of equations in the current game.
+     * @return
+     */
     public int getNumberOfEquations() {
         return equations.size();
     }
 
+    /**
+     * Gets the number of points in a perfect score, which occurs when the user
+     * balances every equation in the game correctly on the first attempt.
+     * @return
+     */
     public int getPerfectScore() {
         return getNumberOfEquations() * POINTS_FIRST_ATTEMPT;
     }
 
+    /**
+     * Is the current score a perfect score?
+     * This can be called at any time during the game, but can't possibly
+     * return true until the game has been completed.
+     * @return
+     */
     public boolean isPerfectScore() {
         return points.getValue() == getPerfectScore();
     }

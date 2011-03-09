@@ -454,7 +454,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
             // evaluate the user's answer and create the proper type of node
             Equation equation = model.currentEquation.getValue();
             if ( equation.isBalancedAndSimplified() ) {
-                popupNode = new BalancedNode( globalProperties.showPopupCloseButton.getValue(), globalProperties.showPopupTitleBar.getValue() );
+                popupNode = new BalancedNode( model.getCurrentPoints(), globalProperties.showPopupCloseButton.getValue(), globalProperties.showPopupTitleBar.getValue() );
             }
             else if ( equation.isBalanced() ) {
                 popupNode = new BalancedNotSimplifiedNode( globalProperties.showPopupCloseButton.getValue(), globalProperties.showPopupTitleBar.getValue() );
