@@ -32,7 +32,7 @@ public class GravityAndOrbitsApplicationState implements Serializable {
         toScaleState = new GravityAndOrbitsModuleState( gravityAndOrbitsApplication.getToScale() );
         timestamp = currentTimeMillis();
         frameSize = new Dimension( frame.getWidth(), frame.getHeight() );
-        thumbnail = new SerializableBufferedImage( BufferedImageUtils.multiScaleToWidth( toImage( frame ), 320 ) );
+        thumbnail = new SerializableBufferedImage( BufferedImageUtils.multiScaleToWidth( toImage( frame ), 200 ) );
         activeModule = gravityAndOrbitsApplication.indexOf( gravityAndOrbitsApplication.getActiveModule() );
     }
 
@@ -59,7 +59,7 @@ public class GravityAndOrbitsApplicationState implements Serializable {
     }
 
     public static BufferedImage toImage( JFrame frame ) {
-        BufferedImage image = new BufferedImage( frame.getWidth(), frame.getHeight(), BufferedImage.TYPE_INT_ARGB_PRE );
+        BufferedImage image = new BufferedImage( frame.getWidth(), frame.getHeight(), BufferedImage.TYPE_INT_RGB );
         Graphics2D g2 = image.createGraphics();
         frame.getContentPane().paint( g2 );
         g2.dispose();
