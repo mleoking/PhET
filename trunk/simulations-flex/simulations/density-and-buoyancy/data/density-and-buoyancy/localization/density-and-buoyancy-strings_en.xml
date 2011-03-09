@@ -2,7 +2,6 @@
 <SimStrings>
     <string key="density.simTitle" value="Density"/>
     <string key="buoyancy.simTitle" value="Buoyancy"/>
-    <string key="bottle.2L" value="2L"/>
     <string key="mode.title" value="Blocks"/>
     <string key="mode.customObject" value="Custom"/>
     <string key="mode.objectsOfSameMass" value="Same Mass"/>

@@ -15,7 +15,6 @@ import edu.colorado.phet.flexcommon.model.BooleanProperty;
 import edu.colorado.phet.densityandbuoyancy.model.DensityModel;
 import edu.colorado.phet.densityandbuoyancy.model.DensityObject;
 import edu.colorado.phet.densityandbuoyancy.model.Material;
-import edu.colorado.phet.densityandbuoyancy.view.away3d.Bottle;
 import edu.colorado.phet.densityandbuoyancy.view.away3d.DensityObjectNode;
 import edu.colorado.phet.densityandbuoyancy.view.away3d.GroundNode;
 import edu.colorado.phet.densityandbuoyancy.view.away3d.Pickable;
@@ -96,13 +95,6 @@ public class AbstractDBCanvas extends UIComponent {
 //            addChild( tickMarkSet );
 
             addChild( waterVolumeIndicator );
-
-            const bottle: Bottle = new Bottle();
-            //set the location of the bottle to be out of the way of the interactive objects
-            bottle.x = DensityConstants.POOL_WIDTH_X / 2 * DensityModel.DISPLAY_SCALE + bottle.width * 1.2;
-            bottle.y = -bottle.height * 1.5;
-            bottle.z = DensityConstants.VERTICAL_GROUND_OFFSET_AWAY_3D;
-            mainViewport.scene.addChild( bottle );
         } );
     }
 
