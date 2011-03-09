@@ -1,3 +1,4 @@
+> buoyancy: Block labels ("A", "B") in the playground node are now behind force value readouts
 > buoyancy: Removed fluid drag vector display
 > Removed the 2L bottle
 > buoyancy: Changed masses for the "Same Mass" and "Same Density" modes to round numbers.
