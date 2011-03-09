@@ -49,7 +49,8 @@ public class Cuboid extends DensityObject {
     private function updateBodyDef(): void {
         bodyDef.position.Set( getX() * DensityConstants.SCALE_BOX2D, getY() * DensityConstants.SCALE_BOX2D );
         bodyDef.fixedRotation = true;
-        if ( !isMovable() ) {
+        if ( !isMovable() || userControlled ) {
+            // if a scale is being pushed by forces while the user is controlling it, it will display a wrong force value (weight)
             bodyDef.massData.mass = 0;//Fixes a bug where the scale would read out the wrong value if the user was controlling it, due to incorrect inclusion of fluid drag forces
         }
         else {
