@@ -28,8 +28,8 @@ public class CubeNode extends CuboidNode {
 
 
     override public function addOverlayObjects(): void {
-        super.addOverlayObjects();
         canvas.addChild( _blockLabelNode );
+        super.addOverlayObjects();
     }
 
 
