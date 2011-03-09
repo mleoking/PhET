@@ -13,8 +13,14 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
 import edu.colorado.phet.gravityandorbits.GravityAndOrbitsApplication;
@@ -129,6 +135,31 @@ public class Teacher {
     }
 
     public void watch( final StudentID studentID ) {
+        final Property<Integer> maxFrames = new Property<Integer>( 0 );
+        final BooleanProperty live = new BooleanProperty( true );
+        final Property<Integer> spinnerValue = new Property<Integer>( 0 );
+        JFrame controlFrame = new JFrame( "Time controls: " + studentID ) {{
+            setContentPane( new JPanel() {{
+                add( new PropertyRadioButton<Boolean>( "Live", live, true ) );
+                add( new PropertyRadioButton<Boolean>( "Playback", live, false ) );
+                add( new JSpinner( new SpinnerNumberModel( 0, 0, 10000, 1 ) ) {{
+                    addChangeListener( new ChangeListener() {
+                        public void stateChanged( ChangeEvent e ) {
+                            spinnerValue.setValue( (Integer) getValue() );
+                        }
+                    } );
+                }} );
+                add( new JLabel() {{
+                    maxFrames.addObserver( new VoidFunction1<Integer>() {
+                        public void apply( Integer integer ) {
+                            setText( "Frames: " + integer );
+                        }
+                    } );
+                }} );
+            }} );
+            pack();
+        }};
+        controlFrame.setVisible( true );
         Thread t = new Thread( new Runnable() {
             public void run() {
                 //Have to launch from non-swing-thread otherwise receive:
@@ -139,7 +170,10 @@ public class Teacher {
                 application.getIntro().setTeacherMode( true );
 
                 while ( true ) {
-                    final GravityAndOrbitsApplicationState state = (GravityAndOrbitsApplicationState) server.sendRequestReply( new TeacherDataRequest( studentID ) );
+                    Pair<Object, StudentMetadata> pair = (Pair<Object, StudentMetadata>) server.sendRequestReply( new TeacherDataRequest( studentID, live.getValue() ? Time.LIVE : new Time.Index( spinnerValue.getValue() ) ) );
+                    final GravityAndOrbitsApplicationState state = (GravityAndOrbitsApplicationState) pair._1;
+                    maxFrames.setValue( pair._2.getNumSamples() );
+                    System.out.println( "Received metadata = " + pair._2 );
                     if ( state != null ) {
                         try {
                             SwingUtilities.invokeAndWait( new Runnable() {

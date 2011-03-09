@@ -1,3 +1,4 @@
+Started adding controls for teacher playback of recorded student data
 # 00.00.06 (49659) Mar 9, 2011
 Performance improvements for thumbnails: JPG instead of PNG, smaller size, RGB instead of ARGB
 Added overrides for host to facilitate local testing and remote deployments

@@ -46,12 +46,24 @@ public class Server {
         System.out.println( "Using host: " + HOST_IP_ADDRESS );
     }
 
-    public Object getLatestDataPoint( StudentID id ) {
-        final ArrayList<Object> objects = dataPoints.get( id );
+    public Object getDataPoint( TeacherDataRequest request ) {
+        final ArrayList<Object> objects = getData( request.getStudentID() );
         if ( objects != null ) {
-            return objects.get( objects.size() - 1 );
+            final int requestedIndex = request.getTime().equals( Time.LIVE ) ?
+                                       objects.size() - 1 :
+                                       ( (Time.Index) request.getTime() ).index;
+            if ( requestedIndex >= 0 && requestedIndex < objects.size() ) {
+                return objects.get( requestedIndex );
+            }
+            else {
+                return null;
+            }
         }
         else { return null; }
+    }
+
+    private ArrayList<Object> getData( StudentID id ) {
+        return dataPoints.get( id );
     }
 
     private void start() {
@@ -61,9 +73,9 @@ public class Server {
                     public void onReceive( Object o ) {
                         if ( o instanceof TeacherDataRequest ) {
                             TeacherDataRequest request = (TeacherDataRequest) o;
-                            Object data = getLatestDataPoint( request.getStudentID() );
+                            Object data = getDataPoint( request );
                             if ( data != null ) {
-                                getContext().replySafe( data );
+                                getContext().replySafe( new Pair<Object, StudentMetadata>( data, new StudentMetadata( request.getStudentID(), getData( request.getStudentID() ).size(), System.currentTimeMillis() ) ) );
                             }
                             else {
                                 getContext().replySafe( null );
@@ -82,7 +94,7 @@ public class Server {
                         else if ( o instanceof GetStudentList ) {
                             ArrayList<Pair<StudentID, SerializableBufferedImage>> list = new ArrayList<Pair<StudentID, SerializableBufferedImage>>();
                             for ( StudentID student : students ) {
-                                final GravityAndOrbitsApplicationState latestDataPoint = (GravityAndOrbitsApplicationState) getLatestDataPoint( student );
+                                final GravityAndOrbitsApplicationState latestDataPoint = (GravityAndOrbitsApplicationState) getDataPoint( new TeacherDataRequest( student, Time.LIVE ) );
                                 list.add( new Pair<StudentID, SerializableBufferedImage>( student, latestDataPoint.getThumbnail() ) );
                             }
                             getContext().replySafe( new StudentList( list ) );
