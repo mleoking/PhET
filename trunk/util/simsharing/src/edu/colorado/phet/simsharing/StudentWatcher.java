@@ -4,6 +4,8 @@ package edu.colorado.phet.simsharing;
 import akka.actor.ActorRef;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.lang.reflect.InvocationTargetException;
@@ -32,6 +34,7 @@ public class StudentWatcher {
         final Property<Integer> maxFrames = new Property<Integer>( 0 );
         final BooleanProperty live = new BooleanProperty( true );
         final Property<Integer> frameToDisplay = new Property<Integer>( 0 );
+        final Property<Boolean> playing = new Property<Boolean>( false );
         controlFrame = new JFrame( "Time controls: " + studentID ) {{
             setContentPane( new JPanel( new BorderLayout() ) {{
                 add( new JPanel() {{
@@ -46,6 +49,30 @@ public class StudentWatcher {
                         frameToDisplay.addObserver( new VoidFunction1<Integer>() {
                             public void apply( Integer integer ) {
                                 setValue( integer );
+                            }
+                        } );
+                    }} );
+                    add( new JButton( "Play" ) {{
+                        addActionListener( new ActionListener() {
+                            public void actionPerformed( ActionEvent e ) {
+                                playing.setValue( true );
+                            }
+                        } );
+                        playing.addObserver( new VoidFunction1<Boolean>() {
+                            public void apply( Boolean value ) {
+                                setEnabled( !value );
+                            }
+                        } );
+                    }} );
+                    add( new JButton( "Pause" ) {{
+                        addActionListener( new ActionListener() {
+                            public void actionPerformed( ActionEvent e ) {
+                                playing.setValue( false );
+                            }
+                        } );
+                        playing.addObserver( new VoidFunction1<Boolean>() {
+                            public void apply( Boolean value ) {
+                                setEnabled( value );
                             }
                         } );
                     }} );
@@ -71,6 +98,11 @@ public class StudentWatcher {
                     frameToDisplay.addObserver( new VoidFunction1<Integer>() {
                         public void apply( Integer integer ) {
                             setValue( integer );
+                        }
+                    } );
+                    playing.addObserver( new VoidFunction1<Boolean>() {
+                        public void apply( Boolean aBoolean ) {
+                            setEnabled( aBoolean );
                         }
                     } );
                 }}, BorderLayout.CENTER );
@@ -127,6 +159,9 @@ public class StudentWatcher {
                                 e.printStackTrace();
                             }
                         }
+                    }
+                    if ( playing.getValue() ) {//TODO: may need a sleep
+                        frameToDisplay.setValue( Math.min( frameToDisplay.getValue() + 1, maxFrames.getValue() ) );
                     }
                 }
             }
