@@ -14,12 +14,13 @@ import javax.swing.JPanel;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
-import edu.colorado.phet.buildanatom.model.Bucket;
 import edu.colorado.phet.buildanatom.model.ImmutableAtom;
+import edu.colorado.phet.buildanatom.model.MonoIsotopeParticleBucket;
+import edu.colorado.phet.buildanatom.modules.interactiveisotope.view.IsotopeSliderNode;
 import edu.colorado.phet.buildanatom.modules.isotopemixture.model.IsotopeMixturesModel;
 import edu.colorado.phet.buildanatom.modules.isotopemixture.model.MovableAtom;
 import edu.colorado.phet.buildanatom.modules.isotopemixture.model.IsotopeMixturesModel.InteractivityMode;
-import edu.colorado.phet.buildanatom.modules.isotopemixture.model.IsotopeMixturesModel.Listener;
+import edu.colorado.phet.buildanatom.modules.isotopemixture.model.IsotopeMixturesModel.LinearAddRemoveIsotopesControl;
 import edu.colorado.phet.buildanatom.view.BucketFrontNode;
 import edu.colorado.phet.buildanatom.view.BucketHoleNode;
 import edu.colorado.phet.buildanatom.view.MaximizeControlNode;
@@ -105,7 +106,8 @@ public class IsotopeMixturesCanvas extends PhetPCanvas {
         rootNode.addChild( controlsLayer );
 
         // Listen to the model for events that concern the canvas.
-        model.addListener( new Listener() {
+        model.addListener( new IsotopeMixturesModel.Adapter() {
+            @Override
             public void isotopeInstanceAdded( final MovableAtom atom ) {
                 // Add a representation of the new atom to the canvas.
                 final LabeledIsotopeNode isotopeNode = new LabeledIsotopeNode( mvt, atom, model.getColorForIsotope( atom.getAtomConfiguration() ) );
@@ -122,6 +124,39 @@ public class IsotopeMixturesCanvas extends PhetPCanvas {
                     isotopeNode.setPickable( false );
                     isotopeNode.setChildrenPickable( false );
                 }
+            }
+            @Override
+            public void isotopeBucketAdded( final MonoIsotopeParticleBucket bucket ) {
+                final BucketFrontNode bucketFrontNode = new BucketFrontNode( bucket, mvt );
+                bucketFrontNode.setOffset( mvt.modelToView( bucket.getPosition() ) );
+                final BucketHoleNode bucketHoleNode = new BucketHoleNode( bucket, mvt );
+                bucketHoleNode.setOffset( mvt.modelToView( bucket.getPosition() ) );
+                bucketFrontLayer.addChild( bucketFrontNode );
+                bucketHoleLayer.addChild( bucketHoleNode );
+                bucket.getPartOfModelProperty().addObserver( new SimpleObserver() {
+                    public void update() {
+                        // Remove the representation of the bucket when the bucket
+                        // itself is removed from the model.
+                        if ( !bucket.getPartOfModelProperty().getValue() ){
+                            bucketFrontLayer.removeChild( bucketFrontNode );
+                            bucketHoleLayer.removeChild( bucketHoleNode );
+                        }
+                    }
+                }, false );
+            }
+            @Override
+            public void isotopeLinearControllerAdded( final LinearAddRemoveIsotopesControl controller ) {
+                final IsotopeSliderNode controllerNode = new IsotopeSliderNode( controller, mvt );
+                controlsLayer.addChild( controllerNode );
+                controller.getPartOfModelProperty().addObserver( new SimpleObserver() {
+                    public void update() {
+                        if ( !controller.getPartOfModelProperty().getValue() ){
+                            // Remove the representation of the bucket when the bucket
+                            // itself is removed from the model.
+                            controlsLayer.removeChild( controllerNode );
+                        }
+                    }
+                }, false );
             }
         });
 
@@ -141,22 +176,6 @@ public class IsotopeMixturesCanvas extends PhetPCanvas {
         }};
         controlsLayer.addChild( periodicTableNode );
 
-        // Listen to the bucket list property in the model and update our
-        // buckets if and when the list changes.
-        model.getBucketListProperty().addObserver( new SimpleObserver() {
-            public void update() {
-                bucketHoleLayer.removeAllChildren();
-                bucketFrontLayer.removeAllChildren();
-                for ( Bucket bucket : model.getBucketListProperty().getValue() ) {
-                    BucketFrontNode bucketFrontNode = new BucketFrontNode( bucket, mvt );
-                    bucketFrontNode.setOffset( mvt.modelToView( bucket.getPosition() ) );
-                    BucketHoleNode bucketHoleNode = new BucketHoleNode( bucket, mvt );
-                    bucketHoleNode.setOffset( mvt.modelToView( bucket.getPosition() ) );
-                    bucketFrontLayer.addChild( bucketFrontNode );
-                    bucketHoleLayer.addChild( bucketHoleNode );
-                }
-            }
-        });
 
         // Add the pie chart to the canvas.
         double indicatorWindowX = 600;
