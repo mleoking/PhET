@@ -2,8 +2,12 @@
 
 package edu.colorado.phet.common.phetcommon.model.property;
 
+import java.util.ArrayList;
+
 import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction2;
 
 /**
  * This can be used to represent an observable model value in a MVC style pattern. Notifications are sent to observers when they
@@ -15,6 +19,9 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  * @author Chris Malley
  */
 public abstract class ObservableProperty<T> extends SimpleObservable {
+    private final ArrayList<VoidFunction1<T>> newValueObservers = new ArrayList<VoidFunction1<T>>();//Listeners that receive the new value in the callback
+    private final ArrayList<VoidFunction2<T, T>> newAndOldValueObservers = new ArrayList<VoidFunction2<T, T>>();//Listeners that receive the new and old values in the callback
+
     /**
      * Adds a SimpleObserver to observe the value of this instance.
      * If notifyOnAdd is true, also immediately notifies the SimpleObserver,
@@ -29,6 +36,61 @@ public abstract class ObservableProperty<T> extends SimpleObservable {
         if ( notifyOnAdd ) {
             simpleObserver.update();
         }
+    }
+
+    public void notifyObservers( T value, T oldValue ) {
+        super.notifyObservers();//Notify SimpleObservers
+        notifyNewValueObservers( value );//Notify typed callback listeners
+        notifyNewAndOldValueObservers( value, oldValue );//Notify listeners that with both new and old values
+    }
+
+    /*
+     * Notify observers that receive new value in the callback.
+     */
+    private void notifyNewValueObservers( T newValue ) {
+        for ( VoidFunction1<T> observer : new ArrayList<VoidFunction1<T>>( newValueObservers ) ) {//Iterate on a copy of the observer list to avoid ConcurrentModificationException, see #2741
+            observer.apply( newValue );
+        }
+    }
+
+    /**
+     * Adds an observer that will receive the new value in the callback.
+     * Unlike SimpleObservers, this observer does not receive immediate notification when it's added,
+     * because there is no notion of "new value".
+     *
+     * @param observer
+     */
+    public void addObserver( VoidFunction1<T> observer ) {
+        newValueObservers.add( observer );
+        observer.apply( getValue() );
+    }
+
+    public void removeObserver( VoidFunction1<T> observer ) {
+        newValueObservers.remove( observer );
+    }
+
+    /*
+     * Notify observers that receive the new and old values in the callback.
+     */
+    private void notifyNewAndOldValueObservers( T newValue, T oldValue ) {
+        for ( VoidFunction2<T, T> observer : new ArrayList<VoidFunction2<T, T>>( newAndOldValueObservers ) ) {//Iterate on a copy of the observer list to avoid ConcurrentModificationException, see #2741
+            observer.apply( newValue, oldValue );
+        }
+    }
+
+    /**
+     * Adds an observer that will receive the new and old value in the callback.
+     * Unlike SimpleObservers, this observer does not receive immediate notification when it's added,
+     * because there is no notion of "new value" or "old value".
+     *
+     * @param observer
+     */
+    public void addObserver( VoidFunction2<T, T> observer ) {
+        newAndOldValueObservers.add( observer );
+    }
+
+    public void removeObserver( VoidFunction2<T, T> observer ) {
+        newAndOldValueObservers.remove( observer );
     }
 
     /**
