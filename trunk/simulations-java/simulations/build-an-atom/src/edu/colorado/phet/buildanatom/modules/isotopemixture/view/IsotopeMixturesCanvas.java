@@ -49,7 +49,7 @@ public class IsotopeMixturesCanvas extends PhetPCanvas {
     // Class Data
     //----------------------------------------------------------------------------
 
-    private static final Color BACKGROUND_COLOR = BuildAnAtomConstants.CANVAS_BACKGROUND;
+    public static final Color BACKGROUND_COLOR = BuildAnAtomConstants.CANVAS_BACKGROUND;
 
     //----------------------------------------------------------------------------
     // Instance Data
