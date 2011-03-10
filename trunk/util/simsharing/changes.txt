@@ -1,3 +1,4 @@
+Fixed nullpointer exception
 # 00.00.07 (49684) Mar 10, 2011
 Started adding controls for teacher playback of recorded student data
 # 00.00.06 (49659) Mar 9, 2011
