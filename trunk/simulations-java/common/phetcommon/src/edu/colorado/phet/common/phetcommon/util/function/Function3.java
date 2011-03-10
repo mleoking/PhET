@@ -9,15 +9,15 @@ package edu.colorado.phet.common.phetcommon.util.function;
 public interface Function3<W, V, U, T> {
     T apply( W w, V v, U u );
 
-    public static class Constant<T, T1, T2, T3> implements Function3<T, T1, T2, T3> {
+    public static class Constant<W, V, U, T> implements Function3<W, V, U, T> {
 
-        private T3 value;
+        private T value;
 
-        public Constant( T3 value ) {
+        public Constant( T value ) {
             this.value = value;
         }
 
-        public T3 apply( T t, T1 t1, T2 t2 ) {
+        public T apply( W w, V v, U u ) {
             return value;
         }
     }
