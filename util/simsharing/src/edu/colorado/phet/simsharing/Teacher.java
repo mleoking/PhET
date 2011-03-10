@@ -33,10 +33,14 @@ public class Teacher {
 
     private void start() {
         server = Actors.remote().actorFor( "server", Server.HOST_IP_ADDRESS, Server.PORT );
-        JFrame studentListFrame = new JFrame( "Students" );
-        studentListFrame.setContentPane( new StudentListPanel( server, args ) );
-        studentListFrame.setSize( 800, 600 );
-        SwingUtils.centerWindowOnScreen( studentListFrame );
-        studentListFrame.setVisible( true );
+        SwingUtilities.invokeLater( new Runnable() {
+            public void run() {
+                JFrame studentListFrame = new JFrame( "Students" );
+                studentListFrame.setContentPane( new StudentListPanel( server, args ) );
+                studentListFrame.setSize( 800, 600 );
+                SwingUtils.centerWindowOnScreen( studentListFrame );
+                studentListFrame.setVisible( true );
+            }
+        } );
     }
 }
