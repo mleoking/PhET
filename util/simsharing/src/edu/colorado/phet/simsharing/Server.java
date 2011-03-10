@@ -95,7 +95,9 @@ public class Server {
                             ArrayList<Pair<StudentID, SerializableBufferedImage>> list = new ArrayList<Pair<StudentID, SerializableBufferedImage>>();
                             for ( StudentID student : students ) {
                                 final GravityAndOrbitsApplicationState latestDataPoint = (GravityAndOrbitsApplicationState) getDataPoint( new TeacherDataRequest( student, Time.LIVE ) );
-                                list.add( new Pair<StudentID, SerializableBufferedImage>( student, latestDataPoint.getThumbnail() ) );
+                                if ( latestDataPoint != null ) {
+                                    list.add( new Pair<StudentID, SerializableBufferedImage>( student, latestDataPoint.getThumbnail() ) );
+                                }
                             }
                             getContext().replySafe( new StudentList( list ) );
                         }
