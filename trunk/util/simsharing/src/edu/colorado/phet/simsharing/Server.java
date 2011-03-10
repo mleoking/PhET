@@ -91,7 +91,7 @@ public class Server {
                             StudentExit studentExit = (StudentExit) o;
                             students.remove( studentExit.getStudentID() );
                         }
-                        else if ( o instanceof GetStudentList ) {
+                        else if ( o instanceof GetThumbnails ) {
                             ArrayList<Pair<StudentID, SerializableBufferedImage>> list = new ArrayList<Pair<StudentID, SerializableBufferedImage>>();
                             for ( StudentID student : students ) {
                                 final GravityAndOrbitsApplicationState latestDataPoint = (GravityAndOrbitsApplicationState) getDataPoint( new TeacherDataRequest( student, Time.LIVE ) );
