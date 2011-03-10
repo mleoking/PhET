@@ -29,12 +29,18 @@ public class StudentWatcher {
     public Thread thread;
     public JFrame controlFrame;
     public GravityAndOrbitsApplication application;
+    final Property<Integer> maxFrames = new Property<Integer>( 0 );
+    final BooleanProperty live = new BooleanProperty( true );
+    final Property<Integer> frameToDisplay = new Property<Integer>( 0 );
+    final Property<Boolean> playing = new Property<Boolean>( false );
+    private final String[] args;
+    private final StudentID studentID;
+    private final ActorRef server;
 
     public StudentWatcher( final String[] args, final StudentID studentID, final ActorRef server ) {
-        final Property<Integer> maxFrames = new Property<Integer>( 0 );
-        final BooleanProperty live = new BooleanProperty( true );
-        final Property<Integer> frameToDisplay = new Property<Integer>( 0 );
-        final Property<Boolean> playing = new Property<Boolean>( false );
+        this.args = args;
+        this.studentID = studentID;
+        this.server = server;
         controlFrame = new JFrame( "Time controls: " + studentID ) {{
             setContentPane( new JPanel( new BorderLayout() ) {{
                 add( new JPanel() {{
@@ -100,9 +106,9 @@ public class StudentWatcher {
                             setValue( integer );
                         }
                     } );
-                    playing.addObserver( new VoidFunction1<Boolean>() {
+                    live.addObserver( new VoidFunction1<Boolean>() {
                         public void apply( Boolean aBoolean ) {
-                            setEnabled( aBoolean );
+                            setEnabled( !aBoolean );
                         }
                     } );
                 }}, BorderLayout.CENTER );
@@ -112,60 +118,51 @@ public class StudentWatcher {
         controlFrame.setVisible( true );
         thread = new Thread( new Runnable() {
             public void run() {
-                final boolean[] running = { true };
+                doRun();
+            }
+        } );
+    }
 
-                //Have to launch from non-swing-thread otherwise receive:
-                //Exception in thread "AWT-EventQueue-0" java.lang.Error: Cannot call invokeAndWait from the event dispatcher thread
-                application = GAOHelper.launchApplication( args, new VoidFunction0() {
-                    public void apply() {
-                        //Just let the window close but do not system.exit the whole VM
-                        running[0] = false;
-                        controlFrame.setVisible( false );//TODO: detach listeners
-                    }
-                } );
-                application.getPhetFrame().setTitle( application.getPhetFrame().getTitle() + ": Teacher Edition" );
-                application.getPhetFrame().addComponentListener( new ComponentAdapter() {
-                    @Override
-                    public void componentMoved( ComponentEvent e ) {
-                        alignControls();
-                    }
-
-                    @Override
-                    public void componentResized( ComponentEvent e ) {
-                        alignControls();
-                    }
-                } );
-                alignControls();
-                application.getIntro().setTeacherMode( true );
-                application.getToScale().setTeacherMode( true );
-
-                while ( running[0] ) {
-                    Pair<Object, StudentMetadata> pair = (Pair<Object, StudentMetadata>) server.sendRequestReply( new TeacherDataRequest( studentID, live.getValue() ? Time.LIVE : new Time.Index( frameToDisplay.getValue() ) ) );
-                    if ( pair != null ) {
-                        final GravityAndOrbitsApplicationState state = (GravityAndOrbitsApplicationState) pair._1;
-                        maxFrames.setValue( pair._2.getNumSamples() );
-                        if ( state != null ) {
-                            try {
-                                SwingUtilities.invokeAndWait( new Runnable() {
-                                    public void run() {
-                                        state.apply( application );
-                                    }
-                                } );
-                            }
-                            catch ( InterruptedException e ) {
-                                e.printStackTrace();
-                            }
-                            catch ( InvocationTargetException e ) {
-                                e.printStackTrace();
-                            }
+    private void doRun() {
+        while ( running ) {
+            try {
+                SwingUtilities.invokeAndWait( new Runnable() {
+                    public void run() {
+                        if ( playing.getValue() ) {//TODO: may need a sleep
+                            frameToDisplay.setValue( Math.min( frameToDisplay.getValue() + 1, maxFrames.getValue() ) );
                         }
                     }
-                    if ( playing.getValue() ) {//TODO: may need a sleep
-                        frameToDisplay.setValue( Math.min( frameToDisplay.getValue() + 1, maxFrames.getValue() ) );
+                } );
+            }
+            catch ( InterruptedException e ) {
+                e.printStackTrace();
+            }
+            catch ( InvocationTargetException e ) {
+                e.printStackTrace();
+            }
+
+            final Pair<Object, StudentMetadata> pair = (Pair<Object, StudentMetadata>) server.sendRequestReply( new TeacherDataRequest( studentID, live.getValue() ? Time.LIVE : new Time.Index( frameToDisplay.getValue() ) ) );
+            if ( pair != null ) {
+                final GravityAndOrbitsApplicationState state = (GravityAndOrbitsApplicationState) pair._1;
+                if ( state != null ) {
+                    try {
+                        SwingUtilities.invokeAndWait( new Runnable() {
+                            public void run() {
+                                state.apply( application );
+                                maxFrames.setValue( pair._2.getNumSamples() );
+                            }
+                        } );
+                    }
+                    catch ( InterruptedException e ) {
+                        e.printStackTrace();
+                    }
+                    catch ( InvocationTargetException e ) {
+                        e.printStackTrace();
                     }
                 }
             }
-        } );
+        }
+
     }
 
     private void alignControls() {
@@ -174,7 +171,33 @@ public class StudentWatcher {
         controlFrame.setSize( application.getPhetFrame().getWidth(), controlFrame.getHeight() );
     }
 
+    boolean running = true;
+
     public void start() {
+        //Have to launch from non-swing-thread otherwise receive:
+        //Exception in thread "AWT-EventQueue-0" java.lang.Error: Cannot call invokeAndWait from the event dispatcher thread
+        application = GAOHelper.launchApplication( args, new VoidFunction0() {
+            public void apply() {
+                //Just let the window close but do not system.exit the whole VM
+                running = false;
+                controlFrame.setVisible( false );//TODO: detach listeners
+            }
+        } );
+        application.getPhetFrame().setTitle( application.getPhetFrame().getTitle() + ": Teacher Edition" );
+        application.getPhetFrame().addComponentListener( new ComponentAdapter() {
+            @Override
+            public void componentMoved( ComponentEvent e ) {
+                alignControls();
+            }
+
+            @Override
+            public void componentResized( ComponentEvent e ) {
+                alignControls();
+            }
+        } );
+        alignControls();
+        application.getIntro().setTeacherMode( true );
+        application.getToScale().setTeacherMode( true );
         thread.start();
     }
 }

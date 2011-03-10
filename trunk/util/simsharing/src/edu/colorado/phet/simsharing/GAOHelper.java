@@ -1,10 +1,11 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.simsharing;
 
-import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import java.lang.reflect.InvocationTargetException;
+
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.gravityandorbits.GravityAndOrbitsApplication;
 
@@ -14,20 +15,35 @@ import edu.colorado.phet.gravityandorbits.GravityAndOrbitsApplication;
  * @author Sam Reid
  */
 public class GAOHelper {
-    public static GravityAndOrbitsApplication launchApplication( String[] args, final VoidFunction0 exitAction ) {
-        final GravityAndOrbitsApplication[] launchedApp = new GravityAndOrbitsApplication[1];
-        new PhetApplicationLauncher().launchSim( args, GravityAndOrbitsApplication.PROJECT_NAME, new ApplicationConstructor() {
-            public PhetApplication getApplication( PhetApplicationConfig config ) {
-                launchedApp[0] = new GravityAndOrbitsApplication( config ) {
+    public static GravityAndOrbitsApplication launchApplication( final String[] args, final VoidFunction0 exitAction ) {
+        //TODO: this skips splash screen, statistics, etc.
+        final GravityAndOrbitsApplication[] myapp = new GravityAndOrbitsApplication[1];
+        Runnable runnable = new Runnable() {
+            public void run() {
+                GravityAndOrbitsApplication app = new GravityAndOrbitsApplication( new PhetApplicationConfig( args, GravityAndOrbitsApplication.PROJECT_NAME ) ) {
                     @Override
                     public void exit() {
                         exitAction.apply();
                     }
                 };
-                return launchedApp[0];
+                app.startApplication();
+                myapp[0] = app;
             }
-        } );
-        final GravityAndOrbitsApplication application = launchedApp[0];
-        return application;
+        };
+        if ( SwingUtilities.isEventDispatchThread() ) {
+            runnable.run();
+        }
+        else {
+            try {
+                SwingUtilities.invokeAndWait( runnable );
+            }
+            catch ( InterruptedException e ) {
+                e.printStackTrace();
+            }
+            catch ( InvocationTargetException e ) {
+                e.printStackTrace();
+            }
+        }
+        return myapp[0];
     }
 }
