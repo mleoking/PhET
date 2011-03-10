@@ -36,7 +36,12 @@ public class Student {
     }
 
     private void start() {
-        final GravityAndOrbitsApplication application = GAOHelper.launchApplication( args );
+        final GravityAndOrbitsApplication application = GAOHelper.launchApplication( args, new VoidFunction0() {
+            //TODO: could move exit listeners here instead of in PhetExit
+            public void apply() {
+                PhetExit.exit();
+            }
+        } );
         application.getPhetFrame().setTitle( application.getPhetFrame().getTitle() + ": Student Edition" );
         final int N = 1;
         final ActorRef server = Actors.remote().actorFor( "server", Server.HOST_IP_ADDRESS, Server.PORT );

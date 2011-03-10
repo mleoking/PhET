@@ -1,3 +1,4 @@
+3/10/11 Moved exit functionality to PhetApplication to facilitate overrides for simsharing
 3/7/11 #2775, Added listeners to Property<T> that receive the new value in the callback
 3/7/11 #2731, Repackaged Function classes from util/ to util/function/
 3/7/11 #2731, Moved Property<T> and related classes to a new package model.property

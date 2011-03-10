@@ -44,7 +44,7 @@ public class PhetFrame extends JFrame {
 
         addWindowListener( new WindowAdapter() {
             public void windowClosing( WindowEvent e ) {
-                PhetExit.exit();
+                application.exit();
             }
         } );
         this.addWindowListener( new WindowAdapter() {
