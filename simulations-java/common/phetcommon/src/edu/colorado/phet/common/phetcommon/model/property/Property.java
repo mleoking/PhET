@@ -1,8 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.phetcommon.model.property;
 
-import java.util.ArrayList;
-
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction2;
@@ -19,8 +17,6 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction2;
 public class Property<T> extends SettableProperty<T> {
     private T value;
     private final T initialValue;
-    private final ArrayList<VoidFunction1<T>> newValueObservers = new ArrayList<VoidFunction1<T>>();//Listeners that receive the new value in the callback
-    private final ArrayList<VoidFunction2<T,T>> newAndOldValueObservers = new ArrayList<VoidFunction2<T,T>>();//Listeners that receive the new and old values in the callback
 
     public Property( T value ) {
         this.initialValue = value;
@@ -40,56 +36,8 @@ public class Property<T> extends SettableProperty<T> {
         if ( !this.value.equals( value ) ) {
             T oldValue = this.value;
             this.value = value;
-            notifyObservers();//Notify SimpleObservers
-            notifyNewValueObservers( value );//Notify typed callback listeners
-            notifyNewAndOldValueObservers( value, oldValue );
+            notifyObservers( value, oldValue );
         }
-    }
-
-    /*
-     * Notify observers that receive new value in the callback.
-     */
-    private void notifyNewValueObservers( T newValue ) {
-        for ( VoidFunction1<T> observer : new ArrayList<VoidFunction1<T>>( newValueObservers ) ) {//Iterate on a copy of the observer list to avoid ConcurrentModificationException, see #2741
-            observer.apply( newValue );
-        }
-    }
-
-    /**
-     * Adds an observer that will receive the new value in the callback.
-     * Unlike SimpleObservers, this observer does not receive immediate notification when it's added,
-     * because there is no notion of "new value".
-     * @param observer
-     */
-    public void addObserver( VoidFunction1<T> observer ) {
-        newValueObservers.add( observer );
-    }
-
-    public void removeObserver( VoidFunction1<T> observer ) {
-        newValueObservers.remove( observer );
-    }
-
-    /*
-     * Notify observers that receive the new and old values in the callback.
-     */
-    private void notifyNewAndOldValueObservers( T newValue, T oldValue ) {
-        for ( VoidFunction2<T,T> observer : new ArrayList<VoidFunction2<T,T>>( newAndOldValueObservers ) ) {//Iterate on a copy of the observer list to avoid ConcurrentModificationException, see #2741
-            observer.apply( newValue, oldValue );
-        }
-    }
-
-    /**
-     * Adds an observer that will receive the new and old value in the callback.
-     * Unlike SimpleObservers, this observer does not receive immediate notification when it's added,
-     * because there is no notion of "new value" or "old value".
-     * @param observer
-     */
-    public void addObserver( VoidFunction2<T,T> observer ) {
-        newAndOldValueObservers.add( observer );
-    }
-
-    public void removeObserver( VoidFunction2<T,T> observer ) {
-        newAndOldValueObservers.remove( observer );
     }
 
     /**
@@ -115,7 +63,7 @@ public class Property<T> extends SettableProperty<T> {
                 System.out.println( "VoidFunction1 newValue=" + newValue );
             }
         } );
-        enabled.addObserver( new VoidFunction2<Boolean,Boolean>() {
+        enabled.addObserver( new VoidFunction2<Boolean, Boolean>() {
             public void apply( Boolean newValue, Boolean oldValue ) {
                 System.out.println( "VoidFunction1 newValue=" + newValue + " oldValue=" + oldValue );
             }
