@@ -48,4 +48,8 @@ public class StudentComponent extends PNode {
     public void setThumbnail( BufferedImage thumbnail ) {
         this.thumbnail.setImage( thumbnail );
     }
+
+    public StudentID getStudentID() {
+        return studentID;
+    }
 }

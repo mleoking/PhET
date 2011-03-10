@@ -19,4 +19,13 @@ public class StudentList implements Serializable {
     public ArrayList<Pair<StudentID, SerializableBufferedImage>> getStudentIDs() {
         return studentIDs;
     }
+
+    public boolean containsStudent( StudentID studentID ) {
+        for ( Pair<StudentID, SerializableBufferedImage> id : studentIDs ) {
+            if ( id._1.equals( studentID ) ) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

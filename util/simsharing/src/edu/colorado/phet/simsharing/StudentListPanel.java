@@ -6,6 +6,7 @@ import akka.actor.ActorRef;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -28,46 +29,61 @@ import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 public class StudentListPanel extends PSwingCanvas {
     private final ActorRef server;
     private final String[] args;
+    public PNode studentNode;
 
     public StudentListPanel( final ActorRef server, String[] args ) {
         this.server = server;
         this.args = args;
-        getLayer().addChild( new PNode() {{
-            new Timer( 1000,//Look for new students this often
-                       new ActionListener() {
-                           public void actionPerformed( ActionEvent e ) {
-                               double y = 0;
-                               final StudentList newData = (StudentList) server.sendRequestReply( new GetStudentList() );
-                               for ( final Pair<StudentID, SerializableBufferedImage> elm : newData.getStudentIDs() ) {
-                                   final StudentID studentID = elm._1;
-                                   StudentComponent component = getComponent( studentID );
-                                   if ( component == null ) {
-                                       component = new StudentComponent( studentID, new VoidFunction0() {
-                                           public void apply() {
-                                               watch( studentID );
-                                           }
-                                       } );
-                                       addChild( component );
-                                   }
-                                   component.setThumbnail( elm._2.getBufferedImage() );
-                                   component.setOffset( 0, y + 2 );
-                                   y = component.getFullBounds().getMaxY();
-                               }
-                           }
+        studentNode = new PNode();
+        getLayer().addChild( studentNode );
+        //Look for new students this often
+        new Timer( 100, new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                updateStudentList();
+            }
+        } ) {{
+            setInitialDelay( 0 );
+        }}.start();
+    }
 
-                           private StudentComponent getComponent( StudentID studentID ) {
-                               for ( int i = 0; i < getChildrenCount(); i++ ) {
-                                   PNode child = getChild( i );
-                                   if ( child instanceof StudentComponent && ( (StudentComponent) child ).studentID.equals( studentID ) ) {
-                                       return (StudentComponent) child;
-                                   }
-                               }
-                               return null;
-                           }
-                       } ) {{
-                setInitialDelay( 0 );
-            }}.start();
-        }} );
+    private StudentComponent getComponent( StudentID studentID ) {
+        for ( int i = 0; i < studentNode.getChildrenCount(); i++ ) {
+            PNode child = studentNode.getChild( i );
+            if ( child instanceof StudentComponent && ( (StudentComponent) child ).studentID.equals( studentID ) ) {
+                return (StudentComponent) child;
+            }
+        }
+        return null;
+    }
+
+    private void updateStudentList() {
+        double y = 0;
+        final StudentList newData = (StudentList) server.sendRequestReply( new GetThumbnails() );
+        for ( final Pair<StudentID, SerializableBufferedImage> elm : newData.getStudentIDs() ) {
+            final StudentID studentID = elm._1;
+            StudentComponent component = getComponent( studentID );
+            if ( component == null ) {
+                component = new StudentComponent( studentID, new VoidFunction0() {
+                    public void apply() {
+                        watch( studentID );
+                    }
+                } );
+                studentNode.addChild( component );
+            }
+            component.setThumbnail( elm._2.getBufferedImage() );
+            component.setOffset( 0, y + 2 );
+            y = component.getFullBounds().getMaxY();
+        }
+
+        //Remove components for students that have exited
+        ArrayList<PNode> toRemove = new ArrayList<PNode>();
+        for ( int i = 0; i < studentNode.getChildrenCount(); i++ ) {
+            PNode child = studentNode.getChild( i );
+            if ( child instanceof StudentComponent && !newData.containsStudent( ( (StudentComponent) child ).getStudentID() ) ) {
+                toRemove.add( child );
+            }
+        }
+        studentNode.removeChildren( toRemove );
     }
 
     public void watch( final StudentID studentID ) {
