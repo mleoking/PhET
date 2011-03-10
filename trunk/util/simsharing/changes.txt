@@ -1,3 +1,4 @@
+# 00.00.10 (49695) Mar 10, 2011
 # 00.00.09 (49690) Mar 10, 2011
 Don't exit the VM when teacher closes a student window
 Remove components for students that have exited
