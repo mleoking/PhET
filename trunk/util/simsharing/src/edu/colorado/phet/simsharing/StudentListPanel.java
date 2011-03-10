@@ -5,20 +5,11 @@ import akka.actor.ActorRef;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
-import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
-import edu.colorado.phet.gravityandorbits.GravityAndOrbitsApplication;
-import edu.colorado.phet.gravityandorbits.simsharing.GravityAndOrbitsApplicationState;
 import edu.colorado.phet.gravityandorbits.simsharing.SerializableBufferedImage;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
@@ -65,7 +56,7 @@ public class StudentListPanel extends PSwingCanvas {
             if ( component == null ) {
                 component = new StudentComponent( studentID, new VoidFunction0() {
                     public void apply() {
-                        watch( studentID );
+                        new StudentWatcher( args, studentID, server ).start();
                     }
                 } );
                 studentNode.addChild( component );
@@ -86,67 +77,4 @@ public class StudentListPanel extends PSwingCanvas {
         studentNode.removeChildren( toRemove );
     }
 
-    public void watch( final StudentID studentID ) {
-        final Property<Integer> maxFrames = new Property<Integer>( 0 );
-        final BooleanProperty live = new BooleanProperty( true );
-        final Property<Integer> spinnerValue = new Property<Integer>( 0 );
-        JFrame controlFrame = new JFrame( "Time controls: " + studentID ) {{
-            setContentPane( new JPanel() {{
-                add( new PropertyRadioButton<Boolean>( "Live", live, true ) );
-                add( new PropertyRadioButton<Boolean>( "Playback", live, false ) );
-                add( new JSpinner( new SpinnerNumberModel( 0, 0, 10000, 1 ) ) {{
-                    addChangeListener( new ChangeListener() {
-                        public void stateChanged( ChangeEvent e ) {
-                            spinnerValue.setValue( (Integer) getValue() );
-                        }
-                    } );
-                }} );
-                add( new JLabel() {{
-                    maxFrames.addObserver( new VoidFunction1<Integer>() {
-                        public void apply( Integer integer ) {
-                            setText( "Frames: " + integer );
-                        }
-                    } );
-                }} );
-            }} );
-            pack();
-        }};
-        controlFrame.setVisible( true );
-        Thread t = new Thread( new Runnable() {
-            public void run() {
-                //Have to launch from non-swing-thread otherwise receive:
-                //Exception in thread "AWT-EventQueue-0" java.lang.Error: Cannot call invokeAndWait from the event dispatcher thread
-                final GravityAndOrbitsApplication application = GAOHelper.launchApplication( args, new VoidFunction0() {
-                    public void apply() {
-                        //Just let the window close but do not system.exit the whole VM
-                    }
-                } );
-                application.getPhetFrame().setTitle( application.getPhetFrame().getTitle() + ": Teacher Edition" );
-                application.getIntro().setTeacherMode( true );
-                application.getToScale().setTeacherMode( true );
-
-                while ( true ) {
-                    Pair<Object, StudentMetadata> pair = (Pair<Object, StudentMetadata>) server.sendRequestReply( new TeacherDataRequest( studentID, live.getValue() ? Time.LIVE : new Time.Index( spinnerValue.getValue() ) ) );
-                    final GravityAndOrbitsApplicationState state = (GravityAndOrbitsApplicationState) pair._1;
-                    maxFrames.setValue( pair._2.getNumSamples() );
-                    if ( state != null ) {
-                        try {
-                            SwingUtilities.invokeAndWait( new Runnable() {
-                                public void run() {
-                                    state.apply( application );
-                                }
-                            } );
-                        }
-                        catch ( InterruptedException e ) {
-                            e.printStackTrace();
-                        }
-                        catch ( InvocationTargetException e ) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-            }
-        } );
-        t.start();
-    }
 }
