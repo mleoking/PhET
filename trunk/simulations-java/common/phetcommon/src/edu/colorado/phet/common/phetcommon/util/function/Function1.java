@@ -24,11 +24,11 @@ public interface Function1<U, T> {
     /**
      * Identity function that returns its input.
      *
-     * @param <U>
+     * @param <T>
      */
-    public static class Identity<U> implements Function1<U, U> {
-        public U apply( U u ) {
-            return u;
+    public static class Identity<T> implements Function1<T, T> {
+        public T apply( T t ) {
+            return t;
         }
     }
 }
