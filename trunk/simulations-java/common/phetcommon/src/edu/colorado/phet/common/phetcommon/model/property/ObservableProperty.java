@@ -40,8 +40,8 @@ public abstract class ObservableProperty<T> extends SimpleObservable {
 
     public void notifyObservers( T value, T oldValue ) {
         super.notifyObservers();//Notify SimpleObservers
-        notifyNewValueObservers( value );//Notify typed callback listeners
-        notifyNewAndOldValueObservers( value, oldValue );//Notify listeners that with both new and old values
+        notifyNewValueObservers( value );//Notify listeners with new value
+        notifyNewAndOldValueObservers( value, oldValue );//Notify listeners with both new and old values
     }
 
     /*
@@ -55,8 +55,7 @@ public abstract class ObservableProperty<T> extends SimpleObservable {
 
     /**
      * Adds an observer that will receive the new value in the callback.
-     * Unlike SimpleObservers, this observer does not receive immediate notification when it's added,
-     * because there is no notion of "new value".
+     * The observer is immediately notified of the current value when it's added.
      *
      * @param observer
      */
@@ -80,7 +79,7 @@ public abstract class ObservableProperty<T> extends SimpleObservable {
 
     /**
      * Adds an observer that will receive the new and old value in the callback.
-     * Unlike SimpleObservers, this observer does not receive immediate notification when it's added,
+     * This observer does NOT receive immediate notification when it's added,
      * because there is no notion of "new value" or "old value".
      *
      * @param observer
