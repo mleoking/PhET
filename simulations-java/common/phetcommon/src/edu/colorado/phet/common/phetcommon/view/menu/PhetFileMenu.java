@@ -35,7 +35,7 @@ public class PhetFileMenu extends JMenu {
         JMenuItem exitMI = new JMenuItem( PhetCommonResources.getInstance().getLocalizedString( "Common.FileMenu.Exit" ) );
         exitMI.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                PhetExit.exit();
+                phetFrame.getApplication().exit();
             }
         } );
         exitMI.setMnemonic( PhetCommonResources.getInstance().getLocalizedString( "Common.FileMenu.ExitMnemonic" ).charAt( 0 ) );

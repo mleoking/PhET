@@ -116,16 +116,19 @@ public class StudentListPanel extends PSwingCanvas {
             public void run() {
                 //Have to launch from non-swing-thread otherwise receive:
                 //Exception in thread "AWT-EventQueue-0" java.lang.Error: Cannot call invokeAndWait from the event dispatcher thread
-                final GravityAndOrbitsApplication application = GAOHelper.launchApplication( args );
-                System.out.println( "application = " + application );
+                final GravityAndOrbitsApplication application = GAOHelper.launchApplication( args, new VoidFunction0() {
+                    public void apply() {
+                        //Just let the window close but do not system.exit the whole VM
+                    }
+                } );
                 application.getPhetFrame().setTitle( application.getPhetFrame().getTitle() + ": Teacher Edition" );
                 application.getIntro().setTeacherMode( true );
+                application.getToScale().setTeacherMode( true );
 
                 while ( true ) {
                     Pair<Object, StudentMetadata> pair = (Pair<Object, StudentMetadata>) server.sendRequestReply( new TeacherDataRequest( studentID, live.getValue() ? Time.LIVE : new Time.Index( spinnerValue.getValue() ) ) );
                     final GravityAndOrbitsApplicationState state = (GravityAndOrbitsApplicationState) pair._1;
                     maxFrames.setValue( pair._2.getNumSamples() );
-                    System.out.println( "Received metadata = " + pair._2 );
                     if ( state != null ) {
                         try {
                             SwingUtilities.invokeAndWait( new Runnable() {

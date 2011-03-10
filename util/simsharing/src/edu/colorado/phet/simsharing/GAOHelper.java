@@ -5,6 +5,7 @@ import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.gravityandorbits.GravityAndOrbitsApplication;
 
 /**
@@ -13,11 +14,16 @@ import edu.colorado.phet.gravityandorbits.GravityAndOrbitsApplication;
  * @author Sam Reid
  */
 public class GAOHelper {
-    public static GravityAndOrbitsApplication launchApplication( String[] args ) {
+    public static GravityAndOrbitsApplication launchApplication( String[] args, final VoidFunction0 exitAction ) {
         final GravityAndOrbitsApplication[] launchedApp = new GravityAndOrbitsApplication[1];
         new PhetApplicationLauncher().launchSim( args, GravityAndOrbitsApplication.PROJECT_NAME, new ApplicationConstructor() {
             public PhetApplication getApplication( PhetApplicationConfig config ) {
-                launchedApp[0] = new GravityAndOrbitsApplication( config );
+                launchedApp[0] = new GravityAndOrbitsApplication( config ) {
+                    @Override
+                    public void exit() {
+                        exitAction.apply();
+                    }
+                };
                 return launchedApp[0];
             }
         } );
