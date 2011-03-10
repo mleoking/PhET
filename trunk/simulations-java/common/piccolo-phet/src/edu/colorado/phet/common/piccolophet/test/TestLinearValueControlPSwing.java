@@ -19,15 +19,17 @@ public class TestLinearValueControlPSwing {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         final PhetPCanvas contentPane = new PhetPCanvas();
         contentPane.setWorldTransformStrategy(new PhetPCanvas.CenteringBoxStrategy(contentPane, new PDimension(800,600)));
-        
-//        final PSwing swing = new PSwing(new LinearValueControl(0, 10, "label", "0.00", "units"));
+
+        LinearValueControl control = new LinearValueControl(0, 10, "label", "0.00", "units");
+        final PSwing swing = new PSwing(control);
+
 //        final PSwing swing = new PSwing(new JLabel("label"));
-        final JPanel mypanel = new JPanel();
-        mypanel.add(new JLabel("hello"));
+//        final JPanel mypanel = new JPanel();
+//        mypanel.add(new JLabel("hello"));
 //        mypanel.add(new JTextField("secondtime"));
-        mypanel.add(new JLabel("secondtime"));
-        final PSwing swing = new PSwing(mypanel);
-        
+//        mypanel.add(new JLabel("secondtime"));
+//        final PSwing swing = new PSwing(mypanel);
+
         swing.setOffset(400,300);
         contentPane.addWorldChild(swing);
         frame.setContentPane(contentPane);
