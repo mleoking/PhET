@@ -21,7 +21,7 @@ import static akka.actor.Actors.remote;
  * @author Sam Reid
  */
 public class Server {
-    public static int PORT = 44100;
+    public static int PORT = 44101;
     public static String HOST_IP_ADDRESS = "128.138.145.107";//phet-server, but can be mutated to specify a different host
 
     private HashMap<StudentID, ArrayList<Object>> dataPoints = new HashMap<StudentID, ArrayList<Object>>();
