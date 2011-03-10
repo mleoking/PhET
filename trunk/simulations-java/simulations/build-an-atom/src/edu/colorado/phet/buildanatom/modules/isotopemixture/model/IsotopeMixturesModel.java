@@ -24,9 +24,9 @@ import edu.colorado.phet.buildanatom.model.ImmutableAtom;
 import edu.colorado.phet.buildanatom.model.MonoIsotopeParticleBucket;
 import edu.colorado.phet.buildanatom.model.SphericalParticle;
 import edu.colorado.phet.buildanatom.modules.game.model.SimpleAtom;
+import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -92,15 +92,16 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
     private final Property<List<ImmutableAtom>> possibleIsotopesProperty =
             new Property<List<ImmutableAtom>>( new ArrayList<ImmutableAtom>() );
 
-    // This property contains the list of the buckets where isotopes that are
-    // not in the test chamber reside.  This needs to change whenever a new
-    // element is selected, since there is one bucket for each stable isotope
-    // configuration for a given element.
-    private final Property<List<MonoIsotopeParticleBucket>> bucketListProperty =
-            new Property<List<MonoIsotopeParticleBucket>>( new ArrayList<MonoIsotopeParticleBucket>() );
+    // List of the isotope buckets.
+    private final List<MonoIsotopeParticleBucket> bucketList = new ArrayList<MonoIsotopeParticleBucket>();
 
-    // Property that determines the type of user interactivity is allowed.
-    // See the enum that describes the modes for more information.
+    // List of the linear controls that, when present, can be used to add or
+    // remove isotopes to/from the test chamber.
+    private final List<LinearAddRemoveIsotopesControl> linearControllerList =
+            new ArrayList<LinearAddRemoveIsotopesControl>();
+
+    // Property that determines the type of user interactivity that is set.
+    // See the enum definition for more information about the modes.
     private final Property<InteractivityMode> interactivityModeProperty =
         new Property<InteractivityMode>( InteractivityMode.BUCKETS_AND_LARGE_ATOMS );
 
@@ -271,34 +272,15 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
         // Update the list of possible isotopes for this atomic configuration.
         possibleIsotopesProperty.setValue( newIsotopeList );
 
-        // Make a copy of the soon-to-be removed buckets - we'll need them
-        // later for removal notifications.
-        ArrayList< Bucket > oldBuckets = new ArrayList< Bucket >( bucketListProperty.getValue() );
-
-        // Figure out the atom radius to use based on the current atom size
-        // setting.
-        double isotopeRadius = interactivityModeProperty.getValue() == InteractivityMode.BUCKETS_AND_LARGE_ATOMS ? LARGE_ISOTOPE_RADIUS : SMALL_ISOTOPE_RADIUS;
-
-        // Create a new list of buckets based on the new list of stable
-        // isotopes.
-        double bucketYOffset = testChamber.getTestChamberRect().getMinY() - 400;
-        double interBucketDistanceX = (testChamber.getTestChamberRect().getWidth() * 1.2) / newIsotopeList.size();
-        double bucketXOffset = testChamber.getTestChamberRect().getMinX() + interBucketDistanceX / 2;
-        ArrayList<MonoIsotopeParticleBucket> newBucketList = new ArrayList<MonoIsotopeParticleBucket>();
-        for ( int i = 0; i < newIsotopeList.size(); i++ ) {
-            ImmutableAtom isotope = newIsotopeList.get( i );
-            String bucketCaption = AtomIdentifier.getName( isotope ) + "-" + isotope.getMassNumber();
-            newBucketList.add( new MonoIsotopeParticleBucket( new Point2D.Double(
-                    bucketXOffset + interBucketDistanceX * i, bucketYOffset ),
-                    BUCKET_SIZE, isotopeColorMap.get( isotope ), bucketCaption, isotopeRadius,
-                    isotope.getNumProtons(), isotope.getNumNeutrons() ) );
+        // Remove the old devices for adding and removing isotopes and then
+        // add the new ones.
+        removeBuckets();
+        removeLinearControllers();
+        if ( interactivityModeProperty.getValue() == InteractivityMode.BUCKETS_AND_LARGE_ATOMS ){
+            addBuckets( newIsotopeList );
         }
-        bucketListProperty.setValue( newBucketList );
-
-        // Send notifications of removal for the old buckets, since they
-        // were effectively removed by setting a new list of buckets.
-        for ( Bucket bucket : oldBuckets ) {
-            bucket.getPartOfModelProperty().setValue( false );
+        else{
+            addLinearControllers( newIsotopeList );
         }
 
         // Add the actual isotopes.
@@ -311,6 +293,80 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
     }
 
     /**
+     * Remove all buckets that are currently in the model.
+     */
+    private void removeBuckets(){
+        ArrayList< Bucket > oldBuckets = new ArrayList< Bucket >( bucketList );
+        bucketList.clear();
+        for ( Bucket bucket : oldBuckets ) {
+            bucket.getPartOfModelProperty().setValue( false );
+        }
+    }
+
+    /**
+     * Add the buckets needed for the current set of isotopes.
+     *
+     * @param newIsotopeList
+     */
+    private void addBuckets( ArrayList<ImmutableAtom> newIsotopeList ) {
+
+        if (bucketList.size() != 0){
+            // Remove the existing buckets.
+            removeBuckets();
+        }
+
+        // Figure out the atom radius to use based on the current atom size
+        // setting.
+        double isotopeRadius = interactivityModeProperty.getValue() == InteractivityMode.BUCKETS_AND_LARGE_ATOMS ? LARGE_ISOTOPE_RADIUS : SMALL_ISOTOPE_RADIUS;
+
+        // Create a new list of buckets based on the new list of stable
+        // isotopes.
+        double bucketYOffset = testChamber.getTestChamberRect().getMinY() - 400;
+        double interBucketDistanceX = (testChamber.getTestChamberRect().getWidth() * 1.2) / newIsotopeList.size();
+        double bucketXOffset = testChamber.getTestChamberRect().getMinX() + interBucketDistanceX / 2;
+        for ( int i = 0; i < newIsotopeList.size(); i++ ) {
+            ImmutableAtom isotope = newIsotopeList.get( i );
+            String bucketCaption = AtomIdentifier.getName( isotope ) + "-" + isotope.getMassNumber();
+            MonoIsotopeParticleBucket newBucket = new MonoIsotopeParticleBucket( new Point2D.Double(
+                    bucketXOffset + interBucketDistanceX * i, bucketYOffset ),
+                    BUCKET_SIZE, isotopeColorMap.get( isotope ), bucketCaption, isotopeRadius,
+                    isotope.getNumProtons(), isotope.getNumNeutrons() );
+            bucketList.add( newBucket );
+            notifyBucketAdded( newBucket );
+        }
+    }
+
+    private void removeLinearControllers(){
+        ArrayList< LinearAddRemoveIsotopesControl > oldControllers = new ArrayList< LinearAddRemoveIsotopesControl >( linearControllerList );
+        bucketList.clear();
+        for ( LinearAddRemoveIsotopesControl controller : oldControllers ) {
+            controller.removedFromModel();
+        }
+    }
+
+    private void addLinearControllers( ArrayList<ImmutableAtom> newIsotopeList ) {
+        // Sliders should only be added when in the appropriate mode.
+        assert interactivityModeProperty.getValue() == InteractivityMode.SLIDERS_AND_SMALL_ATOMS;
+
+        if (linearControllerList.size() != 0){
+            // Remove pre-existing sliders.
+            removeLinearControllers();
+        }
+
+        // Create a new list of controllers based on the list of stable isotopes.
+        double controllerYOffset = testChamber.getTestChamberRect().getMinY() - 400;
+        double interControllerDistance = (testChamber.getTestChamberRect().getWidth() * 1.2) / newIsotopeList.size();
+        double controllerXOffset = testChamber.getTestChamberRect().getMinX() + interControllerDistance / 2;
+        for ( int i = 0; i < newIsotopeList.size(); i++ ) {
+            ImmutableAtom isotope = newIsotopeList.get( i );
+            LinearAddRemoveIsotopesControl newController = new LinearAddRemoveIsotopesControl( this, isotope,
+                    new Point2D.Double(controllerXOffset + interControllerDistance * i, controllerYOffset) );
+            linearControllerList.add( newController );
+            notifyLinearControllerAdded( newController );
+        }
+    }
+
+    /**
      * Get the bucket where the given isotope can be placed.
      *
      * @param isotope
@@ -318,7 +374,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
      */
     private MonoIsotopeParticleBucket getBucketForIsotope( ImmutableAtom isotope ) {
         MonoIsotopeParticleBucket isotopeBucket = null;
-        for ( MonoIsotopeParticleBucket bucket : bucketListProperty.getValue() ){
+        for ( MonoIsotopeParticleBucket bucket : bucketList ){
             if (bucket.isIsotopeAllowed( isotope )){
                 // Found it.
                 isotopeBucket = bucket;
@@ -343,8 +399,12 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
         return interactivityModeProperty;
     }
 
-    public Property<List<MonoIsotopeParticleBucket>> getBucketListProperty() {
-        return bucketListProperty;
+    public List<MonoIsotopeParticleBucket> getBucketList() {
+        return bucketList;
+    }
+
+    protected List<LinearAddRemoveIsotopesControl> getLinearControllerListProperty() {
+        return linearControllerList;
     }
 
     public BooleanProperty getShowingNaturesMixProperty() {
@@ -374,6 +434,18 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
         }
     }
 
+    private void notifyBucketAdded( MonoIsotopeParticleBucket bucket ){
+        for ( Listener listener : listeners ) {
+            listener.isotopeBucketAdded( bucket );
+        }
+    }
+
+    private void notifyLinearControllerAdded( LinearAddRemoveIsotopesControl controller ){
+        for ( Listener listener : listeners ) {
+            listener.isotopeLinearControllerAdded( controller );
+        }
+    }
+
     /**
      * Hide the user's mix of isotopes.  This is generally done when
      * switching to show nature's mix.  It is accomplished by sending
@@ -393,10 +465,10 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
      * mix of isotopes was previously hidden.
      */
     private void showUsersMix(){
-        if ( isotopesOutsideOfChamber.size() == 0 ){
+        if ( interactivityModeProperty.getValue() == InteractivityMode.BUCKETS_AND_LARGE_ATOMS && isotopesOutsideOfChamber.size() == 0 ){
             // This is the first time that the user's mix has been shown since
             // the current element was selected.  Create the individual
-            // isotope instances and add them to the bucket.
+            // isotope instances and add them to the buckets.
             double isotopeRadius = interactivityModeProperty.getValue() == InteractivityMode.BUCKETS_AND_LARGE_ATOMS ? LARGE_ISOTOPE_RADIUS : SMALL_ISOTOPE_RADIUS;
             for ( ImmutableAtom isotope : possibleIsotopesProperty.getValue() ) {
                 MonoIsotopeParticleBucket isotopeBucket = getBucketForIsotope( isotope );
@@ -512,10 +584,14 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
 
     public interface Listener {
         void isotopeInstanceAdded( MovableAtom atom );
+        void isotopeBucketAdded( MonoIsotopeParticleBucket bucket );
+        void isotopeLinearControllerAdded( LinearAddRemoveIsotopesControl controller );
     }
 
-    public class Adapter implements Listener {
+    public static class Adapter implements Listener {
         public void isotopeInstanceAdded( MovableAtom atom ) {}
+        public void isotopeBucketAdded( MonoIsotopeParticleBucket bucket ) {}
+        public void isotopeLinearControllerAdded( LinearAddRemoveIsotopesControl controller ) {}
     }
 
     /**
@@ -807,7 +883,6 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
      * other controls to be handled consistently between the model and view.
      */
     public static class LinearAddRemoveIsotopesControl {
-        private static final Dimension2D SIZE = new PDimension( 200, 50 );
         private static final int CAPACITY = 75;
         private final Point2D centerPosition = new Point2D.Double();
         private final ImmutableAtom atomConfig;
@@ -821,7 +896,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
 
         // This property tracks whether this model element is still a part
         // of the active model, such that it should be displayed in the view.
-        private final BooleanProperty partOfModel = new BooleanProperty( true );
+        private final BooleanProperty partOfModelProperty = new BooleanProperty( true );
 
         /**
          * Constructor.
@@ -830,10 +905,6 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
             this.model = model;
             this.atomConfig = atomConfig;
             this.centerPosition.setLocation( position );
-        }
-
-        public Dimension2D getSize(){
-            return SIZE;
         }
 
         public Point2D getCenterPositionRef(){
@@ -856,8 +927,8 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
             isotopesInTestChamberProperty.removeObserver( so );
         }
 
-        public void addPartOfModelObserver( SimpleObserver so ){
-            partOfModel.addObserver( so );
+        public BooleanProperty getPartOfModelProperty(){
+            return partOfModelProperty;
         }
 
         /**
@@ -866,7 +937,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
          * elements to be removed from the view.
          */
         protected void removedFromModel(){
-            partOfModel.setValue( false );
+            partOfModelProperty.setValue( false );
         }
 
         /**
