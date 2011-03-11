@@ -282,12 +282,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
         // add the new ones.
         removeBuckets();
         removeLinearControllers();
-        if ( interactivityModeProperty.getValue() == InteractivityMode.BUCKETS_AND_LARGE_ATOMS ){
-            addBuckets( newIsotopeList );
-        }
-        else{
-            addLinearControllers( newIsotopeList );
-        }
+        addIsotopeControllers( newIsotopeList, interactivityModeProperty.getValue() );
 
         // Add the actual isotopes.
         if ( showingNaturesMix.getValue() ){
@@ -310,65 +305,63 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
     }
 
     /**
-     * Add the buckets needed for the current set of isotopes.
+     * Add isotope controllers based on the specified list of isotopes and the
+     * specified interactivity mode.  Isotope controllers are the model
+     * portion of the devices with which the user can interact with in order
+     * to add or remove isotopes to/from the test chamber.  There are two
+     * types of controllers: buckets and linear controllers (i.e. sliders).
      *
      * @param newIsotopeList
+     * @param value
      */
-    private void addBuckets( ArrayList<ImmutableAtom> newIsotopeList ) {
-
-        if (bucketList.size() != 0){
-            // Remove the existing buckets.
-            removeBuckets();
-        }
-
+    private void addIsotopeControllers( ArrayList<ImmutableAtom> newIsotopeList, InteractivityMode interactivityMode ) {
         // Figure out the atom radius to use based on the current atom size
         // setting.
         double isotopeRadius = interactivityModeProperty.getValue() == InteractivityMode.BUCKETS_AND_LARGE_ATOMS ? LARGE_ISOTOPE_RADIUS : SMALL_ISOTOPE_RADIUS;
 
-        // Create a new list of buckets based on the new list of stable
+        // Create a new list of controllers based on the new list of stable
         // isotopes.
-        double bucketYOffset = testChamber.getTestChamberRect().getMinY() - 400;
-        double interBucketDistanceX = (testChamber.getTestChamberRect().getWidth() * 1.2) / newIsotopeList.size();
-        double bucketXOffset = testChamber.getTestChamberRect().getMinX() + interBucketDistanceX / 2;
+        double controllerYOffset = testChamber.getTestChamberRect().getMinY() - 400;
+        double interControllerDistanceX;
+        double controllerXOffset;
+        if ( newIsotopeList.size() < 4 ){
+            // We can fit 3 or less cleanly under the test chamber.
+            interControllerDistanceX = testChamber.getTestChamberRect().getWidth() / newIsotopeList.size();
+            controllerXOffset = testChamber.getTestChamberRect().getMinX() + interControllerDistanceX / 2;
+        }
+        else{
+            // Four controllers don't fit well under the chamber, so use a
+            // positioning algorithm where they are extended a bit to the
+            // right.
+            interControllerDistanceX = (testChamber.getTestChamberRect().getWidth() * 1.2) / newIsotopeList.size();
+            controllerXOffset = testChamber.getTestChamberRect().getMinX() + interControllerDistanceX / 2;
+        }
         for ( int i = 0; i < newIsotopeList.size(); i++ ) {
             ImmutableAtom isotope = newIsotopeList.get( i );
-            String bucketCaption = AtomIdentifier.getName( isotope ) + "-" + isotope.getMassNumber();
-            MonoIsotopeParticleBucket newBucket = new MonoIsotopeParticleBucket( new Point2D.Double(
-                    bucketXOffset + interBucketDistanceX * i, bucketYOffset ),
-                    BUCKET_SIZE, isotopeColorMap.get( isotope ), bucketCaption, isotopeRadius,
-                    isotope.getNumProtons(), isotope.getNumNeutrons() );
-            bucketList.add( newBucket );
-            notifyBucketAdded( newBucket );
+            if ( interactivityMode == InteractivityMode.BUCKETS_AND_LARGE_ATOMS ){
+                String bucketCaption = AtomIdentifier.getName( isotope ) + "-" + isotope.getMassNumber();
+                MonoIsotopeParticleBucket newBucket = new MonoIsotopeParticleBucket( new Point2D.Double(
+                        controllerXOffset + interControllerDistanceX * i, controllerYOffset ),
+                        BUCKET_SIZE, isotopeColorMap.get( isotope ), bucketCaption, isotopeRadius,
+                        isotope.getNumProtons(), isotope.getNumNeutrons() );
+                bucketList.add( newBucket );
+                notifyBucketAdded( newBucket );
+            }
+            else{
+                // Assume a linear controller.
+                LinearAddRemoveIsotopesControl newController = new LinearAddRemoveIsotopesControl( this, isotope,
+                        new Point2D.Double(controllerXOffset + interControllerDistanceX * i, controllerYOffset) );
+                linearControllerList.add( newController );
+                notifyLinearControllerAdded( newController );
+            }
         }
     }
 
     private void removeLinearControllers(){
         ArrayList< LinearAddRemoveIsotopesControl > oldControllers = new ArrayList< LinearAddRemoveIsotopesControl >( linearControllerList );
-        bucketList.clear();
+        linearControllerList.clear();
         for ( LinearAddRemoveIsotopesControl controller : oldControllers ) {
             controller.removedFromModel();
-        }
-    }
-
-    private void addLinearControllers( ArrayList<ImmutableAtom> newIsotopeList ) {
-        // Sliders should only be added when in the appropriate mode.
-        assert interactivityModeProperty.getValue() == InteractivityMode.SLIDERS_AND_SMALL_ATOMS;
-
-        if (linearControllerList.size() != 0){
-            // Remove pre-existing sliders.
-            removeLinearControllers();
-        }
-
-        // Create a new list of controllers based on the list of stable isotopes.
-        double controllerYOffset = testChamber.getTestChamberRect().getMinY() - 400;
-        double interControllerDistance = (testChamber.getTestChamberRect().getWidth() * 1.2) / newIsotopeList.size();
-        double controllerXOffset = testChamber.getTestChamberRect().getMinX() + interControllerDistance / 2;
-        for ( int i = 0; i < newIsotopeList.size(); i++ ) {
-            ImmutableAtom isotope = newIsotopeList.get( i );
-            LinearAddRemoveIsotopesControl newController = new LinearAddRemoveIsotopesControl( this, isotope,
-                    new Point2D.Double(controllerXOffset + interControllerDistance * i, controllerYOffset) );
-            linearControllerList.add( newController );
-            notifyLinearControllerAdded( newController );
         }
     }
 
