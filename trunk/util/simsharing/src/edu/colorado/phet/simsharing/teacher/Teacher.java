@@ -40,7 +40,7 @@ public class Teacher {
             public void run() {
                 new JFrame( "Students" ) {{
                     setDefaultCloseOperation( EXIT_ON_CLOSE );
-                    setContentPane( new StudentListPanel( server, args ) );
+                    setContentPane( new TeacherControlPanel( server, args ) );
                     setSize( 800, 600 );
                     centerWindowOnScreen( this );
                 }}.setVisible( true );
