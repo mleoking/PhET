@@ -44,6 +44,22 @@
     <fields>;
     <methods>;
 }
+
+-keep class ch.qos.logback.core.rolling.RollingFileAppender{
+    <fields>;
+    <methods>;
+}
+
+-keep class ch.qos.logback.core.rolling.TimeBasedRollingPolicy{
+    <fields>;
+    <methods>;
+}
+
+-keep class org.slf4j.impl.StaticLoggerBinder{
+    <fields>;
+    <methods>;
+}
+
 #
 ##############
 
