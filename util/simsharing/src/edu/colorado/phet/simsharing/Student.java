@@ -13,7 +13,6 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
-import edu.colorado.phet.common.phetcommon.view.PhetExit;
 import edu.colorado.phet.gravityandorbits.GravityAndOrbitsApplication;
 import edu.colorado.phet.gravityandorbits.simsharing.GravityAndOrbitsApplicationState;
 
@@ -36,24 +35,18 @@ public class Student {
     }
 
     private void start() {
+        final ActorRef server = Actors.remote().actorFor( "server", Server.HOST_IP_ADDRESS, Server.PORT );
         final GravityAndOrbitsApplication application = GAOHelper.launchApplication( args, new VoidFunction0() {
             //TODO: could move exit listeners here instead of in PhetExit
             public void apply() {
-                PhetExit.exit();
+                if ( studentID != null ) {
+                    server.sendOneWay( new StudentExit( studentID ) );
+                }
+                System.exit( 0 );
             }
         } );
         application.getPhetFrame().setTitle( application.getPhetFrame().getTitle() + ": Student Edition" );
         final int N = 1;
-        final ActorRef server = Actors.remote().actorFor( "server", Server.HOST_IP_ADDRESS, Server.PORT );
-
-        PhetExit.addExitListener( new VoidFunction0() {
-            public void apply() {
-                if ( studentID != null ) {
-                    server.sendOneWay( new StudentExit( studentID ) );
-                    server.exit();
-                }
-            }
-        } );
 
         final VoidFunction0 updateSharing = new VoidFunction0() {
             public boolean startedMessage = false;
