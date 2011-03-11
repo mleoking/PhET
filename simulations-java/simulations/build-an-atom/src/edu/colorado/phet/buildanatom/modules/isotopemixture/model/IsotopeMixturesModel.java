@@ -227,7 +227,13 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
         // to call this when it isn't needed.
 
         // Clear the test chamber.
-        testChamber.removeAllIsotopes();
+        // TODO: Fundamental problem here.  Does removing an isotope from
+        // the test chamber remove it from the model?  With the recent
+        // changes, sometimes it should and sometimes it shouldn't.  I've
+        // added a flag for saying whether they go away entirely or just from
+        // the chamber, but I find this ugly.  I'd like to think of a better
+        // way.
+        testChamber.removeAllIsotopes( true );
 
         // Remove all existing isotope instances from the user's mix.
         List<MovableAtom> usersMixOfIsotopesCopy = new ArrayList<MovableAtom>( isotopesOutsideOfChamber );
@@ -793,10 +799,16 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
             return removedIsotope;
         }
 
-        public void removeAllIsotopes(){
-            containedIsotopes.clear();
-            updateCountProperty();
-            averageAtomicMassProperty.setValue( 0.0 );
+        public void removeAllIsotopes( boolean removeFromModel ){
+            List<MovableAtom> containedIsotopesCopy = new ArrayList<MovableAtom>( containedIsotopes );
+            for ( MovableAtom isotope : containedIsotopesCopy ) {
+                removeIsotopeFromChamber( isotope );
+                if ( removeFromModel ){
+                    isotope.removeFromModel();
+                }
+            }
+            assert isotopeCountProperty.getValue() == 0;      // Logical consistency check.
+            assert averageAtomicMassProperty.getValue() == 0; // Logical consistency check.
         }
 
         /**
@@ -866,7 +878,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
      * other controls to be handled consistently between the model and view.
      */
     public static class LinearAddRemoveIsotopesControl {
-        private static final int CAPACITY = 75;
+        private static final int CAPACITY = 100;
         private final Point2D centerPosition = new Point2D.Double();
         private final ImmutableAtom isotopeConfig;
         private final IsotopeMixturesModel model;
