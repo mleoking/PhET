@@ -5,7 +5,10 @@ import akka.actor.Actor;
 import akka.actor.UntypedActor;
 import akka.japi.Creator;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -88,8 +91,11 @@ public class Server {
                             students.add( studentID );
                         }
                         else if ( o instanceof StudentExit ) {
-                            StudentExit studentExit = (StudentExit) o;
-                            students.remove( studentExit.getStudentID() );
+                            //Save the student info to disk and remove from system memory
+                            final StudentID studentID = ( (StudentExit) o ).getStudentID();
+                            students.remove( studentID );
+                            store( studentID );
+                            dataPoints.remove( studentID );//Free system memory
                         }
                         else if ( o instanceof GetThumbnails ) {
                             ArrayList<Pair<StudentID, SerializableBufferedImage>> list = new ArrayList<Pair<StudentID, SerializableBufferedImage>>();
@@ -107,6 +113,25 @@ public class Server {
                                 dataPoints.put( studentDataSample.getStudentID(), new ArrayList<Object>() );
                             }
                             dataPoints.get( studentDataSample.getStudentID() ).add( studentDataSample.getData() );//TODO: storing everything in system memory will surely result in memory problems
+                        }
+                    }
+
+                    private void store( StudentID studentID ) {
+                        try {
+                            final ArrayList<Object> data = getData( studentID );
+                            final File saveFile = new File( "simsharing-data/" + System.nanoTime() + ".ser" ) {{
+                                getParentFile().mkdirs();
+                            }};
+                            new ObjectOutputStream( new FileOutputStream( saveFile ) ) {{
+                                writeObject( data );
+                                close();
+                            }};
+                            long bytes = saveFile.length();
+                            long kb = bytes / 1024;
+                            System.out.println( "Saved: " + saveFile.getAbsolutePath() + ", " + data.size() + " samples, " + kb + " KB" );
+                        }
+                        catch ( IOException e ) {
+                            e.printStackTrace();
                         }
                     }
                 };
