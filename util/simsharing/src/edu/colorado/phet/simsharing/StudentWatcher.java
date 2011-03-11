@@ -3,22 +3,13 @@ package edu.colorado.phet.simsharing;
 
 import akka.actor.ActorRef;
 
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
-import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
 import edu.colorado.phet.gravityandorbits.GravityAndOrbitsApplication;
 import edu.colorado.phet.gravityandorbits.simsharing.GravityAndOrbitsApplicationState;
 
@@ -27,12 +18,8 @@ import edu.colorado.phet.gravityandorbits.simsharing.GravityAndOrbitsApplication
  */
 public class StudentWatcher {
     public Thread thread;
-    public JFrame controlFrame;
+    public TimeControlFrame controlFrame;
     public GravityAndOrbitsApplication application;
-    final Property<Integer> maxFrames = new Property<Integer>( 0 );
-    final BooleanProperty live = new BooleanProperty( true );
-    final Property<Integer> frameToDisplay = new Property<Integer>( 0 );
-    final Property<Boolean> playing = new Property<Boolean>( false );
     private final String[] args;
     private final StudentID studentID;
     private final ActorRef server;
@@ -41,80 +28,7 @@ public class StudentWatcher {
         this.args = args;
         this.studentID = studentID;
         this.server = server;
-        controlFrame = new JFrame( "Time controls: " + studentID ) {{
-            setContentPane( new JPanel( new BorderLayout() ) {{
-                add( new JPanel() {{
-                    add( new PropertyRadioButton<Boolean>( "Live", live, true ) );
-                    add( new PropertyRadioButton<Boolean>( "Playback", live, false ) );
-                    add( new JSpinner( new SpinnerNumberModel( 0, 0, 10000, 1 ) ) {{
-                        addChangeListener( new ChangeListener() {
-                            public void stateChanged( ChangeEvent e ) {
-                                frameToDisplay.setValue( (Integer) getValue() );
-                            }
-                        } );
-                        frameToDisplay.addObserver( new VoidFunction1<Integer>() {
-                            public void apply( Integer integer ) {
-                                setValue( integer );
-                            }
-                        } );
-                    }} );
-                    add( new JButton( "Play" ) {{
-                        addActionListener( new ActionListener() {
-                            public void actionPerformed( ActionEvent e ) {
-                                playing.setValue( true );
-                            }
-                        } );
-                        playing.addObserver( new VoidFunction1<Boolean>() {
-                            public void apply( Boolean value ) {
-                                setEnabled( !value );
-                            }
-                        } );
-                    }} );
-                    add( new JButton( "Pause" ) {{
-                        addActionListener( new ActionListener() {
-                            public void actionPerformed( ActionEvent e ) {
-                                playing.setValue( false );
-                            }
-                        } );
-                        playing.addObserver( new VoidFunction1<Boolean>() {
-                            public void apply( Boolean value ) {
-                                setEnabled( value );
-                            }
-                        } );
-                    }} );
-                }}, BorderLayout.WEST );
-                add( new JLabel() {{
-                    maxFrames.addObserver( new VoidFunction1<Integer>() {
-                        public void apply( Integer integer ) {
-                            setText( "Frames: " + integer );
-                        }
-                    } );
-                }}, BorderLayout.EAST );
-                add( new JSlider( 0, 1, 0 ) {{
-                    maxFrames.addObserver( new VoidFunction1<Integer>() {
-                        public void apply( Integer integer ) {
-                            setMaximum( integer );
-                        }
-                    } );
-                    addChangeListener( new ChangeListener() {
-                        public void stateChanged( ChangeEvent e ) {
-                            frameToDisplay.setValue( getValue() );
-                        }
-                    } );
-                    frameToDisplay.addObserver( new VoidFunction1<Integer>() {
-                        public void apply( Integer integer ) {
-                            setValue( integer );
-                        }
-                    } );
-                    live.addObserver( new VoidFunction1<Boolean>() {
-                        public void apply( Boolean aBoolean ) {
-                            setEnabled( !aBoolean );
-                        }
-                    } );
-                }}, BorderLayout.CENTER );
-            }} );
-            pack();
-        }};
+        controlFrame = new TimeControlFrame( studentID );
         controlFrame.setVisible( true );
         thread = new Thread( new Runnable() {
             public void run() {
@@ -128,8 +42,8 @@ public class StudentWatcher {
             try {
                 SwingUtilities.invokeAndWait( new Runnable() {
                     public void run() {
-                        if ( playing.getValue() ) {//TODO: may need a sleep
-                            frameToDisplay.setValue( Math.min( frameToDisplay.getValue() + 1, maxFrames.getValue() ) );
+                        if ( controlFrame.playing.getValue() ) {//TODO: may need a sleep
+                            controlFrame.frameToDisplay.setValue( Math.min( controlFrame.frameToDisplay.getValue() + 1, controlFrame.maxFrames.getValue() ) );
                         }
                     }
                 } );
@@ -141,7 +55,7 @@ public class StudentWatcher {
                 e.printStackTrace();
             }
 
-            final Pair<Object, StudentMetadata> pair = (Pair<Object, StudentMetadata>) server.sendRequestReply( new TeacherDataRequest( studentID, live.getValue() ? Time.LIVE : new Time.Index( frameToDisplay.getValue() ) ) );
+            final Pair<Object, StudentMetadata> pair = (Pair<Object, StudentMetadata>) server.sendRequestReply( new TeacherDataRequest( studentID, controlFrame.live.getValue() ? Time.LIVE : new Time.Index( controlFrame.frameToDisplay.getValue() ) ) );
             if ( pair != null ) {
                 final GravityAndOrbitsApplicationState state = (GravityAndOrbitsApplicationState) pair._1;
                 if ( state != null ) {
@@ -149,7 +63,7 @@ public class StudentWatcher {
                         SwingUtilities.invokeAndWait( new Runnable() {
                             public void run() {
                                 state.apply( application );
-                                maxFrames.setValue( pair._2.getNumSamples() );
+                                controlFrame.maxFrames.setValue( pair._2.getNumSamples() );
                             }
                         } );
                     }
@@ -162,7 +76,6 @@ public class StudentWatcher {
                 }
             }
         }
-
     }
 
     private void alignControls() {
@@ -199,5 +112,9 @@ public class StudentWatcher {
         application.getIntro().setTeacherMode( true );
         application.getToScale().setTeacherMode( true );
         thread.start();
+    }
+
+    public static void main( String[] args ) {
+        new StudentWatcher( args, new StudentID( 0, "Testing!" ), null ).start();
     }
 }

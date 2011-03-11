@@ -8,7 +8,7 @@ import java.io.IOException;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
+import static edu.colorado.phet.common.phetcommon.view.util.SwingUtils.centerWindowOnScreen;
 
 /**
  * This implementation of Teacher connects to the server and sends requests for the latest data.  This is a polling model, since server to client push doesn't seem to be supported by Akka:
@@ -35,11 +35,12 @@ public class Teacher {
         server = Actors.remote().actorFor( "server", Server.HOST_IP_ADDRESS, Server.PORT );
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
-                JFrame studentListFrame = new JFrame( "Students" );
-                studentListFrame.setContentPane( new StudentListPanel( server, args ) );
-                studentListFrame.setSize( 800, 600 );
-                SwingUtils.centerWindowOnScreen( studentListFrame );
-                studentListFrame.setVisible( true );
+                new JFrame( "Students" ) {{
+                    setDefaultCloseOperation( EXIT_ON_CLOSE );
+                    setContentPane( new StudentListPanel( server, args ) );
+                    setSize( 800, 600 );
+                    centerWindowOnScreen( this );
+                }}.setVisible( true );
             }
         } );
     }
