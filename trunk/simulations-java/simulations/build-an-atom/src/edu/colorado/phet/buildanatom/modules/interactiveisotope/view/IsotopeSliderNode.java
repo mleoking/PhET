@@ -42,25 +42,25 @@ public class IsotopeSliderNode extends PNode {
         addChild( enclosure );
 
         // Add the slider that controls the quantity of this isotope.
-        final LinearValueControl isotopeQuantityControl;
+        LinearValueControl isotopeQuantityControl = null;
         isotopeQuantityControl = new LinearValueControl(
                 0, 100, modelControl.getAtomConfig().getName() + "-" + modelControl.getAtomConfig().getMassNumber(),
-                "###",
-                null);
-        isotopeQuantityControl.setUpDownArrowDelta( 1 );
-        isotopeQuantityControl.setTextFieldEditable( true );
-        isotopeQuantityControl.setFont( new PhetFont( Font.PLAIN, 14 ) );
-        isotopeQuantityControl.setTickPattern( "0" );
-        isotopeQuantityControl.setMajorTickSpacing( 25 );
-        isotopeQuantityControl.setMinorTickSpacing( 12.5 );
-        isotopeQuantityControl.setValue( 0 );
-        isotopeQuantityControl.setBackground( IsotopeMixturesCanvas.BACKGROUND_COLOR );
-        isotopeQuantityControl.getSlider().setBackground( IsotopeMixturesCanvas.BACKGROUND_COLOR );
-        isotopeQuantityControl.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                modelControl.setIsotopeQuantity( (int)Math.round( isotopeQuantityControl.getValue() ) );
-            }
-        });
+                "###", null){{
+                    setUpDownArrowDelta( 1 );
+                    setTextFieldEditable( true );
+                    setFont( new PhetFont( Font.PLAIN, 14 ) );
+                    setTickPattern( "0" );
+                    setMajorTickSpacing( 25 );
+                    setMinorTickSpacing( 12.5 );
+                    setValue( 0 );
+                    setBackground( IsotopeMixturesCanvas.BACKGROUND_COLOR );
+                    getSlider().setBackground( IsotopeMixturesCanvas.BACKGROUND_COLOR );
+                    addChangeListener( new ChangeListener() {
+                        public void stateChanged( ChangeEvent e ) {
+                            modelControl.setIsotopeQuantity( (int)Math.round( getValue() ) );
+                        }
+                    });
+                }};
 
         PNode linearSliderNode = new PSwing( isotopeQuantityControl ){{
             centerFullBoundsOnPoint( 0, 0 );
