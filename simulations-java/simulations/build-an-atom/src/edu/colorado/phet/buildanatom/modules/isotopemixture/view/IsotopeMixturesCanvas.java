@@ -200,7 +200,8 @@ public class IsotopeMixturesCanvas extends PhetPCanvas {
 
         // Add the button that allows the user to select between the smaller
         // and larger atoms.
-        final Point2D buttonLocation = new Point2D.Double( 355, 650 );
+        final Point2D buttonLocation = new Point2D.Double( testChamberNode.getFullBoundsReference().getCenterX(),
+                BuildAnAtomDefaults.STAGE_SIZE.height - 30 );
         // TODO: i18n
         final ButtonNode moreAtomsButton = new ButtonNode( "More", 20, new Color(255, 153, 0) ){{
             centerFullBoundsOnPoint( buttonLocation.getX(), buttonLocation.getY() );
