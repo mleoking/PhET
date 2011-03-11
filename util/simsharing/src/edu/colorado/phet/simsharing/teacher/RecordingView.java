@@ -11,6 +11,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
+import edu.colorado.phet.simsharing.StudentID;
 
 /**
  * @author Sam Reid
@@ -18,6 +19,7 @@ import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 public class RecordingView extends VerticalLayoutPanel {
     public JList recordingList;
     private final ActorRef server;
+    String lastShownRecording = "";
 
     public RecordingView( final ActorRef server, String[] args ) {
         this.server = server;
@@ -25,9 +27,13 @@ public class RecordingView extends VerticalLayoutPanel {
         recordingList = new JList() {{
             addListSelectionListener( new ListSelectionListener() {
                 public void valueChanged( ListSelectionEvent e ) {
-                    System.out.println( recordingList.getSelectedValue() );
-                    Recording recording = (Recording) server.sendRequestReply( new GetRecording( recordingList.getSelectedValue().toString() ) );
-                    showRecording( recording );
+                    final Object selectedValue = recordingList.getSelectedValue();
+                    System.out.println( selectedValue );
+                    if ( selectedValue != null && !lastShownRecording.equals( selectedValue.toString() ) ) {
+                        Recording recording = (Recording) server.sendRequestReply( new GetRecording( selectedValue.toString() ) );
+                        showRecording( recording );
+                        lastShownRecording = selectedValue.toString();
+                    }
                 }
             } );
         }};
@@ -37,19 +43,16 @@ public class RecordingView extends VerticalLayoutPanel {
             public void actionPerformed( ActionEvent e ) {
                 updateRecordingList();
             }
-        } ).start();
+        } ) {{setInitialDelay( 0 );}}.start();
     }
 
     private void showRecording( Recording recording ) {
-
+        System.out.println( "recording = " + recording );
+        new SimView( new String[0], new StudentID( 0, "Recorded Student" ), new SimView.SampleSource.RecordedData( recording ) ).start();
     }
 
     private void updateRecordingList() {
         final RecordingList list = (RecordingList) server.sendRequestReply( new GetRecordingList() );
-        System.out.println( "list = " );
-        for ( int i = 0; i < list.size(); i++ ) {
-            System.out.println( "" + i + ": " + list.get( i ) );
-        }
         recordingList.setListData( list.toArray() );//TODO: remember user selection when list is refreshed
     }
 }

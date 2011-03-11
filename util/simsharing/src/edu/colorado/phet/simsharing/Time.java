@@ -20,7 +20,7 @@ public interface Time extends Serializable {
     };
 
     public static class Index implements Time {
-        int index;
+        public final int index;
 
         public Index( int index ) {
             this.index = index;
@@ -32,5 +32,6 @@ public interface Time extends Serializable {
                    "index=" + index +
                    '}';
         }
+
     }
 }

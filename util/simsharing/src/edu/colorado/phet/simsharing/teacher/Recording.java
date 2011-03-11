@@ -19,4 +19,9 @@ public class Recording implements Serializable {
     public ArrayList<Sample> getSamples() {
         return samples;
     }
+
+    @Override
+    public String toString() {
+        return "recording, samples.size = " + samples.size();
+    }
 }
