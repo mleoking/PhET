@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.simsharing;
+package edu.colorado.phet.simsharing.teacher;
 
 import akka.actor.ActorRef;
 
@@ -12,6 +12,7 @@ import javax.swing.*;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.gravityandorbits.GravityAndOrbitsApplication;
 import edu.colorado.phet.gravityandorbits.simsharing.GravityAndOrbitsApplicationState;
+import edu.colorado.phet.simsharing.*;
 
 /**
  * @author Sam Reid

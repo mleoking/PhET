@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.simsharing;
+package edu.colorado.phet.simsharing.teacher;
 
 import akka.actor.ActorRef;
 
@@ -11,6 +11,9 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.gravityandorbits.simsharing.SerializableBufferedImage;
+import edu.colorado.phet.simsharing.GetThumbnails;
+import edu.colorado.phet.simsharing.Pair;
+import edu.colorado.phet.simsharing.StudentID;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 

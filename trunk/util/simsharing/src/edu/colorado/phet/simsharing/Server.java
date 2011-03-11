@@ -16,6 +16,7 @@ import java.util.List;
 
 import edu.colorado.phet.gravityandorbits.simsharing.GravityAndOrbitsApplicationState;
 import edu.colorado.phet.gravityandorbits.simsharing.SerializableBufferedImage;
+import edu.colorado.phet.simsharing.teacher.StudentList;
 
 import static akka.actor.Actors.actorOf;
 import static akka.actor.Actors.remote;
