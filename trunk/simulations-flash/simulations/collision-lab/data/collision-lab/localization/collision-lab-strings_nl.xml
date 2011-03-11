@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--collision-lab-strings_nl.xml created Fri Mar 11 14:41:33 CET 2011 using: collision-lab 0.01.00 (45337), translation-utility 2.10.00 (48775) feb 9, 2011-->
+<SimStrings>
+<string key="ControlPanel.reflectingBorder" value="Terugkaatsende wand"/>
+<string key="DataTable.py" value="py"/>
+<string key="DataTable.px" value="px"/>
+<string key="DataTable.vy" value="vy"/>
+<string key="DataTable.vx" value="vx"/>
+<string key="MomentumView.tipToTail" value="kop aan staart"/>
+<string key="PlayPauseButtons.pause" value="Pauze"/>
+<string key="PlayPauseButtons.rewind" value="Terugspoelen"/>
+<string key="PlayPauseButtons.step" value="Stap"/>
+<string key="MomentumView.total" value="totaal"/>
+<string key="simTitle" value="Botsing lab"/>
+<string key="ControlPanel.momentaDiagram" value="Diagram van de momenten"/>
+<string key="DataTable.mass" value="massa"/>
+<string key="DataTable.lessData" value="Minder gegevens"/>
+<string key="DataTable.removeBall" value="Verwijder bal"/>
+<string key="ControlPanel.1d" value="Eén dimensie"/>
+<string key="DataTable.moreData" value="Meer gegevens"/>
+<string key="ControlPanel.showMomentumVectors" value="Momentvectoren"/>
+<string key="DataTable.ball" value="bal"/>
+<string key="TableView.kineticEnergy" value="Kinetische energie = {0} J"/>
+<string key="MomentumView.momenta" value="Momenten"/>
+<string key="ControlPanel.showPaths" value="Toon banen"/>
+<string key="TableView.timeRate" value="Traag  Vlug"/>
+<string key="DataTable.addBall" value="Voeg bal toe"/>
+<string key="ControlPanel.elasticity" value="Elasticiteitscoëfficiënt"/>
+<string key="PlayPauseButtons.back" value="Terug"/>
+<string key="ControlPanel.2d" value="Twee dimensies"/>
+<string key="ControlPanel.showVelocities" value="Snelheidsvectoren"/>
+<string key="ControlPanel.sound" value="Geluid"/>
+<string key="ControlPanel.resetAll" value="Alles opnieuw"/>
+<string key="PlayPauseButtons.play" value="Speel"/>
+<string key="translation.credits" value="Roland Van Kerschaver"/>
+<string key="TableView.time" value=" Tijd = {0} s"/>
+<string key="ControlPanel.showCenterOfMass" value="Zwaartepunt"/>
+</SimStrings>
