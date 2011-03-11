@@ -60,7 +60,7 @@ public class ClassroomView extends PSwingCanvas {
             if ( component == null ) {
                 component = new StudentComponent( studentID, new VoidFunction0() {
                     public void apply() {
-                        new StudentWatcher( args, studentID, server ).start();
+                        new SimView( args, studentID, new SimView.SampleSource.RemoteActor( server, studentID ) ).start();
                     }
                 } );
                 studentNode.addChild( component );

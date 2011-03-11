@@ -17,20 +17,55 @@ import edu.colorado.phet.simsharing.*;
 /**
  * @author Sam Reid
  */
-public class StudentWatcher {
-    public Thread thread;
-    public TimeControlFrame timeControlFrame;
-    public GravityAndOrbitsApplication application;
+public class SimView {
+    private final Thread thread;
+    private final TimeControlFrame timeControl;
+    private GravityAndOrbitsApplication application;
     private final String[] args;
-    private final StudentID studentID;
-    private final ActorRef server;
+    private final SampleSource sampleSource;
 
-    public StudentWatcher( final String[] args, final StudentID studentID, final ActorRef server ) {
+    public static interface SampleSource {
+        Pair<Sample, StudentMetadata> getSample( Time time );
+
+        public static class RemoteActor implements SampleSource {
+            final ActorRef server;
+            private final StudentID studentID;
+
+            public RemoteActor( ActorRef server, StudentID studentID ) {
+                this.server = server;
+                this.studentID = studentID;
+            }
+
+            public Pair<Sample, StudentMetadata> getSample( Time time ) {
+                return (Pair<Sample, StudentMetadata>) server.sendRequestReply( new GetStudentData( studentID, time ) );
+            }
+        }
+
+        public static class RecordedData implements SampleSource {
+
+            private final Recording recording;
+
+            public RecordedData( Recording recording ) {
+                this.recording = recording;
+            }
+
+            public Pair<Sample, StudentMetadata> getSample( Time time ) {
+                if ( time instanceof Time.Index ) {
+                    final int index = ( (Time.Index) time ).index;
+                    if ( index >= 0 && index < recording.getSamples().size() ) {
+                        return new Pair<Sample, StudentMetadata>( recording.getSamples().get( index ), new StudentMetadata( new StudentID( 0, "hello" ), recording.samples.size(), -1 ) );
+                    }
+                }
+                return null;
+            }
+        }
+    }
+
+    public SimView( final String[] args, final StudentID studentID, SampleSource sampleSource ) {
         this.args = args;
-        this.studentID = studentID;
-        this.server = server;
-        timeControlFrame = new TimeControlFrame( studentID );
-        timeControlFrame.setVisible( true );
+        this.sampleSource = sampleSource;
+        timeControl = new TimeControlFrame( studentID );
+        timeControl.setVisible( true );
         thread = new Thread( new Runnable() {
             public void run() {
                 doRun();
@@ -43,8 +78,8 @@ public class StudentWatcher {
             try {
                 SwingUtilities.invokeAndWait( new Runnable() {
                     public void run() {
-                        if ( timeControlFrame.playing.getValue() ) {//TODO: may need a sleep
-                            timeControlFrame.frameToDisplay.setValue( Math.min( timeControlFrame.frameToDisplay.getValue() + 1, timeControlFrame.maxFrames.getValue() ) );
+                        if ( timeControl.playing.getValue() ) {//TODO: may need a sleep
+                            timeControl.frameToDisplay.setValue( Math.min( timeControl.frameToDisplay.getValue() + 1, timeControl.maxFrames.getValue() ) );
                         }
                     }
                 } );
@@ -56,7 +91,7 @@ public class StudentWatcher {
                 e.printStackTrace();
             }
 
-            final Pair<Sample, StudentMetadata> pair = (Pair<Sample, StudentMetadata>) server.sendRequestReply( new GetStudentData( studentID, timeControlFrame.live.getValue() ? Time.LIVE : new Time.Index( timeControlFrame.frameToDisplay.getValue() ) ) );
+            final Pair<Sample, StudentMetadata> pair = sampleSource.getSample( timeControl.live.getValue() ? Time.LIVE : new Time.Index( timeControl.frameToDisplay.getValue() ) );
             if ( pair != null ) {
                 final GravityAndOrbitsApplicationState state = (GravityAndOrbitsApplicationState) pair._1.getData();
                 if ( state != null ) {
@@ -64,7 +99,7 @@ public class StudentWatcher {
                         SwingUtilities.invokeAndWait( new Runnable() {
                             public void run() {
                                 state.apply( application );
-                                timeControlFrame.maxFrames.setValue( pair._2.getNumSamples() );
+                                timeControl.maxFrames.setValue( pair._2.getNumSamples() );
                             }
                         } );
                     }
@@ -80,9 +115,8 @@ public class StudentWatcher {
     }
 
     private void alignControls() {
-        timeControlFrame.pack();
-        timeControlFrame.setLocation( application.getPhetFrame().getX(), application.getPhetFrame().getY() + application.getPhetFrame().getHeight() + 1 );
-        timeControlFrame.setSize( application.getPhetFrame().getWidth(), timeControlFrame.getHeight() );
+        timeControl.setLocation( application.getPhetFrame().getX(), application.getPhetFrame().getY() + application.getPhetFrame().getHeight() + 1 );
+        timeControl.setSize( application.getPhetFrame().getWidth(), timeControl.getPreferredSize().height );
     }
 
     boolean running = true;
@@ -94,7 +128,7 @@ public class StudentWatcher {
             public void apply() {
                 //Just let the window close but do not system.exit the whole VM
                 running = false;
-                timeControlFrame.setVisible( false );//TODO: detach listeners
+                timeControl.setVisible( false );//TODO: detach listeners
             }
         } );
         application.getPhetFrame().setTitle( application.getPhetFrame().getTitle() + ": Teacher Edition" );
@@ -116,6 +150,6 @@ public class StudentWatcher {
     }
 
     public static void main( String[] args ) {
-        new StudentWatcher( args, new StudentID( 0, "Testing!" ), null ).start();
+        new SimView( args, new StudentID( 0, "Testing!" ), null ).start();
     }
 }
