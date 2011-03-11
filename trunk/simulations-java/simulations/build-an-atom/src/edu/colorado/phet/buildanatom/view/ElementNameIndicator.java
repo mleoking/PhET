@@ -45,4 +45,12 @@ public class ElementNameIndicator extends PNode {
         showLabels.addObserver( update );
         update.update();
     }
+
+    public void setColor( Color color ){
+        elementName.setTextPaint( color );
+    }
+
+    public void setFont( PhetFont font ){
+        elementName.setFont( font );
+    }
 }
