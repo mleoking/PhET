@@ -1,3 +1,4 @@
+# 00.00.13 (49726) Mar 11, 2011
 Added playback of fully recorded session
 Added initial support for listing recordings
 Added readout for uptime and time since last message
