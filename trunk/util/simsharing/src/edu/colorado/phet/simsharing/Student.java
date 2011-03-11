@@ -50,6 +50,7 @@ public class Student {
             public void apply() {
                 if ( studentID != null ) {
                     server.sendOneWay( new StudentExit( studentID ) );
+                    server.exit();
                 }
             }
         } );
