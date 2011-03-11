@@ -1,3 +1,4 @@
+Updated to akka-1.0
 # 00.00.11 (49697) Mar 10, 2011
 Improved threading and made it possible for teacher to watch multiple students
 # 00.00.10 (49695) Mar 10, 2011
