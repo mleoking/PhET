@@ -19,20 +19,17 @@ import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 /**
  * @author Sam Reid
  */
-public class TeacherControlPanel extends PSwingCanvas {
+public class ClassroomView extends PSwingCanvas {
     private final ActorRef server;
     private final String[] args;
     private final PNode studentNode;
-    private final PNode recordingListNode;
 
-    public TeacherControlPanel( final ActorRef server, String[] args ) {
+    public ClassroomView( final ActorRef server, String[] args ) {
         this.server = server;
         this.args = args;
         studentNode = new PNode();
         getLayer().addChild( studentNode );
 
-        recordingListNode = new PNode();
-        getLayer().addChild( recordingListNode );
         //Look for new students this often
         new Timer( 100, new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -41,20 +38,6 @@ public class TeacherControlPanel extends PSwingCanvas {
         } ) {{
             setInitialDelay( 0 );
         }}.start();
-
-        new Timer( 5000, new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                updateRecordingList();
-            }
-        } ).start();
-    }
-
-    private void updateRecordingList() {
-        final RecordingList list = (RecordingList) server.sendRequestReply( new GetRecordingList() );
-        System.out.println( "list = " );
-        for ( int i = 0; i < list.size(); i++ ) {
-            System.out.println( "" + i + ": " + list.get( i ) );
-        }
     }
 
     private StudentComponent getComponent( StudentID studentID ) {
