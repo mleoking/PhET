@@ -1,3 +1,4 @@
+3/11/2011 upgraded to proguard 4.6, resolves #2778
 12/6/10 Fixed codebase issue in deployment code
 12/6/10 Common translation deployment fixed up for Flex / Multi-sim Flash support
 # 00.69.00 (44133) Sep 16, 2010

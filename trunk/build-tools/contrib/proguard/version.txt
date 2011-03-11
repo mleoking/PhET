@@ -1,1 +1,1 @@
-proguard 4.5.1
+proguard 4.6
