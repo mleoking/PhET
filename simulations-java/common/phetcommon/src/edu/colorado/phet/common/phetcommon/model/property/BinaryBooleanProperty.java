@@ -2,8 +2,8 @@
 
 package edu.colorado.phet.common.phetcommon.model.property;
 
-import edu.colorado.phet.common.phetcommon.util.function.Function2;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.Function2;
 
 /**
  * Returns a boolean computation over Property<Boolean> arguments, such as And or Or.
@@ -24,7 +24,7 @@ public class BinaryBooleanProperty extends ObservableProperty<Boolean> {
         final SimpleObserver updateState = new SimpleObserver() {
             public void update() {
                 if ( getValue() != valueAtLastNotification ) {
-                    notifyObservers();
+                    notifyObservers( getValue(), valueAtLastNotification );
                     valueAtLastNotification = getValue();
                 }
             }
