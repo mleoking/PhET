@@ -31,7 +31,7 @@ public class RecordingView extends VerticalLayoutPanel {
                     final Object selectedValue = recordingList.getSelectedValue();
                     System.out.println( selectedValue );
                     if ( selectedValue != null && !lastShownRecording.equals( selectedValue.toString() ) ) {
-                        Recording recording = (Recording) server.sendRequestReply( new GetRecording( selectedValue.toString() ) );
+                        Recording recording = (Recording) server.sendRequestReply( new GetRecording( selectedValue.toString() ), 1000 * 60 * 60, null );
                         showRecording( recording );
                         lastShownRecording = selectedValue.toString();
                     }
@@ -55,7 +55,7 @@ public class RecordingView extends VerticalLayoutPanel {
     private void updateRecordingList() {
         //Allow a long timeout here since it may take a long time to deliver a large recorded file.
         try {
-            final RecordingList list = (RecordingList) server.sendRequestReply( new GetRecordingList(), 1000 * 60 * 60, null );
+            final RecordingList list = (RecordingList) server.sendRequestReply( new GetRecordingList() );
             recordingList.setListData( list.toArray() );//TODO: remember user selection when list is refreshed
         }
         catch ( ActorTimeoutException timeoutException ) {
