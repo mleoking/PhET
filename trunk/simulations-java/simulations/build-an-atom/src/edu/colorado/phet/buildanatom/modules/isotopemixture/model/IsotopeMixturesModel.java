@@ -876,12 +876,6 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
         private final ImmutableAtom isotopeConfig;
         private final IsotopeMixturesModel model;
 
-        // This property tracks the number of isotopes of the configuration
-        // specified at construction are currently in the test chamber.
-        // Users of this class should modify this value in order to move
-        // isotopes into and out of the test chamber.
-        private final Property<Integer> isotopesInTestChamberProperty = new Property<Integer>( 0 );
-
         // This property tracks whether this model element is still a part
         // of the active model, such that it should be displayed in the view.
         private final BooleanProperty partOfModelProperty = new BooleanProperty( true );
@@ -905,14 +899,6 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
 
         public int getCapacity(){
             return CAPACITY;
-        }
-
-        public void addCountChangeObserver( SimpleObserver so ){
-            isotopesInTestChamberProperty.addObserver( so );
-        }
-
-        public void removeCountChangeObserver( SimpleObserver so ){
-            isotopesInTestChamberProperty.removeObserver( so );
         }
 
         public BooleanProperty getPartOfModelProperty(){
