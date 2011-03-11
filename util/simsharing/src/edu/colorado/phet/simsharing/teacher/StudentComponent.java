@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.simsharing;
+package edu.colorado.phet.simsharing.teacher;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -8,6 +8,7 @@ import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
+import edu.colorado.phet.simsharing.StudentID;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;

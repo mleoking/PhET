@@ -1,10 +1,12 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.simsharing;
+package edu.colorado.phet.simsharing.teacher;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
 import edu.colorado.phet.gravityandorbits.simsharing.SerializableBufferedImage;
+import edu.colorado.phet.simsharing.Pair;
+import edu.colorado.phet.simsharing.StudentID;
 
 /**
  * @author Sam Reid
