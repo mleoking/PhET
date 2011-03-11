@@ -6,12 +6,12 @@ import java.io.Serializable;
 /**
  * @author Sam Reid
  */
-public class TeacherDataRequest implements Serializable {
+public class GetStudentData implements Serializable {
 
     private final StudentID selected;
     private final Time time;
 
-    public TeacherDataRequest( StudentID selected, Time time ) {
+    public GetStudentData( StudentID selected, Time time ) {
         this.selected = selected;
         this.time = time;
     }

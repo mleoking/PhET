@@ -56,7 +56,7 @@ public class StudentWatcher {
                 e.printStackTrace();
             }
 
-            final Pair<Sample, StudentMetadata> pair = (Pair<Sample, StudentMetadata>) server.sendRequestReply( new TeacherDataRequest( studentID, controlFrame.live.getValue() ? Time.LIVE : new Time.Index( controlFrame.frameToDisplay.getValue() ) ) );
+            final Pair<Sample, StudentMetadata> pair = (Pair<Sample, StudentMetadata>) server.sendRequestReply( new GetStudentData( studentID, controlFrame.live.getValue() ? Time.LIVE : new Time.Index( controlFrame.frameToDisplay.getValue() ) ) );
             if ( pair != null ) {
                 final GravityAndOrbitsApplicationState state = (GravityAndOrbitsApplicationState) pair._1.getData();
                 if ( state != null ) {

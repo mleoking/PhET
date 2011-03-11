@@ -16,6 +16,8 @@ import java.util.List;
 
 import edu.colorado.phet.gravityandorbits.simsharing.GravityAndOrbitsApplicationState;
 import edu.colorado.phet.gravityandorbits.simsharing.SerializableBufferedImage;
+import edu.colorado.phet.simsharing.teacher.GetRecordingList;
+import edu.colorado.phet.simsharing.teacher.RecordingList;
 import edu.colorado.phet.simsharing.teacher.StudentList;
 
 import static akka.actor.Actors.actorOf;
@@ -49,7 +51,7 @@ public class Server {
         System.out.println( "Using host: " + HOST_IP_ADDRESS );
     }
 
-    public Sample getSample( TeacherDataRequest request ) {
+    public Sample getSample( GetStudentData request ) {
         final ArrayList<Sample> objects = getData( request.getStudentID() );
         if ( objects != null ) {
             final int requestedIndex = request.getTime().equals( Time.LIVE ) ?
@@ -74,8 +76,8 @@ public class Server {
             public Actor create() {
                 return new UntypedActor() {
                     public void onReceive( Object o ) {
-                        if ( o instanceof TeacherDataRequest ) {
-                            TeacherDataRequest request = (TeacherDataRequest) o;
+                        if ( o instanceof GetStudentData ) {
+                            GetStudentData request = (GetStudentData) o;
                             Sample data = getSample( request );
                             if ( data != null ) {
                                 getContext().replySafe( new Pair<Sample, StudentMetadata>( data, new StudentMetadata( request.getStudentID(), getData( request.getStudentID() ).size(), System.currentTimeMillis() ) ) );
@@ -90,17 +92,17 @@ public class Server {
                             connectionCount = connectionCount + 1;
                             students.add( studentID );
                         }
-                        else if ( o instanceof StudentExit ) {
+                        else if ( o instanceof ExitStudent ) {
                             //Save the student info to disk and remove from system memory
-                            final StudentID studentID = ( (StudentExit) o ).getStudentID();
+                            final StudentID studentID = ( (ExitStudent) o ).getStudentID();
                             students.remove( studentID );
                             store( studentID );
                             dataPoints.remove( studentID );//Free system memory
                         }
-                        else if ( o instanceof ShowClassroom ) {
+                        else if ( o instanceof GetStudentList ) {
                             ArrayList<StudentSummary> list = new ArrayList<StudentSummary>();
                             for ( StudentID student : students ) {
-                                final Sample latestDataPoint = getSample( new TeacherDataRequest( student, Time.LIVE ) );
+                                final Sample latestDataPoint = getSample( new GetStudentData( student, Time.LIVE ) );
                                 SerializableBufferedImage image = null;
                                 if ( latestDataPoint != null && latestDataPoint.getData() != null ) {
                                     image = ( (GravityAndOrbitsApplicationState) latestDataPoint.getData() ).getThumbnail();
@@ -109,21 +111,29 @@ public class Server {
                             }
                             getContext().replySafe( new StudentList( list ) );
                         }
-                        else if ( o instanceof StudentDataSample ) {
-                            StudentDataSample studentDataSample = (StudentDataSample) o;
+                        else if ( o instanceof AddStudentDataSample ) {
+                            AddStudentDataSample studentDataSample = (AddStudentDataSample) o;
                             if ( !dataPoints.containsKey( studentDataSample.getStudentID() ) ) {
                                 dataPoints.put( studentDataSample.getStudentID(), new ArrayList<Sample>() );
                             }
                             dataPoints.get( studentDataSample.getStudentID() ).add( new Sample( System.currentTimeMillis(), studentDataSample.getData() ) );//TODO: storing everything in system memory will surely result in memory problems
+                        }
+                        else if ( o instanceof GetRecordingList ) {
+                            GetRecordingList showRecordings = (GetRecordingList) o;
+                            File[] f = getSaveDir().listFiles();
+                            final RecordingList recordingList = new RecordingList();
+                            for ( File file : f ) {
+                                recordingList.add( file );
+                            }
+                            getContext().replySafe( recordingList );
                         }
                     }
 
                     private void store( StudentID studentID ) {
                         try {
                             final ArrayList<Sample> data = getData( studentID );
-                            final File saveFile = new File( "simsharing-data/" + System.nanoTime() + ".ser" ) {{
-                                getParentFile().mkdirs();
-                            }};
+                            final File saveDir = getSaveDir();
+                            final File saveFile = new File( saveDir, System.nanoTime() + ".ser" );
                             new ObjectOutputStream( new FileOutputStream( saveFile ) ) {{
                                 writeObject( data );
                                 close();
@@ -135,6 +145,12 @@ public class Server {
                         catch ( IOException e ) {
                             e.printStackTrace();
                         }
+                    }
+
+                    private File getSaveDir() {
+                        return new File( "simsharing-data/" ) {{
+                            mkdirs();
+                        }};
                     }
                 };
             }

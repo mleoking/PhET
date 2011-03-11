@@ -6,10 +6,10 @@ import java.io.Serializable;
 /**
  * @author Sam Reid
  */
-public class StudentExit implements Serializable {
+public class ExitStudent implements Serializable {
     private StudentID studentID;
 
-    public StudentExit( StudentID studentID ) {
+    public ExitStudent( StudentID studentID ) {
         this.studentID = studentID;
     }
 

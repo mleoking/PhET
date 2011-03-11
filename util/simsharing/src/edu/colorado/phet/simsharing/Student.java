@@ -40,7 +40,7 @@ public class Student {
             //TODO: could move exit listeners here instead of in PhetExit
             public void apply() {
                 if ( studentID != null ) {
-                    server.sendOneWay( new StudentExit( studentID ) );
+                    server.sendOneWay( new ExitStudent( studentID ) );
                 }
                 System.exit( 0 );
             }
@@ -69,7 +69,7 @@ public class Student {
                             System.out.println( "\nReceived ID: " + studentID );
                             finishedMessage = true;
                         }
-                        server.sendOneWay( new StudentDataSample( studentID, state ) );
+                        server.sendOneWay( new AddStudentDataSample( studentID, state ) );
                     }
                 }
                 count++;
