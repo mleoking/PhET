@@ -13,7 +13,7 @@ public class Proton extends SphericalParticle {
     public static final double RADIUS = 5;
 
     public Proton( ConstantDtClock clock, double x, double y ) {
-        super( clock, RADIUS, x, y );
+        super( RADIUS, x, y, clock );
     }
 
     public Proton(ConstantDtClock clock) {

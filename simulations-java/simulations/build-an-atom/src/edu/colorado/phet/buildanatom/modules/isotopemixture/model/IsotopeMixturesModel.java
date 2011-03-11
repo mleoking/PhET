@@ -961,5 +961,12 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
                 }
             }
         }
+
+        /**
+         * @return
+         */
+        public Color getBaseColor() {
+            return model.getColorForIsotope( isotopeConfig );
+        }
     }
 }

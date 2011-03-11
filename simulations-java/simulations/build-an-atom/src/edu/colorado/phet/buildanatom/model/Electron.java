@@ -13,7 +13,7 @@ public class Electron extends SphericalParticle {
     public static final double RADIUS = 3;
 
     public Electron( ConstantDtClock clock, double x, double y ) {
-        super( clock, RADIUS, x, y );
+        super( RADIUS, x, y, clock );
     }
 
     public Electron(ConstantDtClock clock) {
