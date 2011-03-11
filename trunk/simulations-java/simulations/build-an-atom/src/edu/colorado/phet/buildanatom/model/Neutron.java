@@ -13,7 +13,7 @@ public class Neutron extends SphericalParticle {
     public static final double RADIUS = 5;
 
     public Neutron( ConstantDtClock clock, double x, double y ) {
-        super( clock, RADIUS, x, y );
+        super( RADIUS, x, y, clock );
     }
 
     public Neutron(ConstantDtClock clock) {

@@ -41,8 +41,12 @@ public class MovableAtom extends SphericalParticle {
     // Constructor(s)
     // ------------------------------------------------------------------------
 
+    public MovableAtom( int numProtons, int numNeutrons, double radius, Point2D initialPosition ){
+        this( numProtons, numNeutrons, radius, initialPosition, null );
+    }
+
     public MovableAtom( int numProtons, int numNeutrons, double radius, Point2D initialPosition, ConstantDtClock clock ){
-        super(clock, radius, initialPosition.getX(), initialPosition.getY());
+        super(radius, initialPosition.getX(), initialPosition.getY(), clock);
         atomConfiguration = new ImmutableAtom( numProtons, numNeutrons, numProtons );
         this.radius = radius;
     }

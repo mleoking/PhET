@@ -52,12 +52,18 @@ public abstract class SphericalParticle {
     // Constructor(s)
     // ------------------------------------------------------------------------
 
-    public SphericalParticle( ConstantDtClock clock, double radius, double x, double y ) {
+    public SphericalParticle( double radius, double x, double y ) {
+        this( radius, x, y, null );
+    }
+
+    public SphericalParticle( double radius, double x, double y, ConstantDtClock clock ) {
         this.clock = clock;
         this.radius = radius;
         position = new Property<Point2D.Double>( new Point2D.Double( x, y ) );
         this.destination.setLocation( x, y );
-        clock.addClockListener( clockListener );
+        if ( clock != null ){
+            clock.addClockListener( clockListener );
+        }
         userControlled.addObserver( new SimpleObserver() {
             public void update() {
                 ArrayList<Listener> copy = new ArrayList<Listener>( listeners );//ConcurrentModificationException if listener removed while iterating, so use a copy
@@ -176,7 +182,9 @@ public abstract class SphericalParticle {
      * representation.
      */
     public void removedFromModel() {
-        clock.removeClockListener( clockListener );
+        if ( clock != null ){
+            clock.removeClockListener( clockListener );
+        }
         ArrayList<Listener> copyOfListeners = new ArrayList<Listener>( listeners );
         for ( Listener listener : copyOfListeners ) {
             listener.removedFromModel( this );
