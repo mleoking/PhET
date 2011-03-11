@@ -2,6 +2,7 @@
 package edu.colorado.phet.simsharing.teacher;
 
 import akka.actor.ActorRef;
+import akka.actor.ActorTimeoutException;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -52,7 +53,14 @@ public class RecordingView extends VerticalLayoutPanel {
     }
 
     private void updateRecordingList() {
-        final RecordingList list = (RecordingList) server.sendRequestReply( new GetRecordingList() );
-        recordingList.setListData( list.toArray() );//TODO: remember user selection when list is refreshed
+        //Allow a long timeout here since it may take a long time to deliver a large recorded file.
+        try {
+            final RecordingList list = (RecordingList) server.sendRequestReply( new GetRecordingList(), 1000 * 60 * 60, null );
+            recordingList.setListData( list.toArray() );//TODO: remember user selection when list is refreshed
+        }
+        catch ( ActorTimeoutException timeoutException ) {
+            System.out.println( "Actor timed out" );
+            timeoutException.printStackTrace();
+        }
     }
 }
