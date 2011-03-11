@@ -22,4 +22,8 @@ public class RecordingList implements Serializable {
     public String get( int i ) {
         return list.get( i );
     }
+
+    public Object[] toArray() {
+        return list.toArray( new String[0] );
+    }
 }

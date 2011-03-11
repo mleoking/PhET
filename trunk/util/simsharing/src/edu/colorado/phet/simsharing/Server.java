@@ -5,20 +5,12 @@ import akka.actor.Actor;
 import akka.actor.UntypedActor;
 import akka.japi.Creator;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.io.*;
+import java.util.*;
 
 import edu.colorado.phet.gravityandorbits.simsharing.GravityAndOrbitsApplicationState;
 import edu.colorado.phet.gravityandorbits.simsharing.SerializableBufferedImage;
-import edu.colorado.phet.simsharing.teacher.GetRecordingList;
-import edu.colorado.phet.simsharing.teacher.RecordingList;
-import edu.colorado.phet.simsharing.teacher.StudentList;
+import edu.colorado.phet.simsharing.teacher.*;
 
 import static akka.actor.Actors.actorOf;
 import static akka.actor.Actors.remote;
@@ -121,11 +113,29 @@ public class Server {
                         else if ( o instanceof GetRecordingList ) {
                             GetRecordingList showRecordings = (GetRecordingList) o;
                             File[] f = getSaveDir().listFiles();
+                            Arrays.sort( f, new Comparator<File>() {
+                                public int compare( File o1, File o2 ) {
+                                    return Double.compare( o1.lastModified(), o2.lastModified() );
+                                }
+                            } );
                             final RecordingList recordingList = new RecordingList();
                             for ( File file : f ) {
                                 recordingList.add( file );
                             }
                             getContext().replySafe( recordingList );
+                        }
+                        else if ( o instanceof GetRecording ) {
+                            GetRecording getRecording = (GetRecording) o;
+                            File f = new File( getRecording.getFilename() );
+                            try {
+                                ObjectInputStream objectInputStream = new ObjectInputStream( new FileInputStream( f ) );
+                                ArrayList<Sample> recording = (ArrayList<Sample>) objectInputStream.readObject();
+                                getContext().replySafe( new Recording( recording ) );
+                            }
+                            catch ( Exception e ) {
+                                e.printStackTrace();
+                                getContext().replySafe( null );
+                            }
                         }
                     }
 

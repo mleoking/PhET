@@ -4,6 +4,7 @@ package edu.colorado.phet.simsharing.teacher;
 import akka.actor.ActorRef;
 import akka.actor.Actors;
 
+import java.awt.*;
 import java.io.IOException;
 
 import javax.swing.*;
@@ -40,7 +41,10 @@ public class Teacher {
             public void run() {
                 new JFrame( "Students" ) {{
                     setDefaultCloseOperation( EXIT_ON_CLOSE );
-                    setContentPane( new TeacherControlPanel( server, args ) );
+                    setContentPane( new JPanel( new BorderLayout() ) {{
+                        add( new ClassroomView( server, args ), BorderLayout.CENTER );
+                        add( new RecordingView( server, args ), BorderLayout.EAST );
+                    }} );
                     setSize( 800, 600 );
                     centerWindowOnScreen( this );
                 }}.setVisible( true );
