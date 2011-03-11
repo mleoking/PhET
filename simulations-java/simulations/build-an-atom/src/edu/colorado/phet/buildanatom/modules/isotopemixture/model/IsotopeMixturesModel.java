@@ -199,7 +199,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
         // For now, this only handles the case where the interactivity mode is
         // set to be sliders, since that is all that is initially needed.
         assert interactivityModeProperty.getValue() == InteractivityMode.SLIDERS_AND_SMALL_ATOMS;
-        MovableAtom removedIsotope = testChamber.removeArbitraryIsotope( isotopeConfig );
+        MovableAtom removedIsotope = testChamber.removeIsotopeMatchingConfig( isotopeConfig );
         removedIsotope.removeFromModel();
         return removedIsotope;
     }
@@ -652,23 +652,6 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
         }
 
         /**
-         * @param isotopeConfig
-         * @return
-         */
-        public MovableAtom removeArbitraryIsotope( ImmutableAtom isotopeConfig ) {
-            MovableAtom removedIsotope = null;
-            for ( MovableAtom isotope : containedIsotopes ){
-                if ( isotope.getAtomConfiguration().equals( isotopeConfig ) ){
-                    // A matching isotope was found.
-                    removedIsotope = isotope;
-                    break;
-                }
-            }
-            containedIsotopes.remove( removedIsotope );
-            return removedIsotope;
-        }
-
-        /**
          * Get the number of isotopes currently in the chamber that match the
          * specified configuration.
          *
@@ -676,7 +659,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
          * @return
          */
         protected int getIsotopeCount( ImmutableAtom isotopeConfig ){
-            assert isotopeConfig.getNumProtons() == isotopeConfig.getNumNeutrons();
+            assert isotopeConfig.getNumProtons() == isotopeConfig.getNumElectrons(); // Should always be neutral atom.
             int isotopeCount = 0;
             for ( MovableAtom isotope : containedIsotopes ) {
                 if ( isotope.getAtomConfiguration().equals( isotopeConfig ) ) {
@@ -795,7 +778,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
          */
         public MovableAtom removeIsotopeMatchingConfig( ImmutableAtom isotopeConfig ){
             // Argument checking.
-            if (isotopeConfig.getNumProtons() == isotopeConfig.getNumElectrons()){
+            if (isotopeConfig.getCharge() != 0){
                 throw new IllegalArgumentException( "Isotope must be neutral" );
             }
             // Locate and remove a matching isotope.
@@ -806,7 +789,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
                     break;
                 }
             }
-            containedIsotopes.remove( removedIsotope );
+            removeIsotopeFromChamber( removedIsotope );
             return removedIsotope;
         }
 
@@ -885,7 +868,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
     public static class LinearAddRemoveIsotopesControl {
         private static final int CAPACITY = 75;
         private final Point2D centerPosition = new Point2D.Double();
-        private final ImmutableAtom atomConfig;
+        private final ImmutableAtom isotopeConfig;
         private final IsotopeMixturesModel model;
 
         // This property tracks the number of isotopes of the configuration
@@ -903,7 +886,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
          */
         public LinearAddRemoveIsotopesControl( IsotopeMixturesModel model, ImmutableAtom atomConfig, Point2D position ){
             this.model = model;
-            this.atomConfig = atomConfig;
+            this.isotopeConfig = atomConfig;
             this.centerPosition.setLocation( position );
         }
 
@@ -912,7 +895,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
         }
 
         public ImmutableAtom getAtomConfig(){
-            return atomConfig;
+            return isotopeConfig;
         }
 
         public int getCapacity(){
@@ -946,8 +929,37 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
          */
         public void addIsotopeToChamber(){
             Point2D initialLocation = model.getIsotopeTestChamber().generateRandomLocation();
-            model.getIsotopeTestChamber().addIsotopeToChamber( new MovableAtom( atomConfig.getNumProtons(),
-                    atomConfig.getNumNeutrons(), SMALL_ISOTOPE_RADIUS, initialLocation, model.getClock() ));
+            model.getIsotopeTestChamber().addIsotopeToChamber( new MovableAtom( isotopeConfig.getNumProtons(),
+                    isotopeConfig.getNumNeutrons(), SMALL_ISOTOPE_RADIUS, initialLocation, model.getClock() ));
+        }
+
+        /**
+         * Set the quantity of the isotope associated with this control to the
+         * specified value.
+         *
+         * @param quantity
+         * @return
+         */
+        public void setIsotopeQuantity( int targetQuantity ){
+            int changeAmount = targetQuantity - model.getIsotopeTestChamber().getIsotopeCount( isotopeConfig );
+            if (changeAmount > 0){
+                for (int i = 0; i < changeAmount; i++){
+                    MovableAtom newIsotope = new MovableAtom( isotopeConfig.getNumProtons(),
+                            isotopeConfig.getNumNeutrons(), SMALL_ISOTOPE_RADIUS,
+                            model.getIsotopeTestChamber().generateRandomLocation(), model.getClock() );
+                    model.getIsotopeTestChamber().addIsotopeToChamber( newIsotope );
+                    model.notifyIsotopeInstanceAdded( newIsotope );
+                }
+            }
+            else if ( changeAmount < 0 ){
+                for (int i = 0; i < -changeAmount; i++){
+                    MovableAtom isotope = model.getIsotopeTestChamber().removeIsotopeMatchingConfig( isotopeConfig );
+                    if (isotope != null){
+                        isotope.removeFromModel();
+                        isotope.removedFromModel();
+                    }
+                }
+            }
         }
     }
 }

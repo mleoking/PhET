@@ -8,7 +8,6 @@ import java.awt.Font;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 
-import javax.swing.BorderFactory;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -19,7 +18,6 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -34,7 +32,7 @@ public class IsotopeSliderNode extends PNode {
 
     private static final Dimension2D SIZE = new PDimension( 170, 75 );
 
-    public IsotopeSliderNode( IsotopeMixturesModel.LinearAddRemoveIsotopesControl modelControl, ModelViewTransform mvt ){
+    public IsotopeSliderNode( final IsotopeMixturesModel.LinearAddRemoveIsotopesControl modelControl, ModelViewTransform mvt ){
         PNode enclosure = new PhetPPath(
                 new Rectangle2D.Double( -SIZE.getWidth() / 2, -SIZE.getHeight() / 2, SIZE.getWidth(), SIZE.getHeight() ),
                 Color.WHITE,
@@ -44,7 +42,7 @@ public class IsotopeSliderNode extends PNode {
         addChild( enclosure );
 
         // Add the slider that controls the quantity of this isotope.
-        LinearValueControl isotopeQuantityControl;
+        final LinearValueControl isotopeQuantityControl;
         isotopeQuantityControl = new LinearValueControl(
                 0, 100, modelControl.getAtomConfig().getName() + "-" + modelControl.getAtomConfig().getMassNumber(),
                 "###",
@@ -60,7 +58,7 @@ public class IsotopeSliderNode extends PNode {
         isotopeQuantityControl.getSlider().setBackground( IsotopeMixturesCanvas.BACKGROUND_COLOR );
         isotopeQuantityControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                // TODO: TBD.
+                modelControl.setIsotopeQuantity( (int)Math.round( isotopeQuantityControl.getValue() ) );
             }
         });
 
