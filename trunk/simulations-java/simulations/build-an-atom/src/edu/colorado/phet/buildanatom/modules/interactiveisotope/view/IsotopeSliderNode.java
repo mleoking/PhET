@@ -8,6 +8,7 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 
 import javax.swing.ImageIcon;
+import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -15,6 +16,7 @@ import edu.colorado.phet.buildanatom.modules.isotopemixture.model.IsotopeMixture
 import edu.colorado.phet.buildanatom.modules.isotopemixture.model.MovableAtom;
 import edu.colorado.phet.buildanatom.modules.isotopemixture.view.IsotopeMixturesCanvas;
 import edu.colorado.phet.buildanatom.modules.isotopemixture.view.LabeledIsotopeNode;
+import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.DefaultLayoutStrategy;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -40,10 +42,10 @@ public class IsotopeSliderNode extends PNode {
         addChild( rootNode );
 
         // Add the slider that controls the quantity of this isotope in the
-        // test chamber within the model.
+        // test chamber.
         LinearValueControl isotopeQuantityControl = null;
         String label = modelControl.getAtomConfig().getName() + "-" + modelControl.getAtomConfig().getMassNumber();
-        isotopeQuantityControl = new LinearValueControl( 0, modelControl.getCapacity(), label, "##", null){{
+        isotopeQuantityControl = new LinearValueControl( 0, modelControl.getCapacity(), label, "##", null, new DefaultLayoutStrategy(SwingConstants.CENTER)){{
                     setUpDownArrowDelta( 1 );
                     setMajorTicksVisible( false );
                     setTextFieldEditable( true );
