@@ -6,5 +6,5 @@ import java.io.Serializable;
 /**
  * @author Sam Reid
  */
-public class GetThumbnails implements Serializable {
+public class ShowClassroom implements Serializable {
 }

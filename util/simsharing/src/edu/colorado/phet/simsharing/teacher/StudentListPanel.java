@@ -10,10 +10,9 @@ import java.util.ArrayList;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
-import edu.colorado.phet.gravityandorbits.simsharing.SerializableBufferedImage;
-import edu.colorado.phet.simsharing.GetThumbnails;
-import edu.colorado.phet.simsharing.Pair;
+import edu.colorado.phet.simsharing.ShowClassroom;
 import edu.colorado.phet.simsharing.StudentID;
+import edu.colorado.phet.simsharing.StudentSummary;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
@@ -52,9 +51,10 @@ public class StudentListPanel extends PSwingCanvas {
 
     private void updateStudentList() {
         double y = 0;
-        final StudentList newData = (StudentList) server.sendRequestReply( new GetThumbnails() );
-        for ( final Pair<StudentID, SerializableBufferedImage> elm : newData.getStudentIDs() ) {
-            final StudentID studentID = elm._1;
+        final StudentList list = (StudentList) server.sendRequestReply( new ShowClassroom() );
+        for ( int i = 0; i < list.size(); i++ ) {
+            StudentSummary student = list.get( i );
+            final StudentID studentID = student.getStudentID();
             StudentComponent component = getComponent( studentID );
             if ( component == null ) {
                 component = new StudentComponent( studentID, new VoidFunction0() {
@@ -64,7 +64,9 @@ public class StudentListPanel extends PSwingCanvas {
                 } );
                 studentNode.addChild( component );
             }
-            component.setThumbnail( elm._2.getBufferedImage() );
+            component.setThumbnail( student.getBufferedImage() );
+            component.setUpTime( student.getUpTime() );
+            component.setTimeSinceLastEvent( student.getTimeSinceLastEvent() );
             component.setOffset( 0, y + 2 );
             y = component.getFullBounds().getMaxY();
         }
@@ -73,7 +75,7 @@ public class StudentListPanel extends PSwingCanvas {
         ArrayList<PNode> toRemove = new ArrayList<PNode>();
         for ( int i = 0; i < studentNode.getChildrenCount(); i++ ) {
             PNode child = studentNode.getChild( i );
-            if ( child instanceof StudentComponent && !newData.containsStudent( ( (StudentComponent) child ).getStudentID() ) ) {
+            if ( child instanceof StudentComponent && !list.containsStudent( ( (StudentComponent) child ).getStudentID() ) ) {
                 toRemove.add( child );
             }
         }

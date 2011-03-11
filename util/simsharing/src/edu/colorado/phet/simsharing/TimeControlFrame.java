@@ -21,10 +21,10 @@ import static edu.colorado.phet.common.phetcommon.model.property.Not.not;
  * @author Sam Reid
  */
 public class TimeControlFrame extends JFrame {
-    final Property<Integer> maxFrames = new Property<Integer>( 0 );
-    final BooleanProperty live = new BooleanProperty( true );
-    final Property<Integer> frameToDisplay = new Property<Integer>( 0 );
-    final BooleanProperty playing = new BooleanProperty( false );
+    public final Property<Integer> maxFrames = new Property<Integer>( 0 );
+    public final BooleanProperty live = new BooleanProperty( true );
+    public final Property<Integer> frameToDisplay = new Property<Integer>( 0 );
+    public final BooleanProperty playing = new BooleanProperty( false );
 
     public TimeControlFrame( StudentID studentID ) throws HeadlessException {
         super( "Time controls: " + studentID );

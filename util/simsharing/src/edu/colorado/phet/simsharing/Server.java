@@ -27,11 +27,10 @@ import static akka.actor.Actors.remote;
 public class Server {
     public static int PORT = 44101;
     public static String HOST_IP_ADDRESS = "128.138.145.107";//phet-server, but can be mutated to specify a different host
-
-    private HashMap<StudentID, ArrayList<Object>> dataPoints = new HashMap<StudentID, ArrayList<Object>>();
     public static String[] names = new String[] { "Alice", "Bob", "Charlie", "Danielle", "Earl", "Frankie", "Gail", "Hank", "Isabelle", "Joe", "Kim", "Lucy", "Mikey", "Nathan", "Ophelia", "Parker", "Quinn", "Rusty", "Shirley", "Tina", "Uther Pendragon", "Vivian", "Walt", "Xander", "Yolanda", "Zed" };
     private int connectionCount = 0;
     private ArrayList<StudentID> students = new ArrayList<StudentID>();
+    private HashMap<StudentID, ArrayList<Sample>> dataPoints = new HashMap<StudentID, ArrayList<Sample>>();
 
     public static void main( String[] args ) throws IOException {
         Server.parseArgs( args );
@@ -50,8 +49,8 @@ public class Server {
         System.out.println( "Using host: " + HOST_IP_ADDRESS );
     }
 
-    public Object getDataPoint( TeacherDataRequest request ) {
-        final ArrayList<Object> objects = getData( request.getStudentID() );
+    public Sample getSample( TeacherDataRequest request ) {
+        final ArrayList<Sample> objects = getData( request.getStudentID() );
         if ( objects != null ) {
             final int requestedIndex = request.getTime().equals( Time.LIVE ) ?
                                        objects.size() - 1 :
@@ -66,7 +65,7 @@ public class Server {
         else { return null; }
     }
 
-    private ArrayList<Object> getData( StudentID id ) {
+    private ArrayList<Sample> getData( StudentID id ) {
         return dataPoints.get( id );
     }
 
@@ -77,9 +76,9 @@ public class Server {
                     public void onReceive( Object o ) {
                         if ( o instanceof TeacherDataRequest ) {
                             TeacherDataRequest request = (TeacherDataRequest) o;
-                            Object data = getDataPoint( request );
+                            Sample data = getSample( request );
                             if ( data != null ) {
-                                getContext().replySafe( new Pair<Object, StudentMetadata>( data, new StudentMetadata( request.getStudentID(), getData( request.getStudentID() ).size(), System.currentTimeMillis() ) ) );
+                                getContext().replySafe( new Pair<Sample, StudentMetadata>( data, new StudentMetadata( request.getStudentID(), getData( request.getStudentID() ).size(), System.currentTimeMillis() ) ) );
                             }
                             else {
                                 getContext().replySafe( null );
@@ -98,28 +97,30 @@ public class Server {
                             store( studentID );
                             dataPoints.remove( studentID );//Free system memory
                         }
-                        else if ( o instanceof GetThumbnails ) {
-                            ArrayList<Pair<StudentID, SerializableBufferedImage>> list = new ArrayList<Pair<StudentID, SerializableBufferedImage>>();
+                        else if ( o instanceof ShowClassroom ) {
+                            ArrayList<StudentSummary> list = new ArrayList<StudentSummary>();
                             for ( StudentID student : students ) {
-                                final GravityAndOrbitsApplicationState latestDataPoint = (GravityAndOrbitsApplicationState) getDataPoint( new TeacherDataRequest( student, Time.LIVE ) );
-                                if ( latestDataPoint != null ) {
-                                    list.add( new Pair<StudentID, SerializableBufferedImage>( student, latestDataPoint.getThumbnail() ) );
+                                final Sample latestDataPoint = getSample( new TeacherDataRequest( student, Time.LIVE ) );
+                                SerializableBufferedImage image = null;
+                                if ( latestDataPoint != null && latestDataPoint.getData() != null ) {
+                                    image = ( (GravityAndOrbitsApplicationState) latestDataPoint.getData() ).getThumbnail();
                                 }
+                                list.add( new StudentSummary( student, image, getUpTime( student ), getTimeSinceLastEvent( student ) ) );
                             }
                             getContext().replySafe( new StudentList( list ) );
                         }
                         else if ( o instanceof StudentDataSample ) {
                             StudentDataSample studentDataSample = (StudentDataSample) o;
                             if ( !dataPoints.containsKey( studentDataSample.getStudentID() ) ) {
-                                dataPoints.put( studentDataSample.getStudentID(), new ArrayList<Object>() );
+                                dataPoints.put( studentDataSample.getStudentID(), new ArrayList<Sample>() );
                             }
-                            dataPoints.get( studentDataSample.getStudentID() ).add( studentDataSample.getData() );//TODO: storing everything in system memory will surely result in memory problems
+                            dataPoints.get( studentDataSample.getStudentID() ).add( new Sample( System.currentTimeMillis(), studentDataSample.getData() ) );//TODO: storing everything in system memory will surely result in memory problems
                         }
                     }
 
                     private void store( StudentID studentID ) {
                         try {
-                            final ArrayList<Object> data = getData( studentID );
+                            final ArrayList<Sample> data = getData( studentID );
                             final File saveFile = new File( "simsharing-data/" + System.nanoTime() + ".ser" ) {{
                                 getParentFile().mkdirs();
                             }};
@@ -138,5 +139,18 @@ public class Server {
                 };
             }
         } ) );
+    }
+
+    private long getTimeSinceLastEvent( StudentID student ) {
+        final ArrayList<Sample> data = getData( student );
+        if ( data == null ) { return -1; }
+        return System.currentTimeMillis() - data.get( data.size() - 1 ).getTime();
+    }
+
+    //how long has student been logged in
+    private long getUpTime( StudentID student ) {
+        final ArrayList<Sample> data = getData( student );
+        if ( data == null ) { return -1; }
+        return data.get( data.size() - 1 ).getTime() - data.get( 0 ).getTime();
     }
 }
