@@ -16,6 +16,10 @@ public class SerializableBufferedImage implements Serializable {
 
     private byte[] byteImage = null;
 
+    //for persistence
+    public SerializableBufferedImage() {
+    }
+
     public SerializableBufferedImage( BufferedImage bufferedImage ) {
         this.byteImage = toByteArray( bufferedImage, "JPG" );
 //        byte[] png = toByteArray( bufferedImage, "PNG" );

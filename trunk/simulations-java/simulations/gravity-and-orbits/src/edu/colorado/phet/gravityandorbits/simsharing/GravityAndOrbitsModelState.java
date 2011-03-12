@@ -16,6 +16,9 @@ public class GravityAndOrbitsModelState implements Serializable {
     private double simulationTime;
     private ArrayList<PersistentBodyState> persistentBodyStates;
 
+    public GravityAndOrbitsModelState() {
+    }
+
     public GravityAndOrbitsModelState( GravityAndOrbitsModel gravityAndOrbitsModel ) {
         simulationTime = gravityAndOrbitsModel.getClock().getSimulationTime();
         paused = gravityAndOrbitsModel.getClock().isPaused();

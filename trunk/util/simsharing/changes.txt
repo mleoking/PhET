@@ -1,4 +1,5 @@
 # 00.00.20 (49744) Mar 12, 2011
+Feasibility test for MongoDB + Morphea
 # 00.00.19 (49742) Mar 12, 2011
 Provide single data points instead of batches for recordings
 # 00.00.18 (49740) Mar 11, 2011
