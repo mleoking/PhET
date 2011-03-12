@@ -10,9 +10,12 @@ import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsMode;
  * @author Sam Reid
  */
 public class GravityAndOrbitsModeState implements Serializable {
-    private final GravityAndOrbitsModelState modelState;
-    private final ImmutableVector2D measuringTapeStartPoint;
-    private final ImmutableVector2D measuringTapeEndPoint;
+    private GravityAndOrbitsModelState modelState;
+    private ImmutableVector2D measuringTapeStartPoint;
+    private ImmutableVector2D measuringTapeEndPoint;
+
+    public GravityAndOrbitsModeState() {
+    }
 
     public GravityAndOrbitsModeState( GravityAndOrbitsMode mode ) {
         modelState = new GravityAndOrbitsModelState( mode.getModel() );
