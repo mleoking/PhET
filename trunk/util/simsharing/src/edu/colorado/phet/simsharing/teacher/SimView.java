@@ -25,7 +25,7 @@ public class SimView {
     private final SampleSource sampleSource;
 
     public static interface SampleSource {
-        Pair<Sample, StudentMetadata> getSample( Time time );
+        Sample getSample( int index );
 
         public static class RemoteActor implements SampleSource {
             final ActorRef server;
@@ -36,13 +36,12 @@ public class SimView {
                 this.studentID = studentID;
             }
 
-            public Pair<Sample, StudentMetadata> getSample( Time time ) {
-                return (Pair<Sample, StudentMetadata>) server.sendRequestReply( new GetStudentData( studentID, time ) );
+            public Sample getSample( int index ) {
+                return (Sample) server.sendRequestReply( new GetStudentData( studentID, index ) );
             }
         }
 
         public static class RecordedData implements SampleSource {
-
             private final String recording;
             private final ActorRef server;
 
@@ -51,14 +50,8 @@ public class SimView {
                 this.server = server;
             }
 
-            public Pair<Sample, StudentMetadata> getSample( Time time ) {
-                if ( time instanceof Time.Index ) {
-                    final int index = ( (Time.Index) time ).index;
-                    return (Pair<Sample, StudentMetadata>) server.sendRequestReply( new GetRecordingSample( recording, index ) );
-                }
-                else {
-                    return null;
-                }
+            public Sample getSample( int index ) {
+                return (Sample) server.sendRequestReply( new GetRecordingSample( recording, index ) );
             }
         }
     }
@@ -93,15 +86,15 @@ public class SimView {
                 e.printStackTrace();
             }
 
-            final Pair<Sample, StudentMetadata> pair = sampleSource.getSample( timeControl.live.getValue() ? Time.LIVE : new Time.Index( timeControl.frameToDisplay.getValue() ) );
+            final Sample pair = sampleSource.getSample( timeControl.live.getValue() ? -1 : timeControl.frameToDisplay.getValue() );
             if ( pair != null ) {
-                final GravityAndOrbitsApplicationState state = (GravityAndOrbitsApplicationState) pair._1.getData();
+                final GravityAndOrbitsApplicationState state = (GravityAndOrbitsApplicationState) pair.getData();
                 if ( state != null ) {
                     try {
                         SwingUtilities.invokeAndWait( new Runnable() {
                             public void run() {
                                 state.apply( application );
-                                timeControl.maxFrames.setValue( pair._2.getNumSamples() );
+                                timeControl.maxFrames.setValue( 1000 );//TODO: fix this max value
                             }
                         } );
                     }

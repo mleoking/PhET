@@ -7,12 +7,19 @@ import java.io.Serializable;
  * @author Sam Reid
  */
 public class Sample implements Serializable {
-    long time;//server time
-    private final Object data;
+    private long time;//server time
+    private StudentID studentID;
+    private Object data;
+    private long index;
 
-    public Sample( long time, Object data ) {
+    public Sample( long time, StudentID studentID, Object data, int index ) {
         this.time = time;
+        this.studentID = studentID;
         this.data = data;
+        this.index = index;
+    }
+
+    public Sample() {
     }
 
     public Object getData() {
