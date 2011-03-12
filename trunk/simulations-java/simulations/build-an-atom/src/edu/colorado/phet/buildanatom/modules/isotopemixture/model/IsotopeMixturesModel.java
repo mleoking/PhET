@@ -200,7 +200,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
         // set to be sliders, since that is all that is initially needed.
         assert interactivityModeProperty.getValue() == InteractivityMode.SLIDERS_AND_SMALL_ATOMS;
         MovableAtom removedIsotope = testChamber.removeIsotopeMatchingConfig( isotopeConfig );
-        removedIsotope.removeFromModel();
+        removedIsotope.removedFromModel();
         return removedIsotope;
     }
 
@@ -241,7 +241,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
         for ( MovableAtom isotope : usersMixOfIsotopesCopy ){
             // Signal the isotope that it has been removed from the model.
             isotope.removeListener( isotopeGrabbedListener );
-            isotope.removeFromModel();
+            isotope.removedFromModel();
         }
 
         // Remove all existing isotopes from nature's mix.  Note that this
@@ -251,7 +251,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
         for ( MovableAtom isotope : naturesMixOfIsotopesCopy ){
             // Signal the isotope that it has been removed from the model.
             isotope.removeListener( isotopeGrabbedListener );
-            isotope.removeFromModel();
+            isotope.removedFromModel();
         }
 
         // Update the prototype atom (a.k.a. isotope) configuration.
@@ -455,7 +455,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
             if ( testChamber.getTestChamberRect().contains( isotope.getPosition() ) ){
                 testChamber.removeIsotopeFromChamber( isotope );
             }
-            isotope.getPartOfModelProperty().setValue( false );
+            isotope.removedFromModel();
         }
     }
 
@@ -489,7 +489,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
             if ( testChamber.getTestChamberRect().contains( isotope.getPosition() )){
                 testChamber.addIsotopeToChamber( isotope );
             }
-            isotope.getPartOfModelProperty().setValue( true );
+            isotope.removedFromModel();
             notifyIsotopeInstanceAdded( isotope );
         }
     }
@@ -531,7 +531,6 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
         // Send out notifications of the isotopes being added to the model.
         for ( MovableAtom isotope : naturesMixOfIsotopes ){
             testChamber.addIsotopeToChamber( isotope );
-            isotope.getPartOfModelProperty().setValue( true );
             notifyIsotopeInstanceAdded( isotope );
         }
     }
@@ -539,7 +538,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
     private void hideNaturesMix(){
         for ( MovableAtom isotope : naturesMixOfIsotopes ){
             testChamber.removeIsotopeFromChamber( isotope );
-            isotope.getPartOfModelProperty().setValue( false );
+            isotope.removedFromModel();
         }
     }
 
@@ -797,7 +796,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
             for ( MovableAtom isotope : containedIsotopesCopy ) {
                 removeIsotopeFromChamber( isotope );
                 if ( removeFromModel ){
-                    isotope.removeFromModel();
+                    isotope.removedFromModel();
                 }
             }
             assert isotopeCountProperty.getValue() == 0;      // Logical consistency check.
@@ -946,7 +945,6 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
                 for (int i = 0; i < -changeAmount; i++){
                     MovableAtom isotope = model.getIsotopeTestChamber().removeIsotopeMatchingConfig( isotopeConfig );
                     if (isotope != null){
-                        isotope.removeFromModel();
                         isotope.removedFromModel();
                     }
                 }
