@@ -61,9 +61,7 @@ public abstract class SphericalParticle {
         this.radius = radius;
         position = new Property<Point2D.Double>( new Point2D.Double( x, y ) );
         this.destination.setLocation( x, y );
-        if ( clock != null ){
-            clock.addClockListener( clockListener );
-        }
+        addedToModel(); // Assume that this is initially an active part of the model.
         userControlled.addObserver( new SimpleObserver() {
             public void update() {
                 ArrayList<Listener> copy = new ArrayList<Listener>( listeners );//ConcurrentModificationException if listener removed while iterating, so use a copy
@@ -188,6 +186,16 @@ public abstract class SphericalParticle {
         ArrayList<Listener> copyOfListeners = new ArrayList<Listener>( listeners );
         for ( Listener listener : copyOfListeners ) {
             listener.removedFromModel( this );
+        }
+    }
+
+    /**
+     * Call this when adding this element to the model, or when re-adding
+     * after having removed it.
+     */
+    public void addedToModel(){
+        if ( clock != null ){
+            clock.addClockListener( clockListener );
         }
     }
 

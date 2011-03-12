@@ -16,6 +16,7 @@ import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
 import edu.colorado.phet.buildanatom.model.ImmutableAtom;
 import edu.colorado.phet.buildanatom.model.MonoIsotopeParticleBucket;
+import edu.colorado.phet.buildanatom.model.SphericalParticle;
 import edu.colorado.phet.buildanatom.modules.interactiveisotope.view.IsotopeSliderNode;
 import edu.colorado.phet.buildanatom.modules.isotopemixture.model.IsotopeMixturesModel;
 import edu.colorado.phet.buildanatom.modules.isotopemixture.model.MovableAtom;
@@ -112,12 +113,12 @@ public class IsotopeMixturesCanvas extends PhetPCanvas {
                 // Add a representation of the new atom to the canvas.
                 final LabeledIsotopeNode isotopeNode = new LabeledIsotopeNode( mvt, atom, model.getColorForIsotope( atom.getAtomConfiguration() ) );
                 particleLayer.addChild( isotopeNode );
-                atom.getPartOfModelProperty().addObserver( new SimpleObserver(){
-                    public void update() {
-                        if ( !atom.getPartOfModelProperty().getValue() )
+                atom.addListener( new SphericalParticle.Adapter() {
+                    @Override
+                    public void removedFromModel( SphericalParticle particle ){
                         particleLayer.removeChild( isotopeNode );
                     }
-                }, false);
+                } );
                 // If the model is portraying "nature's mix" of isotopes,
                 // disallow user interaction with these particles.
                 if ( model.getShowingNaturesMixProperty().getValue() ){

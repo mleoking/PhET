@@ -32,11 +32,6 @@ public class MovableAtom extends SphericalParticle {
     // Instance Data
     // ------------------------------------------------------------------------
 
-    // Property that tracks whether this atom is currently part of the larger
-    // model.  This is generally watched by the view so that any view
-    // representation can be removed when this is set to false.
-    private final BooleanProperty partOfModelProperty = new BooleanProperty( true );
-
     // ------------------------------------------------------------------------
     // Constructor(s)
     // ------------------------------------------------------------------------
@@ -73,26 +68,6 @@ public class MovableAtom extends SphericalParticle {
     @Override
     public double getRadius(){
         return radius;
-    }
-
-    /**
-     * Method to call when this model element is removed from the larger
-     * model.
-     */
-    public void removeFromModel(){
-        partOfModelProperty.setValue( false );
-    }
-
-    /**
-     * Get the property that indicates whether this model element is included
-     * as part of the larger model.  This property is generally monitored by
-     * the view so that any representation in the view can be removed if this
-     * transitions to false.
-     *
-     * @return
-     */
-    public BooleanProperty getPartOfModelProperty(){
-        return partOfModelProperty;
     }
 
     // ------------------------------------------------------------------------
