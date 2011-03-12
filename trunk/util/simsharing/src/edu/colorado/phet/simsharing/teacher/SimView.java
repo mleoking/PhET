@@ -40,20 +40,6 @@ public class SimView {
                 return (Sample) server.sendRequestReply( new GetStudentData( studentID, index ) );
             }
         }
-
-        public static class RecordedData implements SampleSource {
-            private final String recording;
-            private final ActorRef server;
-
-            public RecordedData( String recording, ActorRef server ) {
-                this.recording = recording;
-                this.server = server;
-            }
-
-            public Sample getSample( int index ) {
-                return (Sample) server.sendRequestReply( new GetRecordingSample( recording, index ) );
-            }
-        }
     }
 
     public SimView( final String[] args, final StudentID studentID, SampleSource sampleSource ) {
@@ -86,15 +72,15 @@ public class SimView {
                 e.printStackTrace();
             }
 
-            final Sample pair = sampleSource.getSample( timeControl.live.getValue() ? -1 : timeControl.frameToDisplay.getValue() );
-            if ( pair != null ) {
-                final GravityAndOrbitsApplicationState state = (GravityAndOrbitsApplicationState) pair.getData();
+            final Sample sample = sampleSource.getSample( timeControl.live.getValue() ? -1 : timeControl.frameToDisplay.getValue() );
+            if ( sample != null ) {
+                final GravityAndOrbitsApplicationState state = (GravityAndOrbitsApplicationState) sample.getData();
                 if ( state != null ) {
                     try {
                         SwingUtilities.invokeAndWait( new Runnable() {
                             public void run() {
                                 state.apply( application );
-                                timeControl.maxFrames.setValue( 1000 );//TODO: fix this max value
+                                timeControl.maxFrames.setValue( 1000 );
                             }
                         } );
                     }

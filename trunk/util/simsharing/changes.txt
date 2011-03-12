@@ -1,3 +1,4 @@
+Updated recording playback to work with mongobd
 # 00.00.20 (49744) Mar 12, 2011
 Feasibility test for MongoDB + Morphia
 # 00.00.19 (49742) Mar 12, 2011

@@ -20,7 +20,7 @@ import edu.colorado.phet.simsharing.StudentID;
 public class RecordingView extends VerticalLayoutPanel {
     public JList recordingList;
     private final ActorRef server;
-    String lastShownRecording = "";
+    StudentID lastShownRecording = new StudentID( -123, "test" );
 
     public RecordingView( final ActorRef server, String[] args ) {
         this.server = server;
@@ -28,11 +28,11 @@ public class RecordingView extends VerticalLayoutPanel {
         recordingList = new JList() {{
             addListSelectionListener( new ListSelectionListener() {
                 public void valueChanged( ListSelectionEvent e ) {
-                    final Object selectedValue = recordingList.getSelectedValue();
+                    final StudentID selectedValue = (StudentID) recordingList.getSelectedValue();
                     System.out.println( selectedValue );
-                    if ( selectedValue != null && !lastShownRecording.equals( selectedValue.toString() ) ) {
-                        showRecording( selectedValue.toString() );
-                        lastShownRecording = selectedValue.toString();
+                    if ( selectedValue != null && !lastShownRecording.equals( selectedValue ) ) {
+                        showRecording( selectedValue );
+                        lastShownRecording = selectedValue;
                     }
                 }
             } );
@@ -46,9 +46,9 @@ public class RecordingView extends VerticalLayoutPanel {
         } ) {{setInitialDelay( 0 );}}.start();
     }
 
-    private void showRecording( String recording ) {
-        System.out.println( "recording = " + recording );
-        new SimView( new String[0], new StudentID( 0, "Recorded Student" ), new SimView.SampleSource.RecordedData( recording, server ) ).start();
+    private void showRecording( StudentID studentID ) {
+        System.out.println( "recording = " + studentID );
+        new SimView( new String[0], studentID, new SimView.SampleSource.RemoteActor( server, studentID ) ).start();
     }
 
     private void updateRecordingList() {
