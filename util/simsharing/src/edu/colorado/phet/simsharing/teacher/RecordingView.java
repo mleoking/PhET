@@ -31,8 +31,7 @@ public class RecordingView extends VerticalLayoutPanel {
                     final Object selectedValue = recordingList.getSelectedValue();
                     System.out.println( selectedValue );
                     if ( selectedValue != null && !lastShownRecording.equals( selectedValue.toString() ) ) {
-                        Recording recording = (Recording) server.sendRequestReply( new GetRecording( selectedValue.toString() ), 1000 * 60 * 60, null );
-                        showRecording( recording );
+                        showRecording( selectedValue.toString() );
                         lastShownRecording = selectedValue.toString();
                     }
                 }
@@ -47,9 +46,9 @@ public class RecordingView extends VerticalLayoutPanel {
         } ) {{setInitialDelay( 0 );}}.start();
     }
 
-    private void showRecording( Recording recording ) {
+    private void showRecording( String recording ) {
         System.out.println( "recording = " + recording );
-        new SimView( new String[0], new StudentID( 0, "Recorded Student" ), new SimView.SampleSource.RecordedData( recording ) ).start();
+        new SimView( new String[0], new StudentID( 0, "Recorded Student" ), new SimView.SampleSource.RecordedData( recording, server ) ).start();
     }
 
     private void updateRecordingList() {

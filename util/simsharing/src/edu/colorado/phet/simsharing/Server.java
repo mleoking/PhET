@@ -10,7 +10,10 @@ import java.util.*;
 
 import edu.colorado.phet.gravityandorbits.simsharing.GravityAndOrbitsApplicationState;
 import edu.colorado.phet.gravityandorbits.simsharing.SerializableBufferedImage;
-import edu.colorado.phet.simsharing.teacher.*;
+import edu.colorado.phet.simsharing.teacher.GetRecordingList;
+import edu.colorado.phet.simsharing.teacher.GetRecordingSample;
+import edu.colorado.phet.simsharing.teacher.RecordingList;
+import edu.colorado.phet.simsharing.teacher.StudentList;
 
 import static akka.actor.Actors.actorOf;
 import static akka.actor.Actors.remote;
@@ -25,6 +28,7 @@ public class Server {
     private int connectionCount = 0;
     private ArrayList<StudentID> students = new ArrayList<StudentID>();
     private HashMap<StudentID, ArrayList<Sample>> dataPoints = new HashMap<StudentID, ArrayList<Sample>>();
+    private Hashtable<File, ArrayList<Sample>> recordings = new Hashtable<File, ArrayList<Sample>>(); //TODO: clear this cache so it doesn't overflow memory
 
     public static void main( String[] args ) throws IOException {
         Server.parseArgs( args );
@@ -124,13 +128,25 @@ public class Server {
                             }
                             getContext().replySafe( recordingList );
                         }
-                        else if ( o instanceof GetRecording ) {
-                            GetRecording getRecording = (GetRecording) o;
+                        else if ( o instanceof GetRecordingSample ) {
+                            GetRecordingSample getRecording = (GetRecordingSample) o;
                             File f = new File( getRecording.getFilename() );
                             try {
-                                ObjectInputStream objectInputStream = new ObjectInputStream( new FileInputStream( f ) );
-                                ArrayList<Sample> recording = (ArrayList<Sample>) objectInputStream.readObject();
-                                getContext().replySafe( new Recording( recording ) );
+                                ArrayList<Sample> recording;
+                                if ( recordings.containsKey( f ) ) {
+                                    recording = recordings.get( f );
+                                }
+                                else {
+                                    ObjectInputStream objectInputStream = new ObjectInputStream( new FileInputStream( f ) );
+                                    recording = (ArrayList<Sample>) objectInputStream.readObject();
+                                    objectInputStream.close();
+                                    recordings.put( f, recording );
+                                }
+
+                                final Sample sample = recording.get( getRecording.getIndex() );
+
+                                Pair<Sample, StudentMetadata> result = new Pair<Sample, StudentMetadata>( sample, new StudentMetadata( new StudentID( -1, "student recording" ), recording.size(), System.currentTimeMillis() ) );
+                                getContext().replySafe( result );
                             }
                             catch ( Exception e ) {
                                 e.printStackTrace();

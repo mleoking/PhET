@@ -43,20 +43,22 @@ public class SimView {
 
         public static class RecordedData implements SampleSource {
 
-            private final Recording recording;
+            private final String recording;
+            private final ActorRef server;
 
-            public RecordedData( Recording recording ) {
+            public RecordedData( String recording, ActorRef server ) {
                 this.recording = recording;
+                this.server = server;
             }
 
             public Pair<Sample, StudentMetadata> getSample( Time time ) {
                 if ( time instanceof Time.Index ) {
                     final int index = ( (Time.Index) time ).index;
-                    if ( index >= 0 && index < recording.getSamples().size() ) {
-                        return new Pair<Sample, StudentMetadata>( recording.getSamples().get( index ), new StudentMetadata( new StudentID( 0, "hello" ), recording.samples.size(), -1 ) );
-                    }
+                    return (Pair<Sample, StudentMetadata>) server.sendRequestReply( new GetRecordingSample( recording, index ) );
                 }
-                return null;
+                else {
+                    return null;
+                }
             }
         }
     }
