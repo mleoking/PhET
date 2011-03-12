@@ -129,8 +129,8 @@ public class Server {
                             getContext().replySafe( recordingList );
                         }
                         else if ( o instanceof GetRecordingSample ) {
-                            GetRecordingSample getRecording = (GetRecordingSample) o;
-                            File f = new File( getRecording.getFilename() );
+                            GetRecordingSample request = (GetRecordingSample) o;
+                            File f = new File( request.getFilename() );
                             try {
                                 ArrayList<Sample> recording;
                                 if ( recordings.containsKey( f ) ) {
@@ -143,10 +143,14 @@ public class Server {
                                     recordings.put( f, recording );
                                 }
 
-                                final Sample sample = recording.get( getRecording.getIndex() );
-
-                                Pair<Sample, StudentMetadata> result = new Pair<Sample, StudentMetadata>( sample, new StudentMetadata( new StudentID( -1, "student recording" ), recording.size(), System.currentTimeMillis() ) );
-                                getContext().replySafe( result );
+                                if ( recording.size() > 0 && request.getIndex() < recording.size() ) {
+                                    final Sample sample = recording.get( request.getIndex() );
+                                    Pair<Sample, StudentMetadata> result = new Pair<Sample, StudentMetadata>( sample, new StudentMetadata( new StudentID( -1, "student recording" ), recording.size(), System.currentTimeMillis() ) );
+                                    getContext().replySafe( result );
+                                }
+                                else {
+                                    getContext().replySafe( null );
+                                }
                             }
                             catch ( Exception e ) {
                                 e.printStackTrace();
