@@ -15,6 +15,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.gravityandorbits.GravityAndOrbitsApplication;
 import edu.colorado.phet.gravityandorbits.simsharing.GravityAndOrbitsApplicationState;
+import edu.colorado.phet.gravityandorbits.simsharing.ImageFactory;
 
 /**
  * @author Sam Reid
@@ -23,6 +24,7 @@ public class Student {
     private final String[] args;
     private int count = 0;//Only send messages every count%N frames
     protected StudentID studentID;
+    private ImageFactory imageFactory = new ImageFactory();
 
     public Student( String[] args ) {
         this.args = args;
@@ -54,7 +56,7 @@ public class Student {
 
             public void apply() {
                 if ( count % N == 0 ) {
-                    GravityAndOrbitsApplicationState state = new GravityAndOrbitsApplicationState( application );
+                    GravityAndOrbitsApplicationState state = new GravityAndOrbitsApplicationState( application, imageFactory );
                     if ( studentID == null ) {
                         if ( !startedMessage ) {
                             System.out.print( "Awaiting ID" );

@@ -9,18 +9,18 @@ import java.io.Serializable;
 public class GetStudentData implements Serializable {
 
     private final StudentID selected;
-    private final Time time;
+    private int index;
 
-    public GetStudentData( StudentID selected, Time time ) {
+    public GetStudentData( StudentID selected, int index ) {
         this.selected = selected;
-        this.time = time;
+        this.index = index;
     }
 
     public StudentID getStudentID() {
         return selected;
     }
 
-    public Time getTime() {
-        return time;
+    public int getIndex() {
+        return index;
     }
 }

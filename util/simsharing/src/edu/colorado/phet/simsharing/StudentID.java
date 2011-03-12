@@ -7,8 +7,11 @@ import java.io.Serializable;
  * @author Sam Reid
  */
 public class StudentID implements Serializable {
-    private final int index;
-    private final String name;
+    private int index;
+    private String name;
+
+    public StudentID() {
+    }
 
     public StudentID( int index, String name ) {
         this.index = index;

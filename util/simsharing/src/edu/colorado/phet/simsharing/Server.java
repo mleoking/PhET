@@ -5,7 +5,11 @@ import akka.actor.Actor;
 import akka.actor.UntypedActor;
 import akka.japi.Creator;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.net.UnknownHostException;
 import java.util.*;
 
 import edu.colorado.phet.gravityandorbits.simsharing.GravityAndOrbitsApplicationState;
@@ -14,6 +18,11 @@ import edu.colorado.phet.simsharing.teacher.GetRecordingList;
 import edu.colorado.phet.simsharing.teacher.GetRecordingSample;
 import edu.colorado.phet.simsharing.teacher.RecordingList;
 import edu.colorado.phet.simsharing.teacher.StudentList;
+
+import com.google.code.morphia.Datastore;
+import com.google.code.morphia.Morphia;
+import com.google.code.morphia.query.Query;
+import com.mongodb.Mongo;
 
 import static akka.actor.Actors.actorOf;
 import static akka.actor.Actors.remote;
@@ -27,8 +36,24 @@ public class Server {
     public static String[] names = new String[] { "Alice", "Bob", "Charlie", "Danielle", "Earl", "Frankie", "Gail", "Hank", "Isabelle", "Joe", "Kim", "Lucy", "Mikey", "Nathan", "Ophelia", "Parker", "Quinn", "Rusty", "Shirley", "Tina", "Uther Pendragon", "Vivian", "Walt", "Xander", "Yolanda", "Zed" };
     private int connectionCount = 0;
     private ArrayList<StudentID> students = new ArrayList<StudentID>();
-    private HashMap<StudentID, ArrayList<Sample>> dataPoints = new HashMap<StudentID, ArrayList<Sample>>();
     private Hashtable<File, ArrayList<Sample>> recordings = new Hashtable<File, ArrayList<Sample>>(); //TODO: clear this cache so it doesn't overflow memory
+    final Morphia morphia = new Morphia() {{
+        map( GravityAndOrbitsApplicationState.class );
+    }};
+    Datastore ds;
+    private Hashtable<StudentID, Integer> latestIndexTable = new Hashtable<StudentID, Integer>();
+
+    public Server() {
+        //Testing mongo
+        try {
+            ds = morphia.createDatastore( new Mongo(), "simsharing-test-" + System.currentTimeMillis() );
+            ds.ensureIndexes(); //creates all defined with @Indexed
+            ds.ensureCaps(); //creates all collections for @Entity(cap=@CappedAt(...))
+        }
+        catch ( UnknownHostException e ) {
+            e.printStackTrace();
+        }
+    }
 
     public static void main( String[] args ) throws IOException {
         Server.parseArgs( args );
@@ -47,24 +72,16 @@ public class Server {
         System.out.println( "Using host: " + HOST_IP_ADDRESS );
     }
 
-    public Sample getSample( GetStudentData request ) {
-        final ArrayList<Sample> objects = getData( request.getStudentID() );
-        if ( objects != null ) {
-            final int requestedIndex = request.getTime().equals( Time.LIVE ) ?
-                                       objects.size() - 1 :
-                                       ( (Time.Index) request.getTime() ).index;
-            if ( requestedIndex >= 0 && requestedIndex < objects.size() ) {
-                return objects.get( requestedIndex );
-            }
-            else {
-                return null;
-            }
+    public Sample getSample( StudentID id, int index ) {
+//        long start = System.currentTimeMillis();
+        if ( index == -1 ) {//just get the latest
+            index = getLastIndex( id );
         }
-        else { return null; }
-    }
-
-    private ArrayList<Sample> getData( StudentID id ) {
-        return dataPoints.get( id );
+        Query<Sample> found = ds.find( Sample.class, "studentID", id ).filter( "index", index );
+        final Sample sample = found.get();
+//        long end = System.currentTimeMillis();
+//        System.out.println( "found one, elapsed = " + ( end - start ) );
+        return sample;
     }
 
     private void start() {
@@ -74,13 +91,8 @@ public class Server {
                     public void onReceive( Object o ) {
                         if ( o instanceof GetStudentData ) {
                             GetStudentData request = (GetStudentData) o;
-                            Sample data = getSample( request );
-                            if ( data != null ) {
-                                getContext().replySafe( new Pair<Sample, StudentMetadata>( data, new StudentMetadata( request.getStudentID(), getData( request.getStudentID() ).size(), System.currentTimeMillis() ) ) );
-                            }
-                            else {
-                                getContext().replySafe( null );
-                            }
+                            Sample data = getSample( request.getStudentID(), getLastIndex( request.getStudentID() ) );
+                            getContext().replySafe( data );//could be null
                         }
                         else if ( o instanceof RegisterStudent ) {
                             final StudentID studentID = new StudentID( connectionCount, names[connectionCount % names.length] );
@@ -92,13 +104,13 @@ public class Server {
                             //Save the student info to disk and remove from system memory
                             final StudentID studentID = ( (ExitStudent) o ).getStudentID();
                             students.remove( studentID );
-                            store( studentID );
-                            dataPoints.remove( studentID );//Free system memory
+                            System.out.println( "student exited: " + studentID );
+                            //TODO: clear from hashtable
                         }
                         else if ( o instanceof GetStudentList ) {
                             ArrayList<StudentSummary> list = new ArrayList<StudentSummary>();
                             for ( StudentID student : students ) {
-                                final Sample latestDataPoint = getSample( new GetStudentData( student, Time.LIVE ) );
+                                final Sample latestDataPoint = getSample( student, getLastIndex( student ) );
                                 SerializableBufferedImage image = null;
                                 if ( latestDataPoint != null && latestDataPoint.getData() != null ) {
                                     image = ( (GravityAndOrbitsApplicationState) latestDataPoint.getData() ).getThumbnail();
@@ -108,11 +120,11 @@ public class Server {
                             getContext().replySafe( new StudentList( list ) );
                         }
                         else if ( o instanceof AddStudentDataSample ) {
-                            AddStudentDataSample studentDataSample = (AddStudentDataSample) o;
-                            if ( !dataPoints.containsKey( studentDataSample.getStudentID() ) ) {
-                                dataPoints.put( studentDataSample.getStudentID(), new ArrayList<Sample>() );
-                            }
-                            dataPoints.get( studentDataSample.getStudentID() ).add( new Sample( System.currentTimeMillis(), studentDataSample.getData() ) );//TODO: storing everything in system memory will surely result in memory problems
+                            AddStudentDataSample request = (AddStudentDataSample) o;
+                            int newIndex = getLastIndex( request.getStudentID() ) + 1;
+                            final Sample sample = new Sample( System.currentTimeMillis(), request.getStudentID(), request.getData(), newIndex );
+                            latestIndexTable.put( request.getStudentID(), newIndex );
+                            ds.save( sample );
                         }
                         else if ( o instanceof GetRecordingList ) {
                             GetRecordingList showRecordings = (GetRecordingList) o;
@@ -145,8 +157,7 @@ public class Server {
 
                                 if ( recording.size() > 0 && request.getIndex() < recording.size() ) {
                                     final Sample sample = recording.get( request.getIndex() );
-                                    Pair<Sample, StudentMetadata> result = new Pair<Sample, StudentMetadata>( sample, new StudentMetadata( new StudentID( -1, "student recording" ), recording.size(), System.currentTimeMillis() ) );
-                                    getContext().replySafe( result );
+                                    getContext().replySafe( sample );
                                 }
                                 else {
                                     getContext().replySafe( null );
@@ -159,23 +170,23 @@ public class Server {
                         }
                     }
 
-                    private void store( StudentID studentID ) {
-                        try {
-                            final ArrayList<Sample> data = getData( studentID );
-                            final File saveDir = getSaveDir();
-                            final File saveFile = new File( saveDir, System.nanoTime() + ".ser" );
-                            new ObjectOutputStream( new FileOutputStream( saveFile ) ) {{
-                                writeObject( data );
-                                close();
-                            }};
-                            long bytes = saveFile.length();
-                            long kb = bytes / 1024;
-                            System.out.println( "Saved: " + saveFile.getAbsolutePath() + ", " + data.size() + " samples, " + kb + " KB" );
-                        }
-                        catch ( IOException e ) {
-                            e.printStackTrace();
-                        }
-                    }
+//                    private void store( StudentID studentID ) {
+//                        try {
+//                            final ArrayList<Sample> data = getData( studentID );
+//                            final File saveDir = getSaveDir();
+//                            final File saveFile = new File( saveDir, System.nanoTime() + ".ser" );
+//                            new ObjectOutputStream( new FileOutputStream( saveFile ) ) {{
+//                                writeObject( data );
+//                                close();
+//                            }};
+//                            long bytes = saveFile.length();
+//                            long kb = bytes / 1024;
+//                            System.out.println( "Saved: " + saveFile.getAbsolutePath() + ", " + data.size() + " samples, " + kb + " KB" );
+//                        }
+//                        catch ( IOException e ) {
+//                            e.printStackTrace();
+//                        }
+//                    }
 
                     private File getSaveDir() {
                         return new File( "simsharing-data/" ) {{
@@ -187,16 +198,23 @@ public class Server {
         } ) );
     }
 
+    private int getLastIndex( StudentID studentID ) {
+        return ( latestIndexTable.containsKey( studentID ) ? latestIndexTable.get( studentID ) : 0 );
+    }
+
     private long getTimeSinceLastEvent( StudentID student ) {
-        final ArrayList<Sample> data = getData( student );
-        if ( data == null ) { return -1; }
-        return System.currentTimeMillis() - data.get( data.size() - 1 ).getTime();
+        return -1;
+//        final ArrayList<Sample> data = getData( student );
+//        if ( data == null ) { return -1; }
+//        return System.currentTimeMillis() - data.get( data.size() - 1 ).getTime();
     }
 
     //how long has student been logged in
     private long getUpTime( StudentID student ) {
-        final ArrayList<Sample> data = getData( student );
-        if ( data == null ) { return -1; }
-        return data.get( data.size() - 1 ).getTime() - data.get( 0 ).getTime();
+        return -1;
+//        final ArrayList<Sample> data = getData( student );
+//        if ( data == null ) { return -1; }
+//        return data.get( data.size() - 1 ).getTime() - data.get( 0 ).getTime();
     }
+
 }
