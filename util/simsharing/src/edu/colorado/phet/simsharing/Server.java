@@ -10,7 +10,10 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.UnknownHostException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Hashtable;
+import java.util.List;
 
 import edu.colorado.phet.gravityandorbits.simsharing.GravityAndOrbitsApplicationState;
 import edu.colorado.phet.gravityandorbits.simsharing.SerializableBufferedImage;
@@ -91,7 +94,7 @@ public class Server {
                     public void onReceive( Object o ) {
                         if ( o instanceof GetStudentData ) {
                             GetStudentData request = (GetStudentData) o;
-                            Sample data = getSample( request.getStudentID(), getLastIndex( request.getStudentID() ) );
+                            Sample data = getSample( request.getStudentID(), request.getIndex() );
                             getContext().replySafe( data );//could be null
                         }
                         else if ( o instanceof RegisterStudent ) {
@@ -122,21 +125,15 @@ public class Server {
                         else if ( o instanceof AddStudentDataSample ) {
                             AddStudentDataSample request = (AddStudentDataSample) o;
                             int newIndex = getLastIndex( request.getStudentID() ) + 1;
-                            final Sample sample = new Sample( System.currentTimeMillis(), request.getStudentID(), request.getData(), newIndex );
+                            final Sample sample = new Sample( System.currentTimeMillis(), request.getStudentID(), request.getData(), newIndex, newIndex );
                             latestIndexTable.put( request.getStudentID(), newIndex );
                             ds.save( sample );
                         }
                         else if ( o instanceof GetRecordingList ) {
                             GetRecordingList showRecordings = (GetRecordingList) o;
-                            File[] f = getSaveDir().listFiles();
-                            Arrays.sort( f, new Comparator<File>() {
-                                public int compare( File o1, File o2 ) {
-                                    return Double.compare( o1.lastModified(), o2.lastModified() );
-                                }
-                            } );
                             final RecordingList recordingList = new RecordingList();
-                            for ( File file : f ) {
-                                recordingList.add( file );
+                            for ( StudentID student : students ) {
+                                recordingList.add( student );
                             }
                             getContext().replySafe( recordingList );
                         }
@@ -154,7 +151,6 @@ public class Server {
                                     objectInputStream.close();
                                     recordings.put( f, recording );
                                 }
-
                                 if ( recording.size() > 0 && request.getIndex() < recording.size() ) {
                                     final Sample sample = recording.get( request.getIndex() );
                                     getContext().replySafe( sample );
@@ -168,30 +164,6 @@ public class Server {
                                 getContext().replySafe( null );
                             }
                         }
-                    }
-
-//                    private void store( StudentID studentID ) {
-//                        try {
-//                            final ArrayList<Sample> data = getData( studentID );
-//                            final File saveDir = getSaveDir();
-//                            final File saveFile = new File( saveDir, System.nanoTime() + ".ser" );
-//                            new ObjectOutputStream( new FileOutputStream( saveFile ) ) {{
-//                                writeObject( data );
-//                                close();
-//                            }};
-//                            long bytes = saveFile.length();
-//                            long kb = bytes / 1024;
-//                            System.out.println( "Saved: " + saveFile.getAbsolutePath() + ", " + data.size() + " samples, " + kb + " KB" );
-//                        }
-//                        catch ( IOException e ) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-
-                    private File getSaveDir() {
-                        return new File( "simsharing-data/" ) {{
-                            mkdirs();
-                        }};
                     }
                 };
             }
