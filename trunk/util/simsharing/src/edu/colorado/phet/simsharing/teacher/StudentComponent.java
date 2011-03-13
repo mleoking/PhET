@@ -74,6 +74,7 @@ public class StudentComponent extends PNode {
     }
 
     public void setTimeSinceLastEvent( long timeSinceLastEvent ) {
-        text2.setText( "last event " + toSeconds( timeSinceLastEvent ) + " sec ago" );
+//        text2.setText( "last event " + toSeconds( timeSinceLastEvent ) + " sec ago" );
+        text2.setText( "last event " + timeSinceLastEvent + " ms ago" );
     }
 }

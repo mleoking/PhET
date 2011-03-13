@@ -1,3 +1,4 @@
+Added classroom summary information
 Autoplay recordings on selection
 Make recordings persist across server sessions
 Improved session list

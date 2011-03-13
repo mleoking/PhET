@@ -33,4 +33,8 @@ public class StudentList implements Serializable {
     public StudentSummary get( int i ) {
         return students.get( i );
     }
+
+    public ArrayList<StudentSummary> toList() {
+        return new ArrayList<StudentSummary>( students );
+    }
 }
