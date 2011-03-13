@@ -1,3 +1,4 @@
+Autoplay recordings on selection
 Make recordings persist across server sessions
 Improved session list
 Updated recording playback to work with mongobd

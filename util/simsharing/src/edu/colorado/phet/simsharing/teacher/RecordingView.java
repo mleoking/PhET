@@ -49,8 +49,9 @@ public class RecordingView extends VerticalLayoutPanel {
 
     private void showRecording( SessionStarted sessionID ) {
         System.out.println( "recording = " + sessionID );
-        new SimView( new String[0], sessionID.getSessionID(), new SimView.SampleSource.RemoteActor( server, sessionID.getSessionID() ) ).start();
+        new SimView( new String[0], sessionID.getSessionID(), new SimView.SampleSource.RemoteActor( server, sessionID.getSessionID() ), true ).start();
     }
+
 
     private void updateRecordingList() {
         //Allow a long timeout here since it may take a long time to deliver a large recorded file.
