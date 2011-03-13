@@ -4,16 +4,18 @@ package edu.colorado.phet.simsharing;
 import java.io.Serializable;
 
 /**
+ * Unique ID for each session
+ *
  * @author Sam Reid
  */
-public class StudentID implements Serializable {
+public class SessionID implements Serializable {
     private int index;
     private String name;
 
-    public StudentID() {
+    public SessionID() {
     }
 
-    public StudentID( int index, String name ) {
+    public SessionID( int index, String name ) {
         this.index = index;
         this.name = name;
     }
@@ -36,7 +38,7 @@ public class StudentID implements Serializable {
         if ( this == o ) { return true; }
         if ( o == null || getClass() != o.getClass() ) { return false; }
 
-        StudentID studentID = (StudentID) o;
+        SessionID studentID = (SessionID) o;
 
         if ( index != studentID.index ) { return false; }
         if ( name != null ? !name.equals( studentID.name ) : studentID.name != null ) { return false; }

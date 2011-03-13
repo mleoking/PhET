@@ -8,14 +8,14 @@ import java.io.Serializable;
  */
 public class Sample implements Serializable {
     private long time;//server time
-    private StudentID studentID;
+    private SessionID sessionID;
     private Object data;
     private long index;
     private int totalSampleCount;
 
-    public Sample( long time, StudentID studentID, Object data, int index, int totalSampleCount ) {
+    public Sample( long time, SessionID sessionID, Object data, int index, int totalSampleCount ) {
         this.time = time;
-        this.studentID = studentID;
+        this.sessionID = sessionID;
         this.data = data;
         this.index = index;
         this.totalSampleCount = totalSampleCount;

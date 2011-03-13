@@ -11,7 +11,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.simsharing.GetStudentList;
-import edu.colorado.phet.simsharing.StudentID;
+import edu.colorado.phet.simsharing.SessionID;
 import edu.colorado.phet.simsharing.StudentSummary;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
@@ -40,7 +40,7 @@ public class ClassroomView extends PSwingCanvas {
         }}.start();
     }
 
-    private StudentComponent getComponent( StudentID studentID ) {
+    private StudentComponent getComponent( SessionID studentID ) {
         for ( int i = 0; i < studentNode.getChildrenCount(); i++ ) {
             PNode child = studentNode.getChild( i );
             if ( child instanceof StudentComponent && ( (StudentComponent) child ).studentID.equals( studentID ) ) {
@@ -55,7 +55,7 @@ public class ClassroomView extends PSwingCanvas {
         final StudentList list = (StudentList) server.sendRequestReply( new GetStudentList() );
         for ( int i = 0; i < list.size(); i++ ) {
             StudentSummary student = list.get( i );
-            final StudentID studentID = student.getStudentID();
+            final SessionID studentID = student.getStudentID();
             StudentComponent component = getComponent( studentID );
             if ( component == null ) {
                 component = new StudentComponent( studentID, new VoidFunction0() {

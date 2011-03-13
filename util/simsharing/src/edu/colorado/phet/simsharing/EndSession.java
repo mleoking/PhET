@@ -6,14 +6,14 @@ import java.io.Serializable;
 /**
  * @author Sam Reid
  */
-public class ExitStudent implements Serializable {
-    private StudentID studentID;
+public class EndSession implements Serializable {
+    private SessionID studentID;
 
-    public ExitStudent( StudentID studentID ) {
+    public EndSession( SessionID studentID ) {
         this.studentID = studentID;
     }
 
-    public StudentID getStudentID() {
+    public SessionID getStudentID() {
         return studentID;
     }
 }

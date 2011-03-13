@@ -4,7 +4,7 @@ package edu.colorado.phet.simsharing.teacher;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import edu.colorado.phet.simsharing.StudentID;
+import edu.colorado.phet.simsharing.SessionID;
 import edu.colorado.phet.simsharing.StudentSummary;
 
 /**
@@ -17,7 +17,7 @@ public class StudentList implements Serializable {
         this.students = students;
     }
 
-    public boolean containsStudent( StudentID studentID ) {
+    public boolean containsStudent( SessionID studentID ) {
         for ( StudentSummary student : students ) {
             if ( student.getStudentID().equals( studentID ) ) {
                 return true;

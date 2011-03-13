@@ -26,7 +26,7 @@ public class TimeControlFrame extends JFrame {
     public final Property<Integer> frameToDisplay = new Property<Integer>( 0 );
     public final BooleanProperty playing = new BooleanProperty( false );
 
-    public TimeControlFrame( StudentID studentID ) throws HeadlessException {
+    public TimeControlFrame( SessionID studentID ) throws HeadlessException {
         super( "Time controls: " + studentID );
         setContentPane( new JPanel( new BorderLayout() ) {{
             add( new JPanel() {{
@@ -109,7 +109,7 @@ public class TimeControlFrame extends JFrame {
     }
 
     public static void main( String[] args ) {
-        new TimeControlFrame( new StudentID( 0, "Tester" ) ) {{
+        new TimeControlFrame( new SessionID( 0, "Tester" ) ) {{
             pack();
             setDefaultCloseOperation( EXIT_ON_CLOSE );
         }}.setVisible( true );

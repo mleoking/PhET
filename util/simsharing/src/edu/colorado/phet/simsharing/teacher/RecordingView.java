@@ -12,7 +12,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
-import edu.colorado.phet.simsharing.StudentID;
+import edu.colorado.phet.simsharing.SessionID;
 
 /**
  * @author Sam Reid
@@ -20,7 +20,7 @@ import edu.colorado.phet.simsharing.StudentID;
 public class RecordingView extends VerticalLayoutPanel {
     public JList recordingList;
     private final ActorRef server;
-    StudentID lastShownRecording = new StudentID( -123, "test" );
+    SessionID lastShownRecording = new SessionID( -123, "test" );//dummy data so comparisons don't need to use null checks
 
     public RecordingView( final ActorRef server, String[] args ) {
         this.server = server;
@@ -28,7 +28,7 @@ public class RecordingView extends VerticalLayoutPanel {
         recordingList = new JList() {{
             addListSelectionListener( new ListSelectionListener() {
                 public void valueChanged( ListSelectionEvent e ) {
-                    final StudentID selectedValue = (StudentID) recordingList.getSelectedValue();
+                    final SessionID selectedValue = (SessionID) recordingList.getSelectedValue();
                     System.out.println( selectedValue );
                     if ( selectedValue != null && !lastShownRecording.equals( selectedValue ) ) {
                         showRecording( selectedValue );
@@ -46,7 +46,7 @@ public class RecordingView extends VerticalLayoutPanel {
         } ) {{setInitialDelay( 0 );}}.start();
     }
 
-    private void showRecording( StudentID studentID ) {
+    private void showRecording( SessionID studentID ) {
         System.out.println( "recording = " + studentID );
         new SimView( new String[0], studentID, new SimView.SampleSource.RemoteActor( server, studentID ) ).start();
     }
