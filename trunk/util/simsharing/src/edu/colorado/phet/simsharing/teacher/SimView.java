@@ -29,9 +29,9 @@ public class SimView {
 
         public static class RemoteActor implements SampleSource {
             final ActorRef server;
-            private final StudentID studentID;
+            private final SessionID studentID;
 
-            public RemoteActor( ActorRef server, StudentID studentID ) {
+            public RemoteActor( ActorRef server, SessionID studentID ) {
                 this.server = server;
                 this.studentID = studentID;
             }
@@ -42,7 +42,7 @@ public class SimView {
         }
     }
 
-    public SimView( final String[] args, final StudentID studentID, SampleSource sampleSource ) {
+    public SimView( final String[] args, final SessionID studentID, SampleSource sampleSource ) {
         this.args = args;
         this.sampleSource = sampleSource;
         timeControl = new TimeControlFrame( studentID );
@@ -131,6 +131,6 @@ public class SimView {
     }
 
     public static void main( String[] args ) {
-        new SimView( args, new StudentID( 0, "Testing!" ), null ).start();
+        new SimView( args, new SessionID( 0, "Testing!" ), null ).start();
     }
 }

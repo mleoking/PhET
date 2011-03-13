@@ -9,7 +9,7 @@ import java.text.DecimalFormat;
 
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
-import edu.colorado.phet.simsharing.StudentID;
+import edu.colorado.phet.simsharing.SessionID;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -18,12 +18,12 @@ import edu.umd.cs.piccolo.nodes.PText;
  * @author Sam Reid
  */
 public class StudentComponent extends PNode {
-    public final StudentID studentID;
+    public final SessionID studentID;
     private final PImage thumbnail;
     private PText text;
     private PText text2;
 
-    public StudentComponent( final StudentID studentID, final VoidFunction0 watch ) {
+    public StudentComponent( final SessionID studentID, final VoidFunction0 watch ) {
         this.studentID = studentID;
         final PText namePText = new PText( studentID.getName() );
         addChild( namePText );
@@ -69,7 +69,7 @@ public class StudentComponent extends PNode {
         return new DecimalFormat( "0.0" ).format( upTime / 1000.0 );
     }
 
-    public StudentID getStudentID() {
+    public SessionID getStudentID() {
         return studentID;
     }
 

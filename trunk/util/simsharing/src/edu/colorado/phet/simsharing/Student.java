@@ -23,7 +23,7 @@ import edu.colorado.phet.gravityandorbits.simsharing.ImageFactory;
 public class Student {
     private final String[] args;
     private int count = 0;//Only send messages every count%N frames
-    protected StudentID studentID;
+    protected SessionID studentID;
     private ImageFactory imageFactory = new ImageFactory();
 
     public Student( String[] args ) {
@@ -42,7 +42,7 @@ public class Student {
             //TODO: could move exit listeners here instead of in PhetExit
             public void apply() {
                 if ( studentID != null ) {
-                    server.sendOneWay( new ExitStudent( studentID ) );
+                    server.sendOneWay( new EndSession( studentID ) );
                 }
                 System.exit( 0 );
             }
@@ -93,7 +93,7 @@ public class Student {
         new Thread( new Runnable() {
             public void run() {
                 //be careful, this part blocks:
-                studentID = (StudentID) server.sendRequestReply( new RegisterStudent() );
+                studentID = (SessionID) server.sendRequestReply( new StartSession() );
                 SwingUtilities.invokeLater( new Runnable() {
                     public void run() {
                         application.getPhetFrame().setTitle( application.getPhetFrame().getTitle() + ", id = " + studentID );

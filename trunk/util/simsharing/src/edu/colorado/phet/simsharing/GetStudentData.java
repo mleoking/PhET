@@ -8,15 +8,15 @@ import java.io.Serializable;
  */
 public class GetStudentData implements Serializable {
 
-    private final StudentID selected;
+    private final SessionID selected;
     private int index;
 
-    public GetStudentData( StudentID selected, int index ) {
+    public GetStudentData( SessionID selected, int index ) {
         this.selected = selected;
         this.index = index;
     }
 
-    public StudentID getStudentID() {
+    public SessionID getStudentID() {
         return selected;
     }
 

@@ -38,18 +38,20 @@ public class Server {
     public static String HOST_IP_ADDRESS = "128.138.145.107";//phet-server, but can be mutated to specify a different host
     public static String[] names = new String[] { "Alice", "Bob", "Charlie", "Danielle", "Earl", "Frankie", "Gail", "Hank", "Isabelle", "Joe", "Kim", "Lucy", "Mikey", "Nathan", "Ophelia", "Parker", "Quinn", "Rusty", "Shirley", "Tina", "Uther Pendragon", "Vivian", "Walt", "Xander", "Yolanda", "Zed" };
     private int connectionCount = 0;
-    private ArrayList<StudentID> students = new ArrayList<StudentID>();
+    private ArrayList<SessionID> students = new ArrayList<SessionID>();
     private Hashtable<File, ArrayList<Sample>> recordings = new Hashtable<File, ArrayList<Sample>>(); //TODO: clear this cache so it doesn't overflow memory
     final Morphia morphia = new Morphia() {{
         map( GravityAndOrbitsApplicationState.class );
     }};
     Datastore ds;
-    private Hashtable<StudentID, Integer> latestIndexTable = new Hashtable<StudentID, Integer>();
+    private Hashtable<SessionID, Integer> latestIndexTable = new Hashtable<SessionID, Integer>();
+    public Mongo mongo;
 
     public Server() {
         //Testing mongo
         try {
-            ds = morphia.createDatastore( new Mongo(), "simsharing-test-" + System.currentTimeMillis() );
+            mongo = new Mongo();
+            ds = morphia.createDatastore( mongo, "simsharing-test-" + System.currentTimeMillis() );
             ds.ensureIndexes(); //creates all defined with @Indexed
             ds.ensureCaps(); //creates all collections for @Entity(cap=@CappedAt(...))
         }
@@ -75,12 +77,12 @@ public class Server {
         System.out.println( "Using host: " + HOST_IP_ADDRESS );
     }
 
-    public Sample getSample( StudentID id, int index ) {
+    public Sample getSample( SessionID id, int index ) {
 //        long start = System.currentTimeMillis();
         if ( index == -1 ) {//just get the latest
             index = getLastIndex( id );
         }
-        Query<Sample> found = ds.find( Sample.class, "studentID", id ).filter( "index", index );
+        Query<Sample> found = ds.find( Sample.class, "sessionID", id ).filter( "index", index );
         final Sample sample = found.get();
 //        long end = System.currentTimeMillis();
 //        System.out.println( "found one, elapsed = " + ( end - start ) );
@@ -97,22 +99,24 @@ public class Server {
                             Sample data = getSample( request.getStudentID(), request.getIndex() );
                             getContext().replySafe( data );//could be null
                         }
-                        else if ( o instanceof RegisterStudent ) {
-                            final StudentID studentID = new StudentID( connectionCount, names[connectionCount % names.length] );
+                        else if ( o instanceof StartSession ) {
+                            final SessionID studentID = new SessionID( connectionCount, names[connectionCount % names.length] );
                             getContext().replySafe( studentID );
                             connectionCount = connectionCount + 1;
                             students.add( studentID );
+                            ds.save( new SessionStarted( studentID, System.currentTimeMillis() ) );
                         }
-                        else if ( o instanceof ExitStudent ) {
+                        else if ( o instanceof EndSession ) {
                             //Save the student info to disk and remove from system memory
-                            final StudentID studentID = ( (ExitStudent) o ).getStudentID();
+                            final SessionID studentID = ( (EndSession) o ).getStudentID();
                             students.remove( studentID );
                             System.out.println( "student exited: " + studentID );
+                            ds.save( new SessionEnded( studentID, System.currentTimeMillis() ) );
                             //TODO: clear from hashtable
                         }
                         else if ( o instanceof GetStudentList ) {
                             ArrayList<StudentSummary> list = new ArrayList<StudentSummary>();
-                            for ( StudentID student : students ) {
+                            for ( SessionID student : students ) {
                                 final Sample latestDataPoint = getSample( student, getLastIndex( student ) );
                                 SerializableBufferedImage image = null;
                                 if ( latestDataPoint != null && latestDataPoint.getData() != null ) {
@@ -130,9 +134,8 @@ public class Server {
                             ds.save( sample );
                         }
                         else if ( o instanceof GetRecordingList ) {
-                            GetRecordingList showRecordings = (GetRecordingList) o;
                             final RecordingList recordingList = new RecordingList();
-                            for ( StudentID student : students ) {
+                            for ( SessionID student : students ) {
                                 recordingList.add( student );
                             }
                             getContext().replySafe( recordingList );
@@ -170,11 +173,11 @@ public class Server {
         } ) );
     }
 
-    private int getLastIndex( StudentID studentID ) {
+    private int getLastIndex( SessionID studentID ) {
         return ( latestIndexTable.containsKey( studentID ) ? latestIndexTable.get( studentID ) : 0 );
     }
 
-    private long getTimeSinceLastEvent( StudentID student ) {
+    private long getTimeSinceLastEvent( SessionID student ) {
         return -1;
 //        final ArrayList<Sample> data = getData( student );
 //        if ( data == null ) { return -1; }
@@ -182,7 +185,7 @@ public class Server {
     }
 
     //how long has student been logged in
-    private long getUpTime( StudentID student ) {
+    private long getUpTime( SessionID student ) {
         return -1;
 //        final ArrayList<Sample> data = getData( student );
 //        if ( data == null ) { return -1; }

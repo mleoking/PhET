@@ -6,5 +6,5 @@ import java.io.Serializable;
 /**
  * @author Sam Reid
  */
-public class RegisterStudent implements Serializable {
+public class StartSession implements Serializable {
 }
