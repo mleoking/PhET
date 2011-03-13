@@ -3,14 +3,16 @@ package edu.colorado.phet.simsharing;
 
 import java.io.Serializable;
 
+import com.google.code.morphia.annotations.Indexed;
+
 /**
  * @author Sam Reid
  */
 public class Sample implements Serializable {
     private long time;//server time
-    private SessionID sessionID;
+    private @Indexed SessionID sessionID;
     private Object data;
-    private long index;
+    private @Indexed long index;
     private int totalSampleCount;
 
     public Sample( long time, SessionID sessionID, Object data, int index, int totalSampleCount ) {

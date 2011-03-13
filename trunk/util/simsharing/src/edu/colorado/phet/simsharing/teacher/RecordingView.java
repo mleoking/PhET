@@ -13,6 +13,7 @@ import javax.swing.event.ListSelectionListener;
 
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.simsharing.SessionID;
+import edu.colorado.phet.simsharing.SessionStarted;
 
 /**
  * @author Sam Reid
@@ -20,7 +21,7 @@ import edu.colorado.phet.simsharing.SessionID;
 public class RecordingView extends VerticalLayoutPanel {
     public JList recordingList;
     private final ActorRef server;
-    SessionID lastShownRecording = new SessionID( -123, "test" );//dummy data so comparisons don't need to use null checks
+    private SessionStarted lastShownRecording = new SessionStarted( new SessionID( -1, "hello" ), 0 );//dummy data so comparisons don't need to use null checks
 
     public RecordingView( final ActorRef server, String[] args ) {
         this.server = server;
@@ -28,7 +29,7 @@ public class RecordingView extends VerticalLayoutPanel {
         recordingList = new JList() {{
             addListSelectionListener( new ListSelectionListener() {
                 public void valueChanged( ListSelectionEvent e ) {
-                    final SessionID selectedValue = (SessionID) recordingList.getSelectedValue();
+                    final SessionStarted selectedValue = (SessionStarted) recordingList.getSelectedValue();
                     System.out.println( selectedValue );
                     if ( selectedValue != null && !lastShownRecording.equals( selectedValue ) ) {
                         showRecording( selectedValue );
@@ -46,15 +47,15 @@ public class RecordingView extends VerticalLayoutPanel {
         } ) {{setInitialDelay( 0 );}}.start();
     }
 
-    private void showRecording( SessionID studentID ) {
-        System.out.println( "recording = " + studentID );
-        new SimView( new String[0], studentID, new SimView.SampleSource.RemoteActor( server, studentID ) ).start();
+    private void showRecording( SessionStarted sessionID ) {
+        System.out.println( "recording = " + sessionID );
+        new SimView( new String[0], sessionID.getSessionID(), new SimView.SampleSource.RemoteActor( server, sessionID.getSessionID() ) ).start();
     }
 
     private void updateRecordingList() {
         //Allow a long timeout here since it may take a long time to deliver a large recorded file.
         try {
-            final RecordingList list = (RecordingList) server.sendRequestReply( new GetRecordingList() );
+            final SessionList list = (SessionList) server.sendRequestReply( new GetSessionList() );
             recordingList.setListData( list.toArray() );//TODO: remember user selection when list is refreshed
         }
         catch ( ActorTimeoutException timeoutException ) {

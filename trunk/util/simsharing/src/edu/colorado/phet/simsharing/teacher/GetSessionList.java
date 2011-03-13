@@ -6,5 +6,5 @@ import java.io.Serializable;
 /**
  * @author Sam Reid
  */
-public class GetRecordingList implements Serializable {
+public class GetSessionList implements Serializable {
 }
