@@ -1,3 +1,4 @@
+Make recordings persist across server sessions
 Improved session list
 Updated recording playback to work with mongobd
 # 00.00.20 (49744) Mar 12, 2011
