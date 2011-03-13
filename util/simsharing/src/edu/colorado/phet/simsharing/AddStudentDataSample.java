@@ -15,7 +15,7 @@ public class AddStudentDataSample implements Serializable {
         this.data = data;
     }
 
-    public SessionID getStudentID() {
+    public SessionID getSessionID() {
         return studentID;
     }
 

@@ -36,14 +36,12 @@ public class Server {
         map( GravityAndOrbitsApplicationState.class );
     }};
     Datastore ds;
-    private Hashtable<SessionID, Integer> latestIndexTable = new Hashtable<SessionID, Integer>();
     public Mongo mongo;
 
     public Server() {
-        //Testing mongo
         try {
             mongo = new Mongo();
-            ds = morphia.createDatastore( mongo, "simsharing-test-7" );//change index on datastore name instead of clearing datastore?
+            ds = morphia.createDatastore( mongo, "simsharing-test-9" );//change index on datastore name instead of clearing datastore?
             ds.ensureIndexes(); //creates all defined with @Indexed
             ds.ensureCaps(); //creates all collections for @Entity(cap=@CappedAt(...))
         }
@@ -113,9 +111,11 @@ public class Server {
                         }
                         else if ( o instanceof AddStudentDataSample ) {
                             AddStudentDataSample request = (AddStudentDataSample) o;
-                            int newIndex = getLastIndex( request.getStudentID() ) + 1;
-                            final Sample sample = new Sample( System.currentTimeMillis(), request.getStudentID(), request.getData(), newIndex, newIndex );
-                            latestIndexTable.put( request.getStudentID(), newIndex );
+                            int newIndex = getLastIndex( request.getSessionID() ) + 1;
+                            ds.delete( ds.createQuery( LatestIndex.class ).filter( "sessionID", request.getSessionID() ) );
+                            ds.save( new LatestIndex( request.getSessionID(), newIndex ) );
+
+                            final Sample sample = new Sample( System.currentTimeMillis(), request.getSessionID(), request.getData(), newIndex, newIndex );
                             ds.save( sample );
                         }
                         else if ( o instanceof GetSessionList ) {
@@ -137,8 +137,9 @@ public class Server {
         } ) );
     }
 
-    private int getLastIndex( SessionID studentID ) {
-        return ( latestIndexTable.containsKey( studentID ) ? latestIndexTable.get( studentID ) : 0 );
+    private int getLastIndex( SessionID sessionID ) {
+        final LatestIndex index = ds.createQuery( LatestIndex.class ).filter( "sessionID", sessionID ).get();
+        return index == null ? -1 : index.getIndex();
     }
 
     private long getTimeSinceLastEvent( SessionID session ) {
