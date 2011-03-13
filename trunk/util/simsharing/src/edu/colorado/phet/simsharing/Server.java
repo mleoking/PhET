@@ -30,18 +30,19 @@ public class Server {
     public static int PORT = 44101;
     public static String HOST_IP_ADDRESS = "128.138.145.107";//phet-server, but can be mutated to specify a different host
     public static String[] names = new String[] { "Alice", "Bob", "Charlie", "Danielle", "Earl", "Frankie", "Gail", "Hank", "Isabelle", "Joe", "Kim", "Lucy", "Mikey", "Nathan", "Ophelia", "Parker", "Quinn", "Rusty", "Shirley", "Tina", "Uther Pendragon", "Vivian", "Walt", "Xander", "Yolanda", "Zed" };
-    private int connectionCount = 0;
     private ArrayList<SessionID> students = new ArrayList<SessionID>();
-    final Morphia morphia = new Morphia() {{
-        map( GravityAndOrbitsApplicationState.class );
-    }};
-    Datastore ds;
-    public Mongo mongo;
+    private Morphia morphia;
+    private Datastore ds;
+    private Mongo mongo;
 
     public Server() {
         try {
             mongo = new Mongo();
-            ds = morphia.createDatastore( mongo, "simsharing-test-9" );//change index on datastore name instead of clearing datastore?
+            morphia = new Morphia();
+            morphia.map( GravityAndOrbitsApplicationState.class );
+            morphia.map( LatestIndex.class );
+            morphia.map( Sample.class );
+            ds = morphia.createDatastore( mongo, "simsharing-test-1" );//change index on datastore name instead of clearing datastore?
             ds.ensureIndexes(); //creates all defined with @Indexed
             ds.ensureCaps(); //creates all collections for @Entity(cap=@CappedAt(...))
         }
@@ -84,9 +85,16 @@ public class Server {
                             getContext().replySafe( data );//could be null
                         }
                         else if ( o instanceof StartSession ) {
-                            final SessionID studentID = new SessionID( connectionCount, names[connectionCount % names.length] );
+                            if ( ds.createQuery( SessionCount.class ).get() == null ) {
+                                ds.save( new SessionCount( 1 ) );
+                            }
+                            else {
+                                ds.update( ds.createQuery( SessionCount.class ), ds.createUpdateOperations( SessionCount.class ).inc( "count" ) );
+                            }
+                            int sessionCount = ds.createQuery( SessionCount.class ).get().getCount();
+
+                            final SessionID studentID = new SessionID( sessionCount, names[sessionCount % names.length] );
                             getContext().replySafe( studentID );
-                            connectionCount = connectionCount + 1;
                             students.add( studentID );
                             ds.save( new SessionStarted( studentID, System.currentTimeMillis() ) );
                         }
