@@ -25,7 +25,7 @@ public class SimView {
     private final SampleSource sampleSource;
 
     public static interface SampleSource {
-        Sample getSample( int index );
+        Pair<Sample, Integer> getSample( int index );
 
         public static class RemoteActor implements SampleSource {
             final ActorRef server;
@@ -36,8 +36,8 @@ public class SimView {
                 this.studentID = studentID;
             }
 
-            public Sample getSample( int index ) {
-                return (Sample) server.sendRequestReply( new GetStudentData( studentID, index ) );
+            public Pair<Sample, Integer> getSample( int index ) {
+                return (Pair<Sample, Integer>) server.sendRequestReply( new GetStudentData( studentID, index ) );
             }
         }
     }
@@ -72,15 +72,15 @@ public class SimView {
                 e.printStackTrace();
             }
 
-            final Sample sample = sampleSource.getSample( timeControl.live.getValue() ? -1 : timeControl.frameToDisplay.getValue() );
+            final Pair<Sample, Integer> sample = sampleSource.getSample( timeControl.live.getValue() ? -1 : timeControl.frameToDisplay.getValue() );
             if ( sample != null ) {
-                final GravityAndOrbitsApplicationState state = (GravityAndOrbitsApplicationState) sample.getData();
+                final GravityAndOrbitsApplicationState state = (GravityAndOrbitsApplicationState) sample._1.getData();
                 if ( state != null ) {
                     try {
                         SwingUtilities.invokeAndWait( new Runnable() {
                             public void run() {
                                 state.apply( application );
-                                timeControl.maxFrames.setValue( 1000 );
+                                timeControl.maxFrames.setValue( sample._2 );
                             }
                         } );
                     }
