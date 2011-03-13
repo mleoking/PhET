@@ -81,8 +81,8 @@ public class Server {
                     public void onReceive( Object o ) {
                         if ( o instanceof GetStudentData ) {
                             GetStudentData request = (GetStudentData) o;
-                            Sample data = getSample( request.getStudentID(), request.getIndex() );
-                            getContext().replySafe( data );//could be null
+                            Sample data = getSample( request.getStudentID(), request.getIndex() );//could be null
+                            getContext().replySafe( data == null ? null : new Pair<Sample, Integer>( data, getLastIndex( request.getStudentID() ) ) );
                         }
                         else if ( o instanceof StartSession ) {
                             if ( ds.createQuery( SessionCount.class ).get() == null ) {
