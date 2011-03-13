@@ -5,21 +5,14 @@ import akka.actor.Actor;
 import akka.actor.UntypedActor;
 import akka.japi.Creator;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Hashtable;
-import java.util.List;
+import java.util.*;
 
 import edu.colorado.phet.gravityandorbits.simsharing.GravityAndOrbitsApplicationState;
 import edu.colorado.phet.gravityandorbits.simsharing.SerializableBufferedImage;
-import edu.colorado.phet.simsharing.teacher.GetRecordingList;
-import edu.colorado.phet.simsharing.teacher.GetRecordingSample;
-import edu.colorado.phet.simsharing.teacher.RecordingList;
+import edu.colorado.phet.simsharing.teacher.GetSessionList;
+import edu.colorado.phet.simsharing.teacher.SessionList;
 import edu.colorado.phet.simsharing.teacher.StudentList;
 
 import com.google.code.morphia.Datastore;
@@ -39,7 +32,6 @@ public class Server {
     public static String[] names = new String[] { "Alice", "Bob", "Charlie", "Danielle", "Earl", "Frankie", "Gail", "Hank", "Isabelle", "Joe", "Kim", "Lucy", "Mikey", "Nathan", "Ophelia", "Parker", "Quinn", "Rusty", "Shirley", "Tina", "Uther Pendragon", "Vivian", "Walt", "Xander", "Yolanda", "Zed" };
     private int connectionCount = 0;
     private ArrayList<SessionID> students = new ArrayList<SessionID>();
-    private Hashtable<File, ArrayList<Sample>> recordings = new Hashtable<File, ArrayList<Sample>>(); //TODO: clear this cache so it doesn't overflow memory
     final Morphia morphia = new Morphia() {{
         map( GravityAndOrbitsApplicationState.class );
     }};
@@ -51,19 +43,13 @@ public class Server {
         //Testing mongo
         try {
             mongo = new Mongo();
-            ds = morphia.createDatastore( mongo, "simsharing-test-" + System.currentTimeMillis() );
+            ds = morphia.createDatastore( mongo, "simsharing-test-7" );//change index on datastore name instead of clearing datastore?
             ds.ensureIndexes(); //creates all defined with @Indexed
             ds.ensureCaps(); //creates all collections for @Entity(cap=@CappedAt(...))
         }
         catch ( UnknownHostException e ) {
             e.printStackTrace();
         }
-    }
-
-    public static void main( String[] args ) throws IOException {
-        Server.parseArgs( args );
-        SimSharing.init();
-        new Server().start();
     }
 
     /*
@@ -112,7 +98,6 @@ public class Server {
                             students.remove( studentID );
                             System.out.println( "student exited: " + studentID );
                             ds.save( new SessionEnded( studentID, System.currentTimeMillis() ) );
-                            //TODO: clear from hashtable
                         }
                         else if ( o instanceof GetStudentList ) {
                             ArrayList<StudentSummary> list = new ArrayList<StudentSummary>();
@@ -122,7 +107,7 @@ public class Server {
                                 if ( latestDataPoint != null && latestDataPoint.getData() != null ) {
                                     image = ( (GravityAndOrbitsApplicationState) latestDataPoint.getData() ).getThumbnail();
                                 }
-                                list.add( new StudentSummary( student, image, getUpTime( student ), getTimeSinceLastEvent( student ) ) );
+                                list.add( new StudentSummary( student, image, getSessionTime( student ), getTimeSinceLastEvent( student ) ) );
                             }
                             getContext().replySafe( new StudentList( list ) );
                         }
@@ -133,39 +118,18 @@ public class Server {
                             latestIndexTable.put( request.getStudentID(), newIndex );
                             ds.save( sample );
                         }
-                        else if ( o instanceof GetRecordingList ) {
-                            final RecordingList recordingList = new RecordingList();
-                            for ( SessionID student : students ) {
-                                recordingList.add( student );
+                        else if ( o instanceof GetSessionList ) {
+                            final SessionList recordingList = new SessionList();
+                            final List<SessionStarted> sessionStarted = ds.find( SessionStarted.class ).asList();
+                            Collections.sort( sessionStarted, new Comparator<SessionStarted>() {
+                                public int compare( SessionStarted o1, SessionStarted o2 ) {
+                                    return Double.compare( o1.getTime(), o2.getTime() );
+                                }
+                            } );
+                            for ( SessionStarted started : sessionStarted ) {
+                                recordingList.add( started );
                             }
                             getContext().replySafe( recordingList );
-                        }
-                        else if ( o instanceof GetRecordingSample ) {
-                            GetRecordingSample request = (GetRecordingSample) o;
-                            File f = new File( request.getFilename() );
-                            try {
-                                ArrayList<Sample> recording;
-                                if ( recordings.containsKey( f ) ) {
-                                    recording = recordings.get( f );
-                                }
-                                else {
-                                    ObjectInputStream objectInputStream = new ObjectInputStream( new FileInputStream( f ) );
-                                    recording = (ArrayList<Sample>) objectInputStream.readObject();
-                                    objectInputStream.close();
-                                    recordings.put( f, recording );
-                                }
-                                if ( recording.size() > 0 && request.getIndex() < recording.size() ) {
-                                    final Sample sample = recording.get( request.getIndex() );
-                                    getContext().replySafe( sample );
-                                }
-                                else {
-                                    getContext().replySafe( null );
-                                }
-                            }
-                            catch ( Exception e ) {
-                                e.printStackTrace();
-                                getContext().replySafe( null );
-                            }
                         }
                     }
                 };
@@ -177,7 +141,7 @@ public class Server {
         return ( latestIndexTable.containsKey( studentID ) ? latestIndexTable.get( studentID ) : 0 );
     }
 
-    private long getTimeSinceLastEvent( SessionID student ) {
+    private long getTimeSinceLastEvent( SessionID session ) {
         return -1;
 //        final ArrayList<Sample> data = getData( student );
 //        if ( data == null ) { return -1; }
@@ -185,11 +149,14 @@ public class Server {
     }
 
     //how long has student been logged in
-    private long getUpTime( SessionID student ) {
-        return -1;
-//        final ArrayList<Sample> data = getData( student );
-//        if ( data == null ) { return -1; }
-//        return data.get( data.size() - 1 ).getTime() - data.get( 0 ).getTime();
+    private long getSessionTime( SessionID session ) {
+        final SessionStarted sessionStarted = ds.find( SessionStarted.class, "sessionID", session ).get();
+        return sessionStarted == null ? -1 : System.currentTimeMillis() - sessionStarted.getTime();
     }
 
+    public static void main( String[] args ) throws IOException {
+        Server.parseArgs( args );
+        SimSharing.init();
+        new Server().start();
+    }
 }
