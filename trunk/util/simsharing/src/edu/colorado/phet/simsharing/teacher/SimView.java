@@ -23,6 +23,7 @@ public class SimView {
     private GravityAndOrbitsApplication application;
     private final String[] args;
     private final SampleSource sampleSource;
+    private final boolean autoplay;
 
     public static interface SampleSource {
         Pair<Sample, Integer> getSample( int index );
@@ -42,9 +43,10 @@ public class SimView {
         }
     }
 
-    public SimView( final String[] args, final SessionID studentID, SampleSource sampleSource ) {
+    public SimView( final String[] args, final SessionID studentID, SampleSource sampleSource, boolean playbackMode ) {
         this.args = args;
         this.sampleSource = sampleSource;
+        this.autoplay = playbackMode;
         timeControl = new TimeControlFrame( studentID );
         timeControl.setVisible( true );
         thread = new Thread( new Runnable() {
@@ -52,6 +54,8 @@ public class SimView {
                 doRun();
             }
         } );
+        timeControl.live.setValue( !playbackMode );
+        if ( playbackMode ) { timeControl.playing.setValue( true ); }
     }
 
     private void doRun() {
@@ -130,7 +134,4 @@ public class SimView {
         thread.start();
     }
 
-    public static void main( String[] args ) {
-        new SimView( args, new SessionID( 0, "Testing!" ), null ).start();
-    }
 }
