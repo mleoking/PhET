@@ -123,8 +123,10 @@ public class Server {
                             ds.delete( ds.createQuery( LatestIndex.class ).filter( "sessionID", request.getSessionID() ) );
                             ds.save( new LatestIndex( request.getSessionID(), newIndex ) );
 
-                            final Sample sample = new Sample( System.currentTimeMillis(), request.getSessionID(), request.getData(), newIndex, newIndex );
-                            ds.save( sample );
+                            ds.save( new Sample( System.currentTimeMillis(), request.getSessionID(), request.getData(), newIndex, newIndex ) );
+
+                            ds.delete( ds.createQuery( EventReceived.class ).filter( "sessionID", request.getSessionID() ) );
+                            ds.save( new EventReceived( request.getSessionID(), System.currentTimeMillis() ) );
                         }
                         else if ( o instanceof GetSessionList ) {
                             final SessionList recordingList = new SessionList();
@@ -150,16 +152,14 @@ public class Server {
         return index == null ? -1 : index.getIndex();
     }
 
-    private long getTimeSinceLastEvent( SessionID session ) {
-        return -1;
-//        final ArrayList<Sample> data = getData( student );
-//        if ( data == null ) { return -1; }
-//        return System.currentTimeMillis() - data.get( data.size() - 1 ).getTime();
+    private long getTimeSinceLastEvent( SessionID sessionID ) {
+        final EventReceived eventReceived = ds.find( EventReceived.class, "sessionID", sessionID ).get();
+        return eventReceived == null ? -1 : System.currentTimeMillis() - eventReceived.getTime();
     }
 
     //how long has student been logged in
-    private long getSessionTime( SessionID session ) {
-        final SessionStarted sessionStarted = ds.find( SessionStarted.class, "sessionID", session ).get();
+    private long getSessionTime( SessionID sessionID ) {
+        final SessionStarted sessionStarted = ds.find( SessionStarted.class, "sessionID", sessionID ).get();
         return sessionStarted == null ? -1 : System.currentTimeMillis() - sessionStarted.getTime();
     }
 
