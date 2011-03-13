@@ -3,12 +3,16 @@ package edu.colorado.phet.simsharing;
 
 import java.io.Serializable;
 
+import org.bson.types.ObjectId;
+
+import com.google.code.morphia.annotations.Id;
 import com.google.code.morphia.annotations.Indexed;
 
 /**
  * @author Sam Reid
  */
 public class Sample implements Serializable {
+    private @Id ObjectId id = new ObjectId();//TODO: why needed?
     private long time;//server time
     private @Indexed SessionID sessionID;
     private Object data;
