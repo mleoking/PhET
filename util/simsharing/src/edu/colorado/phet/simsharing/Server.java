@@ -129,7 +129,7 @@ public class Server {
                             ds.save( new EventReceived( request.getSessionID(), System.currentTimeMillis() ) );
                         }
                         else if ( o instanceof GetSessionList ) {
-                            final SessionList recordingList = new SessionList();
+                            final SessionList sessionList = new SessionList();
                             final List<SessionStarted> sessionStarted = ds.find( SessionStarted.class ).asList();
                             Collections.sort( sessionStarted, new Comparator<SessionStarted>() {
                                 public int compare( SessionStarted o1, SessionStarted o2 ) {
@@ -137,9 +137,9 @@ public class Server {
                                 }
                             } );
                             for ( SessionStarted started : sessionStarted ) {
-                                recordingList.add( started );
+                                sessionList.add( started );
                             }
-                            getContext().replySafe( recordingList );
+                            getContext().replySafe( sessionList );
                         }
                     }
                 };
