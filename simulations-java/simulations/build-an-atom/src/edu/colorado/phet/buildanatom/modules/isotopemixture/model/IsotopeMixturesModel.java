@@ -489,7 +489,6 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
             if ( testChamber.getTestChamberRect().contains( isotope.getPosition() )){
                 testChamber.addIsotopeToChamber( isotope );
             }
-            isotope.removedFromModel();
             notifyIsotopeInstanceAdded( isotope );
         }
     }
