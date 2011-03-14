@@ -5,14 +5,12 @@ package edu.colorado.phet.buildanatom.modules.isotopemixture.model;
 import java.awt.Color;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 import edu.colorado.phet.buildanatom.model.AtomIdentifier;
 import edu.colorado.phet.buildanatom.model.Bucket;
@@ -105,6 +103,10 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
     private final Property<InteractivityMode> interactivityModeProperty =
         new Property<InteractivityMode>( InteractivityMode.BUCKETS_AND_LARGE_ATOMS );
 
+    // Map of elements to user mixes.  These are restored when switching
+    // between elements.  The integer represents the atomic number.
+    private final Map<Integer, State> mapIsotopeConfigToUserMixState = new HashMap<Integer, State>();
+
     // Property that determines whether the user's mix or nature's mix is
     // being displayed.  When this is set to true, indicating that nature's
     // mix should be displayed, the isotope size property is ignored.
@@ -113,10 +115,6 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
     // List that contains the isotope instances that are shown in the test
     // chamber to represent nature's mix of isotopes.
     private final List<MovableAtom> naturesMixOfIsotopes = new ArrayList<MovableAtom>();
-
-    // Matches isotopes to colors used to portray them as well as the buckets
-    // in which they can reside, etc.
-    private final Map< ImmutableAtom, Color > isotopeColorMap = new HashMap< ImmutableAtom, Color>();
 
     // Listener support.
     private final List<Listener> listeners = new ArrayList<Listener>();
@@ -209,11 +207,22 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
         return prototypeIsotope;
     }
 
+    private State getState(){
+        return new State( this );
+    }
+
+    private void setState( State modelState ){
+        testChamber.setState( modelState.getIsotopeTestChamberState() );
+        for ( MovableAtom isotope : testChamber.getContainedIsotopes() ){
+            notifyIsotopeInstanceAdded( isotope );
+        }
+    }
+
     /**
      * Set the element that is currently in use, and for which all stable
      * isotopes will be available for movement in and out of the test chamber.
      * In case you're wondering why this is done as an atom instead of just
-     * setting the atomic weight, it is so that this will play well with the
+     * setting the atomic number, it is so that this will play well with the
      * existing controllers (such as the PeriodicTableControlNode) that
      * already existed at the time this class was created.
      */
@@ -223,71 +232,74 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
         // routine.  For the sake of efficiency, callers should be careful not
         // to call this when it isn't needed.
 
-        // Clear the test chamber.
-        // TODO: Fundamental problem here.  Does removing an isotope from
-        // the test chamber remove it from the model?  With the recent
-        // changes, sometimes it should and sometimes it shouldn't.  I've
-        // added a flag for saying whether they go away entirely or just from
-        // the chamber, but I find this ugly.  I'd like to think of a better
-        // way.
-        testChamber.removeAllIsotopes( true );
+        // Save the current state.
+        mapIsotopeConfigToUserMixState.put( prototypeIsotope.getNumProtons(), getState() );
 
-        // Remove all existing isotope instances that are in the buckets.
-        for ( MonoIsotopeParticleBucket bucket : bucketList ){
-            List<MovableAtom> isotopesFromBucket = new ArrayList<MovableAtom>(bucket.getContainedIsotopes());
-            bucket.reset(); // Clear the bucket.
-            for ( MovableAtom isotope : isotopesFromBucket ){
+        if ( mapIsotopeConfigToUserMixState.containsKey( atom.getNumProtons() ) ){
+            // Restore previously stored state.
+            setState( mapIsotopeConfigToUserMixState.get( atom.getNumProtons() ));
+        }
+        else{
+            // Clear the test chamber.
+            // TODO: Fundamental problem here.  Does removing an isotope from
+            // the test chamber remove it from the model?  With the recent
+            // changes, sometimes it should and sometimes it shouldn't.  I've
+            // added a flag for saying whether they go away entirely or just from
+            // the chamber, but I find this ugly.  I'd like to think of a better
+            // way.
+            testChamber.removeAllIsotopes( true );
+
+            // Remove all existing isotope instances that are in the buckets.
+            for ( MonoIsotopeParticleBucket bucket : bucketList ){
+                List<MovableAtom> isotopesFromBucket = new ArrayList<MovableAtom>(bucket.getContainedIsotopes());
+                bucket.reset(); // Clear the bucket.
+                for ( MovableAtom isotope : isotopesFromBucket ){
+                    isotope.removeListener( isotopeGrabbedListener );
+                    isotope.removedFromModel();
+                }
+            }
+
+            // Remove all existing isotopes from nature's mix.  Note that this
+            // list is not repopulated until it is needed.
+            List<MovableAtom> naturesMixOfIsotopesCopy = new ArrayList<MovableAtom>( naturesMixOfIsotopes );
+            naturesMixOfIsotopes.clear();
+            for ( MovableAtom isotope : naturesMixOfIsotopesCopy ){
+                // Signal the isotope that it has been removed from the model.
                 isotope.removeListener( isotopeGrabbedListener );
                 isotope.removedFromModel();
             }
-        }
 
-        // Remove all existing isotopes from nature's mix.  Note that this
-        // list is not repopulated until it is needed.
-        List<MovableAtom> naturesMixOfIsotopesCopy = new ArrayList<MovableAtom>( naturesMixOfIsotopes );
-        naturesMixOfIsotopes.clear();
-        for ( MovableAtom isotope : naturesMixOfIsotopesCopy ){
-            // Signal the isotope that it has been removed from the model.
-            isotope.removeListener( isotopeGrabbedListener );
-            isotope.removedFromModel();
-        }
+            // Update the prototype atom (a.k.a. isotope) configuration.
+            prototypeIsotope.setNumProtons( atom.getNumProtons() );
+            prototypeIsotope.setNumElectrons( atom.getNumElectrons() );
+            prototypeIsotope.setNumNeutrons( atom.getNumNeutrons() );
 
-        // Update the prototype atom (a.k.a. isotope) configuration.
-        prototypeIsotope.setNumProtons( atom.getNumProtons() );
-        prototypeIsotope.setNumElectrons( atom.getNumElectrons() );
-        prototypeIsotope.setNumNeutrons( atom.getNumNeutrons() );
+            // Get a list of all stable isotopes for the current atomic number.
+            ArrayList<ImmutableAtom> newIsotopeList = AtomIdentifier.getStableIsotopes( atom.getNumProtons() );
 
-        // Get a list of all stable isotopes for the current atomic number.
-        ArrayList<ImmutableAtom> newIsotopeList = AtomIdentifier.getStableIsotopes( atom.getNumProtons() );
+            // Sort from lightest to heaviest.
+            Collections.sort( newIsotopeList, new Comparator<IAtom>(){
+                public int compare( IAtom atom2, IAtom atom1 ) {
+                    return new Double(atom2.getAtomicMass()).compareTo( atom1.getAtomicMass() );
+                }
+            });
 
-        // Sort from lightest to heaviest.
-        Collections.sort( newIsotopeList, new Comparator<IAtom>(){
-            public int compare( IAtom atom2, IAtom atom1 ) {
-                return new Double(atom2.getAtomicMass()).compareTo( atom1.getAtomicMass() );
+            // Update the list of possible isotopes for this atomic configuration.
+            possibleIsotopesProperty.setValue( newIsotopeList );
+
+            // Remove the old devices for adding and removing isotopes and then
+            // add the new ones.
+            removeBuckets();
+            removeNumericalControllers();
+            addIsotopeControllers( newIsotopeList, interactivityModeProperty.getValue() );
+
+            // Add the actual isotopes.
+            if ( showingNaturesMix.getValue() ){
+                showNaturesMix();
             }
-        });
-
-        // Update the structure that maps isotope to colors.
-        isotopeColorMap.clear();
-        for ( ImmutableAtom isotope : newIsotopeList ) {
-            isotopeColorMap.put( isotope, ISOTOPE_COLORS[isotopeColorMap.size()] );
-        }
-
-        // Update the list of possible isotopes for this atomic configuration.
-        possibleIsotopesProperty.setValue( newIsotopeList );
-
-        // Remove the old devices for adding and removing isotopes and then
-        // add the new ones.
-        removeBuckets();
-        removeNumericalControllers();
-        addIsotopeControllers( newIsotopeList, interactivityModeProperty.getValue() );
-
-        // Add the actual isotopes.
-        if ( showingNaturesMix.getValue() ){
-            showNaturesMix();
-        }
-        else{
-            showUsersMix();
+            else{
+                showUsersMix();
+            }
         }
     }
 
@@ -340,7 +352,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
                 String bucketCaption = AtomIdentifier.getName( isotope ) + "-" + isotope.getMassNumber();
                 MonoIsotopeParticleBucket newBucket = new MonoIsotopeParticleBucket( new Point2D.Double(
                         controllerXOffset + interControllerDistanceX * i, controllerYOffset ),
-                        BUCKET_SIZE, isotopeColorMap.get( isotope ), bucketCaption, isotopeRadius,
+                        BUCKET_SIZE, getColorForIsotope( isotope ), bucketCaption, isotopeRadius,
                         isotope.getNumProtons(), isotope.getNumNeutrons() );
                 bucketList.add( newBucket );
                 notifyBucketAdded( newBucket );
@@ -409,7 +421,8 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
     }
 
     public Color getColorForIsotope( ImmutableAtom isotope ) {
-        return isotopeColorMap.containsKey( isotope ) ? isotopeColorMap.get( isotope ) : Color.BLACK;
+        int index = possibleIsotopesProperty.getValue().indexOf( isotope );
+        return index >= 0 ? ISOTOPE_COLORS[possibleIsotopesProperty.getValue().indexOf( isotope )] : Color.WHITE;
     }
 
     public void reset() {
@@ -582,279 +595,24 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
     }
 
     /**
-     * Class that represents a "test chamber" where multiple isotopes can be
-     * placed.  The test chamber calculates the average atomic mass and the
-     * proportions of the various isotopes.
+     * Class that defines the state of the model.  This can be used for saving
+     * and restoring of the state.
+     *
+     * @author John Blanco
      */
-    public static class IsotopeTestChamber {
+    private static class State {
 
-        // ------------------------------------------------------------------------
-        // Class Data
-        // ------------------------------------------------------------------------
+        private final IsotopeTestChamber.State isotopeTestChamberState;
 
-        // Size of the "test chamber", which is the area in model space into which
-        // the isotopes can be dragged in order to contribute to the current
-        // average atomic weight.
-        private static final Dimension2D SIZE = new PDimension( 3500, 3000 ); // In picometers.
-
-        // Rectangle that defines the location of the test chamber.  This is
-        // set up so that the center of the test chamber is at (0, 0) in model
-        // space.
-        private static final Rectangle2D TEST_CHAMBER_RECT =
-            new Rectangle2D.Double(
-                    -SIZE.getWidth() / 2,
-                    -SIZE.getHeight() / 2,
-                    SIZE.getWidth(),
-                    SIZE.getHeight() );
-
-        // Random number generator for generating positions.
-        private static final Random RAND = new Random();
-
-        // ------------------------------------------------------------------------
-        // Instance Data
-        // ------------------------------------------------------------------------
-
-        // Isotope Mixtures Model that contains this test chamber.
-        private final IsotopeMixturesModel model;
-
-        // List of isotopes that are inside the chamber.  This is updated as
-        // isotopes come and go.
-        private final List<MovableAtom> containedIsotopes = new ArrayList<MovableAtom>();
-
-        // Property that tracks the number of isotopes in the chamber.  This
-        // can be monitored in order to update the view.
-        private final Property<Integer> isotopeCountProperty = new Property<Integer>( 0 );
-
-        // Property that tracks the average atomic mass of all isotopes in
-        // the chamber.
-        private final Property<Double> averageAtomicMassProperty = new Property<Double>( 0.0 );
-
-        // ------------------------------------------------------------------------
-        // Constructor(s)
-        // ------------------------------------------------------------------------
-
-        private IsotopeTestChamber( IsotopeMixturesModel model ){
-            this.model = model;
-        }
-
-        // ------------------------------------------------------------------------
-        // Methods
-        // ------------------------------------------------------------------------
-
-        public Dimension2D getTestChamberSize() {
-            return SIZE;
+        public State( IsotopeMixturesModel model ){
+            isotopeTestChamberState = model.getIsotopeTestChamber().getState();
         }
 
         /**
-         * Get the number of isotopes currently in the chamber that match the
-         * specified configuration.
-         *
-         * @param isotopeConfig
          * @return
          */
-        protected int getIsotopeCount( ImmutableAtom isotopeConfig ){
-            assert isotopeConfig.getNumProtons() == isotopeConfig.getNumElectrons(); // Should always be neutral atom.
-            int isotopeCount = 0;
-            for ( MovableAtom isotope : containedIsotopes ) {
-                if ( isotope.getAtomConfiguration().equals( isotopeConfig ) ) {
-                    isotopeCount++;
-                }
-            }
-            return isotopeCount;
-        }
-
-        public Rectangle2D getTestChamberRect() {
-            return TEST_CHAMBER_RECT;
-        }
-
-        /**
-         * Get the position of the chamber.  The position is defined as the
-         * center of the chamber, not as the upper left corner or any other
-         * point.
-         *
-         * @return
-         */
-        public Point2D getPosition() {
-            return new Point2D.Double( TEST_CHAMBER_RECT.getCenterX(), TEST_CHAMBER_RECT.getCenterY() );
-        }
-
-        /**
-         * Test whether an isotope is within the chamber.  This is strictly
-         * a 2D test that looks as the isotopes center position and determines
-         * if it is within the bounds of the chamber rectangle.
-         * @param isotop
-         * @return
-         */
-        public boolean isIsotopePositionedOverChamber( MovableAtom isotope ){
-            return TEST_CHAMBER_RECT.contains( isotope.getPosition() );
-        }
-
-        /**
-         * Returns true if the specified isotope instance is contained by the
-         * chamber.  Note that it is possible for an isotope to be positioned
-         * within the chamber bounds but not contained by it.
-         *
-         * @param isotope
-         * @return
-         */
-        public boolean isIsotopeContained( MovableAtom isotope ){
-            return containedIsotopes.contains( isotope );
-        }
-
-        /**
-         * Add the specified isotope to the chamber.  This method requires
-         * the the position of the isotope be within the chamber rectangle,
-         * or the isotope will not be added.
-         *
-         * In cases where an isotope is in a position where the center is
-         * within the chamber but the edges are not, the isotope will be moved
-         * so that it is fully contained within the chamber.
-         *
-         * @param isotope
-         */
-        protected void addIsotopeToChamber( MovableAtom isotope ){
-            if ( isIsotopePositionedOverChamber( isotope ) ){
-                containedIsotopes.add( isotope );
-                updateCountProperty();
-                // Update the average atomic mass.
-                averageAtomicMassProperty.setValue( ( averageAtomicMassProperty.getValue() *
-                        ( isotopeCountProperty.getValue() - 1 ) + isotope.getAtomConfiguration().getAtomicMass() ) /
-                        isotopeCountProperty.getValue() );
-                // If the edges of the isotope are outside of the container,
-                // move it to be fully inside.
-                double protrusion = isotope.getPosition().getX() + isotope.getRadius() - TEST_CHAMBER_RECT.getMaxX();
-                if (protrusion >= 0){
-                    isotope.setPositionAndDestination( isotope.getPosition().getX() - protrusion,
-                            isotope.getPosition().getY() );
-                }
-                else{
-                    protrusion =  TEST_CHAMBER_RECT.getMinX() - (isotope.getPosition().getX() - isotope.getRadius());
-                    if (protrusion >= 0){
-                        isotope.setPositionAndDestination( isotope.getPosition().getX() + protrusion,
-                                isotope.getPosition().getY() );
-                    }
-                }
-                protrusion = isotope.getPosition().getY() + isotope.getRadius() - TEST_CHAMBER_RECT.getMaxY();
-                if (protrusion >= 0){
-                    isotope.setPositionAndDestination( isotope.getPosition().getX(),
-                            isotope.getPosition().getY() - protrusion );
-                }
-                else{
-                    protrusion =  TEST_CHAMBER_RECT.getMinY() - (isotope.getPosition().getY() - isotope.getRadius());
-                    if (protrusion >= 0){
-                        isotope.setPositionAndDestination( isotope.getPosition().getX(),
-                                isotope.getPosition().getY() + protrusion );
-                    }
-                }
-            }
-            else{
-                // This isotope is not positioned correctly.
-                System.err.println(getClass().getName() + " - Warning: Ignoring attempt to add incorrectly located isotope to test chamber.");
-            }
-        }
-
-        public void removeIsotopeFromChamber( MovableAtom isotope ){
-            containedIsotopes.remove( isotope );
-            updateCountProperty();
-            // Update the average atomic mass.
-            if ( isotopeCountProperty.getValue() > 0 ){
-                averageAtomicMassProperty.setValue( ( averageAtomicMassProperty.getValue() * ( isotopeCountProperty.getValue() + 1 )
-                        - isotope.getAtomConfiguration().getAtomicMass() ) / isotopeCountProperty.getValue() );
-            }
-            else{
-                averageAtomicMassProperty.setValue( 0.0 );
-            }
-        }
-
-        /**
-         * Remove an isotope from the chamber that matches the specified atom
-         * configuration.  Note that electrons are ignored.
-         */
-        public MovableAtom removeIsotopeMatchingConfig( ImmutableAtom isotopeConfig ){
-            // Argument checking.
-            if (isotopeConfig.getCharge() != 0){
-                throw new IllegalArgumentException( "Isotope must be neutral" );
-            }
-            // Locate and remove a matching isotope.
-            MovableAtom removedIsotope = null;
-            for ( MovableAtom isotope : containedIsotopes ){
-                if ( isotope.getAtomConfiguration().equals( isotopeConfig )){
-                    removedIsotope = isotope;
-                    break;
-                }
-            }
-            removeIsotopeFromChamber( removedIsotope );
-            return removedIsotope;
-        }
-
-        public void removeAllIsotopes( boolean removeFromModel ){
-            List<MovableAtom> containedIsotopesCopy = new ArrayList<MovableAtom>( containedIsotopes );
-            for ( MovableAtom isotope : containedIsotopesCopy ) {
-                removeIsotopeFromChamber( isotope );
-                if ( removeFromModel ){
-                    isotope.removeListener( model.isotopeGrabbedListener );
-                    isotope.removedFromModel();
-                }
-            }
-            assert isotopeCountProperty.getValue() == 0;      // Logical consistency check.
-            assert averageAtomicMassProperty.getValue() == 0; // Logical consistency check.
-        }
-
-        /**
-         * Get a count of the total number of isotopes in the chamber.
-         */
-        public int getTotalIsotopeCount(){
-            return isotopeCountProperty.getValue();
-        }
-
-
-        public void addTotalCountChangeObserver( SimpleObserver so ){
-            isotopeCountProperty.addObserver( so );
-        }
-
-        private void updateCountProperty(){
-            isotopeCountProperty.setValue( containedIsotopes.size() );
-        }
-
-        public void addAverageAtomicMassPropertyListener( SimpleObserver so ){
-            averageAtomicMassProperty.addObserver( so );
-        }
-
-        public double getAverageAtomicMass(){
-            return averageAtomicMassProperty.getValue();
-        }
-
-        /**
-         * Get the proportion of isotopes currently within the chamber that
-         * match the specified configuration.  Note that electrons are
-         * ignored.
-         *
-         * @param isotopeConfig - Atom representing the configuration in
-         * question, MUST BE NEUTRAL.
-         * @return
-         */
-        public double getIsotopeProportion( ImmutableAtom isotopeConfig ){
-            assert isotopeConfig.getCharge() == 0;
-            // TODO: This could be done by a map that is updated each time an
-            // atom is added if better performance is needed.  This should be
-            // decided before publishing this sim.
-            int isotopeCount = 0;
-            for ( MovableAtom isotope : containedIsotopes ){
-                if ( isotopeConfig.equals( isotope.getAtomConfiguration() )){
-                    isotopeCount++;
-                }
-            }
-            return (double)isotopeCount / (double)containedIsotopes.size();
-        }
-
-        /**
-         * Generate a random location within the test chamber.
-         * @return
-         */
-        public Point2D generateRandomLocation(){
-            return new Point2D.Double(
-                    TEST_CHAMBER_RECT.getMinX() + RAND.nextDouble() * TEST_CHAMBER_RECT.getWidth(),
-                    TEST_CHAMBER_RECT.getMinY() + RAND.nextDouble() * TEST_CHAMBER_RECT.getHeight() );
+        public IsotopeTestChamber.State getIsotopeTestChamberState() {
+            return isotopeTestChamberState;
         }
     }
 
