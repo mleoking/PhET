@@ -39,7 +39,6 @@ public class Server {
         try {
             mongo = new Mongo();
             morphia = new Morphia();
-            morphia.map( GravityAndOrbitsApplicationState.class );
             morphia.map( LatestIndex.class );
             morphia.map( Sample.class );
             ds = morphia.createDatastore( mongo, "simsharing-test-1" );//change index on datastore name instead of clearing datastore?

@@ -5,12 +5,8 @@ package edu.colorado.phet.gravityandorbits.simsharing;
 import java.awt.*;
 import java.io.Serializable;
 
-import org.bson.types.ObjectId;
-
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.gravityandorbits.GravityAndOrbitsApplication;
-
-import com.google.code.morphia.annotations.Id;
 
 import static java.lang.System.currentTimeMillis;
 
@@ -18,7 +14,6 @@ import static java.lang.System.currentTimeMillis;
  * @author Sam Reid
  */
 public class GravityAndOrbitsApplicationState implements Serializable {
-    private @Id ObjectId id = new ObjectId();
     private GravityAndOrbitsModuleState introState;
     private GravityAndOrbitsModuleState toScaleState;
     private long timestamp;
