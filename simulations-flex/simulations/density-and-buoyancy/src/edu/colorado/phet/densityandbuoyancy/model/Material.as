@@ -26,7 +26,7 @@ public class Material {
     public static var WOOD: Material = new Material( FlexSimStrings.get( "material.wood", "Wood" ), 400, false, 0xa87113, new woodTextureClass() );
     public static var ICE: Material = new Material( FlexSimStrings.get( "material.ice", "Ice" ), 919, false, 0x6fbcff, new iceTextureClass(), 0.75 );
     public static var WATER: Material = new Material( FlexSimStrings.get( "material.water", "Water" ), 1000.0, false, 0x0088FF );
-    public static var BRICK: Material = new Material( FlexSimStrings.get( "material.brick", "Brick" ), 1922, false, 0xd34f32, new brickTextureClass() );//see http://www.simetric.co.uk/si_materials.htm
+    public static var BRICK: Material = new Material( FlexSimStrings.get( "material.brick", "Brick" ), 2000, false, 0xd34f32, new brickTextureClass() );//see http://www.simetric.co.uk/si_materials.htm also tuned so that in BuoyancySameVolumeMode the brick is exactly 10.0kg
     public static var ALUMINUM: Material = new Material( FlexSimStrings.get( "material.aluminum", "Aluminum" ), 2700, false, 0x646464, new aluminumTextureClass() );
     public static var CUSTOM: Material = new Material( FlexSimStrings.get( "material.custom", "My Block" ), 1000.0, true, new customObjectTexture() );
     //TODO: Add back water balloon after creating geometry for it
