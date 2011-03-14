@@ -5,6 +5,8 @@ package edu.colorado.phet.buildanatom.model;
 import java.awt.Color;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.List;
 
 import edu.colorado.phet.buildanatom.modules.isotopemixture.model.MovableAtom;
 
@@ -42,5 +44,19 @@ public class MonoIsotopeParticleBucket extends ParticleBucket {
 
     public boolean isIsotopeAllowed( ImmutableAtom isotopeConfig ){
         return isIsotopeAllowed( isotopeConfig.getNumProtons(), isotopeConfig.getNumNeutrons() );
+    }
+
+    /**
+     * Get a list of all isotopes contained within this bucket.
+     *
+     * @return A list of the isotopes that have been removed.
+     */
+    public List<MovableAtom> getContainedIsotopes(){
+        List<MovableAtom> removedIsotopes = new ArrayList<MovableAtom>();
+        for ( SphericalParticle isotope : getParticleList() ){
+            assert isotope instanceof MovableAtom;
+            removedIsotopes.add( (MovableAtom)isotope );
+        }
+        return removedIsotopes;
     }
 }
