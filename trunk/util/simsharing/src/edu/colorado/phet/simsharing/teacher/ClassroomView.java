@@ -52,10 +52,10 @@ public class ClassroomView extends PSwingCanvas {
         }}.start();
     }
 
-    private StudentComponent getComponent( SessionID studentID ) {
+    private StudentComponent getComponent( SessionID sessionID ) {
         for ( int i = 0; i < studentThumbnailNode.getChildrenCount(); i++ ) {
             PNode child = studentThumbnailNode.getChild( i );
-            if ( child instanceof StudentComponent && ( (StudentComponent) child ).studentID.equals( studentID ) ) {
+            if ( child instanceof StudentComponent && ( (StudentComponent) child ).sessionID.equals( sessionID ) ) {
                 return (StudentComponent) child;
             }
         }
@@ -91,12 +91,12 @@ public class ClassroomView extends PSwingCanvas {
 
         for ( int i = 0; i < list.size(); i++ ) {
             StudentSummary student = list.get( i );
-            final SessionID studentID = student.getStudentID();
-            StudentComponent component = getComponent( studentID );
+            final SessionID sessionID = student.getSessionID();
+            StudentComponent component = getComponent( sessionID );
             if ( component == null ) {
-                component = new StudentComponent( studentID, new VoidFunction0() {
+                component = new StudentComponent( sessionID, new VoidFunction0() {
                     public void apply() {
-                        new SimView( args, studentID, new SimView.SampleSource.RemoteActor( server, studentID ), false ).start();
+                        new SimView( args, sessionID, new SimView.SampleSource.RemoteActor( server, sessionID ), false ).start();
                     }
                 } );
                 studentThumbnailNode.addChild( component );
@@ -112,7 +112,7 @@ public class ClassroomView extends PSwingCanvas {
         ArrayList<PNode> toRemove = new ArrayList<PNode>();
         for ( int i = 0; i < studentThumbnailNode.getChildrenCount(); i++ ) {
             PNode child = studentThumbnailNode.getChild( i );
-            if ( child instanceof StudentComponent && !list.containsStudent( ( (StudentComponent) child ).getStudentID() ) ) {
+            if ( child instanceof StudentComponent && !list.containsStudent( ( (StudentComponent) child ).getSessionID() ) ) {
                 toRemove.add( child );
             }
         }

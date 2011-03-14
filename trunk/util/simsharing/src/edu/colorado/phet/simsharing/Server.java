@@ -81,8 +81,8 @@ public class Server {
                     public void onReceive( Object o ) {
                         if ( o instanceof GetStudentData ) {
                             GetStudentData request = (GetStudentData) o;
-                            Sample data = getSample( request.getStudentID(), request.getIndex() );//could be null
-                            getContext().replySafe( data == null ? null : new Pair<Sample, Integer>( data, getLastIndex( request.getStudentID() ) ) );
+                            Sample data = getSample( request.getSessionID(), request.getIndex() );//could be null
+                            getContext().replySafe( data == null ? null : new Pair<Sample, Integer>( data, getLastIndex( request.getSessionID() ) ) );
                         }
                         else if ( o instanceof StartSession ) {
                             if ( ds.createQuery( SessionCount.class ).get() == null ) {
@@ -93,17 +93,17 @@ public class Server {
                             }
                             int sessionCount = ds.createQuery( SessionCount.class ).get().getCount();
 
-                            final SessionID studentID = new SessionID( sessionCount, names[sessionCount % names.length] );
-                            getContext().replySafe( studentID );
-                            students.add( studentID );
-                            ds.save( new SessionStarted( studentID, System.currentTimeMillis() ) );
+                            final SessionID sessionID = new SessionID( sessionCount, names[sessionCount % names.length] );
+                            getContext().replySafe( sessionID );
+                            students.add( sessionID );
+                            ds.save( new SessionStarted( sessionID, System.currentTimeMillis() ) );
                         }
                         else if ( o instanceof EndSession ) {
                             //Save the student info to disk and remove from system memory
-                            final SessionID studentID = ( (EndSession) o ).getStudentID();
-                            students.remove( studentID );
-                            System.out.println( "student exited: " + studentID );
-                            ds.save( new SessionEnded( studentID, System.currentTimeMillis() ) );
+                            final SessionID sessionID = ( (EndSession) o ).getSessionID();
+                            students.remove( sessionID );
+                            System.out.println( "student exited: " + sessionID );
+                            ds.save( new SessionEnded( sessionID, System.currentTimeMillis() ) );
                         }
                         else if ( o instanceof GetStudentList ) {
                             ArrayList<StudentSummary> list = new ArrayList<StudentSummary>();

@@ -7,16 +7,16 @@ import java.io.Serializable;
  * @author Sam Reid
  */
 public class AddStudentDataSample implements Serializable {
-    private SessionID studentID;
+    private SessionID sessionID;
     private Object data;
 
-    public AddStudentDataSample( SessionID studentID, Object data ) {
-        this.studentID = studentID;
+    public AddStudentDataSample( SessionID sessionID, Object data ) {
+        this.sessionID = sessionID;
         this.data = data;
     }
 
     public SessionID getSessionID() {
-        return studentID;
+        return sessionID;
     }
 
     public Object getData() {

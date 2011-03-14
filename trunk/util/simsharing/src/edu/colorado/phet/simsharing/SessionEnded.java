@@ -5,7 +5,7 @@ package edu.colorado.phet.simsharing;
  * @author Sam Reid
  */
 public class SessionEnded {
-    public SessionEnded( SessionID studentID, long time ) {
+    public SessionEnded( SessionID sessionID, long time ) {
     }
 
     public SessionEnded() {

@@ -12,8 +12,8 @@ import edu.colorado.phet.simsharing.SessionStarted;
 public class SessionList implements Serializable {
     private ArrayList<SessionStarted> list = new ArrayList<SessionStarted>();
 
-    public void add( SessionStarted studentID ) {
-        list.add( studentID );
+    public void add( SessionStarted sessionStarted ) {
+        list.add( sessionStarted );
     }
 
     public int size() {

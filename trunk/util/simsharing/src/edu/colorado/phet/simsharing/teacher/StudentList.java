@@ -17,9 +17,9 @@ public class StudentList implements Serializable {
         this.students = students;
     }
 
-    public boolean containsStudent( SessionID studentID ) {
+    public boolean containsStudent( SessionID sessionID ) {
         for ( StudentSummary student : students ) {
-            if ( student.getStudentID().equals( studentID ) ) {
+            if ( student.getSessionID().equals( sessionID ) ) {
                 return true;
             }
         }

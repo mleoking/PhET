@@ -38,10 +38,10 @@ public class SessionID implements Serializable {
         if ( this == o ) { return true; }
         if ( o == null || getClass() != o.getClass() ) { return false; }
 
-        SessionID studentID = (SessionID) o;
+        SessionID sessionID = (SessionID) o;
 
-        if ( index != studentID.index ) { return false; }
-        if ( name != null ? !name.equals( studentID.name ) : studentID.name != null ) { return false; }
+        if ( index != sessionID.index ) { return false; }
+        if ( name != null ? !name.equals( sessionID.name ) : sessionID.name != null ) { return false; }
 
         return true;
     }

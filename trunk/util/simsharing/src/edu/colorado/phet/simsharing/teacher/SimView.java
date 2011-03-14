@@ -30,24 +30,24 @@ public class SimView {
 
         public static class RemoteActor implements SampleSource {
             final ActorRef server;
-            private final SessionID studentID;
+            private final SessionID sessionID;
 
-            public RemoteActor( ActorRef server, SessionID studentID ) {
+            public RemoteActor( ActorRef server, SessionID sessionID ) {
                 this.server = server;
-                this.studentID = studentID;
+                this.sessionID = sessionID;
             }
 
             public Pair<Sample, Integer> getSample( int index ) {
-                return (Pair<Sample, Integer>) server.sendRequestReply( new GetStudentData( studentID, index ) );
+                return (Pair<Sample, Integer>) server.sendRequestReply( new GetStudentData( sessionID, index ) );
             }
         }
     }
 
-    public SimView( final String[] args, final SessionID studentID, SampleSource sampleSource, boolean playbackMode ) {
+    public SimView( final String[] args, final SessionID sessionID, SampleSource sampleSource, boolean playbackMode ) {
         this.args = args;
         this.sampleSource = sampleSource;
         this.autoplay = playbackMode;
-        timeControl = new TimeControlFrame( studentID );
+        timeControl = new TimeControlFrame( sessionID );
         timeControl.setVisible( true );
         thread = new Thread( new Runnable() {
             public void run() {
