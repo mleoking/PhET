@@ -26,8 +26,8 @@ public class TimeControlFrame extends JFrame {
     public final Property<Integer> frameToDisplay = new Property<Integer>( 0 );
     public final BooleanProperty playing = new BooleanProperty( false );
 
-    public TimeControlFrame( SessionID studentID ) throws HeadlessException {
-        super( "Time controls: " + studentID );
+    public TimeControlFrame( SessionID sessionID ) throws HeadlessException {
+        super( "Time controls: " + sessionID );
         setContentPane( new JPanel( new BorderLayout() ) {{
             add( new JPanel() {{
                 add( new PropertyRadioButton<Boolean>( "Live", live, true ) );

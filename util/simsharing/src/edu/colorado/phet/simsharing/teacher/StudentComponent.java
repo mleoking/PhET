@@ -18,14 +18,14 @@ import edu.umd.cs.piccolo.nodes.PText;
  * @author Sam Reid
  */
 public class StudentComponent extends PNode {
-    public final SessionID studentID;
+    public final SessionID sessionID;
     private final PImage thumbnail;
     private PText text;
     private PText text2;
 
-    public StudentComponent( final SessionID studentID, final VoidFunction0 watch ) {
-        this.studentID = studentID;
-        final PText namePText = new PText( studentID.getName() );
+    public StudentComponent( final SessionID sessionID, final VoidFunction0 watch ) {
+        this.sessionID = sessionID;
+        final PText namePText = new PText( sessionID.getName() );
         addChild( namePText );
         final ButtonNode buttonNode = new ButtonNode( "Watch" ) {{
             setOffset( 100, 0 );
@@ -69,8 +69,8 @@ public class StudentComponent extends PNode {
         return new DecimalFormat( "0.0" ).format( upTime / 1000.0 );
     }
 
-    public SessionID getStudentID() {
-        return studentID;
+    public SessionID getSessionID() {
+        return sessionID;
     }
 
     public void setTimeSinceLastEvent( long timeSinceLastEvent ) {

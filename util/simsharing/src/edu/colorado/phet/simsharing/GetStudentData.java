@@ -8,16 +8,16 @@ import java.io.Serializable;
  */
 public class GetStudentData implements Serializable {
 
-    private final SessionID selected;
+    private final SessionID sessionID;
     private int index;
 
-    public GetStudentData( SessionID selected, int index ) {
-        this.selected = selected;
+    public GetStudentData( SessionID sessionID, int index ) {
+        this.sessionID = sessionID;
         this.index = index;
     }
 
-    public SessionID getStudentID() {
-        return selected;
+    public SessionID getSessionID() {
+        return sessionID;
     }
 
     public int getIndex() {

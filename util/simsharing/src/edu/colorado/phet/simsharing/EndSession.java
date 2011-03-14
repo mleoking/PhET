@@ -7,13 +7,13 @@ import java.io.Serializable;
  * @author Sam Reid
  */
 public class EndSession implements Serializable {
-    private SessionID studentID;
+    private SessionID sessionID;
 
-    public EndSession( SessionID studentID ) {
-        this.studentID = studentID;
+    public EndSession( SessionID sessionID ) {
+        this.sessionID = sessionID;
     }
 
-    public SessionID getStudentID() {
-        return studentID;
+    public SessionID getSessionID() {
+        return sessionID;
     }
 }

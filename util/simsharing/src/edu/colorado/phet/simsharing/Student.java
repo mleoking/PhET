@@ -23,7 +23,7 @@ import edu.colorado.phet.gravityandorbits.simsharing.ImageFactory;
 public class Student {
     private final String[] args;
     private int count = 0;//Only send messages every count%N frames
-    protected SessionID studentID;
+    protected SessionID sessionID;
     private ImageFactory imageFactory = new ImageFactory();
 
     public Student( String[] args ) {
@@ -41,8 +41,8 @@ public class Student {
         final GravityAndOrbitsApplication application = GAOHelper.launchApplication( args, new VoidFunction0() {
             //TODO: could move exit listeners here instead of in PhetExit
             public void apply() {
-                if ( studentID != null ) {
-                    server.sendOneWay( new EndSession( studentID ) );
+                if ( sessionID != null ) {
+                    server.sendOneWay( new EndSession( sessionID ) );
                 }
                 System.exit( 0 );
             }
@@ -57,7 +57,7 @@ public class Student {
             public void apply() {
                 if ( count % N == 0 ) {
                     GravityAndOrbitsApplicationState state = new GravityAndOrbitsApplicationState( application, imageFactory );
-                    if ( studentID == null ) {
+                    if ( sessionID == null ) {
                         if ( !startedMessage ) {
                             System.out.print( "Awaiting ID" );
                             startedMessage = true;
@@ -68,10 +68,10 @@ public class Student {
                     }
                     else {
                         if ( !finishedMessage ) {
-                            System.out.println( "\nReceived ID: " + studentID );
+                            System.out.println( "\nReceived ID: " + sessionID );
                             finishedMessage = true;
                         }
-                        server.sendOneWay( new AddStudentDataSample( studentID, state ) );
+                        server.sendOneWay( new AddStudentDataSample( sessionID, state ) );
                     }
                 }
                 count++;
@@ -93,10 +93,10 @@ public class Student {
         new Thread( new Runnable() {
             public void run() {
                 //be careful, this part blocks:
-                studentID = (SessionID) server.sendRequestReply( new StartSession() );
+                sessionID = (SessionID) server.sendRequestReply( new StartSession() );
                 SwingUtilities.invokeLater( new Runnable() {
                     public void run() {
-                        application.getPhetFrame().setTitle( application.getPhetFrame().getTitle() + ", id = " + studentID );
+                        application.getPhetFrame().setTitle( application.getPhetFrame().getTitle() + ", id = " + sessionID );
                     }
                 } );
             }
