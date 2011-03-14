@@ -6,7 +6,6 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.buildanatom.model.ImmutableAtom;
 import edu.colorado.phet.buildanatom.model.SphericalParticle;
-import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 
 /**
