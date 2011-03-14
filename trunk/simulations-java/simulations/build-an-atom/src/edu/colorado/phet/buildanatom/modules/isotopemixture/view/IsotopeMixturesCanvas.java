@@ -21,7 +21,7 @@ import edu.colorado.phet.buildanatom.modules.interactiveisotope.view.IsotopeSlid
 import edu.colorado.phet.buildanatom.modules.isotopemixture.model.IsotopeMixturesModel;
 import edu.colorado.phet.buildanatom.modules.isotopemixture.model.MovableAtom;
 import edu.colorado.phet.buildanatom.modules.isotopemixture.model.IsotopeMixturesModel.InteractivityMode;
-import edu.colorado.phet.buildanatom.modules.isotopemixture.model.IsotopeMixturesModel.LinearAddRemoveIsotopesControl;
+import edu.colorado.phet.buildanatom.modules.isotopemixture.model.IsotopeMixturesModel.NumericalIsotopeQuantityControl;
 import edu.colorado.phet.buildanatom.view.BucketFrontNode;
 import edu.colorado.phet.buildanatom.view.BucketHoleNode;
 import edu.colorado.phet.buildanatom.view.MaximizeControlNode;
@@ -146,7 +146,7 @@ public class IsotopeMixturesCanvas extends PhetPCanvas {
                 }, false );
             }
             @Override
-            public void isotopeLinearControllerAdded( final LinearAddRemoveIsotopesControl controller ) {
+            public void isotopeNumericalControllerAdded( final NumericalIsotopeQuantityControl controller ) {
                 final IsotopeSliderNode controllerNode = new IsotopeSliderNode( controller, mvt );
                 controlsLayer.addChild( controllerNode );
                 controller.getPartOfModelProperty().addObserver( new SimpleObserver() {

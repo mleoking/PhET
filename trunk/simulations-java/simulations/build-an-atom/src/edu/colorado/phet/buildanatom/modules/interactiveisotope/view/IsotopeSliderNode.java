@@ -36,7 +36,7 @@ public class IsotopeSliderNode extends PNode {
 
     private static final Dimension2D SIZE = new PDimension( 120, 75 );
 
-    public IsotopeSliderNode( final IsotopeMixturesModel.LinearAddRemoveIsotopesControl modelControl, ModelViewTransform mvt ){
+    public IsotopeSliderNode( final IsotopeMixturesModel.NumericalIsotopeQuantityControl modelControl, ModelViewTransform mvt ){
         PNode rootNode = new PNode();
         rootNode.setOffset( mvt.modelToView( modelControl.getCenterPositionRef() ) );
         addChild( rootNode );

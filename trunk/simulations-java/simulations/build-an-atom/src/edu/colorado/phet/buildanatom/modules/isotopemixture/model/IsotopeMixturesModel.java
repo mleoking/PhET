@@ -95,10 +95,10 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
     // List of the isotope buckets.
     private final List<MonoIsotopeParticleBucket> bucketList = new ArrayList<MonoIsotopeParticleBucket>();
 
-    // List of the linear controls that, when present, can be used to add or
-    // remove isotopes to/from the test chamber.
-    private final List<LinearAddRemoveIsotopesControl> linearControllerList =
-            new ArrayList<LinearAddRemoveIsotopesControl>();
+    // List of the numerical controls that, when present, can be used to add
+    // or remove isotopes to/from the test chamber.
+    private final List<NumericalIsotopeQuantityControl> numericalControllerList =
+            new ArrayList<NumericalIsotopeQuantityControl>();
 
     // Property that determines the type of user interactivity that is set.
     // See the enum definition for more information about the modes.
@@ -283,7 +283,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
         // Remove the old devices for adding and removing isotopes and then
         // add the new ones.
         removeBuckets();
-        removeLinearControllers();
+        removeNumericalControllers();
         addIsotopeControllers( newIsotopeList, interactivityModeProperty.getValue() );
 
         // Add the actual isotopes.
@@ -311,7 +311,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
      * specified interactivity mode.  Isotope controllers are the model
      * portion of the devices with which the user can interact with in order
      * to add or remove isotopes to/from the test chamber.  There are two
-     * types of controllers: buckets and linear controllers (i.e. sliders).
+     * types of controllers: buckets and numerical controllers (i.e. sliders).
      *
      * @param newIsotopeList
      * @param value
@@ -350,19 +350,19 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
                 notifyBucketAdded( newBucket );
             }
             else{
-                // Assume a linear controller.
-                LinearAddRemoveIsotopesControl newController = new LinearAddRemoveIsotopesControl( this, isotope,
+                // Assume a numerical controller.
+                NumericalIsotopeQuantityControl newController = new NumericalIsotopeQuantityControl( this, isotope,
                         new Point2D.Double(controllerXOffset + interControllerDistanceX * i, controllerYOffset) );
-                linearControllerList.add( newController );
-                notifyLinearControllerAdded( newController );
+                numericalControllerList.add( newController );
+                notifyNumericalControllerAdded( newController );
             }
         }
     }
 
-    private void removeLinearControllers(){
-        ArrayList< LinearAddRemoveIsotopesControl > oldControllers = new ArrayList< LinearAddRemoveIsotopesControl >( linearControllerList );
-        linearControllerList.clear();
-        for ( LinearAddRemoveIsotopesControl controller : oldControllers ) {
+    private void removeNumericalControllers(){
+        ArrayList< NumericalIsotopeQuantityControl > oldControllers = new ArrayList< NumericalIsotopeQuantityControl >( numericalControllerList );
+        numericalControllerList.clear();
+        for ( NumericalIsotopeQuantityControl controller : oldControllers ) {
             controller.removedFromModel();
         }
     }
@@ -404,8 +404,8 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
         return bucketList;
     }
 
-    protected List<LinearAddRemoveIsotopesControl> getLinearControllerListProperty() {
-        return linearControllerList;
+    protected List<NumericalIsotopeQuantityControl> getNumericalControllerListProperty() {
+        return numericalControllerList;
     }
 
     public BooleanProperty getShowingNaturesMixProperty() {
@@ -441,9 +441,9 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
         }
     }
 
-    private void notifyLinearControllerAdded( LinearAddRemoveIsotopesControl controller ){
+    private void notifyNumericalControllerAdded( NumericalIsotopeQuantityControl controller ){
         for ( Listener listener : listeners ) {
-            listener.isotopeLinearControllerAdded( controller );
+            listener.isotopeNumericalControllerAdded( controller );
         }
     }
 
@@ -579,13 +579,13 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
     public interface Listener {
         void isotopeInstanceAdded( MovableAtom atom );
         void isotopeBucketAdded( MonoIsotopeParticleBucket bucket );
-        void isotopeLinearControllerAdded( LinearAddRemoveIsotopesControl controller );
+        void isotopeNumericalControllerAdded( NumericalIsotopeQuantityControl controller );
     }
 
     public static class Adapter implements Listener {
         public void isotopeInstanceAdded( MovableAtom atom ) {}
         public void isotopeBucketAdded( MonoIsotopeParticleBucket bucket ) {}
-        public void isotopeLinearControllerAdded( LinearAddRemoveIsotopesControl controller ) {}
+        public void isotopeNumericalControllerAdded( NumericalIsotopeQuantityControl controller ) {}
     }
 
     /**
@@ -863,8 +863,8 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
     }
 
     /**
-     * This class is the model representation of a linear control that allows
-     * the user to add or remove isotopes from the test chamber.  It is
+     * This class is the model representation of a numerical controller that
+     * allows the user to add or remove isotopes from the test chamber.  It is
      * admittedly a little odd to have a class like this that is really more
      * of a view sort of thing, but it was needed in order to be consistent
      * with the buckets, which are the other UI device that the user has for
@@ -873,7 +873,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
      * the chamber have somewhere to go, so this class allows buckets and
      * other controls to be handled consistently between the model and view.
      */
-    public static class LinearAddRemoveIsotopesControl {
+    public static class NumericalIsotopeQuantityControl {
         private static final int CAPACITY = 100;
         private final Point2D centerPosition = new Point2D.Double();
         private final ImmutableAtom isotopeConfig;
@@ -886,7 +886,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
         /**
          * Constructor.
          */
-        public LinearAddRemoveIsotopesControl( IsotopeMixturesModel model, ImmutableAtom atomConfig, Point2D position ){
+        public NumericalIsotopeQuantityControl( IsotopeMixturesModel model, ImmutableAtom atomConfig, Point2D position ){
             this.model = model;
             this.isotopeConfig = atomConfig;
             this.centerPosition.setLocation( position );
