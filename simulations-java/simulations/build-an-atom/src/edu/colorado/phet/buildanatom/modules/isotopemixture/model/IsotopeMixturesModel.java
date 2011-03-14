@@ -110,10 +110,6 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
     // mix should be displayed, the isotope size property is ignored.
     private final BooleanProperty showingNaturesMix = new BooleanProperty( false );
 
-    // List that contains the isotope instances that are outside the chamber,
-    // which generally means that they are in a bucket or being moved around.
-    private final List<MovableAtom> isotopesOutsideOfChamber = new ArrayList<MovableAtom>();
-
     // List that contains the isotope instances that are shown in the test
     // chamber to represent nature's mix of isotopes.
     private final List<MovableAtom> naturesMixOfIsotopes = new ArrayList<MovableAtom>();
@@ -175,8 +171,8 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
             newIsotope = new MovableAtom( isotopeConfig.getNumProtons(), isotopeConfig.getNumNeutrons(),
                     LARGE_ISOTOPE_RADIUS, new Point2D.Double(), getClock() );
             newIsotope.addListener( isotopeGrabbedListener );
+            // Add this isotope to a bucket.
             getBucketForIsotope( isotopeConfig ).addIsotopeInstance( newIsotope );
-            isotopesOutsideOfChamber.add( newIsotope );
         }
         else{
             // Create the specified isotope and add it directly to the test chamber.
@@ -236,14 +232,14 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
         // way.
         testChamber.removeAllIsotopes( true );
 
-        // Remove all existing isotope instances that are outside of the test
-        // chamber.
-        List<MovableAtom> usersMixOfIsotopesCopy = new ArrayList<MovableAtom>( isotopesOutsideOfChamber );
-        isotopesOutsideOfChamber.clear();
-        for ( MovableAtom isotope : usersMixOfIsotopesCopy ){
-            // Signal the isotope that it has been removed from the model.
-            isotope.removeListener( isotopeGrabbedListener );
-            isotope.removedFromModel();
+        // Remove all existing isotope instances that are in the buckets.
+        for ( MonoIsotopeParticleBucket bucket : bucketList ){
+            List<MovableAtom> isotopesFromBucket = new ArrayList<MovableAtom>(bucket.getContainedIsotopes());
+            bucket.reset(); // Clear the bucket.
+            for ( MovableAtom isotope : isotopesFromBucket ){
+                isotope.removeListener( isotopeGrabbedListener );
+                isotope.removedFromModel();
+            }
         }
 
         // Remove all existing isotopes from nature's mix.  Note that this
@@ -453,11 +449,17 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
      * notifications of removal for each isotope but keeping them around.
      */
     private void hideUsersMix(){
-        for ( MovableAtom isotope : isotopesOutsideOfChamber ){
-            if ( testChamber.getTestChamberRect().contains( isotope.getPosition() ) ){
-                testChamber.removeIsotopeFromChamber( isotope );
+        // TODO: 3/14/2011 - This is known to be broken, since it removes
+        // everything in the bucket or the chamber.  It should be fixed when
+        // the state handling is implemented.
+        testChamber.removeAllIsotopes( true );
+        for ( MonoIsotopeParticleBucket bucket : bucketList ){
+            List<MovableAtom> isotopesFromBucket = new ArrayList<MovableAtom>(bucket.getContainedIsotopes());
+            bucket.reset(); // Clear the bucket.
+            for ( MovableAtom isotope : isotopesFromBucket ){
+                isotope.removeListener( isotopeGrabbedListener );
+                isotope.removedFromModel();
             }
-            isotope.removedFromModel();
         }
     }
 
@@ -466,10 +468,8 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
      * mix of isotopes was previously hidden.
      */
     private void showUsersMix(){
-        if ( interactivityModeProperty.getValue() == InteractivityMode.BUCKETS_AND_LARGE_ATOMS && isotopesOutsideOfChamber.size() == 0 ){
-            // This is the first time that the user's mix has been shown since
-            // the current element was selected.  Create the individual
-            // isotope instances and add them to the buckets.
+        if ( interactivityModeProperty.getValue() == InteractivityMode.BUCKETS_AND_LARGE_ATOMS ){
+            // Add the isotopes to their respective buckets.
             for ( ImmutableAtom isotopeConfig : possibleIsotopesProperty.getValue() ) {
                 MonoIsotopeParticleBucket isotopeBucket = getBucketForIsotope( isotopeConfig );
                 assert isotopeBucket != null; // If there is no bucket for this isotope, there is a bug.
@@ -480,13 +480,6 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
                     createAndAddIsotope( isotopeConfig );
                 }
             }
-        }
-        // Set each isotope to be in the model.
-        for ( MovableAtom isotope : isotopesOutsideOfChamber ){
-            if ( testChamber.getTestChamberRect().contains( isotope.getPosition() )){
-                testChamber.addIsotopeToChamber( isotope );
-            }
-            notifyIsotopeInstanceAdded( isotope );
         }
     }
 
