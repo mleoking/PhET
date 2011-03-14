@@ -94,10 +94,10 @@ public class AverageAtomicMassIndicator extends PNode {
 
         // Add a listener to position the moving readout in a location that
         // corresponds to the average atomic mass.
-        model.getIsotopeTestChamber().getAverageAtomicMassProperty().addObserver( new SimpleObserver() {
+        model.getIsotopeTestChamber().addAverageAtomicMassPropertyListener( new SimpleObserver() {
             public void update() {
                 if ( model.getIsotopeTestChamber().getTotalIsotopeCount() > 0 ){
-                    readoutPointer.setOffset( calcXOffsetFromAtomicMass( model.getIsotopeTestChamber().getAverageAtomicMassProperty().getValue() ), barOffsetY  );
+                    readoutPointer.setOffset( calcXOffsetFromAtomicMass( model.getIsotopeTestChamber().getAverageAtomicMass() ), barOffsetY  );
                     readoutPointer.setVisible( true );
                 }
                 else{
@@ -192,10 +192,10 @@ public class AverageAtomicMassIndicator extends PNode {
             addChild( textualReadout );
             // Observe the average atomic weight property in the model and
             // update the textual readout whenever it changes.
-            model.getIsotopeTestChamber().getAverageAtomicMassProperty().addObserver( new SimpleObserver() {
+            model.getIsotopeTestChamber().addAverageAtomicMassPropertyListener( new SimpleObserver() {
                 public void update() {
                     // TODO: i18n
-                    textualReadout.setText( READOUT_FORMATTER.format( model.getIsotopeTestChamber().getAverageAtomicMassProperty().getValue() ) + " amu" );
+                    textualReadout.setText( READOUT_FORMATTER.format( model.getIsotopeTestChamber().getAverageAtomicMass() ) + " amu" );
                     textualReadout.centerFullBoundsOnPoint(
                             readoutBackgroundNode.getFullBoundsReference().getCenterX(),
                             readoutBackgroundNode.getFullBounds().getCenterY() );

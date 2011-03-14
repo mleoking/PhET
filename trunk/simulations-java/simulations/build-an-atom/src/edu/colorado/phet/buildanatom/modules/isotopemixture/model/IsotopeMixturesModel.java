@@ -819,20 +819,16 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
             isotopeCountProperty.addObserver( so );
         }
 
-
-
-
-        /**
-         * Get the property that tracks the average atomic mass of the
-         * isotopes in the chamber.  This can be monitored to trigger update
-         * events.
-         */
-        public Property<Double> getAverageAtomicMassProperty(){
-            return averageAtomicMassProperty;
-        }
-
         private void updateCountProperty(){
             isotopeCountProperty.setValue( containedIsotopes.size() );
+        }
+
+        public void addAverageAtomicMassPropertyListener( SimpleObserver so ){
+            averageAtomicMassProperty.addObserver( so );
+        }
+
+        public double getAverageAtomicMass(){
+            return averageAtomicMassProperty.getValue();
         }
 
         /**
