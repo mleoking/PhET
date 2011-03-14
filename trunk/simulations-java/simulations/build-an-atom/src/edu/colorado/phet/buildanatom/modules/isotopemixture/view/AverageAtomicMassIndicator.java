@@ -4,7 +4,6 @@ package edu.colorado.phet.buildanatom.modules.isotopemixture.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Stroke;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.RoundRectangle2D;
@@ -97,7 +96,7 @@ public class AverageAtomicMassIndicator extends PNode {
         // corresponds to the average atomic mass.
         model.getIsotopeTestChamber().getAverageAtomicMassProperty().addObserver( new SimpleObserver() {
             public void update() {
-                if ( model.getIsotopeTestChamber().getIsotopeCountProperty().getValue() > 0 ){
+                if ( model.getIsotopeTestChamber().getTotalIsotopeCount() > 0 ){
                     readoutPointer.setOffset( calcXOffsetFromAtomicMass( model.getIsotopeTestChamber().getAverageAtomicMassProperty().getValue() ), barOffsetY  );
                     readoutPointer.setVisible( true );
                 }

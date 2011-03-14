@@ -808,12 +808,19 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
         }
 
         /**
-         * Get the property that tracks the number of isotopes in the chamber.
-         * This can be monitored to trigger updates to view elements.
+         * Get a count of the total number of isotopes in the chamber.
          */
-        public Property<Integer> getIsotopeCountProperty(){
-            return isotopeCountProperty;
+        public int getTotalIsotopeCount(){
+            return isotopeCountProperty.getValue();
         }
+
+
+        public void addTotalCountChangeObserver( SimpleObserver so ){
+            isotopeCountProperty.addObserver( so );
+        }
+
+
+
 
         /**
          * Get the property that tracks the average atomic mass of the
