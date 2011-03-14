@@ -212,6 +212,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
     }
 
     private void setState( State modelState ){
+        prototypeIsotope.setConfiguration( modelState.getElementConfiguration() );
         testChamber.setState( modelState.getIsotopeTestChamberState() );
         for ( MovableAtom isotope : testChamber.getContainedIsotopes() ){
             notifyIsotopeInstanceAdded( isotope );
@@ -234,6 +235,19 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
 
         // Save the current state.
         mapIsotopeConfigToUserMixState.put( prototypeIsotope.getNumProtons(), getState() );
+
+        // Get a list of all stable isotopes for the current atomic number.
+        ArrayList<ImmutableAtom> newIsotopeList = AtomIdentifier.getStableIsotopes( atom.getNumProtons() );
+
+        // Sort from lightest to heaviest.
+        Collections.sort( newIsotopeList, new Comparator<IAtom>(){
+            public int compare( IAtom atom2, IAtom atom1 ) {
+                return new Double(atom2.getAtomicMass()).compareTo( atom1.getAtomicMass() );
+            }
+        });
+
+        // Update the list of possible isotopes for this atomic configuration.
+        possibleIsotopesProperty.setValue( newIsotopeList );
 
         if ( mapIsotopeConfigToUserMixState.containsKey( atom.getNumProtons() ) ){
             // Restore previously stored state.
@@ -273,19 +287,6 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
             prototypeIsotope.setNumProtons( atom.getNumProtons() );
             prototypeIsotope.setNumElectrons( atom.getNumElectrons() );
             prototypeIsotope.setNumNeutrons( atom.getNumNeutrons() );
-
-            // Get a list of all stable isotopes for the current atomic number.
-            ArrayList<ImmutableAtom> newIsotopeList = AtomIdentifier.getStableIsotopes( atom.getNumProtons() );
-
-            // Sort from lightest to heaviest.
-            Collections.sort( newIsotopeList, new Comparator<IAtom>(){
-                public int compare( IAtom atom2, IAtom atom1 ) {
-                    return new Double(atom2.getAtomicMass()).compareTo( atom1.getAtomicMass() );
-                }
-            });
-
-            // Update the list of possible isotopes for this atomic configuration.
-            possibleIsotopesProperty.setValue( newIsotopeList );
 
             // Remove the old devices for adding and removing isotopes and then
             // add the new ones.
@@ -602,15 +603,18 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
      */
     private static class State {
 
+        private final ImmutableAtom elementConfig;
         private final IsotopeTestChamber.State isotopeTestChamberState;
 
         public State( IsotopeMixturesModel model ){
+            elementConfig = model.getAtom().toImmutableAtom();
             isotopeTestChamberState = model.getIsotopeTestChamber().getState();
         }
 
-        /**
-         * @return
-         */
+        public IAtom getElementConfiguration() {
+            return elementConfig;
+        }
+
         public IsotopeTestChamber.State getIsotopeTestChamberState() {
             return isotopeTestChamberState;
         }
