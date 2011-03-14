@@ -77,7 +77,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
     private final BuildAnAtomClock clock;
 
     // The test chamber into and out of which the isotopes can be moved.
-    private final IsotopeTestChamber testChamber = new IsotopeTestChamber();
+    private final IsotopeTestChamber testChamber = new IsotopeTestChamber( this );
 
     // This atom is the "prototype isotope", meaning that it is set in order
     // to set the atomic weight of the family of isotopes that are currently
@@ -164,7 +164,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
 
     /**
      * Create and add an isotope of the specified configuration.  Where the
-     * isotope is initial placed depends upon the current interactivity mode.
+     * isotope is initially placed depends upon the current interactivity mode.
      */
     protected MovableAtom createAndAddIsotope( ImmutableAtom isotopeConfig ){
         assert isotopeConfig.getNumProtons() == prototypeIsotope.getNumProtons(); // Verify that this is a valid isotope.
@@ -174,6 +174,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
             // Create the specified isotope and add it to the appropriate bucket.
             newIsotope = new MovableAtom( isotopeConfig.getNumProtons(), isotopeConfig.getNumNeutrons(),
                     LARGE_ISOTOPE_RADIUS, new Point2D.Double(), getClock() );
+            newIsotope.addListener( isotopeGrabbedListener );
             getBucketForIsotope( isotopeConfig ).addIsotopeInstance( newIsotope );
             isotopesOutsideOfChamber.add( newIsotope );
         }
@@ -235,7 +236,8 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
         // way.
         testChamber.removeAllIsotopes( true );
 
-        // Remove all existing isotope instances from the user's mix.
+        // Remove all existing isotope instances that are outside of the test
+        // chamber.
         List<MovableAtom> usersMixOfIsotopesCopy = new ArrayList<MovableAtom>( isotopesOutsideOfChamber );
         isotopesOutsideOfChamber.clear();
         for ( MovableAtom isotope : usersMixOfIsotopesCopy ){
@@ -468,19 +470,14 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
             // This is the first time that the user's mix has been shown since
             // the current element was selected.  Create the individual
             // isotope instances and add them to the buckets.
-            double isotopeRadius = interactivityModeProperty.getValue() == InteractivityMode.BUCKETS_AND_LARGE_ATOMS ? LARGE_ISOTOPE_RADIUS : SMALL_ISOTOPE_RADIUS;
-            for ( ImmutableAtom isotope : possibleIsotopesProperty.getValue() ) {
-                MonoIsotopeParticleBucket isotopeBucket = getBucketForIsotope( isotope );
+            for ( ImmutableAtom isotopeConfig : possibleIsotopesProperty.getValue() ) {
+                MonoIsotopeParticleBucket isotopeBucket = getBucketForIsotope( isotopeConfig );
                 assert isotopeBucket != null; // If there is no bucket for this isotope, there is a bug.
 
                 // Create each isotope instance and add to appropriate bucket.
                 int numIsotopesPerBucket = interactivityModeProperty.getValue() == InteractivityMode.BUCKETS_AND_LARGE_ATOMS ? NUM_LARGE_ISOTOPES_PER_BUCKET : NUM_SMALL_ISOTOPES_PER_BUCKET;
                 for ( int i = 0; i < numIsotopesPerBucket; i++){
-                    MovableAtom movableIsotope = new MovableAtom( isotope.getNumProtons(), isotope.getNumNeutrons(),
-                            isotopeRadius, new Point2D.Double(0, 0), clock );
-                    movableIsotope.addListener( isotopeGrabbedListener );
-                    isotopeBucket.addIsotopeInstance( movableIsotope );
-                    isotopesOutsideOfChamber.add( movableIsotope );
+                    createAndAddIsotope( isotopeConfig );
                 }
             }
         }
@@ -624,6 +621,9 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
         // Instance Data
         // ------------------------------------------------------------------------
 
+        // Isotope Mixtures Model that contains this test chamber.
+        private final IsotopeMixturesModel model;
+
         // List of isotopes that are inside the chamber.  This is updated as
         // isotopes come and go.
         private final List<MovableAtom> containedIsotopes = new ArrayList<MovableAtom>();
@@ -639,6 +639,10 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
         // ------------------------------------------------------------------------
         // Constructor(s)
         // ------------------------------------------------------------------------
+
+        private IsotopeTestChamber( IsotopeMixturesModel model ){
+            this.model = model;
+        }
 
         // ------------------------------------------------------------------------
         // Methods
@@ -715,7 +719,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
          *
          * @param isotope
          */
-        public void addIsotopeToChamber( MovableAtom isotope ){
+        protected void addIsotopeToChamber( MovableAtom isotope ){
             if ( isIsotopePositionedOverChamber( isotope ) ){
                 containedIsotopes.add( isotope );
                 updateCountProperty();
@@ -795,6 +799,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
             for ( MovableAtom isotope : containedIsotopesCopy ) {
                 removeIsotopeFromChamber( isotope );
                 if ( removeFromModel ){
+                    isotope.removeListener( model.isotopeGrabbedListener );
                     isotope.removedFromModel();
                 }
             }
@@ -917,9 +922,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
          * it to the test chamber.
          */
         public void addIsotopeToChamber(){
-            Point2D initialLocation = model.getIsotopeTestChamber().generateRandomLocation();
-            model.getIsotopeTestChamber().addIsotopeToChamber( new MovableAtom( isotopeConfig.getNumProtons(),
-                    isotopeConfig.getNumNeutrons(), SMALL_ISOTOPE_RADIUS, initialLocation, model.getClock() ));
+            model.createAndAddIsotope( isotopeConfig );
         }
 
         /**
