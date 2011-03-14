@@ -273,9 +273,9 @@ public class IsotopeMixturesCanvas extends PhetPCanvas {
                     new Rectangle(0, 0, SIZE.width, SIZE.height ) );
             pieChart.setOffset( 0, 0 );
             addChild( pieChart );
-            model.getIsotopeTestChamber().getIsotopeCountProperty().addObserver( new SimpleObserver(){
+            model.getIsotopeTestChamber().addTotalCountChangeObserver( new SimpleObserver(){
                 public void update() {
-                    int isotopeCount = model.getIsotopeTestChamber().getIsotopeCountProperty().getValue();
+                    int isotopeCount = model.getIsotopeTestChamber().getTotalIsotopeCount();
                     // Hide the chart if there is nothing in the chamber.
                     pieChart.setVisible( isotopeCount > 0 );
                     if ( isotopeCount > 0 ){
