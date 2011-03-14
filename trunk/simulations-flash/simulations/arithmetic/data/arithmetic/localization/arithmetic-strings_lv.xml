@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--arithmetic-strings_lv.xml created Sat Oct 02 18:56:55 EEST 2010 using: arithmetic 2.02.00 (37294), translation-utility 2.09.00 (44031) Sep 14, 2010-->
+<!--arithmetic-strings_lv.xml created Sat Mar 12 09:22:03 EET 2011 using: arithmetic 2.02.00 (37294), translation-utility 2.10.00 (48775) Feb 9, 2011-->
 <SimStrings>
 <string key="level" value="līmenis"/>
 <string key="typeAnswer" value="Ievadi atbildi un\nnospied Enter taustiņu"/>
@@ -22,6 +22,7 @@
 <string key="mustTypeNbr" value="Jāievada\nskaitlis"/>
 <string key="score" value="Rezultāts:"/>
 <string key="scorePer" value="rezultāts"/>
+<string key="translation.credits" value="Arvis Lācis (@arvislacis)"/>
 <string key="nbrWrong" value="nepareizie skaitļi:"/>
 <string key="reset" value="Atiestatīt"/>
 <string key="clock" value="pulkstenis"/>
