@@ -21,7 +21,6 @@ import static edu.colorado.phet.common.phetcommon.view.util.SwingUtils.centerWin
  * @author Sam Reid
  */
 public class Teacher {
-
     private final String[] args;
     protected ActorRef server;
 

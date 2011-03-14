@@ -4,6 +4,7 @@ package edu.colorado.phet.simsharing.teacher;
 import akka.actor.ActorRef;
 import akka.actor.ActorTimeoutException;
 
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -11,21 +12,21 @@ import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.simsharing.SessionID;
 import edu.colorado.phet.simsharing.SessionStarted;
 
 /**
  * @author Sam Reid
  */
-public class RecordingView extends VerticalLayoutPanel {
+public class RecordingView extends JPanel {
     public JList recordingList;
     private final ActorRef server;
     private SessionStarted lastShownRecording = new SessionStarted( new SessionID( -1, "hello" ), 0 );//dummy data so comparisons don't need to use null checks
 
     public RecordingView( final ActorRef server, String[] args ) {
+        super( new BorderLayout() );
         this.server = server;
-        add( new JLabel( "Recordings" ) );
+        add( new JLabel( "All Sessions" ), BorderLayout.NORTH );
         recordingList = new JList() {{
             addListSelectionListener( new ListSelectionListener() {
                 public void valueChanged( ListSelectionEvent e ) {
@@ -38,7 +39,7 @@ public class RecordingView extends VerticalLayoutPanel {
                 }
             } );
         }};
-        add( recordingList );
+        add( new JScrollPane( recordingList ), BorderLayout.CENTER );
 
         new Timer( 5000, new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
