@@ -212,8 +212,18 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
     }
 
     private void setState( State modelState ){
+        removeBuckets();
+
         prototypeIsotope.setConfiguration( modelState.getElementConfiguration() );
         testChamber.setState( modelState.getIsotopeTestChamberState() );
+        for ( MonoIsotopeParticleBucket.State bucketState : modelState.getBucketStates() ) {
+            addBucket( new MonoIsotopeParticleBucket( bucketState ) );
+            for ( MovableAtom isotope : bucketState.getContainedIsotopes() ) {
+                isotope.addedToModel();
+                isotope.addListener( isotopeGrabbedListener );
+                notifyIsotopeInstanceAdded( isotope );
+            }
+        }
         for ( MovableAtom isotope : testChamber.getContainedIsotopes() ){
             notifyIsotopeInstanceAdded( isotope );
         }
@@ -305,9 +315,14 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
     }
 
     /**
-     * Remove all buckets that are currently in the model.
+     * Remove all buckets that are currently in the model, as well as the particles they contained.
      */
     private void removeBuckets(){
+        for ( MonoIsotopeParticleBucket bucket : bucketList ) {
+            for ( MovableAtom movableAtom : bucket.getContainedIsotopes() ) {
+                movableAtom.removedFromModel();
+            }
+        }
         ArrayList< Bucket > oldBuckets = new ArrayList< Bucket >( bucketList );
         bucketList.clear();
         for ( Bucket bucket : oldBuckets ) {
@@ -355,8 +370,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
                         controllerXOffset + interControllerDistanceX * i, controllerYOffset ),
                         BUCKET_SIZE, getColorForIsotope( isotope ), bucketCaption, isotopeRadius,
                         isotope.getNumProtons(), isotope.getNumNeutrons() );
-                bucketList.add( newBucket );
-                notifyBucketAdded( newBucket );
+                addBucket( newBucket );
             }
             else{
                 // Assume a numerical controller.
@@ -366,6 +380,11 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
                 notifyNumericalControllerAdded( newController );
             }
         }
+    }
+
+    private void addBucket( MonoIsotopeParticleBucket newBucket ) {
+        bucketList.add( newBucket );
+        notifyBucketAdded( newBucket );
     }
 
     private void removeNumericalControllers(){
@@ -605,10 +624,14 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
 
         private final ImmutableAtom elementConfig;
         private final IsotopeTestChamber.State isotopeTestChamberState;
+        private final ArrayList<MonoIsotopeParticleBucket.State> bucketStates = new ArrayList<MonoIsotopeParticleBucket.State>(  );
 
         public State( IsotopeMixturesModel model ){
             elementConfig = model.getAtom().toImmutableAtom();
             isotopeTestChamberState = model.getIsotopeTestChamber().getState();
+            for ( MonoIsotopeParticleBucket bucket : model.bucketList ) {
+                bucketStates.add( bucket.getState() );
+            }
         }
 
         public IAtom getElementConfiguration() {
@@ -617,6 +640,10 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
 
         public IsotopeTestChamber.State getIsotopeTestChamberState() {
             return isotopeTestChamberState;
+        }
+
+        public ArrayList<MonoIsotopeParticleBucket.State> getBucketStates() {
+            return bucketStates;
         }
     }
 

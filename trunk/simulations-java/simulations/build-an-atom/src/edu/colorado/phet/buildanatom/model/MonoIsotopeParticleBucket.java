@@ -100,5 +100,9 @@ public class MonoIsotopeParticleBucket extends ParticleBucket {
             numProtonsInIsotope = monoIsotopeParticleBucket.numProtonsInIsotope;
             numNeutronsInIsotope = monoIsotopeParticleBucket.numNeutronsInIsotope;
         }
+
+        public List<MovableAtom> getContainedIsotopes() {
+            return containedIsotopes;
+        }
     }
 }
