@@ -76,7 +76,12 @@ public class ToolboxNode extends PNode {
 
         if ( velocitySensor != null ) {
             final VelocitySensorNode velocitySensorNode = new VelocitySensorNode( transform, new VelocitySensor() );
-            Property<Boolean> showVelocitySensor = new Property<Boolean>( false );
+            final Property<Boolean> showVelocitySensor = new Property<Boolean>( false );
+            resetModel.addResetListener( new VoidFunction0() {
+                public void apply() {
+                    showVelocitySensor.reset();
+                }
+            } );
             final PNode velocitySensorX = new Tool( velocitySensorNode.toImage( ICON_WIDTH, (int) ( velocitySensorNode.getFullBounds().getHeight() / velocitySensorNode.getFullBounds().getWidth() * ICON_WIDTH ), new Color( 0, 0, 0, 0 ) ),
                                                     showVelocitySensor, protractor.getFullBounds().getMaxY() + 4,
                                                     transform, this, canvas, new Function3<ModelViewTransform, Property<Boolean>, Point2D, DoDragNode>() {
@@ -98,7 +103,12 @@ public class ToolboxNode extends PNode {
         if ( waveSensor != null ) {
             final Function1.Constant<ImmutableVector2D, Option<Double>> value = new Function1.Constant<ImmutableVector2D, Option<Double>>( new Option.None<Double>() );
             final WaveSensorNode waveSensorNode = new WaveSensorNode( transform, new WaveSensor( new ConstantDtClock(), value, value ) );
-            Property<Boolean> showWaveSensor = new Property<Boolean>( false );
+            final Property<Boolean> showWaveSensor = new Property<Boolean>( false );
+            resetModel.addResetListener( new VoidFunction0() {
+                public void apply() {
+                    showWaveSensor.reset();
+                }
+            } );
             final PNode waveTool = new Tool( waveSensorNode.toImage( ICON_WIDTH, (int) ( waveSensorNode.getFullBounds().getHeight() / waveSensorNode.getFullBounds().getWidth() * ICON_WIDTH ), new Color( 0, 0, 0, 0 ) ),
                                              showWaveSensor, bottomTool.getFullBounds().getMaxY() + 4,
                                              transform, this, canvas, new Function3<ModelViewTransform, Property<Boolean>, Point2D, DoDragNode>() {
