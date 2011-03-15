@@ -8,6 +8,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.swing.*;
 
@@ -54,9 +55,12 @@ public class Student {
             public boolean startedMessage = false;
             public boolean finishedMessage = false;
 
+            ArrayList<GravityAndOrbitsApplicationState> stateCache = new ArrayList<GravityAndOrbitsApplicationState>();
+
             public void apply() {
                 if ( count % N == 0 ) {
                     GravityAndOrbitsApplicationState state = new GravityAndOrbitsApplicationState( application, imageFactory );
+                    stateCache.add( state );
                     if ( sessionID == null ) {
                         if ( !startedMessage ) {
                             System.out.print( "Awaiting ID" );
@@ -71,7 +75,12 @@ public class Student {
                             System.out.println( "\nReceived ID: " + sessionID );
                             finishedMessage = true;
                         }
-                        server.sendOneWay( new AddStudentDataSample( sessionID, state ) );
+
+//                        server.sendOneWay( new AddStudentDataSample( sessionID, state ) );
+                        if ( stateCache.size() >= 30 ) {
+                            server.sendOneWay( new AddMultiSample( sessionID, stateCache ) );
+                            stateCache.clear();
+                        }
                     }
                 }
                 count++;
