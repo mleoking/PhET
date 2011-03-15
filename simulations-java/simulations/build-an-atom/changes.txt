@@ -1,3 +1,4 @@
+Isotopes and buckets are restored after switching elements
 # 2.01.00 (49521) Mar 4, 2011
 3/4/11 Redeploying due to a glitch with version numbering.
 isotopes-and-atomic-mass: Changed title of the abundance indicator.
