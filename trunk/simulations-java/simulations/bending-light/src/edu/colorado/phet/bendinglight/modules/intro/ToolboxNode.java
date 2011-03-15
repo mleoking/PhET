@@ -23,10 +23,7 @@ import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.util.function.Function1;
-import edu.colorado.phet.common.phetcommon.util.function.Function2;
-import edu.colorado.phet.common.phetcommon.util.function.Function3;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.common.phetcommon.util.function.*;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -46,13 +43,15 @@ import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.m
  * @author Sam Reid
  */
 public class ToolboxNode extends PNode {
+
     public ToolboxNode( final BendingLightCanvas canvas,
                         final ModelViewTransform transform,
                         final BooleanProperty showProtractor,
-                        BooleanProperty showNormal,
+                        final BooleanProperty showNormal,
                         final IntensityMeter intensityMeter,
                         final VelocitySensor velocitySensor,
-                        final WaveSensor waveSensor ) {
+                        final WaveSensor waveSensor,
+                        final ResetModel resetModel ) {
         final PText titleLabel = new PText( "Toolbox" ) {{
             setFont( BendingLightCanvas.labelFont );
         }};
@@ -71,7 +70,7 @@ public class ToolboxNode extends PNode {
                             }
                         }, 1 );
                     }
-                } );
+                }, resetModel );
         addChild( protractor );
         PNode bottomTool = protractor;
 
@@ -91,7 +90,7 @@ public class ToolboxNode extends PNode {
                                 } );
                             }};
                         }
-                    } );
+                    }, resetModel );
             addChild( velocitySensorX );
             bottomTool = velocitySensorX;
         }
@@ -113,7 +112,7 @@ public class ToolboxNode extends PNode {
                                 } );
                             }};
                         }
-                    } );
+                    }, resetModel );
             addChild( waveTool );
             bottomTool = waveTool;
         }
@@ -220,7 +219,7 @@ public class ToolboxNode extends PNode {
 
     private static class Tool extends PNode {
         private Tool( Image thumbnail, final Property<Boolean> showTool, final double y, final ModelViewTransform transform, final ToolboxNode toolbox, final BendingLightCanvas canvas,
-                      final Function3<ModelViewTransform, Property<Boolean>, Point2D, DoDragNode> nodeMaker ) {
+                      final Function3<ModelViewTransform, Property<Boolean>, Point2D, DoDragNode> nodeMaker, final ResetModel resetModel ) {
             final PImage thumbnailIcon = new PImage( thumbnail ) {{
                 showTool.addObserver( new SimpleObserver() {
                     public void update() {
@@ -230,6 +229,14 @@ public class ToolboxNode extends PNode {
                 final PImage thumbRef = this;
                 setOffset( 0, y );
                 addInputEventListener( new PBasicInputEventHandler() {
+                    {
+                        resetModel.addResetListener( new VoidFunction0() {
+                            public void apply() {
+                                reset();
+                            }
+                        } );
+                    }
+
                     DoDragNode node = null;
                     boolean intersect = false;
 
@@ -238,7 +245,7 @@ public class ToolboxNode extends PNode {
                         showTool.setValue( true );
                         setVisible( false );
                         if ( node == null ) {
-                            node = nodeMaker.apply( transform, showTool, transform.viewToModel( event.getPositionRelativeTo( getParent().getParent().getParent().getParent() ) ) );
+                            node = nodeMaker.apply( transform, showTool, transform.viewToModel( event.getPositionRelativeTo( canvas.getRootNode() ) ) );
                             final PropertyChangeListener pcl = new PropertyChangeListener() {
                                 public void propertyChange( PropertyChangeEvent evt ) {
                                     intersect = toolbox.getGlobalFullBounds().contains( node.getGlobalFullBounds().getCenter2D() );
@@ -251,8 +258,7 @@ public class ToolboxNode extends PNode {
                                         showTool.setValue( false );
                                         thumbRef.setVisible( true );
                                         node.removePropertyChangeListener( pcl );
-                                        canvas.removeChild( node );
-                                        node = null;
+                                        reset();
                                     }
                                 }
                             } );
@@ -270,10 +276,14 @@ public class ToolboxNode extends PNode {
                         if ( intersect ) {
                             showTool.setValue( false );
                             thumbRef.setVisible( true );
-                            canvas.removeChild( node );
-                            node = null;
+                            reset();
                             //TODO: how to remove pcl?
                         }
+                    }
+
+                    private void reset() {
+                        canvas.removeChild( node );
+                        node = null;
                     }
                 } );
                 addInputEventListener( new CursorHandler() );
