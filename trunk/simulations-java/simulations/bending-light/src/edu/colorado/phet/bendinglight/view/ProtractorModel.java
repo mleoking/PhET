@@ -22,4 +22,9 @@ public class ProtractorModel {
     public void translate( ImmutableVector2D delta ) {
         translate( delta.getX(), delta.getY() );
     }
+
+    public void reset() {
+        position.reset();
+        angle.reset();
+    }
 }

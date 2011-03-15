@@ -10,6 +10,7 @@ import edu.colorado.phet.bendinglight.model.BendingLightModel;
 import edu.colorado.phet.bendinglight.model.LightRay;
 import edu.colorado.phet.bendinglight.model.Medium;
 import edu.colorado.phet.bendinglight.view.LaserColor;
+import edu.colorado.phet.bendinglight.view.ProtractorModel;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -32,6 +33,7 @@ public class PrismsModel extends BendingLightModel {
     public final Property<Boolean> showReflections = new Property<Boolean>( false );//If false, will hide non TIR reflections
     public final ArrayList<Intersection> intersections = new ArrayList<Intersection>();
     public final ArrayList<VoidFunction1<Intersection>> intersectionListeners = new ArrayList<VoidFunction1<Intersection>>();
+    private final ProtractorModel protractorModel = new ProtractorModel( 0, 0 );
 
     public PrismsModel() {
         super( PI, false, DEFAULT_DIST_FROM_PIVOT * 0.9 );
@@ -52,6 +54,7 @@ public class PrismsModel extends BendingLightModel {
         environment.reset();
         prismMedium.reset();
         showReflections.reset();
+        protractorModel.reset();
     }
 
     public static ArrayList<Prism> getPrismPrototypes() {
@@ -259,5 +262,9 @@ public class PrismsModel extends BendingLightModel {
             }
             intersections.clear();
         }
+    }
+
+    public ProtractorModel getProtractorModel() {
+        return protractorModel;
     }
 }
