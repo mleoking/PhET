@@ -56,7 +56,6 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
     // Numbers of isotopes that are placed into the buckets when a new atomic
     // number is selected.
     private static final int NUM_LARGE_ISOTOPES_PER_BUCKET = 9;
-    private static final int NUM_SMALL_ISOTOPES_PER_BUCKET = 75;
 
     // List of colors which will be used to represent the various isotopes.
     private static final Color [] ISOTOPE_COLORS = new Color [] { new Color( 180, 82, 205), Color.green,
@@ -112,10 +111,6 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
     // mix should be displayed, the isotope size property is ignored.
     private final BooleanProperty showingNaturesMix = new BooleanProperty( false );
 
-    // List that contains the isotope instances that are shown in the test
-    // chamber to represent nature's mix of isotopes.
-    private final List<MovableAtom> naturesMixOfIsotopes = new ArrayList<MovableAtom>();
-
     // Listener support.
     private final List<Listener> listeners = new ArrayList<Listener>();
 
@@ -140,13 +135,16 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
         // show and hide the appropriate isotopes when the value changes.
         showingNaturesMix.addObserver( new SimpleObserver() {
             public void update() {
-                if ( showingNaturesMix.getValue() == true ){
+                if ( showingNaturesMix.getValue() ){
+                    // Save the current user's mix.
+                    mapIsotopeConfigToUserMixState.put( prototypeIsotope.getNumProtons(), getState() );
+                    // Hide the user's mix, show nature's mix.
                     hideUsersMix();
                     showNaturesMix();
                 }
                 else{
-                    showUsersMix();
-                    hideNaturesMix();
+                    clearNaturesMix();
+                    showUsersMix2();
                 }
             }
         }, false );
@@ -211,6 +209,10 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
         return new State( this );
     }
 
+    /**
+     * Set the state of the model based on a previously created state
+     * representation.
+     */
     private void setState( State modelState ){
         removeBuckets();
 
@@ -243,8 +245,10 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
         // routine.  For the sake of efficiency, callers should be careful not
         // to call this when it isn't needed.
 
-        // Save the current state.
-        mapIsotopeConfigToUserMixState.put( prototypeIsotope.getNumProtons(), getState() );
+        if ( !showingNaturesMix.getValue() ){
+            // Save the current user's mix state.
+            mapIsotopeConfigToUserMixState.put( prototypeIsotope.getNumProtons(), getState() );
+        }
 
         // Get a list of all stable isotopes for the current atomic number.
         ArrayList<ImmutableAtom> newIsotopeList = AtomIdentifier.getStableIsotopes( atom.getNumProtons() );
@@ -259,58 +263,17 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
         // Update the list of possible isotopes for this atomic configuration.
         possibleIsotopesProperty.setValue( newIsotopeList );
 
-        if ( mapIsotopeConfigToUserMixState.containsKey( atom.getNumProtons() ) ){
-            // Restore previously stored state.
-            setState( mapIsotopeConfigToUserMixState.get( atom.getNumProtons() ));
+        // Update the prototype atom (a.k.a. isotope) configuration.
+        prototypeIsotope.setNumProtons( atom.getNumProtons() );
+        prototypeIsotope.setNumElectrons( atom.getNumElectrons() );
+        prototypeIsotope.setNumNeutrons( atom.getNumNeutrons() );
+
+        // Display the isotopes to the user.
+        if ( showingNaturesMix.getValue() ){
+            showNaturesMix();
         }
         else{
-            // Clear the test chamber.
-            // TODO: Fundamental problem here.  Does removing an isotope from
-            // the test chamber remove it from the model?  With the recent
-            // changes, sometimes it should and sometimes it shouldn't.  I've
-            // added a flag for saying whether they go away entirely or just from
-            // the chamber, but I find this ugly.  I'd like to think of a better
-            // way.
-            testChamber.removeAllIsotopes( true );
-
-            // Remove all existing isotope instances that are in the buckets.
-            for ( MonoIsotopeParticleBucket bucket : bucketList ){
-                List<MovableAtom> isotopesFromBucket = new ArrayList<MovableAtom>(bucket.getContainedIsotopes());
-                bucket.reset(); // Clear the bucket.
-                for ( MovableAtom isotope : isotopesFromBucket ){
-                    isotope.removeListener( isotopeGrabbedListener );
-                    isotope.removedFromModel();
-                }
-            }
-
-            // Remove all existing isotopes from nature's mix.  Note that this
-            // list is not repopulated until it is needed.
-            List<MovableAtom> naturesMixOfIsotopesCopy = new ArrayList<MovableAtom>( naturesMixOfIsotopes );
-            naturesMixOfIsotopes.clear();
-            for ( MovableAtom isotope : naturesMixOfIsotopesCopy ){
-                // Signal the isotope that it has been removed from the model.
-                isotope.removeListener( isotopeGrabbedListener );
-                isotope.removedFromModel();
-            }
-
-            // Update the prototype atom (a.k.a. isotope) configuration.
-            prototypeIsotope.setNumProtons( atom.getNumProtons() );
-            prototypeIsotope.setNumElectrons( atom.getNumElectrons() );
-            prototypeIsotope.setNumNeutrons( atom.getNumNeutrons() );
-
-            // Remove the old devices for adding and removing isotopes and then
-            // add the new ones.
-            removeBuckets();
-            removeNumericalControllers();
-            addIsotopeControllers( newIsotopeList, interactivityModeProperty.getValue() );
-
-            // Add the actual isotopes.
-            if ( showingNaturesMix.getValue() ){
-                showNaturesMix();
-            }
-            else{
-                showUsersMix();
-            }
+            showUsersMix2();
         }
     }
 
@@ -340,7 +303,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
      * @param newIsotopeList
      * @param value
      */
-    private void addIsotopeControllers( ArrayList<ImmutableAtom> newIsotopeList, InteractivityMode interactivityMode ) {
+    private void addIsotopeControllers() {
         // Figure out the atom radius to use based on the current atom size
         // setting.
         double isotopeRadius = interactivityModeProperty.getValue() == InteractivityMode.BUCKETS_AND_LARGE_ATOMS ? LARGE_ISOTOPE_RADIUS : SMALL_ISOTOPE_RADIUS;
@@ -350,21 +313,21 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
         double controllerYOffset = testChamber.getTestChamberRect().getMinY() - 400;
         double interControllerDistanceX;
         double controllerXOffset;
-        if ( newIsotopeList.size() < 4 ){
+        if ( possibleIsotopesProperty.getValue().size() < 4 ){
             // We can fit 3 or less cleanly under the test chamber.
-            interControllerDistanceX = testChamber.getTestChamberRect().getWidth() / newIsotopeList.size();
+            interControllerDistanceX = testChamber.getTestChamberRect().getWidth() / possibleIsotopesProperty.getValue().size();
             controllerXOffset = testChamber.getTestChamberRect().getMinX() + interControllerDistanceX / 2;
         }
         else{
             // Four controllers don't fit well under the chamber, so use a
             // positioning algorithm where they are extended a bit to the
             // right.
-            interControllerDistanceX = (testChamber.getTestChamberRect().getWidth() * 1.2) / newIsotopeList.size();
+            interControllerDistanceX = (testChamber.getTestChamberRect().getWidth() * 1.2) / possibleIsotopesProperty.getValue().size();
             controllerXOffset = testChamber.getTestChamberRect().getMinX() + interControllerDistanceX / 2;
         }
-        for ( int i = 0; i < newIsotopeList.size(); i++ ) {
-            ImmutableAtom isotope = newIsotopeList.get( i );
-            if ( interactivityMode == InteractivityMode.BUCKETS_AND_LARGE_ATOMS ){
+        for ( int i = 0; i < possibleIsotopesProperty.getValue().size(); i++ ) {
+            ImmutableAtom isotope = possibleIsotopesProperty.getValue().get( i );
+            if ( interactivityModeProperty.getValue() == InteractivityMode.BUCKETS_AND_LARGE_ATOMS ){
                 String bucketCaption = AtomIdentifier.getName( isotope ) + "-" + isotope.getMassNumber();
                 MonoIsotopeParticleBucket newBucket = new MonoIsotopeParticleBucket( new Point2D.Double(
                         controllerXOffset + interControllerDistanceX * i, controllerYOffset ),
@@ -497,8 +460,9 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
     }
 
     /**
-     * Show the user's mix.  This is intended to be called after the user's
-     * mix of isotopes was previously hidden.
+     * Show the user's mix.  If the user's mix has never been shown for this
+     * element, show it in initial form, which is with the relatively large
+     * isotopes in the buckets.
      */
     private void showUsersMix(){
         if ( interactivityModeProperty.getValue() == InteractivityMode.BUCKETS_AND_LARGE_ATOMS ){
@@ -508,58 +472,94 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
                 assert isotopeBucket != null; // If there is no bucket for this isotope, there is a bug.
 
                 // Create each isotope instance and add to appropriate bucket.
-                int numIsotopesPerBucket = interactivityModeProperty.getValue() == InteractivityMode.BUCKETS_AND_LARGE_ATOMS ? NUM_LARGE_ISOTOPES_PER_BUCKET : NUM_SMALL_ISOTOPES_PER_BUCKET;
-                for ( int i = 0; i < numIsotopesPerBucket; i++){
+                for ( int i = 0; i < NUM_LARGE_ISOTOPES_PER_BUCKET; i++){
                     createAndAddIsotope( isotopeConfig );
                 }
             }
         }
     }
 
-    private void showNaturesMix(){
-        if ( naturesMixOfIsotopes.size() == 0 ){
-            // This is the first time that nature's mix has been shown since
-            // the user selected the current element, so the isotope instances
-            // need to be created.
-            int totalNumIsotopes = 1000;  // TODO: Make this a constant if actually used.
+    /**
+     * Show the user's mix.  If the user's mix has never been shown for this
+     * element, show it in initial form, which is with the relatively large
+     * isotopes in the buckets.
+     */
+    private void showUsersMix2(){
+        assert showingNaturesMix.getValue() == false; // This method shouldn't be called if we're showing nature's mix.
 
-            // Get the list of possible isotopes and then sort it by abundance
-            // so that the least abundant are added last, thus assuring that
-            // they will be visible.
-            ArrayList<ImmutableAtom> possibleIsotopesCopy = new ArrayList<ImmutableAtom>(getPossibleIsotopesProperty().getValue());
-            Collections.sort( possibleIsotopesCopy,  new Comparator<IAtom>(){
-                    public int compare( IAtom atom2, IAtom atom1 ) {
-                        return new Double(AtomIdentifier.getNaturalAbundance( atom1 )).compareTo( AtomIdentifier.getNaturalAbundance( atom2 ) );
+        if ( mapIsotopeConfigToUserMixState.containsKey( prototypeIsotope.getNumProtons() ) ){
+            // Restore previously stored state.
+            setState( mapIsotopeConfigToUserMixState.get( prototypeIsotope.getNumProtons() ));
+        }
+        else{
+            // Clear the test chamber.
+            // TODO: Fundamental question here.  Does removing an isotope from
+            // the test chamber remove it from the model?  With the recent
+            // changes, sometimes it should and sometimes it shouldn't.  I've
+            // added a flag for saying whether they go away entirely or just from
+            // the chamber, but I find this ugly.  I'd like to think of a better
+            // way.
+            testChamber.removeAllIsotopes( true );
+
+            // Remove the old isotope controllers (i.e. buckets or numerical
+            // controllers).
+            removeBuckets();
+            removeNumericalControllers();
+
+            // Add the new isotope controllers.
+            addIsotopeControllers();
+
+            if ( interactivityModeProperty.getValue() == InteractivityMode.BUCKETS_AND_LARGE_ATOMS ){
+                // Create and add initial isotopes to their respective buckets.
+                for ( ImmutableAtom isotopeConfig : possibleIsotopesProperty.getValue() ) {
+                    MonoIsotopeParticleBucket isotopeBucket = getBucketForIsotope( isotopeConfig );
+                    assert isotopeBucket != null; // If there is no bucket for this isotope, there is a bug.
+
+                    // Create each isotope instance and add to appropriate bucket.
+                    for ( int i = 0; i < NUM_LARGE_ISOTOPES_PER_BUCKET; i++){
+                        createAndAddIsotope( isotopeConfig );
                     }
-                } );
-
-            for ( ImmutableAtom isotopeConfig : possibleIsotopesCopy ){
-                int numToCreate = (int)Math.round( totalNumIsotopes * AtomIdentifier.getNaturalAbundance( isotopeConfig ) );
-                if ( numToCreate == 0 ){
-                    System.err.println("Warning, quantity at zero for " + AtomIdentifier.getName( isotopeConfig ) + "-" + isotopeConfig.getMassNumber());
-                    numToCreate = 1;
-                }
-                for ( int i = 0; i < numToCreate; i++){
-                    MovableAtom newIsotope = new MovableAtom(
-                            isotopeConfig.getNumProtons(),
-                            isotopeConfig.getNumNeutrons(),
-                            SMALL_ISOTOPE_RADIUS,
-                            testChamber.generateRandomLocation(),
-                            clock );
-                    naturesMixOfIsotopes.add( newIsotope );
                 }
             }
         }
-        // Send out notifications of the isotopes being added to the model.
-        for ( MovableAtom isotope : naturesMixOfIsotopes ){
-            testChamber.addIsotopeToChamber( isotope );
-            notifyIsotopeInstanceAdded( isotope );
+    }
+
+    private void showNaturesMix(){
+        int totalNumIsotopes = 1000;  // TODO: Make this a constant if actually used.
+
+        // Get the list of possible isotopes and then sort it by abundance
+        // so that the least abundant are added last, thus assuring that
+        // they will be visible.
+        ArrayList<ImmutableAtom> possibleIsotopesCopy = new ArrayList<ImmutableAtom>(getPossibleIsotopesProperty().getValue());
+        Collections.sort( possibleIsotopesCopy,  new Comparator<IAtom>(){
+                public int compare( IAtom atom2, IAtom atom1 ) {
+                    return new Double(AtomIdentifier.getNaturalAbundance( atom1 )).compareTo( AtomIdentifier.getNaturalAbundance( atom2 ) );
+                }
+            } );
+
+        for ( ImmutableAtom isotopeConfig : possibleIsotopesCopy ){
+            int numToCreate = (int)Math.round( totalNumIsotopes * AtomIdentifier.getNaturalAbundance( isotopeConfig ) );
+            if ( numToCreate == 0 ){
+                System.err.println("Warning, quantity at zero for " + AtomIdentifier.getName( isotopeConfig ) + "-" + isotopeConfig.getMassNumber());
+                numToCreate = 1;
+            }
+            for ( int i = 0; i < numToCreate; i++){
+                MovableAtom newIsotope = new MovableAtom(
+                        isotopeConfig.getNumProtons(),
+                        isotopeConfig.getNumNeutrons(),
+                        SMALL_ISOTOPE_RADIUS,
+                        testChamber.generateRandomLocation(),
+                        clock );
+                testChamber.addIsotopeToChamber( newIsotope );
+                notifyIsotopeInstanceAdded( newIsotope );
+            }
         }
     }
 
-    private void hideNaturesMix(){
-        for ( MovableAtom isotope : naturesMixOfIsotopes ){
+    private void clearNaturesMix(){
+        for ( MovableAtom isotope : new ArrayList<MovableAtom>( testChamber.getContainedIsotopes() ) ){
             testChamber.removeIsotopeFromChamber( isotope );
+            isotope.removeListener( isotopeGrabbedListener );
             isotope.removedFromModel();
         }
     }
