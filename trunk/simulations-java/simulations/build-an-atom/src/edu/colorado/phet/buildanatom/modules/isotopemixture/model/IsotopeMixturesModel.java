@@ -126,6 +126,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
         interactivityModeProperty.addObserver( new SimpleObserver() {
             public void update() {
                 assert showingNaturesMix.getValue() == false; // Should never change when showing nature's mix.
+                clearTestChamber();
                 updateIsotopeControllers();
                 if ( interactivityModeProperty.getValue() == InteractivityMode.BUCKETS_AND_LARGE_ATOMS ){
                     addInitialIsotopesToBuckets();
