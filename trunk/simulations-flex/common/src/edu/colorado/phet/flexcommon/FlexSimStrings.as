@@ -21,7 +21,7 @@ public class FlexSimStrings {
         //We apply the fix when using MessageFormatter pattern, since that must mix numeric characters in {0}, {1} etc
         //With arabic characters.
         //See #2703
-        var RTLControlCode = FlexCommon.getInstance().getRTLControlCode();
+        var RTLControlCode: String = FlexCommon.getInstance().getRTLControlCode();
 
         for each ( var item: XML in list ) {
             if ( item.attribute( "key" ).toString() == key ) {
