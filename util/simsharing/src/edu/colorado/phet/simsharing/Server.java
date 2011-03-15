@@ -9,6 +9,9 @@ import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.*;
 
+import org.codehaus.jackson.map.ObjectMapper;
+
+import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.gravityandorbits.simsharing.GravityAndOrbitsApplicationState;
 import edu.colorado.phet.gravityandorbits.simsharing.SerializableBufferedImage;
 import edu.colorado.phet.simsharing.teacher.GetSessionList;
@@ -41,7 +44,9 @@ public class Server {
             morphia = new Morphia();
             morphia.map( LatestIndex.class );
             morphia.map( Sample.class );
-            ds = morphia.createDatastore( mongo, "simsharing-test-1" );//change index on datastore name instead of clearing datastore?
+            final String databaseName = "simsharing-test-1";
+//            mongo.dropDatabase( databaseName );//resets the database
+            ds = morphia.createDatastore( mongo, databaseName );//change index on datastore name instead of clearing datastore?
             ds.ensureIndexes(); //creates all defined with @Indexed
             ds.ensureCaps(); //creates all collections for @Entity(cap=@CappedAt(...))
         }
@@ -71,6 +76,14 @@ public class Server {
 //        long end = System.currentTimeMillis();
 //        System.out.println( "found one, elapsed = " + ( end - start ) );
         return sample;
+    }
+
+    public static <T> T time( String name, Function0<T> f ) {
+        long start = System.currentTimeMillis();
+        T value = f.apply();
+        long end = System.currentTimeMillis();
+        System.out.println( name + ": " + ( end - start ) );
+        return value;
     }
 
     private void start() {
@@ -108,11 +121,17 @@ public class Server {
                             ArrayList<StudentSummary> list = new ArrayList<StudentSummary>();
                             for ( SessionID student : students ) {
                                 final Sample latestDataPoint = getSample( student, getLastIndex( student ) );
-                                SerializableBufferedImage image = null;
-                                if ( latestDataPoint != null && latestDataPoint.getData() != null ) {
-                                    image = ( (GravityAndOrbitsApplicationState) latestDataPoint.getData() ).getThumbnail();
+                                GravityAndOrbitsApplicationState state = null;
+                                if ( latestDataPoint != null && latestDataPoint.getJson() != null ) {
+                                    try {
+                                        state = mapper.readValue( latestDataPoint.getJson(), GravityAndOrbitsApplicationState.class );
+                                    }
+                                    catch ( IOException e ) {
+                                        e.printStackTrace();
+                                    }
                                 }
-                                list.add( new StudentSummary( student, image, getSessionTime( student ), getTimeSinceLastEvent( student ) ) );
+                                //TODO: back from json too expensive here
+                                list.add( new StudentSummary( student, state == null ? null : new SerializableBufferedImage( SerializableBufferedImage.fromByteArray( state.getThumbnail() ) ), getSessionTime( student ), getTimeSinceLastEvent( student ) ) );
                             }
                             getContext().replySafe( new StudentList( list ) );
                         }
@@ -120,11 +139,31 @@ public class Server {
                             addSample( (AddStudentDataSample) o );
                         }
                         else if ( o instanceof AddMultiSample ) {
+                            long s = System.currentTimeMillis();
                             AddMultiSample request = (AddMultiSample) o;
-                            for ( GravityAndOrbitsApplicationState state : request.getData() ) {
-                                addSample( new AddStudentDataSample( request.getSessionID(), state ) );
+                            int newIndex = getLastIndex( request.getSessionID() ) + 1;
+
+                            for ( int i = 0; i < request.getData().size(); i++ ) {
+                                final GravityAndOrbitsApplicationState data = request.getData().get( i );
+                                final Sample sampleInstance;
+                                try {
+                                    sampleInstance = new Sample( System.currentTimeMillis(), request.getSessionID(), mapper.writeValueAsString( data ), newIndex, newIndex );
+                                    ds.save( sampleInstance );
+                                }
+                                catch ( IOException e ) {
+                                    e.printStackTrace();
+                                }
+                                newIndex++;
                             }
-                            System.out.println( "Processed multisample from: " + request.getSessionID() );
+                            newIndex--;
+
+                            ds.delete( ds.createQuery( LatestIndex.class ).filter( "sessionID", request.getSessionID() ) );
+                            ds.save( new LatestIndex( request.getSessionID(), newIndex ) );
+
+                            ds.delete( ds.createQuery( EventReceived.class ).filter( "sessionID", request.getSessionID() ) );
+                            ds.save( new EventReceived( request.getSessionID(), System.currentTimeMillis() ) );
+
+                            System.out.println( "Processed multisample from: " + request.getSessionID() + " in " + ( System.currentTimeMillis() - s ) + " msec" );
                         }
                         else if ( o instanceof GetSessionList ) {
                             final SessionList sessionList = new SessionList();
@@ -145,12 +184,19 @@ public class Server {
         } ) );
     }
 
+    ObjectMapper mapper = new ObjectMapper();
+
     private void addSample( AddStudentDataSample request ) {
         int newIndex = getLastIndex( request.getSessionID() ) + 1;
         ds.delete( ds.createQuery( LatestIndex.class ).filter( "sessionID", request.getSessionID() ) );
         ds.save( new LatestIndex( request.getSessionID(), newIndex ) );
 
-        ds.save( new Sample( System.currentTimeMillis(), request.getSessionID(), request.getData(), newIndex, newIndex ) );
+        try {
+            ds.save( new Sample( System.currentTimeMillis(), request.getSessionID(), mapper.writeValueAsString( request.getData() ), newIndex, newIndex ) );
+        }
+        catch ( IOException e ) {
+            e.printStackTrace();
+        }
 
         ds.delete( ds.createQuery( EventReceived.class ).filter( "sessionID", request.getSessionID() ) );
         ds.save( new EventReceived( request.getSessionID(), System.currentTimeMillis() ) );

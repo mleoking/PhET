@@ -3,7 +3,6 @@ package edu.colorado.phet.gravityandorbits.simsharing;
 
 import java.io.Serializable;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsMode;
 
 /**
@@ -11,21 +10,45 @@ import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsMode;
  */
 public class GravityAndOrbitsModeState implements Serializable {
     private GravityAndOrbitsModelState modelState;
-    private ImmutableVector2D measuringTapeStartPoint;
-    private ImmutableVector2D measuringTapeEndPoint;
+    private VectorBean measuringTapeStartPoint;
+    private VectorBean measuringTapeEndPoint;
 
     public GravityAndOrbitsModeState() {
     }
 
     public GravityAndOrbitsModeState( GravityAndOrbitsMode mode ) {
         modelState = new GravityAndOrbitsModelState( mode.getModel() );
-        measuringTapeStartPoint = mode.getMeasuringTapeStartPoint().getValue();
-        measuringTapeEndPoint = mode.getMeasuringTapeEndPoint().getValue();
+        measuringTapeStartPoint = new VectorBean( mode.getMeasuringTapeStartPoint().getValue() );
+        measuringTapeEndPoint = new VectorBean( mode.getMeasuringTapeStartPoint().getValue() );
     }
 
     public void apply( GravityAndOrbitsMode gravityAndOrbitsMode ) {
         modelState.apply( gravityAndOrbitsMode.getModel() );
-        gravityAndOrbitsMode.getMeasuringTapeStartPoint().setValue( measuringTapeStartPoint );
-        gravityAndOrbitsMode.getMeasuringTapeEndPoint().setValue( measuringTapeEndPoint );
+        gravityAndOrbitsMode.getMeasuringTapeStartPoint().setValue( measuringTapeStartPoint.toImmutableVector2D() );
+        gravityAndOrbitsMode.getMeasuringTapeEndPoint().setValue( measuringTapeEndPoint.toImmutableVector2D() );
+    }
+
+    public GravityAndOrbitsModelState getModelState() {
+        return modelState;
+    }
+
+    public void setModelState( GravityAndOrbitsModelState modelState ) {
+        this.modelState = modelState;
+    }
+
+    public VectorBean getMeasuringTapeStartPoint() {
+        return measuringTapeStartPoint;
+    }
+
+    public void setMeasuringTapeStartPoint( VectorBean measuringTapeStartPoint ) {
+        this.measuringTapeStartPoint = measuringTapeStartPoint;
+    }
+
+    public VectorBean getMeasuringTapeEndPoint() {
+        return measuringTapeEndPoint;
+    }
+
+    public void setMeasuringTapeEndPoint( VectorBean measuringTapeEndPoint ) {
+        this.measuringTapeEndPoint = measuringTapeEndPoint;
     }
 }

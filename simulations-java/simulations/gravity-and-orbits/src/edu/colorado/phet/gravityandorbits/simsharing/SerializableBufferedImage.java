@@ -28,11 +28,15 @@ public class SerializableBufferedImage implements Serializable {
         //        RGB: jpg.length = 9014, png.length = 14667
     }
 
-    public BufferedImage getBufferedImage() {
+    public byte[] getByteImage() {
+        return byteImage;
+    }
+
+    public BufferedImage toBufferedImage() {
         return fromByteArray( byteImage );
     }
 
-    private BufferedImage fromByteArray( byte[] imagebytes ) {
+    public static BufferedImage fromByteArray( byte[] imagebytes ) {
         try {
             if ( imagebytes != null && ( imagebytes.length > 0 ) ) {
                 BufferedImage im = ImageIO.read( new ByteArrayInputStream( imagebytes ) );

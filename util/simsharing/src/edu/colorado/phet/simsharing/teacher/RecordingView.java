@@ -5,8 +5,7 @@ import akka.actor.ActorRef;
 import akka.actor.ActorTimeoutException;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -41,28 +40,41 @@ public class RecordingView extends JPanel {
         }};
         add( new JScrollPane( recordingList ), BorderLayout.CENTER );
 
-        new Timer( 5000, new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                updateRecordingList();
+        new Thread( new Runnable() {
+            public void run() {
+                while ( true ) {
+                    try {
+                        //Allow a long timeout here since it may take a long time to deliver a large recorded file.
+                        Thread.sleep( 1000 );
+                        final SessionList list = (SessionList) server.sendRequestReply( new GetSessionList() );
+                        try {
+                            SwingUtilities.invokeAndWait( new Runnable() {
+                                public void run() {
+                                    recordingList.setListData( list.toArray() );//TODO: remember user selection when list is refreshed
+                                }
+                            } );
+                        }
+                        catch ( InterruptedException e ) {
+                            e.printStackTrace();
+                        }
+                        catch ( InvocationTargetException e ) {
+                            e.printStackTrace();
+                        }
+                    }
+                    catch ( ActorTimeoutException timeoutException ) {
+                        System.out.println( "Actor timed out" );
+                        timeoutException.printStackTrace();
+                    }
+                    catch ( InterruptedException e ) {
+                        e.printStackTrace();
+                    }
+                }
             }
-        } ) {{setInitialDelay( 0 );}}.start();
+        } ).start();
     }
 
     private void showRecording( SessionStarted sessionID ) {
         System.out.println( "recording = " + sessionID );
         new SimView( new String[0], sessionID.getSessionID(), new SimView.SampleSource.RemoteActor( server, sessionID.getSessionID() ), true ).start();
-    }
-
-
-    private void updateRecordingList() {
-        //Allow a long timeout here since it may take a long time to deliver a large recorded file.
-        try {
-            final SessionList list = (SessionList) server.sendRequestReply( new GetSessionList() );
-            recordingList.setListData( list.toArray() );//TODO: remember user selection when list is refreshed
-        }
-        catch ( ActorTimeoutException timeoutException ) {
-            System.out.println( "Actor timed out" );
-            timeoutException.printStackTrace();
-        }
     }
 }

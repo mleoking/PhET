@@ -35,4 +35,28 @@ public class GravityAndOrbitsModelState implements Serializable {
             persistentBodyStates.get( i ).apply( gravityAndOrbitsModel.getBodies().get( i ) );
         }
     }
+
+    public boolean isPaused() {
+        return paused;
+    }
+
+    public void setPaused( boolean paused ) {
+        this.paused = paused;
+    }
+
+    public double getSimulationTime() {
+        return simulationTime;
+    }
+
+    public void setSimulationTime( double simulationTime ) {
+        this.simulationTime = simulationTime;
+    }
+
+    public ArrayList<PersistentBodyState> getPersistentBodyStates() {
+        return persistentBodyStates;
+    }
+
+    public void setPersistentBodyStates( ArrayList<PersistentBodyState> persistentBodyStates ) {
+        this.persistentBodyStates = persistentBodyStates;
+    }
 }
