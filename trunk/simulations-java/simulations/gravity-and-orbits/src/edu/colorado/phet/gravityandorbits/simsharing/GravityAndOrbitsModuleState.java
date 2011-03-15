@@ -66,4 +66,76 @@ public class GravityAndOrbitsModuleState implements Serializable {
                ", modelStates=" + modeStates +
                '}';
     }
+
+    public boolean isShowGravityForce() {
+        return showGravityForce;
+    }
+
+    public void setShowGravityForce( boolean showGravityForce ) {
+        this.showGravityForce = showGravityForce;
+    }
+
+    public boolean isShowPaths() {
+        return showPaths;
+    }
+
+    public void setShowPaths( boolean showPaths ) {
+        this.showPaths = showPaths;
+    }
+
+    public boolean isShowVelocity() {
+        return showVelocity;
+    }
+
+    public void setShowVelocity( boolean showVelocity ) {
+        this.showVelocity = showVelocity;
+    }
+
+    public boolean isShowMass() {
+        return showMass;
+    }
+
+    public void setShowMass( boolean showMass ) {
+        this.showMass = showMass;
+    }
+
+    public boolean isShowGrid() {
+        return showGrid;
+    }
+
+    public void setShowGrid( boolean showGrid ) {
+        this.showGrid = showGrid;
+    }
+
+    public boolean isGravityEnabled() {
+        return gravityEnabled;
+    }
+
+    public void setGravityEnabled( boolean gravityEnabled ) {
+        this.gravityEnabled = gravityEnabled;
+    }
+
+    public ArrayList<GravityAndOrbitsModeState> getModeStates() {
+        return modeStates;
+    }
+
+    public void setModeStates( ArrayList<GravityAndOrbitsModeState> modeStates ) {
+        this.modeStates = modeStates;
+    }
+
+    public int getSelectedMode() {
+        return selectedMode;
+    }
+
+    public void setSelectedMode( int selectedMode ) {
+        this.selectedMode = selectedMode;
+    }
+
+    public boolean isShowMeasuringTape() {
+        return showMeasuringTape;
+    }
+
+    public void setShowMeasuringTape( boolean showMeasuringTape ) {
+        this.showMeasuringTape = showMeasuringTape;
+    }
 }

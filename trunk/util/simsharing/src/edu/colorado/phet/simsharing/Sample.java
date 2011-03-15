@@ -15,14 +15,14 @@ public class Sample implements Serializable {
     private @Id ObjectId id = new ObjectId();//TODO: why needed?
     private long time;//server time
     private @Indexed SessionID sessionID;
-    private Object data;
+    private String json;
     private @Indexed long index;
     private int totalSampleCount;
 
-    public Sample( long time, SessionID sessionID, Object data, int index, int totalSampleCount ) {
+    public Sample( long time, SessionID sessionID, String json, long index, int totalSampleCount ) {
         this.time = time;
         this.sessionID = sessionID;
-        this.data = data;
+        this.json = json;
         this.index = index;
         this.totalSampleCount = totalSampleCount;
     }
@@ -30,8 +30,8 @@ public class Sample implements Serializable {
     public Sample() {
     }
 
-    public Object getData() {
-        return data;
+    public String getJson() {
+        return json;
     }
 
     public long getTime() {
@@ -40,5 +40,13 @@ public class Sample implements Serializable {
 
     public int getTotalSampleCount() {
         return totalSampleCount;
+    }
+
+    public SessionID getSessionID() {
+        return sessionID;
+    }
+
+    public long getIndex() {
+        return index;
     }
 }

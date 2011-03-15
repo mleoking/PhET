@@ -4,17 +4,16 @@ package edu.colorado.phet.gravityandorbits.simsharing;
 
 import java.io.Serializable;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.gravityandorbits.model.Body;
 
 /**
  * @author Sam Reid
  */
 public class PersistentBodyState implements Serializable {
-    private ImmutableVector2D position;
-    private ImmutableVector2D velocity;
-    private ImmutableVector2D acceleration;
-    private ImmutableVector2D force;
+    private VectorBean position;
+    private VectorBean velocity;
+    private VectorBean acceleration;
+    private VectorBean force;
     private double mass;
     private double diameter;
     private boolean userControlled;
@@ -24,10 +23,10 @@ public class PersistentBodyState implements Serializable {
     }
 
     public PersistentBodyState( Body body ) {
-        this.position = body.getPosition();
-        velocity = body.getVelocity();
-        acceleration = body.getAcceleration();
-        force = body.getForceProperty().getValue();
+        this.position = new VectorBean( body.getPosition() );
+        velocity = new VectorBean( body.getVelocity() );
+        acceleration = new VectorBean( body.getAcceleration() );
+        force = new VectorBean( body.getForceProperty().getValue() );
         mass = body.getMass();
         diameter = body.getDiameter();
         userControlled = body.isUserControlled();
@@ -36,12 +35,76 @@ public class PersistentBodyState implements Serializable {
 
     public void apply( Body body ) {
         body.setPosition( position.getX(), position.getY() );
-        body.setVelocity( velocity );
-        body.setAcceleration( acceleration );
-        body.setForce( force );
+        body.setVelocity( velocity.toImmutableVector2D() );
+        body.setAcceleration( acceleration.toImmutableVector2D() );
+        body.setForce( force.toImmutableVector2D() );
         body.setMass( mass );
         body.setDiameter( diameter );
         body.setUserControlled( userControlled );
         body.getCollidedProperty().setValue( collided );
+    }
+
+    public VectorBean getPosition() {
+        return position;
+    }
+
+    public void setPosition( VectorBean position ) {
+        this.position = position;
+    }
+
+    public VectorBean getVelocity() {
+        return velocity;
+    }
+
+    public void setVelocity( VectorBean velocity ) {
+        this.velocity = velocity;
+    }
+
+    public VectorBean getAcceleration() {
+        return acceleration;
+    }
+
+    public void setAcceleration( VectorBean acceleration ) {
+        this.acceleration = acceleration;
+    }
+
+    public VectorBean getForce() {
+        return force;
+    }
+
+    public void setForce( VectorBean force ) {
+        this.force = force;
+    }
+
+    public double getMass() {
+        return mass;
+    }
+
+    public void setMass( double mass ) {
+        this.mass = mass;
+    }
+
+    public double getDiameter() {
+        return diameter;
+    }
+
+    public void setDiameter( double diameter ) {
+        this.diameter = diameter;
+    }
+
+    public boolean isUserControlled() {
+        return userControlled;
+    }
+
+    public void setUserControlled( boolean userControlled ) {
+        this.userControlled = userControlled;
+    }
+
+    public boolean isCollided() {
+        return collided;
+    }
+
+    public void setCollided( boolean collided ) {
+        this.collided = collided;
     }
 }

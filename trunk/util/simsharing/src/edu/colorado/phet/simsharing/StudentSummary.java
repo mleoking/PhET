@@ -27,7 +27,7 @@ public class StudentSummary implements Serializable {
     }
 
     public BufferedImage getBufferedImage() {
-        return image == null ? null : image.getBufferedImage();
+        return image == null ? null : image.toBufferedImage();
     }
 
     public long getUpTime() {

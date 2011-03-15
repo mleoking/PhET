@@ -3,8 +3,6 @@ package edu.colorado.phet.simsharing.teacher;
 
 import akka.actor.ActorRef;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
@@ -28,7 +26,7 @@ public class ClassroomView extends PSwingCanvas {
     private final PNode studentThumbnailNode;
     private PNode summaryNode;
 
-    public ClassroomView( final ActorRef server, String[] args ) {
+    public ClassroomView( final ActorRef server, final String[] args ) {
         this.server = server;
         this.args = args;
         summaryNode = new PNode() {
@@ -43,13 +41,68 @@ public class ClassroomView extends PSwingCanvas {
         getLayer().addChild( studentThumbnailNode );
 
         //Look for new students this often
-        new Timer( 100, new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                updateStudentList();
+        new Thread( new Runnable() {
+            public void run() {
+                while ( true ) {
+                    try {
+                        Thread.sleep( 1000 );
+                        final StudentList list = (StudentList) server.sendRequestReply( new GetStudentList() );
+                        SwingUtilities.invokeLater( new Runnable() {
+                            public void run() {
+                                summaryNode.removeAllChildren();
+                                summaryNode.addChild( new PText( "Students: " + list.size() ) );
+                                final double avgUpTime = average( list.toList(), new Function1<StudentSummary, Double>() {
+                                    public Double apply( StudentSummary s ) {
+                                        return (double) ( s.getUpTime() );
+                                    }
+                                } );
+                                summaryNode.addChild( new PText( "Average up time: " + new DecimalFormat( "0.00" ).format( avgUpTime / 1000.0 ) + " sec" ) );
+                                final double avgLatency = average( list.toList(), new Function1<StudentSummary, Double>() {
+                                    public Double apply( StudentSummary s ) {
+                                        return (double) ( s.getTimeSinceLastEvent() );
+                                    }
+                                } );
+                                summaryNode.addChild( new PText( "Average latency: " + avgLatency + " ms" ) );
+
+                                double y = summaryNode.getFullBounds().getMaxY();
+
+                                for ( int i = 0; i < list.size(); i++ ) {
+                                    StudentSummary student = list.get( i );
+                                    final SessionID sessionID = student.getSessionID();
+                                    StudentComponent component = getComponent( sessionID );
+                                    if ( component == null ) {
+                                        component = new StudentComponent( sessionID, new VoidFunction0() {
+                                            public void apply() {
+                                                new SimView( args, sessionID, new SimView.SampleSource.RemoteActor( server, sessionID ), false ).start();
+                                            }
+                                        } );
+                                        studentThumbnailNode.addChild( component );
+                                    }
+                                    component.setThumbnail( student.getBufferedImage() );
+                                    component.setUpTime( student.getUpTime() );
+                                    component.setTimeSinceLastEvent( student.getTimeSinceLastEvent() );
+                                    component.setOffset( 0, y + 2 );
+                                    y = component.getFullBounds().getMaxY();
+                                }
+
+                                //Remove components for students that have exited
+                                ArrayList<PNode> toRemove = new ArrayList<PNode>();
+                                for ( int i = 0; i < studentThumbnailNode.getChildrenCount(); i++ ) {
+                                    PNode child = studentThumbnailNode.getChild( i );
+                                    if ( child instanceof StudentComponent && !list.containsStudent( ( (StudentComponent) child ).getSessionID() ) ) {
+                                        toRemove.add( child );
+                                    }
+                                }
+                                studentThumbnailNode.removeChildren( toRemove );
+                            }
+                        } );
+                    }
+                    catch ( InterruptedException e ) {
+                        e.printStackTrace();
+                    }
+                }
             }
-        } ) {{
-            setInitialDelay( 0 );
-        }}.start();
+        } ).start();
     }
 
     private StudentComponent getComponent( SessionID sessionID ) {
@@ -69,54 +122,4 @@ public class ClassroomView extends PSwingCanvas {
         }
         return sum / list.size();
     }
-
-    private void updateStudentList() {
-        final StudentList list = (StudentList) server.sendRequestReply( new GetStudentList() );
-        summaryNode.removeAllChildren();
-        summaryNode.addChild( new PText( "Students: " + list.size() ) );
-        final double avgUpTime = average( list.toList(), new Function1<StudentSummary, Double>() {
-            public Double apply( StudentSummary s ) {
-                return (double) ( s.getUpTime() );
-            }
-        } );
-        summaryNode.addChild( new PText( "Average up time: " + new DecimalFormat( "0.00" ).format( avgUpTime / 1000.0 ) + " sec" ) );
-        final double avgLatency = average( list.toList(), new Function1<StudentSummary, Double>() {
-            public Double apply( StudentSummary s ) {
-                return (double) ( s.getTimeSinceLastEvent() );
-            }
-        } );
-        summaryNode.addChild( new PText( "Average latency: " + avgLatency + " ms" ) );
-
-        double y = summaryNode.getFullBounds().getMaxY();
-
-        for ( int i = 0; i < list.size(); i++ ) {
-            StudentSummary student = list.get( i );
-            final SessionID sessionID = student.getSessionID();
-            StudentComponent component = getComponent( sessionID );
-            if ( component == null ) {
-                component = new StudentComponent( sessionID, new VoidFunction0() {
-                    public void apply() {
-                        new SimView( args, sessionID, new SimView.SampleSource.RemoteActor( server, sessionID ), false ).start();
-                    }
-                } );
-                studentThumbnailNode.addChild( component );
-            }
-            component.setThumbnail( student.getBufferedImage() );
-            component.setUpTime( student.getUpTime() );
-            component.setTimeSinceLastEvent( student.getTimeSinceLastEvent() );
-            component.setOffset( 0, y + 2 );
-            y = component.getFullBounds().getMaxY();
-        }
-
-        //Remove components for students that have exited
-        ArrayList<PNode> toRemove = new ArrayList<PNode>();
-        for ( int i = 0; i < studentThumbnailNode.getChildrenCount(); i++ ) {
-            PNode child = studentThumbnailNode.getChild( i );
-            if ( child instanceof StudentComponent && !list.containsStudent( ( (StudentComponent) child ).getSessionID() ) ) {
-                toRemove.add( child );
-            }
-        }
-        studentThumbnailNode.removeChildren( toRemove );
-    }
-
 }

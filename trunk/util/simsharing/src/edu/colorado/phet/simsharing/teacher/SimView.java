@@ -5,9 +5,12 @@ import akka.actor.ActorRef;
 
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.*;
+
+import org.codehaus.jackson.map.ObjectMapper;
 
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.gravityandorbits.GravityAndOrbitsApplication;
@@ -78,26 +81,36 @@ public class SimView {
 
             final Pair<Sample, Integer> sample = sampleSource.getSample( timeControl.live.getValue() ? -1 : timeControl.frameToDisplay.getValue() );
             if ( sample != null ) {
-                final GravityAndOrbitsApplicationState state = (GravityAndOrbitsApplicationState) sample._1.getData();
-                if ( state != null ) {
-                    try {
-                        SwingUtilities.invokeAndWait( new Runnable() {
-                            public void run() {
-                                state.apply( application );
-                                timeControl.maxFrames.setValue( sample._2 );
-                            }
-                        } );
-                    }
-                    catch ( InterruptedException e ) {
-                        e.printStackTrace();
-                    }
-                    catch ( InvocationTargetException e ) {
-                        e.printStackTrace();
+                GravityAndOrbitsApplicationState state = null;
+                try {
+                    state = mapper.readValue( sample._1.getJson(), GravityAndOrbitsApplicationState.class );
+                    if ( state != null ) {
+                        try {
+                            final GravityAndOrbitsApplicationState finalState = state;
+                            SwingUtilities.invokeAndWait( new Runnable() {
+                                public void run() {
+                                    finalState.apply( application );
+                                    timeControl.maxFrames.setValue( sample._2 );
+                                }
+                            } );
+                        }
+                        catch ( InterruptedException e ) {
+                            e.printStackTrace();
+                        }
+                        catch ( InvocationTargetException e ) {
+                            e.printStackTrace();
+                        }
                     }
                 }
+                catch ( IOException e ) {
+                    e.printStackTrace();
+                }
+
             }
         }
     }
+
+    ObjectMapper mapper = new ObjectMapper();
 
     private void alignControls() {
         timeControl.setLocation( application.getPhetFrame().getX(), application.getPhetFrame().getY() + application.getPhetFrame().getHeight() + 1 );
