@@ -6,12 +6,13 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.clock.Clock;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
-import edu.colorado.phet.common.phetcommon.util.function.Function1;
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.Option;
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
 
 /**
  * @author Sam Reid
@@ -33,6 +34,7 @@ public class WaveSensor {
     }};
     public final Property<ImmutableVector2D> bodyPosition = new Property<ImmutableVector2D>( new ImmutableVector2D( 4.882500000000015E-6, -3.1298076923077013E-6 ) );
     public final Clock clock;
+    public final BooleanProperty visible = new BooleanProperty( false );//in the play area
 
     public WaveSensor( final Clock clock, final Function1<ImmutableVector2D, Option<Double>> probe1Value, final Function1<ImmutableVector2D, Option<Double>> probe2Value ) {
         this.clock = clock;

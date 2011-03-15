@@ -1,3 +1,4 @@
+In more tools tab, show clock controls if wave mode or if time chart is in the play area
 Fixed: tools do not reset in reset all
 Fixed: protractor does not reset in first two tabs
 Fixed: protractor does not reset in prism break tab

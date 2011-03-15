@@ -9,6 +9,7 @@ import edu.colorado.phet.bendinglight.modules.moretools.MoreToolsModel;
 import edu.colorado.phet.bendinglight.view.*;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
@@ -29,7 +30,8 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  */
 public class IntroCanvas extends BendingLightCanvas<IntroModel> {
     public IntroCanvas( final IntroModel model, BooleanProperty moduleActive, final Resettable resetAll,
-                        final Function3<IntroModel, Double, Double, PNode> additionalLaserControls, double centerOffsetLeft ) {//(model,x,y)
+                        final Function3<IntroModel, Double, Double, PNode> additionalLaserControls, double centerOffsetLeft,
+                        final ObservableProperty<Boolean> clockControlVisible ) {//(model,x,y)
         super( model, moduleActive, new Function1<Double, Double>() {
             public Double apply( Double angle ) {
                 if ( angle < -Math.PI / 2 ) { angle = Math.PI; }
@@ -106,9 +108,9 @@ public class IntroCanvas extends BendingLightCanvas<IntroModel> {
         }} );
 
         afterLightLayer.addChild( new FloatingClockControlNode( clockRunningPressed, null, model.getClock(), "Reset", new Property<Color>( Color.white ) ) {{
-            model.laserView.addObserver( new SimpleObserver() {
-                public void update() {
-                    setVisible( model.laserView.getValue().equals( LaserView.WAVE ) );
+            clockControlVisible.addObserver( new VoidFunction1<Boolean>() {
+                public void apply( Boolean visible ) {
+                    setVisible( visible );
                 }
             } );
             final double dt = model.getClock().getDt();
