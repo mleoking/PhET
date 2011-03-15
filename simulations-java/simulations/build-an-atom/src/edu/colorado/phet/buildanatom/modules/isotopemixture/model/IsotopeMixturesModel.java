@@ -324,10 +324,6 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
      * @param value
      */
     private void addIsotopeControllers() {
-        // Figure out the atom radius to use based on the current atom size
-        // setting.
-        double isotopeRadius = interactivityModeProperty.getValue() == InteractivityMode.BUCKETS_AND_LARGE_ATOMS ? LARGE_ISOTOPE_RADIUS : SMALL_ISOTOPE_RADIUS;
-
         // Create a new list of controllers based on the new list of stable
         // isotopes.
         double controllerYOffset = testChamber.getTestChamberRect().getMinY() - 400;
@@ -347,11 +343,11 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
         }
         for ( int i = 0; i < possibleIsotopesProperty.getValue().size(); i++ ) {
             ImmutableAtom isotope = possibleIsotopesProperty.getValue().get( i );
-            if ( interactivityModeProperty.getValue() == InteractivityMode.BUCKETS_AND_LARGE_ATOMS ){
+            if ( interactivityModeProperty.getValue() == InteractivityMode.BUCKETS_AND_LARGE_ATOMS || showingNaturesMix.getValue() ){
                 String bucketCaption = AtomIdentifier.getName( isotope ) + "-" + isotope.getMassNumber();
                 MonoIsotopeParticleBucket newBucket = new MonoIsotopeParticleBucket( new Point2D.Double(
                         controllerXOffset + interControllerDistanceX * i, controllerYOffset ),
-                        BUCKET_SIZE, getColorForIsotope( isotope ), bucketCaption, isotopeRadius,
+                        BUCKET_SIZE, getColorForIsotope( isotope ), bucketCaption, LARGE_ISOTOPE_RADIUS,
                         isotope.getNumProtons(), isotope.getNumNeutrons() );
                 addBucket( newBucket );
             }
@@ -549,6 +545,13 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
         // Clear out anything that is in the test chamber.  If anything
         // needed to be stored, it should have been done by now.
         clearTestChamber();
+
+        // Clear out existing controllers.
+        removeBuckets();
+        removeNumericalControllers();
+
+        // Add buckets.
+        addIsotopeControllers();
 
         // Get the list of possible isotopes and then sort it by abundance
         // so that the least abundant are added last, thus assuring that
