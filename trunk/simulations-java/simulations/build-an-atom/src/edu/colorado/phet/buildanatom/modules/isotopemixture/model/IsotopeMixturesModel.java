@@ -126,7 +126,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
         interactivityModeProperty.addObserver( new SimpleObserver() {
             public void update() {
                 assert showingNaturesMix.getValue() == false; // Should never change when showing nature's mix.
-                addIsotopeControllers();
+                updateIsotopeControllers();
                 if ( interactivityModeProperty.getValue() == InteractivityMode.BUCKETS_AND_LARGE_ATOMS ){
                     addInitialIsotopesToBuckets();
                 }
@@ -323,9 +323,12 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
      * @param newIsotopeList
      * @param value
      */
-    private void addIsotopeControllers() {
-        // Create a new list of controllers based on the new list of stable
-        // isotopes.
+    private void updateIsotopeControllers() {
+        // Remove existing controllers.
+        removeBuckets();
+        removeNumericalControllers();
+
+        // Set up layout variables.
         double controllerYOffset = testChamber.getTestChamberRect().getMinY() - 400;
         double interControllerDistanceX;
         double controllerXOffset;
@@ -341,6 +344,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
             interControllerDistanceX = (testChamber.getTestChamberRect().getWidth() * 1.2) / possibleIsotopesProperty.getValue().size();
             controllerXOffset = testChamber.getTestChamberRect().getMinX() + interControllerDistanceX / 2;
         }
+        // Add the controllers.
         for ( int i = 0; i < possibleIsotopesProperty.getValue().size(); i++ ) {
             ImmutableAtom isotope = possibleIsotopesProperty.getValue().get( i );
             if ( interactivityModeProperty.getValue() == InteractivityMode.BUCKETS_AND_LARGE_ATOMS || showingNaturesMix.getValue() ){
@@ -508,13 +512,8 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
             // way.
             testChamber.removeAllIsotopes( true );
 
-            // Remove the old isotope controllers (i.e. buckets or numerical
-            // controllers).
-            removeBuckets();
-            removeNumericalControllers();
-
             // Add the new isotope controllers.
-            addIsotopeControllers();
+            updateIsotopeControllers();
 
             if ( interactivityModeProperty.getValue() == InteractivityMode.BUCKETS_AND_LARGE_ATOMS ){
                 // Create and add initial isotopes to their respective buckets.
@@ -546,12 +545,8 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
         // needed to be stored, it should have been done by now.
         clearTestChamber();
 
-        // Clear out existing controllers.
-        removeBuckets();
-        removeNumericalControllers();
-
         // Add buckets.
-        addIsotopeControllers();
+        updateIsotopeControllers();
 
         // Get the list of possible isotopes and then sort it by abundance
         // so that the least abundant are added last, thus assuring that
