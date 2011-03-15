@@ -5,14 +5,15 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.Serializable;
 
 import javax.imageio.ImageIO;
+
+import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
 
 /**
  * See http://www.ni-c.de/2008/10/serializable-bufferedimage/
  */
-public class SerializableBufferedImage implements Serializable {
+public class SerializableBufferedImage implements IProguardKeepClass {
 
     private byte[] byteImage = null;
 

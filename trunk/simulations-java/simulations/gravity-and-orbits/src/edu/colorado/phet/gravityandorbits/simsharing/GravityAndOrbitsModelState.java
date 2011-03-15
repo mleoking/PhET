@@ -2,16 +2,16 @@
 
 package edu.colorado.phet.gravityandorbits.simsharing;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
+import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
 import edu.colorado.phet.gravityandorbits.model.Body;
 import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsModel;
 
 /**
  * @author Sam Reid
  */
-public class GravityAndOrbitsModelState implements Serializable {
+public class GravityAndOrbitsModelState implements IProguardKeepClass {
     private boolean paused;
     private double simulationTime;
     private ArrayList<PersistentBodyState> persistentBodyStates;

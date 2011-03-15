@@ -3,8 +3,8 @@
 package edu.colorado.phet.gravityandorbits.simsharing;
 
 import java.awt.*;
-import java.io.Serializable;
 
+import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.gravityandorbits.GravityAndOrbitsApplication;
 
@@ -13,7 +13,7 @@ import static java.lang.System.currentTimeMillis;
 /**
  * @author Sam Reid
  */
-public class GravityAndOrbitsApplicationState implements Serializable {
+public class GravityAndOrbitsApplicationState implements IProguardKeepClass {
     private GravityAndOrbitsModuleState introState;
     private GravityAndOrbitsModuleState toScaleState;
     private long timestamp;
