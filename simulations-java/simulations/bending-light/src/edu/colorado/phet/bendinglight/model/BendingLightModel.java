@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import edu.colorado.phet.bendinglight.modules.intro.ResetModel;
 import edu.colorado.phet.bendinglight.view.LaserColor;
 import edu.colorado.phet.bendinglight.view.LaserView;
 import edu.colorado.phet.common.phetcommon.math.Function;
@@ -23,7 +24,7 @@ import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 
 import static java.lang.Math.pow;
 
-public class BendingLightModel {
+public class BendingLightModel implements ResetModel {
     protected static final double DEFAULT_DIST_FROM_PIVOT = 8.125E-6;
     protected final List<LightRay> rays = new LinkedList<LightRay>();
     private ConstantDtClock clock;
@@ -87,6 +88,7 @@ public class BendingLightModel {
     public static final Color DIAMOND_COLOR = new Color( 78, 79, 164 );
     private final ArrayList<VoidFunction0> modelUpdateListeners = new ArrayList<VoidFunction0>();
     public Property<Double> wavelengthProperty;
+    private ArrayList<VoidFunction0> resetListeners = new ArrayList<VoidFunction0>();
 
     public BendingLightModel( double laserAngle, boolean topLeftQuadrant, final double laserDistanceFromPivot ) {
         laser = new Laser( laserDistanceFromPivot, laserAngle, topLeftQuadrant );
@@ -197,9 +199,16 @@ public class BendingLightModel {
         modelUpdateListeners.add( listener );
     }
 
+    public void addResetListener( VoidFunction0 listener ) {
+        resetListeners.add( listener );
+    }
+
     public void resetAll() {
         laser.resetAll();
         intensityMeter.resetAll();
         laserView.reset();
+        for ( VoidFunction0 listener : resetListeners ) {
+            listener.apply();
+        }
     }
 }
