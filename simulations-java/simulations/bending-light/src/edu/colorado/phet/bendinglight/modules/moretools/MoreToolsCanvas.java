@@ -4,8 +4,11 @@ package edu.colorado.phet.bendinglight.modules.moretools;
 import edu.colorado.phet.bendinglight.modules.intro.IntroCanvas;
 import edu.colorado.phet.bendinglight.modules.intro.IntroModel;
 import edu.colorado.phet.bendinglight.view.BendingLightWavelengthControl;
-import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.bendinglight.view.LaserView;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.model.property.Or;
+import edu.colorado.phet.common.phetcommon.model.property.ValueEquals;
 import edu.colorado.phet.common.phetcommon.util.function.Function3;
 import edu.umd.cs.piccolo.PNode;
 
@@ -20,6 +23,6 @@ public class MoreToolsCanvas extends IntroCanvas {
                     setOffset( x, y );
                 }};
             }
-        }, 0 );
+        }, 0, new Or( new ValueEquals<LaserView>( model.laserView, LaserView.WAVE ), model.waveSensor.visible ) );
     }
 }
