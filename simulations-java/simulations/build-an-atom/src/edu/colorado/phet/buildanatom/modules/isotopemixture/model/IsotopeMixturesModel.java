@@ -125,9 +125,11 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
         // reconfigured when this property changes.
         interactivityModeProperty.addObserver( new SimpleObserver() {
             public void update() {
-                // Set the configuration again, which will create a different
-                // size atom now that the size has been changed.
-                setAtomConfiguration( prototypeIsotope );
+                assert showingNaturesMix.getValue() == false; // Should never change when showing nature's mix.
+                addIsotopeControllers();
+                if ( interactivityModeProperty.getValue() == InteractivityMode.BUCKETS_AND_LARGE_ATOMS ){
+                    addInitialIsotopesToBuckets();
+                }
             }
         }, false );
 
@@ -143,7 +145,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
                     showNaturesMix();
                 }
                 else{
-                    clearNaturesMix();
+                    clearTestChamber();
                     showUsersMix2();
                 }
             }
@@ -214,10 +216,26 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
      * representation.
      */
     private void setState( State modelState ){
-        removeBuckets();
 
+        // Restore the prototype isotope.
         prototypeIsotope.setConfiguration( modelState.getElementConfiguration() );
+
+        // Restore the interactivity mode.
+        interactivityModeProperty.setValue( modelState.getInteractivityMode() );
+
+        // Clear the model of existing controllers.
+        removeBuckets();
+        removeNumericalControllers();
+        // TODO: Need to remove isotopes from test chamber too.
+
+        // Restore any particles that were in the test chamber.
         testChamber.setState( modelState.getIsotopeTestChamberState() );
+        for ( MovableAtom isotope : testChamber.getContainedIsotopes() ){
+            notifyIsotopeInstanceAdded( isotope );
+        }
+
+        // Add the buckets, if any, and send notifications for any particles
+        // contained therein.
         for ( MonoIsotopeParticleBucket.State bucketState : modelState.getBucketStates() ) {
             addBucket( new MonoIsotopeParticleBucket( bucketState ) );
             for ( MovableAtom isotope : bucketState.getContainedIsotopes() ) {
@@ -225,9 +243,6 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
                 isotope.addListener( isotopeGrabbedListener );
                 notifyIsotopeInstanceAdded( isotope );
             }
-        }
-        for ( MovableAtom isotope : testChamber.getContainedIsotopes() ){
-            notifyIsotopeInstanceAdded( isotope );
         }
     }
 
@@ -299,6 +314,8 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
      * portion of the devices with which the user can interact with in order
      * to add or remove isotopes to/from the test chamber.  There are two
      * types of controllers: buckets and numerical controllers (i.e. sliders).
+     *
+     * Note that this does NOT add any isotopes to the model.
      *
      * @param newIsotopeList
      * @param value
@@ -466,16 +483,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
      */
     private void showUsersMix(){
         if ( interactivityModeProperty.getValue() == InteractivityMode.BUCKETS_AND_LARGE_ATOMS ){
-            // Add the isotopes to their respective buckets.
-            for ( ImmutableAtom isotopeConfig : possibleIsotopesProperty.getValue() ) {
-                MonoIsotopeParticleBucket isotopeBucket = getBucketForIsotope( isotopeConfig );
-                assert isotopeBucket != null; // If there is no bucket for this isotope, there is a bug.
-
-                // Create each isotope instance and add to appropriate bucket.
-                for ( int i = 0; i < NUM_LARGE_ISOTOPES_PER_BUCKET; i++){
-                    createAndAddIsotope( isotopeConfig );
-                }
-            }
+            addInitialIsotopesToBuckets();
         }
     }
 
@@ -511,21 +519,33 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
 
             if ( interactivityModeProperty.getValue() == InteractivityMode.BUCKETS_AND_LARGE_ATOMS ){
                 // Create and add initial isotopes to their respective buckets.
-                for ( ImmutableAtom isotopeConfig : possibleIsotopesProperty.getValue() ) {
-                    MonoIsotopeParticleBucket isotopeBucket = getBucketForIsotope( isotopeConfig );
-                    assert isotopeBucket != null; // If there is no bucket for this isotope, there is a bug.
+                addInitialIsotopesToBuckets();
+            }
+        }
+    }
 
-                    // Create each isotope instance and add to appropriate bucket.
-                    for ( int i = 0; i < NUM_LARGE_ISOTOPES_PER_BUCKET; i++){
-                        createAndAddIsotope( isotopeConfig );
-                    }
-                }
+    /**
+     * Add the initial set of isotopes to the buckets.
+     */
+    private void addInitialIsotopesToBuckets() {
+        for ( ImmutableAtom isotopeConfig : possibleIsotopesProperty.getValue() ) {
+            MonoIsotopeParticleBucket isotopeBucket = getBucketForIsotope( isotopeConfig );
+            assert isotopeBucket != null; // If there is no bucket for this isotope, there is a bug.
+
+            // Create each isotope instance and add to appropriate bucket.
+            for ( int i = 0; i < NUM_LARGE_ISOTOPES_PER_BUCKET; i++){
+                createAndAddIsotope( isotopeConfig );
             }
         }
     }
 
     private void showNaturesMix(){
+        assert showingNaturesMix.getValue() == true; // This method shouldn't be called if we're not showing nature's mix.
         int totalNumIsotopes = 1000;  // TODO: Make this a constant if actually used.
+
+        // Clear out anything that is in the test chamber.  If anything
+        // needed to be stored, it should have been done by now.
+        clearTestChamber();
 
         // Get the list of possible isotopes and then sort it by abundance
         // so that the least abundant are added last, thus assuring that
@@ -537,6 +557,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
                 }
             } );
 
+        // Add the isotopes.
         for ( ImmutableAtom isotopeConfig : possibleIsotopesCopy ){
             int numToCreate = (int)Math.round( totalNumIsotopes * AtomIdentifier.getNaturalAbundance( isotopeConfig ) );
             if ( numToCreate == 0 ){
@@ -556,7 +577,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
         }
     }
 
-    private void clearNaturesMix(){
+    private void clearTestChamber(){
         for ( MovableAtom isotope : new ArrayList<MovableAtom>( testChamber.getContainedIsotopes() ) ){
             testChamber.removeIsotopeFromChamber( isotope );
             isotope.removeListener( isotopeGrabbedListener );
@@ -625,10 +646,12 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
         private final ImmutableAtom elementConfig;
         private final IsotopeTestChamber.State isotopeTestChamberState;
         private final ArrayList<MonoIsotopeParticleBucket.State> bucketStates = new ArrayList<MonoIsotopeParticleBucket.State>(  );
+        private final InteractivityMode interactivityMode;
 
         public State( IsotopeMixturesModel model ){
             elementConfig = model.getAtom().toImmutableAtom();
             isotopeTestChamberState = model.getIsotopeTestChamber().getState();
+            interactivityMode = model.getInteractivityModeProperty().getValue();
             for ( MonoIsotopeParticleBucket bucket : model.bucketList ) {
                 bucketStates.add( bucket.getState() );
             }
@@ -644,6 +667,10 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
 
         public ArrayList<MonoIsotopeParticleBucket.State> getBucketStates() {
             return bucketStates;
+        }
+
+        public InteractivityMode getInteractivityMode() {
+            return interactivityMode;
         }
     }
 
