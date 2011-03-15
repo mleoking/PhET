@@ -12,7 +12,10 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 
+import org.codehaus.jackson.map.ObjectMapper;
+
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.gravityandorbits.GravityAndOrbitsApplication;
 import edu.colorado.phet.gravityandorbits.simsharing.GravityAndOrbitsApplicationState;
@@ -78,7 +81,11 @@ public class Student {
 
 //                        server.sendOneWay( new AddStudentDataSample( sessionID, state ) );
                         if ( stateCache.size() >= 30 ) {
-                            server.sendOneWay( new AddMultiSample( sessionID, stateCache ) );
+                            server.sendOneWay( new AddMultiSample( sessionID, yield( stateCache, new Function1<GravityAndOrbitsApplicationState, String>() {
+                                public String apply( GravityAndOrbitsApplicationState state ) {
+                                    return mapper.writeValueAsString( state );
+                                }
+                            } ) ) );
                             stateCache.clear();
                         }
                     }
@@ -111,6 +118,27 @@ public class Student {
             }
         } ).start();
         application.getIntro().getClockPausedProperty().setValue( false );
+    }
+
+    static class MyMapper extends ObjectMapper {
+        @Override public String writeValueAsString( Object value ) {
+            try {
+                return super.writeValueAsString( value );
+            }
+            catch ( IOException e ) {
+                throw new RuntimeException( e );
+            }
+        }
+    }
+
+    MyMapper mapper = new MyMapper();
+
+    public static <T, U> ArrayList<U> yield( final ArrayList<T> list, final Function1<T, U> map ) {
+        final ArrayList<U> arrayList = new ArrayList<U>();
+        for ( T t : list ) {
+            arrayList.add( map.apply( t ) );
+        }
+        return arrayList;
     }
 
     public static class Classroom {

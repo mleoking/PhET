@@ -4,16 +4,14 @@ package edu.colorado.phet.simsharing;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import edu.colorado.phet.gravityandorbits.simsharing.GravityAndOrbitsApplicationState;
-
 /**
  * @author Sam Reid
  */
 public class AddMultiSample implements Serializable {
     private SessionID sessionID;
-    private ArrayList<GravityAndOrbitsApplicationState> data;
+    private ArrayList<String> data;
 
-    public AddMultiSample( SessionID sessionID, ArrayList<GravityAndOrbitsApplicationState> data ) {
+    public AddMultiSample( SessionID sessionID, ArrayList<String> data ) {
         this.sessionID = sessionID;
         this.data = data;
     }
@@ -22,7 +20,7 @@ public class AddMultiSample implements Serializable {
         return sessionID;
     }
 
-    public ArrayList<GravityAndOrbitsApplicationState> getData() {
+    public ArrayList<String> getData() {
         return data;
     }
 }
