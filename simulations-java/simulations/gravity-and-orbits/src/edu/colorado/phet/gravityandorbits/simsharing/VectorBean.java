@@ -1,14 +1,13 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.gravityandorbits.simsharing;
 
-import java.io.Serializable;
-
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
 
 /**
  * @author Sam Reid
  */
-public class VectorBean implements Serializable {
+public class VectorBean implements IProguardKeepClass {
     double x;
     double y;
 

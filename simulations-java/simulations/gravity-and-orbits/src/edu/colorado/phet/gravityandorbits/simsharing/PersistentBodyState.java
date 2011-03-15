@@ -2,14 +2,13 @@
 
 package edu.colorado.phet.gravityandorbits.simsharing;
 
-import java.io.Serializable;
-
+import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
 import edu.colorado.phet.gravityandorbits.model.Body;
 
 /**
  * @author Sam Reid
  */
-public class PersistentBodyState implements Serializable {
+public class PersistentBodyState implements IProguardKeepClass {
     private VectorBean position;
     private VectorBean velocity;
     private VectorBean acceleration;

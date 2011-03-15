@@ -2,16 +2,16 @@
 
 package edu.colorado.phet.gravityandorbits.simsharing;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
+import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
 import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsMode;
 import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsModule;
 
 /**
  * @author Sam Reid
  */
-public class GravityAndOrbitsModuleState implements Serializable {
+public class GravityAndOrbitsModuleState implements IProguardKeepClass {
 
     private boolean showGravityForce;
     private boolean showPaths;
