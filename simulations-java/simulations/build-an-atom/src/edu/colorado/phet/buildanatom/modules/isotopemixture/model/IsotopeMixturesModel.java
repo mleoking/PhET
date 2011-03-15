@@ -220,7 +220,9 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
         // Restore the prototype isotope.
         prototypeIsotope.setConfiguration( modelState.getElementConfiguration() );
 
-        // Restore the interactivity mode.
+        // Restore the interactivity mode.  Note that this may or may not
+        // add some isotope controllers as a side effect.  These will need to
+        // be replaced by other state information.
         interactivityModeProperty.setValue( modelState.getInteractivityMode() );
 
         // Clear the model of existing controllers.
@@ -298,6 +300,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
     private void removeBuckets(){
         for ( MonoIsotopeParticleBucket bucket : bucketList ) {
             for ( MovableAtom movableAtom : bucket.getContainedIsotopes() ) {
+                bucket.removeParticle( movableAtom );
                 movableAtom.removedFromModel();
             }
         }

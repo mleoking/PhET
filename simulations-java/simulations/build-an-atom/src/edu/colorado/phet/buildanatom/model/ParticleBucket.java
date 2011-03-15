@@ -102,6 +102,7 @@ public class ParticleBucket extends Bucket {
         }
         assert containedParticles.contains( particle );
         containedParticles.remove( particle );
+        particle.removeListener( particleRemovalListener );
     }
 
     public void addParticle( final SphericalParticle particle, boolean moveImmediately ) {
