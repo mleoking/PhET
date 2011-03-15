@@ -24,7 +24,7 @@ public class ValueEquals<T> extends ObservableProperty<Boolean> {
         property.addObserver( new SimpleObserver() {
             public void update() {
                 if ( getValue() != valueAtLastNotification ) {
-                    notifyObservers();
+                    notifyObservers( getValue(), valueAtLastNotification );
                     valueAtLastNotification = getValue();
                 }
             }

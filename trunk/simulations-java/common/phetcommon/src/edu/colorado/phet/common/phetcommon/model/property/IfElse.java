@@ -12,6 +12,7 @@ public class IfElse<T> extends ObservableProperty<T> {
     private final Property<Boolean> condition;
     private final T yes;
     private final T no;
+    private T oldValue;
 
     public IfElse( Property<Boolean> condition, T yes, T no ) {
         this.condition = condition;
@@ -19,7 +20,8 @@ public class IfElse<T> extends ObservableProperty<T> {
         this.no = no;
         condition.addObserver( new SimpleObserver() {
             public void update() {
-                notifyObservers();
+                notifyObservers( getValue(), oldValue );
+                oldValue = getValue();
             }
         } );
     }
