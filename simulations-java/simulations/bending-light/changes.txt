@@ -1,3 +1,4 @@
+Fixed: protractor does not reset in prism break tab
 Made velocity sensor node resize with text
 Factored out CHARACTERISTIC_LENGTH instead of using WAVELENGTH_RED everywhere
 Fixed: Made LaserColor.getWavelength() abstract and prevented from being called for white light

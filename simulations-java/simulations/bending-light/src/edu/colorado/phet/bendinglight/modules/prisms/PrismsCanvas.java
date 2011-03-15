@@ -3,10 +3,13 @@ package edu.colorado.phet.bendinglight.modules.prisms;
 
 import java.awt.*;
 
-import edu.colorado.phet.bendinglight.view.*;
-import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.bendinglight.view.BendingLightCanvas;
+import edu.colorado.phet.bendinglight.view.BendingLightResetAllButtonNode;
+import edu.colorado.phet.bendinglight.view.MediumControlPanel;
+import edu.colorado.phet.bendinglight.view.ProtractorNode;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
-import edu.colorado.phet.common.phetcommon.util.*;
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.Function2;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
@@ -87,7 +90,7 @@ public class PrismsCanvas extends BendingLightCanvas<PrismsModel> {
         } );
         beforeLightLayer.addChild( prismLayer );
 
-        addChild( new ProtractorNode( transform, showProtractor, new ProtractorModel( 0, 0 ), new Function2<Shape, Shape, Shape>() {
+        addChild( new ProtractorNode( transform, showProtractor, model.getProtractorModel(), new Function2<Shape, Shape, Shape>() {
             public Shape apply( Shape innerBar, Shape outerCircle ) {
                 return innerBar;
             }
