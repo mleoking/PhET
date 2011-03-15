@@ -9,7 +9,8 @@ public class FlexSimStrings {
 
     public static function get( key: String, defaultString: String, formatArray: Array = null ): String {
         if ( document == null ) {
-            document = new XML( Application.application.parameters.internationalization );
+            //Null check for when running locally/IntelliJ/Flash debug player
+            document = new XML( Application.application == null ? null : Application.application.parameters.internationalization );
         }
         var list: XMLList = document.descendants( "string" );
 

@@ -14,7 +14,6 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="flash-adobe" />
     <orderEntry type="module" module-name="aswing-a3" />
   </component>
 </module>
