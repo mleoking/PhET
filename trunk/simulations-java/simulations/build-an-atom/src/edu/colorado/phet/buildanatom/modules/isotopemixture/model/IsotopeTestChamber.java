@@ -87,7 +87,7 @@ public class IsotopeTestChamber {
      * @param isotopeConfig
      * @return
      */
-    protected int getIsotopeCount( ImmutableAtom isotopeConfig ){
+    public int getIsotopeCount( ImmutableAtom isotopeConfig ){
         assert isotopeConfig.getNumProtons() == isotopeConfig.getNumElectrons(); // Should always be neutral atom.
         int isotopeCount = 0;
         for ( MovableAtom isotope : containedIsotopes ) {

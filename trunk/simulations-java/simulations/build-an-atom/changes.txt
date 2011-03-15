@@ -1,3 +1,4 @@
+Incremental progress in factoring out an idempotent method IsotopeMixturesModel.updateIsotopeControllers
 Fixed: test chamber doesn't clear when switching between "more" and "less"
 Isotopes and buckets are restored after switching elements
 # 2.01.00 (49521) Mar 4, 2011
