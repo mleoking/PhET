@@ -5,6 +5,7 @@ package edu.colorado.phet.gravityandorbits.view;
 import java.awt.*;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -150,7 +151,7 @@ public class BodyNode extends PNode {
     }
 
     public Image renderImage( int width ) {
-        return bodyRenderer.toImage( width, width, new Color( 0, 0, 0, 0 ) );
+        return bodyRenderer.toImage( new BufferedImage( width, width, BufferedImage.TYPE_4BYTE_ABGR_PRE ), new Color( 0, 0, 0, 0 ), PNode.FILL_STRATEGY_EXACT_FIT );
     }
 
     public Body getBody() {
