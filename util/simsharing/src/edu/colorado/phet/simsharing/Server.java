@@ -124,6 +124,7 @@ public class Server {
                                 GravityAndOrbitsApplicationState state = null;
                                 if ( latestDataPoint != null && latestDataPoint.getJson() != null ) {
                                     try {
+                                        //TODO: this part is still expensive
                                         state = mapper.readValue( latestDataPoint.getJson(), GravityAndOrbitsApplicationState.class );
                                     }
                                     catch ( IOException e ) {
@@ -135,24 +136,18 @@ public class Server {
                             }
                             getContext().replySafe( new StudentList( list ) );
                         }
-                        else if ( o instanceof AddStudentDataSample ) {
-                            addSample( (AddStudentDataSample) o );
-                        }
+//                        else if ( o instanceof AddStudentDataSample ) {
+//                            addSample( (AddStudentDataSample) o );
+//                        }
                         else if ( o instanceof AddMultiSample ) {
                             long s = System.currentTimeMillis();
                             AddMultiSample request = (AddMultiSample) o;
                             int newIndex = getLastIndex( request.getSessionID() ) + 1;
 
                             for ( int i = 0; i < request.getData().size(); i++ ) {
-                                final GravityAndOrbitsApplicationState data = request.getData().get( i );
-                                final Sample sampleInstance;
-                                try {
-                                    sampleInstance = new Sample( System.currentTimeMillis(), request.getSessionID(), mapper.writeValueAsString( data ), newIndex, newIndex );
-                                    ds.save( sampleInstance );
-                                }
-                                catch ( IOException e ) {
-                                    e.printStackTrace();
-                                }
+                                final String data = request.getData().get( i );
+                                final Sample sampleInstance = new Sample( System.currentTimeMillis(), request.getSessionID(), data, newIndex, newIndex );
+                                ds.save( sampleInstance );
                                 newIndex++;
                             }
                             newIndex--;
@@ -186,21 +181,21 @@ public class Server {
 
     ObjectMapper mapper = new ObjectMapper();
 
-    private void addSample( AddStudentDataSample request ) {
-        int newIndex = getLastIndex( request.getSessionID() ) + 1;
-        ds.delete( ds.createQuery( LatestIndex.class ).filter( "sessionID", request.getSessionID() ) );
-        ds.save( new LatestIndex( request.getSessionID(), newIndex ) );
-
-        try {
-            ds.save( new Sample( System.currentTimeMillis(), request.getSessionID(), mapper.writeValueAsString( request.getData() ), newIndex, newIndex ) );
-        }
-        catch ( IOException e ) {
-            e.printStackTrace();
-        }
-
-        ds.delete( ds.createQuery( EventReceived.class ).filter( "sessionID", request.getSessionID() ) );
-        ds.save( new EventReceived( request.getSessionID(), System.currentTimeMillis() ) );
-    }
+//    private void addSample( AddStudentDataSample request ) {
+//        int newIndex = getLastIndex( request.getSessionID() ) + 1;
+//        ds.delete( ds.createQuery( LatestIndex.class ).filter( "sessionID", request.getSessionID() ) );
+//        ds.save( new LatestIndex( request.getSessionID(), newIndex ) );
+//
+//        try {
+//            ds.save( new Sample( System.currentTimeMillis(), request.getSessionID(), request.getData(), newIndex, newIndex ) );
+//        }
+//        catch ( IOException e ) {
+//            e.printStackTrace();
+//        }
+//
+//        ds.delete( ds.createQuery( EventReceived.class ).filter( "sessionID", request.getSessionID() ) );
+//        ds.save( new EventReceived( request.getSessionID(), System.currentTimeMillis() ) );
+//    }
 
     private int getLastIndex( SessionID sessionID ) {
         final LatestIndex index = ds.createQuery( LatestIndex.class ).filter( "sessionID", sessionID ).get();
