@@ -287,6 +287,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
         // Add any particles that were in the test chamber.
         testChamber.setState( modelState.getIsotopeTestChamberState() );
         for ( MovableAtom isotope : testChamber.getContainedIsotopes() ){
+            isotope.addListener( isotopeGrabbedListener );
             notifyIsotopeInstanceAdded( isotope );
         }
 
