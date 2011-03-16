@@ -19,7 +19,6 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.*;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
@@ -80,10 +79,8 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
             }
         } );
 
-        final Property<ModelViewTransform> modelViewTransformProperty = mode.getModelViewTransformProperty();
-
         for ( Body body : model.getBodies() ) {
-            addChild( new PathNode( body, modelViewTransformProperty, module.showPathProperty, body.getColor(), module.scaleProperty ) );
+            addChild( new PathNode( body, mode.modelViewTransformProperty, module.showPathProperty, body.getColor(), module.scaleProperty ) );
         }
 
         Color FORCE_VECTOR_COLOR_FILL = PhetColorScheme.GRAVITATIONAL_FORCE;
@@ -93,25 +90,25 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
         Color VELOCITY_VECTOR_COLOR_OUTLINE = Color.darkGray;
 
         for ( Body body : model.getBodies() ) {
-            final BodyNode bodyNode = new BodyNode( body, modelViewTransformProperty, module.scaleProperty, mousePositionProperty, this, body.getLabelAngle() );
+            final BodyNode bodyNode = new BodyNode( body, mode.modelViewTransformProperty, module.scaleProperty, mousePositionProperty, this, body.getLabelAngle() );
             addChild( bodyNode );
             addChild( mode.getMassReadoutFactory().apply( bodyNode, module.showMassProperty ) );
         }
 
         //Add gravity force vector nodes
         for ( Body body : model.getBodies() ) {
-            addChild( new VectorNode( body, modelViewTransformProperty, module.showGravityForceProperty, body.getForceProperty(), forceScale, FORCE_VECTOR_COLOR_FILL, FORCE_VECTOR_COLOR_OUTLINE ) );
+            addChild( new VectorNode( body, mode.modelViewTransformProperty, module.showGravityForceProperty, body.getForceProperty(), forceScale, FORCE_VECTOR_COLOR_FILL, FORCE_VECTOR_COLOR_OUTLINE ) );
         }
         //Add velocity vector nodes
         for ( Body body : model.getBodies() ) {
-            addChild( new GrabbableVectorNode( body, modelViewTransformProperty, module.showVelocityProperty, body.getVelocityProperty(), mode.getVelocityScale(), VELOCITY_VECTOR_COLOR_FILL, VELOCITY_VECTOR_COLOR_OUTLINE ) );
+            addChild( new GrabbableVectorNode( body, mode.modelViewTransformProperty, module.showVelocityProperty, body.getVelocityProperty(), mode.getVelocityScale(), VELOCITY_VECTOR_COLOR_FILL, VELOCITY_VECTOR_COLOR_OUTLINE ) );
         }
 
         for ( Body body : model.getBodies() ) {
-            addChild( new ExplosionNode( body, modelViewTransformProperty ) );
+            addChild( new ExplosionNode( body, mode.modelViewTransformProperty ) );
         }
 
-        addChild( new GridNode( modelViewTransformProperty, mode.getGridSpacing(), mode.getGridCenter() ) {{
+        addChild( new GridNode( mode.modelViewTransformProperty, mode.getGridSpacing(), mode.getGridCenter() ) {{
             module.showGridProperty.addObserver( new SimpleObserver() {
                 public void update() {
                     setVisible( module.showGridProperty.getValue() );
@@ -177,7 +174,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
 
         addChild( new MeasuringTape( new And( new ValueEquals<Scale>( module.scaleProperty, Scale.REAL ), module.measuringTapeVisibleProperty ),
                                      mode.measuringTapeStartPoint,
-                                     mode.measuringTapeEndPoint, modelViewTransformProperty ) {{
+                                     mode.measuringTapeEndPoint, mode.modelViewTransformProperty ) {{
         }} );
 
         // shows the bounds of the "stage", which is different from the canvas
@@ -185,7 +182,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
 
         Rectangle2D stage = new Rectangle2D.Double( 0, 0, STAGE_SIZE.width, STAGE_SIZE.height );
         for ( Body body : mode.getModel().getBodies() ) {
-            body.getBounds().setValue( mode.getModelViewTransformProperty().getValue().viewToModel( stage ) );
+            body.getBounds().setValue( mode.modelViewTransformProperty.getValue().viewToModel( stage ) );
         }
         final MultiwayOr anythingReturnable = new MultiwayOr( new ArrayList<Property<Boolean>>() {{
             for ( Body body : model.getBodies() ) {add( body.getReturnable() );}
