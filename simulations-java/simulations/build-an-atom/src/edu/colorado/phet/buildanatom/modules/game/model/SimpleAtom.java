@@ -113,10 +113,6 @@ public class SimpleAtom extends SimpleObservable implements IDynamicAtom {
         return getMassNumber()+getNumElectrons();
     }
 
-    public ImmutableAtom toAtomValue() {
-        return new ImmutableAtom(getNumProtons(), getNumNeutrons(),getNumElectrons() );
-    }
-
     public void reset(){
         setNumProtons( 0 );
         setNumNeutrons( 0 );
