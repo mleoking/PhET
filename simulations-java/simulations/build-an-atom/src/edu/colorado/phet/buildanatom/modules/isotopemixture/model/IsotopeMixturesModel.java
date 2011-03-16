@@ -42,6 +42,11 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
     // Class Data
     // -----------------------------------------------------------------------
 
+    // Default initial atom configuration.
+    private static final int DEFAULT_ATOMIC_NUMBER = 1;
+    private static final ImmutableAtom DEFAULT_PROTOTYPE_ISOTOPE_CONFIG =
+        AtomIdentifier.getMostCommonIsotope( DEFAULT_ATOMIC_NUMBER );
+
     // Size of the buckets that will hold the isotopes.
     private static final Dimension2D BUCKET_SIZE = new PDimension( 1000, 400 ); // In picometers.
 
@@ -79,7 +84,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
     // This atom is the "prototype isotope", meaning that it is set in order
     // to set the atomic weight of the family of isotopes that are currently
     // in use.
-    private final SimpleAtom prototypeIsotope = new SimpleAtom();
+    private final SimpleAtom prototypeIsotope = new SimpleAtom( DEFAULT_PROTOTYPE_ISOTOPE_CONFIG );
 
     // This property contains the list of isotopes that exist in nature as
     // variations of the current "prototype isotope".  In other words, this
@@ -327,7 +332,9 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
         else {
             // Save the user's mix state for the current element
             // before transitioning to the new one.
-            mapIsotopeConfigToUserMixState.put( prototypeIsotope.getNumProtons(), getState() );
+            if ( !atom.equals( prototypeIsotope.toImmutableAtom() ) ) {
+                mapIsotopeConfigToUserMixState.put( prototypeIsotope.getNumProtons(), getState() );
+            }
 
             if ( mapIsotopeConfigToUserMixState.containsKey( atom.getNumProtons() ) ){
                 // Restore the previously saved state for this element.
@@ -510,8 +517,20 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
     }
 
     public void reset() {
-        // Set the default element to be hydrogen.
-        setAtomConfiguration( new ImmutableAtom( 1, 0, 1 ) );
+        // Reset all properties that need resetting.
+        showingNaturesMixProperty.reset();
+        interactivityModeProperty.reset();
+
+        // Remove any stored state for the default atom.
+        mapIsotopeConfigToUserMixState.remove( DEFAULT_PROTOTYPE_ISOTOPE_CONFIG );
+
+        // Set the default element.
+        setAtomConfiguration( DEFAULT_PROTOTYPE_ISOTOPE_CONFIG );
+
+        // Remove all stored user's mix states.  This must be done after
+        // setting the default isotope because state could have been saved
+        // when the default was set.
+        mapIsotopeConfigToUserMixState.clear();
     }
 
     public void addListener( Listener listener ){
