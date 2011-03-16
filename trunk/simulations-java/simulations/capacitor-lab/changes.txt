@@ -1,3 +1,4 @@
+3/16/11 enable Multiple Capacitors tab, make it the default for dev
 3/9/11 add minor tick marks to dielectric constant slider
 2/28/11 migrate Dimension3D to phetcommon.math
 2/28/11 migrate ShapeUtils to phetcommon.view.utils
