@@ -108,13 +108,14 @@ public class Server {
                             final SessionID sessionID = new SessionID( sessionCount, names[sessionCount % names.length] );
                             getContext().replySafe( sessionID );
                             students.add( sessionID );
+                            System.out.println( "session started: " + sessionID );
                             ds.save( new SessionStarted( sessionID, System.currentTimeMillis() ) );
                         }
                         else if ( o instanceof EndSession ) {
                             //Save the student info to disk and remove from system memory
                             final SessionID sessionID = ( (EndSession) o ).getSessionID();
                             students.remove( sessionID );
-                            System.out.println( "student exited: " + sessionID );
+                            System.out.println( "session exited: " + sessionID );
                             ds.save( new SessionEnded( sessionID, System.currentTimeMillis() ) );
                         }
                         else if ( o instanceof GetStudentList ) {
@@ -158,7 +159,7 @@ public class Server {
                             ds.delete( ds.createQuery( EventReceived.class ).filter( "sessionID", request.getSessionID() ) );
                             ds.save( new EventReceived( request.getSessionID(), System.currentTimeMillis() ) );
 
-                            System.out.println( "Processed multisample from: " + request.getSessionID() + " in " + ( System.currentTimeMillis() - s ) + " msec" );
+//                            System.out.println( "Processed multisample from: " + request.getSessionID() + " in " + ( System.currentTimeMillis() - s ) + " msec" );
                         }
                         else if ( o instanceof GetSessionList ) {
                             final SessionList sessionList = new SessionList();
