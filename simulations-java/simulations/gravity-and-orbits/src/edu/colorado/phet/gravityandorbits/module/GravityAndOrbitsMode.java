@@ -12,12 +12,12 @@ import java.awt.geom.Rectangle2D;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.Function2;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.gravityandorbits.controlpanel.GAORadioButton;
@@ -62,13 +62,13 @@ public abstract class GravityAndOrbitsMode {
     private static final double PLAY_AREA_HEIGHT = GravityAndOrbitsCanvas.STAGE_SIZE.height;
     private double gridSpacing;//in meters
     private Point2D.Double gridCenter;
-    private final Property<Boolean> rewinding;
-    private final Property<Double> timeSpeedScaleProperty;
-    private Property<ImmutableVector2D> measuringTapeStartPoint;
-    private Property<ImmutableVector2D> measuringTapeEndPoint;
-    private double defaultZoomScale;
-    private ImmutableVector2D zoomOffset;
-    private Property<Double> zoomLevel = new Property<Double>( 1.0 );//additional scale factor on top of defaultZoomScale
+    public final Property<Boolean> rewinding;
+    public final Property<Double> timeSpeedScaleProperty;
+    public final Property<ImmutableVector2D> measuringTapeStartPoint;
+    public final Property<ImmutableVector2D> measuringTapeEndPoint;
+    public final double defaultZoomScale;
+    public final ImmutableVector2D zoomOffset;
+    public final Property<Double> zoomLevel = new Property<Double>( 1.0 );//additional scale factor on top of defaultZoomScale
     public final ModeListParameter p;
 
     public GravityAndOrbitsMode( final String name,//mode name, currently used only for debugging, i18n not required
@@ -260,28 +260,8 @@ public abstract class GravityAndOrbitsMode {
         return gridCenter;
     }
 
-    public Property<ImmutableVector2D> getMeasuringTapeStartPoint() {
-        return measuringTapeStartPoint;
-    }
-
-    public Property<ImmutableVector2D> getMeasuringTapeEndPoint() {
-        return measuringTapeEndPoint;
-    }
-
-    public Property<Double> getTimeSpeedScaleProperty() {
-        return timeSpeedScaleProperty;
-    }
-
-    public Property<Double> getZoomLevel() {
-        return zoomLevel;
-    }
-
-    public ImmutableVector2D getZoomOffset() {
-        return zoomOffset;
-    }
-
     public ModelViewTransform createTransform() {
-        Rectangle2D.Double targetRectangle = GravityAndOrbitsMode.getTargetRectangle( defaultZoomScale * zoomLevel.getValue(), getZoomOffset() );
+        Rectangle2D.Double targetRectangle = GravityAndOrbitsMode.getTargetRectangle( defaultZoomScale * zoomLevel.getValue(), zoomOffset );
         final double x = targetRectangle.getMinX();
         final double y = targetRectangle.getMinY();
         final double w = targetRectangle.getMaxX() - x;

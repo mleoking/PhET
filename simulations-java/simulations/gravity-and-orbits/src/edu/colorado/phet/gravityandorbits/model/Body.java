@@ -11,8 +11,8 @@ import java.util.Arrays;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.function.Function2;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.Function2;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.gravityandorbits.view.BodyRenderer;
 import edu.colorado.phet.gravityandorbits.view.IBodyColors;
@@ -26,7 +26,7 @@ import edu.colorado.phet.gravityandorbits.view.Scale;
  * @author Sam Reid
  */
 public class Body implements IBodyColors {
-    private final ClockRewindProperty<ImmutableVector2D> positionProperty;//physical position
+    private final ClockRewindProperty<ImmutableVector2D> positionProperty;
     private final ClockRewindProperty<ImmutableVector2D> velocityProperty;
     private final Property<ImmutableVector2D> accelerationProperty;
     private final Property<ImmutableVector2D> forceProperty;
@@ -40,11 +40,12 @@ public class Body implements IBodyColors {
 
     private final ArrayList<PathListener> pathListeners = new ArrayList<PathListener>();
     private final ArrayList<PathPoint> path = new ArrayList<PathPoint>();
+    private final int maxPathLength;
+
     private final Property<Scale> scaleProperty;
     private final boolean massSettable;
     private final Function2<Body, Double, BodyRenderer> renderer;//function that creates a PNode for this Body
     private final double labelAngle;
-    private final int maxPathLength;
     private final boolean massReadoutBelow;
     private final ClockRewindProperty<Boolean> collidedProperty;
     private final Property<Integer> clockTicksSinceExplosion = new Property<Integer>( 0 );

@@ -27,32 +27,32 @@ public class GravityAndOrbitsModuleState implements IProguardKeepClass {
     }
 
     public GravityAndOrbitsModuleState( GravityAndOrbitsModule module ) {
-        showGravityForce = module.getShowGravityForceProperty().getValue();
-        showPaths = module.getShowPathProperty().getValue();
-        showVelocity = module.getShowVelocityProperty().getValue();
-        showMass = module.getShowMassProperty().getValue();
-        gravityEnabled = module.getGravityEnabledProperty().getValue();
+        showGravityForce = module.showGravityForceProperty.getValue();
+        showPaths = module.showPathProperty.getValue();
+        showVelocity = module.showVelocityProperty.getValue();
+        showMass = module.showMassProperty.getValue();
+        gravityEnabled = module.gravityEnabledProperty.getValue();
         modeStates = new ArrayList<GravityAndOrbitsModeState>();
         for ( GravityAndOrbitsMode mode : module.getModes() ) {
             modeStates.add( new GravityAndOrbitsModeState( mode ) );
         }
         selectedMode = module.getModeIndex();
-        showGrid = module.getShowGridProperty().getValue();
-        showMeasuringTape = module.getMeasuringTapeVisibleProperty().getValue();
+        showGrid = module.showGridProperty.getValue();
+        showMeasuringTape = module.measuringTapeVisibleProperty.getValue();
     }
 
     public void apply( GravityAndOrbitsModule m ) {
-        m.getShowGravityForceProperty().setValue( showGravityForce );
-        m.getShowPathProperty().setValue( showPaths );
-        m.getShowVelocityProperty().setValue( showVelocity );
-        m.getShowMassProperty().setValue( showMass );
-        m.getGravityEnabledProperty().setValue( gravityEnabled );
+        m.showGravityForceProperty.setValue( showGravityForce );
+        m.showPathProperty.setValue( showPaths );
+        m.showVelocityProperty.setValue( showVelocity );
+        m.showMassProperty.setValue( showMass );
+        m.gravityEnabledProperty.setValue( gravityEnabled );
         for ( int i = 0; i < modeStates.size(); i++ ) {
             modeStates.get( i ).apply( m.getModes().get( i ) );
         }
         m.setModeIndex( selectedMode );
-        m.getShowGridProperty().setValue( showGrid );
-        m.getMeasuringTapeVisibleProperty().setValue( showMeasuringTape );
+        m.showGridProperty.setValue( showGrid );
+        m.measuringTapeVisibleProperty.setValue( showMeasuringTape );
     }
 
     @Override
