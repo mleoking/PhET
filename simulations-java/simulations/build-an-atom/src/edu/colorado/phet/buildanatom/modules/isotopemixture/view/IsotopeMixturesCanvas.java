@@ -174,32 +174,34 @@ public class IsotopeMixturesCanvas extends PhetPCanvas {
 
         // Add the periodic table node that will allow the user to set the
         // current isotope.
-        PNode periodicTableNode = new PeriodicTableControlNode( model, 18, BACKGROUND_COLOR ){{
+        final PNode periodicTableNode = new PeriodicTableControlNode( model, 18, BACKGROUND_COLOR ){{
             setOffset( testChamberNode.getFullBoundsReference().getMaxX() + 15, testChamberNode.getFullBoundsReference().getMinY() );
             setScale( 1.1 ); // Empirically determined.
         }};
         controlsLayer.addChild( periodicTableNode );
 
         // Add the pie chart to the canvas.
-        double indicatorWindowX = 600;
+        final double indicatorWindowX = 600;
         final PNode pieChart = new IsotopeProprotionPieChart( model );
-        // TODO: i18n
-        pieChartWindow = new MaximizeControlNode( "Percent Composition", new PDimension( 400, 150 ), pieChart, true );
-        pieChartWindow.setOffset( indicatorWindowX, periodicTableNode.getFullBoundsReference().getMaxY() + 30 );
-        controlsLayer.addChild( pieChartWindow );
         pieChart.setOffset( 150, 40 ); // Empirically determined, tweak as needed.
-        pieChartWindow.addChild( pieChart );
+        // TODO: i18n
+        pieChartWindow = new MaximizeControlNode( "Percent Composition", new PDimension( 400, 150 ), pieChart, true ){{
+            setOffset( indicatorWindowX, periodicTableNode.getFullBoundsReference().getMaxY() + 25 );
+            addChild( pieChart );
+        }};
+        controlsLayer.addChild( pieChartWindow );
 
         // Add the average atomic mass indicator to the canvas.
-        PNode averageAtomicMassIndicator = new AverageAtomicMassIndicator( model );
+        final PNode averageAtomicMassIndicator = new AverageAtomicMassIndicator( model );
         // TODO: i18n
-        averageAtomicMassWindow = new MaximizeControlNode( "Average Atomic Mass", new PDimension( 400, 120 ), averageAtomicMassIndicator, true );
-        averageAtomicMassWindow.setOffset( indicatorWindowX, pieChartWindow.getFullBoundsReference().getMaxY() + 30 );
+        averageAtomicMassWindow = new MaximizeControlNode( "Average Atomic Mass", new PDimension( 400, 120 ), averageAtomicMassIndicator, true ){{
+            setOffset( indicatorWindowX, testChamberNode.getFullBoundsReference().getMaxY() - getFullBoundsReference().height );
+            addChild( averageAtomicMassIndicator );
+        }};
         controlsLayer.addChild( averageAtomicMassWindow );
         averageAtomicMassIndicator.setOffset(
                 averageAtomicMassWindow.getFullBoundsReference().width / 2 - averageAtomicMassIndicator.getFullBoundsReference().width / 2,
                 30 /* Empirically determined, tweak as needed. */ );
-        averageAtomicMassWindow.addChild( averageAtomicMassIndicator );
 
         // Add the radio buttons that allow the user to choose between their
         // mix and nature's mix.
