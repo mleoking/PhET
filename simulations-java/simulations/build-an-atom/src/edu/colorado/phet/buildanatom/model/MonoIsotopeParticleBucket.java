@@ -34,17 +34,6 @@ public class MonoIsotopeParticleBucket extends ParticleBucket {
         this.numNeutronsInIsotope = numNeutronsInIsotope;
     }
 
-    /**
-     * Create a bucket based on a previously created bucket state.  This is
-     * generally used when restoring a bucket that had previously existed.
-     */
-    public MonoIsotopeParticleBucket( State state ){
-        this( state.position, state.size, state.baseColor, state.captionText, state.particleRadius, state.numProtonsInIsotope, state.numNeutronsInIsotope );
-        for ( MovableAtom isotope : state.containedIsotopes ){
-            addIsotopeInstance( isotope );
-        }
-    }
-
     public void addIsotopeInstance( MovableAtom isotope ){
         if ( isIsotopeAllowed( isotope.getAtomConfiguration() )){
             addParticle( isotope, true );
@@ -81,40 +70,5 @@ public class MonoIsotopeParticleBucket extends ParticleBucket {
             containedIsotopes.add( (MovableAtom)isotope );
         }
         return containedIsotopes;
-    }
-
-    public State getState(){
-        return new State( this );
-    }
-
-    /**
-     * A class used for saving and restoring a bucket's state.
-     *
-     * @author John Blanco
-     */
-    public static class State {
-        protected final List<MovableAtom> containedIsotopes;
-        protected final Dimension2D size;
-        protected final Point2D position = new Point2D.Double();
-        protected final Color baseColor;
-        protected final String captionText;
-        protected final double particleRadius;
-        protected final int numProtonsInIsotope;
-        protected final int numNeutronsInIsotope;
-
-        public State( MonoIsotopeParticleBucket monoIsotopeParticleBucket ){
-            containedIsotopes = monoIsotopeParticleBucket.getContainedIsotopes();
-            size = new PDimension( monoIsotopeParticleBucket.size );
-            position.setLocation( monoIsotopeParticleBucket.getPosition() );
-            baseColor = monoIsotopeParticleBucket.getBaseColor();
-            captionText = new String( monoIsotopeParticleBucket.getCaptionText() );
-            particleRadius = monoIsotopeParticleBucket.getParticleRadius();
-            numProtonsInIsotope = monoIsotopeParticleBucket.numProtonsInIsotope;
-            numNeutronsInIsotope = monoIsotopeParticleBucket.numNeutronsInIsotope;
-        }
-
-        public List<MovableAtom> getContainedIsotopes() {
-            return containedIsotopes;
-        }
     }
 }
