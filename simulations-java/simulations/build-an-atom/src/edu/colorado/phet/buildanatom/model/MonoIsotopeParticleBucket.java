@@ -59,6 +59,15 @@ public class MonoIsotopeParticleBucket extends ParticleBucket {
         return isIsotopeAllowed( isotopeConfig.getNumProtons(), isotopeConfig.getNumNeutrons() );
     }
 
+    public void removeArbitraryIsotope(){
+        if ( getParticleList().size() > 0 ){
+            removeParticle( getParticleList().get( 0 ) );
+        }
+        else{
+            System.err.println(getClass().getName() + " - Warning: Ignoring attempt to remove particle from empty bucket.");
+        }
+    }
+
     /**
      * Get a list of all isotopes contained within this bucket.
      */
