@@ -9,7 +9,6 @@ import java.beans.PropertyChangeListener;
 import edu.colorado.phet.bendinglight.view.BendingLightCanvas;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.util.function.Function3;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -22,8 +21,18 @@ import edu.umd.cs.piccolo.nodes.PImage;
  * @author Sam Reid
  */
 public class Tool extends PNode {
-    Tool( Image thumbnail, final Property<Boolean> showTool, final ModelViewTransform transform, final ToolboxNode toolbox, final BendingLightCanvas canvas,
-          final Function3<ModelViewTransform, Property<Boolean>, Point2D, DraggableNode> nodeMaker, final ResetModel resetModel ) {
+
+    public static interface NodeFactory {
+        DraggableNode createNode( ModelViewTransform transform, Property<Boolean> visible, Point2D location );
+    }
+
+    public Tool( Image thumbnail,
+                 final Property<Boolean> showTool,
+                 final ModelViewTransform transform,
+                 final ToolboxNode toolbox,
+                 final BendingLightCanvas canvas,
+                 final NodeFactory nodeMaker,
+                 final ResetModel resetModel ) {
         final PImage thumbnailIcon = new PImage( thumbnail ) {{
             showTool.addObserver( new SimpleObserver() {
                 public void update() {
@@ -48,7 +57,7 @@ public class Tool extends PNode {
                     showTool.setValue( true );
                     setVisible( false );
                     if ( node == null ) {
-                        node = nodeMaker.apply( transform, showTool, transform.viewToModel( event.getPositionRelativeTo( canvas.getRootNode() ) ) );
+                        node = nodeMaker.createNode( transform, showTool, transform.viewToModel( event.getPositionRelativeTo( canvas.getRootNode() ) ) );
                         final PropertyChangeListener pcl = new PropertyChangeListener() {
                             public void propertyChange( PropertyChangeEvent evt ) {
                                 intersect = toolbox.getGlobalFullBounds().contains( node.getGlobalFullBounds().getCenter2D() );

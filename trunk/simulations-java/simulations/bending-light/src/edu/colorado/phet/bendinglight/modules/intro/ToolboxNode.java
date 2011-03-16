@@ -23,7 +23,10 @@ import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.util.function.*;
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
+import edu.colorado.phet.common.phetcommon.util.function.Function2;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -58,8 +61,8 @@ public class ToolboxNode extends VBox {
         addChild( titleLabel );
         final int ICON_WIDTH = 110;
         addChild( new Tool( multiScaleToWidth( RESOURCES.getImage( "protractor.png" ), ICON_WIDTH ), showProtractor,
-                            transform, this, canvas, new Function3<ModelViewTransform, Property<Boolean>, Point2D, DraggableNode>() {
-                    public DraggableNode apply( ModelViewTransform transform, Property<Boolean> showTool, Point2D model ) {
+                            transform, this, canvas, new Tool.NodeFactory() {
+                    public DraggableNode createNode( ModelViewTransform transform, Property<Boolean> showTool, Point2D model ) {
                         return new ProtractorNode( transform, showTool, new ProtractorModel( model.getX(), model.getY() ), new Function2<Shape, Shape, Shape>() {
                             public Shape apply( Shape innerBar, final Shape outerCircle ) {
                                 return new Area( innerBar ) {{add( new Area( outerCircle ) );}};
@@ -82,8 +85,8 @@ public class ToolboxNode extends VBox {
             } );
             addChild( new Tool( velocitySensorNode.toImage( ICON_WIDTH, (int) ( velocitySensorNode.getFullBounds().getHeight() / velocitySensorNode.getFullBounds().getWidth() * ICON_WIDTH ), new Color( 0, 0, 0, 0 ) ),
                                 showVelocitySensor,
-                                transform, this, canvas, new Function3<ModelViewTransform, Property<Boolean>, Point2D, DraggableNode>() {
-                        public DraggableNode apply( ModelViewTransform transform, final Property<Boolean> showTool, final Point2D model ) {
+                                transform, this, canvas, new Tool.NodeFactory() {
+                        public DraggableNode createNode( ModelViewTransform transform, final Property<Boolean> showTool, final Point2D model ) {
                             velocitySensor.position.setValue( new ImmutableVector2D( model ) );
                             return new VelocitySensorNode( transform, velocitySensor ) {{
                                 showTool.addObserver( new VoidFunction1<Boolean>() {
@@ -106,8 +109,8 @@ public class ToolboxNode extends VBox {
             } );
             addChild( new Tool( waveSensorNode.toImage( ICON_WIDTH, (int) ( waveSensorNode.getFullBounds().getHeight() / waveSensorNode.getFullBounds().getWidth() * ICON_WIDTH ), new Color( 0, 0, 0, 0 ) ),
                                 waveSensor.visible,
-                                transform, this, canvas, new Function3<ModelViewTransform, Property<Boolean>, Point2D, DraggableNode>() {
-                        public DraggableNode apply( ModelViewTransform transform, final Property<Boolean> showTool, final Point2D model ) {
+                                transform, this, canvas, new Tool.NodeFactory() {
+                        public DraggableNode createNode( ModelViewTransform transform, final Property<Boolean> showTool, final Point2D model ) {
                             waveSensor.translateToHotSpot( model );
                             return new WaveSensorNode( transform, waveSensor ) {{
                                 showTool.addObserver( new SimpleObserver() {
