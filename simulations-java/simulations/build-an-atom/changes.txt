@@ -1,3 +1,5 @@
+# 2.01.02 (49878) Mar 16, 2011
+3/16/11 Deploying snapshot to dev for testing and review.
 isotopes-and-atomic-mass: Added ability to clear the test chamber from the canvas.
 isotopes-and-atomic-mass: Added Reset All.
 isotopes-and-atomic-mass: Got initial version of "stateful behavior" working for 2nd tab.
