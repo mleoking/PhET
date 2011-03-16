@@ -42,7 +42,7 @@ import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.m
 /**
  * @author Sam Reid
  */
-public class ToolboxNode extends PNode {
+public class ToolboxNode extends VBox {
 
     public ToolboxNode( final BendingLightCanvas canvas,
                         final ModelViewTransform transform,
@@ -52,12 +52,13 @@ public class ToolboxNode extends PNode {
                         final VelocitySensor velocitySensor,
                         final WaveSensor waveSensor,
                         final ResetModel resetModel ) {
+        super( 2 );
         final PText titleLabel = new PText( "Toolbox" ) {{
             setFont( BendingLightCanvas.labelFont );
         }};
         addChild( titleLabel );
         final int ICON_WIDTH = 110;
-        final PNode protractor = new Tool( multiScaleToWidth( RESOURCES.getImage( "protractor.png" ), ICON_WIDTH ), showProtractor, titleLabel.getFullBounds().getMaxY() + 4,
+        final PNode protractor = new Tool( multiScaleToWidth( RESOURCES.getImage( "protractor.png" ), ICON_WIDTH ), showProtractor,
                                            transform, this, canvas, new Function3<ModelViewTransform, Property<Boolean>, Point2D, DoDragNode>() {
                     public DoDragNode apply( ModelViewTransform transform, Property<Boolean> showTool, Point2D model ) {
                         return new ProtractorNode( transform, showTool, new ProtractorModel( model.getX(), model.getY() ), new Function2<Shape, Shape, Shape>() {
@@ -72,7 +73,6 @@ public class ToolboxNode extends PNode {
                     }
                 }, resetModel );
         addChild( protractor );
-        PNode bottomTool = protractor;
 
         if ( velocitySensor != null ) {
             final VelocitySensorNode velocitySensorNode = new VelocitySensorNode( transform, new VelocitySensor() );
@@ -83,7 +83,7 @@ public class ToolboxNode extends PNode {
                 }
             } );
             final PNode velocitySensorX = new Tool( velocitySensorNode.toImage( ICON_WIDTH, (int) ( velocitySensorNode.getFullBounds().getHeight() / velocitySensorNode.getFullBounds().getWidth() * ICON_WIDTH ), new Color( 0, 0, 0, 0 ) ),
-                                                    showVelocitySensor, protractor.getFullBounds().getMaxY() + 4,
+                                                    showVelocitySensor,
                                                     transform, this, canvas, new Function3<ModelViewTransform, Property<Boolean>, Point2D, DoDragNode>() {
                         public DoDragNode apply( ModelViewTransform transform, final Property<Boolean> showTool, final Point2D model ) {
                             velocitySensor.position.setValue( new ImmutableVector2D( model ) );
@@ -97,7 +97,6 @@ public class ToolboxNode extends PNode {
                         }
                     }, resetModel );
             addChild( velocitySensorX );
-            bottomTool = velocitySensorX;
         }
 
         if ( waveSensor != null ) {
@@ -109,7 +108,7 @@ public class ToolboxNode extends PNode {
                 }
             } );
             final PNode waveTool = new Tool( waveSensorNode.toImage( ICON_WIDTH, (int) ( waveSensorNode.getFullBounds().getHeight() / waveSensorNode.getFullBounds().getWidth() * ICON_WIDTH ), new Color( 0, 0, 0, 0 ) ),
-                                             waveSensor.visible, bottomTool.getFullBounds().getMaxY() + 4,
+                                             waveSensor.visible,
                                              transform, this, canvas, new Function3<ModelViewTransform, Property<Boolean>, Point2D, DoDragNode>() {
                         public DoDragNode apply( ModelViewTransform transform, final Property<Boolean> showTool, final Point2D model ) {
                             waveSensor.translateToHotSpot( model );
@@ -123,7 +122,6 @@ public class ToolboxNode extends PNode {
                         }
                     }, resetModel );
             addChild( waveTool );
-            bottomTool = waveTool;
         }
 
         //TODO: some constants copied from BendingLightModel
@@ -135,7 +133,6 @@ public class ToolboxNode extends PNode {
         }} );
 //        int sensorIconHeight = (int) ( 100.0 * iconNode.getFullBounds().getWidth() / iconNode.getFullBounds().getHeight() );
         int sensorIconHeight = (int) ( iconNode.getFullBounds().getHeight() / iconNode.getFullBounds().getWidth() * ICON_WIDTH );
-        final PNode finalBottomTool = bottomTool;
         final PImage sensorThumbnail = new PImage( iconNode.toImage( ICON_WIDTH, sensorIconHeight, new Color( 0, 0, 0, 0 ) ) ) {{
             final PImage sensorThumbnailRef = this;
             addInputEventListener( new PBasicInputEventHandler() {
@@ -205,7 +202,6 @@ public class ToolboxNode extends PNode {
                 }
             } );
             addInputEventListener( new CursorHandler() );
-            setOffset( 0, finalBottomTool.getFullBounds().getMaxY() );
         }};
         addChild( sensorThumbnail );
 
@@ -227,7 +223,7 @@ public class ToolboxNode extends PNode {
     }
 
     private static class Tool extends PNode {
-        private Tool( Image thumbnail, final Property<Boolean> showTool, final double y, final ModelViewTransform transform, final ToolboxNode toolbox, final BendingLightCanvas canvas,
+        private Tool( Image thumbnail, final Property<Boolean> showTool, final ModelViewTransform transform, final ToolboxNode toolbox, final BendingLightCanvas canvas,
                       final Function3<ModelViewTransform, Property<Boolean>, Point2D, DoDragNode> nodeMaker, final ResetModel resetModel ) {
             final PImage thumbnailIcon = new PImage( thumbnail ) {{
                 showTool.addObserver( new SimpleObserver() {
@@ -236,7 +232,6 @@ public class ToolboxNode extends PNode {
                     }
                 } );
                 final PImage thumbRef = this;
-                setOffset( 0, y );
                 addInputEventListener( new PBasicInputEventHandler() {
                     {
                         resetModel.addResetListener( new VoidFunction0() {
