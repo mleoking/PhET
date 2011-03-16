@@ -2,14 +2,13 @@
 package edu.colorado.phet.gravityandorbits.module;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.gravityandorbits.view.Scale;
 
 /**
  * @author Sam Reid
  */
 public class CartoonModeList extends ModeList {
-    public CartoonModeList( Property<Boolean> clockPausedProperty, Property<Boolean> gravityEnabledProperty, Property<Scale> scaleProperty, Property<Boolean> stepping, Property<Boolean> rewinding, Property<Double> timeSpeedScaleProperty, final double alpha ) {
-        super( new ModeListParameter( clockPausedProperty, gravityEnabledProperty, scaleProperty, stepping, rewinding, timeSpeedScaleProperty ),
+    public CartoonModeList( Property<Boolean> clockPausedProperty, Property<Boolean> gravityEnabledProperty, Property<Boolean> stepping, Property<Boolean> rewinding, Property<Double> timeSpeedScaleProperty, final double alpha ) {
+        super( new ModeListParameter( clockPausedProperty, gravityEnabledProperty, stepping, rewinding, timeSpeedScaleProperty ),
                new SunEarth() {{
                    sun.radius *= 50;
                    earth.radius *= 1100;

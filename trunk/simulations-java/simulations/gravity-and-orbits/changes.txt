@@ -1,3 +1,4 @@
+Removed unused Scale strategy
 Internal fixes: documentation, property refactoring, minor refactors
 Fixed: Simulation crashes on startup on Mac 10.5 with Java 1.5, see #2771
 Refactored teacher playback controls

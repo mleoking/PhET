@@ -17,7 +17,6 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.gravityandorbits.view.BodyRenderer;
 import edu.colorado.phet.gravityandorbits.view.IBodyColors;
 import edu.colorado.phet.gravityandorbits.view.MultiwayOr;
-import edu.colorado.phet.gravityandorbits.view.Scale;
 
 /**
  * Body is a single point mass in the Gravity and Orbits simluation, such as the Earth, Sun, Moon or Space Station.
@@ -42,7 +41,6 @@ public class Body implements IBodyColors {
     private final ArrayList<PathPoint> path = new ArrayList<PathPoint>();
     private final int maxPathLength;
 
-    private final Property<Scale> scaleProperty;
     private final boolean massSettable;
     private final Function2<Body, Double, BodyRenderer> renderer;//function that creates a PNode for this Body
     private final double labelAngle;
@@ -58,10 +56,9 @@ public class Body implements IBodyColors {
 
     public Body( final String name, double x, double y, double diameter, double vx, double vy, double mass, Color color, Color highlight,
                  Function2<Body, Double, BodyRenderer> renderer,// way to associate the graphical representation directly instead of later with conditional logic or map
-                 final Property<Scale> scaleProperty, double labelAngle, boolean massSettable,
+                 double labelAngle, boolean massSettable,
                  int maxPathLength,
                  boolean massReadoutBelow, double tickValue, String tickLabel, Property<Boolean> clockPaused, Property<Boolean> stepping, Property<Boolean> rewinding ) {
-        this.scaleProperty = scaleProperty;//Multiplied with mode scale to arrive at total scale for forces for this body, provides body-specific force scaling that is independent of cartoon/real modes
         this.massSettable = massSettable;
         this.maxPathLength = maxPathLength;
         this.massReadoutBelow = massReadoutBelow;
@@ -92,7 +89,6 @@ public class Body implements IBodyColors {
             };
             bounds.addObserver( obs );
             collidedProperty.addObserver( obs );
-            scaleProperty.addObserver( obs );
             getPositionProperty().addObserver( obs );
         }};
 
@@ -330,10 +326,6 @@ public class Body implements IBodyColors {
 
     public int getMaxPathLength() {
         return maxPathLength;
-    }
-
-    public Property<Scale> getScaleProperty() {
-        return scaleProperty;
     }
 
     public boolean isMassReadoutBelow() {
