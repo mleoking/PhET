@@ -10,20 +10,5 @@ package edu.colorado.phet.gravityandorbits.view;
  * @deprecated TODO: Remove this class since cartoon scaling has been removed
  */
 public class Scale {
-    public static final Scale REAL = new Real();
-    private final boolean showLabelArrows;
-
-    private Scale( boolean showLabelArrows ) {
-        this.showLabelArrows = showLabelArrows;
-    }
-
-    public boolean getShowLabelArrows() {
-        return showLabelArrows;
-    }
-
-    private static class Real extends Scale {
-        public Real() {
-            super( true );
-        }
-    }
+    public static final Scale REAL = new Scale();
 }
