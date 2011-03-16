@@ -233,6 +233,9 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
      * representation.
      */
     private void setState( State modelState ){
+        // Clear out any particles that are currently in the test chamber.
+        clearTestChamber();
+
         // Restore the prototype isotope.
         prototypeIsotope.setConfiguration( modelState.getElementConfiguration() );
         updatePossibleIsotopesList();
@@ -251,9 +254,6 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
         // tested.
         assert modelState.isShowingNaturesMix() == showingNaturesMix.getValue();
         showingNaturesMix.setValue( modelState.isShowingNaturesMix() );
-
-        // Clear out any particles that are currently in the test chamber.
-        clearTestChamber();
 
         // Add any particles that were in the test chamber.
         testChamber.setState( modelState.getIsotopeTestChamberState() );
@@ -315,6 +315,9 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
             setState( mapIsotopeConfigToUserMixState.get( atom.getNumProtons() ) );
         }
         else{
+            // Clear out anything that is in the test chamber.
+            clearTestChamber();
+
             // Update the prototype atom (a.k.a. isotope) configuration.
             prototypeIsotope.setConfiguration( atom );
             updatePossibleIsotopesList();
