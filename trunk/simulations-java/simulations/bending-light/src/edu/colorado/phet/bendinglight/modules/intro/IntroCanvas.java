@@ -2,7 +2,9 @@
 package edu.colorado.phet.bendinglight.modules.intro;
 
 import java.awt.*;
+import java.awt.geom.Area;
 import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.bendinglight.modules.moretools.MoreToolsModel;
@@ -18,6 +20,7 @@ import edu.colorado.phet.common.phetcommon.util.function.Function3;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.FloatingClockControlNode;
@@ -25,10 +28,15 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
+import static edu.colorado.phet.bendinglight.BendingLightApplication.RESOURCES;
+import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.multiScaleToWidth;
+
 /**
  * @author Sam Reid
  */
 public class IntroCanvas extends BendingLightCanvas<IntroModel> {
+    public final ToolboxNode toolboxNode;
+
     public IntroCanvas( final IntroModel model, BooleanProperty moduleActive, final Resettable resetAll,
                         final Function3<IntroModel, Double, Double, PNode> additionalLaserControls, double centerOffsetLeft,
                         final ObservableProperty<Boolean> clockControlVisible ) {//(model,x,y)
@@ -95,9 +103,27 @@ public class IntroCanvas extends BendingLightCanvas<IntroModel> {
             setOffset( 5, 5 );
         }} );
 
-        final ToolboxNode toolboxNode = new ToolboxNode( this, transform, showProtractor, showNormal, model.getIntensityMeter(),
-                                                         ( model instanceof MoreToolsModel ) ? ( (MoreToolsModel) model ).velocitySensor : null,
-                                                         ( model instanceof MoreToolsModel ) ? ( (MoreToolsModel) model ).waveSensor : null, model );
+        final Tool protractor = new Tool( multiScaleToWidth( RESOURCES.getImage( "protractor.png" ), ToolboxNode.ICON_WIDTH ), showProtractor,
+                                          transform, new Function1<Rectangle2D.Double, Boolean>() {
+                    public Boolean apply( Rectangle2D.Double bounds ) {
+                        return toolboxNode.getGlobalFullBounds().contains( new Point2D.Double( bounds.getCenterX(), bounds.getCenterY() ) );
+                    }
+                }, this, new Tool.NodeFactory() {
+                    public DraggableNode createNode( ModelViewTransform transform, Property<Boolean> showTool, Point2D model ) {
+                        return new ProtractorNode( transform, showTool, new ProtractorModel( model.getX(), model.getY() ), new Function2<Shape, Shape, Shape>() {
+                            public Shape apply( Shape innerBar, final Shape outerCircle ) {
+                                return new Area( innerBar ) {{add( new Area( outerCircle ) );}};
+                            }
+                        }, new Function2<Shape, Shape, Shape>() {
+                            public Shape apply( Shape innerBar, Shape outerCircle ) {
+                                return new Rectangle2D.Double( 0, 0, 0, 0 );//empty shape since shouldn't be rotatable in this tab
+                            }
+                        }, 1 );
+                    }
+                }, model );
+        toolboxNode = new ToolboxNode( this, transform, protractor, showNormal, model.getIntensityMeter(),
+                                       ( model instanceof MoreToolsModel ) ? ( (MoreToolsModel) model ).velocitySensor : null,
+                                       ( model instanceof MoreToolsModel ) ? ( (MoreToolsModel) model ).waveSensor : null, model );
         final ControlPanelNode toolbox = new ControlPanelNode( toolboxNode ) {{
             setOffset( 10, stageSize.height - getFullBounds().getHeight() - 10 );
         }};

@@ -2,7 +2,6 @@
 package edu.colorado.phet.bendinglight.modules.intro;
 
 import java.awt.*;
-import java.awt.geom.Area;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeEvent;
@@ -15,8 +14,6 @@ import edu.colorado.phet.bendinglight.modules.moretools.WaveSensor;
 import edu.colorado.phet.bendinglight.modules.moretools.WaveSensorNode;
 import edu.colorado.phet.bendinglight.view.BendingLightCanvas;
 import edu.colorado.phet.bendinglight.view.IntensityMeterNode;
-import edu.colorado.phet.bendinglight.view.ProtractorModel;
-import edu.colorado.phet.bendinglight.view.ProtractorNode;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
@@ -24,12 +21,12 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
-import edu.colorado.phet.common.phetcommon.util.function.Function2;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -37,18 +34,17 @@ import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
-import static edu.colorado.phet.bendinglight.BendingLightApplication.RESOURCES;
 import static edu.colorado.phet.bendinglight.model.BendingLightModel.CHARACTERISTIC_LENGTH;
-import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.multiScaleToWidth;
 
 /**
  * @author Sam Reid
  */
 public class ToolboxNode extends VBox {
+    public static final int ICON_WIDTH = 110;
 
     public ToolboxNode( final BendingLightCanvas canvas,
                         final ModelViewTransform transform,
-                        final BooleanProperty showProtractor,
+                        final PNode protractor,
                         final BooleanProperty showNormal,
                         final IntensityMeter intensityMeter,
                         final VelocitySensor velocitySensor,
@@ -59,22 +55,13 @@ public class ToolboxNode extends VBox {
             setFont( BendingLightCanvas.labelFont );
         }};
         addChild( titleLabel );
-        final int ICON_WIDTH = 110;
-        addChild( new Tool( multiScaleToWidth( RESOURCES.getImage( "protractor.png" ), ICON_WIDTH ), showProtractor,
-                            transform, this, canvas, new Tool.NodeFactory() {
-                    public DraggableNode createNode( ModelViewTransform transform, Property<Boolean> showTool, Point2D model ) {
-                        return new ProtractorNode( transform, showTool, new ProtractorModel( model.getX(), model.getY() ), new Function2<Shape, Shape, Shape>() {
-                            public Shape apply( Shape innerBar, final Shape outerCircle ) {
-                                return new Area( innerBar ) {{add( new Area( outerCircle ) );}};
-                            }
-                        }, new Function2<Shape, Shape, Shape>() {
-                            public Shape apply( Shape innerBar, Shape outerCircle ) {
-                                return new Rectangle2D.Double( 0, 0, 0, 0 );//empty shape since shouldn't be rotatable in this tab
-                            }
-                        }, 1 );
-                    }
-                }, resetModel ) );
+        addChild( protractor );
 
+        Function1<Rectangle2D.Double, Boolean> container = new Function1<Rectangle2D.Double, Boolean>() {
+            public Boolean apply( Rectangle2D.Double bounds ) {
+                return getGlobalFullBounds().contains( new Point2D.Double( bounds.getCenterX(), bounds.getCenterY() ) );
+            }
+        };
         if ( velocitySensor != null ) {
             final VelocitySensorNode velocitySensorNode = new VelocitySensorNode( transform, new VelocitySensor() );
             final Property<Boolean> showVelocitySensor = new Property<Boolean>( false );
@@ -85,7 +72,7 @@ public class ToolboxNode extends VBox {
             } );
             addChild( new Tool( velocitySensorNode.toImage( ICON_WIDTH, (int) ( velocitySensorNode.getFullBounds().getHeight() / velocitySensorNode.getFullBounds().getWidth() * ICON_WIDTH ), new Color( 0, 0, 0, 0 ) ),
                                 showVelocitySensor,
-                                transform, this, canvas, new Tool.NodeFactory() {
+                                transform, container, canvas, new Tool.NodeFactory() {
                         public DraggableNode createNode( ModelViewTransform transform, final Property<Boolean> showTool, final Point2D model ) {
                             velocitySensor.position.setValue( new ImmutableVector2D( model ) );
                             return new VelocitySensorNode( transform, velocitySensor ) {{
@@ -109,7 +96,7 @@ public class ToolboxNode extends VBox {
             } );
             addChild( new Tool( waveSensorNode.toImage( ICON_WIDTH, (int) ( waveSensorNode.getFullBounds().getHeight() / waveSensorNode.getFullBounds().getWidth() * ICON_WIDTH ), new Color( 0, 0, 0, 0 ) ),
                                 waveSensor.visible,
-                                transform, this, canvas, new Tool.NodeFactory() {
+                                transform, container, canvas, new Tool.NodeFactory() {
                         public DraggableNode createNode( ModelViewTransform transform, final Property<Boolean> showTool, final Point2D model ) {
                             waveSensor.translateToHotSpot( model );
                             return new WaveSensorNode( transform, waveSensor ) {{
