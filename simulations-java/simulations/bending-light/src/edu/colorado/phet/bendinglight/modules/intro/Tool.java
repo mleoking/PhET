@@ -3,12 +3,14 @@ package edu.colorado.phet.bendinglight.modules.intro;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import edu.colorado.phet.bendinglight.view.BendingLightCanvas;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -29,7 +31,7 @@ public class Tool extends PNode {
     public Tool( Image thumbnail,
                  final Property<Boolean> showTool,
                  final ModelViewTransform transform,
-                 final ToolboxNode toolbox,
+                 final Function1<Rectangle2D.Double, Boolean> dropRule,//if true, the object will drop back in the toolbox
                  final BendingLightCanvas canvas,
                  final NodeFactory nodeMaker,
                  final ResetModel resetModel ) {
@@ -60,7 +62,7 @@ public class Tool extends PNode {
                         node = nodeMaker.createNode( transform, showTool, transform.viewToModel( event.getPositionRelativeTo( canvas.getRootNode() ) ) );
                         final PropertyChangeListener pcl = new PropertyChangeListener() {
                             public void propertyChange( PropertyChangeEvent evt ) {
-                                intersect = toolbox.getGlobalFullBounds().contains( node.getGlobalFullBounds().getCenter2D() );
+                                intersect = dropRule.apply( node.getGlobalFullBounds() );
                             }
                         };
                         node.addPropertyChangeListener( PROPERTY_FULL_BOUNDS, pcl );
