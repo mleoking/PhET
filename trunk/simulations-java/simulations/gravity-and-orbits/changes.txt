@@ -1,3 +1,4 @@
+# 1.00.09 (49854) Mar 16, 2011
 > Only show the "return object" button if the object goes 12% outside of the bounds so the button doesn't flash on and off so often
 Removed unused Scale strategy
 Internal fixes: documentation, property refactoring, minor refactors
