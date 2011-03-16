@@ -25,14 +25,13 @@ import static edu.colorado.phet.gravityandorbits.GAOStrings.INTRO;
 public class InitialConditionSampler {
 
     public static void main( String[] args ) {
-//        SwingUtilities.invokeLater( new Runnable() {
-//            public void run() {
-        runSim( 0.9530999999999998 );//1.04
-//            }
-//        } );
+        int numSamples = 10;
+        double delta = 0.001;
+        double startValue = 1 - numSamples / 2 * delta;
+        runSim( startValue, delta );
     }
 
-    private static void runSim( final double alpha ) {
+    private static void runSim( final double alpha, final double delta ) {
         JFrame frame = new JFrame() {{
             final GravityAndOrbitsModule intro = new GravityAndOrbitsModule( null, new Property<Boolean>( false ), INTRO, false, new Function1<ModeListParameter, ArrayList<GravityAndOrbitsMode>>() {
                 public ArrayList<GravityAndOrbitsMode> apply( ModeListParameter p ) {
@@ -54,7 +53,7 @@ public class InitialConditionSampler {
                             intro.getModes().get( 1 ).p.clockPausedProperty.setValue( true );
                             new Thread( new Runnable() {
                                 public void run() {
-                                    runSim( alpha + 0.01 );
+                                    runSim( alpha + delta, delta );
                                 }
                             } ).start();
                         }
