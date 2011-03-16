@@ -5,11 +5,11 @@ import java.awt.*;
 import java.awt.geom.*;
 import java.awt.image.BufferedImage;
 
-import edu.colorado.phet.bendinglight.modules.intro.ToolboxNode;
+import edu.colorado.phet.bendinglight.modules.intro.DraggableNode;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.function.Function2;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.Function2;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -24,7 +24,7 @@ import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.m
 /**
  * @author Sam Reid
  */
-public class ProtractorNode extends ToolboxNode.DoDragNode {
+public class ProtractorNode extends DraggableNode {
     private final ModelViewTransform transform;
     private final ProtractorModel protractorModel;
     private final BufferedImage image;

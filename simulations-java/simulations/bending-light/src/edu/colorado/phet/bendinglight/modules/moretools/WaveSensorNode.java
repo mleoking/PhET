@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
-import edu.colorado.phet.bendinglight.modules.intro.ToolboxNode;
+import edu.colorado.phet.bendinglight.modules.intro.DraggableNode;
 import edu.colorado.phet.bendinglight.view.ChartNode;
 import edu.colorado.phet.bendinglight.view.WireNode;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
@@ -25,7 +25,7 @@ import static java.awt.Color.white;
 /**
  * @author Sam Reid
  */
-public class WaveSensorNode extends ToolboxNode.DoDragNode {
+public class WaveSensorNode extends DraggableNode {
     final Color darkProbeColor = new Color( 88, 89, 91 );//color taken from the image
     final Color lightProbeColor = new Color( 147, 149, 152 );
 

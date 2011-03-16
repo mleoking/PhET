@@ -10,7 +10,7 @@ import java.text.DecimalFormat;
 
 import edu.colorado.phet.bendinglight.model.BendingLightModel;
 import edu.colorado.phet.bendinglight.model.VelocitySensor;
-import edu.colorado.phet.bendinglight.modules.intro.ToolboxNode;
+import edu.colorado.phet.bendinglight.modules.intro.DraggableNode;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -30,7 +30,7 @@ import static edu.colorado.phet.bendinglight.BendingLightApplication.RESOURCES;
 /**
  * @author Sam Reid
  */
-public class VelocitySensorNode extends ToolboxNode.DoDragNode {
+public class VelocitySensorNode extends DraggableNode {
     private final ModelViewTransform transform;
     private final VelocitySensor velocitySensor;
 
