@@ -24,7 +24,7 @@ public class PathNode extends PNode {
     private final PNode pathNode;
     private ArrayList<ImmutableVector2D> points = new ArrayList<ImmutableVector2D>();//points in view space
 
-    public PathNode( final Body body, final Property<ModelViewTransform> transform, final Property<Boolean> visible, final Color color, final Property<Scale> scaleProperty ) {
+    public PathNode( final Body body, final Property<ModelViewTransform> transform, final Property<Boolean> visible, final Color color ) {
         final int numFadePoints = 25;
         final BasicStroke stroke = new BasicStroke( 3, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
 
@@ -95,15 +95,6 @@ public class PathNode extends PNode {
         transform.addObserver( new SimpleObserver() {
             public void update() {
                 body.clearPath();
-            }
-        } );
-        scaleProperty.addObserver( new SimpleObserver() {
-            public void update() {
-                //clear and add back all points in the right scale
-                points.clear();
-                for ( Body.PathPoint pathPoint : body.getPath() ) {
-                    listener.pointAdded( pathPoint );
-                }
             }
         } );
     }

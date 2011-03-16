@@ -21,7 +21,6 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.gravityandorbits.model.Body;
 import edu.colorado.phet.gravityandorbits.view.BodyNode;
-import edu.colorado.phet.gravityandorbits.view.Scale;
 
 import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createSinglePointScaleInvertedYMapping;
 import static edu.colorado.phet.gravityandorbits.controlpanel.GravityAndOrbitsControlPanel.CONTROL_FONT;
@@ -54,7 +53,7 @@ public class BodyMassControl extends VerticalLayoutPanel {
             final BodyNode bodyNode = new BodyNode( body, new Property<ModelViewTransform>( createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( STAGE_SIZE.width * 0.30, STAGE_SIZE.height * 0.5 ),
                                                                                                                                     1//using a scale of 1 instead of 1E-9 fixes a problem that caused transparent pixels to appear around an image, making the rendered part smaller than it should have been
             ) ),
-                                                    new Property<Scale>( Scale.REAL ), new Property<ImmutableVector2D>( new ImmutableVector2D( 0, 0 ) ), null, -Math.PI / 4 );
+                                                    new Property<ImmutableVector2D>( new ImmutableVector2D( 0, 0 ) ), null, -Math.PI / 4 );
             final Image image = bodyNode.renderImage( 22 );
             add( new JLabel( "", new ImageIcon( image ), SwingConstants.LEFT ) );
         }} );

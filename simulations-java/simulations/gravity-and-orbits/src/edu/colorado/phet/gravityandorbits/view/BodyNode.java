@@ -34,7 +34,7 @@ public class BodyNode extends PNode {
     private final PNode arrowIndicator;
     private final BodyRenderer bodyRenderer;
 
-    public BodyNode( final Body body, final Property<ModelViewTransform> modelViewTransform, final Property<Scale> scaleProperty,
+    public BodyNode( final Body body, final Property<ModelViewTransform> modelViewTransform,
                      final Property<ImmutableVector2D> mousePositionProperty, final PComponent parentComponent, final double labelAngle ) {
         this.modelViewTransform = modelViewTransform;
         this.body = body;
@@ -103,7 +103,6 @@ public class BodyNode extends PNode {
         };
         body.getPositionProperty().addObserver( updatePosition );
         modelViewTransform.addObserver( updatePosition );
-        scaleProperty.addObserver( updatePosition );
 
         final SimpleObserver updateDiameter = new SimpleObserver() {
             public void update() {
@@ -111,7 +110,6 @@ public class BodyNode extends PNode {
             }
         };
         body.getDiameterProperty().addObserver( updateDiameter );
-        scaleProperty.addObserver( updateDiameter );
         modelViewTransform.addObserver( updateDiameter );
 
         //Points to the sphere with a text indicator and line, for when it is too small to see (in modes with realistic units)

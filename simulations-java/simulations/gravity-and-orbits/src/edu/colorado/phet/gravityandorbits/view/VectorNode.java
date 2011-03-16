@@ -51,7 +51,7 @@ public class VectorNode extends PNode {
                 final Point2D tail = getTail();
                 arrowNode.setTipAndTailLocations( getTip( tail ), tail );
             }
-        }.observe( property, body.getPositionProperty(), modelViewTransform, body.getScaleProperty() );
+        }.observe( property, body.getPositionProperty(), modelViewTransform );
         addChild( arrowNode );
         arrowNode.setPickable( false );
         arrowNode.setChildrenPickable( false );

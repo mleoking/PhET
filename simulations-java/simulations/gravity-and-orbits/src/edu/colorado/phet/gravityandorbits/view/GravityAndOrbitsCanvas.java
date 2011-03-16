@@ -16,7 +16,9 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.model.property.*;
+import edu.colorado.phet.common.phetcommon.model.property.IfElse;
+import edu.colorado.phet.common.phetcommon.model.property.Not;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -80,7 +82,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
         } );
 
         for ( Body body : model.getBodies() ) {
-            addChild( new PathNode( body, mode.modelViewTransformProperty, module.showPathProperty, body.getColor(), module.scaleProperty ) );
+            addChild( new PathNode( body, mode.modelViewTransformProperty, module.showPathProperty, body.getColor() ) );
         }
 
         Color FORCE_VECTOR_COLOR_FILL = PhetColorScheme.GRAVITATIONAL_FORCE;
@@ -90,7 +92,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
         Color VELOCITY_VECTOR_COLOR_OUTLINE = Color.darkGray;
 
         for ( Body body : model.getBodies() ) {
-            final BodyNode bodyNode = new BodyNode( body, mode.modelViewTransformProperty, module.scaleProperty, mousePositionProperty, this, body.getLabelAngle() );
+            final BodyNode bodyNode = new BodyNode( body, mode.modelViewTransformProperty, mousePositionProperty, this, body.getLabelAngle() );
             addChild( bodyNode );
             addChild( mode.getMassReadoutFactory().apply( bodyNode, module.showMassProperty ) );
         }
@@ -172,10 +174,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
             addChild( new GAOTimeSlider( mode.timeSpeedScaleProperty, rewindButton.getFullBoundsReference().getMinX(), new IfElse<Color>( module.whiteBackgroundProperty, Color.black, Color.white ) ) );
         }} );
 
-        addChild( new MeasuringTape( new And( new ValueEquals<Scale>( module.scaleProperty, Scale.REAL ), module.measuringTapeVisibleProperty ),
-                                     mode.measuringTapeStartPoint,
-                                     mode.measuringTapeEndPoint, mode.modelViewTransformProperty ) {{
-        }} );
+        addChild( new MeasuringTape( module.measuringTapeVisibleProperty, mode.measuringTapeStartPoint, mode.measuringTapeEndPoint, mode.modelViewTransformProperty ) );
 
         // shows the bounds of the "stage", which is different from the canvas
 //        addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, STAGE_SIZE.width, STAGE_SIZE.height ), new BasicStroke( 1f ), Color.RED ) );

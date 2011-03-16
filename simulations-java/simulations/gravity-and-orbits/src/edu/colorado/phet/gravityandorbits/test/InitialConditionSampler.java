@@ -36,7 +36,7 @@ public class InitialConditionSampler {
         JFrame frame = new JFrame() {{
             final GravityAndOrbitsModule intro = new GravityAndOrbitsModule( null, new Property<Boolean>( false ), INTRO, false, new Function1<ModeListParameter, ArrayList<GravityAndOrbitsMode>>() {
                 public ArrayList<GravityAndOrbitsMode> apply( ModeListParameter p ) {
-                    return new CartoonModeList( p.clockPausedProperty, p.gravityEnabledProperty, p.scaleProperty, p.stepping, p.rewinding, p.timeSpeedScaleProperty, alpha );
+                    return new CartoonModeList( p.clockPausedProperty, p.gravityEnabledProperty, p.stepping, p.rewinding, p.timeSpeedScaleProperty, alpha );
                 }
             }, 1 );
             intro.getModes().get( 1 ).p.clockPausedProperty.setValue( false );
