@@ -1,3 +1,6 @@
+isotopes-and-atomic-mass: Added ability to clear the test chamber from the canvas.
+isotopes-and-atomic-mass: Added Reset All.
+isotopes-and-atomic-mass: Got initial version of "stateful behavior" working for 2nd tab.
 Incremental progress in factoring out an idempotent method IsotopeMixturesModel.updateIsotopeControllers
 Fixed: test chamber doesn't clear when switching between "more" and "less"
 Isotopes and buckets are restored after switching elements
