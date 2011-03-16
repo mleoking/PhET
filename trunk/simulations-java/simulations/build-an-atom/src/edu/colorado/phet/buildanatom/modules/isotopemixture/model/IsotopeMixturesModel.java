@@ -124,6 +124,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
                 // Erase any previous state for this isotope.
                 mapIsotopeConfigToUserMixState.remove( prototypeIsotope.getNumProtons() );
             }
+            clearTestChamber();
             addIsotopeControllers();
         }
     };
