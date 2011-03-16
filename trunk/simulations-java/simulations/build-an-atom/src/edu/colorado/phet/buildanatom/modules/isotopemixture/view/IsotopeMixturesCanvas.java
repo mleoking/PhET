@@ -35,6 +35,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PieChartNode;
+import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PieChartNode.PieValue;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -52,6 +53,7 @@ public class IsotopeMixturesCanvas extends PhetPCanvas {
 
     public static final Color BACKGROUND_COLOR = BuildAnAtomConstants.CANVAS_BACKGROUND;
     public static final double DISTANCE_BUTTON_CENTER_FROM_BOTTOM = 30;
+    public static final int BUTTON_FONT_SIZE = 18;
 
     //----------------------------------------------------------------------------
     // Instance Data
@@ -178,7 +180,6 @@ public class IsotopeMixturesCanvas extends PhetPCanvas {
         }};
         controlsLayer.addChild( periodicTableNode );
 
-
         // Add the pie chart to the canvas.
         double indicatorWindowX = 600;
         final PNode pieChart = new IsotopeProprotionPieChart( model );
@@ -200,12 +201,33 @@ public class IsotopeMixturesCanvas extends PhetPCanvas {
                 30 /* Empirically determined, tweak as needed. */ );
         averageAtomicMassWindow.addChild( averageAtomicMassIndicator );
 
+        // Add the radio buttons that allow the user to choose between their
+        // mix and nature's mix.
+        JPanel radioButtonPanel = new VerticalLayoutPanel();
+        // TODO: i18n
+        PropertyRadioButton<Boolean> usersMixRadioButton = new PropertyRadioButton<Boolean>( "My mix of isotopes", model.getShowingNaturesMixProperty(), false ){{
+            setBackground( BACKGROUND_COLOR );
+            setFont( new PhetFont( 20 ) );
+        }};
+        radioButtonPanel.add( usersMixRadioButton );
+        // TODO: i18n
+        PropertyRadioButton<Boolean> naturesMixRadioButton = new PropertyRadioButton<Boolean>( "Nature's mix of isotopes", model.getShowingNaturesMixProperty(), true ){{
+            setBackground( BACKGROUND_COLOR );
+            setFont( new PhetFont( 20 ) );
+        }};
+        radioButtonPanel.add( naturesMixRadioButton );
+        controlsLayer.addChild( new PSwing( radioButtonPanel ){{
+            setOffset(
+                testChamberNode.getFullBoundsReference().getMaxX() + 140,
+                averageAtomicMassWindow.getFullBoundsReference().getMaxY() + 20 );
+        }} );
+
         // Add the button that allows the user to select between the smaller
         // and larger atoms.
         final Point2D moreLessButtonLocation = new Point2D.Double( testChamberNode.getFullBoundsReference().getCenterX(),
                 BuildAnAtomDefaults.STAGE_SIZE.height - DISTANCE_BUTTON_CENTER_FROM_BOTTOM );
         // TODO: i18n
-        final ButtonNode moreAtomsButton = new ButtonNode( "More", 20, new Color(255, 153, 0) ){{
+        final ButtonNode moreAtomsButton = new ButtonNode( "More", BUTTON_FONT_SIZE, new Color(255, 153, 0) ){{
             centerFullBoundsOnPoint( moreLessButtonLocation.getX(), moreLessButtonLocation.getY() );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -215,7 +237,7 @@ public class IsotopeMixturesCanvas extends PhetPCanvas {
         }};
         controlsLayer.addChild( moreAtomsButton );
         // TODO: i18n
-        final ButtonNode lessAtomsButton = new ButtonNode( "Less", 20, new Color( 0, 178, 138 ) ){{
+        final ButtonNode lessAtomsButton = new ButtonNode( "Less", BUTTON_FONT_SIZE, new Color( 0, 178, 138 ) ){{
             centerFullBoundsOnPoint( moreLessButtonLocation.getX(), moreLessButtonLocation.getY() );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -225,8 +247,9 @@ public class IsotopeMixturesCanvas extends PhetPCanvas {
         }};
         controlsLayer.addChild( lessAtomsButton );
 
-        // Create a simple observer that will update the button visibility and
-        // hook it up to be triggered on changes to relevant model properties.
+        // Create a simple observer that will update the more/less button
+        // visibility and hook it up to be triggered on changes to relevant
+        // model properties.
         SimpleObserver moreLessButtonVizUpdater = new SimpleObserver() {
             public void update() {
                 moreAtomsButton.setVisible( model.getInteractivityModeProperty().getValue() == InteractivityMode.BUCKETS_AND_LARGE_ATOMS && model.getShowingNaturesMixProperty().getValue() == false );
@@ -236,24 +259,14 @@ public class IsotopeMixturesCanvas extends PhetPCanvas {
         model.getInteractivityModeProperty().addObserver( moreLessButtonVizUpdater );
         model.getShowingNaturesMixProperty().addObserver( moreLessButtonVizUpdater );
 
-        // Add the radio buttons that allow the user to choose between their
-        // mix and nature's mix.
-        JPanel radioButtonPanel = new VerticalLayoutPanel();
-        PropertyRadioButton<Boolean> usersMixRadioButton = new PropertyRadioButton<Boolean>( "My mix of isotopes", model.getShowingNaturesMixProperty(), false ){{
-            setBackground( BACKGROUND_COLOR );
-            setFont( new PhetFont( 20 ) );
+        // Add the reset button.
+        // Add the "Reset All" button.
+        ResetAllButtonNode resetButtonNode = new ResetAllButtonNode( model, this, 16, Color.BLACK, new Color( 255, 153, 0 ) ){{
+            setConfirmationEnabled( false );
+            centerFullBoundsOnPoint( testChamberNode.getFullBoundsReference().getMaxX() + 50,
+                    BuildAnAtomDefaults.STAGE_SIZE.height - DISTANCE_BUTTON_CENTER_FROM_BOTTOM );
         }};
-        radioButtonPanel.add( usersMixRadioButton );
-        PropertyRadioButton<Boolean> naturesMixRadioButton = new PropertyRadioButton<Boolean>( "Nature's mix of isotopes", model.getShowingNaturesMixProperty(), true ){{
-            setBackground( BACKGROUND_COLOR );
-            setFont( new PhetFont( 20 ) );
-        }};
-        radioButtonPanel.add( naturesMixRadioButton );
-        controlsLayer.addChild( new PSwing( radioButtonPanel ){{
-            setOffset(
-                testChamberNode.getFullBoundsReference().getMaxX() + 110,
-                BuildAnAtomDefaults.STAGE_SIZE.height - getFullBoundsReference().height - 20 );
-        }} );
+        controlsLayer.addChild( resetButtonNode );
     }
 
     /**
