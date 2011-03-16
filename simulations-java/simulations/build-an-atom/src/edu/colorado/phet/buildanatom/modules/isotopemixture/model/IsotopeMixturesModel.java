@@ -143,20 +143,26 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
         } );
     }
 
+    // -----------------------------------------------------------------------
+    // Methods
+    // -----------------------------------------------------------------------
+
+    /**
+     * Update the particles in the test chamber and the isotope controllers
+     * based on the current selections of the element (i.e. prototypeIsotope),
+     * the interactivity mode, and which mix type (user's or nature's) is
+     * being shown.
+     */
     public void updateAll() {
         clearTestChamber();
         if ( showingNaturesMix.getValue() ) {
             showNaturesMix();
         }
         else {
-            showUsersMix2();
+            showUsersMix();
         }
         updateIsotopeControllers();
     }
-
-    // -----------------------------------------------------------------------
-    // Methods
-    // -----------------------------------------------------------------------
 
     /**
      * Create and add an isotope of the specified configuration.  Where the
@@ -295,11 +301,10 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
     }
 
     /**
-     * Add isotope controllers based on the specified list of isotopes and the
-     * specified interactivity mode.  Isotope controllers are the model
-     * portion of the devices with which the user can interact with in order
-     * to add or remove isotopes to/from the test chamber.  There are two
-     * types of controllers: buckets and numerical controllers (i.e. sliders).
+     * Set up the appropriate isotope controllers based on the currently
+     * selected element, the interactivity mode, and the mix setting (i.e.
+     * user's mix or nature's mix).  This will restore state if state is
+     * present for the current element.
      *
      * Note that this does NOT add any isotopes to the model.
      *
@@ -489,17 +494,6 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
      * isotopes in the buckets.
      */
     private void showUsersMix(){
-        if ( interactivityModeProperty.getValue() == InteractivityMode.BUCKETS_AND_LARGE_ATOMS ){
-            addInitialIsotopesToBuckets();
-        }
-    }
-
-    /**
-     * Show the user's mix.  If the user's mix has never been shown for this
-     * element, show it in initial form, which is with the relatively large
-     * isotopes in the buckets.
-     */
-    private void showUsersMix2(){
         assert showingNaturesMix.getValue() == false; // This method shouldn't be called if we're showing nature's mix.
 
         if ( mapIsotopeConfigToUserMixState.containsKey( prototypeIsotope.getNumProtons() ) ){
