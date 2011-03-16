@@ -36,7 +36,7 @@ public class GravityAndOrbitsControlPanel extends VerticalLayoutPanel {
 
         // add mode check-boxes
         for ( GravityAndOrbitsMode m : module.getModes() ) {
-            add( m.newComponent( module.modeProperty ) );
+            add( m.newControl( module.modeProperty ) );
         }
         setFillHorizontal();
 

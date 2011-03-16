@@ -46,10 +46,10 @@ public class GravityAndOrbitsModule extends PiccoloModule {
     public final Property<Boolean> stepping = new Property<Boolean>( false );
     public final Property<Boolean> rewinding = new Property<Boolean>( false );
 
-    private final ArrayList<GravityAndOrbitsMode> modes;
     public final Property<GravityAndOrbitsMode> modeProperty;
     public final Property<Boolean> whiteBackgroundProperty;
     public final boolean showMeasuringTape;
+    private final ArrayList<GravityAndOrbitsMode> modes;
 
     public GravityAndOrbitsModule( final PhetFrame phetFrame, Property<Boolean> whiteBackgroundProperty, final String name, boolean showMeasuringTape, Function1<ModeListParameter, ArrayList<GravityAndOrbitsMode>> createModes, int initialMode ) {
         super( name, new ConstantDtClock( 30, 1 ) );//TODO: I don't think this clock is used since each mode has its own clock; perhaps this just runs the active tab?
@@ -103,9 +103,6 @@ public class GravityAndOrbitsModule extends PiccoloModule {
         }
     }
 
-    /**
-     * Resets the module.
-     */
     public void reset() {
         for ( GravityAndOrbitsMode mode : modes ) {
             mode.reset();
@@ -133,10 +130,6 @@ public class GravityAndOrbitsModule extends PiccoloModule {
         for ( GravityAndOrbitsMode mode : modes ) {
             mode.getModel().addModelSteppedListener( simpleObserver );
         }
-    }
-
-    public boolean isGravityEnabled() {
-        return gravityEnabledProperty.getValue();
     }
 
     public void setModeIndex( int selectedMode ) {
