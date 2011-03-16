@@ -94,8 +94,14 @@ public class VelocitySensorNode extends ToolboxNode.DoDragNode {
                     }
                     else {
                         ImmutableVector2D v = transform.modelToViewDelta( value.get() ).times( 1.5E-14 );
-                        setTipAndTailLocations( velocityPointNode.getFullBounds().getCenterX() + v.getX() / 2, velocityPointNode.getFullBounds().getMaxY() + v.getY() / 2,
-                                                velocityPointNode.getFullBounds().getCenterX() - v.getX() / 2, velocityPointNode.getFullBounds().getMaxY() - v.getY() / 2 );
+
+                        //Show speed vector centered
+//                        setTipAndTailLocations( velocityPointNode.getFullBounds().getCenterX() + v.getX() / 2, velocityPointNode.getFullBounds().getMaxY() + v.getY() / 2,
+//                                                velocityPointNode.getFullBounds().getCenterX() - v.getX() / 2, velocityPointNode.getFullBounds().getMaxY() - v.getY() / 2 );
+
+                        //Show speed vector at the tail instead of centered
+                        setTipAndTailLocations( velocityPointNode.getFullBounds().getCenterX() + v.getX(), velocityPointNode.getFullBounds().getMaxY() + v.getY(),
+                                                velocityPointNode.getFullBounds().getCenterX(), velocityPointNode.getFullBounds().getMaxY() );
                         setVisible( true );
                     }
                 }
