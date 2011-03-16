@@ -10,10 +10,11 @@
  */
 package edu.colorado.phet.common.piccolophet;
 
-import edu.umd.cs.piccolo.PNode;
-
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
+
+import edu.umd.cs.piccolo.PNode;
 
 /**
  * PhetPNode provides useful extensions to the
@@ -191,12 +192,12 @@ public class PhetPNode extends PNode {
         }
         this.childrenPickable = childrenPickable;
     }
-    
+
     /**
      * Workaround for Piccolo's broken implementation of removeChild.
      * If we attempt to remove a node that is not a child, this method should
      * return null.  Instead, Piccolo throws ArrayIndexOutOfBoundsException due
-     * to the internal data structure for managing children, 
+     * to the internal data structure for managing children,
      */
     public PNode removeChild( PNode child ) {
         PNode removedNode = null;
@@ -204,5 +205,16 @@ public class PhetPNode extends PNode {
             removedNode = super.removeChild( child );
         }
         return removedNode;
-    } 
+    }
+
+    /*
+     * Returns an iterator that iterates over the children of this pnode, in the rendering order.
+     */
+    public ArrayList<PNode> getChildren() {
+        return new ArrayList<PNode>() {{
+            for ( int i = 0; i < getChildrenCount(); i++ ) {
+                add( getChild( i ) );
+            }
+        }};
+    }
 }
