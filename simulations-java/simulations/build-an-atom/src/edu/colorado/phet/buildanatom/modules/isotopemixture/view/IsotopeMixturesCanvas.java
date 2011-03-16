@@ -259,11 +259,18 @@ public class IsotopeMixturesCanvas extends PhetPCanvas {
         model.getInteractivityModeProperty().addObserver( moreLessButtonVizUpdater );
         model.getShowingNaturesMixProperty().addObserver( moreLessButtonVizUpdater );
 
-        // Add the reset button.
+        // Add the button that clears the test chamber.
+        ButtonNode clearTestChamberButton = new ButtonNode( "Clear Box", BUTTON_FONT_SIZE, new Color( 255, 153, 0 ) ){{
+            centerFullBoundsOnPoint( averageAtomicMassWindow.getFullBoundsReference().getMinX() + 80,
+                    BuildAnAtomDefaults.STAGE_SIZE.height - DISTANCE_BUTTON_CENTER_FROM_BOTTOM );
+        }};
+        controlsLayer.addChild( clearTestChamberButton );
+
         // Add the "Reset All" button.
-        ResetAllButtonNode resetButtonNode = new ResetAllButtonNode( model, this, 16, Color.BLACK, new Color( 255, 153, 0 ) ){{
+        ResetAllButtonNode resetButtonNode = new ResetAllButtonNode( model, this, BUTTON_FONT_SIZE, Color.BLACK,
+                new Color( 255, 153, 0 ) ){{
             setConfirmationEnabled( false );
-            centerFullBoundsOnPoint( testChamberNode.getFullBoundsReference().getMaxX() + 50,
+            centerFullBoundsOnPoint( averageAtomicMassWindow.getFullBoundsReference().getMaxX() - 80,
                     BuildAnAtomDefaults.STAGE_SIZE.height - DISTANCE_BUTTON_CENTER_FROM_BOTTOM );
         }};
         controlsLayer.addChild( resetButtonNode );
