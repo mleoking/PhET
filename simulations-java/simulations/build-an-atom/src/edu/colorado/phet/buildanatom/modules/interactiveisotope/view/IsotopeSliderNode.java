@@ -16,6 +16,7 @@ import edu.colorado.phet.buildanatom.modules.isotopemixture.model.IsotopeMixture
 import edu.colorado.phet.buildanatom.modules.isotopemixture.model.MovableAtom;
 import edu.colorado.phet.buildanatom.modules.isotopemixture.view.IsotopeMixturesCanvas;
 import edu.colorado.phet.buildanatom.modules.isotopemixture.view.LabeledIsotopeNode;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.DefaultLayoutStrategy;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -43,9 +44,8 @@ public class IsotopeSliderNode extends PNode {
 
         // Add the slider that controls the quantity of this isotope in the
         // test chamber.
-        LinearValueControl isotopeQuantityControl = null;
-        String label = modelControl.getAtomConfig().getName() + "-" + modelControl.getAtomConfig().getMassNumber();
-        isotopeQuantityControl = new LinearValueControl( 0, modelControl.getCapacity(), label, "##", null, new DefaultLayoutStrategy(SwingConstants.CENTER)){{
+        String label = modelControl.getIsotopeConfig().getName() + "-" + modelControl.getIsotopeConfig().getMassNumber();
+        final LinearValueControl isotopeQuantityControl = new LinearValueControl( 0, modelControl.getCapacity(), label, "##", null, new DefaultLayoutStrategy(SwingConstants.CENTER)){{
                     setUpDownArrowDelta( 1 );
                     setMajorTicksVisible( false );
                     setTextFieldEditable( true );
@@ -60,14 +60,25 @@ public class IsotopeSliderNode extends PNode {
                     SwingUtils.setBackgroundDeep( this, IsotopeMixturesCanvas.BACKGROUND_COLOR );
                     getTextField().setBackground( Color.WHITE );
                     PNode isotopeNode = new LabeledIsotopeNode(ModelViewTransform.createIdentity(), new MovableAtom(
-                            modelControl.getAtomConfig().getNumProtons(), modelControl.getAtomConfig().getNumNeutrons(),
+                            modelControl.getIsotopeConfig().getNumProtons(), modelControl.getIsotopeConfig().getNumNeutrons(),
                             10, new Point2D.Double(0, 0) ), modelControl.getBaseColor() );
                     setValueLabelIcon( new ImageIcon( isotopeNode.toImage() ) );
-                }};
+        }};
 
+
+        // Wrap the control in a PSwing and add it to our rood node.
         PNode linearSliderNode = new PSwing( isotopeQuantityControl ){{
             centerFullBoundsOnPoint( 0, 0 );
         }};
         rootNode.addChild( linearSliderNode );
+
+        // Observe the model control for changes and update the slider accordingly.
+        modelControl.addQuantityPropertyObserver( new SimpleObserver() {
+            public void update() {
+                if ( modelControl.getQuantity() != (int)isotopeQuantityControl.getValue() ){
+                    isotopeQuantityControl.setValue( modelControl.getQuantity() );
+                }
+            }
+        });
     }
 }

@@ -124,7 +124,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
                 // Erase any previous state for this isotope.
                 mapIsotopeConfigToUserMixState.remove( prototypeIsotope.getNumProtons() );
             }
-            updateAll();
+            addIsotopeControllers();
         }
     };
 
@@ -149,7 +149,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
                 }
                 updateAll();
             }
-        } );
+        }, false );
     }
 
     // -----------------------------------------------------------------------
@@ -315,17 +315,16 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
             setState( mapIsotopeConfigToUserMixState.get( atom.getNumProtons() ) );
         }
         else{
+            // Update the prototype atom (a.k.a. isotope) configuration.
+            prototypeIsotope.setConfiguration( atom );
+            updatePossibleIsotopesList();
+
             // No previous state exists for this element.  Set up the default
             // initial state.
             interactivityModeProperty.setValue( InteractivityMode.BUCKETS_AND_LARGE_ATOMS );
 
-            // Update the prototype atom (a.k.a. isotope) configuration.
-            prototypeIsotope.setConfiguration( atom );
-
-            // Update the list of isotopes for the currently selected atom.
-            updatePossibleIsotopesList();
-
-            updateAll();
+            // Add the isotope controllers (i.e. the buckets or the sliders).
+            addIsotopeControllers();
         }
     }
 
@@ -522,7 +521,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
     private NumericalIsotopeQuantityControl getNumericalControllerForIsotope( ImmutableAtom isotope ) {
         NumericalIsotopeQuantityControl isotopeController = null;
         for ( NumericalIsotopeQuantityControl controller : numericalControllerList ){
-            if (controller.getAtomConfig().equals( isotope )){
+            if (controller.getIsotopeConfig().equals( isotope )){
                 // Found it.
                 isotopeController = controller;
                 break;
@@ -810,6 +809,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
         private final Point2D centerPosition = new Point2D.Double();
         private final ImmutableAtom isotopeConfig;
         private final IsotopeMixturesModel model;
+        private final Property<Integer> quantityProperty = new Property<Integer>( 0 );
 
         // This property tracks whether this model element is still a part
         // of the active model, such that it should be displayed in the view.
@@ -828,7 +828,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
             return centerPosition;
         }
 
-        public ImmutableAtom getAtomConfig(){
+        public ImmutableAtom getIsotopeConfig(){
             return isotopeConfig;
         }
 
@@ -865,6 +865,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
          * @return
          */
         public void setIsotopeQuantity( int targetQuantity ){
+            assert targetQuantity <= CAPACITY;
             int changeAmount = targetQuantity - model.getIsotopeTestChamber().getIsotopeCount( isotopeConfig );
             if (changeAmount > 0){
                 for (int i = 0; i < changeAmount; i++){
@@ -883,6 +884,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
                     }
                 }
             }
+            quantityProperty.setValue( targetQuantity );
         }
 
         /**
@@ -890,6 +892,22 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
          */
         public Color getBaseColor() {
             return model.getColorForIsotope( isotopeConfig );
+        }
+
+        public void addQuantityPropertyObserver(SimpleObserver so){
+            quantityProperty.addObserver( so );
+        }
+
+        public void removeQuantityPropertyObserver(SimpleObserver so){
+            quantityProperty.removeObserver( so );
+        }
+
+        public int getQuantity(){
+            // Verify that the internal quantity property matches that of the
+            // test chamber.
+            assert quantityProperty.getValue() == model.testChamber.getIsotopeCount( getIsotopeConfig() );
+            // Return the value.
+            return quantityProperty.getValue();
         }
     }
 }
