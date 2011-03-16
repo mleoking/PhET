@@ -1,3 +1,4 @@
+Show speed vector at the tail instead of centered
 In more tools tab, show clock controls if wave mode or if time chart is in the play area
 Fixed: tools do not reset in reset all
 Fixed: protractor does not reset in first two tabs
