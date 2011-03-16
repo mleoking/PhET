@@ -260,11 +260,21 @@ public class IsotopeMixturesCanvas extends PhetPCanvas {
         model.getShowingNaturesMixProperty().addObserver( moreLessButtonVizUpdater );
 
         // Add the button that clears the test chamber.
-        ButtonNode clearTestChamberButton = new ButtonNode( "Clear Box", BUTTON_FONT_SIZE, new Color( 255, 153, 0 ) ){{
+        final ButtonNode clearTestChamberButton = new ButtonNode( "Clear Box", BUTTON_FONT_SIZE, new Color( 255, 153, 0 ) ){{
             centerFullBoundsOnPoint( averageAtomicMassWindow.getFullBoundsReference().getMinX() + 80,
                     BuildAnAtomDefaults.STAGE_SIZE.height - DISTANCE_BUTTON_CENTER_FROM_BOTTOM );
         }};
         controlsLayer.addChild( clearTestChamberButton );
+
+        // Create and hook up a visibility controller for the button that
+        // clears the test chamber.
+        SimpleObserver clearBoxButtonVizUpdater = new SimpleObserver() {
+            public void update() {
+                clearTestChamberButton.setVisible( model.getIsotopeTestChamber().getTotalIsotopeCount() > 0 && !model.getShowingNaturesMixProperty().getValue() );
+            }
+        };
+        model.getShowingNaturesMixProperty().addObserver( clearBoxButtonVizUpdater );
+        model.getIsotopeTestChamber().addTotalCountChangeObserver( clearBoxButtonVizUpdater );
 
         // Add the "Reset All" button.
         ResetAllButtonNode resetButtonNode = new ResetAllButtonNode( model, this, BUTTON_FONT_SIZE, Color.BLACK,
