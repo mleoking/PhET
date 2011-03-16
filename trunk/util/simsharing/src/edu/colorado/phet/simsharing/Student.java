@@ -80,7 +80,7 @@ public class Student {
                         }
 
 //                        server.sendOneWay( new AddStudentDataSample( sessionID, state ) );
-                        if ( stateCache.size() >= 30 ) {
+                        if ( stateCache.size() >= 1 ) {
                             server.sendOneWay( new AddMultiSample( sessionID, yield( stateCache, new Function1<GravityAndOrbitsApplicationState, String>() {
                                 public String apply( GravityAndOrbitsApplicationState state ) {
                                     return mapper.writeValueAsString( state );

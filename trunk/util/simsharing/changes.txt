@@ -1,3 +1,4 @@
+Send single messages instead of batching
 Send json from client machines instead of POJO graphs
 # 00.00.25 (49813) Mar 15, 2011
 Switched from Serializable to IProguardKeepClass to support Jackson beans
