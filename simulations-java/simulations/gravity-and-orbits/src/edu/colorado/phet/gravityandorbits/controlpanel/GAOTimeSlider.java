@@ -11,9 +11,8 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
-import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
@@ -43,13 +42,11 @@ public class GAOTimeSlider extends PNode {
     /**
      * This is the Swing part of the GAOTimeSlider
      */
-    public static class GAOInnerSlider extends VerticalLayoutPanel {
-        private final LinearValueControl linearSlider;
-
+    public static class GAOInnerSlider extends LinearValueControl {
         public GAOInnerSlider( final double min, final double max, String textFieldPattern, final Property<Double> valueProperty,
                                final String title, final ObservableProperty<Color> labelColor ) {
-            linearSlider = new LinearValueControl( min, max, "", textFieldPattern, "" );
-            linearSlider.setTextFieldVisible( false );
+            super( min, max, "", textFieldPattern, "" );
+            setTextFieldVisible( false );
 
             final Function1<String, JLabel> labelMaker = new Function1<String, JLabel>() {
                 public JLabel apply( String s ) {
@@ -62,7 +59,6 @@ public class GAOTimeSlider extends PNode {
                     }};
                 }
             };
-
             //Create the Hash table of labels (Double => JComponent)
             Hashtable<Object, Object> table = new Hashtable<Object, Object>() {{
                 put( new Double( min ), labelMaker.apply( PhetCommonResources.getString( "Common.time.slow" ) ) );
@@ -72,19 +68,18 @@ public class GAOTimeSlider extends PNode {
                 value.setFont( new PhetFont( Font.ITALIC, PhetFont.getDefaultFontSize() ) );
                 put( new Double( ( max + min ) / 2 ), value );
             }};
+            setTickLabels( table );
 
-            linearSlider.setTickLabels( table );
+            addChangeListener( new ChangeListener() {
+                public void stateChanged( ChangeEvent e ) {
+                    valueProperty.setValue( getValue() );
+                }
+            } );
             valueProperty.addObserver( new SimpleObserver() {
                 public void update() {
-                    linearSlider.setValue( valueProperty.getValue() );
+                    setValue( valueProperty.getValue() );
                 }
             } );
-            linearSlider.addChangeListener( new ChangeListener() {
-                public void stateChanged( ChangeEvent e ) {
-                    valueProperty.setValue( linearSlider.getValue() );
-                }
-            } );
-            add( linearSlider );
             SwingUtils.setBackgroundDeep( this, new Color( 0, 0, 0, 0 ) );
         }
     }

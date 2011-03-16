@@ -29,7 +29,7 @@ import static edu.colorado.phet.gravityandorbits.controlpanel.GravityAndOrbitsCo
 import static edu.colorado.phet.gravityandorbits.view.GravityAndOrbitsCanvas.STAGE_SIZE;
 
 /**
- * This control allows the user to view and change the mass of certain Body instances.
+ * This control allows the user to view and change the mass of certain Body instances, which also changes the radius.
  *
  * @author Sam Reid
  */
@@ -46,7 +46,6 @@ public class BodyMassControl extends VerticalLayoutPanel {
         setInsets( new Insets( 5, 5, 5, 5 ) );
 
         //Top component that shows the body's name and icon
-        //TODO: move title label west, probably by not having the horizontal panel expand to take full width
         add( new JPanel() {{
             add( new JLabel( body.getName() ) {{
                 setFont( CONTROL_FONT );
@@ -59,28 +58,24 @@ public class BodyMassControl extends VerticalLayoutPanel {
             final Image image = bodyNode.renderImage( 22 );
             add( new JLabel( "", new ImageIcon( image ), SwingConstants.LEFT ) );
         }} );
-
         setForeground( FOREGROUND );
 
+        class SmallLabel extends JLabel {
+            SmallLabel( String text ) {
+                super( text );
+                setForeground( FOREGROUND );
+                setFont( new PhetFont( 14 ) );
+            }
+        }
         //Add the slider component.
         add( new JSlider( MIN, MAX ) {{
             setMajorTickSpacing( (int) ( modelToView.evaluate( labelValue ) - MIN ) );
             setPaintLabels( true );
             setPaintTicks( true );
             setLabelTable( new Hashtable<Object, Object>() {{
-                put( MIN, new JLabel( minLabel ) {{
-                    setForeground( FOREGROUND );
-                    setFont( new PhetFont( 14, false ) );
-                }} );
-                //show the custom tick mark and label
-                put( (int) modelToView.evaluate( labelValue ), new JLabel( valueLabel ) {{
-                    setForeground( FOREGROUND );
-                    setFont( new PhetFont( 14, false ) );
-                }} );
-                put( MAX, new JLabel( maxLabel ) {{
-                    setForeground( FOREGROUND );
-                    setFont( new PhetFont( 14, false ) );
-                }} );
+                put( MIN, new SmallLabel( minLabel ) );
+                put( (int) modelToView.evaluate( labelValue ), new SmallLabel( valueLabel ) );//show the custom tick mark and label
+                put( MAX, new SmallLabel( maxLabel ) );
             }} );
             setForeground( FOREGROUND );
             body.getMassProperty().addObserver( new SimpleObserver() {
