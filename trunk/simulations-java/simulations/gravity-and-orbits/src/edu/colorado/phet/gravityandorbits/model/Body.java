@@ -18,6 +18,8 @@ import edu.colorado.phet.gravityandorbits.view.BodyRenderer;
 import edu.colorado.phet.gravityandorbits.view.IBodyColors;
 import edu.colorado.phet.gravityandorbits.view.MultiwayOr;
 
+import static edu.colorado.phet.common.phetcommon.view.util.RectangleUtils.expandRectangle2D;
+
 /**
  * Body is a single point mass in the Gravity and Orbits simluation, such as the Earth, Sun, Moon or Space Station.
  * This class also keeps track of body related data such as the path.
@@ -84,7 +86,11 @@ public class Body implements IBodyColors {
         returnable = new BooleanProperty( false ) {{
             final SimpleObserver obs = new SimpleObserver() {
                 public void update() {
-                    setValue( collidedProperty.getValue() || !bounds.getValue().contains( getPosition().toPoint2D() ) );
+                    final Rectangle2D bounds = Body.this.bounds.getValue().getBounds2D();
+                    //If the object goes 12% outside of the bounds, then show a "return object" button
+                    double expandedWidth = 0.12;
+                    setValue( collidedProperty.getValue() ||
+                              !expandRectangle2D( bounds, bounds.getWidth() * expandedWidth, bounds.getHeight() * expandedWidth ).contains( getPosition().toPoint2D() ) );
                 }
             };
             bounds.addObserver( obs );
