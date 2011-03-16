@@ -36,7 +36,7 @@ public class GravityAndOrbitsControlPanel extends VerticalLayoutPanel {
 
         // add mode check-boxes
         for ( GravityAndOrbitsMode m : module.getModes() ) {
-            add( m.newComponent( module.getModeProperty() ) );
+            add( m.newComponent( module.modeProperty ) );
         }
         setFillHorizontal();
 
@@ -56,10 +56,10 @@ public class GravityAndOrbitsControlPanel extends VerticalLayoutPanel {
                     setFontsAndColors( this );
                 }} );
                 add( Box.createRigidArea( new Dimension( 20, 1 ) ) );
-                add( new PropertyRadioButton<Boolean>( GAOStrings.ON, module.getGravityEnabledProperty(), true ) {{
+                add( new PropertyRadioButton<Boolean>( GAOStrings.ON, module.gravityEnabledProperty, true ) {{
                     setFontsAndColors( this );
                 }} );
-                add( new PropertyRadioButton<Boolean>( GAOStrings.OFF, module.getGravityEnabledProperty(), false ) {{
+                add( new PropertyRadioButton<Boolean>( GAOStrings.OFF, module.gravityEnabledProperty, false ) {{
                     setFontsAndColors( this );
                 }} );
             }} );
@@ -80,9 +80,9 @@ public class GravityAndOrbitsControlPanel extends VerticalLayoutPanel {
                 {
                     setOpaque( false );
 
-                    add( new GAOCheckBox( GAOStrings.GRAVITY_FORCE, module.getShowGravityForceProperty() ) );
+                    add( new GAOCheckBox( GAOStrings.GRAVITY_FORCE, module.showGravityForceProperty ) );
                     addArrow( PhetColorScheme.GRAVITATIONAL_FORCE );
-                    add( new GAOCheckBox( GAOStrings.VELOCITY, module.getShowVelocityProperty() ) );
+                    add( new GAOCheckBox( GAOStrings.VELOCITY, module.showVelocityProperty ) );
                     addArrow( PhetColorScheme.VELOCITY );
                     setMaximumSize( getPreferredSize() );
                 }
@@ -94,12 +94,12 @@ public class GravityAndOrbitsControlPanel extends VerticalLayoutPanel {
                     }}.toImage() ) ) );
                 }
             } );
-            add( new GAOCheckBox( GAOStrings.MASS, module.getShowMassProperty() ) );
-            add( new GAOCheckBox( GAOStrings.PATH, module.getShowPathProperty() ) );
-            add( new GAOCheckBox( GAOStrings.GRID, module.getShowGridProperty() ) );
+            add( new GAOCheckBox( GAOStrings.MASS, module.showMassProperty ) );
+            add( new GAOCheckBox( GAOStrings.PATH, module.showPathProperty ) );
+            add( new GAOCheckBox( GAOStrings.GRID, module.showGridProperty ) );
             //Panel with measuring tape.
             if ( module.showMeasuringTape ) {
-                add( new GAOCheckBox( GAOStrings.MEASURING_TAPE, module.getMeasuringTapeVisibleProperty() ) );
+                add( new GAOCheckBox( GAOStrings.MEASURING_TAPE, module.measuringTapeVisibleProperty ) );
             }
         }} );
 

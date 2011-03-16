@@ -100,7 +100,7 @@ public class Student {
         } );
         new Timer( 30, new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                if ( application.getIntro().getModeProperty().getValue().getModel().getClock().isPaused() ) {
+                if ( application.getIntro().modeProperty.getValue().getModel().getClock().isPaused() ) {
                     updateSharing.apply();
                 }
             }
@@ -117,7 +117,7 @@ public class Student {
                 } );
             }
         } ).start();
-        application.getIntro().getClockPausedProperty().setValue( false );
+        application.getIntro().clockPausedProperty.setValue( false );
     }
 
     static class MyMapper extends ObjectMapper {

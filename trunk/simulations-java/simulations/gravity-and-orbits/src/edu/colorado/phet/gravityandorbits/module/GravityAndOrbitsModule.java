@@ -6,10 +6,10 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import edu.colorado.phet.common.phetcommon.util.function.Function1;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.gravityandorbits.view.Scale;
@@ -33,22 +33,22 @@ public class GravityAndOrbitsModule extends PiccoloModule {
     /*
      * Properties that are common to all "modes" should live here.
      */
-    private final Property<Boolean> showGravityForceProperty = new Property<Boolean>( false );
-    private final Property<Boolean> showPathProperty = new Property<Boolean>( false );
-    private final Property<Boolean> showGridProperty = new Property<Boolean>( false );
-    private final Property<Boolean> showVelocityProperty = new Property<Boolean>( false );
-    private final Property<Boolean> showMassProperty = new Property<Boolean>( false );
-    private final Property<Boolean> clockPausedProperty = new Property<Boolean>( true );
-    private final Property<Double> timeSpeedScaleProperty = new Property<Double>( ( 0.1 + 2 ) / 4 );//one quarter of the way up between 1/10 and 2 scale factors
-    private final Property<Boolean> measuringTapeVisibleProperty = new Property<Boolean>( false );
-    private final Property<Scale> scaleProperty = new Property<Scale>( Scale.REAL );
-    private final Property<Boolean> gravityEnabledProperty = new Property<Boolean>( true );//TODO: remove
-    private final Property<Boolean> stepping = new Property<Boolean>( false );
-    private final Property<Boolean> rewinding = new Property<Boolean>( false );
+    public final Property<Boolean> showGravityForceProperty = new Property<Boolean>( false );
+    public final Property<Boolean> showPathProperty = new Property<Boolean>( false );
+    public final Property<Boolean> showGridProperty = new Property<Boolean>( false );
+    public final Property<Boolean> showVelocityProperty = new Property<Boolean>( false );
+    public final Property<Boolean> showMassProperty = new Property<Boolean>( false );
+    public final Property<Boolean> clockPausedProperty = new Property<Boolean>( true );
+    public final Property<Double> timeSpeedScaleProperty = new Property<Double>( ( 0.1 + 2 ) / 4 );//one quarter of the way up between 1/10 and 2 scale factors
+    public final Property<Boolean> measuringTapeVisibleProperty = new Property<Boolean>( false );
+    public final Property<Scale> scaleProperty = new Property<Scale>( Scale.REAL );
+    public final Property<Boolean> gravityEnabledProperty = new Property<Boolean>( true );//TODO: remove
+    public final Property<Boolean> stepping = new Property<Boolean>( false );
+    public final Property<Boolean> rewinding = new Property<Boolean>( false );
 
     private final ArrayList<GravityAndOrbitsMode> modes;
-    private final Property<GravityAndOrbitsMode> modeProperty;
-    private final Property<Boolean> whiteBackgroundProperty;
+    public final Property<GravityAndOrbitsMode> modeProperty;
+    public final Property<Boolean> whiteBackgroundProperty;
     public final boolean showMeasuringTape;
 
     public GravityAndOrbitsModule( final PhetFrame phetFrame, Property<Boolean> whiteBackgroundProperty, final String name, boolean showMeasuringTape, Function1<ModeListParameter, ArrayList<GravityAndOrbitsMode>> createModes, int initialMode ) {
@@ -123,30 +123,6 @@ public class GravityAndOrbitsModule extends PiccoloModule {
         timeSpeedScaleProperty.reset();
     }
 
-    public Property<Boolean> getShowGravityForceProperty() {
-        return showGravityForceProperty;
-    }
-
-    public Property<Boolean> getShowPathProperty() {
-        return showPathProperty;
-    }
-
-    public Property<Boolean> getShowGridProperty() {
-        return showGridProperty;
-    }
-
-    public Property<Boolean> getShowVelocityProperty() {
-        return showVelocityProperty;
-    }
-
-    public Property<Boolean> getShowMassProperty() {
-        return showMassProperty;
-    }
-
-    public Property<GravityAndOrbitsMode> getModeProperty() {
-        return modeProperty;
-    }
-
     public void setTeacherMode( boolean b ) {
         for ( GravityAndOrbitsMode mode : modes ) {
             mode.getModel().teacherMode = b;
@@ -159,31 +135,11 @@ public class GravityAndOrbitsModule extends PiccoloModule {
         }
     }
 
-    public Property<Scale> getScaleProperty() {
-        return scaleProperty;
-    }
-
-    public Property<Boolean> getClockPausedProperty() {
-        return clockPausedProperty;
-    }
-
-    public Property<Boolean> getMeasuringTapeVisibleProperty() {
-        return measuringTapeVisibleProperty;
-    }
-
     public boolean isGravityEnabled() {
         return gravityEnabledProperty.getValue();
     }
 
-    public Property<Boolean> getGravityEnabledProperty() {
-        return gravityEnabledProperty;
-    }
-
     public void setModeIndex( int selectedMode ) {
         modeProperty.setValue( modes.get( selectedMode ) );
-    }
-
-    public Property<Boolean> getWhiteBackgroundProperty() {
-        return whiteBackgroundProperty;
     }
 }

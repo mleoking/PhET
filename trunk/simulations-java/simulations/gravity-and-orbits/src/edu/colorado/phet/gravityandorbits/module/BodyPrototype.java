@@ -4,6 +4,8 @@ package edu.colorado.phet.gravityandorbits.module;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 
 /**
+ * Class that facilitates configuration of body instances for a GravityAndOrbitsMode.
+ *
  * @author Sam Reid
  */
 public class BodyPrototype {

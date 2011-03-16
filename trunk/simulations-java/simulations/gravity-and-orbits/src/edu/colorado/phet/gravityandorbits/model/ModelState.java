@@ -33,20 +33,13 @@ public class ModelState {
         //See http://www.fisica.uniud.it/~ercolessi/md/md/node21.html
         ArrayList<BodyState> newState = new ArrayList<BodyState>();
         for ( BodyState bodyState : bodyStates ) {
-            //Velocity Verlet
+            //Velocity Verlet (see svn history for Euler)
             ImmutableVector2D newPosition = bodyState.position.getAddedInstance( bodyState.velocity.getScaledInstance( dt ) ).getAddedInstance( bodyState.acceleration.getScaledInstance( dt * dt / 2 ) );
             ImmutableVector2D newVelocityHalfStep = bodyState.velocity.getAddedInstance( bodyState.acceleration.getScaledInstance( dt / 2 ) );
             ImmutableVector2D newAcceleration = getForce( bodyState, newPosition, gravityEnabledProperty ).getScaledInstance( -1.0 / bodyState.mass );
             ImmutableVector2D newVelocity = newVelocityHalfStep.getAddedInstance( newAcceleration.getScaledInstance( dt / 2.0 ) );
             newState.add( new BodyState( newPosition, newVelocity, newAcceleration, bodyState.mass, bodyState.exploded ) );
-
-            //Euler
-//            ImmutableVector2D acceleration = getForce( bodyState, bodyState.position).getScaledInstance( -1/bodyState.mass );
-//            ImmutableVector2D newVelocity = bodyState.velocity.getAddedInstance( acceleration.getScaledInstance( dt ) );
-//            ImmutableVector2D newPosition = bodyState.position.getAddedInstance( newVelocity.getScaledInstance( dt ) ).getAddedInstance( acceleration.getScaledInstance( dt * dt / 2 ) );
-//            newState.add( new BodyState( newPosition, newVelocity, acceleration, bodyState.mass ));
         }
-//        System.out.println( "getForce(bodyStates.get(2) = " + getForce( bodyStates.get( 1 ), bodyStates.get( 2 ), bodyStates.get( 2 ).position ) );
         return new ModelState( newState );
     }
 

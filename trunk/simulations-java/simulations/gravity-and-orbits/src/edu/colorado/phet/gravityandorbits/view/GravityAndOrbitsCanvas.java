@@ -59,9 +59,9 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
 
         setWorldTransformStrategy( new PhetPCanvas.CenteredStage( this, STAGE_SIZE ) );
 
-        module.getWhiteBackgroundProperty().addObserver( new SimpleObserver() {
+        module.whiteBackgroundProperty.addObserver( new SimpleObserver() {
             public void update() {
-                setBackground( module.getWhiteBackgroundProperty().getValue() ? Color.white : Color.black );
+                setBackground( module.whiteBackgroundProperty.getValue() ? Color.white : Color.black );
             }
         } );
 
@@ -83,7 +83,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
         final Property<ModelViewTransform> modelViewTransformProperty = mode.getModelViewTransformProperty();
 
         for ( Body body : model.getBodies() ) {
-            addChild( new PathNode( body, modelViewTransformProperty, module.getShowPathProperty(), body.getColor(), module.getScaleProperty() ) );
+            addChild( new PathNode( body, modelViewTransformProperty, module.showPathProperty, body.getColor(), module.scaleProperty ) );
         }
 
         Color FORCE_VECTOR_COLOR_FILL = PhetColorScheme.GRAVITATIONAL_FORCE;
@@ -93,18 +93,18 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
         Color VELOCITY_VECTOR_COLOR_OUTLINE = Color.darkGray;
 
         for ( Body body : model.getBodies() ) {
-            final BodyNode bodyNode = new BodyNode( body, modelViewTransformProperty, module.getScaleProperty(), mousePositionProperty, this, body.getLabelAngle() );
+            final BodyNode bodyNode = new BodyNode( body, modelViewTransformProperty, module.scaleProperty, mousePositionProperty, this, body.getLabelAngle() );
             addChild( bodyNode );
-            addChild( mode.getMassReadoutFactory().apply( bodyNode, module.getShowMassProperty() ) );
+            addChild( mode.getMassReadoutFactory().apply( bodyNode, module.showMassProperty ) );
         }
 
         //Add gravity force vector nodes
         for ( Body body : model.getBodies() ) {
-            addChild( new VectorNode( body, modelViewTransformProperty, module.getShowGravityForceProperty(), body.getForceProperty(), forceScale, FORCE_VECTOR_COLOR_FILL, FORCE_VECTOR_COLOR_OUTLINE ) );
+            addChild( new VectorNode( body, modelViewTransformProperty, module.showGravityForceProperty, body.getForceProperty(), forceScale, FORCE_VECTOR_COLOR_FILL, FORCE_VECTOR_COLOR_OUTLINE ) );
         }
         //Add velocity vector nodes
         for ( Body body : model.getBodies() ) {
-            addChild( new GrabbableVectorNode( body, modelViewTransformProperty, module.getShowVelocityProperty(), body.getVelocityProperty(), mode.getVelocityScale(), VELOCITY_VECTOR_COLOR_FILL, VELOCITY_VECTOR_COLOR_OUTLINE ) );
+            addChild( new GrabbableVectorNode( body, modelViewTransformProperty, module.showVelocityProperty, body.getVelocityProperty(), mode.getVelocityScale(), VELOCITY_VECTOR_COLOR_FILL, VELOCITY_VECTOR_COLOR_OUTLINE ) );
         }
 
         for ( Body body : model.getBodies() ) {
@@ -112,9 +112,9 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
         }
 
         addChild( new GridNode( modelViewTransformProperty, mode.getGridSpacing(), mode.getGridCenter() ) {{
-            module.getShowGridProperty().addObserver( new SimpleObserver() {
+            module.showGridProperty.addObserver( new SimpleObserver() {
                 public void update() {
-                    setVisible( module.getShowGridProperty().getValue() );
+                    setVisible( module.showGridProperty.getValue() );
                 }
             } );
         }} );
@@ -132,7 +132,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
             setOffset( controlPanelNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, controlPanelNode.getFullBounds().getMaxY() + 5 );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    module.getModeProperty().getValue().resetBodies();//also clears the deviated enable flag
+                    module.modeProperty.getValue().resetBodies();//also clears the deviated enable flag
                 }
             } );
         }};
@@ -149,7 +149,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
         for ( Body body : model.getBodies() ) {
             p.add( body.anyPropertyDifferent() );
         }
-        addChild( new FloatingClockControlNode( Not.not( module.getClockPausedProperty() ), mode.getTimeFormatter(), model.getClock(), GAOStrings.RESET, new IfElse<Color>( module.getWhiteBackgroundProperty(), Color.black, Color.white ) ) {{
+        addChild( new FloatingClockControlNode( Not.not( module.clockPausedProperty ), mode.getTimeFormatter(), model.getClock(), GAOStrings.RESET, new IfElse<Color>( module.whiteBackgroundProperty, Color.black, Color.white ) ) {{
             setOffset( GravityAndOrbitsCanvas.STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2, GravityAndOrbitsCanvas.STAGE_SIZE.getHeight() - getFullBounds().getHeight() );
 
             // Add the rewind button and hook it up as needed.
@@ -170,14 +170,14 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
             }};
             addChild( rewindButton );
 
-            assert mode.getTimeSpeedScaleProperty() != null;
+            assert mode.timeSpeedScaleProperty != null;
             // Add the speed control slider.
-            addChild( new GAOTimeSlider( mode.getTimeSpeedScaleProperty(), rewindButton.getFullBoundsReference().getMinX(), new IfElse<Color>( module.getWhiteBackgroundProperty(), Color.black, Color.white ) ) );
+            addChild( new GAOTimeSlider( mode.timeSpeedScaleProperty, rewindButton.getFullBoundsReference().getMinX(), new IfElse<Color>( module.whiteBackgroundProperty, Color.black, Color.white ) ) );
         }} );
 
-        addChild( new MeasuringTape( new And( new ValueEquals<Scale>( module.getScaleProperty(), Scale.REAL ), module.getMeasuringTapeVisibleProperty() ),
-                                     mode.getMeasuringTapeStartPoint(),
-                                     mode.getMeasuringTapeEndPoint(), modelViewTransformProperty ) {{
+        addChild( new MeasuringTape( new And( new ValueEquals<Scale>( module.scaleProperty, Scale.REAL ), module.measuringTapeVisibleProperty ),
+                                     mode.measuringTapeStartPoint,
+                                     mode.measuringTapeEndPoint, modelViewTransformProperty ) {{
         }} );
 
         // shows the bounds of the "stage", which is different from the canvas
@@ -219,12 +219,12 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
                 setFont( zoomButtonFont );
                 addActionListener( new ActionListener() {
                     public void actionPerformed( ActionEvent e ) {
-                        mode.getZoomLevel().setValue( Math.min( MAX, mode.getZoomLevel().getValue() + DELTA_ZOOM ) );
+                        mode.zoomLevel.setValue( Math.min( MAX, mode.zoomLevel.getValue() + DELTA_ZOOM ) );
                     }
                 } );
-                mode.getZoomLevel().addObserver( new SimpleObserver() {
+                mode.zoomLevel.addObserver( new SimpleObserver() {
                     public void update() {
-                        setEnabled( mode.getZoomLevel().getValue() != MAX );
+                        setEnabled( mode.zoomLevel.getValue() != MAX );
                     }
                 } );
             }};
@@ -232,12 +232,12 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
                 setFont( zoomButtonFont );
                 addActionListener( new ActionListener() {
                     public void actionPerformed( ActionEvent e ) {
-                        mode.getZoomLevel().setValue( Math.max( MIN, mode.getZoomLevel().getValue() - DELTA_ZOOM ) );
+                        mode.zoomLevel.setValue( Math.max( MIN, mode.zoomLevel.getValue() - DELTA_ZOOM ) );
                     }
                 } );
-                mode.getZoomLevel().addObserver( new SimpleObserver() {
+                mode.zoomLevel.addObserver( new SimpleObserver() {
                     public void update() {
-                        setEnabled( mode.getZoomLevel().getValue() != MIN );
+                        setEnabled( mode.zoomLevel.getValue() != MIN );
                     }
                 } );
             }};
@@ -248,12 +248,12 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
                 final Function.LinearFunction modelToView = new Function.LinearFunction( 0, 100, MIN, MAX );
                 addChangeListener( new ChangeListener() {
                     public void stateChanged( ChangeEvent e ) {
-                        mode.getZoomLevel().setValue( modelToView.evaluate( getValue() ) );
+                        mode.zoomLevel.setValue( modelToView.evaluate( getValue() ) );
                     }
                 } );
-                mode.getZoomLevel().addObserver( new SimpleObserver() {
+                mode.zoomLevel.addObserver( new SimpleObserver() {
                     public void update() {
-                        setValue( (int) modelToView.createInverse().evaluate( mode.getZoomLevel().getValue() ) );
+                        setValue( (int) modelToView.createInverse().evaluate( mode.zoomLevel.getValue() ) );
                     }
                 } );
             }} );
