@@ -51,6 +51,7 @@ public class IsotopeMixturesCanvas extends PhetPCanvas {
     //----------------------------------------------------------------------------
 
     public static final Color BACKGROUND_COLOR = BuildAnAtomConstants.CANVAS_BACKGROUND;
+    public static final double DISTANCE_BUTTON_CENTER_FROM_BOTTOM = 30;
 
     //----------------------------------------------------------------------------
     // Instance Data
@@ -201,11 +202,11 @@ public class IsotopeMixturesCanvas extends PhetPCanvas {
 
         // Add the button that allows the user to select between the smaller
         // and larger atoms.
-        final Point2D buttonLocation = new Point2D.Double( testChamberNode.getFullBoundsReference().getCenterX(),
-                BuildAnAtomDefaults.STAGE_SIZE.height - 30 );
+        final Point2D moreLessButtonLocation = new Point2D.Double( testChamberNode.getFullBoundsReference().getCenterX(),
+                BuildAnAtomDefaults.STAGE_SIZE.height - DISTANCE_BUTTON_CENTER_FROM_BOTTOM );
         // TODO: i18n
         final ButtonNode moreAtomsButton = new ButtonNode( "More", 20, new Color(255, 153, 0) ){{
-            centerFullBoundsOnPoint( buttonLocation.getX(), buttonLocation.getY() );
+            centerFullBoundsOnPoint( moreLessButtonLocation.getX(), moreLessButtonLocation.getY() );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     model.getInteractivityModeProperty().setValue( InteractivityMode.SLIDERS_AND_SMALL_ATOMS );
@@ -215,7 +216,7 @@ public class IsotopeMixturesCanvas extends PhetPCanvas {
         controlsLayer.addChild( moreAtomsButton );
         // TODO: i18n
         final ButtonNode lessAtomsButton = new ButtonNode( "Less", 20, new Color( 0, 178, 138 ) ){{
-            centerFullBoundsOnPoint( buttonLocation.getX(), buttonLocation.getY() );
+            centerFullBoundsOnPoint( moreLessButtonLocation.getX(), moreLessButtonLocation.getY() );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     model.getInteractivityModeProperty().setValue( InteractivityMode.BUCKETS_AND_LARGE_ATOMS );
@@ -226,14 +227,14 @@ public class IsotopeMixturesCanvas extends PhetPCanvas {
 
         // Create a simple observer that will update the button visibility and
         // hook it up to be triggered on changes to relevant model properties.
-        SimpleObserver buttonVizUpdater = new SimpleObserver() {
+        SimpleObserver moreLessButtonVizUpdater = new SimpleObserver() {
             public void update() {
                 moreAtomsButton.setVisible( model.getInteractivityModeProperty().getValue() == InteractivityMode.BUCKETS_AND_LARGE_ATOMS && model.getShowingNaturesMixProperty().getValue() == false );
                 lessAtomsButton.setVisible( model.getInteractivityModeProperty().getValue() == InteractivityMode.SLIDERS_AND_SMALL_ATOMS && model.getShowingNaturesMixProperty().getValue() == false );
             }
         };
-        model.getInteractivityModeProperty().addObserver( buttonVizUpdater );
-        model.getShowingNaturesMixProperty().addObserver( buttonVizUpdater );
+        model.getInteractivityModeProperty().addObserver( moreLessButtonVizUpdater );
+        model.getShowingNaturesMixProperty().addObserver( moreLessButtonVizUpdater );
 
         // Add the radio buttons that allow the user to choose between their
         // mix and nature's mix.
