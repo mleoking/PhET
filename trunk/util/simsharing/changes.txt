@@ -1,3 +1,4 @@
+Removed console output
 # 00.00.26 (49836) Mar 15, 2011
 Send single messages instead of batching
 Send json from client machines instead of POJO graphs
