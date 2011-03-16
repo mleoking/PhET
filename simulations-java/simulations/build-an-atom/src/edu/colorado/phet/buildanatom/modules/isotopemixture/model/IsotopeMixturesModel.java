@@ -129,7 +129,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
                 // Erase any previous state for this isotope.
                 mapIsotopeConfigToUserMixState.remove( prototypeIsotope.getNumProtons() );
             }
-            clearTestChamber();
+            removeIsotopesFromTestChamberAndModel();
             addIsotopeControllers();
         }
     };
@@ -210,7 +210,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
      * element is selected after initialization or reset.
      */
     private void setUpInitialUsersMix(){
-        clearTestChamber();
+        removeIsotopesFromTestChamberAndModel();
         showingNaturesMixProperty.setValue( false );
         interactivityModeProperty.setValue( InteractivityMode.BUCKETS_AND_LARGE_ATOMS );
         mapIsotopeConfigToUserMixState.remove( prototypeIsotope.getNumProtons() );
@@ -251,7 +251,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
      */
     private void setState( State modelState ){
         // Clear out any particles that are currently in the test chamber.
-        clearTestChamber();
+        removeIsotopesFromTestChamberAndModel();
 
         // Restore the prototype isotope.
         prototypeIsotope.setConfiguration( modelState.getElementConfiguration() );
@@ -565,7 +565,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
 
         // Clear out anything that is in the test chamber.  If anything
         // needed to be stored, it should have been done by now.
-        clearTestChamber();
+        removeIsotopesFromTestChamberAndModel();
 
         // Get the list of possible isotopes and then sort it by abundance
         // so that the least abundant are added last, thus assuring that
@@ -600,11 +600,40 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
         }
     }
 
-    private void clearTestChamber(){
+    /**
+     * Remove all isotopes from the test chamber, and then remove them from
+     * the model.  This method does not add removed isotopes back to the
+     * buckets or update the controllers.
+     */
+    private void removeIsotopesFromTestChamberAndModel(){
         for ( MovableAtom isotope : new ArrayList<MovableAtom>( testChamber.getContainedIsotopes() ) ){
             testChamber.removeIsotopeFromChamber( isotope );
             isotope.removeListener( isotopeGrabbedListener );
             isotope.removedFromModel();
+        }
+    }
+
+    /**
+     * Remove the particles from the test chamber and set the state of the
+     * isotope controllers to be consistent.  This method retains the current
+     * interactivity mode, and thus the controllers.
+     */
+    public void clearTestChamber(){
+        for ( MovableAtom isotope : new ArrayList<MovableAtom>(testChamber.getContainedIsotopes()) ){
+            testChamber.removeIsotopeFromChamber( isotope );
+            if ( interactivityModeProperty.getValue() == InteractivityMode.BUCKETS_AND_LARGE_ATOMS ){
+                // Add isotope to bucket.
+                getBucketForIsotope( isotope.getAtomConfiguration() ).addIsotopeInstance( isotope );
+            }
+            else{
+                // Remove isotope completely from the model.
+                isotope.removeListener( isotopeGrabbedListener );
+                isotope.removedFromModel();
+            }
+        }
+        // Force any numerical controllers that exist to update.
+        for ( NumericalIsotopeQuantityControl controller : numericalControllerList ){
+            controller.syncToTestChamber();
         }
     }
 
@@ -791,6 +820,13 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
                 }
             }
             quantityProperty.setValue( targetQuantity );
+        }
+
+        /**
+         * Force the quantity property to sync up with the test chamber.
+         */
+        protected void syncToTestChamber(){
+           quantityProperty.setValue( model.getIsotopeTestChamber().getIsotopeCount( isotopeConfig ) );
         }
 
         /**

@@ -263,6 +263,11 @@ public class IsotopeMixturesCanvas extends PhetPCanvas {
         final ButtonNode clearTestChamberButton = new ButtonNode( "Clear Box", BUTTON_FONT_SIZE, new Color( 255, 153, 0 ) ){{
             centerFullBoundsOnPoint( averageAtomicMassWindow.getFullBoundsReference().getMinX() + 80,
                     BuildAnAtomDefaults.STAGE_SIZE.height - DISTANCE_BUTTON_CENTER_FROM_BOTTOM );
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    model.clearTestChamber();
+                }
+            });
         }};
         controlsLayer.addChild( clearTestChamberButton );
 
