@@ -41,6 +41,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
+import static edu.colorado.phet.gravityandorbits.GAOStrings.RETURN_OBJECT;
 import static edu.colorado.phet.gravityandorbits.controlpanel.GravityAndOrbitsControlPanel.BACKGROUND;
 import static java.awt.Color.green;
 
@@ -186,7 +187,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
         final MultiwayOr anythingReturnable = new MultiwayOr( new ArrayList<Property<Boolean>>() {{
             for ( Body body : model.getBodies() ) {add( body.getReturnable() );}
         }} );
-        addChild( new ButtonNode( GAOStrings.RETURN_OBJECT, buttonBackgroundColor ) {{
+        addChild( new ButtonNode( RETURN_OBJECT, buttonBackgroundColor ) {{
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     model.returnObjects();
