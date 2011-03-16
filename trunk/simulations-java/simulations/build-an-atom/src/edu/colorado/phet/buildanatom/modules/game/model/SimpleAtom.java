@@ -38,6 +38,10 @@ public class SimpleAtom extends SimpleObservable implements IDynamicAtom {
         this.numElectrons = numElectrons;
     }
 
+    public SimpleAtom( ImmutableAtom atomConfig ){
+        this( atomConfig.getNumProtons(), atomConfig.getNumNeutrons(), atomConfig.getNumElectrons() );
+    }
+
     public static String getSymbol( int protonCount ) {
         return AtomIdentifier.getSymbol( protonCount );
     }
