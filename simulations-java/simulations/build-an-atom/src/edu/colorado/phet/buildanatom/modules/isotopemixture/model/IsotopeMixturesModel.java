@@ -114,6 +114,20 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
     // Listener support.
     private final List<Listener> listeners = new ArrayList<Listener>();
 
+    // This is an observer that watches our own interactivity mode setting.
+    // It is declared as a member variable so that it can be "unhooked" in
+    // circumstances where it is necessary.
+    private final SimpleObserver interactivityModeObserver = new SimpleObserver() {
+        public void update() {
+            assert showingNaturesMix.getValue() == false; // Interactivity mode shouldn't change when showing nature's mix.
+            if ( mapIsotopeConfigToUserMixState.containsKey( prototypeIsotope.getNumProtons() ) ){
+                // Erase any previous state for this isotope.
+                mapIsotopeConfigToUserMixState.remove( prototypeIsotope.getNumProtons() );
+            }
+            updateAll();
+        }
+    };
+
     // -----------------------------------------------------------------------
     // Constructor(s)
     // -----------------------------------------------------------------------
@@ -123,12 +137,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
 
         // Listen to our own interactive mode property so that things can be
         // reconfigured when this property changes.
-        interactivityModeProperty.addObserver( new SimpleObserver() {
-            public void update() {
-                assert showingNaturesMix.getValue() == false; // Interactivity mode shouldn't change when showing nature's mix.
-                updateAll();
-            }
-        });
+        interactivityModeProperty.addObserver( interactivityModeObserver );
 
         // Listen to our own "showing nature's mix" property so that we can
         // show and hide the appropriate isotopes when the value changes.
@@ -227,12 +236,14 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
         // Restore the prototype isotope.
         prototypeIsotope.setConfiguration( modelState.getElementConfiguration() );
 
-        // Restore the interactivity mode.  Note that this may or may not
-        // add some isotope controllers as a side effect.  These will need to
-        // be replaced by other state information.
+        // Restore the interactivity mode.  We have to unhook our usual
+        // listener in order to avoid undesirable effects.
+        interactivityModeProperty.removeObserver( interactivityModeObserver );
         interactivityModeProperty.setValue( modelState.getInteractivityMode() );
+        interactivityModeProperty.addObserver( interactivityModeObserver, false );
 
-        // TODO: Need to remove isotopes from test chamber too?
+        // Clear out any particles that are currently in the test chamber.
+        clearTestChamber();
 
         // Restore any particles that were in the test chamber.
         testChamber.setState( modelState.getIsotopeTestChamberState() );
