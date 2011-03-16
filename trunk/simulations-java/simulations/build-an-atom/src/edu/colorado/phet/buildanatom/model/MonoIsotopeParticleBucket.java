@@ -59,13 +59,16 @@ public class MonoIsotopeParticleBucket extends ParticleBucket {
         return isIsotopeAllowed( isotopeConfig.getNumProtons(), isotopeConfig.getNumNeutrons() );
     }
 
-    public void removeArbitraryIsotope(){
+    public MovableAtom removeArbitraryIsotope(){
+        MovableAtom isotopeToRemove = null;
         if ( getParticleList().size() > 0 ){
-            removeParticle( getParticleList().get( 0 ) );
+            isotopeToRemove = (MovableAtom)getParticleList().get( getParticleList().size() - 1 );
+            removeParticle( isotopeToRemove );
         }
         else{
             System.err.println(getClass().getName() + " - Warning: Ignoring attempt to remove particle from empty bucket.");
         }
+        return isotopeToRemove;
     }
 
     /**
