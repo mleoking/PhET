@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--geometric-optics-strings_fa.xml created Fri Oct 22 19:50:34 IRST 2010 using: geometric-optics 2.04.00 (37306), translation-utility 2.09.00 (44031) Sep 14, 2010-->
+<!--geometric-optics-strings_fa.xml created Tue Mar 15 20:01:30 IRST 2011 using: geometric-optics 2.04.00 (37306), translation-utility 2.10.00 (48775) Feb 9, 2011-->
 <SimStrings>
-<string key="draggableScreen" value="تکان دادن صفحه"/>
-<string key="draggableLens" value="تغيير مکان عدسی"/>
+<string key="draggableScreen" value="صفحه ی قابل حرکت"/>
+<string key="draggableLens" value="عدسی قابل حرکت"/>
 <string key="screen" value="صفحه"/>
-<string key="draggableRuler" value="تکان دادن خط کش"/>
-<string key="simTitle" value="اپتيک هندسی"/>
+<string key="draggableRuler" value="خط کش قابل حرکت"/>
+<string key="simTitle" value=" نور هندسی"/>
 <string key="showHelp" value="نمايش راهنما"/>
-<string key="moveMe" value="من را تکان بده!"/>
+<string key="moveMe" value="!مرا حرکت بده "/>
 <string key="showGuides" value="نمايش راهنما"/>
-<string key="diameter" value="قطر دايره(m)"/>
+<string key="diameter" value="قطر (m)"/>
 <string key="ruler" value="خط کش"/>
-<string key="focalPoint" value="نقطه کانونی"/>
-<string key="curvatureRadius" value="شعاع خميدگی(m)"/>
+<string key="focalPoint" value="نقطه ی کانونی"/>
+<string key="curvatureRadius" value="شعاع انحنا(m)"/>
 <string key="changeObject" value="تغيير شئ"/>
-<string key="principalRays" value="اشعه اصلی"/>
-<string key="marginalRays" value="اشعه مرزی عدسی"/>
+<string key="principalRays" value="پرتوهای اصلی"/>
+<string key="marginalRays" value="پرتوهای لبه ای"/>
 <string key="virtualImage" value="تصوير مجازی"/>
-<string key="noRays" value="بدون اشعه"/>
+<string key="noRays" value="بدون پرتو"/>
 <string key="secondSource" value="دومين نقطه"/>
 <string key="hideHelp" value="پنهان کردن راهنما"/>
 <string key="refractiveIndex" value="ضريب شکست"/>
-<string key="manyRays" value="تعداد زيادی اشعه"/>
+<string key="manyRays" value="پرتوهای زیاد"/>
 </SimStrings>
