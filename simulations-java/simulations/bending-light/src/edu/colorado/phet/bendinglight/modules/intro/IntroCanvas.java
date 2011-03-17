@@ -33,10 +33,10 @@ import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.m
 /**
  * @author Sam Reid
  */
-public class IntroCanvas extends BendingLightCanvas<IntroModel> {
+public class IntroCanvas<T extends IntroModel> extends BendingLightCanvas<T> {
     public final ToolboxNode toolboxNode;
 
-    public IntroCanvas( final IntroModel model, BooleanProperty moduleActive, final Resettable resetAll,
+    public IntroCanvas( final T model, BooleanProperty moduleActive, final Resettable resetAll,
                         final Function3<IntroModel, Double, Double, PNode> additionalLaserControls, double centerOffsetLeft,
                         final ObservableProperty<Boolean> clockControlVisible ) {//(model,x,y)
         super( model, moduleActive, new Function1<Double, Double>() {
