@@ -1,7 +1,7 @@
 TODO list for balancing-chemical-equations
 
 HIGH PRIORITY
-- change request: redo level-3 game strategy again
+- change request: redo level-3 game strategy again?
 
 MEDIUM PRIORITY
 
