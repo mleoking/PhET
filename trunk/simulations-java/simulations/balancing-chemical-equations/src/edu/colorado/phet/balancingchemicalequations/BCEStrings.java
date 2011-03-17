@@ -21,6 +21,7 @@ public class BCEStrings {
     public static final String COMBUST_METHANE = getString( "combustMethane" );
     public static final String EQUATION_0_OF_1 = getString( "equation0of1" );
     public static final String HIDE_MOLECULES = getString( "hideMolecules" );
+    public static final String HIDE_WHY = getString( "hideWhy" );
     public static final String INTRODUCTION = getString( "introduction" );
     public static final String MAKE_AMMONIA = getString( "makeAmmonia" );
     public static final String MOLECULES_ARE_HIDDEN = getString( "moleculesAreHidden" );
@@ -30,6 +31,7 @@ public class BCEStrings {
     public static final String NOT_SIMPLIFIED = getString( "notSimplified" );
     public static final String SEPARATE_WATER = getString( "separateWater" );
     public static final String SHOW_ANSWER = getString( "showAnswer" );
+    public static final String SHOW_WHY = getString( "showWhy" );
     public static final String TRY_AGAIN = getString( "tryAgain" );
 
     private static final String getString( String key ) {
