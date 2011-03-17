@@ -1,3 +1,4 @@
+# 0.00.26 (49881) Mar 16, 2011
 Show speed vector at the tail instead of centered
 In more tools tab, show clock controls if wave mode or if time chart is in the play area
 Fixed: tools do not reset in reset all
