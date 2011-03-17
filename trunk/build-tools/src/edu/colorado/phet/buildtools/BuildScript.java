@@ -443,7 +443,7 @@ public class BuildScript {
         for ( String arg : args ) {
             cmd +=" "+arg;
         }
-        System.out.println("Failed on command: "+cmd.trim());
+//        System.out.println("Failed on command: "+cmd.trim());
         throw new RuntimeException( "No svn version information found: " + output.getOut() );
     }
 
