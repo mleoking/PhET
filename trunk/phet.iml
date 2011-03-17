@@ -142,6 +142,7 @@
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/bending-light/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/molecules-and-light/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/common/photon-absorption/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/sugar-and-salt-solutions/src" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/bin" />
       <excludeFolder url="file://$MODULE_DIR$/build-tools/ant_output" />
       <excludeFolder url="file://$MODULE_DIR$/simulations-java/ant_output" />
@@ -1993,6 +1994,15 @@
       <library>
         <CLASSES>
           <root url="jar://$MODULE_DIR$/util/simsharing/contrib/mongodb/lib/morphia-0.99.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/simulations-java/simulations/sugar-and-salt-solutions/data" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
