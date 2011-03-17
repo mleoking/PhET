@@ -3,11 +3,14 @@
 package edu.colorado.phet.common.phetcommon.model.property;
 
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction2;
+import edu.colorado.phet.common.phetcommon.util.logging.LoggingUtils;
 
 /**
  * This can be used to represent an observable model value in a MVC style pattern. Notifications are sent to observers when they
@@ -19,6 +22,13 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction2;
  * @author Chris Malley
  */
 public abstract class ObservableProperty<T> extends SimpleObservable {
+    private static final Logger LOGGER = LoggingUtils.getLogger( ObservableProperty.class.getCanonicalName() );
+
+    static {
+        // get rid of this to log all of the resource messages
+        LOGGER.setLevel( Level.INFO );
+    }
+
     private final ArrayList<VoidFunction1<T>> newValueObservers = new ArrayList<VoidFunction1<T>>();//Listeners that receive the new value in the callback
     private final ArrayList<VoidFunction2<T, T>> newAndOldValueObservers = new ArrayList<VoidFunction2<T, T>>();//Listeners that receive the new and old values in the callback
 
@@ -111,13 +121,25 @@ public abstract class ObservableProperty<T> extends SimpleObservable {
 
     /**
      * Debugging function that prints out the new value when it changes, along with the specified text.
+     *
      * @param text the text to print before printing the new value
      */
     public void trace( final String text ) {
         addObserver( new VoidFunction1<T>() {
             public void apply( T t ) {
-                System.out.println( text + ": " + t );
+                LOGGER.info( text + ": " + t );
             }
         } );
+    }
+
+    /**
+     * Sample demonstration of ObservableProperty features.
+     *
+     * @param args system args
+     */
+    public static void main( String[] args ) {
+        Property<String> p = new Property<String>( "hello" );
+        p.trace( "text" );
+        p.setValue( "world" );
     }
 }
