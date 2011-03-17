@@ -72,7 +72,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
         // Shows the answer (dev)
         final DevAnswerNode answerNode = new DevAnswerNode( model.currentEquation );
         addChild( answerNode );
-        answerNode.setVisible( globalProperties.showAnswers.getValue() );
+        answerNode.setVisible( globalProperties.answersVisible.getValue() );
 
         /*
          * Layout - all of the major visual representations have x-offset=0,
@@ -127,9 +127,9 @@ import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
                 balanceScalesNode.setVisible( balanceChoiceProperty.getValue().equals( BalancedRepresentation.BALANCE_SCALES ) );
             }
         } );
-        globalProperties.showAnswers.addObserver( new SimpleObserver() {
+        globalProperties.answersVisible.addObserver( new SimpleObserver() {
             public void update() {
-                answerNode.setVisible( globalProperties.showAnswers.getValue() );
+                answerNode.setVisible( globalProperties.answersVisible.getValue() );
             }
         } );
     }

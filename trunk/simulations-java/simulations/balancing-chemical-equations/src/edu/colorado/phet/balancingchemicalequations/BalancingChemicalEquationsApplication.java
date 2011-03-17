@@ -38,13 +38,13 @@ public class BalancingChemicalEquationsApplication extends PiccoloPhetApplicatio
         JMenu developerMenu = getPhetFrame().getDeveloperMenu();
         developerMenu.add( new JSeparator() );
         developerMenu.add( new DeveloperColorsMenuItem( globalProperties ) );
-        developerMenu.add( new PropertyCheckBoxMenuItem( "Show answers", globalProperties.showAnswers ) );
+        developerMenu.add( new PropertyCheckBoxMenuItem( "Show answers", globalProperties.answersVisible ) );
         developerMenu.add( new JSeparator() );
         developerMenu.add( new PropertyCheckBoxMenuItem( "Game: play all equations", globalProperties.playAllEquations ) );
         developerMenu.add( new JSeparator() );
-        developerMenu.add( new PropertyCheckBoxMenuItem( "Game Popups: add Show Why button", globalProperties.showWhyButton ) );
-        developerMenu.add( new PropertyCheckBoxMenuItem( "Game Popups: show close button", globalProperties.showPopupCloseButton ) );
-        developerMenu.add( new PropertyCheckBoxMenuItem( "Game Popups: show top bar", globalProperties.showPopupTitleBar ) );
+        developerMenu.add( new PropertyCheckBoxMenuItem( "Game Popups: add Show Why button", globalProperties.popupsWhyButtonVisible ) );
+        developerMenu.add( new PropertyCheckBoxMenuItem( "Game Popups: show close button", globalProperties.popupsCloseButtonVisible ) );
+        developerMenu.add( new PropertyCheckBoxMenuItem( "Game Popups: show top bar", globalProperties.popupsTitleBarVisible ) );
     }
 
     public static void main( final String[] args ) throws ClassNotFoundException {
