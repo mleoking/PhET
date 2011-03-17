@@ -8,7 +8,6 @@ import java.awt.geom.Rectangle2D;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.FaceNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
@@ -17,7 +16,6 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
-import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * Base class for all "popups" used in the Game to tell the user whether their guess is balanced or unbalanced.
@@ -25,7 +23,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class GamePopupNode extends PhetPNode {
+public abstract class GamePopupNode extends PNode {
 
     private static final PhetFont FONT = new PhetFont( 24 );
     private static final Color BACKGROUND = new Color( 180, 205, 255 );
@@ -50,7 +48,7 @@ public abstract class GamePopupNode extends PhetPNode {
             }
         });
 
-        PNode parentNode = new PComposite();
+        PNode parentNode = new PNode();
         addChild( parentNode );
 
         // face
