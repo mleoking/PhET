@@ -127,14 +127,14 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
     }};
 
     // map of game levels to strategies for selecting equations
-    private static HashMap< Integer, IGameStrategy> LEVEL_TO_STRATEGY = new HashMap<Integer, IGameStrategy>() {{
+    private static HashMap< Integer, IGameStrategy> GAME_STRATEGIES = new HashMap<Integer, IGameStrategy>() {{
         put( 1, new RandomNoDuplicatesStrategy( LEVEL1_CLASSES ) );
         put( 2, new RandomNoDuplicatesStrategy( LEVEL2_CLASSES ) );
         put( 3, new OneManyStrategy( LEVEL3_ONE_CLASSES, LEVEL3_MANY_CLASSES ) );
     }};
 
     // dev: map of game levels to strategies that return all equations for the level
-    private static HashMap< Integer, IGameStrategy> LEVEL_TO_STRATEGY_DEV = new HashMap<Integer, IGameStrategy>() {{
+    private static HashMap< Integer, IGameStrategy> DEV_STRATEGIES = new HashMap<Integer, IGameStrategy>() {{
         put( 1, new EntirePoolStrategy( LEVEL1_CLASSES ) );
         put( 2, new EntirePoolStrategy( LEVEL2_CLASSES ) );
         put( 3, new EntirePoolStrategy( new ArrayList<Class<? extends Equation>>() {{
@@ -164,18 +164,13 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
     public ArrayList<Equation> createEquations( int numberOfEquations, int level ) {
 
         // validate level
-        if ( !LEVEL_TO_STRATEGY.containsKey( level ) ) {
+        if ( !GAME_STRATEGIES.containsKey( level ) ) {
             throw new IllegalArgumentException( "unsupported level: " + level );
         }
 
         // get classes
-        ArrayList<Class<? extends Equation>> equationClasses = null;
-        if ( playAllEquationsProperty.getValue() ) {
-            equationClasses = LEVEL_TO_STRATEGY_DEV.get( level ).getEquationClasses( numberOfEquations );
-        }
-        else {
-            equationClasses = LEVEL_TO_STRATEGY.get( level ).getEquationClasses( numberOfEquations );
-        }
+        IGameStrategy strategy = playAllEquationsProperty.getValue() ? DEV_STRATEGIES.get( level ) : GAME_STRATEGIES.get( level );
+        ArrayList<Class<? extends Equation>> equationClasses = strategy.getEquationClasses( numberOfEquations );
 
         // instantiate equations
         ArrayList<Equation> equations = new ArrayList<Equation>();
