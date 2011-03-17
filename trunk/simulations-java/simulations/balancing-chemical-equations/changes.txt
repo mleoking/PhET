@@ -2,6 +2,7 @@
 3/17/11 change request: only allow one equation with 4NH3 and 6H2O in Game level 3
 3/17/11 use strategy pattern for choosing equations in GameFactory
 3/17/11 change request: hide closed button and top bar in Game popups
+3/17/11 discussed molecules in boxes and decided to stick with growing stacks top-down (BoxesNode.TOP_DOWN_STACKS=true)
 # 0.00.17 (49639) Mar 9, 2011
 3/9/11 feature request: show number of points earned in "Balanced" game popup
 # 0.00.16 (49623) Mar 8, 2011
