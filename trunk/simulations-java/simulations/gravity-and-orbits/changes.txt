@@ -1,3 +1,4 @@
+# 1.00.10 (49888) Mar 16, 2011
 > Start measuring tape in a less intuitive place, to see if that prompts students to move it
 > Reworded "Restart" to "Reset"
 # 1.00.09 (49854) Mar 16, 2011
