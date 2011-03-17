@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.balancingchemicalequations.view.game;
 
+import edu.colorado.phet.balancingchemicalequations.BCEGlobalProperties;
 import edu.colorado.phet.balancingchemicalequations.BCEResources;
 import edu.colorado.phet.balancingchemicalequations.BCEStrings;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
@@ -12,13 +13,29 @@ import edu.umd.cs.piccolo.nodes.PText;
 
 /**
  * Indicator that an equation is balanced, but not simplified (not lowest coefficients).
- * This looks like a dialog, and contains a frowny face, check mark for "balanced", and big "X" for "not simplified".
+ * This looks like a dialog, and contains:
+ * <ul>
+ * <li>frowny face
+ * <li>check mark for "balanced"
+ * <li>big "X" for "not simplified"
+ * </ul>
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class BalancedNotSimplifiedNode extends GamePopupNode {
 
-    public BalancedNotSimplifiedNode( boolean closeButtonVisible, boolean titleBarVisible ) {
+    /**
+     * Convenience constructor.
+     */
+    public BalancedNotSimplifiedNode( BCEGlobalProperties globalProperties ) {
+        this( globalProperties.popupsCloseButtonVisible.getValue(), globalProperties.popupsTitleBarVisible.getValue() );
+    }
+
+    /*
+     * @param closeButtonVisible
+     * @param titleBarVisible
+     */
+    private BalancedNotSimplifiedNode( boolean closeButtonVisible, boolean titleBarVisible ) {
         super( false /* smile */, closeButtonVisible, titleBarVisible, new Function1<PhetFont, PNode>() {
             public PNode apply( PhetFont font ) {
 
