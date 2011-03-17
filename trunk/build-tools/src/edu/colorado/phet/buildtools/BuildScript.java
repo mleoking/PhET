@@ -439,6 +439,11 @@ public class BuildScript {
                 return Integer.parseInt( suffix );
             }
         }
+        String cmd = "";
+        for ( String arg : args ) {
+            cmd +=" "+arg;
+        }
+        System.out.println("Failed on command: "+cmd.trim());
         throw new RuntimeException( "No svn version information found: " + output.getOut() );
     }
 
