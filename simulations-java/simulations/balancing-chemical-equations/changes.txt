@@ -1,3 +1,4 @@
+3/17/11 add strings for "Show Why" and "Hide Why" buttons
 3/17/11 prep game popups for rewrite of "Not Balanced" popup
 3/17/11 change request: only allow one equation with 4NH3 and 6H2O in Game level 3
 3/17/11 use strategy pattern for choosing equations in GameFactory
