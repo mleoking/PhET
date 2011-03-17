@@ -189,4 +189,8 @@ public class BendingLightCanvas<T extends BendingLightModel> extends PhetPCanvas
         showProtractor.reset();
         clockRunningPressed.reset();
     }
+
+    public T getModel() {
+        return model;
+    }
 }
