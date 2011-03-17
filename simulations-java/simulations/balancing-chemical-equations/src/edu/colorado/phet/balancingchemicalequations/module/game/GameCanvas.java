@@ -461,7 +461,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
             }
             else {
                 popupNode = new NotBalancedNode( equation, globalProperties.showPopupCloseButton.getValue(), globalProperties.showPopupTitleBar.getValue(),
-                        ( globalProperties.showPopupChartsAndScales.getValue() ? balancedRepresentation : BalancedRepresentation.NONE ), aligner );
+                        ( globalProperties.showWhyButton.getValue() ? balancedRepresentation : BalancedRepresentation.NONE ), aligner );
             }
 
             // Layout, ideally centered between the boxes, but guarantee that buttons are not covered.

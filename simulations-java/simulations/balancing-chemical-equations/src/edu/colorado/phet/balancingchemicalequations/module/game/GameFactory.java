@@ -104,14 +104,8 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
         add( Displacement_OF2_H2O_O2_2HF.class );
     }};
 
-    // Level 3
-    private static final ArrayList<Class <? extends Equation>>LEVEL3_CLASSES = new ArrayList<Class<? extends Equation>>() {{
-        add( Displacement_2C2H6_7O2_4CO2_6H2O.class );
-        add( Displacement_4CO2_6H2O_2C2H6_7O2.class );
-        add( Displacement_2C2H2_5O2_4CO2_2H2O.class );
-        add( Displacement_4CO2_2H2O_2C2H2_5O2.class );
-        add( Displacement_C2H5OH_3O2_2CO2_3H2O.class );
-        add( Displacement_2CO2_3H2O_C2H5OH_3O2.class );
+    // Level 3 - select one from this list
+    private static final ArrayList<Class <? extends Equation>>LEVEL3_ONE_CLASSES = new ArrayList<Class<? extends Equation>>() {{
         add( Displacement_4NH3_3O2_2N2_6H2O.class );
         add( Displacement_2N2_6H2O_4NH3_3O2.class );
         add( Displacement_4NH3_5O2_4NO_6H2O.class );
@@ -122,11 +116,31 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
         add( Displacement_5N2_6H2O_4NH3_6NO.class );
     }};
 
-    // map of game levels to lists of equation classes
-    private static HashMap< Integer, ArrayList<Class <? extends Equation>>> LEVEL_TO_CLASSES_MAP = new HashMap<Integer, ArrayList<Class<? extends Equation>>>() {{
-        put( 1, LEVEL1_CLASSES );
-        put( 2, LEVEL2_CLASSES );
-        put( 3, LEVEL3_CLASSES );
+    // Level 3 - select many from this list
+    private static final ArrayList<Class <? extends Equation>>LEVEL3_MANY_CLASSES = new ArrayList<Class<? extends Equation>>() {{
+        add( Displacement_2C2H6_7O2_4CO2_6H2O.class );
+        add( Displacement_4CO2_6H2O_2C2H6_7O2.class );
+        add( Displacement_2C2H2_5O2_4CO2_2H2O.class );
+        add( Displacement_4CO2_2H2O_2C2H2_5O2.class );
+        add( Displacement_C2H5OH_3O2_2CO2_3H2O.class );
+        add( Displacement_2CO2_3H2O_C2H5OH_3O2.class );
+    }};
+
+    // map of game levels to strategies for selecting equations
+    private static HashMap< Integer, IGameStrategy> LEVEL_TO_STRATEGY = new HashMap<Integer, IGameStrategy>() {{
+        put( 1, new RandomNoDuplicatesStrategy( LEVEL1_CLASSES ) );
+        put( 2, new RandomNoDuplicatesStrategy( LEVEL2_CLASSES ) );
+        put( 3, new OneManyStrategy( LEVEL3_ONE_CLASSES, LEVEL3_MANY_CLASSES ) );
+    }};
+
+    // dev: map of game levels to strategies that return all equations for the level
+    private static HashMap< Integer, IGameStrategy> LEVEL_TO_STRATEGY_DEV = new HashMap<Integer, IGameStrategy>() {{
+        put( 1, new EntirePoolStrategy( LEVEL1_CLASSES ) );
+        put( 2, new EntirePoolStrategy( LEVEL2_CLASSES ) );
+        put( 3, new EntirePoolStrategy( new ArrayList<Class<? extends Equation>>() {{
+            addAll( LEVEL3_MANY_CLASSES );
+            addAll( LEVEL3_ONE_CLASSES );
+        }} ) );
     }};
 
     /*
@@ -150,17 +164,17 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
     public ArrayList<Equation> createEquations( int numberOfEquations, int level ) {
 
         // validate level
-        if ( !LEVEL_TO_CLASSES_MAP.containsKey( level ) ) {
+        if ( !LEVEL_TO_STRATEGY.containsKey( level ) ) {
             throw new IllegalArgumentException( "unsupported level: " + level );
         }
 
         // get classes
         ArrayList<Class<? extends Equation>> equationClasses = null;
         if ( playAllEquationsProperty.getValue() ) {
-            equationClasses = getEquationClasses( level ); // gets all classes for the level
+            equationClasses = LEVEL_TO_STRATEGY_DEV.get( level ).getEquationClasses( numberOfEquations );
         }
         else {
-            equationClasses = getEquationClasses( level, numberOfEquations );
+            equationClasses = LEVEL_TO_STRATEGY.get( level ).getEquationClasses( numberOfEquations );
         }
 
         // instantiate equations
@@ -169,85 +183,6 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
             equations.add( instantiateEquation( equationClass ) );
         }
         return equations;
-    }
-
-    /*
-     * Gets all equation classes for a level.
-     */
-    private ArrayList<Class <? extends Equation>> getEquationClasses( int level ) {
-        return LEVEL_TO_CLASSES_MAP.get( level );
-    }
-
-    /*
-     * Gets a set of equation classes to be used in the game.
-     * The set will contain no duplicates if numberOfEquations <= the number of equation classes for the level.
-     * @param numberOfEquations
-     * @param level 1, 2 or 3
-     */
-    private ArrayList<Class<? extends Equation>> getEquationClasses( int level, int numberOfEquations ) {
-        ArrayList<Class<? extends Equation>> equationClasses = new ArrayList<Class<? extends Equation>>();
-        for ( int i = 0; i < numberOfEquations; i++ ) {
-            equationClasses.add( getRandomEquationClass( level, equationClasses ) );
-        }
-        assert ( equationClasses.size() == numberOfEquations );
-        return equationClasses;
-    }
-
-    /*
-     * Creates a random equation class for a specified level.
-     * Will not select a class that is already in the equation set, unless the equation set
-     * already contains all possible equations for the level.
-     */
-    private Class<? extends Equation> getRandomEquationClass( int level, ArrayList<Class<? extends Equation>> equationClasses ) {
-
-        // Select a random equation class from the array for the specified level.
-        int equationIndex = getRandomEquationIndex( level );
-        Class<? extends Equation> equationClass = getEquationClass( level, equationIndex );
-
-        // If this is a duplicate, find the next one that's not in the equation set.
-        final int originalIndex = equationIndex;
-        while ( equationClasses.contains( equationClass ) ) {
-            equationIndex = getNextEquationIndex( level, equationIndex );
-            equationClass = getEquationClass( level, equationIndex );
-            if ( equationIndex == originalIndex ) {
-                // we're back where we started, bail
-                break;
-            }
-        }
-
-        return equationClass;
-    }
-
-    /*
-     * Gets an Equation class for a specified level and index.
-     */
-    private Class<? extends Equation> getEquationClass( int level, int equationIndex ) {
-        return getEquationClasses( level ).get( equationIndex );
-    }
-
-    /*
-     * Gets the number of equations for a specified level.
-     */
-    private int getNumberOfEquations( int level ) {
-        return getEquationClasses( level ).size();
-    }
-
-    /*
-     * Gets a random equation index for a specified level.
-     */
-    private int getRandomEquationIndex( int level ) {
-        return (int) ( Math.random() * getNumberOfEquations( level ) );
-    }
-
-    /*
-     * Gets the next equation index for a specified level and current equation index.
-     */
-    private int getNextEquationIndex( int level, int currentIndex ) {
-        int nextIndex = currentIndex + 1;
-        if ( nextIndex > getNumberOfEquations( level ) - 1 ) {
-            nextIndex = 0;
-        }
-        return nextIndex;
     }
 
     /*
@@ -265,6 +200,107 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
             e.printStackTrace();
         }
         return equation;
+    }
+
+    /*
+     * Strategy for selecting equations for a game.
+     */
+    private interface IGameStrategy {
+        public ArrayList<Class<? extends Equation>> getEquationClasses( int numberOfEquations );
+    }
+
+    /*
+     * Ignores the number of equations and returns the entire pool of equations.
+     * Used in dev mode, this allows testing of all equations for a level.
+     */
+    private static class EntirePoolStrategy implements IGameStrategy {
+
+        private final ArrayList<Class <? extends Equation>> pool;
+
+        public EntirePoolStrategy( ArrayList<Class <? extends Equation>> pool ) {
+            this.pool = pool;
+        }
+
+        public ArrayList<Class<? extends Equation>> getEquationClasses( int numberOfEquations ) {
+            return new ArrayList<Class<? extends Equation>>( pool );
+        }
+    }
+
+    /*
+     * Selects a random set from a pool of equations.
+     * There will be no duplicates, unless the number of equations requested exceeds the number of equations in pool.
+     */
+    private static class RandomNoDuplicatesStrategy implements IGameStrategy {
+
+        private final ArrayList<Class <? extends Equation>> pool;
+
+        public RandomNoDuplicatesStrategy( ArrayList<Class <? extends Equation>> pool ) {
+            this.pool = pool;
+        }
+
+        public ArrayList<Class<? extends Equation>> getEquationClasses( int numberOfEquations ) {
+            ArrayList<Class<? extends Equation>> classesList = new ArrayList<Class<? extends Equation>>();
+            for ( int i = 0; i < numberOfEquations; i++ ) {
+                classesList.add( getRandomEquationClass( pool, classesList ) );
+            }
+            assert ( classesList.size() == numberOfEquations );
+            return classesList;
+        }
+
+        /*
+         * Creates a random equation class for a specified level.
+         * Will not select a class that has already been selected,
+         * unless the selected list already contains all possible equations for the level.
+         *
+         * @param pool the pool of classes to choose from
+         * @param selectedList list of classes that have already been selected
+         */
+        private static Class<? extends Equation> getRandomEquationClass( ArrayList<Class<? extends Equation>> pool, ArrayList<Class<? extends Equation>> selectedList ) {
+
+            // Select a random equation class from the array for the specified level.
+            int equationIndex = (int) ( Math.random() * pool.size() );
+            Class<? extends Equation> equationClass = pool.get( equationIndex );
+
+            // If this is a duplicate, find the next one that's not in the equation set.
+            final int originalIndex = equationIndex;
+            while ( selectedList.contains( equationClass ) ) {
+                equationIndex++;
+                if ( equationIndex > pool.size() - 1 ) {
+                    equationIndex = 0;
+                }
+                equationClass = pool.get( equationIndex );
+                if ( equationIndex == originalIndex ) {
+                    // we're back where we started, bail
+                    break;
+                }
+            }
+
+            return equationClass;
+        }
+    }
+
+    /*
+     * Takes 2 pools of equations, the "one" pool and the "many" pool.
+     * Returns a set that contains one equation from the "one" pool, and the remainder from the "many" pool.
+     */
+    private static class OneManyStrategy implements IGameStrategy {
+
+        private final RandomNoDuplicatesStrategy oneStrategy, manyStrategy;
+
+        public OneManyStrategy( ArrayList<Class <? extends Equation>> onePool, ArrayList<Class <? extends Equation>> manyPool ) {
+            this.oneStrategy = new RandomNoDuplicatesStrategy( onePool );
+            this.manyStrategy = new RandomNoDuplicatesStrategy( manyPool );
+        }
+
+        public ArrayList<Class<? extends Equation>> getEquationClasses( int numberOfEquations ) {
+            ArrayList<Class<? extends Equation>> oneList = oneStrategy.getEquationClasses( 1 );
+            ArrayList<Class<? extends Equation>> manyList = manyStrategy.getEquationClasses( numberOfEquations - 1 );
+            // insert the "one" equation into the list at a random location
+            int randomIndex = (int)( Math.random() * manyList.size() );
+            manyList.add( randomIndex, oneList.get( 0 ) );
+            assert( manyList.size() == numberOfEquations );
+            return manyList;
+        }
     }
 
     // test
