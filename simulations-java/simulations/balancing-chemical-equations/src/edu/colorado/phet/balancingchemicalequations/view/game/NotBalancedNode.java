@@ -39,12 +39,13 @@ public class NotBalancedNode extends GamePopupNode {
      * Constructor.
      *
      * @param equation the equation
-     * @param balancedRepresentation which representation of "balanced" should we show?
-     * @param aligner specifies horizontal layout, for aligning with other user-interface components
      * @param closeButtonVisible
      * @param titleBarVisible
+     * @param whyButtonVisible
+     * @param balancedRepresentation which representation of "balanced" should we show?
+     * @param aligner specifies horizontal layout, for aligning with other user-interface components
      */
-    public NotBalancedNode( final Equation equation, boolean closeButtonVisible, boolean titleBarVisible,
+    public NotBalancedNode( final Equation equation, boolean closeButtonVisible, boolean titleBarVisible, boolean whyButtonVisible,
             final BalancedRepresentation balancedRepresentation, final HorizontalAligner aligner ) {
         super( false /* smile */, closeButtonVisible, titleBarVisible, new Function1<PhetFont, PNode>() {
             public PNode apply( PhetFont font ) {
@@ -103,7 +104,7 @@ public class NotBalancedNode extends GamePopupNode {
             term.setUserCoefficient( 15 );
         }
 
-        NotBalancedNode node = new NotBalancedNode( equation, true, true, BalancedRepresentation.BAR_CHARTS, new HorizontalAligner( new Dimension( 475, 400 ), 90 ) );
+        NotBalancedNode node = new NotBalancedNode( equation, false, false, true, BalancedRepresentation.BAR_CHARTS, new HorizontalAligner( new Dimension( 475, 400 ), 90 ) );
         node.setOffset( 20, 200 );
         canvas.addWorldChild( node );
 

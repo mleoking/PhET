@@ -75,35 +75,40 @@ public abstract class GamePopupNode extends PhetPNode {
         parentNode.setOffset( -PNodeLayoutUtils.getOriginXOffset( parentNode ), -PNodeLayoutUtils.getOriginYOffset( parentNode ) );
 
         // title bar
-        double titleBarWidth = getFullBoundsReference().getWidth() + ( 2 * MARGIN );
-        PPath titleBarNode = new PPath( new Rectangle2D.Double( 0, 0, titleBarWidth, TITLE_BAR_HEIGHT ) );
-        titleBarNode.setPaint( new Color( 155, 180, 230 ) );
-        addChild( titleBarNode );
-        titleBarNode.moveToBack();
-        titleBarNode.setVisible( titleBarVisible );
+        final double titleBarWidth = getFullBoundsReference().getWidth() + ( 2 * MARGIN );
+        final double titleBarHeight = ( titleBarVisible ? TITLE_BAR_HEIGHT : 0 );
+        if ( titleBarVisible ) {
+            PPath titleBarNode = new PPath( new Rectangle2D.Double( 0, 0, titleBarWidth, titleBarHeight ) );
+            titleBarNode.setPaint( new Color( 155, 180, 230 ) );
+            addChild( titleBarNode );
+            titleBarNode.moveToBack();
+        }
 
         // background
-        double h = getFullBoundsReference().getHeight() + ( 2 * MARGIN ) + TITLE_BAR_HEIGHT;
+        double h = getFullBoundsReference().getHeight() + ( 2 * MARGIN ) + titleBarHeight;
         PPath backgroundNode = new PPath( new Rectangle2D.Double( 0, 0, titleBarWidth, h ) );
         backgroundNode.setPaint( BACKGROUND );
         addChild( backgroundNode );
         backgroundNode.moveToBack();
-        parentNode.translate( MARGIN, TITLE_BAR_HEIGHT + MARGIN );
+        parentNode.translate( MARGIN, titleBarHeight + MARGIN );
 
-        // close button at upper-right
-        final double margin = 3;
-        PImage closeButtonNode = new PImage( PhetCommonResources.getImage( PhetCommonResources.IMAGE_CLOSE_BUTTON ) );
-        closeButtonNode.scale( ( titleBarNode.getFullBoundsReference().getHeight() - ( 2 * margin ) ) / closeButtonNode.getFullBoundsReference().getHeight() );
-        addChild( closeButtonNode );
-        closeButtonNode.addInputEventListener( new PBasicInputEventHandler() {
-            @Override
-            public void mouseReleased( PInputEvent event ) {
-                setVisible( false );
+        // close button at upper-right, scaled to fit inside title bar
+        if ( closeButtonVisible ) {
+            final double margin = 3;
+            PImage closeButtonNode = new PImage( PhetCommonResources.getImage( PhetCommonResources.IMAGE_CLOSE_BUTTON ) );
+            if ( titleBarVisible ) {
+                closeButtonNode.scale( ( titleBarHeight - ( 2 * margin ) ) / closeButtonNode.getFullBoundsReference().getHeight() );
             }
-        });
-        x = backgroundNode.getFullBoundsReference().getMaxX() - closeButtonNode.getFullBoundsReference().getWidth() - margin;
-        y = backgroundNode.getFullBoundsReference().getMinY() + margin;
-        closeButtonNode.setOffset( x, y );
-        closeButtonNode.setVisible( closeButtonVisible );
+            addChild( closeButtonNode );
+            closeButtonNode.addInputEventListener( new PBasicInputEventHandler() {
+                @Override
+                public void mouseReleased( PInputEvent event ) {
+                    setVisible( false );
+                }
+            } );
+            x = backgroundNode.getFullBoundsReference().getMaxX() - closeButtonNode.getFullBoundsReference().getWidth() - margin;
+            y = backgroundNode.getFullBoundsReference().getMinY() + margin;
+            closeButtonNode.setOffset( x, y );
+        }
     }
 }
