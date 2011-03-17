@@ -33,7 +33,7 @@ import edu.umd.cs.piccolo.nodes.PText;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class NotBalancedNode extends GamePopupNode {
+public class NotBalancedWithDetailsNode extends GamePopupNode {
 
     /**
      * Constructor.
@@ -45,7 +45,7 @@ public class NotBalancedNode extends GamePopupNode {
      * @param balancedRepresentation which representation of "balanced" should we show?
      * @param aligner specifies horizontal layout, for aligning with other user-interface components
      */
-    public NotBalancedNode( final Equation equation, boolean closeButtonVisible, boolean titleBarVisible, boolean whyButtonVisible,
+    public NotBalancedWithDetailsNode( final Equation equation, boolean closeButtonVisible, boolean titleBarVisible, boolean whyButtonVisible,
             final BalancedRepresentation balancedRepresentation, final HorizontalAligner aligner ) {
         super( false /* smile */, closeButtonVisible, titleBarVisible, new Function1<PhetFont, PNode>() {
             public PNode apply( PhetFont font ) {
@@ -104,7 +104,7 @@ public class NotBalancedNode extends GamePopupNode {
             term.setUserCoefficient( 15 );
         }
 
-        NotBalancedNode node = new NotBalancedNode( equation, false, false, true, BalancedRepresentation.BAR_CHARTS, new HorizontalAligner( new Dimension( 475, 400 ), 90 ) );
+        NotBalancedWithDetailsNode node = new NotBalancedWithDetailsNode( equation, false, false, true, BalancedRepresentation.BAR_CHARTS, new HorizontalAligner( new Dimension( 475, 400 ), 90 ) );
         node.setOffset( 20, 200 );
         canvas.addWorldChild( node );
 
