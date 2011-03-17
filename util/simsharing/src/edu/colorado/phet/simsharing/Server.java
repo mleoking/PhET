@@ -14,6 +14,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.gravityandorbits.simsharing.GravityAndOrbitsApplicationState;
 import edu.colorado.phet.gravityandorbits.simsharing.SerializableBufferedImage;
+import edu.colorado.phet.simsharing.teacher.ClearDatabase;
 import edu.colorado.phet.simsharing.teacher.GetSessionList;
 import edu.colorado.phet.simsharing.teacher.SessionList;
 import edu.colorado.phet.simsharing.teacher.StudentList;
@@ -37,6 +38,7 @@ public class Server {
     private Morphia morphia;
     private Datastore ds;
     private Mongo mongo;
+    public String databaseName = "simsharing-test-1";
 
     public Server() {
         try {
@@ -44,8 +46,6 @@ public class Server {
             morphia = new Morphia();
             morphia.map( LatestIndex.class );
             morphia.map( Sample.class );
-            final String databaseName = "simsharing-test-1";
-//            mongo.dropDatabase( databaseName );//resets the database
             ds = morphia.createDatastore( mongo, databaseName );//change index on datastore name instead of clearing datastore?
             ds.ensureIndexes(); //creates all defined with @Indexed
             ds.ensureCaps(); //creates all collections for @Entity(cap=@CappedAt(...))
@@ -173,6 +173,9 @@ public class Server {
                                 sessionList.add( started );
                             }
                             getContext().replySafe( sessionList );
+                        }
+                        else if ( o instanceof ClearDatabase ) {
+                            mongo.dropDatabase( databaseName );//resets the database
                         }
                     }
                 };

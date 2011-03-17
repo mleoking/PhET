@@ -42,7 +42,7 @@ public class Teacher {
                     setDefaultCloseOperation( EXIT_ON_CLOSE );
                     setContentPane( new JPanel( new BorderLayout() ) {{
                         add( new ClassroomView( server, args ), BorderLayout.CENTER );
-                        add( new RecordingView( server, args ), BorderLayout.EAST );
+                        add( new RecordingView( server ), BorderLayout.EAST );
                     }} );
                     setSize( 800, 600 );
                     centerWindowOnScreen( this );
