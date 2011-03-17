@@ -1,3 +1,4 @@
+# 2.02.04 (49898) Mar 17, 2011
 3/17/11 > Set reference line to bottom of springs.
 # 2.02.00 (37312) Dec 11, 2009
 12/11/09 > Common interface fixes, improvements, and Khmer support.
