@@ -26,7 +26,6 @@ public class GAOStrings {
     public static final String EARTH_MASSES = getString( "earthMasses" );
     public static final String EARTH_MINUTE = getString( "earthMinute" );
     public static final String EARTH_MINUTES = getString( "earthMinutes" );
-    public static final String RESTART = getString( "restart" );
     public static final String GRAVITY = getString( "gravity" );
     public static final String GRAVITY_FORCE = getString( "gravityForce" );
     public static final String MASS = getString( "mass" );
