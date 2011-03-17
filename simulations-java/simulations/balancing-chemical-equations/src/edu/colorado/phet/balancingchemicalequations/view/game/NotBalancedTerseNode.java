@@ -11,16 +11,13 @@ import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
 import edu.colorado.phet.balancingchemicalequations.BCEConstants;
+import edu.colorado.phet.balancingchemicalequations.BCEGlobalProperties;
 import edu.colorado.phet.balancingchemicalequations.BCEResources;
 import edu.colorado.phet.balancingchemicalequations.BCEStrings;
 import edu.colorado.phet.balancingchemicalequations.model.DisplacementEquation.Displacement_CH4_2O2_CO2_2H2O;
 import edu.colorado.phet.balancingchemicalequations.model.Equation;
 import edu.colorado.phet.balancingchemicalequations.model.EquationTerm;
-import edu.colorado.phet.balancingchemicalequations.view.BalanceScalesNode;
-import edu.colorado.phet.balancingchemicalequations.view.BalancedRepresentation;
-import edu.colorado.phet.balancingchemicalequations.view.BarChartsNode;
 import edu.colorado.phet.balancingchemicalequations.view.HorizontalAligner;
-import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -34,28 +31,36 @@ import edu.umd.cs.piccolo.nodes.PText;
  * Indicator that an equation is not balanced, by any definition of balanced.
  * This looks like a dialog, and contains:
  * <ul>
- * <li>frowny face
+ * <li>a frowny face
  * <li>big "X" for "not balanced"
- * <li>"Hide Why" button
- * <li>alternate representation (bar chart or balance scale) of "balanced"
+ * <li>"Show Why" button for showing an additional representation
  * </ul>
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class NotBalancedWithDetailsNode extends GamePopupNode {
+public class NotBalancedTerseNode extends GamePopupNode {
 
     /**
-     * Constructor.
-     *
+     * Convenience constructor.
+     * @param equation
+     * @param globalProperties
+     * @param whyButtonListener
+     * @param aligner
+     */
+    public NotBalancedTerseNode( final Equation equation, BCEGlobalProperties globalProperties, final ActionListener whyButtonListener, final HorizontalAligner aligner ) {
+        this( equation, globalProperties.popupsCloseButtonVisible.getValue(), globalProperties.popupsTitleBarVisible.getValue(),
+                globalProperties.popupsWhyButtonVisible.getValue(), whyButtonListener, aligner );
+    }
+
+    /*
      * @param equation the equation
      * @param closeButtonVisible
      * @param titleBarVisible
      * @param whyButtonVisible
-     * @param balancedRepresentation which representation of "balanced" should we show?
      * @param aligner specifies horizontal layout, for aligning with other user-interface components
      */
-    public NotBalancedWithDetailsNode( final Equation equation, boolean closeButtonVisible, boolean titleBarVisible, final boolean whyButtonVisible,
-            final ActionListener whyButtonListener, final BalancedRepresentation balancedRepresentation, final HorizontalAligner aligner ) {
+    private NotBalancedTerseNode( final Equation equation, boolean closeButtonVisible, boolean titleBarVisible, final boolean whyButtonVisible,
+            final ActionListener whyButtonListener, final HorizontalAligner aligner ) {
         super( false /* smile */, closeButtonVisible, titleBarVisible, new Function1<PhetFont, PNode>() {
             public PNode apply( PhetFont font ) {
                 PNode parentNode = new PNode();
@@ -69,23 +74,11 @@ public class NotBalancedWithDetailsNode extends GamePopupNode {
                 textNode.setFont( font );
                 iconAndTextNode.addChild( textNode );
 
-                // "Hide Why" button
-                ButtonNode hideWhyButton = null;
+                // "Show Why" button
+                ButtonNode showWhyButton = null;
                 if ( whyButtonVisible ) {
-                    hideWhyButton = new ButtonNode( BCEStrings.HIDE_WHY, Color.WHITE );
-                    hideWhyButton.addActionListener( whyButtonListener );
-                }
-
-                // representation of "balanced"
-                PNode balanceRepresentationNode = null;
-                if ( balancedRepresentation == BalancedRepresentation.BALANCE_SCALES ) {
-                    balanceRepresentationNode = new BalanceScalesNode( new Property<Equation>( equation ), aligner );
-                }
-                else if ( balancedRepresentation == BalancedRepresentation.BAR_CHARTS ) {
-                    balanceRepresentationNode = new BarChartsNode( new Property<Equation>( equation ), aligner );
-                }
-                else {
-                    // BalancedRepresentation.NONE, show nothing
+                    showWhyButton = new ButtonNode( BCEStrings.SHOW_WHY, 18, Color.WHITE );
+                    showWhyButton.addActionListener( whyButtonListener );
                 }
 
                 // layout
@@ -96,18 +89,11 @@ public class NotBalancedWithDetailsNode extends GamePopupNode {
                     double y = iconNode.getFullBoundsReference().getCenterY() - ( textNode.getFullBoundsReference().getHeight() / 2 );
                     textNode.setOffset( x, y );
                     // button centered under icon and text
-                    if ( hideWhyButton != null ) {
-                        x = iconAndTextNode.getFullBoundsReference().getCenterX() - ( hideWhyButton.getFullBoundsReference().getWidth() / 2 ) - PNodeLayoutUtils.getOriginXOffset( hideWhyButton );
-                        y = parentNode.getFullBoundsReference().getMaxY() - PNodeLayoutUtils.getOriginYOffset( hideWhyButton ) + 25;
-                        hideWhyButton.setOffset( x, y );
-                        parentNode.addChild( hideWhyButton );
-                    }
-                    // balanced representation centered under button
-                    if ( balanceRepresentationNode != null ) {
-                        x = iconAndTextNode.getFullBoundsReference().getCenterX() - ( balanceRepresentationNode.getFullBoundsReference().getWidth() / 2 ) - PNodeLayoutUtils.getOriginXOffset( balanceRepresentationNode );
-                        y = parentNode.getFullBoundsReference().getMaxY() - PNodeLayoutUtils.getOriginYOffset( balanceRepresentationNode ) + 25;
-                        balanceRepresentationNode.setOffset( x, y );
-                        parentNode.addChild( balanceRepresentationNode );
+                    if ( showWhyButton != null ) {
+                        x = iconAndTextNode.getFullBoundsReference().getCenterX() - ( showWhyButton.getFullBoundsReference().getWidth() / 2 ) - PNodeLayoutUtils.getOriginXOffset( showWhyButton );
+                        y = parentNode.getFullBoundsReference().getMaxY() - PNodeLayoutUtils.getOriginYOffset( showWhyButton ) + 25;
+                        showWhyButton.setOffset( x, y );
+                        parentNode.addChild( showWhyButton );
                     }
                 }
 
@@ -136,8 +122,7 @@ public class NotBalancedWithDetailsNode extends GamePopupNode {
                 System.out.println( "Show Why button pressed" );
             }
         };
-        NotBalancedWithDetailsNode node = new NotBalancedWithDetailsNode( equation, false, false, true, whyButtonListener,
-                BalancedRepresentation.BAR_CHARTS, new HorizontalAligner( new Dimension( 475, 400 ), 90 ) );
+        NotBalancedTerseNode node = new NotBalancedTerseNode( equation, false, false, true, whyButtonListener, new HorizontalAligner( new Dimension( 475, 400 ), 90 ) );
         node.setOffset( 20, 200 );
         canvas.addWorldChild( node );
 

@@ -1,7 +1,7 @@
 TODO list for balancing-chemical-equations
 
 HIGH PRIORITY
-- add "Show Why" and "Hide Why" buttons to Unbalanced popup, change related dev menu item name
+- change request: redo level-3 game strategy again
 
 MEDIUM PRIORITY
 

@@ -4,6 +4,7 @@ package edu.colorado.phet.balancingchemicalequations.view.game;
 
 import java.awt.Font;
 
+import edu.colorado.phet.balancingchemicalequations.BCEGlobalProperties;
 import edu.colorado.phet.balancingchemicalequations.BCEResources;
 import edu.colorado.phet.balancingchemicalequations.BCEStrings;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
@@ -21,7 +22,19 @@ import edu.umd.cs.piccolo.nodes.PText;
  */
 public class BalancedNode extends GamePopupNode {
 
-    public BalancedNode( final int points, boolean closeButtonVisible, boolean titleBarVisible ) {
+    /**
+     * Convenience constructor.
+     */
+    public BalancedNode( int points, BCEGlobalProperties globalProperties ) {
+        this( points, globalProperties.popupsCloseButtonVisible.getValue(), globalProperties.popupsTitleBarVisible.getValue() );
+    }
+
+    /*
+     * @param points
+     * @param closeButtonVisible
+     * @param titleBarVisible
+     */
+    private BalancedNode( final int points, boolean closeButtonVisible, boolean titleBarVisible ) {
         super( true /* smile */, closeButtonVisible, titleBarVisible, new Function1<PhetFont, PNode>() {
             public PNode apply( PhetFont phetFont ) {
                 PNode parentNode = new PNode();

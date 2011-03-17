@@ -268,12 +268,12 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 
             showWhyButtonListener = new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    handleShowWhyButton();
+                    swapPopups( new NotBalancedVerboseNode( model.currentEquation.getValue(), globalProperties, hideWhyButtonListener, balancedRepresentation, aligner ) );
                 }
             };
             hideWhyButtonListener = new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    handleHideWhyButton();
+                    swapPopups( new NotBalancedTerseNode( model.currentEquation.getValue(), globalProperties, showWhyButtonListener, aligner ) );
                 }
             };
         }
@@ -342,7 +342,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
     public void initCheck() {
         setTopLevelNodeVisible( gamePlayParentNode );
         setButtonNodeVisible( checkButton );
-        setResultsPopupVisible( false );
+        setPopupVisible( false );
         equationNode.setEditable( true );
         setBalancedHighlightEnabled( false );
     }
@@ -354,7 +354,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
     public void initTryAgain() {
         setTopLevelNodeVisible( gamePlayParentNode );
         setButtonNodeVisible( tryAgainButton );
-        setResultsPopupVisible( true );
+        setPopupVisible( true );
         equationNode.setEditable( false );
         setBalancedHighlightEnabled( false );
     }
@@ -366,7 +366,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
     public void initShowAnswer() {
         setTopLevelNodeVisible( gamePlayParentNode );
         setButtonNodeVisible( showAnswerButton );
-        setResultsPopupVisible( true );
+        setPopupVisible( true );
         equationNode.setEditable( false );
         setBalancedHighlightEnabled( false );
     }
@@ -378,7 +378,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
     public void initNext() {
         setTopLevelNodeVisible( gamePlayParentNode );
         setButtonNodeVisible( nextButton );
-        setResultsPopupVisible( model.currentEquation.getValue().isBalancedAndSimplified() );
+        setPopupVisible( model.currentEquation.getValue().isBalancedAndSimplified() );
         equationNode.setEditable( false );
         model.currentEquation.getValue().balance(); // show the correct answer
         setBalancedHighlightEnabled( true );
@@ -390,7 +390,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
      * This occurs when the game has been completed and the "Game Over" display is visible.
      */
     public void initNewGame() {
-        setResultsPopupVisible( false );
+        setPopupVisible( false );
         setGameRewardVisible( true );
         playGameOverAudio();
         updateGameOverNode();
@@ -453,7 +453,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
      *
      * @param visible
      */
-    private void setResultsPopupVisible( boolean visible ) {
+    private void setPopupVisible( boolean visible ) {
         if ( popupNode != null ) {
             gamePlayParentNode.removeChild( popupNode );
             popupNode = null;
@@ -463,14 +463,13 @@ import edu.umd.cs.piccolox.pswing.PSwing;
             // evaluate the user's answer and create the proper type of node
             Equation equation = model.currentEquation.getValue();
             if ( equation.isBalancedAndSimplified() ) {
-                popupNode = new BalancedNode( model.getCurrentPoints(), globalProperties.popupsCloseButtonVisible.getValue(), globalProperties.popupsTitleBarVisible.getValue() );
+                popupNode = new BalancedNode( model.getCurrentPoints(), globalProperties );
             }
             else if ( equation.isBalanced() ) {
-                popupNode = new BalancedNotSimplifiedNode( globalProperties.popupsCloseButtonVisible.getValue(), globalProperties.popupsTitleBarVisible.getValue() );
+                popupNode = new BalancedNotSimplifiedNode( globalProperties );
             }
             else {
-                popupNode = new NotBalancedNode( equation, globalProperties.popupsCloseButtonVisible.getValue(), globalProperties.popupsTitleBarVisible.getValue(),
-                        globalProperties.popupsWhyButtonVisible.getValue(), showWhyButtonListener, aligner );
+                popupNode = new NotBalancedTerseNode( equation, globalProperties, showWhyButtonListener, aligner );
             }
 
             // Layout, ideally centered between the boxes, but guarantee that buttons are not covered.
@@ -484,36 +483,19 @@ import edu.umd.cs.piccolox.pswing.PSwing;
     }
 
     /*
-     * Called when the "Show Why" button is pressed in the "Not Balanced" popup.
+     * Replaces the current popup with a new popup.
+     * This is used for the "Not Balanced" popup, which has terse and verbose versions.
+     * <p>
+     * The new popup is positioned so that it has the same top-center as the old popup.
+     * As an additional constrain, the new popup is guaranteed to be above the Try Again button,
+     * so that that buttons is not obscured by the popup.
      */
-    private void handleShowWhyButton() {
+    private void swapPopups( PNode newPopupNode ) {
+
         PNode oldPopupNode = popupNode;
         gamePlayParentNode.removeChild( popupNode );
-        popupNode = new NotBalancedWithDetailsNode( model.currentEquation.getValue(), globalProperties.popupsCloseButtonVisible.getValue(), globalProperties.popupsTitleBarVisible.getValue(),
-                globalProperties.popupsWhyButtonVisible.getValue(), hideWhyButtonListener, balancedRepresentation, aligner );
-        updatePopupLayout( popupNode, oldPopupNode );
-        gamePlayParentNode.addChild( popupNode );
-    }
+        popupNode = newPopupNode;
 
-    /*
-     * Called when the "Hide Why" button is pressed in the "Not Balanced" popup.
-     */
-    private void handleHideWhyButton() {
-        PNode oldPopupNode = popupNode;
-        gamePlayParentNode.removeChild( popupNode );
-        popupNode = new NotBalancedNode( model.currentEquation.getValue(), globalProperties.popupsCloseButtonVisible.getValue(), globalProperties.popupsTitleBarVisible.getValue(),
-                globalProperties.popupsWhyButtonVisible.getValue(), showWhyButtonListener, aligner );
-        updatePopupLayout( popupNode, oldPopupNode );
-        gamePlayParentNode.addChild( popupNode );
-
-    }
-
-    /*
-     * Sets the location of a new popup, so that it has the same top-center as some old popup.
-     * As an additional constrain, make sure that the new popup is above the Try Again button,
-     * so that it's not obscured by the popup.
-     */
-    private void updatePopupLayout( PNode popupNode, PNode oldPopupNode ) {
         // align with top-center of old popup
         double x = oldPopupNode.getFullBoundsReference().getCenterX() - ( popupNode.getFullBoundsReference().getWidth() / 2 );
         double y = oldPopupNode.getFullBoundsReference().getMinY();
