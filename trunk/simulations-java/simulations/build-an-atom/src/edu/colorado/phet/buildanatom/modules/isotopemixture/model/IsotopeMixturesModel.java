@@ -522,7 +522,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
         interactivityModeProperty.reset();
 
         // Remove any stored state for the default atom.
-        mapIsotopeConfigToUserMixState.remove( DEFAULT_PROTOTYPE_ISOTOPE_CONFIG );
+        mapIsotopeConfigToUserMixState.remove( DEFAULT_PROTOTYPE_ISOTOPE_CONFIG.getNumProtons() );
 
         // Set the default element.
         setAtomConfiguration( DEFAULT_PROTOTYPE_ISOTOPE_CONFIG );
