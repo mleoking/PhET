@@ -18,6 +18,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
 public class PieChartNode extends PNode {
     private PieValue[] slices;//The values to show in the pie
     private Rectangle area;//The area which the pie should take up
+    private double initialAngle = 0; // Angle, from the middle of the right side, from which to start drawing.
 
     /*
      * Creates a PieChartNode with the specified slices and area
@@ -38,24 +39,34 @@ public class PieChartNode extends PNode {
         update();
     }
 
+    /**
+     * Set the initial angle for drawing the pie slices.  Zero (the default)
+     * means that the first slice will start at the right middle.  A value
+     * of PI/2 would start at the top of the pie.  And so on.
+     *
+     * @param initialAngle - In radians.
+     */
+    public void setInitialAngle( double initialAngle ) {
+        this.initialAngle = initialAngle;
+        update();
+    }
+
     private void update() {
         removeAllChildren();
         // Get total value of all slices
-        double total = 0.0D;
-        for ( int i = 0; i < slices.length; i++ ) {
-            total += slices[i].value;
-        }
+        double total = getTotal();
 
         // Draw each pie slice
-        double curValue = 0.0D;
+        double initialAngleInDegrees = Math.toDegrees( initialAngle );
+        double curValue = 0.0;
         for ( int i = 0; i < slices.length; i++ ) {
             // Compute the start and stop angles
-            int startAngle = (int) ( curValue * 360 / total );
-            int arcAngle = (int) ( slices[i].value * 360 / total );
+            double startAngle = curValue * 360 / total + initialAngleInDegrees;
+            double arcAngle = slices[i].value * 360 / total;
 
             // Ensure that rounding errors do not leave a gap between the first and last slice
             if ( i == slices.length - 1 ) {
-                arcAngle = 360 - startAngle;
+                arcAngle = 360 - startAngle + initialAngleInDegrees;
             }
 
             // If the slice has a non-zero value, set the color and draw a filled arc.
@@ -74,6 +85,14 @@ public class PieChartNode extends PNode {
             }
             curValue += slices[i].value;
         }
+    }
+
+    public double getTotal() {
+        double total = 0.0D;
+        for ( int i = 0; i < slices.length; i++ ) {
+            total += slices[i].value;
+        }
+        return total;
     }
 
     // Class to hold a value for a slice
