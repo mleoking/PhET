@@ -1,3 +1,4 @@
+3/17/11 > Set reference line to bottom of springs.
 # 2.02.00 (37312) Dec 11, 2009
 12/11/09 > Common interface fixes, improvements, and Khmer support.
 # 2.01.00 (36934) Nov 29, 2009
