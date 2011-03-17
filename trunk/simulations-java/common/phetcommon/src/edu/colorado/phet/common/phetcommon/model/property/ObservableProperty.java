@@ -108,4 +108,16 @@ public abstract class ObservableProperty<T> extends SimpleObservable {
     public String toString() {
         return getValue().toString();
     }
+
+    /**
+     * Debugging function that prints out the new value when it changes, along with the specified text.
+     * @param text the text to print before printing the new value
+     */
+    public void trace( final String text ) {
+        addObserver( new VoidFunction1<T>() {
+            public void apply( T t ) {
+                System.out.println( text + ": " + t );
+            }
+        } );
+    }
 }

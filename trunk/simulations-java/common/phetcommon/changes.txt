@@ -1,3 +1,4 @@
+3/16/11 Added ObservableProperty.trace, a debugging function that prints out the new value when it changes, along with the specified text
 3/15/11 Fixed IfElse and ValueEquals boolean properties to notify new observer types, see #2775
 3/10/11 Fixed boolean properties to notify new observer types
 3/10/11 Moved exit functionality to PhetApplication to facilitate overrides for simsharing
