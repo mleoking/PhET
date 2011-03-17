@@ -223,6 +223,8 @@
 	<classpathentry kind="src" path="simulations-java/simulations/sound/data"/>
 	<classpathentry kind="src" path="simulations-java/simulations/states-of-matter/src"/>
 	<classpathentry kind="src" path="simulations-java/simulations/states-of-matter/data"/>
+	<classpathentry kind="src" path="simulations-java/simulations/sugar-and-salt-solutions/src"/>
+	<classpathentry kind="src" path="simulations-java/simulations/sugar-and-salt-solutions/data"/>
 	<classpathentry kind="src" path="simulations-java/simulations/test-project/src"/>
 	<classpathentry kind="src" path="simulations-java/simulations/test-project/data"/>
 	<classpathentry kind="src" path="simulations-java/simulations/the-ramp/src"/>
