@@ -25,6 +25,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
 import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.multiScaleToWidth;
 import static edu.colorado.phet.gravityandorbits.GravityAndOrbitsApplication.RESOURCES;
 import static edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsClock.DEFAULT_DT;
+import static edu.colorado.phet.gravityandorbits.view.MeasuringTape.milesToMeters;
 
 /**
  * GravityAndOrbitsModeList enumerates and declares the possible modes in the GravityAndOrbitsModule, such as "Sun & Earth" mode.
@@ -99,7 +100,7 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
 
         public SunEarth() {
             super( 1.25 );
-            initialMeasuringTapeLocation = new Line2D.Double( 0, -earth.x / 6, earth.x, -earth.x / 6 );
+            initialMeasuringTapeLocation = new Line2D.Double( ( sun.x + earth.x ) / 3, -earth.x / 2, ( sun.x + earth.x ) / 3 + milesToMeters( 50000000 ), -earth.x / 2 );
             forceScale = VectorNode.FORCE_SCALE * 120;
         }
 
@@ -116,7 +117,7 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
 
         public SunEarthMoon() {
             super( 1.25 );
-            initialMeasuringTapeLocation = new Line2D.Double( 0, -earth.x / 6, earth.x, -earth.x / 6 );
+            initialMeasuringTapeLocation = new Line2D.Double( ( sun.x + earth.x ) / 3, -earth.x / 2, ( sun.x + earth.x ) / 3 + milesToMeters( 50000000 ), -earth.x / 2 );
             forceScale = VectorNode.FORCE_SCALE * 120;
         }
 
@@ -132,7 +133,7 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
 
         public EarthMoon() {
             super( 400 );
-            initialMeasuringTapeLocation = new Line2D.Double( earth.x, -moon.y / 4, moon.x + moon.y, -moon.y / 4 );
+            initialMeasuringTapeLocation = new Line2D.Double( earth.x + earth.radius * 2, -moon.y * 0.7, earth.x + earth.radius * 2 + milesToMeters( 100000 ), -moon.y * 0.7 );
             forceScale = VectorNode.FORCE_SCALE * 45;
         }
 
@@ -148,7 +149,7 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
 
         public EarthSpaceStation() {
             super( 21600 );
-            initialMeasuringTapeLocation = new Line2D.Double( earth.x, -earth.radius / 6, spaceStation.x, -earth.radius / 6 );
+            initialMeasuringTapeLocation = new Line2D.Double( 3162119, 7680496, 6439098, 7680496 );//Sampled at runtime from MeasuringTape
             forceScale = VectorNode.FORCE_SCALE * 3E13;
         }
 

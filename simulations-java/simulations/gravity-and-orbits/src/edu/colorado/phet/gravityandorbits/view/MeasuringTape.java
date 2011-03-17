@@ -11,8 +11,8 @@ import java.text.MessageFormat;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
@@ -33,8 +33,14 @@ import edu.umd.cs.piccolo.nodes.PText;
  */
 public class MeasuringTape extends PNode {
     static double crossHairsRadius = 4;
+    public static double METERS_PER_MILE = 0.000621371192;
 
-    public MeasuringTape( final ObservableProperty<Boolean> visible, final Property<ImmutableVector2D> modelStart, final Property<ImmutableVector2D> modelEnd, final Property<ModelViewTransform> transform ) {
+    public MeasuringTape( final ObservableProperty<Boolean> visible,
+                          final Property<ImmutableVector2D> modelStart,
+                          final Property<ImmutableVector2D> modelEnd,
+                          final Property<ModelViewTransform> transform ) {
+//        modelStart.trace("Model Start");
+//        modelEnd.trace("Model End");
         addChild( new PhetPPath( new BasicStroke( 3 ), Color.darkGray ) {{
             setPickable( false );
             final SimpleObserver updateTape = new SimpleObserver() {
@@ -91,7 +97,7 @@ public class MeasuringTape extends PNode {
                 public void update() {
                     double modelDistance = modelStart.getValue().getDistance( modelEnd.getValue() );
                     //use a scale that makes sense in all modes
-                    double miles = modelDistance * 0.000621371192;
+                    double miles = metersToMiles( modelDistance );
                     double thousandMiles = miles / 1E3;
                     String valueString = new Function1<Double, DecimalFormat>() {
                         public DecimalFormat apply( Double value ) {
@@ -112,6 +118,14 @@ public class MeasuringTape extends PNode {
                 setVisible( visible.getValue() );
             }
         } );
+    }
+
+    public static double metersToMiles( double modelDistance ) {
+        return modelDistance * METERS_PER_MILE;
+    }
+
+    public static double milesToMeters( double modelDistance ) {
+        return modelDistance / METERS_PER_MILE;
     }
 
     public static class CrossHairGraphic extends PNode {
