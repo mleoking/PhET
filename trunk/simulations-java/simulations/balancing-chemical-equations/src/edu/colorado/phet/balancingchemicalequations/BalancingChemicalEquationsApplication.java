@@ -42,7 +42,7 @@ public class BalancingChemicalEquationsApplication extends PiccoloPhetApplicatio
         developerMenu.add( new JSeparator() );
         developerMenu.add( new PropertyCheckBoxMenuItem( "Game: play all equations", globalProperties.playAllEquations ) );
         developerMenu.add( new JSeparator() );
-        developerMenu.add( new PropertyCheckBoxMenuItem( "Game Popups: add Show Why button", globalProperties.popupsWhyButtonVisible ) );
+        developerMenu.add( new PropertyCheckBoxMenuItem( "Game Popups: add \"Show Why\" button", globalProperties.popupsWhyButtonVisible ) );
         developerMenu.add( new PropertyCheckBoxMenuItem( "Game Popups: show close button", globalProperties.popupsCloseButtonVisible ) );
         developerMenu.add( new PropertyCheckBoxMenuItem( "Game Popups: show top bar", globalProperties.popupsTitleBarVisible ) );
     }
