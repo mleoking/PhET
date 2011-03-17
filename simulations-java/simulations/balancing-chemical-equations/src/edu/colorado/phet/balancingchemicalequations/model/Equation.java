@@ -93,8 +93,8 @@ public abstract class Equation {
 
     /**
      * Gets the display name for the equation.
-     * By default, this is a plaintext representation of the equation, eg "H2 + O2 -> H2O".
-     * Subclasses may override this to provice a more user-friendly name, eg "make water".
+     * By default, this is an HTML representation of the equation formula.
+     * Subclasses may override this to provide a more user-friendly name, eg "make water".
      * @return
      */
     public String getName() {
@@ -220,19 +220,23 @@ public abstract class Equation {
     }
 
     /*
-     * Creates an HTML string that shows the equation formula.
+     * Creates an plaintext string that shows the equation formula.
      * Used for equations that don't have a more general name (eg, "Make Ammonia").
      */
     private static String createName( EquationTerm[] reactants, final EquationTerm[] products ) {
         StringBuffer b = new StringBuffer();
         for ( int i = 0; i < reactants.length; i++ ) {
+            b.append( reactants[i].getBalancedCoefficient() );
+            b.append( " " );
             b.append( reactants[i].getMolecule().getSymbol() );
             if ( i <  reactants.length - 1 ) {
                 b.append( " + " );
             }
         }
-        b.append( " \u2192 " ); // right arrow
+        b.append( " -> " );
         for ( int i = 0; i < products.length; i++ ) {
+            b.append( products[i].getBalancedCoefficient() );
+            b.append( " " );
             b.append( products[i].getMolecule().getSymbol() );
             if ( i <  products.length - 1 ) {
                 b.append( " + " );
