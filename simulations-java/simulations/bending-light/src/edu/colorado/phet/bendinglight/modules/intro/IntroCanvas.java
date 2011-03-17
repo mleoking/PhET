@@ -7,7 +7,6 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.bendinglight.modules.moretools.MoreToolsModel;
 import edu.colorado.phet.bendinglight.view.*;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
@@ -121,9 +120,7 @@ public class IntroCanvas extends BendingLightCanvas<IntroModel> {
                         }, 1 );
                     }
                 }, model );
-        toolboxNode = new ToolboxNode( this, transform, protractor, showNormal, model.getIntensityMeter(),
-                                       ( model instanceof MoreToolsModel ) ? ( (MoreToolsModel) model ).velocitySensor : null,
-                                       ( model instanceof MoreToolsModel ) ? ( (MoreToolsModel) model ).waveSensor : null, model );
+        toolboxNode = new ToolboxNode( this, transform, protractor, getMoreTools( model ), model.getIntensityMeter(), showNormal );
         final ControlPanelNode toolbox = new ControlPanelNode( toolboxNode ) {{
             setOffset( 10, stageSize.height - getFullBounds().getHeight() - 10 );
         }};
@@ -153,5 +150,13 @@ public class IntroCanvas extends BendingLightCanvas<IntroModel> {
             //sim speed slider is not at (0,0) in this node, so need to account for its size
             setOffset( toolbox.getFullBounds().getMaxX() + speedSlider.getFullBounds().getWidth() + 10, stageSize.getHeight() - getFullBounds().getHeight() );
         }} );
+    }
+
+    protected PNode[] getMoreTools( ResetModel resetModel ) {
+        return new PNode[0];
+    }
+
+    public ToolboxNode getToolboxNode() {
+        return toolboxNode;
     }
 }
