@@ -1,6 +1,8 @@
 TODO list for balancing-chemical-equations
 
 HIGH PRIORITY
+- add "Show Why" and "Hid Why" buttons to Unbalanced popup
+- only allow one equation with 4NH3+6H2O in Game level 3 (separate level 3 into 2 lists)
 
 MEDIUM PRIORITY
 
@@ -14,3 +16,4 @@ LOW PRIORITY
 - Kathy colors: boxes=black, canvas=blue[142,153,193]
 
 MIGRATE TO COMMON
+ 
