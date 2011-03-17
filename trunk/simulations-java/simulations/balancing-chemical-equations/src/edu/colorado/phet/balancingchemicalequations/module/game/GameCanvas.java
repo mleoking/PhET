@@ -21,7 +21,7 @@ import edu.colorado.phet.balancingchemicalequations.view.*;
 import edu.colorado.phet.balancingchemicalequations.view.game.BalancedNode;
 import edu.colorado.phet.balancingchemicalequations.view.game.BalancedNotSimplifiedNode;
 import edu.colorado.phet.balancingchemicalequations.view.game.GameRewardNode;
-import edu.colorado.phet.balancingchemicalequations.view.game.NotBalancedNode;
+import edu.colorado.phet.balancingchemicalequations.view.game.NotBalancedWithDetailsNode;
 import edu.colorado.phet.common.games.*;
 import edu.colorado.phet.common.games.GameOverNode.GameOverListener;
 import edu.colorado.phet.common.games.GameScoreboardNode.GameScoreboardListener;
@@ -460,7 +460,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
                 popupNode = new BalancedNotSimplifiedNode( globalProperties.popupsCloseButtonVisible.getValue(), globalProperties.popupsTitleBarVisible.getValue() );
             }
             else {
-                popupNode = new NotBalancedNode( equation, globalProperties.popupsCloseButtonVisible.getValue(), globalProperties.popupsTitleBarVisible.getValue(),
+                popupNode = new NotBalancedWithDetailsNode( equation, globalProperties.popupsCloseButtonVisible.getValue(), globalProperties.popupsTitleBarVisible.getValue(),
                         globalProperties.popupsWhyButtonVisible.getValue(), balancedRepresentation, aligner );
             }
 
