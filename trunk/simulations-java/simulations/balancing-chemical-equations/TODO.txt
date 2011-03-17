@@ -1,7 +1,7 @@
 TODO list for balancing-chemical-equations
 
 HIGH PRIORITY
-- add "Show Why" and "Hide Why" buttons to Unbalanced popup
+- add "Show Why" and "Hide Why" buttons to Unbalanced popup, change related dev menu item name
 - only allow one equation with 4NH3+6H2O in Game level 3 (separate level 3 into 2 lists)
 
 MEDIUM PRIORITY
