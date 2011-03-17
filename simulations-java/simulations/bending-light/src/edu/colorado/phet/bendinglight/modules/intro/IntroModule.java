@@ -15,8 +15,8 @@ public class IntroModule extends BendingLightModule<IntroModel> {
 
     public IntroModule() {
         super( "Intro", new IntroModel() );
-        canvas = new IntroCanvas( getBendingLightModel(), moduleActive, resetAll, new Function3.Constant<IntroModel, Double, Double, PNode>( new PNode() ), 150,
-                                  new ValueEquals<LaserView>( getBendingLightModel().laserView, LaserView.WAVE ) );
+        canvas = new IntroCanvas<IntroModel>( getBendingLightModel(), moduleActive, resetAll, new Function3.Constant<IntroModel, Double, Double, PNode>( new PNode() ), 150,
+                                              new ValueEquals<LaserView>( getBendingLightModel().laserView, LaserView.WAVE ) );
         setSimulationPanel( canvas );
     }
 
