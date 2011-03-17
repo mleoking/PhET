@@ -24,11 +24,11 @@ public class BCEGlobalProperties implements Resettable {
     // developer controls (Developer menu)
     public final Property<Color> canvasColor = new Property<Color>( BCEConstants.CANVAS_BACKGROUND );
     public final Property<Color> boxColor = new Property<Color>( BCEConstants.BOX_COLOR );
-    public final Property<Boolean> showAnswers = new Property<Boolean>( false ); // shows the answers in all tabs
+    public final Property<Boolean> answersVisible = new Property<Boolean>( false ); // shows the answers in all tabs
     public final Property<Boolean> playAllEquations = new Property<Boolean>( false ); // plays all equations for a specified game level
-    public final Property<Boolean> showWhyButton = new Property<Boolean>( true ); // adds a "Show Why" button to "Not Balanced" game popup
-    public final Property<Boolean> showPopupCloseButton = new Property<Boolean>( false ); // show close button on game popups
-    public final Property<Boolean> showPopupTitleBar = new Property<Boolean>( false ); // show top bar on game pops
+    public final Property<Boolean> popupsWhyButtonVisible = new Property<Boolean>( true ); // adds a "Show Why" button to "Not Balanced" game popup
+    public final Property<Boolean> popupsCloseButtonVisible = new Property<Boolean>( false ); // adds a close (X) button to game popups
+    public final Property<Boolean> popupsTitleBarVisible = new Property<Boolean>( false ); // adds a title bar to game pops
 
     public BCEGlobalProperties( Frame frame ) {
         this.frame = frame;
@@ -38,10 +38,10 @@ public class BCEGlobalProperties implements Resettable {
         moleculesVisible.reset();
         canvasColor.reset();
         boxColor.reset();
-        showAnswers.reset();
+        answersVisible.reset();
         playAllEquations.reset();
-        showWhyButton.reset();
-        showPopupCloseButton.reset();
-        showPopupTitleBar.reset();
+        popupsWhyButtonVisible.reset();
+        popupsCloseButtonVisible.reset();
+        popupsTitleBarVisible.reset();
     }
 }

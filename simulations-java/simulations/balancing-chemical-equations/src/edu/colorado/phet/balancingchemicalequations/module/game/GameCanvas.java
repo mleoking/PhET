@@ -147,7 +147,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 
         // Shows the answer (dev)
         final DevAnswerNode answerNode = new DevAnswerNode( model.currentEquation );
-        answerNode.setVisible( globalProperties.showAnswers.getValue() );
+        answerNode.setVisible( globalProperties.answersVisible.getValue() );
 
         // add top-level stuff to world so that we have centering control
         addWorldChild( gameRewardNode );
@@ -262,9 +262,9 @@ import edu.umd.cs.piccolox.pswing.PSwing;
                 }
             } );
 
-            globalProperties.showAnswers.addObserver( new SimpleObserver() {
+            globalProperties.answersVisible.addObserver( new SimpleObserver() {
                 public void update() {
-                    answerNode.setVisible( globalProperties.showAnswers.getValue() );
+                    answerNode.setVisible( globalProperties.answersVisible.getValue() );
                 }
             } );
         }
@@ -454,14 +454,14 @@ import edu.umd.cs.piccolox.pswing.PSwing;
             // evaluate the user's answer and create the proper type of node
             Equation equation = model.currentEquation.getValue();
             if ( equation.isBalancedAndSimplified() ) {
-                popupNode = new BalancedNode( model.getCurrentPoints(), globalProperties.showPopupCloseButton.getValue(), globalProperties.showPopupTitleBar.getValue() );
+                popupNode = new BalancedNode( model.getCurrentPoints(), globalProperties.popupsCloseButtonVisible.getValue(), globalProperties.popupsTitleBarVisible.getValue() );
             }
             else if ( equation.isBalanced() ) {
-                popupNode = new BalancedNotSimplifiedNode( globalProperties.showPopupCloseButton.getValue(), globalProperties.showPopupTitleBar.getValue() );
+                popupNode = new BalancedNotSimplifiedNode( globalProperties.popupsCloseButtonVisible.getValue(), globalProperties.popupsTitleBarVisible.getValue() );
             }
             else {
-                popupNode = new NotBalancedNode( equation, globalProperties.showPopupCloseButton.getValue(), globalProperties.showPopupTitleBar.getValue(),
-                        globalProperties.showWhyButton.getValue(), balancedRepresentation, aligner );
+                popupNode = new NotBalancedNode( equation, globalProperties.popupsCloseButtonVisible.getValue(), globalProperties.popupsTitleBarVisible.getValue(),
+                        globalProperties.popupsWhyButtonVisible.getValue(), balancedRepresentation, aligner );
             }
 
             // Layout, ideally centered between the boxes, but guarantee that buttons are not covered.
