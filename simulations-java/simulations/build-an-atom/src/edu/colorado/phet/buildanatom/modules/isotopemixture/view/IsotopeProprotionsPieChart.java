@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Rectangle;
 import java.awt.Shape;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.RoundRectangle2D;
 import java.text.DecimalFormat;
@@ -34,19 +35,28 @@ class IsotopeProprotionsPieChart extends PNode {
      * Constructor.
      */
     public IsotopeProprotionsPieChart( final IsotopeMixturesModel model ) {
+        // Create and add a layer where the labels will be placed.
         final PNode labelLayer = new PNode();
         addChild( labelLayer );
+        // Create and add the pie chart itself.
         final PieChartNode pieChart = new PieChartNode( new PieValue[] { new PieValue( 100, Color.red ) },
                 new Rectangle( -PIE_CHART_DIAMETER / 2, -PIE_CHART_DIAMETER / 2, PIE_CHART_DIAMETER, PIE_CHART_DIAMETER ) ) {{
                 setOffset( 0, 0 );
             }};
-        addChild( pieChart );
+            addChild( pieChart );
+        // Create and add the node that will be shown when there is nothing
+        // in the chamber, so showing a pie chart would make no sense.
+        final PNode emptyPieChart = new PhetPPath(
+                new Ellipse2D.Double( -PIE_CHART_DIAMETER / 2, -PIE_CHART_DIAMETER / 2, PIE_CHART_DIAMETER, PIE_CHART_DIAMETER ),
+                new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{5, 4}, 0), Color.black );
+        addChild(emptyPieChart);
         // Add the observer that will update the pie chart.
         model.getIsotopeTestChamber().addTotalCountChangeObserver( new SimpleObserver() {
                 public void update() {
                 int isotopeCount = model.getIsotopeTestChamber().getTotalIsotopeCount();
                                 // Hide the chart if there is nothing in the chamber.
                 pieChart.setVisible( isotopeCount > 0 );
+                emptyPieChart.setVisible( isotopeCount == 0 );
                 labelLayer.setVisible( isotopeCount > 0 );
                 if ( isotopeCount > 0 ) {
                                     // Clear the labels.
