@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Rectangle;
 import java.awt.Shape;
+import java.awt.Stroke;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.RoundRectangle2D;
@@ -15,6 +16,7 @@ import edu.colorado.phet.buildanatom.model.ImmutableAtom;
 import edu.colorado.phet.buildanatom.modules.isotopemixture.model.IsotopeMixturesModel;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PieChartNode;
@@ -31,6 +33,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 class IsotopeProprotionsPieChart extends PNode {
 
     private static final int PIE_CHART_DIAMETER = 100;
+    private static final Stroke CONNECTING_LINE_STROKE = new BasicStroke(2);
 
     /**
      * Constructor.
@@ -63,31 +66,40 @@ class IsotopeProprotionsPieChart extends PNode {
                     // Clear the labels.
                     labelLayer.removeAllChildren();
                     // Update the proportions of the pie slices.
-                    PieValue[] pieSlices = new PieValue[model.getPossibleIsotopesProperty().getValue().size()];
-                    int sliceCount = 0;
+                    ArrayList<PieValue> pieSlices = new ArrayList<PieValue>();
                     for ( ImmutableAtom isotope : model.getPossibleIsotopesProperty().getValue() ) {
-                        pieSlices[sliceCount++] =
-                                new PieValue( model.getIsotopeTestChamber().getIsotopeProportion( isotope ),
-                                model.getColorForIsotope( isotope ) );
+                        double proportion = model.getIsotopeTestChamber().getIsotopeProportion( isotope );
+                        // Only add non-zero values.
+                        if ( proportion > 0 ){
+                            pieSlices.add( new PieValue( proportion, model.getColorForIsotope( isotope ) ) );
+                        }
                     }
-                    pieChart.setPieValues( pieSlices );
+                    // Convert the pie value array into the type needed by the
+                    // pie chart.
+                    // TODO: This is pretty hideous.  I should find a better way.
+                    PieValue[] pieValuesArray = new PieValue[pieSlices.size()];
+                    for ( int i = 0; i < pieValuesArray.length; i++){
+                        pieValuesArray[i] = pieSlices.get( i );
+                    }
+                    pieChart.setPieValues( pieValuesArray );
+
                     // Orient the pie chart such that the slice for the
                     // lightest element is centered on the left side.  This
                     // is done to make the chart behave in a why that causes
                     // the labels to be in consistent and reasonable
                     // positions.
-                    double lightestIsotopeProportion = pieSlices[0].getValue() / pieChart.getTotal();
+                    double lightestIsotopeProportion = pieSlices.get( 0 ).getValue() / pieChart.getTotal();
                     pieChart.setInitialAngle( Math.PI - ( lightestIsotopeProportion * Math.PI ) );
                     // Add the floating labels to the chart.
                     ArrayList<PNode> sliceLabels = new ArrayList<PNode>();
-                    for ( int i = 0; i < pieSlices.length; i++ ) {
+                    for ( int i = 0; i < pieSlices.size(); i++ ) {
                         if ( pieChart.getCenterEdgePtForSlice( i ) != null ) {
                             // Create the label for this pie slice.
                             PNode labelNode;
                             Point2D centerEdgeOfPieSlice = pieChart.getCenterEdgePtForSlice( i );
                             boolean labelOnLeft = centerEdgeOfPieSlice.getX() < 0;
                             labelNode = new SliceLabel( model.getPossibleIsotopesProperty().getValue().get( i ),
-                                    pieSlices[i].getValue() / pieChart.getTotal(), labelOnLeft );
+                                    pieSlices.get( i ).getValue() / pieChart.getTotal(), labelOnLeft );
                             labelLayer.addChild( labelNode );
                             sliceLabels.add( labelNode );
 
@@ -132,8 +144,8 @@ class IsotopeProprotionsPieChart extends PNode {
                     // positions, they need to be checked to make sure that
                     // they aren't overlapping and, if they are, their
                     // positions are adjusted.
-                    double locationIncrement = 3;
-                    for (int i = 1; i < 10; i++ ){
+                    double locationIncrement = 3; // Empirically chosen.
+                    for (int i = 1; i < 10; i++ ){ // Number of iterations empirically chosen.
                         boolean overlapDetected = false;
                         for ( PNode label : sliceLabels ) {
                             boolean overlapAbove = false;
@@ -173,6 +185,33 @@ class IsotopeProprotionsPieChart extends PNode {
                             // No overlap for any of the labels, so we are done.
                             break;
                         }
+                    }
+
+                    // The labels should now be all in reasonable positions,
+                    // so draw a line from the edge of the label to the pie
+                    // slice to which it corresponds.
+                    for (int i = 0; i < sliceLabels.size(); i++){
+                        PNode label = sliceLabels.get( i );
+                        Point2D labelConnectPt = new Point2D.Double();
+                        if (label.getFullBoundsReference().getCenterX() > pieChart.getFullBoundsReference().getCenterX()){
+                            // Label is on right, so connect point should be on left.
+                            labelConnectPt.setLocation(
+                                    label.getFullBoundsReference().getMinX(),
+                                    label.getFullBoundsReference().getCenterY() );
+                        }
+                        else{
+                            // Label is on left, so connect point should be on right.
+                            labelConnectPt.setLocation(
+                                    label.getFullBoundsReference().getMaxX(),
+                                    label.getFullBoundsReference().getCenterY() );
+                        }
+                        pieChart.getCenterEdgePtForSlice( i );
+                        Point2D sliceConnectPt = pieChart.getCenterEdgePtForSlice( i );
+                        assert sliceConnectPt != null; // Should be a valid slice edge point for each label.
+                        DoubleGeneralPath connectingLineShape = new DoubleGeneralPath( sliceConnectPt );
+                        connectingLineShape.lineTo( labelConnectPt );
+                        labelLayer.addChild( new PhetPPath( connectingLineShape.getGeneralPath(),
+                                CONNECTING_LINE_STROKE, Color.BLACK) );
                     }
                 }
             }
