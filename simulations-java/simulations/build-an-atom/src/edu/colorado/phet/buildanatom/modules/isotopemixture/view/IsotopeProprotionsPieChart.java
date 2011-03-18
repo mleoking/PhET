@@ -9,6 +9,7 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.RoundRectangle2D;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 import edu.colorado.phet.buildanatom.model.ImmutableAtom;
 import edu.colorado.phet.buildanatom.modules.isotopemixture.model.IsotopeMixturesModel;
@@ -59,9 +60,9 @@ class IsotopeProprotionsPieChart extends PNode {
                 emptyPieChart.setVisible( isotopeCount == 0 );
                 labelLayer.setVisible( isotopeCount > 0 );
                 if ( isotopeCount > 0 ) {
-                                    // Clear the labels.
+                    // Clear the labels.
                     labelLayer.removeAllChildren();
-                                    // Update the proportions.
+                    // Update the proportions of the pie slices.
                     PieValue[] pieSlices = new PieValue[model.getPossibleIsotopesProperty().getValue().size()];
                     int sliceCount = 0;
                     for ( ImmutableAtom isotope : model.getPossibleIsotopesProperty().getValue() ) {
@@ -70,8 +71,15 @@ class IsotopeProprotionsPieChart extends PNode {
                                 model.getColorForIsotope( isotope ) );
                     }
                     pieChart.setPieValues( pieSlices );
+                    // Orient the pie chart such that the slice for the
+                    // lightest element is centered on the left side.  This
+                    // is done to make the chart behave in a why that causes
+                    // the labels to be in consistent and reasonable
+                    // positions.
                     double lightestIsotopeProportion = pieSlices[0].getValue() / pieChart.getTotal();
                     pieChart.setInitialAngle( Math.PI - ( lightestIsotopeProportion * Math.PI ) );
+                    // Add the floating labels to the chart.
+                    ArrayList<PNode> sliceLabels = new ArrayList<PNode>();
                     for ( int i = 0; i < pieSlices.length; i++ ) {
                         if ( pieChart.getCenterEdgePtForSlice( i ) != null ) {
                             // Create the label for this pie slice.
@@ -81,6 +89,7 @@ class IsotopeProprotionsPieChart extends PNode {
                             labelNode = new SliceLabel( model.getPossibleIsotopesProperty().getValue().get( i ),
                                     pieSlices[i].getValue() / pieChart.getTotal(), labelOnLeft );
                             labelLayer.addChild( labelNode );
+                            sliceLabels.add( labelNode );
 
                             // Determine the "unconstrained" target position
                             // for the label, meaning a position that is
@@ -117,6 +126,52 @@ class IsotopeProprotionsPieChart extends PNode {
                                         positionVector.getX(),
                                         positionVector.getY()-labelNode.getFullBoundsReference().height / 2 );
                             }
+                        }
+                    }
+                    // Now that the labels are added in their initial
+                    // positions, they need to be checked to make sure that
+                    // they aren't overlapping and, if they are, their
+                    // positions are adjusted.
+                    double locationIncrement = 3;
+                    for (int i = 1; i < 10; i++ ){
+                        boolean overlapDetected = false;
+                        for ( PNode label : sliceLabels ) {
+                            boolean overlapAbove = false;
+                            boolean overlapBelow = false;
+                            for ( PNode comparisonLabel : sliceLabels ) {
+                                if ( label == comparisonLabel ){
+                                    // Same label, so ignore it.
+                                    continue;
+                                }
+                                if ( label.fullIntersects( comparisonLabel.getFullBoundsReference() )){
+                                    // These labels overlap.  Determine if the
+                                    // comparison label is above or below.
+                                    if (comparisonLabel.getFullBoundsReference().getCenterY() < label.getFullBoundsReference().getCenterY()){
+                                        overlapAbove = true;
+                                        overlapDetected = true;
+                                    }
+                                    else{
+                                        overlapBelow = true;
+                                        overlapDetected = true;
+                                    }
+                                }
+                            }
+                            // Adjust this label's position based upon any overlap
+                            // that was detected.  The general idea is this: if
+                            // there is overlap in both directions, don't move.
+                            // If there is only overlap above, move down.  If
+                            // there is only overlap below, move up.  For our
+                            // needs, only the Y direction matters.
+                            if ( overlapAbove && !overlapBelow ){
+                                label.setOffset( label.getOffset().getX(), label.getOffset().getY() + locationIncrement );
+                            }
+                            else if ( overlapBelow && !overlapAbove ){
+                                label.setOffset( label.getOffset().getX(), label.getOffset().getY() - locationIncrement );
+                            }
+                        }
+                        if (!overlapDetected){
+                            // No overlap for any of the labels, so we are done.
+                            break;
                         }
                     }
                 }
@@ -161,7 +216,6 @@ class IsotopeProprotionsPieChart extends PNode {
                         readoutBox.getFullBoundsReference().getCenterY() - symbol.getFullBoundsReference().height / 2 );
             }
             // Position the elements of the overall label.
-            double nodeHeight = getFullBoundsReference().height;
             addChild( readoutBox );
             if ( labelOnLeft ){
                 readoutBox.setOffset(symbol.getFullBoundsReference().getMaxX() + 5, readoutBox.getOffset().getY() );
