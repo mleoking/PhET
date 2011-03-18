@@ -167,7 +167,7 @@ public class AverageAtomicMassIndicator extends PNode {
         private static final Dimension2D SIZE = new PDimension( 120, 25 );
         private static final double TRIANGULAR_POINTER_HEIGHT = 15;
         private static final double TRIANGULAR_POINTER_WIDTH = 20;
-        private static final DecimalFormat READOUT_FORMATTER = new DecimalFormat( "0.#####" );
+        private static final DecimalFormat READOUT_FORMATTER = new DecimalFormat( "#.00000" );
 
         public ReadoutPointer ( final IsotopeMixturesModel model ){
 
