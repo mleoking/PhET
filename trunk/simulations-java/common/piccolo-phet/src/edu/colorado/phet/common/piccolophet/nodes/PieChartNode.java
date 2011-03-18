@@ -1,11 +1,15 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.piccolophet.nodes;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Rectangle;
 import java.awt.geom.Arc2D;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.swing.*;
+import javax.swing.JFrame;
 
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
@@ -19,6 +23,7 @@ public class PieChartNode extends PNode {
     private PieValue[] slices;//The values to show in the pie
     private Rectangle area;//The area which the pie should take up
     private double initialAngle = 0; // Angle, from the middle of the right side, from which to start drawing.
+    private final List<Point2D> sliceEdgeCenterPoints = new ArrayList<Point2D>(); // Useful for labeling.
 
     /*
      * Creates a PieChartNode with the specified slices and area
@@ -53,6 +58,7 @@ public class PieChartNode extends PNode {
 
     private void update() {
         removeAllChildren();
+        sliceEdgeCenterPoints.clear();
         // Get total value of all slices
         double total = getTotal();
 
@@ -75,18 +81,55 @@ public class PieChartNode extends PNode {
                 if ( slices[i].getValue() == total ) {
                     // This slice represents the entire pie, so just draw it as a circle.
                     path = new PPath( new Ellipse2D.Double( area.x, area.y, area.width, area.height ) );
+                    // Assume, arbitrarily, that the center point is on the
+                    // left side.
+                    sliceEdgeCenterPoints.add( new Point2D.Double( area.getMinX(), area.getCenterY() ) );
                 }
                 else {
                     // Draw the pie slice as an arc.
                     path = new PPath( new Arc2D.Double( area.x, area.y, area.width, area.height, startAngle, arcAngle, Arc2D.Double.PIE ) );
+                    // TODO: This will only work for a round pie, and maybe only
+                    // one that is centered in its area rectangle.
+                    double radius = Math.round( (double)area.width / 2 );
+                    double angle = -Math.toRadians( startAngle + arcAngle / 2 );
+                    sliceEdgeCenterPoints.add( new Point2D.Double( Math.cos( angle ) * radius, Math.sin( angle ) * radius ) );
                 }
                 path.setPaint( slices[i].color );
                 addChild( path );
+            }
+            else{
+                // No slice drawn, so add null to indicate that there is no center point.
+                sliceEdgeCenterPoints.add( null );
             }
             curValue += slices[i].value;
         }
     }
 
+    /**
+     * Get the center edge point, meaning the point on the outside edge of the
+     * pie chart that represents the center, for the specified slice.  This is
+     * useful for adding labels that are ouside of the chart.
+     *
+     * @param sliceNumber
+     * @return
+     */
+    public Point2D getCenterEdgePtForSlice( int sliceNumber ){
+        if ( sliceNumber < sliceEdgeCenterPoints.size() && sliceEdgeCenterPoints.get( sliceNumber ) != null ){
+            return new Point2D.Double( sliceEdgeCenterPoints.get( sliceNumber ).getX(),
+                    sliceEdgeCenterPoints.get( sliceNumber ).getY() );
+        }
+        else{
+            System.err.println(getClass().getName() + " - Error: No such slice, val = " + sliceNumber);
+            return null;
+        }
+    }
+
+    /**
+     * Get the total value of all the pie slices currently represented within
+     * the chart.
+     *
+     * @return
+     */
     public double getTotal() {
         double total = 0.0D;
         for ( int i = 0; i < slices.length; i++ ) {
@@ -141,6 +184,4 @@ public class PieChartNode extends PNode {
         frame.setSize( 400, 400 );
         frame.setVisible( true );
     }
-
-
 }
