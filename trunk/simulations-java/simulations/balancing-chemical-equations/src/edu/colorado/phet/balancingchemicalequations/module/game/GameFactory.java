@@ -57,9 +57,9 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 /**
  * Factory that creates a game.
  * A game is a set of equations to be balanced.
- * The equations are chosen based on a game level.
- * The design document specifies which equations correspond to which game levels ("the pool"),
- * and the strategy for choosing equations for a game level.
+ * The equations are chosen from a "pool", and each game level has its own pool.
+ * The design document specifies which equations are in each pool, as well as
+ * the strategy for choosing equations from each pool.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -78,8 +78,8 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
         }
     }
 
-    // Level 1
-    private static final EquationClassesList LEVEL1_CLASSES = new EquationClassesList() {{
+    // Level 1 pool
+    private static final EquationClassesList LEVEL1_POOL = new EquationClassesList() {{
         add( Synthesis_2H2_O2_2H2O.class );
         add( Synthesis_H2_F2_2HF.class );
         add( Decomposition_2HCl_H2_Cl2.class );
@@ -103,8 +103,8 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
         add( Decomposition_2SO3_2SO2_O2.class );
     }};
 
-    // Level 2
-    private static final EquationClassesList LEVEL2_CLASSES = new EquationClassesList() {{
+    // Level 2 pool
+    private static final EquationClassesList LEVEL2_POOL = new EquationClassesList() {{
         add( Displacement_2C_2H2O_CH4_CO2.class );
         add( Displacement_CH4_H2O_3H2_CO.class );
         add( Displacement_CH4_2O2_CO2_2H2O.class );
@@ -118,8 +118,8 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
         add( Displacement_OF2_H2O_O2_2HF.class );
     }};
 
-    // Level 3
-    private static final EquationClassesList LEVEL3_CLASSES = new EquationClassesList() {{
+    // Level 3 pool
+    private static final EquationClassesList LEVEL3_POOL = new EquationClassesList() {{
         add( Displacement_2C2H6_7O2_4CO2_6H2O.class );
         add( Displacement_4CO2_6H2O_2C2H6_7O2.class );
         add( Displacement_2C2H2_5O2_4CO2_2H2O.class );
@@ -256,17 +256,17 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
         }};
 
     // map of game levels to strategies for selecting equations
-    private static HashMap< Integer, IGameStrategy> GAME_STRATEGIES = new HashMap<Integer, IGameStrategy>() {{
-        put( 1, new RandomStrategy( LEVEL1_CLASSES ) );
-        put( 2, new RandomStrategy( LEVEL2_CLASSES ) );
-        put( 3, new RandomWithExclusionsStrategy( LEVEL3_CLASSES, LEVEL3_EXCLUSIONS ) );
+    private static HashMap< Integer, IGameStrategy> STRATEGIES = new HashMap<Integer, IGameStrategy>() {{
+        put( 1, new RandomStrategy( LEVEL1_POOL ) );
+        put( 2, new RandomStrategy( LEVEL2_POOL ) );
+        put( 3, new RandomWithExclusionsStrategy( LEVEL3_POOL, LEVEL3_EXCLUSIONS ) );
     }};
 
-    // dev: map of game levels to strategies that return all equations for the level
+    // dev map, these strategies return the complete pool for each game level
     private static HashMap< Integer, IGameStrategy> DEV_STRATEGIES = new HashMap<Integer, IGameStrategy>() {{
-        put( 1, new EntirePoolStrategy( LEVEL1_CLASSES ) );
-        put( 2, new EntirePoolStrategy( LEVEL2_CLASSES ) );
-        put( 3, new EntirePoolStrategy( LEVEL3_CLASSES ) );
+        put( 1, new EntirePoolStrategy( LEVEL1_POOL ) );
+        put( 2, new EntirePoolStrategy( LEVEL2_POOL ) );
+        put( 3, new EntirePoolStrategy( LEVEL3_POOL ) );
     }};
 
     /*
@@ -290,12 +290,12 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
     public ArrayList<Equation> createEquations( int numberOfEquations, int level ) {
 
         // validate level
-        if ( !GAME_STRATEGIES.containsKey( level ) ) {
+        if ( !STRATEGIES.containsKey( level ) ) {
             throw new IllegalArgumentException( "unsupported level: " + level );
         }
 
         // get classes
-        IGameStrategy strategy = playAllEquationsProperty.getValue() ? DEV_STRATEGIES.get( level ) : GAME_STRATEGIES.get( level );
+        IGameStrategy strategy = playAllEquationsProperty.getValue() ? DEV_STRATEGIES.get( level ) : STRATEGIES.get( level );
         EquationClassesList equationClasses = strategy.getEquationClasses( numberOfEquations );
 
         // instantiate equations
