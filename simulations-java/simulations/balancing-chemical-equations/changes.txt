@@ -1,3 +1,4 @@
+# 0.00.18 (49929) Mar 17, 2011
 3/17/11 fix: use getDeltaRelativeTo in popups drag handler
 3/17/11 add "Show Why" and "Hide Why" buttons to "Unbalanced" popup in game
 3/17/11 add strings for "Show Why" and "Hide Why" buttons
