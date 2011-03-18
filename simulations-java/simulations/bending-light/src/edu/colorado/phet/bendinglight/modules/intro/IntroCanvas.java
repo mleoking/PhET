@@ -13,10 +13,7 @@ import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.util.function.Function1;
-import edu.colorado.phet.common.phetcommon.util.function.Function2;
-import edu.colorado.phet.common.phetcommon.util.function.Function3;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.common.phetcommon.util.function.*;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -102,13 +99,9 @@ public class IntroCanvas<T extends IntroModel> extends BendingLightCanvas<T> {
             setOffset( 5, 5 );
         }} );
 
-        final Tool protractor = new Tool( multiScaleToWidth( RESOURCES.getImage( "protractor.png" ), ToolboxNode.ICON_WIDTH ), showProtractor,
-                                          transform, new Function1<Rectangle2D.Double, Boolean>() {
-                    public Boolean apply( Rectangle2D.Double bounds ) {
-                        return toolboxNode.getGlobalFullBounds().contains( new Point2D.Double( bounds.getCenterX(), bounds.getCenterY() ) );
-                    }
-                }, this, new Tool.NodeFactory() {
-                    public DraggableNode createNode( ModelViewTransform transform, Property<Boolean> showTool, Point2D model ) {
+        final Tool protractor = new Tool<ProtractorNode>( multiScaleToWidth( RESOURCES.getImage( "protractor.png" ), ToolboxNode.ICON_WIDTH ), showProtractor,
+                                                          transform, this, new Tool.NodeFactory<ProtractorNode>() {
+                    public ProtractorNode createNode( ModelViewTransform transform, Property<Boolean> showTool, Point2D model ) {
                         return new ProtractorNode( transform, showTool, new ProtractorModel( model.getX(), model.getY() ), new Function2<Shape, Shape, Shape>() {
                             public Shape apply( Shape innerBar, final Shape outerCircle ) {
                                 return new Area( innerBar ) {{add( new Area( outerCircle ) );}};
@@ -119,7 +112,11 @@ public class IntroCanvas<T extends IntroModel> extends BendingLightCanvas<T> {
                             }
                         }, 1 );
                     }
-                }, model );
+                }, model, new Function0<Rectangle2D>() {
+                    public Rectangle2D apply() {
+                        return toolboxNode.getGlobalFullBounds();
+                    }
+                } );
         toolboxNode = new ToolboxNode( this, transform, protractor, getMoreTools( model ), model.getIntensityMeter(), showNormal );
         final ControlPanelNode toolbox = new ControlPanelNode( toolboxNode ) {{
             setOffset( 10, stageSize.height - getFullBounds().getHeight() - 10 );

@@ -110,6 +110,10 @@ public class ProtractorNode extends DraggableNode {
         protractorModel.translate( transform.viewToModelDelta( new ImmutableVector2D( delta.width / getScale(), delta.height / getScale() ) ) );
     }
 
+    @Override public Rectangle2D[] getDragComponents() {
+        return new Rectangle2D[] { getGlobalFullBounds() };
+    }
+
     @Override
     public void setVisible( boolean isVisible ) {
         super.setVisible( isVisible );

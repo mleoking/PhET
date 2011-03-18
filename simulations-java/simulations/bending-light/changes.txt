@@ -1,3 +1,4 @@
+> Fixed: Tools should drop in the box when any piece is dropped in the box, not when the center of mass of all components is dropped in
 # 0.00.27 (49883) Mar 16, 2011
 # 0.00.26 (49881) Mar 16, 2011
 Show speed vector at the tail instead of centered

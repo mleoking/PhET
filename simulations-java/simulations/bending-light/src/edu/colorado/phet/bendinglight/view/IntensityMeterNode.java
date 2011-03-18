@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.bendinglight.BendingLightApplication;
 import edu.colorado.phet.bendinglight.model.IntensityMeter;
@@ -110,6 +111,13 @@ public class IntensityMeterNode extends DraggableNode {
 
     public void doDrag( PInputEvent event ) {
         doTranslate( transform.viewToModelDelta( event.getDeltaRelativeTo( getParent() ) ) );
+    }
+
+    @Override public Rectangle2D[] getDragComponents() {
+        return new Rectangle2D[] {
+                bodyNode.getGlobalFullBounds(),
+                sensorNode.getGlobalFullBounds()
+        };
     }
 
     public void doTranslate( Dimension2D delta ) {
