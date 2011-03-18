@@ -1,3 +1,5 @@
+# 2.01.03 (49960) Mar 18, 2011
+3/18/11 Added pie chart labels.
 # 2.01.02 (49878) Mar 16, 2011
 3/16/11 Deploying snapshot to dev for testing and review.
 isotopes-and-atomic-mass: Added ability to clear the test chamber from the canvas.
