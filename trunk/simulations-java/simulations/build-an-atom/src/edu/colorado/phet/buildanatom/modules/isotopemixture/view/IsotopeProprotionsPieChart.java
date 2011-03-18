@@ -11,6 +11,7 @@ import java.text.DecimalFormat;
 
 import edu.colorado.phet.buildanatom.model.ImmutableAtom;
 import edu.colorado.phet.buildanatom.modules.isotopemixture.model.IsotopeMixturesModel;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -67,23 +68,31 @@ class IsotopeProprotionsPieChart extends PNode {
                     pieChart.setInitialAngle( Math.PI - ( lightestIsotopeProportion * Math.PI ) );
                     for ( int i = 0; i < pieSlices.length; i++ ) {
                         if ( pieChart.getCenterEdgePtForSlice( i ) != null ) {
-                            PNode labelNode = new SliceLabel( model.getPossibleIsotopesProperty().getValue().get( i ),
-                                    pieSlices[i].getValue() / pieChart.getTotal(), true );
-                            Point2D labelOffset = pieChart.getCenterEdgePtForSlice( i );
-                            if (labelOffset.getX() > 0 ){
-                                // On right side of chart.
-                                labelOffset.setLocation(
-                                        labelOffset.getX() + labelNode.getFullBoundsReference().width + 10,
-                                        labelOffset.getY() );
+                            // Create the label for this pie slice.
+                            PNode labelNode;
+                            Point2D centerEdgeOfPieSlice = pieChart.getCenterEdgePtForSlice( i );
+                            boolean labelOnLeft = centerEdgeOfPieSlice.getX() < 0;
+                            labelNode = new SliceLabel( model.getPossibleIsotopesProperty().getValue().get( i ),
+                                    pieSlices[i].getValue() / pieChart.getTotal(), labelOnLeft );
+                            labelLayer.addChild( labelNode );
+
+                            // Position the label in its "unconstrained"
+                            // location, meaning that it might be above or
+                            // below the pie chart, or on top of another
+                            // slice label.
+                            Vector2D positionVector = new Vector2D( centerEdgeOfPieSlice );
+                            positionVector.scale( 1.3 );
+                            if ( labelOnLeft ){
+                                labelNode.setOffset(
+                                        positionVector.getX()-labelNode.getFullBoundsReference().width,
+                                        positionVector.getY()-labelNode.getFullBoundsReference().height / 2 );
                             }
                             else{
-                                // On left side of chart.
-                                labelOffset.setLocation(
-                                        labelOffset.getX() - labelNode.getFullBoundsReference().width - 10,
-                                        labelOffset.getY() );
+                                // Label on right.
+                                labelNode.setOffset(
+                                        positionVector.getX(),
+                                        positionVector.getY()-labelNode.getFullBoundsReference().height / 2 );
                             }
-                            labelNode.setOffset( labelOffset );
-                            labelLayer.addChild( labelNode );
                         }
                     }
                 }
@@ -148,8 +157,8 @@ class IsotopeProprotionsPieChart extends PNode {
      * @author John Blanco
      */
     private static class ChemSymbolWithNumbers extends PNode {
-        private static final Font CHEMICAL_SYMBOL_FONT = new PhetFont(20);
-        private static final Font SUPERSCRIPT_SUBSCRIPT_FONT = new PhetFont(10);
+        private static final Font CHEMICAL_SYMBOL_FONT = new PhetFont(24, true);
+        private static final Font SUPERSCRIPT_SUBSCRIPT_FONT = new PhetFont(12);
         private static final double DISTANCE_FROM_NUMBERS_TO_SYMBOL = 4; // In screen coords, close to pixels.
 
         public ChemSymbolWithNumbers( ImmutableAtom chemical ){
@@ -162,14 +171,14 @@ class IsotopeProprotionsPieChart extends PNode {
                 setFont( CHEMICAL_SYMBOL_FONT );
                 setOffset(
                         massNumber.getFullBoundsReference().getMaxX() + DISTANCE_FROM_NUMBERS_TO_SYMBOL,
-                        massNumber.getFullBoundsReference().getCenterY() );
+                        massNumber.getFullBoundsReference().height * 0.25 );
             }};
             addChild( symbol );
             PText atomicNumber = new PText( Integer.toString( chemical.getNumProtons() ) ){{
                 setFont( SUPERSCRIPT_SUBSCRIPT_FONT );
                 setOffset(
                         symbol.getFullBoundsReference().getMinX() - DISTANCE_FROM_NUMBERS_TO_SYMBOL - getFullBoundsReference().width,
-                        symbol.getFullBoundsReference().getMaxY() - getFullBoundsReference().height / 2 );
+                        symbol.getFullBoundsReference().getMaxY() - getFullBoundsReference().height * 0.75 );
             }};
             addChild( atomicNumber );
         }
