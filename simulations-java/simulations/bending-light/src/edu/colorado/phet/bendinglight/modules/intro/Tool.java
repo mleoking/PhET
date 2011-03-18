@@ -76,8 +76,7 @@ public class Tool extends PNode {
                                 }
                             }
                         } );
-
-                        canvas.addChild( node );
+                        Tool.this.addChild( canvas, node );
                     }
                 }
 
@@ -106,4 +105,7 @@ public class Tool extends PNode {
         addChild( thumbnailIcon );
     }
 
+    protected void addChild( BendingLightCanvas canvas, DraggableNode node ) {
+        canvas.addChild( node );
+    }
 }

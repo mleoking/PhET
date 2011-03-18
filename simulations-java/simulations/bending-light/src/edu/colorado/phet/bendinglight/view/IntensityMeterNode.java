@@ -5,17 +5,15 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.bendinglight.BendingLightApplication;
 import edu.colorado.phet.bendinglight.model.IntensityMeter;
+import edu.colorado.phet.bendinglight.modules.intro.DraggableNode;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
-import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -24,7 +22,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 /**
  * @author Sam Reid
  */
-public class IntensityMeterNode extends PNode {
+public class IntensityMeterNode extends DraggableNode {
     private final ModelViewTransform transform;
     private final IntensityMeter intensityMeter;
     public PImage bodyNode;
@@ -52,15 +50,6 @@ public class IntensityMeterNode extends PNode {
                     intensityMeter.translateSensor( transform.viewToModelDelta( event.getDeltaRelativeTo( getParent() ) ) );
                 }
             } );
-        }};
-        final PhetPPath sensorHotSpotDebugger = new PhetPPath( new BasicStroke( 1 ), Color.green ) {{
-            intensityMeter.sensorPosition.addObserver( new SimpleObserver() {
-                public void update() {
-                    setPathTo( transform.modelToView( intensityMeter.getSensorShape() ) );
-                }
-            } );
-            setPickable( false );
-            setChildrenPickable( false );
         }};
 
         bodyNode = new PImage( BendingLightApplication.RESOURCES.getImage( "intensity_meter_box.png" ) ) {{
@@ -106,24 +95,24 @@ public class IntensityMeterNode extends PNode {
 
         addChild( bodyNode );
         addChild( sensorNode );
-//        addChild( sensorHotSpotDebugger );
+
+        //Debugger for the hot spot
+//        addChild( new PhetPPath( new BasicStroke( 1 ), Color.green ) {{
+//            intensityMeter.sensorPosition.addObserver( new SimpleObserver() {
+//                public void update() {
+//                    setPathTo( transform.modelToView( intensityMeter.getSensorShape() ) );
+//                }
+//            } );
+//            setPickable( false );
+//            setChildrenPickable( false );
+//        }} );
     }
 
-    private void doDrag( PInputEvent event ) {
-        final Dimension2D delta = transform.viewToModelDelta( event.getDeltaRelativeTo( getParent() ) );
-        doTranslate( delta );
+    public void doDrag( PInputEvent event ) {
+        doTranslate( transform.viewToModelDelta( event.getDeltaRelativeTo( getParent() ) ) );
     }
 
     public void doTranslate( Dimension2D delta ) {
         intensityMeter.translateAll( delta );
-    }
-
-    public Rectangle2D getSensorGlobalFullBounds() {
-        return sensorNode.getGlobalFullBounds();
-
-    }
-
-    public Rectangle2D getBodyGlobalFullBounds() {
-        return bodyNode.getGlobalFullBounds();
     }
 }
