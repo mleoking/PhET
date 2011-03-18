@@ -30,8 +30,6 @@ class IsotopeProprotionsPieChart extends PNode {
 
     private static final int PIE_CHART_DIAMETER = 100;
 
-    //        private final Map<ImmutableAtom, >
-
     /**
      * Constructor.
      */
@@ -39,11 +37,9 @@ class IsotopeProprotionsPieChart extends PNode {
         final PNode labelLayer = new PNode();
         addChild( labelLayer );
         final PieChartNode pieChart = new PieChartNode( new PieValue[] { new PieValue( 100, Color.red ) },
-                new Rectangle( -PIE_CHART_DIAMETER / 2, -PIE_CHART_DIAMETER / 2, PIE_CHART_DIAMETER, PIE_CHART_DIAMETER ) ) {
-            {
+                new Rectangle( -PIE_CHART_DIAMETER / 2, -PIE_CHART_DIAMETER / 2, PIE_CHART_DIAMETER, PIE_CHART_DIAMETER ) ) {{
                 setOffset( 0, 0 );
-            }
-        };
+            }};
         addChild( pieChart );
         // Add the observer that will update the pie chart.
         model.getIsotopeTestChamber().addTotalCountChangeObserver( new SimpleObserver() {
@@ -76,12 +72,30 @@ class IsotopeProprotionsPieChart extends PNode {
                                     pieSlices[i].getValue() / pieChart.getTotal(), labelOnLeft );
                             labelLayer.addChild( labelNode );
 
-                            // Position the label in its "unconstrained"
-                            // location, meaning that it might be above or
-                            // below the pie chart, or on top of another
-                            // slice label.
+                            // Determine the "unconstrained" target position
+                            // for the label, meaning a position that is
+                            // directly out from the edge of the slice, but
+                            // may be above or below the edges of the pie
+                            // chart.
                             Vector2D positionVector = new Vector2D( centerEdgeOfPieSlice );
                             positionVector.scale( 1.3 );
+
+                            // Constrain the position so that no part of the
+                            // label goes above or below the upper and lower
+                            // edges of the pie chart.
+                            double minY = -PIE_CHART_DIAMETER / 2 + labelNode.getFullBoundsReference().height / 2;
+                            double maxY = PIE_CHART_DIAMETER / 2 - labelNode.getFullBoundsReference().height / 2;
+                            double xSign = labelOnLeft ? -1 : 1;
+                            if ( positionVector.getY() < minY ){
+                                positionVector.setX( xSign * Math.sqrt( positionVector.getMagnitudeSq() - minY * minY ) );
+                                positionVector.setY( minY );
+                            }
+                            else if ( positionVector.getY() > maxY ){
+                                positionVector.setX( xSign * Math.sqrt( positionVector.getMagnitudeSq() - maxY * maxY ) );
+                                positionVector.setY( maxY );
+                            }
+
+                            // Position the label.
                             if ( labelOnLeft ){
                                 labelNode.setOffset(
                                         positionVector.getX()-labelNode.getFullBoundsReference().width,
