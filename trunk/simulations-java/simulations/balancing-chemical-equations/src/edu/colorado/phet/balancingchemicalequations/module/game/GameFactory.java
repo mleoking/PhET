@@ -58,14 +58,28 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
  * Factory that creates a game.
  * A game is a set of equations to be balanced.
  * The equations are chosen based on a game level.
- * The design document specifies which equations correspond to which game levels.
+ * The design document specifies which equations correspond to which game levels ("the pool"),
+ * and the strategy for choosing equations for a game level.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 /* package private */ class GameFactory {
 
+    /*
+     * A list that holds classes of type Equation.
+     * Improves code readability by hiding messy type parameterization.
+     */
+    private static class EquationClassesList extends ArrayList<Class <? extends Equation>> {
+        public EquationClassesList() {
+            super();
+        }
+        public EquationClassesList( EquationClassesList list ) {
+            super( list );
+        }
+    }
+
     // Level 1
-    private static final ArrayList<Class <? extends Equation>> LEVEL1_CLASSES = new ArrayList<Class<? extends Equation>>() {{
+    private static final EquationClassesList LEVEL1_CLASSES = new EquationClassesList() {{
         add( Synthesis_2H2_O2_2H2O.class );
         add( Synthesis_H2_F2_2HF.class );
         add( Decomposition_2HCl_H2_Cl2.class );
@@ -90,7 +104,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
     }};
 
     // Level 2
-    private static final ArrayList<Class <? extends Equation>> LEVEL2_CLASSES = new ArrayList<Class<? extends Equation>>() {{
+    private static final EquationClassesList LEVEL2_CLASSES = new EquationClassesList() {{
         add( Displacement_2C_2H2O_CH4_CO2.class );
         add( Displacement_CH4_H2O_3H2_CO.class );
         add( Displacement_CH4_2O2_CO2_2H2O.class );
@@ -104,8 +118,14 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
         add( Displacement_OF2_H2O_O2_2HF.class );
     }};
 
-    // Level 3 - select one from this list
-    private static final ArrayList<Class <? extends Equation>>LEVEL3_ONE_CLASSES = new ArrayList<Class<? extends Equation>>() {{
+    // Level 3
+    private static final EquationClassesList LEVEL3_CLASSES = new EquationClassesList() {{
+        add( Displacement_2C2H6_7O2_4CO2_6H2O.class );
+        add( Displacement_4CO2_6H2O_2C2H6_7O2.class );
+        add( Displacement_2C2H2_5O2_4CO2_2H2O.class );
+        add( Displacement_4CO2_2H2O_2C2H2_5O2.class );
+        add( Displacement_C2H5OH_3O2_2CO2_3H2O.class );
+        add( Displacement_2CO2_3H2O_C2H5OH_3O2.class );
         add( Displacement_4NH3_3O2_2N2_6H2O.class );
         add( Displacement_2N2_6H2O_4NH3_3O2.class );
         add( Displacement_4NH3_5O2_4NO_6H2O.class );
@@ -116,31 +136,137 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
         add( Displacement_5N2_6H2O_4NH3_6NO.class );
     }};
 
-    // Level 3 - select many from this list
-    private static final ArrayList<Class <? extends Equation>>LEVEL3_MANY_CLASSES = new ArrayList<Class<? extends Equation>>() {{
-        add( Displacement_2C2H6_7O2_4CO2_6H2O.class );
-        add( Displacement_4CO2_6H2O_2C2H6_7O2.class );
-        add( Displacement_2C2H2_5O2_4CO2_2H2O.class );
-        add( Displacement_4CO2_2H2O_2C2H2_5O2.class );
-        add( Displacement_C2H5OH_3O2_2CO2_3H2O.class );
-        add( Displacement_2CO2_3H2O_C2H5OH_3O2.class );
-    }};
+    /*
+     * Maps an equation class to a list of equation classes that should be excluded from the pool.
+     * Improves code readability by hiding messy type parameterization.
+     */
+    private static class ExclusionsMap extends HashMap<Class <? extends Equation>, EquationClassesList> {}
+
+    /*
+     *  Level 3 exclusions map
+     *  <p>
+     *  This mess deserves some explanation... For level 3, the design team wanted a complicated
+     *  strategy for selection equations, where selection of an equation causes other equations to be
+     *  ruled out as possible choices.  For example, if we choose an equation that contains 4NH3 as
+     *  a reactant, we don't want to choose any other equations with 4NH3 as a reactant, and we don't
+     *  want to choose the reverse equation.  Since this "exclusion" strategy was a moving target and
+     *  the rules kept changing, I implemented this general solution, whereby a list of exclusions
+     *  can be specified for each equation.
+     *  <p>
+     *  I would like to have implemented a varargs "put" method to make this more readable, but Java
+     *  cannot create an array of parameterized types, so use of varargs would result in a compiler warnings.
+     *  (And yes, I know that Scala doesn't have this problem.)
+     */
+    private static final ExclusionsMap LEVEL3_EXCLUSIONS =
+        new ExclusionsMap() {{
+            put( Displacement_2C2H6_7O2_4CO2_6H2O.class,
+                 new EquationClassesList() {{
+                    add( Displacement_2C2H2_5O2_4CO2_2H2O.class );
+                 }}
+            );
+            put( Displacement_4CO2_6H2O_2C2H6_7O2.class,
+                 new EquationClassesList() {{
+                    add( Displacement_4CO2_2H2O_2C2H2_5O2.class );
+                 }}
+            );
+            put( Displacement_2C2H2_5O2_4CO2_2H2O.class,
+                 new EquationClassesList() {{
+                     add( Displacement_2C2H6_7O2_4CO2_6H2O.class );
+                 }}
+            );
+            put( Displacement_4CO2_2H2O_2C2H2_5O2.class,
+                 new EquationClassesList() {{
+                     add( Displacement_4CO2_6H2O_2C2H6_7O2.class );
+                 }}
+            );
+            put( Displacement_C2H5OH_3O2_2CO2_3H2O.class,
+                    new EquationClassesList() {{
+                        add( Displacement_2CO2_3H2O_C2H5OH_3O2.class );
+                    }}
+               );
+            put( Displacement_2CO2_3H2O_C2H5OH_3O2.class,
+                 new EquationClassesList() {{
+                     add( Displacement_C2H5OH_3O2_2CO2_3H2O.class );
+                 }}
+            );
+            put( Displacement_4NH3_3O2_2N2_6H2O.class,
+                 new EquationClassesList() {{
+                     add( Displacement_2N2_6H2O_4NH3_3O2.class ); /* reverse equation */
+                     add( Displacement_4NH3_5O2_4NO_6H2O.class ); /* other equations with reactant 4NH3 */
+                     add( Displacement_4NH3_7O2_4NO2_6H2O.class );
+                     add( Displacement_4NH3_6NO_5N2_6H2O.class );
+                 }}
+            );
+            put( Displacement_4NH3_5O2_4NO_6H2O.class,
+                 new EquationClassesList() {{
+                     add( Displacement_4NO_6H2O_4NH3_5O2.class ); /* reverse equation */
+                     add( Displacement_4NH3_3O2_2N2_6H2O.class ); /* other equations with reactant 4NH3 */
+                     add( Displacement_4NH3_7O2_4NO2_6H2O.class );
+                     add( Displacement_4NH3_6NO_5N2_6H2O.class );
+                 }}
+            );
+            put( Displacement_4NH3_7O2_4NO2_6H2O.class,
+                 new EquationClassesList() {{
+                     add( Displacement_4NO2_6H2O_4NH3_7O2.class ); /* reverse equation */
+                     add( Displacement_4NH3_3O2_2N2_6H2O.class ); /* other equations with reactant 4NH3 */
+                     add( Displacement_4NH3_5O2_4NO_6H2O.class );
+                     add( Displacement_4NH3_6NO_5N2_6H2O.class );
+                 }}
+            );
+            put( Displacement_4NH3_6NO_5N2_6H2O.class,
+                 new EquationClassesList() {{
+                     add( Displacement_5N2_6H2O_4NH3_6NO.class ); /* reverse equation */
+                     add( Displacement_4NH3_3O2_2N2_6H2O.class ); /* other equations with reactant 4NH3 */
+                     add( Displacement_4NH3_5O2_4NO_6H2O.class );
+                     add( Displacement_4NH3_7O2_4NO2_6H2O.class );
+                 }}
+            );
+            put( Displacement_2N2_6H2O_4NH3_3O2.class,
+                 new EquationClassesList() {{
+                     add( Displacement_4NH3_3O2_2N2_6H2O.class ); /* reverse equation */
+                     add( Displacement_4NO_6H2O_4NH3_5O2.class ); /* other equations with product 4NH3 */
+                     add( Displacement_4NO2_6H2O_4NH3_7O2.class );
+                     add( Displacement_5N2_6H2O_4NH3_6NO.class );
+                 }}
+            );
+            put( Displacement_4NO_6H2O_4NH3_5O2.class,
+                 new EquationClassesList() {{
+                     add( Displacement_4NH3_5O2_4NO_6H2O.class ); /* reverse equation */
+                     add( Displacement_2N2_6H2O_4NH3_3O2.class ); /* other equations with product 4NH3 */
+                     add( Displacement_4NO2_6H2O_4NH3_7O2.class );
+                     add( Displacement_5N2_6H2O_4NH3_6NO.class );
+                 }}
+            );
+            put( Displacement_4NO2_6H2O_4NH3_7O2.class,
+                 new EquationClassesList() {{
+                     add( Displacement_4NH3_7O2_4NO2_6H2O.class ); /* reverse equation */
+                     add( Displacement_2N2_6H2O_4NH3_3O2.class ); /* other equations with product 4NH3 */
+                     add( Displacement_4NO_6H2O_4NH3_5O2.class );
+                     add( Displacement_5N2_6H2O_4NH3_6NO.class );
+                 }}
+            );
+            put( Displacement_5N2_6H2O_4NH3_6NO.class,
+                 new EquationClassesList() {{
+                     add( Displacement_4NH3_6NO_5N2_6H2O.class ); /* reverse equation */
+                     add( Displacement_2N2_6H2O_4NH3_3O2.class ); /* other equations with product 4NH3 */
+                     add( Displacement_4NO_6H2O_4NH3_5O2.class );
+                     add( Displacement_4NO2_6H2O_4NH3_7O2.class );
+                 }}
+            );
+        }};
 
     // map of game levels to strategies for selecting equations
     private static HashMap< Integer, IGameStrategy> GAME_STRATEGIES = new HashMap<Integer, IGameStrategy>() {{
-        put( 1, new RandomNoDuplicatesStrategy( LEVEL1_CLASSES ) );
-        put( 2, new RandomNoDuplicatesStrategy( LEVEL2_CLASSES ) );
-        put( 3, new OneManyStrategy( LEVEL3_ONE_CLASSES, LEVEL3_MANY_CLASSES ) );
+        put( 1, new RandomStrategy( LEVEL1_CLASSES ) );
+        put( 2, new RandomStrategy( LEVEL2_CLASSES ) );
+        put( 3, new RandomWithExclusionsStrategy( LEVEL3_CLASSES, LEVEL3_EXCLUSIONS ) );
     }};
 
     // dev: map of game levels to strategies that return all equations for the level
     private static HashMap< Integer, IGameStrategy> DEV_STRATEGIES = new HashMap<Integer, IGameStrategy>() {{
         put( 1, new EntirePoolStrategy( LEVEL1_CLASSES ) );
         put( 2, new EntirePoolStrategy( LEVEL2_CLASSES ) );
-        put( 3, new EntirePoolStrategy( new ArrayList<Class<? extends Equation>>() {{
-            addAll( LEVEL3_MANY_CLASSES );
-            addAll( LEVEL3_ONE_CLASSES );
-        }} ) );
+        put( 3, new EntirePoolStrategy( LEVEL3_CLASSES ) );
     }};
 
     /*
@@ -170,7 +296,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 
         // get classes
         IGameStrategy strategy = playAllEquationsProperty.getValue() ? DEV_STRATEGIES.get( level ) : GAME_STRATEGIES.get( level );
-        ArrayList<Class<? extends Equation>> equationClasses = strategy.getEquationClasses( numberOfEquations );
+        EquationClassesList equationClasses = strategy.getEquationClasses( numberOfEquations );
 
         // instantiate equations
         ArrayList<Equation> equations = new ArrayList<Equation>();
@@ -201,7 +327,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
      * Strategy for selecting equations for a game.
      */
     private interface IGameStrategy {
-        public ArrayList<Class<? extends Equation>> getEquationClasses( int numberOfEquations );
+        public EquationClassesList getEquationClasses( int numberOfEquations );
     }
 
     /*
@@ -210,91 +336,73 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
      */
     private static class EntirePoolStrategy implements IGameStrategy {
 
-        private final ArrayList<Class <? extends Equation>> pool;
+        private final EquationClassesList pool;
 
-        public EntirePoolStrategy( ArrayList<Class <? extends Equation>> pool ) {
+        public EntirePoolStrategy( EquationClassesList pool ) {
             this.pool = pool;
         }
 
-        public ArrayList<Class<? extends Equation>> getEquationClasses( int numberOfEquations ) {
-            return new ArrayList<Class<? extends Equation>>( pool );
+        public EquationClassesList getEquationClasses( int numberOfEquations ) {
+            return new EquationClassesList( pool );
         }
     }
 
     /*
-     * Selects a random set from a pool of equations.
-     * There will be no duplicates, unless the number of equations requested exceeds the number of equations in pool.
+     * Selects a random set from a pool of equations, with no duplicates.
      */
-    private static class RandomNoDuplicatesStrategy implements IGameStrategy {
+    public static class RandomStrategy extends RandomWithExclusionsStrategy {
+        public RandomStrategy( EquationClassesList pool ) {
+            super( pool, new ExclusionsMap() /* empty exclusions */ );
+        }
+    }
 
-        private final ArrayList<Class <? extends Equation>> pool;
+    /*
+     * Selects a random set from a pool of equations, with no duplicates.
+     * Selection of an equation may cause other equations to be excluded from the pool.
+     */
+    private static class RandomWithExclusionsStrategy implements IGameStrategy {
 
-        public RandomNoDuplicatesStrategy( ArrayList<Class <? extends Equation>> pool ) {
+        private final EquationClassesList pool;
+        private final ExclusionsMap exclusions;
+
+        public RandomWithExclusionsStrategy( EquationClassesList pool, ExclusionsMap exclusions ) {
             this.pool = pool;
+            this.exclusions = exclusions;
         }
 
-        public ArrayList<Class<? extends Equation>> getEquationClasses( int numberOfEquations ) {
-            ArrayList<Class<? extends Equation>> classesList = new ArrayList<Class<? extends Equation>>();
+        public EquationClassesList getEquationClasses( int numberOfEquations ) {
+
+            // operate on a copy of the pool, so that we can prune the pool as we select equations
+            EquationClassesList poolCopy = new EquationClassesList( pool );
+
+            EquationClassesList equationClasses = new EquationClassesList();
             for ( int i = 0; i < numberOfEquations; i++ ) {
-                classesList.add( getRandomEquationClass( pool, classesList ) );
-            }
-            assert ( classesList.size() == numberOfEquations );
-            return classesList;
-        }
 
-        /*
-         * Creates a random equation class for a specified level.
-         * Will not select a class that has already been selected,
-         * unless the selected list already contains all possible equations for the level.
-         *
-         * @param pool the pool of classes to choose from
-         * @param selectedList list of classes that have already been selected
-         */
-        private static Class<? extends Equation> getRandomEquationClass( ArrayList<Class<? extends Equation>> pool, ArrayList<Class<? extends Equation>> selectedList ) {
+                // randomly select an equation
+                int equationIndex = (int) ( Math.random() * poolCopy.size() );
+                Class<? extends Equation> equationClass = poolCopy.get( equationIndex );
+                equationClasses.add( equationClass );
 
-            // Select a random equation class from the array for the specified level.
-            int equationIndex = (int) ( Math.random() * pool.size() );
-            Class<? extends Equation> equationClass = pool.get( equationIndex );
+                // remove the equation from the pool so it won't be selected again
+                poolCopy.remove( equationClass );
 
-            // If this is a duplicate, find the next one that's not in the equation set.
-            final int originalIndex = equationIndex;
-            while ( selectedList.contains( equationClass ) ) {
-                equationIndex++;
-                if ( equationIndex > pool.size() - 1 ) {
-                    equationIndex = 0;
+                // if the selected equation has exclusions, remove them from the pool
+                EquationClassesList exclusedEquations = exclusions.get( equationClass );
+                if ( exclusedEquations != null ) {
+                    poolCopy.removeAll( exclusedEquations );
                 }
-                equationClass = pool.get( equationIndex );
-                if ( equationIndex == originalIndex ) {
-                    // we're back where we started, bail
+
+                // if the pool size goes to zero prematurely, print diagnostics and bail
+                if ( i < numberOfEquations - 1 && poolCopy.size() == 0 ) {
+                    System.err.print( "ERROR: GameFactory.RandomWithExclusionsStrategy.getEquationClasses ran out of equations, " );
+                    System.err.print( "numberOfEquations=" + numberOfEquations );
+                    System.err.println( " equationClasses=" + equationClasses.toString() );
                     break;
                 }
             }
 
-            return equationClass;
-        }
-    }
-
-    /*
-     * Takes 2 pools of equations, the "one" pool and the "many" pool.
-     * Returns a set that contains one equation from the "one" pool, and the remainder from the "many" pool.
-     */
-    private static class OneManyStrategy implements IGameStrategy {
-
-        private final RandomNoDuplicatesStrategy oneStrategy, manyStrategy;
-
-        public OneManyStrategy( ArrayList<Class <? extends Equation>> onePool, ArrayList<Class <? extends Equation>> manyPool ) {
-            this.oneStrategy = new RandomNoDuplicatesStrategy( onePool );
-            this.manyStrategy = new RandomNoDuplicatesStrategy( manyPool );
-        }
-
-        public ArrayList<Class<? extends Equation>> getEquationClasses( int numberOfEquations ) {
-            ArrayList<Class<? extends Equation>> oneList = oneStrategy.getEquationClasses( 1 );
-            ArrayList<Class<? extends Equation>> manyList = manyStrategy.getEquationClasses( numberOfEquations - 1 );
-            // insert the "one" equation into the list at a random location
-            int randomIndex = (int)( Math.random() * manyList.size() );
-            manyList.add( randomIndex, oneList.get( 0 ) );
-            assert( manyList.size() == numberOfEquations );
-            return manyList;
+            assert ( equationClasses.size() == numberOfEquations );
+            return equationClasses;
         }
     }
 

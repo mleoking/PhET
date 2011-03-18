@@ -1,3 +1,4 @@
+3/18/11 rewrite level-3 game strategy again, a generalized version of the "exclusionary" strategy specified in the design doc
 # 0.00.18 (49929) Mar 17, 2011
 3/17/11 fix: use getDeltaRelativeTo in popups drag handler
 3/17/11 add "Show Why" and "Hide Why" buttons to "Unbalanced" popup in game
