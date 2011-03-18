@@ -29,6 +29,8 @@ import edu.umd.cs.piccolo.PNode;
  * @author Sam Reid
  */
 public class MoreToolsCanvas extends IntroCanvas<MoreToolsModel> {
+    public WaveSensorNode myWaveSensorNode;
+
     public MoreToolsCanvas( MoreToolsModel model, BooleanProperty moduleActive, Resettable resetAll ) {
         super( model, moduleActive, resetAll, new Function3<IntroModel, Double, Double, PNode>() {
             public PNode apply( IntroModel introModel, final Double x, final Double y ) {
@@ -83,13 +85,18 @@ public class MoreToolsCanvas extends IntroCanvas<MoreToolsModel> {
                                         transform, container, this, new Tool.NodeFactory() {
                     public DraggableNode createNode( ModelViewTransform transform, final Property<Boolean> showTool, final Point2D model ) {
                         waveSensor.translateToHotSpot( model );
-                        return new WaveSensorNode( transform, waveSensor ) {{
-                            showTool.addObserver( new SimpleObserver() {
-                                public void update() {
-                                    setVisible( showTool.getValue() );
-                                }
-                            } );
-                        }};
+
+                        //lazily create and reuse because there are performance problems if you create a new one each time
+                        if ( myWaveSensorNode == null ) {
+                            myWaveSensorNode = new WaveSensorNode( transform, waveSensor ) {{
+                                showTool.addObserver( new SimpleObserver() {
+                                    public void update() {
+                                        setVisible( showTool.getValue() );
+                                    }
+                                } );
+                            }};
+                        }
+                        return myWaveSensorNode;
                     }
                 }, resetModel );
 

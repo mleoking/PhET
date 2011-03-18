@@ -71,7 +71,9 @@ public class Tool extends PNode {
                                 if ( intersect ) {
                                     showTool.setValue( false );
                                     thumbRef.setVisible( true );
-                                    node.removePropertyChangeListener( pcl );
+                                    if ( node != null ) {
+                                        node.removePropertyChangeListener( pcl );
+                                    }
                                     reset();
                                 }
                             }
