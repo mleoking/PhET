@@ -35,7 +35,7 @@ public class StatesOfMatterApplication extends PiccoloPhetApplication implements
 
     private SolidLiquidGasModule m_solidLiquidGasModule;
     private PhaseChangesModule   m_phaseChangesModule;
-//    private AtomicInteractionsModule   m_interactionPotentialModule;
+    private AtomicInteractionsModule   m_interactionPotentialModule;
 
     //----------------------------------------------------------------------------
     // Sole Constructor
@@ -73,8 +73,8 @@ public class StatesOfMatterApplication extends PiccoloPhetApplication implements
         m_phaseChangesModule = new PhaseChangesModule( parentFrame );
         addModule( m_phaseChangesModule );
 
-//        m_interactionPotentialModule = new AtomicInteractionsModule( parentFrame, false );
-//        addModule( m_interactionPotentialModule );
+        m_interactionPotentialModule = new AtomicInteractionsModule( parentFrame, false );
+        addModule( m_interactionPotentialModule );
     }
 
     //----------------------------------------------------------------------------
