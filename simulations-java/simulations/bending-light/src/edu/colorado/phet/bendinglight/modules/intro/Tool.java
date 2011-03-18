@@ -22,17 +22,17 @@ import edu.umd.cs.piccolo.nodes.PImage;
 /**
  * @author Sam Reid
  */
-public class Tool<T extends DraggableNode> extends PNode {
+public class Tool extends PNode {
 
-    public static interface NodeFactory<T extends DraggableNode> {
-        T createNode( ModelViewTransform transform, Property<Boolean> visible, Point2D location );
+    public static interface NodeFactory {
+        DraggableNode createNode( ModelViewTransform transform, Property<Boolean> visible, Point2D location );
     }
 
     public Tool( final Image thumbnail,
                  final Property<Boolean> showTool,
                  final ModelViewTransform transform,
                  final BendingLightCanvas canvas,
-                 final NodeFactory<T> nodeMaker,
+                 final NodeFactory nodeMaker,
                  final ResetModel resetModel,
                  final Function0<Rectangle2D> getGlobalDropTargetBounds ) {
         final PImage thumbnailIcon = new PImage( thumbnail ) {{
@@ -51,7 +51,7 @@ public class Tool<T extends DraggableNode> extends PNode {
                     } );
                 }
 
-                T node = null;
+                DraggableNode node = null;
                 boolean intersect = false;
 
                 @Override

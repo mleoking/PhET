@@ -17,7 +17,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 /**
  * @author Sam Reid
  */
-public class IntensitySensorTool extends Tool<IntensityMeterNode> {
+public class IntensitySensorTool extends Tool {
     public IntensitySensorTool( final BendingLightCanvas canvas,
                                 final ModelViewTransform transform,
                                 final IntensityMeter intensityMeter,
@@ -27,7 +27,7 @@ public class IntensitySensorTool extends Tool<IntensityMeterNode> {
                                 final IntensityMeterNode iconNode,
                                 final int sensorIconHeight ) {
         super( iconNode.toImage( ToolboxNode.ICON_WIDTH, sensorIconHeight, new Color( 0, 0, 0, 0 ) ),
-               intensityMeter.enabled, transform, canvas, new Tool.NodeFactory<IntensityMeterNode>() {
+               intensityMeter.enabled, transform, canvas, new Tool.NodeFactory() {
                     public IntensityMeterNode createNode( ModelViewTransform transform, Property<Boolean> visible, final Point2D location ) {
                         return new IntensityMeterNode( transform, intensityMeter ) {{
                             intensityMeter.sensorPosition.setValue( new ImmutableVector2D( modelWidth * 0.3, -modelHeight * 0.3 ) );

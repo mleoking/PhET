@@ -99,8 +99,8 @@ public class IntroCanvas<T extends IntroModel> extends BendingLightCanvas<T> {
             setOffset( 5, 5 );
         }} );
 
-        final Tool protractor = new Tool<ProtractorNode>( multiScaleToWidth( RESOURCES.getImage( "protractor.png" ), ToolboxNode.ICON_WIDTH ), showProtractor,
-                                                          transform, this, new Tool.NodeFactory<ProtractorNode>() {
+        final Tool protractor = new Tool( multiScaleToWidth( RESOURCES.getImage( "protractor.png" ), ToolboxNode.ICON_WIDTH ), showProtractor,
+                                          transform, this, new Tool.NodeFactory() {
                     public ProtractorNode createNode( ModelViewTransform transform, Property<Boolean> showTool, Point2D model ) {
                         return new ProtractorNode( transform, showTool, new ProtractorModel( model.getX(), model.getY() ), new Function2<Shape, Shape, Shape>() {
                             public Shape apply( Shape innerBar, final Shape outerCircle ) {
