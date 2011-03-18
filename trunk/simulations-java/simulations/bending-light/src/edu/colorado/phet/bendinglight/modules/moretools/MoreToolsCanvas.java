@@ -55,13 +55,12 @@ public class MoreToolsCanvas extends IntroCanvas<MoreToolsModel> {
                 return getToolboxNode().getGlobalFullBounds().contains( new Point2D.Double( bounds.getCenterX(), bounds.getCenterY() ) );
             }
         };
-        final MoreToolsModel m = (MoreToolsModel) model;//todo: use generics to remove this cast
         final Tool velocityTool = new Tool( velocitySensorNode.toImage( ToolboxNode.ICON_WIDTH, (int) ( velocitySensorNode.getFullBounds().getHeight() / velocitySensorNode.getFullBounds().getWidth() * ToolboxNode.ICON_WIDTH ), new Color( 0, 0, 0, 0 ) ),
                                             showVelocitySensor,
                                             transform, container, this, new Tool.NodeFactory() {
                     public DraggableNode createNode( ModelViewTransform transform, final Property<Boolean> showTool, final Point2D modelPt ) {
-                        m.velocitySensor.position.setValue( new ImmutableVector2D( modelPt ) );
-                        return new VelocitySensorNode( transform, m.velocitySensor ) {{
+                        model.velocitySensor.position.setValue( new ImmutableVector2D( modelPt ) );
+                        return new VelocitySensorNode( transform, model.velocitySensor ) {{
                             showTool.addObserver( new VoidFunction1<Boolean>() {
                                 public void apply( Boolean visible ) {
                                     setVisible( visible );
@@ -74,21 +73,20 @@ public class MoreToolsCanvas extends IntroCanvas<MoreToolsModel> {
 
         final Function1.Constant<ImmutableVector2D, Option<Double>> value = new Function1.Constant<ImmutableVector2D, Option<Double>>( new Option.None<Double>() );
         final WaveSensorNode waveSensorNode = new WaveSensorNode( transform, new WaveSensor( new ConstantDtClock(), value, value ) );
-        final WaveSensor waveSensor = m.waveSensor;
         resetModel.addResetListener( new VoidFunction0() {
             public void apply() {
-                waveSensor.visible.reset();
+                model.waveSensor.visible.reset();
             }
         } );
         final Tool waveTool = new Tool( waveSensorNode.toImage( ToolboxNode.ICON_WIDTH, (int) ( waveSensorNode.getFullBounds().getHeight() / waveSensorNode.getFullBounds().getWidth() * ToolboxNode.ICON_WIDTH ), new Color( 0, 0, 0, 0 ) ),
-                                        waveSensor.visible,
+                                        model.waveSensor.visible,
                                         transform, container, this, new Tool.NodeFactory() {
-                    public DraggableNode createNode( ModelViewTransform transform, final Property<Boolean> showTool, final Point2D model ) {
-                        waveSensor.translateToHotSpot( model );
+                    public DraggableNode createNode( ModelViewTransform transform, final Property<Boolean> showTool, final Point2D modelPt ) {
+                        model.waveSensor.translateToHotSpot( modelPt );
 
                         //lazily create and reuse because there are performance problems if you create a new one each time
                         if ( myWaveSensorNode == null ) {
-                            myWaveSensorNode = new WaveSensorNode( transform, waveSensor ) {{
+                            myWaveSensorNode = new WaveSensorNode( transform, model.waveSensor ) {{
                                 showTool.addObserver( new SimpleObserver() {
                                     public void update() {
                                         setVisible( showTool.getValue() );
