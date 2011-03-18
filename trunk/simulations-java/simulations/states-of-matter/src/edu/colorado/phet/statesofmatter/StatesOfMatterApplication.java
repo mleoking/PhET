@@ -35,12 +35,12 @@ public class StatesOfMatterApplication extends PiccoloPhetApplication implements
 
     private SolidLiquidGasModule m_solidLiquidGasModule;
     private PhaseChangesModule   m_phaseChangesModule;
-    private AtomicInteractionsModule   m_interactionPotentialModule;
-    
+//    private AtomicInteractionsModule   m_interactionPotentialModule;
+
     //----------------------------------------------------------------------------
     // Sole Constructor
     //----------------------------------------------------------------------------
-    
+
     public StatesOfMatterApplication( PhetApplicationConfig config ) {
         super( config );
         initModules();
@@ -59,12 +59,12 @@ public class StatesOfMatterApplication extends PiccoloPhetApplication implements
         JMenu developerMenu = getPhetFrame().getDeveloperMenu();
         developerMenu.add( new DeveloperControlsMenuItem( this ) );
     }
-    
+
     /**
      * Initializes the modules.
      */
     private void initModules() {
-        
+
         Frame parentFrame = getPhetFrame();
 
         m_solidLiquidGasModule = new SolidLiquidGasModule( parentFrame );
@@ -73,8 +73,8 @@ public class StatesOfMatterApplication extends PiccoloPhetApplication implements
         m_phaseChangesModule = new PhaseChangesModule( parentFrame );
         addModule( m_phaseChangesModule );
 
-        m_interactionPotentialModule = new AtomicInteractionsModule( parentFrame, false );
-        addModule( m_interactionPotentialModule );
+//        m_interactionPotentialModule = new AtomicInteractionsModule( parentFrame, false );
+//        addModule( m_interactionPotentialModule );
     }
 
     //----------------------------------------------------------------------------
@@ -87,14 +87,14 @@ public class StatesOfMatterApplication extends PiccoloPhetApplication implements
      * @param args command line arguments
      */
     public static void main( final String[] args ) {
-        
+
         ApplicationConstructor appConstructor = new ApplicationConstructor() {
             public PhetApplication getApplication( PhetApplicationConfig config ) {
                 return new StatesOfMatterApplication( config );
             }
         };
-        
-        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, StatesOfMatterConstants.PROJECT_NAME, 
+
+        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, StatesOfMatterConstants.PROJECT_NAME,
         		StatesOfMatterConstants.FLAVOR_STATES_OF_MATTER );
 
         PhetLookAndFeel p = new PhetLookAndFeel();
