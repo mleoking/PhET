@@ -16,6 +16,7 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Base class for all "popups" used in the Game to tell the user whether their guess is balanced or unbalanced.
@@ -44,7 +45,8 @@ public abstract class GamePopupNode extends PNode {
         addInputEventListener( new PBasicInputEventHandler() {
             @Override
             public void mouseDragged( PInputEvent event ) {
-                translate( event.getDelta().getWidth(), event.getDelta().getHeight() );
+                PDimension delta = event.getDeltaRelativeTo( GamePopupNode.this );
+                translate( delta.getWidth(), delta.getHeight() );
             }
         });
 
