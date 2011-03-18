@@ -59,9 +59,9 @@ public class MoreToolsCanvas extends IntroCanvas<MoreToolsModel> {
                 return t;
             }
         };
-        final Tool velocityTool = new Tool<VelocitySensorNode>( velocitySensorNode.toImage( ToolboxNode.ICON_WIDTH, (int) ( velocitySensorNode.getFullBounds().getHeight() / velocitySensorNode.getFullBounds().getWidth() * ToolboxNode.ICON_WIDTH ), new Color( 0, 0, 0, 0 ) ),
-                                                                showVelocitySensor,
-                                                                transform, this, new Tool.NodeFactory<VelocitySensorNode>() {
+        final Tool velocityTool = new Tool( velocitySensorNode.toImage( ToolboxNode.ICON_WIDTH, (int) ( velocitySensorNode.getFullBounds().getHeight() / velocitySensorNode.getFullBounds().getWidth() * ToolboxNode.ICON_WIDTH ), new Color( 0, 0, 0, 0 ) ),
+                                            showVelocitySensor,
+                                            transform, this, new Tool.NodeFactory() {
                     public VelocitySensorNode createNode( ModelViewTransform transform, final Property<Boolean> showTool, final Point2D modelPt ) {
                         model.velocitySensor.position.setValue( new ImmutableVector2D( modelPt ) );
                         return new VelocitySensorNode( transform, model.velocitySensor ) {{
@@ -86,9 +86,9 @@ public class MoreToolsCanvas extends IntroCanvas<MoreToolsModel> {
                 model.waveSensor.visible.reset();
             }
         } );
-        final Tool waveTool = new Tool<WaveSensorNode>( waveSensorNode.toImage( ToolboxNode.ICON_WIDTH, (int) ( waveSensorNode.getFullBounds().getHeight() / waveSensorNode.getFullBounds().getWidth() * ToolboxNode.ICON_WIDTH ), new Color( 0, 0, 0, 0 ) ),
-                                                        model.waveSensor.visible,
-                                                        transform, this, new Tool.NodeFactory<WaveSensorNode>() {
+        final Tool waveTool = new Tool( waveSensorNode.toImage( ToolboxNode.ICON_WIDTH, (int) ( waveSensorNode.getFullBounds().getHeight() / waveSensorNode.getFullBounds().getWidth() * ToolboxNode.ICON_WIDTH ), new Color( 0, 0, 0, 0 ) ),
+                                        model.waveSensor.visible,
+                                        transform, this, new Tool.NodeFactory() {
                     public WaveSensorNode createNode( ModelViewTransform transform, final Property<Boolean> showTool, final Point2D modelPt ) {
                         model.waveSensor.translateToHotSpot( modelPt );
 
