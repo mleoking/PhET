@@ -3,7 +3,7 @@
   <string key="friction" value="friction" />
   <string key="none" value="none" />
   <string key="lots" value="lots" />
-  <string key="softness" value="softness spring 3" />
+  <string key="softness" value="stiffness spring 3" />
   <string key="soft" value="soft"/>
   <string key="hard" value="hard"/>
   <string key="showEnergyOf" value="Show Energy of"/>
