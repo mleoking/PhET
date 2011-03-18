@@ -129,7 +129,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
                 // Erase any previous state for this isotope.
                 mapIsotopeConfigToUserMixState.remove( prototypeIsotope.getNumProtons() );
             }
-            removeIsotopesFromTestChamberAndModel();
+            removeAllIsotopesFromTestChamberAndModel();
             addIsotopeControllers();
         }
     };
@@ -210,7 +210,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
      * element is selected after initialization or reset.
      */
     private void setUpInitialUsersMix(){
-        removeIsotopesFromTestChamberAndModel();
+        removeAllIsotopesFromTestChamberAndModel();
         showingNaturesMixProperty.setValue( false );
         interactivityModeProperty.setValue( InteractivityMode.BUCKETS_AND_LARGE_ATOMS );
         mapIsotopeConfigToUserMixState.remove( prototypeIsotope.getNumProtons() );
@@ -251,7 +251,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
      */
     private void setState( State modelState ){
         // Clear out any particles that are currently in the test chamber.
-        removeIsotopesFromTestChamberAndModel();
+        removeAllIsotopesFromTestChamberAndModel();
 
         // Restore the prototype isotope.
         prototypeIsotope.setConfiguration( modelState.getElementConfiguration() );
@@ -325,6 +325,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
         // to call this when it isn't needed.
 
         if ( showingNaturesMixProperty.getValue() ){
+            removeAllIsotopesFromTestChamberAndModel();
             prototypeIsotope.setConfiguration( atom );
             updatePossibleIsotopesList();
             showNaturesMix();
@@ -341,6 +342,9 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
                 setState( mapIsotopeConfigToUserMixState.get( atom.getNumProtons() ) );
             }
             else{
+                // Clean up any previous isotopes.
+                removeAllIsotopesFromTestChamberAndModel();
+
                 // Update the prototype atom (a.k.a. isotope) configuration.
                 prototypeIsotope.setConfiguration( atom );
                 updatePossibleIsotopesList();
@@ -569,7 +573,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
 
         // Clear out anything that is in the test chamber.  If anything
         // needed to be stored, it should have been done by now.
-        removeIsotopesFromTestChamberAndModel();
+        removeAllIsotopesFromTestChamberAndModel();
 
         // Get the list of possible isotopes and then sort it by abundance
         // so that the least abundant are added last, thus assuring that
@@ -609,12 +613,13 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
      * the model.  This method does not add removed isotopes back to the
      * buckets or update the controllers.
      */
-    private void removeIsotopesFromTestChamberAndModel(){
-        for ( MovableAtom isotope : new ArrayList<MovableAtom>( testChamber.getContainedIsotopes() ) ){
-            testChamber.removeIsotopeFromChamber( isotope );
-            isotope.removeListener( isotopeGrabbedListener );
-            isotope.removedFromModel();
-        }
+    private void removeAllIsotopesFromTestChamberAndModel(){
+        testChamber.removeAllIsotopes( true );
+//        for ( MovableAtom isotope : new ArrayList<MovableAtom>( testChamber.getContainedIsotopes() ) ){
+//            testChamber.removeIsotopeFromChamber( isotope );
+//            isotope.removeListener( isotopeGrabbedListener );
+//            isotope.removedFromModel();
+//        }
     }
 
     /**

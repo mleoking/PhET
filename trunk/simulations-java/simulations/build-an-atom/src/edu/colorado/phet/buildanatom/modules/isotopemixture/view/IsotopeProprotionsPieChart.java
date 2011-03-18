@@ -14,6 +14,7 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.buildanatom.model.ImmutableAtom;
 import edu.colorado.phet.buildanatom.modules.isotopemixture.model.IsotopeMixturesModel;
+import edu.colorado.phet.buildanatom.modules.isotopemixture.model.MovableAtom;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
@@ -58,7 +59,7 @@ class IsotopeProprotionsPieChart extends PNode {
         model.getIsotopeTestChamber().addTotalCountChangeObserver( new SimpleObserver() {
                 public void update() {
                 int isotopeCount = model.getIsotopeTestChamber().getTotalIsotopeCount();
-                                // Hide the chart if there is nothing in the chamber.
+                // Hide the chart if there is nothing in the chamber.
                 pieChart.setVisible( isotopeCount > 0 );
                 emptyPieChart.setVisible( isotopeCount == 0 );
                 labelLayer.setVisible( isotopeCount > 0 );
@@ -82,6 +83,18 @@ class IsotopeProprotionsPieChart extends PNode {
                         pieValuesArray[i] = pieSlices.get( i );
                     }
                     pieChart.setPieValues( pieValuesArray );
+                    // TODO: Nasty workaround for some issue with the sequence
+                    // of things that can cause an inconsistency between the
+                    // prototype isotope and the isotopes in the chamber.
+                    if ( pieSlices.size() == 0){
+                        System.out.println("No pie slices, aborting update of chart.");
+                        System.out.println("Prototype isotope = " + model.getAtom().toImmutableAtom());
+                        System.out.println("Possible Isotopes: ");
+                        for (ImmutableAtom isotope : model.getPossibleIsotopesProperty().getValue()){
+                            System.out.println("   " + isotope);
+                        }
+                        return;
+                    }
 
                     // Orient the pie chart such that the slice for the
                     // lightest element is centered on the left side.  This
@@ -93,51 +106,49 @@ class IsotopeProprotionsPieChart extends PNode {
                     // Add the floating labels to the chart.
                     ArrayList<PNode> sliceLabels = new ArrayList<PNode>();
                     for ( int i = 0; i < pieSlices.size(); i++ ) {
-                        if ( pieChart.getCenterEdgePtForSlice( i ) != null ) {
-                            // Create the label for this pie slice.
-                            PNode labelNode;
-                            Point2D centerEdgeOfPieSlice = pieChart.getCenterEdgePtForSlice( i );
-                            boolean labelOnLeft = centerEdgeOfPieSlice.getX() < 0;
-                            labelNode = new SliceLabel( model.getPossibleIsotopesProperty().getValue().get( i ),
-                                    pieSlices.get( i ).getValue() / pieChart.getTotal(), labelOnLeft );
-                            labelLayer.addChild( labelNode );
-                            sliceLabels.add( labelNode );
+                        // Create the label for this pie slice.
+                        PNode labelNode;
+                        Point2D centerEdgeOfPieSlice = pieChart.getCenterEdgePtForSlice( i );
+                        boolean labelOnLeft = centerEdgeOfPieSlice.getX() < 0;
+                        labelNode = new SliceLabel( model.getPossibleIsotopesProperty().getValue().get( i ),
+                                pieSlices.get( i ).getValue() / pieChart.getTotal(), labelOnLeft );
+                        labelLayer.addChild( labelNode );
+                        sliceLabels.add( labelNode );
 
-                            // Determine the "unconstrained" target position
-                            // for the label, meaning a position that is
-                            // directly out from the edge of the slice, but
-                            // may be above or below the edges of the pie
-                            // chart.
-                            Vector2D positionVector = new Vector2D( centerEdgeOfPieSlice );
-                            positionVector.scale( 1.3 );
+                        // Determine the "unconstrained" target position
+                        // for the label, meaning a position that is
+                        // directly out from the edge of the slice, but
+                        // may be above or below the edges of the pie
+                        // chart.
+                        Vector2D positionVector = new Vector2D( centerEdgeOfPieSlice );
+                        positionVector.scale( 1.3 );
 
-                            // Constrain the position so that no part of the
-                            // label goes above or below the upper and lower
-                            // edges of the pie chart.
-                            double minY = -PIE_CHART_DIAMETER / 2 + labelNode.getFullBoundsReference().height / 2;
-                            double maxY = PIE_CHART_DIAMETER / 2 - labelNode.getFullBoundsReference().height / 2;
-                            double xSign = labelOnLeft ? -1 : 1;
-                            if ( positionVector.getY() < minY ){
-                                positionVector.setX( xSign * Math.sqrt( positionVector.getMagnitudeSq() - minY * minY ) );
-                                positionVector.setY( minY );
-                            }
-                            else if ( positionVector.getY() > maxY ){
-                                positionVector.setX( xSign * Math.sqrt( positionVector.getMagnitudeSq() - maxY * maxY ) );
-                                positionVector.setY( maxY );
-                            }
+                        // Constrain the position so that no part of the
+                        // label goes above or below the upper and lower
+                        // edges of the pie chart.
+                        double minY = -PIE_CHART_DIAMETER / 2 + labelNode.getFullBoundsReference().height / 2;
+                        double maxY = PIE_CHART_DIAMETER / 2 - labelNode.getFullBoundsReference().height / 2;
+                        double xSign = labelOnLeft ? -1 : 1;
+                        if ( positionVector.getY() < minY ){
+                            positionVector.setX( xSign * Math.sqrt( positionVector.getMagnitudeSq() - minY * minY ) );
+                            positionVector.setY( minY );
+                        }
+                        else if ( positionVector.getY() > maxY ){
+                            positionVector.setX( xSign * Math.sqrt( positionVector.getMagnitudeSq() - maxY * maxY ) );
+                            positionVector.setY( maxY );
+                        }
 
-                            // Position the label.
-                            if ( labelOnLeft ){
-                                labelNode.setOffset(
-                                        positionVector.getX()-labelNode.getFullBoundsReference().width,
-                                        positionVector.getY()-labelNode.getFullBoundsReference().height / 2 );
-                            }
-                            else{
-                                // Label on right.
-                                labelNode.setOffset(
-                                        positionVector.getX(),
-                                        positionVector.getY()-labelNode.getFullBoundsReference().height / 2 );
-                            }
+                        // Position the label.
+                        if ( labelOnLeft ){
+                            labelNode.setOffset(
+                                    positionVector.getX()-labelNode.getFullBoundsReference().width,
+                                    positionVector.getY()-labelNode.getFullBoundsReference().height / 2 );
+                        }
+                        else{
+                            // Label on right.
+                            labelNode.setOffset(
+                                    positionVector.getX(),
+                                    positionVector.getY()-labelNode.getFullBoundsReference().height / 2 );
                         }
                     }
                     // Now that the labels are added in their initial

@@ -223,14 +223,25 @@ public class IsotopeTestChamber {
     }
 
     public void removeAllIsotopes( boolean removeFromModel ){
+//        List<MovableAtom> containedIsotopesCopy = new ArrayList<MovableAtom>( containedIsotopes );
+//        for ( MovableAtom isotope : containedIsotopesCopy ) {
+//            removeIsotopeFromChamber( isotope );
+//            if ( removeFromModel ){
+//                isotope.removeListener( model.isotopeGrabbedListener );
+//                isotope.removedFromModel();
+//            }
+//        }
         List<MovableAtom> containedIsotopesCopy = new ArrayList<MovableAtom>( containedIsotopes );
-        for ( MovableAtom isotope : containedIsotopesCopy ) {
-            removeIsotopeFromChamber( isotope );
-            if ( removeFromModel ){
+        containedIsotopes.clear();
+        if ( removeFromModel ){
+            for ( MovableAtom isotope : containedIsotopesCopy ) {
                 isotope.removeListener( model.isotopeGrabbedListener );
                 isotope.removedFromModel();
             }
         }
+        updateCountProperty();
+        averageAtomicMassProperty.setValue( 0.0 );
+
         assert isotopeCountProperty.getValue() == 0;      // Logical consistency check.
         assert averageAtomicMassProperty.getValue() == 0; // Logical consistency check.
     }
