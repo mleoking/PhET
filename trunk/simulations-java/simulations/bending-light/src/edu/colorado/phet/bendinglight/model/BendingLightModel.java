@@ -121,13 +121,13 @@ public class BendingLightModel implements ResetModel {
         } );
         final Function.LinearFunction dispersionFunction = new Function.LinearFunction( VisibleColor.MIN_WAVELENGTH / 1E9, VisibleColor.MAX_WAVELENGTH / 1E9, 0, 0.04 * 1.5 ); // A function that uses the default value for RED, and changes the index of refraction by +/- 0.04
         environmentDispersion = new DispersionFunction() {
-            public double getIndexOfRefraction( double wavelength, double baseValue ) {
-                return baseValue + dispersionFunction.evaluate( wavelength );
+            public double getIndexOfRefraction( double wavelength, double baseIndexOfRefraction ) {
+                return baseIndexOfRefraction + dispersionFunction.evaluate( wavelength );
             }
         };
         prismDispersion = new DispersionFunction() {
-            public double getIndexOfRefraction( double wavelength, double baseValue ) {
-                return baseValue + dispersionFunction.evaluate( wavelength );
+            public double getIndexOfRefraction( double wavelength, double baseIndexOfRefraction ) {
+                return baseIndexOfRefraction + dispersionFunction.evaluate( wavelength );
             }
         };
     }
