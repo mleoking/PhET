@@ -3,6 +3,7 @@ package edu.colorado.phet.bendinglight.modules.moretools;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -131,5 +132,9 @@ public class VelocitySensorNode extends DraggableNode {
     @Override
     public void doDrag( PInputEvent event ) {
         velocitySensor.translate( transform.viewToModelDelta( event.getDeltaRelativeTo( getParent() ) ) );
+    }
+
+    @Override public Rectangle2D[] getDragComponents() {
+        return new Rectangle2D[] { getGlobalFullBounds() };
     }
 }

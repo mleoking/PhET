@@ -3,6 +3,7 @@ package edu.colorado.phet.bendinglight.modules.moretools;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.bendinglight.modules.intro.DraggableNode;
@@ -92,5 +93,9 @@ public class WaveSensorNode extends DraggableNode {
     @Override
     public void doDrag( PInputEvent event ) {
         waveSensor.translateAll( new ImmutableVector2D( transform.viewToModelDelta( event.getDeltaRelativeTo( getParent() ) ) ) );
+    }
+
+    @Override public Rectangle2D[] getDragComponents() {
+        return new Rectangle2D[] { getGlobalFullBounds() };
     }
 }

@@ -18,10 +18,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.ValueEquals;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.util.function.Function1;
-import edu.colorado.phet.common.phetcommon.util.function.Function3;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.common.phetcommon.util.function.*;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.umd.cs.piccolo.PNode;
 
@@ -50,15 +47,22 @@ public class MoreToolsCanvas extends IntroCanvas<MoreToolsModel> {
                 showVelocitySensor.reset();
             }
         } );
-        Function1<Rectangle2D.Double, Boolean> container = new Function1<Rectangle2D.Double, Boolean>() {
-            public Boolean apply( Rectangle2D.Double bounds ) {
-                return getToolboxNode().getGlobalFullBounds().contains( new Point2D.Double( bounds.getCenterX(), bounds.getCenterY() ) );
+        Function1<Rectangle2D[], Boolean> container = new Function1<Rectangle2D[], Boolean>() {
+            public Boolean apply( Rectangle2D[] bounds ) {
+                //TODO: refactor this into Tool, and pass in container lazily (VoidFunction1)
+                boolean t = false;
+                for ( Rectangle2D bound : bounds ) {
+                    if ( toolboxNode.getGlobalFullBounds().contains( bound ) ) {
+                        t = true;
+                    }
+                }
+                return t;
             }
         };
-        final Tool velocityTool = new Tool( velocitySensorNode.toImage( ToolboxNode.ICON_WIDTH, (int) ( velocitySensorNode.getFullBounds().getHeight() / velocitySensorNode.getFullBounds().getWidth() * ToolboxNode.ICON_WIDTH ), new Color( 0, 0, 0, 0 ) ),
-                                            showVelocitySensor,
-                                            transform, container, this, new Tool.NodeFactory() {
-                    public DraggableNode createNode( ModelViewTransform transform, final Property<Boolean> showTool, final Point2D modelPt ) {
+        final Tool velocityTool = new Tool<VelocitySensorNode>( velocitySensorNode.toImage( ToolboxNode.ICON_WIDTH, (int) ( velocitySensorNode.getFullBounds().getHeight() / velocitySensorNode.getFullBounds().getWidth() * ToolboxNode.ICON_WIDTH ), new Color( 0, 0, 0, 0 ) ),
+                                                                showVelocitySensor,
+                                                                transform, this, new Tool.NodeFactory<VelocitySensorNode>() {
+                    public VelocitySensorNode createNode( ModelViewTransform transform, final Property<Boolean> showTool, final Point2D modelPt ) {
                         model.velocitySensor.position.setValue( new ImmutableVector2D( modelPt ) );
                         return new VelocitySensorNode( transform, model.velocitySensor ) {{
                             showTool.addObserver( new VoidFunction1<Boolean>() {
@@ -68,7 +72,11 @@ public class MoreToolsCanvas extends IntroCanvas<MoreToolsModel> {
                             } );
                         }};
                     }
-                }, resetModel );
+                }, resetModel, new Function0<Rectangle2D>() {
+                    public Rectangle2D apply() {
+                        return toolboxNode.getGlobalFullBounds();
+                    }
+                } );
 
 
         final Function1.Constant<ImmutableVector2D, Option<Double>> value = new Function1.Constant<ImmutableVector2D, Option<Double>>( new Option.None<Double>() );
@@ -78,10 +86,10 @@ public class MoreToolsCanvas extends IntroCanvas<MoreToolsModel> {
                 model.waveSensor.visible.reset();
             }
         } );
-        final Tool waveTool = new Tool( waveSensorNode.toImage( ToolboxNode.ICON_WIDTH, (int) ( waveSensorNode.getFullBounds().getHeight() / waveSensorNode.getFullBounds().getWidth() * ToolboxNode.ICON_WIDTH ), new Color( 0, 0, 0, 0 ) ),
-                                        model.waveSensor.visible,
-                                        transform, container, this, new Tool.NodeFactory() {
-                    public DraggableNode createNode( ModelViewTransform transform, final Property<Boolean> showTool, final Point2D modelPt ) {
+        final Tool waveTool = new Tool<WaveSensorNode>( waveSensorNode.toImage( ToolboxNode.ICON_WIDTH, (int) ( waveSensorNode.getFullBounds().getHeight() / waveSensorNode.getFullBounds().getWidth() * ToolboxNode.ICON_WIDTH ), new Color( 0, 0, 0, 0 ) ),
+                                                        model.waveSensor.visible,
+                                                        transform, this, new Tool.NodeFactory<WaveSensorNode>() {
+                    public WaveSensorNode createNode( ModelViewTransform transform, final Property<Boolean> showTool, final Point2D modelPt ) {
                         model.waveSensor.translateToHotSpot( modelPt );
 
                         //lazily create and reuse because there are performance problems if you create a new one each time
@@ -96,7 +104,11 @@ public class MoreToolsCanvas extends IntroCanvas<MoreToolsModel> {
                         }
                         return myWaveSensorNode;
                     }
-                }, resetModel );
+                }, resetModel, new Function0<Rectangle2D>() {
+                    public Rectangle2D apply() {
+                        return toolboxNode.getGlobalFullBounds();
+                    }
+                } );
 
         return new PNode[] { velocityTool, waveTool };
     }

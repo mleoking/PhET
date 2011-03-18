@@ -10,14 +10,14 @@ import edu.colorado.phet.bendinglight.view.BendingLightCanvas;
 import edu.colorado.phet.bendinglight.view.IntensityMeterNode;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.function.Function1;
+import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * @author Sam Reid
  */
-public class IntensitySensorTool extends Tool {
+public class IntensitySensorTool extends Tool<IntensityMeterNode> {
     public IntensitySensorTool( final BendingLightCanvas canvas,
                                 final ModelViewTransform transform,
                                 final IntensityMeter intensityMeter,
@@ -27,12 +27,8 @@ public class IntensitySensorTool extends Tool {
                                 final IntensityMeterNode iconNode,
                                 final int sensorIconHeight ) {
         super( iconNode.toImage( ToolboxNode.ICON_WIDTH, sensorIconHeight, new Color( 0, 0, 0, 0 ) ),
-               intensityMeter.enabled, transform, new Function1<Rectangle2D.Double, Boolean>() {
-                    public Boolean apply( Rectangle2D.Double bounds ) {
-                        return parent.getGlobalFullBounds().contains( new Point2D.Double( bounds.getCenterX(), bounds.getCenterY() ) );
-                    }
-                }, canvas, new Tool.NodeFactory() {
-                    public DraggableNode createNode( ModelViewTransform transform, Property<Boolean> visible, final Point2D location ) {
+               intensityMeter.enabled, transform, canvas, new Tool.NodeFactory<IntensityMeterNode>() {
+                    public IntensityMeterNode createNode( ModelViewTransform transform, Property<Boolean> visible, final Point2D location ) {
                         return new IntensityMeterNode( transform, intensityMeter ) {{
                             intensityMeter.sensorPosition.setValue( new ImmutableVector2D( modelWidth * 0.3, -modelHeight * 0.3 ) );
                             intensityMeter.bodyPosition.setValue( new ImmutableVector2D( modelWidth * 0.4, -modelHeight * 0.3 ) );
@@ -40,7 +36,11 @@ public class IntensitySensorTool extends Tool {
                             intensityMeter.translateAll( new PDimension( delta.getX(), delta.getY() ) );
                         }};
                     }
-                }, canvas.getModel() );
+                }, canvas.getModel(), new Function0<Rectangle2D>() {
+                    public Rectangle2D apply() {
+                        return parent.getGlobalFullBounds();
+                    }
+                } );
     }
 
     @Override protected void addChild( BendingLightCanvas canvas, DraggableNode node ) {

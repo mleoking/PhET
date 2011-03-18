@@ -10,7 +10,7 @@ import java.beans.PropertyChangeListener;
 import edu.colorado.phet.bendinglight.view.BendingLightCanvas;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.util.function.Function1;
+import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -22,19 +22,19 @@ import edu.umd.cs.piccolo.nodes.PImage;
 /**
  * @author Sam Reid
  */
-public class Tool extends PNode {
+public class Tool<T extends DraggableNode> extends PNode {
 
-    public static interface NodeFactory {
-        DraggableNode createNode( ModelViewTransform transform, Property<Boolean> visible, Point2D location );
+    public static interface NodeFactory<T extends DraggableNode> {
+        T createNode( ModelViewTransform transform, Property<Boolean> visible, Point2D location );
     }
 
-    public Tool( Image thumbnail,
+    public Tool( final Image thumbnail,
                  final Property<Boolean> showTool,
                  final ModelViewTransform transform,
-                 final Function1<Rectangle2D.Double, Boolean> dropRule,//if true, the object will drop back in the toolbox
                  final BendingLightCanvas canvas,
-                 final NodeFactory nodeMaker,
-                 final ResetModel resetModel ) {
+                 final NodeFactory<T> nodeMaker,
+                 final ResetModel resetModel,
+                 final Function0<Rectangle2D> getGlobalDropTargetBounds ) {
         final PImage thumbnailIcon = new PImage( thumbnail ) {{
             showTool.addObserver( new SimpleObserver() {
                 public void update() {
@@ -51,7 +51,7 @@ public class Tool extends PNode {
                     } );
                 }
 
-                DraggableNode node = null;
+                T node = null;
                 boolean intersect = false;
 
                 @Override
@@ -60,19 +60,25 @@ public class Tool extends PNode {
                     setVisible( false );
                     if ( node == null ) {
                         node = nodeMaker.createNode( transform, showTool, transform.viewToModel( event.getPositionRelativeTo( canvas.getRootNode() ) ) );
-                        final PropertyChangeListener pcl = new PropertyChangeListener() {
+                        final PropertyChangeListener boundChangeListener = new PropertyChangeListener() {
                             public void propertyChange( PropertyChangeEvent evt ) {
-                                intersect = dropRule.apply( node.getGlobalFullBounds() );
+                                boolean t = false;//TODO: fold left
+                                for ( Rectangle2D bound : node.getDragComponents() ) {
+                                    if ( getGlobalDropTargetBounds.apply().contains( bound.getCenterX(), bound.getCenterY() ) ) {
+                                        t = true;
+                                    }
+                                }
+                                intersect = t;
                             }
                         };
-                        node.addPropertyChangeListener( PROPERTY_FULL_BOUNDS, pcl );
+                        node.addPropertyChangeListener( PROPERTY_FULL_BOUNDS, boundChangeListener );
                         node.addInputEventListener( new PBasicInputEventHandler() {
                             public void mouseReleased( PInputEvent event ) {
                                 if ( intersect ) {
                                     showTool.setValue( false );
                                     thumbRef.setVisible( true );
                                     if ( node != null ) {
-                                        node.removePropertyChangeListener( pcl );
+                                        node.removePropertyChangeListener( boundChangeListener );
                                     }
                                     reset();
                                 }
