@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.Comparator;
 
 import edu.colorado.phet.bendinglight.model.BendingLightModel;
+import edu.colorado.phet.bendinglight.model.DispersionFunction;
 import edu.colorado.phet.bendinglight.model.LightRay;
 import edu.colorado.phet.bendinglight.model.Medium;
 import edu.colorado.phet.bendinglight.view.LaserColor;
@@ -16,7 +17,6 @@ import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.util.function.Function2;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 
@@ -146,7 +146,7 @@ public class PrismsModel extends BendingLightModel {
         }
     }
 
-    private void propagate( ImmutableVector2D tail, ImmutableVector2D directionUnitVector, double power, Function2<Double, Double, Double> indexOfRefraction, double mediumIndexOfRefraction ) {
+    private void propagate( ImmutableVector2D tail, ImmutableVector2D directionUnitVector, double power, DispersionFunction indexOfRefraction, double mediumIndexOfRefraction ) {
         //Determines whether to use white light or single color light
         if ( laser.color.getValue() == LaserColor.WHITE_LIGHT ) {
             final double min = VisibleColor.MIN_WAVELENGTH / 1E9;
@@ -175,7 +175,7 @@ public class PrismsModel extends BendingLightModel {
         }
         Intersection intersection = getIntersection( incidentRay, prisms );
         ImmutableVector2D L = incidentRay.directionUnitVector;
-        final double n1 = incidentRay.indexOfRefraction.apply( incidentRay.wavelength, incidentRay.mediumIndexOfRefraction );
+        final double n1 = incidentRay.indexOfRefraction.getIndexOfRefraction( incidentRay.wavelength, incidentRay.mediumIndexOfRefraction );
         final double wavelengthInN1 = incidentRay.wavelength / n1;
         if ( intersection != null ) {
             ImmutableVector2D pointOnOtherSide = new ImmutableVector2D( intersection.getPoint() ).plus( incidentRay.directionUnitVector.getInstanceOfMagnitude( 1E-12 ) );
@@ -185,10 +185,10 @@ public class PrismsModel extends BendingLightModel {
                     outputInsidePrism = true;
                 }
             }
-            Function2<Double, Double, Double> otherMediumIndexOfRefraction = outputInsidePrism ? prismDispersion : environmentDispersion;
+            DispersionFunction otherMediumIndexOfRefraction = outputInsidePrism ? prismDispersion : environmentDispersion;
             double otherMediumIndexValue = outputInsidePrism ? prismMedium.getValue().getIndexOfRefraction() : environment.getValue().getIndexOfRefraction();
 
-            final double n2 = otherMediumIndexOfRefraction.apply( incidentRay.wavelength, outputInsidePrism ? prismMedium.getValue().getIndexOfRefraction() : environment.getValue().getIndexOfRefraction() );
+            final double n2 = otherMediumIndexOfRefraction.getIndexOfRefraction( incidentRay.wavelength, outputInsidePrism ? prismMedium.getValue().getIndexOfRefraction() : environment.getValue().getIndexOfRefraction() );
 
             ImmutableVector2D point = intersection.getPoint();
             ImmutableVector2D n = intersection.getUnitNormal();

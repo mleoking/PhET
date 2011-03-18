@@ -37,10 +37,10 @@ public class MoreToolsModel extends IntroModel {
     }
 
     protected double getN1() {
-        return environmentDispersion.apply( laser.color.getValue().getWavelength(), topMedium.getValue().getIndexOfRefraction() );
+        return environmentDispersion.getIndexOfRefraction( laser.color.getValue().getWavelength(), topMedium.getValue().getIndexOfRefraction() );
     }
 
     protected double getN2() {
-        return prismDispersion.apply( laser.color.getValue().getWavelength(), bottomMedium.getValue().getIndexOfRefraction() );
+        return prismDispersion.getIndexOfRefraction( laser.color.getValue().getWavelength(), bottomMedium.getValue().getIndexOfRefraction() );
     }
 }
