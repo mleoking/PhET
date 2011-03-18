@@ -146,7 +146,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
      *  Level 3 exclusions map
      *  <p>
      *  This mess deserves some explanation... For level 3, the design team wanted a complicated
-     *  strategy for selection equations, where selection of an equation causes other equations to be
+     *  strategy for selecting equations, where selection of an equation causes other equations to be
      *  ruled out as possible choices.  For example, if we choose an equation that contains 4NH3 as
      *  a reactant, we don't want to choose any other equations with 4NH3 as a reactant, and we don't
      *  want to choose the reverse equation.  Since this "exclusion" strategy was a moving target and
@@ -154,7 +154,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
      *  can be specified for each equation.
      *  <p>
      *  I would like to have implemented a varargs "put" method to make this more readable, but Java
-     *  cannot create an array of parameterized types, so use of varargs would result in a compiler warnings.
+     *  cannot create an array of parameterized types, so use of varargs would result in compiler warnings.
      *  (And yes, I know that Scala doesn't have this problem.)
      */
     private static final ExclusionsMap LEVEL3_EXCLUSIONS =
