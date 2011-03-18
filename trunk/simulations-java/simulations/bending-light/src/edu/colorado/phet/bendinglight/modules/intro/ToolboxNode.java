@@ -31,15 +31,18 @@ public class ToolboxNode extends VBox {
                         final IntensityMeter intensityMeter,
                         final BooleanProperty showNormal ) {
         super( 2 );
+        //Title
         final PText titleLabel = new PText( "Toolbox" ) {{
             setFont( BendingLightCanvas.labelFont );
         }};
         addChild( titleLabel );
+
+        //Initial tools
         addChild( protractorTool );
         for ( PNode moreTool : moreTools ) {
             addChild( moreTool );
         }
-
+        //intensity sensor
         final double modelWidth = CHARACTERISTIC_LENGTH * 62;
         final double modelHeight = modelWidth * 0.7;
         IntensityMeterNode iconNode = new IntensityMeterNode( transform, new IntensityMeter( modelWidth * 0.3, -modelHeight * 0.3, modelWidth * 0.4, -modelHeight * 0.3 ) {{
@@ -48,12 +51,11 @@ public class ToolboxNode extends VBox {
         int sensorIconHeight = (int) ( iconNode.getFullBounds().getHeight() / iconNode.getFullBounds().getWidth() * ICON_WIDTH );
         addChild( new IntensitySensorTool( canvas, transform, intensityMeter, modelWidth, modelHeight, this, iconNode, sensorIconHeight ) );
 
-        final PImage normalLineThumbnail = new PImage( new NormalLine( transform, modelHeight, 9, 30, 30 ).toImage( 5, 67, new Color( 0, 0, 0, 0 ) ) );
-        final PSwing showNormalCheckBox = new PSwing( new PropertyCheckBox( "Show Normal", showNormal ) {{
+        //normal line checkbox and icon
+        addChild( new PSwing( new PropertyCheckBox( "Show Normal", showNormal ) {{
             setFont( BendingLightCanvas.labelFont );
             setBackground( new Color( 0, 0, 0, 0 ) );
-        }} );
-        addChild( showNormalCheckBox );
-        addChild( normalLineThumbnail );
+        }} ) );
+        addChild( new PImage( new NormalLine( transform, modelHeight, 9, 30, 30 ).toImage( 5, 67, new Color( 0, 0, 0, 0 ) ) ) );
     }
 }
