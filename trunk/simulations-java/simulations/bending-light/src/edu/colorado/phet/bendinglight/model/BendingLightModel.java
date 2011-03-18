@@ -17,7 +17,6 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
-import edu.colorado.phet.common.phetcommon.util.function.Function2;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
@@ -37,10 +36,10 @@ public class BendingLightModel implements ResetModel {
     public static final MediumState DIAMOND = new MediumState( "Diamond", 2.419 );
     public static final MediumState MYSTERY_A = new MediumState( "Mystery A", DIAMOND.index, true );
     public static final MediumState MYSTERY_B = new MediumState( "Mystery B", 1.4, true );
-    public final Function2<Double, Double, Double> environmentDispersion; //(wavelength,mediumBaseIndexOfRefraction) => true index of refraction
-    public final Function2<Double, Double, Double> prismDispersion;
 
-    //TODO: some of this code is duplicated with the other instantiations of color mapping function
+    public final DispersionFunction environmentDispersion; //(wavelength,mediumBaseIndexOfRefraction) => true index of refraction
+    public final DispersionFunction prismDispersion;
+
     public Property<Function1<Double, Color>> colorMappingFunction = new Property<Function1<Double, Color>>( new Function1<Double, Color>() {
         public Color apply( Double value ) {
             if ( value < WATER.index ) {
@@ -121,14 +120,14 @@ public class BendingLightModel implements ResetModel {
             }
         } );
         final Function.LinearFunction dispersionFunction = new Function.LinearFunction( VisibleColor.MIN_WAVELENGTH / 1E9, VisibleColor.MAX_WAVELENGTH / 1E9, 0, 0.04 * 1.5 ); // A function that uses the default value for RED, and changes the index of refraction by +/- 0.04
-        environmentDispersion = new Function2<Double, Double, Double>() {
-            public Double apply( Double wavelength, Double mediumBaseIndex ) {
-                return mediumBaseIndex + dispersionFunction.evaluate( wavelength );
+        environmentDispersion = new DispersionFunction() {
+            public double getIndexOfRefraction( double wavelength, double baseValue ) {
+                return baseValue + dispersionFunction.evaluate( wavelength );
             }
         };
-        prismDispersion = new Function2<Double, Double, Double>() {
-            public Double apply( Double wavelength, Double mediumBaseIndex ) {
-                return mediumBaseIndex + dispersionFunction.evaluate( wavelength );
+        prismDispersion = new DispersionFunction() {
+            public double getIndexOfRefraction( double wavelength, double baseValue ) {
+                return baseValue + dispersionFunction.evaluate( wavelength );
             }
         };
     }
