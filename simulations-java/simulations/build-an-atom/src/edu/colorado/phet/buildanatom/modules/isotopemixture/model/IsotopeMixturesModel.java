@@ -352,11 +352,15 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
         }
     }
 
+    /**
+     * Get a list of the possible isotopes, sorted from lightest to heaviest.
+     */
     public void updatePossibleIsotopesList(){
         // Get a list of all stable isotopes for the current atomic number.
         ArrayList<ImmutableAtom> newIsotopeList = AtomIdentifier.getStableIsotopes( prototypeIsotope.getNumProtons() );
 
-        // Sort from lightest to heaviest.
+        // Sort from lightest to heaviest.  Do not change this without careful
+        // considerations, since several areas of the code count on this.
         Collections.sort( newIsotopeList, new Comparator<IAtom>(){
             public int compare( IAtom atom2, IAtom atom1 ) {
                 return new Double(atom2.getAtomicMass()).compareTo( atom1.getAtomicMass() );

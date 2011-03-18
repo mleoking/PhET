@@ -3,9 +3,7 @@
 package edu.colorado.phet.buildanatom.modules.isotopemixture.view;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Point;
-import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
@@ -14,7 +12,6 @@ import javax.swing.JPanel;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
-import edu.colorado.phet.buildanatom.model.ImmutableAtom;
 import edu.colorado.phet.buildanatom.model.MonoIsotopeParticleBucket;
 import edu.colorado.phet.buildanatom.model.SphericalParticle;
 import edu.colorado.phet.buildanatom.modules.interactiveisotope.view.IsotopeSliderNode;
@@ -34,9 +31,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.common.piccolophet.nodes.PieChartNode;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
-import edu.colorado.phet.common.piccolophet.nodes.PieChartNode.PieValue;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -182,8 +177,8 @@ public class IsotopeMixturesCanvas extends PhetPCanvas {
 
         // Add the pie chart to the canvas.
         final double indicatorWindowX = 600;
-        final PNode pieChart = new IsotopeProprotionPieChart( model );
-        pieChart.setOffset( 150, 40 ); // Empirically determined, tweak as needed.
+        final PNode pieChart = new IsotopeProprotionsPieChart( model );
+        pieChart.setOffset( 200, 85 ); // Empirically determined, tweak as needed.
         // TODO: i18n
         pieChartWindow = new MaximizeControlNode( "Percent Composition", new PDimension( 400, 150 ), pieChart, true ){{
             setOffset( indicatorWindowX, periodicTableNode.getFullBoundsReference().getMaxY() + 25 );
@@ -291,45 +286,5 @@ public class IsotopeMixturesCanvas extends PhetPCanvas {
                     BuildAnAtomDefaults.STAGE_SIZE.height - DISTANCE_BUTTON_CENTER_FROM_BOTTOM );
         }};
         controlsLayer.addChild( resetButtonNode );
-    }
-
-    /**
-     * Class that represents a pie chart portraying the proportion of the
-     * various isotopes in the test chamber.
-     *
-     * @author John Blanco
-     */
-    private static class IsotopeProprotionPieChart extends PNode {
-
-        private static final Dimension SIZE = new Dimension( 100, 100 );
-
-        /**
-         * Constructor.
-         */
-        public IsotopeProprotionPieChart( final IsotopeMixturesModel model ) {
-            final PieChartNode pieChart = new PieChartNode( new PieValue[] { new PieValue( 100, Color.red ) },
-                    new Rectangle(0, 0, SIZE.width, SIZE.height ) );
-            pieChart.setOffset( 0, 0 );
-            addChild( pieChart );
-            model.getIsotopeTestChamber().addTotalCountChangeObserver( new SimpleObserver(){
-                public void update() {
-                    int isotopeCount = model.getIsotopeTestChamber().getTotalIsotopeCount();
-                    // Hide the chart if there is nothing in the chamber.
-                    pieChart.setVisible( isotopeCount > 0 );
-                    if ( isotopeCount > 0 ){
-                        // Update the proportions.
-                        PieValue[] pieSlices = new PieValue[model.getPossibleIsotopesProperty().getValue().size()];
-                        int sliceCount = 0;
-                        for ( ImmutableAtom isotope : model.getPossibleIsotopesProperty().getValue() ){
-                            pieSlices[sliceCount++] =
-                                new PieValue( model.getIsotopeTestChamber().getIsotopeProportion( isotope ),
-                                        model.getColorForIsotope( isotope ) );
-                        }
-                        pieChart.setPieValues( pieSlices );
-                    }
-                }
-
-            });
-        }
     }
 }
