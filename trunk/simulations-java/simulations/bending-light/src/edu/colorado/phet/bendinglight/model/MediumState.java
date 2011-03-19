@@ -8,7 +8,7 @@ import static edu.colorado.phet.bendinglight.model.BendingLightModel.WAVELENGTH_
  */
 public class MediumState {
     public final String name;
-    public final DispersionFunction2 dispersionFunction;
+    public final DispersionFunction dispersionFunction;
     public final boolean mystery;
     public final boolean custom;
 
@@ -22,7 +22,7 @@ public class MediumState {
 
     public MediumState( String name, double indexForRed, boolean mystery, boolean custom ) {
         this.name = name;
-        this.dispersionFunction = new DispersionFunction2( indexForRed );
+        this.dispersionFunction = new DispersionFunction( indexForRed );
         this.mystery = mystery;
         this.custom = custom;
     }
