@@ -1,3 +1,4 @@
+> Fixed: If the user changes the wavelength of light, the indices of refraction should change
 Added the Sellmeier equation
 Refactored dispersion to be part of medium instead of computed externally
 Converted from Function2<Double,Double,Double> to named interface DispersionFunction
