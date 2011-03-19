@@ -19,7 +19,6 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 
 import static java.lang.Math.pow;
 
@@ -29,29 +28,27 @@ public class BendingLightModel implements ResetModel {
     private ConstantDtClock clock;
     public final Property<LaserView> laserView = new Property<LaserView>( LaserView.RAY );
 
-    public static final MediumState VACUUM = new MediumState( "Vacuum", 1.0 );
     public static final MediumState AIR = new MediumState( "Air", 1.000293 );
     public static final MediumState WATER = new MediumState( "Water", 1.333 );
     public static final MediumState GLASS = new MediumState( "Glass", 1.5 );
-    public static final MediumState DIAMOND = new MediumState( "Diamond", 2.419 );
-    public static final MediumState MYSTERY_A = new MediumState( "Mystery A", DIAMOND.index, true );
+    public static double DIAMOND_INDEX = 2.419;
+    public static final MediumState DIAMOND = new MediumState( "Diamond", DIAMOND_INDEX );
+    public static final MediumState MYSTERY_A = new MediumState( "Mystery A", DIAMOND_INDEX, true );
     public static final MediumState MYSTERY_B = new MediumState( "Mystery B", 1.4, true );
 
-    public final DispersionFunction environmentDispersion; //(wavelength,mediumBaseIndexOfRefraction) => true index of refraction
-    public final DispersionFunction prismDispersion;
-
+    //Maps index of refraction to color
     public Property<Function1<Double, Color>> colorMappingFunction = new Property<Function1<Double, Color>>( new Function1<Double, Color>() {
         public Color apply( Double value ) {
-            if ( value < WATER.index ) {
-                double ratio = new Function.LinearFunction( 1.0, WATER.index, 0, 1 ).evaluate( value );
+            if ( value < WATER.index() ) {
+                double ratio = new Function.LinearFunction( 1.0, WATER.index(), 0, 1 ).evaluate( value );
                 return colorBlend( AIR_COLOR, WATER_COLOR, ratio );
             }
-            else if ( value < GLASS.index ) {
-                double ratio = new Function.LinearFunction( WATER.index, GLASS.index, 0, 1 ).evaluate( value );
+            else if ( value < GLASS.index() ) {
+                double ratio = new Function.LinearFunction( WATER.index(), GLASS.index(), 0, 1 ).evaluate( value );
                 return colorBlend( WATER_COLOR, GLASS_COLOR, ratio );
             }
-            else if ( value < DIAMOND.index ) {
-                double ratio = new Function.LinearFunction( GLASS.index, DIAMOND.index, 0, 1 ).evaluate( value );
+            else if ( value < DIAMOND.index() ) {
+                double ratio = new Function.LinearFunction( GLASS.index(), DIAMOND.index(), 0, 1 ).evaluate( value );
                 return colorBlend( GLASS_COLOR, DIAMOND_COLOR, ratio );
             }
             else {
@@ -119,17 +116,6 @@ public class BendingLightModel implements ResetModel {
                 getLaser().wave.setValue( laserView.getValue() == LaserView.WAVE );// synchronize view and model representations of whether it is wave or not
             }
         } );
-        final Function.LinearFunction dispersionFunction = new Function.LinearFunction( VisibleColor.MIN_WAVELENGTH / 1E9, VisibleColor.MAX_WAVELENGTH / 1E9, 0, 0.04 * 1.5 ); // A function that uses the default value for RED, and changes the index of refraction by +/- 0.04
-        environmentDispersion = new DispersionFunction() {
-            public double getIndexOfRefraction( double wavelength, double baseIndexOfRefraction ) {
-                return baseIndexOfRefraction + dispersionFunction.evaluate( wavelength );
-            }
-        };
-        prismDispersion = new DispersionFunction() {
-            public double getIndexOfRefraction( double wavelength, double baseIndexOfRefraction ) {
-                return baseIndexOfRefraction + dispersionFunction.evaluate( wavelength );
-            }
-        };
     }
 
     protected void addRay( LightRay ray ) {

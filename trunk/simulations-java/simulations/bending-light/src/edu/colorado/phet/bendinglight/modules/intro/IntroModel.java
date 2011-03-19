@@ -25,8 +25,8 @@ import static java.lang.Math.*;
 public class IntroModel extends BendingLightModel {
     private double incomingRayPhase = 0.0;//Keep track of the phase across time steps so that we can maintain instead of resetting phase under angle or index of refraction changes
 
-    public final Property<Medium> topMedium = new Property<Medium>( new Medium( new Rectangle2D.Double( -1, 0, 2, 1 ), AIR, colorMappingFunction.getValue().apply( AIR.index ) ) );
-    public final Property<Medium> bottomMedium = new Property<Medium>( new Medium( new Rectangle2D.Double( -1, -1, 2, 1 ), WATER, colorMappingFunction.getValue().apply( WATER.index ) ) );
+    public final Property<Medium> topMedium = new Property<Medium>( new Medium( new Rectangle2D.Double( -1, 0, 2, 1 ), AIR, colorMappingFunction.getValue().apply( AIR.index() ) ) );
+    public final Property<Medium> bottomMedium = new Property<Medium>( new Medium( new Rectangle2D.Double( -1, -1, 2, 1 ), WATER, colorMappingFunction.getValue().apply( WATER.index() ) ) );
 
     public IntroModel() {
         super( PI * 3 / 4, true, DEFAULT_DIST_FROM_PIVOT );
@@ -120,12 +120,12 @@ public class IntroModel extends BendingLightModel {
         }
     }
 
-    protected double getN1() {
-        return topMedium.getValue().getIndexOfRefraction();
+    private double getN1() {
+        return topMedium.getValue().getIndexOfRefraction( laser.color.getValue().getWavelength() );
     }
 
-    protected double getN2() {
-        return bottomMedium.getValue().getIndexOfRefraction();
+    private double getN2() {
+        return bottomMedium.getValue().getIndexOfRefraction( laser.color.getValue().getWavelength() );
     }
 
     /*

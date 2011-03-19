@@ -17,8 +17,8 @@ public class Medium {
         this.color = color;
     }
 
-    public double getIndexOfRefraction() {
-        return mediumState.index;
+    public double getIndexOfRefraction( double wavelength ) {
+        return mediumState.dispersionFunction.getIndexOfRefraction( wavelength );
     }
 
     public boolean isMystery() {

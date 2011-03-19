@@ -16,6 +16,7 @@ import edu.colorado.phet.bendinglight.model.Medium;
 import edu.colorado.phet.bendinglight.model.MediumState;
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -32,7 +33,7 @@ import static edu.colorado.phet.bendinglight.view.BendingLightCanvas.labelFont;
  */
 public class MediumControlPanel extends PNode {
 
-    private final MediumState CUSTOM = new MediumState( "Custom", BendingLightModel.MYSTERY_B.index + 1.2, false, true );
+    private final MediumState CUSTOM = new MediumState( "Custom", BendingLightModel.MYSTERY_B.index() + 1.2, false, true );
     private final Property<Medium> medium;
     private final Property<Function1<Double, Color>> colorMappingFunction;
     private static final int MIN = 1;
@@ -42,7 +43,8 @@ public class MediumControlPanel extends PNode {
                                final Property<Medium> medium,
                                final Property<Function1<Double, Color>> colorMappingFunction,
                                final String name,
-                               final boolean textFieldVisible ) {
+                               final boolean textFieldVisible,
+                               final Property<Double> laserWavelength ) {
         this.medium = medium;
         this.colorMappingFunction = colorMappingFunction;
         final MediumState initialMediumState = medium.getValue().getMediumState();
@@ -82,7 +84,7 @@ public class MediumControlPanel extends PNode {
                     int selected = -1;
                     for ( int i = 0; i < mediumStates.length; i++ ) {
                         MediumState mediumState = (MediumState) mediumStates[i];
-                        if ( mediumState.index == medium.getValue().getIndexOfRefraction() ) {
+                        if ( mediumState.index() == medium.getValue().getIndexOfRefraction( laserWavelength.getValue() ) ) {
                             selected = i;
                         }
                     }
@@ -110,7 +112,7 @@ public class MediumControlPanel extends PNode {
                 final PText label = new PText( textFieldVisible ? "Index of Refraction (n):" : "Index of Refraction (n)" ) {{setFont( BendingLightCanvas.labelFont );}};
                 addChild( label );
                 if ( textFieldVisible ) {
-                    addChild( new PSwing( new JTextField( new DecimalFormat( "0.00" ).format( medium.getValue().getIndexOfRefraction() ), 4 ) {{
+                    addChild( new PSwing( new JTextField( new DecimalFormat( "0.00" ).format( medium.getValue().getIndexOfRefraction( laserWavelength.getValue() ) ), 4 ) {{
                         setFont( BendingLightCanvas.labelFont );
                         addActionListener( new ActionListener() {
                             public void actionPerformed( ActionEvent e ) {
@@ -120,11 +122,11 @@ public class MediumControlPanel extends PNode {
                                 }
                             }
                         } );
-                        medium.addObserver( new SimpleObserver() {
+                        new RichSimpleObserver() {
                             public void update() {
-                                setText( new DecimalFormat( "0.00" ).format( medium.getValue().getIndexOfRefraction() ) );
+                                setText( new DecimalFormat( "0.00" ).format( medium.getValue().getIndexOfRefraction( laserWavelength.getValue() ) ) );
                             }
-                        } );
+                        }.observe( medium, laserWavelength );
                     }} ) {{
                         setOffset( label.getFullBounds().getMaxX() + 10, label.getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
                     }} );
@@ -152,17 +154,17 @@ public class MediumControlPanel extends PNode {
                             }
                         }
                     } );
-                    medium.addObserver( new SimpleObserver() {
+                    new RichSimpleObserver() {
                         public void update() {
-                            setValue( (int) mapping.createInverse().evaluate( medium.getValue().getIndexOfRefraction() ) );
+                            setValue( (int) mapping.createInverse().evaluate( medium.getValue().getIndexOfRefraction( laserWavelength.getValue() ) ) );
                         }
-                    } );
+                    }.observe( medium, laserWavelength );
                     setPaintTicks( true );
                     setPaintLabels( true );
                     setLabelTable( new Hashtable<Object, Object>() {{
-                        put( (int) mapping.createInverse().evaluate( BendingLightModel.AIR.index ), new TickLabel( "Air" ) );
-                        put( (int) mapping.createInverse().evaluate( BendingLightModel.WATER.index ), new TickLabel( "Water" ) );
-                        put( (int) mapping.createInverse().evaluate( BendingLightModel.GLASS.index ), new TickLabel( "Glass" ) );
+                        put( (int) mapping.createInverse().evaluate( BendingLightModel.AIR.index() ), new TickLabel( "Air" ) );
+                        put( (int) mapping.createInverse().evaluate( BendingLightModel.WATER.index() ), new TickLabel( "Water" ) );
+                        put( (int) mapping.createInverse().evaluate( BendingLightModel.GLASS.index() ), new TickLabel( "Glass" ) );
                     }} );
                     setPreferredSize( new Dimension( Math.max( (int) topComponent.getFullBounds().getWidth(), 200 ), getPreferredSize().height ) );
                 }} );
@@ -201,6 +203,6 @@ public class MediumControlPanel extends PNode {
     }
 
     private void setMediumState( MediumState mediumState, Property<Medium> medium, Property<Function1<Double, Color>> colorMappingFunction ) {
-        medium.setValue( new Medium( medium.getValue().shape, mediumState, colorMappingFunction.getValue().apply( mediumState.index ) ) );
+        medium.setValue( new Medium( medium.getValue().shape, mediumState, colorMappingFunction.getValue().apply( mediumState.index() ) ) );
     }
 }

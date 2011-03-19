@@ -71,4 +71,12 @@ public class Laser {
     public double getDistanceFromPivot() {
         return emissionPoint.getValue().minus( pivot.getValue() ).getMagnitude();
     }
+
+    public double getWavelength() {
+        return color.getValue().getWavelength();
+    }
+
+    public double getFrequency() {
+        return BendingLightModel.SPEED_OF_LIGHT / getWavelength();
+    }
 }
