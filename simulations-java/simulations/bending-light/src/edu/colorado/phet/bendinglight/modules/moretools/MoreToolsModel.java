@@ -35,12 +35,4 @@ public class MoreToolsModel extends IntroModel {
             }
         }.observe( velocitySensor.position, waveSensor.probe1.position, waveSensor.probe2.position );
     }
-
-    protected double getN1() {
-        return environmentDispersion.getIndexOfRefraction( laser.color.getValue().getWavelength(), topMedium.getValue().getIndexOfRefraction() );
-    }
-
-    protected double getN2() {
-        return prismDispersion.getIndexOfRefraction( laser.color.getValue().getWavelength(), bottomMedium.getValue().getIndexOfRefraction() );
-    }
 }

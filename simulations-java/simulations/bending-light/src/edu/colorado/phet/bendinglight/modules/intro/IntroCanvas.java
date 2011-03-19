@@ -63,10 +63,10 @@ public class IntroCanvas<T extends IntroModel> extends BendingLightCanvas<T> {
         mediumNode.addChild( new MediumNode( transform, model.topMedium ) );
         mediumNode.addChild( new MediumNode( transform, model.bottomMedium ) );
 
-        afterLightLayer.addChild( new ControlPanelNode( new MediumControlPanel( this, model.topMedium, model.colorMappingFunction, "Material:", true ) ) {{
+        afterLightLayer.addChild( new ControlPanelNode( new MediumControlPanel( this, model.topMedium, model.colorMappingFunction, "Material:", true, model.wavelengthProperty ) ) {{
             setOffset( stageSize.width - getFullBounds().getWidth() - 10, transform.modelToViewY( 0 ) - 10 - getFullBounds().getHeight() );
         }} );
-        afterLightLayer.addChild( new ControlPanelNode( new MediumControlPanel( this, model.bottomMedium, model.colorMappingFunction, "Material:", true ) ) {{
+        afterLightLayer.addChild( new ControlPanelNode( new MediumControlPanel( this, model.bottomMedium, model.colorMappingFunction, "Material:", true, model.wavelengthProperty ) ) {{
             setOffset( stageSize.width - getFullBounds().getWidth() - 10, transform.modelToViewY( 0 ) + 10 );
         }} );
 
@@ -151,9 +151,5 @@ public class IntroCanvas<T extends IntroModel> extends BendingLightCanvas<T> {
 
     protected PNode[] getMoreTools( ResetModel resetModel ) {
         return new PNode[0];
-    }
-
-    public ToolboxNode getToolboxNode() {
-        return toolboxNode;
     }
 }

@@ -3,6 +3,7 @@ package edu.colorado.phet.bendinglight.modules.prisms;
 
 import java.awt.*;
 
+import edu.colorado.phet.bendinglight.model.BendingLightModel;
 import edu.colorado.phet.bendinglight.view.BendingLightCanvas;
 import edu.colorado.phet.bendinglight.view.BendingLightResetAllButtonNode;
 import edu.colorado.phet.bendinglight.view.MediumControlPanel;
@@ -40,13 +41,13 @@ public class PrismsCanvas extends BendingLightCanvas<PrismsModel> {
 
         model.environment.addObserver( new SimpleObserver() {
             public void update() {
-                final Color color = model.colorMappingFunction.getValue().apply( model.environment.getValue().getIndexOfRefraction() );
+                final Color color = model.colorMappingFunction.getValue().apply( model.environment.getValue().getIndexOfRefraction( BendingLightModel.WAVELENGTH_RED ) );
 //                setBackground( new Color( 255 - color.getRed(), 255 - color.getGreen(), 255 - color.getBlue() ) ); //black background
                 setBackground( new Color( color.getRed(), color.getGreen(), color.getBlue() ) );//white background
             }
         } );
 
-        afterLightLayer.addChild( new ControlPanelNode( new MediumControlPanel( this, model.environment, model.colorMappingFunction, "Environment:", false ) ) {{
+        afterLightLayer.addChild( new ControlPanelNode( new MediumControlPanel( this, model.environment, model.colorMappingFunction, "Environment:", false, model.wavelengthProperty ) ) {{
             setOffset( stageSize.width - getFullBounds().getWidth() - 10, 10 );
         }} );
 
@@ -55,7 +56,7 @@ public class PrismsCanvas extends BendingLightCanvas<PrismsModel> {
         }};
         beforeLightLayer.addChild( prismToolbox );
 
-        final ControlPanelNode prismMediumControlPanel = new ControlPanelNode( new MediumControlPanel( this, model.prismMedium, model.colorMappingFunction, "Objects:", false ) ) {{
+        final ControlPanelNode prismMediumControlPanel = new ControlPanelNode( new MediumControlPanel( this, model.prismMedium, model.colorMappingFunction, "Objects:", false, model.wavelengthProperty ) ) {{
             setOffset( prismToolbox.getFullBounds().getMaxX() + 10, stageSize.height - getFullBounds().getHeight() - 10 );
         }};
         afterLightLayer.addChild( prismMediumControlPanel );
