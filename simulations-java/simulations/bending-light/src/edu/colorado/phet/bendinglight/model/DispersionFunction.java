@@ -9,11 +9,11 @@ import static edu.colorado.phet.common.phetcommon.view.util.VisibleColor.MAX_WAV
 /**
  * @author Sam Reid
  */
-public class DispersionFunction2 {
+public class DispersionFunction {
     public Function.LinearFunction function;
 
-    public DispersionFunction2( double indexForRed ) {//Index of refraction for red wavelength
-        function = new Function.LinearFunction( WAVELENGTH_RED, MAX_WAVELENGTH / 1E9, indexForRed, indexForRed - 0.04 * 1.5 );
+    public DispersionFunction( double indexForRed ) {//Index of refraction for red wavelength
+        function = new Function.LinearFunction( WAVELENGTH_RED, MAX_WAVELENGTH / 1E9, indexForRed, indexForRed - 0.06 );
     }
 
     double getIndexOfRefraction( double wavelength ) {
