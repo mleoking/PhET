@@ -1,3 +1,4 @@
+Added the Sellmeier equation
 Refactored dispersion to be part of medium instead of computed externally
 Converted from Function2<Double,Double,Double> to named interface DispersionFunction
 > Fixed: Tools should drop in the box when any piece is dropped in the box, not when the center of mass of all components is dropped in
