@@ -1,4 +1,5 @@
-3-9-2010: Improved error reporting and handling of duplicate categories
+3-19-2011: Updated application icons
+3-9-2011: Improved error reporting and handling of duplicate categories
 6-14-2010: Added monitor for elapsed time since activity
 6-11-2010: Store preferences after changing target number of hours, instead of just on shutdown
 6-8-2010: Store and restore target number of hours

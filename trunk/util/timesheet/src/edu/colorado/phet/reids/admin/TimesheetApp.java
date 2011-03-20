@@ -38,16 +38,27 @@ public class TimesheetApp {
     private String RECENT_FILES = "recentFiles";
     private String CURRENT_FILE = "currentFile";
     private String TARGET_HOURS = "target.hours";
-    private JMenu fileMenu = new JMenu( "File" );
     private File PREFERENCES_FILE = new File( System.getProperty( "user.home", "." ), ".timesheet/timesheet-app.properties" );
     private final JTable table;
     private SelectionModel selectionModel = new SelectionModel();
     private MutableInt targetHours = new MutableInt( 0 );
+    private final StretchingModel stretchingModel = new StretchingModel();
+    private String lastIconResource = null;
 
-    private void updateIconImage() throws IOException {
-        BufferedImage image = new PhetResources( "timesheet" ).getImage( ( timesheetModel.isClockedIn() ? "x-office-running.png" : "x-office-calendar.png" ) );
-        System.out.println( "image = " + image );
-        frame.setIconImage( image );
+    private void updateIconImage() {
+        String resource = null;
+        if ( stretchingModel.getTimeSinceBeginningOfLastSession( timesheetModel ) > 3600 ) {
+            resource = "x-office-warning.png";
+        }
+        else {
+            resource = timesheetModel.isClockedIn() ? "x-office-running.png" : "x-office-calendar.png";
+        }
+        if ( lastIconResource == null || !lastIconResource.equals( resource ) ) {
+            BufferedImage image = new PhetResources( "timesheet" ).getImage( resource );
+//            System.out.println( "Icon changed: " + image );
+            frame.setIconImage( image );
+            lastIconResource = resource;
+        }
     }
 
     public TimesheetApp() throws IOException {
@@ -72,12 +83,12 @@ public class TimesheetApp {
         updateIconImage();
         timesheetModel.addClockedInListener( new TimesheetModel.ClockedInListener() {
             public void clockedInChanged() {
-                try {
-                    updateIconImage();
-                }
-                catch ( IOException e ) {
-                    e.printStackTrace();
-                }
+                updateIconImage();
+            }
+        } );
+        timesheetModel.addTimeListener( new TimesheetModel.TimeListener() {
+            public void timeChanged() {
+                updateIconImage();
             }
         } );
 
