@@ -94,7 +94,11 @@ public class BendingLightModel implements ResetModel {
 
     public BendingLightModel( double laserAngle, boolean topLeftQuadrant, final double laserDistanceFromPivot ) {
         laser = new Laser( laserDistanceFromPivot, laserAngle, topLeftQuadrant );
-        this.clock = new ConstantDtClock( 30.0 ) {{
+
+        //To come up with a good time scale dt, use lambda = v/f.  For lambda = RED_WAVELENGTH and C=SPEED_OF_LIGHT, we have f=4.612E14
+        double redLightFrequency = SPEED_OF_LIGHT / WAVELENGTH_RED;
+        double dt = 1.0 / redLightFrequency / 30;//thirty frames per cycle
+        this.clock = new ConstantDtClock( 20, dt ) {{
             addClockListener( new ClockAdapter() {
                 public void simulationTimeChanged( ClockEvent clockEvent ) {
                     for ( LightRay ray : rays ) {
