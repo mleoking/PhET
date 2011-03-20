@@ -186,13 +186,11 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
             put( Displacement_C2H5OH_3O2_2CO2_3H2O.class,
                     new EquationClassesList() {{
                         add( Displacement_2CO2_3H2O_C2H5OH_3O2.class ); /* reverse */
-                        add( Displacement_2CO2_3H2O_C2H5OH_3O2.class );
                     }}
                );
             put( Displacement_2CO2_3H2O_C2H5OH_3O2.class,
                  new EquationClassesList() {{
                      add( Displacement_C2H5OH_3O2_2CO2_3H2O.class ); /* reverse */
-                     add( Displacement_C2H5OH_3O2_2CO2_3H2O.class );
                  }}
             );
             put( Displacement_4NH3_3O2_2N2_6H2O.class,
