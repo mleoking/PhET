@@ -183,7 +183,11 @@ public class IntroModel extends BendingLightModel {
         for ( LightRay ray : rays ) {
             if ( ray.contains( position, laserView.getValue() == LaserView.WAVE ) ) {
 //                System.out.println( "ray.getFrequency() = " + ray.getFrequency() + ", t = " + getClock().getSimulationTime() );
-                return new Option.Some<Double>( Math.sqrt( ray.getPowerFraction() ) * cos( rays.indexOf( ray ) * Math.PI / 4 + getClock().getSimulationTime() * ray.getFrequency() / 4E14 * 10 ) );//TODO: use actual value for wave phase
+                final double amplitude = Math.sqrt( ray.getPowerFraction() );
+                final double t = getClock().getSimulationTime();
+                final double angularFrequency = ray.getFrequency() / 4E15;//scaled up so it's visible
+                final double phase = rays.indexOf( ray ) * Math.PI / 4;//TODO: use actual value for wave phase
+                return new Option.Some<Double>( amplitude * cos( phase + angularFrequency * t ) );
             }
         }
         return new Option.None<Double>();
