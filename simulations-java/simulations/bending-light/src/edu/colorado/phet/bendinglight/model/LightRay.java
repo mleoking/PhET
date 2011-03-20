@@ -162,7 +162,7 @@ public class LightRay {
         return new Line2D.Double( tail.getValue().plus( getUnitVector().times( -getExtensionFactor() ) ).toPoint2D(), tip.getValue().toPoint2D() );
     }
 
-    private ImmutableVector2D getUnitVector() {
+    public ImmutableVector2D getUnitVector() {
         return new ImmutableVector2D( tail.getValue().toPoint2D(), tip.getValue().toPoint2D() ).getNormalizedInstance();
     }
 

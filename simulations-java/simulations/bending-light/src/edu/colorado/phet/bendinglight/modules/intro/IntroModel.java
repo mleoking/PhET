@@ -182,11 +182,15 @@ public class IntroModel extends BendingLightModel {
     protected Option<Double> getWaveValue( ImmutableVector2D position ) {
         for ( LightRay ray : rays ) {
             if ( ray.contains( position, laserView.getValue() == LaserView.WAVE ) ) {
-//                System.out.println( "ray.getFrequency() = " + ray.getFrequency() + ", t = " + getClock().getSimulationTime() );
                 final double amplitude = Math.sqrt( ray.getPowerFraction() );
                 final double t = getClock().getSimulationTime();
-                final double angularFrequency = ray.getFrequency() / 4E15;//scaled up so it's visible
-                final double phase = rays.indexOf( ray ) * Math.PI / 4;//TODO: use actual value for wave phase
+
+                final double angularFrequency = ray.getFrequency() / 4E13;//scaled up so it's visible: TODO: use actual frequency value, or at least one that corresponds with the view
+
+                final double distanceAlongRay = ray.getUnitVector().dot( new ImmutableVector2D( ray.tail.getValue().toPoint2D(), position.toPoint2D() ) );
+                final double phase = ray.getNumWavelengthsPhaseOffset() + distanceAlongRay / ray.getWavelength();//TODO: this phase is probably wrong
+
+//                System.out.println( "ray.getFrequency() = " + ray.getFrequency() + ", t = " + getClock().getSimulationTime() +", phase = "+phase);
                 return new Option.Some<Double>( amplitude * cos( phase + angularFrequency * t ) );
             }
         }
