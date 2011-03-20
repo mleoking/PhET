@@ -5,8 +5,6 @@ HIGH PRIORITY
 MEDIUM PRIORITY
 
 LOW PRIORITY
-- screenshots before publishing 1.00
-- delete test apps from build properties before publishing 1.00
 - make sure that color for "molecules are hidden" in BoxesNode works with the background color we choose
 - Kelly colors: boxes=black, canvas=gray[204,204,204]
 - Emily colors: boxes=gray[102,102,102], canvas=white or blue[204,204,255]
@@ -14,6 +12,11 @@ LOW PRIORITY
 - change color of "Show Why" button?
 - get rid of "Hide Why" button?
 - change default position of Game popups?
+
+BEFORE 1.00
+- create screenshots
+- delete test apps from build properties
+- check in a snapshot of the design doc
 
 MIGRATE TO COMMON
  
