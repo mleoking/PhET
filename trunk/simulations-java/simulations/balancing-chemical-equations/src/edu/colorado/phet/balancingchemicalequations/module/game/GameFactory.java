@@ -396,7 +396,11 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
                     poolCopy.removeAll( exclusedEquations );
                 }
 
-                // if the pool size goes to zero prematurely, print diagnostics and bail
+                /*
+                 *  If the pool size goes to zero prematurely, print diagnostics and bail.
+                 *  If this happens, you'll get fewer equations than requested, but the
+                 *  application will continue to run.
+                 */
                 if ( i < numberOfEquations - 1 && poolCopy.size() == 0 ) {
                     System.err.print( "ERROR: GameFactory.RandomWithExclusionsStrategy.getEquationClasses ran out of equations, " );
                     System.err.print( "numberOfEquations=" + numberOfEquations );
