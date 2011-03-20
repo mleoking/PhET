@@ -1,3 +1,4 @@
+# 0.00.20 (49980) Mar 20, 2011
 3/20/11 change request: exclude the reverse of all selected reactions in level-3 games
 # 0.00.19 (49962) Mar 18, 2011
 3/18/11 rewrite level-3 game strategy again, a generalized version of the "exclusionary" strategy specified in the design doc
