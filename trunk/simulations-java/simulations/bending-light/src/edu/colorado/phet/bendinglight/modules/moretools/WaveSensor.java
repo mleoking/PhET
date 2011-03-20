@@ -14,9 +14,6 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 
-/**
- * @author Sam Reid
- */
 public class WaveSensor {
     public final Probe probe1 = new Probe( -4.173076923076922E-7, 9.180769230769231E-7 );
     public final Probe probe2 = new Probe( -1.5440384615384618E-6, -1.2936538461538458E-6 );
@@ -34,8 +31,8 @@ public class WaveSensor {
         } );
     }
 
-    private void updateProbeSample( Probe probe, Function1<ImmutableVector2D, Option<Double>> probe1Value, Clock clock ) {
-        final Option<Double> value = probe1Value.apply( probe.position.getValue() );
+    private void updateProbeSample( Probe probe, Function1<ImmutableVector2D, Option<Double>> probeValue, Clock clock ) {
+        final Option<Double> value = probeValue.apply( probe.position.getValue() );
         if ( value.isSome() ) {
             probe.addSample( new Option.Some<ImmutableVector2D>( new ImmutableVector2D( clock.getSimulationTime(), value.get() ) ) );
         }
@@ -44,13 +41,11 @@ public class WaveSensor {
         }
     }
 
-    public void translateBody( Dimension2D dimension2D ) {
-        bodyPosition.setValue( bodyPosition.getValue().plus( dimension2D ) );
+    public void translateBody( Dimension2D delta ) {
+        bodyPosition.setValue( bodyPosition.getValue().plus( delta ) );
     }
 
-    /*
-     * Moves the sensor body and probes until the hot spot (center of one probe) is on the specified position.
-     */
+    //Moves the sensor body and probes until the hot spot (center of one probe) is on the specified position.
     public void translateToHotSpot( Point2D position ) {
         translateAll( new ImmutableVector2D( position ).minus( probe1.position.getValue() ) );
     }
