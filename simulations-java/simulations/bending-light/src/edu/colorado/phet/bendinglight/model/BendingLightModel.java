@@ -58,13 +58,19 @@ public class BendingLightModel implements ResetModel {
 
         public Color colorBlend( Color a, Color b, double ratio ) {
             return new Color(
-                    (int) ( ( (float) a.getRed() ) * ( 1 - ratio ) + ( (float) b.getRed() ) * ratio ),
-                    (int) ( ( (float) a.getGreen() ) * ( 1 - ratio ) + ( (float) b.getGreen() ) * ratio ),
-                    (int) ( ( (float) a.getBlue() ) * ( 1 - ratio ) + ( (float) b.getBlue() ) * ratio ),
-                    (int) ( ( (float) a.getAlpha() ) * ( 1 - ratio ) + ( (float) b.getAlpha() ) * ratio )
+                    clamp( (int) ( ( (float) a.getRed() ) * ( 1 - ratio ) + ( (float) b.getRed() ) * ratio ) ),
+                    clamp( (int) ( ( (float) a.getGreen() ) * ( 1 - ratio ) + ( (float) b.getGreen() ) * ratio ) ),
+                    clamp( (int) ( ( (float) a.getBlue() ) * ( 1 - ratio ) + ( (float) b.getBlue() ) * ratio ) ),
+                    clamp( (int) ( ( (float) a.getAlpha() ) * ( 1 - ratio ) + ( (float) b.getAlpha() ) * ratio ) )
             );
         }
     } );
+
+    private int clamp( int value ) {
+        if ( value < 0 ) { return 0; }
+        else if ( value > 255 ) { return 255; }
+        else { return value; }
+    }
 
     public static final double SPEED_OF_LIGHT = 2.99792458e8;
     public static final double WAVELENGTH_RED = 650E-9;

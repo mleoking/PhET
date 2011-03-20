@@ -12,6 +12,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.bendinglight.model.BendingLightModel;
+import edu.colorado.phet.bendinglight.model.DispersionFunction;
 import edu.colorado.phet.bendinglight.model.Medium;
 import edu.colorado.phet.bendinglight.model.MediumState;
 import edu.colorado.phet.common.phetcommon.math.Function;
@@ -36,6 +37,7 @@ public class MediumControlPanel extends PNode {
     private final MediumState CUSTOM = new MediumState( "Custom", BendingLightModel.MYSTERY_B.index() + 1.2, false, true );
     private final Property<Medium> medium;
     private final Property<Function1<Double, Color>> colorMappingFunction;
+    private final Property<Double> laserWavelength;
     private static final int MIN = 1;
     private static final double MAX = 1.6;
 
@@ -47,6 +49,7 @@ public class MediumControlPanel extends PNode {
                                final Property<Double> laserWavelength ) {
         this.medium = medium;
         this.colorMappingFunction = colorMappingFunction;
+        this.laserWavelength = laserWavelength;
         final MediumState initialMediumState = medium.getValue().getMediumState();
         final PNode topLabel = new PNode() {{
             final PText materialLabel = new PText( name ) {{
@@ -118,7 +121,7 @@ public class MediumControlPanel extends PNode {
                             public void actionPerformed( ActionEvent e ) {
                                 double value = Double.parseDouble( getText() );
                                 if ( value > MIN && value < MAX ) {
-                                    setIndexOfRefraction( value );
+                                    setCustomIndexOfRefraction( value );
                                 }
                             }
                         } );
@@ -150,7 +153,7 @@ public class MediumControlPanel extends PNode {
                         public void stateChanged( ChangeEvent e ) {
                             if ( isFocusOwner() ) {//Only send events if caused by user, otherwise selecting "mystery b" causes buggy behavior
                                 final double indexOfRefraction = mapping.evaluate( getValue() );
-                                setIndexOfRefraction( indexOfRefraction );
+                                setCustomIndexOfRefraction( indexOfRefraction );
                             }
                         }
                     } );
@@ -198,10 +201,12 @@ public class MediumControlPanel extends PNode {
         topLabel.setOffset( getFullBounds().getCenterX() - topLabel.getFullBounds().getWidth() / 2, 0 );
     }
 
-    private void setIndexOfRefraction( double indexOfRefraction ) {
-        medium.setValue( new Medium( medium.getValue().shape, new MediumState( "Custom", indexOfRefraction ), colorMappingFunction.getValue().apply( indexOfRefraction ) ) );
+    private void setCustomIndexOfRefraction( double indexOfRefraction ) {
+        final DispersionFunction dispersionFunction = new DispersionFunction( indexOfRefraction, laserWavelength.getValue() );
+        medium.setValue( new Medium( medium.getValue().shape, new MediumState( "Custom", dispersionFunction, false, false ), colorMappingFunction.getValue().apply( dispersionFunction.getIndexOfRefractionForRed() ) ) );
     }
 
+    //From the combo box
     private void setMediumState( MediumState mediumState, Property<Medium> medium, Property<Function1<Double, Color>> colorMappingFunction ) {
         medium.setValue( new Medium( medium.getValue().shape, mediumState, colorMappingFunction.getValue().apply( mediumState.index() ) ) );
     }

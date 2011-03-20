@@ -21,8 +21,12 @@ public class MediumState {
     }
 
     public MediumState( String name, double indexForRed, boolean mystery, boolean custom ) {
+        this( name, new DispersionFunction( indexForRed ), mystery, custom );
+    }
+
+    public MediumState( String name, DispersionFunction dispersionFunction, boolean mystery, boolean custom ) {
         this.name = name;
-        this.dispersionFunction = new DispersionFunction( indexForRed );
+        this.dispersionFunction = dispersionFunction;
         this.mystery = mystery;
         this.custom = custom;
     }
