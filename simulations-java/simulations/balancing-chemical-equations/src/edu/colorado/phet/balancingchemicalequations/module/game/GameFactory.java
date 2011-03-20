@@ -155,42 +155,41 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
      *  <p>
      *  I would like to have implemented a varargs "put" method to make this more readable, but Java
      *  cannot create an array of parameterized types, so use of varargs would result in compiler warnings.
-     *  (And yes, I know that Scala doesn't have this problem.)
      */
     private static final ExclusionsMap LEVEL3_EXCLUSIONS =
         new ExclusionsMap() {{
             put( Displacement_2C2H6_7O2_4CO2_6H2O.class,
                  new EquationClassesList() {{
-                    add( Displacement_4CO2_6H2O_2C2H6_7O2.class ); /* reverse */
+                    add( Displacement_4CO2_6H2O_2C2H6_7O2.class ); /* reverse equation */
                     add( Displacement_2C2H2_5O2_4CO2_2H2O.class );
                  }}
             );
             put( Displacement_4CO2_6H2O_2C2H6_7O2.class,
                  new EquationClassesList() {{
-                    add( Displacement_2C2H6_7O2_4CO2_6H2O.class ); /* reverse */
+                    add( Displacement_2C2H6_7O2_4CO2_6H2O.class ); /* reverse equation */
                     add( Displacement_4CO2_2H2O_2C2H2_5O2.class );
                  }}
             );
             put( Displacement_2C2H2_5O2_4CO2_2H2O.class,
                  new EquationClassesList() {{
-                     add( Displacement_4CO2_2H2O_2C2H2_5O2.class ); /* reverse */
+                     add( Displacement_4CO2_2H2O_2C2H2_5O2.class ); /* reverse equation */
                      add( Displacement_2C2H6_7O2_4CO2_6H2O.class );
                  }}
             );
             put( Displacement_4CO2_2H2O_2C2H2_5O2.class,
                  new EquationClassesList() {{
-                     add( Displacement_2C2H2_5O2_4CO2_2H2O.class ); /* reverse */
+                     add( Displacement_2C2H2_5O2_4CO2_2H2O.class ); /* reverse equation */
                      add( Displacement_4CO2_6H2O_2C2H6_7O2.class );
                  }}
             );
             put( Displacement_C2H5OH_3O2_2CO2_3H2O.class,
                     new EquationClassesList() {{
-                        add( Displacement_2CO2_3H2O_C2H5OH_3O2.class ); /* reverse */
+                        add( Displacement_2CO2_3H2O_C2H5OH_3O2.class ); /* reverse equation */
                     }}
                );
             put( Displacement_2CO2_3H2O_C2H5OH_3O2.class,
                  new EquationClassesList() {{
-                     add( Displacement_C2H5OH_3O2_2CO2_3H2O.class ); /* reverse */
+                     add( Displacement_C2H5OH_3O2_2CO2_3H2O.class ); /* reverse equation */
                  }}
             );
             put( Displacement_4NH3_3O2_2N2_6H2O.class,
@@ -298,8 +297,10 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
             throw new IllegalArgumentException( "unsupported level: " + level );
         }
 
-        // get classes
+        // get strategy for level
         IGameStrategy strategy = playAllEquationsProperty.getValue() ? DEV_STRATEGIES.get( level ) : STRATEGIES.get( level );
+
+        // get equation classes
         EquationClassesList equationClasses = strategy.getEquationClasses( numberOfEquations );
 
         // instantiate equations
@@ -383,8 +384,10 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
             for ( int i = 0; i < numberOfEquations; i++ ) {
 
                 // randomly select an equation
-                int equationIndex = (int) ( Math.random() * poolCopy.size() );
-                Class<? extends Equation> equationClass = poolCopy.get( equationIndex );
+                int randomIndex = (int) ( Math.random() * poolCopy.size() );
+                Class<? extends Equation> equationClass = poolCopy.get( randomIndex );
+
+                // add the equation to the game
                 equationClasses.add( equationClass );
 
                 // remove the equation from the pool so it won't be selected again
@@ -399,7 +402,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
                 /*
                  *  If the pool size goes to zero prematurely, print diagnostics and bail.
                  *  If this happens, you'll get fewer equations than requested, but the
-                 *  application will continue to run.
+                 *  application will continue to run (unless assertions are enabled).
                  */
                 if ( i < numberOfEquations - 1 && poolCopy.size() == 0 ) {
                     System.err.print( "ERROR: GameFactory.RandomWithExclusionsStrategy.getEquationClasses ran out of equations, " );
