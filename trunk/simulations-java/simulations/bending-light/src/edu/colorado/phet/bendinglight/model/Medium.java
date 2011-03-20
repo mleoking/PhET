@@ -9,7 +9,7 @@ import java.awt.*;
 public class Medium {
     public final Shape shape;
     private final MediumState mediumState;
-    public final Color color;
+    public final Color color;//Color is based on the index of refraction at red wavelength
 
     public Medium( Shape shape, MediumState mediumState, Color color ) {
         this.shape = shape;
