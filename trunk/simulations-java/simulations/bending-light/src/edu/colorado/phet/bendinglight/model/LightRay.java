@@ -171,8 +171,10 @@ public class LightRay {
     }
 
     public void step( double dt ) {
-        final double deltaPhase = getSpeed() / SPEED_OF_LIGHT * 100;
-        phase.setValue( phase.getValue() + deltaPhase * dt );
+        //it moved v*dt meters
+        double distanceMoved = getSpeed() * dt;
+        double numberWavelengthsMoved = distanceMoved / getWavelength();
+        phase.setValue( phase.getValue() + numberWavelengthsMoved );
     }
 
     public double getWaveWidth() {

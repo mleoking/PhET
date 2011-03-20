@@ -45,7 +45,8 @@ public class LightWaveNode extends PNode {
 //        final Color red = new Color( 1f, 0, 0, 0.5f );
 //        final Color black = new Color( 0, 0, 0, 0.5f );
 
-        ImmutableVector2D phaseOffset = directionVector.times( transform.modelToViewDeltaX( -lightRay.getNumWavelengthsPhaseOffset() * lightRay.getWavelength() ) + lightRay.phase.getValue() );
+        final double totalPhaseOffsetInNumberOfWavelengths = -lightRay.getNumWavelengthsPhaseOffset() + lightRay.phase.getValue();
+        ImmutableVector2D phaseOffset = directionVector.times( transform.modelToViewDeltaX( totalPhaseOffsetInNumberOfWavelengths * lightRay.getWavelength() ) );
         float dx = (float) ( phaseOffset.getX() + transform.modelToViewX( lightRay.tail.getValue().getX() ) );//the rightmost term ensures that phase doesn't depend on angle of the beam.
         float dy = (float) ( phaseOffset.getY() + transform.modelToViewY( lightRay.tail.getValue().getY() ) );
         return new GradientPaint( dx, dy, red,
