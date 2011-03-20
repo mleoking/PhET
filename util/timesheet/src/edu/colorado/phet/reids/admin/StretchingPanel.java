@@ -12,6 +12,8 @@ import javax.swing.*;
  * @author Sam Reid
  */
 public class StretchingPanel extends JPanel {
+    StretchingModel model = new StretchingModel();
+
     public StretchingPanel( final TimesheetModel timesheetModel ) {
         add( new JLabel( "Elapsed: MSE" ) );
         final JTextField textField = new JTextField( 8 );
@@ -21,10 +23,10 @@ public class StretchingPanel extends JPanel {
         add( textField );
         TimesheetModel.TimeListener timeListener = new TimesheetModel.TimeListener() {
             public void timeChanged() {
-                long time = getTimeSinceBeginningOfLast( timesheetModel );
+                long time = model.getTimeSinceBeginningOfLastSession( timesheetModel );
                 textField.setText( Util.secondsToElapsedTimeString( time ) );
                 if ( timesheetModel.getEntryCount() > 0 ) {
-                    if ( entryMatches( timesheetModel.getLastEntry() ) && time == (long) ( 4.5 * 60 ) )//TODO: this plays sound during loading CSV
+                    if ( model.entryMatches( timesheetModel.getLastEntry() ) && time == (long) ( 4.5 * 60 ) )//TODO: this plays sound during loading CSV
                     {
                         playNotification( "C:\\workingcopy\\phet\\trunk\\simulations-java\\simulations\\electric-hockey\\data\\electric-hockey\\audio\\cork.wav" );//todo: take out absolute paths
                     }
@@ -46,22 +48,6 @@ public class StretchingPanel extends JPanel {
         }
         add( button );
         setBorder( BorderFactory.createEtchedBorder() );
-    }
-
-    private long getTimeSinceBeginningOfLast( TimesheetModel timesheetModel ) {
-        long elapsed = 0;
-        for ( int i = timesheetModel.getEntryCount() - 1; i >= 0; i-- ) {
-            Entry entry = timesheetModel.getEntry( i );
-            elapsed += entry.getElapsedSeconds();
-            if ( entryMatches( entry ) ) {
-                break;
-            }
-        }
-        return elapsed;
-    }
-
-    private boolean entryMatches( Entry entry ) {
-        return entry.getNotes().equals( "stretching & exercise" );
     }
 
     public static void main( String[] args ) throws LineUnavailableException, IOException, UnsupportedAudioFileException {
