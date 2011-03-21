@@ -74,6 +74,10 @@ public class BendingLightModel implements ResetModel {
 
     public static final double SPEED_OF_LIGHT = 2.99792458e8;
     public static final double WAVELENGTH_RED = 650E-9;
+    //To come up with a good time scale dt, use lambda = v/f.  For lambda = RED_WAVELENGTH and C=SPEED_OF_LIGHT, we have f=4.612E14
+    public static final double RED_LIGHT_FREQUENCY = SPEED_OF_LIGHT / WAVELENGTH_RED;
+    public static final double DT = 1.0 / RED_LIGHT_FREQUENCY / 30;//thirty frames per cycle
+
     //A good size for the units being used in the sim; used to determine the dimensions of various model objects
     public static final double CHARACTERISTIC_LENGTH = WAVELENGTH_RED;
 
@@ -94,11 +98,7 @@ public class BendingLightModel implements ResetModel {
 
     public BendingLightModel( double laserAngle, boolean topLeftQuadrant, final double laserDistanceFromPivot ) {
         laser = new Laser( laserDistanceFromPivot, laserAngle, topLeftQuadrant );
-
-        //To come up with a good time scale dt, use lambda = v/f.  For lambda = RED_WAVELENGTH and C=SPEED_OF_LIGHT, we have f=4.612E14
-        double redLightFrequency = SPEED_OF_LIGHT / WAVELENGTH_RED;
-        double dt = 1.0 / redLightFrequency / 30;//thirty frames per cycle
-        this.clock = new ConstantDtClock( 20, dt ) {{
+        this.clock = new ConstantDtClock( 20, DT ) {{
             addClockListener( new ClockAdapter() {
                 public void simulationTimeChanged( ClockEvent clockEvent ) {
                     for ( LightRay ray : rays ) {
