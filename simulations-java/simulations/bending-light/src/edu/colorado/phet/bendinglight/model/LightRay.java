@@ -221,7 +221,7 @@ public class LightRay {
 
     public double getPhaseOffset() {
 //        System.out.println( "time = " + time );
-        return getAngularFrequency() * time + 2 * Math.PI * numWavelengthsPhaseOffset;
+        return getAngularFrequency() * time - 2 * Math.PI * numWavelengthsPhaseOffset;
     }
 
     public double getCosArg( double distanceAlongRay ) {
@@ -230,7 +230,7 @@ public class LightRay {
         double x = distanceAlongRay;
         double t = time;
 
-        return k * x + w * t + 2 * Math.PI * numWavelengthsPhaseOffset;
+        return k * x - w * t - 2 * Math.PI * numWavelengthsPhaseOffset;
 //        return getAngularFrequency() * time - numWavelengthsPhaseOffset * 2 * Math.PI;
 //        double radians = getFrequency() * time * 2 * Math.PI;
 //        return ( numWavelengthsPhaseOffset + distanceAlongRay / getWavelength() * time ) * 2 * Math.PI;

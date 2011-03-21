@@ -190,7 +190,7 @@ public class IntroModel extends BendingLightModel {
                 final double distanceAlongRay = ray.getUnitVector().dot( new ImmutableVector2D( ray.tail.getValue().toPoint2D(), position.toPoint2D() ) );
                 final double phase = ( -ray.getNumWavelengthsPhaseOffset() + distanceAlongRay / ray.getWavelength() ) * Math.PI * 2;//TODO: this phase is probably wrong
 
-                System.out.println( "phase = " + phase );
+//                System.out.println( "phase = " + phase );
 //                System.out.println( "ray.getFrequency() = " + ray.getFrequency() + ", t = " + getClock().getSimulationTime() +", phase = "+phase);
                 return new Option.Some<Double>( amplitude * sin( phase + angularFrequency * t + PI ) );
             }
