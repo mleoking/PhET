@@ -64,19 +64,11 @@ public class IntroModel extends BendingLightModel {
             double sourceWaveWidth = a / 2;//This one fixes the input beam to be a fixed width independent of angle
 
             //According to http://en.wikipedia.org/wiki/Wavelength
-            //lambda = lambda0 / n(lambda0)
             final Color color = laser.color.getValue().getColor();
             final double wavelengthInTopMedium = laser.color.getValue().getWavelength() / n1;
 
             //Since the n1 depends on the wavelength, when you change the wavelength, the wavelengthInTopMedium also changes (seemingly in the opposite direction)
-//            System.out.println( "wavelength = "+laser.color.getValue().getWavelength()+", n1="+n1+", wavelengthInTopMedium = " + wavelengthInTopMedium );
             final LightRay incidentRay = new LightRay( tail, new ImmutableVector2D(), n1, wavelengthInTopMedium, sourcePower, color, sourceWaveWidth, incomingRayPhase, bottom, true, false );
-//            incidentRay.phase.addObserver( new SimpleObserver() {
-//                public void update() {
-////                            incomingRayPhase = incidentRay.phase.getValue();//TODO: this is buggy
-//                    incomingRayPhase = 0.0;
-//                }
-//            } );
             final boolean rayAbsorbed = addAndAbsorb( incidentRay );
             if ( !rayAbsorbed ) {
 
@@ -183,16 +175,8 @@ public class IntroModel extends BendingLightModel {
         for ( LightRay ray : rays ) {
             if ( ray.contains( position, laserView.getValue() == LaserView.WAVE ) ) {
                 final double amplitude = Math.sqrt( ray.getPowerFraction() );
-                final double t = getClock().getSimulationTime();
-
-                final double angularFrequency = ray.getFrequency() * 2 * Math.PI;
-
                 final double distanceAlongRay = ray.getUnitVector().dot( new ImmutableVector2D( ray.tail.getValue().toPoint2D(), position.toPoint2D() ) );
-//                final double phase = ( -ray.getNumWavelengthsPhaseOffset() + distanceAlongRay / ray.getWavelength() ) * Math.PI * 2;//TODO: this phase is probably wrong
                 final double phase = ray.getCosArg( distanceAlongRay );
-
-//                System.out.println( "phase = " + phase );
-//                System.out.println( "ray.getFrequency() = " + ray.getFrequency() + ", t = " + getClock().getSimulationTime() +", phase = "+phase);
                 return new Option.Some<Double>( amplitude * cos( phase + Math.PI ) );
             }
         }
