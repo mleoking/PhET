@@ -88,16 +88,6 @@ public class Polygon {
         }} );
     }
 
-    //This is a weighted sum of vertices, so not an exact center.
-//    private ImmutableVector2D getMyCentroid() {
-//        Vector2D sum = new Vector2D();
-//        for ( ImmutableVector2D point : points ) {
-//            sum.add( point );
-//        }
-//        final Vector2D scale = sum.scale( 1.0 / points.size() );
-//        return scale;
-//    }
-
     private Point2D[] toPointArray() {
         Point2D[] array = new Point2D[points.size()];
         for ( int i = 0; i < array.length; i++ ) {

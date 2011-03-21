@@ -4,7 +4,6 @@ package edu.colorado.phet.bendinglight.view;
 public class BresenhamLineAlgorithm {
     //See http://en.wikipedia.org/wiki/Bresenham's_line_algorithm
     public void draw( int x0, int y0, int x1, int y1 ) {
-//        System.out.println( "drawing " + x0 + ", " + y0 + ", " + x1 + ", " + y1 );
         int dx = Math.abs( x1 - x0 );
         int dy = Math.abs( y1 - y0 );
         int sx = x0 < x1 ? 1 : -1;
