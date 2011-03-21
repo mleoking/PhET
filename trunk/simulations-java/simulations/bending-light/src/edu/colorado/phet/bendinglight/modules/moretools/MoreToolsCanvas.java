@@ -35,11 +35,10 @@ public class MoreToolsCanvas extends IntroCanvas<MoreToolsModel> {
                     setOffset( x, y );
                 }};
             }
-        }, 0, new Or( new ValueEquals<LaserView>( model.laserView, LaserView.WAVE ), model.waveSensor.visible ) );
+        }, 0, new Or( new ValueEquals<LaserView>( model.laserView, LaserView.WAVE ), model.waveSensor.visible ), model );
     }
 
     @Override protected PNode[] getMoreTools( ResetModel resetModel ) {
-
         final VelocitySensorNode velocitySensorNode = new VelocitySensorNode( transform, new VelocitySensor() );
         final Property<Boolean> showVelocitySensor = new Property<Boolean>( false );
         resetModel.addResetListener( new VoidFunction0() {
