@@ -13,7 +13,7 @@ import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.gravityandorbits.module.*;
 
-import static edu.colorado.phet.gravityandorbits.GAOStrings.INTRO;
+import static edu.colorado.phet.gravityandorbits.GAOStrings.CARTOON;
 import static edu.colorado.phet.gravityandorbits.GAOStrings.TO_SCALE;
 
 /**
@@ -31,7 +31,7 @@ public class GravityAndOrbitsApplication extends PiccoloPhetApplication {
 
     public GravityAndOrbitsApplication( PhetApplicationConfig config ) {
         super( config );
-        intro = new GravityAndOrbitsModule( getPhetFrame(), whiteBackgroundProperty, INTRO, false, new Function1<ModeListParameter, ArrayList<GravityAndOrbitsMode>>() {
+        intro = new GravityAndOrbitsModule( getPhetFrame(), whiteBackgroundProperty, CARTOON, false, new Function1<ModeListParameter, ArrayList<GravityAndOrbitsMode>>() {
             public ArrayList<GravityAndOrbitsMode> apply( ModeListParameter p ) {
                 return new CartoonModeList( p.clockPausedProperty, p.gravityEnabledProperty, p.stepping, p.rewinding, p.timeSpeedScaleProperty, 22.4 );
             }

@@ -1,3 +1,5 @@
+> Renamed "intro" to "cartoon"
+> Increased Earth mass in cartoon mode so the sun moves the same as it does in the second mode
 # 1.00.10 (49888) Mar 16, 2011
 > Start measuring tape in a less intuitive place, to see if that prompts students to move it
 > Reworded "Restart" to "Reset"
