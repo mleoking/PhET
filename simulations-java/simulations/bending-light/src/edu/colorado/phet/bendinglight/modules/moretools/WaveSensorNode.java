@@ -3,10 +3,9 @@ package edu.colorado.phet.bendinglight.modules.moretools;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
-import edu.colorado.phet.bendinglight.modules.intro.DraggableNode;
+import edu.colorado.phet.bendinglight.modules.intro.ToolNode;
 import edu.colorado.phet.bendinglight.view.ChartNode;
 import edu.colorado.phet.bendinglight.view.WireNode;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
@@ -26,7 +25,7 @@ import static java.awt.Color.white;
 /**
  * @author Sam Reid
  */
-public class WaveSensorNode extends DraggableNode {
+public class WaveSensorNode extends ToolNode {
     final Color darkProbeColor = new Color( 88, 89, 91 );//color taken from the image
     final Color lightProbeColor = new Color( 147, 149, 152 );
 
@@ -93,9 +92,5 @@ public class WaveSensorNode extends DraggableNode {
     @Override
     public void dragAll( PInputEvent event ) {
         waveSensor.translateAll( new ImmutableVector2D( transform.viewToModelDelta( event.getDeltaRelativeTo( getParent() ) ) ) );
-    }
-
-    @Override public Rectangle2D[] getDragComponents() {
-        return new Rectangle2D[] { getGlobalFullBounds() };
     }
 }
