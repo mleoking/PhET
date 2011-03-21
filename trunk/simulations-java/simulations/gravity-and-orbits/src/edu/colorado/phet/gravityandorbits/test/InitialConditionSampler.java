@@ -37,7 +37,7 @@ public class InitialConditionSampler {
                 public ArrayList<GravityAndOrbitsMode> apply( ModeListParameter p ) {
                     return new CartoonModeList( p.clockPausedProperty, p.gravityEnabledProperty, p.stepping, p.rewinding, p.timeSpeedScaleProperty, alpha );
                 }
-            }, 1 );
+            }, 1, true );
             intro.getModes().get( 1 ).p.clockPausedProperty.setValue( false );
             intro.showPathProperty.setValue( true );
             intro.getModes().get( 1 ).p.timeSpeedScaleProperty.setValue( 2.0 );

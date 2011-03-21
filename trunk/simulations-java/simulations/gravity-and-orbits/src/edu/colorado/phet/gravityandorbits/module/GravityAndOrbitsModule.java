@@ -48,9 +48,11 @@ public class GravityAndOrbitsModule extends PiccoloModule {
     public final Property<Boolean> whiteBackgroundProperty;
     public final boolean showMeasuringTape;
     private final ArrayList<GravityAndOrbitsMode> modes;
+    public final boolean showMassCheckBox;
 
-    public GravityAndOrbitsModule( final PhetFrame phetFrame, Property<Boolean> whiteBackgroundProperty, final String name, boolean showMeasuringTape, Function1<ModeListParameter, ArrayList<GravityAndOrbitsMode>> createModes, int initialMode ) {
+    public GravityAndOrbitsModule( final PhetFrame phetFrame, Property<Boolean> whiteBackgroundProperty, final String name, boolean showMeasuringTape, Function1<ModeListParameter, ArrayList<GravityAndOrbitsMode>> createModes, int initialMode, boolean showMassCheckBox ) {
         super( name, new ConstantDtClock( 30, 1 ) );//TODO: I don't think this clock is used since each mode has its own clock; perhaps this just runs the active tab?
+        this.showMassCheckBox = showMassCheckBox;
         modes = createModes.apply( new ModeListParameter( clockPausedProperty, gravityEnabledProperty, stepping, rewinding, timeSpeedScaleProperty ) );
         modeProperty = new Property<GravityAndOrbitsMode>( modes.get( initialMode ) );
         this.whiteBackgroundProperty = whiteBackgroundProperty;

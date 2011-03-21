@@ -35,13 +35,13 @@ public class GravityAndOrbitsApplication extends PiccoloPhetApplication {
             public ArrayList<GravityAndOrbitsMode> apply( ModeListParameter p ) {
                 return new CartoonModeList( p.clockPausedProperty, p.gravityEnabledProperty, p.stepping, p.rewinding, p.timeSpeedScaleProperty, 22.4 );
             }
-        }, 0 );
+        }, 0, false );
         addModule( intro );
         toScale = new GravityAndOrbitsModule( getPhetFrame(), whiteBackgroundProperty, TO_SCALE, true, new Function1<ModeListParameter, ArrayList<GravityAndOrbitsMode>>() {
             public ArrayList<GravityAndOrbitsMode> apply( ModeListParameter p ) {
                 return new RealModeList( p.clockPausedProperty, p.gravityEnabledProperty, p.stepping, p.rewinding, p.timeSpeedScaleProperty );
             }
-        }, 3 );//Start Real tab in earth/satellite mode because it is more playful
+        }, 3, true );//Start Real tab in earth/satellite mode because it is more playful
         addModule( toScale );
         getPhetFrame().addMenu( new OptionsMenu() {{addWhiteBackgroundCheckBoxMenuItem( whiteBackgroundProperty );}} );
     }
