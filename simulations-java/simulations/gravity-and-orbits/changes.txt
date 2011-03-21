@@ -1,3 +1,4 @@
+# 1.00.13 (50022) Mar 21, 2011
 > Removed "Mass" checkbox from the Cartoon tab
 # 1.00.12 (50018) Mar 21, 2011
 > Fixed the gravity force scale for cartoon's first mode
