@@ -1,5 +1,4 @@
-// Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.bendinglight.modules.prisms;
+package edu.colorado.phet.bendinglight.modules.tests;
 
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
