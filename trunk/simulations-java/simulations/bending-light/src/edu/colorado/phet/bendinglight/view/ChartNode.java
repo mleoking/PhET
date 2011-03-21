@@ -6,6 +6,7 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
+import edu.colorado.phet.bendinglight.model.BendingLightModel;
 import edu.colorado.phet.common.phetcommon.model.clock.Clock;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
@@ -26,23 +27,12 @@ import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.Model
 public class ChartNode extends PClip {
     public Property<ModelViewTransform> transform;
 
-    public class GridLine extends PNode {
-        public GridLine( final double x1, final double y1, final double x2, final double y2 ) {
-            addChild( new PhetPPath( new BasicStroke( 2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1f, new float[] { 10, 5 }, 0 ), Color.lightGray ) {{
-                transform.addObserver( new SimpleObserver() {
-                    public void update() {
-                        setPathTo( transform.getValue().modelToView( new Line2D.Double( x1, y1, x2, y2 ) ) );
-                    }
-                } );
-            }} );
-        }
-    }
-
     public ChartNode( final Clock clock, final Rectangle chartArea, ArrayList<Series> series ) {
         setPathTo( chartArea );
         setStroke( null );
-        transform = new Property<ModelViewTransform>( createRectangleMapping( new Rectangle2D.Double( 0, -1, 2, 2 ), chartArea ) );
-        addChild( new GridLine( 0, 0, 200, 0 ) );//main axis        //TODO: we'll need to extend these lines
+        final double timeWidth = 100 * BendingLightModel.DT;
+        transform = new Property<ModelViewTransform>( createRectangleMapping( new Rectangle2D.Double( 0, -1, timeWidth, 2 ), chartArea ) );
+        addChild( new GridLine( -timeWidth, 0, timeWidth * 50, 0 ) );//main axis        //TODO: we'll need to extend these lines, will need to do modulo or equivalent
         for ( double x = 0.5; x <= 200; x += 0.5 ) {//TODO: extend past 200
             addVerticalLine( x );
         }
@@ -51,7 +41,6 @@ public class ChartNode extends PClip {
         }
         clock.addClockListener( new ClockAdapter() {
             public void simulationTimeChanged( ClockEvent clockEvent ) {
-                double timeWidth = 2;
                 transform.setValue( createRectangleMapping( new Rectangle2D.Double( clock.getSimulationTime() - timeWidth, -1, timeWidth, 2 ), chartArea ) );
             }
         } );
@@ -105,6 +94,18 @@ public class ChartNode extends PClip {
                 s.path.addObserver( new SimpleObserver() {
                     public void update() {
                         setPathTo( transform.getValue().modelToView( s.toShape() ) );
+                    }
+                } );
+            }} );
+        }
+    }
+
+    public class GridLine extends PNode {
+        public GridLine( final double x1, final double y1, final double x2, final double y2 ) {
+            addChild( new PhetPPath( new BasicStroke( 2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1f, new float[] { 10, 5 }, 0 ), Color.lightGray ) {{
+                transform.addObserver( new SimpleObserver() {
+                    public void update() {
+                        setPathTo( transform.getValue().modelToView( new Line2D.Double( x1, y1, x2, y2 ) ) );
                     }
                 } );
             }} );

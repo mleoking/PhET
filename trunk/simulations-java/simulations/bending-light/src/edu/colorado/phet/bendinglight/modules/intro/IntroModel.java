@@ -185,7 +185,7 @@ public class IntroModel extends BendingLightModel {
                 final double amplitude = Math.sqrt( ray.getPowerFraction() );
                 final double t = getClock().getSimulationTime();
 
-                final double angularFrequency = ray.getFrequency() / 4E13;//scaled up so it's visible: TODO: use actual frequency value, or at least one that corresponds with the view
+                final double angularFrequency = ray.getFrequency() * 2 * Math.PI;//scaled up so it's visible: TODO: use actual frequency value, or at least one that corresponds with the view
 
                 final double distanceAlongRay = ray.getUnitVector().dot( new ImmutableVector2D( ray.tail.getValue().toPoint2D(), position.toPoint2D() ) );
                 final double phase = ray.getNumWavelengthsPhaseOffset() + distanceAlongRay / ray.getWavelength();//TODO: this phase is probably wrong
