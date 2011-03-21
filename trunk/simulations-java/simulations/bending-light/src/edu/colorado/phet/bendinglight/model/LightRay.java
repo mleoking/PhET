@@ -19,7 +19,6 @@ import static edu.colorado.phet.bendinglight.model.BendingLightModel.SPEED_OF_LI
 public class LightRay {
     public final Property<ImmutableVector2D> tip;
     public final Property<ImmutableVector2D> tail;
-    //    public final Property<Double> phase;
     public final double indexOfRefraction;
     public final double wavelength; // wavelength in meters
     private final double powerFraction;
@@ -32,6 +31,7 @@ public class LightRay {
     public final boolean extendBackwards;
     private boolean extend;
     private double time;
+    private ArrayList<VoidFunction0> stepListeners = new ArrayList<VoidFunction0>();
 
     public LightRay( ImmutableVector2D tail, ImmutableVector2D tip, double indexOfRefraction, double wavelength,
                      double powerFraction, Color color, double waveWidth,
@@ -41,7 +41,6 @@ public class LightRay {
                      boolean extendBackwards ) {
         this.oppositeMedium = oppositeMedium;
         this.extendBackwards = extendBackwards;
-//        this.phase = new Property<Double>( initialPhase );
         this.color = color;
         this.waveWidth = waveWidth;
         this.tip = new Property<ImmutableVector2D>( tip );
@@ -157,8 +156,6 @@ public class LightRay {
         return toVector2D().getAngle();
     }
 
-    private ArrayList<VoidFunction0> stepListeners = new ArrayList<VoidFunction0>();
-
     public void addStepListener( VoidFunction0 stepListener ) {
         stepListeners.add( stepListener );
     }
@@ -168,15 +165,7 @@ public class LightRay {
         for ( VoidFunction0 stepListener : stepListeners ) {
             stepListener.apply();
         }
-//        System.out.println( "getFrequency() = " + getFrequency() );
     }
-
-//    public void step( double dt ) {
-//        //it moved v*dt meters
-//        double distanceMoved = getSpeed() * dt;
-//        double numberWavelengthsMoved = distanceMoved / getWavelength();
-//        phase.setValue( phase.getValue() + numberWavelengthsMoved );
-//    }
 
     public double getWaveWidth() {
         return waveWidth;
@@ -220,7 +209,6 @@ public class LightRay {
     }
 
     public double getPhaseOffset() {
-//        System.out.println( "time = " + time );
         return getAngularFrequency() * time - 2 * Math.PI * numWavelengthsPhaseOffset;
     }
 
@@ -231,9 +219,6 @@ public class LightRay {
         double t = time;
 
         return k * x - w * t - 2 * Math.PI * numWavelengthsPhaseOffset;
-//        return getAngularFrequency() * time - numWavelengthsPhaseOffset * 2 * Math.PI;
-//        double radians = getFrequency() * time * 2 * Math.PI;
-//        return ( numWavelengthsPhaseOffset + distanceAlongRay / getWavelength() * time ) * 2 * Math.PI;
     }
 
     public double getTime() {
