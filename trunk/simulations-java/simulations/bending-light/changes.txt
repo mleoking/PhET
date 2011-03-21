@@ -1,3 +1,4 @@
+> Removed 'x' close button from intensity meter
 Updated wave sensor to use new time units
 Switched to use DataPoint instead of ImmutableVector2D to improve readability
 Fixed time units so that dt is closer to 1E-14 instead of 1.0

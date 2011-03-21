@@ -10,7 +10,6 @@ import java.awt.geom.Rectangle2D;
 import edu.colorado.phet.bendinglight.BendingLightApplication;
 import edu.colorado.phet.bendinglight.model.IntensityMeter;
 import edu.colorado.phet.bendinglight.modules.intro.DraggableNode;
-import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -82,16 +81,6 @@ public class IntensityMeterNode extends DraggableNode {
                 }
             } );
         }} );
-        bodyNode.addChild( new PImage( PhetCommonResources.getImage( PhetCommonResources.IMAGE_CLOSE_BUTTON ) ) {{
-            setOffset( bodyNode.getFullBounds().getWidth() - getFullBounds().getWidth() - 10, 10 );
-            addInputEventListener( new CursorHandler() );
-            addInputEventListener( new PBasicInputEventHandler() {
-                public void mousePressed( PInputEvent event ) {
-                    intensityMeter.enabled.setValue( false );
-                }
-            } );
-        }} );
-
         addChild( new WireNode( sensorNode, bodyNode, Color.gray ) );
 
         addChild( bodyNode );
