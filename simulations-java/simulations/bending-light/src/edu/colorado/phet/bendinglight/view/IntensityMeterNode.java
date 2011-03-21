@@ -18,6 +18,7 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * @author Sam Reid
@@ -98,14 +99,12 @@ public class IntensityMeterNode extends ToolNode {
 //        }} );
     }
 
-    public void dragAll( PInputEvent event ) {
-        doTranslate( transform.viewToModelDelta( event.getDeltaRelativeTo( getParent() ) ) );
+    public void dragAll( PDimension delta ) {
+        doTranslate( transform.viewToModelDelta( delta ) );
     }
 
     @Override public PNode[] getDroppableComponents() {
-        return new PNode[] {
-                bodyNode, sensorNode
-        };
+        return new PNode[] { bodyNode, sensorNode };
     }
 
     public void doTranslate( Dimension2D delta ) {
