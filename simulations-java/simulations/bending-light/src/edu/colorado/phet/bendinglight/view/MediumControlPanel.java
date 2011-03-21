@@ -11,15 +11,11 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.bendinglight.model.BendingLightModel;
-import edu.colorado.phet.bendinglight.model.DispersionFunction;
-import edu.colorado.phet.bendinglight.model.Medium;
-import edu.colorado.phet.bendinglight.model.MediumState;
+import edu.colorado.phet.bendinglight.model.*;
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
@@ -36,19 +32,16 @@ public class MediumControlPanel extends PNode {
 
     private final MediumState CUSTOM = new MediumState( "Custom", BendingLightModel.MYSTERY_B.index() + 1.2, false, true );
     private final Property<Medium> medium;
-    private final Property<Function1<Double, Color>> colorMappingFunction;
     private final Property<Double> laserWavelength;
     private static final int MIN = 1;
     private static final double MAX = 1.6;
 
     public MediumControlPanel( final PhetPCanvas phetPCanvas,
                                final Property<Medium> medium,
-                               final Property<Function1<Double, Color>> colorMappingFunction,
                                final String name,
                                final boolean textFieldVisible,
                                final Property<Double> laserWavelength ) {
         this.medium = medium;
-        this.colorMappingFunction = colorMappingFunction;
         this.laserWavelength = laserWavelength;
         final MediumState initialMediumState = medium.getValue().getMediumState();
         final PNode topLabel = new PNode() {{
@@ -69,7 +62,7 @@ public class MediumControlPanel extends PNode {
                         public void actionPerformed( ActionEvent e ) {
                             MediumState selected = (MediumState) getSelectedItem();
                             if ( !selected.custom ) {
-                                setMediumState( selected, medium, colorMappingFunction );
+                                setMediumState( selected, medium );
                             }
                         }
                     } );
@@ -80,7 +73,7 @@ public class MediumControlPanel extends PNode {
                         }
                     } );
                     setFont( labelFont );
-                    setMediumState( initialMediumState, medium, colorMappingFunction );
+                    setMediumState( initialMediumState, medium );
                 }
 
                 private void updateComboBox() {
@@ -203,11 +196,11 @@ public class MediumControlPanel extends PNode {
 
     private void setCustomIndexOfRefraction( double indexOfRefraction ) {
         final DispersionFunction dispersionFunction = new DispersionFunction( indexOfRefraction, laserWavelength.getValue() );
-        medium.setValue( new Medium( medium.getValue().shape, new MediumState( "Custom", dispersionFunction, false, false ), colorMappingFunction.getValue().apply( dispersionFunction.getIndexOfRefractionForRed() ) ) );
+        medium.setValue( new Medium( medium.getValue().shape, new MediumState( "Custom", dispersionFunction, false, false ), MediumColorFactory.getColor( dispersionFunction.getIndexOfRefractionForRed() ) ) );
     }
 
     //From the combo box
-    private void setMediumState( MediumState mediumState, Property<Medium> medium, Property<Function1<Double, Color>> colorMappingFunction ) {
-        medium.setValue( new Medium( medium.getValue().shape, mediumState, colorMappingFunction.getValue().apply( mediumState.index() ) ) );
+    private void setMediumState( MediumState mediumState, Property<Medium> medium ) {
+        medium.setValue( new Medium( medium.getValue().shape, mediumState, MediumColorFactory.getColor( mediumState.index() ) ) );
     }
 }

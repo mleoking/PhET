@@ -9,14 +9,12 @@ import java.util.List;
 import edu.colorado.phet.bendinglight.modules.intro.ResetModel;
 import edu.colorado.phet.bendinglight.view.LaserColor;
 import edu.colorado.phet.bendinglight.view.LaserView;
-import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
@@ -42,42 +40,6 @@ public class BendingLightModel implements ResetModel {
     public static final MediumState MYSTERY_A = new MediumState( "Mystery A", DIAMOND_INDEX, true );
     public static final MediumState MYSTERY_B = new MediumState( "Mystery B", 1.4, true );
 
-    //Maps index of refraction to color
-    public Property<Function1<Double, Color>> colorMappingFunction = new Property<Function1<Double, Color>>( new Function1<Double, Color>() {
-        public Color apply( Double value ) {
-            if ( value < WATER.index() ) {
-                double ratio = new Function.LinearFunction( 1.0, WATER.index(), 0, 1 ).evaluate( value );
-                return colorBlend( AIR_COLOR, WATER_COLOR, ratio );
-            }
-            else if ( value < GLASS.index() ) {
-                double ratio = new Function.LinearFunction( WATER.index(), GLASS.index(), 0, 1 ).evaluate( value );
-                return colorBlend( WATER_COLOR, GLASS_COLOR, ratio );
-            }
-            else if ( value < DIAMOND.index() ) {
-                double ratio = new Function.LinearFunction( GLASS.index(), DIAMOND.index(), 0, 1 ).evaluate( value );
-                return colorBlend( GLASS_COLOR, DIAMOND_COLOR, ratio );
-            }
-            else {
-                return DIAMOND_COLOR;
-            }
-        }
-
-        public Color colorBlend( Color a, Color b, double ratio ) {
-            return new Color(
-                    clamp( (int) ( ( (float) a.getRed() ) * ( 1 - ratio ) + ( (float) b.getRed() ) * ratio ) ),
-                    clamp( (int) ( ( (float) a.getGreen() ) * ( 1 - ratio ) + ( (float) b.getGreen() ) * ratio ) ),
-                    clamp( (int) ( ( (float) a.getBlue() ) * ( 1 - ratio ) + ( (float) b.getBlue() ) * ratio ) ),
-                    clamp( (int) ( ( (float) a.getAlpha() ) * ( 1 - ratio ) + ( (float) b.getAlpha() ) * ratio ) )
-            );
-        }
-    } );
-
-    private int clamp( int value ) {
-        if ( value < 0 ) { return 0; }
-        else if ( value > 255 ) { return 255; }
-        else { return value; }
-    }
-
     public static final double SPEED_OF_LIGHT = 2.99792458E8;
     public static final double WAVELENGTH_RED = 650E-9;
     //To come up with a good time scale dt, use lambda = v/f.  For lambda = RED_WAVELENGTH and C=SPEED_OF_LIGHT, we have f=4.612E14
@@ -93,7 +55,6 @@ public class BendingLightModel implements ResetModel {
     private ArrayList<VoidFunction1<LightRay>> rayAddedListeners = new ArrayList<VoidFunction1<LightRay>>();
     protected final Laser laser;
     protected final IntensityMeter intensityMeter = new IntensityMeter( modelWidth * 0.3, -modelHeight * 0.3, modelWidth * 0.4, -modelHeight * 0.3 );
-    //Alphas may be ignored, see MediumNode
     public static final Color AIR_COLOR = Color.white;
     public static final Color WATER_COLOR = new Color( 198, 226, 246 );
     public static final Color GLASS_COLOR = new Color( 171, 169, 212 );
