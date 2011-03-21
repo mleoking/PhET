@@ -5,10 +5,7 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.bendinglight.model.BendingLightModel;
-import edu.colorado.phet.bendinglight.model.LightRay;
-import edu.colorado.phet.bendinglight.model.Medium;
-import edu.colorado.phet.bendinglight.model.Reading;
+import edu.colorado.phet.bendinglight.model.*;
 import edu.colorado.phet.bendinglight.view.LaserView;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -25,17 +22,11 @@ import static java.lang.Math.*;
 public class IntroModel extends BendingLightModel {
     private double incomingRayPhase = 0.0;//Keep track of the phase across time steps so that we can maintain instead of resetting phase under angle or index of refraction changes
 
-    public final Property<Medium> topMedium = new Property<Medium>( new Medium( new Rectangle2D.Double( -1, 0, 2, 1 ), AIR, colorMappingFunction.getValue().apply( AIR.index() ) ) );
-    public final Property<Medium> bottomMedium = new Property<Medium>( new Medium( new Rectangle2D.Double( -1, -1, 2, 1 ), WATER, colorMappingFunction.getValue().apply( WATER.index() ) ) );
+    public final Property<Medium> topMedium = new Property<Medium>( new Medium( new Rectangle2D.Double( -1, 0, 2, 1 ), AIR, MediumColorFactory.getColor( AIR.index() ) ) );
+    public final Property<Medium> bottomMedium = new Property<Medium>( new Medium( new Rectangle2D.Double( -1, -1, 2, 1 ), WATER, MediumColorFactory.getColor( WATER.index() ) ) );
 
     public IntroModel() {
         super( PI * 3 / 4, true, DEFAULT_DIST_FROM_PIVOT );
-        colorMappingFunction.addObserver( new SimpleObserver() {
-            public void update() {
-                topMedium.setValue( new Medium( topMedium.getValue().shape, topMedium.getValue().getMediumState(), colorMappingFunction.getValue().apply( getN1() ) ) );
-                bottomMedium.setValue( new Medium( bottomMedium.getValue().shape, bottomMedium.getValue().getMediumState(), colorMappingFunction.getValue().apply( getN2() ) ) );
-            }
-        } );
         SimpleObserver updateRays = new SimpleObserver() {
             public void update() {
                 updateModel();
