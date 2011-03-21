@@ -15,7 +15,7 @@ public class CartoonModeList extends ModeList {
                    //Make the sun move as it does in the SunEarthMoon mode
                    final int earthMassScaleFactor = 20000;
                    earth.mass *= earthMassScaleFactor;
-                   forceScale *= 0.8 / earthMassScaleFactor;//to balance increased mass
+                   forceScale *= 0.8 / earthMassScaleFactor * 0.75;//to balance increased mass
                }}, new SunEarthMoon() {{
                     sun.radius *= 50;
                     earth.radius *= 1100;
@@ -25,7 +25,7 @@ public class CartoonModeList extends ModeList {
                     moon.vx *= alpha;
                     moon.y = earth.radius * 2;
                     moon.mass *= earthMassScaleFactor;
-                    forceScale *= 0.8 / earthMassScaleFactor;//to balance increased mass
+                    forceScale *= 0.8 / earthMassScaleFactor * 0.75;//to balance increased mass
                 }}, new EarthMoon() {{
                     earth.radius *= 15;
                     moon.radius *= 15;
