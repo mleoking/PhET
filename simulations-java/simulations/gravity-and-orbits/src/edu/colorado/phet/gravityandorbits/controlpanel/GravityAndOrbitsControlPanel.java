@@ -81,7 +81,9 @@ public class GravityAndOrbitsControlPanel extends VerticalLayoutPanel {
                 add( newArrow( PhetColorScheme.VELOCITY ) );
                 setMaximumSize( getPreferredSize() );
             }} );
-            add( new GAOCheckBox( GAOStrings.MASS, module.showMassProperty ) );
+            if ( module.showMassCheckBox ) {//TODO: only show this on real mode
+                add( new GAOCheckBox( GAOStrings.MASS, module.showMassProperty ) );
+            }
             add( new GAOCheckBox( GAOStrings.PATH, module.showPathProperty ) );
             add( new GAOCheckBox( GAOStrings.GRID, module.showGridProperty ) );
             //Panel with measuring tape.
