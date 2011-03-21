@@ -1,3 +1,4 @@
+Fixed: Sim speed doesn't reset
 > Removed 'x' close button from intensity meter
 Updated wave sensor to use new time units
 Switched to use DataPoint instead of ImmutableVector2D to improve readability

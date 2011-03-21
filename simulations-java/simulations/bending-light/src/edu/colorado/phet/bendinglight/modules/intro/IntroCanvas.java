@@ -35,7 +35,7 @@ public class IntroCanvas<T extends IntroModel> extends BendingLightCanvas<T> {
 
     public IntroCanvas( final T model, BooleanProperty moduleActive, final Resettable resetAll,
                         final Function3<IntroModel, Double, Double, PNode> additionalLaserControls, double centerOffsetLeft,
-                        final ObservableProperty<Boolean> clockControlVisible ) {//(model,x,y)
+                        final ObservableProperty<Boolean> clockControlVisible, final ResetModel resetModel ) {//(model,x,y)
         super( model, moduleActive, new Function1<Double, Double>() {
             public Double apply( Double angle ) {
                 if ( angle < -Math.PI / 2 ) { angle = Math.PI; }
@@ -134,14 +134,20 @@ public class IntroCanvas<T extends IntroModel> extends BendingLightCanvas<T> {
                 }
             } );
             final double dt = model.getClock().getDt();
-            final Property<Double> value = new Property<Double>( dt ) {{
+            final Property<Double> simSpeedProperty = new Property<Double>( dt ) {{
                 addObserver( new SimpleObserver() {
                     public void update() {
                         model.getClock().setDt( getValue() );
                     }
                 } );
+                resetModel.addResetListener( new VoidFunction0() {
+                    public void apply() {
+                        reset();
+                    }
+                } );
             }};
-            final SimSpeedSlider speedSlider = new SimSpeedSlider( dt / 4, value, dt, 0, new Property<Color>( Color.black ) );
+
+            final SimSpeedSlider speedSlider = new SimSpeedSlider( dt / 4, simSpeedProperty, dt, 0, new Property<Color>( Color.black ) );
             addChild( speedSlider );
 
             //sim speed slider is not at (0,0) in this node, so need to account for its size
