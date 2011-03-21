@@ -6,11 +6,10 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.clock.Clock;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -63,10 +62,10 @@ public class ChartNode extends PClip {
     }
 
     public static class Series {
-        public final Property<ArrayList<Option<ImmutableVector2D>>> path;
+        public final Property<ArrayList<Option<DataPoint>>> path;
         private final Color color;
 
-        public Series( Property<ArrayList<Option<ImmutableVector2D>>> path, Color color ) {
+        public Series( Property<ArrayList<Option<DataPoint>>> path, Color color ) {
             this.path = path;
             this.color = color;
         }
@@ -75,23 +74,24 @@ public class ChartNode extends PClip {
             return color;
         }
 
-        public void addPoint( final double x, final double y ) {
-            path.setValue( new ArrayList<Option<ImmutableVector2D>>( path.getValue() ) {{
-                add( new Option.Some<ImmutableVector2D>( new ImmutableVector2D( x, y ) ) );
+        public void addPoint( final double time, final double value ) {
+            path.setValue( new ArrayList<Option<DataPoint>>( path.getValue() ) {{
+                add( new Option.Some<DataPoint>( new DataPoint( time, value ) ) );
             }} );
         }
 
         public Shape toShape() {
             DoubleGeneralPath generalPath = new DoubleGeneralPath();
             boolean moved = false;
-            for ( Option<ImmutableVector2D> value : path.getValue() ) {
+            for ( Option<DataPoint> value : path.getValue() ) {
                 if ( value.isSome() ) {
+                    final DataPoint dataPoint = value.get();
                     if ( !moved ) {
-                        generalPath.moveTo( value.get() );
+                        generalPath.moveTo( dataPoint.time, dataPoint.value );
                         moved = true;
                     }
                     else {
-                        generalPath.lineTo( value.get() );
+                        generalPath.lineTo( dataPoint.time, dataPoint.value );
                     }
                 }
             }

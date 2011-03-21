@@ -5,6 +5,7 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
+import edu.colorado.phet.bendinglight.view.DataPoint;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.Clock;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
@@ -34,10 +35,11 @@ public class WaveSensor {
     private void updateProbeSample( Probe probe, Function1<ImmutableVector2D, Option<Double>> probeValue, Clock clock ) {
         final Option<Double> value = probeValue.apply( probe.position.getValue() );
         if ( value.isSome() ) {
-            probe.addSample( new Option.Some<ImmutableVector2D>( new ImmutableVector2D( clock.getSimulationTime(), value.get() ) ) );
+            System.out.println( "value = " + value );
+            probe.addSample( new Option.Some<DataPoint>( new DataPoint( clock.getSimulationTime(), value.get() ) ) );
         }
         else {
-            probe.addSample( new Option.None<ImmutableVector2D>() );
+            probe.addSample( new Option.None<DataPoint>() );
         }
     }
 
@@ -58,7 +60,7 @@ public class WaveSensor {
 
     public static class Probe {
         public final Property<ImmutableVector2D> position;
-        public final Property<ArrayList<Option<ImmutableVector2D>>> series = new Property<ArrayList<Option<ImmutableVector2D>>>( new ArrayList<Option<ImmutableVector2D>>() );
+        public final Property<ArrayList<Option<DataPoint>>> series = new Property<ArrayList<Option<DataPoint>>>( new ArrayList<Option<DataPoint>>() );
 
         public Probe( double x, double y ) {
             position = new Property<ImmutableVector2D>( new ImmutableVector2D( x, y ) );
@@ -72,8 +74,8 @@ public class WaveSensor {
             position.setValue( position.getValue().plus( delta ) );
         }
 
-        public void addSample( final Option<ImmutableVector2D> sample ) {
-            series.setValue( new ArrayList<Option<ImmutableVector2D>>( series.getValue() ) {{
+        public void addSample( final Option<DataPoint> sample ) {
+            series.setValue( new ArrayList<Option<DataPoint>>( series.getValue() ) {{
                 add( sample );
             }} );
         }
