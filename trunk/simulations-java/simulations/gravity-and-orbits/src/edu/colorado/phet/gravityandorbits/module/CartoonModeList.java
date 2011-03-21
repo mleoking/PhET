@@ -20,6 +20,13 @@ public class CartoonModeList extends ModeList {
                     sun.radius *= 50;
                     earth.radius *= 1100;
                     moon.radius *= 800;
+
+                    double distBetweenEarthAndMoon = earth.getPosition().minus( moon.getPosition() ).getMagnitude();
+                    System.out.println( "distBetweenEarthAndMoon = " + distBetweenEarthAndMoon );
+
+                    double distBetweenEarthAndSun = earth.getPosition().minus( sun.getPosition() ).getMagnitude();
+                    System.out.println( "distBetweenEarthAndSun = " + distBetweenEarthAndSun );
+
                     final int earthMassScaleFactor = 20000;
                     earth.mass *= earthMassScaleFactor;
                     moon.vx *= alpha;
