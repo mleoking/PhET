@@ -1,3 +1,4 @@
+# 1.00.12 (50018) Mar 21, 2011
 > Fixed the gravity force scale for cartoon's first mode
 # 1.00.11 (50016) Mar 21, 2011
 > Renamed "intro" to "cartoon"
