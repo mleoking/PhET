@@ -1,15 +1,14 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.bendinglight.model;
 
-import edu.colorado.phet.common.phetcommon.util.function.Function1;
-
 import static edu.colorado.phet.bendinglight.model.BendingLightModel.WAVELENGTH_RED;
 
 /**
  * @author Sam Reid
  */
 public class DispersionFunction {
-    public Function1<Double, Double> function;
+    private double referenceIndexOfRefraction;
+    private double referenceWavelength;
 
     //See http://en.wikipedia.org/wiki/Sellmeier_equation
     public double getSellmeierValue( double wavelength ) {
@@ -23,22 +22,13 @@ public class DispersionFunction {
         return Math.sqrt( 1 + B1 * L2 / ( L2 - C1 ) + B2 * L2 / ( L2 - C2 ) + B3 * L2 / ( L2 - C3 ) );
     }
 
-    public DispersionFunction( final double indexOfRefraction, final double wavelength ) {
-        function = new Function1<Double, Double>() {
-            public Double apply( Double x ) {
-                //choose from a family of curves but making sure that we get the specified value for red
-                return getSellmeierValue( x ) + indexOfRefraction - getSellmeierValue( wavelength );
-            }
-        };
+    public DispersionFunction( final double indexForRed ) {//Index of refraction for red wavelength
+        this( indexForRed, WAVELENGTH_RED );
     }
 
-    public DispersionFunction( final double indexForRed ) {//Index of refraction for red wavelength
-        function = new Function1<Double, Double>() {
-            public Double apply( Double x ) {
-                //choose from a family of curves but making sure that we get the specified value for red
-                return getSellmeierValue( x ) + indexForRed - getSellmeierValue( WAVELENGTH_RED );
-            }
-        };
+    public DispersionFunction( final double referenceIndexOfRefraction, final double wavelength ) {
+        this.referenceIndexOfRefraction = referenceIndexOfRefraction;
+        this.referenceWavelength = wavelength;
     }
 
     public double getIndexOfRefractionForRed() {
@@ -46,6 +36,7 @@ public class DispersionFunction {
     }
 
     public double getIndexOfRefraction( double wavelength ) {
-        return function.apply( wavelength );
+        //choose from a family of curves but making sure that we get the specified value for the specified wavelength
+        return getSellmeierValue( wavelength ) + referenceIndexOfRefraction - getSellmeierValue( referenceWavelength );
     }
 }
