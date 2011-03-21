@@ -72,7 +72,7 @@ public class BendingLightModel implements ResetModel {
         else { return value; }
     }
 
-    public static final double SPEED_OF_LIGHT = 2.99792458e8;
+    public static final double SPEED_OF_LIGHT = 2.99792458E8;
     public static final double WAVELENGTH_RED = 650E-9;
     //To come up with a good time scale dt, use lambda = v/f.  For lambda = RED_WAVELENGTH and C=SPEED_OF_LIGHT, we have f=4.612E14
     public static final double RED_LIGHT_FREQUENCY = SPEED_OF_LIGHT / WAVELENGTH_RED;
@@ -102,7 +102,7 @@ public class BendingLightModel implements ResetModel {
             addClockListener( new ClockAdapter() {
                 public void simulationTimeChanged( ClockEvent clockEvent ) {
                     for ( LightRay ray : rays ) {
-                        ray.step( clockEvent.getSimulationTimeChange() );
+                        ray.setTime( getSimulationTime() );
                     }
                 }
             } );

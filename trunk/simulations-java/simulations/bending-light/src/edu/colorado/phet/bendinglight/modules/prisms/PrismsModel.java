@@ -213,11 +213,11 @@ public class PrismsModel extends BendingLightModel {
             propagate( refracted, count + 1 );
 
             //Add the incident ray itself
-            addRay( new LightRay( incidentRay.tail, intersection.getPoint(), n1, wavelengthInN1, incidentRay.power, new VisibleColor( incidentRay.wavelength * 1E9 ), waveWidth, 0, null, 0, true, false ) );
+            addRay( new LightRay( incidentRay.tail, intersection.getPoint(), n1, wavelengthInN1, incidentRay.power, new VisibleColor( incidentRay.wavelength * 1E9 ), waveWidth, 0, null, true, false ) );
         }
         else {
             addRay( new LightRay( incidentRay.tail, incidentRay.tail.plus( incidentRay.directionUnitVector.times( 1 ) )//1 meter long ray
-                    , n1, wavelengthInN1, incidentRay.power, new VisibleColor( incidentRay.wavelength * 1E9 ), waveWidth, 0, null, 0, true, false ) );
+                    , n1, wavelengthInN1, incidentRay.power, new VisibleColor( incidentRay.wavelength * 1E9 ), waveWidth, 0, null, true, false ) );
         }
     }
 
