@@ -29,6 +29,8 @@ import edu.umd.cs.piccolo.util.PDimension;
 import static edu.colorado.phet.bendinglight.BendingLightApplication.RESOURCES;
 
 /**
+ * The VelocitySensorNode provides a draggable display of the velocity (speed and direction) of something.
+ *
  * @author Sam Reid
  */
 public class VelocitySensorNode extends ToolNode {
