@@ -98,7 +98,7 @@ public class IntensityMeterNode extends DraggableNode {
 //        }} );
     }
 
-    public void doDrag( PInputEvent event ) {
+    public void dragAll( PInputEvent event ) {
         doTranslate( transform.viewToModelDelta( event.getDeltaRelativeTo( getParent() ) ) );
     }
 

@@ -118,7 +118,7 @@ public class VelocitySensorNode extends DraggableNode {
         addInputEventListener( new PBasicInputEventHandler() {
             @Override
             public void mouseDragged( PInputEvent event ) {
-                doDrag( event );
+                dragAll( event );
             }
         } );
         velocitySensor.position.addObserver( new SimpleObserver() {
@@ -130,7 +130,7 @@ public class VelocitySensorNode extends DraggableNode {
     }
 
     @Override
-    public void doDrag( PInputEvent event ) {
+    public void dragAll( PInputEvent event ) {
         velocitySensor.translate( transform.viewToModelDelta( event.getDeltaRelativeTo( getParent() ) ) );
     }
 

@@ -91,7 +91,7 @@ public class WaveSensorNode extends DraggableNode {
     }
 
     @Override
-    public void doDrag( PInputEvent event ) {
+    public void dragAll( PInputEvent event ) {
         waveSensor.translateAll( new ImmutableVector2D( transform.viewToModelDelta( event.getDeltaRelativeTo( getParent() ) ) ) );
     }
 

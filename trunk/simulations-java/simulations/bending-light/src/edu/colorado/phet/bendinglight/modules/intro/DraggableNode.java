@@ -10,7 +10,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  * @author Sam Reid
  */
 public abstract class DraggableNode extends PNode {
-    public abstract void doDrag( PInputEvent event );
+    public abstract void dragAll( PInputEvent event );
 
     public abstract Rectangle2D[] getDragComponents();
 }
