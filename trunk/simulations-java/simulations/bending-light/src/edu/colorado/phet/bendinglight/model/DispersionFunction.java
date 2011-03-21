@@ -2,6 +2,7 @@
 package edu.colorado.phet.bendinglight.model;
 
 import edu.colorado.phet.common.phetcommon.math.Function;
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
 
 import static edu.colorado.phet.bendinglight.model.BendingLightModel.WAVELENGTH_RED;
 
@@ -9,7 +10,7 @@ import static edu.colorado.phet.bendinglight.model.BendingLightModel.WAVELENGTH_
  * @author Sam Reid
  */
 public class DispersionFunction {
-    public Function function;
+    public Function1<Double, Double> function;
     //See http://en.wikipedia.org/wiki/Sellmeier_equation
     final Function sellmeierEquation = new Function() {
         public double evaluate( double wavelength ) {
@@ -29,27 +30,19 @@ public class DispersionFunction {
     };
 
     public DispersionFunction( final double indexOfRefraction, final double wavelength ) {
-        function = new Function() {
-            public double evaluate( double x ) {
+        function = new Function1<Double, Double>() {
+            public Double apply( Double x ) {
                 //choose from a family of curves but making sure that we get the specified value for red
                 return sellmeierEquation.evaluate( x ) + indexOfRefraction - sellmeierEquation.evaluate( wavelength );
-            }
-
-            public Function createInverse() {
-                return null;
             }
         };
     }
 
     public DispersionFunction( final double indexForRed ) {//Index of refraction for red wavelength
-        function = new Function() {
-            public double evaluate( double x ) {
+        function = new Function1<Double, Double>() {
+            public Double apply( Double x ) {
                 //choose from a family of curves but making sure that we get the specified value for red
                 return sellmeierEquation.evaluate( x ) + indexForRed - sellmeierEquation.evaluate( WAVELENGTH_RED );
-            }
-
-            public Function createInverse() {
-                return null;
             }
         };
     }
@@ -59,6 +52,6 @@ public class DispersionFunction {
     }
 
     public double getIndexOfRefraction( double wavelength ) {
-        return function.evaluate( wavelength );
+        return function.apply( wavelength );
     }
 }
