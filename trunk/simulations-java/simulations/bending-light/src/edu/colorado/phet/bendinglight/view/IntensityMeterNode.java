@@ -5,15 +5,15 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.bendinglight.BendingLightApplication;
 import edu.colorado.phet.bendinglight.model.IntensityMeter;
-import edu.colorado.phet.bendinglight.modules.intro.DraggableNode;
+import edu.colorado.phet.bendinglight.modules.intro.ToolNode;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -22,7 +22,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 /**
  * @author Sam Reid
  */
-public class IntensityMeterNode extends DraggableNode {
+public class IntensityMeterNode extends ToolNode {
     private final ModelViewTransform transform;
     private final IntensityMeter intensityMeter;
     public PImage bodyNode;
@@ -102,10 +102,9 @@ public class IntensityMeterNode extends DraggableNode {
         doTranslate( transform.viewToModelDelta( event.getDeltaRelativeTo( getParent() ) ) );
     }
 
-    @Override public Rectangle2D[] getDragComponents() {
-        return new Rectangle2D[] {
-                bodyNode.getGlobalFullBounds(),
-                sensorNode.getGlobalFullBounds()
+    @Override public PNode[] getDroppableComponents() {
+        return new PNode[] {
+                bodyNode, sensorNode
         };
     }
 

@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.geom.*;
 import java.awt.image.BufferedImage;
 
-import edu.colorado.phet.bendinglight.modules.intro.DraggableNode;
+import edu.colorado.phet.bendinglight.modules.intro.ToolNode;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -24,7 +24,7 @@ import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.m
 /**
  * @author Sam Reid
  */
-public class ProtractorNode extends DraggableNode {
+public class ProtractorNode extends ToolNode {
     private final ModelViewTransform transform;
     private final ProtractorModel protractorModel;
     private final BufferedImage image;
@@ -108,10 +108,6 @@ public class ProtractorNode extends DraggableNode {
     public void dragAll( PInputEvent event ) {
         final PDimension delta = event.getDeltaRelativeTo( getParent() );
         protractorModel.translate( transform.viewToModelDelta( new ImmutableVector2D( delta.width / getScale(), delta.height / getScale() ) ) );
-    }
-
-    @Override public Rectangle2D[] getDragComponents() {
-        return new Rectangle2D[] { getGlobalFullBounds() };
     }
 
     @Override

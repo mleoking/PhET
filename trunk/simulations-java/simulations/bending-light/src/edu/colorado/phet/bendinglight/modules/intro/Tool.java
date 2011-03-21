@@ -18,6 +18,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolo.util.PBounds;
 
 /**
  * @author Sam Reid
@@ -25,7 +26,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
 public class Tool extends PNode {
 
     public static interface NodeFactory {
-        DraggableNode createNode( ModelViewTransform transform, Property<Boolean> visible, Point2D location );
+        ToolNode createNode( ModelViewTransform transform, Property<Boolean> visible, Point2D location );
     }
 
     public Tool( final Image thumbnail,
@@ -51,7 +52,7 @@ public class Tool extends PNode {
                     } );
                 }
 
-                DraggableNode node = null;
+                ToolNode node = null;
                 boolean intersect = false;
 
                 @Override
@@ -63,7 +64,8 @@ public class Tool extends PNode {
                         final PropertyChangeListener boundChangeListener = new PropertyChangeListener() {
                             public void propertyChange( PropertyChangeEvent evt ) {
                                 boolean t = false;//TODO: fold left
-                                for ( Rectangle2D bound : node.getDragComponents() ) {
+                                for ( PNode child : node.getDroppableComponents() ) {
+                                    PBounds bound = child.getGlobalFullBounds();
                                     if ( getGlobalDropTargetBounds.apply().contains( bound.getCenterX(), bound.getCenterY() ) ) {
                                         t = true;
                                     }
@@ -113,7 +115,7 @@ public class Tool extends PNode {
         addChild( thumbnailIcon );
     }
 
-    protected void addChild( BendingLightCanvas canvas, DraggableNode node ) {
+    protected void addChild( BendingLightCanvas canvas, ToolNode node ) {
         canvas.addChild( node );
     }
 }

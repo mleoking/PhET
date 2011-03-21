@@ -3,7 +3,6 @@ package edu.colorado.phet.bendinglight.modules.moretools;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -11,7 +10,7 @@ import java.text.DecimalFormat;
 
 import edu.colorado.phet.bendinglight.model.BendingLightModel;
 import edu.colorado.phet.bendinglight.model.VelocitySensor;
-import edu.colorado.phet.bendinglight.modules.intro.DraggableNode;
+import edu.colorado.phet.bendinglight.modules.intro.ToolNode;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -31,7 +30,7 @@ import static edu.colorado.phet.bendinglight.BendingLightApplication.RESOURCES;
 /**
  * @author Sam Reid
  */
-public class VelocitySensorNode extends DraggableNode {
+public class VelocitySensorNode extends ToolNode {
     private final ModelViewTransform transform;
     private final VelocitySensor velocitySensor;
 
@@ -132,9 +131,5 @@ public class VelocitySensorNode extends DraggableNode {
     @Override
     public void dragAll( PInputEvent event ) {
         velocitySensor.translate( transform.viewToModelDelta( event.getDeltaRelativeTo( getParent() ) ) );
-    }
-
-    @Override public Rectangle2D[] getDragComponents() {
-        return new Rectangle2D[] { getGlobalFullBounds() };
     }
 }
