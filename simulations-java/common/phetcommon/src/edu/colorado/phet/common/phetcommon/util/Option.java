@@ -31,6 +31,10 @@ public abstract class Option<T> {
         public boolean isSome() {
             return false;
         }
+
+        @Override public String toString() {
+            return "None";
+        }
     }
 
     public static class Some<T> extends Option<T> {
@@ -46,6 +50,10 @@ public abstract class Option<T> {
 
         public boolean isSome() {
             return true;
+        }
+
+        @Override public String toString() {
+            return value.toString();
         }
     }
 }
