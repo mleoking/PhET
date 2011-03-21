@@ -70,13 +70,13 @@ public class IntroModel extends BendingLightModel {
 
             //Since the n1 depends on the wavelength, when you change the wavelength, the wavelengthInTopMedium also changes (seemingly in the opposite direction)
 //            System.out.println( "wavelength = "+laser.color.getValue().getWavelength()+", n1="+n1+", wavelengthInTopMedium = " + wavelengthInTopMedium );
-            final LightRay incidentRay = new LightRay( tail, new ImmutableVector2D(), n1, wavelengthInTopMedium, sourcePower, color, sourceWaveWidth, incomingRayPhase, bottom, incomingRayPhase, true, false );
-            incidentRay.phase.addObserver( new SimpleObserver() {
-                public void update() {
-//                            incomingRayPhase = incidentRay.phase.getValue();//TODO: this is buggy
-                    incomingRayPhase = 0.0;
-                }
-            } );
+            final LightRay incidentRay = new LightRay( tail, new ImmutableVector2D(), n1, wavelengthInTopMedium, sourcePower, color, sourceWaveWidth, incomingRayPhase, bottom, true, false );
+//            incidentRay.phase.addObserver( new SimpleObserver() {
+//                public void update() {
+////                            incomingRayPhase = incidentRay.phase.getValue();//TODO: this is buggy
+//                    incomingRayPhase = 0.0;
+//                }
+//            } );
             final boolean rayAbsorbed = addAndAbsorb( incidentRay );
             if ( !rayAbsorbed ) {
 
@@ -94,7 +94,7 @@ public class IntroModel extends BendingLightModel {
                 }
                 double reflectedWaveWidth = sourceWaveWidth;
                 addAndAbsorb( new LightRay( new ImmutableVector2D(),
-                                            parseAngleAndMagnitude( 1, Math.PI - laser.getAngle() ), n1, wavelengthInTopMedium, reflectedPowerRatio * sourcePower, color, reflectedWaveWidth, incidentRay.getNumberOfWavelengths(), bottom, 0.0, true, false ) );
+                                            parseAngleAndMagnitude( 1, Math.PI - laser.getAngle() ), n1, wavelengthInTopMedium, reflectedPowerRatio * sourcePower, color, reflectedWaveWidth, incidentRay.getNumberOfWavelengths(), bottom, true, false ) );
 
                 if ( hasTransmittedRay ) {
                     //Transmitted
@@ -111,7 +111,7 @@ public class IntroModel extends BendingLightModel {
 
                         final LightRay transmittedRay = new LightRay( new ImmutableVector2D(),
                                                                       parseAngleAndMagnitude( 1, theta2 - Math.PI / 2 ), n2, transmittedWavelength,
-                                                                      transmittedPowerRatio * sourcePower, color, transmittedWaveWidth, incidentRay.getNumberOfWavelengths(), top, 0.0, true, true );
+                                                                      transmittedPowerRatio * sourcePower, color, transmittedWaveWidth, incidentRay.getNumberOfWavelengths(), top, true, true );
                         addAndAbsorb( transmittedRay );
                     }
                 }
@@ -140,7 +140,7 @@ public class IntroModel extends BendingLightModel {
                 double x = intersects[0].getX() + intersects[1].getX();
                 double y = intersects[0].getY() + intersects[1].getY();
                 LightRay interrupted = new LightRay( ray.tail.getValue(), new ImmutableVector2D( x / 2, y / 2 ), ray.indexOfRefraction, ray.getWavelength(), ray.getPowerFraction(), laser.color.getValue().getColor(),
-                                                     ray.getWaveWidth(), ray.getNumWavelengthsPhaseOffset(), ray.getOppositeMedium(), ray.phase.getValue(), false, ray.extendBackwards );
+                                                     ray.getWaveWidth(), ray.getNumWavelengthsPhaseOffset(), ray.getOppositeMedium(), false, ray.extendBackwards );
                 boolean isForward = ray.toVector2D().dot( interrupted.toVector2D() ) > 0; //don't let the wave intersect the intensity meter if it is behind the laser emission point
                 if ( interrupted.getLength() < ray.getLength() && isForward ) {
                     addRay( interrupted );
@@ -185,13 +185,14 @@ public class IntroModel extends BendingLightModel {
                 final double amplitude = Math.sqrt( ray.getPowerFraction() );
                 final double t = getClock().getSimulationTime();
 
-                final double angularFrequency = ray.getFrequency() * 2 * Math.PI;//scaled up so it's visible: TODO: use actual frequency value, or at least one that corresponds with the view
+                final double angularFrequency = ray.getFrequency() * 2 * Math.PI;
 
                 final double distanceAlongRay = ray.getUnitVector().dot( new ImmutableVector2D( ray.tail.getValue().toPoint2D(), position.toPoint2D() ) );
-                final double phase = ray.getNumWavelengthsPhaseOffset() + distanceAlongRay / ray.getWavelength();//TODO: this phase is probably wrong
+                final double phase = ( -ray.getNumWavelengthsPhaseOffset() + distanceAlongRay / ray.getWavelength() ) * Math.PI * 2;//TODO: this phase is probably wrong
 
+                System.out.println( "phase = " + phase );
 //                System.out.println( "ray.getFrequency() = " + ray.getFrequency() + ", t = " + getClock().getSimulationTime() +", phase = "+phase);
-                return new Option.Some<Double>( amplitude * cos( phase + angularFrequency * t ) );
+                return new Option.Some<Double>( amplitude * sin( phase + angularFrequency * t + PI ) );
             }
         }
         return new Option.None<Double>();

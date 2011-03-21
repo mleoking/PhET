@@ -19,7 +19,7 @@ import static edu.colorado.phet.bendinglight.model.BendingLightModel.SPEED_OF_LI
 public class LightRay {
     public final Property<ImmutableVector2D> tip;
     public final Property<ImmutableVector2D> tail;
-    public final Property<Double> phase;
+    //    public final Property<Double> phase;
     public final double indexOfRefraction;
     public final double wavelength; // wavelength in meters
     private final double powerFraction;
@@ -31,16 +31,17 @@ public class LightRay {
     private final Shape oppositeMedium;
     public final boolean extendBackwards;
     private boolean extend;
+    private double time;
 
     public LightRay( ImmutableVector2D tail, ImmutableVector2D tip, double indexOfRefraction, double wavelength,
-                     double powerFraction, Color color, double waveWidth, double numWavelengthsPhaseOffset,
+                     double powerFraction, Color color, double waveWidth,
+                     double numWavelengthsPhaseOffset,//This number indicates how many wavelengths have passed before this light ray begins; it is zero for the light coming out of the laser.
                      Shape oppositeMedium,//for clipping
-                     double initialPhase,
                      boolean extend,//has to be an integral number of wavelength so that the phases work out correctly, turing this up too high past 1E6 causes things not to render properly
                      boolean extendBackwards ) {
         this.oppositeMedium = oppositeMedium;
         this.extendBackwards = extendBackwards;
-        this.phase = new Property<Double>( initialPhase );
+//        this.phase = new Property<Double>( initialPhase );
         this.color = color;
         this.waveWidth = waveWidth;
         this.tip = new Property<ImmutableVector2D>( tip );
@@ -67,20 +68,6 @@ public class LightRay {
 
     public double getSpeed() {
         return SPEED_OF_LIGHT / indexOfRefraction;
-    }
-
-    public void propagate( double dt ) {
-        propagateTip( dt );
-        tail.setValue( tail.getValue().plus( getDelta( dt ) ) );
-    }
-
-    public void propagateTip( double dt ) {
-        tip.setValue( tip.getValue().plus( getDelta( dt ) ) );
-    }
-
-    private ImmutableVector2D getDelta( double dt ) {
-        ImmutableVector2D unitDirection = tip.getValue().minus( tail.getValue() ).getNormalizedInstance();
-        return unitDirection.times( getSpeed() * dt );
     }
 
     public void remove() {
@@ -170,12 +157,26 @@ public class LightRay {
         return toVector2D().getAngle();
     }
 
-    public void step( double dt ) {
-        //it moved v*dt meters
-        double distanceMoved = getSpeed() * dt;
-        double numberWavelengthsMoved = distanceMoved / getWavelength();
-        phase.setValue( phase.getValue() + numberWavelengthsMoved );
+    private ArrayList<VoidFunction0> stepListeners = new ArrayList<VoidFunction0>();
+
+    public void addStepListener( VoidFunction0 stepListener ) {
+        stepListeners.add( stepListener );
     }
+
+    public void setTime( double time ) {
+        this.time = time;
+        for ( VoidFunction0 stepListener : stepListeners ) {
+            stepListener.apply();
+        }
+//        System.out.println( "getFrequency() = " + getFrequency() );
+    }
+
+//    public void step( double dt ) {
+//        //it moved v*dt meters
+//        double distanceMoved = getSpeed() * dt;
+//        double numberWavelengthsMoved = distanceMoved / getWavelength();
+//        phase.setValue( phase.getValue() + numberWavelengthsMoved );
+//    }
 
     public double getWaveWidth() {
         return waveWidth;
@@ -212,5 +213,30 @@ public class LightRay {
 
     public double getFrequency() {
         return getSpeed() / getWavelength();
+    }
+
+    public double getAngularFrequency() {
+        return getFrequency() * Math.PI * 2;
+    }
+
+    public double getPhaseOffset() {
+//        System.out.println( "time = " + time );
+        return getAngularFrequency() * time + 2 * Math.PI * numWavelengthsPhaseOffset;
+    }
+
+    public double getCosArg( double distanceAlongRay ) {
+        double w = getAngularFrequency();
+        double k = 2 * Math.PI / getWavelength();
+        double x = distanceAlongRay;
+        double t = time;
+
+        return k * x + w * t + 2 * Math.PI * numWavelengthsPhaseOffset;
+//        return getAngularFrequency() * time - numWavelengthsPhaseOffset * 2 * Math.PI;
+//        double radians = getFrequency() * time * 2 * Math.PI;
+//        return ( numWavelengthsPhaseOffset + distanceAlongRay / getWavelength() * time ) * 2 * Math.PI;
+    }
+
+    public double getTime() {
+        return time;
     }
 }
