@@ -18,6 +18,7 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolo.util.PDimension;
 
 import static edu.colorado.phet.bendinglight.BendingLightApplication.RESOURCES;
 import static java.awt.Color.white;
@@ -89,8 +90,7 @@ public class WaveSensorNode extends ToolNode {
         addChild( probe2Node );
     }
 
-    @Override
-    public void dragAll( PInputEvent event ) {
-        waveSensor.translateAll( new ImmutableVector2D( transform.viewToModelDelta( event.getDeltaRelativeTo( getParent() ) ) ) );
+    @Override public void dragAll( PDimension delta ) {
+        waveSensor.translateAll( new ImmutableVector2D( transform.viewToModelDelta( delta ) ) );
     }
 }

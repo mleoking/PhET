@@ -24,6 +24,7 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolo.util.PDimension;
 
 import static edu.colorado.phet.bendinglight.BendingLightApplication.RESOURCES;
 
@@ -117,7 +118,7 @@ public class VelocitySensorNode extends ToolNode {
         addInputEventListener( new PBasicInputEventHandler() {
             @Override
             public void mouseDragged( PInputEvent event ) {
-                dragAll( event );
+                dragAll( event.getDeltaRelativeTo( getParent() ) );
             }
         } );
         velocitySensor.position.addObserver( new SimpleObserver() {
@@ -128,8 +129,7 @@ public class VelocitySensorNode extends ToolNode {
         } );
     }
 
-    @Override
-    public void dragAll( PInputEvent event ) {
-        velocitySensor.translate( transform.viewToModelDelta( event.getDeltaRelativeTo( getParent() ) ) );
+    @Override public void dragAll( PDimension delta ) {
+        velocitySensor.translate( transform.viewToModelDelta( delta ) );
     }
 }

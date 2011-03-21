@@ -91,7 +91,7 @@ public class Tool extends PNode {
                 }
 
                 public void mouseDragged( PInputEvent event ) {
-                    node.dragAll( event );
+                    node.dragAll( event.getDeltaRelativeTo( node.getParent() ) );
                 }
 
                 //This is when the user drags the object out of the toolbox then drops it right back in the toolbox.

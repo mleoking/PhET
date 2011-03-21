@@ -2,13 +2,13 @@
 package edu.colorado.phet.bendinglight.modules.intro;
 
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * @author Sam Reid
  */
 public abstract class ToolNode extends PNode {
-    public abstract void dragAll( PInputEvent event );
+    public abstract void dragAll( PDimension viewDelta );//translate all components of this tool by the specified view delta (dx,dy)
 
     //Override if there are several components that can be dropped in the toolbox.
     public PNode[] getDroppableComponents() {
