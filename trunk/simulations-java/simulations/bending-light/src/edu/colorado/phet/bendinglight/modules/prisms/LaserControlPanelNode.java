@@ -37,7 +37,6 @@ public class LaserControlPanelNode extends ControlPanelNode {
                 }
             }
 
-            //TODO: Wow, this is too messy.  It should be cleaned up
             add( new JRadioButton( "One Color", laserColor.getValue() != LaserColor.WHITE_LIGHT ) {{
                 setFont( BendingLightCanvas.labelFont );
                 final SimpleObserver updateSelected = new SimpleObserver() {

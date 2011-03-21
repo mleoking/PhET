@@ -44,12 +44,9 @@ class Model {
     }
 
     public void addRemovalListener( Electron modelElement, VoidFunction0 voidFunction0 ) {
-//        removalListeners.add(modelElement,voidFunction0);
     }
 
     public void removeElement( Electron element ) {
-//        ..
-//        element.notifyThatYouWereRemovde();
     }
 }
 

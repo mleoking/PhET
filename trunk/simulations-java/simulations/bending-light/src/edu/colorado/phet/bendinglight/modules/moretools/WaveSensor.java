@@ -35,7 +35,6 @@ public class WaveSensor {
     private void updateProbeSample( Probe probe, Function1<ImmutableVector2D, Option<Double>> probeValue, Clock clock ) {
         final Option<Double> value = probeValue.apply( probe.position.getValue() );
         if ( value.isSome() ) {
-//            System.out.println( "value = " + value );
             probe.addSample( new Option.Some<DataPoint>( new DataPoint( clock.getSimulationTime(), value.get() ) ) );
         }
         else {
