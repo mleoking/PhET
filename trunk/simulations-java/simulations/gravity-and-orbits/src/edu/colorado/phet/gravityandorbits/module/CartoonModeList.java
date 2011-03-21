@@ -12,6 +12,9 @@ public class CartoonModeList extends ModeList {
                new SunEarth() {{
                    sun.radius *= 50;
                    earth.radius *= 1100;
+                   //Make the sun move as it does in the SunEarthMoon mode
+                   final int earthMassScaleFactor = 20000;
+                   earth.mass *= earthMassScaleFactor;
                }}, new SunEarthMoon() {{
                     sun.radius *= 50;
                     earth.radius *= 1100;

@@ -15,7 +15,7 @@ import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsMode;
 import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsModule;
 import edu.colorado.phet.gravityandorbits.module.ModeListParameter;
 
-import static edu.colorado.phet.gravityandorbits.GAOStrings.INTRO;
+import static edu.colorado.phet.gravityandorbits.GAOStrings.CARTOON;
 
 /**
  * This class can help fine tune parameters for use in the cartoon mode, to help make sure you have a stable orbit.
@@ -33,7 +33,7 @@ public class InitialConditionSampler {
 
     private static void runSim( final double alpha, final double delta ) {
         JFrame frame = new JFrame() {{
-            final GravityAndOrbitsModule intro = new GravityAndOrbitsModule( null, new Property<Boolean>( false ), INTRO, false, new Function1<ModeListParameter, ArrayList<GravityAndOrbitsMode>>() {
+            final GravityAndOrbitsModule intro = new GravityAndOrbitsModule( null, new Property<Boolean>( false ), CARTOON, false, new Function1<ModeListParameter, ArrayList<GravityAndOrbitsMode>>() {
                 public ArrayList<GravityAndOrbitsMode> apply( ModeListParameter p ) {
                     return new CartoonModeList( p.clockPausedProperty, p.gravityEnabledProperty, p.stepping, p.rewinding, p.timeSpeedScaleProperty, alpha );
                 }
