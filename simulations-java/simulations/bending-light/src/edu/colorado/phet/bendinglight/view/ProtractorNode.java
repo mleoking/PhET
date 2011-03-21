@@ -59,7 +59,7 @@ public class ProtractorNode extends DraggableNode {
             addInputEventListener( new CursorHandler() );
             addInputEventListener( new PBasicInputEventHandler() {
                 public void mouseDragged( PInputEvent event ) {
-                    doDrag( event );
+                    dragAll( event );
                 }
             } );
         }} );
@@ -105,7 +105,7 @@ public class ProtractorNode extends DraggableNode {
         return multiScaleToHeight( RESOURCES.getImage( "protractor.png" ), height );
     }
 
-    public void doDrag( PInputEvent event ) {
+    public void dragAll( PInputEvent event ) {
         final PDimension delta = event.getDeltaRelativeTo( getParent() );
         protractorModel.translate( transform.viewToModelDelta( new ImmutableVector2D( delta.width / getScale(), delta.height / getScale() ) ) );
     }
