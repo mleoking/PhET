@@ -1,7 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.bendinglight.model;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -27,27 +26,24 @@ import static java.lang.Math.pow;
  * @author Sam Reid
  */
 public class BendingLightModel implements ResetModel {
-    protected static final double DEFAULT_DIST_FROM_PIVOT = 8.125E-6;
-    protected final List<LightRay> rays = new LinkedList<LightRay>();
-    private ConstantDtClock clock;
-    public final Property<LaserView> laserView = new Property<LaserView>( LaserView.RAY );
-
+    public static final double DEFAULT_DIST_FROM_PIVOT = 8.125E-6;
+    public static double DIAMOND_INDEX_OF_REFRACTION_FOR_RED_LIGHT = 2.419;
     public static final MediumState AIR = new MediumState( "Air", 1.000293 );
     public static final MediumState WATER = new MediumState( "Water", 1.333 );
     public static final MediumState GLASS = new MediumState( "Glass", 1.5 );
-    public static double DIAMOND_INDEX = 2.419;
-    public static final MediumState DIAMOND = new MediumState( "Diamond", DIAMOND_INDEX );
-    public static final MediumState MYSTERY_A = new MediumState( "Mystery A", DIAMOND_INDEX, true );
+    public static final MediumState DIAMOND = new MediumState( "Diamond", DIAMOND_INDEX_OF_REFRACTION_FOR_RED_LIGHT );
+    public static final MediumState MYSTERY_A = new MediumState( "Mystery A", DIAMOND_INDEX_OF_REFRACTION_FOR_RED_LIGHT, true );
     public static final MediumState MYSTERY_B = new MediumState( "Mystery B", 1.4, true );
 
     public static final double SPEED_OF_LIGHT = 2.99792458E8;
     public static final double WAVELENGTH_RED = 650E-9;
-    //To come up with a good time scale dt, use lambda = v/f.  For lambda = RED_WAVELENGTH and C=SPEED_OF_LIGHT, we have f=4.612E14
-    public static final double RED_LIGHT_FREQUENCY = SPEED_OF_LIGHT / WAVELENGTH_RED;
+    public static final double RED_LIGHT_FREQUENCY = SPEED_OF_LIGHT / WAVELENGTH_RED;//To come up with a good time scale dt, use lambda = v/f.  For lambda = RED_WAVELENGTH and C=SPEED_OF_LIGHT, we have f=4.612E14
     public static final double DT = 1.0 / RED_LIGHT_FREQUENCY / 30;//thirty frames per cycle
+    public static final double CHARACTERISTIC_LENGTH = WAVELENGTH_RED;//A good size for the units being used in the sim; used to determine the dimensions of various model objects
 
-    //A good size for the units being used in the sim; used to determine the dimensions of various model objects
-    public static final double CHARACTERISTIC_LENGTH = WAVELENGTH_RED;
+    protected final List<LightRay> rays = new LinkedList<LightRay>();
+    private ConstantDtClock clock;
+    public final Property<LaserView> laserView = new Property<LaserView>( LaserView.RAY );
 
     final double modelWidth = CHARACTERISTIC_LENGTH * 62;
     final double modelHeight = modelWidth * 0.7;
@@ -55,12 +51,8 @@ public class BendingLightModel implements ResetModel {
     private ArrayList<VoidFunction1<LightRay>> rayAddedListeners = new ArrayList<VoidFunction1<LightRay>>();
     protected final Laser laser;
     protected final IntensityMeter intensityMeter = new IntensityMeter( modelWidth * 0.3, -modelHeight * 0.3, modelWidth * 0.4, -modelHeight * 0.3 );
-    public static final Color AIR_COLOR = Color.white;
-    public static final Color WATER_COLOR = new Color( 198, 226, 246 );
-    public static final Color GLASS_COLOR = new Color( 171, 169, 212 );
-    public static final Color DIAMOND_COLOR = new Color( 78, 79, 164 );
     private final ArrayList<VoidFunction0> modelUpdateListeners = new ArrayList<VoidFunction0>();
-    public Property<Double> wavelengthProperty;
+    public final Property<Double> wavelengthProperty;
     private ArrayList<VoidFunction0> resetListeners = new ArrayList<VoidFunction0>();
 
     public BendingLightModel( double laserAngle, boolean topLeftQuadrant, final double laserDistanceFromPivot ) {
