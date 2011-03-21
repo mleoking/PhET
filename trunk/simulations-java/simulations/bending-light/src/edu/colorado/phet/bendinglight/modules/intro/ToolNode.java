@@ -5,6 +5,8 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
+ * The ToolNode is a node created by dragging out of a toolbox, and destroyed by dropping it back in the toolbox.
+ *
  * @author Sam Reid
  */
 public abstract class ToolNode extends PNode {
