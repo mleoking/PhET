@@ -11,12 +11,10 @@ import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
-import edu.colorado.phet.gravityandorbits.module.CartoonModeList;
-import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsMode;
-import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsModule;
-import edu.colorado.phet.gravityandorbits.module.ModeListParameter;
+import edu.colorado.phet.gravityandorbits.module.*;
 
 import static edu.colorado.phet.gravityandorbits.GAOStrings.CARTOON;
+import static edu.colorado.phet.gravityandorbits.GAOStrings.TO_SCALE;
 
 /**
  * The main application for Gravity and Orbits.
@@ -28,7 +26,7 @@ public class GravityAndOrbitsApplication extends PiccoloPhetApplication {
     public static final PhetResources RESOURCES = new PhetResources( GravityAndOrbitsApplication.PROJECT_NAME );
 
     private final GravityAndOrbitsModule intro;
-    //    private final GravityAndOrbitsModule toScale;
+    private final GravityAndOrbitsModule toScale;
     private final Property<Boolean> whiteBackgroundProperty = new Property<Boolean>( false );
 
     public GravityAndOrbitsApplication( PhetApplicationConfig config ) {
@@ -39,12 +37,12 @@ public class GravityAndOrbitsApplication extends PiccoloPhetApplication {
             }
         }, 0, false );
         addModule( intro );
-//        toScale = new GravityAndOrbitsModule( getPhetFrame(), whiteBackgroundProperty, TO_SCALE, true, new Function1<ModeListParameter, ArrayList<GravityAndOrbitsMode>>() {
-//            public ArrayList<GravityAndOrbitsMode> apply( ModeListParameter p ) {
-//                return new RealModeList( p.clockPausedProperty, p.gravityEnabledProperty, p.stepping, p.rewinding, p.timeSpeedScaleProperty );
-//            }
-//        }, 3, true );//Start Real tab in earth/satellite mode because it is more playful
-//        addModule( toScale );
+        toScale = new GravityAndOrbitsModule( getPhetFrame(), whiteBackgroundProperty, TO_SCALE, true, new Function1<ModeListParameter, ArrayList<GravityAndOrbitsMode>>() {
+            public ArrayList<GravityAndOrbitsMode> apply( ModeListParameter p ) {
+                return new RealModeList( p.clockPausedProperty, p.gravityEnabledProperty, p.stepping, p.rewinding, p.timeSpeedScaleProperty );
+            }
+        }, 3, true );//Start Real tab in earth/satellite mode because it is more playful
+        addModule( toScale );
         getPhetFrame().addMenu( new OptionsMenu() {{addWhiteBackgroundCheckBoxMenuItem( whiteBackgroundProperty );}} );
     }
 
@@ -53,7 +51,7 @@ public class GravityAndOrbitsApplication extends PiccoloPhetApplication {
     }
 
     public GravityAndOrbitsModule getToScale() {
-        return null;
+        return toScale;
     }
 
     public static void main( final String[] args ) throws ClassNotFoundException {
