@@ -17,7 +17,6 @@ import edu.colorado.phet.common.phetcommon.model.property.IfElse;
 import edu.colorado.phet.common.phetcommon.model.property.Not;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -95,19 +94,27 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
             final BodyNode bodyNode = new BodyNode( body, mode.modelViewTransformProperty, mousePositionProperty, this, body.getLabelAngle() );
             addChild( bodyNode );
             returnable.add( new Property<Boolean>( false ) {{
-                final VoidFunction1<ImmutableVector2D> callback = new VoidFunction1<ImmutableVector2D>() {
-                    public void apply( ImmutableVector2D immutableVector2D ) {
+                final SimpleObserver updateReturnable = new SimpleObserver() {
+                    public void update() {
                         Rectangle2D canvasBounds = new Rectangle2D.Double( 0, 0, GravityAndOrbitsCanvas.this.getWidth(), GravityAndOrbitsCanvas.this.getHeight() );
                         setValue( !canvasBounds.intersects( bodyNode.getGlobalFullBounds() ) );
                     }
                 };
+                body.getPositionProperty().addObserver( updateReturnable );
                 //Have to listen to when this canvas gets added to the swing scene graph, then update since the bounds are correct then (not on ComponentAdapter methods)
+                //This listener solves the problem that the 'return object' button is in the wrong state on startup
                 addHierarchyListener( new HierarchyListener() {
                     public void hierarchyChanged( HierarchyEvent e ) {
-                        callback.apply( body.getPosition() );
+                        updateReturnable.update();
                     }
                 } );
-                body.getPositionProperty().addObserver( callback );
+
+                //This component listener solves the problem that the 'return object' button is in the wrong state when switching between modes
+                addComponentListener( new ComponentAdapter() {
+                    @Override public void componentResized( ComponentEvent e ) {
+                        updateReturnable.update();
+                    }
+                } );
             }} );
             addChild( mode.getMassReadoutFactory().apply( bodyNode, module.showMassProperty ) );
         }
