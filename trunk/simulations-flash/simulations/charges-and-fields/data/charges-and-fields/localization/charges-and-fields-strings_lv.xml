@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--charges-and-fields-strings_lv.xml created Sat Mar 19 23:34:55 EET 2011 using: charges-and-fields 2.04.00 (45798), translation-utility 2.10.00 (48775) Feb 9, 2011-->
+<SimStrings>
+<string key="directionOnly" value="tikai virzienu"/>
+<string key="grid" value="Režģis"/>
+<string key="clearAll" value="Notīrīt visu"/>
+<string key="simTitle" value="Lādiņi un lauki"/>
+<string key="distanceUnit" value=" m"/>
+<string key="showNumbers" value="Rādīt skaitļus"/>
+<string key="voltageUnit" value="V"/>
+<string key="oneMeter" value="1 metrs"/>
+<string key="showEField" value="Rādīt e-lauku"/>
+<string key="oneNanoC" value="1 nC"/>
+<string key="showHiRes" value="Rādīt a-izšķ. V"/>
+<string key="EFieldSensors" value="E-lauka sensori"/>
+<string key="eFieldUnit" value=" V/m"/>
+<string key="clear" value="notīrīt"/>
+<string key="plot" value="zīmēt"/>
+<string key="equipotential" value="ekvipotenciāls"/>
+<string key="angleUnit" value=" grādi"/>
+<string key="translation.credits" value="Arvis Lācis (@arvislacis)"/>
+<string key="showLoRes" value="Rādīt z-izšķ. V"/>
+<string key="moreSpeedLessRes" value="ātrāk/mazāka izšķ."/>
+<string key="tapeMeasure" value="Mērīt attālumu"/>
+<string key="voltage" value="spriegums"/>
+</SimStrings>
