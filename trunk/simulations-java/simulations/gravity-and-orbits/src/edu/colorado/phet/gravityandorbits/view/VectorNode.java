@@ -42,7 +42,7 @@ public class VectorNode extends PNode {
                 }
             } );
         }};
-        arrowNode = new ArrowNode( new Point2D.Double(), new Point2D.Double(), 15, 15, 5, 2, true ) {{
+        arrowNode = new ArrowNode( new Point2D.Double(), new Point2D.Double(), 15, 15, 5, 0.5, true ) {{
             setPaint( fill );
             setStrokePaint( outline );
         }};
@@ -66,7 +66,11 @@ public class VectorNode extends PNode {
     }
 
     private Point2D.Double getTip( Point2D tail ) {
-        final Point2D force = modelViewTransform.getValue().modelToViewDelta( property.getValue().getScaledInstance( scale ).toPoint2D() );
+        int minArrowLength = 10;
+        ImmutableVector2D force = new ImmutableVector2D( modelViewTransform.getValue().modelToViewDelta( property.getValue().getScaledInstance( scale ).toPoint2D() ) );
+        if ( force.getMagnitude() < minArrowLength && force.getMagnitude() > 1E-12 ) {
+            force = force.getInstanceOfMagnitude( minArrowLength );
+        }
         return new Point2D.Double( force.getX() + tail.getX(), force.getY() + tail.getY() );
     }
 }

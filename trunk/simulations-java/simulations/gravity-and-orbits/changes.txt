@@ -1,3 +1,5 @@
+Made it so that vector arrowheads shrink as the vector shrinks
+Made it so that vectors are always shown at a minimum size of 10 pixels (even if they would be too small to see)
 Artificially scale up the time readout so that Sun/Earth/Moon mode has a stable orbit with correct periods
 Tuned cartoon initial conditions so that there are 12 cartoon lunar orbits in one cartoon earth orbit
 # 1.00.15 (50035) Mar 21, 2011
