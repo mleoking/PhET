@@ -3,10 +3,7 @@
 package edu.colorado.phet.gravityandorbits.view;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionListener;
+import java.awt.event.*;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
@@ -20,6 +17,7 @@ import edu.colorado.phet.common.phetcommon.model.property.IfElse;
 import edu.colorado.phet.common.phetcommon.model.property.Not;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -92,9 +90,25 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
         Color VELOCITY_VECTOR_COLOR_FILL = PhetColorScheme.VELOCITY;
         Color VELOCITY_VECTOR_COLOR_OUTLINE = Color.darkGray;
 
-        for ( Body body : model.getBodies() ) {
+        ArrayList<Property<Boolean>> returnable = new ArrayList<Property<Boolean>>();//Use canvas coordinates to determine whether something has left the visible area
+        for ( final Body body : model.getBodies() ) {
             final BodyNode bodyNode = new BodyNode( body, mode.modelViewTransformProperty, mousePositionProperty, this, body.getLabelAngle() );
             addChild( bodyNode );
+            returnable.add( new Property<Boolean>( false ) {{
+                final VoidFunction1<ImmutableVector2D> callback = new VoidFunction1<ImmutableVector2D>() {
+                    public void apply( ImmutableVector2D immutableVector2D ) {
+                        Rectangle2D canvasBounds = new Rectangle2D.Double( 0, 0, GravityAndOrbitsCanvas.this.getWidth(), GravityAndOrbitsCanvas.this.getHeight() );
+                        setValue( !canvasBounds.intersects( bodyNode.getGlobalFullBounds() ) );
+                    }
+                };
+                //Have to listen to when this canvas gets added to the swing scene graph, then update since the bounds are correct then (not on ComponentAdapter methods)
+                addHierarchyListener( new HierarchyListener() {
+                    public void hierarchyChanged( HierarchyEvent e ) {
+                        callback.apply( body.getPosition() );
+                    }
+                } );
+                body.getPositionProperty().addObserver( callback );
+            }} );
             addChild( mode.getMassReadoutFactory().apply( bodyNode, module.showMassProperty ) );
         }
 
@@ -184,9 +198,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
         for ( Body body : mode.getModel().getBodies() ) {
             body.getBounds().setValue( mode.modelViewTransformProperty.getValue().viewToModel( stage ) );
         }
-        final MultiwayOr anythingReturnable = new MultiwayOr( new ArrayList<Property<Boolean>>() {{
-            for ( Body body : model.getBodies() ) {add( body.getReturnable() );}
-        }} );
+        final MultiwayOr anythingReturnable = new MultiwayOr( returnable );
         addChild( new ButtonNode( RETURN_OBJECT, buttonBackgroundColor ) {{
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {

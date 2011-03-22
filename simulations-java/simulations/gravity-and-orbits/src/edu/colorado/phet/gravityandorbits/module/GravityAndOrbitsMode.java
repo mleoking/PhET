@@ -49,7 +49,7 @@ public abstract class GravityAndOrbitsMode {
     private final GravityAndOrbitsModel model;
     private GravityAndOrbitsCanvas canvas;
     private final double forceScale;
-    private final Property<Boolean> active;
+    public final Property<Boolean> active;
     private final Function1<Double, String> timeFormatter;
     private final Image iconImage;
     private final double defaultOrbitalPeriod;

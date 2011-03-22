@@ -1,3 +1,4 @@
+> Fixed: return object should account for the camera zoom
 > Fixed: make the cartoon Earth/Moon force vector a bit smaller (1/2 grid cell)
 > Brightened measuring tape color to make it easier to see
 > Paused the sim after "return object" is pressed
