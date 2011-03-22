@@ -26,7 +26,7 @@ public class InitialConditionSampler {
 
     public static void main( String[] args ) {
         int numSamples = 10;
-        double delta = 0.001;
+        double delta = 0.01;
         double startValue = 1 - numSamples / 2 * delta;
         runSim( startValue, delta );
     }
