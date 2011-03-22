@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--resistance-in-a-wire-strings_ja.xml created Tue Sep 07 11:40:26 JST 2010 using: resistance-in-a-wire 2.01.00 (37324), translation-utility 2.08.00 (39581) 4 2, 2010-->
-<SimStrings>
-<string key="cm" value="cm"/>
-<string key="resistanceEq" value="電気抵抗="/>
-<string key="ohm" value="Ω"/>
-<string key="simTitle" value="電線の電気抵抗(Resistance in a Wire)"/>
-</SimStrings>

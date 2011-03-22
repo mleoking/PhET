@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--calculus-grapher-strings_nb.xml created Mon Feb 15 22:25:53 CET 2010 using: calculus-grapher 2.02.00 (34696), translation-utility 2.06.00 (37959) jan 8, 2010-->
-<SimStrings>
-<string key="simDescription" value="Beskrivelse av Calculus graf"/>
-<string key="smooth" value="Utjevn"/>
-<string key="undo" value="Angre"/>
-<string key="zero" value="Null"/>
-<string key="simTitle" value="Calculus graf"/>
-</SimStrings>

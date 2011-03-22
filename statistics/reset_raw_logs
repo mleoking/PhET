@@ -1,7 +1,0 @@
-rm raw-log.txt
-rm parsed-log.txt
-touch raw-log.txt
-touch parsed-log.txt
-chmod a+rw raw-log.txt
-chmod a+rw parsed-log.txt
-

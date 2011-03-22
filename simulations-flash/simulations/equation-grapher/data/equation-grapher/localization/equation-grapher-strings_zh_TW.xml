@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--equation-grapher-strings_zh_TW.xml created Fri Jun 12 11:03:20 CST 2009 using: equation-grapher 2.00.00 (30671), translation-utility 2.01.00 (31673) 五月 15, 2009-->
-<SimStrings>
-<string key="showYEq" value="顯示 y="/>
-<string key="erase" value="Erase 擦掉"/>
-<string key="save" value="Save 儲存"/>
-<string key="zero" value="Zero 歸零"/>
-<string key="simTitle" value="Equation Grapher 方程式繪圖"/>
-</SimStrings>

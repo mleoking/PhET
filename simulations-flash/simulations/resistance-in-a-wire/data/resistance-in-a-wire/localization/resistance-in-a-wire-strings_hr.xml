@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--resistance-in-a-wire-strings_hr.xml created Thu Apr 30 18:41:08 CEST 2009 using: resistance-in-a-wire 2.00.00 (30671), translation-utility 2.00.00 (31012) tra 28, 2009-->
-<SimStrings>
-<string key="cm" value="cm"/>
-<string key="resistanceEq" value="Otpor vodiča="/>
-<string key="ohm" value="ohm"/>
-<string key="simTitle" value="Otpor vodiča"/>
-</SimStrings>

@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--resistance-in-a-wire-strings_tr.xml created Thu May 13 00:36:40 EEST 2010 using: resistance-in-a-wire 2.01.00 (37324), translation-utility 2.08.00 (39581) Nis 2, 2010-->
-<SimStrings>
-<string key="cm" value="cm"/>
-<string key="resistanceEq" value="direnç="/>
-<string key="ohm" value="ohm"/>
-<string key="simTitle" value="Bir telin direnci"/>
-</SimStrings>

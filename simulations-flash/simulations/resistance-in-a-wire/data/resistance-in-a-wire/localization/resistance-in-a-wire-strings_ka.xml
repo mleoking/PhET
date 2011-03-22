@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--resistance-in-a-wire-strings_ka.xml created Sun Feb 27 14:34:03 GET 2011 using: resistance-in-a-wire 2.01.00 (37324), translation-utility 2.10.00 (48775) Feb 9, 2011-->
-<SimStrings>
-<string key="cm" value="სმ."/>
-<string key="resistanceEq" value="წინაღობა = "/>
-<string key="ohm" value="ომი"/>
-<string key="simTitle" value="გამტარის წინაღობა"/>
-<string key="translation.credits" value="თარგმანი - თეიმურაზ ხუნდაძე"/>
-</SimStrings>

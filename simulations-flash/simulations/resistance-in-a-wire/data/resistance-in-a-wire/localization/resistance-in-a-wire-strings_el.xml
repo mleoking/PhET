@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--resistance-in-a-wire-strings_el.xml created Thu Dec 02 16:27:37 EET 2010 using: resistance-in-a-wire 2.01.00 (37324), translation-utility 2.09.00 (44031) Σεπ 14, 2010-->
-<SimStrings>
-<string key="cm" value="εκ."/>
-<string key="resistanceEq" value="αντίσταση= ="/>
-<string key="ohm" value="ohm"/>
-<string key="simTitle" value="Αντίσταση σε καλώδιο"/>
-</SimStrings>

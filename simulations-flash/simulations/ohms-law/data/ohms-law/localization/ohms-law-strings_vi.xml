@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--ohms-law-strings_vi.xml created Sun Nov 29 09:51:16 ICT 2009 using: ohms-law 2.00.00 (30671), translation-utility 2.03.00 (36202) thg 10 30, 2009-->
-<SimStrings>
-<string key="currentEq" value="Cường độ dòng điện I ="/>
-<string key="resistance" value="Điện trở"/>
-<string key="simTitle" value="Định luật Ohm"/>
-<string key="sound" value="Âm thanh"/>
-<string key="voltage" value="Hiệu thế V"/>
-</SimStrings>

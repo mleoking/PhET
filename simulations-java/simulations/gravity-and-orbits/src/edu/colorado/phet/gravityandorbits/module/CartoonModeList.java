@@ -16,6 +16,11 @@ public class CartoonModeList extends ModeList {
                    final int earthMassScaleFactor = 20000;
                    earth.mass *= earthMassScaleFactor;
                    forceScale *= 0.8 / earthMassScaleFactor * 0.75;//to balance increased mass
+
+                   sun.mass = earth.mass * 96;
+
+                   earth.vy = Math.sqrt( GravityAndOrbitsModule.G * sun.mass / earth.getPosition().minus( sun.getPosition() ).getMagnitude() );
+                   earth.vx = 0;
                }}, new SunEarthMoon() {{
                     sun.radius *= 50;
                     earth.radius *= 1100;
@@ -23,17 +28,33 @@ public class CartoonModeList extends ModeList {
 
                     final int earthMassScaleFactor = 20000;
                     earth.mass *= earthMassScaleFactor;
-                    moon.vx *= alpha;
-                    moon.y = earth.radius * 2;
+//                    moon.vx *= alpha*1.5;
+                    moon.y = 1.051215E10 * 1;
                     moon.mass *= earthMassScaleFactor;
                     forceScale *= 0.8 / earthMassScaleFactor * 0.75;//to balance increased mass
 
-                    double distBetweenEarthAndMoon = earth.getPosition().minus( moon.getPosition() ).getMagnitude();
-                    System.out.println( "distBetweenEarthAndMoon = " + distBetweenEarthAndMoon );
+                    double rEM = earth.getPosition().minus( moon.getPosition() ).getMagnitude();
+                    System.out.println( "distBetweenEarthAndMoon = " + rEM );
 
-                    double distBetweenEarthAndSun = earth.getPosition().minus( sun.getPosition() ).getMagnitude();
-                    System.out.println( "distBetweenEarthAndSun = " + distBetweenEarthAndSun );
+                    double rES = earth.getPosition().minus( sun.getPosition() ).getMagnitude();
+                    System.out.println( "distBetweenEarthAndSun = " + rES );
 
+//                    sun.mass = 1.0 / 12.0 * Math.pow( rES / rEM, 3 ) * earth.mass;
+
+                    earth.mass = sun.mass / ( 1.0 / 12.0 * Math.pow( rES / rEM, 3 ) );
+
+                    earth.vy = Math.sqrt( GravityAndOrbitsModule.G * sun.mass / earth.getPosition().minus( sun.getPosition() ).getMagnitude() );
+                    earth.vx = 0;
+
+                    earth.vx = 0;
+                    earth.vy = 0;
+//
+                    moon.vx = -Math.sqrt( GravityAndOrbitsModule.G * earth.mass / earth.getPosition().minus( moon.getPosition() ).getMagnitude() );
+                    moon.vy = earth.vy;
+
+                    moon.mass = 1E-6;
+
+                    sun.mass = 1;
                 }}, new EarthMoon() {{
                     earth.radius *= 15;
                     moon.radius *= 15;

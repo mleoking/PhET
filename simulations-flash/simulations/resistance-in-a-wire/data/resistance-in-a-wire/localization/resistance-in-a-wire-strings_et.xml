@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--resistance-in-a-wire-strings_et.xml created Sun Dec 20 16:44:48 EET 2009 using: resistance-in-a-wire 2.01.00 (37324), translation-utility 2.03.00 (36202) Okt 29, 2009-->
-<SimStrings>
-<string key="cm" value="cm"/>
-<string key="resistanceEq" value="takistus ="/>
-<string key="ohm" value="oomi"/>
-<string key="simTitle" value="Juhtme takistus"/>
-</SimStrings>

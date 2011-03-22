@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--equation-grapher-strings_sr.xml created Tue Aug 25 14:25:04 CEST 2009 using: equation-grapher 2.00.00 (30671), translation-utility 2.01.00 (31673) мај 14, 2009-->
-<SimStrings>
-<string key="showYEq" value="покажи  y="/>
-<string key="erase" value="Обриши"/>
-<string key="save" value="Запамти"/>
-<string key="zero" value="На нулу"/>
-<string key="simTitle" value="График квадратне функције"/>
-</SimStrings>

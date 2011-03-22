@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--friction-strings_iw.xml created Tue Nov 09 10:20:01 IST 2010 using: friction 2.02.00 (37305), translation-utility 2.09.00 (44031) Sep 14, 2010-->
-<SimStrings>
-<string key="rubYellowAtoms" value="שפשוף אטומים צהובים \nבאטומים ירוקים"/>
-<string key="physics" value="פיזיקה"/>
-<string key="reset" value="איפוס"/>
-<string key="simTitle" value="חיכוך"/>
-<string key="chemistry" value="כימיה"/>
-</SimStrings>

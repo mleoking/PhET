@@ -1,1 +1,0 @@
-phet-credits lead-design=Jane Doe software-development=John Doe  design-team=Abbott, Costello interviews=Curly, Larry, Moe

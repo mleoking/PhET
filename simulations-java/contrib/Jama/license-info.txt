@@ -1,1 +1,0 @@
-jama license=Public Domain licensefile=license.txt name=JAMA description=A Java Matrix Package copyright=The MathWorks and the National Institute of Standards and Technology (NIST), released to the public domain website=http://math.nist.gov/javanumerics/jama/

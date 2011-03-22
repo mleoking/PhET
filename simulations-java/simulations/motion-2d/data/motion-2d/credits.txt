@@ -1,1 +1,0 @@
-phet-credits lead-design=Michael Dubson software-development=Sam Reid, Michael Dubson

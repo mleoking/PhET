@@ -1,4 +1,0 @@
-Should email be sent in HTML?  When sending as plain text, both my email client hyperlinks all URL's anyways.  Not sure if everyone's does that.
-
-commit handled.txt
-

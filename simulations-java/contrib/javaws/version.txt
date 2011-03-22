@@ -1,1 +1,0 @@
-javaws 1_2-dev
