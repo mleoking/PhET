@@ -85,4 +85,5 @@
 <string key="VersionError2" value="فضلاً المحاولة مرة أخرى، أو زيارة&lt;a &lt;a href='{0}'&gt;http://phet.colorado.edu&lt;/a&gt;"/>
 <string key="VersionError1" value="حصل خطأ أثناء محاولة  الحصول على معلومات النسخة"/>
 <string key="StatisticsField-sim_locale_country" value="البلد"/>
+<string key="TranslatedBy" value="قام بالترجمة"/>
 </SimStrings>
