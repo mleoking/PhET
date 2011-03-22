@@ -1,3 +1,4 @@
+> 3/21/2011 Added improved measuring tape image and converted gravity-and-orbits to use it, see #2785
 > Fixed: return object should account for the camera zoom
 > Fixed: make the cartoon Earth/Moon force vector a bit smaller (1/2 grid cell)
 > Brightened measuring tape color to make it easier to see
