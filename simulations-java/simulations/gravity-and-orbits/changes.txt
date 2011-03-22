@@ -1,3 +1,4 @@
+> Fixed: make the cartoon Earth/Moon force vector a bit smaller (1/2 grid cell)
 > Brightened measuring tape color to make it easier to see
 > Paused the sim after "return object" is pressed
 # 1.00.14 (50024) Mar 21, 2011

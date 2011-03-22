@@ -37,6 +37,7 @@ public class CartoonModeList extends ModeList {
                 }}, new EarthMoon() {{
                     earth.radius *= 15;
                     moon.radius *= 15;
+                    forceScale *= 0.75;//so that default gravity force takes up 1/2 cell in grid
                 }}, new EarthSpaceStation() {{
                     earth.radius *= 0.8;
                     spaceStation.radius *= 8;
