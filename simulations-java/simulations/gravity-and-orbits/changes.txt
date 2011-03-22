@@ -1,3 +1,4 @@
+> Brightened measuring tape color to make it easier to see
 > Paused the sim after "return object" is pressed
 # 1.00.14 (50024) Mar 21, 2011
 > Changed the force scales in "cartoon" mode so that the initial force vector takes up 1/2 a grid cell
