@@ -41,7 +41,7 @@ public class MeasuringTape extends PNode {
                           final Property<ModelViewTransform> transform ) {
 //        modelStart.trace("Model Start");
 //        modelEnd.trace("Model End");
-        addChild( new PhetPPath( new BasicStroke( 3 ), Color.darkGray ) {{
+        addChild( new PhetPPath( new BasicStroke( 3 ), Color.gray ) {{
             setPickable( false );
             final SimpleObserver updateTape = new SimpleObserver() {
                 public void update() {
