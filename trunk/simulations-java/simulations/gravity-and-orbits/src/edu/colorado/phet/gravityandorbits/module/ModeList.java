@@ -97,6 +97,7 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
     public static class SunEarth extends Mode {
         BodyPrototype sun = new BodyPrototype( SUN_MASS, SUN_RADIUS, 0, 0, 0, 0 );
         BodyPrototype earth = new BodyPrototype( EARTH_MASS, EARTH_RADIUS, EARTH_PERIHELION, 0, 0, EARTH_ORBITAL_SPEED_AT_PERIHELION );
+        double timeScale = 1;
 
         public SunEarth() {
             super( 1.25 );
@@ -114,6 +115,7 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
         BodyPrototype sun = new BodyPrototype( SUN_MASS, SUN_RADIUS, 0, 0, 0, 0 );
         BodyPrototype earth = new BodyPrototype( EARTH_MASS, EARTH_RADIUS, EARTH_PERIHELION, 0, 0, EARTH_ORBITAL_SPEED_AT_PERIHELION );
         BodyPrototype moon = new BodyPrototype( MOON_MASS, MOON_RADIUS, MOON_X, MOON_Y, MOON_SPEED, EARTH_ORBITAL_SPEED_AT_PERIHELION );
+        double timeScale = 1;
 
         public SunEarthMoon() {
             super( 1.25 );
@@ -182,7 +184,7 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
                                        sunEarth.forceScale,
                                        false,
                                        sunEarth.dt,
-                                       days,
+                                       scaledDays( sunEarth.timeScale ),
                                        createIconImage( true, true, false, false ),
                                        SEC_PER_YEAR,
                                        SUN_MODES_VELOCITY_SCALE,
@@ -200,7 +202,7 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
                                        sunEarthMoon.forceScale,
                                        false,
                                        sunEarthMoon.dt,
-                                       days,
+                                       scaledDays( sunEarthMoon.timeScale ),
                                        createIconImage( true, true, true, false ),
                                        SEC_PER_YEAR,
                                        SUN_MODES_VELOCITY_SCALE,
@@ -222,7 +224,7 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
                                        earthMoon.forceScale,
                                        false,
                                        GravityAndOrbitsClock.DEFAULT_DT / 3,
-                                       days,
+                                       scaledDays( 1.0 ),//actual days
                                        createIconImage( false, true, true, false ),
                                        SEC_PER_MOON_ORBIT,
                                        SUN_MODES_VELOCITY_SCALE * 0.06,
@@ -345,13 +347,16 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
         }
     };
 
-    private static final Function1<Double, String> days = new Function1<Double, String>() {
-        public String apply( Double time ) {
-            int value = (int) ( time / GravityAndOrbitsClock.SECONDS_PER_DAY );
-            String units = ( value == 1 ) ? GAOStrings.EARTH_DAY : GAOStrings.EARTH_DAYS;
-            return MessageFormat.format( GAOStrings.PATTERN_VALUE_UNITS, value, units );
-        }
-    };
+    //Have to artificially scale up the time readout so that Sun/Earth/Moon mode has a stable orbit with correct periods
+    public static final Function1<Double, String> scaledDays( final double scale ) {
+        return new Function1<Double, String>() {
+            public String apply( Double time ) {
+                int value = (int) ( time / GravityAndOrbitsClock.SECONDS_PER_DAY * scale );
+                String units = ( value == 1 ) ? GAOStrings.EARTH_DAY : GAOStrings.EARTH_DAYS;
+                return MessageFormat.format( GAOStrings.PATTERN_VALUE_UNITS, value, units );
+            }
+        };
+    }
 
     private static final Function1<Double, String> minutes = new Function1<Double, String>() {
         final double SECONDS_PER_MINUTE = 60;

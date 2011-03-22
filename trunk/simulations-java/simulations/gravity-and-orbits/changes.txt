@@ -1,3 +1,4 @@
+Artificially scale up the time readout so that Sun/Earth/Moon mode has a stable orbit with correct periods
 Tuned cartoon initial conditions so that there are 12 cartoon lunar orbits in one cartoon earth orbit
 # 1.00.15 (50035) Mar 21, 2011
 > 3/21/2011 Added improved measuring tape image and converted gravity-and-orbits to use it, see #2785

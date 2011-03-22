@@ -17,6 +17,7 @@ public class CartoonModeList extends ModeList {
                    final int earthMassScaleFactor = 10200; //Tuned by hand so there are 12 cartoon lunar orbits in one cartoon earth orbit
                    earth.mass *= earthMassScaleFactor;
                    forceScale *= 0.8 / earthMassScaleFactor * 0.75;//to balance increased mass and so that forces are 1/2 grid cell in default conditions
+                   timeScale = 365.0 / 343.5;//Have to artificially scale up the time readout so that Sun/Earth/Moon mode has a stable orbit with correct periods
                }}, new SunEarthMoon() {{
                     sun.radius *= 50;
                     earth.radius *= 800;
@@ -28,6 +29,7 @@ public class CartoonModeList extends ModeList {
                     moon.y = earth.radius * 1.7;
 
                     forceScale *= 0.8 / earthMassScaleFactor * 0.75;//to balance increased mass and so that forces are 1/2 grid cell in default conditions
+                    timeScale = 365.0 / 343.5;//Have to artificially scale up the time readout so that Sun/Earth/Moon mode has a stable orbit with correct periods
                 }}, new EarthMoon() {{
                     earth.radius *= 15;
                     moon.radius *= 15;
