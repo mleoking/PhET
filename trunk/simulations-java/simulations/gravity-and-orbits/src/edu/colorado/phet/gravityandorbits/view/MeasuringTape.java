@@ -56,7 +56,7 @@ public class MeasuringTape extends PNode {
 
         //The body of the measuring tape
         try {
-            addChild( new PImage( ImageLoader.loadBufferedImage( edu.colorado.phet.common.piccolophet.nodes.MeasuringTape.MEASURING_TAPE_IMAGE ) ) {{
+            addChild( new PImage( ImageLoader.loadBufferedImage( "piccolo-phet/images/measuringTape.png" ) ) {{
                 final SimpleObserver updateBody = new SimpleObserver() {
                     public void update() {
                         setTransform( new AffineTransform() );

@@ -1,1 +1,3 @@
 button-template.png source=microsoft
+measuringTape.gif source=PhET
+measuringTape.png source=PhET notes=NP
