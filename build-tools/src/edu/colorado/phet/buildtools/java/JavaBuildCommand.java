@@ -67,20 +67,21 @@ public class JavaBuildCommand {
         long proguardStartTime = System.currentTimeMillis();//Time tracking, may be removed later
         proguard();
         long proguardEndTime = System.currentTimeMillis();//Time tracking, may be removed later
-        if (BuildLocalProperties.getInstance().isJarsignerCredentialsSpecified()) {
-            if (project.getSignJar()) {
+        if ( BuildLocalProperties.getInstance().isJarsignerCredentialsSpecified() ) {
+            if ( project.getSignJar() ) {
                 signJAR();
             }
-        } else {
-            System.out.println("Jarsigner credentials not specified in build file, skipping jar signing.");
         }
-        
+        else {
+            System.out.println( "Jarsigner credentials not specified in build file, skipping jar signing." );
+        }
+
         //Time tracking, may be removed later
         long executeEndTime = System.currentTimeMillis();
-        double proguardPercent = ((double)(proguardEndTime-proguardStartTime))/(executeEndTime-executeStartTime)*100.0;
-        System.out.println("timing "+project.getName()+": proguardTime = "+(proguardEndTime-proguardStartTime)+" ms");
-        System.out.println("timing "+project.getName()+": execTime = "+(executeEndTime-executeStartTime)+" ms");
-        System.out.println("timing "+project.getName()+": proguard took "+proguardPercent+"%");
+        double proguardPercent = ( (double) ( proguardEndTime - proguardStartTime ) ) / ( executeEndTime - executeStartTime ) * 100.0;
+        System.out.println( "timing " + project.getName() + ": proguardTime = " + ( proguardEndTime - proguardStartTime ) + " ms" );
+        System.out.println( "timing " + project.getName() + ": execTime = " + ( executeEndTime - executeStartTime ) + " ms" );
+        System.out.println( "timing " + project.getName() + ": proguard took " + proguardPercent + "%" );
     }
 
     public void copySoftwareAgreement() {
@@ -102,7 +103,9 @@ public class JavaBuildCommand {
     private void signJAR() {
         PhetJarSigner signer = new PhetJarSigner( BuildLocalProperties.getInstance() );
         // Sign the JAR.
-        if ( signer.signJar( outputJar ) != true ) {
+        boolean success = signer.signJar( outputJar );
+        //boolean success = ( project.isSimulationProject() ? signer.packAndSignJar( outputJar ) : signer.signJar( outputJar ) );
+        if ( !success ) {
             // Signing failed.  Throw an exception in order to force the build process to stop.
             throw new BuildException( "Signing of JAR file failed." );
         }
@@ -146,7 +149,7 @@ public class JavaBuildCommand {
         PhetBuildUtils.antEcho( antTaskRunner, "Compiling " + project.getName() + ".", getClass() );
 
         Javac javac = new Javac();
-        javac.setIncludeantruntime(false);//see #2431, should not include full classpath if running from IDE
+        javac.setIncludeantruntime( false );//see #2431, should not include full classpath if running from IDE
         javac.setSource( project.getJavaSourceVersion() );
         javac.setTarget( project.getJavaTargetVersion() );
         javac.setSrcdir( new Path( antTaskRunner.getProject(), toClasspathString( src ) ) );
@@ -159,7 +162,7 @@ public class JavaBuildCommand {
             all.add( project.getClassesDirectory() );
             classpath = all.toArray( new File[all.size()] );
         }
-        
+
         javac.setClasspath( new Path( antTaskRunner.getProject(), project.getClasspath() ) );
 
         //"lines,source" appears to be necessary to get line number debug info
@@ -175,7 +178,7 @@ public class JavaBuildCommand {
         PhetBuildUtils.antEcho( antTaskRunner, "Compiling java version checker for " + project.getName() + ".", getClass() );
 
         Javac javac = new Javac();
-        javac.setIncludeantruntime(false);//see #2431, should not include full classpath if running from IDE
+        javac.setIncludeantruntime( false );//see #2431, should not include full classpath if running from IDE
         javac.setSource( BuildToolsConstants.BOOTSTRAP_JAVA_VERSION );//Java version checker must be compiled in lowest language version
         javac.setTarget( BuildToolsConstants.BOOTSTRAP_JAVA_VERSION );//so it can run in lowest language version jvms
         javac.setClasspath( new Path( antTaskRunner.getProject(), new File( project.getTrunk(), BuildToolsPaths.JNLP_JAR ).getAbsolutePath() ) );

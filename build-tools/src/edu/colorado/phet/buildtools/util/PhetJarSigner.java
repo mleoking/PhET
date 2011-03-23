@@ -3,6 +3,11 @@
 package edu.colorado.phet.buildtools.util;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.jar.JarFile;
+import java.util.jar.JarOutputStream;
+import java.util.jar.Pack200;
 import java.util.logging.Logger;
 
 import org.apache.tools.ant.taskdefs.SignJar;
@@ -12,6 +17,9 @@ import edu.colorado.phet.buildtools.AntTaskRunner;
 import edu.colorado.phet.buildtools.BuildLocalProperties;
 import edu.colorado.phet.buildtools.JarsignerInfo;
 import edu.colorado.phet.buildtools.MyAntTaskRunner;
+
+import static java.util.jar.Pack200.Packer;
+import static java.util.jar.Pack200.Unpacker;
 
 /**
  * This class can be used to sign JAR files, and is intended to be used within
@@ -63,7 +71,7 @@ public class PhetJarSigner {
         try {
             antTaskRunner.runTask( signer );
         }
-        catch (Exception e) {
+        catch( Exception e ) {
             //Show how to construct the equivalent command line call for debugging purposes
             //because failure explanations during antTaskRunner.runTask are poorly explained
             //Keep this commented out except during debugging so that our private data doesn't inadvertently end up in a public log file somewhere
@@ -110,6 +118,92 @@ public class PhetJarSigner {
 
         System.out.println( "Verification succeeded." );
         return success;
+    }
+
+    /**
+     * Use Pack200 compression to pack and sign the JAR. Given an input of example.jar, it will repack and sign
+     * example.jar, and create a packed example.jar.pack.gz.
+     *
+     * @param jarFile The JAR file to pack
+     * @return Success
+     */
+    public boolean packAndSignJar( File jarFile ) {
+        try {
+            File packedFile = new File( jarFile.getParent(), jarFile.getName() + ".pack.gz" );
+            File temporaryFile = File.createTempFile( jarFile.getName() + "-temporary", ".pack" );
+
+            Packer packer = Pack200.newPacker();
+            Unpacker unpacker = Pack200.newUnpacker();
+
+            packer.properties().put( Packer.EFFORT, "7" );
+            packer.properties().put( Packer.SEGMENT_LIMIT, "-1" );
+            packer.properties().put( Packer.KEEP_FILE_ORDER, Packer.FALSE );
+            packer.properties().put( Packer.MODIFICATION_TIME, Packer.LATEST );
+            packer.properties().put( Packer.DEFLATE_HINT, Packer.FALSE );
+            packer.properties().put( Packer.UNKNOWN_ATTRIBUTE, Packer.ERROR );
+
+            System.out.println( "Repacking JAR: " + jarFile.getAbsolutePath() );
+
+            // repack it using a temporary file. this will normalize the order of class files / etc.
+            packFile( packer, jarFile, temporaryFile );
+            unpackFile( unpacker, temporaryFile, jarFile );
+            safeDelete( temporaryFile );
+
+            // sign the repacked JAR
+            boolean success = signJar( jarFile );
+            if ( !success ) {
+                return false;
+            }
+
+            System.out.println( "Packing signed JAR: " + jarFile.getAbsolutePath() );
+
+            // make a packed copy
+            packFile( packer, jarFile, packedFile );
+        }
+        catch( IOException e ) {
+            e.printStackTrace();
+            return false;
+        }
+
+        return true; // success
+    }
+
+    private void packFile( Packer packer, File inFile, File outFile ) throws IOException {
+        safeDelete( outFile );
+        FileOutputStream out = new FileOutputStream( outFile );
+        try {
+            JarFile readFile = new JarFile( inFile );
+            try {
+                packer.pack( readFile, out );
+            }
+            finally {
+                readFile.close();
+            }
+        }
+        finally {
+            out.close();
+        }
+    }
+
+    private void unpackFile( Unpacker unpacker, File inFile, File outFile ) throws IOException {
+        safeDelete( outFile );
+        JarOutputStream jarOutputStream = new JarOutputStream( new FileOutputStream( outFile ) );
+        try {
+            unpacker.unpack( inFile, jarOutputStream );
+        }
+        finally {
+            jarOutputStream.close();
+        }
+    }
+
+    private void safeDelete( File file ) {
+        if ( file.exists() ) {
+            boolean success = file.delete();
+            if ( !success ) {
+                // probably indicates permission problem, so throw an exception instead
+                throw new RuntimeException( "could not delete " + file.getAbsolutePath() );
+            }
+        }
     }
 
     /**
