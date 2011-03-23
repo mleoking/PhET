@@ -44,6 +44,10 @@ public class PhetCommonResources {
 
     private static PhetResources INSTANCE = new PhetResources( "phetcommon" );
 
+    //Values for translated strings
+    public static final String PICCOLO_PHET_VELOCITY_SENSOR_NODE_SPEED =getString( "PiccoloPhet.VelocitySensorNode.speed" );
+    public static final String PICCOLO_PHET_VELOCITY_SENSOR_NODE_UNKNOWN =getString( "PiccoloPhet.VelocitySensorNode.unknown" );
+
     /* not intended for instantiation */
     private PhetCommonResources() {
     }

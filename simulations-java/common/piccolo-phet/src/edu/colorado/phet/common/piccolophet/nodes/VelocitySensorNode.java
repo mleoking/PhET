@@ -21,6 +21,8 @@ import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 
+import static edu.colorado.phet.common.phetcommon.resources.PhetCommonResources.PICCOLO_PHET_VELOCITY_SENSOR_NODE_SPEED;
+import static edu.colorado.phet.common.phetcommon.resources.PhetCommonResources.PICCOLO_PHET_VELOCITY_SENSOR_NODE_UNKNOWN;
 import static edu.colorado.phet.common.piccolophet.PiccoloPhetApplication.RESOURCES;
 
 /**
@@ -47,7 +49,7 @@ public class VelocitySensorNode extends ToolNode {
         addChild( imageNode );
 
         //Add the title of the sensor, which remains centered in the top of the body
-        final PText titleNode = new PText( "Speed" ) {{//TODO: i18ize
+        final PText titleNode = new PText( PICCOLO_PHET_VELOCITY_SENSOR_NODE_SPEED ) {{
             setFont( new PhetFont( 22 ) );
             imageNode.addCenterWidthObserver( new SimpleObserver() {
                 public void update() {
@@ -69,7 +71,7 @@ public class VelocitySensorNode extends ToolNode {
             velocitySensor.value.addObserver( new SimpleObserver() {
                 public void update() {
                     final Option<ImmutableVector2D> value = velocitySensor.value.getValue();
-                    setText( ( value.isNone() ) ? "?" : formatter.apply( value.get().getMagnitude() ) );//TODO: i18ize
+                    setText( ( value.isNone() ) ? PICCOLO_PHET_VELOCITY_SENSOR_NODE_UNKNOWN : formatter.apply( value.get().getMagnitude() ) );
                     imageNode.setCenterWidth( Math.max( titleNode.getFullBounds().getWidth(), getFullBounds().getWidth() ) );
                     updateTextLocation.update();
                 }
