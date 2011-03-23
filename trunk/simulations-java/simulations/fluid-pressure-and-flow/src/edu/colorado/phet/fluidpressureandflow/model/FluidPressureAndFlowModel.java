@@ -92,11 +92,11 @@ public class FluidPressureAndFlowModel implements PressureSensor.Context {
     }
 
     public PressureSensor[] getPressureSensors() {
-        return pressureSensors.toArray( new PressureSensor[0] );
+        return pressureSensors.toArray( new PressureSensor[pressureSensors.size()] );
     }
 
     public VelocitySensor[] getVelocitySensors() {
-        return velocitySensors.toArray( new VelocitySensor[0] );
+        return velocitySensors.toArray( new VelocitySensor[velocitySensors.size()] );
     }
 
     public void reset() {

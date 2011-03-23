@@ -15,20 +15,16 @@ import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.model.property.And;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
-import edu.colorado.phet.common.piccolophet.nodes.VelocitySensor;
-import edu.colorado.phet.common.piccolophet.nodes.VelocitySensorNode;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.FloatingClockControlNode;
 import edu.colorado.phet.fluidpressureandflow.FPAFStrings;
 import edu.colorado.phet.fluidpressureandflow.model.Pipe;
 import edu.colorado.phet.fluidpressureandflow.model.Pool;
 import edu.colorado.phet.fluidpressureandflow.model.PressureSensor;
-import edu.colorado.phet.fluidpressureandflow.model.Units;
 import edu.colorado.phet.fluidpressureandflow.modules.fluidpressure.FluidPressureControlPanel;
 import edu.colorado.phet.fluidpressureandflow.view.*;
 import edu.umd.cs.piccolo.PNode;
@@ -72,15 +68,7 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas {
             addChild( new PressureSensorNode( transform, sensor, module.getFluidPressureAndFlowModel().pressureUnit ) );
         }
 
-        //TODO: copied from another subclass, should coalesce
-        for ( VelocitySensor velocitySensor : module.getFluidPressureAndFlowModel().getVelocitySensors() ) {
-            addChild( new VelocitySensorNode( transform, velocitySensor, 1, new Function1<Double, String>() {
-                public String apply( Double aDouble ) {
-                    final Units.Unit unit = module.getFluidPressureAndFlowModel().velocityUnit.getValue();
-                    return unit.getDecimalFormat().format( aDouble ) + " " + unit.getAbbreviation();//TODO: correct units (from SI) and i18n
-                }
-            } ) );
-        }
+        addVelocitySensorNodes( module.getFluidPressureAndFlowModel() );
 
         final FluidFlowModel model = module.getFluidFlowModel();
 
