@@ -115,24 +115,24 @@ public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> ext
     }
 
     protected void addVelocitySensorNodes( final FluidPressureAndFlowModel model ) {
-        final Property<Function1<Double, String>> formatter = new Property<Function1<Double, String>>( new Function1<Double, String>() {
+        final Property<Function1<Double, String>> formatter = new Property<Function1<Double, String>>( createFormatter( model ) ) {{
+            model.velocityUnit.addObserver( new SimpleObserver() {
+                public void update() {
+                    setValue( createFormatter( model ) );
+                }
+            } );
+        }};
+        for ( VelocitySensor velocitySensor : model.getVelocitySensors() ) {
+            addChild( new VelocitySensorNode( transform, velocitySensor, 1, formatter ) );
+        }
+    }
+
+    private Function1<Double, String> createFormatter( final FluidPressureAndFlowModel model ) {
+        return new Function1<Double, String>() {
             public String apply( Double aDouble ) {
                 final Units.Unit unit = model.velocityUnit.getValue();
                 return unit.getDecimalFormat().format( unit.siToUnit( aDouble ) ) + " " + unit.getAbbreviation();//TODO: correct units (from SI) and i18n
             }
-        } );
-        model.velocityUnit.addObserver( new SimpleObserver() {
-            public void update() {
-                formatter.setValue( new Function1<Double, String>() {
-                    public String apply( Double aDouble ) {
-                        final Units.Unit unit = model.velocityUnit.getValue();
-                        return unit.getDecimalFormat().format( unit.siToUnit( aDouble ) ) + " " + unit.getAbbreviation();//TODO: correct units (from SI) and i18n
-                    }
-                } );
-            }
-        } );
-        for ( VelocitySensor velocitySensor : model.getVelocitySensors() ) {
-            addChild( new VelocitySensorNode( transform, velocitySensor, 1, formatter ) );
-        }
+        };
     }
 }
