@@ -12,12 +12,16 @@ import javax.swing.event.ChangeListener;
 import javax.swing.text.JTextComponent;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.MinimizeMaximizeNode;
+import edu.colorado.phet.common.piccolophet.nodes.VelocitySensor;
+import edu.colorado.phet.common.piccolophet.nodes.VelocitySensorNode;
 import edu.colorado.phet.fluidpressureandflow.FPAFStrings;
 import edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowModule;
 import edu.colorado.phet.fluidpressureandflow.model.FluidPressureAndFlowModel;
+import edu.colorado.phet.fluidpressureandflow.model.Units;
 import edu.colorado.phet.fluidpressureandflow.modules.fluidpressure.FluidPressureControlPanel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -131,4 +135,14 @@ public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> ext
 //        addChild( gravityControl );
 //    }
 
+    protected void addVelocitySensorNodes( final FluidPressureAndFlowModel model ) {
+        for ( VelocitySensor velocitySensor : model.getVelocitySensors() ) {
+            addChild( new VelocitySensorNode( transform, velocitySensor, 1, new Function1<Double, String>() {
+                public String apply( Double aDouble ) {
+                    final Units.Unit unit = model.velocityUnit.getValue();
+                    return unit.getDecimalFormat().format( aDouble ) + " " + unit.getAbbreviation();//TODO: correct units (from SI) and i18n
+                }
+            } ) );
+        }
+    }
 }
