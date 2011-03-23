@@ -5,20 +5,21 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.fluidpressureandflow.model.FluidPressureAndFlowModel;
 import edu.colorado.phet.fluidpressureandflow.model.Pipe;
 import edu.colorado.phet.fluidpressureandflow.model.PressureSensor;
-import edu.colorado.phet.fluidpressureandflow.model.VelocitySensor;
+import edu.colorado.phet.fluidpressureandflow.model.VelocitySensorContext;
+import edu.colorado.phet.fluidpressureandflow.modules.watertower.FPAFVelocitySensor;
 
 /**
  * @author Sam Reid
  */
-public class FluidFlowModel extends FluidPressureAndFlowModel implements VelocitySensor.Context {
+public class FluidFlowModel extends FluidPressureAndFlowModel implements VelocitySensorContext {
     private Pipe pipe = new Pipe();
     private ArrayList<Particle> particles = new ArrayList<Particle>();
     private Random random = new Random();
@@ -75,11 +76,11 @@ public class FluidFlowModel extends FluidPressureAndFlowModel implements Velocit
             }
         } );
 
-        // TODO: handle creation of sensors when one is dragged off of the "pile"
+        // TODO: handle creation of sensors when one is dragged off of the "pile"?  Or switch to more tool-box approach?
         addPressureSensor( new PressureSensor( this, 2.8, 1.1882302540898015 ) );
         addPressureSensor( new PressureSensor( this, 2.8, 1.1882302540898015 ) );
-        addVelocitySensor( new VelocitySensor( this, 2.8, 0.473501677688827 ) );
-        addVelocitySensor( new VelocitySensor( this, 2.8, 0.473501677688827 ) );
+        addVelocitySensor( new FPAFVelocitySensor( this, 2.8, 0.473501677688827 ) );
+        addVelocitySensor( new FPAFVelocitySensor( this, 2.8, 0.473501677688827 ) );
     }
 
     private void removeFoodColoring( FoodColoring foodColoring ) {

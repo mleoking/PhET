@@ -11,12 +11,12 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.fluidpressureandflow.model.FluidPressureAndFlowModel;
 import edu.colorado.phet.fluidpressureandflow.model.PressureSensor;
-import edu.colorado.phet.fluidpressureandflow.model.VelocitySensor;
+import edu.colorado.phet.fluidpressureandflow.model.VelocitySensorContext;
 
 /**
  * @author Sam Reid
  */
-public class WaterTowerModel extends FluidPressureAndFlowModel implements VelocitySensor.Context {
+public class WaterTowerModel extends FluidPressureAndFlowModel implements VelocitySensorContext {
 
     private WaterTower waterTower = new WaterTower();
     private ArrayList<WaterDrop> waterTowerDrops = new ArrayList<WaterDrop>();
@@ -30,8 +30,8 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
     public WaterTowerModel() {
         addPressureSensor( new PressureSensor( this, 29, 20.1 ) );
         addPressureSensor( new PressureSensor( this, 29, 26.5 ) );
-        addVelocitySensor( new VelocitySensor( this, 37.7, 30.6 ) );
-        addVelocitySensor( new VelocitySensor( this, 37.7, 33.6 ) );
+        addVelocitySensor( new FPAFVelocitySensor( this, 37.7, 30.6 ) );
+        addVelocitySensor( new FPAFVelocitySensor( this, 37.7, 33.6 ) );
         getClock().addClockListener( new ClockAdapter() {
             public void clockTicked( ClockEvent clockEvent ) {
                 double velocity = Math.sqrt( 2 * g * waterTower.getWaterLevel() );//Toricelli's theorem, one of the main learning goals of this tab
