@@ -1,3 +1,4 @@
+3/22/11 i18ized strings in VelocitySensorNode
 3/20/11 Added Option.toString
 3/17/11 Added a logger to ObservableProperty.trace and sample usage in main(), resolves #2779
 3/16/11 Added ObservableProperty.trace, a debugging function that prints out the new value when it changes, along with the specified text
