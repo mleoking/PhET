@@ -6,6 +6,8 @@ import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * The ToolNode is a node created by dragging out of a toolbox, and destroyed by dropping it back in the toolbox.
+ * It is an abstract class instead of an interface for convenience in usage, an alternative pattern would be to
+ * change this to an interface with a getNode() method, which is usually implemented as 'return this'
  *
  * @author Sam Reid
  */
