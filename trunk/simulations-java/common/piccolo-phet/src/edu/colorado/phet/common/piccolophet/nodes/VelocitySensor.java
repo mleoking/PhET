@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.bendinglight.model;
+package edu.colorado.phet.common.piccolophet.nodes;
 
 import java.awt.geom.Dimension2D;
 

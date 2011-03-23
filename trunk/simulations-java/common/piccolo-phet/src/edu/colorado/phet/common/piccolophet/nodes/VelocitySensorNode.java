@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.bendinglight.modules.moretools;
+package edu.colorado.phet.common.piccolophet.nodes;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -9,16 +9,12 @@ import java.beans.PropertyChangeListener;
 import java.text.DecimalFormat;
 
 import edu.colorado.phet.bendinglight.model.BendingLightModel;
-import edu.colorado.phet.bendinglight.model.VelocitySensor;
-import edu.colorado.phet.bendinglight.modules.intro.ToolNode;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
-import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
-import edu.colorado.phet.common.piccolophet.nodes.ThreeImageNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
