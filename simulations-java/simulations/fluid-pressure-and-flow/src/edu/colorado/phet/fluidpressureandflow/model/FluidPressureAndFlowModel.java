@@ -8,6 +8,7 @@ import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.nodes.VelocitySensor;
 
 /**
@@ -40,6 +41,22 @@ public class FluidPressureAndFlowModel implements PressureSensor.Context {
     public final Property<Units.Unit> distanceUnit = new Property<Units.Unit>( Units.FEET );
 
     private final Function.LinearFunction pressureFunction = new Function.LinearFunction( 0, 500, standardAirPressure.getValue(), EARTH_AIR_PRESSURE_AT_500_FT );//see http://www.engineeringtoolbox.com/air-altitude-pressure-d_462.html
+
+    public FluidPressureAndFlowModel() {
+        distanceUnit.addObserver( new VoidFunction1<Units.Unit>() {
+            public void apply( Units.Unit unit ) {
+                if ( unit == Units.FEET ) {
+                    velocityUnit.setValue( Units.FEET_PER_SECOND );
+                }
+                else if ( unit == Units.METERS ) {
+                    velocityUnit.setValue( Units.METERS_PER_SECOND );
+                }
+                else {
+                    throw new RuntimeException( "Unknown unit: " + unit );
+                }
+            }
+        } );
+    }
 
     public void addPressureSensor( PressureSensor sensor ) {
         pressureSensors.add( sensor );

@@ -29,9 +29,11 @@ public class Units {
     public static Unit PSI = new LinearUnit( FPAFStrings.POUNDS_PER_SQUARE_INCH, FPAFStrings.PSI, 145.04E-6, new DecimalFormat( "0.00" ) );
 
     public static Unit METERS = new LinearUnit( FPAFStrings.METERS, FPAFStrings.M, 1, new DecimalFormat( "0.0" ) );
-    public static Unit FEET = new LinearUnit( FPAFStrings.FEET, FPAFStrings.FT, 3.2808399, new DecimalFormat( "0.0" ) );
+    public static final double FEET_PER_METER = 3.2808399;
+    public static Unit FEET = new LinearUnit( FPAFStrings.FEET, FPAFStrings.FT, FEET_PER_METER, new DecimalFormat( "0.0" ) );
 
     public static Unit METERS_PER_SECOND = new LinearUnit( FPAFStrings.METERS_PER_SECOND, FPAFStrings.M_PER_S, 1, new DecimalFormat( "0.0" ) );
+    public static Unit FEET_PER_SECOND = new LinearUnit( "feet-per-second", FPAFStrings.FT_PER_S, FEET_PER_METER, new DecimalFormat( "0.0" ) );
 
     public double feetToMeters( double feet ) {
         return feet * 0.3048;

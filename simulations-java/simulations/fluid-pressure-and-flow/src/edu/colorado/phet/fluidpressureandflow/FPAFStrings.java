@@ -44,5 +44,6 @@ public class FPAFStrings {
     public static final String FT = getString( "ft" );
     public static final String METERS_PER_SECOND = getString( "metersPerSecond" );
     public static final String M_PER_S = getString( "mPerS" );
+    public static final String FT_PER_S = getString( "ftPerS" );
     public static final String PRESSURE = getString( "pressure" );
 }
