@@ -1,3 +1,4 @@
+3/22/2011 Added VelocitySensorNode and related classes and assets from Bending Light for reuse in Fluid Pressure and Flow
 3/21/2011 Added improved measuring tape image and converted gravity-and-orbits to use it, see #2785
 3/16/2011 Added a type safe child iterator to PhetPNode
 Migrated ThreeImageNode from Fluid Pressure and Flow

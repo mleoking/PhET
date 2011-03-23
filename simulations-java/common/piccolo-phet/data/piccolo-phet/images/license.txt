@@ -1,3 +1,7 @@
 button-template.png source=microsoft
 measuringTape.gif source=PhET
 measuringTape.png source=PhET notes=NP
+velocity_left.png author=phet notes=NP
+velocity_center.png author=phet notes=NP
+velocity_right.png author=phet notes=NP
+velocity_point.png author=phet notes=NP

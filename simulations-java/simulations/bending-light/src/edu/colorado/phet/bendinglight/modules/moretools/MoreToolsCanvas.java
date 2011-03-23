@@ -5,7 +5,6 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.bendinglight.model.VelocitySensor;
 import edu.colorado.phet.bendinglight.modules.intro.*;
 import edu.colorado.phet.bendinglight.view.BendingLightWavelengthControl;
 import edu.colorado.phet.bendinglight.view.LaserView;
@@ -20,6 +19,8 @@ import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.*;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.common.piccolophet.nodes.VelocitySensor;
+import edu.colorado.phet.common.piccolophet.nodes.VelocitySensorNode;
 import edu.umd.cs.piccolo.PNode;
 
 /**
