@@ -30,6 +30,7 @@ import static edu.colorado.phet.bendinglight.BendingLightApplication.RESOURCES;
 
 /**
  * The VelocitySensorNode provides a draggable display of the velocity (speed and direction) of something.
+ * It scales horizontally based on the width of the title and readout text
  *
  * @author Sam Reid
  */
@@ -37,15 +38,19 @@ public class VelocitySensorNode extends ToolNode {
     private final ModelViewTransform transform;
     private final VelocitySensor velocitySensor;
 
-    public VelocitySensorNode( final ModelViewTransform transform, final VelocitySensor velocitySensor ) {
+    public VelocitySensorNode( final ModelViewTransform transform,
+                               final VelocitySensor velocitySensor,
+                               final double arrowScale ) {//Scale to use for the vector--the length of the vector is the view value times this scale factor
         this.transform = transform;
         this.velocitySensor = velocitySensor;
         final int titleOffsetY = 7;
         final int readoutOffsetY = 38;
 
+        //Add the body of the sensor, which is composed of 3 images
         final ThreeImageNode imageNode = new ThreeImageNode( RESOURCES.getImage( "velocity_left.png" ), RESOURCES.getImage( "velocity_center.png" ), RESOURCES.getImage( "velocity_right.png" ) );
         addChild( imageNode );
 
+        //Add the title of the sensor, which remains centered in the top of the body
         final PText titleNode = new PText( "Speed" ) {{
             setFont( new PhetFont( 22 ) );
             imageNode.addCenterWidthObserver( new SimpleObserver() {
@@ -55,6 +60,8 @@ public class VelocitySensorNode extends ToolNode {
             } );
         }};
         addChild( titleNode );
+
+        //Add the text readout in the body of the sensor, which reads out the value of the VelocitySensor
         addChild( new PText() {{
             setFont( new PhetFont( 26 ) );
             final SimpleObserver updateTextLocation = new SimpleObserver() {
@@ -73,6 +80,8 @@ public class VelocitySensorNode extends ToolNode {
                 }
             } );
         }} );
+
+        //Show a triangular tip that points to the hot spot of the sensor, i.e. where the values are read from
         final BufferedImage velocityPoint = RESOURCES.getImage( "velocity_point.png" );
         final PImage velocityPointNode = new PImage( velocityPoint ) {{
             final PropertyChangeListener updatePosition = new PropertyChangeListener() {
@@ -85,6 +94,7 @@ public class VelocitySensorNode extends ToolNode {
         }};
         addChild( velocityPointNode );
 
+        //Add an arrow that points in the direction of the velocity, with a magnitude proportional to the speed
         addChild( new ArrowNode( new Point2D.Double(), new Point2D.Double( 100, 100 ), 20, 20, 10 ) {{
             setPaint( Color.blue );
             setStrokePaint( Color.black );
@@ -96,7 +106,7 @@ public class VelocitySensorNode extends ToolNode {
                         setVisible( false );
                     }
                     else {
-                        ImmutableVector2D v = transform.modelToViewDelta( value.get() ).times( 1.5E-14 );
+                        ImmutableVector2D v = transform.modelToViewDelta( value.get() ).times( arrowScale );
 
                         //Show speed vector centered
 //                        setTipAndTailLocations( velocityPointNode.getFullBounds().getCenterX() + v.getX() / 2, velocityPointNode.getFullBounds().getMaxY() + v.getY() / 2,
@@ -116,6 +126,8 @@ public class VelocitySensorNode extends ToolNode {
                 }
             } );
         }} );
+
+        //Add interactivity
         addInputEventListener( new CursorHandler() );
         addInputEventListener( new PBasicInputEventHandler() {
             @Override
@@ -123,6 +135,8 @@ public class VelocitySensorNode extends ToolNode {
                 dragAll( event.getDeltaRelativeTo( getParent() ) );
             }
         } );
+
+        //Update the entire location of this node based on the location of the model ViewSensor, keeping the hot spot at the specified location.
         velocitySensor.position.addObserver( new SimpleObserver() {
             public void update() {
                 final Point2D.Double viewPoint = transform.modelToView( velocitySensor.position.getValue() ).toPoint2D();
@@ -131,6 +145,7 @@ public class VelocitySensorNode extends ToolNode {
         } );
     }
 
+    //Drags all components of the velocity sensor--there is only one component, so it just translates the entire node
     @Override public void dragAll( PDimension delta ) {
         velocitySensor.translate( transform.viewToModelDelta( delta ) );
     }
