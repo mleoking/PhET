@@ -1,3 +1,4 @@
+Improved docs and API for VelocitySensorNode
 # 0.00.28 (50003) Mar 20, 2011
 Fixed: Sim speed doesn't reset
 > Removed 'x' close button from intensity meter

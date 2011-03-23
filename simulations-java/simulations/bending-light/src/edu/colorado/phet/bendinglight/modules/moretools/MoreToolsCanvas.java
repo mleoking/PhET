@@ -27,6 +27,7 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class MoreToolsCanvas extends IntroCanvas<MoreToolsModel> {
     public WaveSensorNode myWaveSensorNode;
+    public double arrowScale = 1.5E-14;
 
     public MoreToolsCanvas( MoreToolsModel model, BooleanProperty moduleActive, Resettable resetAll ) {
         super( model, moduleActive, resetAll, new Function3<IntroModel, Double, Double, PNode>() {
@@ -39,7 +40,7 @@ public class MoreToolsCanvas extends IntroCanvas<MoreToolsModel> {
     }
 
     @Override protected PNode[] getMoreTools( ResetModel resetModel ) {
-        final VelocitySensorNode velocitySensorNode = new VelocitySensorNode( transform, new VelocitySensor() );
+        final VelocitySensorNode velocitySensorNode = new VelocitySensorNode( transform, new VelocitySensor(), arrowScale );
         final Property<Boolean> showVelocitySensor = new Property<Boolean>( false );
         resetModel.addResetListener( new VoidFunction0() {
             public void apply() {
@@ -63,7 +64,7 @@ public class MoreToolsCanvas extends IntroCanvas<MoreToolsModel> {
                                             transform, this, new Tool.NodeFactory() {
                     public VelocitySensorNode createNode( ModelViewTransform transform, final Property<Boolean> showTool, final Point2D modelPt ) {
                         model.velocitySensor.position.setValue( new ImmutableVector2D( modelPt ) );
-                        return new VelocitySensorNode( transform, model.velocitySensor ) {{
+                        return new VelocitySensorNode( transform, model.velocitySensor, arrowScale ) {{
                             showTool.addObserver( new VoidFunction1<Boolean>() {
                                 public void apply( Boolean visible ) {
                                     setVisible( visible );
