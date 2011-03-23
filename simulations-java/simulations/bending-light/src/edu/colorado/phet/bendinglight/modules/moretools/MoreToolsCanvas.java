@@ -4,6 +4,7 @@ package edu.colorado.phet.bendinglight.modules.moretools;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.text.DecimalFormat;
 
 import edu.colorado.phet.bendinglight.modules.intro.*;
 import edu.colorado.phet.bendinglight.view.BendingLightWavelengthControl;
@@ -41,7 +42,12 @@ public class MoreToolsCanvas extends IntroCanvas<MoreToolsModel> {
     }
 
     @Override protected PNode[] getMoreTools( ResetModel resetModel ) {
-        final VelocitySensorNode velocitySensorNode = new VelocitySensorNode( transform, new VelocitySensor(), arrowScale );
+        final Function1<Double, String> formatter = new Function1<Double, String>() {
+            public String apply( Double magnitude ) {
+                return new DecimalFormat( "0.00" ).format( magnitude / 2.99792458E8 ) + " c";
+            }
+        };
+        final VelocitySensorNode velocitySensorNode = new VelocitySensorNode( transform, new VelocitySensor(), arrowScale, formatter );
         final Property<Boolean> showVelocitySensor = new Property<Boolean>( false );
         resetModel.addResetListener( new VoidFunction0() {
             public void apply() {
@@ -65,7 +71,7 @@ public class MoreToolsCanvas extends IntroCanvas<MoreToolsModel> {
                                             transform, this, new Tool.NodeFactory() {
                     public VelocitySensorNode createNode( ModelViewTransform transform, final Property<Boolean> showTool, final Point2D modelPt ) {
                         model.velocitySensor.position.setValue( new ImmutableVector2D( modelPt ) );
-                        return new VelocitySensorNode( transform, model.velocitySensor, arrowScale ) {{
+                        return new VelocitySensorNode( transform, model.velocitySensor, arrowScale, formatter ) {{
                             showTool.addObserver( new VoidFunction1<Boolean>() {
                                 public void apply( Boolean visible ) {
                                     setVisible( visible );

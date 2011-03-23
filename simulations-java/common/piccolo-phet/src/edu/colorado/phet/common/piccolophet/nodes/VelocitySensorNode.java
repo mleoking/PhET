@@ -6,12 +6,11 @@ import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.text.DecimalFormat;
 
-import edu.colorado.phet.bendinglight.model.BendingLightModel;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -22,7 +21,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 
-import static edu.colorado.phet.bendinglight.BendingLightApplication.RESOURCES;
+import static edu.colorado.phet.common.piccolophet.PiccoloPhetApplication.RESOURCES;
 
 /**
  * The VelocitySensorNode provides a draggable display of the velocity (speed and direction) of something.
@@ -36,7 +35,8 @@ public class VelocitySensorNode extends ToolNode {
 
     public VelocitySensorNode( final ModelViewTransform transform,
                                final VelocitySensor velocitySensor,
-                               final double arrowScale ) {//Scale to use for the vector--the length of the vector is the view value times this scale factor
+                               final double arrowScale,//Scale to use for the vector--the length of the vector is the view value times this scale factor
+                               final Function1<Double, String> formatter ) {
         this.transform = transform;
         this.velocitySensor = velocitySensor;
         final int titleOffsetY = 7;
@@ -47,7 +47,7 @@ public class VelocitySensorNode extends ToolNode {
         addChild( imageNode );
 
         //Add the title of the sensor, which remains centered in the top of the body
-        final PText titleNode = new PText( "Speed" ) {{
+        final PText titleNode = new PText( "Speed" ) {{//TODO: i18ize
             setFont( new PhetFont( 22 ) );
             imageNode.addCenterWidthObserver( new SimpleObserver() {
                 public void update() {
@@ -69,8 +69,7 @@ public class VelocitySensorNode extends ToolNode {
             velocitySensor.value.addObserver( new SimpleObserver() {
                 public void update() {
                     final Option<ImmutableVector2D> value = velocitySensor.value.getValue();
-                    setText( ( value.isNone() ) ? "?" :
-                             new DecimalFormat( "0.00" ).format( value.get().getMagnitude() / BendingLightModel.SPEED_OF_LIGHT ) + " c" );
+                    setText( ( value.isNone() ) ? "?" : formatter.apply( value.get().getMagnitude() ) );//TODO: i18ize
                     imageNode.setCenterWidth( Math.max( titleNode.getFullBounds().getWidth(), getFullBounds().getWidth() ) );
                     updateTextLocation.update();
                 }
