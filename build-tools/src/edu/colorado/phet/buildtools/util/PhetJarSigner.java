@@ -5,10 +5,13 @@ package edu.colorado.phet.buildtools.util;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.util.SortedMap;
 import java.util.jar.JarFile;
 import java.util.jar.JarOutputStream;
 import java.util.jar.Pack200;
 import java.util.logging.Logger;
+import java.util.zip.GZIPOutputStream;
 
 import org.apache.tools.ant.taskdefs.SignJar;
 import org.apache.tools.ant.taskdefs.VerifyJar;
@@ -130,17 +133,13 @@ public class PhetJarSigner {
     public boolean packAndSignJar( File jarFile ) {
         try {
             File packedFile = new File( jarFile.getParent(), jarFile.getName() + ".pack.gz" );
-            File temporaryFile = File.createTempFile( jarFile.getName() + "-temporary", ".pack" );
+            File temporaryFile = new File( jarFile.getParent(), jarFile.getName() + ".pack.temp" );
 
             Packer packer = Pack200.newPacker();
             Unpacker unpacker = Pack200.newUnpacker();
 
-            packer.properties().put( Packer.EFFORT, "7" );
-            packer.properties().put( Packer.SEGMENT_LIMIT, "-1" );
-            packer.properties().put( Packer.KEEP_FILE_ORDER, Packer.FALSE );
-            packer.properties().put( Packer.MODIFICATION_TIME, Packer.LATEST );
-            packer.properties().put( Packer.DEFLATE_HINT, Packer.FALSE );
-            packer.properties().put( Packer.UNKNOWN_ATTRIBUTE, Packer.ERROR );
+            setPack200Settings( packer.properties() );
+            setPack200Settings( unpacker.properties() );
 
             System.out.println( "Repacking JAR: " + jarFile.getAbsolutePath() );
 
@@ -158,7 +157,7 @@ public class PhetJarSigner {
             System.out.println( "Packing signed JAR: " + jarFile.getAbsolutePath() );
 
             // make a packed copy
-            packFile( packer, jarFile, packedFile );
+            packAndCompressFile( packer, jarFile, packedFile );
         }
         catch( IOException e ) {
             e.printStackTrace();
@@ -168,9 +167,35 @@ public class PhetJarSigner {
         return true; // success
     }
 
+    private void setPack200Settings( SortedMap<String, String> map ) {
+        map.put( Packer.EFFORT, "7" );
+        map.put( Packer.SEGMENT_LIMIT, "-1" );
+        map.put( Packer.KEEP_FILE_ORDER, Packer.FALSE );
+        //map.put( Packer.MODIFICATION_TIME, Packer.LATEST );
+        //map.put( Packer.DEFLATE_HINT, Packer.FALSE );
+        map.put( Packer.UNKNOWN_ATTRIBUTE, Packer.ERROR );
+    }
+
     private void packFile( Packer packer, File inFile, File outFile ) throws IOException {
         safeDelete( outFile );
         FileOutputStream out = new FileOutputStream( outFile );
+        try {
+            JarFile readFile = new JarFile( inFile );
+            try {
+                packer.pack( readFile, out );
+            }
+            finally {
+                readFile.close();
+            }
+        }
+        finally {
+            out.close();
+        }
+    }
+
+    private void packAndCompressFile( Packer packer, File inFile, File outFile ) throws IOException {
+        safeDelete( outFile );
+        OutputStream out = new GZIPOutputStream( new FileOutputStream( outFile ) );
         try {
             JarFile readFile = new JarFile( inFile );
             try {
