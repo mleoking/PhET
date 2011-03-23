@@ -47,31 +47,19 @@ public class MoreToolsCanvas extends IntroCanvas<MoreToolsModel> {
                 return new DecimalFormat( "0.00" ).format( magnitude / 2.99792458E8 ) + " c";
             }
         };
-        final VelocitySensorNode velocitySensorNode = new VelocitySensorNode( transform, new VelocitySensor(), arrowScale, formatter );
+        final VelocitySensorNode velocitySensorNode = new VelocitySensorNode( transform, new VelocitySensor(), arrowScale, new Property<Function1<Double, String>>( formatter ) );
         final Property<Boolean> showVelocitySensor = new Property<Boolean>( false );
         resetModel.addResetListener( new VoidFunction0() {
             public void apply() {
                 showVelocitySensor.reset();
             }
         } );
-        Function1<Rectangle2D[], Boolean> container = new Function1<Rectangle2D[], Boolean>() {
-            public Boolean apply( Rectangle2D[] bounds ) {
-                //TODO: refactor this into Tool, and pass in container lazily (VoidFunction1)
-                boolean t = false;
-                for ( Rectangle2D bound : bounds ) {
-                    if ( toolboxNode.getGlobalFullBounds().contains( bound ) ) {
-                        t = true;
-                    }
-                }
-                return t;
-            }
-        };
         final Tool velocityTool = new Tool( velocitySensorNode.toImage( ToolboxNode.ICON_WIDTH, (int) ( velocitySensorNode.getFullBounds().getHeight() / velocitySensorNode.getFullBounds().getWidth() * ToolboxNode.ICON_WIDTH ), new Color( 0, 0, 0, 0 ) ),
                                             showVelocitySensor,
                                             transform, this, new Tool.NodeFactory() {
                     public VelocitySensorNode createNode( ModelViewTransform transform, final Property<Boolean> showTool, final Point2D modelPt ) {
                         model.velocitySensor.position.setValue( new ImmutableVector2D( modelPt ) );
-                        return new VelocitySensorNode( transform, model.velocitySensor, arrowScale, formatter ) {{
+                        return new VelocitySensorNode( transform, model.velocitySensor, arrowScale, new Property<Function1<Double, String>>( formatter ) ) {{
                             showTool.addObserver( new VoidFunction1<Boolean>() {
                                 public void apply( Boolean visible ) {
                                     setVisible( visible );

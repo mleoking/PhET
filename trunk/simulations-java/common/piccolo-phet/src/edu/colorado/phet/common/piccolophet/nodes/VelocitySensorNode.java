@@ -8,7 +8,9 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.Option;
+import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -38,7 +40,7 @@ public class VelocitySensorNode extends ToolNode {
     public VelocitySensorNode( final ModelViewTransform transform,
                                final VelocitySensor velocitySensor,
                                final double arrowScale,//Scale to use for the vector--the length of the vector is the view value times this scale factor
-                               final Function1<Double, String> formatter ) {
+                               final Property<Function1<Double, String>> formatter ) {
         this.transform = transform;
         this.velocitySensor = velocitySensor;
         final int titleOffsetY = 7;
@@ -68,14 +70,14 @@ public class VelocitySensorNode extends ToolNode {
                 }
             };
             imageNode.addCenterWidthObserver( updateTextLocation );
-            velocitySensor.value.addObserver( new SimpleObserver() {
+            new RichSimpleObserver() {
                 public void update() {
                     final Option<ImmutableVector2D> value = velocitySensor.value.getValue();
-                    setText( ( value.isNone() ) ? PICCOLO_PHET_VELOCITY_SENSOR_NODE_UNKNOWN : formatter.apply( value.get().getMagnitude() ) );
+                    setText( ( value.isNone() ) ? PICCOLO_PHET_VELOCITY_SENSOR_NODE_UNKNOWN : formatter.getValue().apply( value.get().getMagnitude() ) );
                     imageNode.setCenterWidth( Math.max( titleNode.getFullBounds().getWidth(), getFullBounds().getWidth() ) );
                     updateTextLocation.update();
                 }
-            } );
+            }.observe( formatter, velocitySensor.value );
         }} );
 
         //Show a triangular tip that points to the hot spot of the sensor, i.e. where the values are read from

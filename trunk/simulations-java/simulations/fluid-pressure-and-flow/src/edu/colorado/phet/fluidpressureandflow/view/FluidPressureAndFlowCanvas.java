@@ -11,6 +11,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.text.JTextComponent;
 
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -113,36 +114,25 @@ public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> ext
         } );
     }
 
-//    public static class GravityControl{
-    //        final SliderControl gravityControl = new SliderControl( "Gravity", "m/s^2", FluidPressureAndFlowModel.MOON_GRAVITY, FluidPressureAndFlowModel.JUPITER_GRAVITY, module.getFluidPressureAndFlowModel().getGravityProperty(), new HashMap<Double, TickLabel>() {{
-//            put( FluidPressureAndFlowModel.EARTH_GRAVITY, new TickLabel( "Earth" ) );
-//            put( FluidPressureAndFlowModel.MOON_GRAVITY, new TickLabel( "Moon" ) );
-//            put( FluidPressureAndFlowModel.JUPITER_GRAVITY, new TickLabel( "Jupiter" ) );
-//        }} ) {{
-//            module.getGravityControlVisible().addObserver( new SimpleObserver() {
-//                public void update() {
-//                    setVisible( module.getGravityControlVisible().getValue() );
-//                }
-//            } );
-//        }};
-//
-//        gravityControl.setOffset( fluidDensityExpander.getFullBounds().getMinX(), fluidDensityExpander.getFullBounds().getY() - gravityControl.getFullBounds().getHeight() - 20 );
-//
-//        final ButtonExpander gravityExpander = new ButtonExpander( "Gravity >", "Gravity <", module.getGravityControlVisible() ) {{
-//            setOffset( gravityControl.getFullBounds().getX(), gravityControl.getFullBounds().getY() - getFullBounds().getHeight() );
-//        }};
-//        addChild( gravityExpander );
-//        addChild( gravityControl );
-//    }
-
     protected void addVelocitySensorNodes( final FluidPressureAndFlowModel model ) {
+        final Property<Function1<Double, String>> formatter = new Property<Function1<Double, String>>( new Function1<Double, String>() {
+            public String apply( Double aDouble ) {
+                final Units.Unit unit = model.velocityUnit.getValue();
+                return unit.getDecimalFormat().format( unit.siToUnit( aDouble ) ) + " " + unit.getAbbreviation();//TODO: correct units (from SI) and i18n
+            }
+        } );
+        model.velocityUnit.addObserver( new SimpleObserver() {
+            public void update() {
+                formatter.setValue( new Function1<Double, String>() {
+                    public String apply( Double aDouble ) {
+                        final Units.Unit unit = model.velocityUnit.getValue();
+                        return unit.getDecimalFormat().format( unit.siToUnit( aDouble ) ) + " " + unit.getAbbreviation();//TODO: correct units (from SI) and i18n
+                    }
+                } );
+            }
+        } );
         for ( VelocitySensor velocitySensor : model.getVelocitySensors() ) {
-            addChild( new VelocitySensorNode( transform, velocitySensor, 1, new Function1<Double, String>() {
-                public String apply( Double aDouble ) {
-                    final Units.Unit unit = model.velocityUnit.getValue();
-                    return unit.getDecimalFormat().format( aDouble ) + " " + unit.getAbbreviation();//TODO: correct units (from SI) and i18n
-                }
-            } ) );
+            addChild( new VelocitySensorNode( transform, velocitySensor, 1, formatter ) );
         }
     }
 }
