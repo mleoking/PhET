@@ -1,3 +1,4 @@
+Switched to use VelocitySensor and VelocitySensorNode from piccolo-phet
 Merged ThreePatchImagePressureNode into PressureSensorNode
 Improvements for ThreeImageNode
 Simplified ThreePatchImageNode, factoring out a new subclass ThreePatchImagePressureNode

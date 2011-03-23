@@ -13,10 +13,23 @@ import edu.colorado.phet.common.phetcommon.util.Option;
  * @author Sam Reid
  */
 public class VelocitySensor {
-    public final Property<ImmutableVector2D> position = new Property<ImmutableVector2D>( new ImmutableVector2D( 0, 0 ) );
+    public final Property<ImmutableVector2D> position;
     public final Property<Option<ImmutableVector2D>> value = new Property<Option<ImmutableVector2D>>( new Option.None<ImmutableVector2D>() );
+
+    public VelocitySensor() {
+        this( 0, 0 );
+    }
+
+    public VelocitySensor( double x, double y ) {
+        position = new Property<ImmutableVector2D>( new ImmutableVector2D( x, y ) );
+    }
 
     public void translate( Dimension2D delta ) {
         position.setValue( position.getValue().plus( delta.getWidth(), delta.getHeight() ) );
+    }
+
+    public void reset() {
+        position.reset();
+        value.reset();
     }
 }
