@@ -8,6 +8,8 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.Option;
 
 /**
+ * Model component for the VelocitySensorNode, which has a position (for the hot-spot of the sensor) and a numerical readout.
+ *
  * @author Sam Reid
  */
 public class VelocitySensor {
