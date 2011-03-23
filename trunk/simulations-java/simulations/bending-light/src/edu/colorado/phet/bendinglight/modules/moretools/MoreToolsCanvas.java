@@ -6,10 +6,14 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
 
-import edu.colorado.phet.bendinglight.modules.intro.*;
+import edu.colorado.phet.bendinglight.modules.intro.IntroCanvas;
+import edu.colorado.phet.bendinglight.modules.intro.IntroModel;
+import edu.colorado.phet.bendinglight.modules.intro.Tool;
+import edu.colorado.phet.bendinglight.modules.intro.ToolboxNode;
 import edu.colorado.phet.bendinglight.view.BendingLightWavelengthControl;
 import edu.colorado.phet.bendinglight.view.LaserView;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.model.ResetModel;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;

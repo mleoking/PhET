@@ -3,10 +3,12 @@ package edu.colorado.phet.fluidpressureandflow.view;
 
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.phetcommon.model.ResetModel;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
@@ -20,10 +22,14 @@ import edu.umd.cs.piccolo.util.PDimension;
  * @author Sam Reid
  */
 public class FluidPressureAndFlowRuler extends PNode {
-    public FluidPressureAndFlowRuler( ModelViewTransform transform,
+    public FluidPressureAndFlowRuler( final ModelViewTransform transform,
                                       final ObservableProperty<Boolean> visible,//getter
                                       final Property<Boolean> setVisible, //setter, separate from getter since has to be 'and'ed with units property in FluidPressureCanvas
-                                      double length, String[] majorTicks, String units, Point2D rulerModelOrigin ) {
+                                      double length,
+                                      String[] majorTicks,
+                                      String units,
+                                      final Point2D rulerModelOrigin,
+                                      ResetModel resetModel ) {
         visible.addObserver( new SimpleObserver() {
             public void update() {
                 setVisible( visible.getValue() );
@@ -43,7 +49,7 @@ public class FluidPressureAndFlowRuler extends PNode {
             public void mouseDragged( PInputEvent event ) {
                 PDimension delta = event.getDeltaRelativeTo( getParent() );
                 translate( delta.width, delta.height );
-                }
+            }
         } );
         addChild( new PImage( PhetCommonResources.getImage( PhetCommonResources.IMAGE_CLOSE_BUTTON ) ) {{
             addInputEventListener( new PBasicInputEventHandler() {
@@ -53,5 +59,10 @@ public class FluidPressureAndFlowRuler extends PNode {
             } );
             setOffset( rulerNode.getFullBounds().getOrigin().getX(), rulerNode.getFullBounds().getOrigin().getY() - getFullBounds().getHeight() );
         }} );
+        resetModel.addResetListener( new VoidFunction0() {
+            public void apply() {
+                setOffset( 0, 0 );
+            }
+        } );//just undo the part modified by user translation of the ruler
     }
-    }
+}
