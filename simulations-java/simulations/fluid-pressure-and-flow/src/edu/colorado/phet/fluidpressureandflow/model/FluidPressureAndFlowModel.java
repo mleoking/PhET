@@ -5,9 +5,11 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.Function;
+import edu.colorado.phet.common.phetcommon.model.ResetModel;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.nodes.VelocitySensor;
 
@@ -17,7 +19,7 @@ import edu.colorado.phet.common.piccolophet.nodes.VelocitySensor;
  *
  * @author Sam Reid
  */
-public class FluidPressureAndFlowModel implements PressureSensor.Context {
+public class FluidPressureAndFlowModel implements PressureSensor.Context, ResetModel {
     private static final double EARTH_AIR_PRESSURE = 101325;//Pascals is MKS, see http://en.wikipedia.org/wiki/Atmospheric_pressure
     private static final double EARTH_AIR_PRESSURE_AT_500_FT = 99490;
 
@@ -41,6 +43,7 @@ public class FluidPressureAndFlowModel implements PressureSensor.Context {
     public final Property<Units.Unit> distanceUnit = new Property<Units.Unit>( Units.FEET );
 
     private final Function.LinearFunction pressureFunction = new Function.LinearFunction( 0, 500, standardAirPressure.getValue(), EARTH_AIR_PRESSURE_AT_500_FT );//see http://www.engineeringtoolbox.com/air-altitude-pressure-d_462.html
+    private ArrayList<VoidFunction0> resetListeners = new ArrayList<VoidFunction0>();
 
     public FluidPressureAndFlowModel() {
         distanceUnit.addObserver( new VoidFunction1<Units.Unit>() {
@@ -133,6 +136,13 @@ public class FluidPressureAndFlowModel implements PressureSensor.Context {
             balloon.reset();
         }
         clock.resetSimulationTime();
+        for ( VoidFunction0 resetListener : resetListeners ) {
+            resetListener.apply();
+        }
         clock.start();
+    }
+
+    public void addResetListener( VoidFunction0 resetAction ) {
+        resetListeners.add( resetAction );
     }
 }
