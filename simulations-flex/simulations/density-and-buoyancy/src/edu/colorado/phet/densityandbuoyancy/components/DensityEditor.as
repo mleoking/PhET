@@ -4,6 +4,9 @@ import edu.colorado.phet.densityandbuoyancy.model.Material;
 import edu.colorado.phet.densityandbuoyancy.view.units.Unit;
 import edu.colorado.phet.flexcommon.model.NumericProperty;
 
+/**
+ * PropertyEditor for controlling an objects density that includes a slider with labeled tick marks.
+ */
 public class DensityEditor extends PropertyEditor {
     private var densityObject: DensityObject;
 

@@ -19,6 +19,11 @@ import mx.controls.Spacer;
 import mx.core.UIComponent;
 import mx.events.ListEvent;
 
+/**
+ * The CustomObjectPropertiesPanel shows controls for mass, volume, density and material of an object, and appears in:
+ * -the Buoyancy Playground tab of Buoyancy
+ * -the Custom Object mode of Density
+ */
 public class CustomObjectPropertiesPanel extends DensityVBox {
     private var grid: Grid = new Grid();
     private var densityObject: DensityObject;

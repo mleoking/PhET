@@ -14,6 +14,9 @@ import mx.controls.TextInput;
 import mx.events.FlexEvent;
 import mx.events.SliderEvent;
 
+/**
+ * Control component with a label, text box and slider.
+ */
 public class PropertyEditor extends GridRow {
     private var _property: NumericProperty;
     private static const FONT_SIZE: Number = 12;
