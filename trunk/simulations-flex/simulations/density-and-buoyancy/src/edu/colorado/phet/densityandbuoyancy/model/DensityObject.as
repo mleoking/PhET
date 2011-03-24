@@ -12,6 +12,9 @@ import edu.colorado.phet.flexcommon.model.BooleanProperty;
 import edu.colorado.phet.flexcommon.model.NumericProperty;
 import edu.colorado.phet.flexcommon.model.StringProperty;
 
+/**
+ * Our base class for "something movable that behaves like an object in the play area".
+ */
 public class DensityObject {
 
     private var _volume: NumericProperty;
