@@ -14,7 +14,7 @@ public class BuoyancyApplication extends Canvas {
         percentWidth = 100;
         percentHeight = 100;
 
-        setStyle("backgroundColor", 0xf0f0f0 ); // background of tab bar!
+        setStyle( "backgroundColor", 0xf0f0f0 ); // background of tab bar!
 
         ApplicationLifecycle.addApplicationCompleteListener( function(): void {
             buoyancyTabNavigator.onApplicationComplete();

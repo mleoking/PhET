@@ -1,7 +1,7 @@
 package edu.colorado.phet.densityandbuoyancy.components {
 import edu.colorado.phet.densityandbuoyancy.model.Material;
-import edu.colorado.phet.flexcommon.model.NumericProperty;
 import edu.colorado.phet.densityandbuoyancy.view.units.Unit;
+import edu.colorado.phet.flexcommon.model.NumericProperty;
 
 public class FluidDensityEditor extends PropertyEditor {
     public function FluidDensityEditor( property: NumericProperty, minimum: Number, maximum: Number, unit: Unit, dataTipClamp: Function, bounds: Bounds ) {

@@ -3,10 +3,10 @@ import away3d.materials.*;
 
 import edu.colorado.phet.densityandbuoyancy.DensityConstants;
 import edu.colorado.phet.densityandbuoyancy.model.Block;
-import edu.colorado.phet.flexcommon.model.BooleanProperty;
 import edu.colorado.phet.densityandbuoyancy.model.Material;
-import edu.colorado.phet.flexcommon.model.StringProperty;
 import edu.colorado.phet.densityandbuoyancy.view.*;
+import edu.colorado.phet.flexcommon.model.BooleanProperty;
+import edu.colorado.phet.flexcommon.model.StringProperty;
 
 import flash.display.Bitmap;
 import flash.display.BitmapData;
