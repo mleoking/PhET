@@ -23,6 +23,7 @@ public class DensityModel {
 
     public const fluidDensity: NumericProperty = new NumericProperty( FlexSimStrings.get( "properties.fluidDensity", "Fluid Density" ), "kg/m\u00b3", Material.WATER.getDensity() );
 
+    // this is how much larger our Away3D (view) scale is compared to our SI (model) scale
     public static var DISPLAY_SCALE: Number = 1000.0;
 
     private static var BOUNDS: Number = 50;

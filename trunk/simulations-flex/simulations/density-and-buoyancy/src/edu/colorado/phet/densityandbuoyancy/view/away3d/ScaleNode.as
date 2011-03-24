@@ -10,6 +10,7 @@ import edu.colorado.phet.densityandbuoyancy.view.*;
 public class ScaleNode extends CuboidNode {
 
     private var _scale: Scale;
+    private var _view: AbstractDBCanvas;
 
     private var base: PickableCube;
     private var top: PickableCube;
@@ -18,6 +19,7 @@ public class ScaleNode extends CuboidNode {
     public function ScaleNode( scale: Scale, view: AbstractDBCanvas ): void {
         super( scale, view );
         this._scale = scale;
+        this._view = view;
 
         var totalWidth: Number = getCuboid().getWidth() * DensityModel.DISPLAY_SCALE;
         var totalHeight: Number = getCuboid().getHeight() * DensityModel.DISPLAY_SCALE;
@@ -87,6 +89,35 @@ public class ScaleNode extends CuboidNode {
 
     override protected function getFontReadoutSize(): Number {
         return 36;
+    }
+
+    override public function setPosition( x: Number, y: Number ): void {
+        // clamp the scale bounds manually because we set its mass to 0 while dragging which prevents intersection correction
+
+        var scaleGroundHeight: Number = DensityModel.DISPLAY_SCALE * Scale.SCALE_HEIGHT / 2;
+        var rightBound: Number = DensityModel.DISPLAY_SCALE * ((_view.model.getPoolWidth() - Scale.SCALE_WIDTH) / 2);
+        var bottomBound: Number = DensityModel.DISPLAY_SCALE * (-_view.model.getPoolHeight() + Scale.SCALE_HEIGHT / 2);
+        var poolSide: Number = (x > 0 ? 1 : -1) * rightBound;
+
+        var belowGround: Boolean = y < scaleGroundHeight;
+        var belowPool: Boolean = y < bottomBound;
+        var offside: Boolean = Math.abs( x ) > rightBound;
+
+        if ( !offside && belowPool ) {
+            y = bottomBound;
+        } else if ( offside && belowPool ) {
+            y = bottomBound;
+            x = poolSide;
+        } else if ( offside && belowGround ) {
+            if ( (Math.abs( x ) - rightBound) / -(y - scaleGroundHeight) < 1 ) {
+                // if we are closer to the side of the pool than the top of the ground
+                x = poolSide;
+            }
+            else {
+                y = scaleGroundHeight;
+            }
+        }
+        super.setPosition( x, y );
     }
 }
 }
