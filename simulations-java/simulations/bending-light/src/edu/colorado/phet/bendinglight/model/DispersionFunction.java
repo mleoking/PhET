@@ -1,6 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.bendinglight.model;
 
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
+
 import static edu.colorado.phet.bendinglight.model.BendingLightModel.WAVELENGTH_RED;
 
 /**
@@ -36,7 +38,20 @@ public class DispersionFunction {
     }
 
     public double getIndexOfRefraction( double wavelength ) {
-        //choose from a family of curves but making sure that we get the specified value for the specified wavelength
-        return getSellmeierValue( wavelength ) + referenceIndexOfRefraction - getSellmeierValue( referenceWavelength );
+        double nAirReference = getAirIndex( referenceWavelength );
+        double nGlassReference = getSellmeierValue( referenceWavelength );
+
+        double delta = nGlassReference - nAirReference;
+        double x = ( referenceIndexOfRefraction - nAirReference ) / delta;//0 to 1 (air to glass)
+
+        x = MathUtil.clamp( 0, x, Double.POSITIVE_INFINITY );
+
+        final double index = x * getSellmeierValue( wavelength ) + ( 1 - x ) * getAirIndex( wavelength );
+        return index;
+    }
+
+    //See http://refractiveindex.info/?group=GASES&material=Air
+    private double getAirIndex( double wavelength ) {
+        return 1 + 5792105E-8 / ( 238.0185 - Math.pow( wavelength * 1E6, -2 ) ) + 167917E-8 / ( 57.362 - Math.pow( wavelength * 1E6, -2 ) );
     }
 }

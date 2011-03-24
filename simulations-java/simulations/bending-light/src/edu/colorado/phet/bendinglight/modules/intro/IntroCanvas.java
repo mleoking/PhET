@@ -34,9 +34,15 @@ import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.m
 public class IntroCanvas<T extends IntroModel> extends BendingLightCanvas<T> {
     public final ToolboxNode toolboxNode;
 
-    public IntroCanvas( final T model, BooleanProperty moduleActive, final Resettable resetAll,
-                        final Function3<IntroModel, Double, Double, PNode> additionalLaserControls, double centerOffsetLeft,
-                        final ObservableProperty<Boolean> clockControlVisible, final ResetModel resetModel ) {//(model,x,y)
+    public IntroCanvas( final T model,
+                        final BooleanProperty moduleActive,
+                        final Resettable resetAll,
+                        final Function3<IntroModel, Double, Double, PNode> additionalLaserControls,
+                        final double centerOffsetLeft,
+                        final ObservableProperty<Boolean> clockControlVisible,
+                        final ResetModel resetModel,
+                        final String format,//decimal format pattern to use in the medium control panel
+                        final int columns ) {//number of columns to show in the MediumControlPanel readout
         super( model, moduleActive, new Function1<Double, Double>() {
             public Double apply( Double angle ) {
                 if ( angle < -Math.PI / 2 ) { angle = Math.PI; }
@@ -64,10 +70,10 @@ public class IntroCanvas<T extends IntroModel> extends BendingLightCanvas<T> {
         mediumNode.addChild( new MediumNode( transform, model.topMedium ) );
         mediumNode.addChild( new MediumNode( transform, model.bottomMedium ) );
 
-        afterLightLayer.addChild( new ControlPanelNode( new MediumControlPanel( this, model.topMedium, "Material:", true, model.wavelengthProperty ) ) {{
+        afterLightLayer.addChild( new ControlPanelNode( new MediumControlPanel( this, model.topMedium, "Material:", true, model.wavelengthProperty, format, columns ) ) {{
             setOffset( stageSize.width - getFullBounds().getWidth() - 10, transform.modelToViewY( 0 ) - 10 - getFullBounds().getHeight() );
         }} );
-        afterLightLayer.addChild( new ControlPanelNode( new MediumControlPanel( this, model.bottomMedium, "Material:", true, model.wavelengthProperty ) ) {{
+        afterLightLayer.addChild( new ControlPanelNode( new MediumControlPanel( this, model.bottomMedium, "Material:", true, model.wavelengthProperty, format, columns ) ) {{
             setOffset( stageSize.width - getFullBounds().getWidth() - 10, transform.modelToViewY( 0 ) + 10 );
         }} );
 

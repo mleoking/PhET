@@ -42,7 +42,7 @@ public class MoreToolsCanvas extends IntroCanvas<MoreToolsModel> {
                     setOffset( x, y );
                 }};
             }
-        }, 0, new Or( new ValueEquals<LaserView>( model.laserView, LaserView.WAVE ), model.waveSensor.visible ), model );
+        }, 0, new Or( new ValueEquals<LaserView>( model.laserView, LaserView.WAVE ), model.waveSensor.visible ), model, "0.0000000", 6 );
     }
 
     @Override protected PNode[] getMoreTools( ResetModel resetModel ) {
