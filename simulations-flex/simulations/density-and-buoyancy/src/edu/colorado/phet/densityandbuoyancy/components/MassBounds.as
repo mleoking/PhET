@@ -10,20 +10,16 @@ public class MassBounds implements Bounds {
         this.densityObject = densityObject;
     }
 
-    public function clamp( newValue: Number ): Number {
+    public function clamp( value: Number ): Number {
         //TODO: factor out this duplicated code
-        if ( newValue > DensityConstants.STYROFOAM_MAX_MASS && densityObject.material.equals( Material.STYROFOAM ) ) {//TODO: See related workaround in CustomObjectPropertiesPanel
-            newValue = DensityConstants.STYROFOAM_MAX_MASS;
+        if ( value > DensityConstants.STYROFOAM_MAX_MASS && densityObject.material.equals( Material.STYROFOAM ) ) {//TODO: See related workaround in CustomObjectPropertiesPanel
             return DensityConstants.STYROFOAM_MAX_MASS;
         }
+        else if ( value > DensityConstants.WOOD_MAX_MASS && densityObject.material.equals( Material.WOOD ) ) {//TODO: See related workaround in CustomObjectPropertiesPanel
+            return DensityConstants.WOOD_MAX_MASS;
+        }
         else {
-            if ( newValue > DensityConstants.WOOD_MAX_MASS && densityObject.material.equals( Material.WOOD ) ) {//TODO: See related workaround in CustomObjectPropertiesPanel
-                newValue = DensityConstants.WOOD_MAX_MASS;
-                return DensityConstants.WOOD_MAX_MASS;
-            }
-            else {
-                return newValue;
-            }
+            return value;
         }
     }
 }
