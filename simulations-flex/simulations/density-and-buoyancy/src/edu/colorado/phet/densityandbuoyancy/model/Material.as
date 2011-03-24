@@ -4,6 +4,9 @@ import edu.colorado.phet.flexcommon.FlexSimStrings;
 
 import flash.display.Bitmap;
 
+/**
+ * Represents both solid (e.g. wood) and liquid (e.g. water) materaials.
+ */
 public class Material {
     [Embed(source="../../../../../../data/density-and-buoyancy/images/wood.png")]
     private static var woodTextureClass: Class;
@@ -77,6 +80,15 @@ public class Material {
 
     ALL.sort( sortOnDensity );
 
+    /**
+     * Create a new material
+     * @param name Translation key for the name
+     * @param density Density in SI
+     * @param isCustom Whether this is a "custom" material. ("my block")
+     * @param tickColor If this will be put on a density slider, what are the tick colors?
+     * @param textureBitmap (solid only) What texture should our blocks of this material type have?
+     * @param alpha (solid only) What alpha value should this material have?
+     */
     public function Material( name: String, density: Number, isCustom: Boolean, tickColor: uint = 0x000000, textureBitmap: Bitmap = null, alpha: Number = 1 ) {
         this.density = density;
         this._name = name;
