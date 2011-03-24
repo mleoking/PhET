@@ -4,6 +4,9 @@ import edu.colorado.phet.densityandbuoyancy.DensityConstants;
 import mx.containers.Box;
 import mx.containers.VBox;
 
+/**
+ * Provides static methods for providing styling (e.g., color, padding) for Box instances
+ */
 public class DensityVBox extends VBox {
     public function DensityVBox() {
         super();

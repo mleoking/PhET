@@ -1,10 +1,3 @@
-/**
- * Created by ${PRODUCT_NAME}.
- * User: Sam
- * Date: 12/6/10
- * Time: 2:40 AM
- * To change this template use File | Settings | File Templates.
- */
 package edu.colorado.phet.densityandbuoyancy.components {
 import edu.colorado.phet.densityandbuoyancy.DensityConstants;
 import edu.colorado.phet.densityandbuoyancy.view.units.Unit;
