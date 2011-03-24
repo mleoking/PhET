@@ -1,3 +1,4 @@
+//  Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.densityandbuoyancy.view {
 import edu.colorado.phet.flexcommon.FlexSimStrings;
 import edu.colorado.phet.flexcommon.PhetTabNavigator;

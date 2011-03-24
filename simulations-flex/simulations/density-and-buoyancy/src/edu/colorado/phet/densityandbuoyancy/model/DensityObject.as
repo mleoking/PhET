@@ -1,3 +1,4 @@
+//  Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.densityandbuoyancy.model {
 import Box2D.Common.Math.b2Vec2;
 import Box2D.Dynamics.Contacts.b2ContactResult;

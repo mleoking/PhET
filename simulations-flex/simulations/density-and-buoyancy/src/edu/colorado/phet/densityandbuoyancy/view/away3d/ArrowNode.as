@@ -1,3 +1,4 @@
+//  Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.densityandbuoyancy.view.away3d {
 import away3d.cameras.Camera3D;
 import away3d.core.base.Vertex;

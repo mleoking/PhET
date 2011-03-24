@@ -1,3 +1,4 @@
+//  Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.densityandbuoyancy.model {
 import edu.colorado.phet.densityandbuoyancy.view.AbstractDBCanvas;
 import edu.colorado.phet.densityandbuoyancy.view.away3d.BlockNode;
