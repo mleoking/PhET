@@ -3,10 +3,10 @@ import Box2D.Dynamics.b2Body;
 
 import away3d.containers.ObjectContainer3D;
 
-import edu.colorado.phet.flexcommon.model.BooleanProperty;
 import edu.colorado.phet.densityandbuoyancy.model.DensityObject;
-import edu.colorado.phet.flexcommon.model.NumericProperty;
 import edu.colorado.phet.densityandbuoyancy.view.*;
+import edu.colorado.phet.flexcommon.model.BooleanProperty;
+import edu.colorado.phet.flexcommon.model.NumericProperty;
 
 public class DensityObjectNode extends ObjectContainer3D implements Pickable {
     private var densityObject: DensityObject;

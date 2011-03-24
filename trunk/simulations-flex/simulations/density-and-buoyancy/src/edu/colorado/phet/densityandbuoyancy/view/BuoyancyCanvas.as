@@ -1,10 +1,8 @@
 package edu.colorado.phet.densityandbuoyancy.view {
 import edu.colorado.phet.densityandbuoyancy.DensityConstants;
 import edu.colorado.phet.densityandbuoyancy.model.ArrowModel;
-import edu.colorado.phet.flexcommon.model.BooleanProperty;
 import edu.colorado.phet.densityandbuoyancy.model.DensityModel;
 import edu.colorado.phet.densityandbuoyancy.model.DensityObject;
-import edu.colorado.phet.flexcommon.model.NumericProperty;
 import edu.colorado.phet.densityandbuoyancy.view.away3d.ArrowNode;
 import edu.colorado.phet.densityandbuoyancy.view.away3d.DensityObjectNode;
 import edu.colorado.phet.densityandbuoyancy.view.away3d.ScaleNode;
@@ -14,6 +12,8 @@ import edu.colorado.phet.densityandbuoyancy.view.modes.BuoyancySameMassMode;
 import edu.colorado.phet.densityandbuoyancy.view.modes.BuoyancySameVolumeMode;
 import edu.colorado.phet.densityandbuoyancy.view.modes.Mode;
 import edu.colorado.phet.flashcommon.ApplicationLifecycle;
+import edu.colorado.phet.flexcommon.model.BooleanProperty;
+import edu.colorado.phet.flexcommon.model.NumericProperty;
 
 public class BuoyancyCanvas extends AbstractDBCanvas {
 

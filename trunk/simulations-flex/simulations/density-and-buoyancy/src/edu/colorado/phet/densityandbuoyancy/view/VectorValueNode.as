@@ -4,9 +4,9 @@ import away3d.core.base.Vertex;
 import away3d.core.draw.ScreenVertex;
 
 import edu.colorado.phet.densityandbuoyancy.DensityConstants;
-import edu.colorado.phet.flexcommon.model.BooleanProperty;
 import edu.colorado.phet.densityandbuoyancy.view.away3d.ArrowNode;
 import edu.colorado.phet.flexcommon.FlexSimStrings;
+import edu.colorado.phet.flexcommon.model.BooleanProperty;
 
 import flash.display.Sprite;
 import flash.text.TextField;

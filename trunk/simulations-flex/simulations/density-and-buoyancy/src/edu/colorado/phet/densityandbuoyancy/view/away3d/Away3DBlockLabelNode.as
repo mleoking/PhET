@@ -9,8 +9,8 @@ package edu.colorado.phet.densityandbuoyancy.view.away3d {
 import away3d.cameras.Camera3D;
 import away3d.core.draw.ScreenVertex;
 
-import edu.colorado.phet.flexcommon.model.BooleanProperty;
 import edu.colorado.phet.densityandbuoyancy.view.*;
+import edu.colorado.phet.flexcommon.model.BooleanProperty;
 
 public class Away3DBlockLabelNode extends BlockLabelNode {
     private var mainViewport: Away3DViewport;

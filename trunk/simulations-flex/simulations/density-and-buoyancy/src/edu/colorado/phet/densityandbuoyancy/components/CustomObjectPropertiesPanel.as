@@ -1,12 +1,12 @@
 package edu.colorado.phet.densityandbuoyancy.components {
 import edu.colorado.phet.densityandbuoyancy.DensityConstants;
-import edu.colorado.phet.flexcommon.model.BooleanProperty;
 import edu.colorado.phet.densityandbuoyancy.model.DensityObject;
 import edu.colorado.phet.densityandbuoyancy.model.Material;
 import edu.colorado.phet.densityandbuoyancy.model.Not;
 import edu.colorado.phet.densityandbuoyancy.view.BlockLabelNode;
 import edu.colorado.phet.densityandbuoyancy.view.units.Units;
 import edu.colorado.phet.flexcommon.FlexSimStrings;
+import edu.colorado.phet.flexcommon.model.BooleanProperty;
 
 import flash.display.Sprite;
 

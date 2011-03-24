@@ -1,9 +1,9 @@
 package edu.colorado.phet.densityandbuoyancy.view {
 import edu.colorado.phet.densityandbuoyancy.components.DensityHBox;
 import edu.colorado.phet.densityandbuoyancy.model.Material;
-import edu.colorado.phet.flexcommon.model.NumericProperty;
 import edu.colorado.phet.densityandbuoyancy.view.units.Units;
 import edu.colorado.phet.flexcommon.FlexSimStrings;
+import edu.colorado.phet.flexcommon.model.NumericProperty;
 
 import flash.events.MouseEvent;
 

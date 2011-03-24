@@ -11,7 +11,6 @@ import away3d.materials.*;
 import away3d.primitives.*;
 
 import edu.colorado.phet.densityandbuoyancy.DensityConstants;
-import edu.colorado.phet.flexcommon.model.BooleanProperty;
 import edu.colorado.phet.densityandbuoyancy.model.DensityModel;
 import edu.colorado.phet.densityandbuoyancy.model.DensityObject;
 import edu.colorado.phet.densityandbuoyancy.model.Material;
@@ -23,6 +22,7 @@ import edu.colorado.phet.densityandbuoyancy.view.units.Units;
 import edu.colorado.phet.flashcommon.ApplicationLifecycle;
 import edu.colorado.phet.flashcommon.MathUtil;
 import edu.colorado.phet.flexcommon.FlexSimStrings;
+import edu.colorado.phet.flexcommon.model.BooleanProperty;
 
 import flash.events.Event;
 import flash.events.MouseEvent;
