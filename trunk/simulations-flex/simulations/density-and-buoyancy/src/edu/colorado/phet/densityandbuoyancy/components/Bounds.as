@@ -1,3 +1,4 @@
+//  Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.densityandbuoyancy.components {
 /**
  * This function is used to clamp a value to be another value, used in PropertyEditor so that values don't go out of range.

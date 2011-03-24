@@ -1,3 +1,4 @@
+//  Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.densityandbuoyancy.model {
 import Box2D.Collision.Shapes.b2PolygonDef;
 import Box2D.Collision.b2AABB;

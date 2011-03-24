@@ -1,3 +1,5 @@
+//  Copyright 2002-2011, University of Colorado
+
 /**
  * Created by ${PRODUCT_NAME}.
  * User: Sam
