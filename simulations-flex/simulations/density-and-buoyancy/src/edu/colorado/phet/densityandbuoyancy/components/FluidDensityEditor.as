@@ -4,6 +4,9 @@ import edu.colorado.phet.densityandbuoyancy.model.Material;
 import edu.colorado.phet.densityandbuoyancy.view.units.Unit;
 import edu.colorado.phet.flexcommon.model.NumericProperty;
 
+/**
+ * The FluidDensityEditor is a PropertyEditor that shows tick marks and tick mark labels for certain fluid densities.
+ */
 public class FluidDensityEditor extends PropertyEditor {
     public function FluidDensityEditor( property: NumericProperty, minimum: Number, maximum: Number, unit: Unit, dataTipClamp: Function, bounds: Bounds ) {
         super( property, minimum, maximum, unit, dataTipClamp, bounds );
