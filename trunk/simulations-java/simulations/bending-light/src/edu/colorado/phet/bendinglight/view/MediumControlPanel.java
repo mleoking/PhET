@@ -40,7 +40,9 @@ public class MediumControlPanel extends PNode {
                                final Property<Medium> medium,
                                final String name,
                                final boolean textFieldVisible,
-                               final Property<Double> laserWavelength ) {
+                               final Property<Double> laserWavelength,
+                               final String format,
+                               final int columns ) {
         this.medium = medium;
         this.laserWavelength = laserWavelength;
         final MediumState initialMediumState = medium.getValue().getMediumState();
@@ -108,7 +110,7 @@ public class MediumControlPanel extends PNode {
                 final PText label = new PText( textFieldVisible ? "Index of Refraction (n):" : "Index of Refraction (n)" ) {{setFont( BendingLightCanvas.labelFont );}};
                 addChild( label );
                 if ( textFieldVisible ) {
-                    addChild( new PSwing( new JTextField( new DecimalFormat( "0.00" ).format( medium.getValue().getIndexOfRefraction( laserWavelength.getValue() ) ), 4 ) {{
+                    addChild( new PSwing( new JTextField( new DecimalFormat( format ).format( medium.getValue().getIndexOfRefraction( laserWavelength.getValue() ) ), columns ) {{
                         setFont( BendingLightCanvas.labelFont );
                         addActionListener( new ActionListener() {
                             public void actionPerformed( ActionEvent e ) {
@@ -120,7 +122,7 @@ public class MediumControlPanel extends PNode {
                         } );
                         new RichSimpleObserver() {
                             public void update() {
-                                setText( new DecimalFormat( "0.00" ).format( medium.getValue().getIndexOfRefraction( laserWavelength.getValue() ) ) );
+                                setText( new DecimalFormat( format ).format( medium.getValue().getIndexOfRefraction( laserWavelength.getValue() ) ) );
                             }
                         }.observe( medium, laserWavelength );
                     }} ) {{
