@@ -9,6 +9,9 @@ import flash.text.TextField;
 import flash.text.TextFieldAutoSize;
 import flash.text.TextFormat;
 
+/**
+ * Textual readout of the numeric value and units of the density, which appears underneath the density slider thumb.
+ */
 public class DensitySliderDataTip extends Sprite {
     private var textField: TextField;
     private var waterHeight: Number;
