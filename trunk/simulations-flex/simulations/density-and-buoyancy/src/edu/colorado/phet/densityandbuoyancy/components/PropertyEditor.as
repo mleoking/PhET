@@ -27,15 +27,6 @@ public class PropertyEditor extends GridRow {
     private var _unit: Unit;
     protected var addLabels: Boolean;
 
-    /**
-     *
-     * @param property
-     * @param minimum specified in SI
-     * @param maximum specified in SI
-     * @param unit
-     * @param densityObject
-     */
-
     public function PropertyEditor( property: NumericProperty, minimum: Number, maximum: Number, unit: Unit, dataTipClamp: Function, bounds: Bounds, sliderWidth: Number = 280, addLabels: Boolean = true ) {
         super();
         this.addLabels = addLabels;

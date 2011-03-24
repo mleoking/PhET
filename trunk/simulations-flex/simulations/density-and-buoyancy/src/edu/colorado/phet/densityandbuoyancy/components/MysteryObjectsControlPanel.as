@@ -20,16 +20,18 @@ import mx.core.UIComponent;
 import mx.events.CloseEvent;
 import mx.managers.PopUpManager;
 
+/**
+ * The MysteryObjectsControlPanel is used in the MysteryObjectsMode of the Density Simulation, allowing the user to show a table with various densities.
+ * It could be refactored so that the table and parent window are a separate class.
+ */
 public class MysteryObjectsControlPanel extends DensityVBox {
     private var firstTime: Boolean = true;
     private var titleWindow: TitleWindow;
-    private var myparent: MysteryObjectsControlPanel;
     private const tableButton: Button = new Button();
     private var titleWindowVisible: BooleanProperty = new BooleanProperty( false );
 
     public function MysteryObjectsControlPanel() {
         super();
-        myparent = this;
 
         const grid: Grid = new Grid();
 
@@ -63,7 +65,7 @@ public class MysteryObjectsControlPanel extends DensityVBox {
 
         var visibilityChangeListener: Function = function(): void {
             if ( titleWindowVisible.value ) {
-                PopUpManager.addPopUp( titleWindow, myparent.parent, false );
+                PopUpManager.addPopUp( titleWindow, parent, false );
                 //Remember the dialog location in case the user wants to toggle it on and off in a specific (nondefault) location
                 if ( firstTime ) {
                     PopUpManager.centerPopUp( titleWindow );

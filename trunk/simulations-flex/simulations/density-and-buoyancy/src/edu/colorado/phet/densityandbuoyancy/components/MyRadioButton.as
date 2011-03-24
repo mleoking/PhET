@@ -1,12 +1,5 @@
 //  Copyright 2002-2011, University of Colorado
 
-/**
- * Created by ${PRODUCT_NAME}.
- * User: Sam
- * Date: 12/6/10
- * Time: 3:19 AM
- * To change this template use File | Settings | File Templates.
- */
 package edu.colorado.phet.densityandbuoyancy.components {
 import edu.colorado.phet.flexcommon.model.BooleanProperty;
 
@@ -14,6 +7,9 @@ import flash.events.Event;
 
 import mx.controls.RadioButton;
 
+/**
+ * RadioButton that is wired up to the specified BooleanProperty.
+ */
 public class MyRadioButton extends RadioButton {
     private static var count: Number = 0;
 

@@ -4,6 +4,9 @@ import flash.text.TextField;
 import flash.text.TextFieldAutoSize;
 import flash.text.TextFormat;
 
+/**
+ * A single tick mark instance used in SliderDecorator slider tick marks.
+ */
 public class Tick {
     public var value: Number;
     public var color: uint;

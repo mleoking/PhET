@@ -9,6 +9,9 @@ import mx.controls.HSlider;
 import mx.controls.sliderClasses.SliderThumb;
 import mx.core.UIComponent;
 
+/**
+ * Slider control that adds tick marks, a data tip, a thumb offset, different rending for enabled/disabled.
+ */
 public class SliderDecorator extends UIComponent {
     private var slider: MyHSlider;
 
@@ -46,12 +49,12 @@ public class SliderDecorator extends UIComponent {
         updateTicks();
     }
 
-    override public function set enabled( value: Boolean ): void {
-        super.enabled = value;
+    override public function set enabled( enabled: Boolean ): void {
+        super.enabled = enabled;
         if ( slider != null ) {
-            slider.enabled = value;
+            slider.enabled = enabled;
             // this modifies the appearance in the current "Halo" Theme. Flex 4 will have a different theme
-            if ( value ) {
+            if ( enabled ) {
                 slider.setStyle( "fillAlphas", [ 0.60, 0.40 ] );
                 slider.setStyle( "fillColors", [ 0xAAFFAA, 0x00FF00] );
             }
@@ -60,7 +63,7 @@ public class SliderDecorator extends UIComponent {
                 slider.setStyle( "fillColors", [ 0x666666, 0x333333] );
             }
             //TODO: should we gray out the slider?
-            if ( value ) {
+            if ( enabled ) {
                 slider.alpha = 1.0;
             }
             else {
