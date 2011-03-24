@@ -1,3 +1,4 @@
+Fixed: Scale cannot be pulled into the ground
 Added docs for Bounds and simplified implementation of MassBounds.clamp
 # 1.04.11 (49794) Mar 14, 2011
 > buoyancy: Changed the brick density from 1922 to 2000 so that the brick mass is exactly 10.0kg in the "same volume" mode
