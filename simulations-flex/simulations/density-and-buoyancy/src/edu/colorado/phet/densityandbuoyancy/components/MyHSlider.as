@@ -1,15 +1,12 @@
 //  Copyright 2002-2011, University of Colorado
 
-/**
- * Created by ${PRODUCT_NAME}.
- * User: Sam
- * Date: 12/6/10
- * Time: 3:14 AM
- * To change this template use File | Settings | File Templates.
- */
 package edu.colorado.phet.densityandbuoyancy.components {
 import mx.controls.HSlider;
 
+/**
+ * This subclass is used to call the protected function commitProperties() on HSlider,
+ * which fixes the problem that getSliderThumbCount = 1, but getSliderThumb(0) throws a nullpointerexception
+ */
 public class MyHSlider extends HSlider {
     public function MyHSlider() {
     }

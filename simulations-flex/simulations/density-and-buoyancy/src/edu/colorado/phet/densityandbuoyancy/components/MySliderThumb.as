@@ -2,6 +2,9 @@
 package edu.colorado.phet.densityandbuoyancy.components {
 import mx.controls.sliderClasses.SliderThumb;
 
+/**
+ * Thumb icon for a slider that has a 16 point size (rather than the smaller default), to make it easier to see and use.
+ */
 public class MySliderThumb extends SliderThumb {
     public static const SIZE: Number = 16;
 

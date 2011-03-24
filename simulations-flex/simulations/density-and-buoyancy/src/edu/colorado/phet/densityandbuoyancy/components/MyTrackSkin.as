@@ -1,12 +1,5 @@
 //  Copyright 2002-2011, University of Colorado
 
-/**
- * Created by ${PRODUCT_NAME}.
- * User: Sam
- * Date: 12/7/10
- * Time: 12:10 AM
- * To change this template use File | Settings | File Templates.
- */
 package edu.colorado.phet.densityandbuoyancy.components {
 import flash.display.GradientType;
 
@@ -14,11 +7,12 @@ import mx.skins.halo.SliderTrackSkin;
 import mx.styles.StyleManager;
 import mx.utils.ColorUtil;
 
+/**
+ * Provides a skin for how a slider (used in SliderDecorator) should look when it is disabled.
+ * Copied from SliderTrackSkin.as, since we weren't able to override or replace style values
+ */
 public class MyTrackSkin extends SliderTrackSkin {
 
-    /*
-     * Copied from SliderTrackSkin.as, since we weren't able to override or replace style values
-     */
     override protected function updateDisplayList( w: Number, h: Number ): void {
         super.updateDisplayList( w, h );
 
