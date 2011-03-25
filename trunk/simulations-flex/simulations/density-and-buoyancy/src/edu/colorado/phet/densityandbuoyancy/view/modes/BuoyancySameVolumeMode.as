@@ -8,6 +8,9 @@ import edu.colorado.phet.densityandbuoyancy.view.AbstractDBCanvas;
 
 import flash.geom.ColorTransform;
 
+/**
+ * The 'same mass' mode in Buoyancy shows 2 blocks of the same volume, of differing materials.
+ */
 public class BuoyancySameVolumeMode extends BuoyancyMode {
     private var woodBlock: DensityObject;
     private var brick: DensityObject;

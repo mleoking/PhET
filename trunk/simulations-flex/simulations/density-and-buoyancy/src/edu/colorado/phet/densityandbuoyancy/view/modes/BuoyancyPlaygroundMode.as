@@ -11,6 +11,9 @@ import edu.colorado.phet.flexcommon.model.BooleanProperty;
 import flash.events.Event;
 import flash.geom.ColorTransform;
 
+/**
+ * The 'buoyancy playground' mode always shows one buoyancy object and a control panel to mutate it, and includes an optional 2nd object.
+ */
 public class BuoyancyPlaygroundMode extends BuoyancyMode {
     private var block1: DensityObject;
     private var block2: DensityObject;

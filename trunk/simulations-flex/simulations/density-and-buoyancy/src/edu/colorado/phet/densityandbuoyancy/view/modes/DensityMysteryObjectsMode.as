@@ -12,11 +12,14 @@ import edu.colorado.phet.flexcommon.FlexSimStrings;
 import mx.core.UIComponent;
 import mx.events.FlexEvent;
 
-public class MysteryObjectsMode extends Mode {
+/**
+ * Density simulation mode which shows mystery blocks for which the users can try to determine the identities of various materials.
+ */
+public class DensityMysteryObjectsMode extends Mode {
     private var mysteryObjectsControlPanel: MysteryObjectsControlPanel;
     private var mysteryObjectsControlPanelShowing: Boolean = false;
 
-    function MysteryObjectsMode( canvas: AbstractDBCanvas ) {
+    function DensityMysteryObjectsMode( canvas: AbstractDBCanvas ) {
         super( canvas );
         mysteryObjectsControlPanel = new MysteryObjectsControlPanel();
         mysteryObjectsControlPanel.setStyle( "right", DensityAndBuoyancyConstants.CONTROL_INSET );
