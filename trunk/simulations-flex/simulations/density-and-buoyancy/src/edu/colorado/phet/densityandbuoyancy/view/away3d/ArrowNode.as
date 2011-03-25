@@ -4,16 +4,16 @@ import away3d.cameras.Camera3D;
 import away3d.core.base.Vertex;
 import away3d.materials.ColorMaterial;
 
-import edu.colorado.phet.densityandbuoyancy.model.ArrowModel;
 import edu.colorado.phet.densityandbuoyancy.model.DensityModel;
 import edu.colorado.phet.densityandbuoyancy.model.DensityObject;
+import edu.colorado.phet.densityandbuoyancy.model.Vector2D;
 import edu.colorado.phet.densityandbuoyancy.view.Away3DViewport;
 import edu.colorado.phet.densityandbuoyancy.view.VectorValueNode;
 import edu.colorado.phet.flexcommon.model.BooleanProperty;
 import edu.colorado.phet.flexcommon.model.NumericProperty;
 
 public class ArrowNode extends MyMesh {
-    private var _arrowModel: ArrowModel;
+    private var _arrowModel: Vector2D;
     private const ARROW_HEIGHT: Number = 200;
     private const scaleFromModelToView: Number = 2;
     private var _visibilityProperty: BooleanProperty;
@@ -28,7 +28,7 @@ public class ArrowNode extends MyMesh {
     private var offsetX: NumericProperty;
     private var right: Boolean;
 
-    public function ArrowNode( densityObject: DensityObject, arrowModel: ArrowModel, color: *, visibilityProperty: BooleanProperty, mainCamera: Camera3D, mainViewport: Away3DViewport, valueVisibilityProperty: BooleanProperty, offsetX: NumericProperty, right: Boolean ) {
+    public function ArrowNode( densityObject: DensityObject, arrowModel: Vector2D, color: *, visibilityProperty: BooleanProperty, mainCamera: Camera3D, mainViewport: Away3DViewport, valueVisibilityProperty: BooleanProperty, offsetX: NumericProperty, right: Boolean ) {
         super( combine( {material:new ColorMaterial( color, {alpha: 0.75} )}, null ) );
         this._color = color;
         this.densityObject = densityObject;
@@ -112,7 +112,7 @@ public class ArrowNode extends MyMesh {
         return tipVertex;
     }
 
-    public function get arrowModel(): ArrowModel {
+    public function get arrowModel(): Vector2D {
         return _arrowModel;
     }
 

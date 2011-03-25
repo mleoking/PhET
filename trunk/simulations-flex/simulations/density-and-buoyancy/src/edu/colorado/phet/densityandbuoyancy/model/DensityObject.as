@@ -27,10 +27,10 @@ public class DensityObject {
     private var x: NumericProperty;
     private var y: NumericProperty;
     private var _z: NumericProperty;
-    private var velocityArrowModel: ArrowModel = new ArrowModel( 0, 0 );
-    private var gravityForceArrowModel: ArrowModel = new ArrowModel( 0, 0 );
-    private var buoyancyForceArrowModel: ArrowModel = new ArrowModel( 0, 0 );
-    private var contactForceArrowModel: ArrowModel = new ArrowModel( 0, 0 );
+    private var velocityArrowModel: Vector2D = new Vector2D( 0, 0 );
+    private var gravityForceArrowModel: Vector2D = new Vector2D( 0, 0 );
+    private var buoyancyForceArrowModel: Vector2D = new Vector2D( 0, 0 );
+    private var contactForceArrowModel: Vector2D = new Vector2D( 0, 0 );
 
     private const _forceVectors: Array = [gravityForceArrowModel,buoyancyForceArrowModel,contactForceArrowModel];
     private var model: DensityModel;
@@ -154,15 +154,15 @@ public class DensityObject {
         return _density;
     }
 
-    public function getVelocityArrowModel(): ArrowModel {
+    public function getVelocityArrowModel(): Vector2D {
         return velocityArrowModel;
     }
 
-    public function getGravityForceArrowModel(): ArrowModel {
+    public function getGravityForceArrowModel(): Vector2D {
         return gravityForceArrowModel;
     }
 
-    public function getBuoyancyForceArrowModel(): ArrowModel {
+    public function getBuoyancyForceArrowModel(): Vector2D {
         return buoyancyForceArrowModel;
     }
 
@@ -351,7 +351,7 @@ public class DensityObject {
         }
     }
 
-    public function getContactForceArrowModel(): ArrowModel {
+    public function getContactForceArrowModel(): Vector2D {
         return contactForceArrowModel;
     }
 

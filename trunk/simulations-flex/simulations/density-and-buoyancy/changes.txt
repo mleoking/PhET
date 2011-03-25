@@ -1,3 +1,4 @@
+Renamed ArrowModel to Vector2D
 Minor fixes and added class-level documentation
 Fixed: Scale cannot be pulled into the ground
 Added docs for Bounds and simplified implementation of MassBounds.clamp
