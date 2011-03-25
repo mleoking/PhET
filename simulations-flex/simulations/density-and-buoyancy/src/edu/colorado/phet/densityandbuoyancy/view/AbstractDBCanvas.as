@@ -55,7 +55,6 @@ public class AbstractDBCanvas extends UIComponent {
     private var groundNode: GroundNode;
 
     private var waterVolumeIndicator: WaterVolumeIndicator;
-//    private var tickMarkSet: TickMarkSet;
 
     //Away3d must render at least once before we can obtain screen coordinates for vertices.
     public var renderedOnce: Boolean = false;
@@ -92,9 +91,6 @@ public class AbstractDBCanvas extends UIComponent {
             overlayViewport.view.mouseChildren = false;
 
             addChild( overlayViewport.view );
-//            tickMarkSet = new TickMarkSet( _model );
-//            addChild( tickMarkSet );
-
             addChild( waterVolumeIndicator );
         } );
     }
@@ -251,8 +247,6 @@ public class AbstractDBCanvas extends UIComponent {
             waterVolumeIndicator.x = screenVertex.x + mainViewport.view.x;
             waterVolumeIndicator.y = screenVertex.y + mainViewport.view.y;
             waterVolumeIndicator.visible = true;//Now can show the water volume indicator after it is at the right location
-
-//            tickMarkSet.updateCoordinates( mainCamera, groundNode, mainViewport.view );
         }
         waterVolumeIndicator.setWaterHeight( _model.getWaterHeight() );
     }
