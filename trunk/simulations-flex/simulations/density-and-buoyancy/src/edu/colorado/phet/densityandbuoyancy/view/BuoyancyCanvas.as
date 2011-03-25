@@ -1,6 +1,6 @@
 //  Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.densityandbuoyancy.view {
-import edu.colorado.phet.densityandbuoyancy.DensityConstants;
+import edu.colorado.phet.densityandbuoyancy.DensityAndBuoyancyConstants;
 import edu.colorado.phet.densityandbuoyancy.model.DensityModel;
 import edu.colorado.phet.densityandbuoyancy.model.DensityObject;
 import edu.colorado.phet.densityandbuoyancy.model.Vector2D;
@@ -56,7 +56,7 @@ public class BuoyancyCanvas extends AbstractDBCanvas {
 
     override protected function createModel( showExactLiquidColor: Boolean ): DensityModel {
         //TODO: dynamically compute the volume of the submerged scale
-        return new DensityModel( DensityConstants.litersToMetersCubed( 100.0 - 2.46 ), extendedPool, showExactLiquidColor );//this accounts for one submerged scale, so that the readout still reads 100.0 on init
+        return new DensityModel( DensityAndBuoyancyConstants.litersToMetersCubed( 100.0 - 2.46 ), extendedPool, showExactLiquidColor );//this accounts for one submerged scale, so that the readout still reads 100.0 on init
     }
 
     override public function resetAll(): void {
@@ -121,11 +121,11 @@ public class BuoyancyCanvas extends AbstractDBCanvas {
             var densityObject: DensityObject = densityObjectNode.getDensityObject();
 //            var offset: Number = 8;
             var offset: Number = 0;  //TODO: trial test of setting offsets to zero, maybe will revert
-            const gravityNode: ArrowNode = new ArrowNode( densityObject, densityObject.getGravityForceArrowModel(), DensityConstants.GRAVITY_COLOR, gravityArrowsVisible, mainCamera, mainViewport, vectorValuesVisible,
+            const gravityNode: ArrowNode = new ArrowNode( densityObject, densityObject.getGravityForceArrowModel(), DensityAndBuoyancyConstants.GRAVITY_COLOR, gravityArrowsVisible, mainCamera, mainViewport, vectorValuesVisible,
                                                           createOffset( densityObject.getGravityForceArrowModel(), densityObject, 0 ), true );
-            const buoyancyNode: ArrowNode = new ArrowNode( densityObject, densityObject.getBuoyancyForceArrowModel(), DensityConstants.BUOYANCY_COLOR, buoyancyArrowsVisible, mainCamera, mainViewport, vectorValuesVisible,
+            const buoyancyNode: ArrowNode = new ArrowNode( densityObject, densityObject.getBuoyancyForceArrowModel(), DensityAndBuoyancyConstants.BUOYANCY_COLOR, buoyancyArrowsVisible, mainCamera, mainViewport, vectorValuesVisible,
                                                            createOffset( densityObject.getBuoyancyForceArrowModel(), densityObject, 0 ), true );
-            const contactForceNode: ArrowNode = new ArrowNode( densityObject, densityObject.getContactForceArrowModel(), DensityConstants.CONTACT_COLOR, contactArrowsVisible, mainCamera, mainViewport, vectorValuesVisible,
+            const contactForceNode: ArrowNode = new ArrowNode( densityObject, densityObject.getContactForceArrowModel(), DensityAndBuoyancyConstants.CONTACT_COLOR, contactArrowsVisible, mainCamera, mainViewport, vectorValuesVisible,
                                                                createOffset( densityObject.getContactForceArrowModel(), densityObject, offset ), false );
 
             const arrowList: Array = [gravityNode, buoyancyNode, contactForceNode];

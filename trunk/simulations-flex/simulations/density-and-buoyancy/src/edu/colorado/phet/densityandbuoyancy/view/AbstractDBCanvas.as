@@ -11,7 +11,7 @@ import away3d.core.math.*;
 import away3d.materials.*;
 import away3d.primitives.*;
 
-import edu.colorado.phet.densityandbuoyancy.DensityConstants;
+import edu.colorado.phet.densityandbuoyancy.DensityAndBuoyancyConstants;
 import edu.colorado.phet.densityandbuoyancy.model.DensityModel;
 import edu.colorado.phet.densityandbuoyancy.model.DensityObject;
 import edu.colorado.phet.densityandbuoyancy.model.Material;
@@ -100,7 +100,7 @@ public class AbstractDBCanvas extends UIComponent {
     }
 
     protected function createModel( showExactLiquidColor: Boolean ): DensityModel {
-        return new DensityModel( DensityConstants.litersToMetersCubed( 100.0 ), extendedPool );
+        return new DensityModel( DensityAndBuoyancyConstants.litersToMetersCubed( 100.0 ), extendedPool );
     }
 
     override protected function updateDisplayList( unscaledWidth: Number, unscaledHeight: Number ): void {
@@ -121,10 +121,10 @@ public class AbstractDBCanvas extends UIComponent {
         var poolDepth: Number = _model.getPoolDepth() * DensityModel.DISPLAY_SCALE;
 
         // NOTE: if the ground is not matching up with the objects resting on the ground (or the bottom of the pool), it is due to the ground being shifted by this amount
-        waterFront = new Plane( { y: -poolHeight + waterHeight / 2 + DensityConstants.VERTICAL_GROUND_OFFSET_AWAY_3D, width: poolWidth, height: waterHeight, rotationX: 90, material: new ShadingColorMaterial( 0x0088FF, {alpha: 0.4} ) } );
+        waterFront = new Plane( { y: -poolHeight + waterHeight / 2 + DensityAndBuoyancyConstants.VERTICAL_GROUND_OFFSET_AWAY_3D, width: poolWidth, height: waterHeight, rotationX: 90, material: new ShadingColorMaterial( 0x0088FF, {alpha: 0.4} ) } );
         mainViewport.scene.addChild( waterFront );
         waterFront.mouseEnabled = false;
-        waterTop = new Plane( { y: -poolHeight + waterHeight + DensityConstants.VERTICAL_GROUND_OFFSET_AWAY_3D, z: poolDepth / 2, width: poolWidth, height: poolDepth, material: new ShadingColorMaterial( 0x0088FF, {alpha: 0.4} ) } );
+        waterTop = new Plane( { y: -poolHeight + waterHeight + DensityAndBuoyancyConstants.VERTICAL_GROUND_OFFSET_AWAY_3D, z: poolDepth / 2, width: poolWidth, height: poolDepth, material: new ShadingColorMaterial( 0x0088FF, {alpha: 0.4} ) } );
         mainViewport.scene.addChild( waterTop );
         waterTop.mouseEnabled = false;
 
@@ -143,9 +143,9 @@ public class AbstractDBCanvas extends UIComponent {
                     waterMaterial = new ShadingColorMaterial( 0x0088FF, {alpha: 0.4 * Math.sqrt( density / Material.WATER.getDensity() )} );
                 }
                 else {
-                    var green: uint = Math.round( MathUtil.scale( density, Material.WATER.getDensity(), DensityConstants.MAX_FLUID_DENSITY, 0x88, 0x33 ) );
-                    var blue: uint = Math.round( MathUtil.scale( density, Material.WATER.getDensity(), DensityConstants.MAX_FLUID_DENSITY, 0xFF, 0x33 ) );
-                    var alpha: Number = MathUtil.scale( density, Material.WATER.getDensity(), DensityConstants.MAX_FLUID_DENSITY, 0.4, 0.8 );
+                    var green: uint = Math.round( MathUtil.scale( density, Material.WATER.getDensity(), DensityAndBuoyancyConstants.MAX_FLUID_DENSITY, 0x88, 0x33 ) );
+                    var blue: uint = Math.round( MathUtil.scale( density, Material.WATER.getDensity(), DensityAndBuoyancyConstants.MAX_FLUID_DENSITY, 0xFF, 0x33 ) );
+                    var alpha: Number = MathUtil.scale( density, Material.WATER.getDensity(), DensityAndBuoyancyConstants.MAX_FLUID_DENSITY, 0.4, 0.8 );
                     waterMaterial = new ShadingColorMaterial( uint( (green << 8) + blue ), {alpha: alpha} );
                 }
             }

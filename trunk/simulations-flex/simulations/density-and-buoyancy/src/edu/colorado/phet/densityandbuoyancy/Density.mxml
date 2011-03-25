@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- // Copyright 2002-2011, University of Colorado -->
-<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml"
-                xmlns:view="edu.colorado.phet.densityandbuoyancy.view.*"
-                layout="absolute" width="100%" height="100%"
-                frameRate="30"
-                applicationComplete="ApplicationLifecycle.applicationComplete(stage)">
+<!--Main application class for Density-->
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:view="edu.colorado.phet.densityandbuoyancy.view.*"
+                layout="absolute" width="100%" height="100%" frameRate="30" applicationComplete="ApplicationLifecycle.applicationComplete(stage)">
     <view:DensityContainer id="densityContainer"/>
     <mx:Style>
         /*Arabic words can appear in the wrong order when using some fonts.  However, this problem doesn't

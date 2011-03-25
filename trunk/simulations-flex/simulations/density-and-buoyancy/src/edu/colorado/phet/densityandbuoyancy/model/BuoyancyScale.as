@@ -1,6 +1,6 @@
 //  Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.densityandbuoyancy.model {
-import edu.colorado.phet.densityandbuoyancy.DensityConstants;
+import edu.colorado.phet.densityandbuoyancy.DensityAndBuoyancyConstants;
 import edu.colorado.phet.flexcommon.FlexSimStrings;
 
 /**
@@ -17,7 +17,7 @@ public class BuoyancyScale extends Scale {
         //impulse I=Fdt
         //F=I/dt
         var force: Number = totalImpulse / DensityModel.DT_PER_FRAME;
-        return FlexSimStrings.get( "properties.weightNewtonValue", "{0} N", [DensityConstants.format( force )] );
+        return FlexSimStrings.get( "properties.weightNewtonValue", "{0} N", [DensityAndBuoyancyConstants.format( force )] );
     }
 }
 }

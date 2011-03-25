@@ -1,6 +1,6 @@
 //  Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.densityandbuoyancy.view {
-import edu.colorado.phet.densityandbuoyancy.DensityConstants;
+import edu.colorado.phet.densityandbuoyancy.DensityAndBuoyancyConstants;
 import edu.colorado.phet.densityandbuoyancy.components.DensityVBox;
 import edu.colorado.phet.flexcommon.FlexSimStrings;
 import edu.colorado.phet.flexcommon.PhetLogoButton;
@@ -57,8 +57,8 @@ public class AbstractDBContainer extends Canvas {
 
     protected function addResetAll(): void {
         var resetAllControlPanel: DensityVBox = new DensityVBox();
-        resetAllControlPanel.setStyle( "right", DensityConstants.CONTROL_INSET );
-        resetAllControlPanel.setStyle( "bottom", DensityConstants.CONTROL_INSET );
+        resetAllControlPanel.setStyle( "right", DensityAndBuoyancyConstants.CONTROL_INSET );
+        resetAllControlPanel.setStyle( "bottom", DensityAndBuoyancyConstants.CONTROL_INSET );
 
         var resetAllButton: Button = new Button();
         resetAllButton.label = FlexSimStrings.get( 'application.resetAll', 'Reset All' );

@@ -1,6 +1,6 @@
 //  Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.densityandbuoyancy.components {
-import edu.colorado.phet.densityandbuoyancy.DensityConstants;
+import edu.colorado.phet.densityandbuoyancy.DensityAndBuoyancyConstants;
 import edu.colorado.phet.densityandbuoyancy.view.units.Unit;
 import edu.colorado.phet.flashcommon.MathUtil;
 import edu.colorado.phet.flexcommon.model.NumericProperty;
@@ -36,8 +36,8 @@ public class PropertyEditor extends GridRow {
 
         var label: Label = new Label();
         label.text = property.name;
-        label.setStyle( DensityConstants.FLEX_FONT_SIZE, FONT_SIZE );
-        label.setStyle( DensityConstants.FLEX_FONT_WEIGHT, DensityConstants.FLEX_FONT_BOLD );
+        label.setStyle( DensityAndBuoyancyConstants.FLEX_FONT_SIZE, FONT_SIZE );
+        label.setStyle( DensityAndBuoyancyConstants.FLEX_FONT_WEIGHT, DensityAndBuoyancyConstants.FLEX_FONT_BOLD );
         addGridItem( label );
 
         _sliderDecorator = createSlider( property, minimum, maximum, unit, dataTipClamp, bounds );
@@ -50,14 +50,14 @@ public class PropertyEditor extends GridRow {
 
         if ( addLabels ) {
 
-            textField.setStyle( DensityConstants.FLEX_FONT_SIZE, FONT_SIZE );
+            textField.setStyle( DensityAndBuoyancyConstants.FLEX_FONT_SIZE, FONT_SIZE );
             textField.setStyle( "disabledColor", 0x000000 );
             //        textField.setStyle( "fontWeight", "bold" );
             textField.setStyle( "backgroundDisabledColor", 0xEEEEEE );
-            textField.width = DensityConstants.SLIDER_READOUT_TEXT_FIELD_WIDTH;
+            textField.width = DensityAndBuoyancyConstants.SLIDER_READOUT_TEXT_FIELD_WIDTH;
             textField.restrict = ".0-9";//TODO: does this handle languages that use a comma instead of a decimal place?
             function updateText(): void {
-                textField.text = DensityConstants.format( unit.fromSI( property.value ) );
+                textField.text = DensityAndBuoyancyConstants.format( unit.fromSI( property.value ) );
             }
 
             function updateModelFromTextField(): void {
@@ -85,7 +85,7 @@ public class PropertyEditor extends GridRow {
             addGridItem( textField );
 
             var unitsLabel: Label = new Label();
-            unitsLabel.setStyle( DensityConstants.FLEX_FONT_SIZE, FONT_SIZE );
+            unitsLabel.setStyle( DensityAndBuoyancyConstants.FLEX_FONT_SIZE, FONT_SIZE );
             unitsLabel.text = unit.name;
             addGridItem( unitsLabel );
         }

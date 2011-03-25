@@ -3,7 +3,7 @@ package edu.colorado.phet.densityandbuoyancy.model {
 import Box2D.Collision.Shapes.b2PolygonDef;
 import Box2D.Dynamics.b2BodyDef;
 
-import edu.colorado.phet.densityandbuoyancy.DensityConstants;
+import edu.colorado.phet.densityandbuoyancy.DensityAndBuoyancyConstants;
 
 /**
  * Model for all cuboid (block-shaped) objects. Scales are represented in the physical model as a block, so they are Cuboids too
@@ -18,7 +18,7 @@ public class Cuboid extends DensityObject {
     private var shapeChangeListeners: Array = new Array();
 
     public function Cuboid( density: Number, width: Number, height: Number, depth: Number, x: Number, y: Number, model: DensityModel, __material: Material ) {
-        super( x, y, depth / 2 + DensityConstants.DEFAULT_BLOCK_WATER_OFFSET, model, density, density * width * height * depth, width * height * depth, __material );
+        super( x, y, depth / 2 + DensityAndBuoyancyConstants.DEFAULT_BLOCK_WATER_OFFSET, model, density, density * width * height * depth, width * height * depth, __material );
         this.width = width;
         this.height = height;
         this.depth = depth;
@@ -45,7 +45,7 @@ public class Cuboid extends DensityObject {
     }
 
     private function updateBodyDef(): void {
-        bodyDef.position.Set( getX() * DensityConstants.SCALE_BOX2D, getY() * DensityConstants.SCALE_BOX2D );
+        bodyDef.position.Set( getX() * DensityAndBuoyancyConstants.SCALE_BOX2D, getY() * DensityAndBuoyancyConstants.SCALE_BOX2D );
         bodyDef.fixedRotation = true;
         if ( isStatic() ) {
             // if a scale is being pushed by forces while the user is controlling it, it will display a wrong force value (weight)
@@ -64,7 +64,7 @@ public class Cuboid extends DensityObject {
             shapeDef.restitution = 0;
             shapeDef.density = density;
             setBody( getModel().getWorld().CreateBody( bodyDef ) );
-            shapeDef.SetAsBox( width / 2 * DensityConstants.SCALE_BOX2D, height / 2 * DensityConstants.SCALE_BOX2D );
+            shapeDef.SetAsBox( width / 2 * DensityAndBuoyancyConstants.SCALE_BOX2D, height / 2 * DensityAndBuoyancyConstants.SCALE_BOX2D );
             getBody().CreateShape( shapeDef );
             getBody().SetUserData( this );
             notifyShapeChanged();
@@ -112,7 +112,7 @@ public class Cuboid extends DensityObject {
         this.height = Math.pow( volume, 1.0 / 3.0 );
         this.width = Math.pow( volume, 1.0 / 3.0 );
         this.depth = Math.pow( volume, 1.0 / 3.0 );
-        z = depth / 2 + DensityConstants.DEFAULT_BLOCK_WATER_OFFSET;//put block edge equal to pool front
+        z = depth / 2 + DensityAndBuoyancyConstants.DEFAULT_BLOCK_WATER_OFFSET;//put block edge equal to pool front
         updateShapeDef();
     }
 }

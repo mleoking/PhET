@@ -1,6 +1,6 @@
 //  Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.densityandbuoyancy.view {
-import edu.colorado.phet.densityandbuoyancy.DensityConstants;
+import edu.colorado.phet.densityandbuoyancy.DensityAndBuoyancyConstants;
 import edu.colorado.phet.densityandbuoyancy.components.DensityVBox;
 import edu.colorado.phet.densityandbuoyancy.view.modes.Mode;
 import edu.colorado.phet.flashcommon.ApplicationLifecycle;
@@ -22,8 +22,8 @@ public class BuoyancyIntroContainer extends BuoyancyContainer {
         count = count + 1;
 
         var modeControlPanel: DensityVBox = new DensityVBox();
-        modeControlPanel.setStyle( "right", DensityConstants.CONTROL_INSET );
-        modeControlPanel.y = DensityConstants.CONTROL_INSET;
+        modeControlPanel.setStyle( "right", DensityAndBuoyancyConstants.CONTROL_INSET );
+        modeControlPanel.y = DensityAndBuoyancyConstants.CONTROL_INSET;
 
         var label: Label = new Label();
         label.text = FlexSimStrings.get( 'mode.title', 'Blocks' );
@@ -61,7 +61,7 @@ public class BuoyancyIntroContainer extends BuoyancyContainer {
 
         ApplicationLifecycle.addApplicationCompleteListener( function(): void {
             const fluidDensityControl: IntroFluidDensityControl = new IntroFluidDensityControl( buoyancyCanvas.model.fluidDensity, buoyancyCanvas.units );
-            fluidDensityControl.setStyle( "bottom", DensityConstants.CONTROL_INSET );
+            fluidDensityControl.setStyle( "bottom", DensityAndBuoyancyConstants.CONTROL_INSET );
 
             const updateFluidDensityControlLocation: Function = function(): void {
                 fluidDensityControl.x = stage.width / 2 - fluidDensityControl.width / 2;

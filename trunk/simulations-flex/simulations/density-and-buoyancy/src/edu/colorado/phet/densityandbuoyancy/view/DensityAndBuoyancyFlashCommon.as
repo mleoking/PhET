@@ -1,6 +1,6 @@
 //  Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.densityandbuoyancy.view {
-import edu.colorado.phet.densityandbuoyancy.DensityConstants;
+import edu.colorado.phet.densityandbuoyancy.DensityAndBuoyancyConstants;
 import edu.colorado.phet.flexcommon.FlexCommon;
 
 import flash.events.Event;
@@ -41,9 +41,9 @@ public class DensityAndBuoyancyFlashCommon extends UIComponent {
             return;
         }
         var height: int = common.commonButtons.getPreferredHeight();
-        const y: Number = stage.stageHeight - height - 60 - DensityConstants.CONTROL_INSET;
+        const y: Number = stage.stageHeight - height - 60 - DensityAndBuoyancyConstants.CONTROL_INSET;
         trace( "y=" + y );
-        common.commonButtons.setLocationXY( DensityConstants.CONTROL_INSET, y );
+        common.commonButtons.setLocationXY( DensityAndBuoyancyConstants.CONTROL_INSET, y );
     }
 
 }

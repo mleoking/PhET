@@ -4,7 +4,7 @@ import away3d.cameras.Camera3D;
 import away3d.core.base.Vertex;
 import away3d.core.draw.ScreenVertex;
 
-import edu.colorado.phet.densityandbuoyancy.DensityConstants;
+import edu.colorado.phet.densityandbuoyancy.DensityAndBuoyancyConstants;
 import edu.colorado.phet.densityandbuoyancy.view.away3d.ArrowNode;
 import edu.colorado.phet.flexcommon.FlexSimStrings;
 import edu.colorado.phet.flexcommon.model.BooleanProperty;
@@ -89,7 +89,7 @@ public class VectorValueNode extends Sprite {
     }
 
     private function getValueText(): String {
-        return String( DensityConstants.format( arrowNode.arrowModel.getMagnitude() ) );
+        return String( DensityAndBuoyancyConstants.format( arrowNode.arrowModel.getMagnitude() ) );
     }
 }
 }

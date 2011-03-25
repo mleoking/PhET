@@ -3,7 +3,7 @@ package edu.colorado.phet.densityandbuoyancy.view {
 import Box2D.Dynamics.b2DebugDraw;
 import Box2D.Dynamics.b2World;
 
-import edu.colorado.phet.densityandbuoyancy.DensityConstants;
+import edu.colorado.phet.densityandbuoyancy.DensityAndBuoyancyConstants;
 
 import flash.display.DisplayObject;
 import flash.display.Sprite;
@@ -31,7 +31,7 @@ public class Box2DDebug {
         var dbgSprite: Sprite = new Sprite();
         m_sprite.addChild( dbgSprite );
         dbgDraw.m_sprite = m_sprite;
-        dbgDraw.m_drawScale = 150 / DensityConstants.SCALE_BOX2D;
+        dbgDraw.m_drawScale = 150 / DensityAndBuoyancyConstants.SCALE_BOX2D;
         dbgDraw.m_alpha = 1;
         dbgDraw.m_fillAlpha = 0.5;
         dbgDraw.m_lineThickness = 1;

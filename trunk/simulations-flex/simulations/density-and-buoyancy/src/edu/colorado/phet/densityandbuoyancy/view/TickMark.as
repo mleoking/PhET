@@ -5,7 +5,7 @@ import away3d.containers.View3D;
 import away3d.core.base.Vertex;
 import away3d.core.draw.ScreenVertex;
 
-import edu.colorado.phet.densityandbuoyancy.DensityConstants;
+import edu.colorado.phet.densityandbuoyancy.DensityAndBuoyancyConstants;
 import edu.colorado.phet.densityandbuoyancy.model.DensityModel;
 import edu.colorado.phet.densityandbuoyancy.view.away3d.GroundNode;
 
@@ -38,9 +38,9 @@ public class TickMark extends Sprite {
         graphics.clear();
         var indicatedVolume: Number = value;
 
-        var readout: Number = DensityConstants.metersToLitersCubed( indicatedVolume );//Convert SI to display units
+        var readout: Number = DensityAndBuoyancyConstants.metersToLitersCubed( indicatedVolume );//Convert SI to display units
 
-        textField.text = String( DensityConstants.format( readout ) );
+        textField.text = String( DensityAndBuoyancyConstants.format( readout ) );
         var textFormat: TextFormat = new TextFormat();
         textFormat.size = 14;
         textFormat.bold = true;

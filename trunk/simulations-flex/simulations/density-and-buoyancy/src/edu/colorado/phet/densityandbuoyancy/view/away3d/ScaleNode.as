@@ -2,7 +2,7 @@
 package edu.colorado.phet.densityandbuoyancy.view.away3d {
 import away3d.materials.*;
 
-import edu.colorado.phet.densityandbuoyancy.DensityConstants;
+import edu.colorado.phet.densityandbuoyancy.DensityAndBuoyancyConstants;
 import edu.colorado.phet.densityandbuoyancy.model.DensityModel;
 import edu.colorado.phet.densityandbuoyancy.model.Scale;
 import edu.colorado.phet.densityandbuoyancy.view.*;
@@ -83,7 +83,7 @@ public class ScaleNode extends CuboidNode {
         super.updateGeometry();
         densityObjectReadoutNode.x = base.x - base.width / 2 + x;
         densityObjectReadoutNode.y = base.y - base.height / 2 + y;
-        densityObjectReadoutNode.z = base.z - base.depth / 2 - DensityConstants.FUDGE_FACTOR_DZ + z;
+        densityObjectReadoutNode.z = base.z - base.depth / 2 - DensityAndBuoyancyConstants.FUDGE_FACTOR_DZ + z;
         updateText();
     }
 

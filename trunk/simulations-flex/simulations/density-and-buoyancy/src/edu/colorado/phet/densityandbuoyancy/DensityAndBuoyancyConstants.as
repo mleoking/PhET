@@ -7,7 +7,10 @@ import flash.geom.ColorTransform;
 import mx.formatters.NumberBaseRoundType;
 import mx.formatters.NumberFormatter;
 
-public class DensityConstants {
+/**
+ * Constants used throughout the Density and Buoyancy simulations.
+ */
+public class DensityAndBuoyancyConstants {
     public static const MIN_MASS: Number = 1;
     public static const MAX_MASS: Number = 10;
     public static const MIN_VOLUME: Number = litersToMetersCubed( 1 );

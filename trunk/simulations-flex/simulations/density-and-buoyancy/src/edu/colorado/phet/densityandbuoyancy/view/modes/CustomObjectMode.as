@@ -1,6 +1,6 @@
 //  Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.densityandbuoyancy.view.modes {
-import edu.colorado.phet.densityandbuoyancy.DensityConstants;
+import edu.colorado.phet.densityandbuoyancy.DensityAndBuoyancyConstants;
 import edu.colorado.phet.densityandbuoyancy.components.CustomObjectPropertiesPanel;
 import edu.colorado.phet.densityandbuoyancy.model.Block;
 import edu.colorado.phet.densityandbuoyancy.model.DensityObject;
@@ -20,12 +20,12 @@ public class CustomObjectMode extends Mode {
         super( canvas );
         //Showing the blocks as partially floating allows easier visualization of densities
         const material: Material = DEFAULT_MATERIAL;
-        const volume: Number = DensityConstants.DEFAULT_BLOCK_MASS / material.getDensity();
+        const volume: Number = DensityAndBuoyancyConstants.DEFAULT_BLOCK_MASS / material.getDensity();
         const height: Number = Math.pow( volume, 1.0 / 3 );
-        customizableObject = Block.newBlockDensityMass( material.getDensity(), DensityConstants.DEFAULT_BLOCK_MASS, -DensityConstants.POOL_WIDTH_X / 3, height, new ColorTransform( 0.5, 0.5, 0 ), canvas.model, material );
+        customizableObject = Block.newBlockDensityMass( material.getDensity(), DensityAndBuoyancyConstants.DEFAULT_BLOCK_MASS, -DensityAndBuoyancyConstants.POOL_WIDTH_X / 3, height, new ColorTransform( 0.5, 0.5, 0 ), canvas.model, material );
         customObjectPropertiesPanel = new CustomObjectPropertiesPanel( customizableObject, canvas.units );
-        customObjectPropertiesPanel.x = DensityConstants.CONTROL_INSET;
-        customObjectPropertiesPanel.y = DensityConstants.CONTROL_INSET;
+        customObjectPropertiesPanel.x = DensityAndBuoyancyConstants.CONTROL_INSET;
+        customObjectPropertiesPanel.y = DensityAndBuoyancyConstants.CONTROL_INSET;
     }
 
     override public function teardown(): void {

@@ -1,6 +1,6 @@
 //  Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.densityandbuoyancy.view.away3d {
-import edu.colorado.phet.densityandbuoyancy.DensityConstants;
+import edu.colorado.phet.densityandbuoyancy.DensityAndBuoyancyConstants;
 
 import flash.display.Sprite;
 import flash.text.TextField;
@@ -28,7 +28,7 @@ public class TextFieldMesh extends Sprite3D {
 
     protected function drawBackground(): void {
         sprite.graphics.clear();
-        sprite.graphics.beginFill( DensityConstants.CONTROL_PANEL_COLOR, 0.6 );
+        sprite.graphics.beginFill( DensityAndBuoyancyConstants.CONTROL_PANEL_COLOR, 0.6 );
         sprite.graphics.drawRect( 0, 0, _textField.width, _textField.height );
         sprite.graphics.endFill();
     }

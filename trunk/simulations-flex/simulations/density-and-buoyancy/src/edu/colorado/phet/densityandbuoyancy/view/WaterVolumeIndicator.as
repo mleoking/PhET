@@ -1,6 +1,6 @@
 //  Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.densityandbuoyancy.view {
-import edu.colorado.phet.densityandbuoyancy.DensityConstants;
+import edu.colorado.phet.densityandbuoyancy.DensityAndBuoyancyConstants;
 import edu.colorado.phet.densityandbuoyancy.model.DensityModel;
 import edu.colorado.phet.flexcommon.FlexSimStrings;
 
@@ -30,9 +30,9 @@ public class WaterVolumeIndicator extends Sprite {
         graphics.clear();
         var indicatedVolume: Number = waterHeight * model.getPoolWidth() * model.getPoolDepth();
 
-        var readout: Number = DensityConstants.metersToLitersCubed( indicatedVolume );//Convert SI to sim units
+        var readout: Number = DensityAndBuoyancyConstants.metersToLitersCubed( indicatedVolume );//Convert SI to sim units
 
-        textField.text = FlexSimStrings.get( "properties.volumeLiterValue", "{0} L", [String( DensityConstants.format( readout ) )] );
+        textField.text = FlexSimStrings.get( "properties.volumeLiterValue", "{0} L", [String( DensityAndBuoyancyConstants.format( readout ) )] );
         var textFormat: TextFormat = new TextFormat();
         textFormat.size = 24;
         textFormat.bold = true;
