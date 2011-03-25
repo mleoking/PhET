@@ -16,7 +16,7 @@ import mx.events.FlexEvent;
 import mx.events.SliderEvent;
 
 /**
- * Control component with a label, text box and slider.
+ * Control component with a label, text box and slider--like a LinearValueControl in Java common that uses a NumericProperty for its model.
  */
 public class PropertyEditor extends GridRow {
     private var _property: NumericProperty;

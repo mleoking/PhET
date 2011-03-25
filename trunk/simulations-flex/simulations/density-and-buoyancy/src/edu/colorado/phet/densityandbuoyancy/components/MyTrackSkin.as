@@ -9,7 +9,7 @@ import mx.utils.ColorUtil;
 
 /**
  * Provides a skin for how a slider (used in SliderDecorator) should look when it is disabled.
- * Copied from SliderTrackSkin.as, since we weren't able to override or replace style values
+ * Copied from SliderTrackSkin.as, since we weren't able to override or replace style values otherwise.
  */
 public class MyTrackSkin extends SliderTrackSkin {
 
