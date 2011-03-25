@@ -1,7 +1,7 @@
 //  Copyright 2002-2011, University of Colorado
 
 /**
- * Model for a 2d vector that can be observed for changes.
+ * Model for a 2d vector that signifies changes to listeners.
  */
 package edu.colorado.phet.densityandbuoyancy.model {
 public class Vector2D {

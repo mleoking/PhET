@@ -4,6 +4,11 @@ import Box2D.Collision.b2ContactPoint;
 import Box2D.Dynamics.Contacts.b2ContactResult;
 import Box2D.Dynamics.b2ContactListener;
 
+/**
+ * This Box2D listener keeps track of contact points between DensityObjects.
+ * TODO: Can 'virtual' be removed in ContactHandler?
+ * TODO: Can the seemingly unnecessary overrides be removed in ContactHandler?
+ */
 public class ContactHandler extends b2ContactListener {
 
     public function ContactHandler() {
