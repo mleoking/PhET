@@ -13,7 +13,7 @@ import edu.colorado.phet.flexcommon.model.NumericProperty;
 import edu.colorado.phet.flexcommon.model.StringProperty;
 
 /**
- * Our base class for "something movable that behaves like an object in the play area".
+ * Base class for "something movable that behaves like an object in the play area", including Scales and Blocks.
  */
 public class DensityObject {
 

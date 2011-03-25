@@ -5,7 +5,7 @@ import edu.colorado.phet.flexcommon.FlexSimStrings;
 import flash.display.Bitmap;
 
 /**
- * Represents both solid (e.g. wood) and liquid (e.g. water) materaials.
+ * Materials have a name, density, color and texture--represents both solid (e.g. wood) and liquid (e.g. water) materials.
  */
 public class Material {
     [Embed(source="../../../../../../data/density-and-buoyancy/images/wood.png")]
