@@ -13,6 +13,9 @@ import edu.colorado.phet.flexcommon.FlexSimStrings;
 import edu.colorado.phet.flexcommon.model.BooleanProperty;
 import edu.colorado.phet.flexcommon.model.NumericProperty;
 
+/**
+ * The main model for Density and Buoyancy simulations.
+ */
 public class DensityModel {
     private var densityObjects: Array;
 
@@ -156,10 +159,6 @@ public class DensityModel {
 
         contactHandler = new ContactHandler();
         world.SetContactListener( contactHandler );
-    }
-
-    public function getDensityObjects(): Array {
-        return densityObjects;
     }
 
     public function stepFrame(): void {

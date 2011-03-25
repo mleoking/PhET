@@ -11,7 +11,7 @@ import edu.colorado.phet.flexcommon.FlexSimStrings;
 import edu.colorado.phet.flexcommon.model.BooleanProperty;
 
 /**
- * This class represents the model object for a scale.
+ * This class represents the model object for a scale, which measures the mass in kg (in density) or weight in Newtons (in buoyancy)
  */
 public class Scale extends Cuboid {
 

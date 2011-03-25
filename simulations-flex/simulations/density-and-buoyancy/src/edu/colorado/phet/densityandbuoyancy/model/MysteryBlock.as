@@ -8,6 +8,9 @@ import edu.colorado.phet.flexcommon.model.StringProperty;
 
 import flash.geom.ColorTransform;
 
+/**
+ * The MysteryBlock is used in the 'mystery' mode of density, and increases the font of the block node readout so it is more visible.
+ */
 public class MysteryBlock extends Block {
     private var label: String;
 
