@@ -1,22 +1,22 @@
 //  Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.densityandbuoyancy.view {
-import edu.colorado.phet.densityandbuoyancy.view.modes.CustomObjectMode;
+import edu.colorado.phet.densityandbuoyancy.view.modes.DensityCustomObjectMode;
+import edu.colorado.phet.densityandbuoyancy.view.modes.DensityMysteryObjectsMode;
 import edu.colorado.phet.densityandbuoyancy.view.modes.DensitySameDensityMode;
 import edu.colorado.phet.densityandbuoyancy.view.modes.DensitySameMassMode;
 import edu.colorado.phet.densityandbuoyancy.view.modes.DensitySameVolumeMode;
 import edu.colorado.phet.densityandbuoyancy.view.modes.Mode;
-import edu.colorado.phet.densityandbuoyancy.view.modes.MysteryObjectsMode;
 import edu.colorado.phet.flashcommon.ApplicationLifecycle;
 
 public class DensityCanvas extends AbstractDBCanvas {
 
     private var _container: DensityContainer;
 
-    private var customObjectMode: CustomObjectMode;
+    private var customObjectMode: DensityCustomObjectMode;
     private var sameMassMode: DensitySameMassMode;
     private var sameVolumeMode: DensitySameVolumeMode;
     private var sameDensityMode: DensitySameDensityMode;
-    private var mysteryObjectsMode: MysteryObjectsMode;
+    private var mysteryObjectsMode: DensityMysteryObjectsMode;
     private var mode: Mode;
 
     public function DensityCanvas( densityContainer: DensityContainer ) {
@@ -24,11 +24,11 @@ public class DensityCanvas extends AbstractDBCanvas {
         this._container = densityContainer;
         const myThis: DensityCanvas = this;
         ApplicationLifecycle.addApplicationCompleteListener( function(): void {
-            customObjectMode = new CustomObjectMode( myThis );
+            customObjectMode = new DensityCustomObjectMode( myThis );
             sameMassMode = new DensitySameMassMode( myThis );
             sameVolumeMode = new DensitySameVolumeMode( myThis );
             sameDensityMode = new DensitySameDensityMode( myThis );
-            mysteryObjectsMode = new MysteryObjectsMode( myThis );
+            mysteryObjectsMode = new DensityMysteryObjectsMode( myThis );
             //If other modes are added, you may need to specify a call to the Mode.reset() in resetAll()
             setMode( customObjectMode );
 

@@ -8,6 +8,9 @@ import edu.colorado.phet.densityandbuoyancy.view.AbstractDBCanvas;
 
 import flash.geom.ColorTransform;
 
+/**
+ * The 'same density' mode in Buoyancy shows 2 blocks of the same density (and hence the same material).
+ */
 public class BuoyancySameDensityMode extends BuoyancyMode {
     private var woodBlock: DensityObject;
     private var brick: DensityObject;

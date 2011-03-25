@@ -6,6 +6,9 @@ import edu.colorado.phet.densityandbuoyancy.model.DensityModel;
 import edu.colorado.phet.densityandbuoyancy.model.Material;
 import edu.colorado.phet.densityandbuoyancy.view.AbstractDBCanvas;
 
+/**
+ * Density simulation mode which shows 4 blocks of the same volume.
+ */
 public class DensitySameVolumeMode extends Mode {
 
     public function DensitySameVolumeMode( canvas: AbstractDBCanvas ) {

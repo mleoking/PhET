@@ -4,6 +4,9 @@ import edu.colorado.phet.densityandbuoyancy.components.CustomObjectPropertiesPan
 import edu.colorado.phet.densityandbuoyancy.model.DensityObject;
 import edu.colorado.phet.densityandbuoyancy.view.AbstractDBCanvas;
 
+/**
+ * Control for customizing the properties of the buoyancy objects in BuoyancyPlayground mode.
+ */
 public class CustomObjectPropertiesPanelWrapper {
     public var customObjectPropertiesPanel: CustomObjectPropertiesPanel;
     private var customObjectPropertiesPanelShowing: Boolean = false;

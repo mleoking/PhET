@@ -9,14 +9,17 @@ import edu.colorado.phet.densityandbuoyancy.view.AbstractDBCanvas;
 
 import flash.geom.ColorTransform;
 
-public class CustomObjectMode extends Mode {
+/**
+ * Represents a 'custom object' mode in the density sim, in which the user sees and manipulates a single customizable block.
+ */
+public class DensityCustomObjectMode extends Mode {
     private var customizableObject: DensityObject;
     private var customObjectPropertiesPanel: CustomObjectPropertiesPanel;
     private var customObjectPropertiesPanelShowing: Boolean = false;
 
     private var DEFAULT_MATERIAL: Material = Material.WOOD;
 
-    public function CustomObjectMode( canvas: AbstractDBCanvas ) {
+    public function DensityCustomObjectMode( canvas: AbstractDBCanvas ) {
         super( canvas );
         //Showing the blocks as partially floating allows easier visualization of densities
         const material: Material = DEFAULT_MATERIAL;
