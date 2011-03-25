@@ -8,7 +8,7 @@ import edu.colorado.phet.flexcommon.model.BooleanProperty;
 import flash.geom.ColorTransform;
 
 /**
- * This class represents the model object for a block.
+ * This class represents the model object for a block, implemented as a Cuboid with a ColorTransform
  */
 public class Block extends Cuboid {
     private var _colorTransform: ColorTransform;
@@ -19,22 +19,6 @@ public class Block extends Cuboid {
         this._colorTransform = colorTransform;
         getDensityProperty().addListener( updateColorTransform );
         addMaterialListener( updateColorTransform );
-    }
-
-    public static function newBlockDensitySize( density: Number, size: Number, x: Number, y: Number, color: ColorTransform, model: DensityModel, __material: Material ): Block {
-        return new Block( density, size, x, y, color, model, __material );
-    }
-
-    public static function newBlockDensityMass( density: Number, mass: Number, x: Number, y: Number, color: ColorTransform, model: DensityModel, __material: Material ): Block {
-        return new Block( density, Math.pow( mass / density, 1.0 / 3.0 ), x, y, color, model, __material );
-    }
-
-    public static function newBlockSizeMass( size: Number, mass: Number, x: Number, y: Number, color: ColorTransform, model: DensityModel, __material: Material ): Block {
-        return new Block( mass / (size * size * size), size, x, y, color, model, __material );
-    }
-
-    public static function newBlockVolumeMass( volume: Number, mass: Number, x: Number, y: Number, color: ColorTransform, model: DensityModel, __material: Material ): Block {
-        return new Block( mass / volume, Math.pow( volume, 1.0 / 3 ), x, y, color, model, __material );
     }
 
     public function updateColorTransform(): void {
@@ -61,6 +45,14 @@ public class Block extends Cuboid {
 
     override public function toString(): String {
         return "Block: " + super.toString();
+    }
+
+    public static function newBlockDensityMass( density: Number, mass: Number, x: Number, y: Number, color: ColorTransform, model: DensityModel, __material: Material ): Block {
+        return new Block( density, Math.pow( mass / density, 1.0 / 3.0 ), x, y, color, model, __material );
+    }
+
+    public static function newBlockVolumeMass( volume: Number, mass: Number, x: Number, y: Number, color: ColorTransform, model: DensityModel, __material: Material ): Block {
+        return new Block( mass / volume, Math.pow( volume, 1.0 / 3 ), x, y, color, model, __material );
     }
 }
 }
