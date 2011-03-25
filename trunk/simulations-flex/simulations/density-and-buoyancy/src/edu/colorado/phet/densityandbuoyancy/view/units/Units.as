@@ -1,5 +1,8 @@
 //  Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.densityandbuoyancy.view.units {
+/**
+ * Collection of all units, including mass, volume and density, and the name of the collection (such as 'metric')
+ */
 public class Units {
     private var name: String;
     private var _massUnit: Unit;
