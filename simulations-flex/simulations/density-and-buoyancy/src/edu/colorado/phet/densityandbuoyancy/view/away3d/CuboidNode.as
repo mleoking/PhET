@@ -6,6 +6,9 @@ import edu.colorado.phet.densityandbuoyancy.model.Cuboid;
 import edu.colorado.phet.densityandbuoyancy.model.DensityModel;
 import edu.colorado.phet.densityandbuoyancy.view.*;
 
+/**
+ * The CuboidNode renders graphics and provides interactivity for Cuboids.
+ */
 public class CuboidNode extends DensityObjectNode implements Pickable {
 
     private var cuboid: Cuboid;

@@ -9,6 +9,9 @@ import edu.colorado.phet.densityandbuoyancy.view.*;
 import edu.colorado.phet.flexcommon.model.BooleanProperty;
 import edu.colorado.phet.flexcommon.model.NumericProperty;
 
+/**
+ * Base class for deep hierarchy of 3D objects in the play area that can be moved by the user (including blocks and scales).
+ */
 public class DensityObjectNode extends ObjectContainer3D implements Pickable {
     private var densityObject: DensityObject;
 

@@ -7,6 +7,9 @@ import edu.colorado.phet.densityandbuoyancy.model.DensityModel;
 import edu.colorado.phet.densityandbuoyancy.model.Scale;
 import edu.colorado.phet.densityandbuoyancy.view.*;
 
+/**
+ * ScaleNode renders graphics and provides interactivity for 3D scales for measuring masses or weights.
+ */
 public class ScaleNode extends CuboidNode {
 
     private var _scale: Scale;
