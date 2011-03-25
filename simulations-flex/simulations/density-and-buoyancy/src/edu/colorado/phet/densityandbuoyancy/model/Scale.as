@@ -3,7 +3,7 @@ package edu.colorado.phet.densityandbuoyancy.model {
 import Box2D.Dynamics.Contacts.b2ContactResult;
 import Box2D.Dynamics.b2Body;
 
-import edu.colorado.phet.densityandbuoyancy.DensityConstants;
+import edu.colorado.phet.densityandbuoyancy.DensityAndBuoyancyConstants;
 import edu.colorado.phet.densityandbuoyancy.view.AbstractDBCanvas;
 import edu.colorado.phet.densityandbuoyancy.view.away3d.DensityObjectNode;
 import edu.colorado.phet.densityandbuoyancy.view.away3d.ScaleNode;
@@ -25,10 +25,10 @@ public class Scale extends Cuboid {
     public static var SCALE_DEPTH: Number = 0.1 * SCALE_SCALE;
 
     private const scaleReadoutListeners: Array = new Array();
-    public static const GROUND_SCALE_X: Number = -DensityConstants.POOL_WIDTH_X / 2 - DensityConstants.LARGE_BLOCK_WIDTH - Scale.SCALE_WIDTH / 2;
+    public static const GROUND_SCALE_X: Number = -DensityAndBuoyancyConstants.POOL_WIDTH_X / 2 - DensityAndBuoyancyConstants.LARGE_BLOCK_WIDTH - Scale.SCALE_WIDTH / 2;
     public static const GROUND_SCALE_Y: Number = Scale.SCALE_HEIGHT / 2;
 
-    public static const POOL_SCALE_X: Number = DensityConstants.POOL_WIDTH_X / 2 - Scale.SCALE_WIDTH * 1.5;
+    public static const POOL_SCALE_X: Number = DensityAndBuoyancyConstants.POOL_WIDTH_X / 2 - Scale.SCALE_WIDTH * 1.5;
     public static var POOL_SCALE_Y: Number;
 
     public function Scale( x: Number, y: Number, model: DensityModel ): void {
@@ -49,8 +49,8 @@ public class Scale extends Cuboid {
         //impulse I=Fdt
         //F=I/dt
         var force: Number = totalImpulse / DensityModel.DT_PER_FRAME;
-        var mass: Number = force / DensityConstants.GRAVITY;
-        return FlexSimStrings.get( "properties.massKilogramValue", "{0} kg", [DensityConstants.format( mass )] );
+        var mass: Number = force / DensityAndBuoyancyConstants.GRAVITY;
+        return FlexSimStrings.get( "properties.massKilogramValue", "{0} kg", [DensityAndBuoyancyConstants.format( mass )] );
     }
 
     override public function onFrameStep( dt: Number ): void {
@@ -99,7 +99,7 @@ public class Scale extends Cuboid {
             return;
         }
 
-        totalImpulse += point.normalImpulse / DensityConstants.SCALE_BOX2D;//convert back to SI from box2d units
+        totalImpulse += point.normalImpulse / DensityAndBuoyancyConstants.SCALE_BOX2D;//convert back to SI from box2d units
     }
 
     override public function resetContacts(): void {

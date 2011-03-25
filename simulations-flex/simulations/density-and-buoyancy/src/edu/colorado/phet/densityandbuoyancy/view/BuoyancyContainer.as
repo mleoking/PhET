@@ -1,6 +1,6 @@
 //  Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.densityandbuoyancy.view {
-import edu.colorado.phet.densityandbuoyancy.DensityConstants;
+import edu.colorado.phet.densityandbuoyancy.DensityAndBuoyancyConstants;
 import edu.colorado.phet.densityandbuoyancy.components.DensityVBox;
 import edu.colorado.phet.densityandbuoyancy.view.modes.Mode;
 import edu.colorado.phet.flashcommon.ApplicationLifecycle;
@@ -33,8 +33,8 @@ public class BuoyancyContainer extends AbstractDBContainer {
         addLogo();
 
         var arrowControlPanel: DensityVBox = new DensityVBox();
-        arrowControlPanel.setStyle( "left", DensityConstants.CONTROL_INSET );
-        arrowControlPanel.setStyle( "bottom", DensityConstants.CONTROL_INSET );
+        arrowControlPanel.setStyle( "left", DensityAndBuoyancyConstants.CONTROL_INSET );
+        arrowControlPanel.setStyle( "bottom", DensityAndBuoyancyConstants.CONTROL_INSET );
         arrowControlPanel.visible = true;
 
         {
@@ -57,9 +57,9 @@ public class BuoyancyContainer extends AbstractDBContainer {
             arrowControlPanel.addChild( checkBox );
         }
 
-        attachForceCheckbox( FlexSimStrings.get( 'forceArrows.gravity', 'Gravity' ), buoyancyCanvas.gravityArrowsVisible, DensityConstants.GRAVITY_COLOR );
-        attachForceCheckbox( FlexSimStrings.get( 'forceArrows.buoyancy', 'Buoyancy' ), buoyancyCanvas.buoyancyArrowsVisible, DensityConstants.BUOYANCY_COLOR );
-        attachForceCheckbox( FlexSimStrings.get( 'forceArrows.contact', 'Contact' ), buoyancyCanvas.contactArrowsVisible, DensityConstants.CONTACT_COLOR );
+        attachForceCheckbox( FlexSimStrings.get( 'forceArrows.gravity', 'Gravity' ), buoyancyCanvas.gravityArrowsVisible, DensityAndBuoyancyConstants.GRAVITY_COLOR );
+        attachForceCheckbox( FlexSimStrings.get( 'forceArrows.buoyancy', 'Buoyancy' ), buoyancyCanvas.buoyancyArrowsVisible, DensityAndBuoyancyConstants.BUOYANCY_COLOR );
+        attachForceCheckbox( FlexSimStrings.get( 'forceArrows.contact', 'Contact' ), buoyancyCanvas.contactArrowsVisible, DensityAndBuoyancyConstants.CONTACT_COLOR );
 
         addChild( arrowControlPanel );
 

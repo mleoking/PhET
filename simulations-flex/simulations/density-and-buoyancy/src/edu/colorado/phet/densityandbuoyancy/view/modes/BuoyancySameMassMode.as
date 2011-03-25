@@ -1,6 +1,6 @@
 //  Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.densityandbuoyancy.view.modes {
-import edu.colorado.phet.densityandbuoyancy.DensityConstants;
+import edu.colorado.phet.densityandbuoyancy.DensityAndBuoyancyConstants;
 import edu.colorado.phet.densityandbuoyancy.model.Block;
 import edu.colorado.phet.densityandbuoyancy.model.DensityObject;
 import edu.colorado.phet.densityandbuoyancy.model.Material;
@@ -16,16 +16,16 @@ public class BuoyancySameMassMode extends BuoyancyMode {
         super( canvas );
         //Showing the blocks as partially floating allows easier visualization of densities
         const material: Material = Material.WOOD;
-        const mass: Number = DensityConstants.DEFAULT_BLOCK_MASS * 2.5;
+        const mass: Number = DensityAndBuoyancyConstants.DEFAULT_BLOCK_MASS * 2.5;
         const volume: Number = mass / material.getDensity();
         const height: Number = Math.pow( volume, 1.0 / 3 );
-        woodBlock = Block.newBlockDensityMass( material.getDensity(), mass, -DensityConstants.POOL_WIDTH_X / 2, height, new ColorTransform( 0.5, 0.5, 0 ), canvas.model, material );
+        woodBlock = Block.newBlockDensityMass( material.getDensity(), mass, -DensityAndBuoyancyConstants.POOL_WIDTH_X / 2, height, new ColorTransform( 0.5, 0.5, 0 ), canvas.model, material );
         woodBlock.name = "woodBlock";
 
         const brickMaterial: Material = Material.BRICK;
         const v2: Number = mass / material.getDensity();
         const h2: Number = Math.pow( volume, 1.0 / 3 );
-        brick = Block.newBlockDensityMass( brickMaterial.getDensity(), mass, DensityConstants.POOL_WIDTH_X / 2, h2, new ColorTransform( 0.5, 0.5, 0 ), canvas.model, brickMaterial );
+        brick = Block.newBlockDensityMass( brickMaterial.getDensity(), mass, DensityAndBuoyancyConstants.POOL_WIDTH_X / 2, h2, new ColorTransform( 0.5, 0.5, 0 ), canvas.model, brickMaterial );
     }
 
     override public function init(): void {

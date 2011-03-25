@@ -2,7 +2,7 @@
 package edu.colorado.phet.densityandbuoyancy.view.away3d {
 import away3d.materials.*;
 
-import edu.colorado.phet.densityandbuoyancy.DensityConstants;
+import edu.colorado.phet.densityandbuoyancy.DensityAndBuoyancyConstants;
 import edu.colorado.phet.densityandbuoyancy.model.Block;
 import edu.colorado.phet.densityandbuoyancy.model.Material;
 import edu.colorado.phet.densityandbuoyancy.view.*;
@@ -88,7 +88,7 @@ public class BlockNode extends CubeNode implements Pickable {
         super.updateGeometry();
         densityObjectReadoutNode.x = getCube().x - getCube().width / 2 + x;
         densityObjectReadoutNode.y = getCube().y - getCube().height / 2 + y;
-        densityObjectReadoutNode.z = getCube().z - getCube().depth / 2 - DensityConstants.FUDGE_FACTOR_DZ + z;
+        densityObjectReadoutNode.z = getCube().z - getCube().depth / 2 - DensityAndBuoyancyConstants.FUDGE_FACTOR_DZ + z;
     }
 
     override protected function getFontReadoutSize(): Number {

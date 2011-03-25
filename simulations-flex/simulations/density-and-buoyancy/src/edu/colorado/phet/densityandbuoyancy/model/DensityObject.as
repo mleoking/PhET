@@ -4,7 +4,7 @@ import Box2D.Common.Math.b2Vec2;
 import Box2D.Dynamics.Contacts.b2ContactResult;
 import Box2D.Dynamics.b2Body;
 
-import edu.colorado.phet.densityandbuoyancy.DensityConstants;
+import edu.colorado.phet.densityandbuoyancy.DensityAndBuoyancyConstants;
 import edu.colorado.phet.densityandbuoyancy.view.AbstractDBCanvas;
 import edu.colorado.phet.densityandbuoyancy.view.away3d.DensityObjectNode;
 import edu.colorado.phet.flexcommon.FlexSimStrings;
@@ -102,7 +102,7 @@ public class DensityObject {
     }
 
     private function getLabelString(): String {
-        return FlexSimStrings.get( "properties.massKilogramValue", "{0} kg", [DensityConstants.format( getMass() )] );
+        return FlexSimStrings.get( "properties.massKilogramValue", "{0} kg", [DensityAndBuoyancyConstants.format( getMass() )] );
     }
 
     protected function getLabelProperty(): StringProperty {
@@ -195,7 +195,7 @@ public class DensityObject {
     }
 
     public function updatePositionFromBox2D(): void {
-        setPosition( body.GetPosition().x / DensityConstants.SCALE_BOX2D, body.GetPosition().y / DensityConstants.SCALE_BOX2D );
+        setPosition( body.GetPosition().x / DensityAndBuoyancyConstants.SCALE_BOX2D, body.GetPosition().y / DensityAndBuoyancyConstants.SCALE_BOX2D );
     }
 
     public function setPosition( x: Number, y: Number ): void {
@@ -206,8 +206,8 @@ public class DensityObject {
     }
 
     private function updatePosition(): void {
-        var newX: Number = x.value * DensityConstants.SCALE_BOX2D;
-        var newY: Number = y.value * DensityConstants.SCALE_BOX2D;
+        var newX: Number = x.value * DensityAndBuoyancyConstants.SCALE_BOX2D;
+        var newY: Number = y.value * DensityAndBuoyancyConstants.SCALE_BOX2D;
         if ( body != null ) { //body is only non-null after inScene = true, so only update when possible 
             if ( body.GetPosition().x != newX || body.GetPosition().y != newY ) {
                 body.SetXForm( new b2Vec2( newX, newY ), 0 );
@@ -255,7 +255,7 @@ public class DensityObject {
         for each ( var object: Object in contactImpulseMap ) {
             sum.Add( object as b2Vec2 );
         }
-        sum.Multiply( 1.0 / DensityModel.DT_PER_FRAME / DensityConstants.SCALE_BOX2D );//to convert to force
+        sum.Multiply( 1.0 / DensityModel.DT_PER_FRAME / DensityAndBuoyancyConstants.SCALE_BOX2D );//to convert to force
         return sum;
     }
 
@@ -301,12 +301,12 @@ public class DensityObject {
     }
 
     public function getGravityForce(): b2Vec2 {
-        return new b2Vec2( 0, -DensityConstants.GRAVITY * getMass() );
+        return new b2Vec2( 0, -DensityAndBuoyancyConstants.GRAVITY * getMass() );
     }
 
     //Set the submerged volume before calling this
     public function getBuoyancyForce(): b2Vec2 {
-        return new b2Vec2( 0, DensityConstants.GRAVITY * submergedVolume * model.fluidDensity.value );
+        return new b2Vec2( 0, DensityAndBuoyancyConstants.GRAVITY * submergedVolume * model.fluidDensity.value );
     }
 
     public function setSubmergedVolume( submergedVolume: Number ): void {

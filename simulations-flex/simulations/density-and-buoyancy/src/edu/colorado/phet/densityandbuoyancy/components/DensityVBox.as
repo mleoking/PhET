@@ -1,6 +1,6 @@
 //  Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.densityandbuoyancy.components {
-import edu.colorado.phet.densityandbuoyancy.DensityConstants;
+import edu.colorado.phet.densityandbuoyancy.DensityAndBuoyancyConstants;
 
 import mx.containers.Box;
 import mx.containers.VBox;
@@ -15,7 +15,7 @@ public class DensityVBox extends VBox {
     }
 
     public static function init( box: Box ): void {
-        box.setStyle( "backgroundColor", DensityConstants.CONTROL_PANEL_COLOR );
+        box.setStyle( "backgroundColor", DensityAndBuoyancyConstants.CONTROL_PANEL_COLOR );
         box.setStyle( "borderStyle", "solid" );
 
         box.setStyle( "cornerRadius", 5 );

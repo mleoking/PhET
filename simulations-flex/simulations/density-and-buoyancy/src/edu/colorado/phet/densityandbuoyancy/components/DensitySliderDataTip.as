@@ -1,6 +1,6 @@
 //  Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.densityandbuoyancy.components {
-import edu.colorado.phet.densityandbuoyancy.DensityConstants;
+import edu.colorado.phet.densityandbuoyancy.DensityAndBuoyancyConstants;
 import edu.colorado.phet.densityandbuoyancy.view.units.Unit;
 import edu.colorado.phet.flexcommon.FlexSimStrings;
 
@@ -31,7 +31,7 @@ public class DensitySliderDataTip extends Sprite {
         graphics.clear();
         var indicatedVolume: Number = waterHeight;
 
-        var readout: Number = DensityConstants.metersToLitersCubed( indicatedVolume );//Convert SI to sim units
+        var readout: Number = DensityAndBuoyancyConstants.metersToLitersCubed( indicatedVolume );//Convert SI to sim units
 
         var textFormat: TextFormat = new TextFormat();
         textFormat.size = 16;
@@ -50,7 +50,7 @@ public class DensitySliderDataTip extends Sprite {
     }
 
     public function setDensity( density: Number, units: Unit ): void {
-        textField.text = FlexSimStrings.get( "properties.densityValue", "{0} kg/L", [String( DensityConstants.format( units.fromSI( density ) ) )] );
+        textField.text = FlexSimStrings.get( "properties.densityValue", "{0} kg/L", [String( DensityAndBuoyancyConstants.format( units.fromSI( density ) ) )] );
         update();
     }
 }

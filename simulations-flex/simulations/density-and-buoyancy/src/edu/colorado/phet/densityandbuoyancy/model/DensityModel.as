@@ -7,7 +7,7 @@ import Box2D.Dynamics.b2Body;
 import Box2D.Dynamics.b2BodyDef;
 import Box2D.Dynamics.b2World;
 
-import edu.colorado.phet.densityandbuoyancy.DensityConstants;
+import edu.colorado.phet.densityandbuoyancy.DensityAndBuoyancyConstants;
 import edu.colorado.phet.densityandbuoyancy.view.DebugText;
 import edu.colorado.phet.flexcommon.FlexSimStrings;
 import edu.colorado.phet.flexcommon.model.BooleanProperty;
@@ -19,9 +19,9 @@ import edu.colorado.phet.flexcommon.model.NumericProperty;
 public class DensityModel {
     private var densityObjects: Array;
 
-    private var poolWidth: Number = DensityConstants.POOL_WIDTH_X;
+    private var poolWidth: Number = DensityAndBuoyancyConstants.POOL_WIDTH_X;
     private var poolHeight: Number;
-    private var poolDepth: Number = DensityConstants.POOL_DEPTH_Z;
+    private var poolDepth: Number = DensityAndBuoyancyConstants.POOL_DEPTH_Z;
     private var waterHeight: Number;
 
     public const fluidDensity: NumericProperty = new NumericProperty( FlexSimStrings.get( "properties.fluidDensity", "Fluid Density" ), "kg/m\u00b3", Material.WATER.getDensity() );
@@ -58,10 +58,10 @@ public class DensityModel {
         this.waterHeight = volume / poolWidth / poolDepth;
         densityObjects = new Array();
         if ( extendedPool ) {
-            poolHeight = DensityConstants.POOL_HEIGHT_Y_EXTENDED;
+            poolHeight = DensityAndBuoyancyConstants.POOL_HEIGHT_Y_EXTENDED;
         }
         else {
-            poolHeight = DensityConstants.POOL_HEIGHT_Y;
+            poolHeight = DensityAndBuoyancyConstants.POOL_HEIGHT_Y;
         }
 
         initWorld();
@@ -121,15 +121,15 @@ public class DensityModel {
         var groundShapeDef: b2PolygonDef = new b2PolygonDef();
 
         //Bottom of the pool
-        groundShapeDef.SetAsOrientedBox( BOUNDS / 2 * DensityConstants.SCALE_BOX2D, 500 * DensityConstants.SCALE_BOX2D, new b2Vec2( 0, -500 * DensityConstants.SCALE_BOX2D - poolHeight * DensityConstants.SCALE_BOX2D ), 0 );
+        groundShapeDef.SetAsOrientedBox( BOUNDS / 2 * DensityAndBuoyancyConstants.SCALE_BOX2D, 500 * DensityAndBuoyancyConstants.SCALE_BOX2D, new b2Vec2( 0, -500 * DensityAndBuoyancyConstants.SCALE_BOX2D - poolHeight * DensityAndBuoyancyConstants.SCALE_BOX2D ), 0 );
         groundBody.CreateShape( groundShapeDef );
 
         //Left side of the pool
-        groundShapeDef.SetAsOrientedBox( BOUNDS / 2 * DensityConstants.SCALE_BOX2D, BOUNDS * DensityConstants.SCALE_BOX2D, new b2Vec2( -(poolWidth / 2 + BOUNDS / 2) * DensityConstants.SCALE_BOX2D, -BOUNDS * DensityConstants.SCALE_BOX2D ), 0 );
+        groundShapeDef.SetAsOrientedBox( BOUNDS / 2 * DensityAndBuoyancyConstants.SCALE_BOX2D, BOUNDS * DensityAndBuoyancyConstants.SCALE_BOX2D, new b2Vec2( -(poolWidth / 2 + BOUNDS / 2) * DensityAndBuoyancyConstants.SCALE_BOX2D, -BOUNDS * DensityAndBuoyancyConstants.SCALE_BOX2D ), 0 );
         groundBody.CreateShape( groundShapeDef );
 
         //Right side of the pool
-        groundShapeDef.SetAsOrientedBox( BOUNDS / 2 * DensityConstants.SCALE_BOX2D, BOUNDS * DensityConstants.SCALE_BOX2D, new b2Vec2( (poolWidth / 2 + BOUNDS / 2) * DensityConstants.SCALE_BOX2D, -BOUNDS * DensityConstants.SCALE_BOX2D ), 0 );
+        groundShapeDef.SetAsOrientedBox( BOUNDS / 2 * DensityAndBuoyancyConstants.SCALE_BOX2D, BOUNDS * DensityAndBuoyancyConstants.SCALE_BOX2D, new b2Vec2( (poolWidth / 2 + BOUNDS / 2) * DensityAndBuoyancyConstants.SCALE_BOX2D, -BOUNDS * DensityAndBuoyancyConstants.SCALE_BOX2D ), 0 );
         groundBody.CreateShape( groundShapeDef );
     }
 
@@ -140,21 +140,21 @@ public class DensityModel {
         var shapeDef: b2PolygonDef = new b2PolygonDef();
 
         //100m high and 100m wide
-        const wallWidth: Number = 1 * DensityConstants.SCALE_BOX2D;
-        const wallHeight: Number = 1 * DensityConstants.SCALE_BOX2D;
-        const leftBound: Number = (-Math.abs( Scale.GROUND_SCALE_X ) - Scale.SCALE_WIDTH / 2) * DensityConstants.SCALE_BOX2D;
+        const wallWidth: Number = 1 * DensityAndBuoyancyConstants.SCALE_BOX2D;
+        const wallHeight: Number = 1 * DensityAndBuoyancyConstants.SCALE_BOX2D;
+        const leftBound: Number = (-Math.abs( Scale.GROUND_SCALE_X ) - Scale.SCALE_WIDTH / 2) * DensityAndBuoyancyConstants.SCALE_BOX2D;
         shapeDef.SetAsOrientedBox( wallWidth, wallHeight, new b2Vec2( -wallWidth + leftBound, 0 ), 0 );
         body.CreateShape( shapeDef );
 
-        const rightBound: Number = (Math.abs( Scale.GROUND_SCALE_X ) + Scale.SCALE_WIDTH / 2) * DensityConstants.SCALE_BOX2D;
+        const rightBound: Number = (Math.abs( Scale.GROUND_SCALE_X ) + Scale.SCALE_WIDTH / 2) * DensityAndBuoyancyConstants.SCALE_BOX2D;
         shapeDef.SetAsOrientedBox( wallWidth, wallHeight, new b2Vec2( wallWidth + rightBound, 0 ), 0 );
         body.CreateShape( shapeDef );
     }
 
     private function initWorld(): void {
         var worldBox: b2AABB = new b2AABB();
-        worldBox.lowerBound.Set( -BOUNDS * DensityConstants.SCALE_BOX2D, -BOUNDS * DensityConstants.SCALE_BOX2D );
-        worldBox.upperBound.Set( BOUNDS * DensityConstants.SCALE_BOX2D, BOUNDS * DensityConstants.SCALE_BOX2D );
+        worldBox.lowerBound.Set( -BOUNDS * DensityAndBuoyancyConstants.SCALE_BOX2D, -BOUNDS * DensityAndBuoyancyConstants.SCALE_BOX2D );
+        worldBox.upperBound.Set( BOUNDS * DensityAndBuoyancyConstants.SCALE_BOX2D, BOUNDS * DensityAndBuoyancyConstants.SCALE_BOX2D );
         world = new b2World( worldBox, new b2Vec2( 0, 0 )/*we handle gravity ourselves*/, false/*don't sleep*/ );
 
         contactHandler = new ContactHandler();
@@ -193,15 +193,15 @@ public class DensityModel {
 
                 // Apply Forces
                 const gravityForce: b2Vec2 = cuboid.getGravityForce().Copy();
-                gravityForce.Multiply( DensityConstants.SCALE_BOX2D );
+                gravityForce.Multiply( DensityAndBuoyancyConstants.SCALE_BOX2D );
                 body.ApplyForce( gravityForce, body.GetPosition() );
 
                 const buoyancyForce: b2Vec2 = cuboid.getBuoyancyForce().Copy();
-                buoyancyForce.Multiply( DensityConstants.SCALE_BOX2D );
+                buoyancyForce.Multiply( DensityAndBuoyancyConstants.SCALE_BOX2D );
                 body.ApplyForce( buoyancyForce, body.GetPosition() );
 
                 const dragForce: b2Vec2 = cuboid.getPhysicalDragForce().Copy();
-                dragForce.Multiply( DensityConstants.SCALE_BOX2D );
+                dragForce.Multiply( DensityAndBuoyancyConstants.SCALE_BOX2D );
                 body.ApplyForce( dragForce, body.GetPosition() );
             }
 

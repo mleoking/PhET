@@ -1,6 +1,6 @@
 //  Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.densityandbuoyancy.components {
-import edu.colorado.phet.densityandbuoyancy.DensityConstants;
+import edu.colorado.phet.densityandbuoyancy.DensityAndBuoyancyConstants;
 import edu.colorado.phet.densityandbuoyancy.model.DensityObject;
 import edu.colorado.phet.densityandbuoyancy.model.Material;
 import edu.colorado.phet.densityandbuoyancy.model.Not;
@@ -42,12 +42,12 @@ public class CustomObjectPropertiesPanel extends DensityVBox {
         //TODO: See related workaround PropertyEditor
         function clampMass( mass: Number ): Number {
             //TODO: factor out this duplicated code
-            if ( densityObject.material.equals( Material.STYROFOAM ) && mass > DensityConstants.STYROFOAM_MAX_MASS ) {
-                return DensityConstants.STYROFOAM_MAX_MASS;
+            if ( densityObject.material.equals( Material.STYROFOAM ) && mass > DensityAndBuoyancyConstants.STYROFOAM_MAX_MASS ) {
+                return DensityAndBuoyancyConstants.STYROFOAM_MAX_MASS;
             }
             else {
-                if ( densityObject.material.equals( Material.WOOD ) && mass > DensityConstants.WOOD_MAX_MASS ) {
-                    return DensityConstants.WOOD_MAX_MASS;
+                if ( densityObject.material.equals( Material.WOOD ) && mass > DensityAndBuoyancyConstants.WOOD_MAX_MASS ) {
+                    return DensityAndBuoyancyConstants.WOOD_MAX_MASS;
                 }
                 else {
                     return mass;
@@ -55,10 +55,10 @@ public class CustomObjectPropertiesPanel extends DensityVBox {
             }
         }
 
-        grid.addChild( new PropertyEditor( densityObject.getMassProperty(), DensityConstants.MIN_MASS, DensityConstants.MAX_MASS, units.massUnit, clampMass, new MassBounds( densityObject ), sliderWidth ) );
-        grid.addChild( new PropertyEditor( densityObject.getVolumeProperty(), DensityConstants.MIN_VOLUME, DensityConstants.MAX_VOLUME, units.volumeUnit, noClamp, new Unbounded(), sliderWidth ) );
+        grid.addChild( new PropertyEditor( densityObject.getMassProperty(), DensityAndBuoyancyConstants.MIN_MASS, DensityAndBuoyancyConstants.MAX_MASS, units.massUnit, clampMass, new MassBounds( densityObject ), sliderWidth ) );
+        grid.addChild( new PropertyEditor( densityObject.getVolumeProperty(), DensityAndBuoyancyConstants.MIN_VOLUME, DensityAndBuoyancyConstants.MAX_VOLUME, units.volumeUnit, noClamp, new Unbounded(), sliderWidth ) );
         grid.addChild( createSpacerRow( 2 ) );
-        grid.addChild( new DensityEditor( densityObject.getDensityProperty(), DensityConstants.MIN_DENSITY, DensityConstants.MAX_DENSITY, units.densityUnit, noClamp, new Unbounded(), sliderWidth ) );
+        grid.addChild( new DensityEditor( densityObject.getDensityProperty(), DensityAndBuoyancyConstants.MIN_DENSITY, DensityAndBuoyancyConstants.MAX_DENSITY, units.densityUnit, noClamp, new Unbounded(), sliderWidth ) );
         // this would make the background cover the data-tip
         //grid.addChild( createSpacerRow( 26 ) );
 
