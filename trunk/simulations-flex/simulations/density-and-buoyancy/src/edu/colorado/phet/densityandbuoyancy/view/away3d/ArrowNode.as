@@ -12,6 +12,9 @@ import edu.colorado.phet.densityandbuoyancy.view.VectorValueNode;
 import edu.colorado.phet.flexcommon.model.BooleanProperty;
 import edu.colorado.phet.flexcommon.model.NumericProperty;
 
+/**
+ * Displays a 2D vector arrow as a 3D geometry in Away3D.
+ */
 public class ArrowNode extends MyMesh {
     private var _arrowModel: Vector2D;
     private const ARROW_HEIGHT: Number = 200;

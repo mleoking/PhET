@@ -8,6 +8,9 @@ import edu.colorado.phet.densityandbuoyancy.DensityAndBuoyancyConstants;
 import edu.colorado.phet.densityandbuoyancy.model.DensityModel;
 import edu.colorado.phet.densityandbuoyancy.view.*;
 
+/**
+ * 3D Geometry for rendering the ground, including the cutaway at z=0 and cutout for the pool.
+ */
 public class GroundNode extends MyMesh {
     public function GroundNode( model: DensityModel ) {
         super();

@@ -7,6 +7,9 @@ import flash.text.TextField;
 import flash.text.TextFieldAutoSize;
 import flash.text.TextFormat;
 
+/**
+ * Renders a flash text field in Away3D's rendering sequence.
+ */
 public class TextFieldMesh extends Sprite3D {
     private var _textField: TextField;
     private var format: TextFormat;

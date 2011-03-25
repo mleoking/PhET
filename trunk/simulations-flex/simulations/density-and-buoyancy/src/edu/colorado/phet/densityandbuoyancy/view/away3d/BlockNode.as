@@ -15,6 +15,9 @@ import flash.geom.Rectangle;
 
 import mx.core.BitmapAsset;
 
+/**
+ * BlockNode renders graphics and provides interactivity for Blocks.
+ */
 public class BlockNode extends CubeNode implements Pickable {
 
     private var block: Block;

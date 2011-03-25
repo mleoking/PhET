@@ -1,12 +1,5 @@
 //  Copyright 2002-2011, University of Colorado
 
-/**
- * Created by ${PRODUCT_NAME}.
- * User: Sam
- * Date: 11/8/10
- * Time: 5:41 PM
- * To change this template use File | Settings | File Templates.
- */
 package edu.colorado.phet.densityandbuoyancy.view.away3d {
 import away3d.cameras.Camera3D;
 import away3d.core.draw.ScreenVertex;
@@ -14,6 +7,9 @@ import away3d.core.draw.ScreenVertex;
 import edu.colorado.phet.densityandbuoyancy.view.*;
 import edu.colorado.phet.flexcommon.model.BooleanProperty;
 
+/**
+ * This is a flash sprite that displays text for a block, and is positioned using Away3D geometry.
+ */
 public class Away3DBlockLabelNode extends BlockLabelNode {
     private var mainViewport: Away3DViewport;
     private var mainCamera: Camera3D;

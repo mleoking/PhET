@@ -4,9 +4,7 @@ import away3d.core.base.*;
 import away3d.materials.ITriangleMaterial;
 
 /**
- * Creates a sea turtle model (exported using asAS3Class).
- *
- * @see away3d.core.Mesh#asAS3Class()
+ * Provides convenience methods for creating custom Mesh instances.
  */
 public class MyMesh extends Mesh {
     private var varr: Array = [];
