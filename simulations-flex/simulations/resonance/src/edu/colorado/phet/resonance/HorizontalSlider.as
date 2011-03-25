@@ -1,4 +1,4 @@
-﻿//horizontal slider component
+//horizontal slider component
 
 package edu.colorado.phet.resonance {
 import flash.display.*;
@@ -12,21 +12,22 @@ public class HorizontalSlider extends Sprite {
     private var lengthInPix: int; 	//length of slider in pixels
     private var minVal: Number;		//minimum output value of slider
     private var maxVal: Number;		//maximum value
+    private var textEditable: Boolean; //true if readout is user editable
     private var detented: Boolean;	//false if slider continuous
     private var nbrTics: int;		//number of tick marks, if detented
     private var rail: Sprite;		//rail along which knob slides
     private var knob: Sprite;		//grabbable knob on slider
     private var outputValue: Number;
     private var label_txt: TextField;	//static label
+    private var readout_txt: TextField; 	//dynamic readout
     private var tFormat1: TextFormat;	//format of label
     private var tFormat2: TextFormat;	//format of readout
-    private var readout_txt: TextField; 	//dynamic readout
     private var units_str:String;       //units on readout
     private var scale: Number;			//readout = scale * sliderValue
     private var readoutDecimal: int;		//number of figures past decimal point in readout
     private var manualUpdating: Boolean;	//true if user is manually entering text in readout textfield
 
-    public function HorizontalSlider( action: Function, lengthInPix: int, minVal: Number, maxVal: Number, detented: Boolean = false, nbrTics: int = 0 ) {
+    public function HorizontalSlider( action: Function, lengthInPix: int, minVal: Number, maxVal: Number, textEditable:Boolean = false, detented: Boolean = false, nbrTics: int = 0 ) {
         //this.owner = owner;
         this.action = action;
         this.lengthInPix = lengthInPix;
@@ -34,6 +35,7 @@ public class HorizontalSlider extends Sprite {
         this.maxVal = maxVal;
         this.scale = 1;		//default is that slider value = readout value
         this.readoutDecimal = 1;
+        this.textEditable = textEditable;
         this.detented = detented;
         this.nbrTics = nbrTics;
         this.rail = new Sprite();
@@ -106,9 +108,10 @@ public class HorizontalSlider extends Sprite {
 //            curveTo(0, kH, -0.5*kW, 0.3*kH );
 //            lineTo(-0.5*kW, -0.5*kH);
             endFill();
-            lineStyle( 1.0, 0x000000, 1, true, LineScaleMode.NONE, CapsStyle.ROUND, JointStyle.ROUND );
-            moveTo(0,-0.4*kH);
-            lineTo(0,0.4*kH);
+            //lineStyle( 1.0, 0x000000, 1, true, LineScaleMode.NONE, CapsStyle.ROUND, JointStyle.ROUND );
+            //moveTo(0,-0.4*kH);
+            //
+            // lineTo(0,0.4*kH);
             //lineStyle( 1, 0xffff00, 1, false, LineScaleMode.NONE, CapsStyle.ROUND, JointStyle.ROUND );
             //moveTo(-0.5, -0.1*kH);
             //lineTo(-0.5, 0.5*kH);
@@ -155,9 +158,9 @@ public class HorizontalSlider extends Sprite {
     private function createReadoutField(): void {
         this.readout_txt = new TextField();	//static label
         this.addChild( this.readout_txt );
-        this.readout_txt.selectable = false;
+        this.readout_txt.selectable = this.textEditable;
         this.readout_txt.type = TextFieldType.INPUT;
-        this.readout_txt..border = true;
+        this.readout_txt.border = true;
         this.readout_txt.background = true;
         this.readout_txt.backgroundColor = 0xffffff;
         this.readout_txt.autoSize = TextFieldAutoSize.LEFT;
@@ -209,7 +212,12 @@ public class HorizontalSlider extends Sprite {
 
     private function updateReadout(): void {
         var readout: Number = this.scale * this.outputValue;
-        this.readout_txt.text = " " + readout.toFixed( this.readoutDecimal ) + " " + units_str ;
+        if(this.textEditable){
+            this.readout_txt.text = readout.toFixed( this.readoutDecimal );
+        }else{
+           this.readout_txt.text = " " + readout.toFixed( this.readoutDecimal ) + " " + units_str ;
+        }
+
     }//end updateReadout()
 
     private function makeKnobGrabbable(): void {

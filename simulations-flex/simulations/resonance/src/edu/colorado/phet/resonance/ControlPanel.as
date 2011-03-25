@@ -24,15 +24,16 @@ public class ControlPanel extends Canvas {
     private var background: VBox;
     private var radioButtonBox: HBox;
     private var innerBckgrnd: VBox;
-    private var dampingSlider: HSlider;
+    //private var dampingSlider: HSlider;
+    private var dampingSlider: HorizontalSlider;
     private var nbrResonatorsSlider: HSlider;
     private var presets_cbx:ComboBox;
     private var gravityOnOff_rbg: RadioButtonGroup;
 
     private var gravity_lbl: Label;
     private var resonatorNbr_lbl: Label;
-    private var mSlider: NumericSlider;
-    private var kSlider: HSlider;
+    private var mSlider: HorizontalSlider;  //NumericSlider;
+    private var kSlider: HorizontalSlider;  //HSlider;
     private var freq_lbl: Label;
     private var resetAllButton: Button;
     private var selectedResonatorNbr: int;	//index number of currently selected resonator
@@ -42,12 +43,15 @@ public class ControlPanel extends Canvas {
     //internationalized strings
     public var numberOfResonators_str: String;
     public var damping_str: String;
+    public var dampingUnits_str
     public var gravity_str: String;
     public var on_str: String;
     public var off_str: String;
     public var resonator_str: String;
     public var mass_str: String;
+    public var massUnits_str: String;
     public var springConstant_str: String;
+    public var springConstantUnits_str: String;
     public var frequencyEquals_str: String;
     public var hz_str: String;
     public var resetAll_str: String;
@@ -108,16 +112,19 @@ public class ControlPanel extends Canvas {
         }
 
 
-        //HorizontalSlider(action:Function, lengthInPix:int, minVal:Number, maxVal:Number, detented:Boolean = false, nbrTics:int = 0)
-        this.dampingSlider = new HSlider(); //new HorizontalSlider( setDamping, 100, 0.05, 1 );
-        this.formatSlider( this.dampingSlider );
-        with ( this.dampingSlider ) {
-            minimum = 0.05;
-            maximum = 5;
-            //labels = ["", this.damping_str, ""];
-        }
+        //HorizontalSlider(action:Function, lengthInPix:int, minVal:Number, maxVal:Number, textEditable:Boolean = false, detented:Boolean = false, nbrTics:int = 0)
+        this.dampingSlider = new HorizontalSlider( setDamping, 150, 0.05, 5, true ); //new HSlider();
+        this.dampingSlider.setLabelText( damping_str );
+        this.dampingSlider.setUnitsText( dampingUnits_str );
 
-        this.dampingSlider.addEventListener( Event.CHANGE, setDamping );
+//        this.formatSlider( this.dampingSlider );
+//        with ( this.dampingSlider ) {
+//            minimum = 0.05;
+//            maximum = 5;
+//            //labels = ["", this.damping_str, ""];
+//        }
+//
+//        this.dampingSlider.addEventListener( Event.CHANGE, setDamping );
 
         this.nbrResonatorsSlider = new HSlider();
         this.formatSlider( this.nbrResonatorsSlider );
@@ -171,8 +178,10 @@ public class ControlPanel extends Canvas {
         }
 
 
-        massProperty = new NumericProperty("mass", "kg", 1);
-        this.mSlider = new NumericSlider(massProperty);
+        //massProperty = new NumericProperty("mass", "kg", 1);
+        this.mSlider = new HorizontalSlider( setMass, 120, 0.1, 5.0, true );//NumericSlider(massProperty);
+        this.mSlider.setLabelText( mass_str );
+        this.mSlider.setUnitsText( massUnits_str );
         //this.mSlider.percentWidth = 100;
         //this.formatSlider( this.mSlider );
 //        with ( this.mSlider ) {
@@ -182,17 +191,19 @@ public class ControlPanel extends Canvas {
 //            // This doesn't work: setStyle("labelPlacement", "bottom");
 //        }
         //this.mSlider.addEventListener( Event.CHANGE, onChangeM );
-        massProperty.addListener( function():void{
-            setMass();
-        });
+//        massProperty.addListener( function():void{
+//            setMass();
+//        });
 
-        this.kSlider = new HSlider();
-        this.formatSlider( this.kSlider );
-        with ( this.kSlider ) {
-            minimum = 10;
-            maximum = 1200;
-            labels = ["", this.springConstant_str, ""];
-        }
+        this.kSlider = new HorizontalSlider( setK, 120, 10, 1200, true );//HSlider();
+        this.kSlider.setLabelText( springConstant_str );
+        this.kSlider.setUnitsText( springConstantUnits_str );
+        //this.formatSlider( this.kSlider );
+//        with ( this.kSlider ) {
+//            minimum = 10;
+//            maximum = 1200;
+//            labels = ["", this.springConstant_str, ""];
+//        }
 
         this.kSlider.addEventListener( Event.CHANGE, onChangeK );
 
@@ -214,14 +225,14 @@ public class ControlPanel extends Canvas {
         this.resetAllButton.addEventListener( MouseEvent.MOUSE_UP, resetAll );
 
         this.addChild( this.background );
-        this.background.addChild( dampingSlider );
+        this.background.addChild( new SpriteUIComponent(dampingSlider) );
 
         this.background.addChild(presets_cbx);
         this.background.addChild( nbrResonatorsSlider );
 
         this.innerBckgrnd.addChild( this.resonatorNbr_lbl );
-        this.innerBckgrnd.addChild( this.mSlider );
-        this.innerBckgrnd.addChild( this.kSlider );
+        this.innerBckgrnd.addChild( new SpriteUIComponent(this.mSlider) );
+        this.innerBckgrnd.addChild( new SpriteUIComponent(this.kSlider) );
         this.innerBckgrnd.addChild( this.freq_lbl );
         this.background.addChild( innerBckgrnd );
         this.background.addChild( radioButtonBox );
@@ -234,13 +245,16 @@ public class ControlPanel extends Canvas {
 
     private function initializeStrings(): void {
         numberOfResonators_str = "Number of Resonators";
-        damping_str = "Damping";
+        damping_str = "damping constant b";
+        dampingUnits_str = "N m/s";
         gravity_str = "Gravity";
         on_str = "on";
         off_str = "off";
         resonator_str = "Resonator";
         mass_str = "mass";
+        massUnits_str = "kg";
         springConstant_str = "spring constant";
+        springConstantUnits_str = " N/m ";
         frequencyEquals_str = "frequency = ";
         hz_str = "Hz";
         resetAll_str = "Reset All";
@@ -250,6 +264,18 @@ public class ControlPanel extends Canvas {
         mixedMAndK_str = "mixed m and k";
         sameF_str = "same frequency";
     }
+
+    private function setDamping():void{
+        var b: Number = this.dampingSlider.getVal();
+        //trace("ShakerView.changeA() amplitude is   " + amplitude);
+        this.shakerModel.setB( b );
+    }
+
+    public function setDampingExternally( b: Number ) {
+        this.shakerModel.setB( b );
+        this.dampingSlider.setVal( b );
+    }
+    
 
     function formatSlider( mySlider: HSlider ): void {
         mySlider.buttonMode = true;
@@ -268,11 +294,11 @@ public class ControlPanel extends Canvas {
         this.resonatorNbr_lbl.text = this.resonator_str + " " + rNbr_str;
         var m: Number = this.shakerModel.resonatorModel_arr[rNbr - 1].getM();
         //trace("ControlPanel.setResonatorIndex. m = "+m);
-        massProperty.value = m;
+        this.mSlider.setVal( m ); // massProperty.value = m;
         //this.mSlider.value = m;
         var k: Number = this.shakerModel.resonatorModel_arr[rNbr - 1].getK();
         //trace("ControlPanel.setResonatorIndex. k = "+k);
-        this.kSlider.value = k;
+        this.kSlider.setVal( k );//this.kSlider.value = k;
         this.setFreqLabel();
         this.shakerModel.view.setResonatorLabelColor( rNbr, 0xffff00 );
     }
@@ -284,15 +310,15 @@ public class ControlPanel extends Canvas {
         this.freq_lbl.text = this.frequencyEquals_str + resFreq_str + " " + hz_str;
     }
 
-    public function setDamping( evt: Event ): void {
-        var b: Number = this.dampingSlider.value;
-        this.shakerModel.setB( b );
-    }
+//    public function setDamping( evt: Event ): void {
+//        var b: Number = this.dampingSlider.value;
+//        this.shakerModel.setB( b );
+//    }
 
-    public function setDampingExternally( b: Number ) {
-        this.shakerModel.setB( b );
-        this.dampingSlider.value = b;
-    }
+//    public function setDampingExternally( b: Number ) {
+//        this.shakerModel.setB( b );
+//        this.dampingSlider.value = b;
+//    }
 
     public function setPresetComboBoxExternally( idx: int):void{
          this.presets_cbx.selectedIndex = idx;
@@ -348,7 +374,7 @@ public class ControlPanel extends Canvas {
 
     public function setMass(): void {
         var indx: int = this.selectedResonatorNbr - 1;
-        var m: Number = massProperty.value;
+        var m: Number = this.mSlider.getVal(); //massProperty.value;
         this.shakerModel.resonatorModel_arr[indx].setM( m );
         this.setFreqLabel();
         //trace("ControlPanel.setMass() mass = "+ m);
@@ -360,7 +386,7 @@ public class ControlPanel extends Canvas {
 
     public function setK(): void {
         var indx: int = this.selectedResonatorNbr - 1;
-        var k: Number = this.kSlider.value;
+        var k: Number = this.kSlider.getVal(); //value;
         this.shakerModel.resonatorModel_arr[indx].setK( k );
         this.setFreqLabel();
         //trace("ControlPanel.setK() k = "+ k);
