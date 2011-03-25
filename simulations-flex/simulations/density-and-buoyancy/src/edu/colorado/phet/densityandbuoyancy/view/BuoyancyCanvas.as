@@ -1,9 +1,9 @@
 //  Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.densityandbuoyancy.view {
 import edu.colorado.phet.densityandbuoyancy.DensityConstants;
-import edu.colorado.phet.densityandbuoyancy.model.ArrowModel;
 import edu.colorado.phet.densityandbuoyancy.model.DensityModel;
 import edu.colorado.phet.densityandbuoyancy.model.DensityObject;
+import edu.colorado.phet.densityandbuoyancy.model.Vector2D;
 import edu.colorado.phet.densityandbuoyancy.view.away3d.ArrowNode;
 import edu.colorado.phet.densityandbuoyancy.view.away3d.DensityObjectNode;
 import edu.colorado.phet.densityandbuoyancy.view.away3d.ScaleNode;
@@ -135,7 +135,7 @@ public class BuoyancyCanvas extends AbstractDBCanvas {
         }
     }
 
-    private function createOffset( arrowModel: ArrowModel, densityObject: DensityObject, dx: Number ): NumericProperty {
+    private function createOffset( arrowModel: Vector2D, densityObject: DensityObject, dx: Number ): NumericProperty {
         var offsetX: NumericProperty = new NumericProperty( "offsetX", "pixels", dx );
 
         function tooMuchOverlap( y1: Number, y2: Number ): Boolean {
@@ -144,7 +144,7 @@ public class BuoyancyCanvas extends AbstractDBCanvas {
 
         //Check to see if the arrowModel in question has the same sign as any other arrowModel
         function isTooMuchOverlap(): Boolean {
-            for each ( var vector: ArrowModel in densityObject.forceVectors ) {
+            for each ( var vector: Vector2D in densityObject.forceVectors ) {
                 if ( vector != arrowModel ) {
                     if ( tooMuchOverlap( vector.y, arrowModel.y ) ) {
                         return true;

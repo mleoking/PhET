@@ -1,13 +1,17 @@
 //  Copyright 2002-2011, University of Colorado
+
+/**
+ * Model for a 2d vector that can be observed for changes.
+ */
 package edu.colorado.phet.densityandbuoyancy.model {
-public class ArrowModel {
+public class Vector2D {
     private var _x: Number;
     private var _y: Number;
     private const listeners: Array = new Array();
 
-    // TODO: use observable pattern here?
+    // TODO: use observable pattern or property pattern here?
 
-    public function ArrowModel( x: Number, y: Number ) {
+    public function Vector2D( x: Number, y: Number ) {
         this._x = x;
         this._y = y;
     }
