@@ -33,7 +33,7 @@ public class PoolVolumeIndicator extends Sprite {
         graphics.clear();
         var indicatedVolume: Number = waterHeight * model.getPoolWidth() * model.getPoolDepth();
 
-        var readout: Number = DensityAndBuoyancyConstants.metersToLitersCubed( indicatedVolume );//Convert SI to sim units
+        var readout: Number = DensityAndBuoyancyConstants.metersCubedToLiters( indicatedVolume );//Convert SI to sim units
 
         textField.text = FlexSimStrings.get( "properties.volumeLiterValue", "{0} L", [String( DensityAndBuoyancyConstants.format( readout ) )] );
         var textFormat: TextFormat = new TextFormat();

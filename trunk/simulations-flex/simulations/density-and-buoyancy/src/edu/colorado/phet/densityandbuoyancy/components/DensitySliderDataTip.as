@@ -31,7 +31,7 @@ public class DensitySliderDataTip extends Sprite {
         graphics.clear();
         var indicatedVolume: Number = waterHeight;
 
-        var readout: Number = DensityAndBuoyancyConstants.metersToLitersCubed( indicatedVolume );//Convert SI to sim units
+        var readout: Number = DensityAndBuoyancyConstants.metersCubedToLiters( indicatedVolume );//Convert SI to sim units
 
         var textFormat: TextFormat = new TextFormat();
         textFormat.size = 16;

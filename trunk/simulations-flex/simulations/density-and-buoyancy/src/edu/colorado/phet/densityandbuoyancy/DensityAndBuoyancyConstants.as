@@ -75,7 +75,7 @@ public class DensityAndBuoyancyConstants {
         return 0.001 * x;
     }
 
-    public static function metersToLitersCubed( v: Number ): Number {
+    public static function metersCubedToLiters( v: Number ): Number {
         return v / 0.001;
     }
 
