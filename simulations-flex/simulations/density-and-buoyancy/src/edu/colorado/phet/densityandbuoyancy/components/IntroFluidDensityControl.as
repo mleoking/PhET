@@ -1,23 +1,21 @@
 //  Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.densityandbuoyancy.view {
-import edu.colorado.phet.densityandbuoyancy.components.DensityHBox;
+package edu.colorado.phet.densityandbuoyancy.components {
 import edu.colorado.phet.densityandbuoyancy.model.Material;
-import edu.colorado.phet.densityandbuoyancy.view.units.Units;
 import edu.colorado.phet.flexcommon.FlexSimStrings;
 import edu.colorado.phet.flexcommon.model.NumericProperty;
 
 import flash.events.MouseEvent;
 
-import mx.containers.Grid;
 import mx.controls.Label;
 import mx.controls.RadioButton;
 
+/**
+ * In the Buoyancy sim, shows an option where the user can switch between two liquid densities: that of oil and water
+ */
 public class IntroFluidDensityControl extends DensityHBox {
-    private var grid: Grid = new Grid();
-
     private var GROUP: String = "fluid.controls.intro";
 
-    public function IntroFluidDensityControl( fluidDensity: NumericProperty, units: Units ) {
+    public function IntroFluidDensityControl( fluidDensity: NumericProperty ) {
         const title: Label = new Label();
         title.text = FlexSimStrings.get( "fluid.controls.intro.label", "Fluid" );
         title.setStyle( "fontWeight", "bold" );

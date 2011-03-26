@@ -14,6 +14,9 @@ import flash.text.TextField;
 import flash.text.TextFieldAutoSize;
 import flash.text.TextFormat;
 
+/**
+ * Displays a numeric readout of magnitude next to a force vector
+ */
 public class VectorValueNode extends Sprite {
     private var mainViewport: Away3DViewport;
     private var textField: TextField;

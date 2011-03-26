@@ -1,1 +1,4 @@
 Should we change the package structure to have separate packages for each sim?
+
+Whoever is reviewing this needs to look at it with an IDE, not a plain text viewer. We'll provide full support for
+Intellij. If you use Eclipse, you are own your own.

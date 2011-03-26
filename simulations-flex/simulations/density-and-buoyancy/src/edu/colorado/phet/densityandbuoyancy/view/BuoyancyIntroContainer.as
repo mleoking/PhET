@@ -2,6 +2,7 @@
 package edu.colorado.phet.densityandbuoyancy.view {
 import edu.colorado.phet.densityandbuoyancy.DensityAndBuoyancyConstants;
 import edu.colorado.phet.densityandbuoyancy.components.DensityVBox;
+import edu.colorado.phet.densityandbuoyancy.components.IntroFluidDensityControl;
 import edu.colorado.phet.densityandbuoyancy.view.modes.Mode;
 import edu.colorado.phet.flashcommon.ApplicationLifecycle;
 import edu.colorado.phet.flexcommon.FlexSimStrings;
@@ -63,7 +64,7 @@ public class BuoyancyIntroContainer extends BuoyancyContainer {
         sameMassButton.selected = true;
 
         ApplicationLifecycle.addApplicationCompleteListener( function(): void {
-            const fluidDensityControl: IntroFluidDensityControl = new IntroFluidDensityControl( buoyancyCanvas.model.fluidDensity, buoyancyCanvas.units );
+            const fluidDensityControl: IntroFluidDensityControl = new IntroFluidDensityControl( buoyancyCanvas.model.fluidDensity );
             fluidDensityControl.setStyle( "bottom", DensityAndBuoyancyConstants.CONTROL_INSET );
 
             const updateFluidDensityControlLocation: Function = function(): void {

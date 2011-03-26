@@ -2,6 +2,7 @@
 package edu.colorado.phet.densityandbuoyancy.view {
 import edu.colorado.phet.densityandbuoyancy.DensityAndBuoyancyConstants;
 import edu.colorado.phet.densityandbuoyancy.components.DensityVBox;
+import edu.colorado.phet.densityandbuoyancy.components.ModeRadioButton;
 import edu.colorado.phet.flashcommon.ApplicationLifecycle;
 import edu.colorado.phet.flexcommon.FlexSimStrings;
 import edu.colorado.phet.flexcommon.PhetLogoButton;
@@ -43,7 +44,6 @@ public class DensityContainer extends AbstractDBContainer {
         customButton = new ModeRadioButton( FlexSimStrings.get( 'mode.customObject', 'Custom' ), true, function(): void {
             densityCanvas.switchToCustomObject()
         } );
-        customButton.selected = true;
         modeControlPanel.addChild( customButton );
         modeControlPanel.addChild( new ModeRadioButton( FlexSimStrings.get( 'mode.objectsOfSameMass', 'Same Mass' ), false, function(): void {
             densityCanvas.switchToSameMass()
@@ -67,9 +67,9 @@ public class DensityContainer extends AbstractDBContainer {
             densityCanvas.switchToCustomObject();
             densityCanvas.addEventListener( MouseEvent.MOUSE_DOWN, refocusCallback );
 
-            var densityAndBuoyancyFlashCommon: DensityAndBuoyancyFlashCommon = new DensityAndBuoyancyFlashCommon();
-            addChild( densityAndBuoyancyFlashCommon );
-            densityAndBuoyancyFlashCommon.init();
+            var densityFlashCommon: DensityAndBuoyancyFlashCommon = new DensityFlashCommon();
+            addChild( densityFlashCommon );
+            densityFlashCommon.init();
 
             densityCanvas.start();
         } );

@@ -9,6 +9,9 @@ import edu.colorado.phet.densityandbuoyancy.view.modes.DensitySameVolumeMode;
 import edu.colorado.phet.densityandbuoyancy.view.modes.Mode;
 import edu.colorado.phet.flashcommon.ApplicationLifecycle;
 
+/**
+ * Contains the sim play area for Density (not including control panels)
+ */
 public class DensityCanvas extends AbstractDBCanvas {
 
     private var _container: DensityContainer;

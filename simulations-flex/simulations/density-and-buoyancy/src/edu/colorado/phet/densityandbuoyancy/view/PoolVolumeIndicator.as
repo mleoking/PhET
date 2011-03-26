@@ -9,12 +9,15 @@ import flash.text.TextField;
 import flash.text.TextFieldAutoSize;
 import flash.text.TextFormat;
 
-public class WaterVolumeIndicator extends Sprite {
+/**
+ * Displays the volume inside the pool from the bottom to the top of the water, accounting for any submerged objects.
+ */
+public class PoolVolumeIndicator extends Sprite {
     private var textField: TextField;
     private var waterHeight: Number;
     private var model: DensityModel;
 
-    public function WaterVolumeIndicator( model: DensityModel ) {
+    public function PoolVolumeIndicator( model: DensityModel ) {
         super();
         this.model = model;
         textField = new TextField();
