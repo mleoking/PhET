@@ -41,7 +41,7 @@ public class Scale extends Cuboid {
     public static const POOL_SCALE_X: Number = DensityAndBuoyancyConstants.POOL_WIDTH_X / 2 - Scale.SCALE_WIDTH * 1.5;
     public static var POOL_SCALE_Y: Number;
 
-    public function Scale( x: Number, y: Number, model: DensityModel ): void {
+    public function Scale( x: Number, y: Number, model: DensityAndBuoyancyModel ): void {
         super( SCALE_DENSITY, SCALE_WIDTH, SCALE_HEIGHT, SCALE_DEPTH, x, y, model, Material.CUSTOM );
 //        trace( "scale volume = " + DensityAndBuoyancyConstants.metersCubedToLiters( SCALE_WIDTH * SCALE_HEIGHT * SCALE_DEPTH ) );
         POOL_SCALE_Y = Scale.SCALE_HEIGHT / 2 - model.getPoolHeight();
@@ -59,7 +59,7 @@ public class Scale extends Cuboid {
         // scaled by DT-frame because we are measuring the 'normal impulses'
         //impulse I=Fdt
         //F=I/dt
-        var force: Number = totalImpulse / DensityModel.DT_PER_FRAME;
+        var force: Number = totalImpulse / DensityAndBuoyancyModel.DT_PER_FRAME;
         var mass: Number = force / DensityAndBuoyancyConstants.GRAVITY;
         return FlexSimStrings.get( "properties.massKilogramValue", "{0} kg", [DensityAndBuoyancyConstants.format( mass )] );
     }

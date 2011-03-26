@@ -17,7 +17,7 @@ public class Cuboid extends DensityObject {
     private var bodyDef: b2BodyDef = new b2BodyDef();
     private var shapeChangeListeners: Array = new Array();
 
-    public function Cuboid( density: Number, width: Number, height: Number, depth: Number, x: Number, y: Number, model: DensityModel, __material: Material ) {
+    public function Cuboid( density: Number, width: Number, height: Number, depth: Number, x: Number, y: Number, model: DensityAndBuoyancyModel, __material: Material ) {
         super( x, y, depth / 2 + DensityAndBuoyancyConstants.DEFAULT_BLOCK_WATER_OFFSET, model, density, density * width * height * depth, width * height * depth, __material );
         this.width = width;
         this.height = height;

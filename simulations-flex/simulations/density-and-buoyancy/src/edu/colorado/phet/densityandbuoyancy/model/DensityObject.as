@@ -33,7 +33,7 @@ public class DensityObject {
     private var contactForceArrowModel: Vector2D = new Vector2D( 0, 0 );
 
     private const _forceVectors: Array = [gravityForceArrowModel,buoyancyForceArrowModel,contactForceArrowModel];
-    private var model: DensityModel;
+    private var model: DensityAndBuoyancyModel;
 
     private var body: b2Body; // our reference to the Box2D "body" in the physics engine
     private var submergedVolume: Number = 0.0;
@@ -54,7 +54,7 @@ public class DensityObject {
         return _forceVectors;
     }
 
-    public function DensityObject( x: Number, y: Number, z: Number, model: DensityModel, __density: Number, mass: Number, __volume: Number, __material: Material ) {
+    public function DensityObject( x: Number, y: Number, z: Number, model: DensityAndBuoyancyModel, __density: Number, mass: Number, __volume: Number, __material: Material ) {
         this._material = __material;
         this._volume = new NumericProperty( FlexSimStrings.get( "properties.volume", "Volume" ), "m\u00b3", __volume );
         this._mass = new NumericProperty( FlexSimStrings.get( "properties.mass", "Mass" ), "{0} kg", mass );
@@ -227,7 +227,7 @@ public class DensityObject {
         this.body = body;
     }
 
-    public function getModel(): DensityModel {
+    public function getModel(): DensityAndBuoyancyModel {
         return model;
     }
 
@@ -255,7 +255,7 @@ public class DensityObject {
         for each ( var object: Object in contactImpulseMap ) {
             sum.Add( object as b2Vec2 );
         }
-        sum.Multiply( 1.0 / DensityModel.DT_PER_FRAME / DensityAndBuoyancyConstants.SCALE_BOX2D );//to convert to force
+        sum.Multiply( 1.0 / DensityAndBuoyancyModel.DT_PER_FRAME / DensityAndBuoyancyConstants.SCALE_BOX2D );//to convert to force
         return sum;
     }
 
@@ -275,8 +275,8 @@ public class DensityObject {
         mytrace( "FRAME" );
 
         //Estimate velocity for purposes of fluid drag calculation since body.GetLinearVelocity reflects an internal value, not a good final state (i.e. objects in contact may be at rest but report a nonzero velocity)
-        velocity.x = DensityModel.STEPS_PER_FRAME * (x.value - lastPosition.x) / dt; // TODO: FIX so we don't have steps-per-frame here. No clue why
-        velocity.y = DensityModel.STEPS_PER_FRAME * (y.value - lastPosition.y) / dt;
+        velocity.x = DensityAndBuoyancyModel.STEPS_PER_FRAME * (x.value - lastPosition.x) / dt; // TODO: FIX so we don't have steps-per-frame here. No clue why
+        velocity.y = DensityAndBuoyancyModel.STEPS_PER_FRAME * (y.value - lastPosition.y) / dt;
 
         mytrace( velocity.x + ", " + velocity.y );
 
@@ -355,7 +355,7 @@ public class DensityObject {
         return contactForceArrowModel;
     }
 
-    public function copy( model: DensityModel ): DensityObject {
+    public function copy( model: DensityAndBuoyancyModel ): DensityObject {
         throw new Error( "bad copy on DensityObject" );
     }
 

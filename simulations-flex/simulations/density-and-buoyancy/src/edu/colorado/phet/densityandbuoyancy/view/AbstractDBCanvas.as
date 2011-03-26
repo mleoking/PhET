@@ -12,7 +12,7 @@ import away3d.materials.*;
 import away3d.primitives.*;
 
 import edu.colorado.phet.densityandbuoyancy.DensityAndBuoyancyConstants;
-import edu.colorado.phet.densityandbuoyancy.model.DensityModel;
+import edu.colorado.phet.densityandbuoyancy.model.DensityAndBuoyancyModel;
 import edu.colorado.phet.densityandbuoyancy.model.DensityObject;
 import edu.colorado.phet.densityandbuoyancy.model.Material;
 import edu.colorado.phet.densityandbuoyancy.view.away3d.DensityObjectNode;
@@ -36,7 +36,7 @@ import mx.core.UIComponent;
  */
 public class AbstractDBCanvas extends UIComponent {
     //model
-    protected var _model: DensityModel;
+    protected var _model: DensityAndBuoyancyModel;
 
     // we use two viewports so we can layer things that go in front
     public const mainViewport: Away3DViewport = new Away3DViewport();
@@ -104,8 +104,8 @@ public class AbstractDBCanvas extends UIComponent {
         } );
     }
 
-    protected function createModel( showExactLiquidColor: Boolean ): DensityModel {
-        return new DensityModel( DensityAndBuoyancyConstants.litersToMetersCubed( 100.0 ), extendedPool );
+    protected function createModel( showExactLiquidColor: Boolean ): DensityAndBuoyancyModel {
+        return new DensityAndBuoyancyModel( DensityAndBuoyancyConstants.litersToMetersCubed( 100.0 ), extendedPool );
     }
 
     override protected function updateDisplayList( unscaledWidth: Number, unscaledHeight: Number ): void {
@@ -120,10 +120,10 @@ public class AbstractDBCanvas extends UIComponent {
     }
 
     public function initObjects(): void {
-        var poolHeight: Number = _model.getPoolHeight() * DensityModel.DISPLAY_SCALE;
-        var waterHeight: Number = _model.getWaterHeight() * DensityModel.DISPLAY_SCALE;
-        var poolWidth: Number = _model.getPoolWidth() * DensityModel.DISPLAY_SCALE;
-        var poolDepth: Number = _model.getPoolDepth() * DensityModel.DISPLAY_SCALE;
+        var poolHeight: Number = _model.getPoolHeight() * DensityAndBuoyancyModel.DISPLAY_SCALE;
+        var waterHeight: Number = _model.getWaterHeight() * DensityAndBuoyancyModel.DISPLAY_SCALE;
+        var poolWidth: Number = _model.getPoolWidth() * DensityAndBuoyancyModel.DISPLAY_SCALE;
+        var poolDepth: Number = _model.getPoolDepth() * DensityAndBuoyancyModel.DISPLAY_SCALE;
 
         // NOTE: if the ground is not matching up with the objects resting on the ground (or the bottom of the pool), it is due to the ground being shifted by this amount
         waterFront = new Plane( { y: -poolHeight + waterHeight / 2 + DensityAndBuoyancyConstants.VERTICAL_GROUND_OFFSET_AWAY_3D, width: poolWidth, height: waterHeight, rotationX: 90, material: new ShadingColorMaterial( 0x0088FF, {alpha: 0.4} ) } );
@@ -233,9 +233,9 @@ public class AbstractDBCanvas extends UIComponent {
             pickable.getBody().SetLinearVelocity( new b2Vec2( 0, 0 ) );
             pickable.updateGeometry();
         }
-        waterFront.y = (-_model.getPoolHeight() + _model.getWaterHeight() / 2) * DensityModel.DISPLAY_SCALE;
-        waterFront.height = _model.getWaterHeight() * DensityModel.DISPLAY_SCALE;//this is positive from the bottom of the pool
-        waterTop.y = (-_model.getPoolHeight() + _model.getWaterHeight()) * DensityModel.DISPLAY_SCALE;
+        waterFront.y = (-_model.getPoolHeight() + _model.getWaterHeight() / 2) * DensityAndBuoyancyModel.DISPLAY_SCALE;
+        waterFront.height = _model.getWaterHeight() * DensityAndBuoyancyModel.DISPLAY_SCALE;//this is positive from the bottom of the pool
+        waterTop.y = (-_model.getPoolHeight() + _model.getWaterHeight()) * DensityAndBuoyancyModel.DISPLAY_SCALE;
 
         updateWaterVolumeIndicater();
 
@@ -250,8 +250,8 @@ public class AbstractDBCanvas extends UIComponent {
     private function updateWaterVolumeIndicater(): void {
         if ( renderedOnce ) {
             var screenVertex: ScreenVertex = mainCamera.screen( groundNode,
-                                                                new Vertex( _model.getPoolWidth() * DensityModel.DISPLAY_SCALE / 2,
-                                                                            (-_model.getPoolHeight() + _model.getWaterHeight()) * DensityModel.DISPLAY_SCALE,
+                                                                new Vertex( _model.getPoolWidth() * DensityAndBuoyancyModel.DISPLAY_SCALE / 2,
+                                                                            (-_model.getPoolHeight() + _model.getWaterHeight()) * DensityAndBuoyancyModel.DISPLAY_SCALE,
                                                                             0 ) );
             waterVolumeIndicator.x = screenVertex.x + mainViewport.view.x;
             waterVolumeIndicator.y = screenVertex.y + mainViewport.view.y;
@@ -356,7 +356,7 @@ public class AbstractDBCanvas extends UIComponent {
         massReadoutsVisible.reset();
     }
 
-    public function get model(): DensityModel {
+    public function get model(): DensityAndBuoyancyModel {
         return _model;
     }
 

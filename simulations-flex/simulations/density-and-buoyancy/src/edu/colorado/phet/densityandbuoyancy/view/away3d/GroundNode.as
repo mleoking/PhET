@@ -5,19 +5,19 @@ import away3d.materials.ITriangleMaterial;
 import away3d.materials.ShadingColorMaterial;
 
 import edu.colorado.phet.densityandbuoyancy.DensityAndBuoyancyConstants;
-import edu.colorado.phet.densityandbuoyancy.model.DensityModel;
+import edu.colorado.phet.densityandbuoyancy.model.DensityAndBuoyancyModel;
 import edu.colorado.phet.densityandbuoyancy.view.*;
 
 /**
  * 3D Geometry for rendering the ground, including the cutaway at z=0 and cutout for the pool.
  */
 public class GroundNode extends MyMesh {
-    public function GroundNode( model: DensityModel ) {
+    public function GroundNode( model: DensityAndBuoyancyModel ) {
         super();
 
-        var poolWidth: Number = model.getPoolWidth() * DensityModel.DISPLAY_SCALE;
-        var poolHeight: Number = model.getPoolHeight() * DensityModel.DISPLAY_SCALE;
-        var poolDepth: Number = model.getPoolDepth() * DensityModel.DISPLAY_SCALE;
+        var poolWidth: Number = model.getPoolWidth() * DensityAndBuoyancyModel.DISPLAY_SCALE;
+        var poolHeight: Number = model.getPoolHeight() * DensityAndBuoyancyModel.DISPLAY_SCALE;
+        var poolDepth: Number = model.getPoolDepth() * DensityAndBuoyancyModel.DISPLAY_SCALE;
 
         var far: Number = AbstractDBCanvas.far;
 

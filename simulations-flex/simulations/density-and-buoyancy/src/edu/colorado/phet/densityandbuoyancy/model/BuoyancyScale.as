@@ -9,7 +9,7 @@ import edu.colorado.phet.flexcommon.FlexSimStrings;
  * simplified and integrated into the Density, but it would still need the difference in units.
  */
 public class BuoyancyScale extends Scale {
-    public function BuoyancyScale( x: Number, y: Number, model: DensityModel ) {
+    public function BuoyancyScale( x: Number, y: Number, model: DensityAndBuoyancyModel ) {
         super( x, y, model );
     }
 
@@ -17,7 +17,7 @@ public class BuoyancyScale extends Scale {
         // scaled by DT-frame because we are measuring the 'normal impulses'
         //impulse I=Fdt
         //F=I/dt
-        var force: Number = totalImpulse / DensityModel.DT_PER_FRAME;
+        var force: Number = totalImpulse / DensityAndBuoyancyModel.DT_PER_FRAME;
         return FlexSimStrings.get( "properties.weightNewtonValue", "{0} N", [DensityAndBuoyancyConstants.format( force )] );
     }
 }

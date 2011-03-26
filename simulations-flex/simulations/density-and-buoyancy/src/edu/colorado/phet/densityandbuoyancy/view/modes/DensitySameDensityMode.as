@@ -2,7 +2,7 @@
 package edu.colorado.phet.densityandbuoyancy.view.modes {
 import edu.colorado.phet.densityandbuoyancy.DensityAndBuoyancyConstants;
 import edu.colorado.phet.densityandbuoyancy.model.Block;
-import edu.colorado.phet.densityandbuoyancy.model.DensityModel;
+import edu.colorado.phet.densityandbuoyancy.model.DensityAndBuoyancyModel;
 import edu.colorado.phet.densityandbuoyancy.model.Material;
 import edu.colorado.phet.densityandbuoyancy.view.AbstractDBCanvas;
 
@@ -17,7 +17,7 @@ public class DensitySameDensityMode extends Mode {
 
     override public function init(): void {
         super.init();
-        const model: DensityModel = canvas.model;
+        const model: DensityAndBuoyancyModel = canvas.model;
         var density: Number = 800; //Showing the blocks as partially floating allows easier visualization of densities
 
         //The masses below were selected so that calculations with 2 decimal points come up exactly equal

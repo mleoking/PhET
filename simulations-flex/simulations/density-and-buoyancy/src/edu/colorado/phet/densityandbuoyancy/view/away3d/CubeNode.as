@@ -2,7 +2,7 @@
 package edu.colorado.phet.densityandbuoyancy.view.away3d {
 import edu.colorado.phet.densityandbuoyancy.components.BlockLabel;
 import edu.colorado.phet.densityandbuoyancy.model.Cuboid;
-import edu.colorado.phet.densityandbuoyancy.model.DensityModel;
+import edu.colorado.phet.densityandbuoyancy.model.DensityAndBuoyancyModel;
 import edu.colorado.phet.densityandbuoyancy.view.*;
 
 /**
@@ -26,9 +26,9 @@ public class CubeNode extends CuboidNode {
 
     public override function updateGeometry(): void {
         super.updateGeometry();
-        cube.width = getCuboid().getWidth() * DensityModel.DISPLAY_SCALE;
-        cube.height = getCuboid().getHeight() * DensityModel.DISPLAY_SCALE;
-        cube.depth = getCuboid().getDepth() * DensityModel.DISPLAY_SCALE;
+        cube.width = getCuboid().getWidth() * DensityAndBuoyancyModel.DISPLAY_SCALE;
+        cube.height = getCuboid().getHeight() * DensityAndBuoyancyModel.DISPLAY_SCALE;
+        cube.depth = getCuboid().getDepth() * DensityAndBuoyancyModel.DISPLAY_SCALE;
     }
 
 

@@ -15,7 +15,7 @@ import edu.colorado.phet.flexcommon.model.NumericProperty;
 /**
  * The main model for Density and Buoyancy simulations.
  */
-public class DensityModel {
+public class DensityAndBuoyancyModel {
     private var densityObjects: Array;
 
     private var poolWidth: Number = DensityAndBuoyancyConstants.POOL_WIDTH_X;
@@ -51,7 +51,7 @@ public class DensityModel {
     public var scalesMovableProperty: BooleanProperty = new BooleanProperty( false );
     private var showExactLiquidColor: Boolean;
 
-    public function DensityModel( volume: Number, extendedPool: Boolean, showExactLiquidColor: Boolean = false ) {
+    public function DensityAndBuoyancyModel( volume: Number, extendedPool: Boolean, showExactLiquidColor: Boolean = false ) {
         this.volume = volume;
         this.showExactLiquidColor = showExactLiquidColor;
         this.waterHeight = volume / poolWidth / poolDepth;
