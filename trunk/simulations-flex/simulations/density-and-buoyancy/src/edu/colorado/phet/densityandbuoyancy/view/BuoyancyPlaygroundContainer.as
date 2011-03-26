@@ -11,6 +11,9 @@ import flash.events.MouseEvent;
 import mx.controls.Label;
 import mx.controls.RadioButton;
 
+/**
+ * Adds Buoyancy Playground-tab specific UI
+ */
 public class BuoyancyPlaygroundContainer extends BuoyancyContainer {
     private var count: Number = 0;
 

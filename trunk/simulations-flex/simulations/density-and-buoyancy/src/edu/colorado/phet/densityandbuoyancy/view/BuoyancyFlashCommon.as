@@ -4,7 +4,8 @@ import edu.colorado.phet.flashcommon.CommonButtons;
 import edu.colorado.phet.flexcommon.FlexCommon;
 
 /**
- * Extends DensityAndBuoyancyFlashCommon to provide Buoyancy specific behavior.
+ * Extends DensityAndBuoyancyFlashCommon to provide Buoyancy specific behavior (specifically, positioning of the common
+ * buttons)
  */
 public class BuoyancyFlashCommon extends DensityAndBuoyancyFlashCommon {
     private var insetX: Number;
