@@ -63,7 +63,7 @@ public class AbstractDBCanvas extends UIComponent {
 
     private var marker: ObjectContainer3D; // testing object to verify locations in 3D
 
-    private var waterVolumeIndicator: WaterVolumeIndicator;
+    private var waterVolumeIndicator: PoolVolumeIndicator;
 
     //Away3d must render at least once before we can obtain screen coordinates for vertices.
     public var renderedOnce: Boolean = false;
@@ -82,7 +82,7 @@ public class AbstractDBCanvas extends UIComponent {
         _model = createModel( showExactLiquidColor );
 
         _model.addDensityObjectCreationListener( addDensityObject );
-        waterVolumeIndicator = new WaterVolumeIndicator( _model );
+        waterVolumeIndicator = new PoolVolumeIndicator( _model );
         waterVolumeIndicator.visible = false;//only show it after its location is correct
 
         percentWidth = 100;

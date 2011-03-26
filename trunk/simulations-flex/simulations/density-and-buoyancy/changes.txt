@@ -1,3 +1,4 @@
+Removed code for handling tick marks on the side of the pool
 Renamed ArrowModel to Vector2D
 Minor fixes and added class-level documentation
 Fixed: Scale cannot be pulled into the ground
