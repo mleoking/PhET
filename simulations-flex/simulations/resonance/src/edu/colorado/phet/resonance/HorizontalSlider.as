@@ -1,8 +1,9 @@
-//horizontal slider component
+﻿//horizontal slider component
 
 package edu.colorado.phet.resonance {
 import flash.display.*;
 import flash.events.*;
+import flash.geom.Rectangle;
 import flash.text.*;
 
 public class HorizontalSlider extends Sprite {
@@ -46,6 +47,7 @@ public class HorizontalSlider extends Sprite {
         this.createLabel();
         this.createReadoutField();
         this.makeKnobGrabbable();
+        this.drawBorder();  //for testing only
     }//end of constructor
 
     public function getVal(): Number {
@@ -93,7 +95,7 @@ public class HorizontalSlider extends Sprite {
         var gK: Graphics = this.knob.graphics;
         gK.clear();
 
-        var kW: Number = 8; //knob width
+        var kW: Number = 6; //knob width
         var kH: Number = 15; //knob height
         //gK.drawRoundRect(-kW/2, -kH/2, kW, kH, 3);
         with(gK){
@@ -132,17 +134,18 @@ public class HorizontalSlider extends Sprite {
 
     private function createLabel(): void {
         this.label_txt = new TextField();	//static label
-        this.addChild( this.label_txt );
         this.label_txt.selectable = false;
         this.label_txt.autoSize = TextFieldAutoSize.CENTER;
         this.label_txt.text = "Label";
         this.tFormat1 = new TextFormat();	//format of label
         this.tFormat1.font = "Arial";
         this.tFormat1.color = 0x000000;
-        this.tFormat1.size = 15;
+        this.tFormat1.size = 14;
         this.label_txt.setTextFormat( this.tFormat1 );
         this.label_txt.x = 0;// -0.5*this.label_txt.width;
         this.label_txt.y = 0.4 * this.knob.height;
+        this.addChild( this.label_txt );
+        //this.label_txt.border = true;      //for testing only
     }//end createLabel()
 
     public function setLabelText( label_str: String ): void {
@@ -157,7 +160,6 @@ public class HorizontalSlider extends Sprite {
 
     private function createReadoutField(): void {
         this.readout_txt = new TextField();	//static label
-        this.addChild( this.readout_txt );
         this.readout_txt.selectable = this.textEditable;
         this.readout_txt.type = TextFieldType.INPUT;
         this.readout_txt.border = true;
@@ -175,7 +177,7 @@ public class HorizontalSlider extends Sprite {
         this.readout_txt.width = 20;
         this.readout_txt.x = this.rail.width / 2 - this.readout_txt.width / 2;
         this.readout_txt.y = -1.75 * this.readout_txt.height;
-
+        this.addChild( this.readout_txt );
         this.readout_txt.addEventListener( Event.CHANGE, onTextChange );
     }//end createReadoutfield()
 
@@ -271,6 +273,21 @@ public class HorizontalSlider extends Sprite {
             evt.updateAfterEvent();
         }
     }//end makeKnobGrabbable()
+
+    private function drawBorder():void{
+        var rect:Rectangle = this.getBounds(this);
+        var g:Graphics = this.graphics;
+        g.lineStyle(1,0x000000,1);
+        g.drawRect(rect.x, rect.y, rect.width, rect.height) ;
+//        var delX = this.width;
+//        var delY = this.height;
+//        g.moveTo(0,0);
+//        g.lineTo(delX,0);
+//        g.lineTo(delX, delY);
+//        g.lineTo(0,delY);
+//        g.lineTo(0,0);
+
+    }
 
 }//end of class
 }//end of package

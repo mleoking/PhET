@@ -35,6 +35,7 @@ public class PlayPauseButtons extends UIComponent {          //cannot extend Spr
     private var playPause_txt: TextField;
     private var singleStep_txt: TextField;
     private var paused_txt: TextField
+    private var tFormat0: TextFormat;
     private var tFormat1: TextFormat;
     private var tFormat2: TextFormat;
     private var paused: Boolean;
@@ -66,6 +67,7 @@ public class PlayPauseButtons extends UIComponent {          //cannot extend Spr
         this.playPause_txt = new TextField();
         this.paused_txt = new TextField();
         this.singleStep_txt = new TextField();
+        this.tFormat0 = new TextFormat();
         this.tFormat1 = new TextFormat();
         this.tFormat2 = new TextFormat();
 
@@ -264,6 +266,9 @@ public class PlayPauseButtons extends UIComponent {          //cannot extend Spr
         //this.paused_txt.selectable = false;
         //this.playPause_txt.autoSize = TextFieldAutoSize.CENTER;
         //this.paused_txt.autoSize = TextFieldAutoSize.CENTER;
+        this.tFormat0.font = "Arial";
+        this.tFormat0.color = 0x000000;
+        this.tFormat0.size = 12;
         this.tFormat1.font = "Arial";
         this.tFormat1.color = 0x000000;
         this.tFormat1.size = 15;
@@ -271,6 +276,9 @@ public class PlayPauseButtons extends UIComponent {          //cannot extend Spr
         this.tFormat2.bold = true;
         this.tFormat2.color = 0xffcc33;   //background is 0xffff99
         this.tFormat2.size = 95;
+        this.timeRate_txt.setTextFormat( this.tFormat0 );
+        this.slow_txt.setTextFormat( this.tFormat0 );
+        this.normal_txt.setTextFormat( this.tFormat0 );
         this.playPause_txt.setTextFormat( this.tFormat1 );
         this.singleStep_txt.setTextFormat( this.tFormat1 );
         this.paused_txt.setTextFormat( this.tFormat2 );
@@ -287,7 +295,7 @@ public class PlayPauseButtons extends UIComponent {          //cannot extend Spr
     }
 
     private function formatSlider( mySlider: HSlider ): void {
-        mySlider.minimum = 0.1;
+        mySlider.minimum = 0.02;
         mySlider.maximum = 1;
         mySlider.buttonMode = true;
         mySlider.liveDragging = true;
@@ -307,7 +315,9 @@ public class PlayPauseButtons extends UIComponent {          //cannot extend Spr
         this.timeRateSlider.y = -0.5*this.timeRateSlider.height;
         this.timeRate_txt.x = -this.timeRateSlider.width - 0.5*this.timeRate_txt.width;
         this.slow_txt.x =  this.timeRateSlider.x;
+        this.slow_txt.y = 3;
         this.normal_txt.x = 0.5*this.timeRateSlider.x;
+        this.normal_txt.y = 3;
         this.timeRate_txt.y = this.timeRateSlider.y - 0.5*this.timeRate_txt.height;
         this.playPause_txt.x = -0.5 * this.playPause_txt.width;
         this.playPause_txt.y = 0.5 * this.playPauseButton.height;
