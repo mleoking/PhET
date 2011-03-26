@@ -38,24 +38,10 @@ public class CustomObjectPropertiesPanel extends DensityVBox {
             return n;
         }
 
-        //TODO: See related workaround PropertyEditor
-        function clampMass( mass: Number ): Number {
-            //TODO: factor out this duplicated code
-            if ( densityObject.material.equals( Material.STYROFOAM ) && mass > DensityAndBuoyancyConstants.STYROFOAM_MAX_MASS ) {
-                return DensityAndBuoyancyConstants.STYROFOAM_MAX_MASS;
-            }
-            else {
-                if ( densityObject.material.equals( Material.WOOD ) && mass > DensityAndBuoyancyConstants.WOOD_MAX_MASS ) {
-                    return DensityAndBuoyancyConstants.WOOD_MAX_MASS;
-                }
-                else {
-                    return mass;
-                }
-            }
-        }
+        var massBounds = new MassBounds( densityObject );
 
         //Add the PropertyEditors for Mass, Volume and Density
-        grid.addChild( new PropertyEditor( densityObject.getMassProperty(), DensityAndBuoyancyConstants.MIN_MASS, DensityAndBuoyancyConstants.MAX_MASS, units.massUnit, clampMass, new MassBounds( densityObject ), sliderWidth ) );
+        grid.addChild( new PropertyEditor( densityObject.getMassProperty(), DensityAndBuoyancyConstants.MIN_MASS, DensityAndBuoyancyConstants.MAX_MASS, units.massUnit, massBounds.clamp, new MassBounds( densityObject ), sliderWidth ) );
         grid.addChild( new PropertyEditor( densityObject.getVolumeProperty(), DensityAndBuoyancyConstants.MIN_VOLUME, DensityAndBuoyancyConstants.MAX_VOLUME, units.volumeUnit, noClamp, new Unbounded(), sliderWidth ) );
         grid.addChild( createSpacerRow( 2 ) );
         grid.addChild( new DensityEditor( densityObject.getDensityProperty(), DensityAndBuoyancyConstants.MIN_DENSITY, DensityAndBuoyancyConstants.MAX_DENSITY, units.densityUnit, noClamp, new Unbounded(), sliderWidth ) );
