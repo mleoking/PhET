@@ -66,7 +66,7 @@ public class DensityMysteryObjectsMode extends Mode {
             canvas.container.addChild( mysteryObjectsControlPanel );
             mysteryObjectsControlPanelShowing = true;
         }
-        canvas.model.addDensityObject( new Scale( Scale.GROUND_SCALE_X, Scale.GROUND_SCALE_Y, canvas.model ) );
+        canvas.model.addDensityObject( new Scale( Scale.GROUND_SCALE_X_LEFT, Scale.GROUND_SCALE_Y, canvas.model ) );
     }
 }
 }

@@ -25,7 +25,8 @@ public class Scale extends Cuboid {
     public static var SCALE_DEPTH: Number = 0.1 * SCALE_SCALE;
 
     private const scaleReadoutListeners: Array = new Array();
-    public static const GROUND_SCALE_X: Number = -DensityAndBuoyancyConstants.POOL_WIDTH_X / 2 - DensityAndBuoyancyConstants.LARGE_BLOCK_WIDTH - Scale.SCALE_WIDTH / 2;
+    public static const GROUND_SCALE_X_LEFT: Number = -DensityAndBuoyancyConstants.POOL_WIDTH_X / 2 - DensityAndBuoyancyConstants.LARGE_BLOCK_WIDTH - Scale.SCALE_WIDTH / 2;
+    public static const GROUND_SCALE_X_RIGHT: Number = DensityAndBuoyancyConstants.POOL_WIDTH_X / 2 + DensityAndBuoyancyConstants.LARGE_BLOCK_WIDTH + Scale.SCALE_WIDTH / 2;//Scale appears to the right in buoyancy because there is more room there
     public static const GROUND_SCALE_Y: Number = Scale.SCALE_HEIGHT / 2;
 
     public static const POOL_SCALE_X: Number = DensityAndBuoyancyConstants.POOL_WIDTH_X / 2 - Scale.SCALE_WIDTH * 1.5;

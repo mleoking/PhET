@@ -1,3 +1,4 @@
+Moved the scale to the right in both Buoyancy tabs
 Removed code for handling tick marks on the side of the pool
 Renamed ArrowModel to Vector2D
 Minor fixes and added class-level documentation
