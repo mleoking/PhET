@@ -17,8 +17,6 @@ public class Scale extends Cuboid {
 
     protected var totalImpulse: Number = 0;//in SI
 
-    public static const SCALE_DENSITY: Number = 2.0 * 1000;
-
     //Relative sizes for each dimension
     private static const REL_SCALE_WIDTH: Number = 0.1;
     private static const REL_SCALE_HEIGHT: Number = 0.05;
@@ -30,6 +28,10 @@ public class Scale extends Cuboid {
     public static const SCALE_WIDTH: Number = REL_SCALE_WIDTH * SIZE_SCALE;
     public static const SCALE_HEIGHT: Number = REL_SCALE_HEIGHT * SIZE_SCALE;
     public static const SCALE_DEPTH: Number = REL_SCALE_DEPTH * SIZE_SCALE;
+    public static const SCALE_VOLUME: Number = SCALE_WIDTH * SCALE_HEIGHT * SCALE_DEPTH;
+
+    public static const SCALE_WEIGHT = 50;//Newtons
+    public static const SCALE_DENSITY: Number = SCALE_WEIGHT / (SCALE_VOLUME * 9.8);//9.8 is little g
 
     private const scaleReadoutListeners: Array = new Array();
     public static const GROUND_SCALE_X_LEFT: Number = -DensityAndBuoyancyConstants.POOL_WIDTH_X / 2 - DensityAndBuoyancyConstants.LARGE_BLOCK_WIDTH - Scale.SCALE_WIDTH / 2;
