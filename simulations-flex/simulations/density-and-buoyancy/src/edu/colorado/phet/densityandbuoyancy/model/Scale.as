@@ -30,7 +30,7 @@ public class Scale extends Cuboid {
     public static const SCALE_DEPTH: Number = REL_SCALE_DEPTH * SIZE_SCALE;
     public static const SCALE_VOLUME: Number = SCALE_WIDTH * SCALE_HEIGHT * SCALE_DEPTH;
 
-    public static const SCALE_WEIGHT = 50;//Newtons
+    public static const SCALE_WEIGHT: Number = 50;//Newtons
     public static const SCALE_DENSITY: Number = SCALE_WEIGHT / (SCALE_VOLUME * 9.8);//9.8 is little g
 
     private const scaleReadoutListeners: Array = new Array();
