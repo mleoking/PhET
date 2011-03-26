@@ -28,16 +28,19 @@ public class BlockLabel extends Sprite {
             visible = visibilityProperty.value;
         };
         visibilityProperty.addListener( updateVisibility );
-        updateVisibility();
+        updateVisibility();//no auto-callback in addListener, so we update it ourselves
     }
 
     protected function updateGraphics(): void {
         graphics.clear();
+
+        //Add the text
         var textFormat: TextFormat = new TextFormat();
         textFormat.size = 20;
         textFormat.bold = true;
         textField.setTextFormat( textFormat );
 
+        //Adds a border
         graphics.lineStyle( 1, 0x000000 );
         graphics.beginFill( 0xFFFFFF );
         graphics.drawRoundRect( textField.x, textField.y, textField.width, textField.height, 6, 6 );

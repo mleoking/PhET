@@ -1,4 +1,7 @@
 Should we change the package structure to have separate packages for each sim?
+Compare to module packaging in bending-light vs current packaging in density-and-buoyancy vs package structure in build-an-atom and its sims.
 
-Whoever is reviewing this needs to look at it with an IDE, not a plain text viewer. We'll provide full support for
-Intellij. If you use Eclipse, you are own your own.
+Review should be performed with an IDE, not a plain text viewer. IntelliJ provides great support and we can help you if you have questions regarding navigation, setup, etc.  We haven't tried Eclipse.
+Do we need to make sure this is easily accessible from Eclipse?
+
+Should Observable.as provide auto-notifications on listener registration as we do in Java?
