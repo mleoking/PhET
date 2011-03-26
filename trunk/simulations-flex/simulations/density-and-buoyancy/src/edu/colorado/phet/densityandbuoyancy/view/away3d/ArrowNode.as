@@ -4,7 +4,7 @@ import away3d.cameras.Camera3D;
 import away3d.core.base.Vertex;
 import away3d.materials.ColorMaterial;
 
-import edu.colorado.phet.densityandbuoyancy.model.DensityModel;
+import edu.colorado.phet.densityandbuoyancy.model.DensityAndBuoyancyModel;
 import edu.colorado.phet.densityandbuoyancy.model.DensityObject;
 import edu.colorado.phet.densityandbuoyancy.model.Vector2D;
 import edu.colorado.phet.densityandbuoyancy.view.Away3DViewport;
@@ -61,8 +61,8 @@ public class ArrowNode extends MyMesh {
     }
 
     private function updateLocation(): void {
-        this.x = densityObject.getX() * DensityModel.DISPLAY_SCALE + offsetX.value;
-        this.y = densityObject.getY() * DensityModel.DISPLAY_SCALE;
+        this.x = densityObject.getX() * DensityAndBuoyancyModel.DISPLAY_SCALE + offsetX.value;
+        this.y = densityObject.getY() * DensityAndBuoyancyModel.DISPLAY_SCALE;
     }
 
     public function doUpdate(): void {

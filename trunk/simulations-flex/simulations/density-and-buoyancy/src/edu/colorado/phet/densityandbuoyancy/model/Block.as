@@ -13,7 +13,7 @@ import flash.geom.ColorTransform;
 public class Block extends Cuboid {
     private var _colorTransform: ColorTransform;
 
-    public function Block( density: Number, size: Number, x: Number, y: Number, colorTransform: ColorTransform, model: DensityModel, __material: Material ): void {
+    public function Block( density: Number, size: Number, x: Number, y: Number, colorTransform: ColorTransform, model: DensityAndBuoyancyModel, __material: Material ): void {
         super( density, size, size, size, x, y, model, __material );
 
         this._colorTransform = colorTransform;
@@ -47,11 +47,11 @@ public class Block extends Cuboid {
         return "Block: " + super.toString();
     }
 
-    public static function newBlockDensityMass( density: Number, mass: Number, x: Number, y: Number, color: ColorTransform, model: DensityModel, __material: Material ): Block {
+    public static function newBlockDensityMass( density: Number, mass: Number, x: Number, y: Number, color: ColorTransform, model: DensityAndBuoyancyModel, __material: Material ): Block {
         return new Block( density, Math.pow( mass / density, 1.0 / 3.0 ), x, y, color, model, __material );
     }
 
-    public static function newBlockVolumeMass( volume: Number, mass: Number, x: Number, y: Number, color: ColorTransform, model: DensityModel, __material: Material ): Block {
+    public static function newBlockVolumeMass( volume: Number, mass: Number, x: Number, y: Number, color: ColorTransform, model: DensityAndBuoyancyModel, __material: Material ): Block {
         return new Block( mass / volume, Math.pow( volume, 1.0 / 3 ), x, y, color, model, __material );
     }
 }

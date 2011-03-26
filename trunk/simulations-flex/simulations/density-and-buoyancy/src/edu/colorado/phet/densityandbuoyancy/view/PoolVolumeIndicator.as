@@ -1,7 +1,7 @@
 //  Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.densityandbuoyancy.view {
 import edu.colorado.phet.densityandbuoyancy.DensityAndBuoyancyConstants;
-import edu.colorado.phet.densityandbuoyancy.model.DensityModel;
+import edu.colorado.phet.densityandbuoyancy.model.DensityAndBuoyancyModel;
 import edu.colorado.phet.flexcommon.FlexSimStrings;
 
 import flash.display.Sprite;
@@ -15,9 +15,9 @@ import flash.text.TextFormat;
 public class PoolVolumeIndicator extends Sprite {
     private var textField: TextField;
     private var waterHeight: Number;
-    private var model: DensityModel;
+    private var model: DensityAndBuoyancyModel;
 
-    public function PoolVolumeIndicator( model: DensityModel ) {
+    public function PoolVolumeIndicator( model: DensityAndBuoyancyModel ) {
         super();
         this.model = model;
         textField = new TextField();

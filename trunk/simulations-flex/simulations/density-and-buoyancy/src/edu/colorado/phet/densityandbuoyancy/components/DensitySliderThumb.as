@@ -1,6 +1,6 @@
 //  Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.densityandbuoyancy.components {
-import edu.colorado.phet.densityandbuoyancy.model.DensityModel;
+import edu.colorado.phet.densityandbuoyancy.model.DensityAndBuoyancyModel;
 
 import flash.display.DisplayObjectContainer;
 
@@ -30,7 +30,7 @@ public class DensitySliderThumb extends SliderThumb {
         addChild( dataTip );
         trace( "init.parent = " + parent );
 
-        DensityModel.frameListeners.push( function(): void {
+        DensityAndBuoyancyModel.frameListeners.push( function(): void {
             var p: PropertyEditor = getPropertyEditor( parent );
             dataTip.setDensity( p.property.value, p.unit );
             dataTip.x = -dataTip.width / 2 - 5 + offsetX;

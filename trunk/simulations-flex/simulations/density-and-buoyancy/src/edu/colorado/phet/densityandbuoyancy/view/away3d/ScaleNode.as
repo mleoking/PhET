@@ -3,7 +3,7 @@ package edu.colorado.phet.densityandbuoyancy.view.away3d {
 import away3d.materials.*;
 
 import edu.colorado.phet.densityandbuoyancy.DensityAndBuoyancyConstants;
-import edu.colorado.phet.densityandbuoyancy.model.DensityModel;
+import edu.colorado.phet.densityandbuoyancy.model.DensityAndBuoyancyModel;
 import edu.colorado.phet.densityandbuoyancy.model.Scale;
 import edu.colorado.phet.densityandbuoyancy.view.*;
 
@@ -24,9 +24,9 @@ public class ScaleNode extends CuboidNode {
         this._scale = scale;
         this._view = view;
 
-        var totalWidth: Number = getCuboid().getWidth() * DensityModel.DISPLAY_SCALE;
-        var totalHeight: Number = getCuboid().getHeight() * DensityModel.DISPLAY_SCALE;
-        var totalDepth: Number = getCuboid().getDepth() * DensityModel.DISPLAY_SCALE;
+        var totalWidth: Number = getCuboid().getWidth() * DensityAndBuoyancyModel.DISPLAY_SCALE;
+        var totalHeight: Number = getCuboid().getHeight() * DensityAndBuoyancyModel.DISPLAY_SCALE;
+        var totalDepth: Number = getCuboid().getDepth() * DensityAndBuoyancyModel.DISPLAY_SCALE;
 
         base = new PickableCube( this );
         base.width = totalWidth;
@@ -97,9 +97,9 @@ public class ScaleNode extends CuboidNode {
     override public function setPosition( x: Number, y: Number ): void {
         // clamp the scale bounds manually because we set its mass to 0 while dragging which prevents intersection correction
 
-        var scaleGroundHeight: Number = DensityModel.DISPLAY_SCALE * Scale.SCALE_HEIGHT / 2;
-        var rightBound: Number = DensityModel.DISPLAY_SCALE * ((_view.model.getPoolWidth() - Scale.SCALE_WIDTH) / 2);
-        var bottomBound: Number = DensityModel.DISPLAY_SCALE * (-_view.model.getPoolHeight() + Scale.SCALE_HEIGHT / 2);
+        var scaleGroundHeight: Number = DensityAndBuoyancyModel.DISPLAY_SCALE * Scale.SCALE_HEIGHT / 2;
+        var rightBound: Number = DensityAndBuoyancyModel.DISPLAY_SCALE * ((_view.model.getPoolWidth() - Scale.SCALE_WIDTH) / 2);
+        var bottomBound: Number = DensityAndBuoyancyModel.DISPLAY_SCALE * (-_view.model.getPoolHeight() + Scale.SCALE_HEIGHT / 2);
         var poolSide: Number = (x > 0 ? 1 : -1) * rightBound;
 
         var belowGround: Boolean = y < scaleGroundHeight;

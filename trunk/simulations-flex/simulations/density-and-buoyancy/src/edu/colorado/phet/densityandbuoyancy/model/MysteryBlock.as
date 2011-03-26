@@ -14,7 +14,7 @@ import flash.geom.ColorTransform;
 public class MysteryBlock extends Block {
     private var label: String;
 
-    public function MysteryBlock( density: Number, size: Number, x: Number, y: Number, color: ColorTransform, model: DensityModel, label: String ) {
+    public function MysteryBlock( density: Number, size: Number, x: Number, y: Number, color: ColorTransform, model: DensityAndBuoyancyModel, label: String ) {
         super( density, size, x, y, color, model, Material.CUSTOM );
         this.label = label;
     }

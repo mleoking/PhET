@@ -2,7 +2,7 @@
 package edu.colorado.phet.densityandbuoyancy.view.modes {
 import edu.colorado.phet.densityandbuoyancy.DensityAndBuoyancyConstants;
 import edu.colorado.phet.densityandbuoyancy.model.Block;
-import edu.colorado.phet.densityandbuoyancy.model.DensityModel;
+import edu.colorado.phet.densityandbuoyancy.model.DensityAndBuoyancyModel;
 import edu.colorado.phet.densityandbuoyancy.model.Material;
 import edu.colorado.phet.densityandbuoyancy.view.AbstractDBCanvas;
 
@@ -17,7 +17,7 @@ public class DensitySameVolumeMode extends Mode {
 
     override public function init(): void {
         super.init();
-        const model: DensityModel = canvas.model;
+        const model: DensityAndBuoyancyModel = canvas.model;
 
         var block1: Block = Block.newBlockVolumeMass( DensityAndBuoyancyConstants.litersToMetersCubed( 5 ), 8, 0, 0, DensityAndBuoyancyConstants.YELLOW, model, Material.CUSTOM );
         block1.setPosition( -DensityAndBuoyancyConstants.POOL_WIDTH_X / 2, block1.getHeight() / 2 );

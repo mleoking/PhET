@@ -1,6 +1,6 @@
 //  Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.densityandbuoyancy {
-import edu.colorado.phet.densityandbuoyancy.model.DensityModel;
+import edu.colorado.phet.densityandbuoyancy.model.DensityAndBuoyancyModel;
 
 import flash.geom.ColorTransform;
 
@@ -29,10 +29,10 @@ public class DensityAndBuoyancyConstants {
      */
     public static const SCALE_BOX2D: Number = 10;
     public static const GRAVITY: Number = 9.8;
-    public static const DEFAULT_BLOCK_WATER_OFFSET: Number = 10 / DensityModel.DISPLAY_SCALE;
+    public static const DEFAULT_BLOCK_WATER_OFFSET: Number = 10 / DensityAndBuoyancyModel.DISPLAY_SCALE;
 
     //Offset the objects slightly to prevent intersections
-    public static const FUDGE_FACTOR: Number = 1000.0 / DensityModel.DISPLAY_SCALE;
+    public static const FUDGE_FACTOR: Number = 1000.0 / DensityAndBuoyancyModel.DISPLAY_SCALE;
     public static const VERTICAL_GROUND_OFFSET_AWAY_3D: Number = -FUDGE_FACTOR;  //This number was hand-tuned so that no rendering artifacts (flickering faces) occur, but may need to change if scale or other parameters change
     public static const FUDGE_FACTOR_DZ: Number = FUDGE_FACTOR;//Objects shouldn't exactly overlap in the z-dimension either
 
