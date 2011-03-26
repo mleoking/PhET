@@ -14,6 +14,7 @@ public class MainView extends Canvas {
     var myShakerModel: ShakerModel;
     var myShakerView: ShakerView;
     var myPlayPauseButtons: PlayPauseButtons;
+    //var ruler:VerticalRuler;
     var myControlPanel: ControlPanel;
     var phetLogo: Sprite;
     var stageH: Number;
@@ -35,6 +36,10 @@ public class MainView extends Canvas {
         this.myPlayPauseButtons.x = this.myShakerView.x;
         this.myPlayPauseButtons.y = 0.9 * stageH; //this.myShakerView.y + this.myPlayPauseButtons.height;
 
+        //this.ruler = new VerticalRuler( this, this.myShakerView );
+        //this.ruler.x = 100;
+        //this.ruler.y = 100;
+
         this.myControlPanel = new ControlPanel( this, myShakerModel );
 
         //this.myControlPanel.right = 10;    //does not work, "right" is a style property
@@ -49,6 +54,7 @@ public class MainView extends Canvas {
 
         this.addChild( new SpriteUIComponent( myPlayPauseButtons ) );
         this.addChild( new SpriteUIComponent( myShakerView ) );
+        //this.addChild( new SpriteUIComponent( ruler ));
         this.addChild( myControlPanel );
         this.addChild( new SpriteUIComponent( phetLogo ) );
         this.initializeAll();

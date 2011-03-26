@@ -10,6 +10,7 @@ import mx.containers.Canvas;
 import mx.containers.HBox;
 import mx.containers.VBox;
 import mx.controls.Button;
+import mx.controls.CheckBox;
 import mx.controls.ComboBox;
 import mx.controls.HSlider;
 import mx.controls.Label;
@@ -31,14 +32,16 @@ public class ControlPanel extends Canvas {
     private var gravityOnOff_rbg: RadioButtonGroup;
 
     private var gravity_lbl: Label;
+    private var ruler_lbl: Label;
     private var resonatorNbr_lbl: Label;
     private var mSlider: HorizontalSlider;  //NumericSlider;
     private var kSlider: HorizontalSlider;  //HSlider;
     private var freq_lbl: Label;
+    private var showRulerCheckBox: CheckBox;
     private var resetAllButton: Button;
     private var selectedResonatorNbr: int;	//index number of currently selected resonator
 
-    private var massProperty: NumericProperty
+    //private var massProperty: NumericProperty
 
     //internationalized strings
     public var numberOfResonators_str: String;
@@ -54,6 +57,7 @@ public class ControlPanel extends Canvas {
     public var springConstantUnits_str: String;
     public var frequencyEquals_str: String;
     public var hz_str: String;
+    public var showRuler_str:String;
     public var resetAll_str: String;
     public var choose_str:String;
     public var sameMass_str:String;
@@ -85,11 +89,11 @@ public class ControlPanel extends Canvas {
         this.background.setStyle( "borderColor", 0x009900 );
         this.background.setStyle( "cornerRadius", 15 );
         this.background.setStyle( "borderThickness", 8 );
-        this.background.setStyle( "paddingTop", 30 );
+        this.background.setStyle( "paddingTop", 20 );
         this.background.setStyle( "paddingBottom", 20 );
         this.background.setStyle( "paddingRight", 7 );
         this.background.setStyle( "paddingLeft", 7 );
-        this.background.setStyle( "verticalGap", 0 );
+        this.background.setStyle( "verticalGap", 5 );
         with ( this.background ) {
             setStyle( "horizontalAlign", "center" );
         }
@@ -107,7 +111,7 @@ public class ControlPanel extends Canvas {
             setStyle( "paddingBottom", 5 );
             setStyle( "paddingRight", 5 );
             setStyle( "paddingLeft", 5 );
-            setStyle( "verticalGap", 0 );
+            setStyle( "verticalGap", 5 );
             setStyle("horizontalAlign" , "center");
         }
 
@@ -216,6 +220,8 @@ public class ControlPanel extends Canvas {
             setStyle( "textAlign", "center" );
         }
 
+        this.showRulerCheckBox = new CheckBox();
+        this.showRulerCheckBox.addEventListener( Event.CHANGE, clickRuler );
 
         this.resetAllButton = new Button();
         with ( this.resetAllButton ) {
@@ -225,20 +231,21 @@ public class ControlPanel extends Canvas {
         this.resetAllButton.addEventListener( MouseEvent.MOUSE_UP, resetAll );
 
         this.addChild( this.background );
-        this.background.addChild( new SpriteUIComponent(dampingSlider) );
+        this.background.addChild( new SpriteUIComponent(dampingSlider, true) );
 
         this.background.addChild(presets_cbx);
         this.background.addChild( nbrResonatorsSlider );
 
         this.innerBckgrnd.addChild( this.resonatorNbr_lbl );
-        this.innerBckgrnd.addChild( new SpriteUIComponent(this.mSlider) );
-        this.innerBckgrnd.addChild( new SpriteUIComponent(this.kSlider) );
+        this.innerBckgrnd.addChild( new SpriteUIComponent(this.mSlider, true) );
+        this.innerBckgrnd.addChild( new SpriteUIComponent(this.kSlider, true) );
         this.innerBckgrnd.addChild( this.freq_lbl );
         this.background.addChild( innerBckgrnd );
         this.background.addChild( radioButtonBox );
         this.radioButtonBox.addChild( gravity_lbl );
         this.radioButtonBox.addChild( rb1 );
         this.radioButtonBox.addChild( rb2 );
+        this.background.addChild( this.showRulerCheckBox );
         this.background.addChild( this.resetAllButton );
 
     } //end of init()
@@ -257,6 +264,7 @@ public class ControlPanel extends Canvas {
         springConstantUnits_str = " N/m ";
         frequencyEquals_str = "frequency = ";
         hz_str = "Hz";
+        showRuler_str = "Show Ruler";
         resetAll_str = "Reset All";
         choose_str = "Choose..";
         sameMass_str = "same mass";
@@ -355,6 +363,11 @@ public class ControlPanel extends Canvas {
             this.shakerModel.setG( 0 );
             //trace( "2" );
         }
+    }
+
+    private function clickRuler( evt:Event ):void{
+        var val: Object = this.showRulerCheckBox.selectedValue;
+
     }
 
     public function setGravityExternally(onOrOff:Boolean):void{
