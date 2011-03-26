@@ -17,12 +17,19 @@ public class Scale extends Cuboid {
 
     protected var totalImpulse: Number = 0;//in SI
 
-    public static var SCALE_DENSITY: Number = 2.0 * 1000;
+    public static const SCALE_DENSITY: Number = 2.0 * 1000;
 
-    private static const SCALE_SCALE: Number = 1.7;
-    public static var SCALE_WIDTH: Number = 0.1 * SCALE_SCALE;
-    public static var SCALE_HEIGHT: Number = 0.05 * SCALE_SCALE;
-    public static var SCALE_DEPTH: Number = 0.1 * SCALE_SCALE;
+    //Relative sizes for each dimension
+    private static const REL_SCALE_WIDTH: Number = 0.1;
+    private static const REL_SCALE_HEIGHT: Number = 0.05;
+    private static const REL_SCALE_DEPTH: Number = 0.1;
+    private static const REL_VOLUME: Number = REL_SCALE_WIDTH * REL_SCALE_HEIGHT * REL_SCALE_DEPTH;
+    private static const DESIRED_VOLUME: Number = DensityAndBuoyancyConstants.litersToMetersCubed( 2.0 );
+
+    private static const SIZE_SCALE: Number = Math.pow( DESIRED_VOLUME / REL_VOLUME, 1.0 / 3.0 );
+    public static const SCALE_WIDTH: Number = REL_SCALE_WIDTH * SIZE_SCALE;
+    public static const SCALE_HEIGHT: Number = REL_SCALE_HEIGHT * SIZE_SCALE;
+    public static const SCALE_DEPTH: Number = REL_SCALE_DEPTH * SIZE_SCALE;
 
     private const scaleReadoutListeners: Array = new Array();
     public static const GROUND_SCALE_X_LEFT: Number = -DensityAndBuoyancyConstants.POOL_WIDTH_X / 2 - DensityAndBuoyancyConstants.LARGE_BLOCK_WIDTH - Scale.SCALE_WIDTH / 2;
@@ -34,6 +41,7 @@ public class Scale extends Cuboid {
 
     public function Scale( x: Number, y: Number, model: DensityModel ): void {
         super( SCALE_DENSITY, SCALE_WIDTH, SCALE_HEIGHT, SCALE_DEPTH, x, y, model, Material.CUSTOM );
+//        trace( "scale volume = " + DensityAndBuoyancyConstants.metersCubedToLiters( SCALE_WIDTH * SCALE_HEIGHT * SCALE_DEPTH ) );
         POOL_SCALE_Y = Scale.SCALE_HEIGHT / 2 - model.getPoolHeight();
 
         // set mass to make this mobile / immobile, and then listen to it
