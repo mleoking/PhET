@@ -8,7 +8,6 @@ import Box2D.Dynamics.b2BodyDef;
 import Box2D.Dynamics.b2World;
 
 import edu.colorado.phet.densityandbuoyancy.DensityAndBuoyancyConstants;
-import edu.colorado.phet.densityandbuoyancy.view.DebugText;
 import edu.colorado.phet.flexcommon.FlexSimStrings;
 import edu.colorado.phet.flexcommon.model.BooleanProperty;
 import edu.colorado.phet.flexcommon.model.NumericProperty;
@@ -162,8 +161,6 @@ public class DensityModel {
     }
 
     public function stepFrame(): void {
-        DebugText.clear();
-
         for each( densityObject in densityObjects ) {
             densityObject.resetContacts();
         }

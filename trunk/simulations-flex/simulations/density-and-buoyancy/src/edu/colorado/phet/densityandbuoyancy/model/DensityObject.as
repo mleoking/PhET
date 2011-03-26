@@ -35,14 +35,14 @@ public class DensityObject {
     private const _forceVectors: Array = [gravityForceArrowModel,buoyancyForceArrowModel,contactForceArrowModel];
     private var model: DensityModel;
 
-    private var body: b2Body;
+    private var body: b2Body; // our reference to the Box2D "body" in the physics engine
     private var submergedVolume: Number = 0.0;
     private var contactImpulseMap: Object = new Object();
     private var labelProperty: StringProperty;
     private const removalListeners: Array = new Array();
     private var _userControlled: Boolean = false;
 
-    private var lastPosition: b2Vec2;
+    private var lastPosition: b2Vec2; // last position, used for velocity
     private var velocity: b2Vec2 = new b2Vec2();
     private var _inScene: BooleanProperty = new BooleanProperty( false );
     private const _nameVisible: BooleanProperty = new BooleanProperty( false );

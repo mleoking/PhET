@@ -1,5 +1,6 @@
 //  Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.densityandbuoyancy.view {
+import edu.colorado.phet.densityandbuoyancy.test.Box2DDebug;
 import edu.colorado.phet.densityandbuoyancy.view.modes.DensityCustomObjectMode;
 import edu.colorado.phet.densityandbuoyancy.view.modes.DensityMysteryObjectsMode;
 import edu.colorado.phet.densityandbuoyancy.view.modes.DensitySameDensityMode;

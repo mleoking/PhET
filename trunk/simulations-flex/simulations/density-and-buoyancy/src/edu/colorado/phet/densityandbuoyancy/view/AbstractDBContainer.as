@@ -62,7 +62,7 @@ public class AbstractDBContainer extends Canvas {
 
         var resetAllButton: Button = new Button();
         resetAllButton.label = FlexSimStrings.get( 'application.resetAll', 'Reset All' );
-        resetAllButton.addEventListener( MouseEvent.CLICK, function(): void {
+        resetAllButton.addEventListener( MouseEvent.CLICK, function( e: MouseEvent ): void {
             // this is a separate callback because direct access to resetAll() does not select the subclass' resetAll()
             resetAll();
         } );

@@ -5,12 +5,13 @@ import away3d.cameras.Camera3D;
 import away3d.core.draw.ScreenVertex;
 
 import edu.colorado.phet.densityandbuoyancy.view.*;
+import edu.colorado.phet.densityandbuoyancy.components.BlockLabel;
 import edu.colorado.phet.flexcommon.model.BooleanProperty;
 
 /**
  * This is a flash sprite that displays text for a block, and is positioned using Away3D geometry.
  */
-public class Away3DBlockLabelNode extends BlockLabelNode {
+public class Away3DBlockLabelNode extends BlockLabel {
     private var mainViewport: Away3DViewport;
     private var mainCamera: Camera3D;
     private var cubeNode: CubeNode;
