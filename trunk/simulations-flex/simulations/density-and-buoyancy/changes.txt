@@ -1,3 +1,4 @@
+Removed "interviews" and "lead-design" from credits
 Made the scales weigh 50N
 Made the scales occupy 2L
 Moved the scale to the right in both Buoyancy tabs
