@@ -141,11 +141,11 @@ public class DensityModel {
         //100m high and 100m wide
         const wallWidth: Number = 1 * DensityAndBuoyancyConstants.SCALE_BOX2D;
         const wallHeight: Number = 1 * DensityAndBuoyancyConstants.SCALE_BOX2D;
-        const leftBound: Number = (-Math.abs( Scale.GROUND_SCALE_X ) - Scale.SCALE_WIDTH / 2) * DensityAndBuoyancyConstants.SCALE_BOX2D;
+        const leftBound: Number = (-Math.abs( Scale.GROUND_SCALE_X_LEFT ) - Scale.SCALE_WIDTH / 2) * DensityAndBuoyancyConstants.SCALE_BOX2D;
         shapeDef.SetAsOrientedBox( wallWidth, wallHeight, new b2Vec2( -wallWidth + leftBound, 0 ), 0 );
         body.CreateShape( shapeDef );
 
-        const rightBound: Number = (Math.abs( Scale.GROUND_SCALE_X ) + Scale.SCALE_WIDTH / 2) * DensityAndBuoyancyConstants.SCALE_BOX2D;
+        const rightBound: Number = (Math.abs( Scale.GROUND_SCALE_X_LEFT ) + Scale.SCALE_WIDTH / 2) * DensityAndBuoyancyConstants.SCALE_BOX2D;
         shapeDef.SetAsOrientedBox( wallWidth, wallHeight, new b2Vec2( wallWidth + rightBound, 0 ), 0 );
         body.CreateShape( shapeDef );
     }

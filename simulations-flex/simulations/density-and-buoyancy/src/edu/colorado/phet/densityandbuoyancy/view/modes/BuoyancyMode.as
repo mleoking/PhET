@@ -14,7 +14,7 @@ public class BuoyancyMode extends Mode {
 
     public function BuoyancyMode( canvas: AbstractDBCanvas ) {
         super( canvas );
-        landScale = new BuoyancyScale( Scale.GROUND_SCALE_X, Scale.GROUND_SCALE_Y, canvas.model )
+        landScale = new BuoyancyScale( Scale.GROUND_SCALE_X_RIGHT, Scale.GROUND_SCALE_Y, canvas.model )
         waterScale = new BuoyancyScale( Scale.POOL_SCALE_X, Scale.POOL_SCALE_Y, canvas.model );
     }
 
