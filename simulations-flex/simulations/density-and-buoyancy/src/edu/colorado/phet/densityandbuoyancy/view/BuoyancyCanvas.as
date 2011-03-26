@@ -3,6 +3,7 @@ package edu.colorado.phet.densityandbuoyancy.view {
 import edu.colorado.phet.densityandbuoyancy.DensityAndBuoyancyConstants;
 import edu.colorado.phet.densityandbuoyancy.model.DensityAndBuoyancyModel;
 import edu.colorado.phet.densityandbuoyancy.model.DensityObject;
+import edu.colorado.phet.densityandbuoyancy.model.Scale;
 import edu.colorado.phet.densityandbuoyancy.model.Vector2D;
 import edu.colorado.phet.densityandbuoyancy.test.Box2DDebug;
 import edu.colorado.phet.densityandbuoyancy.view.away3d.ArrowNode;
@@ -59,8 +60,8 @@ public class BuoyancyCanvas extends AbstractDBCanvas {
     }
 
     override protected function createModel( showExactLiquidColor: Boolean ): DensityAndBuoyancyModel {
-        //TODO: dynamically compute the volume of the submerged scale
-        return new DensityAndBuoyancyModel( DensityAndBuoyancyConstants.litersToMetersCubed( 100.0 - 2.46 ), extendedPool, showExactLiquidColor );//this accounts for one submerged scale, so that the readout still reads 100.0 on init
+        return new DensityAndBuoyancyModel( DensityAndBuoyancyConstants.litersToMetersCubed( 100.0 ) - Scale.SCALE_VOLUME, //this accounts for one submerged scale, so that the readout still reads 100.0 on init
+                                            extendedPool, showExactLiquidColor );
     }
 
     override public function resetAll(): void {
