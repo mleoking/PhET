@@ -4,7 +4,6 @@ import edu.colorado.phet.densityandbuoyancy.DensityAndBuoyancyConstants;
 import edu.colorado.phet.densityandbuoyancy.model.DensityObject;
 import edu.colorado.phet.densityandbuoyancy.model.Material;
 import edu.colorado.phet.densityandbuoyancy.model.Not;
-import edu.colorado.phet.densityandbuoyancy.components.BlockLabel;
 import edu.colorado.phet.densityandbuoyancy.view.units.Units;
 import edu.colorado.phet.flexcommon.FlexSimStrings;
 import edu.colorado.phet.flexcommon.model.BooleanProperty;
@@ -55,18 +54,17 @@ public class CustomObjectPropertiesPanel extends DensityVBox {
             }
         }
 
+        //Add the PropertyEditors for Mass, Volume and Density
         grid.addChild( new PropertyEditor( densityObject.getMassProperty(), DensityAndBuoyancyConstants.MIN_MASS, DensityAndBuoyancyConstants.MAX_MASS, units.massUnit, clampMass, new MassBounds( densityObject ), sliderWidth ) );
         grid.addChild( new PropertyEditor( densityObject.getVolumeProperty(), DensityAndBuoyancyConstants.MIN_VOLUME, DensityAndBuoyancyConstants.MAX_VOLUME, units.volumeUnit, noClamp, new Unbounded(), sliderWidth ) );
         grid.addChild( createSpacerRow( 2 ) );
         grid.addChild( new DensityEditor( densityObject.getDensityProperty(), DensityAndBuoyancyConstants.MIN_DENSITY, DensityAndBuoyancyConstants.MAX_DENSITY, units.densityUnit, noClamp, new Unbounded(), sliderWidth ) );
-        // this would make the background cover the data-tip
-        //grid.addChild( createSpacerRow( 26 ) );
 
+        //Configure and add the ComboBox
         comboBox = new ComboBox();
         const items: Array = Material.SELECTABLE_MATERIALS;
         comboBox.dataProvider = items;
         comboBox.rowCount = items.length;//Ensures there are no scroll bars in the combo box, see http://www.actionscript.org/forums/showthread.php3?t=218435
-
         comboBox.labelField = "name";//uses the "name" get property on Material to identify the name
         function updateBlockBasedOnComboBoxSelection(): void {
             trace( "comboBox.selectedItem=" + comboBox.selectedItem );
@@ -74,7 +72,6 @@ public class CustomObjectPropertiesPanel extends DensityVBox {
         }
 
         comboBox.selectedItem = densityObject.material;
-
         comboBox.addEventListener( ListEvent.CHANGE, updateBlockBasedOnComboBoxSelection );
         densityObject.addMaterialListener( function f(): void {
             if ( densityObject.material.isCustom() ) {
@@ -85,12 +82,11 @@ public class CustomObjectPropertiesPanel extends DensityVBox {
             }
         } );
 
+        //Set up the radio buttons for selecting different materials, e.g. "my block", "wood", etc.
         const radioButtonPanel: HBox = new HBox();
         const myBlockName: String = FlexSimStrings.get( "customObject.custom", "My Block" );
-
         radioButtonPanel.addChild( new MyRadioButton( myBlockName, myBlockSelected ) );
         radioButtonPanel.addChild( new MyRadioButton( FlexSimStrings.get( "customObject.material", "Material" ), new Not( myBlockSelected ) ) );
-
         myBlockSelected.addListener( function(): void {
             if ( myBlockSelected.value ) {
                 if ( !densityObject.material.isCustom() ) {
@@ -102,8 +98,8 @@ public class CustomObjectPropertiesPanel extends DensityVBox {
                 updateBlockBasedOnComboBoxSelection();
             }
         } );
-
         addChild( radioButtonPanel );
+
         myBlockSelected.addListener( function(): void {
             comboBox.visible = !myBlockSelected.value;
         } );
