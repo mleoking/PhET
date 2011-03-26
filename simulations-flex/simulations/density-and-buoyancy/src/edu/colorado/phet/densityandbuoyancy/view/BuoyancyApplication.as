@@ -1,27 +1,33 @@
 //  Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.densityandbuoyancy.view {
 import edu.colorado.phet.flashcommon.ApplicationLifecycle;
+import edu.colorado.phet.flexcommon.FlexSimStrings;
 import edu.colorado.phet.flexcommon.PhetLogoButton;
+import edu.colorado.phet.flexcommon.PhetTabNavigator;
 
 import mx.containers.Canvas;
 
+/**
+ * Main application entry point for the Buoyancy sim
+ */
 public class BuoyancyApplication extends Canvas {
-    private var buoyancyTabNavigator: BuoyancyTabNavigator;
-
     public function BuoyancyApplication() {
         super();
-        buoyancyTabNavigator = new BuoyancyTabNavigator();
-        addChild( buoyancyTabNavigator );
+        var tabNavigator: PhetTabNavigator = new PhetTabNavigator( [
+                                                                       new BuoyancyModule( FlexSimStrings.get( "buoyancy.tab.intro", "Intro" ), new BuoyancyIntroContainer() ),
+                                                                       new BuoyancyModule( FlexSimStrings.get( "buoyancy.tab.playground", "Buoyancy Playground" ), new BuoyancyPlaygroundContainer() )
+                                                                   ] );
+        addChild( tabNavigator );
         percentWidth = 100;
         percentHeight = 100;
 
         setStyle( "backgroundColor", 0xf0f0f0 ); // background of tab bar!
 
         ApplicationLifecycle.addApplicationCompleteListener( function(): void {
-            buoyancyTabNavigator.onApplicationComplete();
+            tabNavigator.onApplicationComplete();
 
-            const tabHeight: Number = buoyancyTabNavigator.getTabAt( 0 ).height;
-            trace( "2nd time: buoyancyTabNavigator.getTabAt( 0 ).height = " + buoyancyTabNavigator.getTabAt( 0 ).height );
+            const tabHeight: Number = tabNavigator.getTabAt( 0 ).height;
+            trace( "2nd time: buoyancyTabNavigator.getTabAt( 0 ).height = " + tabNavigator.getTabAt( 0 ).height );
             var phetLogoButton: PhetLogoButton = new PhetLogoButton( tabHeight );
             var densityAndBuoyancyFlashCommon: BuoyancyFlashCommon = new BuoyancyFlashCommon( phetLogoButton.width, tabHeight );
             addChild( densityAndBuoyancyFlashCommon );
@@ -43,4 +49,24 @@ public class BuoyancyApplication extends Canvas {
     }
 
 }
+}
+
+import edu.colorado.phet.densityandbuoyancy.view.BuoyancyContainer;
+import edu.colorado.phet.flexcommon.Module;
+
+class BuoyancyModule extends Module {
+    private var container: BuoyancyContainer;
+
+    function BuoyancyModule( title: String, canvas: BuoyancyContainer ) {
+        super( title, canvas );
+        this.container = canvas;
+    }
+
+    override public function get running(): Boolean {
+        return container.running;
+    }
+
+    override public function set running( r: Boolean ): void {
+        container.running = r;
+    }
 }

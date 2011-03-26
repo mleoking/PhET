@@ -17,6 +17,9 @@ import edu.colorado.phet.flashcommon.ApplicationLifecycle;
 import edu.colorado.phet.flexcommon.model.BooleanProperty;
 import edu.colorado.phet.flexcommon.model.NumericProperty;
 
+/**
+ * Contains the sim play area for Buoyancy (not including control panels)
+ */
 public class BuoyancyCanvas extends AbstractDBCanvas {
 
     private var _container: BuoyancyContainer;

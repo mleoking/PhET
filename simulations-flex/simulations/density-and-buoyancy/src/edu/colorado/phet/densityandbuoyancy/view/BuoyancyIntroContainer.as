@@ -13,6 +13,9 @@ import mx.controls.Label;
 import mx.controls.RadioButton;
 import mx.events.FlexEvent;
 
+/**
+ * Adds Buoyancy Intro-tab specific UI
+ */
 public class BuoyancyIntroContainer extends BuoyancyContainer {
     public static var count: Number = 0;//for different button groups
     private var sameMassButton: RadioButton;
@@ -35,7 +38,7 @@ public class BuoyancyIntroContainer extends BuoyancyContainer {
         sameMassButton = new RadioButton();
         sameMassButton.groupName = groupName;
         sameMassButton.label = FlexSimStrings.get( 'mode.objectsOfSameMass', 'Same Mass' );
-        sameMassButton.addEventListener( MouseEvent.CLICK, function(): void {
+        sameMassButton.addEventListener( MouseEvent.CLICK, function( e: MouseEvent ): void {
             buoyancyCanvas.switchToSameMass();
         } );
         modeControlPanel.addChild( sameMassButton );
@@ -43,7 +46,7 @@ public class BuoyancyIntroContainer extends BuoyancyContainer {
         var sameVolumeButton: RadioButton = new RadioButton();
         sameVolumeButton.groupName = groupName;
         sameVolumeButton.label = FlexSimStrings.get( 'mode.objectsOfSameVolume', 'Same Volume' );
-        sameVolumeButton.addEventListener( MouseEvent.CLICK, function(): void {
+        sameVolumeButton.addEventListener( MouseEvent.CLICK, function( e: MouseEvent ): void {
             buoyancyCanvas.switchToSameVolume();
         } );
         modeControlPanel.addChild( sameVolumeButton );
@@ -51,7 +54,7 @@ public class BuoyancyIntroContainer extends BuoyancyContainer {
         var sameDensityButton: RadioButton = new RadioButton();
         sameDensityButton.groupName = groupName;
         sameDensityButton.label = FlexSimStrings.get( 'mode.objectsOfSameDensity', 'Same Density' );
-        sameDensityButton.addEventListener( MouseEvent.CLICK, function(): void {
+        sameDensityButton.addEventListener( MouseEvent.CLICK, function( e: MouseEvent ): void {
             buoyancyCanvas.switchToSameDensity();
         } );
         modeControlPanel.addChild( sameDensityButton );
