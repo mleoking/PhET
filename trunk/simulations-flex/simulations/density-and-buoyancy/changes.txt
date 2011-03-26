@@ -1,3 +1,4 @@
+Adjusted the pool volume so that it is an even number with a scale in or out
 Removed "interviews" and "lead-design" from credits
 Made the scales weigh 50N
 Made the scales occupy 2L
