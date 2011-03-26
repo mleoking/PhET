@@ -1,1 +1,1 @@
-Phet-credits lead-design=Kelly Lancaster software-development=Jon Olson, Sam Reid design-team=Kelly Lancaster, Kathy Perkins, Noah Podolefsky, Trish Loeblein, Jon Olson, Sam Reid, Archie Paulson, Carl Wieman, Wendy Adams interviews=Kelly Lancaster
+Phet-credits software-development=Jon Olson, Sam Reid design-team=Kelly Lancaster, Kathy Perkins, Noah Podolefsky, Trish Loeblein, Jon Olson, Sam Reid, Archie Paulson, Carl Wieman, Wendy Adams
