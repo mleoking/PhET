@@ -1,5 +1,6 @@
 //  Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.densityandbuoyancy.view.away3d {
+import edu.colorado.phet.densityandbuoyancy.components.BlockLabel;
 import edu.colorado.phet.densityandbuoyancy.model.Cuboid;
 import edu.colorado.phet.densityandbuoyancy.model.DensityModel;
 import edu.colorado.phet.densityandbuoyancy.view.*;
@@ -9,7 +10,7 @@ import edu.colorado.phet.densityandbuoyancy.view.*;
  */
 public class CubeNode extends CuboidNode {
     private var cube: PickableCube;
-    private var _blockLabelNode: BlockLabelNode;
+    private var _blockLabelNode: BlockLabel;
 
     public function CubeNode( cuboid: Cuboid, canvas: AbstractDBCanvas ) {
         super( cuboid, canvas );

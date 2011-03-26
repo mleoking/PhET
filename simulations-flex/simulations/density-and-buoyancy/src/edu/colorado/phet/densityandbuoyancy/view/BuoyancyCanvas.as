@@ -4,6 +4,7 @@ import edu.colorado.phet.densityandbuoyancy.DensityAndBuoyancyConstants;
 import edu.colorado.phet.densityandbuoyancy.model.DensityModel;
 import edu.colorado.phet.densityandbuoyancy.model.DensityObject;
 import edu.colorado.phet.densityandbuoyancy.model.Vector2D;
+import edu.colorado.phet.densityandbuoyancy.test.Box2DDebug;
 import edu.colorado.phet.densityandbuoyancy.view.away3d.ArrowNode;
 import edu.colorado.phet.densityandbuoyancy.view.away3d.DensityObjectNode;
 import edu.colorado.phet.densityandbuoyancy.view.away3d.ScaleNode;

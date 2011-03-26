@@ -9,6 +9,9 @@ import away3d.lights.DirectionalLight3D;
 
 import flash.display.Stage;
 
+/**
+ * Contains a 3D scene with its own camera. Responsible for the 3D rendering
+ */
 public class Away3DViewport {
 
     //engine variables

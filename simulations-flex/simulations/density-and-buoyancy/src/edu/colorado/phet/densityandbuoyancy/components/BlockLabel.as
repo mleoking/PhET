@@ -1,5 +1,5 @@
 //  Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.densityandbuoyancy.view {
+package edu.colorado.phet.densityandbuoyancy.components {
 import edu.colorado.phet.flexcommon.model.BooleanProperty;
 
 import flash.display.Sprite;
@@ -7,10 +7,14 @@ import flash.text.TextField;
 import flash.text.TextFieldAutoSize;
 import flash.text.TextFormat;
 
-public class BlockLabelNode extends Sprite {
+/**
+ * Displays the block name in custom object control panel. Should look like the label that appears on the block.
+ * This is currently used only in Buoyancy when there are two custom objects.
+ */
+public class BlockLabel extends Sprite {
     private var textField: TextField;
 
-    public function BlockLabelNode( name: String, visibilityProperty: BooleanProperty ) {
+    public function BlockLabel( name: String, visibilityProperty: BooleanProperty ) {
         textField = new TextField();
         textField.autoSize = TextFieldAutoSize.LEFT;
         textField.text = name;

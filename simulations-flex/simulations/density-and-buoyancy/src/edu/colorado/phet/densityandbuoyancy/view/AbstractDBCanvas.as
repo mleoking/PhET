@@ -30,10 +30,15 @@ import flash.events.MouseEvent;
 
 import mx.core.UIComponent;
 
+/**
+ * Base class for the canvas, subclassed for each sim. Contains all of the drawables in the play area (but not the
+ * control panels)
+ */
 public class AbstractDBCanvas extends UIComponent {
     //model
     protected var _model: DensityModel;
 
+    // we use two viewports so we can layer things that go in front
     public const mainViewport: Away3DViewport = new Away3DViewport();
     public const overlayViewport: Away3DViewport = new Away3DViewport();
 
@@ -47,12 +52,16 @@ public class AbstractDBCanvas extends UIComponent {
 
     public static const far: Number = 5000;
 
+    // references to the water Away3D surfaces, so we can change the water height visually
     private var waterTop: Plane;
     private var waterFront: Plane;
+
+    private var groundNode: GroundNode; // our visual display of the ground
+
     private var _running: Boolean = true;
     private var invalid: Boolean = true;
-    private var marker: ObjectContainer3D;
-    private var groundNode: GroundNode;
+
+    private var marker: ObjectContainer3D; // testing object to verify locations in 3D
 
     private var waterVolumeIndicator: WaterVolumeIndicator;
 

@@ -4,7 +4,7 @@ import edu.colorado.phet.densityandbuoyancy.DensityAndBuoyancyConstants;
 import edu.colorado.phet.densityandbuoyancy.model.DensityObject;
 import edu.colorado.phet.densityandbuoyancy.model.Material;
 import edu.colorado.phet.densityandbuoyancy.model.Not;
-import edu.colorado.phet.densityandbuoyancy.view.BlockLabelNode;
+import edu.colorado.phet.densityandbuoyancy.components.BlockLabel;
 import edu.colorado.phet.densityandbuoyancy.view.units.Units;
 import edu.colorado.phet.flexcommon.FlexSimStrings;
 import edu.colorado.phet.flexcommon.model.BooleanProperty;
@@ -109,7 +109,7 @@ public class CustomObjectPropertiesPanel extends DensityVBox {
         } );
         radioButtonPanel.addChild( comboBox );
 
-        var sprite: Sprite = new BlockLabelNode( densityObject.name, densityObject.nameVisibleProperty );
+        var sprite: Sprite = new BlockLabel( densityObject.name, densityObject.nameVisibleProperty );
         var uiComponent: UIComponent = new UIComponent();
         uiComponent.width = sprite.width;
         uiComponent.addChild( sprite );

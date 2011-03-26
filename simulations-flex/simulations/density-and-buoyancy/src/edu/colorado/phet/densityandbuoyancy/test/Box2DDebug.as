@@ -1,5 +1,5 @@
 //  Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.densityandbuoyancy.view {
+package edu.colorado.phet.densityandbuoyancy.test {
 import Box2D.Dynamics.b2DebugDraw;
 import Box2D.Dynamics.b2World;
 
@@ -10,6 +10,9 @@ import flash.display.Sprite;
 
 import mx.core.UIComponent;
 
+/**
+ * Debugging resource that shows a 2D version of our Box2D physics engine
+ */
 public class Box2DDebug {
     private var holder: UIComponent;
 
