@@ -1,1 +1,1 @@
-JO: Please comment on todo's in ContactHandler
+Should we change the package structure to have separate packages for each sim?
