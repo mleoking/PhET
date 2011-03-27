@@ -13,6 +13,7 @@ import flash.events.MouseEvent;
 import flash.geom.Point;
 import flash.text.TextField;
 
+import flash.text.TextFieldAutoSize;
 import flash.text.TextFormat;
 
 import mx.core.UIComponent;
@@ -25,6 +26,7 @@ public class VerticalRuler extends Sprite{
     private var horizLine2: HorizontalReferenceLine;
     private var pixPerMeter:Number;
     private var cm_txt:TextField;
+    private var tFieldArray:Array;    //array of textFields for numbers on ruler
     private var tFormat:TextFormat;
 
     public function VerticalRuler( myShakerView: ShakerView ) {
@@ -36,15 +38,13 @@ public class VerticalRuler extends Sprite{
         this.pixPerMeter = myShakerView.pixPerMeter;
         trace("VerticalRuler.pixPerMeter = "+this.pixPerMeter);
         this.drawRuler();
+        this.makeNumbers();
         this.makeSpriteGrabbable( this.ruler );
-        //this.addChild( new SpriteUIComponent( this.horizLine1));
-        //this.addChild( new SpriteUIComponent( this.horizLine2));
-        //this.addChild( new SpriteUIComponent( this.ruler ));
         this.addChild( this.ruler );
         this.addChild( this.horizLine1 );
         this.addChild( this.horizLine2 );
         this.horizLine1.x = this.ruler.width;
-        this.horizLine1.y = 0.15*this.pixPerMeter;
+        this.horizLine1.y = 0*this.pixPerMeter;
         this.horizLine2.x = this.ruler.width;
         this.horizLine2.y = 0.45*this.pixPerMeter;
         this.makeVisible( false );  //default is that ruler is hidden
@@ -55,7 +55,7 @@ public class VerticalRuler extends Sprite{
         var h:Number = 0.5*pixPerMeter;
         var g:Graphics = this.ruler.graphics;
         g.lineStyle( 1, 0x000000, 1 );
-        g.beginFill( 0xffcc32 );   //light tan color for wooden ruler
+        g.beginFill( 0xffcc32, 0.2 );   //light tan color for wooden ruler
         g.drawRect(0,0,w,h);
         g.endFill();
         var pixPerMM = this.pixPerMeter/1000;
@@ -65,17 +65,40 @@ public class VerticalRuler extends Sprite{
         for (var i:int = 0; i < nbrMarks; i++) {
             g.lineStyle(0.5, 0x000000, 1);
             g.moveTo(w, i*pixPerCM);
-            g.lineTo(w - 10, i*pixPerCM);
+            g.lineTo(w - 8, i*pixPerCM);
             if(i%5 == 0) {
                g.lineStyle(0.5, 0x000000, 1);
                g.moveTo(w, i*pixPerCM);
-               g.lineTo(w - 20, i*pixPerCM);
+               g.lineTo(w - 15, i*pixPerCM);
             }
             if(i%10 == 0) {
                g.lineStyle(1, 0x000000, 1);
                g.moveTo(w, i*pixPerCM);
-               g.lineTo(w - 25, i*pixPerCM);
+               g.lineTo(w - 20, i*pixPerCM);
             }
+        }
+    }
+
+    private function makeNumbers():void{
+        this.tFieldArray = new Array( 9 );
+        this.tFormat = new TextFormat();
+        for (var i:int = 0; i < this.tFieldArray.length; i++){
+             var nbr:String = String( i*5 + 5 );
+            this.tFieldArray[i] = new TextField();
+            var label_txt:TextField = this.tFieldArray[i];
+            label_txt.selectable = false;
+            label_txt.autoSize = TextFieldAutoSize.CENTER;
+            label_txt.text = "Label";
+            this.tFormat = new TextFormat();	//format of label
+            this.tFormat.font = "Arial";
+            this.tFormat.color = 0x000000;
+            this.tFormat.size = 14;
+            label_txt.setTextFormat( this.tFormat );
+
+            label_txt.text = nbr;
+            this.ruler.addChild(label_txt);
+            label_txt.x = 0.5*this.ruler.width - 1*label_txt.width;
+            label_txt.y = 0.05*( 1 + i )*this.pixPerMeter - 0.5*label_txt.height;
         }
     }
 
