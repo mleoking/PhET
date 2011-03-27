@@ -40,7 +40,7 @@ public class HorizontalReferenceLine extends Sprite{
 
     private function drawLine():void{
         var g: Graphics = this.line.graphics;
-        var gap:Number = 5;    //pixel gap between segments of dashed line
+        var gap:Number = 3;    //pixel gap between segments of dashed line
         var dash: Number = 10; //length of dashed segments in pixels;
         var N:int = Math.floor( this.lineLength/(gap+dash));
 

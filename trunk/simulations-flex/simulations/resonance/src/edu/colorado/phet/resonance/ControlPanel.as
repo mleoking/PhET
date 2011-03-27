@@ -57,7 +57,7 @@ public class ControlPanel extends Canvas {
     public var springConstantUnits_str: String;
     public var frequencyEquals_str: String;
     public var hz_str: String;
-    public var showRuler_str:String;
+    public var ruler_str:String;
     public var resetAll_str: String;
     public var choose_str:String;
     public var sameMass_str:String;
@@ -221,6 +221,7 @@ public class ControlPanel extends Canvas {
         }
 
         this.showRulerCheckBox = new CheckBox();
+        this.showRulerCheckBox.label = ruler_str;
         this.showRulerCheckBox.addEventListener( Event.CHANGE, clickRuler );
 
         this.resetAllButton = new Button();
@@ -264,8 +265,8 @@ public class ControlPanel extends Canvas {
         springConstantUnits_str = " N/m ";
         frequencyEquals_str = "frequency = ";
         hz_str = "Hz";
-        showRuler_str = "Show Ruler";
-        resetAll_str = "Reset All";
+        ruler_str = "Ruler  ";
+        resetAll_str = "Reset All  ";
         choose_str = "Choose..";
         sameMass_str = "same mass";
         sameSpring_str = "same spring";
