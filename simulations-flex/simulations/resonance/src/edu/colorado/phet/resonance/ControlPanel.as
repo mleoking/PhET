@@ -93,7 +93,7 @@ public class ControlPanel extends Canvas {
         this.background.setStyle( "paddingBottom", 20 );
         this.background.setStyle( "paddingRight", 7 );
         this.background.setStyle( "paddingLeft", 7 );
-        this.background.setStyle( "verticalGap", 5 );
+        this.background.setStyle( "verticalGap", 10 );
         with ( this.background ) {
             setStyle( "horizontalAlign", "center" );
         }
@@ -111,7 +111,7 @@ public class ControlPanel extends Canvas {
             setStyle( "paddingBottom", 5 );
             setStyle( "paddingRight", 5 );
             setStyle( "paddingLeft", 5 );
-            setStyle( "verticalGap", 5 );
+            setStyle( "verticalGap", 10 );
             setStyle("horizontalAlign" , "center");
         }
 
@@ -202,6 +202,7 @@ public class ControlPanel extends Canvas {
         this.kSlider = new HorizontalSlider( setK, 120, 10, 1200, true );//HSlider();
         this.kSlider.setLabelText( springConstant_str );
         this.kSlider.setUnitsText( springConstantUnits_str );
+        this.kSlider.setReadoutPrecision( 0 );
         //this.formatSlider( this.kSlider );
 //        with ( this.kSlider ) {
 //            minimum = 10;
@@ -262,7 +263,7 @@ public class ControlPanel extends Canvas {
         mass_str = "mass";
         massUnits_str = "kg";
         springConstant_str = "spring constant";
-        springConstantUnits_str = " N/m ";
+        springConstantUnits_str = "N/m ";
         frequencyEquals_str = "frequency = ";
         hz_str = "Hz";
         ruler_str = "Ruler  ";

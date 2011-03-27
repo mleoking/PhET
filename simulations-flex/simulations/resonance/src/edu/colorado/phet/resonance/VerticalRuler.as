@@ -69,12 +69,12 @@ public class VerticalRuler extends Sprite{
             if(i%5 == 0) {
                g.lineStyle(0.5, 0x000000, 1);
                g.moveTo(w, i*pixPerCM);
-               g.lineTo(w - 15, i*pixPerCM);
+               g.lineTo(w - 12, i*pixPerCM);
             }
             if(i%10 == 0) {
                g.lineStyle(1, 0x000000, 1);
                g.moveTo(w, i*pixPerCM);
-               g.lineTo(w - 20, i*pixPerCM);
+               g.lineTo(w - 16, i*pixPerCM);
             }
         }
     }
@@ -93,11 +93,10 @@ public class VerticalRuler extends Sprite{
             this.tFormat.font = "Arial";
             this.tFormat.color = 0x000000;
             this.tFormat.size = 14;
-            label_txt.setTextFormat( this.tFormat );
-
             label_txt.text = nbr;
+            label_txt.setTextFormat( this.tFormat );
             this.ruler.addChild(label_txt);
-            label_txt.x = 0.5*this.ruler.width - 1*label_txt.width;
+            label_txt.x = 0.5*this.ruler.width - 0.75*label_txt.width;
             label_txt.y = 0.05*( 1 + i )*this.pixPerMeter - 0.5*label_txt.height;
         }
     }
