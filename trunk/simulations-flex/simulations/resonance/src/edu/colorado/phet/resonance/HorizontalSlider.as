@@ -20,7 +20,8 @@ public class HorizontalSlider extends Sprite {
     private var knob: Sprite;		//grabbable knob on slider
     private var outputValue: Number;
     private var label_txt: TextField;	//static label
-    private var readout_txt: TextField; 	//dynamic readout
+    private var readout_txt: TextField; //dynamic readout
+    private var units_txt:TextField;    //units displayed next to readout
     private var tFormat1: TextFormat;	//format of label
     private var tFormat2: TextFormat;	//format of readout
     private var units_str:String;       //units on readout
@@ -45,9 +46,9 @@ public class HorizontalSlider extends Sprite {
         this.addChild( this.rail );
         this.addChild( this.knob );
         this.createLabel();
-        this.createReadoutField();
+        this.createReadoutFields();
         this.makeKnobGrabbable();
-        this.drawBorder();  //for testing only
+        //this.drawBorder();  //for testing only
     }//end of constructor
 
     public function getVal(): Number {
@@ -155,17 +156,26 @@ public class HorizontalSlider extends Sprite {
     }
 
     public function setUnitsText( str:String ):void{
-         this.units_str = str;
+        this.units_str = str;
+        this.units_txt.text = " " + this.units_str;
     }
 
-    private function createReadoutField(): void {
-        this.readout_txt = new TextField();	//static label
+    public function restrictInput( allowedCharacters:String ):void{
+        this.readout_txt.restrict = allowedCharacters;
+    }
+
+    private function createReadoutFields(): void {
+        this.readout_txt = new TextField();	//readout field
+        this.units_txt = new TextField();   //units displayed next to readout field
         this.readout_txt.selectable = this.textEditable;
-        this.readout_txt.type = TextFieldType.INPUT;
+        this.units_txt.selectable = false;
+        this.readout_txt.type = TextFieldType.INPUT;    //user-editable
+        this.units_txt.type =  TextFieldType.DYNAMIC;   //user cannot edit
         this.readout_txt.border = true;
         this.readout_txt.background = true;
         this.readout_txt.backgroundColor = 0xffffff;
-        this.readout_txt.autoSize = TextFieldAutoSize.LEFT;
+        this.readout_txt.autoSize = TextFieldAutoSize.RIGHT;
+        this.units_txt.autoSize = TextFieldAutoSize.LEFT;
         //this.readout_txt.restrict = "0-9.";
 
         this.tFormat2 = new TextFormat();	//format of label
@@ -173,11 +183,16 @@ public class HorizontalSlider extends Sprite {
         this.tFormat2.color = 0x000000;
         this.tFormat2.size = 14;
         this.readout_txt.defaultTextFormat = this.tFormat2;
-        this.readout_txt.text = " 1.6 cm";
-        this.readout_txt.width = 20;
-        this.readout_txt.x = this.rail.width / 2 - this.readout_txt.width / 2;
-        this.readout_txt.y = -1.75 * this.readout_txt.height;
+        this.units_txt.defaultTextFormat = this.tFormat2;
+        this.readout_txt.text = " 1.6";
+        this.units_txt.text = "cm";
+        this.readout_txt.width = 60;
+        this.readout_txt.x = this.rail.width / 2 - this.readout_txt.width;
+        this.readout_txt.y = -1.5 * this.readout_txt.height;
+        this.units_txt.x = this.rail.width / 2 ;
+        this.units_txt.y = -1.5 * this.units_txt.height;
         this.addChild( this.readout_txt );
+        this.addChild( this.units_txt );
         this.readout_txt.addEventListener( Event.CHANGE, onTextChange );
     }//end createReadoutfield()
 
@@ -214,11 +229,12 @@ public class HorizontalSlider extends Sprite {
 
     private function updateReadout(): void {
         var readout: Number = this.scale * this.outputValue;
-        if(this.textEditable){
-            this.readout_txt.text = readout.toFixed( this.readoutDecimal );
-        }else{
-           this.readout_txt.text = " " + readout.toFixed( this.readoutDecimal ) + " " + units_str ;
-        }
+        this.readout_txt.text = readout.toFixed( this.readoutDecimal );
+//        if(this.textEditable){
+//            this.readout_txt.text = readout.toFixed( this.readoutDecimal );
+//        }else{
+//           this.readout_txt.text = " " + readout.toFixed( this.readoutDecimal ) + " " + units_str ;
+//        }
 
     }//end updateReadout()
 
