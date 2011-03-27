@@ -366,7 +366,9 @@ public class ControlPanel extends Canvas {
     }
 
     private function clickRuler( evt:Event ):void{
-        var val: Object = this.showRulerCheckBox.selectedValue;
+        var shown: Boolean = this.showRulerCheckBox.selected;
+        this.shakerModel.view.ruler.makeVisible( shown );
+        //trace( "ControlPanel.clickRuler = " + val);
 
     }
 

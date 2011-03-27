@@ -13,9 +13,9 @@ public class ShakerView extends Sprite {
     private var model: ShakerModel;			//model of shaker bar system
     private var maxNbrResonators: int;		//maximum number or resonators
     private var nbrResonators: int;			//nbr of mass-spring systems that are displayed on stage
-    private var ruler: VerticalRuler;
-    private var horizLine1: HorizontalReferenceLine;
-    private var horizLine2: HorizontalReferenceLine;
+    public var ruler: VerticalRuler;
+    //private var horizLine1: HorizontalReferenceLine;
+    //private var horizLine2: HorizontalReferenceLine;
     public var resonatorView_arr: Array;  	//views of mass spring systems
     private var bar: Sprite;				//view of shaker bar
     private var base: Sprite;				//view of base with controls
@@ -64,8 +64,8 @@ public class ShakerView extends Sprite {
         this.hzPerTurn = 1;
         this.maxAmplitude = 0.02;    //in meters
         this.ruler = new VerticalRuler( this );
-        this.horizLine1 = new HorizontalReferenceLine();
-        this.horizLine2 = new HorizontalReferenceLine();
+        //this.horizLine1 = new HorizontalReferenceLine();
+        //this.horizLine2 = new HorizontalReferenceLine();
         this.bar = new Sprite();
         this.base = new Sprite();
         this.springHolder = new Sprite();
@@ -92,14 +92,14 @@ public class ShakerView extends Sprite {
         this.addChild( this.bar );
         this.addChild( this.base );
         this.addChild( this.ruler );
-        this.ruler.x = -this.ruler.width - barPixPerResonator*maxNbrResonators/2;//-this.base.width/2;
+        this.ruler.x = - barPixPerResonator*maxNbrResonators/2;//-this.base.width/2;
         this.ruler.y = -this.ruler.height;
-        this.addChild( this.horizLine1 );
-        this.addChild( this.horizLine2 );
-        this.horizLine1.x =  - barPixPerResonator*maxNbrResonators/2;
-        this.horizLine1.y = -300;
-        this.horizLine2.x =  - barPixPerResonator*maxNbrResonators/2;
-        this.horizLine2.y = -100;
+//        this.addChild( this.horizLine1 );
+//        this.addChild( this.horizLine2 );
+//        this.horizLine1.x =  - barPixPerResonator*maxNbrResonators/2;
+//        this.horizLine1.y = -300;
+//        this.horizLine2.x =  - barPixPerResonator*maxNbrResonators/2;
+//        this.horizLine2.y = -100;
 
         this.base.addChild( this.label_txt );
         this.base.addChild( this.onOffButton );
