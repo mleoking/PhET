@@ -21,6 +21,8 @@ public class VerticalRuler extends Sprite{
     //private var myMainView: MainView;
     private var myShakerView: ShakerView;
     private var ruler:Sprite;
+    private var horizLine1: HorizontalReferenceLine;
+    private var horizLine2: HorizontalReferenceLine;
     private var pixPerMeter:Number;
     private var cm_txt:TextField;
     private var tFormat:TextFormat;
@@ -29,6 +31,8 @@ public class VerticalRuler extends Sprite{
         //this.myMainView = myMainView;
         this.myShakerView = myShakerView;
         this.ruler = new Sprite();
+        this.horizLine1 = new HorizontalReferenceLine();
+        this.horizLine2 = new HorizontalReferenceLine();
         this.pixPerMeter = myShakerView.pixPerMeter;
         trace("VerticalRuler.pixPerMeter = "+this.pixPerMeter);
         this.drawRuler();
@@ -37,6 +41,13 @@ public class VerticalRuler extends Sprite{
         //this.addChild( new SpriteUIComponent( this.horizLine2));
         //this.addChild( new SpriteUIComponent( this.ruler ));
         this.addChild( this.ruler );
+        this.addChild( this.horizLine1 );
+        this.addChild( this.horizLine2 );
+        this.horizLine1.x = this.ruler.width;
+        this.horizLine1.y = 0.15*this.pixPerMeter;
+        this.horizLine2.x = this.ruler.width;
+        this.horizLine2.y = 0.45*this.pixPerMeter;
+        this.makeVisible( false );  //default is that ruler is hidden
     }
 
     private function drawRuler(){
@@ -96,5 +107,11 @@ public class VerticalRuler extends Sprite{
             evt.updateAfterEvent();
         }//end of dragTarget()
     }//end makeSpriteGrabbable();
+
+    public function makeVisible( tOrF: Boolean ):void{
+        this.ruler.visible = tOrF;
+        this.horizLine1.visible = tOrF;
+        this.horizLine2.visible = tOrF;
+    }
 } //end of class
 } //end of package
