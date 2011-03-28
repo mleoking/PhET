@@ -291,9 +291,9 @@ class IsotopeProprotionsPieChart extends PNode {
      * @author John Blanco
      */
     private static class ChemSymbolWithNumbers extends PNode {
-        private static final Font CHEMICAL_SYMBOL_FONT = new PhetFont(24, true);
-        private static final Font SUPERSCRIPT_SUBSCRIPT_FONT = new PhetFont(12);
-        private static final double DISTANCE_FROM_NUMBERS_TO_SYMBOL = 4; // In screen coords, close to pixels.
+        private static final Font CHEMICAL_SYMBOL_FONT = new PhetFont(20, true);
+        private static final Font SUPERSCRIPT_SUBSCRIPT_FONT = new PhetFont(11);
+        private static final double DISTANCE_FROM_NUMBERS_TO_SYMBOL = 2; // In screen coords, close to pixels.
 
         public ChemSymbolWithNumbers( ImmutableAtom chemical ){
             final PText massNumber = new PText( Integer.toString( chemical.getMassNumber() ) ){{
@@ -305,14 +305,14 @@ class IsotopeProprotionsPieChart extends PNode {
                 setFont( CHEMICAL_SYMBOL_FONT );
                 setOffset(
                         massNumber.getFullBoundsReference().getMaxX() + DISTANCE_FROM_NUMBERS_TO_SYMBOL,
-                        massNumber.getFullBoundsReference().height * 0.25 );
+                        massNumber.getFullBoundsReference().height * 0.1 );
             }};
             addChild( symbol );
             PText atomicNumber = new PText( Integer.toString( chemical.getNumProtons() ) ){{
                 setFont( SUPERSCRIPT_SUBSCRIPT_FONT );
                 setOffset(
                         symbol.getFullBoundsReference().getMinX() - DISTANCE_FROM_NUMBERS_TO_SYMBOL - getFullBoundsReference().width,
-                        symbol.getFullBoundsReference().getMaxY() - getFullBoundsReference().height * 0.75 );
+                        symbol.getFullBoundsReference().getMaxY() - getFullBoundsReference().height * 0.85 );
             }};
             addChild( atomicNumber );
         }
