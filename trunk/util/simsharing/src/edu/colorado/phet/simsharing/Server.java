@@ -11,6 +11,7 @@ import java.util.*;
 
 import org.codehaus.jackson.map.ObjectMapper;
 
+import edu.colorado.phet.common.phetcommon.util.Pair;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.gravityandorbits.simsharing.GravityAndOrbitsApplicationState;
 import edu.colorado.phet.gravityandorbits.simsharing.SerializableBufferedImage;

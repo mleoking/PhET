@@ -4,7 +4,7 @@ package edu.colorado.phet.bendinglight.model;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
-import edu.colorado.phet.simsharing.Pair;
+import edu.colorado.phet.common.phetcommon.util.Pair;
 
 import static edu.colorado.phet.bendinglight.model.BendingLightModel.WAVELENGTH_RED;
 
