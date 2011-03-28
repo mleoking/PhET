@@ -1,14 +1,17 @@
 TODO list for balancing-chemical-equations
 
 HIGH PRIORITY
+- change request: Use scales only for feedback in game level 1, a mixture of scales and bars in level 2, and bars only in level 3.
+- change request: Restrict game level 1 equations so that ones with big molecules (e.g. C2H6) cannot be first.
 
 MEDIUM PRIORITY
 
 LOW PRIORITY
-- make sure that color for "molecules are hidden" in BoxesNode works with the background color we choose
+- choose colors for background and boxes
 - Kelly colors: boxes=black, canvas=gray[204,204,204]
 - Emily colors: boxes=gray[102,102,102], canvas=white or blue[204,204,255]
 - Kathy colors: boxes=black, canvas=blue[142,153,193]
+- make sure that color for "molecules are hidden" in BoxesNode works with the background color we choose
 - change color of "Show Why" button?
 - get rid of "Hide Why" button?
 - change default position of Game popups?
