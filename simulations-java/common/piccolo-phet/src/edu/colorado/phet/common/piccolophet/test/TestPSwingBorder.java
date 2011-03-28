@@ -54,8 +54,8 @@ public class TestPSwingBorder extends JFrame {
     }
 
     private static class BorderedLabel extends JLabel {
-        public BorderedLabel( String label ) {
-            super( label );
+        public BorderedLabel( String text ) {
+            super( text );
             setFont( new Font( "Default", Font.PLAIN, 24 ) );
             setBorder( new LineBorder( Color.BLUE, 10 ) );
         }
