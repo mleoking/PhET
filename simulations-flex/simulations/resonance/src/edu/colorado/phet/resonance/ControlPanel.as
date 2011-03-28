@@ -316,7 +316,7 @@ public class ControlPanel extends Canvas {
     private function setFreqLabel(): void {
         var rNbr: int = this.selectedResonatorNbr;
         var resFreq: Number = this.shakerModel.resonatorModel_arr[rNbr - 1].getF0();
-        var resFreq_str: String = resFreq.toFixed( 2 );
+        var resFreq_str: String = resFreq.toFixed( 3 );
         this.freq_lbl.text = this.frequencyEquals_str + resFreq_str + " " + hz_str;
     }
 
