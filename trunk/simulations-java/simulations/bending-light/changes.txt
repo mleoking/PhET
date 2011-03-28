@@ -1,3 +1,4 @@
+# 0.00.30 (50111) Mar 28, 2011
 Switched bottom medium to glass on 2nd tab since that has a bigger wavelength dependent bend
 Fixed: medium interface jitters when changing wavelength in the 2nd tab--converted to use BufferedPhetPCanvas, see #2786
 # 0.00.29 (50073) Mar 24, 2011
