@@ -23,9 +23,9 @@ public class IntroModel extends BendingLightModel {
     private double incomingRayPhase = 0.0;//Keep track of the phase across time steps so that we can maintain instead of resetting phase under angle or index of refraction changes
 
     public final Property<Medium> topMedium = new Property<Medium>( new Medium( new Rectangle2D.Double( -1, 0, 2, 1 ), AIR, MediumColorFactory.getColor( AIR.index() ) ) );
-    public final Property<Medium> bottomMedium = new Property<Medium>( new Medium( new Rectangle2D.Double( -1, -1, 2, 1 ), WATER, MediumColorFactory.getColor( WATER.index() ) ) );
+    public final Property<Medium> bottomMedium;
 
-    public IntroModel() {
+    public IntroModel( MediumState _bottomMedium ) {
         super( PI * 3 / 4, true, DEFAULT_DIST_FROM_PIVOT );
         SimpleObserver updateRays = new SimpleObserver() {
             public void update() {
@@ -33,6 +33,7 @@ public class IntroModel extends BendingLightModel {
             }
         };
         topMedium.addObserver( updateRays );
+        bottomMedium = new Property<Medium>( new Medium( new Rectangle2D.Double( -1, -1, 2, 1 ), _bottomMedium, MediumColorFactory.getColor( _bottomMedium.index() ) ) );
         bottomMedium.addObserver( updateRays );
     }
 

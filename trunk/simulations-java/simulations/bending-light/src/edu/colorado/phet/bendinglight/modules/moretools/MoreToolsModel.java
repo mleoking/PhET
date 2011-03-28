@@ -22,6 +22,7 @@ public class MoreToolsModel extends IntroModel {
     public final WaveSensor waveSensor = new WaveSensor( getClock(), waveValueGetter, waveValueGetter );
 
     public MoreToolsModel() {
+        super( GLASS );//on this tab we should start with air and glass as the 2 mediums, since that has a bigger wavelength dependent bend
         final VoidFunction0 updateReading = new VoidFunction0() {
             public void apply() {
                 velocitySensor.value.setValue( getVelocity( velocitySensor.position.getValue() ) );

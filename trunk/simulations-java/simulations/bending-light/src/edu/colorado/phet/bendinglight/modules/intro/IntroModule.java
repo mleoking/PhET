@@ -7,6 +7,8 @@ import edu.colorado.phet.common.phetcommon.model.property.ValueEquals;
 import edu.colorado.phet.common.phetcommon.util.function.Function3;
 import edu.umd.cs.piccolo.PNode;
 
+import static edu.colorado.phet.bendinglight.model.BendingLightModel.WATER;
+
 /**
  * @author Sam Reid
  */
@@ -14,7 +16,7 @@ public class IntroModule extends BendingLightModule<IntroModel> {
     public IntroCanvas canvas;
 
     public IntroModule() {
-        super( "Intro", new IntroModel() );
+        super( "Intro", new IntroModel( WATER ) );
         canvas = new IntroCanvas<IntroModel>( getBendingLightModel(), moduleActive, resetAll, new Function3.Constant<IntroModel, Double, Double, PNode>( new PNode() ), 150,
                                               new ValueEquals<LaserView>( getBendingLightModel().laserView, LaserView.WAVE ), getBendingLightModel(), "0.00", 4 );
         setSimulationPanel( canvas );
