@@ -1,3 +1,4 @@
+# 0.00.21 (50158) Mar 28, 2011
 3/28/11 change request: restrict game level 1 equations so that equations with big molecules cannot be first
 3/28/11 add Molecule.isBig, returns true if the molecule contains > 5 atoms
 3/28/11 change request: for the "Show Why" feature, level 1=scales, 2=random, 3=bars
