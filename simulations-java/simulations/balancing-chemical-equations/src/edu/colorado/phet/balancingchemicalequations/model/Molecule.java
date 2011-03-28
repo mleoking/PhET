@@ -72,12 +72,12 @@ public abstract class Molecule {
     }
 
     /**
-     * Any atom with 5 or more molecules is considered "big".
+     * Any molecule with more than 5 atoms is considered "big".
      * This affects degree of difficulty in the Game.
      * @return
      */
     public boolean isBig() {
-        return atoms.length >= 5;
+        return atoms.length > 5;
     }
 
     /*
