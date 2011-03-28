@@ -26,9 +26,9 @@ import edu.umd.cs.piccolox.pswing.PSwingCanvas;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class TestPSwingCompoundBorder extends JFrame {
+public class TestPSwingBorder extends JFrame {
 
-    public TestPSwingCompoundBorder() {
+    public TestPSwingBorder() {
         super( "TestPSwingCompoundBorder" );
 
         // PSwing
@@ -61,7 +61,7 @@ public class TestPSwingCompoundBorder extends JFrame {
     }
 
     public static void main( String[] args ) {
-        JFrame frame = new TestPSwingCompoundBorder();
+        JFrame frame = new TestPSwingBorder();
         frame.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
         frame.setVisible( true );
     }
