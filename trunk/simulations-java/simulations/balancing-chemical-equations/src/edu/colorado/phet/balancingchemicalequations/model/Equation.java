@@ -219,6 +219,25 @@ public abstract class Equation {
         }
     }
 
+    /**
+     * Does this equation contain at least one "big" molecule?
+     * This affects degree of difficulty in the Game.
+     * @return
+     */
+    public boolean hasBigMolecule() {
+        for ( EquationTerm term : reactants ) {
+            if ( term.getMolecule().isBig() ) {
+                return true;
+            }
+        }
+        for ( EquationTerm term : products ) {
+            if ( term.getMolecule().isBig() ) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     /*
      * Creates an plaintext string that shows the equation formula.
      * Used for equations that don't have a more general name (eg, "Make Ammonia").
