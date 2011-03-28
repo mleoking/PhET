@@ -80,5 +80,10 @@ public class HorizontalReferenceLine extends Sprite{
             evt.updateAfterEvent();
         }//end of dragTarget()
     }//end makeSpriteGrabbable();
+
+    public function initializePosition():void{
+        this.backGround.x = 0;
+        this.backGround.y = 0;
+    }
 }//end of class
 }//end of package

@@ -384,6 +384,12 @@ public class ControlPanel extends Canvas {
         }
     }
 
+    public function setRulerCheckBoxExternally( tOrF:Boolean):void{
+        this.showRulerCheckBox.selected = tOrF;
+        this.shakerModel.view.ruler.makeVisible( tOrF );
+        this.shakerModel.view.ruler.initializePositions();
+    }
+
     //who is calling this?  I want to delete it.
     public function setNbrResonators( nbrR: int ): void {
         this.myMainView.setNbrResonators( nbrR );

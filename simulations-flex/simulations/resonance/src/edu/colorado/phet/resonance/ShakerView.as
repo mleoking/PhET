@@ -93,7 +93,7 @@ public class ShakerView extends Sprite {
         this.addChild( this.bar );
         this.addChild( this.base );
         this.addChild( this.ruler );
-        this.ruler.x = - barPixPerResonator*maxNbrResonators/2;//-this.base.width/2;
+        this.ruler.x = - barPixPerResonator*maxNbrResonators/2 - this.ruler.ruler.width; //-this.base.width/2;
         this.ruler.y = -this.ruler.height;
 //        this.addChild( this.horizLine1 );
 //        this.addChild( this.horizLine2 );

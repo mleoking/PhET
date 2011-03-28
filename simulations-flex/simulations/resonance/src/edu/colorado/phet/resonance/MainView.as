@@ -74,6 +74,7 @@ public class MainView extends Canvas {
         this.myControlPanel.setPresetComboBoxExternally( 3 );
         this.myControlPanel.setGravityExternally( false );
         this.myControlPanel.setDampingExternally( 1 );   //max is 5
+        this.myControlPanel.setRulerCheckBoxExternally( false );
         this.myShakerView.initializeShakerControls();
         this.myPlayPauseButtons.unPauseExternally();
         this.myPlayPauseButtons.setSliderExternally(1);
