@@ -452,6 +452,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
             }
 
             assert ( equationClasses.size() == numberOfEquations );
+            assert ( !( !firstBigMolecule && hasBigMolecule( equationClasses.get( 0 ) ) ) );
             return equationClasses;
         }
 
