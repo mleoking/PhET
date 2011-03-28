@@ -14,7 +14,6 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.buildanatom.model.ImmutableAtom;
 import edu.colorado.phet.buildanatom.modules.isotopemixture.model.IsotopeMixturesModel;
-import edu.colorado.phet.buildanatom.modules.isotopemixture.model.MovableAtom;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
@@ -26,14 +25,14 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
 /**
-     * Class that represents a pie chart portraying the proportion of the
-     * various isotopes in the test chamber.
-     *
-     * @author John Blanco
-     */
+ * Class that represents a pie chart portraying the proportion of the various
+ * isotopes in the test chamber.
+ *
+ * @author John Blanco
+ */
 class IsotopeProprotionsPieChart extends PNode {
 
-    private static final int PIE_CHART_DIAMETER = 100;
+    private static final int PIE_CHART_DIAMETER = 90;
     private static final Stroke CONNECTING_LINE_STROKE = new BasicStroke(2);
 
     /**
@@ -50,12 +49,13 @@ class IsotopeProprotionsPieChart extends PNode {
             }};
             addChild( pieChart );
         // Create and add the node that will be shown when there is nothing
-        // in the chamber, so showing a pie chart would make no sense.
+        // in the chamber, since showing a pie chart would make no sense.
         final PNode emptyPieChart = new PhetPPath(
                 new Ellipse2D.Double( -PIE_CHART_DIAMETER / 2, -PIE_CHART_DIAMETER / 2, PIE_CHART_DIAMETER, PIE_CHART_DIAMETER ),
                 new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{5, 4}, 0), Color.black );
         addChild(emptyPieChart);
-        // Add the observer that will update the pie chart.
+        // Add the observer that will update the pie chart when the contents
+        // of the test chamber change.
         model.getIsotopeTestChamber().addTotalCountChangeObserver( new SimpleObserver() {
                 public void update() {
                 int isotopeCount = model.getIsotopeTestChamber().getTotalIsotopeCount();
@@ -216,10 +216,17 @@ class IsotopeProprotionsPieChart extends PNode {
                                     label.getFullBoundsReference().getMaxX(),
                                     label.getFullBoundsReference().getCenterY() );
                         }
-                        pieChart.getCenterEdgePtForSlice( i );
                         Point2D sliceConnectPt = pieChart.getCenterEdgePtForSlice( i );
                         assert sliceConnectPt != null; // Should be a valid slice edge point for each label.
+                        // Find a point that is straight out from the center
+                        // of the pie chart above the point that connects to
+                        // the slice.  Note that these calculations assume
+                        // that the center of the pie chart is at (0,0).
+                        Point2D bendPt = new Point2D.Double(
+                                sliceConnectPt.getX() * 1.2,
+                                sliceConnectPt.getY() * 1.2 );
                         DoubleGeneralPath connectingLineShape = new DoubleGeneralPath( sliceConnectPt );
+                        connectingLineShape.lineTo( bendPt );
                         connectingLineShape.lineTo( labelConnectPt );
                         labelLayer.addChild( new PhetPPath( connectingLineShape.getGeneralPath(),
                                 CONNECTING_LINE_STROKE, Color.BLACK) );
