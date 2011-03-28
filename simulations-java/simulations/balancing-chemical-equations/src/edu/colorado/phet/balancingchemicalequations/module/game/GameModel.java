@@ -9,6 +9,7 @@ import edu.colorado.phet.balancingchemicalequations.BCEGlobalProperties;
 import edu.colorado.phet.balancingchemicalequations.model.BCEClock;
 import edu.colorado.phet.balancingchemicalequations.model.Equation;
 import edu.colorado.phet.balancingchemicalequations.view.BalancedRepresentation;
+import edu.colorado.phet.balancingchemicalequations.view.game.IBalancedRepresentationStrategy;
 import edu.colorado.phet.common.games.GameSettings;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
@@ -26,7 +27,17 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
      * the user can take in that state.  For example. the CHECK state is where the user
      * can enter coefficients and press the "Check" button to check their answer.
      */
-    public enum GameState { START_GAME, CHECK, TRY_AGAIN, SHOW_ANSWER, NEXT, NEW_GAME };
+    public static enum GameState { START_GAME, CHECK, TRY_AGAIN, SHOW_ANSWER, NEXT, NEW_GAME };
+
+    /*
+     * Strategies for selecting the "balanced representation" that is displayed by the "Not Balanaced" popup.
+     * This is a map from level to strategy.
+     */
+    private static HashMap<Integer,IBalancedRepresentationStrategy> BALANCED_REPRESENTATION_STRATEGIES = new HashMap<Integer,IBalancedRepresentationStrategy>() {{
+        put( 1, new IBalancedRepresentationStrategy.Constant( BalancedRepresentation.BALANCE_SCALES ) );
+        put( 2, new IBalancedRepresentationStrategy.Random() );
+        put( 3, new IBalancedRepresentationStrategy.Constant( BalancedRepresentation.BAR_CHARTS ) );
+    }};
 
     private static final IntegerRange COEFFICENTS_RANGE = new IntegerRange( 0, 7 );
     private static final IntegerRange LEVELS_RANGE = new IntegerRange( 1, 3, 1 );
@@ -77,7 +88,7 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
     public void startGame() {
         equations = equationsFactory.createEquations( EQUATIONS_PER_GAME, settings.level.getValue() );
         currentEquationIndex = 0;
-        balancedRepresentation = getRandomBalancedRepresentation();
+        balancedRepresentation = BALANCED_REPRESENTATION_STRATEGIES.get( settings.level.getValue() ).getBalancedRepresentation();
         attempts = 0;
         isNewBestTime = false;
         isGameCompleted = false;
@@ -151,7 +162,7 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
         if ( currentEquationIndex < equations.size() - 1 ) {
             attempts = 0;
             currentPoints = 0;
-            balancedRepresentation = getRandomBalancedRepresentation();
+            balancedRepresentation = BALANCED_REPRESENTATION_STRATEGIES.get( settings.level.getValue() ).getBalancedRepresentation();
             currentEquationIndex++;
             currentEquation.setValue( equations.get( currentEquationIndex ) );
             state.setValue( GameState.CHECK );
@@ -248,12 +259,5 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
      */
     public BalancedRepresentation getBalancedRepresentation() {
         return balancedRepresentation;
-    }
-
-    /*
-     * Generates a random value for the representation shown in the "Not Balanced" popup.
-     */
-    private BalancedRepresentation getRandomBalancedRepresentation() {
-        return ( Math.random() < 0.5 ) ? BalancedRepresentation.BALANCE_SCALES : BalancedRepresentation.BAR_CHARTS;
     }
 }
