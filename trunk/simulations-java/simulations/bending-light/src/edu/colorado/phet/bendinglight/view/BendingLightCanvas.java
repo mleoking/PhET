@@ -11,7 +11,6 @@ import javax.swing.*;
 import edu.colorado.phet.bendinglight.model.BendingLightModel;
 import edu.colorado.phet.bendinglight.model.LightRay;
 import edu.colorado.phet.bendinglight.modules.prisms.WhiteLightNode;
-import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.And;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -21,6 +20,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -28,7 +28,9 @@ import edu.umd.cs.piccolo.util.PDimension;
 /**
  * @author Sam Reid
  */
-public class BendingLightCanvas<T extends BendingLightModel> extends PhetPCanvas {
+public class BendingLightCanvas<T extends BendingLightModel>
+        extends BufferedPhetPCanvas {//Using BufferedPhetPCanvas prevents a jittering problem on the 2nd tab, see #2786
+    //        extends PhetPCanvas {
     public static final PhetFont labelFont = new PhetFont( 16 );
     private PNode rootNode;
     public final BooleanProperty showNormal;
@@ -41,7 +43,7 @@ public class BendingLightCanvas<T extends BendingLightModel> extends PhetPCanvas
     protected final PNode lightWaveLayer = new PNode();
     protected final PNode beforeLightLayer = new PNode();
     protected final PNode afterLightLayer = new PNode();
-    public BooleanProperty clockRunningPressed;
+    public final BooleanProperty clockRunningPressed;
 
     public BendingLightCanvas( final T model,
                                BooleanProperty moduleActive,
@@ -49,7 +51,6 @@ public class BendingLightCanvas<T extends BendingLightModel> extends PhetPCanvas
                                final Function1<Double, Boolean> clockwiseArrowNotAtMax,
                                final Function1<Double, Boolean> ccwArrowNotAtMax,
                                boolean showNormal,
-                               Resettable resetAll,
                                final Function2<Shape, Shape, Shape> laserTranslationRegion,
                                final Function2<Shape, Shape, Shape> laserRotationRegion,
                                String laserImageName, final double centerOffsetLeft ) {
