@@ -1,3 +1,4 @@
+3/28/11 move "balanced representation" used by "Show Why" feature into the game model, so that other strategies can be used
 # 0.00.20 (49980) Mar 20, 2011
 3/20/11 change request: exclude the reverse of all selected reactions in level-3 games
 # 0.00.19 (49962) Mar 18, 2011
