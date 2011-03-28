@@ -27,11 +27,11 @@ public class PrismsCanvas extends BendingLightCanvas<PrismsModel> {
 
     public PrismsCanvas( final PrismsModel model, BooleanProperty moduleActive, Resettable resetAll ) {
         super( model, moduleActive, new Function1.Identity<Double>(), new Function1.Constant<Double, Boolean>( true ), new Function1.Constant<Double, Boolean>( true ), false,
-               resetAll, new Function2<Shape, Shape, Shape>() {
-                    public Shape apply( Shape full, Shape front ) {
-                        return front;
-                    }
-                }, new Function2<Shape, Shape, Shape>() {
+               new Function2<Shape, Shape, Shape>() {
+                   public Shape apply( Shape full, Shape front ) {
+                       return front;
+                   }
+               }, new Function2<Shape, Shape, Shape>() {
                     public Shape apply( Shape full, Shape back ) {
                         return back;
                     }

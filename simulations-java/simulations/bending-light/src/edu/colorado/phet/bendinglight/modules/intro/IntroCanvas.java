@@ -57,7 +57,7 @@ public class IntroCanvas<T extends IntroModel> extends BendingLightCanvas<T> {
             public Boolean apply( Double aDouble ) {
                 return aDouble > Math.PI / 2;
             }
-        }, true, resetAll,
+        }, true,
                new Function2<Shape, Shape, Shape>() {
                    public Shape apply( Shape full, Shape front ) {
                        return new Rectangle2D.Double( 0, 0, 0, 0 );//no region can be translated
