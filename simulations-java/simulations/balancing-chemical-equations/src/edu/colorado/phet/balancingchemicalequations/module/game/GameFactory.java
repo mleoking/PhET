@@ -260,9 +260,9 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 
     // map of game levels to strategies for selecting equations
     private static HashMap< Integer, IGameStrategy> STRATEGIES = new HashMap<Integer, IGameStrategy>() {{
-        put( 1, new RandomStrategy( LEVEL1_POOL ) );
-        put( 2, new RandomStrategy( LEVEL2_POOL ) );
-        put( 3, new RandomWithExclusionsStrategy( LEVEL3_POOL, LEVEL3_EXCLUSIONS ) );
+        put( 1, new RandomStrategy( LEVEL1_POOL, false ) );
+        put( 2, new RandomStrategy( LEVEL2_POOL, true ) );
+        put( 3, new RandomWithExclusionsStrategy( LEVEL3_POOL, LEVEL3_EXCLUSIONS, true ) );
     }};
 
     // dev map, these strategies return the complete pool for each game level
@@ -354,25 +354,31 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 
     /*
      * Selects a random set from a pool of equations, with no duplicates.
+     * Use the firstBigMolecule flag to specify whether it's OK if the first
+     * equation in the set contains a "big" molecule.
      */
-    public static class RandomStrategy extends RandomWithExclusionsStrategy {
-        public RandomStrategy( EquationClassesList pool ) {
-            super( pool, new ExclusionsMap() /* empty exclusions */ );
+    private static class RandomStrategy extends RandomWithExclusionsStrategy {
+        public RandomStrategy( EquationClassesList pool, boolean firstBigMolecules ) {
+            super( pool, new ExclusionsMap() /* empty exclusions */, firstBigMolecules );
         }
     }
 
     /*
      * Selects a random set from a pool of equations, with no duplicates.
      * Selection of an equation may cause other equations to be excluded from the pool.
+     * Use the firstBigMolecule flag to specify whether it's OK if the first
+     * equation in the set contains a "big" molecule.
      */
     private static class RandomWithExclusionsStrategy implements IGameStrategy {
 
         private final EquationClassesList pool;
         private final ExclusionsMap exclusions;
+        private final boolean firstBigMolecule; // can the first equation in the set contain a "big" molecule?
 
-        public RandomWithExclusionsStrategy( EquationClassesList pool, ExclusionsMap exclusions ) {
+        public RandomWithExclusionsStrategy( EquationClassesList pool, ExclusionsMap exclusions, boolean firstBigMolecules ) {
             this.pool = pool;
             this.exclusions = exclusions;
+            this.firstBigMolecule = firstBigMolecules;
         }
 
         public EquationClassesList getEquationClasses( int numberOfEquations ) {
@@ -386,6 +392,39 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
                 // randomly select an equation
                 int randomIndex = (int) ( Math.random() * poolCopy.size() );
                 Class<? extends Equation> equationClass = poolCopy.get( randomIndex );
+
+                // If the first equation isn't supposed to contain any "big" molecules,
+                // then find an equation in the pool that has no big molecules.
+                if ( i == 0 && !firstBigMolecule && hasBigMolecule( equationClass ) ) {
+
+                    // start the search at a random index
+                    final int startIndex = (int) ( Math.random() * poolCopy.size() );
+
+                    int index = startIndex;
+                    boolean done = false;
+                    while ( !done ) {
+
+                        // next equation in the pool
+                        equationClass = poolCopy.get( index );
+
+                        if ( !hasBigMolecule( equationClass ) ) {
+                            done = true; // success, this equation has no big molecules
+                        }
+                        else {
+                            // increment index to point to next in pool
+                            index++;
+                            if ( index > poolCopy.size() - 1 ) {
+                                index = 0;
+                            }
+
+                            // give up if we've examined all equations in the pool
+                            if ( index == startIndex ) {
+                                done = true;
+                                System.err.println( "ERROR: first equation contains big molecules because we ran out of equations" );
+                            }
+                        }
+                    }
+                }
 
                 // add the equation to the game
                 equationClasses.add( equationClass );
@@ -414,6 +453,10 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 
             assert ( equationClasses.size() == numberOfEquations );
             return equationClasses;
+        }
+
+        private boolean hasBigMolecule( Class<? extends Equation> equationClass ) {
+            return instantiateEquation( equationClass ).hasBigMolecule();
         }
     }
 

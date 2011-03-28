@@ -1,7 +1,6 @@
 TODO list for balancing-chemical-equations
 
 HIGH PRIORITY
-- change request: Restrict game level 1 equations so that ones with big molecules (e.g. C2H6) cannot be first.
 
 MEDIUM PRIORITY
 

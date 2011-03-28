@@ -71,6 +71,15 @@ public abstract class Molecule {
         return atoms;
     }
 
+    /**
+     * Any atom with 5 or more molecules is considered "big".
+     * This affects degree of difficulty in the Game.
+     * @return
+     */
+    public boolean isBig() {
+        return atoms.length >= 5;
+    }
+
     /*
      * Creates a symbol (HTML fragment) based on the list of atoms in the molecule.
      * The atoms must be specified in order of appearance in the symbol.
