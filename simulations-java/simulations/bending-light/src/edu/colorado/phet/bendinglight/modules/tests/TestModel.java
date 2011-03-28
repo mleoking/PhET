@@ -3,6 +3,7 @@ package edu.colorado.phet.bendinglight.modules.tests;
 
 import junit.framework.TestCase;
 
+import edu.colorado.phet.bendinglight.model.BendingLightModel;
 import edu.colorado.phet.bendinglight.model.LightRay;
 import edu.colorado.phet.bendinglight.modules.intro.IntroModel;
 import edu.colorado.phet.bendinglight.view.LaserColor;
@@ -12,7 +13,7 @@ import edu.colorado.phet.bendinglight.view.LaserColor;
  */
 public class TestModel extends TestCase {
     public void testRays() {
-        IntroModel introModel = new IntroModel();
+        IntroModel introModel = new IntroModel( BendingLightModel.WATER );
         introModel.getLaser().color.setValue( new LaserColor.OneColor( 479E-9 ) );
         introModel.getLaser().on.setValue( true );
         for ( LightRay lightRay : introModel.getRays() ) {
