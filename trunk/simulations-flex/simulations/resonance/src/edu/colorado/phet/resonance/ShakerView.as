@@ -80,11 +80,12 @@ public class ShakerView extends Sprite {
         this.fKnob.setLabelText( frequency_str );
         this.fKnob.setUnitsText( hz_str );
         this.fKnob.setScale( this.hzPerTurn );
-        //HorizontalSlider(owner:Object, lengthInPix:int, minVal:Number, maxVal:Number, detented:Boolean = false, nbrTics:int = 0)
-        this.ASlider = new HorizontalSlider( changeA, 120, this.maxAmplitude/10, this.maxAmplitude );
+        //HorizontalSlider( action: Function, lengthInPix: int, minVal: Number, maxVal: Number, textEditable:Boolean = false, detented: Boolean = false, nbrTics: int = 0 )
+        this.ASlider = new HorizontalSlider( changeA, 120, this.maxAmplitude/10, this.maxAmplitude, true );
         this.ASlider.setLabelText( amplitude_str );
         this.ASlider.setUnitsText( cm_str );
         this.ASlider.setScale( 100 );      //output in meters, displayed output in centimeters
+        this.ASlider.setReadoutPrecision( 2 );
         this.drawShaker();
 
 

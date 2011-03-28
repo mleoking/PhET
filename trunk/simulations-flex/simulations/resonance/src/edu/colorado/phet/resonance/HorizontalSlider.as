@@ -1,4 +1,4 @@
-﻿//horizontal slider component
+//horizontal slider component
 
 package edu.colorado.phet.resonance {
 import flash.display.*;
@@ -26,7 +26,7 @@ public class HorizontalSlider extends Sprite {
     private var tFormat2: TextFormat;	//format of readout
     private var units_str:String;       //units on readout
     private var scale: Number;			//readout = scale * sliderValue
-    private var readoutDecimal: int;		//number of figures past decimal point in readout
+    private var decimalPlaces: int;		//number of figures past decimal point in readout
     private var manualUpdating: Boolean;	//true if user is manually entering text in readout textfield
 
     public function HorizontalSlider( action: Function, lengthInPix: int, minVal: Number, maxVal: Number, textEditable:Boolean = false, detented: Boolean = false, nbrTics: int = 0 ) {
@@ -36,7 +36,7 @@ public class HorizontalSlider extends Sprite {
         this.minVal = minVal;
         this.maxVal = maxVal;
         this.scale = 1;		//default is that slider value = readout value
-        this.readoutDecimal = 1;
+        this.decimalPlaces = 1;
         this.textEditable = textEditable;
         this.detented = detented;
         this.nbrTics = nbrTics;
@@ -45,6 +45,7 @@ public class HorizontalSlider extends Sprite {
         this.drawSlider();
         this.addChild( this.rail );
         this.addChild( this.knob );
+        this.knob.x = this.knob.width;
         this.createLabel();
         this.createReadoutFields();
         this.makeKnobGrabbable();
@@ -61,14 +62,14 @@ public class HorizontalSlider extends Sprite {
         if ( xVal >= this.minVal && xVal <= this.maxVal ) {
             this.outputValue = xVal;
             this.knob.x = this.lengthInPix * (xVal - this.minVal) / (this.maxVal - this.minVal);
-        }//else if(xVal > this.maxVal){
-//				this.outputValue = this.maxVal;
-//				this.knob.x = this.lengthInPix;
-//				this.updateReadout();
-//			}else if(xVal < this.minVal){
-//				this.outputValue = this.minVal;
-//				this.knob.x = 0;
-//			}
+        }else if(xVal > this.maxVal){
+				this.outputValue = this.maxVal;
+				this.knob.x = this.lengthInPix;
+				this.updateReadout();
+			}else if(xVal < this.minVal){
+				this.outputValue = this.minVal;
+				this.knob.x = 0;
+			}
         this.action();
         if ( !manualUpdating ) {
             this.updateReadout();
@@ -80,7 +81,7 @@ public class HorizontalSlider extends Sprite {
     }
 
     public function setReadoutPrecision( nbrOfPlaces: int ): void {
-        this.readoutDecimal = nbrOfPlaces;
+        this.decimalPlaces = nbrOfPlaces;
     }
 
     private function drawSlider(): void {
@@ -96,12 +97,12 @@ public class HorizontalSlider extends Sprite {
         var gK: Graphics = this.knob.graphics;
         gK.clear();
 
-        var kW: Number = 6; //knob width
+        var kW: Number = 8; //knob width
         var kH: Number = 15; //knob height
         //gK.drawRoundRect(-kW/2, -kH/2, kW, kH, 3);
         with(gK){
 
-            lineStyle( 2, 0x0000ff, 1, true, LineScaleMode.NONE, CapsStyle.ROUND, JointStyle.BEVEL );
+            lineStyle( 1, 0x0000ff, 1, true, LineScaleMode.NONE, CapsStyle.ROUND, JointStyle.BEVEL );
             beginFill(0x00ff00);
             drawRect(-0.5*kW, -0.5*kH, kW, kH );
 //            moveTo(-0.5*kW, -0.5*kH);
@@ -199,7 +200,7 @@ public class HorizontalSlider extends Sprite {
     private function onTextChange( evt: Event ): void {
         //trace("HorizontalSlider.onTextChange called. text = "+this.evtTextToNumber(evt));
         this.manualUpdating = true;
-        this.setVal( this.evtTextToNumber( evt ) );
+        this.setVal( this.evtTextToNumber( evt )/this.scale );
         this.manualUpdating = false;
     }
 
@@ -229,11 +230,11 @@ public class HorizontalSlider extends Sprite {
 
     private function updateReadout(): void {
         var readout: Number = this.scale * this.outputValue;
-        this.readout_txt.text = readout.toFixed( this.readoutDecimal );
+        this.readout_txt.text = readout.toFixed( this.decimalPlaces );
 //        if(this.textEditable){
-//            this.readout_txt.text = readout.toFixed( this.readoutDecimal );
+//            this.readout_txt.text = readout.toFixed( this.decimalPlaces );
 //        }else{
-//           this.readout_txt.text = " " + readout.toFixed( this.readoutDecimal ) + " " + units_str ;
+//           this.readout_txt.text = " " + readout.toFixed( this.decimalPlaces ) + " " + units_str ;
 //        }
 
     }//end updateReadout()
@@ -270,13 +271,19 @@ public class HorizontalSlider extends Sprite {
             }
             if ( !thisSlider.detented ) {
                 thisKnob.x = knobX;
-                thisSlider.outputValue = thisSlider.minVal + (thisSlider.maxVal - thisSlider.minVal) * thisKnob.x / thisSlider.lengthInPix;
+                //round output value so that readout value is exact, according to decimal precision set by decimalPlaces
+                var sliderValue: Number = thisSlider.minVal + (thisSlider.maxVal - thisSlider.minVal) * thisKnob.x / thisSlider.lengthInPix;
+                var factor:Number = thisSlider.scale * Math.pow( 10, thisSlider.decimalPlaces );
+                thisSlider.outputValue = Math.round( sliderValue*factor )/factor;
+                //trace( "HorizontalSlider.outputValue = "+thisSlider.outputValue );
                 thisSlider.action();
             }
             else {
                 //set knob to nearest detented position
                 thisKnob.x = delPix * Math.round( knobX / delPix );
                 var newVal: Number = thisSlider.minVal + Math.round( (thisSlider.maxVal - thisSlider.minVal) * thisKnob.x / thisSlider.lengthInPix );
+                //var factor: Number = Math.pow( 10, thisSlider.decimalPlaces );
+               // var newVal:Number = Math.round(newSliderVal * factor ) / factor;
                 //action only if output is changed
                 if ( newVal != thisSlider.outputValue ) {
                     thisSlider.outputValue = newVal;
@@ -290,6 +297,7 @@ public class HorizontalSlider extends Sprite {
         }
     }//end makeKnobGrabbable()
 
+    //draws border around entire slider, for testing purposes only
     private function drawBorder():void{
         var rect:Rectangle = this.getBounds(this);
         var g:Graphics = this.graphics;
