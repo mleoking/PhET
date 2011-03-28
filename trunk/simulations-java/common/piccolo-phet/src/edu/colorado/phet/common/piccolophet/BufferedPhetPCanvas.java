@@ -1,4 +1,3 @@
-
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.piccolophet;
 
@@ -15,7 +14,7 @@ import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
  * related to Piccolo (PSwing) scene graph rendering.
  *
  * @author Sam Reid
- * @deprecated see Unfuddle #1621
+ * @deprecated see Unfuddle #1621: unbuffered JFreeChartNode doesn't work with buffered PCanvas on Mac
  */
 public class BufferedPhetPCanvas extends PhetPCanvas {
 
