@@ -5,26 +5,24 @@ package edu.colorado.phet.common.piccolophet.test;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
-import javax.swing.border.Border;
-import javax.swing.border.CompoundBorder;
-import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
-import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
+import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 /**
- * See Unfuddle #2018.
- * On Windows and Mac OS, the PSwing compound border doesn't look the same as the pure Swing border.
- * Problem occurs with both Java 5 and 6.
- * See screenshots attached to the ticket.
+ * On Windows and Mac OS, with Java 5 and Java 6, a JComponent with a border
+ * is rendered oddly by PSwing.  This example compares PSwing and pure-Swing rendering.
+ * The PSwing border contains horizontal and vertical lines that shouldn't be there,
+ * when the PSwing is scaled up, visible at some scaling values and not at others.
+ * <p>
+ * PhET internal ticket = #2018
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -32,43 +30,39 @@ public class TestPSwingCompoundBorder extends JFrame {
 
     public TestPSwingCompoundBorder() {
         super( "TestPSwingCompoundBorder" );
-        setPreferredSize( new Dimension( 600, 400 )  );
 
-        // canvas
-        PhetPCanvas canvas = new PhetPCanvas( new PDimension( 600, 400 ) );
+        // PSwing
+        PSwingCanvas canvas = new PSwingCanvas();
         PSwing pswing = new PSwing( new BorderedLabel( "PSwing" ) );
-        pswing.scale( 2 );
-        pswing.setOffset( 100, 100 );
-        canvas.addWorldChild( pswing );
-        
-        // control panel
-        JPanel controlPanel = new JPanel();
-        controlPanel.add( new BorderedLabel( "Swing" ) );
+        pswing.scale( 1.5 );
+        pswing.setOffset( 10, 10 );
+        canvas.getLayer().addChild( pswing );
+        canvas.setPreferredSize( new Dimension( (int)( pswing.getFullBoundsReference().getWidth() + 20 ), (int)( pswing.getFullBoundsReference().getHeight() + 20 ) )  );
 
-        // layout similar to a PhET sim
+        // pure Swing
+        JPanel swingPanel = new JPanel();
+        swingPanel.add( new BorderedLabel( "Swing" ) );
+
+        // layout
         JPanel mainPanel = new JPanel( new BorderLayout() );
-        mainPanel.add( controlPanel, BorderLayout.EAST );
         mainPanel.add( canvas, BorderLayout.CENTER );
+        mainPanel.add( swingPanel, BorderLayout.SOUTH );
         setContentPane( mainPanel );
 
         pack();
     }
 
     private static class BorderedLabel extends JLabel {
-
-        private static final Border BORDER = new CompoundBorder( new LineBorder( Color.BLUE, 4 ), new CompoundBorder( new LineBorder( Color.BLACK, 2 ), new EmptyBorder( 5, 14, 5, 14 ) ) );
-        
         public BorderedLabel( String label ) {
             super( label );
-            setBorder( BORDER );
+            setFont( new Font( "Default", Font.PLAIN, 24 ) );
+            setBorder( new LineBorder( Color.BLUE, 10 ) );
         }
     }
 
     public static void main( String[] args ) {
         JFrame frame = new TestPSwingCompoundBorder();
         frame.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
-        SwingUtils.centerWindowOnScreen( frame );
         frame.setVisible( true );
     }
-
 }
