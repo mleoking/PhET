@@ -77,15 +77,14 @@ class IsotopeProprotionsPieChart extends PNode {
                     }
                     // Convert the pie value array into the type needed by the
                     // pie chart.
-                    // TODO: This is pretty hideous.  I should find a better way.
-                    PieValue[] pieValuesArray = new PieValue[pieSlices.size()];
-                    for ( int i = 0; i < pieValuesArray.length; i++){
-                        pieValuesArray[i] = pieSlices.get( i );
-                    }
-                    pieChart.setPieValues( pieValuesArray );
-                    // TODO: Nasty workaround for some issue with the sequence
-                    // of things that can cause an inconsistency between the
-                    // prototype isotope and the isotopes in the chamber.
+                    pieChart.setPieValues( pieSlices.toArray( new PieValue[pieSlices.size()] ) );
+                    // TODO: This was put in to catch a race condition where
+                    // could be isotopes in the chamber, but none that matched
+                    // the current prototype isotope.  Changes were made that
+                    // appeared to fix this, but this should be left for a
+                    // while to make sure that it doesn't come back.  If the
+                    // errors from this haven't been seen for a while, it can
+                    // probably be safely removed.
                     if ( pieSlices.size() == 0){
                         System.out.println("No pie slices, aborting update of chart.");
                         System.out.println("Prototype isotope = " + model.getAtom().toImmutableAtom());
