@@ -66,7 +66,6 @@ import edu.umd.cs.piccolox.pswing.PSwing;
     private final ButtonNode checkButton, tryAgainButton, showAnswerButton, nextButton;
     private final GameScoreboardNode scoreboardNode;
 
-    private BalancedRepresentation balancedRepresentation; // which representation to use in the "Not Balanced" popup
     private final ActionListener showWhyButtonListener, hideWhyButtonListener; // listeners for buttons in "Not Balanced" popups
 
     /**
@@ -268,7 +267,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 
             showWhyButtonListener = new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    swapPopups( new NotBalancedVerboseNode( model.currentEquation.getValue(), globalProperties, hideWhyButtonListener, balancedRepresentation, aligner ) );
+                    swapPopups( new NotBalancedVerboseNode( model.currentEquation.getValue(), globalProperties, hideWhyButtonListener, model.getBalancedRepresentation(), aligner ) );
                 }
             };
             hideWhyButtonListener = new ActionListener() {
@@ -332,7 +331,6 @@ import edu.umd.cs.piccolox.pswing.PSwing;
     public void initStartGame() {
         setGameRewardVisible( false );
         setTopLevelNodeVisible( gameSettingsNode );
-        randomizeBalancedRepresentation();
     }
 
     /*
@@ -382,7 +380,6 @@ import edu.umd.cs.piccolox.pswing.PSwing;
         equationNode.setEditable( false );
         model.currentEquation.getValue().balance(); // show the correct answer
         setBalancedHighlightEnabled( true );
-        randomizeBalancedRepresentation();
     }
 
     /*
@@ -559,13 +556,6 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 
         // layout, centered
         centerNode( gameOverNode );
-    }
-
-    /*
-     * Generates a random value for the representation shown in the "Not Balanced" popup.
-     */
-    private void randomizeBalancedRepresentation() {
-        balancedRepresentation = ( Math.random() < 0.5 ) ? BalancedRepresentation.BALANCE_SCALES : BalancedRepresentation.BAR_CHARTS;
     }
 
     /*

@@ -8,6 +8,7 @@ import java.util.HashMap;
 import edu.colorado.phet.balancingchemicalequations.BCEGlobalProperties;
 import edu.colorado.phet.balancingchemicalequations.model.BCEClock;
 import edu.colorado.phet.balancingchemicalequations.model.Equation;
+import edu.colorado.phet.balancingchemicalequations.view.BalancedRepresentation;
 import edu.colorado.phet.common.games.GameSettings;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
@@ -49,6 +50,7 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
     private boolean isNewBestTime; // is the time for this game a new best time?
     private boolean isGameCompleted; // was the game played to completion?
     private int currentPoints; // how many points were earned for the current equation
+    private BalancedRepresentation balancedRepresentation; // which representation to use in the "Not Balanced" popup
 
     /**
      * Constructor
@@ -75,6 +77,7 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
     public void startGame() {
         equations = equationsFactory.createEquations( EQUATIONS_PER_GAME, settings.level.getValue() );
         currentEquationIndex = 0;
+        balancedRepresentation = getRandomBalancedRepresentation();
         attempts = 0;
         isNewBestTime = false;
         isGameCompleted = false;
@@ -148,6 +151,7 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
         if ( currentEquationIndex < equations.size() - 1 ) {
             attempts = 0;
             currentPoints = 0;
+            balancedRepresentation = getRandomBalancedRepresentation();
             currentEquationIndex++;
             currentEquation.setValue( equations.get( currentEquationIndex ) );
             state.setValue( GameState.CHECK );
@@ -235,5 +239,21 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
      */
     public boolean isPerfectScore() {
         return points.getValue() == getPerfectScore();
+    }
+
+    /**
+     * Gets the "balanced" representation that corresponds to the current equation.
+     * This representation determines what is displayed by the "Not Balanced" popup.
+     * @return
+     */
+    public BalancedRepresentation getBalancedRepresentation() {
+        return balancedRepresentation;
+    }
+
+    /*
+     * Generates a random value for the representation shown in the "Not Balanced" popup.
+     */
+    private BalancedRepresentation getRandomBalancedRepresentation() {
+        return ( Math.random() < 0.5 ) ? BalancedRepresentation.BALANCE_SCALES : BalancedRepresentation.BAR_CHARTS;
     }
 }
