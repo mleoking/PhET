@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--my-solar-system-strings_zh_CN.xml created Sun Mar 20 10:58:13 CST 2011 using: my-solar-system 2.02.00 (37313), translation-utility 2.10.00 (48775) 二月 9, 2011-->
+<SimStrings>
+<string key="slingshot" value="弹弓"/>
+<string key="binaryStarPlanet" value="双星，行星"/>
+<string key="sunAndPlanet" value="太阳和行星"/>
+<string key="body4" value="星体4"/>
+<string key="numberOfBodies" value="星体的数目"/>
+<string key="body3" value="星体3"/>
+<string key="body2" value="星体2"/>
+<string key="body1" value="星体1"/>
+<string key="velocity" value="速率"/>
+<string key="doubleDouble" value="两组双星"/>
+<string key="translation.credits" value="Hudielan"/>
+<string key="massEquals" value="质量="/>
+<string key="hyperbolics" value="双曲线的"/>
+<string key="help9" value="PhET和在博尔德的科罗拉多大学计划拥有版权。"/>
+<string key="help8" value="不像算近似值的Runge-Kutta微分方法， Verlet法在变动的系统能量不减，会产生稳定的轨道。用固定时距法，当星体太过接近，加速度就会太大，Verlet就会产生非自然法则的结果。为了预防这种结果发生，两个靠太近的星体会在动量不减的碰撞中融合。"/>
+<string key="help6" value="这个模型是用固定时距速度的Verlet方法去积分轨道"/>
+<string key="stop" value="停止"/>
+<string key="help5" value="当设定系统中心时，系统的质心运动就被移除。"/>
+<string key="help4" value="按停止键，并将鼠标移至星体就可以得到目前的位置和速度。"/>
+<string key="help3" value="保持质量在数千以下，不然就可能会出现奇怪的结果。"/>
+<string key="help2" value="距离、质量和时间都是任意单位，自己创新吧！"/>
+<string key="help1" value="利用拖曳星体及速度符号，或是直接将初始值键入表格内，建立自己的太阳系。"/>
+<string key="help0" value="我的太阳系轨道模拟器"/>
+<string key="doubleSlingshot" value="双弹弓"/>
+<string key="systemCentered" value="系统中心"/>
+<string key="start" value="开始"/>
+<string key="showTraces" value="画出轨迹"/>
+<string key="back" value="返回"/>
+<string key="tapeMeasure" value="卷尺"/>
+<string key="accurate" value="精确"/>
+<string key="help" value="帮助"/>
+<string key="selectPreset" value="选择原先的设定"/>
+<string key="showGrid" value="画出格子"/>
+<string key="timeEquals" value="时间="/>
+<string key="ellipses" value="椭园"/>
+<string key="trojanAsteroids" value="特洛伊小行星"/>
+<string key="fourStarBallet" value="四星芭蕾"/>
+<string key="position" value="位置"/>
+<string key="reset" value="重置"/>
+<string key="mass" value="质量"/>
+<string key="fast" value="快速"/>
+<string key="simTitle" value="我的太阳系"/>
+<string key="sunPlanetMoon" value="太阳，行星，月亮"/>
+<string key="initialSettings" value="初始设定："/>
+<string key="sunPlanetComet" value="太阳，行星，彗星"/>
+</SimStrings>
