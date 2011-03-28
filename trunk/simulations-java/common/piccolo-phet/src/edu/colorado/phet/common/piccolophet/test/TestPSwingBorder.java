@@ -29,15 +29,16 @@ import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 public class TestPSwingBorder extends JFrame {
 
     public TestPSwingBorder() {
-        super( "TestPSwingCompoundBorder" );
+        super( "TestPSwingBorder" );
 
         // PSwing
         PSwingCanvas canvas = new PSwingCanvas();
         PSwing pswing = new PSwing( new BorderedLabel( "PSwing" ) );
         pswing.scale( 1.5 );
-        pswing.setOffset( 10, 10 );
+        final double margin = 20;
+        pswing.setOffset( margin, margin );
         canvas.getLayer().addChild( pswing );
-        canvas.setPreferredSize( new Dimension( (int)( pswing.getFullBoundsReference().getWidth() + 20 ), (int)( pswing.getFullBoundsReference().getHeight() + 20 ) )  );
+        canvas.setPreferredSize( new Dimension( (int)( pswing.getFullBounds().getWidth() + ( 2 * margin ) ), (int)( pswing.getFullBounds().getHeight() + ( 2 * margin ) ) )  );
 
         // pure Swing
         JPanel swingPanel = new JPanel();
