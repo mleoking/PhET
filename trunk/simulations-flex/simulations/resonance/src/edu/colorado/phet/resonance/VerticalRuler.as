@@ -21,7 +21,7 @@ import mx.core.UIComponent;
 public class VerticalRuler extends Sprite{
     //private var myMainView: MainView;
     private var myShakerView: ShakerView;
-    private var ruler:Sprite;
+    public var ruler:Sprite;
     private var horizLine1: HorizontalReferenceLine;
     private var horizLine2: HorizontalReferenceLine;
     private var pixPerMeter:Number;
@@ -36,18 +36,27 @@ public class VerticalRuler extends Sprite{
         this.horizLine1 = new HorizontalReferenceLine();
         this.horizLine2 = new HorizontalReferenceLine();
         this.pixPerMeter = myShakerView.pixPerMeter;
-        trace("VerticalRuler.pixPerMeter = "+this.pixPerMeter);
+        //trace("VerticalRuler.pixPerMeter = "+this.pixPerMeter);
         this.drawRuler();
         this.makeNumbers();
         this.makeSpriteGrabbable( this.ruler );
         this.addChild( this.ruler );
         this.addChild( this.horizLine1 );
         this.addChild( this.horizLine2 );
-        this.horizLine1.x = this.ruler.width;
-        this.horizLine1.y = 0*this.pixPerMeter;
-        this.horizLine2.x = this.ruler.width;
-        this.horizLine2.y = 0.45*this.pixPerMeter;
+        this.initializePositions();
         this.makeVisible( false );  //default is that ruler is hidden
+    }
+
+    public function initializePositions():void{
+        this.horizLine1.x = this.ruler.width;
+        this.horizLine1.y = 0.15*this.pixPerMeter;
+        this.horizLine2.x = this.ruler.width;
+        this.horizLine2.y = 0.40*this.pixPerMeter;
+        //HorizontalReferenceLine is a sprite, which contains a sprite called backGround; following lines reposition backGround sprite within 
+        this.horizLine1.initializePosition();
+        this.horizLine2.initializePosition();
+        this.ruler.x = 0;
+        this.ruler.y = 0;
     }
 
     private function drawRuler(){
@@ -79,11 +88,12 @@ public class VerticalRuler extends Sprite{
         }
     }
 
+    //make numbers on the ruler
     private function makeNumbers():void{
         this.tFieldArray = new Array( 9 );
         this.tFormat = new TextFormat();
         for (var i:int = 0; i < this.tFieldArray.length; i++){
-             var nbr:String = String( i*5 + 5 );
+            var nbr:String = String( i*5 + 5 );
             this.tFieldArray[i] = new TextField();
             var label_txt:TextField = this.tFieldArray[i];
             label_txt.selectable = false;
