@@ -12,9 +12,9 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.acidbasesolutions.prototype.NumberNode.IntegerNode;
 import edu.colorado.phet.acidbasesolutions.prototype.NumberNode.ScientificIntegerNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
-import edu.colorado.phet.common.piccolophet.nodes.layout.SwingLayoutNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PComposite;
+import edu.umd.cs.piccolox.swing.SwingLayoutNode;
 
 /**
  * Displays counts (actual and displayed) for the various molecules.

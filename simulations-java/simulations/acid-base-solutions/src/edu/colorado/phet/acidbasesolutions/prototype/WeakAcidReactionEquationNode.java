@@ -9,11 +9,11 @@ import java.awt.Insets;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
-import edu.colorado.phet.common.piccolophet.nodes.layout.SwingLayoutNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PComposite;
+import edu.umd.cs.piccolox.swing.SwingLayoutNode;
 
 /**
  * Reaction equation for a weak acid.
