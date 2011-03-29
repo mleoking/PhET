@@ -46,11 +46,11 @@ public abstract class BarMeterNode extends PhetPNode {
     private static final Color TRACK_FILL_COLOR = Color.WHITE;
     private static final Color TRACK_STROKE_COLOR = Color.BLACK;
     private static final Stroke TRACK_STROKE = new BasicStroke( 1f );
-    
+
     // bar
     private static final Color BAR_STROKE_COLOR = TRACK_STROKE_COLOR;
     private static final Stroke BAR_STROKE = TRACK_STROKE;
-    
+
     // ticks
     private static final int NUMBER_OF_TICKS = 10;
     private static final double MAJOR_TICK_MARK_LENGTH = 5;
@@ -58,23 +58,23 @@ public abstract class BarMeterNode extends PhetPNode {
     private static final Color TICK_MARK_COLOR = TRACK_STROKE_COLOR;
     private static final Stroke TICK_MARK_STROKE = TRACK_STROKE;
     private static final boolean MINOR_TICKS_OUTSIDE = true; // true=ticks outside bar, false=ticks inside bar
-    
+
     // range labels
     private static final Font RANGE_LABEL_FONT = new PhetFont( 14 );
     private static final Color RANGE_LABEL_COLOR = Color.BLACK;
-    
+
     // title
     private static final Font TITLE_FONT = new PhetFont( Font.BOLD, 16 );
     private static final Color TITLE_COLOR = Color.BLACK;
-    
+
     // value display
     private static final Font VALUE_FONT = new PhetFont( 16 );
     private static final Color VALUE_COLOR = Color.BLACK;
-    
+
     // overload indicator
     private static final double OVERLOAD_INDICATOR_WIDTH = 0.75 * TRACK_SIZE.getWidth();
     private static final double OVERLOAD_INDICATOR_HEIGHT = 15;
-    
+
     private final TrackNode trackNode;
     private final BarNode barNode;
     private final TitleNode titleNode;
@@ -85,13 +85,13 @@ public abstract class BarMeterNode extends PhetPNode {
     private final ZoomButtonNode zoomButton;
     private final PImage closeButton;
     private final TickMarkNode maxTickMarkNode, minTickMarkNode;
-    
+
     private double value;
     private int exponent;
-    
+
     /**
      * Constructor.
-     * 
+     *
      * @param meter model element for the meter
      * @param title title displayed below the meter
      * @param barColor color used to fill the bar
@@ -100,23 +100,23 @@ public abstract class BarMeterNode extends PhetPNode {
      * @param units units
      */
     public BarMeterNode( final BarMeter meter, final CLModelViewTransform3D mvt, Color barColor, String title, String valueMantissaPattern, int exponent, String units ) {
-        
+
         if ( value < 0 ) {
             throw new IllegalArgumentException( "value must be >= 0 : " + value );
         }
-        
-        this.value = meter.getValue();
+
+        this.value = meter.value.getValue();
         this.exponent = exponent;
-        
+
         // track
         trackNode = new TrackNode();
         addChild( trackNode );
-        
+
         // bar
         double maxValue = Math.pow( 10, exponent );
         barNode = new BarNode( barColor, maxValue, value );
         addChild( barNode );
-        
+
         // minor ticks
         double deltaY = TRACK_SIZE.height / NUMBER_OF_TICKS;
         for ( int i = 0; i < NUMBER_OF_TICKS; i++ ) {
@@ -125,47 +125,47 @@ public abstract class BarMeterNode extends PhetPNode {
             double xOffset = MINOR_TICKS_OUTSIDE ? -MINOR_TICK_MARK_LENGTH : 0;
             tickMarkNode.setOffset( xOffset, ( i + 1 ) * deltaY );
         }
-        
+
         // majors ticks, for min and max
         maxTickMarkNode = new TickMarkNode( MAJOR_TICK_MARK_LENGTH );
         addChild( maxTickMarkNode );
         minTickMarkNode = new TickMarkNode( MAJOR_TICK_MARK_LENGTH );
         addChild( minTickMarkNode );
-        
+
         // min range label
         minLabelNode = new RangeLabelNode( "0" );
         addChild( minLabelNode );
-        
+
         // max range label
         maxLabelNode = new PowerOfTenRangeLabelNode( exponent );
         addChild( maxLabelNode );
-        
+
         // title
         titleNode = new TitleNode( title );
         addChild( titleNode );
-        
-        // overload indicator 
+
+        // overload indicator
         overloadIndicatorNode = new OverloadIndicatorNode( barColor, maxValue, value );
         addChild( overloadIndicatorNode );
-        
+
         // value
         valueNode = new ValueNode( new DecimalFormat( valueMantissaPattern ), exponent, units, value );
         addChild( valueNode );
-        
+
         // close button
         closeButton = new PImage( CLImages.CLOSE_BUTTON );
         addChild( closeButton );
-        
+
         // zoom button
         zoomButton = new ZoomButtonNode();
         zoomButton.scale( 2 );
         addChild( zoomButton );
-        
+
         // interactivity
         closeButton.addInputEventListener( new PBasicInputEventHandler() {
             @Override
             public void mouseReleased( PInputEvent event ) {
-                meter.setVisible( false );
+                meter.visible.setValue( false );
             }
         });
         zoomButton.addInputEventListener( new PBasicInputEventHandler() {
@@ -178,47 +178,47 @@ public abstract class BarMeterNode extends PhetPNode {
         });
         addInputEventListener( new CursorHandler() );
         addInputEventListener( new LocationDragHandler( this, mvt ) {
-            
+
             protected Point3D getModelLocation() {
-                return meter.getLocationReference();
+                return meter.location.getValue();
             }
-            
+
             protected void setModelLocation( Point3D location ) {
-                meter.setLocation( location );
+                meter.location.setValue( location );
             }
         });
-        
+
         // layout
         updateLayout();
-        
+
         updateExponent();
         updateZoomButtonEnabled();
 
         // observers
         {
             // value
-            meter.addValueObserver( new SimpleObserver() {
+            meter.value.addObserver( new SimpleObserver() {
                 public void update() {
-                    setValue( meter.getValue() );
+                    setValue( meter.value.getValue() );
                 }
             } );
-            
+
             // visibility
-            meter.addVisibleObserver( new SimpleObserver() {
+            meter.visible.addObserver( new SimpleObserver() {
                 public void update() {
-                    setVisible( meter.isVisible() );
+                    setVisible( meter.visible.getValue() );
                 }
             } );
-            
+
             // location
-            meter.addLocationObserver( new SimpleObserver() {
+            meter.location.addObserver( new SimpleObserver() {
                 public void update() {
-                    setOffset( mvt.modelToView( meter.getLocationReference() ) );
+                    setOffset( mvt.modelToView( meter.location.getValue() ) );
                 }
             } );
         }
     }
-    
+
     private void updateLayout() {
         double x = 0;
         double y = 0;
@@ -262,7 +262,7 @@ public abstract class BarMeterNode extends PhetPNode {
         y = maxLabelNode.getFullBoundsReference().getMaxY() + 5;
         zoomButton.setOffset( x, y );
     }
-    
+
     private void updateZoomButtonEnabled() {
         double mantissa = value / Math.pow( 10, exponent );
         boolean plusEnabled = ( mantissa < 0.1 );
@@ -270,7 +270,7 @@ public abstract class BarMeterNode extends PhetPNode {
         zoomButton.setEnabled( ( value != 0 ) && ( plusEnabled || minusEnabled ) );
         zoomButton.setPlusVisible( plusEnabled );
     }
-    
+
     private void updateExponent() {
         if ( value != 0 ) {
             int exponent = 0;
@@ -281,7 +281,7 @@ public abstract class BarMeterNode extends PhetPNode {
             setExponent( exponent );
         }
     }
-    
+
     /**
      * Sets the value displayed by the meter.
      * Updates the bar and the value below the meter.
@@ -292,39 +292,39 @@ public abstract class BarMeterNode extends PhetPNode {
             throw new IllegalArgumentException( "value must be >= 0 : " + value );
         }
         if ( value != this.value ) {
-            
+
             this.value = value;
-            
+
             // update components
             barNode.setValue( value );
             overloadIndicatorNode.setValue( value );
             valueNode.setValue( value );
-            
+
             updateLayout();
             updateZoomButtonEnabled();
         }
     }
-    
+
     /*
      * Sets the exponent used for the value and max label.
      */
     private void setExponent( int exponent ) {
         if ( exponent != this.exponent ) {
-            
+
             this.exponent = exponent;
-            
+
             // update components
             double maxValue = Math.pow( 10, exponent );
             barNode.setMaxValue( maxValue );
             overloadIndicatorNode.setMaxValue( maxValue );
             maxLabelNode.setExponent( exponent );
             valueNode.setExponent( exponent );
-            
+
             updateLayout();
             updateZoomButtonEnabled();
         }
     }
-    
+
     /**
      * Sets the color used to fill the bar.
      * @param color
@@ -333,13 +333,13 @@ public abstract class BarMeterNode extends PhetPNode {
         barNode.setPaint( color );
         overloadIndicatorNode.setArrowFillColor( color );
     }
-    
+
     /*
      * The track that the bar moves in.
      * Origin is at upper-left corner.
      */
     private static class TrackNode extends PPath {
-        
+
         public TrackNode() {
             setPathTo( new Rectangle2D.Double( 0, 0, TRACK_SIZE.width, TRACK_SIZE.height ) );
             setPaint( TRACK_FILL_COLOR );
@@ -347,44 +347,44 @@ public abstract class BarMeterNode extends PhetPNode {
             setStroke( TRACK_STROKE );
         }
     }
-    
+
     /*
      * The bar which indicates the magnitude of the value being read by the meter.
      * Origin is at upper left of track.
      */
     private static class BarNode extends PPath {
-       
+
         private double value, maxValue;
         private final Rectangle2D rectangle;
-        
+
         public BarNode( Color barColor, double maxValue, double value ) {
-            
+
             this.value = value;
             this.maxValue = maxValue;
-            
+
             rectangle = new Rectangle2D.Double( 0, 0, TRACK_SIZE.width, TRACK_SIZE.height );
             setPathTo( rectangle );
             setPaint( barColor );
             setStrokePaint( BAR_STROKE_COLOR );
             setStroke( BAR_STROKE );
-            
+
             update();
         }
-        
+
         public void setValue( double value ) {
             if ( value != this.value ) {
                 this.value = value;
                 update();
             }
         }
-        
+
         public void setMaxValue( double maxValue ) {
             if ( maxValue != this.maxValue ) {
                 this.maxValue = maxValue;
                 update();
             }
         }
-        
+
         private void update() {
             double percent = Math.min( 1, Math.abs( value ) / maxValue );
             double y = ( 1 - percent ) * TRACK_SIZE.height;
@@ -393,81 +393,81 @@ public abstract class BarMeterNode extends PhetPNode {
             setPathTo( rectangle );
         }
     }
-    
+
     /*
      * Horizontal tick mark line, with no label.
      * Origin is at the left end of the line.
      */
     private static class TickMarkNode extends PPath {
-        
+
         public TickMarkNode( double tickMarkLength ) {
             super( new Line2D.Double( 0, 0, tickMarkLength, 0 ) );
             setStrokePaint( TICK_MARK_COLOR );
             setStroke( TICK_MARK_STROKE );
         }
     }
-    
+
     /*
      * Label used to indicate the range.
      * Origin is at upper-left corner of bounding box.
      */
     private static class RangeLabelNode extends HTMLNode {
-        
+
         public RangeLabelNode( String label ) {
             this();
             setHTML( label );
         }
-        
+
         protected RangeLabelNode() {
             setHTMLColor( RANGE_LABEL_COLOR );
             setFont( RANGE_LABEL_FONT );
         }
     }
-    
+
     /*
      * Label used to indicate a range that is a power of 10.
      * Origin is at upper-left corner of bounding box.
      */
     private static class PowerOfTenRangeLabelNode extends RangeLabelNode {
-        
+
         private static final String PATTERN = "<html>10<sup>{0}</sup></html>";
-        
+
         public PowerOfTenRangeLabelNode( int exponent ) {
             super( MessageFormat.format( PATTERN, exponent ) );
         }
-        
+
         public void setExponent( int exponent ) {
             setHTML( MessageFormat.format( PATTERN, exponent ) );
         }
     }
-    
+
     /*
      * Title used to indicate the purpose of this meter.
      * Origin is at upper-left corner of bounding box.
      */
     private static class TitleNode extends PText {
-        
+
         public TitleNode( String label ) {
             super( label );
             setTextPaint( TITLE_COLOR );
             setFont( TITLE_FONT );
         }
     }
-    
+
     /*
      * Overload indicator, visible when the value is greater than what the bar
      * is capable of displaying.  The indicator is an arrow that point upward.
      */
     private static class OverloadIndicatorNode extends PComposite {
-        
+
         private final ArrowNode arrowNode;
         private double value, maxValue;
-        
+
         public OverloadIndicatorNode( Color fillColor, double maxValue, double value ) {
-            
+
             this.value = value;
             this.maxValue = maxValue;
-            
+
             Point2D tailLocation = new Point2D.Double( 0, OVERLOAD_INDICATOR_HEIGHT );
             Point2D tipLocation = new Point2D.Double( 0, 0 );
             double headHeight = 0.6 * OVERLOAD_INDICATOR_HEIGHT;
@@ -476,46 +476,46 @@ public abstract class BarMeterNode extends PhetPNode {
             arrowNode = new ArrowNode( tailLocation, tipLocation, headHeight, headWidth, tailWidth );
             arrowNode.setPaint( fillColor );
             addChild( arrowNode );
-            
+
             update();
         }
-        
+
         public void setValue( double value ) {
             if ( value != this.value ) {
                 this.value = value;
                 update();
             }
         }
-        
+
         public void setMaxValue( double maxValue ) {
             if ( maxValue != this.maxValue ) {
                 this.maxValue = maxValue;
                 update();
             }
         }
-        
+
         public void setArrowFillColor( Color color ) {
             arrowNode.setPaint( color );
         }
-        
+
         private void update() {
             setVisible( value > maxValue );
         }
     }
-    
+
     /*
      * Value display that corresponds to the bar height.
      * Origin is at upper-left corner of bounding box.
      */
     private static class ValueNode extends HTMLNode {
-        
+
         private static final String PATTERN_VALUE = "<html>{0}x10<sup>{1}</sup></html>";
-        
+
         private final NumberFormat mantissaFormat;
         private int exponent;
         private final String units;
         private double value;
-        
+
         public ValueNode( NumberFormat mantissaFormat, int exponent, String units, double value ) {
             setFont( VALUE_FONT );
             setHTMLColor( VALUE_COLOR );
@@ -525,21 +525,21 @@ public abstract class BarMeterNode extends PhetPNode {
             this.value = value;
             update();
         }
-        
+
         public void setValue( double value ) {
             if ( value != this.value ) {
                 this.value = value;
                 update();
             }
         }
-        
+
         public void setExponent( int maxExponent ) {
             if ( maxExponent != this.exponent ) {
                 this.exponent = maxExponent;
                 update();
             }
         }
-        
+
         private void update() {
             String mantissaString = "0";
             if ( value != 0 ) {

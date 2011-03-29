@@ -1,3 +1,5 @@
+3/28/11 make bar meter's observable properties "public final"
+3/28/11 add WorldLocationProperty, a 3D location constrained to the bounds of the World
 3/16/11 enable Multiple Capacitors tab, make it the default for dev
 3/9/11 add minor tick marks to dielectric constant slider
 2/28/11 migrate Dimension3D to phetcommon.math
