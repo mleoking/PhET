@@ -36,8 +36,8 @@ public class BatteryShapeFactory {
     public Shape createBodyShape() {
         final double width = battery.getBodySizeReference().getWidth();
         final double height = battery.getBodySizeReference().getHeight();
-        final double x = battery.getLocationReference().getX() - ( width / 2 );
-        final double y = battery.getLocationReference().getY() - ( height / 2 );
+        final double x = battery.location.getX() - ( width / 2 );
+        final double y = battery.location.getY() - ( height / 2 );
         Shape s = new Rectangle2D.Double( x, y, width, height );
         return mvt.modelToView( s );
     }
@@ -48,10 +48,10 @@ public class BatteryShapeFactory {
      */
     public Shape createTopTerminalShape() {
         if ( battery.getPolarity() == Polarity.POSITIVE ) {
-            return createPositiveTerminalShape( battery.getLocationReference() );
+            return createPositiveTerminalShape( battery.location );
         }
         else {
-            return createNegativeTerminalShape( battery.getLocationReference() );
+            return createNegativeTerminalShape( battery.location );
         }
     }
 

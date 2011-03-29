@@ -81,7 +81,7 @@ public class BatteryCapacitorCircuit {
             dielectricMaterial.addDielectricConstantObserver( dielectricConstantObserver );
 
             // observe battery
-            battery.addVoltageObserver( new SimpleObserver() {
+            battery.voltage.addObserver( new SimpleObserver() {
                 public void update() {
                     handleBatteryVoltageChanged();
                 }
@@ -150,7 +150,7 @@ public class BatteryCapacitorCircuit {
 
     private void updateWireVoltages() {
         if ( batteryConnected ) {
-            topWire.setVoltage( battery.getVoltage() );
+            topWire.setVoltage( battery.voltage.getValue() );
             bottomWire.setVoltage( 0 );
         }
         else {
@@ -179,7 +179,7 @@ public class BatteryCapacitorCircuit {
     public double getPlatesVoltage() {
         double V_plates = 0;
         if ( isBatteryConnected() ) {
-            V_plates = battery.getVoltage();
+            V_plates = battery.voltage.getValue();
         }
         else {
             V_plates = getDisconnectedPlateCharge() / capacitor.getTotalCapacitance();
@@ -211,7 +211,7 @@ public class BatteryCapacitorCircuit {
             voltage = bottomWire.getVoltage();
         }
         if ( isBatteryConnected() && battery.intersectsTopTerminal( s ) ) {
-            voltage = battery.getVoltage();
+            voltage = battery.voltage.getValue();
         }
         else if ( capacitor.intersectsTopPlateShape( s ) ) {
             voltage = getPlatesVoltage();

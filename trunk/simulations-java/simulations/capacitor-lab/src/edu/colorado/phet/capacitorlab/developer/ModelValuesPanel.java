@@ -242,7 +242,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
         Capacitor capacitor = circuit.getCapacitor();
 
         /* user settings */
-        V_battery.setValue( battery.getVoltage() );
+        V_battery.setValue( battery.voltage.getValue() );
         Q_disconnected.setValue( circuit.getDisconnectedPlateCharge() );
         L.setValue( capacitor.getPlateWidth() );
         d.setValue( capacitor.getPlateSeparation() );

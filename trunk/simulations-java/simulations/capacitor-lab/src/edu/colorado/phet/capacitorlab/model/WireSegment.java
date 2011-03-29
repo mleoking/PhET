@@ -64,10 +64,10 @@ public class WireSegment {
     public static class BatteryTopWireSegment extends WireSegment {
 
         public BatteryTopWireSegment( final Battery battery, Point2D endPoint ) {
-            super( new Point2D.Double( battery.getX(), battery.getY() + battery.getTopTerminalYOffset() ), endPoint );
+            super( new Point2D.Double( battery.location.getX(), battery.location.getY() + battery.getTopTerminalYOffset() ), endPoint );
             battery.addPolarityObserver( new SimpleObserver() {
                 public void update() {
-                    setStartPoint( new Point2D.Double( battery.getX(), battery.getY() + battery.getTopTerminalYOffset() ) );
+                    setStartPoint( new Point2D.Double( battery.location.getX(), battery.location.getY() + battery.getTopTerminalYOffset() ) );
                 }
             } );
         }
@@ -79,10 +79,10 @@ public class WireSegment {
     public static class BatteryBottomWireSegment extends WireSegment {
 
         public BatteryBottomWireSegment( final Battery battery, Point2D endPoint ) {
-            super( new Point2D.Double( battery.getX(), battery.getY() + battery.getBottomTerminalYOffset() ), endPoint );
+            super( new Point2D.Double( battery.location.getX(), battery.location.getY() + battery.getBottomTerminalYOffset() ), endPoint );
             battery.addPolarityObserver( new SimpleObserver() {
                 public void update() {
-                    setStartPoint( new Point2D.Double( battery.getX(), battery.getY() + battery.getBottomTerminalYOffset() ) );
+                    setStartPoint( new Point2D.Double( battery.location.getX(), battery.location.getY() + battery.getBottomTerminalYOffset() ) );
                 }
             });
         }
