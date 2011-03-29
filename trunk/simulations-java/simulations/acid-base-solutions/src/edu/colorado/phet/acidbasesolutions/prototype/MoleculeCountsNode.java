@@ -22,20 +22,20 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 class MoleculeCountsNode extends PComposite {
-    
+
     private final WeakAcid solution;
     private final MagnifyingGlassNode magnifyingGlassNode;
-    
+
     private final IntegerNode dotsHA, dotsA, dotsH3O, dotsOH, dotsH2O;
     private final IntegerNode imagesHA, imagesA, imagesH3O, imagesOH, imagesH2O;
     private final ScientificIntegerNode actualHA, actualA, actualH3O, actualOH, actualH2O;
 
     public MoleculeCountsNode( WeakAcid solution, MagnifyingGlassNode magnifyingGlassNode, boolean showOH ) {
         super();
-        
+
         this.solution = solution;
         this.magnifyingGlassNode = magnifyingGlassNode;
-        
+
         ChangeListener changeListener = new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 update();
@@ -44,35 +44,35 @@ class MoleculeCountsNode extends PComposite {
         solution.addChangeListener( changeListener );
         magnifyingGlassNode.getDotsNode().addChangeListener( changeListener );
         magnifyingGlassNode.getImagesNode().addChangeListener( changeListener );
-        
+
         HTMLNode symbolHA = new HTMLNode( MGPConstants.HA_FRAGMENT );
         HTMLNode symbolA = new HTMLNode( MGPConstants.A_MINUS_FRAGMENT );
         HTMLNode symbolH3O = new HTMLNode( MGPConstants.H3O_PLUS_FRAGMENT );
         HTMLNode symbolOH = new HTMLNode( MGPConstants.OH_MINUS_FRAGMENT );
         HTMLNode symbolH2O = new HTMLNode( MGPConstants.H2O_FRAGMENT );
-       
+
         dotsHA = new IntegerNode();
         dotsA = new IntegerNode();
         dotsH3O = new IntegerNode();
         dotsOH = new IntegerNode();
         dotsH2O = new IntegerNode();
-        
+
         imagesHA = new IntegerNode();
         imagesA = new IntegerNode();
         imagesH3O = new IntegerNode();
         imagesOH = new IntegerNode();
         imagesH2O = new IntegerNode();
-        
+
         actualHA = new ScientificIntegerNode();
         actualA = new ScientificIntegerNode();
         actualH3O = new ScientificIntegerNode();
         actualOH = new ScientificIntegerNode();
         actualH2O = new ScientificIntegerNode();
-        
+
         PText imagesLabel = new PText( "images:" );
         PText dotsLabel = new PText( "dots:" );
         PText actualLabel = new PText( "actual:" );
-        
+
         // layout
         GridBagLayout layout = new GridBagLayout();
         final int columnWidth = 65;
@@ -143,9 +143,9 @@ class MoleculeCountsNode extends PComposite {
 
         update();
     }
-    
+
     private void update() {
-        
+
         // dots
         DotsNode dotsNode = magnifyingGlassNode.getDotsNode();
         dotsHA.setValue( dotsNode.getCountHA() );
@@ -153,7 +153,7 @@ class MoleculeCountsNode extends PComposite {
         dotsH3O.setValue( dotsNode.getCountH3O() );
         dotsOH.setValue( dotsNode.getCountOH() );
         dotsH2O.setValue( dotsNode.getCountH2O() );
-        
+
         // images
         ImagesNode imagesNode = magnifyingGlassNode.getImagesNode();
         imagesHA.setValue( imagesNode.getCountHA() );
@@ -161,7 +161,7 @@ class MoleculeCountsNode extends PComposite {
         imagesH3O.setValue( imagesNode.getCountH3O() );
         imagesOH.setValue( imagesNode.getCountOH() );
         imagesH2O.setValue( imagesNode.getCountH2O() );
-        
+
         // actual
         actualHA.setValue( solution.getMoleculeCountHA() );
         actualA.setValue( solution.getMoleculeCountA() );
@@ -169,6 +169,6 @@ class MoleculeCountsNode extends PComposite {
         actualOH.setValue( solution.getMoleculeCountOH() );
         actualH2O.setValue( solution.getMoleculeCountH2O() );
     }
-    
-    
+
+
 }
