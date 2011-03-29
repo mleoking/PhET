@@ -91,7 +91,7 @@ public class DeveloperControlPanel extends PhetTitledPanel {
         } );
 
         if ( modelValuesDialogLocation == null ) {
-            SwingUtils.centerDialogInParent( modelValuesDialog );
+            SwingUtils.centerInParent( modelValuesDialog );
         }
         else {
             modelValuesDialog.setLocation( modelValuesDialogLocation );
