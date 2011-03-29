@@ -188,10 +188,15 @@ class IsotopeProprotionsPieChart extends PNode {
                         // that the center of the pie chart is at (0,0).
                         DoubleGeneralPath connectingLineShape = new DoubleGeneralPath( sliceConnectPt );
                         if ( sliceConnectPt.getY() > OVERALL_HEIGHT * 0.25 || sliceConnectPt.getY() < -OVERALL_HEIGHT * 0.25 ){
-                            // Add a "bend point" so that the line doesn't go under the pie chart.
+                            // Add a "bend point" so that the line doesn't go
+                            // under the pie chart.
+                            double additionalLength = OVERALL_HEIGHT / PIE_CHART_DIAMETER - 1;
+                            double scaleFactor = 1 - Math.min( Math.abs( sliceConnectPt.getX() ) / ( PIE_CHART_DIAMETER / 4.0 ), 1 );
+                            System.out.println("additionalLength = " + additionalLength);
+                            System.out.println("scaleFactor = " + scaleFactor);
                             Point2D bendPt = new Point2D.Double(
-                                    sliceConnectPt.getX() * ( OVERALL_HEIGHT / PIE_CHART_DIAMETER ),
-                                    sliceConnectPt.getY() * ( OVERALL_HEIGHT / PIE_CHART_DIAMETER ) );
+                                    sliceConnectPt.getX() * ( 1 + additionalLength * scaleFactor ),
+                                    sliceConnectPt.getY() * ( 1 + additionalLength * scaleFactor ) );
                             connectingLineShape.lineTo( bendPt );
                         }
                         connectingLineShape.lineTo( labelConnectPt );
