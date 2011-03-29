@@ -178,7 +178,7 @@ public class IsotopeMixturesCanvas extends PhetPCanvas {
         // Add the pie chart to the canvas.
         final double indicatorWindowX = 600;
         final PNode pieChart = new IsotopeProprotionsPieChart( model );
-        pieChart.setOffset( 200, 85 ); // Empirically determined, tweak as needed.
+        pieChart.setOffset( 200, 90 ); // Empirically determined, tweak as needed.
         // TODO: i18n
         pieChartWindow = new MaximizeControlNode( "Percent Composition", new PDimension( 400, 150 ), pieChart, true ){{
             setOffset( indicatorWindowX, periodicTableNode.getFullBoundsReference().getMaxY() + 25 );
