@@ -34,7 +34,7 @@ import edu.umd.cs.piccolo.nodes.PText;
  */
 class IsotopeProprotionsPieChart extends PNode {
 
-    private static final double OVERALL_HEIGHT = 100;
+    private static final double OVERALL_HEIGHT = 120;
     private static final int PIE_CHART_DIAMETER = 80; // Must be less than overall height.
     private static final Stroke CONNECTING_LINE_STROKE = new BasicStroke(2);
 
@@ -244,16 +244,28 @@ class IsotopeProprotionsPieChart extends PNode {
                 // location, move down.  If there is only overlap with a label
                 // with a lower unconstrained location, move down.
                 if ( moveUp && !moveDown ){
-                    Vector2D posVector = new Vector2D( label.getOffset() );
-                    double sign = isLabelOnRight( label ) ? 1 : -1;
-                    posVector.rotate( sign * rotationIncrement );
-                    label.setOffset( posVector.getX(), posVector.getY() );
+                    if ( isLabelOnRight( label ) ){
+                        Vector2D posVector = new Vector2D( label.getOffset() );
+                        posVector.rotate( rotationIncrement );
+                        label.setOffset( posVector.getX(), posVector.getY() );
+                    }
+                    else{
+                        Vector2D posVector = new Vector2D( label.getFullBoundsReference().getMaxX(), label.getOffset().getY() );
+                        posVector.rotate( -rotationIncrement );
+                        label.setOffset( posVector.getX() - label.getFullBoundsReference().width, posVector.getY() );
+                    }
                 }
                 else if ( moveDown && !moveUp ){
-                    Vector2D posVector = new Vector2D( label.getOffset() );
-                    double sign = isLabelOnRight( label ) ? -1 : 1;
-                    posVector.rotate( sign * rotationIncrement );
-                    label.setOffset( posVector.getX(), posVector.getY() );
+                    if ( isLabelOnRight( label ) ){
+                        Vector2D posVector = new Vector2D( label.getOffset() );
+                        posVector.rotate( -rotationIncrement );
+                        label.setOffset( posVector.getX(), posVector.getY() );
+                    }
+                    else{
+                        Vector2D posVector = new Vector2D( label.getFullBoundsReference().getMaxX(), label.getOffset().getY() );
+                        posVector.rotate( rotationIncrement );
+                        label.setOffset( posVector.getX() - label.getFullBoundsReference().width, posVector.getY() );
+                    }
                 }
             }
             if (!overlapDetected){
