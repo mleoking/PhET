@@ -1,3 +1,4 @@
+3/29/11 #2375, use Piccolo's version of SwingLayoutNode
 # 1.02.00 (48261) Jan 26, 2011
 # 1.01.01 (48170) Jan 22, 2011
 1/22/11 > Fixed: Clicking on recessive radio button did not change dominance
