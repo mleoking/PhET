@@ -100,7 +100,7 @@ public class EFieldDetectorBodyNode extends PhetPNode {
         closeButtonNode.addInputEventListener( new PBasicInputEventHandler() {
             @Override
             public void mouseReleased( PInputEvent event ) {
-                detector.setVisible( false );
+                detector.visible.setValue( false );
             }
         } );
 
@@ -193,20 +193,20 @@ public class EFieldDetectorBodyNode extends PhetPNode {
         addInputEventListener( new LocationDragHandler( this, mvt ) {
 
             protected Point3D getModelLocation() {
-                return detector.getBodyLocationReference();
+                return detector.bodyLocation.getValue();
             }
 
             protected void setModelLocation( Point3D location ) {
-                detector.setBodyLocation( location );
+                detector.bodyLocation.setValue( location );
             }
         });
 
         // observers
         {
             // location
-            detector.addBodyLocationObserver( new SimpleObserver() {
+            detector.bodyLocation.addObserver( new SimpleObserver() {
                 public void update() {
-                    setOffset( mvt.modelToView( detector.getBodyLocationReference() ) );
+                    setOffset( mvt.modelToView( detector.bodyLocation.getValue() ) );
                 }
             } );
 

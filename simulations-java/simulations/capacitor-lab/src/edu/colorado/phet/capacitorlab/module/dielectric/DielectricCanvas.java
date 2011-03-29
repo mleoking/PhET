@@ -167,13 +167,13 @@ public class DielectricCanvas extends CLCanvas {
             // things whose visibility causes the dielectric to become transparent
             SimpleObserver o = new SimpleObserver() {
                 public void update() {
-                    boolean transparent = capacitorNode.isEFieldVisible() || model.getVoltmeter().visible.getValue() || model.getEFieldDetector().isVisible();
+                    boolean transparent = capacitorNode.isEFieldVisible() || model.getVoltmeter().visible.getValue() || model.getEFieldDetector().visible.getValue();
                     capacitorNode.getDielectricNode().setOpaque( !transparent );
                 }
             };
             capacitorNode.addEFieldVisibleObserver( o );
             model.getVoltmeter().visible.addObserver( o );
-            model.getEFieldDetector().addVisibleObserver( o );
+            model.getEFieldDetector().visible.addObserver( o );
         }
 
         // default state

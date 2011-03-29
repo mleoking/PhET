@@ -53,9 +53,9 @@ public class EFieldDetectorProbeNode extends PhetPNode {
             addChild( originNode );
         }
 
-        detector.addProbeLocationObserver( new SimpleObserver() {
+        detector.probeLocation.addObserver( new SimpleObserver() {
             public void update() {
-                setOffset( mvt.modelToView( detector.getProbeLocationReference() ) );
+                setOffset( mvt.modelToView( detector.probeLocation.getValue() ) );
             }
         });
 
@@ -63,11 +63,11 @@ public class EFieldDetectorProbeNode extends PhetPNode {
         addInputEventListener( new LocationDragHandler( this, mvt ) {
 
             protected Point3D getModelLocation() {
-                return detector.getProbeLocationReference();
+                return detector.probeLocation.getValue();
             }
 
             protected void setModelLocation( Point3D location ) {
-                detector.setProbeLocation( location );
+                detector.probeLocation.setValue( location );
             }
         });
     }
