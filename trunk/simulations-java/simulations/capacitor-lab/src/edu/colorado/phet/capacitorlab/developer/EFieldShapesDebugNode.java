@@ -22,27 +22,27 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class EFieldShapesDebugNode extends PComposite {
-
+    
     private static final Stroke STROKE = new BasicStroke( 2f );
     private static final Color STROKE_COLOR = CLPaints.EFIELD_SHAPES;
-
+    
     public EFieldShapesDebugNode( final DielectricModel model ) {
-
+        
         // nothing interactive here
         setPickable( false );
         setChildrenPickable( false );
-
+        
         // capacitor
         {
             final Capacitor capacitor = model.getCapacitor();
             final CapacitorShapeFactory shapeFactory = capacitor.getShapeFactory();
-
+            
             final PPath dielectricBetweenPlatesNode = new PhetPPath( shapeFactory.createDielectricBetweenPlatesShapeOccluded(), STROKE, STROKE_COLOR );
             addChild( dielectricBetweenPlatesNode );
-
+            
             final PPath airBetweenPlatesNode = new PhetPPath( shapeFactory.createAirBetweenPlatesShapeOccluded(), STROKE, STROKE_COLOR );
             addChild( airBetweenPlatesNode );
-
+            
             // set shapes to match model
             SimpleObserver o = new SimpleObserver() {
                 public void update() {

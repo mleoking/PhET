@@ -10,10 +10,10 @@ package edu.colorado.phet.capacitorlab;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class CLStrings {
-
+    
     /* not intended for instantiation */
     private CLStrings() {}
-
+    
     // simple strings
     public static final String CAPACITANCE = getString( "capacitance" );
     public static final String CONNECT_BATTERY = getString( "connectBattery" );
@@ -60,17 +60,17 @@ public class CLStrings {
     public static final String VOLTS_PER_METER = getString( "voltsPerMeter" );
     public static final String VOLTS_UNKNOWN = getString( "voltsUnknown" );
     public static final String ZOOM = getString( "zoom" );
-
+    
     // MessageFormat patterns
     public static final String PATTERN_LABEL = getString( "pattern.0label" );
     public static final String PATTERN_VALUE_UNITS = getString( "pattern.0value.1units" );
     public static final String PATTERN_LABEL_VALUE_UNITS = getString( "pattern.0label.1value.2units" );
     public static final String PATTERN_MATERIAL_CONSTANT = getString( "pattern.0material.1constant" );
-
+    
     // Greek letters, i18n not required
     public static final String EPSILON = "\u0190";
     public static final String SIGMA = "\u03C3";
-
+    
     private static final String getString( String key ) {
         return CLResources.getString( key );
     }

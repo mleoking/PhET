@@ -16,21 +16,21 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public abstract class LocationDragHandler extends PDragSequenceEventHandler {
-
+    
     private final PNode dragNode;
     private final CLModelViewTransform3D mvt;
-
+    
     private double clickXOffset, clickYOffset;
-
+    
     public LocationDragHandler( PNode dragNode, CLModelViewTransform3D mvt ) {
         this.dragNode = dragNode;
         this.mvt = mvt;
     }
-
+    
     protected abstract Point3D getModelLocation();
-
+    
     protected abstract void setModelLocation( Point3D location );
-
+    
     @Override
     protected void startDrag( PInputEvent event ) {
         super.startDrag( event );
@@ -39,7 +39,7 @@ public abstract class LocationDragHandler extends PDragSequenceEventHandler {
         clickXOffset = pMouse.getX() - pOrigin.getX();
         clickYOffset = pMouse.getY() - pOrigin.getY();
     }
-
+    
     @Override
     protected void drag( final PInputEvent event ) {
         super.drag( event );

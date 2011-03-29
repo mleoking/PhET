@@ -14,7 +14,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 
 /**
  * Drag handler for capacitor plate area property.
- * This drag handle is attached to the front-left corner of the capacitor plate, and its
+ * This drag handle is attached to the front-left corner of the capacitor plate, and its 
  * drag axis is the diagonal line from the front-left corner to the back-right corner of the plate.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
@@ -56,18 +56,18 @@ import edu.umd.cs.piccolo.event.PInputEvent;
      * This effectively accounts for the z-axis dimension.
      */
     private double getPlateWidth( Point2D pMouse ) {
-
+        
         // pick any 2 view values
-        final double xView1 = 0;
+        final double xView1 = 0; 
         final double xView2 = 1;
-
+        
         // compute corresponding model values
         final double xModel1 = getModelX( pMouse, xView1 );
         final double xModel2 = getModelX( pMouse, xView2 );
-
+        
         Function.LinearFunction function = new Function.LinearFunction( xView1, xView2, xModel1, xModel2 );
         double plateWidth = function.createInverse().evaluate( 0 );
-
+        
         // constrain to the plate width bounds
         if ( plateWidth > valueRange.getMax() ) {
             plateWidth = valueRange.getMax();
@@ -75,12 +75,12 @@ import edu.umd.cs.piccolo.event.PInputEvent;
         else if ( plateWidth < valueRange.getMin() ) {
             plateWidth = valueRange.getMin();
         }
-
+        
         return plateWidth;
     }
 
     /*
-     * Determines how far the mouse is from where we grabbed the arrow,
+     * Determines how far the mouse is from where we grabbed the arrow, 
      * for a hypothetical capacitor plate width.
      */
     private double getModelX( Point2D pMouse, double samplePlateWidth ) {

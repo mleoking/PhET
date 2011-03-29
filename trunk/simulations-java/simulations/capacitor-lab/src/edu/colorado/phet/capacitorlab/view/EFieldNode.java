@@ -24,17 +24,17 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class EFieldNode extends PhetPNode {
-
+    
     public static enum Direction { UP, DOWN };
-
-    private final BatteryCapacitorCircuit circuit;
+    
+    private final BatteryCapacitorCircuit circuit; 
     private final CLModelViewTransform3D mvt;
     private final PNode parentNode; // parent for all the field lines
 
     public EFieldNode( BatteryCapacitorCircuit circuit, CLModelViewTransform3D mvt ) {
         this.circuit = circuit;
         this.mvt = mvt;
-
+        
         circuit.addBatteryCapacitorCircuitChangeListener( new BatteryCapacitorCircuitChangeListener() {
             public void circuitChanged() {
                 if ( isVisible() ) {
@@ -42,13 +42,13 @@ public class EFieldNode extends PhetPNode {
                 }
             }
         } );
-
+        
         parentNode = new PComposite();
         addChild( parentNode );
-
+        
         update();
     }
-
+    
     /**
      * Update the node when it becomes visible.
      */
@@ -61,25 +61,25 @@ public class EFieldNode extends PhetPNode {
             }
         }
     }
-
+    
     private void update() {
-
+        
         // clear existing field lines
         parentNode.removeAllChildren();
-
+        
         // compute density (spacing) of field lines
         double effectiveEField = circuit.getEffectiveEfield();
         double lineSpacing = getLineSpacing( effectiveEField );
-
+        
         if ( lineSpacing > 0 ) {
-
+            
             // relevant model values
             final double plateWidth = circuit.getCapacitor().getPlateWidth();
             final double plateDepth = plateWidth;
             final double plateSeparation = circuit.getCapacitor().getPlateSeparation();
-
+            
             /*
-             * Create field lines, working from the center outwards so that
+             * Create field lines, working from the center outwards so that 
              * lines appear/disappear at edges of plate as E_effective changes.
              */
             double length = mvt.modelToViewDelta( 0, plateSeparation, 0 ).getY();
@@ -88,7 +88,7 @@ public class EFieldNode extends PhetPNode {
             while ( x <= plateWidth / 2 ) {
                 double z = lineSpacing / 2;
                 while ( z <= plateDepth / 2 ) {
-
+                    
                     // add 4 lines, one for each quadrant
                     PNode lineNode0 = new EFieldLineNode( length, direction );
                     PNode lineNode1 = new EFieldLineNode( length, direction );
@@ -105,19 +105,19 @@ public class EFieldNode extends PhetPNode {
                     lineNode1.setOffset( mvt.modelToView( -x, y, z ) );
                     lineNode2.setOffset( mvt.modelToView( x, y, -z ) );
                     lineNode3.setOffset( mvt.modelToView( -x, y, -z ) );
-
+                    
                     z += lineSpacing;
                 }
                 x += lineSpacing;
             }
         }
     }
-
+    
     /*
      * Gets the spacing of E-field lines.
      * Higher E-field results in higher density, therefore lower spacing.
      * Density is computed for the minimum plate size.
-     *
+     * 
      * @param effectiveEField
      * @return spacing, in model coordinates
      */
@@ -125,42 +125,42 @@ public class EFieldNode extends PhetPNode {
         final int numberOfLines = getNumberOfLines( effectiveEField );
         return CLConstants.PLATE_WIDTH_RANGE.getMin() / Math.sqrt( numberOfLines ); // assumes a square plate!;
     }
-
+    
     /*
      * Computes number of lines to put on the smallest plate, linearly proportional to plate charge.
      */
     private int getNumberOfLines( double effectiveEField ) {
-
+        
         double absEField = Math.abs( effectiveEField );
         double maxEField = BatteryCapacitorCircuit.getMaxEffectiveEfield();
-
+        
         int numberOfLines = (int)( CLConstants.NUMBER_OF_EFIELD_LINES.getMax() * absEField / maxEField );
         if ( absEField > 0 && numberOfLines < CLConstants.NUMBER_OF_EFIELD_LINES.getMin() ) {
             numberOfLines = CLConstants.NUMBER_OF_EFIELD_LINES.getMin();
         }
         return numberOfLines;
     }
-
+    
     /**
      * An E-field line. Origin is at the center.
      */
     private static class EFieldLineNode extends PComposite {
-
+        
         public static final PDimension ARROW_SIZE = new PDimension( 10, 15 );
         public static final Stroke LINE_STROKE = new BasicStroke( 2f );
-
+        
         /**
          * @param length length of the line in view coordinates
          * @param direction
          */
         public EFieldLineNode( double length, Direction direction ) {
-
+            
             // line, origin at center
             PPath lineNode = new PPath( new Line2D.Double( 0, -length / 2, 0, length / 2 ) );
             lineNode.setStroke( LINE_STROKE );
             lineNode.setStrokePaint( CLPaints.EFIELD );
             addChild( lineNode );
-
+            
             // arrow, shape points "up", origin at center
             GeneralPath path = new GeneralPath();
             float w = (float) ARROW_SIZE.getWidth();
@@ -176,7 +176,7 @@ public class EFieldNode extends PhetPNode {
             if ( direction == Direction.DOWN ) {
                 arrowNode.rotate( Math.PI );
             }
-
+            
             // no additional layout needed, handled above by geometry specification
         }
     }

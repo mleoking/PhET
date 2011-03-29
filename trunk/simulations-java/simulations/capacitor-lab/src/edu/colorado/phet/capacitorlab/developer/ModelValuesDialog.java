@@ -14,9 +14,9 @@ import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 /* package private */ class ModelValuesDialog extends PaintImmediateDialog {
-
+    
     private final ModelValuesPanel panel;
-
+    
     public ModelValuesDialog( Frame owner, DielectricModel model ) {
         super( owner );
         setTitle( "Model Values" );
@@ -25,7 +25,7 @@ import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
         setContentPane( panel );
         pack();
     }
-
+    
     /**
      * Performs cleanup before disposing of the dialog.
      */

@@ -23,36 +23,36 @@ public class DielectricOffsetDragHandleNode extends PhetPNode {
 
     private static final Point2D ARROW_TIP_LOCATION = new Point2D.Double( 0, 0 );
     private static final Point2D ARROW_TAIL_LOCATION = new Point2D.Double( CLConstants.DRAG_HANDLE_ARROW_LENGTH, 0 );
-
+    
     private static final double LINE_LENGTH = 60;
     private static final Point2D LINE_START_LOCATION = new Point2D.Double( 0, 0 );
     private static final Point2D LINE_END_LOCATION = new Point2D.Double( LINE_LENGTH, 0 );
-
+    
     private final Capacitor capacitor;
     private final CLModelViewTransform3D mvt;
     private final DragHandleValueNode valueNode;
-
+    
     public DielectricOffsetDragHandleNode( final Capacitor capacitor, CLModelViewTransform3D mvt, DoubleRange valueRange ) {
-
+        
         this.capacitor = capacitor;
         this.mvt = mvt;
-
+        
         // arrow
         DragHandleArrowNode arrowNode = new DragHandleArrowNode( ARROW_TIP_LOCATION, ARROW_TAIL_LOCATION );
         arrowNode.addInputEventListener( new DielectricOffsetDragHandler( this, capacitor, mvt, valueRange ) );
-
+        
         // line
         DragHandleLineNode lineNode = new DragHandleLineNode( LINE_START_LOCATION, LINE_END_LOCATION );
-
+        
         // value
         double millimeters = UnitsUtils.metersToMillimeters( capacitor.getDielectricOffset() );
         valueNode = new DragHandleValueNode( CLStrings.PATTERN_VALUE_UNITS, CLStrings.OFFSET, millimeters, CLStrings.MILLIMETERS );
-
+        
         // rendering order
         addChild( lineNode );
         addChild( arrowNode );
         addChild( valueNode );
-
+        
         // layout
         double x = 0;
         double y = 0;
@@ -63,7 +63,7 @@ public class DielectricOffsetDragHandleNode extends PhetPNode {
         x = arrowNode.getXOffset();
         y = arrowNode.getFullBoundsReference().getMaxY();
         valueNode.setOffset( x, y );
-
+        
         // update when related model properties change
         capacitor.addDielectricOffsetObserver( new SimpleObserver() {
             public void update() {
@@ -77,12 +77,12 @@ public class DielectricOffsetDragHandleNode extends PhetPNode {
             }
         } );
     }
-
+    
     private void updateValueDisplay() {
         double millimeters = UnitsUtils.metersToMillimeters( capacitor.getDielectricOffset() );
         valueNode.setValue( millimeters );
     }
-
+    
     private void updateOffset() {
         double x = capacitor.getLocationReference().getX() + ( capacitor.getPlateWidth() / 2 ) + capacitor.getDielectricOffset();
         double y = capacitor.getLocationReference().getY();

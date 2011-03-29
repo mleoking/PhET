@@ -23,33 +23,33 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class TestPropertyT extends JFrame {
-
+    
     public static class TestModel {
-
+        
         private final EventListenerList listeners;
-
+        
         private final Property<Boolean> foo;
         private boolean bar;
-
+        
         public TestModel( boolean foo, boolean bar ) {
             this.foo = new Property<Boolean>( foo );
             this.bar = bar;
             this.listeners = new EventListenerList();
         }
-
+        
         public void addVisibleObserver( SimpleObserver o ) {
             foo.addObserver( o );
         }
-
+        
         public void setFoo( boolean foo ) {
             System.out.println( "TestModel.setFoo " + foo );
             this.foo.setValue( foo );
         }
-
+        
         public boolean isFoo() {
             return foo.getValue();
         }
-
+        
         public void setBar( boolean bar ) {
             System.out.println( "TestModel.setBar " + bar );
             if ( bar != this.bar ) {
@@ -57,30 +57,30 @@ public class TestPropertyT extends JFrame {
                 fireBarChanged();
             }
         }
-
+        
         public boolean isBar() {
             return bar;
         }
-
+        
         public interface TestModelListener extends EventListener {
             public void barChanged();
         }
-
+        
         public void addTestModelListener( TestModelListener listener ) {
             listeners.add( TestModelListener.class, listener );
         }
-
+        
         private void fireBarChanged() {
             for ( TestModelListener listener : listeners.getListeners( TestModelListener.class ) ) {
                 listener.barChanged();
             }
         }
     }
-
+    
     public TestPropertyT() {
-
+        
         final TestModel model = new TestModel( true /* visible */, true /* bar */ );
-
+        
         final JCheckBox fooCheckBox = new JCheckBox( "foo" );
         final JCheckBox barCheckBox = new JCheckBox( "bar" );
         JPanel panel = new JPanel();
@@ -88,7 +88,7 @@ public class TestPropertyT extends JFrame {
         panel.add( barCheckBox );
         setContentPane( panel );
         pack();
-
+        
         // wire up property that uses Property<T>
         fooCheckBox.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -100,7 +100,7 @@ public class TestPropertyT extends JFrame {
                 fooCheckBox.setSelected( model.isFoo() );
             }
         });
-
+        
         // wire up property that uses EventListener
         barCheckBox.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -113,7 +113,7 @@ public class TestPropertyT extends JFrame {
             }
         });
     }
-
+    
     public static void main( String[] args ) {
         JFrame frame = new TestPropertyT();
         frame.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );

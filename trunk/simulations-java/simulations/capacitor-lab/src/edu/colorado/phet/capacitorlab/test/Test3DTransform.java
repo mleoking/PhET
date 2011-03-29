@@ -23,15 +23,15 @@ import edu.umd.cs.piccolo.nodes.PPath;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class Test3DTransform extends JFrame {
-
+    
     private static final double MVT_SCALE = 3;
     private static final double PITCH = Math.toRadians( 60 ); // rotation about horizontal axis
     private static final double YAW = Math.toRadians( -45 ); // rotation about vertical axis
-
+    
     public Test3DTransform() {
-
+        
         CLModelViewTransform3D mvt = new CLModelViewTransform3D( MVT_SCALE, PITCH, YAW );
-
+        
         /*
          * Model-to-view transform that defines the top face of a capacitor plate.
          * The corners of the face are specified in 3D model coordinate frame.
@@ -59,13 +59,13 @@ public class Test3DTransform extends JFrame {
         pathNode.setStrokePaint( Color.BLACK );
         pathNode.setPaint( Color.RED );
         pathNode.setOffset( 300, 200 );
-
+        
         // canvas
         PCanvas canvas = new PCanvas();
         canvas.setPreferredSize( new Dimension( 1024, 768 ) );
         canvas.getLayer().addChild( pathNode );
         setContentPane( canvas );
-
+        
         pack();
     }
 

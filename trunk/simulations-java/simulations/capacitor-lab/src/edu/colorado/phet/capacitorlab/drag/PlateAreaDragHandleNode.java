@@ -20,39 +20,39 @@ import edu.colorado.phet.common.piccolophet.PhetPNode;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class PlateAreaDragHandleNode extends PhetPNode {
-
+    
     private static final Point2D ARROW_TIP_LOCATION = new Point2D.Double( 0, 0 );
     private static final Point2D ARROW_TAIL_LOCATION = new Point2D.Double( 0, CLConstants.DRAG_HANDLE_ARROW_LENGTH );
-
+    
     private static final double LINE_LENGTH = 22;
     private static final Point2D LINE_START_LOCATION = new Point2D.Double( 0, 0 );
     private static final Point2D LINE_END_LOCATION = new Point2D.Double( 0, LINE_LENGTH );
-
+    
     private final Capacitor capacitor;
     private final CLModelViewTransform3D mvt;
     private final DragHandleValueNode valueNode;
-
+    
     public PlateAreaDragHandleNode( final Capacitor capacitor, CLModelViewTransform3D mvt, DoubleRange valueRange ) {
-
+        
         this.capacitor = capacitor;
         this.mvt = mvt;
-
+        
         // arrow
         DragHandleArrowNode arrowNode = new DragHandleArrowNode( ARROW_TIP_LOCATION, ARROW_TAIL_LOCATION );
         arrowNode.addInputEventListener( new PlateAreaDragHandler( this, capacitor, mvt, valueRange ) );
-
+        
         // line
         DragHandleLineNode lineNode = new DragHandleLineNode( LINE_START_LOCATION, LINE_END_LOCATION );
-
+        
         // value
         double millimetersSquared = UnitsUtils.metersSquaredToMillimetersSquared( capacitor.getPlateArea() );
         valueNode = new DragHandleValueNode( CLStrings.PATTERN_VALUE_UNITS, CLStrings.PLATE_AREA, millimetersSquared, CLStrings.MILLIMETERS_SQUARED );
-
+        
         // rendering order
         addChild( lineNode );
         addChild( arrowNode );
         addChild( valueNode );
-
+        
         // layout
         double x = 0;
         double y = 0;
@@ -67,7 +67,7 @@ public class PlateAreaDragHandleNode extends PhetPNode {
         x = lineNode.getFullBoundsReference().getMaxX() - valueNode.getFullBoundsReference().getWidth();
         y = lineNode.getFullBoundsReference().getMinY() - valueNode.getFullBoundsReference().getHeight();
         valueNode.setOffset( x, y );
-
+        
         // watch for model changes
         capacitor.addPlateSizeObserver( new SimpleObserver() {
             public void update() {
@@ -81,12 +81,12 @@ public class PlateAreaDragHandleNode extends PhetPNode {
             }
         } );
     }
-
+    
     private void updateDisplay() {
         double millimetersSquared = UnitsUtils.metersSquaredToMillimetersSquared( capacitor.getPlateArea() );
         valueNode.setValue( millimetersSquared );
     }
-
+    
     private void updateOffset() {
         double x = capacitor.getLocationReference().getX() - ( capacitor.getPlateWidth() / 2 );
         double y = capacitor.getLocationReference().getY() - ( capacitor.getPlateSeparation() / 2 ) - capacitor.getPlateHeight();

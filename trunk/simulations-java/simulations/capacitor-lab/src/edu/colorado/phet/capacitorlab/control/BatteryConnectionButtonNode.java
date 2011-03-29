@@ -21,20 +21,20 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class BatteryConnectionButtonNode extends PhetPNode {
-
+    
     public BatteryConnectionButtonNode( final BatteryCapacitorCircuit circuit ) {
-
+        
         final JButton button = new JButton( getText( circuit.isBatteryConnected() ) );
         addChild( new PSwing( button ) );
         scale( CLConstants.PSWING_SCALE );
-
+        
         addInputEventListener( new CursorHandler() );
         button.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 circuit.setBatteryConnected( !circuit.isBatteryConnected() );
             }
         });
-
+        
         // change button text to match battery state
         circuit.addBatteryCapacitorCircuitChangeListener( new BatteryCapacitorCircuitChangeListener() {
             public void circuitChanged() {
@@ -42,7 +42,7 @@ public class BatteryConnectionButtonNode extends PhetPNode {
             }
         } );
     }
-
+    
     private String getText( boolean isBatteryConnected ) {
         return isBatteryConnected ? CLStrings.DISCONNECT_BATTERY : CLStrings.CONNECT_BATTERY;
     }

@@ -14,7 +14,7 @@ public class CapacitanceMeter extends BarMeter {
     public CapacitanceMeter( final BatteryCapacitorCircuit circuit, World world, Point3D location, boolean visible ) {
         super( circuit, world, location, visible );
     }
-
+    
     @Override
     protected double getCircuitValue() {
         return getCircuit().getCapacitor().getTotalCapacitance();

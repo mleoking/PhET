@@ -12,7 +12,7 @@ package edu.colorado.phet.capacitorlab;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class CLSymbols {
-
+    
     /* not intended for instantiation */
     private CLSymbols() {}
 }
