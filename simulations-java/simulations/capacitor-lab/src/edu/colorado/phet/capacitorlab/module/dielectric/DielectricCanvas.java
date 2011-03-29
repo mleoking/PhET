@@ -127,7 +127,7 @@ public class DielectricCanvas extends CLCanvas {
             double x, y = 0;
 
             // battery
-            pView = mvt.modelToView( model.getBattery().getLocationReference() );
+            pView = mvt.modelToView( model.getBattery().location );
             batteryNode.setOffset( pView );
 
             // capacitor

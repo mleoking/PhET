@@ -35,7 +35,7 @@ public class BatteryNode extends PhetPNode {
         addChild( sliderNode );
         sliderNode.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                battery.setVoltage( sliderNode.getVoltage() );
+                battery.voltage.setValue( sliderNode.getVoltage() );
             }
         });
 
@@ -48,9 +48,9 @@ public class BatteryNode extends PhetPNode {
         sliderNode.setOffset( x, y );
 
         // observe model
-        battery.addVoltageObserver( new SimpleObserver() {
+        battery.voltage.addObserver( new SimpleObserver() {
             public void update() {
-                sliderNode.setVoltage( battery.getVoltage() );
+                sliderNode.setVoltage( battery.voltage.getValue() );
             }
         } );
         battery.addPolarityObserver( new SimpleObserver() {

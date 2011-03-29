@@ -123,7 +123,7 @@ public class Wire {
         }
 
         private static ArrayList<WireSegment> createSegments( final Battery battery, final Capacitor capacitor, double thickness ) {
-            final Point2D.Double leftCorner = new Point2D.Double( battery.getX(), battery.getY() - CLConstants.WIRE_EXTENT );
+            final Point2D.Double leftCorner = new Point2D.Double( battery.location.getX(), battery.location.getY() - CLConstants.WIRE_EXTENT );
             final Point2D.Double rightCorner = new Point2D.Double( capacitor.getX(), leftCorner.getY() );
             final double t = ( thickness / 2 ); // for proper connection at corners with CAP_BUTT wire stroke
             ArrayList<WireSegment> segments = new ArrayList<WireSegment>() {{
@@ -160,7 +160,7 @@ public class Wire {
         }
 
         private static ArrayList<WireSegment> createSegments( final Battery battery, final Capacitor capacitor, double thickness ) {
-            final Point2D.Double leftCorner = new Point2D.Double( battery.getX(), battery.getY() + CLConstants.WIRE_EXTENT );
+            final Point2D.Double leftCorner = new Point2D.Double( battery.location.getX(), battery.location.getY() + CLConstants.WIRE_EXTENT );
             final Point2D.Double rightCorner = new Point2D.Double( capacitor.getX(), leftCorner.getY() );
             final double t = ( thickness / 2 ); // for proper connection at corners with CAP_BUTT wire stroke
             ArrayList<WireSegment> segments = new ArrayList<WireSegment>() {{
@@ -179,7 +179,7 @@ public class Wire {
             Shape wireShape = super.createShape();
             // HACK: null check required because createShape is called in the superclass constructor.
             if ( battery != null && capacitor != null ) {
-                wireShape = ShapeUtils.subtract( wireShape, battery.getShapeFactory().createBodyShape(), capacitor.getShapeFactory().createBottomPlateShape() );
+                wireShape = ShapeUtils.subtract( wireShape, battery.shapeFactory.createBodyShape(), capacitor.getShapeFactory().createBottomPlateShape() );
             }
             return wireShape;
         }
