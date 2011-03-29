@@ -33,16 +33,16 @@ import edu.umd.cs.piccolo.util.PBounds;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class VoltmeterBodyNode extends PhetPNode {
-    
+
     // body of the meter
     private static final Image BODY_IMAGE = CLImages.VOLTMETER;
-    
+
     // digital display
     private static final NumberFormat DISPLAY_VALUE_FORMAT = new DefaultDecimalFormat( "0.00" );
     private static final Font DISPLAY_FONT = new PhetFont( 16 );
     private static final Color DISPLAY_TEXT_COLOR = Color.BLACK;
     private static final Color DISPLAY_BACKGROUND_COLOR = Color.WHITE;
-    
+
     // relationship between meter image and digital display bounds
     private static final double DISPLAY_X_MARGIN_TO_IMAGE_WIDTH_RATIO = 0.10;
     private static final double DISPLAY_Y_MARGIN_TO_IMAGE_HEIGHT_RATIO = 0.08;
@@ -51,27 +51,27 @@ public class VoltmeterBodyNode extends PhetPNode {
     private final DoubleDisplayNode displayNode;
     private final PPath displayBackgroundNode;
     private final Point2D positiveConnectionOffset, negativeConnectionOffset; // offsets for connection points of wires that attach probes to body
-    
+
     public VoltmeterBodyNode( final Voltmeter voltmeter, final CLModelViewTransform3D mvt ) {
-        
+
         // body of the meter
         PImage imageNode = new PImage( BODY_IMAGE );
         addChild( imageNode );
-        
+
         // close button
         PImage closeButtonNode = new PImage( CLImages.CLOSE_BUTTON );
         closeButtonNode.addInputEventListener( new CursorHandler() );
         closeButtonNode.addInputEventListener( new PBasicInputEventHandler() {
             @Override
             public void mouseReleased( PInputEvent event ) {
-                voltmeter.setVisible( false );
+                voltmeter.visible.setValue( false );
             }
         } );
         addChild( closeButtonNode );
         double xOffset = imageNode.getFullBoundsReference().getMaxX() + 2;
         double yOffset = imageNode.getFullBoundsReference().getMinY();
         closeButtonNode.setOffset( xOffset, yOffset );
-        
+
         // display background, assumes display is horizontally centered in the meter
         double x = DISPLAY_X_MARGIN_TO_IMAGE_WIDTH_RATIO * imageNode.getFullBoundsReference().getWidth();
         double y = DISPLAY_Y_MARGIN_TO_IMAGE_HEIGHT_RATIO * imageNode.getFullBoundsReference().getHeight();
@@ -81,31 +81,31 @@ public class VoltmeterBodyNode extends PhetPNode {
         displayBackgroundNode.setStroke( null );
         displayBackgroundNode.setPaint( DISPLAY_BACKGROUND_COLOR );
         addChild( displayBackgroundNode );
-        
+
         // digital display
         displayNode = new DoubleDisplayNode( voltmeter.getValue(), "", DISPLAY_VALUE_FORMAT, CLStrings.VOLTS, CLStrings.PATTERN_LABEL_VALUE_UNITS, CLStrings.VOLTS_UNKNOWN );
         displayNode.setFont( DISPLAY_FONT );
         displayNode.setHTMLColor( DISPLAY_TEXT_COLOR );
         addChild( displayNode );
-        
+
         // offsets for connection points of wires that attach probes to body
         PBounds imageBounds = imageNode.getFullBoundsReference();
         positiveConnectionOffset = new Point2D.Double( imageBounds.getWidth() / 4, imageBounds.getMaxY() ); // bottom left
         negativeConnectionOffset = new Point2D.Double( 3 * imageBounds.getWidth() / 4, imageBounds.getMaxY() ); // bottom right
-        
+
         // interactivity
         addInputEventListener( new CursorHandler() );
         addInputEventListener( new LocationDragHandler( this, mvt ) {
-            
+
             protected Point3D getModelLocation() {
-                return voltmeter.getBodyLocationReference();
+                return voltmeter.bodyLocation.getValue();
             }
-            
+
             protected void setModelLocation( Point3D location ) {
-                voltmeter.setBodyLocation( location );
+                voltmeter.bodyLocation.setValue( location );
             }
         });
-        
+
         // observers
         {
             // update display when value changes
@@ -115,24 +115,24 @@ public class VoltmeterBodyNode extends PhetPNode {
                     updateLayout();
                 }
             } );
-            
+
             // update location
-            voltmeter.addBodyLocationObserver( new SimpleObserver() {
+            voltmeter.bodyLocation.addObserver( new SimpleObserver() {
                 public void update() {
-                    setOffset( mvt.modelToView( voltmeter.getBodyLocationReference() ) );
+                    setOffset( mvt.modelToView( voltmeter.bodyLocation.getValue() ) );
                 }
             } );
         }
     }
-    
+
     public Point2D getPositiveConnectionOffset() {
         return new Point2D.Double( positiveConnectionOffset.getX(), positiveConnectionOffset.getY() );
     }
-    
+
     public Point2D getNegativeConnectionOffset() {
         return new Point2D.Double( negativeConnectionOffset.getX(), negativeConnectionOffset.getY() );
     }
-    
+
     private void updateLayout() {
         double x = displayBackgroundNode.getFullBoundsReference().getMaxX() - displayNode.getFullBoundsReference().getWidth() - 4;
         double y = displayBackgroundNode.getFullBoundsReference().getMaxY() - displayNode.getFullBoundsReference().getHeight() - 1;
