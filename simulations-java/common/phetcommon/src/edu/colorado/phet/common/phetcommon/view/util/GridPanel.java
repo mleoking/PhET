@@ -10,6 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
+import javax.swing.border.TitledBorder;
 
 /**
  * GridPanel is a JPanel that arranges Components in a grid.
@@ -27,25 +28,25 @@ import javax.swing.WindowConstants;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class GridPanel extends JPanel {
-    
+
     /** @see setAnchor */
-    public static enum Anchor { 
+    public static enum Anchor {
         /* absolute anchors */ CENTER, NORTH, NORTHEAST, EAST, SOUTHEAST, SOUTH, SOUTHWEST, WEST, NORTHWEST,
         /* relative anchors */ PAGE_START, PAGE_END, LINE_START, LINE_END, FIRST_LINE_START, FIRST_LINE_END, LAST_LINE_START, LAST_LINE_END,
         /* TODO: add Java 1.6 baseline anchors here. See GridBagConstraints.*BASELINE* */ };
-    
+
     /** @see setFill */
     public static enum Fill { HORIZONTAL, VERTICAL, BOTH, NONE };
-    
+
     // Define these gridX and gridY constants to fully hide GridBagConstraints.
     public static final int RELATIVE = GridBagConstraints.RELATIVE;
     public static final int REMAINDER = GridBagConstraints.REMAINDER;
-    
+
     // maps between enums and GridBagConstraint constants
     private static final ConstraintMap CONSTRAINT_MAP = new ConstraintMap();
-    
+
     private final GridBagConstraints constraints;
-    
+
     /**
      * Constructor that specifies no layout properties, you get default settings.
      * You can use setters to change the defaults, or specify properties when a component is added.
@@ -53,7 +54,7 @@ public class GridPanel extends JPanel {
     public GridPanel() {
         this( new GridBagConstraints() ); // defaults are identical to GridBagConstraints
     }
-    
+
     /*
      * This constructor should remain private, so we don't expose GridBagConstraints.
      * It's provides for internal use, so that we can set default to be identical to GridBagConstraints.
@@ -61,16 +62,16 @@ public class GridPanel extends JPanel {
     private GridPanel( GridBagConstraints c ) {
         this( c.gridx, c.gridy, c.gridwidth, c.gridheight, c.weightx, c.weighty, CONSTRAINT_MAP.toAnchor( c.anchor ), CONSTRAINT_MAP.toFill( c.fill ), c.insets, c.ipadx, c.ipady );
     }
-    
+
     /**
      * Constructor that lets you specify default values for all layout properties.
      * See setters for description of properties.
      */
     public GridPanel( int gridX, int gridY, int gridWidth, int gridHeight, double weightX, double weightY, Anchor anchor, Fill fill, Insets insets, int internalPaddingX, int internalPaddingY ) {
         super( new GridBagLayout() );
-        
+
         this.constraints = new GridBagConstraints();
-        
+
         setGridX( gridX );
         setGridY( gridY );
         setGridWidth( gridWidth );
@@ -83,7 +84,7 @@ public class GridPanel extends JPanel {
         setInternalPaddingX( internalPaddingX );
         setInternalPaddingY( internalPaddingY );
     }
-    
+
     /**
      * A GridPanel must have a GridLayout layout manager, or what's the point?
      */
@@ -96,7 +97,7 @@ public class GridPanel extends JPanel {
             super.setLayout( manager );
         }
     }
-    
+
     /**
      * Add a component using the default layout properties.
      */
@@ -105,17 +106,17 @@ public class GridPanel extends JPanel {
         add( component, getGridX(), getGridY(), getGridWidth(), getGridHeight(), getWeightX(), getWeightY(), getAnchor(), getFill(), getInsetsReference(), getInternalPaddingX(), getInternalPaddingY() );
         return component;
     }
-    
+
     /**
      * Puts a component in a specific grid cell, and specifies a complete set of layout properties.
      * See setters for description of properties.
      */
-    public void add( Component component, int gridX, int gridY, int gridWidth, int gridHeight, double weightX, double weightY, 
+    public void add( Component component, int gridX, int gridY, int gridWidth, int gridHeight, double weightX, double weightY,
             Anchor anchor, Fill fill, Insets insets, int internalPaddingX, int internalPaddingY ) {
-        
+
         // save constraints
         GridBagConstraints savedConstraints = copy( constraints );
-        
+
         // set temporary constraints
         constraints.gridx = gridX;
         constraints.gridy = gridY;
@@ -131,31 +132,31 @@ public class GridPanel extends JPanel {
 
         // put the component in a grid cell
         super.add( component, constraints );
-        
+
         // restore constraints
         setConstraints( savedConstraints, constraints );
     }
-    
+
     // convenience method
     public void add( Component component, int row, int column ) {
         add( component, column, row, getGridWidth(), getGridHeight(), getWeightX(), getWeightY(), getAnchor(), getFill(), getInsetsReference(), getInternalPaddingX(), getInternalPaddingY() );
     }
-    
+
     // convenience method
     public void add( Component component, int row, int column, int widthInColumns, int heightInRows ) {
         add( component, column, row, widthInColumns, heightInRows, getWeightX(), getWeightY(), getAnchor(), getFill(), getInsetsReference(), getInternalPaddingX(), getInternalPaddingY() );
     }
-    
+
     // convenience method
     public void add( Component component, int row, int column, Anchor anchor ) {
         add( component, column, row, getGridWidth(), getGridHeight(), getWeightX(), getWeightY(), anchor, getFill(), getInsetsReference(), getInternalPaddingX(), getInternalPaddingY() );
     }
-    
+
     // convenience method
     public void add( Component component, int row, int column, Fill fill ) {
         add( component, column, row, getGridWidth(), getGridHeight(), getWeightX(), getWeightY(), getAnchor(), fill, getInsetsReference(), getInternalPaddingX(), getInternalPaddingY() );
     }
-    
+
     /*
      * GridBagConstraints lacks a copy constructor, this method fills that void.
      * Used for saving state.
@@ -163,7 +164,7 @@ public class GridPanel extends JPanel {
     private static GridBagConstraints copy( GridBagConstraints c ) {
         return new GridBagConstraints( c.gridx, c.gridy, c.gridwidth, c.gridheight, c.weightx, c.weighty, c.anchor, c.fill, c.insets, c.ipadx, c.ipady );
     }
-    
+
     /*
      * Copies constraints from one object to another.
      * Used to restore state.
@@ -181,35 +182,35 @@ public class GridPanel extends JPanel {
         destination.ipadx = source.ipadx;
         destination.ipady = source.ipady;
     }
-    
+
     /**
      * Specifies the column in which to place an added component.
-     * Use RELATIVE to specifies that the component is to be placed 
+     * Use RELATIVE to specifies that the component is to be placed
      * immediately following the previously-added component.
      * @param gridX
      */
     public void setGridX( int gridX ) {
         constraints.gridx = gridX;
     }
-    
+
     public int getGridX() {
         return constraints.gridx;
     }
-    
+
     /**
      * Specifies the row in which to place an added component.
-     * Use RELATIVE to specifies that the component is to be placed 
-     * immediately following the previously-added component. 
+     * Use RELATIVE to specifies that the component is to be placed
+     * immediately following the previously-added component.
      * @param gridY
      */
     public void setGridY( int gridY ) {
         constraints.gridy = gridY;
     }
-    
+
     public int getGridY() {
         return constraints.gridy;
     }
-    
+
     /**
      * Specifies how many columns a component will fill horizontally.
      * Use REMAINDER to fill to the end of the row.
@@ -219,7 +220,7 @@ public class GridPanel extends JPanel {
     public void setGridWidth( int width ) {
         constraints.gridwidth = width;
     }
-    
+
     public int getGridWidth() {
         return constraints.gridwidth;
     }
@@ -237,10 +238,10 @@ public class GridPanel extends JPanel {
     public int getGridHeight() {
         return constraints.gridheight;
     }
-    
+
     /**
      * Specifies how to distribute extra horizontal space.
-     * Extra space is distributed to each column in proportion to its weight, 
+     * Extra space is distributed to each column in proportion to its weight,
      * as compared to the weight of other columns.
      * A column that has a weight of zero receives no extra space.
      * @param weightX
@@ -248,23 +249,23 @@ public class GridPanel extends JPanel {
     public void setWeightX( double weightX ) {
         constraints.weightx = weightX;
     }
-    
-    public double getWeightX() { 
+
+    public double getWeightX() {
         return constraints.weightx;
     }
-    
+
     /**
-     * Specifies how to distribute extra vertical space. 
+     * Specifies how to distribute extra vertical space.
      * Extra space is distributed to each row in proportion to its weight,
-     * as compared to the weight of other rows. 
+     * as compared to the weight of other rows.
      * A row that has a weight of zero receives no extra space.
      * @param weightY
      */
     public void setWeightY( double weightY ) {
         constraints.weighty = weightY;
     }
-    
-    public double getWeightY() { 
+
+    public double getWeightY() {
         return constraints.weighty;
     }
 
@@ -284,8 +285,8 @@ public class GridPanel extends JPanel {
     }
 
     /**
-     * If a component is smaller than its grid cell, this property determines whether to resize the component, 
-     * and if so, which dimensions of the grid cell should be considered when doing the resizing. 
+     * If a component is smaller than its grid cell, this property determines whether to resize the component,
+     * and if so, which dimensions of the grid cell should be considered when doing the resizing.
      * @param fill
      */
     public void setFill( Fill fill ) {
@@ -295,10 +296,10 @@ public class GridPanel extends JPanel {
     public Fill getFill() {
         return CONSTRAINT_MAP.toFill( constraints.fill );
     }
-    
+
     /**
-     * Specifies the external padding of the component, the  minimum amount of space between 
-     * the component and the edges of the cells that it occupies. 
+     * Specifies the external padding of the component, the  minimum amount of space between
+     * the component and the edges of the cells that it occupies.
      * Because Insets are mutable, the specified Insets are copies.
      */
     public void setInsets( Insets insets ) {
@@ -312,13 +313,13 @@ public class GridPanel extends JPanel {
     public Insets getInsets() {
         return new Insets( constraints.insets.top, constraints.insets.left, constraints.insets.bottom, constraints.insets.right );
     }
-    
+
     private Insets getInsetsReference() {
         return constraints.insets;
     }
-    
+
     /**
-     * Specifies how much space to add to the minimum width of the component. 
+     * Specifies how much space to add to the minimum width of the component.
      * The width of the component is at least its minimum width plus ipadx pixels.
      * @param ipadx
      */
@@ -329,9 +330,9 @@ public class GridPanel extends JPanel {
     public int getInternalPaddingX() {
         return constraints.ipadx;
     }
-    
+
     /**
-     * Specifies how much space to add to the minimum height of the component. 
+     * Specifies how much space to add to the minimum height of the component.
      * The height of the component is at least its minimum height plus ipady pixels.
      * @param ipady
      */
@@ -389,12 +390,12 @@ public class GridPanel extends JPanel {
      * We've introduced type checking using Fill and Anchor enums.
      */
     private static class ConstraintMap {
-        
+
         private final HashMap<Anchor,Integer> anchorMap;
         private final HashMap<Fill,Integer> fillMap;
-        
+
         public ConstraintMap() {
-            
+
             anchorMap = new HashMap<Anchor, Integer>() {{
                 /* absolute anchors */
                 put( Anchor.CENTER, new Integer( GridBagConstraints.CENTER ) );
@@ -418,7 +419,7 @@ public class GridPanel extends JPanel {
                 /* TODO: add Java 1.6 baseline anchors here. See GridBagConstraints.*BASELINE* */
             }};
             assert( anchorMap.size() == Anchor.values().length ); // is this map complete?
-            
+
             fillMap = new HashMap<Fill, Integer>() {{
                 put( Fill.HORIZONTAL, new Integer( GridBagConstraints.HORIZONTAL ) );
                 put( Fill.VERTICAL, new Integer( GridBagConstraints.VERTICAL ) );
@@ -427,14 +428,14 @@ public class GridPanel extends JPanel {
             }};
             assert( fillMap.size() == Fill.values().length ); // is this map complete?
         }
-        
+
         /**
          * Converts a Fill to a GridBagConstraint constant.
          */
         public int toInt( Fill fill ) {
             return fillMap.get( fill ).intValue();
         }
-        
+
         /**
          * Converts a GridBagConstraint constant to a Fill.
          */
@@ -453,14 +454,14 @@ public class GridPanel extends JPanel {
             }
             return fillObject;
         }
-        
+
         /**
          * Converts an Anchor to a GridBagConstraint constant.
          */
         public int toInt( Anchor anchor ) {
             return anchorMap.get( anchor ).intValue();
         }
-        
+
         /**
          * Converts a GridBagConstraint constant to an Anchor.
          */
@@ -480,11 +481,13 @@ public class GridPanel extends JPanel {
             return anchorObject;
         }
     }
-    
+
     // incomplete test harness
     public static void main( String[] args ) {
-        
-        GridPanel panel = new GridPanel() {{
+
+        // GridPanel
+        GridPanel panel1 = new GridPanel() {{
+            setBorder( new TitledBorder( "GridPanel" ) );
             setGridX( 0 ); // one column
             add( new JLabel( "------------------------" ) );
             setAnchor( Anchor.WEST );
@@ -494,9 +497,27 @@ public class GridPanel extends JPanel {
             setAnchor( Anchor.EAST );
             add( new JLabel( "EAST" ) );
         }};
-        
+
+        // compare to JPanel with GridLayout
+        JPanel panel2 = new JPanel( new GridBagLayout() );
+        panel2.setBorder( new TitledBorder( "JPanel with GridLayout" ) );
+        GridBagConstraints c = new GridBagConstraints();
+        c.gridx = 0;
+        c.gridy = GridBagConstraints.RELATIVE;
+        panel2.add( new JLabel( "------------------------" ), c );
+        c.anchor = GridBagConstraints.WEST;
+        panel2.add( new JLabel( "WEST" ), c );
+        c.anchor = GridBagConstraints.CENTER;
+        panel2.add( new JLabel( "CENTER" ), c );
+        c.anchor = GridBagConstraints.EAST;
+        panel2.add( new JLabel( "EAST" ), c );
+
+        JPanel mainPanel = new JPanel();
+        mainPanel.add( panel1 );
+        mainPanel.add( panel2 );
+
         JFrame frame = new JFrame();
-        frame.setContentPane( panel );
+        frame.setContentPane( mainPanel );
         frame.pack();
         frame.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
         frame.setVisible( true );
