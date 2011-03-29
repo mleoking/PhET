@@ -39,20 +39,20 @@ import edu.umd.cs.piccolo.util.PDimension;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class PlateChargeControlNode extends PhetPNode {
-    
+
     // track
     private static final PDimension TRACK_SIZE = new PDimension( 5, 200 );
     private static final Color TRACK_FILL_COLOR = Color.LIGHT_GRAY;
     private static final Color TRACK_STROKE_COLOR = Color.BLACK;
     private static final Stroke TRACK_STROKE = new BasicStroke( 1f );
-    
+
     // background
     private static final double BACKGROUND_X_MARGIN = 10;
     private static final double BACKGROUND_Y_MARGIN = 5;
     private static final Stroke BACKGROUND_STROKE = new BasicStroke( 1f );
     private static final Color BACKGROUND_STROKE_COLOR = Color.BLACK;
     private static final Color BACKGROUND_FILL_COLOR = new JPanel().getBackground();
-    
+
     // knob
     private static final PDimension KNOB_SIZE = new PDimension( 20, 15 );
     private static final Stroke KNOB_STROKE = new BasicStroke( 1f );
@@ -60,32 +60,32 @@ public class PlateChargeControlNode extends PhetPNode {
     private static final Color KNOB_HIGHLIGHT_COLOR = CLPaints.DRAGGABLE_HIGHLIGHT;
     private static final Color KNOB_STROKE_COLOR = Color.BLACK;
     private static final boolean KNOB_SNAP_TO_ZERO_ENABLED = true;
-    
+
     // ticks
     private static final double TICK_MARK_LENGTH = 8;
     private static final Color TICK_MARK_COLOR = TRACK_STROKE_COLOR;
     private static final Stroke TICK_MARK_STROKE = TRACK_STROKE;
     private static final double TICK_LABEL_X_SPACING = 3;
-    
+
     // range labels
     private static final Font RANGE_LABEL_FONT = new PhetFont( 14 );
     private static final Color RANGE_LABEL_COLOR = Color.BLACK;
-    
+
     // title
     private static final Font TITLE_FONT = new PhetFont( Font.BOLD, 16 );
     private static final Color TITLE_COLOR = Color.BLACK;
-    
+
     private final BatteryCapacitorCircuit circuit;
-    
+
     private final TrackNode trackNode;
     private final KnobNode knobNode;
     private final TitleNode titleNode;
     private final DoubleRange range;
-    
+
     public PlateChargeControlNode( final BatteryCapacitorCircuit circuit ) {
-        
+
         range = new DoubleRange( -BatteryCapacitorCircuit.getMaxPlateCharge(), BatteryCapacitorCircuit.getMaxPlateCharge() );
-        
+
         this.circuit = circuit;
         circuit.addBatteryCapacitorCircuitChangeListener( new BatteryCapacitorCircuitChangeListener() {
             public void circuitChanged() {
@@ -94,7 +94,7 @@ public class PlateChargeControlNode extends PhetPNode {
                 }
             }
         } );
-        
+
         // nodes
         trackNode = new TrackNode();
         knobNode = new KnobNode();
@@ -105,7 +105,7 @@ public class PlateChargeControlNode extends PhetPNode {
         TickMarkNode minTickMarkNode = new TickMarkNode();
         RangeLabelNode minLabelNode = new RangeLabelNode( CLStrings.LOTS_NEGATIVE );
         titleNode = new TitleNode( CLStrings.PLATE_CHARGE_TOP );
-        
+
         // parent for all nodes that are part of the slider, excluding the value
         PNode parentNode = new PNode();
         parentNode.addChild( trackNode );
@@ -116,7 +116,7 @@ public class PlateChargeControlNode extends PhetPNode {
         parentNode.addChild( minTickMarkNode );
         parentNode.addChild( minLabelNode );
         parentNode.addChild( knobNode );
-        
+
         // layout in parentNode
         double x = 0;
         double y = 0;
@@ -149,7 +149,7 @@ public class PlateChargeControlNode extends PhetPNode {
             y = minTickMarkNode.getFullBoundsReference().getCenterY() - ( minLabelNode.getFullBoundsReference().getHeight() / 2 );
             minLabelNode.setOffset( x, y );
         }
-        
+
         // background, sized to fit around parentNode
         double bWidth = parentNode.getFullBoundsReference().getWidth() + ( 2 * BACKGROUND_X_MARGIN );
         double bHeight = parentNode.getFullBoundsReference().getHeight() + ( 2 * BACKGROUND_Y_MARGIN );
@@ -158,12 +158,12 @@ public class PlateChargeControlNode extends PhetPNode {
         backgroundNode.setStroke( BACKGROUND_STROKE );
         backgroundNode.setStrokePaint( BACKGROUND_STROKE_COLOR );
         backgroundNode.setPaint( BACKGROUND_FILL_COLOR );
-        
+
         // rendering order
         addChild( backgroundNode );
         addChild( parentNode );
         addChild( titleNode );
-        
+
         // layout
         {
             x = 0;
@@ -176,28 +176,28 @@ public class PlateChargeControlNode extends PhetPNode {
             y = backgroundNode.getFullBoundsReference().getMaxY() + 2;
             titleNode.setOffset( x, y );
         }
-        
+
         // interactivity
         initInteractivity();
-        
+
         update();
     }
-    
+
     /*
      * Adds interactivity to the knob.
      */
     private void initInteractivity() {
-        
+
         // hand cursor on knob
         knobNode.addInputEventListener( new CursorHandler() );
-        
+
         knobNode.addInputEventListener( new PaintHighlightHandler( knobNode, KNOB_NORMAL_COLOR, KNOB_HIGHLIGHT_COLOR ) );
-        
+
         // Constrain the knob to be dragged vertically within the track
         knobNode.addInputEventListener( new PDragSequenceEventHandler() {
-            
+
             private double _globalClickYOffset; // y offset of mouse click from knob's origin, in global coordinates
-            
+
             @Override
             protected void startDrag( PInputEvent event ) {
                 super.startDrag( event );
@@ -213,20 +213,20 @@ public class PlateChargeControlNode extends PhetPNode {
                 super.drag( event );
                 updateVoltage( event, true /* isDragging */);
             }
-            
+
             @Override
             protected void endDrag( PInputEvent event ) {
                 updateVoltage( event, false /* isDragging */ );
                 super.endDrag( event );
             }
-            
+
             private void updateVoltage( PInputEvent event, boolean isDragging ) {
                 // determine the knob's new offset
                 Point2D pMouseLocal = event.getPositionRelativeTo( PlateChargeControlNode.this );
                 Point2D pMouseGlobal = PlateChargeControlNode.this.localToGlobal( pMouseLocal );
                 Point2D pKnobGlobal = new Point2D.Double( pMouseGlobal.getX(), pMouseGlobal.getY() - _globalClickYOffset );
                 Point2D pKnobLocal = PlateChargeControlNode.this.globalToLocal( pKnobGlobal );
-                
+
                 // convert the offset to a charge value
                 double yOffset = pKnobLocal.getY();
                 double trackLength = trackNode.getFullBoundsReference().getHeight();
@@ -237,34 +237,34 @@ public class PlateChargeControlNode extends PhetPNode {
                 else if ( charge > range.getMax() ) {
                     charge = range.getMax();
                 }
-                
+
                 // snap to zero if knob is release and value is close enough to zero
                 if ( !isDragging && KNOB_SNAP_TO_ZERO_ENABLED && Math.abs( charge ) <= CLConstants.PLATE_CHARGE_CONTROL_SNAP_TO_ZERO_THRESHOLD ) {
                     charge = 0;
                 }
-                
+
                 // set the model
                 circuit.setDisconnectedPlateCharge( charge );
             }
         } );
     }
-    
+
     private void update() {
-        
+
         double plateCharge = circuit.getDisconnectedPlateCharge();
-        
+
         // knob location
         double xOffset = knobNode.getXOffset();
         double yOffset = trackNode.getFullBoundsReference().getHeight() * ( ( range.getMax() - plateCharge ) / range.getLength() );
         knobNode.setOffset( xOffset, yOffset );
     }
-    
+
     /*
      * The track that the bar moves in.
      * Origin is at upper-left corner.
      */
     private static class TrackNode extends PPath {
-        
+
         public TrackNode() {
             setPathTo( new Rectangle2D.Double( 0, 0, TRACK_SIZE.width, TRACK_SIZE.height ) );
             setPaint( TRACK_FILL_COLOR );
@@ -272,7 +272,7 @@ public class PlateChargeControlNode extends PhetPNode {
             setStroke( TRACK_STROKE );
         }
     }
-    
+
     /*
      * The slider knob, points to the left.
      * Origin is at the knob's tip.
@@ -296,39 +296,39 @@ public class PlateChargeControlNode extends PhetPNode {
             setStrokePaint( KNOB_STROKE_COLOR );
         }
     }
-    
+
     /*
      * Horizontal tick mark line, with no label.
      * Origin is at the left center of the line.
      */
     private static class TickMarkNode extends PPath {
-        
+
         public TickMarkNode() {
             super( new Line2D.Double( 0, 0, TICK_MARK_LENGTH, 0 ) );
             setStrokePaint( TICK_MARK_COLOR );
             setStroke( TICK_MARK_STROKE );
         }
     }
-    
+
     /*
      * Label used to indicate the range.
      * Origin is at upper-left corner of bounding box.
      */
     private static class RangeLabelNode extends HTMLNode {
-        
+
         public RangeLabelNode( String label ) {
             super( label );
             setHTMLColor( RANGE_LABEL_COLOR );
             setFont( RANGE_LABEL_FONT );
         }
     }
-    
+
     /*
      * Title used to indicate the purpose of this meter.
      * Origin is at upper-left corner of bounding box.
      */
     private static class TitleNode extends PText {
-        
+
         public TitleNode( String label ) {
             super( label );
             setTextPaint( TITLE_COLOR );

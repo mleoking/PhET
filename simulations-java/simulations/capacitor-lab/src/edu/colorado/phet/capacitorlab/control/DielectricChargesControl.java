@@ -24,16 +24,16 @@ import edu.colorado.phet.common.phetcommon.view.util.GridPanel.Anchor;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class DielectricChargesControl extends JPanel {
-    
+
     public DielectricChargesControl( final DielectricNode dielectricNode ) {
-        
+
         JLabel chargesLabel = new JLabel( MessageFormat.format( CLStrings.PATTERN_LABEL, CLStrings.DIELECTRIC_CHARGES ) );
 
         Property<DielectricChargeView> property = dielectricNode.getDielectricChargeViewProperty();
         JRadioButton hideAllRadioButton = new PropertyRadioButton<DielectricChargeView>( CLStrings.HIDE_ALL_CHARGES, property, DielectricChargeView.NONE );
         JRadioButton showAllRadioButton = new PropertyRadioButton<DielectricChargeView>( CLStrings.SHOW_ALL_CHARGES, property, DielectricChargeView.TOTAL );
         JRadioButton showExcessRadioButton = new PropertyRadioButton<DielectricChargeView>( CLStrings.SHOW_EXCESS_CHARGES, property, DielectricChargeView.EXCESS );
-        
+
         ButtonGroup group = new ButtonGroup();
         group.add( hideAllRadioButton );
         group.add( showAllRadioButton );
@@ -47,7 +47,7 @@ public class DielectricChargesControl extends JPanel {
         innerPanel.add( hideAllRadioButton );
         innerPanel.add( showAllRadioButton );
         innerPanel.add( showExcessRadioButton );
-        
+
         // make everything left justify when put in the main control panel
         setLayout( new BorderLayout() );
         add( innerPanel, BorderLayout.WEST );

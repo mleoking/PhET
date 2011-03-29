@@ -22,14 +22,14 @@ import edu.colorado.phet.capacitorlab.module.dielectric.DielectricModule;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class IntroductionModule extends DielectricModule {
-    
+
     public IntroductionModule( Frame parentFrame, boolean dev ) {
         super( CLStrings.INTRODUCTION, parentFrame, dev );
         setDielectricVisible( false );
         setDielectricPropertiesControlPanelVisible( false );
         setEFieldDetectorSimplified( true );
     }
-    
+
     @Override
     public void reset() {
         super.reset();

@@ -12,7 +12,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class CLClock extends ConstantDtClock {
-    
+
     private static final int FRAMES_PER_SECOND = 25;
     private static final double DT = 1;
 
