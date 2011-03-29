@@ -499,18 +499,19 @@ public class GridPanel extends JPanel {
         }};
 
         // compare to JPanel with GridLayout
-        JPanel panel2 = new JPanel( new GridBagLayout() );
-        panel2.setBorder( new TitledBorder( "JPanel with GridLayout" ) );
-        GridBagConstraints c = new GridBagConstraints();
-        c.gridx = 0;
-        c.gridy = GridBagConstraints.RELATIVE;
-        panel2.add( new JLabel( "------------------------" ), c );
-        c.anchor = GridBagConstraints.WEST;
-        panel2.add( new JLabel( "WEST" ), c );
-        c.anchor = GridBagConstraints.CENTER;
-        panel2.add( new JLabel( "CENTER" ), c );
-        c.anchor = GridBagConstraints.EAST;
-        panel2.add( new JLabel( "EAST" ), c );
+        JPanel panel2 = new JPanel( new GridBagLayout() ) {{
+            setBorder( new TitledBorder( "JPanel with GridLayout" ) );
+            GridBagConstraints c = new GridBagConstraints();
+            c.gridx = 0;
+            c.gridy = GridBagConstraints.RELATIVE;
+            add( new JLabel( "------------------------" ), c );
+            c.anchor = GridBagConstraints.WEST;
+            add( new JLabel( "WEST" ), c );
+            c.anchor = GridBagConstraints.CENTER;
+            add( new JLabel( "CENTER" ), c );
+            c.anchor = GridBagConstraints.EAST;
+            add( new JLabel( "EAST" ), c );
+        }};
 
         JPanel mainPanel = new JPanel();
         mainPanel.add( panel1 );
