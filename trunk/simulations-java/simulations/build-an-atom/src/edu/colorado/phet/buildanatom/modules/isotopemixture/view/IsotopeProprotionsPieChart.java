@@ -210,8 +210,8 @@ class IsotopeProprotionsPieChart extends PNode {
      * @param sliceLabels
      */
     private void adjustLabelYPositions( ArrayList<SliceLabel> sliceLabels, double minY, double maxY ) {
-        double rotationIncrement = Math.PI / 50; // Empirically chosen.
-        for (int i = 1; i < 10; i++ ){ // Number of iterations empirically chosen.
+        double rotationIncrement = Math.PI / 200; // Empirically chosen.
+        for (int i = 1; i < 50; i++ ){ // Number of iterations empirically chosen.
             boolean overlapDetected = false;
             for ( SliceLabel label : sliceLabels ) {
                 boolean moveUp = false;
@@ -225,12 +225,10 @@ class IsotopeProprotionsPieChart extends PNode {
                         // These labels overlap.
                         overlapDetected = true;
                         if ( label.getUnconstrainedPosRef().getY() > comparisonLabel.getUnconstrainedPosRef().getY() && label.getFullBoundsReference().getMaxY() < maxY ){
-                            // This label should move down (greater Y value).
-                            moveDown = true;
+                            moveUp = true;
                         }
                         else if ( label.getUnconstrainedPosRef().getY() < comparisonLabel.getUnconstrainedPosRef().getY() && label.getFullBoundsReference().getMinY() > minY ) {
-                            // This label should move up.
-                            moveUp = true;
+                            moveDown = true;
                         }
                     }
                 }
@@ -239,23 +237,23 @@ class IsotopeProprotionsPieChart extends PNode {
                 // overlap in both directions, don't move.  If there is only
                 // overlap with a label that has a higher unconstrained
                 // location, move down.  If there is only overlap with a label
-                // with a lower unconstrained location, move down.  For our
-                // needs, only the Y direction matters.
+                // with a lower unconstrained location, move down.
                 if ( moveUp && !moveDown ){
                     Vector2D posVector = new Vector2D( label.getOffset() );
-                    double sign = isLabelOnRight( label ) ? -1 : 1;
+                    double sign = isLabelOnRight( label ) ? 1 : -1;
                     posVector.rotate( sign * rotationIncrement );
                     label.setOffset( posVector.getX(), posVector.getY() );
                 }
                 else if ( moveDown && !moveUp ){
                     Vector2D posVector = new Vector2D( label.getOffset() );
-                    double sign = isLabelOnRight( label ) ? 1 : -1;
+                    double sign = isLabelOnRight( label ) ? -1 : 1;
                     posVector.rotate( sign * rotationIncrement );
                     label.setOffset( posVector.getX(), posVector.getY() );
                 }
             }
             if (!overlapDetected){
                 // No overlap for any of the labels, so we are done.
+                System.out.println("i = " + i);
                 break;
             }
         }
