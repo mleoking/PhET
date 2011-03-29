@@ -18,17 +18,17 @@ import edu.umd.cs.piccolo.nodes.PImage;
  * Visual representation of a DC battery, with a control for setting its voltage.
  * Image flips when the polarity of the voltage changes.
  * Origin is at center of this node's bounding rectangle.
- * 
+ *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class BatteryNode extends PhetPNode {
-    
+
     public BatteryNode( final Battery battery, DoubleRange voltageRange ) {
-        
+
         // battery image, scaled to match model dimensions
         final PImage imageNode = new PImage( CLImages.BATTERY_UP );
         addChild( imageNode );
-        
+
         // voltage slider
         double trackLength = 0.60 * imageNode.getFullBoundsReference().getHeight();
         final VoltageSliderNode sliderNode = new VoltageSliderNode( voltageRange, trackLength );
@@ -38,7 +38,7 @@ public class BatteryNode extends PhetPNode {
                 battery.setVoltage( sliderNode.getVoltage() );
             }
         });
-        
+
         // layout
         double x = -imageNode.getFullBoundsReference().getWidth() / 2;
         double y = -imageNode.getFullBoundsReference().getHeight() / 2;
@@ -46,7 +46,7 @@ public class BatteryNode extends PhetPNode {
         x = imageNode.getXOffset() + ( ( imageNode.getFullBoundsReference().getWidth() - sliderNode.getFullBoundsReference().getWidth() ) / 2 ) + 5; // sort of centered
         y = imageNode.getYOffset() + 53; // set by visual inspection, depends on images
         sliderNode.setOffset( x, y );
-        
+
         // observe model
         battery.addVoltageObserver( new SimpleObserver() {
             public void update() {

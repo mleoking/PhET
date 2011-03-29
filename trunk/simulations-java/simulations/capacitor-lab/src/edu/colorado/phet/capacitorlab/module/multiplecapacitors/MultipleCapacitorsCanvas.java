@@ -14,7 +14,7 @@ public class MultipleCapacitorsCanvas extends CLCanvas {
     public MultipleCapacitorsCanvas( MultipleCapacitorsModel model, boolean dev ) {
         //XXX
     }
-    
+
     public void reset() {
         //XXX
     }

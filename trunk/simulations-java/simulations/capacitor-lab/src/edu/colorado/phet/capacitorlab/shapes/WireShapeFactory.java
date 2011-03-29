@@ -22,12 +22,12 @@ public class WireShapeFactory {
 
     private final Wire wire;
     private final CLModelViewTransform3D mvt;
-    
+
     public WireShapeFactory( Wire wire, CLModelViewTransform3D mvt ) {
         this.wire = wire;
         this.mvt = mvt;
     }
-    
+
     public Shape createWireShape() {
         Area area = new Area();
         for ( WireSegment segment : wire.getSegmentsReference() ) {
@@ -36,7 +36,7 @@ public class WireShapeFactory {
         }
         return area;
     }
-    
+
     private Shape createWireSegmentShape( WireSegment segment, double thickness ) {
         Line2D line = new Line2D.Double( segment.getStartPoint(), segment.getEndPoint() );
         Stroke stroke = new BasicStroke( (float) thickness, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER ); // use CAP_BUTT so that ends are accurate

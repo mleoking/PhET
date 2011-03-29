@@ -19,23 +19,23 @@ import edu.colorado.phet.common.phetcommon.application.Module;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class DielectricControlPanel extends CLControlPanel {
-    
+
     private final JPanel dielectricPropertiesControlPanel;
-    
+
     public DielectricControlPanel( Frame parentFrame, Module module, DielectricModel model, DielectricCanvas canvas, boolean dev ) {
-        
+
         addControlFullWidth( new ViewControlPanel( canvas.getCapacitorNode() ) );
         addControlFullWidth( new MetersControlPanel( model.getCapacitanceMeter(), model.getPlateChargeMeter(), model.getStoredEnergyMeter(), model.getVoltmeter(), model.getEFieldDetector() ) );
         dielectricPropertiesControlPanel = new DielectricPropertiesControlPanel( model.getCapacitor(), model.getDielectricMaterials(), canvas.getCapacitorNode().getDielectricNode() );
         addControlFullWidth( dielectricPropertiesControlPanel );
-        
+
         if ( dev ) {
             addControlFullWidth( new DeveloperControlPanel( parentFrame, model ) );
         }
-        
+
         addResetAllButton( module );
     }
-    
+
     public void setDielectricPropertiesControlPanelVisible( boolean visible ) {
         dielectricPropertiesControlPanel.setVisible( visible );
     }

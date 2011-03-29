@@ -34,34 +34,34 @@ public class TestProbeRotation extends JFrame {
             imageNode.setOffset( x, y );
         }
     }
-    
+
     public static class TestCanvas extends PhetPCanvas {
         public TestCanvas() {
             setPreferredSize( new Dimension( 800, 600 ) );
-            
+
             PlusNode plusNode = new PlusNode( 20, 2, Color.RED );
             ProbeNode probe1 = new ProbeNode();
             ProbeNode probe2 = new ProbeNode();
-            
+
             getLayer().addChild( probe1 );
             getLayer().addChild( probe2 );
             getLayer().addChild( plusNode );
-            
+
             plusNode.setOffset( 200, 200 );
             probe1.setOffset( plusNode.getOffset() );
             probe2.setOffset( plusNode.getOffset() );
-            
+
             // rotate one of the probes, visually confirm that crosshairs are still aligned
             probe1.rotate( Math.toRadians( 45 ) );
         }
     }
-    
+
     public TestProbeRotation() {
         super( TestProbeRotation.class.getName() );
         setContentPane( new TestCanvas() );
         pack();
     }
-    
+
     public static void main( String[] args ) {
         JFrame frame = new TestProbeRotation();
         frame.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );

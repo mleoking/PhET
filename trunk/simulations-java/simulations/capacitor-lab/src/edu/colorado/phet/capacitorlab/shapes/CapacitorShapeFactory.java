@@ -13,26 +13,26 @@ import edu.colorado.phet.common.phetcommon.view.util.ShapeUtils;
 /**
  * Creates 2D projections of shapes that are related to the 3D capacitor model.
  * All of these shapes are 2D projections of pseudo-3D boxes.
- * These shapes are subtracted using constructive area geometry to account for 
+ * These shapes are subtracted using constructive area geometry to account for
  * occlusion that occurs in our pseudo-3D view.
  * Shapes are in the global view coordinate frame.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class CapacitorShapeFactory {
-    
+
     private final Capacitor capacitor;
     private final BoxShapeFactory boxShapeFactory;
-    
+
     public CapacitorShapeFactory( Capacitor capacitor, CLModelViewTransform3D mvt ) {
         this.capacitor = capacitor;
         this.boxShapeFactory = new BoxShapeFactory( mvt );
     }
-    
+
     //----------------------------------------------------------------------------------------
     // unoccluded shapes
     //----------------------------------------------------------------------------------------
-    
+
     /*
      * Top plate
      * @return
@@ -40,7 +40,7 @@ public class CapacitorShapeFactory {
     private Shape createTopPlateShape() {
         return createBoxShape( capacitor.getX(), capacitor.getTopPlateCenter().getY(), capacitor.getZ(), capacitor.getPlateSize() );
     }
-    
+
     /**
      * Bottom plate
      * @return
@@ -48,16 +48,16 @@ public class CapacitorShapeFactory {
     public Shape createBottomPlateShape() {
         return createBoxShape( capacitor.getX(), capacitor.getY() + ( capacitor.getPlateSeparation() / 2 ), capacitor.getZ(), capacitor.getPlateSize() );
     }
-    
+
     /*
      * Dielectric
      * @return
      */
     private Shape createDielectricShape() {
-        return createBoxShape( capacitor.getX() + capacitor.getDielectricOffset(), 
+        return createBoxShape( capacitor.getX() + capacitor.getDielectricOffset(),
                 capacitor.getY() - ( capacitor.getDielectricSize().getHeight() / 2 ), capacitor.getZ(), capacitor.getDielectricSize() );
     }
-    
+
     /*
      * Volume between the capacitor plates
      * @return
@@ -65,7 +65,7 @@ public class CapacitorShapeFactory {
     private Shape createBetweenPlatesShape() {
         return createBoxShape( capacitor.getX(), capacitor.getY() - ( capacitor.getPlateSeparation() / 2 ), capacitor.getZ(), capacitor.getDielectricSize() );
     }
-    
+
     /*
      * Portion of the dielectric that is between the capacitor plates
      * @return
@@ -78,7 +78,7 @@ public class CapacitorShapeFactory {
             return ShapeUtils.intersect( createDielectricShape(), createBetweenPlatesShape() );
         }
     }
-    
+
     /*
      * Air that is between the capacitor plates
      * @return
@@ -91,11 +91,11 @@ public class CapacitorShapeFactory {
             return ShapeUtils.subtract( createBetweenPlatesShape(), createDielectricBetweenPlatesShape() );
         }
     }
-    
+
     //----------------------------------------------------------------------------------------
     // occluded shapes
     //----------------------------------------------------------------------------------------
-    
+
     /**
      * Visible portion of the top plate.
      * Nothing occludes the top plate.
@@ -104,7 +104,7 @@ public class CapacitorShapeFactory {
     public Shape createTopPlateShapeOccluded() {
         return createTopPlateShape();
     }
-    
+
     /**
      * Visible portion of the bottom plate.
      * May be partially occluded by the top plate.
@@ -113,7 +113,7 @@ public class CapacitorShapeFactory {
     public Shape createBottomPlateShapeOccluded() {
         return ShapeUtils.subtract( createBottomPlateShape(), createTopPlateShape() );
     }
-    
+
     /**
      * Visible portion of the dielectric between the plates.
      * May be partially occluded by the top plate.
@@ -121,7 +121,7 @@ public class CapacitorShapeFactory {
     public Shape createDielectricBetweenPlatesShapeOccluded() {
         return ShapeUtils.subtract( createDielectricBetweenPlatesShape(), createTopPlateShape() );
     }
-    
+
     /**
      * Visible portion of air between the plates.
      * May be partially occluded by the top plate.
@@ -129,18 +129,18 @@ public class CapacitorShapeFactory {
     public Shape createAirBetweenPlatesShapeOccluded() {
         return ShapeUtils.subtract( createAirBetweenPlateShape(), createTopPlateShape() );
     }
-    
+
     //----------------------------------------------------------------------------------------
     // general shapes
     //----------------------------------------------------------------------------------------
-    
+
     /*
      * A box, relative to a specific origin.
      */
     private Shape createBoxShape( double x, double y, double z, Dimension3D size ) {
         return boxShapeFactory.createBoxShape( x, y, z, size.getWidth(), size.getHeight(), size.getDepth() );
     }
-    
+
     /*
      * Encapsulation of empty shape.
      */
