@@ -180,7 +180,7 @@ public class PhetJarSigner {
         safeDelete( outFile );
         FileOutputStream out = new FileOutputStream( outFile );
         try {
-            JarFile readFile = new JarFile( inFile );
+            JarFile readFile = new JarFile( inFile, false ); // do not verify the jar file here, since it may have changed
             try {
                 packer.pack( readFile, out );
             }
