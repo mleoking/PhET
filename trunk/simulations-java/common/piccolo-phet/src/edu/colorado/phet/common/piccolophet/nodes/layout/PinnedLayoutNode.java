@@ -9,7 +9,6 @@ import java.awt.geom.Point2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
@@ -26,13 +25,14 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
+import edu.umd.cs.piccolox.swing.SwingLayoutNode;
 
-/** 
- * A layout node that can be "pinned" in place. 
+/**
+ * A layout node that can be "pinned" in place.
  * The node is pinned to the global full bounds of a specified child node.
- * The layout node's offset is dynamically adjusted so that the child node 
+ * The layout node's offset is dynamically adjusted so that the child node
  * appears to remain stationary.
- * 
+ *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class PinnedLayoutNode extends SwingLayoutNode {
@@ -53,9 +53,19 @@ public class PinnedLayoutNode extends SwingLayoutNode {
      * @param layoutManager
      */
     public PinnedLayoutNode( LayoutManager layoutManager ) {
-        super( layoutManager );
-        pinnedNodePropertyChangeListener = new PropertyChangeListener() {
+        this( new JPanel( layoutManager ) );
+    }
 
+    /**
+     * Constructs a PinnedLayoutNode that lays out its children as though they
+     * were children of the provided Container. Whatever LayoutManager is being used
+     * by the container will be used when laying out nodes.
+     *
+     * @param container Container in which child nodes will effectively be laid out
+     */
+    public PinnedLayoutNode( Container container ) {
+        super( container );
+        pinnedNodePropertyChangeListener = new PropertyChangeListener() {
             // When the pinned node's full bounds change, update the layout node's offset.
             public void propertyChange( PropertyChangeEvent event ) {
                 if ( event.getPropertyName().equals( PNode.PROPERTY_FULL_BOUNDS ) ) {
@@ -66,15 +76,15 @@ public class PinnedLayoutNode extends SwingLayoutNode {
     }
 
     /**
-     * Sets the node that will be pinned in place. 
-     * The layout's offset will be dynamically adjusted so that the pinned node 
+     * Sets the node that will be pinned in place.
+     * The layout's offset will be dynamically adjusted so that the pinned node
      * appears to remain stationary.
      * <p>
      * Note that it's important to call this *after* you've applied any transforms
      * (offset, scale, rotation,...) to your layout node.  The alternative would
      * be to override all methods related to transforms, and have them update the
      * pinned node's bounds.  But that seems like an unnecessary maintenance headache.
-     * 
+     *
      * @param node
      * @throws IllegalStateException if the pin node is not a child of this node
      */
@@ -145,11 +155,11 @@ public class PinnedLayoutNode extends SwingLayoutNode {
             }
         } );
 
-        final ArrayList valueNodes = new ArrayList(); // array of PText
+        final ArrayList<PText> valueNodes = new ArrayList<PText>(); // array of PText
         final double xOffset = 200;
         double yOffset = 25;
         final double ySpacing = 75;
-        
+
         // vertical green line at x=200
         {
             PPath pathNode = new PhetPPath( new Line2D.Double( 0, 0, 0, 600 ), null, new BasicStroke( 2f ), Color.GREEN );
@@ -159,9 +169,11 @@ public class PinnedLayoutNode extends SwingLayoutNode {
 
         // BoxLayout
         {
-            final PinnedLayoutNode layoutNode = new PinnedLayoutNode();
+            JPanel panel = new JPanel();
+            BoxLayout layout = new BoxLayout( panel, BoxLayout.X_AXIS  );
+            panel.setLayout( layout );
+            final PinnedLayoutNode layoutNode = new PinnedLayoutNode( panel );
             rootNode.addChild( layoutNode );
-            layoutNode.setLayout( new BoxLayout( layoutNode.getContainer(), BoxLayout.X_AXIS ) );
             layoutNode.scale( 1.5 );
             layoutNode.setOffset( xOffset, yOffset );
             yOffset += ySpacing;
@@ -178,7 +190,7 @@ public class PinnedLayoutNode extends SwingLayoutNode {
             // pin
             layoutNode.setPinnedNode( pathNode );
         }
-        
+
         // BorderLayout
         {
             final PinnedLayoutNode layoutNode = new PinnedLayoutNode( new BorderLayout() );
@@ -199,7 +211,7 @@ public class PinnedLayoutNode extends SwingLayoutNode {
             // pin
             layoutNode.setPinnedNode( pathNode );
         }
-        
+
         // FlowLayout
         {
             final PinnedLayoutNode layoutNode = new PinnedLayoutNode( new FlowLayout( FlowLayout.CENTER, 0, 0 ) );
@@ -220,7 +232,7 @@ public class PinnedLayoutNode extends SwingLayoutNode {
             // pin
             layoutNode.setPinnedNode( pathNode );
         }
-        
+
         // GridBagLayout
         {
             final PinnedLayoutNode layoutNode = new PinnedLayoutNode( new GridBagLayout() );
@@ -245,7 +257,7 @@ public class PinnedLayoutNode extends SwingLayoutNode {
             // pin
             layoutNode.setPinnedNode( pathNode );
         }
-        
+
         // GridLayout
         {
             final PinnedLayoutNode layoutNode = new PinnedLayoutNode( new GridLayout( 0, 3 ) );
@@ -268,7 +280,7 @@ public class PinnedLayoutNode extends SwingLayoutNode {
         }
 
         //TODO add test cases for GroupLayout, SpringLayout
-        
+
         // control panel with slider
         JPanel controlPanel = new JPanel();
         controlPanel.setLayout( new BoxLayout( controlPanel, BoxLayout.Y_AXIS ) );
@@ -278,14 +290,13 @@ public class PinnedLayoutNode extends SwingLayoutNode {
         valueSlider.setPaintLabels( true );
         valueSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                Iterator i = valueNodes.iterator();
-                while ( i.hasNext() ) {
-                    ( (PText) i.next() ).setText( String.valueOf( valueSlider.getValue() ) );
+                for ( PText textNode : valueNodes ) {
+                    textNode.setText( String.valueOf( valueSlider.getValue() ) );
                 }
             }
         } );
         controlPanel.add( valueSlider );
-        
+
         // layout like a sim
         JPanel appPanel = new JPanel( new BorderLayout() );
         appPanel.add( canvas, BorderLayout.CENTER );
