@@ -35,7 +35,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 class IsotopeProprotionsPieChart extends PNode {
 
     private static final double OVERALL_HEIGHT = 100;
-    private static final int PIE_CHART_DIAMETER = 90; // Must be less than overall height.
+    private static final int PIE_CHART_DIAMETER = 80; // Must be less than overall height.
     private static final Stroke CONNECTING_LINE_STROKE = new BasicStroke(2);
 
     /**
@@ -125,14 +125,14 @@ class IsotopeProprotionsPieChart extends PNode {
                         // may be above or below the edges of the pie
                         // chart.
                         Vector2D positionVector = new Vector2D( centerEdgeOfPieSlice );
-                        positionVector.scale( 1.3 );
+                        positionVector.scale( 1.4 );
                         labelNode.setUnconstrainedPos( positionVector.getX(), positionVector.getY() );
 
                         // Constrain the position so that no part of the
                         // label goes above or below the upper and lower
                         // edges of the pie chart.
-                        double minY = -PIE_CHART_DIAMETER / 2 + labelNode.getFullBoundsReference().height / 2;
-                        double maxY = PIE_CHART_DIAMETER / 2 - labelNode.getFullBoundsReference().height / 2;
+                        double minY = -OVERALL_HEIGHT / 2 + labelNode.getFullBoundsReference().height / 2;
+                        double maxY = OVERALL_HEIGHT / 2 - labelNode.getFullBoundsReference().height / 2;
                         double xSign = labelOnLeft ? -1 : 1;
                         if ( positionVector.getY() < minY ){
                             positionVector.setX( xSign * Math.sqrt( positionVector.getMagnitudeSq() - minY * minY ) );
@@ -160,7 +160,7 @@ class IsotopeProprotionsPieChart extends PNode {
                     // positions, they need to be checked to make sure that
                     // they aren't overlapping and, if they are, their
                     // positions are adjusted.
-                    adjustLabelYPositions2( sliceLabels, -OVERALL_HEIGHT / 2, OVERALL_HEIGHT / 2 );
+                    adjustLabelYPositions( sliceLabels, -OVERALL_HEIGHT / 2, OVERALL_HEIGHT / 2 );
 
                     // The labels should now be all in reasonable positions,
                     // so draw a line from the edge of the label to the pie
@@ -186,11 +186,14 @@ class IsotopeProprotionsPieChart extends PNode {
                         // of the pie chart above the point that connects to
                         // the slice.  Note that these calculations assume
                         // that the center of the pie chart is at (0,0).
-                        Point2D bendPt = new Point2D.Double(
-                                sliceConnectPt.getX() * 1.2,
-                                sliceConnectPt.getY() * 1.2 );
                         DoubleGeneralPath connectingLineShape = new DoubleGeneralPath( sliceConnectPt );
-                        connectingLineShape.lineTo( bendPt );
+                        if ( sliceConnectPt.getY() > OVERALL_HEIGHT * 0.25 || sliceConnectPt.getY() < -OVERALL_HEIGHT * 0.25 ){
+                            // Add a "bend point" so that the line doesn't go under the pie chart.
+                            Point2D bendPt = new Point2D.Double(
+                                    sliceConnectPt.getX() * ( OVERALL_HEIGHT / PIE_CHART_DIAMETER ),
+                                    sliceConnectPt.getY() * ( OVERALL_HEIGHT / PIE_CHART_DIAMETER ) );
+                            connectingLineShape.lineTo( bendPt );
+                        }
                         connectingLineShape.lineTo( labelConnectPt );
                         labelLayer.addChild( new PhetPPath( connectingLineShape.getGeneralPath(),
                                 CONNECTING_LINE_STROKE, Color.BLACK) );
@@ -206,8 +209,8 @@ class IsotopeProprotionsPieChart extends PNode {
      *
      * @param sliceLabels
      */
-    private void adjustLabelYPositions2( ArrayList<SliceLabel> sliceLabels, double minY, double maxY ) {
-        double locationIncrement = 3; // Empirically chosen.
+    private void adjustLabelYPositions( ArrayList<SliceLabel> sliceLabels, double minY, double maxY ) {
+        double rotationIncrement = Math.PI / 50; // Empirically chosen.
         for (int i = 1; i < 10; i++ ){ // Number of iterations empirically chosen.
             boolean overlapDetected = false;
             for ( SliceLabel label : sliceLabels ) {
@@ -239,10 +242,16 @@ class IsotopeProprotionsPieChart extends PNode {
                 // with a lower unconstrained location, move down.  For our
                 // needs, only the Y direction matters.
                 if ( moveUp && !moveDown ){
-                    label.setOffset( label.getOffset().getX(), label.getOffset().getY() - locationIncrement );
+                    Vector2D posVector = new Vector2D( label.getOffset() );
+                    double sign = isLabelOnRight( label ) ? -1 : 1;
+                    posVector.rotate( sign * rotationIncrement );
+                    label.setOffset( posVector.getX(), posVector.getY() );
                 }
                 else if ( moveDown && !moveUp ){
-                    label.setOffset( label.getOffset().getX(), label.getOffset().getY() + locationIncrement );
+                    Vector2D posVector = new Vector2D( label.getOffset() );
+                    double sign = isLabelOnRight( label ) ? 1 : -1;
+                    posVector.rotate( sign * rotationIncrement );
+                    label.setOffset( posVector.getX(), posVector.getY() );
                 }
             }
             if (!overlapDetected){
@@ -252,12 +261,14 @@ class IsotopeProprotionsPieChart extends PNode {
         }
     }
 
+    private boolean isLabelOnRight( SliceLabel label ){
+        return ( label.getFullBoundsReference().getCenterX() > 0 );
+    }
+
     /**
      * Class that represents the label for a slice, which consists of a
      * readout that shows the percentage for this slice and a label of the
      * isotope.
-     *
-     * @author John Blanco
      */
     private static class SliceLabel extends PNode {
         private static final DecimalFormat FORMATTER = new DecimalFormat( "#.00" );
