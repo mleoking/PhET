@@ -270,7 +270,6 @@ class IsotopeProprotionsPieChart extends PNode {
             }
             if (!overlapDetected){
                 // No overlap for any of the labels, so we are done.
-                System.out.println("i = " + i);
                 break;
             }
         }
