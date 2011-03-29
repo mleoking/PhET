@@ -230,13 +230,22 @@ public class HorizontalSlider extends Sprite {
 
     private function updateReadout(): void {
         var readout: Number = this.scale * this.outputValue;
-        this.readout_txt.text = readout.toFixed( this.decimalPlaces );
-//        if(this.textEditable){
-//            this.readout_txt.text = readout.toFixed( this.decimalPlaces );
-//        }else{
-//           this.readout_txt.text = " " + readout.toFixed( this.decimalPlaces ) + " " + units_str ;
-//        }
-
+        // displays default precision if readout is slider-selected, but displays higher precision if user has hand-entered number 
+        var roundedReadout:Number = Math.floor( readout );
+        var decimalPortion:Number = readout - roundedReadout;
+        var factor:Number = 1000000;
+        var decimalPortion = Math.round(decimalPortion * factor)/factor;   //necessary because of bug in AS3 arithmetic. Example: 1.16 - 1 = 0.160000000000019
+        var decimal_str:String = decimalPortion.toString();
+        var nbrDecimalPlaces:Number = decimal_str.length - 2;
+        //trace("The number "+decimalPortion+" has "+nbrDecimalPlaces + " decimal places.")
+        var readoutPlaces = this.decimalPlaces;
+        if(nbrDecimalPlaces > this.decimalPlaces){
+            readoutPlaces = nbrDecimalPlaces;
+            if(nbrDecimalPlaces > 4){
+                readoutPlaces = 4;   //limits display to 5 places past decimal point
+            }
+        }
+        this.readout_txt.text = readout.toFixed( readoutPlaces );
     }//end updateReadout()
 
     private function makeKnobGrabbable(): void {
