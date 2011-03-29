@@ -197,53 +197,7 @@ class IsotopeProprotionsPieChart extends PNode {
                     }
                 }
             }
-
         } );
-    }
-
-    private void adjustLabelYPositions( ArrayList<PNode> sliceLabels ) {
-        double locationIncrement = 3; // Empirically chosen.
-        for (int i = 1; i < 10; i++ ){ // Number of iterations empirically chosen.
-            boolean overlapDetected = false;
-            for ( PNode label : sliceLabels ) {
-                boolean overlapAbove = false;
-                boolean overlapBelow = false;
-                for ( PNode comparisonLabel : sliceLabels ) {
-                    if ( label == comparisonLabel ){
-                        // Same label, so ignore.
-                        continue;
-                    }
-                    if ( label.fullIntersects( comparisonLabel.getFullBoundsReference() )){
-                        // These labels overlap.  Determine if the
-                        // comparison label is above or below.
-                        if (comparisonLabel.getFullBoundsReference().getCenterY() < label.getFullBoundsReference().getCenterY()){
-                            overlapAbove = true;
-                            overlapDetected = true;
-                        }
-                        else{
-                            overlapBelow = true;
-                            overlapDetected = true;
-                        }
-                    }
-                }
-                // Adjust this label's position based upon any overlap
-                // that was detected.  The general idea is this: if
-                // there is overlap in both directions, don't move.
-                // If there is only overlap above, move down.  If
-                // there is only overlap below, move up.  For our
-                // needs, only the Y direction matters.
-                if ( overlapAbove && !overlapBelow ){
-                    label.setOffset( label.getOffset().getX(), label.getOffset().getY() + locationIncrement );
-                }
-                else if ( overlapBelow && !overlapAbove ){
-                    label.setOffset( label.getOffset().getX(), label.getOffset().getY() - locationIncrement );
-                }
-            }
-            if (!overlapDetected){
-                // No overlap for any of the labels, so we are done.
-                break;
-            }
-        }
     }
 
     /**
