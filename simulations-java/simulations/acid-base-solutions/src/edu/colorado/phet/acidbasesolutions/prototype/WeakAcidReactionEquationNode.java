@@ -21,16 +21,16 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 class WeakAcidReactionEquationNode extends PComposite {
-    
+
     private static final Font SYMBOL_FONT = new PhetFont( 20 );
-    
+
     private static class SymbolNode extends HTMLNode {
         public SymbolNode( String html ) {
             super( html );
             setFont( SYMBOL_FONT );
         }
     }
-    
+
     private static class PlusNode extends PText {
         public PlusNode() {
             super( "+" );
@@ -39,19 +39,19 @@ class WeakAcidReactionEquationNode extends PComposite {
     }
 
     public WeakAcidReactionEquationNode() {
-        
+
         // molecule icons
         PImage imageHA = new PImage( MGPConstants.HA_IMAGE );
         PImage imageH2O = new PImage( MGPConstants.H2O_IMAGE );
         PImage imageH3O = new PImage( MGPConstants.H3O_PLUS_IMAGE );
         PImage imageA = new PImage( MGPConstants.A_MINUS_IMAGE );
-        
+
         // molecule symbols
         SymbolNode symbolHA = new SymbolNode( MGPConstants.HA_FRAGMENT );
         SymbolNode symbolH2O = new SymbolNode( MGPConstants.H2O_FRAGMENT );
         SymbolNode symbolH3O = new SymbolNode( MGPConstants.H3O_PLUS_FRAGMENT );
         SymbolNode symbolA = new SymbolNode( MGPConstants.A_MINUS_FRAGMENT );
-        
+
         // mathematical symbols
         PNode arrowNode = new PImage( MGPConstants.ARROW_DOUBLE_IMAGE );
         PlusNode plusLeftNode = new PlusNode();
@@ -67,13 +67,13 @@ class WeakAcidReactionEquationNode extends PComposite {
         constraints.gridx = 0;
         constraints.gridy = 0;
         layoutNode.addChild( imageHA, constraints );
-        constraints.gridx++; 
-        constraints.gridx++; 
+        constraints.gridx++;
+        constraints.gridx++;
         layoutNode.addChild( imageH2O, constraints );
-        constraints.gridx++; 
+        constraints.gridx++;
         constraints.gridx++;
         layoutNode.addChild( imageH3O, constraints );
-        constraints.gridx++; 
+        constraints.gridx++;
         constraints.gridx++;
         layoutNode.addChild( imageA, constraints );
         constraints.gridx = 0;
