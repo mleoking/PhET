@@ -516,7 +516,7 @@ public class GridPanel extends JPanel {
         mainPanel.add( panel1 );
         mainPanel.add( panel2 );
 
-        JFrame frame = new JFrame();
+        JFrame frame = new JFrame( "GridPanel.main" );
         frame.setContentPane( mainPanel );
         frame.pack();
         frame.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
