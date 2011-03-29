@@ -12,6 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 import javax.swing.border.LineBorder;
+import javax.swing.border.MatteBorder;
 
 import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
@@ -22,11 +23,18 @@ import edu.umd.cs.piccolox.pswing.PSwingCanvas;
  * The PSwing border contains horizontal and vertical lines that shouldn't be there,
  * when the PSwing is scaled up, visible at some scaling values and not at others.
  * <p>
- * PhET internal ticket = #2018
+ * This is caused by the implementation of LineBorder.paintBorder.
+ * The workaround is to use a MatteBorder (see APPLY_WORKAROUND).
+ * Note that MatteBorder does not support rounded borders, while LineBorder does.
+ * <p>
+ * PhET Unfuddle ticket = #2018
+ * Piccolo issue = #213
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class TestPSwingBorder extends JFrame {
+
+    private static final boolean APPLY_WORKAROUND = true;
 
     public TestPSwingBorder() {
         super( "TestPSwingBorder" );
@@ -57,7 +65,12 @@ public class TestPSwingBorder extends JFrame {
         public BorderedLabel( String text ) {
             super( text );
             setFont( new Font( "Default", Font.PLAIN, 24 ) );
-            setBorder( new LineBorder( Color.BLUE, 10 ) );
+            if ( APPLY_WORKAROUND ) {
+                setBorder( new MatteBorder( 10, 10, 10, 10, Color.BLUE ) );
+            }
+            else {
+                setBorder( new LineBorder( Color.BLUE, 10 ) );
+            }
         }
     }
 
