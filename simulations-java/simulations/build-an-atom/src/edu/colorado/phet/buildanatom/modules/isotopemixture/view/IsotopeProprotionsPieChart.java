@@ -1,3 +1,5 @@
+// Copyright 2002-2011, University of Colorado
+
 package edu.colorado.phet.buildanatom.modules.isotopemixture.view;
 
 import java.awt.BasicStroke;
@@ -32,7 +34,8 @@ import edu.umd.cs.piccolo.nodes.PText;
  */
 class IsotopeProprotionsPieChart extends PNode {
 
-    private static final int PIE_CHART_DIAMETER = 90;
+    private static final double OVERALL_HEIGHT = 100;
+    private static final int PIE_CHART_DIAMETER = 90; // Must be less than overall height.
     private static final Stroke CONNECTING_LINE_STROKE = new BasicStroke(2);
 
     /**
@@ -52,12 +55,14 @@ class IsotopeProprotionsPieChart extends PNode {
         // in the chamber, since showing a pie chart would make no sense.
         final PNode emptyPieChart = new PhetPPath(
                 new Ellipse2D.Double( -PIE_CHART_DIAMETER / 2, -PIE_CHART_DIAMETER / 2, PIE_CHART_DIAMETER, PIE_CHART_DIAMETER ),
-                new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{5, 4}, 0), Color.black );
-        addChild(emptyPieChart);
+                new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{5, 4}, 0), Color.black ){{
+                    setOffset( 0, 0 );
+                }};
+        addChild( emptyPieChart );
         // Add the observer that will update the pie chart when the contents
         // of the test chamber change.
         model.getIsotopeTestChamber().addTotalCountChangeObserver( new SimpleObserver() {
-                public void update() {
+            public void update() {
                 int isotopeCount = model.getIsotopeTestChamber().getTotalIsotopeCount();
                 // Hide the chart if there is nothing in the chamber.
                 pieChart.setVisible( isotopeCount > 0 );
@@ -78,10 +83,10 @@ class IsotopeProprotionsPieChart extends PNode {
                     // Convert the pie value array into the type needed by the
                     // pie chart.
                     pieChart.setPieValues( pieSlices.toArray( new PieValue[pieSlices.size()] ) );
-                    // TODO: This was put in to catch a race condition where
-                    // could be isotopes in the chamber, but none that matched
+                    // TODO: The following was put in to catch a race condition where
+                    // there could be isotopes in the chamber, but none that matched
                     // the current prototype isotope.  Changes were made that
-                    // appeared to fix this, but this should be left for a
+                    // appeared to fix this, but this check should be left for a
                     // while to make sure that it doesn't come back.  If the
                     // errors from this haven't been seen for a while, it can
                     // probably be safely removed.
@@ -103,10 +108,10 @@ class IsotopeProprotionsPieChart extends PNode {
                     double lightestIsotopeProportion = pieSlices.get( 0 ).getValue() / pieChart.getTotal();
                     pieChart.setInitialAngle( Math.PI - ( lightestIsotopeProportion * Math.PI ) );
                     // Add the floating labels to the chart.
-                    ArrayList<PNode> sliceLabels = new ArrayList<PNode>();
+                    ArrayList<SliceLabel> sliceLabels = new ArrayList<SliceLabel>();
                     for ( int i = 0; i < pieSlices.size(); i++ ) {
                         // Create the label for this pie slice.
-                        PNode labelNode;
+                        SliceLabel labelNode;
                         Point2D centerEdgeOfPieSlice = pieChart.getCenterEdgePtForSlice( i );
                         boolean labelOnLeft = centerEdgeOfPieSlice.getX() < 0;
                         labelNode = new SliceLabel( model.getPossibleIsotopesProperty().getValue().get( i ),
@@ -121,6 +126,7 @@ class IsotopeProprotionsPieChart extends PNode {
                         // chart.
                         Vector2D positionVector = new Vector2D( centerEdgeOfPieSlice );
                         positionVector.scale( 1.3 );
+                        labelNode.setUnconstrainedPos( positionVector.getX(), positionVector.getY() );
 
                         // Constrain the position so that no part of the
                         // label goes above or below the upper and lower
@@ -154,48 +160,7 @@ class IsotopeProprotionsPieChart extends PNode {
                     // positions, they need to be checked to make sure that
                     // they aren't overlapping and, if they are, their
                     // positions are adjusted.
-                    double locationIncrement = 3; // Empirically chosen.
-                    for (int i = 1; i < 10; i++ ){ // Number of iterations empirically chosen.
-                        boolean overlapDetected = false;
-                        for ( PNode label : sliceLabels ) {
-                            boolean overlapAbove = false;
-                            boolean overlapBelow = false;
-                            for ( PNode comparisonLabel : sliceLabels ) {
-                                if ( label == comparisonLabel ){
-                                    // Same label, so ignore it.
-                                    continue;
-                                }
-                                if ( label.fullIntersects( comparisonLabel.getFullBoundsReference() )){
-                                    // These labels overlap.  Determine if the
-                                    // comparison label is above or below.
-                                    if (comparisonLabel.getFullBoundsReference().getCenterY() < label.getFullBoundsReference().getCenterY()){
-                                        overlapAbove = true;
-                                        overlapDetected = true;
-                                    }
-                                    else{
-                                        overlapBelow = true;
-                                        overlapDetected = true;
-                                    }
-                                }
-                            }
-                            // Adjust this label's position based upon any overlap
-                            // that was detected.  The general idea is this: if
-                            // there is overlap in both directions, don't move.
-                            // If there is only overlap above, move down.  If
-                            // there is only overlap below, move up.  For our
-                            // needs, only the Y direction matters.
-                            if ( overlapAbove && !overlapBelow ){
-                                label.setOffset( label.getOffset().getX(), label.getOffset().getY() + locationIncrement );
-                            }
-                            else if ( overlapBelow && !overlapAbove ){
-                                label.setOffset( label.getOffset().getX(), label.getOffset().getY() - locationIncrement );
-                            }
-                        }
-                        if (!overlapDetected){
-                            // No overlap for any of the labels, so we are done.
-                            break;
-                        }
-                    }
+                    adjustLabelYPositions2( sliceLabels, -OVERALL_HEIGHT / 2, OVERALL_HEIGHT / 2 );
 
                     // The labels should now be all in reasonable positions,
                     // so draw a line from the edge of the label to the pie
@@ -232,7 +197,105 @@ class IsotopeProprotionsPieChart extends PNode {
                     }
                 }
             }
+
         } );
+    }
+
+    private void adjustLabelYPositions( ArrayList<PNode> sliceLabels ) {
+        double locationIncrement = 3; // Empirically chosen.
+        for (int i = 1; i < 10; i++ ){ // Number of iterations empirically chosen.
+            boolean overlapDetected = false;
+            for ( PNode label : sliceLabels ) {
+                boolean overlapAbove = false;
+                boolean overlapBelow = false;
+                for ( PNode comparisonLabel : sliceLabels ) {
+                    if ( label == comparisonLabel ){
+                        // Same label, so ignore.
+                        continue;
+                    }
+                    if ( label.fullIntersects( comparisonLabel.getFullBoundsReference() )){
+                        // These labels overlap.  Determine if the
+                        // comparison label is above or below.
+                        if (comparisonLabel.getFullBoundsReference().getCenterY() < label.getFullBoundsReference().getCenterY()){
+                            overlapAbove = true;
+                            overlapDetected = true;
+                        }
+                        else{
+                            overlapBelow = true;
+                            overlapDetected = true;
+                        }
+                    }
+                }
+                // Adjust this label's position based upon any overlap
+                // that was detected.  The general idea is this: if
+                // there is overlap in both directions, don't move.
+                // If there is only overlap above, move down.  If
+                // there is only overlap below, move up.  For our
+                // needs, only the Y direction matters.
+                if ( overlapAbove && !overlapBelow ){
+                    label.setOffset( label.getOffset().getX(), label.getOffset().getY() + locationIncrement );
+                }
+                else if ( overlapBelow && !overlapAbove ){
+                    label.setOffset( label.getOffset().getX(), label.getOffset().getY() - locationIncrement );
+                }
+            }
+            if (!overlapDetected){
+                // No overlap for any of the labels, so we are done.
+                break;
+            }
+        }
+    }
+
+    /**
+     * Adjust the pie chart labels such that they do not overlap with one
+     * another and yet are still within the overall bounds of the chart.
+     *
+     * @param sliceLabels
+     */
+    private void adjustLabelYPositions2( ArrayList<SliceLabel> sliceLabels, double minY, double maxY ) {
+        double locationIncrement = 3; // Empirically chosen.
+        for (int i = 1; i < 10; i++ ){ // Number of iterations empirically chosen.
+            boolean overlapDetected = false;
+            for ( SliceLabel label : sliceLabels ) {
+                boolean moveUp = false;
+                boolean moveDown = false;
+                for ( SliceLabel comparisonLabel : sliceLabels ) {
+                    if ( label == comparisonLabel ){
+                        // Same label, so ignore.
+                        continue;
+                    }
+                    if ( label.fullIntersects( comparisonLabel.getFullBoundsReference() )){
+                        // These labels overlap.
+                        overlapDetected = true;
+                        if ( label.getUnconstrainedPosRef().getY() > comparisonLabel.getUnconstrainedPosRef().getY() && label.getFullBoundsReference().getMaxY() < maxY ){
+                            // This label should move down (greater Y value).
+                            moveDown = true;
+                        }
+                        else if ( label.getUnconstrainedPosRef().getY() < comparisonLabel.getUnconstrainedPosRef().getY() && label.getFullBoundsReference().getMinY() > minY ) {
+                            // This label should move up.
+                            moveUp = true;
+                        }
+                    }
+                }
+                // Adjust this label's position based upon any overlap that
+                // was detected.  The general idea is this: if there is
+                // overlap in both directions, don't move.  If there is only
+                // overlap with a label that has a higher unconstrained
+                // location, move down.  If there is only overlap with a label
+                // with a lower unconstrained location, move down.  For our
+                // needs, only the Y direction matters.
+                if ( moveUp && !moveDown ){
+                    label.setOffset( label.getOffset().getX(), label.getOffset().getY() - locationIncrement );
+                }
+                else if ( moveDown && !moveUp ){
+                    label.setOffset( label.getOffset().getX(), label.getOffset().getY() + locationIncrement );
+                }
+            }
+            if (!overlapDetected){
+                // No overlap for any of the labels, so we are done.
+                break;
+            }
+        }
     }
 
     /**
@@ -245,6 +308,13 @@ class IsotopeProprotionsPieChart extends PNode {
     private static class SliceLabel extends PNode {
         private static final DecimalFormat FORMATTER = new DecimalFormat( "#.00" );
         private static final Font READOUT_FONT = new PhetFont(14);
+
+        // The "unconstrained position" is the position where this label
+        // would be placed if it didn't need to sit within the upper and
+        // lower bounds of the pie chart and didn't have to worry about
+        // avoiding overlap with other labels.  It is used for arbitrating
+        // how labels move when handling overlap.
+        private final Point2D unconstrainedPos = new Point2D.Double(0, 0);
 
         public SliceLabel( ImmutableAtom isotopeConfig, double proportionOfIsotope, boolean labelOnLeft ){
             final ChemSymbolWithNumbers symbol = new ChemSymbolWithNumbers( isotopeConfig );
@@ -280,6 +350,14 @@ class IsotopeProprotionsPieChart extends PNode {
                 symbol.setOffset(readoutBox.getFullBoundsReference().getMaxX() + 5, symbol.getOffset().getY() );
             }
         }
+
+        protected void setUnconstrainedPos( double x, double y) {
+            unconstrainedPos.setLocation( x, y );
+        }
+
+        protected Point2D getUnconstrainedPosRef(){
+            return unconstrainedPos;
+        }
     }
 
     /**
@@ -287,8 +365,6 @@ class IsotopeProprotionsPieChart extends PNode {
      * (in front of the chemical symbol and partially above it) and the
      * atomic number (in front of the chemical symbol and partially below
      * it).
-     *
-     * @author John Blanco
      */
     private static class ChemSymbolWithNumbers extends PNode {
         private static final Font CHEMICAL_SYMBOL_FONT = new PhetFont(20, true);
