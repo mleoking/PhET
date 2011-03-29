@@ -14,7 +14,7 @@ public class PlateChargeMeter extends BarMeter {
     public PlateChargeMeter( final BatteryCapacitorCircuit circuit, World world, Point3D location, boolean visible ) {
         super( circuit, world, location, visible );
     }
-    
+
     @Override
     protected double getCircuitValue() {
         return getCircuit().getTotalPlateCharge();

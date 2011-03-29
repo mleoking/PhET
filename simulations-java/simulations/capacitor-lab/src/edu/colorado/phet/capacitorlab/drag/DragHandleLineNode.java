@@ -19,7 +19,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
 
     public static final Stroke STROKE = new BasicStroke( 3f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] { 3, 3 }, 0 ); // dashed
     public static final Color COLOR = Color.BLACK;
-    
+
     public DragHandleLineNode( Point2D pStart, Point2D pEnd ) {
         super( new Line2D.Double( pStart, pEnd ) );
         setStroke( STROKE );

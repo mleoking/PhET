@@ -19,31 +19,31 @@ import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
  * Probe for the E-Field Detector.
- * Origin is in the center of the probe's crosshairs, and the location of the crosshairs 
+ * Origin is in the center of the probe's crosshairs, and the location of the crosshairs
  * is dependent on the image file.  The only way to align the crosshairs and the origin
- * is via visual inspection. Running with -dev will add an additional node that allows 
+ * is via visual inspection. Running with -dev will add an additional node that allows
  * you to visually check alignment.
- * 
+ *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class EFieldDetectorProbeNode extends PhetPNode {
-    
+
     private final Point2D connectionOffset; // offset for connection point of wire that attaches probe to body
-    
+
     public EFieldDetectorProbeNode( final EFieldDetector detector, final CLModelViewTransform3D mvt, boolean dev ) {
         super();
-        
+
         PImage imageNode = new PImage( CLImages.EFIELD_PROBE );
         addChild( imageNode );
         double x = -imageNode.getFullBoundsReference().getWidth() / 2;
         double y = -14.5; // determined by visual inspection, dependent on where crosshairs appear in image file
         imageNode.setOffset( x, y );
-        
+
         connectionOffset = new Point2D.Double( 0, imageNode.getFullBoundsReference().getHeight() + y ); // connect wire to bottom center
-        
+
         // rotate after computing the connection offset
         rotate( -mvt.getYaw() );
-        
+
         // Put a dot at origin to check that probe image is offset properly.
         if ( dev ) {
             double diameter = 4;
@@ -52,26 +52,26 @@ public class EFieldDetectorProbeNode extends PhetPNode {
             originNode.setPaint( Color.RED );
             addChild( originNode );
         }
-        
+
         detector.addProbeLocationObserver( new SimpleObserver() {
             public void update() {
                 setOffset( mvt.modelToView( detector.getProbeLocationReference() ) );
             }
         });
-        
+
         addInputEventListener( new CursorHandler() );
         addInputEventListener( new LocationDragHandler( this, mvt ) {
-            
+
             protected Point3D getModelLocation() {
                 return detector.getProbeLocationReference();
             }
-            
+
             protected void setModelLocation( Point3D location ) {
                 detector.setProbeLocation( location );
             }
         });
     }
-    
+
     public Point2D getConnectionOffset() {
         return new Point2D.Double( connectionOffset.getX(), connectionOffset.getY() );
     }

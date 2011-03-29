@@ -19,31 +19,31 @@ import edu.umd.cs.piccolo.PNode;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class VoltmeterView {
-    
+
     // wire is a cubic curve, these are the control point offsets
     private static final Point2D BODY_CONTROL_POINT_OFFSET = new Point2D.Double( -25, 0 );
     private static final Point2D PROBE_CONTROL_POINT_OFFSET = new Point2D.Double( -80, 100 );
-    
+
     private final VoltmeterBodyNode bodyNode;
     private final VoltmeterProbeNode positiveProbeNode, negativeProbeNode;
     private final ProbeWireNode positiveWireNode, negativeWireNode;
-    
+
     public VoltmeterView( final Voltmeter voltmeter, CLModelViewTransform3D mvt ) {
         bodyNode = new VoltmeterBodyNode( voltmeter, mvt );
         positiveProbeNode = new PositiveVoltmeterProbeNode( voltmeter, mvt );
         negativeProbeNode = new NegativeVoltmeterProbeNode( voltmeter, mvt );
-        positiveWireNode = new ProbeWireNode( bodyNode, positiveProbeNode, BODY_CONTROL_POINT_OFFSET, PROBE_CONTROL_POINT_OFFSET, 
+        positiveWireNode = new ProbeWireNode( bodyNode, positiveProbeNode, BODY_CONTROL_POINT_OFFSET, PROBE_CONTROL_POINT_OFFSET,
                 bodyNode.getPositiveConnectionOffset(), positiveProbeNode.getConnectionOffset(), CLPaints.VOLTMETER_POSITIVE_WIRE );
-        negativeWireNode = new ProbeWireNode( bodyNode, negativeProbeNode, BODY_CONTROL_POINT_OFFSET, PROBE_CONTROL_POINT_OFFSET, 
+        negativeWireNode = new ProbeWireNode( bodyNode, negativeProbeNode, BODY_CONTROL_POINT_OFFSET, PROBE_CONTROL_POINT_OFFSET,
                 bodyNode.getNegativeConnectionOffset(), negativeProbeNode.getConnectionOffset(), CLPaints.VOLTMETER_NEGATIVE_WIRE );
-        
+
         voltmeter.addVisibleObserver( new SimpleObserver() {
             public void update() {
                 setVisible( voltmeter.isVisible() );
             }
         } );
     }
-    
+
     private void setVisible( boolean visible ) {
         bodyNode.setVisible( visible );
         positiveProbeNode.setVisible( visible );
@@ -51,23 +51,23 @@ public class VoltmeterView {
         positiveWireNode.setVisible( visible );
         negativeWireNode.setVisible( visible );
     }
-    
+
     public PNode getBodyNode() {
         return bodyNode;
     }
-    
+
     public PNode getPositiveProbeNode() {
         return positiveProbeNode;
     }
-    
+
     public PNode getNegativeProbeNode() {
         return negativeProbeNode;
     }
-    
+
     public PNode getPositiveWireNode() {
         return positiveWireNode;
     }
-    
+
     public PNode getNegativeWireNode() {
         return negativeWireNode;
     }

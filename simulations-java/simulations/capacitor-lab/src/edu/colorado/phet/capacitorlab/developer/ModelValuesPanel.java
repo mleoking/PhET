@@ -35,11 +35,11 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 /* package private */ class ModelValuesPanel extends JPanel {
-    
+
     private static final Font VALUE_DISPLAY_FONT = new PhetFont( 10 );
-    
+
     private final DielectricModel model;
-    
+
     // user settings
     private final ValueDisplay V_battery;
     private final ValueDisplay Q_disconnected;
@@ -47,7 +47,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
     private final ValueDisplay d;
     private final ValueDisplay offset;
     private final ValueDisplay epsilon_dielectric;
-    
+
     // derived values
     private final ValueDisplay A_dielectric, A_air, A_plate;
     private final ValueDisplay C_air, C_dielectric, C;
@@ -56,22 +56,22 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
     private final ValueDisplay sigma_air, sigma_dielectric;
     private final ValueDisplay E_effective, E_plates_air, E_plates_diectric, E_air, E_dielectric;
     private final ValueDisplay U;
-    
+
     private DielectricMaterial dielectricMaterial;
     private final SimpleObserver dielectricConstantObserver;
     private final BatteryCapacitorCircuitChangeListener circuitChangeListener;
 
     public ModelValuesPanel( DielectricModel model ) {
-        
+
         this.model = model;
-        
+
         this.dielectricMaterial = model.getCapacitor().getDielectricMaterial();
-        
+
         // instructions
         JLabel instructions = new JLabel( "= MOUSE OVER FOR DESCRIPTIONS =" );
         instructions.setForeground( Color.RED );
         instructions.setFont( VALUE_DISPLAY_FONT );
-        
+
         // constants panel
         JPanel constantsPanel = new VerticalPanel();
         constantsPanel.setBorder( new TitledBorder( "Constants" ) );
@@ -84,7 +84,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
         ValueDisplay epsilonVacuum = new ValueDisplay( CLStrings.EPSILON + "_vacuum", "", "0.0", CLConstants.EPSILON_VACUUM );
         epsilonVacuum.setToolTipText( "dielectric constant of a vacuum" );
         constantsPanel.add( epsilonVacuum );
-        
+
         // user settings panel
         JPanel settingsPanel = new VerticalPanel();
         settingsPanel.setBorder( new TitledBorder( "User Settings" ) );
@@ -101,12 +101,12 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
         d.setToolTipText( "plate separation distance" );
         settingsPanel.add( d );
         offset = new ValueDisplay( "offset", "m", "0.000" );
-        offset.setToolTipText( "how far the dielectric is pulled out" ); 
+        offset.setToolTipText( "how far the dielectric is pulled out" );
         settingsPanel.add( offset );
         epsilon_dielectric = new ValueDisplay( CLStrings.EPSILON + "_dielectric", "", "0.000" );
-        epsilon_dielectric.setToolTipText( "dielectric constant" ); 
+        epsilon_dielectric.setToolTipText( "dielectric constant" );
         settingsPanel.add( epsilon_dielectric );
-        
+
         // derived panel
         JPanel derivedPanel = new VerticalPanel();
         derivedPanel.setBorder( new TitledBorder( "Derived" ) );
@@ -183,7 +183,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
         U = new ValueDisplay( "U", "J", "0.000E00" );
         U.setToolTipText( "stored energy" );
         derivedPanel.add( U );
-        
+
         // layout
         VerticalPanel mainPanel = new VerticalPanel();
         mainPanel.add( instructions );
@@ -191,10 +191,10 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
         mainPanel.add( settingsPanel );
         mainPanel.add( derivedPanel );
         mainPanel.add( Box.createHorizontalStrut( 180 ) ); // HACK to keep the labels from jumping around
-        
+
         setLayout( new BorderLayout() );
         add( mainPanel, BorderLayout.WEST );
-        
+
         // observers
         {
             // circuit
@@ -220,10 +220,10 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
                 }
             } );
         }
-        
+
         updateValues();
     }
-    
+
     /**
      * Unregister for notifications.
      */
@@ -231,16 +231,16 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
         model.getCircuit().removeBatteryCapacitorCircuitChangeListener( circuitChangeListener );
         dielectricMaterial.removeDielectricConstantObserver( dielectricConstantObserver );
     }
-    
+
     /*
      * Synchronizes the display to match the model.
      */
     private void updateValues() {
-        
+
         BatteryCapacitorCircuit circuit = model.getCircuit();
         Battery battery = circuit.getBattery();
         Capacitor capacitor = circuit.getCapacitor();
-        
+
         /* user settings */
         V_battery.setValue( battery.getVoltage() );
         Q_disconnected.setValue( circuit.getDisconnectedPlateCharge() );
@@ -248,7 +248,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
         d.setValue( capacitor.getPlateSeparation() );
         offset.setValue( capacitor.getDielectricOffset() );
         epsilon_dielectric.setValue( capacitor.getDielectricMaterial().getDielectricConstant() );
-        
+
         /* derived */
         // area
         A_plate.setValue( capacitor.getPlateArea() );
@@ -278,7 +278,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
         // energy
         U.setValue( model.getCircuit().getStoredEnergy() );
     }
-    
+
     /*
      * Rewire dielectric constant observer.
      */
@@ -287,20 +287,20 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
         this.dielectricMaterial = model.getCapacitor().getDielectricMaterial();
         this.dielectricMaterial.addDielectricConstantObserver( dielectricConstantObserver );
     }
-    
+
     /*
      * Displays a value, in the format "label = value units".
      */
     private static class ValueDisplay extends JLabel {
-        
+
         private final String label;
         private final String units;
         private final NumberFormat format;
-        
+
         public ValueDisplay( String label, String units, String pattern ) {
             this( label, units, pattern, 0 );
         }
-        
+
         public ValueDisplay( String label, String units, String pattern, double value ) {
             setFont( VALUE_DISPLAY_FONT );
             this.label = label;
@@ -308,29 +308,29 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
             this.format = new DecimalFormat( pattern );
             setValue( value );
         }
-        
+
         public void setValue( double value ) {
             String valueString = ( value == 0 ) ? "0" : format.format( value  );
             setText( label + " = " +  valueString + " " + units );
         }
     }
-    
+
     private static class VerticalPanel extends JPanel {
-        
+
         private final GridPanel innerPanel; // trick to get nested panels to left justify
-        
+
         public VerticalPanel() {
-            
+
             // components will be added to any inner panel
             innerPanel = new GridPanel();
             innerPanel.setAnchor( Anchor.WEST );
             innerPanel.setFill( Fill.HORIZONTAL );
             innerPanel.setGridX( 0 );
-            
+
             setLayout( new BorderLayout() );
             super.add( innerPanel, BorderLayout.WEST );
         }
-        
+
         @Override
         public Component add( Component component ) {
             innerPanel.add( component );

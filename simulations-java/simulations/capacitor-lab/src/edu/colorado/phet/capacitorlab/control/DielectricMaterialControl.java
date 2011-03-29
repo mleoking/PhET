@@ -28,16 +28,16 @@ import edu.umd.cs.piccolo.nodes.PPath;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class DielectricMaterialControl extends JPanel {
-    
+
     private final JComboBox comboBox;
     private final EventListenerList listeners;
-    
+
     public DielectricMaterialControl( DielectricMaterial[] materials, DielectricMaterial selectedMaterial ) {
-        
+
         listeners = new EventListenerList();
-        
+
         JLabel label = new JLabel( MessageFormat.format( CLStrings.PATTERN_LABEL, CLStrings.MATERIAL ) );
-        
+
         comboBox = new JComboBox( materials );
         comboBox.setRenderer( new DielectricMaterialRenderer() );
         comboBox.setSelectedItem( selectedMaterial );
@@ -48,19 +48,19 @@ public class DielectricMaterialControl extends JPanel {
                 }
             }
         });
-        
+
         GridPanel innerPanel = new GridPanel();
         innerPanel.setAnchor( Anchor.WEST );
         innerPanel.setFill( Fill.HORIZONTAL );
         innerPanel.setGridY( 0 ); // one row
         innerPanel.add( label );
         innerPanel.add( comboBox );
-        
+
         // make everything left justify when put in the main control panel
         setLayout( new BorderLayout() );
         add( innerPanel, BorderLayout.WEST );
     }
-    
+
     public void setMaterial( DielectricMaterial material ) {
         boolean found = false;
         for ( int i = 0; i < comboBox.getItemCount(); i++ ) {
@@ -74,32 +74,32 @@ public class DielectricMaterialControl extends JPanel {
             throw new IllegalArgumentException( "material is not one of the combo box items: " + material.getName() );
         }
     }
-    
+
     public DielectricMaterial getMaterial() {
         return (DielectricMaterial) comboBox.getSelectedItem();
     }
-    
+
     public void addChangeListener ( ChangeListener listener ) {
         listeners.add( ChangeListener.class, listener );
     }
-    
+
     public void removeChangeListener( ChangeListener listener ) {
         listeners.remove( ChangeListener.class, listener );
     }
-    
+
     private void fireStateChanged() {
         ChangeEvent event = new ChangeEvent( this );
         for ( ChangeListener listener : listeners.getListeners( ChangeListener.class ) ) {
             listener.stateChanged( event );
         }
     }
-    
+
     private static class DielectricMaterialRenderer extends JLabel implements ListCellRenderer {
-        
+
         private static final double COLOR_CHIP_SIZE = 11;
-        
+
         private final PPath colorChipNode;
-        
+
         public DielectricMaterialRenderer() {
             super();
             setOpaque( true ); // for Macintosh
@@ -107,9 +107,9 @@ public class DielectricMaterialControl extends JPanel {
             colorChipNode = new PPath( new Rectangle2D.Double( 0, 0, COLOR_CHIP_SIZE, COLOR_CHIP_SIZE ) );
             colorChipNode.setStroke( null );
         }
-        
+
         public Component getListCellRendererComponent( JList list, Object value, int index, boolean isSelected, boolean cellHasFocus ) {
-            
+
             if ( isSelected ) {
                 setBackground( list.getSelectionBackground() );
                 setForeground( list.getSelectionForeground() );
@@ -126,7 +126,7 @@ public class DielectricMaterialControl extends JPanel {
 
             return this;
         }
-        
+
         public String getText( DielectricMaterial material ) {
             String s = null;
             if ( material instanceof CustomDielectricMaterial ) {
@@ -137,7 +137,7 @@ public class DielectricMaterialControl extends JPanel {
             }
             return s;
         }
-        
+
         public Icon getIcon( DielectricMaterial material ) {
             colorChipNode.setPaint( material.getColor() );
             return new ImageIcon( colorChipNode.toImage() );

@@ -17,10 +17,10 @@ import edu.colorado.phet.common.phetcommon.math.Point3D;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class VoltmeterShapeFactory {
-    
+
     private final Voltmeter voltmeter;
     private final CLModelViewTransform3D mvt;
-    
+
     public VoltmeterShapeFactory( Voltmeter voltmeter, CLModelViewTransform3D mvt ) {
         this.voltmeter = voltmeter;
         this.mvt = mvt;
@@ -33,7 +33,7 @@ public class VoltmeterShapeFactory {
     public Shape getPositiveProbeTipShape() {
         return getProbeTipShape( voltmeter.getPositiveProbeLocationReference(), -mvt.getYaw() );
     }
-    
+
     /**
      * Gets the shape of the negative probe's tip in the world coordinate frame.
      * @return
@@ -41,7 +41,7 @@ public class VoltmeterShapeFactory {
     public Shape getNegativeProbeTipShape() {
         return getProbeTipShape( voltmeter.getNegativeProbeLocationReference(), -mvt.getYaw() );
     }
-    
+
     /*
      * Gets the shape of a probe tip relative to some specified origin.
      */
