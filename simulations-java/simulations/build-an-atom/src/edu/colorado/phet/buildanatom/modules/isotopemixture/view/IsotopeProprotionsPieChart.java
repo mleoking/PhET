@@ -146,14 +146,14 @@ class IsotopeProprotionsPieChart extends PNode {
                         // Position the label.
                         if ( labelOnLeft ){
                             labelNode.setOffset(
-                                    positionVector.getX()-labelNode.getFullBoundsReference().width,
-                                    positionVector.getY()-labelNode.getFullBoundsReference().height / 2 );
+                                    positionVector.getX() - labelNode.getFullBoundsReference().width,
+                                    positionVector.getY() - labelNode.getFullBoundsReference().height / 2 );
                         }
                         else{
                             // Label on right.
                             labelNode.setOffset(
                                     positionVector.getX(),
-                                    positionVector.getY()-labelNode.getFullBoundsReference().height / 2 );
+                                    positionVector.getY() - labelNode.getFullBoundsReference().height / 2 );
                         }
                     }
                     // Now that the labels are added in their initial
