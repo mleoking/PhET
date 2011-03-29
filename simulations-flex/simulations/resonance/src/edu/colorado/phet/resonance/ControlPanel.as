@@ -233,10 +233,10 @@ public class ControlPanel extends Canvas {
         this.resetAllButton.addEventListener( MouseEvent.MOUSE_UP, resetAll );
 
         this.addChild( this.background );
-        this.background.addChild( new SpriteUIComponent(dampingSlider, true) );
 
         this.background.addChild(presets_cbx);
         this.background.addChild( nbrResonatorsSlider );
+        this.background.addChild( new SpriteUIComponent(dampingSlider, true) );
 
         this.innerBckgrnd.addChild( this.resonatorNbr_lbl );
         this.innerBckgrnd.addChild( new SpriteUIComponent(this.mSlider, true) );
@@ -247,6 +247,7 @@ public class ControlPanel extends Canvas {
         this.radioButtonBox.addChild( gravity_lbl );
         this.radioButtonBox.addChild( rb1 );
         this.radioButtonBox.addChild( rb2 );
+
         this.background.addChild( this.showRulerCheckBox );
         this.background.addChild( this.resetAllButton );
 

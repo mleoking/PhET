@@ -22,7 +22,9 @@ public class RotaryKnob extends Sprite {
     //private var label_str:String;	//label string
     private var units_str:String;   //units on the readout
     private var readout_txt: TextField; //dynamic readout
+    private var units_txt: TextField;  //textField to display units
     private var scale: Number;		//readout = scale * turnNbr
+    private var manualUpdating;
 
 
     public function RotaryKnob( action: Function, knobDiameter: Number, knobColor: Number, minTurns: Number, maxTurns: Number ) {
@@ -39,6 +41,7 @@ public class RotaryKnob extends Sprite {
         this.maxTurns = maxTurns; //5;
         this.minTurns = minTurns; //0;
         this.scale = 1;
+        this.manualUpdating = false;
         this.drawShadow();
         this.drawKnob();
         this.createLabel();
@@ -54,7 +57,9 @@ public class RotaryKnob extends Sprite {
         this.outputTurns = turnNbr;
         this.outputAngle = this.outputTurns * 360;
         this.knobGraphic.rotation = this.outputAngle;
-        this.updateReadout();
+        if( !manualUpdating ){
+           this.updateReadout();
+        }
         this.action();
     }
 
@@ -69,6 +74,25 @@ public class RotaryKnob extends Sprite {
     public function setScale( scale: Number ): void {
         this.scale = scale;
     }
+
+    public function setVal( val: Number ): void {
+        var turnsVal: Number = val;  /// this.scale;
+        if ( turnsVal >= this.minTurns && turnsVal <= this.maxTurns ) {
+            this.outputTurns = turnsVal;
+            this.setTurns( this.outputTurns );
+        }else if(turnsVal > this.maxTurns){
+				this.outputTurns  = this.maxTurns;
+				this.knobGraphic.rotation = this.maxTurns*360;
+				this.updateReadout();
+			}else if(turnsVal < this.minTurns){
+				this.outputTurns  = this.minTurns;
+				this.knobGraphic.rotation = this.minTurns*360;
+			}
+        this.action();
+        if ( !manualUpdating ) {
+            this.updateReadout();
+        }
+    }//end setVal
 
     private function drawShadow():void{
        var g: Graphics = this.knobShadow.graphics;
@@ -125,37 +149,80 @@ public class RotaryKnob extends Sprite {
     }
 
     public function setUnitsText( str:String ):void{
-        this.units_str = str;
+        this.units_str = " " + str;     //extra space between number field and units
     }
 
     private function createReadoutField(): void {
         this.readout_txt = new TextField();	//static label
         this.addChild( this.readout_txt );
-        this.readout_txt.selectable = false;
+        this.readout_txt.selectable = true;
         this.readout_txt.type = TextFieldType.INPUT;
         this.readout_txt.border = true;
         this.readout_txt.background = true;
         this.readout_txt.backgroundColor = 0xffffff;
-        this.readout_txt.autoSize = TextFieldAutoSize.CENTER;
+        //this.readout_txt.autoSize = TextFieldAutoSize.CENTER;
         this.readout_txt.restrict = "0-9.";
+        this.readout_txt.addEventListener( Event.CHANGE, onTextChange );
+
+        this.units_txt = new TextField();   //units displayed next to readout field
+        this.addChild( this.units_txt );
+        this.units_txt.selectable = false;
+        this.units_txt.type =  TextFieldType.DYNAMIC;   //user cannot edit
+        this.units_txt.autoSize = TextFieldAutoSize.LEFT;
 
         this.tFormat2 = new TextFormat();	//format of label
         this.tFormat2.font = "Arial";
         this.tFormat2.color = 0x000000;
         this.tFormat2.size = 14;
+        this.tFormat2.align = "right";
         this.readout_txt.defaultTextFormat = this.tFormat2;
         this.readout_txt.text = "0.00";
+        this.units_txt.defaultTextFormat = this.tFormat2;
+        this.units_txt.text = " Hz";
 
-        this.readout_txt.width = 50;
+        this.readout_txt.width = 35;
         this.readout_txt.height = 22;
-        this.readout_txt.x = -this.readout_txt.width / 2; //1.4*this.knobRadius;
+        this.units_txt.height = 22;
+        this.readout_txt.x = -this.readout_txt.width / 2;
+        this.units_txt.x = this.readout_txt.width / 2;
         this.readout_txt.y = -1.5 * this.knobRadius - this.readout_txt.height;
+        this.units_txt.y = -1.5 * this.knobRadius - this.units_txt.height;
 
     }//end createReadoutfield()
 
+    private function onTextChange( evt: Event ): void {
+        //trace("HorizontalSlider.onTextChange called. text = "+this.evtTextToNumber(evt));
+        this.manualUpdating = true;
+        this.setVal( this.evtTextToNumber( evt )/this.scale );
+        this.manualUpdating = false;
+    }
+
+    private function evtTextToNumber( evt: Event ): Number {
+        var inputText = evt.target.text;
+        var outputNumber: Number;
+        if ( inputText == "." ) {
+            evt.target.text = "0.";
+            evt.target.setSelection( 2, 2 ); //sets cursor at end of line
+            outputNumber = 0;
+        } else if ( inputText == "-" ) {
+            outputNumber = 0;
+        } else if ( inputText == "-." ) {
+            evt.target.text = "-0.";
+            evt.target.setSelection( 3, 3 ); //sets cursor at end of line
+            outputNumber = 0;
+        } else if ( isNaN( Number( inputText ) ) ) {
+            evt.target.text = "0";
+            outputNumber = 0;
+        }
+        else {
+            outputNumber = Number( inputText );
+        }
+        return outputNumber;
+    }//end textToNumber
+
     private function updateReadout(): void {
         var readout: Number = this.scale * this.outputTurns;
-        this.readout_txt.text = " " + readout.toFixed( 2 ) + " " + units_str;
+        this.readout_txt.text = " " + readout.toFixed( 2 );
     }//end updateReadout()
 
     private function makeKnobTurnable(): void {
