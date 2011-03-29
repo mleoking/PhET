@@ -11,7 +11,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  * Origin at geometric center.
  */
 public class PlusNode extends PComposite {
-    
+
     /**
      * Constructor
      * @param width width of the horizontal bar

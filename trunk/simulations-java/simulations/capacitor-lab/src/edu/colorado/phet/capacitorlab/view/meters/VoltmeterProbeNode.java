@@ -24,57 +24,57 @@ public abstract class VoltmeterProbeNode extends PhetPNode {
 
     private final Voltmeter voltmeter;
     private final Point2D connectionOffset; // offset for connection point of wire that attaches probe to body
-    
+
     public VoltmeterProbeNode( Image image, Voltmeter voltmeter, CLModelViewTransform3D mvt ) {
-        
+
         this.voltmeter = voltmeter;
-        
+
         PImage imageNode = new PImage( image );
         addChild( imageNode );
         double x = -imageNode.getFullBoundsReference().getWidth() / 2;
         double y = 0;
         imageNode.setOffset( x, y );
-        
+
         connectionOffset = new Point2D.Double( 0, imageNode.getFullBoundsReference().getHeight() ); // connect wire to bottom center
-        
+
         // rotate after computing the connection offset
         rotate( -mvt.getYaw() );
-        
+
         addInputEventListener( new CursorHandler() );
         addDragHandler( voltmeter, mvt );
-        
+
         addLocationObserver( voltmeter, mvt );
     }
-    
+
     protected Voltmeter getVoltmeter() {
         return voltmeter;
     }
-    
+
     public Point2D getConnectionOffset() {
         return new Point2D.Double( connectionOffset.getX(), connectionOffset.getY() );
     }
-    
+
     protected abstract void addDragHandler( Voltmeter voltmeter, CLModelViewTransform3D mvt );
-    
+
     protected abstract void addLocationObserver( Voltmeter voltmeter, CLModelViewTransform3D mvt );
-    
+
     /**
      * Positive voltmeter probe.
      */
     public static class PositiveVoltmeterProbeNode extends VoltmeterProbeNode {
-        
+
         public PositiveVoltmeterProbeNode( final Voltmeter voltmeter, final CLModelViewTransform3D mvt ) {
             super( CLImages.RED_VOLTMETER_PROBE, voltmeter, mvt );
         }
-        
+
         @Override
         protected void addDragHandler( final Voltmeter voltmeter, final CLModelViewTransform3D mvt ) {
             addInputEventListener( new LocationDragHandler( this, mvt ) {
-                
+
                 protected Point3D getModelLocation() {
                     return voltmeter.getPositiveProbeLocationReference();
                 }
-                
+
                 protected void setModelLocation( Point3D location ) {
                     voltmeter.setPositiveProbeLocation( location );
                 }
@@ -95,19 +95,19 @@ public abstract class VoltmeterProbeNode extends PhetPNode {
      * Negative voltmeter probe.
      */
     public static class NegativeVoltmeterProbeNode extends VoltmeterProbeNode {
-        
+
         public NegativeVoltmeterProbeNode( final Voltmeter voltmeter, final CLModelViewTransform3D mvt ) {
             super( CLImages.BLACK_VOLTMETER_PROBE, voltmeter, mvt );
         }
-        
+
         @Override
         protected void addDragHandler( final Voltmeter voltmeter, final CLModelViewTransform3D mvt ) {
             addInputEventListener( new LocationDragHandler( this, mvt ) {
-                
+
                 protected Point3D getModelLocation() {
                     return voltmeter.getNegativeProbeLocationReference();
                 }
-                
+
                 protected void setModelLocation( Point3D location ) {
                     voltmeter.setNegativeProbeLocation( location );
                 }

@@ -38,43 +38,43 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class VoltageSliderNode extends PhetPNode {
-    
+
     // track properties
     private static final Color TRACK_COLOR = Color.BLACK;
     private static final Stroke TRACK_STROKE = new BasicStroke( 2f );
-    
+
     // knob properties
     private static final boolean KNOB_SNAP_TO_ZERO_ENABLED = true;
-    
+
     // tick mark properties
     private static final double TICK_MARK_LENGTH = 13;
     private static final Color TICK_MARK_COLOR = TRACK_COLOR;
     private static final Stroke TICK_MARK_STROKE = TRACK_STROKE;
-    
+
     // tick label properties
     private static final Color TICK_LABEL_COLOR = TRACK_COLOR;
     private static final DecimalFormat TICK_LABEL_NONZERO_FORMAT = new DecimalFormat( "0.0" );
     private static final DecimalFormat TICK_LABEL_ZERO_FORMAT = new DecimalFormat( "0" );
     private static final Font TICK_LABEL_FONT = new PhetFont( 14 );
-    
+
     // immutable instance data
     private final DoubleRange voltageRange;
     private final EventListenerList listeners;
     private final TrackNode trackNode;
     private final KnobNode knobNode;
-    
+
     // mutable instance data
     private double voltage;
-    
+
     public VoltageSliderNode( DoubleRange voltageRange, double trackLength ) {
-        
+
         this.voltageRange = new DoubleRange( voltageRange );
         listeners = new EventListenerList();
-        
+
         // track
         trackNode = new TrackNode( trackLength );
         addChild( trackNode );
-        
+
         // ticks
         assert( voltageRange.getMax() > 0 && voltageRange.getMin() < 0 );
         TickNode maxTickNode = new TickNode( TICK_MARK_LENGTH, voltageRange.getMax() );
@@ -83,11 +83,11 @@ public class VoltageSliderNode extends PhetPNode {
         addChild( zeroTickNode );
         TickNode minTickNode = new TickNode( TICK_MARK_LENGTH, voltageRange.getMin() );
         addChild( minTickNode );
-        
+
         // knob
         knobNode = new KnobNode();
         addChild( knobNode );
-        
+
         // layout
         double x = 0;
         double y = 0;
@@ -99,14 +99,14 @@ public class VoltageSliderNode extends PhetPNode {
         minTickNode.setOffset( x, y );
         y = 0; // don't care, this will be set by setVoltage
         knobNode.setOffset( x, y );
-        
+
         initInteractivity();
-        
+
         // default state
         voltage = voltageRange.getMin() - 1; // force an update
         setVoltage( voltageRange.getDefault() );
     }
-    
+
     /**
      * Sets the voltage value and moves the knob to the proper position.
      * @param voltage
@@ -123,7 +123,7 @@ public class VoltageSliderNode extends PhetPNode {
             fireStateChanged();
         }
     }
-    
+
     /**
      * Gets the voltage value.
      * @return
@@ -131,20 +131,20 @@ public class VoltageSliderNode extends PhetPNode {
     public double getVoltage() {
         return voltage;
     }
-    
+
     /*
      * Adds interactivity to the knob.
      */
     private void initInteractivity() {
-        
+
         // hand cursor on knob
         knobNode.addInputEventListener( new CursorHandler() );
-        
+
         // Constrain the knob to be dragged vertically within the track
         knobNode.addInputEventListener( new PDragSequenceEventHandler() {
-            
+
             private double globalClickYOffset; // y offset of mouse click from knob's origin, in global coordinates
-            
+
             @Override
             protected void startDrag( PInputEvent event ) {
                 super.startDrag( event );
@@ -160,21 +160,21 @@ public class VoltageSliderNode extends PhetPNode {
                super.drag( event );
                updateVoltage( event, true /* isDragging */ );
             }
-            
+
             @Override
             protected void endDrag( PInputEvent event ) {
                 updateVoltage( event, false /* isDragging */ );
                 super.endDrag( event );
             }
-            
+
             private void updateVoltage( PInputEvent event, boolean isDragging ) {
-                
+
                 // determine the knob's new offset
                 Point2D pMouseLocal = event.getPositionRelativeTo( VoltageSliderNode.this );
                 Point2D pMouseGlobal = VoltageSliderNode.this.localToGlobal( pMouseLocal );
                 Point2D pKnobGlobal = new Point2D.Double( pMouseGlobal.getX(), pMouseGlobal.getY() - globalClickYOffset );
                 Point2D pKnobLocal = VoltageSliderNode.this.globalToLocal( pKnobGlobal );
-                
+
                 // convert the offset to a voltage value
                 double yOffset = pKnobLocal.getY();
                 double trackLength = trackNode.getFullBoundsReference().getHeight();
@@ -190,20 +190,20 @@ public class VoltageSliderNode extends PhetPNode {
                 if ( !isDragging && KNOB_SNAP_TO_ZERO_ENABLED && Math.abs( voltage ) <= CLConstants.BATTERY_VOLTAGE_SNAP_TO_ZERO_THRESHOLD ) {
                     voltage = 0;
                 }
-                
+
                 // set the voltage (this will move the knob)
                 setVoltage( voltage );
             }
-            
+
         } );
     }
-    
+
     /*
      * Slider knob (aka thumb), highlighted while the mouse is pressed or the mouse is inside the knob.
      * Origin is in the center of the knob's bounding rectangle.
      */
     private static class KnobNode extends PNode {
-        
+
         public KnobNode() {
             // image, origin moved to center
             PImage imageNode = new PImage( CLImages.SLIDER_KNOB );
@@ -214,34 +214,34 @@ public class VoltageSliderNode extends PhetPNode {
             addInputEventListener( new ImageHighlightHandler( imageNode, CLImages.SLIDER_KNOB, CLImages.SLIDER_KNOB_HIGHLIGHT ) );
         }
     }
-    
+
     /*
      * Slider track, this is what the knob moves in.
      * Origin is a at upper left of bounding rectangle.
      */
     private static class TrackNode extends PPath {
-        
+
         public TrackNode( double trackLength ) {
             super( new Line2D.Double( 0, 0, 0, trackLength ) );
             setStroke( TRACK_STROKE );
             setStrokePaint( TRACK_COLOR );
         }
     }
-    
+
     /*
      * A tick, horizontal line (mark) + value label, use to indicate a specific value on the slider track.
      * Origin is at upper left corner of the horizontal line.
      */
     private static class TickNode extends PComposite {
-        
+
         public TickNode( double length, double value ) {
-            
+
             TickMarkNode markNode = new TickMarkNode( length );
             addChild( markNode );
-            
+
             TickLabelNode labelNode = new TickLabelNode( value );
             addChild( labelNode );
-            
+
             double x = 0;
             double y = 0;
             markNode.setOffset( x, y );
@@ -250,20 +250,20 @@ public class VoltageSliderNode extends PhetPNode {
             labelNode.setOffset( x, y );
         }
     }
-    
+
     /*
      * A tick mark.
      * Origin is at upper left of bounding rectangle.
      */
     private static class TickMarkNode extends PPath {
-        
+
         public TickMarkNode( double length ) {
             super( new Line2D.Double( 0, 0, length, 0 ) );
             setStroke( TICK_MARK_STROKE );
             setStrokePaint( TICK_MARK_COLOR );
         }
     }
-    
+
     /*
      * A label on a tick mark.
      * Origin is at upper left of bounding rectangle.
@@ -276,15 +276,15 @@ public class VoltageSliderNode extends PhetPNode {
             setText( MessageFormat.format( CLStrings.PATTERN_VALUE_UNITS, format.format( value ), CLStrings.VOLTS ) );
         }
     }
-    
+
     public void addChangeListener( ChangeListener listener ) {
         listeners.add( ChangeListener.class, listener );
     }
-    
+
     public void removeChangeListener( ChangeListener listener ) {
         listeners.remove( ChangeListener.class, listener );
     }
-    
+
     private void fireStateChanged() {
         ChangeEvent event = new ChangeEvent( this );
         for ( ChangeListener listener : listeners.getListeners( ChangeListener.class ) ) {
