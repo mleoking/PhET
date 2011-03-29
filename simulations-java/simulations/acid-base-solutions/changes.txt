@@ -1,3 +1,4 @@
+3/29/11 #2615, use Piccolo molecule rendering in MagnifyingGlassPrototypeApplication
 1/24/11 #2615, delete molecule images files (accidentally deleted from advanced-acid-base-solutions last time)
 # 1.01.00 (47707) Jan 5, 2011
 1/4/11 #2615 update screenshot to reflect new colors
