@@ -31,70 +31,70 @@ import edu.umd.cs.piccolo.PNode;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class DielectricCanvas extends CLCanvas {
-    
+
     private final DielectricModel model;
     private final CLModelViewTransform3D mvt;
-    
+
     // circuit
     private final CapacitorNode capacitorNode;
     private final BatteryNode batteryNode;
     private final WireNode topWireNode, bottomWireNode;
     private final BatteryConnectionButtonNode batteryConnectionButtonNode;
     private final CurrentIndicatorNode topCurrentIndicatorNode, bottomCurrentIndicatorNode;
-    
+
     // drag handles
     private final DielectricOffsetDragHandleNode dielectricOffsetDragHandleNode;
     private final PlateSeparationDragHandleNode plateSeparationDragHandleNode;
     private final PlateAreaDragHandleNode plateAreaDragHandleNode;
-    
+
     // meters
     private final CapacitanceMeterNode capacitanceMeterNode;
     private final PlateChargeMeterNode plateChargeMeterNode;
     private final StoredEnergyMeterNode storedEnergyMeterNode;
     private final VoltmeterView voltmeter;
     private final EFieldDetectorView eFieldDetector;
-    
+
     // debug
     private final PNode voltageShapesDebugNode, eFieldShapesDebugNode;
-    
+
     // controls
     private final PlateChargeControlNode plateChargeControNode;
-    
+
     // bounds of the play area, for constraining dragging to within the play area
 
     public DielectricCanvas( final DielectricModel model, CLModelViewTransform3D mvt, boolean dev ) {
-        
+
         this.model = model;
         this.mvt = mvt;
-        
+
         batteryNode = new BatteryNode( model.getBattery(), CLConstants.BATTERY_VOLTAGE_RANGE );
         capacitorNode = new CapacitorNode( model.getCircuit(), mvt, CLConstants.PLATE_CHARGES_VISIBLE, CLConstants.EFIELD_VISIBLE, CLConstants.DIELECTRIC_CHARGE_VIEW );
         topWireNode = new WireNode( model.getTopWire(), mvt );
         bottomWireNode = new WireNode( model.getBottomWire(), mvt );
 
         batteryConnectionButtonNode = new BatteryConnectionButtonNode( model.getCircuit() );
-        
+
         dielectricOffsetDragHandleNode = new DielectricOffsetDragHandleNode( model.getCapacitor(), mvt, CLConstants.DIELECTRIC_OFFSET_RANGE );
         plateSeparationDragHandleNode = new PlateSeparationDragHandleNode( model.getCapacitor(), mvt, CLConstants.PLATE_SEPARATION_RANGE );
         plateAreaDragHandleNode = new PlateAreaDragHandleNode( model.getCapacitor(), mvt, CLConstants.PLATE_WIDTH_RANGE );
-        
+
         capacitanceMeterNode = new CapacitanceMeterNode( model.getCapacitanceMeter(), mvt );
         plateChargeMeterNode = new PlateChargeMeterNode( model.getPlateChargeMeter(), mvt );
         storedEnergyMeterNode = new StoredEnergyMeterNode( model.getStoredEnergyMeter(), mvt );
         voltmeter = new VoltmeterView( model.getVoltmeter(), mvt );
         eFieldDetector = new EFieldDetectorView( model.getEFieldDetector(), mvt, dev );
-        
+
         plateChargeControNode = new PlateChargeControlNode( model.getCircuit() );
-        
+
         topCurrentIndicatorNode = new CurrentIndicatorNode( model.getCircuit(), 0 );
         bottomCurrentIndicatorNode = new CurrentIndicatorNode( model.getCircuit(), Math.PI );
-        
+
         voltageShapesDebugNode = new VoltageShapesDebugNode( model );
         voltageShapesDebugNode.setVisible( false );
-        
+
         eFieldShapesDebugNode = new EFieldShapesDebugNode( model );
         eFieldShapesDebugNode.setVisible( false );
-        
+
         // rendering order
         addChild( bottomWireNode );
         addChild( batteryNode );
@@ -133,30 +133,30 @@ public class DielectricCanvas extends CLCanvas {
             // capacitor
             pView = mvt.modelToView( model.getCapacitor().getLocationReference() );
             capacitorNode.setOffset( pView );
-            
+
             // top current indicator
             double topWireThickness = mvt.modelToViewDelta( model.getTopWire().getThickness(), 0, 0 ).getX();
             x = topWireNode.getFullBoundsReference().getCenterX();
             y = topWireNode.getFullBoundsReference().getMinY() + ( topWireThickness / 2 );
             topCurrentIndicatorNode.setOffset( x, y );
-            
+
             // bottom current indicator
             double bottomWireThickness = mvt.modelToViewDelta( model.getBottomWire().getThickness(), 0, 0 ).getX();
             x = bottomWireNode.getFullBoundsReference().getCenterX();
             y = bottomWireNode.getFullBoundsReference().getMaxY() - ( bottomWireThickness / 2 );
             bottomCurrentIndicatorNode.setOffset( x, y );
-            
+
             // Connect/Disconnect Battery button
             x = batteryNode.getFullBoundsReference().getMinX();
             y = topCurrentIndicatorNode.getFullBoundsReference().getMinY() - batteryConnectionButtonNode.getFullBoundsReference().getHeight() - 10;
             batteryConnectionButtonNode.setOffset( x, y );
-            
+
             // Plate Charge control
             pView = mvt.modelToView( CLConstants.PLATE_CHARGE_CONTROL_LOCATION );
             plateChargeControNode.setOffset( pView  );
         }
-        
-        // observers 
+
+        // observers
         {
             model.getCircuit().addBatteryCapacitorCircuitChangeListener( new BatteryCapacitorCircuitChangeListener() {
                 public void circuitChanged() {
@@ -167,67 +167,67 @@ public class DielectricCanvas extends CLCanvas {
             // things whose visibility causes the dielectric to become transparent
             SimpleObserver o = new SimpleObserver() {
                 public void update() {
-                    boolean transparent = capacitorNode.isEFieldVisible() || model.getVoltmeter().isVisible() || model.getEFieldDetector().isVisible();
+                    boolean transparent = capacitorNode.isEFieldVisible() || model.getVoltmeter().visible.getValue() || model.getEFieldDetector().isVisible();
                     capacitorNode.getDielectricNode().setOpaque( !transparent );
                 }
             };
             capacitorNode.addEFieldVisibleObserver( o );
-            model.getVoltmeter().addVisibleObserver( o );
+            model.getVoltmeter().visible.addObserver( o );
             model.getEFieldDetector().addVisibleObserver( o );
         }
-        
+
         // default state
         reset();
     }
-    
+
     public void reset() {
         // battery connectivity
         updateBatteryConnectivity();
         // capacitor view
         capacitorNode.reset();
     }
-    
+
     public void setEFieldShapesVisible( boolean enabled ) {
         eFieldShapesDebugNode.setVisible( enabled );
     }
-    
+
     public void setVoltageShapesVisible( boolean enabled ) {
         voltageShapesDebugNode.setVisible( enabled );
     }
-    
+
     public CapacitorNode getCapacitorNode() {
         return capacitorNode;
     }
-    
+
     public PNode getChargeMeterNode() {
         return plateChargeMeterNode;
     }
-    
+
     public PNode getCapacitanceMeterNode() {
         return capacitanceMeterNode;
     }
-    
+
     public PNode getEnergyMeterNode() {
         return storedEnergyMeterNode;
     }
-    
+
     public VoltmeterView getVoltMeter() {
         return voltmeter;
     }
-    
+
     public EFieldDetectorView getEFieldDetector() {
         return eFieldDetector;
     }
-    
+
     public void setEFieldDetectorSimplified( boolean simplified ) {
         eFieldDetector.setSimplified( simplified );
     }
-    
+
     public void setDielectricVisible( boolean visible ) {
         capacitorNode.setDielectricVisible( visible );
         dielectricOffsetDragHandleNode.setVisible( visible );
     }
-    
+
     private void updateBatteryConnectivity() {
         boolean isConnected = model.getCircuit().isBatteryConnected();
         // visible when battery is connected
@@ -238,17 +238,17 @@ public class DielectricCanvas extends CLCanvas {
         // visible when battery is disconnected
         plateChargeControNode.setVisible( !isConnected );
     }
-    
+
     @Override
     protected void updateLayout() {
         super.updateLayout();
-        
+
         Dimension2D worldSize = getWorldSize();
         if ( worldSize.getWidth() <= 0 || worldSize.getHeight() <= 0 ) {
             // canvas hasn't been sized, blow off layout
             return;
         }
-        
+
         // adjust the model bounds
         Point3D p = mvt.viewToModelDelta( worldSize.getWidth(), worldSize.getHeight() );
         model.getWorld().setBounds( 0, 0, p.getX(), p.getY() );
