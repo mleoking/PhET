@@ -1,3 +1,4 @@
+3/28/11 restore WorldLocationProperty, this bit is useful
 3/28/11 back out all of the "public final" property stuff I did, it started to become an inconsistent mess
 3/28/11 make battery's observable properties "public final"
 3/28/11 make E-field meter's observable properties "public final"
