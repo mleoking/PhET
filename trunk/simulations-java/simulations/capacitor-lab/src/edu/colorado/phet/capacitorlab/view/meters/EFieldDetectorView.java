@@ -32,9 +32,9 @@ public class EFieldDetectorView {
         wireNode = new ProbeWireNode( bodyNode, probeNode, BODY_CONTROL_POINT_OFFSET, PROBE_CONTROL_POINT_OFFSET,
                 bodyNode.getConnectionOffset(), probeNode.getConnectionOffset(), CLPaints.EFIELD_DETECTOR_WIRE );
 
-        detector.addVisibleObserver( new SimpleObserver() {
+        detector.visible.addObserver( new SimpleObserver() {
             public void update() {
-                setVisible( detector.isVisible() );
+                setVisible( detector.visible.getValue() );
             }
         });
     }
