@@ -503,7 +503,6 @@ public class GridPanel extends JPanel {
             setBorder( new TitledBorder( "JPanel with GridLayout" ) );
             GridBagConstraints c = new GridBagConstraints();
             c.gridx = 0;
-            c.gridy = GridBagConstraints.RELATIVE;
             add( new JLabel( "------------------------" ), c );
             c.anchor = GridBagConstraints.WEST;
             add( new JLabel( "WEST" ), c );
