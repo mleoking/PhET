@@ -14,20 +14,20 @@ import edu.colorado.phet.common.phetcommon.view.util.ShapeUtils;
  * Creates 2D projections of shapes that are related to the 3D boxes.
  * Shapes are in the view coordinate frame, everything else is in model coordinates.
  * Shapes for all faces corresponds to a box with its origin in the center of the top face.
- *
+ * 
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class BoxShapeFactory {
-
+    
     private final CLModelViewTransform3D mvt;
-
+    
     public BoxShapeFactory( CLModelViewTransform3D mvt ) {
         this.mvt = mvt;
     }
-
+    
     /**
      * Top face is a parallelogram.
-     *
+     * 
      *          p0 -------------- p1
      *          /                /
      *         /                /
@@ -42,14 +42,14 @@ public class BoxShapeFactory {
         // shape
         return createFace( p0, p1, p2, p3 );
     }
-
+    
     public Shape createTopFace( Dimension3D size ) {
         return createTopFace( 0, 0, 0, size.getWidth(), size.getHeight(), size.getDepth() );
     }
-
+    
     /**
      * Front face is a rectangle.
-     *
+     * 
      *    p0 --------------- p1
      *     |                 |
      *     |                 |
@@ -64,15 +64,15 @@ public class BoxShapeFactory {
         // shape
         return createFace( p0, p1, p2, p3 );
     }
-
+    
     public Shape createFrontFace( Dimension3D size ) {
         return createFrontFace( 0, 0, 0, size.getWidth(), size.getHeight(), size.getDepth() );
     }
-
-
+    
+    
     /**
      * Side face is a parallelogram.
-     *
+     * 
      *              p1
      *             / |
      *            /  |
@@ -93,11 +93,11 @@ public class BoxShapeFactory {
         // path
         return createFace( p0, p1, p2, p3 );
     }
-
+    
     public Shape createSideFace( Dimension3D size ) {
         return createSideFace( 0, 0, 0, size.getWidth(), size.getHeight(), size.getDepth() );
     }
-
+    
     /*
      * A complete box, relative to a specific origin.
      */
@@ -107,7 +107,7 @@ public class BoxShapeFactory {
         Shape sideShape = createSideFace( x, y, z, width, height, depth );
         return ShapeUtils.add( topShape, frontShape, sideShape );
     }
-
+    
     /*
      * A face is defined by 4 points, specified in view coordinates.
      */

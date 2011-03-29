@@ -16,7 +16,7 @@ public class CLImages {
 
     /* not intended for instantiation */
     private CLImages() {}
-
+    
     public static final BufferedImage BATTERY_UP = getBufferedImage( "battery_3D_up.png" );
     public static final BufferedImage BATTERY_DOWN = getBufferedImage( "battery_3D_down.png" );
     public static final BufferedImage SLIDER_KNOB = getBufferedImage( "sliderKnob.png" );
@@ -25,14 +25,14 @@ public class CLImages {
     public static final BufferedImage RED_VOLTMETER_PROBE = getBufferedImage( "probe_3D_red.png" );
     public static final BufferedImage BLACK_VOLTMETER_PROBE = getBufferedImage( "probe_3D_black.png" );
     public static final BufferedImage EFIELD_PROBE = getBufferedImage( "probe_3D_field.png" );
-
+    
     // common images
     public static final BufferedImage CLOSE_BUTTON = getCommonBufferedImage( PhetCommonResources.IMAGE_CLOSE_BUTTON );
-
+    
     private static final BufferedImage getBufferedImage( String resourceName ) {
         return CLResources.getBufferedImage( resourceName );
     }
-
+    
     private static final BufferedImage getCommonBufferedImage( String resourceName ) {
         return PhetCommonResources.getImage( resourceName );
     }

@@ -17,21 +17,21 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class DielectricOffsetDragHandler extends PDragSequenceEventHandler {
-
+    
     private final PNode dragNode;
     private final Capacitor capacitor;
     private final CLModelViewTransform3D mvt;
     private final DoubleRange valueRange;
-
+    
     private double clickXOffset; // x-offset of mouse click from dragNode's origin, in parent node's coordinate frame
-
+    
     public DielectricOffsetDragHandler( PNode dragNode, Capacitor capacitor, CLModelViewTransform3D mvt, DoubleRange valueRange ) {
         this.dragNode = dragNode;
         this.capacitor = capacitor;
         this.mvt = mvt;
         this.valueRange = new DoubleRange( valueRange );
     }
-
+    
     @Override
     protected void startDrag( PInputEvent event ) {
         super.startDrag( event );

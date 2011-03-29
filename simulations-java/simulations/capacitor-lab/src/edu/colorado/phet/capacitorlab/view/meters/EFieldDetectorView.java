@@ -17,7 +17,7 @@ import edu.umd.cs.piccolo.PNode;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class EFieldDetectorView {
-
+    
     // wire is a cubic curve, these are the control point offsets
     private static final Point2D BODY_CONTROL_POINT_OFFSET = new Point2D.Double( -25, 0 );
     private static final Point2D PROBE_CONTROL_POINT_OFFSET = new Point2D.Double( -80, 100 );
@@ -25,38 +25,38 @@ public class EFieldDetectorView {
     private final EFieldDetectorBodyNode bodyNode;
     private final EFieldDetectorProbeNode probeNode;
     private final ProbeWireNode wireNode;
-
+    
     public EFieldDetectorView( final EFieldDetector detector, CLModelViewTransform3D mvt, boolean dev ) {
         bodyNode = new EFieldDetectorBodyNode( detector, mvt );
         probeNode = new EFieldDetectorProbeNode( detector, mvt, dev );
-        wireNode = new ProbeWireNode( bodyNode, probeNode, BODY_CONTROL_POINT_OFFSET, PROBE_CONTROL_POINT_OFFSET,
+        wireNode = new ProbeWireNode( bodyNode, probeNode, BODY_CONTROL_POINT_OFFSET, PROBE_CONTROL_POINT_OFFSET, 
                 bodyNode.getConnectionOffset(), probeNode.getConnectionOffset(), CLPaints.EFIELD_DETECTOR_WIRE );
-
-        detector.visible.addObserver( new SimpleObserver() {
+        
+        detector.addVisibleObserver( new SimpleObserver() {
             public void update() {
-                setVisible( detector.visible.getValue() );
+                setVisible( detector.isVisible() );
             }
         });
     }
-
+    
     private void setVisible( boolean visible ) {
         bodyNode.setVisible( visible );
         probeNode.setVisible( visible );
         wireNode.setVisible( visible );
     }
-
+    
     public PNode getBodyNode() {
         return bodyNode;
     }
-
+    
     public PNode getProbeNode() {
         return probeNode;
     }
-
+    
     public PNode getWireNode() {
         return wireNode;
     }
-
+    
     public void setSimplified( boolean simplified ) {
         bodyNode.setSimplified( simplified );
     }

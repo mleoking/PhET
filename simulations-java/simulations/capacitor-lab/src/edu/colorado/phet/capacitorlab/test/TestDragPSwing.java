@@ -27,9 +27,9 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * See Unfuddle #2557.
- *
+ * 
  * Demonstrates problems with dragging PSwing nodes.
- * This problem was first observed with the E-Field Detector in the capacitor-lab simulation,
+ * This problem was first observed with the E-Field Detector in the capacitor-lab simulation, 
  * then with the laser power control panel in optical tweezers.  It probably exists
  * in any sim that has a draggable node that involves a PSwing.
  * <p>
@@ -44,10 +44,10 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class TestDragPSwing extends JFrame {
-
+    
     // panel with some check boxes
     private static class MyPanel extends GridPanel {
-
+        
         public MyPanel( String title ) {
             setOpaque( false );
             setAnchor( Anchor.WEST );
@@ -57,72 +57,72 @@ public class TestDragPSwing extends JFrame {
             add( new JCheckBox( "option2" ), row++, 0 );
         }
     }
-
+    
     // composite node with a pswing child
     private static class MyCompositeNode extends PhetPNode {
-
+        
         public MyCompositeNode( String title ) {
-
+            
             // JPanel wrapped in a PSwing
             PSwing pswing = new PSwing( new MyPanel( title ) );
-
+            
             // background behind the pswing panel
             double width = 1.5 * pswing.getFullBoundsReference().getWidth();
             double height = 2 * pswing.getFullBoundsReference().getHeight();
             PNode background = new PPath( new Rectangle2D.Double( 0, 0, width, height ) );
             background.setPaint( Color.GRAY );
-
+            
             // rendering order
             addChild( background );
             addChild( pswing );
         }
     }
-
+    
     // canvas with a few example nodes
     private static class MyCanvas extends PhetPCanvas {
-
+        
         private final PPath canvasBoundsNode;
-
+        
         public MyCanvas() {
             setPreferredSize( new Dimension( 800, 600 ) );
-
+            
             // canvas bounds, for constrained drags
             canvasBoundsNode = new PPath() {{
                 setStroke( null );
             }};
-
+            
             // PSwing check box, dragging unconstrained
             PSwing pswing = new PSwing( new JCheckBox( "PSwing" ) ) {{
                 addInputEventListener( new CursorHandler() );
                 addInputEventListener( new PDragEventHandler() );
             }};
-
+            
             // PSwing check box, dragging constrained to canvas
             PSwing pswingConstrained = new PSwing( new JCheckBox( "PSwingConstrained" ) ) {{
                 addInputEventListener( new CursorHandler() );
                 addInputEventListener( new BoundedDragHandler( this, canvasBoundsNode ) );
             }};
-
+            
             // PText, dragging unconstrained
             PText ptext = new PText( "PText" ) {{
                 setFont( new PhetFont( 20 ) );
                 addInputEventListener( new CursorHandler() );
                 addInputEventListener( new PDragEventHandler() );
             }};
-
+            
             // PText, dragging constrained to canvas
             PText ptextConstrained = new PText( "PTextConstrained" ) {{
                 setFont( new PhetFont( 20 ) );
                 addInputEventListener( new CursorHandler() );
                 addInputEventListener( new BoundedDragHandler( this, canvasBoundsNode ) );
             }};
-
+            
             // composite node, dragging constrained to canvas
             PNode compositeConstrained = new MyCompositeNode( "CompositeConstrained") {{
                 addInputEventListener( new CursorHandler() );
                 addInputEventListener( new BoundedDragHandler( this, canvasBoundsNode ) );
             }};
-
+            
             // rendering order
             getLayer().addChild( canvasBoundsNode );
             getLayer().addChild( pswing );
@@ -130,7 +130,7 @@ public class TestDragPSwing extends JFrame {
             getLayer().addChild( ptext );
             getLayer().addChild( ptextConstrained );
             getLayer().addChild( compositeConstrained );
-
+            
             // layout
             pswing.setOffset( 50, 50 );
             pswingConstrained.setOffset( 50, 300 );
@@ -138,7 +138,7 @@ public class TestDragPSwing extends JFrame {
             ptextConstrained.setOffset( 250, 300 );
             compositeConstrained.setOffset( 450, 300 );
         }
-
+        
         // Adjust canvas bounds node, used to constrain dragging.
         @Override
         protected void updateLayout() {
@@ -149,14 +149,14 @@ public class TestDragPSwing extends JFrame {
             }
         }
     }
-
+    
     // main frame with sim-like layout
     public TestDragPSwing() {
         super( TestDragPSwing.class.getName() );
         setContentPane( new MyCanvas() );
         pack();
     }
-
+    
     public static void main( String[] args ) {
         JFrame frame = new TestDragPSwing();
         frame.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );

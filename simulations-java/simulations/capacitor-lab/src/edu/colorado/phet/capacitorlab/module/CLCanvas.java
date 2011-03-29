@@ -13,18 +13,18 @@ import edu.umd.cs.piccolo.PNode;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public abstract class CLCanvas extends PhetPCanvas {
-
+    
     private PNode rootNode; // root node of our scenegraph, all nodes added below here
 
     public CLCanvas() {
         super( CLConstants.CANVAS_RENDERING_SIZE );
-
+        
         setBackground( CLPaints.CANVAS_BACKGROUND );
 
         rootNode = new PNode();
         addWorldChild( rootNode );
     }
-
+    
     protected void addChild( PNode node ) {
         rootNode.addChild( node );
     }
@@ -34,7 +34,7 @@ public abstract class CLCanvas extends PhetPCanvas {
             rootNode.removeChild( node );
         }
     }
-
+    
     protected boolean isRootChild( PNode node ) {
         return rootNode.getChildrenReference().contains( node );
     }

@@ -23,33 +23,33 @@ public class DragHandleValueNode extends PComposite {
     private static final DecimalFormat DEFAULT_FORMAT = new DecimalFormat( "0.0" );
     private static final Font LABEL_FONT = new PhetFont( Font.BOLD, 18 );
     private static final Font VALUE_FONT = new PhetFont( Font.PLAIN, 18 );
-
+    
     private final String pattern;
     private final String units;
     private final NumberFormat format;
     private final PText labelNode;
     private final HTMLNode valueNode;
-
+    
     public DragHandleValueNode( String pattern, String label, double value, String units ) {
         this( pattern, label, value, units, DEFAULT_FORMAT );
     }
-
+    
     public DragHandleValueNode( String pattern, String label, double value, String units, NumberFormat format ) {
-
+        
         this.pattern = pattern;
         this.units = units;
         this.format = format;
-
+        
         labelNode = new PText( label );
         labelNode.setFont( LABEL_FONT );
         addChild( labelNode );
-
+        
         valueNode = new HTMLNode();
         valueNode.setFont( VALUE_FONT );
         addChild( valueNode );
-
+        
         setValue( value );
-
+        
         // layout
         double x = 0;
         double y = 0;
@@ -59,7 +59,7 @@ public class DragHandleValueNode extends PComposite {
         y = labelNode.getFullBoundsReference().getMaxY() + 1;
         valueNode.setOffset( x, y );
     }
-
+    
     public void setValue( double value ) {
         String valueString = format.format( value );
         String text = MessageFormat.format( pattern, valueString, units );

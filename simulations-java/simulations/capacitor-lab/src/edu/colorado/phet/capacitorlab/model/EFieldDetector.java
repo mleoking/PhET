@@ -13,36 +13,39 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class EFieldDetector {
-
+    
     private final BatteryCapacitorCircuit circuit;
-
-    // directly observable properties
-    public final Property<Boolean> visible;
-    public final WorldLocationProperty bodyLocation, probeLocation;
-    public final Property<Boolean> plateVisible, dielectricVisible, sumVisible, valuesVisible;
-
+    private final World world;
+    
+    // observable properties
+    private final Property<Boolean> visibleProperty;
+    private final Property<Point3D> bodyLocationProperty, probeLocationProperty;
+    private final Property<Boolean> plateVisibleProperty, dielectricVisibleProperty, sumVisibleProperty, valuesVisibleProperty;
+    
     // derived observable properties
-    private final Property<Double> plateVector; // field due to the plate (E_plate_dielectric or E_plate_air, depending on probe location)
-    private final Property<Double> dielectricVector; // field due to dielectric polarization (E_dielectric or E_air, depending on probe location)
-    private final Property<Double> sumVector; // effective (net) field between the plates (E_effective)
-
-    public EFieldDetector( BatteryCapacitorCircuit circuit, final World world, Point3D bodyLocation, Point3D probeLocation,
+    private final Property<Double> plateVectorProperty; // field due to the plate (E_plate_dielectric or E_plate_air, depending on probe location)
+    private final Property<Double> dielectricVectorProperty; // field due to dielectric polarization (E_dielectric or E_air, depending on probe location)
+    private final Property<Double> sumVectorProperty; // effective (net) field between the plates (E_effective)
+    
+    public EFieldDetector( BatteryCapacitorCircuit circuit, final World world, Point3D bodyLocation, Point3D probeLocation, 
             boolean visible, boolean plateVisible, boolean dielectricVisible, boolean sumVisible, boolean valuesVisible ) {
-
+        
         this.circuit = circuit;
-
-        this.visible = new Property<Boolean>( visible );
-        this.bodyLocation = new WorldLocationProperty( world, bodyLocation );
-        this.probeLocation = new WorldLocationProperty( world, probeLocation );
-
-        this.plateVector = new Property<Double>( 0d );
-        this.dielectricVector = new Property<Double>( 0d );
-        this.sumVector = new Property<Double>( 0d );
-
-        this.plateVisible = new Property<Boolean>( plateVisible );
-        this.dielectricVisible = new Property<Boolean>( dielectricVisible );
-        this.sumVisible = new Property<Boolean>( sumVisible );
-        this.valuesVisible = new Property<Boolean>( valuesVisible );
+        
+        this.world = world;
+        
+        this.visibleProperty = new Property<Boolean>( visible );
+        this.bodyLocationProperty = new Property<Point3D>( new Point3D.Double( bodyLocation ) );
+        this.probeLocationProperty = new Property<Point3D>( new Point3D.Double( probeLocation ) );
+        
+        this.plateVectorProperty = new Property<Double>( 0d );
+        this.dielectricVectorProperty = new Property<Double>( 0d );
+        this.sumVectorProperty = new Property<Double>( 0d );
+        
+        this.plateVisibleProperty = new Property<Boolean>( plateVisible );
+        this.dielectricVisibleProperty = new Property<Boolean>( dielectricVisible );
+        this.sumVisibleProperty = new Property<Boolean>( sumVisible );
+        this.valuesVisibleProperty = new Property<Boolean>( valuesVisible );
 
         // observers
         {
@@ -52,103 +55,155 @@ public class EFieldDetector {
                     updateVectors();
                 }
             });
-
+            
             // update vectors when the probe moves
-            this.probeLocation.addObserver( new SimpleObserver() {
+            probeLocationProperty.addObserver( new SimpleObserver() {
                 public void update() {
                     updateVectors();
                 }
             } );
+            
+            // keep the body and probe inside the world bounds
+            world.addBoundsObserver( new SimpleObserver() {
+                public void update() {
+                    setBodyLocation( getBodyLocationReference() );
+                    setProbeLocation( getProbeLocation() );
+                }
+            } );
         }
     }
-
+    
     public void reset() {
-        visible.reset();
-        bodyLocation.reset();
-        probeLocation.reset();
-        plateVisible.reset();
-        dielectricVisible.reset();
-        sumVisible.reset();
-        valuesVisible.reset();
+        visibleProperty.reset();
+        bodyLocationProperty.reset();
+        probeLocationProperty.reset();
+        plateVisibleProperty.reset();
+        dielectricVisibleProperty.reset();
+        sumVisibleProperty.reset();
+        valuesVisibleProperty.reset();
         // vector properties are derived when the other properties are reset
     }
-
+    
+    public boolean isVisible() {
+        return visibleProperty.getValue();
+    }
+    
+    public void setVisible( boolean visible ) {
+        visibleProperty.setValue( visible );
+    }
+    
+    public void addVisibleObserver( SimpleObserver o ) {
+        visibleProperty.addObserver( o );
+    }
+    
+    public Property<Boolean> getVisibleProperty() {
+        return visibleProperty;
+    }
+    
+    public Point3D getBodyLocationReference() {
+        return bodyLocationProperty.getValue();
+    }
+    
+    public void setBodyLocation( Point3D location ) {
+        bodyLocationProperty.setValue( world.getConstrainedLocation( location ) );
+    }
+    
+    public void addBodyLocationObserver( SimpleObserver o ) {
+        bodyLocationProperty.addObserver( o );
+    }
+    
+    public void setProbeLocation( Point3D location ) {
+        probeLocationProperty.setValue( world.getConstrainedLocation( location ) );
+    }
+    
+    public Point3D getProbeLocation() {
+        return new Point3D.Double( probeLocationProperty.getValue() );
+    }
+    
+    public Point3D getProbeLocationReference() {
+        return probeLocationProperty.getValue();
+    }
+    
+    public void addProbeLocationObserver( SimpleObserver o ) {
+        probeLocationProperty.addObserver( o );
+    }
+    
     public void addPlateVectorObserver( SimpleObserver o ) {
-        plateVector.addObserver( o );
+        plateVectorProperty.addObserver( o );
     }
-
+    
     public double getPlateVector() {
-        return plateVector.getValue();
+        return plateVectorProperty.getValue();
     }
-
+    
     public void addDielectricVectorObserver( SimpleObserver o ) {
-        dielectricVector.addObserver( o );
+        dielectricVectorProperty.addObserver( o );
     }
-
+    
     public double getDielectricVector() {
-        return dielectricVector.getValue();
+        return dielectricVectorProperty.getValue();
     }
-
+    
     public void addSumVectorObserver( SimpleObserver o ) {
-        sumVector.addObserver( o );
+        sumVectorProperty.addObserver( o );
     }
-
+    
     public double getSumVector() {
-        return sumVector.getValue();
+        return sumVectorProperty.getValue();
     }
-
+    
     public void addPlateVisibleObserver( SimpleObserver o ) {
-        plateVisible.addObserver( o );
+        plateVisibleProperty.addObserver( o );
     }
-
+    
     public void setPlateVisible( boolean visible ) {
-        plateVisible.setValue( visible );
+        plateVisibleProperty.setValue( visible );
     }
-
+    
     public boolean isPlateVisible() {
-        return plateVisible.getValue();
+        return plateVisibleProperty.getValue();
     }
-
+    
     public void addDielectricVisibleObserver( SimpleObserver o ) {
-        dielectricVisible.addObserver( o );
+        dielectricVisibleProperty.addObserver( o );
     }
-
+    
     public void setDielectricVisible( boolean visible ) {
-        dielectricVisible.setValue( visible );
+        dielectricVisibleProperty.setValue( visible );
     }
-
+    
     public boolean isDielectricVisible() {
-        return dielectricVisible.getValue();
+        return dielectricVisibleProperty.getValue();
     }
-
+    
     public void addSumVisibleObserver( SimpleObserver o ) {
-        sumVisible.addObserver( o );
+        sumVisibleProperty.addObserver( o );
     }
-
+    
     public void setSumVisible( boolean visible ) {
-        sumVisible.setValue( visible );
+        sumVisibleProperty.setValue( visible );
     }
-
+    
     public boolean isSumVectorVisible() {
-        return sumVisible.getValue();
+        return sumVisibleProperty.getValue();
     }
-
+    
     public void addValuesVisibleObserver( SimpleObserver o ) {
-        valuesVisible.addObserver( o );
+        valuesVisibleProperty.addObserver( o );
     }
-
+    
     public void setValuesVisible( boolean visible ) {
-        valuesVisible.setValue( visible );
+        valuesVisibleProperty.setValue( visible );
     }
-
+    
     public boolean isValuesVisible() {
-        return valuesVisible.getValue();
+        return valuesVisibleProperty.getValue();
     }
-
+    
     private void updateVectors() {
         // update values displayed by the meter based on probe location
-        plateVector.setValue( circuit.getPlatesDielectricEFieldAt( probeLocation.getValue() ) );
-        dielectricVector.setValue( circuit.getDielectricEFieldAt( probeLocation.getValue() ) );
-        sumVector.setValue( circuit.getEffectiveEFieldAt( probeLocation.getValue() ) );
+        plateVectorProperty.setValue( circuit.getPlatesDielectricEFieldAt( probeLocationProperty.getValue() ) );
+        dielectricVectorProperty.setValue( circuit.getDielectricEFieldAt( probeLocationProperty.getValue() ) );
+        sumVectorProperty.setValue( circuit.getEffectiveEFieldAt( probeLocationProperty.getValue() ) );
     }
 }

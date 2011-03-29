@@ -20,7 +20,7 @@ import edu.colorado.phet.common.phetcommon.view.util.ShapeUtils;
  * A wire is a collection of connected wire segments.
  * It has an associated voltage.
  * <p>
- * NOTE: It's the client's responsibility to ensure
+ * NOTE: It's the client's responsibility to ensure 
  * that all segments are connected.  No checking is done here.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
@@ -43,7 +43,7 @@ public class Wire {
         this.segments = new ArrayList<WireSegment>( segments );
         this.thickness = thickness;
         this.shapeFactory = new WireShapeFactory( this, mvt );
-
+        
         this.shapeProperty = new Property<Shape>( createShape() );
         this.voltageProperty = new Property<Double>( 0.0 );
 
@@ -60,7 +60,7 @@ public class Wire {
             }
         }
     }
-
+    
     public void addSegment( WireSegment segment ) {
         if ( !segments.contains( segment ) ) {
             segments.add( segment );
@@ -68,7 +68,7 @@ public class Wire {
             segment.addEndPointObserver( segmentObserver );
         }
     }
-
+    
     public void removeSegment( WireSegment segment ) {
         if ( segments.contains( segment ) ) {
             segments.remove( segment );
@@ -80,7 +80,7 @@ public class Wire {
     public double getThickness() {
         return thickness;
     }
-
+    
     public ArrayList<WireSegment> getSegmentsReference() {
         return segments;
     }
@@ -100,7 +100,7 @@ public class Wire {
     public Shape getShape() {
         return shapeProperty.getValue();
     }
-
+    
     protected void setShape( Shape shape ) {
         shapeProperty.setValue( shape );
     }
@@ -108,7 +108,7 @@ public class Wire {
     public boolean intersects( Shape shape ) {
         return ShapeUtils.intersects( shapeProperty.getValue(), shape );
     }
-
+    
     protected Shape createShape() {
         return shapeFactory.createWireShape();
     }
@@ -123,7 +123,7 @@ public class Wire {
         }
 
         private static ArrayList<WireSegment> createSegments( final Battery battery, final Capacitor capacitor, double thickness ) {
-            final Point2D.Double leftCorner = new Point2D.Double( battery.location.getX(), battery.location.getY() - CLConstants.WIRE_EXTENT );
+            final Point2D.Double leftCorner = new Point2D.Double( battery.getX(), battery.getY() - CLConstants.WIRE_EXTENT );
             final Point2D.Double rightCorner = new Point2D.Double( capacitor.getX(), leftCorner.getY() );
             final double t = ( thickness / 2 ); // for proper connection at corners with CAP_BUTT wire stroke
             ArrayList<WireSegment> segments = new ArrayList<WireSegment>() {{
@@ -142,13 +142,13 @@ public class Wire {
 
         private final Battery battery;
         private final Capacitor capacitor;
-
+        
         public BottomWire( final Battery battery, final Capacitor capacitor, double thickness, CLModelViewTransform3D mvt ) {
             super( createSegments( battery, capacitor, thickness ), thickness, mvt );
-
+            
             this.battery = battery;
             this.capacitor = capacitor;
-
+            
             // adjust when dimensions of capacitor change
             SimpleObserver o = new SimpleObserver() {
                 public void update() {
@@ -160,7 +160,7 @@ public class Wire {
         }
 
         private static ArrayList<WireSegment> createSegments( final Battery battery, final Capacitor capacitor, double thickness ) {
-            final Point2D.Double leftCorner = new Point2D.Double( battery.location.getX(), battery.location.getY() + CLConstants.WIRE_EXTENT );
+            final Point2D.Double leftCorner = new Point2D.Double( battery.getX(), battery.getY() + CLConstants.WIRE_EXTENT );
             final Point2D.Double rightCorner = new Point2D.Double( capacitor.getX(), leftCorner.getY() );
             final double t = ( thickness / 2 ); // for proper connection at corners with CAP_BUTT wire stroke
             ArrayList<WireSegment> segments = new ArrayList<WireSegment>() {{
@@ -170,7 +170,7 @@ public class Wire {
             }};
             return segments;
         }
-
+        
         /*
          * Subtract any part of the wire that is occluded by the battery or bottom plate.
          */
@@ -179,7 +179,7 @@ public class Wire {
             Shape wireShape = super.createShape();
             // HACK: null check required because createShape is called in the superclass constructor.
             if ( battery != null && capacitor != null ) {
-                wireShape = ShapeUtils.subtract( wireShape, battery.shapeFactory.createBodyShape(), capacitor.getShapeFactory().createBottomPlateShape() );
+                wireShape = ShapeUtils.subtract( wireShape, battery.getShapeFactory().createBodyShape(), capacitor.getShapeFactory().createBottomPlateShape() );
             }
             return wireShape;
         }

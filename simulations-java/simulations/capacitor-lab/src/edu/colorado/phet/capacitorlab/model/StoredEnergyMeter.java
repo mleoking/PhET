@@ -14,7 +14,7 @@ public class StoredEnergyMeter extends BarMeter {
     public StoredEnergyMeter( final BatteryCapacitorCircuit circuit, World world, Point3D location, boolean visible ) {
         super( circuit, world, location, visible );
     }
-
+    
     @Override
     protected double getCircuitValue() {
         return getCircuit().getStoredEnergy();

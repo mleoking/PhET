@@ -15,7 +15,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * Shows the excess dielectric charge (Q_excess_dielectric).
- * The number of charges is proportional to sqrt( Q_excess_dielectric ).
+ * The number of charges is proportional to sqrt( Q_excess_dielectric ). 
  * Charges appear on the surface of the dielectric where it contacts the plates,
  * so charges appear on the right face only when the dielectric is fully inserted.
  * <p>
@@ -25,19 +25,19 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class DielectricExcessChargeNode extends PhetPNode {
-
+    
     private final BatteryCapacitorCircuit circuit;
     private final CLModelViewTransform3D mvt;
     private final PNode parentNode; // parent node for charges
 
     public DielectricExcessChargeNode( BatteryCapacitorCircuit circuit, CLModelViewTransform3D mvt ) {
-
+        
         this.circuit = circuit;
         this.mvt = mvt;
-
+        
         this.parentNode = new PComposite();
         addChild( parentNode );
-
+        
         circuit.addBatteryCapacitorCircuitChangeListener( new BatteryCapacitorCircuitChangeListener() {
             public void circuitChanged() {
                 if ( isVisible() ) {
@@ -45,10 +45,10 @@ public class DielectricExcessChargeNode extends PhetPNode {
                 }
             }
         } );
-
+        
         update();
     }
-
+    
     /**
      * Update the node when it becomes visible.
      */
@@ -61,12 +61,12 @@ public class DielectricExcessChargeNode extends PhetPNode {
             }
         }
     }
-
+    
     private void update() {
-
+        
         // remove existing charges
         parentNode.removeAllChildren();
-
+        
         Capacitor capacitor = circuit.getCapacitor();
         final double excessCharge = circuit.getExcessDielectricPlateCharge();
         final double dielectricWidth = capacitor.getDielectricSize().getWidth();
@@ -76,7 +76,7 @@ public class DielectricExcessChargeNode extends PhetPNode {
         if ( excessCharge != 0 && contactWidth > 0 ) {
 
             final int numberOfCharges = getNumberOfCharges( excessCharge );
-
+            
             final double yMargin = mvt.viewToModelDelta( 0, new PositiveChargeNode().getFullBoundsReference().getHeight() ).getY();
 
             // distance between charges
@@ -95,7 +95,7 @@ public class DielectricExcessChargeNode extends PhetPNode {
                 PNode bottomChargeNode = ( excessCharge > 0 ) ? new PositiveChargeNode() : new NegativeChargeNode();
                 parentNode.addChild( topChargeNode );
                 parentNode.addChild( bottomChargeNode );
-
+                
                 // position the charges at the top and bottom edges of the dielectric's front face
                 double x = ( -dielectricWidth / 2 ) +  xOffset + ( i * dx );
                 double y = yMargin;
@@ -107,7 +107,7 @@ public class DielectricExcessChargeNode extends PhetPNode {
 
             // side face, charges only shown with dielectric fully inserted
             if ( capacitor.getDielectricOffset() == 0 ) {
-
+                
                 for ( int i = 0; i < numberOfCharges; i++ ) {
 
                     // add a pair of charges
@@ -129,7 +129,7 @@ public class DielectricExcessChargeNode extends PhetPNode {
             }
         }
     }
-
+    
     /*
      * Gets the number of charges, proportional to sqrt( Q_excess_dielectric ).
      * We use NUMBER_OF_PLATE_CHARGES as the range so that this view is related

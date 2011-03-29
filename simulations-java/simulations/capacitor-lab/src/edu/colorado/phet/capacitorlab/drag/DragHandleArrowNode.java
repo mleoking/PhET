@@ -18,7 +18,7 @@ import edu.colorado.phet.common.piccolophet.nodes.DoubleArrowNode;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 /* package private */ class DragHandleArrowNode extends DoubleArrowNode {
-
+    
     private static final Color NORMAL_COLOR = CLPaints.DRAGGABLE_NORMAL;
     private static final Color HIGHLIGHT_COLOR = CLPaints.DRAGGABLE_HIGHLIGHT;
     private static final Color STOKE_COLOR = Color.BLACK;
@@ -26,9 +26,9 @@ import edu.colorado.phet.common.piccolophet.nodes.DoubleArrowNode;
 
     public DragHandleArrowNode( Point2D pStart, Point2D pEnd ) {
         this( pStart, pEnd, Math.abs( pStart.distance( pEnd ) ) );
-
+        
     }
-
+    
     private DragHandleArrowNode( Point2D pStart, Point2D pEnd, double length ) {
         super( pStart, pEnd, length / 4 /* headHeight */, length / 2 /* headWidth */, length / 6 /* tailWidth */ );
         setPaint( NORMAL_COLOR );

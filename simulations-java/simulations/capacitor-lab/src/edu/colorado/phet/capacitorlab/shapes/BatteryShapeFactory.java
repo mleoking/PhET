@@ -19,15 +19,15 @@ import edu.colorado.phet.common.phetcommon.view.util.ShapeUtils;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class BatteryShapeFactory {
-
+    
     private final Battery battery;
     private final CLModelViewTransform3D mvt;
-
+    
     public BatteryShapeFactory( Battery battery, CLModelViewTransform3D mvt ) {
         this.battery = battery;
         this.mvt = mvt;
     }
-
+    
     /**
      * Gets the shape of the battery's body in the world coordinate frame.
      * Origin at the center.
@@ -36,8 +36,8 @@ public class BatteryShapeFactory {
     public Shape createBodyShape() {
         final double width = battery.getBodySizeReference().getWidth();
         final double height = battery.getBodySizeReference().getHeight();
-        final double x = battery.location.getX() - ( width / 2 );
-        final double y = battery.location.getY() - ( height / 2 );
+        final double x = battery.getLocationReference().getX() - ( width / 2 );
+        final double y = battery.getLocationReference().getY() - ( height / 2 );
         Shape s = new Rectangle2D.Double( x, y, width, height );
         return mvt.modelToView( s );
     }
@@ -48,19 +48,19 @@ public class BatteryShapeFactory {
      */
     public Shape createTopTerminalShape() {
         if ( battery.getPolarity() == Polarity.POSITIVE ) {
-            return createPositiveTerminalShape( battery.location );
+            return createPositiveTerminalShape( battery.getLocationReference() );
         }
         else {
-            return createNegativeTerminalShape( battery.location );
+            return createNegativeTerminalShape( battery.getLocationReference() );
         }
     }
-
+    
     /*
      * Creates the shape of the positive terminal relative to some specified origin.
      * The positive terminal is a cylinder, created using constructive area geometry.
      */
     private Shape createPositiveTerminalShape( Point3D origin ) {
-
+        
         // top of the cylinder
         Shape topEllipse = null;
         {
@@ -70,7 +70,7 @@ public class BatteryShapeFactory {
             final double y = origin.getY() + battery.getTopTerminalYOffset() - ( height / 2 );
             topEllipse = new Ellipse2D.Double( x, y, width, height );
         }
-
+        
         // bottom of the cylinder
         Shape bottomEllipse = null;
         {
@@ -80,7 +80,7 @@ public class BatteryShapeFactory {
             final double y = origin.getY() + battery.getTopTerminalYOffset() - ( height / 2 ) + battery.getPositiveTerminalCylinderHeight();
             bottomEllipse = new Ellipse2D.Double( x, y, width, height );
         }
-
+        
         // wall of the cylinder
         Shape wallShape = null;
         {
@@ -90,11 +90,11 @@ public class BatteryShapeFactory {
             final double y = origin.getY() + battery.getTopTerminalYOffset();
             wallShape = new Rectangle2D.Double( x, y, width, height );
         }
-
+        
         Shape composite = ShapeUtils.add( topEllipse, wallShape, bottomEllipse );
         return mvt.modelToView( composite );
     }
-
+    
     /*
      * Creates the shape of the negative terminal relative to some specified origin.
      */
