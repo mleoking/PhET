@@ -1,3 +1,4 @@
+Fixed layering so that force values go in front of "A" and "B".
 # 1.04.12 (50114) Mar 28, 2011
 Factored out duplicated code for clamping mass value
 Adjusted the pool volume so that it is an even number with a scale in or out

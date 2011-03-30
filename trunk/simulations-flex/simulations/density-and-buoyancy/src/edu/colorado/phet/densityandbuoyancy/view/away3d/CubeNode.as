@@ -33,10 +33,20 @@ public class CubeNode extends CuboidNode {
 
 
     override public function addOverlayObjects(): void {
-        canvas.addChild( _blockLabelNode );
+        var added: Boolean = false;
+        // find the index of another block label, and insert it there (if applicable)
+        for ( var i: int = 0; i < canvas.numChildren; i++ ) {
+            if ( canvas.getChildAt( i ) instanceof BlockLabel ) {
+                canvas.addChildAt( _blockLabelNode, i );
+                added = true;
+                break;
+            }
+        }
+        if ( !added ) {
+            canvas.addChild( _blockLabelNode );
+        }
         super.addOverlayObjects();
     }
-
 
     override public function removeOverlayObjects(): void {
         super.removeOverlayObjects();
