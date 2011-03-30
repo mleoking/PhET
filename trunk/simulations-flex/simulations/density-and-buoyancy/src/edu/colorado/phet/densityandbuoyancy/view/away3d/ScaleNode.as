@@ -9,6 +9,8 @@ import edu.colorado.phet.densityandbuoyancy.view.*;
 
 /**
  * ScaleNode renders graphics and provides interactivity for 3D scales for measuring masses or weights.
+ *
+ * Is rendered with a base, the top (which would move in a real scale), and the stand (connection between the two)
  */
 public class ScaleNode extends CuboidNode {
 

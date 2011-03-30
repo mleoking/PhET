@@ -49,7 +49,8 @@ public class DensityAndBuoyancyModel {
      * move according to forces from other objects
      */
     public var scalesMovableProperty: BooleanProperty = new BooleanProperty( false );
-    private var showExactLiquidColor: Boolean;
+
+    private var showExactLiquidColor: Boolean; // whether to show true liquid colors, or a fake oil color
 
     public function DensityAndBuoyancyModel( volume: Number, extendedPool: Boolean, showExactLiquidColor: Boolean = false ) {
         this.volume = volume;
@@ -65,7 +66,7 @@ public class DensityAndBuoyancyModel {
 
         initWorld();
         createGround();
-        createDragBounds();
+        createDragBounds(); // we create invisible walls so things can't be dragged off-screen
     }
 
     public function reset(): void {
@@ -152,6 +153,8 @@ public class DensityAndBuoyancyModel {
 
     private function initWorld(): void {
         var worldBox: b2AABB = new b2AABB();
+
+        // our world bounds. we CANNOT go outside of these, otherwise the model will break
         worldBox.lowerBound.Set( -BOUNDS * DensityAndBuoyancyConstants.SCALE_BOX2D, -BOUNDS * DensityAndBuoyancyConstants.SCALE_BOX2D );
         worldBox.upperBound.Set( BOUNDS * DensityAndBuoyancyConstants.SCALE_BOX2D, BOUNDS * DensityAndBuoyancyConstants.SCALE_BOX2D );
         world = new b2World( worldBox, new b2Vec2( 0, 0 )/*we handle gravity ourselves*/, false/*don't sleep*/ );
@@ -160,15 +163,23 @@ public class DensityAndBuoyancyModel {
         world.SetContactListener( contactHandler );
     }
 
+    /**
+     * Called to run the physics at each frame. Runs multiple physics steps per frame.
+     */
     public function stepFrame(): void {
+        // set recorded contact impulses on objects to zero, so we can sum them up at the end of our frame
         for each( densityObject in densityObjects ) {
             densityObject.resetContacts();
         }
 
+        // run our physics steps
         for ( var i: Number = 0; i < STEPS_PER_FRAME; i++ ) {
 
+            // compute our water height, so our buoyant forces are computed correctly
             updateWaterHeight();
             var waterY: Number = -poolHeight + waterHeight;
+
+            // compute submerged volume and apply forces for each cuboid (all currently supported objects)
             for each( var cuboid: Cuboid in getCuboids() ) {
                 cuboid.beforeModelStep( DT_PER_STEP / STEPS_PER_FRAME );
 
@@ -202,17 +213,22 @@ public class DensityAndBuoyancyModel {
                 body.ApplyForce( dragForce, body.GetPosition() );
             }
 
+            // run the Box2D physics with 10 intermediate steps. this means Box2D does numFrames/Sec * numSteps * 10 actual steps a second
             world.Step( DT_PER_STEP, 10 );
+
+            // pull the Box2D data into our model objects
             for each( var densityObject: DensityObject in densityObjects ) {
                 densityObject.updatePositionFromBox2D();
-                densityObject.box2DStepped();
             }
 
+            // update our time
             time = time + DT_PER_STEP;
         }
         //        for each(var c2:Cuboid in getCuboids()) {
         //            trace(time + "\t" + c2.getY() + "\t" + c2.getBody().GetPosition().y+"\t"+c2.getBody().GetLinearVelocity().y);//+"\t for "+getCuboids().length+" cuboids");
         //        }
+
+        // listeners
         for each( densityObject in densityObjects ) {
             densityObject.onFrameStep( DT_PER_FRAME );
         }
@@ -255,15 +271,21 @@ public class DensityAndBuoyancyModel {
      * 4) analytically (or with numerical integration) compute the water heights? not recommended
      */
     public function computeWaterHeight(): Number {
+        // get sorted y values for each cross-sectional area change (i.e. tops and bottoms of blocks/scales)
         var sortedHeights: Array = getSortedObjectMarkers();
         var currentHeight: Number = 0;//This accumulates the water height and is eventually returned
+
+        // how much liquid volume needs to be placed above our currentHeight
         var remainingVolume: Number = volume;
-        var crossSectionArea: Number = poolWidth * poolDepth;//Current cross sectional area (in y-z plane) at curHeight in the pool
+
+        // Current cross sectional area (in y-z plane) at curHeight in the pool
+        var crossSectionArea: Number = poolWidth * poolDepth;
 
         for each ( var objectMarker: ObjectMarker in sortedHeights ) {
             var nextY: Number = objectMarker.y + poolHeight;//Translates origin so that y=0 is at the floor
             var proposedHeight: Number = remainingVolume / crossSectionArea + currentHeight;//Height if the current cross section
             if ( proposedHeight < nextY ) {
+                // we don't have enough fluid to make it all the way up this section. abort and calculate our height
                 currentHeight = proposedHeight;
                 remainingVolume = 0;
                 break;
@@ -274,11 +296,14 @@ public class DensityAndBuoyancyModel {
             crossSectionArea += objectMarker.area;
         }
 
-        // fill it up the rest of the way
+        // fill it up the rest of the way (no object is currently intersecting the surface)
         currentHeight += remainingVolume / crossSectionArea;
         return currentHeight;
     }
 
+    /**
+     * @return A sorted list of object markers, from the bottom up.
+     */
     private function getSortedObjectMarkers(): Array {
         var sortedHeights: Array = new Array();
         for ( var key: String in densityObjects ) {
