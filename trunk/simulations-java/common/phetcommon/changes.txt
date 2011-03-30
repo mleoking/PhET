@@ -1,3 +1,4 @@
+3/30/11 GridPanel: replace awkward enum-int mappings with two-way map
 3/22/11 i18ized strings in VelocitySensorNode
 3/20/11 Added Option.toString
 3/17/11 Added a logger to ObservableProperty.trace and sample usage in main(), resolves #2779

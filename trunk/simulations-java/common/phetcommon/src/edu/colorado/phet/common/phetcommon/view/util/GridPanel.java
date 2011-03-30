@@ -4,7 +4,6 @@ package edu.colorado.phet.common.phetcommon.view.util;
 
 import java.awt.*;
 import java.util.HashMap;
-import java.util.Iterator;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -42,8 +41,39 @@ public class GridPanel extends JPanel {
     public static final int RELATIVE = GridBagConstraints.RELATIVE;
     public static final int REMAINDER = GridBagConstraints.REMAINDER;
 
-    // maps between enums and GridBagConstraint constants
-    private static final ConstraintMap CONSTRAINT_MAP = new ConstraintMap();
+    // maps between Anchor enums and GridBagConstraint anchor constants
+    private static final TwoWayMap<Anchor,Integer> ANCHOR_MAP = new TwoWayMap<Anchor,Integer>() {{
+        /* absolute anchors */
+        put( Anchor.CENTER, new Integer( GridBagConstraints.CENTER ) );
+        put( Anchor.NORTH, new Integer( GridBagConstraints.NORTH ) );
+        put( Anchor.NORTHEAST, new Integer( GridBagConstraints.NORTHEAST ) );
+        put( Anchor.EAST, new Integer( GridBagConstraints.EAST ) );
+        put( Anchor.SOUTHEAST, new Integer( GridBagConstraints.SOUTHEAST ) );
+        put( Anchor.SOUTH, new Integer( GridBagConstraints.SOUTH ) );
+        put( Anchor.SOUTHWEST, new Integer( GridBagConstraints.SOUTHWEST ) );
+        put( Anchor.WEST, new Integer( GridBagConstraints.WEST ) );
+        put( Anchor.NORTHWEST, new Integer( GridBagConstraints.NORTHWEST ) );
+        /* relative anchors */
+        put( Anchor.PAGE_START, new Integer( GridBagConstraints.PAGE_START ) );
+        put( Anchor.PAGE_END, new Integer( GridBagConstraints.PAGE_END ) );
+        put( Anchor.LINE_START, new Integer( GridBagConstraints.LINE_START ) );
+        put( Anchor.LINE_END, new Integer( GridBagConstraints.LINE_END ) );
+        put( Anchor.FIRST_LINE_START, new Integer( GridBagConstraints.FIRST_LINE_START ) );
+        put( Anchor.FIRST_LINE_END, new Integer( GridBagConstraints.FIRST_LINE_END ) );
+        put( Anchor.LAST_LINE_START, new Integer( GridBagConstraints.LAST_LINE_START ) );
+        put( Anchor.LAST_LINE_END, new Integer( GridBagConstraints.LAST_LINE_END ) );
+        /* TODO: add Java 1.6 baseline anchors here. See GridBagConstraints.*BASELINE* */
+        assert( size() == Anchor.values().length ); // is this map complete?
+    }};
+
+    // maps between Fill enums and GridBagConstraint fill constants
+    private static final TwoWayMap<Fill,Integer> FILL_MAP = new TwoWayMap<GridPanel.Fill,Integer>() {{
+        put( Fill.HORIZONTAL, new Integer( GridBagConstraints.HORIZONTAL ) );
+        put( Fill.VERTICAL, new Integer( GridBagConstraints.VERTICAL ) );
+        put( Fill.BOTH, new Integer( GridBagConstraints.BOTH ) );
+        put( Fill.NONE, new Integer( GridBagConstraints.NONE ) );
+        assert( size() == Fill.values().length ); // is this map complete?
+    }};
 
     private final GridBagConstraints constraints;
 
@@ -60,7 +90,7 @@ public class GridPanel extends JPanel {
      * It's provides for internal use, so that we can set default to be identical to GridBagConstraints.
      */
     private GridPanel( GridBagConstraints c ) {
-        this( c.gridx, c.gridy, c.gridwidth, c.gridheight, c.weightx, c.weighty, CONSTRAINT_MAP.toAnchor( c.anchor ), CONSTRAINT_MAP.toFill( c.fill ), c.insets, c.ipadx, c.ipady );
+        this( c.gridx, c.gridy, c.gridwidth, c.gridheight, c.weightx, c.weighty, ANCHOR_MAP.getReverse( c.anchor ), FILL_MAP.getReverse( c.fill ), c.insets, c.ipadx, c.ipady );
     }
 
     /**
@@ -103,7 +133,7 @@ public class GridPanel extends JPanel {
      */
     @Override
     public Component add( Component component ) {
-        add( component, getGridX(), getGridY(), getGridWidth(), getGridHeight(), getWeightX(), getWeightY(), getAnchor(), getFill(), getInsetsReference(), getInternalPaddingX(), getInternalPaddingY() );
+        super.add( component, constraints );
         return component;
     }
 
@@ -122,8 +152,8 @@ public class GridPanel extends JPanel {
         constraints.gridy = gridY;
         constraints.gridwidth = gridWidth;
         constraints.gridheight = gridHeight;
-        constraints.anchor = CONSTRAINT_MAP.toInt( anchor );
-        constraints.fill = CONSTRAINT_MAP.toInt( fill );
+        constraints.anchor = ANCHOR_MAP.getForward( anchor );
+        constraints.fill = FILL_MAP.getForward( fill );
         constraints.insets = insets;
         constraints.ipadx = internalPaddingX;
         constraints.ipady = internalPaddingY;
@@ -277,11 +307,11 @@ public class GridPanel extends JPanel {
      * @param anchor
      */
     public void setAnchor( Anchor anchor ) {
-        constraints.anchor = CONSTRAINT_MAP.toInt( anchor );
+        constraints.anchor = ANCHOR_MAP.getForward( anchor );
     }
 
     public Anchor getAnchor() {
-        return CONSTRAINT_MAP.toAnchor( constraints.anchor );
+        return ANCHOR_MAP.getReverse( constraints.anchor );
     }
 
     /**
@@ -290,11 +320,11 @@ public class GridPanel extends JPanel {
      * @param fill
      */
     public void setFill( Fill fill ) {
-        constraints.fill = CONSTRAINT_MAP.toInt( fill );
+        constraints.fill = FILL_MAP.getForward( fill );
     }
 
     public Fill getFill() {
-        return CONSTRAINT_MAP.toFill( constraints.fill );
+        return FILL_MAP.getReverse( constraints.fill );
     }
 
     /**
@@ -385,100 +415,29 @@ public class GridPanel extends JPanel {
     }
 
     /*
-     * Maps between enums and ints for fill and anchor constraints.
-     * GridBagConstraint uses ints for constraint values, and has no type checking.
-     * We've introduced type checking using Fill and Anchor enums.
+     * Two-way map.
      */
-    private static class ConstraintMap {
+    private static class TwoWayMap<T,U> {
 
-        private final HashMap<Anchor,Integer> anchorMap;
-        private final HashMap<Fill,Integer> fillMap;
+        private HashMap<T, U> forward = new HashMap<T, U>();
+        private HashMap<U, T> reverse = new HashMap<U, T>();
 
-        public ConstraintMap() {
-
-            anchorMap = new HashMap<Anchor, Integer>() {{
-                /* absolute anchors */
-                put( Anchor.CENTER, new Integer( GridBagConstraints.CENTER ) );
-                put( Anchor.NORTH, new Integer( GridBagConstraints.NORTH ) );
-                put( Anchor.NORTHEAST, new Integer( GridBagConstraints.NORTHEAST ) );
-                put( Anchor.EAST, new Integer( GridBagConstraints.EAST ) );
-                put( Anchor.SOUTHEAST, new Integer( GridBagConstraints.SOUTHEAST ) );
-                put( Anchor.SOUTH, new Integer( GridBagConstraints.SOUTH ) );
-                put( Anchor.SOUTHWEST, new Integer( GridBagConstraints.SOUTHWEST ) );
-                put( Anchor.WEST, new Integer( GridBagConstraints.WEST ) );
-                put( Anchor.NORTHWEST, new Integer( GridBagConstraints.NORTHWEST ) );
-                /* relative anchors */
-                put( Anchor.PAGE_START, new Integer( GridBagConstraints.PAGE_START ) );
-                put( Anchor.PAGE_END, new Integer( GridBagConstraints.PAGE_END ) );
-                put( Anchor.LINE_START, new Integer( GridBagConstraints.LINE_START ) );
-                put( Anchor.LINE_END, new Integer( GridBagConstraints.LINE_END ) );
-                put( Anchor.FIRST_LINE_START, new Integer( GridBagConstraints.FIRST_LINE_START ) );
-                put( Anchor.FIRST_LINE_END, new Integer( GridBagConstraints.FIRST_LINE_END ) );
-                put( Anchor.LAST_LINE_START, new Integer( GridBagConstraints.LAST_LINE_START ) );
-                put( Anchor.LAST_LINE_END, new Integer( GridBagConstraints.LAST_LINE_END ) );
-                /* TODO: add Java 1.6 baseline anchors here. See GridBagConstraints.*BASELINE* */
-            }};
-            assert( anchorMap.size() == Anchor.values().length ); // is this map complete?
-
-            fillMap = new HashMap<Fill, Integer>() {{
-                put( Fill.HORIZONTAL, new Integer( GridBagConstraints.HORIZONTAL ) );
-                put( Fill.VERTICAL, new Integer( GridBagConstraints.VERTICAL ) );
-                put( Fill.BOTH, new Integer( GridBagConstraints.BOTH ) );
-                put( Fill.NONE, new Integer( GridBagConstraints.NONE ) );
-            }};
-            assert( fillMap.size() == Fill.values().length ); // is this map complete?
+        public void put( T t, U u ) {
+            forward.put( t, u );
+            reverse.put( u, t );
+        }
+        
+        public int size() {
+            assert( forward.size() == reverse.size() );
+            return forward.size();
         }
 
-        /**
-         * Converts a Fill to a GridBagConstraint constant.
-         */
-        public int toInt( Fill fill ) {
-            return fillMap.get( fill ).intValue();
+        public U getForward( T t ) {
+            return forward.get( t );
         }
 
-        /**
-         * Converts a GridBagConstraint constant to a Fill.
-         */
-        public Fill toFill( int fill ) {
-            Fill fillObject = null;
-            Iterator<Fill> i = fillMap.keySet().iterator(); // wish we had a 2-way map...
-            while ( i.hasNext() ) {
-                Fill next = i.next();
-                if ( toInt( next ) == fill ) {
-                    fillObject = next;
-                    break;
-                }
-            }
-            if ( fillObject == null ) {
-                throw new IllegalArgumentException( "unknown fill value: " + fill );
-            }
-            return fillObject;
-        }
-
-        /**
-         * Converts an Anchor to a GridBagConstraint constant.
-         */
-        public int toInt( Anchor anchor ) {
-            return anchorMap.get( anchor ).intValue();
-        }
-
-        /**
-         * Converts a GridBagConstraint constant to an Anchor.
-         */
-        public Anchor toAnchor( int anchor ) {
-            Anchor anchorObject = null;
-            Iterator<Anchor> i = anchorMap.keySet().iterator(); // wish we had a 2-way map...
-            while ( i.hasNext() ) {
-                Anchor next = i.next();
-                if ( toInt( next ) == anchor ) {
-                    anchorObject = next;
-                    break;
-                }
-            }
-            if ( anchorObject == null ) {
-                throw new IllegalArgumentException( "unknown anchor value: " + anchor );
-            }
-            return anchorObject;
+        public T getReverse( U u ) {
+            return reverse.get( u );
         }
     }
 
