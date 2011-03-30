@@ -1,3 +1,4 @@
+isotopes-and-atomic-mass: Added the ability to override the average atomic mass and the isotope proportions.  This is needed to make the "Nature's Mix" match actual natural values for each element.
 # 2.01.03 (49960) Mar 18, 2011
 3/18/11 Added pie chart labels.
 # 2.01.02 (49878) Mar 16, 2011
