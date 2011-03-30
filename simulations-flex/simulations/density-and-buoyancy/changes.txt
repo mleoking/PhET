@@ -1,3 +1,4 @@
+# 1.04.12 (50203) Mar 29, 2011
 Fixed typing values in for mass / volume and bounds correction.
 Fixed layering so that force values go in front of "A" and "B".
 # 1.04.12 (50114) Mar 28, 2011
