@@ -12,6 +12,7 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.RoundRectangle2D;
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 
 import edu.colorado.phet.buildanatom.model.ImmutableAtom;
@@ -285,7 +286,7 @@ class IsotopeProprotionsPieChart extends PNode {
      * isotope.
      */
     private static class SliceLabel extends PNode {
-        private static final DecimalFormat FORMATTER = new DecimalFormat( "#.00" );
+        private static final ProportionFormat FORMATTER = new ProportionFormat();
         private static final Font READOUT_FONT = new PhetFont(14);
 
         // The "unconstrained position" is the position where this label
@@ -370,6 +371,21 @@ class IsotopeProprotionsPieChart extends PNode {
                         symbol.getFullBoundsReference().getMaxY() - getFullBoundsReference().height * 0.85 );
             }};
             addChild( atomicNumber );
+        }
+    }
+
+    private static class ProportionFormat {
+
+        private static final NumberFormat DEFAULT_FORMAT = new DecimalFormat("0.0000");
+        private static final NumberFormat FORMAT_FOR_100 = new DecimalFormat();
+
+        public String format( double number ) {
+            if ( number == 100 ){
+                return FORMAT_FOR_100.format( number );
+            }
+            else{
+                return DEFAULT_FORMAT.format( number );
+            }
         }
     }
 }
