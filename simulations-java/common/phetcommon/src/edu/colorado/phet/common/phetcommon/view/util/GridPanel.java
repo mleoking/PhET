@@ -85,34 +85,20 @@ public class GridPanel extends JPanel {
         this( new GridBagConstraints() ); // defaults are identical to GridBagConstraints
     }
 
-    /*
-     * This constructor should remain private, so we don't expose GridBagConstraints.
-     * It's provides for internal use, so that we can set default to be identical to GridBagConstraints.
-     */
-    private GridPanel( GridBagConstraints c ) {
-        this( c.gridx, c.gridy, c.gridwidth, c.gridheight, c.weightx, c.weighty, ANCHOR_MAP.getReverse( c.anchor ), FILL_MAP.getReverse( c.fill ), c.insets, c.ipadx, c.ipady );
-    }
-
     /**
      * Constructor that lets you specify default values for all layout properties.
      * See setters for description of properties.
      */
     public GridPanel( int gridX, int gridY, int gridWidth, int gridHeight, double weightX, double weightY, Anchor anchor, Fill fill, Insets insets, int internalPaddingX, int internalPaddingY ) {
+        this( new GridBagConstraints( gridX, gridY, gridWidth, gridHeight, weightX, weightY, ANCHOR_MAP.getForward( anchor ), FILL_MAP.getForward( fill ), insets, internalPaddingX, internalPaddingY ) );
+    }
+
+    /*
+     * This constructor should remain private, so we don't expose GridBagConstraints.
+     */
+    private GridPanel( GridBagConstraints constraints ) {
         super( new GridBagLayout() );
-
-        this.constraints = new GridBagConstraints();
-
-        setGridX( gridX );
-        setGridY( gridY );
-        setGridWidth( gridWidth );
-        setGridHeight( gridHeight );
-        setWeightX( weightX );
-        setWeightY( weightY );
-        setAnchor( anchor );
-        setFill( fill );
-        setInsets( insets );
-        setInternalPaddingX( internalPaddingX );
-        setInternalPaddingY( internalPaddingY );
+        this.constraints = constraints;
     }
 
     /**
@@ -426,7 +412,7 @@ public class GridPanel extends JPanel {
             forward.put( t, u );
             reverse.put( u, t );
         }
-        
+
         public int size() {
             assert( forward.size() == reverse.size() );
             return forward.size();
