@@ -280,6 +280,7 @@ public class ControlPanel extends Canvas {
         var b: Number = this.dampingSlider.getVal();
         //trace("ShakerView.changeA() amplitude is   " + amplitude);
         this.shakerModel.setB( b );
+        this.setFreqLabel();
     }
 
     public function setDampingExternally( b: Number ) {
@@ -316,7 +317,8 @@ public class ControlPanel extends Canvas {
 
     private function setFreqLabel(): void {
         var rNbr: int = this.selectedResonatorNbr;
-        var resFreq: Number = this.shakerModel.resonatorModel_arr[rNbr - 1].getF0();
+       // var resFreq: Number = this.shakerModel.resonatorModel_arr[rNbr - 1].getF0();
+        var resFreq: Number = this.shakerModel.resonatorModel_arr[rNbr - 1].getFRes();
         var resFreq_str: String = resFreq.toFixed( 3 );
         this.freq_lbl.text = this.frequencyEquals_str + resFreq_str + " " + hz_str;
     }
