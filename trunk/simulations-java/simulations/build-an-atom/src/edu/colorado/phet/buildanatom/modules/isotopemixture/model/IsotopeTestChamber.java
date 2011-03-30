@@ -158,8 +158,10 @@ public class IsotopeTestChamber {
     }
 
     public void clearAverageAtomicMassOverride(){
-        averageAtomicMassProperty.setValue( calculateAverageAtomicMass() );
-        averageAtomicMassOverridden = false;
+        if ( averageAtomicMassOverridden ){
+            averageAtomicMassProperty.setValue( calculateAverageAtomicMass() );
+            averageAtomicMassOverridden = false;
+        }
     }
 
     private void clearAllOverrides(){
@@ -186,6 +188,9 @@ public class IsotopeTestChamber {
      */
     public void overrideIsotopeProportions( Map<ImmutableAtom, Double> overrideValue ){
         isotopeProportionsOverride = overrideValue;
+        // Trigger a change notification so observers that need to know when
+        // the proportions change can be notified.
+        isotopeCountProperty.notifyObservers();
     }
 
     public void clearIsotopeProportionsOverride(){
