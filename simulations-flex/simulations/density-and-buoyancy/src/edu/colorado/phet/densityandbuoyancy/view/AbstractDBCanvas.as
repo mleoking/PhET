@@ -76,6 +76,10 @@ public class AbstractDBCanvas extends UIComponent {
     public const massReadoutsVisible: BooleanProperty = new BooleanProperty( true );
     protected var extendedPool: Boolean;
 
+    /**
+     * @param extendedPool Whether the pool should be deeper than normal
+     * @param showExactLiquidColor Whether we show realistic liquid colors, or a fake oil color
+     */
     public function AbstractDBCanvas( extendedPool: Boolean, showExactLiquidColor: Boolean = false ) {
         super();
         this.extendedPool = extendedPool;
@@ -165,6 +169,7 @@ public class AbstractDBCanvas extends UIComponent {
         mainViewport.addLight();
         overlayViewport.addLight();
 
+        // debugging marker
         marker = new ObjectContainer3D();
         marker.addChild( new Cube( { z: 50, width: 20, height: 20, depth: 100, segmentsW: 1, segmentsH: 10, material: new ShadingColorMaterial( 0x9999CC ) } ) );
         marker.addChild( new Cube( { z: 150, width: 20, height: 20, depth: 100, segmentsW: 1, segmentsH: 10, material: new ShadingColorMaterial( 0xCC9999 ) } ) );
@@ -197,6 +202,10 @@ public class AbstractDBCanvas extends UIComponent {
         onResize();
     }
 
+    /**
+     * @param m A 3D mesh of points in view space
+     * @return The median point of the front of the mesh, in _screen_ coordinates
+     */
     public function medianFrontScreenPoint( m: Mesh ): Number3D {
         var num: Number = 0;
         var kx: Number = 0;
@@ -226,19 +235,26 @@ public class AbstractDBCanvas extends UIComponent {
         if ( !_running ) {
             return;
         }
+
+        // run the physics
         _model.stepFrame();
+
+        // if we are dragging an object, set its position
         if ( moving && selectedObject is Pickable ) {
             var pickable: Pickable = (selectedObject as Pickable);
             pickable.getBody().SetXForm( new b2Vec2( pickable.getBody().GetPosition().x, cachedY ), 0 );
             pickable.getBody().SetLinearVelocity( new b2Vec2( 0, 0 ) );
             pickable.updateGeometry();
         }
+
+        // update the water display to the model
         waterFront.y = (-_model.getPoolHeight() + _model.getWaterHeight() / 2) * DensityAndBuoyancyModel.DISPLAY_SCALE;
         waterFront.height = _model.getWaterHeight() * DensityAndBuoyancyModel.DISPLAY_SCALE;//this is positive from the bottom of the pool
         waterTop.y = (-_model.getPoolHeight() + _model.getWaterHeight()) * DensityAndBuoyancyModel.DISPLAY_SCALE;
 
         updateWaterVolumeIndicater();
 
+        // render and fire listeners
         mainViewport.view.render();
         overlayViewport.view.render();
         for each ( var listener: Function in renderListeners ) {
@@ -268,8 +284,10 @@ public class AbstractDBCanvas extends UIComponent {
     }
 
     public function onMouseDown( event: MouseEvent ): void {
+        // record the start position of the drag, so we can calculate offsets and figure out the correct 3d position
         startMouseX = stage.mouseX - mainViewport.view.x;
         startMouseY = stage.mouseY - mainViewport.view.y;
+
         if ( canCurrentlyMoveObject( mainViewport.view.mouseObject ) ) {
             moving = true;
             startMiddle = medianFrontScreenPoint( mainViewport.view.mouseObject as AbstractPrimitive );
@@ -289,25 +307,44 @@ public class AbstractDBCanvas extends UIComponent {
 
     public function onMouseMove( event: MouseEvent ): void {
         if ( moving ) {
+            // get the starting mouse offset
             var offsetX: Number = startMiddle.x - startMouseX;
             var offsetY: Number = startMiddle.y - startMouseY;
+
+            // get the mouse screen coordinates from our viewport origin
             var mX: Number = stage.mouseX - mainViewport.view.x;
             var mY: Number = stage.mouseY - mainViewport.view.y;
+
+            // where the block should be dragged to, in screen coordinates
             var screenCubeCenterX: Number = mX + offsetX;
             var screenCubeCenterY: Number = mY + offsetY;
+
+            // get a vector that points in the direction to the block front-center. shouldn't matter if this is normalized
             var projected: Number3D = mainCamera.unproject( screenCubeCenterX, screenCubeCenterY );
+
+            // add in the camera offset
             projected.add( projected, new Number3D( mainCamera.x, mainCamera.y, mainCamera.z ) );
+
+            // get our camera and camera + ray vertices. these are on the line from the camera to our ideal block location
             var cameraVertex: Vertex = new Vertex( mainCamera.x, mainCamera.y, mainCamera.z );
             var rayVertex: Vertex = new Vertex( projected.x, projected.y, projected.z );
+
+            // construct the plane where blocks are in 3D. this is somewhat ambiguous what z-depth it has, but it seems to work
+            // TODO: potentially improve the z-depth here for better drag support
             var cubePlane: Plane3D = new Plane3D();
             cubePlane.fromNormalAndPoint( new Number3D( 0, 0, -1 ), new Number3D( 0, 0, -100 ) );
+
+            // intersect our ray and the plane. this is the 3D point our block should be in
             var intersection: Vertex = cubePlane.getIntersectionLine( cameraVertex, rayVertex );
+
+            // set the view object's position. this will forward through to our model.
             if ( selectedObject is Pickable ) {
                 var pickable: Pickable = selectedObject as Pickable;
                 pickable.setPosition( intersection.x, intersection.y );
                 cachedY = pickable.getBody().GetPosition().y;
             }
 
+            // for debugging purposes, put our marker at this location. this helps identify the 3D point that we are pointing at
             marker.x = intersection.x;
             marker.y = intersection.y;
             marker.z = intersection.z;

@@ -412,10 +412,6 @@ public class DensityObject {
         removalListeners.push( removalListener );
     }
 
-    //Abstract
-    public function box2DStepped(): void {
-    }
-
     public function set userControlled( userControlled: Boolean ): void {
         if ( userControlled != _userControlled ) {
             _userControlled = userControlled;
