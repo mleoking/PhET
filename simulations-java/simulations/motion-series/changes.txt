@@ -1,3 +1,4 @@
+Updated to use piccolo's version of SwingLayoutNode, see #2375
 # 2.00.04 (48705) Feb 7, 2011
 Fixed: improved fix for hiding the horizontal line before the total force arrow is shown
 # 2.00.03 (48703) Feb 6, 2011
