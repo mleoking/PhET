@@ -2,7 +2,6 @@ package edu.colorado.phet.motionseries.sims.rampforcesandmotion.robotmovingcompa
 
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode
 import edu.colorado.phet.common.phetcommon.view.util.{BufferedImageUtils, PhetFont}
-import edu.colorado.phet.common.piccolophet.nodes.layout.SwingLayoutNode
 import edu.colorado.phet.common.piccolophet.PhetPCanvas
 import edu.colorado.phet.scalacommon.ScalaClock
 import edu.umd.cs.piccolo.PNode
@@ -16,6 +15,7 @@ import java.awt._
 import geom.{RoundRectangle2D, Line2D}
 import edu.umd.cs.piccolo.nodes.{PImage, PText}
 import edu.colorado.phet.motionseries.model._
+import edu.umd.cs.piccolox.swing.SwingLayoutNode
 
 /**
  * The PlayAreaDialog is a piccolo node that looks like a window in the play area, used for instructions

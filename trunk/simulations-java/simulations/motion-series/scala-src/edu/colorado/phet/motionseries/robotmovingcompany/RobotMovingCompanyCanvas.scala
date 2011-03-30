@@ -2,7 +2,6 @@ package edu.colorado.phet.motionseries.sims.rampforcesandmotion.robotmovingcompa
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import edu.colorado.phet.common.phetcommon.view.util.{BufferedImageUtils, PhetFont}
-import edu.colorado.phet.common.piccolophet.nodes.layout.SwingLayoutNode
 import java.awt.event.{KeyEvent, KeyAdapter}
 import edu.umd.cs.piccolo.nodes.{PImage, PText}
 import edu.umd.cs.piccolo.PNode
@@ -21,6 +20,7 @@ import edu.umd.cs.piccolox.pswing.PSwing
 import swing.Button
 import java.awt.{BasicStroke, GridLayout, Color, Rectangle}
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources
+import edu.umd.cs.piccolox.swing.SwingLayoutNode
 
 /**
  * This class represents the play area for the Robot Moving Company games for Ramps II and Forces and Motion.

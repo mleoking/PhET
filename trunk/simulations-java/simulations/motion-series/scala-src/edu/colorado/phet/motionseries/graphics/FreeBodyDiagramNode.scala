@@ -8,7 +8,6 @@ import edu.colorado.phet.common.piccolophet.nodes._
 import edu.colorado.phet.common.piccolophet.PhetPCanvas
 import java.awt.geom.{Point2D, Rectangle2D}
 import javax.swing.JFrame
-import layout.SwingLayoutNode
 import edu.colorado.phet.scalacommon.math.Vector2D
 import edu.colorado.phet.scalacommon.util.Observable
 import edu.colorado.phet.motionseries.MotionSeriesDefaults
@@ -21,6 +20,7 @@ import java.lang.Math._
 import edu.colorado.phet.motionseries.MotionSeriesResources._
 import java.awt.{Color, Image, BasicStroke}
 import edu.colorado.phet.motionseries.model._
+import edu.umd.cs.piccolox.swing.SwingLayoutNode
 
 class AxisModel(private var _angle: Double,
                 val length: Double,
