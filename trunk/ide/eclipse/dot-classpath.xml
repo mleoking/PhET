@@ -113,6 +113,8 @@
 	<classpathentry kind="src" path="simulations-java/simulations/bending-light/data"/>
 	<classpathentry kind="src" path="simulations-java/simulations/bound-states/src"/>
 	<classpathentry kind="src" path="simulations-java/simulations/bound-states/data"/>
+    <classpathentry kind="src" path="simulations-java/simulations/build-a-molecule/src"/>
+    <classpathentry kind="src" path="simulations-java/simulations/build-a-molecule/data"/>
     <classpathentry kind="src" path="simulations-java/simulations/build-an-atom/src"/>
     <classpathentry kind="src" path="simulations-java/simulations/build-an-atom/data"/>
     <classpathentry kind="src" path="simulations-java/simulations/capacitor-lab/src"/>
