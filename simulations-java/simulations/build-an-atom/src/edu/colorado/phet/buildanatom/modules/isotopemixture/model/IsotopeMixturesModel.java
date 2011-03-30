@@ -585,7 +585,8 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
                 }
              } );
 
-        // Add the isotope controllers.
+        // Add the isotope controllers (i.e. the sliders).
+        // TODO: Can I move this?  Readability would be better if so.
         addIsotopeControllers();
 
         // Add the isotopes.
@@ -606,6 +607,18 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
                 notifyIsotopeInstanceAdded( newIsotope );
             }
         }
+
+        // Override the average atomic mass and isotope proportions, since we
+        // can't add enough atoms to the test chamber to make the proportions
+        // exactly match those that occur in nature.
+        Map<ImmutableAtom, Double> naturesMixIsotopeProportions = new HashMap<ImmutableAtom, Double>();
+        double naturesMixAverageAtomicMass = 0;
+        for ( ImmutableAtom isotope : possibleIsotopesCopy ){
+            naturesMixIsotopeProportions.put( isotope, AtomIdentifier.getNaturalAbundance( isotope ) );
+            naturesMixAverageAtomicMass += isotope.getAtomicMass() * isotope.getNaturalAbundance();
+        }
+        testChamber.overrideIsotopeProportions( naturesMixIsotopeProportions );
+        testChamber.overrideAverageAtomicMass( naturesMixAverageAtomicMass );
     }
 
     /**
