@@ -10,3 +10,9 @@ To create an IntelliJ project for phet:
     c. start IntelliJ, opening the phet project
     d. File -> Settings -> Code Style -> Use Global Settings : PhetStyle
     (optional) e. If you are having trouble finding the directory in step b., one way to track it down is to create a dummy code style with a unique name, save it, close intellij, then search your file system for the unique name
+
+Quick tips (for Windows users, but keystrokes are similar on mac)!
+    Navigate to a class: ctrl-N
+    Launch main() for the file in the editor: ctrl-shift-F10
+    Navigate to declaration: ctrl-B
+    Find usages: Alt-F7
