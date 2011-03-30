@@ -7,6 +7,7 @@ import edu.colorado.phet.flexcommon.model.NumericProperty;
 
 import flash.display.DisplayObject;
 import flash.events.FocusEvent;
+import flash.events.KeyboardEvent;
 
 import mx.containers.GridItem;
 import mx.containers.GridRow;
@@ -26,6 +27,7 @@ public class PropertyEditor extends GridRow {
     protected var _sliderDecorator: SliderDecorator;
     private var _unit: Unit;
     protected var addLabels: Boolean;
+    private var userChanged: Boolean = false;
 
     public function PropertyEditor( property: NumericProperty, minimum: Number, maximum: Number, unit: Unit, dataTipClamp: Function, bounds: Bounds, sliderWidth: Number = 280, addLabels: Boolean = true ) {
         super();
@@ -61,15 +63,20 @@ public class PropertyEditor extends GridRow {
             }
 
             function updateModelFromTextField(): void {
+                if ( !userChanged ) {
+                    return;
+                }
+                userChanged = true;
                 const number: Number = unit.toSI( Number( textField.text ) );
                 property.value = bounds.clamp( MathUtil.clamp( minimum, number, maximum ) );
-                if ( number < minimum || number > maximum ) {
+                if ( number != property.value ) {
+                    // it was changed!
                     updateText();
                 }
             }
 
             updateText();
-            const listener: Function = function myfunction(): void {
+            const listener: Function = function myfunction( evt: Object ): void {
                 if ( focusManager != null ) { //Have to do a null check because it can be null if the component is not in the scene graph?
                     if ( focusManager.getFocus() == textField ) {//Only update the model if the user is editing the text field, otherwise there are loops that cause errant behavior
                         updateModelFromTextField();
@@ -77,9 +84,16 @@ public class PropertyEditor extends GridRow {
                 }
             };
 
-            textField.addEventListener( FocusEvent.FOCUS_OUT, updateModelFromTextField );
-            textField.addEventListener( FlexEvent.VALUE_COMMIT, listener );
+            textField.addEventListener( FocusEvent.FOCUS_OUT, function( evt: Object ): void {
+                updateModelFromTextField();
+            } );
+//            textField.addEventListener( FlexEvent.VALUE_COMMIT, listener ); // removed since this was definitely not necessary
             textField.addEventListener( FlexEvent.ENTER, listener );
+            textField.addEventListener( KeyboardEvent.KEY_DOWN, function( evt: KeyboardEvent ): void {
+                // If the user types into the text field, we mark it as user-changed so that another type of event will cause an update.
+                // This prevents the User mass change => volume change / clamp => incorrect mass change bug
+                userChanged = true;
+            } );
 
             property.addListener( updateText );
             addGridItem( textField );
