@@ -8,7 +8,10 @@ import edu.colorado.phet.flexcommon.PhetTabNavigator;
 import mx.containers.Canvas;
 
 /**
- * Main application entry point for the Buoyancy sim
+ * Main application entry point for the Buoyancy sim.
+ *
+ * This is linked from Buoyancy.mxml, and sets up the modules with tabs. Since Density has no tabs, it does not have a
+ * corresponding application class, but directly references its container.
  */
 public class BuoyancyApplication extends Canvas {
     public function BuoyancyApplication() {
