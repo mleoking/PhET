@@ -8,6 +8,9 @@ import flash.display.Bitmap;
  * Materials have a name, density, color and texture--represents both solid (e.g. wood) and liquid (e.g. water) materials.
  */
 public class Material {
+
+    // we use embed to get class references so we can instantiate them later
+
     [Embed(source="../../../../../../data/density-and-buoyancy/images/wood.png")]
     private static var woodTextureClass: Class;
 
@@ -49,7 +52,6 @@ public class Material {
     public static var OLIVE_OIL: Material = new Material( FlexSimStrings.get( "material.oliveOil", "Olive Oil" ), 918, false, 0xAAAA00 );
     public static var HONEY: Material = new Material( FlexSimStrings.get( "material.honey", "Honey" ), 1420, false, 0xCC8800 );
     public static var APPLE: Material = new Material( FlexSimStrings.get( "material.apple", "Apple" ), 641, false );
-    public static var MYSTERY_MATERIALS: Array = [GOLD,DIAMOND,GASOLINE,ICE,APPLE];
 
     public static var LABELED_LIQUID_MATERIALS: Array = [AIR,GASOLINE,OLIVE_OIL,WATER,HONEY];
 
@@ -100,12 +102,6 @@ public class Material {
 
     public function get alpha(): Number {
         return _alpha;
-    }
-
-    public function synchronizeDensity( densityObject: DensityObject ): void {
-        if ( !isCustom() ) {
-            densityObject.setDensity( density );
-        }
     }
 
     public function getDensity(): Number {
