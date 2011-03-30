@@ -13,4 +13,6 @@ public class BuildAMoleculeStrings {
     }
 
     public static final String TITLE_MAKE_MOLECULE = BuildAMoleculeResources.getString( "title.makeMolecule" );
+    public static final String TITLE_COLLECT_MULTIPLE = BuildAMoleculeResources.getString( "title.collectMultiple" );
+    public static final String TITLE_LARGER_MOLECULES = BuildAMoleculeResources.getString( "title.largerMolecules" );
 }
