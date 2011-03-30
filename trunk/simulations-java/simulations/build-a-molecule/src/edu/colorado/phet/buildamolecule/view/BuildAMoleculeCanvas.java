@@ -5,6 +5,7 @@ package edu.colorado.phet.buildamolecule.view;
 import java.awt.*;
 import java.awt.geom.Dimension2D;
 
+import edu.colorado.phet.buildamolecule.BuildAMoleculeConstants;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
 
@@ -17,8 +18,8 @@ public class BuildAMoleculeCanvas extends PhetPCanvas {
     // Model
     // TODO: model
 
-    // View 
-    private PNode _rootNode;
+    // View
+    private final PNode _rootNode;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -27,7 +28,7 @@ public class BuildAMoleculeCanvas extends PhetPCanvas {
     public BuildAMoleculeCanvas() {
         super(); // TODO: model view transform
 
-        setBackground( new Color( 0, 0, 0 ) );
+        setBackground( BuildAMoleculeConstants.CANVAS_BACKGROUND_COLOR );
 
         // Root of our scene graph
         _rootNode = new PNode();
