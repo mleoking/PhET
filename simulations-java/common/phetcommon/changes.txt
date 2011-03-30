@@ -1,3 +1,4 @@
+3/30//1 GridPanel: #2770, fix for setBorder
 3/30/11 GridPanel: replace awkward enum-int mappings with two-way map, simplify constructors
 3/22/11 i18ized strings in VelocitySensorNode
 3/20/11 Added Option.toString
