@@ -325,8 +325,10 @@ public class GridPanel extends JPanel {
     /**
      * Gets the insets.
      * Because Insets are mutable, a copy is returned.
+     * This is named getInsetsCopy because JPanel has a getInsets method that does something different,
+     * and overriding it causes layout problems (see #2770).
      */
-    public Insets getInsets() {
+    public Insets getInsetsCopy() {
         return new Insets( constraints.insets.top, constraints.insets.left, constraints.insets.bottom, constraints.insets.right );
     }
 
