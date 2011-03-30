@@ -6,6 +6,8 @@ import java.awt.Frame;
 
 import javax.swing.JMenu;
 
+import edu.colorado.phet.buildamolecule.module.CollectMultipleModule;
+import edu.colorado.phet.buildamolecule.module.LargerMoleculesModule;
 import edu.colorado.phet.buildamolecule.module.MakeMoleculeModule;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
@@ -52,9 +54,11 @@ public class BuildAMoleculeApplication extends PiccoloPhetApplication {
         Module makeMoleculeModule = new MakeMoleculeModule( parentFrame );
         addModule( makeMoleculeModule );
 
-        Module duplicate = new MakeMoleculeModule( parentFrame );
-        addModule( duplicate );
+        Module collectMultipleModule = new CollectMultipleModule( parentFrame );
+        addModule( collectMultipleModule );
 
+        Module largerMolecules = new LargerMoleculesModule( parentFrame );
+        addModule( largerMolecules );
     }
 
     /*
