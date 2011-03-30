@@ -124,6 +124,12 @@ public class MassSpringModel {
         return f0;
     }
 
+    public function getFRes(): Number {
+        var fRes: Number = (1 / (2 * Math.PI)) * Math.sqrt( this.k / this.m - this.b * this.b / (2 * this.m * this.m) );
+        //var f0: Number = (1 / (2 * Math.PI)) * Math.sqrt( this.k / this.m );
+        return fRes;
+    }
+
     public function setTRate(rate:Number):void{
         this.tRate = rate;
         if(rate > 1 || tRate < 0){
