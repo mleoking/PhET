@@ -2,10 +2,10 @@
 
 package edu.colorado.phet.buildamolecule.module;
 
-import java.awt.*;
+import java.awt.Frame;
 
 import edu.colorado.phet.buildamolecule.BuildAMoleculeStrings;
-import edu.colorado.phet.buildamolecule.view.BuildAMoleculeCanvas;
+import edu.colorado.phet.buildamolecule.view.LargerMoleculesCanvas;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 
@@ -15,7 +15,7 @@ public class LargerMoleculesModule extends PiccoloModule {
     // Instance data
     //----------------------------------------------------------------------------
 
-    private final BuildAMoleculeCanvas canvas;
+    private final LargerMoleculesCanvas canvas;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -29,7 +29,7 @@ public class LargerMoleculesModule extends PiccoloModule {
         setClockControlPanel( null );
 
         // Canvas
-        canvas = new BuildAMoleculeCanvas();
+        canvas = new LargerMoleculesCanvas();
         setSimulationPanel( canvas );
 
         // Set initial state
