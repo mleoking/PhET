@@ -27,20 +27,28 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 public class BatteryCapacitorCircuit implements ICircuit {
 
     // immutable instance data
-    private final CLClock clock;
-    private final Wire topWire, bottomWire;
-    private final EventListenerList listeners;
     private final Battery battery;
     private final Capacitor capacitor;
+    private final Wire topWire, bottomWire;
+    private final CLClock clock;
+    private final EventListenerList listeners;
 
     // observable properties
     private Property<Double> currentAmplitudeProperty; // dV/dt, rate of voltage change
 
     // mutable instance data
-    private boolean batteryConnected;
+    private boolean batteryConnected; // is the battery connected to the circuit?
     private double disconnectedPlateCharge; // charge set manually by the user, used when battery is disconnected
-    private double previousTotalCharge;
+    private double previousTotalCharge; // total charge the previous time the clock ticked, used to compute current amplitude
 
+    /**
+     * Constructor
+     * @param clock
+     * @param battery
+     * @param capacitor
+     * @param batteryConnected
+     * @param mvt
+     */
     public BatteryCapacitorCircuit( CLClock clock, final Battery battery, final Capacitor capacitor, boolean batteryConnected, CLModelViewTransform3D mvt ) {
 
         this.clock = clock;
@@ -81,9 +89,7 @@ public class BatteryCapacitorCircuit implements ICircuit {
     }
 
     //----------------------------------------------------------------------------------
-    //
     // Circuit components
-    //
     //----------------------------------------------------------------------------------
 
     public Battery getBattery() {
@@ -103,9 +109,7 @@ public class BatteryCapacitorCircuit implements ICircuit {
     }
 
     //----------------------------------------------------------------------------------
-    //
     // Battery connectivity
-    //
     //----------------------------------------------------------------------------------
 
     /**
@@ -148,9 +152,7 @@ public class BatteryCapacitorCircuit implements ICircuit {
     }
 
     //----------------------------------------------------------------------------------
-    //
-    // Plate Voltage (V)
-    //
+    // Plate voltage (V)
     //----------------------------------------------------------------------------------
 
     // @see ICircuit.getVoltageBetween
@@ -184,9 +186,7 @@ public class BatteryCapacitorCircuit implements ICircuit {
     }
 
     //----------------------------------------------------------------------------------
-    //
-    // Capacitance
-    //
+    // Capacitance (C)
     //----------------------------------------------------------------------------------
 
     // @see ICircuit.getTotalCapacitance
@@ -195,9 +195,7 @@ public class BatteryCapacitorCircuit implements ICircuit {
     }
 
     //----------------------------------------------------------------------------------
-    //
-    // Plate Charge (Q)
-    //
+    // Plate charge (Q)
     //----------------------------------------------------------------------------------
 
     /**
@@ -232,9 +230,7 @@ public class BatteryCapacitorCircuit implements ICircuit {
     }
 
     //----------------------------------------------------------------------------------
-    //
     // E-Field (E)
-    //
     //----------------------------------------------------------------------------------
 
     // @see ICircuit.getEffectiveEFieldAt
@@ -271,9 +267,7 @@ public class BatteryCapacitorCircuit implements ICircuit {
     }
 
     //----------------------------------------------------------------------------------
-    //
     // Stored Energy (U)
-    //
     //----------------------------------------------------------------------------------
 
     // @see ICircuit.getStoredEnergy
@@ -284,9 +278,7 @@ public class BatteryCapacitorCircuit implements ICircuit {
     }
 
     //----------------------------------------------------------------------------------
-    //
     // Current
-    //
     //----------------------------------------------------------------------------------
 
     public double getCurrentAmplitude() {
@@ -309,9 +301,7 @@ public class BatteryCapacitorCircuit implements ICircuit {
     }
 
     //----------------------------------------------------------------------------------
-    //
     // CircuitChangeListeners
-    //
     //----------------------------------------------------------------------------------
 
     // @see ICircuit.addCircuitChangeListener

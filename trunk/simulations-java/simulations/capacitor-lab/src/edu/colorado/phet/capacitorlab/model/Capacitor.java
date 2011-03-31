@@ -53,6 +53,15 @@ public class Capacitor {
     private final Property<Double> dielectricOffsetProperty; // x-axis offset of dielectric's center, relative to the capacitor's origin (meters)
     private final Property<Double> platesVoltageProperty; // voltage across the plates (Volts)
 
+    /**
+     * Constructor
+     * @param location
+     * @param plateWidth
+     * @param plateSeparation
+     * @param dielectricMaterial
+     * @param dielectricOffset
+     * @param mvt
+     */
     public Capacitor( Point3D location, double plateWidth, double plateSeparation, DielectricMaterial dielectricMaterial, double dielectricOffset, CLModelViewTransform3D mvt ) {
 
         this.mvt = mvt;
@@ -98,12 +107,11 @@ public class Capacitor {
         plateSeparationProperty.reset();
         dielectricMaterialProperty.reset();
         dielectricOffsetProperty.reset();
+        platesVoltageProperty.reset();
     }
 
     //----------------------------------------------------------------------------------
-    //
     // Location
-    //
     //----------------------------------------------------------------------------------
 
     /**
@@ -128,9 +136,7 @@ public class Capacitor {
     }
 
     //----------------------------------------------------------------------------------
-    //
     // Plate size (L, A)
-    //
     //----------------------------------------------------------------------------------
 
     /**
@@ -182,7 +188,7 @@ public class Capacitor {
     }
 
     /**
-     * Gets the 2D area of one plate's top (or bottom) surfaces.
+     * Convenience method, gets the area of one plate's top (or bottom) surfaces.
      * (design doc symbol: A)
      *
      * @return area in meters^2
@@ -196,9 +202,7 @@ public class Capacitor {
     }
 
     //----------------------------------------------------------------------------------
-    //
     // Plate separation (d)
-    //
     //----------------------------------------------------------------------------------
 
     /**
@@ -248,9 +252,7 @@ public class Capacitor {
     }
 
     //----------------------------------------------------------------------------------
-    //
     // Dielectric
-    //
     //----------------------------------------------------------------------------------
 
     /**
@@ -349,9 +351,7 @@ public class Capacitor {
     }
 
     //----------------------------------------------------------------------------------
-    //
     // Capacitance (C)
-    //
     //----------------------------------------------------------------------------------
 
     /**
@@ -399,9 +399,7 @@ public class Capacitor {
     }
 
     //----------------------------------------------------------------------------------
-    //
     // Shapes
-    //
     //----------------------------------------------------------------------------------
 
     public CapacitorShapeFactory getShapeFactory() {
@@ -457,9 +455,7 @@ public class Capacitor {
     }
 
     //----------------------------------------------------------------------------------
-    //
     // Plate Voltage (V)
-    //
     //----------------------------------------------------------------------------------
 
     public void setPlatesVoltage( double voltage ) {
@@ -476,9 +472,7 @@ public class Capacitor {
     }
 
     //----------------------------------------------------------------------------------
-    //
     // Plate Charge (Q)
-    //
     //----------------------------------------------------------------------------------
 
     /**
@@ -546,9 +540,7 @@ public class Capacitor {
     }
 
     //----------------------------------------------------------------------------------
-    //
     // Surface Charge Density (sigma)
-    //
     //----------------------------------------------------------------------------------
 
     /**
@@ -587,9 +579,7 @@ public class Capacitor {
     }
 
     //----------------------------------------------------------------------------------
-    //
     // E-Field (E)
-    //
     //----------------------------------------------------------------------------------
 
     /**
@@ -660,14 +650,10 @@ public class Capacitor {
     }
 
     //----------------------------------------------------------------------------------
-    //
     // CapacitorChangeListeners
-    //
     //----------------------------------------------------------------------------------
 
-    /**
-     * Notified when derived properties change.
-     */
+    // Notified when derived properties change.
     public interface CapacitorChangeListener extends EventListener {
         public void capacitorChanged();
     }
