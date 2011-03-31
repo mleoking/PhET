@@ -13,6 +13,7 @@ import edu.colorado.phet.capacitorlab.developer.VoltageShapesDebugNode;
 import edu.colorado.phet.capacitorlab.drag.DielectricOffsetDragHandleNode;
 import edu.colorado.phet.capacitorlab.drag.PlateAreaDragHandleNode;
 import edu.colorado.phet.capacitorlab.drag.PlateSeparationDragHandleNode;
+import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit;
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.colorado.phet.capacitorlab.model.ICircuit.CircuitChangeListener;
 import edu.colorado.phet.capacitorlab.module.CLCanvas;
@@ -22,6 +23,7 @@ import edu.colorado.phet.capacitorlab.view.CurrentIndicatorNode;
 import edu.colorado.phet.capacitorlab.view.WireNode;
 import edu.colorado.phet.capacitorlab.view.meters.*;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
+import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.umd.cs.piccolo.PNode;
 
@@ -68,7 +70,7 @@ public class DielectricCanvas extends CLCanvas {
         this.mvt = mvt;
 
         batteryNode = new BatteryNode( model.getBattery(), CLConstants.BATTERY_VOLTAGE_RANGE );
-        capacitorNode = new CapacitorNode( model.getCircuit(), mvt, CLConstants.PLATE_CHARGES_VISIBLE, CLConstants.EFIELD_VISIBLE, CLConstants.DIELECTRIC_CHARGE_VIEW );
+        capacitorNode = new CapacitorNode( model.getCircuit().getCapacitor(), mvt, CLConstants.PLATE_CHARGES_VISIBLE, CLConstants.EFIELD_VISIBLE, CLConstants.DIELECTRIC_CHARGE_VIEW );
         topWireNode = new WireNode( model.getTopWire(), mvt );
         bottomWireNode = new WireNode( model.getBottomWire(), mvt );
 
@@ -84,7 +86,8 @@ public class DielectricCanvas extends CLCanvas {
         voltmeter = new VoltmeterView( model.getVoltmeter(), mvt );
         eFieldDetector = new EFieldDetectorView( model.getEFieldDetector(), mvt, dev );
 
-        plateChargeControNode = new PlateChargeControlNode( model.getCircuit() );
+        final double maxPlateCharge = BatteryCapacitorCircuit.getMaxPlateCharge();
+        plateChargeControNode = new PlateChargeControlNode( model.getCircuit(), new DoubleRange( -maxPlateCharge, maxPlateCharge ) );
 
         topCurrentIndicatorNode = new CurrentIndicatorNode( model.getCircuit(), 0 );
         bottomCurrentIndicatorNode = new CurrentIndicatorNode( model.getCircuit(), Math.PI );

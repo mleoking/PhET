@@ -5,8 +5,11 @@ package edu.colorado.phet.capacitorlab.view;
 import java.awt.Dimension;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
-import edu.colorado.phet.capacitorlab.model.*;
-import edu.colorado.phet.capacitorlab.model.ICircuit.CircuitChangeListener;
+import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit;
+import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
+import edu.colorado.phet.capacitorlab.model.Capacitor;
+import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeListener;
+import edu.colorado.phet.capacitorlab.model.Polarity;
 import edu.colorado.phet.capacitorlab.view.IPlateChargeGridSizeStrategy.GridSizeStrategyFactory;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.PNode;
@@ -25,21 +28,21 @@ public abstract class PlateChargeNode extends PhetPNode {
 
     private static final boolean DEBUG_OUTPUT_ENABLED = false;
 
-    private final BatteryCapacitorCircuit circuit;
+    private final Capacitor capacitor;
     private final CLModelViewTransform3D mvt;
     private final Polarity polarity;
     private final PNode parentNode; // parent node for charges
     private final IPlateChargeGridSizeStrategy gridSizeStrategy;
 
-    public PlateChargeNode( BatteryCapacitorCircuit circuit, CLModelViewTransform3D mvt, Polarity polarity ) {
+    public PlateChargeNode( Capacitor capacitor, CLModelViewTransform3D mvt, Polarity polarity ) {
 
-        this.circuit = circuit;
+        this.capacitor = capacitor;
         this.mvt = mvt;
         this.polarity = polarity;
         this.gridSizeStrategy = GridSizeStrategyFactory.createStrategy();
 
-        circuit.addCircuitChangeListener( new CircuitChangeListener() {
-            public void circuitChanged() {
+        capacitor.addCapacitorChangeListener( new CapacitorChangeListener() {
+            public void capacitorChanged() {
                 if ( isVisible() ) {
                     update();
                 }
@@ -69,8 +72,8 @@ public abstract class PlateChargeNode extends PhetPNode {
      */
     protected abstract double getContactWidth();
 
-    protected BatteryCapacitorCircuit getCircuit() {
-        return circuit;
+    protected Capacitor getCapacitor() {
+        return capacitor;
     }
 
     private boolean isPositivelyCharged() {
@@ -108,7 +111,7 @@ public abstract class PlateChargeNode extends PhetPNode {
             final double zMargin = mvt.viewToModelDelta( new PositiveChargeNode().getFullBoundsReference().getWidth(), 0 ).getX();
 
             final double contactWidth = getContactWidth(); // contact between plate and dielectric
-            final double plateDepth = circuit.getCapacitor().getPlateDepth() - ( 2 * zMargin );
+            final double plateDepth = getCapacitor().getPlateDepth() - ( 2 * zMargin );
 
             // grid dimensions
             Dimension gridSize = gridSizeStrategy.getGridSize( numberOfCharges, contactWidth, plateDepth );
@@ -152,7 +155,7 @@ public abstract class PlateChargeNode extends PhetPNode {
     private int getNumberOfCharges( double plateCharge ) {
 
         double absCharge = Math.abs( plateCharge );
-        double maxCharge = BatteryCapacitorCircuit.getMaxPlateCharge();
+        double maxCharge = BatteryCapacitorCircuit.getMaxPlateCharge(); //TODO pass this max in via constructor
 
         int numberOfCharges = (int) ( CLConstants.NUMBER_OF_PLATE_CHARGES.getMax() * absCharge / maxCharge );
         if ( absCharge > 0 && numberOfCharges < CLConstants.NUMBER_OF_PLATE_CHARGES.getMin() ) {
@@ -167,24 +170,23 @@ public abstract class PlateChargeNode extends PhetPNode {
      */
     public static class DielectricPlateChargeNode extends PlateChargeNode {
 
-        public DielectricPlateChargeNode( BatteryCapacitorCircuit circuit, CLModelViewTransform3D mvt, Polarity polarity ) {
-            super( circuit, mvt, polarity );
+        public DielectricPlateChargeNode( Capacitor capacitor, CLModelViewTransform3D mvt, Polarity polarity ) {
+            super( capacitor, mvt, polarity );
         }
 
         // Gets the portion of the plate charge due to the dielectric.
         protected double getPlateCharge() {
-            return getCircuit().getDielectricPlateCharge();
+            return getCapacitor().getDielectricPlateCharge();
         }
 
         // Gets the x offset (relative to the plate's origin) of the portion of the plate that is in contact with the dielectric.
         protected double getContactXOrigin() {
-            return -( getCircuit().getCapacitor().getPlateWidth() / 2 ) + getCircuit().getCapacitor().getDielectricOffset();
+            return -( getCapacitor().getPlateWidth() / 2 ) + getCapacitor().getDielectricOffset();
         }
 
         // Gets the width of the portion of the plate that is in contact with the dielectric.
         protected double getContactWidth() {
-            Capacitor capacitor = getCircuit().getCapacitor();
-            return Math.max( 0, capacitor.getPlateWidth() - capacitor.getDielectricOffset() );
+            return Math.max( 0, getCapacitor().getPlateWidth() - getCapacitor().getDielectricOffset() );
         }
     }
 
@@ -194,24 +196,23 @@ public abstract class PlateChargeNode extends PhetPNode {
      */
     public static class AirPlateChargeNode extends PlateChargeNode {
 
-        public AirPlateChargeNode( BatteryCapacitorCircuit circuit, CLModelViewTransform3D mvt, Polarity polarity ) {
-            super( circuit, mvt, polarity );
+        public AirPlateChargeNode( Capacitor capacitor, CLModelViewTransform3D mvt, Polarity polarity ) {
+            super( capacitor, mvt, polarity );
         }
 
         // Gets the portion of the plate charge due to air.
         protected double getPlateCharge() {
-            return getCircuit().getAirPlateCharge();
+            return getCapacitor().getAirPlateCharge();
         }
 
         // Gets the x offset (relative to the plate origin) of the portion of the plate that is in contact with air.
         protected double getContactXOrigin() {
-            return -getCircuit().getCapacitor().getPlateWidth() / 2;
+            return -getCapacitor().getPlateWidth() / 2;
         }
 
         // Gets the width of the portion of the plate that is in contact with air.
         protected double getContactWidth() {
-            Capacitor capacitor = getCircuit().getCapacitor();
-            return Math.min( capacitor.getDielectricOffset(), capacitor.getPlateWidth() );
+            return Math.min( getCapacitor().getDielectricOffset(), getCapacitor().getPlateWidth() );
         }
     }
 }

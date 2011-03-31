@@ -8,7 +8,7 @@ import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit;
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.colorado.phet.capacitorlab.model.Capacitor;
-import edu.colorado.phet.capacitorlab.model.ICircuit.CircuitChangeListener;
+import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeListener;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.nodes.PComposite;
@@ -26,20 +26,20 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 public class DielectricExcessChargeNode extends PhetPNode {
 
-    private final BatteryCapacitorCircuit circuit;
+    private final Capacitor capacitor;
     private final CLModelViewTransform3D mvt;
     private final PNode parentNode; // parent node for charges
 
-    public DielectricExcessChargeNode( BatteryCapacitorCircuit circuit, CLModelViewTransform3D mvt ) {
+    public DielectricExcessChargeNode( Capacitor capacitor, CLModelViewTransform3D mvt ) {
 
-        this.circuit = circuit;
+        this.capacitor = capacitor;
         this.mvt = mvt;
 
         this.parentNode = new PComposite();
         addChild( parentNode );
 
-        circuit.addCircuitChangeListener( new CircuitChangeListener() {
-            public void circuitChanged() {
+        capacitor.addCapacitorChangeListener( new CapacitorChangeListener() {
+            public void capacitorChanged() {
                 if ( isVisible() ) {
                     update();
                 }
@@ -67,8 +67,7 @@ public class DielectricExcessChargeNode extends PhetPNode {
         // remove existing charges
         parentNode.removeAllChildren();
 
-        Capacitor capacitor = circuit.getCapacitor();
-        final double excessCharge = circuit.getExcessDielectricPlateCharge();
+        final double excessCharge = capacitor.getExcessDielectricPlateCharge();
         final double dielectricWidth = capacitor.getDielectricSize().getWidth();
         final double dielectricDepth = capacitor.getDielectricSize().getDepth();
         final double contactWidth = Math.max( 0, dielectricWidth - capacitor.getDielectricOffset() ); // contact between plate and dielectric
@@ -137,7 +136,7 @@ public class DielectricExcessChargeNode extends PhetPNode {
      */
     private int getNumberOfCharges( double excessCharge ) {
         double absCharge = Math.abs( excessCharge ); // don't take sqrt of absCharge, it's something like 1E-14 and will result in a *larger* number
-        double maxCharge = BatteryCapacitorCircuit.getMaxExcessDielectricPlateCharge();
+        double maxCharge = BatteryCapacitorCircuit.getMaxExcessDielectricPlateCharge(); //TODO pass this max in via constructor
         int numberOfCharges = (int) Math.sqrt( CLConstants.NUMBER_OF_PLATE_CHARGES.getMax() * absCharge / maxCharge ); // take sqrt here instead
         if ( absCharge > 0 && numberOfCharges < CLConstants.NUMBER_OF_PLATE_CHARGES.getMin() ) {
             numberOfCharges = CLConstants.NUMBER_OF_PLATE_CHARGES.getMin();

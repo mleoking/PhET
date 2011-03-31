@@ -11,7 +11,8 @@ import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLPaints;
 import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit;
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
-import edu.colorado.phet.capacitorlab.model.ICircuit.CircuitChangeListener;
+import edu.colorado.phet.capacitorlab.model.Capacitor;
+import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeListener;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -27,16 +28,16 @@ public class EFieldNode extends PhetPNode {
 
     public static enum Direction { UP, DOWN };
 
-    private final BatteryCapacitorCircuit circuit;
+    private final Capacitor capacitor;
     private final CLModelViewTransform3D mvt;
     private final PNode parentNode; // parent for all the field lines
 
-    public EFieldNode( BatteryCapacitorCircuit circuit, CLModelViewTransform3D mvt ) {
-        this.circuit = circuit;
+    public EFieldNode( Capacitor capacitor, CLModelViewTransform3D mvt ) {
+        this.capacitor = capacitor;
         this.mvt = mvt;
 
-        circuit.addCircuitChangeListener( new CircuitChangeListener() {
-            public void circuitChanged() {
+        capacitor.addCapacitorChangeListener( new CapacitorChangeListener() {
+            public void capacitorChanged() {
                 if ( isVisible() ) {
                     update();
                 }
@@ -68,15 +69,15 @@ public class EFieldNode extends PhetPNode {
         parentNode.removeAllChildren();
 
         // compute density (spacing) of field lines
-        double effectiveEField = circuit.getEffectiveEfield();
+        double effectiveEField = capacitor.getEffectiveEfield();
         double lineSpacing = getLineSpacing( effectiveEField );
 
         if ( lineSpacing > 0 ) {
 
             // relevant model values
-            final double plateWidth = circuit.getCapacitor().getPlateWidth();
+            final double plateWidth = capacitor.getPlateWidth();
             final double plateDepth = plateWidth;
-            final double plateSeparation = circuit.getCapacitor().getPlateSeparation();
+            final double plateSeparation = capacitor.getPlateSeparation();
 
             /*
              * Create field lines, working from the center outwards so that
@@ -132,7 +133,7 @@ public class EFieldNode extends PhetPNode {
     private int getNumberOfLines( double effectiveEField ) {
 
         double absEField = Math.abs( effectiveEField );
-        double maxEField = BatteryCapacitorCircuit.getMaxEffectiveEfield();
+        double maxEField = BatteryCapacitorCircuit.getMaxEffectiveEfield();//TODO pass this max in via constructor
 
         int numberOfLines = (int)( CLConstants.NUMBER_OF_EFIELD_LINES.getMax() * absEField / maxEField );
         if ( absEField > 0 && numberOfLines < CLConstants.NUMBER_OF_EFIELD_LINES.getMin() ) {

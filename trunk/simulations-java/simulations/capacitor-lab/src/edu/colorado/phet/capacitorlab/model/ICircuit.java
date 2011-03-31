@@ -28,7 +28,7 @@ public interface ICircuit {
      *
      * @return charge, in Coulombs
      */
-    public double getTotalPlateCharge();
+    public double getTotalCharge();
 
     /**
      * Gets the energy stored in the circuit.
