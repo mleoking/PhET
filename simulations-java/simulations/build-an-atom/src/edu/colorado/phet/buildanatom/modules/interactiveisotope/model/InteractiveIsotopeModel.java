@@ -38,7 +38,7 @@ public class InteractiveIsotopeModel implements Resettable, IConfigurableAtomMod
     private static final int DEFAULT_NUM_NEUTRONS_IN_BUCKET = 4;
 
     // Constants that define the size, position, and appearance of the neutron bucket.
-    private static final Dimension2D BUCKET_SIZE = new PDimension( 55, 30 );
+    private static final Dimension2D BUCKET_SIZE = new PDimension( 65, 30 );
     private static final Point2D NEUTRON_BUCKET_POSITION = new Point2D.Double( -120, -140 );
 
     // Distance at which nucleons are captured by the nucleus.
