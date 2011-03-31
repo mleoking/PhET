@@ -28,6 +28,7 @@ import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -200,19 +201,19 @@ public class IsotopeMixturesCanvas extends PhetPCanvas {
 
         // Add the radio buttons that allow the user to choose between their
         // mix and nature's mix.
-        JPanel radioButtonPanel = new VerticalLayoutPanel();
         // TODO: i18n
-        PropertyRadioButton<Boolean> usersMixRadioButton = new PropertyRadioButton<Boolean>( "My mix of isotopes", model.getShowingNaturesMixProperty(), false ){{
-            setBackground( BACKGROUND_COLOR );
+        final PropertyRadioButton<Boolean> usersMixRadioButton = new PropertyRadioButton<Boolean>( "My mix of isotopes", model.getShowingNaturesMixProperty(), false ){{
             setFont( new PhetFont( 20 ) );
         }};
-        radioButtonPanel.add( usersMixRadioButton );
         // TODO: i18n
-        PropertyRadioButton<Boolean> naturesMixRadioButton = new PropertyRadioButton<Boolean>( "Nature's mix of isotopes", model.getShowingNaturesMixProperty(), true ){{
-            setBackground( BACKGROUND_COLOR );
+        final PropertyRadioButton<Boolean> naturesMixRadioButton = new PropertyRadioButton<Boolean>( "Nature's mix of isotopes", model.getShowingNaturesMixProperty(), true ){{
             setFont( new PhetFont( 20 ) );
         }};
-        radioButtonPanel.add( naturesMixRadioButton );
+        JPanel radioButtonPanel = new VerticalLayoutPanel(){{
+            add( usersMixRadioButton );
+            add( naturesMixRadioButton );
+            SwingUtils.setBackgroundDeep( this, BACKGROUND_COLOR );
+        }};
         controlsLayer.addChild( new PSwing( radioButtonPanel ){{
             setOffset(
                 testChamberNode.getFullBoundsReference().getMaxX() + 140,
