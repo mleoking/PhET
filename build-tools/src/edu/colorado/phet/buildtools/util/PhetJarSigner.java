@@ -176,7 +176,17 @@ public class PhetJarSigner {
         map.put( Packer.UNKNOWN_ATTRIBUTE, Packer.ERROR );
     }
 
-    private void packFile( Packer packer, File inFile, File outFile ) throws IOException {
+    /**
+     * Pack the JAR into a non-gzipped pack200 file, and return success
+     *
+     * @param packer  Our packer
+     * @param inFile  JAR file
+     * @param outFile Pack200 file (not gzipped)
+     * @return Success
+     * @throws IOException
+     */
+    private boolean packFile( Packer packer, File inFile, File outFile ) throws IOException {
+        boolean success = true;
         safeDelete( outFile );
         FileOutputStream out = new FileOutputStream( outFile );
         try {
@@ -188,9 +198,18 @@ public class PhetJarSigner {
                 readFile.close();
             }
         }
+        catch( IOException e ) {
+            // probably failed due to a corrupt scala attribute
+            // beforehand: com.sun.java.util.jar.pack.Attribute$FormatException: class.ScalaSig: unknown in scala/LowPriorityImplicits
+            success = false;
+            if ( outFile.exists() ) {
+                outFile.delete(); // attempt to delete!
+            }
+        }
         finally {
             out.close();
         }
+        return success;
     }
 
     private void packAndCompressFile( Packer packer, File inFile, File outFile ) throws IOException {
@@ -249,7 +268,7 @@ public class PhetJarSigner {
 
         BuildLocalProperties buildProperties = BuildLocalProperties.initRelativeToTrunk( trunkDir );
         PhetJarSigner signer = new PhetJarSigner( buildProperties );
-        boolean result = signer.signJar( jarToBeSigned );
+        boolean result = signer.packAndSignJar( jarToBeSigned );
 
         System.out.println( "Done, result = " + result + "." );
     }
