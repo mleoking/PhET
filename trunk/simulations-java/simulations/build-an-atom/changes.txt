@@ -1,3 +1,4 @@
+isotopes-and-atomic-mass: Widened the particle bucket to accommodate the max number of neutrons, which is the default value plus the number contained in Neon.
 isotopes-and-atomic-mass: Improved performance for showing Nature's Mix, which was slow.
 isotopes-and-atomic-mass: Overhauled the interactive chart to use PNodes for the interactive cells instead of Swing buttons.  The reason is that the Swing buttons looked weird on Mac and Windows "Classic" mode.
 isotopes-and-atomic-mass: Added the ability to override the average atomic mass and the isotope proportions.  This is needed to make the "Nature's Mix" match actual natural values for each element.

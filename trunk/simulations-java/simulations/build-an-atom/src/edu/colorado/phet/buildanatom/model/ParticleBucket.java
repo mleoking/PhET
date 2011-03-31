@@ -191,8 +191,8 @@ public class ParticleBucket extends Bucket {
     }
 
     private void relayoutBucketParticles() {
-        ArrayList<SphericalParticle> p = new ArrayList<SphericalParticle>( containedParticles );
-        for ( SphericalParticle containedParticle : p) {
+        ArrayList<SphericalParticle> copyOfContainedParticles = new ArrayList<SphericalParticle>( containedParticles );
+        for ( SphericalParticle containedParticle : copyOfContainedParticles) {
             if (isDangling(containedParticle)){
                 removeParticle( containedParticle );
                 addParticle( containedParticle, false);
@@ -202,12 +202,12 @@ public class ParticleBucket extends Bucket {
     }
 
     /**
-     * Determine whether a particle is 'dangling', i.e. hanging above an open space in the stack of particles.
-     * Dangling particles should fall.
+     * Determine whether a particle is 'dangling', i.e. hanging above an open
+     * space in the stack of particles.  Dangling particles should fall.
      */
     private boolean isDangling( SphericalParticle particle ) {
-        boolean rowAbove = particle.getDestination().getY() > getYPositionForRow( 0 );
-        return rowAbove && countSupportingParticles( particle ) < 2;
+        boolean onBottomRow = particle.getDestination().getY() == getYPositionForRow( 0 );
+        return !onBottomRow && countSupportingParticles( particle ) < 2;
     }
 
     private int countSupportingParticles( SphericalParticle p ) {
