@@ -1,3 +1,6 @@
+> density: Removed 1 significant figure from lead and gold in the density table
+# 1.04.13 (50239) Mar 30, 2011
+3/30/11 Version with the density slider text readout removed
 # 1.04.12 (50203) Mar 29, 2011
 Fixed typing values in for mass / volume and bounds correction.
 Fixed layering so that force values go in front of "A" and "B".

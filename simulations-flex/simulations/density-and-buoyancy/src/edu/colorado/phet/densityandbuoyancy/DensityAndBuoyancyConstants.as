@@ -80,11 +80,18 @@ public class DensityAndBuoyancyConstants {
     }
 
     public static const formatter: NumberFormatter = new NumberFormatter();
-    formatter.rounding = NumberBaseRoundType.NEAREST;//otherwise high frequency fluctuations around 1.00 and 0.99
+    formatter.rounding = NumberBaseRoundType.NEAREST; //otherwise high frequency fluctuations around 1.00 and 0.99
     formatter.precision = 2;
 
     public static function format( number: Number ): String {
         return formatter.format( number );
+    }
+
+    public static function formatWithPrecision( number: Number, precision: int ): String {
+        var fmt: NumberFormatter = new NumberFormatter();
+        fmt.rounding = formatter.rounding;
+        fmt.precision = precision;
+        return fmt.format( number );
     }
 }
 }
