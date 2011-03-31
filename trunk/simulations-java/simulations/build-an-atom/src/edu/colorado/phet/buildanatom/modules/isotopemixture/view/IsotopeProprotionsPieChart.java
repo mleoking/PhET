@@ -193,8 +193,6 @@ class IsotopeProprotionsPieChart extends PNode {
                             // under the pie chart.
                             double additionalLength = OVERALL_HEIGHT / PIE_CHART_DIAMETER - 1;
                             double scaleFactor = 1 - Math.min( Math.abs( sliceConnectPt.getX() ) / ( PIE_CHART_DIAMETER / 4.0 ), 1 );
-                            System.out.println("additionalLength = " + additionalLength);
-                            System.out.println("scaleFactor = " + scaleFactor);
                             Point2D bendPt = new Point2D.Double(
                                     sliceConnectPt.getX() * ( 1 + additionalLength * scaleFactor ),
                                     sliceConnectPt.getY() * ( 1 + additionalLength * scaleFactor ) );
