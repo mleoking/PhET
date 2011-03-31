@@ -2,33 +2,29 @@ TODO list for capacitor-lab
 
 DEADLINES
 
-QUESTIONS FOR NOAH
-
-NOAH P ACTION ITEMS
-- labels for "Plate Charge" check box, "Plate Charge (top)" meter, and "Plate Charge (top)" slider
-- review Multiple Capacitors tab design and decide which features are unnecessary (Remove Wires, E-Field Lines, E-Field Detector)
-- consider doing mockup tests of circuit construction, due to the cost and potential confusion of this feature
-
 DESIGN ISSUES
+- labels for "Plate Charge" check box, "Plate Charge (top)" meter, and "Plate Charge (top)" slider
+- do interviews with mockups of circuit construction feature, due to cost and potential issues
 - what happens when meters are in the way while building circuits?
-- expectation for current indicators in Multiple Capacitors? none? battery wires? every wire?
 
 HIGH PRIORITY
+- rewrite BatteryCapacitorCircuit using "nested circuits" design
 - add Multiple Capacitors module
 - control panel for selecting prefab circuits
 - more general way to create Wire model elements, subclasses like TopWire and BottomWire are not scalable
 - move shape creation out of Wire and into WireNode (via WireShapeFactory) to be consistent with pattern used elsewhere
 - hack in BottomWire.createShape
-- add circuit construction to Multiple Capacitors tab after everything else is working
+- one current indicator on multi-cap circuits, near battery poles
 
 MEDUIUM PRIORITY
 - Win: need some space between dielectric material combo box and separator below it
+- add circuit construction to Multiple Capacitors tab?
 
 LOW PRIORITY
 - small (100mm^2) capacitor plates look like they are at a 46-degree yaw, instead of 45-degree
 - only update things that are visible, do this in the model wherever possible by observing visibleProperty
+- add explicit properties for capacitance, charge, E-field (if performance becomes an issue)
 - add meter body bounds to model so we can keep entire meter body constrained to world bounds when dragging
-- gradient paint on plate top surfaces (not on edges)
 - use of Polarity enum is a little incorrect, it's not really polarity
 - remove unused model code?
 
@@ -36,6 +32,7 @@ LOWEST PRIORITY
 - don't allow meters to be dragged by buttons, this prevents ability to roll off buttons
 - battery and positive terminal shapes should be cylinders (but rectangles is good enough)
 - round the ends of wires
+- gradient paint on plate top surfaces (not on edges)
 - use a gradient paint for wires to give them a 3D look
 
 GENERAL BUGS
