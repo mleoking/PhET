@@ -4,7 +4,7 @@ February 23, 2011
 
 Time period covered: February 17th through February 23rd.
 
-Isotopes and Atomic Mass – 10.0 hrs
+Isotopes and Atomic Mass – 20.0 hrs
 
 •	Got buckets to be correctly distributed on the canvas.
 •	Got bucket colors and labels working.
