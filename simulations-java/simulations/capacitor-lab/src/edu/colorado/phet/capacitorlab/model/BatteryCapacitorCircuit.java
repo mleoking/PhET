@@ -7,6 +7,7 @@ import java.awt.Shape;
 import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
+import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeListener;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial.CustomDielectricMaterial;
 import edu.colorado.phet.capacitorlab.model.Wire.BottomWire;
 import edu.colorado.phet.capacitorlab.model.Wire.TopWire;
@@ -16,7 +17,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
- * Physical model of a circuit with a battery connected to a capacitor.
+ * Model of a circuit with a battery connected to a capacitor.
  * <p>
  * Variable names used in this implementation where chosen to match the specification
  * in the design document, and therefore violate Java naming conventions.
@@ -25,25 +26,18 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  */
 public class BatteryCapacitorCircuit implements ICircuit {
 
-    // constants
-    private static final double EPSILON_0 = CLConstants.EPSILON_0;
-    private static final double EPSILON_AIR = CLConstants.EPSILON_AIR;
-    private static final double EPSILON_VACUUM = CLConstants.EPSILON_VACUUM;
-
     // immutable instance data
     private final CLClock clock;
     private final Wire topWire, bottomWire;
     private final EventListenerList listeners;
     private final Battery battery;
     private final Capacitor capacitor;
-    private final SimpleObserver dielectricConstantObserver;
 
     // mutable instance data
     private boolean batteryConnected;
     private double disconnectedPlateCharge; // charge set manually by the user, used when battery is disconnected
-    private DielectricMaterial dielectricMaterial;
     private double currentAmplitude; // dV/dt, rate of voltage change
-    private double previousCharge;
+    private double previousTotalCharge;
 
     public BatteryCapacitorCircuit( CLClock clock, final Battery battery, final Capacitor capacitor, boolean batteryConnected, CLModelViewTransform3D mvt ) {
 
@@ -51,17 +45,10 @@ public class BatteryCapacitorCircuit implements ICircuit {
         this.listeners = new EventListenerList();
         this.battery = battery;
         this.capacitor = capacitor;
-        this.dielectricConstantObserver = new SimpleObserver() {
-            public void update() {
-                fireCircuitChanged();
-            }
-        };
-
         this.batteryConnected = batteryConnected;
-        this.disconnectedPlateCharge = getTotalPlateCharge();
-        this.dielectricMaterial = capacitor.getDielectricMaterial();
+        this.disconnectedPlateCharge = getTotalCharge();
         this.currentAmplitude = 0;
-        this.previousCharge = getTotalPlateCharge();
+        this.previousTotalCharge = getTotalCharge();
 
         // update current amplitude on each clock tick
         clock.addClockListener( new ClockAdapter() {
@@ -74,30 +61,21 @@ public class BatteryCapacitorCircuit implements ICircuit {
         topWire = new TopWire( battery, capacitor, CLConstants.WIRE_THICKNESS, mvt );
         bottomWire = new BottomWire( battery, capacitor, CLConstants.WIRE_THICKNESS, mvt );
 
-        // observe properties
-        {
-            // observe dielectric
-            dielectricMaterial.addDielectricConstantObserver( dielectricConstantObserver );
+        // observe battery
+        battery.addVoltageObserver( new SimpleObserver() {
+            public void update() {
+                if ( isBatteryConnected() ) {
+                    updateVoltages();
+                }
+            }
+        } );
 
-            // observe battery
-            battery.addVoltageObserver( new SimpleObserver() {
-                public void update() {
-                    handleBatteryVoltageChanged();
-                }
-            } );
-
-            // observe capacitor
-            capacitor.addTotalCapacitanceObserver( new SimpleObserver() {
-                public void update() {
-                    handleCapacitanceChanged();
-                }
-            } );
-            capacitor.addDielectricMaterialObserver( new SimpleObserver() {
-                public void update() {
-                    handleDielectricMaterialChanged();
-                }
-            } );
-        }
+        // observe capacitor
+        capacitor.addCapacitorChangeListener( new CapacitorChangeListener() {
+            public void capacitorChanged() {
+                fireCircuitChanged();
+            }
+        } );
     }
 
     //----------------------------------------------------------------------------------
@@ -124,39 +102,9 @@ public class BatteryCapacitorCircuit implements ICircuit {
 
     //----------------------------------------------------------------------------------
     //
-    // Plate Voltage (V)
+    // Battery connectivity
     //
     //----------------------------------------------------------------------------------
-
-    /**
-     * Determines whether the battery is connected to the capacitor.
-     * @param connected
-     */
-    public void setBatteryConnected( boolean connected ) {
-        if ( connected != this.batteryConnected ) {
-            /*
-             * When disconnecting the battery, set the disconnected plate charge to
-             * whatever the total plate charge was with the battery connected.
-             */
-            if ( !connected ) {
-                disconnectedPlateCharge = getTotalPlateCharge();
-            }
-            this.batteryConnected = connected;
-            updateWireVoltages();
-            fireCircuitChanged();
-        }
-    }
-
-    private void updateWireVoltages() {
-        if ( batteryConnected ) {
-            topWire.setVoltage( battery.getVoltage() );
-            bottomWire.setVoltage( 0 );
-        }
-        else {
-            topWire.setVoltage( Double.NaN );
-            bottomWire.setVoltage( Double.NaN );
-        }
-    }
 
     /**
      * Is the battery connected to the capacitor?
@@ -167,24 +115,41 @@ public class BatteryCapacitorCircuit implements ICircuit {
     }
 
     /**
-     * Gets the plate voltage.
-     * If the battery is connected, then the battery voltage is used.
-     * If the battery is not connected, then the plate charge is set directly
-     * by the user, and voltage is computed.
-     * (design doc symbol: V_plates)
-     *
-     * @return voltage, in volts (V)
+     * Determines whether the battery is connected to the capacitor.
+     * @param batteryConnected
      */
-    public double getPlatesVoltage() {
-        double V_plates = 0;
-        if ( isBatteryConnected() ) {
-            V_plates = battery.getVoltage();
+    public void setBatteryConnected( boolean batteryConnected ) {
+        if ( batteryConnected != this.batteryConnected ) {
+            /*
+             * When disconnecting the battery, set the disconnected plate charge to
+             * whatever the total plate charge was with the battery connected.
+             */
+            if ( !batteryConnected ) {
+                disconnectedPlateCharge = getTotalCharge();
+            }
+            this.batteryConnected = batteryConnected;
+            updateVoltages();
+        }
+    }
+
+    private void updateVoltages() {
+        if ( batteryConnected ) {
+            capacitor.setPlatesVoltage( battery.getVoltage() );
+            topWire.setVoltage( battery.getVoltage() );
+            bottomWire.setVoltage( 0 );
         }
         else {
-            V_plates = getDisconnectedPlateCharge() / capacitor.getTotalCapacitance();
+            capacitor.setPlatesVoltage( disconnectedPlateCharge / capacitor.getTotalCapacitance() ); // V = Q/C
+            topWire.setVoltage( Double.NaN );
+            bottomWire.setVoltage( Double.NaN );
         }
-        return V_plates;
     }
+
+    //----------------------------------------------------------------------------------
+    //
+    // Plate Voltage (V)
+    //
+    //----------------------------------------------------------------------------------
 
     /**
      * Gets the voltage between 2 Shapes.
@@ -213,7 +178,7 @@ public class BatteryCapacitorCircuit implements ICircuit {
             voltage = battery.getVoltage();
         }
         else if ( capacitor.intersectsTopPlateShape( s ) ) {
-            voltage = getPlatesVoltage();
+            voltage = capacitor.getPlatesVoltage();
         }
         else if ( capacitor.intersectsBottomPlateShape( s ) ) {
             voltage = 0;
@@ -252,6 +217,7 @@ public class BatteryCapacitorCircuit implements ICircuit {
         if ( disconnectedPlateCharge != this.disconnectedPlateCharge ) {
             this.disconnectedPlateCharge = disconnectedPlateCharge;
             if ( !isBatteryConnected() ) {
+                updateVoltages();
                 fireCircuitChanged();
             }
         }
@@ -267,68 +233,16 @@ public class BatteryCapacitorCircuit implements ICircuit {
         return disconnectedPlateCharge;
     }
 
-    /**
-     * Gets the charge for the portion of the top plate contacting the air.
-     * @return charge, in Coulombs
-     * (design doc symbol: Q_air)
-     */
-    public double getAirPlateCharge() {
-        return capacitor.getAirCapacitance() * getPlatesVoltage();
-    }
+
 
     /**
-     * Gets the charge for the portion of the top plate contacting the dielectric.
-     * (design doc symbol: Q_dielectric)
-     *
-     * @return charge, in Coulombs
-     */
-    public double getDielectricPlateCharge() {
-        return capacitor.getDieletricCapacitance() * getPlatesVoltage();
-    }
-
-    /**
-     * Gets the total charge on the top plate.
+     * Gets the total charge stored in the circuit.
      * (design doc symbol: Q_total)
      *
      * @return charge, in Coulombs
      */
-    public double getTotalPlateCharge() {
-        return getDielectricPlateCharge() + getAirPlateCharge();
-    }
-
-    /**
-     * Gets the excess plate charge due to plates contacting air.
-     * (design doc symbol: Q_exess_air)
-     *
-     * @return excess charge, in Coulombs
-     */
-    public double getExcessAirPlateCharge() {
-        return getExcessPlateCharge( EPSILON_AIR, capacitor.getAirCapacitance(), getPlatesVoltage() );
-    }
-
-    /**
-     * Gets the excess plate charge due to plates contacting the dielectric.
-     * (design doc symbol: Q_excess_dielectric)
-     *
-     * @return excess charge, in Coulombs
-     */
-    public double getExcessDielectricPlateCharge() {
-        return getExcessPlateCharge( capacitor.getDielectricConstant(), capacitor.getDieletricCapacitance(), getPlatesVoltage() );
-    }
-
-    /*
-     * General solution for excess plate charge.
-     *
-     * @param epsilon_r dielectric constant, dimensionless
-     * @param C capacitance due to the dielectric
-     * @param V_plates plate voltage, volts
-     * @return charge, in Coulombs (C)
-     */
-    private static double getExcessPlateCharge( double epsilon_r, double C, double V_plates ) {
-        if ( !( epsilon_r > 0 ) ) {
-            throw new IllegalArgumentException( "model requires epsilon_r > 0 : " + epsilon_r );
-        }
-        return ( ( epsilon_r - EPSILON_VACUUM ) / epsilon_r ) * C * V_plates; // Coulombs (1C = 1F * 1V)
+    public double getTotalCharge() {
+        return capacitor.getTotalPlateCharge();
     }
 
     /**
@@ -342,9 +256,8 @@ public class BatteryCapacitorCircuit implements ICircuit {
         DielectricMaterial material = new CustomDielectricMaterial( CLConstants.DIELECTRIC_CONSTANT_RANGE.getMax() );
         Capacitor capacitor = new Capacitor( new Point3D.Double(), CLConstants.PLATE_WIDTH_RANGE.getMax(),
                 CLConstants.PLATE_SEPARATION_RANGE.getMin(), material, CLConstants.DIELECTRIC_OFFSET_RANGE.getMin(), mvt );
-        Battery battery = new Battery( new Point3D.Double(), CLConstants.BATTERY_VOLTAGE_RANGE.getMax(), mvt );
-        BatteryCapacitorCircuit circuit = new BatteryCapacitorCircuit( new CLClock(), battery, capacitor, true /* batteryConnected */, mvt );
-        return circuit.getTotalPlateCharge();
+        capacitor.setPlatesVoltage( CLConstants.BATTERY_VOLTAGE_RANGE.getMax() );
+        return capacitor.getTotalPlateCharge();
     }
 
     /**
@@ -356,50 +269,8 @@ public class BatteryCapacitorCircuit implements ICircuit {
         DielectricMaterial material = new CustomDielectricMaterial( CLConstants.DIELECTRIC_CONSTANT_RANGE.getMax() );
         Capacitor capacitor = new Capacitor( new Point3D.Double(), CLConstants.PLATE_WIDTH_RANGE.getMax(),
                 CLConstants.PLATE_SEPARATION_RANGE.getMin(), material, CLConstants.DIELECTRIC_OFFSET_RANGE.getMin(), mvt );
-        Battery battery = new Battery( new Point3D.Double(), CLConstants.BATTERY_VOLTAGE_RANGE.getMax(), mvt );
-        BatteryCapacitorCircuit circuit = new BatteryCapacitorCircuit( new CLClock(), battery, capacitor, true /* batteryConnected */, mvt );
-        return circuit.getExcessDielectricPlateCharge();
-    }
-
-    //----------------------------------------------------------------------------------
-    //
-    // Surface Charge Density (sigma)
-    //
-    //----------------------------------------------------------------------------------
-
-    /**
-     * Gets the surface density charge between the plates and air.
-     * (design doc symbol: sigma_air)
-     *
-     * @return Coulombs/meters^2
-     */
-    public double getAirSurfaceChargeDensity() {
-        return getSurfaceChargeDensity( EPSILON_AIR, getPlatesVoltage(), capacitor.getPlateSeparation() );
-    }
-
-    /**
-     * Gets the surface density charge between the plates and the dielectric.
-     * (design doc symbol: sigma_dielectric)
-     *
-     * @return Coulombs/meters^2
-     */
-    public double getDielectricSurfaceChargeDensity() {
-        return getSurfaceChargeDensity( capacitor.getDielectricConstant(), getPlatesVoltage(), capacitor.getPlateSeparation() );
-    }
-
-    /*
-     * General computation of surface charge density.
-     *
-     * @param epsilon_r dielectric constant, dimensionless
-     * @param V_plate plate voltage, in volts
-     * @param d plate separation, meters
-     * @return Coulombs/meters^2
-     */
-    private static double getSurfaceChargeDensity( double epsilon_r, double V_plate, double d ) {
-        if ( !( d > 0 ) ) {
-            throw new IllegalArgumentException( "model requires d (plate separation) > 0 : " + d );
-        }
-        return epsilon_r * EPSILON_0 * V_plate / d;
+        capacitor.setPlatesVoltage( CLConstants.BATTERY_VOLTAGE_RANGE.getMax() );
+        return capacitor.getExcessDielectricPlateCharge();
     }
 
     //----------------------------------------------------------------------------------
@@ -407,17 +278,6 @@ public class BatteryCapacitorCircuit implements ICircuit {
     // E-Field (E)
     //
     //----------------------------------------------------------------------------------
-
-    /**
-     * Gets the effective (net) field between the plates.
-     * This is uniform everywhere between the plates.
-     * (design doc symbol: E_effective)
-     *
-     * @return Volts/meter
-     */
-    public double getEffectiveEfield() {
-        return getPlatesVoltage() / capacitor.getPlateSeparation();
-    }
 
     /**
      * Gets the effective E-field at a specified location.
@@ -430,29 +290,9 @@ public class BatteryCapacitorCircuit implements ICircuit {
     public double getEffectiveEFieldAt( Point3D location ) {
         double eField = 0;
         if ( capacitor.isBetweenPlatesShape( location ) ) {
-           eField = getEffectiveEfield();
+           eField = capacitor.getEffectiveEfield();
         }
         return eField;
-    }
-
-    /**
-     * Gets the field due to the plates in the capacitor volume that contains air.
-     * (design doc symbol: E_plates_air)
-     *
-     * @return E-field, in Volts/meter
-     */
-    public double getPlatesAirEField() {
-        return getPlatesEField( EPSILON_AIR,  getPlatesVoltage(), capacitor.getPlateSeparation() );
-    }
-
-    /**
-     * Gets the field due to the plates in the capacitor volume that contains the dielectric.
-     * (design doc symbol: E_plates_dielectric)
-     *
-     * @return E-field, in Volts/meter
-     */
-    public double getPlatesDielectricEField() {
-        return getPlatesEField( capacitor.getDielectricConstant(), getPlatesVoltage(), capacitor.getPlateSeparation() );
     }
 
     /**
@@ -466,48 +306,12 @@ public class BatteryCapacitorCircuit implements ICircuit {
     public double getPlatesDielectricEFieldAt( Point3D location ) {
         double eField = 0;
         if ( capacitor.isInsideDielectricBetweenPlatesShape( location ) ) {
-            eField = getPlatesDielectricEField();
+            eField = capacitor.getPlatesDielectricEField();
         }
         else if ( capacitor.isInsideAirBetweenPlatesShape( location ) ) {
-            eField = getPlatesAirEField();
+            eField = capacitor.getPlatesAirEField();
         }
         return eField;
-    }
-
-    /*
-     * General solution for the E-field due to some dielectric.
-     *
-     * @param epsilon_r dielectric constant, dimensionless
-     * @param V_plates plate voltage, volts
-     * @param d plate separation, meters
-     * @return E-field, in Volts/meter
-     */
-    // epsilon_air * V_plates / d
-    private static double getPlatesEField( double epsilon_r, double V_plates, double d ) {
-        if ( !( d > 0 ) ) {
-            throw new IllegalArgumentException( "model requires d (plate separation) > 0 : " + d );
-        }
-        return epsilon_r * V_plates / d;
-    }
-
-    /**
-     * Gets the field due to air polarization.
-     * (design doc symbol: E_air)
-     *
-     * @return E-field, in Volts/meter
-     */
-    public double getAirEField() {
-        return getPlatesAirEField() - getEffectiveEfield();
-    }
-
-    /**
-     * Gets the field due to dielectric polarization.
-     * (design doc symbol: E_dielectric)
-     *
-     * @return E-field, in Volts/meter
-     */
-    public double getDielectricEField() {
-        return getPlatesDielectricEField() - getEffectiveEfield();
     }
 
     /**
@@ -521,10 +325,10 @@ public class BatteryCapacitorCircuit implements ICircuit {
     public double getDielectricEFieldAt( Point3D location ) {
         double eField = 0;
         if ( capacitor.isInsideDielectricBetweenPlatesShape( location ) ) {
-            eField = getDielectricEField();
+            eField = capacitor.getDielectricEField();
         }
         else if ( capacitor.isInsideAirBetweenPlatesShape( location ) ) {
-            eField = getAirEField();
+            eField = capacitor.getAirEField();
         }
         return eField;
     }
@@ -538,13 +342,13 @@ public class BatteryCapacitorCircuit implements ICircuit {
      */
     public static double getMaxEffectiveEfield() {
         CLModelViewTransform3D mvt = new CLModelViewTransform3D();
+        Battery battery = new Battery( new Point3D.Double(), 0, mvt );
         DielectricMaterial material = new CustomDielectricMaterial( CLConstants.DIELECTRIC_CONSTANT_RANGE.getMin() );
         Capacitor capacitor = new Capacitor( new Point3D.Double(), CLConstants.PLATE_WIDTH_RANGE.getMin(),
                 CLConstants.PLATE_SEPARATION_RANGE.getMin(), material, CLConstants.DIELECTRIC_OFFSET_RANGE.getMin(), mvt );
-        Battery battery = new Battery( new Point3D.Double(), 0, mvt );
         BatteryCapacitorCircuit circuit = new BatteryCapacitorCircuit( new CLClock(), battery, capacitor, false /* batteryConnected */, mvt );
-        circuit.setDisconnectedPlateCharge( getMaxPlateCharge() );
-        return circuit.getEffectiveEfield();
+        circuit.setDisconnectedPlateCharge( BatteryCapacitorCircuit.getMaxPlateCharge() );
+        return capacitor.getEffectiveEfield();
     }
 
     /**
@@ -553,13 +357,13 @@ public class BatteryCapacitorCircuit implements ICircuit {
      */
     public static double getMaxDielectricEField() {
         CLModelViewTransform3D mvt = new CLModelViewTransform3D();
+        Battery battery = new Battery( new Point3D.Double(), 0, mvt );
         DielectricMaterial material = new CustomDielectricMaterial( CLConstants.DIELECTRIC_CONSTANT_RANGE.getMax() );
         Capacitor capacitor = new Capacitor( new Point3D.Double(), CLConstants.PLATE_WIDTH_RANGE.getMin(),
                 CLConstants.PLATE_SEPARATION_RANGE.getMin(), material, CLConstants.DIELECTRIC_OFFSET_RANGE.getMax(), mvt );
-        Battery battery = new Battery( new Point3D.Double(), 0, mvt );
         BatteryCapacitorCircuit circuit = new BatteryCapacitorCircuit( new CLClock(), battery, capacitor, false /* batteryConnected */, mvt );
-        circuit.setDisconnectedPlateCharge( getMaxPlateCharge() );
-        return circuit.getDielectricEField();
+        circuit.setDisconnectedPlateCharge( BatteryCapacitorCircuit.getMaxPlateCharge() );
+        return capacitor.getDielectricEField();
     }
 
     /**
@@ -572,9 +376,8 @@ public class BatteryCapacitorCircuit implements ICircuit {
         DielectricMaterial material = new CustomDielectricMaterial( CLConstants.DIELECTRIC_CONSTANT_RANGE.getMax() );
         Capacitor capacitor = new Capacitor( new Point3D.Double(), CLConstants.PLATE_WIDTH_RANGE.getMin(),
                 CLConstants.PLATE_SEPARATION_RANGE.getMin(), material, CLConstants.DIELECTRIC_OFFSET_RANGE.getMax(), mvt );
-        Battery battery = new Battery( new Point3D.Double(), CLConstants.BATTERY_VOLTAGE_RANGE.getMax(), mvt );
-        BatteryCapacitorCircuit circuit = new BatteryCapacitorCircuit( new CLClock(), battery, capacitor, true /* batteryConnected */, mvt );
-        return circuit.getPlatesDielectricEField();
+        capacitor.setPlatesVoltage( CLConstants.BATTERY_VOLTAGE_RANGE.getMax() );
+        return capacitor.getPlatesDielectricEField();
     }
 
     //----------------------------------------------------------------------------------
@@ -591,7 +394,7 @@ public class BatteryCapacitorCircuit implements ICircuit {
      */
     public double getStoredEnergy() {
         double C_total = capacitor.getTotalCapacitance(); // F
-        double V_plates = getPlatesVoltage(); // V
+        double V_plates = capacitor.getPlatesVoltage(); // V
         return 0.5 * C_total * V_plates * V_plates; // Joules (J)
     }
 
@@ -616,36 +419,11 @@ public class BatteryCapacitorCircuit implements ICircuit {
      * Current amplitude is proportional to dQ/dt, the change in charge (Q_total) over time.
      */
     private void updateCurrentAmplitude() {
-        double Q = getTotalPlateCharge();
-        double dQ = Q - previousCharge;
+        double Q = getTotalCharge();
+        double dQ = Q - previousTotalCharge;
         double dt = clock.getDt();
-        previousCharge = Q;
+        previousTotalCharge = Q;
         setCurrentAmplitude( dQ / dt );
-    }
-
-    //----------------------------------------------------------------------------------
-    //
-    // Model update handlers
-    //
-    //----------------------------------------------------------------------------------
-
-    private void handleBatteryVoltageChanged() {
-        if ( isBatteryConnected() ) {
-            updateWireVoltages();
-            fireCircuitChanged();
-        }
-    }
-
-    private void handleCapacitanceChanged() {
-        updateWireVoltages();
-        fireCircuitChanged();
-    }
-
-    private void handleDielectricMaterialChanged() {
-        // rewire dielectric observer
-        this.dielectricMaterial.removeDielectricConstantObserver( dielectricConstantObserver );
-        this.dielectricMaterial = capacitor.getDielectricMaterial();
-        this.dielectricMaterial.addDielectricConstantObserver( dielectricConstantObserver ); // this triggers a notification
     }
 
     //----------------------------------------------------------------------------------

@@ -3,7 +3,6 @@
 package edu.colorado.phet.capacitorlab.view;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
-import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit;
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.capacitorlab.view.DielectricNode.DielectricChargeView;
@@ -20,7 +19,7 @@ import edu.colorado.phet.common.piccolophet.PhetPNode;
  */
 public class CapacitorNode extends PhetPNode {
 
-    private final BatteryCapacitorCircuit circuit;
+    private final Capacitor capacitor;
     private final CLModelViewTransform3D mvt;
     private final PlateNode topPlateNode, bottomPlateNode;
     private final DielectricNode dielectricNode;
@@ -29,20 +28,20 @@ public class CapacitorNode extends PhetPNode {
     // observable properties
     private final Property<Boolean> plateChargeVisibleProperty, eFieldVisibleProperty;
 
-    public CapacitorNode( BatteryCapacitorCircuit circuit, CLModelViewTransform3D mvt,
+    public CapacitorNode( Capacitor capacitor, CLModelViewTransform3D mvt,
             boolean plateChargeVisible, boolean eFieldVisible, DielectricChargeView dielectricChargeView ) {
 
-        this.circuit = circuit;
+        this.capacitor = capacitor;
         this.mvt = mvt;
 
         plateChargeVisibleProperty = new Property<Boolean>( plateChargeVisible );
         eFieldVisibleProperty = new Property<Boolean>( eFieldVisible );
 
         // child nodes
-        topPlateNode = new TopPlateNode( circuit, mvt );
-        bottomPlateNode = new BottomPlateNode( circuit, mvt );
-        dielectricNode = new DielectricNode( circuit, mvt, CLConstants.DIELECTRIC_OFFSET_RANGE, dielectricChargeView );
-        eFieldNode = new EFieldNode( circuit, mvt );
+        topPlateNode = new TopPlateNode( capacitor, mvt );
+        bottomPlateNode = new BottomPlateNode( capacitor, mvt );
+        dielectricNode = new DielectricNode( capacitor, mvt, CLConstants.DIELECTRIC_OFFSET_RANGE, dielectricChargeView );
+        eFieldNode = new EFieldNode( capacitor, mvt );
 
         // rendering order
         addChild( bottomPlateNode );
@@ -58,9 +57,9 @@ public class CapacitorNode extends PhetPNode {
                     updateGeometry();
                 }
             };
-            circuit.getCapacitor().addPlateSizeObserver( o );
-            circuit.getCapacitor().addPlateSeparationObserver( o );
-            circuit.getCapacitor().addDielectricOffsetObserver( o );
+            capacitor.addPlateSizeObserver( o );
+            capacitor.addPlateSeparationObserver( o );
+            capacitor.addDielectricOffsetObserver( o );
 
             plateChargeVisibleProperty.addObserver( new SimpleObserver() {
                 public void update() {
@@ -125,8 +124,6 @@ public class CapacitorNode extends PhetPNode {
 
     private void updateGeometry() {
 
-        Capacitor capacitor = circuit.getCapacitor();
-
         // geometry
         topPlateNode.setSize( capacitor.getPlateSize() );
         bottomPlateNode.setSize( capacitor.getPlateSize() );
@@ -147,8 +144,8 @@ public class CapacitorNode extends PhetPNode {
     }
 
     private void updateDielectricOffset() {
-        double x = circuit.getCapacitor().getDielectricOffset();
-        double y = -circuit.getCapacitor().getDielectricSize().getHeight() / 2;
+        double x = capacitor.getDielectricOffset();
+        double y = -capacitor.getDielectricSize().getHeight() / 2;
         double z = 0;
         dielectricNode.setOffset( mvt.modelToViewDelta( x, y, z ) );
     }

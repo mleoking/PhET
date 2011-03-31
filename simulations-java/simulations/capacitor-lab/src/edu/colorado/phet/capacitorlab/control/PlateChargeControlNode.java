@@ -82,9 +82,9 @@ public class PlateChargeControlNode extends PhetPNode {
     private final TitleNode titleNode;
     private final DoubleRange range;
 
-    public PlateChargeControlNode( final BatteryCapacitorCircuit circuit ) {
+    public PlateChargeControlNode( final BatteryCapacitorCircuit circuit, DoubleRange range ) {
 
-        range = new DoubleRange( -BatteryCapacitorCircuit.getMaxPlateCharge(), BatteryCapacitorCircuit.getMaxPlateCharge() );
+        this.range = range;
 
         this.circuit = circuit;
         circuit.addCircuitChangeListener( new CircuitChangeListener() {

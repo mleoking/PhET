@@ -3,6 +3,9 @@
 package edu.colorado.phet.capacitorlab.model;
 
 import java.awt.Shape;
+import java.util.EventListener;
+
+import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.shapes.CapacitorShapeFactory;
@@ -10,6 +13,7 @@ import edu.colorado.phet.common.phetcommon.math.Dimension3D;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction2;
 import edu.colorado.phet.common.phetcommon.view.util.ShapeUtils;
 
 /**
@@ -27,9 +31,15 @@ import edu.colorado.phet.common.phetcommon.view.util.ShapeUtils;
  */
 public class Capacitor {
 
+    private static final double EPSILON_0 = CLConstants.EPSILON_0;
+    private static final double EPSILON_AIR = CLConstants.EPSILON_AIR;
+    private static final double EPSILON_VACUUM = CLConstants.EPSILON_VACUUM;
+
     private final CLModelViewTransform3D mvt;
     private final CapacitorShapeFactory shapeFactory;
-    private final SimpleObserver physicalPropertiesObserver;
+    private final SimpleObserver propertiesObserver;
+    private final SimpleObserver dielectricConstantObserver;
+    private final EventListenerList listeners = new EventListenerList();
 
     // immutable properties
     private final Point3D location; // location of the capacitor's geometric center (meters)
@@ -39,11 +49,7 @@ public class Capacitor {
     private final Property<Double> plateSeparationProperty; // distance between the plates (meters)
     private final Property<DielectricMaterial> dielectricMaterialProperty; // insulator between the plates
     private final Property<Double> dielectricOffsetProperty; // x-axis offset of dielectric's center, relative to the capacitor's origin (meters)
-
-    // observable properties, derived
-    private final Property<Double> airCapacitanceProperty; // C_air, Farads
-    private final Property<Double> dielectricCapacitanceProperty; // C_dielectric, Farads
-    private final Property<Double> totalCapacitanceProperty; // C_total, Farads
+    private final Property<Double> platesVoltageProperty; // voltage across the plates (Volts)
 
     public Capacitor( Point3D location, double plateWidth, double plateSeparation, DielectricMaterial dielectricMaterial, double dielectricOffset, CLModelViewTransform3D mvt ) {
 
@@ -56,25 +62,33 @@ public class Capacitor {
         this.plateSeparationProperty = new Property<Double>( plateSeparation );
         this.dielectricMaterialProperty = new Property<DielectricMaterial>( dielectricMaterial );
         this.dielectricOffsetProperty = new Property<Double>( dielectricOffset );
+        this.platesVoltageProperty = new Property<Double>( 0d ); // zero until it's connected into a circuit
 
-        // derived
-        this.airCapacitanceProperty = new Property<Double>( 0d );
-        this.dielectricCapacitanceProperty = new Property<Double>( 0d );
-        this.totalCapacitanceProperty = new Property<Double>( 0d );
+        // if observable properties change, so do derived properties
+        propertiesObserver = new SimpleObserver() {
+            public void update() {
+                fireCapacitorChanged();
+            }
+        };
+        plateSizeProperty.addObserver( propertiesObserver );
+        plateSeparationProperty.addObserver( propertiesObserver );
+        dielectricOffsetProperty.addObserver( propertiesObserver );
+        dielectricMaterialProperty.addObserver( propertiesObserver );
+        dielectricMaterialProperty.getValue().addDielectricConstantObserver( propertiesObserver );
+        platesVoltageProperty.addObserver( propertiesObserver );
 
-        // if physical properties change, derive capacitance properties
-        {
-            physicalPropertiesObserver = new SimpleObserver() {
-                public void update() {
-                    updateCapacitance();
-                }
-            };
-            plateSizeProperty.addObserver( physicalPropertiesObserver );
-            plateSeparationProperty.addObserver( physicalPropertiesObserver );
-            dielectricOffsetProperty.addObserver( physicalPropertiesObserver );
-            dielectricMaterialProperty.addObserver( physicalPropertiesObserver );
-            dielectricMaterialProperty.getValue().addDielectricConstantObserver( physicalPropertiesObserver );
-        }
+        // observe dielectric constant
+        this.dielectricConstantObserver = new SimpleObserver() {
+            public void update() {
+                fireCapacitorChanged();
+            }
+        };
+        dielectricMaterialProperty.addObserver( new VoidFunction2<DielectricMaterial, DielectricMaterial>() {
+            public void apply( DielectricMaterial newMaterial, DielectricMaterial oldMaterial ) {
+                oldMaterial.removeDielectricConstantObserver( dielectricConstantObserver );
+                newMaterial.addDielectricConstantObserver( dielectricConstantObserver );
+            }
+        } );
     }
 
     public void reset() {
@@ -83,6 +97,12 @@ public class Capacitor {
         dielectricMaterialProperty.reset();
         dielectricOffsetProperty.reset();
     }
+
+    //----------------------------------------------------------------------------------
+    //
+    // Location
+    //
+    //----------------------------------------------------------------------------------
 
     /**
      * Gets the capacitor's location in model coordinates.
@@ -104,6 +124,12 @@ public class Capacitor {
     public double getZ() {
         return location.getZ();
     }
+
+    //----------------------------------------------------------------------------------
+    //
+    // Plate size (L, A)
+    //
+    //----------------------------------------------------------------------------------
 
     /**
      * Gets the plate size.
@@ -153,9 +179,25 @@ public class Capacitor {
         return plateSizeProperty.getValue().getDepth();
     }
 
+    /**
+     * Gets the 2D area of one plate's top (or bottom) surfaces.
+     * (design doc symbol: A)
+     *
+     * @return area in meters^2
+     */
+    public double getPlateArea() {
+        return getPlateWidth() * getPlateDepth();
+    }
+
     public void addPlateSizeObserver( SimpleObserver o ) {
         plateSizeProperty.addObserver( o );
     }
+
+    //----------------------------------------------------------------------------------
+    //
+    // Plate separation (d)
+    //
+    //----------------------------------------------------------------------------------
 
     /**
      * Sets the distance between the 2 parallel plates.
@@ -203,6 +245,12 @@ public class Capacitor {
         return new Point3D.Double( getX(), getY() + ( getPlateSeparation() / 2 ) + getPlateHeight(), getZ());
     }
 
+    //----------------------------------------------------------------------------------
+    //
+    // Dielectric
+    //
+    //----------------------------------------------------------------------------------
+
     /**
      * Sets the dielectric material that is between the plates.
      * @param dielectricMaterial
@@ -211,9 +259,9 @@ public class Capacitor {
         if ( dielectricMaterial == null ) {
             throw new IllegalArgumentException( "dielectricMaterial must be non-null" );
         }
-        dielectricMaterialProperty.getValue().removeDielectricConstantObserver( physicalPropertiesObserver );
+        dielectricMaterialProperty.getValue().removeDielectricConstantObserver( propertiesObserver );
         dielectricMaterialProperty.setValue( dielectricMaterial );
-        dielectricMaterialProperty.getValue().addDielectricConstantObserver( physicalPropertiesObserver );
+        dielectricMaterialProperty.getValue().addDielectricConstantObserver( propertiesObserver );
     }
 
     /**
@@ -274,16 +322,6 @@ public class Capacitor {
     }
 
     /**
-     * Gets the 2D area of one plate's top (or bottom) surfaces.
-     * (design doc symbol: A)
-     *
-     * @return area in meters^2
-     */
-    public double getPlateArea() {
-        return getPlateWidth() * getPlateDepth();
-    }
-
-    /**
      * Gets the area of the contact between one of the plates and air.
      * (design doc symbol: A_air)
      *
@@ -308,15 +346,11 @@ public class Capacitor {
         return area;
     }
 
-    /*
-     * Updates the derived properties that are related to capacitance.
-     * Note that there is order dependency here, total must be set last.
-     */
-    private void updateCapacitance() {
-        airCapacitanceProperty.setValue( getCapacitance( CLConstants.EPSILON_AIR, getAirContactArea(), getPlateSeparation() ) );
-        dielectricCapacitanceProperty.setValue( getCapacitance( getDielectricConstant(), getDielectricContactArea(), getPlateSeparation() ) );
-        totalCapacitanceProperty.setValue( getAirCapacitance() + getDieletricCapacitance() );
-    }
+    //----------------------------------------------------------------------------------
+    //
+    // Capacitance (C)
+    //
+    //----------------------------------------------------------------------------------
 
     /**
      * Gets the total capacitance.
@@ -327,11 +361,7 @@ public class Capacitor {
      * @return capacitance, in Farads
      */
     public double getTotalCapacitance() {
-        return totalCapacitanceProperty.getValue();
-    }
-
-    public void addTotalCapacitanceObserver( SimpleObserver o ) {
-        totalCapacitanceProperty.addObserver( o );
+        return getAirCapacitance() + getDieletricCapacitance();
     }
 
     /**
@@ -341,11 +371,7 @@ public class Capacitor {
      * @return capacitance, in Farads
      */
     public double getAirCapacitance() {
-        return airCapacitanceProperty.getValue();
-    }
-
-    public void addAirCapacitanceObserver( SimpleObserver o ) {
-        airCapacitanceProperty.addObserver( o );
+        return getCapacitance( CLConstants.EPSILON_AIR, getAirContactArea(), getPlateSeparation() );
     }
 
     /**
@@ -355,11 +381,7 @@ public class Capacitor {
      * @return capacitance, in Farads
      */
     public double getDieletricCapacitance() {
-        return dielectricCapacitanceProperty.getValue();
-    }
-
-    public void addDielectricCapacitanceObserver( SimpleObserver o ) {
-        dielectricCapacitanceProperty.addObserver( o );
+        return getCapacitance( getDielectricConstant(), getDielectricContactArea(), getPlateSeparation() );
     }
 
     /*
@@ -373,6 +395,12 @@ public class Capacitor {
     private static double getCapacitance( double epsilon, double A, double d ) {
         return epsilon * CLConstants.EPSILON_0 * A / d;
     }
+
+    //----------------------------------------------------------------------------------
+    //
+    // Shapes
+    //
+    //----------------------------------------------------------------------------------
 
     public CapacitorShapeFactory getShapeFactory() {
         return shapeFactory;
@@ -424,5 +452,235 @@ public class Capacitor {
      */
     public boolean isInsideAirBetweenPlatesShape( Point3D p ) {
         return shapeFactory.createAirBetweenPlatesShapeOccluded().contains( mvt.modelToView( p ) );
+    }
+
+    //----------------------------------------------------------------------------------
+    //
+    // Plate Voltage (V)
+    //
+    //----------------------------------------------------------------------------------
+
+    public void setPlatesVoltage( double voltage ) {
+        platesVoltageProperty.setValue( voltage );
+        fireCapacitorChanged();
+    }
+
+    public double getPlatesVoltage() {
+        return platesVoltageProperty.getValue();
+    }
+
+    public void addPlatesVoltageObserver( SimpleObserver o ) {
+        platesVoltageProperty.addObserver( o );
+    }
+
+    //----------------------------------------------------------------------------------
+    //
+    // Plate Charge (Q)
+    //
+    //----------------------------------------------------------------------------------
+
+    /**
+     * Gets the charge for the portion of the top plate contacting the air.
+     * @return charge, in Coulombs
+     * (design doc symbol: Q_air)
+     */
+    public double getAirPlateCharge() {
+        return getAirCapacitance() * getPlatesVoltage();
+    }
+
+    /**
+     * Gets the charge for the portion of the top plate contacting the dielectric.
+     * (design doc symbol: Q_dielectric)
+     *
+     * @return charge, in Coulombs
+     */
+    public double getDielectricPlateCharge() {
+        return getDieletricCapacitance() * getPlatesVoltage();
+    }
+
+    /**
+     * Gets the total charge on the top plate.
+     * (design doc symbol: Q_total)
+     *
+     * @return charge, in Coulombs
+     */
+    public double getTotalPlateCharge() {
+        return getDielectricPlateCharge() + getAirPlateCharge();
+    }
+
+    /**
+     * Gets the excess plate charge due to plates contacting air.
+     * (design doc symbol: Q_exess_air)
+     *
+     * @return excess charge, in Coulombs
+     */
+    public double getExcessAirPlateCharge() {
+        return getExcessPlateCharge( EPSILON_AIR, getAirCapacitance(), getPlatesVoltage() );
+    }
+
+    /**
+     * Gets the excess plate charge due to plates contacting the dielectric.
+     * (design doc symbol: Q_excess_dielectric)
+     *
+     * @return excess charge, in Coulombs
+     */
+    public double getExcessDielectricPlateCharge() {
+        return getExcessPlateCharge( getDielectricConstant(), getDieletricCapacitance(), getPlatesVoltage() );
+    }
+
+    /*
+     * General solution for excess plate charge.
+     *
+     * @param epsilon_r dielectric constant, dimensionless
+     * @param C capacitance due to the dielectric
+     * @param V_plates plate voltage, volts
+     * @return charge, in Coulombs (C)
+     */
+    private static double getExcessPlateCharge( double epsilon_r, double C, double V_plates ) {
+        if ( !( epsilon_r > 0 ) ) {
+            throw new IllegalArgumentException( "model requires epsilon_r > 0 : " + epsilon_r );
+        }
+        return ( ( epsilon_r - EPSILON_VACUUM ) / epsilon_r ) * C * V_plates; // Coulombs (1C = 1F * 1V)
+    }
+
+    //----------------------------------------------------------------------------------
+    //
+    // Surface Charge Density (sigma)
+    //
+    //----------------------------------------------------------------------------------
+
+    /**
+     * Gets the surface density charge between the plates and air.
+     * (design doc symbol: sigma_air)
+     *
+     * @return Coulombs/meters^2
+     */
+    public double getAirSurfaceChargeDensity() {
+        return getSurfaceChargeDensity( EPSILON_AIR, getPlatesVoltage(), getPlateSeparation() );
+    }
+
+    /**
+     * Gets the surface density charge between the plates and the dielectric.
+     * (design doc symbol: sigma_dielectric)
+     *
+     * @return Coulombs/meters^2
+     */
+    public double getDielectricSurfaceChargeDensity() {
+        return getSurfaceChargeDensity( getDielectricConstant(), getPlatesVoltage(), getPlateSeparation() );
+    }
+
+    /*
+     * General computation of surface charge density.
+     *
+     * @param epsilon_r dielectric constant, dimensionless
+     * @param V_plate plate voltage, in volts
+     * @param d plate separation, meters
+     * @return Coulombs/meters^2
+     */
+    private static double getSurfaceChargeDensity( double epsilon_r, double V_plate, double d ) {
+        if ( !( d > 0 ) ) {
+            throw new IllegalArgumentException( "model requires d (plate separation) > 0 : " + d );
+        }
+        return epsilon_r * EPSILON_0 * V_plate / d;
+    }
+
+    //----------------------------------------------------------------------------------
+    //
+    // E-Field (E)
+    //
+    //----------------------------------------------------------------------------------
+
+    /**
+     * Gets the effective (net) field between the plates.
+     * This is uniform everywhere between the plates.
+     * (design doc symbol: E_effective)
+     *
+     * @return Volts/meter
+     */
+    public double getEffectiveEfield() {
+        return getPlatesVoltage() / getPlateSeparation();
+    }
+
+    /**
+     * Gets the field due to the plates in the capacitor volume that contains air.
+     * (design doc symbol: E_plates_air)
+     *
+     * @return E-field, in Volts/meter
+     */
+    public double getPlatesAirEField() {
+        return getPlatesEField( EPSILON_AIR,  getPlatesVoltage(), getPlateSeparation() );
+    }
+
+    /**
+     * Gets the field due to the plates in the capacitor volume that contains the dielectric.
+     * (design doc symbol: E_plates_dielectric)
+     *
+     * @return E-field, in Volts/meter
+     */
+    public double getPlatesDielectricEField() {
+        return getPlatesEField( getDielectricConstant(), getPlatesVoltage(), getPlateSeparation() );
+    }
+
+    /*
+     * General solution for the E-field due to some dielectric.
+     *
+     * @param epsilon_r dielectric constant, dimensionless
+     * @param V_plates plate voltage, volts
+     * @param d plate separation, meters
+     * @return E-field, in Volts/meter
+     */
+    // epsilon_air * V_plates / d
+    private static double getPlatesEField( double epsilon_r, double V_plates, double d ) {
+        if ( !( d > 0 ) ) {
+            throw new IllegalArgumentException( "model requires d (plate separation) > 0 : " + d );
+        }
+        return epsilon_r * V_plates / d;
+    }
+
+    /**
+     * Gets the field due to air polarization.
+     * (design doc symbol: E_air)
+     *
+     * @return E-field, in Volts/meter
+     */
+    public double getAirEField() {
+        return getPlatesAirEField() - getEffectiveEfield();
+    }
+
+    /**
+     * Gets the field due to dielectric polarization.
+     * (design doc symbol: E_dielectric)
+     *
+     * @return E-field, in Volts/meter
+     */
+    public double getDielectricEField() {
+        return getPlatesDielectricEField() - getEffectiveEfield();
+    }
+
+    //----------------------------------------------------------------------------------
+    //
+    // CapacitorChangeListeners
+    //
+    //----------------------------------------------------------------------------------
+
+    /**
+     * Notified when derived properties change.
+     */
+    public interface CapacitorChangeListener extends EventListener {
+        public void capacitorChanged();
+    }
+
+    public void addCapacitorChangeListener( CapacitorChangeListener listener ) {
+        listeners.add( CapacitorChangeListener.class, listener );
+    }
+
+    public void removeCapacitorChangeListener( CapacitorChangeListener listener ) {
+        listeners.remove( CapacitorChangeListener.class, listener );
+    }
+
+    public void fireCapacitorChanged() {
+        for ( CapacitorChangeListener listener : listeners.getListeners( CapacitorChangeListener.class ) ) {
+            listener.capacitorChanged();
+        }
     }
 }

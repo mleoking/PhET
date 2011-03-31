@@ -1,3 +1,4 @@
+3/31/11 MAJOR changes to the model in preparation for supporting multiple capacitors, moved lots of stuff from BatteryCapacitorCircuit to Capacitor
 3/31/11 generalize, remove many dependencies on BatteryCapacitorCircuit by creating interface ICircuit
 3/28/11 strip leading whitespace from all source files, so that formatting won't obscure future changes
 3/28/11 restore WorldLocationProperty, this bit is useful

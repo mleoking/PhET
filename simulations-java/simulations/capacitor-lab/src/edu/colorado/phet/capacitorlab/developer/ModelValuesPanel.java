@@ -259,22 +259,22 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
         C_dielectric.setValue( capacitor.getDieletricCapacitance() );
         C.setValue( capacitor.getTotalCapacitance() );
         // voltage
-        V_plates.setValue( circuit.getPlatesVoltage() );
+        V_plates.setValue( capacitor.getPlatesVoltage() );
         // charge
-        Q_air.setValue( circuit.getAirPlateCharge() );
-        Q_dielectric.setValue( circuit.getDielectricPlateCharge() );
-        Q_total.setValue( circuit.getTotalPlateCharge() );
-        Q_excess_air.setValue( circuit.getExcessAirPlateCharge() );
-        Q_excess_dielectric.setValue( circuit.getExcessDielectricPlateCharge() );
+        Q_air.setValue( capacitor.getAirPlateCharge() );
+        Q_dielectric.setValue( capacitor.getDielectricPlateCharge() );
+        Q_total.setValue( capacitor.getTotalPlateCharge() );
+        Q_excess_air.setValue( capacitor.getExcessAirPlateCharge() );
+        Q_excess_dielectric.setValue( capacitor.getExcessDielectricPlateCharge() );
         // surface charge density
-        sigma_air.setValue( model.getCircuit().getAirSurfaceChargeDensity() );
-        sigma_dielectric.setValue( model.getCircuit().getDielectricSurfaceChargeDensity() );
+        sigma_air.setValue( capacitor.getAirSurfaceChargeDensity() );
+        sigma_dielectric.setValue( capacitor.getDielectricSurfaceChargeDensity() );
         // E-field
-        E_effective.setValue( model.getCircuit().getEffectiveEfield() );
-        E_plates_air.setValue( model.getCircuit().getPlatesAirEField() );
-        E_plates_diectric.setValue( model.getCircuit().getPlatesDielectricEField() );
-        E_air.setValue( model.getCircuit().getAirEField() );
-        E_dielectric.setValue( model.getCircuit().getDielectricEField() );
+        E_effective.setValue( capacitor.getEffectiveEfield() );
+        E_plates_air.setValue( capacitor.getPlatesAirEField() );
+        E_plates_diectric.setValue( capacitor.getPlatesDielectricEField() );
+        E_air.setValue( capacitor.getAirEField() );
+        E_dielectric.setValue( capacitor.getDielectricEField() );
         // energy
         U.setValue( model.getCircuit().getStoredEnergy() );
     }

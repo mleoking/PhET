@@ -17,6 +17,6 @@ public class PlateChargeMeter extends BarMeter {
 
     @Override
     protected double getCircuitValue() {
-        return getCircuit().getTotalPlateCharge();
+        return getCircuit().getTotalCharge();
     }
 }

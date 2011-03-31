@@ -67,7 +67,7 @@ public class EFieldDetectorBodyNode extends PhetPNode {
 
     private static final PDimension VECTOR_DISPLAY_SIZE = new PDimension( 200, 200 );
     private static final Color VECTOR_DISPLAY_BACKGROUND = Color.WHITE;
-    private static final double VECTOR_REFERENCE_MAGNITUDE = BatteryCapacitorCircuit.getMaxPlatesDielectricEFieldWithBattery(); // reference for the max magnification
+    private static final double VECTOR_REFERENCE_MAGNITUDE = BatteryCapacitorCircuit.getMaxPlatesDielectricEFieldWithBattery(); //TODO pass this max in via constructor
     private static final double VECTOR_REFERENCE_LENGTH = 3 * VECTOR_DISPLAY_SIZE.getHeight();
     private static final Dimension VECTOR_ARROW_HEAD_SIZE = new Dimension( 30, 20 );
     private static final int VECTOR_ARROW_TAIL_WIDTH = 10;

@@ -5,8 +5,8 @@ package edu.colorado.phet.capacitorlab.view;
 import java.awt.Cursor;
 
 import edu.colorado.phet.capacitorlab.drag.DielectricOffsetDragHandler;
-import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit;
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
+import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -23,23 +23,23 @@ public class DielectricNode extends BoxNode {
 
     public static enum DielectricChargeView { NONE, TOTAL, EXCESS };
 
-    private final BatteryCapacitorCircuit circuit;
+    private final Capacitor capacitor;
 
     private final Property<DielectricChargeView> dielectricChargeViewProperty;
 
-    public DielectricNode( final BatteryCapacitorCircuit circuit, CLModelViewTransform3D mvt, DoubleRange valueRange, DielectricChargeView dielectricChargeView ) {
-        super( mvt, circuit.getCapacitor().getDielectricMaterial().getColor(), circuit.getCapacitor().getDielectricSize() );
+    public DielectricNode( final Capacitor capacitor, CLModelViewTransform3D mvt, DoubleRange valueRange, DielectricChargeView dielectricChargeView ) {
+        super( mvt, capacitor.getDielectricMaterial().getColor(), capacitor.getDielectricSize() );
 
-        this.circuit = circuit;
+        this.capacitor = capacitor;
 
         // dielectric is directly draggable
         addInputEventListener( new CursorHandler( Cursor.E_RESIZE_CURSOR ) );
-        addInputEventListener( new DielectricOffsetDragHandler( this, circuit.getCapacitor(), mvt, valueRange ) );
+        addInputEventListener( new DielectricOffsetDragHandler( this, capacitor, mvt, valueRange ) );
 
-        final DielectricTotalChargeNode totalChargeNode = new DielectricTotalChargeNode( circuit, mvt );
+        final DielectricTotalChargeNode totalChargeNode = new DielectricTotalChargeNode( capacitor, mvt );
         addChild( totalChargeNode );
 
-        final DielectricExcessChargeNode excessChargeNode = new DielectricExcessChargeNode( circuit, mvt );
+        final DielectricExcessChargeNode excessChargeNode = new DielectricExcessChargeNode( capacitor, mvt );
         addChild( excessChargeNode );
 
         dielectricChargeViewProperty = new Property<DielectricNode.DielectricChargeView>( dielectricChargeView );
@@ -51,9 +51,9 @@ public class DielectricNode extends BoxNode {
         });
 
         // change color when dielectric material changes
-        circuit.getCapacitor().addDielectricMaterialObserver( new SimpleObserver() {
+        capacitor.addDielectricMaterialObserver( new SimpleObserver() {
             public void update() {
-                setColor( circuit.getCapacitor().getDielectricMaterial().getColor() );
+                setColor( DielectricNode.this.capacitor.getDielectricMaterial().getColor() );
             }
         });
     }
@@ -89,7 +89,7 @@ public class DielectricNode extends BoxNode {
          * Some dielectric materials are naturally transparent.
          * Modify dielectric transparency only if it's not already transparent.
          */
-        if ( circuit.getCapacitor().getDielectricMaterial().isOpaque() ) {
+        if ( capacitor.getDielectricMaterial().isOpaque() ) {
             setTransparency( transparency );
         }
     }

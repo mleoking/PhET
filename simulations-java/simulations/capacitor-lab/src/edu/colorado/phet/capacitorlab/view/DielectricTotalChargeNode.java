@@ -2,10 +2,8 @@
 
 package edu.colorado.phet.capacitorlab.view;
 
-import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit;
-import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
-import edu.colorado.phet.capacitorlab.model.ICircuit.CircuitChangeListener;
-import edu.colorado.phet.capacitorlab.model.Polarity;
+import edu.colorado.phet.capacitorlab.model.*;
+import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeListener;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.PNode;
@@ -28,20 +26,20 @@ public class DielectricTotalChargeNode extends PhetPNode {
     private static final DoubleRange NEGATIVE_CHARGE_OFFSET = new DoubleRange( 0, SPACING_BETWEEN_PAIRS / 2 ); // view coordinates
     private static final double SPACING_BETWEEN_CHARGES_EXPONENT = 1/4d;
 
-    private final BatteryCapacitorCircuit circuit;
+    private final Capacitor capacitor;
     private final CLModelViewTransform3D mvt;
     private final PNode parentNode; // parent node for charges
 
-    public DielectricTotalChargeNode( BatteryCapacitorCircuit circuit, CLModelViewTransform3D mvt ) {
+    public DielectricTotalChargeNode( Capacitor capacitor, CLModelViewTransform3D mvt ) {
 
-        this.circuit = circuit;
+        this.capacitor = capacitor;
         this.mvt = mvt;
 
         this.parentNode = new PComposite();
         addChild( parentNode );
 
-        circuit.addCircuitChangeListener( new CircuitChangeListener() {
-            public void circuitChanged() {
+        capacitor.addCapacitorChangeListener( new CapacitorChangeListener() {
+            public void capacitorChanged() {
                 if ( isVisible() ) {
                     update();
                 }
@@ -70,16 +68,16 @@ public class DielectricTotalChargeNode extends PhetPNode {
         parentNode.removeAllChildren();
 
         // offset of negative charges
-        final double eField = circuit.getDielectricEField();
+        final double eField = capacitor.getDielectricEField();
         final double negativeChargeOffset = getNegativeChargeOffset( eField );
 
         // spacing between pairs
         final double spacingBetweenPairs = mvt.viewToModelDelta( SPACING_BETWEEN_PAIRS, 0 ).getX();
 
         // rows and columns
-        final double dielectricWidth = circuit.getCapacitor().getDielectricSize().getWidth();
-        final double dielectricHeight = circuit.getCapacitor().getDielectricSize().getHeight();
-        final double dielectricDepth = circuit.getCapacitor().getDielectricSize().getDepth();
+        final double dielectricWidth = capacitor.getDielectricSize().getWidth();
+        final double dielectricHeight = capacitor.getDielectricSize().getHeight();
+        final double dielectricDepth = capacitor.getDielectricSize().getDepth();
         final int rows = (int) ( dielectricHeight / spacingBetweenPairs );
         final int columns = (int) ( dielectricWidth / spacingBetweenPairs );
 
@@ -93,7 +91,7 @@ public class DielectricTotalChargeNode extends PhetPNode {
         final Polarity polarity = ( eField >= 0 ) ? Polarity.NEGATIVE : Polarity.POSITIVE;
 
         // front face
-        double xPlateEdge = -( dielectricWidth / 2 ) + ( dielectricWidth - circuit.getCapacitor().getDielectricOffset() );
+        double xPlateEdge = -( dielectricWidth / 2 ) + ( dielectricWidth - capacitor.getDielectricOffset() );
         for ( int row = 0; row < rows; row++ ) {
             for ( int column = 0; column < columns; column++ ) {
 
@@ -131,7 +129,7 @@ public class DielectricTotalChargeNode extends PhetPNode {
                     pairNode.setOffset( mvt.modelToView( x, y, z ) );
 
                     // spacing between charges
-                    if ( circuit.getCapacitor().getDielectricOffset() == 0 ) {
+                    if ( capacitor.getDielectricOffset() == 0 ) {
                         pairNode.setNegativeChargeOffset( negativeChargeOffset, polarity );
                     }
                     else {
@@ -147,7 +145,7 @@ public class DielectricTotalChargeNode extends PhetPNode {
      */
     private double getNegativeChargeOffset( double eField ) {
         double absEField = Math.abs( eField );
-        double maxEField = BatteryCapacitorCircuit.getMaxDielectricEField();
+        double maxEField = BatteryCapacitorCircuit.getMaxDielectricEField();//TODO pass this max in via constructor
         double percent = Math.pow( absEField / maxEField, SPACING_BETWEEN_CHARGES_EXPONENT );
         return NEGATIVE_CHARGE_OFFSET.getMin() + ( percent * NEGATIVE_CHARGE_OFFSET.getLength() );
     }
