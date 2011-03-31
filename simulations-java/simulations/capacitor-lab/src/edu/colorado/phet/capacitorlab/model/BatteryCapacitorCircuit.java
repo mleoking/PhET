@@ -140,7 +140,7 @@ public class BatteryCapacitorCircuit implements ICircuit {
     private void updateVoltages() {
         double V = battery.getVoltage();
         if ( !batteryConnected ) {
-            V = disconnectedPlateCharge / capacitor.getTotalCapacitance(); // V =Q/C
+            V = disconnectedPlateCharge / capacitor.getTotalCapacitance(); // V = Q/C
         }
         capacitor.setPlatesVoltage( V );
         topWire.setVoltage( V );
