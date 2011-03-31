@@ -134,17 +134,17 @@ public class BatteryCapacitorCircuit implements ICircuit {
         }
     }
 
+    /*
+     * Updates the capacitor and wire voltages, depending on whether the battery is connected.
+     */
     private void updateVoltages() {
-        if ( batteryConnected ) {
-            capacitor.setPlatesVoltage( battery.getVoltage() );
-            topWire.setVoltage( battery.getVoltage() );
-            bottomWire.setVoltage( 0 );
+        double V = battery.getVoltage();
+        if ( !batteryConnected ) {
+            V = disconnectedPlateCharge / capacitor.getTotalCapacitance(); // V =Q/C
         }
-        else {
-            capacitor.setPlatesVoltage( disconnectedPlateCharge / capacitor.getTotalCapacitance() ); // V = Q/C
-            topWire.setVoltage( Double.NaN );
-            bottomWire.setVoltage( Double.NaN );
-        }
+        capacitor.setPlatesVoltage( V );
+        topWire.setVoltage( V );
+        bottomWire.setVoltage( 0 );
     }
 
     //----------------------------------------------------------------------------------
@@ -153,12 +153,7 @@ public class BatteryCapacitorCircuit implements ICircuit {
     //
     //----------------------------------------------------------------------------------
 
-    /**
-     * Gets the voltage between 2 Shapes.
-     * @param positiveShape
-     * @param negativeShape
-     * @return voltage, Double.NaN if the 2 Shape are not both connected to the circuit
-     */
+    // @see ICircuit.getVoltageBetween
     public double getVoltageBetween( Shape positiveShape, Shape negativeShape ) {
         return getVoltage( positiveShape ) - getVoltage( negativeShape );
     }
@@ -194,11 +189,7 @@ public class BatteryCapacitorCircuit implements ICircuit {
     //
     //----------------------------------------------------------------------------------
 
-    /**
-     * Gets the total capacitance of the circuit.
-     * (design doc symbol: C_total)
-     * @return capacitance, in Farads
-     */
+    // @see ICircuit.getTotalCapacitance
     public double getTotalCapacitance() {
         return capacitor.getTotalCapacitance();
     }
@@ -235,14 +226,7 @@ public class BatteryCapacitorCircuit implements ICircuit {
         return disconnectedPlateCharge;
     }
 
-
-
-    /**
-     * Gets the total charge stored in the circuit.
-     * (design doc symbol: Q_total)
-     *
-     * @return charge, in Coulombs
-     */
+    // @see ICircuit.getTotalCharge
     public double getTotalCharge() {
         return capacitor.getTotalPlateCharge();
     }
@@ -253,30 +237,16 @@ public class BatteryCapacitorCircuit implements ICircuit {
     //
     //----------------------------------------------------------------------------------
 
-    /**
-     * Gets the effective E-field at a specified location.
-     * Inside the plates, this is E_effective.
-     * Outside the plates, it is zero.
-     *
-     * @param location
-     * @return E-Field, in Volts/meter
-     */
+    // @see ICircuit.getEffectiveEFieldAt
     public double getEffectiveEFieldAt( Point3D location ) {
         double eField = 0;
         if ( capacitor.isBetweenPlatesShape( location ) ) {
-           eField = capacitor.getEffectiveEfield();
+            eField = capacitor.getEffectiveEfield();
         }
         return eField;
     }
 
-    /**
-     * Field due to the plate, at a specific location.
-     * Between the plates, the field is either E_plate_dielectric or E_plate_air, depending on whether the probe intersects the dielectric.
-     * Outside the plates, the field is zero.
-     *
-     * @param location
-     * @return E-field, in Volts/meter
-     */
+    // @see ICircuit.getPlatesDielectricEFieldAt
     public double getPlatesDielectricEFieldAt( Point3D location ) {
         double eField = 0;
         if ( capacitor.isInsideDielectricBetweenPlatesShape( location ) ) {
@@ -288,18 +258,11 @@ public class BatteryCapacitorCircuit implements ICircuit {
         return eField;
     }
 
-    /**
-     * Gets the field due to dielectric polarization, at a specific location.
-     * Between the plates, the field is either E_dielectric or E_air, depending on whether the probe intersects the dielectric.
-     * Outside the plates, the field is zero.
-     *
-     * @param location
-     * @return E-field, in Volts/meter
-     */
+    // @see ICircuit.getDielectricEFieldAt
     public double getDielectricEFieldAt( Point3D location ) {
         double eField = 0;
         if ( capacitor.isInsideDielectricBetweenPlatesShape( location ) ) {
-            eField = capacitor.getDielectricEField();
+   eField = capacitor.getDielectricEField();
         }
         else if ( capacitor.isInsideAirBetweenPlatesShape( location ) ) {
             eField = capacitor.getAirEField();
@@ -313,12 +276,7 @@ public class BatteryCapacitorCircuit implements ICircuit {
     //
     //----------------------------------------------------------------------------------
 
-    /**
-     * Gets the energy stored in the capacitor.
-     * (design doc symbol: U)
-     *
-     * @return energy, in Joules (J)
-     */
+    // @see ICircuit.getStoredEnergy
     public double getStoredEnergy() {
         double C_total = capacitor.getTotalCapacitance(); // F
         double V_plates = capacitor.getPlatesVoltage(); // V
@@ -356,12 +314,14 @@ public class BatteryCapacitorCircuit implements ICircuit {
     //
     //----------------------------------------------------------------------------------
 
+    // @see ICircuit.addCircuitChangeListener
     public void addCircuitChangeListener( CircuitChangeListener listener ) {
-        listeners.add(  CircuitChangeListener.class, listener );
+        listeners.add( CircuitChangeListener.class, listener );
     }
 
+    // @see ICircuit.removeCircuitChangeListener
     public void removeCircuitChangeListener( CircuitChangeListener listener ) {
-        listeners.remove(  CircuitChangeListener.class, listener );
+        listeners.remove( CircuitChangeListener.class, listener );
     }
 
     public void fireCircuitChanged() {

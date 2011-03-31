@@ -39,7 +39,8 @@ public interface ICircuit {
     public double getStoredEnergy();
 
     /**
-     * Gets the voltage between 2 Shapes.
+     * Gets the voltage between 2 Shapes. The shapes are in world coordinates.
+     *
      * @param positiveShape
      * @param negativeShape
      *
