@@ -1,3 +1,5 @@
+# 1.00.01 (50277) Mar 31, 2011
+3/31/11 sanity check: major model changes to accommodate multiple capacitors, should be functionally identical to 1.00.00
 3/31/11 rename dev ModelValuesPanel to DielectricModelValuesPanel, since it is specific to the single-capacitor circuit
 3/31/11 doc ICircuit and subclasses
 3/31/11 simplify implementation of BatteryCapacitorCircuit.updateVoltages
