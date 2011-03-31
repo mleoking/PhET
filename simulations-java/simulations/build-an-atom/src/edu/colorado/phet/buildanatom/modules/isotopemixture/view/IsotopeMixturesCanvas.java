@@ -118,12 +118,11 @@ public class IsotopeMixturesCanvas extends PhetPCanvas {
                         particleLayer.removeChild( isotopeNode );
                     }
                 } );
-                // If the model is portraying "nature's mix" of isotopes,
-                // disallow user interaction with these particles.
-                if ( model.getShowingNaturesMixProperty().getValue() ){
-                    isotopeNode.setPickable( false );
-                    isotopeNode.setChildrenPickable( false );
-                }
+                // Only allow interaction with the atoms when showing the
+                // buckets and when not showing nature's mix.
+                boolean interactiveParticles = model.getInteractivityModeProperty().getValue() == InteractivityMode.BUCKETS_AND_LARGE_ATOMS && !model.getShowingNaturesMixProperty().getValue();
+                isotopeNode.setPickable( interactiveParticles );
+                isotopeNode.setChildrenPickable( interactiveParticles );
             }
             @Override
             public void isotopeBucketAdded( final MonoIsotopeParticleBucket bucket ) {
