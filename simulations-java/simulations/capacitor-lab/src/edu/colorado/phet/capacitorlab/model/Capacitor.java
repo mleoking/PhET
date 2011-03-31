@@ -20,9 +20,11 @@ import edu.colorado.phet.common.phetcommon.view.util.ShapeUtils;
  * Model of a capacitor.
  * <p>
  * A capacitor consists of 2 parallel, square plates, with a dielectric material between the plates.
- * A capacitor's capacitance is dependent on its geometry and the dielectric material.
  * When the dielectric can be partially inserted, the capacitor must be modeled as 2 parallel capacitors,
  * one of which has the dielectric between its plates, and the other of which has air between its plates.
+ * <p>
+ * A capacitor's capacitance (C) is solely dependent on its geometry and the dielectric material.
+ * Charge (Q) on the plates is a function of capacitance and voltage (V) across the plates: Q = CV
  * <p>
  * Variable names used in this implementation where chosen to match the specification
  * in the design document, and therefore violate Java naming conventions.
