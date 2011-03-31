@@ -144,8 +144,13 @@ public class PhetJarSigner {
             System.out.println( "Repacking JAR: " + jarFile.getAbsolutePath() );
 
             // repack it using a temporary file. this will normalize the order of class files / etc.
-            packFile( packer, jarFile, temporaryFile );
-            unpackFile( unpacker, temporaryFile, jarFile );
+            boolean packSuccess = packFile( packer, jarFile, temporaryFile );
+            if ( packSuccess ) {
+                unpackFile( unpacker, temporaryFile, jarFile );
+            }
+            else {
+                System.out.println( "Skipping unpacking step due to packing failure" );
+            }
             safeDelete( temporaryFile );
 
             // sign the repacked JAR
@@ -157,7 +162,13 @@ public class PhetJarSigner {
             System.out.println( "Packing signed JAR: " + jarFile.getAbsolutePath() );
 
             // make a packed copy
-            packAndCompressFile( packer, jarFile, packedFile );
+            if ( packSuccess ) {
+                // if we fail here, something must be wrong because it essentially worked above!
+                packAndCompressFile( packer, jarFile, packedFile );
+            }
+            else {
+                System.out.println( "Skipping pack-and-compress step due to packing failure" );
+            }
         }
         catch( IOException e ) {
             e.printStackTrace();
@@ -202,6 +213,8 @@ public class PhetJarSigner {
             // probably failed due to a corrupt scala attribute
             // beforehand: com.sun.java.util.jar.pack.Attribute$FormatException: class.ScalaSig: unknown in scala/LowPriorityImplicits
             success = false;
+            System.out.println( "Received the following error during pack200 compression." );
+            e.printStackTrace();
             if ( outFile.exists() ) {
                 outFile.delete(); // attempt to delete!
             }
