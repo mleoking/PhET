@@ -22,24 +22,24 @@ public abstract class PlateNode extends BoxNode {
     private final PlateChargeNode airPlateChargeNode; // shows charge on the portion of the plate that contacts air
 
     public static class TopPlateNode extends PlateNode {
-        public TopPlateNode( Capacitor capacitor, CLModelViewTransform3D mvt ) {
-            super( capacitor, mvt, Polarity.POSITIVE );
+        public TopPlateNode( Capacitor capacitor, CLModelViewTransform3D mvt, double maxPlateCharge ) {
+            super( capacitor, mvt, Polarity.POSITIVE, maxPlateCharge );
         }
     }
 
     public static class BottomPlateNode extends PlateNode {
-        public BottomPlateNode( Capacitor capacitor, CLModelViewTransform3D mvt ) {
-            super( capacitor, mvt, Polarity.NEGATIVE );
+        public BottomPlateNode( Capacitor capacitor, CLModelViewTransform3D mvt, double maxPlateCharge ) {
+            super( capacitor, mvt, Polarity.NEGATIVE, maxPlateCharge );
         }
     }
 
-    public PlateNode( Capacitor capacitor, CLModelViewTransform3D mvt, Polarity polarity ) {
+    public PlateNode( Capacitor capacitor, CLModelViewTransform3D mvt, Polarity polarity, double maxPlateCharge ) {
         super( mvt, CLPaints.PLATE, capacitor.getPlateSize() );
 
-        this.dielectricPlateChargeNode = new DielectricPlateChargeNode( capacitor, mvt, polarity );
+        this.dielectricPlateChargeNode = new DielectricPlateChargeNode( capacitor, mvt, polarity, maxPlateCharge );
         addChild( dielectricPlateChargeNode );
 
-        this.airPlateChargeNode = new AirPlateChargeNode( capacitor, mvt, polarity );
+        this.airPlateChargeNode = new AirPlateChargeNode( capacitor, mvt, polarity, maxPlateCharge );
         addChild( airPlateChargeNode );
     }
 

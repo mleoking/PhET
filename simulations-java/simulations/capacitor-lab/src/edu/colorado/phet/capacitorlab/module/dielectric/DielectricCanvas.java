@@ -13,7 +13,6 @@ import edu.colorado.phet.capacitorlab.developer.VoltageShapesDebugNode;
 import edu.colorado.phet.capacitorlab.drag.DielectricOffsetDragHandleNode;
 import edu.colorado.phet.capacitorlab.drag.PlateAreaDragHandleNode;
 import edu.colorado.phet.capacitorlab.drag.PlateSeparationDragHandleNode;
-import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit;
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.colorado.phet.capacitorlab.model.ICircuit.CircuitChangeListener;
 import edu.colorado.phet.capacitorlab.module.CLCanvas;
@@ -69,8 +68,16 @@ public class DielectricCanvas extends CLCanvas {
         this.model = model;
         this.mvt = mvt;
 
+        // maximums
+        final double maxPlateCharge = DielectricModel.getMaxPlateCharge();
+        final double maxExcessDielectricPlateCharge = DielectricModel.getMaxExcessDielectricPlateCharge();
+        final double maxEffectiveEfield = DielectricModel.getMaxEffectiveEfield();
+        final double maxDielectricEField = DielectricModel.getMaxDielectricEField();
+        final double eFieldVectorReferenceMagnitude = DielectricModel.getMaxPlatesDielectricEFieldWithBattery();
+
         batteryNode = new BatteryNode( model.getBattery(), CLConstants.BATTERY_VOLTAGE_RANGE );
-        capacitorNode = new CapacitorNode( model.getCircuit().getCapacitor(), mvt, CLConstants.PLATE_CHARGES_VISIBLE, CLConstants.EFIELD_VISIBLE, CLConstants.DIELECTRIC_CHARGE_VIEW );
+        capacitorNode = new CapacitorNode( model.getCircuit().getCapacitor(), mvt, CLConstants.PLATE_CHARGES_VISIBLE, CLConstants.EFIELD_VISIBLE, CLConstants.DIELECTRIC_CHARGE_VIEW,
+                maxPlateCharge, maxExcessDielectricPlateCharge, maxEffectiveEfield, maxDielectricEField );
         topWireNode = new WireNode( model.getTopWire(), mvt );
         bottomWireNode = new WireNode( model.getBottomWire(), mvt );
 
@@ -84,9 +91,8 @@ public class DielectricCanvas extends CLCanvas {
         plateChargeMeterNode = new PlateChargeMeterNode( model.getPlateChargeMeter(), mvt );
         storedEnergyMeterNode = new StoredEnergyMeterNode( model.getStoredEnergyMeter(), mvt );
         voltmeter = new VoltmeterView( model.getVoltmeter(), mvt );
-        eFieldDetector = new EFieldDetectorView( model.getEFieldDetector(), mvt, dev );
+        eFieldDetector = new EFieldDetectorView( model.getEFieldDetector(), mvt, eFieldVectorReferenceMagnitude, dev );
 
-        final double maxPlateCharge = BatteryCapacitorCircuit.getMaxPlateCharge();
         plateChargeControNode = new PlateChargeControlNode( model.getCircuit(), new DoubleRange( -maxPlateCharge, maxPlateCharge ) );
 
         topCurrentIndicatorNode = new CurrentIndicatorNode( model.getCircuit(), 0 );

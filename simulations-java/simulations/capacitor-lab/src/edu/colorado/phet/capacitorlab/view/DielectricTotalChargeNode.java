@@ -2,8 +2,10 @@
 
 package edu.colorado.phet.capacitorlab.view;
 
-import edu.colorado.phet.capacitorlab.model.*;
+import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
+import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeListener;
+import edu.colorado.phet.capacitorlab.model.Polarity;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.PNode;
@@ -13,7 +15,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  * Shows the total dielectric charge.
  * Spacing of positive and negative charges remains constant, and they appear in positive/negative pairs.
  * The spacing between the positive/negative pairs changes proportional to E_dielectric.
- * Outside the capacitor, the spacing between the pairs is at a minimum to reprsent no charge.
+ * Outside the capacitor, the spacing between the pairs is at a minimum to represent no charge.
  * <p>
  * All model coordinates are relative to the dielectric's local coordinate frame,
  * where the origin is at the 3D geometric center of the dielectric.
@@ -29,11 +31,13 @@ public class DielectricTotalChargeNode extends PhetPNode {
     private final Capacitor capacitor;
     private final CLModelViewTransform3D mvt;
     private final PNode parentNode; // parent node for charges
+    private final double maxDielectricEField;
 
-    public DielectricTotalChargeNode( Capacitor capacitor, CLModelViewTransform3D mvt ) {
+    public DielectricTotalChargeNode( Capacitor capacitor, CLModelViewTransform3D mvt, double maxDielectricEField ) {
 
         this.capacitor = capacitor;
         this.mvt = mvt;
+        this.maxDielectricEField = maxDielectricEField;
 
         this.parentNode = new PComposite();
         addChild( parentNode );
@@ -145,8 +149,7 @@ public class DielectricTotalChargeNode extends PhetPNode {
      */
     private double getNegativeChargeOffset( double eField ) {
         double absEField = Math.abs( eField );
-        double maxEField = BatteryCapacitorCircuit.getMaxDielectricEField();//TODO pass this max in via constructor
-        double percent = Math.pow( absEField / maxEField, SPACING_BETWEEN_CHARGES_EXPONENT );
+        double percent = Math.pow( absEField / maxDielectricEField, SPACING_BETWEEN_CHARGES_EXPONENT );
         return NEGATIVE_CHARGE_OFFSET.getMin() + ( percent * NEGATIVE_CHARGE_OFFSET.getLength() );
     }
 

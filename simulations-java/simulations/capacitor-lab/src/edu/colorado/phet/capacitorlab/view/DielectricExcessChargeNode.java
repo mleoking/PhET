@@ -5,7 +5,6 @@ package edu.colorado.phet.capacitorlab.view;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
-import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit;
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeListener;
@@ -29,11 +28,13 @@ public class DielectricExcessChargeNode extends PhetPNode {
     private final Capacitor capacitor;
     private final CLModelViewTransform3D mvt;
     private final PNode parentNode; // parent node for charges
+    private final double maxExcessDielectricPlateCharge;
 
-    public DielectricExcessChargeNode( Capacitor capacitor, CLModelViewTransform3D mvt ) {
+    public DielectricExcessChargeNode( Capacitor capacitor, CLModelViewTransform3D mvt, double maxExcessDielectricPlateCharge ) {
 
         this.capacitor = capacitor;
         this.mvt = mvt;
+        this.maxExcessDielectricPlateCharge = maxExcessDielectricPlateCharge;
 
         this.parentNode = new PComposite();
         addChild( parentNode );
@@ -136,8 +137,7 @@ public class DielectricExcessChargeNode extends PhetPNode {
      */
     private int getNumberOfCharges( double excessCharge ) {
         double absCharge = Math.abs( excessCharge ); // don't take sqrt of absCharge, it's something like 1E-14 and will result in a *larger* number
-        double maxCharge = BatteryCapacitorCircuit.getMaxExcessDielectricPlateCharge(); //TODO pass this max in via constructor
-        int numberOfCharges = (int) Math.sqrt( CLConstants.NUMBER_OF_PLATE_CHARGES.getMax() * absCharge / maxCharge ); // take sqrt here instead
+        int numberOfCharges = (int) Math.sqrt( CLConstants.NUMBER_OF_PLATE_CHARGES.getMax() * absCharge / maxExcessDielectricPlateCharge ); // take sqrt here instead
         if ( absCharge > 0 && numberOfCharges < CLConstants.NUMBER_OF_PLATE_CHARGES.getMin() ) {
             numberOfCharges = CLConstants.NUMBER_OF_PLATE_CHARGES.getMin();
         }
