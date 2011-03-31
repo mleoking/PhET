@@ -585,17 +585,14 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
                 }
              } );
 
-        // Add the isotope controllers (i.e. the sliders).
-        // TODO: Can I move this?  Readability would be better if so.
-        addIsotopeControllers();
-
         // Add the isotopes.
         for ( ImmutableAtom isotopeConfig : possibleIsotopesCopy ){
             int numToCreate = (int)Math.round( totalNumIsotopes * AtomIdentifier.getNaturalAbundance( isotopeConfig ) );
             if ( numToCreate == 0 ){
-                System.err.println("Warning, quantity at zero for " + AtomIdentifier.getName( isotopeConfig ) + "-" + isotopeConfig.getMassNumber());
+                System.err.println("Warning: Calculated quantity at zero for " + AtomIdentifier.getName( isotopeConfig ) + "-" + isotopeConfig.getMassNumber() + ", adding min quantity (1)." );
                 numToCreate = 1;
             }
+            List<MovableAtom> isotopesToAdd = new ArrayList<MovableAtom>();
             for ( int i = 0; i < numToCreate; i++){
                 MovableAtom newIsotope = new MovableAtom(
                         isotopeConfig.getNumProtons(),
@@ -603,14 +600,16 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
                         SMALL_ISOTOPE_RADIUS,
                         testChamber.generateRandomLocation(),
                         clock );
-                testChamber.addIsotopeToChamber( newIsotope );
+                isotopesToAdd.add( newIsotope );
                 notifyIsotopeInstanceAdded( newIsotope );
             }
+            testChamber.bulkAddIsotopesToChamber( isotopesToAdd );
         }
 
-        // Override the average atomic mass and isotope proportions, since we
-        // can't add enough atoms to the test chamber to make the proportions
-        // exactly match those that occur in nature.
+        // Override the average atomic mass and isotope proportion values
+        // reported by the test chamber, since we generally can't add enough
+        // atoms to the test chamber to make the proportions exactly match
+        // those that occur in nature.
         Map<ImmutableAtom, Double> naturesMixIsotopeProportions = new HashMap<ImmutableAtom, Double>();
         double naturesMixAverageAtomicMass = 0;
         for ( ImmutableAtom isotope : possibleIsotopesCopy ){
@@ -619,6 +618,9 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
         }
         testChamber.overrideIsotopeProportions( naturesMixIsotopeProportions );
         testChamber.overrideAverageAtomicMass( naturesMixAverageAtomicMass );
+
+        // Add the isotope controllers (i.e. the buckets).
+        addIsotopeControllers();
     }
 
     /**
@@ -628,11 +630,6 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
      */
     private void removeAllIsotopesFromTestChamberAndModel(){
         testChamber.removeAllIsotopes( true );
-//        for ( MovableAtom isotope : new ArrayList<MovableAtom>( testChamber.getContainedIsotopes() ) ){
-//            testChamber.removeIsotopeFromChamber( isotope );
-//            isotope.removeListener( isotopeGrabbedListener );
-//            isotope.removedFromModel();
-//        }
     }
 
     /**
