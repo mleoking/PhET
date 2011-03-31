@@ -11,6 +11,7 @@ import java.util.jar.JarFile;
 import java.util.jar.JarOutputStream;
 import java.util.jar.Pack200;
 import java.util.logging.Logger;
+import java.util.zip.Deflater;
 import java.util.zip.GZIPOutputStream;
 
 import org.apache.tools.ant.taskdefs.SignJar;
@@ -167,7 +168,7 @@ public class PhetJarSigner {
                 packAndCompressFile( packer, jarFile, packedFile );
             }
             else {
-                System.out.println( "Skipping pack-and-compress step due to packing failure" );
+                System.out.println( "Skipping pack-and-compress step due to previous packing failure" );
             }
         }
         catch( IOException e ) {
@@ -227,7 +228,9 @@ public class PhetJarSigner {
 
     private void packAndCompressFile( Packer packer, File inFile, File outFile ) throws IOException {
         safeDelete( outFile );
-        OutputStream out = new GZIPOutputStream( new FileOutputStream( outFile ) );
+        OutputStream out = new GZIPOutputStream( new FileOutputStream( outFile ) ) {{
+            def.setLevel( Deflater.BEST_COMPRESSION );
+        }};
         try {
             JarFile readFile = new JarFile( inFile );
             try {
