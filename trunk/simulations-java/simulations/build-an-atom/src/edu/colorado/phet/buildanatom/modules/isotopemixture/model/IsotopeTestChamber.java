@@ -158,23 +158,13 @@ public class IsotopeTestChamber {
     }
 
     public void clearAverageAtomicMassOverride(){
-        if ( averageAtomicMassOverridden ){
-            averageAtomicMassProperty.setValue( calculateAverageAtomicMass() );
-            averageAtomicMassOverridden = false;
-        }
+        averageAtomicMassOverridden = false;
+        updateAverageAtomicMassProperty();
     }
 
     private void clearAllOverrides(){
         clearAverageAtomicMassOverride();
         clearIsotopeProportionsOverride();
-    }
-
-    private double calculateAverageAtomicMass(){
-        double totalMass = 0;
-        for ( MovableAtom isotope : containedIsotopes ){
-            totalMass += isotope.getAtomConfiguration().getAtomicMass();
-        }
-        return totalMass / containedIsotopes.size();
     }
 
     /**
@@ -198,25 +188,42 @@ public class IsotopeTestChamber {
     }
 
     /**
+     * Add the specified isotope to the test chamber.  The isotope must be
+     * positioned within the 2D bounds of the chamber or the request will be
+     * ignored.
+     *
+     * @param isotope
+     */
+    public void addIsotopeToChamber( MovableAtom isotope ){
+        addIsotopeToChamber( isotope, true );
+    }
+
+    public void bulkAddIsotopesToChamber( List<MovableAtom> isotopeList ){
+        for ( MovableAtom isotope : isotopeList ){
+            addIsotopeToChamber( isotope, false );
+        }
+        updateAverageAtomicMassProperty();
+        updateCountProperty();
+    }
+
+    /**
      * Add the specified isotope to the chamber.  This method requires
-     * the the position of the isotope be within the chamber rectangle,
+     * that the position of the isotope be within the chamber rectangle,
      * or the isotope will not be added.
      *
      * In cases where an isotope is in a position where the center is
      * within the chamber but the edges are not, the isotope will be moved
      * so that it is fully contained within the chamber.
      *
-     * @param isotope
+     * @param isotope - Isotope to add.
+     * @param performUpdates - Flag that can be set be used to suppress updates.
+     * This is generally done for performance reasons when adding a large
+     * number of isotopes at once.
      */
-    protected void addIsotopeToChamber( MovableAtom isotope ){
+    private void addIsotopeToChamber( MovableAtom isotope, boolean performUpdates ){
         if ( isIsotopePositionedOverChamber( isotope ) ){
             clearAllOverrides();
             containedIsotopes.add( isotope );
-            updateCountProperty();
-            // Update the average atomic mass.
-            averageAtomicMassProperty.setValue( ( averageAtomicMassProperty.getValue() *
-                    ( isotopeCountProperty.getValue() - 1 ) + isotope.getAtomConfiguration().getAtomicMass() ) /
-                    isotopeCountProperty.getValue() );
             // If the edges of the isotope are outside of the container,
             // move it to be fully inside.
             double protrusion = isotope.getPosition().getX() + isotope.getRadius() - TEST_CHAMBER_RECT.getMaxX();
@@ -225,7 +232,7 @@ public class IsotopeTestChamber {
                         isotope.getPosition().getY() );
             }
             else{
-                protrusion =  TEST_CHAMBER_RECT.getMinX() - (isotope.getPosition().getX() - isotope.getRadius());
+                protrusion = TEST_CHAMBER_RECT.getMinX() - (isotope.getPosition().getX() - isotope.getRadius());
                 if (protrusion >= 0){
                     isotope.setPositionAndDestination( isotope.getPosition().getX() + protrusion,
                             isotope.getPosition().getY() );
@@ -237,11 +244,17 @@ public class IsotopeTestChamber {
                         isotope.getPosition().getY() - protrusion );
             }
             else{
-                protrusion =  TEST_CHAMBER_RECT.getMinY() - (isotope.getPosition().getY() - isotope.getRadius());
+                protrusion = TEST_CHAMBER_RECT.getMinY() - (isotope.getPosition().getY() - isotope.getRadius());
                 if (protrusion >= 0){
                     isotope.setPositionAndDestination( isotope.getPosition().getX(),
                             isotope.getPosition().getY() + protrusion );
                 }
+            }
+            if ( performUpdates ){
+                // Update the isotope count.
+                updateCountProperty();
+                // Update the average atomic mass.
+                updateAverageAtomicMassProperty( isotope );
             }
         }
         else{
@@ -286,14 +299,6 @@ public class IsotopeTestChamber {
     }
 
     public void removeAllIsotopes( boolean removeFromModel ){
-//        List<MovableAtom> containedIsotopesCopy = new ArrayList<MovableAtom>( containedIsotopes );
-//        for ( MovableAtom isotope : containedIsotopesCopy ) {
-//            removeIsotopeFromChamber( isotope );
-//            if ( removeFromModel ){
-//                isotope.removeListener( model.isotopeGrabbedListener );
-//                isotope.removedFromModel();
-//            }
-//        }
         clearAverageAtomicMassOverride();
         clearIsotopeProportionsOverride();
         List<MovableAtom> containedIsotopesCopy = new ArrayList<MovableAtom>( containedIsotopes );
@@ -329,6 +334,20 @@ public class IsotopeTestChamber {
 
     private void updateCountProperty(){
         isotopeCountProperty.setValue( containedIsotopes.size() );
+    }
+
+    private void updateAverageAtomicMassProperty( MovableAtom isotope ) {
+        averageAtomicMassProperty.setValue( ( averageAtomicMassProperty.getValue() *
+                ( isotopeCountProperty.getValue() - 1 ) + isotope.getAtomConfiguration().getAtomicMass() ) /
+                isotopeCountProperty.getValue() );
+    }
+
+    private void updateAverageAtomicMassProperty() {
+        double totalMass = 0;
+        for ( MovableAtom isotope : containedIsotopes ){
+            totalMass += isotope.getAtomConfiguration().getAtomicMass();
+        }
+        averageAtomicMassProperty.setValue( totalMass / containedIsotopes.size() );
     }
 
     public void addAverageAtomicMassPropertyListener( SimpleObserver so ){
