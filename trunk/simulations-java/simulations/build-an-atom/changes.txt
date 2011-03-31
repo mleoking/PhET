@@ -1,3 +1,4 @@
+isotopes-and-atomic-mass: Overhauled the interactive chart to use PNodes for the interactive cells instead of Swing buttons.  The reason is that the Swing buttons looked weird on Mac and Windows "Classic" mode.
 isotopes-and-atomic-mass: Added the ability to override the average atomic mass and the isotope proportions.  This is needed to make the "Nature's Mix" match actual natural values for each element.
 # 2.01.03 (49960) Mar 18, 2011
 3/18/11 Added pie chart labels.
