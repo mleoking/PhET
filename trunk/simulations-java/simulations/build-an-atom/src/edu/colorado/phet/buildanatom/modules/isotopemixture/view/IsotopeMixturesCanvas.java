@@ -224,7 +224,7 @@ public class IsotopeMixturesCanvas extends PhetPCanvas {
         final Point2D moreLessButtonLocation = new Point2D.Double( testChamberNode.getFullBoundsReference().getCenterX(),
                 BuildAnAtomDefaults.STAGE_SIZE.height - DISTANCE_BUTTON_CENTER_FROM_BOTTOM );
         // TODO: i18n
-        final ButtonNode moreAtomsButton = new ButtonNode( "More", BUTTON_FONT_SIZE, new Color(255, 153, 0) ){{
+        final ButtonNode moreAtomsButton = new ButtonNode( "More", BUTTON_FONT_SIZE, new Color( 0, 198, 158 ) ){{
             centerFullBoundsOnPoint( moreLessButtonLocation.getX(), moreLessButtonLocation.getY() );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -234,7 +234,7 @@ public class IsotopeMixturesCanvas extends PhetPCanvas {
         }};
         controlsLayer.addChild( moreAtomsButton );
         // TODO: i18n
-        final ButtonNode lessAtomsButton = new ButtonNode( "Less", BUTTON_FONT_SIZE, new Color( 0, 178, 138 ) ){{
+        final ButtonNode lessAtomsButton = new ButtonNode( "Less", BUTTON_FONT_SIZE, new Color( 159, 182, 205 ) ){{
             centerFullBoundsOnPoint( moreLessButtonLocation.getX(), moreLessButtonLocation.getY() );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
