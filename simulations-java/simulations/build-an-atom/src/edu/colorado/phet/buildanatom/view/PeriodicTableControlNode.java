@@ -4,13 +4,12 @@ package edu.colorado.phet.buildanatom.view;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Cursor;
-import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Rectangle2D;
 
-import javax.swing.JButton;
+import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.buildanatom.model.AtomIdentifier;
 import edu.colorado.phet.buildanatom.model.IConfigurableAtomModel;
@@ -18,11 +17,12 @@ import edu.colorado.phet.buildanatom.model.IDynamicAtom;
 import edu.colorado.phet.buildanatom.model.ImmutableAtom;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.event.ButtonEventHandler;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
-import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  *
@@ -225,19 +225,53 @@ public class PeriodicTableControlNode extends PNode {
      * cell that looks like a button, intended to convey to the user that it
      * is interactive.
      */
-    public class ButtonElementCell extends PNode {
+    public static class ButtonElementCell extends PNode {
+        private static final Color IDLE_COLOR = new Color( 240, 240, 240 );
+        private static final Color SELECTED_COLOR = new Color( 255, 200, 200 );
+        private static final Color FOCUS_COLOR = Color.WHITE;
         private final int atomicNumber;
-        private final JButton button;
+        private final PPath buttonNode;
         private final PText text;
+        private final EventListenerList listeners;
 
         public ButtonElementCell( final IDynamicAtom atom, final int atomicNumber, final Color backgroundColor ) {
             this.atomicNumber = atomicNumber;
-            button = new JButton(){{
-                setPreferredSize( new Dimension( CELL_DIMENSION, CELL_DIMENSION ) );
-            }};
-            PNode buttonNode = new PSwing( button );
+            listeners = new EventListenerList();
+
+            // Create the node that will act as the button, receiving events
+            // from the user.
+            buttonNode = new PhetPPath(
+                    new Rectangle2D.Double(0, 0, CELL_DIMENSION, CELL_DIMENSION ),
+                    IDLE_COLOR,
+                    new BasicStroke( 1 ),
+                    Color.BLACK);
             addChild( buttonNode );
 
+            // Register a handler to watch for button state changes.
+            ButtonEventHandler handler = new ButtonEventHandler(){{
+                addButtonEventListener( new ButtonEventAdapter() {
+                    @Override
+                    public void setFocus( boolean focus ) {
+                        boolean match = atom.getNumProtons() == atomicNumber;
+                        if ( match ){
+                            buttonNode.setPaint( SELECTED_COLOR );
+                        }
+                        else{
+                            buttonNode.setPaint( focus ? FOCUS_COLOR : IDLE_COLOR );
+                        }
+                    }
+                    @Override
+                    public void fire() {
+                        ActionEvent event = new ActionEvent( this, 0, "BUTTON_FIRED" );
+                        for ( ActionListener listener : listeners.getListeners( ActionListener.class ) ) {
+                            listener.actionPerformed( event );
+                        }
+                    }
+                } );
+            }};
+            buttonNode.addInputEventListener( handler );
+
+            // Add the text node that displays the chemical symbol.
             text = new PText( AtomIdentifier.getSymbol( atomicNumber ) );
             double buttonDimension = buttonNode.getFullBoundsReference().width;
             text.centerBoundsOnPoint( buttonDimension / 2, buttonDimension / 2 );
@@ -251,21 +285,14 @@ public class PeriodicTableControlNode extends PNode {
             addChild( text );
 
             atom.addObserver( new SimpleObserver() {
-                // TODO: Consider changing the construction of the table as a
-                // whole such that cells that are permanently disabled don't
-                // have this updater, since it causes unnecessary work.
-                // TODO: Also, it should be checked that the text actually
-                // fits in the cell, and if not, it should be scaled.  This
-                // will make sure the table looks okay in places where the
-                // default text size is different (e.g. on Macs).
                 public void update() {
                     boolean match = atom.getNumProtons() == atomicNumber;
                     text.setFont( new PhetFont( PhetFont.getDefaultFontSize(), match ) );
                     if ( match ) {
-                        button.setBackground( Color.RED );
+                        buttonNode.setPaint( SELECTED_COLOR );
                     }
                     else {
-                        button.setBackground( Color.LIGHT_GRAY );
+                        buttonNode.setPaint( IDLE_COLOR );
                     }
                 }
             } );
@@ -286,12 +313,12 @@ public class PeriodicTableControlNode extends PNode {
             return AtomIdentifier.getMostCommonIsotope( atomicNumber );
         }
 
-        public void setButtonEnabled(boolean enabled){
-            button.setEnabled( enabled );
+        public void addActionListener( ActionListener listener ) {
+            listeners.add( ActionListener.class, listener );
         }
 
-        public void addActionListener( ActionListener actionListener ){
-            button.addActionListener( actionListener );
+        public void removeActionListener( ActionListener listener ) {
+            listeners.remove( ActionListener.class, listener );
         }
 
         public void setTextColor( Color color ){
