@@ -16,10 +16,12 @@ import mx.containers.Canvas;
 public class BuoyancyApplication extends Canvas {
     public function BuoyancyApplication() {
         super();
-        var tabNavigator: PhetTabNavigator = new PhetTabNavigator( [
-                                                                       new BuoyancyModule( FlexSimStrings.get( "buoyancy.tab.intro", "Intro" ), new BuoyancyIntroContainer() ),
-                                                                       new BuoyancyModule( FlexSimStrings.get( "buoyancy.tab.playground", "Buoyancy Playground" ), new BuoyancyPlaygroundContainer() )
-                                                                   ] );
+
+        var introModule: BuoyancyModule = new BuoyancyModule( FlexSimStrings.get( "buoyancy.tab.intro", "Intro" ), new BuoyancyIntroContainer() );
+        var playgroundModule: BuoyancyModule = new BuoyancyModule( FlexSimStrings.get( "buoyancy.tab.playground", "Buoyancy Playground" ), new BuoyancyPlaygroundContainer() );
+
+        var tabNavigator: PhetTabNavigator = new PhetTabNavigator( [ introModule, playgroundModule ] );
+
         addChild( tabNavigator );
         percentWidth = 100;
         percentHeight = 100;
