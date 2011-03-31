@@ -14,6 +14,7 @@ import edu.colorado.phet.capacitorlab.model.Wire.TopWire;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
@@ -33,10 +34,12 @@ public class BatteryCapacitorCircuit implements ICircuit {
     private final Battery battery;
     private final Capacitor capacitor;
 
+    // observable properties
+    private Property<Double> currentAmplitudeProperty; // dV/dt, rate of voltage change
+
     // mutable instance data
     private boolean batteryConnected;
     private double disconnectedPlateCharge; // charge set manually by the user, used when battery is disconnected
-    private double currentAmplitude; // dV/dt, rate of voltage change
     private double previousTotalCharge;
 
     public BatteryCapacitorCircuit( CLClock clock, final Battery battery, final Capacitor capacitor, boolean batteryConnected, CLModelViewTransform3D mvt ) {
@@ -47,8 +50,8 @@ public class BatteryCapacitorCircuit implements ICircuit {
         this.capacitor = capacitor;
         this.batteryConnected = batteryConnected;
         this.disconnectedPlateCharge = getTotalCharge();
-        this.currentAmplitude = 0;
         this.previousTotalCharge = getTotalCharge();
+        this.currentAmplitudeProperty = new Property<Double>( 0d );
 
         // update current amplitude on each clock tick
         clock.addClockListener( new ClockAdapter() {
@@ -405,14 +408,7 @@ public class BatteryCapacitorCircuit implements ICircuit {
     //----------------------------------------------------------------------------------
 
     public double getCurrentAmplitude() {
-        return currentAmplitude;
-    }
-
-    private void setCurrentAmplitude( double currentAmplitude ) {
-        if ( currentAmplitude != this.getCurrentAmplitude() ) {
-            this.currentAmplitude = currentAmplitude;
-            fireCircuitChanged();
-        }
+        return currentAmplitudeProperty.getValue();
     }
 
     /*
@@ -423,7 +419,11 @@ public class BatteryCapacitorCircuit implements ICircuit {
         double dQ = Q - previousTotalCharge;
         double dt = clock.getDt();
         previousTotalCharge = Q;
-        setCurrentAmplitude( dQ / dt );
+        currentAmplitudeProperty.setValue( dQ / dt );
+    }
+
+    public void addCurrentAmplitudeObserver( SimpleObserver o ) {
+        currentAmplitudeProperty.addObserver( o );
     }
 
     //----------------------------------------------------------------------------------

@@ -9,7 +9,7 @@ import java.awt.Stroke;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit;
-import edu.colorado.phet.capacitorlab.model.ICircuit.CircuitChangeListener;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.activities.FadeOutActivity;
@@ -96,17 +96,15 @@ public class CurrentIndicatorNode extends PhetPNode {
         y = electronNode.getFullBoundsReference().getCenterY();
         minusNode.setOffset( x, y );
 
-        // listeners
-        circuit.addCircuitChangeListener( new CircuitChangeListener() {
-            public void circuitChanged() {
+        // observer current
+        circuit.addCurrentAmplitudeObserver( new SimpleObserver() {
+            public void update() {
                 if ( isVisible() ) {
                     updateTransparency();
                     updateOrientation();
                 }
             }
         } );
-
-        updateTransparency();
     }
 
     /*
