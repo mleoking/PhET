@@ -147,28 +147,28 @@ public class InteractiveIsotopeModel implements Resettable, IConfigurableAtomMod
         return atom;
     }
 
-    public void setAtomConfiguration( IAtom atom ){
-        if ( !this.atom.configurationEquals( atom )){
+    public void setAtomConfiguration( IAtom atomConfig ){
+        if ( !atom.configurationEquals( atomConfig ) ){
             // Clear the atom.
             clearAtom();
 
             // Add the particles.
-            for ( int i = 0; i < atom.getNumElectrons(); i++ ){
+            for ( int i = 0; i < atomConfig.getNumElectrons(); i++ ){
                 Electron electron = new Electron( clock );
-                this.atom.addElectron( electron, true );
+                atom.addElectron( electron, true );
                 electrons.add( electron );
                 notifyParticleAdded( electron );
             }
-            for ( int i = 0; i < atom.getNumProtons(); i++ ){
+            for ( int i = 0; i < atomConfig.getNumProtons(); i++ ){
                 Proton proton = new Proton( clock );
-                this.atom.addProton( proton, true );
+                atom.addProton( proton, true );
                 protons.add( proton );
                 notifyParticleAdded( proton );
             }
-            for ( int i = 0; i < atom.getNumNeutrons(); i++ ){
+            for ( int i = 0; i < atomConfig.getNumNeutrons(); i++ ){
                 Neutron neutron = new Neutron( clock );
                 neutron.addListener( neutronDropListener );
-                this.atom.addNeutron( neutron, true );
+                atom.addNeutron( neutron, true );
                 neutrons.add( neutron );
                 notifyParticleAdded( neutron );
             }
