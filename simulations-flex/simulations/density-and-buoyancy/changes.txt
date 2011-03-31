@@ -1,3 +1,4 @@
+# 1.04.14 (50243) Mar 30, 2011
 > density: Removed 1 significant figure from lead and gold in the density table
 # 1.04.13 (50239) Mar 30, 2011
 3/30/11 Version with the density slider text readout removed
