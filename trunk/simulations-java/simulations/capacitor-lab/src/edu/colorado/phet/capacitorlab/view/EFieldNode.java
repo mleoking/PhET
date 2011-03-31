@@ -9,7 +9,6 @@ import java.awt.geom.Line2D;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLPaints;
-import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit;
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeListener;
@@ -31,10 +30,12 @@ public class EFieldNode extends PhetPNode {
     private final Capacitor capacitor;
     private final CLModelViewTransform3D mvt;
     private final PNode parentNode; // parent for all the field lines
+    private final double maxEffectiveEfield;
 
-    public EFieldNode( Capacitor capacitor, CLModelViewTransform3D mvt ) {
+    public EFieldNode( Capacitor capacitor, CLModelViewTransform3D mvt, double maxEffectiveEfield ) {
         this.capacitor = capacitor;
         this.mvt = mvt;
+        this.maxEffectiveEfield = maxEffectiveEfield;
 
         capacitor.addCapacitorChangeListener( new CapacitorChangeListener() {
             public void capacitorChanged() {
@@ -131,11 +132,8 @@ public class EFieldNode extends PhetPNode {
      * Computes number of lines to put on the smallest plate, linearly proportional to plate charge.
      */
     private int getNumberOfLines( double effectiveEField ) {
-
         double absEField = Math.abs( effectiveEField );
-        double maxEField = BatteryCapacitorCircuit.getMaxEffectiveEfield();//TODO pass this max in via constructor
-
-        int numberOfLines = (int)( CLConstants.NUMBER_OF_EFIELD_LINES.getMax() * absEField / maxEField );
+        int numberOfLines = (int)( CLConstants.NUMBER_OF_EFIELD_LINES.getMax() * absEField / maxEffectiveEfield );
         if ( absEField > 0 && numberOfLines < CLConstants.NUMBER_OF_EFIELD_LINES.getMin() ) {
             numberOfLines = CLConstants.NUMBER_OF_EFIELD_LINES.getMin();
         }

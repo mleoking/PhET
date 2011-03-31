@@ -26,8 +26,8 @@ public class EFieldDetectorView {
     private final EFieldDetectorProbeNode probeNode;
     private final ProbeWireNode wireNode;
 
-    public EFieldDetectorView( final EFieldDetector detector, CLModelViewTransform3D mvt, boolean dev ) {
-        bodyNode = new EFieldDetectorBodyNode( detector, mvt );
+    public EFieldDetectorView( final EFieldDetector detector, CLModelViewTransform3D mvt, double vectorReferenceMagnitude, boolean dev ) {
+        bodyNode = new EFieldDetectorBodyNode( detector, mvt, vectorReferenceMagnitude );
         probeNode = new EFieldDetectorProbeNode( detector, mvt, dev );
         wireNode = new ProbeWireNode( bodyNode, probeNode, BODY_CONTROL_POINT_OFFSET, PROBE_CONTROL_POINT_OFFSET,
                 bodyNode.getConnectionOffset(), probeNode.getConnectionOffset(), CLPaints.EFIELD_DETECTOR_WIRE );

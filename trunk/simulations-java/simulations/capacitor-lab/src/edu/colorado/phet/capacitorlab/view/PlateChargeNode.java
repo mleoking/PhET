@@ -5,7 +5,6 @@ package edu.colorado.phet.capacitorlab.view;
 import java.awt.Dimension;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
-import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit;
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeListener;
@@ -33,12 +32,14 @@ public abstract class PlateChargeNode extends PhetPNode {
     private final Polarity polarity;
     private final PNode parentNode; // parent node for charges
     private final IPlateChargeGridSizeStrategy gridSizeStrategy;
+    private final double maxPlateCharge;
 
-    public PlateChargeNode( Capacitor capacitor, CLModelViewTransform3D mvt, Polarity polarity ) {
+    public PlateChargeNode( Capacitor capacitor, CLModelViewTransform3D mvt, Polarity polarity, double maxPlateCharge ) {
 
         this.capacitor = capacitor;
         this.mvt = mvt;
         this.polarity = polarity;
+        this.maxPlateCharge = maxPlateCharge;
         this.gridSizeStrategy = GridSizeStrategyFactory.createStrategy();
 
         capacitor.addCapacitorChangeListener( new CapacitorChangeListener() {
@@ -153,11 +154,8 @@ public abstract class PlateChargeNode extends PhetPNode {
      * All non-zero values below some minimum are mapped to 1 charge.
      */
     private int getNumberOfCharges( double plateCharge ) {
-
         double absCharge = Math.abs( plateCharge );
-        double maxCharge = BatteryCapacitorCircuit.getMaxPlateCharge(); //TODO pass this max in via constructor
-
-        int numberOfCharges = (int) ( CLConstants.NUMBER_OF_PLATE_CHARGES.getMax() * absCharge / maxCharge );
+        int numberOfCharges = (int) ( CLConstants.NUMBER_OF_PLATE_CHARGES.getMax() * absCharge / maxPlateCharge );
         if ( absCharge > 0 && numberOfCharges < CLConstants.NUMBER_OF_PLATE_CHARGES.getMin() ) {
             numberOfCharges = CLConstants.NUMBER_OF_PLATE_CHARGES.getMin();
         }
@@ -170,8 +168,8 @@ public abstract class PlateChargeNode extends PhetPNode {
      */
     public static class DielectricPlateChargeNode extends PlateChargeNode {
 
-        public DielectricPlateChargeNode( Capacitor capacitor, CLModelViewTransform3D mvt, Polarity polarity ) {
-            super( capacitor, mvt, polarity );
+        public DielectricPlateChargeNode( Capacitor capacitor, CLModelViewTransform3D mvt, Polarity polarity, double maxPlateCharge ) {
+            super( capacitor, mvt, polarity, maxPlateCharge );
         }
 
         // Gets the portion of the plate charge due to the dielectric.
@@ -196,8 +194,8 @@ public abstract class PlateChargeNode extends PhetPNode {
      */
     public static class AirPlateChargeNode extends PlateChargeNode {
 
-        public AirPlateChargeNode( Capacitor capacitor, CLModelViewTransform3D mvt, Polarity polarity ) {
-            super( capacitor, mvt, polarity );
+        public AirPlateChargeNode( Capacitor capacitor, CLModelViewTransform3D mvt, Polarity polarity, double maxPlateCharge ) {
+            super( capacitor, mvt, polarity, maxPlateCharge );
         }
 
         // Gets the portion of the plate charge due to air.

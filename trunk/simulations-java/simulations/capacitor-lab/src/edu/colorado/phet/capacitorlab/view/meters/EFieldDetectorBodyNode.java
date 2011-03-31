@@ -24,7 +24,6 @@ import edu.colorado.phet.capacitorlab.CLImages;
 import edu.colorado.phet.capacitorlab.CLPaints;
 import edu.colorado.phet.capacitorlab.CLStrings;
 import edu.colorado.phet.capacitorlab.drag.LocationDragHandler;
-import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit;
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.colorado.phet.capacitorlab.model.EFieldDetector;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
@@ -67,7 +66,6 @@ public class EFieldDetectorBodyNode extends PhetPNode {
 
     private static final PDimension VECTOR_DISPLAY_SIZE = new PDimension( 200, 200 );
     private static final Color VECTOR_DISPLAY_BACKGROUND = Color.WHITE;
-    private static final double VECTOR_REFERENCE_MAGNITUDE = BatteryCapacitorCircuit.getMaxPlatesDielectricEFieldWithBattery(); //TODO pass this max in via constructor
     private static final double VECTOR_REFERENCE_LENGTH = 3 * VECTOR_DISPLAY_SIZE.getHeight();
     private static final Dimension VECTOR_ARROW_HEAD_SIZE = new Dimension( 30, 20 );
     private static final int VECTOR_ARROW_TAIL_WIDTH = 10;
@@ -87,7 +85,7 @@ public class EFieldDetectorBodyNode extends PhetPNode {
     private final Point2D connectionOffset; // offset for connection point of wire that attaches probe to body
     private final ZoomPanel zoomPanel;
 
-    public EFieldDetectorBodyNode( final EFieldDetector detector, final CLModelViewTransform3D mvt ) {
+    public EFieldDetectorBodyNode( final EFieldDetector detector, final CLModelViewTransform3D mvt, double vectorReferenceMagnitude ) {
 
         // title that appears at the top
         PText titleNode = new PText( CLStrings.ELECTRIC_FIELD );
@@ -105,7 +103,7 @@ public class EFieldDetectorBodyNode extends PhetPNode {
         } );
 
         // display area for vectors and values
-        vectorDisplayNode = new VectorDisplayNode( detector );
+        vectorDisplayNode = new VectorDisplayNode( detector, vectorReferenceMagnitude );
 
         // Vector controls
         ShowVectorsPanel showVectorsPanel = new ShowVectorsPanel( detector );
@@ -321,7 +319,7 @@ public class EFieldDetectorBodyNode extends PhetPNode {
         private double zoomMultiplier;
         private boolean simplified;
 
-        public VectorDisplayNode( final EFieldDetector detector ) {
+        public VectorDisplayNode( final EFieldDetector detector, double vectorReferenceMagnitude ) {
 
             setPathTo( new Rectangle2D.Double( 0, 0, VECTOR_DISPLAY_SIZE.getWidth(), VECTOR_DISPLAY_SIZE.getHeight() ) );
             setPaint( VECTOR_DISPLAY_BACKGROUND );
@@ -332,9 +330,9 @@ public class EFieldDetectorBodyNode extends PhetPNode {
             simplified = false;
 
             // vectors
-            plateVectorNode = new FieldVectorNode( CLPaints.PLATE_EFIELD_VECTOR );
-            dielectricVectorNode = new FieldVectorNode( CLPaints.DIELECTRIC_EFIELD_VECTOR );
-            sumVectorNode = new FieldVectorNode( CLPaints.SUM_EFIELD_VECTOR );
+            plateVectorNode = new FieldVectorNode( CLPaints.PLATE_EFIELD_VECTOR, vectorReferenceMagnitude );
+            dielectricVectorNode = new FieldVectorNode( CLPaints.DIELECTRIC_EFIELD_VECTOR, vectorReferenceMagnitude );
+            sumVectorNode = new FieldVectorNode( CLPaints.SUM_EFIELD_VECTOR, vectorReferenceMagnitude );
 
             // values
             plateValueNode = new FieldValueNode( CLStrings.PLATE, CLPaints.PLATE_EFIELD_VECTOR );
@@ -520,8 +518,8 @@ public class EFieldDetectorBodyNode extends PhetPNode {
      */
     private static class FieldVectorNode extends Vector2DNode {
 
-        public FieldVectorNode( Color color ) {
-            super( 0, 0, VECTOR_REFERENCE_MAGNITUDE, VECTOR_REFERENCE_LENGTH );
+        public FieldVectorNode( Color color, double vectorReferenceMagnitude ) {
+            super( 0, 0, vectorReferenceMagnitude, VECTOR_REFERENCE_LENGTH );
             setArrowFillPaint( color );
             setHeadSize( VECTOR_ARROW_HEAD_SIZE );
             setTailWidth( VECTOR_ARROW_TAIL_WIDTH );
