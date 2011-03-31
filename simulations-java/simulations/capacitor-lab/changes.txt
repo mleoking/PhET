@@ -1,3 +1,5 @@
+3/31/11 doc ICircuit and subclasses
+3/31/11 simplify implementation of BatteryCapacitorCircuit.updateVoltages
 3/31/11 encapsulate getMax* calls in DielectricModel, pass ranges and reference magnitudes into view nodes
 3/31/11 convert current amplitude to an observable Property<Double>
 3/31/11 MAJOR changes to the model in preparation for supporting multiple capacitors, moved lots of stuff from BatteryCapacitorCircuit to Capacitor
