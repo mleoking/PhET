@@ -3,7 +3,6 @@
 package edu.colorado.phet.capacitorlab.model;
 
 import java.awt.Shape;
-import java.util.EventListener;
 
 import javax.swing.event.EventListenerList;
 
@@ -24,7 +23,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class BatteryCapacitorCircuit {
+public class BatteryCapacitorCircuit implements ICircuit {
 
     // constants
     private static final double EPSILON_0 = CLConstants.EPSILON_0;
@@ -224,6 +223,21 @@ public class BatteryCapacitorCircuit {
 
     //----------------------------------------------------------------------------------
     //
+    // Capacitance
+    //
+    //----------------------------------------------------------------------------------
+
+    /**
+     * Gets the total capacitance of the circuit.
+     * (design doc symbol: C_total)
+     * @return capacitance, in Farads
+     */
+    public double getTotalCapacitance() {
+        return capacitor.getTotalCapacitance();
+    }
+
+    //----------------------------------------------------------------------------------
+    //
     // Plate Charge (Q)
     //
     //----------------------------------------------------------------------------------
@@ -399,7 +413,7 @@ public class BatteryCapacitorCircuit {
      * This is uniform everywhere between the plates.
      * (design doc symbol: E_effective)
      *
-     * @return volts/meter
+     * @return Volts/meter
      */
     public double getEffectiveEfield() {
         return getPlatesVoltage() / capacitor.getPlateSeparation();
@@ -411,7 +425,7 @@ public class BatteryCapacitorCircuit {
      * Outside the plates, it is zero.
      *
      * @param location
-     * @return
+     * @return E-Field, in Volts/meter
      */
     public double getEffectiveEFieldAt( Point3D location ) {
         double eField = 0;
@@ -447,7 +461,7 @@ public class BatteryCapacitorCircuit {
      * Outside the plates, the field is zero.
      *
      * @param location
-     * @return
+     * @return E-field, in Volts/meter
      */
     public double getPlatesDielectricEFieldAt( Point3D location ) {
         double eField = 0;
@@ -502,9 +516,9 @@ public class BatteryCapacitorCircuit {
      * Outside the plates, the field is zero.
      *
      * @param location
-     * @return
+     * @return E-field, in Volts/meter
      */
-    public Double getDielectricEFieldAt( Point3D location ) {
+    public double getDielectricEFieldAt( Point3D location ) {
         double eField = 0;
         if ( capacitor.isInsideDielectricBetweenPlatesShape( location ) ) {
             eField = getDielectricEField();
@@ -573,7 +587,7 @@ public class BatteryCapacitorCircuit {
      * Gets the energy stored in the capacitor.
      * (design doc symbol: U)
      *
-     * @return energy, in joules (J)
+     * @return energy, in Joules (J)
      */
     public double getStoredEnergy() {
         double C_total = capacitor.getTotalCapacitance(); // F
@@ -636,30 +650,20 @@ public class BatteryCapacitorCircuit {
 
     //----------------------------------------------------------------------------------
     //
-    // Notification mechanism.
-    // Any change to the circuit results in a circuitChanged notification, with
-    // no information about what has changed.  This may seem wasteful, but in
-    // practice most things need to be changed when anything changes.  So this
-    // simplifies the programming at the expense of some unneeded computation.
-    // No performance problems have been noted, but this would be the first place
-    // to start optimizing if performance becomes an issue.
+    // CircuitChangeListeners
     //
     //----------------------------------------------------------------------------------
 
-    public interface BatteryCapacitorCircuitChangeListener extends EventListener {
-        public void circuitChanged();
+    public void addCircuitChangeListener( CircuitChangeListener listener ) {
+        listeners.add(  CircuitChangeListener.class, listener );
     }
 
-    public void addBatteryCapacitorCircuitChangeListener( BatteryCapacitorCircuitChangeListener listener ) {
-        listeners.add(  BatteryCapacitorCircuitChangeListener.class, listener );
-    }
-
-    public void removeBatteryCapacitorCircuitChangeListener( BatteryCapacitorCircuitChangeListener listener ) {
-        listeners.remove(  BatteryCapacitorCircuitChangeListener.class, listener );
+    public void removeCircuitChangeListener( CircuitChangeListener listener ) {
+        listeners.remove(  CircuitChangeListener.class, listener );
     }
 
     public void fireCircuitChanged() {
-        for ( BatteryCapacitorCircuitChangeListener listener : listeners.getListeners( BatteryCapacitorCircuitChangeListener.class ) ) {
+        for ( CircuitChangeListener listener : listeners.getListeners( CircuitChangeListener.class ) ) {
             listener.circuitChanged();
         }
     }

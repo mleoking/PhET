@@ -6,7 +6,7 @@ import java.awt.Dimension;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.model.*;
-import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit.BatteryCapacitorCircuitChangeListener;
+import edu.colorado.phet.capacitorlab.model.ICircuit.CircuitChangeListener;
 import edu.colorado.phet.capacitorlab.view.IPlateChargeGridSizeStrategy.GridSizeStrategyFactory;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.PNode;
@@ -38,7 +38,7 @@ public abstract class PlateChargeNode extends PhetPNode {
         this.polarity = polarity;
         this.gridSizeStrategy = GridSizeStrategyFactory.createStrategy();
 
-        circuit.addBatteryCapacitorCircuitChangeListener( new BatteryCapacitorCircuitChangeListener() {
+        circuit.addCircuitChangeListener( new CircuitChangeListener() {
             public void circuitChanged() {
                 if ( isVisible() ) {
                     update();

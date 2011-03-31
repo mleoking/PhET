@@ -11,7 +11,7 @@ import edu.colorado.phet.common.phetcommon.math.Point3D;
  */
 public class StoredEnergyMeter extends BarMeter {
 
-    public StoredEnergyMeter( final BatteryCapacitorCircuit circuit, World world, Point3D location, boolean visible ) {
+    public StoredEnergyMeter( final ICircuit circuit, World world, Point3D location, boolean visible ) {
         super( circuit, world, location, visible );
     }
 

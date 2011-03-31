@@ -11,7 +11,7 @@ import edu.colorado.phet.common.phetcommon.math.Point3D;
  */
 public class PlateChargeMeter extends BarMeter {
 
-    public PlateChargeMeter( final BatteryCapacitorCircuit circuit, World world, Point3D location, boolean visible ) {
+    public PlateChargeMeter( final ICircuit circuit, World world, Point3D location, boolean visible ) {
         super( circuit, world, location, visible );
     }
 
