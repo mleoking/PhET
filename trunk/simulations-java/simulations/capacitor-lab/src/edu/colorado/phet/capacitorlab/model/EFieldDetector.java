@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.capacitorlab.model;
 
-import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit.BatteryCapacitorCircuitChangeListener;
+import edu.colorado.phet.capacitorlab.model.ICircuit.CircuitChangeListener;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -14,7 +14,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  */
 public class EFieldDetector {
 
-    private final BatteryCapacitorCircuit circuit;
+    private final ICircuit circuit;
 
     // observable properties
     private final Property<Boolean> visibleProperty;
@@ -26,7 +26,7 @@ public class EFieldDetector {
     private final Property<Double> dielectricVectorProperty; // field due to dielectric polarization (E_dielectric or E_air, depending on probe location)
     private final Property<Double> sumVectorProperty; // effective (net) field between the plates (E_effective)
 
-    public EFieldDetector( BatteryCapacitorCircuit circuit, final World world, Point3D bodyLocation, Point3D probeLocation,
+    public EFieldDetector( ICircuit circuit, final World world, Point3D bodyLocation, Point3D probeLocation,
             boolean visible, boolean plateVisible, boolean dielectricVisible, boolean sumVisible, boolean valuesVisible ) {
 
         this.circuit = circuit;
@@ -47,7 +47,7 @@ public class EFieldDetector {
         // observers
         {
             // update vectors when the circuit changes
-            circuit.addBatteryCapacitorCircuitChangeListener( new BatteryCapacitorCircuitChangeListener() {
+            circuit.addCircuitChangeListener( new CircuitChangeListener() {
                 public void circuitChanged() {
                     updateVectors();
                 }

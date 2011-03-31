@@ -4,7 +4,7 @@ package edu.colorado.phet.capacitorlab.model;
 
 import java.awt.geom.Dimension2D;
 
-import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit.BatteryCapacitorCircuitChangeListener;
+import edu.colorado.phet.capacitorlab.model.ICircuit.CircuitChangeListener;
 import edu.colorado.phet.capacitorlab.shapes.VoltmeterShapeFactory;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -22,7 +22,7 @@ public class Voltmeter {
     // size of the probe tips, determined by visual inspection of the associated image files
     private final PDimension PROBE_TIP_SIZE = new PDimension( 0.0005, 0.0015 ); // meters
 
-    private final BatteryCapacitorCircuit circuit;
+    private final ICircuit circuit;
     private final VoltmeterShapeFactory shapeFactory;
 
     // observable properties
@@ -32,11 +32,11 @@ public class Voltmeter {
     // derived observable properties
     private final Property<Double> valueProperty;
 
-    public Voltmeter( BatteryCapacitorCircuit circuit, final World world, CLModelViewTransform3D mvt,
+    public Voltmeter( ICircuit circuit, final World world, CLModelViewTransform3D mvt,
             Point3D bodyLocation, Point3D positiveProbeLocation, Point3D negativeProbeLocation, boolean visible ) {
 
         this.circuit = circuit;
-        circuit.addBatteryCapacitorCircuitChangeListener( new BatteryCapacitorCircuitChangeListener() {
+        circuit.addCircuitChangeListener( new CircuitChangeListener() {
             public void circuitChanged() {
                 updateValue();
             }

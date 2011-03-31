@@ -18,7 +18,7 @@ import javax.swing.border.TitledBorder;
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLStrings;
 import edu.colorado.phet.capacitorlab.model.*;
-import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit.BatteryCapacitorCircuitChangeListener;
+import edu.colorado.phet.capacitorlab.model.ICircuit.CircuitChangeListener;
 import edu.colorado.phet.capacitorlab.module.dielectric.DielectricModel;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.GridPanel;
@@ -59,7 +59,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
     private DielectricMaterial dielectricMaterial;
     private final SimpleObserver dielectricConstantObserver;
-    private final BatteryCapacitorCircuitChangeListener circuitChangeListener;
+    private final CircuitChangeListener circuitChangeListener;
 
     public ModelValuesPanel( DielectricModel model ) {
 
@@ -198,12 +198,12 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
         // observers
         {
             // circuit
-            circuitChangeListener = new BatteryCapacitorCircuitChangeListener() {
+            circuitChangeListener = new CircuitChangeListener() {
                 public void circuitChanged() {
                     updateValues();
                 }
             };
-            model.getCircuit().addBatteryCapacitorCircuitChangeListener( circuitChangeListener );
+            model.getCircuit().addCircuitChangeListener( circuitChangeListener );
 
             // dielectric constant
             dielectricConstantObserver = new SimpleObserver() {
@@ -228,7 +228,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
      * Unregister for notifications.
      */
     public void cleanup() {
-        model.getCircuit().removeBatteryCapacitorCircuitChangeListener( circuitChangeListener );
+        model.getCircuit().removeCircuitChangeListener( circuitChangeListener );
         dielectricMaterial.removeDielectricConstantObserver( dielectricConstantObserver );
     }
 

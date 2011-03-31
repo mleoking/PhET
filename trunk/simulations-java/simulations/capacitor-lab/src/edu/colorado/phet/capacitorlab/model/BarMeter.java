@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.capacitorlab.model;
 
-import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit.BatteryCapacitorCircuitChangeListener;
+import edu.colorado.phet.capacitorlab.model.ICircuit.CircuitChangeListener;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -14,14 +14,14 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  */
 public abstract class BarMeter {
 
-    private final BatteryCapacitorCircuit circuit;
+    private final ICircuit circuit;
 
     // observable properties
     private final WorldLocationProperty locationProperty;
     private final Property<Boolean> visibleProperty;
     private final Property<Double> valueProperty;
 
-    public BarMeter( final BatteryCapacitorCircuit circuit, final World world, Point3D location, boolean visible ) {
+    public BarMeter( final ICircuit circuit, final World world, Point3D location, boolean visible ) {
 
         this.circuit = circuit;
         this.locationProperty = new WorldLocationProperty( world, location );
@@ -29,7 +29,7 @@ public abstract class BarMeter {
         this.valueProperty = new Property<Double>( getCircuitValue() );
 
         // change the value when the circuit changes
-        circuit.addBatteryCapacitorCircuitChangeListener( new BatteryCapacitorCircuitChangeListener() {
+        circuit.addCircuitChangeListener( new CircuitChangeListener() {
             public void circuitChanged() {
                 setValue( getCircuitValue() );
             }
@@ -42,7 +42,7 @@ public abstract class BarMeter {
      */
     protected abstract double getCircuitValue();
 
-    protected BatteryCapacitorCircuit getCircuit() {
+    protected ICircuit getCircuit() {
         return circuit;
     }
 

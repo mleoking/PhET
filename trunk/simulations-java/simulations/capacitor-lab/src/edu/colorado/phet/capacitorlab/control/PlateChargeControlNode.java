@@ -17,7 +17,7 @@ import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLPaints;
 import edu.colorado.phet.capacitorlab.CLStrings;
 import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit;
-import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit.BatteryCapacitorCircuitChangeListener;
+import edu.colorado.phet.capacitorlab.model.ICircuit.CircuitChangeListener;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
@@ -87,7 +87,7 @@ public class PlateChargeControlNode extends PhetPNode {
         range = new DoubleRange( -BatteryCapacitorCircuit.getMaxPlateCharge(), BatteryCapacitorCircuit.getMaxPlateCharge() );
 
         this.circuit = circuit;
-        circuit.addBatteryCapacitorCircuitChangeListener( new BatteryCapacitorCircuitChangeListener() {
+        circuit.addCircuitChangeListener( new CircuitChangeListener() {
             public void circuitChanged() {
                 if ( !circuit.isBatteryConnected() ) {
                     update();
