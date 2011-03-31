@@ -15,13 +15,13 @@ import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
  */
 /* package private */ class ModelValuesDialog extends PaintImmediateDialog {
 
-    private final ModelValuesPanel panel;
+    private final DielectricModelValuesPanel panel;
 
     public ModelValuesDialog( Frame owner, DielectricModel model ) {
         super( owner );
         setTitle( "Model Values" );
         setResizable( false );
-        panel = new ModelValuesPanel( model );
+        panel = new DielectricModelValuesPanel( model );
         setContentPane( panel );
         pack();
     }
