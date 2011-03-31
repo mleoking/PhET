@@ -72,9 +72,11 @@ public class Away3DViewport {
     }
 
     public function onResize( stage: Stage ): void {
+        // center the view
         view.x = stage.stageWidth / 2;
         view.y = stage.stageHeight / 2;
 
+        // zoom in/out to match the size of the stage
         camera.zoom = Math.min( stage.stageWidth / 100, stage.stageHeight / 65 );
     }
 }
