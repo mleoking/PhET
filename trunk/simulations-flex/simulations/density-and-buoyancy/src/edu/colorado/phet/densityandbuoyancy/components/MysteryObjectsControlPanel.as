@@ -40,7 +40,8 @@ public class MysteryObjectsControlPanel extends DensityVBox {
                                   DensityAndBuoyancyConstants.FLEX_UNDERLINE ) );
         for each ( var material: Material in Material.ALL ) {
             const unit: Unit = new LinearUnit( FlexSimStrings.get( "mysteryObject.densityUnitsKgL", "kg/L" ), 0.001 );
-            grid.addChild( toGridRow( material.name, DensityAndBuoyancyConstants.format( unit.fromSI( material.getDensity() ) ), DensityAndBuoyancyConstants.FLEX_NONE ) );
+            var density: Number = unit.fromSI( material.getDensity() );
+            grid.addChild( toGridRow( material.name, DensityAndBuoyancyConstants.formatWithPrecision( density, density >= 10 ? 1 : 2 ), DensityAndBuoyancyConstants.FLEX_NONE ) );
         }
 
         titleWindow = new TitleWindow();
