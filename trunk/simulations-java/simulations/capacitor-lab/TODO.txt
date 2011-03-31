@@ -19,10 +19,6 @@ HIGH PRIORITY
 - more general way to create Wire model elements, subclasses like TopWire and BottomWire are not scalable
 - move shape creation out of Wire and into WireNode (via WireShapeFactory) to be consistent with pattern used elsewhere
 - hack in BottomWire.createShape
-- charge and plate voltage should be a property of Capacitor (not BatteryCapacitorCircuit), set by BatteryCapacitorCircuit
-- too many things know about BatteryCapacitorCircuit
-- generalize BatteryCapacitorCircuit to handle multiple capacitors and wires
-- convert BatteryCapacitorCircuit to Property<T>, pre-compute all model values
 - add circuit construction to Multiple Capacitors tab after everything else is working
 
 MEDUIUM PRIORITY
