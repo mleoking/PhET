@@ -34,6 +34,7 @@ public class PlayPauseButtons extends UIComponent {          //cannot extend Spr
     private var normal_txt:TextField;
     private var playPause_txt: TextField;
     private var singleStep_txt: TextField;
+    private var sloMo_txt: TextField;
     private var paused_txt: TextField
     private var tFormat0: TextFormat;
     private var tFormat1: TextFormat;
@@ -47,6 +48,7 @@ public class PlayPauseButtons extends UIComponent {          //cannot extend Spr
     public var play_str: String;
     public var pause_str: String;    //Note well: pause_str and paused_str are two differerent strings
     public var paused_str: String;
+    public var sloMo_str: String;    //slo-mo = slow-motion
     public var singleStep_str: String;
 
 
@@ -66,6 +68,7 @@ public class PlayPauseButtons extends UIComponent {          //cannot extend Spr
         this.normal_txt = new TextField();
         this.playPause_txt = new TextField();
         this.paused_txt = new TextField();
+        this.sloMo_txt = new TextField();
         this.singleStep_txt = new TextField();
         this.tFormat0 = new TextFormat();
         this.tFormat1 = new TextFormat();
@@ -90,6 +93,7 @@ public class PlayPauseButtons extends UIComponent {          //cannot extend Spr
         this.addChild( this.stepButton );
         this.addChild( this.singleStep_txt );
         this.addChild( this.paused_txt );
+        this.addChild( this.sloMo_txt );
 
     }  //end of constructor
 
@@ -101,6 +105,7 @@ public class PlayPauseButtons extends UIComponent {          //cannot extend Spr
         this.play_str = "play";
         this.pause_str = "pause";
         this.paused_str = "PAUSED";
+        this.sloMo_str = "SLO-MO";
         this.singleStep_str = "step";
     }
 
@@ -182,6 +187,11 @@ public class PlayPauseButtons extends UIComponent {          //cannot extend Spr
         function onChangeTimeRate(evt:Event):void{
              var rate:Number = evt.target.value;
              thisObject.myShakerModel.setTRate(rate);
+            if(rate != 1){
+               thisObject.sloMo_txt.visible = true;
+            }else{
+               thisObject.sloMo_txt.visible = false;
+            }
             //trace("PlayPauseButtons.onChangeTimeRate = " + rate);
         }
 
@@ -246,6 +256,11 @@ public class PlayPauseButtons extends UIComponent {          //cannot extend Spr
     public function setSliderExternally(rate:Number):void{
         this.timeRateSlider.value = rate;
         this.myShakerModel.setTRate(rate);
+        if(rate != 1){
+            this.sloMo_txt.visible = true;
+        }else{
+           this.sloMo_txt.visible = false;
+        }
     }
 
     private function initializeTextFields(): void {
@@ -255,6 +270,7 @@ public class PlayPauseButtons extends UIComponent {          //cannot extend Spr
         this.setTextField( this.playPause_txt );
         this.setTextField( this.singleStep_txt );
         this.setTextField( this.paused_txt );
+        this.setTextField( this.sloMo_txt );
         this.timeRate_txt.text = this.timeRate_str;
         this.slow_txt.text = this.slow_str;
         this.normal_txt.text = this.normal_str;
@@ -262,6 +278,8 @@ public class PlayPauseButtons extends UIComponent {          //cannot extend Spr
         this.singleStep_txt.text = this.singleStep_str;
         this.paused_txt.text = this.paused_str;
         this.paused_txt.visible = false;
+        this.sloMo_txt.text = this.sloMo_str;
+        this.sloMo_txt.visible = false;
         //this.playPause_txt.selectable = false;
         //this.paused_txt.selectable = false;
         //this.playPause_txt.autoSize = TextFieldAutoSize.CENTER;
@@ -282,9 +300,11 @@ public class PlayPauseButtons extends UIComponent {          //cannot extend Spr
         this.playPause_txt.setTextFormat( this.tFormat1 );
         this.singleStep_txt.setTextFormat( this.tFormat1 );
         this.paused_txt.setTextFormat( this.tFormat2 );
+        this.sloMo_txt.setTextFormat( this.tFormat2 );
         this.playPause_txt.defaultTextFormat = this.tFormat1;
         this.singleStep_txt.defaultTextFormat = this.tFormat1;
         this.paused_txt.defaultTextFormat = this.tFormat2;
+        this.sloMo_txt.defaultTextFormat = this.tFormat2;
     }
 
     private function setTextField( tField: TextField ): void {
@@ -323,6 +343,8 @@ public class PlayPauseButtons extends UIComponent {          //cannot extend Spr
         this.playPause_txt.y = 0.5 * this.playPauseButton.height;
         this.paused_txt.x = -0.5 * this.paused_txt.width;
         this.paused_txt.y = -550;
+        this.sloMo_txt.x = -0.5 * this.sloMo_txt.width;
+        this.sloMo_txt.y = -630;
 
         this.stepButton.x = 3 * this.stepButton.width;
         this.stepButton.y = 0;
