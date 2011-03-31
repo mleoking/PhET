@@ -1,3 +1,4 @@
+3/31/11 rename dev ModelValuesPanel to DielectricModelValuesPanel, since it is specific to the single-capacitor circuit
 3/31/11 doc ICircuit and subclasses
 3/31/11 simplify implementation of BatteryCapacitorCircuit.updateVoltages
 3/31/11 encapsulate getMax* calls in DielectricModel, pass ranges and reference magnitudes into view nodes

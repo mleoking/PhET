@@ -27,14 +27,14 @@ import edu.colorado.phet.common.phetcommon.view.util.GridPanel.Fill;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
 /**
- * Panel that displays all "raw" model values.
+ * Panel that displays all "raw" model values for the DielectricModel.
  * This is intended for developer use and is not internationalized.
  * Variable names correspond to the variables in the design specification,
  * and therefore violation Java naming conventions.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-/* package private */ class ModelValuesPanel extends JPanel {
+/* package private */ class DielectricModelValuesPanel extends JPanel {
 
     private static final Font VALUE_DISPLAY_FONT = new PhetFont( 10 );
 
@@ -61,7 +61,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
     private final SimpleObserver dielectricConstantObserver;
     private final CircuitChangeListener circuitChangeListener;
 
-    public ModelValuesPanel( DielectricModel model ) {
+    public DielectricModelValuesPanel( DielectricModel model ) {
 
         this.model = model;
 
