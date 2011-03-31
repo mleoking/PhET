@@ -230,11 +230,13 @@ public class PeriodicTableControlNode extends PNode {
         private static final Color SELECTED_COLOR = new Color( 255, 200, 200 );
         private static final Color FOCUS_COLOR = Color.WHITE;
         private final int atomicNumber;
+        private final IDynamicAtom atom;
         private final PPath buttonNode;
         private final PText text;
         private final EventListenerList listeners;
 
         public ButtonElementCell( final IDynamicAtom atom, final int atomicNumber, final Color backgroundColor ) {
+            this.atom = atom;
             this.atomicNumber = atomicNumber;
             listeners = new EventListenerList();
 
@@ -286,16 +288,21 @@ public class PeriodicTableControlNode extends PNode {
 
             atom.addObserver( new SimpleObserver() {
                 public void update() {
-                    boolean match = atom.getNumProtons() == atomicNumber;
-                    text.setFont( new PhetFont( PhetFont.getDefaultFontSize(), match ) );
-                    if ( match ) {
-                        buttonNode.setPaint( SELECTED_COLOR );
-                    }
-                    else {
-                        buttonNode.setPaint( IDLE_COLOR );
-                    }
+                    updateSelected();
                 }
             } );
+            updateSelected();
+        }
+
+        public void updateSelected() {
+            boolean match = atom.getNumProtons() == atomicNumber;
+            text.setFont( new PhetFont( PhetFont.getDefaultFontSize(), match ) );
+            if ( match ) {
+                buttonNode.setPaint( SELECTED_COLOR );
+            }
+            else {
+                buttonNode.setPaint( IDLE_COLOR );
+            }
         }
 
         public int getAtomicNumber() {
