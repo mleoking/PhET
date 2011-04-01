@@ -1,7 +1,7 @@
 TODO list for balancing-chemical-equations
 
 HIGH PRIORITY
-- when dragging "Show Why" popups, the read-only coefficients are erased from equation
+- when dragging "Show Why" popups, the read-only coefficients are erased from equation, drag right erases, drag left restores (?!?!)
 
 MEDIUM PRIORITY
 
