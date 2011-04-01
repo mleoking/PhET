@@ -1,3 +1,4 @@
+# 0.00.22 (50286) Apr 1, 2011
 4/1/11 fix test-molecules, it wouldn't launch from JNLP because class TestMoleculeNodes was package private
 # 0.00.21 (50158) Mar 28, 2011
 3/28/11 change request: restrict game level 1 equations so that equations with big molecules cannot be first
