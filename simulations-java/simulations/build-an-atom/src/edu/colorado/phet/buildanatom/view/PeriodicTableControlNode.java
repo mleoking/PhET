@@ -4,6 +4,7 @@ package edu.colorado.phet.buildanatom.view;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.Image;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,6 +12,7 @@ import java.awt.geom.Rectangle2D;
 
 import javax.swing.event.EventListenerList;
 
+import edu.colorado.phet.buildanatom.BuildAnAtomResources;
 import edu.colorado.phet.buildanatom.model.AtomIdentifier;
 import edu.colorado.phet.buildanatom.model.IConfigurableAtomModel;
 import edu.colorado.phet.buildanatom.model.IDynamicAtom;
@@ -21,6 +23,7 @@ import edu.colorado.phet.common.piccolophet.event.ButtonEventHandler;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 
@@ -225,13 +228,127 @@ public class PeriodicTableControlNode extends PNode {
      * cell that looks like a button, intended to convey to the user that it
      * is interactive.
      */
-    public static class ButtonElementCell extends PNode {
+    public static class ButtonElementCellOld extends PNode {
         private static final Color IDLE_COLOR = new Color( 240, 240, 240 );
         private static final Color SELECTED_COLOR = new Color( 255, 200, 200 );
         private static final Color FOCUS_COLOR = Color.WHITE;
         private final int atomicNumber;
         private final IDynamicAtom atom;
-        private final PPath buttonNode;
+        private final PPath idleButtonNode;
+        private final PText text;
+        private final EventListenerList listeners;
+
+        public ButtonElementCellOld( final IDynamicAtom atom, final int atomicNumber, final Color backgroundColor ) {
+            this.atom = atom;
+            this.atomicNumber = atomicNumber;
+            listeners = new EventListenerList();
+
+            // Create the node that will act as the button, receiving events
+            // from the user.
+            idleButtonNode = new PhetPPath(
+                    new Rectangle2D.Double(0, 0, CELL_DIMENSION, CELL_DIMENSION ),
+                    IDLE_COLOR,
+                    new BasicStroke( 1 ),
+                    Color.BLACK);
+            addChild( idleButtonNode );
+
+            // Register a handler to watch for button state changes.
+            ButtonEventHandler handler = new ButtonEventHandler(){{
+                addButtonEventListener( new ButtonEventAdapter() {
+                    @Override
+                    public void setFocus( boolean focus ) {
+                        boolean match = atom.getNumProtons() == atomicNumber;
+                        if ( match ){
+                            idleButtonNode.setPaint( SELECTED_COLOR );
+                        }
+                        else{
+                            idleButtonNode.setPaint( focus ? FOCUS_COLOR : IDLE_COLOR );
+                        }
+                    }
+                    @Override
+                    public void fire() {
+                        ActionEvent event = new ActionEvent( this, 0, "BUTTON_FIRED" );
+                        for ( ActionListener listener : listeners.getListeners( ActionListener.class ) ) {
+                            listener.actionPerformed( event );
+                        }
+                    }
+                } );
+            }};
+            idleButtonNode.addInputEventListener( handler );
+
+            // Add the text node that displays the chemical symbol.
+            text = new PText( AtomIdentifier.getSymbol( atomicNumber ) );
+            double buttonDimension = idleButtonNode.getFullBoundsReference().width;
+            text.centerBoundsOnPoint( buttonDimension / 2, buttonDimension / 2 );
+            text.setPickable( false ); // Don't pick up mouse events intended for the button.
+            if ( text.getFullBoundsReference().width >= buttonDimension || text.getFullBoundsReference().height >= buttonDimension ){
+                // Scale the text to fit in the cell.
+                double scaleFactor = Math.min( buttonDimension / text.getFullBoundsReference().width,
+                        buttonDimension / text.getFullBoundsReference().height );
+                text.setScale( scaleFactor );
+            }
+            addChild( text );
+
+            atom.addObserver( new SimpleObserver() {
+                public void update() {
+                    updateSelected();
+                }
+            } );
+            updateSelected();
+        }
+
+        public void updateSelected() {
+            boolean match = atom.getNumProtons() == atomicNumber;
+            text.setFont( new PhetFont( PhetFont.getDefaultFontSize(), match ) );
+            if ( match ) {
+                idleButtonNode.setPaint( SELECTED_COLOR );
+            }
+            else {
+                idleButtonNode.setPaint( IDLE_COLOR );
+            }
+        }
+
+        public int getAtomicNumber() {
+            return atomicNumber;
+        }
+
+        /**
+         * Get the atom configuration associated with this cell on the
+         * periodic table.  The atom returned is a neutral version of the
+         * most common isotope of the atom found presently on earth.
+         *
+         * @return
+         */
+        public ImmutableAtom getAtomConfiguration(){
+            return AtomIdentifier.getMostCommonIsotope( atomicNumber );
+        }
+
+        public void addActionListener( ActionListener listener ) {
+            listeners.add( ActionListener.class, listener );
+        }
+
+        public void removeActionListener( ActionListener listener ) {
+            listeners.remove( ActionListener.class, listener );
+        }
+
+        public void setTextColor( Color color ){
+            text.setTextPaint( color );
+        }
+    }
+    /**
+     * PNode that represents a cell on the periodic table.  This version is a
+     * cell that looks like a button, intended to convey to the user that it
+     * is interactive.
+     */
+    public static class ButtonElementCell extends PNode {
+        private static final Image SELECTED_IMAGE = BuildAnAtomResources.getImage( "selected-periodic-table-button.png" );
+        private static final Image IDLE_IMAGE = BuildAnAtomResources.getImage( "periodic-table-button.png" );
+        private static final Image FOCUSED_IMAGE = BuildAnAtomResources.getImage( "focused-periodic-table-button.png" );
+        private static final Image PRESSED_IMAGE = BuildAnAtomResources.getImage( "pressed-periodic-table-button.png" );
+
+        private final int atomicNumber;
+        private final IDynamicAtom atom;
+        private final PImage buttonNode;
         private final PText text;
         private final EventListenerList listeners;
 
@@ -242,24 +359,32 @@ public class PeriodicTableControlNode extends PNode {
 
             // Create the node that will act as the button, receiving events
             // from the user.
-            buttonNode = new PhetPPath(
-                    new Rectangle2D.Double(0, 0, CELL_DIMENSION, CELL_DIMENSION ),
-                    IDLE_COLOR,
-                    new BasicStroke( 1 ),
-                    Color.BLACK);
+            buttonNode = new PImage( IDLE_IMAGE );
+            buttonNode.setScale( CELL_DIMENSION / buttonNode.getFullBoundsReference().width );
             addChild( buttonNode );
 
             // Register a handler to watch for button state changes.
             ButtonEventHandler handler = new ButtonEventHandler(){{
                 addButtonEventListener( new ButtonEventAdapter() {
+                    boolean focus = false;
                     @Override
                     public void setFocus( boolean focus ) {
+                        this.focus = focus;
                         boolean match = atom.getNumProtons() == atomicNumber;
                         if ( match ){
-                            buttonNode.setPaint( SELECTED_COLOR );
+                            buttonNode.setImage( SELECTED_IMAGE );
                         }
                         else{
-                            buttonNode.setPaint( focus ? FOCUS_COLOR : IDLE_COLOR );
+                            buttonNode.setImage( focus ? FOCUSED_IMAGE : IDLE_IMAGE );
+                        }
+                    }
+                    @Override
+                    public void setArmed( boolean armed ) {
+                        if ( armed ) {
+                            buttonNode.setImage( PRESSED_IMAGE );
+                        }
+                        else {
+                            buttonNode.setImage( focus ? FOCUSED_IMAGE : IDLE_IMAGE );
                         }
                     }
                     @Override
@@ -298,10 +423,10 @@ public class PeriodicTableControlNode extends PNode {
             boolean match = atom.getNumProtons() == atomicNumber;
             text.setFont( new PhetFont( PhetFont.getDefaultFontSize(), match ) );
             if ( match ) {
-                buttonNode.setPaint( SELECTED_COLOR );
+                buttonNode.setImage( SELECTED_IMAGE );
             }
             else {
-                buttonNode.setPaint( IDLE_COLOR );
+                buttonNode.setImage( IDLE_IMAGE );
             }
         }
 
