@@ -1,3 +1,4 @@
+isotopes-and-atomic-mass: Changed the buttons for the periodic table so that they should look work on Mac but still look like buttons under Windows.
 # 2.01.04 (50271) Mar 31, 2011
 3/31/11 Deploying to dev for testing and interviews.
 isotopes-and-atomic-mass: Widened the particle bucket to accommodate the max number of neutrons, which is the default value plus the number contained in Neon.
