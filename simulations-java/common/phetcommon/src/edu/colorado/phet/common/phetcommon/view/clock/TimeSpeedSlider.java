@@ -3,47 +3,50 @@ package edu.colorado.phet.common.phetcommon.view.clock;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.util.Hashtable;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
-import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
+import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.SliderOnlyLayoutStrategy;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
 /**
- * Author: Sam Reid
- * Jun 1, 2007, 2:27:44 PM
+ * Simulation speed slider.
+ *
+ * @author Sam Reid
  */
-public class TimeSpeedSlider extends VerticalLayoutPanel {
+public class TimeSpeedSlider extends JPanel {
     private final LinearValueControl linearSlider;
 
     public TimeSpeedSlider( double min, double max, String textFieldPattern, final ConstantDtClock defaultClock ) {
     	this( min, max, textFieldPattern, defaultClock, PhetCommonResources.getString( "Common.sim.speed" ) );
     }
 
-    public TimeSpeedSlider( double min, double max, String textFieldPattern, final ConstantDtClock defaultClock,
-            String title) {
+    public TimeSpeedSlider( double min, double max, String textFieldPattern, final ConstantDtClock defaultClock, String title) {
         this( min, max, textFieldPattern, defaultClock, title, Color.BLACK );
     }
 
     public TimeSpeedSlider( double min, double max, String textFieldPattern, final ConstantDtClock defaultClock,
     		String title, final Color textColor ) {
-        linearSlider = new LinearValueControl( min, max, "", textFieldPattern, "" );
+
+        // title
+        final JLabel titleLabel = new TimeSpeederLabel( title, textColor );
+        titleLabel.setFont( new PhetFont( Font.ITALIC, PhetFont.getDefaultFontSize()) );
+
+        // slider
+        linearSlider = new LinearValueControl( min, max, "", textFieldPattern, "", new SliderOnlyLayoutStrategy() );
         linearSlider.setTextFieldVisible( false );
-        Hashtable table = new Hashtable();
+        Hashtable<Double,JLabel> table = new Hashtable<Double,JLabel>();
         table.put( new Double( min ), new TimeSpeederLabel( PhetCommonResources.getString( "Common.time.slow" ), textColor ) );
         table.put( new Double( max ), new TimeSpeederLabel( PhetCommonResources.getString( "Common.time.fast" ), textColor ) );
-        final JLabel value = new TimeSpeederLabel( title, textColor );
-        value.setFont( new PhetFont( Font.ITALIC, PhetFont.getDefaultFontSize()) );
-        table.put( new Double( ( max + min ) / 2 ), value );
         linearSlider.setTickLabels( table );
         defaultClock.addConstantDtClockListener( new ConstantDtClock.ConstantDtClockAdapter() {
             @Override
@@ -52,7 +55,14 @@ public class TimeSpeedSlider extends VerticalLayoutPanel {
             }
         } );
         update( defaultClock );
-        add( linearSlider );
+
+        // layout, title centered above slider
+        setLayout( new GridBagLayout() );
+        GridBagConstraints c = new GridBagConstraints();
+        c.gridx = 0;
+        c.anchor = GridBagConstraints.CENTER;
+        add( titleLabel, c );
+        add( linearSlider, c );
     }
 
     public void addChangeListener( ChangeListener ch ) {
@@ -79,17 +89,17 @@ public class TimeSpeedSlider extends VerticalLayoutPanel {
         linearSlider.setValue( dt );
     }
 
-    public static void main(String[] args) {
-		JFrame testFrame = new JFrame();
-		testFrame.add(new TimeSpeedSlider(0, 100, "Test Slider", new ConstantDtClock(10, 10)));
-		testFrame.pack();
-		testFrame.setVisible(true);
-	}
-
     private static class TimeSpeederLabel extends JLabel{
         public TimeSpeederLabel( String text, Color textColor ) {
             super( text );
             setForeground( textColor );
         }
+    }
+
+    public static void main(String[] args) {
+        JFrame testFrame = new JFrame();
+        testFrame.add(new TimeSpeedSlider(0, 100, "Test Slider", new ConstantDtClock(10, 10)));
+        testFrame.pack();
+        testFrame.setVisible(true);
     }
 }
