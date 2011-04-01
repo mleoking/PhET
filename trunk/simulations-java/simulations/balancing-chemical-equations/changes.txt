@@ -1,3 +1,4 @@
+4/1/11 fix TestMoleculeNodes, it wouldn't launch from JNLP because the class was package private
 # 0.00.21 (50158) Mar 28, 2011
 3/28/11 change request: restrict game level 1 equations so that equations with big molecules cannot be first
 3/28/11 add Molecule.isBig, returns true if the molecule contains > 5 atoms
