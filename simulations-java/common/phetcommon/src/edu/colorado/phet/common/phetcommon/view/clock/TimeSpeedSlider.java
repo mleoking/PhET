@@ -43,7 +43,6 @@ public class TimeSpeedSlider extends JPanel {
 
         // slider
         linearSlider = new LinearValueControl( min, max, "", textFieldPattern, "", new SliderOnlyLayoutStrategy() );
-        linearSlider.setTextFieldVisible( false );
         Hashtable<Double,JLabel> table = new Hashtable<Double,JLabel>();
         table.put( new Double( min ), new TimeSpeederLabel( PhetCommonResources.getString( "Common.time.slow" ), textColor ) );
         table.put( new Double( max ), new TimeSpeederLabel( PhetCommonResources.getString( "Common.time.fast" ), textColor ) );
