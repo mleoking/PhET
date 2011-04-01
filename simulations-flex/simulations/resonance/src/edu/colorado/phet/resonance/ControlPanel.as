@@ -256,7 +256,7 @@ public class ControlPanel extends Canvas {
     private function initializeStrings(): void {
         numberOfResonators_str = "Number of Resonators";
         damping_str = "damping constant b";
-        dampingUnits_str = "N m/s";
+        dampingUnits_str = "N/(m/s)";
         gravity_str = "Gravity";
         on_str = "on";
         off_str = "off";
