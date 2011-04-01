@@ -1,43 +1,49 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--mass-spring-lab-strings_el.xml created Fri Feb 27 18:02:30 EET 2009 using: mass-spring-lab 1.00.00 (22498), translation-utility 1.11.00 (29003)-->
+<!--mass-spring-lab-strings_el.xml created Sat Apr 02 01:34:56 EEST 2011 using: mass-spring-lab 2.03.00 (49899), translation-utility 2.10.00 (48775) Φεβ 9, 2011-->
 <SimStrings>
-<string key="pause" value="σταματημα"/>
+<string key="pause" value="Παύση"/>
 <string key="earth" value="Γη"/>
-<string key="dontBother" value="Μην ενοχλεις"/>
-<string key="16thTime" value="1/16 χρόνου"/>
-<string key="nothinOK" value="τίπατα! οκ;"/>
-<string key="planetX" value="πλανήτης χ"/>
-<string key="showEnergyOf" value="δείξε την ενέργεια"/>
-<string key="hangMe" value="Κρέμασέ με"/>
-<string key="resetTimer" value="επανεκίνηση"/>
-<string key="hard" value="σκληρό"/>
-<string key="stopWatch" value="χρονόμετρο"/>
-<string key="none" value="καθόλου"/>
-<string key="realTime" value="πραγματικός χρόνος"/>
-<string key="startTimer" value="σταματημα/ξεκίνημα"/>
-<string key="help4" value="κινητό χρονόμετρο"/>
-<string key="help3" value="Τράβηξε τη μάζα στο πλαι να φύγει από το ελατήριο"/>
-<string key="showHelp" value="βοήθεια"/>
-<string key="lots" value="πολλή"/>
-<string key="help2" value="κινητή γραμμή αναφοράς"/>
-<string key="help1" value="κινητός χάρακας"/>
+<string key="dontBother" value="Μην ενοχλείς"/>
+<string key="16thTime" value="Αργή κίνηση (x16)"/>
+<string key="nothinOK" value="Τίποτα! ΟΚ;"/>
+<string key="mass1Label" value="50 g"/>
+<string key="mass3Label" value="250 g"/>
+<string key="planetX" value="Άγνωστος πλανήτης"/>
+<string key="showEnergyOf" value="Προβολή ενέργειας για τη διάταξη"/>
+<string key="hangMe" value="Κρέμασε 1 έως 3 βαρίδια."/>
+<string key="resetTimer" value="Reset"/>
+<string key="hard" value="Σκληρό"/>
+<string key="mass7Label" value="100 g"/>
+<string key="translation.credits" value="Βαγγέλης Κολτσάκης"/>
+<string key="stopWatch" value="Χρονόμετρο"/>
+<string key="none" value="Μηδέν"/>
+<string key="realTime" value="Κίνηση (x1)"/>
+<string key="startTimer" value="Παύση/Εκκίνηση"/>
+<string key="help4" value="Χρονόμετρο"/>
+<string key="help3" value="Τράβηξε το βαρίδι στο πλάι για ξεκρέμασμα"/>
+<string key="showHelp" value="Βοήθεια"/>
+<string key="lots" value="Μεγάλη"/>
+<string key="help2" value="Γραμμή αναφοράς"/>
+<string key="help1" value="Χάρακας"/>
 <string key="friction" value="Τριβή"/>
-<string key="PEelas" value="Δ.Ε ελαστ"/>
+<string key="PEelas" value="Ελαστική"/>
 <string key="jupiter" value="Δίας"/>
 <string key="moon" value="Σελήνη"/>
-<string key="energyOf" value="Ενέργεια"/>
-<string key="total" value="Συνολική"/>
-<string key="sound" value="ήχος"/>
-<string key="PEgrav" value="Δ.Ε βαρυτ."/>
+<string key="energyOf" value="Ενέργεια της διάταξης "/>
+<string key="total" value="Ολική"/>
+<string key="sound" value="Ήχος"/>
+<string key="PEgrav" value="Βαρυτική"/>
+<string key="mass2Label" value="100 g"/>
 <string key="thermal" value="Θερμική"/>
-<string key="quarterTime" value="1/4 χρόνου"/>
-<string key="KE" value="Κ.Ε"/>
-<string key="hideHelp" value="κρύψε βοήθεια"/>
-<string key="gEqZero" value="g=0"/>
-<string key="noHelp" value="όχι βοήθεια"/>
-<string key="soft" value="μαλακό"/>
-<string key="softness" value="σκληρότητα ελατηρίου 3"/>
+<string key="quarterTime" value="Αργή κίνηση (x4)"/>
+<string key="KE" value="Κινητική"/>
+<string key="gEqZero" value="Χωρίς βαρύτητα"/>
+<string key="hideHelp" value="Κρύψε τη βοήθεια"/>
+<string key="noHelp" value="Όχι βοήθεια"/>
+<string key="soft" value="Μαλακό"/>
+<string key="softness" value="Σκληρότητα ελατηρίου 3"/>
+<string key="simTitle" value="Βαρίδια &amp; Ελατήρια"/>
 <string key="totalE" value="Ολική ενέργεια"/>
-<string key="noShow" value="μη δείχνεις"/>
-<string key="paused" value="σταματημένο"/>
+<string key="noShow" value="Όχι"/>
+<string key="paused" value="Προσωρινή παύση"/>
 </SimStrings>
