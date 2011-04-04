@@ -37,7 +37,7 @@ class IsotopeProprotionsPieChart extends PNode {
 
     private static final double OVERALL_HEIGHT = 120;
     private static final int PIE_CHART_DIAMETER = 80; // Must be less than overall height.
-    private static final Stroke CONNECTING_LINE_STROKE = new BasicStroke(2);
+    private static final Stroke CONNECTING_LINE_STROKE = new BasicStroke( 1 );
 
     /**
      * Constructor.
