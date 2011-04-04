@@ -2,7 +2,9 @@
 
 package edu.colorado.phet.balancingchemicalequations.test;
 
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.geom.Rectangle2D;
 
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
@@ -18,9 +20,14 @@ import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Dragging the Game popups over the Equation causes the equation's read-only coefficients (PText) to
@@ -77,13 +84,20 @@ public class TestDragRepaint extends JFrame {
         }
     }
 
-    public static class TestPopupNode extends GamePopupNode {
+    public static class TestPopupNode extends PPath {
         public TestPopupNode() {
-            super( true, false, false, new Function1<PhetFont, PNode>() {
-                public PNode apply( PhetFont font ) {
-                    return new PNode();
+            setPathTo( new Rectangle2D.Double( 0, 0, 200, 200 ) );
+            setPaint( Color.BLUE );
+
+            // make draggable
+            addInputEventListener( new CursorHandler() );
+            addInputEventListener( new PBasicInputEventHandler() {
+                @Override
+                public void mouseDragged( PInputEvent event ) {
+                    PDimension delta = event.getDeltaRelativeTo( TestPopupNode.this );
+                    translate( delta.getWidth(), delta.getHeight() );
                 }
-            } );
+            });
         }
     }
 
@@ -107,11 +121,11 @@ public class TestDragRepaint extends JFrame {
         EquationNode equationNode = new EquationNode( equationProperty, coefficientRange, aligner );
         equationNode.setEditable( false );
         rootNode.addChild( equationNode );
-        equationNode.setOffset( 300, 300 );
+        equationNode.setOffset( 100, 100 );
 
         TestPopupNode popupNode = new TestPopupNode();
         rootNode.addChild( popupNode );
-        popupNode.setOffset( 400, 400 );
+        popupNode.setOffset( 300, 300 );
 
         setContentPane( canvas );
         pack();
