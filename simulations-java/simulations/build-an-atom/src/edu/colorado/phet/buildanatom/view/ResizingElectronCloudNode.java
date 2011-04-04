@@ -117,7 +117,7 @@ public class ResizingElectronCloudNode extends PNode {
                     @Override
                     public void mouseDragged( PInputEvent event ) {
                         PDimension delta = event.getDeltaRelativeTo( getParent() );
-                        grabbedElectron.translate( mvt.viewToModel( new ImmutableVector2D( delta ) ) );
+                        grabbedElectron.translate( mvt.viewToModelDelta( new ImmutableVector2D( delta ) ) );
                         grabbedElectron.setDestination( grabbedElectron.getPosition() ); //So it doesn't run away
                     }
 
