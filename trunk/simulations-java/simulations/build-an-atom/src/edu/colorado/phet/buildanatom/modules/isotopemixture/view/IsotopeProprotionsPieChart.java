@@ -285,7 +285,7 @@ class IsotopeProprotionsPieChart extends PNode {
      */
     private static class SliceLabel extends PNode {
         private static final ProportionFormat FORMATTER = new ProportionFormat();
-        private static final Font READOUT_FONT = new PhetFont(14);
+        private static final Font READOUT_FONT = new PhetFont( 18 );
 
         // The "unconstrained position" is the position where this label
         // would be placed if it didn't need to sit within the upper and
@@ -302,7 +302,7 @@ class IsotopeProprotionsPieChart extends PNode {
             }};
             PNode readoutBox = new PhetPPath( Color.WHITE, new BasicStroke( 1 ), Color.BLACK ){{
                 Shape readoutBoxShape = new RoundRectangle2D.Double( 0, 0, readoutText.getFullBoundsReference().width * 1.2,
-                        readoutText.getFullBoundsReference().height * 1.2, 4, 4);
+                        readoutText.getFullBoundsReference().height * 1.1, 4, 4);
                 setPathTo( readoutBoxShape );
                 readoutText.centerFullBoundsOnPoint( getFullBoundsReference().getCenterX(), getFullBoundsReference().getCenterY() );
                 addChild( readoutText );
