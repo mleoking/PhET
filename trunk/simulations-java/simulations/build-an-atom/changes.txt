@@ -1,3 +1,4 @@
+Fixed an issue where the center marker for the nucleus could interfere with selection of an electron in "cloud form".
 isotopes-and-atomic-mass: Changed the buttons for the periodic table so that they should look work on Mac but still look like buttons under Windows.
 # 2.01.04 (50271) Mar 31, 2011
 3/31/11 Deploying to dev for testing and interviews.
