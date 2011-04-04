@@ -87,6 +87,8 @@ public class InteractiveSchematicAtomNode extends SchematicAtomNode {
 
     private static class CenterMarkerNode extends PNode {
         public CenterMarkerNode( final BuildAnAtomModel model, ModelViewTransform mvt ) {
+            setPickable( false );
+            setChildrenPickable( false );
 
             model.getAtom().addObserver( new SimpleObserver() {
                 public void update() {
