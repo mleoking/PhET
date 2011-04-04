@@ -3,8 +3,6 @@
 package edu.colorado.phet.balancingchemicalequations.view;
 
 import java.awt.Color;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 
 import javax.swing.event.ChangeEvent;
@@ -84,6 +82,7 @@ public class EquationNode extends PhetPNode  {
                 arrowNode.setHighlighted( equation.isBalanced() && balancedHighlightEnabled );
             }
         };
+
         // if the equation changes...
         this.equation = equationProperty.getValue();
         equationProperty.addObserver( new SimpleObserver() {
@@ -212,7 +211,7 @@ public class EquationNode extends PhetPNode  {
      * Listens for changes to the coefficient property and updates accordingly.
      * When editable, sets the coefficient property.
      */
-    private static class CoefficientNode extends PhetPNode {
+    public static class CoefficientNode extends PhetPNode {
 
         private final Property<Integer> coefficientProperty;
         private final SimpleObserver coefficientObserver;
@@ -245,14 +244,6 @@ public class EquationNode extends PhetPNode  {
             addChild( spinnerNode );
             addChild( textNode );
 
-            // layout
-            spinnerNode.setOffset( 0, 0 );
-            textNode.addPropertyChangeListener( PROPERTY_FULL_BOUNDS, new PropertyChangeListener() {
-                public void propertyChange( PropertyChangeEvent evt ) {
-                    textNode.setOffset( spinnerNode.getFullBoundsReference().getMaxX() - textNode.getFullBoundsReference().getWidth() - 12, 0 ); // right justified
-                }
-            } );
-
             // visibility
             textNode.setVisible( !editable );
             spinnerNode.setVisible( editable );
@@ -261,8 +252,9 @@ public class EquationNode extends PhetPNode  {
             this.coefficientProperty = coefficientProperty;
             coefficientObserver = new SimpleObserver() {
                 public void update() {
-                    textNode.setText( String.valueOf( coefficientProperty.getValue() ) );
                     spinner.setIntValue( coefficientProperty.getValue() );
+                    textNode.setText( String.valueOf( coefficientProperty.getValue() ) );
+                    textNode.setOffset( spinnerNode.getFullBoundsReference().getMaxX() - textNode.getFullBoundsReference().getWidth() - 12, 0 ); // right justified
                 }
             };
             coefficientProperty.addObserver( coefficientObserver );
