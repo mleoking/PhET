@@ -101,7 +101,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
         equationLabelNode.setFont( new PhetFont( 20 ) );
 
         // Equation
-        equationNode = new EquationNode( model.currentEquation, model.getCoefficientsRange(), true, aligner );
+        equationNode = new EquationNode( model.currentEquation, model.getCoefficientsRange(), aligner );
 
         // boxes that show molecules corresponding to the equation coefficients
         boxesNode = new BoxesNode( model.currentEquation, model.getCoefficientsRange(), aligner, globalProperties.boxColor, globalProperties.moleculesVisible );

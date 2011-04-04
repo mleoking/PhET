@@ -55,15 +55,14 @@ public class EquationNode extends PhetPNode  {
      * Constructor.
      * @param equationProperty
      * @param coefficientRange
-     * @param editable
      * @param leftRightSideLength horizontal space alloted for each side of the equation
      * @param leftRightSeparation separation between the left and right sides of the equation
      */
-    public EquationNode( final Property<Equation> equationProperty, IntegerRange coefficientRange, boolean editable, HorizontalAligner aligner ) {
+    public EquationNode( final Property<Equation> equationProperty, IntegerRange coefficientRange, HorizontalAligner aligner ) {
         super();
 
         this.coefficientRange = coefficientRange;
-        this.editable = editable;
+        this.editable = true;
         this.aligner = aligner;
         this.termNodes = new ArrayList<TermNode>();
         this.balancedHighlightEnabled = true;

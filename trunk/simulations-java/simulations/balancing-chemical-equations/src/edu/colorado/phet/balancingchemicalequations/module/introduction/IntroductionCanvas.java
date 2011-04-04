@@ -40,7 +40,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
         addChild( equationChoiceNode );
 
         // equation, in formula format
-        final EquationNode equationNode = new EquationNode( model.currentEquation, model.getCoefficientsRange(), true /* editable */, aligner );
+        final EquationNode equationNode = new EquationNode( model.currentEquation, model.getCoefficientsRange(), aligner );
         addChild( equationNode );
 
         // boxes that show molecules corresponding to the equation coefficients
