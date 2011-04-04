@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--arithmetic-strings_da.xml created Sat Nov 13 07:22:58 CET 2010 using: arithmetic 2.02.00 (37294), translation-utility 2.09.00 (44031) sep 14, 2010-->
+<!--arithmetic-strings_da.xml created Sun Apr 03 08:57:17 CEST 2011 using: arithmetic 2.02.00 (37294), translation-utility 2.10.00 (48775) feb 9, 2011-->
 <SimStrings>
 <string key="level" value="niveau"/>
 <string key="typeAnswer" value="Skriv svar, tryk Enter"/>
-<string key="clickToSelect" value="Klik for at vælge forkert område"/>
+<string key="clickToSelect" value="Klik for at vælge \nrigtigt område"/>
 <string key="correct" value="Korrekt!"/>
 <string key="end" value="Slut"/>
-<string key="isWrong" value=" er forkert."/>
+<string key="isWrong" value=" er galt."/>
 <string key="start" value="Begynd"/>
 <string key="simTitle" value="Aritmetisk"/>
 <string key="time" value="Tid(sek)"/>
