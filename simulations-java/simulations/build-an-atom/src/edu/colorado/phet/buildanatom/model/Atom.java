@@ -83,7 +83,7 @@ public class Atom extends SimpleObservable implements IDynamicAtom {
         this.position.setLocation( position );
 
         // Only need to listen for 'removal' notifications on the inner shell
-        // to decide when an outer electron should fall
+        // to decide when an outer electron should fall.
         electronShell1.addObserver( electronShellChangeObserver );
 
         clock.addClockListener( new ClockAdapter() {
@@ -233,14 +233,9 @@ public class Atom extends SimpleObservable implements IDynamicAtom {
      * Remove an arbitrary electron.
      */
     public Electron removeElectron() {
-        Electron removedElectron = null;
-        if ( electronShell2.getNumElectrons() > 0 ) {
-            removedElectron = electronShell2.removeElectron();
-        }
-        else {
-            removedElectron = electronShell1.removeElectron();
-        }
-        return removedElectron;
+        // Remove from the inner shell and count on the mechanism that moves
+        // from outer to inner to fill holes in the inner shell.
+        return electronShell1.removeElectron();
     }
 
     /**
