@@ -1,33 +1,33 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--estimation-strings_da.xml created Sat Nov 27 15:07:00 CET 2010 using: estimation 2.01.00 (37299), translation-utility 2.09.00 (44031) sep 14, 2010-->
+<!--estimation-strings_da.xml created Sun Apr 03 09:09:24 CEST 2011 using: estimation 2.01.00 (37299), translation-utility 2.10.00 (48775) feb 9, 2011-->
 <SimStrings>
 <string key="ratioOfAreasIs" value="Andelen af arealer er"/>
 <string key="closeEnough" value="Tæt nok på! \n Korrekt svar er:"/>
 <string key="levelColon" value="Niveau:"/>
 <string key="score" value="Score"/>
-<string key="EnterNumber" value="Skriv nummer"/>
+<string key="EnterNumber" value="Skriv tal"/>
 <string key="selectTrainingOrGame" value="Vælg træning eller Spil:"/>
 <string key="percentUnderOver" value="Procent under/over"/>
 <string key="estimation" value="Gæt"/>
 <string key="next" value="Næste"/>
-<string key="ratioOfLengths" value="Forholdet mellem linjer, \nforholdet mellem arealer for firkanter og cirkler \nforholdet af rumfang for terninger og kugler"/>
+<string key="ratioOfLengths" value="-forholdet mellem linjer, \n-forholdet mellem arealer for firkanter og cirkler \n-forholdet af rumfang for terninger og kugler"/>
 <string key="exactAnswer" value="nøjagtigt svar"/>
 <string key="level" value="Niveau"/>
 <string key="howMany" value="Hvor mange små \npasser til/i den store?"/>
-<string key="noCreditIf" value="Ingen kredit hvis"/>
+<string key="noCreditIf" value="Ingen point hvis:"/>
 <string key="home" value="Hjem"/>
 <string key="whatIsRatioOfVolumes" value="Hvad er forholdet mellem volumenerne?"/>
 <string key="tooFarOff" value="For langt fra!  \nKorrekt svar er:"/>
 <string key="scorePerTimeColon" value="Score/tid:"/>
-<string key="PleasePickANumber" value="Vælg et nummer mellem 1 og 100000."/>
-<string key="answerIsOutside" value="svaret er uden for disse grænser."/>
+<string key="PleasePickANumber" value="Vælg et tal mellem 1 og 100000."/>
+<string key="answerIsOutside" value="Svaret er uden for disse grænser."/>
 <string key="train" value="Træning"/>
 <string key="strategyHelp" value="Strategisk hjælp"/>
 <string key="whatIsRatioOfAreas" value="Hvad er forholdet mellem arealerne?"/>
 <string key="scorePerTime" value="Score/tid"/>
 <string key="gameOver" value="Slut på spil."/>
 <string key="play" value="Spil"/>
-<string key="fullCreditIf" value="Fuld kredit hvis"/>
+<string key="fullCreditIf" value="Fuld point hvis:"/>
 <string key="back" value="tilbage"/>
 <string key="levelOneColon" value="Niveau 1: Kun linier \nNiveau 2: Linier og 2D objekter \nNiveau 3: Alle objekter"/>
 <string key="yourAnswer" value="dit svar"/>
@@ -40,7 +40,7 @@
 <string key="time" value="Tid(sek)"/>
 <string key="numberEstimates" value="Antal gæt:"/>
 <string key="simTitle" value="Gæt"/>
-<string key="yourAnswerIs" value="dit svar skal være indenfor: \nfaktor 1.3 for linier, \nfaktor 1.6 for 2D objekter, \nfaktor  2.0 for 3D objekter. Bemærk punktum."/>
+<string key="yourAnswerIs" value="Dit svar skal være indenfor: \n-faktor 1.3 for linier, \n-faktor 1.6 for 2D objekter, \n-faktor  2.0 for 3D objekter. Bemærk punktum."/>
 <string key="enter" value="Enter"/>
 <string key="endGame" value="Slut på spil."/>
 <string key="nextLowerCase" value="næste"/>
