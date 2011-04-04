@@ -254,7 +254,9 @@ public class IsotopeTestChamber {
                 // Update the isotope count.
                 updateCountProperty();
                 // Update the average atomic mass.
-                updateAverageAtomicMassProperty( isotope );
+                averageAtomicMassProperty.setValue( (  ( averageAtomicMassProperty.getValue() *
+                        ( isotopeCountProperty.getValue() - 1 ) ) + isotope.getAtomConfiguration().getAtomicMass() ) /
+                        isotopeCountProperty.getValue() );
             }
         }
         else{
@@ -336,18 +338,17 @@ public class IsotopeTestChamber {
         isotopeCountProperty.setValue( containedIsotopes.size() );
     }
 
-    private void updateAverageAtomicMassProperty( MovableAtom isotope ) {
-        averageAtomicMassProperty.setValue( ( averageAtomicMassProperty.getValue() *
-                ( isotopeCountProperty.getValue() - 1 ) + isotope.getAtomConfiguration().getAtomicMass() ) /
-                isotopeCountProperty.getValue() );
-    }
-
     private void updateAverageAtomicMassProperty() {
-        double totalMass = 0;
-        for ( MovableAtom isotope : containedIsotopes ){
-            totalMass += isotope.getAtomConfiguration().getAtomicMass();
+        if ( containedIsotopes.size() > 0 ){
+            double totalMass = 0;
+            for ( MovableAtom isotope : containedIsotopes ){
+                totalMass += isotope.getAtomConfiguration().getAtomicMass();
+            }
+            averageAtomicMassProperty.setValue( totalMass / containedIsotopes.size() );
         }
-        averageAtomicMassProperty.setValue( totalMass / containedIsotopes.size() );
+        else{
+            averageAtomicMassProperty.setValue( 0.0 );
+        }
     }
 
     public void addAverageAtomicMassPropertyListener( SimpleObserver so ){
