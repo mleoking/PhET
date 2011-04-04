@@ -300,7 +300,7 @@ class IsotopeProprotionsPieChart extends PNode {
             final PText readoutText = new PText( FORMATTER.format( proportionOfIsotope * 100 ) + " %"){{
                setFont(READOUT_FONT);
             }};
-            PNode readoutBox = new PhetPPath( Color.WHITE, new BasicStroke( 2 ), Color.BLACK ){{
+            PNode readoutBox = new PhetPPath( Color.WHITE, new BasicStroke( 1 ), Color.BLACK ){{
                 Shape readoutBoxShape = new RoundRectangle2D.Double( 0, 0, readoutText.getFullBoundsReference().width * 1.2,
                         readoutText.getFullBoundsReference().height * 1.2, 4, 4);
                 setPathTo( readoutBoxShape );
@@ -374,7 +374,7 @@ class IsotopeProprotionsPieChart extends PNode {
 
     private static class ProportionFormat {
 
-        private static final NumberFormat DEFAULT_FORMAT = new DecimalFormat("0.0000");
+        private static final NumberFormat DEFAULT_FORMAT = new DecimalFormat("0.####");
         private static final NumberFormat FORMAT_FOR_100 = new DecimalFormat();
 
         public String format( double number ) {
