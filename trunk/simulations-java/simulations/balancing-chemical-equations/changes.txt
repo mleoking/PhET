@@ -1,4 +1,3 @@
-# 0.00.23 (50314) Apr 4, 2011
 4/4/11 fix: equation coefficients disappear when dragging Game popups (bad FULL_BOUNDS PropertyChangeListener)
 4/4/11 remove editable parameter from EquationNode constructor
 # 0.00.22 (50286) Apr 1, 2011
