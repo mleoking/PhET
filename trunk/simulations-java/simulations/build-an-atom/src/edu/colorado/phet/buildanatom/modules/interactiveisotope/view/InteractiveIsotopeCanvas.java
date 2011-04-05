@@ -197,9 +197,6 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas implements Resettable 
     // Methods
     //----------------------------------------------------------------------------
 
-    /* (non-Javadoc)
-     * @see edu.colorado.phet.common.phetcommon.model.Resettable#reset()
-     */
     public void reset() {
         // Note that this resets the model, so be careful about hooking this
         // up to any reset coming from the model or you will end up in
