@@ -262,7 +262,7 @@ class IsotopeProprotionsPieChart extends PNode {
                         label.setOffset( posVector.getX(), posVector.getY() - label.getFullBoundsReference().height / 2 );
                     }
                     else{
-                        Vector2D posVector = new Vector2D( label.getFullBoundsReference().getMaxX(), label.getOffset().getY() );
+                        Vector2D posVector = new Vector2D( label.getFullBoundsReference().getMaxX(), label.getOffset().getY() + label.getFullBoundsReference().height / 2 );
                         posVector.rotate( rotationIncrement );
                         label.setOffset( posVector.getX() - label.getFullBoundsReference().width, posVector.getY() - label.getFullBoundsReference().height / 2 );
                     }
