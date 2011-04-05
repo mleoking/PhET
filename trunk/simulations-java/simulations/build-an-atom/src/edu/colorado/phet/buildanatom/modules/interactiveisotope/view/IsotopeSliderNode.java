@@ -45,7 +45,7 @@ public class IsotopeSliderNode extends PNode {
         // Add the slider that controls the quantity of this isotope in the
         // test chamber.
         String label = modelControl.getIsotopeConfig().getName() + "-" + modelControl.getIsotopeConfig().getMassNumber();
-        final LinearValueControl isotopeQuantityControl = new LinearValueControl( 0, modelControl.getCapacity(), label, "##", null, new DefaultLayoutStrategy(SwingConstants.CENTER)){{
+        final LinearValueControl isotopeQuantityControl = new LinearValueControl( 0, modelControl.getCapacity(), label, "###", null, new DefaultLayoutStrategy(SwingConstants.CENTER)){{
                     setUpDownArrowDelta( 1 );
                     setMajorTicksVisible( false );
                     setTextFieldEditable( true );
@@ -66,7 +66,7 @@ public class IsotopeSliderNode extends PNode {
         }};
 
 
-        // Wrap the control in a PSwing and add it to our rood node.
+        // Wrap the control in a PSwing and add it to our root node.
         PNode linearSliderNode = new PSwing( isotopeQuantityControl ){{
             centerFullBoundsOnPoint( 0, 0 );
         }};
