@@ -158,8 +158,10 @@ public class IsotopeTestChamber {
     }
 
     public void clearAverageAtomicMassOverride(){
-        averageAtomicMassOverridden = false;
-        updateAverageAtomicMassProperty();
+        if ( averageAtomicMassOverridden ){
+            averageAtomicMassOverridden = false;
+            updateAverageAtomicMassProperty();
+        }
     }
 
     private void clearAllOverrides(){
@@ -202,8 +204,8 @@ public class IsotopeTestChamber {
         for ( MovableAtom isotope : isotopeList ){
             addIsotopeToChamber( isotope, false );
         }
-        updateAverageAtomicMassProperty();
         updateCountProperty();
+        updateAverageAtomicMassProperty();
     }
 
     /**
