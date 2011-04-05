@@ -23,6 +23,7 @@ import edu.colorado.phet.buildanatom.view.BucketFrontNode;
 import edu.colorado.phet.buildanatom.view.BucketHoleNode;
 import edu.colorado.phet.buildanatom.view.MaximizeControlNode;
 import edu.colorado.phet.buildanatom.view.PeriodicTableControlNode;
+import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
@@ -41,7 +42,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * Canvas for the tab where the user experiments with mixtures of different
  * isotopes.
  */
-public class IsotopeMixturesCanvas extends PhetPCanvas {
+public class IsotopeMixturesCanvas extends PhetPCanvas implements Resettable {
 
     //----------------------------------------------------------------------------
     // Class Data
@@ -54,6 +55,9 @@ public class IsotopeMixturesCanvas extends PhetPCanvas {
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
+
+    // Model
+    private final IsotopeMixturesModel model;
 
     // View
     private final PNode rootNode;
@@ -70,6 +74,7 @@ public class IsotopeMixturesCanvas extends PhetPCanvas {
     //----------------------------------------------------------------------------
 
     public IsotopeMixturesCanvas( final IsotopeMixturesModel model ) {
+        this.model = model;
 
         // Set up the canvas-screen transform.
         setWorldTransformStrategy( new PhetPCanvas.CenteredStage( this, BuildAnAtomDefaults.STAGE_SIZE ) );
@@ -279,12 +284,23 @@ public class IsotopeMixturesCanvas extends PhetPCanvas {
         model.getIsotopeTestChamber().addTotalCountChangeObserver( clearBoxButtonVizUpdater );
 
         // Add the "Reset All" button.
-        ResetAllButtonNode resetButtonNode = new ResetAllButtonNode( model, this, BUTTON_FONT_SIZE, Color.BLACK,
+        ResetAllButtonNode resetButtonNode = new ResetAllButtonNode( this, this, BUTTON_FONT_SIZE, Color.BLACK,
                 new Color( 255, 153, 0 ) ){{
             setConfirmationEnabled( false );
             centerFullBoundsOnPoint( averageAtomicMassWindow.getFullBoundsReference().getMaxX() - 80,
                     BuildAnAtomDefaults.STAGE_SIZE.height - DISTANCE_BUTTON_CENTER_FROM_BOTTOM );
         }};
         controlsLayer.addChild( resetButtonNode );
+    }
+
+    public void reset() {
+        // Note that this resets the model, so be careful about hooking this
+        // up to any reset coming from the model or you will end up in
+        // Nastyrecursionville.
+        model.reset();
+
+        // Reset the view componenets.
+        pieChartWindow.setMaximized( true );
+        averageAtomicMassWindow.setMaximized( true );
     }
 }
