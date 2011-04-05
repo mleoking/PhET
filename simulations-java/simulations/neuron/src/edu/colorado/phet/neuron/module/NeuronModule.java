@@ -9,7 +9,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
-import edu.colorado.phet.common.phetcommon.view.clock.TimeSpeedSlider;
+import edu.colorado.phet.common.phetcommon.view.clock.SimSpeedControl;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
 import edu.colorado.phet.neuron.NeuronStrings;
@@ -57,7 +57,7 @@ public class NeuronModule extends PiccoloModule {
 
         // Clock controls
         clockControlPanel = new PiccoloClockControlPanel( getClock() );
-    	final TimeSpeedSlider timeSpeedSlider = new TimeSpeedSlider(NeuronDefaults.MIN_ACTION_POTENTIAL_CLOCK_DT,
+    	final SimSpeedControl timeSpeedSlider = new SimSpeedControl(NeuronDefaults.MIN_ACTION_POTENTIAL_CLOCK_DT,
     			NeuronDefaults.MAX_ACTION_POTENTIAL_CLOCK_DT, (ConstantDtClock)getClock(), PhetCommonResources.getString( "Common.sim.speed" ));
         timeSpeedSlider.addChangeListener( new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {

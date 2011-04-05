@@ -21,18 +21,18 @@ import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.SliderOnly
  *
  * @author Sam Reid
  */
-public class TimeSpeedSlider extends JPanel {
+public class SimSpeedControl extends JPanel {
     private final LinearValueControl linearSlider;
 
-    public TimeSpeedSlider( double min, double max, final ConstantDtClock defaultClock ) {
+    public SimSpeedControl( double min, double max, final ConstantDtClock defaultClock ) {
     	this( min, max, defaultClock, PhetCommonResources.getString( "Common.sim.speed" ) );
     }
 
-    public TimeSpeedSlider( double min, double max, final ConstantDtClock defaultClock, String title) {
+    public SimSpeedControl( double min, double max, final ConstantDtClock defaultClock, String title) {
         this( min, max, defaultClock, title, Color.BLACK );
     }
 
-    public TimeSpeedSlider( double min, double max, final ConstantDtClock defaultClock,
+    public SimSpeedControl( double min, double max, final ConstantDtClock defaultClock,
     		String title, final Color textColor ) {
 
         // title
@@ -94,7 +94,7 @@ public class TimeSpeedSlider extends JPanel {
 
     public static void main(String[] args) {
         JFrame testFrame = new JFrame();
-        testFrame.add(new TimeSpeedSlider(0, 100, new ConstantDtClock(10, 10)));
+        testFrame.add(new SimSpeedControl(0, 100, new ConstantDtClock(10, 10)));
         testFrame.pack();
         testFrame.setVisible(true);
     }
