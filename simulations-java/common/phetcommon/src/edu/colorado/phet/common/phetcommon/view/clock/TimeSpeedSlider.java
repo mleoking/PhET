@@ -39,7 +39,6 @@ public class TimeSpeedSlider extends JPanel {
 
         // title
         final JLabel titleLabel = new TimeSpeederLabel( title, textColor );
-        titleLabel.setFont( new PhetFont( Font.ITALIC, PhetFont.getDefaultFontSize()) );
 
         // slider
         linearSlider = new LinearValueControl( min, max, "", textFieldPattern, "", new SliderOnlyLayoutStrategy() );
