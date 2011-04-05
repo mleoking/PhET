@@ -142,7 +142,7 @@ public class AverageAtomicMassIndicator extends PNode {
             addChild( new PhetPPath(shape.getGeneralPath(), TICK_MARK_STROKE, Color.BLACK));
             // Create the label that goes above the tick mark.
             HTMLNode label = new HTMLNode( "<html><sup>" + isotopeConfig.getMassNumber() + "</sup>" + isotopeConfig.getSymbol() + "</html>" ){{
-                setFont( new PhetFont() );
+                setFont( new PhetFont( 14 ) );
                 setScale( TICK_MARK_LABEL_HEIGHT / getFullBoundsReference().height );
                 setOffset( -getFullBoundsReference().width / 2, -getFullBoundsReference().height - TICK_MARK_LINE_HEIGHT / 2 );
             }};
