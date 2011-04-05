@@ -412,9 +412,7 @@ public class IsotopeTestChamber {
      */
     public void setState( State state ){
         removeAllIsotopes( true );
-        for( MovableAtom isotope : state.getContainedIsotopes() ){
-            addIsotopeToChamber( isotope );
-        }
+        bulkAddIsotopesToChamber( state.getContainedIsotopes() );
         isotopeProportionsOverride = state.isotopeProportionsOverride;
         if ( state.isAverageAtomicMassOverridden() ){
             overrideAverageAtomicMass( state.getAverageAtomicMassValue() );

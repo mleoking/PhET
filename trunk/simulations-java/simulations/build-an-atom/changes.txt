@@ -1,3 +1,5 @@
+isotopes-and-atomic-mass: Performance improvement: Used the "bulk add" capability when restoring state.  This makes it noticeably faster when switching back to a previously created state with a lot of atoms in the chamber.
+isotopes-and-atomic-mass: Made the buttons look and function better in the periodic table.
 build-an-atom: Fixed an issue where electrons picked up from the cloud could not be moved correctly by the user.
 Fixed an issue where the center marker for the nucleus could interfere with selection of an electron in "cloud form".
 isotopes-and-atomic-mass: Changed the buttons for the periodic table so that they should look work on Mac but still look like buttons under Windows.
