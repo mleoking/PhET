@@ -378,6 +378,8 @@ public class AtomIdentifier {
     //
     // ...though some post-processing was necessary to get it into the format below.
     private static final String ISOTOPE_INFORMATION_TABLE_STR =
+        // Format:
+        // Atomic number (empty if same as previous), Symbol, mass number, atomic mass, abundance.
         "1,H,1,1.00782503207,0.999885\n" +
         ",D,2,2.0141017778,0.000115\n" +
         ",T,3,3.0160492777,1E-12\n" +         // I (jblanco) made up the abundance, since Widipedia just says "trace".
@@ -729,6 +731,98 @@ public class AtomIdentifier {
         "113,Uut,284,284.17808,\n" +
         "114,Uuq,289,289.18728,\n" +
         "115,Uup,288,288.19249,\n";
+
+    // CSV-formatted table that maps atomic numbers to standard atomic mass
+    // (a.k.a. standard atomic weight).  This was obtained from the URL below
+    // subsequently post-processed to remove unneeded data:
+    //
+    // http://physics.nist.gov/cgi-bin/Compositions/stand_alone.pl?ele=&ascii=ascii2&isotype=some
+    private static final String STRING_MAP_ATOMIC_NUM_TO_STD_MASS =
+        "1, 1.00794\n" +
+        "2, 4.002602\n" +
+        "3, 6.941\n" +
+        "4, 9.012182\n" +
+        "5, 10.811\n" +
+        "6, 12.0107\n" +
+        "7, 14.0067\n" +
+        "8, 15.9994\n" +
+        "9, 18.9984032\n" +
+        "10, 20.1797\n" +
+        "11, 22.98976928\n" +
+        "12, 24.305\n" +
+        "13, 26.9815386\n" +
+        "14, 28.0855\n" +
+        "15, 30.973762\n" +
+        "16, 32.065\n" +
+        "17, 35.453\n" +
+        "18, 39.948\n" +
+        "19, 39.0983\n" +
+        "20, 40.078\n" +
+        "21, 44.955912\n" +
+        "22, 47.867\n" +
+        "23, 50.9415\n" +
+        "24, 51.9961\n" +
+        "25, 54.938045\n" +
+        "26, 55.845\n" +
+        "27, 58.933195\n" +
+        "28, 58.6934\n" +
+        "29, 63.546\n" +
+        "30, 65.38\n" +
+        "31, 69.723\n" +
+        "32, 72.64\n" +
+        "33, 74.9216\n" +
+        "34, 78.96\n" +
+        "35, 79.904\n" +
+        "36, 83.798\n" +
+        "37, 85.4678\n" +
+        "38, 87.62\n" +
+        "39, 88.90585\n" +
+        "40, 91.224\n" +
+        "41, 92.90638\n" +
+        "42, 95.96\n" +
+        "43, 98\n" +
+        "44, 101.07\n" +
+        "45, 102.9055\n" +
+        "46, 106.42\n" +
+        "47, 107.8682\n" +
+        "48, 112.411\n" +
+        "49, 114.818\n" +
+        "50, 118.71\n" +
+        "51, 121.76\n" +
+        "52, 127.6\n" +
+        "53, 126.90447\n" +
+        "54, 131.293\n" +
+        "55, 132.9054519\n" +
+        "56, 137.327\n" +
+        "57, 138.90547\n" +
+        "58, 140.116\n" +
+        "59, 140.90765\n" +
+        "60, 144.242\n" +
+        "61, 145\n" +
+        "62, 150.36\n" +
+        "63, 151.964\n" +
+        "64, 157.25\n" +
+        "65, 158.92535\n" +
+        "66, 162.5\n" +
+        "67, 164.93032\n" +
+        "68, 167.259\n" +
+        "69, 168.93421\n" +
+        "70, 173.054\n" +
+        "71, 174.9668\n" +
+        "72, 178.49\n" +
+        "73, 180.94788\n" +
+        "74, 183.84\n" +
+        "75, 186.207\n" +
+        "76, 190.23\n" +
+        "77, 192.217\n" +
+        "78, 195.084\n" +
+        "79, 196.966569\n" +
+        "80, 200.59\n" +
+        "81, 204.3833\n" +
+        "82, 207.2\n" +
+        "83, 208.9804\n";
+
+
 
     // Table that maps atomic number to the atomic weight and abundances for
     // that isotope.  This was generated from data obtained from
@@ -1433,6 +1527,94 @@ public class AtomIdentifier {
         put( 115, listForAtomicNumber115 );
     }};
 
+    // This table
+    private static final Map<Integer, Double> mapAtomicNumberToMass = new HashMap<Integer, Double>(){{
+        // Automatically generated, see routines in this class.
+        put( 1, 1.00794 );
+        put( 2, 4.002602 );
+        put( 3, 6.941 );
+        put( 4, 9.012182 );
+        put( 5, 10.811 );
+        put( 6, 12.0107 );
+        put( 7, 14.0067 );
+        put( 8, 15.9994 );
+        put( 9, 18.9984032 );
+        put( 10, 20.1797 );
+        put( 11, 22.98976928 );
+        put( 12, 24.305 );
+        put( 13, 26.9815386 );
+        put( 14, 28.0855 );
+        put( 15, 30.973762 );
+        put( 16, 32.065 );
+        put( 17, 35.453 );
+        put( 18, 39.948 );
+        put( 19, 39.0983 );
+        put( 20, 40.078 );
+        put( 21, 44.955912 );
+        put( 22, 47.867 );
+        put( 23, 50.9415 );
+        put( 24, 51.9961 );
+        put( 25, 54.938045 );
+        put( 26, 55.845 );
+        put( 27, 58.933195 );
+        put( 28, 58.6934 );
+        put( 29, 63.546 );
+        put( 30, 65.38 );
+        put( 31, 69.723 );
+        put( 32, 72.64 );
+        put( 33, 74.9216 );
+        put( 34, 78.96 );
+        put( 35, 79.904 );
+        put( 36, 83.798 );
+        put( 37, 85.4678 );
+        put( 38, 87.62 );
+        put( 39, 88.90585 );
+        put( 40, 91.224 );
+        put( 41, 92.90638 );
+        put( 42, 95.96 );
+        put( 43, 98.0 );
+        put( 44, 101.07 );
+        put( 45, 102.9055 );
+        put( 46, 106.42 );
+        put( 47, 107.8682 );
+        put( 48, 112.411 );
+        put( 49, 114.818 );
+        put( 50, 118.71 );
+        put( 51, 121.76 );
+        put( 52, 127.6 );
+        put( 53, 126.90447 );
+        put( 54, 131.293 );
+        put( 55, 132.9054519 );
+        put( 56, 137.327 );
+        put( 57, 138.90547 );
+        put( 58, 140.116 );
+        put( 59, 140.90765 );
+        put( 60, 144.242 );
+        put( 61, 145.0 );
+        put( 62, 150.36 );
+        put( 63, 151.964 );
+        put( 64, 157.25 );
+        put( 65, 158.92535 );
+        put( 66, 162.5 );
+        put( 67, 164.93032 );
+        put( 68, 167.259 );
+        put( 69, 168.93421 );
+        put( 70, 173.054 );
+        put( 71, 174.9668 );
+        put( 72, 178.49 );
+        put( 73, 180.94788 );
+        put( 74, 183.84 );
+        put( 75, 186.207 );
+        put( 76, 190.23 );
+        put( 77, 192.217 );
+        put( 78, 195.084 );
+        put( 79, 196.966569 );
+        put( 80, 200.59 );
+        put( 81, 204.3833 );
+        put( 82, 207.2 );
+        put( 83, 208.9804 );
+    }};
+
     public static String getSymbol( IAtom atom ) {
         return getSymbol( atom.getNumProtons() );
     }
@@ -1578,60 +1760,6 @@ public class AtomIdentifier {
     }
 
     /**
-     * Use to regenerate element symbol table if needed.  Rename to "main" if
-     * needed.
-     */
-    public static void main1( String[] args ) {
-        String t = ORIGINAL_TABLE;
-        StringTokenizer stringTokenizer = new StringTokenizer( t, "\n" );
-        while ( stringTokenizer.hasMoreElements() ) {
-            String line = stringTokenizer.nextToken();
-            StringTokenizer st = new StringTokenizer( line, "\t " );
-            int index = Integer.parseInt( st.nextToken() );//index
-            if ( index <= 112 ) {
-                String name = st.nextToken();//name;
-                String symbol = st.nextToken();//symbol
-                System.out.println( "      \"" + symbol + "\"," + " // " + index + ", " + name );
-            }
-        }
-    }
-
-    /**
-     * Generate a data structure from the Isotope table that is in string
-     * format.  Rename to "main" to use.
-     *
-     * @param args
-     */
-    public static void main( String[] args ) {
-
-        // Break the overall string into lines.
-        String[] lines = ISOTOPE_INFORMATION_TABLE_STR.split( "\n" );
-
-        System.out.println("// Automatically generated, see routines in this class.");
-
-        // Process each line.
-        int currentAtomicNumber = 0;
-        for ( String line : lines ) {
-            String[] dataElements = line.split( "," );
-            if (dataElements[0].length() != 0){
-                if (currentAtomicNumber != 0 ){
-                    // Finish off the structure for the previous atomic number.
-                    System.out.println("}};");
-                    System.out.println("put( " + currentAtomicNumber + ", listForAtomicNumber" + currentAtomicNumber + " );");
-                }
-                currentAtomicNumber = Integer.parseInt( dataElements[0] );
-                // Start the list of isotopes for this atomic number.
-                System.out.println("ArrayList<Isotope2> listForAtomicNumber" + currentAtomicNumber + "= new ArrayList<Isotope2>(){{");
-            }
-            // Add the individual entry for this isotope.
-            int numNeutrons = Integer.parseInt( dataElements[ 2 ] ) - currentAtomicNumber;
-            double atomicWeight = Double.parseDouble( dataElements[ 3 ] );
-            double abundance = dataElements.length >= 5 ? Double.parseDouble( dataElements[ 4 ] ) : 0;
-            System.out.println("   add( new Isotope2( " + currentAtomicNumber + ", " + numNeutrons + ", " + atomicWeight + ", " + abundance + " ) );" );
-        }
-    }
-
-    /**
      * Get the configuration of the most abundant isotope of the element with
      * with given atomic number.  The returned atom will be neutral.
      *
@@ -1686,5 +1814,99 @@ public class AtomIdentifier {
             }
         }
         return stableIsotopeList;
+    }
+
+    public static double getStandardAtomicMass( int atomicNumber ){
+        if ( mapAtomicNumberToMass.containsKey( atomicNumber )){
+            return mapAtomicNumberToMass.get( atomicNumber );
+        }
+        else{
+            System.out.println("Warning: No standard atomic mass available for atomic number " + atomicNumber + ", returning zero." );
+            return 0;
+        }
+    }
+
+    /**
+     * Use to regenerate element symbol table if needed.  Run from "main" if
+     * needed.
+     */
+    private static void generateSymbolTable() {
+        String t = ORIGINAL_TABLE;
+        StringTokenizer stringTokenizer = new StringTokenizer( t, "\n" );
+        while ( stringTokenizer.hasMoreElements() ) {
+            String line = stringTokenizer.nextToken();
+            StringTokenizer st = new StringTokenizer( line, "\t " );
+            int index = Integer.parseInt( st.nextToken() );//index
+            if ( index <= 112 ) {
+                String name = st.nextToken();//name;
+                String symbol = st.nextToken();//symbol
+                System.out.println( "      \"" + symbol + "\"," + " // " + index + ", " + name );
+            }
+        }
+    }
+
+    /**
+     * Generate a data structure from the Isotope table that is in string
+     * format.  Rename to "main" to use.
+     *
+     * @param args
+     */
+    private static void generateIsotopeInfoTable() {
+
+        // Break the overall string into lines.
+        String[] lines = ISOTOPE_INFORMATION_TABLE_STR.split( "\n" );
+
+        System.out.println("// Automatically generated, see routines in this class.");
+
+        // Process each line.
+        int currentAtomicNumber = 0;
+        for ( String line : lines ) {
+            String[] dataElements = line.split( "," );
+            if (dataElements[0].length() != 0){
+                if (currentAtomicNumber != 0 ){
+                    // Finish off the structure for the previous atomic number.
+                    System.out.println("}};");
+                    System.out.println("put( " + currentAtomicNumber + ", listForAtomicNumber" + currentAtomicNumber + " );");
+                }
+                currentAtomicNumber = Integer.parseInt( dataElements[0] );
+                // Start the list of isotopes for this atomic number.
+                System.out.println("ArrayList<Isotope2> listForAtomicNumber" + currentAtomicNumber + "= new ArrayList<Isotope2>(){{");
+            }
+            // Add the individual entry for this isotope.
+            int numNeutrons = Integer.parseInt( dataElements[ 2 ] ) - currentAtomicNumber;
+            double atomicWeight = Double.parseDouble( dataElements[ 3 ] );
+            double abundance = dataElements.length >= 5 ? Double.parseDouble( dataElements[ 4 ] ) : 0;
+            System.out.println("   add( new Isotope2( " + currentAtomicNumber + ", " + numNeutrons + ", " + atomicWeight + ", " + abundance + " ) );" );
+        }
+    }
+
+    /**
+     * Generate a data structure that maps atomic number to average atomic
+     * mass.  Rename to "main" to use.
+     *
+     * @param args
+     */
+    private static void generateMapOfAtomicNumberToMass() {
+
+        // Break the overall string into lines.
+        String[] lines = STRING_MAP_ATOMIC_NUM_TO_STD_MASS.split( "\n" );
+
+        System.out.println("// Automatically generated, see routines in this class.");
+
+        // Process each line.
+        int currentAtomicNumber = 0;
+        for ( String line : lines ) {
+            String[] dataElements = line.split( "," );
+            currentAtomicNumber = Integer.parseInt( dataElements[0] );
+            // Start the list of isotopes for this atomic number.
+            System.out.println("put( " + currentAtomicNumber + ", " + Double.parseDouble( dataElements[1] ) + " );" );
+        }
+    }
+
+    public static void main( String[] args ) {
+        // Uncomment the needed method if you need to regenerate one of the tables.
+//        generateIsotopeInfoTable();
+        generateMapOfAtomicNumberToMass();
+//        generateSymbolTable();
     }
 }
