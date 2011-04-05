@@ -24,22 +24,22 @@ import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.SliderOnly
 public class TimeSpeedSlider extends JPanel {
     private final LinearValueControl linearSlider;
 
-    public TimeSpeedSlider( double min, double max, String textFieldPattern, final ConstantDtClock defaultClock ) {
-    	this( min, max, textFieldPattern, defaultClock, PhetCommonResources.getString( "Common.sim.speed" ) );
+    public TimeSpeedSlider( double min, double max, final ConstantDtClock defaultClock ) {
+    	this( min, max, defaultClock, PhetCommonResources.getString( "Common.sim.speed" ) );
     }
 
-    public TimeSpeedSlider( double min, double max, String textFieldPattern, final ConstantDtClock defaultClock, String title) {
-        this( min, max, textFieldPattern, defaultClock, title, Color.BLACK );
+    public TimeSpeedSlider( double min, double max, final ConstantDtClock defaultClock, String title) {
+        this( min, max, defaultClock, title, Color.BLACK );
     }
 
-    public TimeSpeedSlider( double min, double max, String textFieldPattern, final ConstantDtClock defaultClock,
+    public TimeSpeedSlider( double min, double max, final ConstantDtClock defaultClock,
     		String title, final Color textColor ) {
 
         // title
         final JLabel titleLabel = new TimeSpeederLabel( title, textColor );
 
         // slider
-        linearSlider = new LinearValueControl( min, max, "", textFieldPattern, "", new SliderOnlyLayoutStrategy() );
+        linearSlider = new LinearValueControl( min, max, "", "", "", new SliderOnlyLayoutStrategy() );
         Hashtable<Double,JLabel> table = new Hashtable<Double,JLabel>();
         table.put( new Double( min ), new TimeSpeederLabel( PhetCommonResources.getString( "Common.time.slow" ), textColor ) );
         table.put( new Double( max ), new TimeSpeederLabel( PhetCommonResources.getString( "Common.time.fast" ), textColor ) );
@@ -94,7 +94,7 @@ public class TimeSpeedSlider extends JPanel {
 
     public static void main(String[] args) {
         JFrame testFrame = new JFrame();
-        testFrame.add(new TimeSpeedSlider(0, 100, "Test Slider", new ConstantDtClock(10, 10)));
+        testFrame.add(new TimeSpeedSlider(0, 100, new ConstantDtClock(10, 10)));
         testFrame.pack();
         testFrame.setVisible(true);
     }

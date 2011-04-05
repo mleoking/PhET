@@ -58,7 +58,7 @@ public class NeuronModule extends PiccoloModule {
         // Clock controls
         clockControlPanel = new PiccoloClockControlPanel( getClock() );
     	final TimeSpeedSlider timeSpeedSlider = new TimeSpeedSlider(NeuronDefaults.MIN_ACTION_POTENTIAL_CLOCK_DT,
-    			NeuronDefaults.MAX_ACTION_POTENTIAL_CLOCK_DT, "0.00", (ConstantDtClock)getClock(), PhetCommonResources.getString( "Common.sim.speed" ));
+    			NeuronDefaults.MAX_ACTION_POTENTIAL_CLOCK_DT, (ConstantDtClock)getClock(), PhetCommonResources.getString( "Common.sim.speed" ));
         timeSpeedSlider.addChangeListener( new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
                 ((ConstantDtClock)getClock()).setDt( timeSpeedSlider.getValue() );

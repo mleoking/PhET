@@ -38,7 +38,7 @@ public class LactoseTransportModule extends PiccoloModule {
     //----------------------------------------------------------------------------
 
     public LactoseTransportModule( Frame parentFrame ) {
-        super( GeneNetworkStrings.TITLE_LACTOSE_TRANSPORT, new GeneNetworkClock( LacOperonDefaults.CLOCK_FRAME_RATE, 
+        super( GeneNetworkStrings.TITLE_LACTOSE_TRANSPORT, new GeneNetworkClock( LacOperonDefaults.CLOCK_FRAME_RATE,
         		LacOperonDefaults.CLOCK_DT ) );
 
         // Model
@@ -54,8 +54,8 @@ public class LactoseTransportModule extends PiccoloModule {
 
         // Clock controls
     	PiccoloClockControlPanel clockControlPanel = new PiccoloClockControlPanel( getClock() );
-    	final TimeSpeedSlider timeSpeedSlider = new TimeSpeedSlider(LacOperonDefaults.CLOCK_DT / 5, 
-    			LacOperonDefaults.CLOCK_DT * 2, "0.00", (ConstantDtClock)getClock(), null);
+    	final TimeSpeedSlider timeSpeedSlider = new TimeSpeedSlider(LacOperonDefaults.CLOCK_DT / 5,
+    			LacOperonDefaults.CLOCK_DT * 2, (ConstantDtClock)getClock(), null);
         timeSpeedSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 ((ConstantDtClock)getClock()).setDt( timeSpeedSlider.getValue() );
@@ -69,9 +69,9 @@ public class LactoseTransportModule extends PiccoloModule {
         spacePanel.add( Box.createHorizontalStrut( 30 ) );
         clockPanelWithResetButton.add(spacePanel);
         clockPanelWithResetButton.add(new ResetAllButton(this, clockPanelWithResetButton));
-        
+
         setClockControlPanel( clockPanelWithResetButton );
-        
+
         // Help
         if ( hasHelp() ) {
             //XXX add help items
@@ -90,8 +90,8 @@ public class LactoseTransportModule extends PiccoloModule {
         // Reset the clock.
         GeneNetworkClock clock = model.getClock();
         clock.resetSimulationTime();
-        
+
         // Reset the model.
         model.reset();
-    }    
+    }
 }

@@ -56,7 +56,7 @@ public class MembraneChannelsModule extends PiccoloModule {
         // Clock controls
         clockControlPanel = new PiccoloClockControlPanel( getClock() );
     	final TimeSpeedSlider timeSpeedSlider = new TimeSpeedSlider(MembraneChannelsDefaults.MIN_MEMBRANE_CHANNELS_CLOCK_DT,
-    			MembraneChannelsDefaults.MAX_MEMBRANE_CHANNELS_CLOCK_DT, "0.00", (ConstantDtClock)getClock());
+    			MembraneChannelsDefaults.MAX_MEMBRANE_CHANNELS_CLOCK_DT, (ConstantDtClock)getClock());
         timeSpeedSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 ((ConstantDtClock)getClock()).setDt( timeSpeedSlider.getValue() );
