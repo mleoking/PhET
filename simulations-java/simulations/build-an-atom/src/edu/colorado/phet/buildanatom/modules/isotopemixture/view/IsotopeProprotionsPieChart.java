@@ -116,7 +116,8 @@ class IsotopeProprotionsPieChart extends PNode {
                         Point2D centerEdgeOfPieSlice = pieChart.getCenterEdgePtForSlice( i );
                         boolean labelOnLeft = centerEdgeOfPieSlice.getX() < 0;
                         labelNode = new SliceLabel( model.getPossibleIsotopesProperty().getValue().get( i ),
-                                pieSlices.get( i ).getValue() / pieChart.getTotal(), labelOnLeft );
+                                pieSlices.get( i ).getValue() / pieChart.getTotal(),
+                                model.getShowingNaturesMixProperty().getValue(), labelOnLeft );
                         labelLayer.addChild( labelNode );
                         sliceLabels.add( labelNode );
 
@@ -284,8 +285,9 @@ class IsotopeProprotionsPieChart extends PNode {
      * isotope.
      */
     private static class SliceLabel extends PNode {
-        private static final ProportionFormat FORMATTER = new ProportionFormat();
         private static final Font READOUT_FONT = new PhetFont( 18 );
+
+        private final ProportionFormat formatter;
 
         // The "unconstrained position" is the position where this label
         // would be placed if it didn't need to sit within the upper and
@@ -294,10 +296,11 @@ class IsotopeProprotionsPieChart extends PNode {
         // how labels move when handling overlap.
         private final Point2D unconstrainedPos = new Point2D.Double(0, 0);
 
-        public SliceLabel( ImmutableAtom isotopeConfig, double proportionOfIsotope, boolean labelOnLeft ){
+        public SliceLabel( ImmutableAtom isotopeConfig, double proportionOfIsotope, boolean showingNaturesMix, boolean labelOnLeft ){
             final ChemSymbolWithNumbers symbol = new ChemSymbolWithNumbers( isotopeConfig );
+            formatter = showingNaturesMix ? new NaturesMixProportionFormat() : new UsersMixProportionFormat();
             addChild( symbol );
-            final PText readoutText = new PText( FORMATTER.format( proportionOfIsotope * 100 ) + " %"){{
+            final PText readoutText = new PText( formatter.format( proportionOfIsotope * 100 ) + " %"){{
                setFont(READOUT_FONT);
             }};
             PNode readoutBox = new PhetPPath( Color.WHITE, new BasicStroke( 1 ), Color.BLACK ){{
@@ -372,17 +375,36 @@ class IsotopeProprotionsPieChart extends PNode {
         }
     }
 
-    private static class ProportionFormat {
+    private interface ProportionFormat {
+        public String format( double value );
+    }
 
-        private static final NumberFormat DEFAULT_FORMAT = new DecimalFormat("0.####");
+    private static class NaturesMixProportionFormat implements ProportionFormat {
+        private static final NumberFormat NATURES_MIX_FORMAT = new DecimalFormat("0.####");
         private static final NumberFormat FORMAT_FOR_100 = new DecimalFormat();
 
         public String format( double number ) {
             if ( number == 100 ){
                 return FORMAT_FOR_100.format( number );
             }
-            else{
-                return DEFAULT_FORMAT.format( number );
+            else {
+                // Use more digits when formatting nature's mix.
+                return NATURES_MIX_FORMAT.format( number );
+            }
+        }
+    }
+
+    private static class UsersMixProportionFormat implements ProportionFormat {
+        private static final NumberFormat USERS_MIX_FORMAT = new DecimalFormat("0.0");
+        private static final NumberFormat FORMAT_FOR_100 = new DecimalFormat();
+
+        public String format( double number ) {
+            if ( number == 100 ){
+                return FORMAT_FOR_100.format( number );
+            }
+            else {
+                // Use more digits when formatting nature's mix.
+                return USERS_MIX_FORMAT.format( number );
             }
         }
     }
