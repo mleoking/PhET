@@ -162,7 +162,7 @@ class IsotopeProprotionsPieChart extends PNode {
                     // positions, they need to be checked to make sure that
                     // they aren't overlapping and, if they are, their
                     // positions are adjusted.
-                    adjustLabelYPositions( sliceLabels, -OVERALL_HEIGHT / 2, OVERALL_HEIGHT / 2 );
+                    adjustLabelPositionsForOverlap( sliceLabels, -OVERALL_HEIGHT / 2, OVERALL_HEIGHT / 2 );
 
                     // The labels should now be all in reasonable positions,
                     // so draw a line from the edge of the label to the pie
@@ -214,7 +214,7 @@ class IsotopeProprotionsPieChart extends PNode {
      *
      * @param sliceLabels
      */
-    private void adjustLabelYPositions( ArrayList<SliceLabel> sliceLabels, double minY, double maxY ) {
+    private void adjustLabelPositionsForOverlap( ArrayList<SliceLabel> sliceLabels, double minY, double maxY ) {
         double rotationIncrement = Math.PI / 200; // Empirically chosen.
         for (int i = 1; i < 50; i++ ){ // Number of iterations empirically chosen.
             boolean overlapDetected = false;
@@ -245,26 +245,26 @@ class IsotopeProprotionsPieChart extends PNode {
                 // with a lower unconstrained location, move down.
                 if ( moveUp && !moveDown ){
                     if ( isLabelOnRight( label ) ){
-                        Vector2D posVector = new Vector2D( label.getOffset() );
+                        Vector2D posVector = new Vector2D( label.getOffset().getX(), label.getOffset().getY() + label.getFullBoundsReference().height / 2 );
                         posVector.rotate( rotationIncrement );
-                        label.setOffset( posVector.getX(), posVector.getY() );
+                        label.setOffset( posVector.getX(), posVector.getY() - label.getFullBoundsReference().height / 2 );
                     }
                     else{
-                        Vector2D posVector = new Vector2D( label.getFullBoundsReference().getMaxX(), label.getOffset().getY() );
+                        Vector2D posVector = new Vector2D( label.getFullBoundsReference().getMaxX(), label.getOffset().getY() + label.getFullBoundsReference().height / 2 );
                         posVector.rotate( -rotationIncrement );
-                        label.setOffset( posVector.getX() - label.getFullBoundsReference().width, posVector.getY() );
+                        label.setOffset( posVector.getX() - label.getFullBoundsReference().width, posVector.getY() - label.getFullBoundsReference().height / 2 );
                     }
                 }
                 else if ( moveDown && !moveUp ){
                     if ( isLabelOnRight( label ) ){
-                        Vector2D posVector = new Vector2D( label.getOffset() );
+                        Vector2D posVector = new Vector2D( label.getOffset().getX(), label.getOffset().getY() + label.getFullBoundsReference().height / 2 );
                         posVector.rotate( -rotationIncrement );
-                        label.setOffset( posVector.getX(), posVector.getY() );
+                        label.setOffset( posVector.getX(), posVector.getY() - label.getFullBoundsReference().height / 2 );
                     }
                     else{
                         Vector2D posVector = new Vector2D( label.getFullBoundsReference().getMaxX(), label.getOffset().getY() );
                         posVector.rotate( rotationIncrement );
-                        label.setOffset( posVector.getX() - label.getFullBoundsReference().width, posVector.getY() );
+                        label.setOffset( posVector.getX() - label.getFullBoundsReference().width, posVector.getY() - label.getFullBoundsReference().height / 2 );
                     }
                 }
             }
