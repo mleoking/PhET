@@ -360,7 +360,8 @@ public class PeriodicTableControlNode extends PNode {
             // Create the node that will act as the button, receiving events
             // from the user.
             buttonNode = new PImage( IDLE_IMAGE );
-            buttonNode.setScale( CELL_DIMENSION / buttonNode.getFullBoundsReference().width );
+            double buttonScale = CELL_DIMENSION / buttonNode.getFullBoundsReference().width;
+            buttonNode.setScale( buttonScale );
             addChild( buttonNode );
 
             // Register a handler to watch for button state changes.
@@ -401,15 +402,18 @@ public class PeriodicTableControlNode extends PNode {
             // Add the text node that displays the chemical symbol.
             text = new PText( AtomIdentifier.getSymbol( atomicNumber ) );
             double buttonDimension = buttonNode.getFullBoundsReference().width;
-            text.centerBoundsOnPoint( buttonDimension / 2, buttonDimension / 2 );
             text.setPickable( false ); // Don't pick up mouse events intended for the button.
+            // Scale the text to fit in the cell.
             if ( text.getFullBoundsReference().width >= buttonDimension || text.getFullBoundsReference().height >= buttonDimension ){
-                // Scale the text to fit in the cell.
-                double scaleFactor = Math.min( buttonDimension / text.getFullBoundsReference().width,
-                        buttonDimension / text.getFullBoundsReference().height );
-                text.setScale( scaleFactor );
+                System.out.println("Scaling for " + text.getText());
+                text.setScale( Math.min( buttonDimension / text.getFullBoundsReference().width / buttonScale,
+                        buttonDimension / text.getFullBoundsReference().height / buttonScale ) );
             }
-            addChild( text );
+            else{
+                text.setScale( 1 / buttonScale );
+            }
+            text.centerFullBoundsOnPoint( buttonDimension / 2 / buttonScale, buttonDimension / 2 / buttonScale);
+            buttonNode.addChild( text );
 
             atom.addObserver( new SimpleObserver() {
                 public void update() {
@@ -424,6 +428,7 @@ public class PeriodicTableControlNode extends PNode {
             text.setFont( new PhetFont( PhetFont.getDefaultFontSize(), match ) );
             if ( match ) {
                 buttonNode.setImage( SELECTED_IMAGE );
+                buttonNode.moveToFront();
             }
             else {
                 buttonNode.setImage( IDLE_IMAGE );
