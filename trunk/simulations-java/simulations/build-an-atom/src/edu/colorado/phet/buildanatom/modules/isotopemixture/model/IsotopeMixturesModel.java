@@ -611,6 +611,9 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
         // atoms to the test chamber to make the proportions exactly match
         // those that occur in nature.
         Map<ImmutableAtom, Double> naturesMixIsotopeProportions = new HashMap<ImmutableAtom, Double>();
+        for ( ImmutableAtom isotope : possibleIsotopesCopy ){
+            naturesMixIsotopeProportions.put( isotope, AtomIdentifier.getNaturalAbundance( isotope ) );
+        }
         testChamber.overrideIsotopeProportions( naturesMixIsotopeProportions );
         testChamber.overrideAverageAtomicMass( AtomIdentifier.getStandardAtomicMass( prototypeIsotope.getNumProtons() ) );
 
