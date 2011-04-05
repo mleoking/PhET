@@ -2,7 +2,6 @@
 package edu.colorado.phet.common.phetcommon.view.clock;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.Hashtable;
@@ -16,7 +15,6 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.SliderOnlyLayoutStrategy;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
 /**
  * Simulation speed slider.
