@@ -197,8 +197,8 @@ public class AverageAtomicMassIndicator extends PNode {
                     // TODO: i18n
                     textualReadout.setText( READOUT_FORMATTER.format( model.getIsotopeTestChamber().getAverageAtomicMass() ) + " amu" );
                     textualReadout.setScale( 1 );
-                    if ( textualReadout.getFullBoundsReference().width >= readoutBackgroundNode.getFullBoundsReference().getWidth()){
-                        textualReadout.setScale( readoutBackgroundNode.getFullBoundsReference().width / textualReadout.getFullBoundsReference().width );
+                    if ( textualReadout.getFullBoundsReference().width >= readoutBackgroundNode.getFullBoundsReference().getWidth() * 0.95 ){
+                        textualReadout.setScale( readoutBackgroundNode.getFullBoundsReference().width / textualReadout.getFullBoundsReference().width * 0.95 );
                     }
                     textualReadout.centerFullBoundsOnPoint(
                             readoutBackgroundNode.getFullBoundsReference().getCenterX(),
