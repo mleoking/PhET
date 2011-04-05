@@ -12,7 +12,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.view.ResetAllButton;
-import edu.colorado.phet.common.phetcommon.view.clock.TimeSpeedSlider;
+import edu.colorado.phet.common.phetcommon.view.clock.SimSpeedControl;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
 import edu.colorado.phet.genenetwork.GeneNetworkStrings;
@@ -54,7 +54,7 @@ public class LactoseTransportModule extends PiccoloModule {
 
         // Clock controls
     	PiccoloClockControlPanel clockControlPanel = new PiccoloClockControlPanel( getClock() );
-    	final TimeSpeedSlider timeSpeedSlider = new TimeSpeedSlider(LacOperonDefaults.CLOCK_DT / 5,
+    	final SimSpeedControl timeSpeedSlider = new SimSpeedControl(LacOperonDefaults.CLOCK_DT / 5,
     			LacOperonDefaults.CLOCK_DT * 2, (ConstantDtClock)getClock(), null);
         timeSpeedSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {

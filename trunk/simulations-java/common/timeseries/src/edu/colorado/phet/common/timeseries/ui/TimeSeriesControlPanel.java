@@ -14,7 +14,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.MultiStateButton;
-import edu.colorado.phet.common.phetcommon.view.clock.TimeSpeedSlider;
+import edu.colorado.phet.common.phetcommon.view.clock.SimSpeedControl;
 import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 
@@ -33,13 +33,13 @@ public class TimeSeriesControlPanel extends JPanel {
     protected static final String KEY_PAUSE = "pause";
     protected static final Object KEY_REC = "rec";
     protected static final Object KEY_PAUSE_REC = "pause-rec";
-    private TimeSpeedSlider timeSpeedSlider;
+    private SimSpeedControl timeSpeedSlider;
 
     public TimeSeriesControlPanel( final TimeSeriesModel timeSeriesModel, double minDT, double maxDT ) {
         this.clock = timeSeriesModel.getTimeModelClock();
         this.timeSeriesModel = timeSeriesModel;
 
-        timeSpeedSlider = new TimeSpeedSlider( minDT, maxDT, clock );
+        timeSpeedSlider = new SimSpeedControl( minDT, maxDT, clock );
         timeSpeedSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 clock.setDt( timeSpeedSlider.getValue() );

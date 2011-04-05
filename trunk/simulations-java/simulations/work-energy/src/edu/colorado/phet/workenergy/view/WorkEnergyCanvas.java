@@ -13,7 +13,7 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.view.clock.TimeSpeedSlider;
+import edu.colorado.phet.common.phetcommon.view.clock.SimSpeedControl;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -88,7 +88,7 @@ public class WorkEnergyCanvas extends PhetPCanvas {
             }
         }, model.getClock(), GAOStrings.RESET, new Property<Color>( Color.white ) ) {{
             setOffset( STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2, STAGE_SIZE.getHeight() - getFullBounds().getHeight() );
-            final TimeSpeedSlider timeSpeedSlider = new TimeSpeedSlider( WorkEnergyModel.DEFAULT_DT / 2, WorkEnergyModel.DEFAULT_DT * 2, model.getClock() ) {{
+            final SimSpeedControl timeSpeedSlider = new SimSpeedControl( WorkEnergyModel.DEFAULT_DT / 2, WorkEnergyModel.DEFAULT_DT * 2, model.getClock() ) {{
                 makeTransparent( this );
                 addChangeListener( new ChangeListener() {
                     public void stateChanged( ChangeEvent e ) {
