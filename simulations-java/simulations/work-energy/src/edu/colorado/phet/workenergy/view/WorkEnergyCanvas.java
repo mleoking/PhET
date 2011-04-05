@@ -88,7 +88,7 @@ public class WorkEnergyCanvas extends PhetPCanvas {
             }
         }, model.getClock(), GAOStrings.RESET, new Property<Color>( Color.white ) ) {{
             setOffset( STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2, STAGE_SIZE.getHeight() - getFullBounds().getHeight() );
-            final TimeSpeedSlider timeSpeedSlider = new TimeSpeedSlider( WorkEnergyModel.DEFAULT_DT / 2, WorkEnergyModel.DEFAULT_DT * 2, "0.00", model.getClock() ) {{
+            final TimeSpeedSlider timeSpeedSlider = new TimeSpeedSlider( WorkEnergyModel.DEFAULT_DT / 2, WorkEnergyModel.DEFAULT_DT * 2, model.getClock() ) {{
                 makeTransparent( this );
                 addChangeListener( new ChangeListener() {
                     public void stateChanged( ChangeEvent e ) {

@@ -39,7 +39,7 @@ public class TimeSeriesControlPanel extends JPanel {
         this.clock = timeSeriesModel.getTimeModelClock();
         this.timeSeriesModel = timeSeriesModel;
 
-        timeSpeedSlider = new TimeSpeedSlider( minDT, maxDT, "0.00", clock );
+        timeSpeedSlider = new TimeSpeedSlider( minDT, maxDT, clock );
         timeSpeedSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 clock.setDt( timeSpeedSlider.getValue() );

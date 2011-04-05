@@ -17,12 +17,12 @@ import edu.colorado.phet.statesofmatter.model.DualAtomModel;
 
 /**
  * This class is where the model and view classes for the "Interaction
- * Potential" tab of this simulation are created and contained. 
+ * Potential" tab of this simulation are created and contained.
  *
  * @author John Blanco
  */
 public class AtomicInteractionsModule extends PiccoloModule {
-    
+
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
@@ -33,13 +33,13 @@ public class AtomicInteractionsModule extends PiccoloModule {
     //----------------------------------------------------------------------------
     // Constructor
     //----------------------------------------------------------------------------
-    
+
     public AtomicInteractionsModule( Frame parentFrame, boolean enableHeterogeneousAtoms ) {
-        
-        super(StatesOfMatterStrings.TITLE_INTERACTION_POTENTIAL_MODULE, 
-                new ConstantDtClock(AtomicInteractionDefaults.CLOCK_FRAME_DELAY, 
+
+        super(StatesOfMatterStrings.TITLE_INTERACTION_POTENTIAL_MODULE,
+                new ConstantDtClock(AtomicInteractionDefaults.CLOCK_FRAME_DELAY,
                 AtomicInteractionDefaults.CLOCK_DT));
-        
+
         // Remove the PhET logo.  This is done because the control panel was
         // getting pushed off the bottom in some cases, and removing the
         // logo creates more room.
@@ -51,14 +51,14 @@ public class AtomicInteractionsModule extends PiccoloModule {
         // Canvas
         m_canvas = new AtomicInteractionsCanvas( m_model );
         setSimulationPanel( m_canvas );
-        
+
         // Control panel
         setControlPanel( new AtomicInteractionsControlPanel( this, parentFrame, enableHeterogeneousAtoms ) );
-        
+
         // Add a slider for controlling speed to the clock controls.
     	PiccoloClockControlPanel clockControlPanel = new PiccoloClockControlPanel( getClock() );
-    	final TimeSpeedSlider timeSpeedSlider = new TimeSpeedSlider(AtomicInteractionDefaults.CLOCK_DT / 5, 
-    			AtomicInteractionDefaults.CLOCK_DT, "0.00", (ConstantDtClock)getClock(),
+    	final TimeSpeedSlider timeSpeedSlider = new TimeSpeedSlider(AtomicInteractionDefaults.CLOCK_DT / 5,
+    			AtomicInteractionDefaults.CLOCK_DT, (ConstantDtClock)getClock(),
     			StatesOfMatterStrings.CLOCK_SPEED_CONTROL_CAPTION);
         timeSpeedSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
@@ -67,7 +67,7 @@ public class AtomicInteractionsModule extends PiccoloModule {
         } );
     	clockControlPanel.addBetweenTimeDisplayAndButtons(timeSpeedSlider);
         setClockControlPanel( clockControlPanel );
-        
+
         // Help
         if ( hasHelp() ) {
             //XXX add help items
@@ -76,19 +76,19 @@ public class AtomicInteractionsModule extends PiccoloModule {
         // Set initial state
         reset();
     }
-    
+
     //----------------------------------------------------------------------------
     // Accessor Methods
     //----------------------------------------------------------------------------
-    
+
     public DualAtomModel getDualParticleModel(){
         return m_model;
     }
-    
+
     public AtomicInteractionsCanvas getCanvas(){
         return m_canvas;
     }
-    
+
     //----------------------------------------------------------------------------
     // Module overrides
     //----------------------------------------------------------------------------
