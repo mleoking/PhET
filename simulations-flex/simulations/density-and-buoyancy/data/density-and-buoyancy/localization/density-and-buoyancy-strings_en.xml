@@ -36,7 +36,6 @@
     <string key="material.brick" value="Brick"/>
     <string key="material.diamond" value="Diamond"/>
     <string key="material.water" value="Water"/>
-    <string key="material.waterBalloon" value="Water Balloon"/>
     <string key="material.custom" value="My Block"/>
     <string key="material.gold" value="Gold"/>
     <string key="material.gasoline" value="Gasoline"/>

@@ -5,7 +5,6 @@ import Box2D.Dynamics.b2World;
 
 import edu.colorado.phet.densityandbuoyancy.DensityAndBuoyancyConstants;
 
-import flash.display.DisplayObject;
 import flash.display.Sprite;
 
 import mx.core.UIComponent;
@@ -40,10 +39,6 @@ public class Box2DDebug {
         dbgDraw.m_lineThickness = 1;
         dbgDraw.m_drawFlags = b2DebugDraw.e_shapeBit | b2DebugDraw.e_jointBit | b2DebugDraw.e_coreShapeBit | b2DebugDraw.e_aabbBit | b2DebugDraw.e_obbBit | b2DebugDraw.e_pairBit | b2DebugDraw.e_centerOfMassBit;
         world.SetDebugDraw( dbgDraw );
-    }
-
-    public function getSprite(): DisplayObject {
-        return holder;
     }
 }
 }

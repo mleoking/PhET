@@ -111,10 +111,6 @@ public class ArrowNode extends MyMesh {
         url = "density";
     }
 
-    public function get tip(): Vertex {
-        return tipVertex;
-    }
-
     public function get arrowModel(): Vector2D {
         return _arrowModel;
     }

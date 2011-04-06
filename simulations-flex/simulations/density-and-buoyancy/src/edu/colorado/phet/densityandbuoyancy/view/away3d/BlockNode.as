@@ -52,10 +52,6 @@ public class BlockNode extends CubeNode implements Pickable {
         densityObjectReadoutNode.visible = massReadoutVisible.value;
     }
 
-    public function getBlock(): Block {
-        return block;
-    }
-
     private function updateText(): void {
         setReadoutText( label.value );
         updateGeometry();

@@ -80,9 +80,5 @@ public class AbstractDBContainer extends Canvas {
             focusManager.setFocus( focusManager.getNextFocusManagerComponent() )
         }
     }
-
-    public function pause(): void {
-        throw new Error( "abstract method error" );
-    }
 }
 }

@@ -41,7 +41,6 @@ public class DensityAndBuoyancyModel {
 
     private var contactHandler: ContactHandler;
     private const densityObjectCreationListeners: Array = new Array();
-    private const densityObjectDestructionListeners: Array = new Array();
     private var time: Number = 0;//This time value is not reset, and is only used internally for debugging
 
     /**
@@ -92,18 +91,12 @@ public class DensityAndBuoyancyModel {
     public function clearDensityObjects(): void {
         for each ( var densityObject: DensityObject in densityObjects ) {
             densityObject.remove();
-            for each ( var object: Function in densityObjectDestructionListeners ) {
-                object( densityObject );
-            }
         }
         densityObjects = new Array();
     }
 
     public function removeDensityObject( densityObject: DensityObject ): void {
         densityObject.remove();
-        for each ( var object: Function in densityObjectDestructionListeners ) {
-            object( densityObject );
-        }
         //Hooray, my code to remove an element from an as3 array
         var newArray: Array = new Array();
         for each ( var d: DensityObject in densityObjects ) {
