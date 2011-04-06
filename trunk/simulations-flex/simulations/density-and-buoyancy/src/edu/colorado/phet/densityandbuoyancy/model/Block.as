@@ -11,16 +11,16 @@ import flash.geom.ColorTransform;
  * This class represents the model object for a block, implemented as a Cuboid with a ColorTransform
  */
 public class Block extends Cuboid {
-    private var _colorTransform: ColorTransform;
+    private var _colorTransform: ColorTransform;//Used to map colors on textures, e.g., to make the brick texture look blue or red
 
     public function Block( density: Number, size: Number, x: Number, y: Number, colorTransform: ColorTransform, model: DensityAndBuoyancyModel, __material: Material ): void {
         super( density, size, size, size, x, y, model, __material );
-
         this._colorTransform = colorTransform;
         getDensityProperty().addListener( updateColorTransform );
         addMaterialListener( updateColorTransform );
     }
 
+    //Updates the color of the block based on its density
     public function updateColorTransform(): void {
         var maxDensity: Number = 3000;//this value corresponds to the maxColorDelta below
         var minDensity: Number = 100;//this value corresponds to the minColorDelta below

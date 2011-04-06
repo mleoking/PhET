@@ -38,6 +38,7 @@ public class DensitySliderThumb extends SliderThumb {
         } );
     }
 
+    //Recursively search up a component hierarchy for the PropertyEditor parent.
     private function getPropertyEditor( p: DisplayObjectContainer ): PropertyEditor {
         if ( p is PropertyEditor ) {
             return PropertyEditor( p );
