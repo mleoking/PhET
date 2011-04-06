@@ -227,6 +227,10 @@ public class DensityObject {
         return model;
     }
 
+    /**
+     * Callback from box2d when a contact between two bodies has been identified.  The results are stored so that a time-averaged value can be used (since there are many model steps per time step).
+     * @param contact
+     */
     public function registerContact( contact: b2ContactResult ): void {
         var other: b2Body = contact.shape1.GetBody();
         var sign: Number = 1.0;
