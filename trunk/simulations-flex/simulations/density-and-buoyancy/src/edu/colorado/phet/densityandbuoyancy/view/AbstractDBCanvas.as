@@ -375,10 +375,6 @@ public class AbstractDBCanvas extends UIComponent {
         updateWaterVolumeIndicater();
     }
 
-    public function pause(): void {
-        _running = false;
-    }
-
     public function start(): void {
         _running = true;
     }
@@ -403,10 +399,6 @@ public class AbstractDBCanvas extends UIComponent {
 
     public function get units(): Units {
         return _units;
-    }
-
-    public function showScales(): Boolean {
-        return false;
     }
 
     public function get running(): Boolean {

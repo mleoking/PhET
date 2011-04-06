@@ -111,10 +111,6 @@ public class BuoyancyCanvas extends AbstractDBCanvas {
         return _container;
     }
 
-    override public function showScales(): Boolean {
-        return true;
-    }
-
     override protected function createDensityObjectNode( densityObject: DensityObject ): DensityObjectNode {
         var densityObjectNode: DensityObjectNode = super.createDensityObjectNode( densityObject );
         addArrowNodes( densityObjectNode );

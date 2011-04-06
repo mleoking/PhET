@@ -75,10 +75,6 @@ public class DensityContainer extends AbstractDBContainer {
         } );
     }
 
-    override public function pause(): void {
-        densityCanvas.pause();
-    }
-
     override public function resetAll(): void {
         super.resetAll();
         customButton.selected = true;

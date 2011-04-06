@@ -73,12 +73,6 @@ public class Cuboid extends DensityObject {
         }
     }
 
-    public function setSize( width: Number, height: Number ): void {
-        this.width = width;
-        this.height = height;
-        updateShapeDef();
-    }
-
     // TODO: move this up to DensityObject
     public function addShapeChangeListener( shapeChangeListener: Function ): void {
         shapeChangeListeners.push( shapeChangeListener );

@@ -154,10 +154,6 @@ public class DensityObject {
         return _density;
     }
 
-    public function getVelocityArrowModel(): Vector2D {
-        return velocityArrowModel;
-    }
-
     public function getGravityForceArrowModel(): Vector2D {
         return gravityForceArrowModel;
     }
@@ -330,14 +326,10 @@ public class DensityObject {
     }
 
     /**
-     * Return the drag force to be used in the view.  Showing the actual physical drag force yields creates this problem:
+     * Return the drag force to be used in the model.  When showing this value in the view, showing the actual physical drag force yields creates this problem:
      * When holding block A on top of Block b, with block b underwater, there is displayed a fluid drag force on block b, even though it is not moving.
      * @return
      */
-    public function getViewDragForce(): b2Vec2 {
-        return getDragForce( velocity );
-    }
-
     public function getDragForce( velocity: b2Vec2 ): b2Vec2 {
         if ( _userControlled ) {
             return new b2Vec2();
@@ -353,10 +345,6 @@ public class DensityObject {
 
     public function getContactForceArrowModel(): Vector2D {
         return contactForceArrowModel;
-    }
-
-    public function copy( model: DensityAndBuoyancyModel ): DensityObject {
-        throw new Error( "bad copy on DensityObject" );
     }
 
     public function setDensity( density: Number ): void {

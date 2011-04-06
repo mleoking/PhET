@@ -5,7 +5,6 @@ import edu.colorado.phet.densityandbuoyancy.model.Material;
 import flash.display.Sprite;
 import flash.text.TextField;
 
-import mx.controls.HSlider;
 import mx.controls.sliderClasses.SliderThumb;
 import mx.core.UIComponent;
 
@@ -21,6 +20,7 @@ public class SliderDecorator extends UIComponent {
     private const tickHeight: Number = 4;
     private var tickMarksEnabled: Boolean = false;
     public var isFluidDensitySlider: Boolean = false;
+    public const changeListeners: Array = new Array();
 
     public function SliderDecorator( dataTipClamp: Function/*Number=>Number*/, thumbOffset: Number ) {
         super();
@@ -82,6 +82,10 @@ public class SliderDecorator extends UIComponent {
         return (x - slider.minimum) * viewRange / modelRange + (isFluidDensitySlider ? 8 : 4);//note: can be off by a pixel sometimes, we are not sure why
     }
 
+    /**
+     * This is an algorithm that moves the labels so they are not overlapping.
+     * This is done iteratively by bumping offending labels by +/- 1 pixel away until there are no overlaps.
+     */
     private function updateTicks(): void {
         tickMarkSet.graphics.clear();
         for each ( var tick: Tick in ticks ) {
@@ -181,9 +185,6 @@ public class SliderDecorator extends UIComponent {
         return slider.minimum;
     }
 
-
-    public const changeListeners: Array = new Array();
-
     public function set value( value: Number ): void {
         slider.value = value;
         for each ( var listener: Function in changeListeners ) {
@@ -197,10 +198,6 @@ public class SliderDecorator extends UIComponent {
 
     public function getThumbAt( i: int ): SliderThumb {
         return slider.getThumbAt( i );
-    }
-
-    public function getThumbCount(): Number {
-        return slider.thumbCount;
     }
 
     public function addTick( value: Number, color: uint = 0x000000, label: String = null ): void {
@@ -217,19 +214,10 @@ public class SliderDecorator extends UIComponent {
         slider.width = sliderWidth;
         this.width = sliderWidth;
         updateTicks();
-
     }
 
     public function addSliderEventListener( type: String, handler: Function ): void {
         slider.addEventListener( type, handler );
-    }
-
-    public function set sliderDataTipClass( sliderDataTipClass: Class ): void {
-        slider.sliderDataTipClass = sliderDataTipClass;
-    }
-
-    public function get myslider(): HSlider {
-        return slider;
     }
 }
 }
