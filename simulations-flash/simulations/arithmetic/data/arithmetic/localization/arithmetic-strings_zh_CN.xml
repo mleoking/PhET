@@ -1,8 +1,9 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--arithmetic-strings_zh_CN.xml created Mon Oct 12 22:43:31 CST 2009 using: arithmetic 2.00.00 (30671), translation-utility 2.02.00 (34911) 九月 10, 2009-->
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--arithmetic-strings_zh_CN.xml created Wed Apr 06 11:38:25 CST 2011 using: arithmetic 2.02.00 (37294), translation-utility 2.10.00 (48775) 二月 9, 2011-->
 <SimStrings>
-<string key="level" value="难度"/>
+<string key="level" value="难度等级"/>
 <string key="typeAnswer" value="输入答案按任意键"/>
+<string key="clickToSelect" value="单击选中正确的方块"/>
 <string key="correct" value="正确"/>
 <string key="end" value="结束"/>
 <string key="isWrong" value="错误"/>
@@ -18,8 +19,10 @@
 <string key="minute" value="分"/>
 <string key="finalScore" value="最终得分"/>
 <string key="nbrRight" value="数字正确"/>
-<string key="scorePer" value="得分"/>
+<string key="mustTypeNbr" value="必须键入数字"/>
 <string key="score" value="得分"/>
+<string key="scorePer" value="得分"/>
+<string key="translation.credits" value="张大红"/>
 <string key="nbrWrong" value="数字错误"/>
 <string key="reset" value="重置"/>
 <string key="clock" value="计时"/>
