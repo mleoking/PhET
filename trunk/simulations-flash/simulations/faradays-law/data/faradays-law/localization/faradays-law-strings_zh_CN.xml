@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--faradays-law-strings_zh_CN.xml created Mon May 25 10:29:32 CST 2009 using: faradays-law 2.00.00 (30671), translation-utility 2.01.00 (31673) 五月 15, 2009-->
+<!--faradays-law-strings_zh_CN.xml created Wed Apr 06 15:01:07 CST 2011 using: faradays-law 2.01.00 (37303), translation-utility 2.10.00 (48775) 二月 9, 2011-->
 <SimStrings>
 <string key="twoCoils" value="两个线圈"/>
 <string key="n" value="N"/>
+<string key="translation.credits" value="张大红"/>
 <string key="noSound" value="静音"/>
 <string key="showFieldLines" value="显示磁感线"/>
 <string key="voltage" value="电压"/>
