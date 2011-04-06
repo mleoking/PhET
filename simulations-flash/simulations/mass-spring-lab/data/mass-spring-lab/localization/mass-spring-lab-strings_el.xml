@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--mass-spring-lab-strings_el.xml created Sat Apr 02 01:34:56 EEST 2011 using: mass-spring-lab 2.03.00 (49899), translation-utility 2.10.00 (48775) Φεβ 9, 2011-->
+<!--mass-spring-lab-strings_el.xml created Wed Apr 06 23:39:38 EEST 2011 using: mass-spring-lab 2.03.00 (49899), translation-utility 2.10.00 (48775) Φεβ 9, 2011-->
 <SimStrings>
 <string key="pause" value="Παύση"/>
 <string key="earth" value="Γη"/>
@@ -8,9 +8,9 @@
 <string key="nothinOK" value="Τίποτα! ΟΚ;"/>
 <string key="mass1Label" value="50 g"/>
 <string key="mass3Label" value="250 g"/>
-<string key="planetX" value="Άγνωστος πλανήτης"/>
+<string key="planetX" value="Πλανήτης Χ"/>
 <string key="showEnergyOf" value="Προβολή ενέργειας για τη διάταξη"/>
-<string key="hangMe" value="Κρέμασε 1 έως 3 βαρίδια."/>
+<string key="hangMe" value="Κρέμασε βαρίδια!"/>
 <string key="resetTimer" value="Reset"/>
 <string key="hard" value="Σκληρό"/>
 <string key="mass7Label" value="100 g"/>
@@ -26,17 +26,17 @@
 <string key="help2" value="Γραμμή αναφοράς"/>
 <string key="help1" value="Χάρακας"/>
 <string key="friction" value="Τριβή"/>
-<string key="PEelas" value="Ελαστική"/>
+<string key="PEelas" value="ΔΕελατ"/>
 <string key="jupiter" value="Δίας"/>
 <string key="moon" value="Σελήνη"/>
-<string key="energyOf" value="Ενέργεια της διάταξης "/>
+<string key="energyOf" value="Ενέργεια "/>
 <string key="total" value="Ολική"/>
 <string key="sound" value="Ήχος"/>
-<string key="PEgrav" value="Βαρυτική"/>
+<string key="PEgrav" value="ΔΕβαρ"/>
 <string key="mass2Label" value="100 g"/>
 <string key="thermal" value="Θερμική"/>
 <string key="quarterTime" value="Αργή κίνηση (x4)"/>
-<string key="KE" value="Κινητική"/>
+<string key="KE" value="KE"/>
 <string key="gEqZero" value="Χωρίς βαρύτητα"/>
 <string key="hideHelp" value="Κρύψε τη βοήθεια"/>
 <string key="noHelp" value="Όχι βοήθεια"/>
