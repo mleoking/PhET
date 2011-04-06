@@ -1,9 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--equation-grapher-strings_zh_CN.xml created Tue Oct 13 07:29:32 CST 2009 using: equation-grapher 2.00.00 (30671), translation-utility 2.02.00 (34911) 九月 10, 2009-->
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--equation-grapher-strings_zh_CN.xml created Wed Apr 06 14:58:01 CST 2011 using: equation-grapher 2.01.00 (37298), translation-utility 2.10.00 (48775) 二月 9, 2011-->
 <SimStrings>
 <string key="showYEq" value="显示y ="/>
 <string key="erase" value="擦除"/>
 <string key="save" value="存档"/>
 <string key="zero" value="清零"/>
 <string key="simTitle" value="函数图像"/>
+<string key="translation.credits" value="张大红"/>
 </SimStrings>
