@@ -30,9 +30,12 @@ public class DensitySliderThumb extends SliderThumb {
         addChild( dataTip );
         trace( "init.parent = " + parent );
 
-        DensityAndBuoyancyModel.frameListeners.push( function(): void {
+        //When the simulation updates, synchronize the location of the slider thumb
+        DensityAndBuoyancyModel.frameSteppedListener.push( function(): void {
             var p: PropertyEditor = getPropertyEditor( parent );
             dataTip.setDensity( p.property.value, p.unit );
+
+            //Magic numbers to make sure the data tip appears in the right location
             dataTip.x = -dataTip.width / 2 - 5 + offsetX;
             dataTip.y = 10 + dataTip.height / 2;
         } );

@@ -23,7 +23,7 @@ public class MyTrackSkin extends SliderTrackSkin {
         StyleManager.getColorNames( fillColors );
 
         // Derivative styles.
-        borderColor = ColorUtil.adjustBrightness2( borderColor, 55 );
+        borderColor = ColorUtil.adjustBrightness2( borderColor, 55 );//This is the only line that differs from the copy, we need 55 instead of -50
         var borderColorDrk: Number = ColorUtil.adjustBrightness2( borderColor, 0 );
 
         graphics.clear();
