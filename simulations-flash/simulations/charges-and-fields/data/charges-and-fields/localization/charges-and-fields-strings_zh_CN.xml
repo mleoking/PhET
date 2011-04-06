@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--charges-and-fields-strings_zh_CN.xml created Mon Oct 12 20:14:35 CST 2009 using: charges-and-fields 2.03.00 (30671), translation-utility 2.02.00 (34911) 九月 10, 2009-->
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--charges-and-fields-strings_zh_CN.xml created Wed Apr 06 13:49:27 CST 2011 using: charges-and-fields 2.04.00 (45798), translation-utility 2.10.00 (48775) 二月 9, 2011-->
 <SimStrings>
 <string key="directionOnly" value="仅显示方向"/>
 <string key="grid" value="网格"/>
@@ -18,6 +18,7 @@
 <string key="plot" value="标绘"/>
 <string key="equipotential" value="等势的"/>
 <string key="angleUnit" value="度数"/>
+<string key="translation.credits" value="张大红"/>
 <string key="showLoRes" value="低解析度"/>
 <string key="moreSpeedLessRes" value="快速/低解析度"/>
 <string key="tapeMeasure" value="卷尺"/>
