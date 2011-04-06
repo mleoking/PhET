@@ -44,6 +44,7 @@ public class BuoyancyCanvas extends AbstractDBCanvas {
 
         _model.scalesMovableProperty.initialValue = true; // for now, do this early so that when scales are constructed they are initialized properly
 
+        //Initialize the modes (for some reason cannot be done until application is fully loaded).
         const myThis: BuoyancyCanvas = this;
         ApplicationLifecycle.addApplicationCompleteListener( function(): void {
             sameMassMode = new BuoyancySameMassMode( myThis );
