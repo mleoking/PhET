@@ -63,8 +63,9 @@ public class DensityAndBuoyancyConstants {
     public static const BUOYANCY_COLOR: int = 0xFF00FF;
     public static const CONTACT_COLOR: int = 0xFF8800;
 
-
-    //this is a magic number that just barely fits "00.00" with the above specified font;
+    public static const formatter: NumberFormatter = new NumberFormatter();
+    formatter.rounding = NumberBaseRoundType.NEAREST; //otherwise high frequency fluctuations around 1.00 and 0.99
+    formatter.precision = 2;
 
     //So that away3d faces don't overlap
     private static function kgLtoSI( number: Number ): Number {
@@ -78,10 +79,6 @@ public class DensityAndBuoyancyConstants {
     public static function metersCubedToLiters( v: Number ): Number {
         return v / 0.001;
     }
-
-    public static const formatter: NumberFormatter = new NumberFormatter();
-    formatter.rounding = NumberBaseRoundType.NEAREST; //otherwise high frequency fluctuations around 1.00 and 0.99
-    formatter.precision = 2;
 
     public static function format( number: Number ): String {
         return formatter.format( number );

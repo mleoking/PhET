@@ -91,6 +91,7 @@ public class CustomObjectPropertiesPanel extends DensityVBox {
         } );
         radioButtonPanel.addChild( comboBox );
 
+        //Show the name of the block using the same code used in the play area
         var sprite: Sprite = new BlockLabel( densityObject.name, densityObject.nameVisibleProperty );
         var uiComponent: UIComponent = new UIComponent();
         uiComponent.width = sprite.width;
@@ -104,6 +105,7 @@ public class CustomObjectPropertiesPanel extends DensityVBox {
         addChild( grid );
     }
 
+    //Helper function to create a GridRow, to put some vertical spacing between mass,volume and the density readout.
     public function createSpacerRow( height: int ): GridRow {
         var spacerRow: GridRow = new GridRow();
         var spacerItem: GridItem = new GridItem();
