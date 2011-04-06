@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--mass-spring-lab-strings_zh_CN.xml created Tue May 19 13:42:43 CST 2009 using: mass-spring-lab 2.00.00 (30671), translation-utility 2.00.00 (31012) 四月 28, 2009-->
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--mass-spring-lab-strings_zh_CN.xml created Wed Apr 06 15:39:56 CST 2011 using: mass-spring-lab 2.03.00 (49899), translation-utility 2.10.00 (48775) 二月 9, 2011-->
 <SimStrings>
 <string key="pause" value="暂停"/>
 <string key="earth" value="地球"/>
@@ -14,6 +14,7 @@
 <string key="resetTimer" value="重置"/>
 <string key="hard" value="劲度系数大"/>
 <string key="mass7Label" value="100千克"/>
+<string key="translation.credits" value="张大红"/>
 <string key="stopWatch" value="秒表"/>
 <string key="none" value="无"/>
 <string key="realTime" value="即时"/>
