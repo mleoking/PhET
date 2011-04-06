@@ -167,7 +167,8 @@ public class AverageAtomicMassIndicator extends PNode {
         private static final Dimension2D SIZE = new PDimension( 120, 25 );
         private static final double TRIANGULAR_POINTER_HEIGHT = 15;
         private static final double TRIANGULAR_POINTER_WIDTH = 20;
-        private static final DecimalFormat READOUT_FORMATTER = new DecimalFormat( "#.#####" );
+        private static final DecimalFormat NATURES_MIX_READOUT_FORMATTER = new DecimalFormat( "#.#####" );
+        private static final DecimalFormat USERS_MIX_READOUT_FORMATTER = new DecimalFormat( "#.00000" );
 
         public ReadoutPointer ( final IsotopeMixturesModel model ){
 
@@ -195,7 +196,8 @@ public class AverageAtomicMassIndicator extends PNode {
             model.getIsotopeTestChamber().addAverageAtomicMassPropertyListener( new SimpleObserver() {
                 public void update() {
                     // TODO: i18n
-                    textualReadout.setText( READOUT_FORMATTER.format( model.getIsotopeTestChamber().getAverageAtomicMass() ) + " amu" );
+                    DecimalFormat formatter = model.getShowingNaturesMixProperty().getValue() ? NATURES_MIX_READOUT_FORMATTER : USERS_MIX_READOUT_FORMATTER;
+                    textualReadout.setText( formatter.format( model.getIsotopeTestChamber().getAverageAtomicMass() ) + " amu" );
                     textualReadout.setScale( 1 );
                     if ( textualReadout.getFullBoundsReference().width >= readoutBackgroundNode.getFullBoundsReference().getWidth() * 0.95 ){
                         textualReadout.setScale( readoutBackgroundNode.getFullBoundsReference().width / textualReadout.getFullBoundsReference().width * 0.95 );
