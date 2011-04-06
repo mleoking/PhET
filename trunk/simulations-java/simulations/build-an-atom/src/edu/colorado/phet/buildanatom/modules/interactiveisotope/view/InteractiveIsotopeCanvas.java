@@ -218,8 +218,8 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas implements Resettable 
      */
     private static class AbundanceIndicatorNode extends PNode {
 
-        private static DecimalFormat ABUNDANCE_FORMATTER = new DecimalFormat( "#.#####" );
-        private static final double MIN_ABUNDANCE_TO_SHOW = 0.00001; // Should match the resolution of the ABUNDANCE_FORMATTER
+        private static DecimalFormat ABUNDANCE_FORMATTER = new DecimalFormat( "#.####" );
+        private static final double MIN_ABUNDANCE_TO_SHOW = 0.0001; // Should match the resolution of the ABUNDANCE_FORMATTER
         private static final double WIDEST_ABUNDANCE_TO_SHOW = 99.99999; // Should match the resolution of the ABUNDANCE_FORMATTER
         private static final Font READOUT_FONT = new PhetFont( 20 );
         private static final int PIE_CHART_DIAMETER = 100; // In screen coords, which is close to pixels.
