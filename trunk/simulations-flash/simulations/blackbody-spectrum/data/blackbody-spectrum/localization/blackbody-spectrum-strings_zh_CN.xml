@@ -1,7 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--blackbody-spectrum-strings_zh_CN.xml created Mon Oct 12 20:26:02 CST 2009 using: blackbody-spectrum 2.00.00 (30671), translation-utility 2.02.00 (34911) 九月 10, 2009-->
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--blackbody-spectrum-strings_zh_CN.xml created Wed Apr 06 13:24:07 CST 2011 using: blackbody-spectrum 2.01.00 (39582), translation-utility 2.10.00 (48775) 二月 9, 2011-->
 <SimStrings>
 <string key="r" value="R"/>
+<string key="translation.credits" value="张大红"/>
 <string key="zoomIn" value="放大"/>
 <string key="intensity" value="强度"/>
 <string key="simTitle" value="黑体辐射"/>
@@ -14,6 +15,7 @@
 <string key="showRuler" value="显示尺子"/>
 <string key="wavelength" value="波长"/>
 <string key="b" value="B"/>
+<string key="oven" value="炉子"/>
 <string key="earth" value="地球"/>
 <string key="lightBulb" value="灯泡"/>
 </SimStrings>
