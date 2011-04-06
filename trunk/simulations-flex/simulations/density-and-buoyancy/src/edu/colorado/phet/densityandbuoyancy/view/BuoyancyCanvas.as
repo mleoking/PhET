@@ -117,6 +117,10 @@ public class BuoyancyCanvas extends AbstractDBCanvas {
         return densityObjectNode;
     }
 
+    /**
+     * Add arrow nodes to depict the forces acting on the specified DensityObjectNode
+     * @param densityObjectNode
+     */
     private function addArrowNodes( densityObjectNode: DensityObjectNode ): void {
         if ( !(densityObjectNode is ScaleNode) ) {
 
@@ -137,6 +141,9 @@ public class BuoyancyCanvas extends AbstractDBCanvas {
         }
     }
 
+    /**
+     * Helper function for addArrowNodes that creates a NumericProperty to offset the arrows so they don't overlap.  The offset changes with the sim state, so is NumericProperty.
+     */
     private function createOffset( arrowModel: Vector2D, densityObject: DensityObject, dx: Number ): NumericProperty {
         var offsetX: NumericProperty = new NumericProperty( "offsetX", "pixels", dx );
 
