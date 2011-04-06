@@ -7,6 +7,7 @@ import edu.colorado.phet.flexcommon.model.NumericProperty;
 
 /**
  * PropertyEditor for controlling an objects density that includes a slider with labeled tick marks.
+ * The DensityEditor differs from a normal PropertyEditor in that it has slider tick marks and a bigger thumb, and a readout on the slider.
  */
 public class DensityEditor extends PropertyEditor {
     private var densityObject: DensityObject;

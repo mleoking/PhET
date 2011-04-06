@@ -232,12 +232,12 @@ public class DensityAndBuoyancyModel {
         for each( densityObject in densityObjects ) {
             densityObject.onFrameStep( DT_PER_FRAME );
         }
-        for each ( var listener: Function in frameListeners ) {
+        for each ( var listener: Function in frameSteppedListener ) {
             listener();
         }
     }
 
-    public static const frameListeners: Array = new Array();
+    public static const frameSteppedListener: Array = new Array();
 
     private function getCuboids(): Array {
         var cuboids: Array = new Array();
