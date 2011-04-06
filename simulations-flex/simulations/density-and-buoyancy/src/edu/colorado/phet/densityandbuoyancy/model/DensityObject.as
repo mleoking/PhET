@@ -50,10 +50,6 @@ public class DensityObject {
 
     private var shouldOverrideVelocity: Boolean = false;
 
-    public function get forceVectors(): Array {
-        return _forceVectors;
-    }
-
     public function DensityObject( x: Number, y: Number, z: Number, model: DensityAndBuoyancyModel, __density: Number, mass: Number, __volume: Number, __material: Material ) {
         this._material = __material;
         this._volume = new NumericProperty( FlexSimStrings.get( "properties.volume", "Volume" ), "m\u00b3", __volume );
@@ -99,6 +95,10 @@ public class DensityObject {
         lastPosition = new b2Vec2( x, y );
 
         this.model = model;
+    }
+
+    public function get forceVectors(): Array {
+        return _forceVectors;
     }
 
     private function getLabelString(): String {

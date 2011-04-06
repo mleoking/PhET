@@ -44,6 +44,7 @@ public class Cuboid extends DensityObject {
         return !isMovable();
     }
 
+    //Updates the box2d BodyDef based on the position, mass, etc.
     private function updateBodyDef(): void {
         bodyDef.position.Set( getX() * DensityAndBuoyancyConstants.SCALE_BOX2D, getY() * DensityAndBuoyancyConstants.SCALE_BOX2D );
         bodyDef.fixedRotation = true;
@@ -58,6 +59,7 @@ public class Cuboid extends DensityObject {
         bodyDef.massData.I = 1.0; // rotational inertia shouldn't matter
     }
 
+    //Updates the box2d ShapeDef based on the cuboid's friction, density, shape, etc.
     private function updateShapeDef(): void {
         if ( inScene ) {//only add to box2d if block is visible in away3d
             shapeDef.friction = 0.3;
@@ -88,6 +90,7 @@ public class Cuboid extends DensityObject {
         }
     }
 
+    //TODO: these getters should be rewritten with 'function get' syntax
     public function getWidth(): Number {
         return width;
     }

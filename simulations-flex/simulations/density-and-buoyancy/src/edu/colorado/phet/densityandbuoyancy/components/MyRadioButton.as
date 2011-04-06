@@ -11,6 +11,7 @@ import mx.controls.RadioButton;
  * RadioButton that is wired up to the specified BooleanProperty.
  */
 public class MyRadioButton extends RadioButton {
+    //The count is used to make sure radio buttons appear in separate button groups by default, since we manage buttongroups ourselves with BooleanProperties
     private static var count: Number = 0;
 
     public function MyRadioButton( label: String, _selected: BooleanProperty ) {
