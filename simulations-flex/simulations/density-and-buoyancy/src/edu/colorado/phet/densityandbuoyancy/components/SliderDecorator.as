@@ -68,9 +68,6 @@ public class SliderDecorator extends UIComponent {
             }
             else {
                 slider.setStyle( "trackSkin", MyTrackSkin );
-//                slider.alpha = 0.3;
-//                slider.setStyle("trackColors",[ 0xFF0000, 0xFF0000]);
-//                trackColors="[ 0xEEEEEE, 0xFFFFFF ]"
             }
         }
     }
@@ -78,6 +75,7 @@ public class SliderDecorator extends UIComponent {
     private function modelToView( x: Number ): Number {
         // TODO: this part is what was giving us problems. temporary values added, but this should all be rewritten
 //        return slider.mx_internal::getXFromValue(x);
+
         var modelRange: Number = slider.maximum - slider.minimum;
         var viewRange: Number = slider.width - (isFluidDensitySlider ? 16 : 10);//Width of the track only
         // working well for regular tick 12x6
