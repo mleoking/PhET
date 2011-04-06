@@ -305,6 +305,10 @@ public class AbstractDBCanvas extends UIComponent {
         return mainViewport.camera;
     }
 
+    /**
+     * Drag an object if one has been grabbed.
+     * @param event
+     */
     public function onMouseMove( event: MouseEvent ): void {
         if ( moving ) {
             // get the starting mouse offset
