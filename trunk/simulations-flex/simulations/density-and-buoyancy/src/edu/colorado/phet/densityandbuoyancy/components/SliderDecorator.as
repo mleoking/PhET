@@ -134,6 +134,10 @@ public class SliderDecorator extends UIComponent {
         }
     }
 
+    /**
+     * Draws the specified tick lines, including the extension that connects the tick mark to the label
+     * @param tick
+     */
     private function drawTickLines( tick: Tick ): void {
         tickMarkSet.graphics.lineStyle( 1, tick.color );
         tickMarkSet.graphics.moveTo( modelToView( tick.value ), -sliderY + tickHeight + 7 );
