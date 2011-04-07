@@ -43,19 +43,7 @@ public class GravityAndOrbitsModel {
                                    100, // 1000 looks great, 50 starts to look awkward for sun+earth+moon, but 100 seems okay
                                    gravityEnabledProperty );
                 for ( int i = 0; i < bodies.size(); i++ ) {
-                    final Body body = bodies.get( i );
-                    //Hold the position of the sun fixed
-                    //TODO: refactor into the updateBodyStateFromModel method
-                    //TODO: should only apply to cartoon mode
-                    if ( body.getName().equalsIgnoreCase( "sun" ) ) {
-                        ImmutableVector2D position = body.getPosition();
-                        body.updateBodyStateFromModel( newState.getBodyState( i ) );
-                        body.setPosition( position.getX(), position.getY() );
-                        body.setVelocity( new ImmutableVector2D() );
-                    }
-                    else {
-                        body.updateBodyStateFromModel( newState.getBodyState( i ) );
-                    }
+                    bodies.get( i ).updateBodyStateFromModel( newState.getBodyState( i ) );
                 }
                 //when two bodies collide, destroy the smaller
                 for ( Body body : bodies ) {
@@ -70,7 +58,6 @@ public class GravityAndOrbitsModel {
                 for ( int i = 0; i < bodies.size(); i++ ) {
                     bodies.get( i ).allBodiesUpdated();
                 }
-//                System.out.println( "momentum: " + getTotalMomentum() );
             }
 
             private Body getSmaller( Body other, Body body ) {

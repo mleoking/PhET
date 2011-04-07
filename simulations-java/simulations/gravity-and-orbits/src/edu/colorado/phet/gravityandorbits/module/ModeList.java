@@ -16,6 +16,7 @@ import edu.colorado.phet.common.phetcommon.util.function.Function2;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.gravityandorbits.GAOStrings;
 import edu.colorado.phet.gravityandorbits.model.Body;
+import edu.colorado.phet.gravityandorbits.model.BodyState;
 import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsClock;
 import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsModel;
 import edu.colorado.phet.gravityandorbits.view.*;
@@ -319,9 +320,19 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
                          maxPathLength, true, body.mass, GAOStrings.EARTH, p.clockPausedProperty, p.stepping, p.rewinding );
     }
 
-    private Body createSun( int maxPathLength, BodyPrototype body ) {
+    private Body createSun( int maxPathLength, final BodyPrototype body ) {
         return new Body( GAOStrings.SUN, body.x, body.y, body.radius * 2, body.vx, body.vy, body.mass, Color.yellow, Color.white,
-                         SUN_RENDERER, -Math.PI / 4, true, maxPathLength, true, body.mass, GAOStrings.OUR_SUN, p.clockPausedProperty, p.stepping, p.rewinding );
+                         SUN_RENDERER, -Math.PI / 4, true, maxPathLength, true, body.mass, GAOStrings.OUR_SUN, p.clockPausedProperty, p.stepping, p.rewinding ) {
+            @Override public void updateBodyStateFromModel( BodyState bodyState ) {
+                ImmutableVector2D position = body.getPosition();//store the original position in case it must be restored
+                super.updateBodyStateFromModel( bodyState );
+                //Sun shouldn't move in cartoon modes
+                if ( body.fixed ) {
+                    setPosition( position.getX(), position.getY() );
+                    setVelocity( new ImmutableVector2D() );
+                }
+            }
+        };
     }
 
     public static Function2<Body, Double, BodyRenderer> getImageRenderer( final String image ) {
