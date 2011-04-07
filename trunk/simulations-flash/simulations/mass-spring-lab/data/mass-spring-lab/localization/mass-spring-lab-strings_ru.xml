@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--mass-spring-lab-strings_ru.xml created Thu Apr 07 19:24:59 MSD 2011 using: mass-spring-lab 2.03.00 (49899), translation-utility 2.10.00 (48775) фев 9, 2011-->
+<SimStrings>
+<string key="pause" value="Пауза"/>
+<string key="earth" value="Земля"/>
+<string key="dontBother" value="Не беспокоить"/>
+<string key="16thTime" value="1/16 времени"/>
+<string key="nothinOK" value="Ничего! ОК?"/>
+<string key="mass1Label" value="50 грамм"/>
+<string key="mass3Label" value="250 грамм"/>
+<string key="planetX" value="Планета X"/>
+<string key="showEnergyOf" value="Показывать энергию"/>
+<string key="hangMe" value="Подвесьте меня :)"/>
+<string key="resetTimer" value="Сброс"/>
+<string key="hard" value="Жесткая"/>
+<string key="mass7Label" value="100 грамм"/>
+<string key="stopWatch" value="Секундомер"/>
+<string key="none" value="Нет"/>
+<string key="realTime" value="Реальное"/>
+<string key="startTimer" value="Старт/Пауза"/>
+<string key="help4" value="Перетащить таймер"/>
+<string key="help3" value="Оттяните груз, чтобы снять с пружины"/>
+<string key="showHelp" value="Помощь"/>
+<string key="lots" value="Высокое"/>
+<string key="help2" value="Перетащите исходную линию"/>
+<string key="help1" value="Перетащите линейку"/>
+<string key="friction" value="Трение"/>
+<string key="jupiter" value="Юпитер"/>
+<string key="moon" value="Луна"/>
+<string key="energyOf" value="Энергия"/>
+<string key="total" value="Общая"/>
+<string key="sound" value="Звук"/>
+<string key="mass2Label" value="100 грамм"/>
+<string key="thermal" value="Тепловая"/>
+<string key="quarterTime" value="1/4 времени"/>
+<string key="hideHelp" value="Спрятать"/>
+<string key="noHelp" value="-"/>
+<string key="soft" value="Мягкая"/>
+<string key="softness" value="Пружина"/>
+<string key="simTitle" value="Грузы и пружины"/>
+<string key="totalE" value="Общая Е"/>
+<string key="noShow" value="Не показывать"/>
+<string key="paused" value="Пауза"/>
+</SimStrings>
