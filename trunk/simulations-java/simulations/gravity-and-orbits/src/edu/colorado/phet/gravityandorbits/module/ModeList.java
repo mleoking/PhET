@@ -321,7 +321,7 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
     }
 
     private Body createSun( int maxPathLength, final BodyPrototype body ) {
-        return new Body( GAOStrings.SUN, body.x, body.y, body.radius * 2, body.vx, body.vy, body.mass, Color.yellow, Color.white,
+        return new Body( GAOStrings.STAR, body.x, body.y, body.radius * 2, body.vx, body.vy, body.mass, Color.yellow, Color.white,
                          SUN_RENDERER, -Math.PI / 4, true, maxPathLength, true, body.mass, GAOStrings.OUR_SUN, p.clockPausedProperty, p.stepping, p.rewinding ) {
             @Override public void updateBodyStateFromModel( BodyState bodyState ) {
                 ImmutableVector2D position = body.getPosition();//store the original position in case it must be restored

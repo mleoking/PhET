@@ -1,3 +1,4 @@
+Renamed "sun" to "star"
 Hold the position of the sun fixed
 # 1.00.16 (50041) Mar 21, 2011
 Made it so that vector arrowheads shrink as the vector shrinks
