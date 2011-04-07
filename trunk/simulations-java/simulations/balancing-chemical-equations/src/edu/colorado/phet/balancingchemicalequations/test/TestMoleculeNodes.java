@@ -68,11 +68,14 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  */
 public class TestMoleculeNodes extends JFrame {
 
+    private static final Color CANVAS_COLOR = BCEConstants.CANVAS_BACKGROUND;
+    private static final Color TEXT_COLOR = Color.BLACK;
+
     public TestMoleculeNodes() {
         super( TestMoleculeNodes.class.getName() );
 
         PhetPCanvas canvas = new PhetPCanvas( BCEConstants.CANVAS_RENDERING_SIZE );
-        canvas.setBackground( BCEConstants.BOX_COLOR );
+        canvas.setBackground( CANVAS_COLOR );
         canvas.setPreferredSize( new Dimension( 1024, 768 ) );
 
         // parent node of all molecule nodes
@@ -140,7 +143,7 @@ public class TestMoleculeNodes extends JFrame {
             PNode moleculeNode = new PImage( molecule.getImage() );
             addChild( moleculeNode );
             HTMLNode labelNode = new HTMLNode( molecule.getSymbol() );
-            labelNode.setHTMLColor( Color.WHITE );
+            labelNode.setHTMLColor( TEXT_COLOR );
             addChild( labelNode );
             double x = moleculeNode.getFullBoundsReference().getCenterX() - ( labelNode.getFullBoundsReference().getWidth() / 2 );
             double y = moleculeNode.getFullBoundsReference().getMaxY() + 2;
