@@ -1,3 +1,4 @@
+# 1.00.18 (50425) Apr 7, 2011
 Fixed: sun can't be moved by the user in cartoon modes
 # 1.00.17 (50423) Apr 7, 2011
 Renamed "sun" to "star"
