@@ -1,3 +1,4 @@
+# 1.00.17 (50423) Apr 7, 2011
 Renamed "sun" to "star"
 Hold the position of the sun fixed
 # 1.00.16 (50041) Mar 21, 2011
