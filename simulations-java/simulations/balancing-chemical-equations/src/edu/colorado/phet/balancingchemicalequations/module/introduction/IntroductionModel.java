@@ -19,7 +19,7 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
  */
 /* package private */ class IntroductionModel {
 
-    private static final IntegerRange COEFFICENTS_RANGE = new IntegerRange( 0, 3 );
+    private static final IntegerRange COEFFICENTS_RANGE = new IntegerRange( 0, 3 ); // range for equation coefficients
 
     // properties directly accessible by clients
     public final Property<Equation> currentEquation;

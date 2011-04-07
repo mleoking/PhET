@@ -30,7 +30,7 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
     public static enum GameState { START_GAME, CHECK, TRY_AGAIN, SHOW_ANSWER, NEXT, NEW_GAME };
 
     /*
-     * Strategies for selecting the "balanced representation" that is displayed by the "Not Balanaced" popup.
+     * Strategies for selecting the "balanced representation" that is displayed by the "Not Balanced" popup.
      * This is a map from level to strategy.
      */
     private static HashMap<Integer,IBalancedRepresentationStrategy> BALANCED_REPRESENTATION_STRATEGIES = new HashMap<Integer,IBalancedRepresentationStrategy>() {{
@@ -39,7 +39,7 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
         put( 3, new IBalancedRepresentationStrategy.Constant( BalancedRepresentation.BAR_CHARTS ) );
     }};
 
-    private static final IntegerRange COEFFICENTS_RANGE = new IntegerRange( 0, 7 );
+    private static final IntegerRange COEFFICENTS_RANGE = new IntegerRange( 0, 7 ); // range for equation coefficients
     private static final IntegerRange LEVELS_RANGE = new IntegerRange( 1, 3, 1 );
     private static final int EQUATIONS_PER_GAME = 5;
     private static final int POINTS_FIRST_ATTEMPT = 2;  // points to award for correct guess on 1st attempt
