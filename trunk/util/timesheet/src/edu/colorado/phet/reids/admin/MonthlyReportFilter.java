@@ -155,6 +155,7 @@ public class MonthlyReportFilter {
         if ( category.equals( "email" ) ) { return mapCategory( "Administrative/Documentation" ); }
         if ( category.equals( "meetings" ) ) { return mapCategory( "Administrative/Documentation" ); }
         if ( category.equals( "ksu-translation-credits" ) ) { return mapCategory( "KSU Translation Credits" ); }
+        if ( category.equals( "piccolo" ) ) { return mapCategory( "piccolo-phet" ); }
         if ( category.equals( "piccolo-phet" ) ) { return mapCategory( "Common Code" ); }
         if ( category.equals( "isotopes" ) ) { return mapCategory( "isotopes-and-atomic-mass" ); }
         if ( category.equals( "phet-help" ) ) { return mapCategory( "Customer Support" ); }
