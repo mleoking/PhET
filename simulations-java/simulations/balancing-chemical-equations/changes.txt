@@ -1,3 +1,4 @@
+4/6/11 delete TODO file, all tasks completed, post-1.00 tasks will be tracked via Unfuddle
 4/6/11 create screenshot for sim page
 4/6/11 delete test apps (test-molecules, test-game-reward) from build properties
 4/6/11 check in a snapshot of the design doc
