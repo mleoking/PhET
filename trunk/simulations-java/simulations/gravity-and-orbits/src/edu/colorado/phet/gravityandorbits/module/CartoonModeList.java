@@ -7,7 +7,6 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
  * @author Sam Reid
  */
 public class CartoonModeList extends ModeList {
-
     public CartoonModeList( Property<Boolean> clockPausedProperty, Property<Boolean> gravityEnabledProperty, Property<Boolean> stepping, Property<Boolean> rewinding, Property<Double> timeSpeedScaleProperty, final double alpha ) {
         super( new ModeListParameter( clockPausedProperty, gravityEnabledProperty, stepping, rewinding, timeSpeedScaleProperty ),
                new SunEarth() {{
@@ -18,6 +17,7 @@ public class CartoonModeList extends ModeList {
                    earth.mass *= earthMassScaleFactor;
                    forceScale *= 0.8 / earthMassScaleFactor * 0.75;//to balance increased mass and so that forces are 1/2 grid cell in default conditions
                    timeScale = 365.0 / 343.5;//Have to artificially scale up the time readout so that Sun/Earth/Moon mode has a stable orbit with correct periods
+                   sun.fixed = true;//Sun shouldn't move in cartoon modes
                }}, new SunEarthMoon() {{
                     sun.radius *= 50;
                     earth.radius *= 800;
@@ -30,6 +30,7 @@ public class CartoonModeList extends ModeList {
 
                     forceScale *= 0.8 / earthMassScaleFactor * 0.75;//to balance increased mass and so that forces are 1/2 grid cell in default conditions
                     timeScale = 365.0 / 343.5;//Have to artificially scale up the time readout so that Sun/Earth/Moon mode has a stable orbit with correct periods
+                    sun.fixed = true;//Sun shouldn't move in cartoon modes
                 }}, new EarthMoon() {{
                     earth.radius *= 15;
                     moon.radius *= 15;

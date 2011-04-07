@@ -15,6 +15,7 @@ public class BodyPrototype {
     public double y;
     public double vx;
     public double vy;
+    public boolean fixed = false;//True if the object doesn't move when the clock ticks
 
     public BodyPrototype( double mass, double radius, double x, double y, double vx, double vy ) {
         this.mass = mass;
