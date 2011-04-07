@@ -6,8 +6,5 @@ MEDIUM PRIORITY
 
 LOW PRIORITY
 
-BEFORE 1.00
-- create screenshots
-
 MIGRATE TO COMMON
  
