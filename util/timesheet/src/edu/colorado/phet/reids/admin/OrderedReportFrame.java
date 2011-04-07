@@ -34,7 +34,7 @@ public class OrderedReportFrame {
         text += "\n";
 
         long totalTime = 0;
-        ArrayList<String> keys = new ArrayList<String>( table.keySet().size() );
+        ArrayList<String> keys = new ArrayList<String>( table.keySet() );
         for ( String key : new MonthlyReportFilter().getAllCategories() ) {
             final Long sec = table.get( key ) == null ? 0L : table.get( key );
 
