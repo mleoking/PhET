@@ -125,7 +125,9 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
         }
         //Add velocity vector nodes
         for ( Body body : model.getBodies() ) {
-            addChild( new GrabbableVectorNode( body, mode.modelViewTransformProperty, module.showVelocityProperty, body.getVelocityProperty(), mode.getVelocityScale(), VELOCITY_VECTOR_COLOR_FILL, VELOCITY_VECTOR_COLOR_OUTLINE ) );
+            if ( !body.fixed ) {
+                addChild( new GrabbableVectorNode( body, mode.modelViewTransformProperty, module.showVelocityProperty, body.getVelocityProperty(), mode.getVelocityScale(), VELOCITY_VECTOR_COLOR_FILL, VELOCITY_VECTOR_COLOR_OUTLINE ) );
+            }
         }
 
         for ( Body body : model.getBodies() ) {
