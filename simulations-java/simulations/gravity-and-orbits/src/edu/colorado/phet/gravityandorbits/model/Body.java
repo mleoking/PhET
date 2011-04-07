@@ -55,17 +55,20 @@ public class Body implements IBodyColors {
     private ArrayList<VoidFunction0> userModifiedPositionListeners = new ArrayList<VoidFunction0>();
     private Property<Shape> bounds = new Property<Shape>( new Rectangle2D.Double( 0, 0, 0, 0 ) );//if the object leaves these model bounds, then it can be "returned" using a return button on the canvas
     private BooleanProperty returnable;
+    public final boolean fixed;
 
     public Body( final String name, double x, double y, double diameter, double vx, double vy, double mass, Color color, Color highlight,
                  Function2<Body, Double, BodyRenderer> renderer,// way to associate the graphical representation directly instead of later with conditional logic or map
                  double labelAngle, boolean massSettable,
                  int maxPathLength,
-                 boolean massReadoutBelow, double tickValue, String tickLabel, Property<Boolean> clockPaused, Property<Boolean> stepping, Property<Boolean> rewinding ) {
+                 boolean massReadoutBelow, double tickValue, String tickLabel, Property<Boolean> clockPaused, Property<Boolean> stepping, Property<Boolean> rewinding,
+                 boolean fixed ) {//sun is immobile in cartoon mode
         this.massSettable = massSettable;
         this.maxPathLength = maxPathLength;
         this.massReadoutBelow = massReadoutBelow;
         this.tickValue = tickValue;
         this.tickLabel = tickLabel;
+        this.fixed = fixed;
         assert renderer != null;
         this.name = name;
         this.color = color;

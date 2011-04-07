@@ -266,7 +266,7 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
                                earthSpaceStation.spaceStation.radius * 2000,
                                earthSpaceStation.spaceStation.vx, earthSpaceStation.spaceStation.vy, earthSpaceStation.spaceStation.mass, Color.gray, Color.white,
                                getImageRenderer( "space-station.png" ), -Math.PI / 4, true, getMaxPathLength(), true,
-                               earthSpaceStation.spaceStation.mass, GAOStrings.SPACE_STATION, p.clockPausedProperty, p.stepping, p.rewinding ) );
+                               earthSpaceStation.spaceStation.mass, GAOStrings.SPACE_STATION, p.clockPausedProperty, p.stepping, p.rewinding, earthSpaceStation.spaceStation.fixed ) );
         }} );
     }
 
@@ -294,7 +294,7 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
         return new Body( GAOStrings.MOON, body.x, body.y, body.radius * 2, body.vx, body.vy, body.mass, Color.magenta, Color.white,
                          //putting this number too large makes a kink or curly-q in the moon trajectory, which should be avoided
                          getRenderer( "moon.png", body.mass ), -3 * Math.PI / 4, massSettable, maxPathLength,
-                         massReadoutBelow, body.mass, GAOStrings.OUR_MOON, p.clockPausedProperty, p.stepping, p.rewinding ) {
+                         massReadoutBelow, body.mass, GAOStrings.OUR_MOON, p.clockPausedProperty, p.stepping, p.rewinding, body.fixed ) {
             @Override
             protected void doReturnBody( GravityAndOrbitsModel model ) {
                 super.doReturnBody( model );
@@ -317,12 +317,12 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
     private Body createEarth( int maxPathLength, BodyPrototype body ) {
         return new Body( GAOStrings.PLANET, body.x, body.y, body.radius * 2, body.vx, body.vy, body.mass, Color.gray, Color.lightGray,
                          getRenderer( "earth_satellite.gif", body.mass ), -Math.PI / 4, true,
-                         maxPathLength, true, body.mass, GAOStrings.EARTH, p.clockPausedProperty, p.stepping, p.rewinding );
+                         maxPathLength, true, body.mass, GAOStrings.EARTH, p.clockPausedProperty, p.stepping, p.rewinding, body.fixed );
     }
 
     private Body createSun( int maxPathLength, final BodyPrototype body ) {
         return new Body( GAOStrings.STAR, body.x, body.y, body.radius * 2, body.vx, body.vy, body.mass, Color.yellow, Color.white,
-                         SUN_RENDERER, -Math.PI / 4, true, maxPathLength, true, body.mass, GAOStrings.OUR_SUN, p.clockPausedProperty, p.stepping, p.rewinding ) {
+                         SUN_RENDERER, -Math.PI / 4, true, maxPathLength, true, body.mass, GAOStrings.OUR_SUN, p.clockPausedProperty, p.stepping, p.rewinding, body.fixed ) {
             @Override public void updateBodyStateFromModel( BodyState bodyState ) {
                 ImmutableVector2D position = getPosition();//store the original position in case it must be restored
                 super.updateBodyStateFromModel( bodyState );
