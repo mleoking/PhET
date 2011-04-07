@@ -9,7 +9,6 @@ LOW PRIORITY
 BEFORE 1.00
 - create screenshots
 - delete test apps from build properties
-- check in a snapshot of the design doc
 
 MIGRATE TO COMMON
  
