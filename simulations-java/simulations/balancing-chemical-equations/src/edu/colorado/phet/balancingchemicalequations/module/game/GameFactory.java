@@ -60,6 +60,10 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
  * The equations are chosen from a "pool", and each game level has its own pool.
  * The design document specifies which equations are in each pool, as well as
  * the strategy for choosing equations from each pool.
+ * <p>
+ * Equations are instantiated using reflection because we need new equations
+ * for each game, and we need to be able to exclude some types of equations
+ * during the equation selection process.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
