@@ -42,7 +42,7 @@ public class IntroCanvas<T extends IntroModel> extends BendingLightCanvas<T> {
                         final double centerOffsetLeft,
                         final ObservableProperty<Boolean> clockControlVisible,
                         final ResetModel resetModel,
-                        final String format,//decimal format pattern to use in the medium control panel
+                        final String indexOfRefractionFormatPattern,//decimal format pattern to use in the medium control panel
                         final int columns ) {//number of columns to show in the MediumControlPanel readout
         super( model, moduleActive, new Function1<Double, Double>() {
             public Double apply( Double angle ) {
@@ -71,10 +71,10 @@ public class IntroCanvas<T extends IntroModel> extends BendingLightCanvas<T> {
         mediumNode.addChild( new MediumNode( transform, model.topMedium ) );
         mediumNode.addChild( new MediumNode( transform, model.bottomMedium ) );
 
-        afterLightLayer.addChild( new ControlPanelNode( new MediumControlPanel( this, model.topMedium, "Material:", true, model.wavelengthProperty, format, columns ) ) {{
+        afterLightLayer.addChild( new ControlPanelNode( new MediumControlPanel( this, model.topMedium, "Material:", true, model.wavelengthProperty, indexOfRefractionFormatPattern, columns ) ) {{
             setOffset( stageSize.width - getFullBounds().getWidth() - 10, transform.modelToViewY( 0 ) - 10 - getFullBounds().getHeight() );
         }} );
-        afterLightLayer.addChild( new ControlPanelNode( new MediumControlPanel( this, model.bottomMedium, "Material:", true, model.wavelengthProperty, format, columns ) ) {{
+        afterLightLayer.addChild( new ControlPanelNode( new MediumControlPanel( this, model.bottomMedium, "Material:", true, model.wavelengthProperty, indexOfRefractionFormatPattern, columns ) ) {{
             setOffset( stageSize.width - getFullBounds().getWidth() - 10, transform.modelToViewY( 0 ) + 10 );
         }} );
 
