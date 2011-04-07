@@ -57,14 +57,16 @@ public class PrismsCanvas extends BendingLightCanvas<PrismsModel> {
         }};
         beforeLightLayer.addChild( prismToolbox );
 
-        final BendingLightResetAllButtonNode resetButton = new BendingLightResetAllButtonNode( resetAll, this ) {{
-            setOffset( stageSize.width - getFullBounds().getWidth() - 10, prismToolbox.getFullBounds().getMinY() - 10 - getFullBounds().getHeight() );
-        }};
+        final BendingLightResetAllButtonNode resetButton = new BendingLightResetAllButtonNode( resetAll, this );
         afterLightLayer.addChild( resetButton );
 
+        //Put the laser control panel node where it leaves enough vertical space for reset button between it and prism control panel
         final LaserControlPanelNode laserControlPanelNode = new LaserControlPanelNode( model.manyRays, model.getLaser().color, model.showReflections, showNormal, showProtractor, model.wavelengthProperty ) {{
-            setOffset( stageSize.width - getFullBounds().getWidth() - 10, resetButton.getFullBounds().getMinY() - 10 - getFullBounds().getHeight() );
+            setOffset( stageSize.width - getFullBounds().getWidth() - 10, prismToolbox.getFullBounds().getMinY() - 10 - resetButton.getFullBounds().getHeight() - 10 - getFullBounds().getHeight() );
         }};
+
+        //Center the reset button below the laser control panel node
+        resetButton.setOffset( laserControlPanelNode.getFullBounds().getCenterX() - resetButton.getFullBounds().getWidth() / 2, laserControlPanelNode.getFullBounds().getMaxY() + 10 );
         afterLightLayer.addChild( laserControlPanelNode );
 
         showNormal.addObserver( new SimpleObserver() {
