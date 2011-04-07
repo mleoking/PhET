@@ -1,3 +1,4 @@
+Increased the number of sides for continuous prism shapes to avoid a sampling problem with white light
 # 0.00.32 (50419) Apr 7, 2011
 Centered the reset button below the laser control panel node in the "prism break" tab
 Combined prism medium control into prism toolbox in the "prism break" tab

@@ -81,7 +81,7 @@ public class PrismsModel extends BendingLightModel {
 
             //Circle
             add( new Prism( new Polygon( new ArrayList<ImmutableVector2D>() {{
-                int numSamples = 200;
+                int numSamples = 1000;//500 or less causes problems for white light, making the angles of reflection look funny
                 for ( int i = 0; i < numSamples; i++ ) {
                     add( ImmutableVector2D.parseAngleAndMagnitude( a / 2, (double) i / numSamples * Math.PI * 2 ) );
                 }
@@ -89,7 +89,7 @@ public class PrismsModel extends BendingLightModel {
 
             //Semicircle
             add( new Prism( new Polygon( new ArrayList<ImmutableVector2D>() {{
-                int numSamples = 200;
+                int numSamples = 1000;
                 for ( int i = 0; i < numSamples / 2; i++ ) {
                     add( ImmutableVector2D.parseAngleAndMagnitude( a / 2, (double) i / numSamples * Math.PI * 2 +
                                                                           Math.PI / 2 ) );//turn it so that the circular part is on the left, not on the top
@@ -98,7 +98,7 @@ public class PrismsModel extends BendingLightModel {
 
             //Diverging lens: half an hourglass shape
             add( new Prism( new Polygon( new ArrayList<ImmutableVector2D>() {{
-                int numSamples = 200;
+                int numSamples = 1000;
                 for ( int i = numSamples / 2; i < numSamples; i++ ) {
                     add( ImmutableVector2D.parseAngleAndMagnitude( a / 2, (double) i / numSamples * Math.PI * 2 +
                                                                           Math.PI / 2 ) );//turn it so that the circular part is on the left, not on the top
