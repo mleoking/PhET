@@ -1,3 +1,4 @@
+Fixed: made the control panel wide enough to hold the laser wavelength control, but not resize as controls move around.
 # 0.00.31 (50113) Mar 28, 2011
 # 0.00.30 (50111) Mar 28, 2011
 Switched bottom medium to glass on 2nd tab since that has a bigger wavelength dependent bend
