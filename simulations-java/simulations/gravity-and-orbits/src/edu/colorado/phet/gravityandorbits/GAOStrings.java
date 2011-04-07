@@ -44,7 +44,7 @@ public class GAOStrings {
     public static final String SATELLITE = getString( "satellite" );
     public static final String SHOW = getString( "show" );
     public static final String RESET = getString( "reset" );
-    public static final String SUN = getString( "sun" );
+    public static final String STAR = getString( "star" );
     public static final String THOUSAND_EARTH_MASSES = getString( "thousandEarthMasses" );
     public static final String THOUSAND_MILES = getString( "thousandMiles" );
     public static final String VELOCITY = getString( "velocity" );
