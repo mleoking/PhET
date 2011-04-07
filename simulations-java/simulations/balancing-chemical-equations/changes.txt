@@ -1,3 +1,4 @@
+4/6/11 delete test apps (test-molecules, test-game-reward) from build properties
 4/6/11 check in a snapshot of the design doc
 4/6/11 change request: set play area color to tan (RGB=214,201,182), confirmed that this color has no colorblind issues
 # 0.00.23 (50317) Apr 4, 2011
