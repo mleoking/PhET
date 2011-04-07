@@ -5,9 +5,9 @@ package edu.colorado.phet.gravityandorbits.model;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -43,7 +43,19 @@ public class GravityAndOrbitsModel {
                                    100, // 1000 looks great, 50 starts to look awkward for sun+earth+moon, but 100 seems okay
                                    gravityEnabledProperty );
                 for ( int i = 0; i < bodies.size(); i++ ) {
-                    bodies.get( i ).updateBodyStateFromModel( newState.getBodyState( i ) );
+                    final Body body = bodies.get( i );
+                    //Hold the position of the sun fixed
+                    //TODO: refactor into the updateBodyStateFromModel method
+                    //TODO: should only apply to cartoon mode
+                    if ( body.getName().equalsIgnoreCase( "sun" ) ) {
+                        ImmutableVector2D position = body.getPosition();
+                        body.updateBodyStateFromModel( newState.getBodyState( i ) );
+                        body.setPosition( position.getX(), position.getY() );
+                        body.setVelocity( new ImmutableVector2D() );
+                    }
+                    else {
+                        body.updateBodyStateFromModel( newState.getBodyState( i ) );
+                    }
                 }
                 //when two bodies collide, destroy the smaller
                 for ( Body body : bodies ) {
