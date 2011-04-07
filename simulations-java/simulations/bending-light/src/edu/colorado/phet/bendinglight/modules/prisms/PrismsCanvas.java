@@ -57,13 +57,8 @@ public class PrismsCanvas extends BendingLightCanvas<PrismsModel> {
         }};
         beforeLightLayer.addChild( prismToolbox );
 
-        final ControlPanelNode prismMediumControlPanel = new ControlPanelNode( new MediumControlPanel( this, model.prismMedium, "Objects:", false, model.wavelengthProperty, "0.0000000", 8 ) ) {{
-            setOffset( prismToolbox.getFullBounds().getMaxX() + 10, stageSize.height - getFullBounds().getHeight() - 10 );
-        }};
-        afterLightLayer.addChild( prismMediumControlPanel );
-
         final BendingLightResetAllButtonNode resetButton = new BendingLightResetAllButtonNode( resetAll, this ) {{
-            setOffset( stageSize.width - getFullBounds().getWidth() - 10, prismMediumControlPanel.getFullBounds().getMinY() - 10 - getFullBounds().getHeight() );
+            setOffset( stageSize.width - getFullBounds().getWidth() - 10, prismToolbox.getFullBounds().getMinY() - 10 - getFullBounds().getHeight() );
         }};
         afterLightLayer.addChild( resetButton );
 

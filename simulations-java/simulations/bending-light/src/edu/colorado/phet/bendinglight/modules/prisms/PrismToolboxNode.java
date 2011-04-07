@@ -8,6 +8,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import edu.colorado.phet.bendinglight.view.BendingLightCanvas;
+import edu.colorado.phet.bendinglight.view.MediumControlPanel;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.umd.cs.piccolo.PNode;
@@ -86,5 +87,6 @@ public class PrismToolboxNode extends PNode {
             }};
             addChild( thumbnail );
         }
+        addChild( new MediumControlPanel( canvas, model.prismMedium, "Objects:", false, model.wavelengthProperty, "0.0000000", 8 ) {{setOffset( x[0], 0 );}} );
     }
 }
