@@ -1,3 +1,4 @@
+Centered the reset button below the laser control panel node in the "prism break" tab
 Combined prism medium control into prism toolbox in the "prism break" tab
 Reduced the number of decimals to 3 for indices of refraction in the "more tools" tab
 Fixed: made the control panel wide enough to hold the laser wavelength control, but not resize as controls move around.
