@@ -11,6 +11,7 @@ import javax.swing.text.JTextComponent;
 
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
@@ -36,7 +37,8 @@ public class ControlPanelNode extends PNode {
         final PhetPPath background = new PhetPPath( backgroundColor, borderStroke, borderColor ) {{
             final PropertyChangeListener updateSize = new PropertyChangeListener() {
                 public void propertyChange( PropertyChangeEvent evt ) {
-                    setPathTo( new RoundRectangle2D.Double( 0, 0, content.getFullBounds().width + inset * 2, content.getFullBounds().height + inset * 2, arc, arc ) );
+                    final PBounds layoutSize = getControlPanelBounds( content );
+                    setPathTo( new RoundRectangle2D.Double( 0, 0, layoutSize.width + inset * 2, layoutSize.height + inset * 2, arc, arc ) );
                 }
             };
             content.addPropertyChangeListener( PROPERTY_FULL_BOUNDS, updateSize );
@@ -48,6 +50,16 @@ public class ControlPanelNode extends PNode {
         if ( transparifySwing ) {
             transparifySwing( this );
         }
+    }
+
+    /**
+     * Determine the bounds of the control panel.  This implementation uses the bounds of the content.
+     *
+     * @param content the content PNode in this ControlPanelNode
+     * @return the PBounds which the ControlPanelNode should occupy
+     */
+    protected PBounds getControlPanelBounds( PNode content ) {
+        return content.getFullBounds();
     }
 
     /**
