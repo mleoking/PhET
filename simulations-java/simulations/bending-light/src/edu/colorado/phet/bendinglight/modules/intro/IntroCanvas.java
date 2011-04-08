@@ -59,11 +59,7 @@ public class IntroCanvas<T extends IntroModel> extends BendingLightCanvas<T> {
                 return aDouble > Math.PI / 2;
             }
         }, true,
-               new Function2<Shape, Shape, Shape>() {
-                   public Shape apply( Shape full, Shape front ) {
-                       return new Rectangle2D.Double( 0, 0, 0, 0 );//no region can be translated
-                   }
-               }, new Function2<Shape, Shape, Shape>() {
+               getProtractorRotationRegion(), new Function2<Shape, Shape, Shape>() {
                     public Shape apply( Shape full, Shape back ) {
                         return full; //rotation if the user clicks anywhere on the object.
                     }
@@ -123,15 +119,7 @@ public class IntroCanvas<T extends IntroModel> extends BendingLightCanvas<T> {
         final Tool protractor = new Tool( multiScaleToWidth( RESOURCES.getImage( "protractor.png" ), ToolboxNode.ICON_WIDTH ), showProtractor,
                                           transform, this, new Tool.NodeFactory() {
                     public ProtractorNode createNode( ModelViewTransform transform, Property<Boolean> showTool, Point2D model ) {
-                        return new ProtractorNode( transform, showTool, new ProtractorModel( model.getX(), model.getY() ), new Function2<Shape, Shape, Shape>() {
-                            public Shape apply( Shape innerBar, final Shape outerCircle ) {
-                                return new Area( innerBar ) {{add( new Area( outerCircle ) );}};
-                            }
-                        }, new Function2<Shape, Shape, Shape>() {
-                            public Shape apply( Shape innerBar, Shape outerCircle ) {
-                                return new Rectangle2D.Double( 0, 0, 0, 0 );//empty shape since shouldn't be rotatable in this tab
-                            }
-                        }, 1 );
+                        return newProtractorNode( transform, showTool, model );
                     }
                 }, model, new Function0<Rectangle2D>() {
                     public Rectangle2D apply() {
@@ -178,5 +166,25 @@ public class IntroCanvas<T extends IntroModel> extends BendingLightCanvas<T> {
 
     protected PNode[] getMoreTools( ResetModel resetModel ) {
         return new PNode[0];
+    }
+
+    protected ProtractorNode newProtractorNode( ModelViewTransform transform, Property<Boolean> showTool, Point2D model ) {
+        return new ProtractorNode( transform, showTool, new ProtractorModel( model.getX(), model.getY() ), getProtractorDragRegion(), getProtractorRotationRegion(), 1 );
+    }
+
+    protected static Function2<Shape, Shape, Shape> getProtractorRotationRegion() {
+        return new Function2<Shape, Shape, Shape>() {
+            public Shape apply( Shape innerBar, Shape outerCircle ) {
+                return new Rectangle2D.Double( 0, 0, 0, 0 );//empty shape since shouldn't be rotatable in this tab
+            }
+        };
+    }
+
+    protected Function2<Shape, Shape, Shape> getProtractorDragRegion() {
+        return new Function2<Shape, Shape, Shape>() {
+            public Shape apply( Shape innerBar, final Shape outerCircle ) {
+                return new Area( innerBar ) {{add( new Area( outerCircle ) );}};
+            }
+        };
     }
 }

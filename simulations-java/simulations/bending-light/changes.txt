@@ -1,3 +1,4 @@
+Made the protractor expandable in the "more tools" tab
 Made reflections dimmer in "white light" mode
 Moved "low" and "high" labels up to be more in line with the slider track
 # 0.00.33 (50430) Apr 7, 2011

@@ -28,12 +28,13 @@ public class ProtractorNode extends ToolNode {
     private final ModelViewTransform transform;
     private final ProtractorModel protractorModel;
     private final BufferedImage image;
-    private final double scale;
+    private double scale;//The current scale
+    protected final Rectangle2D.Double innerBarShape;
 
     public ProtractorNode( final ModelViewTransform transform, final Property<Boolean> showProtractor, final ProtractorModel protractorModel,
                            Function2<Shape, Shape, Shape> translateShape, Function2<Shape, Shape, Shape> rotateShape,
-                           double scale ) {//Passed in as a separate arg since this node modifies its entire transform
-        this.scale = scale;
+                           double _scale ) {//Passed in as a separate arg since this node modifies its entire transform
+        this.scale = _scale;
         this.transform = transform;
         this.protractorModel = protractorModel;
         image = RESOURCES.getImage( "protractor.png" );
@@ -43,6 +44,7 @@ public class ProtractorNode extends ToolNode {
                     ProtractorNode.this.setVisible( showProtractor.getValue() );
                 }
             } );
+            setPickable( false );
         }};
         addChild( imageNode );
         final Ellipse2D.Double outerShape = new Ellipse2D.Double( 0, 0, image.getWidth(), image.getHeight() );
@@ -52,14 +54,14 @@ public class ProtractorNode extends ToolNode {
             subtract( new Area( new Ellipse2D.Double( outerShape.getCenterX() - rx, outerShape.getCenterY() - ry, rx * 2, ry * 2 ) ) );//cut out the semicircles in the middle
         }};
 
-        Rectangle2D.Double innerBarShape = new Rectangle2D.Double( 20, outerShape.getCenterY(), outerShape.getWidth() - 40, 38 );
+        innerBarShape = new Rectangle2D.Double( 20, outerShape.getCenterY(), outerShape.getWidth() - 40, 38 );
 
 //        addChild( new PhetPPath( innerBarShape, new Color( 0, 255, 0, 128 ) ) {{//For debugging the drag hit area
         addChild( new PhetPPath( translateShape.apply( innerBarShape, outerRimShape ), new Color( 0, 0, 0, 0 ) ) {{//For debugging the drag hit area
             addInputEventListener( new CursorHandler() );
             addInputEventListener( new PBasicInputEventHandler() {
                 public void mouseDragged( PInputEvent event ) {
-                    dragAll( event.getDeltaRelativeTo( getParent() ) );
+                    dragAll( event.getDeltaRelativeTo( getParent().getParent() ) );
                 }
             } );
         }} );
@@ -93,11 +95,16 @@ public class ProtractorNode extends ToolNode {
         protractorModel.angle.addObserver( updateTransform );
     }
 
+    protected void setProtractorScale( double scale ) {
+        this.scale = scale;
+        doUpdateTransform();
+    }
+
     protected void doUpdateTransform() {
         setTransform( new AffineTransform() );
         setScale( scale );
         final Point2D point2D = transform.modelToView( protractorModel.position.getValue() ).toPoint2D();
-        setOffset( ( point2D.getX() - image.getWidth() / 2 ) * scale, ( point2D.getY() - image.getHeight() / 2 ) * scale );
+        setOffset( point2D.getX() - image.getWidth() / 2 * scale, point2D.getY() - image.getHeight() / 2 * scale );
         rotateAboutPoint( protractorModel.angle.getValue(), image.getWidth() / 2, image.getHeight() / 2 );
     }
 
@@ -106,7 +113,7 @@ public class ProtractorNode extends ToolNode {
     }
 
     public void dragAll( PDimension delta ) {
-        protractorModel.translate( transform.viewToModelDelta( new ImmutableVector2D( delta.width / getScale(), delta.height / getScale() ) ) );
+        protractorModel.translate( transform.viewToModelDelta( new ImmutableVector2D( delta.width, delta.height ) ) );
     }
 
     @Override
