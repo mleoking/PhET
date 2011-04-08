@@ -12,6 +12,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
+import static edu.colorado.phet.bendinglight.model.IntensityMeter.Reading.MISS;
 import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.parseAngleAndMagnitude;
 import static edu.colorado.phet.common.phetcommon.math.MathUtil.getLineCircleIntersection;
 import static java.lang.Math.*;
@@ -139,10 +140,10 @@ public class IntroModel extends BendingLightModel {
             addRay( ray );
         }
         if ( rayAbsorbed ) {
-            intensityMeter.addRayReading( new Reading( ray.getPowerFraction() ) );
+            intensityMeter.addRayReading( new IntensityMeter.Reading( ray.getPowerFraction() ) );
         }
         else {
-            intensityMeter.addRayReading( Reading.MISS );
+            intensityMeter.addRayReading( MISS );
         }
         return rayAbsorbed;
     }

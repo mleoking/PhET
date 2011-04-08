@@ -6,6 +6,8 @@ import java.awt.*;
 import edu.colorado.phet.common.phetcommon.math.Function;
 
 /**
+ * For determining the colors of different mediums as a function of characteristic index of refraction.
+ *
  * @author Sam Reid
  */
 public class MediumColorFactory {

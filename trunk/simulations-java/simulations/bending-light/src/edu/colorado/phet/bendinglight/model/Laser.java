@@ -12,6 +12,8 @@ import static edu.colorado.phet.bendinglight.model.BendingLightModel.WAVELENGTH_
 import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.parseAngleAndMagnitude;
 
 /**
+ * Model for the laser, which emits LightRays.
+ *
  * @author Sam Reid
  */
 public class Laser {
