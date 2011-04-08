@@ -37,8 +37,8 @@ public class PNodeShowHideControl {
     private volatile boolean isHidden = false;
 
     static {
-        HIDE_IMAGE_ICON = new ImageIcon( PhetCommonResources.getInstance().getImage( PhetCommonResources.IMAGE_MINIMIZE_BUTTON ) );
-        SHOW_IMAGE_ICON = new ImageIcon( PhetCommonResources.getInstance().getImage( PhetCommonResources.IMAGE_MAXIMIZE_BUTTON ) );
+        HIDE_IMAGE_ICON = new ImageIcon( PhetCommonResources.getMinimizeButtonImage() );
+        SHOW_IMAGE_ICON = new ImageIcon( PhetCommonResources.getMaximizeButtonImage() );
     }
 
     /**
