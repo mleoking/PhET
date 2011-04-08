@@ -24,6 +24,8 @@ import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
+ * Control panel for the laser in the "prism break" tab, such as choosing whether it is white light or one color, and the wavelength.
+ *
  * @author Sam Reid
  */
 public class LaserControlPanelNode extends ControlPanelNode {

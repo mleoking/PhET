@@ -17,6 +17,8 @@ import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import static java.lang.Double.isNaN;
 
 /**
+ * Shape that comprises a prism.
+ *
  * @author Sam Reid
  */
 public class Polygon {

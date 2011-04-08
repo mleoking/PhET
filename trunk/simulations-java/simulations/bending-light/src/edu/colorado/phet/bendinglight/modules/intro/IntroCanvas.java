@@ -31,6 +31,8 @@ import static edu.colorado.phet.bendinglight.BendingLightApplication.RESOURCES;
 import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.multiScaleToWidth;
 
 /**
+ * Canvas for the "intro" tab.
+ *
  * @author Sam Reid
  */
 public class IntroCanvas<T extends IntroModel> extends BendingLightCanvas<T> {
@@ -88,6 +90,7 @@ public class IntroCanvas<T extends IntroModel> extends BendingLightCanvas<T> {
             } );
         }} );
 
+        //Laser control panel
         afterLightLayer.addChild( new ControlPanelNode( new PNode() {{
             final PText title = new PText( "Laser View" ) {{setFont( labelFont );}};
             addChild( title );

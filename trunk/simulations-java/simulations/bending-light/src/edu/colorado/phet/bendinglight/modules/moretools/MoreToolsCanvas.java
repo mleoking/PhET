@@ -31,6 +31,8 @@ import edu.colorado.phet.common.piccolophet.nodes.VelocitySensorNode;
 import edu.umd.cs.piccolo.PNode;
 
 /**
+ * Canvas for the "more tools" tab, which adds more tools to the toolbox, and a few more controls for the laser.
+ *
  * @author Sam Reid
  */
 public class MoreToolsCanvas extends IntroCanvas<MoreToolsModel> {

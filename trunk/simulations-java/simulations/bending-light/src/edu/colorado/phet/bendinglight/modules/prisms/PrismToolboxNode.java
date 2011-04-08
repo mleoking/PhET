@@ -18,6 +18,8 @@ import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
 
 /**
+ * Prism toolbox which contains draggable prisms as well as the control panel for their index of refraction.
+ *
  * @author Sam Reid
  */
 public class PrismToolboxNode extends PNode {

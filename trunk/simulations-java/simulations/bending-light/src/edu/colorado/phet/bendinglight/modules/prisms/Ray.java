@@ -5,7 +5,7 @@ import edu.colorado.phet.bendinglight.model.BendingLightModel;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 
 /**
- * For propagation
+ * A single immutable ray, used in the ray propagation algorithm.
  *
  * @author Sam Reid
  */

@@ -10,6 +10,8 @@ import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 
 /**
+ * Application for "bending light"
+ *
  * @author Sam Reid
  */
 public class BendingLightApplication extends PiccoloPhetApplication {

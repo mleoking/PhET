@@ -7,6 +7,8 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 
 /**
+ * Models the intersection between a light ray and an interface, needed so we can optionally depict normals at each intersection.
+ *
  * @author Sam Reid
  */
 public class Intersection {

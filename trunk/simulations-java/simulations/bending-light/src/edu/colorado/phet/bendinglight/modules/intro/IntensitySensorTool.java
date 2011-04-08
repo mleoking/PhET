@@ -16,6 +16,8 @@ import edu.colorado.phet.common.piccolophet.nodes.ToolNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
+ * Tool for dragging out the Intensity Sensor
+ *
  * @author Sam Reid
  */
 public class IntensitySensorTool extends Tool {

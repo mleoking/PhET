@@ -18,6 +18,8 @@ import static edu.colorado.phet.common.phetcommon.math.MathUtil.getLineCircleInt
 import static java.lang.Math.*;
 
 /**
+ * Model for the "intro" tab, which has an upper and lower medium, interfacing at the middle of the screen, and the laser at the top left shining toward the interface.
+ *
  * @author Sam Reid
  */
 public class IntroModel extends BendingLightModel {

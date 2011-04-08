@@ -10,6 +10,8 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 
 /**
+ * PNode that depicts a the normal vector at a light-ray / medium interface intersection.
+ *
  * @author Sam Reid
  */
 public class IntersectionNode extends PNode {
