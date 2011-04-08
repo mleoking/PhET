@@ -98,8 +98,7 @@ public class WhiteLightNode extends PImage {
             samples[1] = (float) MathUtil.clamp( 0, samples[1] / max * scale - whiteLimit, maxChannel );
             samples[2] = (float) MathUtil.clamp( 0, samples[2] / max * scale - whiteLimit, maxChannel );
             intensity = intensity * max;
-
-            float alpha = (float) MathUtil.clamp( 0, Math.sqrt( intensity / 6 ), 1 );//don't let it become fully opaque or it looks too dark against white background
+            float alpha = (float) MathUtil.clamp( 0, Math.sqrt( intensity ), 1 );//don't let it become fully opaque or it looks too dark against white background
             graphics.setPaint( new Color( samples[0], samples[1], samples[2], alpha ) );
             graphics.fillRect( point.x, point.y, 1, 1 );
         }
@@ -112,7 +111,7 @@ public class WhiteLightNode extends PImage {
     //Add the specified point to the HashMap (creating a new entry if necessary, otherwise adding it to existing values.
     //Take the intensity as the last component of the array
     private void addToMap( int x0, int y0, Color color, double intensity, HashMap<Point, float[]> map ) {
-        float brightnessFactor = 0.2f;//so that rays don't start fully saturated
+        float brightnessFactor = 0.007f;//so that rays don't start fully saturated: this makes it so that it is possible to see the decrease in intensity after a (nontotal) reflection
         final Point point = new Point( x0, y0 );
         if ( map.containsKey( point ) ) {
             float[] current = map.get( point );
