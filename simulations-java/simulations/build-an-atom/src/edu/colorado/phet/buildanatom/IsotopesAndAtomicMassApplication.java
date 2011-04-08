@@ -24,7 +24,7 @@ import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 public class IsotopesAndAtomicMassApplication extends PiccoloPhetApplication {
 
     //----------------------------------------------------------------------------
-    // Instance data
+    // Instance Data
     //----------------------------------------------------------------------------
 
     ProblemTypeSelectionDialog problemTypeSelectionDialog = ProblemTypeSelectionDialog.createInstance( getPhetFrame() );
