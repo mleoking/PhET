@@ -1,0 +1,17 @@
+Code review for balancing chemical equations
+Sam Reid
+April 2011
+
+1. Package structure
+Package structure should be sims/modules.  For instance, it the game view package is currently at:
+view/game
+
+But it should be at:
+modules/game/view
+
+I know there is some contention about how to structure packages--in a discussion with JB today, he said he prefers "modules/game/view" structure, but in previous
+conversations with JO I think JO favored the view/game layout.  We should discuss this.
+
+I'd also recommend putting all the developer code in a /dev or /test package
+
+2.
