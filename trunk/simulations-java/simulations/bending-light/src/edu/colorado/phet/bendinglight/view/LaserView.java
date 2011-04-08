@@ -7,6 +7,8 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.umd.cs.piccolo.PNode;
 
 /**
+ * Display type for the rays, can be shown as rays (nonmoving lines) or waves (animating).
+ *
  * @author Sam Reid
  */
 public abstract class LaserView {

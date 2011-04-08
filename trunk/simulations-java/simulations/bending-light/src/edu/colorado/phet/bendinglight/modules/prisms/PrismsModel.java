@@ -6,12 +6,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-import edu.colorado.phet.bendinglight.model.BendingLightModel;
-import edu.colorado.phet.bendinglight.model.LightRay;
-import edu.colorado.phet.bendinglight.model.Medium;
-import edu.colorado.phet.bendinglight.model.MediumColorFactory;
+import edu.colorado.phet.bendinglight.model.*;
 import edu.colorado.phet.bendinglight.view.LaserColor;
-import edu.colorado.phet.bendinglight.view.ProtractorModel;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.property.Property;

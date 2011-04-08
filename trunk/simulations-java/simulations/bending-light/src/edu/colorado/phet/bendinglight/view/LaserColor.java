@@ -7,6 +7,8 @@ import edu.colorado.phet.bendinglight.model.BendingLightModel;
 import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 
 /**
+ * Enum type pattern for the laser color, which may be white or a specific wavelength.
+ *
  * @author Sam Reid
  */
 public abstract class LaserColor {

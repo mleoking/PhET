@@ -19,6 +19,8 @@ import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.f
 import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.flipY;
 
 /**
+ * Graphic that depicts how the laser may be moved.  It is only shown when the cursor is over the laser and is non-interactive.
+ *
  * @author Sam Reid
  */
 public class TranslationDragHandle extends PNode {

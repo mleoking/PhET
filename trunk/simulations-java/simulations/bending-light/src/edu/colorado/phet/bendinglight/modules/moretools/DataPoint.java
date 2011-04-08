@@ -1,7 +1,9 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.bendinglight.view;
+package edu.colorado.phet.bendinglight.modules.moretools;
 
 /**
+ * Immutable data point class used in the intensity meter charts.
+ *
  * @author Sam Reid
  */
 public class DataPoint {
