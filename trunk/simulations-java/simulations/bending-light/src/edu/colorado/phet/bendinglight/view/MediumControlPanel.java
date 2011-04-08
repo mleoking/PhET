@@ -78,11 +78,12 @@ public class MediumControlPanel extends PNode {
                     setMediumState( initialMediumState, medium );
                 }
 
+                //Updates the combo box to show which item is selected
                 private void updateComboBox() {
                     int selected = -1;
                     for ( int i = 0; i < mediumStates.length; i++ ) {
                         MediumState mediumState = (MediumState) mediumStates[i];
-                        if ( mediumState.index() == medium.getValue().getIndexOfRefraction( laserWavelength.getValue() ) ) {
+                        if ( mediumState.dispersionFunction.getIndexOfRefraction( laserWavelength.getValue() ) == medium.getValue().getIndexOfRefraction( laserWavelength.getValue() ) ) {
                             selected = i;
                         }
                     }
