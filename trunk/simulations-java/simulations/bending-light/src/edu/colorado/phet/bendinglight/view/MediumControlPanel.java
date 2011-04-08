@@ -141,8 +141,12 @@ public class MediumControlPanel extends PNode {
             }
 
             addChild( new PSwing( new JPanel() {{
-                add( new LowHighLabel( "low", !textFieldVisible ) );
-                add( new JSlider( 0, 10000 ) {{
+                //Use a custom layout so that we can easily position the low and high labels aligned with the focus rectangle of the slider, so they
+                //appear to the left and right of the slider thumb, not between the slider track and the slider labels
+                setLayout( null );
+                final LowHighLabel lowLabel = new LowHighLabel( "low", !textFieldVisible );
+                final LowHighLabel highLabel = new LowHighLabel( "high", !textFieldVisible );
+                final JSlider slider = new JSlider( 0, 10000 ) {{
                     final Function.LinearFunction mapping = new Function.LinearFunction( getMinimum(), getMaximum(), MIN, MAX );
                     addChangeListener( new ChangeListener() {
                         public void stateChanged( ChangeEvent e ) {
@@ -165,8 +169,15 @@ public class MediumControlPanel extends PNode {
                         put( (int) mapping.createInverse().evaluate( BendingLightModel.GLASS.index() ), new TickLabel( "Glass" ) );
                     }} );
                     setPreferredSize( new Dimension( Math.max( (int) topComponent.getFullBounds().getWidth(), 200 ), getPreferredSize().height ) );
-                }} );
-                add( new LowHighLabel( "high", !textFieldVisible ) );
+                }};
+                lowLabel.setBounds( 0, 0, lowLabel.getPreferredSize().width, lowLabel.getPreferredSize().height );
+                slider.setBounds( lowLabel.getPreferredSize().width, 0, slider.getPreferredSize().width, slider.getPreferredSize().height );
+                highLabel.setBounds( lowLabel.getPreferredSize().width + slider.getPreferredSize().width, 0, highLabel.getPreferredSize().width, highLabel.getPreferredSize().height );
+
+                add( slider );
+                add( lowLabel );
+                add( highLabel );
+                setPreferredSize( new Dimension( lowLabel.getPreferredSize().width + slider.getPreferredSize().width + highLabel.getPreferredSize().width, slider.getPreferredSize().height ) );
             }} ) {{
                 setOffset( 0, topComponent.getFullBounds().getMaxY() );
             }} );
