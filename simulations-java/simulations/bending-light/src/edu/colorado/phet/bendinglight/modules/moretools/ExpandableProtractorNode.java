@@ -37,7 +37,8 @@ public class ExpandableProtractorNode extends ProtractorNode {
         class MaxMinButton extends PImage {
             MaxMinButton( BufferedImage image, ObservableProperty<Boolean> expanded, final boolean expand ) {
                 super( image );
-                setOffset( innerBarShape.getX() + innerBarShape.getWidth() / 4 - getFullBounds().getWidth() / 2, innerBarShape.getCenterY() - getFullBounds().getHeight() / 2 );
+                //Put the +/- to the right side of the protractor? For some reason NP thinks that would feel more natural.
+                setOffset( innerBarShape.getX() + innerBarShape.getWidth() * 0.75 - getFullBounds().getWidth() / 2, innerBarShape.getCenterY() - getFullBounds().getHeight() / 2 );
                 addInputEventListener( new CursorHandler() );
                 addInputEventListener( new PBasicInputEventHandler() {
                     @Override public void mousePressed( PInputEvent event ) {
