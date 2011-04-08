@@ -10,9 +10,9 @@
  */
 package edu.colorado.phet.common.piccolophet;
 
-import java.awt.Component;
+import java.awt.*;
 
-import javax.swing.JComponent;
+import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;

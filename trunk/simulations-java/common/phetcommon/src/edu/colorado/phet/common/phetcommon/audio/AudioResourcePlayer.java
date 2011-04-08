@@ -25,6 +25,7 @@ public class AudioResourcePlayer {
 
     /**
      * Is sound enabled?
+     *
      * @return
      */
     public boolean isEnabled() {
@@ -33,6 +34,7 @@ public class AudioResourcePlayer {
 
     /**
      * Enables or disables sound.
+     *
      * @param isEnabled
      */
     public void setEnabled( boolean isEnabled ) {
@@ -41,6 +43,7 @@ public class AudioResourcePlayer {
 
     /**
      * Plays an audio resource using the sim-specific resource loader.
+     *
      * @param resourceName
      */
     public void playSimAudio( String resourceName ) {
@@ -48,9 +51,10 @@ public class AudioResourcePlayer {
             simResourceLoader.getAudioClip( resourceName ).play();
         }
     }
-    
+
     /**
      * Plays an audio resource using phetcommon's resource loader.
+     *
      * @param resourceName
      */
     public void playCommonAudio( String resourceName ) {

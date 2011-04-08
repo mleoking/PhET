@@ -1,3 +1,4 @@
+4/8/11 Reformatted according to PhET's IntelliJ code style
 4/7/2011 Made it possible to override the getControlPanelBounds strategy
 3/29/2011 #2375, delete PhET's version of SwingLayoutNode, convert PinnedLayoutNode to use Piccolo's version
 3/22/2011 Added VelocitySensorNode and related classes and assets from Bending Light for reuse in Fluid Pressure and Flow

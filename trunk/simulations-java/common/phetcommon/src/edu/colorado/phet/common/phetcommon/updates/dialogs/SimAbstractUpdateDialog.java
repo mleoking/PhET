@@ -1,10 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.phetcommon.updates.dialogs;
 
-import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.Frame;
-import java.awt.GridBagConstraints;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -29,7 +26,7 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
  * Base class for sim update dialogs.
  */
 public abstract class SimAbstractUpdateDialog extends PaintImmediateDialog {
-    
+
     private static final String TITLE = PhetCommonResources.getString( "Common.updates.updateAvailable" );
     private static final String ASK_ME_LATER_BUTTON = PhetCommonResources.getString( "Common.updates.askMeLater" );
     private static final String SKIP_UPDATE_BUTTON = PhetCommonResources.getString( "Common.updates.skipThisUpdate" );
@@ -38,7 +35,7 @@ public abstract class SimAbstractUpdateDialog extends PaintImmediateDialog {
 
     private final ISimInfo simInfo;
     private final PhetVersion newVersion;
-    
+
     protected SimAbstractUpdateDialog( Frame owner, ISimInfo simInfo, PhetVersion newVersion ) {
         super( owner, TITLE );
         setModal( true );
@@ -46,17 +43,17 @@ public abstract class SimAbstractUpdateDialog extends PaintImmediateDialog {
         this.simInfo = simInfo;
         this.newVersion = newVersion;
     }
-    
+
     /*
-     * Subclass must call this at the end of their constructor,
-     * so that the GUI is initialized *after* member data is initialized. 
-     */
+    * Subclass must call this at the end of their constructor,
+    * so that the GUI is initialized *after* member data is initialized.
+    */
     protected void initGUI() {
-        
+
         // subpanels
         JPanel messagePanel = createMessagePanel( simInfo, newVersion );
         JPanel buttonPanel = createButtonPanel( simInfo, newVersion );
-        
+
         // main panel
         JPanel panel = new JPanel();
         EasyGridBagLayout layout = new EasyGridBagLayout( panel );
@@ -76,12 +73,12 @@ public abstract class SimAbstractUpdateDialog extends PaintImmediateDialog {
      * Message (top) panel, common to all update dialogs.
      */
     private JPanel createMessagePanel( ISimInfo simInfo, PhetVersion newVersion ) {
-        
+
         final String project = simInfo.getProjectName();
         final String sim = simInfo.getFlavor();
         String simName = simInfo.getName();
         PhetVersion currentVersion = simInfo.getVersion();
-        
+
         // information about the update that was found
         JLabel versionComparisonLabel = new JLabel( getVersionComparisonHTML( simName, currentVersion.formatForTitleBar(), newVersion.formatForTitleBar() ) );
 
@@ -116,29 +113,29 @@ public abstract class SimAbstractUpdateDialog extends PaintImmediateDialog {
 
         return messagePanel;
     }
-    
+
     /*
-     * Subclasses can override this if they have additional things to add to the message area.
-     * Those things will be added below the standard message, and above the buttons.
-     */
+    * Subclasses can override this if they have additional things to add to the message area.
+    * Those things will be added below the standard message, and above the buttons.
+    */
     protected JComponent createAdditionalMessageComponent() {
         return null;
     }
-    
+
     /*
-     * Subclasses provide their own actions via a button panel.
-     */
+    * Subclasses provide their own actions via a button panel.
+    */
     protected abstract JPanel createButtonPanel( ISimInfo simInfo, PhetVersion newVersion );
-    
+
     /*
-     * Gets the message that compares the current version and new version.
-     */
+    * Gets the message that compares the current version and new version.
+    */
     private static String getVersionComparisonHTML( String simName, String currentVersion, String newVersion ) {
         String pattern = PhetCommonResources.getString( "Common.updates.versionComparison" );
         Object[] args = { simName, currentVersion, newVersion };
         return MessageFormat.format( pattern, args );
     }
-    
+
     protected static class UpdateButton extends JButton {
         public UpdateButton( final JDialog dialog, final ISimInfo simInfo, final PhetVersion newVersion ) {
             super( PhetCommonResources.getString( "Common.updates.updateNow" ) );
@@ -157,7 +154,7 @@ public abstract class SimAbstractUpdateDialog extends PaintImmediateDialog {
             } );
         }
     }
-    
+
     protected static class AskMeLaterButton extends JButton {
         public AskMeLaterButton( final JDialog dialog, final IAskMeLaterStrategy askMeLaterStrategy ) {
             super( ASK_ME_LATER_BUTTON );
@@ -169,7 +166,7 @@ public abstract class SimAbstractUpdateDialog extends PaintImmediateDialog {
             } );
         }
     }
-    
+
     protected static class SkipVersionButton extends JButton {
         public SkipVersionButton( final JDialog dialog, final IVersionSkipper versionSkipper, final PhetVersion newVersion ) {
             super( SKIP_UPDATE_BUTTON );
@@ -181,7 +178,7 @@ public abstract class SimAbstractUpdateDialog extends PaintImmediateDialog {
             } );
         }
     }
-    
+
     protected static class CancelButton extends JButton {
         public CancelButton( final JDialog dialog ) {
             super( CANCEL_BUTTON );
@@ -192,5 +189,5 @@ public abstract class SimAbstractUpdateDialog extends PaintImmediateDialog {
             } );
         }
     }
-    
+
 }

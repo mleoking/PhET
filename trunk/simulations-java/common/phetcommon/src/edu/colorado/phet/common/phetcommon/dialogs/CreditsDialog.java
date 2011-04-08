@@ -2,9 +2,7 @@
 
 package edu.colorado.phet.common.phetcommon.dialogs;
 
-import java.awt.BorderLayout;
-import java.awt.Dialog;
-import java.awt.Dimension;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -33,7 +31,7 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
  * - Development Team
  * - Translation
  * - Third-Party Software
- *
+ * <p/>
  * Each type of credit appears under a major heading.
  * A separate inner class handles the specifics of reading, parsing and formatting
  * each type of credit.
@@ -184,7 +182,7 @@ public class CreditsDialog extends PaintImmediateDialog {
             try {
                 creditsString = new DefaultResourceLoader().getResourceAsString( resourceName );
             }
-            catch( IOException e ) {
+            catch ( IOException e ) {
                 System.err.println( getClass().getName() + ": missing " + resourceName );
             }
             return creditsString;
@@ -312,7 +310,7 @@ public class CreditsDialog extends PaintImmediateDialog {
                      * URL general format is protocol://host/path
                      */
                     String resourceName = projectName + "/" + DIRECTORY_NAME + "/" + id + "-" + licenseFile;
-                    buffer.append( "<a href=\"" + URL_PROTOCOL +  "://" + URL_HOST + "/" + resourceName + "\">" + license + "<a>" );
+                    buffer.append( "<a href=\"" + URL_PROTOCOL + "://" + URL_HOST + "/" + resourceName + "\">" + license + "<a>" );
                 }
                 else {
                     buffer.append( "license not found" );
@@ -333,10 +331,10 @@ public class CreditsDialog extends PaintImmediateDialog {
             try {
                 licenseString = new DefaultResourceLoader().getResourceAsString( resourceName );
             }
-            catch( IOException e ) {
+            catch ( IOException e ) {
                 // shouldn't happen for sims generated with the build process; license info is copied automatically.
                 System.err.println( getClass().getName() + ": missing  " + resourceName +
-                        " - Did you generate license info for this sim, using PhetBuildGUI->Misc->Generate License Info ?" );
+                                    " - Did you generate license info for this sim, using PhetBuildGUI->Misc->Generate License Info ?" );
             }
             return licenseString;
         }
@@ -366,7 +364,7 @@ public class CreditsDialog extends PaintImmediateDialog {
             try {
                 text = new DefaultResourceLoader().getResourceAsString( resourceName );
             }
-            catch( Exception e ) {
+            catch ( Exception e ) {
                 return "missing " + resourceName;
             }
 

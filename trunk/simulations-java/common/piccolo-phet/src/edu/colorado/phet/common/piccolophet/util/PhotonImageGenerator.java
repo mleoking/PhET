@@ -98,7 +98,7 @@ public class PhotonImageGenerator extends JFrame {
                     try {
                         ImageIO.write( BufferedImageUtils.toBufferedImage( image ), "PNG", outputFile );
                     }
-                    catch( IOException e1 ) {
+                    catch ( IOException e1 ) {
                         e1.printStackTrace();
                     }
                 }

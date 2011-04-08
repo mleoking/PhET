@@ -24,7 +24,7 @@ import java.util.Random;
  */
 public class MathUtil {
     private static final Random random = new Random( System.currentTimeMillis() );
-    public static final double SQRT_2 = Math.sqrt(2);
+    public static final double SQRT_2 = Math.sqrt( 2 );
 
     /**
      * Returns a pseudo-randomly distributed +1 or -1
@@ -45,12 +45,12 @@ public class MathUtil {
     public static double logBaseX( double number, double base ) {
         return Math.log( number ) / Math.log( base );
     }
-    
+
     /**
      * Returns the log base 10 of a number.
      * This function is needed for Java 1.4.
      * java.lang.Math.log10 was added in Java 1.5.
-     * 
+     *
      * @param number
      * @return
      */
@@ -485,42 +485,41 @@ public class MathUtil {
         return new Point2D.Double( origin.getX() + x, origin.getY() + y );
     }
 
-    public static Point2D getPointOnLineClosestToPoint(Line2D line, Point2D point) {
-        double deltaX = ((line.getX1()) - (line.getX2()));
-        double deltaY = ((line.getY1()) - (line.getY2()));
+    public static Point2D getPointOnLineClosestToPoint( Line2D line, Point2D point ) {
+        double deltaX = ( ( line.getX1() ) - ( line.getX2() ) );
+        double deltaY = ( ( line.getY1() ) - ( line.getY2() ) );
 
-        double x = (line.getX1()) - (deltaX *(deltaX *((line.getX1()) - (point.getX())) + deltaY *((line.getY1()) - (point.getY()))))/(deltaX * deltaX + deltaY * deltaY);        
-        double y = (deltaX *(-((line.getX2())*(line.getY1())) + (line.getX1())*(line.getY2()) + deltaY *(point.getX())) + deltaY * deltaY *(point.getY()))/(deltaX * deltaX + deltaY * deltaY);
+        double x = ( line.getX1() ) - ( deltaX * ( deltaX * ( ( line.getX1() ) - ( point.getX() ) ) + deltaY * ( ( line.getY1() ) - ( point.getY() ) ) ) ) / ( deltaX * deltaX + deltaY * deltaY );
+        double y = ( deltaX * ( -( ( line.getX2() ) * ( line.getY1() ) ) + ( line.getX1() ) * ( line.getY2() ) + deltaY * ( point.getX() ) ) + deltaY * deltaY * ( point.getY() ) ) / ( deltaX * deltaX + deltaY * deltaY );
 
-        return new Point2D.Double(x, y);
+        return new Point2D.Double( x, y );
     }
 
     /**
      * Retrieves a vector that proceeds from the line to the specified point,
-     * along the shortest direction between the two. 
+     * along the shortest direction between the two.
      *
      * @param line  The line.
-     * 
      * @param point The point.
-     *
-     * @return  A vector from the line to the point, along the shortest distance
-     *          between the two.
+     * @return A vector from the line to the point, along the shortest distance
+     *         between the two.
      */
-    public static Vector2D getVectorFromLineToPoint(Line2D line, Point2D point) {
-        Point2D pointOnLine = getPointOnLineClosestToPoint(line, point);
+    public static Vector2D getVectorFromLineToPoint( Line2D line, Point2D point ) {
+        Point2D pointOnLine = getPointOnLineClosestToPoint( line, point );
 
-        return new Vector2D(point.getX() - pointOnLine.getX(), point.getY() - pointOnLine.getY());
+        return new Vector2D( point.getX() - pointOnLine.getX(), point.getY() - pointOnLine.getY() );
     }
 
-    public static double signum(double v) {
-        if (v < 0.0) return -1.0;
-        if (v > 0.0) return 1.0;
+    public static double signum( double v ) {
+        if ( v < 0.0 ) { return -1.0; }
+        if ( v > 0.0 ) { return 1.0; }
 
         return 0.0;
     }
 
     /**
      * Returns the largest element in the array, determined by >.  Array must have at least one element.
+     *
      * @param v
      * @return
      */
@@ -712,7 +711,7 @@ public class MathUtil {
         }
         throw new RuntimeException( "No machine epsilon found" );
     }
-    
+
     public static long daysToMilliseconds( long days ) {
         return days * 24 * 60 * 60 * 1000; // days * hours/day * minutes/hour * sec/minute * ms/sec
     }

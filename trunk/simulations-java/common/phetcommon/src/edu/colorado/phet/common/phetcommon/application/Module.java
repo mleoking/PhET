@@ -10,10 +10,10 @@
  */
 package edu.colorado.phet.common.phetcommon.application;
 
-import java.awt.Color;
+import java.awt.*;
 import java.util.ArrayList;
 
-import javax.swing.JComponent;
+import javax.swing.*;
 import javax.swing.text.JTextComponent;
 
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
@@ -46,7 +46,7 @@ public abstract class Module implements Resettable {
     private ClockAdapter moduleRunner;
 
     private ModulePanel modulePanel;
-    private ArrayList listeners=new ArrayList( );
+    private ArrayList listeners = new ArrayList();
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -76,7 +76,7 @@ public abstract class Module implements Resettable {
         setModel( new BaseModel() );
 
         this.modulePanel = new ModulePanel();
-        setClockControlPanel( createClockControlPanel(clock) );
+        setClockControlPanel( createClockControlPanel( clock ) );
         setLogoPanel( new LogoPanel() );
         setHelpPanel( new HelpPanel( this ) );
 
@@ -422,7 +422,7 @@ public abstract class Module implements Resettable {
         updateHelpPanelVisible();
         active = true;
         for ( int i = 0; i < listeners.size(); i++ ) {
-            ((Listener)listeners.get( i )).activated();
+            ( (Listener) listeners.get( i ) ).activated();
         }
     }
 
@@ -445,7 +445,7 @@ public abstract class Module implements Resettable {
     //This problem has only appeared in the Rotation simulation, but doesn't appear to be correlated with
     //Rotation's new repaint manager
     // TODO: Add protection against calling this method multiple times
-    protected void addRepaintOnActivateBehavior() {       
+    protected void addRepaintOnActivateBehavior() {
         addListener( new Listener() {
             public void activated() {
                 getModulePanel().paintImmediately( 0, 0, getModulePanel().getWidth(), getModulePanel().getHeight() );
@@ -461,6 +461,7 @@ public abstract class Module implements Resettable {
 
         void deactivated();
     }
+
     /**
      * Deactivates this Module (pausing it).
      */
@@ -469,7 +470,7 @@ public abstract class Module implements Resettable {
         clock.pause();
         active = false;
         for ( int i = 0; i < listeners.size(); i++ ) {
-            ((Listener)listeners.get( i )).deactivated();
+            ( (Listener) listeners.get( i ) ).deactivated();
         }
     }
 
@@ -501,7 +502,7 @@ public abstract class Module implements Resettable {
     public void setName( String name ) {
         this.name = name;
     }
-    
+
     /**
      * Get the name of the Module.
      *
@@ -540,50 +541,50 @@ public abstract class Module implements Resettable {
      */
     public void updateGraphics( ClockEvent event ) {
     }
-    
+
     public void setControlPanelBackground( Color color ) {
         if ( getControlPanel() != null ) {
             Class[] excludedClasses = { JTextComponent.class }; // default excluded classes, what we want in most cases
             setControlPanelBackground( color, excludedClasses );
         }
     }
-    
+
     public void setControlPanelBackground( Color color, Class[] excludedClasses ) {
         if ( getControlPanel() != null ) {
-            SwingUtils.setBackgroundDeep( getControlPanel(), color, excludedClasses, false /* processContentsOfExcludedContainers */);
+            SwingUtils.setBackgroundDeep( getControlPanel(), color, excludedClasses, false /* processContentsOfExcludedContainers */ );
         }
     }
-    
+
     public void setClockControlPanelBackground( Color color ) {
         if ( getClockControlPanel() != null ) {
             Class[] excludedClasses = { JTextComponent.class }; // default excluded classes, what we want in most cases
             setClockControlPanelBackground( color, excludedClasses );
         }
     }
-    
+
     public void setClockControlPanelBackground( Color color, Class[] excludedClasses ) {
         if ( getClockControlPanel() != null ) {
-            SwingUtils.setBackgroundDeep( getClockControlPanel(), color, excludedClasses, false /* processContentsOfExcludedContainers */);
+            SwingUtils.setBackgroundDeep( getClockControlPanel(), color, excludedClasses, false /* processContentsOfExcludedContainers */ );
         }
     }
-    
+
     public void setHelpPanelBackground( Color color ) {
         if ( getHelpPanel() != null ) {
             Class[] excludedClasses = { JTextComponent.class }; // default excluded classes, what we want in most cases
             setHelpPanelBackground( color, excludedClasses );
         }
     }
-    
+
     public void setHelpPanelBackground( Color color, Class[] excludedClasses ) {
         if ( getHelpPanel() != null ) {
-            SwingUtils.setBackgroundDeep( getHelpPanel(), color, excludedClasses, false /* processContentsOfExcludedContainers */);
+            SwingUtils.setBackgroundDeep( getHelpPanel(), color, excludedClasses, false /* processContentsOfExcludedContainers */ );
         }
     }
-    
+
     //----------------------------------------------------------------------------
     // Resettable implementation
     //----------------------------------------------------------------------------
-    
+
     public void reset() {
         // default implementation does nothing
     }

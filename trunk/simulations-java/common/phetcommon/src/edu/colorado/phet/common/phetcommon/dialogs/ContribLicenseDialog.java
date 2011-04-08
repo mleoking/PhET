@@ -2,9 +2,7 @@
 
 package edu.colorado.phet.common.phetcommon.dialogs;
 
-import java.awt.BorderLayout;
-import java.awt.Dialog;
-import java.awt.Dimension;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -12,8 +10,8 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
-import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils.InteractiveHTMLPane;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 /**
  * This dialog shows license information for a particular license (such as GPL) for
@@ -29,7 +27,7 @@ public class ContribLicenseDialog extends PaintImmediateDialog {
 
     private static final String CLOSE_BUTTON = PhetCommonResources.getString( "Common.choice.close" );
 
-    public ContribLicenseDialog( Dialog owner,String title ,String text)  {
+    public ContribLicenseDialog( Dialog owner, String title, String text ) {
         super( owner, title );
         setModal( true );
 

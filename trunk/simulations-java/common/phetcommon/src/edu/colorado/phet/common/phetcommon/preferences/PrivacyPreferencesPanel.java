@@ -1,16 +1,10 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.phetcommon.preferences;
 
-import java.awt.Dialog;
-import java.awt.Frame;
-import java.awt.Insets;
-import java.awt.Window;
+import java.awt.*;
 import java.text.MessageFormat;
 
-import javax.swing.JCheckBox;
-import javax.swing.JComponent;
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 
@@ -26,24 +20,24 @@ import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils.HTMLEditorPane;
 public class PrivacyPreferencesPanel extends JPanel {
 
     private static final String STATISTICS_ENABLED = PhetCommonResources.getString( "Common.statistics.enabled" );
-    
+
     private final PhetPreferences preferences;
     private final JCheckBox statisticsEnabledCheckBox;
     private final JCheckBox alwaysShowSoftwareAgreementCheckBox;
 
     public PrivacyPreferencesPanel( PhetPreferences preferences, SessionMessage sessionMessage, boolean isDev ) {
-        
+
         this.preferences = preferences;
-        
+
         // feature description
         JComponent description = new DescriptionPane( sessionMessage );
-        
+
         // enable check box
         statisticsEnabledCheckBox = new JCheckBox( STATISTICS_ENABLED, preferences.isStatisticsEnabled() );
-        
+
         // developer control to always show the software agreement dialog, not localized
         alwaysShowSoftwareAgreementCheckBox = new JCheckBox( "Always show Software Agreement (dev)", preferences.isAlwaysShowSoftwareAgreement() );
-        
+
         // layout
         EasyGridBagLayout layout = new EasyGridBagLayout( this );
         this.setLayout( layout );
@@ -53,10 +47,10 @@ public class PrivacyPreferencesPanel extends JPanel {
         layout.addComponent( description, row++, column );
         layout.addComponent( statisticsEnabledCheckBox, row++, column );
         if ( isDev ) {
-            layout.addComponent( alwaysShowSoftwareAgreementCheckBox, row++, column ); 
+            layout.addComponent( alwaysShowSoftwareAgreementCheckBox, row++, column );
         }
     }
-    
+
     /**
      * Saves the preference values in this panel.
      */
@@ -70,7 +64,7 @@ public class PrivacyPreferencesPanel extends JPanel {
      * But instead of opening a web browser, it opens a Swing dialog.
      */
     private static class DescriptionPane extends HTMLEditorPane {
-        
+
         private static final String DESCRIPTION_PATTERN = PhetCommonResources.getString( "Common.statistics.description" );
 
         // identifiers for hyperlink actions
@@ -78,12 +72,12 @@ public class PrivacyPreferencesPanel extends JPanel {
 
         public DescriptionPane( final SessionMessage sessionMessage ) {
             super( "" );
-            
+
             // insert our own hyperlink descriptions into the message, so translators can't mess them up
-            Object[] args = {LINK_SHOW_STATISTICS_DETAILS};
+            Object[] args = { LINK_SHOW_STATISTICS_DETAILS };
             String htmlFragment = MessageFormat.format( DESCRIPTION_PATTERN, args );
             setText( HTMLUtils.createStyledHTMLFromFragment( htmlFragment ) );
-            
+
             addHyperlinkListener( new HyperlinkListener() {
                 public void hyperlinkUpdate( HyperlinkEvent e ) {
                     if ( e.getEventType() == HyperlinkEvent.EventType.ACTIVATED ) {
@@ -98,7 +92,7 @@ public class PrivacyPreferencesPanel extends JPanel {
             } );
             setBackground( new JPanel().getBackground() );
         }
-        
+
         private static void showStatisticsDetails( Window owner, SessionMessage sessionMessage ) {
             if ( owner instanceof Frame ) {
                 new StatisticsDetailsDialog( (Frame) owner, sessionMessage ).setVisible( true );

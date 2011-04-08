@@ -4,7 +4,7 @@ package edu.colorado.phet.common.piccolophet.nodes;
 
 import java.awt.*;
 
-import javax.swing.JLabel;
+import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -76,8 +76,8 @@ public class HTMLNode extends PNode {
     /**
      * Sets the HMTL string.
      * If you provide plain text or an HTML fragment, it will automatically be converted to HTML.
-     * 
-     * @param text 
+     *
+     * @param text
      */
     public void setHTML( String text ) {
         String html = HTMLUtils.toHTMLString( text );

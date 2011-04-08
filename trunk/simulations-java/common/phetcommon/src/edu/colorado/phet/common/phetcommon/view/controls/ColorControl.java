@@ -6,10 +6,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
-import javax.swing.Box;
-import javax.swing.ImageIcon;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
+import javax.swing.*;
 import javax.swing.event.*;
 
 import edu.colorado.phet.common.phetcommon.dialogs.ColorChooserFactory;

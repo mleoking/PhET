@@ -1,4 +1,3 @@
-
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.phetcommon.files;
 
@@ -13,22 +12,22 @@ import edu.colorado.phet.common.phetcommon.resources.PhetProperties;
 import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
 
 /**
- *
  * Encapsulates the notion of a PhET offline website installation.
- * 
+ *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class PhetInstallation {
-    
+
     private static final String PROPERTIES_FILENAME = "phet-installation.properties";
-    
+
     private static PhetInstallation instance;
-    
+
     // properties associated with the PhET installation
     private final PhetProperties properties;
-    
+
     /**
      * Gets the instance of this object.
+     *
      * @return
      */
     public static PhetInstallation getInstance() {
@@ -37,14 +36,15 @@ public class PhetInstallation {
         }
         return instance;
     }
-    
+
     /* singleton */
     private PhetInstallation() {
         properties = readProperties();
     }
-    
+
     /**
      * Gets the version information associated with the installer that was used to create the PhET installation.
+     *
      * @return
      */
     public PhetInstallerVersion getInstallerVersion() {
@@ -55,22 +55,23 @@ public class PhetInstallation {
         }
         return new PhetInstallerVersion( seconds );
     }
-    
+
     /**
      * Timestamp that indicates when the installation was performed,
      * in seconds since Epoch.
+     *
      * @return
      */
     public long getInstallationTimestamp() {
         return properties.getLong( "install.date.epoch.seconds", -1 );
     }
-    
+
     /**
      * Gets the JAR file in the installation that corresponds to the running simulation.
      * We cannot use File.getCodeSource, because in some versions of Java, that will
      * return the JAR file in the JWS cache (see #1320).  So we use the JNLP code base
      * to identify the JAR.
-     * 
+     *
      * @return
      */
     public File getInstalledJarFile() {
@@ -83,9 +84,10 @@ public class PhetInstallation {
         }
         return file;
     }
-    
+
     /**
      * Does a PhET installation exists that is associated with this sim?
+     *
      * @return
      */
     public static boolean exists() {
@@ -96,10 +98,10 @@ public class PhetInstallation {
         }
         return exists;
     }
-    
+
     /*
-     * Reads the properties file, if it exists.
-     */
+    * Reads the properties file, if it exists.
+    */
     private static PhetProperties readProperties() {
         PhetProperties properties = new PhetProperties();
         File file = getPropertiesFile();
@@ -114,11 +116,11 @@ public class PhetInstallation {
         }
         return properties;
     }
-    
+
     /*
-     * Gets the properties file associated the the PhET installation.
-     * Returns null if the file isn't found.
-     */
+    * Gets the properties file associated the the PhET installation.
+    * Returns null if the file isn't found.
+    */
     private static File getPropertiesFile() {
         File file = null;
         URL codeBase = PhetServiceManager.getCodeBase();
@@ -139,7 +141,7 @@ public class PhetInstallation {
         }
         return file;
     }
-    
+
     private static void warnMissingKey( String key ) {
         System.err.println( "WARNING: " + PROPERTIES_FILENAME + " is missing required key " + key );
     }

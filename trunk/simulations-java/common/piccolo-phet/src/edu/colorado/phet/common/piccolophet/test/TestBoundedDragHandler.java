@@ -43,7 +43,7 @@ public class TestBoundedDragHandler {
         //PPath is the shape primitive.
         Rectangle rectangleBounds = new Rectangle( 10, 10, 300, 300 );
         PPath path = new PPath( rectangleBounds );
-        path.setStroke( new BasicStroke( 1, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER, 1, new float[]{8, 12}, 0 ) );
+        path.setStroke( new BasicStroke( 1, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER, 1, new float[] { 8, 12 }, 0 ) );
         path.setStrokePaint( Color.black );
         piccoloCanvas.getLayer().addChild( path );
 

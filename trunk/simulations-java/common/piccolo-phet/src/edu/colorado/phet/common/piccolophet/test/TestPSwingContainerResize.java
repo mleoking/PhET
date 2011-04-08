@@ -1,9 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.piccolophet.test;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
@@ -19,18 +17,18 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 /**
  * Demonstrates a PSwing bounds problem with Containers.
  * See Unfuddle #1670.
- *
+ * <p/>
  * Click the radio buttons in the control panel a few times to see the issue.
  * The panel outside the play area behaves correctly.
  * But the panel in the play area will become wider to accommodate the wider label,
  * but the label will be wrapped to the panel's previous width.
  * This problem was observed with JCheckBox, JButton, JRadioButton.
  * If the text is not HTML, there is no problem.
- * 
+ * <p/>
  * This is definitely a PSwing problem, see Unfuddle #1670.
- * Workaround is to call PSwing.computeBounds whenever you change anything 
+ * Workaround is to call PSwing.computeBounds whenever you change anything
  * in the PSwing's component or its children.
- * 
+ * <p/>
  * Observed on:
  * Mac OS 10.5.6 + Java 1.5.0_16.
  * Windows XP + Java 1.5.0_17.
@@ -39,33 +37,33 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class TestPSwingContainerResize extends JFrame {
-    
+
     private static final boolean WORKAROUND_ENABLED = true;
-    
+
     public TestPSwingContainerResize() {
-        
+
         /*
-         * Swing control panel embedded in a Piccolo canvas using PSwing.
-         * The red check box will have it's label changed dynamically.
-         */
+        * Swing control panel embedded in a Piccolo canvas using PSwing.
+        * The red check box will have it's label changed dynamically.
+        */
         final DynamicPanel playAreaPanel = new DynamicPanel();
         final PSwing wrapperNode = new PSwing( playAreaPanel );
         final PhetPCanvas canvas = new PhetPCanvas();
         canvas.setPreferredSize( new Dimension( 600, 400 ) );
         canvas.getLayer().addChild( wrapperNode );
         wrapperNode.setOffset( 100, 100 );
-        
+
         /*
-         * Swing control panel outside of Piccolo.
-         * The red check box will have it's label changed dynamically.
-         */
+        * Swing control panel outside of Piccolo.
+        * The red check box will have it's label changed dynamically.
+        */
         final DynamicPanel dynamicSwingPanel = new DynamicPanel();
-        
+
         /*
-         * Swing control panel outside of Piccolo.
-         * Selecting one of the radio buttons changes the label on the 
-         * red check box in the play area.
-         */
+        * Swing control panel outside of Piccolo.
+        * Selecting one of the radio buttons changes the label on the
+        * red check box in the play area.
+        */
         JPanel controlPanel = new JPanel();
         {
             controlPanel.setLayout( new BoxLayout( controlPanel, BoxLayout.Y_AXIS ) );
@@ -100,27 +98,27 @@ public class TestPSwingContainerResize extends JFrame {
             playAreaPanel.setDynamicLabel( rb1.getText() );
             dynamicSwingPanel.setDynamicLabel( rb1.getText() );
         }
-        
+
         /*
-         * Frame layout.
-         */
+        * Frame layout.
+        */
         JPanel mainPanel = new JPanel( new BorderLayout() );
         mainPanel.add( controlPanel, BorderLayout.EAST );
         mainPanel.add( dynamicSwingPanel, BorderLayout.WEST );
         mainPanel.add( canvas, BorderLayout.CENTER );
-        
+
         setContentPane( mainPanel );
         pack();
         setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
     }
-    
+
     /*
-     * The top check box in this panel will have its label changed. 
-     */
+    * The top check box in this panel will have its label changed.
+    */
     private static class DynamicPanel extends JPanel {
-        
+
         private final AbstractButton dynamicButton;
-        
+
         public DynamicPanel() {
             setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
             TitledBorder border = new TitledBorder( new LineBorder( Color.BLACK, 1 ), "Dynamic panel" );
@@ -131,26 +129,26 @@ public class TestPSwingContainerResize extends JFrame {
             add( new JCheckBox( "red" ) );
             add( new JCheckBox( "blue" ) );
             add( new JCheckBox( "green" ) );
-            
-            
+
+
             // test ComponentListener
             this.addComponentListener( new ComponentAdapter() {
-                public void componentResized(ComponentEvent e) {
+                public void componentResized( ComponentEvent e ) {
                     System.out.println( "DynamicPanel.componentResized" );
                 }
-            });
+            } );
             dynamicButton.addComponentListener( new ComponentAdapter() {
-                public void componentResized(ComponentEvent e) {
+                public void componentResized( ComponentEvent e ) {
                     System.out.println( "JCheckBox.componentResized" );
                 }
-            });
+            } );
         }
-        
+
         public void setDynamicLabel( String text ) {
             dynamicButton.setText( text );
         }
     }
-    
+
     public static void main( String[] args ) {
         JFrame frame = new TestPSwingContainerResize();
         frame.setVisible( true );

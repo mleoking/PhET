@@ -5,25 +5,25 @@ package edu.colorado.phet.common.phetcommon.math;
 
 /**
  * Complex is an immutable complex number.
- * <p>
- * DEVELOPERS: 
+ * <p/>
+ * DEVELOPERS:
  * Do NOT change this implementation to make this type mutable.
  * Some sims rely on the immutability of this type.
  * If you need a mutable complex number, use MutableComplex.
- * 
+ *
  * @author Chris Malley
  */
 
 public class Complex {
-    
+
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
-    
+
     public static final Complex ZERO = new Complex( 0, 0 );
-    
+
     public static final Complex I = new Complex( 0, 1 );  // i == sqrt(-1)
-    
+
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -79,23 +79,23 @@ public class Complex {
     public Complex getAdd( Complex c ) {
         return getAdd( c._real, c._imaginary );
     }
-    
+
     public Complex getAdd( double real, double imaginary ) {
         return new Complex( _real + real, _imaginary + imaginary );
     }
-    
+
     public Complex getAdd( double real ) {
         return getAdd( real, 0 );
     }
-    
+
     public Complex getSubtract( Complex c ) {
         return getSubtract( c._real, c._imaginary );
     }
-    
+
     public Complex getSubtract( double real, double imaginary ) {
         return new Complex( _real - real, _imaginary - imaginary );
     }
-    
+
     public Complex getSubtract( double real ) {
         return getSubtract( real, 0 );
     }
@@ -103,11 +103,11 @@ public class Complex {
     public Complex getMultiply( Complex c ) {
         return getMultiply( c._real, c._imaginary );
     }
-    
+
     public Complex getMultiply( double real, double imaginary ) {
         return new Complex( _real * real - _imaginary * imaginary, _real * imaginary + _imaginary * real );
     }
-    
+
     public Complex getMultiply( double real ) {
         return getMultiply( real, 0 );
     }
@@ -115,14 +115,14 @@ public class Complex {
     public Complex getDivide( Complex c ) {
         return getDivide( c._real, c._imaginary );
     }
-    
+
     public Complex getDivide( double real, double imaginary ) {
         double q = real * real + imaginary * imaginary;
         double g = _real * real + _imaginary * imaginary;
         double h = _imaginary * real - _real * imaginary;
         return new Complex( g / q, h / q );
     }
-    
+
     public Complex getDivide( double real ) {
         return getDivide( real, 0 );
     }
@@ -130,19 +130,19 @@ public class Complex {
     public Complex getScale( double scale ) {
         return new Complex( _real * scale, _imaginary * scale );
     }
-    
+
     public double getAbs() {
         return ( Math.sqrt( ( _real * _real ) + ( _imaginary * _imaginary ) ) );
     }
-    
+
     public double getModulus() {
         return getAbs();
     }
-    
+
     public Complex getOpposite() {
         return new Complex( -_real, -_imaginary );
     }
-    
+
     public Complex getComplexConjugate() {
         return new Complex( _real, -_imaginary );
     }
@@ -150,15 +150,15 @@ public class Complex {
     public static Complex getExponentiateImaginary( double theta ) {
         return new Complex( Math.cos( theta ), Math.sin( theta ) );
     }
-    
+
     public static Complex getExp( Complex c ) {
         return getExp( c._real, c._imaginary );
     }
-    
+
     // e^(a+bi) = ( e^a ) * ( cos(b) + i * sin(b) )
     public static Complex getExp( double real, double imaginary ) {
         double multiplier = Math.exp( real );
-        return new Complex( multiplier * Math.cos( imaginary), multiplier * Math.sin( imaginary ) );
+        return new Complex( multiplier * Math.cos( imaginary ), multiplier * Math.sin( imaginary ) );
     }
 
     //----------------------------------------------------------------------------

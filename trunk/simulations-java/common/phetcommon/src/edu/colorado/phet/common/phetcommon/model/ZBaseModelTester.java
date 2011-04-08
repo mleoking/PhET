@@ -44,20 +44,20 @@ public class ZBaseModelTester extends TestCase {
     }
 
     public void testCanSelectForTwoClasses() {
-        List selection = model.selectFor( new Class[]{Serializable.class, TestModelElement2.class} );
+        List selection = model.selectFor( new Class[] { Serializable.class, TestModelElement2.class } );
 
         assertTrue( selection.contains( element2 ) );
     }
 
     public void testCanSelectForJustTwoClasses() {
-        List selection = model.selectFor( new Class[]{Serializable.class, TestModelElement2.class} );
+        List selection = model.selectFor( new Class[] { Serializable.class, TestModelElement2.class } );
 
         assertFalse( selection.contains( element1 ) );
         assertFalse( selection.contains( element3 ) );
     }
 
     public void testCanSelectForAnyOfTwo() {
-        List selection = model.selectForAny( new Class[]{Serializable.class, TestModelElement1.class} );
+        List selection = model.selectForAny( new Class[] { Serializable.class, TestModelElement1.class } );
 
         assertTrue( selection.contains( element1 ) );
         assertTrue( selection.contains( element2 ) );

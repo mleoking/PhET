@@ -83,38 +83,38 @@ public class ModelViewTransform2D {
     }
 
     public ModelViewTransform2D( Point2D mp1, Point2D mp2, Point2D vp1, Point2D vp2, boolean invertY ) {
-        this(mp1,mp2,vp1,vp2);
-        this.invertY=invertY;
+        this( mp1, mp2, vp1, vp2 );
+        this.invertY = invertY;
     }
 
     /**
      * Somewhat simplified constructor that assumes that the aspect ratio is
      * maintained in all cases.
      *
-     * @param mp1 - Point in the model
-     * @param vp1 - Corresponding point in the view
-     * @param scale - Scale from model to view
+     * @param mp1     - Point in the model
+     * @param vp1     - Corresponding point in the view
+     * @param scale   - Scale from model to view
      * @param invertY - To invert Y or not to invert Y, that is the question
      */
-    public ModelViewTransform2D( Point2D mp1, Point2D vp1, double scale, boolean invertY ){
+    public ModelViewTransform2D( Point2D mp1, Point2D vp1, double scale, boolean invertY ) {
 
-    	this(mp1, new Point2D.Double(mp1.getX() + 1, mp1.getY() + 1), vp1,
-    			new Point2D.Double(vp1.getX() + 1 * scale, vp1.getY() + 1 * scale));
-    	this.invertY=invertY;
+        this( mp1, new Point2D.Double( mp1.getX() + 1, mp1.getY() + 1 ), vp1,
+              new Point2D.Double( vp1.getX() + 1 * scale, vp1.getY() + 1 * scale ) );
+        this.invertY = invertY;
     }
 
     /**
      * Create an identity transform.
      */
     public ModelViewTransform2D() {
-    	this(new Rectangle2D.Double(0,0,1,1), new Rectangle2D.Double(0,0,1,1), false);
-	}
+        this( new Rectangle2D.Double( 0, 0, 1, 1 ), new Rectangle2D.Double( 0, 0, 1, 1 ), false );
+    }
 
     //----------------------------------------------------------------------------
     // Bounds methods
     //----------------------------------------------------------------------------
 
-	public void setModelBounds( Rectangle2D modelBounds ) {
+    public void setModelBounds( Rectangle2D modelBounds ) {
         if ( modelBounds.getWidth() <= 0 || modelBounds.getHeight() <= 0 ) {
             throw new RuntimeException( "modelBounds dimensions must be > 0 : " + modelBounds );
         }
@@ -124,8 +124,8 @@ public class ModelViewTransform2D {
         listeners.transformChanged( this );
     }
 
-    public void panModelViewport(double dx,double dy){
-        setModelBounds( new Rectangle2D.Double( modelBounds.getX()+dx,modelBounds.getY()+dy,modelBounds.getWidth(),modelBounds.getHeight() ) );
+    public void panModelViewport( double dx, double dy ) {
+        setModelBounds( new Rectangle2D.Double( modelBounds.getX() + dx, modelBounds.getY() + dy, modelBounds.getWidth(), modelBounds.getHeight() ) );
     }
 
     public Rectangle2D getModelBounds() {
@@ -188,7 +188,7 @@ public class ModelViewTransform2D {
     }
 
     public Point2D viewToModelDifferential( Dimension2D delta ) {
-        return viewToModelDifferential( delta.getWidth(),delta.getHeight() );
+        return viewToModelDifferential( delta.getWidth(), delta.getHeight() );
     }
 
     //----------------------------------------------------------------------------
@@ -339,7 +339,7 @@ public class ModelViewTransform2D {
         try {
             return forwardTransform.createInverse();
         }
-        catch( NoninvertibleTransformException e ) {
+        catch ( NoninvertibleTransformException e ) {
             throw new RuntimeException( e );
         }
     }
@@ -395,6 +395,6 @@ public class ModelViewTransform2D {
     }
 
     public Rectangle2D getViewBounds() {
-        return new Rectangle2D.Double(viewBounds.getX(),viewBounds.getY(),viewBounds.getWidth(),viewBounds.getHeight());
+        return new Rectangle2D.Double( viewBounds.getX(), viewBounds.getY(), viewBounds.getWidth(), viewBounds.getHeight() );
     }
 }

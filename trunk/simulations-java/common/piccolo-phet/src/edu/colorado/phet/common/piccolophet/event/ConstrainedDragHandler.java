@@ -413,8 +413,7 @@ public class ConstrainedDragHandler extends PBasicInputEventHandler {
             // move to far left
             dx = _dragBounds.getX() - nodeBounds.getX();
         }
-        else
-        if ( _adjustedMousePosition.getX() + nodeBounds.getWidth() > _dragBounds.getX() + _dragBounds.getWidth() ) {
+        else if ( _adjustedMousePosition.getX() + nodeBounds.getWidth() > _dragBounds.getX() + _dragBounds.getWidth() ) {
             // move to far right
             dx = ( _dragBounds.getX() + _dragBounds.getWidth() - nodeBounds.getWidth() ) - nodeBounds.getX();
         }
@@ -432,8 +431,7 @@ public class ConstrainedDragHandler extends PBasicInputEventHandler {
             // move to top
             dy = _dragBounds.getY() - nodeBounds.getY();
         }
-        else
-        if ( _adjustedMousePosition.getY() + nodeBounds.getHeight() > _dragBounds.getY() + _dragBounds.getHeight() ) {
+        else if ( _adjustedMousePosition.getY() + nodeBounds.getHeight() > _dragBounds.getY() + _dragBounds.getHeight() ) {
             // move to bottom 
             dy = ( _dragBounds.getY() + _dragBounds.getHeight() - nodeBounds.getHeight() ) - nodeBounds.getY();
         }

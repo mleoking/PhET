@@ -1,4 +1,3 @@
-
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.piccolophet.nodes;
 
@@ -19,15 +18,16 @@ import edu.umd.cs.piccolo.util.PPaintContext;
  */
 
 public class PhetPPath extends PPath {
-    
+
     private static final boolean IS_MAC_OS_10_4 = PhetUtilities.isMacOS_10_4();
-    
-    public PhetPPath() {}
-    
+
+    public PhetPPath() {
+    }
+
     public PhetPPath( Shape shape ) {
         super( shape );
     }
-    
+
     /**
      * Creates a PhetPPath with the specified fill paint and no stroke.
      *
@@ -101,7 +101,7 @@ public class PhetPPath extends PPath {
         setStroke( stroke );
         setStrokePaint( strokePaint );
     }
-    
+
     /**
      * WORKAROUND for Gradient Paint bug on Mac OS 10.4.
      * With the default rendering value (VALUE_RENDER_QUALITY), gradient paints will crash.

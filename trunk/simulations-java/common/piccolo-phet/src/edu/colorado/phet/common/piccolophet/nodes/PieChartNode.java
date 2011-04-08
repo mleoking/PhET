@@ -1,15 +1,14 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.piccolophet.nodes;
 
-import java.awt.Color;
-import java.awt.Rectangle;
+import java.awt.*;
 import java.awt.geom.Arc2D;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JFrame;
+import javax.swing.*;
 
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
@@ -90,14 +89,14 @@ public class PieChartNode extends PNode {
                     path = new PPath( new Arc2D.Double( area.x, area.y, area.width, area.height, startAngle, arcAngle, Arc2D.Double.PIE ) );
                     // TODO: This will only work for a round pie, and maybe only
                     // one that is centered in its area rectangle.
-                    double radius = Math.round( (double)area.width / 2 );
+                    double radius = Math.round( (double) area.width / 2 );
                     double angle = -Math.toRadians( startAngle + arcAngle / 2 );
                     sliceEdgeCenterPoints.add( new Point2D.Double( Math.cos( angle ) * radius, Math.sin( angle ) * radius ) );
                 }
                 path.setPaint( slices[i].color );
                 addChild( path );
             }
-            else{
+            else {
                 // No slice drawn, so add null to indicate that there is no center point.
                 sliceEdgeCenterPoints.add( null );
             }
@@ -113,13 +112,13 @@ public class PieChartNode extends PNode {
      * @param sliceNumber
      * @return
      */
-    public Point2D getCenterEdgePtForSlice( int sliceNumber ){
-        if ( sliceNumber < sliceEdgeCenterPoints.size() && sliceEdgeCenterPoints.get( sliceNumber ) != null ){
+    public Point2D getCenterEdgePtForSlice( int sliceNumber ) {
+        if ( sliceNumber < sliceEdgeCenterPoints.size() && sliceEdgeCenterPoints.get( sliceNumber ) != null ) {
             return new Point2D.Double( sliceEdgeCenterPoints.get( sliceNumber ).getX(),
-                    sliceEdgeCenterPoints.get( sliceNumber ).getY() );
+                                       sliceEdgeCenterPoints.get( sliceNumber ).getY() );
         }
-        else{
-            System.err.println(getClass().getName() + " - Error: No such slice, val = " + sliceNumber);
+        else {
+            System.err.println( getClass().getName() + " - Error: No such slice, val = " + sliceNumber );
             return null;
         }
     }
@@ -149,31 +148,31 @@ public class PieChartNode extends PNode {
         }
 
         public double getValue() {
-			return value;
-		}
+            return value;
+        }
 
-        public void setValue(double value) {
-			this.value = value;
-		}
+        public void setValue( double value ) {
+            this.value = value;
+        }
 
         public Color getColor() {
-			return color;
-		}
+            return color;
+        }
 
-        public void setColor(Color color) {
-			this.color = color;
-		}
+        public void setColor( Color color ) {
+            this.color = color;
+        }
     }
 
     /**
      * Sample usage of PieChartNode
      */
     public static void main( String[] args ) {
-        PieChartNode.PieValue[] values = new PieValue[]{
+        PieChartNode.PieValue[] values = new PieValue[] {
                 new PieChartNode.PieValue( 25, Color.red ),
                 new PieChartNode.PieValue( 33, Color.green ),
                 new PieChartNode.PieValue( 20, Color.pink ),
-                new PieChartNode.PieValue( 15, Color.blue )};
+                new PieChartNode.PieValue( 15, Color.blue ) };
         PieChartNode n = new PieChartNode( values, new Rectangle( 100, 100 ) );
         JFrame frame = new JFrame();
         PCanvas contentPane = new PCanvas();

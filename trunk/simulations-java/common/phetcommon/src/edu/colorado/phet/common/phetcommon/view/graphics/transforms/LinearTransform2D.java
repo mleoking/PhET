@@ -159,7 +159,7 @@ public class LinearTransform2D {
         try {
             return forwardTransform.createInverse();
         }
-        catch( NoninvertibleTransformException e ) {
+        catch ( NoninvertibleTransformException e ) {
             throw new RuntimeException( e );
         }
     }

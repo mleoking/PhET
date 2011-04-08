@@ -68,7 +68,7 @@ public class Vector2D extends ImmutableVector2D {
         super.setComponents( x, y );
     }
 
-    public void setValue( ImmutableVector2D value ){
+    public void setValue( ImmutableVector2D value ) {
         setComponents( value.getX(), value.getY() );
     }
 

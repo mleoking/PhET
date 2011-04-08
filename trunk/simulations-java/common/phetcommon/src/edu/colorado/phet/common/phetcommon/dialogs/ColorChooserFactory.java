@@ -115,11 +115,12 @@ public class ColorChooserFactory {
      * Creates a color chooser dialog and makes it visible.
      */
     public static void showDialog( String title, Component parent, final Color initialColor, final Listener listener ) {
-        showDialog( title, parent, initialColor, listener,false );
+        showDialog( title, parent, initialColor, listener, false );
     }
 
     /**
      * Creates a color chooser dialog and makes it visible.
+     *
      * @param hsbFirst true if the HSB panel should be shown first, false if the Swing defaults should be used
      */
     public static void showDialog( String title, Component parent, final Color initialColor, final Listener listener, boolean hsbFirst ) {
@@ -129,7 +130,7 @@ public class ColorChooserFactory {
 
     //see http://www.exampledepot.com/egs/javax.swing.colorchooser/GetPanels.html
     private static String[] getHSBFirstPanelOrder() {
-        return new String[]{"javax.swing.colorchooser.DefaultHSBChooserPanel",
+        return new String[] { "javax.swing.colorchooser.DefaultHSBChooserPanel",
                 "javax.swing.colorchooser.DefaultRGBChooserPanel",
                 "javax.swing.colorchooser.DefaultSwatchChooserPanel"
         };

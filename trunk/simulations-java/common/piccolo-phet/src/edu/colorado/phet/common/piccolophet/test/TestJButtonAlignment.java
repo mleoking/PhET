@@ -25,29 +25,29 @@ public class TestJButtonAlignment extends JFrame {
 
     public TestJButtonAlignment() {
         super();
-        
+
         PhetPCanvas canvas = new PhetPCanvas();
         canvas.setPreferredSize( new Dimension( 400, 300 ) );
-        
+
         final double xOffset = 50;
-        
+
         // a PNode rectangle, for alignment reference
         PPath rectNode = new PPath( new Rectangle2D.Double( 0, 0, 100, 50 ) );
         rectNode.setPaint( Color.RED );
         canvas.getLayer().addChild( rectNode );
         rectNode.setOffset( xOffset, 50 );
-        
+
         // JLabel left-aligns OK
         PSwing labelNode = new PSwing( new JLabel( "PSwing JLabel" ) );
         canvas.getLayer().addChild( labelNode );
         labelNode.setOffset( xOffset, rectNode.getFullBoundsReference().getMaxY() + 10 );
-        
+
         // JButton doesn't left-align perfectly, there is a bit of blank space to the left of the button
         JButton button = new JButton( "PSwing JButton" );
         PSwing buttonNode = new PSwing( button );
         canvas.getLayer().addChild( buttonNode );
         buttonNode.setOffset( xOffset, labelNode.getFullBoundsReference().getMaxY() + 10 );
-        
+
         // Workaround, a little better but still some space.
         // And as a general workaround, this will violate the Aqua style guide for usage of button types.
         // See button types at http://nadeausoftware.com/node/87
@@ -58,7 +58,7 @@ public class TestJButtonAlignment extends JFrame {
         PSwing buttonNode2 = new PSwing( button2 );
         canvas.getLayer().addChild( buttonNode2 );
         buttonNode2.setOffset( xOffset, buttonNode.getFullBoundsReference().getMaxY() + 10 );
-        
+
         // JPanel with a JLabel and JButton, same space appears to left of JButton
         JPanel panel = new JPanel();
         panel.setBorder( new LineBorder( Color.BLACK ) );
@@ -72,11 +72,11 @@ public class TestJButtonAlignment extends JFrame {
         PSwing pswing = new PSwing( panel );
         canvas.getLayer().addChild( pswing );
         pswing.setOffset( xOffset, buttonNode2.getFullBoundsReference().getMaxY() + 10 );
-        
+
         getContentPane().add( canvas );
         pack();
     }
-    
+
     public static void main( String[] args ) {
         JFrame frame = new TestJButtonAlignment();
         frame.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );

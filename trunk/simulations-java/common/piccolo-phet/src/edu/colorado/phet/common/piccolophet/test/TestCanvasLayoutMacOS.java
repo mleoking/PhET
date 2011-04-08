@@ -1,14 +1,11 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.piccolophet.test;
 
-import java.awt.Color;
-import java.awt.Dimension;
+import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.lang.reflect.InvocationTargetException;
 
-import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
-import javax.swing.WindowConstants;
+import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -23,18 +20,18 @@ import edu.umd.cs.piccolo.util.PDimension;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class TestCanvasLayoutMacOS extends JFrame {
-    
+
     public TestCanvasLayoutMacOS() {
         super( TestCanvasLayoutMacOS.class.getName() );
         setPreferredSize( new Dimension( 600, 400 ) );
         setContentPane( new TestCanvas() );
         pack();
     }
-    
-    private class TestCanvas extends PhetPCanvas { 
-        
+
+    private class TestCanvas extends PhetPCanvas {
+
         private final PPath pathNode;
-        
+
         public TestCanvas() {
             super();
             // red square
@@ -43,20 +40,21 @@ public class TestCanvasLayoutMacOS extends JFrame {
             getLayer().addChild( pathNode );
             updateLayout();
         }
-        
+
         protected void updateLayout() {
             PDimension canvasSize = new PDimension( getWidth(), getHeight() );
-            System.out.println( "updateLayout canvasSize=" + (int)canvasSize.width + "x" + (int)canvasSize.height );
+            System.out.println( "updateLayout canvasSize=" + (int) canvasSize.width + "x" + (int) canvasSize.height );
             if ( canvasSize.getWidth() > 0 && canvasSize.getHeight() > 0 ) {
                 // center in the canvas
                 double x = ( canvasSize.getWidth() - pathNode.getFullBoundsReference().getWidth() ) / 2;
-                double y = ( canvasSize.getHeight() - pathNode.getFullBoundsReference().getHeight() ) / 2;;
+                double y = ( canvasSize.getHeight() - pathNode.getFullBoundsReference().getHeight() ) / 2;
+                ;
                 pathNode.setOffset( x, y );
             }
         }
-        
+
     }
-    
+
     private static class SleepThread extends Thread {
 
         public SleepThread( long millis ) {
@@ -86,12 +84,12 @@ public class TestCanvasLayoutMacOS extends JFrame {
             } );
         }
     }
-    
+
     public static void main( String[] args ) {
-        
+
         // This thread serves to make the problem more noticeable.
         new SleepThread( 1000 ).start();
-        
+
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
                 JFrame frame = new TestCanvasLayoutMacOS();

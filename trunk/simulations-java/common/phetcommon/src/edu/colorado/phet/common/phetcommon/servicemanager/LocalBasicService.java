@@ -38,7 +38,7 @@ public class LocalBasicService implements BasicService {
         try {
             return f.toURL();
         }
-        catch( MalformedURLException e ) {
+        catch ( MalformedURLException e ) {
             e.printStackTrace();
             throw new RuntimeException( e );
         }
@@ -110,12 +110,12 @@ public class LocalBasicService implements BasicService {
                     launchBrowserOnLinux( url );
                 }
             }
-            catch( IOException x ) {
+            catch ( IOException x ) {
                 // couldn't exec browser
                 System.err.println( "Could not invoke browser, command=" + cmd );
                 System.err.println( "Caught: " + x );
             }
-            catch( Exception e ) {
+            catch ( Exception e ) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
         }
@@ -137,14 +137,14 @@ public class LocalBasicService implements BasicService {
         private static final String UNIX_FLAG = "-remote openURL";
     }
 
-        //http://www.java2s.com/Code/Java/Development-Class/LaunchBrowserinMacLinuxUnix.htm
+    //http://www.java2s.com/Code/Java/Development-Class/LaunchBrowserinMacLinuxUnix.htm
     public static void launchBrowserOnLinux( String url ) throws Exception, InterruptedException {
         String[] browsers = {
-                "firefox", "opera", "konqueror", "epiphany", "mozilla", "netscape", "galeon", "iceweasel"};
+                "firefox", "opera", "konqueror", "epiphany", "mozilla", "netscape", "galeon", "iceweasel" };
         String browser = null;
         for ( int count = 0; count < browsers.length && browser == null; count++ ) {
             if ( Runtime.getRuntime().exec(
-                    new String[]{"which", browsers[count]} ).waitFor() == 0 ) {
+                    new String[] { "which", browsers[count] } ).waitFor() == 0 ) {
                 browser = browsers[count];
             }
         }
@@ -152,7 +152,7 @@ public class LocalBasicService implements BasicService {
             throw new Exception( "Could not find web browser" );
         }
         else {
-            Runtime.getRuntime().exec( new String[]{browser, url} );
+            Runtime.getRuntime().exec( new String[] { browser, url } );
         }
     }
 

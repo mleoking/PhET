@@ -2,8 +2,7 @@
 
 package edu.colorado.phet.common.piccolophet.nodes;
 
-import java.awt.Paint;
-import java.awt.Stroke;
+import java.awt.*;
 import java.awt.geom.GeneralPath;
 
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -17,12 +16,12 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class GridLinesNode extends PComposite {
-    
+
     public GridLinesNode( int rows, int columns, double width, double height, Stroke stroke, Paint strokePaint, Paint fillPaint ) {
         super();
-        
+
         final PDimension cellSize = new PDimension( width / columns, height / rows );
-        
+
         // outside edge
         PBounds edgeBounds = new PBounds( 0, 0, width, height );
         PPath edgeNode = new PPath( edgeBounds );
@@ -41,7 +40,7 @@ public class GridLinesNode extends PComposite {
             lineNode.setStrokePaint( strokePaint );
             addChild( lineNode );
         }
-        
+
         // vertical lines
         for ( int column = 0; column < columns; column++ ) {
             GeneralPath path = new GeneralPath();

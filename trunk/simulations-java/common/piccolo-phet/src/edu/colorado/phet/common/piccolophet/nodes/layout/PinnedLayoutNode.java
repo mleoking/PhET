@@ -1,4 +1,3 @@
-
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.piccolophet.nodes.layout;
 
@@ -10,10 +9,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 
-import javax.swing.BoxLayout;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JSlider;
+import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -50,6 +46,7 @@ public class PinnedLayoutNode extends SwingLayoutNode {
 
     /**
      * Uses a specific Swing layout manager.
+     *
      * @param layoutManager
      */
     public PinnedLayoutNode( LayoutManager layoutManager ) {
@@ -79,7 +76,7 @@ public class PinnedLayoutNode extends SwingLayoutNode {
      * Sets the node that will be pinned in place.
      * The layout's offset will be dynamically adjusted so that the pinned node
      * appears to remain stationary.
-     * <p>
+     * <p/>
      * Note that it's important to call this *after* you've applied any transforms
      * (offset, scale, rotation,...) to your layout node.  The alternative would
      * be to override all methods related to transforms, and have them update the
@@ -111,6 +108,7 @@ public class PinnedLayoutNode extends SwingLayoutNode {
     /**
      * Adjusts the bounds used to pin the layout.
      * Call this after applying transforms to the layout node.
+     *
      * @see setPinnedNode
      */
     public void adjustPinnedNode() {
@@ -170,7 +168,7 @@ public class PinnedLayoutNode extends SwingLayoutNode {
         // BoxLayout
         {
             JPanel panel = new JPanel();
-            BoxLayout layout = new BoxLayout( panel, BoxLayout.X_AXIS  );
+            BoxLayout layout = new BoxLayout( panel, BoxLayout.X_AXIS );
             panel.setLayout( layout );
             final PinnedLayoutNode layoutNode = new PinnedLayoutNode( panel );
             rootNode.addChild( layoutNode );

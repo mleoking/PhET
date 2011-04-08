@@ -1,4 +1,3 @@
-
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.phetcommon.tests;
 
@@ -23,13 +22,13 @@ public class TestHttpPost {
         connection.setRequestMethod( "POST" );
         connection.setRequestProperty( "Content-Type", "text/xml; charset=\"utf-8\"" );
         connection.setDoOutput( true );
-        
+
         // post
         System.out.println( "posting to " + URL_STRING + " ..." );
         OutputStreamWriter outStream = new OutputStreamWriter( connection.getOutputStream(), "UTF-8" );
         outStream.write( XML_STRING );
         outStream.close();
-        
+
         // Get the response
         BufferedReader reader = new BufferedReader( new InputStreamReader( connection.getInputStream() ) );
         System.out.println( "reading response ..." );

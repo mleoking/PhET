@@ -10,47 +10,20 @@
  */
 package edu.colorado.phet.common.phetcommon.view;
 
-import java.awt.AWTException;
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.RenderingHints;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.*;
+import java.awt.event.*;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.Iterator;
-import java.util.Set;
+import java.util.*;
 
-import javax.swing.BorderFactory;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JSlider;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
+import javax.swing.*;
 import javax.swing.Timer;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.math.ModelViewTransform1D;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
-import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
@@ -187,7 +160,7 @@ public class ModelSlider extends JPanel {
             SwingUtils.addGridBagComponent( this, textPanel, 0, 2, 2, 1,
                                             GridBagConstraints.NONE, GridBagConstraints.CENTER );
         }
-        catch( AWTException e ) {
+        catch ( AWTException e ) {
             throw new RuntimeException( e );
         }
         setValue( initialValue );
@@ -408,15 +381,15 @@ public class ModelSlider extends JPanel {
             commitEdit();
             return true;
         }
-        catch( IllegalValueException ive ) {
+        catch ( IllegalValueException ive ) {
             String outofrange = PhetCommonResources.getInstance().getLocalizedString( "Common.ModelSlider.OutOfRange" );
             String minimum = PhetCommonResources.getInstance().getLocalizedString( "Common.ModelSlider.Minimum" );
             String maximum = PhetCommonResources.getInstance().getLocalizedString( "Common.ModelSlider.Maximum" );
             String youentered = PhetCommonResources.getInstance().getLocalizedString( "Common.ModelSlider.YouEntered" );
             String description = PhetCommonResources.getInstance().getLocalizedString( "Common.ModelSlider.Description" );
             PhetOptionPane.showMessageDialog( this, outofrange + ".\n" + minimum + "= " + ive.getMin()
-                                                 + ", " + maximum + "=" + ive.getMax() + "\n" + youentered + ": "
-                                                 + ive.getValue(), description, JOptionPane.ERROR_MESSAGE );
+                                                    + ", " + maximum + "=" + ive.getMax() + "\n" + youentered + ": "
+                                                    + ive.getValue(), description, JOptionPane.ERROR_MESSAGE );
             double value = getValue();
             textField.setText( textFieldFormat.format( value ) );
             return false;
@@ -479,7 +452,7 @@ public class ModelSlider extends JPanel {
     public void commitEdit() throws IllegalValueException {
         String text = ModelSlider.this.textField.getText();
         try {
-            double value = DecimalFormat.getNumberInstance( ).parse( text ).doubleValue();
+            double value = DecimalFormat.getNumberInstance().parse( text ).doubleValue();
             if ( value >= min && value <= max ) {
                 //still legal.
                 setValue( value );
@@ -489,9 +462,9 @@ public class ModelSlider extends JPanel {
                 throw new IllegalValueException( min, max, value );
             }
         }
-        catch( NumberFormatException nfe ) {
+        catch ( NumberFormatException nfe ) {
         }
-        catch( ParseException e ) {
+        catch ( ParseException e ) {
             e.printStackTrace();
         }
     }
@@ -559,13 +532,13 @@ public class ModelSlider extends JPanel {
         }
         if ( value >= min && value <= max ) {
             String string = textFieldFormat.format( value );
-            double newValue= value;
+            double newValue = value;
             try {
 
-                newValue = textFieldFormat.parse( string).doubleValue();
+                newValue = textFieldFormat.parse( string ).doubleValue();
 //                System.out.println( "value="+value+", string = " + string +", newValue="+newValue);
             }
-            catch( ParseException e ) {
+            catch ( ParseException e ) {
                 e.printStackTrace();
             }
 //            string = string.replace( ',', '.' );

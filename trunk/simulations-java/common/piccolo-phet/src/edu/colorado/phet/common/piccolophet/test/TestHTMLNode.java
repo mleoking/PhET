@@ -2,11 +2,10 @@
 
 package edu.colorado.phet.common.piccolophet.test;
 
-import java.awt.Color;
-import java.awt.Dimension;
+import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
-import javax.swing.JFrame;
+import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
@@ -19,19 +18,19 @@ import edu.umd.cs.piccolo.nodes.PPath;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class TestHTMLNode extends JFrame {
-    
+
     public TestHTMLNode() {
         super( "TestHTMLNode" );
-        
+
         PCanvas canvas = new PCanvas();
         getContentPane().add( canvas );
-        
+
         String html1 = "<html>H<sub>3</sub>O<sup>+</sup></html>";
         HTMLNode htmlNode1 = new HTMLNode( html1 );
         htmlNode1.setFont( new PhetFont( 24 ) );
         canvas.getLayer().addChild( htmlNode1 );
         htmlNode1.setOffset( 100, 100 );
-        
+
         // Draw a red outline around the HTMLNode's bounds.
         double w1 = htmlNode1.getFullBoundsReference().getWidth();
         double h1 = htmlNode1.getFullBoundsReference().getHeight();
@@ -39,13 +38,13 @@ public class TestHTMLNode extends JFrame {
         boundsNode1.setStrokePaint( Color.RED );
         canvas.getLayer().addChild( boundsNode1 );
         boundsNode1.setOffset( htmlNode1.getOffset() );
-        
+
         String html2 = "<html>This is some HTML text<br>that contains a <b>line</b> break.</html>";
         HTMLNode htmlNode2 = new HTMLNode( html2 );
         htmlNode2.setFont( new PhetFont( 24 ) );
         canvas.getLayer().addChild( htmlNode2 );
         htmlNode2.setOffset( 100, 200 );
-        
+
         // Draw a red outline around the HTMLNode's bounds.
         double w2 = htmlNode2.getFullBoundsReference().getWidth();
         double h2 = htmlNode2.getFullBoundsReference().getHeight();
@@ -54,7 +53,7 @@ public class TestHTMLNode extends JFrame {
         canvas.getLayer().addChild( boundsNode2 );
         boundsNode2.setOffset( htmlNode2.getOffset() );
     }
-    
+
     public static void main( String args[] ) {
         TestHTMLNode frame = new TestHTMLNode();
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );

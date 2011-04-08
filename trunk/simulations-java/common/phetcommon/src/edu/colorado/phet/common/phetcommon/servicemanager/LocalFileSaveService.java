@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.common.phetcommon.servicemanager;
 
-import java.awt.Component;
+import java.awt.*;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -10,8 +10,7 @@ import java.io.InputStream;
 
 import javax.jnlp.FileContents;
 import javax.jnlp.FileSaveService;
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
+import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
@@ -30,7 +29,7 @@ public class LocalFileSaveService implements FileSaveService {
 
     public FileContents saveAsFileDialog( String s, String[] strings, FileContents source ) throws IOException {
         JFileChooser jfc = new JFileChooser( s );
-        if ( strings != null && strings.length > 0) {
+        if ( strings != null && strings.length > 0 ) {
             LocalFileFilter eff = new LocalFileFilter( strings );
             jfc.setFileFilter( eff );
         }

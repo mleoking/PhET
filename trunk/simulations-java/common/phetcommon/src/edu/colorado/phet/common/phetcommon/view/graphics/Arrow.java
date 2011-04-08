@@ -107,7 +107,8 @@ public class Arrow {
                         tempTailWidth = tailWidth * tempHeadHeight / headHeight;
                         tempHeadWidth = headWidth * tempHeadHeight / headHeight;
                     }
-                }else{
+                }
+                else {
                     //nothing needs to be done, since the headHeight is already large enough, and previously computed values will be correct. 
                 }
             }

@@ -74,7 +74,7 @@ public class AWTSplashWindow extends Window {
 
         // UI components
         String message = PhetCommonResources.getInstance().getLocalizedString( "PhetApplication.StartupDialog.message" );
-        labelString = MessageFormat.format( message, new Object[]{title} );
+        labelString = MessageFormat.format( message, new Object[] { title } );
         BufferedImage image = getLogoImage();
         Component imageComponent = new ImageComponent( image ) {
             public void paint( Graphics g ) {
@@ -172,11 +172,11 @@ public class AWTSplashWindow extends Window {
      * @param color
      */
     public void setBackground( Color color ) {
-        this.backgroundColor=color;
+        this.backgroundColor = color;
         super.setBackground( color );
         panel.setBackground( color );
         textComponent.setBackground( color );
-        textComponent.setImage(createLabelImage( labelString, backgroundColor, Color.black ));
+        textComponent.setImage( createLabelImage( labelString, backgroundColor, Color.black ) );
     }
 
     /*
@@ -192,7 +192,7 @@ public class AWTSplashWindow extends Window {
                         component.repaint();
                         component.update( component.getGraphics() );
                     }
-                    catch( InterruptedException e ) {
+                    catch ( InterruptedException e ) {
                         e.printStackTrace();
                     }
                 }
@@ -305,7 +305,7 @@ public class AWTSplashWindow extends Window {
                 try {
                     runTest();
                 }
-                catch( Exception e ) {
+                catch ( Exception e ) {
                     e.printStackTrace();
                 }
             }

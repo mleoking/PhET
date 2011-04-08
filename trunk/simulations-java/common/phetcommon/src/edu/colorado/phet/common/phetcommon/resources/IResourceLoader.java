@@ -1,12 +1,12 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.phetcommon.resources;
 
-import edu.colorado.phet.common.phetcommon.audio.PhetAudioClip;
-
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Locale;
+
+import edu.colorado.phet.common.phetcommon.audio.PhetAudioClip;
 
 /**
  * IResourceLoader is the interface implemented by all resource loaders.
@@ -30,15 +30,15 @@ public interface IResourceLoader {
      */
     public InputStream getResourceAsStream( String resourceName ) throws IOException;
 
-    
+
     /**
      * Returns the contents of a resource as a String.
-     *  
+     *
      * @param resourceName
      * @return String
      */
     public String getResourceAsString( String resourceName ) throws IOException;
-    
+
     /**
      * Gets a byte array for the specified resource.
      *

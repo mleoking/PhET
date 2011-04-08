@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.common.phetcommon.servicemanager;
 
-import java.awt.Component;
+import java.awt.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -36,9 +36,9 @@ public class PhetServiceManager {
     public static boolean isJavaWebStart() {
         return System.getProperty( "javawebstart.version" ) != null;
     }
-    
+
     /**
-     * Gets the JNLP code base. 
+     * Gets the JNLP code base.
      * Returns null if we don't have a JNLP code base.
      */
     public static URL getCodeBase() {
@@ -86,31 +86,31 @@ public class PhetServiceManager {
     public static void showPhetPage() {
         showWebPage( PhetCommonConstants.PHET_HOME_URL );
     }
-    
+
     /**
      * Opens a browser to show a sim's web page.
-     * 
+     *
      * @param project
      * @param sim
      */
     public static void showSimPage( String project, String sim ) {
         showWebPage( HTMLUtils.getSimWebsiteURL( project, sim ) );
     }
-    
+
     public static void showWebPage( String url ) {
         try {
             showWebPage( new URL( url ) );
         }
-        catch( MalformedURLException e ) {
+        catch ( MalformedURLException e ) {
             e.printStackTrace();
         }
     }
-    
+
     public static void showWebPage( URL url ) {
         try {
             PhetServiceManager.getBasicService().showDocument( url );
         }
-        catch( UnavailableServiceException e ) {
+        catch ( UnavailableServiceException e ) {
             e.printStackTrace();
         }
     }

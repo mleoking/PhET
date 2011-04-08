@@ -2,8 +2,7 @@
 
 package edu.colorado.phet.common.phetcommon.updates.dialogs;
 
-import java.awt.Frame;
-import java.awt.GridBagConstraints;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.MessageFormat;
@@ -27,7 +26,7 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public abstract class InstallerAbstractUpdateDialog extends PaintImmediateDialog {
-    
+
     private static final String TITLE = PhetCommonResources.getString( "Common.updates.updateAvailable" );
     private static final String UPDATE_BUTTON = PhetCommonResources.getString( "Common.updates.installer.yes" );
     private static final String ASK_ME_LATER_BUTTON = PhetCommonResources.getString( "Common.updates.askMeLater" );
@@ -35,22 +34,22 @@ public abstract class InstallerAbstractUpdateDialog extends PaintImmediateDialog
     private static final String NO_BUTTON = PhetCommonResources.getString( "Common.choice.no" );
     private static final String MESSAGE_PATTERN = PhetCommonResources.getString( "Common.updates.installer.message" );
     private static final String MORE_MESSAGE = PhetCommonResources.getString( "Common.updates.installer.moreMessage" );
-    
+
     public InstallerAbstractUpdateDialog( Frame owner ) {
         super( owner, TITLE );
         setModal( true );
         setResizable( false );
     }
-    
+
     /*
-     * Subclass must call this at the end of their constructor,
-     * so that the GUI is initialized *after* member data is initialized. 
-     */
+    * Subclass must call this at the end of their constructor,
+    * so that the GUI is initialized *after* member data is initialized.
+    */
     protected void initGUI( PhetInstallerVersion currentVersion, PhetInstallerVersion newVersion ) {
         // subpanels
         JPanel messagePanel = createMessagePanel( currentVersion, newVersion );
         JPanel buttonPanel = createButtonPanel();
-        
+
         // main panel
         JPanel panel = new JPanel();
         panel.setBorder( new EmptyBorder( 5, 5, 5, 5 ) );
@@ -66,22 +65,22 @@ public abstract class InstallerAbstractUpdateDialog extends PaintImmediateDialog
         pack();
         SwingUtils.centerDialogInParent( this );
     }
-    
+
     private JPanel createMessagePanel( PhetInstallerVersion currentVersion, PhetInstallerVersion newVersion ) {
-        
+
         String currentTimestamp = currentVersion.formatTimestamp();
         String newTimestamp = newVersion.formatTimestamp();
         Object[] args = { currentTimestamp, newTimestamp };
         String s = MessageFormat.format( MESSAGE_PATTERN, args );
         JLabel messageLabel = new JLabel( s );
-        
+
         JPanel panel = new JPanel();
         panel.add( messageLabel );
         return panel;
     }
-    
+
     protected abstract JPanel createButtonPanel();
-    
+
     protected static class UpdateButton extends JButton {
         public UpdateButton( final JDialog dialog ) {
             super( UPDATE_BUTTON );
@@ -93,7 +92,7 @@ public abstract class InstallerAbstractUpdateDialog extends PaintImmediateDialog
             } );
         }
     }
-    
+
     protected static class AskMeLaterButton extends JButton {
         public AskMeLaterButton( final JDialog dialog, final IAskMeLaterStrategy askMeLaterStrategy ) {
             super( ASK_ME_LATER_BUTTON );
@@ -105,7 +104,7 @@ public abstract class InstallerAbstractUpdateDialog extends PaintImmediateDialog
             } );
         }
     }
-    
+
     protected static class NoButton extends JButton {
         public NoButton( final JDialog dialog ) {
             super( NO_BUTTON );
@@ -116,7 +115,7 @@ public abstract class InstallerAbstractUpdateDialog extends PaintImmediateDialog
             } );
         }
     }
-    
+
     protected static class MoreButton extends JButton {
         public MoreButton( final JDialog parent ) {
             super( MORE_BUTTON );

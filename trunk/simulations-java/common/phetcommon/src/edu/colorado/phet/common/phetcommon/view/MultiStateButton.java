@@ -1,4 +1,3 @@
-
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.phetcommon.view;
 
@@ -209,7 +208,7 @@ public class MultiStateButton extends JButton {
         JFrame frame = new JFrame();
         String KEY_PLAY = "play";
         String KEY_PAUSE = "pause";
-        MultiStateButton stateButton = new MultiStateButton( new Object[]{KEY_PLAY, KEY_PAUSE}, new String[]{"play", "pause"}, new Icon[2] );
+        MultiStateButton stateButton = new MultiStateButton( new Object[] { KEY_PLAY, KEY_PAUSE }, new String[] { "play", "pause" }, new Icon[2] );
         stateButton.addActionListener( KEY_PLAY, new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 System.out.println( "play was pressed" );

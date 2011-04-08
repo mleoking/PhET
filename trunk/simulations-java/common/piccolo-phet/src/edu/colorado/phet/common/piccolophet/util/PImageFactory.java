@@ -56,15 +56,15 @@ public class PImageFactory {
         BufferedImage image = loadImage( imageName );
         return create( image, size );
     }
-    
+
     /*
-     * TODO:
-     * The transform part of this method should be moved to utils.
-     * Then code that calls this method (or any of the others) should be replaced with something like:
-     * BufferedImage image = new PhetResources(projectName).getImage(imageName);
-     * image = SomeUtil.scaleImage( image, size );
-     * PImage node = new PImage( image );
-     */
+    * TODO:
+    * The transform part of this method should be moved to utils.
+    * Then code that calls this method (or any of the others) should be replaced with something like:
+    * BufferedImage image = new PhetResources(projectName).getImage(imageName);
+    * image = SomeUtil.scaleImage( image, size );
+    * PImage node = new PImage( image );
+    */
     public static PImage create( BufferedImage image, Dimension size ) {
         double scaleX = size.getWidth() / image.getWidth();
         double scaleY = size.getHeight() / image.getHeight();
@@ -79,7 +79,7 @@ public class PImageFactory {
         try {
             bImg = ImageLoader.loadBufferedImage( imageName );
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
         return bImg;

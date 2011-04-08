@@ -2,16 +2,11 @@
 
 package edu.colorado.phet.common.piccolophet.nodes.mediabuttons;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.LookupOp;
 import java.awt.image.LookupTable;
-import java.awt.*;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
-
-import javax.imageio.ImageIO;
-import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
@@ -25,7 +20,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 
 
 public class AbstractMediaButton extends PNode {
-    
+
     private PImage buttonImageNode;
     private int buttonHeight;
     private boolean enabled = true;
@@ -46,9 +41,9 @@ public class AbstractMediaButton extends PNode {
         mouseEnteredImage = new MyRescaleOp( 1.2, 0 ).filter( createImage(), null );
         armedImage = new MyRescaleOp( 0.9, 0 ).filter( createImage(), null );
 
-        buttonImageNode = new PImage( normalImage);
+        buttonImageNode = new PImage( normalImage );
         addChild( buttonImageNode );
-        
+
         //TODO why are we not using CursorHandler here?
         addInputEventListener( new PBasicInputEventHandler() {
 
@@ -74,15 +69,16 @@ public class AbstractMediaButton extends PNode {
         } );
         cursorHandler = new CursorHandler();
         addInputEventListener( cursorHandler );
-        addListener(new Listener(){
+        addListener( new Listener() {
             public void enabledChanged() {
-                if (isEnabled() ){
+                if ( isEnabled() ) {
                     addInputEventListener( cursorHandler );
-                }else{
+                }
+                else {
                     removeInputEventListener( cursorHandler );
                 }
             }
-        });
+        } );
     }
 
     //Can be overriden (e.g. to be 1.0) in sims in which this button is used against a black background
@@ -107,13 +103,15 @@ public class AbstractMediaButton extends PNode {
     }
 
     public void setEnabled( boolean b ) {
-        if (this.enabled!=b){
-        this.enabled = b;
-        updateImage();
+        if ( this.enabled != b ) {
+            this.enabled = b;
+            updateImage();
             notifyEnabledChanged();
         }
     }
-    private ArrayList listeners=new ArrayList( );
+
+    private ArrayList listeners = new ArrayList();
+
     private void notifyEnabledChanged() {
         for ( int i = 0; i < listeners.size(); i++ ) {
             Listener o = (Listener) listeners.get( i );
@@ -121,7 +119,7 @@ public class AbstractMediaButton extends PNode {
         }
     }
 
-    public static interface Listener{
+    public static interface Listener {
         void enabledChanged();
     }
 
@@ -164,5 +162,5 @@ public class AbstractMediaButton extends PNode {
     public PDimension getButtonDimension() {
         return new PDimension( buttonImageNode.getFullBounds().width, buttonImageNode.getFullBounds().height );
     }
-                        
+
 }

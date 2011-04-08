@@ -16,6 +16,7 @@ public abstract class ConstrainedProperty<T> extends Property<T> {
 
     /**
      * Validates the value before setting it.
+     *
      * @param value
      */
     @Override
@@ -30,6 +31,7 @@ public abstract class ConstrainedProperty<T> extends Property<T> {
 
     /**
      * Validates the value.
+     *
      * @param value
      * @return true or false
      */
@@ -37,6 +39,7 @@ public abstract class ConstrainedProperty<T> extends Property<T> {
 
     /**
      * Default behavior for invalid values is to throw IllegalArgumentException.
+     *
      * @param value
      * @throws IllegalArgumentException
      */

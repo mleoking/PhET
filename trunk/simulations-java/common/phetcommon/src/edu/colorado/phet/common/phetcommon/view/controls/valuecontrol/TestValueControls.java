@@ -112,7 +112,7 @@ public class TestValueControls extends JFrame {
                     System.out.println( "potatoControl.stateChanged " + potatoControl.getValue() );
                 }
             } );
-            
+
             Icon icon = new ImageIcon( PhetCommonResources.getImage( "buttons/closeButton.png" ) );
             potatoControl.setValueLabelIcon( icon );
         }

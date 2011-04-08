@@ -1,12 +1,11 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.phetcommon.view.util;
 
-import java.awt.Color;
-import java.awt.Font;
+import java.awt.*;
 import java.text.MessageFormat;
 import java.util.Locale;
 
-import javax.swing.JEditorPane;
+import javax.swing.*;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 import javax.swing.text.html.HTMLEditorKit;
@@ -27,11 +26,13 @@ public class HTMLUtils {
     private static final String PHP_ARG_DELIMITER = "&";
 
     /* not intended for instantiation */
-    private HTMLUtils() {}
+    private HTMLUtils() {
+    }
 
     /**
      * Creates an \<a\> tag with an href attribute.
      * The link is displayed.
+     *
      * @param url the URL to be loaded when the hyperlinked object is activated.
      * @return
      */
@@ -41,7 +42,8 @@ public class HTMLUtils {
 
     /**
      * Creates an \<a\> tag with an href attribute.
-     * @param url the URL to be loaded when the hyperlinked object is activated.
+     *
+     * @param url  the URL to be loaded when the hyperlinked object is activated.
      * @param text the text to be displayed
      * @return
      */
@@ -52,6 +54,7 @@ public class HTMLUtils {
     /**
      * Creates an \<a\> tag that contains an href link to the PhET homepage.
      * The link is displayed.
+     *
      * @return
      */
     public static String getPhetHomeHref() {
@@ -60,6 +63,7 @@ public class HTMLUtils {
 
     /**
      * Creates an \<a\> tag that contains an href link to the PhET homepage.
+     *
      * @param text the text to be displayed
      * @return
      */
@@ -70,6 +74,7 @@ public class HTMLUtils {
     /**
      * Creates an \<a\> tag that contains a mailto link to the PhET help email address.
      * The email address is displayed.
+     *
      * @return
      */
     public static String getPhetMailtoHref() {
@@ -78,6 +83,7 @@ public class HTMLUtils {
 
     /**
      * Creates an \<a\> tag that contains a mailto link to the PhET help email address.
+     *
      * @param text the text to be displayed
      * @return
      */
@@ -87,15 +93,16 @@ public class HTMLUtils {
 
     /**
      * Gets the URL for a simulation's web page on the PhET site.
+     *
      * @param project
      * @param sim
      * @return
      */
     public static String getSimWebsiteURL( String project, String sim ) {
         return PhetCommonConstants.SIM_WEBSITE_REDIRECT_URL + "?" +
-            "request_version=" + PhetCommonConstants.SIM_WEBSITE_REDIRECT_VERSION + PHP_ARG_DELIMITER +
-            "project=" + project + PHP_ARG_DELIMITER +
-            "sim=" + sim;
+               "request_version=" + PhetCommonConstants.SIM_WEBSITE_REDIRECT_VERSION + PHP_ARG_DELIMITER +
+               "project=" + project + PHP_ARG_DELIMITER +
+               "sim=" + sim;
     }
 
 
@@ -109,10 +116,10 @@ public class HTMLUtils {
      */
     public static String getSimJarURL( String project, String sim, Locale locale ) {
         String url = PhetCommonConstants.SIM_JAR_REDIRECT_URL + "?" +
-            "request_version=" + PhetCommonConstants.SIM_JAR_REDIRECT_VERSION + PHP_ARG_DELIMITER +
-            "project=" + project + PHP_ARG_DELIMITER +
-            "sim=" + sim + PHP_ARG_DELIMITER +
-            "language=" + locale.getLanguage();
+                     "request_version=" + PhetCommonConstants.SIM_JAR_REDIRECT_VERSION + PHP_ARG_DELIMITER +
+                     "project=" + project + PHP_ARG_DELIMITER +
+                     "sim=" + sim + PHP_ARG_DELIMITER +
+                     "language=" + locale.getLanguage();
         if ( !locale.getCountry().equals( "" ) ) {
             // add optional country code
             url += PHP_ARG_DELIMITER + "country=" + locale.getCountry();
@@ -122,14 +129,15 @@ public class HTMLUtils {
 
     /**
      * Returns the URL for the <project>_all.jar from the PhET site.
+     *
      * @param project
      * @param ampersand
      * @return
      */
     public static String getProjectJarURL( String project, String ampersand ) {
         return PhetCommonConstants.SIM_JAR_REDIRECT_URL + "?" +
-            "request_version=" + PhetCommonConstants.SIM_JAR_REDIRECT_VERSION + ampersand +
-            "project=" + project;
+               "request_version=" + PhetCommonConstants.SIM_JAR_REDIRECT_VERSION + ampersand +
+               "project=" + project;
     }
 
     public static String createStyledHTMLFromFragment( String htmlFragment ) {
@@ -142,6 +150,7 @@ public class HTMLUtils {
 
     /**
      * Creates an HTML fragment that contains a CSS that sets font properties.
+     *
      * @param htmlFragment
      * @param font
      * @param css
@@ -154,6 +163,7 @@ public class HTMLUtils {
 
     /**
      * Fills in font information in any HTML that contains CSS placeholders ala DEFAULT_CSS.
+     *
      * @param html
      * @param font
      * @return
@@ -217,6 +227,7 @@ public class HTMLUtils {
 
     /**
      * Creates an HMTL fragment is a specified color.
+     *
      * @param fragment
      * @param color
      * @return
@@ -235,9 +246,9 @@ public class HTMLUtils {
      * Sometimes we want to combine HTML strings, and we end up with too many \<html\> tags.
      * This method ensures that we only have \<html\> and \</html\> at the beginning and
      * end of the string.
-     * <p>
+     * <p/>
      * Example: "hello world" becomes "\<html\>hello world\</html\>".
-     * <p>
+     * <p/>
      * Example "\<html\>foo\</html\> \<html\>bar\</html\>" becomes "\<html\>foo bar\</html\>".
      *
      * @param string

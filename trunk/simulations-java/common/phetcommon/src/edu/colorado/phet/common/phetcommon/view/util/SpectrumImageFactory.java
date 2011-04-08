@@ -11,13 +11,10 @@
 
 package edu.colorado.phet.common.phetcommon.view.util;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.Image;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 
-import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.math.Function;
 
@@ -46,7 +43,6 @@ public abstract class SpectrumImageFactory {
      * @param maxWavelength
      * @param minWavelength
      * @param steps
-     *
      */
     protected abstract Function getWavelengthFunction( int steps, double minWavelength, double maxWavelength );
 
@@ -125,7 +121,7 @@ public abstract class SpectrumImageFactory {
      * @return Image
      */
     public Image createSpectrum( int width, int height, int orientation, double minWavelength, double maxWavelength,
-            Color uvColor, Color irColor ) {
+                                 Color uvColor, Color irColor ) {
 
         if ( width <= 0 || height <= 0 ) {
             throw new IllegalArgumentException( "width and height must both be > 0" );
@@ -192,8 +188,8 @@ public abstract class SpectrumImageFactory {
     public static class ExponentialGrowthSpectrumImageFactory extends SpectrumImageFactory {
         @Override
         protected Function getWavelengthFunction( int steps, double minWavelength, double maxWavelength ) {
-          double base = Math.pow( maxWavelength / minWavelength, 1 / (double)(steps - 1) );
-          return new Function.ExponentialGrowthFunction( base, minWavelength );
+            double base = Math.pow( maxWavelength / minWavelength, 1 / (double) ( steps - 1 ) );
+            return new Function.ExponentialGrowthFunction( base, minWavelength );
         }
     }
 }

@@ -165,7 +165,7 @@ public class ZoomControlNode extends PNode {
         try {
             return ImageLoader.loadBufferedImage( image );
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
             throw new RuntimeException( e );
         }

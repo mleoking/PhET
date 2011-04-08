@@ -62,8 +62,8 @@ public class SwingClock extends Clock {
      * Since this may have unintended impact on existing simulations in terms of UI responsiveness,
      * or other aspects of the simulation, this is to be turned-on on a simulation-by-simulation basis.
      *
-     * @see edu.colorado.phet.common.phetcommon.tests.TestSwingTimer
      * @param coalesce true if the underlying timer should coalesce events
+     * @see edu.colorado.phet.common.phetcommon.tests.TestSwingTimer
      */
     public void setCoalesce( boolean coalesce ) {
         timer.setCoalesce( coalesce );
@@ -137,19 +137,19 @@ public class SwingClock extends Clock {
     public static void main( String[] args ) {
 
         final long startTime = System.currentTimeMillis();
-        Timer timer = new Timer( 1000,new ActionListener() {
+        Timer timer = new Timer( 1000, new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                System.out.println( "System.currentTimeMillis() = " + (System.currentTimeMillis()-startTime) );
+                System.out.println( "System.currentTimeMillis() = " + ( System.currentTimeMillis() - startTime ) );
                 try {
                     Thread.sleep( 1100 );
                 }
-                catch( InterruptedException e1 ) {
+                catch ( InterruptedException e1 ) {
                     e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                 }
             }
         } );
         timer.setCoalesce( false );//should be false
         timer.start();
-        new JFrame( ).setVisible( true );
+        new JFrame().setVisible( true );
     }
 }

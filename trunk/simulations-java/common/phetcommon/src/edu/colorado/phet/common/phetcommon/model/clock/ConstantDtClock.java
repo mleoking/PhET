@@ -5,6 +5,7 @@ package edu.colorado.phet.common.phetcommon.model.clock;
 
 import java.util.EventListener;
 import java.util.EventObject;
+
 import javax.swing.event.EventListenerList;
 
 
@@ -16,7 +17,7 @@ import javax.swing.event.EventListenerList;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class ConstantDtClock extends SwingClock {
-    
+
     // Clock used for testing, delay=1 so that tests will run as fast as possible
     public static final ConstantDtClock TEST = new ConstantDtClock( 1, 1 );
     public static final double DEFAULT_FRAMES_PER_SECOND = 30.0;

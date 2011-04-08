@@ -2,14 +2,11 @@
 
 package edu.colorado.phet.common.phetcommon.view.controls;
 
-import java.awt.Dimension;
+import java.awt.*;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
-import javax.swing.JFormattedTextField;
-import javax.swing.JSpinner;
-import javax.swing.SpinnerNumberModel;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 
 
 /*
@@ -64,5 +61,6 @@ public class DoubleSpinner extends JSpinner implements FocusListener {
         } );
     }
 
-    public void focusLost( FocusEvent e ) {}
+    public void focusLost( FocusEvent e ) {
+    }
 }

@@ -42,7 +42,7 @@ public class DefaultLayoutStrategy implements ILayoutStrategy {
     public DefaultLayoutStrategy( int justification ) {
         this( justification, null /* insets */ );
     }
-    
+
     /**
      * Creates a layout strategy with a specified justification of components.
      *

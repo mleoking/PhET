@@ -1,11 +1,7 @@
-
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.piccolophet.test;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -22,7 +18,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * Use the red "enable components" check box to demonstrate.
  * This problem is not specific to PSwing, it's a general Swing issue.
  * Observed on both Mac and Windows.
- * <p>
+ * <p/>
  * See Unfuddle #1704.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
@@ -75,8 +71,8 @@ public class TestDisableHTMLLabels extends JFrame {
             super();
             setBorder( new TitledBorder( title ) );
             setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
-            add( new JLabel( "plain label") );
-            add( new JLabel( "<html>HTML label</html>") );
+            add( new JLabel( "plain label" ) );
+            add( new JLabel( "<html>HTML label</html>" ) );
             add( new JSeparator() );
             add( new JCheckBox( "plain check box" ) );
             add( new JCheckBox( "<html>HTML check box</html>" ) );

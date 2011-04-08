@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.common.phetcommon.view.controls;
 
-import java.awt.Toolkit;
+import java.awt.*;
 import java.awt.event.*;
 import java.text.MessageFormat;
 import java.text.ParseException;
@@ -39,12 +39,12 @@ public class IntegerSpinner extends JSpinner {
         textField = editor.getTextField();
         textField.setColumns( String.valueOf( range.getMax() ).length() );
         textField.addKeyListener( new KeyAdapter() {
-            public void keyPressed(KeyEvent e) {
+            public void keyPressed( KeyEvent e ) {
                 if ( e.getKeyCode() == KeyEvent.VK_ENTER ) {
                     commitEdit();
                 }
             }
-        });
+        } );
         textField.addFocusListener( new FocusAdapter() {
 
             public void focusLost( FocusEvent e ) {
@@ -60,13 +60,13 @@ public class IntegerSpinner extends JSpinner {
                     public void run() {
                         textField.selectAll();
                     }
-                });
+                } );
             }
         } );
     }
 
     public void setIntValue( int value ) {
-       setValue( new Integer( value ) );
+        setValue( new Integer( value ) );
     }
 
     public int getIntValue() {
@@ -90,7 +90,7 @@ public class IntegerSpinner extends JSpinner {
             public void actionPerformed( ActionEvent e ) {
                 handleInvalidValue();
             }
-        });
+        } );
         t.setRepeats( false );
         t.start();
     }

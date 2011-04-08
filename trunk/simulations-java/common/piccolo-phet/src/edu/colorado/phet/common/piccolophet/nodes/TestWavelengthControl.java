@@ -11,12 +11,9 @@
 
 package edu.colorado.phet.common.piccolophet.nodes;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Font;
+import java.awt.*;
 
-import javax.swing.JFrame;
-import javax.swing.WindowConstants;
+import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -29,26 +26,26 @@ public class TestWavelengthControl extends JFrame {
 
     private static final int TRACK_WIDTH = 284;
     private static final int TRACK_HEIGHT = 25;
-    
+
     public static void main( String[] args ) {
-        JFrame frame = new TestWavelengthControl( "WavelengthControl test harness");
+        JFrame frame = new TestWavelengthControl( "WavelengthControl test harness" );
         frame.show();
     }
-    
+
     public TestWavelengthControl( String title ) {
         super( title );
-        
+
         Color uvTrackColor = Color.DARK_GRAY;
         Color uvLabelColor = Color.WHITE;
         Color irTrackColor = Color.BLACK;
         Color irLabelColor = Color.WHITE;
-        
+
         PhetPCanvas canvas = new PhetPCanvas();
 
         final double xOffset = 100;
         double yOffset = 50;
         final double ySpacing = 100;
-        
+
         // Visible range (default)
         WavelengthControl c1 = new WavelengthControl( TRACK_WIDTH, TRACK_HEIGHT );
         canvas.getLayer().addChild( c1 );
@@ -57,57 +54,57 @@ public class TestWavelengthControl extends JFrame {
         c1.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 // Hilite the slider knob for a range of values
-                WavelengthControl c = (WavelengthControl)e.getSource();
+                WavelengthControl c = (WavelengthControl) e.getSource();
                 double wavelength = c.getWavelength();
                 if ( wavelength > 500 && wavelength < 600 ) {
-                    c.setKnobStroke( new BasicStroke(3f) );
+                    c.setKnobStroke( new BasicStroke( 3f ) );
                     c.setKnobStrokeColor( Color.RED );
                 }
                 else {
-                    c.setKnobStroke( new BasicStroke(1f) );
+                    c.setKnobStroke( new BasicStroke( 1f ) );
                     c.setKnobStrokeColor( Color.BLACK );
                 }
             }
         } );
-        
+
         // Visible range (specified)
-        WavelengthControl c2 = new WavelengthControl( TRACK_WIDTH/2, TRACK_HEIGHT/2, VisibleColor.MIN_WAVELENGTH, VisibleColor.MAX_WAVELENGTH  );
+        WavelengthControl c2 = new WavelengthControl( TRACK_WIDTH / 2, TRACK_HEIGHT / 2, VisibleColor.MIN_WAVELENGTH, VisibleColor.MAX_WAVELENGTH );
         canvas.getLayer().addChild( c2 );
         c2.setOffset( xOffset, yOffset );
         yOffset += ySpacing;
-        
+
         // UV & IR
         WavelengthControl c3 = new WavelengthControl( TRACK_WIDTH, TRACK_HEIGHT, 90, 900 );
         c3.setWavelength( VisibleColor.MIN_WAVELENGTH );
         canvas.getLayer().addChild( c3 );
         c3.setOffset( xOffset, yOffset );
         yOffset += ySpacing;
-        
+
         // UV only
         WavelengthControl c4 = new WavelengthControl( TRACK_WIDTH, TRACK_HEIGHT, 90, VisibleColor.MAX_WAVELENGTH );
         c4.setWavelength( VisibleColor.MIN_WAVELENGTH );
         canvas.getLayer().addChild( c4 );
         c4.setOffset( xOffset, yOffset );
         yOffset += ySpacing;
-        
+
         // IR only
         WavelengthControl c5 = new WavelengthControl( TRACK_WIDTH, TRACK_HEIGHT, VisibleColor.MIN_WAVELENGTH, 900 );
         canvas.getLayer().addChild( c5 );
         c5.setOffset( xOffset, yOffset );
         yOffset += ySpacing;
-        
+
         // UV & IR with no room for labels
         WavelengthControl c6 = new WavelengthControl( TRACK_WIDTH, TRACK_HEIGHT, VisibleColor.MIN_WAVELENGTH - 15, VisibleColor.MAX_WAVELENGTH + 15 );
         c6.setWavelength( VisibleColor.MIN_WAVELENGTH );
         canvas.getLayer().addChild( c6 );
         c6.setOffset( xOffset, yOffset );
         yOffset += ySpacing;
-        
+
         // UV & IR with custom colors, fonts, etc
         final WavelengthControl c7 = new WavelengthControl( TRACK_WIDTH, TRACK_HEIGHT, 90, 900, uvTrackColor, uvLabelColor, irTrackColor, irLabelColor );
         c7.setWavelength( VisibleColor.MIN_WAVELENGTH );
         c7.setTextFieldColors( c7.getWavelengthColor(), Color.BLACK );
-        c7.addChangeListener( new ChangeListener() { 
+        c7.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent event ) {
                 c7.setTextFieldColors( c7.getWavelengthColor(), Color.WHITE );
             }
@@ -120,9 +117,9 @@ public class TestWavelengthControl extends JFrame {
         canvas.getLayer().addChild( c7 );
         c7.setOffset( xOffset, yOffset );
         yOffset += ySpacing;
-        
+
         getContentPane().add( canvas );
-        setSize( 600, (int)yOffset );
+        setSize( 600, (int) yOffset );
         setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
     }
 

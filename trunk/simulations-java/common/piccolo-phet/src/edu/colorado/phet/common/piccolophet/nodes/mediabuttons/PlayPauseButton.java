@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.common.piccolophet.nodes.mediabuttons;
 
-import java.awt.Color;
+import java.awt.*;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -14,7 +14,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 
 
 public class PlayPauseButton extends IconButton {
-    
+
     private boolean playing;
     private ButtonIconSet buttonIconSet;
     private ArrayList listeners = new ArrayList();
@@ -24,7 +24,7 @@ public class PlayPauseButton extends IconButton {
         super( buttonHeight );
 
         buttonIconSet = new ButtonIconSet( buttonHeight, buttonHeight );
-        
+
         pauseLabel = new ShadowPText( "Paused" ); // TODO: Make this translatable.
         pauseLabel.setTextPaint( Color.RED );
         pauseLabel.setFont( new PhetFont( PhetFont.getDefaultFontSize(), true ) );
@@ -50,7 +50,7 @@ public class PlayPauseButton extends IconButton {
         update();
         updateImage();
     }
-    
+
     public boolean isPlaying() {
         return playing;
     }
@@ -71,7 +71,7 @@ public class PlayPauseButton extends IconButton {
     public void addListener( Listener listener ) {
         listeners.add( listener );
     }
-    
+
     public void removeListener( Listener listener ) {
         listeners.remove( listener );
     }
@@ -81,7 +81,7 @@ public class PlayPauseButton extends IconButton {
             ( (Listener) listeners.get( i ) ).playbackStateChanged();
         }
     }
-    
+
     public static void main( String[] args ) {
         PiccoloTestFrame testFrame = new PiccoloTestFrame( "Button Test" );
         testFrame.addNode( new PlayPauseButton( 75 ) );

@@ -223,20 +223,20 @@ public class ControlPanel extends JPanel {
             return scrollPolicy.getScrollableUnitIncrement( visibleRect, orientation, direction );
         }
     }
-    
+
     /**
      * @see ControlPanel#resetAllButton(Resettable[])
      */
     public JButton addResetAllButton( Resettable resettable ) {
         return addResetAllButton( new Resettable[] { resettable } );
     }
-    
+
     /**
      * Adds a "Reset All" button that will reset a collection of objects when pressed.
      * This is a convenience method that calls addControl, so (like addControl) it is order dependent.
      * It does not enforce the PhET convention that the "Reset All" button is at the bottom
      * of the control panel. If you want your "Reset All" button to be at the bottom, call this last.
-     * 
+     *
      * @param resettables
      * @return the reset all button
      */
@@ -245,7 +245,7 @@ public class ControlPanel extends JPanel {
         addControl( resetAllButton );
         return resetAllButton;
     }
-    
+
     /**
      * Sets the minimum width of the control panel.
      * This is accomplished by inserting a horizontal strut into the control panel.

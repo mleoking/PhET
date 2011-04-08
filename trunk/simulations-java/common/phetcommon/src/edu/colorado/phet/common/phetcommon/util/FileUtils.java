@@ -13,13 +13,14 @@ import java.util.jar.JarFile;
  * FileUtils is a collection of file utilities.
  */
 public class FileUtils {
-    
-    private FileUtils() {}
-    
+
+    private FileUtils() {
+    }
+
     /**
      * Gets the basename of a file.
      * For example /tmp/foo.jar has a basename of foo.
-     * 
+     *
      * @param file
      * @return
      */
@@ -35,12 +36,12 @@ public class FileUtils {
         }
         return basename;
     }
-    
+
     /**
      * Determines if a file has a specified suffix.
      * The suffix is case insensitive.
      * You can specify either "xyz" or ".xyz" and this will do the right thing.
-     * 
+     *
      * @param file
      * @param suffix
      * @return
@@ -51,8 +52,9 @@ public class FileUtils {
         }
         return file.getName().toLowerCase().endsWith( suffix );
     }
-    
+
     //See also copies in updater and flash-launcher; deep copies since those subprojects cannot take in all of phetcommon.
+
     /**
      * Gets the JAR file that this class was launched from.
      */
@@ -62,20 +64,21 @@ public class FileUtils {
             //TODO: consider using new File(URL.toURI) when we move to 1.5
             return new File( URLDecoder.decode( url.getFile(), "UTF-8" ) );//whitespace are %20 if you don't decode with utf-8, and file ops will fail.  See #1308
         }
-        catch( UnsupportedEncodingException e ) {
+        catch ( UnsupportedEncodingException e ) {
             e.printStackTrace();
             try {
                 return new File( URLDecoder.decode( url.getPath(), "UTF-8" ) );
             }
-            catch( UnsupportedEncodingException e1 ) {
+            catch ( UnsupportedEncodingException e1 ) {
                 e1.printStackTrace();
                 return new File( url.getPath() );
             }
         }
     }
-    
+
     /**
      * Is the code source a JAR file?
+     *
      * @return
      */
     public static boolean isJarCodeSource() {
@@ -83,13 +86,14 @@ public class FileUtils {
         try {
             return isJar( FileUtils.getCodeSource() );
         }
-        catch( AccessControlException ace ) {
+        catch ( AccessControlException ace ) {
             return false;
         }
     }
-    
+
     /**
      * Is the file a JAR?
+     *
      * @param file
      * @return
      */

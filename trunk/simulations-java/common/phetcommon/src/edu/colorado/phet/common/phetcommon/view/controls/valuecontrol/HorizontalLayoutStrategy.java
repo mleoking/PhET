@@ -2,9 +2,9 @@
 
 package edu.colorado.phet.common.phetcommon.view.controls.valuecontrol;
 
-import java.awt.GridBagConstraints;
+import java.awt.*;
 
-import javax.swing.JComponent;
+import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 
@@ -15,8 +15,9 @@ import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
  */
 public class HorizontalLayoutStrategy implements ILayoutStrategy {
 
-    public HorizontalLayoutStrategy() {}
-    
+    public HorizontalLayoutStrategy() {
+    }
+
     public void doLayout( AbstractValueControl valueControl ) {
 
         // Get the components that will be part of the layout

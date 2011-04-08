@@ -28,9 +28,9 @@ import java.util.Random;
  * <p/>
  * Example:
  * <pre>
- * <p/>
+ *
  *      public static void main( String[] args ) {
- * <p/>
+ *
  *           class TestClass {
  *               public String toString() {
  *                   return getClass().getName();
@@ -39,26 +39,26 @@ import java.util.Random;
  *           class Cat extends TestClass{};
  *           class Dog extends TestClass{};
  *           class Hamster extends TestClass{};
- * <p/>
+ *
  *           // A chooser based on floating point probabilities
  *           ProbabilisticChooser.Entry[] entriesA = new ProbabilisticChooser.Entry[]{
  *                   new ProbabilisticChooser.Entry( new Cat(), .3 ),
  *                   new ProbabilisticChooser.Entry( new Dog(), .5 ),
  *                   new ProbabilisticChooser.Entry( new Hamster(), .2 )
  *           };
- * <p/>
+ *
  *           ProbabilisticChooser pcA = new ProbabilisticChooser( entriesA );
  *           for( int i = 0; i < 100; i++ ) {
  *               System.out.println( "pcA.get() = " + pcA.get() );
  *           }
- * <p/>
+ *
  *           // A chooser based on numbers of elements in a population
  *           ProbabilisticChooser.Entry[] entriesB = new ProbabilisticChooser.Entry[]{
  *                   new ProbabilisticChooser.Entry( new Cat(), 6 ),
  *                   new ProbabilisticChooser.Entry( new Dog(), 4 ),
  *                   new ProbabilisticChooser.Entry( new Hamster(), 3 )
  *           };
- * <p/>
+ *
  *           ProbabilisticChooser pcB = new ProbabilisticChooser( entries );
  *           for( int i = 0; i < 100; i++ ) {
  *               System.out.println( "pcB.get() = " + pcB.get() );

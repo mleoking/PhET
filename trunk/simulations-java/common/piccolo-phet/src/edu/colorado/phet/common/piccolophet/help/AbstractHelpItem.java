@@ -218,10 +218,10 @@ public abstract class AbstractHelpItem extends PNode {
         _follower = new PNodeFollower( this, node, canvas );
         _follower.setFollowEnabled( _enabled );
     }
-    
+
     /*
-     * Determines if a node is on a canvas.
-     */
+    * Determines if a node is on a canvas.
+    */
     private static boolean nodeIsOnCanvas( PNode node, PCanvas canvas ) {
         boolean found = false;
         PCamera camera = canvas.getCamera();
@@ -231,7 +231,7 @@ public abstract class AbstractHelpItem extends PNode {
         }
         return found;
     }
-    
+
     /**
      * Makes the help item point at JComponent.
      * Responsibility for following the JComponent is delegated
@@ -707,7 +707,7 @@ public abstract class AbstractHelpItem extends PNode {
         return _follower;
     }
 
-    protected void setFollower( IFollower follower) {
+    protected void setFollower( IFollower follower ) {
         this._follower = follower;
     }
 }

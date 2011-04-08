@@ -75,18 +75,18 @@ public class ButtonIconSet {
 //        shape.lineToRelative( buttonWidth, 0 );
         return shape.getGeneralPath();
     }
-    
+
     public Shape createStepBackIconShape() {
-    	// To create this shape, just flip the shape from the regular step
-    	// icon.  This ensures that they are always consistent mirror images
-    	// of one another.  Note that translation is also needed, since the
-    	// icon shape is not centered about (0,0).
-    	Shape stepForwardIconShape = createStepIconShape();
-    	double xTranslation = stepForwardIconShape.getBounds2D().getMaxX() + 
-    		(buttonWidth - stepForwardIconShape.getBounds2D().getMaxX());
-    	AffineTransform tx = new AffineTransform(-1, 0, 0, 1, xTranslation, 1);
-    	Shape flippedTranslatedShape = tx.createTransformedShape(stepForwardIconShape);
-    	return (flippedTranslatedShape);
+        // To create this shape, just flip the shape from the regular step
+        // icon.  This ensures that they are always consistent mirror images
+        // of one another.  Note that translation is also needed, since the
+        // icon shape is not centered about (0,0).
+        Shape stepForwardIconShape = createStepIconShape();
+        double xTranslation = stepForwardIconShape.getBounds2D().getMaxX() +
+                              ( buttonWidth - stepForwardIconShape.getBounds2D().getMaxX() );
+        AffineTransform tx = new AffineTransform( -1, 0, 0, 1, xTranslation, 1 );
+        Shape flippedTranslatedShape = tx.createTransformedShape( stepForwardIconShape );
+        return ( flippedTranslatedShape );
     }
 
     public Shape createRewindIconShape() {

@@ -64,12 +64,12 @@ public class ColorUtils {
         assert ( distance >= 0 && distance <= 1 );
         return value1 + ( distance * ( value2 - value1 ) );
     }
-    
-    
+
+
     /**
      * Brightens a color in RGB space.
      * Useful when creating gradients from a single base color.
-     * 
+     *
      * @param color
      * @param factor 0 (no change) to 1 (white)
      * @return lighter (closer to white) version of the original color.
@@ -79,7 +79,7 @@ public class ColorUtils {
             throw new IllegalArgumentException( "factor must be between 0 and 1: " + factor );
         }
         int red = Math.min( 255, color.getRed() + (int) ( factor * ( 255 - color.getRed() ) ) );
-        int green =  Math.min( 255, color.getGreen() + (int) ( factor * ( 255 - color.getGreen() ) ) );
+        int green = Math.min( 255, color.getGreen() + (int) ( factor * ( 255 - color.getGreen() ) ) );
         int blue = Math.min( 255, color.getBlue() + (int) ( factor * ( 255 - color.getBlue() ) ) );
         return new Color( red, green, blue );
     }
@@ -87,8 +87,8 @@ public class ColorUtils {
     /**
      * Darken a color in RGB space.
      * Useful when creating gradients from a single base color.
-     * 
-     * @param color the original color
+     *
+     * @param color  the original color
      * @param factor 0 (no change) to 1 (black)
      * @return darker (closer to black) version of the original color.
      */

@@ -3,7 +3,6 @@ package edu.colorado.phet.common.phetcommon.util;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Set;
 import java.util.StringTokenizer;
 
 //TODO: remove duplicate copy in licensing, build-tools and phet-common

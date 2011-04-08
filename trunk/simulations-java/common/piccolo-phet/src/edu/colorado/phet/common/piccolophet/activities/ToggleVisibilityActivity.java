@@ -9,7 +9,7 @@ import edu.umd.cs.piccolo.activities.PActivity;
  * A Piccolo activity that toggles a nodes visibility, making the node appear to "flash".
  * When the activity is finished, the node's visibility is returned to the state it was
  * in when the activity started.
- * <p>
+ * <p/>
  * Example usage:
  * <code>
  * PNode node = ... // make sure this node is added to the scene graph before adding the activity!
@@ -26,16 +26,17 @@ public class ToggleVisibilityActivity extends PActivity {
 
     /**
      * Constructor.
-     * @param node the node whose visibility will be toggled
+     *
+     * @param node     the node whose visibility will be toggled
      * @param duration duration of this activity, in milliseconds
-     * @param stepRate  amount of time that this activity should delay between steps, in milliseconds
+     * @param stepRate amount of time that this activity should delay between steps, in milliseconds
      */
     public ToggleVisibilityActivity( PNode node, long duration, long stepRate ) {
         super( duration );
         this.node = node;
         setStepRate( stepRate );
     }
-    
+
     @Override
     protected void activityStarted() {
         super.activityStarted();

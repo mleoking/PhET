@@ -222,7 +222,7 @@ public class Vector2DNode extends PhetPNode {
             update();
         }
     }
-    
+
     public void setHeadSize( Dimension size ) {
         setHeadSize( size.width, size.height );
     }
@@ -372,7 +372,7 @@ public class Vector2DNode extends PhetPNode {
                 _arrowNode.setPathTo( new Rectangle2D.Double() ); // because Arrow doesn't handle zero-length arrows
             }
             else {
-                Arrow arrow = new Arrow( TAIL_POSITION, _somePoint, _headHeight, _headWidth, _tailWidth, _fractionalHeadHeight, true /* scaleTailToo */);
+                Arrow arrow = new Arrow( TAIL_POSITION, _somePoint, _headHeight, _headWidth, _tailWidth, _fractionalHeadHeight, true /* scaleTailToo */ );
                 _arrowNode.setPathTo( arrow.getShape() );
             }
 

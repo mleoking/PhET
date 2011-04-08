@@ -2,8 +2,7 @@
 
 package edu.colorado.phet.common.piccolophet.nodes;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -22,7 +21,7 @@ import edu.umd.cs.piccolo.util.PDebug;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class TestVector2DNode extends JFrame {
-    
+
     private final Vector2DNode _vectorNode;
     private final LinearValueControl _magnitudeControl, _angleControl;
     private final JCheckBox _valueVisibleCheckBox;
@@ -64,7 +63,7 @@ public class TestVector2DNode extends JFrame {
                 updateVectorNode();
             }
         } );
-        
+
         _valueVisibleCheckBox = new JCheckBox( "value visible", true );
         _valueVisibleCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent arg0 ) {
@@ -87,7 +86,7 @@ public class TestVector2DNode extends JFrame {
 
         setContentPane( panel );
         pack();
-        
+
         updateVectorNode();
     }
 

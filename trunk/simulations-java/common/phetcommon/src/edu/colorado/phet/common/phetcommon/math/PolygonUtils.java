@@ -10,15 +10,16 @@ import java.awt.geom.Point2D;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class PolygonUtils {
-    
+
     /* not intended for instantiation */
-    private PolygonUtils() {}
-    
+    private PolygonUtils() {
+    }
+
     /**
      * Gets the area of a closed polygon.
      * The polygon must not be self intersecting, or this gives incorrect results.
      * Algorithm described here: http://local.wasp.uwa.edu.au/~pbourke/geometry/polyarea/
-     * 
+     *
      * @param p points that define the polygon
      * @return
      */
@@ -32,12 +33,12 @@ public class PolygonUtils {
         a *= 0.5;
         return a;
     }
-    
+
     /**
      * Gets the centroid (geometric center) of a closed polygon.
      * The polygon must not be self intersecting, or this gives incorrect results.
      * Algorithm described here: http://local.wasp.uwa.edu.au/~pbourke/geometry/polyarea/
-     * 
+     *
      * @param p
      * @return
      */

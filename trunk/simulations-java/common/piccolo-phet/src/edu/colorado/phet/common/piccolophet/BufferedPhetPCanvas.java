@@ -1,8 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.piccolophet;
 
-import java.awt.Graphics;
-import java.awt.Graphics2D;
+import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
 import java.awt.image.BufferedImage;
@@ -10,7 +9,7 @@ import java.awt.image.BufferedImage;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 
 /**
- * This class explicitly buffers the graphics to resolve some issues 
+ * This class explicitly buffers the graphics to resolve some issues
  * related to Piccolo (PSwing) scene graph rendering.
  *
  * @author Sam Reid
@@ -20,7 +19,8 @@ public class BufferedPhetPCanvas extends PhetPCanvas {
 
     private BufferedImage bufferedImage;
 
-    public BufferedPhetPCanvas() {}
+    public BufferedPhetPCanvas() {
+    }
 
     public BufferedPhetPCanvas( Dimension2D pDimension ) {
         super( pDimension );

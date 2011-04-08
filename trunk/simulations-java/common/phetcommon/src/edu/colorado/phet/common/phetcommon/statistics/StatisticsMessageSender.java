@@ -1,4 +1,3 @@
-
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.phetcommon.statistics;
 
@@ -12,7 +11,6 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
-import edu.colorado.phet.common.phetcommon.util.logging.LoggingUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -22,38 +20,39 @@ import org.xml.sax.SAXException;
 import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.SessionCounter;
+import edu.colorado.phet.common.phetcommon.util.logging.LoggingUtils;
 import edu.colorado.phet.common.phetcommon.view.util.XMLUtils;
 
 /**
  * Sends a statistics message to PhET.
  * This implementation posts an XML document to a PHP script, receives an XML response.
- * <p>
+ * <p/>
  * XML request format:
  * <code>
  * <?xml version="1.0" encoding="UTF-8"?>
  * <submit_message>
- *   <statistics_message key=value ... />
+ * <statistics_message key=value ... />
  * </submit_message>
  * </code>
- * <p>
+ * <p/>
  * XML response format with no errors:
  * <code>
  * <?xml version="1.0" encoding="UTF-8"?>
  * <submit_message_response status="true">
- *   <statistics_message_response status="true">
- *      <warning>message</warning>
- *   </statistics_message_response/>
+ * <statistics_message_response status="true">
+ * <warning>message</warning>
+ * </statistics_message_response/>
  * </submit_message_response>
  * </code>
- * <p>
+ * <p/>
  * XML response format with errors:
  * <code>
  * <?xml version="1.0" encoding="UTF-8"?>
  * <submit_message_response status="false">
- *   <statistics_message_response status="false">
- *      <warning>message</warning>
- *      <error>message</error>
- *   </statistics_message_response/>
+ * <statistics_message_response status="false">
+ * <warning>message</warning>
+ * <error>message</error>
+ * </statistics_message_response/>
  * </submit_message_response>
  * </code>
  */
@@ -129,7 +128,7 @@ public class StatisticsMessageSender {
     private HttpURLConnection postDocument( Document document ) throws ParserConfigurationException, TransformerException, IOException {
         final String url = PhetCommonConstants.STATISTICS_SERVICE_URL;
         LOGGER.fine( "posting to url=" + url );
-        LOGGER.fine( "query=" + XMLUtils.toString( document ));
+        LOGGER.fine( "query=" + XMLUtils.toString( document ) );
         return XMLUtils.post( url, document );
     }
 

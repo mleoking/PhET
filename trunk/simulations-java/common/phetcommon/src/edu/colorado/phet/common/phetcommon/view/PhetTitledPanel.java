@@ -1,13 +1,13 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.phetcommon.view;
 
-import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
-
 import java.awt.*;
 import java.awt.event.ContainerAdapter;
 import java.awt.event.ContainerEvent;
 
 import javax.swing.*;
+
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 /**
  * The PhET Titled Panel uses the PhetTitledBorder, but expands the rest of the component to ensure the titled border is fully visible.
@@ -39,7 +39,7 @@ public class PhetTitledPanel extends JPanel {
         } );
         updateLayout();
     }
-    
+
     public void setTitleColor( Color color ) {
         titledBorder.setTitleColor( color );
     }
@@ -54,7 +54,7 @@ public class PhetTitledPanel extends JPanel {
             setPreferredSize( new Dimension( minBorderWidth, getPreferredSize().height ) );
         }
     }
-    
+
     /**
      * This sample main demonstrates usage of the PhetTitledPanel
      *
@@ -63,8 +63,8 @@ public class PhetTitledPanel extends JPanel {
     public static void main( String[] args ) {
         JFrame frame = new JFrame( "Test" );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        final JPanel contentPane = new PhetTitledPanel("aoensuthasnotehuBorder");
-        contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
+        final JPanel contentPane = new PhetTitledPanel( "aoensuthasnotehuBorder" );
+        contentPane.setLayout( new BoxLayout( contentPane, BoxLayout.Y_AXIS ) );
         for ( int i = 0; i < 10; i++ ) {
             contentPane.add( new JLabel( "medium sized label " + i ) );
         }

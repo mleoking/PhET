@@ -33,7 +33,7 @@ public class DynamicListenerControllerFactory {
 
         return (DynamicListenerController) Proxy.newProxyInstance(
                 theInterface.getClassLoader(),
-                new Class[]{theInterface, DynamicListenerController.class},
+                new Class[] { theInterface, DynamicListenerController.class },
                 controller
         );
     }
@@ -71,7 +71,7 @@ public class DynamicListenerControllerFactory {
                 try {
                     return method.invoke( this, args );
                 }
-                catch( InvocationTargetException e ) {
+                catch ( InvocationTargetException e ) {
                     throw e.getTargetException();
                 }
             }

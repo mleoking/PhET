@@ -14,7 +14,7 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.*;
 
-import javax.swing.ImageIcon;
+import javax.swing.*;
 
 /**
  * BufferedImageUtils
@@ -54,7 +54,7 @@ public class BufferedImageUtils {
 
     /**
      * Rescale an image based on scale factors for with width and height.
-     * 
+     *
      * @param in - original buffered image.
      * @param dx - multiplier for the width (x direction)
      * @param dy - multiplier for the height (y direction)
@@ -165,7 +165,7 @@ public class BufferedImageUtils {
         try {
             pg.grabPixels();
         }
-        catch( InterruptedException e ) {
+        catch ( InterruptedException e ) {
         }
 
         // Get the image's color model
@@ -191,7 +191,7 @@ public class BufferedImageUtils {
         try {
             pg.grabPixels();
         }
-        catch( InterruptedException e ) {
+        catch ( InterruptedException e ) {
         }
 
         // Get the image's color model
@@ -238,7 +238,7 @@ public class BufferedImageUtils {
             GraphicsConfiguration gc = gs.getDefaultConfiguration();
             bimage = gc.createCompatibleImage( image.getWidth( null ), image.getHeight( null ), transparency );
         }
-        catch( HeadlessException e ) {
+        catch ( HeadlessException e ) {
             // The system does not have a screen
         }
 
@@ -268,10 +268,10 @@ public class BufferedImageUtils {
     public static BufferedImage multiScale( BufferedImage img, double scale ) {
         int w = (int) ( img.getWidth() * scale );
         int h = (int) ( img.getHeight() * scale );
-        if (scale < 1) {
+        if ( scale < 1 ) {
             return getScaledInstance( img, w, h, RenderingHints.VALUE_INTERPOLATION_BILINEAR, true );
         }
-        else if (scale == 1) {
+        else if ( scale == 1 ) {
             return img;
         }
         else {
@@ -363,14 +363,14 @@ public class BufferedImageUtils {
 
             ret = tmp;
 //            System.out.println( "w = " + w +", h="+h);
-        } while ( w > targetWidth || h >targetHeight );
+        } while ( w > targetWidth || h > targetHeight );
 
         return ret;
     }
-    
+
     /**
      * Creates a BufferedImage by scaling the alpha channel of a provided image.
-     * 
+     *
      * @param srcImage
      * @param alphaScale
      * @return

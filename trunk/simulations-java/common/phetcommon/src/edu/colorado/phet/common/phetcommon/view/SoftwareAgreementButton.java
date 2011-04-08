@@ -1,11 +1,11 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.phetcommon.view;
 
-import java.awt.Dialog;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
+import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.SoftwareAgreementDialog;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
@@ -18,7 +18,7 @@ import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 public class SoftwareAgreementButton extends JButton {
 
     private static final String LABEL = PhetCommonResources.getString( "Common.About.AgreementButton" );
-    
+
     public SoftwareAgreementButton( final Dialog parent ) {
         setText( LABEL );
         addActionListener( new ActionListener() {

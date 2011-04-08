@@ -1,9 +1,9 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.phetcommon.application;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetProperties;
@@ -31,21 +31,21 @@ public class SoftwareAgreement {
         PhetProperties p = readProperties();
         version = p.getInt( KEY_VERSION, DEFAULT_VERSION );
         try {
-            content=readContent();
+            content = readContent();
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
     }
 
     private String readContent() throws IOException {
         InputStream inStream = Thread.currentThread().getContextClassLoader().getResourceAsStream( HTML_RESOURCE_NAME );
-        BufferedReader bufferedReader=new BufferedReader( new InputStreamReader( inStream));
-        String s="";
-        String line=bufferedReader.readLine();
-        while(line!=null){
-            s+=line+"\n";
-            line=bufferedReader.readLine();
+        BufferedReader bufferedReader = new BufferedReader( new InputStreamReader( inStream ) );
+        String s = "";
+        String line = bufferedReader.readLine();
+        while ( line != null ) {
+            s += line + "\n";
+            line = bufferedReader.readLine();
         }
         return s;
     }
@@ -59,6 +59,7 @@ public class SoftwareAgreement {
 
     /**
      * Version number is a monotonically-increasing integer.
+     *
      * @return
      */
     public int getVersion() {
@@ -67,12 +68,13 @@ public class SoftwareAgreement {
 
     /**
      * Content of the agreement is an HTML string.
+     *
      * @return
      */
     public String getContent() {
-       return content;
+        return content;
     }
-    
+
     // TODO: use a standard resource loader
     private PhetProperties readProperties() {
         PhetProperties p = new PhetProperties();

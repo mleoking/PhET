@@ -72,8 +72,8 @@ public class MotionHelpBalloon extends HelpBalloon {
      *
      * @param x
      * @param y
-     * @throws IllegalStateException if this node is not yet in the Piccolo tree
      * @return the PActivity that was scheduled, or null if none was scheduled
+     * @throws IllegalStateException if this node is not yet in the Piccolo tree
      */
     public PActivity animateTo( final double x, final double y ) {
         return animateTo( x, y, DEFAULT_DURATION );
@@ -87,8 +87,8 @@ public class MotionHelpBalloon extends HelpBalloon {
      * @param x
      * @param y
      * @param duration duration in milliseconds
-     * @throws IllegalStateException if this node is not yet in the Piccolo tree
      * @return the PActivity that was scheduled, or null if none was scheduled
+     * @throws IllegalStateException if this node is not yet in the Piccolo tree
      */
     public PActivity animateTo( final double x, final double y, final long duration ) {
         if ( !started ) {
@@ -97,7 +97,8 @@ public class MotionHelpBalloon extends HelpBalloon {
             }
             PActivity activity = animateToPositionScaleRotation( x, y, 1 /*scale*/, 0 /*theta*/, duration );
             return activity;
-        }else{
+        }
+        else {
             return null;
         }
     }
@@ -109,8 +110,8 @@ public class MotionHelpBalloon extends HelpBalloon {
      * if the destination node is moving.
      *
      * @param node
-     * @throws IllegalStateException if this node is not yet in the Piccolo tree
      * @return the PActivity that was scheduled, or null if none was scheduled
+     * @throws IllegalStateException if this node is not yet in the Piccolo tree
      */
     public PActivity animateTo( final PNode node ) {
         return animateTo( node, DEFAULT_DURATION );
@@ -124,8 +125,8 @@ public class MotionHelpBalloon extends HelpBalloon {
      *
      * @param node
      * @param duration duration in milliseconds
-     * @throws IllegalStateException if this node is not yet in the Piccolo tree
      * @return the PActivity that was scheduled, or null if none was scheduled
+     * @throws IllegalStateException if this node is not yet in the Piccolo tree
      */
     public PActivity animateTo( final PNode node, long duration ) {
         if ( !started ) {
@@ -147,7 +148,8 @@ public class MotionHelpBalloon extends HelpBalloon {
                 }
             } );
             return activity;
-        }else{
+        }
+        else {
             return null;
         }
     }

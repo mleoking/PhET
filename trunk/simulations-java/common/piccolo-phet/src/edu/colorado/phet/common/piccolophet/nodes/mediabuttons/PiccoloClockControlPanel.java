@@ -8,7 +8,7 @@ import edu.colorado.phet.common.phetcommon.view.TimeControlListener;
 
 
 //todo: this duplicates code with ClockControlPanel
-public class PiccoloClockControlPanel extends PiccoloTimeControlPanel{
+public class PiccoloClockControlPanel extends PiccoloTimeControlPanel {
     private IClock clock;
     private ClockAdapter clockListener;
 
@@ -41,9 +41,9 @@ public class PiccoloClockControlPanel extends PiccoloTimeControlPanel{
                 clock.resetSimulationTime();
             }
 
-			public void stepBackPressed() {
+            public void stepBackPressed() {
                 clock.stepClockBackWhilePaused();
-			}
+            }
         } );
 
         // Update the control panel when the clock changes

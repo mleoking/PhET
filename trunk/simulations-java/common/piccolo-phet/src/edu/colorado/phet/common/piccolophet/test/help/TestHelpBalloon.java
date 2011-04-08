@@ -67,7 +67,7 @@ public class TestHelpBalloon extends PhetApplication {
                     TestHelpBalloon app = new TestHelpBalloon( config );
                     return app;
                 }
-                catch( Exception e ) {
+                catch ( Exception e ) {
                     return null;
                 }
             }
@@ -289,7 +289,7 @@ public class TestHelpBalloon extends PhetApplication {
                         HelpBalloon.TOP_LEFT, HelpBalloon.TOP_CENTER, HelpBalloon.TOP_RIGHT,
                         HelpBalloon.BOTTOM_LEFT, HelpBalloon.BOTTOM_CENTER, HelpBalloon.BOTTOM_RIGHT,
                         HelpBalloon.LEFT_TOP, HelpBalloon.LEFT_CENTER, HelpBalloon.LEFT_BOTTOM,
-                        HelpBalloon.RIGHT_TOP, HelpBalloon.RIGHT_CENTER, HelpBalloon.RIGHT_BOTTOM};
+                        HelpBalloon.RIGHT_TOP, HelpBalloon.RIGHT_CENTER, HelpBalloon.RIGHT_BOTTOM };
                 final JComboBox tailPositionComboBox = new JComboBox( tailPositions );
                 tailPositionComboBox.setCursor( new Cursor( Cursor.HAND_CURSOR ) );
                 tailPositionComboBox.setSelectedItem( DEFAULT_ARROW_TAIL_POSITION );
@@ -454,7 +454,7 @@ public class TestHelpBalloon extends PhetApplication {
 
         private void updateLabel() {
             int value = _slider.getValue();
-            Object[] args = {new Integer( value )};
+            Object[] args = { new Integer( value ) };
             String string = MessageFormat.format( _format, args );
             _label.setText( string );
         }

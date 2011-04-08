@@ -68,7 +68,7 @@ public abstract class AbstractMappingStrategy {
                " modelMin=" + _modelMin + " modelMax=" + _modelMax +
                " sliderMin=" + _sliderMin + " sliderMax=" + _sliderMax;
     }
-    
+
     public int modelToSliderDelta( double modelDelta ) {
         return modelToSlider( modelDelta ) - modelToSlider( 0 );
     }

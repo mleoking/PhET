@@ -17,7 +17,7 @@ public class StringUtil {
         try {
             value = Integer.parseInt( s );
         }
-        catch( NumberFormatException nfe ) {
+        catch ( NumberFormatException nfe ) {
             System.err.println( "StringUtil: " + s + " is not an int" );
             value = defaultValue;
         }
@@ -31,21 +31,21 @@ public class StringUtil {
         try {
             value = Double.parseDouble( s );
         }
-        catch( NumberFormatException nfe ) {
+        catch ( NumberFormatException nfe ) {
             System.err.println( "StringUtil: " + s + " is not a double" );
             value = defaultValue;
         }
 
         return value;
     }
-    
+
     public static long asLong( String s, long defaultValue ) {
         long value;
 
         try {
             value = Long.parseLong( s );
         }
-        catch( NumberFormatException nfe ) {
+        catch ( NumberFormatException nfe ) {
             System.err.println( "StringUtil: " + s + " is not a long" );
             value = defaultValue;
         }
@@ -62,15 +62,15 @@ public class StringUtil {
 
         return s.charAt( 0 );
     }
-    
+
     public static boolean asBoolean( String s ) {
         return Boolean.valueOf( s ).booleanValue();
     }
-    
+
     /**
      * Converts an exception's stack trace to a string.
      * Useful for displaying strings in error dialogs.
-     * 
+     *
      * @param e
      * @return String
      */
@@ -80,11 +80,11 @@ public class StringUtil {
         e.printStackTrace( pw );
         return sw.toString();
     }
-    
+
     /**
      * Does a specified string match any one of a set of regular expressions?
      * See java.util.regex.Pattern for regular expression syntax.
-     * 
+     *
      * @param regex
      * @param s
      * @return true or false
@@ -99,11 +99,11 @@ public class StringUtil {
         }
         return matches;
     }
-    
+
     /**
      * Is a specified string contained in an array of strings?
      * Useful for checking for the existence of commandline args.
-     * 
+     *
      * @param array
      * @param s
      * @return

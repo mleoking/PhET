@@ -18,7 +18,7 @@ public class ZDynamicListenerControllerFactoryTester extends TestCase {
 
             fail();
         }
-        catch( IllegalStateException e ) {
+        catch ( IllegalStateException e ) {
         }
     }
 
@@ -56,7 +56,7 @@ public class ZDynamicListenerControllerFactoryTester extends TestCase {
 
             fail();
         }
-        catch( IllegalStateException e ) {
+        catch ( IllegalStateException e ) {
         }
     }
 

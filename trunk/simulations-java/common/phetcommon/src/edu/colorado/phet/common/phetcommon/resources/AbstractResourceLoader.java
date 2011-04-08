@@ -46,7 +46,7 @@ abstract class AbstractResourceLoader implements IResourceLoader {
      * some/pkg/Resource.properties
      * /some/pkg/Resource
      * /some/pkg/Resource.properties
-     * <p>
+     *
      * Unlike Java's ResourceBundle, this implementation requires an exact match on Locale
      * in order to find the resource.
      * </pre>
@@ -62,9 +62,9 @@ abstract class AbstractResourceLoader implements IResourceLoader {
             properties.putAll( requestedLanguageProperties ); //overwrite fallback with requested language
             return new PhetProperties( properties );
         }
-        catch( IOException e ) {
-            e.printStackTrace(  );
-            return new PhetProperties( new Properties( ) );
+        catch ( IOException e ) {
+            e.printStackTrace();
+            return new PhetProperties( new Properties() );
         }
     }
 
@@ -80,12 +80,12 @@ abstract class AbstractResourceLoader implements IResourceLoader {
     private String getLocalizedPropertiesResourceName( String resourceName, Locale locale ) {
         return stripPropertiesSuffix( resourceName ) + LocaleUtils.getTranslationFileSuffix( locale ) + PROPERTIES_SUFFIX;
     }
-    
+
     private String getFallbackPropertiesResourceName( String resourceName ) {
         String basename = stripPropertiesSuffix( resourceName );
         return basename + PROPERTIES_SUFFIX;
     }
-    
+
     private String stripPropertiesSuffix( String s ) {
         if ( s.endsWith( PROPERTIES_SUFFIX ) ) {
             s = s.substring( 0, s.length() - PROPERTIES_SUFFIX.length() );
@@ -106,10 +106,10 @@ abstract class AbstractResourceLoader implements IResourceLoader {
         }
         return stream;
     }
-    
+
     /**
      * Returns the contents of a resource as a String.
-     *  
+     *
      * @param resourceName
      * @return String
      */
@@ -140,11 +140,11 @@ abstract class AbstractResourceLoader implements IResourceLoader {
             }
             out.flush();
         }
-        catch( Exception e ) {
+        catch ( Exception e ) {
             try {
                 stream.close();
             }
-            catch( IOException e1 ) {
+            catch ( IOException e1 ) {
                 e1.printStackTrace();
             }
         }

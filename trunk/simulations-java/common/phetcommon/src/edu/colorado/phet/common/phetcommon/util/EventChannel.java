@@ -84,7 +84,7 @@ public class EventChannel implements InvocationHandler {
         }
         targetInterface = interf;
         proxy = Proxy.newProxyInstance( interf.getClassLoader(),
-                                        new Class[]{interf}, this );
+                                        new Class[] { interf }, this );
     }
 
     /**
@@ -205,10 +205,10 @@ public class EventChannel implements InvocationHandler {
                 listenersToRemove.clear();
             }
         }
-        catch( InvocationTargetException ite ) {
+        catch ( InvocationTargetException ite ) {
             throw new InvocationTargetException( ite, "target = " + target );
         }
-        catch( Throwable t ) {
+        catch ( Throwable t ) {
             System.out.println( "t = " + t );
             throw new Throwable( t );
         }

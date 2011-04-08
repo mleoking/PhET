@@ -2,11 +2,9 @@
 
 package edu.colorado.phet.common.piccolophet;
 
-import java.awt.Color;
-import java.awt.Frame;
-import java.awt.Insets;
+import java.awt.*;
 
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -29,7 +27,7 @@ public class TabbedPanePropertiesDialog extends PaintImmediateDialog {
         super( parent, "Tabbed Pane properties" );
         setResizable( false );
         setModal( false );
-        
+
         JPanel inputPanel = createInputPanel( parent, tabbedPane );
 
         VerticalLayoutPanel panel = new VerticalLayoutPanel();
@@ -60,7 +58,7 @@ public class TabbedPanePropertiesDialog extends PaintImmediateDialog {
                 tabbedPane.setSelectedTabColor( selectedTabColorControl.getColor() );
             }
         } );
-        
+
         // unselected tab color
         Color unselectedTabColor = tabbedPane.getUnselectedTabColor();
         final ColorControl unselectedTabColorControl = new ColorControl( parent, "tab color (unselected): ", unselectedTabColor );
@@ -78,7 +76,7 @@ public class TabbedPanePropertiesDialog extends PaintImmediateDialog {
                 tabbedPane.setSelectedTextColor( selectedTextColorControl.getColor() );
             }
         } );
-        
+
         // unselected text color
         Color unselectedTextColor = tabbedPane.getUnselectedTextColor();
         final ColorControl unselectedTextColorControl = new ColorControl( parent, "text color (unselected): ", unselectedTextColor );
@@ -87,7 +85,7 @@ public class TabbedPanePropertiesDialog extends PaintImmediateDialog {
                 tabbedPane.setUnselectedTextColor( unselectedTextColorControl.getColor() );
             }
         } );
-        
+
         // Layout
         JPanel panel = new JPanel();
         panel.setBorder( new EmptyBorder( 5, 5, 5, 5 ) );

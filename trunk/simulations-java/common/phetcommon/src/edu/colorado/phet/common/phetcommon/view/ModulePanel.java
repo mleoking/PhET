@@ -3,9 +3,12 @@
 package edu.colorado.phet.common.phetcommon.view;
 
 import java.awt.*;
-import java.awt.event.*;
-import java.beans.PropertyChangeListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ContainerEvent;
+import java.awt.event.ContainerListener;
 import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import javax.swing.*;
 
@@ -15,22 +18,22 @@ import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
  * ModulePanel is the main JPanel for a Module in a PhetApplication.
  * It consists of a number of subpanels, whose layout is shown below.
  * All panels are optional (can be null).
- * <p>
+ * <p/>
  * Here is the layout of the subpanels:
  * <code>
- *    +----------------------------------------+--------------------+
- *    |            monitorPanel                |     logoPanel      |
- *    +----------------------------------------+--------------------+
- *    |                                        |                    |
- *    |                                        |                    |
- *    |                                        |                    |
- *    |          simulationPanel               |   controlPanel     |
- *    |                                        |                    |
- *    |                                        |                    |
- *    |                                        |                    |
- *    +----------------------------------------+--------------------+
- *    |            clockControlPanel           |     helpPanel      |
- *    +----------------------------------------+--------------------+
+ * +----------------------------------------+--------------------+
+ * |            monitorPanel                |     logoPanel      |
+ * +----------------------------------------+--------------------+
+ * |                                        |                    |
+ * |                                        |                    |
+ * |                                        |                    |
+ * |          simulationPanel               |   controlPanel     |
+ * |                                        |                    |
+ * |                                        |                    |
+ * |                                        |                    |
+ * +----------------------------------------+--------------------+
+ * |            clockControlPanel           |     helpPanel      |
+ * +----------------------------------------+--------------------+
  * </code>
  *
  * @author Ron LeMaster, Sam Reid, Chris Malley
@@ -104,13 +107,13 @@ public class ModulePanel extends JPanel {
         } );
         relayoutAll();
     }
-    
+
     /**
      * See #2015, ensure that scaling and layout are updated when bounds change.
      * This must happen synchronously; if you schedule it in a ComponentEvent,
      * you will see the scaling and layout.
      */
-    @Override 
+    @Override
     public void setBounds( int x, int y, int w, int h ) {
         super.setBounds( x, y, w, h );
         relayoutAll();
@@ -198,16 +201,16 @@ public class ModulePanel extends JPanel {
             // Embed the clockControlPanel in its own JPanel so that it will be centered.
             // This might cause issues for users that want to get a reference to the southern
             // part of the module panel instead of the control panel itself.
-            clockControlPanelContainer = new JPanel(  );
+            clockControlPanelContainer = new JPanel();
             clockControlPanelContainer.add( panel );
 
             //trial workaround for keeping background color consistent
-            panel.addPropertyChangeListener( "background",new PropertyChangeListener() {
+            panel.addPropertyChangeListener( "background", new PropertyChangeListener() {
                 public void propertyChange( PropertyChangeEvent evt ) {
                     clockControlPanelContainer.setBackground( panel.getBackground() );
                 }
             } );
-            clockControlPanelContainer.setBackground(  panel.getBackground() );
+            clockControlPanelContainer.setBackground( panel.getBackground() );
             leftPanel.add( clockControlPanelContainer, BorderLayout.SOUTH );
         }
     }

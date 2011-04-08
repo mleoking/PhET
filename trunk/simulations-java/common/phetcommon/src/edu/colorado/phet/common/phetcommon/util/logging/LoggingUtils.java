@@ -43,7 +43,7 @@ public class LoggingUtils {
                 }
             } );
         }
-        catch( SecurityException e ) {
+        catch ( SecurityException e ) {
 
         }
     }
@@ -127,7 +127,7 @@ public class LoggingUtils {
             // default console appender doesn't handle levels at FINE or under. we add our custom handler to output these levels
             logger.addHandler( handler );
         }
-        catch( SecurityException e ) {
+        catch ( SecurityException e ) {
 
         }
     }

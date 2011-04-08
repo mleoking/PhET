@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.common.phetcommon.view.util;
 
-import java.awt.Shape;
+import java.awt.*;
 import java.awt.geom.Area;
 
 /**
@@ -11,12 +11,14 @@ import java.awt.geom.Area;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class ShapeUtils {
-    
+
     /* not intended for instantiation */
-    private ShapeUtils() {}
-    
+    private ShapeUtils() {
+    }
+
     /**
      * Do two Shapes intersect?
+     *
      * @param shape1
      * @param shape2
      * @return
@@ -27,9 +29,10 @@ public class ShapeUtils {
         area1.intersect( area2 );
         return !area1.isEmpty();
     }
-    
+
     /**
      * Returns the intersection of 2 Shapes.
+     *
      * @param s1
      * @param s2
      * @return
@@ -39,9 +42,10 @@ public class ShapeUtils {
         area.intersect( new Area( s2 ) );
         return area;
     }
-    
+
     /**
      * Adds a variable number of Shapes.
+     *
      * @param shape
      * @param shapes
      * @return
@@ -53,9 +57,10 @@ public class ShapeUtils {
         }
         return area;
     }
-    
+
     /**
      * Subtracts a variable number of Shapes, in the order of the args.
+     *
      * @param shape
      * @param shapes
      * @return

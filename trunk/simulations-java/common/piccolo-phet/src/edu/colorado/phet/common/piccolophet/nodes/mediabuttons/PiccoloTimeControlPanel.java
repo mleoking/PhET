@@ -2,14 +2,7 @@
 
 package edu.colorado.phet.common.piccolophet.nodes.mediabuttons;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.GradientPaint;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Shape;
+import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.text.DecimalFormat;
@@ -17,11 +10,7 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import javax.swing.JComponent;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
+import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.TimeControlListener;
@@ -102,7 +91,7 @@ public class PiccoloTimeControlPanel extends JPanel {
 
         // Step
         stepButton = new StepButton( (int) ( playPauseButton.getButtonDimension().width * 0.8 ) );
-        
+
         // Step back
         stepBackButton = new StepBackButton( (int) ( playPauseButton.getButtonDimension().width * 0.8 ) );
 
@@ -588,6 +577,7 @@ public class PiccoloTimeControlPanel extends JPanel {
             public void stepBackPressed() {
                 System.out.println( "stepBackPressed" );
             }
+
             public void restartPressed() {
                 System.out.println( "restartPressed" );
             }

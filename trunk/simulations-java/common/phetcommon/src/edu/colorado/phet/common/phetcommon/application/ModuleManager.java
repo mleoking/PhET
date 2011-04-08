@@ -83,7 +83,7 @@ class ModuleManager {
      */
     void removeModule( Module module ) {
         modules.remove( module );
-        
+
         // If the module we're removing is the start module, set another start module.
         if ( module == startModule ) {
             startModule = null;
@@ -91,12 +91,12 @@ class ModuleManager {
                 startModule = moduleAt( 0 );
             }
         }
-        
+
         // If the module we are removing is the active module, we need to set another one active
         if ( getActiveModule() == module ) {
             setActiveModule( modules.size() == 0 ? null : (Module) modules.get( 0 ) );
         }
-        
+
         // Notifiy listeners
         notifyModuleRemoved( new ModuleEvent( getPhetApplication(), module ) );
     }
@@ -283,22 +283,22 @@ class ModuleManager {
             moduleObserver.moduleRemoved( event );
         }
     }
-    
+
     /**
      * Gets the module that will be activated on startup.
      * By default, this is the first module added.
      * To change the default, call setStartupModule.
-     * 
+     *
      * @return Module
      */
     public Module getStartModule() {
         return startModule;
     }
-    
+
     /**
      * Sets the module that will be activated on startup.
      * If this method is not called, the first module added is the default.
-     * 
+     *
      * @param module
      */
     public void setStartModule( Module module ) {
