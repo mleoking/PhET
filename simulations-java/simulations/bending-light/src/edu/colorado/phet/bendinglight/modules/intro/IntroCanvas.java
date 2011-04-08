@@ -20,6 +20,7 @@ import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.common.piccolophet.nodes.ToolNode;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.FloatingClockControlNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -125,7 +126,12 @@ public class IntroCanvas<T extends IntroModel> extends BendingLightCanvas<T> {
                     public Rectangle2D apply() {
                         return toolboxNode.getGlobalFullBounds();
                     }
-                } );
+                } ) {
+            //Move the protractor behind the light node so that it also goes behind other controls (such as wavelength controls), since otherwise it obscures them from interaction
+            @Override protected void addChild( BendingLightCanvas canvas, ToolNode node ) {
+                canvas.addChildBehindLight( node );
+            }
+        };
         toolboxNode = new ToolboxNode( this, transform, protractor, getMoreTools( model ), model.getIntensityMeter(), showNormal );
         final ControlPanelNode toolbox = new ControlPanelNode( toolboxNode ) {{
             setOffset( 10, stageSize.height - getFullBounds().getHeight() - 10 );
