@@ -12,6 +12,8 @@ import edu.colorado.phet.bendinglight.modules.intro.Tool;
 import edu.colorado.phet.bendinglight.modules.intro.ToolboxNode;
 import edu.colorado.phet.bendinglight.view.BendingLightWavelengthControl;
 import edu.colorado.phet.bendinglight.view.LaserView;
+import edu.colorado.phet.bendinglight.view.ProtractorModel;
+import edu.colorado.phet.bendinglight.view.ProtractorNode;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.ResetModel;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
@@ -110,5 +112,10 @@ public class MoreToolsCanvas extends IntroCanvas<MoreToolsModel> {
                 } );
 
         return new PNode[] { velocityTool, waveTool };
+    }
+
+    //ProtractorNode is expandable in the "more tools" tab
+    protected ProtractorNode newProtractorNode( ModelViewTransform transform, Property<Boolean> showTool, Point2D model ) {
+        return new ExpandableProtractorNode( transform, showTool, new ProtractorModel( model.getX(), model.getY() ), getProtractorDragRegion(), getProtractorRotationRegion(), 1 );
     }
 }
