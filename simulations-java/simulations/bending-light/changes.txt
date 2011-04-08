@@ -1,3 +1,4 @@
+Moved "low" and "high" labels up to be more in line with the slider track
 # 0.00.33 (50430) Apr 7, 2011
 Reduced the size of prisms in the toolbox to shrink the toolbox
 Increased the number of sides for continuous prism shapes to avoid a sampling problem with white light
