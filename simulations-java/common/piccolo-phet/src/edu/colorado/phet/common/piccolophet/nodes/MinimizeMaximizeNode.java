@@ -48,8 +48,8 @@ public class MinimizeMaximizeNode extends PNode {
     private final static Image MAXIMIZE_IMAGE;
 
     static {
-        MINIMIZE_IMAGE = PhetCommonResources.getInstance().getImage( PhetCommonResources.IMAGE_MINIMIZE_BUTTON );
-        MAXIMIZE_IMAGE = PhetCommonResources.getInstance().getImage( PhetCommonResources.IMAGE_MAXIMIZE_BUTTON );
+        MINIMIZE_IMAGE = PhetCommonResources.getMinimizeButtonImage();
+        MAXIMIZE_IMAGE = PhetCommonResources.getMaximizeButtonImage();
     }
 
     //----------------------------------------------------------------------------

@@ -4,9 +4,9 @@ package edu.colorado.phet.common.phetcommon.resources;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.Locale;
 import java.util.Properties;
-import java.text.MessageFormat;
 
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 
@@ -45,8 +45,8 @@ public class PhetCommonResources {
     private static PhetResources INSTANCE = new PhetResources( "phetcommon" );
 
     //Values for translated strings
-    public static final String PICCOLO_PHET_VELOCITY_SENSOR_NODE_SPEED =getString( "PiccoloPhet.VelocitySensorNode.speed" );
-    public static final String PICCOLO_PHET_VELOCITY_SENSOR_NODE_UNKNOWN =getString( "PiccoloPhet.VelocitySensorNode.unknown" );
+    public static final String PICCOLO_PHET_VELOCITY_SENSOR_NODE_SPEED = getString( "PiccoloPhet.VelocitySensorNode.speed" );
+    public static final String PICCOLO_PHET_VELOCITY_SENSOR_NODE_UNKNOWN = getString( "PiccoloPhet.VelocitySensorNode.unknown" );
 
     /* not intended for instantiation */
     private PhetCommonResources() {
@@ -88,11 +88,11 @@ public class PhetCommonResources {
     public static String getString( String key ) {
         return INSTANCE.getLocalizedString( key );
     }
-    
+
     public static final char getChar( String name, char defaultValue ) {
         return INSTANCE.getLocalizedChar( name, defaultValue );
     }
-    
+
     /**
      * Convenience method for accessing an image file from phetcommon.
      *
@@ -106,12 +106,20 @@ public class PhetCommonResources {
     /**
      * Formats a string containing a value and units using the pattern specified in the translation file by Common.value.units.  In English
      * this has the form "{0} {1}", for example "3 meters"
-     * 
+     *
      * @param value the value to display
      * @param units the units for the value
      * @return the formatted string
      */
-    public static String formatValueUnits(String value, String units) {
-        return MessageFormat.format(getString("Common.value_units"), value, units);
+    public static String formatValueUnits( String value, String units ) {
+        return MessageFormat.format( getString( "Common.value_units" ), value, units );
+    }
+
+    public static BufferedImage getMaximizeButtonImage() {
+        return getImage( IMAGE_MAXIMIZE_BUTTON );
+    }
+
+    public static BufferedImage getMinimizeButtonImage() {
+        return getImage( IMAGE_MINIMIZE_BUTTON );
     }
 }

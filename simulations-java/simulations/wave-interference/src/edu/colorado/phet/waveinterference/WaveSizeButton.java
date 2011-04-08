@@ -31,13 +31,13 @@ public class WaveSizeButton extends MultiStateButton {
             setMargin( new Insets( 0, 0, 0, 0 ) );
         }
 
-        addMode( BIG_KEY, null, new ImageIcon( PhetCommonResources.getInstance().getImage( PhetCommonResources.IMAGE_MAXIMIZE_BUTTON ) ) );
+        addMode( BIG_KEY, null, new ImageIcon( PhetCommonResources.getMaximizeButtonImage() ) );
         addActionListener( BIG_KEY, new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 maximizable.setWaveMaximized( true );
             }
         } );
-        addMode( SMALL_KEY, null, new ImageIcon( PhetCommonResources.getInstance().getImage( PhetCommonResources.IMAGE_MINIMIZE_BUTTON ) ) );
+        addMode( SMALL_KEY, null, new ImageIcon( PhetCommonResources.getMinimizeButtonImage() ) );
         addActionListener( SMALL_KEY, new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 maximizable.setWaveMaximized( false );
