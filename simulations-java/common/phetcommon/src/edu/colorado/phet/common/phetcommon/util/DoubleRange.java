@@ -131,10 +131,11 @@ public class DoubleRange {
     public boolean contains( double value ) {
         return ( value >= _min && value <= _max );
     }
-    
+
     /**
-     * Determines whether a value is in the range, 
+     * Determines whether a value is in the range,
      * exclusive of the range's min and max.
+     *
      * @param value
      * @return
      */

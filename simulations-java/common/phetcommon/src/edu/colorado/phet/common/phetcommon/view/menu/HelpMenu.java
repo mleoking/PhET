@@ -13,9 +13,7 @@ package edu.colorado.phet.common.phetcommon.view.menu;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
+import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.ModuleEvent;
@@ -62,7 +60,7 @@ public class HelpMenu extends JMenu implements ModuleObserver {
                 }
                 else {
                     PhetOptionPane.showMessageDialog( PhetApplication.getInstance().getPhetFrame(),
-                                                   "No MegaHelp available for this module." );
+                                                      "No MegaHelp available for this module." );
                 }
             }
         } );

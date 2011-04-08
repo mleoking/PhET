@@ -1,7 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.phetcommon.updates;
 
-import java.awt.Frame;
+import java.awt.*;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -10,8 +10,9 @@ import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.logging.Logger;
 
-import javax.swing.JDialog;
+import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
 import edu.colorado.phet.common.phetcommon.application.ISimInfo;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.dialogs.DownloadProgressDialog;
@@ -27,7 +28,6 @@ import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.phetcommon.util.logging.LoggingUtils;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
-import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
 
 /**
  * Updates the simulations by running the PhET "updater", which downloads the new version
@@ -36,38 +36,38 @@ import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
  * @author Sam Reid
  */
 public class SimUpdater {
-    
+
     // updater basename
     private static final String UPDATER_BASENAME = "phet-updater";
-    
+
     private static final String UPDATER_JAR = UPDATER_BASENAME + ".jar";
-    
+
     // where the updater lives on the PhET site
     private static final String UPDATER_ADDRESS = PhetCommonConstants.PHET_HOME_URL + "/phet-dist/phet-updater/" + UPDATER_JAR;
-    
+
     // localized strings
     private static final String ERROR_WRITE_PERMISSIONS = PhetCommonResources.getString( "Common.updates.errorWritePermissions" );
     private static final String ERROR_MISSING_JAR = PhetCommonResources.getString( "Common.updates.errorMissingJar" );
     private static final String ERROR_NOT_A_JAR = PhetCommonResources.getString( "Common.updates.errorNotAJar" );
 
     private static final Logger LOGGER = LoggingUtils.getLogger( SimUpdater.class.getCanonicalName() );
-    
+
     private final File tmpDir;
-    
+
     public SimUpdater() {
         tmpDir = new File( System.getProperty( "java.io.tmpdir" ) );
     }
-    
+
     /**
      * Updates the sim that this is called from.
      * The updater bootstrap and new sim JAR are downloaded.
      * Then the bootstrap handles replacing the running JAR with the new JAR.
-     * 
+     *
      * @param simInfo
      * @param newVersion
      */
     public void updateSim( ISimInfo simInfo, PhetVersion newVersion ) {
-        
+
         if ( !tmpDir.canWrite() ) {
             handleErrorWritePermissions( tmpDir );
         }
@@ -81,7 +81,7 @@ public class SimUpdater {
                     handleErrorWritePermissions( simJAR );
                 }
                 else {
-                    String jarURL = getJarURL(simInfo);
+                    String jarURL = getJarURL( simInfo );
                     log( "requesting update via URL=" + jarURL );
                     File tempSimJAR = getTempSimJAR( simJAR );
                     File tempUpdaterJAR = getTempUpdaterJAR();
@@ -104,9 +104,10 @@ public class SimUpdater {
     }
 
     /**
-     * Determines which JAR URL should be used to update this simulation, 
+     * Determines which JAR URL should be used to update this simulation,
      * depends on whether we're in a phet installation (which gives <project>_all.jar)
      * or an offline simulation (which gives <sim>_<locale>.jar).
+     *
      * @param simInfo
      * @return
      */
@@ -121,40 +122,41 @@ public class SimUpdater {
 
     /**
      * Displays an update exception in a dialog.
+     *
      * @param e
      */
     private void showException( Exception e ) {
         JDialog dialog = new UpdateErrorDialog( PhetApplication.getInstance().getPhetFrame(), e );
         dialog.setVisible( true );
     }
-    
+
     /*
-     * Downloads files and displays a progress bar.
-     * The files downloaded are the updater bootstrap jar, and the sim's new jar.
-     */
+    * Downloads files and displays a progress bar.
+    * The files downloaded are the updater bootstrap jar, and the sim's new jar.
+    */
     private boolean downloadFiles( String updaterSrc, File updaterDst, String simSrc, File simDst, String simName, PhetVersion newVersion ) throws IOException {
-        
+
         // download requests
         DownloadThread downloadThread = new DownloadThread();
         downloadThread.addRequest( PhetCommonResources.getString( "Common.updates.downloadingBootstrap" ), updaterSrc, updaterDst );
         downloadThread.addRequest( PhetCommonResources.getString( "Common.updates.downloadingSimJar" ), simSrc, simDst );
-        
+
         // progress dialog
         String title = PhetCommonResources.getString( "Common.updates.progressDialogTitle" );
         Object[] args = { simName, newVersion.formatMajorMinor() };
         String message = MessageFormat.format( PhetCommonResources.getString( "Common.updates.progressDialogMessage" ), args );
         DownloadProgressDialog dialog = new DownloadProgressDialog( null, title, message, downloadThread );
-        
+
         // start the download
         downloadThread.start();
         dialog.setVisible( true );
-        
+
         return downloadThread.getSucceeded();
     }
-    
+
     /*
-     * Runs the updater bootstrap in a separate JVM.
-     */
+    * Runs the updater bootstrap in a separate JVM.
+    */
     private void startUpdaterBootstrap( File updaterBootstrap, File src, File dst ) throws IOException {
         String[] cmdArray = new String[] { PhetUtilities.getJavaPath(), "-jar", updaterBootstrap.getAbsolutePath(), src.getAbsolutePath(), dst.getAbsolutePath() };
         log( "Starting updater bootstrap with cmdArray=" + Arrays.asList( cmdArray ).toString() );
@@ -183,10 +185,10 @@ public class SimUpdater {
         }
         return location;
     }
-    
+
     /*
-     * Gets a temporary file for downloading the sim's jar.
-     */
+    * Gets a temporary file for downloading the sim's jar.
+    */
     private File getTempSimJAR( File simJAR ) throws IOException {
         String basename = FileUtils.getBasename( simJAR );
         File file = File.createTempFile( basename, ".jar" );
@@ -207,11 +209,11 @@ public class SimUpdater {
         log( "Downloading updater to " + updaterJAR.getAbsolutePath() );
         return updaterJAR;
     }
-    
+
     /*
-     * Validates the sim jar that was downloaded.
-     * If it's not a jar, attempts to display the error returned by the server.
-     */
+    * Validates the sim jar that was downloaded.
+    * If it's not a jar, attempts to display the error returned by the server.
+    */
     private boolean validateSimJar( File file ) {
         boolean valid = FileUtils.isJar( file );
         if ( !valid ) {
@@ -219,11 +221,11 @@ public class SimUpdater {
         }
         return valid;
     }
-    
+
     /*
-     * Validates the updater jar that was downloaded.
-     * Displays an error if it's not a jar.
-     */
+    * Validates the updater jar that was downloaded.
+    * Displays an error if it's not a jar.
+    */
     private boolean validateUpdateJar( File file ) {
         boolean valid = FileUtils.isJar( file );
         if ( !valid ) {
@@ -256,28 +258,28 @@ public class SimUpdater {
             handleErrorNotAJar( file );
         }
     }
-    
+
     private static void handleErrorWritePermissions( File file ) {
         Object[] args = { file.getAbsolutePath() };
         String message = MessageFormat.format( ERROR_WRITE_PERMISSIONS, args );
         displayError( message );
     }
-    
+
     private static void handleErrorMissingJar( File file ) {
         Object[] args = { file.getAbsolutePath() };
         String message = MessageFormat.format( ERROR_MISSING_JAR, args );
         displayError( message );
     }
-    
+
     private static void handleErrorNotAJar( File file ) {
         Object[] args = { file.getAbsolutePath() };
         String message = MessageFormat.format( ERROR_NOT_A_JAR, args );
         displayError( message );
     }
-    
+
     private static void displayError( String message ) {
-        JDialog d = new ErrorDialog( (Frame)null, message );
+        JDialog d = new ErrorDialog( (Frame) null, message );
         SwingUtils.centerWindowOnScreen( d );
-        d.setVisible( true ); 
+        d.setVisible( true );
     }
 }

@@ -21,12 +21,14 @@ import org.xml.sax.SAXException;
 
 
 public class XMLUtils {
-    
+
     /* not intended for instantiation */
-    private XMLUtils() {}
+    private XMLUtils() {
+    }
 
     /**
      * Converts an XML node (or document) to an XML String.
+     *
      * @param node
      * @return
      * @throws TransformerException
@@ -38,7 +40,7 @@ public class XMLUtils {
 
         // Node source
         DOMSource source = new DOMSource( node );
-        
+
         // StringWriter result
         StringWriter stringWriter = new StringWriter();
         Result result = new StreamResult( stringWriter );
@@ -46,9 +48,10 @@ public class XMLUtils {
         transformer.transform( source, result );
         return stringWriter.toString();
     }
-    
+
     /**
      * Converts an XML String to a Document.
+     *
      * @param string
      * @return
      * @throws TransformerException
@@ -64,24 +67,25 @@ public class XMLUtils {
 
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
         Transformer transformer = transformerFactory.newTransformer();
-        
+
         // StringReader source
         Source source = new StreamSource( new StringReader( string ) );
 
         // Document result
         DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
         Document document = builder.newDocument();
-        Result result = new DOMResult(document);
-        
+        Result result = new DOMResult( document );
+
         transformer.transform( source, result );
         return document;
     }
-    
+
     /**
      * Uses http to post a Document to a URL.
+     *
      * @param url
      * @param document
-     * @return 
+     * @return
      * @throws IOException
      * @throws UnknownHostException
      * @throws TransformerException
@@ -89,9 +93,10 @@ public class XMLUtils {
     public static HttpURLConnection post( String url, Document document ) throws IOException, UnknownHostException, TransformerException {
         return post( url, toString( document ) );
     }
-    
+
     /**
      * Uses http to post an XML String to a URL.
+     *
      * @param url
      * @param xmlString
      * @param return
@@ -110,26 +115,28 @@ public class XMLUtils {
         OutputStreamWriter outStream = new OutputStreamWriter( connection.getOutputStream(), "UTF-8" );
         outStream.write( xmlString );
         outStream.close();
-       
+
         return connection;
     }
-    
+
     /**
      * Reads a Document from an HttpURLConnection.
+     *
      * @param connection
      * @return
      * @throws IOException
-     * @throws ParserConfigurationException 
-     * @throws SAXException 
-     * @throws TransformerException 
+     * @throws ParserConfigurationException
+     * @throws SAXException
+     * @throws TransformerException
      */
     public static Document readDocument( HttpURLConnection connection ) throws IOException, SAXException, ParserConfigurationException, TransformerException {
         String xmlString = readString( connection );
         return toDocument( xmlString );
     }
-    
+
     /**
      * Reads an XML String from an HttpURLConnection.
+     *
      * @param connection
      * @return
      * @throws IOException
@@ -144,15 +151,15 @@ public class XMLUtils {
         reader.close();
         return buffer.toString();
     }
-    
+
     /**
      * Reads an XML document from an input stream.
-     * 
+     *
      * @param inputStream
      * @return Document
      * @throws ParserConfigurationException if we failed to creaate a document build
-     * @throws IOException if there was an input error reading the stream
-     * @throws SAXException if we couldn't parse the XML
+     * @throws IOException                  if there was an input error reading the stream
+     * @throws SAXException                 if we couldn't parse the XML
      */
     public static final Document readDocument( InputStream inputStream ) throws ParserConfigurationException, IOException, SAXException {
         DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
@@ -161,7 +168,7 @@ public class XMLUtils {
 
     /**
      * Writes an XML document to an output stream.
-     * 
+     *
      * @param document
      * @param outputStream
      * @throws TransformerException if the output failed

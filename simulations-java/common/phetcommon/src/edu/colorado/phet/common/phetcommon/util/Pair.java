@@ -5,6 +5,7 @@ import java.io.Serializable;
 
 /**
  * A data structure for 2 related objects.
+ *
  * @author Sam Reid
  */
 public class Pair<T, U> implements Serializable {

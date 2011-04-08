@@ -19,7 +19,6 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
-import javax.swing.plaf.basic.BasicSliderUI;
 
 /**
  * IntensitySlider is a slider used to control intensity.

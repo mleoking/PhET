@@ -2,10 +2,7 @@
 
 package edu.colorado.phet.common.piccolophet.nodes;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Paint;
-import java.awt.Stroke;
+import java.awt.*;
 import java.awt.geom.Arc2D;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
@@ -16,7 +13,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * A face that can smile or frown, for universally indicating success or failure.
- * 
+ *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class FaceNode extends PComposite {

@@ -65,7 +65,7 @@ public class BarChartNode extends PNode {
         PhetPPath titleBackground = new PhetPPath( titleNode.getFullBounds(), backgroundColor );
         frontLayer.addChild( titleBackground );
         verticalLabelNode = new VerticalShadowHTMLNode( new PhetFont(), "", Color.red, Color.black );
-        verticalLabelNode.setOffset( -20,150);
+        verticalLabelNode.setOffset( -20, 150 );
         frontLayer.addChild( verticalLabelNode );
 
         addChild( backLayer );
@@ -109,7 +109,7 @@ public class BarChartNode extends PNode {
         }
     }
 
-    public double getBarScale(){
+    public double getBarScale() {
         return scale;
     }
 
@@ -134,7 +134,7 @@ public class BarChartNode extends PNode {
     public void init( Variable[] variables ) {
         this.variables = variables;
         double w = variables.length * ( sep + dw ) - sep;
-        background = new PPath( new Rectangle2D.Double( 0, topY, 2 + w, 1) );
+        background = new PPath( new Rectangle2D.Double( 0, topY, 2 + w, 1 ) );
         background.setPaint( null );
         background.setStroke( new BasicStroke() );
         background.setStrokePaint( null );
@@ -210,7 +210,7 @@ public class BarChartNode extends PNode {
             try {
                 return new Arrow( origin, dst, 8, 8, 3 ).getShape();
             }
-            catch( RuntimeException re ) {
+            catch ( RuntimeException re ) {
                 re.printStackTrace();
                 return new GeneralPath();
             }
@@ -233,12 +233,12 @@ public class BarChartNode extends PNode {
         PhetPCanvas phetPCanvas = new PhetPCanvas();
         final BarChartNode barGraph = new BarChartNode( "bar graph", 400, Color.white );
         final Variable variable = new Variable( "var 2", 0.5, Color.green );
-        barGraph.init( new Variable[]{
+        barGraph.init( new Variable[] {
                 new Variable( "var 1", 0, Color.blue ),
                 variable,
                 new Variable( "var 3", 0.9, Color.red )
         } );
-        barGraph.setVerticalAxisLabel( "Vertical Axis", Color.blue);
+        barGraph.setVerticalAxisLabel( "Vertical Axis", Color.blue );
         phetPCanvas.addScreenChild( barGraph );
         frame.setContentPane( contentPanel );
         contentPanel.add( phetPCanvas, BorderLayout.CENTER );

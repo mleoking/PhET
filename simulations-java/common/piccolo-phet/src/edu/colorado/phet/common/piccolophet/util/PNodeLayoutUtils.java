@@ -5,7 +5,7 @@ package edu.colorado.phet.common.piccolophet.util;
 import java.awt.geom.Point2D;
 import java.util.List;
 
-import javax.swing.SwingConstants;
+import javax.swing.*;
 
 import edu.umd.cs.piccolo.PNode;
 
@@ -17,7 +17,8 @@ import edu.umd.cs.piccolo.PNode;
 public class PNodeLayoutUtils {
 
     /* not intended for instantiation */
-    private PNodeLayoutUtils() {}
+    private PNodeLayoutUtils() {
+    }
 
     /**
      * Determines how far a node's offset is from the origin of its bounding box.
@@ -40,6 +41,7 @@ public class PNodeLayoutUtils {
 
     /**
      * Gets the max full width of a node's children.
+     *
      * @param node
      * @return
      */
@@ -49,6 +51,7 @@ public class PNodeLayoutUtils {
 
     /**
      * Get the max full width in a list of nodes.
+     *
      * @param nodeList
      * @return
      */
@@ -65,6 +68,7 @@ public class PNodeLayoutUtils {
 
     /**
      * Gets the max full height of a node's children.
+     *
      * @param node
      * @return
      */
@@ -74,6 +78,7 @@ public class PNodeLayoutUtils {
 
     /**
      * Get the max full height in a list of nodes.
+     *
      * @param nodeList
      * @return
      */
@@ -90,6 +95,7 @@ public class PNodeLayoutUtils {
 
     /**
      * Sums the full widths of a node's children.
+     *
      * @param node
      * @return
      */
@@ -99,6 +105,7 @@ public class PNodeLayoutUtils {
 
     /**
      * Sums the full widths of a list of nodes.
+     *
      * @param nodeList
      * @return
      */
@@ -112,6 +119,7 @@ public class PNodeLayoutUtils {
 
     /**
      * Sums the full heights of a node's children.
+     *
      * @param node
      * @return
      */
@@ -121,6 +129,7 @@ public class PNodeLayoutUtils {
 
     /**
      * Sums the full heights of a list of nodes.
+     *
      * @param nodeList
      * @return
      */
@@ -138,7 +147,7 @@ public class PNodeLayoutUtils {
      *
      * @param node1
      * @param node2
-     * @param verticalAlignment SwingConstants.TOP, CENTER or BOTTOM
+     * @param verticalAlignment   SwingConstants.TOP, CENTER or BOTTOM
      * @param horizontalAlignment SwingConstants.LEFT, CENTER or RIGHT
      * @param xMargin
      * @param yMargin
@@ -147,33 +156,33 @@ public class PNodeLayoutUtils {
     public static void alignInside( PNode node1, PNode node2, int verticalAlignment, int horizontalAlignment, double xMargin, double yMargin ) {
 
         double xOffset = 0;
-        switch ( horizontalAlignment ) {
-        case SwingConstants.LEFT:
-            xOffset = node2.getFullBoundsReference().getMinX() + xMargin;
-            break;
-        case SwingConstants.CENTER:
-            xOffset = node2.getFullBoundsReference().getCenterX() - ( node1.getFullBoundsReference().getWidth() / 2 );
-            break;
-        case SwingConstants.RIGHT:
-            xOffset = node2.getFullBoundsReference().getMaxX() - node1.getFullBoundsReference().getWidth() - xMargin;
-            break;
-        default:
-            throw new IllegalArgumentException( "illegal value for horizontalAlignment: " + horizontalAlignment );
+        switch( horizontalAlignment ) {
+            case SwingConstants.LEFT:
+                xOffset = node2.getFullBoundsReference().getMinX() + xMargin;
+                break;
+            case SwingConstants.CENTER:
+                xOffset = node2.getFullBoundsReference().getCenterX() - ( node1.getFullBoundsReference().getWidth() / 2 );
+                break;
+            case SwingConstants.RIGHT:
+                xOffset = node2.getFullBoundsReference().getMaxX() - node1.getFullBoundsReference().getWidth() - xMargin;
+                break;
+            default:
+                throw new IllegalArgumentException( "illegal value for horizontalAlignment: " + horizontalAlignment );
         }
 
         double yOffset = 0;
-        switch ( verticalAlignment ) {
-        case SwingConstants.TOP:
-            yOffset = node2.getFullBoundsReference().getMinY() + yMargin;
-            break;
-        case SwingConstants.CENTER:
-            yOffset = node2.getFullBoundsReference().getCenterY() - ( node1.getFullBoundsReference().getHeight() / 2 );
-            break;
-        case SwingConstants.BOTTOM:
-            yOffset = node2.getFullBoundsReference().getMaxY() - node1.getFullBoundsReference().getHeight() - yMargin;
-            break;
-        default:
-            throw new IllegalArgumentException( "illegal value for verticalAlignment: " + verticalAlignment );
+        switch( verticalAlignment ) {
+            case SwingConstants.TOP:
+                yOffset = node2.getFullBoundsReference().getMinY() + yMargin;
+                break;
+            case SwingConstants.CENTER:
+                yOffset = node2.getFullBoundsReference().getCenterY() - ( node1.getFullBoundsReference().getHeight() / 2 );
+                break;
+            case SwingConstants.BOTTOM:
+                yOffset = node2.getFullBoundsReference().getMaxY() - node1.getFullBoundsReference().getHeight() - yMargin;
+                break;
+            default:
+                throw new IllegalArgumentException( "illegal value for verticalAlignment: " + verticalAlignment );
         }
 
         node1.setOffset( xOffset - getOriginXOffset( node1 ), yOffset - getOriginYOffset( node1 ) );

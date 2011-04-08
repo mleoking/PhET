@@ -35,10 +35,10 @@ public class RoundGradientPaint implements Paint {
      * color from the center point to the background color over the length
      * of the radius.
      *
-     * @param x center of the gradient
-     * @param y center of the gradient
-     * @param pointColor color at the center of the gradient
-     * @param radius radius of the gradient blend
+     * @param x               center of the gradient
+     * @param y               center of the gradient
+     * @param pointColor      color at the center of the gradient
+     * @param radius          radius of the gradient blend
      * @param backgroundColor color at the outer edges of the gradient
      */
     public RoundGradientPaint( double x, double y, Color pointColor, Point2D radius, Color backgroundColor ) {
@@ -78,7 +78,7 @@ public class RoundGradientPaint implements Paint {
         private final Point2D _radius;
         private final Color _color1, _color2;
         private WritableRaster _raster;
-        
+
         public RoundGradientContext( Point2D p, Color color1, Point2D r, Color color2 ) {
             _point = p;
             _color1 = color1;
@@ -95,7 +95,7 @@ public class RoundGradientPaint implements Paint {
 
         public Raster getRaster( int x, int y, int w, int h ) {
             // allocate raster on demand, or if we need a bigger raster
-            if ( _raster == null || w > _raster.getWidth() || h > _raster.getHeight()  ) {
+            if ( _raster == null || w > _raster.getWidth() || h > _raster.getHeight() ) {
                 _raster = getColorModel().createCompatibleWritableRaster( w, h );
             }
             paint( x, y, w, h, _raster );

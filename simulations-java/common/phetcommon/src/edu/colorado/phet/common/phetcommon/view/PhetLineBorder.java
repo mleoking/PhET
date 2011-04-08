@@ -11,11 +11,11 @@ import javax.swing.border.LineBorder;
  * @author Sam Reid
  */
 public class PhetLineBorder extends LineBorder {
-    
+
     private static final int CORNER_RADIUS = 8; // radius of the rounded corners (aka arc width)
-    
+
     public PhetLineBorder() {
-        this(Color.black);
+        this( Color.black );
     }
 
     public PhetLineBorder( Color color ) {

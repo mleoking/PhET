@@ -8,8 +8,7 @@ import java.awt.event.ComponentListener;
 import java.awt.geom.GeneralPath;
 import java.util.ArrayList;
 
-import javax.swing.JComponent;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -43,7 +42,7 @@ public class PhetTabbedPane extends JPanel {
     public static final String IMAGE_PHET_LOGO = LogoPanel.IMAGE_PHET_LOGO;
 
     /* Default property values */
-    public static final Font DEFAULT_TAB_FONT = new PhetFont( 16, true /* bold */);
+    public static final Font DEFAULT_TAB_FONT = new PhetFont( 16, true /* bold */ );
     public static final Color DEFAULT_BACKGROUND_COLOR = new Color( 240, 240, 240 );
     public static final Color DEFAULT_SELECTED_TAB_COLOR = new Color( 180, 205, 255 );
     public static final Color DEFAULT_UNSELECTED_TAB_COLOR = new Color( 100, 125, 255 );
@@ -88,16 +87,16 @@ public class PhetTabbedPane extends JPanel {
             }
         };
         addComponentListener( relayoutHandler );
-        
+
         relayoutComponents();
     }
-    
+
     /**
      * See #2015, ensure that scaling and layout are updated when bounds change.
      * This must happen synchronously; if you schedule it in a ComponentEvent,
      * you will see the scaling and layout.
      */
-    @Override 
+    @Override
     public void setBounds( int x, int y, int w, int h ) {
         super.setBounds( x, y, w, h );
         relayoutComponents();
@@ -513,7 +512,7 @@ public class PhetTabbedPane extends JPanel {
             this.selected = selected;
             background.setStroke( getBorderStroke() );
             outlineNode.setVisible( selected );
-            outlineNode.setStroke( selected?new BasicStroke( 1.2f) :new BasicStroke( 1)  );
+            outlineNode.setStroke( selected ? new BasicStroke( 1.2f ) : new BasicStroke( 1 ) );
             updatePaint();
         }
 
@@ -675,8 +674,8 @@ public class PhetTabbedPane extends JPanel {
             getLayer().addChild( tabBase );
             relayout();
         }
-        
-        @Override 
+
+        @Override
         public void setBounds( int x, int y, int w, int h ) {
             super.setBounds( x, y, w, h );
             relayout();

@@ -45,7 +45,7 @@ public class DemonstratePiccoloTerminals {
         //PPath is the shape primitive.
         PPath path = new PPath( new Ellipse2D.Double( 0, 0, 50, 50 ) );
         path.setPaint( Color.blue );
-        path.setStroke( new BasicStroke( 6, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER, 1, new float[]{8, 12}, 0 ) );
+        path.setStroke( new BasicStroke( 6, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER, 1, new float[] { 8, 12 }, 0 ) );
         path.setStrokePaint( new GradientPaint( 0, 0, Color.red, 50, 50, Color.green ) );
         path.setOffset( 10, 100 );
         piccoloCanvas.getLayer().addChild( path );

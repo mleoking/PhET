@@ -2,13 +2,10 @@
 
 package edu.colorado.phet.common.piccolophet.test;
 
-import java.awt.Color;
-import java.awt.Dimension;
+import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
-import javax.swing.JFrame;
-import javax.swing.SwingConstants;
-import javax.swing.WindowConstants;
+import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -17,7 +14,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
  * Tests PLayoutUtils.alignInside.
- *
+ * <p/>
  * This is not an automated test.
  * To confirm that alignInside is working properly, change the alignment args.
  * To confirm that origin offset is accounted for, change the (x,y) coordinates of the test Rectangle2Ds.

@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import javax.swing.JButton;
+import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.*;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
@@ -28,27 +28,27 @@ public class TestPhetFrameWorkaround {
     // true = use a PhetFrameWorkaround
     // false = use a PhetFrame
     private static final boolean USE_WORKAROUND = true;
-    
+
     private static class TestModule extends Module {
-        
+
         private JButton contentPane;
 
         public TestModule( final Frame owner ) {
             super( "test", new SwingClock( 30, 1 ) );
-            
+
             contentPane = new JButton( "Simulation Panel Button" ) {
                 protected void paintComponent( Graphics g ) {
                     try {
                         Thread.sleep( 300 );
                     }
-                    catch( InterruptedException e ) {
+                    catch ( InterruptedException e ) {
                         e.printStackTrace();
                     }
                     super.paintComponent( g );
                 }
             };
             setSimulationPanel( contentPane );
-            
+
             getClock().addClockListener( new ClockAdapter() {
                 public void clockTicked( ClockEvent clockEvent ) {
                     contentPane.invalidate();
@@ -58,7 +58,7 @@ public class TestPhetFrameWorkaround {
                     contentPane.paintImmediately( 0, 0, contentPane.getWidth(), contentPane.getHeight() );
                 }
             } );
-            
+
             contentPane.addActionListener( new ActionListener() {
 
                 public void actionPerformed( ActionEvent e ) {
@@ -81,10 +81,10 @@ public class TestPhetFrameWorkaround {
         }
 
     }
-    
+
     private static class TestApplication extends PhetApplication {
 
-        public TestApplication(  PhetApplicationConfig config ) {
+        public TestApplication( PhetApplicationConfig config ) {
             super( config );
             addModule( new TestModule( getPhetFrame() ) );
         }
@@ -104,8 +104,8 @@ public class TestPhetFrameWorkaround {
         app.setApplicationConstructor( new ApplicationConstructor() {
             public PhetApplication getApplication( PhetApplicationConfig config ) {
                 return new TestApplication( config );
-            } 
-        });
+            }
+        } );
         app.startApplication();
     }
 }

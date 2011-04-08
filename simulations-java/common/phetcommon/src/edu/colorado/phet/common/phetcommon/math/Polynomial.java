@@ -8,12 +8,12 @@ import java.util.List;
 import java.util.regex.Matcher;
 
 public class Polynomial {
-    public static final Polynomial ZERO = new Polynomial( new PolynomialTerm[]{PolynomialTerm.ZERO} );
+    public static final Polynomial ZERO = new Polynomial( new PolynomialTerm[] { PolynomialTerm.ZERO } );
 
     private final PolynomialTerm[] terms;
 
     public Polynomial( int constant ) {
-        this( new PolynomialTerm[]{new PolynomialTerm( constant )} );
+        this( new PolynomialTerm[] { new PolynomialTerm( constant ) } );
     }
 
     public Polynomial( Collection sparseTerms ) {
@@ -22,7 +22,7 @@ public class Polynomial {
 
     public Polynomial( PolynomialTerm[] sparseTerms ) {
         if ( sparseTerms.length == 0 ) {
-            this.terms = new PolynomialTerm[]{PolynomialTerm.ZERO};
+            this.terms = new PolynomialTerm[] { PolynomialTerm.ZERO };
         }
         else {
             int min = Integer.MAX_VALUE,

@@ -1,11 +1,10 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.phetcommon.updates;
 
-import java.awt.Frame;
+import java.awt.*;
 import java.net.UnknownHostException;
 
-import javax.swing.JDialog;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.ISimInfo;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
@@ -21,20 +20,20 @@ import edu.colorado.phet.common.phetcommon.updates.dialogs.SimAutomaticUpdateDia
 import edu.colorado.phet.common.phetcommon.util.DeploymentScenario;
 
 /**
- * Handles automatic checking for updates when the simulation starts. 
+ * Handles automatic checking for updates when the simulation starts.
  */
 public class AutomaticUpdatesManager {
 
     /* singleton */
     private static AutomaticUpdatesManager instance;
-    
+
     private final ISimInfo simInfo;
     private final Frame parentFrame;
     private final IVersionSkipper simVersionSkipper;
     private final IAskMeLaterStrategy simAskMeLaterStrategy;
     private final IAskMeLaterStrategy installerAskMeLaterStrategy;
     private boolean started;
-    
+
     /* singleton */
     private AutomaticUpdatesManager( PhetApplication app ) {
         simInfo = app.getSimInfo();
@@ -44,7 +43,7 @@ public class AutomaticUpdatesManager {
         installerAskMeLaterStrategy = new InstallerAskMeLaterStrategy();
         started = false;
     }
-    
+
     public static AutomaticUpdatesManager initInstance( PhetApplication app ) {
         if ( instance != null ) {
             throw new RuntimeException( "instance is already initialized" );
@@ -52,7 +51,7 @@ public class AutomaticUpdatesManager {
         instance = new AutomaticUpdatesManager( app );
         return instance;
     }
-    
+
     public static AutomaticUpdatesManager getInstance() {
         return instance;
     }
@@ -69,7 +68,7 @@ public class AutomaticUpdatesManager {
     }
 
     private void runUpdateCheckThread() {
-        
+
         VersionInfoQuery query = null;
         if ( DeploymentScenario.getInstance() == DeploymentScenario.PHET_INSTALLATION ) {
             // get info for sim and installer
@@ -80,13 +79,13 @@ public class AutomaticUpdatesManager {
             // get info for sim only
             query = new VersionInfoQuery( simInfo, true /* automaticRequest */ );
         }
-        
+
         query.addListener( new VersionInfoQuery.VersionInfoQueryListener() {
-            
+
             public void done( final Response response ) {
                 SwingUtilities.invokeLater( new Runnable() {
                     public void run() {
-                        
+
                         // installer update
                         InstallerResponse installerResponse = response.getInstallerResponse();
                         if ( installerResponse != null ) {
@@ -98,7 +97,7 @@ public class AutomaticUpdatesManager {
                                 dialog.setVisible( true );
                             }
                         }
-                        
+
                         // sim update
                         SimResponse simResponse = response.getSimResponse();
                         if ( simResponse != null ) {
@@ -112,7 +111,7 @@ public class AutomaticUpdatesManager {
                     }
                 } );
             }
-            
+
             public void exception( Exception e ) {
                 if ( e instanceof UnknownHostException ) {
                     // user is probably not connected to the Internet
@@ -122,8 +121,8 @@ public class AutomaticUpdatesManager {
                     e.printStackTrace(); //TODO handle differently?
                 }
             }
-        });
-        
+        } );
+
         // send query in separate thread
         final VersionInfoQuery finalQuery = query;
         Thread t = new Thread( new Runnable() {

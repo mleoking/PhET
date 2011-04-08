@@ -135,7 +135,7 @@ public class ModelViewTransform {
     *----------------------------------------------------------------------------*/
 
     public Point2D viewToModel( Point2D pt ) {
-        return getInverseTransform().transform( pt, null);
+        return getInverseTransform().transform( pt, null );
     }
 
     public ImmutableVector2D viewToModel( ImmutableVector2D vector2D ) {
@@ -143,7 +143,7 @@ public class ModelViewTransform {
     }
 
     public Point2D viewToModelDelta( Point2D delta ) {
-        return getInverseTransform().deltaTransform( delta, null);
+        return getInverseTransform().deltaTransform( delta, null );
     }
 
     public ImmutableVector2D viewToModelDelta( ImmutableVector2D delta ) {
@@ -167,7 +167,7 @@ public class ModelViewTransform {
         return new Dimension2DDouble( pt.getX(), pt.getY() );
     }
 
-    protected AffineTransform getInverseTransform(){
+    protected AffineTransform getInverseTransform() {
         try {
             return transform.createInverse();
         }

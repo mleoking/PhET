@@ -2,7 +2,7 @@
 package edu.colorado.phet.common.phetcommon.view.menu;
 
 
-import javax.swing.JMenu;
+import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 

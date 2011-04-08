@@ -2,8 +2,7 @@
 
 package edu.colorado.phet.common.phetcommon.view;
 
-import java.awt.Container;
-import java.awt.HeadlessException;
+import java.awt.*;
 import java.awt.event.*;
 
 import javax.swing.*;
@@ -24,15 +23,15 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
  * @version $Revision:14677 $
  */
 public class PhetFrame extends JFrame {
-    
+
     private PhetApplication application;
     private Container contentPanel;
     private Module lastAdded;
-    
+
     private JMenu defaultFileMenu;
     private JMenu developerMenu;
     private HelpMenu helpMenu;
-    
+
     /**
      * Constructs a PhetFrame for the specified PhetApplication.
      *
@@ -112,7 +111,7 @@ public class PhetFrame extends JFrame {
                     PhetOptionPane.showMessageDialog( PhetFrame.this, "Preferences file and session counts cleared, press OK to exit.\nFile is " + path + "" );
                     System.exit( 0 );
                 }
-                catch( Throwable t ) {
+                catch ( Throwable t ) {
                     t.printStackTrace();
                     System.out.println( "Could not clear preferences, t=" + t );
                     PhetOptionPane.showMessageDialog( PhetFrame.this, "Couldn't clear preferences, perhaps you are not running with permission to do so." );
@@ -150,7 +149,7 @@ public class PhetFrame extends JFrame {
         }
         else if ( contentPanel instanceof ModulePanel ) {
             ITabbedModulePane tabbedModulePane = application.getTabbedModulePane();
-            tabbedModulePane.init( application, new Module[]{lastAdded, module} );
+            tabbedModulePane.init( application, new Module[] { lastAdded, module } );
             return tabbedModulePane.getComponent();
         }
         else if ( contentPanel instanceof ITabbedModulePane ) {
@@ -312,7 +311,7 @@ public class PhetFrame extends JFrame {
         }
         return null;
     }
-    
+
     public JMenu getDeveloperMenu() {
         return developerMenu;
     }
@@ -334,13 +333,13 @@ public class PhetFrame extends JFrame {
     public void removeMenu( JMenu menu ) {
         getJMenuBar().remove( menu );
     }
-    
+
     /**
      * Adds the File->Save and File->Load menu items, and wires them up to the application.
      * These menu items are not present by default, since many sims do not implement save/load.
      */
     public void addFileSaveLoadMenuItems() {
-        
+
         JMenuItem saveItem = new JMenuItem( PhetCommonResources.getString( "Common.FileMenu.Save" ) );
         saveItem.setMnemonic( PhetCommonResources.getChar( "Common.FileMenu.Save.mnemonic", 'S' ) );
         saveItem.addActionListener( new ActionListener() {

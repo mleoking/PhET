@@ -35,7 +35,7 @@ public class TestLayeredPNode {
         frame.setContentPane( contentPane );
 
         layeredPNode = new LayeredPNode();
-        colors = new Color[]{Color.red, Color.blue, Color.green, Color.black};
+        colors = new Color[] { Color.red, Color.blue, Color.green, Color.black };
 
         pCanvas.getLayer().addChild( layeredPNode );
         frame.setSize( 400, 400 );

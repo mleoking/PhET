@@ -13,11 +13,11 @@ import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.FontUIResource;
 import javax.swing.plaf.InsetsUIResource;
 
-import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
-
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+
+import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 
 /**
  * PhetLookAndFeel manages the Look and Feel for a PhetApplication.
@@ -51,7 +51,7 @@ public class PhetLookAndFeel {
     public static final String PHET_LOGO_120x50 = "logos/phet-logo-120x50.jpg";
 
     // These are the types (in alphabetical order) that will have their UIDefaults uniformly modified.
-    private static final String[] types = new String[]{
+    private static final String[] types = new String[] {
             "Button", "CheckBox", "CheckBoxMenuItem", "ComboBox", "Dialog",
             "Label", "Menu", "MenuBar", "MenuItem",
             "OptionPane", "Panel",
@@ -65,8 +65,8 @@ public class PhetLookAndFeel {
             "ScrollBar", "Viewport"
     };
 
-    private ArrayList ignoreBackgroundList=new ArrayList( Arrays.asList( new String[]{
-    		"TextArea", "TextField", "TextPane", "FormattedTextField", "MenuBar", "Menu", "MenuItem", "CheckBoxMenuItem" } ));
+    private ArrayList ignoreBackgroundList = new ArrayList( Arrays.asList( new String[] {
+            "TextArea", "TextField", "TextPane", "FormattedTextField", "MenuBar", "Menu", "MenuItem", "CheckBoxMenuItem" } ) );
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -102,7 +102,7 @@ public class PhetLookAndFeel {
     }
 
     public void setFont( Font font ) {
-        if ( font == null ) font = new PhetFont();
+        if ( font == null ) { font = new PhetFont(); }
 
         this.font = font;
     }
@@ -112,7 +112,7 @@ public class PhetLookAndFeel {
     }
 
     public void setTabFont( Font tabFont ) {
-        if ( tabFont == null ) tabFont = new PhetFont();
+        if ( tabFont == null ) { tabFont = new PhetFont(); }
 
         this.tabFont = tabFont;
     }
@@ -122,7 +122,7 @@ public class PhetLookAndFeel {
     }
 
     public void setTitledBorderFont( Font borderFont ) {
-        if ( titledBorderFont == null ) titledBorderFont = new PhetFont();
+        if ( titledBorderFont == null ) { titledBorderFont = new PhetFont(); }
 
         this.titledBorderFont = borderFont;
     }
@@ -158,11 +158,11 @@ public class PhetLookAndFeel {
     public void setInsets( Insets insets ) {
         this.insets = insets;
     }
-    
+
     public Color getTitledBorderTitleColor() {
         return titledBorderTitleColor;
     }
-    
+
     public void setTitledBorderTitleColor( Color titledBorderTitleColor ) {
         this.titledBorderTitleColor = titledBorderTitleColor;
     }
@@ -240,7 +240,7 @@ public class PhetLookAndFeel {
             if ( foregroundResource != null ) {
                 list.add( type, "foreground", foregroundResource );
             }
-            if ( backgroundResource != null &&!ignoreBackgroundList.contains(type)) {
+            if ( backgroundResource != null && !ignoreBackgroundList.contains( type ) ) {
                 list.add( type, "background", backgroundResource );
             }
             if ( insetsResource != null ) {
@@ -304,7 +304,7 @@ public class PhetLookAndFeel {
         PropertyList textValues = new PropertyList();
         textValues.add( "OptionPane", "cancelButtonText", getCommonString( "Common.choice.cancel" ) );
         textValues.add( "OptionPane", "noButtonText", getCommonString( "Common.choice.no" ) );
-        textValues.add( "OptionPane", "yesButtonText", getCommonString( "Common.choice.yes" ));
+        textValues.add( "OptionPane", "yesButtonText", getCommonString( "Common.choice.yes" ) );
         textValues.add( "OptionPane", "okButtonText", getCommonString( "Common.choice.ok" ) );
         return textValues;
     }
@@ -341,16 +341,16 @@ public class PhetLookAndFeel {
         try {
             UIManager.setLookAndFeel( getLookAndFeelClassName() );
         }
-        catch( ClassNotFoundException e ) {
+        catch ( ClassNotFoundException e ) {
             e.printStackTrace();
         }
-        catch( InstantiationException e ) {
+        catch ( InstantiationException e ) {
             e.printStackTrace();
         }
-        catch( IllegalAccessException e ) {
+        catch ( IllegalAccessException e ) {
             e.printStackTrace();
         }
-        catch( UnsupportedLookAndFeelException e ) {
+        catch ( UnsupportedLookAndFeelException e ) {
             e.printStackTrace();
         }
         updateDefaults();

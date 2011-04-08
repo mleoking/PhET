@@ -1,4 +1,3 @@
-
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.piccolophet.nodes;
 
@@ -98,7 +97,7 @@ public class HandleNode extends PhetPNode {
         addChild( handleNode );
     }
 
-    public void setStroke(Stroke stroke){
+    public void setStroke( Stroke stroke ) {
         handleNode.setStroke( stroke );
     }
 }

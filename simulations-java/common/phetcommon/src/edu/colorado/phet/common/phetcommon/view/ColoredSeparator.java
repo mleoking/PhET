@@ -2,14 +2,14 @@
 
 package edu.colorado.phet.common.phetcommon.view;
 
-import java.awt.Color;
+import java.awt.*;
 
-import javax.swing.JSeparator;
+import javax.swing.*;
 
 /**
  * Convenience class for creating colored separators, useful in control panels
  * when you need to separate components.
- * <p>
+ * <p/>
  * For example:
  * <code>
  * EasyGridBagLayout layout = ....
@@ -23,25 +23,25 @@ import javax.swing.JSeparator;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class ColoredSeparator extends JSeparator {
-    
+
     /**
      * Convenience class for creating black separators.
      */
     public static class BlackSeparator extends ColoredSeparator {
-        
+
         public BlackSeparator() {
             super( Color.BLACK );
         }
-        
+
         public BlackSeparator( int orientation ) {
             super( Color.BLACK, orientation );
         }
     }
-    
+
     public ColoredSeparator( Color color ) {
         this( color, JSeparator.HORIZONTAL );
     }
-    
+
     public ColoredSeparator( Color color, int orientation ) {
         super( orientation );
         setForeground( Color.BLACK );

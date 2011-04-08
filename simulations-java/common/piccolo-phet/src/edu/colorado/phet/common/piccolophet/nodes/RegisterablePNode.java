@@ -133,35 +133,35 @@ public class RegisterablePNode extends PNode {
         double centerX = getFullBounds().getWidth() / 2;
         double centerY = getFullBounds().getHeight() / 2;
         switch( location ) {
-            case( SwingConstants.NORTH ):
+            case ( SwingConstants.NORTH ):
                 x = centerX;
                 y = northY;
                 break;
-            case( SwingConstants.NORTH_EAST ):
+            case ( SwingConstants.NORTH_EAST ):
                 x = eastX;
                 y = northY;
                 break;
-            case( SwingConstants.EAST ):
+            case ( SwingConstants.EAST ):
                 x = eastX;
                 y = centerY;
                 break;
-            case( SwingConstants.SOUTH_EAST ):
+            case ( SwingConstants.SOUTH_EAST ):
                 x = eastX;
                 y = southY;
                 break;
-            case( SwingConstants.SOUTH ):
+            case ( SwingConstants.SOUTH ):
                 x = centerX;
                 y = southY;
                 break;
-            case( SwingConstants.SOUTH_WEST ):
+            case ( SwingConstants.SOUTH_WEST ):
                 x = westX;
                 y = southY;
                 break;
-            case( SwingConstants.WEST ):
+            case ( SwingConstants.WEST ):
                 x = westX;
                 y = centerY;
                 break;
-            case( SwingConstants.NORTH_WEST ):
+            case ( SwingConstants.NORTH_WEST ):
                 x = westX;
                 y = northY;
                 break;
@@ -171,16 +171,15 @@ public class RegisterablePNode extends PNode {
         setRegistrationPoint( x, y );
     }
 
-    public void setTransform(AffineTransform newTransform) {
+    public void setTransform( AffineTransform newTransform ) {
         try {
-            Point2D rp = getTransform().inverseTransform(registrationPoint, null);
-            super.setTransform(newTransform);
-            registrationPoint = newTransform.transform(rp, null);
+            Point2D rp = getTransform().inverseTransform( registrationPoint, null );
+            super.setTransform( newTransform );
+            registrationPoint = newTransform.transform( rp, null );
         }
-        catch (Exception e) {
-            if (e instanceof NoninvertibleTransformException)
-                e.printStackTrace();
-            else throw new RuntimeException(e);
+        catch ( Exception e ) {
+            if ( e instanceof NoninvertibleTransformException ) { e.printStackTrace(); }
+            else { throw new RuntimeException( e ); }
         }
     }
 

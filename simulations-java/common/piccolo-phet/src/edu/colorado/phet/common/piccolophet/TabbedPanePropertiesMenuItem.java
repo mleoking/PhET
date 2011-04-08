@@ -1,14 +1,13 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.piccolophet;
 
-import java.awt.Frame;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JDialog;
+import javax.swing.*;
 
 /**
  * Menu item that provides access to controls for properties related to a Piccolo-based tabbed pane.
@@ -17,20 +16,20 @@ import javax.swing.JDialog;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class TabbedPanePropertiesMenuItem extends JCheckBoxMenuItem {
-     
+
     private static final String ITEM_LABEL = "Tabbed Pane properties..."; // developer control, i18n not required
 
     private JDialog dialog;
-    
+
     public TabbedPanePropertiesMenuItem( final Frame owner, final PhetTabbedPane tabbedPane ) {
-        super( ITEM_LABEL ); 
+        super( ITEM_LABEL );
         addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
                 handleAction( owner, tabbedPane );
             }
         } );
     }
-    
+
     private void handleAction( final Frame owner, final PhetTabbedPane tabbedPane ) {
         if ( isSelected() ) {
             dialog = new TabbedPanePropertiesDialog( owner, tabbedPane );

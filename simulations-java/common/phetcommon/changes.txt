@@ -1,3 +1,4 @@
+4/8/11 Reformatted according to PhET's IntelliJ code style
 4/8/11 Added convenience methods to load maximize and minimize buttons
 4/1/11 #2789, move "sim speed" label about TimeSpeedSlider
 3/30//1 GridPanel: #2770, fix for setBorder

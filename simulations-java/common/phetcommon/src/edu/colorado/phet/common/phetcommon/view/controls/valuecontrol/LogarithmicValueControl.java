@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.common.phetcommon.view.controls.valuecontrol;
 
-import javax.swing.JFrame;
+import javax.swing.*;
 
 /**
  * LogarithmicValueControl is for controlling values that have a logarithmic scale.

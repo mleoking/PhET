@@ -2,13 +2,11 @@
 
 package edu.colorado.phet.common.phetcommon.view;
 
-import java.awt.Component;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
@@ -21,7 +19,7 @@ import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class ResetAllButton extends JButton {
-    
+
     private final ResetAllDelegate delegate; // delegate that implements Reset All behavior
 
     /**
@@ -32,18 +30,16 @@ public class ResetAllButton extends JButton {
     }
 
     /**
-     * 
      * @param resettable thing to reset
-     * @param parent parent component for the confirmation dialog
+     * @param parent     parent component for the confirmation dialog
      */
     public ResetAllButton( final Resettable resettable, final Component parent ) {
         this( new Resettable[] { resettable }, parent );
     }
-    
+
     /**
-     * 
      * @param resettables things to reset
-     * @param parent parent component for the confirmation dialog
+     * @param parent      parent component for the confirmation dialog
      */
     public ResetAllButton( final Resettable[] resettables, final Component parent ) {
         super( PhetCommonResources.getInstance().getLocalizedString( PhetCommonResources.STRING_RESET_ALL ) );
@@ -54,11 +50,11 @@ public class ResetAllButton extends JButton {
             }
         } );
     }
-    
+
     public void setConfirmationEnabled( boolean confirmationEnabled ) {
         delegate.setConfirmationEnabled( confirmationEnabled );
     }
-    
+
     public boolean isConfirmationEnabled() {
         return delegate.isConfirmationEnabled();
     }
@@ -66,11 +62,11 @@ public class ResetAllButton extends JButton {
     public void addResettable( Resettable resettable ) {
         delegate.addResettable( resettable );
     }
-    
+
     public void removeResettable( Resettable resettable ) {
         delegate.removeResettable( resettable );
     }
-    
+
     public static void main( String[] args ) {
 
         Resettable resettable1 = new Resettable() {
@@ -86,7 +82,7 @@ public class ResetAllButton extends JButton {
 
         ResetAllButton button1 = new ResetAllButton( resettable1, null );
         button1.addResettable( resettable2 );
-        
+
         ResetAllButton button2 = new ResetAllButton( resettable1, null );
         button2.setConfirmationEnabled( false ); // disable confirmation
         button2.addResettable( resettable2 );
@@ -94,7 +90,7 @@ public class ResetAllButton extends JButton {
         JPanel panel = new JPanel();
         panel.add( button1 );
         panel.add( button2 );
-        
+
         JFrame frame = new JFrame();
         frame.setContentPane( panel );
         frame.pack();

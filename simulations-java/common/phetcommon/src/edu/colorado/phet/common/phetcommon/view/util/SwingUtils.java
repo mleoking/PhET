@@ -140,6 +140,7 @@ public class SwingUtils {
 
     /**
      * Centers a component on its parent.
+     *
      * @param component
      */
     public static void centerInParent( Component component ) {
@@ -157,6 +158,7 @@ public class SwingUtils {
     /**
      * If the dialog has a parent, center the dialog on the parent.
      * Otherwise center it on the screen.
+     *
      * @param dialog
      */
     public static void centerDialog( JDialog dialog, Component owner ) {
@@ -276,6 +278,7 @@ public class SwingUtils {
      * @param color
      * @param excludedClasses
      * @param processContentsOfExcludedContainers
+     *
      */
     public static void setBackgroundDeep( Component component, Color color, Class[] excludedClasses, boolean processContentsOfExcludedContainers ) {
         setForegroundOrBackgroundDeep( false /* doForeground */, component, color, excludedClasses, processContentsOfExcludedContainers );
@@ -300,6 +303,7 @@ public class SwingUtils {
      * @param color
      * @param excludedClasses
      * @param processContentsOfExcludedContainers
+     *
      */
     public static void setForegroundDeep( Component component, Color color, Class[] excludedClasses, boolean processContentsOfExcludedContainers ) {
         setForegroundOrBackgroundDeep( true /* doForeground */, component, color, excludedClasses, processContentsOfExcludedContainers );

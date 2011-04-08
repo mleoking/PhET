@@ -130,7 +130,7 @@ public class RulerNode extends PhetPNode {
 
         this.distanceBetweenFirstAndLastTick = distanceBetweenFirstAndLastTick;
         this.insetWidth = insetWidth;
-        this.height=height;
+        this.height = height;
 
         this.majorTickLabels = majorTickLabels;
         this.majorTickFont = majorTickFont;
@@ -268,7 +268,7 @@ public class RulerNode extends PhetPNode {
         parentNode.removeAllChildren();
 
         double width = distanceBetweenFirstAndLastTick + ( 2 * insetWidth );
-        backgroundNode.setPathToRectangle( 0,0, (float) width, (float) height );
+        backgroundNode.setPathToRectangle( 0, 0, (float) width, (float) height );
         parentNode.addChild( backgroundNode );
 
         if ( majorTickLabels != null && majorTickLabels.length > 0 ) {

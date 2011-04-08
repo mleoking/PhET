@@ -4,7 +4,7 @@ package edu.colorado.phet.common.phetcommon.util;
 
 import java.util.ArrayList;
 
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
@@ -20,15 +20,16 @@ import edu.colorado.phet.common.phetcommon.view.PhetFrame;
  * @author Ron LeMaster
  */
 public class PhetUtilities {
-    
+
     // Operating Systems
     public static final int OS_WINDOWS = 0;
     public static final int OS_MACINTOSH = 1;
     public static final int OS_OTHER = 2;
 
     private static ArrayList pendingRunnables = new ArrayList();
-    
-    private PhetUtilities() {}
+
+    private PhetUtilities() {
+    }
 
     /**
      * Requests that a Runnable be executed by the model.
@@ -95,7 +96,7 @@ public class PhetUtilities {
         try {
             osName = System.getProperty( "os.name" );
         }
-        catch( Throwable t ) {
+        catch ( Throwable t ) {
             t.printStackTrace();
         }
 
@@ -132,7 +133,7 @@ public class PhetUtilities {
 
     /**
      * Are we running on Mac OS 10.4.x ?
-     * 
+     *
      * @return true or false
      */
     public static boolean isMacOS_10_4() {

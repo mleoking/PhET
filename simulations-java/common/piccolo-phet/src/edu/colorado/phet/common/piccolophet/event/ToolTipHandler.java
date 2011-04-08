@@ -35,7 +35,7 @@ public class ToolTipHandler extends PBasicInputEventHandler {
     /**
      * Sets the tooltip text for the JComponent.
      * If text is null, the tooltip is turned off.
-     * 
+     *
      * @param text
      */
     public void setText( String text ) {
@@ -44,7 +44,7 @@ public class ToolTipHandler extends PBasicInputEventHandler {
             parent.setToolTipText( text );
         }
     }
-    
+
     public void mouseEntered( PInputEvent event ) {
         this.entered = true;
         this.previousValue = parent.getToolTipText();

@@ -23,7 +23,7 @@ public class TestPhetServiceManager {
             // Invoke the showDocument method
             return bs.showDocument( url );
         }
-        catch( UnavailableServiceException ue ) {
+        catch ( UnavailableServiceException ue ) {
             // Service is not supported
             return false;
         }

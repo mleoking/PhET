@@ -9,7 +9,7 @@ import javax.swing.*;
  * This class aligns a set of AbstractValueControls so that their text boxes, sliders and titles line up.
  * <p/>
  * Sample usage
- * 
+ * <p/>
  * LinearValueControl[] hs = new LinearValueControl[]{age, heightControl, weightControl, muscle, fat};
  * new AlignedSliderSetLayoutStrategy( hs ).doLayout();
  *

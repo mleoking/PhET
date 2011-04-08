@@ -9,9 +9,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
-import javax.swing.JFrame;
-import javax.swing.Timer;
-import javax.swing.ToolTipManager;
+import javax.swing.*;
 import javax.swing.plaf.basic.BasicHTML;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -30,7 +28,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  * ToolTipNode is a Swing-style "tool tip" that can be associated with a node.
  * When the mouse is placed over the associated node, the tool tip appears after a brief delay.
  * Pressing the mouse or moving the mouse off the associated node hides the tool tip.
- * <p>
+ * <p/>
  * Several tool tip location strategies are provided, and you can provide your own.
  * The default strategy centers the tool tip above the mouse cursor.
  *
@@ -41,7 +39,7 @@ public class ToolTipNode extends PComposite {
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
-    
+
     private static final int DEFAULT_INITIAL_DELAY = ToolTipManager.sharedInstance().getInitialDelay();
     private static final Font DEFAULT_FONT = new PhetFont( 12 );
     private static final Color DEFAULT_TEXT_COLOR = Color.BLACK;
@@ -54,7 +52,7 @@ public class ToolTipNode extends PComposite {
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
-    
+
     private final PNode _associatedNode;
     private boolean _enabled;
     private Timer _showToolTipTimer;
@@ -67,59 +65,59 @@ public class ToolTipNode extends PComposite {
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
-    
+
     /**
      * Constructor that provides a good default behavior.
-     * 
-     * @param toolTipText HTML or plain-text format
+     *
+     * @param toolTipText    HTML or plain-text format
      * @param associatedNode the node that the tool tip describes
      */
     public ToolTipNode( final String toolTipText, final PNode associatedNode ) {
-        this( toolTipText, associatedNode, DEFAULT_INITIAL_DELAY);
+        this( toolTipText, associatedNode, DEFAULT_INITIAL_DELAY );
     }
 
     /**
      * Constructor that provides a good default behavior and also specifies a default initial delay.
      *
-     * @param toolTipText HTML or plain-text format
+     * @param toolTipText    HTML or plain-text format
      * @param associatedNode the node that the tool tip describes
-     * @param initialDelay the delay of time in milliseconds before the tool tip appears
+     * @param initialDelay   the delay of time in milliseconds before the tool tip appears
      */
     public ToolTipNode( final String toolTipText, final PNode associatedNode, final int initialDelay ) {
         this( toolTipText, associatedNode, initialDelay,
-                DEFAULT_FONT, DEFAULT_TEXT_COLOR,
-                DEFAULT_STROKE, DEFAULT_STROKE_PAINT,
-                DEFAULT_BACKGROUND_PAINT, DEFAULT_BACKGROUND_SHADOW_PAINT,
-                DEFAULT_MARGIN );
+              DEFAULT_FONT, DEFAULT_TEXT_COLOR,
+              DEFAULT_STROKE, DEFAULT_STROKE_PAINT,
+              DEFAULT_BACKGROUND_PAINT, DEFAULT_BACKGROUND_SHADOW_PAINT,
+              DEFAULT_MARGIN );
     }
-    
+
     /*
-     * Fully-parameterized constructor.
-     * Subclass and use this constructor if you want something other than the default behavior.
-     * 
-     * @param toolTipText
-     * @param associatedNode
-     * @param startTime
-     * @param font
-     * @param textColor
-     * @param backgroundStroke
-     * @param backgroundStrokePaint
-     * @param backgroundPaint
-     * @param backgroundShadowPaint
-     * @param margin
-     */
+    * Fully-parameterized constructor.
+    * Subclass and use this constructor if you want something other than the default behavior.
+    *
+    * @param toolTipText
+    * @param associatedNode
+    * @param startTime
+    * @param font
+    * @param textColor
+    * @param backgroundStroke
+    * @param backgroundStrokePaint
+    * @param backgroundPaint
+    * @param backgroundShadowPaint
+    * @param margin
+    */
     protected ToolTipNode( final String toolTipText, final PNode associatedNode, final int initialDelay,
-            Font font, Color textColor,
-            Stroke backgroundStroke, Paint backgroundStrokePaint,
-            Paint backgroundPaint, Paint backgroundShadowPaint,
-            double margin ) {
+                           Font font, Color textColor,
+                           Stroke backgroundStroke, Paint backgroundStrokePaint,
+                           Paint backgroundPaint, Paint backgroundShadowPaint,
+                           double margin ) {
         super();
-        
+
         setVisible( false );
         setPickable( false );
         setChildrenPickable( false );
 
-        _margin=margin;
+        _margin = margin;
         _associatedNode = associatedNode;
         _enabled = true;
 
@@ -136,12 +134,12 @@ public class ToolTipNode extends PComposite {
             toolTipTextNode = ptextNode;
         }
 
-        _backgroundNode = new PPath(  );
+        _backgroundNode = new PPath();
         _backgroundNode.setStroke( backgroundStroke );
         _backgroundNode.setStrokePaint( backgroundStrokePaint );
         _backgroundNode.setPaint( backgroundPaint );
 
-        _backgroundShadowNode = new PPath(  );
+        _backgroundShadowNode = new PPath();
         _backgroundShadowNode.setStroke( null );
         _backgroundShadowNode.setPaint( backgroundShadowPaint );
         _backgroundShadowNode.setOffset( 2, 2 );
@@ -154,26 +152,26 @@ public class ToolTipNode extends PComposite {
         toolTipTextNode.setOffset( margin, margin );
 
         _locationStrategy = new CenteredAboveMouseCursor();
-        
+
         associatedNode.addInputEventListener( new PBasicInputEventHandler() {
-            
+
             public void mouseEntered( final PInputEvent mouseEvent ) {
                 if ( ToolTipNode.this.isEnabled() ) {
-                    
+
                     ActionListener onListener = new ActionListener() {
                         public void actionPerformed( ActionEvent ae ) {
                             _locationStrategy.setToolTipLocation( ToolTipNode.this, _associatedNode, mouseEvent );
                             ToolTipNode.this.setVisible( true );
                         }
                     };
-                    
+
                     _showToolTipTimer = new Timer( initialDelay, onListener );
                     _showToolTipTimer.setInitialDelay( initialDelay );
                     _showToolTipTimer.setRepeats( false );
                     _showToolTipTimer.start();
                 }
             }
-            
+
             public void mousePressed( PInputEvent event ) {
                 hideToolTip();
             }
@@ -181,7 +179,7 @@ public class ToolTipNode extends PComposite {
             public void mouseExited( PInputEvent event ) {
                 hideToolTip();
             }
-            
+
             private void hideToolTip() {
                 ToolTipNode.this.setVisible( false );
                 if ( _showToolTipTimer != null ) {
@@ -203,10 +201,11 @@ public class ToolTipNode extends PComposite {
     //----------------------------------------------------------------------------
     // Setters and getters
     //----------------------------------------------------------------------------
-    
+
     /**
-     * Enables or disables the tool tip. 
+     * Enables or disables the tool tip.
      * When disable, the tool tip will never become visible.
+     *
      * @param enabled
      */
     public void setEnabled( boolean enabled ) {
@@ -215,6 +214,7 @@ public class ToolTipNode extends PComposite {
 
     /**
      * Is the tool tip enabled?
+     *
      * @return
      */
     public boolean isEnabled() {
@@ -223,6 +223,7 @@ public class ToolTipNode extends PComposite {
 
     /**
      * Set the font for the text in this ToolTipNode.
+     *
      * @param font the desired font
      */
     public void setFont( Font font ) {
@@ -240,29 +241,31 @@ public class ToolTipNode extends PComposite {
 
     /**
      * Sets the strategy for placing the tool tip (setting its location).
+     *
      * @param locationStrategy
      */
     public void setLocationStrategy( IToolTipLocationStrategy locationStrategy ) {
         _locationStrategy = locationStrategy;
     }
-    
+
     //----------------------------------------------------------------------------
     // Strategies for setting the tool tip's location
     //----------------------------------------------------------------------------
-    
+
     /**
      * Interface implemented by all strategies that set a tool tip's location.
      */
     public interface IToolTipLocationStrategy {
         /**
          * Sets the tool tip's location.
-         * @param toolTipNode the tool tip node
+         *
+         * @param toolTipNode    the tool tip node
          * @param associatedNode the node that the tool tip describes
-         * @param event the mouseEntered event that made the tool tip visible
+         * @param event          the mouseEntered event that made the tool tip visible
          */
         public void setToolTipLocation( ToolTipNode toolTipNode, PNode associatedNode, PInputEvent event );
     }
-    
+
     /**
      * Tool tip is centered about the mouse cursor.
      */
@@ -275,7 +278,7 @@ public class ToolTipNode extends PComposite {
             toolTipNode.setOffset( xOffset, yOffset );
         }
     }
-    
+
     /**
      * Tool tip is left-aligned about the mouse cursor.
      * Useful when the associated node is at the left edge of the play area.
@@ -289,7 +292,7 @@ public class ToolTipNode extends PComposite {
             toolTipNode.setOffset( xOffset, yOffset );
         }
     }
-    
+
     /**
      * Tool tip is right-aligned about the mouse cursor.
      * Useful when the associated node is at the right edge of the play area.
@@ -303,7 +306,7 @@ public class ToolTipNode extends PComposite {
             toolTipNode.setOffset( xOffset, yOffset );
         }
     }
-    
+
     /**
      * Tool tip is centered below its associated node.
      */
@@ -316,7 +319,7 @@ public class ToolTipNode extends PComposite {
             toolTipNode.setOffset( xOffset, yOffset );
         }
     }
-    
+
     /**
      * Tool tip is left-aligned below its associated node.
      * Useful when the associated node is at the left edge of the play area.
@@ -330,7 +333,7 @@ public class ToolTipNode extends PComposite {
             toolTipNode.setOffset( xOffset, yOffset );
         }
     }
-    
+
     /**
      * Tool tip is right-aligned below its associated node.
      * Useful when the associated node is at the right edge of the play area.
@@ -348,13 +351,13 @@ public class ToolTipNode extends PComposite {
     //----------------------------------------------------------------------------
     // Testing
     //----------------------------------------------------------------------------
-    
+
     public static void main( String[] args ) {
-        
+
         // Add test nodes and their tool tips to these lists
         ArrayList<PNode> testNodes = new ArrayList<PNode>();
         ArrayList<ToolTipNode> toolTips = new ArrayList<ToolTipNode>();
-        
+
         // Instructions
         PText instructionsNode = new PText( "Place mouse over a square to see its tool tip." );
         instructionsNode.setFont( new PhetFont( 14 ) );
@@ -366,7 +369,7 @@ public class ToolTipNode extends PComposite {
         cyanToolTipNode.setLocationStrategy( new LeftAlignedAboveMouseCursor() );
         testNodes.add( cyanNode );
         toolTips.add( cyanToolTipNode );
-        
+
         // Blue Square
         PPath blueNode = new PPath( new Rectangle( 0, 0, 50, 50 ) );
         blueNode.setPaint( Color.BLUE );
@@ -374,7 +377,7 @@ public class ToolTipNode extends PComposite {
         blueToolTipNode.setFont( new PhetFont( 24, true ) );
         testNodes.add( blueNode );
         toolTips.add( blueToolTipNode );
-        
+
         // Yellow Square
         PPath yellowNode = new PPath( new Rectangle( 0, 0, 50, 50 ) );
         yellowNode.setPaint( Color.YELLOW );
@@ -382,7 +385,7 @@ public class ToolTipNode extends PComposite {
         yellowToolTipNode.setLocationStrategy( new RightAlignedAboveMouseCursor() );
         testNodes.add( yellowNode );
         toolTips.add( yellowToolTipNode );
-        
+
         // Red Square
         PPath redNode = new PPath( new Rectangle( 0, 0, 50, 50 ) );
         redNode.setPaint( Color.RED );
@@ -390,7 +393,7 @@ public class ToolTipNode extends PComposite {
         redToolTipNode.setLocationStrategy( new CenteredBelowAssociatedNode() );
         testNodes.add( redNode );
         toolTips.add( redToolTipNode );
-        
+
         // Green Square
         PPath greenNode = new PPath( new Rectangle( 0, 0, 100, 50 ) );
         greenNode.setPaint( Color.GREEN );
@@ -398,7 +401,7 @@ public class ToolTipNode extends PComposite {
         greenToolTipNode.setLocationStrategy( new CenteredBelowAssociatedNode() );
         testNodes.add( greenNode );
         toolTips.add( greenToolTipNode );
-        
+
         // Gray Square
         PPath grayNode = new PPath( new Rectangle( 0, 0, 50, 50 ) );
         grayNode.setPaint( Color.GRAY );
@@ -406,7 +409,7 @@ public class ToolTipNode extends PComposite {
         grayToolTipNode.setLocationStrategy( new LeftAlignedBelowAssociatedNode() );
         testNodes.add( grayNode );
         toolTips.add( grayToolTipNode );
-        
+
         // Black Square
         PPath blackNode = new PPath( new Rectangle( 0, 0, 50, 50 ) );
         blackNode.setPaint( Color.BLACK );
@@ -414,7 +417,7 @@ public class ToolTipNode extends PComposite {
         blackToolTipNode.setLocationStrategy( new RightAlignedBelowAssociatedNode() );
         testNodes.add( blackNode );
         toolTips.add( blackToolTipNode );
-        
+
         // Orange Square
         PPath orangeNode = new PPath( new Rectangle( 0, 0, 50, 50 ) );
         orangeNode.setPaint( Color.ORANGE );
@@ -423,9 +426,9 @@ public class ToolTipNode extends PComposite {
         orangeToolTipNode.setLocationStrategy( new CenteredBelowAssociatedNode() );
         testNodes.add( orangeNode );
         toolTips.add( orangeToolTipNode );
-        
+
         // Add tests above here ---------------
-        
+
         // Add nodes to scenegraph, set their positions to create 1 row of test nodes
         PCanvas canvas = new PCanvas();
         PNode rootNode = new PNode();
@@ -453,10 +456,10 @@ public class ToolTipNode extends PComposite {
         for ( int i = 0; i < toolTips.size(); i++ ) {
             rootNode.addChild( toolTips.get( i ) );
         }
-        
+
         // Frame
-        final int frameWidth = (int)( rootNode.getFullBoundsReference().getWidth() + margin );
-        final int frameHeight = (int)( rootNode.getFullBoundsReference().getHeight() + 150 );
+        final int frameWidth = (int) ( rootNode.getFullBoundsReference().getWidth() + margin );
+        final int frameHeight = (int) ( rootNode.getFullBoundsReference().getHeight() + 150 );
         JFrame frame = new JFrame( "ToolTipNode test" );
         frame.setContentPane( canvas );
         frame.setSize( frameWidth, frameHeight );

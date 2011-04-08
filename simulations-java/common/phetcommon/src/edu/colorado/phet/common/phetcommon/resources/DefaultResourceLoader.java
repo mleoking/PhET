@@ -29,7 +29,7 @@ public class DefaultResourceLoader extends AbstractResourceLoader {
         try {
             image = ImageLoader.loadBufferedImage( resource );
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
             image = NULL_IMAGE;
         }

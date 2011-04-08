@@ -11,35 +11,12 @@
 
 package edu.colorado.phet.common.piccolophet.test.help;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Cursor;
-import java.awt.Font;
-import java.awt.Point;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.awt.event.MouseEvent;
+import java.awt.*;
+import java.awt.event.*;
 import java.awt.geom.Ellipse2D;
 import java.util.EventObject;
 
-import javax.swing.AbstractButton;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.JComponent;
-import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
-import javax.swing.JSlider;
-import javax.swing.SwingUtilities;
-import javax.swing.Timer;
+import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -89,7 +66,7 @@ public class TestGlassPaneCanvas extends PhetApplication {
                 try {
                     return new TestGlassPaneCanvas( config );
                 }
-                catch( Exception e ) {
+                catch ( Exception e ) {
                     e.printStackTrace();
                     return null;
                 }
@@ -101,7 +78,7 @@ public class TestGlassPaneCanvas extends PhetApplication {
 
     /* Application */
     public TestGlassPaneCanvas( PhetApplicationConfig c ) throws InterruptedException {
-        super( c);
+        super( c );
 
         Module module1 = new TestModule( "Module 1", new Color( 255, 208, 252 ) /* canvasColor */ );
         addModule( module1 );
@@ -200,7 +177,7 @@ public class TestGlassPaneCanvas extends PhetApplication {
             slider1.setName( "slider1" );
             slider1.addChangeListener( listener );
 
-            Object[] choices = {"choice1", "choice2", "choice3", "choice4"};
+            Object[] choices = { "choice1", "choice2", "choice3", "choice4" };
             JComboBox comboBox = new JComboBox( choices );
             comboBox.setName( "comboBox" );
             comboBox.addItemListener( listener );

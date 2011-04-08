@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.common.phetcommon.util.persistence;
 
-import java.awt.Frame;
+import java.awt.*;
 import java.beans.ExceptionListener;
 import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
@@ -13,8 +13,7 @@ import javax.jnlp.FileContents;
 import javax.jnlp.FileOpenService;
 import javax.jnlp.FileSaveService;
 import javax.jnlp.ServiceManager;
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
+import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
@@ -32,30 +31,30 @@ public class XMLPersistenceManager {
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
-    
+
     private static final String SAVE_TITLE = PhetCommonResources.getInstance().getLocalizedString( "XMLPersistenceManager.save.title" );
     private static final String SAVE_CONFIRM_MESSAGE = PhetCommonResources.getInstance().getLocalizedString( "XMLPersistenceManager.save.confirm.message" );
     private static final String SAVE_ERROR_MESSAGE = PhetCommonResources.getInstance().getLocalizedString( "XMLPersistenceManager.save.error.message" );
     private static final String SAVE_ERROR_ENCODE = PhetCommonResources.getInstance().getLocalizedString( "XMLPersistenceManager.save.error.encode" );
-    
+
     private static final String LOAD_TITLE = PhetCommonResources.getInstance().getLocalizedString( "XMLPersistenceManager.load.title" );
     private static final String LOAD_ERROR_MESSAGE = PhetCommonResources.getInstance().getLocalizedString( "XMLPersistenceManager.load.error.message" );
     private static final String LOAD_ERROR_DECODE = PhetCommonResources.getInstance().getLocalizedString( "XMLPersistenceManager.load.error.decode" );
     private static final String LOAD_ERROR_CONTENTS = PhetCommonResources.getInstance().getLocalizedString( "XMLPersistenceManager.load.error.contents" );
-    
+
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
-    
+
     private ISaveLoadStrategy _saveLoadStrategy;
-    
+
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
-    
+
     /**
      * Sole constructor.
-     * 
+     *
      * @param app
      */
     public XMLPersistenceManager( Frame parentFrame ) {
@@ -66,68 +65,69 @@ public class XMLPersistenceManager {
             _saveLoadStrategy = new LocalSaveLoadStrategy( parentFrame );
         }
     }
-    
+
     public void save( Object object ) {
         _saveLoadStrategy.save( object );
     }
-    
+
     public Object load() {
         return _saveLoadStrategy.load();
     }
-    
+
     /*
-     * Determines if the simulation was started using Java Web Start.
-     * 
-     * @return true or false
-     */
+    * Determines if the simulation was started using Java Web Start.
+    *
+    * @return true or false
+    */
     private static boolean wasWebStarted() {
         return ( System.getProperty( "javawebstart.version" ) != null );
     }
-    
+
     //----------------------------------------------------------------------------
     // Save/Load strategies
     //----------------------------------------------------------------------------
-    
+
     /*
-     * Interface implemented by all Save/Load strategies.
-     */
+    * Interface implemented by all Save/Load strategies.
+    */
     private interface ISaveLoadStrategy {
         public void save( Object object );
+
         public Object load();
     }
-    
+
     /*
-     * Base class for all Save/Load strategies.
-     */
+    * Base class for all Save/Load strategies.
+    */
     private static abstract class AbstractObjectSaveLoadStrategy implements ISaveLoadStrategy {
-        
+
         private Frame _parentFrame;
         private String _mostRecentDirectoryName; // the most recent directory visited in a file chooser
-        
+
         public AbstractObjectSaveLoadStrategy( Frame parentFrame ) {
             super();
             _parentFrame = parentFrame;
             _mostRecentDirectoryName = null;
         }
-        
+
         protected Frame getParentFrame() {
             return _parentFrame;
         }
-        
+
         protected String getMostRecentDirectoryName() {
             return _mostRecentDirectoryName;
         }
-        
+
         protected void setMostRecentDirectoryName( String name ) {
             _mostRecentDirectoryName = name;
         }
-        
+
         /*
-         * Gets the directory name portion of a filename.
-         * 
-         * @param filename
-         * @return directory name
-         */
+        * Gets the directory name portion of a filename.
+        *
+        * @param filename
+        * @return directory name
+        */
         protected static String getDirectoryName( String filename ) {
             String directoryName = null;
             int index = filename.lastIndexOf( File.pathSeparatorChar );
@@ -136,41 +136,41 @@ public class XMLPersistenceManager {
             }
             return directoryName;
         }
-        
+
         /*
-         * Shows the error message associated with an exception in an
-         * error dialog, and prints a stack trace to the console.
-         * 
-         * @param format
-         * @param e
-         */
+        * Shows the error message associated with an exception in an
+        * error dialog, and prints a stack trace to the console.
+        *
+        * @param format
+        * @param e
+        */
         protected void showError( String format, Exception e ) {
             showError( format, e.getMessage() );
             e.printStackTrace();
         }
-        
+
         /*
-         * Shows the error message in an error dialog.
-         * 
-         * @param format
-         * @param e
-         */
+        * Shows the error message in an error dialog.
+        *
+        * @param format
+        * @param e
+        */
         protected void showError( String format, String errorMessage ) {
             Object[] args = { errorMessage };
             String message = MessageFormat.format( format, args );
             PhetOptionPane.showErrorDialog( _parentFrame, message );
         }
     }
-    
+
     /*
-     * Save/Load strategy that saves using the local file I/O interface. 
-     */
+    * Save/Load strategy that saves using the local file I/O interface.
+    */
     private static class LocalSaveLoadStrategy extends AbstractObjectSaveLoadStrategy {
-        
+
         public LocalSaveLoadStrategy( Frame parentFrame ) {
             super( parentFrame );
         }
-        
+
         public void save( Object object ) {
 
             try {
@@ -219,9 +219,9 @@ public class XMLPersistenceManager {
                 showError( SAVE_ERROR_MESSAGE, e );
             }
         }
-        
+
         public Object load() {
-            
+
             Object object = null;
 
             try {
@@ -242,6 +242,7 @@ public class XMLPersistenceManager {
                 XMLDecoder decoder = new XMLDecoder( bis );
                 decoder.setExceptionListener( new ExceptionListener() {
                     private int errors = 0;
+
                     // Report the first recoverable exception.
                     public void exceptionThrown( Exception e ) {
                         if ( errors == 0 ) {
@@ -264,16 +265,16 @@ public class XMLPersistenceManager {
             return object;
         }
     }
-    
+
     /*
-     * Save/Load strategy that saves using Web Start (JNLP) file I/O services.
-     */
+    * Save/Load strategy that saves using Web Start (JNLP) file I/O services.
+    */
     private static class WebStartSaveLoadStrategy extends AbstractObjectSaveLoadStrategy {
-        
+
         public WebStartSaveLoadStrategy( Frame parentFrame ) {
             super( parentFrame );
         }
-        
+
         public void save( Object object ) {
 
             try {
@@ -319,7 +320,7 @@ public class XMLPersistenceManager {
                 showError( SAVE_ERROR_MESSAGE, e );
             }
         }
-        
+
         public Object load() {
 
             Object object = null;
@@ -346,6 +347,7 @@ public class XMLPersistenceManager {
                 XMLDecoder decoder = new XMLDecoder( inputStream );
                 decoder.setExceptionListener( new ExceptionListener() {
                     private int errors = 0;
+
                     // Report the first recoverable exception.
                     public void exceptionThrown( Exception e ) {
                         if ( errors == 0 ) {

@@ -10,11 +10,11 @@ import javax.sound.sampled.*;
  * Reason why PhetAudioClip exists:
  * <p/>
  * http://www.javaworld.com/javaworld/javatips/jw-javatip24.html
- *
+ * <p/>
  * TODO: why not use Applet.newAudioClip instead of this implementation?
  */
 public class PhetAudioClip {
-    
+
     private static final int EXTERNAL_BUFFER_SIZE = 4000;
 
     private final URL url;
@@ -34,9 +34,10 @@ public class PhetAudioClip {
     public void play() {
         startAudioThread();
     }
-    
+
     /**
      * Is the audio clip playing?
+     *
      * @return
      */
     public boolean isPlaying() {
@@ -52,7 +53,7 @@ public class PhetAudioClip {
                 try {
                     processAudio();
                 }
-                catch( Exception e ) {
+                catch ( Exception e ) {
                     e.printStackTrace();
                 }
             }
@@ -89,7 +90,7 @@ public class PhetAudioClip {
                 */
                 line.open( audioFormat );
             }
-            catch( Exception e ) {
+            catch ( Exception e ) {
                 e.printStackTrace();
 
                 return;
@@ -120,7 +121,7 @@ public class PhetAudioClip {
                 try {
                     nBytesRead = audioInputStream.read( abData, 0, abData.length );
                 }
-                catch( IOException e ) {
+                catch ( IOException e ) {
                     break;
                 }
                 if ( nBytesRead >= 0 ) {

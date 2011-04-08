@@ -2,8 +2,7 @@
 
 package edu.colorado.phet.common.phetcommon.dialogs;
 
-import java.awt.Frame;
-import java.awt.GridBagConstraints;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -17,8 +16,8 @@ import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
-import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils.InteractiveHTMLPane;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 /**
  * ErrorDialog is a general-purpose error dialog.
@@ -33,29 +32,29 @@ public class ErrorDialog extends PaintImmediateDialog {
     private static final String DETAILS_BUTTON = PhetCommonResources.getString( "Common.ErrorDialog.detailsButton" );
     private static final String DETAILS_TITLE = PhetCommonResources.getString( "Common.ErrorDialog.detailsTitle" );
     private static final String CONTACT_PHET = PhetCommonResources.getString( "Common.ErrorDialog.contactPhet" );
-    
+
     public ErrorDialog( Frame owner, String message ) {
         this( owner, message, null /* exception */ );
     }
-    
+
     public ErrorDialog( Frame owner, String message, final Exception exception ) {
         super( owner, TITLE );
         init( message, exception );
     }
-    
+
     public ErrorDialog( JDialog owner, String message ) {
         this( owner, message, null /* exception */ );
     }
-    
+
     public ErrorDialog( JDialog owner, String message, final Exception exception ) {
         super( owner, TITLE );
         init( message, exception );
     }
-    
+
     private void init( String message, final Exception exception ) {
         setResizable( false );
         setModal( true );
-        
+
         JPanel messagePanel = new JPanel();
         messagePanel.setBorder( BorderFactory.createEmptyBorder( 5, 5, 5, 5 ) );
         String htmlString = HTMLUtils.createStyledHTMLFromFragment( message );
@@ -64,7 +63,7 @@ public class ErrorDialog extends PaintImmediateDialog {
         htmlPane.setBackground( messagePanel.getBackground() );
 
         JPanel buttonPanel = new JPanel();
-        
+
         // closes the dialog
         JButton closeButton = new JButton( CLOSE_BUTTON );
         closeButton.addActionListener( new ActionListener() {
@@ -105,13 +104,13 @@ public class ErrorDialog extends PaintImmediateDialog {
         pack();
         SwingUtils.centerDialogInParent( this );
     }
-    
+
     private static String getContactPhetMessageHTML() {
         Object[] args = { HTMLUtils.getPhetMailtoHref() };
         String htmlFragment = MessageFormat.format( CONTACT_PHET, args );
         return HTMLUtils.createStyledHTMLFromFragment( htmlFragment );
     }
-    
+
     // test
     public static void main( String[] args ) {
         // dialog must have an owner if you want cursor to change over hyperlinks
@@ -125,6 +124,7 @@ public class ErrorDialog extends PaintImmediateDialog {
             public void windowClosing( WindowEvent e ) {
                 System.exit( 0 );
             }
+
             public void windowClosed( WindowEvent e ) {
                 System.exit( 0 );
             }

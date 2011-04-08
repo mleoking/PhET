@@ -1,16 +1,11 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.phetcommon.preferences;
 
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.Box;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.updates.ManualUpdatesManager;
@@ -20,21 +15,21 @@ import edu.colorado.phet.common.phetcommon.util.DeploymentScenario;
  * Panel for displaying preferences for the updates feature.
  */
 public class UpdatesPreferencesPanel extends JPanel {
-    
+
     private static final String UPDATES_ENABLED = PhetCommonResources.getString( "Common.updates.automaticallyCheck" );
     private static final String CHECK_FOR_SIM_UPDATES = PhetCommonResources.getString( "Common.updates.checkForSimUpdate" );
     private static final String CHECK_FOR_INSTALLER_UPDATE = PhetCommonResources.getString( "Common.updates.checkForInstallerUpdate" );
-    
+
     private final PhetPreferences preferences;
     private final JCheckBox updatesEnabledCheckBox;
-    
+
     public UpdatesPreferencesPanel( PhetPreferences preferences ) {
 
         this.preferences = preferences;
-        
+
         // enable
         updatesEnabledCheckBox = new JCheckBox( UPDATES_ENABLED, preferences.isUpdatesEnabled() );
-        
+
         // check for sim update
         JButton checkForSimUpdateButton = new JButton( CHECK_FOR_SIM_UPDATES );
         checkForSimUpdateButton.addActionListener( new ActionListener() {
@@ -42,7 +37,7 @@ public class UpdatesPreferencesPanel extends JPanel {
                 ManualUpdatesManager.getInstance().checkForSimUpdates();
             }
         } );
-        
+
         // check for installer update
         JButton checkForInstallerUpdateButton = new JButton( CHECK_FOR_INSTALLER_UPDATE );
         checkForInstallerUpdateButton.addActionListener( new ActionListener() {
@@ -50,7 +45,7 @@ public class UpdatesPreferencesPanel extends JPanel {
                 ManualUpdatesManager.getInstance().checkForInstallerUpdates();
             }
         } );
-        
+
         // layout
         setLayout( new GridBagLayout() );
         GridBagConstraints constraints = new GridBagConstraints();
@@ -65,7 +60,7 @@ public class UpdatesPreferencesPanel extends JPanel {
             add( checkForInstallerUpdateButton, constraints );
         }
     }
-    
+
     /**
      * Saves the preference values in this panel.
      */

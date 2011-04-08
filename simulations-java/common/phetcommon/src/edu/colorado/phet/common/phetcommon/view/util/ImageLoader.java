@@ -149,7 +149,7 @@ public class ImageLoader {
                         tracker.waitForAll();
                     }
                 }
-                catch( InterruptedException e ) {
+                catch ( InterruptedException e ) {
                 }
                 return image;
             }
@@ -164,7 +164,7 @@ public class ImageLoader {
                 ResourceLoader r = new ResourceLoader();
                 im = r.fetchImage( location );
             }
-            catch( Throwable e ) {
+            catch ( Throwable e ) {
                 e.printStackTrace();
             }
             return im;

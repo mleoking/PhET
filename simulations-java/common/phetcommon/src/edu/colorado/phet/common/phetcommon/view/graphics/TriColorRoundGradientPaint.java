@@ -29,17 +29,17 @@ public class TriColorRoundGradientPaint implements Paint {
      * the gradient, a radius, and a background color. The gradient blends
      * color from the center point to the background color over the length
      * of the radius.
+     *
      * @param innerColor
      * @param middleColor
      * @param outerColor
-     * @param centerX x center of the gradient
-     * @param centerY y center of the gradient
+     * @param centerX         x center of the gradient
+     * @param centerY         y center of the gradient
      * @param innerMiddleSpan distance across which the gradient blends from innerColor to middleColor
      * @param middleOuterSpan distance across which the gradient blends from middleColor to outerColor
-     *
      */
     public TriColorRoundGradientPaint( Color innerColor, Color middleColor, Color outerColor,
-            double centerX, double centerY, double innerMiddleSpan, double middleOuterSpan ) {
+                                       double centerX, double centerY, double innerMiddleSpan, double middleOuterSpan ) {
 
         if ( innerMiddleSpan <= 0 ) {
             throw new IllegalArgumentException( "innerMiddleSpan must be > 0." );
@@ -87,10 +87,10 @@ public class TriColorRoundGradientPaint implements Paint {
         private WritableRaster raster;
 
         /**
-         * @param innerColor the inner-most color of the 3-color gradient
-         * @param middleColor the middle color of the 3-color gradient
-         * @param outerColor the outer-most color of the 3-color gradient
-         * @param center the center point of the gradient
+         * @param innerColor      the inner-most color of the 3-color gradient
+         * @param middleColor     the middle color of the 3-color gradient
+         * @param outerColor      the outer-most color of the 3-color gradient
+         * @param center          the center point of the gradient
          * @param innerMiddleSpan the distance over which the gradient transitions from innerColor to middleColor
          * @param middleOuterSpan the distance over which the gradient transitions from middleColor to outerColor
          */
@@ -121,7 +121,7 @@ public class TriColorRoundGradientPaint implements Paint {
          */
         public Raster getRaster( int x, int y, int w, int h ) {
             // allocate raster on demand, or if we need a bigger raster
-            if ( raster == null || w > raster.getWidth() || h > raster.getHeight()  ) {
+            if ( raster == null || w > raster.getWidth() || h > raster.getHeight() ) {
                 raster = getColorModel().createCompatibleWritableRaster( w, h );
             }
             paint( x, y, w, h, raster, innerColor, middleColor, outerColor, center, innerMiddleSpan, middleOuterSpan );
@@ -143,8 +143,8 @@ public class TriColorRoundGradientPaint implements Paint {
          * @param middleOuterSpan the distance over which the gradient transitions from middleColor to outerColor
          */
         private static void paint( int x, int y, int w, int h, WritableRaster raster,
-                Color innerColor, Color middleColor, Color outerColor,
-                Point2D center, double innerMiddleSpan, double middleOuterSpan ) {
+                                   Color innerColor, Color middleColor, Color outerColor,
+                                   Point2D center, double innerMiddleSpan, double middleOuterSpan ) {
 
             int[] data = new int[w * h * 4];
             Color color1, color2;
@@ -188,9 +188,9 @@ public class TriColorRoundGradientPaint implements Paint {
          * Ratios closer to 0 produce values closer to component1.
          */
         private static int interpolateColorComponent( int component1, int component2, double ratio ) {
-            assert( component1 >= 0 && component1 <= 255 );
-            assert( component2 >= 0 && component2 <= 255 );
-            assert( ratio >= 0.0 && ratio <= 1.0 );
+            assert ( component1 >= 0 && component1 <= 255 );
+            assert ( component2 >= 0 && component2 <= 255 );
+            assert ( ratio >= 0.0 && ratio <= 1.0 );
             return (int) ( component1 + ratio * ( component2 - component1 ) );
         }
     }

@@ -1,10 +1,7 @@
-
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.phetcommon.application;
 
-import java.awt.FlowLayout;
-import java.awt.Frame;
-import java.awt.GridBagConstraints;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -22,8 +19,8 @@ import edu.colorado.phet.common.phetcommon.statistics.SessionMessage;
 import edu.colorado.phet.common.phetcommon.view.PhetExit;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
-import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils.HTMLEditorPane;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 /**
  * Manages policy related to PhET's software and privacy agreements.
@@ -31,7 +28,8 @@ import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils.HTMLEditorPane;
 public class SoftwareAgreementManager {
 
     /* not intended for instantiation */
-    private SoftwareAgreementManager() {}
+    private SoftwareAgreementManager() {
+    }
 
     /**
      * Ensures that the user has accepted the agreements that pertain to this software.
@@ -61,9 +59,9 @@ public class SoftwareAgreementManager {
         private static final String TITLE = PhetCommonResources.getString( "Common.softwareAgreement.title" );
         private static final String ACCEPT_BUTTON = PhetCommonResources.getString( "Common.softwareAgreement.accept" );
         private static final String DECLINE_BUTTON = PhetCommonResources.getString( "Common.softwareAgreement.decline" );
-        
+
         private JButton acceptButton;
-        
+
         public AcceptanceDialog( Frame owner, SessionMessage sessionMessage ) {
             super( owner );
             setTitle( TITLE );
@@ -88,11 +86,11 @@ public class SoftwareAgreementManager {
                     decline();
                 }
             } );
-            
+
             setContentPane( panel );
             pack();
             SwingUtils.centerWindowOnScreen( this );
-            
+
             // make "Accept" the default button and give it focus, DO THIS LAST!
             getRootPane().setDefaultButton( acceptButton );
             acceptButton.requestFocusInWindow();
@@ -121,7 +119,7 @@ public class SoftwareAgreementManager {
                     decline();
                 }
             } );
-            
+
             // layout
             JPanel panel = new JPanel( new FlowLayout() );
             panel.add( acceptButton );
@@ -146,27 +144,27 @@ public class SoftwareAgreementManager {
             PhetExit.exit();
         }
     }
-    
+
     /*
-     * This is an HTML editor pane interactive hyperlinks.
-     * But instead of opening a web browser, it opens a Swing dialog.
-     */
+    * This is an HTML editor pane interactive hyperlinks.
+    * But instead of opening a web browser, it opens a Swing dialog.
+    */
     private static class MessagePane extends HTMLEditorPane {
-       
+
         private static final String MESSAGE_PATTERN = PhetCommonResources.getString( "Common.softwareAgreement.message" );
-        
+
         // identifiers for hyperlink actions
         private static final String LINK_SHOW_STATISTICS_DETAILS = "showStatisticsDetails";
         private static final String LINK_SHOW_SOFTWARE_AGREEMENT = "showSoftwareAgreements";
 
         public MessagePane( final JDialog owner, final SessionMessage sessionMessage ) {
             super( "" );
-            
+
             // insert our own hyperlink descriptions into the message, so translators can't mess them up
-            Object[] args = {LINK_SHOW_STATISTICS_DETAILS, LINK_SHOW_SOFTWARE_AGREEMENT };
+            Object[] args = { LINK_SHOW_STATISTICS_DETAILS, LINK_SHOW_SOFTWARE_AGREEMENT };
             String htmlFragment = MessageFormat.format( MESSAGE_PATTERN, args );
             setText( HTMLUtils.createStyledHTMLFromFragment( htmlFragment ) );
-            
+
             addHyperlinkListener( new HyperlinkListener() {
                 public void hyperlinkUpdate( HyperlinkEvent e ) {
                     if ( e.getEventType() == HyperlinkEvent.EventType.ACTIVATED ) {
@@ -184,11 +182,11 @@ public class SoftwareAgreementManager {
             } );
             setBackground( new JPanel().getBackground() );//see #1275
         }
-        
+
         private static void showStatisticsDetails( JDialog owner, SessionMessage sessionMessage ) {
             new StatisticsDetailsDialog( owner, sessionMessage ).setVisible( true );
         }
-        
+
         private static void showSoftwareAgreement( JDialog owner ) {
             new SoftwareAgreementDialog( owner ).setVisible( true );
         }
@@ -200,6 +198,7 @@ public class SoftwareAgreementManager {
             public void windowClosing( WindowEvent e ) {
                 System.exit( 0 );
             }
+
             public void windowClosed( WindowEvent e ) {
                 System.exit( 0 );
             }

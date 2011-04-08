@@ -2,9 +2,7 @@
 
 package edu.colorado.phet.common.piccolophet.nodes;
 
-import java.awt.Paint;
-import java.awt.Shape;
-import java.awt.Stroke;
+import java.awt.*;
 import java.awt.geom.Ellipse2D;
 
 import edu.colorado.phet.common.piccolophet.PhetPNode;
@@ -14,26 +12,26 @@ import edu.umd.cs.piccolo.util.PBounds;
 
 /**
  * SphericalNode draws a sphere, with origin at the center of the sphere.
- * 
+ *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class SphericalNode extends PhetPNode {
-    
+
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
-    
+
     private final PPath _pathNode;
     private final PImage _imageNode;
     private boolean _convertToImage;
-    
+
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
-    
+
     /**
      * Constructor.
-     * 
+     *
      * @param diameter
      * @param fillPaint
      * @param stroke
@@ -42,29 +40,29 @@ public class SphericalNode extends PhetPNode {
      */
     public SphericalNode( double diameter, Paint fillPaint, Stroke stroke, Paint strokePaint, boolean convertToImage ) {
         super();
-        
+
         _convertToImage = convertToImage;
 
         _pathNode = new PhetPPath();
         _pathNode.setPaint( fillPaint );
         _pathNode.setStroke( stroke );
         _pathNode.setStrokePaint( strokePaint );
-        
+
         _imageNode = new PImage();
-        
+
         if ( convertToImage ) {
-             addChild( _imageNode );
+            addChild( _imageNode );
         }
         else {
             addChild( _pathNode );
         }
-        
+
         setDiameter( diameter );
     }
-    
+
     /**
      * Constructs a spherical node with no stroke.
-     * 
+     *
      * @param diameter
      * @param fillPaint
      * @param convertToImage
@@ -72,20 +70,20 @@ public class SphericalNode extends PhetPNode {
     public SphericalNode( double diameter, Paint fillPaint, boolean convertToImage ) {
         this( diameter, fillPaint, null, null, convertToImage );
     }
-    
+
     /*
-     * Convenience constructor, for use by subclass constructors.
-     * 
-     * @param convertToImage
-     */
+    * Convenience constructor, for use by subclass constructors.
+    *
+    * @param convertToImage
+    */
     protected SphericalNode( boolean convertToImage ) {
         this( 1, null, null, null, convertToImage );
     }
-    
+
     //----------------------------------------------------------------------------
     // Mutators and accessors
     //----------------------------------------------------------------------------
-    
+
     public double getDiameter() {
         return getFullBoundsReference().getWidth();
     }
@@ -110,7 +108,7 @@ public class SphericalNode extends PhetPNode {
         _pathNode.setStrokePaint( paint );
         update();
     }
-    
+
     public void setConvertToImage( boolean convertToImage ) {
         if ( convertToImage != _convertToImage ) {
             _convertToImage = convertToImage;
@@ -125,15 +123,15 @@ public class SphericalNode extends PhetPNode {
             update();
         }
     }
-    
+
     public boolean isConvertToImage() {
         return _convertToImage;
     }
-    
+
     //----------------------------------------------------------------------------
     // Updaters
     //----------------------------------------------------------------------------
-    
+
     private void update() {
         if ( _convertToImage ) {
             _imageNode.setImage( _pathNode.toImage() );

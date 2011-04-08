@@ -2,14 +2,11 @@
 
 package edu.colorado.phet.common.piccolophet.nodes;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import javax.swing.JFrame;
-import javax.swing.WindowConstants;
+import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -20,21 +17,21 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 /**
  * Creates a chemical symbol with optional superscripts and subscripts,
  * whose baseline can be aligned with other symbols.
- * <p>
+ * <p/>
  * Origin of this node is at the lower-right of the symbol's typographic baseline.
  * For example, if the symbol is "H<sub>2</sub>O", then the original will be at
  * the lower-left corner of the 'H'.
- * <p>
+ * <p/>
  * Chemical equations were originally implemented using HTMLNode.
  * But HTMLNode provides no information about baselines, making vertical alignment impossible.
  * And because baselines weren't aligned in equations, users were experiencing optical illusions
  * that made some symbols appear to be larger than others.
- * <p>
+ * <p/>
  * In this approach, we align the tops of uppercase letters with y=0.
- * But NOTE! This implementation is not intended to be general; it was chosen by 
- * the Acid-Base Solutions design team as a cost-feature tradeoff.  
+ * But NOTE! This implementation is not intended to be general; it was chosen by
+ * the Acid-Base Solutions design team as a cost-feature tradeoff.
  * The assumptions made include:
- * <p>
+ * <p/>
  * <ul>
  * <li>symbols are specified as HTML or HTML fragments
  * <li>each symbol contains at least one uppercase character
@@ -47,7 +44,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  * <li>all HTML tags are in lowercase, ie, <sub>, not <SUB>
  * * <p>
  * For an introduction to typography terms, see http://en.wikipedia.org/wiki/Baseline_(typography)
- * 
+ *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class ChemicalSymbolNode extends PComposite {
@@ -71,11 +68,12 @@ public class ChemicalSymbolNode extends PComposite {
 
     /**
      * Constructor.
-     * @param html HTML fragment for the symbol
-     * @param font font used for all parts of the symbol
-     * @param color color used for all parts of the symbol
+     *
+     * @param html             HTML fragment for the symbol
+     * @param font             font used for all parts of the symbol
+     * @param color            color used for all parts of the symbol
      * @param superscriptScale how much the superscript is scaled relative to the normal portion of the symbol
-     * @param subscriptScale how much the subscript is scaled relative to the normal portion of the symbol
+     * @param subscriptScale   how much the subscript is scaled relative to the normal portion of the symbol
      */
     public ChemicalSymbolNode( String html, Font font, Color color, double superscriptScale, double subscriptScale ) {
         super();
@@ -83,7 +81,7 @@ public class ChemicalSymbolNode extends PComposite {
         // determine the height of a capital letter
         NormalNode capNode = new NormalNode( "A", font, color );
         capHeight = capNode.getFullBoundsReference().getHeight();
-        
+
         // convert HTML to nodes
         ArrayList<FragmentNode> nodes = htmlToNodes( html, font, color, superscriptScale, subscriptScale );
 
@@ -108,9 +106,10 @@ public class ChemicalSymbolNode extends PComposite {
             xOffset += node.getFullBoundsReference().getWidth() + X_SPACING;
         }
     }
-    
+
     /**
      * Gets the height of capital (uppercase) letters.
+     *
      * @return
      */
     public double getCapHeight() {
@@ -119,6 +118,7 @@ public class ChemicalSymbolNode extends PComposite {
 
     /**
      * Sets the symbol color.
+     *
      * @param color
      */
     public void setSymbolColor( Color color ) {

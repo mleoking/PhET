@@ -32,13 +32,13 @@ public class TestPhetServiceManagerSaveLoad {
             public void actionPerformed( ActionEvent e ) {
                 try {
                     String s = "Sample output...";
-                    PhetServiceManager.getFileSaveService( frame ).saveFileDialog( null, new String[]{"txt"}, new ByteArrayInputStream( s.getBytes() ), "Test File Save" );
+                    PhetServiceManager.getFileSaveService( frame ).saveFileDialog( null, new String[] { "txt" }, new ByteArrayInputStream( s.getBytes() ), "Test File Save" );
                     System.out.println( "Wrote: " + s );
                 }
-                catch( IOException e1 ) {
+                catch ( IOException e1 ) {
                     e1.printStackTrace();
                 }
-                catch( UnavailableServiceException e1 ) {
+                catch ( UnavailableServiceException e1 ) {
                     e1.printStackTrace();
                 }
             }
@@ -49,7 +49,7 @@ public class TestPhetServiceManagerSaveLoad {
         load.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 try {
-                    FileContents fileContents = PhetServiceManager.getFileOpenService( frame ).openFileDialog( "Test File Open", new String[]{"txt"} );
+                    FileContents fileContents = PhetServiceManager.getFileOpenService( frame ).openFileDialog( "Test File Open", new String[] { "txt" } );
                     BufferedReader bufferedReader = new BufferedReader( new InputStreamReader( fileContents.getInputStream() ) );
                     ArrayList text = new ArrayList();
                     String line = bufferedReader.readLine();
@@ -63,10 +63,10 @@ public class TestPhetServiceManagerSaveLoad {
                         System.out.println( s );
                     }
                 }
-                catch( IOException e1 ) {
+                catch ( IOException e1 ) {
                     e1.printStackTrace();
                 }
-                catch( UnavailableServiceException e1 ) {
+                catch ( UnavailableServiceException e1 ) {
                     e1.printStackTrace();
                 }
             }

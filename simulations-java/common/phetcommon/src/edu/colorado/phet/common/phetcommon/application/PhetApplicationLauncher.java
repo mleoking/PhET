@@ -1,15 +1,12 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.phetcommon.application;
 
-import java.awt.Frame;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.lang.reflect.InvocationTargetException;
 
-import javax.swing.JSpinner;
-import javax.swing.JWindow;
-import javax.swing.SwingUtilities;
-import javax.swing.Timer;
+import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.dialogs.CreditsDialog;
 import edu.colorado.phet.common.phetcommon.statistics.StatisticsManager;
@@ -91,9 +88,9 @@ public class PhetApplicationLauncher {
 
         public PhetApplication getApplication( PhetApplicationConfig config ) {
             try {
-                return (PhetApplication) phetApplicationClass.getConstructor( new Class[]{config.getClass()} ).newInstance( new Object[]{config} );
+                return (PhetApplication) phetApplicationClass.getConstructor( new Class[] { config.getClass() } ).newInstance( new Object[] { config } );
             }
-            catch( Exception e ) {
+            catch ( Exception e ) {
                 throw new RuntimeException( e );
             }
         }
@@ -168,10 +165,10 @@ public class PhetApplicationLauncher {
                 }
             } );
         }
-        catch( InterruptedException e ) {
+        catch ( InterruptedException e ) {
             e.printStackTrace();
         }
-        catch( InvocationTargetException e ) {
+        catch ( InvocationTargetException e ) {
             e.printStackTrace();
         }
     }

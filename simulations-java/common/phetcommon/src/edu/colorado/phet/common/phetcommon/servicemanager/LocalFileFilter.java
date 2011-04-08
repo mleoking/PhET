@@ -96,7 +96,7 @@ public class LocalFileFilter extends FileFilter {
      * @see #addExtension
      */
     public LocalFileFilter( String extension, String description ) {
-        this( new String[]{extension}, description );
+        this( new String[] { extension }, description );
     }
 
     /**

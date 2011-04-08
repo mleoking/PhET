@@ -6,8 +6,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JDialog;
+import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 
@@ -18,11 +17,11 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplication;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class ControlPanelPropertiesMenuItem extends JCheckBoxMenuItem {
-    
+
     private static final String ITEM_LABEL = "Control Panel properties..."; // developer control, i18n not required
-    
+
     private JDialog dialog;
-    
+
     public ControlPanelPropertiesMenuItem( final PhetApplication app ) {
         super( ITEM_LABEL );
         addActionListener( new ActionListener() {

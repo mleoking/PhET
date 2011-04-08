@@ -8,9 +8,9 @@ import edu.colorado.phet.common.phetcommon.preferences.PhetPreferences;
  * "Ask Me Later" strategy for simulation updates.
  */
 public class SimAskMeLaterStrategy implements IAskMeLaterStrategy {
-    
+
     private static final long DEFAULT_DURATION = MathUtil.daysToMilliseconds( 1 );
-    
+
     private final String project, sim;
     private long duration;
 
@@ -19,7 +19,7 @@ public class SimAskMeLaterStrategy implements IAskMeLaterStrategy {
         this.sim = sim;
         duration = DEFAULT_DURATION;
     }
-    
+
     public void setStartTime( long time ) {
         PhetPreferences.getInstance().setSimAskMeLater( project, sim, time );
     }
@@ -31,11 +31,11 @@ public class SimAskMeLaterStrategy implements IAskMeLaterStrategy {
     public void setDuration( long duration ) {
         this.duration = duration;
     }
-    
+
     public long getDuration() {
         return duration;
     }
-    
+
     public boolean isDurationExceeded() {
         long askMeLaterPressed = getStartTime();
         long currentTime = System.currentTimeMillis();
@@ -43,5 +43,5 @@ public class SimAskMeLaterStrategy implements IAskMeLaterStrategy {
 //        System.out.println( "elapsedTime/1000.0 = " + elapsedTime / 1000.0+" sec" );
         return elapsedTime > getDuration() || askMeLaterPressed == 0;
     }
-   
+
 }

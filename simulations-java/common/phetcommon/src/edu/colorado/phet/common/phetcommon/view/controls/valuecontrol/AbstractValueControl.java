@@ -2,9 +2,7 @@
 
 package edu.colorado.phet.common.phetcommon.view.controls.valuecontrol;
 
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Toolkit;
+import java.awt.*;
 import java.awt.event.*;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -184,6 +182,7 @@ public abstract class AbstractValueControl extends JPanel {
     /**
      * Convenience method for adding an icon to the left of the textual value label.
      * If you need some other type of layout, use getValueLabel to access the JLabel directly.
+     *
      * @param icon
      */
     public void setValueLabelIcon( Icon icon ) {
@@ -280,6 +279,7 @@ public abstract class AbstractValueControl extends JPanel {
 
     /**
      * Set a range and value simultaneously; this method should be used if the new range doesn't contain the old value.
+     *
      * @param min   the new minimum
      * @param max   the new maximum
      * @param value the new value
@@ -439,6 +439,7 @@ public abstract class AbstractValueControl extends JPanel {
 
     /**
      * Changes the text value of the units label.
+     *
      * @param units the new units label string
      */
     public void setUnits( String units ) {
@@ -836,6 +837,7 @@ public abstract class AbstractValueControl extends JPanel {
 
     /**
      * Sets whether the system should beep when out of bounds value is requested
+     *
      * @param signifyOutOfBounds true if the system should beep when out of bounds value is requested
      */
     public void setSignifyOutOfBounds( boolean signifyOutOfBounds ) {

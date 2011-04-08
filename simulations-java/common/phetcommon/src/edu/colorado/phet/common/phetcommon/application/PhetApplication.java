@@ -1,7 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.phetcommon.application;
 
-import java.awt.Color;
+import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
@@ -18,7 +18,7 @@ import edu.colorado.phet.common.phetcommon.view.PhetFrame;
  * The base class for PhET applications.
  */
 public class PhetApplication
-    implements IProguardKeepClass //since we are using reflection to call this constructor from the launcher, must direct proguard to keep it
+        implements IProguardKeepClass //since we are using reflection to call this constructor from the launcher, must direct proguard to keep it
 {
 
     //----------------------------------------------------------------
@@ -38,7 +38,7 @@ public class PhetApplication
     private PhetFrame phetFrame;
     private ModuleManager moduleManager;
     private PhetAboutDialog aboutDialog; // not null only when About dialog is shown for the first time
-    private boolean applicationStarted=false;//flag to make sure we don't start the application more than once
+    private boolean applicationStarted = false;//flag to make sure we don't start the application more than once
 
     //----------------------------------------------------------------
     // Constructors
@@ -58,14 +58,14 @@ public class PhetApplication
 
         // Handle command line arguments
         parseArgs( phetApplicationConfig.getCommandLineArgs() );
-        
+
         phetApplications.add( this );
     }
 
     //----------------------------------------------------------------
     // 
     //----------------------------------------------------------------
-    
+
     public ITabbedModulePane getTabbedModulePane() {
         return tabbedModulePane;
     }
@@ -82,8 +82,8 @@ public class PhetApplication
     public ISimInfo getSimInfo() {
         return phetApplicationConfig;
     }
-    
-    
+
+
     /**
      * Get the last created PhetApplication.
      *
@@ -139,7 +139,8 @@ public class PhetApplication
             phetFrame.setVisible( true );
 
             updateLogoVisibility();
-        }else{
+        }
+        else {
             //TODO: put into standard logging framework
             System.out.println( "WARNING: PhetApplication.startApplication was called more than once." );
         }
@@ -163,7 +164,7 @@ public class PhetApplication
 
     private void initializeModuleReferenceSizes() {
         for ( int i = 0; i < moduleManager.numModules(); i++ ) {
-            (moduleManager.moduleAt( i )).setReferenceSize();
+            ( moduleManager.moduleAt( i ) ).setReferenceSize();
         }
     }
 
@@ -175,7 +176,7 @@ public class PhetApplication
     public PhetFrame getPhetFrame() {
         return phetFrame;
     }
-    
+
     //----------------------------------------------------------------
     // Module-related methods
     //----------------------------------------------------------------
@@ -366,9 +367,10 @@ public class PhetApplication
             aboutDialog.setVisible( true );
         }
     }
-    
+
     /**
      * Sets the background color of the standard control panels.
+     *
      * @param color
      */
     public void setControlPanelBackground( Color color ) {
@@ -383,13 +385,15 @@ public class PhetApplication
      * Saves the simulation's configuration.
      * Default implementation does nothing, subclasses should override.
      */
-    public void save() {}
-    
+    public void save() {
+    }
+
     /**
      * Loads the simulation's configuration.
      * Default implementation does nothing, subclasses should override.
      */
-    public void load() {}
+    public void load() {
+    }
 
     public void exit() {
         PhetExit.exit();

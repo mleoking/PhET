@@ -48,10 +48,10 @@ public class PersistenceUtil {
             ByteArrayInputStream byteIn = new ByteArrayInputStream( byteOut.toByteArray() );
             return (Serializable) new ObjectInputStream( byteIn ).readObject();
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             throw new CopyFailedException( e );
         }
-        catch( ClassNotFoundException e ) {
+        catch ( ClassNotFoundException e ) {
             throw new CopyFailedException( e );
         }
     }

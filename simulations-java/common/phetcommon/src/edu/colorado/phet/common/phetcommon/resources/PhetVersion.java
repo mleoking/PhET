@@ -82,7 +82,7 @@ public class PhetVersion {
     }
 
     public String formatForAboutDialog() {
-        Object[] args = {major, minor, dev, revision, formatTimestamp()};
+        Object[] args = { major, minor, dev, revision, formatTimestamp() };
         return MessageFormat.format( FORMAT_ABOUT, args );
     }
 
@@ -99,12 +99,12 @@ public class PhetVersion {
     }
 
     public String formatMajorMinorDev() {
-        Object[] args = {major, minor, dev};
+        Object[] args = { major, minor, dev };
         return MessageFormat.format( FORMAT_MAJOR_MINOR_DEV, args );
     }
 
     public String formatMajorMinor() {
-        Object[] args = {major, minor};
+        Object[] args = { major, minor };
         return MessageFormat.format( FORMAT_MAJOR_MINOR, args );
     }
 
@@ -148,7 +148,7 @@ public class PhetVersion {
         try {
             i = Integer.parseInt( number );
         }
-        catch( NumberFormatException e ) {
+        catch ( NumberFormatException e ) {
             e.printStackTrace();
             i = -1;
         }
@@ -165,7 +165,7 @@ public class PhetVersion {
         try {
             seconds = Long.parseLong( timestamp );
         }
-        catch( NumberFormatException e ) {
+        catch ( NumberFormatException e ) {
             System.err.println( "PhetVersion.getTimestampSeconds: timestamp is invalid, ignoring: " + timestamp );
             seconds = 0;
         }

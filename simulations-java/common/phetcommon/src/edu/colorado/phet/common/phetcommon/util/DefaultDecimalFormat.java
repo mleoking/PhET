@@ -29,8 +29,8 @@ public class DefaultDecimalFormat extends DecimalFormat {
 
     public DefaultDecimalFormat( String str ) {
         this( DecimalFormat.getNumberInstance( PhetResources.readLocale() ) );
-        if (decimalFormat instanceof DecimalFormat){
-        	((DecimalFormat) decimalFormat).applyPattern(str);
+        if ( decimalFormat instanceof DecimalFormat ) {
+            ( (DecimalFormat) decimalFormat ).applyPattern( str );
         }
     }
 
@@ -44,10 +44,10 @@ public class DefaultDecimalFormat extends DecimalFormat {
         try {
             parsed = decimalFormat.parse( formattedText.toString() ).doubleValue();
         }
-        catch( NumberFormatException numberFormatException ) {
+        catch ( NumberFormatException numberFormatException ) {
             return decimalFormat.format( number, result, fieldPosition );
         }
-        catch( ParseException e ) {
+        catch ( ParseException e ) {
             e.printStackTrace();
         }
         if ( parsed == 0 && formattedText.indexOf( "-" ) == 0 ) {

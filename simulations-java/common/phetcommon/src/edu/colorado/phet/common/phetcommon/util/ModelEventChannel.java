@@ -42,10 +42,10 @@ public class ModelEventChannel extends EventChannel {
                     try {
                         ModelEventChannel.super.invokeMethod( method, target, args );
                     }
-                    catch( InvocationTargetException e ) {
+                    catch ( InvocationTargetException e ) {
                         e.printStackTrace();
                     }
-                    catch( IllegalAccessException e ) {
+                    catch ( IllegalAccessException e ) {
                         e.printStackTrace();
                     }
                 }

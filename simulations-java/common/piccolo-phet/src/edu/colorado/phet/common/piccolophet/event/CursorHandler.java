@@ -30,13 +30,14 @@ public class CursorHandler extends PBasicInputEventHandler {
 
     //todo: should make 1 manager per JComponent?
     //the current implementation assumes state is global across all JPanels, may not work properly when moving from one JComponent to another
+
     /**
      * This class manages global state for the cursor.  Consider the following scenario:
      * 1. The cursor enters Node A
-     *      >The cursor becomes a hand
+     * >The cursor becomes a hand
      * 2. The cursor is pressed and dragged out of Node A into Node B
-     *      >The cursor should remain a hand
-     *
+     * >The cursor should remain a hand
+     * <p/>
      * This is difficult (or impossible) to do without maintaining global state about which
      * nodes have been entered and dragged.
      */
@@ -52,7 +53,7 @@ public class CursorHandler extends PBasicInputEventHandler {
             if ( !pressed ) {
                 component.setCursor( cursor );
             }
-            lastEntered=cursor;
+            lastEntered = cursor;
         }
 
         public void mousePressed() {
@@ -62,7 +63,8 @@ public class CursorHandler extends PBasicInputEventHandler {
         public void mouseReleased( JComponent component ) {
             if ( lastEntered != null ) {
                 component.setCursor( lastEntered );
-            }else{
+            }
+            else {
                 component.setCursor( Cursor.getDefaultCursor() );
             }
 

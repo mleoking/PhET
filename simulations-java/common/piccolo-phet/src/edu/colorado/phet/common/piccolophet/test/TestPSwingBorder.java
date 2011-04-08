@@ -1,16 +1,9 @@
-
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.piccolophet.test;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
+import java.awt.*;
 
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.WindowConstants;
+import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
 
@@ -22,11 +15,11 @@ import edu.umd.cs.piccolox.pswing.PSwingCanvas;
  * is rendered oddly by PSwing.  This example compares PSwing and pure-Swing rendering.
  * The PSwing border contains horizontal and vertical lines that shouldn't be there,
  * when the PSwing is scaled up, visible at some scaling values and not at others.
- * <p>
+ * <p/>
  * This is caused by the implementation of LineBorder.paintBorder.
  * The workaround is to use a MatteBorder (see APPLY_WORKAROUND).
  * Note that MatteBorder does not support rounded borders, while LineBorder does.
- * <p>
+ * <p/>
  * PhET Unfuddle ticket = #2018
  * Piccolo issue = #213
  *
@@ -46,7 +39,7 @@ public class TestPSwingBorder extends JFrame {
         final double margin = 20;
         pswing.setOffset( margin, margin );
         canvas.getLayer().addChild( pswing );
-        canvas.setPreferredSize( new Dimension( (int)( pswing.getFullBounds().getWidth() + ( 2 * margin ) ), (int)( pswing.getFullBounds().getHeight() + ( 2 * margin ) ) )  );
+        canvas.setPreferredSize( new Dimension( (int) ( pswing.getFullBounds().getWidth() + ( 2 * margin ) ), (int) ( pswing.getFullBounds().getHeight() + ( 2 * margin ) ) ) );
 
         // pure Swing
         JPanel swingPanel = new JPanel();

@@ -66,11 +66,12 @@ public interface Function {
         private double t2;
 
         public LinearFunction( double offset, double scale ) {
-            this( 0, 1, offset, offset + scale*1 );
+            this( 0, 1, offset, offset + scale * 1 );
         }
 
         /**
          * Constructs a LinearFunction that passes through the 2 specified points.
+         *
          * @param p1 one point to pass through
          * @param p2 another point this function should pass through
          */
@@ -146,6 +147,7 @@ public interface Function {
 
         /**
          * Machine generated deep equals implementation.
+         *
          * @param o
          * @return
          */
@@ -169,6 +171,7 @@ public interface Function {
 
         /**
          * Machine generated deep hashcode implementation.
+         *
          * @return
          */
         @Override

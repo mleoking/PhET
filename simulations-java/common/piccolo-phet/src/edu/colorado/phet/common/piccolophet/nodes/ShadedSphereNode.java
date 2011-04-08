@@ -2,13 +2,10 @@
 
 package edu.colorado.phet.common.piccolophet.nodes;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Paint;
+import java.awt.*;
 import java.awt.geom.Point2D;
 
-import javax.swing.JFrame;
-import javax.swing.WindowConstants;
+import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.TriColorRoundGradientPaint;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
@@ -18,10 +15,10 @@ import edu.umd.cs.piccolo.PCanvas;
  * PhET's visual representation of a shaded sphere.
  * It has a 3D look with a specular highlight at the upper left, and shadow towards the lower right.
  * Override getHighlightCenter if you want to move the highlight.
- * <p>
+ * <p/>
  * This implementation uses SphericalNode via composition instead of subclassing,
  * because SphericalNode's interface uses Paint, and we're constrained to Color.
- * <p>
+ * <p/>
  * Origin is at the center of the sphere.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
@@ -36,6 +33,7 @@ public class ShadedSphereNode extends PhetPNode {
 
     /**
      * Constructs an atom node with default highlight and shadow colors.
+     *
      * @param diameter
      * @param color
      */
@@ -45,9 +43,9 @@ public class ShadedSphereNode extends PhetPNode {
 
     /**
      * @param diameter
-     * @param mainColor main color of the atom
+     * @param mainColor      main color of the atom
      * @param highlightColor color used for the specular highlight
-     * @param shadowColor color used for the shadow
+     * @param shadowColor    color used for the shadow
      */
     public ShadedSphereNode( double diameter, Color mainColor, Color highlightColor, Color shadowColor ) {
         this( diameter, mainColor, highlightColor, shadowColor, false /* convertToImage */ );
@@ -55,9 +53,9 @@ public class ShadedSphereNode extends PhetPNode {
 
     /**
      * @param diameter
-     * @param mainColor main color of the atom
+     * @param mainColor      main color of the atom
      * @param highlightColor color used for the specular highlight
-     * @param shadowColor color used for the shadow
+     * @param shadowColor    color used for the shadow
      * @param convertToImage gradient paint used herein is expensive, setting this to true converts to an image
      */
     public ShadedSphereNode( double diameter, Color mainColor, Color highlightColor, Color shadowColor, boolean convertToImage ) {
@@ -71,6 +69,7 @@ public class ShadedSphereNode extends PhetPNode {
     /**
      * Sets the diameter.
      * This requires adjusting the paint, so that the gradient matches the new diameter.
+     *
      * @param diameter
      */
     public void setDiameter( double diameter ) {
@@ -89,7 +88,7 @@ public class ShadedSphereNode extends PhetPNode {
      * @param diameter
      */
     protected Point2D getHighlightCenter( double diameter ) {
-        return new Point2D.Double( -diameter/6, -diameter/6 );
+        return new Point2D.Double( -diameter / 6, -diameter / 6 );
     }
 
     /*
@@ -98,7 +97,7 @@ public class ShadedSphereNode extends PhetPNode {
      */
     private Paint createPaint( double diameter, Color highlightColor, Color mainColor, Color shadowColor ) {
         Point2D highlightCenter = getHighlightCenter( diameter );
-        double highlightMainSpan = diameter/3; // distance for the gradient from highlightColor to mainColor
+        double highlightMainSpan = diameter / 3; // distance for the gradient from highlightColor to mainColor
         double mainShadowSpan = 0.7 * diameter; // distance for the gradient from mainColor to shadowColor
         return new TriColorRoundGradientPaint( highlightColor, mainColor, shadowColor, highlightCenter.getX(), highlightCenter.getY(), highlightMainSpan, mainShadowSpan );
     }

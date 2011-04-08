@@ -141,7 +141,7 @@ public class FrameSequence {
         for ( int temp = frameNum; temp != 0; i++ ) {
             temp /= 10;
         }
-        for ( ; i < 4; i++ ) {
+        for (; i < 4; i++ ) {
             zeroStr = zeroStr.concat( "0" );
         }
         String fileName = fileNamePrefix + "_" + zeroStr + Integer.toString( frameNum ) + "." + fileType;

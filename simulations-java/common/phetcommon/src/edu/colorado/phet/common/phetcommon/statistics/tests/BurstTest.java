@@ -11,7 +11,7 @@ import edu.colorado.phet.common.phetcommon.statistics.StatisticsMessageSender;
  */
 public class BurstTest {
     public static void main( String[] args ) {
-        SessionCounter.initInstance( "moving-man","moving-man" );
+        SessionCounter.initInstance( "moving-man", "moving-man" );
         SessionMessage.initInstance( new PhetApplicationConfig( args, "moving-man" ) );
 //        int numThreads = 100;
 //        int numMessagesPerThread = 100;

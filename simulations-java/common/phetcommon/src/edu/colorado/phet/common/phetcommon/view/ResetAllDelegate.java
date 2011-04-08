@@ -2,10 +2,10 @@
 
 package edu.colorado.phet.common.phetcommon.view;
 
-import java.awt.Component;
+import java.awt.*;
 import java.util.Vector;
 
-import javax.swing.JOptionPane;
+import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
@@ -13,20 +13,20 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 
 /**
  * Delegate for "Reset All" behavior.
- * Calling resetAll opens a confirmation dialog. 
+ * Calling resetAll opens a confirmation dialog.
  * If the user confirms, then all Resettables are reset.
- * 
+ *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class ResetAllDelegate {
-    
+
     private final Vector<Resettable> resettables;
     private final Component parent;
     private boolean confirmationEnabled;
-    
-    /** 
+
+    /**
      * @param resettables things to reset
-     * @param parent parent component for the confirmation dialog
+     * @param parent      parent component for the confirmation dialog
      */
     public ResetAllDelegate( final Resettable[] resettables, final Component parent ) {
         this.resettables = new Vector<Resettable>();
@@ -36,23 +36,23 @@ public class ResetAllDelegate {
         this.parent = parent;
         this.confirmationEnabled = true;
     }
-    
+
     public void setConfirmationEnabled( boolean confirmationEnabled ) {
         this.confirmationEnabled = confirmationEnabled;
     }
-    
+
     public boolean isConfirmationEnabled() {
         return confirmationEnabled;
     }
-    
+
     public void addResettable( Resettable resettable ) {
         resettables.add( resettable );
     }
-    
+
     public void removeResettable( Resettable resettable ) {
         resettables.remove( resettable );
     }
-    
+
     /**
      * Resets all Resettables, with optional confirmation.
      */
@@ -63,10 +63,10 @@ public class ResetAllDelegate {
             }
         }
     }
-    
+
     /*
-     * Opens a confirmation dialog, returns true if the user selects "Yes".
-     */
+    * Opens a confirmation dialog, returns true if the user selects "Yes".
+    */
     private boolean confirmReset() {
         String message = PhetCommonResources.getInstance().getLocalizedString( "ControlPanel.message.confirmResetAll" );
         String title = PhetCommonResources.getInstance().getLocalizedString( "Common.title.confirm" );

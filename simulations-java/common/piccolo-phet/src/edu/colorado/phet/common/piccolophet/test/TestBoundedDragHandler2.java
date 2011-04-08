@@ -40,7 +40,7 @@ public class TestBoundedDragHandler2 {
         // Node that defines the drag bounds
         Rectangle rectangleBounds = new Rectangle( 10, 10, 300, 300 );
         PPath dragBoundsNode = new PPath( rectangleBounds );
-        dragBoundsNode.setStroke( new BasicStroke( 1, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER, 1, new float[]{8, 12}, 0 ) );
+        dragBoundsNode.setStroke( new BasicStroke( 1, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER, 1, new float[] { 8, 12 }, 0 ) );
         dragBoundsNode.setStrokePaint( Color.black );
         piccoloCanvas.getLayer().addChild( dragBoundsNode );
 
@@ -65,7 +65,7 @@ public class TestBoundedDragHandler2 {
         piccoloCanvas.getLayer().addChild( pathNode );
         Rectangle rectangleBounds2 = new Rectangle( 0, 0, 200, 200 );
         PPath dragBoundsNode2 = new PPath( rectangleBounds2 );
-        dragBoundsNode2.setStroke( new BasicStroke( 1, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER, 1, new float[]{8, 12}, 0 ) );
+        dragBoundsNode2.setStroke( new BasicStroke( 1, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER, 1, new float[] { 8, 12 }, 0 ) );
         dragBoundsNode2.setStrokePaint( Color.black );
         dragBoundsNode2.setOffset( pathNode.getFullBounds().getX(), pathNode.getFullBounds().getY() );
         piccoloCanvas.getLayer().addChild( dragBoundsNode2 );

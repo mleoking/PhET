@@ -5,9 +5,9 @@ package edu.colorado.phet.common.phetcommon.resources;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.MessageFormat;
 import java.util.Locale;
 import java.util.Properties;
-import java.text.MessageFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -42,13 +42,14 @@ public class PhetResources {
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
-    
+
     private static final Logger LOGGER = LoggingUtils.getLogger( PhetResources.class.getCanonicalName() );
+
     static {
         // get rid of this to log all of the resource messages
-        LOGGER.setLevel(Level.WARNING);
+        LOGGER.setLevel( Level.WARNING );
     }
-    
+
     // Standard localized properties:
     private static final String PROPERTY_NAME = "name";
 
@@ -64,7 +65,7 @@ public class PhetResources {
     private static final String IMAGES_DIR = "images";
     private static final String LOCALIZATION_DIR = "localization";
     private static final String LOCALIZATION_FILE_SUFFIX = "-strings";
-    
+
     private static final char PATH_SEPARATOR = '/';
 
     private static final String PROPERTIES_SUFFIX = ".properties";
@@ -130,10 +131,10 @@ public class PhetResources {
     * @return Locale
     */
     public static Locale readLocale() {
-        
+
         Locale locale = Locale.getDefault();
         LOGGER.fine( "readLocale: default locale=" + locale.toString() );
-        
+
         String language = System.getProperty( PhetCommonConstants.PROPERTY_PHET_LANGUAGE );
         String country = System.getProperty( PhetCommonConstants.PROPERTY_PHET_COUNTRY ); // optional, may be null
         if ( language != null ) {
@@ -149,11 +150,11 @@ public class PhetResources {
         else if ( country != null ) {
             LOGGER.fine( "readLocale: ignoring locale properties, they are in an illegal state, country specified without language" );
         }
-        
+
         LOGGER.fine( "readLocale: returning locale=" + locale.toString() );
         return locale;
     }
-    
+
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
@@ -202,7 +203,7 @@ public class PhetResources {
     public PhetProperties getProjectProperties() {
         return projectProperties;
     }
-    
+
     //----------------------------------------------------------------------------
     // Resource accessors
     //----------------------------------------------------------------------------
@@ -246,10 +247,10 @@ public class PhetResources {
     public InputStream getResourceAsStream( String resourceName ) throws IOException {
         return resourceLoader.getResourceAsStream( rootDirectoryName + PATH_SEPARATOR + resourceName );
     }
-    
+
     /**
      * Returns the contents of a resource as a String.
-     *  
+     *
      * @param resourceName
      * @return String
      */
@@ -283,7 +284,7 @@ public class PhetResources {
     }
 
     public String getLocalizedString( String key ) {
-        return DummyConstantStringTester.getString(localizedProperties.getString( key ));
+        return DummyConstantStringTester.getString( localizedProperties.getString( key ) );
     }
 
     /**
@@ -293,8 +294,8 @@ public class PhetResources {
      * @param values the values to use in filling in the mesage pattern
      * @return the formatted string with values filled in
      */
-    public String format(String key, String... values) {
-        return MessageFormat.format(getLocalizedString(key), (Object[])values);
+    public String format( String key, String... values ) {
+        return MessageFormat.format( getLocalizedString( key ), (Object[]) values );
     }
 
     public char getLocalizedChar( String key, char defaultValue ) {
@@ -308,18 +309,18 @@ public class PhetResources {
     public double getLocalizedDouble( String key, double defaultValue ) {
         return localizedProperties.getDouble( key, defaultValue );
     }
-    
+
     //----------------------------------------------------------------------------
     // Properties that are common to all sims
     //----------------------------------------------------------------------------
-    
+
     /**
      * Gets the localized name of the sim (required property).
      */
     public String getName( String flavor ) {
         return localizedProperties.getProperty( flavor + "." + PROPERTY_NAME );
     }
-    
+
     /**
      * Gets the object that encapsulates the project's version information.
      * Involves using a number of required project properties.
@@ -327,7 +328,7 @@ public class PhetResources {
      */
     public PhetVersion getVersion() {
         if ( version == null ) {
-            version= getVersion( projectProperties );
+            version = getVersion( projectProperties );
         }
         return version;
     }

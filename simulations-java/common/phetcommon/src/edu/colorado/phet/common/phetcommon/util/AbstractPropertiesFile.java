@@ -9,7 +9,7 @@ import java.util.Properties;
 /**
  * Base class for all properties file interfaces.
  * Setting a property value stores it in the file immediately.
- * <p>
+ * <p/>
  * This class is implemented using composition instead of inheritance
  * because it's not appropriate to expose the entire File interface.
  * The interface should be limited to getting and setting properties.
@@ -63,11 +63,11 @@ public class AbstractPropertiesFile {
             if ( !parent.exists() ) {
                 parent.mkdirs();
             }
-            final FileOutputStream stream = new FileOutputStream(file);
-            properties.store(stream, header );
+            final FileOutputStream stream = new FileOutputStream( file );
+            properties.store( stream, header );
             stream.close();//close the output stream after use to avoid file locking related problems
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
         catch ( AccessControlException e ) {
@@ -80,6 +80,7 @@ public class AbstractPropertiesFile {
      * The header is not written until the next time that store is called.
      * This ensures that we don't needlessly touch a properties file until
      * some property is actually modified.
+     *
      * @param header
      */
     public void setHeader( String header ) {
@@ -88,6 +89,7 @@ public class AbstractPropertiesFile {
 
     /**
      * Does this properties file exist?
+     *
      * @return
      */
     public boolean exists() {
@@ -96,6 +98,7 @@ public class AbstractPropertiesFile {
 
     /**
      * Gets the names of all properties in the file.
+     *
      * @return
      */
     public Enumeration getPropertyNames() {
@@ -190,12 +193,12 @@ public class AbstractPropertiesFile {
         return properties.toString();
     }
 
-    public boolean delete(){
+    public boolean delete() {
         properties.clear();
         return file.delete();
     }
 
-    public void deleteOnExit(){
+    public void deleteOnExit() {
         file.deleteOnExit();
     }
 }

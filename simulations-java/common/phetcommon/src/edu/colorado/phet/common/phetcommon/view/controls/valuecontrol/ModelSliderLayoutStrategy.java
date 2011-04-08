@@ -58,7 +58,7 @@ public class ModelSliderLayoutStrategy implements ILayoutStrategy {
             SwingUtils.addGridBagComponent( valueControl, textPanel, 0, 2, 2, 1,
                                             GridBagConstraints.NONE, GridBagConstraints.CENTER );
         }
-        catch( AWTException e ) {
+        catch ( AWTException e ) {
             throw new RuntimeException( e );
         }
     }

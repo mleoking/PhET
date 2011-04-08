@@ -2,15 +2,12 @@
 
 package edu.colorado.phet.common.piccolophet.nodes;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.GradientPaint;
-import java.awt.Paint;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.RoundRectangle2D;
 
-import javax.swing.JFrame;
+import javax.swing.*;
 import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
@@ -46,13 +43,13 @@ public class ButtonNode extends PhetPNode {
     private static final double COLOR_SCALING_FACTOR = 0.5;
     private static final double BUTTON_CORNER_ROUNDEDNESS = 8;
     private static final int SHADOW_OFFSET = 3;
-    
+
     // button enabled properties
     private static final Color ENABLED_TEXT_COLOR = Color.BLACK;
     private static final Color ENABLED_BACKGROUND_COLOR = Color.GRAY;
     private static final Color ENABLED_STROKE_COLOR = Color.BLACK;
     private static final Color ENABLED_SHADOW_COLOR = new Color( 0f, 0f, 0f, 0.2f ); // transparent so that it's invisible
-    
+
     // button disabled properties
     private static final Color DISABLED_TEXT_COLOR = new Color( 180, 180, 180 );
     private static final Color DISABLED_BACKGROUND_COLOR = new Color( 210, 210, 210 );
@@ -69,7 +66,7 @@ public class ButtonNode extends PhetPNode {
     private final HTMLNode _htmlNode;
     private final PPath _buttonNode;
     private final PPath _shadowNode;
-  
+
     // mutable
     private Color _textColor;
     private boolean _enabled;
@@ -90,30 +87,30 @@ public class ButtonNode extends PhetPNode {
     /**
      * Constructor for creating a button assuming the default font size & color.
      *
-     * @param text text that will appear on button, supports HTML
+     * @param text            text that will appear on button, supports HTML
      * @param backgroundColor
      */
     public ButtonNode( String text, Color backgroundColor ) {
         this( text, FONT_SIZE, backgroundColor );
     }
-    
+
     /**
      * Construct a button node.
      *
-     * @param text text that will appear on button, supports HTML
-     * @param fontSize size of font for the label text.
+     * @param text            text that will appear on button, supports HTML
+     * @param fontSize        size of font for the label text.
      * @param backgroundColor overall color of button from which gradient will be created.
      */
     public ButtonNode( String text, int fontSize, Color backgroundColor ) {
         this( text, fontSize, ENABLED_TEXT_COLOR, backgroundColor );
     }
-    
+
     /**
      * Construct a button node.
      *
-     * @param text text that will appear on button, supports HTML
-     * @param fontSize size of font for the label text.
-     * @param textColor color of the HTML that will appear on the button.
+     * @param text            text that will appear on button, supports HTML
+     * @param fontSize        size of font for the label text.
+     * @param textColor       color of the HTML that will appear on the button.
      * @param backgroundColor overall color of button from which gradient will be created.
      */
     public ButtonNode( String text, int fontSize, Color textColor, Color backgroundColor ) {
@@ -126,10 +123,10 @@ public class ButtonNode extends PhetPNode {
      * Primary constructor, all other constructors ultimately result in this one being called.
      */
     private ButtonNode( HTMLNode htmlLabelNode, Color textColor, Color backgroundColor ) {
-        
+
         this._htmlNode = htmlLabelNode;
         _htmlNode.setOffset( HORIZONTAL_PADDING, VERTICAL_PADDING );
-        
+
         this._textColor = textColor;
         this._backgroundColor = backgroundColor;
         this._enabled = true;
@@ -145,9 +142,9 @@ public class ButtonNode extends PhetPNode {
 
         // button
         RoundRectangle2D buttonShape = new RoundRectangle2D.Double( 0, 0,
-                getHtmlWidth() + HORIZONTAL_PADDING * 2,
-                getHtmlHeight() + VERTICAL_PADDING *2,
-                BUTTON_CORNER_ROUNDEDNESS, BUTTON_CORNER_ROUNDEDNESS );
+                                                                    getHtmlWidth() + HORIZONTAL_PADDING * 2,
+                                                                    getHtmlHeight() + VERTICAL_PADDING * 2,
+                                                                    BUTTON_CORNER_ROUNDEDNESS, BUTTON_CORNER_ROUNDEDNESS );
         _buttonNode = new PPath( buttonShape );
         _buttonNode.setPaint( mouseNotOverGradient );
         _buttonNode.setStrokePaint( ENABLED_STROKE_COLOR );
@@ -169,16 +166,16 @@ public class ButtonNode extends PhetPNode {
         ButtonEventHandler handler = new ButtonEventHandler();
         _buttonNode.addInputEventListener( handler );
         handler.addButtonEventListener( new ButtonEventListener() {
-            
+
             private boolean focus = false; // true if the button has focus
 
             public void setFocus( boolean focus ) {
                 this.focus = focus;
                 if ( _enabled ) {
-                     _buttonNode.setPaint( focus ? mouseOverGradient : mouseNotOverGradient );
+                    _buttonNode.setPaint( focus ? mouseOverGradient : mouseNotOverGradient );
                 }
             }
-            
+
             public void setArmed( boolean armed ) {
                 if ( armed ) {
                     _buttonNode.setPaint( armedGradient );
@@ -189,7 +186,7 @@ public class ButtonNode extends PhetPNode {
                     _buttonNode.setOffset( 0, 0 );
                 }
             }
-            
+
             public void fire() {
                 ActionEvent event = new ActionEvent( this, 0, "BUTTON_FIRED" );
                 for ( ActionListener listener : _listeners.getListeners( ActionListener.class ) ) {
@@ -224,17 +221,17 @@ public class ButtonNode extends PhetPNode {
     protected Paint createMouseNotOverGradient() {
         return createGradient( createBrighterColor( _backgroundColor ), _backgroundColor );
     }
-    
+
     /*
-     * When the mouse is over the node but not pressed, the button gets brighter.
-     */
+    * When the mouse is over the node but not pressed, the button gets brighter.
+    */
     protected Paint createMouseOverGradient() {
         return createGradient( createBrighterColor( createBrighterColor( _backgroundColor ) ), createBrighterColor( _backgroundColor ) );
     }
-    
+
     /*
-     * When the button is armed (pressed), the color is similar to mouse-not-over, but the button is brighter at the bottom.
-     */
+    * When the button is armed (pressed), the color is similar to mouse-not-over, but the button is brighter at the bottom.
+    */
     protected Paint createArmedGradient() {
         return createGradient( _backgroundColor, createBrighterColor( _backgroundColor ) );
     }
@@ -245,13 +242,13 @@ public class ButtonNode extends PhetPNode {
     private Paint createDisabledGradient() {
         return createGradient( createBrighterColor( DISABLED_BACKGROUND_COLOR ), DISABLED_BACKGROUND_COLOR );
     }
-    
+
     /*
-     * Creates a gradient that vertically goes from topColor to bottomColor.
-     * @param topColor
-     * @param bottomColor
-     * @return Paint
-     */
+    * Creates a gradient that vertically goes from topColor to bottomColor.
+    * @param topColor
+    * @param bottomColor
+    * @return Paint
+    */
     private Paint createGradient( Color topColor, Color bottomColor ) {
         if ( useGradient() ) {
             return new GradientPaint( (float) getHtmlWidth() / 2, 0f, topColor, (float) getHtmlWidth() * 0.5f, (float) getHtmlHeight(), bottomColor );
@@ -260,10 +257,10 @@ public class ButtonNode extends PhetPNode {
             return bottomColor;
         }
     }
-    
+
     /*
-     * See Unfuddle Ticket #553, GradientPaint crashes Mac.
-     */
+    * See Unfuddle Ticket #553, GradientPaint crashes Mac.
+    */
     private boolean useGradient() {
         return !PhetUtilities.isMacintosh();
     }
@@ -271,7 +268,7 @@ public class ButtonNode extends PhetPNode {
     protected PPath getButton() {
         return _buttonNode;
     }
-    
+
     protected int getShadowOffset() {
         return SHADOW_OFFSET;
     }

@@ -5,14 +5,14 @@ import junit.framework.TestCase;
 
 public class ZPolynomialTester extends TestCase {
     // 5x^2 + 1x^3
-    private static final PolynomialTerm[] TEST_TERMS1 = new PolynomialTerm[]{
+    private static final PolynomialTerm[] TEST_TERMS1 = new PolynomialTerm[] {
             PolynomialTerm.parsePolynomialTerm( "2x^2" ),
             PolynomialTerm.parsePolynomialTerm( "3x^2" ),
             PolynomialTerm.parsePolynomialTerm( "1x^3" )
     };
 
     // 4x^1 + 1x^2 + 2x^3
-    private static final PolynomialTerm[] TEST_TERMS2 = new PolynomialTerm[]{
+    private static final PolynomialTerm[] TEST_TERMS2 = new PolynomialTerm[] {
             PolynomialTerm.parsePolynomialTerm( "4x^1" ),
             PolynomialTerm.parsePolynomialTerm( "1x^2" ),
             PolynomialTerm.parsePolynomialTerm( "2x^3" )
@@ -64,7 +64,7 @@ public class ZPolynomialTester extends TestCase {
         try {
             TEST_POLY1.pow( -1 );
         }
-        catch( IllegalArgumentException e ) {
+        catch ( IllegalArgumentException e ) {
         }
     }
 

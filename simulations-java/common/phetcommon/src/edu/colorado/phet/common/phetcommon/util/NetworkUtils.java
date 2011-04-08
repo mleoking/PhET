@@ -20,7 +20,7 @@ public class NetworkUtils {
             inputStream.close();
             outputStream.close();
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
     }

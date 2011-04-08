@@ -1,7 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.phetcommon.updates.dialogs;
 
-import java.awt.Frame;
+import java.awt.*;
 
 import javax.swing.*;
 
@@ -23,14 +23,14 @@ public class SimAutomaticUpdateDialog extends SimAbstractUpdateDialog {
 
     private final IAskMeLaterStrategy askMeLaterStrategy;
     private final IVersionSkipper versionSkipper;
-    
+
     public SimAutomaticUpdateDialog( Frame owner, ISimInfo simInfo, PhetVersion newVersion, IAskMeLaterStrategy askMeLaterStrategy, IVersionSkipper versionSkipper ) {
         super( owner, simInfo, newVersion );
         this.askMeLaterStrategy = askMeLaterStrategy;
         this.versionSkipper = versionSkipper;
         initGUI();
     }
-    
+
     protected JPanel createButtonPanel( ISimInfo simInfo, final PhetVersion newVersion ) {
         JPanel buttonPanel = new JPanel();
         buttonPanel.add( new UpdateButton( this, simInfo, newVersion ) );
@@ -39,21 +39,21 @@ public class SimAutomaticUpdateDialog extends SimAbstractUpdateDialog {
         buttonPanel.add( new SkipVersionButton( this, versionSkipper, newVersion ) );
         return buttonPanel;
     }
-    
+
     /*
-     * Message that will be added below the standard message, and above the button panel.
-     */
+    * Message that will be added below the standard message, and above the button panel.
+    */
     protected JComponent createAdditionalMessageComponent() {
         // message about how to access the Preferences dialog
         String preferencesHTML = "<html><font size=\"2\">" + PREFEENCES_MESSAGE + "</font></html>";
         return new JLabel( preferencesHTML );
     }
 
-    public static void main(String[] args) {
+    public static void main( String[] args ) {
         System.out.println( "I'm running!" );
         PhetApplicationConfig config = new PhetApplicationConfig( args, "moving-man" );
-        final SimAutomaticUpdateDialog dialog = new SimAutomaticUpdateDialog( new JFrame(), config, new PhetVersion("1", "00", "05", "30000", "1234567890"), new IAskMeLaterStrategy() {
-            public void setStartTime(long time) {
+        final SimAutomaticUpdateDialog dialog = new SimAutomaticUpdateDialog( new JFrame(), config, new PhetVersion( "1", "00", "05", "30000", "1234567890" ), new IAskMeLaterStrategy() {
+            public void setStartTime( long time ) {
                 //To change body of implemented methods use File | Settings | File Templates.
             }
 
@@ -61,7 +61,7 @@ public class SimAutomaticUpdateDialog extends SimAbstractUpdateDialog {
                 return 0;  //To change body of implemented methods use File | Settings | File Templates.
             }
 
-            public void setDuration(long duration) {
+            public void setDuration( long duration ) {
                 //To change body of implemented methods use File | Settings | File Templates.
             }
 
@@ -73,7 +73,7 @@ public class SimAutomaticUpdateDialog extends SimAbstractUpdateDialog {
                 return true;  //To change body of implemented methods use File | Settings | File Templates.
             }
         }, new IVersionSkipper() {
-            public void setSkippedVersion(int skipVersion) {
+            public void setSkippedVersion( int skipVersion ) {
                 //To change body of implemented methods use File | Settings | File Templates.
             }
 
@@ -81,10 +81,10 @@ public class SimAutomaticUpdateDialog extends SimAbstractUpdateDialog {
                 return 0;  //To change body of implemented methods use File | Settings | File Templates.
             }
 
-            public boolean isSkipped(int version) {
+            public boolean isSkipped( int version ) {
                 return false;  //To change body of implemented methods use File | Settings | File Templates.
             }
-        });
+        } );
 
         dialog.setVisible( true );
 
@@ -92,7 +92,7 @@ public class SimAutomaticUpdateDialog extends SimAbstractUpdateDialog {
             public void run() {
                 dialog.setSize( 800, 800 );
             }
-        });
+        } );
 
 
     }

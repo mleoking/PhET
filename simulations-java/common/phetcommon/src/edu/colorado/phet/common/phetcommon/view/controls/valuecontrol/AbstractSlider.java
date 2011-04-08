@@ -5,9 +5,7 @@ package edu.colorado.phet.common.phetcommon.view.controls.valuecontrol;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
-import javax.swing.AbstractAction;
-import javax.swing.JSlider;
-import javax.swing.KeyStroke;
+import javax.swing.*;
 
 /**
  * AbstractSlider is the base class for all extensions of JSlider that provide
@@ -16,7 +14,7 @@ import javax.swing.KeyStroke;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public abstract class AbstractSlider extends JSlider {
-    
+
     private static final String INCREMENT_ACTION_MAP_KEY = "INCREMENT_ACTION";
     private static final String DECREMENT_ACTION_MAP_KEY = "DECREMENT_ACTION";
 
@@ -29,7 +27,7 @@ public abstract class AbstractSlider extends JSlider {
         setMinimum( _strategy.getSliderMin() );
         setMaximum( _strategy.getSliderMax() );
         _upDownArrowDelta = getModelRange() / 100;
-        
+
         // Up and Right arrows increment
         getInputMap().put( KeyStroke.getKeyStroke( KeyEvent.VK_RIGHT, 0, false ), INCREMENT_ACTION_MAP_KEY );
         getInputMap().put( KeyStroke.getKeyStroke( KeyEvent.VK_UP, 0, false ), INCREMENT_ACTION_MAP_KEY );
@@ -50,11 +48,11 @@ public abstract class AbstractSlider extends JSlider {
         };
         getActionMap().put( DECREMENT_ACTION_MAP_KEY, decrementAction );
     }
-    
+
     public void setUpDownArrowDelta( double upDownArrowDelta ) {
         _upDownArrowDelta = upDownArrowDelta;
     }
-    
+
     public void setModelRange( double min, double max ) {
         _strategy.setModelRange( min, max );
         setMinimum( _strategy.getSliderMin() );

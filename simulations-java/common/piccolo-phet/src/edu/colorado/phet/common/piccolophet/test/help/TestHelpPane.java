@@ -68,7 +68,7 @@ public class TestHelpPane extends PhetApplication {
                     TestHelpPane app = new TestHelpPane( config );
                     return app;
                 }
-                catch( Exception e ) {
+                catch ( Exception e ) {
                     e.printStackTrace();
                     return null;
                 }
@@ -79,8 +79,8 @@ public class TestHelpPane extends PhetApplication {
     }
 
     /* Application */
-    public TestHelpPane( PhetApplicationConfig config) throws InterruptedException {
-        super( config);
+    public TestHelpPane( PhetApplicationConfig config ) throws InterruptedException {
+        super( config );
 
         Module module1 = new TestModule( "Module 1", CANVAS_COLOR_1, SCREEN_COLOR_1, WORLD_COLOR_1 );
         addModule( module1 );

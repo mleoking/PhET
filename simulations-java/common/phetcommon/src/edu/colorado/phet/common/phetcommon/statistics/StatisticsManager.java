@@ -1,7 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.phetcommon.statistics;
 
-import java.awt.Frame;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Vector;
@@ -13,16 +13,16 @@ import edu.colorado.phet.common.phetcommon.application.SoftwareAgreementManager;
 
 /**
  * Manages the delivery of statistics messages.
- * 
+ *
  * @author Sam Reid
  */
 public class StatisticsManager {
-    
+
     private static final Object MONITOR = new Object();
-    
+
     /* singleton */
     public static StatisticsManager instance;
-    
+
     private final ISimInfo simInfo;
     private final Frame parentFrame;
     private final Vector messageQueue = new Vector();
@@ -49,7 +49,7 @@ public class StatisticsManager {
     public static StatisticsManager getInstance() {
         return instance;
     }
-    
+
     /**
      * Blocks until all queued messages have been sent, up to a maximum of maxWaitTime milliseconds.
      */
@@ -70,7 +70,7 @@ public class StatisticsManager {
                 try {
                     Thread.sleep( 10 );
                 }
-                catch( InterruptedException e ) {
+                catch ( InterruptedException e ) {
                     e.printStackTrace();
                 }
             }
@@ -80,7 +80,7 @@ public class StatisticsManager {
     private void sendMessageImpl( final StatisticsMessage statisticsMessage ) {
         if ( isStatisticsEnabled() ) {
             messageQueue.add( statisticsMessage );
-            synchronized( MONITOR ) {
+            synchronized ( MONITOR ) {
                 MONITOR.notifyAll();
             }
         }
@@ -96,11 +96,11 @@ public class StatisticsManager {
         public void run() {
             while ( true ) {
                 sendAllMessages();
-                synchronized( MONITOR ) {
+                synchronized ( MONITOR ) {
                     try {
                         MONITOR.wait();
                     }
-                    catch( InterruptedException e ) {
+                    catch ( InterruptedException e ) {
                         e.printStackTrace();
                     }
                 }
@@ -116,7 +116,7 @@ public class StatisticsManager {
             notifyListeners( success, m );
         }
     }
-    
+
     public static boolean isStatisticsEnabled() {
         return instance != null && instance.simInfo.isStatisticsEnabled();
     }
@@ -128,29 +128,29 @@ public class StatisticsManager {
             instance.sendMessageImpl( statisticsMessage );
         }
     }
-    
+
     public void start() {
-        
+
         // this method should only be called once
         if ( applicationStartedCalled ) {
             throw new IllegalStateException( "attempted to call applicationStarted more than once" );
         }
         applicationStartedCalled = true;
-        
+
         if ( isStatisticsEnabled() ) {
-            
+
             // increment session counts
             SessionCounter sessionCounter = SessionCounter.initInstance( simInfo.getProjectName(), simInfo.getFlavor() );
             if ( sessionCounter != null ) {
                 sessionCounter.incrementCounts();
             }
-            
+
             // create the session message
             final SessionMessage sessionMessage = SessionMessage.initInstance( simInfo );
-            
+
             // Software Use Agreement
             SoftwareAgreementManager.validate( parentFrame, sessionMessage );
-            
+
             // send session message
             addListener( new StatisticsManagerListener() {
                 public void receiveResponse( boolean success, StatisticsMessage m ) {
@@ -163,15 +163,15 @@ public class StatisticsManager {
             sendMessage( sessionMessage );
         }
     }
-    
+
     private interface StatisticsManagerListener {
         public void receiveResponse( boolean success, StatisticsMessage m );
     }
-    
+
     private synchronized void addListener( StatisticsManagerListener listener ) {
         listeners.add( listener );
     }
-    
+
     // called from another thread, StatisticsThread
     private synchronized void notifyListeners( boolean success, StatisticsMessage m ) {
         ArrayList listenersCopy = new ArrayList( listeners ); // iterate on a copy to avoid ConcurrentModificationException

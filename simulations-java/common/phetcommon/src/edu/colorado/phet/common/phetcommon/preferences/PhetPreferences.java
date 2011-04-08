@@ -25,7 +25,7 @@ public class PhetPreferences {
         PREFERENCES_FILE.clear();
     }
 
-    public static File getPreferencesFile(){
+    public static File getPreferencesFile() {
         return PREFERENCES_FILE;
     }
 
@@ -33,12 +33,12 @@ public class PhetPreferences {
         try {
             PREFERENCES_FILE = new PhetPreferencesFile();
         }
-        catch( AccessControlException accessControlException ) {
+        catch ( AccessControlException accessControlException ) {
             PREFERENCES_FILE = null;
             System.out.println( "PhetPreferences: access to local filesystem denied" );
         }
     }
-    
+
     /**
      * Preferences are stored in a file in the persistence directory.
      */
@@ -48,13 +48,14 @@ public class PhetPreferences {
         }
 
         public void clear() {
-            boolean deleted=delete();
-            if (!deleted){
+            boolean deleted = delete();
+            if ( !deleted ) {
                 deleteOnExit();
                 System.out.println( "delete failed, will try again on exit" );
-            }else{
+            }
+            else {
                 System.out.println( "preferences file deleted, you should probably exit now" );
-                PREFERENCES_FILE=null;//prevent making changes that will get saved
+                PREFERENCES_FILE = null;//prevent making changes that will get saved
             }
         }
     }
@@ -65,11 +66,11 @@ public class PhetPreferences {
     private static final String KEY_STATISTICS_ENABLED = "all-sims.statistics.enabled";
     private static final String KEY_SOFTWARE_AGREEMENT_VERSION = "all-sims.software-agreement-version";
     private static final String KEY_INSTALLER_ASK_ME_LATER = "installer.updates.ask-me-later-pressed.milliseconds";
-    
+
     // property key patterns
     private static final String PATTERN_KEY_SIM_ASK_ME_LATER = "{0}.{1}.updates.ask-me-later-pressed.milliseconds";
     private static final String PATTERN_KEY_SIM_SKIP_UPDATE = "{0}.{1}.updates.skip.version"; // project.sim.updates.skip-version
-    
+
     // developer only
     private static final String DEV_KEY_ALWAYS_SHOW_SOFTWARE_AGREEMENT = "dev.always-show-software-agreement";
 
@@ -144,7 +145,7 @@ public class PhetPreferences {
     }
 
     private static String getSimAskMeLaterKey( String project, String sim ) {
-        Object[] args = {project, sim};
+        Object[] args = { project, sim };
         return MessageFormat.format( PATTERN_KEY_SIM_ASK_ME_LATER, args );
     }
 
@@ -165,7 +166,7 @@ public class PhetPreferences {
     }
 
     private static String getSimSkipUpdateKey( String project, String sim ) {
-        Object[] args = {project, sim};
+        Object[] args = { project, sim };
         return MessageFormat.format( PATTERN_KEY_SIM_SKIP_UPDATE, args );
     }
 
@@ -176,23 +177,24 @@ public class PhetPreferences {
     public void setInstallerAskMeLater( long time ) {
         setStringProperty( KEY_INSTALLER_ASK_ME_LATER, String.valueOf( time ) );
     }
-    
+
     public long getInstallerAskMeLater() {
         return getLongProperty( KEY_INSTALLER_ASK_ME_LATER, 0 );
     }
-    
+
     public void setSoftwareAgreementVersion( int version ) {
         setIntProperty( KEY_SOFTWARE_AGREEMENT_VERSION, version );
     }
-    
+
     /**
      * Gets the software agreement version number that the user most recently accepted.
+     *
      * @return -1 if the user has no accepted any agreement
      */
     public int getSoftwareAgreementVersion() {
         return getIntProperty( KEY_SOFTWARE_AGREEMENT_VERSION, -1 );
     }
-    
+
     /**
      * Sets the time in milliseconds since Epoch that the preferences file was created.
      * We use this as an ad hoc means of anonymously identifying unique users.
@@ -209,19 +211,19 @@ public class PhetPreferences {
     public long getPreferencesFileCreationTime() {
         return getLongProperty( KEY_PREFERENCES_FILE_CREATION_TIME, 0 );
     }
-    
+
     public boolean isAlwaysShowSoftwareAgreement() {
         return getBooleanProperty( DEV_KEY_ALWAYS_SHOW_SOFTWARE_AGREEMENT );
     }
-    
+
     public void setAlwaysShowSoftwareAgreement( boolean b ) {
         setBooleanProperty( DEV_KEY_ALWAYS_SHOW_SOFTWARE_AGREEMENT, b );
     }
-    
+
     /*
-     * All other property setters should be implemented in terms of this one,
-     * since this is the one that actually handles storage of the property.
-     */
+    * All other property setters should be implemented in terms of this one,
+    * since this is the one that actually handles storage of the property.
+    */
     private void setStringProperty( String key, String value ) {
         properties.setProperty( key, value );
         storePreferences();
@@ -242,7 +244,7 @@ public class PhetPreferences {
     private void setLongProperty( String key, long value ) {
         setStringProperty( key, String.valueOf( value ) );
     }
-    
+
     private long getLongProperty( String key, long defaultValue ) {
         long value = defaultValue;
         String stringValue = properties.getProperty( key );
@@ -256,11 +258,11 @@ public class PhetPreferences {
         }
         return value;
     }
-    
+
     private void setIntProperty( String key, int value ) {
         setStringProperty( key, String.valueOf( value ) );
     }
-    
+
     private int getIntProperty( String key, int defaultValue ) {
         int value = defaultValue;
         String stringValue = properties.getProperty( key );
@@ -280,7 +282,7 @@ public class PhetPreferences {
             try {
                 properties.store( new FileOutputStream( PREFERENCES_FILE ), "Preferences for PhET, see " + PhetCommonConstants.PHET_HOME_URL );
             }
-            catch( IOException e ) {
+            catch ( IOException e ) {
                 e.printStackTrace();
             }
         }

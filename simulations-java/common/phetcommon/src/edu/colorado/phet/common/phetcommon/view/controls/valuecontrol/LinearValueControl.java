@@ -41,7 +41,7 @@ public class LinearValueControl extends AbstractValueControl {
         super( new LinearSlider( min, max ), label, textFieldPattern, units, layoutStrategy );
     }
 
-        /**
+    /**
      * Constructor that provides a default layout for the control as well as the default slider value
      *
      * @param min
@@ -51,7 +51,7 @@ public class LinearValueControl extends AbstractValueControl {
      * @param units
      */
     public LinearValueControl( double min, double max, double value, String label, String textFieldPattern, String units ) {
-        this( min, max, value,label, textFieldPattern, units, new DefaultLayoutStrategy() );
+        this( min, max, value, label, textFieldPattern, units, new DefaultLayoutStrategy() );
     }
 
     /**
@@ -63,13 +63,14 @@ public class LinearValueControl extends AbstractValueControl {
      * @param textFieldPattern
      * @param units
      */
-    public LinearValueControl( double min, double max, double value, String label, String textFieldPattern, String units,ILayoutStrategy layoutStrategy ) {
+    public LinearValueControl( double min, double max, double value, String label, String textFieldPattern, String units, ILayoutStrategy layoutStrategy ) {
         this( min, max, label, textFieldPattern, units, layoutStrategy );
         setValue( value );
     }
 
     /**
      * Added sample usage and test
+     *
      * @param args application args
      */
     public static void main( String[] args ) {
