@@ -24,6 +24,8 @@ import static edu.colorado.phet.bendinglight.BendingLightApplication.RESOURCES;
 import static java.awt.Color.white;
 
 /**
+ * PNode for the wave sensor, which shows 2 probes and a chart area.
+ *
  * @author Sam Reid
  */
 public class WaveSensorNode extends ToolNode {

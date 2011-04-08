@@ -4,6 +4,8 @@ package edu.colorado.phet.bendinglight.modules.moretools;
 import edu.colorado.phet.bendinglight.modules.BendingLightModule;
 
 /**
+ * Module for the "more tools" tab.
+ *
  * @author Sam Reid
  */
 public class MoreToolsModule extends BendingLightModule<MoreToolsModel> {

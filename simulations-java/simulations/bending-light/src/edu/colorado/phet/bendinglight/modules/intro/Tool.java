@@ -23,6 +23,8 @@ import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PBounds;
 
 /**
+ * A Tool is used in a ToolboxNode for creating objects by dragging them out.
+ *
  * @author Sam Reid
  */
 public class Tool extends PNode {
@@ -57,8 +59,8 @@ public class Tool extends PNode {
                 ToolNode node = null;
                 boolean intersect = false;
 
-                @Override
-                public void mousePressed( PInputEvent event ) {
+                // Create the node and add it to the scene
+                @Override public void mousePressed( PInputEvent event ) {
                     showTool.setValue( true );
                     setVisible( false );
                     if ( node == null ) {
@@ -92,6 +94,7 @@ public class Tool extends PNode {
                     }
                 }
 
+                //Translate the created node
                 public void mouseDragged( PInputEvent event ) {
                     node.dragAll( event.getDeltaRelativeTo( node.getParent() ) );
                 }

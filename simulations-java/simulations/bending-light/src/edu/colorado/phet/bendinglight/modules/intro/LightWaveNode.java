@@ -12,6 +12,8 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 
 /**
+ * This node depicts the light in "wave" form, i.e. oscillating with wave crests.
+ *
  * @author Sam Reid
  */
 public class LightWaveNode extends PNode {

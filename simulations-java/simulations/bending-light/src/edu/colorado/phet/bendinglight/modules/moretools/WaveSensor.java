@@ -15,6 +15,9 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 
+/**
+ * Sensor for wave values, reads the wave amplitude as a function of time and location.  Two probes can be used to compare values.
+ */
 public class WaveSensor {
     public final Probe probe1 = new Probe( -4.173076923076922E-7, 9.180769230769231E-7 );
     public final Probe probe2 = new Probe( -1.5440384615384618E-6, -1.2936538461538458E-6 );

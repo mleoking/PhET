@@ -9,6 +9,8 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 
 /**
+ * Wrapper around a shape with convenience methods for computing intersections, etc.
+ *
  * @author Sam Reid
  */
 public class Prism {

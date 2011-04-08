@@ -10,6 +10,8 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.piccolophet.nodes.VelocitySensor;
 
 /**
+ * Model for the "more tools" tab, which adds a wave sensor and a velocity sensor.
+ *
  * @author Sam Reid
  */
 public class MoreToolsModel extends IntroModel {

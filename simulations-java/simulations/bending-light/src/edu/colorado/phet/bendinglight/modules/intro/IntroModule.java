@@ -10,6 +10,8 @@ import edu.umd.cs.piccolo.PNode;
 import static edu.colorado.phet.bendinglight.model.BendingLightModel.WATER;
 
 /**
+ * Module for the "intro" tab.
+ *
  * @author Sam Reid
  */
 public class IntroModule extends BendingLightModule<IntroModel> {

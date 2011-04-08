@@ -20,6 +20,8 @@ import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.umd.cs.piccolo.PNode;
 
 /**
+ * Canvas for the "prism break" tab.
+ *
  * @author Sam Reid
  */
 public class PrismsCanvas extends BendingLightCanvas<PrismsModel> {

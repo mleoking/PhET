@@ -23,6 +23,8 @@ import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 import static java.lang.Math.*;
 
 /**
+ * Model for the "prism break" tab, in which the user can move the laser and many prisms.
+ *
  * @author Sam Reid
  */
 public class PrismsModel extends BendingLightModel {

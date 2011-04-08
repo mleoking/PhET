@@ -3,10 +3,12 @@ package edu.colorado.phet.bendinglight.modules;
 
 import edu.colorado.phet.bendinglight.model.BendingLightModel;
 import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 
 /**
+ * Base class for the various bending light modules.
+ *
  * @author Sam Reid
  */
 public class BendingLightModule<T extends BendingLightModel> extends Module {
