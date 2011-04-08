@@ -1,3 +1,4 @@
+Fixed: reduced the size of the expanded protractor so that its circle fits within the play area when it is centered
 Moved the protractor behind the light node so that it also goes behind other controls (such as wavelength controls), since otherwise it obscures them from interaction
 Moved the +/- button to the right side of the protractor
 # 0.00.34 (50440) Apr 8, 2011
