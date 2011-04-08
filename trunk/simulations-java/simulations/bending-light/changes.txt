@@ -1,3 +1,4 @@
+Moved the protractor behind the light node so that it also goes behind other controls (such as wavelength controls), since otherwise it obscures them from interaction
 Moved the +/- button to the right side of the protractor
 # 0.00.34 (50440) Apr 8, 2011
 Fixed: combo box sometimes reads out wrong material in the "more tools" tab
