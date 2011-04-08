@@ -1,3 +1,4 @@
+# 0.00.34 (50440) Apr 8, 2011
 Fixed: combo box sometimes reads out wrong material in the "more tools" tab
 Moved reset all button to lower right in the "prism break" tab
 Made the protractor expandable in the "more tools" tab
