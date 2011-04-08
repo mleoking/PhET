@@ -4,6 +4,8 @@ package edu.colorado.phet.bendinglight.model;
 import java.awt.*;
 
 /**
+ * A Medium is a substance through which LightRay instances propagate.
+ *
  * @author Sam Reid
  */
 public class Medium {

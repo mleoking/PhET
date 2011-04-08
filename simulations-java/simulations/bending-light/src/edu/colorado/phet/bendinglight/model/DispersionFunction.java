@@ -9,6 +9,10 @@ import edu.colorado.phet.common.phetcommon.util.Pair;
 import static edu.colorado.phet.bendinglight.model.BendingLightModel.WAVELENGTH_RED;
 
 /**
+ * Models dispersion functions for each material.  Uses the actual dispersion equation for air (A) and the actual dispersion equation for glass (G)
+ * then interpolates between the functions n(lambda) = beta * A(lambda) + (1-beta) * G(lambda) where 0<=beta<=infinity is a characteristic of the material.
+ * The material is characterized by a reference wavelength, so that when light is the specified wavelength, the index of refraction takes the reference value.
+ *
  * @author Sam Reid
  */
 public class DispersionFunction {
@@ -40,6 +44,7 @@ public class DispersionFunction {
         return getIndexOfRefraction( WAVELENGTH_RED );
     }
 
+    //See class-level documentation for an explanation of this algorithm
     public double getIndexOfRefraction( double wavelength ) {
         double nAirReference = getAirIndex( referenceWavelength );
         double nGlassReference = getSellmeierValue( referenceWavelength );

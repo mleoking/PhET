@@ -3,12 +3,16 @@ package edu.colorado.phet.bendinglight.model;
 
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Ellipse2D;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 
 /**
+ * Model for the intensity meter, including the position of the sensor, body, the reading values, etc.
+ * When multiple rays hit the sensor, they are summed up.
+ *
  * @author Sam Reid
  */
 public class IntensityMeter {
@@ -71,5 +75,46 @@ public class IntensityMeter {
         bodyPosition.reset();
         enabled.reset();
         reading.reset();
+    }
+
+    /**
+     * A single reading for the intensity meter.
+     */
+    public static class Reading {
+        private double value;
+
+        public static final Reading MISS = new Reading() {
+            public String getString() {
+                return "-";
+            }
+
+            @Override
+            public boolean isHit() {
+                return false;
+            }
+        };
+
+        protected Reading() {
+        }
+
+        public Reading( double value ) {
+            this.value = value;
+        }
+
+        public String getString() {
+            return format( value );
+        }
+
+        public static String format( double value ) {
+            return new DecimalFormat( "0.00" ).format( value * 100 ) + "%";
+        }
+
+        public boolean isHit() {
+            return true;
+        }
+
+        public double getValue() {
+            return value;
+        }
     }
 }

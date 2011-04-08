@@ -4,6 +4,8 @@ package edu.colorado.phet.bendinglight.model;
 import static edu.colorado.phet.bendinglight.model.BendingLightModel.WAVELENGTH_RED;
 
 /**
+ * Immutable state for a medium, with the name and dispersion function, and flags for "mystery" and "custom".
+ *
  * @author Sam Reid
  */
 public class MediumState {
