@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.bendinglight.view;
+package edu.colorado.phet.bendinglight.modules.moretools;
 
 import java.awt.*;
 import java.awt.geom.Line2D;
@@ -22,6 +22,8 @@ import edu.umd.cs.piccolox.nodes.PClip;
 import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createRectangleMapping;
 
 /**
+ * Node that shows the chart in the "more tools" tab's intensity sensor.
+ *
  * @author Sam Reid
  */
 public class ChartNode extends PClip {

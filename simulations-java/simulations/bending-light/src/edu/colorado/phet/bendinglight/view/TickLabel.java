@@ -8,6 +8,8 @@ import javax.swing.*;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
 /**
+ * Label to be shown for the sliders in the MediumControlPanel.
+ *
  * @author Sam Reid
  */
 public class TickLabel extends JLabel {

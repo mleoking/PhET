@@ -26,6 +26,8 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 import static edu.colorado.phet.bendinglight.view.BendingLightCanvas.labelFont;
 
 /**
+ * Controls for changing and viewing the medium type, including its current index of refraction (depends on the laser wavelength through the dispersion function).
+ *
  * @author Sam Reid
  */
 public class MediumControlPanel extends PNode {

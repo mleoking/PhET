@@ -8,6 +8,9 @@ import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
+ * Reset all button node for bending light, sets the location to be in the bottom right of the stage and disables confirmation since it
+ * is easy to reproduce various scenarios.
+ *
  * @author Sam Reid
  */
 public class BendingLightResetAllButtonNode extends ResetAllButtonNode {

@@ -13,8 +13,8 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.And;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
-import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -27,6 +27,8 @@ import static java.lang.Math.toDegrees;
 import static java.lang.Math.toRadians;
 
 /**
+ * Graphic that depicts how the laser may be moved.  It is only shown when the cursor is over the laser and is non-interactive.
+ *
  * @author Sam Reid
  */
 public class RotationDragHandle extends PNode {

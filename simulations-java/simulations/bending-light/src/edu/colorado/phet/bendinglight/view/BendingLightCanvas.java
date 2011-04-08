@@ -26,7 +26,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
- * Base class for Bending Light
+ * Base class for Bending Light canvases.
  *
  * @author Sam Reid
  */

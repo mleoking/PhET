@@ -11,6 +11,8 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 
 /**
+ * Graphic that draws a medium such as air, water, glass, etc.
+ *
  * @author Sam Reid
  */
 public class MediumNode extends PNode {

@@ -1,6 +1,10 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.bendinglight.view;
 
+/**
+ * Algorithm that is used to compute pixels hit in the white light algorithm, necessary since we have to
+ * implement additive color mixing ourselves (because java only supports subtractive mixing internally).
+ */
 public class BresenhamLineAlgorithm {
     //See http://en.wikipedia.org/wiki/Bresenham's_line_algorithm
     public void draw( int x0, int y0, int x1, int y1 ) {

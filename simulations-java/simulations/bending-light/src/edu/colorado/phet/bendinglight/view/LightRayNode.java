@@ -12,6 +12,8 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 
 /**
+ * Piccolo node for drawing a single light ray.
+ *
  * @author Sam Reid
  */
 public class LightRayNode extends PNode {

@@ -12,6 +12,8 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PBounds;
 
 /**
+ * Piccolo control for changing the wavelength of light.  It has a textual readout as well as a slider with a gradient background.
+ *
  * @author Sam Reid
  */
 public class BendingLightWavelengthControl extends PNode {

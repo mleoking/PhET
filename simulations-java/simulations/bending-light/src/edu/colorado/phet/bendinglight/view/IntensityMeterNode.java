@@ -21,6 +21,8 @@ import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
+ * Piccolo node for the intensity meter, including its movable sensor and readout region (called the body).
+ *
  * @author Sam Reid
  */
 public class IntensityMeterNode extends ToolNode {

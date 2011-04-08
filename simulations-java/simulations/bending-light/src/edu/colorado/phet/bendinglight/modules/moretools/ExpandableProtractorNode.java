@@ -4,7 +4,7 @@ package edu.colorado.phet.bendinglight.modules.moretools;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-import edu.colorado.phet.bendinglight.view.ProtractorModel;
+import edu.colorado.phet.bendinglight.model.ProtractorModel;
 import edu.colorado.phet.bendinglight.view.ProtractorNode;
 import edu.colorado.phet.common.phetcommon.model.property.Not;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;

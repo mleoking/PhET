@@ -10,6 +10,8 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 
 /**
+ * Piccolo graphic that connects a sensor to its body.
+ *
  * @author Sam Reid
  */
 public class WireNode extends PNode {
