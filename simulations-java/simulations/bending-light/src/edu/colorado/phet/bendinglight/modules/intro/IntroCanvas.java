@@ -132,9 +132,7 @@ public class IntroCanvas<T extends IntroModel> extends BendingLightCanvas<T> {
         }};
         beforeLightLayer.addChild( toolbox );
 
-        afterLightLayer.addChild( new BendingLightResetAllButtonNode( resetAll, this ) {{
-            setOffset( stageSize.getWidth() - getFullBounds().getWidth() - 10, stageSize.getHeight() - getFullBounds().getHeight() - 10 );
-        }} );
+        afterLightLayer.addChild( new BendingLightResetAllButtonNode( resetAll, this, stageSize ) );
 
         afterLightLayer.addChild( new FloatingClockControlNode( clockRunningPressed, null, model.getClock(), "Reset", new Property<Color>( Color.white ) ) {{
             clockControlVisible.addObserver( new VoidFunction1<Boolean>() {
