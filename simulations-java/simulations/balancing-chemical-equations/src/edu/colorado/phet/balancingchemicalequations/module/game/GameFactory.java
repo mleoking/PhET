@@ -159,6 +159,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
      *  <p>
      *  I would like to have implemented a varargs "put" method to make this more readable, but Java
      *  cannot create an array of parameterized types, so use of varargs would result in compiler warnings.
+     *  //REVIEW: the varargs problem would go away if you used instances instead of classes/reflection
      */
     private static final ExclusionsMap LEVEL3_EXCLUSIONS =
         new ExclusionsMap() {{

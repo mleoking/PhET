@@ -165,7 +165,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
         // layout: children of gamePlayParentNode
         {
             final double ySpacing = 25;
-            double x, y;
+            double x, y;//REVIEW: do not do layout by reusing and mutating x and y, makes it difficult to read, understand and modify
 
             equationLabelNode.setOffset( 0, 0 );
 

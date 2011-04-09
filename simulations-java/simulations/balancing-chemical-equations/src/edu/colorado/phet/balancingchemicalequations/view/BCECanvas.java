@@ -41,6 +41,7 @@ public abstract class BCECanvas extends PhetPCanvas {
         rootNode.addChild( node );
     }
 
+    //REVIEW: remove if unused
     protected void removeChild( PNode node ) {
         if ( node != null && rootNode.indexOfChild( node ) != -1 ) {
             rootNode.removeChild( node );

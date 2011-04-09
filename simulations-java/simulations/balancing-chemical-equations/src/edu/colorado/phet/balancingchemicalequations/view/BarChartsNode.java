@@ -82,6 +82,7 @@ public class BarChartsNode extends PComposite {
         } );
     }
 
+    //REVIEW: remove if unused
     /**
      * Enables or disables the highlighting feature.
      * When enabled, the equals sign will light up when the equation is balanced.

@@ -54,6 +54,7 @@ public class BalanceScalesNode extends PComposite {
         } );
     }
 
+    //REVIEW: remove if unused
     /**
      * Enables or disables the highlighting feature.
      * When enabled, the balance beam will light up when the equation is balanced.

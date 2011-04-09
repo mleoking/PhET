@@ -75,7 +75,7 @@ public abstract class Equation {
     private void updateBalancedProperties() {
 
         // Get integer multiplier from the first reactant term.
-        final int multiplier = (int)( reactants[0].getUserCoefficient() / reactants[0].getBalancedCoefficient() );
+        final int multiplier = (int)( reactants[0].getUserCoefficient() / reactants[0].getBalancedCoefficient() );//REVIEW: Remove redundant cast
 
         boolean balanced = ( multiplier > 0 );
 
@@ -156,7 +156,7 @@ public abstract class Equation {
         return atomCounts;
     }
 
-    /*
+    /*//REVIEW: what algorithm is happening here and why?
      * Sets atom counts for a collection of terms (reactants or products).
      * This is a brute force algorithm, but our number of terms is always small,
      * and this is easy to implement and understand.
