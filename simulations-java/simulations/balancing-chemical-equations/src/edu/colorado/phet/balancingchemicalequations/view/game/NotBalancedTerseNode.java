@@ -59,8 +59,8 @@ public class NotBalancedTerseNode extends GamePopupNode {
      * @param whyButtonVisible
      * @param aligner specifies horizontal layout, for aligning with other user-interface components
      */
-    private NotBalancedTerseNode( final Equation equation, boolean closeButtonVisible, boolean titleBarVisible, final boolean whyButtonVisible,
-            final ActionListener whyButtonListener, final HorizontalAligner aligner ) {
+    private NotBalancedTerseNode( final Equation equation, boolean closeButtonVisible, boolean titleBarVisible, final boolean whyButtonVisible,//REVIEW: why is argument equation unused?
+            final ActionListener whyButtonListener, final HorizontalAligner aligner ) {//REVIEW: why is argument aligner unused?
         super( false /* smile */, closeButtonVisible, titleBarVisible, new Function1<PhetFont, PNode>() {
             public PNode apply( PhetFont font ) {
                 PNode parentNode = new PNode();
