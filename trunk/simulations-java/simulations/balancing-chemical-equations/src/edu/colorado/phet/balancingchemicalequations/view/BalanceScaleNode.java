@@ -69,6 +69,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
         updateNode();
     }
 
+    //REVIEW: remove if unused
     /**
      * Sets the number of atoms on the left and right sides of the beam.
      * @param leftNumberOfAtoms

@@ -23,7 +23,7 @@ public class HorizontalAligner {
 
     /**
      * Constructor.
-     * @param boxWidth width of one of the 2 boxes (both boxes are assumed to be the same size)
+     * @param boxWidth width of one of the 2 boxes (both boxes are assumed to be the same size)  //REVIEW: incorrect param
      * @param boxSeparation horizontal separation between the left and right boxes
      */
     public HorizontalAligner( Dimension boxSize, double boxSeparation ) {

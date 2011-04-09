@@ -2,6 +2,9 @@ Code review for balancing chemical equations
 Sam Reid
 April 2011
 
+Summary: Code is thoroughly documented, nice work!  I made some suggestions for minor doc improvements.  I identified code that looks unused that should be removed if possible.
+Other suggestions and discussion follows:
+
 1. Package structure
 Package structure should be sims/modules.  For instance, it the game view package is currently at:
 view/game
@@ -14,4 +17,56 @@ conversations with JO I think JO favored the view/game layout.  We should discus
 
 I'd also recommend putting all the developer code in a /dev or /test package
 
-2.
+2. For discussion: sparser documentation.
+I think redundant documentation should be avoided, since it can make it harder to read/navigate code, such as in BalancedRepresentationChoiceNode:
+
+/**
+ * Constructor
+ *
+ * @param balanceChoiceProperty the property that denotes the current representation selection
+ * @param backgroundProperty color of the background
+*/
+
+It is clearly a constructor, this is apparent from the method signature.  And the background property "Property<Color> backgroundProperty" does not need to be documented as "color of the background",
+this is apparent from the code.  Therefore of the 6 lines taken up by this documentation, only 1 line actually gets in the way of other things.
+I can only see about 60 lines of code at once in my IDE, so these 5 lines of redundant docs reduces the amount of code I can see by nearly 10%.
+
+3. In Atom.java, classes such as Cl, C, F, H should be instances instead of subclasses since they do not add fields or add/override methods.  Compressing into instances will also make it easier to read.
+
+    public static Atom C = new Atom("C",77,new Color(177,178,178));
+
+    instead of
+
+    public static class C extends Atom {
+        public C() {
+           super( "C", 77, new Color( 178, 178, 178 ) );
+        }
+    }
+
+4. Same for DecompositionEquations, DisplacementEquation, SynthesisEquation and Molecule, should use instances instead of subclasses.
+
+5. In Equation, maybe better to have
+    BooleanProperty balancedProperty;
+    BooleanProperty simplifiedProperty;
+    then Property<Boolean> balancedAndSimplifiedProperty = balancedProperty.and(simplifiedProperty);
+
+6. In GameFactory, the varargs problem would go away if you used instances instead of classes/reflection
+
+7. I've found my code to be more readable when suppressing the 'Property' suffix from property names, so you could have (instead of the notes in 5.):
+    BooleanProperty balanced;
+    BooleanProperty simplified;
+    then Property<Boolean> balancedAndSimplified = balanced.and(simplified);
+
+8. Defining mutable x and y and reusing for layout such as:
+        double x = 0;
+        double y = 0;
+        bigLeftNode.setOffset( x, y );
+        x = bigLeftNode.getFullBoundsReference().getMaxX() + ( 0.25 * bigRightNode.getFullBoundsReference().getWidth() );
+        y = bigLeftNode.getYOffset();
+        bigRightNode.setOffset( x, y );
+        x = bigLeftNode.getFullBoundsReference().getMinX() + offsetSmall;
+        y = bigLeftNode.getFullBoundsReference().getMinY() + offsetSmall;
+
+ I find to be difficult to read, understand and modify.
+
+ 9. It looks like a lot of layout code in classes like CH4Node, CH2ONode is duplicated, can this be factored out at all?  If not, why not?

@@ -53,11 +53,11 @@ public class EquationNode extends PhetPNode  {
      * Constructor.
      * @param equationProperty
      * @param coefficientRange
-     * @param leftRightSideLength horizontal space alloted for each side of the equation
-     * @param leftRightSeparation separation between the left and right sides of the equation
+     * @param leftRightSideLength horizontal space alloted for each side of the equation //REVIEW: param doesn't exist
+     * @param leftRightSeparation separation between the left and right sides of the equation //REVIEW: param doesn't exist
      */
     public EquationNode( final Property<Equation> equationProperty, IntegerRange coefficientRange, HorizontalAligner aligner ) {
-        super();
+        super();//REVIEW: super call redundant
 
         this.coefficientRange = coefficientRange;
         this.editable = true;

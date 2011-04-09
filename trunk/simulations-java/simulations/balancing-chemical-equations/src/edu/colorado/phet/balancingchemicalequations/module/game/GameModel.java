@@ -183,6 +183,7 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
         return isNewBestTime;
     }
 
+    //REVIEW: remove if unused
     public boolean isGameCompleted() {
         return isGameCompleted;
     }
