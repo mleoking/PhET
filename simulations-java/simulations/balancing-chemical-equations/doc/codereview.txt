@@ -29,7 +29,13 @@ I think redundant documentation should be avoided, since it can make it harder t
 
 It is clearly a constructor, this is apparent from the method signature.  And the background property "Property<Color> backgroundProperty" does not need to be documented as "color of the background",
 this is apparent from the code.  Therefore of the 6 lines taken up by this documentation, only 1 line actually gets in the way of other things.
-I can only see about 60 lines of code at once in my IDE, so these 5 lines of redundant docs reduces the amount of code I can see by nearly 10%.
+I can only see about 60 lines of code at once in my IDE, so these 5 lines of redundant docs reduces the amount of code I can see by nearly 10%.  Similarly, I'd recommend
+removing javadoc parameters that are uncommented, such as in:
+
+    /**
+     * Determines whether the beam is highlighted, use to indicate whether the scale is balanced.
+     * @param highlighted
+     */
 
 3. In Atom.java, classes such as Cl, C, F, H should be instances instead of subclasses since they do not add fields or add/override methods.  Compressing into instances will also make it easier to read.
 
