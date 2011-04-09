@@ -1,4 +1,4 @@
-# 3.23.00 (50326) Apr 5, 2011
+# 3.23.00 (50429) Apr 7, 2011
 4/5/11 > Fixed an issue where some windows displayed incorrectly for right-to-left languages.
 nuclear-fission: Fixed an issue where the "Close" button on the reactor dialog was not internationalized.
 Changed the names of all image files that had spaces in the names.  This works better with the license analyzer.
