@@ -109,7 +109,7 @@ public class BarChartsNode extends PComposite {
     /*
      * Creates a bar chart under a parent node.
      */
-    private void updateChart( PNode parent, EquationTerm[] terms, boolean isReactants ) {
+    private void updateChart( PNode parent, EquationTerm[] terms, boolean isReactants ) {//REVIEW: why is argument terms unused?
         parent.removeAllChildren();
         double x = 0;
         ArrayList<AtomCount> atomCounts = equation.getAtomCounts();
