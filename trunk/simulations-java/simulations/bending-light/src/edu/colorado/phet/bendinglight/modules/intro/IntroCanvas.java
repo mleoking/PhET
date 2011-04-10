@@ -135,6 +135,10 @@ public class IntroCanvas<T extends IntroModel> extends BendingLightCanvas<T> {
             @Override protected void addChild( BendingLightCanvas canvas, ToolNode node ) {
                 canvas.addChildBehindLight( node );
             }
+
+            @Override protected void doRemoveChild( BendingLightCanvas canvas, ToolNode node ) {
+                canvas.removeChildBehindLight( node );
+            }
         };
         toolboxNode = new ToolboxNode( this, transform, protractor, getMoreTools( model ), model.getIntensityMeter(), showNormal );
         final ControlPanelNode toolbox = new ControlPanelNode( toolboxNode ) {{
