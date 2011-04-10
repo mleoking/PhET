@@ -75,7 +75,7 @@ public abstract class Equation {
     private void updateBalancedProperties() {
 
         // Get integer multiplier from the first reactant term.
-        final int multiplier = (int)( reactants[0].getUserCoefficient() / reactants[0].getBalancedCoefficient() );//REVIEW: Remove redundant cast
+        final int multiplier = reactants[0].getUserCoefficient() / reactants[0].getBalancedCoefficient();
 
         boolean balanced = ( multiplier > 0 );
 
