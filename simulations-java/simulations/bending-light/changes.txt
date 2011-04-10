@@ -1,3 +1,4 @@
+Increased the resolution of the protractor graphic
 # 0.00.35 (50445) Apr 8, 2011
 Reduced the size of the expanded protractor so that its circle fits within the play area when it is centered
 Moved the protractor behind the light node so that it also goes behind other controls (such as wavelength controls), since otherwise it obscures them from interaction

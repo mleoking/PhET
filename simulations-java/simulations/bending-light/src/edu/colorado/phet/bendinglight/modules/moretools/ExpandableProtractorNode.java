@@ -29,14 +29,15 @@ public class ExpandableProtractorNode extends ProtractorNode {
     private double originalScale;//The scale when the protractor node is not expanded
     private Property<Boolean> expanded = new Property<Boolean>( false );//True if the protractor has been made larger
 
-    public ExpandableProtractorNode( final ModelViewTransform transform, final Property<Boolean> showProtractor, final ProtractorModel protractorModel, Function2<Shape, Shape, Shape> translateShape, Function2<Shape, Shape, Shape> rotateShape, double _scale ) {
-        super( transform, showProtractor, protractorModel, translateShape, rotateShape, _scale );
-        this.originalScale = _scale;
+    public ExpandableProtractorNode( final ModelViewTransform transform, final Property<Boolean> showProtractor, final ProtractorModel protractorModel, Function2<Shape, Shape, Shape> translateShape, Function2<Shape, Shape, Shape> rotateShape, double scale ) {
+        super( transform, showProtractor, protractorModel, translateShape, rotateShape, scale );
+        this.originalScale = scale;
 
         //Button that allows the user to expand the protractor node in the more tools tab
         class MaxMinButton extends PImage {
             MaxMinButton( BufferedImage image, ObservableProperty<Boolean> expanded, final boolean expand ) {
                 super( image );
+                setScale( 2 );
                 //Put the +/- to the right side of the protractor? For some reason NP thinks that would feel more natural.
                 setOffset( innerBarShape.getX() + innerBarShape.getWidth() * 0.75 - getFullBounds().getWidth() / 2, innerBarShape.getCenterY() - getFullBounds().getHeight() / 2 );
                 addInputEventListener( new CursorHandler() );
@@ -62,6 +63,6 @@ public class ExpandableProtractorNode extends ProtractorNode {
         this.expanded.setValue( expanded );
         setProtractorScale( originalScale * ( expanded ? 2.3//make sure the protractor circle fits within the play area when it is centered
                                                        : 1 ) );
-        doUpdateTransform();
+        updateTransform();
     }
 }
