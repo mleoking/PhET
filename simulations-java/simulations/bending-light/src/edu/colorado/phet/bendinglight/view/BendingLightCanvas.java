@@ -32,7 +32,6 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class BendingLightCanvas<T extends BendingLightModel>
         extends BufferedPhetPCanvas {//Using BufferedPhetPCanvas prevents a jittering problem on the 2nd tab, see #2786
-    //        extends PhetPCanvas {
     public static final PhetFont labelFont = new PhetFont( 16 );
     private PNode rootNode;
     public final BooleanProperty showNormal;
@@ -75,6 +74,7 @@ public class BendingLightCanvas<T extends BendingLightModel>
         mediumNode = new PNode();
         addChild( mediumNode );
 
+        //Add rotation and translation indicators for the laser
         final BooleanProperty showRotationDragHandles = new BooleanProperty( false );
         final BooleanProperty showTranslationDragHandles = new BooleanProperty( false );
         addChild( new RotationDragHandle( transform, model.getLaser(), 10, showRotationDragHandles, clockwiseArrowNotAtMax ) );
