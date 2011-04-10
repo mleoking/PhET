@@ -69,20 +69,6 @@ import edu.umd.cs.piccolox.nodes.PComposite;
         updateNode();
     }
 
-    //REVIEW: remove if unused
-    /**
-     * Sets the number of atoms on the left and right sides of the beam.
-     * @param leftNumberOfAtoms
-     * @param rightNumberOfAtoms
-     */
-    public void setNumberOfAtoms( int leftNumberOfAtoms, int rightNumberOfAtoms ) {
-        if ( leftNumberOfAtoms != this.leftNumberOfAtoms || rightNumberOfAtoms != this.rightNumberOfAtoms ) {
-            this.leftNumberOfAtoms = leftNumberOfAtoms;
-            this.rightNumberOfAtoms = rightNumberOfAtoms;
-            updateNode();
-        }
-    }
-
     /**
      * Determines whether the beam is highlighted, use to indicate whether the scale is balanced.
      * @param highlighted
