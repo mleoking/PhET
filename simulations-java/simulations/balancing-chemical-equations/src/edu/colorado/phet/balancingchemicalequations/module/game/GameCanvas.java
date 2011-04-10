@@ -270,7 +270,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
             };
             hideWhyButtonListener = new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    swapPopups( new NotBalancedTerseNode( model.currentEquation.getValue(), globalProperties, showWhyButtonListener, aligner ) );
+                    swapPopups( new NotBalancedTerseNode( globalProperties, showWhyButtonListener ) );
                 }
             };
         }
@@ -464,7 +464,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
                 popupNode = new BalancedNotSimplifiedNode( globalProperties );
             }
             else {
-                popupNode = new NotBalancedTerseNode( equation, globalProperties, showWhyButtonListener, aligner );
+                popupNode = new NotBalancedTerseNode( globalProperties, showWhyButtonListener );
             }
 
             // Layout, ideally centered between the boxes, but guarantee that buttons are not covered.
