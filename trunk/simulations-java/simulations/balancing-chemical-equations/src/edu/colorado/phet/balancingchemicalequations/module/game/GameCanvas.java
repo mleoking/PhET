@@ -72,9 +72,8 @@ import edu.umd.cs.piccolox.pswing.PSwing;
      * Constructor
      * @param model
      * @param globalProperties global properties, many of which are accessed via the menu bar
-     * @param resettable rest when the Reset All button is pressed
      */
-    public GameCanvas( final GameModel model, final BCEGlobalProperties globalProperties, Resettable resettable ) {//REVIEW: why is argument resettable unused?
+    public GameCanvas( final GameModel model, final BCEGlobalProperties globalProperties ) {
         super( globalProperties.canvasColor );
 
         this.model = model;
