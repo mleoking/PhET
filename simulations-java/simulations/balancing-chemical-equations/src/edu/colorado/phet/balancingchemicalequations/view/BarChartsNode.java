@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import edu.colorado.phet.balancingchemicalequations.BCEConstants;
 import edu.colorado.phet.balancingchemicalequations.model.AtomCount;
 import edu.colorado.phet.balancingchemicalequations.model.Equation;
-import edu.colorado.phet.balancingchemicalequations.model.EquationTerm;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
@@ -84,8 +83,8 @@ public class BarChartsNode extends PComposite {
      * Updates this node's entire geometry and layout
      */
     private void updateNode() {
-        updateChart( reactantsChartParent, equation.getReactants(), true /* isReactants */ );
-        updateChart( productsChartParent, equation.getProducts(), false /* isReactants */ );
+        updateChart( reactantsChartParent, true /* isReactants */ );
+        updateChart( productsChartParent, false /* isReactants */ );
         updateEqualitySign();
         updateLayout();
     }
@@ -93,7 +92,7 @@ public class BarChartsNode extends PComposite {
     /*
      * Creates a bar chart under a parent node.
      */
-    private void updateChart( PNode parent, EquationTerm[] terms, boolean isReactants ) {//REVIEW: why is argument terms unused?
+    private void updateChart( PNode parent, boolean isReactants ) {
         parent.removeAllChildren();
         double x = 0;
         ArrayList<AtomCount> atomCounts = equation.getAtomCounts();
