@@ -42,7 +42,6 @@ public class BarChartsNode extends PComposite {
     private final SimpleObserver coefficientsObserver;
 
     private Equation equation;
-    private boolean balancedHighlightEnabled;
 
     /**
      * Constructor
@@ -52,7 +51,6 @@ public class BarChartsNode extends PComposite {
     public BarChartsNode( final Property<Equation> equationProperty, HorizontalAligner aligner ) {
 
         this.aligner = aligner;
-        balancedHighlightEnabled = true;
 
         reactantsChartParent = new PComposite();
         addChild( reactantsChartParent );
@@ -80,20 +78,6 @@ public class BarChartsNode extends PComposite {
                 BarChartsNode.this.equation.addCoefficientsObserver( coefficientsObserver );
             }
         } );
-    }
-
-    //REVIEW: remove if unused
-    /**
-     * Enables or disables the highlighting feature.
-     * When enabled, the equals sign will light up when the equation is balanced.
-     * This is enabled by default, but we want to disable in the Game until the user presses the "Check" button.
-     * @param enabled
-     */
-    public void setBalancedHighlightEnabled( boolean enabled ) {
-        if ( enabled != balancedHighlightEnabled ) {
-            balancedHighlightEnabled = enabled;
-            equalsSignNode.setHighlighted( equation.isBalanced() && balancedHighlightEnabled );
-        }
     }
 
     /*
@@ -130,7 +114,7 @@ public class BarChartsNode extends PComposite {
         equalsSignNode.setVisible( equation.isBalanced() );
         notEqualsSignNode.setVisible( !equalsSignNode.getVisible() );
         // highlight
-        equalsSignNode.setHighlighted( equation.isBalanced() && balancedHighlightEnabled );
+        equalsSignNode.setHighlighted( equation.isBalanced() );
     }
 
     /*
