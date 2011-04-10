@@ -88,7 +88,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
         }
         else {
             // bar with upward-pointing arrow, path is specified clockwise from arrow tip.
-            GeneralPath arrowPath = new GeneralPath();//REVIEW: DoubleGeneralPath can help you avoid casts everywhere
+            GeneralPath arrowPath = new GeneralPath();
             arrowPath.moveTo( 0f, (float) -MAX_BAR_SIZE.getHeight() );
             arrowPath.lineTo( (float) ARROW_SIZE.getWidth() / 2, (float) -( MAX_BAR_SIZE.getHeight() - ARROW_SIZE.getHeight() ) );
             arrowPath.lineTo( (float) MAX_BAR_SIZE.getWidth() / 2, (float) -( MAX_BAR_SIZE.getHeight() - ARROW_SIZE.getHeight() ) );
