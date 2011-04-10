@@ -59,7 +59,6 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
     private int currentEquationIndex; // index of the current equation that the user is working on
     private int attempts; // how many attempts the user has made at solving the current challenge
     private boolean isNewBestTime; // is the time for this game a new best time?
-    private boolean isGameCompleted; // was the game played to completion?
     private int currentPoints; // how many points were earned for the current equation
     private BalancedRepresentation balancedRepresentation; // which representation to use in the "Not Balanced" popup
 
@@ -91,7 +90,6 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
         balancedRepresentation = BALANCED_REPRESENTATION_STRATEGIES.get( settings.level.getValue() ).getBalancedRepresentation();
         attempts = 0;
         isNewBestTime = false;
-        isGameCompleted = false;
         timer.start();
         currentPoints = 0;
         points.setValue( 0 );
@@ -122,7 +120,6 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
             // end the game
             if ( currentEquationIndex == equations.size() - 1 ) {
                 timer.stop();
-                isGameCompleted = true;
                 // check for new best time
                 long previousBestTime = getBestTime( settings.level.getValue() );
                 if ( isPerfectScore() && ( previousBestTime == 0 || timer.time.getValue() < previousBestTime ) ) {
@@ -181,11 +178,6 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 
     public boolean isNewBestTime() {
         return isNewBestTime;
-    }
-
-    //REVIEW: remove if unused
-    public boolean isGameCompleted() {
-        return isGameCompleted;
     }
 
     /**
