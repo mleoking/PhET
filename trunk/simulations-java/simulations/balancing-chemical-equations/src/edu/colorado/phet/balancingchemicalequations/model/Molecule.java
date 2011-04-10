@@ -35,9 +35,8 @@ import edu.umd.cs.piccolo.PNode;
  */
 public abstract class Molecule {
 
-
-    private final Atom[] atoms;
     private final Image image;
+    private final Atom[] atoms;
     private final String symbol;
 
     /**
@@ -45,18 +44,17 @@ public abstract class Molecule {
      * Order of atoms determines their display order and format of symbol.
      * Image must be provided because there is no general method for
      * creating a visual representation based on a list of atoms.
-     *
-     * @param atoms
      * @param image
+     * @param atoms
      */
-    public Molecule( Atom[] atoms, Image image ) {//REVIEW: user varargs to improve readability of usages
-        this.symbol = createSymbol( atoms );
+    public Molecule( Image image, Atom... atoms ) {//REVIEW: user varargs to improve readability of usages
         this.image = image;
         this.atoms = atoms;
+        this.symbol = createSymbol( atoms );
     }
 
-    protected Molecule( Atom[] atoms, PNode node ) {//REVIEW: user varargs to improve readability of usages
-        this( atoms, node.toImage() );
+    protected Molecule( PNode node, Atom... atoms ) {//REVIEW: user varargs to improve readability of usages
+        this( node.toImage(), atoms );
     }
 
     public String getSymbol() {
@@ -149,207 +147,207 @@ public abstract class Molecule {
     // There is technically no such thing as a single-atom molecule, but this simplifies the Equation model.
     public static class CMolecule extends Molecule {
         public CMolecule() {
-            super( new Atom[] { new C() }, new CNode() );
+            super( new CNode(), new C() );
         }
     }
 
     public static class C2H2 extends Molecule {
         public C2H2() {
-            super( new Atom[] { new C(), new C(), new H(), new H() }, new C2H2Node() );
+            super( new C2H2Node(), new C(), new C(), new H(), new H() );
         }
     }
 
     public static class C2H5Cl extends Molecule {
         public C2H5Cl() {
-            super( new Atom[] { new C(), new C(), new H(), new H(), new H(), new H(), new H(), new Cl() }, new C2H5ClNode() );
+            super( new C2H5ClNode(), new C(), new C(), new H(), new H(), new H(), new H(), new H(), new Cl() );
         }
     }
 
     public static class C2H5OH extends Molecule {
         public C2H5OH() {
-            super( new Atom[] { new C(), new C(), new H(), new H(), new H(), new H(), new H(), new O(), new H() }, new C2H5OHNode() );
+            super( new C2H5OHNode(), new C(), new C(), new H(), new H(), new H(), new H(), new H(), new O(), new H() );
         }
     }
 
     public static class C2H6 extends Molecule {
         public C2H6() {
-            super( new Atom[] { new C(), new C(), new H(), new H(), new H(), new H(), new H(), new H() }, new C2H6Node() );
+            super( new C2H6Node(), new C(), new C(), new H(), new H(), new H(), new H(), new H(), new H() );
         }
     }
 
     public static class C2H4 extends Molecule {
         public C2H4() {
-            super( new Atom[] { new C(), new C(), new H(), new H(), new H(), new H() }, new C2H4Node() );
+            super( new C2H4Node(), new C(), new C(), new H(), new H(), new H(), new H() );
         }
     }
 
     public static class CH2O extends Molecule {
         public CH2O() {
-            super( new Atom[] { new C(), new H(), new H(), new O() }, new CH2ONode() );
+            super( new CH2ONode(), new C(), new H(), new H(), new O() );
         }
     }
 
     public static class CH3OH extends Molecule {
         public CH3OH() {
-            super( new Atom[] { new C(), new H(), new H(), new H(), new O(), new H() }, new CH3OHNode() );
+            super( new CH3OHNode(), new C(), new H(), new H(), new H(), new O(), new H() );
         }
     }
 
     public static class CH4 extends Molecule {
         public CH4() {
-            super( new Atom[] { new C(), new H(), new H(), new H(), new H() }, new CH4Node() );
+            super( new CH4Node(), new C(), new H(), new H(), new H(), new H() );
         }
     }
 
     public static class Cl2 extends Molecule {
         public Cl2() {
-            super( new Atom[] { new Cl(), new Cl() }, new Cl2Node() );
+            super( new Cl2Node(), new Cl(), new Cl() );
         }
     }
 
     public static class CO extends Molecule {
         public CO() {
-            super( new Atom[] { new C(), new O() }, new CONode() );
+            super( new CONode(), new C(), new O() );
         }
     }
 
     public static class CO2 extends Molecule {
         public CO2() {
-            super( new Atom[] { new C(), new O(), new O() }, new CO2Node() );
+            super( new CO2Node(), new C(), new O(), new O() );
         }
     }
 
     public static class CS2 extends Molecule {
         public CS2() {
-            super( new Atom[] { new C(), new S(), new S() }, new CS2Node() );
+            super( new CS2Node(), new C(), new S(), new S() );
         }
     }
 
     public static class F2 extends Molecule {
         public F2() {
-            super( new Atom[] { new F(), new F() }, new F2Node() );
+            super( new F2Node(), new F(), new F() );
         }
     }
 
     public static class H2 extends Molecule {
         public H2() {
-            super( new Atom[] { new H(), new H() }, new H2Node() );
+            super( new H2Node(), new H(), new H() );
         }
     }
 
     public static class H2O extends Molecule {
         public H2O() {
-            super( new Atom[] { new H(), new H(), new O() }, new H2ONode() );
+            super( new H2ONode(), new H(), new H(), new O() );
         }
     }
 
     public static class H2S extends Molecule {
         public H2S() {
-            super( new Atom[] { new H(), new H(), new S() }, new H2SNode() );
+            super( new H2SNode(), new H(), new H(), new S() );
         }
     }
 
     public static class HCl extends Molecule {
         public HCl() {
-            super( new Atom[] { new H(), new Cl() }, new HClNode() );
+            super( new HClNode(), new H(), new Cl() );
         }
     }
 
     public static class HF extends Molecule {
 
         public HF() {
-            super( new Atom[] { new H(), new F() }, new HFNode() );
+            super( new HFNode(), new H(), new F() );
         }
     }
 
     public static class N2 extends Molecule {
         public N2() {
-            super( new Atom[] { new N(), new N() }, new N2Node() );
+            super( new N2Node(), new N(), new N() );
         }
     }
 
     public static class N2O extends Molecule {
         public N2O() {
-            super( new Atom[] { new N(), new N(), new O() }, new N2ONode() );
+            super( new N2ONode(), new N(), new N(), new O() );
         }
     }
 
     public static class NH3 extends Molecule {
         public NH3() {
-            super( new Atom[] { new N(), new H(), new H(), new H() }, new NH3Node() );
+            super( new NH3Node(), new N(), new H(), new H(), new H() );
         }
     }
 
     public static class NO extends Molecule {
         public NO() {
-            super( new Atom[] { new N(), new O() }, new NONode() );
+            super( new NONode(), new N(), new O() );
         }
     }
 
     public static class NO2 extends Molecule {
         public NO2() {
-            super( new Atom[] { new N(), new O(), new O() }, new NO2Node() );
+            super( new NO2Node(), new N(), new O(), new O() );
         }
     }
 
     public static class O2 extends Molecule {
         public O2() {
-            super( new Atom[] { new O(), new O() }, new O2Node() );
+            super( new O2Node(), new O(), new O() );
         }
     }
 
     public static class OF2 extends Molecule {
         public OF2() {
-            super( new Atom[] { new O(), new F(), new F() }, new OF2Node() );
+            super( new OF2Node(), new O(), new F(), new F() );
         }
     }
 
     public static class P4 extends Molecule {
         public P4() {
-            super( new Atom[] { new P(), new P(), new P(), new P() }, new P4Node() );
+            super( new P4Node(), new P(), new P(), new P(), new P() );
         }
     }
 
     public static class PCl3 extends Molecule {
         public PCl3() {
-            super( new Atom[] { new P(), new Cl(), new Cl(), new Cl() }, new PCl3Node() );
+            super( new PCl3Node(), new P(), new Cl(), new Cl(), new Cl() );
         }
     }
 
     public static class PCl5 extends Molecule {
         public PCl5() {
-            super( new Atom[] { new P(), new Cl(), new Cl(), new Cl(), new Cl(), new Cl() }, new PCl5Node() );
+            super( new PCl5Node(), new P(), new Cl(), new Cl(), new Cl(), new Cl(), new Cl() );
         }
     }
 
     public static class PF3 extends Molecule {
         public PF3() {
-            super( new Atom[] { new P(), new F(), new F(), new F() }, new PF3Node() );
+            super( new PF3Node(), new P(), new F(), new F(), new F() );
         }
     }
 
     public static class PH3 extends Molecule {
         public PH3() {
-            super( new Atom[] { new P(), new H(), new H(), new H() }, new PH3Node() );
+            super( new PH3Node(), new P(), new H(), new H(), new H() );
         }
     }
 
     // There is technically no such thing as a single-atom molecule, but this simplifies the Equation model.
     public static class SMolecule extends Molecule {
         public SMolecule() {
-            super( new Atom[] { new S() }, new SNode() );
+            super( new SNode(), new S() );
         }
     }
 
     public static class SO2 extends Molecule {
         public SO2() {
-            super( new Atom[] { new S(), new O(), new O() }, new SO2Node() );
+            super( new SO2Node(), new S(), new O(), new O() );
         }
     }
 
     public static class SO3 extends Molecule {
         public SO3() {
-            super( new Atom[] { new S(), new O(), new O(), new O() }, new SO3Node() );
+            super( new SO3Node(), new S(), new O(), new O(), new O() );
         }
     }
 }
