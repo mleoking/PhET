@@ -7,6 +7,7 @@ To create an IntelliJ project for phet:
 4. Use the phet coding style:
     a. close IntelliJ
     b. copy trunk/ide/intellij/PhetStyle.xml to the IntelliJ code style directory, something like C:\Users\[username]\.IntelliJIdea10\config\codestyles
+       (On Mac, the path for IntelliJ 10 is $HOME/Library/Preferences/IntelliJIdea10/codestyles)
     c. start IntelliJ, opening the phet project
     d. File -> Settings -> Code Style -> Use Global Settings : PhetStyle
     (optional) e. If you are having trouble finding the directory in step b., one way to track it down is to create a dummy code style with a unique name, save it, close intellij, then search your file system for the unique name
