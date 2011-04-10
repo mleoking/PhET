@@ -27,7 +27,6 @@ public class BalanceScalesNode extends PComposite {
     private final HorizontalAligner aligner;
 
     private Equation equation;
-    private boolean balancedHighlightEnabled;
 
     /**
      * Constructor.
@@ -37,7 +36,6 @@ public class BalanceScalesNode extends PComposite {
     public BalanceScalesNode( final Property<Equation> equationProperty, HorizontalAligner aligner ) {
 
         this.aligner = aligner;
-        balancedHighlightEnabled = true;
 
         coefficientsObserver = new SimpleObserver() {
             public void update() {
@@ -54,20 +52,6 @@ public class BalanceScalesNode extends PComposite {
         } );
     }
 
-    //REVIEW: remove if unused
-    /**
-     * Enables or disables the highlighting feature.
-     * When enabled, the balance beam will light up when the equation is balanced.
-     * This is enabled by default, but we want to disable in the Game until the user presses the "Check" button.
-     * @param enabled
-     */
-    public void setBalancedHighlightEnabled( boolean enabled ) {
-        if ( enabled != balancedHighlightEnabled ) {
-            balancedHighlightEnabled = enabled;
-            updateNode();
-        }
-    }
-
     /*
      * Updates this node's entire geometry and layout
      */
@@ -80,7 +64,7 @@ public class BalanceScalesNode extends PComposite {
         final double dx = BalanceScaleNode.getBeamLength() + xSpacing;
         double x = aligner.getCenterXOffset() - ( ( atomCounts.size() - 1 ) * BalanceScaleNode.getBeamLength() / 2 ) - ( ( atomCounts.size() - 1 ) * xSpacing / 2 );
         for ( AtomCount atomCount : atomCounts ) {
-            boolean highlighted = equation.isBalanced() && balancedHighlightEnabled;
+            boolean highlighted = equation.isBalanced();
             BalanceScaleNode scaleNode = new BalanceScaleNode( atomCount.getAtom(), atomCount.getReactantsCount(), atomCount.getProductsCount(), highlighted );
             addChild( scaleNode );
             scaleNode.setOffset( x, 0 );
