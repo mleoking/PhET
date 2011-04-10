@@ -1,3 +1,4 @@
+Fixed: possible to create multiple protractors
 Increased the resolution of the protractor graphic
 # 0.00.35 (50445) Apr 8, 2011
 Reduced the size of the expanded protractor so that its circle fits within the play area when it is centered

@@ -110,7 +110,7 @@ public class Tool extends PNode {
                 }
 
                 private void reset() {
-                    canvas.removeChild( node );
+                    doRemoveChild( canvas, node );
                     node = null;
                 }
             } );
@@ -120,7 +120,13 @@ public class Tool extends PNode {
         addChild( thumbnailIcon );
     }
 
+    //Provide a point of abstraction for adding children to a canvas so that they may optionally be put in different layers.
     protected void addChild( BendingLightCanvas canvas, ToolNode node ) {
         canvas.addChild( node );
+    }
+
+    //Could not be named removeChild because of conflicts in Tool class
+    protected void doRemoveChild( BendingLightCanvas canvas, ToolNode node ) {
+        canvas.removeChild( node );
     }
 }

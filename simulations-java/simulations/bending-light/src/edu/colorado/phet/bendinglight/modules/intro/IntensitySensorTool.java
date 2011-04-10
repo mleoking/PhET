@@ -49,4 +49,8 @@ public class IntensitySensorTool extends Tool {
     @Override protected void addChild( BendingLightCanvas canvas, ToolNode node ) {
         canvas.addChildBehindLight( node );
     }
+
+    @Override protected void doRemoveChild( BendingLightCanvas canvas, ToolNode node ) {
+        canvas.removeChildBehindLight( node );
+    }
 }
