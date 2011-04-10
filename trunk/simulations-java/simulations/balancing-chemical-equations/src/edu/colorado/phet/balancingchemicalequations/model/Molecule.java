@@ -47,13 +47,13 @@ public abstract class Molecule {
      * @param image
      * @param atoms
      */
-    public Molecule( Image image, Atom... atoms ) {//REVIEW: user varargs to improve readability of usages
+    public Molecule( Image image, Atom... atoms ) {
         this.image = image;
         this.atoms = atoms;
         this.symbol = createSymbol( atoms );
     }
 
-    protected Molecule( PNode node, Atom... atoms ) {//REVIEW: user varargs to improve readability of usages
+    protected Molecule( PNode node, Atom... atoms ) {
         this( node.toImage(), atoms );
     }
 
