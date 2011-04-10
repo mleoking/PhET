@@ -118,6 +118,6 @@ public class MoreToolsCanvas extends IntroCanvas<MoreToolsModel> {
 
     //ProtractorNode is expandable in the "more tools" tab
     protected ProtractorNode newProtractorNode( ModelViewTransform transform, Property<Boolean> showTool, Point2D model ) {
-        return new ExpandableProtractorNode( transform, showTool, new ProtractorModel( model.getX(), model.getY() ), getProtractorDragRegion(), getProtractorRotationRegion(), 1 );
+        return new ExpandableProtractorNode( transform, showTool, new ProtractorModel( model.getX(), model.getY() ), getProtractorDragRegion(), getProtractorRotationRegion(), ProtractorNode.DEFAULT_SCALE );
     }
 }

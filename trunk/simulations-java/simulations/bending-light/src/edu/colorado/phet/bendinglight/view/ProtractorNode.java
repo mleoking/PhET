@@ -23,6 +23,8 @@ import static edu.colorado.phet.bendinglight.BendingLightApplication.RESOURCES;
 import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.multiScaleToHeight;
 
 /**
+ * The protractor node is a circular device for measuring angles.  In this sim it is used for measuring the angle of the incident, reflected and refracted light.
+ *
  * @author Sam Reid
  */
 public class ProtractorNode extends ToolNode {
@@ -31,11 +33,12 @@ public class ProtractorNode extends ToolNode {
     private final BufferedImage image;
     private double scale;//The current scale
     protected final Rectangle2D.Double innerBarShape;
+    public static final double DEFAULT_SCALE = 0.5;
 
     public ProtractorNode( final ModelViewTransform transform, final Property<Boolean> showProtractor, final ProtractorModel protractorModel,
                            Function2<Shape, Shape, Shape> translateShape, Function2<Shape, Shape, Shape> rotateShape,
-                           double _scale ) {//Passed in as a separate arg since this node modifies its entire transform
-        this.scale = _scale;
+                           double scale ) {//Passed in as a separate arg since this node modifies its entire transform
+        this.scale = scale;
         this.transform = transform;
         this.protractorModel = protractorModel;
         image = RESOURCES.getImage( "protractor.png" );
@@ -55,9 +58,10 @@ public class ProtractorNode extends ToolNode {
             subtract( new Area( new Ellipse2D.Double( outerShape.getCenterX() - rx, outerShape.getCenterY() - ry, rx * 2, ry * 2 ) ) );//cut out the semicircles in the middle
         }};
 
-        innerBarShape = new Rectangle2D.Double( 20, outerShape.getCenterY(), outerShape.getWidth() - 40, 38 );
+        //Okay if it overlaps the rotation region since rotation region is in higher z layer
+        innerBarShape = new Rectangle2D.Double( 20, outerShape.getCenterY(), outerShape.getWidth() - 40, 90 );
 
-//        addChild( new PhetPPath( innerBarShape, new Color( 0, 255, 0, 128 ) ) {{//For debugging the drag hit area
+//        addChild( new PhetPPath( innerBarShape, new Color( 0, 255, 0, 128 ) ) );//For debugging the drag hit area
         addChild( new PhetPPath( translateShape.apply( innerBarShape, outerRimShape ), new Color( 0, 0, 0, 0 ) ) {{//For debugging the drag hit area
             addInputEventListener( new CursorHandler() );
             addInputEventListener( new PBasicInputEventHandler() {
@@ -89,7 +93,7 @@ public class ProtractorNode extends ToolNode {
 
         final SimpleObserver updateTransform = new SimpleObserver() {
             public void update() {
-                doUpdateTransform();
+                updateTransform();
             }
         };
         protractorModel.position.addObserver( updateTransform );
@@ -98,10 +102,10 @@ public class ProtractorNode extends ToolNode {
 
     protected void setProtractorScale( double scale ) {
         this.scale = scale;
-        doUpdateTransform();
+        updateTransform();
     }
 
-    protected void doUpdateTransform() {
+    protected void updateTransform() {
         setTransform( new AffineTransform() );
         setScale( scale );
         final Point2D point2D = transform.modelToView( protractorModel.position.getValue() ).toPoint2D();
