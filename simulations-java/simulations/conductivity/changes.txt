@@ -1,3 +1,4 @@
+4/11/2011 Set frame size to be 1024x768
 # 1.04.00 (37986) Jan 8, 2010
 1/8/10 public version for milestone "full redeploy, 2010 Q1"
 # 1.03.01 (37341) Dec 11, 2009
