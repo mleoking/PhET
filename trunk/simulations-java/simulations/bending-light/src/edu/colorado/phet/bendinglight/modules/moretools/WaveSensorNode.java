@@ -34,6 +34,8 @@ public class WaveSensorNode extends ToolNode {
     private final ModelViewTransform transform;
     private final WaveSensor waveSensor;
     public final PImage bodyNode;
+    public final PNode probe1Node;
+    public final PNode probe2Node;
 
     public WaveSensorNode( final ModelViewTransform transform, final WaveSensor waveSensor ) {
         this.transform = transform;
@@ -83,8 +85,8 @@ public class WaveSensorNode extends ToolNode {
                 } );
             }
         }
-        final ProbeNode probe1Node = new ProbeNode( waveSensor.probe1, "wave_detector_probe_dark.png" );
-        final ProbeNode probe2Node = new ProbeNode( waveSensor.probe2, "wave_detector_probe_light.png" );
+        probe1Node = new ProbeNode( waveSensor.probe1, "wave_detector_probe_dark.png" );
+        probe2Node = new ProbeNode( waveSensor.probe2, "wave_detector_probe_light.png" );
         addChild( new WireNode( probe1Node, bodyNode, darkProbeColor ) );
         addChild( new WireNode( probe2Node, bodyNode, lightProbeColor ) );
         addChild( bodyNode );
@@ -97,6 +99,6 @@ public class WaveSensorNode extends ToolNode {
     }
 
     @Override public PNode[] getDroppableComponents() {
-        return new PNode[] { bodyNode };
+        return new PNode[] { bodyNode, probe1Node, probe2Node };
     }
 }
