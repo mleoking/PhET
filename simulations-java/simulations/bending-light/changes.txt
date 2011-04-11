@@ -1,3 +1,4 @@
+# 0.00.36 (50481) Apr 11, 2011
 Moved the laser in front of the protractor and moved the laser rays behind the protractor
 Fixed: possible to create multiple protractors
 Increased the resolution of the protractor graphic
