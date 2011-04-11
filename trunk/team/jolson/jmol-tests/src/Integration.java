@@ -1,29 +1,27 @@
-package org.jmol;
-
 /* $RCSfile$
- * $Author$
- * $Date$
- * $Revision$
- *
- * Copyright (C) 2000-2005  The Jmol Development Team
- *
- * Contact: jmol-developers@lists.sf.net
- *
- *  This library is free software; you can redistribute it and/or
- *  modify it under the terms of the GNU Lesser General Public
- *  License as published by the Free Software Foundation; either
- *  version 2.1 of the License, or (at your option) any later version.
- *
- *  This library is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- *  Lesser General Public License for more details.
- *
- *  You should have received a copy of the GNU Lesser General Public
- *  License along with this library; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
- *  02111-1307  USA.
- */
+* $Author$
+* $Date$
+* $Revision$
+*
+* Copyright (C) 2000-2005  The Jmol Development Team
+*
+* Contact: jmol-developers@lists.sf.net
+*
+*  This library is free software; you can redistribute it and/or
+*  modify it under the terms of the GNU Lesser General Public
+*  License as published by the Free Software Foundation; either
+*  version 2.1 of the License, or (at your option) any later version.
+*
+*  This library is distributed in the hope that it will be useful,
+*  but WITHOUT ANY WARRANTY; without even the implied warranty of
+*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+*  Lesser General Public License for more details.
+*
+*  You should have received a copy of the GNU Lesser General Public
+*  License along with this library; if not, write to the Free Software
+*  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+*  02111-1307  USA.
+*/
 
 import java.applet.Applet;
 import java.awt.*;
@@ -36,6 +34,7 @@ import org.jmol.adapter.smarter.SmarterJmolAdapter;
 import org.jmol.api.JmolCallbackListener;
 import org.jmol.api.JmolStatusListener;
 import org.jmol.api.JmolViewer;
+import org.jmol.viewer.Viewer;
 import org.openscience.jmol.app.jmolpanel.AppConsole;
 
 /**
@@ -130,6 +129,7 @@ public class Integration {
     static class JmolPanel extends JPanel {
 
         JmolViewer viewer;
+        Viewer optViewer;
 
         private final Dimension currentSize = new Dimension();
         private final Rectangle rectClip = new Rectangle(); // ignored by Jmol
@@ -170,6 +170,10 @@ public class Integration {
                             return false;
                         }
                     } );
+            if ( viewer instanceof Viewer ) {
+                System.out.println( "It's a viewer" );
+                optViewer = (Viewer) viewer;
+            }
         }
 
         @Override
