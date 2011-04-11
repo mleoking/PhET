@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.capacitorlab.module.multiplecapacitors;
 
+import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.colorado.phet.capacitorlab.module.CLCanvas;
 
 /**
@@ -11,7 +12,7 @@ import edu.colorado.phet.capacitorlab.module.CLCanvas;
  */
 public class MultipleCapacitorsCanvas extends CLCanvas {
 
-    public MultipleCapacitorsCanvas( MultipleCapacitorsModel model, boolean dev ) {
+    public MultipleCapacitorsCanvas( MultipleCapacitorsModel model, CLModelViewTransform3D mvt, boolean dev ) {
         //XXX
     }
 

@@ -1,4 +1,6 @@
-4/5/11 tested by NP, no problems found, OK to proceed 
+4/11/11 started to flesh out Multi-Cap control panel
+4/11/11 added model properties for charge and e-field visibility
+4/5/11 tested by NP, no problems found, OK to proceed
 # 1.00.01 (50277) Mar 31, 2011
 3/31/11 sanity check: major model changes to accommodate multiple capacitors, should be functionally identical to 1.00.00
 3/31/11 rename dev ModelValuesPanel to DielectricModelValuesPanel, since it is specific to the single-capacitor circuit
