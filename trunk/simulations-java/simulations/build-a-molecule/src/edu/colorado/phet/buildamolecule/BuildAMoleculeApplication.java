@@ -2,9 +2,9 @@
 
 package edu.colorado.phet.buildamolecule;
 
-import java.awt.Frame;
+import java.awt.*;
 
-import javax.swing.JMenu;
+import javax.swing.*;
 
 import edu.colorado.phet.buildamolecule.module.CollectMultipleModule;
 import edu.colorado.phet.buildamolecule.module.LargerMoleculesModule;

@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.buildamolecule.view;
 
-import java.awt.Point;
+import java.awt.*;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 
@@ -44,13 +44,13 @@ public class CollectMultipleCanvas extends PhetPCanvas {
         mvt = ModelViewTransform.createSinglePointScaleInvertedYMapping(
                 new Point2D.Double( 0, 0 ),
                 new Point( (int) Math.round( BuildAMoleculeConstants.DEFAULT_STAGE_SIZE.width * 0.32 ),
-                        (int) Math.round( BuildAMoleculeConstants.DEFAULT_STAGE_SIZE.height * 0.49 ) ),
+                           (int) Math.round( BuildAMoleculeConstants.DEFAULT_STAGE_SIZE.height * 0.49 ) ),
                 2.0 ); // "Zoom factor" - smaller zooms out, larger zooms in.
 
         setBackground( BuildAMoleculeConstants.CANVAS_BACKGROUND_COLOR );
 
         // TODO: Temp - add an image that represents the tab.
-        PNode tempImage = new PImage( BuildAMoleculeResources.getImage( "tab-2-temp-sketch.png" ));
+        PNode tempImage = new PImage( BuildAMoleculeResources.getImage( "tab-2-temp-sketch.png" ) );
         addWorldChild( tempImage );
 
         // Root of our scene graph
