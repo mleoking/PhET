@@ -446,7 +446,7 @@ public class TimesheetApp {
 
     private void start() throws IOException {
         frame.pack();
-        new FrameSetup.CenteredWithInsets( 200, 200 ).initialize( frame );
+        new FrameSetup.CenteredWithSize( 1024, 768 ).initialize( frame );
         loadPreferences();
         frame.setVisible( true );
     }
