@@ -1,3 +1,4 @@
+4/11/2011 Set frame size to be 1024x768
 # 1.22.00 (40974) May 21, 2010
 # 1.21.01 (40761) May 14, 2010
 > 5/14/2010 Removed the duplicate help button, see #2342

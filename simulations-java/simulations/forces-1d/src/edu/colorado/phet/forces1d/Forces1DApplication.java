@@ -46,9 +46,6 @@ public class Forces1DApplication extends PhetApplication {
 
             getPhetFrame().addMenu( options );
 
-            if ( PhetUtilities.isMacintosh() ) {//max extent fails on mac + java 1.4
-                new FrameSetup.CenteredWithInsets( 50, 50 ).initialize( getPhetFrame() );
-            }
             module.setPhetFrame( getPhetFrame() );
             Forces1DModule.setup( module );
         }
