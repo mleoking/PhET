@@ -1,3 +1,4 @@
+Sped up clock by a factor of 2.5 because wave speed looked too slow
 # 0.00.36 (50481) Apr 11, 2011
 Moved the laser in front of the protractor and moved the laser rays behind the protractor
 Fixed: possible to create multiple protractors
