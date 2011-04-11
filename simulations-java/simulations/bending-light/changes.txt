@@ -1,4 +1,6 @@
-Made the prism output more visible
+Require a sensor body (not probe) to be put in toolbox to return the sensor
+Fixed: dropping wave sensor in the toolbox broken
+Made the prism output more visible against the white background
 Sped up clock by a factor of 2.5 because wave speed looked too slow
 # 0.00.36 (50481) Apr 11, 2011
 Moved the laser in front of the protractor and moved the laser rays behind the protractor
