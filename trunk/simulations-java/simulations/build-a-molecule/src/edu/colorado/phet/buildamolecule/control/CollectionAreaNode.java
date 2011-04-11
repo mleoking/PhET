@@ -2,6 +2,7 @@ package edu.colorado.phet.buildamolecule.control;
 
 import java.awt.*;
 
+import edu.colorado.phet.buildamolecule.model.CollectionBox;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.umd.cs.piccolo.PNode;
@@ -28,14 +29,16 @@ public class CollectionAreaNode extends PNode {
             setFont( new PhetFont( 22 ) );
         }}, c );
 
-        c.insets = new Insets( 0, 0, 10, 0 );
+        c.insets = new Insets( 0, 0, 15, 0 );
 
         c.gridy = 1;
-        layoutNode.addChild( new CollectionBoxNode(), c );
+        layoutNode.addChild( new SingleCollectionBoxNode( new CollectionBox() ), c );
         c.gridy = 2;
-        layoutNode.addChild( new CollectionBoxNode(), c );
+        layoutNode.addChild( new SingleCollectionBoxNode( new CollectionBox() ), c );
         c.gridy = 3;
-        layoutNode.addChild( new CollectionBoxNode(), c );
+        layoutNode.addChild( new SingleCollectionBoxNode( new CollectionBox() ), c );
+        c.gridy = 4;
+        layoutNode.addChild( new SingleCollectionBoxNode( new CollectionBox() ), c );
 
         layoutNode.translate( CONTAINER_PADDING, CONTAINER_PADDING );
 
