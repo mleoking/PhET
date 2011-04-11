@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.capacitorlab.view;
 
-import java.awt.Cursor;
+import java.awt.*;
 
 import edu.colorado.phet.capacitorlab.drag.DielectricOffsetDragHandler;
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
@@ -21,14 +21,15 @@ public class DielectricNode extends BoxNode {
 
     private final static float TRANSPARENCY = 0.75f;
 
-    public static enum DielectricChargeView { NONE, TOTAL, EXCESS };
+    public static enum DielectricChargeView {NONE, TOTAL, EXCESS}
+
+    ;
 
     private final Capacitor capacitor;
 
-    private final Property<DielectricChargeView> dielectricChargeViewProperty;
-
-    public DielectricNode( final Capacitor capacitor, CLModelViewTransform3D mvt, DoubleRange valueRange, DielectricChargeView dielectricChargeView,
-            double maxExcessDielectricPlateCharge, double maxDielectricEField ) {
+    public DielectricNode( final Capacitor capacitor, CLModelViewTransform3D mvt, DoubleRange valueRange,
+                           final Property<DielectricChargeView> dielectricChargeView,
+                           double maxExcessDielectricPlateCharge, double maxDielectricEField ) {
         super( mvt, capacitor.getDielectricMaterial().getColor(), capacitor.getDielectricSize() );
 
         this.capacitor = capacitor;
@@ -43,45 +44,25 @@ public class DielectricNode extends BoxNode {
         final DielectricExcessChargeNode excessChargeNode = new DielectricExcessChargeNode( capacitor, mvt, maxExcessDielectricPlateCharge );
         addChild( excessChargeNode );
 
-        dielectricChargeViewProperty = new Property<DielectricNode.DielectricChargeView>( dielectricChargeView );
-        dielectricChargeViewProperty.addObserver( new SimpleObserver() {
+        dielectricChargeView.addObserver( new SimpleObserver() {
             public void update() {
-                totalChargeNode.setVisible( getDielectricChargeView() == DielectricChargeView.TOTAL );
-                excessChargeNode.setVisible( getDielectricChargeView() == DielectricChargeView.EXCESS );
+                totalChargeNode.setVisible( dielectricChargeView.getValue() == DielectricChargeView.TOTAL );
+                excessChargeNode.setVisible( dielectricChargeView.getValue() == DielectricChargeView.EXCESS );
             }
-        });
+        } );
 
         // change color when dielectric material changes
         capacitor.addDielectricMaterialObserver( new SimpleObserver() {
             public void update() {
                 setColor( DielectricNode.this.capacitor.getDielectricMaterial().getColor() );
             }
-        });
-    }
-
-    public void reset() {
-        dielectricChargeViewProperty.reset();
-    }
-
-    public void addDielectricChargeViewObserver( SimpleObserver o ) {
-        dielectricChargeViewProperty.addObserver( o );
-    }
-
-    public Property<DielectricChargeView> getDielectricChargeViewProperty() {
-        return dielectricChargeViewProperty;
-    }
-
-    public void setDielectricChargeView( DielectricChargeView dielectricChargeView ) {
-        dielectricChargeViewProperty.setValue( dielectricChargeView );
-    }
-
-    public DielectricChargeView getDielectricChargeView() {
-        return dielectricChargeViewProperty.getValue();
+        } );
     }
 
     /**
      * Controls the opacity of the dielectric.
      * This is needed because the dielectric must be transparent to see E-field.
+     *
      * @param opaque
      */
     public void setOpaque( boolean opaque ) {

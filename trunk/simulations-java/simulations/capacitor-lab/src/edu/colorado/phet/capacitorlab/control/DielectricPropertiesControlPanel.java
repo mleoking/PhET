@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.capacitorlab.control;
 
-import java.awt.BorderLayout;
+import java.awt.*;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -13,6 +13,7 @@ import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial.CustomDielectricMaterial;
 import edu.colorado.phet.capacitorlab.view.DielectricNode;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.ColoredSeparator.BlackSeparator;
 import edu.colorado.phet.common.phetcommon.view.PhetTitledPanel;
@@ -35,7 +36,7 @@ public class DielectricPropertiesControlPanel extends PhetTitledPanel {
 
     private DielectricMaterial material;
 
-    public DielectricPropertiesControlPanel( final Capacitor capacitor, DielectricMaterial[] dielectricMaterials, DielectricNode dielectricNode ) {
+    public DielectricPropertiesControlPanel( final Capacitor capacitor, DielectricMaterial[] dielectricMaterials, Property<DielectricNode.DielectricChargeView> dielectricChargeView ) {
         super( CLStrings.DIELECTRIC );
 
         this.capacitor = capacitor;
@@ -52,7 +53,7 @@ public class DielectricPropertiesControlPanel extends PhetTitledPanel {
             public void stateChanged( ChangeEvent event ) {
                 capacitor.setDielectricMaterial( materialControl.getMaterial() );
             }
-        });
+        } );
 
         constantControl = new DielectricConstantControl( CLConstants.DIELECTRIC_CONSTANT_RANGE.getDefault() );
         constantControl.addChangeListener( new ChangeListener() {
@@ -63,7 +64,7 @@ public class DielectricPropertiesControlPanel extends PhetTitledPanel {
             }
         } );
 
-        chargesControl = new DielectricChargesControl( dielectricNode );
+        chargesControl = new DielectricChargesControl( dielectricChargeView );
 
         // layout
         GridPanel innerPanel = new GridPanel();
@@ -85,7 +86,7 @@ public class DielectricPropertiesControlPanel extends PhetTitledPanel {
             public void update() {
                 handleDielectricMaterialChanged();
             }
-        });
+        } );
 
         // observe dielectric
         material.addDielectricConstantObserver( dielectricConstantObserver );

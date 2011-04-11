@@ -26,7 +26,7 @@ public class DielectricControlPanel extends CLControlPanel {
 
         addControlFullWidth( new ViewControlPanel( model.plateChargesVisible, model.eFieldVisible ) );
         addControlFullWidth( new MetersControlPanel( model.getCapacitanceMeter(), model.getPlateChargeMeter(), model.getStoredEnergyMeter(), model.getVoltmeter(), model.getEFieldDetector() ) );
-        dielectricPropertiesControlPanel = new DielectricPropertiesControlPanel( model.getCapacitor(), model.getDielectricMaterials(), canvas.getCapacitorNode().getDielectricNode() );
+        dielectricPropertiesControlPanel = new DielectricPropertiesControlPanel( model.getCapacitor(), model.getDielectricMaterials(), model.dielectricChargeView );
         addControlFullWidth( dielectricPropertiesControlPanel );
 
         if ( dev ) {
