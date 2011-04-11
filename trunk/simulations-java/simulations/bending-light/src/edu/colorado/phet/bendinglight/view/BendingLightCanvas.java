@@ -42,8 +42,16 @@ public class BendingLightCanvas<T extends BendingLightModel>
     protected final PDimension stageSize;
     protected final PNode lightRayLayer = new PNode();
     protected final PNode lightWaveLayer = new PNode();
+
+    //In order to make controls (including the laser itself) accessible (not obscured by the large protractor), KP suggested this layering order:
+    //laser on top
+    //Control boxes next
+    //Protractor
+    //Laser beam
+    //To implement this, we specify before light layer and 2 after light layers
     protected final PNode beforeLightLayer = new PNode();
-    protected final PNode afterLightLayer = new PNode();
+    protected final PNode afterLightLayer = new PNode();//in front of afterlightlayer2
+    protected final PNode afterLightLayer2 = new PNode();
     public final BooleanProperty clockRunningPressed;
 
     public BendingLightCanvas( final T model,
@@ -73,18 +81,6 @@ public class BendingLightCanvas<T extends BendingLightModel>
                                                                                scale );
         mediumNode = new PNode();
         addChild( mediumNode );
-
-        //Add rotation and translation indicators for the laser
-        final BooleanProperty showRotationDragHandles = new BooleanProperty( false );
-        final BooleanProperty showTranslationDragHandles = new BooleanProperty( false );
-        addChild( new RotationDragHandle( transform, model.getLaser(), 10, showRotationDragHandles, clockwiseArrowNotAtMax ) );
-        addChild( new RotationDragHandle( transform, model.getLaser(), -10, showRotationDragHandles, ccwArrowNotAtMax ) );
-        double arrowLength = 100;
-        addChild( new TranslationDragHandle( transform, model.getLaser(), -arrowLength, 0, showTranslationDragHandles ) );
-        addChild( new TranslationDragHandle( transform, model.getLaser(), 0, -arrowLength, showTranslationDragHandles ) );
-        addChild( new TranslationDragHandle( transform, model.getLaser(), arrowLength, 0, showTranslationDragHandles ) );
-        addChild( new TranslationDragHandle( transform, model.getLaser(), 0, arrowLength, showTranslationDragHandles ) );
-        addChild( new LaserNode( transform, model.getLaser(), showRotationDragHandles, showTranslationDragHandles, clampDragAngle, laserTranslationRegion, laserRotationRegion, laserImageName ) );
 
         final VoidFunction1<LightRay> addLightRayNode = new VoidFunction1<LightRay>() {
             public void apply( LightRay lightRay ) {
@@ -131,8 +127,8 @@ public class BendingLightCanvas<T extends BendingLightModel>
 
         final WhiteLightNode whiteLightNode = new WhiteLightNode( lightRayLayer );
         addChild( whiteLightNode );
-
         addChild( afterLightLayer );
+        addChild( afterLightLayer2 );
 
         //Switch between light renderers for white vs nonwhite light
         model.getLaser().color.addObserver( new SimpleObserver() {
@@ -143,7 +139,20 @@ public class BendingLightCanvas<T extends BendingLightModel>
                 lightWaveLayer.setVisible( !white );
             }
         } );
-//
+
+        //Add rotation and translation indicators for the laser
+        final BooleanProperty showRotationDragHandles = new BooleanProperty( false );
+        final BooleanProperty showTranslationDragHandles = new BooleanProperty( false );
+        addChild( new RotationDragHandle( transform, model.getLaser(), 10, showRotationDragHandles, clockwiseArrowNotAtMax ) );
+        addChild( new RotationDragHandle( transform, model.getLaser(), -10, showRotationDragHandles, ccwArrowNotAtMax ) );
+        double arrowLength = 100;
+        addChild( new TranslationDragHandle( transform, model.getLaser(), -arrowLength, 0, showTranslationDragHandles ) );
+        addChild( new TranslationDragHandle( transform, model.getLaser(), 0, -arrowLength, showTranslationDragHandles ) );
+        addChild( new TranslationDragHandle( transform, model.getLaser(), arrowLength, 0, showTranslationDragHandles ) );
+        addChild( new TranslationDragHandle( transform, model.getLaser(), 0, arrowLength, showTranslationDragHandles ) );
+        //Add the laser itself
+        addChild( new LaserNode( transform, model.getLaser(), showRotationDragHandles, showTranslationDragHandles, clampDragAngle, laserTranslationRegion, laserRotationRegion, laserImageName ) );
+
         //Coalesce repeat updates
         final boolean[] dirty = new boolean[] { true };
         model.addModelUpdateListener( new VoidFunction0() {
@@ -185,6 +194,14 @@ public class BendingLightCanvas<T extends BendingLightModel>
 
     public void addChildBehindLight( PNode node ) {
         beforeLightLayer.addChild( node );
+    }
+
+    public void addChildAfterLight( PNode node ) {
+        afterLightLayer.addChild( node );
+    }
+
+    public void removeChildAfterLight( PNode node ) {
+        afterLightLayer.removeChild( node );
     }
 
     public void resetAll() {

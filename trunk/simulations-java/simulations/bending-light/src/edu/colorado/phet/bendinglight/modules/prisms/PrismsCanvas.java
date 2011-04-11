@@ -50,7 +50,7 @@ public class PrismsCanvas extends BendingLightCanvas<PrismsModel> {
             }
         } );
 
-        afterLightLayer.addChild( new ControlPanelNode( new MediumControlPanel( this, model.environment, "Environment:", false, model.wavelengthProperty, "0.0000000", 8 ) ) {{
+        afterLightLayer2.addChild( new ControlPanelNode( new MediumControlPanel( this, model.environment, "Environment:", false, model.wavelengthProperty, "0.0000000", 8 ) ) {{
             setOffset( stageSize.width - getFullBounds().getWidth() - 10, 10 );
         }} );
 
@@ -58,14 +58,14 @@ public class PrismsCanvas extends BendingLightCanvas<PrismsModel> {
             setOffset( 10, stageSize.height - getFullBounds().getHeight() - 10 );
         }};
         beforeLightLayer.addChild( prismToolbox );
-        afterLightLayer.addChild( new BendingLightResetAllButtonNode( resetAll, this, stageSize ) );
+        afterLightLayer2.addChild( new BendingLightResetAllButtonNode( resetAll, this, stageSize ) );
 
         //Put the laser control panel node where it leaves enough vertical space for reset button between it and prism control panel
         final LaserControlPanelNode laserControlPanelNode = new LaserControlPanelNode( model.manyRays, model.getLaser().color, model.showReflections, showNormal, showProtractor, model.wavelengthProperty ) {{
             setOffset( stageSize.width - getFullBounds().getWidth() - 10, stageSize.height / 2 - getFullBounds().getHeight() / 2 );
         }};
 
-        afterLightLayer.addChild( laserControlPanelNode );
+        afterLightLayer2.addChild( laserControlPanelNode );
 
         showNormal.addObserver( new SimpleObserver() {
             public void update() {

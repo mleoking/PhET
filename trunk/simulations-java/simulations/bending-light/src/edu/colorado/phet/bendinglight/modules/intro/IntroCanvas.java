@@ -71,10 +71,10 @@ public class IntroCanvas<T extends IntroModel> extends BendingLightCanvas<T> {
         mediumNode.addChild( new MediumNode( transform, model.topMedium ) );
         mediumNode.addChild( new MediumNode( transform, model.bottomMedium ) );
 
-        afterLightLayer.addChild( new ControlPanelNode( new MediumControlPanel( this, model.topMedium, "Material:", true, model.wavelengthProperty, indexOfRefractionFormatPattern, columns ) ) {{
+        afterLightLayer2.addChild( new ControlPanelNode( new MediumControlPanel( this, model.topMedium, "Material:", true, model.wavelengthProperty, indexOfRefractionFormatPattern, columns ) ) {{
             setOffset( stageSize.width - getFullBounds().getWidth() - 10, transform.modelToViewY( 0 ) - 10 - getFullBounds().getHeight() );
         }} );
-        afterLightLayer.addChild( new ControlPanelNode( new MediumControlPanel( this, model.bottomMedium, "Material:", true, model.wavelengthProperty, indexOfRefractionFormatPattern, columns ) ) {{
+        afterLightLayer2.addChild( new ControlPanelNode( new MediumControlPanel( this, model.bottomMedium, "Material:", true, model.wavelengthProperty, indexOfRefractionFormatPattern, columns ) ) {{
             setOffset( stageSize.width - getFullBounds().getWidth() - 10, transform.modelToViewY( 0 ) + 10 );
         }} );
 
@@ -83,7 +83,7 @@ public class IntroCanvas<T extends IntroModel> extends BendingLightCanvas<T> {
             setPickable( false );
         }} );
 
-        afterLightLayer.addChild( new NormalLine( transform, model.getHeight() ) {{
+        afterLightLayer2.addChild( new NormalLine( transform, model.getHeight() ) {{
             showNormal.addObserver( new VoidFunction1<Boolean>() {
                 public void apply( Boolean value ) {
                     setVisible( value );
@@ -92,7 +92,7 @@ public class IntroCanvas<T extends IntroModel> extends BendingLightCanvas<T> {
         }} );
 
         //Laser control panel
-        afterLightLayer.addChild( new ControlPanelNode( new PNode() {{
+        afterLightLayer2.addChild( new ControlPanelNode( new PNode() {{
             final PText title = new PText( "Laser View" ) {{setFont( labelFont );}};
             addChild( title );
             final PSwing radioButtonPanel = new PSwing( new VerticalLayoutPanel() {{
@@ -133,11 +133,12 @@ public class IntroCanvas<T extends IntroModel> extends BendingLightCanvas<T> {
                 } ) {
             //Move the protractor behind the light node so that it also goes behind other controls (such as wavelength controls), since otherwise it obscures them from interaction
             @Override protected void addChild( BendingLightCanvas canvas, ToolNode node ) {
-                canvas.addChildBehindLight( node );
+//                canvas.addChildBehindLight( node );
+                canvas.addChildAfterLight( node );
             }
 
             @Override protected void doRemoveChild( BendingLightCanvas canvas, ToolNode node ) {
-                canvas.removeChildBehindLight( node );
+                canvas.removeChildAfterLight( node );
             }
         };
         toolboxNode = new ToolboxNode( this, transform, protractor, getMoreTools( model ), model.getIntensityMeter(), showNormal );
@@ -146,9 +147,9 @@ public class IntroCanvas<T extends IntroModel> extends BendingLightCanvas<T> {
         }};
         beforeLightLayer.addChild( toolbox );
 
-        afterLightLayer.addChild( new BendingLightResetAllButtonNode( resetAll, this, stageSize ) );
+        afterLightLayer2.addChild( new BendingLightResetAllButtonNode( resetAll, this, stageSize ) );
 
-        afterLightLayer.addChild( new FloatingClockControlNode( clockRunningPressed, null, model.getClock(), "Reset", new Property<Color>( Color.white ) ) {{
+        afterLightLayer2.addChild( new FloatingClockControlNode( clockRunningPressed, null, model.getClock(), "Reset", new Property<Color>( Color.white ) ) {{
             clockControlVisible.addObserver( new VoidFunction1<Boolean>() {
                 public void apply( Boolean visible ) {
                     setVisible( visible );
