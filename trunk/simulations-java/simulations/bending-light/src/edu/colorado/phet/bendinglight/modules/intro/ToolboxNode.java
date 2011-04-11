@@ -3,6 +3,7 @@ package edu.colorado.phet.bendinglight.modules.intro;
 
 import java.awt.*;
 
+import edu.colorado.phet.bendinglight.BendingLightStrings;
 import edu.colorado.phet.bendinglight.model.IntensityMeter;
 import edu.colorado.phet.bendinglight.view.BendingLightCanvas;
 import edu.colorado.phet.bendinglight.view.IntensityMeterNode;
@@ -32,7 +33,7 @@ public class ToolboxNode extends VBox {
                         final BooleanProperty showNormal ) {
         super( 2 );
         //Title
-        final PText titleLabel = new PText( "Toolbox" ) {{
+        final PText titleLabel = new PText( BendingLightStrings.TOOLBOX ) {{
             setFont( BendingLightCanvas.labelFont );
         }};
         addChild( titleLabel );
@@ -52,7 +53,7 @@ public class ToolboxNode extends VBox {
         addChild( new IntensitySensorTool( canvas, transform, intensityMeter, modelWidth, modelHeight, this, iconNode, sensorIconHeight ) );
 
         //normal line checkbox and icon
-        addChild( new PSwing( new PropertyCheckBox( "Show Normal", showNormal ) {{
+        addChild( new PSwing( new PropertyCheckBox( BendingLightStrings.SHOW_NORMAL, showNormal ) {{
             setFont( BendingLightCanvas.labelFont );
             setBackground( new Color( 0, 0, 0, 0 ) );
         }} ) );

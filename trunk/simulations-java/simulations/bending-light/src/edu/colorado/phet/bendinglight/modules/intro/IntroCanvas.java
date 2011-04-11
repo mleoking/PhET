@@ -7,6 +7,7 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
+import edu.colorado.phet.bendinglight.BendingLightStrings;
 import edu.colorado.phet.bendinglight.model.ProtractorModel;
 import edu.colorado.phet.bendinglight.view.*;
 import edu.colorado.phet.common.phetcommon.model.ResetModel;
@@ -71,10 +72,10 @@ public class IntroCanvas<T extends IntroModel> extends BendingLightCanvas<T> {
         mediumNode.addChild( new MediumNode( transform, model.topMedium ) );
         mediumNode.addChild( new MediumNode( transform, model.bottomMedium ) );
 
-        afterLightLayer2.addChild( new ControlPanelNode( new MediumControlPanel( this, model.topMedium, "Material:", true, model.wavelengthProperty, indexOfRefractionFormatPattern, columns ) ) {{
+        afterLightLayer2.addChild( new ControlPanelNode( new MediumControlPanel( this, model.topMedium, BendingLightStrings.MATERIAL, true, model.wavelengthProperty, indexOfRefractionFormatPattern, columns ) ) {{
             setOffset( stageSize.width - getFullBounds().getWidth() - 10, transform.modelToViewY( 0 ) - 10 - getFullBounds().getHeight() );
         }} );
-        afterLightLayer2.addChild( new ControlPanelNode( new MediumControlPanel( this, model.bottomMedium, "Material:", true, model.wavelengthProperty, indexOfRefractionFormatPattern, columns ) ) {{
+        afterLightLayer2.addChild( new ControlPanelNode( new MediumControlPanel( this, model.bottomMedium, BendingLightStrings.MATERIAL, true, model.wavelengthProperty, indexOfRefractionFormatPattern, columns ) ) {{
             setOffset( stageSize.width - getFullBounds().getWidth() - 10, transform.modelToViewY( 0 ) + 10 );
         }} );
 
@@ -93,11 +94,11 @@ public class IntroCanvas<T extends IntroModel> extends BendingLightCanvas<T> {
 
         //Laser control panel
         afterLightLayer2.addChild( new ControlPanelNode( new PNode() {{
-            final PText title = new PText( "Laser View" ) {{setFont( labelFont );}};
+            final PText title = new PText( BendingLightStrings.LASER_VIEW ) {{setFont( labelFont );}};
             addChild( title );
             final PSwing radioButtonPanel = new PSwing( new VerticalLayoutPanel() {{
-                add( new PropertyRadioButton<LaserView>( "Ray", model.laserView, LaserView.RAY ) {{setFont( labelFont );}} );
-                add( new PropertyRadioButton<LaserView>( "Wave", model.laserView, LaserView.WAVE ) {{setFont( labelFont );}} );
+                add( new PropertyRadioButton<LaserView>( BendingLightStrings.RAY, model.laserView, LaserView.RAY ) {{setFont( labelFont );}} );
+                add( new PropertyRadioButton<LaserView>( BendingLightStrings.WAVE, model.laserView, LaserView.WAVE ) {{setFont( labelFont );}} );
             }} ) {{
                 setOffset( 0, title.getFullBounds().getMaxY() );
             }};
@@ -149,7 +150,7 @@ public class IntroCanvas<T extends IntroModel> extends BendingLightCanvas<T> {
 
         afterLightLayer2.addChild( new BendingLightResetAllButtonNode( resetAll, this, stageSize ) );
 
-        afterLightLayer2.addChild( new FloatingClockControlNode( clockRunningPressed, null, model.getClock(), "Reset", new Property<Color>( Color.white ) ) {{
+        afterLightLayer2.addChild( new FloatingClockControlNode( clockRunningPressed, null, model.getClock(), BendingLightStrings.RESET, new Property<Color>( Color.white ) ) {{
             clockControlVisible.addObserver( new VoidFunction1<Boolean>() {
                 public void apply( Boolean visible ) {
                     setVisible( visible );

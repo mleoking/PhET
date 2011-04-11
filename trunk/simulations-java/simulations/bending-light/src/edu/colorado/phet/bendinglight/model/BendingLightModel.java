@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import edu.colorado.phet.bendinglight.BendingLightStrings;
 import edu.colorado.phet.bendinglight.view.LaserColor;
 import edu.colorado.phet.bendinglight.view.LaserView;
 import edu.colorado.phet.common.phetcommon.model.ResetModel;
@@ -28,12 +29,12 @@ import static java.lang.Math.pow;
 public class BendingLightModel implements ResetModel {
     public static final double DEFAULT_DIST_FROM_PIVOT = 8.125E-6;
     public static double DIAMOND_INDEX_OF_REFRACTION_FOR_RED_LIGHT = 2.419;
-    public static final MediumState AIR = new MediumState( "Air", 1.000293 );
-    public static final MediumState WATER = new MediumState( "Water", 1.333 );
-    public static final MediumState GLASS = new MediumState( "Glass", 1.5 );
-    public static final MediumState DIAMOND = new MediumState( "Diamond", DIAMOND_INDEX_OF_REFRACTION_FOR_RED_LIGHT );
-    public static final MediumState MYSTERY_A = new MediumState( "Mystery A", DIAMOND_INDEX_OF_REFRACTION_FOR_RED_LIGHT, true );
-    public static final MediumState MYSTERY_B = new MediumState( "Mystery B", 1.4, true );
+    public static final MediumState AIR = new MediumState( BendingLightStrings.AIR, 1.000293 );
+    public static final MediumState WATER = new MediumState( BendingLightStrings.WATER, 1.333 );
+    public static final MediumState GLASS = new MediumState( BendingLightStrings.GLASS, 1.5 );
+    public static final MediumState DIAMOND = new MediumState( BendingLightStrings.DIAMOND, DIAMOND_INDEX_OF_REFRACTION_FOR_RED_LIGHT );
+    public static final MediumState MYSTERY_A = new MediumState( BendingLightStrings.MYSTERY_A, DIAMOND_INDEX_OF_REFRACTION_FOR_RED_LIGHT, true );
+    public static final MediumState MYSTERY_B = new MediumState( BendingLightStrings.MYSTERY_B, 1.4, true );
 
     public static final double SPEED_OF_LIGHT = 2.99792458E8;
     public static final double WAVELENGTH_RED = 650E-9;

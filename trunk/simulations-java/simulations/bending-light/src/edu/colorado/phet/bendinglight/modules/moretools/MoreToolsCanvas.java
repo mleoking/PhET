@@ -5,7 +5,9 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
+import java.text.MessageFormat;
 
+import edu.colorado.phet.bendinglight.BendingLightStrings;
 import edu.colorado.phet.bendinglight.model.ProtractorModel;
 import edu.colorado.phet.bendinglight.modules.intro.IntroCanvas;
 import edu.colorado.phet.bendinglight.modules.intro.IntroModel;
@@ -52,7 +54,8 @@ public class MoreToolsCanvas extends IntroCanvas<MoreToolsModel> {
     @Override protected PNode[] getMoreTools( ResetModel resetModel ) {
         final Function1<Double, String> formatter = new Function1<Double, String>() {
             public String apply( Double magnitude ) {
-                return new DecimalFormat( "0.00" ).format( magnitude / 2.99792458E8 ) + " c";
+                final String value = new DecimalFormat( "0.00" ).format( magnitude / 2.99792458E8 );
+                return MessageFormat.format( BendingLightStrings.PATTERN_SPEED_OF_LIGHT_READOUT_VALUE_C, value );
             }
         };
         final VelocitySensorNode velocitySensorNode = new VelocitySensorNode( transform, new VelocitySensor(), arrowScale, new Property<Function1<Double, String>>( formatter ) );

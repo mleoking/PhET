@@ -68,7 +68,7 @@ public class DispersionFunction {
      */
     public static void main( String[] args ) {
         final ArrayList<Pair<String, Double>> states = new ArrayList<Pair<String, Double>>() {{
-            add( new Pair<String, Double>( "Air", 1.000293 ) );
+            add( new Pair<String, Double>( "Air", 1.000293 ) );//no need to translate since dev test
             add( new Pair<String, Double>( "Water", 1.333 ) );
             add( new Pair<String, Double>( "Glass", 1.5 ) );
             add( new Pair<String, Double>( "Diamond", 2.419 ) );
