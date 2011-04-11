@@ -93,6 +93,11 @@ public class MoreToolsCanvas extends IntroCanvas<MoreToolsModel> {
                                         model.waveSensor.visible,
                                         transform, this, new Tool.NodeFactory() {
                     public WaveSensorNode createNode( ModelViewTransform transform, final Property<Boolean> showTool, final Point2D modelPt ) {
+                        //Reset wave sensor positions so that they come out in the right relative location after resetting previous instance
+                        model.waveSensor.probe1.position.reset();
+                        model.waveSensor.probe2.position.reset();
+                        model.waveSensor.bodyPosition.reset();
+
                         model.waveSensor.translateToHotSpot( modelPt );
 
                         //lazily create and reuse because there are performance problems if you create a new one each time
