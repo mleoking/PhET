@@ -113,22 +113,15 @@ public class WhiteLightNode extends PImage {
     private void addToMap( int x0, int y0, Color color, double intensity, HashMap<Point, float[]> map ) {
         float brightnessFactor = 0.007f;//so that rays don't start fully saturated: this makes it so that it is possible to see the decrease in intensity after a (nontotal) reflection
         final Point point = new Point( x0, y0 );
-        if ( map.containsKey( point ) ) {
-            float[] current = map.get( point );
-            float[] newOne = color.getComponents( null );
-            for ( int a = 0; a <= 3; a++ ) {
-                current[a] = current[a] + newOne[a] * brightnessFactor;
-            }
-            //add intensities, then convert to alpha later
-            current[3] = current[3] + (float) intensity;
+        if ( !map.containsKey( point ) ) {
+            map.put( point, new float[4] );//seed with zeros so it can be summed
         }
-        else {
-            final float[] components = color.getComponents( null );
-            for ( int i = 0; i < components.length; i++ ) {
-                components[i] = components[i] * brightnessFactor;
-            }
-            components[3] = (float) intensity;
-            map.put( point, components );
+        float[] current = map.get( point );
+        float[] newOne = color.getComponents( null );
+        for ( int a = 0; a <= 3; a++ ) {
+            current[a] = current[a] + newOne[a] * brightnessFactor;
         }
+        //add intensities, then convert to alpha later
+        current[3] = current[3] + (float) intensity;
     }
 }
