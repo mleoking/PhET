@@ -2,9 +2,10 @@
 
 package edu.colorado.phet.capacitorlab.module.multiplecapacitors;
 
-import java.awt.Frame;
+import java.awt.*;
 
 import edu.colorado.phet.capacitorlab.CLStrings;
+import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.colorado.phet.capacitorlab.module.CLModule;
 
 /**
@@ -21,12 +22,14 @@ public class MultipleCapacitorsModule extends CLModule {
     public MultipleCapacitorsModule( Frame parentFrame, boolean dev ) {
         super( CLStrings.MULTIPLE_CAPACITORS );
 
-        model = new MultipleCapacitorsModel( getCLClock() );
+        CLModelViewTransform3D mvt = new CLModelViewTransform3D();
 
-        canvas = new MultipleCapacitorsCanvas( model, dev );
+        model = new MultipleCapacitorsModel( getCLClock(), mvt );
+
+        canvas = new MultipleCapacitorsCanvas( model, mvt, dev );
         setSimulationPanel( canvas );
 
-        controlPanel = new MultipleCapacitorsControlPanel( this );
+        controlPanel = new MultipleCapacitorsControlPanel( parentFrame, this, model, canvas, dev );
         setControlPanel( controlPanel );
     }
 

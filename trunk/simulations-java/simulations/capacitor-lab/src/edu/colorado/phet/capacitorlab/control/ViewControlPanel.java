@@ -2,12 +2,12 @@
 
 package edu.colorado.phet.capacitorlab.control;
 
-import java.awt.BorderLayout;
+import java.awt.*;
 
-import javax.swing.JCheckBox;
+import javax.swing.*;
 
 import edu.colorado.phet.capacitorlab.CLStrings;
-import edu.colorado.phet.capacitorlab.view.CapacitorNode;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.PhetTitledPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.phetcommon.view.util.GridPanel;
@@ -20,12 +20,12 @@ import edu.colorado.phet.common.phetcommon.view.util.GridPanel.Anchor;
  */
 public class ViewControlPanel extends PhetTitledPanel {
 
-    public ViewControlPanel( final CapacitorNode capacitorNode ) {
+    public ViewControlPanel( Property<Boolean> plateChargeVisible, Property<Boolean> eFieldVisible ) {
         super( CLStrings.VIEW );
 
         // check boxes
-        JCheckBox plateChargesCheckBox = new PropertyCheckBox( CLStrings.PLATE_CHARGES, capacitorNode.getPlateChargeVisibileProperty() );
-        JCheckBox electricFieldLinesCheckBox = new PropertyCheckBox( CLStrings.ELECTRIC_FIELD_LINES, capacitorNode.getEFieldVisibleProperty() );
+        JCheckBox plateChargesCheckBox = new PropertyCheckBox( CLStrings.PLATE_CHARGES, plateChargeVisible );
+        JCheckBox electricFieldLinesCheckBox = new PropertyCheckBox( CLStrings.ELECTRIC_FIELD_LINES, eFieldVisible );
 
         // layout
         GridPanel innerPanel = new GridPanel();

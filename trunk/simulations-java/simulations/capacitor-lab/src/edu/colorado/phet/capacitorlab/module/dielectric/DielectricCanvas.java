@@ -76,8 +76,8 @@ public class DielectricCanvas extends CLCanvas {
         final double eFieldVectorReferenceMagnitude = DielectricModel.getMaxPlatesDielectricEFieldWithBattery();
 
         batteryNode = new BatteryNode( model.getBattery(), CLConstants.BATTERY_VOLTAGE_RANGE );
-        capacitorNode = new CapacitorNode( model.getCircuit().getCapacitor(), mvt, CLConstants.PLATE_CHARGES_VISIBLE, CLConstants.EFIELD_VISIBLE, CLConstants.DIELECTRIC_CHARGE_VIEW,
-                maxPlateCharge, maxExcessDielectricPlateCharge, maxEffectiveEfield, maxDielectricEField );
+        capacitorNode = new CapacitorNode( model.getCircuit().getCapacitor(), mvt, model.plateChargesVisible, model.eFieldVisible, CLConstants.DIELECTRIC_CHARGE_VIEW,
+                                           maxPlateCharge, maxExcessDielectricPlateCharge, maxEffectiveEfield, maxDielectricEField );
         topWireNode = new WireNode( model.getTopWire(), mvt );
         bottomWireNode = new WireNode( model.getBottomWire(), mvt );
 
@@ -162,7 +162,7 @@ public class DielectricCanvas extends CLCanvas {
 
             // Plate Charge control
             pView = mvt.modelToView( CLConstants.PLATE_CHARGE_CONTROL_LOCATION );
-            plateChargeControNode.setOffset( pView  );
+            plateChargeControNode.setOffset( pView );
         }
 
         // observers
@@ -176,11 +176,11 @@ public class DielectricCanvas extends CLCanvas {
             // things whose visibility causes the dielectric to become transparent
             SimpleObserver o = new SimpleObserver() {
                 public void update() {
-                    boolean transparent = capacitorNode.isEFieldVisible() || model.getVoltmeter().isVisible() || model.getEFieldDetector().isVisible();
+                    boolean transparent = model.eFieldVisible.getValue() || model.getVoltmeter().isVisible() || model.getEFieldDetector().isVisible();
                     capacitorNode.getDielectricNode().setOpaque( !transparent );
                 }
             };
-            capacitorNode.addEFieldVisibleObserver( o );
+            model.eFieldVisible.addObserver( o );
             model.getVoltmeter().addVisibleObserver( o );
             model.getEFieldDetector().addVisibleObserver( o );
         }
