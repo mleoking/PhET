@@ -56,8 +56,8 @@ public class Tool extends PNode {
                     } );
                 }
 
-                ToolNode node = null;
-                boolean intersect = false;
+                ToolNode node = null;//The node that has been dragged out
+                boolean intersect = false;//true if the node is ready to be dropped back in the toolbox
 
                 // Create the node and add it to the scene
                 @Override public void mousePressed( PInputEvent event ) {

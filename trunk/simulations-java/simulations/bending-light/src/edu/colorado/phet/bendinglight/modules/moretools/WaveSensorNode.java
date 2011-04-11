@@ -23,7 +23,7 @@ import static edu.colorado.phet.bendinglight.BendingLightApplication.RESOURCES;
 import static java.awt.Color.white;
 
 /**
- * PNode for the wave sensor, which shows 2 probes and a chart area.
+ * PNode for the wave sensor, which shows 2 sensor probes and a chart area (the body)
  *
  * @author Sam Reid
  */

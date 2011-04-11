@@ -48,10 +48,6 @@ public class LightRayNode extends PNode {
         setChildrenPickable( false );
     }
 
-    public boolean shapeContains( int x, int y ) {
-        return ss.contains( x, y );
-    }
-
     public Line2D.Double getLine() {
         return new Line2D.Double( mystart, myend );
     }

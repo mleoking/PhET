@@ -56,6 +56,7 @@ public class VBox extends PhetPNode {
         }
     }
 
+    //Test
     public static void main( String[] args ) {
         new JFrame() {{
             setContentPane( new PhetPCanvas() {{

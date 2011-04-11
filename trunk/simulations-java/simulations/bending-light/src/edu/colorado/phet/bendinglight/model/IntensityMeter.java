@@ -40,6 +40,7 @@ public class IntensityMeter {
         return new Ellipse2D.Double( sensorPosition.getValue().getX() - radius, sensorPosition.getValue().getY() - radius, radius * 2, radius * 2 );
     }
 
+    //Should be called before a model update so that values from last computation don't leak over into the next summation
     public void clearRayReadings() {
         rayReadings.clear();
         reading.setValue( Reading.MISS );
