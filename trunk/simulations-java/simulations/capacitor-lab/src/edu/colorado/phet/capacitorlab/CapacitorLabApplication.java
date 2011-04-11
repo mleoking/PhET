@@ -2,10 +2,9 @@
 
 package edu.colorado.phet.capacitorlab;
 
-import java.awt.Frame;
+import java.awt.*;
 
-import javax.swing.Box;
-import javax.swing.JMenu;
+import javax.swing.*;
 
 import edu.colorado.phet.capacitorlab.developer.EFieldShapesDebugMenuItem;
 import edu.colorado.phet.capacitorlab.developer.VoltageShapesDebugMenuItem;
@@ -21,7 +20,6 @@ import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
  * Main application for this simulation.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- *
  */
 public class CapacitorLabApplication extends PiccoloPhetApplication {
 
@@ -30,8 +28,7 @@ public class CapacitorLabApplication extends PiccoloPhetApplication {
      *
      * @param config the configuration for this application
      */
-    public CapacitorLabApplication( PhetApplicationConfig config )
-    {
+    public CapacitorLabApplication( PhetApplicationConfig config ) {
         super( config );
         initModules();
         initMenuBar();
