@@ -1,3 +1,5 @@
+4/11/11 added circuit choice property to model and control panel
+4/11/11 moved enums to top-level model class files
 4/11/11 added model property for dielectric charge representation
 4/11/11 started to flesh out Multi-Cap control panel
 4/11/11 added model properties for charge and e-field visibility

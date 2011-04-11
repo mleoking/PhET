@@ -12,10 +12,14 @@ package edu.colorado.phet.capacitorlab;
 public class CLStrings {
 
     /* not intended for instantiation */
-    private CLStrings() {}
+    private CLStrings() {
+    }
 
     // simple strings
     public static final String CAPACITANCE = getString( "capacitance" );
+    public static final String CIRCUITS = getString( "circuits" );
+    public static final String COMBINATION_1 = getString( "combination1" );
+    public static final String COMBINATION_2 = getString( "combination2" );
     public static final String CONNECT_BATTERY = getString( "connectBattery" );
     public static final String COULOMBS = getString( "coulombs" );
     public static final String CUSTOM = getString( "custom" );
@@ -47,13 +51,18 @@ public class CLStrings {
     public static final String PLATE_CHARGES = getString( "plateCharges" );
     public static final String PLATE_CHARGE_TOP = getString( "plateChargeTop" );
     public static final String SEPARATION = getString( "separation" );
-    public static final String SHOW_ALL_CHARGES= getString( "showAllCharges" );
+    public static final String SHOW_ALL_CHARGES = getString( "showAllCharges" );
     public static final String SHOW_EXCESS_CHARGES = getString( "showExcessCharges" );
     public static final String SHOW_VALUES = getString( "showValues" );
     public static final String SHOW_VECTORS = getString( "showVectors" );
+    public static final String SINGLE = getString( "single" );
     public static final String STORED_ENERGY = getString( "storedEnergy" );
     public static final String SUM = getString( "sum" );
     public static final String TEFLON = getString( "teflon" );
+    public static final String THREE_IN_PARALLEL = getString( "threeInParallel" );
+    public static final String THREE_IN_SERIES = getString( "threeInSeries" );
+    public static final String TWO_IN_PARALLEL = getString( "twoInParallel" );
+    public static final String TWO_IN_SERIES = getString( "twoInSeries" );
     public static final String VIEW = getString( "view" );
     public static final String VOLTMETER = getString( "voltmeter" );
     public static final String VOLTS = getString( "volts" );

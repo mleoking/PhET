@@ -6,28 +6,17 @@ import java.awt.*;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.model.*;
-import edu.colorado.phet.capacitorlab.view.DielectricNode;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 
 public class MultipleCapacitorsModel {
 
-    // preconfigured circuit choices
-    public static enum CircuitChoices {
-        SINGLE,
-        TWO_IN_SERIES,
-        THREE_IN_SERIES,
-        TWO_IN_PARALLEL,
-        THREE_IN_PARALLEL,
-        SERIES_PARALLEL,
-        PARALLEL_SERIES
-    }
-
     // directly observable properties
     public final Property<Boolean> plateChargesVisible = new Property<Boolean>( CLConstants.PLATE_CHARGES_VISIBLE );
     public final Property<Boolean> eFieldVisible = new Property<Boolean>( CLConstants.EFIELD_VISIBLE );
-    public final Property<DielectricNode.DielectricChargeView> property = new Property<DielectricNode.DielectricChargeView>( CLConstants.DIELECTRIC_CHARGE_VIEW );
+    public final Property<PreconfiguredCircuitChoices> circuitChoice = new Property<PreconfiguredCircuitChoices>( PreconfiguredCircuitChoices.SINGLE );
 
     private final World world;
     private final CapacitanceMeter capacitanceMeter;
@@ -55,11 +44,19 @@ public class MultipleCapacitorsModel {
         voltmeter = new Voltmeter( circuit, world, mvt,
                                    CLConstants.VOLTMETER_BODY_LOCATION, CLConstants.VOLTMETER_POSITIVE_PROBE_LOCATION, CLConstants.VOLTMETER_NEGATIVE_PROBE_LOCATION,
                                    CLConstants.VOLTMETER_VISIBLE );
+
+        circuitChoice.addObserver( new SimpleObserver() {
+            public void update() {
+                System.out.println( "circuitChoice=" + circuitChoice.getValue() );//XXX
+                //TODO change circuit based on selection
+            }
+        } );
     }
 
     public void reset() {
         plateChargesVisible.reset();
         eFieldVisible.reset();
+        circuitChoice.reset();
         capacitanceMeter.reset();
         plateChargeMeter.reset();
         storedEnergyMeter.reset();
