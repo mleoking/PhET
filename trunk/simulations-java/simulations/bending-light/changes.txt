@@ -1,3 +1,5 @@
+Switched to use the common SimSpeedControl since it has better support for i18n
+Slowed down the chart region in the wave sensor to account for the increased sim speed
 # 0.00.39 (50522) Apr 11, 2011
 Internationalized
 # 0.00.38 (50520) Apr 11, 2011

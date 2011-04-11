@@ -170,7 +170,7 @@ public class IntroCanvas<T extends IntroModel> extends BendingLightCanvas<T> {
                 } );
             }};
 
-            final SimSpeedSlider speedSlider = new SimSpeedSlider( dt / 4, simSpeedProperty, dt, 0, new Property<Color>( Color.black ) );
+            final SimSpeedControlPNode speedSlider = new SimSpeedControlPNode( dt / 4, simSpeedProperty, dt, 0, new Property<Color>( Color.black ) );
             addChild( speedSlider );
 
             //sim speed slider is not at (0,0) in this node, so need to account for its size
