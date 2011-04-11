@@ -46,11 +46,15 @@ public interface FrameSetup {
             return getDefaultToolkit().getScreenInsets( getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration() );
         }
 
+        //Determine the screen region that is not taken up by toolbars, etc.
+        private Rectangle getAvailableRectangle() {
+            return new Rectangle( getInsets().left, getInsets().top, getAvailableWidth(), getAvailableHeight() );
+        }
+
         public void initialize( JFrame frame ) {
-            Dimension screenSize = getDefaultToolkit().getScreenSize();
-            //If too big, then just fit inside insets, otherwise center
-            frame.setLocation( frameWidth >= getAvailableWidth() ? getInsets().left : screenSize.width / 2 - frameWidth / 2,
-                               frameHeight >= getAvailableHeight() ? getInsets().top : screenSize.height / 2 - frameHeight / 2 );
+            //Center in available region
+            frame.setLocation( (int) getAvailableRectangle().getCenterX() - frameWidth / 2,
+                               (int) getAvailableRectangle().getCenterY() - frameHeight / 2 );
             frame.setSize( frameWidth, frameHeight );
         }
     }

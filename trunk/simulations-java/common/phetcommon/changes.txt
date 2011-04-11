@@ -1,3 +1,4 @@
+4/11/11 Center the frame within the available region
 > 4/11/11 Prevent the window from being initialized to be larger (in width or height) than the available screen size, accounting for insets of toolbars, etc.
 4/11/11 Removed unused FrameSetup implementations
 4/11/11 Updated docs for FrameSetup
