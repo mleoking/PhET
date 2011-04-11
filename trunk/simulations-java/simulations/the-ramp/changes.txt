@@ -1,3 +1,4 @@
+> Set initial frame size to be 1024x768 instead of MAX_EXTENT
 # 1.03.30 (33920) Aug 5, 2009
 # 1.03.29 (33918) Aug 5, 2009
 Internationalized HTML snippets, one in FreeBodyDiagramNode, one in ObjectSelectionNode
