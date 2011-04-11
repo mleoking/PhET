@@ -3,6 +3,7 @@ package edu.colorado.phet.bendinglight.modules.prisms;
 
 import java.awt.*;
 
+import edu.colorado.phet.bendinglight.BendingLightStrings;
 import edu.colorado.phet.bendinglight.model.BendingLightModel;
 import edu.colorado.phet.bendinglight.model.MediumColorFactory;
 import edu.colorado.phet.bendinglight.view.BendingLightCanvas;
@@ -50,7 +51,7 @@ public class PrismsCanvas extends BendingLightCanvas<PrismsModel> {
             }
         } );
 
-        afterLightLayer2.addChild( new ControlPanelNode( new MediumControlPanel( this, model.environment, "Environment:", false, model.wavelengthProperty, "0.0000000", 8 ) ) {{
+        afterLightLayer2.addChild( new ControlPanelNode( new MediumControlPanel( this, model.environment, BendingLightStrings.ENVIRONMENT, false, model.wavelengthProperty, "0.0000000", 8 ) ) {{
             setOffset( stageSize.width - getFullBounds().getWidth() - 10, 10 );
         }} );
 

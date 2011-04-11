@@ -7,6 +7,7 @@ import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import edu.colorado.phet.bendinglight.BendingLightStrings;
 import edu.colorado.phet.bendinglight.view.BendingLightCanvas;
 import edu.colorado.phet.bendinglight.view.MediumControlPanel;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -24,7 +25,7 @@ import edu.umd.cs.piccolo.nodes.PText;
  */
 public class PrismToolboxNode extends PNode {
     public PrismToolboxNode( final PrismsCanvas canvas, final ModelViewTransform transform, final PrismsModel model ) {
-        final PText titleLabel = new PText( "Prisms" ) {{
+        final PText titleLabel = new PText( BendingLightStrings.PRISMS ) {{
             setFont( BendingLightCanvas.labelFont );
         }};
         addChild( titleLabel );
@@ -90,6 +91,6 @@ public class PrismToolboxNode extends PNode {
             }};
             addChild( thumbnail );
         }
-        addChild( new MediumControlPanel( canvas, model.prismMedium, "Objects:", false, model.wavelengthProperty, "0.0000000", 8 ) {{setOffset( x[0], 0 );}} );
+        addChild( new MediumControlPanel( canvas, model.prismMedium, BendingLightStrings.OBJECTS, false, model.wavelengthProperty, "0.0000000", 8 ) {{setOffset( x[0], 0 );}} );
     }
 }

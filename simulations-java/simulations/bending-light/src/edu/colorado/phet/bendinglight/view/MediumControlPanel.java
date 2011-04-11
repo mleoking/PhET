@@ -11,6 +11,7 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.bendinglight.BendingLightStrings;
 import edu.colorado.phet.bendinglight.model.*;
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -32,7 +33,7 @@ import static edu.colorado.phet.bendinglight.view.BendingLightCanvas.labelFont;
  */
 public class MediumControlPanel extends PNode {
 
-    private final MediumState CUSTOM = new MediumState( "Custom", BendingLightModel.MYSTERY_B.index() + 1.2, false, true );
+    private final MediumState CUSTOM = new MediumState( BendingLightStrings.CUSTOM, BendingLightModel.MYSTERY_B.index() + 1.2, false, true );
     private final Property<Medium> medium;
     private final Property<Double> laserWavelength;
     private static final int MIN = 1;
@@ -110,7 +111,9 @@ public class MediumControlPanel extends PNode {
         //However, for unknown reasons, some text was always clipped off, and we decided to proceed by doing the layout in Piccolo, which resolved the problem.
         final PNode slider = new PNode() {{
             final PNode topComponent = new PNode() {{
-                final PText label = new PText( textFieldVisible ? "Index of Refraction (n):" : "Index of Refraction (n)" ) {{setFont( BendingLightCanvas.labelFont );}};
+                final PText label = new PText( textFieldVisible ? BendingLightStrings.INDEX_OF_REFRACTION_COLON : BendingLightStrings.INDEX_OF_REFRACTION ) {{
+                    setFont( BendingLightCanvas.labelFont );
+                }};
                 addChild( label );
                 if ( textFieldVisible ) {
                     addChild( new PSwing( new JTextField( new DecimalFormat( format ).format( medium.getValue().getIndexOfRefraction( laserWavelength.getValue() ) ), columns ) {{
@@ -147,8 +150,8 @@ public class MediumControlPanel extends PNode {
                 //Use a custom layout so that we can easily position the low and high labels aligned with the focus rectangle of the slider, so they
                 //appear to the left and right of the slider thumb, not between the slider track and the slider labels
                 setLayout( null );
-                final LowHighLabel lowLabel = new LowHighLabel( "low", !textFieldVisible );
-                final LowHighLabel highLabel = new LowHighLabel( "high", !textFieldVisible );
+                final LowHighLabel lowLabel = new LowHighLabel( BendingLightStrings.LOW, !textFieldVisible );
+                final LowHighLabel highLabel = new LowHighLabel( BendingLightStrings.HIGH, !textFieldVisible );
                 final JSlider slider = new JSlider( 0, 10000 ) {{
                     final Function.LinearFunction mapping = new Function.LinearFunction( getMinimum(), getMaximum(), MIN, MAX );
                     addChangeListener( new ChangeListener() {
@@ -167,9 +170,9 @@ public class MediumControlPanel extends PNode {
                     setPaintTicks( true );
                     setPaintLabels( true );
                     setLabelTable( new Hashtable<Object, Object>() {{
-                        put( (int) mapping.createInverse().evaluate( BendingLightModel.AIR.index() ), new TickLabel( "Air" ) );
-                        put( (int) mapping.createInverse().evaluate( BendingLightModel.WATER.index() ), new TickLabel( "Water" ) );
-                        put( (int) mapping.createInverse().evaluate( BendingLightModel.GLASS.index() ), new TickLabel( "Glass" ) );
+                        put( (int) mapping.createInverse().evaluate( BendingLightModel.AIR.index() ), new TickLabel( BendingLightStrings.AIR ) );
+                        put( (int) mapping.createInverse().evaluate( BendingLightModel.WATER.index() ), new TickLabel( BendingLightStrings.WATER ) );
+                        put( (int) mapping.createInverse().evaluate( BendingLightModel.GLASS.index() ), new TickLabel( BendingLightStrings.GLASS ) );
                     }} );
                     setPreferredSize( new Dimension( Math.max( (int) topComponent.getFullBounds().getWidth(), 200 ), getPreferredSize().height ) );
                 }};
@@ -196,7 +199,7 @@ public class MediumControlPanel extends PNode {
 
         addChild( slider );
 
-        final PText unknown = new PText( "n=?" ) {{
+        final PText unknown = new PText( BendingLightStrings.N_UNKNOWN ) {{
             setFont( labelFont );
             centerFullBoundsOnPoint( slider.getFullBounds().getCenterX(), slider.getFullBounds().getCenterY() );
             medium.addObserver( new SimpleObserver() {
@@ -212,7 +215,7 @@ public class MediumControlPanel extends PNode {
 
     private void setCustomIndexOfRefraction( double indexOfRefraction ) {
         final DispersionFunction dispersionFunction = new DispersionFunction( indexOfRefraction, laserWavelength.getValue() );
-        medium.setValue( new Medium( medium.getValue().shape, new MediumState( "Custom", dispersionFunction, false, false ), MediumColorFactory.getColor( dispersionFunction.getIndexOfRefractionForRed() ) ) );
+        medium.setValue( new Medium( medium.getValue().shape, new MediumState( BendingLightStrings.CUSTOM, dispersionFunction, false, false ), MediumColorFactory.getColor( dispersionFunction.getIndexOfRefractionForRed() ) ) );
     }
 
     //From the combo box

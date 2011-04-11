@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.bendinglight.modules.moretools;
 
+import edu.colorado.phet.bendinglight.BendingLightStrings;
 import edu.colorado.phet.bendinglight.modules.BendingLightModule;
 
 /**
@@ -12,7 +13,7 @@ public class MoreToolsModule extends BendingLightModule<MoreToolsModel> {
     public MoreToolsCanvas canvas;
 
     public MoreToolsModule() {
-        super( "More Tools", new MoreToolsModel() );
+        super( BendingLightStrings.MORE_TOOLS, new MoreToolsModel() );
         canvas = new MoreToolsCanvas( getBendingLightModel(), moduleActive, resetAll );
         setSimulationPanel( canvas );
     }

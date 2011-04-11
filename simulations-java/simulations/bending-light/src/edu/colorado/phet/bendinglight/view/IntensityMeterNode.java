@@ -7,6 +7,7 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.bendinglight.BendingLightApplication;
+import edu.colorado.phet.bendinglight.BendingLightStrings;
 import edu.colorado.phet.bendinglight.model.IntensityMeter;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -68,13 +69,13 @@ public class IntensityMeterNode extends ToolNode {
                 }
             } );
         }};
-        bodyNode.addChild( new PText( "Intensity" ) {{
+        bodyNode.addChild( new PText( BendingLightStrings.INTENSITY ) {{
             setFont( new PhetFont( 22 ) );
             setTextPaint( Color.white );
             setOffset( bodyNode.getFullBounds().getWidth() / 2 - getFullBounds().getWidth() / 2, bodyNode.getFullBounds().getHeight() * 0.1 );
         }} );
 
-        bodyNode.addChild( new PText( "-" ) {{
+        bodyNode.addChild( new PText( "-" ) {{//dummy string for layout
             setFont( new PhetFont( 30 ) );
             intensityMeter.reading.addObserver( new SimpleObserver() {
                 public void update() {

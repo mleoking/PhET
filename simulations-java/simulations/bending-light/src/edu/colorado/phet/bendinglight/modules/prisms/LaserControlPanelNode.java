@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
+import edu.colorado.phet.bendinglight.BendingLightStrings;
 import edu.colorado.phet.bendinglight.view.BendingLightCanvas;
 import edu.colorado.phet.bendinglight.view.BendingLightWavelengthControl;
 import edu.colorado.phet.bendinglight.view.LaserColor;
@@ -39,7 +40,7 @@ public class LaserControlPanelNode extends ControlPanelNode {
                 }
             }
 
-            add( new JRadioButton( "One Color", laserColor.getValue() != LaserColor.WHITE_LIGHT ) {{
+            add( new JRadioButton( BendingLightStrings.ONE_COLOR, laserColor.getValue() != LaserColor.WHITE_LIGHT ) {{
                 setFont( BendingLightCanvas.labelFont );
                 final SimpleObserver updateSelected = new SimpleObserver() {
                     public void update() {
@@ -62,15 +63,15 @@ public class LaserControlPanelNode extends ControlPanelNode {
                 getLayer().addChild( wavelengthControl );
                 setBorder( null );
             }} );
-            add( new MyRadioButton<LaserColor>( "White Light", laserColor, LaserColor.WHITE_LIGHT ) );
+            add( new MyRadioButton<LaserColor>( BendingLightStrings.WHITE_LIGHT, laserColor, LaserColor.WHITE_LIGHT ) );
             add( new JSeparator() );
-            add( new MyRadioButton<Boolean>( "Single Ray", multipleRays, false ) );
-            add( new MyRadioButton<Boolean>( "Multiple Rays", multipleRays, true ) );
+            add( new MyRadioButton<Boolean>( BendingLightStrings.SINGLE_RAY, multipleRays, false ) );
+            add( new MyRadioButton<Boolean>( BendingLightStrings.MULTIPLE_RAYS, multipleRays, true ) );
             add( new JSeparator() );
-            add( new PropertyCheckBox( "Show Reflections", showReflections ) {{setFont( BendingLightCanvas.labelFont );}} );
-            add( new PropertyCheckBox( "Show Normal", showNormal ) {{setFont( BendingLightCanvas.labelFont );}} );
+            add( new PropertyCheckBox( BendingLightStrings.SHOW_REFLECTIONS, showReflections ) {{setFont( BendingLightCanvas.labelFont );}} );
+            add( new PropertyCheckBox( BendingLightStrings.SHOW_NORMAL, showNormal ) {{setFont( BendingLightCanvas.labelFont );}} );
             add( new HorizontalLayoutPanel() {{
-                add( new PropertyCheckBox( "Show Protractor", showProtractor ) {{setFont( BendingLightCanvas.labelFont );}} );
+                add( new PropertyCheckBox( BendingLightStrings.SHOW_PROTRACTOR, showProtractor ) {{setFont( BendingLightCanvas.labelFont );}} );
                 add( new JLabel( new ImageIcon( ProtractorNode.newProtractorImage( 40 ) ) ) );
             }} );
         }} ) );

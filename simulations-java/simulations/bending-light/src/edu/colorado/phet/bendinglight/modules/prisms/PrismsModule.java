@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.bendinglight.modules.prisms;
 
+import edu.colorado.phet.bendinglight.BendingLightStrings;
 import edu.colorado.phet.bendinglight.modules.BendingLightModule;
 
 /**
@@ -12,7 +13,7 @@ public class PrismsModule extends BendingLightModule<PrismsModel> {
     public PrismsCanvas canvas;
 
     public PrismsModule() {
-        super( "Prism Break", new PrismsModel() );
+        super( BendingLightStrings.PRISM_BREAK, new PrismsModel() );
         canvas = new PrismsCanvas( getBendingLightModel(), moduleActive, resetAll );
         setSimulationPanel( canvas );
     }

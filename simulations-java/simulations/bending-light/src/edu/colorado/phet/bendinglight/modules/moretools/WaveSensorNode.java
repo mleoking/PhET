@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
+import edu.colorado.phet.bendinglight.BendingLightStrings;
 import edu.colorado.phet.bendinglight.view.WireNode;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -56,7 +57,7 @@ public class WaveSensorNode extends ToolNode {
                     setOffset( viewPoint.getX() - getFullBounds().getWidth() / 2, viewPoint.getY() - getFullBounds().getHeight() );
                 }
             } );
-            addChild( new PText( "Time" ) {{
+            addChild( new PText( BendingLightStrings.TIME ) {{
                 setFont( new PhetFont( 18 ) );
                 setTextPaint( white );
                 setOffset( titleBounds.getCenterX() - getFullBounds().getWidth() / 2, titleBounds.getCenterY() - getFullBounds().getHeight() / 2 );

@@ -1,3 +1,4 @@
+Internationalized
 # 0.00.38 (50520) Apr 11, 2011
 Reset wave sensor positions so that they come out in the right relative location after resetting previous instance
 Made it possible to drop in sensors by dropping in their probes
