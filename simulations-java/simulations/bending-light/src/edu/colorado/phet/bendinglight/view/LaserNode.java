@@ -53,6 +53,8 @@ public class LaserNode extends PNode {
         }};
 
         addChild( clockwiseDragArrow );
+
+        //Properties to help identify where the mouse is so that arrows can be show indicating how the laser can be dragged
         final BooleanProperty mouseOverRotationPart = new BooleanProperty( false );
         final BooleanProperty mouseOverTranslationPart = new BooleanProperty( false );
         final BooleanProperty draggingRotation = new BooleanProperty( false );
@@ -165,6 +167,7 @@ public class LaserNode extends PNode {
         };
         updateLaser.observe( laser.pivot, laser.emissionPoint );
 
+        //Show the button on the laser that turns it on and off
         final BufferedImage pressed = flipY( flipX( multiScaleToHeight( BendingLightApplication.RESOURCES.getImage( "button_pressed.png" ), 42 ) ) );
         final BufferedImage unpressed = flipY( flipX( multiScaleToHeight( BendingLightApplication.RESOURCES.getImage( "button_unpressed.png" ), 42 ) ) );
         addChild( new PImage( pressed ) {{
