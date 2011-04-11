@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.buildamolecule.module;
 
-import java.awt.Frame;
+import java.awt.*;
 
 import edu.colorado.phet.buildamolecule.BuildAMoleculeStrings;
 import edu.colorado.phet.buildamolecule.view.LargerMoleculesCanvas;

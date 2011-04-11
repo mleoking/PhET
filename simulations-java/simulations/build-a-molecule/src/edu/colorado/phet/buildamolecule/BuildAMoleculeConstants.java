@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.buildamolecule;
 
-import java.awt.Color;
+import java.awt.*;
 
 import edu.umd.cs.piccolo.util.PDimension;
 

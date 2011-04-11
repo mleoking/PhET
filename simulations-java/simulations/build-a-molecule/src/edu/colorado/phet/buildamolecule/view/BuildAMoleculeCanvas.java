@@ -2,12 +2,13 @@
 
 package edu.colorado.phet.buildamolecule.view;
 
-import java.awt.Point;
+import java.awt.*;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.buildamolecule.BuildAMoleculeConstants;
 import edu.colorado.phet.buildamolecule.BuildAMoleculeResources;
+import edu.colorado.phet.buildamolecule.control.CollectionAreaNode;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
@@ -43,15 +44,21 @@ public class BuildAMoleculeCanvas extends PhetPCanvas {
         // in or out (smaller numbers zoom out, larger ones zoom in).
         mvt = ModelViewTransform.createSinglePointScaleInvertedYMapping(
                 new Point2D.Double( 0, 0 ),
-                new Point( (int) Math.round( BuildAMoleculeConstants.DEFAULT_STAGE_SIZE.width * 0.32 ),
-                        (int) Math.round( BuildAMoleculeConstants.DEFAULT_STAGE_SIZE.height * 0.49 ) ),
-                2.0 ); // "Zoom factor" - smaller zooms out, larger zooms in.
+                new Point( (int) Math.round( BuildAMoleculeConstants.DEFAULT_STAGE_SIZE.width * 0.5 ),
+                           (int) Math.round( BuildAMoleculeConstants.DEFAULT_STAGE_SIZE.height * 0.5 ) ),
+                1.0 ); // "Zoom factor" - smaller zooms out, larger zooms in.
 
         setBackground( BuildAMoleculeConstants.CANVAS_BACKGROUND_COLOR );
 
         // TODO: Temp - add an image that represents the tab.
-        PNode tempImage = new PImage( BuildAMoleculeResources.getImage( "tab-1-temp-sketch.png" ));
+        PNode tempImage = new PImage( BuildAMoleculeResources.getImage( "tab-1-temp-sketch.png" ) );
         addWorldChild( tempImage );
+
+        CollectionAreaNode collectionAreaNode = new CollectionAreaNode() {{
+            double collectionAreaPadding = 20;
+            setOffset( BuildAMoleculeConstants.DEFAULT_STAGE_SIZE.width - getFullBounds().getWidth() - collectionAreaPadding, collectionAreaPadding );
+        }};
+        addWorldChild( collectionAreaNode );
 
         // Root of our scene graph
         _rootNode = new PNode();
