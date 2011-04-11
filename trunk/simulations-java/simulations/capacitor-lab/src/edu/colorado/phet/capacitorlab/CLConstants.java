@@ -2,9 +2,9 @@
 
 package edu.colorado.phet.capacitorlab;
 
-import java.awt.Dimension;
+import java.awt.*;
 
-import edu.colorado.phet.capacitorlab.view.DielectricNode.DielectricChargeView;
+import edu.colorado.phet.capacitorlab.model.DielectricChargeView;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
@@ -18,7 +18,8 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 public class CLConstants {
 
     /* Not intended for instantiation. */
-    private CLConstants() {}
+    private CLConstants() {
+    }
 
     //----------------------------------------------------------------------------
     // Debugging
