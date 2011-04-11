@@ -47,7 +47,7 @@ public class SimSpeedControlPNode extends PNode {
         addChild( new PSwing( simSpeedControl ) {{
             setOffset( maxPosX - getFullBoundsReference().width, 0 );
         }} );
-        //Have to manually add a change listener to the sim speed control since it only reads values from the speed slider instead of writing values to it.
+        //Have to manually add a change listener to the sim speed control since it only reads values from the speed slider instead of writing values to it, see #2798
         simSpeedControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 clock.setDt( simSpeedControl.getValue() );
