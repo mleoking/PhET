@@ -64,6 +64,10 @@ public class MultipleCapacitorsModel {
         voltmeter.reset();
     }
 
+    public World getWorld() {
+        return world;
+    }
+
     public CapacitanceMeter getCapacitanceMeter() {
         return capacitanceMeter;
     }
