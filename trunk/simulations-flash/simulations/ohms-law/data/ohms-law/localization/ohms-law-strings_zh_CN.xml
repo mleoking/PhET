@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--ohms-law-strings_zh_CN.xml created Sun Mar 20 10:23:32 CST 2011 using: ohms-law 2.01.00 (37318), translation-utility 2.10.00 (48775) 二月 9, 2011-->
+<!--ohms-law-strings_zh_CN.xml created Sun Apr 10 10:54:08 CST 2011 using: ohms-law 2.01.00 (37318), translation-utility 2.10.00 (48775) 二月 9, 2011-->
 <SimStrings>
 <string key="currentEq" value="电流="/>
 <string key="resistance" value="电阻"/>
-<string key="simTitle" value="欧姆定律"/>
+<string key="simTitle" value="部分电路欧姆定律"/>
 <string key="sound" value="声音"/>
-<string key="translation.credits" value="Hudielan"/>
+<string key="translation.credits" value="张大红"/>
 <string key="voltage" value="电压"/>
 </SimStrings>
