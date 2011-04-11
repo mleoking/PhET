@@ -27,7 +27,7 @@ public class CapacitorNode extends PhetPNode {
 
     public CapacitorNode( Capacitor capacitor, CLModelViewTransform3D mvt,
                           final Property<Boolean> plateChargeVisible, final Property<Boolean> eFieldVisible,
-                          DielectricChargeView dielectricChargeView,
+                          Property<DielectricChargeView> dielectricChargeView,
                           double maxPlateCharge, double maxExcessDielectricPlateCharge, double maxEffectiveEfield, double maxDielectricEField ) {
 
         this.capacitor = capacitor;
@@ -74,10 +74,6 @@ public class CapacitorNode extends PhetPNode {
 
     public void cleanup() {
         //TODO remove observers from plateChargesVisible and eFieldVisible
-    }
-
-    public void reset() {
-        dielectricNode.reset();
     }
 
     public DielectricNode getDielectricNode() {

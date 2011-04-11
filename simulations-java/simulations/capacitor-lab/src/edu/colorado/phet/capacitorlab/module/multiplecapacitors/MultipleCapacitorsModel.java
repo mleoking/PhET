@@ -6,6 +6,7 @@ import java.awt.*;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.model.*;
+import edu.colorado.phet.capacitorlab.view.DielectricNode;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 
@@ -26,6 +27,7 @@ public class MultipleCapacitorsModel {
     // directly observable properties
     public final Property<Boolean> plateChargesVisible = new Property<Boolean>( CLConstants.PLATE_CHARGES_VISIBLE );
     public final Property<Boolean> eFieldVisible = new Property<Boolean>( CLConstants.EFIELD_VISIBLE );
+    public final Property<DielectricNode.DielectricChargeView> property = new Property<DielectricNode.DielectricChargeView>( CLConstants.DIELECTRIC_CHARGE_VIEW );
 
     private final World world;
     private final CapacitanceMeter capacitanceMeter;

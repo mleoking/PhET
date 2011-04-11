@@ -1,3 +1,4 @@
+4/11/11 added model property for dielectric charge representation
 4/11/11 started to flesh out Multi-Cap control panel
 4/11/11 added model properties for charge and e-field visibility
 4/5/11 tested by NP, no problems found, OK to proceed

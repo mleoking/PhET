@@ -8,6 +8,7 @@ import edu.colorado.phet.capacitorlab.model.DielectricMaterial.CustomDielectricM
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial.Glass;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial.Paper;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial.Teflon;
+import edu.colorado.phet.capacitorlab.view.DielectricNode;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 
@@ -21,6 +22,7 @@ public class DielectricModel {
     // directly observable properties
     public final Property<Boolean> plateChargesVisible = new Property<Boolean>( CLConstants.PLATE_CHARGES_VISIBLE );
     public final Property<Boolean> eFieldVisible = new Property<Boolean>( CLConstants.EFIELD_VISIBLE );
+    public final Property<DielectricNode.DielectricChargeView> dielectricChargeView = new Property<DielectricNode.DielectricChargeView>( CLConstants.DIELECTRIC_CHARGE_VIEW );
 
     private final World world;
     private final CustomDielectricMaterial customDielectricMaterial;

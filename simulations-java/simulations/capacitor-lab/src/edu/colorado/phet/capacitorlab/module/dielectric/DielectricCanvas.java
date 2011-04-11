@@ -76,7 +76,7 @@ public class DielectricCanvas extends CLCanvas {
         final double eFieldVectorReferenceMagnitude = DielectricModel.getMaxPlatesDielectricEFieldWithBattery();
 
         batteryNode = new BatteryNode( model.getBattery(), CLConstants.BATTERY_VOLTAGE_RANGE );
-        capacitorNode = new CapacitorNode( model.getCircuit().getCapacitor(), mvt, model.plateChargesVisible, model.eFieldVisible, CLConstants.DIELECTRIC_CHARGE_VIEW,
+        capacitorNode = new CapacitorNode( model.getCircuit().getCapacitor(), mvt, model.plateChargesVisible, model.eFieldVisible, model.dielectricChargeView,
                                            maxPlateCharge, maxExcessDielectricPlateCharge, maxEffectiveEfield, maxDielectricEField );
         topWireNode = new WireNode( model.getTopWire(), mvt );
         bottomWireNode = new WireNode( model.getBottomWire(), mvt );
@@ -192,8 +192,6 @@ public class DielectricCanvas extends CLCanvas {
     public void reset() {
         // battery connectivity
         updateBatteryConnectivity();
-        // capacitor view
-        capacitorNode.reset();
     }
 
     public void setEFieldShapesVisible( boolean enabled ) {
