@@ -106,7 +106,7 @@ public class IntensityMeterNode extends ToolNode {
     }
 
     @Override public PNode[] getDroppableComponents() {
-        return new PNode[] { bodyNode, sensorNode };
+        return new PNode[] { bodyNode };
     }
 
     public void doTranslate( Dimension2D delta ) {

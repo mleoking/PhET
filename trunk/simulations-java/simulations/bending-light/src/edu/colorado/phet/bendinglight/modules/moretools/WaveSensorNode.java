@@ -33,13 +33,14 @@ public class WaveSensorNode extends ToolNode {
 
     private final ModelViewTransform transform;
     private final WaveSensor waveSensor;
+    public final PImage bodyNode;
 
     public WaveSensorNode( final ModelViewTransform transform, final WaveSensor waveSensor ) {
         this.transform = transform;
         this.waveSensor = waveSensor;
         final Rectangle titleBounds = new Rectangle( 63, 90, 37, 14 );
         final Rectangle chartArea = new Rectangle( 15, 15, 131, 68 );
-        final PImage bodyNode = new PImage( RESOURCES.getImage( "wave_detector_box.png" ) ) {{
+        bodyNode = new PImage( RESOURCES.getImage( "wave_detector_box.png" ) ) {{
             addInputEventListener( new CursorHandler() );
             addInputEventListener( new PBasicInputEventHandler() {
                 @Override
@@ -93,5 +94,9 @@ public class WaveSensorNode extends ToolNode {
 
     @Override public void dragAll( PDimension delta ) {
         waveSensor.translateAll( new ImmutableVector2D( transform.viewToModelDelta( delta ) ) );
+    }
+
+    @Override public PNode[] getDroppableComponents() {
+        return new PNode[] { bodyNode };
     }
 }
