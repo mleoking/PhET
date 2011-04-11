@@ -1,12 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 
 /*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author:samreid $
- * Revision : $Revision:14677 $
- * Date modified : $Date:2007-04-17 03:40:29 -0500 (Tue, 17 Apr 2007) $
+ * Strategies for setting up the size and location of a frame
+ * @author Sam Reid
  */
 package edu.colorado.phet.common.phetcommon.view.util;
 
@@ -55,7 +51,6 @@ public interface FrameSetup {
             this.height = height;
         }
 
-        // TODO: add test to see that the requested dimensions aren't bigger than the screen
         public void initialize( JFrame frame ) {
             Toolkit tk = Toolkit.getDefaultToolkit();
             Dimension d = tk.getScreenSize();
