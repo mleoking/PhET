@@ -15,9 +15,11 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 
+import edu.colorado.phet.buildanatom.model.AtomIdentifier;
 import edu.colorado.phet.buildanatom.model.ImmutableAtom;
 import edu.colorado.phet.buildanatom.modules.isotopemixture.model.IsotopeMixturesModel;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.util.PrecisionDecimal;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -73,17 +75,26 @@ class IsotopeProprotionsPieChart extends PNode {
                     // Clear the labels.
                     labelLayer.removeAllChildren();
                     // Update the proportions of the pie slices.
-                    ArrayList<PieValue> pieSlices = new ArrayList<PieValue>();
+                    ArrayList<IsotopePieValue> pieSlices = new ArrayList<IsotopePieValue>();
                     for ( ImmutableAtom isotope : model.getPossibleIsotopesProperty().getValue() ) {
-                        double proportion = model.getIsotopeTestChamber().getIsotopeProportion( isotope );
+                        PrecisionDecimal proportion;
+                        if ( model.getShowingNaturesMixProperty().getValue() ){
+                            proportion = new PrecisionDecimal( AtomIdentifier.getNaturalAbundance( isotope ), 2 );
+                        }
+                        else{
+                            // The chemists requested that we just show one decimal place of precision when showing
+                            // the user's mix.
+                            proportion = new PrecisionDecimal( model.getIsotopeTestChamber().getIsotopeProportion( isotope ), 1 );
+                        }
                         // Only add non-zero values.
-                        if ( proportion > 0 ){
-                            pieSlices.add( new PieValue( proportion, model.getColorForIsotope( isotope ) ) );
+                        if ( proportion.getPreciseValue() > 0 ){
+                            pieSlices.add( new IsotopePieValue( proportion, model.getColorForIsotope( isotope ) ) );
                         }
                     }
                     // Convert the pie value array into the type needed by the
-                    // pie chart.
+                    // pie chart and set the values.
                     pieChart.setPieValues( pieSlices.toArray( new PieValue[pieSlices.size()] ) );
+
                     // TODO: The following was put in to catch a race condition where
                     // there could be isotopes in the chamber, but none that matched
                     // the current prototype isotope.  Changes were made that
@@ -406,6 +417,30 @@ class IsotopeProprotionsPieChart extends PNode {
                 // Use more digits when formatting nature's mix.
                 return USERS_MIX_FORMAT.format( number );
             }
+        }
+    }
+
+    /**
+     * Pie value that is used to create the pie chart node but that also
+     * retains precision information, which is needed for correct display of
+     * the pie slice labels.
+     *
+     * @author John Blanco
+     */
+    private static class IsotopePieValue extends PieValue {
+
+        private final PrecisionDecimal precisionValue;
+
+        /**
+         * Constructor.
+         */
+        public IsotopePieValue( PrecisionDecimal precisionValue, Color color ) {
+            super( precisionValue.getValue(), color );
+            this.precisionValue = precisionValue;
+        }
+
+        protected PrecisionDecimal getPrecisionValue() {
+            return precisionValue;
         }
     }
 }
