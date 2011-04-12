@@ -31,7 +31,10 @@ import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 import static edu.colorado.phet.bendinglight.BendingLightApplication.RESOURCES;
+import static edu.colorado.phet.bendinglight.model.BendingLightModel.MAX_DT;
+import static edu.colorado.phet.bendinglight.model.BendingLightModel.MIN_DT;
 import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.multiScaleToWidth;
+import static java.awt.Color.black;
 
 /**
  * Canvas for the "intro" tab.
@@ -171,7 +174,7 @@ public class IntroCanvas<T extends IntroModel> extends BendingLightCanvas<T> {
                 } );
             }};
 
-            final SimSpeedControlPNode speedSlider = new SimSpeedControlPNode( dt / 4, simSpeedProperty, dt, 0, new Property<Color>( Color.black ) );
+            final SimSpeedControlPNode speedSlider = new SimSpeedControlPNode( MIN_DT, simSpeedProperty, MAX_DT, 0, new Property<Color>( black ) );
             addChild( speedSlider );
 
             //sim speed slider is not at (0,0) in this node, so need to account for its size
