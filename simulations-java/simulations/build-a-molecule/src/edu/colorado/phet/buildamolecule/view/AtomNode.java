@@ -16,11 +16,10 @@ import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
- * Class that represents an atom and that labels it with the chemical symbol
- * and atomic number so that isotopes of the same element can be distinguished
- * from one another.
+ * Class that displays an atom and that labels it with the chemical symbol
  *
  * @author John Blanco
+ * @author Jonathan Olson
  */
 public class AtomNode extends PNode {
 
