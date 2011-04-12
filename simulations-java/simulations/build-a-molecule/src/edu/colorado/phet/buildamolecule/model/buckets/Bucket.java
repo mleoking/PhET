@@ -96,10 +96,9 @@ public class Bucket {
             containedAtoms.remove( particle );
             particle.removeListener( this );
 
-            final Point2D initialPosition = particle.getDestination();
             particle.addPositionListener( new SimpleObserver() {
                 public void update() {
-                    if ( initialPosition.distance( particle.getDestination() ) > particle.getRadius() * 10 ) {
+                    if ( particle.getDestination().getDistance( particle.getDestination() ) > particle.getRadius() * 10 ) {
                         relayoutBucketParticles();
                         particle.removePositionListener( this );
                     }
@@ -167,7 +166,12 @@ public class Bucket {
     }
 
     public void setPosition( ImmutableVector2D point ) {
-        this.position = point;
+        // when we move the bucket, we must also move our contained atoms
+        ImmutableVector2D delta = point.getSubtractedInstance( position );
+        for ( AtomModel atom : containedAtoms ) {
+            atom.setPositionAndDestination( atom.getPosition().getAddedInstance( delta ) );
+        }
+        position = point;
     }
 
     public Shape getHoleShape() {
@@ -210,7 +214,6 @@ public class Bucket {
     public void addAtom( final AtomModel atom, boolean animate ) {
         // Determine an open location in the bucket.
         ImmutableVector2D freeParticleLocation = getFirstOpenLocation();
-        System.out.println( freeParticleLocation );
 
         // Move the atom.
         if ( animate ) {
@@ -313,7 +316,7 @@ public class Bucket {
         for ( AtomModel particle : containedAtoms ) {
             if ( particle != atom &&//not ourself
                  particle.getDestination().getY() < atom.getDestination().getY() && //must be in a lower layer
-                 particle.getDestination().distance( atom.getDestination() ) < atom.getRadius() * 3 ) {
+                 particle.getDestination().getDistance( atom.getDestination() ) < atom.getRadius() * 3 ) {
                 count++;
             }
         }
@@ -331,7 +334,7 @@ public class Bucket {
     private boolean isPositionOpen( double x, double y ) {
         boolean positionOpen = true;
         for ( AtomModel particle : containedAtoms ) {
-            Point2D position = particle.getDestination();
+            ImmutableVector2D position = particle.getDestination();
             if ( position.getX() == x && position.getY() == y ) {
                 positionOpen = false;
                 break;

@@ -108,8 +108,8 @@ public class AtomModel {
         return position.getValue();
     }
 
-    public Point2D getDestination() {
-        return new Point2D.Double( destination.getX(), destination.getY() );
+    public ImmutableVector2D getDestination() {
+        return destination;
     }
 
     public void setPosition( ImmutableVector2D point ) {
