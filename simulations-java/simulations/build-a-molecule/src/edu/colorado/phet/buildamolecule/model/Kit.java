@@ -2,6 +2,8 @@ package edu.colorado.phet.buildamolecule.model;
 
 import java.util.List;
 
+import edu.colorado.phet.buildamolecule.model.buckets.Bucket;
+
 /**
  * Contains multiple buckets of different types of atoms
  */
