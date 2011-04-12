@@ -47,6 +47,8 @@
 	
 	<!-- common code, Java sims -->
 	<classpathentry kind="src" path="simulations-java/common/charts/src"/>
+	<classpathentry kind="src" path="simulations-java/common/chemistry/src"/>
+	<classpathentry kind="src" path="simulations-java/common/chemistry/data"/>
 	<classpathentry kind="src" path="simulations-java/common/collision/src"/>
     <classpathentry kind="src" path="simulations-java/common/controls/src"/>
     <classpathentry kind="src" path="simulations-java/common/controls/data"/>
