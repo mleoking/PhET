@@ -95,8 +95,7 @@ public class GravityAndOrbitsControlPanel extends VerticalLayoutPanel {
         // Mass sliders
         for ( Body body : model.getBodies() ) {
             if ( body.isMassSettable() ) {
-                add( new BodyMassControl( body, body.getMassProperty().getInitialValue() / 2, body.getMassProperty().getInitialValue() * 2,
-                                          "", "", body.getTickValue(), body.getTickLabel() ) );
+                add( new BodyMassControl( body, body.getMassProperty().getInitialValue() / 2, body.getMassProperty().getInitialValue() * 2, "", "", body.getTickValue(), body.getTickLabel() ) );
             }
         }
     }
