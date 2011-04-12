@@ -6,6 +6,7 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
+import edu.colorado.phet.bendinglight.model.BendingLightModel;
 import edu.colorado.phet.common.phetcommon.model.clock.Clock;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
@@ -29,15 +30,16 @@ import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.Model
  * @author Sam Reid
  */
 public class ChartNode extends PClip {
-    public Property<ModelViewTransform> transform;
+    private final Property<ModelViewTransform> transform;
     private PNode gridLines = new PNode();
     public static int DASH_ON = 10;
     public static int DASH_OFF = 5;
 
-    public ChartNode( final Clock clock, final Rectangle chartArea, ArrayList<Series> series ) {
+    public ChartNode( final Clock clock, final Rectangle chartArea, final ArrayList<Series> series ) {
         setPathTo( chartArea );
         setStroke( null );
         final double timeWidth = 100 * MAX_DT / TIME_SPEEDUP_SCALE;
+        final int maxSampleCount = (int) Math.ceil( timeWidth / BendingLightModel.MIN_DT );
         transform = new Property<ModelViewTransform>( createRectangleMapping( new Rectangle2D.Double( 0, -1, timeWidth, 2 ), chartArea ) );
         addChild( gridLines );
         for ( Series s : series ) {
@@ -58,9 +60,15 @@ public class ChartNode extends PClip {
                 for ( double x = minTime - verticalGridLineSpacingDelta; x <= minTime + timeWidth; x += timeWidth / 4 ) {
                     addVerticalLine( x );
                 }
-//
+
                 double horizontalGridLineDelta = getDelta( DASH_ON + DASH_OFF, clock );
                 gridLines.addChild( new GridLine( minTime - horizontalGridLineDelta, 0, minTime + timeWidth, 0, 0 ) );//horizontal axis
+
+                //Remove any points that have gone outside of the time window, otherwise it is a memory leak
+                //You can confirm this is working by passing in maxSampleCount/2 instead of maxSampleCount and turning the DT down to MIN_DT
+                for ( Series s : series ) {
+                    s.keepLastSamples( maxSampleCount );
+                }
             }
         } );
     }
@@ -112,6 +120,10 @@ public class ChartNode extends PClip {
             }
             return generalPath.getGeneralPath();
         }
+
+        public void keepLastSamples( final int maxSampleCount ) {
+            path.setValue( new ArrayList<Option<DataPoint>>( path.getValue().subList( Math.max( 0, path.getValue().size() - maxSampleCount ), path.getValue().size() ) ) );
+        }
     }
 
     private class SeriesNode extends PNode {
@@ -131,14 +143,11 @@ public class ChartNode extends PClip {
             final float strokeWidth = 2;
             addChild( new PhetPPath( new BasicStroke( strokeWidth, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1f, new float[] { DASH_ON, DASH_OFF }, (float) phase ), Color.lightGray ) {
                 {
-                    transform.addObserver( new SimpleObserver() {
-                        public void update() {
-                            setPathTo( transform.getValue().modelToView( new Line2D.Double( x1, y1, x2, y2 ) ) );
-                        }
-                    } );
+                    //Grid lines are dynamically generated and therefore do not need to observe the transform
+                    setPathTo( transform.getValue().modelToView( new Line2D.Double( x1, y1, x2, y2 ) ) );
                 }
 
-                //Provide a faster implementation, regenerating grid lines with original getPathBoundsWithStroke is too expensive
+                //Provide a faster implementation because regenerating grid lines with original getPathBoundsWithStroke is too expensive
                 @Override public Rectangle2D getPathBoundsWithStroke() {
                     return RectangleUtils.expand( getPathReference().getBounds2D(), strokeWidth, strokeWidth );
                 }
