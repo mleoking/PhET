@@ -5,10 +5,14 @@ package edu.colorado.phet.buildamolecule.view;
 import java.awt.*;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
+import java.util.LinkedList;
 
 import edu.colorado.phet.buildamolecule.BuildAMoleculeConstants;
 import edu.colorado.phet.buildamolecule.BuildAMoleculeResources;
 import edu.colorado.phet.buildamolecule.control.CollectionAreaNode;
+import edu.colorado.phet.buildamolecule.model.Bucket;
+import edu.colorado.phet.buildamolecule.model.Kit;
+import edu.colorado.phet.chemistry.model.Atom;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
@@ -59,6 +63,17 @@ public class BuildAMoleculeCanvas extends PhetPCanvas {
             setOffset( BuildAMoleculeConstants.DEFAULT_STAGE_SIZE.width - getFullBounds().getWidth() - collectionAreaPadding, collectionAreaPadding );
         }};
         addWorldChild( collectionAreaNode );
+
+        Kit kit = new Kit( new LinkedList<Bucket>() {{
+            add( new Bucket( "Hydrogen", new Atom.H().getColor(), new LinkedList<Atom>() {{
+                add( new Atom.H() );
+                add( new Atom.H() );
+            }} ) );
+            add( new Bucket( "Oxygen", new Atom.O().getColor(), new LinkedList<Atom>() {{
+                add( new Atom.O() );
+            }} ) );
+        }} );
+        addWorldChild( new KitNode( kit ) {{setOffset( 100, 100 );}} );
 
         // Root of our scene graph
         _rootNode = new PNode();
