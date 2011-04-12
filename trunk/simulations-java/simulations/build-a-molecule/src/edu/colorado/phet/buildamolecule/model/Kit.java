@@ -3,6 +3,7 @@ package edu.colorado.phet.buildamolecule.model;
 import java.awt.geom.Point2D;
 import java.util.List;
 
+import edu.colorado.phet.buildamolecule.model.buckets.AtomModel;
 import edu.colorado.phet.buildamolecule.model.buckets.Bucket;
 
 /**
@@ -32,9 +33,12 @@ public class Kit {
 
         // centers the buckets horizontally within the kit
         for ( Bucket bucket : buckets ) {
-            Point2D.Double bucketX = new Point2D.Double( bucket.getPosition().getX() - usedWidth / 2 + KIT_X_CENTER + bucket.getWidth() / 2, KIT_Y );
-            System.out.println( "bucketX = " + bucketX );
-            bucket.setPosition( bucketX );
+            bucket.setPosition( new Point2D.Double( bucket.getPosition().getX() - usedWidth / 2 + KIT_X_CENTER + bucket.getWidth() / 2, KIT_Y ) );
+            for ( AtomModel atomModel : bucket.getAtoms() ) {
+                Point2D currentPosition = atomModel.getPosition();
+                // TODO: use IV2d for simplifications
+                atomModel.setPosition( currentPosition.getX() + bucket.getPosition().getX(), currentPosition.getY() + bucket.getPosition().getY() );
+            }
         }
     }
 

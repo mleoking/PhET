@@ -60,7 +60,7 @@ public class Bucket {
     // The following boolean property indicates whether this bucket is
     // currently a part of the larger model.  It is intended to be used as a
     // notification for when the bucket goes away, so that the corresponding
-    // view element can also be removed.
+    // view element can also be removed. TODO: change visibility handling to be kit-based (through KitView)
     private final BooleanProperty partOfModelProperty = new BooleanProperty( true );
 
     // Particles that are in this bucket.
@@ -226,16 +226,12 @@ public class Bucket {
         containedAtoms.add( atom );
     }
 
-    public boolean containsParticle( AtomModel particle ) {
-        return containedAtoms.contains( particle );
+    public boolean containsAtom( AtomModel atom ) {
+        return containedAtoms.contains( atom );
     }
 
     public List<AtomModel> getAtoms() {
         return containedAtoms;
-    }
-
-    protected double getParticleRadius() {
-        return particleRadius;
     }
 
     /*
@@ -279,7 +275,7 @@ public class Bucket {
                 }
             }
         }
-        return openLocation;
+        return new Point2D.Double( openLocation.getX() + position.getX(), openLocation.getY() + position.getY() );
     }
 
     /**
@@ -307,15 +303,15 @@ public class Bucket {
      */
     private boolean isDangling( AtomModel particle ) {
         boolean onBottomRow = particle.getDestination().getY() == getYPositionForRow( 0 );
-        return !onBottomRow && countSupportingParticles( particle ) < 2;
+        return !onBottomRow && countSupportingAtoms( particle ) < 2;
     }
 
-    private int countSupportingParticles( AtomModel p ) {
+    private int countSupportingAtoms( AtomModel atom ) {
         int count = 0;
         for ( AtomModel particle : containedAtoms ) {
-            if ( particle != p &&//not ourself
-                 particle.getDestination().getY() < p.getDestination().getY() && //must be in a lower layer
-                 particle.getDestination().distance( p.getDestination() ) < p.getRadius() * 3 ) {
+            if ( particle != atom &&//not ourself
+                 particle.getDestination().getY() < atom.getDestination().getY() && //must be in a lower layer
+                 particle.getDestination().distance( atom.getDestination() ) < atom.getRadius() * 3 ) {
                 count++;
             }
         }
