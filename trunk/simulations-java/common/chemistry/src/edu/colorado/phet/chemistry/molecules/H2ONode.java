@@ -1,25 +1,25 @@
 // Copyright 2002-2011, University of Colorado
 
-package edu.colorado.phet.balancingchemicalequations.view.molecules;
+package edu.colorado.phet.chemistry.molecules;
 
-import edu.colorado.phet.balancingchemicalequations.model.Atom.H;
-import edu.colorado.phet.balancingchemicalequations.model.Atom.S;
+import edu.colorado.phet.chemistry.model.Atom.H;
+import edu.colorado.phet.chemistry.model.Atom.O;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * H2S molecule.
+ * H2O molecule.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class H2SNode extends PComposite {
+public class H2ONode extends PComposite {
 
-    public H2SNode() {
+    public H2ONode() {
 
         // atom nodes
         AtomNode smallLeftNode = new AtomNode( new H() );
         AtomNode smallRightNode = new AtomNode( new H() );
-        AtomNode bigNode = new AtomNode( new S() );
+        AtomNode bigNode = new AtomNode( new O() );
 
         // rendering order
         PComposite parentNode = new PComposite();

@@ -1,26 +1,26 @@
 // Copyright 2002-2011, University of Colorado
 
-package edu.colorado.phet.balancingchemicalequations.view.molecules;
+package edu.colorado.phet.chemistry.molecules;
 
-import edu.colorado.phet.balancingchemicalequations.model.Atom.Cl;
-import edu.colorado.phet.balancingchemicalequations.model.Atom.P;
+import edu.colorado.phet.chemistry.model.Atom.F;
+import edu.colorado.phet.chemistry.model.Atom.P;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * PCl3 molecule.
+ * PF3 molecule.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class PCl3Node extends PComposite {
+public class PF3Node extends PComposite {
 
-    public PCl3Node() {
+    public PF3Node() {
 
         // atom nodes
         AtomNode centerNode = new AtomNode( new P() );
-        AtomNode leftNode = new AtomNode( new Cl() );
-        AtomNode rightNode = new AtomNode( new Cl() );
-        AtomNode bottomNode = new AtomNode( new Cl() );
+        AtomNode leftNode = new AtomNode( new F() );
+        AtomNode rightNode = new AtomNode( new F() );
+        AtomNode bottomNode = new AtomNode( new F() );
 
         // rendering order
         PComposite parentNode = new PComposite();

@@ -15,9 +15,9 @@ import javax.swing.WindowConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.balancingchemicalequations.model.Atom;
-import edu.colorado.phet.balancingchemicalequations.model.Atom.N;
-import edu.colorado.phet.balancingchemicalequations.view.molecules.AtomNode;
+import edu.colorado.phet.chemistry.model.Atom;
+import edu.colorado.phet.chemistry.model.Atom.N;
+import edu.colorado.phet.chemistry.molecules.AtomNode;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;

@@ -1,9 +1,9 @@
 // Copyright 2002-2011, University of Colorado
 
-package edu.colorado.phet.balancingchemicalequations.view.molecules;
+package edu.colorado.phet.chemistry.molecules;
 
-import edu.colorado.phet.balancingchemicalequations.model.*;
-import edu.colorado.phet.balancingchemicalequations.model.Atom.*;
+import edu.colorado.phet.chemistry.model.Atom;
+import edu.colorado.phet.chemistry.model.Atom.*;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.nodes.PComposite;
@@ -12,7 +12,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  * Base class for molecules with N atoms aligned on the horizontal axis, for N > 0.
  * Note that here is technically no such thing as a single-atom molecule,
  * but allowing N=1 simplifies the Equation model.
- * <p>
+ * <p/>
  * Origin is at geometric center of the node's bounding rectangle.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)

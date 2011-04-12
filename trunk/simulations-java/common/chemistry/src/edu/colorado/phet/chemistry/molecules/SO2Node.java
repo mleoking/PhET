@@ -1,25 +1,25 @@
 // Copyright 2002-2011, University of Colorado
 
-package edu.colorado.phet.balancingchemicalequations.view.molecules;
+package edu.colorado.phet.chemistry.molecules;
 
-import edu.colorado.phet.balancingchemicalequations.model.Atom.F;
-import edu.colorado.phet.balancingchemicalequations.model.Atom.O;
+import edu.colorado.phet.chemistry.model.Atom.O;
+import edu.colorado.phet.chemistry.model.Atom.S;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * OF2 molecule.
+ * SO2 molecule.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class OF2Node extends PComposite {
+public class SO2Node extends PComposite {
 
-    public OF2Node() {
+    public SO2Node() {
 
         // atom nodes
-        AtomNode centerNode = new AtomNode( new O() );
-        AtomNode leftNode = new AtomNode( new F() );
-        AtomNode rightNode = new AtomNode( new F() );
+        AtomNode centerNode = new AtomNode( new S() );
+        AtomNode leftNode = new AtomNode( new O() );
+        AtomNode rightNode = new AtomNode( new O() );
 
         // rendering order
         PComposite parentNode = new PComposite();

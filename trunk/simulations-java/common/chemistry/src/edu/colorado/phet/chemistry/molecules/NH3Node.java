@@ -1,23 +1,23 @@
 // Copyright 2002-2011, University of Colorado
 
-package edu.colorado.phet.balancingchemicalequations.view.molecules;
+package edu.colorado.phet.chemistry.molecules;
 
-import edu.colorado.phet.balancingchemicalequations.model.Atom.H;
-import edu.colorado.phet.balancingchemicalequations.model.Atom.P;
+import edu.colorado.phet.chemistry.model.Atom.H;
+import edu.colorado.phet.chemistry.model.Atom.N;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * PH3 molecule.
+ * NH3 molecule.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class PH3Node extends PComposite {
+public class NH3Node extends PComposite {
 
-    public PH3Node() {
+    public NH3Node() {
 
         // atom nodes
-        AtomNode bigNode = new AtomNode( new P() );
+        AtomNode bigNode = new AtomNode( new N() );
         AtomNode smallLeftNode = new AtomNode( new H() );
         AtomNode smallRightNode = new AtomNode( new H() );
         AtomNode smallBottomNode = new AtomNode( new H() );

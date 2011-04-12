@@ -1,29 +1,31 @@
 // Copyright 2002-2011, University of Colorado
 
-package edu.colorado.phet.balancingchemicalequations.view.molecules;
+package edu.colorado.phet.chemistry.molecules;
 
-import edu.colorado.phet.balancingchemicalequations.model.Atom.N;
-import edu.colorado.phet.balancingchemicalequations.model.Atom.O;
+import edu.colorado.phet.chemistry.model.Atom.O;
+import edu.colorado.phet.chemistry.model.Atom.S;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * NO2 molecule.
+ * SO3 molecule.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class NO2Node extends PComposite {
+public class SO3Node extends PComposite {
 
-    public NO2Node() {
+    public SO3Node() {
 
         // atom nodes
-        AtomNode centerNode = new AtomNode( new N() );
+        AtomNode centerNode = new AtomNode( new S() );
         AtomNode leftNode = new AtomNode( new O() );
         AtomNode rightNode = new AtomNode( new O() );
+        AtomNode topNode = new AtomNode( new O() );
 
         // rendering order
         PComposite parentNode = new PComposite();
         addChild( parentNode );
+        parentNode.addChild( topNode );
         parentNode.addChild( leftNode );
         parentNode.addChild( centerNode );
         parentNode.addChild( rightNode );
@@ -32,6 +34,9 @@ public class NO2Node extends PComposite {
         double x = 0;
         double y = 0;
         centerNode.setOffset( x, y );
+        x = centerNode.getXOffset() + ( 0.1 * topNode.getFullBoundsReference().getWidth() );
+        y = centerNode.getFullBoundsReference().getMinX() + ( 0.1 * topNode.getFullBoundsReference().getHeight() );
+        topNode.setOffset( x, y );
         x = centerNode.getFullBoundsReference().getMinX();
         y = centerNode.getYOffset() + ( 0.25 * leftNode.getFullBoundsReference().getHeight() );
         leftNode.setOffset( x, y );
