@@ -11,7 +11,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
-import edu.colorado.phet.common.piccolophet.nodes.SphericalNode;
+import edu.colorado.phet.common.piccolophet.nodes.ShadedSphereNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -29,34 +29,24 @@ public class AtomNode extends PNode {
 
     private static final double MIN_RADIUS_FOR_LABEL = 10; // In screen units, which is roughly pixels.
 
-    private final SphericalNode sphericalNode;
+    private final ShadedSphereNode sphericalNode;
 
     /**
      * Constructor.
      */
     public AtomNode( final ModelViewTransform mvt, final AtomModel atom ) {
 
-        final Color baseColor = atom.getColor();
-        // Create a gradient that gives the particles a 3D look.  The numbers
-        // used were empirically determined.
-        double radius = atom.getRadius();
-        double transformedRadius = mvt.modelToViewDeltaX( radius );
-        Paint particlePaint = new RoundGradientPaint(
-                transformedRadius / 2,
-                -transformedRadius / 2,
-                ColorUtils.brighterColor( baseColor, 0.8 ),
-                new Point2D.Double( transformedRadius / 2, transformedRadius / 2 ),
-                ColorUtils.darkerColor( baseColor, 0.2 ) );
-        sphericalNode = new SphericalNode( mvt.modelToViewDeltaX( radius * 2 ), particlePaint, false );
+        double transformedRadius = mvt.modelToViewDeltaX( atom.getRadius() );
+        sphericalNode = new ShadedSphereNode( atom.getAtom().getRadius(), atom.getColor() );
         addChild( sphericalNode );
 
         // Create, scale, and add the label, assuming the atom is large enough.
         if ( transformedRadius > MIN_RADIUS_FOR_LABEL ) {
             PText labelNode = new PText() {{
                 setText( atom.getAtom().getSymbol() );
-                setFont( new PhetFont( 12, true ) );
+                setFont( new PhetFont( 10, true ) );
                 setScale( sphericalNode.getFullBoundsReference().width * 0.65 / getFullBoundsReference().width );
-                if ( 0.30 * baseColor.getRed() + 0.59 * baseColor.getGreen() + 0.11 * baseColor.getBlue() < 125 ) {
+                if ( 0.30 * atom.getColor().getRed() + 0.59 * atom.getColor().getGreen() + 0.11 * atom.getColor().getBlue() < 125 ) {
                     setTextPaint( Color.WHITE );
                 }
                 setOffset( -getFullBoundsReference().width / 2, -getFullBoundsReference().height / 2 );
