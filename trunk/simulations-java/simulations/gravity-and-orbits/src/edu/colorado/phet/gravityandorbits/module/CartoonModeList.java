@@ -10,10 +10,14 @@ public class CartoonModeList extends ModeList {
     public CartoonModeList( Property<Boolean> clockPausedProperty, Property<Boolean> gravityEnabledProperty, Property<Boolean> stepping, Property<Boolean> rewinding, Property<Double> timeSpeedScaleProperty, final double alpha ) {
         super( new ModeListParameter( clockPausedProperty, gravityEnabledProperty, stepping, rewinding, timeSpeedScaleProperty ),
                new SunEarth() {{
-                   //This state copied from SunEarthMoon, should be kept in sync so the modes are similar
                    sun.radius *= 50;
                    earth.radius *= 800;
-                   forceScale *= 0.573;//to balance increased mass and so that forces are 1/2 grid cell in default conditions, hand tuned by checking that reducing the distance by a factor of 2 increases the force arrow by a factor of 4
+
+                   final int earthMassScaleFactor = 10200; //Tuned by hand so there are 12 cartoon lunar orbits in one cartoon earth orbit
+                   earth.mass *= earthMassScaleFactor;
+
+                   forceScale *= 0.573 / earthMassScaleFactor;//to balance increased mass and so that forces are 1/2 grid cell in default conditions, hand tuned by checking that reducing the distance by a factor of 2 increases the force arrow by a factor of 4
+                   timeScale = 365.0 / 334.0;//Have to artificially scale up the time readout so that Sun/Earth/Moon mode has a stable orbit with correct periods since masses are nonphysical
                    sun.fixed = true;//Sun shouldn't move in cartoon modes
                }}, new SunEarthMoon() {{
                     sun.radius *= 50;
@@ -26,7 +30,7 @@ public class CartoonModeList extends ModeList {
                     moon.y = earth.radius * 1.7;
 
                     forceScale *= 0.573 / earthMassScaleFactor;//to balance increased mass and so that forces are 1/2 grid cell in default conditions
-                    timeScale = 365.0 / 343.5;//Have to artificially scale up the time readout so that Sun/Earth/Moon mode has a stable orbit with correct periods
+                    timeScale = 365.0 / 343.5;//Have to artificially scale up the time readout so that Sun/Earth/Moon mode has a stable orbit with correct periods since masses are nonphysical
                     sun.fixed = true;//Sun shouldn't move in cartoon modes
                 }}, new EarthMoon() {{
                     earth.radius *= 15;
