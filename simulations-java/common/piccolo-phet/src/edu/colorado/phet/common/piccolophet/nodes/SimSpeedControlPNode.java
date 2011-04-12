@@ -9,6 +9,7 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.clock.SimSpeedControl;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
@@ -30,7 +31,7 @@ public class SimSpeedControlPNode extends PNode {
      * @param maxPosX - The maximum x value within the floating clock control node, which may be the left edge of the rewind button (if present) or the left edge of the play button.
      * @param labelColors - The colors to show the labels, to add support for changing background colors.
      */
-    public SimSpeedControlPNode( double min, final Property<Double> dt, double max, final double maxPosX, ObservableProperty<Color> labelColors ) {
+    public SimSpeedControlPNode( double min, final Property<Double> dt, double max, final double maxPosX, final ObservableProperty<Color> labelColors ) {
         //SimSpeedControl requires a ConstantDtClock, so we create a dummy one that we can use to pass our Property<Double> dt through
         final ConstantDtClock clock = new ConstantDtClock( 30, dt.getValue() ) {{
             dt.addObserver( new VoidFunction1<Double>() {
@@ -44,7 +45,7 @@ public class SimSpeedControlPNode extends PNode {
                 }
             } );
         }};
-        final SimSpeedControl simSpeedControl = new SimSpeedControl( min, max, clock ) {{
+        final SimSpeedControl simSpeedControl = new SimSpeedControl( min, max, clock, PhetCommonResources.getString( "Common.sim.speed" ), labelColors ) {{
             SwingUtils.setBackgroundDeep( this, new Color( 0, 0, 0, 0 ) );
         }};
         addChild( new PSwing( simSpeedControl ) {{

@@ -8,7 +8,10 @@ import javax.swing.*;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.SliderOnlyLayoutStrategy;
 
@@ -28,9 +31,11 @@ public class SimSpeedControl extends JPanel {
         this( min, max, defaultClock, title, Color.BLACK );
     }
 
-    public SimSpeedControl( double min, double max, final ConstantDtClock defaultClock,
-                            String title, final Color textColor ) {
+    public SimSpeedControl( double min, double max, final ConstantDtClock defaultClock, String title, final Color textColor ) {
+        this( min, max, defaultClock, title, new Property<Color>( textColor ) );//just create a constant Property<Color>
+    }
 
+    public SimSpeedControl( double min, double max, final ConstantDtClock defaultClock, String title, final ObservableProperty<Color> textColor ) {
         // title
         final JLabel titleLabel = new TimeSpeederLabel( title, textColor );
 
@@ -82,9 +87,13 @@ public class SimSpeedControl extends JPanel {
     }
 
     private static class TimeSpeederLabel extends JLabel {
-        public TimeSpeederLabel( String text, Color textColor ) {
+        public TimeSpeederLabel( String text, ObservableProperty<Color> textColor ) {
             super( text );
-            setForeground( textColor );
+            textColor.addObserver( new VoidFunction1<Color>() {
+                public void apply( Color color ) {
+                    setForeground( color );
+                }
+            } );
         }
     }
 
