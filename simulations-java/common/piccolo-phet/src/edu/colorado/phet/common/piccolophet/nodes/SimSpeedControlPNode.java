@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.bendinglight.view;
+package edu.colorado.phet.common.piccolophet.nodes;
 
 import java.awt.*;
 
@@ -16,16 +16,19 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
- * This class should be used when adding a speed slider to the floating
- * clock control.  It provides the wrapper around a swing slider, hooks
- * up the clock, and sets the initial position.
+ * This class should be used when adding a speed slider to the floating clock control.
+ * It provides the wrapper around a swing slider, hooks up the clock, and sets the initial position.
+ * It can be used directly in the play area (doesn't need to be embedded in a swing control panel.
+ *
+ * @author Sam Reid
  */
 public class SimSpeedControlPNode extends PNode {
 
     /*
-     * This assumes a default range of clock speeds based on the current (which is presumably the default) clock dt setting.
+     * This assumes a default range of clock speeds based on the current (which is presumably the default) clock dt setting, provided through a Property<Double> interface.
      *
      * @param maxPosX - The maximum x value within the floating clock control node, which may be the left edge of the rewind button (if present) or the left edge of the play button.
+     * @param labelColors - The colors to show the labels, to add support for changing background colors.
      */
     public SimSpeedControlPNode( double min, final Property<Double> dt, double max, final double maxPosX, ObservableProperty<Color> labelColors ) {
         //SimSpeedControl requires a ConstantDtClock, so we create a dummy one that we can use to pass our Property<Double> dt through
