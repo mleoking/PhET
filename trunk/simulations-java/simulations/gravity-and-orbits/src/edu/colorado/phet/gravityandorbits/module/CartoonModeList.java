@@ -30,7 +30,7 @@ public class CartoonModeList extends ModeList {
                     moon.y = earth.radius * 1.7;
 
                     forceScale *= 0.573 / earthMassScaleFactor;//to balance increased mass and so that forces are 1/2 grid cell in default conditions
-                    timeScale = 365.0 / 343.5;//Have to artificially scale up the time readout so that Sun/Earth/Moon mode has a stable orbit with correct periods since masses are nonphysical
+                    timeScale = 365.0 / 334.0;//Have to artificially scale up the time readout so that Sun/Earth/Moon mode has a stable orbit with correct periods since masses are nonphysical
                     sun.fixed = true;//Sun shouldn't move in cartoon modes
                 }}, new EarthMoon() {{
                     earth.radius *= 15;
