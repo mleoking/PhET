@@ -1,31 +1,29 @@
 // Copyright 2002-2011, University of Colorado
 
-package edu.colorado.phet.balancingchemicalequations.view.molecules;
+package edu.colorado.phet.chemistry.molecules;
 
-import edu.colorado.phet.balancingchemicalequations.model.Atom.O;
-import edu.colorado.phet.balancingchemicalequations.model.Atom.S;
+import edu.colorado.phet.chemistry.model.Atom.F;
+import edu.colorado.phet.chemistry.model.Atom.O;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * SO3 molecule.
+ * OF2 molecule.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class SO3Node extends PComposite {
+public class OF2Node extends PComposite {
 
-    public SO3Node() {
+    public OF2Node() {
 
         // atom nodes
-        AtomNode centerNode = new AtomNode( new S() );
-        AtomNode leftNode = new AtomNode( new O() );
-        AtomNode rightNode = new AtomNode( new O() );
-        AtomNode topNode = new AtomNode( new O() );
+        AtomNode centerNode = new AtomNode( new O() );
+        AtomNode leftNode = new AtomNode( new F() );
+        AtomNode rightNode = new AtomNode( new F() );
 
         // rendering order
         PComposite parentNode = new PComposite();
         addChild( parentNode );
-        parentNode.addChild( topNode );
         parentNode.addChild( leftNode );
         parentNode.addChild( centerNode );
         parentNode.addChild( rightNode );
@@ -34,9 +32,6 @@ public class SO3Node extends PComposite {
         double x = 0;
         double y = 0;
         centerNode.setOffset( x, y );
-        x = centerNode.getXOffset() + ( 0.1 * topNode.getFullBoundsReference().getWidth() );
-        y = centerNode.getFullBoundsReference().getMinX() + ( 0.1 * topNode.getFullBoundsReference().getHeight() );
-        topNode.setOffset( x, y );
         x = centerNode.getFullBoundsReference().getMinX();
         y = centerNode.getYOffset() + ( 0.25 * leftNode.getFullBoundsReference().getHeight() );
         leftNode.setOffset( x, y );

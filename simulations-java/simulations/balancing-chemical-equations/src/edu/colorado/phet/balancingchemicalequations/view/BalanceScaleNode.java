@@ -2,6 +2,9 @@
 
 package edu.colorado.phet.balancingchemicalequations.view;
 
+import edu.colorado.phet.chemistry.model.Atom;
+import edu.colorado.phet.chemistry.molecules.AtomNode;
+
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.GradientPaint;
@@ -11,8 +14,6 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.balancingchemicalequations.BCEConstants;
-import edu.colorado.phet.balancingchemicalequations.model.Atom;
-import edu.colorado.phet.balancingchemicalequations.view.molecules.AtomNode;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;

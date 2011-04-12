@@ -1,23 +1,23 @@
 // Copyright 2002-2011, University of Colorado
 
-package edu.colorado.phet.balancingchemicalequations.view.molecules;
+package edu.colorado.phet.chemistry.molecules;
 
-import edu.colorado.phet.balancingchemicalequations.model.Atom.O;
-import edu.colorado.phet.balancingchemicalequations.model.Atom.S;
+import edu.colorado.phet.chemistry.model.Atom.N;
+import edu.colorado.phet.chemistry.model.Atom.O;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * SO2 molecule.
+ * NO2 molecule.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class SO2Node extends PComposite {
+public class NO2Node extends PComposite {
 
-    public SO2Node() {
+    public NO2Node() {
 
         // atom nodes
-        AtomNode centerNode = new AtomNode( new S() );
+        AtomNode centerNode = new AtomNode( new N() );
         AtomNode leftNode = new AtomNode( new O() );
         AtomNode rightNode = new AtomNode( new O() );
 

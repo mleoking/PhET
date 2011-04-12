@@ -1,32 +1,34 @@
 // Copyright 2002-2011, University of Colorado
 
-package edu.colorado.phet.balancingchemicalequations.view.molecules;
+package edu.colorado.phet.chemistry.molecules;
 
-import edu.colorado.phet.balancingchemicalequations.model.Atom.H;
-import edu.colorado.phet.balancingchemicalequations.model.Atom.O;
+import edu.colorado.phet.chemistry.model.Atom.H;
+import edu.colorado.phet.chemistry.model.Atom.P;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * H2O molecule.
+ * PH3 molecule.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class H2ONode extends PComposite {
+public class PH3Node extends PComposite {
 
-    public H2ONode() {
+    public PH3Node() {
 
         // atom nodes
+        AtomNode bigNode = new AtomNode( new P() );
         AtomNode smallLeftNode = new AtomNode( new H() );
         AtomNode smallRightNode = new AtomNode( new H() );
-        AtomNode bigNode = new AtomNode( new O() );
+        AtomNode smallBottomNode = new AtomNode( new H() );
 
         // rendering order
         PComposite parentNode = new PComposite();
         addChild( parentNode );
-        parentNode.addChild( bigNode );
         parentNode.addChild( smallLeftNode );
         parentNode.addChild( smallRightNode );
+        parentNode.addChild( bigNode );
+        parentNode.addChild( smallBottomNode );
 
         // layout
         double x = 0;
@@ -38,6 +40,9 @@ public class H2ONode extends PComposite {
         x = bigNode.getFullBoundsReference().getMaxX();
         y = smallLeftNode.getYOffset();
         smallRightNode.setOffset( x, y );
+        x = bigNode.getXOffset();
+        y = bigNode.getFullBoundsReference().getMaxY();
+        smallBottomNode.setOffset( x, y );
 
         // move origin to geometric center
         parentNode.setOffset( -PNodeLayoutUtils.getOriginXOffset( parentNode ), -PNodeLayoutUtils.getOriginYOffset( parentNode ) );

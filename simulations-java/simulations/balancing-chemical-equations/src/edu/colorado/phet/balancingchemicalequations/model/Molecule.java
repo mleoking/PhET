@@ -4,27 +4,30 @@ package edu.colorado.phet.balancingchemicalequations.model;
 
 import java.awt.Image;
 
-import edu.colorado.phet.balancingchemicalequations.model.Atom.C;
-import edu.colorado.phet.balancingchemicalequations.model.Atom.Cl;
-import edu.colorado.phet.balancingchemicalequations.model.Atom.F;
-import edu.colorado.phet.balancingchemicalequations.model.Atom.H;
-import edu.colorado.phet.balancingchemicalequations.model.Atom.N;
-import edu.colorado.phet.balancingchemicalequations.model.Atom.O;
-import edu.colorado.phet.balancingchemicalequations.model.Atom.P;
-import edu.colorado.phet.balancingchemicalequations.model.Atom.S;
-import edu.colorado.phet.balancingchemicalequations.view.molecules.*;
-import edu.colorado.phet.balancingchemicalequations.view.molecules.HorizontalMoleculeNode.CNode;
-import edu.colorado.phet.balancingchemicalequations.view.molecules.HorizontalMoleculeNode.CO2Node;
-import edu.colorado.phet.balancingchemicalequations.view.molecules.HorizontalMoleculeNode.CONode;
-import edu.colorado.phet.balancingchemicalequations.view.molecules.HorizontalMoleculeNode.CS2Node;
-import edu.colorado.phet.balancingchemicalequations.view.molecules.HorizontalMoleculeNode.Cl2Node;
-import edu.colorado.phet.balancingchemicalequations.view.molecules.HorizontalMoleculeNode.F2Node;
-import edu.colorado.phet.balancingchemicalequations.view.molecules.HorizontalMoleculeNode.H2Node;
-import edu.colorado.phet.balancingchemicalequations.view.molecules.HorizontalMoleculeNode.N2Node;
-import edu.colorado.phet.balancingchemicalequations.view.molecules.HorizontalMoleculeNode.N2ONode;
-import edu.colorado.phet.balancingchemicalequations.view.molecules.HorizontalMoleculeNode.NONode;
-import edu.colorado.phet.balancingchemicalequations.view.molecules.HorizontalMoleculeNode.O2Node;
-import edu.colorado.phet.balancingchemicalequations.view.molecules.HorizontalMoleculeNode.SNode;
+import edu.colorado.phet.chemistry.model.Atom;
+import edu.colorado.phet.chemistry.model.Atom.C;
+import edu.colorado.phet.chemistry.model.Atom.Cl;
+import edu.colorado.phet.chemistry.model.Atom.F;
+import edu.colorado.phet.chemistry.model.Atom.H;
+import edu.colorado.phet.chemistry.model.Atom.N;
+import edu.colorado.phet.chemistry.model.Atom.O;
+import edu.colorado.phet.chemistry.model.Atom.P;
+import edu.colorado.phet.chemistry.model.Atom.S;
+
+import edu.colorado.phet.chemistry.molecules.HorizontalMoleculeNode.CNode;
+import edu.colorado.phet.chemistry.molecules.HorizontalMoleculeNode.CO2Node;
+import edu.colorado.phet.chemistry.molecules.HorizontalMoleculeNode.CONode;
+import edu.colorado.phet.chemistry.molecules.HorizontalMoleculeNode.CS2Node;
+import edu.colorado.phet.chemistry.molecules.HorizontalMoleculeNode.Cl2Node;
+import edu.colorado.phet.chemistry.molecules.HorizontalMoleculeNode.F2Node;
+import edu.colorado.phet.chemistry.molecules.*;
+import edu.colorado.phet.chemistry.molecules.HorizontalMoleculeNode.H2Node;
+import edu.colorado.phet.chemistry.molecules.HorizontalMoleculeNode.N2Node;
+import edu.colorado.phet.chemistry.molecules.HorizontalMoleculeNode.N2ONode;
+import edu.colorado.phet.chemistry.molecules.HorizontalMoleculeNode.NONode;
+import edu.colorado.phet.chemistry.molecules.HorizontalMoleculeNode.O2Node;
+import edu.colorado.phet.chemistry.molecules.HorizontalMoleculeNode.SNode;
+import edu.colorado.phet.chemistry.utils.ChemUtils;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -50,7 +53,7 @@ public abstract class Molecule {
     public Molecule( Image image, Atom... atoms ) {
         this.image = image;
         this.atoms = atoms;
-        this.symbol = createSymbol( atoms );
+        this.symbol = ChemUtils.createSymbol( atoms );
     }
 
     protected Molecule( PNode node, Atom... atoms ) {
@@ -76,72 +79,6 @@ public abstract class Molecule {
      */
     public boolean isBig() {
         return atoms.length > 5;
-    }
-
-    /*
-     * Creates a symbol (HTML fragment) based on the list of atoms in the molecule.
-     * The atoms must be specified in order of appearance in the symbol.
-     * Examples:
-     *    [C,C,H,H,H,H] becomes "C<sub>2</sub>H<sub>4</sub>"
-     *    [HHO] becomes "H<sub>2</sub>O"
-     */
-    private static final String createSymbol( Atom[] atoms ) {
-        StringBuffer b = new StringBuffer();
-        int atomCount = 1;
-        for ( int i = 0; i < atoms.length; i++ ) {
-            if ( i == 0 ) {
-                // first atom is treated differently
-                b.append( atoms[i].getSymbol() );
-            }
-            else if ( atoms[i].getClass().equals( atoms[i-1].getClass() ) ) {
-                // this atom is the same as the previous atom
-                atomCount++;
-            }
-            else {
-                // this atom is NOT the same
-                if ( atomCount > 1 ) {
-                    // create a subscript
-                    b.append( String.valueOf( atomCount ) );
-                }
-                atomCount = 1;
-                b.append( atoms[i].getSymbol() );
-            }
-        }
-        if ( atomCount > 1 ) {
-            // create a subscript for the final atom
-            b.append( String.valueOf( atomCount ) );
-        }
-        return toSubscript( b.toString() );
-    }
-
-    /*
-     * Handles HTML subscript formatting of molecule symbols.
-     * All numbers in a string are assumed to be part of a subscript, and will be enclosed in a <sub> tag.
-     * For example, "C2H4" becomes "C<sub>2</sub>H<sub>4</sub>".
-     */
-    private static final String toSubscript( String inString ) {
-        String outString = "";
-        boolean sub = false; // are we in a <sub> tag?
-        for ( int i = 0; i < inString.length(); i++ ) {
-            final char c = inString.charAt( i );
-            if ( !sub && Character.isDigit( c ) ) {
-                // start the subscript tag when a digit is found
-                outString += "<sub>";
-                sub = true;
-            }
-            else if ( sub && !Character.isDigit( c ) ) {
-                // end the subscript tag when a non-digit is found
-                outString += "</sub>";
-                sub = false;
-            }
-            outString += c;
-        }
-        // end the subscript tag if inString ends with a digit
-        if ( sub ) {
-            outString += "</sub>";
-            sub = false;
-        }
-        return outString;
     }
 
     // There is technically no such thing as a single-atom molecule, but this simplifies the Equation model.

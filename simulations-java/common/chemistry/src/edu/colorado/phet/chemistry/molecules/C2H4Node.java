@@ -1,9 +1,9 @@
 // Copyright 2002-2011, University of Colorado
 
-package edu.colorado.phet.balancingchemicalequations.view.molecules;
+package edu.colorado.phet.chemistry.molecules;
 
-import edu.colorado.phet.balancingchemicalequations.model.Atom.C;
-import edu.colorado.phet.balancingchemicalequations.model.Atom.H;
+import edu.colorado.phet.chemistry.model.Atom.C;
+import edu.colorado.phet.chemistry.model.Atom.H;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolox.nodes.PComposite;
 

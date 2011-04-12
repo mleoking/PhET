@@ -1,22 +1,22 @@
 // Copyright 2002-2011, University of Colorado
 
-package edu.colorado.phet.balancingchemicalequations.view.molecules;
+package edu.colorado.phet.chemistry.molecules;
 
-import edu.colorado.phet.balancingchemicalequations.model.Atom.C;
-import edu.colorado.phet.balancingchemicalequations.model.Atom.Cl;
-import edu.colorado.phet.balancingchemicalequations.model.Atom.H;
+import edu.colorado.phet.chemistry.model.Atom.C;
+import edu.colorado.phet.chemistry.model.Atom.H;
+import edu.colorado.phet.chemistry.model.Atom.O;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * C2H5Cl molecule.
- * Structure is similar to C2H6, but with Cl replacing one of the H's.
+ * C2H5OH molecule.
+ * Structure is similar to C2H6, but with OH replacing one of the H's.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class C2H5ClNode extends PComposite {
+public class C2H5OHNode extends PComposite {
 
-    public C2H5ClNode() {
+    public C2H5OHNode() {
 
         // atom nodes
         AtomNode leftNode = new AtomNode( new C() );
@@ -26,7 +26,8 @@ public class C2H5ClNode extends PComposite {
         AtomNode smallLeftNode = new AtomNode( new H() );
         AtomNode smallTopRightNode = new AtomNode( new H() );
         AtomNode smallBottomRightNode = new AtomNode( new H() );
-        AtomNode rightNode = new AtomNode( new Cl() );
+        AtomNode rightNode = new AtomNode( new O() );
+        AtomNode smallRightNode = new AtomNode( new H() );
 
         // rendering order
         PComposite parentNode = new PComposite();
@@ -34,6 +35,7 @@ public class C2H5ClNode extends PComposite {
         parentNode.addChild( smallBottomRightNode );
         parentNode.addChild( smallTopRightNode );
         parentNode.addChild( centerNode );
+        parentNode.addChild( smallRightNode );
         parentNode.addChild( rightNode );
         parentNode.addChild( smallLeftNode );
         parentNode.addChild( leftNode );
@@ -62,9 +64,12 @@ public class C2H5ClNode extends PComposite {
         x = centerNode.getXOffset();
         y = centerNode.getFullBoundsReference().getMaxY();
         smallBottomRightNode.setOffset( x, y );
-        x = centerNode.getFullBoundsReference().getMaxX() + ( 0.125 * rightNode.getFullBoundsReference().getWidth() );
+        x = centerNode.getFullBoundsReference().getMaxX();
         y = centerNode.getYOffset();
         rightNode.setOffset( x, y );
+        x = rightNode.getFullBoundsReference().getMaxX();
+        y = rightNode.getYOffset();
+        smallRightNode.setOffset( x, y );
 
         // move origin to geometric center
         parentNode.setOffset( -PNodeLayoutUtils.getOriginXOffset( parentNode ), -PNodeLayoutUtils.getOriginYOffset( parentNode ) );

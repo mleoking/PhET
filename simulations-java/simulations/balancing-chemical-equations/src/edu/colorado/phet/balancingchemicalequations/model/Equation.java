@@ -2,6 +2,8 @@
 
 package edu.colorado.phet.balancingchemicalequations.model;
 
+import edu.colorado.phet.chemistry.model.Atom;
+
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
