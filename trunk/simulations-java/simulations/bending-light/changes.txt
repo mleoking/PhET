@@ -1,3 +1,4 @@
+# 0.00.41 (50577) Apr 12, 2011
 Fixed: slider knobs appear in the wrong place on Mac
 Fixed memory leaks in ChartNode
 Fixed: grid lines disappear after some time in the wave chart
