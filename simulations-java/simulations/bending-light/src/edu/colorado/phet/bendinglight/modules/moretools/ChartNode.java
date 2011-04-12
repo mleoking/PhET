@@ -14,6 +14,7 @@ import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
+import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.nodes.PClip;
@@ -29,28 +30,50 @@ import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.Model
  */
 public class ChartNode extends PClip {
     public Property<ModelViewTransform> transform;
+    private PNode gridLines = new PNode();
+    public static int DASH_ON = 10;
+    public static int DASH_OFF = 5;
 
     public ChartNode( final Clock clock, final Rectangle chartArea, ArrayList<Series> series ) {
         setPathTo( chartArea );
         setStroke( null );
         final double timeWidth = 100 * MAX_DT / TIME_SPEEDUP_SCALE;
         transform = new Property<ModelViewTransform>( createRectangleMapping( new Rectangle2D.Double( 0, -1, timeWidth, 2 ), chartArea ) );
-        addChild( new GridLine( -timeWidth, 0, timeWidth * 50, 0 ) );//main axis        //TODO: we'll need to extend these lines, will need to do modulo or equivalent
-        for ( double x = 0.5; x <= 200; x += 0.5 ) {//TODO: extend past 200
-            addVerticalLine( x );
-        }
+        addChild( gridLines );
         for ( Series s : series ) {
             addChild( new SeriesNode( s ) );
         }
+
+        //Move over the view port as time passes
         clock.addClockListener( new ClockAdapter() {
             public void simulationTimeChanged( ClockEvent clockEvent ) {
-                transform.setValue( createRectangleMapping( new Rectangle2D.Double( clock.getSimulationTime() - timeWidth, -1, timeWidth, 2 ), chartArea ) );
+                final double minTime = clock.getSimulationTime() - timeWidth;
+                transform.setValue( createRectangleMapping( new Rectangle2D.Double( minTime, -1, timeWidth, 2 ), chartArea ) );
+
+                //Update grid lines
+                gridLines.removeAllChildren();
+
+                double verticalGridLineSpacing = timeWidth / 4;//distance between vertical grid lines
+                double verticalGridLineSpacingDelta = getDelta( verticalGridLineSpacing, clock );
+                for ( double x = minTime - verticalGridLineSpacingDelta; x <= minTime + timeWidth; x += timeWidth / 4 ) {
+                    addVerticalLine( x );
+                }
+//
+                double horizontalGridLineDelta = getDelta( DASH_ON + DASH_OFF, clock );
+                gridLines.addChild( new GridLine( minTime - horizontalGridLineDelta, 0, minTime + timeWidth, 0, 0 ) );//horizontal axis
             }
         } );
     }
 
+    //Compute the phase offset so that grid lines appear to be moving at the right speed
+    private double getDelta( double verticalGridLineSpacing, Clock clock ) {
+        final double totalNumPeriods = clock.getSimulationTime() / verticalGridLineSpacing;
+        int integralNumberOfPeriods = (int) totalNumPeriods;//for computing the phase so we make the right number of grid lines
+        return ( totalNumPeriods - integralNumberOfPeriods ) * verticalGridLineSpacing;
+    }
+
     private void addVerticalLine( double x ) {
-        addChild( new GridLine( x, -1, x, 1 ) );
+        gridLines.addChild( new GridLine( x, -1, x, 1, 0 ) );
     }
 
     public static class Series {
@@ -104,14 +127,22 @@ public class ChartNode extends PClip {
     }
 
     public class GridLine extends PNode {
-        public GridLine( final double x1, final double y1, final double x2, final double y2 ) {
-            addChild( new PhetPPath( new BasicStroke( 2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1f, new float[] { 10, 5 }, 0 ), Color.lightGray ) {{
-                transform.addObserver( new SimpleObserver() {
-                    public void update() {
-                        setPathTo( transform.getValue().modelToView( new Line2D.Double( x1, y1, x2, y2 ) ) );
-                    }
-                } );
-            }} );
+        public GridLine( final double x1, final double y1, final double x2, final double y2, double phase ) {
+            final float strokeWidth = 2;
+            addChild( new PhetPPath( new BasicStroke( strokeWidth, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1f, new float[] { DASH_ON, DASH_OFF }, (float) phase ), Color.lightGray ) {
+                {
+                    transform.addObserver( new SimpleObserver() {
+                        public void update() {
+                            setPathTo( transform.getValue().modelToView( new Line2D.Double( x1, y1, x2, y2 ) ) );
+                        }
+                    } );
+                }
+
+                //Provide a faster implementation, regenerating grid lines with original getPathBoundsWithStroke is too expensive
+                @Override public Rectangle2D getPathBoundsWithStroke() {
+                    return RectangleUtils.expand( getPathReference().getBounds2D(), strokeWidth, strokeWidth );
+                }
+            } );
         }
     }
 }
