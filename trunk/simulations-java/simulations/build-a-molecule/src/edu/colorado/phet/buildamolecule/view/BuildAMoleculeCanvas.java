@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.buildamolecule.view;
 
-import java.awt.*;
+import java.awt.Point;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.util.LinkedList;
@@ -10,13 +10,14 @@ import java.util.LinkedList;
 import edu.colorado.phet.buildamolecule.BuildAMoleculeConstants;
 import edu.colorado.phet.buildamolecule.BuildAMoleculeResources;
 import edu.colorado.phet.buildamolecule.control.CollectionAreaNode;
-import edu.colorado.phet.buildamolecule.model.Bucket;
 import edu.colorado.phet.buildamolecule.model.Kit;
+import edu.colorado.phet.buildamolecule.model.buckets.Bucket;
 import edu.colorado.phet.chemistry.model.Atom;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolo.util.PDimension;
 
 public class BuildAMoleculeCanvas extends PhetPCanvas {
 
@@ -65,13 +66,15 @@ public class BuildAMoleculeCanvas extends PhetPCanvas {
         addWorldChild( collectionAreaNode );
 
         Kit kit = new Kit( new LinkedList<Bucket>() {{
-            add( new Bucket( "Hydrogen", new Atom.H().getColor(), new LinkedList<Atom>() {{
-                add( new Atom.H() );
-                add( new Atom.H() );
-            }} ) );
-            add( new Bucket( "Oxygen", new Atom.O().getColor(), new LinkedList<Atom>() {{
-                add( new Atom.O() );
-            }} ) );
+            add( new Bucket( new Point2D.Double(0, 0), new PDimension(110, 60), new Atom.H().getColor(), "Hydrogen") );
+            add( new Bucket( new Point2D.Double(200, 0), new PDimension(110, 60), new Atom.O().getColor(), "Oxygen") );
+//            add( new Bucket( "Hydrogen", new Atom.H().getColor(), new LinkedList<Atom>() {{
+//                add( new Atom.H() );
+//                add( new Atom.H() );
+//            }} ) );
+//            add( new Bucket( "Oxygen", new Atom.O().getColor(), new LinkedList<Atom>() {{
+//                add( new Atom.O() );
+//            }} ) );
         }} );
         addWorldChild( new KitNode( kit ) {{setOffset( 100, 100 );}} );
 
