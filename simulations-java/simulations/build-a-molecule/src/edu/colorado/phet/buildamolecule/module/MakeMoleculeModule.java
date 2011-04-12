@@ -36,14 +36,14 @@ public class MakeMoleculeModule extends PiccoloModule {
 
         Kit kit = new Kit( new LinkedList<Bucket>() {{
             add( new Bucket( new Atom.H(), new PDimension( 300, 60 ), "Hydrogen" ) {{
-                addAtom( new AtomModel( new Atom.H(), "Hydrogen", 0, 0, MakeMoleculeModule.this.getClock() ), false );
-                addAtom( new AtomModel( new Atom.H(), "Hydrogen", 0, 0, MakeMoleculeModule.this.getClock() ), false );
+                addAtom( new AtomModel( new Atom.H(), "Hydrogen", MakeMoleculeModule.this.getClock() ), false );
+                addAtom( new AtomModel( new Atom.H(), "Hydrogen", MakeMoleculeModule.this.getClock() ), false );
             }} );
             add( new Bucket( new Atom.O(), new PDimension( 140, 60 ), "Oxygen" ) {{
-                addAtom( new AtomModel( new Atom.O(), "Oxygen", 0, 0, MakeMoleculeModule.this.getClock() ), false );
+                addAtom( new AtomModel( new Atom.O(), "Oxygen", MakeMoleculeModule.this.getClock() ), false );
             }} );
             add( new Bucket( new Atom.C(), new PDimension( 140, 60 ), "Carbon" ) {{
-                addAtom( new AtomModel( new Atom.C(), "Carbon", 0, 0, MakeMoleculeModule.this.getClock() ), false );
+                addAtom( new AtomModel( new Atom.C(), "Carbon", MakeMoleculeModule.this.getClock() ), false );
             }} );
         }} );
 

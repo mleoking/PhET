@@ -51,16 +51,12 @@ public class AtomModel {
     // Reference to the clock.
     private final IClock clock;
 
-    // ------------------------------------------------------------------------
-    // Constructor(s)
-    // ------------------------------------------------------------------------
-
-    public AtomModel( Atom atom, String name, double x, double y, IClock clock ) {
+    public AtomModel( Atom atom, String name, IClock clock ) {
         this.clock = clock;
         this.name = name;
         this.atom = atom;
-        position = new Property<Point2D.Double>( new Point2D.Double( x, y ) );
-        this.destination.setLocation( x, y );
+        position = new Property<Point2D.Double>( new Point2D.Double() );
+        this.destination.setLocation( position.getValue() );
         addedToModel(); // Assume that this is initially an active part of the model.
         userControlled.addObserver( new SimpleObserver() {
             public void update() {
