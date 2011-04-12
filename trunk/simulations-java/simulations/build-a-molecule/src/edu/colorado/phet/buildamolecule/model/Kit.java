@@ -1,9 +1,7 @@
 package edu.colorado.phet.buildamolecule.model;
 
-import java.awt.geom.Point2D;
 import java.util.List;
 
-import edu.colorado.phet.buildamolecule.model.buckets.AtomModel;
 import edu.colorado.phet.buildamolecule.model.buckets.Bucket;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 
@@ -35,9 +33,6 @@ public class Kit {
         // centers the buckets horizontally within the kit
         for ( Bucket bucket : buckets ) {
             bucket.setPosition( new ImmutableVector2D( bucket.getPosition().getX() - usedWidth / 2 + KIT_X_CENTER + bucket.getWidth() / 2, KIT_Y ) );
-            for ( AtomModel atomModel : bucket.getAtoms() ) {
-                atomModel.setPosition( atomModel.getPosition().getAddedInstance( bucket.getPosition() ) );
-            }
         }
     }
 
