@@ -18,9 +18,12 @@ import edu.colorado.phet.common.phetcommon.util.function.Function1;
  * Sensor for wave values, reads the wave amplitude as a function of time and location.  Two probes can be used to compare values.
  */
 public class WaveSensor {
-    public final Probe probe1 = new Probe( -4.173076923076922E-7, 9.180769230769231E-7 );
-    public final Probe probe2 = new Probe( -1.5440384615384618E-6, -1.2936538461538458E-6 );
-    public final Property<ImmutableVector2D> bodyPosition = new Property<ImmutableVector2D>( new ImmutableVector2D( 4.882500000000015E-6, -3.1298076923077013E-6 ) );
+    private static final double DELTA = 1;//offset the probe so it isn't taking data by default
+
+    //Set the relative location of the probes
+    public final Probe probe1 = new Probe( -4.173076923076922E-7 - DELTA, 9.180769230769231E-7 - DELTA );
+    public final Probe probe2 = new Probe( -1.5440384615384618E-6 - DELTA, -1.2936538461538458E-6 - DELTA );
+    public final Property<ImmutableVector2D> bodyPosition = new Property<ImmutableVector2D>( new ImmutableVector2D( 4.882500000000015E-6 - DELTA, -3.1298076923077013E-6 - DELTA ) );
     public final Clock clock;
     public final BooleanProperty visible = new BooleanProperty( false );//in the play area
 
