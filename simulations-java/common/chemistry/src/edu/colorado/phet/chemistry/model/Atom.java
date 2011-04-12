@@ -84,4 +84,20 @@ public abstract class Atom {
             super( "S", 103, new Color( 212, 181, 59 ) );
         }
     }
+
+    @Override
+    public boolean equals( Object ob ) {
+        if ( ob instanceof Atom ) {
+            Atom other = (Atom) ob;
+            return other.getSymbol().equals( this.getSymbol() ) && other.getRadius() == this.getRadius() && other.getColor().equals( this.getColor() );
+        }
+        else {
+            return false;
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        return getSymbol().hashCode() + new Double( getRadius() ).hashCode() * ( 7 + getColor().hashCode() * 13 );
+    }
 }
