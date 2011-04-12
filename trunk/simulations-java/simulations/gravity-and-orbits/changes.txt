@@ -1,3 +1,4 @@
+# 1.00.20 (50552) Apr 12, 2011
 Improved the performance by buffering round gradient paint graphics for bodies
 Switched sim speed slider to use SimSpeedControlPNode, which has improved support for i18n
 # 1.00.19 (50427) Apr 7, 2011
