@@ -1,3 +1,4 @@
+Fixed: "Return object" should recalculate the gravity force vectors and update them even when paused ... right now it displays the force vectors of the prior situation before it moved the moon or planet.
 Fixed: orbital period should be 365 days instead of 357 days for cartoon sun/earth mode
 # 1.00.20 (50552) Apr 12, 2011
 Improved the performance by buffering round gradient paint graphics for bodies

@@ -156,6 +156,7 @@ public class GravityAndOrbitsModel {
         for ( Body body : bodies ) {
             body.returnBody( this );
         }
+        updateForceVectors();//Fixes: "Return object" should recalculate the gravity force vectors and update them even when paused ... right now it displays the force vectors of the prior situation before it moved the moon or planet.
     }
 
     public Body getBody( String name ) {
