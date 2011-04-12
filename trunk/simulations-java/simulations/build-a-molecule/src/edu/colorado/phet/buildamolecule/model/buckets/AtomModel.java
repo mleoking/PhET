@@ -35,10 +35,10 @@ public class AtomModel {
 
     private final Atom atom;
     private final String name;
-    private final Property<Point2D.Double> position;
+    private final Property<ImmutableVector2D> position;
     private final Property<Boolean> userControlled = new Property<Boolean>( false );//True if the particle is being dragged by the user
     private final HashSet<Listener> listeners = new HashSet<Listener>();
-    private final Point2D destination = new Point2D.Double();
+    private ImmutableVector2D destination = new ImmutableVector2D();
 
     // Listener to the clock, used for motion.
     private final ClockAdapter clockListener = new ClockAdapter() {
@@ -55,8 +55,8 @@ public class AtomModel {
         this.clock = clock;
         this.name = name;
         this.atom = atom;
-        position = new Property<Point2D.Double>( new Point2D.Double() );
-        this.destination.setLocation( position.getValue() );
+        position = new Property<ImmutableVector2D>( new ImmutableVector2D() );
+        destination = position.getValue();
         addedToModel(); // Assume that this is initially an active part of the model.
         userControlled.addObserver( new SimpleObserver() {
             public void update() {
@@ -88,10 +88,10 @@ public class AtomModel {
     }
 
     private void stepInTime( double dt ) {
-        if ( getPosition().distance( destination ) != 0 ) {
+        if ( getPosition().getDistance( destination ) != 0 ) {
             // Move towards the current destination.
             double distanceToTravel = MOTION_VELOCITY * dt;
-            if ( distanceToTravel >= getPosition().distance( destination ) ) {
+            if ( distanceToTravel >= getPosition().getDistance( destination ) ) {
                 // Closer than one step, so just go there.
                 setPosition( destination );
             }
@@ -104,7 +104,7 @@ public class AtomModel {
         }
     }
 
-    public Point2D getPosition() {
+    public ImmutableVector2D getPosition() {
         return position.getValue();
     }
 
@@ -112,30 +112,21 @@ public class AtomModel {
         return new Point2D.Double( destination.getX(), destination.getY() );
     }
 
-    public void setPosition( Point2D position ) {
-        setPosition( position.getX(), position.getY() );
+    public void setPosition( ImmutableVector2D point ) {
+        position.setValue( point );
     }
 
     public void setPosition( double x, double y ) {
-        position.setValue( new Point2D.Double( x, y ) );
+        position.setValue( new ImmutableVector2D( x, y ) );
     }
 
-    public void setDestination( Point2D position ) {
-        setDestination( position.getX(), position.getY() );
+    public void setDestination( ImmutableVector2D point ) {
+        destination = point;
     }
 
-    public void setDestination( double x, double y ) {
-        destination.setLocation( x, y );
-    }
-
-    public void setPositionAndDestination( double x, double y ) {
-        setPosition( x, y );
-        setDestination( x, y );
-    }
-
-    public void setPositionAndDestination( Point2D p ) {
-        setPosition( p );
-        setDestination( p );
+    public void setPositionAndDestination( ImmutableVector2D point ) {
+        setPosition( point );
+        setDestination( point );
     }
 
     public double getDiameter() {
@@ -176,7 +167,7 @@ public class AtomModel {
 
     public void reset() {
         position.reset();
-        destination.setLocation( position.getValue() );
+        destination = position.getValue();
         userControlled.reset();
     }
 
@@ -212,10 +203,6 @@ public class AtomModel {
 
     public void removePositionListener( SimpleObserver listener ) {
         position.removeObserver( listener );
-    }
-
-    public void moveToDestination() {
-        setPosition( getDestination() );
     }
 
     // -----------------------------------------------------------------------

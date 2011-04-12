@@ -10,6 +10,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import edu.colorado.phet.chemistry.model.Atom;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
@@ -45,7 +46,7 @@ public class Bucket {
     // ------------------------------------------------------------------------
 
     // The position is defined to be where the center of the hole is.
-    private Point2D position = new Point2D.Double();
+    private ImmutableVector2D position = new ImmutableVector2D();
 
     // The two shapes that define the overall shape of the bucket.
     protected final Shape holeShape;
@@ -161,12 +162,12 @@ public class Bucket {
     // Methods
     // ------------------------------------------------------------------------
 
-    public Point2D getPosition() {
+    public ImmutableVector2D getPosition() {
         return position;
     }
 
-    public void setPosition( Point2D position ) {
-        this.position = position;
+    public void setPosition( ImmutableVector2D point ) {
+        this.position = point;
     }
 
     public Shape getHoleShape() {
@@ -208,7 +209,8 @@ public class Bucket {
 
     public void addAtom( final AtomModel atom, boolean animate ) {
         // Determine an open location in the bucket.
-        Point2D freeParticleLocation = getFirstOpenLocation();
+        ImmutableVector2D freeParticleLocation = getFirstOpenLocation();
+        System.out.println( freeParticleLocation );
 
         // Move the atom.
         if ( animate ) {
@@ -238,8 +240,8 @@ public class Bucket {
      * Returns the first location in a bucket that a particle could be placed without overlapping another particle.
      * Locations may be above (+y) other particles, in order to create a stacking effect.
      */
-    private Point2D getFirstOpenLocation() {
-        Point2D openLocation = new Point2D.Double();
+    private ImmutableVector2D getFirstOpenLocation() {
+        ImmutableVector2D openLocation = new ImmutableVector2D();
         double placeableWidth = holeShape.getBounds2D().getWidth() * usableWidthProportion - 2 * particleRadius;
         double offsetFromBucketEdge = ( holeShape.getBounds2D().getWidth() - placeableWidth ) / 2 + particleRadius;
         int numParticlesInLayer = (int) Math.floor( placeableWidth / ( particleRadius * 2 ) );
@@ -251,7 +253,7 @@ public class Bucket {
             double xPos = getPosition().getX() - holeShape.getBounds2D().getWidth() / 2 + offsetFromBucketEdge + positionInLayer * 2 * particleRadius;
             if ( isPositionOpen( xPos, yPos ) ) {
                 // We found a location that is open.
-                openLocation.setLocation( xPos, yPos );
+                openLocation = new ImmutableVector2D( xPos, yPos );
                 found = true;
                 continue;
             }
@@ -275,7 +277,7 @@ public class Bucket {
                 }
             }
         }
-        return new Point2D.Double( openLocation.getX() + position.getX(), openLocation.getY() + position.getY() );
+        return openLocation.getAddedInstance( position );
     }
 
     /**

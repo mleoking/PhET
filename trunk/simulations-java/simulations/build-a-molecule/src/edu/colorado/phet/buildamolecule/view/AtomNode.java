@@ -47,7 +47,7 @@ public class AtomNode extends PNode {
         // changes.
         atom.addPositionListener( new SimpleObserver() {
             public void update() {
-                sphericalNode.setOffset( mvt.modelToView( atom.getPosition() ) );
+                sphericalNode.setOffset( mvt.modelToView( atom.getPosition() ).toPoint2D() );
             }
         } );
 
@@ -68,8 +68,7 @@ public class AtomNode extends PNode {
             public void mouseDragged( PInputEvent event ) {
                 PDimension delta = event.getDeltaRelativeTo( getParent() );
                 ImmutableVector2D modelDelta = mvt.viewToModelDelta( new ImmutableVector2D( delta.width, delta.height ) );
-                atom.setPositionAndDestination( atom.getPosition().getX() + modelDelta.getX(),
-                                                atom.getPosition().getY() + modelDelta.getY() );
+                atom.setPositionAndDestination( atom.getPosition().getAddedInstance( modelDelta ) );
             }
 
             @Override
