@@ -1,7 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.buildamolecule.model.buckets;
 
-import java.awt.Color;
+import java.awt.*;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -10,7 +10,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
  * Class that defines a model of a bucket that can hold particles.
- *
+ * <p/>
  * IMPORTANT NOTE: The shapes that are created and that comprise the
  * bucket are set up such that the point (0,0) is in the center of the
  * bucket's hole.
@@ -56,7 +56,7 @@ public class ParticleBucket extends Bucket {
             final Point2D initialPosition = particle.getDestination();
             particle.addPositionListener( new SimpleObserver() {
                 public void update() {
-                    if (initialPosition.distance( particle.getDestination() )>particle.getRadius()*10){
+                    if ( initialPosition.distance( particle.getDestination() ) > particle.getRadius() * 10 ) {
                         relayoutBucketParticles();
                         particle.removePositionListener( this );
                     }
@@ -72,9 +72,9 @@ public class ParticleBucket extends Bucket {
     /**
      * Constructor.
      */
-    public ParticleBucket( Point2D position, Dimension2D size, Color baseColor, String caption, double particleRadius,
-            double usableWidthProportion, double yOffset ) {
-        super( position, size, baseColor, caption );
+    public ParticleBucket( Dimension2D size, Color baseColor, String caption, double particleRadius,
+                           double usableWidthProportion, double yOffset ) {
+        super( size, baseColor, caption );
         this.particleRadius = particleRadius;
         this.usableWidthProportion = usableWidthProportion;
         this.yOffset = yOffset;
@@ -84,8 +84,8 @@ public class ParticleBucket extends Bucket {
      * Constructor that assumes that the entire width of the bucket should be
      * used for particle placement.
      */
-    public ParticleBucket( Point2D position, Dimension2D size, Color baseColor, String caption, double particleRadius ) {
-        this(position, size, baseColor, caption, particleRadius, 1, 0);
+    public ParticleBucket( Dimension2D size, Color baseColor, String caption, double particleRadius ) {
+        this( size, baseColor, caption, particleRadius, 1, 0 );
     }
 
     // ------------------------------------------------------------------------
@@ -97,8 +97,8 @@ public class ParticleBucket extends Bucket {
     }
 
     public void removeParticle( SphericalParticle particle ) {
-        if (!containedParticles.contains( particle )){
-           System.err.println( getClass().getName() + " - Error: Particle not here, can't remove." );
+        if ( !containedParticles.contains( particle ) ) {
+            System.err.println( getClass().getName() + " - Error: Particle not here, can't remove." );
         }
         assert containedParticles.contains( particle );
         containedParticles.remove( particle );
@@ -125,11 +125,11 @@ public class ParticleBucket extends Bucket {
         containedParticles.add( particle );
     }
 
-    public boolean containsParticle( SphericalParticle particle ){
+    public boolean containsParticle( SphericalParticle particle ) {
         return containedParticles.contains( particle );
     }
 
-    public ArrayList<SphericalParticle> getParticleList(){
+    public ArrayList<SphericalParticle> getParticleList() {
         return containedParticles;
     }
 
@@ -144,7 +144,7 @@ public class ParticleBucket extends Bucket {
     private Point2D getFirstOpenLocation() {
         Point2D openLocation = new Point2D.Double();
         double placeableWidth = holeShape.getBounds2D().getWidth() * usableWidthProportion - 2 * particleRadius;
-        double offsetFromBucketEdge = (holeShape.getBounds2D().getWidth() - placeableWidth) / 2 + particleRadius;
+        double offsetFromBucketEdge = ( holeShape.getBounds2D().getWidth() - placeableWidth ) / 2 + particleRadius;
         int numParticlesInLayer = (int) Math.floor( placeableWidth / ( particleRadius * 2 ) );
         int row = 0;
         int positionInLayer = 0;
@@ -182,7 +182,6 @@ public class ParticleBucket extends Bucket {
     }
 
     /**
-     *
      * @param row 0 for the y=0 row, 1 for the next row, etc.
      * @return
      */
@@ -192,10 +191,10 @@ public class ParticleBucket extends Bucket {
 
     private void relayoutBucketParticles() {
         ArrayList<SphericalParticle> copyOfContainedParticles = new ArrayList<SphericalParticle>( containedParticles );
-        for ( SphericalParticle containedParticle : copyOfContainedParticles) {
-            if (isDangling(containedParticle)){
+        for ( SphericalParticle containedParticle : copyOfContainedParticles ) {
+            if ( isDangling( containedParticle ) ) {
                 removeParticle( containedParticle );
-                addParticle( containedParticle, false);
+                addParticle( containedParticle, false );
                 relayoutBucketParticles();
             }
         }
@@ -211,7 +210,7 @@ public class ParticleBucket extends Bucket {
     }
 
     private int countSupportingParticles( SphericalParticle p ) {
-        int count =0 ;
+        int count = 0;
         for ( SphericalParticle particle : containedParticles ) {
             if ( particle != p &&//not ourself
                  particle.getDestination().getY() < p.getDestination().getY() && //must be in a lower layer

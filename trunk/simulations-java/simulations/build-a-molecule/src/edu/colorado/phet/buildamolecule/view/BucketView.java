@@ -1,11 +1,6 @@
 package edu.colorado.phet.buildamolecule.view;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.GradientPaint;
-import java.awt.Paint;
-import java.awt.Shape;
+import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
@@ -38,8 +33,6 @@ public class BucketView {
     // Instance Data
     // ------------------------------------------------------------------------
 
-    private final PNode rootNode = new PNode();
-
     // This node maintains two layers and makes those layers available via its
     // API.  This is done so that its parts can be added to different layers,
     // thus making more easy to make things look like they are in the bucket.
@@ -51,14 +44,10 @@ public class BucketView {
     // ------------------------------------------------------------------------
 
     public BucketView( Bucket bucket, ModelViewTransform mvt ) {
-        // Add the layers.
-        rootNode.addChild( containerLayer );
-        rootNode.addChild( holeLayer );
-
         // Create a scaling transform based on the provided MVT, since we only
         // want the scaling portion and we want to avoid any translation.
         AffineTransform scaleTransform = AffineTransform.getScaleInstance( mvt.getTransform().getScaleX(),
-                mvt.getTransform().getScaleY() );
+                                                                           mvt.getTransform().getScaleY() );
 
         // Create the scaled shapes.
         Shape scaledHoleShape = scaleTransform.createTransformedShape( bucket.getHoleShape() );
@@ -86,7 +75,7 @@ public class BucketView {
         if ( bucket.getCaptionText() != null ) {
             PText caption = new PText( bucket.getCaptionText() );
             caption.setFont( LABEL_FONT );
-            caption.setTextPaint( Color.WHITE );
+            caption.setTextPaint( Color.BLACK );
             if ( caption.getFullBoundsReference().getWidth() > scaledContainerShape.getBounds().getWidth() * 0.8 ) {
                 // The caption must be scaled in order to fit on the container.
                 caption.scale( scaledContainerShape.getBounds().getWidth() * 0.8 / caption.getFullBoundsReference().getWidth() );
@@ -97,7 +86,8 @@ public class BucketView {
             containerLayer.addChild( caption );
         }
 
-        rootNode.setOffset( mvt.modelToView( bucket.getPosition() ) );
+        holeLayer.setOffset( mvt.modelToView( bucket.getPosition() ) );
+        containerLayer.setOffset( mvt.modelToView( bucket.getPosition() ) );
     }
 
     // ------------------------------------------------------------------------
@@ -110,9 +100,5 @@ public class BucketView {
 
     public PNode getContainerLayer() {
         return containerLayer;
-    }
-
-    public void setOffset( double x, double y){
-        rootNode.setOffset( x, y );
     }
 }
