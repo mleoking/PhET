@@ -5,6 +5,7 @@ import java.util.List;
 
 import edu.colorado.phet.buildamolecule.model.buckets.AtomModel;
 import edu.colorado.phet.buildamolecule.model.buckets.Bucket;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 
 /**
  * Contains multiple buckets of different types of atoms
@@ -27,17 +28,15 @@ public class Kit {
             if ( i != 0 ) {
                 usedWidth += BUCKET_PADDING;
             }
-            bucket.setPosition( new Point2D.Double( usedWidth, KIT_Y ) );
+            bucket.setPosition( new ImmutableVector2D( usedWidth, KIT_Y ) );
             usedWidth += bucket.getWidth();
         }
 
         // centers the buckets horizontally within the kit
         for ( Bucket bucket : buckets ) {
-            bucket.setPosition( new Point2D.Double( bucket.getPosition().getX() - usedWidth / 2 + KIT_X_CENTER + bucket.getWidth() / 2, KIT_Y ) );
+            bucket.setPosition( new ImmutableVector2D( bucket.getPosition().getX() - usedWidth / 2 + KIT_X_CENTER + bucket.getWidth() / 2, KIT_Y ) );
             for ( AtomModel atomModel : bucket.getAtoms() ) {
-                Point2D currentPosition = atomModel.getPosition();
-                // TODO: use IV2d for simplifications
-                atomModel.setPosition( currentPosition.getX() + bucket.getPosition().getX(), currentPosition.getY() + bucket.getPosition().getY() );
+                atomModel.setPosition( atomModel.getPosition().getAddedInstance( bucket.getPosition() ) );
             }
         }
     }

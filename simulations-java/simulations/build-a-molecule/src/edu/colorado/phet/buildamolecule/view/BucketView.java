@@ -86,8 +86,8 @@ public class BucketView {
             containerLayer.addChild( caption );
         }
 
-        holeLayer.setOffset( mvt.modelToView( bucket.getPosition() ) );
-        containerLayer.setOffset( mvt.modelToView( bucket.getPosition() ) );
+        holeLayer.setOffset( mvt.modelToView( bucket.getPosition() ).toPoint2D() );
+        containerLayer.setOffset( mvt.modelToView( bucket.getPosition() ).toPoint2D() );
     }
 
     // ------------------------------------------------------------------------
