@@ -24,32 +24,25 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class AtomNode extends PNode {
 
-    private static final double MIN_RADIUS_FOR_LABEL = 10; // In screen units, which is roughly pixels.
-
     private final ShadedSphereNode sphericalNode;
 
-    /**
-     * Constructor.
-     */
     public AtomNode( final ModelViewTransform mvt, final AtomModel atom ) {
 
         double transformedRadius = mvt.modelToViewDeltaX( atom.getRadius() );
-        sphericalNode = new ShadedSphereNode( atom.getAtom().getRadius(), atom.getColor() );
+        sphericalNode = new ShadedSphereNode( transformedRadius, atom.getColor() );
         addChild( sphericalNode );
 
-        // Create, scale, and add the label, assuming the atom is large enough.
-        if ( transformedRadius > MIN_RADIUS_FOR_LABEL ) {
-            PText labelNode = new PText() {{
-                setText( atom.getAtom().getSymbol() );
-                setFont( new PhetFont( 10, true ) );
-                setScale( sphericalNode.getFullBoundsReference().width * 0.65 / getFullBoundsReference().width );
-                if ( 0.30 * atom.getColor().getRed() + 0.59 * atom.getColor().getGreen() + 0.11 * atom.getColor().getBlue() < 125 ) {
-                    setTextPaint( Color.WHITE );
-                }
-                setOffset( -getFullBoundsReference().width / 2, -getFullBoundsReference().height / 2 );
-            }};
-            sphericalNode.addChild( labelNode );
-        }
+        // Create, scale, and add the label
+        PText labelNode = new PText() {{
+            setText( atom.getAtom().getSymbol() );
+            setFont( new PhetFont( 10, true ) );
+            setScale( sphericalNode.getFullBoundsReference().width * 0.65 / getFullBoundsReference().width );
+            if ( 0.30 * atom.getColor().getRed() + 0.59 * atom.getColor().getGreen() + 0.11 * atom.getColor().getBlue() < 125 ) {
+                setTextPaint( Color.WHITE );
+            }
+            setOffset( -getFullBoundsReference().width / 2, -getFullBoundsReference().height / 2 );
+        }};
+        sphericalNode.addChild( labelNode );
 
         // Add the code for moving this node when the model element's position
         // changes.
