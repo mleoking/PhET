@@ -1,3 +1,4 @@
+# 1.00.21 (50558) Apr 12, 2011
 Fixed gravity force arrow scale so that default scaling is 1/2 a grid cell
 Fixed: "Return object" should recalculate the gravity force vectors and update them even when paused ... right now it displays the force vectors of the prior situation before it moved the moon or planet.
 Fixed: orbital period should be 365 days instead of 357 days for cartoon sun/earth mode
