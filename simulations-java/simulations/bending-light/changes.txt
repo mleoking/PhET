@@ -1,3 +1,4 @@
+Fixed: slider knobs appear in the wrong place on Mac
 Fixed memory leaks in ChartNode
 Fixed: grid lines disappear after some time in the wave chart
 Fixed: the wave probe has data in it even before moving it over the wave node

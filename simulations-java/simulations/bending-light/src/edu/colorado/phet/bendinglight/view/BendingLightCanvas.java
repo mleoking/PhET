@@ -4,7 +4,9 @@ package edu.colorado.phet.bendinglight.view;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
 
 import javax.swing.*;
 
@@ -13,6 +15,7 @@ import edu.colorado.phet.bendinglight.model.LightRay;
 import edu.colorado.phet.bendinglight.modules.prisms.WhiteLightNode;
 import edu.colorado.phet.common.phetcommon.model.property.And;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.Function2;
@@ -20,18 +23,18 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
+
+import static java.awt.image.BufferedImage.TYPE_INT_RGB;
 
 /**
  * Base class for Bending Light canvases.
  *
  * @author Sam Reid
  */
-public class BendingLightCanvas<T extends BendingLightModel>
-        extends BufferedPhetPCanvas {//Using BufferedPhetPCanvas prevents a jittering problem on the 2nd tab, see #2786
+public class BendingLightCanvas<T extends BendingLightModel> extends PhetPCanvas {
     public static final PhetFont labelFont = new PhetFont( 16 );
     private PNode rootNode;
     public final BooleanProperty showNormal;
@@ -53,6 +56,7 @@ public class BendingLightCanvas<T extends BendingLightModel>
     protected final PNode afterLightLayer = new PNode();//in front of afterlightlayer2
     protected final PNode afterLightLayer2 = new PNode();
     public final BooleanProperty clockRunningPressed;
+    private BufferedImage bufferedImage;
 
     public BendingLightCanvas( final T model,
                                BooleanProperty moduleActive,
@@ -212,5 +216,24 @@ public class BendingLightCanvas<T extends BendingLightModel>
 
     public T getModel() {
         return model;
+    }
+
+    //Using BufferedPhetPCanvas prevents a jittering problem on the 2nd tab, see #2786 -- but only apply this solution on Windows since it causes problem on Mac and mac has no jitter problem
+    //This code is copied from BufferedPhetPCanvas
+    public void paintComponent( Graphics g ) {
+        if ( PhetUtilities.isMacintosh() ) {
+            super.paintComponent( g );
+        }
+        //Apply the workaround on windows and linux since they have similar behavior
+        else {
+            if ( ( bufferedImage == null || bufferedImage.getWidth() != getWidth() || bufferedImage.getHeight() != getHeight() ) ) {
+                bufferedImage = new BufferedImage( getWidth(), getHeight(), TYPE_INT_RGB );
+            }
+            Graphics2D bufferedGraphics = bufferedImage.createGraphics();
+            bufferedGraphics.setClip( g.getClipBounds() );
+            super.paintComponent( bufferedGraphics );
+            ( (Graphics2D) g ).drawRenderedImage( bufferedImage, new AffineTransform() );
+            bufferedGraphics.dispose();
+        }
     }
 }
