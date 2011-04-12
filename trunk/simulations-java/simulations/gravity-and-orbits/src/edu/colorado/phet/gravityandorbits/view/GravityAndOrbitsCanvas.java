@@ -23,11 +23,11 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.SimSpeedControlPNode;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.DefaultIconButton;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.FloatingClockControlNode;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.RewindButton;
 import edu.colorado.phet.gravityandorbits.GAOStrings;
-import edu.colorado.phet.gravityandorbits.controlpanel.GAOTimeSlider;
 import edu.colorado.phet.gravityandorbits.controlpanel.GravityAndOrbitsControlPanel;
 import edu.colorado.phet.gravityandorbits.model.Body;
 import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsModel;
@@ -195,7 +195,8 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
 
             assert mode.timeSpeedScaleProperty != null;
             // Add the speed control slider.
-            addChild( new GAOTimeSlider( mode.timeSpeedScaleProperty, rewindButton.getFullBoundsReference().getMinX(), new IfElse<Color>( module.whiteBackgroundProperty, Color.black, Color.white ) ) );
+            addChild( new SimSpeedControlPNode( 0.1, mode.timeSpeedScaleProperty, 2.0, rewindButton.getFullBoundsReference().getMinX(),
+                                                new IfElse<Color>( module.whiteBackgroundProperty, Color.black, Color.white ) ) );
         }} );
 
         addChild( new MeasuringTape( module.measuringTapeVisibleProperty, mode.measuringTapeStartPoint, mode.measuringTapeEndPoint, mode.modelViewTransformProperty ) );
