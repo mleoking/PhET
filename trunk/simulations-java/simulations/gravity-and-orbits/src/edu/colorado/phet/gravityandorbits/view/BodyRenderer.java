@@ -7,8 +7,8 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -88,7 +88,8 @@ public abstract class BodyRenderer extends PNode {
 
         public SphereRenderer( IBodyColors body, double viewDiameter ) {
             super( body );
-            sphereNode = new SphericalNode( viewDiameter, createPaint( viewDiameter ), false );
+            //Buffer the sphere node for improved performance (JProfiler reported 80% time spent in rendering before buffering, 15% after)
+            sphereNode = new SphericalNode( viewDiameter, createPaint( viewDiameter ), true );
             addChild( sphereNode );
         }
 

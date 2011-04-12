@@ -50,9 +50,9 @@ public class BodyMassControl extends VerticalLayoutPanel {
                 setFont( CONTROL_FONT );
                 setForeground( FOREGROUND );
             }} );
-            final BodyNode bodyNode = new BodyNode( body, new Property<ModelViewTransform>( createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( STAGE_SIZE.width * 0.30, STAGE_SIZE.height * 0.5 ),
-                                                                                                                                    1//using a scale of 1 instead of 1E-9 fixes a problem that caused transparent pixels to appear around an image, making the rendered part smaller than it should have been
-            ) ),
+            //using a scale of 1 instead of 1E-9 fixes a problem that caused transparent pixels to appear around an image, making the rendered part smaller than it should have been
+            //However, that caused out of memory errors when we needed to buffer the round gradient paint graphics, so we reverted back to the 1E-9 scaling
+            final BodyNode bodyNode = new BodyNode( body, new Property<ModelViewTransform>( createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( STAGE_SIZE.width * 0.30, STAGE_SIZE.height * 0.5 ), 1E-9 ) ),
                                                     new Property<ImmutableVector2D>( new ImmutableVector2D( 0, 0 ) ), null, -Math.PI / 4 );
             final Image image = bodyNode.renderImage( 22 );
             add( new JLabel( "", new ImageIcon( image ), SwingConstants.LEFT ) );
