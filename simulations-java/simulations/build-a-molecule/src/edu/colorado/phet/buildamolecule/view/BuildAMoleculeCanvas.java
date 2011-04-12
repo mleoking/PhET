@@ -2,9 +2,11 @@
 
 package edu.colorado.phet.buildamolecule.view;
 
+import java.awt.Color;
 import java.awt.Point;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.LinkedList;
 
 import edu.colorado.phet.buildamolecule.BuildAMoleculeConstants;
@@ -15,6 +17,7 @@ import edu.colorado.phet.buildamolecule.model.buckets.Bucket;
 import edu.colorado.phet.chemistry.model.Atom;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -76,7 +79,16 @@ public class BuildAMoleculeCanvas extends PhetPCanvas {
 //                add( new Atom.O() );
 //            }} ) );
         }} );
-        addWorldChild( new KitNode( kit ) {{setOffset( 100, 100 );}} );
+//        addWorldChild( new KitNode( kit, mvt ) {{setOffset( 100, 100 );}} );
+        addWorldChild( new KitNode( kit, mvt ) {{setOffset( 0, 0 );}} );
+
+        BucketView testBucketNode = new BucketView( new Bucket( new Point2D.Double(400, 400), new PDimension(110, 60), new Atom.C().getColor(), "Carbon"), mvt );
+        addWorldChild( testBucketNode.getHoleLayer() );
+        addWorldChild( testBucketNode.getContainerLayer() );
+
+        PNode locationTestNode = new PhetPPath( new Rectangle2D.Double(-20, -20, 40, 40), Color.PINK );
+        locationTestNode.setOffset( mvt.modelToView( new Point2D.Double(0, 0) ) );
+        addWorldChild( locationTestNode );
 
         // Root of our scene graph
         _rootNode = new PNode();
