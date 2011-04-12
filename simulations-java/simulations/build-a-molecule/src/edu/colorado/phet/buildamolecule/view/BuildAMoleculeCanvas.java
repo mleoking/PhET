@@ -5,17 +5,15 @@ package edu.colorado.phet.buildamolecule.view;
 import java.awt.*;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
-import java.util.LinkedList;
 
 import edu.colorado.phet.buildamolecule.BuildAMoleculeConstants;
 import edu.colorado.phet.buildamolecule.control.CollectionAreaNode;
 import edu.colorado.phet.buildamolecule.model.Kit;
+import edu.colorado.phet.buildamolecule.model.buckets.AtomModel;
 import edu.colorado.phet.buildamolecule.model.buckets.Bucket;
-import edu.colorado.phet.chemistry.model.Atom;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.util.PDimension;
 
 public class BuildAMoleculeCanvas extends PhetPCanvas {
 
@@ -38,7 +36,7 @@ public class BuildAMoleculeCanvas extends PhetPCanvas {
     // Constructors
     //----------------------------------------------------------------------------
 
-    public BuildAMoleculeCanvas() {
+    public BuildAMoleculeCanvas( Kit kit ) {
 
         // Set up the canvas-screen transform.
         setWorldTransformStrategy( new PhetPCanvas.CenteredStage( this, BuildAMoleculeConstants.DEFAULT_STAGE_SIZE ) );
@@ -65,12 +63,13 @@ public class BuildAMoleculeCanvas extends PhetPCanvas {
         }};
         addWorldChild( collectionAreaNode );
 
-        Kit kit = new Kit( new LinkedList<Bucket>() {{
-            add( new Bucket( new PDimension( 140, 60 ), new Atom.H().getColor(), "Hydrogen" ) );
-            add( new Bucket( new PDimension( 140, 60 ), new Atom.O().getColor(), "Oxygen" ) );
-            add( new Bucket( new PDimension( 140, 60 ), new Atom.C().getColor(), "Carbon" ) );
-        }} );
         KitView kitView = new KitView( kit, mvt );
+        for ( Bucket bucket : kit.getBuckets() ) {
+            for ( AtomModel atom : bucket.getAtoms() ) {
+                atomLayer.addChild( new AtomNode( mvt, atom ) );
+            }
+        }
+
         addWorldChild( kitView.getBottomLayer() );
         addWorldChild( atomLayer );
         addWorldChild( kitView.getTopLayer() );
