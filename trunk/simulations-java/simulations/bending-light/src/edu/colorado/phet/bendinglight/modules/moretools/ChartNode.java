@@ -18,7 +18,7 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.nodes.PClip;
 
-import static edu.colorado.phet.bendinglight.model.BendingLightModel.DT;
+import static edu.colorado.phet.bendinglight.model.BendingLightModel.MAX_DT;
 import static edu.colorado.phet.bendinglight.model.BendingLightModel.TIME_SPEEDUP_SCALE;
 import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createRectangleMapping;
 
@@ -33,7 +33,7 @@ public class ChartNode extends PClip {
     public ChartNode( final Clock clock, final Rectangle chartArea, ArrayList<Series> series ) {
         setPathTo( chartArea );
         setStroke( null );
-        final double timeWidth = 100 * DT / TIME_SPEEDUP_SCALE;
+        final double timeWidth = 100 * MAX_DT / TIME_SPEEDUP_SCALE;
         transform = new Property<ModelViewTransform>( createRectangleMapping( new Rectangle2D.Double( 0, -1, timeWidth, 2 ), chartArea ) );
         addChild( new GridLine( -timeWidth, 0, timeWidth * 50, 0 ) );//main axis        //TODO: we'll need to extend these lines, will need to do modulo or equivalent
         for ( double x = 0.5; x <= 200; x += 0.5 ) {//TODO: extend past 200
