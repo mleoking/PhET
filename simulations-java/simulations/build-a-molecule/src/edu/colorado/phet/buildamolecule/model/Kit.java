@@ -11,8 +11,8 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 public class Kit {
     private final List<Bucket> buckets;
 
-    public static final double KIT_Y = -250;
-    public static final double KIT_X_CENTER = -100;
+    public static final double KIT_Y = -450;
+    public static final double KIT_X_CENTER = -150;
     public static final double BUCKET_PADDING = 50;
 
     public Kit( List<Bucket> buckets ) {
