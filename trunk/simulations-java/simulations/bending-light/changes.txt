@@ -1,3 +1,4 @@
+Fixed: the wave probe has data in it even before moving it over the wave node
 Start the sim speed slider about 1/3 from the slow end since the wave chart is going too fast
 # 0.00.40 (50537) Apr 11, 2011
 Switched to use the common SimSpeedControl since it has better support for i18n
