@@ -13,7 +13,7 @@ public class CartoonModeList extends ModeList {
                    //This state copied from SunEarthMoon, should be kept in sync so the modes are similar
                    sun.radius *= 50;
                    earth.radius *= 800;
-                   forceScale *= 0.8 * 0.75;//to balance increased mass and so that forces are 1/2 grid cell in default conditions
+                   forceScale *= 0.573;//to balance increased mass and so that forces are 1/2 grid cell in default conditions, hand tuned by checking that reducing the distance by a factor of 2 increases the force arrow by a factor of 4
                    sun.fixed = true;//Sun shouldn't move in cartoon modes
                }}, new SunEarthMoon() {{
                     sun.radius *= 50;
@@ -25,13 +25,13 @@ public class CartoonModeList extends ModeList {
                     moon.vx *= 21;
                     moon.y = earth.radius * 1.7;
 
-                    forceScale *= 0.8 / earthMassScaleFactor * 0.75;//to balance increased mass and so that forces are 1/2 grid cell in default conditions
+                    forceScale *= 0.573 / earthMassScaleFactor;//to balance increased mass and so that forces are 1/2 grid cell in default conditions
                     timeScale = 365.0 / 343.5;//Have to artificially scale up the time readout so that Sun/Earth/Moon mode has a stable orbit with correct periods
                     sun.fixed = true;//Sun shouldn't move in cartoon modes
                 }}, new EarthMoon() {{
                     earth.radius *= 15;
                     moon.radius *= 15;
-                    forceScale *= 0.75;//so that default gravity force takes up 1/2 cell in grid
+                    forceScale *= 0.77;//so that default gravity force takes up 1/2 cell in grid
                 }}, new EarthSpaceStation() {{
                     earth.radius *= 0.8;
                     spaceStation.radius *= 8;
