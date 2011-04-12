@@ -2,7 +2,6 @@
 package edu.colorado.phet.buildamolecule.model.buckets;
 
 import java.awt.*;
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.HashSet;
 

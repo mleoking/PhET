@@ -49,7 +49,7 @@ public class BuildAMoleculeCanvas extends PhetPCanvas {
                 new Point2D.Double( 0, 0 ),
                 new Point( (int) Math.round( BuildAMoleculeConstants.DEFAULT_STAGE_SIZE.width * 0.5 ),
                            (int) Math.round( BuildAMoleculeConstants.DEFAULT_STAGE_SIZE.height * 0.5 ) ),
-                1.0 ); // "Zoom factor" - smaller zooms out, larger zooms in.
+                0.6 ); // "Zoom factor" - smaller zooms out, larger zooms in.
 
         setBackground( BuildAMoleculeConstants.CANVAS_BACKGROUND_COLOR );
 

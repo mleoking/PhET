@@ -39,10 +39,10 @@ public class MakeMoleculeModule extends PiccoloModule {
                 addAtom( new AtomModel( new Atom.H(), "Hydrogen", MakeMoleculeModule.this.getClock() ), false );
                 addAtom( new AtomModel( new Atom.H(), "Hydrogen", MakeMoleculeModule.this.getClock() ), false );
             }} );
-            add( new Bucket( new Atom.O(), new PDimension( 140, 60 ), "Oxygen" ) {{
+            add( new Bucket( new Atom.O(), new PDimension( 300, 60 ), "Oxygen" ) {{
                 addAtom( new AtomModel( new Atom.O(), "Oxygen", MakeMoleculeModule.this.getClock() ), false );
             }} );
-            add( new Bucket( new Atom.C(), new PDimension( 140, 60 ), "Carbon" ) {{
+            add( new Bucket( new Atom.C(), new PDimension( 300, 60 ), "Carbon" ) {{
                 addAtom( new AtomModel( new Atom.C(), "Carbon", MakeMoleculeModule.this.getClock() ), false );
             }} );
         }} );
