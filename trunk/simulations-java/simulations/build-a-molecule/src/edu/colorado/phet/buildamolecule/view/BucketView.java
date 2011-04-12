@@ -18,17 +18,15 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
 /**
- * Visual representation of a bucket of atoms (atoms are not contained here)
+ * This Piccolo2D node represents a bucket.  It is set up to have a sort of
+ * "faux 3D" look, where it is tipped slightly so that the hole at the top
+ * can be seen and there is shading on the outer portion.  This is NOT a PNode
+ * itself - the PNodes that represent the layers must be obtained via the API.
+ *
+ * @author John Blanco
+ * @author Jonathan Olson
  */
-public class BucketNode extends PNode {
-//    public BucketNode( Bucket bucket ) {
-//        final PhetPPath bucketBaseNode = new PhetPPath( new Rectangle( 0, 0, 150, 30 ), bucket.getColor() );
-//        addChild( bucketBaseNode );
-//        addChild( new PText( bucket.getName() ) {{
-//            setFont( new PhetFont( 18 ) );
-//            centerBoundsOnPoint( bucketBaseNode.getFullBounds().getCenterX(), bucketBaseNode.getFullBounds().getCenterY() );
-//        }} );
-//    }
+public class BucketView {
 
     // ------------------------------------------------------------------------
     // Class Data
@@ -40,6 +38,8 @@ public class BucketNode extends PNode {
     // Instance Data
     // ------------------------------------------------------------------------
 
+    private final PNode rootNode = new PNode();
+
     // This node maintains two layers and makes those layers available via its
     // API.  This is done so that its parts can be added to different layers,
     // thus making more easy to make things look like they are in the bucket.
@@ -50,10 +50,10 @@ public class BucketNode extends PNode {
     // Constructor(s)
     // ------------------------------------------------------------------------
 
-    public BucketNode( Bucket bucket, ModelViewTransform mvt ) {
+    public BucketView( Bucket bucket, ModelViewTransform mvt ) {
         // Add the layers.
-        addChild( containerLayer );
-        addChild( holeLayer );
+        rootNode.addChild( containerLayer );
+        rootNode.addChild( holeLayer );
 
         // Create a scaling transform based on the provided MVT, since we only
         // want the scaling portion and we want to avoid any translation.
@@ -96,6 +96,8 @@ public class BucketNode extends PNode {
                     scaledContainerShape.getBounds2D().getCenterY() - caption.getFullBoundsReference().getHeight() / 2 );
             containerLayer.addChild( caption );
         }
+
+        rootNode.setOffset( mvt.modelToView( bucket.getPosition() ) );
     }
 
     // ------------------------------------------------------------------------
@@ -110,15 +112,7 @@ public class BucketNode extends PNode {
         return containerLayer;
     }
 
-    @Override
-    public void setOffset( double x, double y ) {
-        super.setOffset( x, y );
-        holeLayer.setOffset( x, y );
-        containerLayer.setOffset( x, y );
-    }
-
-    @Override
-    public void setOffset( Point2D point ) {
-        setOffset( point.getX(), point.getY() );
+    public void setOffset( double x, double y){
+        rootNode.setOffset( x, y );
     }
 }
