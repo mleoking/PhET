@@ -31,7 +31,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 public class BodyNode extends PNode {
     private final Property<ModelViewTransform> modelViewTransform;
     private final Body body;
-    private final PNode arrowIndicator;
+    private final PNode arrowIndicator; //REVIEW this can be converted to a local variable
     private final BodyRenderer bodyRenderer;
 
     //REVIEW inconsistent naming conventions for Property, eg modelViewTransform and mousePositionProperty

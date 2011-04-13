@@ -43,6 +43,7 @@ public class ImageFactory {
     private BufferedImage sendFromRobot( JFrame frame ) {
         try {
             Robot robot = new Robot();
+            //REVIEW variable capture is redundant
             BufferedImage capture = robot.createScreenCapture( new Rectangle( frame.getX(), frame.getY(), frame.getWidth(), frame.getHeight() ) );
             return capture;
         }

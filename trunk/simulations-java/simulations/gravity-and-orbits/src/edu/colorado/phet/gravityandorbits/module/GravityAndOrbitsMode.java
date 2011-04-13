@@ -71,8 +71,8 @@ public abstract class GravityAndOrbitsMode {
     public final Property<Double> timeSpeedScaleProperty;
     public final Property<ImmutableVector2D> measuringTapeStartPoint;
     public final Property<ImmutableVector2D> measuringTapeEndPoint;
-    public final double defaultZoomScale;
-    public final ImmutableVector2D zoomOffset;
+    public final double defaultZoomScale;//REVIEW not used
+    public final ImmutableVector2D zoomOffset;//REVIEW not used
     public final Property<Double> zoomLevel = new Property<Double>( 1.0 );//additional scale factor on top of defaultZoomScale
     public final ModeListParameter p;
 
@@ -175,6 +175,7 @@ public abstract class GravityAndOrbitsMode {
         body.addUserModifiedVelocityListener( update );
     }
 
+    //REVIEW not used
     public String getName() {
         return name;
     }
@@ -227,6 +228,7 @@ public abstract class GravityAndOrbitsMode {
         return active.getValue();
     }
 
+    //REVIEW not used
     public Function1<Double, String> getTimeFormatter() {
         return timeFormatter;
     }
@@ -255,10 +257,12 @@ public abstract class GravityAndOrbitsMode {
         rewinding.setValue( false );
     }
 
+    //REVIEW not used
     public double getGridSpacing() {
         return gridSpacing;
     }
 
+    //REVIEW not used
     public Point2D.Double getGridCenter() {
         return gridCenter;
     }

@@ -323,6 +323,7 @@ public class Body implements IBodyColors {
         this.forceProperty.setValue( force );
     }
 
+    //REVIEW unused
     public ArrayList<PathPoint> getPath() {
         return path;
     }

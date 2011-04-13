@@ -371,6 +371,7 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
         }
     };
 
+    //REVIEW static method doesn't need to be declared final
     //Have to artificially scale up the time readout so that Sun/Earth/Moon mode has a stable orbit with correct periods
     public static final Function1<Double, String> scaledDays( final double scale ) {
         return new Function1<Double, String>() {
