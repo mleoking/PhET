@@ -5,7 +5,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-import edu.colorado.phet.buildamolecule.model.KitCollectionModel;
+import edu.colorado.phet.buildamolecule.model.Kit;
 import edu.colorado.phet.chemistry.model.Atom;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
@@ -34,7 +34,7 @@ public class AtomModel {
     // ------------------------------------------------------------------------
 
     private final Atom atom;
-    private final KitCollectionModel model;
+    private final Kit kit;
     private final String name;
     private final Property<ImmutableVector2D> position;
     private final Property<Boolean> userControlled = new Property<Boolean>( false );//True if the particle is being dragged by the user
@@ -52,11 +52,11 @@ public class AtomModel {
     // Reference to the clock.
     private final IClock clock;
 
-    public AtomModel( Atom atom, String name, IClock clock, KitCollectionModel model ) {
+    public AtomModel( Atom atom, String name, IClock clock, Kit kit ) {
         this.clock = clock;
         this.name = name;
         this.atom = atom;
-        this.model = model;
+        this.kit = kit;
         position = new Property<ImmutableVector2D>( new ImmutableVector2D() );
         destination = position.getValue();
         addedToModel(); // Assume that this is initially an active part of the model.
@@ -104,6 +104,10 @@ public class AtomModel {
                 translate( distanceToTravel * Math.cos( angle ), distanceToTravel * Math.sin( angle ) );
             }
         }
+    }
+
+    public boolean isInBucket() {
+        return kit.isContainedInBucket( this );
     }
 
     public ImmutableVector2D getPosition() {
@@ -208,8 +212,8 @@ public class AtomModel {
     }
 
     public void dropped() {
-        if ( model.getAvailableKitBounds().contains( getPosition().toPoint2D() ) ) {
-            Bucket bucket = model.getCurrentKit().getBucketForAtomType( atom );
+        if ( kit.getAvailableKitBounds().contains( getPosition().toPoint2D() ) ) {
+            Bucket bucket = kit.getBucketForAtomType( atom );
             bucket.addAtom( this, true );
         }
     }
