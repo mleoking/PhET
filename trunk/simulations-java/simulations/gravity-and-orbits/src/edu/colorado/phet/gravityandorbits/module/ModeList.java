@@ -24,6 +24,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.multiScaleToWidth;
+import static edu.colorado.phet.gravityandorbits.GAOStrings.*;
 import static edu.colorado.phet.gravityandorbits.GravityAndOrbitsApplication.RESOURCES;
 import static edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsClock.DEFAULT_DT;
 import static edu.colorado.phet.gravityandorbits.view.MeasuringTape.milesToMeters;
@@ -181,7 +182,7 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
         //Create the modes.
         int SEC_PER_YEAR = 365 * 24 * 60 * 60;
         final double SUN_MODES_VELOCITY_SCALE = 4.48E6;
-        add( new GravityAndOrbitsMode( GAOStrings.SUN_AND_PLANET,
+        add( new GravityAndOrbitsMode( SUN_AND_PLANET,
                                        sunEarth.forceScale,
                                        false,
                                        sunEarth.dt,
@@ -199,7 +200,7 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
             addBody( createSun( getMaxPathLength(), sunEarth.sun ) );
             addBody( createEarth( getMaxPathLength(), sunEarth.earth ) );
         }} );
-        add( new GravityAndOrbitsMode( GAOStrings.SUN_PLANET_AND_MOON,
+        add( new GravityAndOrbitsMode( SUN_PLANET_AND_MOON,
                                        sunEarthMoon.forceScale,
                                        false,
                                        sunEarthMoon.dt,
@@ -221,7 +222,7 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
                                  false, sunEarthMoon.moon ) );//so it doesn't intersect with earth mass readout
         }} );
         int SEC_PER_MOON_ORBIT = 28 * 24 * 60 * 60;
-        add( new GravityAndOrbitsMode( GAOStrings.PLANET_AND_MOON,
+        add( new GravityAndOrbitsMode( PLANET_AND_MOON,
                                        earthMoon.forceScale,
                                        false,
                                        GravityAndOrbitsClock.DEFAULT_DT / 3,
@@ -245,7 +246,7 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
                 return new SpaceStationMassReadoutNode( bodyNode, visible );
             }
         };
-        add( new GravityAndOrbitsMode( GAOStrings.PLANET_AND_SPACE_STATION,
+        add( new GravityAndOrbitsMode( PLANET_AND_SPACE_STATION,
                                        earthSpaceStation.forceScale,
                                        false,
                                        GravityAndOrbitsClock.DEFAULT_DT * 9E-4,
@@ -257,7 +258,7 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
                                        earthSpaceStation.initialMeasuringTapeLocation,
                                        earthSpaceStation.zoom,
                                        new ImmutableVector2D( earthSpaceStation.earth.x, 0 ),
-                                       ( earthSpaceStation.spaceStation.x - earthSpaceStation.earth.x ) * 15,
+                                       earthSpaceStation.spaceStation.x - earthSpaceStation.earth.x,
                                        new Point2D.Double( earthSpaceStation.earth.x, 0 ),
                                        p ) {{
             addBody( createEarth( getMaxPathLength(), earthSpaceStation.earth ) );
