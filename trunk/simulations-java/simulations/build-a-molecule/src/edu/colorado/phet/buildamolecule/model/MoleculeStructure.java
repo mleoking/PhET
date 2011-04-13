@@ -1,7 +1,10 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.buildamolecule.model;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 import edu.colorado.phet.chemistry.model.Atom;
 import edu.colorado.phet.chemistry.utils.ChemUtils;
@@ -34,17 +37,6 @@ public class MoleculeStructure {
         return atom;
     }
 
-    public void removeAtom( Atom atom ) {
-        // TODO: what if this splits the molecule??? return a list of molecules?
-        assert ( atoms.contains( atom ) );
-        for ( Bond bond : new ArrayList<Bond>( bondMap.get( atom ) ) ) {
-            removeBond( bond );
-        }
-        assert ( bondMap.get( atom ).isEmpty() );
-        bondMap.remove( atom );
-        atoms.remove( atom );
-    }
-
     public void addBond( Bond bond ) {
         assert ( atoms.contains( bond.a ) );
         assert ( atoms.contains( bond.b ) );
@@ -57,16 +49,34 @@ public class MoleculeStructure {
         addBond( new Bond( a, b ) );
     }
 
-    public void removeBond( Bond bond ) {
-        // TODO: what if this splits the molecule??? return a list of molecules?
-        assert ( bonds.contains( bond ) );
-        bonds.remove( bond );
-        bondMap.get( bond.a ).remove( bond );
-        bondMap.get( bond.b ).remove( bond );
-    }
-
     public String getMolecularFormula() {
         return ChemUtils.hillOrderedSymbol( atoms );
+    }
+
+    public Set<Atom> getAtoms() {
+        return atoms;
+    }
+
+    public Set<Bond> getBonds() {
+        return bonds;
+    }
+
+    public static MoleculeStructure bondTogether( MoleculeStructure molA, MoleculeStructure molB, Atom a, Atom b ) {
+        MoleculeStructure ret = new MoleculeStructure();
+        for ( Atom atom : molA.getAtoms() ) {
+            ret.addAtom( atom );
+        }
+        for ( Atom atom : molB.getAtoms() ) {
+            ret.addAtom( atom );
+        }
+        for ( Bond bond : molA.getBonds() ) {
+            ret.addBond( bond );
+        }
+        for ( Bond bond : molB.getBonds() ) {
+            ret.addBond( bond );
+        }
+        ret.addBond( a, b );
+        return ret;
     }
 
     public static class Bond {

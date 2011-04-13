@@ -4,17 +4,13 @@ package edu.colorado.phet.buildamolecule.view;
 import java.awt.*;
 
 import edu.colorado.phet.buildamolecule.model.buckets.AtomModel;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.ShadedSphereNode;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PDragEventHandler;
-import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PText;
-import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Class that displays an atom and that labels it with the chemical symbol
@@ -54,29 +50,5 @@ public class AtomNode extends PNode {
 
         // Add a cursor handler to signal to the user that this is movable.
         addInputEventListener( new CursorHandler() );
-
-        // Add a drag listener that will move the model element when the user
-        // drags this node.
-        addInputEventListener( new PDragEventHandler() {
-
-            @Override
-            protected void startDrag( PInputEvent event ) {
-                super.startDrag( event );
-                atom.setUserControlled( true );
-            }
-
-            @Override
-            public void mouseDragged( PInputEvent event ) {
-                PDimension delta = event.getDeltaRelativeTo( getParent() );
-                ImmutableVector2D modelDelta = mvt.viewToModelDelta( new ImmutableVector2D( delta.width, delta.height ) );
-                atom.setPositionAndDestination( atom.getPosition().getAddedInstance( modelDelta ) );
-            }
-
-            @Override
-            protected void endDrag( PInputEvent event ) {
-                super.endDrag( event );
-                atom.setUserControlled( false );
-            }
-        } );
     }
 }

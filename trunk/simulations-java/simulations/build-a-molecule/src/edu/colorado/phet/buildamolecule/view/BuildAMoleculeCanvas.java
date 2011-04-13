@@ -15,10 +15,14 @@ import edu.colorado.phet.buildamolecule.model.Kit;
 import edu.colorado.phet.buildamolecule.model.KitCollectionModel;
 import edu.colorado.phet.buildamolecule.model.buckets.AtomModel;
 import edu.colorado.phet.buildamolecule.model.buckets.Bucket;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PDragEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.util.PDimension;
 
 public class BuildAMoleculeCanvas extends PhetPCanvas {
 
@@ -96,12 +100,36 @@ public class BuildAMoleculeCanvas extends PhetPCanvas {
         // bottom-most layer is our kit panel
         bottomLayer.addChild( new KitPanel( getModel(), mvt ) );
 
-        for ( Kit kit : getModel().getKits() ) {
+        for ( final Kit kit : getModel().getKits() ) {
             KitView kitView = new KitView( kit, mvt );
             kitMap.put( kit, kitView );
             for ( Bucket bucket : kit.getBuckets() ) {
-                for ( AtomModel atom : bucket.getAtoms() ) {
-                    atomLayer.addChild( new AtomNode( mvt, atom ) );
+                for ( final AtomModel atom : bucket.getAtoms() ) {
+                    final AtomNode atomNode = new AtomNode( mvt, atom );
+                    atomLayer.addChild( atomNode );
+
+                    // Add a drag listener that will move the model element when the user
+                    // drags this atom.
+                    atomNode.addInputEventListener( new PDragEventHandler() {
+                        @Override
+                        protected void startDrag( PInputEvent event ) {
+                            super.startDrag( event );
+                            atom.setUserControlled( true );
+                        }
+
+                        @Override
+                        public void mouseDragged( PInputEvent event ) {
+                            PDimension delta = event.getDeltaRelativeTo( atomNode.getParent() );
+                            ImmutableVector2D modelDelta = mvt.viewToModelDelta( new ImmutableVector2D( delta.width, delta.height ) );
+                            kit.atomDragged( atom, modelDelta );
+                        }
+
+                        @Override
+                        protected void endDrag( PInputEvent event ) {
+                            super.endDrag( event );
+                            atom.setUserControlled( false );
+                        }
+                    } );
                 }
             }
             bottomLayer.addChild( kitView.getBottomLayer() );

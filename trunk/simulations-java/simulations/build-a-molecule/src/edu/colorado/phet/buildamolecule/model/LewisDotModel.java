@@ -61,11 +61,7 @@ public class LewisDotModel {
         atomMap.put( atom, dotAtom );
     }
 
-    public boolean containsAtom( Atom atom ) {
-        return getLewisDotAtom( atom ) != null;
-    }
-
-    public void removeAtom( Atom atom ) {
+    public void breakBondsOfAtom( Atom atom ) {
         LewisDotAtom dotAtom = getLewisDotAtom( atom );
 
         // disconnect all of its bonds
@@ -75,8 +71,6 @@ public class LewisDotModel {
                 unBond( dotAtom.getAtom(), other.getAtom() );
             }
         }
-
-        atomMap.remove( atom );
     }
 
     public void bond( Atom a, Direction dirAtoB, Atom b ) {

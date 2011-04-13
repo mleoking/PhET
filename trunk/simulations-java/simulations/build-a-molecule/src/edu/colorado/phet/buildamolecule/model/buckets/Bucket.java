@@ -201,7 +201,7 @@ public class Bucket {
         containedAtoms.clear();
     }
 
-    public void removeParticle( AtomModel particle ) {
+    public void removeAtom( AtomModel particle ) {
         if ( !containedAtoms.contains( particle ) ) {
             System.err.println( getClass().getName() + " - Error: Particle not here, can't remove." );
         }
@@ -296,7 +296,7 @@ public class Bucket {
         List<AtomModel> copyOfContainedParticles = new LinkedList<AtomModel>( containedAtoms );
         for ( AtomModel containedParticle : copyOfContainedParticles ) {
             if ( isDangling( containedParticle ) ) {
-                removeParticle( containedParticle );
+                removeAtom( containedParticle );
                 addAtom( containedParticle, false );
                 relayoutBucketParticles();
             }
