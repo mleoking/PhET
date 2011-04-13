@@ -5,12 +5,16 @@ package edu.colorado.phet.buildamolecule.view;
 import java.awt.*;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
+import java.util.HashMap;
+import java.util.Map;
 
 import edu.colorado.phet.buildamolecule.BuildAMoleculeConstants;
 import edu.colorado.phet.buildamolecule.control.CollectionAreaNode;
 import edu.colorado.phet.buildamolecule.model.Kit;
+import edu.colorado.phet.buildamolecule.model.KitCollectionModel;
 import edu.colorado.phet.buildamolecule.model.buckets.AtomModel;
 import edu.colorado.phet.buildamolecule.model.buckets.Bucket;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
@@ -22,7 +26,10 @@ public class BuildAMoleculeCanvas extends PhetPCanvas {
     //----------------------------------------------------------------------------
 
     // Model
-    // TODO: model
+    private final Property<KitCollectionModel> modelProperty;
+    private Map<Kit, KitView> kitMap = new HashMap<Kit, KitView>(); // so we can pull our kit view for a particular kit
+
+    // TODO: (possible) separate canvases for different kits?
 
     // View
     private final PNode _rootNode;
@@ -30,16 +37,21 @@ public class BuildAMoleculeCanvas extends PhetPCanvas {
     // Model-View transform.
     private final ModelViewTransform mvt;
 
+    private final PNode bottomLayer = new PNode();
     private final PNode atomLayer = new PNode();
+    private final PNode topLayer = new PNode();
+
 
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
 
-    public BuildAMoleculeCanvas( Kit kit ) {
+    public BuildAMoleculeCanvas( KitCollectionModel initialModel, final boolean singleCollectionMode ) {
+
+        modelProperty = new Property<KitCollectionModel>( initialModel );
 
         // Set up the canvas-screen transform.
-        setWorldTransformStrategy( new PhetPCanvas.CenteredStage( this, BuildAMoleculeConstants.DEFAULT_STAGE_SIZE ) );
+        setWorldTransformStrategy( new PhetPCanvas.CenteredStage( this, BuildAMoleculeConstants.STAGE_SIZE ) );
 
         // Set up the model-canvas transform.  IMPORTANT NOTES: The multiplier
         // factors for the point in the view can be adjusted to shift the
@@ -47,8 +59,8 @@ public class BuildAMoleculeCanvas extends PhetPCanvas {
         // in or out (smaller numbers zoom out, larger ones zoom in).
         mvt = ModelViewTransform.createSinglePointScaleInvertedYMapping(
                 new Point2D.Double( 0, 0 ),
-                new Point( (int) Math.round( BuildAMoleculeConstants.DEFAULT_STAGE_SIZE.width * 0.5 ),
-                           (int) Math.round( BuildAMoleculeConstants.DEFAULT_STAGE_SIZE.height * 0.5 ) ),
+                new Point( (int) Math.round( BuildAMoleculeConstants.STAGE_SIZE.width * 0.5 ),
+                           (int) Math.round( BuildAMoleculeConstants.STAGE_SIZE.height * 0.5 ) ),
                 0.6 ); // "Zoom factor" - smaller zooms out, larger zooms in.
 
         setBackground( BuildAMoleculeConstants.CANVAS_BACKGROUND_COLOR );
@@ -57,22 +69,16 @@ public class BuildAMoleculeCanvas extends PhetPCanvas {
 //        PNode tempImage = new PImage( BuildAMoleculeResources.getImage( "tab-1-temp-sketch.png" ) );
 //        addWorldChild( tempImage );
 
-        CollectionAreaNode collectionAreaNode = new CollectionAreaNode() {{
+        // TODO: make this so we can construct/destruct
+        CollectionAreaNode collectionAreaNode = new CollectionAreaNode( getModel(), singleCollectionMode ) {{
             double collectionAreaPadding = 20;
-            setOffset( BuildAMoleculeConstants.DEFAULT_STAGE_SIZE.width - getFullBounds().getWidth() - collectionAreaPadding, collectionAreaPadding );
+            setOffset( BuildAMoleculeConstants.STAGE_SIZE.width - getFullBounds().getWidth() - collectionAreaPadding, collectionAreaPadding );
         }};
         addWorldChild( collectionAreaNode );
 
-        KitView kitView = new KitView( kit, mvt );
-        for ( Bucket bucket : kit.getBuckets() ) {
-            for ( AtomModel atom : bucket.getAtoms() ) {
-                atomLayer.addChild( new AtomNode( mvt, atom ) );
-            }
-        }
-
-        addWorldChild( kitView.getBottomLayer() );
+        addWorldChild( bottomLayer );
         addWorldChild( atomLayer );
-        addWorldChild( kitView.getTopLayer() );
+        addWorldChild( topLayer );
 
 //        PNode locationTestNode = new PhetPPath( new Rectangle2D.Double(-20, -20, 40, 40), Color.PINK );
 //        locationTestNode.setOffset( mvt.modelToView( new Point2D.Double(0, 0) ) );
@@ -81,15 +87,29 @@ public class BuildAMoleculeCanvas extends PhetPCanvas {
         // Root of our scene graph
         _rootNode = new PNode();
         addWorldChild( _rootNode );
+
+        constructKitsAndAtoms();
     }
 
-    //----------------------------------------------------------------------------
-    // Accessors
-    //----------------------------------------------------------------------------
+    private void constructKitsAndAtoms() {
+        for ( Kit kit : getModel().getKits() ) {
+            KitView kitView = new KitView( kit, mvt );
+            kitMap.put( kit, kitView );
+            for ( Bucket bucket : kit.getBuckets() ) {
+                for ( AtomModel atom : bucket.getAtoms() ) {
+                    atomLayer.addChild( new AtomNode( mvt, atom ) );
+                }
+            }
+            bottomLayer.addChild( kitView.getBottomLayer() );
+            topLayer.addChild( kitView.getTopLayer() );
+        }
+    }
 
-    //----------------------------------------------------------------------------
-    // Canvas layout
-    //----------------------------------------------------------------------------
+    // TODO: add destruct so we can switch models
+
+    public KitCollectionModel getModel() {
+        return modelProperty.getValue();
+    }
 
     /*
     * Updates the layout of stuff on the canvas.
