@@ -19,7 +19,7 @@ public class Kit {
     private final LewisDotModel lewisDotModel; // lewis-dot connections between atoms on the play area
     private PBounds availableKitBounds;
 
-    public static final double BOND_DISTANCE_THRESHOLD = 100;
+    public static final double BOND_DISTANCE_THRESHOLD = 200;
     public static final double BUCKET_PADDING = 50;
 
     public Kit( List<Bucket> buckets, PBounds availableKitBounds ) {
