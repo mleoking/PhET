@@ -18,7 +18,13 @@ public class BuildAMoleculeConstants {
 
     public static final String PROJECT_NAME = "build-a-molecule";
 
-    public static final Color CANVAS_BACKGROUND_COLOR = new Color( 149, 188, 228 );
+    public static final PDimension STAGE_SIZE = new PDimension( 1008, 679 ); // the size of our "view" coordinate area
 
-    public static final PDimension DEFAULT_STAGE_SIZE = new PDimension( 1008, 679 );
+    /*---------------------------------------------------------------------------*
+    * colors
+    *----------------------------------------------------------------------------*/
+
+    public static final Color CANVAS_BACKGROUND_COLOR = new Color( 149, 188, 228 );
+    public static final Color MOLECULE_COLLECTION_BACKGROUND = new Color( 202, 219, 42 );
+    public static final Color MOLECULE_COLLECTION_BORDER = Color.BLACK;
 }

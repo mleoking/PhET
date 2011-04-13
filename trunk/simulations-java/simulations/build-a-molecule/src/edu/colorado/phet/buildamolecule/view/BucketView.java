@@ -17,7 +17,7 @@ import edu.umd.cs.piccolo.nodes.PText;
  * "faux 3D" look, where it is tipped slightly so that the hole at the top
  * can be seen and there is shading on the outer portion.  This is NOT a PNode
  * itself - the PNodes that represent the layers must be obtained via the API.
- *
+ * <p/>
  * TODO: consider "dragged" atoms as in front of the bucket? it is weird when they go through the bottom
  *
  * @author John Blanco

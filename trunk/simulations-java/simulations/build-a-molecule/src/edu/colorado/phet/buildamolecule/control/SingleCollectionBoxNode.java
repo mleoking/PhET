@@ -18,7 +18,9 @@ public class SingleCollectionBoxNode extends SwingLayoutNode {
         GridBagConstraints c = new GridBagConstraints();
         c.gridx = 0;
         c.gridy = 0;
-        addChild( new HTMLNode( "NO (Nitrous Oxide)" ) {{
+
+        // TODO: i18nize
+        addChild( new HTMLNode( box.getMoleculeType().getMoleculeStructure().getMolecularFormula() + " (" + box.getMoleculeType().getCommonName() + ")" ) {{
             setFont( new PhetFont( 16, true ) );
         }}, c );
 
