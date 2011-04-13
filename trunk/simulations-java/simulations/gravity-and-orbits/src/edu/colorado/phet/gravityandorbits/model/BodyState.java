@@ -6,10 +6,8 @@ import java.io.Serializable;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 
-//REVIEW Is this really a memento pattern? I don't see any rollback/undo being done. Body is the originator, but who is the caretaker in this case?
-
 /**
- * Immutable memento for updating the physics of a single Body.
+ * Immutable state returned by the physics engine update algorithm, it is applied to the mutable Body.
  */
 public class BodyState implements Serializable {
     public final ImmutableVector2D position;
