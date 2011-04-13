@@ -734,7 +734,7 @@ public class AtomIdentifier {
     // subsequently post-processed to remove unneeded data:
     //
     // http://physics.nist.gov/cgi-bin/Compositions/stand_alone.pl?ele=&ascii=ascii2&isotype=some
-    private static final String STRING_MAP_ATOMIC_NUM_TO_STD_MASS =
+    private static final String MAP_ATOMIC_NUMBER_TO_AVERAGE_MASS_STRING =
         "1, 1.00794\n" +
         "2, 4.002602\n" +
         "3, 6.941\n" +
@@ -1523,92 +1523,94 @@ public class AtomIdentifier {
         put( 115, listForAtomicNumber115 );
     }};
 
-    // This table
-    private static final Map<Integer, Double> mapAtomicNumberToMass = new HashMap<Integer, Double>() {{
+    // This table maps the atomic model to the standard atomic mass, also
+    // known as the atomic weight.
+    private static final Map<Integer, String> MAP_ATOMIC_NUMBER_TO_AVERAGE_MASS = new HashMap<Integer, String>() {{
         // Automatically generated, see routines in this class.
-        put( 1, 1.00794 );
-        put( 2, 4.002602 );
-        put( 3, 6.941 );
-        put( 4, 9.012182 );
-        put( 5, 10.811 );
-        put( 6, 12.0107 );
-        put( 7, 14.0067 );
-        put( 8, 15.9994 );
-        put( 9, 18.9984032 );
-        put( 10, 20.1797 );
-        put( 11, 22.98976928 );
-        put( 12, 24.305 );
-        put( 13, 26.9815386 );
-        put( 14, 28.0855 );
-        put( 15, 30.973762 );
-        put( 16, 32.065 );
-        put( 17, 35.453 );
-        put( 18, 39.948 );
-        put( 19, 39.0983 );
-        put( 20, 40.078 );
-        put( 21, 44.955912 );
-        put( 22, 47.867 );
-        put( 23, 50.9415 );
-        put( 24, 51.9961 );
-        put( 25, 54.938045 );
-        put( 26, 55.845 );
-        put( 27, 58.933195 );
-        put( 28, 58.6934 );
-        put( 29, 63.546 );
-        put( 30, 65.38 );
-        put( 31, 69.723 );
-        put( 32, 72.64 );
-        put( 33, 74.9216 );
-        put( 34, 78.96 );
-        put( 35, 79.904 );
-        put( 36, 83.798 );
-        put( 37, 85.4678 );
-        put( 38, 87.62 );
-        put( 39, 88.90585 );
-        put( 40, 91.224 );
-        put( 41, 92.90638 );
-        put( 42, 95.96 );
-        put( 43, 98.0 );
-        put( 44, 101.07 );
-        put( 45, 102.9055 );
-        put( 46, 106.42 );
-        put( 47, 107.8682 );
-        put( 48, 112.411 );
-        put( 49, 114.818 );
-        put( 50, 118.71 );
-        put( 51, 121.76 );
-        put( 52, 127.6 );
-        put( 53, 126.90447 );
-        put( 54, 131.293 );
-        put( 55, 132.9054519 );
-        put( 56, 137.327 );
-        put( 57, 138.90547 );
-        put( 58, 140.116 );
-        put( 59, 140.90765 );
-        put( 60, 144.242 );
-        put( 61, 145.0 );
-        put( 62, 150.36 );
-        put( 63, 151.964 );
-        put( 64, 157.25 );
-        put( 65, 158.92535 );
-        put( 66, 162.5 );
-        put( 67, 164.93032 );
-        put( 68, 167.259 );
-        put( 69, 168.93421 );
-        put( 70, 173.054 );
-        put( 71, 174.9668 );
-        put( 72, 178.49 );
-        put( 73, 180.94788 );
-        put( 74, 183.84 );
-        put( 75, 186.207 );
-        put( 76, 190.23 );
-        put( 77, 192.217 );
-        put( 78, 195.084 );
-        put( 79, 196.966569 );
-        put( 80, 200.59 );
-        put( 81, 204.3833 );
-        put( 82, 207.2 );
-        put( 83, 208.9804 );
+     // Automatically generated, see routines in this class.
+        put( 1, "1.00794" );
+        put( 2, "4.002602" );
+        put( 3, "6.941" );
+        put( 4, "9.012182" );
+        put( 5, "10.811" );
+        put( 6, "12.0107" );
+        put( 7, "14.0067" );
+        put( 8, "15.9994" );
+        put( 9, "18.9984032" );
+        put( 10, "20.1797" );
+        put( 11, "22.98976928" );
+        put( 12, "24.3050" );
+        put( 13, "26.9815386" );
+        put( 14, "28.0855" );
+        put( 15, "30.973762" );
+        put( 16, "32.065" );
+        put( 17, "35.453" );
+        put( 18, "39.948" );
+        put( 19, "39.0983" );
+        put( 20, "40.078" );
+        put( 21, "44.955912" );
+        put( 22, "47.867" );
+        put( 23, "50.9415" );
+        put( 24, "51.9961" );
+        put( 25, "54.938045" );
+        put( 26, "55.845" );
+        put( 27, "58.933195" );
+        put( 28, "58.6934" );
+        put( 29, "63.546" );
+        put( 30, "65.38" );
+        put( 31, "69.723" );
+        put( 32, "72.64" );
+        put( 33, "74.9216" );
+        put( 34, "78.96" );
+        put( 35, "79.904" );
+        put( 36, "83.798" );
+        put( 37, "85.4678" );
+        put( 38, "87.62" );
+        put( 39, "88.90585" );
+        put( 40, "91.224" );
+        put( 41, "92.90638" );
+        put( 42, "95.96" );
+        put( 43, "98" );
+        put( 44, "101.07" );
+        put( 45, "102.9055" );
+        put( 46, "106.42" );
+        put( 47, "107.8682" );
+        put( 48, "112.411" );
+        put( 49, "114.818" );
+        put( 50, "118.71" );
+        put( 51, "121.76" );
+        put( 52, "127.6" );
+        put( 53, "126.90447" );
+        put( 54, "131.293" );
+        put( 55, "132.9054519" );
+        put( 56, "137.327" );
+        put( 57, "138.90547" );
+        put( 58, "140.116" );
+        put( 59, "140.90765" );
+        put( 60, "144.242" );
+        put( 61, "145" );
+        put( 62, "150.36" );
+        put( 63, "151.964" );
+        put( 64, "157.25" );
+        put( 65, "158.92535" );
+        put( 66, "162.5" );
+        put( 67, "164.93032" );
+        put( 68, "167.259" );
+        put( 69, "168.93421" );
+        put( 70, "173.054" );
+        put( 71, "174.9668" );
+        put( 72, "178.49" );
+        put( 73, "180.94788" );
+        put( 74, "183.84" );
+        put( 75, "186.207" );
+        put( 76, "190.23" );
+        put( 77, "192.217" );
+        put( 78, "195.084" );
+        put( 79, "196.966569" );
+        put( 80, "200.59" );
+        put( 81, "204.3833" );
+        put( 82, "207.2" );
+        put( 83, "208.9804" );
     }};
 
     public static String getSymbol( IAtom atom ) {
@@ -1826,13 +1828,32 @@ public class AtomIdentifier {
     }
 
     public static double getStandardAtomicMass( int atomicNumber ){
-        if ( mapAtomicNumberToMass.containsKey( atomicNumber )){
-            return mapAtomicNumberToMass.get( atomicNumber );
+        if ( MAP_ATOMIC_NUMBER_TO_AVERAGE_MASS.containsKey( atomicNumber )){
+            return Double.parseDouble( MAP_ATOMIC_NUMBER_TO_AVERAGE_MASS.get( atomicNumber ) );
         }
         else{
             System.out.println("Warning: No standard atomic mass available for atomic number " + atomicNumber + ", returning zero." );
             return 0;
         }
+    }
+
+    /**
+     * Get a "precision decimal" that contains the value of the average atomic
+     * mass as well as an integer that represents the number of decimal digits
+     * to which the value is known.
+     *
+     * @param atomicNumber
+     * @return
+     */
+    public static PrecisionDecimal getStandardAtomicMassPrecionDecimal( int atomicNumber ){
+        PrecisionDecimal precisionDecimal = new PrecisionDecimal( 0, 5 ); // Default value.
+        if ( MAP_ATOMIC_NUMBER_TO_AVERAGE_MASS.containsKey( atomicNumber )){
+            String massString = MAP_ATOMIC_NUMBER_TO_AVERAGE_MASS.get( atomicNumber );
+            double value = Double.parseDouble( massString );
+            int precision = massString.indexOf( '.' ) >= 0 ? massString.substring( massString.indexOf( '.' ) + 1 ).length() : 0;
+            precisionDecimal = new PrecisionDecimal( value, precision );
+        }
+        return precisionDecimal;
     }
 
     /**
@@ -1908,7 +1929,7 @@ public class AtomIdentifier {
     private static void generateMapOfAtomicNumberToMass() {
 
         // Break the overall string into lines.
-        String[] lines = STRING_MAP_ATOMIC_NUM_TO_STD_MASS.split( "\n" );
+        String[] lines = MAP_ATOMIC_NUMBER_TO_AVERAGE_MASS_STRING.split( "\n" );
 
         System.out.println( "// Automatically generated, see routines in this class." );
 
@@ -1918,7 +1939,7 @@ public class AtomIdentifier {
             String[] dataElements = line.split( "," );
             currentAtomicNumber = Integer.parseInt( dataElements[0] );
             // Start the list of isotopes for this atomic number.
-            System.out.println( "put( " + currentAtomicNumber + ", " + Double.parseDouble( dataElements[1] ) + " );" );
+            System.out.println( "put( " + currentAtomicNumber + ", " + "\"" + dataElements[1].trim() + "\"" + " );" );
         }
     }
 

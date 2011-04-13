@@ -1,3 +1,4 @@
+isotopes-and-atomic-mass: Made the average atomic mass indicator use the correct number of decimal digits when showing natures mix (resolution is based on a table obtained from NIST).
 isotopes-and-atomic-mass: Switched to use white background with red border for showing highlighted element in the periodic table node
 isotopes-and-atomic-mass: Limited pie chart resolution to 4 decimal points
 isotopes-and-atomic-mass: Added trace amounts of C-14
