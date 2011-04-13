@@ -15,6 +15,8 @@ import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.gravityandorbits.model.Body;
 import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsModel;
 
+//REVIEW unused class
+
 /**
  * Used for debugging to help create good initial conditions.
  *

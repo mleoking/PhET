@@ -26,6 +26,7 @@ public class EarthMassReadoutNode extends MassReadoutNode {
         double earthMasses = massKG / RealModeList.EARTH_MASS;
 
         //Show the value in terms of earth masses (or thousands of earth masses)
+        //REVIEW initialize units=GAOStrings.EARTH_MASSES, then change it for the one case that's different.
         String value, units;
         if ( earthMasses > 1E3 ) {
             value = new DecimalFormat( "0" ).format( Math.round( earthMasses / 1E3 ) );
@@ -40,8 +41,9 @@ public class EarthMassReadoutNode extends MassReadoutNode {
             units = GAOStrings.EARTH_MASSES;
         }
         else {
+            //REVIEW identical to else-if directly above
             value = new DecimalFormat( "0.00" ).format( earthMasses );
-            units = ( earthMasses == 1.0 ) ? GAOStrings.EARTH_MASS : GAOStrings.EARTH_MASSES;
+            units = ( earthMasses == 1.0 ) ? GAOStrings.EARTH_MASS : GAOStrings.EARTH_MASSES; //REVIEW same in both cases
         }
         return MessageFormat.format( GAOStrings.PATTERN_VALUE_UNITS, value, units );
     }

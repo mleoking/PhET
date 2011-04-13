@@ -26,7 +26,7 @@ public class GravityAndOrbitsModel {
     private final GravityAndOrbitsClock clock;
     private ArrayList<SimpleObserver> modelStepListeners = new ArrayList<SimpleObserver>();
     public boolean teacherMode;
-    private final VoidFunction1<Double> stepModel;
+    private final VoidFunction1<Double> stepModel;//REVIEW better name would be modelStepFunction, especially since you have modelStepListeners
 
     public GravityAndOrbitsModel( GravityAndOrbitsClock clock, final Property<Boolean> gravityEnabledProperty ) {
         super();
@@ -35,6 +35,7 @@ public class GravityAndOrbitsModel {
         //Function for stepping the physics of the model
         stepModel = new VoidFunction1<Double>() {
             public void apply( Double dt ) {
+                //REVIEW comment here: Compute the next state for each body based on the current state of all bodies in the system.
                 ModelState newState = new ModelState( new ArrayList<BodyState>() {{
                     for ( Body body : bodies ) {
                         add( body.toBodyState() );
@@ -42,6 +43,8 @@ public class GravityAndOrbitsModel {
                 }} ).getNextState( dt,
                                    100, // 1000 looks great, 50 starts to look awkward for sun+earth+moon, but 100 seems okay
                                    gravityEnabledProperty );
+                //REVIEW comment here: Set each body to its computed next state.
+                //REVIEW assumes that ModelState.getBodyState returns states in the same order as the container (ArrayList) used for bodies. ModelState.getState(Body) would be safer.
                 for ( int i = 0; i < bodies.size(); i++ ) {
                     bodies.get( i ).updateBodyStateFromModel( newState.getBodyState( i ) );
                 }
@@ -55,6 +58,7 @@ public class GravityAndOrbitsModel {
                         }
                     }
                 }
+                //REVIEW comment here: ?
                 for ( int i = 0; i < bodies.size(); i++ ) {
                     bodies.get( i ).allBodiesUpdated();
                 }
@@ -129,6 +133,9 @@ public class GravityAndOrbitsModel {
         updateForceVectors();
     }
 
+    //REVIEW private methods typically don't have javadoc-style comments
+    //REVIEW name of this method is inaccurate. It updates more than the force vectors, it runs the step function.
+
     /**
      * Since we haven't (yet?) rewritten the gravity forces to auto-update when dependencies change, we update when necessary
      * (1) when a new body is added or (2) when reset is pressed.
@@ -151,6 +158,7 @@ public class GravityAndOrbitsModel {
         updateForceVectors();//has to be done separately since physics is computed as a batch
     }
 
+    //REVIEW rename to returnBodies, to match resetBodies above
     //Unexplodes and returns objects to the stage
     public void returnObjects() {
         for ( Body body : bodies ) {

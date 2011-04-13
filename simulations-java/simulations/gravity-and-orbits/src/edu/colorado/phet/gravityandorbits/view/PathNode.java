@@ -15,6 +15,9 @@ import edu.colorado.phet.gravityandorbits.model.Body;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PPaintContext;
 
+//REVIEW a better name for this would be TrailNode, that's how it's described in the class doc, and that's the terminology for things like comets.
+//REVIEW mention in doc that the end of the tail is faded out, which is why you can't simply use a PPath
+
 /**
  * Shows the "trail" left behind by a Body as it moves over time, which disappears after about 2 orbits.
  *

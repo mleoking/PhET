@@ -29,6 +29,8 @@ import static edu.colorado.phet.gravityandorbits.GravityAndOrbitsApplication.RES
 import static edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsClock.DEFAULT_DT;
 import static edu.colorado.phet.gravityandorbits.view.MeasuringTape.milesToMeters;
 
+//REVIEW incorrect class name in javadoc
+
 /**
  * GravityAndOrbitsModeList enumerates and declares the possible modes in the GravityAndOrbitsModule, such as "Sun & Earth" mode.
  *
@@ -59,6 +61,8 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
 
     private ModeListParameter p;
 
+    //REVIEW recommend moving Mode and its subclasses to a new class file, they are >100 lines of this file.
+    //REVIEW are these really modes, or mode descriptions? Confusion that this is unrelated to GravityAndOrbitsMode.
     public static abstract class Mode {
         double zoom;
         double dt = DEFAULT_DT;
@@ -97,6 +101,7 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
         protected abstract BodyPrototype[] getBodies();
     }
 
+    //REVIEW usages would be clearer if Mode subclasses were named (for example) SunEarthMode
     public static class SunEarth extends Mode {
         BodyPrototype sun = new BodyPrototype( SUN_MASS, SUN_RADIUS, 0, 0, 0, 0 );
         BodyPrototype earth = new BodyPrototype( EARTH_MASS, EARTH_RADIUS, EARTH_PERIHELION, 0, 0, EARTH_ORBITAL_SPEED_AT_PERIHELION );
@@ -180,6 +185,8 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
             }
         };
 
+        //REVIEW create the modes?!?... Modes were passed in as constructor args.
+        //REVIEW Very difficult to read this constructor. Why not encapsulate in subclasses GravityAndOrbitsMode, one for each of the 4 modes in this sim?  Let's discuss...
         //Create the modes.
         int SEC_PER_YEAR = 365 * 24 * 60 * 60;
         final double SUN_MODES_VELOCITY_SCALE = 4.48E6;
@@ -292,6 +299,7 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
         }.toImage();
     }
 
+    //REVIEW  Very difficult to read all 4 creation methods. Why not encapsulate in subclasses of Body, one for each of the bodies used in this sim? Let's discuss...
     private Body createMoon( boolean massSettable, int maxPathLength, final boolean massReadoutBelow, BodyPrototype body ) {
         return new Body( GAOStrings.MOON, body.x, body.y, body.radius * 2, body.vx, body.vy, body.mass, Color.magenta, Color.white,
                          //putting this number too large makes a kink or curly-q in the moon trajectory, which should be avoided
@@ -337,6 +345,7 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
         };
     }
 
+    //REVIEW doc
     public static Function2<Body, Double, BodyRenderer> getImageRenderer( final String image ) {
         return new Function2<Body, Double, BodyRenderer>() {
             public BodyRenderer apply( Body body, Double viewDiameter ) {
@@ -345,6 +354,7 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
         };
     }
 
+    //REVIEW doc
     public static Function2<Body, Double, BodyRenderer> getRenderer( final String image, final double targetMass ) {//the mass for which to use the image
         return new Function2<Body, Double, BodyRenderer>() {
             public BodyRenderer apply( Body body, Double viewDiameter ) {
@@ -372,6 +382,8 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
         };
     }
 
+    //REVIEW doc
+    //REVIEW Java naming convention violation, should be MINUTES (or better, SECONDS_TO_MINUTES_FUNCTION)
     private static final Function1<Double, String> minutes = new Function1<Double, String>() {
         final double SECONDS_PER_MINUTE = 60;
 

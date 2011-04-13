@@ -21,8 +21,8 @@ import edu.colorado.phet.gravityandorbits.view.MultiwayOr;
 import static edu.colorado.phet.common.phetcommon.view.util.RectangleUtils.expandRectangle2D;
 
 /**
- * Body is a single point mass in the Gravity and Orbits simluation, such as the Earth, Sun, Moon or Space Station.
- * This class also keeps track of body related data such as the path.
+ * Body is a single point mass in the Gravity and Orbits simulation, such as the Earth, Sun, Moon or Space Station.
+ * This class also keeps track of body-related data such as the path.
  *
  * @author Sam Reid
  */
@@ -37,25 +37,26 @@ public class Body implements IBodyColors {
     private final Color color;
     private final Color highlight;
     private final double density;
-    private boolean userControlled;
+    private boolean userControlled;//REVIEW explain
 
     private final ArrayList<PathListener> pathListeners = new ArrayList<PathListener>();
     private final ArrayList<PathPoint> path = new ArrayList<PathPoint>();
-    private final int maxPathLength;
+    private final int maxPathLength; //REVIEW explain
 
     private final boolean massSettable;
+    //REVIEW why is renderer in the model?
     private final Function2<Body, Double, BodyRenderer> renderer;//function that creates a PNode for this Body
     private final double labelAngle;
-    private final boolean massReadoutBelow;
+    private final boolean massReadoutBelow;//REVIEW why is this in the model? If for convenience, note it.
     private final ClockRewindProperty<Boolean> collidedProperty;
     private final Property<Integer> clockTicksSinceExplosion = new Property<Integer>( 0 );
-    private double tickValue;
-    private String tickLabel;
+    private double tickValue;//REVIEW what is this? why is this in the model? If for convenience, note it.
+    private String tickLabel;//REVIEW what is this? why is this in the model? If for convenience, note it.
 
-    private ArrayList<VoidFunction0> userModifiedPositionListeners = new ArrayList<VoidFunction0>();
+    private ArrayList<VoidFunction0> userModifiedPositionListeners = new ArrayList<VoidFunction0>();//REVIEW explain
     private Property<Shape> bounds = new Property<Shape>( new Rectangle2D.Double( 0, 0, 0, 0 ) );//if the object leaves these model bounds, then it can be "returned" using a return button on the canvas
-    private BooleanProperty returnable;
-    public final boolean fixed;
+    private BooleanProperty returnable;//REVIEW vague, explain
+    public final boolean fixed;//REVIEW vague/ambiguous, explain
 
     public Body( final String name, double x, double y, double diameter, double vx, double vy, double mass, Color color, Color highlight,
                  Function2<Body, Double, BodyRenderer> renderer,// way to associate the graphical representation directly instead of later with conditional logic or map
@@ -168,6 +169,11 @@ public class Body implements IBodyColors {
         return diameterProperty.getValue();
     }
 
+    //REVIEW
+    //   Clients are required to call notifyUserModifiedPosition if this translation was done by the user.
+    //   That's not at all clear (not documented here), it's error prone and it introduces order dependency.
+    //   Recommend making notifyUserModifiedPosition private and adding another public variant of translate,
+    //   i.e. public void translate(Point2D delta,boolean userModified) {...}
     public void translate( Point2D delta ) {
         translate( delta.getX(), delta.getY() );
 
@@ -197,6 +203,7 @@ public class Body implements IBodyColors {
         diameterProperty.setValue( value );
     }
 
+    //REVIEW doc
     public BodyState toBodyState() {
         return new BodyState( getPosition(), getVelocity(), getAcceleration(), getMass(), collidedProperty.getValue() );
     }
@@ -213,6 +220,7 @@ public class Body implements IBodyColors {
         return velocityProperty.getValue();
     }
 
+    //REVIEW doc
     public void updateBodyStateFromModel( BodyState bodyState ) {
         if ( collidedProperty.getValue() ) {
             clockTicksSinceExplosion.setValue( clockTicksSinceExplosion.getValue() + 1 );
@@ -227,6 +235,7 @@ public class Body implements IBodyColors {
         }
     }
 
+    //REVIEW doc
     public void allBodiesUpdated() {
         //Only add to the path if the object hasn't collided and if the user isn't dragging it
         if ( !collidedProperty.getValue() && !isUserControlled() ) {
@@ -234,6 +243,7 @@ public class Body implements IBodyColors {
         }
     }
 
+    //REVIEW odd that a point is added before one is removed, but pointRemoved notification occurs before pointAdded
     private void addPathPoint() {
         PathPoint pathPoint = new PathPoint( getPosition() );
         path.add( pathPoint );
@@ -261,7 +271,7 @@ public class Body implements IBodyColors {
 
     public void setMass( double mass ) {
         massProperty.setValue( mass );
-        double radius = Math.pow( 3 * mass / 4 / Math.PI / density, 1.0 / 3.0 );
+        double radius = Math.pow( 3 * mass / 4 / Math.PI / density, 1.0 / 3.0 ); //REVIEW how was this derived?
         diameterProperty.setValue( radius * 2 );
     }
 
@@ -329,6 +339,7 @@ public class Body implements IBodyColors {
         return labelAngle;
     }
 
+    //REVIEW is this for subclasses to override? I don't see it overridden anywhere.
     public boolean isDraggable() {
         return true;
     }
@@ -406,6 +417,7 @@ public class Body implements IBodyColors {
         }
     }
 
+    //REVIEW fill in doc template, include why this is protected
     /*
      * Template method.
      */
@@ -418,6 +430,7 @@ public class Body implements IBodyColors {
         return collidedProperty.getValue();
     }
 
+    //REVIEW what is the purpose of this class? Is it a marker class? If so, why use composition instead of inheritance?
     public static class PathPoint {
         public final ImmutableVector2D point;
 
@@ -426,6 +439,7 @@ public class Body implements IBodyColors {
         }
     }
 
+    //REVIEW document. who implements this and why?
     public static interface PathListener {
         public void pointAdded( PathPoint point );
 
@@ -443,6 +457,7 @@ public class Body implements IBodyColors {
         return bounds;
     }
 
+    //REVIEW not used. Is this property vestigial?
     public BooleanProperty getReturnable() {
         return returnable;
     }

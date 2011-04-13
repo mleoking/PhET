@@ -49,7 +49,7 @@ import static java.awt.Color.green;
  * @see GravityAndOrbitsMode
  */
 public class GravityAndOrbitsCanvas extends PhetPCanvas {
-    private final PNode _rootNode;
+    private final PNode _rootNode; //REVIEW remove underscore
     public static final PDimension STAGE_SIZE = new PDimension( 1008, 679 );
     public static final Color buttonBackgroundColor = new Color( 255, 250, 125 );
 
@@ -83,12 +83,15 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
             addChild( new PathNode( body, mode.modelViewTransformProperty, module.showPathProperty, body.getColor() ) );
         }
 
+        //REVIEW either make these static final (preferred), use camel-case for names, or inline their values
         Color FORCE_VECTOR_COLOR_FILL = PhetColorScheme.GRAVITATIONAL_FORCE;
         Color FORCE_VECTOR_COLOR_OUTLINE = Color.darkGray;
 
+        //REVIEW either make these static final (preferred), use camel-case for names, or inline their values
         Color VELOCITY_VECTOR_COLOR_FILL = PhetColorScheme.VELOCITY;
         Color VELOCITY_VECTOR_COLOR_OUTLINE = Color.darkGray;
 
+        //REVIEW doc this chunk
         ArrayList<Property<Boolean>> returnable = new ArrayList<Property<Boolean>>();//Use canvas coordinates to determine whether something has left the visible area
         for ( final Body body : model.getBodies() ) {
             final BodyNode bodyNode = new BodyNode( body, mode.modelViewTransformProperty, mousePositionProperty, this, body.getLabelAngle() );
@@ -130,10 +133,12 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
             }
         }
 
+        //REVIEW doc this chunk, why are we adding an explosion for every body?
         for ( Body body : model.getBodies() ) {
             addChild( new ExplosionNode( body, mode.modelViewTransformProperty ) );
         }
 
+        //REVIEW doc
         addChild( new GridNode( mode.modelViewTransformProperty, mode.getGridSpacing(), mode.getGridCenter() ) {{
             module.showGridProperty.addObserver( new SimpleObserver() {
                 public void update() {
@@ -149,6 +154,8 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
         }};
         addChild( controlPanelNode );
 
+        //REVIEW comment is incorrect, this is the mode Reset button.
+        //REVIEW Putting this button here is ridiculous. It has no proximity to the thing it controls (the mode) and it's right about a button with an almost identical name (Reset All).
         //Earth System button
         final Color buttonForegroundColor = Color.BLACK;
         final ButtonNode earthValuesButton = new ButtonNode( GAOStrings.RESET, (int) ( GravityAndOrbitsControlPanel.CONTROL_FONT.getSize() * 1.3 ), buttonForegroundColor, buttonBackgroundColor ) {{
@@ -167,7 +174,9 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
             setConfirmationEnabled( false );
         }} );
 
+        //REVIEW what is mode.rewind?
         //See docs in mode.rewind
+        //REVIEW doc this chunk of code
         final ArrayList<Property<Boolean>> p = new ArrayList<Property<Boolean>>();
         for ( Body body : model.getBodies() ) {
             p.add( body.anyPropertyDifferent() );
@@ -201,9 +210,11 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
 
         addChild( new MeasuringTape( module.measuringTapeVisibleProperty, mode.measuringTapeStartPoint, mode.measuringTapeEndPoint, mode.modelViewTransformProperty ) );
 
+        //REVIEW remove dead code or add a boolean flag to enable/disable
         // shows the bounds of the "stage", which is different from the canvas
 //        addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, STAGE_SIZE.width, STAGE_SIZE.height ), new BasicStroke( 1f ), Color.RED ) );
 
+        //REVIEW is everything in this next chunk related? doesn't look that way. add whitespace and doc chunks.
         Rectangle2D stage = new Rectangle2D.Double( 0, 0, STAGE_SIZE.width, STAGE_SIZE.height );
         for ( Body body : mode.getModel().getBodies() ) {
             body.getBounds().setValue( mode.modelViewTransformProperty.getValue().viewToModel( stage ) );
@@ -224,6 +235,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
             setOffset( 100, 100 );
         }} );
 
+        //REVIEW this anonymous PNode should be a PNode subclass, it's noisy inlined like this and not reusable
         //Zoom controls
         addChild( new PNode() {{
             final double MAX = 1.5;
@@ -288,6 +300,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
         }} );
     }
 
+    //REVIEW private
     public void addChild( PNode node ) {
         _rootNode.addChild( node );
     }

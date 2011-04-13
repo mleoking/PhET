@@ -10,13 +10,15 @@ import javax.imageio.ImageIO;
 
 import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
 
+//REVIEW class doc
+
 /**
  * Serializable state for simsharing
  * See http://www.ni-c.de/2008/10/serializable-bufferedimage/
  */
 public class SerializableBufferedImage implements IProguardKeepClass {
 
-    private byte[] byteImage = null;
+    private byte[] byteImage = null;//REVIEW final?
 
     //for persistence
     public SerializableBufferedImage() {
@@ -51,6 +53,7 @@ public class SerializableBufferedImage implements IProguardKeepClass {
         }
     }
 
+    //REVIEW static, like fromByteArray?
     private byte[] toByteArray( BufferedImage bufferedImage, String format ) {
         if ( bufferedImage != null ) {
             BufferedImage image = bufferedImage;

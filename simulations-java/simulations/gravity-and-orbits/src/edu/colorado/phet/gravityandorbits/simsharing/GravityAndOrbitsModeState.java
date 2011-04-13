@@ -4,6 +4,8 @@ package edu.colorado.phet.gravityandorbits.simsharing;
 import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
 import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsMode;
 
+//REVIEW class doc
+
 /**
  * Serializable state for simsharing
  *

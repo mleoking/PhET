@@ -13,6 +13,7 @@ import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
 public class GAORadioButton<T> extends PropertyRadioButton<T> {
     public GAORadioButton( String title, final Property<T> property, final T value ) {
         super( title, property, value );
+        //REVIEW if this is indeed a Mac problem, then it should be moved to superclass
         setOpaque( false );//TODO: is this a mac problem?
         setFont( GravityAndOrbitsControlPanel.CONTROL_FONT );
         setForeground( GravityAndOrbitsControlPanel.FOREGROUND );

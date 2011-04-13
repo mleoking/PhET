@@ -33,6 +33,7 @@ import static edu.colorado.phet.gravityandorbits.view.GravityAndOrbitsCanvas.STA
  * @author Sam Reid
  */
 public class BodyMassControl extends VerticalLayoutPanel {
+    //REVIEW how do these MIN and MAX constants differ from the min and max constructor parameters?
     public static final int MIN = 0;
     public static final int MAX = 100000;
     private static double SNAP_TOLERANCE = 0.08;//Percentage of the range the slider must be in to snap to a named label tick
@@ -55,7 +56,7 @@ public class BodyMassControl extends VerticalLayoutPanel {
             final BodyNode bodyNode = new BodyNode( body, new Property<ModelViewTransform>( createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( STAGE_SIZE.width * 0.30, STAGE_SIZE.height * 0.5 ), 1E-9 ) ),
                                                     new Property<ImmutableVector2D>( new ImmutableVector2D( 0, 0 ) ), null, -Math.PI / 4 );
             final Image image = bodyNode.renderImage( 22 );
-            add( new JLabel( "", new ImageIcon( image ), SwingConstants.LEFT ) );
+            add( new JLabel( "", new ImageIcon( image ), SwingConstants.LEFT ) ); //REVIEW why the need for empty string? why not use constructor JLabel(Icon image, int horizontalAlignment)?
         }} );
         setForeground( FOREGROUND );
 
@@ -85,6 +86,7 @@ public class BodyMassControl extends VerticalLayoutPanel {
                 }
             } );
 
+            //REVIEW: After reading this comment, I still don't understand why updatingSlider is necessary. This is not a general issue with sliders. What is special about this slider than makes this necessary?
             // we don't want to set the body mass if we are updating the slider. otherwise we get a
             // mass change => update slider => mass change bounce and the wrong values are stored for a reset
             addChangeListener( new ChangeListener() {
@@ -109,6 +111,7 @@ public class BodyMassControl extends VerticalLayoutPanel {
                             double sliderValue = modelToView.createInverse().evaluate( getValue() );
                             if ( Math.abs( sliderValue - labelValue ) / labelValue < SNAP_TOLERANCE ) {
                                 body.setMass( labelValue );
+                                //REVIEW why is this necessary? Is this a workaround? If so, I would be concerned that you have an undiscovered bug.
                                 body.getMassProperty().notifyObservers();//Without this call, updates won't be sent properly and the thumb won't snap to the tick
                             }
                         }

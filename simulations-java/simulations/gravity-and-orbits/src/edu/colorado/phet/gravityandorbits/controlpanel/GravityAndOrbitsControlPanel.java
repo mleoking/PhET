@@ -81,6 +81,7 @@ public class GravityAndOrbitsControlPanel extends VerticalLayoutPanel {
                 add( newArrow( PhetColorScheme.VELOCITY ) );
                 setMaximumSize( getPreferredSize() );
             }} );
+            //REVIEW running the sim leads me to believe that this TODO may have already been addressed
             if ( module.showMassCheckBox ) {//TODO: only show this on real mode
                 add( new GAOCheckBox( GAOStrings.MASS, module.showMassProperty ) );
             }
@@ -95,11 +96,13 @@ public class GravityAndOrbitsControlPanel extends VerticalLayoutPanel {
         // Mass sliders
         for ( Body body : model.getBodies() ) {
             if ( body.isMassSettable() ) {
+                //REVIEW are the parameters associated with the empty string args vestigial? Might be better to add a BodyMassControl constructor that makes them optional.
                 add( new BodyMassControl( body, body.getMassProperty().getInitialValue() / 2, body.getMassProperty().getInitialValue() * 2, "", "", body.getTickValue(), body.getTickLabel() ) );
             }
         }
     }
 
+    //REVIEW use GrabbableVectorNode to create the arrows, so that they look the same in play area and control panel.
     private JLabel newArrow( final Color color ) {
         return new JLabel( new ImageIcon( new ArrowNode( new Point2D.Double(), new Point2D.Double( 65, 0 ), 15, 15, 5, 2, true ) {{
             setPaint( color );

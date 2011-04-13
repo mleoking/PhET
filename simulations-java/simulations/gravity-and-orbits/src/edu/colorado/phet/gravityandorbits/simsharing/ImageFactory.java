@@ -17,7 +17,7 @@ import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 public class ImageFactory {
     private BufferedImage image;
     private int count;
-    private int numTimes = 10;//sim runs at 30fps
+    private int numTimes = 10;//sim runs at 30fps //REVIEW what is the mapping from 30fps to 10?
 
     public BufferedImage getThumbnail( PhetFrame frame, int width ) {
         return BufferedImageUtils.multiScaleToWidth( toImage( frame ), width );
@@ -39,6 +39,7 @@ public class ImageFactory {
         return image;
     }
 
+    //REVIEW unused, delete or doc
     private BufferedImage sendFromRobot( JFrame frame ) {
         try {
             Robot robot = new Robot();
