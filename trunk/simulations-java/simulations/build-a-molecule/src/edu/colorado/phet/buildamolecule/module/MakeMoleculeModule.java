@@ -34,8 +34,6 @@ public class MakeMoleculeModule extends PiccoloModule {
     public MakeMoleculeModule( Frame parentFrame ) {
         super( BuildAMoleculeStrings.TITLE_MAKE_MOLECULE, new ConstantDtClock( 30 ) );
 
-        // TODO: add in model
-
         setClockControlPanel( null );
 
         /*---------------------------------------------------------------------------*
