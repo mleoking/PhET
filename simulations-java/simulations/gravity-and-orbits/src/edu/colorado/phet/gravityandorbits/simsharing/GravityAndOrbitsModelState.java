@@ -9,6 +9,8 @@ import edu.colorado.phet.gravityandorbits.model.Body;
 import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsModel;
 
 /**
+ * Serializable state for simsharing
+ *
  * @author Sam Reid
  */
 public class GravityAndOrbitsModelState implements IProguardKeepClass {

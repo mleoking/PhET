@@ -7,8 +7,8 @@ import java.awt.*;
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.gravityandorbits.model.Body;
 import edu.umd.cs.piccolo.PNode;
@@ -36,7 +36,7 @@ public class ExplosionNode extends PNode {
                 }
             }
         };
-        //Add the graphic that shows the explosion
+        //Add the graphic that shows the explosion, uses the twinkle graphics from the cartoon sun
         addChild( new BodyRenderer.SunRenderer( new IBodyColors() {
             public Color getHighlight() {
                 return Color.white;

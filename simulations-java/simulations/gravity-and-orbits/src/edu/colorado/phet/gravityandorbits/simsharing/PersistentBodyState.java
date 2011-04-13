@@ -6,6 +6,8 @@ import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
 import edu.colorado.phet.gravityandorbits.model.Body;
 
 /**
+ * Serializable state for simsharing
+ *
  * @author Sam Reid
  */
 public class PersistentBodyState implements IProguardKeepClass {

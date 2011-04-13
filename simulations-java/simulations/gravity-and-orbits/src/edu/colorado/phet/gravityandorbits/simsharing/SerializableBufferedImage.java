@@ -11,6 +11,7 @@ import javax.imageio.ImageIO;
 import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
 
 /**
+ * Serializable state for simsharing
  * See http://www.ni-c.de/2008/10/serializable-bufferedimage/
  */
 public class SerializableBufferedImage implements IProguardKeepClass {

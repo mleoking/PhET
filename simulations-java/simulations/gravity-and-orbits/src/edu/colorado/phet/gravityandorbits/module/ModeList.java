@@ -77,6 +77,7 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
             }
         }
 
+        //Compute the total momentum for purposes of centering the camera on the center of momentum frame
         private ImmutableVector2D getTotalMomentum() {
             ImmutableVector2D totalMomentum = new ImmutableVector2D();
             for ( BodyPrototype body : getBodies() ) {
@@ -353,6 +354,7 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
         };
     }
 
+    //Function for rendering the sun
     private final Function2<Body, Double, BodyRenderer> SUN_RENDERER = new Function2<Body, Double, BodyRenderer>() {
         public BodyRenderer apply( Body body, Double viewDiameter ) {
             return new BodyRenderer.SphereRenderer( body, viewDiameter );

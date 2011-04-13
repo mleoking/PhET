@@ -35,6 +35,7 @@ public class VectorNode extends PNode {
         this.body = body;
         this.modelViewTransform = modelViewTransform;
         this.scale = scale;
+        //Only show if the body hasn't collided
         new And( visible, new Not( body.getCollidedProperty() ) ) {{
             addObserver( new SimpleObserver() {
                 public void update() {

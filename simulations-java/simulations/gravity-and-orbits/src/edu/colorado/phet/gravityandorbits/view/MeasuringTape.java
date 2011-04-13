@@ -39,8 +39,7 @@ public class MeasuringTape extends PNode {
                           final Property<ImmutableVector2D> modelStart,
                           final Property<ImmutableVector2D> modelEnd,
                           final Property<ModelViewTransform> transform ) {
-//        modelStart.trace("Model Start");
-//        modelEnd.trace("Model End");
+        //The line that represents the "tape" part of the measuring tape
         addChild( new PhetPPath( new BasicStroke( 3 ), Color.gray ) {{
             setPickable( false );
             final SimpleObserver updateTape = new SimpleObserver() {

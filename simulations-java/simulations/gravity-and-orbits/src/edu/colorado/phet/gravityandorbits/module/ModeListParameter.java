@@ -4,6 +4,8 @@ package edu.colorado.phet.gravityandorbits.module;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 
 /**
+ * Parameter object pattern, compositing multiple arguments that are passed to multiple modes.
+ *
  * @author Sam Reid
  */
 public class ModeListParameter {

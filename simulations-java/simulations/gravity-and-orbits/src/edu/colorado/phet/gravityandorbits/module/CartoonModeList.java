@@ -4,6 +4,9 @@ package edu.colorado.phet.gravityandorbits.module;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 
 /**
+ * Configuration file for setting up the cartoon mode parameters.  This is typically done by multiplying the real values by the desired scales.
+ * SunEarth and SunEarthMoon should be as similar as possible (aside from the addition of the moon)
+ *
  * @author Sam Reid
  */
 public class CartoonModeList extends ModeList {
