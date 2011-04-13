@@ -32,11 +32,13 @@ public class Kit {
         for ( Bucket bucket : buckets ) {
             atoms.addAll( bucket.getAtoms() );
 
-            for ( AtomModel atom : atoms ) {
+            for ( AtomModel atom : bucket.getAtoms() ) {
                 atom.addListener( new AtomModel.Adapter() {
                     @Override
                     public void grabbedByUser( AtomModel atom ) {
-                        lewisDotModel.removeAtom( atom.getAtomInfo() );
+                        if ( lewisDotModel.containsAtom( atom.getAtomInfo() ) ) {
+                            lewisDotModel.removeAtom( atom.getAtomInfo() );
+                        }
                     }
 
                     @Override
