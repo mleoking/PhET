@@ -281,7 +281,7 @@ public class Bucket {
                 }
             }
         }
-        return openLocation.getAddedInstance( position );
+        return openLocation;
     }
 
     /**
