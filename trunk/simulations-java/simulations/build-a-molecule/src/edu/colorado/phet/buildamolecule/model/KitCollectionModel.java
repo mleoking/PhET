@@ -15,7 +15,7 @@ public class KitCollectionModel {
     private List<Kit> kits = new LinkedList<Kit>();
     private List<CollectionBox> boxes = new LinkedList<CollectionBox>();
 
-    private PBounds availableKitBounds = new PBounds( -800, -500, 1100, 200 );//picometers
+    private PBounds availableKitBounds = new PBounds( -1600, -1000, 2200, 500 );//picometers
     private Property<Kit> currentKit;
 
     public KitCollectionModel() {
