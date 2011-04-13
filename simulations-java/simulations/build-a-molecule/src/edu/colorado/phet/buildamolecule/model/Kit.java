@@ -122,7 +122,7 @@ public class Kit {
         double bestDistanceFromIdealLocation = Double.POSITIVE_INFINITY;
         Atom atomInfo = atom.getAtomInfo();
         for ( AtomModel otherAtom : atoms ) {
-            if ( otherAtom == atom ) {
+            if ( otherAtom == atom || !canBond( atom, otherAtom ) ) {
                 continue;
             }
             if ( !isContainedInBucket( otherAtom ) ) {
