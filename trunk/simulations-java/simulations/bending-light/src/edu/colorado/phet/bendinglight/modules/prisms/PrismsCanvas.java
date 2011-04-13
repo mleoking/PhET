@@ -96,7 +96,10 @@ public class PrismsCanvas extends BendingLightCanvas<PrismsModel> {
             public Shape apply( Shape innerBar, Shape outerCircle ) {
                 return outerCircle;
             }
-        }, 0.65 ) {{
+        },
+                                      0.65,
+                                      0.45//Make the protractor small enough so that you can measure the angle of the refracted light in trapezoid prism
+        ) {{
             showProtractor.addObserver( new SimpleObserver() {
                 public void update() {
                     setVisible( showProtractor.getValue() );

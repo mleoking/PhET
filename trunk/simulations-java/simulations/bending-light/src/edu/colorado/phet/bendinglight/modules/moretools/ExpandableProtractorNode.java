@@ -30,7 +30,7 @@ public class ExpandableProtractorNode extends ProtractorNode {
     private Property<Boolean> expanded = new Property<Boolean>( false );//True if the protractor has been made larger
 
     public ExpandableProtractorNode( final ModelViewTransform transform, final Property<Boolean> showProtractor, final ProtractorModel protractorModel, Function2<Shape, Shape, Shape> translateShape, Function2<Shape, Shape, Shape> rotateShape, double scale ) {
-        super( transform, showProtractor, protractorModel, translateShape, rotateShape, scale );
+        super( transform, showProtractor, protractorModel, translateShape, rotateShape, scale, 1 );
         this.originalScale = scale;
 
         //Button that allows the user to expand the protractor node in the more tools tab
