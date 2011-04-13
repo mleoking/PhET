@@ -81,8 +81,7 @@ public class GravityAndOrbitsControlPanel extends VerticalLayoutPanel {
                 add( newArrow( PhetColorScheme.VELOCITY ) );
                 setMaximumSize( getPreferredSize() );
             }} );
-            //REVIEW running the sim leads me to believe that this TODO may have already been addressed
-            if ( module.showMassCheckBox ) {//TODO: only show this on real mode
+            if ( module.showMassCheckBox ) {//only show this on real mode
                 add( new GAOCheckBox( GAOStrings.MASS, module.showMassProperty ) );
             }
             add( new GAOCheckBox( GAOStrings.PATH, module.showPathProperty ) );
