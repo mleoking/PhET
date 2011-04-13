@@ -45,9 +45,10 @@ public class PhetRuleSet extends AbstractRuleSet {
                 new LicenseStartsWith( "Scala License (BSD-Style)" ),
 
                 //allowed clip art sources
-                new SourceStartsWith( "microsoft" ),//microsoft clip art approved for usage, see Unfuddle #1059
+//microsoft clip art no longer approved for usage, see Unfuddle #1059
                 new SourceStartsWith( "clker.com" ),//open source clip art site, see #1080
                 new SourceStartsWith( "java" )//see http://java.sun.com/developer/techDocs/hi/repository/
+//                new NotMicrosoftClipArt()
         } );
     }
 }
