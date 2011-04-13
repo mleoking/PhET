@@ -85,19 +85,7 @@ public abstract class Atom {
         }
     }
 
-    @Override
-    public boolean equals( Object ob ) {
-        if ( ob instanceof Atom ) {
-            Atom other = (Atom) ob;
-            return other.getSymbol().equals( this.getSymbol() ) && other.getRadius() == this.getRadius() && other.getColor().equals( this.getColor() );
-        }
-        else {
-            return false;
-        }
-    }
-
-    @Override
-    public int hashCode() {
-        return getSymbol().hashCode() + new Double( getRadius() ).hashCode() * ( 7 + getColor().hashCode() * 13 );
+    public boolean isSameTypeOfAtom( Atom atom ) {
+        return atom.getSymbol().equals( this.getSymbol() ) && atom.getRadius() == this.getRadius() && atom.getColor().equals( this.getColor() );
     }
 }
