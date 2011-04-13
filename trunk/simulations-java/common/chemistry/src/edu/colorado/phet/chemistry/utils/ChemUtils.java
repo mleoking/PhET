@@ -1,7 +1,12 @@
 package edu.colorado.phet.chemistry.utils;
 
+import java.util.*;
+
 import edu.colorado.phet.chemistry.model.Atom;
 
+/**
+ * Miscellaneous chemistry utils, mostly related to chemical formulas
+ */
 public class ChemUtils {
 
     /*
@@ -38,6 +43,72 @@ public class ChemUtils {
             b.append( String.valueOf( atomCount ) );
         }
         return toSubscript( b.toString() );
+    }
+
+    /**
+     * Return an integer that can be used for sorting atom symbols alphabetically. Lower values will be returned for
+     * symbols that should go first. Two-letter symbols will come after a one-letter symbol with the same first
+     * character (Br after B). See http://en.wikipedia.org/wiki/Hill_system, for without carbon
+     *
+     * @param atom An atom
+     * @return Value for sorting
+     */
+    private static int nonCarbonHillSortValue( Atom atom ) {
+        int value = 1000 * ( (int) atom.getSymbol().charAt( 0 ) );
+        if ( atom.getSymbol().length() > 1 ) {
+            value += (int) atom.getSymbol().charAt( 1 );
+        }
+        return value;
+    }
+
+    /**
+     * Returns an integer that can be used for sorting atom symbols for the Hill system when the molecule contains
+     * carbon. See http://en.wikipedia.org/wiki/Hill_system
+     *
+     * @param atom An atom
+     * @return Value for sorting (lowest is first)
+     */
+    private static int carbonHillSortValue( Atom atom ) {
+        if ( atom.isSameTypeOfAtom( new Atom.C() ) ) {
+            return 0;
+        }
+        if ( atom.isSameTypeOfAtom( new Atom.H() ) ) {
+            return 1;
+        }
+        return nonCarbonHillSortValue( atom );
+    }
+
+    /**
+     * @param atoms A collection of atoms in a molecule
+     * @return The molecular formula of the molecule in the Hill system. Returned as an HTML fragment. See
+     *         http://en.wikipedia.org/wiki/Hill_system for more information.
+     */
+    public static String hillOrderedSymbol( Collection<Atom> atoms ) {
+        boolean containsCarbon = false;
+        for ( Atom atom : atoms ) {
+            if ( atom.isSameTypeOfAtom( new Atom.C() ) ) {
+                containsCarbon = true;
+                break;
+            }
+        }
+        List<Atom> sortedAtoms = new LinkedList<Atom>( atoms );
+        if ( containsCarbon ) {
+            // carbon first, then hydrogen, then others alphabetically
+            Collections.sort( sortedAtoms, new Comparator<Atom>() {
+                public int compare( Atom a, Atom b ) {
+                    return new Integer( carbonHillSortValue( a ) ).compareTo( carbonHillSortValue( b ) );
+                }
+            } );
+        }
+        else {
+            // compare alphabetically since there is no carbon
+            Collections.sort( sortedAtoms, new Comparator<Atom>() {
+                public int compare( Atom a, Atom b ) {
+                    return new Integer( nonCarbonHillSortValue( a ) ).compareTo( nonCarbonHillSortValue( b ) );
+                }
+            } );
+        }
+        return createSymbol( sortedAtoms.toArray( new Atom[sortedAtoms.size()] ) );
     }
 
     /*
