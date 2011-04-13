@@ -37,27 +37,35 @@ public class MakeMoleculeModule extends PiccoloModule {
 
         setClockControlPanel( null );
 
-        // Canvas
-        canvas = new BuildAMoleculeCanvas( new KitCollectionModel( new LinkedList<Kit>() {{
-            add( new Kit( new LinkedList<Bucket>() {{
-                add( new Bucket( new Atom.H(), new PDimension( 300, 60 ), "Hydrogen" ) {{
-                    addAtom( new AtomModel( new Atom.H(), "Hydrogen", MakeMoleculeModule.this.getClock() ), false );
-                    addAtom( new AtomModel( new Atom.H(), "Hydrogen", MakeMoleculeModule.this.getClock() ), false );
-                }} );
-                add( new Bucket( new Atom.O(), new PDimension( 300, 60 ), "Oxygen" ) {{
-                    addAtom( new AtomModel( new Atom.O(), "Oxygen", MakeMoleculeModule.this.getClock() ), false );
-                }} );
-                add( new Bucket( new Atom.C(), new PDimension( 300, 60 ), "Carbon" ) {{
-                    addAtom( new AtomModel( new Atom.C(), "Carbon", MakeMoleculeModule.this.getClock() ), false );
-                }} );
-            }} ) );
-        }}, new LinkedList<CollectionBox>() {{
-            add( new CollectionBox( CompleteMolecule.H2O, 1 ) );
-            add( new CollectionBox( CompleteMolecule.O2, 1 ) );
-            add( new CollectionBox( CompleteMolecule.H2, 1 ) );
-            add( new CollectionBox( CompleteMolecule.CO2, 1 ) );
-            add( new CollectionBox( CompleteMolecule.N2, 1 ) );
-        }} ), true ); // single collection mode
+        /*---------------------------------------------------------------------------*
+        * initial model
+        *----------------------------------------------------------------------------*/
+
+        KitCollectionModel initialModel = new KitCollectionModel();
+
+        initialModel.addKit( new Kit( initialModel, new LinkedList<Bucket>() {{
+            add( new Bucket( new Atom.H(), new PDimension( 300, 100 ), "Hydrogen" ) {{
+                addAtom( new AtomModel( new Atom.H(), "Hydrogen", MakeMoleculeModule.this.getClock() ), false );
+                addAtom( new AtomModel( new Atom.H(), "Hydrogen", MakeMoleculeModule.this.getClock() ), false );
+            }} );
+            add( new Bucket( new Atom.O(), new PDimension( 300, 100 ), "Oxygen" ) {{
+                addAtom( new AtomModel( new Atom.O(), "Oxygen", MakeMoleculeModule.this.getClock() ), false );
+            }} );
+            add( new Bucket( new Atom.C(), new PDimension( 300, 100 ), "Carbon" ) {{
+                addAtom( new AtomModel( new Atom.C(), "Carbon", MakeMoleculeModule.this.getClock() ), false );
+            }} );
+        }} ) );
+
+        initialModel.addCollectionBox( new CollectionBox( CompleteMolecule.H2O, 1 ) );
+        initialModel.addCollectionBox( new CollectionBox( CompleteMolecule.O2, 1 ) );
+        initialModel.addCollectionBox( new CollectionBox( CompleteMolecule.H2, 1 ) );
+        initialModel.addCollectionBox( new CollectionBox( CompleteMolecule.CO2, 1 ) );
+        initialModel.addCollectionBox( new CollectionBox( CompleteMolecule.N2, 1 ) );
+
+        /*---------------------------------------------------------------------------*
+        * canvas
+        *----------------------------------------------------------------------------*/
+        canvas = new BuildAMoleculeCanvas( initialModel, true ); // single collection mode
         setSimulationPanel( canvas );
 
         // Set initial state

@@ -11,12 +11,13 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 public class Kit {
     private final List<Bucket> buckets;
 
-    public static final double KIT_Y = -450;
-    public static final double KIT_X_CENTER = -150;
     public static final double BUCKET_PADDING = 50;
 
-    public Kit( List<Bucket> buckets ) {
+    public Kit( KitCollectionModel model, List<Bucket> buckets ) {
         this.buckets = buckets;
+
+        double kitY = model.getAvailableKitBounds().getCenterY();
+        double kitXCenter = model.getAvailableKitBounds().getCenterX();
 
         double usedWidth = 0;
 
@@ -26,13 +27,13 @@ public class Kit {
             if ( i != 0 ) {
                 usedWidth += BUCKET_PADDING;
             }
-            bucket.setPosition( new ImmutableVector2D( usedWidth, KIT_Y ) );
+            bucket.setPosition( new ImmutableVector2D( usedWidth, kitY ) );
             usedWidth += bucket.getWidth();
         }
 
         // centers the buckets horizontally within the kit
         for ( Bucket bucket : buckets ) {
-            bucket.setPosition( new ImmutableVector2D( bucket.getPosition().getX() - usedWidth / 2 + KIT_X_CENTER + bucket.getWidth() / 2, KIT_Y ) );
+            bucket.setPosition( new ImmutableVector2D( bucket.getPosition().getX() - usedWidth / 2 + kitXCenter + bucket.getWidth() / 2, kitY ) );
         }
     }
 

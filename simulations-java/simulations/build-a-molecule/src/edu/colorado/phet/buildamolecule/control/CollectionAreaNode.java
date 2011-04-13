@@ -33,7 +33,7 @@ public class CollectionAreaNode extends PNode {
 
         c.insets = new Insets( 0, 0, 15, 0 );
 
-        for ( CollectionBox collectionBox : model.getBoxes() ) {
+        for ( CollectionBox collectionBox : model.getCollectionBoxes() ) {
             c.gridy += 1;
             if ( singleCollectionMode ) {
                 layoutNode.addChild( new SingleCollectionBoxNode( collectionBox ), c );
