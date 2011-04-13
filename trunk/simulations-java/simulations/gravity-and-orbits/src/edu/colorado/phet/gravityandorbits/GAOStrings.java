@@ -8,13 +8,9 @@ package edu.colorado.phet.gravityandorbits;
  */
 public class GAOStrings {
 
-
     /* not intended for instantiation */
     private GAOStrings() {
     }
-
-    //REVIEW unused, handled automatically by phetcommon
-    public static final String GRAVITY_AND_ORBITS_NAME = getString( "gravity-and-orbits.name" );
 
     public static final String CARTOON = getString( "cartoon" );
     public static final String TO_SCALE = getString( "toScale" );
