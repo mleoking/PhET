@@ -94,6 +94,7 @@ public class GravityAndOrbitsModel {
         } );
     }
 
+    //REVIEW not used
     //Used for determining initial velocities so the total momentum is zero
     private ImmutableVector2D getTotalMomentum() {
         ImmutableVector2D total = new ImmutableVector2D();

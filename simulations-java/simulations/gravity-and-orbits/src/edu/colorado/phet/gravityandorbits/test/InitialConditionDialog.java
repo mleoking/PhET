@@ -98,7 +98,7 @@ public class InitialConditionDialog extends JDialog {
             if ( v == 0 ) {
                 return 0;
             }
-            double y = v / Math.pow( 10, getExponent( v ) );
+            double y = v / Math.pow( 10, getExponent( v ) );//REVIEW variable y is redundant
             return y;
         }
 
