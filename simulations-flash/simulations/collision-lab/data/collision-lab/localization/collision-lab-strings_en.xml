@@ -30,7 +30,7 @@
     <string key="MomentumView.total" value="tot"/>
 
     <string key="ControlPanel.1d" value="1 Dimension"/>
-    <string key="ControlPanel.2d" value="2 Dimenstions"/>
+    <string key="ControlPanel.2d" value="2 Dimensions"/>
     <string key="ControlPanel.resetAll" value="Reset All"/>
     <string key="ControlPanel.showVelocities" value="Velocity Vectors"/>
 	<string key="ControlPanel.showMomentumVectors" value="Momentum Vectors"/>
