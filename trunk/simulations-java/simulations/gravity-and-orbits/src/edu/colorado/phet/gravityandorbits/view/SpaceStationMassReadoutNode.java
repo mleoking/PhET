@@ -24,6 +24,8 @@ public class SpaceStationMassReadoutNode extends MassReadoutNode {
     protected String createText() {
         double massKG = bodyNode.getBody().getMass();
         double spaceStationMasses = massKG / RealModeList.SPACE_STATION_MASS;
+
+        //Show the readout in terms of space station masses (or billions of billions of space station masses)
         String value, units;
         if ( spaceStationMasses > 1E18 ) {
             value = new DecimalFormat( "0" ).format( spaceStationMasses / 1E18 );

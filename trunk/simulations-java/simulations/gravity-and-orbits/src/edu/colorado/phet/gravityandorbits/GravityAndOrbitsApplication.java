@@ -1,5 +1,4 @@
 // Copyright 2002-2011, University of Colorado
-
 package edu.colorado.phet.gravityandorbits;
 
 import java.util.ArrayList;
@@ -31,6 +30,7 @@ public class GravityAndOrbitsApplication extends PiccoloPhetApplication {
 
     public GravityAndOrbitsApplication( PhetApplicationConfig config ) {
         super( config );
+        //Modules are stored so the data can be read and set for simsharing
         intro = new GravityAndOrbitsModule( getPhetFrame(), whiteBackgroundProperty, CARTOON, false, new Function1<ModeListParameter, ArrayList<GravityAndOrbitsMode>>() {
             public ArrayList<GravityAndOrbitsMode> apply( ModeListParameter p ) {
                 return new CartoonModeList( p.clockPausedProperty, p.gravityEnabledProperty, p.stepping, p.rewinding, p.timeSpeedScaleProperty, 1 );

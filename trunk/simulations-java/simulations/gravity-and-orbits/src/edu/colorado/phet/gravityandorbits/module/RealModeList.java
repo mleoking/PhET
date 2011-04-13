@@ -4,6 +4,8 @@ package edu.colorado.phet.gravityandorbits.module;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 
 /**
+ * Configuration file for "real" tab modes, uses physically accurate parameters.
+ *
  * @author Sam Reid
  */
 public class RealModeList extends ModeList {

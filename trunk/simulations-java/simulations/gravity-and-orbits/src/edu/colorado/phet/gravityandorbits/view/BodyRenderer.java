@@ -128,14 +128,11 @@ public abstract class BodyRenderer extends PNode {
         public void setDiameter( double viewDiameter ) {
             super.setDiameter( viewDiameter );
             double angle = 0;
-//            int numSegments = 4 * 4 * 2 * 3;
             double deltaAngle = Math.PI * 2 / numSegments;
             double radius = viewDiameter / 2;
             DoubleGeneralPath path = new DoubleGeneralPath();
             path.moveTo( 0, 0 );
             for ( int i = 0; i < numSegments + 1; i++ ) {
-//                double twinkleRadius = radius * (1.05+random.nextDouble()*0.1);
-//                double twinkleRadius = radius * 1.1;
                 double myRadius = i % 2 == 0 ? twinkleRadius.apply( radius ) : radius;
                 ImmutableVector2D target = ImmutableVector2D.parseAngleAndMagnitude( myRadius, angle );
                 path.lineTo( target );
@@ -152,7 +149,6 @@ public abstract class BodyRenderer extends PNode {
         public ImageRenderer( IBodyColors body, double viewDiameter, final String imageName ) {
             super( body );
 
-//            imageNode = new PImage( BufferedImageUtils.multiScaleToWidth( GravityAndOrbitsResources.getImage( imageName ), 50 ) );
             imageNode = new PImage( GravityAndOrbitsApplication.RESOURCES.getImage( imageName ) );
             addChild( imageNode );
             this.viewDiameter = viewDiameter;

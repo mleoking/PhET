@@ -21,6 +21,7 @@ public class ModelState {
         this.bodyStates = bodyStates;
     }
 
+    //Updates the model, producing the next ModelState
     public ModelState getNextState( double dt, int numSteps, Property<Boolean> gravityEnabledProperty ) {
         ModelState state = this;
         for ( int i = 0; i < numSteps; i++ ) {
@@ -29,6 +30,7 @@ public class ModelState {
         return state;
     }
 
+    //Updates the model, producing the next ModelState
     public ModelState getNextState( double dt, Property<Boolean> gravityEnabledProperty ) {
         //See http://www.fisica.uniud.it/~ercolessi/md/md/node21.html
         ArrayList<BodyState> newState = new ArrayList<BodyState>();

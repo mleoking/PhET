@@ -24,6 +24,8 @@ public class EarthMassReadoutNode extends MassReadoutNode {
     protected String createText() {
         double massKG = bodyNode.getBody().getMass();
         double earthMasses = massKG / RealModeList.EARTH_MASS;
+
+        //Show the value in terms of earth masses (or thousands of earth masses)
         String value, units;
         if ( earthMasses > 1E3 ) {
             value = new DecimalFormat( "0" ).format( Math.round( earthMasses / 1E3 ) );

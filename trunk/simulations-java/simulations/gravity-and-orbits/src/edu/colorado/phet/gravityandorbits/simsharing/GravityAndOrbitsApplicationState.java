@@ -11,6 +11,8 @@ import edu.colorado.phet.gravityandorbits.GravityAndOrbitsApplication;
 import static java.lang.System.currentTimeMillis;
 
 /**
+ * Serializable state for simsharing
+ *
  * @author Sam Reid
  */
 public class GravityAndOrbitsApplicationState implements IProguardKeepClass {
