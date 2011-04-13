@@ -127,8 +127,8 @@ class IsotopeProprotionsPieChart extends PNode {
                         Point2D centerEdgeOfPieSlice = pieChart.getCenterEdgePtForSlice( i );
                         boolean labelOnLeft = centerEdgeOfPieSlice.getX() < 0;
                         labelNode = new SliceLabel( model.getPossibleIsotopesProperty().getValue().get( i ),
-                                pieSlices.get( i ).getValue() / pieChart.getTotal(),
-                                pieSlices.get( i ).getPrecisionDecimal().getNumberOfDecimalPlaces(),
+                                pieSlices.get( i ).getValue() / pieChart.getTotal() * 100,
+                                pieSlices.get( i ).getPrecisionDecimal().getNumberOfDecimalPlaces()-2,//Reduce precision by 2 since we multiplied by 2 orders of magnitude
                                 labelOnLeft );
                         labelLayer.addChild( labelNode );
                         sliceLabels.add( labelNode );
@@ -306,11 +306,12 @@ class IsotopeProprotionsPieChart extends PNode {
         // how labels move when handling overlap.
         private final Point2D unconstrainedPos = new Point2D.Double(0, 0);
 
-        public SliceLabel( ImmutableAtom isotopeConfig, double proportionOfIsotope, int decimalDigitsToShow, boolean labelOnLeft ){
+        public SliceLabel( ImmutableAtom isotopeConfig, double isotopePercentage, int decimalDigitsToShow, boolean labelOnLeft ){
             final ChemSymbolWithNumbers symbol = new ChemSymbolWithNumbers( isotopeConfig );
             addChild( symbol );
-            final PText readoutText = new PText( PrecisionDecimalFormat.format( proportionOfIsotope * 100,
-                                                                                decimalDigitsToShow - 2//Reduce precision by 2 since we multiplied by 2 orders of magnitude
+            final PText readoutText = new PText( PrecisionDecimalFormat.format( isotopePercentage,
+                                                                                Math.min( 4,//limit to 4 decimal points to be consistent with the front panel (and to protect the user from too many digits), even though we may know higher precision
+                                                                                          decimalDigitsToShow  )
             ) + " %"){{
                setFont(READOUT_FONT);
             }};

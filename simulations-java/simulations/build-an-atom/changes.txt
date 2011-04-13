@@ -1,3 +1,5 @@
+isotopes-and-atomic-mass: Limited pie chart resolution to 4 decimal points
+isotopes-and-atomic-mass: Added trace amounts of C-14
 isotopes-and-atomic-mass: Show the correct precision for nature's mix on the pie chart labels
 # 2.01.05 (50344) Apr 5, 2011
 4/5/11 Deploying to dev for interviews and testing
