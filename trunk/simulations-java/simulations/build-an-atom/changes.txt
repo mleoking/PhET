@@ -1,3 +1,4 @@
+isotopes-and-atomic-mass: Switched to use white background with red border for showing highlighted element in the periodic table node
 isotopes-and-atomic-mass: Limited pie chart resolution to 4 decimal points
 isotopes-and-atomic-mass: Added trace amounts of C-14
 isotopes-and-atomic-mass: Show the correct precision for nature's mix on the pie chart labels
