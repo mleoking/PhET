@@ -43,21 +43,21 @@ public class MakeMoleculeModule extends PiccoloModule {
 
         final KitCollectionModel initialModel = new KitCollectionModel();
 
-        initialModel.addKit( new Kit( initialModel, new LinkedList<Bucket>() {{
-            add( new Bucket( new Atom.H(), new PDimension( 600, 200 ), "Hydrogen" ) {{
-                addAtom( new AtomModel( new Atom.H(), "Hydrogen", MakeMoleculeModule.this.getClock(), initialModel ), false );
-                addAtom( new AtomModel( new Atom.H(), "Hydrogen", MakeMoleculeModule.this.getClock(), initialModel ), false );
-                addAtom( new AtomModel( new Atom.H(), "Hydrogen", MakeMoleculeModule.this.getClock(), initialModel ), false );
-                addAtom( new AtomModel( new Atom.H(), "Hydrogen", MakeMoleculeModule.this.getClock(), initialModel ), false );
-                addAtom( new AtomModel( new Atom.H(), "Hydrogen", MakeMoleculeModule.this.getClock(), initialModel ), false );
-            }} );
-            add( new Bucket( new Atom.O(), new PDimension( 600, 200 ), "Oxygen" ) {{
-                addAtom( new AtomModel( new Atom.O(), "Oxygen", MakeMoleculeModule.this.getClock(), initialModel ), false );
-            }} );
-            add( new Bucket( new Atom.C(), new PDimension( 600, 200 ), "Carbon" ) {{
-                addAtom( new AtomModel( new Atom.C(), "Carbon", MakeMoleculeModule.this.getClock(), initialModel ), false );
-            }} );
-        }} ) );
+//        initialModel.addKit( new Kit( initialModel, new LinkedList<Bucket>() {{
+//            add( new Bucket( new Atom.H(), new PDimension( 600, 200 ), "Hydrogen" ) {{
+//                addAtom( new AtomModel( new Atom.H(), "Hydrogen", MakeMoleculeModule.this.getClock(), initialModel ), false );
+//                addAtom( new AtomModel( new Atom.H(), "Hydrogen", MakeMoleculeModule.this.getClock(), initialModel ), false );
+//                addAtom( new AtomModel( new Atom.H(), "Hydrogen", MakeMoleculeModule.this.getClock(), initialModel ), false );
+//                addAtom( new AtomModel( new Atom.H(), "Hydrogen", MakeMoleculeModule.this.getClock(), initialModel ), false );
+//                addAtom( new AtomModel( new Atom.H(), "Hydrogen", MakeMoleculeModule.this.getClock(), initialModel ), false );
+//            }} );
+//            add( new Bucket( new Atom.O(), new PDimension( 600, 200 ), "Oxygen" ) {{
+//                addAtom( new AtomModel( new Atom.O(), "Oxygen", MakeMoleculeModule.this.getClock(), initialModel ), false );
+//            }} );
+//            add( new Bucket( new Atom.C(), new PDimension( 600, 200 ), "Carbon" ) {{
+//                addAtom( new AtomModel( new Atom.C(), "Carbon", MakeMoleculeModule.this.getClock(), initialModel ), false );
+//            }} );
+//        }} ) );
 
         initialModel.addCollectionBox( new CollectionBox( CompleteMolecule.H2O, 1 ) );
         initialModel.addCollectionBox( new CollectionBox( CompleteMolecule.O2, 1 ) );
