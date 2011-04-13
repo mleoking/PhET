@@ -10,6 +10,7 @@ import java.awt.geom.RoundRectangle2D;
 import java.text.DecimalFormat;
 import java.util.List;
 
+import edu.colorado.phet.buildanatom.model.AtomIdentifier;
 import edu.colorado.phet.buildanatom.model.ImmutableAtom;
 import edu.colorado.phet.buildanatom.modules.isotopemixture.model.IsotopeMixturesModel;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -167,11 +168,13 @@ public class AverageAtomicMassIndicator extends PNode {
         private static final Dimension2D SIZE = new PDimension( 120, 25 );
         private static final double TRIANGULAR_POINTER_HEIGHT = 15;
         private static final double TRIANGULAR_POINTER_WIDTH = 20;
-        private static final DecimalFormat NATURES_MIX_READOUT_FORMATTER = new DecimalFormat( "#.#####" );
-        private static final DecimalFormat USERS_MIX_READOUT_FORMATTER = new DecimalFormat( "#.00000" );
+        private static final int DECIMAL_PLACES_FOR_USERS_MIX = 5;
+        private final IsotopeMixturesModel model;
+        private final PText textualReadout;
+        private final PNode readoutBackgroundNode;
 
-        public ReadoutPointer ( final IsotopeMixturesModel model ){
-
+        public ReadoutPointer ( IsotopeMixturesModel model ){
+            this.model = model;
             // Add the triangular pointer.  This is created such that the
             // point of the triangle is at (0,0) for this node.
             DoubleGeneralPath pointerShape = new DoubleGeneralPath(0, 0);
@@ -181,32 +184,53 @@ public class AverageAtomicMassIndicator extends PNode {
             PNode triangularPointerNode = new PhetPPath( pointerShape.getGeneralPath(), new Color( 0, 143, 212 ) );
             addChild( triangularPointerNode );
 
-            // Create the background for the readout.
-            final PNode readoutBackgroundNode = new PhetPPath( new RoundRectangle2D.Double( -SIZE.getWidth() / 2,
+            readoutBackgroundNode = new PhetPPath( new RoundRectangle2D.Double( -SIZE.getWidth() / 2,
                     TRIANGULAR_POINTER_HEIGHT, SIZE.getWidth(), SIZE.getHeight(), 5, 5), Color.WHITE, new BasicStroke( 1 ), Color.BLACK );
             addChild( readoutBackgroundNode );
 
-            // Add the textual readout.
-            final PText textualReadout = new PText(){{
+            textualReadout = new PText(){{
                 setFont( new PhetFont( 18 ) );
             }};
             addChild( textualReadout );
+
             // Observe the average atomic weight property in the model and
             // update the textual readout whenever it changes.
             model.getIsotopeTestChamber().addAverageAtomicMassPropertyListener( new SimpleObserver() {
                 public void update() {
-                    // TODO: i18n
-                    DecimalFormat formatter = model.getShowingNaturesMixProperty().getValue() ? NATURES_MIX_READOUT_FORMATTER : USERS_MIX_READOUT_FORMATTER;
-                    textualReadout.setText( formatter.format( model.getIsotopeTestChamber().getAverageAtomicMass() ) + " amu" );
-                    textualReadout.setScale( 1 );
-                    if ( textualReadout.getFullBoundsReference().width >= readoutBackgroundNode.getFullBoundsReference().getWidth() * 0.95 ){
-                        textualReadout.setScale( readoutBackgroundNode.getFullBoundsReference().width / textualReadout.getFullBoundsReference().width * 0.95 );
-                    }
-                    textualReadout.centerFullBoundsOnPoint(
-                            readoutBackgroundNode.getFullBoundsReference().getCenterX(),
-                            readoutBackgroundNode.getFullBounds().getCenterY() );
+                    updateReadout();
                 }
             });
+            // Observe whether the user's mix or nature's mix is being
+            // portrayed and update the readout when this changes.
+            model.getShowingNaturesMixProperty().addObserver( new SimpleObserver() {
+                public void update() {
+                    updateReadout();
+                }
+            });
+        }
+
+        private void updateReadout(){
+            double weight;
+            int numDecimalPlacesToDisplay;
+            if ( model.getShowingNaturesMixProperty().getValue() ){
+                weight = AtomIdentifier.getStandardAtomicMassPrecionDecimal( model.getAtom().getNumProtons() ).getPreciseValue();
+                numDecimalPlacesToDisplay = Math.min(
+                        AtomIdentifier.getStandardAtomicMassPrecionDecimal( model.getAtom().getNumProtons() ).getNumberOfDecimalPlaces(),
+                        5 ); // Max of 5 decimal places of resolution.
+            }
+            else{
+                weight = model.getIsotopeTestChamber().getAverageAtomicMass();
+                numDecimalPlacesToDisplay = DECIMAL_PLACES_FOR_USERS_MIX;
+            }
+            // TODO: i18n
+            textualReadout.setText( VariablePrecisionNumberFormat.format( weight, numDecimalPlacesToDisplay ) + " amu" );
+            textualReadout.setScale( 1 );
+            if ( textualReadout.getFullBoundsReference().width >= readoutBackgroundNode.getFullBoundsReference().getWidth() * 0.95 ){
+                textualReadout.setScale( readoutBackgroundNode.getFullBoundsReference().width / textualReadout.getFullBoundsReference().width * 0.95 );
+            }
+            textualReadout.centerFullBoundsOnPoint(
+                    readoutBackgroundNode.getFullBoundsReference().getCenterX(),
+                    readoutBackgroundNode.getFullBounds().getCenterY() );
         }
     }
 }

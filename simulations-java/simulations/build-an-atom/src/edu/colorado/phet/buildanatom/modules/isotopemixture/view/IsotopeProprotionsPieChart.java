@@ -11,8 +11,6 @@ import java.awt.Stroke;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.RoundRectangle2D;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 
 import edu.colorado.phet.buildanatom.model.AtomIdentifier;
@@ -312,7 +310,7 @@ class IsotopeProprotionsPieChart extends PNode {
         public SliceLabel( ImmutableAtom isotopeConfig, double isotopePercentage, int decimalDigitsToShow, boolean labelOnLeft ){
             final ChemSymbolWithNumbers symbol = new ChemSymbolWithNumbers( isotopeConfig );
             addChild( symbol );
-            final PText readoutText = new PText( PrecisionDecimalFormat.format( isotopePercentage,
+            final PText readoutText = new PText( VariablePrecisionNumberFormat.format( isotopePercentage,
                                                                                 Math.min( 4,//limit to 4 decimal points to be consistent with the front panel (and to protect the user from too many digits), even though we may know higher precision
                                                                                           decimalDigitsToShow  )
             ) + " %"){{
@@ -387,30 +385,6 @@ class IsotopeProprotionsPieChart extends PNode {
                         symbol.getFullBoundsReference().getMaxY() - getFullBoundsReference().height * 0.6 );
             }};
             addChild( atomicNumber );
-        }
-    }
-
-    private static class PrecisionDecimalFormat {
-
-        private static final NumberFormat FORMAT_FOR_100 = new DecimalFormat( "0" );
-
-        static public String format( double value, int decimalDigits ) {
-            if ( value == 100 ){
-                return FORMAT_FOR_100.format( value );
-            }
-            else {
-                // Use more digits when formatting nature's mix.
-                NumberFormat variableLengthFormat = new DecimalFormat( createVariableLengthFormatString( decimalDigits ) );
-                return variableLengthFormat.format( value );
-            }
-        }
-
-        static private String createVariableLengthFormatString( int numDecimalDigits ){
-            String formatString = "0.";
-            for ( int i = 0; i < numDecimalDigits; i++){
-                formatString = formatString.concat( "0" );
-            }
-            return formatString;
         }
     }
 
