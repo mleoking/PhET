@@ -82,9 +82,12 @@ class IsotopeProprotionsPieChart extends PNode {
                             proportion = AtomIdentifier.getNaturalAbundancePrecisionDecimal( isotope ) ;
                         }
                         else{
-                            // The chemists requested that we just show one decimal place of precision when showing
-                            // the user's mix.
-                            proportion = new PrecisionDecimal( model.getIsotopeTestChamber().getIsotopeProportion( isotope ), 1 );
+                            // The chemists requested that we just show one
+                            // decimal place of precision when showing the
+                            // user's mix.  Since the proportion is multiplied
+                            // by 100 to obtain the percentage, we need to set
+                            // the resolution to 3 here.
+                            proportion = new PrecisionDecimal( model.getIsotopeTestChamber().getIsotopeProportion( isotope ), 3 );
                         }
                         // Only add non-zero values.
                         if ( proportion.getPreciseValue() > 0 ){
