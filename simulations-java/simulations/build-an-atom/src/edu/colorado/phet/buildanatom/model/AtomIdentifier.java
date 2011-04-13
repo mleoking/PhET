@@ -1854,6 +1854,12 @@ public class AtomIdentifier {
         }
     }
 
+    public static class GenerateSymbolTable {
+        public static void main( String[] args ) {
+            generateSymbolTable();
+        }
+    }
+
     /**
      * Generate a data structure from the Isotope table that is in string
      * format.  Rename to "main" to use.

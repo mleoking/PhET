@@ -217,10 +217,6 @@ public class BuildAnAtomCanvas extends PhetPCanvas implements Resettable {
         chargeWindow.setMaximized( false );
     }
 
-    public boolean getShowStableUnstable(){
-        return showStableUnstable.getValue();
-    }
-
     /*
      * Updates the layout of stuff on the canvas.
      */

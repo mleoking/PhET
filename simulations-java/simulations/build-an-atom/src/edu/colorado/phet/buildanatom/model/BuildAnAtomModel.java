@@ -231,17 +231,6 @@ public class BuildAnAtomModel implements Resettable {
         return neutronBucket;
     }
 
-    public ArrayList<Proton> getProtons() {
-        return protons;
-    }
-
-    public ArrayList<Neutron> getNeutrons() {
-        return neutrons;
-    }
-
-    public ArrayList<Electron> getElectrons() {
-        return electrons;
-    }
     public static<T> ArrayList<T> reverse(ArrayList<T>list){
         ArrayList<T> t = new ArrayList<T>( list );
         Collections.reverse( t );

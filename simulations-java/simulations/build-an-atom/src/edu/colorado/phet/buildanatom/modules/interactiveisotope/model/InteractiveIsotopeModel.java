@@ -29,11 +29,6 @@ public class InteractiveIsotopeModel implements Resettable, IConfigurableAtomMod
     // Class Data
     //----------------------------------------------------------------------------
 
-    private static final Rectangle2D MODEL_VIEWPORT =
-            new Rectangle2D.Double( -200, -150,
-            400,
-            400 * BuildAnAtomDefaults.STAGE_SIZE.getHeight() / BuildAnAtomDefaults.STAGE_SIZE.getWidth() );//use the same aspect ratio so circles don't become elliptical
-
     // Constant that defines the default number of neutrons in the bucket.
     private static final int DEFAULT_NUM_NEUTRONS_IN_BUCKET = 4;
 
@@ -133,10 +128,6 @@ public class InteractiveIsotopeModel implements Resettable, IConfigurableAtomMod
 
     public void removeListener( Listener listener ){
         listeners.remove( listener );
-    }
-
-    public Rectangle2D getModelViewport() {
-        return MODEL_VIEWPORT;
     }
 
     public BuildAnAtomClock getClock() {
