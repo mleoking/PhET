@@ -1,3 +1,5 @@
+# 0.00.02 (50616) Apr 13, 2011
+4/13/11 >Publishing a snapshot.  May be used for initial demonstration.
 Initial support for having atoms animate back to the buckets when dropped in the kit area
 # 0.00.01 (50229) Mar 30, 2011
 3/30/11 Tab mock-up
