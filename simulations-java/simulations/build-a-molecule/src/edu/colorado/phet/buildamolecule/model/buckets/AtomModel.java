@@ -5,7 +5,6 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-import edu.colorado.phet.buildamolecule.model.Kit;
 import edu.colorado.phet.chemistry.model.Atom;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
@@ -133,7 +132,7 @@ public class AtomModel {
         return getRadius() * 2;
     }
 
-    public Atom getAtom() {
+    public Atom getAtomInfo() {
         return atom;
     }
 
@@ -210,21 +209,21 @@ public class AtomModel {
     //------------------------------------------------------------------------
 
     public static interface Listener {
-        void grabbedByUser( AtomModel particle );
+        void grabbedByUser( AtomModel atom );
 
-        void droppedByUser( AtomModel particle );
+        void droppedByUser( AtomModel atom );
 
-        void removedFromModel( AtomModel particle );
+        void removedFromModel( AtomModel atom );
     }
 
     public static class Adapter implements Listener {
-        public void grabbedByUser( AtomModel particle ) {
+        public void grabbedByUser( AtomModel atom ) {
         }
 
-        public void droppedByUser( AtomModel particle ) {
+        public void droppedByUser( AtomModel atom ) {
         }
 
-        public void removedFromModel( AtomModel particle ) {
+        public void removedFromModel( AtomModel atom ) {
         }
     }
 }
