@@ -8,6 +8,10 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsModule;
 
+//REVIEW
+//   Is this really a memento pattern? I don't see any rollback/undo being done. Body is the originator, and this aggregates the Body state. But who is the caretaker in this case?
+//   This is also more than state, this class contains the logic for computing the next state.
+
 /**
  * ModelState represents an immutable memento of the entire physical state, for performing the numerical integration.
  * It is used by the GravityAndOrbitsModel to update the physics.
@@ -63,6 +67,7 @@ public class ModelState {
         return newPosition.getSubtractedInstance( source.position ).getNormalizedInstance();
     }
 
+    //REVIEW Why is this public? It's sole use is in ModelState.getNextState.
     /*
      * Get the force on body at its proposed new position, unconventional but necessary for velocity verlet.
      */
@@ -78,6 +83,7 @@ public class ModelState {
         return sum;
     }
 
+    //REVIEW getState(Body body) would be safer. See related REVIEW comment in GravityAndOrbitsModel constructor.
     public BodyState getBodyState( int index ) {
         return bodyStates.get( index );
     }

@@ -3,6 +3,8 @@ package edu.colorado.phet.gravityandorbits.module;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 
+//REVIEW since this the highest-level place were "cartoon mode" is mentioned, I think you need to describe it more verbosely. This doc is a little too sparse and vague.
+
 /**
  * Configuration file for setting up the cartoon mode parameters.  This is typically done by multiplying the real values by the desired scales.
  * SunEarth and SunEarthMoon should be as similar as possible (aside from the addition of the moon)
@@ -10,8 +12,11 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
  * @author Sam Reid
  */
 public class CartoonModeList extends ModeList {
+    //REVIEW alpha parameter unused
+    //REVIEW inconsistent naming convention for Property params (eg clockPausedProperty vs stepping)
     public CartoonModeList( Property<Boolean> clockPausedProperty, Property<Boolean> gravityEnabledProperty, Property<Boolean> stepping, Property<Boolean> rewinding, Property<Double> timeSpeedScaleProperty, final double alpha ) {
         super( new ModeListParameter( clockPausedProperty, gravityEnabledProperty, stepping, rewinding, timeSpeedScaleProperty ),
+               //REVIEW difficult to read, why not encapsulate this in subclasses? (eg, CartoonSunEarth extends EarthSun)
                new SunEarth() {{
                    sun.radius *= 50;
                    earth.radius *= 800;

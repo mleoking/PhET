@@ -3,6 +3,9 @@ package edu.colorado.phet.gravityandorbits.module;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 
+//REVIEW Misleading class name? Is this really a prototype? I don't see any clone method,
+//    and I see "new Body" is called. This looks like a data structure that describes a body's parameters.
+
 /**
  * Class that facilitates configuration of body instances for a GravityAndOrbitsMode.
  *

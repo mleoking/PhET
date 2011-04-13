@@ -26,9 +26,10 @@ public class VectorNode extends PNode {
     private final Body body;
     private final Property<ModelViewTransform> modelViewTransform;
     private final double scale;
-    private Property<ImmutableVector2D> property;
+    private Property<ImmutableVector2D> property;//REVIEW lousy name, isn't this the vector value?
     private ArrowNode arrowNode;
 
+    //REVIEW lousy name for property parameter, isn't this the vector value?
     public VectorNode( final Body body, final Property<ModelViewTransform> modelViewTransform, final Property<Boolean> visible,
                        final Property<ImmutableVector2D> property, final double scale, final Color fill, final Color outline ) {
         this.property = property;

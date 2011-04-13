@@ -28,6 +28,7 @@ public class GravityAndOrbitsApplication extends PiccoloPhetApplication {
     private final GravityAndOrbitsModule toScale;
     private final Property<Boolean> whiteBackgroundProperty = new Property<Boolean>( false );
 
+    //REVIEW This constructor is difficult to read than it needs to be. Why not encapsulate in 2 subclasses of GravityAndOrbitsModule? Let's discuss...
     public GravityAndOrbitsApplication( PhetApplicationConfig config ) {
         super( config );
         //Modules are stored so the data can be read and set for simsharing

@@ -142,6 +142,7 @@ public abstract class BodyRenderer extends PNode {
         }
     }
 
+    //REVIEW class doc
     public static class ImageRenderer extends BodyRenderer {
         private final PImage imageNode;
         private double viewDiameter;

@@ -14,6 +14,9 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 
+//REVIEW yikes, big chunk of copied code here. Generalize and share with other sims that have this control. This deserves an Unfuddle ticket (but I didn't create one.)
+//REVIEW unclear from the doc why "custom handling of bounds" was needed. Please elaborate.
+
 /**
  * Button used in the zoom control.
  * Copied from ButtonNode to add custom handling of bounds.  Maybe this could be integrated back into ButtonNode?

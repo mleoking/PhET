@@ -34,6 +34,8 @@ public class BodyNode extends PNode {
     private final PNode arrowIndicator;
     private final BodyRenderer bodyRenderer;
 
+    //REVIEW inconsistent naming conventions for Property, eg modelViewTransform and mousePositionProperty
+    //REVIEW describe mousePositionProperty and labelAngle
     public BodyNode( final Body body, final Property<ModelViewTransform> modelViewTransform,
                      final Property<ImmutableVector2D> mousePositionProperty, final PComponent parentComponent, final double labelAngle ) {
         this.modelViewTransform = modelViewTransform;
@@ -71,6 +73,8 @@ public class BodyNode extends PNode {
                 }
             } );
         }
+        //REVIEW I would use another mouse handler rather than overloading cursorHandler here.
+        //REVIEW naming: updatePosition sounds like a function name, how about positionObserver?
         final SimpleObserver updatePosition = new SimpleObserver() {
             public void update() {
                 /* we need to determine whether the mouse is over the body both before and after the model change so
@@ -81,6 +85,7 @@ public class BodyNode extends PNode {
                 boolean isMouseOverBefore = bodyRenderer.getGlobalFullBounds().contains( mousePositionProperty.getValue().toPoint2D() );
                 setOffset( getPosition( modelViewTransform, body ).toPoint2D() );
                 boolean isMouseOverAfter = bodyRenderer.getGlobalFullBounds().contains( mousePositionProperty.getValue().toPoint2D() );
+                //REVIEW doc. what's going on here? Why are you feeding cursorHandler manufactured events?
                 if ( parentComponent != null && body.isDraggable() ) {
                     if ( isMouseOverBefore && !isMouseOverAfter ) {
                         cursorHandler.mouseExited( new PInputEvent( null, null ) {
@@ -104,6 +109,7 @@ public class BodyNode extends PNode {
         body.getPositionProperty().addObserver( updatePosition );
         modelViewTransform.addObserver( updatePosition );
 
+        //REVIEW naming: updatePosition sounds like a function name, how about diameterObserver?
         final SimpleObserver updateDiameter = new SimpleObserver() {
             public void update() {
                 bodyRenderer.setDiameter( getViewDiameter() );
@@ -112,6 +118,7 @@ public class BodyNode extends PNode {
         body.getDiameterProperty().addObserver( updateDiameter );
         modelViewTransform.addObserver( updateDiameter );
 
+        //REVIEW this should be a class, why would you want to inline this much initialization? It's noisy for the reader.
         //Points to the sphere with a text indicator and line, for when it is too small to see (in modes with realistic units)
         arrowIndicator = new PNode() {{
             Point2D viewCenter = new Point2D.Double( 0, 0 );
@@ -155,6 +162,7 @@ public class BodyNode extends PNode {
         return body;
     }
 
+    //REVIEW why doesn't renderImage use bodyRenderer? Is there a different between this renderer and the one used in renderImage?
     public BodyRenderer getBodyRenderer() {
         return bodyRenderer;
     }

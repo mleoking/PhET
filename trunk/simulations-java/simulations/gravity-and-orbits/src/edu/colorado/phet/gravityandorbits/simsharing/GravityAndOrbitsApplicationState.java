@@ -10,6 +10,8 @@ import edu.colorado.phet.gravityandorbits.GravityAndOrbitsApplication;
 
 import static java.lang.System.currentTimeMillis;
 
+//REVIEW class doc
+
 /**
  * Serializable state for simsharing
  *

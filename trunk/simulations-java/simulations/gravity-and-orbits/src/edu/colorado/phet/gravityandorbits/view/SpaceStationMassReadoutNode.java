@@ -26,6 +26,7 @@ public class SpaceStationMassReadoutNode extends MassReadoutNode {
         double spaceStationMasses = massKG / RealModeList.SPACE_STATION_MASS;
 
         //Show the readout in terms of space station masses (or billions of billions of space station masses)
+        //REVIEW initialize units=GAOStrings.SPACE_STATION_MASS, then change it for the one case that's different.
         String value, units;
         if ( spaceStationMasses > 1E18 ) {
             value = new DecimalFormat( "0" ).format( spaceStationMasses / 1E18 );
@@ -40,6 +41,7 @@ public class SpaceStationMassReadoutNode extends MassReadoutNode {
             units = GAOStrings.SPACE_STATION_MASSES;
         }
         else {
+            //REVIEW identical to else-if directly above
             value = new DecimalFormat( "0.00" ).format( spaceStationMasses );
             units = GAOStrings.SPACE_STATION_MASSES;
         }

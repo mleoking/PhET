@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 
+//REVIEW When I first encountered a property of this type, I had no idea what it did without examining the doc here. How about renaming to RewindableProperty?
+
 /**
  * This is a property that can be rewound, and when rewound it goes back
  * to the value that was last set while the clock was paused.
@@ -37,6 +39,7 @@ public class ClockRewindProperty<T> extends Property<T> {
     @Override
     public void setValue( T value ) {
         super.setValue( value );
+        //REVIEW not clear how this expression relates to the state of the clock, probably because I don't fully understand the semantics of stepping and rewinding, which are clock actions, not clock states.
         if ( clockPaused.getValue() && !stepping.getValue() && !rewinding.getValue() ) {
             storeRewindValueNoNotify();
             for ( VoidFunction0 rewindValueChangedListener : rewindValueChangedListeners ) {
@@ -46,10 +49,12 @@ public class ClockRewindProperty<T> extends Property<T> {
         different.setValue( !equalsRewindPoint() );
     }
 
+    //REVIEW doc. smells like a hack. why is this necessary?
     public void storeRewindValueNoNotify() {
         rewindValue = getValue();
     }
 
+    //REVIEW I suspect that the need for a listener instead of a "Property<T> rewindValueProperty" is related to the need for storeRewindValueNoNotify. Please doc.
     public void addRewindValueChangeListener( VoidFunction0 listener ) {
         rewindValueChangedListeners.add( listener );
     }
@@ -62,6 +67,7 @@ public class ClockRewindProperty<T> extends Property<T> {
         setValue( rewindValue );
     }
 
+    //REVIEW why do you need both this and equalsRewindPoint? One of these is redundant.
     public Property<Boolean> different() {
         return different;
     }

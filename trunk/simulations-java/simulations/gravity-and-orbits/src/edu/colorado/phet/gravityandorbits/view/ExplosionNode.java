@@ -19,10 +19,11 @@ import edu.umd.cs.piccolo.PNode;
  * @author Sam Reid
  */
 public class ExplosionNode extends PNode {
-    int numStepsForAnimation = 10;
+    int numStepsForAnimation = 10;//REVIEW constant should be static final and all uppercase
 
     public ExplosionNode( final Body body, final Property<ModelViewTransform> modelViewTransform ) {
         //Function that computes the diameter as a function of the animation step
+        //REVIEW name this diameterFunction
         final Function1<Integer, Double> diameter = new Function1<Integer, Double>() {
             public Double apply( Integer numClockTicksSinceExplosion ) {
                 if ( numClockTicksSinceExplosion < numStepsForAnimation / 2 ) {
@@ -36,6 +37,7 @@ public class ExplosionNode extends PNode {
                 }
             }
         };
+        //REVIEW incredibly difficult to read or document, why not encapsulate in a subclass of SunRenderer?
         //Add the graphic that shows the explosion, uses the twinkle graphics from the cartoon sun
         addChild( new BodyRenderer.SunRenderer( new IBodyColors() {
             public Color getHighlight() {
@@ -75,6 +77,7 @@ public class ExplosionNode extends PNode {
         return modelViewTransform.getValue().modelToViewDeltaX( body.getDiameter() ) * 2;
     }
 
+    //REVIEW one usage, consider inlining
     private ImmutableVector2D getPosition( Property<ModelViewTransform> modelViewTransform, Body body ) {
         return modelViewTransform.getValue().modelToView( body.getPosition() );
     }

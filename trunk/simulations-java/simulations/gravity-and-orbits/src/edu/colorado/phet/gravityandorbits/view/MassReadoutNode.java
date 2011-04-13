@@ -24,6 +24,8 @@ import edu.umd.cs.piccolo.util.PBounds;
  */
 public abstract class MassReadoutNode extends PNode {
 
+    //REVIEW all subclasses use bodyNode.getBody().getMass(), so why not store the body?
+    //REVIEW final?
     protected BodyNode bodyNode;
 
     public MassReadoutNode( final BodyNode bodyNode, final Property<Boolean> visible ) {
@@ -61,5 +63,6 @@ public abstract class MassReadoutNode extends PNode {
         }};
     }
 
+    //REVIEW defaults to package public, shouldn't this be protected?
     abstract String createText();
 }

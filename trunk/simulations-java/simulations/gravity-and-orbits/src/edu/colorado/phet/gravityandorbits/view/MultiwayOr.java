@@ -6,6 +6,8 @@ import java.util.List;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
+//REVIEW incorrect doc, this is a boolean OR
+
 /**
  * Returns a boolean AND over Property arguments.  This provides read-only access;
  * calling setValue on this AndProperty doesn't propagate back to the original properties.

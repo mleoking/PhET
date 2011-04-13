@@ -8,6 +8,8 @@ import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
 import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsMode;
 import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsModule;
 
+//REVIEW class doc
+
 /**
  * Serializable state for simsharing
  *

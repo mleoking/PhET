@@ -26,15 +26,18 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
 
+//REVIEW indicate (more clearly) why you aren't using the standard measuring tap in piccolo-phet.
+
 /**
  * Shows a piccolo measuring tape that works in multiple scales.  Its body and tip can be moved, and it provides a readout in the appropriate units.
  *
  * @author Sam Reid
  */
 public class MeasuringTape extends PNode {
-    static double crossHairsRadius = 4;
+    static double crossHairsRadius = 4; //REVIEW constant should be private static final, all uppercase
     public static double METERS_PER_MILE = 0.000621371192;
 
+    //REVIEW would be much easier to read if you had inner classes for tape, body and numerical readout (as you do for crosshairs).
     public MeasuringTape( final ObservableProperty<Boolean> visible,
                           final Property<ImmutableVector2D> modelStart,
                           final Property<ImmutableVector2D> modelEnd,
@@ -80,7 +83,7 @@ public class MeasuringTape extends PNode {
         addChild( new CrossHairGraphic( modelEnd, transform ) );
 
         //The textual (numeric) readout
-        addChild( new PText( "Hello" ) {{
+        addChild( new PText( "Hello" ) {{  //REVIEW why the dummy string? is it needed for an initial layout computation?
             setFont( new PhetFont( 18, true ) );
             setTextPaint( Color.white );
             setPickable( false );
@@ -119,14 +122,17 @@ public class MeasuringTape extends PNode {
         } );
     }
 
+    //REVIEW not appropriate here, this is a view component
     public static double metersToMiles( double modelDistance ) {
         return modelDistance * METERS_PER_MILE;
     }
 
+    //REVIEW not appropriate here, this is a view component
     public static double milesToMeters( double modelDistance ) {
         return modelDistance / METERS_PER_MILE;
     }
 
+    //REVIEW private?
     public static class CrossHairGraphic extends PNode {
 
         public CrossHairGraphic( final Property<ImmutableVector2D> point, final Property<ModelViewTransform> transform ) {

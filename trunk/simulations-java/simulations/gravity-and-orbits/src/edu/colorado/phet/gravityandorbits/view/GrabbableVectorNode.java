@@ -29,13 +29,16 @@ import edu.umd.cs.piccolo.util.PDimension;
 public class GrabbableVectorNode extends VectorNode {
     private PhetPPath grabArea;
 
+    //REVIEW lousy name for property parameter, isn't this the vector value?
     public GrabbableVectorNode( final Body body, final Property<ModelViewTransform> modelViewTransform, final Property<Boolean> visible, final Property<ImmutableVector2D> property,
                                 final double scale, Color fill, Color outline ) {
         super( body, modelViewTransform, visible, property, scale, fill, outline );
         final Point2D tip = getTip();
+
+        //REVIEW comment here: a circle with a "V" in the center, to blah blah blah
         grabArea = new PhetPPath( new Ellipse2D.Double( 0, 0, 40, 40 ), new Color( 0, 0, 0, 0 ), new BasicStroke( 3 ), Color.lightGray ) {{
             final PNode parent = this;
-            addChild( new PText( "V" ) {{
+            addChild( new PText( "V" ) {{ //REVIEW i18n of "V". I would restrict this to 1 char.
                 PText v = this;
                 setFont( new PhetFont( 28, true ) );
                 setTextPaint( Color.gray );
@@ -43,6 +46,8 @@ public class GrabbableVectorNode extends VectorNode {
             }} );
             setOffset( tip.getX() - getFullBounds().getWidth() / 2, tip.getY() - getFullBounds().getHeight() / 2 );
         }};
+
+        //REVIEW comment describing what's going on in the next chunk of code
         final SimpleObserver updateGrabArea = new SimpleObserver() {
             public void update() {
                 final Point2D tip = getTip();
@@ -52,7 +57,8 @@ public class GrabbableVectorNode extends VectorNode {
         property.addObserver( updateGrabArea );
         body.getPositionProperty().addObserver( updateGrabArea );
         modelViewTransform.addObserver( updateGrabArea );
-        addChild( grabArea );
+        addChild( grabArea );//REVIEW why is this added after the grab area stuff, instead of up above where the node is created?
+
         //Add the drag handler
         if ( body.isDraggable() ) {
             grabArea.addInputEventListener( new PBasicInputEventHandler() {
@@ -69,6 +75,8 @@ public class GrabbableVectorNode extends VectorNode {
         else {
             grabArea.setVisible( false );
         }
+
+        //REVIEW comment here: move behind the geometry created by the superclass
         grabArea.moveToBack();
     }
 }
