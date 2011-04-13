@@ -75,6 +75,9 @@ public class AtomNode extends PNode {
             protected void endDrag( PInputEvent event ) {
                 super.endDrag( event );
                 atom.setUserControlled( false );
+
+                //Check to see if the atom should go back to its bucket
+                atom.dropped();
             }
         } );
     }
