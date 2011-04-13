@@ -37,6 +37,8 @@ public abstract class Atom {
         return color;
     }
 
+    // TODO (JO): can we consider static instances for accessing properties without instance creation?
+
     public static class C extends Atom {
         public C() {
             super( "C", 77, new Color( 178, 178, 178 ) );
