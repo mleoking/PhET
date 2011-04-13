@@ -56,12 +56,11 @@ public class Kit {
                         }
                         else {
                             // dropped in play area
-                            if ( getMoleculeStructure( atom ) == null ) {
-                                addAtomToPlay( atom );
+                            if ( isAtomInPlay( atom.getAtomInfo() ) ) {
+                                attemptToBondMolecule( getMoleculeStructure( atom ) );
                             }
                             else {
-                                // TODO: attempt to bond entire molecules at a time
-                                attemptToBondAtom( atom );
+                                addAtomToPlay( atom );
                             }
                         }
                     }
@@ -180,12 +179,13 @@ public class Kit {
 
     private void addAtomToPlay( final AtomModel atom ) {
         // add the atoms to our models
-        molecules.add( new MoleculeStructure() {{
+        MoleculeStructure moleculeStructure = new MoleculeStructure() {{
             addAtom( atom.getAtomInfo() );
-        }} );
+        }};
+        molecules.add( moleculeStructure );
 
         // attempt to bond
-        attemptToBondAtom( atom );
+        attemptToBondMolecule( moleculeStructure );
     }
 
     private void recycleAtomIntoBuckets( Atom atom ) {
@@ -202,7 +202,6 @@ public class Kit {
     }
 
     private void bond( AtomModel a, LewisDotModel.Direction dirAtoB, AtomModel b ) {
-        System.out.println( "Bonding " + a + " to " + b + ", dir: " + dirAtoB );
         lewisDotModel.bond( a.getAtomInfo(), dirAtoB, b.getAtomInfo() );
         MoleculeStructure molA = getMoleculeStructure( a );
         MoleculeStructure molB = getMoleculeStructure( b );
@@ -219,24 +218,26 @@ public class Kit {
     }
 
     /**
-     * @param atom An atom to bond if it is close to other atoms
+     * @param moleculeStructure A molecule that should attempt to bind to other atoms / molecules
      * @return Success
      */
-    private boolean attemptToBondAtom( AtomModel atom ) {
-        OpenLocation bestLocation = null;
+    private boolean attemptToBondMolecule( MoleculeStructure moleculeStructure ) {
+        BondingOption bestLocation = null;
         double bestDistanceFromIdealLocation = Double.POSITIVE_INFINITY;
-        Atom atomInfo = atom.getAtomInfo();
-        for ( AtomModel otherAtom : atoms ) {
-            if ( otherAtom == atom || !canBond( atom, otherAtom ) ) {
-                continue;
-            }
-            if ( !isContainedInBucket( otherAtom ) ) {
-                for ( LewisDotModel.Direction direction : lewisDotModel.getOpenDirections( otherAtom.getAtomInfo() ) ) {
-                    OpenLocation location = new OpenLocation( otherAtom, direction );
-                    double distance = atom.getPosition().getDistance( location.getIdealLocation( atomInfo ) );
-                    if ( distance < bestDistanceFromIdealLocation ) {
-                        bestLocation = location;
-                        bestDistanceFromIdealLocation = distance;
+        for ( Atom atomInfo : moleculeStructure.getAtoms() ) {
+            AtomModel atom = getAtomModel( atomInfo );
+            for ( AtomModel otherAtom : atoms ) {
+                if ( otherAtom == atom || !canBond( atom, otherAtom ) ) {
+                    continue;
+                }
+                if ( !isContainedInBucket( otherAtom ) ) {
+                    for ( LewisDotModel.Direction direction : lewisDotModel.getOpenDirections( otherAtom.getAtomInfo() ) ) {
+                        BondingOption location = new BondingOption( otherAtom, direction, atom );
+                        double distance = atom.getPosition().getDistance( location.getIdealLocation() );
+                        if ( distance < bestDistanceFromIdealLocation ) {
+                            bestLocation = location;
+                            bestDistanceFromIdealLocation = distance;
+                        }
                     }
                 }
             }
@@ -246,15 +247,14 @@ public class Kit {
         }
 
         // cause all atoms in the molecule to move to that location
-        ImmutableVector2D delta = bestLocation.getIdealLocation( atomInfo ).getSubtractedInstance( atom.getPosition() );
-        for ( Atom atomInMolecule : getMoleculeStructure( atom ).getAtoms() ) {
-            System.out.println( "moving" );
+        ImmutableVector2D delta = bestLocation.getIdealLocation().getSubtractedInstance( bestLocation.b.getPosition() );
+        for ( Atom atomInMolecule : getMoleculeStructure( bestLocation.b ).getAtoms() ) {
             AtomModel atomModel = getAtomModel( atomInMolecule );
             atomModel.setDestination( atomModel.getPosition().getAddedInstance( delta ) );
         }
 
         // we now will bond the atom
-        bond( bestLocation.atom, bestLocation.direction, atom ); // model bonding
+        bond( bestLocation.a, bestLocation.direction, bestLocation.b ); // model bonding
         return true;
     }
 
@@ -262,21 +262,25 @@ public class Kit {
         return getMoleculeStructure( a ) != getMoleculeStructure( b );
     }
 
-    private static class OpenLocation {
-        public final AtomModel atom;
+    /**
+     * A bond option from A to B. B would be moved to the location near A to bond.
+     */
+    private static class BondingOption {
+        public final AtomModel a;
         public final LewisDotModel.Direction direction;
+        public final AtomModel b;
 
-        private OpenLocation( AtomModel atom, LewisDotModel.Direction direction ) {
-            this.atom = atom;
+        private BondingOption( AtomModel a, LewisDotModel.Direction direction, AtomModel b ) {
+            this.a = a;
             this.direction = direction;
+            this.b = b;
         }
 
         /**
-         * @param otherAtom A type of atom that could be placed here
          * @return The location the atom should be placed
          */
-        public ImmutableVector2D getIdealLocation( Atom otherAtom ) {
-            return atom.getPosition().getAddedInstance( direction.getVector().getScaledInstance( atom.getRadius() + otherAtom.getRadius() ) );
+        public ImmutableVector2D getIdealLocation() {
+            return a.getPosition().getAddedInstance( direction.getVector().getScaledInstance( a.getRadius() + b.getRadius() ) );
         }
     }
 }
