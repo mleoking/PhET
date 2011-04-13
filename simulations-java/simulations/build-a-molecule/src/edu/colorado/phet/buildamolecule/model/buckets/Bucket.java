@@ -213,6 +213,8 @@ public class Bucket {
     public void addAtom( final AtomModel atom, boolean animate ) {
         // Determine an open location in the bucket.
         ImmutableVector2D freeParticleLocation = getFirstOpenLocation();
+//        ImmutableVector2D freeParticleLocation = position;
+//        System.out.println( "freeParticleLocation = " + freeParticleLocation );
 
         // Move the atom.
         if ( animate ) {
@@ -340,5 +342,9 @@ public class Bucket {
             }
         }
         return positionOpen;
+    }
+
+    public Atom getAtomType() {
+        return atomType;
     }
 }

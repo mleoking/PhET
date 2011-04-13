@@ -3,6 +3,7 @@ package edu.colorado.phet.buildamolecule.model;
 import java.util.LinkedList;
 import java.util.List;
 
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.umd.cs.piccolo.util.PBounds;
 
 /**
@@ -13,12 +14,16 @@ public class KitCollectionModel {
     private List<Kit> kits = new LinkedList<Kit>();
     private List<CollectionBox> boxes = new LinkedList<CollectionBox>();
 
-    private PBounds availableKitBounds = new PBounds( -800, -500, 1100, 200 );
+    private PBounds availableKitBounds = new PBounds( -800, -500, 1100, 200 );//picometers
+    private Property<Kit> currentKit;
 
     public KitCollectionModel() {
     }
 
     public void addKit( Kit kit ) {
+        if ( currentKit == null ) {
+            currentKit = new Property<Kit>( kit );
+        }
         kits.add( kit );
     }
 
@@ -36,5 +41,9 @@ public class KitCollectionModel {
 
     public PBounds getAvailableKitBounds() {
         return availableKitBounds;
+    }
+
+    public Kit getCurrentKit() {
+        return currentKit.getValue();
     }
 }

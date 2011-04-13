@@ -3,6 +3,7 @@ package edu.colorado.phet.buildamolecule.model;
 import java.util.List;
 
 import edu.colorado.phet.buildamolecule.model.buckets.Bucket;
+import edu.colorado.phet.chemistry.model.Atom;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 
 /**
@@ -39,5 +40,14 @@ public class Kit {
 
     public List<Bucket> getBuckets() {
         return buckets;
+    }
+
+    public Bucket getBucketForAtomType( Atom atom ) {
+        for ( Bucket bucket : buckets ) {
+            if ( bucket.getAtomType().isSameTypeOfAtom( atom ) ) {
+                return bucket;
+            }
+        }
+        throw new RuntimeException( "Bucket not found for atom type: " + atom );//oh noes
     }
 }

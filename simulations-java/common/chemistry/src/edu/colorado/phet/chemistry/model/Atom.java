@@ -37,6 +37,10 @@ public abstract class Atom {
         return color;
     }
 
+    @Override public String toString() {
+        return symbol;
+    }
+
     // TODO (JO): can we consider static instances for accessing properties without instance creation?
 
     public static class C extends Atom {

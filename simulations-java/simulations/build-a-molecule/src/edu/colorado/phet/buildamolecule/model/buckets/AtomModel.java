@@ -5,6 +5,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+import edu.colorado.phet.buildamolecule.model.KitCollectionModel;
 import edu.colorado.phet.chemistry.model.Atom;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
@@ -26,13 +27,14 @@ public class AtomModel {
     // Class Data
     // ------------------------------------------------------------------------
 
-    private static final double MOTION_VELOCITY = 120; // In picometers per second of sim time.
+    private static final double MOTION_VELOCITY = 800; // In picometers per second of sim time.
 
     // ------------------------------------------------------------------------
     // Instance Data
     // ------------------------------------------------------------------------
 
     private final Atom atom;
+    private final KitCollectionModel model;
     private final String name;
     private final Property<ImmutableVector2D> position;
     private final Property<Boolean> userControlled = new Property<Boolean>( false );//True if the particle is being dragged by the user
@@ -50,10 +52,11 @@ public class AtomModel {
     // Reference to the clock.
     private final IClock clock;
 
-    public AtomModel( Atom atom, String name, IClock clock ) {
+    public AtomModel( Atom atom, String name, IClock clock, KitCollectionModel model ) {
         this.clock = clock;
         this.name = name;
         this.atom = atom;
+        this.model = model;
         position = new Property<ImmutableVector2D>( new ImmutableVector2D() );
         destination = position.getValue();
         addedToModel(); // Assume that this is initially an active part of the model.
@@ -202,6 +205,13 @@ public class AtomModel {
 
     public void removePositionListener( SimpleObserver listener ) {
         position.removeObserver( listener );
+    }
+
+    public void dropped() {
+        if ( model.getAvailableKitBounds().contains( getPosition().toPoint2D() ) ) {
+            Bucket bucket = model.getCurrentKit().getBucketForAtomType( atom );
+            bucket.addAtom( this, true );
+        }
     }
 
     // -----------------------------------------------------------------------
