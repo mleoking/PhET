@@ -79,7 +79,7 @@ class IsotopeProprotionsPieChart extends PNode {
                     for ( ImmutableAtom isotope : model.getPossibleIsotopesProperty().getValue() ) {
                         PrecisionDecimal proportion;
                         if ( model.getShowingNaturesMixProperty().getValue() ){
-                            proportion = new PrecisionDecimal( AtomIdentifier.getNaturalAbundance( isotope ), 2 );
+                            proportion = AtomIdentifier.getNaturalAbundancePrecisionDecimal( isotope ) ;
                         }
                         else{
                             // The chemists requested that we just show one decimal place of precision when showing
@@ -309,7 +309,9 @@ class IsotopeProprotionsPieChart extends PNode {
         public SliceLabel( ImmutableAtom isotopeConfig, double proportionOfIsotope, int decimalDigitsToShow, boolean labelOnLeft ){
             final ChemSymbolWithNumbers symbol = new ChemSymbolWithNumbers( isotopeConfig );
             addChild( symbol );
-            final PText readoutText = new PText( PrecisionDecimalFormat.format( proportionOfIsotope * 100, decimalDigitsToShow ) + " %"){{
+            final PText readoutText = new PText( PrecisionDecimalFormat.format( proportionOfIsotope * 100,
+                                                                                decimalDigitsToShow - 2//Reduce precision by 2 since we multiplied by 2 orders of magnitude
+            ) + " %"){{
                setFont(READOUT_FONT);
             }};
             PNode readoutBox = new PhetPPath( Color.WHITE, new BasicStroke( 1 ), Color.BLACK ){{

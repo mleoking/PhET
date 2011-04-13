@@ -1,3 +1,4 @@
+isotopes-and-atomic-mass: Show the correct precision for nature's mix on the pie chart labels
 # 2.01.05 (50344) Apr 5, 2011
 4/5/11 Deploying to dev for interviews and testing
 isotopes-and-atomic-mass: Performance improvement: Used the "bulk add" capability when restoring state.  This makes it noticeably faster when switching back to a previously created state with a lot of atoms in the chamber.

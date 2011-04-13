@@ -2,14 +2,11 @@
 
 package edu.colorado.phet.buildanatom.model;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.StringTokenizer;
+import java.text.DecimalFormat;
+import java.util.*;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
+import edu.colorado.phet.common.phetcommon.util.PrecisionDecimal;
 
 /**
  * This class identifies and classifies atoms based on their configuration of
@@ -382,7 +379,7 @@ public class AtomIdentifier {
         // Atomic number (empty if same as previous), Symbol, mass number, atomic mass, abundance.
         "1,H,1,1.00782503207,0.999885\n" +
         ",D,2,2.0141017778,0.000115\n" +
-        ",T,3,3.0160492777,1E-12\n" +         // I (jblanco) made up the abundance, since Widipedia just says "trace".
+        ",T,3,3.0160492777,0.000000000001\n" +         // I (jblanco) made up the abundance, since Wikipedia just says "trace".
         "2,He,3,3.0160293191,0.00000134\n" +
         ",,4,4.00260325415,0.99999866\n" +
         "3,Li,6,6.015122795,0.0759\n" +
@@ -823,712 +820,711 @@ public class AtomIdentifier {
         "83, 208.9804\n";
 
 
-
     // Table that maps atomic number to the atomic weight and abundances for
     // that isotope.  This was generated from data obtained from
     // http://physics.nist.gov/cgi-bin/Compositions/stand_alone.pl?ele=&ascii=html&isotype=some
-    private static final Map<Integer, ArrayList<Isotope2>> ISOTOPE_INFORMATION_TABLE = new HashMap<Integer, ArrayList<Isotope2>>(){{
-        // Automatically generated, see routines in this class.
-        ArrayList<Isotope2> listForAtomicNumber1= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 1, 0, 1.00782503207, 0.999885 ) );
-           add( new Isotope2( 1, 1, 2.0141017778, 1.15E-4 ) );
-           add( new Isotope2( 1, 2, 3.0160492777, 1E-12 ) );
+    private static final Map<Integer, ArrayList<Isotope2>> ISOTOPE_INFORMATION_TABLE = new HashMap<Integer, ArrayList<Isotope2>>() {{
+// Automatically generated, see routines in this class.
+        ArrayList<Isotope2> listForAtomicNumber1 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 1, 0, 1.00782503207, "0.999885" ) );
+            add( new Isotope2( 1, 1, 2.0141017778, "0.000115" ) );
+            add( new Isotope2( 1, 2, 3.0160492777, "0.000000000001" ) );
         }};
         put( 1, listForAtomicNumber1 );
-        ArrayList<Isotope2> listForAtomicNumber2= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 2, 1, 3.0160293191, 1.34E-6 ) );
-           add( new Isotope2( 2, 2, 4.00260325415, 0.99999866 ) );
+        ArrayList<Isotope2> listForAtomicNumber2 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 2, 1, 3.0160293191, "0.00000134" ) );
+            add( new Isotope2( 2, 2, 4.00260325415, "0.99999866" ) );
         }};
         put( 2, listForAtomicNumber2 );
-        ArrayList<Isotope2> listForAtomicNumber3= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 3, 3, 6.015122795, 0.0759 ) );
-           add( new Isotope2( 3, 4, 7.01600455, 0.9241 ) );
+        ArrayList<Isotope2> listForAtomicNumber3 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 3, 3, 6.015122795, "0.0759" ) );
+            add( new Isotope2( 3, 4, 7.01600455, "0.9241" ) );
         }};
         put( 3, listForAtomicNumber3 );
-        ArrayList<Isotope2> listForAtomicNumber4= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 4, 5, 9.0121822, 1.0 ) );
+        ArrayList<Isotope2> listForAtomicNumber4 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 4, 5, 9.0121822, "1.0000" ) );
         }};
         put( 4, listForAtomicNumber4 );
-        ArrayList<Isotope2> listForAtomicNumber5= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 5, 5, 10.012937, 0.199 ) );
-           add( new Isotope2( 5, 6, 11.0093054, 0.801 ) );
+        ArrayList<Isotope2> listForAtomicNumber5 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 5, 5, 10.012937, "0.199" ) );
+            add( new Isotope2( 5, 6, 11.0093054, "0.801" ) );
         }};
         put( 5, listForAtomicNumber5 );
-        ArrayList<Isotope2> listForAtomicNumber6= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 6, 6, 12.0, 0.9893 ) );
-           add( new Isotope2( 6, 7, 13.0033548378, 0.0107 ) );
-           add( new Isotope2( 6, 8, 14.003241989, 1e-12 ) );
+        ArrayList<Isotope2> listForAtomicNumber6 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 6, 6, 12.0, "0.9893" ) );
+            add( new Isotope2( 6, 7, 13.0033548378, "0.0107" ) );
+            add( new Isotope2( 6, 8, 14.003241989, "0" ) );
         }};
         put( 6, listForAtomicNumber6 );
-        ArrayList<Isotope2> listForAtomicNumber7= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 7, 7, 14.0030740048, 0.99636 ) );
-           add( new Isotope2( 7, 8, 15.0001088982, 0.00364 ) );
+        ArrayList<Isotope2> listForAtomicNumber7 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 7, 7, 14.0030740048, "0.99636" ) );
+            add( new Isotope2( 7, 8, 15.0001088982, "0.00364" ) );
         }};
         put( 7, listForAtomicNumber7 );
-        ArrayList<Isotope2> listForAtomicNumber8= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 8, 8, 15.99491461956, 0.99757 ) );
-           add( new Isotope2( 8, 9, 16.9991317, 3.8E-4 ) );
-           add( new Isotope2( 8, 10, 17.999161, 0.00205 ) );
+        ArrayList<Isotope2> listForAtomicNumber8 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 8, 8, 15.99491461956, "0.99757" ) );
+            add( new Isotope2( 8, 9, 16.9991317, "0.00038" ) );
+            add( new Isotope2( 8, 10, 17.999161, "0.00205" ) );
         }};
         put( 8, listForAtomicNumber8 );
-        ArrayList<Isotope2> listForAtomicNumber9= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 9, 10, 18.99840322, 1.0 ) );
+        ArrayList<Isotope2> listForAtomicNumber9 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 9, 10, 18.99840322, "1.0000" ) );
         }};
         put( 9, listForAtomicNumber9 );
-        ArrayList<Isotope2> listForAtomicNumber10= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 10, 10, 19.9924401754, 0.9048 ) );
-           add( new Isotope2( 10, 11, 20.99384668, 0.0027 ) );
-           add( new Isotope2( 10, 12, 21.991385114, 0.0925 ) );
+        ArrayList<Isotope2> listForAtomicNumber10 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 10, 10, 19.9924401754, "0.9048" ) );
+            add( new Isotope2( 10, 11, 20.99384668, "0.0027" ) );
+            add( new Isotope2( 10, 12, 21.991385114, "0.0925" ) );
         }};
         put( 10, listForAtomicNumber10 );
-        ArrayList<Isotope2> listForAtomicNumber11= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 11, 12, 22.9897692809, 1.0 ) );
+        ArrayList<Isotope2> listForAtomicNumber11 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 11, 12, 22.9897692809, "1.0000" ) );
         }};
         put( 11, listForAtomicNumber11 );
-        ArrayList<Isotope2> listForAtomicNumber12= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 12, 12, 23.9850417, 0.7899 ) );
-           add( new Isotope2( 12, 13, 24.98583692, 0.1 ) );
-           add( new Isotope2( 12, 14, 25.982592929, 0.1101 ) );
+        ArrayList<Isotope2> listForAtomicNumber12 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 12, 12, 23.9850417, "0.7899" ) );
+            add( new Isotope2( 12, 13, 24.98583692, "0.1000" ) );
+            add( new Isotope2( 12, 14, 25.982592929, "0.1101" ) );
         }};
         put( 12, listForAtomicNumber12 );
-        ArrayList<Isotope2> listForAtomicNumber13= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 13, 14, 26.98153863, 1.0 ) );
+        ArrayList<Isotope2> listForAtomicNumber13 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 13, 14, 26.98153863, "1.0000" ) );
         }};
         put( 13, listForAtomicNumber13 );
-        ArrayList<Isotope2> listForAtomicNumber14= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 14, 14, 27.9769265325, 0.92223 ) );
-           add( new Isotope2( 14, 15, 28.9764947, 0.04685 ) );
-           add( new Isotope2( 14, 16, 29.97377017, 0.03092 ) );
+        ArrayList<Isotope2> listForAtomicNumber14 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 14, 14, 27.9769265325, "0.92223" ) );
+            add( new Isotope2( 14, 15, 28.9764947, "0.04685" ) );
+            add( new Isotope2( 14, 16, 29.97377017, "0.03092" ) );
         }};
         put( 14, listForAtomicNumber14 );
-        ArrayList<Isotope2> listForAtomicNumber15= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 15, 16, 30.97376163, 1.0 ) );
+        ArrayList<Isotope2> listForAtomicNumber15 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 15, 16, 30.97376163, "1.0000" ) );
         }};
         put( 15, listForAtomicNumber15 );
-        ArrayList<Isotope2> listForAtomicNumber16= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 16, 16, 31.972071, 0.9499 ) );
-           add( new Isotope2( 16, 17, 32.97145876, 0.0075 ) );
-           add( new Isotope2( 16, 18, 33.9678669, 0.0425 ) );
-           add( new Isotope2( 16, 20, 35.96708076, 1.0E-4 ) );
+        ArrayList<Isotope2> listForAtomicNumber16 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 16, 16, 31.972071, "0.9499" ) );
+            add( new Isotope2( 16, 17, 32.97145876, "0.0075" ) );
+            add( new Isotope2( 16, 18, 33.9678669, "0.0425" ) );
+            add( new Isotope2( 16, 20, 35.96708076, "0.0001" ) );
         }};
         put( 16, listForAtomicNumber16 );
-        ArrayList<Isotope2> listForAtomicNumber17= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 17, 18, 34.96885268, 0.7576 ) );
-           add( new Isotope2( 17, 20, 36.96590259, 0.2424 ) );
+        ArrayList<Isotope2> listForAtomicNumber17 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 17, 18, 34.96885268, "0.7576" ) );
+            add( new Isotope2( 17, 20, 36.96590259, "0.2424" ) );
         }};
         put( 17, listForAtomicNumber17 );
-        ArrayList<Isotope2> listForAtomicNumber18= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 18, 18, 35.967545106, 0.003365 ) );
-           add( new Isotope2( 18, 20, 37.9627324, 6.32E-4 ) );
-           add( new Isotope2( 18, 22, 39.9623831225, 0.996003 ) );
+        ArrayList<Isotope2> listForAtomicNumber18 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 18, 18, 35.967545106, "0.003365" ) );
+            add( new Isotope2( 18, 20, 37.9627324, "0.000632" ) );
+            add( new Isotope2( 18, 22, 39.9623831225, "0.996003" ) );
         }};
         put( 18, listForAtomicNumber18 );
-        ArrayList<Isotope2> listForAtomicNumber19= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 19, 20, 38.96370668, 0.932581 ) );
-           add( new Isotope2( 19, 21, 39.96399848, 1.17E-4 ) );
-           add( new Isotope2( 19, 22, 40.96182576, 0.067302 ) );
+        ArrayList<Isotope2> listForAtomicNumber19 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 19, 20, 38.96370668, "0.932581" ) );
+            add( new Isotope2( 19, 21, 39.96399848, "0.000117" ) );
+            add( new Isotope2( 19, 22, 40.96182576, "0.067302" ) );
         }};
         put( 19, listForAtomicNumber19 );
-        ArrayList<Isotope2> listForAtomicNumber20= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 20, 20, 39.96259098, 0.96941 ) );
-           add( new Isotope2( 20, 22, 41.95861801, 0.00647 ) );
-           add( new Isotope2( 20, 23, 42.9587666, 0.00135 ) );
-           add( new Isotope2( 20, 24, 43.9554818, 0.02086 ) );
-           add( new Isotope2( 20, 26, 45.9536926, 4.0E-5 ) );
-           add( new Isotope2( 20, 28, 47.952534, 0.00187 ) );
+        ArrayList<Isotope2> listForAtomicNumber20 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 20, 20, 39.96259098, "0.96941" ) );
+            add( new Isotope2( 20, 22, 41.95861801, "0.00647" ) );
+            add( new Isotope2( 20, 23, 42.9587666, "0.00135" ) );
+            add( new Isotope2( 20, 24, 43.9554818, "0.02086" ) );
+            add( new Isotope2( 20, 26, 45.9536926, "0.00004" ) );
+            add( new Isotope2( 20, 28, 47.952534, "0.00187" ) );
         }};
         put( 20, listForAtomicNumber20 );
-        ArrayList<Isotope2> listForAtomicNumber21= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 21, 24, 44.9559119, 1.0 ) );
+        ArrayList<Isotope2> listForAtomicNumber21 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 21, 24, 44.9559119, "1.0000" ) );
         }};
         put( 21, listForAtomicNumber21 );
-        ArrayList<Isotope2> listForAtomicNumber22= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 22, 24, 45.9526316, 0.0825 ) );
-           add( new Isotope2( 22, 25, 46.9517631, 0.0744 ) );
-           add( new Isotope2( 22, 26, 47.9479463, 0.7372 ) );
-           add( new Isotope2( 22, 27, 48.94787, 0.0541 ) );
-           add( new Isotope2( 22, 28, 49.9447912, 0.0518 ) );
+        ArrayList<Isotope2> listForAtomicNumber22 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 22, 24, 45.9526316, "0.0825" ) );
+            add( new Isotope2( 22, 25, 46.9517631, "0.0744" ) );
+            add( new Isotope2( 22, 26, 47.9479463, "0.7372" ) );
+            add( new Isotope2( 22, 27, 48.94787, "0.0541" ) );
+            add( new Isotope2( 22, 28, 49.9447912, "0.0518" ) );
         }};
         put( 22, listForAtomicNumber22 );
-        ArrayList<Isotope2> listForAtomicNumber23= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 23, 27, 49.9471585, 0.0025 ) );
-           add( new Isotope2( 23, 28, 50.9439595, 0.9975 ) );
+        ArrayList<Isotope2> listForAtomicNumber23 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 23, 27, 49.9471585, "0.00250" ) );
+            add( new Isotope2( 23, 28, 50.9439595, "0.99750" ) );
         }};
         put( 23, listForAtomicNumber23 );
-        ArrayList<Isotope2> listForAtomicNumber24= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 24, 26, 49.9460442, 0.04345 ) );
-           add( new Isotope2( 24, 28, 51.9405075, 0.83789 ) );
-           add( new Isotope2( 24, 29, 52.9406494, 0.09501 ) );
-           add( new Isotope2( 24, 30, 53.9388804, 0.02365 ) );
+        ArrayList<Isotope2> listForAtomicNumber24 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 24, 26, 49.9460442, "0.04345" ) );
+            add( new Isotope2( 24, 28, 51.9405075, "0.83789" ) );
+            add( new Isotope2( 24, 29, 52.9406494, "0.09501" ) );
+            add( new Isotope2( 24, 30, 53.9388804, "0.02365" ) );
         }};
         put( 24, listForAtomicNumber24 );
-        ArrayList<Isotope2> listForAtomicNumber25= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 25, 30, 54.9380451, 1.0 ) );
+        ArrayList<Isotope2> listForAtomicNumber25 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 25, 30, 54.9380451, "1.0000" ) );
         }};
         put( 25, listForAtomicNumber25 );
-        ArrayList<Isotope2> listForAtomicNumber26= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 26, 28, 53.9396105, 0.05845 ) );
-           add( new Isotope2( 26, 30, 55.9349375, 0.91754 ) );
-           add( new Isotope2( 26, 31, 56.935394, 0.02119 ) );
-           add( new Isotope2( 26, 32, 57.9332756, 0.00282 ) );
+        ArrayList<Isotope2> listForAtomicNumber26 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 26, 28, 53.9396105, "0.05845" ) );
+            add( new Isotope2( 26, 30, 55.9349375, "0.91754" ) );
+            add( new Isotope2( 26, 31, 56.935394, "0.02119" ) );
+            add( new Isotope2( 26, 32, 57.9332756, "0.00282" ) );
         }};
         put( 26, listForAtomicNumber26 );
-        ArrayList<Isotope2> listForAtomicNumber27= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 27, 32, 58.933195, 1.0 ) );
+        ArrayList<Isotope2> listForAtomicNumber27 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 27, 32, 58.933195, "1.0000" ) );
         }};
         put( 27, listForAtomicNumber27 );
-        ArrayList<Isotope2> listForAtomicNumber28= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 28, 30, 57.9353429, 0.680769 ) );
-           add( new Isotope2( 28, 32, 59.9307864, 0.262231 ) );
-           add( new Isotope2( 28, 33, 60.931056, 0.011399 ) );
-           add( new Isotope2( 28, 34, 61.9283451, 0.036345 ) );
-           add( new Isotope2( 28, 36, 63.927966, 0.009256 ) );
+        ArrayList<Isotope2> listForAtomicNumber28 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 28, 30, 57.9353429, "0.680769" ) );
+            add( new Isotope2( 28, 32, 59.9307864, "0.262231" ) );
+            add( new Isotope2( 28, 33, 60.931056, "0.011399" ) );
+            add( new Isotope2( 28, 34, 61.9283451, "0.036345" ) );
+            add( new Isotope2( 28, 36, 63.927966, "0.009256" ) );
         }};
         put( 28, listForAtomicNumber28 );
-        ArrayList<Isotope2> listForAtomicNumber29= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 29, 34, 62.9295975, 0.6915 ) );
-           add( new Isotope2( 29, 36, 64.9277895, 0.3085 ) );
+        ArrayList<Isotope2> listForAtomicNumber29 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 29, 34, 62.9295975, "0.6915" ) );
+            add( new Isotope2( 29, 36, 64.9277895, "0.3085" ) );
         }};
         put( 29, listForAtomicNumber29 );
-        ArrayList<Isotope2> listForAtomicNumber30= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 30, 34, 63.9291422, 0.48268 ) );
-           add( new Isotope2( 30, 36, 65.9260334, 0.27975 ) );
-           add( new Isotope2( 30, 37, 66.9271273, 0.04102 ) );
-           add( new Isotope2( 30, 38, 67.9248442, 0.19024 ) );
-           add( new Isotope2( 30, 40, 69.9253193, 0.00631 ) );
+        ArrayList<Isotope2> listForAtomicNumber30 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 30, 34, 63.9291422, "0.48268" ) );
+            add( new Isotope2( 30, 36, 65.9260334, "0.27975" ) );
+            add( new Isotope2( 30, 37, 66.9271273, "0.04102" ) );
+            add( new Isotope2( 30, 38, 67.9248442, "0.19024" ) );
+            add( new Isotope2( 30, 40, 69.9253193, "0.00631" ) );
         }};
         put( 30, listForAtomicNumber30 );
-        ArrayList<Isotope2> listForAtomicNumber31= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 31, 38, 68.9255736, 0.60108 ) );
-           add( new Isotope2( 31, 40, 70.9247013, 0.39892 ) );
+        ArrayList<Isotope2> listForAtomicNumber31 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 31, 38, 68.9255736, "0.60108" ) );
+            add( new Isotope2( 31, 40, 70.9247013, "0.39892" ) );
         }};
         put( 31, listForAtomicNumber31 );
-        ArrayList<Isotope2> listForAtomicNumber32= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 32, 38, 69.9242474, 0.2038 ) );
-           add( new Isotope2( 32, 40, 71.9220758, 0.2731 ) );
-           add( new Isotope2( 32, 41, 72.9234589, 0.0776 ) );
-           add( new Isotope2( 32, 42, 73.9211778, 0.3672 ) );
-           add( new Isotope2( 32, 44, 75.9214026, 0.0783 ) );
+        ArrayList<Isotope2> listForAtomicNumber32 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 32, 38, 69.9242474, "0.2038" ) );
+            add( new Isotope2( 32, 40, 71.9220758, "0.2731" ) );
+            add( new Isotope2( 32, 41, 72.9234589, "0.0776" ) );
+            add( new Isotope2( 32, 42, 73.9211778, "0.3672" ) );
+            add( new Isotope2( 32, 44, 75.9214026, "0.0783" ) );
         }};
         put( 32, listForAtomicNumber32 );
-        ArrayList<Isotope2> listForAtomicNumber33= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 33, 42, 74.9215965, 1.0 ) );
+        ArrayList<Isotope2> listForAtomicNumber33 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 33, 42, 74.9215965, "1.0000" ) );
         }};
         put( 33, listForAtomicNumber33 );
-        ArrayList<Isotope2> listForAtomicNumber34= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 34, 40, 73.9224764, 0.0089 ) );
-           add( new Isotope2( 34, 42, 75.9192136, 0.0937 ) );
-           add( new Isotope2( 34, 43, 76.919914, 0.0763 ) );
-           add( new Isotope2( 34, 44, 77.9173091, 0.2377 ) );
-           add( new Isotope2( 34, 46, 79.9165213, 0.4961 ) );
-           add( new Isotope2( 34, 48, 81.9166994, 0.0873 ) );
+        ArrayList<Isotope2> listForAtomicNumber34 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 34, 40, 73.9224764, "0.0089" ) );
+            add( new Isotope2( 34, 42, 75.9192136, "0.0937" ) );
+            add( new Isotope2( 34, 43, 76.919914, "0.0763" ) );
+            add( new Isotope2( 34, 44, 77.9173091, "0.2377" ) );
+            add( new Isotope2( 34, 46, 79.9165213, "0.4961" ) );
+            add( new Isotope2( 34, 48, 81.9166994, "0.0873" ) );
         }};
         put( 34, listForAtomicNumber34 );
-        ArrayList<Isotope2> listForAtomicNumber35= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 35, 44, 78.9183371, 0.5069 ) );
-           add( new Isotope2( 35, 46, 80.9162906, 0.4931 ) );
+        ArrayList<Isotope2> listForAtomicNumber35 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 35, 44, 78.9183371, "0.5069" ) );
+            add( new Isotope2( 35, 46, 80.9162906, "0.4931" ) );
         }};
         put( 35, listForAtomicNumber35 );
-        ArrayList<Isotope2> listForAtomicNumber36= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 36, 42, 77.9203648, 0.00355 ) );
-           add( new Isotope2( 36, 44, 79.916379, 0.02286 ) );
-           add( new Isotope2( 36, 46, 81.9134836, 0.11593 ) );
-           add( new Isotope2( 36, 47, 82.914136, 0.115 ) );
-           add( new Isotope2( 36, 48, 83.911507, 0.56987 ) );
-           add( new Isotope2( 36, 50, 85.91061073, 0.17279 ) );
+        ArrayList<Isotope2> listForAtomicNumber36 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 36, 42, 77.9203648, "0.00355" ) );
+            add( new Isotope2( 36, 44, 79.916379, "0.02286" ) );
+            add( new Isotope2( 36, 46, 81.9134836, "0.11593" ) );
+            add( new Isotope2( 36, 47, 82.914136, "0.11500" ) );
+            add( new Isotope2( 36, 48, 83.911507, "0.56987" ) );
+            add( new Isotope2( 36, 50, 85.91061073, "0.17279" ) );
         }};
         put( 36, listForAtomicNumber36 );
-        ArrayList<Isotope2> listForAtomicNumber37= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 37, 48, 84.911789738, 0.7217 ) );
-           add( new Isotope2( 37, 50, 86.909180527, 0.2783 ) );
+        ArrayList<Isotope2> listForAtomicNumber37 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 37, 48, 84.911789738, "0.7217" ) );
+            add( new Isotope2( 37, 50, 86.909180527, "0.2783" ) );
         }};
         put( 37, listForAtomicNumber37 );
-        ArrayList<Isotope2> listForAtomicNumber38= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 38, 46, 83.913425, 0.0056 ) );
-           add( new Isotope2( 38, 48, 85.9092602, 0.0986 ) );
-           add( new Isotope2( 38, 49, 86.9088771, 0.07 ) );
-           add( new Isotope2( 38, 50, 87.9056121, 0.8258 ) );
+        ArrayList<Isotope2> listForAtomicNumber38 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 38, 46, 83.913425, "0.0056" ) );
+            add( new Isotope2( 38, 48, 85.9092602, "0.0986" ) );
+            add( new Isotope2( 38, 49, 86.9088771, "0.0700" ) );
+            add( new Isotope2( 38, 50, 87.9056121, "0.8258" ) );
         }};
         put( 38, listForAtomicNumber38 );
-        ArrayList<Isotope2> listForAtomicNumber39= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 39, 50, 88.9058483, 1.0 ) );
+        ArrayList<Isotope2> listForAtomicNumber39 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 39, 50, 88.9058483, "1.0000" ) );
         }};
         put( 39, listForAtomicNumber39 );
-        ArrayList<Isotope2> listForAtomicNumber40= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 40, 50, 89.9047044, 0.5145 ) );
-           add( new Isotope2( 40, 51, 90.9056458, 0.1122 ) );
-           add( new Isotope2( 40, 52, 91.9050408, 0.1715 ) );
-           add( new Isotope2( 40, 54, 93.9063152, 0.1738 ) );
-           add( new Isotope2( 40, 56, 95.9082734, 0.028 ) );
+        ArrayList<Isotope2> listForAtomicNumber40 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 40, 50, 89.9047044, "0.5145" ) );
+            add( new Isotope2( 40, 51, 90.9056458, "0.1122" ) );
+            add( new Isotope2( 40, 52, 91.9050408, "0.1715" ) );
+            add( new Isotope2( 40, 54, 93.9063152, "0.1738" ) );
+            add( new Isotope2( 40, 56, 95.9082734, "0.0280" ) );
         }};
         put( 40, listForAtomicNumber40 );
-        ArrayList<Isotope2> listForAtomicNumber41= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 41, 52, 92.9063781, 1.0 ) );
+        ArrayList<Isotope2> listForAtomicNumber41 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 41, 52, 92.9063781, "1.0000" ) );
         }};
         put( 41, listForAtomicNumber41 );
-        ArrayList<Isotope2> listForAtomicNumber42= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 42, 50, 91.906811, 0.1477 ) );
-           add( new Isotope2( 42, 52, 93.9050883, 0.0923 ) );
-           add( new Isotope2( 42, 53, 94.9058421, 0.159 ) );
-           add( new Isotope2( 42, 54, 95.9046795, 0.1668 ) );
-           add( new Isotope2( 42, 55, 96.9060215, 0.0956 ) );
-           add( new Isotope2( 42, 56, 97.9054082, 0.2419 ) );
-           add( new Isotope2( 42, 58, 99.907477, 0.0967 ) );
+        ArrayList<Isotope2> listForAtomicNumber42 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 42, 50, 91.906811, "0.1477" ) );
+            add( new Isotope2( 42, 52, 93.9050883, "0.0923" ) );
+            add( new Isotope2( 42, 53, 94.9058421, "0.1590" ) );
+            add( new Isotope2( 42, 54, 95.9046795, "0.1668" ) );
+            add( new Isotope2( 42, 55, 96.9060215, "0.0956" ) );
+            add( new Isotope2( 42, 56, 97.9054082, "0.2419" ) );
+            add( new Isotope2( 42, 58, 99.907477, "0.0967" ) );
         }};
         put( 42, listForAtomicNumber42 );
-        ArrayList<Isotope2> listForAtomicNumber43= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 43, 54, 96.906365, 0.0 ) );
-           add( new Isotope2( 43, 55, 97.907216, 0.0 ) );
-           add( new Isotope2( 43, 56, 98.9062547, 0.0 ) );
+        ArrayList<Isotope2> listForAtomicNumber43 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 43, 54, 96.906365, "0" ) );
+            add( new Isotope2( 43, 55, 97.907216, "0" ) );
+            add( new Isotope2( 43, 56, 98.9062547, "0" ) );
         }};
         put( 43, listForAtomicNumber43 );
-        ArrayList<Isotope2> listForAtomicNumber44= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 44, 52, 95.907598, 0.0554 ) );
-           add( new Isotope2( 44, 54, 97.905287, 0.0187 ) );
-           add( new Isotope2( 44, 55, 98.9059393, 0.1276 ) );
-           add( new Isotope2( 44, 56, 99.9042195, 0.126 ) );
-           add( new Isotope2( 44, 57, 100.9055821, 0.1706 ) );
-           add( new Isotope2( 44, 58, 101.9043493, 0.3155 ) );
-           add( new Isotope2( 44, 60, 103.905433, 0.1862 ) );
+        ArrayList<Isotope2> listForAtomicNumber44 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 44, 52, 95.907598, "0.0554" ) );
+            add( new Isotope2( 44, 54, 97.905287, "0.0187" ) );
+            add( new Isotope2( 44, 55, 98.9059393, "0.1276" ) );
+            add( new Isotope2( 44, 56, 99.9042195, "0.1260" ) );
+            add( new Isotope2( 44, 57, 100.9055821, "0.1706" ) );
+            add( new Isotope2( 44, 58, 101.9043493, "0.3155" ) );
+            add( new Isotope2( 44, 60, 103.905433, "0.1862" ) );
         }};
         put( 44, listForAtomicNumber44 );
-        ArrayList<Isotope2> listForAtomicNumber45= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 45, 58, 102.905504, 1.0 ) );
+        ArrayList<Isotope2> listForAtomicNumber45 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 45, 58, 102.905504, "1.0000" ) );
         }};
         put( 45, listForAtomicNumber45 );
-        ArrayList<Isotope2> listForAtomicNumber46= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 46, 56, 101.905609, 0.0102 ) );
-           add( new Isotope2( 46, 58, 103.904036, 0.1114 ) );
-           add( new Isotope2( 46, 59, 104.905085, 0.2233 ) );
-           add( new Isotope2( 46, 60, 105.903486, 0.2733 ) );
-           add( new Isotope2( 46, 62, 107.903892, 0.2646 ) );
-           add( new Isotope2( 46, 64, 109.905153, 0.1172 ) );
+        ArrayList<Isotope2> listForAtomicNumber46 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 46, 56, 101.905609, "0.0102" ) );
+            add( new Isotope2( 46, 58, 103.904036, "0.1114" ) );
+            add( new Isotope2( 46, 59, 104.905085, "0.2233" ) );
+            add( new Isotope2( 46, 60, 105.903486, "0.2733" ) );
+            add( new Isotope2( 46, 62, 107.903892, "0.2646" ) );
+            add( new Isotope2( 46, 64, 109.905153, "0.1172" ) );
         }};
         put( 46, listForAtomicNumber46 );
-        ArrayList<Isotope2> listForAtomicNumber47= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 47, 60, 106.905097, 0.51839 ) );
-           add( new Isotope2( 47, 62, 108.904752, 0.48161 ) );
+        ArrayList<Isotope2> listForAtomicNumber47 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 47, 60, 106.905097, "0.51839" ) );
+            add( new Isotope2( 47, 62, 108.904752, "0.48161" ) );
         }};
         put( 47, listForAtomicNumber47 );
-        ArrayList<Isotope2> listForAtomicNumber48= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 48, 58, 105.906459, 0.0125 ) );
-           add( new Isotope2( 48, 60, 107.904184, 0.0089 ) );
-           add( new Isotope2( 48, 62, 109.9030021, 0.1249 ) );
-           add( new Isotope2( 48, 63, 110.9041781, 0.128 ) );
-           add( new Isotope2( 48, 64, 111.9027578, 0.2413 ) );
-           add( new Isotope2( 48, 65, 112.9044017, 0.1222 ) );
-           add( new Isotope2( 48, 66, 113.9033585, 0.2873 ) );
-           add( new Isotope2( 48, 68, 115.904756, 0.0749 ) );
+        ArrayList<Isotope2> listForAtomicNumber48 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 48, 58, 105.906459, "0.0125" ) );
+            add( new Isotope2( 48, 60, 107.904184, "0.0089" ) );
+            add( new Isotope2( 48, 62, 109.9030021, "0.1249" ) );
+            add( new Isotope2( 48, 63, 110.9041781, "0.1280" ) );
+            add( new Isotope2( 48, 64, 111.9027578, "0.2413" ) );
+            add( new Isotope2( 48, 65, 112.9044017, "0.1222" ) );
+            add( new Isotope2( 48, 66, 113.9033585, "0.2873" ) );
+            add( new Isotope2( 48, 68, 115.904756, "0.0749" ) );
         }};
         put( 48, listForAtomicNumber48 );
-        ArrayList<Isotope2> listForAtomicNumber49= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 49, 64, 112.904058, 0.0429 ) );
-           add( new Isotope2( 49, 66, 114.903878, 0.9571 ) );
+        ArrayList<Isotope2> listForAtomicNumber49 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 49, 64, 112.904058, "0.0429" ) );
+            add( new Isotope2( 49, 66, 114.903878, "0.9571" ) );
         }};
         put( 49, listForAtomicNumber49 );
-        ArrayList<Isotope2> listForAtomicNumber50= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 50, 62, 111.904818, 0.0097 ) );
-           add( new Isotope2( 50, 64, 113.902779, 0.0066 ) );
-           add( new Isotope2( 50, 65, 114.903342, 0.0034 ) );
-           add( new Isotope2( 50, 66, 115.901741, 0.1454 ) );
-           add( new Isotope2( 50, 67, 116.902952, 0.0768 ) );
-           add( new Isotope2( 50, 68, 117.901603, 0.2422 ) );
-           add( new Isotope2( 50, 69, 118.903308, 0.0859 ) );
-           add( new Isotope2( 50, 70, 119.9021947, 0.3258 ) );
-           add( new Isotope2( 50, 72, 121.903439, 0.0463 ) );
-           add( new Isotope2( 50, 74, 123.9052739, 0.0579 ) );
+        ArrayList<Isotope2> listForAtomicNumber50 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 50, 62, 111.904818, "0.0097" ) );
+            add( new Isotope2( 50, 64, 113.902779, "0.0066" ) );
+            add( new Isotope2( 50, 65, 114.903342, "0.0034" ) );
+            add( new Isotope2( 50, 66, 115.901741, "0.1454" ) );
+            add( new Isotope2( 50, 67, 116.902952, "0.0768" ) );
+            add( new Isotope2( 50, 68, 117.901603, "0.2422" ) );
+            add( new Isotope2( 50, 69, 118.903308, "0.0859" ) );
+            add( new Isotope2( 50, 70, 119.9021947, "0.3258" ) );
+            add( new Isotope2( 50, 72, 121.903439, "0.0463" ) );
+            add( new Isotope2( 50, 74, 123.9052739, "0.0579" ) );
         }};
         put( 50, listForAtomicNumber50 );
-        ArrayList<Isotope2> listForAtomicNumber51= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 51, 70, 120.9038157, 0.5721 ) );
-           add( new Isotope2( 51, 72, 122.904214, 0.4279 ) );
+        ArrayList<Isotope2> listForAtomicNumber51 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 51, 70, 120.9038157, "0.5721" ) );
+            add( new Isotope2( 51, 72, 122.904214, "0.4279" ) );
         }};
         put( 51, listForAtomicNumber51 );
-        ArrayList<Isotope2> listForAtomicNumber52= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 52, 68, 119.90402, 9.0E-4 ) );
-           add( new Isotope2( 52, 70, 121.9030439, 0.0255 ) );
-           add( new Isotope2( 52, 71, 122.90427, 0.0089 ) );
-           add( new Isotope2( 52, 72, 123.9028179, 0.0474 ) );
-           add( new Isotope2( 52, 73, 124.9044307, 0.0707 ) );
-           add( new Isotope2( 52, 74, 125.9033117, 0.1884 ) );
-           add( new Isotope2( 52, 76, 127.9044631, 0.3174 ) );
-           add( new Isotope2( 52, 78, 129.9062244, 0.3408 ) );
+        ArrayList<Isotope2> listForAtomicNumber52 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 52, 68, 119.90402, "0.0009" ) );
+            add( new Isotope2( 52, 70, 121.9030439, "0.0255" ) );
+            add( new Isotope2( 52, 71, 122.90427, "0.0089" ) );
+            add( new Isotope2( 52, 72, 123.9028179, "0.0474" ) );
+            add( new Isotope2( 52, 73, 124.9044307, "0.0707" ) );
+            add( new Isotope2( 52, 74, 125.9033117, "0.1884" ) );
+            add( new Isotope2( 52, 76, 127.9044631, "0.3174" ) );
+            add( new Isotope2( 52, 78, 129.9062244, "0.3408" ) );
         }};
         put( 52, listForAtomicNumber52 );
-        ArrayList<Isotope2> listForAtomicNumber53= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 53, 74, 126.904473, 1.0 ) );
+        ArrayList<Isotope2> listForAtomicNumber53 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 53, 74, 126.904473, "1.0000" ) );
         }};
         put( 53, listForAtomicNumber53 );
-        ArrayList<Isotope2> listForAtomicNumber54= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 54, 70, 123.905893, 9.52E-4 ) );
-           add( new Isotope2( 54, 72, 125.904274, 8.9E-4 ) );
-           add( new Isotope2( 54, 74, 127.9035313, 0.019102 ) );
-           add( new Isotope2( 54, 75, 128.9047794, 0.264006 ) );
-           add( new Isotope2( 54, 76, 129.903508, 0.04071 ) );
-           add( new Isotope2( 54, 77, 130.9050824, 0.212324 ) );
-           add( new Isotope2( 54, 78, 131.9041535, 0.269086 ) );
-           add( new Isotope2( 54, 80, 133.9053945, 0.104357 ) );
-           add( new Isotope2( 54, 82, 135.907219, 0.088573 ) );
+        ArrayList<Isotope2> listForAtomicNumber54 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 54, 70, 123.905893, "0.000952" ) );
+            add( new Isotope2( 54, 72, 125.904274, "0.000890" ) );
+            add( new Isotope2( 54, 74, 127.9035313, "0.019102" ) );
+            add( new Isotope2( 54, 75, 128.9047794, "0.264006" ) );
+            add( new Isotope2( 54, 76, 129.903508, "0.040710" ) );
+            add( new Isotope2( 54, 77, 130.9050824, "0.212324" ) );
+            add( new Isotope2( 54, 78, 131.9041535, "0.269086" ) );
+            add( new Isotope2( 54, 80, 133.9053945, "0.104357" ) );
+            add( new Isotope2( 54, 82, 135.907219, "0.088573" ) );
         }};
         put( 54, listForAtomicNumber54 );
-        ArrayList<Isotope2> listForAtomicNumber55= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 55, 78, 132.905451933, 1.0 ) );
+        ArrayList<Isotope2> listForAtomicNumber55 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 55, 78, 132.905451933, "1.0000" ) );
         }};
         put( 55, listForAtomicNumber55 );
-        ArrayList<Isotope2> listForAtomicNumber56= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 56, 74, 129.9063208, 0.00106 ) );
-           add( new Isotope2( 56, 76, 131.9050613, 0.00101 ) );
-           add( new Isotope2( 56, 78, 133.9045084, 0.02417 ) );
-           add( new Isotope2( 56, 79, 134.9056886, 0.06592 ) );
-           add( new Isotope2( 56, 80, 135.9045759, 0.07854 ) );
-           add( new Isotope2( 56, 81, 136.9058274, 0.11232 ) );
-           add( new Isotope2( 56, 82, 137.9052472, 0.71698 ) );
+        ArrayList<Isotope2> listForAtomicNumber56 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 56, 74, 129.9063208, "0.00106" ) );
+            add( new Isotope2( 56, 76, 131.9050613, "0.00101" ) );
+            add( new Isotope2( 56, 78, 133.9045084, "0.02417" ) );
+            add( new Isotope2( 56, 79, 134.9056886, "0.06592" ) );
+            add( new Isotope2( 56, 80, 135.9045759, "0.07854" ) );
+            add( new Isotope2( 56, 81, 136.9058274, "0.11232" ) );
+            add( new Isotope2( 56, 82, 137.9052472, "0.71698" ) );
         }};
         put( 56, listForAtomicNumber56 );
-        ArrayList<Isotope2> listForAtomicNumber57= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 57, 81, 137.907112, 9.0E-4 ) );
-           add( new Isotope2( 57, 82, 138.9063533, 0.9991 ) );
+        ArrayList<Isotope2> listForAtomicNumber57 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 57, 81, 137.907112, "0.00090" ) );
+            add( new Isotope2( 57, 82, 138.9063533, "0.99910" ) );
         }};
         put( 57, listForAtomicNumber57 );
-        ArrayList<Isotope2> listForAtomicNumber58= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 58, 78, 135.907172, 0.00185 ) );
-           add( new Isotope2( 58, 80, 137.905991, 0.00251 ) );
-           add( new Isotope2( 58, 82, 139.9054387, 0.8845 ) );
-           add( new Isotope2( 58, 84, 141.909244, 0.11114 ) );
+        ArrayList<Isotope2> listForAtomicNumber58 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 58, 78, 135.907172, "0.00185" ) );
+            add( new Isotope2( 58, 80, 137.905991, "0.00251" ) );
+            add( new Isotope2( 58, 82, 139.9054387, "0.88450" ) );
+            add( new Isotope2( 58, 84, 141.909244, "0.11114" ) );
         }};
         put( 58, listForAtomicNumber58 );
-        ArrayList<Isotope2> listForAtomicNumber59= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 59, 82, 140.9076528, 1.0 ) );
+        ArrayList<Isotope2> listForAtomicNumber59 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 59, 82, 140.9076528, "1.0000" ) );
         }};
         put( 59, listForAtomicNumber59 );
-        ArrayList<Isotope2> listForAtomicNumber60= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 60, 82, 141.9077233, 0.272 ) );
-           add( new Isotope2( 60, 83, 142.9098143, 0.122 ) );
-           add( new Isotope2( 60, 84, 143.9100873, 0.238 ) );
-           add( new Isotope2( 60, 85, 144.9125736, 0.083 ) );
-           add( new Isotope2( 60, 86, 145.9131169, 0.172 ) );
-           add( new Isotope2( 60, 88, 147.916893, 0.057 ) );
-           add( new Isotope2( 60, 90, 149.920891, 0.056 ) );
+        ArrayList<Isotope2> listForAtomicNumber60 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 60, 82, 141.9077233, "0.272" ) );
+            add( new Isotope2( 60, 83, 142.9098143, "0.122" ) );
+            add( new Isotope2( 60, 84, 143.9100873, "0.238" ) );
+            add( new Isotope2( 60, 85, 144.9125736, "0.083" ) );
+            add( new Isotope2( 60, 86, 145.9131169, "0.172" ) );
+            add( new Isotope2( 60, 88, 147.916893, "0.057" ) );
+            add( new Isotope2( 60, 90, 149.920891, "0.056" ) );
         }};
         put( 60, listForAtomicNumber60 );
-        ArrayList<Isotope2> listForAtomicNumber61= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 61, 84, 144.912749, 0.0 ) );
-           add( new Isotope2( 61, 86, 146.9151385, 0.0 ) );
+        ArrayList<Isotope2> listForAtomicNumber61 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 61, 84, 144.912749, "0" ) );
+            add( new Isotope2( 61, 86, 146.9151385, "0" ) );
         }};
         put( 61, listForAtomicNumber61 );
-        ArrayList<Isotope2> listForAtomicNumber62= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 62, 82, 143.911999, 0.0307 ) );
-           add( new Isotope2( 62, 85, 146.9148979, 0.1499 ) );
-           add( new Isotope2( 62, 86, 147.9148227, 0.1124 ) );
-           add( new Isotope2( 62, 87, 148.9171847, 0.1382 ) );
-           add( new Isotope2( 62, 88, 149.9172755, 0.0738 ) );
-           add( new Isotope2( 62, 90, 151.9197324, 0.2675 ) );
-           add( new Isotope2( 62, 92, 153.9222093, 0.2275 ) );
+        ArrayList<Isotope2> listForAtomicNumber62 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 62, 82, 143.911999, "0.0307" ) );
+            add( new Isotope2( 62, 85, 146.9148979, "0.1499" ) );
+            add( new Isotope2( 62, 86, 147.9148227, "0.1124" ) );
+            add( new Isotope2( 62, 87, 148.9171847, "0.1382" ) );
+            add( new Isotope2( 62, 88, 149.9172755, "0.0738" ) );
+            add( new Isotope2( 62, 90, 151.9197324, "0.2675" ) );
+            add( new Isotope2( 62, 92, 153.9222093, "0.2275" ) );
         }};
         put( 62, listForAtomicNumber62 );
-        ArrayList<Isotope2> listForAtomicNumber63= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 63, 88, 150.9198502, 0.4781 ) );
-           add( new Isotope2( 63, 90, 152.9212303, 0.5219 ) );
+        ArrayList<Isotope2> listForAtomicNumber63 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 63, 88, 150.9198502, "0.4781" ) );
+            add( new Isotope2( 63, 90, 152.9212303, "0.5219" ) );
         }};
         put( 63, listForAtomicNumber63 );
-        ArrayList<Isotope2> listForAtomicNumber64= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 64, 88, 151.919791, 0.0020 ) );
-           add( new Isotope2( 64, 90, 153.9208656, 0.0218 ) );
-           add( new Isotope2( 64, 91, 154.922622, 0.148 ) );
-           add( new Isotope2( 64, 92, 155.9221227, 0.2047 ) );
-           add( new Isotope2( 64, 93, 156.9239601, 0.1565 ) );
-           add( new Isotope2( 64, 94, 157.9241039, 0.2484 ) );
-           add( new Isotope2( 64, 96, 159.9270541, 0.2186 ) );
+        ArrayList<Isotope2> listForAtomicNumber64 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 64, 88, 151.919791, "0.0020" ) );
+            add( new Isotope2( 64, 90, 153.9208656, "0.0218" ) );
+            add( new Isotope2( 64, 91, 154.922622, "0.1480" ) );
+            add( new Isotope2( 64, 92, 155.9221227, "0.2047" ) );
+            add( new Isotope2( 64, 93, 156.9239601, "0.1565" ) );
+            add( new Isotope2( 64, 94, 157.9241039, "0.2484" ) );
+            add( new Isotope2( 64, 96, 159.9270541, "0.2186" ) );
         }};
         put( 64, listForAtomicNumber64 );
-        ArrayList<Isotope2> listForAtomicNumber65= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 65, 94, 158.9253468, 1.0 ) );
+        ArrayList<Isotope2> listForAtomicNumber65 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 65, 94, 158.9253468, "1.0000" ) );
         }};
         put( 65, listForAtomicNumber65 );
-        ArrayList<Isotope2> listForAtomicNumber66= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 66, 90, 155.924283, 5.6E-4 ) );
-           add( new Isotope2( 66, 92, 157.924409, 9.5E-4 ) );
-           add( new Isotope2( 66, 94, 159.9251975, 0.02329 ) );
-           add( new Isotope2( 66, 95, 160.9269334, 0.18889 ) );
-           add( new Isotope2( 66, 96, 161.9267984, 0.25475 ) );
-           add( new Isotope2( 66, 97, 162.9287312, 0.24896 ) );
-           add( new Isotope2( 66, 98, 163.9291748, 0.2826 ) );
+        ArrayList<Isotope2> listForAtomicNumber66 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 66, 90, 155.924283, "0.00056" ) );
+            add( new Isotope2( 66, 92, 157.924409, "0.00095" ) );
+            add( new Isotope2( 66, 94, 159.9251975, "0.02329" ) );
+            add( new Isotope2( 66, 95, 160.9269334, "0.18889" ) );
+            add( new Isotope2( 66, 96, 161.9267984, "0.25475" ) );
+            add( new Isotope2( 66, 97, 162.9287312, "0.24896" ) );
+            add( new Isotope2( 66, 98, 163.9291748, "0.28260" ) );
         }};
         put( 66, listForAtomicNumber66 );
-        ArrayList<Isotope2> listForAtomicNumber67= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 67, 98, 164.9303221, 1.0 ) );
+        ArrayList<Isotope2> listForAtomicNumber67 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 67, 98, 164.9303221, "1.0000" ) );
         }};
         put( 67, listForAtomicNumber67 );
-        ArrayList<Isotope2> listForAtomicNumber68= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 68, 94, 161.928778, 0.00139 ) );
-           add( new Isotope2( 68, 96, 163.9292, 0.01601 ) );
-           add( new Isotope2( 68, 98, 165.9302931, 0.33503 ) );
-           add( new Isotope2( 68, 99, 166.9320482, 0.22869 ) );
-           add( new Isotope2( 68, 100, 167.9323702, 0.26978 ) );
-           add( new Isotope2( 68, 102, 169.9354643, 0.1491 ) );
+        ArrayList<Isotope2> listForAtomicNumber68 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 68, 94, 161.928778, "0.00139" ) );
+            add( new Isotope2( 68, 96, 163.9292, "0.01601" ) );
+            add( new Isotope2( 68, 98, 165.9302931, "0.33503" ) );
+            add( new Isotope2( 68, 99, 166.9320482, "0.22869" ) );
+            add( new Isotope2( 68, 100, 167.9323702, "0.26978" ) );
+            add( new Isotope2( 68, 102, 169.9354643, "0.14910" ) );
         }};
         put( 68, listForAtomicNumber68 );
-        ArrayList<Isotope2> listForAtomicNumber69= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 69, 100, 168.9342133, 1.0 ) );
+        ArrayList<Isotope2> listForAtomicNumber69 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 69, 100, 168.9342133, "1.0000" ) );
         }};
         put( 69, listForAtomicNumber69 );
-        ArrayList<Isotope2> listForAtomicNumber70= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 70, 98, 167.933897, 0.0013 ) );
-           add( new Isotope2( 70, 100, 169.9347618, 0.0304 ) );
-           add( new Isotope2( 70, 101, 170.9363258, 0.1428 ) );
-           add( new Isotope2( 70, 102, 171.9363815, 0.2183 ) );
-           add( new Isotope2( 70, 103, 172.9382108, 0.1613 ) );
-           add( new Isotope2( 70, 104, 173.9388621, 0.3183 ) );
-           add( new Isotope2( 70, 106, 175.9425717, 0.1276 ) );
+        ArrayList<Isotope2> listForAtomicNumber70 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 70, 98, 167.933897, "0.0013" ) );
+            add( new Isotope2( 70, 100, 169.9347618, "0.0304" ) );
+            add( new Isotope2( 70, 101, 170.9363258, "0.1428" ) );
+            add( new Isotope2( 70, 102, 171.9363815, "0.2183" ) );
+            add( new Isotope2( 70, 103, 172.9382108, "0.1613" ) );
+            add( new Isotope2( 70, 104, 173.9388621, "0.3183" ) );
+            add( new Isotope2( 70, 106, 175.9425717, "0.1276" ) );
         }};
         put( 70, listForAtomicNumber70 );
-        ArrayList<Isotope2> listForAtomicNumber71= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 71, 104, 174.9407718, 0.9741 ) );
-           add( new Isotope2( 71, 105, 175.9426863, 0.0259 ) );
+        ArrayList<Isotope2> listForAtomicNumber71 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 71, 104, 174.9407718, "0.9741" ) );
+            add( new Isotope2( 71, 105, 175.9426863, "0.0259" ) );
         }};
         put( 71, listForAtomicNumber71 );
-        ArrayList<Isotope2> listForAtomicNumber72= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 72, 102, 173.940046, 0.0016 ) );
-           add( new Isotope2( 72, 104, 175.9414086, 0.0526 ) );
-           add( new Isotope2( 72, 105, 176.9432207, 0.186 ) );
-           add( new Isotope2( 72, 106, 177.9436988, 0.2728 ) );
-           add( new Isotope2( 72, 107, 178.9458161, 0.1362 ) );
-           add( new Isotope2( 72, 108, 179.94655, 0.3508 ) );
+        ArrayList<Isotope2> listForAtomicNumber72 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 72, 102, 173.940046, "0.0016" ) );
+            add( new Isotope2( 72, 104, 175.9414086, "0.0526" ) );
+            add( new Isotope2( 72, 105, 176.9432207, "0.1860" ) );
+            add( new Isotope2( 72, 106, 177.9436988, "0.2728" ) );
+            add( new Isotope2( 72, 107, 178.9458161, "0.1362" ) );
+            add( new Isotope2( 72, 108, 179.94655, "0.3508" ) );
         }};
         put( 72, listForAtomicNumber72 );
-        ArrayList<Isotope2> listForAtomicNumber73= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 73, 107, 179.9474648, 1.2E-4 ) );
-           add( new Isotope2( 73, 108, 180.9479958, 0.99988 ) );
+        ArrayList<Isotope2> listForAtomicNumber73 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 73, 107, 179.9474648, "0.00012" ) );
+            add( new Isotope2( 73, 108, 180.9479958, "0.99988" ) );
         }};
         put( 73, listForAtomicNumber73 );
-        ArrayList<Isotope2> listForAtomicNumber74= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 74, 106, 179.946704, 0.0012 ) );
-           add( new Isotope2( 74, 108, 181.9482042, 0.265 ) );
-           add( new Isotope2( 74, 109, 182.950223, 0.1431 ) );
-           add( new Isotope2( 74, 110, 183.9509312, 0.3064 ) );
-           add( new Isotope2( 74, 112, 185.9543641, 0.2843 ) );
+        ArrayList<Isotope2> listForAtomicNumber74 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 74, 106, 179.946704, "0.0012" ) );
+            add( new Isotope2( 74, 108, 181.9482042, "0.2650" ) );
+            add( new Isotope2( 74, 109, 182.950223, "0.1431" ) );
+            add( new Isotope2( 74, 110, 183.9509312, "0.3064" ) );
+            add( new Isotope2( 74, 112, 185.9543641, "0.2843" ) );
         }};
         put( 74, listForAtomicNumber74 );
-        ArrayList<Isotope2> listForAtomicNumber75= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 75, 110, 184.952955, 0.374 ) );
-           add( new Isotope2( 75, 112, 186.9557531, 0.626 ) );
+        ArrayList<Isotope2> listForAtomicNumber75 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 75, 110, 184.952955, "0.3740" ) );
+            add( new Isotope2( 75, 112, 186.9557531, "0.6260" ) );
         }};
         put( 75, listForAtomicNumber75 );
-        ArrayList<Isotope2> listForAtomicNumber76= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 76, 108, 183.9524891, 2.0E-4 ) );
-           add( new Isotope2( 76, 110, 185.9538382, 0.0159 ) );
-           add( new Isotope2( 76, 111, 186.9557505, 0.0196 ) );
-           add( new Isotope2( 76, 112, 187.9558382, 0.1324 ) );
-           add( new Isotope2( 76, 113, 188.9581475, 0.1615 ) );
-           add( new Isotope2( 76, 114, 189.958447, 0.2626 ) );
-           add( new Isotope2( 76, 116, 191.9614807, 0.4078 ) );
+        ArrayList<Isotope2> listForAtomicNumber76 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 76, 108, 183.9524891, "0.0002" ) );
+            add( new Isotope2( 76, 110, 185.9538382, "0.0159" ) );
+            add( new Isotope2( 76, 111, 186.9557505, "0.0196" ) );
+            add( new Isotope2( 76, 112, 187.9558382, "0.1324" ) );
+            add( new Isotope2( 76, 113, 188.9581475, "0.1615" ) );
+            add( new Isotope2( 76, 114, 189.958447, "0.2626" ) );
+            add( new Isotope2( 76, 116, 191.9614807, "0.4078" ) );
         }};
         put( 76, listForAtomicNumber76 );
-        ArrayList<Isotope2> listForAtomicNumber77= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 77, 114, 190.960594, 0.373 ) );
-           add( new Isotope2( 77, 116, 192.9629264, 0.627 ) );
+        ArrayList<Isotope2> listForAtomicNumber77 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 77, 114, 190.960594, "0.373" ) );
+            add( new Isotope2( 77, 116, 192.9629264, "0.627" ) );
         }};
         put( 77, listForAtomicNumber77 );
-        ArrayList<Isotope2> listForAtomicNumber78= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 78, 112, 189.959932, 1.4E-4 ) );
-           add( new Isotope2( 78, 114, 191.961038, 0.00782 ) );
-           add( new Isotope2( 78, 116, 193.9626803, 0.32967 ) );
-           add( new Isotope2( 78, 117, 194.9647911, 0.33832 ) );
-           add( new Isotope2( 78, 118, 195.9649515, 0.25242 ) );
-           add( new Isotope2( 78, 120, 197.967893, 0.07163 ) );
+        ArrayList<Isotope2> listForAtomicNumber78 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 78, 112, 189.959932, "0.00014" ) );
+            add( new Isotope2( 78, 114, 191.961038, "0.00782" ) );
+            add( new Isotope2( 78, 116, 193.9626803, "0.32967" ) );
+            add( new Isotope2( 78, 117, 194.9647911, "0.33832" ) );
+            add( new Isotope2( 78, 118, 195.9649515, "0.25242" ) );
+            add( new Isotope2( 78, 120, 197.967893, "0.07163" ) );
         }};
         put( 78, listForAtomicNumber78 );
-        ArrayList<Isotope2> listForAtomicNumber79= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 79, 118, 196.9665687, 1.0 ) );
+        ArrayList<Isotope2> listForAtomicNumber79 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 79, 118, 196.9665687, "1.0000" ) );
         }};
         put( 79, listForAtomicNumber79 );
-        ArrayList<Isotope2> listForAtomicNumber80= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 80, 116, 195.965833, 0.0015 ) );
-           add( new Isotope2( 80, 118, 197.966769, 0.0997 ) );
-           add( new Isotope2( 80, 119, 198.9682799, 0.1687 ) );
-           add( new Isotope2( 80, 120, 199.968326, 0.231 ) );
-           add( new Isotope2( 80, 121, 200.9703023, 0.1318 ) );
-           add( new Isotope2( 80, 122, 201.970643, 0.2986 ) );
-           add( new Isotope2( 80, 124, 203.9734939, 0.0687 ) );
+        ArrayList<Isotope2> listForAtomicNumber80 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 80, 116, 195.965833, "0.0015" ) );
+            add( new Isotope2( 80, 118, 197.966769, "0.0997" ) );
+            add( new Isotope2( 80, 119, 198.9682799, "0.1687" ) );
+            add( new Isotope2( 80, 120, 199.968326, "0.2310" ) );
+            add( new Isotope2( 80, 121, 200.9703023, "0.1318" ) );
+            add( new Isotope2( 80, 122, 201.970643, "0.2986" ) );
+            add( new Isotope2( 80, 124, 203.9734939, "0.0687" ) );
         }};
         put( 80, listForAtomicNumber80 );
-        ArrayList<Isotope2> listForAtomicNumber81= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 81, 122, 202.9723442, 0.2952 ) );
-           add( new Isotope2( 81, 124, 204.9744275, 0.7048 ) );
+        ArrayList<Isotope2> listForAtomicNumber81 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 81, 122, 202.9723442, "0.2952" ) );
+            add( new Isotope2( 81, 124, 204.9744275, "0.7048" ) );
         }};
         put( 81, listForAtomicNumber81 );
-        ArrayList<Isotope2> listForAtomicNumber82= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 82, 122, 203.9730436, 0.014 ) );
-           add( new Isotope2( 82, 124, 205.9744653, 0.241 ) );
-           add( new Isotope2( 82, 125, 206.9758969, 0.221 ) );
-           add( new Isotope2( 82, 126, 207.9766521, 0.524 ) );
+        ArrayList<Isotope2> listForAtomicNumber82 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 82, 122, 203.9730436, "0.014" ) );
+            add( new Isotope2( 82, 124, 205.9744653, "0.241" ) );
+            add( new Isotope2( 82, 125, 206.9758969, "0.221" ) );
+            add( new Isotope2( 82, 126, 207.9766521, "0.524" ) );
         }};
         put( 82, listForAtomicNumber82 );
-        ArrayList<Isotope2> listForAtomicNumber83= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 83, 126, 208.9803987, 1.0 ) );
+        ArrayList<Isotope2> listForAtomicNumber83 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 83, 126, 208.9803987, "1.0000" ) );
         }};
         put( 83, listForAtomicNumber83 );
-        ArrayList<Isotope2> listForAtomicNumber84= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 84, 125, 208.9824304, 0.0 ) );
-           add( new Isotope2( 84, 126, 209.9828737, 0.0 ) );
+        ArrayList<Isotope2> listForAtomicNumber84 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 84, 125, 208.9824304, "0" ) );
+            add( new Isotope2( 84, 126, 209.9828737, "0" ) );
         }};
         put( 84, listForAtomicNumber84 );
-        ArrayList<Isotope2> listForAtomicNumber85= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 85, 125, 209.987148, 0.0 ) );
-           add( new Isotope2( 85, 126, 210.9874963, 0.0 ) );
+        ArrayList<Isotope2> listForAtomicNumber85 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 85, 125, 209.987148, "0" ) );
+            add( new Isotope2( 85, 126, 210.9874963, "0" ) );
         }};
         put( 85, listForAtomicNumber85 );
-        ArrayList<Isotope2> listForAtomicNumber86= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 86, 125, 210.990601, 0.0 ) );
-           add( new Isotope2( 86, 134, 220.011394, 0.0 ) );
-           add( new Isotope2( 86, 136, 222.0175777, 0.0 ) );
+        ArrayList<Isotope2> listForAtomicNumber86 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 86, 125, 210.990601, "0" ) );
+            add( new Isotope2( 86, 134, 220.011394, "0" ) );
+            add( new Isotope2( 86, 136, 222.0175777, "0" ) );
         }};
         put( 86, listForAtomicNumber86 );
-        ArrayList<Isotope2> listForAtomicNumber87= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 87, 136, 223.0197359, 0.0 ) );
+        ArrayList<Isotope2> listForAtomicNumber87 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 87, 136, 223.0197359, "0" ) );
         }};
         put( 87, listForAtomicNumber87 );
-        ArrayList<Isotope2> listForAtomicNumber88= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 88, 135, 223.0185022, 0.0 ) );
-           add( new Isotope2( 88, 136, 224.0202118, 0.0 ) );
-           add( new Isotope2( 88, 138, 226.0254098, 0.0 ) );
-           add( new Isotope2( 88, 140, 228.0310703, 0.0 ) );
+        ArrayList<Isotope2> listForAtomicNumber88 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 88, 135, 223.0185022, "0" ) );
+            add( new Isotope2( 88, 136, 224.0202118, "0" ) );
+            add( new Isotope2( 88, 138, 226.0254098, "0" ) );
+            add( new Isotope2( 88, 140, 228.0310703, "0" ) );
         }};
         put( 88, listForAtomicNumber88 );
-        ArrayList<Isotope2> listForAtomicNumber89= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 89, 138, 227.0277521, 0.0 ) );
+        ArrayList<Isotope2> listForAtomicNumber89 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 89, 138, 227.0277521, "0" ) );
         }};
         put( 89, listForAtomicNumber89 );
-        ArrayList<Isotope2> listForAtomicNumber90= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 90, 140, 230.0331338, 0.0 ) );
-           add( new Isotope2( 90, 142, 232.0380553, 1.0 ) );
+        ArrayList<Isotope2> listForAtomicNumber90 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 90, 140, 230.0331338, "0" ) );
+            add( new Isotope2( 90, 142, 232.0380553, "1.0000" ) );
         }};
         put( 90, listForAtomicNumber90 );
-        ArrayList<Isotope2> listForAtomicNumber91= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 91, 140, 231.035884, 1.0 ) );
+        ArrayList<Isotope2> listForAtomicNumber91 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 91, 140, 231.035884, "1.0000" ) );
         }};
         put( 91, listForAtomicNumber91 );
-        ArrayList<Isotope2> listForAtomicNumber92= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 92, 141, 233.0396352, 0.0 ) );
-           add( new Isotope2( 92, 142, 234.0409521, 5.4E-5 ) );
-           add( new Isotope2( 92, 143, 235.0439299, 0.007204 ) );
-           add( new Isotope2( 92, 144, 236.045568, 0.0 ) );
-           add( new Isotope2( 92, 146, 238.0507882, 0.992742 ) );
+        ArrayList<Isotope2> listForAtomicNumber92 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 92, 141, 233.0396352, "0" ) );
+            add( new Isotope2( 92, 142, 234.0409521, "0.000054" ) );
+            add( new Isotope2( 92, 143, 235.0439299, "0.007204" ) );
+            add( new Isotope2( 92, 144, 236.045568, "0" ) );
+            add( new Isotope2( 92, 146, 238.0507882, "0.992742" ) );
         }};
         put( 92, listForAtomicNumber92 );
-        ArrayList<Isotope2> listForAtomicNumber93= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 93, 143, 236.04657, 0.0 ) );
-           add( new Isotope2( 93, 144, 237.0481734, 0.0 ) );
+        ArrayList<Isotope2> listForAtomicNumber93 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 93, 143, 236.04657, "0" ) );
+            add( new Isotope2( 93, 144, 237.0481734, "0" ) );
         }};
         put( 93, listForAtomicNumber93 );
-        ArrayList<Isotope2> listForAtomicNumber94= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 94, 144, 238.0495599, 0.0 ) );
-           add( new Isotope2( 94, 145, 239.0521634, 0.0 ) );
-           add( new Isotope2( 94, 146, 240.0538135, 0.0 ) );
-           add( new Isotope2( 94, 147, 241.0568515, 0.0 ) );
-           add( new Isotope2( 94, 148, 242.0587426, 0.0 ) );
-           add( new Isotope2( 94, 150, 244.064204, 0.0 ) );
+        ArrayList<Isotope2> listForAtomicNumber94 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 94, 144, 238.0495599, "0" ) );
+            add( new Isotope2( 94, 145, 239.0521634, "0" ) );
+            add( new Isotope2( 94, 146, 240.0538135, "0" ) );
+            add( new Isotope2( 94, 147, 241.0568515, "0" ) );
+            add( new Isotope2( 94, 148, 242.0587426, "0" ) );
+            add( new Isotope2( 94, 150, 244.064204, "0" ) );
         }};
         put( 94, listForAtomicNumber94 );
-        ArrayList<Isotope2> listForAtomicNumber95= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 95, 146, 241.0568291, 0.0 ) );
-           add( new Isotope2( 95, 148, 243.0613811, 0.0 ) );
+        ArrayList<Isotope2> listForAtomicNumber95 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 95, 146, 241.0568291, "0" ) );
+            add( new Isotope2( 95, 148, 243.0613811, "0" ) );
         }};
         put( 95, listForAtomicNumber95 );
-        ArrayList<Isotope2> listForAtomicNumber96= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 96, 147, 243.0613891, 0.0 ) );
-           add( new Isotope2( 96, 148, 244.0627526, 0.0 ) );
-           add( new Isotope2( 96, 149, 245.0654912, 0.0 ) );
-           add( new Isotope2( 96, 150, 246.0672237, 0.0 ) );
-           add( new Isotope2( 96, 151, 247.070354, 0.0 ) );
-           add( new Isotope2( 96, 152, 248.072349, 0.0 ) );
+        ArrayList<Isotope2> listForAtomicNumber96 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 96, 147, 243.0613891, "0" ) );
+            add( new Isotope2( 96, 148, 244.0627526, "0" ) );
+            add( new Isotope2( 96, 149, 245.0654912, "0" ) );
+            add( new Isotope2( 96, 150, 246.0672237, "0" ) );
+            add( new Isotope2( 96, 151, 247.070354, "0" ) );
+            add( new Isotope2( 96, 152, 248.072349, "0" ) );
         }};
         put( 96, listForAtomicNumber96 );
-        ArrayList<Isotope2> listForAtomicNumber97= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 97, 150, 247.070307, 0.0 ) );
-           add( new Isotope2( 97, 152, 249.0749867, 0.0 ) );
+        ArrayList<Isotope2> listForAtomicNumber97 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 97, 150, 247.070307, "0" ) );
+            add( new Isotope2( 97, 152, 249.0749867, "0" ) );
         }};
         put( 97, listForAtomicNumber97 );
-        ArrayList<Isotope2> listForAtomicNumber98= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 98, 151, 249.0748535, 0.0 ) );
-           add( new Isotope2( 98, 152, 250.0764061, 0.0 ) );
-           add( new Isotope2( 98, 153, 251.079587, 0.0 ) );
-           add( new Isotope2( 98, 154, 252.081626, 0.0 ) );
+        ArrayList<Isotope2> listForAtomicNumber98 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 98, 151, 249.0748535, "0" ) );
+            add( new Isotope2( 98, 152, 250.0764061, "0" ) );
+            add( new Isotope2( 98, 153, 251.079587, "0" ) );
+            add( new Isotope2( 98, 154, 252.081626, "0" ) );
         }};
         put( 98, listForAtomicNumber98 );
-        ArrayList<Isotope2> listForAtomicNumber99= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 99, 153, 252.08298, 0.0 ) );
+        ArrayList<Isotope2> listForAtomicNumber99 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 99, 153, 252.08298, "0" ) );
         }};
         put( 99, listForAtomicNumber99 );
-        ArrayList<Isotope2> listForAtomicNumber100= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 100, 157, 257.095105, 0.0 ) );
+        ArrayList<Isotope2> listForAtomicNumber100 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 100, 157, 257.095105, "0" ) );
         }};
         put( 100, listForAtomicNumber100 );
-        ArrayList<Isotope2> listForAtomicNumber101= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 101, 157, 258.098431, 0.0 ) );
-           add( new Isotope2( 101, 159, 260.10365, 0.0 ) );
+        ArrayList<Isotope2> listForAtomicNumber101 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 101, 157, 258.098431, "0" ) );
+            add( new Isotope2( 101, 159, 260.10365, "0" ) );
         }};
         put( 101, listForAtomicNumber101 );
-        ArrayList<Isotope2> listForAtomicNumber102= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 102, 157, 259.10103, 0.0 ) );
+        ArrayList<Isotope2> listForAtomicNumber102 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 102, 157, 259.10103, "0" ) );
         }};
         put( 102, listForAtomicNumber102 );
-        ArrayList<Isotope2> listForAtomicNumber103= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 103, 159, 262.10963, 0.0 ) );
+        ArrayList<Isotope2> listForAtomicNumber103 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 103, 159, 262.10963, "0" ) );
         }};
         put( 103, listForAtomicNumber103 );
-        ArrayList<Isotope2> listForAtomicNumber104= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 104, 161, 265.1167, 0.0 ) );
+        ArrayList<Isotope2> listForAtomicNumber104 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 104, 161, 265.1167, "0" ) );
         }};
         put( 104, listForAtomicNumber104 );
-        ArrayList<Isotope2> listForAtomicNumber105= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 105, 163, 268.12545, 0.0 ) );
+        ArrayList<Isotope2> listForAtomicNumber105 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 105, 163, 268.12545, "0" ) );
         }};
         put( 105, listForAtomicNumber105 );
-        ArrayList<Isotope2> listForAtomicNumber106= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 106, 165, 271.13347, 0.0 ) );
+        ArrayList<Isotope2> listForAtomicNumber106 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 106, 165, 271.13347, "0" ) );
         }};
         put( 106, listForAtomicNumber106 );
-        ArrayList<Isotope2> listForAtomicNumber107= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 107, 165, 272.13803, 0.0 ) );
+        ArrayList<Isotope2> listForAtomicNumber107 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 107, 165, 272.13803, "0" ) );
         }};
         put( 107, listForAtomicNumber107 );
-        ArrayList<Isotope2> listForAtomicNumber108= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 108, 162, 270.13465, 0.0 ) );
+        ArrayList<Isotope2> listForAtomicNumber108 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 108, 162, 270.13465, "0" ) );
         }};
         put( 108, listForAtomicNumber108 );
-        ArrayList<Isotope2> listForAtomicNumber109= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 109, 167, 276.15116, 0.0 ) );
+        ArrayList<Isotope2> listForAtomicNumber109 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 109, 167, 276.15116, "0" ) );
         }};
         put( 109, listForAtomicNumber109 );
-        ArrayList<Isotope2> listForAtomicNumber110= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 110, 171, 281.16206, 0.0 ) );
+        ArrayList<Isotope2> listForAtomicNumber110 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 110, 171, 281.16206, "0" ) );
         }};
         put( 110, listForAtomicNumber110 );
-        ArrayList<Isotope2> listForAtomicNumber111= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 111, 169, 280.16447, 0.0 ) );
+        ArrayList<Isotope2> listForAtomicNumber111 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 111, 169, 280.16447, "0" ) );
         }};
         put( 111, listForAtomicNumber111 );
-        ArrayList<Isotope2> listForAtomicNumber112= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 112, 173, 285.17411, 0.0 ) );
+        ArrayList<Isotope2> listForAtomicNumber112 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 112, 173, 285.17411, "0" ) );
         }};
         put( 112, listForAtomicNumber112 );
-        ArrayList<Isotope2> listForAtomicNumber113= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 113, 171, 284.17808, 0.0 ) );
+        ArrayList<Isotope2> listForAtomicNumber113 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 113, 171, 284.17808, "0" ) );
         }};
         put( 113, listForAtomicNumber113 );
-        ArrayList<Isotope2> listForAtomicNumber114= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 114, 175, 289.18728, 0.0 ) );
+        ArrayList<Isotope2> listForAtomicNumber114 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 114, 175, 289.18728, "0" ) );
         }};
         put( 114, listForAtomicNumber114 );
-        ArrayList<Isotope2> listForAtomicNumber115= new ArrayList<Isotope2>(){{
-           add( new Isotope2( 115, 173, 288.19249, 0.0 ) );
+        ArrayList<Isotope2> listForAtomicNumber115 = new ArrayList<Isotope2>() {{
+            add( new Isotope2( 115, 173, 288.19249, "0" ) );
         }};
         put( 115, listForAtomicNumber115 );
     }};
 
     // This table
-    private static final Map<Integer, Double> mapAtomicNumberToMass = new HashMap<Integer, Double>(){{
+    private static final Map<Integer, Double> mapAtomicNumberToMass = new HashMap<Integer, Double>() {{
         // Automatically generated, see routines in this class.
         put( 1, 1.00794 );
         put( 2, 4.002602 );
@@ -1648,9 +1644,9 @@ public class AtomIdentifier {
     public static double getAtomicMass( IAtom atom ) {
         double atomicMass = 0;
         ArrayList<Isotope2> isotopeList = ISOTOPE_INFORMATION_TABLE.get( atom.getNumProtons() );
-        if ( isotopeList != null && isotopeList.size() > 0 ){
+        if ( isotopeList != null && isotopeList.size() > 0 ) {
             for ( Isotope2 isotope : isotopeList ) {
-                if (isotope.neutronCount == atom.getNumNeutrons() ){
+                if ( isotope.neutronCount == atom.getNumNeutrons() ) {
                     atomicMass = isotope.atomicMass;
                     break;
                 }
@@ -1664,21 +1660,33 @@ public class AtomIdentifier {
      * versus all isotopes for this element.
      *
      * @return - A value from 0 to 1 representing the natural abundance
-     * proportion.
+     *         proportion.
      */
     public static double getNaturalAbundance( IAtom atom ) {
-        double naturalAbundance = 0;
+        return getNaturalAbundancePrecisionDecimal( atom ).getPreciseValue();
+    }
+
+    /**
+     * Get the proportion of this particular isotope on present-day earth
+     * versus all isotopes for this element.
+     *
+     * @param atom
+     * @return - A value from 0 to 1 representing the natural abundance
+     *         proportion.
+     */
+    public static PrecisionDecimal getNaturalAbundancePrecisionDecimal( IAtom atom ) {
+        PrecisionDecimal precisionDecimal = new PrecisionDecimal( 0, 10 );//Default to 0 (with high precision) in case no match is found
         ArrayList<Isotope2> isotopeList = ISOTOPE_INFORMATION_TABLE.get( atom.getNumProtons() );
-        if ( isotopeList != null ){
+        if ( isotopeList != null ) {
             for ( Isotope2 isotope : isotopeList ) {
                 if ( atom.getNumNeutrons() == isotope.neutronCount ) {
                     // Found the matching isotope.
-                    naturalAbundance = isotope.abundance;
+                    precisionDecimal = isotope.abundance;
                     break;
                 }
             }
         }
-        return naturalAbundance;
+        return precisionDecimal;
     }
 
     private static class Isotope {
@@ -1727,14 +1735,15 @@ public class AtomIdentifier {
         public final int protonCount;
         public final int neutronCount;
         public final double atomicMass;
-        public final double abundance;
+        public final PrecisionDecimal abundance;
 
-        public Isotope2( int protonCount, int neutronCount, double atomicMass, double abundance ) {
-            super();
+        public Isotope2( int protonCount, int neutronCount, double atomicMass, String abundance ) {
             this.protonCount = protonCount;
             this.neutronCount = neutronCount;
             this.atomicMass = atomicMass;
-            this.abundance = abundance;
+            //Count the number of digits after the decimal point
+            int precision = abundance.indexOf( '.' )>=0?abundance.substring( abundance.indexOf( '.' )+1 ).length(): 0;
+            this.abundance = new PrecisionDecimal( Double.parseDouble( abundance ), precision );
         }
 
         @Override
@@ -1767,14 +1776,14 @@ public class AtomIdentifier {
      */
     public static ImmutableAtom getMostCommonIsotope( int atomicNumber ) {
         ArrayList<Isotope2> isotopeList = new ArrayList<Isotope2>( ISOTOPE_INFORMATION_TABLE.get( atomicNumber ) );
-        if ( isotopeList.size() == 0 ){
-            System.err.println("Error - No isotope information found for atomic number " + atomicNumber);
+        if ( isotopeList.size() == 0 ) {
+            System.err.println( "Error - No isotope information found for atomic number " + atomicNumber );
             return new ImmutableAtom( 0, 0, 0 );
         }
-        else{
+        else {
             Collections.sort( isotopeList, new Comparator<Isotope2>() {
                 public int compare( Isotope2 o1, Isotope2 o2 ) {
-                    return new Double(o2.abundance).compareTo( o1.abundance );
+                    return new Double( o2.abundance.getPreciseValue() ).compareTo( o1.abundance.getPreciseValue() );
                 }
             } );
         }
@@ -1788,7 +1797,7 @@ public class AtomIdentifier {
      * @param atomicNumber
      * @return
      */
-    public static ArrayList<ImmutableAtom> getAllIsotopes( int atomicNumber ){
+    public static ArrayList<ImmutableAtom> getAllIsotopes( int atomicNumber ) {
         ArrayList<ImmutableAtom> isotopeList = new ArrayList<ImmutableAtom>();
         ArrayList<Isotope2> isotopeInfoList = new ArrayList<Isotope2>( ISOTOPE_INFORMATION_TABLE.get( atomicNumber ) );
         for ( Isotope2 isotope : isotopeInfoList ) {
@@ -1805,7 +1814,7 @@ public class AtomIdentifier {
      * @param atomicNumber
      * @return
      */
-    public static ArrayList<ImmutableAtom> getStableIsotopes( int atomicNumber ){
+    public static ArrayList<ImmutableAtom> getStableIsotopes( int atomicNumber ) {
         ArrayList<ImmutableAtom> isotopeList = getAllIsotopes( atomicNumber );
         ArrayList<ImmutableAtom> stableIsotopeList = new ArrayList<ImmutableAtom>( isotopeList );
         for ( ImmutableAtom isotope : isotopeList ){
@@ -1848,8 +1857,6 @@ public class AtomIdentifier {
     /**
      * Generate a data structure from the Isotope table that is in string
      * format.  Rename to "main" to use.
-     *
-     * @param args
      */
     private static void generateIsotopeInfoTable() {
 
@@ -1878,20 +1885,26 @@ public class AtomIdentifier {
             double abundance = dataElements.length >= 5 ? Double.parseDouble( dataElements[ 4 ] ) : 0;
             System.out.println("   add( new Isotope2( " + currentAtomicNumber + ", " + numNeutrons + ", " + atomicWeight + ", " + abundance + " ) );" );
         }
+        System.out.println( "}};\n" +
+                            "        put( 115, listForAtomicNumber115 );" );//Add the suffix so we don't have to do it manually
+    }
+
+    public static class GenerateIsotopeInfoTable {
+        public static void main( String[] args ) {
+            AtomIdentifier.generateIsotopeInfoTable();
+        }
     }
 
     /**
      * Generate a data structure that maps atomic number to average atomic
      * mass.  Rename to "main" to use.
-     *
-     * @param args
      */
     private static void generateMapOfAtomicNumberToMass() {
 
         // Break the overall string into lines.
         String[] lines = STRING_MAP_ATOMIC_NUM_TO_STD_MASS.split( "\n" );
 
-        System.out.println("// Automatically generated, see routines in this class.");
+        System.out.println( "// Automatically generated, see routines in this class." );
 
         // Process each line.
         int currentAtomicNumber = 0;
@@ -1899,7 +1912,7 @@ public class AtomIdentifier {
             String[] dataElements = line.split( "," );
             currentAtomicNumber = Integer.parseInt( dataElements[0] );
             // Start the list of isotopes for this atomic number.
-            System.out.println("put( " + currentAtomicNumber + ", " + Double.parseDouble( dataElements[1] ) + " );" );
+            System.out.println( "put( " + currentAtomicNumber + ", " + Double.parseDouble( dataElements[1] ) + " );" );
         }
     }
 
