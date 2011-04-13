@@ -389,7 +389,7 @@ public class AtomIdentifier {
         ",,11,11.0093054,0.801\n" +
         "6,C,12,12.0000000,0.9893\n" +
         ",,13,13.0033548378,0.0107\n" +
-        ",,14,14.003241989,\n" +
+        ",,14,14.003241989,0.000000000001\n" +         // I (jblanco) made up the abundance, since Wikipedia just says "trace".
         "7,N,14,14.0030740048,0.99636\n" +
         ",,15,15.0001088982,0.00364\n" +
         "8,O,16,15.99491461956,0.99757\n" +
@@ -853,7 +853,7 @@ public class AtomIdentifier {
         ArrayList<Isotope2> listForAtomicNumber6 = new ArrayList<Isotope2>() {{
             add( new Isotope2( 6, 6, 12.0, "0.9893" ) );
             add( new Isotope2( 6, 7, 13.0033548378, "0.0107" ) );
-            add( new Isotope2( 6, 8, 14.003241989, "0" ) );
+            add( new Isotope2( 6, 8, 14.003241989, "0.000000000001" ) );
         }};
         put( 6, listForAtomicNumber6 );
         ArrayList<Isotope2> listForAtomicNumber7 = new ArrayList<Isotope2>() {{
