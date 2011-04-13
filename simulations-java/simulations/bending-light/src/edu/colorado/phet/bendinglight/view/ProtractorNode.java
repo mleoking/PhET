@@ -20,6 +20,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PDimension;
 
 import static edu.colorado.phet.bendinglight.BendingLightApplication.RESOURCES;
+import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.multiScale;
 import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.multiScaleToHeight;
 
 /**
@@ -37,11 +38,12 @@ public class ProtractorNode extends ToolNode {
 
     public ProtractorNode( final ModelViewTransform transform, final Property<Boolean> showProtractor, final ProtractorModel protractorModel,
                            Function2<Shape, Shape, Shape> translateShape, Function2<Shape, Shape, Shape> rotateShape,
-                           double scale ) {//Passed in as a separate arg since this node modifies its entire transform
+                           double scale,//Passed in as a separate arg since this node modifies its entire transform
+                           double multiscale ) {//Just using a global piccolo scale in the "prism break" tab leads to jagged and aliased graphics--in that case it is important to use the multiscaling algorithm
         this.scale = scale;
         this.transform = transform;
         this.protractorModel = protractorModel;
-        image = RESOURCES.getImage( "protractor.png" );
+        image = multiScale( RESOURCES.getImage( "protractor.png" ), multiscale );
         final PImage imageNode = new PImage( image ) {{
             showProtractor.addObserver( new SimpleObserver() {
                 public void update() {

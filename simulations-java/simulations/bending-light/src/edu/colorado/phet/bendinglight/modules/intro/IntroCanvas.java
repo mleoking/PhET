@@ -187,7 +187,7 @@ public class IntroCanvas<T extends IntroModel> extends BendingLightCanvas<T> {
     }
 
     protected ProtractorNode newProtractorNode( ModelViewTransform transform, Property<Boolean> showTool, Point2D model ) {
-        return new ProtractorNode( transform, showTool, new ProtractorModel( model.getX(), model.getY() ), getProtractorDragRegion(), getProtractorRotationRegion(), ProtractorNode.DEFAULT_SCALE );
+        return new ProtractorNode( transform, showTool, new ProtractorModel( model.getX(), model.getY() ), getProtractorDragRegion(), getProtractorRotationRegion(), ProtractorNode.DEFAULT_SCALE, 1 );
     }
 
     protected static Function2<Shape, Shape, Shape> getProtractorRotationRegion() {
