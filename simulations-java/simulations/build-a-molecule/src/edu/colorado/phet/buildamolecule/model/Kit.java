@@ -51,7 +51,7 @@ public class Kit {
                                 recycleMoleculeIntoBuckets( getMoleculeStructure( atom ) );
                             }
                             else {
-                                recycleAtom( atom.getAtomInfo() );
+                                recycleAtomIntoBuckets( atom.getAtomInfo() );
                             }
                         }
                         else {
@@ -188,7 +188,7 @@ public class Kit {
         attemptToBondAtom( atom );
     }
 
-    private void recycleAtom( Atom atom ) {
+    private void recycleAtomIntoBuckets( Atom atom ) {
         lewisDotModel.breakBondsOfAtom( atom );
         Bucket bucket = Kit.this.getBucketForAtomType( atom );
         bucket.addAtom( getAtomModel( atom ), true );
@@ -196,7 +196,7 @@ public class Kit {
 
     private void recycleMoleculeIntoBuckets( MoleculeStructure molecule ) {
         for ( Atom atom : molecule.getAtoms() ) {
-            recycleAtom( atom );
+            recycleAtomIntoBuckets( atom );
         }
         molecules.remove( molecule );
     }
