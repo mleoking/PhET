@@ -137,14 +137,7 @@ public class ModelViewTransform {
      * @return Transformed rectangle
      */
     public Rectangle2D modelToViewRectangle( Rectangle2D r ) {
-        // we must compensate for negative scales. we need positive width and height
-        double height = Math.abs( modelToViewDeltaY( r.getHeight() ) );
-        double width = Math.abs( modelToViewDeltaX( r.getWidth() ) );
-
-        // if scale is negative, we actually need to flip which "corner" x or y points to. we do this using the transformed width or height
-        double x = modelToViewX( r.getX() ) - ( getTransform().getScaleX() < 0 ? width : 0 );
-        double y = modelToViewY( r.getY() ) - ( getTransform().getScaleY() < 0 ? height : 0 );
-        return new Rectangle2D.Double( x, y, width, height );
+        return modelToView( r ).getBounds2D();
     }
 
     /*---------------------------------------------------------------------------*
@@ -188,7 +181,7 @@ public class ModelViewTransform {
         try {
             return transform.createInverse();
         }
-        catch( NoninvertibleTransformException e ) {
+        catch ( NoninvertibleTransformException e ) {
             throw new RuntimeException( e );
         }
     }
@@ -217,14 +210,7 @@ public class ModelViewTransform {
      * @return Transformed rectangle
      */
     public Rectangle2D viewToModelRectangle( Rectangle2D r ) {
-        // we must compensate for negative scales. we need positive width and height
-        double height = Math.abs( viewToModelDeltaY( r.getHeight() ) );
-        double width = Math.abs( viewToModelDeltaX( r.getWidth() ) );
-
-        // if scale is negative, we actually need to flip which "corner" x or y points to. we do this using the transformed width or height
-        double x = viewToModelX( r.getX() ) - ( getTransform().getScaleX() < 0 ? width : 0 );
-        double y = viewToModelY( r.getY() ) - ( getTransform().getScaleY() < 0 ? height : 0 );
-        return new Rectangle2D.Double( x, y, width, height );
+        return viewToModel( r ).getBounds2D();
     }
 
     //Machine generated (and fine-tuned) equality test
