@@ -29,7 +29,7 @@ public class AtomNode extends PNode {
     public AtomNode( final ModelViewTransform mvt, final AtomModel atom ) {
 
         double transformedRadius = mvt.modelToViewDeltaX( atom.getRadius() );
-        sphericalNode = new ShadedSphereNode( transformedRadius, atom.getColor() );
+        sphericalNode = new ShadedSphereNode( 2 * transformedRadius, atom.getColor() );
         addChild( sphericalNode );
 
         // Create, scale, and add the label
