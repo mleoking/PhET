@@ -16,25 +16,37 @@ import edu.umd.cs.piccolo.util.PBounds;
 public class Kit {
     private final List<Bucket> buckets;
     private final List<AtomModel> atoms = new LinkedList<AtomModel>();
-    private KitCollectionModel model;
+    private PBounds availableKitBounds;
 
     public static final double BUCKET_PADDING = 50;
 
-    public Kit( KitCollectionModel model, List<Bucket> buckets ) {
-        this.model = model;
+    public Kit( List<Bucket> buckets, PBounds availableKitBounds ) {
         this.buckets = buckets;
+        this.availableKitBounds = availableKitBounds;
 
         // keep track of all atoms in our kit
         for ( Bucket bucket : buckets ) {
             atoms.addAll( bucket.getAtoms() );
+
+            for ( AtomModel atom : atoms ) {
+                atom.addListener( new AtomModel.Adapter() {
+                    @Override
+                    public void droppedByUser( AtomModel atom ) {
+                        if ( Kit.this.getAvailableKitBounds().contains( atom.getPosition().toPoint2D() ) ) {
+                            Bucket bucket = Kit.this.getBucketForAtomType( atom.getAtom() );
+                            bucket.addAtom( atom, true );
+                        }
+                    }
+                } );
+            }
         }
 
         /*---------------------------------------------------------------------------*
         * bucket layout
         *----------------------------------------------------------------------------*/
 
-        double kitY = model.getAvailableKitBounds().getCenterY();
-        double kitXCenter = model.getAvailableKitBounds().getCenterX();
+        double kitY = availableKitBounds.getCenterY();
+        double kitXCenter = availableKitBounds.getCenterX();
 
         double usedWidth = 0;
 
@@ -77,6 +89,6 @@ public class Kit {
     }
 
     public PBounds getAvailableKitBounds() {
-        return model.getAvailableKitBounds();
+        return availableKitBounds;
     }
 }

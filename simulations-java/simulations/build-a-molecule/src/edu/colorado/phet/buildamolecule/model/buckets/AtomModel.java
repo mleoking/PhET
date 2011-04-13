@@ -34,7 +34,6 @@ public class AtomModel {
     // ------------------------------------------------------------------------
 
     private final Atom atom;
-    private final Kit kit;
     private final String name;
     private final Property<ImmutableVector2D> position;
     private final Property<Boolean> userControlled = new Property<Boolean>( false );//True if the particle is being dragged by the user
@@ -52,11 +51,10 @@ public class AtomModel {
     // Reference to the clock.
     private final IClock clock;
 
-    public AtomModel( Atom atom, String name, IClock clock, Kit kit ) {
+    public AtomModel( Atom atom, String name, IClock clock ) {
         this.clock = clock;
         this.name = name;
         this.atom = atom;
-        this.kit = kit;
         position = new Property<ImmutableVector2D>( new ImmutableVector2D() );
         destination = position.getValue();
         addedToModel(); // Assume that this is initially an active part of the model.
@@ -104,10 +102,6 @@ public class AtomModel {
                 translate( distanceToTravel * Math.cos( angle ), distanceToTravel * Math.sin( angle ) );
             }
         }
-    }
-
-    public boolean isInBucket() {
-        return kit.isContainedInBucket( this );
     }
 
     public ImmutableVector2D getPosition() {
@@ -209,13 +203,6 @@ public class AtomModel {
 
     public void removePositionListener( SimpleObserver listener ) {
         position.removeObserver( listener );
-    }
-
-    public void dropped() {
-        if ( kit.getAvailableKitBounds().contains( getPosition().toPoint2D() ) ) {
-            Bucket bucket = kit.getBucketForAtomType( atom );
-            bucket.addAtom( this, true );
-        }
     }
 
     // -----------------------------------------------------------------------

@@ -15,10 +15,11 @@ public class KitCollectionModel {
     private List<Kit> kits = new LinkedList<Kit>();
     private List<CollectionBox> boxes = new LinkedList<CollectionBox>();
 
-    private PBounds availableKitBounds = new PBounds( -1600, -1000, 2200, 500 );//picometers
+    private PBounds availableKitBounds;//picometers
     private Property<Kit> currentKit;
 
-    public KitCollectionModel() {
+    public KitCollectionModel( PBounds availableKitBounds ) {
+        this.availableKitBounds = availableKitBounds;
     }
 
     public void addKit( Kit kit ) {
