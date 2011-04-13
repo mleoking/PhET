@@ -177,6 +177,12 @@ public class Kit {
     * model implementation
     *----------------------------------------------------------------------------*/
 
+    /**
+     * Takes an atom that was in a bucket and hooks it up within our structural model. It allocates a molecule for the
+     * atom, and then attempts to bond with it.
+     *
+     * @param atom An atom to add into play
+     */
     private void addAtomToPlay( final AtomModel atom ) {
         // add the atoms to our models
         MoleculeStructure moleculeStructure = new MoleculeStructure() {{
@@ -188,12 +194,22 @@ public class Kit {
         attemptToBondMolecule( moleculeStructure );
     }
 
+    /**
+     * Takes an atom, invalidates the structural bonds it may have, and puts it in the correct bucket
+     *
+     * @param atom The atom to recycle
+     */
     private void recycleAtomIntoBuckets( Atom atom ) {
         lewisDotModel.breakBondsOfAtom( atom );
         Bucket bucket = Kit.this.getBucketForAtomType( atom );
         bucket.addAtom( getAtomModel( atom ), true );
     }
 
+    /**
+     * Recycles an entire molecule by invalidating its bonds and putting its atoms into their respective buckets
+     *
+     * @param molecule The molecule to recycle
+     */
     private void recycleMoleculeIntoBuckets( MoleculeStructure molecule ) {
         for ( Atom atom : molecule.getAtoms() ) {
             recycleAtomIntoBuckets( atom );
@@ -201,6 +217,13 @@ public class Kit {
         molecules.remove( molecule );
     }
 
+    /**
+     * Bonds one atom to another, and handles the corresponding structural changes between molecules.
+     *
+     * @param a       An atom A
+     * @param dirAtoB The direction from A that the bond will go in (for lewis-dot structure)
+     * @param b       An atom B
+     */
     private void bond( AtomModel a, LewisDotModel.Direction dirAtoB, AtomModel b ) {
         lewisDotModel.bond( a.getAtomInfo(), dirAtoB, b.getAtomInfo() );
         MoleculeStructure molA = getMoleculeStructure( a );
