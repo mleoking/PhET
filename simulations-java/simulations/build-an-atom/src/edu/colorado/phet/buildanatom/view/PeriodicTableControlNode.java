@@ -101,7 +101,7 @@ public class PeriodicTableControlNode extends PNode {
         PNode elementCell;
         if ( atomicNumber <= maxSettableAtomicNumber ){
             // Add an interactive element cell.
-            final ButtonElementCell buttonElementCell = new ButtonElementCell( atom, atomicNumber, backgroundColor );
+            final ButtonElementCell buttonElementCell = new ButtonElementCell( atom, atomicNumber );
             buttonElementCell.addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
             buttonElementCell.addActionListener( new ActionListener() {
 
@@ -352,7 +352,7 @@ public class PeriodicTableControlNode extends PNode {
         private final PText text;
         private final EventListenerList listeners;
 
-        public ButtonElementCell( final IDynamicAtom atom, final int atomicNumber, final Color backgroundColor ) {
+        public ButtonElementCell( final IDynamicAtom atom, final int atomicNumber ) {
             this.atom = atom;
             this.atomicNumber = atomicNumber;
             listeners = new EventListenerList();
