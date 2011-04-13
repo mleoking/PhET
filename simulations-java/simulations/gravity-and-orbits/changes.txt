@@ -1,3 +1,4 @@
+Made the 1 grid spacing the earth-satellite distance in Earth/Satellite mode
 # 1.00.23 (50566) Apr 12, 2011
 Fixed time readout scale factor for cartoon Sun/Earth/Moon
 # 1.00.22 (50564) Apr 12, 2011
