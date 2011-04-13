@@ -10,6 +10,7 @@ import java.util.Map;
 
 import edu.colorado.phet.buildamolecule.BuildAMoleculeConstants;
 import edu.colorado.phet.buildamolecule.control.CollectionAreaNode;
+import edu.colorado.phet.buildamolecule.control.KitPanel;
 import edu.colorado.phet.buildamolecule.model.Kit;
 import edu.colorado.phet.buildamolecule.model.KitCollectionModel;
 import edu.colorado.phet.buildamolecule.model.buckets.AtomModel;
@@ -88,10 +89,13 @@ public class BuildAMoleculeCanvas extends PhetPCanvas {
         _rootNode = new PNode();
         addWorldChild( _rootNode );
 
-        constructKitsAndAtoms();
+        buildFromModel();
     }
 
-    private void constructKitsAndAtoms() {
+    private void buildFromModel() {
+        // bottom-most layer is our kit panel
+        bottomLayer.addChild( new KitPanel( getModel(), mvt ) );
+
         for ( Kit kit : getModel().getKits() ) {
             KitView kitView = new KitView( kit, mvt );
             kitMap.put( kit, kitView );
