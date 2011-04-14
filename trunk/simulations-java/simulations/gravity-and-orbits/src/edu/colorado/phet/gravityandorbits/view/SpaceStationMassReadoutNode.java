@@ -41,8 +41,7 @@ public class SpaceStationMassReadoutNode extends MassReadoutNode {
             units = GAOStrings.SPACE_STATION_MASSES;
         }
         else {
-            //REVIEW identical to else-if directly above
-            value = new DecimalFormat( "0.00" ).format( spaceStationMasses );
+            value = new DecimalFormat( "0.00" ).format( spaceStationMasses );//use one less decimal point here
             units = GAOStrings.SPACE_STATION_MASSES;
         }
         return MessageFormat.format( GAOStrings.PATTERN_VALUE_UNITS, value, units );

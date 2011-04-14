@@ -72,7 +72,6 @@ public abstract class GravityAndOrbitsMode {
     public final Property<ImmutableVector2D> measuringTapeStartPoint;
     public final Property<ImmutableVector2D> measuringTapeEndPoint;
     public final double defaultZoomScale;//REVIEW not used
-    public final ImmutableVector2D zoomOffset;//REVIEW not used
     public final Property<Double> zoomLevel = new Property<Double>( 1.0 );//additional scale factor on top of defaultZoomScale
     public final ModeListParameter p;
 
@@ -87,7 +86,6 @@ public abstract class GravityAndOrbitsMode {
         this.dt = dt;
         this.p = p;
         this.defaultZoomScale = defaultZoomScale;
-        this.zoomOffset = zoomOffset;
         this.name = name;
         this.forceScale = forceScale;
         this.iconImage = iconImage;

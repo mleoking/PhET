@@ -8,12 +8,8 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsModule;
 
-//REVIEW
-//   Is this really a memento pattern? I don't see any rollback/undo being done. Body is the originator, and this aggregates the Body state. But who is the caretaker in this case?
-//   This is also more than state, this class contains the logic for computing the next state.
-
 /**
- * ModelState represents an immutable memento of the entire physical state, for performing the numerical integration.
+ * ModelState represents an immutable representation of the entire physical state and code for performing the numerical integration which produces the next ModelState.
  * It is used by the GravityAndOrbitsModel to update the physics.
  *
  * @author Sam Reid
@@ -67,11 +63,8 @@ public class ModelState {
         return newPosition.getSubtractedInstance( source.position ).getNormalizedInstance();
     }
 
-    //REVIEW Why is this public? It's sole use is in ModelState.getNextState.
-    /*
-     * Get the force on body at its proposed new position, unconventional but necessary for velocity verlet.
-     */
-    public ImmutableVector2D getForce( BodyState target, ImmutableVector2D newTargetPosition, Property<Boolean> gravityEnabledProperty ) {
+    //Get the force on body at its proposed new position, unconventional but necessary for velocity verlet.
+    private ImmutableVector2D getForce( BodyState target, ImmutableVector2D newTargetPosition, Property<Boolean> gravityEnabledProperty ) {
         ImmutableVector2D sum = new ImmutableVector2D(); //zero vector, for no gravity
         if ( gravityEnabledProperty.getValue() ) {
             for ( BodyState source : bodyStates ) {
@@ -83,7 +76,7 @@ public class ModelState {
         return sum;
     }
 
-    //REVIEW getState(Body body) would be safer. See related REVIEW comment in GravityAndOrbitsModel constructor.
+    //Get the BodyState for the specified index--future work could change this signature to getState(Body body) since it would be safer. See usage in GravityAndOrbitsModel constructor.
     public BodyState getBodyState( int index ) {
         return bodyStates.get( index );
     }
