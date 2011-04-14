@@ -264,7 +264,7 @@ public class CompleteMolecule {
 
 
     public static final CompleteMolecule[] COMPLETE_MOLECULES = new CompleteMolecule[] {
-            H2O, O2, H2, CO2, N2, O3, CO, F2, Cl2, NO, NO2, N20, H2O2, BH3, H2S, BH3, CH4, FH, PH3, SiH4, ClH, BF3, CHN,
+            H2O, O2, H2, CO2, N2, O3, CO, F2, Cl2, NO, NO2, N20, H2O2, BH3, H2S, CH4, FH, PH3, SiH4, ClH, BF3, CHN,
             CH2O, CH3OH, CH3F, CH2F2, CHF3, CF4, CH3Cl, CH2Cl2, C2H2
     };
 
