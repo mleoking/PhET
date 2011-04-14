@@ -3,7 +3,7 @@
 # Automatically generated on Fri Aug 08 00:08:00 MDT 2008
 ###################################
 
-dog.gif source=microsoft notes=j0314127.jpg 
+dog.gif source=Open Clip Art Library notes="beagle 01", http://www.openclipart.org/detail/42931
 dollarbill.gif notes=non-microsoft 
 eraser.gif notes=can't find 
 hand.gif 
