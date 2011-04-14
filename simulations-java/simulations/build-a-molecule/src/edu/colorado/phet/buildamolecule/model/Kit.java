@@ -10,6 +10,7 @@ import edu.colorado.phet.buildamolecule.model.buckets.AtomModel;
 import edu.colorado.phet.buildamolecule.model.buckets.Bucket;
 import edu.colorado.phet.chemistry.model.Atom;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.umd.cs.piccolo.util.PBounds;
 
 /**
@@ -20,6 +21,7 @@ public class Kit {
     private final List<AtomModel> atoms = new LinkedList<AtomModel>(); // our master list of atoms (in and out of buckets)
     private final LewisDotModel lewisDotModel; // lewis-dot connections between atoms on the play area
     private final Set<MoleculeStructure> molecules = new HashSet<MoleculeStructure>(); // molecule structures in the play area
+    public final Property<Boolean> visible = new Property<Boolean>( false );
     private PBounds availableKitBounds;
 
     public static final double BOND_DISTANCE_THRESHOLD = 200;
@@ -91,6 +93,14 @@ public class Kit {
         for ( Bucket bucket : buckets ) {
             bucket.setPosition( new ImmutableVector2D( bucket.getPosition().getX() - usedWidth / 2 + kitXCenter + bucket.getWidth() / 2, kitY ) );
         }
+    }
+
+    public void show() {
+        visible.setValue( true );
+    }
+
+    public void hide() {
+        visible.setValue( false );
     }
 
     public boolean isContainedInBucket( AtomModel atom ) {
