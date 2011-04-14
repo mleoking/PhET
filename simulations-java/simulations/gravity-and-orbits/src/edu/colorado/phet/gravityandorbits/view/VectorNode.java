@@ -29,10 +29,9 @@ public class VectorNode extends PNode {
     private Property<ImmutableVector2D> property;//REVIEW lousy name, isn't this the vector value?
     private ArrowNode arrowNode;
 
-    //REVIEW lousy name for property parameter, isn't this the vector value?
     public VectorNode( final Body body, final Property<ModelViewTransform> modelViewTransform, final Property<Boolean> visible,
-                       final Property<ImmutableVector2D> property, final double scale, final Color fill, final Color outline ) {
-        this.property = property;
+                       final Property<ImmutableVector2D> vector, final double scale, final Color fill, final Color outline ) {
+        this.property = vector;
         this.body = body;
         this.modelViewTransform = modelViewTransform;
         this.scale = scale;
@@ -53,7 +52,7 @@ public class VectorNode extends PNode {
                 final Point2D tail = getTail();
                 arrowNode.setTipAndTailLocations( getTip( tail ), tail );
             }
-        }.observe( property, body.getPositionProperty(), modelViewTransform );
+        }.observe( vector, body.getPositionProperty(), modelViewTransform );
         addChild( arrowNode );
         arrowNode.setPickable( false );
         arrowNode.setChildrenPickable( false );

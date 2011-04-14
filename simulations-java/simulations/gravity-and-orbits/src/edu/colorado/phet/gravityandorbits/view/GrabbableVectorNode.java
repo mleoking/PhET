@@ -29,10 +29,9 @@ import edu.umd.cs.piccolo.util.PDimension;
 public class GrabbableVectorNode extends VectorNode {
     private PhetPPath grabArea;
 
-    //REVIEW lousy name for property parameter, isn't this the vector value?
-    public GrabbableVectorNode( final Body body, final Property<ModelViewTransform> modelViewTransform, final Property<Boolean> visible, final Property<ImmutableVector2D> property,
+    public GrabbableVectorNode( final Body body, final Property<ModelViewTransform> modelViewTransform, final Property<Boolean> visible, final Property<ImmutableVector2D> vector,
                                 final double scale, Color fill, Color outline ) {
-        super( body, modelViewTransform, visible, property, scale, fill, outline );
+        super( body, modelViewTransform, visible, vector, scale, fill, outline );
         final Point2D tip = getTip();
 
         //REVIEW comment here: a circle with a "V" in the center, to blah blah blah
@@ -54,7 +53,7 @@ public class GrabbableVectorNode extends VectorNode {
                 grabArea.setOffset( tip.getX() - grabArea.getFullBounds().getWidth() / 2, tip.getY() - grabArea.getFullBounds().getHeight() / 2 );
             }
         };
-        property.addObserver( updateGrabArea );
+        vector.addObserver( updateGrabArea );
         body.getPositionProperty().addObserver( updateGrabArea );
         modelViewTransform.addObserver( updateGrabArea );
         addChild( grabArea );//REVIEW why is this added after the grab area stuff, instead of up above where the node is created?
