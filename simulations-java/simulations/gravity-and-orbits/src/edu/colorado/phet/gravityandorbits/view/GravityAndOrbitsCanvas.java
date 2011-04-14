@@ -133,7 +133,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
             }
         }
 
-        //REVIEW doc this chunk, why are we adding an explosion for every body?
+        //Add explosion nodes, which are always in the scene graph but only visible during explosions
         for ( Body body : model.getBodies() ) {
             addChild( new ExplosionNode( body, mode.modelViewTransformProperty ) );
         }
