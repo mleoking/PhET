@@ -34,10 +34,10 @@ public class GrabbableVectorNode extends VectorNode {
         super( body, modelViewTransform, visible, vector, scale, fill, outline );
         final Point2D tip = getTip();
 
-        //REVIEW comment here: a circle with a "V" in the center, to blah blah blah
+        //a circle with text (a character) in the center, to help indicate what it represents ("v" for velocity in this sim)
         grabArea = new PhetPPath( new Ellipse2D.Double( 0, 0, 40, 40 ), new Color( 0, 0, 0, 0 ), new BasicStroke( 3 ), Color.lightGray ) {{
             final PNode parent = this;
-            addChild( new PText( "V" ) {{ //REVIEW i18n of "V". I would restrict this to 1 char.
+            addChild( new PText( "V" ) {{ //REVIEW i18n of "V". I would restrict this to 1 char. SR: also, move to constructor parameter since this class is velocity-agnostic
                 PText v = this;
                 setFont( new PhetFont( 28, true ) );
                 setTextPaint( Color.gray );
