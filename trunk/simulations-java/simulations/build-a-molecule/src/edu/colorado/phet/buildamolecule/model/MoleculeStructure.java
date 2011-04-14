@@ -72,7 +72,7 @@ public class MoleculeStructure {
         return ret;
     }
 
-    public static MoleculeStructure bondTogether( MoleculeStructure molA, MoleculeStructure molB, Atom a, Atom b ) {
+    public static MoleculeStructure getCombinedMoleculeFromBond( MoleculeStructure molA, MoleculeStructure molB, Atom a, Atom b ) {
         MoleculeStructure ret = new MoleculeStructure();
         for ( Atom atom : molA.getAtoms() ) {
             ret.addAtom( atom );

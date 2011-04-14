@@ -236,7 +236,7 @@ public class Kit {
         else {
             molecules.remove( molA );
             molecules.remove( molB );
-            molecules.add( MoleculeStructure.bondTogether( molA, molB, a.getAtomInfo(), b.getAtomInfo() ) );
+            molecules.add( MoleculeStructure.getCombinedMoleculeFromBond( molA, molB, a.getAtomInfo(), b.getAtomInfo() ) );
         }
 
         // TODO: remove following dev testing checks and debugging statements. ONLY after testing molecule structure comparison
@@ -246,6 +246,17 @@ public class Kit {
             if ( molecule.isEquivalent( completeMolecule.getMoleculeStructure() ) ) {
                 System.out.println( "You made: " + completeMolecule.getCommonName() );
             }
+        }
+    }
+
+    private MoleculeStructure getPossibleMoleculeStructureFromBond( AtomModel a, AtomModel b ) {
+        MoleculeStructure molA = getMoleculeStructure( a );
+        MoleculeStructure molB = getMoleculeStructure( b );
+        if ( molA == molB ) {
+            return molA.getCopy();
+        }
+        else {
+            return MoleculeStructure.getCombinedMoleculeFromBond( molA, molB, a.getAtomInfo(), b.getAtomInfo() );
         }
     }
 
@@ -259,10 +270,10 @@ public class Kit {
         for ( Atom atomInfo : moleculeStructure.getAtoms() ) {
             AtomModel atom = getAtomModel( atomInfo );
             for ( AtomModel otherAtom : atoms ) {
-                if ( otherAtom == atom || !canBond( atom, otherAtom ) ) {
-                    continue;
-                }
                 if ( !isContainedInBucket( otherAtom ) ) {
+                    if ( otherAtom == atom || !canBond( atom, otherAtom ) ) {
+                        continue;
+                    }
                     for ( LewisDotModel.Direction direction : lewisDotModel.getOpenDirections( otherAtom.getAtomInfo() ) ) {
                         BondingOption location = new BondingOption( otherAtom, direction, atom );
                         double distance = atom.getPosition().getDistance( location.getIdealLocation() );
@@ -291,7 +302,7 @@ public class Kit {
     }
 
     private boolean canBond( AtomModel a, AtomModel b ) {
-        return getMoleculeStructure( a ) != getMoleculeStructure( b );
+        return getMoleculeStructure( a ) != getMoleculeStructure( b ) && CompleteMolecule.isAllowedStructure( getPossibleMoleculeStructureFromBond( a, b ) );
     }
 
     /**
