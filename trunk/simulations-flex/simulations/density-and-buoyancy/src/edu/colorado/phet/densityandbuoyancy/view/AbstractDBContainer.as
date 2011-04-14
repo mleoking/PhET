@@ -20,7 +20,7 @@ import mx.controls.TextInput;
 public class AbstractDBContainer extends Canvas {
     protected var background: Canvas;
 
-    protected var phetLogoButton: PhetLogoButton;
+    protected var phetLogoButton: PhetLogoButton; //REVIEW this is apparently optional in multi-tab sims (eg BuoyancyContainer), so why is this in the base class?
 
     /**
      * Override in sub-classes
@@ -70,6 +70,7 @@ public class AbstractDBContainer extends Canvas {
         addChild( resetAllControlPanel );
     }
 
+    //REVIEW is this a best practice for methods things abstract in AS? just curious...
     protected function addLogo(): void {
         throw new Error( "abstract method error" );
     }

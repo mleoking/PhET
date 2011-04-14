@@ -47,10 +47,12 @@ public class Block extends Cuboid {
         return "Block: " + super.toString();
     }
 
+    //REVIEW doc, workaround for AS's single-constructor limitation
     public static function newBlockDensityMass( density: Number, mass: Number, x: Number, y: Number, color: ColorTransform, model: DensityAndBuoyancyModel, __material: Material ): Block {
         return new Block( density, Math.pow( mass / density, 1.0 / 3.0 ), x, y, color, model, __material );
     }
 
+    //REVIEW doc, workaround for AS's single-constructor limitation
     public static function newBlockVolumeMass( volume: Number, mass: Number, x: Number, y: Number, color: ColorTransform, model: DensityAndBuoyancyModel, __material: Material ): Block {
         return new Block( mass / volume, Math.pow( volume, 1.0 / 3 ), x, y, color, model, __material );
     }

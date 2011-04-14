@@ -14,7 +14,7 @@ import edu.colorado.phet.flashcommon.ApplicationLifecycle;
  */
 public class DensityCanvas extends AbstractDBCanvas {
 
-    private var _container: DensityContainer;
+    private var _container: DensityContainer;  //REVIEW why are we dealing with AS getter naming goofiness instead of making this public?
 
     private var customObjectMode: DensityCustomObjectMode;
     private var sameMassMode: DensitySameMassMode;
@@ -27,6 +27,7 @@ public class DensityCanvas extends AbstractDBCanvas {
         super( false );
         this._container = densityContainer;
         const myThis: DensityCanvas = this;
+        //REVIEW doc, why can't modes be created until applicationComplete event is dispatched? what's the dependency?
         ApplicationLifecycle.addApplicationCompleteListener( function(): void {
             customObjectMode = new DensityCustomObjectMode( myThis );
             sameMassMode = new DensitySameMassMode( myThis );
@@ -36,6 +37,7 @@ public class DensityCanvas extends AbstractDBCanvas {
             //If other modes are added, you may need to specify a call to the Mode.reset() in resetAll()
             setMode( customObjectMode );
 
+            //REVIEW doc, purpose?
             var box2DDebug: Box2DDebug = new Box2DDebug( model.getWorld() );
             //        _densityCanvas.addChild(box2DDebug.getSprite());
         } );
@@ -47,6 +49,7 @@ public class DensityCanvas extends AbstractDBCanvas {
         switchToCustomObject();
     }
 
+    //REVIEW this can be private, switch* methods are used to publicly change mode
     public function setMode( mode: Mode ): void {
         if ( this.mode != mode ) {
             if ( this.mode != null ) {
@@ -77,6 +80,7 @@ public class DensityCanvas extends AbstractDBCanvas {
         setMode( mysteryObjectsMode );
     }
 
+    //REVIEW what does this getter buy us? performance?
     override public function get container(): AbstractDBContainer {
         return _container;
     }

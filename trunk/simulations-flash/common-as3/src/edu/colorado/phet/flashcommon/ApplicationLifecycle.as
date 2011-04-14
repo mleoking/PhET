@@ -8,6 +8,7 @@
 package edu.colorado.phet.flashcommon {
 import flash.display.Stage;
 
+//REVIEW document this
 public class ApplicationLifecycle {
     private static const listeners: Array = new Array();
     private static const applicationLifecycle: ApplicationLifecycle = new ApplicationLifecycle();
@@ -18,6 +19,7 @@ public class ApplicationLifecycle {
         listeners.push( f );
     }
 
+    //REVIEW doc that this call when the last event is dispatched during an Flex application startup (see mx:Application tag, applicationComplete attribute)
     public static function applicationComplete( _stage: Stage ): void {
         stage = _stage;
         if ( !notified ) {

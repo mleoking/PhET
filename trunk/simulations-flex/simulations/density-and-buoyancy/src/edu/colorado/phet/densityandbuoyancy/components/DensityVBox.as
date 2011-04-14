@@ -14,6 +14,7 @@ public class DensityVBox extends VBox {
         init( this );
     }
 
+    //REVIEW putting this in DensityVBox and then calling it for non-DensityVBoxes (eg, DensityHBox constructor) is confusing.
     public static function init( box: Box ): void {
         box.setStyle( "backgroundColor", DensityAndBuoyancyConstants.CONTROL_PANEL_COLOR );
         box.setStyle( "borderStyle", "solid" );
