@@ -23,12 +23,11 @@ public class GAOStrings {
     public static final String EARTH_MASSES = getString( "earthMasses" );
     public static final String EARTH_MINUTE = getString( "earthMinute" );
     public static final String EARTH_MINUTES = getString( "earthMinutes" );
-    public static final String GRAVITY = getString( "gravity" );//REVIEW not used, remove from string file
+    public static final String GRAVITY = getString( "gravity" );
     public static final String GRAVITY_FORCE = getString( "gravityForce" );
     public static final String MASS = getString( "mass" );
     public static final String MEASURING_TAPE = getString( "measuringTape" );
     public static final String MOON = getString( "moon" );
-    public static final String MILLION_EARTH_MASSES = getString( "millionEarthMasses" ); //REVIEW not used, remove from string file
     public static final String OUR_MOON = getString( "ourMoon" );
     public static final String OUR_SUN = getString( "ourSun" );
     public static final String PATH = getString( "path" );
