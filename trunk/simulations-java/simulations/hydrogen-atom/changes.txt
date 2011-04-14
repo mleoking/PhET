@@ -1,3 +1,4 @@
+4/14/11 #2802, make wavelength slider thumb remain highlighted when the value is an absorption wavelength
 2/15/11 Moved WavelengthControl and TestWavelengthControl to piccolo-phet
 2/15/11 Added main to WavelengthControl to demonstrate usage
 11/19/10 rename ModelViewTransform to HAModelViewTransform
