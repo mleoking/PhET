@@ -38,7 +38,7 @@ public abstract class MassReadoutNode extends PNode {
                 }
             } );
         }} );
-        bodyNode.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, new PropertyChangeListener() {
+        final PropertyChangeListener updateLocation = new PropertyChangeListener() {
             public void propertyChange( PropertyChangeEvent evt ) {
                 PBounds bounds = bodyNode.getBodyRenderer().getGlobalFullBounds();
                 globalToLocal( bounds );
@@ -49,6 +49,13 @@ public abstract class MassReadoutNode extends PNode {
                 else {
                     setOffset( bounds.getCenterX() - getFullBounds().getWidth() / 2, bounds.getMinY() - getFullBounds().getHeight() );
                 }
+            }
+        };
+        bodyNode.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, updateLocation );
+        //Updating on visibility changes ensures that the labels appear in the correct place initially
+        visible.addObserver( new SimpleObserver() {
+            public void update() {
+                updateLocation.propertyChange( null );
             }
         } );
         new And( visible, new Not( bodyNode.getBody().getCollidedProperty() ) ) {{

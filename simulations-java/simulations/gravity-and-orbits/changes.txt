@@ -1,3 +1,4 @@
+Fixed: mass labels appear in the wrong location when initially shown
 Added docs and minor refactors for code review
 # 1.00.24 (50589) Apr 12, 2011
 Made the 1 grid spacing the earth-satellite distance in Earth/Satellite mode
