@@ -37,11 +37,19 @@ public abstract class Atom {
         return color;
     }
 
-    @Override public String toString() {
+    @Override
+    public String toString() {
         return symbol;
     }
 
     // TODO (JO): can we consider static instances for accessing properties without instance creation?
+
+    public static class B extends Atom {
+        public B() {
+            // TODO: grab this color from a model kit (avogadro?)
+            super( "B", 85, new Color( 255, 160, 122 ) );// peach/salmon colored
+        }
+    }
 
     public static class C extends Atom {
         public C() {
@@ -88,6 +96,13 @@ public abstract class Atom {
     public static class S extends Atom {
         public S() {
             super( "S", 103, new Color( 212, 181, 59 ) );
+        }
+    }
+
+    public static class Si extends Atom {
+        public Si() {
+            // TODO: grab this color from a model kit (avogadro?)
+            super( "Si", 118, new Color( 100, 100, 150 ) );
         }
     }
 
