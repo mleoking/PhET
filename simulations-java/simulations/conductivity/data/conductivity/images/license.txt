@@ -5,6 +5,6 @@
 
 AA-battery.gif author=PhET 
 battery.png author=PhET 
-light.gif source=microsoft notes=j0254314.wmf 
+light.gif source=Wikimedia Commons notes= "Flashlight.jpg", http://commons.wikimedia.org/wiki/File:Flashlight.jpg
 particle-blue-sml.gif author=PhET 
 photon-comet-42.png author=PhET 
