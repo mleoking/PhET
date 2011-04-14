@@ -718,10 +718,20 @@ public class WavelengthControl extends PhetPNode {
                 @Override
                 public void keyPressed( KeyEvent event ) {
                     if ( event.getKeyCode() == KeyEvent.VK_UP ) {
-                        setWavelength( _wavelength + 1 );
+                        if ( _wavelength + 1 <= _maxWavelength ) {
+                            setWavelength( _wavelength + 1 );
+                        }
+                        else {
+                            warnUser();
+                        }
                     }
                     else if ( event.getKeyCode() == KeyEvent.VK_DOWN ) {
-                        setWavelength( _wavelength - 1 );
+                        if ( _wavelength - 1 >= _minWavelength ) {
+                            setWavelength( _wavelength - 1 );
+                        }
+                        else {
+                            warnUser();
+                        }
                     }
                 }
             } );
