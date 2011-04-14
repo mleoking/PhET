@@ -1,3 +1,4 @@
+# 1.00.25 (50657) Apr 14, 2011
 Fixed: mass labels appear in the wrong location when initially shown
 Added docs and minor refactors for some issues in code review
 # 1.00.24 (50589) Apr 12, 2011
