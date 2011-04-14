@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function2;
@@ -17,8 +16,6 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.gravityandorbits.view.BodyRenderer;
 import edu.colorado.phet.gravityandorbits.view.IBodyColors;
 import edu.colorado.phet.gravityandorbits.view.MultiwayOr;
-
-import static edu.colorado.phet.common.phetcommon.view.util.RectangleUtils.expandRectangle2D;
 
 /**
  * Body is a single point mass in the Gravity and Orbits simulation, such as the Earth, Sun, Moon or Space Station.
@@ -37,17 +34,16 @@ public class Body implements IBodyColors {
     private final Color color;
     private final Color highlight;
     private final double density;
-    private boolean userControlled;//REVIEW explain
+    private boolean userControlled;//True if the user is currently controlling the position of the body with the mouse
 
     private final ArrayList<PathListener> pathListeners = new ArrayList<PathListener>();
     private final ArrayList<PathPoint> path = new ArrayList<PathPoint>();
-    private final int maxPathLength; //REVIEW explain
+    private final int maxPathLength; //Number of samples in the path before it starts erasing (fading out from the back)
 
     private final boolean massSettable;
-    //REVIEW why is renderer in the model?
-    private final Function2<Body, Double, BodyRenderer> renderer;//function that creates a PNode for this Body
+    private final Function2<Body, Double, BodyRenderer> renderer;//function that creates a PNode for this Body.  This is in the model so we can associate the graphical representation directly instead of later with conditional logic or map
     private final double labelAngle;
-    private final boolean massReadoutBelow;//REVIEW why is this in the model? If for convenience, note it.
+    private final boolean massReadoutBelow;//True if the mass readout should appear below the body (so that readouts don't overlap too much), in the model for convenience since the body type determines where the mass readout should appear
     private final ClockRewindProperty<Boolean> collidedProperty;
     private final Property<Integer> clockTicksSinceExplosion = new Property<Integer>( 0 );
     private double tickValue;//REVIEW what is this? why is this in the model? If for convenience, note it.
@@ -55,8 +51,7 @@ public class Body implements IBodyColors {
 
     private ArrayList<VoidFunction0> userModifiedPositionListeners = new ArrayList<VoidFunction0>();//REVIEW explain
     private Property<Shape> bounds = new Property<Shape>( new Rectangle2D.Double( 0, 0, 0, 0 ) );//if the object leaves these model bounds, then it can be "returned" using a return button on the canvas
-    private BooleanProperty returnable;//REVIEW vague, explain
-    public final boolean fixed;//REVIEW vague/ambiguous, explain
+    public final boolean fixed;//true if the object doesn't move when the physics engine runs, (though still can be moved by the user's mouse)
 
     public Body( final String name, double x, double y, double diameter, double vx, double vy, double mass, Color color, Color highlight,
                  Function2<Body, Double, BodyRenderer> renderer,// way to associate the graphical representation directly instead of later with conditional logic or map
@@ -84,23 +79,6 @@ public class Body implements IBodyColors {
         diameterProperty = new Property<Double>( diameter );
         collidedProperty = new ClockRewindProperty<Boolean>( clockPaused, stepping, rewinding, false );
         density = mass / getVolume();
-
-        //Determine whether the object should be 'returnable', i.e. whether a 'return' button node
-        //is shown on the canvas that allows the user to bring back a destroyed or lost object
-        returnable = new BooleanProperty( false ) {{
-            final SimpleObserver obs = new SimpleObserver() {
-                public void update() {
-                    final Rectangle2D bounds = Body.this.bounds.getValue().getBounds2D();
-                    //If the object goes 12% outside of the bounds, then show a "return object" button
-                    double expandedWidth = 0.12;
-                    setValue( collidedProperty.getValue() ||
-                              !expandRectangle2D( bounds, bounds.getWidth() * expandedWidth, bounds.getHeight() * expandedWidth ).contains( getPosition().toPoint2D() ) );
-                }
-            };
-            bounds.addObserver( obs );
-            collidedProperty.addObserver( obs );
-            getPositionProperty().addObserver( obs );
-        }};
 
         //Synchronize the scaled position, which accounts for the scale
         collidedProperty.addObserver( new SimpleObserver() {
@@ -203,7 +181,7 @@ public class Body implements IBodyColors {
         diameterProperty.setValue( value );
     }
 
-    //REVIEW doc
+    //create an immutable representation of this body for use in the physics engine
     public BodyState toBodyState() {
         return new BodyState( getPosition(), getVelocity(), getAcceleration(), getMass(), collidedProperty.getValue() );
     }
@@ -220,7 +198,7 @@ public class Body implements IBodyColors {
         return velocityProperty.getValue();
     }
 
-    //REVIEW doc
+    //Take the updated BodyState from the physics engine and update the state of this body based on it.
     public void updateBodyStateFromModel( BodyState bodyState ) {
         if ( collidedProperty.getValue() ) {
             clockTicksSinceExplosion.setValue( clockTicksSinceExplosion.getValue() + 1 );
@@ -235,7 +213,7 @@ public class Body implements IBodyColors {
         }
     }
 
-    //REVIEW doc
+    //This method is called after all bodies have been updated by the physics engine (must be done as a batch), so that the path can be updated
     public void allBodiesUpdated() {
         //Only add to the path if the object hasn't collided and if the user isn't dragging it
         if ( !collidedProperty.getValue() && !isUserControlled() ) {
@@ -456,10 +434,5 @@ public class Body implements IBodyColors {
 
     public Property<Shape> getBounds() {
         return bounds;
-    }
-
-    //REVIEW not used. Is this property vestigial?
-    public BooleanProperty getReturnable() {
-        return returnable;
     }
 }
