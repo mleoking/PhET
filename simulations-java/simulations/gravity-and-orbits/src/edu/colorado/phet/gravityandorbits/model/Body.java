@@ -221,16 +221,16 @@ public class Body implements IBodyColors {
         }
     }
 
-    //REVIEW odd that a point is added before one is removed, but pointRemoved notification occurs before pointAdded
     private void addPathPoint() {
-        PathPoint pathPoint = new PathPoint( getPosition() );
-        path.add( pathPoint );
-        while ( path.size() > maxPathLength ) {//start removing data after 2 orbits of the default system
+        while ( path.size() + 1//account for the point that will be added
+                > maxPathLength ) {//start removing data after 2 orbits of the default system
             path.remove( 0 );
             for ( PathListener listener : pathListeners ) {
                 listener.pointRemoved();
             }
         }
+        PathPoint pathPoint = new PathPoint( getPosition() );
+        path.add( pathPoint );
         for ( PathListener listener : pathListeners ) {
             listener.pointAdded( pathPoint );
         }

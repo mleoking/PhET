@@ -223,7 +223,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
         addChild( new ButtonNode( RETURN_OBJECT, buttonBackgroundColor ) {{
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    model.returnObjects();
+                    model.returnBodies();
                     module.clockPausedProperty.setValue( true );//At 3/21/2011 meeting we decided that "return object" button should also always pause the clock.
                 }
             } );

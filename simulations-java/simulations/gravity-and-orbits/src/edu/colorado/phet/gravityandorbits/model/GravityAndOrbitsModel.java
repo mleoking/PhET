@@ -134,10 +134,7 @@ public class GravityAndOrbitsModel {
         updateForceVectors();
     }
 
-    //REVIEW private methods typically don't have javadoc-style comments
-    //REVIEW name of this method is inaccurate. It updates more than the force vectors, it runs the step function.
-
-    /**
+    /*
      * Since we haven't (yet?) rewritten the gravity forces to auto-update when dependencies change, we update when necessary
      * (1) when a new body is added or (2) when reset is pressed.
      * This update is done by running the physics engine for dt=0.0 then applying the computed forces to the bodies.
@@ -145,7 +142,7 @@ public class GravityAndOrbitsModel {
      * Without this block of code, the force vectors would be zero on sim startup until the clock is started.
      */
     private void updateForceVectors() {
-        stepModel.apply( 0.0 );
+        stepModel.apply( 0.0 );//the effect of stepping the model is to update the force vectors
     }
 
     public ArrayList<Body> getBodies() {
@@ -159,9 +156,8 @@ public class GravityAndOrbitsModel {
         updateForceVectors();//has to be done separately since physics is computed as a batch
     }
 
-    //REVIEW rename to returnBodies, to match resetBodies above
     //Unexplodes and returns objects to the stage
-    public void returnObjects() {
+    public void returnBodies() {
         for ( Body body : bodies ) {
             body.returnBody( this );
         }
