@@ -38,6 +38,11 @@ public class GravityAndOrbitsApplication extends PiccoloPhetApplication {
             }
         }, 0, false );
         addModule( intro );
+
+        //@REVIEW: Like this? Does it solve the problem you described?
+//        intro = new IntroModule( getPhetFrame(), whiteBackgroundProperty );
+//        addModule( intro );
+
         toScale = new GravityAndOrbitsModule( getPhetFrame(), whiteBackgroundProperty, TO_SCALE, true, new Function1<ModeListParameter, ArrayList<GravityAndOrbitsMode>>() {
             public ArrayList<GravityAndOrbitsMode> apply( ModeListParameter p ) {
                 return new RealModeList( p.clockPausedProperty, p.gravityEnabledProperty, p.stepping, p.rewinding, p.timeSpeedScaleProperty );
@@ -46,6 +51,17 @@ public class GravityAndOrbitsApplication extends PiccoloPhetApplication {
         addModule( toScale );
         getPhetFrame().addMenu( new OptionsMenu() {{addWhiteBackgroundCheckBoxMenuItem( whiteBackgroundProperty );}} );
     }
+
+    //@REVIEW: Like this? Does it solve the problem you described?
+//    public static class IntroModule extends GravityAndOrbitsModule {
+//        public IntroModule( final PhetFrame phetFrame, Property<Boolean> whiteBackgroundProperty ) {
+//            super( phetFrame, whiteBackgroundProperty, CARTOON, false, new Function1<ModeListParameter, ArrayList<GravityAndOrbitsMode>>() {
+//                public ArrayList<GravityAndOrbitsMode> apply( ModeListParameter p ) {
+//                    return new CartoonModeList( p.clockPausedProperty, p.gravityEnabledProperty, p.stepping, p.rewinding, p.timeSpeedScaleProperty, 1 );
+//                }
+//            }, 0, false );
+//        }
+//    }
 
     public GravityAndOrbitsModule getIntro() {
         return intro;
