@@ -48,16 +48,20 @@ public class CompleteMolecule {
     }} );
 
     public static final CompleteMolecule CO2 = new CompleteMolecule( "Carbon Dioxide", new MoleculeStructure() {{
-        Atom O1 = addAtom( new Atom.H() );
-        Atom O2 = addAtom( new Atom.H() );
-        Atom C1 = addAtom( new Atom.O() );
+        Atom O1 = addAtom( new Atom.O() );
+        Atom O2 = addAtom( new Atom.O() );
+        Atom C1 = addAtom( new Atom.C() );
         addBond( C1, O1 );
         addBond( C1, O2 );
     }} );
 
     public static final CompleteMolecule N2 = new CompleteMolecule( "Nitrogen", new MoleculeStructure() {{
-        Atom N1 = addAtom( new Atom.H() );
-        Atom N2 = addAtom( new Atom.H() );
+        Atom N1 = addAtom( new Atom.N() );
+        Atom N2 = addAtom( new Atom.N() );
         addBond( N1, N2 );
     }} );
+
+    public static final CompleteMolecule[] COMPLETE_MOLECULES = new CompleteMolecule[] {
+            H2O, O2, H2, CO2, N2
+    };
 }

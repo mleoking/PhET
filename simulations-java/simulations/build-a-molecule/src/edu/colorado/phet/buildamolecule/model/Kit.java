@@ -238,6 +238,15 @@ public class Kit {
             molecules.remove( molB );
             molecules.add( MoleculeStructure.bondTogether( molA, molB, a.getAtomInfo(), b.getAtomInfo() ) );
         }
+
+        // TODO: remove following dev testing checks and debugging statements. ONLY after testing molecule structure comparison
+        assert ( getMoleculeStructure( a ) == getMoleculeStructure( b ) );
+        MoleculeStructure molecule = getMoleculeStructure( a );
+        for ( CompleteMolecule completeMolecule : CompleteMolecule.COMPLETE_MOLECULES ) {
+            if ( molecule.isEquivalent( completeMolecule.getMoleculeStructure() ) ) {
+                System.out.println( "You made: " + completeMolecule.getCommonName() );
+            }
+        }
     }
 
     /**
