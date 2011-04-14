@@ -59,7 +59,6 @@ public class MakeMoleculeModule extends PiccoloModule {
                 add( new Bucket( new Atom.C(), new PDimension( 625, 200 ), "Carbon" ) {{
                     addAtom( new AtomModel( new Atom.C(), "Carbon", MakeMoleculeModule.this.getClock() ), false );
                     addAtom( new AtomModel( new Atom.C(), "Carbon", MakeMoleculeModule.this.getClock() ), false );
-                    addAtom( new AtomModel( new Atom.C(), "Carbon", MakeMoleculeModule.this.getClock() ), false );
                 }} );
             }}, availableKitBounds ) );
             addCollectionBox( new CollectionBox( CompleteMolecule.H2O, 1 ) );
