@@ -83,7 +83,7 @@ public class MeasuringTape extends PNode {
         addChild( new CrossHairGraphic( modelEnd, transform ) );
 
         //The textual (numeric) readout
-        addChild( new PText( "Hello" ) {{  //REVIEW why the dummy string? is it needed for an initial layout computation?
+        addChild( new PText( "Hello" ) {{  //Dummy string to get the layout right
             setFont( new PhetFont( 18, true ) );
             setTextPaint( Color.white );
             setPickable( false );
@@ -132,9 +132,7 @@ public class MeasuringTape extends PNode {
         return modelDistance / METERS_PER_MILE;
     }
 
-    //REVIEW private?
-    public static class CrossHairGraphic extends PNode {
-
+    private static class CrossHairGraphic extends PNode {
         public CrossHairGraphic( final Property<ImmutableVector2D> point, final Property<ModelViewTransform> transform ) {
             addChild( new PhetPPath( new Ellipse2D.Double( -crossHairsRadius, -crossHairsRadius, crossHairsRadius * 2, crossHairsRadius * 2 ), new Color( 0, 0, 0, 0 ) ) );
             addChild( new PhetPPath( new Line2D.Double( -crossHairsRadius, 0, crossHairsRadius, 0 ), new BasicStroke( 2 ), PhetColorScheme.RED_ALTERNATIVE ) );

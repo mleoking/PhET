@@ -4,7 +4,6 @@ package edu.colorado.phet.gravityandorbits.model;
 
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -35,7 +34,7 @@ public class GravityAndOrbitsModel {
         //Function for stepping the physics of the model
         stepModel = new VoidFunction1<Double>() {
             public void apply( Double dt ) {
-                //REVIEW comment here: Compute the next state for each body based on the current state of all bodies in the system.
+                //Compute the next state for each body based on the current state of all bodies in the system.
                 ModelState newState = new ModelState( new ArrayList<BodyState>() {{
                     for ( Body body : bodies ) {
                         add( body.toBodyState() );
@@ -43,8 +42,9 @@ public class GravityAndOrbitsModel {
                 }} ).getNextState( dt,
                                    100, // 1000 looks great, 50 starts to look awkward for sun+earth+moon, but 100 seems okay
                                    gravityEnabledProperty );
-                //REVIEW comment here: Set each body to its computed next state.
-                //REVIEW assumes that ModelState.getBodyState returns states in the same order as the container (ArrayList) used for bodies. ModelState.getState(Body) would be safer.
+                //Set each body to its computed next state.
+                //assumes that ModelState.getBodyState returns states in the same order as the container (ArrayList) used for bodies. A possible future improvement would be
+                //to switch to use ModelState.getState(Body), which would be safer.
                 for ( int i = 0; i < bodies.size(); i++ ) {
                     bodies.get( i ).updateBodyStateFromModel( newState.getBodyState( i ) );
                 }
@@ -58,7 +58,7 @@ public class GravityAndOrbitsModel {
                         }
                     }
                 }
-                //REVIEW comment here: ?
+                //Signify that the model completed an entire step so that any batch operations may be invoked
                 for ( int i = 0; i < bodies.size(); i++ ) {
                     bodies.get( i ).allBodiesUpdated();
                 }
@@ -92,16 +92,6 @@ public class GravityAndOrbitsModel {
                 updateForceVectors();
             }
         } );
-    }
-
-    //REVIEW not used
-    //Used for determining initial velocities so the total momentum is zero
-    private ImmutableVector2D getTotalMomentum() {
-        ImmutableVector2D total = new ImmutableVector2D();
-        for ( Body body : bodies ) {
-            total = total.getAddedInstance( body.getVelocity().getScaledInstance( body.getMass() ) );
-        }
-        return total;
     }
 
     public GravityAndOrbitsClock getClock() {

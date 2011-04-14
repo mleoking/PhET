@@ -11,10 +11,8 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
-//REVIEW generally useful? Move to piccolo-phet?
-
 /**
- * Little app for testing check box behavior on and off of Piccolo canvases.
+ * Little app for testing check box behavior on and off of Piccolo canvases for a gravity-and-orbits specific quirk we encountered.
  */
 public class CheckBoxTestApp {
 

@@ -18,13 +18,12 @@ public class ModeListParameter {
     public final Property<Boolean> rewinding;
     public final Property<Double> timeSpeedScaleProperty;
 
-    //REVIEW inconsistent naming convention for Property params, eg clockPausedProperty vs stepping
     //REVIEW semantics of stepping and rewinding params is not obvious, please doc either params or public members
-    public ModeListParameter( Property<Boolean> clockPausedProperty, Property<Boolean> gravityEnabledProperty, Property<Boolean> stepping, Property<Boolean> rewinding, Property<Double> timeSpeedScaleProperty ) {
-        this.clockPausedProperty = clockPausedProperty;
-        this.gravityEnabledProperty = gravityEnabledProperty;
+    public ModeListParameter( Property<Boolean> clockPaused, Property<Boolean> gravityEnabled, Property<Boolean> stepping, Property<Boolean> rewinding, Property<Double> timeSpeedScale ) {
+        this.clockPausedProperty = clockPaused;
+        this.gravityEnabledProperty = gravityEnabled;
         this.stepping = stepping;
         this.rewinding = rewinding;
-        this.timeSpeedScaleProperty = timeSpeedScaleProperty;
+        this.timeSpeedScaleProperty = timeSpeedScale;
     }
 }

@@ -32,9 +32,4 @@ public class BodyPrototype {
     public ImmutableVector2D getMomentum() {
         return new ImmutableVector2D( vx * mass, vy * mass );
     }
-
-    //REVIEW not used
-    public ImmutableVector2D getPosition() {
-        return new ImmutableVector2D( x, y );
-    }
 }

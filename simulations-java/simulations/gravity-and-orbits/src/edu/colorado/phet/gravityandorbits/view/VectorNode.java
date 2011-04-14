@@ -26,12 +26,12 @@ public class VectorNode extends PNode {
     private final Body body;
     private final Property<ModelViewTransform> modelViewTransform;
     private final double scale;
-    private Property<ImmutableVector2D> property;//REVIEW lousy name, isn't this the vector value?
+    private Property<ImmutableVector2D> vector;
     private ArrowNode arrowNode;
 
     public VectorNode( final Body body, final Property<ModelViewTransform> modelViewTransform, final Property<Boolean> visible,
                        final Property<ImmutableVector2D> vector, final double scale, final Color fill, final Color outline ) {
-        this.property = vector;
+        this.vector = vector;
         this.body = body;
         this.modelViewTransform = modelViewTransform;
         this.scale = scale;
@@ -68,7 +68,7 @@ public class VectorNode extends PNode {
 
     private Point2D.Double getTip( Point2D tail ) {
         int minArrowLength = 10;
-        ImmutableVector2D force = new ImmutableVector2D( modelViewTransform.getValue().modelToViewDelta( property.getValue().getScaledInstance( scale ).toPoint2D() ) );
+        ImmutableVector2D force = new ImmutableVector2D( modelViewTransform.getValue().modelToViewDelta( vector.getValue().getScaledInstance( scale ).toPoint2D() ) );
         if ( force.getMagnitude() < minArrowLength && force.getMagnitude() > 1E-12 ) {
             force = force.getInstanceOfMagnitude( minArrowLength );
         }
