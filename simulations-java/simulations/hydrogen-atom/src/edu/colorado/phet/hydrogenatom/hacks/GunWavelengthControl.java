@@ -1,19 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
-
 package edu.colorado.phet.hydrogenatom.hacks;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Stroke;
+import java.awt.*;
 import java.awt.geom.Line2D;
 
 import javax.swing.event.ChangeEvent;
@@ -28,13 +17,13 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * GunWavelengthControl adds behavior to the standard WavelengthControl.
- * <p>
+ * <p/>
  * Behavior #1:
- * The knob is hilited when it is dragged "sufficiently close" to a 
+ * The knob is hilited when it is dragged "sufficiently close" to a
  * value that would cause the atom to undergo a transition from state=1
  * to some other state. If the knob is released while it is hilited,
- * it snaps to the closest transition wavelength, and the hilite is cleared.
- * <p>
+ * it snaps to the closest transition wavelength.
+ * <p/>
  * Behavior #2:
  * Markers are drawn in the track to indicate the position of transition
  * wavelengths. These markers are vertical lines.
@@ -43,6 +32,8 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  * @version $Revision$
  */
 public class GunWavelengthControl extends WavelengthControl {
+
+    private static final boolean PRINT_DEBUG = false;
 
     //----------------------------------------------------------------------------
     // Public class data
@@ -55,20 +46,20 @@ public class GunWavelengthControl extends WavelengthControl {
     //----------------------------------------------------------------------------
 
     private static final double NO_MATCH = -1;
-    
+
     private static final int TRACK_WIDTH = 300;
     private static final int TRACK_HEIGHT = 25;
 
     private static final Stroke KNOB_NORMAL_STROKE = new BasicStroke( 1f );
-    private static final Stroke KNOB_HILITE_STROKE = new BasicStroke( 3f );
+    private static final Stroke KNOB_HILITE_STROKE = new BasicStroke( 2f );
     private static final Color KNOB_NORMAL_COLOR = Color.BLACK;
     private static final Color KNOB_HILITE_COLOR = Color.WHITE;
 
     private static final Stroke TRANSITION_MARKS_STROKE = new BasicStroke( 1f );
     private static final Color TRANSITION_MARKS_COLOR = Color.BLACK;
-    
+
     private static final Color ALTERNATE_CURSOR_COLOR = Color.WHITE;
-    
+
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -95,7 +86,7 @@ public class GunWavelengthControl extends WavelengthControl {
          * This is not a mouse cursor; it's the rectangle that appears above the tip of the knob.
          */
         setCursorColor( ALTERNATE_CURSOR_COLOR );
-        
+
         // Do things when the user starts and stops dragging the knob.
         addKnobListener( new PBasicInputEventHandler() {
 
@@ -112,7 +103,7 @@ public class GunWavelengthControl extends WavelengthControl {
         addChangeListener( new ChangeListener() {
 
             public void stateChanged( ChangeEvent e ) {
-                if ( _dragging && _hiliteTransitionWavelengths ) {
+                if ( _hiliteTransitionWavelengths ) {
                     updateKnob();
                 }
             }
@@ -124,8 +115,7 @@ public class GunWavelengthControl extends WavelengthControl {
         _dragging = false;
         _transitionMarksVisible = false;
 
-        setKnobStroke( KNOB_NORMAL_STROKE );
-        setKnobStrokeColor( KNOB_NORMAL_COLOR );
+        updateKnob();
     }
 
     //----------------------------------------------------------------------------
@@ -134,23 +124,47 @@ public class GunWavelengthControl extends WavelengthControl {
 
     /**
      * Sets the transition wavelengths.
+     *
      * @param transitionWavelengths
      */
     public void setTransitionWavelengths( double[] transitionWavelengths ) {
+        if ( PRINT_DEBUG ) {
+            printTransitionWavelengths( transitionWavelengths );
+        }
         _transitionWavelengths = transitionWavelengths;
+        updateKnob();
         updateTransitionMarks();
+    }
+
+    /*
+     * Prints transition wavelengths, for debugging.
+     */
+    private static void printTransitionWavelengths( double[] transitionWavelengths ) {
+        System.out.print( "GunWavelengthControl transitionWavelengths=" );
+        if ( transitionWavelengths == null ) {
+            System.out.println( "null" );
+        }
+        else {
+            for ( double wavelength : transitionWavelengths ) {
+                System.out.print( " " + wavelength );
+            }
+            System.out.println();
+        }
     }
 
     /**
      * Controls whether the knob hilights when we drag "near" a transitions wavelength.
+     *
      * @param b
      */
     public void setKnobHilitingEnabled( boolean b ) {
         _hiliteTransitionWavelengths = b;
+        updateKnob();
     }
-    
+
     /**
      * Controls whether we display vertical lines in the track to denote the transition wavelengths.
+     *
      * @param b
      */
     public void setTransitionMarksVisible( boolean b ) {
@@ -159,7 +173,7 @@ public class GunWavelengthControl extends WavelengthControl {
             _transitionMarksNode.setVisible( b );
         }
     }
-    
+
     //----------------------------------------------------------------------------
     // private
     //----------------------------------------------------------------------------
@@ -181,8 +195,6 @@ public class GunWavelengthControl extends WavelengthControl {
         if ( _bestMatch != NO_MATCH ) {
             setWavelength( _bestMatch );
         }
-        setKnobStroke( KNOB_NORMAL_STROKE );
-        setKnobStrokeColor( KNOB_NORMAL_COLOR );
     }
 
     /*
@@ -197,8 +209,7 @@ public class GunWavelengthControl extends WavelengthControl {
 
     /*
      * Called while the knob is being dragged.
-     * Hilites the knob whenever the wavelength is sufficiently close to
-     * one of the atom's transition wavelengths.
+     * Hilites the knob whenever the wavelength is sufficiently close to one of the atom's transition wavelengths.
      */
     private void updateKnob() {
 
@@ -231,13 +242,13 @@ public class GunWavelengthControl extends WavelengthControl {
             setKnobStrokeColor( KNOB_HILITE_COLOR );
         }
     }
-    
+
     /*
-     * Updates the marks for transition wavelengths.
-     * These marks are verticle lines that appear in the tracks.
-     */
+    * Updates the marks for transition wavelengths.
+    * These marks are verticle lines that appear in the tracks.
+    */
     private void updateTransitionMarks() {
-        
+
         PNode trackBorder = getTrackBorder();
 
         if ( _transitionMarksNode != null ) {
@@ -246,27 +257,27 @@ public class GunWavelengthControl extends WavelengthControl {
         }
 
         if ( _transitionWavelengths != null ) {
-            
+
             final double trackBorderWidth = trackBorder.getFullBounds().getWidth();
             final double trackBorderHeight = trackBorder.getFullBounds().getHeight();
             final double minWavelength = getMinWavelength();
             final double maxWavelength = getMaxWavelength();
-            
+
             double trackWidth = getTrackFullBounds().getWidth();
             double widthDiff = trackBorderWidth - trackWidth;
 
             _transitionMarksNode = new PComposite();
             _transitionMarksNode.setVisible( _transitionMarksVisible );
             trackBorder.addChild( _transitionMarksNode );
-            
+
             for ( int i = 0; i < _transitionWavelengths.length; i++ ) {
-                
+
                 double wavelength = _transitionWavelengths[i];
                 double x = ( trackWidth * ( wavelength - minWavelength ) / ( maxWavelength - minWavelength ) ) + ( widthDiff / 2 );
                 PPath path = new PPath( new Line2D.Double( x, 0, x, trackBorderHeight ) );
                 path.setStroke( TRANSITION_MARKS_STROKE );
                 path.setStrokePaint( TRANSITION_MARKS_COLOR );
-                
+
                 _transitionMarksNode.addChild( path );
             }
         }
