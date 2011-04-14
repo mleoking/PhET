@@ -253,7 +253,7 @@ public class MoleculeStructure {
      */
     private boolean checkEquivalencyMatrix( boolean[][] equivalences, int myIndex, List<Integer> otherRemainingIndices ) {
         // should be inefficient, but not too bad (computational complexity is not optimal)
-        for ( Integer otherIndex : otherRemainingIndices ) { // loop over all remaining others
+        for ( Integer otherIndex : new ArrayList<Integer>( otherRemainingIndices ) ) { // loop over all remaining others
             if ( equivalences[myIndex][otherIndex] ) { // only follow path if it is true (equivalent)
 
                 // remove the index from consideration for checking the following submatrix
