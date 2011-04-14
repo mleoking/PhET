@@ -45,6 +45,8 @@ public class CompleteMolecule {
     * complete molecules
     *----------------------------------------------------------------------------*/
 
+    // NOTE: some results used http://webbook.nist.gov/chemistry/form-ser.html for the common names
+
     public static final CompleteMolecule H2O = new CompleteMolecule( "Water", new MoleculeStructure() {{
         Atom H1 = addAtom( new Atom.H() );
         Atom H2 = addAtom( new Atom.H() );
@@ -65,6 +67,12 @@ public class CompleteMolecule {
         addBond( H1, H2 );
     }} );
 
+    public static final CompleteMolecule CO = new CompleteMolecule( "Carbon Monoxide", new MoleculeStructure() {{
+        Atom O1 = addAtom( new Atom.O() );
+        Atom C1 = addAtom( new Atom.C() );
+        addBond( C1, O1 );
+    }} );
+
     public static final CompleteMolecule CO2 = new CompleteMolecule( "Carbon Dioxide", new MoleculeStructure() {{
         Atom O1 = addAtom( new Atom.O() );
         Atom O2 = addAtom( new Atom.O() );
@@ -79,8 +87,61 @@ public class CompleteMolecule {
         addBond( N1, N2 );
     }} );
 
+    public static final CompleteMolecule O3 = new CompleteMolecule( "Ozone", new MoleculeStructure() {{
+        Atom O1 = addAtom( new Atom.O() );
+        Atom O2 = addAtom( new Atom.O() );
+        Atom O3 = addAtom( new Atom.O() );
+        addBond( O1, O2 );
+        addBond( O2, O3 );
+    }} );
+
+    public static final CompleteMolecule F2 = new CompleteMolecule( "Fluorine", new MoleculeStructure() {{
+        Atom F1 = addAtom( new Atom.F() );
+        Atom F2 = addAtom( new Atom.F() );
+        addBond( F1, F2 );
+    }} );
+
+    public static final CompleteMolecule Cl2 = new CompleteMolecule( "Chlorine", new MoleculeStructure() {{
+        Atom Cl1 = addAtom( new Atom.Cl() );
+        Atom Cl2 = addAtom( new Atom.Cl() );
+        addBond( Cl1, Cl2 );
+    }} );
+
+    public static final CompleteMolecule NO = new CompleteMolecule( "Nitric Oxide", new MoleculeStructure() {{
+        Atom O1 = addAtom( new Atom.O() );
+        Atom N1 = addAtom( new Atom.N() );
+        addBond( N1, O1 );
+    }} );
+
+    public static final CompleteMolecule NO2 = new CompleteMolecule( "Nitrogen Dioxide", new MoleculeStructure() {{
+        Atom O1 = addAtom( new Atom.O() );
+        Atom O2 = addAtom( new Atom.O() );
+        Atom N1 = addAtom( new Atom.N() );
+        addBond( N1, O1 );
+        addBond( N1, O2 );
+    }} );
+
+    public static final CompleteMolecule N20 = new CompleteMolecule( "Nitrous Oxide", new MoleculeStructure() {{
+        Atom O1 = addAtom( new Atom.O() );
+        Atom N1 = addAtom( new Atom.N() );
+        Atom N2 = addAtom( new Atom.N() );
+        addBond( N1, O1 );
+        addBond( N1, N2 );
+    }} );
+
+    public static final CompleteMolecule H2O2 = new CompleteMolecule( "Hydrogen Peroxide", new MoleculeStructure() {{
+        Atom O1 = addAtom( new Atom.O() );
+        Atom O2 = addAtom( new Atom.O() );
+        Atom H1 = addAtom( new Atom.H() );
+        Atom H2 = addAtom( new Atom.H() );
+        addBond( H1, O1 );
+        addBond( O1, O2 );
+        addBond( O2, H2 );
+    }} );
+
+
     public static final CompleteMolecule[] COMPLETE_MOLECULES = new CompleteMolecule[] {
-            H2O, O2, H2, CO2, N2
+            H2O, O2, H2, CO2, N2, O3, CO, F2, Cl2, NO, NO2, N20, H2O2
     };
 
     /*---------------------------------------------------------------------------*
