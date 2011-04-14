@@ -42,7 +42,7 @@ public abstract class Atom {
         return symbol;
     }
 
-    // TODO (JO): can we consider static instances for accessing properties without instance creation?
+    // TODO: should we have common strings for molecules?
 
     public static class B extends Atom {
         public B() {
