@@ -37,6 +37,8 @@ import static edu.colorado.phet.gravityandorbits.view.MeasuringTape.milesToMeter
  * @author Sam Reid
  */
 public class ModeList extends ArrayList<GravityAndOrbitsMode> {
+
+    //REVIEW why are all of these constants visible to ModeList? this belongs in the model!
     public static final double SUN_RADIUS = 6.955E8;
     public static final double SUN_MASS = 1.989E30;
 
@@ -300,6 +302,7 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
     }
 
     //REVIEW  Very difficult to read all 4 creation methods. Why not encapsulate in subclasses of Body, one for each of the bodies used in this sim? Let's discuss...
+    //REVIEW Why isn't Body creation handled in the model?
     private Body createMoon( boolean massSettable, int maxPathLength, final boolean massReadoutBelow, BodyPrototype body ) {
         return new Body( GAOStrings.MOON, body.x, body.y, body.radius * 2, body.vx, body.vy, body.mass, Color.magenta, Color.white,
                          //putting this number too large makes a kink or curly-q in the moon trajectory, which should be avoided
@@ -345,6 +348,7 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
         };
     }
 
+    //REVIEW why are these function visible to ModeList, or to other Body subclasses for that matter? These should be internal to each Body subclass (Moon, Sun, etc.)
     //REVIEW doc
     public static Function2<Body, Double, BodyRenderer> getImageRenderer( final String image ) {
         return new Function2<Body, Double, BodyRenderer>() {
@@ -383,6 +387,7 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
         };
     }
 
+    //REVIEW static method doesn't need to be declared final
     //REVIEW doc
     //REVIEW Java naming convention violation, should be MINUTES (or better, SECONDS_TO_MINUTES_FUNCTION)
     private static final Function1<Double, String> minutes = new Function1<Double, String>() {
