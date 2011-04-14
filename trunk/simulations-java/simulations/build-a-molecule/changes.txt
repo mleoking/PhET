@@ -1,3 +1,5 @@
+# 0.00.03 (50650) Apr 14, 2011
+4/14/11 Kit and molecule bonding / movement demo version
 # 0.00.02 (50616) Apr 13, 2011
 4/13/11 >Publishing a snapshot.  May be used for initial demonstration.
 Initial support for having atoms animate back to the buckets when dropped in the kit area
