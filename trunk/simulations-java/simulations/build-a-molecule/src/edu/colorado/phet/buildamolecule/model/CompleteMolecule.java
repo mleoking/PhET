@@ -1,6 +1,9 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.buildamolecule.model;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import edu.colorado.phet.chemistry.model.Atom;
 
 /**
@@ -26,6 +29,21 @@ public class CompleteMolecule {
     public MoleculeStructure getMoleculeStructure() {
         return moleculeStructure;
     }
+
+    /**
+     * Check whether this structure is allowed. Currently this means it is a "sub-molecule" of one of our complete
+     * molecules
+     *
+     * @param moleculeStructure Molecule to check
+     * @return True if it is allowed
+     */
+    public static boolean isAllowedStructure( MoleculeStructure moleculeStructure ) {
+        return isStructureInAllowedStructures( moleculeStructure );
+    }
+
+    /*---------------------------------------------------------------------------*
+    * complete molecules
+    *----------------------------------------------------------------------------*/
 
     public static final CompleteMolecule H2O = new CompleteMolecule( "Water", new MoleculeStructure() {{
         Atom H1 = addAtom( new Atom.H() );
@@ -64,4 +82,42 @@ public class CompleteMolecule {
     public static final CompleteMolecule[] COMPLETE_MOLECULES = new CompleteMolecule[] {
             H2O, O2, H2, CO2, N2
     };
+
+    /*---------------------------------------------------------------------------*
+    * computation of allowed molecule structures
+    *----------------------------------------------------------------------------*/
+
+    private static final List<MoleculeStructure> allowedStructures = new LinkedList<MoleculeStructure>();
+
+    private static boolean isStructureInAllowedStructures( MoleculeStructure moleculeStructure ) {
+        for ( MoleculeStructure allowedStructure : allowedStructures ) {
+            if ( moleculeStructure.isEquivalent( allowedStructure ) ) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static void addMoleculeAndChildren( MoleculeStructure molecule ) {
+        if ( !isStructureInAllowedStructures( molecule ) ) {
+            // NOTE: only handles tree-based structures here
+            allowedStructures.add( molecule );
+            for ( Atom atom : molecule.getAtoms() ) {
+                if ( molecule.getNeighbors( atom ).size() < 2 && molecule.getAtoms().size() >= 2 ) {
+                    // we could remove this atom and it wouldn't break apart
+                    addMoleculeAndChildren( molecule.getCopyWithAtomRemoved( atom ) );
+                }
+            }
+        }
+    }
+
+    static {
+        // add all possible molecule paths to our allowed structures
+        long a = System.currentTimeMillis();
+        for ( CompleteMolecule completeMolecule : COMPLETE_MOLECULES ) {
+            addMoleculeAndChildren( completeMolecule.getMoleculeStructure() );
+        }
+        long b = System.currentTimeMillis();
+        System.out.println( "Built allowed molecule structures in " + ( b - a ) + "ms" );
+    }
 }

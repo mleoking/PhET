@@ -58,6 +58,20 @@ public class MoleculeStructure {
         return bonds;
     }
 
+    /**
+     * @param atom An atom
+     * @return All neighboring atoms that are connected by bonds to the passed in atom
+     */
+    public List<Atom> getNeighbors( Atom atom ) {
+        List<Atom> ret = new LinkedList<Atom>();
+        for ( Bond bond : bonds ) {
+            if ( bond.contains( atom ) ) {
+                ret.add( bond.getOtherAtom( atom ) );
+            }
+        }
+        return ret;
+    }
+
     public static MoleculeStructure bondTogether( MoleculeStructure molA, MoleculeStructure molB, Atom a, Atom b ) {
         MoleculeStructure ret = new MoleculeStructure();
         for ( Atom atom : molA.getAtoms() ) {
@@ -111,6 +125,32 @@ public class MoleculeStructure {
         }
     }
 
+    public MoleculeStructure getCopy() {
+        MoleculeStructure ret = new MoleculeStructure();
+        for ( Atom atom : atoms ) {
+            ret.addAtom( atom );
+        }
+        for ( Bond bond : bonds ) {
+            ret.addBond( bond );
+        }
+        return ret;
+    }
+
+    public MoleculeStructure getCopyWithAtomRemoved( Atom atomToRemove ) {
+        MoleculeStructure ret = new MoleculeStructure();
+        for ( Atom atom : atoms ) {
+            if ( atom != atomToRemove ) {
+                ret.addAtom( atom );
+            }
+        }
+        for ( Bond bond : bonds ) {
+            if ( !bond.contains( atomToRemove ) ) {
+                ret.addBond( bond );
+            }
+        }
+        return ret;
+    }
+
     /**
      * Check whether the molecular structure is equivalent to another structure. Not terribly efficient, and will
      * probably fail for cyclic graphs.
@@ -139,20 +179,6 @@ public class MoleculeStructure {
             }
         }
         return false;
-    }
-
-    /**
-     * @param atom An atom
-     * @return All neighboring atoms that are connected by bonds to the passed in atom
-     */
-    private List<Atom> getNeighbors( Atom atom ) {
-        List<Atom> ret = new LinkedList<Atom>();
-        for ( Bond bond : bonds ) {
-            if ( bond.contains( atom ) ) {
-                ret.add( bond.getOtherAtom( atom ) );
-            }
-        }
-        return ret;
     }
 
     /**
