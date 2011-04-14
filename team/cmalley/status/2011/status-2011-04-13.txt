@@ -1,0 +1,61 @@
+--
+Chris Malley (PixelZoom, Inc.) - Status Report
+
+PERIOD: April 7-13, 2011
+
+ACCOMPLISHMENTS:
+
+Balancing Chemical Equations
+- #2650, handled code review tasks created by Sam (closed)
+
+Bending Light
+- tested on Mac, provided details to Sam
+
+Capacitor Lab
+- added model properties for some global state
+- fleshed out control panel for Multiple Capacitors tab
+- added meters to Multiple Capacitors play area
+
+Faraday
+- #2792, customer question about right-hand rule (closed)
+
+Gravity and Orbits
+- #2801, performed code review, reassigned to Sam for followup
+
+Hydrogen Atom
+- #2792, customer question about metastable states with monochromatic light (pending)
+
+Administrative
+- weekly status meeting
+- weekly reports
+
+Common
+- #2789, completed additional work on "Sim Speed" control (closed)
+- #2795, evaluated Piccolo2D 1.3.1-rc1 on Mac, voted +1 on the Piccolo2D developer list (closed)
+- #2773, discussed generalization of molecules and atoms with JO and JB
+- #2793, verified fixes to FrameSetup for screen sizes < 1024x768 (closed)
+
+Environment
+- switched to IntelliJ for a one-week trial, Sam helped me with setup
+- upgraded to Mac OS 10.6.7 and Java 1.6.0_24
+
+Unfuddle
+- created a notebook page: "Code Review: creating a TODO filter for IntelliJ"
+
+WHAT'S NEXT:
+
+- Capacitor Lab: continue working on version 2.00
+- Density, Buoyancy: #2787, code review with JB
+
+ISSUES:
+
+- none
+
+DATES UNAVAILABLE:
+
+- May 23-25
+- June 6-17
+- August 22 - September 2
+- October 19-29
+
+--
