@@ -25,6 +25,10 @@ public class KitCollectionModel {
     public void addKit( Kit kit ) {
         if ( currentKit == null ) {
             currentKit = new Property<Kit>( kit );
+            kit.show();
+        }
+        else {
+            kit.hide();
         }
         kits.add( kit );
     }
