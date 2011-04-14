@@ -6,7 +6,7 @@
 AA-battery-100.gif author=PhET 
 ac.gif author=PhET 
 ammeter60.gif author=PhET 
-bag.gif source=microsoft notes=IN00022_.wmf 
+bag.gif source=Open Clip Art Library notes="Architetto -- Borsa estiva", http://www.openclipart.org/detail/25191
 cap5.gif author=PhET 
 detector-thumb.gif author=PhET 
 dvm-thumb.gif author=PhET 
@@ -21,7 +21,7 @@ phet-cck-small.gif author=PhET
 probeBlack.gif author=PhET notes=reportedly created by Ron LeMaster
 probeRed.gif author=PhET notes=reportedly created by Ron LeMaster
 resistor.png author=Noah P source=PhET 
-stopwatch-thumb.png source=microsoft clip art notes=j0404115.wmf 
+stopwatch-thumb.png source=Open Clip Art Library notes="stop watch icon", http://www.openclipart.org/detail/120385
 va-thumb.gif author=PhET 
 vm3.gif author=PhET notes=photograph Sam took of a physical voltmeter unit
 wood.jpg 
