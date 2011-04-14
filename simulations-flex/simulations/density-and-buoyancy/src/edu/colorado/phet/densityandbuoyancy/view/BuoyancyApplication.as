@@ -7,6 +7,7 @@ import edu.colorado.phet.flexcommon.PhetTabNavigator;
 
 import mx.containers.Canvas;
 
+//REVIEW top-level class type is inconsistent (based on whether sim has tabs?) DensityContainer vs BuoyancyApplication - let's standardize, also in XML
 /**
  * Main application entry point for the Buoyancy sim.
  *

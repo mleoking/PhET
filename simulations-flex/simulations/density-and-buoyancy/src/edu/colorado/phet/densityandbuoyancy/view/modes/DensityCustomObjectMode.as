@@ -15,7 +15,7 @@ import flash.geom.ColorTransform;
 public class DensityCustomObjectMode extends Mode {
     private var customizableObject: DensityObject;
     private var customObjectPropertiesPanel: CustomObjectPropertiesPanel;
-    private var customObjectPropertiesPanelShowing: Boolean = false;
+    private var customObjectPropertiesPanelShowing: Boolean = false;//REVIEW why is this necessary? Can't you use canvas.getChildByName to see if the panel is showing?
 
     private var DEFAULT_MATERIAL: Material = Material.WOOD;
 

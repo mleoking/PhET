@@ -12,6 +12,8 @@ import flash.events.MouseEvent;
 import mx.controls.Label;
 import mx.controls.RadioButton;
 
+//REVIEW top-level class naming is inconsistent, DensityContainer vs BuoyancyApplication - let's standardize, also in XML
+//REVIEW is this the top-level class because there's only 1 tab in this sim?  Would be nice to have an application-level class that supports N tabs, where N>=1
 /**
  * Main canvas for the density sim. Contains all of the sim-related UI
  */
@@ -25,13 +27,14 @@ public class DensityContainer extends AbstractDBContainer {
     public function DensityContainer() {
         super();
 
-        const myThis: DensityContainer = this;
+        const myThis: DensityContainer = this; //REVIEW why is this necessary? we tried removing it and it appeared to work OK.
 
         addBackground();
 
         densityCanvas = new DensityCanvas( myThis );
         addChild( densityCanvas );
 
+        //REVIEW suggest that modeControlPanel should be a subclass of DensityVBox, eg ModeControlPanel that takes densityCanvas as constructor arg
         modeControlPanel = new DensityVBox();
         modeControlPanel.setStyle( "right", DensityAndBuoyancyConstants.CONTROL_INSET );
         modeControlPanel.y = DensityAndBuoyancyConstants.CONTROL_INSET;
@@ -81,6 +84,7 @@ public class DensityContainer extends AbstractDBContainer {
         densityCanvas.resetAll();
     }
 
+    //REVIEW this feature should be provided by common code: eg, PhetCanvas extends Canvas, and has method addLogo, all sims should extend PhetCanvas, not Canvas
     protected override function addLogo(): void {
         phetLogoButton = new PhetLogoButton();
         phetLogoButton.setStyle( "left", DensityAndBuoyancyConstants.CONTROL_INSET );

@@ -17,7 +17,7 @@ import mx.events.FlexEvent;
  */
 public class DensityMysteryObjectsMode extends Mode {
     private var mysteryObjectsControlPanel: MysteryObjectsControlPanel;
-    private var mysteryObjectsControlPanelShowing: Boolean = false;
+    private var mysteryObjectsControlPanelShowing: Boolean = false;//REVIEW why is this necessary? Can't you use canvas.getChildByName to see if the panel is showing?
 
     function DensityMysteryObjectsMode( canvas: AbstractDBCanvas ) {
         super( canvas );

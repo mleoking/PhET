@@ -8,7 +8,7 @@ import mx.containers.HBox;
 public class DensityHBox extends HBox {
     public function DensityHBox() {
         super();
-        DensityVBox.init( this );
+        DensityVBox.init( this );//REVIEW very confusing at first, general style initializer shouldn't be in DensityVBox
     }
 }
 }
