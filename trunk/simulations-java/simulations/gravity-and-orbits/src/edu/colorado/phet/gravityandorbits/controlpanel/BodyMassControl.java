@@ -33,16 +33,15 @@ import static edu.colorado.phet.gravityandorbits.view.GravityAndOrbitsCanvas.STA
  * @author Sam Reid
  */
 public class BodyMassControl extends VerticalLayoutPanel {
-    //REVIEW how do these MIN and MAX constants differ from the min and max constructor parameters?
-    public static final int MIN = 0;
-    public static final int MAX = 100000;
+    public static final int VIEW_MIN = 0;
+    public static final int VIEW_MAX = 100000;//max value that the slider can take internally (i.e. the resolution of the slider)
     private static double SNAP_TOLERANCE = 0.08;//Percentage of the range the slider must be in to snap to a named label tick
 
     private boolean updatingSlider = false;
 
     public BodyMassControl( final Body body, double min, double max, final String minLabel, final String maxLabel,
                             final double labelValue, final String valueLabel ) {//for showing a label for a specific body such as "earth"
-        final Function.LinearFunction modelToView = new Function.LinearFunction( min, max, MIN, MAX );
+        final Function.LinearFunction modelToView = new Function.LinearFunction( min, max, VIEW_MIN, VIEW_MAX );
         setInsets( new Insets( 5, 5, 5, 5 ) );
 
         //Top component that shows the body's name and icon
@@ -68,14 +67,14 @@ public class BodyMassControl extends VerticalLayoutPanel {
             }
         }
         //Add the slider component.
-        add( new JSlider( MIN, MAX ) {{
-            setMajorTickSpacing( (int) ( modelToView.evaluate( labelValue ) - MIN ) );
+        add( new JSlider( VIEW_MIN, VIEW_MAX ) {{
+            setMajorTickSpacing( (int) ( modelToView.evaluate( labelValue ) - VIEW_MIN ) );
             setPaintLabels( true );
             setPaintTicks( true );
             setLabelTable( new Hashtable<Object, Object>() {{
-                put( MIN, new SmallLabel( minLabel ) );
+                put( VIEW_MIN, new SmallLabel( minLabel ) );
                 put( (int) modelToView.evaluate( labelValue ), new SmallLabel( valueLabel ) );//show the custom tick mark and label
-                put( MAX, new SmallLabel( maxLabel ) );
+                put( VIEW_MAX, new SmallLabel( maxLabel ) );
             }} );
             setForeground( FOREGROUND );
             body.getMassProperty().addObserver( new SimpleObserver() {
