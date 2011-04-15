@@ -46,10 +46,10 @@ public class Body implements IBodyColors {
     private final boolean massReadoutBelow;//True if the mass readout should appear below the body (so that readouts don't overlap too much), in the model for convenience since the body type determines where the mass readout should appear
     private final ClockRewindProperty<Boolean> collidedProperty;
     private final Property<Integer> clockTicksSinceExplosion = new Property<Integer>( 0 );
-    private double tickValue;//REVIEW what is this? why is this in the model? If for convenience, note it.
-    private String tickLabel;//REVIEW what is this? why is this in the model? If for convenience, note it.
+    private double tickValue;//value that this body's mass should be identified with, for 'planet' this will be the earth's mass
+    private String tickLabel;//name associated with this body when it takes on the tickValue above, for 'planet' this will be "earth"
 
-    private ArrayList<VoidFunction0> userModifiedPositionListeners = new ArrayList<VoidFunction0>();//REVIEW explain
+    private ArrayList<VoidFunction0> userModifiedPositionListeners = new ArrayList<VoidFunction0>();//list of listeners that are notified when the user drags the object, so that we know when certain properties need to be updated
     private Property<Shape> bounds = new Property<Shape>( new Rectangle2D.Double( 0, 0, 0, 0 ) );//if the object leaves these model bounds, then it can be "returned" using a return button on the canvas
     public final boolean fixed;//true if the object doesn't move when the physics engine runs, (though still can be moved by the user's mouse)
 
