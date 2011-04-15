@@ -44,13 +44,10 @@ public class GAOStrings {
     public static final String THOUSAND_EARTH_MASSES = getString( "thousandEarthMasses" );
     public static final String THOUSAND_MILES = getString( "thousandMiles" );
     public static final String VELOCITY = getString( "velocity" );
-    //REVIEW someone really needs to add "on" and "off" to phetcommon-strings
     public static final String ON = getString( "on" );
     public static final String OFF = getString( "off" );
-
-    public static final String PATTERN_LABEL = getString( "pattern.0label" ); //REVIEW not used, remove from string file
+    public static final String PATTERN_LABEL = getString( "pattern.0label" );
     public static final String PATTERN_VALUE_UNITS = getString( "pattern.0value.1units" );
-    //REVIEW do + and - really need to be internationalized? I don't think so, and we have these rasterized into common buttons.
     public static final String ZOOM_IN = getString( "zoomIn" );
     public static final String ZOOM_OUT = getString( "zoomOut" );
 
