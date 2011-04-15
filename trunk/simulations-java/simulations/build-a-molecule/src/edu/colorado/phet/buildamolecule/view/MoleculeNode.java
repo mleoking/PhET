@@ -48,7 +48,7 @@ public class MoleculeNode extends PNode {
 
         if ( completeMolecule != null ) {
             commonNameLabel = new HTMLNode( completeMolecule.getCommonName() ) {{
-                setFont( new PhetFont( 12 ) );
+                setFont( new PhetFont( 14, true ) );
             }};
             addChild( commonNameLabel );
         }
