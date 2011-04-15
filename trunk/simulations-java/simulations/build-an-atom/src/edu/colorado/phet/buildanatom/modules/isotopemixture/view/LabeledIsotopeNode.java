@@ -61,7 +61,7 @@ public class LabeledIsotopeNode extends PNode {
         // Create, scale, and add the label, assuming the isotope is large enough.
         if ( transformedRadius > MIN_RADIUS_FOR_LABEL ){
             HTMLNode labelNode = new HTMLNode(){{
-                setHTML( "<html><sup>" + isotope.getAtomConfiguration().getMassNumber() + "</sup>" + isotope.getAtomConfiguration().getSymbol() + "</html>" );
+                setHTML( "<sup>" + isotope.getAtomConfiguration().getMassNumber() + "</sup>" + isotope.getAtomConfiguration().getSymbol() );
                 setFont( new PhetFont(12, true) );
                 setScale( sphericalNode.getFullBoundsReference().width * 0.65 / getFullBoundsReference().width );
                 if ( 0.30 * baseColor.getRed() + 0.59 * baseColor.getGreen() + 0.11 * baseColor.getBlue() < 125 ){
