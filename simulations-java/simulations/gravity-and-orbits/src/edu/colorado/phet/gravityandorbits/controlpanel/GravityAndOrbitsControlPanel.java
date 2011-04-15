@@ -95,14 +95,13 @@ public class GravityAndOrbitsControlPanel extends VerticalLayoutPanel {
         // Mass sliders
         for ( Body body : model.getBodies() ) {
             if ( body.isMassSettable() ) {
-                //REVIEW are the parameters associated with the empty string args vestigial? Might be better to add a BodyMassControl constructor that makes them optional.
                 add( new BodyMassControl( body, body.getMassProperty().getInitialValue() / 2, body.getMassProperty().getInitialValue() * 2, body.getTickValue(), body.getTickLabel() ) );
             }
         }
     }
 
-    //REVIEW use GrabbableVectorNode to create the arrows, so that they look the same in play area and control panel.
     private JLabel newArrow( final Color color ) {
+        //Looks slightly different than the arrow in VectorNode so that it looks good at this size, see VectorNode constructor
         return new JLabel( new ImageIcon( new ArrowNode( new Point2D.Double(), new Point2D.Double( 65, 0 ), 15, 15, 5, 2, true ) {{
             setPaint( color );
             setStrokePaint( Color.darkGray );
