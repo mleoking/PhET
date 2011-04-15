@@ -147,7 +147,7 @@ public class Body implements IBodyColors {
         return diameterProperty.getValue();
     }
 
-    //REVIEW
+    //TODO:
     //   Clients are required to call notifyUserModifiedPosition if this translation was done by the user.
     //   That's not at all clear (not documented here), it's error prone and it introduces order dependency.
     //   Recommend making notifyUserModifiedPosition private and adding another public variant of translate,
@@ -249,7 +249,7 @@ public class Body implements IBodyColors {
 
     public void setMass( double mass ) {
         massProperty.setValue( mass );
-        double radius = Math.pow( 3 * mass / 4 / Math.PI / density, 1.0 / 3.0 ); //REVIEW how was this derived?
+        double radius = Math.pow( 3 * mass / 4 / Math.PI / density, 1.0 / 3.0 ); //derived from: density = mass/volume, and volume = 4/3 pi r r r
         diameterProperty.setValue( radius * 2 );
     }
 
@@ -301,11 +301,6 @@ public class Body implements IBodyColors {
         this.forceProperty.setValue( force );
     }
 
-    //REVIEW unused
-    public ArrayList<PathPoint> getPath() {
-        return path;
-    }
-
     public boolean isMassSettable() {
         return massSettable;
     }
@@ -316,11 +311,6 @@ public class Body implements IBodyColors {
 
     public double getLabelAngle() {
         return labelAngle;
-    }
-
-    //REVIEW is this for subclasses to override? I don't see it overridden anywhere.
-    public boolean isDraggable() {
-        return true;
     }
 
     public int getMaxPathLength() {

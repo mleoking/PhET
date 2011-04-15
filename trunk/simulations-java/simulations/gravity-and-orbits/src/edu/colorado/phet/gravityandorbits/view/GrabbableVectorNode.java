@@ -59,21 +59,16 @@ public class GrabbableVectorNode extends VectorNode {
         addChild( grabArea );//REVIEW why is this added after the grab area stuff, instead of up above where the node is created?
 
         //Add the drag handler
-        if ( body.isDraggable() ) {
-            grabArea.addInputEventListener( new PBasicInputEventHandler() {
-                public void mouseDragged( PInputEvent event ) {
-                    PDimension delta = event.getDeltaRelativeTo( getParent() );
-                    final Dimension2D d = modelViewTransform.getValue().viewToModelDelta( delta );
-                    Point2D modelDelta = new Point2D.Double( d.getWidth(), d.getHeight() );
-                    body.setVelocity( body.getVelocity().getAddedInstance( modelDelta.getX() / scale, modelDelta.getY() / scale ) );
-                    body.notifyUserModifiedVelocity();
-                }
-            } );
-            grabArea.addInputEventListener( new CursorHandler() );//todo: use same pattern as in body node so that mouse turns into cursor when arrow moves under stationary mouse?
-        }
-        else {
-            grabArea.setVisible( false );
-        }
+        grabArea.addInputEventListener( new PBasicInputEventHandler() {
+            public void mouseDragged( PInputEvent event ) {
+                PDimension delta = event.getDeltaRelativeTo( getParent() );
+                final Dimension2D d = modelViewTransform.getValue().viewToModelDelta( delta );
+                Point2D modelDelta = new Point2D.Double( d.getWidth(), d.getHeight() );
+                body.setVelocity( body.getVelocity().getAddedInstance( modelDelta.getX() / scale, modelDelta.getY() / scale ) );
+                body.notifyUserModifiedVelocity();
+            }
+        } );
+        grabArea.addInputEventListener( new CursorHandler() );//todo: use same pattern as in body node so that mouse turns into cursor when arrow moves under stationary mouse?
 
         //REVIEW comment here: move behind the geometry created by the superclass
         grabArea.moveToBack();
