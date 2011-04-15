@@ -11,7 +11,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 public class CollectionBox {
     private final CompleteMolecule moleculeType;
     private int capacity; // how many molecules need to be put in to be complete
-    private final Property<Integer> quantity = new Property<Integer>( 0 ); // start with zero
+    public final Property<Integer> quantity = new Property<Integer>( 0 ); // start with zero
     private Rectangle2D dropBounds; // calculated by the view
 
     public CollectionBox( CompleteMolecule moleculeType, int capacity ) {
@@ -37,5 +37,9 @@ public class CollectionBox {
 
     public Rectangle2D getDropBounds() {
         return dropBounds;
+    }
+
+    public void addMolecule( MoleculeStructure molecule ) {
+        quantity.setValue( quantity.getValue() + 1 );
     }
 }

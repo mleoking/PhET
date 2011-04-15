@@ -178,7 +178,14 @@ public class Kit {
      * @param box      Its collection box
      */
     public void moleculePutInCollectionBox( MoleculeStructure molecule, CollectionBox box ) {
-
+        System.out.println( "You have dropped in a " + box.getMoleculeType().getCommonName() );
+        removeMolecule( molecule );
+        for ( Atom atom : molecule.getAtoms() ) {
+            AtomModel atomModel = getAtomModel( atom );
+            atoms.remove( atomModel );
+            atomModel.removedFromModel();
+        }
+        box.addMolecule( molecule ); // TODO: include the lewis dot structure, if we need lewis dot structure in the collection box
     }
 
     /**

@@ -34,7 +34,7 @@ public class SingleCollectionBoxNode extends SwingLayoutNode {
         addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, 160, 50 ), Color.BLACK ) {{
             canvas.addFullyLayedOutObserver( new SimpleObserver() {
                 public void update() {
-                    Rectangle2D globalBounds = localToGlobal( getFullBounds() );
+                    Rectangle2D globalBounds = getParent().localToGlobal( getFullBounds() );
                     Rectangle2D viewBounds = new Rectangle2D.Double();
                     Point2D upperLeftCorner = new Point2D.Double( globalBounds.getX(), globalBounds.getY() );
                     PDimension dimensions = new PDimension( globalBounds.getWidth(), globalBounds.getHeight() );
@@ -48,21 +48,8 @@ public class SingleCollectionBoxNode extends SwingLayoutNode {
                     System.out.println( "globalBounds = " + globalBounds );
                     System.out.println( "viewBounds = " + viewBounds );
                     System.out.println( "box.getDropBounds() = " + box.getDropBounds() );
-
-                    canvas.addWorldChild( new PhetPPath( viewBounds, Color.RED ) {{
-                        setTransparency( 0.5f );
-                    }} );
-
-                    addChild( new PhetPPath( getFullBounds(), Color.GREEN ) {{
-                        setTransparency( 0.5f );
-                    }} );
                 }
             } );
-//            canvas.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, new PropertyChangeListener() {
-//                public void propertyChange( PropertyChangeEvent evt ) {
-//
-//                }
-//            } );
         }}, c );
     }
 }

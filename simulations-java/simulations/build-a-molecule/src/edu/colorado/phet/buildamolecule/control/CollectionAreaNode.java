@@ -2,8 +2,6 @@
 package edu.colorado.phet.buildamolecule.control;
 
 import java.awt.*;
-import java.util.HashMap;
-import java.util.Map;
 
 import edu.colorado.phet.buildamolecule.BuildAMoleculeConstants;
 import edu.colorado.phet.buildamolecule.model.CollectionBox;
