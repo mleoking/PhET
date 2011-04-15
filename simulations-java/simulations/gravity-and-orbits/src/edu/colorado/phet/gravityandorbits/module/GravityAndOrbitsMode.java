@@ -202,7 +202,6 @@ public abstract class GravityAndOrbitsMode {
     //Create a control for the specified mode
     public JComponent newControl( final Property<GravityAndOrbitsMode> modeProperty ) {
         return new JPanel() {{
-            setOpaque( false );//TODO: is this a mac problem? //REVIEW is it?
             setForeground( GravityAndOrbitsControlPanel.FOREGROUND );
             add( new GAORadioButton<GravityAndOrbitsMode>( null, modeProperty, GravityAndOrbitsMode.this ) );
             add( new JLabel( new ImageIcon( iconImage ) ) {{
