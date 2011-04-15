@@ -26,6 +26,7 @@ import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication
 import javax.swing.border.TitledBorder
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D
 
+//Draws and arrow and a numerical readout (with units) of the gravitational force applied to a mass.
 class ForceLabelNode(target: Mass, source: Mass, transform: ModelViewTransform, model: ForceLawLabModel,
                      color: Color, scale: Double, format: NumberFormat, offsetY: Double, right: Boolean) extends PNode {
   val arrowNode = new ArrowNode(new Point2D.Double(0, 0), new Point2D.Double(1, 1), 20, 20, 8, 0.5, true) {
@@ -58,6 +59,7 @@ class ForceLabelNode(target: Mass, source: Mass, transform: ModelViewTransform, 
   addChild(label)
 }
 
+//Draws a single mass, including a label for its name
 class MassNode(mass: Mass, transform: ModelViewTransform, color: Color, magnification: Magnification, textOffset: () => Double) extends PNode {
   val image = new SphericalNode(mass.radius * 2, color, false)
   val label = new ShadowPText(mass.name, Color.white, new PhetFont(16, true))
@@ -81,6 +83,7 @@ class MassNode(mass: Mass, transform: ModelViewTransform, color: Color, magnific
   addChild(centerIndicator)
 }
 
+//Drag handler used for translating the masses with the mouse
 class DragHandler(mass: Mass,
                   transform: ModelViewTransform,
                   minDragX: () => Double, maxDragX: () => Double, node: PNode) extends PBasicInputEventHandler {
@@ -108,6 +111,7 @@ class DragHandler(mass: Mass,
   }
 }
 
+//Mass node that can be dragged by the mouse
 class DraggableMassNode(mass: Mass, transform: ModelViewTransform,
                         color: Color, minDragX: () => Double, maxDragX: () => Double,
                         magnification: Magnification, textOffset: () => Double)
