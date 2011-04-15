@@ -52,27 +52,25 @@ public class BodyNode extends PNode {
         final CursorHandler cursorHandler = new CursorHandler();
 
         //Add drag handlers
-        if ( body.isDraggable() ) {
-            addInputEventListener( cursorHandler );
-            addInputEventListener( new PBasicInputEventHandler() {
-                @Override
-                public void mousePressed( PInputEvent event ) {
-                    body.setUserControlled( true );
-                }
+        addInputEventListener( cursorHandler );
+        addInputEventListener( new PBasicInputEventHandler() {
+            @Override
+            public void mousePressed( PInputEvent event ) {
+                body.setUserControlled( true );
+            }
 
-                @Override
-                public void mouseDragged( PInputEvent event ) {
-                    final Dimension2D delta = modelViewTransform.getValue().viewToModelDelta( event.getDeltaRelativeTo( getParent() ) );
-                    body.translate( new Point2D.Double( delta.getWidth(), delta.getHeight() ) );
-                    body.notifyUserModifiedPosition();
-                }
+            @Override
+            public void mouseDragged( PInputEvent event ) {
+                final Dimension2D delta = modelViewTransform.getValue().viewToModelDelta( event.getDeltaRelativeTo( getParent() ) );
+                body.translate( new Point2D.Double( delta.getWidth(), delta.getHeight() ) );
+                body.notifyUserModifiedPosition();
+            }
 
-                @Override
-                public void mouseReleased( PInputEvent event ) {
-                    body.setUserControlled( false );
-                }
-            } );
-        }
+            @Override
+            public void mouseReleased( PInputEvent event ) {
+                body.setUserControlled( false );
+            }
+        } );
         //REVIEW I would use another mouse handler rather than overloading cursorHandler here.
         //REVIEW naming: updatePosition sounds like a function name, how about positionObserver?
         final SimpleObserver updatePosition = new SimpleObserver() {
@@ -86,7 +84,7 @@ public class BodyNode extends PNode {
                 setOffset( getPosition( modelViewTransform, body ).toPoint2D() );
                 boolean isMouseOverAfter = bodyRenderer.getGlobalFullBounds().contains( mousePositionProperty.getValue().toPoint2D() );
                 //REVIEW doc. what's going on here? Why are you feeding cursorHandler manufactured events?
-                if ( parentComponent != null && body.isDraggable() ) {
+                if ( parentComponent != null ) {
                     if ( isMouseOverBefore && !isMouseOverAfter ) {
                         cursorHandler.mouseExited( new PInputEvent( null, null ) {
                             @Override
