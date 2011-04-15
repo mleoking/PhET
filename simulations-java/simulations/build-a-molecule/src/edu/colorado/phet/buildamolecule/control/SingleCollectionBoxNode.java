@@ -36,13 +36,22 @@ public class SingleCollectionBoxNode extends SwingLayoutNode {
                 public void update() {
                     // we need to pass the collection box model coordinates, but here we have relative piccolo coordinates
                     // this requires getting local => global => view => model coordinates
+
+                    // our bounds relative to the root Piccolo canvas
                     Rectangle2D globalBounds = getParent().localToGlobal( getFullBounds() );
-                    Rectangle2D viewBounds = new Rectangle2D.Double();
+
+                    // pull out the upper-left corner and dimension so we can transform them
                     Point2D upperLeftCorner = new Point2D.Double( globalBounds.getX(), globalBounds.getY() );
                     PDimension dimensions = new PDimension( globalBounds.getWidth(), globalBounds.getHeight() );
+
+                    // transform the point and dimensions to world coordinates
                     canvas.getPhetRootNode().globalToWorld( upperLeftCorner );
                     canvas.getPhetRootNode().globalToWorld( dimensions );
-                    viewBounds.setFrame( upperLeftCorner, dimensions );
+
+                    // our bounds relative to our simulation (BAM) canvas. Will be filled in
+                    Rectangle2D viewBounds = new Rectangle2D.Double( upperLeftCorner.getX(), upperLeftCorner.getY(), dimensions.getWidth(), dimensions.getHeight() );
+
+                    // pass it the model bounds
                     box.setDropBounds( canvas.getModelViewTransform().viewToModel( viewBounds ).getBounds2D() );
                 }
             } );
