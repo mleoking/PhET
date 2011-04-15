@@ -1,7 +1,11 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.buildamolecule.view;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import edu.colorado.phet.buildamolecule.model.Kit;
+import edu.colorado.phet.buildamolecule.model.MoleculeStructure;
 import edu.colorado.phet.buildamolecule.model.buckets.AtomModel;
 import edu.colorado.phet.buildamolecule.model.buckets.Bucket;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
@@ -17,8 +21,11 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class KitView {
     private PNode topLayer = new PNode();
+    private PNode metadataLayer = new PNode();
     private PNode atomLayer = new PNode();
     private PNode bottomLayer = new PNode();
+
+    private Map<MoleculeStructure, MoleculeNode> moleculeMap = new HashMap<MoleculeStructure, MoleculeNode>();
 
     public KitView( final Kit kit, final ModelViewTransform mvt ) {
         for ( Bucket bucket : kit.getBuckets() ) {
@@ -56,18 +63,42 @@ public class KitView {
             }
         }
 
+        // handle molecule creation and destruction
+        kit.addMoleculeListener( new Kit.MoleculeAdapter() {
+            @Override
+            public void addedMolecule( MoleculeStructure moleculeStructure ) {
+                MoleculeNode moleculeNode = new MoleculeNode( kit, moleculeStructure, mvt );
+                metadataLayer.addChild( moleculeNode );
+                moleculeMap.put( moleculeStructure, moleculeNode );
+            }
+
+            @Override
+            public void removedMolecule( MoleculeStructure moleculeStructure ) {
+                MoleculeNode moleculeNode = moleculeMap.get( moleculeStructure );
+                moleculeNode.destruct();
+                metadataLayer.removeChild( moleculeNode );
+                moleculeMap.remove( moleculeStructure );
+            }
+        } );
+
         // update visibility based on the kit visibility
         kit.visible.addObserver( new SimpleObserver() {
             public void update() {
-                topLayer.setVisible( kit.visible.getValue() );
-                atomLayer.setVisible( kit.visible.getValue() );
-                bottomLayer.setVisible( kit.visible.getValue() );
+                Boolean visible = kit.visible.getValue();
+                topLayer.setVisible( visible );
+                metadataLayer.setVisible( visible );
+                atomLayer.setVisible( visible );
+                bottomLayer.setVisible( visible );
             }
         } );
     }
 
     public PNode getTopLayer() {
         return topLayer;
+    }
+
+    public PNode getMetadataLayer() {
+        return metadataLayer;
     }
 
     public PNode getAtomLayer() {

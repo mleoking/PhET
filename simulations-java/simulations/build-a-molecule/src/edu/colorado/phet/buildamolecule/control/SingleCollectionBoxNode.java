@@ -21,7 +21,7 @@ public class SingleCollectionBoxNode extends SwingLayoutNode {
         c.gridy = 0;
 
         // TODO: i18nize
-        addChild( new HTMLNode( box.getMoleculeType().getMoleculeStructure().getMolecularFormula() + " (" + box.getMoleculeType().getCommonName() + ")" ) {{
+        addChild( new HTMLNode( box.getMoleculeType().getMoleculeStructure().getMolecularFormulaHTMLFragment() + " (" + box.getMoleculeType().getCommonName() + ")" ) {{
             setFont( new PhetFont( 16, true ) );
         }}, c );
 

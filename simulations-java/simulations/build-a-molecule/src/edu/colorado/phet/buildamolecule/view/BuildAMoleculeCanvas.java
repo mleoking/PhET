@@ -37,6 +37,7 @@ public class BuildAMoleculeCanvas extends PhetPCanvas {
     private final ModelViewTransform mvt;
 
     private final PNode bottomLayer = new PNode();
+    private final PNode metadataLayer = new PNode();
     private final PNode atomLayer = new PNode();
     private final PNode topLayer = new PNode();
 
@@ -77,6 +78,7 @@ public class BuildAMoleculeCanvas extends PhetPCanvas {
 
         addWorldChild( bottomLayer );
         addWorldChild( atomLayer );
+        addWorldChild( metadataLayer );
         addWorldChild( topLayer );
 
 //        PNode locationTestNode = new PhetPPath( new Rectangle2D.Double(-20, -20, 40, 40), Color.PINK );
@@ -99,6 +101,7 @@ public class BuildAMoleculeCanvas extends PhetPCanvas {
             kitMap.put( kit, kitView );
             bottomLayer.addChild( kitView.getBottomLayer() );
             atomLayer.addChild( kitView.getAtomLayer() );
+            metadataLayer.addChild( kitView.getMetadataLayer() );
             topLayer.addChild( kitView.getTopLayer() );
         }
     }

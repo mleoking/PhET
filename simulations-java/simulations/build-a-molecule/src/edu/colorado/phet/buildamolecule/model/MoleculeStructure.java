@@ -46,7 +46,7 @@ public class MoleculeStructure {
         addBond( new Bond( a, b ) );
     }
 
-    public String getMolecularFormula() {
+    public String getMolecularFormulaHTMLFragment() {
         return ChemUtils.hillOrderedSymbol( atoms );
     }
 
@@ -165,7 +165,7 @@ public class MoleculeStructure {
             // same instance
             return true;
         }
-        if ( !getMolecularFormula().equals( other.getMolecularFormula() ) ) {
+        if ( !getMolecularFormulaHTMLFragment().equals( other.getMolecularFormulaHTMLFragment() ) ) {
             // different molecular formula
             return false;
         }

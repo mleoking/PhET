@@ -24,6 +24,8 @@ public class Kit {
     public final Property<Boolean> visible = new Property<Boolean>( false );
     private PBounds availableKitBounds;
 
+    private final List<MoleculeListener> moleculeListeners = new LinkedList<MoleculeListener>();
+
     public static final double BOND_DISTANCE_THRESHOLD = 200;
     public static final double BUCKET_PADDING = 50;
 
@@ -183,9 +185,86 @@ public class Kit {
         throw new RuntimeException( "atom model not found" );
     }
 
+    public PBounds getMoleculePositionBounds( MoleculeStructure molecule ) {
+        PBounds bounds = null;
+        for ( Atom atom : molecule.getAtoms() ) {
+            AtomModel atomModel = getAtomModel( atom );
+            PBounds atomBounds = atomModel.getPositionBounds();
+            if ( bounds == null ) {
+                bounds = atomBounds;
+            }
+            else {
+                bounds.add( atomBounds );
+            }
+        }
+        return bounds;
+    }
+
+    public PBounds getMoleculeDestinationBounds( MoleculeStructure molecule ) {
+        PBounds bounds = null;
+        for ( Atom atom : molecule.getAtoms() ) {
+            AtomModel atomModel = getAtomModel( atom );
+            PBounds atomBounds = atomModel.getDestinationBounds();
+            if ( bounds == null ) {
+                bounds = atomBounds;
+            }
+            else {
+                bounds.add( atomBounds );
+            }
+        }
+        return bounds;
+    }
+
+    public void breakMolecule( MoleculeStructure moleculeStructure ) {
+        removeMolecule( moleculeStructure );
+        for ( final Atom atom : moleculeStructure.getAtoms() ) {
+            lewisDotModel.breakBondsOfAtom( atom );
+            MoleculeStructure newMolecule = new MoleculeStructure() {{
+                addAtom( atom );
+            }};
+            addMolecule( newMolecule );
+        }
+    }
+
+    public void addMoleculeListener( MoleculeListener listener ) {
+        moleculeListeners.add( listener );
+    }
+
+    public void removeMoleculeListener( MoleculeListener listener ) {
+        moleculeListeners.remove( listener );
+    }
+
+    public static interface MoleculeListener {
+        public void addedMolecule( MoleculeStructure moleculeStructure );
+
+        public void removedMolecule( MoleculeStructure moleculeStructure );
+    }
+
+    public static class MoleculeAdapter implements MoleculeListener {
+        public void addedMolecule( MoleculeStructure moleculeStructure ) {
+        }
+
+        public void removedMolecule( MoleculeStructure moleculeStructure ) {
+        }
+    }
+
     /*---------------------------------------------------------------------------*
     * model implementation
     *----------------------------------------------------------------------------*/
+
+    private void addMolecule( MoleculeStructure moleculeStructure ) {
+        molecules.add( moleculeStructure );
+        for ( MoleculeListener listener : moleculeListeners ) {
+            listener.addedMolecule( moleculeStructure );
+        }
+    }
+
+    private void removeMolecule( MoleculeStructure moleculeStructure ) {
+        molecules.remove( moleculeStructure );
+        for ( MoleculeListener listener : moleculeListeners ) {
+            listener.removedMolecule( moleculeStructure );
+        }
+    }
 
     /**
      * Takes an atom that was in a bucket and hooks it up within our structural model. It allocates a molecule for the
@@ -198,7 +277,7 @@ public class Kit {
         MoleculeStructure moleculeStructure = new MoleculeStructure() {{
             addAtom( atom.getAtomInfo() );
         }};
-        molecules.add( moleculeStructure );
+        addMolecule( moleculeStructure );
 
         // attempt to bond
         attemptToBondMolecule( moleculeStructure );
@@ -224,7 +303,7 @@ public class Kit {
         for ( Atom atom : molecule.getAtoms() ) {
             recycleAtomIntoBuckets( atom );
         }
-        molecules.remove( molecule );
+        removeMolecule( molecule );
     }
 
     /**
@@ -239,24 +318,21 @@ public class Kit {
         MoleculeStructure molA = getMoleculeStructure( a );
         MoleculeStructure molB = getMoleculeStructure( b );
         if ( molA == molB ) {
-            // same molecule already, so just bind together the atoms
-            molA.addBond( a.getAtomInfo(), b.getAtomInfo() );
-            System.out.println( "WARNING: loop or other invalid structure detected in a molecule" );
+            throw new RuntimeException( "WARNING: loop or other invalid structure detected in a molecule" );
         }
         else {
-            molecules.remove( molA );
-            molecules.remove( molB );
-            molecules.add( MoleculeStructure.getCombinedMoleculeFromBond( molA, molB, a.getAtomInfo(), b.getAtomInfo() ) );
+            removeMolecule( molA );
+            removeMolecule( molB );
+            addMolecule( MoleculeStructure.getCombinedMoleculeFromBond( molA, molB, a.getAtomInfo(), b.getAtomInfo() ) );
         }
 
         // TODO: remove following dev testing checks and debugging statements. ONLY after testing molecule structure comparison
         assert ( getMoleculeStructure( a ) == getMoleculeStructure( b ) );
         MoleculeStructure molecule = getMoleculeStructure( a );
-        for ( CompleteMolecule completeMolecule : CompleteMolecule.COMPLETE_MOLECULES ) {
-            if ( molecule.isEquivalent( completeMolecule.getMoleculeStructure() ) ) {
-                System.out.println( "You made: " + completeMolecule.getCommonName() );
-            }
-        }
+//        CompleteMolecule completeMolecule = CompleteMolecule.findMatchingCompleteMolecule( molecule );
+//        if ( completeMolecule != null ) {
+//            System.out.println( "You made: " + completeMolecule.getCommonName() );
+//        }
     }
 
     private MoleculeStructure getPossibleMoleculeStructureFromBond( AtomModel a, AtomModel b ) {
