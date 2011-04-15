@@ -85,7 +85,8 @@ public class BodyMassControl extends VerticalLayoutPanel {
                 }
             } );
 
-            //REVIEW: After reading this comment, I still don't understand why updatingSlider is necessary. This is not a general issue with sliders. What is special about this slider than makes this necessary?
+            //TODO: Identify more clearly why this is problematic and come up with a better solution.
+            // From the review: After reading this comment, I still don't understand why updatingSlider is necessary.  This is not a general issue with sliders. What is special about this slider than makes this necessary?
             // we don't want to set the body mass if we are updating the slider. otherwise we get a
             // mass change => update slider => mass change bounce and the wrong values are stored for a reset
             addChangeListener( new ChangeListener() {
@@ -110,8 +111,8 @@ public class BodyMassControl extends VerticalLayoutPanel {
                             double sliderValue = modelToView.createInverse().evaluate( getValue() );
                             if ( Math.abs( sliderValue - labelValue ) / labelValue < SNAP_TOLERANCE ) {
                                 body.setMass( labelValue );
-                                //REVIEW why is this necessary? Is this a workaround? If so, I would be concerned that you have an undiscovered bug.
-                                body.getMassProperty().notifyObservers();//Without this call, updates won't be sent properly and the thumb won't snap to the tick
+                                //TODO: why is this necessary? Is this a workaround? If so, I would be concerned that you have an undiscovered bug.
+                                body.getMassProperty().notifyObservers();//For unknown reasons, without this call, updates won't be sent properly and the thumb won't snap to the tick
                             }
                         }
                     } );
