@@ -1,10 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.buildamolecule.model;
 
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import edu.colorado.phet.buildamolecule.model.buckets.AtomModel;
 import edu.colorado.phet.buildamolecule.model.buckets.Bucket;
@@ -30,8 +27,8 @@ public class Kit {
     public static final double BUCKET_PADDING = 50;
     public static final double INTER_MOLECULE_PADDING = 100;
 
-    public Kit( List<Bucket> buckets, final LayoutBounds layoutBounds ) {
-        this.buckets = buckets;
+    public Kit( final LayoutBounds layoutBounds, Bucket... buckets ) {
+        this.buckets = new LinkedList<Bucket>( Arrays.asList( buckets ) );
         this.layoutBounds = layoutBounds;
 
         lewisDotModel = new LewisDotModel();
@@ -55,8 +52,8 @@ public class Kit {
         double usedWidth = 0;
 
         // lays out all of the buckets from the left to right
-        for ( int i = 0; i < buckets.size(); i++ ) {
-            Bucket bucket = buckets.get( i );
+        for ( int i = 0; i < this.buckets.size(); i++ ) {
+            Bucket bucket = this.buckets.get( i );
             if ( i != 0 ) {
                 usedWidth += BUCKET_PADDING;
             }

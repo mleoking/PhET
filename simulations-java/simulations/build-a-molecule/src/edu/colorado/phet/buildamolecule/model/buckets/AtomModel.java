@@ -5,6 +5,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+import edu.colorado.phet.buildamolecule.BuildAMoleculeStrings;
 import edu.colorado.phet.chemistry.model.Atom;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
@@ -12,6 +13,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.umd.cs.piccolo.util.PBounds;
 
 /**
@@ -53,9 +55,9 @@ public class AtomModel {
     // Reference to the clock.
     private final IClock clock;
 
-    public AtomModel( Atom atom, String name, IClock clock ) {
+    public AtomModel( Atom atom, IClock clock ) {
         this.clock = clock;
-        this.name = name;
+        this.name = BuildAMoleculeStrings.getAtomName( atom );
         this.atom = atom;
         position = new Property<ImmutableVector2D>( new ImmutableVector2D() );
         destination = position.getValue();
@@ -237,4 +239,62 @@ public class AtomModel {
         public void removedFromModel( AtomModel atom ) {
         }
     }
+
+    /*---------------------------------------------------------------------------*
+    * atom factories
+    *----------------------------------------------------------------------------*/
+
+    public static final Function0<Atom> HYDROGEN_FACTORY = new Function0<Atom>() {
+        public Atom apply() {
+            return new Atom.H();
+        }
+    };
+
+    public static final Function0<Atom> OXYGEN_FACTORY = new Function0<Atom>() {
+        public Atom apply() {
+            return new Atom.O();
+        }
+    };
+
+    public static final Function0<Atom> CARBON_FACTORY = new Function0<Atom>() {
+        public Atom apply() {
+            return new Atom.C();
+        }
+    };
+
+    public static final Function0<Atom> NITROGEN_FACTORY = new Function0<Atom>() {
+        public Atom apply() {
+            return new Atom.N();
+        }
+    };
+
+    public static final Function0<Atom> FLUORINE_FACTORY = new Function0<Atom>() {
+        public Atom apply() {
+            return new Atom.F();
+        }
+    };
+
+    public static final Function0<Atom> CHLORINE_FACTORY = new Function0<Atom>() {
+        public Atom apply() {
+            return new Atom.Cl();
+        }
+    };
+
+    public static final Function0<Atom> BORON_FACTORY = new Function0<Atom>() {
+        public Atom apply() {
+            return new Atom.B();
+        }
+    };
+
+    public static final Function0<Atom> SULPHUR_FACTORY = new Function0<Atom>() {
+        public Atom apply() {
+            return new Atom.S();
+        }
+    };
+
+    public static final Function0<Atom> SILICON_FACTORY = new Function0<Atom>() {
+        public Atom apply() {
+            return new Atom.Si();
+        }
+    };
 }
