@@ -51,13 +51,17 @@ public class KitCollectionModel {
 
                 @Override
                 public void droppedByUser( AtomModel atom ) {
-                    // TODO: add in collection box intercept here
-                    System.out.println( "atom: " + atom.getPosition() );
                     for ( CollectionBox box : boxes ) {
-                        System.out.println( "possible box: " + box.getDropBounds() );
                         if ( box.getDropBounds().contains( atom.getPosition().toPoint2D() ) ) {
-                            System.out.println( "dropped in the box" );
-                            // TODO: comparison of box molecule types, and then call to kit.mo....
+                            MoleculeStructure moleculeStructure = kit.getMoleculeStructure( atom );
+
+                            // if our box takes this type of molecule
+                            if ( box.getMoleculeType().getMoleculeStructure().isEquivalent( moleculeStructure ) ) {
+                                kit.moleculePutInCollectionBox( moleculeStructure, box );
+
+                                // do not call kit.atomDropped or continue with anything else
+                                return;
+                            }
                         }
                     }
                     kit.atomDropped( atom );

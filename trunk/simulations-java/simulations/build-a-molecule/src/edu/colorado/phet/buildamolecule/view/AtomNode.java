@@ -50,5 +50,12 @@ public class AtomNode extends PNode {
 
         // Add a cursor handler to signal to the user that this is movable.
         addInputEventListener( new CursorHandler() );
+
+        atom.addListener( new AtomModel.Adapter() {
+            @Override
+            public void removedFromModel( AtomModel atom ) {
+                getParent().removeChild( AtomNode.this );
+            }
+        } );
     }
 }
