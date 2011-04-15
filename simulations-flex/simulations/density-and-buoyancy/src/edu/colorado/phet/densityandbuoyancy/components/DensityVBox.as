@@ -6,26 +6,12 @@ import mx.containers.Box;
 import mx.containers.VBox;
 
 /**
- * Provides static methods for providing styling (e.g., color, padding) for Box instances
+ * Vertical layout box with default styling for density and buoyancy application.
  */
 public class DensityVBox extends VBox {
     public function DensityVBox() {
         super();
-        init( this );
-    }
-
-    //REVIEW putting this in DensityVBox and then calling it for non-DensityVBoxes (eg, DensityHBox constructor) is confusing.
-    public static function init( box: Box ): void {
-        box.setStyle( "backgroundColor", DensityAndBuoyancyConstants.CONTROL_PANEL_COLOR );
-        box.setStyle( "borderStyle", "solid" );
-
-        box.setStyle( "cornerRadius", 5 );
-
-        //Padding so the buttons don't touch the edge
-        box.setStyle( "paddingTop", 5 );
-        box.setStyle( "paddingBottom", 5 );
-        box.setStyle( "paddingLeft", 5 );
-        box.setStyle( "paddingRight", 5 );
+        BoxUtil.setStyle( this );
     }
 }
 }
