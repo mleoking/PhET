@@ -37,7 +37,7 @@ public class DensityCanvas extends AbstractDBCanvas {
             //If other modes are added, you may need to specify a call to the Mode.reset() in resetAll()
             setMode( customObjectMode );
 
-            //REVIEW doc, purpose?
+            //Box2D provides a sprite-oriented debugger for visualizing the box2d physics engine.  This can be turned on by uncommenting the addChild() line and will display the box2d shapes
             var box2DDebug: Box2DDebug = new Box2DDebug( model.getWorld() );
             //        _densityCanvas.addChild(box2DDebug.getSprite());
         } );
