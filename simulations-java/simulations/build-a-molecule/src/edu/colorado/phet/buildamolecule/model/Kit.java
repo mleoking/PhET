@@ -332,6 +332,7 @@ public class Kit {
      * Update atom destinations so that separate molecules will be separated visually
      */
     private void separateMoleculeDestinations() {
+        // TODO: push molecules into the center of the play area too? (rename method to be more appropriate)
         int maxIterations = 100;
         double pushAmount = 10; // how much to push two molecules away
 
@@ -387,7 +388,7 @@ public class Kit {
 
         // TODO: remove following dev testing checks and debugging statements. ONLY after testing molecule structure comparison
         assert ( getMoleculeStructure( a ) == getMoleculeStructure( b ) );
-        MoleculeStructure molecule = getMoleculeStructure( a );
+//        MoleculeStructure molecule = getMoleculeStructure( a );
 //        CompleteMolecule completeMolecule = CompleteMolecule.findMatchingCompleteMolecule( molecule );
 //        if ( completeMolecule != null ) {
 //            System.out.println( "You made: " + completeMolecule.getCommonName() );
