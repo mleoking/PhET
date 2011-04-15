@@ -119,9 +119,10 @@ class DraggableMassNode(mass: Mass, transform: ModelViewTransform,
   addInputEventListener(new CursorHandler)
 }
 
-class MyDoubleGeneralPath(pt: Point2D) extends DoubleGeneralPath(pt) {
+//Convenience subclass that makes it possible to curve using Vector2D for drawing the springs holding the masses
+class VectorDoubleGeneralPath(pt: Point2D) extends DoubleGeneralPath(pt) {
   def curveTo(control1: Vector2D, control2: Vector2D, target: Vector2D) {
-    super.curveTo(control1.x, control1.y, control2.x, control2.y, target.x, target.y)
+    curveTo(control1.x, control1.y, control2.x, control2.y, target.x, target.y)
   }
 }
 
