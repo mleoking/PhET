@@ -28,6 +28,7 @@ public class Kit {
 
     public static final double BOND_DISTANCE_THRESHOLD = 200;
     public static final double BUCKET_PADDING = 50;
+    public static final double INTER_MOLECULE_PADDING = 100;
 
     public Kit( List<Bucket> buckets, PBounds availableKitBounds ) {
         this.buckets = buckets;
@@ -62,6 +63,7 @@ public class Kit {
                             // dropped in play area
                             if ( isAtomInPlay( atom.getAtomInfo() ) ) {
                                 attemptToBondMolecule( getMoleculeStructure( atom ) );
+                                separateMoleculeDestinations();
                             }
                             else {
                                 addAtomToPlay( atom );
@@ -215,6 +217,11 @@ public class Kit {
         return bounds;
     }
 
+    /**
+     * Breaks apart a molecule into separate atoms that remain in the play area
+     *
+     * @param moleculeStructure The molecule to break
+     */
     public void breakMolecule( MoleculeStructure moleculeStructure ) {
         removeMolecule( moleculeStructure );
         for ( final Atom atom : moleculeStructure.getAtoms() ) {
@@ -224,6 +231,7 @@ public class Kit {
             }};
             addMolecule( newMolecule );
         }
+        separateMoleculeDestinations();
     }
 
     public void addMoleculeListener( MoleculeListener listener ) {
@@ -281,6 +289,8 @@ public class Kit {
 
         // attempt to bond
         attemptToBondMolecule( moleculeStructure );
+
+        separateMoleculeDestinations();
     }
 
     /**
@@ -304,6 +314,55 @@ public class Kit {
             recycleAtomIntoBuckets( atom );
         }
         removeMolecule( molecule );
+    }
+
+    private PBounds padMoleculeBounds( PBounds bounds ) {
+        double halfPadding = INTER_MOLECULE_PADDING / 2;
+        return new PBounds( bounds.x - halfPadding, bounds.y - halfPadding, bounds.width + INTER_MOLECULE_PADDING, bounds.height + INTER_MOLECULE_PADDING );
+    }
+
+    private void shiftMoleculeDestination( MoleculeStructure moleculeStructure, ImmutableVector2D delta ) {
+        for ( Atom atom : moleculeStructure.getAtoms() ) {
+            AtomModel atomModel = getAtomModel( atom );
+            atomModel.setDestination( atomModel.getDestination().getAddedInstance( delta ) );
+        }
+    }
+
+    /**
+     * Update atom destinations so that separate molecules will be separated visually
+     */
+    private void separateMoleculeDestinations() {
+        int maxIterations = 100;
+        double pushAmount = 10; // how much to push two molecules away
+
+        boolean foundOverlap = true;
+        while ( foundOverlap && maxIterations-- >= 0 ) {
+            foundOverlap = false;
+            for ( MoleculeStructure a : molecules ) {
+                PBounds aBounds = padMoleculeBounds( getMoleculeDestinationBounds( a ) );
+                for ( MoleculeStructure b : molecules ) {
+                    if ( a.getMoleculeId() >= b.getMoleculeId() ) {
+                        // this removes the case where a == b, and will make sure we don't run the following code twice for (a,b) and (b,a)
+                        continue;
+                    }
+                    PBounds bBounds = padMoleculeBounds( getMoleculeDestinationBounds( b ) );
+                    if ( aBounds.intersects( bBounds ) ) {
+                        foundOverlap = true;
+
+                        // get perturbed centers. this is so that if two molecules have the exact same centers, we will push them away
+                        ImmutableVector2D aCenter = new ImmutableVector2D( aBounds.getCenter2D() ).getAddedInstance( Math.random() - 0.5, Math.random() - 0.5 );
+                        ImmutableVector2D bCenter = new ImmutableVector2D( bBounds.getCenter2D() ).getAddedInstance( Math.random() - 0.5, Math.random() - 0.5 );
+
+                        // delta from center of A to center of B, scaled to half of our push amount.
+                        ImmutableVector2D delta = bCenter.getSubtractedInstance( aCenter ).getNormalizedInstance().getScaledInstance( pushAmount / 2 );
+
+                        // push B half of the way, then push A the same amount in the opposite direction
+                        shiftMoleculeDestination( b, delta );
+                        shiftMoleculeDestination( a, delta.getScaledInstance( -1 ) );
+                    }
+                }
+            }
+        }
     }
 
     /**
