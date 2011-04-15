@@ -420,6 +420,10 @@ public class Kit {
                         continue;
                     }
                     for ( LewisDotModel.Direction direction : lewisDotModel.getOpenDirections( otherAtom.getAtomInfo() ) ) {
+                        if ( !lewisDotModel.getOpenDirections( atomInfo ).contains( LewisDotModel.Direction.opposite( direction ) ) ) {
+                            // the spot on otherAtom was open, but the corresponding spot on our main atom was not
+                            continue;
+                        }
                         BondingOption location = new BondingOption( otherAtom, direction, atom );
                         double distance = atom.getPosition().getDistance( location.getIdealLocation() );
                         if ( distance < bestDistanceFromIdealLocation ) {
