@@ -22,7 +22,7 @@ public class Kit {
     private final LewisDotModel lewisDotModel; // lewis-dot connections between atoms on the play area
     private final Set<MoleculeStructure> molecules = new HashSet<MoleculeStructure>(); // molecule structures in the play area
     public final Property<Boolean> visible = new Property<Boolean>( false );
-    private PBounds availableKitBounds;
+    private LayoutBounds layoutBounds;
 
     private final List<MoleculeListener> moleculeListeners = new LinkedList<MoleculeListener>();
 
@@ -30,9 +30,9 @@ public class Kit {
     public static final double BUCKET_PADDING = 50;
     public static final double INTER_MOLECULE_PADDING = 100;
 
-    public Kit( List<Bucket> buckets, PBounds availableKitBounds ) {
+    public Kit( List<Bucket> buckets, final LayoutBounds layoutBounds ) {
         this.buckets = buckets;
-        this.availableKitBounds = availableKitBounds;
+        this.layoutBounds = layoutBounds;
 
         lewisDotModel = new LewisDotModel();
 
@@ -51,7 +51,7 @@ public class Kit {
                     @Override
                     public void droppedByUser( AtomModel atom ) {
                         // dropped on kit, put it in a bucket
-                        if ( Kit.this.getAvailableKitBounds().contains( atom.getPosition().toPoint2D() ) ) {
+                        if ( getAvailableKitBounds().contains( atom.getPosition().toPoint2D() ) ) {
                             if ( isAtomInPlay( atom.getAtomInfo() ) ) {
                                 recycleMoleculeIntoBuckets( getMoleculeStructure( atom ) );
                             }
@@ -78,8 +78,8 @@ public class Kit {
         * bucket layout
         *----------------------------------------------------------------------------*/
 
-        double kitY = availableKitBounds.getCenterY();
-        double kitXCenter = availableKitBounds.getCenterX();
+        double kitY = getAvailableKitBounds().getCenterY();
+        double kitXCenter = getAvailableKitBounds().getCenterX();
 
         double usedWidth = 0;
 
@@ -130,7 +130,11 @@ public class Kit {
     }
 
     public PBounds getAvailableKitBounds() {
-        return availableKitBounds;
+        return layoutBounds.getAvailableKitBounds();
+    }
+
+    public PBounds getAvailablePlayAreaBounds() {
+        return layoutBounds.getAvailablePlayAreaBounds();
     }
 
     /**
@@ -332,7 +336,6 @@ public class Kit {
      * Update atom destinations so that separate molecules will be separated visually
      */
     private void separateMoleculeDestinations() {
-        // TODO: push molecules into the center of the play area too? (rename method to be more appropriate)
         int maxIterations = 100;
         double pushAmount = 10; // how much to push two molecules away
 
@@ -341,6 +344,8 @@ public class Kit {
             foundOverlap = false;
             for ( MoleculeStructure a : molecules ) {
                 PBounds aBounds = padMoleculeBounds( getMoleculeDestinationBounds( a ) );
+
+                // separate it from other molecules
                 for ( MoleculeStructure b : molecules ) {
                     if ( a.getMoleculeId() >= b.getMoleculeId() ) {
                         // this removes the case where a == b, and will make sure we don't run the following code twice for (a,b) and (b,a)
@@ -360,7 +365,26 @@ public class Kit {
                         // push B half of the way, then push A the same amount in the opposite direction
                         shiftMoleculeDestination( b, delta );
                         shiftMoleculeDestination( a, delta.getScaledInstance( -1 ) );
+
+                        aBounds = padMoleculeBounds( getMoleculeDestinationBounds( a ) );
                     }
+                }
+
+                // then push it away from the outsides
+                if ( aBounds.getMinX() < getAvailablePlayAreaBounds().getMinX() ) {
+                    shiftMoleculeDestination( a, new ImmutableVector2D( getAvailablePlayAreaBounds().getMinX() - aBounds.getMinX(), 0 ) );
+                    aBounds = padMoleculeBounds( getMoleculeDestinationBounds( a ) );
+                }
+                if ( aBounds.getMaxX() > getAvailablePlayAreaBounds().getMaxX() ) {
+                    shiftMoleculeDestination( a, new ImmutableVector2D( getAvailablePlayAreaBounds().getMaxX() - aBounds.getMaxX(), 0 ) );
+                    aBounds = padMoleculeBounds( getMoleculeDestinationBounds( a ) );
+                }
+                if ( aBounds.getMinY() < getAvailablePlayAreaBounds().getMinY() ) {
+                    shiftMoleculeDestination( a, new ImmutableVector2D( 0, getAvailablePlayAreaBounds().getMinY() - aBounds.getMinY() ) );
+                    aBounds = padMoleculeBounds( getMoleculeDestinationBounds( a ) );
+                }
+                if ( aBounds.getMaxY() > getAvailablePlayAreaBounds().getMaxY() ) {
+                    shiftMoleculeDestination( a, new ImmutableVector2D( 0, getAvailablePlayAreaBounds().getMaxY() - aBounds.getMaxY() ) );
                 }
             }
         }
