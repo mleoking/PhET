@@ -17,8 +17,6 @@ import edu.colorado.phet.gravityandorbits.module.ModeListParameter;
 
 import static edu.colorado.phet.gravityandorbits.GAOStrings.CARTOON;
 
-//REVIEW crashes with NullPointerException. obsolete?
-
 /**
  * This class can help fine tune parameters for use in the cartoon mode, to help make sure you have a stable orbit.
  *
@@ -50,7 +48,7 @@ public class InitialConditionSampler {
                     doLayout();
                     ArrayList<Body> bodies = intro.getModes().get( 1 ).getModel().getBodies();
                     for ( Body body : bodies ) {
-                        if ( body.isCollided() || getBody( bodies, "Planet" ).getPosition().getDistance( getBody( bodies, "Moon" ).getPosition() ) > getBody( bodies, "Sun" ).getRadius() * 2 ) {
+                        if ( body.isCollided() || getBody( bodies, "Planet" ).getPosition().getDistance( getBody( bodies, "Moon" ).getPosition() ) > getBody( bodies, "Star" ).getRadius() * 2 ) {
                             System.out.println( alpha + "\t" + clockEvent.getSimulationTime() );
                             intro.getModes().get( 1 ).p.clockPausedProperty.setValue( true );
                             new Thread( new Runnable() {
