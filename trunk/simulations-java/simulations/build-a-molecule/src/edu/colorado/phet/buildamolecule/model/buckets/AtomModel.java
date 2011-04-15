@@ -12,6 +12,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.umd.cs.piccolo.util.PBounds;
 
 /**
  * Abstract base class from which spherical particles, which can be anything
@@ -84,6 +85,14 @@ public class AtomModel {
 
     public void removeListener( Listener listener ) {
         listeners.remove( listener );
+    }
+
+    public PBounds getPositionBounds() {
+        return new PBounds( position.getValue().getX() - getRadius(), position.getValue().getY() - getRadius(), getDiameter(), getDiameter() );
+    }
+
+    public PBounds getDestinationBounds() {
+        return new PBounds( destination.getX() - getRadius(), destination.getY() - getRadius(), getDiameter(), getDiameter() );
     }
 
     private void stepInTime( double dt ) {

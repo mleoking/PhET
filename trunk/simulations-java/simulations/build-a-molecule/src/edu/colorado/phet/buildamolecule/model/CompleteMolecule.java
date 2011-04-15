@@ -268,6 +268,21 @@ public class CompleteMolecule {
             CH2O, CH3OH, CH3F, CH2F2, CHF3, CF4, CH3Cl, CH2Cl2, C2H2, C2H4
     };
 
+    /**
+     * Find a complete molecule with an equivalent structure to the passed in molecule
+     *
+     * @param moleculeStructure Molecule structure to match
+     * @return Either a matching CompleteMolecule, or null if none is found
+     */
+    public static CompleteMolecule findMatchingCompleteMolecule( MoleculeStructure moleculeStructure ) {
+        for ( CompleteMolecule completeMolecule : CompleteMolecule.COMPLETE_MOLECULES ) {
+            if ( moleculeStructure.isEquivalent( completeMolecule.getMoleculeStructure() ) ) {
+                return completeMolecule;
+            }
+        }
+        return null;
+    }
+
     /*---------------------------------------------------------------------------*
     * computation of allowed molecule structures
     *----------------------------------------------------------------------------*/
