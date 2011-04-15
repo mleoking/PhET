@@ -37,7 +37,7 @@ public class Body implements IBodyColors {
     private boolean userControlled;//True if the user is currently controlling the position of the body with the mouse
 
     private final ArrayList<PathListener> pathListeners = new ArrayList<PathListener>();
-    private final ArrayList<PathPoint> path = new ArrayList<PathPoint>();
+    private final ArrayList<ImmutableVector2D> path = new ArrayList<ImmutableVector2D>();
     private final int maxPathLength; //Number of samples in the path before it starts erasing (fading out from the back)
 
     private final boolean massSettable;
@@ -229,7 +229,7 @@ public class Body implements IBodyColors {
                 listener.pointRemoved();
             }
         }
-        PathPoint pathPoint = new PathPoint( getPosition() );
+        ImmutableVector2D pathPoint = getPosition();
         path.add( pathPoint );
         for ( PathListener listener : pathListeners ) {
             listener.pointAdded( pathPoint );
@@ -386,10 +386,7 @@ public class Body implements IBodyColors {
         }
     }
 
-    //REVIEW fill in doc template, include why this is protected
-    /*
-     * Template method.
-     */
+    //Returns the body, overriden by bodies that need to be returned near the current location of the body they orbit
     protected void doReturnBody( GravityAndOrbitsModel model ) {
         positionProperty.reset();
         velocityProperty.reset();
@@ -399,18 +396,9 @@ public class Body implements IBodyColors {
         return collidedProperty.getValue();
     }
 
-    //REVIEW what is the purpose of this class? Is it a marker class? If so, why use composition instead of inheritance?
-    public static class PathPoint {
-        public final ImmutableVector2D point;
-
-        public PathPoint( ImmutableVector2D point ) {
-            this.point = point;
-        }
-    }
-
     //REVIEW document. who implements this and why?
     public static interface PathListener {
-        public void pointAdded( PathPoint point );
+        public void pointAdded( ImmutableVector2D point );
 
         public void pointRemoved();
 

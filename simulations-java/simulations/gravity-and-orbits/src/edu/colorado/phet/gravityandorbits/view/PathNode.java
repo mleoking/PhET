@@ -77,8 +77,8 @@ public class PathNode extends PNode {
 
         //Update when the Body path changes
         final Body.PathListener listener = new Body.PathListener() {
-            public void pointAdded( Body.PathPoint point ) {
-                ImmutableVector2D pt = transform.getValue().modelToView( point.point );
+            public void pointAdded( ImmutableVector2D point ) {
+                ImmutableVector2D pt = transform.getValue().modelToView( point );
                 points.add( pt );
                 pathNode.repaint();
             }
