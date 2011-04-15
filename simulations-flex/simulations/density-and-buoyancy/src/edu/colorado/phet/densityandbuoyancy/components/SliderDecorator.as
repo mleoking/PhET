@@ -22,6 +22,7 @@ public class SliderDecorator extends UIComponent {
     public var isFluidDensitySlider: Boolean = false;
     public const changeListeners: Array = new Array();
 
+    //REVIEW why not use a Bounds object instead of Function for dataTipClamp?
     public function SliderDecorator( dataTipClamp: Function/*Number=>Number*/, thumbOffset: Number ) {
         super();
 
@@ -72,7 +73,9 @@ public class SliderDecorator extends UIComponent {
         }
     }
 
+    //REVIEW doc, this looks like a model-view transform
     private function modelToView( x: Number ): Number {
+        //REVIEW what problems were occurring and do you have any clues about why, or how this should be rewritten?
         // TODO: this part is what was giving us problems. temporary values added, but this should all be rewritten
 //        return slider.mx_internal::getXFromValue(x);
 
@@ -82,6 +85,7 @@ public class SliderDecorator extends UIComponent {
         return (x - slider.minimum) * viewRange / modelRange + (isFluidDensitySlider ? 8 : 4);//note: can be off by a pixel sometimes, we are not sure why
     }
 
+    //REVIEW appreciated the nice comments in this method
     /**
      * This is an algorithm that moves the labels so they are not overlapping.
      * This is done iteratively by bumping offending labels by +/- 1 pixel away until there are no overlaps.
@@ -157,6 +161,7 @@ public class SliderDecorator extends UIComponent {
     private function drawTick( tick: Tick ): void {
         tick.textField.x = modelToView( tick.value ) - tick.textField.textWidth / 2;
         tick.textField.y = -tick.textField.textHeight / 2 - 3;
+        //REVIEW what caused the collision? has this been addressed? Is a ticket necessary if this causes i18n issue?
         //TODO: Remove workaround and respect il8n
         //Temporary workaround to remove collision between styrofoam and wood
         if ( tick.label == Material.STYROFOAM.name ) {
@@ -177,6 +182,7 @@ public class SliderDecorator extends UIComponent {
         slider.maximum = maximum;
     }
 
+    //REVIEW doc - what is "live dragging" and how does it differ from other dragging?
     public function set liveDragging( liveDragging: Boolean ): void {
         slider.liveDragging = liveDragging;
     }

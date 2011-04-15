@@ -1,5 +1,6 @@
 //  Copyright 2002-2011, University of Colorado
 
+//REVIEW generalize and move to common?
 /**
  * Model for a 2d vector that signifies changes to listeners.
  */
@@ -9,6 +10,7 @@ public class Vector2D {
     private var _y: Number;
     private const listeners: Array = new Array();
 
+    //REVIEW yes, use observable pattern
     // TODO: use observable pattern or property pattern here?
 
     public function Vector2D( x: Number, y: Number ) {

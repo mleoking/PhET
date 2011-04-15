@@ -59,9 +59,10 @@ public class DensityObject {
 
     public function DensityObject( x: Number, y: Number, z: Number, model: DensityAndBuoyancyModel, __density: Number, mass: Number, __volume: Number, __material: Material ) {
         this._material = __material;
+        //REVIEW why aren't you using a Units object to supply units, as in CustomObjectPropertiesPanel?
         //REVIEW why aren't units internationalized?
         this._volume = new NumericProperty( FlexSimStrings.get( "properties.volume", "Volume" ), "m\u00b3", __volume );
-        //REVIEW Confused by the fact that the units string is a pattern.
+        //REVIEW Confused by the fact that the units string is a pattern for mass.
         this._mass = new NumericProperty( FlexSimStrings.get( "properties.mass", "Mass" ), "{0} kg", mass );
         this._density = new NumericProperty( FlexSimStrings.get( "properties.density", "Density" ), "kg/m\u00b3", __density );
         this.labelProperty = new StringProperty( getLabelString() );//Showing one decimal point is a good tradeoff between readability and complexity);
@@ -113,7 +114,8 @@ public class DensityObject {
 
     private function getLabelString(): String {
         //REVIEW Why isn't this getting the units from the mass property, since they were set up above?  In that case
-        // the pattern should be {0} {1}.
+        // the pattern should be "{0} {1}".
+        //REVIEW why is formatting handled by SimStrings?
         return FlexSimStrings.get( "properties.massKilogramValue", "{0} kg", [DensityAndBuoyancyConstants.format( getMass() )] );
     }
 

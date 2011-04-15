@@ -76,6 +76,7 @@ public class CustomObjectPropertiesPanel extends DensityVBox {
         myBlockSelected.addListener( function(): void {
             if ( myBlockSelected.value ) {
                 if ( !densityObject.material.isCustom() ) {
+                    //REVIEW has this been addressed?
                     // TODO: is customObject.custom currently used? there is material.custom!
                     densityObject.material = new Material( myBlockName, densityObject.density, true );
                 }
@@ -105,6 +106,7 @@ public class CustomObjectPropertiesPanel extends DensityVBox {
         addChild( grid );
     }
 
+    //REVIEW private?
     //Helper function to create a GridRow, to put some vertical spacing between mass,volume and the density readout.
     public function createSpacerRow( height: int ): GridRow {
         var spacerRow: GridRow = new GridRow();

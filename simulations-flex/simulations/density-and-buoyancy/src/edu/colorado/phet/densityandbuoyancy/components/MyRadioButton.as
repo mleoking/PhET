@@ -7,6 +7,7 @@ import flash.events.Event;
 
 import mx.controls.RadioButton;
 
+//REVIEW "My" is not a prefix that's suitable for production code.
 /**
  * RadioButton that is wired up to the specified BooleanProperty.
  */

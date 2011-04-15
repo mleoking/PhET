@@ -29,7 +29,7 @@ public class Material {
     [Embed(source="../../../../../../data/density-and-buoyancy/images/ice.jpg")]
     private static var iceTextureClass: Class;
 
-    //REVIEW - Why aren't all of this constants?
+    //REVIEW - should all of these vars be const?
     public static var STYROFOAM: Material = new Material( FlexSimStrings.get( "material.styrofoam", "Styrofoam" ), 150, false, 0xcccccc, new styrofoamTextureClass() );//between 25 and 200 according to http://wiki.answers.com/Q/What_is_the_density_of_styrofoam; chose 150 so it isn't too low to show on slider, but not 200 so it's not half of wood
     public static var WOOD: Material = new Material( FlexSimStrings.get( "material.wood", "Wood" ), 400, false, 0xa87113, new woodTextureClass() );
     public static var ICE: Material = new Material( FlexSimStrings.get( "material.ice", "Ice" ), 919, false, 0x6fbcff, new iceTextureClass(), 0.75 );

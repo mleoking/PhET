@@ -7,6 +7,8 @@ import flash.text.TextField;
 import flash.text.TextFieldAutoSize;
 import flash.text.TextFormat;
 
+//REVIEW if it's supposed to look like the label that appears on the block, then why don't the
+//  control panel and the block use this same code to create the label?
 /**
  * Displays the block name in custom object control panel. Should look like the label that appears on the block.
  * This is currently used only in Buoyancy when there are two custom objects.

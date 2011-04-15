@@ -29,6 +29,7 @@ public class PropertyEditor extends GridRow {
     protected var addLabels: Boolean;
     private var userChanged: Boolean = false;
 
+    //REVIEW why do you use a Function for dataTipClamp, but a Bounds for sliderWidth? They both do the same thing (clamp to some max), so wouldn't it be clearer to use a Bounds for both?
     public function PropertyEditor( property: NumericProperty, minimum: Number, maximum: Number, unit: Unit, dataTipClamp: Function, bounds: Bounds, sliderWidth: Number = 280, addLabels: Boolean = true ) {
         super();
         this.addLabels = addLabels;

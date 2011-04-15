@@ -9,7 +9,6 @@ import edu.colorado.phet.densityandbuoyancy.view.AbstractDBCanvas;
 /**
  * Density simulation mode which shows 4 blocks of the same volume.
  */
-//REVIEW inheritance hierarchy is a little inconsistent, there is a BuoyancyMode but no DensityMode
 public class DensitySameVolumeMode extends Mode {
 
     public function DensitySameVolumeMode( canvas: AbstractDBCanvas ) {

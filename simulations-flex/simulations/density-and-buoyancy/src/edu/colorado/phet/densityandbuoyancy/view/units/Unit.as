@@ -3,6 +3,7 @@ package edu.colorado.phet.densityandbuoyancy.view.units {
 /**
  * Provides a way to convert to and from different units (such as meters <-> feet)
  */
+//REVIEW is this class supposed to be treated as abstract? if so, don't return NaN, throw new Error("...")
 public class Unit {
     private var _name: String;
 

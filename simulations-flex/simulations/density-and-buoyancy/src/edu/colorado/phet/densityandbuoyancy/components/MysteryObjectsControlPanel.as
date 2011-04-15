@@ -34,6 +34,7 @@ public class MysteryObjectsControlPanel extends DensityVBox {
         super();
 
         const grid: Grid = new Grid();
+        //REVIEW one-line comments for each chunk of code here would be helpful to future developers
 
         grid.addChild( toGridRow( FlexSimStrings.get( "mysteryObject.material", "Material" ),
                                   FlexSimStrings.get( "mysteryObject.densityColumnHeader", "Density ({0})", [FlexSimStrings.get( "mysteryObject.densityUnitsKgL", "kg/L" )] ),

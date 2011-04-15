@@ -5,8 +5,10 @@ import edu.colorado.phet.densityandbuoyancy.model.Material;
 import edu.colorado.phet.densityandbuoyancy.view.units.Unit;
 import edu.colorado.phet.flexcommon.model.NumericProperty;
 
+//REVIEW Setting control panel to "My Block" I can't directly control this slider. Assuming that's not a bug, need to change this doc.
+// The doc indicates that this is for "controlling an object's density", but it's really for displaying an object's density.
 /**
- * PropertyEditor for controlling an objects density that includes a slider with labeled tick marks.
+ * PropertyEditor for controlling an object's density that includes a slider with labeled tick marks.
  * The DensityEditor differs from a normal PropertyEditor in that it has slider tick marks and a bigger thumb, and a readout on the slider.
  */
 public class DensityEditor extends PropertyEditor {
