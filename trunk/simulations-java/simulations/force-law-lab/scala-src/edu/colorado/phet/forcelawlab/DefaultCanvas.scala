@@ -6,22 +6,26 @@ import java.awt.geom.Rectangle2D
 import edu.colorado.phet.common.piccolophet.PhetPCanvas
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl
 import edu.umd.cs.piccolo.PNode
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import edu.colorado.phet.scalacommon.CenteredBoxStrategy
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform
 
 //TODO: factor out common DefaultCanvas class for scalacommon
 class DefaultCanvas(modelWidth: Double, modelHeight: Double) extends PhetPCanvas(new Dimension(1024, 768)) {
   val centeredBoxStrategy = new CenteredBoxStrategy(768, 768, this)
   setWorldTransformStrategy(centeredBoxStrategy)
   val canonicalBounds = new Rectangle(0, 0, 768, 768)
-  val transform: ModelViewTransform2D = new ModelViewTransform2D(new Rectangle2D.Double(-modelWidth / 2, -modelHeight / 2, modelWidth, modelHeight), canonicalBounds, true)
+  val transform: ModelViewTransform = ModelViewTransform.createRectangleInvertedYMapping(new Rectangle2D.Double(-modelWidth / 2, -modelHeight / 2, modelWidth, modelHeight), canonicalBounds)
 
   val worldNode = new PNode
   addWorldChild(worldNode)
 
-  def addNode(node: PNode) = worldNode.addChild(node)
+  def addNode(node: PNode) {
+    worldNode.addChild(node)
+  }
 
-  def addNode(index: Int, node: PNode) = worldNode.addChild(index, node)
+  def addNode(index: Int, node: PNode) {
+    worldNode.addChild(index, node)
+  }
 
   def getVisibleModelBounds = centeredBoxStrategy.getVisibleModelBounds
 }
@@ -33,8 +37,12 @@ class ScalaValueControl(min: Double, max: Double, name: String, decimalFormat: S
   addListener(update)
   update()
   addChangeListener(new ChangeListener {
-    def stateChanged(e: ChangeEvent) = setter(getValue)
+    def stateChanged(e: ChangeEvent) {
+      setter(getValue)
+    }
   });
 
-  def update() = setValue(getter)
+  def update() {
+    setValue(getter)
+  }
 }

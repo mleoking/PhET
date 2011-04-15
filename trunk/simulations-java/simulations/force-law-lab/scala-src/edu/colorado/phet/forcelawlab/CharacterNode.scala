@@ -1,6 +1,6 @@
 package edu.colorado.phet.forcelawlab
 
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils
 import java.awt.{TexturePaint, Color, BasicStroke}
 import edu.colorado.phet.common.piccolophet.event.CursorHandler
@@ -11,7 +11,7 @@ import edu.umd.cs.piccolo.PNode
 import edu.umd.cs.piccolo.nodes.PImage
 import java.awt.geom.{Rectangle2D, Ellipse2D, Line2D}
 
-class CharacterNode(mass: Mass, mass2: Mass, transformMV: ModelViewTransform2D, leftOfObject: Boolean, gravityForce: () => Double,
+class CharacterNode(mass: Mass, mass2: Mass, transformMV: ModelViewTransform, leftOfObject: Boolean, gravityForce: () => Double,
                     minDragX: () => Double, maxDragX: () => Double) extends PNode {
   val shadowNode = new PhetPPath(Color.gray)
   addChild(shadowNode)
@@ -42,11 +42,11 @@ class CharacterNode(mass: Mass, mass2: Mass, transformMV: ModelViewTransform2D, 
     1
   }
 
-  def ropeLength = transformMV.modelToViewDifferentialX(mass.radius) + 100
+  def ropeLength = transformMV.modelToViewDeltaX(mass.radius) + 100
 
   def ropeEnd = ropeStart + new Vector2D(ropeLength * sign, 0)
 
-  def updateRopeNode() = {
+  def updateRopeNode() {
     ropeNode.setPathTo(new BasicStroke(5).createStrokedShape(new Line2D.Double(ropeStart, ropeEnd)))
     val im = BufferedImageUtils.multiScaleToHeight(ForceLawLabResources.getImage("rope-pattern.png"), 5)
 

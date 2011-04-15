@@ -15,7 +15,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint
 import java.awt.geom.{Ellipse2D, Point2D}
 import edu.colorado.phet.scalacommon.math.Vector2D
 import edu.umd.cs.piccolo.PNode
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform
 import java.text.{DecimalFormatSymbols, DecimalFormat, FieldPosition, NumberFormat}
 import edu.colorado.phet.scalacommon.swing.MyRadioButton
 import edu.colorado.phet.scalacommon.util.Observable
@@ -24,8 +24,9 @@ import edu.colorado.phet.scalacommon.Predef._
 import edu.colorado.phet.common.phetcommon.application.{PhetApplicationLauncher, PhetApplicationConfig, Module}
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication
 import javax.swing.border.TitledBorder
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D
 
-class ForceLabelNode(target: Mass, source: Mass, transform: ModelViewTransform2D, model: ForceLawLabModel,
+class ForceLabelNode(target: Mass, source: Mass, transform: ModelViewTransform, model: ForceLawLabModel,
                      color: Color, scale: Double, format: NumberFormat, offsetY: Double, right: Boolean) extends PNode {
   val arrowNode = new ArrowNode(new Point2D.Double(0, 0), new Point2D.Double(1, 1), 20, 20, 8, 0.5, true) {
     setPaint(color)
@@ -57,7 +58,7 @@ class ForceLabelNode(target: Mass, source: Mass, transform: ModelViewTransform2D
   addChild(label)
 }
 
-class MassNode(mass: Mass, transform: ModelViewTransform2D, color: Color, magnification: Magnification, textOffset: () => Double) extends PNode {
+class MassNode(mass: Mass, transform: ModelViewTransform, color: Color, magnification: Magnification, textOffset: () => Double) extends PNode {
   val image = new SphericalNode(mass.radius * 2, color, false)
   val label = new ShadowPText(mass.name, Color.white, new PhetFont(16, true))
   val w = 6
@@ -65,7 +66,7 @@ class MassNode(mass: Mass, transform: ModelViewTransform2D, color: Color, magnif
 
   defineInvokeAndPass(mass.addListenerByName) {
                                                 image.setOffset(transform.modelToView(mass.position))
-                                                val viewRadius = transform.modelToViewDifferentialXDouble(mass.radius)
+                                                val viewRadius = transform.modelToViewDeltaX(mass.radius)
                                                 image.setDiameter(viewRadius * 2)
                                                 image.setPaint(new RoundGradientPaint(viewRadius, -viewRadius, Color.WHITE, new Point2D.Double(-viewRadius, viewRadius), color))
                                                 label.setOffset(transform.modelToView(mass.position) - new Vector2D(label.getFullBounds.getWidth / 2, label.getFullBounds.getHeight / 2))
@@ -81,13 +82,15 @@ class MassNode(mass: Mass, transform: ModelViewTransform2D, color: Color, magnif
 }
 
 class DragHandler(mass: Mass,
-                  transform: ModelViewTransform2D,
+                  transform: ModelViewTransform,
                   minDragX: () => Double, maxDragX: () => Double, node: PNode) extends PBasicInputEventHandler {
   var dragging = false
 
   override def mouseDragged(event: PInputEvent) {
-    implicit def pdimensionToPoint2D(dim: PDimension) = new Point2D.Double(dim.width, dim.height)
-    mass.position = mass.position + new Vector2D(transform.viewToModelDifferential(event.getDeltaRelativeTo(node.getParent)).x, 0)
+    implicit def toPoint2D(dim: PDimension) = new Point2D.Double(dim.width, dim.height)
+    val delta = event.getDeltaRelativeTo(node.getParent)
+    val x: Double = transform.viewToModelDelta(new ImmutableVector2D(delta.width, delta.height)).getX
+    mass.position = mass.position + new Vector2D(x, 0)
     if ( mass.position.x < minDragX() ) {
       mass.position = new Vector2D(minDragX(), 0)
     }
@@ -105,7 +108,7 @@ class DragHandler(mass: Mass,
   }
 }
 
-class DraggableMassNode(mass: Mass, transform: ModelViewTransform2D,
+class DraggableMassNode(mass: Mass, transform: ModelViewTransform,
                         color: Color, minDragX: () => Double, maxDragX: () => Double,
                         magnification: Magnification, textOffset: () => Double)
         extends MassNode(mass, transform, color, magnification, textOffset) {
@@ -141,7 +144,7 @@ class ForceLawLabCanvas(model: ForceLawLabModel, modelWidth: Double, mass1Color:
   }
 
   val rulerNode = {
-    val dx = transform.modelToViewDifferentialX(rulerLength)
+    val dx = transform.modelToViewDeltaX(rulerLength)
     new RulerNode(dx, 14, 40, maj.toArray, new PhetFont(Font.BOLD, 16), rulerLabel, new PhetFont(Font.BOLD, 16), 4, 10, 6);
   }
   units.addListenerByName {
@@ -182,8 +185,8 @@ class ForceLawLabCanvas(model: ForceLawLabModel, modelWidth: Double, mass1Color:
 }
 
 class MyDoubleGeneralPath(pt: Point2D) extends DoubleGeneralPath(pt) {
-  def curveTo(control1: Vector2D, control2: Vector2D, dest: Vector2D) {
-    super.curveTo(control1.x, control1.y, control2.x, control2.y, dest.x, dest.y)
+  def curveTo(control1: Vector2D, control2: Vector2D, target: Vector2D) {
+    super.curveTo(control1.x, control1.y, control2.x, control2.y, target.x, target.y)
   }
 }
 
@@ -202,7 +205,7 @@ class ForceLawLabControlPanel(model: ForceLawLabModel, resetFunction: () => Unit
   add(new ForceLawLabScalaValueControl(0.01, 100, model.m1.name, "0.00", getLocalizedString("units.kg"), model.m1.mass, m1Update, model.m1.addListener))
   add(new ForceLawLabScalaValueControl(0.01, 100, model.m2.name, "0.00", getLocalizedString("units.kg"), model.m2.mass, m2Update, model.m2.addListener))
   addResetAllButton(new Resettable() {
-    def reset {
+    def reset() {
       model.reset()
       resetFunction()
     }
@@ -383,11 +386,7 @@ class SunPlanetDecimalFormat extends DecimalFormat("#,###,###,###,###,###,##0.0"
 })
 
 class ForceLawsModule(clock: ScalaClock) extends Module(ForceLawLabResources.getLocalizedString("module.force-laws.name"), clock) {
-  def massToRadiusFn(m: Double) = {
-    val x = Math.pow(m, 1 / 3.0) / 10.0 * 4.0
-    //    println("mass = "+m+", radius = "+x)
-    x
-  }
+  def massToRadiusFn(m: Double) = pow(m, 1 / 3.0) / 10.0 * 4.0
 
   val model = new ForceLawLabModel(38, 25, -2, 2, massToRadiusFn, massToRadiusFn, 9E-10, 0.0, 50, 50, -4, ForceLawLabResources.getLocalizedString("mass-1"), ForceLawLabResources.getLocalizedString("mass-2"))
   val canvas = new ForceLawLabCanvas(model, 10, Color.blue, Color.red, Color.white, 10, 10,
