@@ -27,24 +27,31 @@ import javax.swing.border.TitledBorder
 
 class ForceLabelNode(target: Mass, source: Mass, transform: ModelViewTransform2D, model: ForceLawLabModel,
                      color: Color, scale: Double, format: NumberFormat, offsetY: Double, right: Boolean) extends PNode {
-  val arrowNode = new ArrowNode(new Point2D.Double(0, 0), new Point2D.Double(1, 1), 20, 20, 8, 0.5, true){
-	  setPaint(color)	  
+  val arrowNode = new ArrowNode(new Point2D.Double(0, 0), new Point2D.Double(1, 1), 20, 20, 8, 0.5, true) {
+    setPaint(color)
   }
-  val label = new PText{
-	  setTextPaint(color)
-	  setFont(new PhetFont(18, true))
+  val label = new PText {
+    setTextPaint(color)
+    setFont(new PhetFont(18, true))
   }
 
   defineInvokeAndPass(model.addListenerByName) {
-    label.setOffset(transform.modelToView(target.position) - new Vector2D(0, label.getFullBounds.getHeight + offsetY))
-    val str = ForceLawLabResources.format("force-description-pattern-target_source_value", target.name, source.name, format.format(model.getGravityForce.magnitude))
-    label.setText(str)
-    val sign = if (right) 1 else -1
-    val tip = label.getOffset + new Vector2D(sign * model.getGravityForce.magnitude * scale, -20)
-    val tail = label.getOffset + new Vector2D(0, -20)
-    arrowNode.setTipAndTailLocations(tip, tail)
-    if (!right) label.translate(-label.getFullBounds.getWidth, 0)
-  }
+                                                 label.setOffset(transform.modelToView(target.position) - new Vector2D(0, label.getFullBounds.getHeight + offsetY))
+                                                 val str = ForceLawLabResources.format("force-description-pattern-target_source_value", target.name, source.name, format.format(model.getGravityForce.magnitude))
+                                                 label.setText(str)
+                                                 val sign = if ( right ) {
+                                                   1
+                                                 }
+                                                 else {
+                                                   -1
+                                                 }
+                                                 val tip = label.getOffset + new Vector2D(sign * model.getGravityForce.magnitude * scale, -20)
+                                                 val tail = label.getOffset + new Vector2D(0, -20)
+                                                 arrowNode.setTipAndTailLocations(tip, tail)
+                                                 if ( !right ) {
+                                                   label.translate(-label.getFullBounds.getWidth, 0)
+                                                 }
+                                               }
 
   addChild(arrowNode)
   addChild(label)
@@ -57,15 +64,15 @@ class MassNode(mass: Mass, transform: ModelViewTransform2D, color: Color, magnif
   val centerIndicator = new PhetPPath(new Ellipse2D.Double(-w / 2, -w / 2, w, w), Color.black)
 
   defineInvokeAndPass(mass.addListenerByName) {
-    image.setOffset(transform.modelToView(mass.position))
-    val viewRadius = transform.modelToViewDifferentialXDouble(mass.radius)
-    image.setDiameter(viewRadius * 2)
-    image.setPaint(new RoundGradientPaint(viewRadius, -viewRadius, Color.WHITE,new Point2D.Double(-viewRadius, viewRadius), color))
-    label.setOffset(transform.modelToView(mass.position) - new Vector2D(label.getFullBounds.getWidth / 2, label.getFullBounds.getHeight / 2))
-    label.translate(0, textOffset())
-    centerIndicator.setOffset(transform.modelToView(mass.position))
-    centerIndicator.setVisible(centerIndicator.getFullBounds.getWidth < image.getFullBounds.getWidth)
-  }
+                                                image.setOffset(transform.modelToView(mass.position))
+                                                val viewRadius = transform.modelToViewDifferentialXDouble(mass.radius)
+                                                image.setDiameter(viewRadius * 2)
+                                                image.setPaint(new RoundGradientPaint(viewRadius, -viewRadius, Color.WHITE, new Point2D.Double(-viewRadius, viewRadius), color))
+                                                label.setOffset(transform.modelToView(mass.position) - new Vector2D(label.getFullBounds.getWidth / 2, label.getFullBounds.getHeight / 2))
+                                                label.translate(0, textOffset())
+                                                centerIndicator.setOffset(transform.modelToView(mass.position))
+                                                centerIndicator.setVisible(centerIndicator.getFullBounds.getWidth < image.getFullBounds.getWidth)
+                                              }
 
 
   addChild(image)
@@ -81,10 +88,12 @@ class DragHandler(mass: Mass,
   override def mouseDragged(event: PInputEvent) = {
     implicit def pdimensionToPoint2D(dim: PDimension) = new Point2D.Double(dim.width, dim.height)
     mass.position = mass.position + new Vector2D(transform.viewToModelDifferential(event.getDeltaRelativeTo(node.getParent)).x, 0)
-    if (mass.position.x < minDragX())
+    if ( mass.position.x < minDragX() ) {
       mass.position = new Vector2D(minDragX(), 0)
-    if (mass.position.x > maxDragX())
+    }
+    if ( mass.position.x > maxDragX() ) {
       mass.position = new Vector2D(maxDragX(), 0)
+    }
   }
 
   override def mousePressed(event: PInputEvent) = dragging = true
@@ -109,15 +118,22 @@ class ForceLawLabCanvas(model: ForceLawLabModel, modelWidth: Double, mass1Color:
 
   val ticks = new ArrayBuffer[Long]
   private var _x = 0L
-  while (_x <= rulerLength) { //no high level support for 1L to 5L => Range[Long]
+  while ( _x <= rulerLength ) {
+    //no high level support for 1L to 5L => Range[Long]
     ticks += _x
     _x += tickIncrement
   }
 
-  def maj = for (i <- 0 until ticks.size) yield {
-    if (i == 1 && tickToString(ticks(i)).length > 1) "" //todo improve heuristic for overlapping text
-    else if (i == ticks.size - 1 && tickToString(ticks(i)).length > 5) "" //skip last tick label in km if it is expected to go off the ruler
-    else tickToString(ticks(i))
+  def maj = for ( i <- 0 until ticks.size ) yield {
+    if ( i == 1 && tickToString(ticks(i)).length > 1 ) {
+      ""
+    } //todo improve heuristic for overlapping text
+    else if ( i == ticks.size - 1 && tickToString(ticks(i)).length > 5 ) {
+      ""
+    } //skip last tick label in km if it is expected to go off the ruler
+    else {
+      tickToString(ticks(i))
+    }
   }
 
   val rulerNode = {
@@ -125,14 +141,17 @@ class ForceLawLabCanvas(model: ForceLawLabModel, modelWidth: Double, mass1Color:
     new RulerNode(dx, 14, 40, maj.toArray, new PhetFont(Font.BOLD, 16), rulerLabel, new PhetFont(Font.BOLD, 16), 4, 10, 6);
   }
   units.addListenerByName {
-    rulerNode.setUnits(units.units.name)
-    rulerNode.setMajorTickLabels(maj.toArray)
-  }
+                            rulerNode.setUnits(units.units.name)
+                            rulerNode.setMajorTickLabels(maj.toArray)
+                          }
 
   def resetRulerLocation() = rulerNode.setOffset(150, 500)
+
   resetRulerLocation()
 
-  def updateRulerVisible() = {} //rulerNode.setVisible(!magnification.magnified)
+  def updateRulerVisible() = {}
+
+  //rulerNode.setVisible(!magnification.magnified)
   magnification.addListenerByName(updateRulerVisible())
   updateRulerVisible()
 
@@ -161,7 +180,9 @@ class MyDoubleGeneralPath(pt: Point2D) extends DoubleGeneralPath(pt) {
 }
 
 class ForceLawLabControlPanel(model: ForceLawLabModel, resetFunction: () => Unit) extends ControlPanel {
+
   import ForceLawLabResources._
+
   val m1Update = (x: Double) => {
     model.m1.mass = x
     model.m1.position = new Vector2D(java.lang.Math.min(model.mass1MaxX(), model.m1.position.x), model.m1.position.y)
@@ -181,14 +202,16 @@ class ForceLawLabControlPanel(model: ForceLawLabModel, resetFunction: () => Unit
 }
 
 class ForceLawLabScalaValueControl(min: Double, max: Double, name: String, decimalFormat: String, units: String,
-                                   getter: => Double, setter: Double => Unit, addListener: (() => Unit) => Unit) extends ScalaValueControl(min, max, name, decimalFormat, units,
-  getter, setter, addListener) {
+                                   getter: => Double, setter: Double => Unit, addListener: ( () => Unit ) => Unit) extends ScalaValueControl(min, max, name, decimalFormat, units,
+                                                                                                                                             getter, setter, addListener) {
   getTextField.setFont(new PhetFont(16, true))
 }
 
 class UnitsControl(units: UnitsContainer, phetFrame: PhetFrame) extends VerticalLayoutPanel {
-  setBorder(ForceLawBorders.createTitledBorder("units"))//todo: translate when used
-  for (u <- UnitsCollection.values) add(new MyRadioButton(u.name, units.units = u, units.units == u, units.addListener))
+  setBorder(ForceLawBorders.createTitledBorder("units")) //todo: translate when used
+  for ( u <- UnitsCollection.values ) {
+    add(new MyRadioButton(u.name, units.units = u, units.units == u, units.addListener))
+  }
 }
 
 case class Units(name: String, scale: Double) {
@@ -199,7 +222,7 @@ case class Units(name: String, scale: Double) {
 
 object UnitsCollection {
   val values = new Units(ForceLawLabResources.getLocalizedString("units.light-minutes"), 5.5594E-11) :: //new Units("meters", 1.0) ::
-          new Units(ForceLawLabResources.getLocalizedString("units.kilometers"), 1 / 1000.0) :: Nil
+               new Units(ForceLawLabResources.getLocalizedString("units.kilometers"), 1 / 1000.0) :: Nil
 }
 
 class UnitsContainer(private var _units: Units) extends Observable {
@@ -247,11 +270,17 @@ class Mass(private var _mass: Double, private var _position: Vector2D, val name:
 
   def mass = _mass
 
-  def mass_=(m: Double) = {_mass = m; notifyListeners()}
+  def mass_=(m: Double) = {
+    _mass = m;
+    notifyListeners()
+  }
 
   def position = _position
 
-  def position_=(p: Vector2D) = {_position = p; notifyListeners()}
+  def position_=(p: Vector2D) = {
+    _position = p;
+    notifyListeners()
+  }
 
   def radius = _massToRadius(_mass)
 
@@ -277,7 +306,8 @@ class ForceLawLabModel(mass1: Double,
   val m1 = new Mass(mass1, new Vector2D(mass1Position, 0), mass1Name, mass1Radius)
   val m2 = new Mass(mass2, new Vector2D(mass2Position, 0), mass2Name, mass2Radius)
 
-  val minDistanceBetweenMasses = 0.1 //so that they won't be touching at their closest point
+  val minDistanceBetweenMasses = 0.1
+  //so that they won't be touching at their closest point
   //todo: turn into defs
   val mass1MaxX = () => m2.position.x - m2.radius - m1.radius - minDistanceBetweenMasses
   val mass2MinX = () => m1.position.x + m1.radius + m2.radius + minDistanceBetweenMasses
@@ -300,7 +330,12 @@ class ForceLawLabModel(mass1: Double,
   //set the location of the m2 based on the total separation radius
   def distance_=(d: Double) = m2.position = new Vector2D(m1.position.x + d, 0)
 
-  def rMin = if (m1.position.x + m1.radius < m2.position.x - m2.radius) r else m2.position - new Vector2D(m2.radius, 0)
+  def rMin = if ( m1.position.x + m1.radius < m2.position.x - m2.radius ) {
+    r
+  }
+  else {
+    m2.position - new Vector2D(m2.radius, 0)
+  }
 
   def getGravityForce = r * ForceLawLabDefaults.G * m1.mass * m2.mass / pow(r.magnitude, 3)
 
@@ -314,45 +349,50 @@ class TinyDecimalFormat extends DecimalFormat("0.00000000000") {
     val s = super.format(number, result, fieldPosition).toString
     //start at the end, and insert spaces after every 3 elements, may not work for every locale
     var str = ""
-    for (ch <- s) {
+    for ( ch <- s ) {
       str = str + ch
-      if (str.length % 4 == 0) //4 instead of 3 because space adds another element
+      //4 instead of 3 because space adds another element
+      if ( str.length % 4 == 0 ) {
         str = str + " "
+      }
     }
     new StringBuffer(str)
   }
 }
 
 class SunPlanetDecimalFormat extends DecimalFormat("#,###,###,###,###,###,##0.0", {
-    val x = new DecimalFormatSymbols()
-    x.setGroupingSeparator(' ')
-    x
-  })
+  val x = new DecimalFormatSymbols()
+  x.setGroupingSeparator(' ')
+  x
+})
 
 class ForceLawsModule(clock: ScalaClock) extends Module(ForceLawLabResources.getLocalizedString("module.force-laws.name"), clock) {
   def massToRadiusFn(m: Double) = {
-    val x = Math.pow(m,1/3.0) / 10.0*4.0
-//    println("mass = "+m+", radius = "+x)
+    val x = Math.pow(m, 1 / 3.0) / 10.0 * 4.0
+    //    println("mass = "+m+", radius = "+x)
     x
   }
 
   val model = new ForceLawLabModel(38, 25, -2, 2, massToRadiusFn, massToRadiusFn, 9E-10, 0.0, 50, 50, -4, ForceLawLabResources.getLocalizedString("mass-1"), ForceLawLabResources.getLocalizedString("mass-2"))
   val canvas = new ForceLawLabCanvas(model, 10, Color.blue, Color.red, Color.white, 10, 10,
-    ForceLawLabResources.getLocalizedString("units.m"), _.toString, 1E10,
-    new TinyDecimalFormat(), new Magnification(false), new UnitsContainer(new Units("meters", 1)))
+                                     ForceLawLabResources.getLocalizedString("units.m"), _.toString, 1E10,
+                                     new TinyDecimalFormat(), new Magnification(false), new UnitsContainer(new Units("meters", 1)))
   setSimulationPanel(canvas)
   clock.addClockListener(model.update(_))
   setControlPanel(new ForceLawLabControlPanel(model, () => {canvas.resetRulerLocation}))
   setClockControlPanel(null)
-  model.notifyListeners()//this workaround ensures all view components update; this is necessary because one of them has an incorrect transform on startup, and is not observing the transform object
+  model.notifyListeners() //this workaround ensures all view components update; this is necessary because one of them has an incorrect transform on startup, and is not observing the transform object
 }
 
 object ForceLawLabDefaults {
-  val sunMercuryDist = 5.791E10 //  sun earth distance in m
-  val sunEarthDist = 1.496E11 //  sun earth distance in m
+  val sunMercuryDist = 5.791E10
+  //  sun earth distance in m
+  val sunEarthDist = 1.496E11
+  //  sun earth distance in m
   val earthRadius = 6.371E6
   val sunRadius = 6.955E8
-  val earthMass = 5.9742E24 //kg
+  val earthMass = 5.9742E24
+  //kg
   val sunMass = 1.9891E30
   val G = 6.67E-11
 
@@ -377,7 +417,9 @@ object ForceLawBorders {
   }
 }
 
-class ForceLawLabApplication //todo
+class ForceLawLabApplication
+
+//todo
 
 class GravityForceLabApplication(config: PhetApplicationConfig) extends PiccoloPhetApplication(config) {
   addModule(new ForceLawsModule(new ScalaClock(30, 30 / 1000.0)))
