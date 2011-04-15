@@ -1,3 +1,5 @@
+# 2.03.00 (50694) Apr 15, 2011
+4/15/11 > Fixed an issue with extraction of electrons from the cloud representation.
 # 2.01.06 (50623) Apr 13, 2011
 4/13/11 Deploying to dev for interviews.
 isotopes-and-atomic-mass: Made the average atomic mass indicator use the correct number of decimal digits when showing natures mix (resolution is based on a table obtained from NIST).
