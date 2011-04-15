@@ -13,7 +13,6 @@ import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
 public class GAORadioButton<T> extends PropertyRadioButton<T> {
     public GAORadioButton( String title, final Property<T> property, final T value ) {
         super( title, property, value );
-        setOpaque( false );//This line may solve a mac problem, necessary here since the button is used in the play area.
         setFont( GravityAndOrbitsControlPanel.CONTROL_FONT );
         setForeground( GravityAndOrbitsControlPanel.FOREGROUND );
     }
