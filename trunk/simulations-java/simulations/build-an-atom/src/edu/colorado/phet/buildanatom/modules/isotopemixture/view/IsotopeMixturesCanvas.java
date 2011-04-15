@@ -89,7 +89,7 @@ public class IsotopeMixturesCanvas extends PhetPCanvas implements Resettable {
         // ones zoom in).
         mvt = ModelViewTransform.createSinglePointScaleInvertedYMapping(
                 new Point2D.Double( 0, 0 ),
-                new Point( (int) Math.round( BuildAnAtomDefaults.STAGE_SIZE.width * 0.30 ), (int) Math.round( BuildAnAtomDefaults.STAGE_SIZE.height * 0.37 ) ),
+                new Point( (int) Math.round( BuildAnAtomDefaults.STAGE_SIZE.width * 0.295 ), (int) Math.round( BuildAnAtomDefaults.STAGE_SIZE.height * 0.38 ) ),
                 0.16 ); // "Zoom factor" - smaller zooms out, larger zooms in.
 
         setBackground( BACKGROUND_COLOR );
@@ -181,7 +181,7 @@ public class IsotopeMixturesCanvas extends PhetPCanvas implements Resettable {
         controlsLayer.addChild( periodicTableNode );
 
         // Add the pie chart to the canvas.
-        final double indicatorWindowX = 600;
+        final double indicatorWindowX = periodicTableNode.getFullBoundsReference().getX();
         final PNode pieChart = new IsotopeProprotionsPieChart( model );
         pieChart.setOffset( 200, 90 ); // Empirically determined, tweak as needed.
         // TODO: i18n
