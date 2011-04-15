@@ -15,12 +15,16 @@ public class MoleculeStructure {
     private Set<Atom> atoms = new HashSet<Atom>();
     private Set<Bond> bonds = new HashSet<Bond>();
 
+    private static int nextMoleculeId = 0;
+    private int moleculeId; // used for molecule identification and ordering for optimization
+
     /**
      * Map of atom => all bonds that contain that atom
      */
     private Map<Atom, Set<Bond>> bondMap = new HashMap<Atom, Set<Bond>>();
 
     public MoleculeStructure() {
+        moleculeId = nextMoleculeId++;
     }
 
     /**
@@ -123,6 +127,10 @@ public class MoleculeStructure {
             assert ( contains( atom ) );
             return ( a == atom ? b : a );
         }
+    }
+
+    public int getMoleculeId() {
+        return moleculeId;
     }
 
     public MoleculeStructure getCopy() {

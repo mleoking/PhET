@@ -30,7 +30,7 @@ public class MoleculeNode extends PNode {
 
     private Map<AtomModel, SimpleObserver> observerMap = new HashMap<AtomModel, SimpleObserver>();
 
-    private static final double PADDING_BETWEEN_NODE_AND_ATOM = 10;
+    private static final double PADDING_BETWEEN_NODE_AND_ATOM = 5;
     private HTMLNode commonNameLabel = null;
     private PNode closeNode;
 
