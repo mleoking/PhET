@@ -383,6 +383,8 @@ class GravityForceLabApplication(config: PhetApplicationConfig) extends PiccoloP
   addModule(new ForceLawsModule(new ScalaClock(30, 30 / 1000.0)))
 }
 
-object GravityForceLabApplicationMain {
-  def main(args: Array[String]) = new PhetApplicationLauncher().launchSim(args, "force-law-lab", "gravity-force-lab", classOf[GravityForceLabApplication])
+object GravityForceLabApplication {
+  def main(args: Array[String]) {
+    new PhetApplicationLauncher().launchSim(args, "force-law-lab", "gravity-force-lab", classOf[GravityForceLabApplication])
+  }
 }
