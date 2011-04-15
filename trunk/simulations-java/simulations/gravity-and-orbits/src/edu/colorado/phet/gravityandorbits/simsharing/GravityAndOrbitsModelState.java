@@ -8,10 +8,8 @@ import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
 import edu.colorado.phet.gravityandorbits.model.Body;
 import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsModel;
 
-//REVIEW class doc
-
 /**
- * Serializable state for simsharing
+ * Serializable state for simsharing, stores the state of one model.
  *
  * @author Sam Reid
  */

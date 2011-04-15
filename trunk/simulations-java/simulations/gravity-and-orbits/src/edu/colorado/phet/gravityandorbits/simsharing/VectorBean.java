@@ -4,18 +4,15 @@ package edu.colorado.phet.gravityandorbits.simsharing;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
 
-//REVIEW class doc is incorrect
-
 /**
- * Serializable state for simsharing
+ * Serializable state for simsharing, stores the state of a 2d vector with a javabean interface for serialization.
  *
  * @author Sam Reid
  */
 public class VectorBean implements IProguardKeepClass {
 
-    //REVIEW make these private, they are currently package public
-    double x;
-    double y;
+    private double x;
+    private double y;
 
     public VectorBean( double x, double y ) {
         this.x = x;

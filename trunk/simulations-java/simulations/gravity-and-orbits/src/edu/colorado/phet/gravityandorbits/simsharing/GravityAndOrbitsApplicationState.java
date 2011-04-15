@@ -10,10 +10,8 @@ import edu.colorado.phet.gravityandorbits.GravityAndOrbitsApplication;
 
 import static java.lang.System.currentTimeMillis;
 
-//REVIEW class doc
-
 /**
- * Serializable state for simsharing
+ * Serializable state for simsharing, stores the top level application, including which module is selected.
  *
  * @author Sam Reid
  */
