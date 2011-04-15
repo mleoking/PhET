@@ -71,6 +71,18 @@ public class Atom extends SimpleObservable implements IDynamicAtom {
     private int animationCount = 0;
     private boolean isAway = false; //true when the nucleus is away from the center of the atom (used during animation for unstable nuclei)
 
+    // Listener that handles the case when a particle is grabbed from this
+    // atom's nucleus.
+    private final SphericalParticle.Adapter nucleonGrabbedListener = new SphericalParticle.Adapter() {
+        @Override
+        public void grabbedByUser( SphericalParticle particle ) {
+            // The user has picked up this particle, which instantly
+            // removes it from the nucleus.
+            removeNucleon( particle );
+        }
+    };
+
+
     // ------------------------------------------------------------------------
     // Constructor(s)
     // ------------------------------------------------------------------------
@@ -299,7 +311,7 @@ public class Atom extends SimpleObservable implements IDynamicAtom {
     }
 
     public Point2D getPosition() {
-        return position;
+        return new Point2D.Double( position.getX(), position.getY() );
     }
 
     /**
@@ -548,43 +560,18 @@ public class Atom extends SimpleObservable implements IDynamicAtom {
         return neutrons.contains( neutron );
     }
 
-    // ------------------------------------------------------------------------
-    // Inner Classes and Interfaces
-    //------------------------------------------------------------------------
-
-    protected final SphericalParticle.Adapter nucleonGrabbedListener = new SphericalParticle.Adapter() {
-        @Override
-        public void grabbedByUser( SphericalParticle particle ) {
-            // The user has picked up this particle, which instantly
-            // removes it from the nucleus.
-            removeNucleon( particle );
-        }
-    };
-
-    /* (non-Javadoc)
-     * @see edu.colorado.phet.buildanatom.model.IDynamicAtom#toImmutableAtom()
-     */
     public ImmutableAtom toImmutableAtom() {
         return new ImmutableAtom( getNumProtons(), getNumNeutrons(), getNumElectrons() );
     }
 
-    /* (non-Javadoc)
-     * @see edu.colorado.phet.buildanatom.model.IAtom#getCharge()
-     */
     public int getCharge() {
         return getNumProtons() - getNumElectrons();
     }
 
-    /* (non-Javadoc)
-     * @see edu.colorado.phet.buildanatom.model.IAtom#getName()
-     */
     public String getName() {
         return AtomIdentifier.getName( this );
     }
 
-    /* (non-Javadoc)
-     * @see edu.colorado.phet.buildanatom.model.IAtom#getSymbol()
-     */
     public String getSymbol() {
         return AtomIdentifier.getSymbol( this );
     }
@@ -602,9 +589,6 @@ public class Atom extends SimpleObservable implements IDynamicAtom {
         }
     }
 
-    /* (non-Javadoc)
-     * @see edu.colorado.phet.buildanatom.model.IAtom#getNaturalAbundance()
-     */
     public double getNaturalAbundance() {
         return AtomIdentifier.getNaturalAbundance( this );
     }
