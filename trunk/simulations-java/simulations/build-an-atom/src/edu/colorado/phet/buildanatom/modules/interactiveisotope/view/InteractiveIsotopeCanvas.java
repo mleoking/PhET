@@ -29,8 +29,8 @@ import edu.colorado.phet.buildanatom.view.ParticleCountLegend;
 import edu.colorado.phet.buildanatom.view.PeriodicTableControlNode;
 import edu.colorado.phet.buildanatom.view.StabilityIndicator;
 import edu.colorado.phet.buildanatom.view.SymbolIndicatorNode;
-import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -118,12 +118,22 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas implements Resettable 
         rootNode.addChild( scaleNode );
         rootNode.addChild( atomAndBucketNode );
 
+        // Add the "My Isotope" label.
+        // TODO: i18n
+        final PText myIsotopeLabel = new PText("My Isotope:"){{
+            setFont( new PhetFont( 20, true ) );
+            setTextPaint( Color.LIGHT_GRAY );
+        }};
+        myIsotopeLabel.setOffset( mvt.modelToViewX( 0 ) - myIsotopeLabel.getFullBoundsReference().width / 2,
+                mvt.modelToViewY( 50 ) );
+        rootNode.addChild( myIsotopeLabel );
+
         // Add indicator that shows the name of the element.
         ElementNameIndicator elementNameIndicator = new ElementNameIndicator( model.getAtom(), new BooleanProperty( true ), true ){{
             setFont( new PhetFont( 20, true ) );
             setColor( Color.BLACK );
+            setOffset( mvt.modelToViewX( 0 ), myIsotopeLabel.getFullBoundsReference().getMaxY() + getFullBoundsReference().height );
         }};
-        elementNameIndicator.setOffset( mvt.modelToViewX( 0 ), mvt.modelToViewY( Atom.ELECTRON_SHELL_1_RADIUS ) + elementNameIndicator.getFullBounds().getHeight() / 2 );
         rootNode.addChild( elementNameIndicator );
 
         // Add indicator that shows whether the nucleus is stable.
