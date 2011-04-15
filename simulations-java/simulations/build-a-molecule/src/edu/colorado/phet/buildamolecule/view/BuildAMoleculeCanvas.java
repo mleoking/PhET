@@ -6,6 +6,8 @@ import java.awt.*;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import edu.colorado.phet.buildamolecule.BuildAMoleculeConstants;
@@ -14,6 +16,7 @@ import edu.colorado.phet.buildamolecule.control.KitPanel;
 import edu.colorado.phet.buildamolecule.model.Kit;
 import edu.colorado.phet.buildamolecule.model.KitCollectionModel;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
@@ -40,6 +43,8 @@ public class BuildAMoleculeCanvas extends PhetPCanvas {
     private final PNode metadataLayer = new PNode();
     private final PNode atomLayer = new PNode();
     private final PNode topLayer = new PNode();
+
+    private List<SimpleObserver> fullyLayedOutObservers = new LinkedList<SimpleObserver>();
 
 
     //----------------------------------------------------------------------------
@@ -70,7 +75,7 @@ public class BuildAMoleculeCanvas extends PhetPCanvas {
 //        addWorldChild( tempImage );
 
         // TODO: make this so we can construct/destruct
-        CollectionAreaNode collectionAreaNode = new CollectionAreaNode( getModel(), singleCollectionMode ) {{
+        CollectionAreaNode collectionAreaNode = new CollectionAreaNode( this, getModel(), singleCollectionMode ) {{
             double collectionAreaPadding = 20;
             setOffset( BuildAMoleculeConstants.STAGE_SIZE.width - getFullBounds().getWidth() - collectionAreaPadding, collectionAreaPadding );
         }};
@@ -90,6 +95,10 @@ public class BuildAMoleculeCanvas extends PhetPCanvas {
         addWorldChild( _rootNode );
 
         buildFromModel();
+
+        for ( SimpleObserver observer : fullyLayedOutObservers ) {
+            observer.update();
+        }
     }
 
     private void buildFromModel() {
@@ -110,6 +119,14 @@ public class BuildAMoleculeCanvas extends PhetPCanvas {
 
     public KitCollectionModel getModel() {
         return modelProperty.getValue();
+    }
+
+    public ModelViewTransform getModelViewTransform() {
+        return mvt;
+    }
+
+    public void addFullyLayedOutObserver( SimpleObserver observer ) {
+        fullyLayedOutObservers.add( observer );
     }
 
     /*
