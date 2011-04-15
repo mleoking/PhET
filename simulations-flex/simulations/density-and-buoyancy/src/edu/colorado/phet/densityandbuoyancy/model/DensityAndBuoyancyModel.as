@@ -88,6 +88,7 @@ public class DensityAndBuoyancyModel {
         clearDensityObjects();
     }
 
+    //REVIEW: doc - Would be helpful to make it clear what "density objects" are.
     public function clearDensityObjects(): void {
         for each ( var densityObject: DensityObject in densityObjects ) {
             densityObject.remove();

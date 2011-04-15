@@ -9,6 +9,11 @@ import edu.colorado.phet.densityandbuoyancy.view.AbstractDBCanvas;
 
 import flash.geom.ColorTransform;
 
+
+//REVIEW This class is part of the view (at least according to the package organization) but it retains model
+// state in that it keeps the customizableObject around so that it can add it back.  The behavior of the sim is
+// a bit inconsistent because one mode retains state and others do not.  Seems like it would work better to have a
+// separate model associated with each mode.
 /**
  * Represents a 'custom object' mode in the density sim, in which the user sees and manipulates a single customizable block.
  */

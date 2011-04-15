@@ -12,6 +12,10 @@ import edu.colorado.phet.flexcommon.model.BooleanProperty;
 import edu.colorado.phet.flexcommon.model.NumericProperty;
 import edu.colorado.phet.flexcommon.model.StringProperty;
 
+//REVIEW: Shouldn't this be DensityAndBuoyancyObject?  The name gives the impression that this is only used in the
+// density sim.
+//REVIEW: A look at the code seems to indicate that this is supposed to be abstract.  This should be documented or
+//the name should be changed to make this more clear.
 /**
  * Base class for "something movable that behaves like an object in the play area", including Scales and Blocks.
  */
@@ -33,26 +37,31 @@ public class DensityObject {
     private var contactForceArrowModel: Vector2D = new Vector2D( 0, 0 );
 
     private const _forceVectors: Array = [gravityForceArrowModel,buoyancyForceArrowModel,contactForceArrowModel];
+    //REVIEW: Why does each density object need to have a reference to the model?  Seems like a design weakness that
+    // introduces unnecessary coupling.  Would be better if model listened for notification of removal, and if this
+    // class had a method for setting the fluid density.
     private var model: DensityAndBuoyancyModel;
 
     private var body: b2Body; // our reference to the Box2D "body" in the physics engine
     private var submergedVolume: Number = 0.0;
-    private var contactImpulseMap: Object = new Object();
+    private var contactImpulseMap: Object = new Object();  //REVIEW doc, couldn't tell what this was.
     private var labelProperty: StringProperty;
     private const removalListeners: Array = new Array();
     private var _userControlled: Boolean = false;
 
     private var lastPosition: b2Vec2; // last position, used for velocity
     private var velocity: b2Vec2 = new b2Vec2();
-    private var _inScene: BooleanProperty = new BooleanProperty( false );
+    private var _inScene: BooleanProperty = new BooleanProperty( false );  //REVIEW doc
     private const _nameVisible: BooleanProperty = new BooleanProperty( false );
     private var _name: String = "name";
 
-    private var shouldOverrideVelocity: Boolean = false;
+    private var shouldOverrideVelocity: Boolean = false; //REVIEW should doc too.
 
     public function DensityObject( x: Number, y: Number, z: Number, model: DensityAndBuoyancyModel, __density: Number, mass: Number, __volume: Number, __material: Material ) {
         this._material = __material;
+        //REVIEW why aren't units internationalized?
         this._volume = new NumericProperty( FlexSimStrings.get( "properties.volume", "Volume" ), "m\u00b3", __volume );
+        //REVIEW Confused by the fact that the units string is a pattern.
         this._mass = new NumericProperty( FlexSimStrings.get( "properties.mass", "Mass" ), "{0} kg", mass );
         this._density = new NumericProperty( FlexSimStrings.get( "properties.density", "Density" ), "kg/m\u00b3", __density );
         this.labelProperty = new StringProperty( getLabelString() );//Showing one decimal point is a good tradeoff between readability and complexity);
@@ -88,6 +97,7 @@ public class DensityObject {
 
         getDensityProperty().addListener( densityChanged );
 
+        //REVIEW Why are units not internationalized?
         this.x = new NumericProperty( "x", "m", x );
         this.y = new NumericProperty( "y", "m", y );
         this._z = new NumericProperty( "z", "m", z );
@@ -102,6 +112,8 @@ public class DensityObject {
     }
 
     private function getLabelString(): String {
+        //REVIEW Why isn't this getting the units from the mass property, since they were set up above?  In that case
+        // the pattern should be {0} {1}.
         return FlexSimStrings.get( "properties.massKilogramValue", "{0} kg", [DensityAndBuoyancyConstants.format( getMass() )] );
     }
 
@@ -113,6 +125,7 @@ public class DensityObject {
         materialListeners.push( listener );
     }
 
+    //REVIEW doc - What's a color transform?
     public function addColorTransformListener( listener: Function ): void {
         colorTransformListeners.push( listener );
     }
@@ -128,6 +141,7 @@ public class DensityObject {
         }
     }
 
+    //REVIEW Can this be private?
     public function notifyColorTransformListeners(): void {
         for each ( var listener: Function in colorTransformListeners ) {
             listener();
@@ -174,11 +188,13 @@ public class DensityObject {
         return _z.value;
     }
 
+    //REVIEW Why is z the only dimension that has this style setter, and the underscore, and all that?
     public function set z( z: Number ): void {
         this._z.value = z;
     }
 
     public function remove(): void {
+        //REVIEW: Was this (i.e. the commented out stuff) done?  Can the commented out code be removed?
         //        if ( getBody() == null ) { //TODO: track this down
         //            throw new Error( "null body" );
         //        }
@@ -190,6 +206,7 @@ public class DensityObject {
         _inScene.value = false;
     }
 
+    //REVIEW doc - clarify the relationship between this and the Box2D.
     public function updatePositionFromBox2D(): void {
         setPosition( body.GetPosition().x / DensityAndBuoyancyConstants.SCALE_BOX2D, body.GetPosition().y / DensityAndBuoyancyConstants.SCALE_BOX2D );
     }
@@ -202,6 +219,7 @@ public class DensityObject {
     }
 
     private function updatePosition(): void {
+        //REVIEW Why is there this separate scaling constant instead of a model-view transform?
         var newX: Number = x.value * DensityAndBuoyancyConstants.SCALE_BOX2D;
         var newY: Number = y.value * DensityAndBuoyancyConstants.SCALE_BOX2D;
         if ( body != null ) { //body is only non-null after inScene = true, so only update when possible 
@@ -215,6 +233,7 @@ public class DensityObject {
         return body;
     }
 
+    //REVIEW doc - Is this hooking the density object up to the physics engine or something?
     public function setBody( body: b2Body ): void {
         if ( this.body != null ) {
             //delete from world
@@ -232,6 +251,9 @@ public class DensityObject {
      * @param contact
      */
     public function registerContact( contact: b2ContactResult ): void {
+        //REVIEW: This seems important, so it could use some internal documentation that describes what is going
+        //on.  The general idea is clear - it has something to do with contacts between bodies - but the details are
+        //hard to understand by just reading the code.
         var other: b2Body = contact.shape1.GetBody();
         var sign: Number = 1.0;
         if ( other == body ) {
@@ -263,11 +285,15 @@ public class DensityObject {
         contactImpulseMap = new Object();
     }
 
-    public function createNode( view: AbstractDBCanvas, massReadoutsVisible: BooleanProperty ): DensityObjectNode {
-        throw new Error();
+    //REVIEW: doc - Looks like it is abstract, so base classes need to know what functionality is needed.
+    //REVIEW: Note: Reviewers added message to the throw statement, please verify correctness.
+        public function createNode( view: AbstractDBCanvas, massReadoutsVisible: BooleanProperty ): DensityObjectNode {
+        throw new Error( "Abstract method error" );
     }
 
+
     public function onFrameStep( dt: Number ): void {
+    //REVIEW Have the to do items been addressed?
         velocityArrowModel.setValue( body.GetLinearVelocity().x, body.GetLinearVelocity().y );//todo: use estimated velocity here?
         gravityForceArrowModel.setValue( getGravityForce().x, getGravityForce().y );
         buoyancyForceArrowModel.setValue( getBuoyancyForce().x, getBuoyancyForce().y );
@@ -287,6 +313,7 @@ public class DensityObject {
         mytrace( "y: " + y.value );
     }
 
+    //REVIEW doc
     public function beforeModelStep( dt: Number ): void {
         mytrace( "STEP" );
         if ( shouldOverrideVelocity ) {
@@ -309,6 +336,8 @@ public class DensityObject {
         return new b2Vec2( 0, DensityAndBuoyancyConstants.GRAVITY * submergedVolume * model.fluidDensity.value );
     }
 
+    //REVIEW doc - Why is it necessary to set the submerged volume?  Why would this be any different than its
+    //default volume.
     public function setSubmergedVolume( submergedVolume: Number ): void {
         this.submergedVolume = submergedVolume;
     }
@@ -329,6 +358,7 @@ public class DensityObject {
         return getDragForce( body.GetLinearVelocity() );
     }
 
+    //REVIEW - nice comment.
     /**
      * Return the drag force to be used in the model.  When showing this value in the view, showing the actual physical drag force yields creates this problem:
      * When holding block A on top of Block b, with block b underwater, there is displayed a fluid drag force on block b, even though it is not moving.
@@ -339,6 +369,7 @@ public class DensityObject {
             return new b2Vec2();
         }
         else {
+            //REVIEW Can the commented line be removed?
             //var dragForce: b2Vec2 = body.GetLinearVelocity().Copy();
             var dragForce: b2Vec2 = velocity.Copy();
             //mytrace( dragForce.x + ", " + dragForce.y );
@@ -360,6 +391,9 @@ public class DensityObject {
         return _density.value;
     }
 
+    //REVIEW When are you using the actionscript-supported getter and setter methods versus writing your own
+    //versus making members public?  In this case, these value assignments look like member var accesses but they are
+    //actually function calls that have side effects (such as sending notifications).
     public function setVolume( value: Number ): void {
         this._volume.value = value;
         updateBox2DModel();
@@ -396,6 +430,7 @@ public class DensityObject {
         return x;
     }
 
+    //REVIEW - doc - this is abstract, which should it do?
     public function updateBox2DModel(): void {
         throw new Error( "Abstract method error" );
     }
@@ -420,6 +455,7 @@ public class DensityObject {
         return _userControlled;
     }
 
+    //REVIEW - doc - looks like this is intended to be overridden.
     public function isMovable(): Boolean {
         return true;
     }
@@ -439,6 +475,7 @@ public class DensityObject {
         return _inScene;
     }
 
+    //REVIEW: For future debug, shouldn't this also have the name of the object?
     public function toString(): String {
         return "x = " + x.value + ", y=" + y.value;
     }

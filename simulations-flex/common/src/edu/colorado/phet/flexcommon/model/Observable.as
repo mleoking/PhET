@@ -7,6 +7,8 @@ public class Observable {
     }
 
     //TODO: should we have auto-callbacks?  This has worked very well in the Java side
+    //REVIEW Yes, for consistency with PhET java sims and because it works well.  Would want a version of addListener
+    // that makes notifications optional.
     public function addListener( listener: Function ): void {
         listeners.push( listener );
     }
