@@ -17,7 +17,7 @@ import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 public class ImageFactory {
     private BufferedImage image;
     private int count;
-    private int numTimes = 10;//sim runs at 30fps //REVIEW what is the mapping from 30fps to 10?
+    private int numTimes = 10;//sim runs at 30fps, but we only generate an image every numTimes frames
 
     public BufferedImage getThumbnail( PhetFrame frame, int width ) {
         return BufferedImageUtils.multiScaleToWidth( toImage( frame ), width );
@@ -39,13 +39,10 @@ public class ImageFactory {
         return image;
     }
 
-    //REVIEW unused, delete or doc
+    //Generates screenshots from a Robot, sending the entire desktop.  We may or may not use this in production
     private BufferedImage sendFromRobot( JFrame frame ) {
         try {
-            Robot robot = new Robot();
-            //REVIEW variable capture is redundant
-            BufferedImage capture = robot.createScreenCapture( new Rectangle( frame.getX(), frame.getY(), frame.getWidth(), frame.getHeight() ) );
-            return capture;
+            return new Robot().createScreenCapture( new Rectangle( frame.getX(), frame.getY(), frame.getWidth(), frame.getHeight() ) );
         }
         catch ( AWTException e ) {
             e.printStackTrace();
