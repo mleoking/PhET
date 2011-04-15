@@ -85,7 +85,7 @@ class DragHandler(mass: Mass,
                   minDragX: () => Double, maxDragX: () => Double, node: PNode) extends PBasicInputEventHandler {
   var dragging = false
 
-  override def mouseDragged(event: PInputEvent) = {
+  override def mouseDragged(event: PInputEvent) {
     implicit def pdimensionToPoint2D(dim: PDimension) = new Point2D.Double(dim.width, dim.height)
     mass.position = mass.position + new Vector2D(transform.viewToModelDifferential(event.getDeltaRelativeTo(node.getParent)).x, 0)
     if ( mass.position.x < minDragX() ) {
@@ -96,9 +96,13 @@ class DragHandler(mass: Mass,
     }
   }
 
-  override def mousePressed(event: PInputEvent) = dragging = true
+  override def mousePressed(event: PInputEvent) {
+    dragging = true
+  }
 
-  override def mouseReleased(event: PInputEvent) = dragging = false
+  override def mouseReleased(event: PInputEvent) {
+    dragging = false
+  }
 }
 
 class DraggableMassNode(mass: Mass, transform: ModelViewTransform2D,
@@ -145,11 +149,13 @@ class ForceLawLabCanvas(model: ForceLawLabModel, modelWidth: Double, mass1Color:
                             rulerNode.setMajorTickLabels(maj.toArray)
                           }
 
-  def resetRulerLocation() = rulerNode.setOffset(150, 500)
+  def resetRulerLocation() {
+    rulerNode.setOffset(150, 500)
+  }
 
   resetRulerLocation()
 
-  def updateRulerVisible() = {}
+  def updateRulerVisible() {}
 
   //rulerNode.setVisible(!magnification.magnified)
   magnification.addListenerByName(updateRulerVisible())
@@ -167,7 +173,7 @@ class ForceLawLabCanvas(model: ForceLawLabModel, modelWidth: Double, mass1Color:
   addNode(new ForceLabelNode(model.m1, model.m2, transform, model, opposite(backgroundColor), forceLabelScale, forceArrowNumberFormat, 100, true))
   addNode(new ForceLabelNode(model.m2, model.m1, transform, model, opposite(backgroundColor), forceLabelScale, forceArrowNumberFormat, 200, false))
   rulerNode.addInputEventListener(new PBasicInputEventHandler {
-    override def mouseDragged(event: PInputEvent) = {
+    override def mouseDragged(event: PInputEvent) {
       rulerNode.translate(event.getDeltaRelativeTo(rulerNode.getParent).width, event.getDeltaRelativeTo(rulerNode.getParent).height)
     }
   })
@@ -176,7 +182,9 @@ class ForceLawLabCanvas(model: ForceLawLabModel, modelWidth: Double, mass1Color:
 }
 
 class MyDoubleGeneralPath(pt: Point2D) extends DoubleGeneralPath(pt) {
-  def curveTo(control1: Vector2D, control2: Vector2D, dest: Vector2D) = super.curveTo(control1.x, control1.y, control2.x, control2.y, dest.x, dest.y)
+  def curveTo(control1: Vector2D, control2: Vector2D, dest: Vector2D) {
+    super.curveTo(control1.x, control1.y, control2.x, control2.y, dest.x, dest.y)
+  }
 }
 
 class ForceLawLabControlPanel(model: ForceLawLabModel, resetFunction: () => Unit) extends ControlPanel {
@@ -194,7 +202,7 @@ class ForceLawLabControlPanel(model: ForceLawLabModel, resetFunction: () => Unit
   add(new ForceLawLabScalaValueControl(0.01, 100, model.m1.name, "0.00", getLocalizedString("units.kg"), model.m1.mass, m1Update, model.m1.addListener))
   add(new ForceLawLabScalaValueControl(0.01, 100, model.m2.name, "0.00", getLocalizedString("units.kg"), model.m2.mass, m2Update, model.m2.addListener))
   addResetAllButton(new Resettable() {
-    def reset = {
+    def reset {
       model.reset()
       resetFunction()
     }
@@ -230,7 +238,7 @@ class UnitsContainer(private var _units: Units) extends Observable {
 
   def units = _units
 
-  def units_=(u: Units) = {
+  def units_=(u: Units) {
     _units = u
     notifyListeners()
   }
@@ -239,20 +247,24 @@ class UnitsContainer(private var _units: Units) extends Observable {
 
   def unitsToMeters(u: Double) = _units.unitsToMeters(u)
 
-  def reset() = units = initialState
+  def reset() {
+    units = initialState
+  }
 }
 
 class Magnification(private var _magnified: Boolean) extends Observable {
   private val initialState = _magnified
 
-  def magnified_=(b: Boolean) = {
+  def magnified_=(b: Boolean) {
     _magnified = b
     notifyListeners()
   }
 
   def magnified = _magnified
 
-  def reset() = magnified = initialState
+  def reset() {
+    magnified = initialState
+  }
 }
 
 class ScaleControl(m: Magnification) extends VerticalLayoutPanel {
@@ -270,21 +282,21 @@ class Mass(private var _mass: Double, private var _position: Vector2D, val name:
 
   def mass = _mass
 
-  def mass_=(m: Double) = {
+  def mass_=(m: Double) {
     _mass = m;
     notifyListeners()
   }
 
   def position = _position
 
-  def position_=(p: Vector2D) = {
+  def position_=(p: Vector2D) {
     _position = p;
     notifyListeners()
   }
 
   def radius = _massToRadius(_mass)
 
-  def setMassToRadiusFunction(massToRadius: Double => Double) = {
+  def setMassToRadiusFunction(massToRadius: Double => Double) {
     _massToRadius = massToRadius
     notifyListeners()
   }
@@ -316,7 +328,7 @@ class ForceLawLabModel(mass1: Double,
   m1.addListenerByName(notifyListeners())
   m2.addListenerByName(notifyListeners())
 
-  def reset() = {
+  def reset() {
     m1.setState(mass1, new Vector2D(mass1Position, 0), mass1Radius)
     m2.setState(mass2, new Vector2D(mass2Position, 0), mass2Radius)
   }
@@ -328,7 +340,9 @@ class ForceLawLabModel(mass1: Double,
   def distance = m2.position.x - m1.position.x
 
   //set the location of the m2 based on the total separation radius
-  def distance_=(d: Double) = m2.position = new Vector2D(m1.position.x + d, 0)
+  def distance_=(d: Double) {
+    m2.position = new Vector2D(m1.position.x + d, 0)
+  }
 
   def rMin = if ( m1.position.x + m1.radius < m2.position.x - m2.radius ) {
     r
@@ -339,9 +353,11 @@ class ForceLawLabModel(mass1: Double,
 
   def getGravityForce = r * ForceLawLabDefaults.G * m1.mass * m2.mass / pow(r.magnitude, 3)
 
-  def setDragging(b: Boolean) = this.isDraggingControl = b
+  def setDragging(b: Boolean) {
+    this.isDraggingControl = b
+  }
 
-  def update(dt: Double) = {}
+  def update(dt: Double) {}
 }
 
 class TinyDecimalFormat extends DecimalFormat("0.00000000000") {
@@ -379,7 +395,7 @@ class ForceLawsModule(clock: ScalaClock) extends Module(ForceLawLabResources.get
                                      new TinyDecimalFormat(), new Magnification(false), new UnitsContainer(new Units("meters", 1)))
   setSimulationPanel(canvas)
   clock.addClockListener(model.update(_))
-  setControlPanel(new ForceLawLabControlPanel(model, () => {canvas.resetRulerLocation}))
+  setControlPanel(new ForceLawLabControlPanel(model, () => canvas.resetRulerLocation()))
   setClockControlPanel(null)
   model.notifyListeners() //this workaround ensures all view components update; this is necessary because one of them has an incorrect transform on startup, and is not observing the transform object
 }
