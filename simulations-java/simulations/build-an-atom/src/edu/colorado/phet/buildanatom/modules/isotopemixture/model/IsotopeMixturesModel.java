@@ -614,8 +614,6 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
         for ( ImmutableAtom isotope : possibleIsotopesCopy ){
             naturesMixIsotopeProportions.put( isotope, AtomIdentifier.getNaturalAbundance( isotope ) );
         }
-        testChamber.overrideIsotopeProportions( naturesMixIsotopeProportions );
-        testChamber.overrideAverageAtomicMass( AtomIdentifier.getStandardAtomicMass( prototypeIsotope.getNumProtons() ) );
 
         // Add the isotope controllers (i.e. the buckets).
         addIsotopeControllers();
