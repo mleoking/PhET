@@ -49,9 +49,13 @@ public class SingleCollectionBoxNode extends SwingLayoutNode {
                     System.out.println( "viewBounds = " + viewBounds );
                     System.out.println( "box.getDropBounds() = " + box.getDropBounds() );
 
-//                    canvas.addWorldChild( new PhetPPath( viewBounds, Color.RED ){{
-//                        setTransparency( 0.5f );
-//                    }} );
+                    canvas.addWorldChild( new PhetPPath( viewBounds, Color.RED ) {{
+                        setTransparency( 0.5f );
+                    }} );
+
+                    addChild( new PhetPPath( getFullBounds(), Color.GREEN ) {{
+                        setTransparency( 0.5f );
+                    }} );
                 }
             } );
 //            canvas.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, new PropertyChangeListener() {
