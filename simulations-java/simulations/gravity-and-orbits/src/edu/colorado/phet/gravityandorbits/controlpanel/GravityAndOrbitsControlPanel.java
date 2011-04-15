@@ -96,7 +96,7 @@ public class GravityAndOrbitsControlPanel extends VerticalLayoutPanel {
         for ( Body body : model.getBodies() ) {
             if ( body.isMassSettable() ) {
                 //REVIEW are the parameters associated with the empty string args vestigial? Might be better to add a BodyMassControl constructor that makes them optional.
-                add( new BodyMassControl( body, body.getMassProperty().getInitialValue() / 2, body.getMassProperty().getInitialValue() * 2, "", "", body.getTickValue(), body.getTickLabel() ) );
+                add( new BodyMassControl( body, body.getMassProperty().getInitialValue() / 2, body.getMassProperty().getInitialValue() * 2, body.getTickValue(), body.getTickLabel() ) );
             }
         }
     }

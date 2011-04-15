@@ -39,7 +39,7 @@ public class BodyMassControl extends VerticalLayoutPanel {
 
     private boolean updatingSlider = false;
 
-    public BodyMassControl( final Body body, double min, double max, final String minLabel, final String maxLabel,
+    public BodyMassControl( final Body body, double min, double max,
                             final double labelValue, final String valueLabel ) {//for showing a label for a specific body such as "earth"
         final Function.LinearFunction modelToView = new Function.LinearFunction( min, max, VIEW_MIN, VIEW_MAX );
         setInsets( new Insets( 5, 5, 5, 5 ) );
@@ -72,9 +72,7 @@ public class BodyMassControl extends VerticalLayoutPanel {
             setPaintLabels( true );
             setPaintTicks( true );
             setLabelTable( new Hashtable<Object, Object>() {{
-                put( VIEW_MIN, new SmallLabel( minLabel ) );
                 put( (int) modelToView.evaluate( labelValue ), new SmallLabel( valueLabel ) );//show the custom tick mark and label
-                put( VIEW_MAX, new SmallLabel( maxLabel ) );
             }} );
             setForeground( FOREGROUND );
             body.getMassProperty().addObserver( new SimpleObserver() {
