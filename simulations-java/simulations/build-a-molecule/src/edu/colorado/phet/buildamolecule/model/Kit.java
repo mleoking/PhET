@@ -45,7 +45,7 @@ public class Kit {
                 atom.addListener( new AtomModel.Adapter() {
                     @Override
                     public void grabbedByUser( AtomModel atom ) {
-                        // TODO: remove from bucket??? check for leaks here
+                        // TODO: remove from bucket??? check for leaks here. Bucket doesn't seem to be reorganizing
                     }
 
                     @Override
