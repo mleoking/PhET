@@ -42,35 +42,6 @@ public class Kit {
 
             for ( AtomModel atom : bucket.getAtoms() ) {
                 lewisDotModel.addAtom( atom.getAtomInfo() );
-                atom.addListener( new AtomModel.Adapter() {
-                    @Override
-                    public void grabbedByUser( AtomModel atom ) {
-                        // TODO: remove from bucket??? check for leaks here. Bucket doesn't seem to be reorganizing
-                    }
-
-                    @Override
-                    public void droppedByUser( AtomModel atom ) {
-                        // dropped on kit, put it in a bucket
-                        if ( getAvailableKitBounds().contains( atom.getPosition().toPoint2D() ) ) {
-                            if ( isAtomInPlay( atom.getAtomInfo() ) ) {
-                                recycleMoleculeIntoBuckets( getMoleculeStructure( atom ) );
-                            }
-                            else {
-                                recycleAtomIntoBuckets( atom.getAtomInfo() );
-                            }
-                        }
-                        else {
-                            // dropped in play area
-                            if ( isAtomInPlay( atom.getAtomInfo() ) ) {
-                                attemptToBondMolecule( getMoleculeStructure( atom ) );
-                                separateMoleculeDestinations();
-                            }
-                            else {
-                                addAtomToPlay( atom );
-                            }
-                        }
-                    }
-                } );
             }
         }
 
@@ -120,6 +91,10 @@ public class Kit {
         return buckets;
     }
 
+    public List<AtomModel> getAtoms() {
+        return atoms;
+    }
+
     public Bucket getBucketForAtomType( Atom atom ) {
         for ( Bucket bucket : buckets ) {
             if ( bucket.getAtomType().isSameTypeOfAtom( atom ) ) {
@@ -135,6 +110,43 @@ public class Kit {
 
     public PBounds getAvailablePlayAreaBounds() {
         return layoutBounds.getAvailablePlayAreaBounds();
+    }
+
+    /**
+     * Called when an atom is grabbed
+     *
+     * @param atom The grabbed atom
+     */
+    public void atomGrabbed( AtomModel atom ) {
+        // TODO: remove from bucket??? check for leaks here. Bucket doesn't seem to be reorganizing
+    }
+
+    /**
+     * Called when an atom is dropped within either the play area OR the kit area. This will NOT be called for molecules
+     * dropped into the collection area successfully
+     *
+     * @param atom The dropped atom.
+     */
+    public void atomDropped( AtomModel atom ) {
+        // dropped on kit, put it in a bucket
+        if ( getAvailableKitBounds().contains( atom.getPosition().toPoint2D() ) ) {
+            if ( isAtomInPlay( atom.getAtomInfo() ) ) {
+                recycleMoleculeIntoBuckets( getMoleculeStructure( atom ) );
+            }
+            else {
+                recycleAtomIntoBuckets( atom.getAtomInfo() );
+            }
+        }
+        else {
+            // dropped in play area
+            if ( isAtomInPlay( atom.getAtomInfo() ) ) {
+                attemptToBondMolecule( getMoleculeStructure( atom ) );
+                separateMoleculeDestinations();
+            }
+            else {
+                addAtomToPlay( atom );
+            }
+        }
     }
 
     /**
@@ -157,6 +169,16 @@ public class Kit {
                 atomModel.setPositionAndDestination( atomModel.getPosition().getAddedInstance( delta ) );
             }
         }
+    }
+
+    /**
+     * Called when a molecule is dragged (successfully) into a collection box
+     *
+     * @param molecule The molecule
+     * @param box      Its collection box
+     */
+    public void moleculePutInCollectionBox( MoleculeStructure molecule, CollectionBox box ) {
+
     }
 
     /**

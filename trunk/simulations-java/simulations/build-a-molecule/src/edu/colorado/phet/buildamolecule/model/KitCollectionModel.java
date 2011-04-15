@@ -4,6 +4,7 @@ package edu.colorado.phet.buildamolecule.model;
 import java.util.LinkedList;
 import java.util.List;
 
+import edu.colorado.phet.buildamolecule.model.buckets.AtomModel;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction2;
 import edu.umd.cs.piccolo.util.PBounds;
@@ -23,7 +24,7 @@ public class KitCollectionModel {
         this.layoutBounds = layoutBounds;
     }
 
-    public void addKit( Kit kit ) {
+    public void addKit( final Kit kit ) {
         if ( currentKit == null ) {
             currentKit = new Property<Kit>( kit );
             kit.show();
@@ -40,6 +41,29 @@ public class KitCollectionModel {
             kit.hide();
         }
         kits.add( kit );
+
+        for ( AtomModel atomModel : kit.getAtoms() ) {
+            atomModel.addListener( new AtomModel.Adapter() {
+                @Override
+                public void grabbedByUser( AtomModel atom ) {
+                    kit.atomGrabbed( atom );
+                }
+
+                @Override
+                public void droppedByUser( AtomModel atom ) {
+                    // TODO: add in collection box intercept here
+                    System.out.println( "atom: " + atom.getPosition() );
+                    for ( CollectionBox box : boxes ) {
+                        System.out.println( "possible box: " + box.getDropBounds() );
+                        if ( box.getDropBounds().contains( atom.getPosition().toPoint2D() ) ) {
+                            System.out.println( "dropped in the box" );
+                            // TODO: comparison of box molecule types, and then call to kit.mo....
+                        }
+                    }
+                    kit.atomDropped( atom );
+                }
+            } );
+        }
     }
 
     public void addCollectionBox( CollectionBox box ) {

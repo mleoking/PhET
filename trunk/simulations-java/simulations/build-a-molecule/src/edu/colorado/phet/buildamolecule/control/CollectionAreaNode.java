@@ -2,10 +2,13 @@
 package edu.colorado.phet.buildamolecule.control;
 
 import java.awt.*;
+import java.util.HashMap;
+import java.util.Map;
 
 import edu.colorado.phet.buildamolecule.BuildAMoleculeConstants;
 import edu.colorado.phet.buildamolecule.model.CollectionBox;
 import edu.colorado.phet.buildamolecule.model.KitCollectionModel;
+import edu.colorado.phet.buildamolecule.view.BuildAMoleculeCanvas;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.umd.cs.piccolo.PNode;
@@ -20,7 +23,7 @@ public class CollectionAreaNode extends PNode {
 
     public static final int CONTAINER_PADDING = 20;
 
-    public CollectionAreaNode( KitCollectionModel model, boolean singleCollectionMode ) {
+    public CollectionAreaNode( BuildAMoleculeCanvas canvas, KitCollectionModel model, boolean singleCollectionMode ) {
         layoutNode = new SwingLayoutNode( new GridBagLayout() );
 
         GridBagConstraints c = new GridBagConstraints();
@@ -34,17 +37,17 @@ public class CollectionAreaNode extends PNode {
 
         c.insets = new Insets( 0, 0, 15, 0 );
 
+        layoutNode.translate( CONTAINER_PADDING, CONTAINER_PADDING );
+
         for ( CollectionBox collectionBox : model.getCollectionBoxes() ) {
             c.gridy += 1;
             if ( singleCollectionMode ) {
-                layoutNode.addChild( new SingleCollectionBoxNode( collectionBox ), c );
+                layoutNode.addChild( new SingleCollectionBoxNode( canvas, collectionBox ), c );
             }
             else {
                 throw new RuntimeException( "multiple collection box nodes not implemented yet" ); // TODO: implement multiple collection box nodes for 2nd tab
             }
         }
-
-        layoutNode.translate( CONTAINER_PADDING, CONTAINER_PADDING );
 
         PPath background = PPath.createRectangle( 0, 0, (float) getPlacementWidth(), (float) getPlacementHeight() );
 
