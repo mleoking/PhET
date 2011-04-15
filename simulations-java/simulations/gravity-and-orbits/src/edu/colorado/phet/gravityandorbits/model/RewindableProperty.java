@@ -7,15 +7,13 @@ import java.util.ArrayList;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 
-//REVIEW When I first encountered a property of this type, I had no idea what it did without examining the doc here. How about renaming to RewindableProperty?
-
 /**
  * This is a property that can be rewound, and when rewound it goes back
  * to the value that was last set while the clock was paused.
  *
  * @author Sam Reid
  */
-public class ClockRewindProperty<T> extends Property<T> {
+public class RewindableProperty<T> extends Property<T> {
     private final Property<Boolean> clockPaused;
     private final Property<Boolean> stepping;//if the clock is paused and the user pressed 'step', do not store a rewind point
     private final Property<Boolean> rewinding;//if the clock is paused and the user pressed 'rewind', do not store a rewind point
@@ -23,10 +21,10 @@ public class ClockRewindProperty<T> extends Property<T> {
     private Property<Boolean> different; // true when the rewind point value is different than the property's value
     private ArrayList<VoidFunction0> rewindValueChangedListeners = new ArrayList<VoidFunction0>();
 
-    public ClockRewindProperty( Property<Boolean> clockPaused,
-                                Property<Boolean> isStepping,
-                                Property<Boolean> isRewinding,
-                                T value ) {
+    public RewindableProperty( Property<Boolean> clockPaused,
+                               Property<Boolean> isStepping,
+                               Property<Boolean> isRewinding,
+                               T value ) {
         super( value );
         this.clockPaused = clockPaused;
         stepping = isStepping;

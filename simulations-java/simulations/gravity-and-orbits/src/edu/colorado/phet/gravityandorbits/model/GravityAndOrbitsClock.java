@@ -6,12 +6,11 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
-//REVIEW boilerplate javadoc is incomplete, doesn't mention time scaling (presumably because we have a sim speed slider) or the significance of stepping property.
-
 /**
  * The clock for this simulation.
  * The simulation time change (dt) on each clock tick is constant,
- * regardless of when (in wall time) the ticks actually happen.
+ * regardless of when (in wall time) the ticks actually happen.  This class works together with RewindableProperty, which has to know whether the simulation is stepping
+ * to know whether to store a "save point" which can be restored.
  */
 public class GravityAndOrbitsClock extends ConstantDtClock {
     public static final int CLOCK_FRAME_RATE = 25; // fps, frames per second (wall time)
@@ -20,22 +19,20 @@ public class GravityAndOrbitsClock extends ConstantDtClock {
     public static final double DEFAULT_DT = DAYS_PER_TICK * SECONDS_PER_DAY;
     private final Property<Boolean> stepping;
 
-    //REVIEW inconsistent naming convention for Property parameters
     public GravityAndOrbitsClock( final double baseDTValue,//multiplied by scale to obtain true dt
-                                  Property<Boolean> stepping, final Property<Double> timeSpeedScaleProperty ) {
-        super( 1000 / CLOCK_FRAME_RATE, baseDTValue * timeSpeedScaleProperty.getValue() );
+                                  Property<Boolean> stepping, final Property<Double> timeSpeedScale ) {
+        super( 1000 / CLOCK_FRAME_RATE, baseDTValue * timeSpeedScale.getValue() );
         this.stepping = stepping;
-        timeSpeedScaleProperty.addObserver( new SimpleObserver() {
+        timeSpeedScale.addObserver( new SimpleObserver() {
             public void update() {
-                setDt( baseDTValue * timeSpeedScaleProperty.getValue() );
+                setDt( baseDTValue * timeSpeedScale.getValue() );
             }
         } );
     }
 
     @Override
     public void stepClockWhilePaused() {
-        //REVIEW comment is bogus, no such thing as RewindProperty
-        stepping.setValue( true );//See RewindProperty, it has to know whether the clock is running, paused, stepping, rewinding for application specific logic
+        stepping.setValue( true );//See RewindableProperty which has to know whether the clock is running, paused, stepping, rewinding for application specific logic
         super.stepClockWhilePaused();
         stepping.setValue( false );
     }

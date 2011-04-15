@@ -24,8 +24,8 @@ public class GravityAndOrbitsModel {
 
     private final GravityAndOrbitsClock clock;
     private ArrayList<SimpleObserver> modelStepListeners = new ArrayList<SimpleObserver>();
-    public boolean teacherMode;
-    private final VoidFunction1<Double> stepModel;//REVIEW better name would be modelStepFunction, especially since you have modelStepListeners
+    public boolean teacherMode;//Flag for simsharing debugging
+    private final VoidFunction1<Double> stepModel;
 
     public GravityAndOrbitsModel( GravityAndOrbitsClock clock, final Property<Boolean> gravityEnabledProperty ) {
         super();

@@ -24,11 +24,11 @@ import edu.colorado.phet.gravityandorbits.view.MultiwayOr;
  * @author Sam Reid
  */
 public class Body implements IBodyColors {
-    private final ClockRewindProperty<ImmutableVector2D> positionProperty;
-    private final ClockRewindProperty<ImmutableVector2D> velocityProperty;
+    private final RewindableProperty<ImmutableVector2D> positionProperty;
+    private final RewindableProperty<ImmutableVector2D> velocityProperty;
     private final Property<ImmutableVector2D> accelerationProperty;
     private final Property<ImmutableVector2D> forceProperty;
-    private final ClockRewindProperty<Double> massProperty;
+    private final RewindableProperty<Double> massProperty;
     private final Property<Double> diameterProperty;
     private final String name;
     private final Color color;
@@ -44,7 +44,7 @@ public class Body implements IBodyColors {
     private final Function2<Body, Double, BodyRenderer> renderer;//function that creates a PNode for this Body.  This is in the model so we can associate the graphical representation directly instead of later with conditional logic or map
     private final double labelAngle;
     private final boolean massReadoutBelow;//True if the mass readout should appear below the body (so that readouts don't overlap too much), in the model for convenience since the body type determines where the mass readout should appear
-    private final ClockRewindProperty<Boolean> collidedProperty;
+    private final RewindableProperty<Boolean> collidedProperty;
     private final Property<Integer> clockTicksSinceExplosion = new Property<Integer>( 0 );
     private double tickValue;//value that this body's mass should be identified with, for 'planet' this will be the earth's mass
     private String tickLabel;//name associated with this body when it takes on the tickValue above, for 'planet' this will be "earth"
@@ -71,13 +71,13 @@ public class Body implements IBodyColors {
         this.highlight = highlight;
         this.renderer = renderer;
         this.labelAngle = labelAngle;
-        positionProperty = new ClockRewindProperty<ImmutableVector2D>( clockPaused, stepping, rewinding, new ImmutableVector2D( x, y ) );
-        velocityProperty = new ClockRewindProperty<ImmutableVector2D>( clockPaused, stepping, rewinding, new ImmutableVector2D( vx, vy ) );
+        positionProperty = new RewindableProperty<ImmutableVector2D>( clockPaused, stepping, rewinding, new ImmutableVector2D( x, y ) );
+        velocityProperty = new RewindableProperty<ImmutableVector2D>( clockPaused, stepping, rewinding, new ImmutableVector2D( vx, vy ) );
         accelerationProperty = new Property<ImmutableVector2D>( new ImmutableVector2D( 0, 0 ) );
         forceProperty = new Property<ImmutableVector2D>( new ImmutableVector2D( 0, 0 ) );
-        massProperty = new ClockRewindProperty<Double>( clockPaused, stepping, rewinding, mass );
+        massProperty = new RewindableProperty<Double>( clockPaused, stepping, rewinding, mass );
         diameterProperty = new Property<Double>( diameter );
-        collidedProperty = new ClockRewindProperty<Boolean>( clockPaused, stepping, rewinding, false );
+        collidedProperty = new RewindableProperty<Boolean>( clockPaused, stepping, rewinding, false );
         density = mass / getVolume();
 
         //Synchronize the scaled position, which accounts for the scale
@@ -131,7 +131,7 @@ public class Body implements IBodyColors {
         return highlight;
     }
 
-    public ClockRewindProperty<ImmutableVector2D> getPositionProperty() {
+    public RewindableProperty<ImmutableVector2D> getPositionProperty() {
         return positionProperty;
     }
 
@@ -265,11 +265,11 @@ public class Body implements IBodyColors {
         clearPath();
     }
 
-    public ClockRewindProperty<ImmutableVector2D> getVelocityProperty() {
+    public RewindableProperty<ImmutableVector2D> getVelocityProperty() {
         return velocityProperty;
     }
 
-    public ClockRewindProperty<Double> getMassProperty() {
+    public RewindableProperty<Double> getMassProperty() {
         return massProperty;
     }
 
@@ -396,7 +396,7 @@ public class Body implements IBodyColors {
         return collidedProperty.getValue();
     }
 
-    //REVIEW document. who implements this and why?
+    //Listener interface for getting callbacks when the path has changed, for displaying the path with picclo
     public static interface PathListener {
         public void pointAdded( ImmutableVector2D point );
 
