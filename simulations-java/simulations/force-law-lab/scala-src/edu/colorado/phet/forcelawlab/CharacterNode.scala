@@ -24,7 +24,7 @@ class CharacterNode(mass: Mass, mass2: Mass, transformMV: ModelViewTransform, le
   addInputEventListener(new DragHandler(mass, transformMV, minDragX, maxDragX, this))
   addInputEventListener(new CursorHandler)
 
-  def update() = {
+  def update() {
     updateRopeNode()
     updateCharacterNode()
     val b = characterImageNode.getFullBounds
