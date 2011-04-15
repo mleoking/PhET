@@ -34,6 +34,8 @@ public class SingleCollectionBoxNode extends SwingLayoutNode {
         addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, 160, 50 ), Color.BLACK ) {{
             canvas.addFullyLayedOutObserver( new SimpleObserver() {
                 public void update() {
+                    // we need to pass the collection box model coordinates, but here we have relative piccolo coordinates
+                    // this requires getting local => global => view => model coordinates
                     Rectangle2D globalBounds = getParent().localToGlobal( getFullBounds() );
                     Rectangle2D viewBounds = new Rectangle2D.Double();
                     Point2D upperLeftCorner = new Point2D.Double( globalBounds.getX(), globalBounds.getY() );
@@ -42,14 +44,14 @@ public class SingleCollectionBoxNode extends SwingLayoutNode {
                     canvas.getPhetRootNode().globalToWorld( dimensions );
                     viewBounds.setFrame( upperLeftCorner, dimensions );
                     box.setDropBounds( canvas.getModelViewTransform().viewToModel( viewBounds ).getBounds2D() );
-
-                    System.out.println( "box: " + box.getMoleculeType().getCommonName() );
-                    System.out.println( "getFullBounds() = " + getFullBounds() );
-                    System.out.println( "globalBounds = " + globalBounds );
-                    System.out.println( "viewBounds = " + viewBounds );
-                    System.out.println( "box.getDropBounds() = " + box.getDropBounds() );
                 }
             } );
         }}, c );
+
+        box.quantity.addObserver( new SimpleObserver() {
+            public void update() {
+                // TODO: add in updating of view here (show the molecule!!!)
+            }
+        } );
     }
 }
