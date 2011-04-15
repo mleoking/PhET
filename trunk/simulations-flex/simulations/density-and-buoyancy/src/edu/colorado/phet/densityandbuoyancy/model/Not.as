@@ -3,6 +3,7 @@
 package edu.colorado.phet.densityandbuoyancy.model {
 import edu.colorado.phet.flexcommon.model.BooleanProperty;
 
+//REVIEW move to common?
 /**
  * Two-way inversion of a BooleanProperty.
  */

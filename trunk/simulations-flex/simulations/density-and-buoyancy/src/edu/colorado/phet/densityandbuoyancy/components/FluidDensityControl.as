@@ -15,6 +15,7 @@ import mx.containers.Grid;
 public class FluidDensityControl extends DensityVBox {
     private var grid: Grid = new Grid();
 
+    //REVIEW why aren't you using an Unbounded instance instead of this? It does the same thing.
     private function noClamp( n: Number ): Number {
         return n;
     }

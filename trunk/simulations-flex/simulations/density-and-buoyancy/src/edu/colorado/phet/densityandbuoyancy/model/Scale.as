@@ -15,6 +15,7 @@ import edu.colorado.phet.flexcommon.model.BooleanProperty;
  */
 public class Scale extends Cuboid {
 
+    //REVIEW what is this?
     protected var totalImpulse: Number = 0;//in SI
 
     //Relative sizes for each dimension

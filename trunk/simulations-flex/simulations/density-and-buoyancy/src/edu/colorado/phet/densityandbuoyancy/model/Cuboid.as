@@ -13,8 +13,8 @@ public class Cuboid extends DensityObject {
     protected var width: Number;
     protected var height: Number;
     protected var depth: Number;
-    private var shapeDef: b2PolygonDef = new b2PolygonDef();
-    private var bodyDef: b2BodyDef = new b2BodyDef();
+    private var shapeDef: b2PolygonDef = new b2PolygonDef();//REVIEW doc
+    private var bodyDef: b2BodyDef = new b2BodyDef();//REVIEW doc
     private var shapeChangeListeners: Array = new Array();
 
     public function Cuboid( density: Number, width: Number, height: Number, depth: Number, x: Number, y: Number, model: DensityAndBuoyancyModel, __material: Material ) {
@@ -84,6 +84,7 @@ public class Cuboid extends DensityObject {
         }
     }
 
+    //REVIEW why?
     //TODO: these getters should be rewritten with 'function get' syntax
     public function getWidth(): Number {
         return width;
