@@ -5,8 +5,13 @@ import java.util.LinkedList;
 import java.util.List;
 
 import edu.colorado.phet.chemistry.model.Atom;
+import edu.colorado.phet.chemistry.molecules.H2ONode;
+import edu.colorado.phet.chemistry.molecules.NH3Node;
+import edu.colorado.phet.common.phetcommon.util.function.Function0;
+import edu.umd.cs.piccolo.PNode;
 
 import static edu.colorado.phet.chemistry.model.Atom.*;
+import static edu.colorado.phet.chemistry.molecules.HorizontalMoleculeNode.*;
 
 /**
  * Represents a complete (stable) molecule with a name and structure
@@ -14,14 +19,23 @@ import static edu.colorado.phet.chemistry.model.Atom.*;
 public class CompleteMolecule {
     private String commonName;
     private MoleculeStructure moleculeStructure;
+    private Function0<PNode> createNode;
+
+    public PNode createPseudo3DNode() {
+        if ( createNode == null ) {
+            throw new RuntimeException( "PNode not implemented for " + commonName );
+        }
+        return createNode.apply();
+    }
 
     // TODO: add in 3D structure here. ideally a Map<Atom,Point3D>
 
     // TODO: i18n
 
-    public CompleteMolecule( String commonName, MoleculeStructure moleculeStructure ) {
+    public CompleteMolecule( String commonName, MoleculeStructure moleculeStructure, Function0<PNode> createNode ) {
         this.commonName = commonName;
         this.moleculeStructure = moleculeStructure;
+        this.createNode = createNode;
     }
 
     public String getCommonName() {
@@ -49,29 +63,29 @@ public class CompleteMolecule {
 
     // NOTE: some results used http://webbook.nist.gov/chemistry/form-ser.html for the common names
 
-    private static CompleteMolecule diatomic( String commonName, final Atom a, final Atom b ) {
+    private static CompleteMolecule diatomic( String commonName, final Atom a, final Atom b, Function0<PNode> createNode ) {
         return new CompleteMolecule( commonName, new MoleculeStructure() {{
             Atom atomA = addAtom( a );
             Atom atomB = addAtom( b );
             addBond( atomA, atomB );
-        }} );
+        }}, createNode );
     }
 
-    private static CompleteMolecule triatomic( String commonName, final Atom a, final Atom b, final Atom c ) {
+    private static CompleteMolecule triatomic( String commonName, final Atom a, final Atom b, final Atom c, Function0<PNode> createNode ) {
         return new CompleteMolecule( commonName, new MoleculeStructure() {{
             Atom atomA = addAtom( a );
             Atom atomB = addAtom( b );
             Atom atomC = addAtom( c );
             addBond( atomA, atomB );
             addBond( atomB, atomC );
-        }} );
+        }}, createNode );
     }
 
-    private static CompleteMolecule withTwoHydrogens( String commonName, final Atom a ) {
-        return triatomic( commonName, new H(), a, new H() );
+    private static CompleteMolecule withTwoHydrogens( String commonName, final Atom a, Function0<PNode> createNode ) {
+        return triatomic( commonName, new H(), a, new H(), createNode );
     }
 
-    private static CompleteMolecule withThreeHydrogens( String commonName, final Atom a ) {
+    private static CompleteMolecule withThreeHydrogens( String commonName, final Atom a, Function0<PNode> createNode ) {
         return new CompleteMolecule( commonName, new MoleculeStructure() {{
             Atom atom = addAtom( a );
             Atom H1 = addAtom( new H() );
@@ -80,10 +94,10 @@ public class CompleteMolecule {
             addBond( atom, H1 );
             addBond( atom, H2 );
             addBond( atom, H3 );
-        }} );
+        }}, createNode );
     }
 
-    private static CompleteMolecule withFourHydrogens( String commonName, final Atom a ) {
+    private static CompleteMolecule withFourHydrogens( String commonName, final Atom a, Function0<PNode> createNode ) {
         return new CompleteMolecule( commonName, new MoleculeStructure() {{
             Atom atom = addAtom( a );
             Atom H1 = addAtom( new H() );
@@ -94,32 +108,60 @@ public class CompleteMolecule {
             addBond( atom, H2 );
             addBond( atom, H3 );
             addBond( atom, H4 );
-        }} );
+        }}, createNode );
     }
 
-    public static final CompleteMolecule H2O = withTwoHydrogens( "Water", new O() );
+    public static final CompleteMolecule H2O = withTwoHydrogens( "Water", new O(), new Function0<PNode>() {
+        public PNode apply() {
+            return new H2ONode();
+        }
+    } );
 
-    public static final CompleteMolecule O2 = diatomic( "Oxygen", new O(), new O() );
+    public static final CompleteMolecule O2 = diatomic( "Oxygen", new O(), new O(), new Function0<PNode>() {
+        public PNode apply() {
+            return new O2Node();
+        }
+    } );
 
-    public static final CompleteMolecule H2 = diatomic( "Hydrogen", new H(), new H() );
+    public static final CompleteMolecule H2 = diatomic( "Hydrogen", new H(), new H(), new Function0<PNode>() {
+        public PNode apply() {
+            return new H2Node();
+        }
+    } );
 
-    public static final CompleteMolecule CO = diatomic( "Carbon Monoxide", new C(), new O() );
+    public static final CompleteMolecule CO = diatomic( "Carbon Monoxide", new C(), new O(), new Function0<PNode>() {
+        public PNode apply() {
+            return new CONode();
+        }
+    } );
 
-    public static final CompleteMolecule CO2 = triatomic( "Carbon Dioxide", new O(), new C(), new O() );
+    public static final CompleteMolecule CO2 = triatomic( "Carbon Dioxide", new O(), new C(), new O(), new Function0<PNode>() {
+        public PNode apply() {
+            return new CO2Node();
+        }
+    } );
 
-    public static final CompleteMolecule N2 = diatomic( "Nitrogen", new N(), new N() );
+    public static final CompleteMolecule N2 = diatomic( "Nitrogen", new N(), new N(), new Function0<PNode>() {
+        public PNode apply() {
+            return new N2Node();
+        }
+    } );
 
-    public static final CompleteMolecule O3 = triatomic( "Ozone", new O(), new O(), new O() );
+    public static final CompleteMolecule O3 = triatomic( "Ozone", new O(), new O(), new O(), null );
 
-    public static final CompleteMolecule F2 = diatomic( "Fluorine", new F(), new F() );
+    public static final CompleteMolecule F2 = diatomic( "Fluorine", new F(), new F(), null );
 
-    public static final CompleteMolecule Cl2 = diatomic( "Chlorine", new Cl(), new Cl() );
+    public static final CompleteMolecule Cl2 = diatomic( "Chlorine", new Cl(), new Cl(), new Function0<PNode>() {
+        public PNode apply() {
+            return new Cl2Node();
+        }
+    } );
 
-    public static final CompleteMolecule NO = diatomic( "Nitric Oxide", new N(), new O() );
+    public static final CompleteMolecule NO = diatomic( "Nitric Oxide", new N(), new O(), null );
 
-    public static final CompleteMolecule NO2 = triatomic( "Nitrogen Dioxide", new O(), new N(), new O() );
+    public static final CompleteMolecule NO2 = triatomic( "Nitrogen Dioxide", new O(), new N(), new O(), null );
 
-    public static final CompleteMolecule N20 = triatomic( "Nitrous Oxide", new N(), new N(), new O() );
+    public static final CompleteMolecule N20 = triatomic( "Nitrous Oxide", new N(), new N(), new O(), null );
 
     public static final CompleteMolecule H2O2 = new CompleteMolecule( "Hydrogen Peroxide", new MoleculeStructure() {{
         Atom O1 = addAtom( new Atom.O() );
@@ -129,16 +171,20 @@ public class CompleteMolecule {
         addBond( H1, O1 );
         addBond( O1, O2 );
         addBond( O2, H2 );
-    }} );
+    }}, null );
 
-    public static final CompleteMolecule BH3 = withThreeHydrogens( "Borane", new B() );
-    public static final CompleteMolecule H2S = withTwoHydrogens( "Hydrogen Sulfide", new S() );
-    public static final CompleteMolecule NH3 = withThreeHydrogens( "Ammonia", new N() );
-    public static final CompleteMolecule CH4 = withFourHydrogens( "Methane", new C() );
-    public static final CompleteMolecule FH = diatomic( "Hydrogen Fluoride", new F(), new H() );
-    public static final CompleteMolecule PH3 = withThreeHydrogens( "Phosphine", new P() );
-    public static final CompleteMolecule SiH4 = withFourHydrogens( "Silane", new Si() );
-    public static final CompleteMolecule ClH = diatomic( "Hydrogen Chloride", new H(), new Cl() );
+    public static final CompleteMolecule BH3 = withThreeHydrogens( "Borane", new B(), null );
+    public static final CompleteMolecule H2S = withTwoHydrogens( "Hydrogen Sulfide", new S(), null );
+    public static final CompleteMolecule NH3 = withThreeHydrogens( "Ammonia", new N(), new Function0<PNode>() {
+        public PNode apply() {
+            return new NH3Node();
+        }
+    } );
+    public static final CompleteMolecule CH4 = withFourHydrogens( "Methane", new C(), null );
+    public static final CompleteMolecule FH = diatomic( "Hydrogen Fluoride", new F(), new H(), null );
+    public static final CompleteMolecule PH3 = withThreeHydrogens( "Phosphine", new P(), null );
+    public static final CompleteMolecule SiH4 = withFourHydrogens( "Silane", new Si(), null );
+    public static final CompleteMolecule ClH = diatomic( "Hydrogen Chloride", new H(), new Cl(), null );
     public static final CompleteMolecule BF3 = new CompleteMolecule( "Boron Trifluoride", new MoleculeStructure() {{
         Atom B1 = addAtom( new B() );
         Atom F1 = addAtom( new F() );
@@ -147,8 +193,8 @@ public class CompleteMolecule {
         addBond( B1, F1 );
         addBond( B1, F2 );
         addBond( B1, F3 );
-    }} );
-    public static final CompleteMolecule CHN = triatomic( "Hydrogen Cyanide", new H(), new C(), new N() );
+    }}, null );
+    public static final CompleteMolecule CHN = triatomic( "Hydrogen Cyanide", new H(), new C(), new N(), null );
     public static final CompleteMolecule CH2O = new CompleteMolecule( "Formaldehyde", new MoleculeStructure() {{
         Atom C1 = addAtom( new C() );
         Atom H1 = addAtom( new H() );
@@ -157,7 +203,7 @@ public class CompleteMolecule {
         addBond( C1, H1 );
         addBond( C1, H2 );
         addBond( C1, O1 );
-    }} );
+    }}, null );
     public static final CompleteMolecule CH3OH = new CompleteMolecule( "Methyl Alcohol", new MoleculeStructure() {{
         Atom C1 = addAtom( new C() );
         Atom H1 = addAtom( new H() );
@@ -170,7 +216,7 @@ public class CompleteMolecule {
         addBond( C1, H3 );
         addBond( C1, O1 );
         addBond( O1, H4 );
-    }} );
+    }}, null );
     public static final CompleteMolecule CH3F = new CompleteMolecule( "Fluoromethane", new MoleculeStructure() {{
         Atom C1 = addAtom( new C() );
         Atom H1 = addAtom( new H() );
@@ -181,7 +227,7 @@ public class CompleteMolecule {
         addBond( C1, H2 );
         addBond( C1, H3 );
         addBond( C1, F1 );
-    }} );
+    }}, null );
     public static final CompleteMolecule CH2F2 = new CompleteMolecule( "Difluoromethane", new MoleculeStructure() {{
         Atom C1 = addAtom( new C() );
         Atom H1 = addAtom( new H() );
@@ -192,7 +238,7 @@ public class CompleteMolecule {
         addBond( C1, H2 );
         addBond( C1, F1 );
         addBond( C1, F2 );
-    }} );
+    }}, null );
     public static final CompleteMolecule CHF3 = new CompleteMolecule( "Trifluoromethane", new MoleculeStructure() {{
         Atom C1 = addAtom( new C() );
         Atom H1 = addAtom( new H() );
@@ -203,7 +249,7 @@ public class CompleteMolecule {
         addBond( C1, F1 );
         addBond( C1, F2 );
         addBond( C1, F3 );
-    }} );
+    }}, null );
     public static final CompleteMolecule CF4 = new CompleteMolecule( "Carbon Tetrafluoride", new MoleculeStructure() {{
         Atom C1 = addAtom( new C() );
         Atom F1 = addAtom( new F() );
@@ -214,7 +260,7 @@ public class CompleteMolecule {
         addBond( C1, F2 );
         addBond( C1, F3 );
         addBond( C1, F4 );
-    }} );
+    }}, null );
     public static final CompleteMolecule CH3Cl = new CompleteMolecule( "Chloromethane", new MoleculeStructure() {{
         Atom C1 = addAtom( new C() );
         Atom H1 = addAtom( new H() );
@@ -225,7 +271,7 @@ public class CompleteMolecule {
         addBond( C1, H2 );
         addBond( C1, H3 );
         addBond( C1, Cl1 );
-    }} );
+    }}, null );
     public static final CompleteMolecule CH2Cl2 = new CompleteMolecule( "Methylene Chloride", new MoleculeStructure() {{
         Atom C1 = addAtom( new C() );
         Atom H1 = addAtom( new H() );
@@ -236,7 +282,7 @@ public class CompleteMolecule {
         addBond( C1, H2 );
         addBond( C1, Cl1 );
         addBond( C1, Cl2 );
-    }} );
+    }}, null );
 
     public static final CompleteMolecule C2H2 = new CompleteMolecule( "Acetylene", new MoleculeStructure() {{
         Atom C1 = addAtom( new Atom.C() );
@@ -246,7 +292,7 @@ public class CompleteMolecule {
         addBond( H1, C1 );
         addBond( C1, C2 );
         addBond( C2, H2 );
-    }} );
+    }}, null );
 
     public static final CompleteMolecule C2H4 = new CompleteMolecule( "Ethylene", new MoleculeStructure() {{
         Atom C1 = addAtom( new Atom.C() );
@@ -260,7 +306,7 @@ public class CompleteMolecule {
         addBond( C1, C2 );
         addBond( C2, H3 );
         addBond( C2, H4 );
-    }} );
+    }}, null );
 
 
     public static final CompleteMolecule[] COMPLETE_MOLECULES = new CompleteMolecule[] {
