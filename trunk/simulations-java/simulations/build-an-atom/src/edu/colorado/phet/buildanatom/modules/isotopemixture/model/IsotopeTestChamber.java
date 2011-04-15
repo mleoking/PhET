@@ -5,9 +5,7 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 import edu.colorado.phet.buildanatom.model.ImmutableAtom;
@@ -65,11 +63,6 @@ public class IsotopeTestChamber {
     // Property that tracks the average atomic mass of all isotopes in
     // the chamber.
     private final Property<Double> averageAtomicMassProperty = new Property<Double>( 0.0 );
-
-    // Override values.  These are used when overriding the calculated values
-    // from the chamber.
-    private boolean averageAtomicMassOverridden = false;
-    private Map<ImmutableAtom, Double> isotopeProportionsOverride = null; // Null signals inactive.
 
     // ------------------------------------------------------------------------
     // Constructor(s)
@@ -144,52 +137,6 @@ public class IsotopeTestChamber {
     }
 
     /**
-     * Override the calculated value for average atomic mass with the supplied
-     * value.  This is necessary because we sometimes want to have accurate
-     * values for the average atomic mass of this isotope in nature, but can't
-     * put enough particles into the chamber to achieve the needed value.
-     *
-     * This override will be cleared when any particles are added to or removed
-     * from the chamber, and can also be cleared manually.
-     */
-    public void overrideAverageAtomicMass( double overrideValue ){
-        averageAtomicMassProperty.setValue( overrideValue );
-        averageAtomicMassOverridden = true;
-    }
-
-    public void clearAverageAtomicMassOverride(){
-        if ( averageAtomicMassOverridden ){
-            averageAtomicMassOverridden = false;
-            updateAverageAtomicMassProperty();
-        }
-    }
-
-    private void clearAllOverrides(){
-        clearAverageAtomicMassOverride();
-        clearIsotopeProportionsOverride();
-    }
-
-    /**
-     * Override the calculated proportions for the contained isotopes.  This
-     * is necessary because we sometimes want to have accurate values of
-     * isotope proportions in nature, but can't add enough particles to the
-     * chamber to make the calculations come out right.
-     *
-     * This override will be cleared when any particles are added to or removed
-     * from the chamber, and can also be cleared manually.
-     */
-    public void overrideIsotopeProportions( Map<ImmutableAtom, Double> overrideValue ){
-        isotopeProportionsOverride = overrideValue;
-        // Trigger a change notification so observers that need to know when
-        // the proportions change can be notified.
-        isotopeCountProperty.notifyObservers();
-    }
-
-    public void clearIsotopeProportionsOverride(){
-        isotopeProportionsOverride = null;
-    }
-
-    /**
      * Add the specified isotope to the test chamber.  The isotope must be
      * positioned within the 2D bounds of the chamber or the request will be
      * ignored.
@@ -224,7 +171,6 @@ public class IsotopeTestChamber {
      */
     private void addIsotopeToChamber( MovableAtom isotope, boolean performUpdates ){
         if ( isIsotopePositionedOverChamber( isotope ) ){
-            clearAllOverrides();
             containedIsotopes.add( isotope );
             // If the edges of the isotope are outside of the container,
             // move it to be fully inside.
@@ -268,7 +214,6 @@ public class IsotopeTestChamber {
     }
 
     public void removeIsotopeFromChamber( MovableAtom isotope ){
-        clearAllOverrides();
         containedIsotopes.remove( isotope );
         updateCountProperty();
         // Update the average atomic mass.
@@ -303,8 +248,6 @@ public class IsotopeTestChamber {
     }
 
     public void removeAllIsotopes( boolean removeFromModel ){
-        clearAverageAtomicMassOverride();
-        clearIsotopeProportionsOverride();
         List<MovableAtom> containedIsotopesCopy = new ArrayList<MovableAtom>( containedIsotopes );
         containedIsotopes.clear();
         if ( removeFromModel ){
@@ -373,25 +316,16 @@ public class IsotopeTestChamber {
     public double getIsotopeProportion( ImmutableAtom isotopeConfig ){
         assert isotopeConfig.getCharge() == 0;
         double isotopeProportion = 0;
-        if ( isotopeProportionsOverride != null ){
-            // The override is currently active, so return the value it
-            // specifies.
-            if ( isotopeProportionsOverride.containsKey( isotopeConfig )){
-                isotopeProportion = isotopeProportionsOverride.get( isotopeConfig );
+        // TODO: This could be done by a map that is updated each time an
+        // atom is added if better performance is needed.  This should be
+        // decided before publishing this sim.
+        int isotopeCount = 0;
+        for ( MovableAtom isotope : containedIsotopes ){
+            if ( isotopeConfig.equals( isotope.getAtomConfiguration() )){
+                isotopeCount++;
             }
         }
-        else{
-            // TODO: This could be done by a map that is updated each time an
-            // atom is added if better performance is needed.  This should be
-            // decided before publishing this sim.
-            int isotopeCount = 0;
-            for ( MovableAtom isotope : containedIsotopes ){
-                if ( isotopeConfig.equals( isotope.getAtomConfiguration() )){
-                    isotopeCount++;
-                }
-            }
-            isotopeProportion = (double)isotopeCount / (double)containedIsotopes.size();
-        }
+        isotopeProportion = (double)isotopeCount / (double)containedIsotopes.size();
         return isotopeProportion;
     }
 
@@ -415,10 +349,6 @@ public class IsotopeTestChamber {
     public void setState( State state ){
         removeAllIsotopes( true );
         bulkAddIsotopesToChamber( state.getContainedIsotopes() );
-        isotopeProportionsOverride = state.isotopeProportionsOverride;
-        if ( state.isAverageAtomicMassOverridden() ){
-            overrideAverageAtomicMass( state.getAverageAtomicMassValue() );
-        }
     }
 
     /**
@@ -427,20 +357,11 @@ public class IsotopeTestChamber {
      */
     public static class State {
         private final List<MovableAtom> containedIsotopes;
-        private final boolean averageAtomicMassOverridden;
         private final double averageAtomicMassValue;
-        private final Map<ImmutableAtom, Double> isotopeProportionsOverride;
 
         public State( IsotopeTestChamber isotopeTestChamber ){
             this.containedIsotopes = new ArrayList<MovableAtom>( isotopeTestChamber.getContainedIsotopes() );
-            this.averageAtomicMassOverridden = isotopeTestChamber.averageAtomicMassOverridden;
             this.averageAtomicMassValue = isotopeTestChamber.getAverageAtomicMass();
-            if ( isotopeTestChamber.isotopeProportionsOverride != null ){
-                this.isotopeProportionsOverride = new HashMap<ImmutableAtom, Double>( isotopeTestChamber.isotopeProportionsOverride );
-            }
-            else{
-                this.isotopeProportionsOverride = null;
-            }
         }
 
         protected List<MovableAtom> getContainedIsotopes() {
@@ -448,24 +369,10 @@ public class IsotopeTestChamber {
         }
 
         /**
-         * @return the averageAtomicMassOverridden
-         */
-        public boolean isAverageAtomicMassOverridden() {
-            return averageAtomicMassOverridden;
-        }
-
-        /**
          * @return the averageAtomicMassValue
          */
         public double getAverageAtomicMassValue() {
             return averageAtomicMassValue;
-        }
-
-        /**
-         * @return the isotopeProportionsOverride
-         */
-        public Map<ImmutableAtom, Double> getIsotopeProportionsOverride() {
-            return isotopeProportionsOverride;
         }
     }
 }
