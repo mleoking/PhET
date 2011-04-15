@@ -40,6 +40,8 @@ public class PoolVolumeIndicator extends Sprite {
         textFormat.size = 24;
         textFormat.bold = true;
         textField.setTextFormat( textFormat );
+
+        //REVIEW doc - draw a triangle that points to the left
         graphics.beginFill( 0xFF0000 );
         graphics.moveTo( 0, 0 );
         graphics.lineTo( +10, -10 );
@@ -47,9 +49,11 @@ public class PoolVolumeIndicator extends Sprite {
         graphics.lineTo( 0, 0 );
         graphics.endFill();
 
+        //REVIEW why aren't these 2 lines up above with all of the other textField code?
         textField.x = + 10;
         textField.y = -textField.height / 2;
 
+        //REVIEW doc - draw the text with an outline and white background
         graphics.lineStyle( 1, 0x000000 );
         graphics.beginFill( 0xFFFFFF );
         graphics.drawRoundRect( textField.x, textField.y, textField.width, textField.height, 6, 6 );

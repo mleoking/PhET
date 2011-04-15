@@ -9,6 +9,9 @@ import away3d.lights.DirectionalLight3D;
 
 import flash.display.Stage;
 
+//REVIEW misuse of "viewport", and in a graphics application. A viewport is a 2D rectangle used to
+//  display some portion of a scene. It has no knowledge of the scene, camera, renderer, etc.
+//  Please call this something else, eg Away3DContext.
 /**
  * Contains a 3D scene with its own camera. Responsible for the 3D rendering
  */
@@ -46,6 +49,7 @@ public class Away3DViewport {
         }
     }
 
+    //REVIEW doc
     public function initEngine(): void {
         _scene = new Scene3D();
 

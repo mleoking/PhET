@@ -18,6 +18,7 @@ import edu.colorado.phet.flashcommon.ApplicationLifecycle;
 import edu.colorado.phet.flexcommon.model.BooleanProperty;
 import edu.colorado.phet.flexcommon.model.NumericProperty;
 
+//REVIEW if the control panels are not displayed in this play area, where are they displayed?
 /**
  * Contains the sim play area for Buoyancy (not including control panels)
  */

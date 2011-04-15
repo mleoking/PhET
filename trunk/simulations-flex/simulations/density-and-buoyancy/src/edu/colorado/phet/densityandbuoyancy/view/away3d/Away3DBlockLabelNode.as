@@ -8,6 +8,7 @@ import edu.colorado.phet.densityandbuoyancy.view.*;
 import edu.colorado.phet.densityandbuoyancy.components.BlockLabel;
 import edu.colorado.phet.flexcommon.model.BooleanProperty;
 
+//REVIEW If it's a sprite, then why is the class name *Node?
 /**
  * This is a flash sprite that displays text for a block, and is positioned using Away3D geometry.
  */

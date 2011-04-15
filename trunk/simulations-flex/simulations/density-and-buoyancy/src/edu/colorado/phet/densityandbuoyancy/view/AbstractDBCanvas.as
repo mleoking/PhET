@@ -50,6 +50,7 @@ public class AbstractDBCanvas extends UIComponent {
     private var startMiddle: Number3D;
     private var selectedObject: AbstractPrimitive;
 
+    //REVIEW what is this? constants should be in uppercase.
     public static const far: Number = 5000;
 
     // references to the water Away3D surfaces, so we can change the water height visually
@@ -58,8 +59,8 @@ public class AbstractDBCanvas extends UIComponent {
 
     private var groundNode: GroundNode; // our visual display of the ground
 
-    private var _running: Boolean = true;
-    private var invalid: Boolean = true;
+    private var _running: Boolean = true;//REVIEW doc - what is running?
+    private var invalid: Boolean = true; //REVIEW doc - looks like this is related to dragging, but the name is so vague...
 
     private var marker: ObjectContainer3D; // testing object to verify locations in 3D
 
@@ -72,6 +73,7 @@ public class AbstractDBCanvas extends UIComponent {
     private const kgString: String = FlexSimStrings.get( "properties.massKilogram", "kg" );
     private const lString: String = FlexSimStrings.get( "properties.volumeLiter", "L" );
     private const densityString: String = FlexSimStrings.get( "properties.kilogramPerLiter", "kg/L" );
+    //REVIEW "kg/L" is an inappropriate name for the collection of all units. Would "Si units" be better?
     private var _units: Units = new Units( "kg/L", new LinearUnit( kgString, 1.0 ), new LinearUnit( lString, 1000.0 ), new LinearUnit( densityString, 1.0 / 1000.0 ) );
     public const massReadoutsVisible: BooleanProperty = new BooleanProperty( true );
     protected var extendedPool: Boolean;
@@ -89,6 +91,7 @@ public class AbstractDBCanvas extends UIComponent {
         waterVolumeIndicator = new PoolVolumeIndicator( _model );
         waterVolumeIndicator.visible = false;//only show it after its location is correct
 
+        //REVIEW doc
         percentWidth = 100;
         percentHeight = 100;
 
@@ -108,6 +111,9 @@ public class AbstractDBCanvas extends UIComponent {
         } );
     }
 
+    //REVIEW BuoyancyCanvas overrides this without calling super, DensityCanvas does not override.
+    // So I'm guessing that this implementation is appropriate for DensityCanvas.  If that's the
+    // case, then make this abstract (throw new Error), and move this implementation to DensityCanvas.
     protected function createModel( showExactLiquidColor: Boolean ): DensityAndBuoyancyModel {
         return new DensityAndBuoyancyModel( DensityAndBuoyancyConstants.litersToMetersCubed( 100.0 ), extendedPool );
     }
@@ -118,11 +124,13 @@ public class AbstractDBCanvas extends UIComponent {
         overlayViewport.updateDisplayList( unscaledWidth, unscaledHeight );
     }
 
+    //REVIEW doc, especially since Away3DViewport.initEngine is undocumented
     public function initEngine(): void {
         mainViewport.initEngine();
         overlayViewport.initEngine();
     }
 
+    //REVIEW doc
     public function initObjects(): void {
         var poolHeight: Number = _model.getPoolHeight() * DensityAndBuoyancyModel.DISPLAY_SCALE;
         var waterHeight: Number = _model.getWaterHeight() * DensityAndBuoyancyModel.DISPLAY_SCALE;
@@ -177,17 +185,20 @@ public class AbstractDBCanvas extends UIComponent {
         //        scene.addChild(marker);//For debugging
     }
 
+    //REVIEW doc - called by the model when an object is added
     private function addDensityObject( densityObject: DensityObject ): void {
         const densityObjectNode: DensityObjectNode = createDensityObjectNode( densityObject );
         mainViewport.scene.addChild( densityObjectNode );
         densityObjectNode.addOverlayObjects();
     }
 
+    //REVIEW doc - called by the model when an object is added
     public function removeDensityObject( densityObjectNode: DensityObjectNode ): void {
         mainViewport.scene.removeChild( densityObjectNode );
         densityObjectNode.removeOverlayObjects();
     }
 
+    //REVIEW doc - called by the model when an object is created
     protected function createDensityObjectNode( densityObject: DensityObject ): DensityObjectNode {
         return densityObject.createNode( this, massReadoutsVisible );
     }
@@ -202,6 +213,7 @@ public class AbstractDBCanvas extends UIComponent {
         onResize();
     }
 
+    //REVIEW doc - what does this do, what's the algorithm used?
     /**
      * @param m A 3D mesh of points in view space
      * @return The median point of the front of the mesh, in _screen_ coordinates
@@ -231,6 +243,7 @@ public class AbstractDBCanvas extends UIComponent {
         return new Number3D( kx / num, ky / num, kz / num );
     }
 
+    //REVIEW doc
     public function onEnterFrame( event: Event ): void {
         if ( !_running ) {
             return;
@@ -366,6 +379,7 @@ public class AbstractDBCanvas extends UIComponent {
         }
     }
 
+    //REVIEW doc - when is this called?
     public function onStageMouseLeave( event: Event ): void {
         moving = false;
         stage.removeEventListener( Event.MOUSE_LEAVE, onStageMouseLeave );
@@ -379,6 +393,7 @@ public class AbstractDBCanvas extends UIComponent {
         updateWaterVolumeIndicater();
     }
 
+    //REVIEW start what? the animation clock?
     public function start(): void {
         _running = true;
     }
@@ -398,6 +413,7 @@ public class AbstractDBCanvas extends UIComponent {
     }
 
     public function get container(): AbstractDBContainer {
+        //REVIEW rather than repeating this Error("abstract method"), how about "class AbstractMethodError extends Error" in common code?
         throw new Error( "abstract method error" );
     }
 

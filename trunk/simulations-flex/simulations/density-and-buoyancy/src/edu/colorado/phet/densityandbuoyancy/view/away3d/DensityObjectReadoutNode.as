@@ -4,6 +4,7 @@ import edu.colorado.phet.densityandbuoyancy.model.DensityObject;
 
 import flash.text.TextFormat;
 
+//REVIEW class doc
 public class DensityObjectReadoutNode {
     private var _textReadout: TextFieldMesh;
     private var fontSize: Number;

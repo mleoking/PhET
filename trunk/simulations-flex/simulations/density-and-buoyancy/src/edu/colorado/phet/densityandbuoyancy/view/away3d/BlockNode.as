@@ -26,7 +26,7 @@ public class BlockNode extends CubeNode implements Pickable {
 
     private var textureBitmap: Bitmap; // the texture being used (wood bitmap, wall (custom) bitmap, etc.)
     private var label: StringProperty;
-    private var readoutFontScale: Number;
+    private var readoutFontScale: Number; //REVIEW doc
 
     public function BlockNode( block: Block, canvas: AbstractDBCanvas, label: StringProperty, massReadoutVisible: BooleanProperty, readoutFontScale: Number = 1 ): void {
         this.label = label;
@@ -77,6 +77,7 @@ public class BlockNode extends CubeNode implements Pickable {
         cube.cubeMaterials.back = cube.cubeMaterials.left = cube.cubeMaterials.right = cube.cubeMaterials.top = cube.cubeMaterials.bottom = cube.cubeMaterials.front = sideMaterial;
     }
 
+    //REVIEW doc
     private function getCustomBitmap(): Bitmap {
         var wallData: BitmapData = (new Material.customObjectTexture() as BitmapAsset).bitmapData;
         wallData.colorTransform( new Rectangle( 0, 0, wallData.width, wallData.height ), block.colorTransform );

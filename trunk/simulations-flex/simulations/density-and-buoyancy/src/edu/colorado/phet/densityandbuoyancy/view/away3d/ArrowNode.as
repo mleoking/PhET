@@ -12,6 +12,8 @@ import edu.colorado.phet.densityandbuoyancy.view.VectorValueNode;
 import edu.colorado.phet.flexcommon.model.BooleanProperty;
 import edu.colorado.phet.flexcommon.model.NumericProperty;
 
+//REVIEW why are you using Piccolo "node" terminology here? Confusing to both Piccolo and Flex developers.
+//REVIEW This "node" terminology occurs throughout view package, only noted here. Not recommended.
 /**
  * Displays a 2D vector arrow as a 3D geometry in Away3D.
  */

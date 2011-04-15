@@ -3,6 +3,7 @@ package edu.colorado.phet.densityandbuoyancy.view.away3d {
 import away3d.core.base.*;
 import away3d.materials.ITriangleMaterial;
 
+//REVIEW "My" is an inappropriate prefix for production code. Choose a name that describes how this extends Mesh.
 /**
  * Provides convenience methods for creating custom Mesh instances.
  */
