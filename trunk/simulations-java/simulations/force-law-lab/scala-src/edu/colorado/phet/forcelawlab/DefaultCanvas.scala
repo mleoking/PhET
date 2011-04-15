@@ -18,21 +18,23 @@ class DefaultCanvas(modelWidth: Double, modelHeight: Double) extends PhetPCanvas
 
   val worldNode = new PNode
   addWorldChild(worldNode)
+
   def addNode(node: PNode) = worldNode.addChild(node)
 
   def addNode(index: Int, node: PNode) = worldNode.addChild(index, node)
 
-  def getVisibleModelBounds=centeredBoxStrategy.getVisibleModelBounds
+  def getVisibleModelBounds = centeredBoxStrategy.getVisibleModelBounds
 }
 
 //TODO: move to scalacommon
 class ScalaValueControl(min: Double, max: Double, name: String, decimalFormat: String, units: String,
-                        getter: => Double, setter: Double => Unit, addListener: (() => Unit) => Unit)
+                        getter: => Double, setter: Double => Unit, addListener: ( () => Unit ) => Unit)
         extends LinearValueControl(min, max, name, decimalFormat, units) {
   addListener(update)
   update()
   addChangeListener(new ChangeListener {
     def stateChanged(e: ChangeEvent) = setter(getValue)
   });
+
   def update() = setValue(getter)
 }
