@@ -401,17 +401,17 @@ class ForceLawsModule(clock: ScalaClock) extends Module(ForceLawLabResources.get
 }
 
 object ForceLawLabDefaults {
+  //  sun earth distance in m
   val sunMercuryDist = 5.791E10
   //  sun earth distance in m
   val sunEarthDist = 1.496E11
-  //  sun earth distance in m
   val earthRadius = 6.371E6
   val sunRadius = 6.955E8
+  //masses are in kg
   val earthMass = 5.9742E24
-  //kg
   val sunMass = 1.9891E30
+  //Gravitational constant in MKS
   val G = 6.67E-11
-
   val metersPerLightMinute = 5.5594E-11
 
   def metersToLightMinutes(a: Double) = a * metersPerLightMinute
@@ -426,16 +426,13 @@ object ForceLawLabDefaults {
 class Circle(center: Vector2D, radius: Double) extends Ellipse2D.Double(center.x - radius, center.y - radius, radius * 2, radius * 2)
 
 object ForceLawBorders {
-  def createTitledBorder(key: String) = {
-    val border = new TitledBorder(ForceLawLabResources.getLocalizedString(key))
-    border.setTitleFont(new PhetFont(14, true))
-    border
-  }
+  def createTitledBorder(key: String) =
+    new TitledBorder(ForceLawLabResources.getLocalizedString(key)) {
+      setTitleFont(new PhetFont(14, true))
+    }
 }
 
 class ForceLawLabApplication
-
-//todo
 
 class GravityForceLabApplication(config: PhetApplicationConfig) extends PiccoloPhetApplication(config) {
   addModule(new ForceLawsModule(new ScalaClock(30, 30 / 1000.0)))
