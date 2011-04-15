@@ -4,6 +4,7 @@ import away3d.materials.MovieMaterial;
 
 import flash.display.Sprite;
 
+//REVIEW doc - nice to know where it's used and when they're created. but what are they? what are they displaying?
 /**
  * This is used as a child in Sprite3D, they are created each time the sprite is resized.
  */

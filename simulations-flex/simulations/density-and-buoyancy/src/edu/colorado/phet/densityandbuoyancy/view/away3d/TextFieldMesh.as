@@ -7,6 +7,7 @@ import flash.text.TextField;
 import flash.text.TextFieldAutoSize;
 import flash.text.TextFormat;
 
+//REVIEW Needs more doc. Why is it a mesh? Why is this necessary? etc.
 /**
  * Renders a flash text field in Away3D's rendering sequence.
  */

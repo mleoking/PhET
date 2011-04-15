@@ -32,6 +32,7 @@ public class CubeNode extends CuboidNode {
     }
 
 
+    //REVIEW doc
     override public function addOverlayObjects(): void {
         var added: Boolean = false;
         // find the index of another block label, and insert it there (if applicable)

@@ -14,6 +14,7 @@ import flash.text.TextField;
 import flash.text.TextFieldAutoSize;
 import flash.text.TextFormat;
 
+//REVIEW why are you using Piccolo "node" terminology here? Confusing to both Piccolo and Flex developers. Rename VectorValueSprite.
 /**
  * Displays a numeric readout of magnitude next to a force vector
  */
@@ -24,6 +25,7 @@ public class VectorValueNode extends Sprite {
     private var arrowNode: ArrowNode;
     private var right: Boolean;
 
+    //REVIEW why doesn't this node create its own ArrowNode?
     public function VectorValueNode( mainCamera: Camera3D, arrowNode: ArrowNode, mainViewport: Away3DViewport, visibilityProperty: BooleanProperty, right: Boolean ) {
         this.mainViewport = mainViewport;
         this.mainCamera = mainCamera;
@@ -57,11 +59,13 @@ public class VectorValueNode extends Sprite {
         textFormat.bold = true;
         textField.setTextFormat( textFormat );
 
+        //REVIEW doc - draw the text with an outline and white background
         graphics.lineStyle( 1, 0x000000 );
         graphics.beginFill( 0xFFFFFF );
         graphics.drawRoundRect( textField.x, textField.y, textField.width, textField.height, 6, 6 );
         graphics.endFill();
 
+        //REVIEW doc (looks like something is being positioned based on arrow and text)
         try {
             if ( right && arrowNode.arrowModel.y > 0 ) {
                 updateLocation( arrowNode.arrowHeadRightCornerVertex, 0 );
@@ -85,6 +89,7 @@ public class VectorValueNode extends Sprite {
         }
     }
 
+    //REVIEW doc
     private function updateLocation( vertex: Vertex, offsetX: Number ): void {
         var screenVertex: ScreenVertex = mainCamera.screen( arrowNode, vertex );
         x = screenVertex.x + mainViewport.view.x + offsetX;

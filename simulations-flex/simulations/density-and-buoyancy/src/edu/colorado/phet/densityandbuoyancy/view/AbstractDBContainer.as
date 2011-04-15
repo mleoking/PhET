@@ -70,8 +70,8 @@ public class AbstractDBContainer extends Canvas {
         addChild( resetAllControlPanel );
     }
 
-    //REVIEW is this a best practice for methods things abstract in AS? just curious...
     protected function addLogo(): void {
+        //REVIEW replace use of Error with subclass AbstractMethodError
         throw new Error( "abstract method error" );
     }
 

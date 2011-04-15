@@ -96,6 +96,7 @@ public class ScaleNode extends CuboidNode {
         return 36;
     }
 
+    //REVIEW doc - where is this object's origin, and where are we trying to position it?
     override public function setPosition( x: Number, y: Number ): void {
         // clamp the scale bounds manually because we set its mass to 0 while dragging which prevents intersection correction
 

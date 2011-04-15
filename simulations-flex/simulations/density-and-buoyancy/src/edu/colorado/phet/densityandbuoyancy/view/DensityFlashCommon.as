@@ -3,6 +3,7 @@ package edu.colorado.phet.densityandbuoyancy.view {
 import edu.colorado.phet.densityandbuoyancy.DensityAndBuoyancyConstants;
 import edu.colorado.phet.flexcommon.FlexCommon;
 
+//REVIEW this has nothing to do with flashcommon, it's an MX subclass. rename to DensityUIComponent?
 /**
  * Extends DensityAndBuoyancyFlashCommon to provide Density specific behavior (specifically, positioning of the common
  * buttons)

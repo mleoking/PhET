@@ -21,6 +21,7 @@ public class BuoyancyIntroContainer extends BuoyancyContainer {
     public static var count: Number = 0;//for different button groups
     private var sameMassButton: RadioButton;
 
+    //REVIEW doc chunk of code in constructor, I shouldn't have to read all of this to find what I need
     public function BuoyancyIntroContainer() {
         super( false, true );
         count = count + 1;

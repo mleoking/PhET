@@ -19,6 +19,8 @@ public class DensityObjectNode extends ObjectContainer3D implements Pickable {
      * the depth of the object so arrows will render just outside of the object
      * this is in the away3d scale
      */
+    //REVIEW protected?
+    //REVIEW don't understand the above comment or implications of the TODO
     public var frontZProperty: NumericProperty = new NumericProperty( "ZZZZ", "FakeUnits, FIX ME", 0 ); // TODO refactor so we can opt out of units
 
     private var _canvas: AbstractDBCanvas;
