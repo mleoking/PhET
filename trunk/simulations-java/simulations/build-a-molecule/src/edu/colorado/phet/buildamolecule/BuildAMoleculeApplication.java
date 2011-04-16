@@ -59,6 +59,9 @@ dialog. Should I add in a prototype, or should we sketch a quick design first?
 (12): For the 3rd tab (3D view), it should be possible to change the view style. We could offer the user "Filled spheres", "Ball-and-stick", and
 possibly more. Do we want to integrate those style changes into the design, or should I work them into a prototype?
 
+(13): Currently atoms all move with the same speed in different situations (falling back to buckets, moving back to the play area, breaking apart).
+I'd like to speed up movement when the atom is far from its destination, but keep it about the same when it is close (like breaking up). Is that OK?
+
  */
 
 /**
