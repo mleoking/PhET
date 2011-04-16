@@ -14,6 +14,9 @@ import edu.umd.cs.piccolo.util.PDimension;
 
 import static edu.colorado.phet.buildamolecule.model.buckets.AtomModel.*;
 
+/**
+ * Module for the 1st tab: collection boxes only take 1 molecule, and our 1st kit collection is always the same
+ */
 public class MakeMoleculeModule extends PiccoloModule {
 
     //----------------------------------------------------------------------------
@@ -31,13 +34,14 @@ public class MakeMoleculeModule extends PiccoloModule {
 
         setClockControlPanel( null );
 
+        // TODO: consolidate common module code into something like BuildAMoleculeModule
+
         /*---------------------------------------------------------------------------*
         * initial model
         *----------------------------------------------------------------------------*/
 
         final LayoutBounds bounds = new LayoutBounds();
 
-        // TODO: improve model construction
         final KitCollectionModel initialModel = new KitCollectionModel( bounds ) {{
             addKit( new Kit( bounds,
                              new Bucket( new PDimension( 400, 200 ), getClock(), HYDROGEN_FACTORY, 2 ),
