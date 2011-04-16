@@ -45,14 +45,17 @@ public class RectangleNode extends PPath {
             }
         } );
 
+        // interactivity
         addInputEventListener( new CursorHandler() );
         addInputEventListener( new PDragSequenceEventHandler() {
 
-            private double clickXOffset
-                    ,
-                    clickYOffset;
+            private double clickXOffset;
+            private double clickYOffset;
 
-            // no model-view transform here, assuming model and view are in same coordinate frame
+            /*
+             * Note our offset from the rectangles origin when we start dragging.
+             * No model-view transform here, assuming model and view are in same coordinate frame.
+             */
             @Override
             protected void startDrag( PInputEvent event ) {
                 super.startDrag( event );
@@ -61,7 +64,10 @@ public class RectangleNode extends PPath {
                 clickYOffset = pMouse.getY() - rectangle.y.getValue();
             }
 
-            // no model-view transform here, assuming model and view are in same coordinate frame
+            /*
+             * Change the rectangle model's location as we drag.
+             * No model-view transform here, assuming model and view are in same coordinate frame.
+             */
             @Override
             protected void drag( final PInputEvent event ) {
                 super.drag( event );

@@ -54,11 +54,11 @@ public class RectanglesModule extends PiccoloModule {
         // default to the first mode in the list
         currentMode = new Property<RectanglesMode>( modes.get( 0 ) );
 
-        // control panel, with mode controls
+        // control panel, with mode control
         setControlPanel( new RectanglesControlPanel( currentMode, modes, this ) );
 
         // Set the default canvas.
-        // We need to do this here because the currentMode observer does invokeLater,
+        // We need to do this here because the currentMode observer below calls invokeLater,
         // so there may be a period of time where getSimulationPanel returns null.
         setSimulationPanel( currentMode.getValue().canvas );
 

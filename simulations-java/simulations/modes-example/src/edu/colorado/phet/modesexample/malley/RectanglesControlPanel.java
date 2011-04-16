@@ -45,7 +45,8 @@ public class RectanglesControlPanel extends ControlPanel {
      * Delete any existing SizeControls, and add new controls for rectangles.
      */
     private void updateSizeControls( ArrayList<Rectangle> rectangles ) {
-        sizePanel.removeAll(); //TODO in a production app, we should call SizeControl.cleanup to remove property observers.
+        //TODO in a production app, we should first iterate over sizePanel children and call SizeControl.cleanup to remove property observers.
+        sizePanel.removeAll();
         int i = 1;
         for ( Rectangle rectangle : rectangles ) {
             String title = rectangle.displayName + " size";

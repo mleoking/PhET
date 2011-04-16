@@ -35,6 +35,10 @@ public class SizeControl extends GridPanel {
         add( new PropertyIntegerSlider( 20, 600, height ) );
     }
 
+    public void cleanup() {
+        //TODO call PropertyIntegerSlider.cleanup for both sliders to prevent memory leak
+    }
+
     /**
      * Slider that controls a Property<Integer>.
      */
@@ -59,6 +63,10 @@ public class SizeControl extends GridPanel {
                     setValue( property.getValue() );//TODO in a production app, we'd make sure this value is in the slider's range
                 }
             } );
+        }
+
+        public void cleanup() {
+            //TODO call property.removeObserver to prevent memory leak
         }
     }
 }
