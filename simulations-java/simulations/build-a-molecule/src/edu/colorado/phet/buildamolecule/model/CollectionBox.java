@@ -41,6 +41,7 @@ public class CollectionBox {
 
     /**
      * Whether this molecule can be dropped into this collection box (at this point in time)
+     *
      * @param moleculeStructure The molecule's structure
      * @return Whether it can be dropped in
      */

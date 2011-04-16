@@ -21,6 +21,13 @@ public class CollectionAreaNode extends PNode {
 
     public static final int CONTAINER_PADDING = 20;
 
+    /**
+     * Creates a collection area (with collection boxes)
+     *
+     * @param canvas               The main canvas (the boxes need references to hook view => model coordinates)
+     * @param model                Our model
+     * @param singleCollectionMode Whether we should use single or multiple molecule collection boxes
+     */
     public CollectionAreaNode( BuildAMoleculeCanvas canvas, KitCollectionModel model, boolean singleCollectionMode ) {
         layoutNode = new SwingLayoutNode( new GridBagLayout() );
 
@@ -37,13 +44,14 @@ public class CollectionAreaNode extends PNode {
 
         layoutNode.translate( CONTAINER_PADDING, CONTAINER_PADDING );
 
+        // add nodes for all of our collection boxes.
         for ( CollectionBox collectionBox : model.getCollectionBoxes() ) {
             c.gridy += 1;
             if ( singleCollectionMode ) {
                 layoutNode.addChild( new SingleCollectionBoxNode( canvas, collectionBox ), c );
             }
             else {
-                throw new RuntimeException( "multiple collection box nodes not implemented yet" ); // TODO: implement multiple collection box nodes for 2nd tab
+                layoutNode.addChild( new MultipleCollectionBoxNode( canvas, collectionBox ), c );
             }
         }
 
