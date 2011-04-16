@@ -436,13 +436,7 @@ public class Kit {
             addMolecule( MoleculeStructure.getCombinedMoleculeFromBond( molA, molB, a.getAtomInfo(), b.getAtomInfo() ) );
         }
 
-        // TODO: remove following dev testing checks and debugging statements. ONLY after testing molecule structure comparison
         assert ( getMoleculeStructure( a ) == getMoleculeStructure( b ) );
-//        MoleculeStructure molecule = getMoleculeStructure( a );
-//        CompleteMolecule completeMolecule = CompleteMolecule.findMatchingCompleteMolecule( molecule );
-//        if ( completeMolecule != null ) {
-//            System.out.println( "You made: " + completeMolecule.getCommonName() );
-//        }
     }
 
     private MoleculeStructure getPossibleMoleculeStructureFromBond( AtomModel a, AtomModel b ) {
