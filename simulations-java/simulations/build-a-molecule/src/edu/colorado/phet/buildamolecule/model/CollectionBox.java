@@ -39,6 +39,15 @@ public class CollectionBox {
         return dropBounds;
     }
 
+    /**
+     * Whether this molecule can be dropped into this collection box (at this point in time)
+     * @param moleculeStructure The molecule's structure
+     * @return Whether it can be dropped in
+     */
+    public boolean willAllowMoleculeDrop( MoleculeStructure moleculeStructure ) {
+        return getMoleculeType().getMoleculeStructure().isEquivalent( moleculeStructure ) && quantity.getValue() < capacity;
+    }
+
     public void addMolecule( MoleculeStructure molecule ) {
         quantity.setValue( quantity.getValue() + 1 );
     }

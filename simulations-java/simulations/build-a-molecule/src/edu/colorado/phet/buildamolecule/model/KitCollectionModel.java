@@ -51,20 +51,25 @@ public class KitCollectionModel {
 
                 @Override
                 public void droppedByUser( AtomModel atom ) {
+                    boolean wasDroppedInCollectionBox = false;
+
+                    // check to see if we are trying to drop it in a collection box.
                     for ( CollectionBox box : boxes ) {
                         if ( box.getDropBounds().contains( atom.getPosition().toPoint2D() ) ) {
                             MoleculeStructure moleculeStructure = kit.getMoleculeStructure( atom );
 
                             // if our box takes this type of molecule
-                            if ( box.getMoleculeType().getMoleculeStructure().isEquivalent( moleculeStructure ) ) {
+                            if ( box.willAllowMoleculeDrop( moleculeStructure ) ) {
                                 kit.moleculePutInCollectionBox( moleculeStructure, box );
-
-                                // do not call kit.atomDropped or continue with anything else
-                                return;
+                                wasDroppedInCollectionBox = true;
+                                break;
                             }
                         }
                     }
-                    kit.atomDropped( atom );
+
+                    if ( !wasDroppedInCollectionBox ) {
+                        kit.atomDropped( atom );
+                    }
                 }
             } );
         }
