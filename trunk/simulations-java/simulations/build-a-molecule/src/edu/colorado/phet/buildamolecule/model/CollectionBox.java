@@ -39,6 +39,10 @@ public class CollectionBox {
         return dropBounds;
     }
 
+    public boolean isFull() {
+        return capacity == quantity.getValue();
+    }
+
     /**
      * Whether this molecule can be dropped into this collection box (at this point in time)
      *

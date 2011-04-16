@@ -6,6 +6,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.LinkedList;
 import java.util.List;
 
+import edu.colorado.phet.buildamolecule.BuildAMoleculeConstants;
 import edu.colorado.phet.buildamolecule.model.CollectionBox;
 import edu.colorado.phet.buildamolecule.view.BuildAMoleculeCanvas;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -77,6 +78,8 @@ public class CollectionBoxNode extends SwingLayoutNode {
         boxNode.addChild( moleculeLayer );
         addChild( boxNode, c );
 
+        updateBoxGraphics();
+
         box.quantity.addObserver( new VoidFunction2<Integer, Integer>() {
             public void apply( Integer newValue, Integer oldValue ) {
                 if ( newValue > oldValue ) {
@@ -91,7 +94,9 @@ public class CollectionBoxNode extends SwingLayoutNode {
         } );
     }
 
-    public void addMolecule() {
+    private void addMolecule() {
+        updateBoxGraphics();
+
         PNode pseudo3DNode = box.getMoleculeType().createPseudo3DNode();
         pseudo3DNode.setOffset( moleculeNodes.size() * ( pseudo3DNode.getFullBounds().getWidth() + MOLECULE_PADDING ) - pseudo3DNode.getFullBounds().getX(), 0 ); // add it to the right
         moleculeLayer.addChild( pseudo3DNode );
@@ -100,7 +105,9 @@ public class CollectionBoxNode extends SwingLayoutNode {
         centerMoleculesInBlackBox();
     }
 
-    public void removeMolecule() {
+    private void removeMolecule() {
+        updateBoxGraphics();
+
         PNode lastMoleculeNode = moleculeNodes.get( moleculeNodes.size() - 1 );
         moleculeLayer.removeChild( lastMoleculeNode );
         moleculeNodes.remove( lastMoleculeNode );
@@ -110,10 +117,20 @@ public class CollectionBoxNode extends SwingLayoutNode {
         }
     }
 
-    public void centerMoleculesInBlackBox() {
+    private void centerMoleculesInBlackBox() {
         PBounds blackBoxFullBounds = blackBox.getFullBounds();
         moleculeLayer.centerFullBoundsOnPoint(
                 blackBoxFullBounds.getCenterX() - blackBoxFullBounds.getX(),
                 blackBoxFullBounds.getCenterY() - blackBoxFullBounds.getY() );
+    }
+
+    private void updateBoxGraphics() {
+        blackBox.setStroke( new BasicStroke( 4 ) );
+        if ( box.isFull() ) {
+            blackBox.setStrokePaint( BuildAMoleculeConstants.MOLECULE_COLLECTION_BOX_HIGHLIGHT );
+        }
+        else {
+            blackBox.setStrokePaint( BuildAMoleculeConstants.MOLECULE_COLLECTION_BACKGROUND );
+        }
     }
 }
