@@ -144,6 +144,7 @@
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/sugar-and-salt-solutions/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/build-a-molecule/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/common/chemistry/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/modes-example/src" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/bin" />
       <excludeFolder url="file://$MODULE_DIR$/build-tools/ant_output" />
       <excludeFolder url="file://$MODULE_DIR$/simulations-java/ant_output" />
@@ -2022,6 +2023,15 @@
       <library>
         <CLASSES>
           <root url="file://$MODULE_DIR$/simulations-java/common/chemistry/data" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/simulations-java/simulations/modes-example/data" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
