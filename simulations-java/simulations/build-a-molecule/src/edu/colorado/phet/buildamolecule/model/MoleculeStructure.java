@@ -9,7 +9,6 @@ import edu.colorado.phet.chemistry.utils.ChemUtils;
 /**
  * Represents a general molecular structure (without position or instance information).
  * <p/>
- * TODO: add in comparison of molecular structures! (graph/tree, not by formula)
  */
 public class MoleculeStructure {
     private Set<Atom> atoms = new HashSet<Atom>();
@@ -163,7 +162,6 @@ public class MoleculeStructure {
      * Check whether the molecular structure is equivalent to another structure. Not terribly efficient, and will
      * probably fail for cyclic graphs.
      * <p/>
-     * TODO: add tree comparison testing
      *
      * @param other Another molecular structure
      * @return True, if there is an isomorphism between the two molecular structures
