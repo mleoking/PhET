@@ -11,9 +11,9 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 
-//REVIEW add class doc
-
 /**
+ * When enabled, shows a grid across the play area that helps the user to make quantitative comparisons between distances.
+ *
  * @author Sam Reid
  */
 public class GridNode extends PNode {

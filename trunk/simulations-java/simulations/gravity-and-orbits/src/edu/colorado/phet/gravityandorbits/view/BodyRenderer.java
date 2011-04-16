@@ -100,12 +100,10 @@ public abstract class BodyRenderer extends PNode {
         }
 
         private Paint createPaint( double diameter ) {// Create the gradient paint for the sphere in order to give it a 3D look.
-            //REVIEW variable spherePaint is redundant
-            Paint spherePaint = new RoundGradientPaint( diameter / 8, -diameter / 8,
-                                                        getBody().getHighlight(),
-                                                        new Point2D.Double( diameter / 4, diameter / 4 ),
-                                                        getBody().getColor() );
-            return spherePaint;
+            return new RoundGradientPaint( diameter / 8, -diameter / 8,
+                                           getBody().getHighlight(),
+                                           new Point2D.Double( diameter / 4, diameter / 4 ),
+                                           getBody().getColor() );
         }
     }
 
@@ -143,7 +141,9 @@ public abstract class BodyRenderer extends PNode {
         }
     }
 
-    //REVIEW class doc
+    /**
+     * Renders the body using the specified image and the specified diameter in view coordinates.
+     */
     public static class ImageRenderer extends BodyRenderer {
         private final PImage imageNode;
         private double viewDiameter;
