@@ -69,7 +69,6 @@ public class RectanglesModule extends PiccoloModule {
                 // TODO Need to make canvas switching more transparent to applications.
                 SwingUtilities.invokeLater( new Runnable() {
                     public void run() {
-                        System.out.println( "RectanglesModule switched to mode " + currentMode.getValue().displayName );
                         setSimulationPanel( currentMode.getValue().canvas );
                         if ( frame != null ) {
                             frame.invalidate();
