@@ -20,10 +20,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
-import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
-import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
-import edu.colorado.phet.common.piccolophet.nodes.SimSpeedControlPNode;
+import edu.colorado.phet.common.piccolophet.nodes.*;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.DefaultIconButton;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.FloatingClockControlNode;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.RewindButton;
@@ -49,7 +46,7 @@ import static java.awt.Color.green;
  * @see GravityAndOrbitsMode
  */
 public class GravityAndOrbitsCanvas extends PhetPCanvas {
-    private final PNode _rootNode; //REVIEW remove underscore
+    private final PNode rootNode;
     public static final PDimension STAGE_SIZE = new PDimension( 1008, 679 );
     public static final Color buttonBackgroundColor = new Color( 255, 250, 125 );
 
@@ -65,8 +62,8 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
         } );
 
         // Root of our scene graph
-        _rootNode = new PNode();
-        addWorldChild( _rootNode );
+        rootNode = new PNode();
+        addWorldChild( rootNode );
 
         // stores the current position of the mouse so we can change to cursor hand when an object moves under the mouse
         final Property<ImmutableVector2D> mousePositionProperty = new Property<ImmutableVector2D>( new ImmutableVector2D() );
@@ -83,15 +80,13 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
             addChild( new PathNode( body, mode.modelViewTransformProperty, module.showPathProperty, body.getColor() ) );
         }
 
-        //REVIEW either make these static final (preferred), use camel-case for names, or inline their values
-        Color FORCE_VECTOR_COLOR_FILL = PhetColorScheme.GRAVITATIONAL_FORCE;
-        Color FORCE_VECTOR_COLOR_OUTLINE = Color.darkGray;
+        Color forceVectorColorFill = PhetColorScheme.GRAVITATIONAL_FORCE;
+        Color forceVectorColorOutline = Color.darkGray;
 
-        //REVIEW either make these static final (preferred), use camel-case for names, or inline their values
-        Color VELOCITY_VECTOR_COLOR_FILL = PhetColorScheme.VELOCITY;
-        Color VELOCITY_VECTOR_COLOR_OUTLINE = Color.darkGray;
+        Color velocityVectorColorFill = PhetColorScheme.VELOCITY;
+        Color velocityVectorColorOutline = Color.darkGray;
 
-        //REVIEW doc this chunk
+        //Add graphics for each of the bodies (including BodyNode, mass readout and wire up 'return object' button).
         ArrayList<Property<Boolean>> returnable = new ArrayList<Property<Boolean>>();//Use canvas coordinates to determine whether something has left the visible area
         for ( final Body body : model.getBodies() ) {
             final BodyNode bodyNode = new BodyNode( body, mode.modelViewTransformProperty, mousePositionProperty, this, body.getLabelAngle() );
@@ -124,12 +119,12 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
 
         //Add gravity force vector nodes
         for ( Body body : model.getBodies() ) {
-            addChild( new VectorNode( body, mode.modelViewTransformProperty, module.showGravityForceProperty, body.getForceProperty(), forceScale, FORCE_VECTOR_COLOR_FILL, FORCE_VECTOR_COLOR_OUTLINE ) );
+            addChild( new VectorNode( body, mode.modelViewTransformProperty, module.showGravityForceProperty, body.getForceProperty(), forceScale, forceVectorColorFill, forceVectorColorOutline ) );
         }
         //Add velocity vector nodes
         for ( Body body : model.getBodies() ) {
             if ( !body.fixed ) {
-                addChild( new GrabbableVectorNode( body, mode.modelViewTransformProperty, module.showVelocityProperty, body.getVelocityProperty(), mode.getVelocityScale(), VELOCITY_VECTOR_COLOR_FILL, VELOCITY_VECTOR_COLOR_OUTLINE ) );
+                addChild( new GrabbableVectorNode( body, mode.modelViewTransformProperty, module.showVelocityProperty, body.getVelocityProperty(), mode.getVelocityScale(), velocityVectorColorFill, velocityVectorColorOutline ) );
             }
         }
 
@@ -154,11 +149,10 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
         }};
         addChild( controlPanelNode );
 
-        //REVIEW comment is incorrect, this is the mode Reset button.
         //REVIEW Putting this button here is ridiculous. It has no proximity to the thing it controls (the mode) and it's right about a button with an almost identical name (Reset All).
-        //Earth System button
+        //Reset mode button
         final Color buttonForegroundColor = Color.BLACK;
-        final ButtonNode earthValuesButton = new ButtonNode( GAOStrings.RESET, (int) ( GravityAndOrbitsControlPanel.CONTROL_FONT.getSize() * 1.3 ), buttonForegroundColor, buttonBackgroundColor ) {{
+        final ButtonNode resetModeButton = new ButtonNode( GAOStrings.RESET, (int) ( GravityAndOrbitsControlPanel.CONTROL_FONT.getSize() * 1.3 ), buttonForegroundColor, buttonBackgroundColor ) {{
             setOffset( controlPanelNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, controlPanelNode.getFullBounds().getMaxY() + 5 );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -166,21 +160,20 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
                 }
             } );
         }};
-        addChild( earthValuesButton );
+        addChild( resetModeButton );
 
         //Reset all button
         addChild( new ResetAllButtonNode( module, this, (int) ( GravityAndOrbitsControlPanel.CONTROL_FONT.getSize() * 1.3 ), buttonForegroundColor, buttonBackgroundColor ) {{
-            setOffset( earthValuesButton.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, earthValuesButton.getFullBounds().getMaxY() + 5 );
+            setOffset( resetModeButton.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, resetModeButton.getFullBounds().getMaxY() + 5 );
             setConfirmationEnabled( false );
         }} );
 
-        //REVIEW what is mode.rewind?
-        //See docs in mode.rewind
-        //REVIEW doc this chunk of code
+        //Make it so a "reset" button appears if anything has changed in the sim
         final ArrayList<Property<Boolean>> p = new ArrayList<Property<Boolean>>();
         for ( Body body : model.getBodies() ) {
             p.add( body.anyPropertyDifferent() );
         }
+        //Add the clock control within the play area
         addChild( new FloatingClockControlNode( Not.not( module.clockPausedProperty ), mode.getTimeFormatter(), model.getClock(), GAOStrings.RESET, new IfElse<Color>( module.whiteBackgroundProperty, Color.black, Color.white ) ) {{
             setOffset( GravityAndOrbitsCanvas.STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2, GravityAndOrbitsCanvas.STAGE_SIZE.getHeight() - getFullBounds().getHeight() );
 
@@ -210,9 +203,10 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
 
         addChild( new MeasuringTape( module.measuringTapeVisibleProperty, mode.measuringTapeStartPoint, mode.measuringTapeEndPoint, mode.modelViewTransformProperty ) );
 
-        //REVIEW remove dead code or add a boolean flag to enable/disable
         // shows the bounds of the "stage", which is different from the canvas
-//        addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, STAGE_SIZE.width, STAGE_SIZE.height ), new BasicStroke( 1f ), Color.RED ) );
+        if ( false ) {
+            addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, STAGE_SIZE.width, STAGE_SIZE.height ), new BasicStroke( 1f ), Color.RED ) );
+        }
 
         //REVIEW is everything in this next chunk related? doesn't look that way. add whitespace and doc chunks.
         Rectangle2D stage = new Rectangle2D.Double( 0, 0, STAGE_SIZE.width, STAGE_SIZE.height );
@@ -302,6 +296,6 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
 
     //REVIEW private
     public void addChild( PNode node ) {
-        _rootNode.addChild( node );
+        rootNode.addChild( node );
     }
 }
