@@ -238,6 +238,17 @@ public class GridPanel extends JPanel {
     }
 
     /**
+     * Convenience method for setting both gridX and gridY.
+     *
+     * @param gridX
+     * @param gridY
+     */
+    public void setGridXY( int gridX, int gridY ) {
+        setGridX( gridX );
+        setGridY( gridY );
+    }
+
+    /**
      * Specifies how many columns a component will fill horizontally.
      * Use REMAINDER to fill to the end of the row.
      * Use RELATIVE to fill to the next occupied cell in the row.

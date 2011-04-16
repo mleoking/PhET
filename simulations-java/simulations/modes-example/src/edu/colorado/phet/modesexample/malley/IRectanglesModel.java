@@ -55,8 +55,8 @@ public interface IRectanglesModel {
      */
     public class TwoRectanglesModel extends AbstractRectanglesModel {
         public TwoRectanglesModel() {
-            addRectangle( new Rectangle( 10, 10, 300, 150, Color.RED, Color.BLACK ) );
-            addRectangle( new Rectangle( 10, 400, 400, 200, Color.GREEN, Color.BLACK ) );
+            addRectangle( new Rectangle( "Red rectangle", 10, 10, 300, 150, Color.RED, Color.BLACK ) );
+            addRectangle( new Rectangle( "Green rectangle", 10, 400, 400, 200, Color.GREEN, Color.BLACK ) );
         }
     }
 
@@ -65,9 +65,9 @@ public interface IRectanglesModel {
      */
     public class ThreeRectanglesModel extends AbstractRectanglesModel {
         public ThreeRectanglesModel() {
-            addRectangle( new Rectangle( 10, 10, 100, 150, Color.YELLOW, Color.BLACK ) );
-            addRectangle( new Rectangle( 10, 200, 200, 200, Color.ORANGE, Color.BLACK ) );
-            addRectangle( new Rectangle( 10, 500, 300, 200, Color.BLUE, Color.BLACK ) );
+            addRectangle( new Rectangle( "Yellow rectangle", 10, 10, 100, 150, Color.YELLOW, Color.BLACK ) );
+            addRectangle( new Rectangle( "Orange rectangle", 10, 200, 200, 200, Color.ORANGE, Color.BLACK ) );
+            addRectangle( new Rectangle( "Blue rectangle", 10, 500, 300, 200, Color.BLUE, Color.BLACK ) );
         }
     }
 }
