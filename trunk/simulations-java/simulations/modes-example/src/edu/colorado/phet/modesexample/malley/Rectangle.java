@@ -15,14 +15,16 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 public class Rectangle {
 
     // mutable properties that can be directly observed
-    public final Property<Double> x, y, width, height;
+    public final String displayName;
+    public final Property<Integer> x, y, width, height;
     public final Property<Color> fillColor, strokeColor;
 
-    public Rectangle( double x, double y, double width, double height, Color fillColor, Color strokeColor ) {
-        this.x = new Property<Double>( x );
-        this.y = new Property<Double>( y );
-        this.width = new Property<Double>( width );
-        this.height = new Property<Double>( height );
+    public Rectangle( String displayName, int x, int y, int width, int height, Color fillColor, Color strokeColor ) {
+        this.displayName = displayName;
+        this.x = new Property<Integer>( x );
+        this.y = new Property<Integer>( y );
+        this.width = new Property<Integer>( width );
+        this.height = new Property<Integer>( height );
         this.fillColor = new Property<Color>( fillColor );
         this.strokeColor = new Property<Color>( strokeColor );
     }

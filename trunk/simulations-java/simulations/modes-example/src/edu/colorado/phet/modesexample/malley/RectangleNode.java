@@ -22,13 +22,13 @@ public class RectangleNode extends PPath {
     public RectangleNode( final Rectangle rectangle ) {
 
         // update geometry
-        RichSimpleObserver o = new RichSimpleObserver() {
+        RichSimpleObserver geometryObserver = new RichSimpleObserver() {
             @Override
             public void update() {
                 setPathTo( new Rectangle2D.Double( rectangle.x.getValue(), rectangle.y.getValue(), rectangle.width.getValue(), rectangle.height.getValue() ) );
             }
         };
-        o.observe( rectangle.x, rectangle.y, rectangle.width, rectangle.height );
+        geometryObserver.observe( rectangle.x, rectangle.y, rectangle.width, rectangle.height );
 
 
         // update fill color
@@ -66,8 +66,8 @@ public class RectangleNode extends PPath {
             protected void drag( final PInputEvent event ) {
                 super.drag( event );
                 Point2D pMouse = event.getPositionRelativeTo( RectangleNode.this.getParent() );
-                rectangle.x.setValue( pMouse.getX() - clickXOffset );
-                rectangle.y.setValue( pMouse.getY() - clickYOffset );
+                rectangle.x.setValue( (int) ( pMouse.getX() - clickXOffset ) );
+                rectangle.y.setValue( (int) ( pMouse.getY() - clickYOffset ) );
             }
         } );
 
