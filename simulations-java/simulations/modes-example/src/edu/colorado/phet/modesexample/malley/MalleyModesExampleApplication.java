@@ -18,10 +18,10 @@ import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
  * Watching for mode changes is done via a Property<T> called currentMode.
  * When currentMode changes, the Module is responsible for swapping the things that need to change
  * (eg, model, canvas, control panel, part of a control panel,... whatever) and it gets these things
- * from the Mode container.
+ * from the mode container.
  * <p/>
  * In the user interface, mode is changed via a control, in this case a set of radio buttons.
- * Those radio buttons control the value of the Module's currentMode property, which is Module is observing.
+ * Those radio buttons control the value of the Module's currentMode property, which the Module is observing.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
