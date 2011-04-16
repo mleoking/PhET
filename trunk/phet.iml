@@ -151,7 +151,6 @@
       <excludeFolder url="file://$MODULE_DIR$/simulations-java/contrib/piccolo2d/swt" />
       <excludeFolder url="file://$MODULE_DIR$/simulations-java/contrib/piccolo2d/swt-examples" />
     </content>
-    <content url="file://$USER_HOME$/samreid-unfuddle" />
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module-library">
