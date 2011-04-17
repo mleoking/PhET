@@ -110,7 +110,7 @@ public class PropertyEditor extends GridRow {
     //This is because when selecting Styrofoam or other non-dense objects, then moving the mass slider to maximum,
     //The volume increases dramatically, making the object larger than the pool size.
     protected function createSlider( property: NumericProperty, minimum: Number, maximum: Number, unit: Unit, dataTipClamp: Function, bounds: Bounds ): SliderDecorator {
-        const slider: SliderDecorator = new SliderDecorator( dataTipClamp, getSliderThumbOffset() );
+        const slider: SliderDecorator = new SliderDecorator( getSliderThumbOffset() );
         slider.sliderThumbClass = getSliderThumbClass();
         slider.sliderWidth = sliderWidth;
 

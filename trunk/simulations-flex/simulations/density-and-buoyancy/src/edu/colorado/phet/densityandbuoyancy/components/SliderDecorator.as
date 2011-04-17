@@ -23,7 +23,7 @@ public class SliderDecorator extends UIComponent {
     public const changeListeners: Array = new Array();
 
     //REVIEW why not use a Bounds object instead of Function for dataTipClamp?
-    public function SliderDecorator( dataTipClamp: Function/*Number=>Number*/, thumbOffset: Number ) {
+    public function SliderDecorator( thumbOffset: Number/*Number=>Number*/ ) {
         super();
 
         slider = new MyHSlider();
