@@ -1,3 +1,4 @@
+# 0.00.43 (50754) Apr 16, 2011
 # 0.00.42 (50592) Apr 13, 2011
 Reduced the size of the protractor in the "prism break" tab to 45% of the original size to make it easier to measure refracted light angles
 # 0.00.41 (50577) Apr 12, 2011
