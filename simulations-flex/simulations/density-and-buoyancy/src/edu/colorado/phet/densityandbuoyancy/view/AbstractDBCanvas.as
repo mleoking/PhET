@@ -51,20 +51,15 @@ public class AbstractDBCanvas extends UIComponent {
     private var startMiddle: Number3D;
     private var selectedObject: AbstractPrimitive;
 
-    //REVIEW what is this? constants should be in uppercase.
-    public static const far: Number = 5000;
+    //Extent of the 3d geometry for the ground in x and z directions
+    public static const FAR: Number = 5000;
 
     // references to the water Away3D surfaces, so we can change the water height visually
     private var waterTop: Plane;
     private var waterFront: Plane;
-
     private var groundNode: GroundNode; // our visual display of the ground
-
-    private var _running: Boolean = true;//REVIEW doc - what is running?
-    private var invalid: Boolean = true; //REVIEW doc - looks like this is related to dragging, but the name is so vague...
-
+    private var _running: Boolean = true;//true if the module associated with this canvas is running
     private var marker: ObjectContainer3D; // testing object to verify locations in 3D
-
     private var waterVolumeIndicator: PoolVolumeIndicator;
 
     //Away3d must render at least once before we can obtain screen coordinates for vertices.
@@ -74,7 +69,7 @@ public class AbstractDBCanvas extends UIComponent {
     private const kgString: String = FlexSimStrings.get( "properties.massKilogram", "kg" );
     private const lString: String = FlexSimStrings.get( "properties.volumeLiter", "L" );
     private const densityString: String = FlexSimStrings.get( "properties.kilogramPerLiter", "kg/L" );
-    //REVIEW "kg/L" is an inappropriate name for the collection of all units. Would "Si units" be better?
+    //Special units since Liters are not SI
     private var _units: Units = new Units( "kg/L", new LinearUnit( kgString, 1.0 ), new LinearUnit( lString, 1000.0 ), new LinearUnit( densityString, 1.0 / 1000.0 ) );
     public const massReadoutsVisible: BooleanProperty = new BooleanProperty( true );
     protected var extendedPool: Boolean;
@@ -92,7 +87,7 @@ public class AbstractDBCanvas extends UIComponent {
         waterVolumeIndicator = new PoolVolumeIndicator( _model );
         waterVolumeIndicator.visible = false;//only show it after its location is correct
 
-        //REVIEW doc
+        //Set this canvas to use the full width and height of its parent component
         percentWidth = 100;
         percentHeight = 100;
 
@@ -366,10 +361,7 @@ public class AbstractDBCanvas extends UIComponent {
             marker.x = intersection.x;
             marker.y = intersection.y;
             marker.z = intersection.z;
-
-            invalid = true;
         }
-        invalid = true;
     }
 
     public function onMouseUp( event: MouseEvent ): void {
