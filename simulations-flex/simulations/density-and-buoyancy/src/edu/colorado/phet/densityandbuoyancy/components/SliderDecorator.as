@@ -72,19 +72,14 @@ public class SliderDecorator extends UIComponent {
         }
     }
 
-    //REVIEW doc, this looks like a model-view transform
+    //This maps a model value to the location (in pixels) on a halo slider.  Coming up with the magic numbers to make this work required reverse engineering.
     private function modelToView( x: Number ): Number {
-        //REVIEW what problems were occurring and do you have any clues about why, or how this should be rewritten?
-        // TODO: this part is what was giving us problems. temporary values added, but this should all be rewritten
-//        return slider.mx_internal::getXFromValue(x);
-
         var modelRange: Number = slider.maximum - slider.minimum;
         var viewRange: Number = slider.width - (isFluidDensitySlider ? 16 : 10);//Width of the track only
         // working well for regular tick 12x6
         return (x - slider.minimum) * viewRange / modelRange + (isFluidDensitySlider ? 8 : 4);//note: can be off by a pixel sometimes, we are not sure why
     }
 
-    //REVIEW appreciated the nice comments in this method
     /**
      * This is an algorithm that moves the labels so they are not overlapping.
      * This is done iteratively by bumping offending labels by +/- 1 pixel away until there are no overlaps.
@@ -160,11 +155,9 @@ public class SliderDecorator extends UIComponent {
     private function drawTick( tick: Tick ): void {
         tick.textField.x = modelToView( tick.value ) - tick.textField.textWidth / 2;
         tick.textField.y = -tick.textField.textHeight / 2 - 3;
-        //REVIEW what caused the collision? has this been addressed? Is a ticket necessary if this causes i18n issue?
         //TODO: Remove workaround and respect il8n
-        //Temporary workaround to remove collision between styrofoam and wood
+        //Temporary workaround to remove collision between styrofoam and wood, since they are too close together in densities
         if ( tick.label == Material.STYROFOAM.name ) {
-            //            tick.textField.x = modelToView(tick.value) - tick.textField.textWidth;
             tick.textField.visible = false;
         }
     }
@@ -181,7 +174,7 @@ public class SliderDecorator extends UIComponent {
         slider.maximum = maximum;
     }
 
-    //REVIEW doc - what is "live dragging" and how does it differ from other dragging?
+    //If true, update values during drag (if false only update model after dropping the thumb)
     public function set liveDragging( liveDragging: Boolean ): void {
         slider.liveDragging = liveDragging;
     }
