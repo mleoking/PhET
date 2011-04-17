@@ -41,8 +41,8 @@ public class BendingLightModel implements ResetModel {
     public static final double RED_LIGHT_FREQUENCY = SPEED_OF_LIGHT / WAVELENGTH_RED;//To come up with a good time scale dt, use lambda = v/f.  For lambda = RED_WAVELENGTH and C=SPEED_OF_LIGHT, we have f=4.612E14
     public static final double TIME_SPEEDUP_SCALE = 2.5; //Speed up by a factor of 2.5 because default wave view was moving too slow
     public static final double MAX_DT = 1.0 / RED_LIGHT_FREQUENCY / 30 * TIME_SPEEDUP_SCALE;//thirty frames per cycle times the speedup scale
-    public static final double MIN_DT = MAX_DT / 4;
-    public static final double DEFAULT_DT = MIN_DT + ( MAX_DT - MIN_DT ) * 1.0 / 3.0;//default dt should be 1/3 of the way between max and min
+    public static final double MIN_DT = MAX_DT / 10;
+    public static final double DEFAULT_DT = MAX_DT / 4;
     public static final double CHARACTERISTIC_LENGTH = WAVELENGTH_RED;//A good size for the units being used in the sim; used to determine the dimensions of various model objects
 
     protected final List<LightRay> rays = new LinkedList<LightRay>();
