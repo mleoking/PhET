@@ -17,7 +17,6 @@ import mx.events.FlexEvent;
  */
 public class DensityMysteryObjectsMode extends Mode {
     private var mysteryObjectsControlPanel: MysteryObjectsControlPanel;
-    private var mysteryObjectsControlPanelShowing: Boolean = false;//REVIEW why is this necessary? Can't you use canvas.getChildByName to see if the panel is showing?
 
     function DensityMysteryObjectsMode( canvas: AbstractDBCanvas ) {
         super( canvas );
@@ -41,10 +40,8 @@ public class DensityMysteryObjectsMode extends Mode {
 
     override public function teardown(): void {
         super.teardown();
-        if ( mysteryObjectsControlPanelShowing ) {
+        if ( isControlPanelShowing() ) {
             canvas.container.removeChild( mysteryObjectsControlPanel );
-            mysteryObjectsControlPanelShowing = false;
-
             mysteryObjectsControlPanel.teardown();
         }
     }
@@ -62,11 +59,14 @@ public class DensityMysteryObjectsMode extends Mode {
         const block5: MysteryBlock = new MysteryBlock( Material.DIAMOND.getDensity(), 0.1, -DensityAndBuoyancyConstants.POOL_WIDTH_X / 2, block4.getHeight() + block4.getY(), DensityAndBuoyancyConstants.PURPLE, canvas.model, FlexSimStrings.get( "mode.mysteryObjects.E", "E" ) );
         canvas.model.addDensityObject( block5 );
 
-        if ( !mysteryObjectsControlPanelShowing ) {
+        if ( !isControlPanelShowing() ) {
             canvas.container.addChild( mysteryObjectsControlPanel );
-            mysteryObjectsControlPanelShowing = true;
         }
         canvas.model.addDensityObject( new Scale( Scale.GROUND_SCALE_X_LEFT, Scale.GROUND_SCALE_Y, canvas.model ) );
+    }
+
+    private function isControlPanelShowing(): Boolean {
+        return canvas.container.contains( mysteryObjectsControlPanel );
     }
 }
 }
