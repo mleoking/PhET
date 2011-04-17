@@ -66,8 +66,7 @@ public class PhetLookAndFeel {
     };
 
     private ArrayList ignoreBackgroundList = new ArrayList( Arrays.asList( new String[] {
-            "TextArea", "TextField", "TextPane", "FormattedTextField", "MenuBar", "Menu", "MenuItem", "CheckBoxMenuItem",
-            "ComboBox" } ) );//Trial fix for problem that combo boxes in Bending Light blend in to background
+            "TextArea", "TextField", "TextPane", "FormattedTextField", "MenuBar", "Menu", "MenuItem", "CheckBoxMenuItem" } ) );
 
     //----------------------------------------------------------------------------
     // Instance data
