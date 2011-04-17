@@ -22,7 +22,6 @@ public class SliderDecorator extends UIComponent {
     public var isFluidDensitySlider: Boolean = false;
     public const changeListeners: Array = new Array();
 
-    //REVIEW why not use a Bounds object instead of Function for dataTipClamp?
     public function SliderDecorator( thumbOffset: Number/*Number=>Number*/ ) {
         super();
 
