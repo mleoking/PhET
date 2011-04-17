@@ -107,11 +107,9 @@ public class AbstractDBCanvas extends UIComponent {
         } );
     }
 
-    //REVIEW BuoyancyCanvas overrides this without calling super, DensityCanvas does not override.
-    // So I'm guessing that this implementation is appropriate for DensityCanvas.  If that's the
-    // case, then make this abstract (throw new Error), and move this implementation to DensityCanvas.
+    //Create the model for the module associated with this canvas
     protected function createModel( showExactLiquidColor: Boolean ): DensityAndBuoyancyModel {
-        return new DensityAndBuoyancyModel( DensityAndBuoyancyConstants.litersToMetersCubed( 100.0 ), extendedPool );
+        throw new AbstractMethodError();
     }
 
     override protected function updateDisplayList( unscaledWidth: Number, unscaledHeight: Number ): void {

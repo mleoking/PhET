@@ -1,5 +1,7 @@
 //  Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.densityandbuoyancy.view {
+import edu.colorado.phet.densityandbuoyancy.DensityAndBuoyancyConstants;
+import edu.colorado.phet.densityandbuoyancy.model.DensityAndBuoyancyModel;
 import edu.colorado.phet.densityandbuoyancy.test.Box2DDebug;
 import edu.colorado.phet.densityandbuoyancy.view.modes.DensityCustomObjectMode;
 import edu.colorado.phet.densityandbuoyancy.view.modes.DensityMysteryObjectsMode;
@@ -83,6 +85,10 @@ public class DensityCanvas extends AbstractDBCanvas {
     //REVIEW what does this getter buy us? performance?
     override public function get container(): AbstractDBContainer {
         return _container;
+    }
+
+    protected override function createModel( showExactLiquidColor: Boolean ): DensityAndBuoyancyModel {
+        return new DensityAndBuoyancyModel( DensityAndBuoyancyConstants.litersToMetersCubed( 100.0 ), extendedPool );
     }
 }
 }
