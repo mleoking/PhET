@@ -7,6 +7,7 @@ import Box2D.Dynamics.b2Body;
 import edu.colorado.phet.densityandbuoyancy.DensityAndBuoyancyConstants;
 import edu.colorado.phet.densityandbuoyancy.view.AbstractDBCanvas;
 import edu.colorado.phet.densityandbuoyancy.view.away3d.DensityObjectNode;
+import edu.colorado.phet.flashcommon.AbstractMethodError;
 import edu.colorado.phet.flexcommon.FlexSimStrings;
 import edu.colorado.phet.flexcommon.model.BooleanProperty;
 import edu.colorado.phet.flexcommon.model.NumericProperty;
@@ -196,10 +197,6 @@ public class DensityObject {
     }
 
     public function remove(): void {
-        //REVIEW: Was this (i.e. the commented out stuff) done?  Can the commented out code be removed?
-        //        if ( getBody() == null ) { //TODO: track this down
-        //            throw new Error( "null body" );
-        //        }
         model.getWorld().DestroyBody( getBody() );
         body = null;
         for each( var removalListener: Function in removalListeners ) {
@@ -288,14 +285,12 @@ public class DensityObject {
     }
 
     //REVIEW: doc - Looks like it is abstract, so base classes need to know what functionality is needed.
-    //REVIEW: Note: Reviewers added message to the throw statement, please verify correctness.
-        public function createNode( view: AbstractDBCanvas, massReadoutsVisible: BooleanProperty ): DensityObjectNode {
-        throw new Error( "Abstract method error" );
+    public function createNode( view: AbstractDBCanvas, massReadoutsVisible: BooleanProperty ): DensityObjectNode {
+        throw new AbstractMethodError();
     }
 
-
     public function onFrameStep( dt: Number ): void {
-    //REVIEW Have the to do items been addressed?
+        //REVIEW Have the to do items been addressed?
         velocityArrowModel.setValue( body.GetLinearVelocity().x, body.GetLinearVelocity().y );//todo: use estimated velocity here?
         gravityForceArrowModel.setValue( getGravityForce().x, getGravityForce().y );
         buoyancyForceArrowModel.setValue( getBuoyancyForce().x, getBuoyancyForce().y );
@@ -434,7 +429,7 @@ public class DensityObject {
 
     //REVIEW - doc - this is abstract, which should it do?
     public function updateBox2DModel(): void {
-        throw new Error( "Abstract method error" );
+        throw new AbstractMethodError();
     }
 
     public function addRemovalListener( removalListener: Function ): void {

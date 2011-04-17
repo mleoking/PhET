@@ -6,6 +6,7 @@ import away3d.containers.ObjectContainer3D;
 
 import edu.colorado.phet.densityandbuoyancy.model.DensityObject;
 import edu.colorado.phet.densityandbuoyancy.view.*;
+import edu.colorado.phet.flashcommon.AbstractMethodError;
 import edu.colorado.phet.flexcommon.model.BooleanProperty;
 import edu.colorado.phet.flexcommon.model.NumericProperty;
 
@@ -69,15 +70,15 @@ public class DensityObjectNode extends ObjectContainer3D implements Pickable {
     }
 
     public function setPosition( x: Number, y: Number ): void {
-        throw new Error( "Abstract method error" );
+        throw new AbstractMethodError();
     }
 
     public function getBody(): b2Body {
-        throw new Error( "Abstract method error" );
+        throw new AbstractMethodError();
     }
 
     public function updateGeometry(): void {
-        throw new Error( "Abstract method error" );
+        throw new AbstractMethodError();
     }
 
     protected function setReadoutText( str: String ): void {

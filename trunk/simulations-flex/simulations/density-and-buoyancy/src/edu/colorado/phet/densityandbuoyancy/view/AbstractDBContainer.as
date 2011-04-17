@@ -2,6 +2,7 @@
 package edu.colorado.phet.densityandbuoyancy.view {
 import edu.colorado.phet.densityandbuoyancy.DensityAndBuoyancyConstants;
 import edu.colorado.phet.densityandbuoyancy.components.DensityVBox;
+import edu.colorado.phet.flashcommon.AbstractMethodError;
 import edu.colorado.phet.flexcommon.FlexSimStrings;
 import edu.colorado.phet.flexcommon.PhetLogoButton;
 
@@ -71,8 +72,7 @@ public class AbstractDBContainer extends Canvas {
     }
 
     protected function addLogo(): void {
-        //REVIEW replace use of Error with subclass AbstractMethodError
-        throw new Error( "abstract method error" );
+        throw new AbstractMethodError();
     }
 
     protected function refocusCallback( event: MouseEvent ): void {

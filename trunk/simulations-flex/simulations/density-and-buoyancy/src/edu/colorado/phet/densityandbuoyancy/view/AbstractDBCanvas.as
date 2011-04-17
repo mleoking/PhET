@@ -20,6 +20,7 @@ import edu.colorado.phet.densityandbuoyancy.view.away3d.GroundNode;
 import edu.colorado.phet.densityandbuoyancy.view.away3d.Pickable;
 import edu.colorado.phet.densityandbuoyancy.view.units.LinearUnit;
 import edu.colorado.phet.densityandbuoyancy.view.units.Units;
+import edu.colorado.phet.flashcommon.AbstractMethodError;
 import edu.colorado.phet.flashcommon.ApplicationLifecycle;
 import edu.colorado.phet.flashcommon.MathUtil;
 import edu.colorado.phet.flexcommon.FlexSimStrings;
@@ -413,8 +414,7 @@ public class AbstractDBCanvas extends UIComponent {
     }
 
     public function get container(): AbstractDBContainer {
-        //REVIEW rather than repeating this Error("abstract method"), how about "class AbstractMethodError extends Error" in common code?
-        throw new Error( "abstract method error" );
+        throw new AbstractMethodError();
     }
 
     public function get units(): Units {
