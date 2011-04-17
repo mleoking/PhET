@@ -7,15 +7,14 @@ import flash.events.Event;
 
 import mx.controls.RadioButton;
 
-//REVIEW "My" is not a prefix that's suitable for production code.
 /**
  * RadioButton that is wired up to the specified BooleanProperty.
  */
-public class MyRadioButton extends RadioButton {
+public class PropertyRadioButton extends RadioButton {
     //The count is used to make sure radio buttons appear in separate button groups by default, since we manage buttongroups ourselves with BooleanProperties
     private static var count: Number = 0;
 
-    public function MyRadioButton( label: String, _selected: BooleanProperty ) {
+    public function PropertyRadioButton( label: String, _selected: BooleanProperty ) {
         this.groupName =
         this.label = label;
         selected = _selected.value;

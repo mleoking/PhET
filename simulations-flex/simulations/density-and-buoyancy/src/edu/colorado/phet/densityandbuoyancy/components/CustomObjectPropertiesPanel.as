@@ -71,8 +71,8 @@ public class CustomObjectPropertiesPanel extends DensityVBox {
         //Set up the radio buttons for selecting different materials, e.g. "my block", "wood", etc.
         const radioButtonPanel: HBox = new HBox();
         const myBlockName: String = FlexSimStrings.get( "customObject.custom", "My Block" );
-        radioButtonPanel.addChild( new MyRadioButton( myBlockName, myBlockSelected ) );
-        radioButtonPanel.addChild( new MyRadioButton( FlexSimStrings.get( "customObject.material", "Material" ), new Not( myBlockSelected ) ) );
+        radioButtonPanel.addChild( new PropertyRadioButton( myBlockName, myBlockSelected ) );
+        radioButtonPanel.addChild( new PropertyRadioButton( FlexSimStrings.get( "customObject.material", "Material" ), new Not( myBlockSelected ) ) );
         myBlockSelected.addListener( function(): void {
             if ( myBlockSelected.value ) {
                 if ( !densityObject.material.isCustom() ) {
