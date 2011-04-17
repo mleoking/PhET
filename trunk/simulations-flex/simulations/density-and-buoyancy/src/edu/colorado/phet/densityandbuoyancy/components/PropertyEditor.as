@@ -116,7 +116,7 @@ public class PropertyEditor extends GridRow {
 
         slider.minimum = unit.fromSI( minimum );
         slider.maximum = unit.fromSI( maximum );
-        slider.liveDragging = true;
+        slider.liveDragging = true;//Update values during drag instead of only after dropping the thumb
 
         function sliderDragHandler( event: SliderEvent ): void {
             var newValue: Number = unit.toSI( event.value );
