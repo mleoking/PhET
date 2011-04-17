@@ -1,5 +1,6 @@
 //  Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.densityandbuoyancy.view {
+import edu.colorado.phet.flashcommon.AbstractMethodError;
 import edu.colorado.phet.flexcommon.FlexCommon;
 
 import flash.events.Event;
@@ -39,7 +40,7 @@ public class DensityAndBuoyancyFlashCommon extends UIComponent {
     }
 
     protected function positionButtons(): void {
-        throw new Error( "Nice to meet you, I'm abstract!" );
+        throw new AbstractMethodError();
     }
 
 }
