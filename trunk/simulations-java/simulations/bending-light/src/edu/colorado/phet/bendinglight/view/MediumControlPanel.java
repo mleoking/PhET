@@ -63,6 +63,7 @@ public class MediumControlPanel extends PNode {
             };
             final PComboBox comboBox = new PComboBox( mediumStates ) {
                 {
+                    setBorder( BorderFactory.createLineBorder( Color.BLACK, 1 ) );
                     addActionListener( new ActionListener() {
                         public void actionPerformed( ActionEvent e ) {
                             MediumState selected = (MediumState) getSelectedItem();
