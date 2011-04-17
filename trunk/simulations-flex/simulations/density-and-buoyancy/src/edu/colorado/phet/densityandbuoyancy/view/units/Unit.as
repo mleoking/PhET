@@ -1,9 +1,11 @@
 //  Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.densityandbuoyancy.view.units {
+import edu.colorado.phet.flashcommon.AbstractMethodError;
+
 /**
  * Provides a way to convert to and from different units (such as meters <-> feet)
+ * This is an abstract class (but since AS3 doesn't support 'abstract' we throw AbstractMethodError for methods that should be abstract.
  */
-//REVIEW is this class supposed to be treated as abstract? if so, don't return NaN, throw new Error("...")
 public class Unit {
     private var _name: String;
 
@@ -16,11 +18,11 @@ public class Unit {
     }
 
     public function toSI( value: Number ): Number {
-        return NaN;
+        throw new AbstractMethodError();
     }
 
     public function fromSI( value: Number ): Number {
-        return NaN;
+        throw new AbstractMethodError();
     }
 }
 }
