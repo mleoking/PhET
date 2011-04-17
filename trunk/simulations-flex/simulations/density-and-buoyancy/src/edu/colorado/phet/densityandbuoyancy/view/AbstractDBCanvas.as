@@ -118,13 +118,13 @@ public class AbstractDBCanvas extends UIComponent {
         overlayViewport.updateDisplayList( unscaledWidth, unscaledHeight );
     }
 
-    //REVIEW doc, especially since Away3DViewport.initEngine is undocumented
+    //Sets up Away3D views for each both viewport "layers"
     public function initEngine(): void {
         mainViewport.initEngine();
         overlayViewport.initEngine();
     }
 
-    //REVIEW doc
+    //Create Away3D geometries and add them to the scene
     public function initObjects(): void {
         var poolHeight: Number = _model.getPoolHeight() * DensityAndBuoyancyModel.DISPLAY_SCALE;
         var waterHeight: Number = _model.getWaterHeight() * DensityAndBuoyancyModel.DISPLAY_SCALE;
@@ -207,23 +207,26 @@ public class AbstractDBCanvas extends UIComponent {
         onResize();
     }
 
-    //REVIEW doc - what does this do, what's the algorithm used?
     /**
+     * Get the median point of the front of the mesh.
      * @param m A 3D mesh of points in view space
      * @return The median point of the front of the mesh, in _screen_ coordinates
      */
-    public function medianFrontScreenPoint( m: Mesh ): Number3D {
+    public function getCenterFrontScreenPoint( m: Mesh ): Number3D {
         var num: Number = 0;
         var kx: Number = 0;
         var ky: Number = 0;
         var kz: Number = 0;
         var front: Number = Infinity;
         var v: Vertex;
+
+        //Find the front z coordinate of the object closest to the screen
         for each( v in m.vertices ) {
             if ( v.z < front ) {
                 front = v.z;
             }
         }
+        //Sum the x, y (and z) screen coordinates of all vertices at the front z-level.
         for each( v in m.vertices ) {
             if ( v.z > front ) {
                 continue;
@@ -237,7 +240,7 @@ public class AbstractDBCanvas extends UIComponent {
         return new Number3D( kx / num, ky / num, kz / num );
     }
 
-    //REVIEW doc
+    //This method is called by flash each time the clock ticks.
     public function onEnterFrame( event: Event ): void {
         if ( !_running ) {
             return;
@@ -297,7 +300,7 @@ public class AbstractDBCanvas extends UIComponent {
 
         if ( canCurrentlyMoveObject( mainViewport.view.mouseObject ) ) {
             moving = true;
-            startMiddle = medianFrontScreenPoint( mainViewport.view.mouseObject as AbstractPrimitive );
+            startMiddle = getCenterFrontScreenPoint( mainViewport.view.mouseObject as AbstractPrimitive );
             selectedObject = mainViewport.view.mouseObject as AbstractPrimitive;
             if ( selectedObject is Pickable ) {
                 const pickable: Pickable = (selectedObject as Pickable);
@@ -370,7 +373,7 @@ public class AbstractDBCanvas extends UIComponent {
         }
     }
 
-    //REVIEW doc - when is this called?
+    //Called when the mouse leaves the stage
     public function onStageMouseLeave( event: Event ): void {
         moving = false;
         stage.removeEventListener( Event.MOUSE_LEAVE, onStageMouseLeave );
@@ -384,7 +387,7 @@ public class AbstractDBCanvas extends UIComponent {
         updateWaterVolumeIndicater();
     }
 
-    //REVIEW start what? the animation clock?
+    //Starts the clock/model/module associated with this canvas.
     public function start(): void {
         _running = true;
     }
