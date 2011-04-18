@@ -13,8 +13,8 @@ public class Cuboid extends DensityObject {
     protected var width: Number;
     protected var height: Number;
     protected var depth: Number;
-    private var shapeDef: b2PolygonDef = new b2PolygonDef();//REVIEW doc
-    private var bodyDef: b2BodyDef = new b2BodyDef();//REVIEW doc
+    private var shapeDef: b2PolygonDef = new b2PolygonDef();//Box2D shape
+    private var bodyDef: b2BodyDef = new b2BodyDef();//Rigid body class for Box2D model, in box2d, body contains a shape
     private var shapeChangeListeners: Array = new Array();
 
     public function Cuboid( density: Number, width: Number, height: Number, depth: Number, x: Number, y: Number, model: DensityAndBuoyancyModel, __material: Material ) {
