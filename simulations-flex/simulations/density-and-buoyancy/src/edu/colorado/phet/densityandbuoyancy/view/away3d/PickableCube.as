@@ -11,9 +11,9 @@ import edu.colorado.phet.flexcommon.model.BooleanProperty;
  */
 public class PickableCube extends Cube implements Pickable {
 
-    private var _densityObjectNode: DensityObjectNode;
+    private var _densityObjectNode: DensityAndBuoyancyObjectNode;
 
-    public function PickableCube( densityObjectNode: DensityObjectNode ) {
+    public function PickableCube( densityObjectNode: DensityAndBuoyancyObjectNode ) {
         super();
         this._densityObjectNode = densityObjectNode;
         isPickableProperty().addListener( updateHandCursor );
@@ -40,7 +40,7 @@ public class PickableCube extends Cube implements Pickable {
         return _densityObjectNode.isPickableProperty();
     }
 
-    public function get densityObjectNode(): DensityObjectNode {
+    public function get densityObjectNode(): DensityAndBuoyancyObjectNode {
         return _densityObjectNode;
     }
 }

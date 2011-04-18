@@ -6,7 +6,7 @@ import Box2D.Dynamics.b2Body;
 
 import edu.colorado.phet.densityandbuoyancy.DensityAndBuoyancyConstants;
 import edu.colorado.phet.densityandbuoyancy.view.AbstractDBCanvas;
-import edu.colorado.phet.densityandbuoyancy.view.away3d.DensityObjectNode;
+import edu.colorado.phet.densityandbuoyancy.view.away3d.DensityAndBuoyancyObjectNode;
 import edu.colorado.phet.flashcommon.AbstractMethodError;
 import edu.colorado.phet.flexcommon.FlexSimStrings;
 import edu.colorado.phet.flexcommon.model.BooleanProperty;
@@ -281,7 +281,7 @@ public class DensityAndBuoyancyObject {
     }
 
     //REVIEW: doc - Looks like it is abstract, so base classes need to know what functionality is needed.
-    public function createNode( view: AbstractDBCanvas, massReadoutsVisible: BooleanProperty ): DensityObjectNode {
+    public function createNode( view: AbstractDBCanvas, massReadoutsVisible: BooleanProperty ): DensityAndBuoyancyObjectNode {
         throw new AbstractMethodError();
     }
 

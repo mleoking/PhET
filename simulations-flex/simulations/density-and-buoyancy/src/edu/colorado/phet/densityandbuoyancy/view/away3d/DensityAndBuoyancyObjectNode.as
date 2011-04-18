@@ -13,7 +13,7 @@ import edu.colorado.phet.flexcommon.model.NumericProperty;
 /**
  * Base class for deep hierarchy of 3D objects in the play area that can be moved by the user (including blocks and scales).
  */
-public class DensityObjectNode extends ObjectContainer3D implements Pickable {
+public class DensityAndBuoyancyObjectNode extends ObjectContainer3D implements Pickable {
     private var densityObject: DensityAndBuoyancyObject;
 
     /**
@@ -35,7 +35,7 @@ public class DensityObjectNode extends ObjectContainer3D implements Pickable {
     private var arrowNodes: Array = new Array();
     private var _mousePressed: Boolean = false;
 
-    public function DensityObjectNode( densityObject: DensityAndBuoyancyObject, canvas: AbstractDBCanvas ) {
+    public function DensityAndBuoyancyObjectNode( densityObject: DensityAndBuoyancyObject, canvas: AbstractDBCanvas ) {
         super();
         this.densityObject = densityObject;
         this._canvas = canvas;
@@ -109,7 +109,7 @@ public class DensityObjectNode extends ObjectContainer3D implements Pickable {
         arrowNodes = new Array();
     }
 
-    public function get densityObjectNode(): DensityObjectNode {
+    public function get densityObjectNode(): DensityAndBuoyancyObjectNode {
         return this;
     }
 

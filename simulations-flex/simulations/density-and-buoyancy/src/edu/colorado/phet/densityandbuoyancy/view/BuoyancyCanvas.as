@@ -7,7 +7,7 @@ import edu.colorado.phet.densityandbuoyancy.model.Scale;
 import edu.colorado.phet.densityandbuoyancy.model.Vector2D;
 import edu.colorado.phet.densityandbuoyancy.test.Box2DDebug;
 import edu.colorado.phet.densityandbuoyancy.view.away3d.ArrowNode;
-import edu.colorado.phet.densityandbuoyancy.view.away3d.DensityObjectNode;
+import edu.colorado.phet.densityandbuoyancy.view.away3d.DensityAndBuoyancyObjectNode;
 import edu.colorado.phet.densityandbuoyancy.view.away3d.ScaleNode;
 import edu.colorado.phet.densityandbuoyancy.view.modes.BuoyancyPlaygroundMode;
 import edu.colorado.phet.densityandbuoyancy.view.modes.BuoyancySameDensityMode;
@@ -112,8 +112,8 @@ public class BuoyancyCanvas extends AbstractDBCanvas {
         return _container;
     }
 
-    override protected function createDensityObjectNode( densityObject: DensityAndBuoyancyObject ): DensityObjectNode {
-        var densityObjectNode: DensityObjectNode = super.createDensityObjectNode( densityObject );
+    override protected function createDensityObjectNode( densityObject: DensityAndBuoyancyObject ): DensityAndBuoyancyObjectNode {
+        var densityObjectNode: DensityAndBuoyancyObjectNode = super.createDensityObjectNode( densityObject );
         addArrowNodes( densityObjectNode );
         return densityObjectNode;
     }
@@ -122,7 +122,7 @@ public class BuoyancyCanvas extends AbstractDBCanvas {
      * Add arrow nodes to depict the forces acting on the specified DensityObjectNode
      * @param densityObjectNode
      */
-    private function addArrowNodes( densityObjectNode: DensityObjectNode ): void {
+    private function addArrowNodes( densityObjectNode: DensityAndBuoyancyObjectNode ): void {
         if ( !(densityObjectNode is ScaleNode) ) {
 
             var densityObject: DensityAndBuoyancyObject = densityObjectNode.getDensityObject();

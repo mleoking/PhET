@@ -5,7 +5,7 @@ import Box2D.Dynamics.b2Body;
 
 import edu.colorado.phet.densityandbuoyancy.DensityAndBuoyancyConstants;
 import edu.colorado.phet.densityandbuoyancy.view.AbstractDBCanvas;
-import edu.colorado.phet.densityandbuoyancy.view.away3d.DensityObjectNode;
+import edu.colorado.phet.densityandbuoyancy.view.away3d.DensityAndBuoyancyObjectNode;
 import edu.colorado.phet.densityandbuoyancy.view.away3d.ScaleNode;
 import edu.colorado.phet.flexcommon.FlexSimStrings;
 import edu.colorado.phet.flexcommon.model.BooleanProperty;
@@ -120,7 +120,7 @@ public class Scale extends Cuboid {
         totalImpulse = 0;
     }
 
-    override public function createNode( view: AbstractDBCanvas, massReadoutsVisible: BooleanProperty ): DensityObjectNode {
+    override public function createNode( view: AbstractDBCanvas, massReadoutsVisible: BooleanProperty ): DensityAndBuoyancyObjectNode {
         return new ScaleNode( this, view );
     }
 
