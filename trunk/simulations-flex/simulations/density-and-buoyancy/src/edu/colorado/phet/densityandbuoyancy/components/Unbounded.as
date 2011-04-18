@@ -3,7 +3,7 @@ package edu.colorado.phet.densityandbuoyancy.components {
 /**
  * Function that doesn't bound the value.
  */
-public class Unbounded implements Bounds {
+public class Unbounded implements NumericClamp {
     public function Unbounded() {
     }
 

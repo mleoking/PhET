@@ -7,7 +7,7 @@ import edu.colorado.phet.densityandbuoyancy.model.Material;
 /**
  * This implementation of Bounds ensures that a the mass for an object can't exceed the maximum (depends on the material type).
  */
-public class MassBounds implements Bounds {
+public class MassBounds implements NumericClamp {
     private var densityObject: DensityObject;
 
     public function MassBounds( densityObject: DensityObject ) {
