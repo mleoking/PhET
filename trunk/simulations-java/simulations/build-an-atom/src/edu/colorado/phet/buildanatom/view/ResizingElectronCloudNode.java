@@ -61,7 +61,10 @@ public class ResizingElectronCloudNode extends PNode {
             public void update() {
                 Function.LinearFunction electronCountToRadiusFunction = new Function.LinearFunction( 1, getTotalElectronCapacity(), minRadius, maxRadius );
                 double radius = electronCountToRadiusFunction.evaluate( getElectronCount() );
-                final Shape electronShellShape = mvt.modelToView( new Ellipse2D.Double( -radius, -radius, radius * 2, radius * 2 ) );
+                double centerX = electronShells.get( 0 ).getCenterLocation().getX();
+                double centerY = electronShells.get( 0 ).getCenterLocation().getY();
+                final Shape electronShellShape = mvt.modelToView( new Ellipse2D.Double( centerX - radius,
+                        centerY - radius, radius * 2, radius * 2 ) );
                 electronCloudNode.setPathTo( electronShellShape );
                 Function.LinearFunction electronCountToAlphaMapping = new Function.LinearFunction( 0, getTotalElectronCapacity(), 50, 175 );//Map to alpha values between 50 and 200
                 int alpha = getElectronCount() == 0 ? 0 : (int) electronCountToAlphaMapping.evaluate( getElectronCount() );//But if there are no electrons, be transparent

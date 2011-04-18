@@ -2,6 +2,7 @@
 package edu.colorado.phet.buildanatom.model;
 
 import java.awt.geom.Point2D;
+import java.awt.geom.Point2D.Double;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -21,13 +22,16 @@ public class ElectronShell extends SimpleObservable {
     private final double radius;
     private final HashMap<Point2D, Electron> shellLocations = new HashMap<Point2D, Electron>();
     private final int electronCapacity;
+    private final Point2D centerLocation = new Point2D.Double(0, 0);
 
     /**
      * Constructor.
+     * @param initialLocation TODO
      */
-    ElectronShell( double radius, int electronCapacity ) {
+    ElectronShell( double radius, int electronCapacity, Point2D initialLocation ) {
         this.radius = radius;
         this.electronCapacity = electronCapacity;
+        centerLocation.setLocation( initialLocation );
         // Initialize the open shell locations.
         double angleBetweenElectrons = 2 * Math.PI / electronCapacity;
         for ( int i = 0; i < electronCapacity; i++ ) {
@@ -120,6 +124,19 @@ public class ElectronShell extends SimpleObservable {
         return radius;
     }
 
+    public void setCenterLocation( double x, double y){
+        centerLocation.setLocation( x, y );
+        notifyObservers();
+    }
+
+    public void setCenterLocation( Point2D newLocation ){
+        centerLocation.setLocation( newLocation.getX(), newLocation.getY() );
+    }
+
+    public Point2D getCenterLocation(){
+        return new Point2D.Double( centerLocation.getX(), centerLocation.getY() );
+    }
+
     protected boolean isFull() {
         return getOpenShellLocations().size() == 0;
     }
@@ -164,7 +181,7 @@ public class ElectronShell extends SimpleObservable {
         shellLocations.put( shellLocation, electronToAdd );
         electronToAdd.addListener( particleRemovalListener );
 
-        //If the particle shouldn't animate, then it should move to its destination immediately.
+        // If the particle shouldn't animate, then it should move to its destination immediately.
         if ( moveImmediately ) {
             electronToAdd.moveToDestination();
         }
