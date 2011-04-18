@@ -97,6 +97,7 @@ public class InteractiveIsotopeModel implements Resettable, IConfigurableAtomMod
 
         // Create the atom.
         atom = new Atom( new Point2D.Double( 0, 0 ), clock );
+        atom.setPosition( 50, 50 );
 
         for ( int i = 0; i < DEFAULT_NUM_NEUTRONS_IN_BUCKET; i++ ) {
             final Neutron neutron = new Neutron( clock );

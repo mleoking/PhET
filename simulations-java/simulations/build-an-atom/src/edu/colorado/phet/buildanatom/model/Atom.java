@@ -40,12 +40,15 @@ public class Atom implements IDynamicAtom {
     public static final double ELECTRON_SHELL_1_RADIUS = 34;
     public static final double ELECTRON_SHELL_2_RADIUS = 102;
 
+    // Default initial location.
+    public static final Point2D DEFAULT_POSITION = new Point2D.Double( 0, 0 );
+
     // ------------------------------------------------------------------------
     // Instance Data
     // ------------------------------------------------------------------------
 
     // Position in model space.
-    private final Point2D position = new Point2D.Double();
+    private final Point2D position = new Point2D.Double( DEFAULT_POSITION.getX(), DEFAULT_POSITION.getY() );
 
     //The total translation of all nucleons, used for animating instability
     private ImmutableVector2D unstableNucleusJitterVector = new Vector2D( 0, 0 );
@@ -56,16 +59,8 @@ public class Atom implements IDynamicAtom {
     public final ArrayList<Neutron> neutrons = new ArrayList<Neutron>();
 
     // Shells for containing electrons.
-    private final ElectronShell electronShell1 = new ElectronShell( ELECTRON_SHELL_1_RADIUS, 2 );
-    private final ElectronShell electronShell2 = new ElectronShell( ELECTRON_SHELL_2_RADIUS, 8 );
-
-    // Observer for electron shells.
-    private final SimpleObserver electronShellChangeObserver = new SimpleObserver() {
-        public void update() {
-            checkAndReconfigureShells();
-            notifyConfigurationChanged();
-        }
-    };
+    private final ElectronShell electronShell1 = new ElectronShell( ELECTRON_SHELL_1_RADIUS, 2, DEFAULT_POSITION );
+    private final ElectronShell electronShell2 = new ElectronShell( ELECTRON_SHELL_2_RADIUS, 8, DEFAULT_POSITION );
 
     // Used for animating the unstable nuclei.
     private int animationCount = 0;
@@ -96,8 +91,18 @@ public class Atom implements IDynamicAtom {
     public Atom( Point2D position, BuildAnAtomClock clock ) {
         this.position.setLocation( position );
 
-        electronShell1.addObserver( electronShellChangeObserver );
-        electronShell2.addObserver( electronShellChangeObserver );
+        electronShell1.addObserver( new SimpleObserver() {
+            public void update() {
+                checkAndReconfigureShells();
+                notifyConfigurationChanged();
+            }
+        });
+
+        electronShell2.addObserver( new SimpleObserver() {
+            public void update() {
+                notifyConfigurationChanged();
+            }
+        } );
 
         clock.addClockListener( new ClockAdapter() {
 
@@ -317,6 +322,10 @@ public class Atom implements IDynamicAtom {
 
     public void setPosition(double x, double y){
         position.setLocation( x, y );
+        electronShell1.setCenterLocation( x, y );
+        electronShell2.setCenterLocation( x, y );
+        reconfigureNucleus( true );
+        notifyPositionChanged();
     }
 
     public void setPosition( Point2D position ){
@@ -403,6 +412,10 @@ public class Atom implements IDynamicAtom {
         // nucleus.
         final ArrayList<SphericalParticle> nucleons = getNucleons();
 
+        // Convenience variables.
+        double centerX = getPosition().getX();
+        double centerY = getPosition().getY();
+
         if ( nucleons.size() == 0 ) {
             // Nothing to do.
             return;
@@ -415,29 +428,39 @@ public class Atom implements IDynamicAtom {
         else if ( nucleons.size() == 2 ) {
             // Two nucleons - place them side by side with their meeting point in the center.
             double angle = RAND.nextDouble() * 2 * Math.PI;
-            nucleons.get( 0 ).setDestination( nucleonRadius * Math.cos( angle ), nucleonRadius * Math.sin( angle ) );
-            nucleons.get( 1 ).setDestination( -nucleonRadius * Math.cos( angle ), -nucleonRadius * Math.sin( angle ) );
+            nucleons.get( 0 ).setDestination( centerX + nucleonRadius * Math.cos( angle ), centerY + nucleonRadius * Math.sin( angle ) );
+            nucleons.get( 1 ).setDestination( centerX - nucleonRadius * Math.cos( angle ), centerY - nucleonRadius * Math.sin( angle ) );
         }
         else if ( nucleons.size() == 3 ) {
             // Three nucleons - form a triangle where they all touch.
             double angle = RAND.nextDouble() * 2 * Math.PI;
             double distFromCenter = nucleonRadius * 1.155;
-            nucleons.get( 0 ).setDestination( distFromCenter * Math.cos( angle ), distFromCenter * Math.sin( angle ) );
-            nucleons.get( 1 ).setDestination( distFromCenter * Math.cos( angle + 2 * Math.PI / 3 ),
-                    distFromCenter * Math.sin( angle + 2 * Math.PI / 3 ) );
-            nucleons.get( 2 ).setDestination( distFromCenter * Math.cos( angle + 4 * Math.PI / 3 ),
-                    distFromCenter * Math.sin( angle + 4 * Math.PI / 3 ) );
+            nucleons.get( 0 ).setDestination(
+                    centerX + distFromCenter * Math.cos( angle ),
+                    centerY + distFromCenter * Math.sin( angle ) );
+            nucleons.get( 1 ).setDestination(
+                    centerX + distFromCenter * Math.cos( angle + 2 * Math.PI / 3 ),
+                    centerY + distFromCenter * Math.sin( angle + 2 * Math.PI / 3 ) );
+            nucleons.get( 2 ).setDestination(
+                    centerX + distFromCenter * Math.cos( angle + 4 * Math.PI / 3 ),
+                    centerY + distFromCenter * Math.sin( angle + 4 * Math.PI / 3 ) );
         }
         else if ( nucleons.size() == 4 ) {
             // Four nucleons - make a sort of diamond shape with some overlap.
             double angle = RAND.nextDouble() * 2 * Math.PI;
-            nucleons.get( 0 ).setDestination( nucleonRadius * Math.cos( angle ), nucleonRadius * Math.sin( angle ) );
-            nucleons.get( 2 ).setDestination( -nucleonRadius * Math.cos( angle ), -nucleonRadius * Math.sin( angle ) );
+            nucleons.get( 0 ).setDestination(
+                    centerX + nucleonRadius * Math.cos( angle ),
+                    centerY + nucleonRadius * Math.sin( angle ) );
+            nucleons.get( 2 ).setDestination(
+                    centerX - nucleonRadius * Math.cos( angle ),
+                    centerY - nucleonRadius * Math.sin( angle ) );
             double distFromCenter = nucleonRadius * 2 * Math.cos( Math.PI / 3 );
-            nucleons.get( 1 ).setDestination( distFromCenter * Math.cos( angle + Math.PI / 2 ),
-                    distFromCenter * Math.sin( angle + Math.PI / 2 ) );
-            nucleons.get( 3 ).setDestination( -distFromCenter * Math.cos( angle + Math.PI / 2 ),
-                    -distFromCenter * Math.sin( angle + Math.PI / 2 ) );
+            nucleons.get( 1 ).setDestination(
+                    centerX + distFromCenter * Math.cos( angle + Math.PI / 2 ),
+                    centerY + distFromCenter * Math.sin( angle + Math.PI / 2 ) );
+            nucleons.get( 3 ).setDestination(
+                    centerX - distFromCenter * Math.cos( angle + Math.PI / 2 ),
+                    centerY - distFromCenter * Math.sin( angle + Math.PI / 2 ) );
         }
         else if ( nucleons.size() >= 5 ) {
             // This is a generalized algorithm that should work for five or
@@ -448,8 +471,9 @@ public class Atom implements IDynamicAtom {
             double placementAngle = 0;
             double placementAngleDelta = 0;
             for ( int i = 0; i < nucleons.size(); i++ ) {
-                nucleons.get( i ).setDestination( placementRadius * Math.cos( placementAngle ),
-                        placementRadius * Math.sin( placementAngle ) );
+                nucleons.get( i ).setDestination(
+                        centerX + placementRadius * Math.cos( placementAngle ),
+                        centerY + placementRadius * Math.sin( placementAngle ) );
                 numAtThisRadius--;
                 if ( numAtThisRadius > 0 ) {
                     // Stay at the same radius and update the placement angle.
@@ -470,7 +494,9 @@ public class Atom implements IDynamicAtom {
             //too much for discerning in the game mode
             if ( nucleons.size() == 7 && neutrons.size() == 4 ) {
                 final Neutron neutron = neutrons.get( neutrons.size() - 1 );
-                neutron.setDestination( neutron.getDestination().getX(), neutron.getDestination().getY() - 3 );
+                neutron.setDestination(
+                        centerX + neutron.getDestination().getX(),
+                        centerY + neutron.getDestination().getY() - 3 );
             }
         }
 
