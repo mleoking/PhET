@@ -20,8 +20,8 @@ public class DensityEditor extends PropertyEditor {
         setStyle( "paddingTop", 10 ); // give us a bit more padding to compensate for the labeled tickmarks
     }
 
-    override protected function createSlider( property: NumericProperty, minimum: Number, maximum: Number, unit: Unit, dataTipClamp: Function, bounds: NumericClamp ): SliderDecorator {
-        const slider: SliderDecorator = super.createSlider( property, minimum, maximum, unit, dataTipClamp, bounds );
+    override protected function createSlider( property: NumericProperty, minimum: Number, maximum: Number, unit: Unit, bounds: NumericClamp ): SliderDecorator {
+        const slider: SliderDecorator = super.createSlider( property, minimum, maximum, unit, bounds );
         slider.enableTickmarks();
         for each ( var material: Material in Material.LABELED_DENSITY_MATERIALS ) {
             slider.addTick( unit.fromSI( material.getDensity() ), material.tickColor, material.name )

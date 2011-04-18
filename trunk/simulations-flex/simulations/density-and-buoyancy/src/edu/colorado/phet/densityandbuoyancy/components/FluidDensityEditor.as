@@ -12,8 +12,8 @@ public class FluidDensityEditor extends PropertyEditor {
         super( property, minimum, maximum, unit, dataTipClamp, bounds );
     }
 
-    override protected function createSlider( property: NumericProperty, minimum: Number, maximum: Number, unit: Unit, dataTipClamp: Function, bounds: NumericClamp ): SliderDecorator {
-        const slider: SliderDecorator = super.createSlider( property, minimum, maximum, unit, dataTipClamp, bounds );
+    override protected function createSlider( property: NumericProperty, minimum: Number, maximum: Number, unit: Unit, bounds: NumericClamp ): SliderDecorator {
+        const slider: SliderDecorator = super.createSlider( property, minimum, maximum, unit, bounds );
         slider.isFluidDensitySlider = true;
         slider.enableTickmarks();
         //REVIEW Material.LABELED_LIQUID_MATERIALS is an unnecessary coupling, better to pass in material list as an arg.
