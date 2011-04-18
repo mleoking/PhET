@@ -1,43 +1,38 @@
 <?xml version="1.0" ?>
-<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" preinitialize="init()" >
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" preinitialize="init()">
 
     <mx:Script>
     <![CDATA[
-
-        import mx.controls.Button;
-        import mx.core.Application;
         import mx.core.UIComponent;
         import mx.managers.PopUpManager;
-        import flash.geom.Point;
-        import flash.ui.ContextMenu;
 
         [Bindable]
-        public var highContrast : Boolean = false;
+        public var highContrast: Boolean = false;
 
-        public var develTODO : Array;
+        public var develTODO: Array;
 
-        private function init() : void {
+        private function init(): void {
             CommonStrings.initialize();
         }
 
-        private function showAboutWindow():void {
-            var aboutDialog : AboutDialog = AboutDialog(PopUpManager.createPopUp( this, AboutDialog , true));
+        private function showAboutWindow(): void {
+            var aboutDialog: AboutDialog = AboutDialog( PopUpManager.createPopUp( this, AboutDialog, true ) );
 
             aboutDialog.contextMenu = new ContextMenu();
 
             centerDialog( aboutDialog );
         }
 
-        private function showPreferencesWindow():void {
-            var preferencesDialog : PreferencesDialog = PreferencesDialog(PopUpManager.createPopUp( this, PreferencesDialog , true));
+        private function showPreferencesWindow(): void {
+            var preferencesDialog: PreferencesDialog = PreferencesDialog( PopUpManager.createPopUp( this, PreferencesDialog, true ) );
 
             preferencesDialog.contextMenu = new ContextMenu();
 
             centerDialog( preferencesDialog );
         }
 
-        private function centerDialog( dialog : UIComponent ) : void {
-            var p : Point = new Point();
+        private function centerDialog( dialog: UIComponent ): void {
+            var p: Point = new Point();
 
             p.x = ( stage.stageWidth - dialog.width ) / 2;
             p.y = ( stage.stageHeight - dialog.height ) / 2;
@@ -47,9 +42,9 @@
             dialog.x = p.x;
             dialog.y = p.y;
         }
-    ]]>
+        ]]>
     </mx:Script>
 
-    <mx:Button id="aboutButton" label="{CommonStrings.labelAbout + '...'}" height="20" x="0" y="0" click="showAboutWindow();" />
+    <mx:Button id="aboutButton" label="{CommonStrings.labelAbout + '...'}" height="20" x="0" y="0" click="showAboutWindow();"/>
     <mx:Button id="preferencesButton" label="{CommonStrings.labelPreferences + '...'}" height="20" x="{aboutButton.width}" y="0" click="showPreferencesWindow();"/>
 </mx:Canvas>
