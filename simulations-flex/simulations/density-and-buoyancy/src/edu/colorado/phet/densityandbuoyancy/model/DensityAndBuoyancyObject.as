@@ -140,8 +140,7 @@ public class DensityAndBuoyancyObject {
         }
     }
 
-    //REVIEW Can this be private?
-    private function notifyColorTransformListeners(): void {
+    protected function notifyColorTransformListeners(): void {
         for each ( var listener: Function in colorTransformListeners ) {
             listener();
         }

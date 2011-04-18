@@ -8,7 +8,7 @@ import edu.colorado.phet.densityandbuoyancy.model.DensityAndBuoyancyModel;
 import edu.colorado.phet.densityandbuoyancy.model.DensityAndBuoyancyObject;
 import edu.colorado.phet.densityandbuoyancy.model.Vector2D;
 import edu.colorado.phet.densityandbuoyancy.view.Away3DViewport;
-import edu.colorado.phet.densityandbuoyancy.view.VectorValueNode;
+import edu.colorado.phet.densityandbuoyancy.view.VectorValueSprite;
 import edu.colorado.phet.flexcommon.model.BooleanProperty;
 import edu.colorado.phet.flexcommon.model.NumericProperty;
 
@@ -28,7 +28,7 @@ public class ArrowNode extends MyMesh {
     private var tipVertex: Vertex;
     private var _arrowHeadLeftCornerVertex: Vertex;
     private var _arrowHeadRightCornerVertex: Vertex;
-    private var _vectorValueNode: VectorValueNode;
+    private var _vectorValueNode: VectorValueSprite;
     private var _color: *;
     private var offsetX: NumericProperty;
     private var right: Boolean;
@@ -58,7 +58,7 @@ public class ArrowNode extends MyMesh {
         updateVisibility();
         updateLocation();
 
-        this._vectorValueNode = new VectorValueNode( mainCamera, this, mainViewport, valueVisibilityProperty, right );
+        this._vectorValueNode = new VectorValueSprite( mainCamera, this, mainViewport, valueVisibilityProperty, right );
         offsetX.addListener( updateLocation );
     }
 
@@ -121,7 +121,7 @@ public class ArrowNode extends MyMesh {
         return _visibilityProperty;
     }
 
-    public function get vectorValueNode(): VectorValueNode {
+    public function get vectorValueNode(): VectorValueSprite {
         return _vectorValueNode;
     }
 
