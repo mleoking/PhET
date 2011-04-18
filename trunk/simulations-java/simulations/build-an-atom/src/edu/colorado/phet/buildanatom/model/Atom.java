@@ -495,8 +495,8 @@ public class Atom implements IDynamicAtom {
             if ( nucleons.size() == 7 && neutrons.size() == 4 ) {
                 final Neutron neutron = neutrons.get( neutrons.size() - 1 );
                 neutron.setDestination(
-                        centerX + neutron.getDestination().getX(),
-                        centerY + neutron.getDestination().getY() - 3 );
+                        neutron.getDestination().getX(),
+                        neutron.getDestination().getY() - 3 );
             }
         }
 
