@@ -120,7 +120,7 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas implements Resettable 
 
         // Create the node that contains both the atom and the neutron bucket.
         Point2D topCenterOfScale = new Point2D.Double( scaleNode.getFullBoundsReference().getCenterX(),
-                scaleNode.getFullBoundsReference().getMinY() + scaleNode.getWeighPlateTopProjectedHeight() / 2 + 20 );
+                scaleNode.getFullBoundsReference().getMinY() + scaleNode.getWeighPlateTopProjectedHeight() / 2 );
         final InteractiveIsotopeNode atomAndBucketNode = new InteractiveIsotopeNode( model, mvt, topCenterOfScale );
 
         // Add the scale followed by the atom so that the layering effect is
