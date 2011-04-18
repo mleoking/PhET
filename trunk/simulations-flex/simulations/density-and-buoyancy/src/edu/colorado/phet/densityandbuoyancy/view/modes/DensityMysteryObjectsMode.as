@@ -6,7 +6,7 @@ import edu.colorado.phet.densityandbuoyancy.model.Material;
 import edu.colorado.phet.densityandbuoyancy.model.MysteryBlock;
 import edu.colorado.phet.densityandbuoyancy.model.Scale;
 import edu.colorado.phet.densityandbuoyancy.view.AbstractDensityAndBuoyancyPlayAreaComponent;
-import edu.colorado.phet.densityandbuoyancy.view.DensityContainer;
+import edu.colorado.phet.densityandbuoyancy.view.DensityCanvas;
 import edu.colorado.phet.flexcommon.FlexSimStrings;
 
 import mx.core.UIComponent;
@@ -24,7 +24,7 @@ public class DensityMysteryObjectsMode extends Mode {
         mysteryObjectsControlPanel.setStyle( "right", DensityAndBuoyancyConstants.CONTROL_INSET );
 
         // grab the panel above this panel
-        var modeControlPanel: UIComponent = (canvas.container as DensityContainer).modeControlPanel;
+        var modeControlPanel: UIComponent = (canvas.container as DensityCanvas).modeControlPanel;
 
         // set its initial value
         mysteryObjectsControlPanel.setStyle( "top", modeControlPanel.height + 2 * DensityAndBuoyancyConstants.CONTROL_INSET );

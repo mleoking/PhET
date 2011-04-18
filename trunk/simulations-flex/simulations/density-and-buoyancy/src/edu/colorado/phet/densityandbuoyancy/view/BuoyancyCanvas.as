@@ -16,11 +16,11 @@ import mx.controls.Label;
 /**
  * Main canvas for the buoyancy sim. Contains all of the sim-related UI
  */
-public class BuoyancyContainer extends AbstractDBContainer {
+public class BuoyancyCanvas extends AbstractDensityAndBuoyancyCanvas {
 
     protected var buoyancyCanvas: BuoyancyPlayAreaComponent;
 
-    public function BuoyancyContainer( extendedPool: Boolean, showExactLiquidColor: Boolean ) {
+    public function BuoyancyCanvas( extendedPool: Boolean, showExactLiquidColor: Boolean ) {
         super();
 
         addBackground();

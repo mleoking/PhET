@@ -16,7 +16,7 @@ import edu.colorado.phet.flashcommon.ApplicationLifecycle;
  */
 public class DensityPlayAreaComponent extends AbstractDensityAndBuoyancyPlayAreaComponent {
 
-    private var _container: DensityContainer;  //REVIEW why are we dealing with AS getter naming goofiness instead of making this public?
+    private var _container: DensityCanvas;  //REVIEW why are we dealing with AS getter naming goofiness instead of making this public?
 
     private var customObjectMode: DensityCustomObjectMode;
     private var sameMassMode: DensitySameMassMode;
@@ -25,7 +25,7 @@ public class DensityPlayAreaComponent extends AbstractDensityAndBuoyancyPlayArea
     private var mysteryObjectsMode: DensityMysteryObjectsMode;
     private var mode: Mode;
 
-    public function DensityPlayAreaComponent( densityContainer: DensityContainer ) {
+    public function DensityPlayAreaComponent( densityContainer: DensityCanvas ) {
         super( false );
         this._container = densityContainer;
         const myThis: DensityPlayAreaComponent = this;
@@ -83,7 +83,7 @@ public class DensityPlayAreaComponent extends AbstractDensityAndBuoyancyPlayArea
     }
 
     //REVIEW what does this getter buy us? performance?
-    override public function get container(): AbstractDBContainer {
+    override public function get container(): AbstractDensityAndBuoyancyCanvas {
         return _container;
     }
 
