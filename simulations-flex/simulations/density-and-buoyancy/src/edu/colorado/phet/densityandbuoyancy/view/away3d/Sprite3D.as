@@ -9,18 +9,18 @@ import flash.display.Sprite;
  * Clients need to call resize() if modifications to the sprite change its size.
  */
 public class Sprite3D extends ObjectContainer3D {
-    private var _spriteFace: SpriteFace;
+    private var _spriteFace: SpriteFaceMesh;
     protected var sprite: Sprite;
 
     public function Sprite3D( sprite: Sprite ) {
         this.sprite = sprite;
-        _spriteFace = new SpriteFace( sprite );
+        _spriteFace = new SpriteFaceMesh( sprite );
         addChild( _spriteFace );
     }
 
     public function resize(): void {
         removeChild( _spriteFace );
-        _spriteFace = new SpriteFace( sprite );
+        _spriteFace = new SpriteFaceMesh( sprite );
         addChild( _spriteFace );
     }
 }

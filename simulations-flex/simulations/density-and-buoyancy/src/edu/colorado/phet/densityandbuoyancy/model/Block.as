@@ -1,8 +1,8 @@
 //  Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.densityandbuoyancy.model {
 import edu.colorado.phet.densityandbuoyancy.view.AbstractDensityAndBuoyancyPlayAreaComponent;
-import edu.colorado.phet.densityandbuoyancy.view.away3d.BlockNode;
-import edu.colorado.phet.densityandbuoyancy.view.away3d.DensityAndBuoyancyObjectNode;
+import edu.colorado.phet.densityandbuoyancy.view.away3d.BlockObject3D;
+import edu.colorado.phet.densityandbuoyancy.view.away3d.DensityAndBuoyancyObject3D;
 import edu.colorado.phet.flexcommon.model.BooleanProperty;
 
 import flash.geom.ColorTransform;
@@ -39,8 +39,8 @@ public class Block extends Cuboid {
         return _colorTransform;
     }
 
-    override public function createNode( view: AbstractDensityAndBuoyancyPlayAreaComponent, massReadoutsVisible: BooleanProperty ): DensityAndBuoyancyObjectNode {
-        return new BlockNode( this, view, getLabelProperty(), massReadoutsVisible );
+    override public function createNode( view: AbstractDensityAndBuoyancyPlayAreaComponent, massReadoutsVisible: BooleanProperty ): DensityAndBuoyancyObject3D {
+        return new BlockObject3D( this, view, getLabelProperty(), massReadoutsVisible );
     }
 
     override public function toString(): String {

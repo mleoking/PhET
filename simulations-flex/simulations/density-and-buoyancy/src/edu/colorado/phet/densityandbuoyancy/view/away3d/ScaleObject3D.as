@@ -12,7 +12,7 @@ import edu.colorado.phet.densityandbuoyancy.view.*;
  *
  * Is rendered with a base, the top (which would move in a real scale), and the stand (connection between the two)
  */
-public class ScaleNode extends CuboidNode {
+public class ScaleObject3D extends CuboidObject3D {
 
     private var _scale: Scale;
     private var _view: AbstractDensityAndBuoyancyPlayAreaComponent;
@@ -21,7 +21,7 @@ public class ScaleNode extends CuboidNode {
     private var top: PickableCube;
     private var stand: PickableCube;
 
-    public function ScaleNode( scale: Scale, view: AbstractDensityAndBuoyancyPlayAreaComponent ): void {
+    public function ScaleObject3D( scale: Scale, view: AbstractDensityAndBuoyancyPlayAreaComponent ): void {
         super( scale, view );
         this._scale = scale;
         this._view = view;

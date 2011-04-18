@@ -16,7 +16,7 @@ import edu.colorado.phet.flashcommon.ApplicationLifecycle;
  */
 public class DensityPlayAreaComponent extends AbstractDensityAndBuoyancyPlayAreaComponent {
 
-    private var _container: DensityCanvas;  //REVIEW why are we dealing with AS getter naming goofiness instead of making this public?
+    private var _container: DensityCanvas;
 
     private var customObjectMode: DensityCustomObjectMode;
     private var sameMassMode: DensitySameMassMode;
@@ -28,14 +28,14 @@ public class DensityPlayAreaComponent extends AbstractDensityAndBuoyancyPlayArea
     public function DensityPlayAreaComponent( densityContainer: DensityCanvas ) {
         super( false );
         this._container = densityContainer;
-        const myThis: DensityPlayAreaComponent = this;
+        const thisReference: DensityPlayAreaComponent = this;
         //REVIEW doc, why can't modes be created until applicationComplete event is dispatched? what's the dependency?
         ApplicationLifecycle.addApplicationCompleteListener( function(): void {
-            customObjectMode = new DensityCustomObjectMode( myThis );
-            sameMassMode = new DensitySameMassMode( myThis );
-            sameVolumeMode = new DensitySameVolumeMode( myThis );
-            sameDensityMode = new DensitySameDensityMode( myThis );
-            mysteryObjectsMode = new DensityMysteryObjectsMode( myThis );
+            customObjectMode = new DensityCustomObjectMode( thisReference );
+            sameMassMode = new DensitySameMassMode( thisReference );
+            sameVolumeMode = new DensitySameVolumeMode( thisReference );
+            sameDensityMode = new DensitySameDensityMode( thisReference );
+            mysteryObjectsMode = new DensityMysteryObjectsMode( thisReference );
             //If other modes are added, you may need to specify a call to the Mode.reset() in resetAll()
             setMode( customObjectMode );
 
@@ -51,8 +51,7 @@ public class DensityPlayAreaComponent extends AbstractDensityAndBuoyancyPlayArea
         switchToCustomObject();
     }
 
-    //REVIEW this can be private, switch* methods are used to publicly change mode
-    public function setMode( mode: Mode ): void {
+    private function setMode( mode: Mode ): void {
         if ( this.mode != mode ) {
             if ( this.mode != null ) {
                 this.mode.teardown();
@@ -82,7 +81,6 @@ public class DensityPlayAreaComponent extends AbstractDensityAndBuoyancyPlayArea
         setMode( mysteryObjectsMode );
     }
 
-    //REVIEW what does this getter buy us? performance?
     override public function get container(): AbstractDensityAndBuoyancyCanvas {
         return _container;
     }

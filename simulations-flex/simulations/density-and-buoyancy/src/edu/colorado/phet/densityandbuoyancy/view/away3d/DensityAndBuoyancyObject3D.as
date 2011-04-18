@@ -13,7 +13,7 @@ import edu.colorado.phet.flexcommon.model.NumericProperty;
 /**
  * Base class for deep hierarchy of 3D objects in the play area that can be moved by the user (including blocks and scales).
  */
-public class DensityAndBuoyancyObjectNode extends ObjectContainer3D implements Pickable {
+public class DensityAndBuoyancyObject3D extends ObjectContainer3D implements Pickable {
     private var densityObject: DensityAndBuoyancyObject;
 
     /**
@@ -26,7 +26,7 @@ public class DensityAndBuoyancyObjectNode extends ObjectContainer3D implements P
 
     private var _canvas: AbstractDensityAndBuoyancyPlayAreaComponent;
 
-    protected var densityObjectReadoutNode: DensityObjectReadoutNode;
+    protected var densityObjectReadoutNode: DensityObjectReadout;
 
     /**
      * Whether this object is currently movable (and thus pickable), or not
@@ -35,7 +35,7 @@ public class DensityAndBuoyancyObjectNode extends ObjectContainer3D implements P
     private var arrowNodes: Array = new Array();
     private var _mousePressed: Boolean = false;
 
-    public function DensityAndBuoyancyObjectNode( densityObject: DensityAndBuoyancyObject, canvas: AbstractDensityAndBuoyancyPlayAreaComponent ) {
+    public function DensityAndBuoyancyObject3D( densityObject: DensityAndBuoyancyObject, canvas: AbstractDensityAndBuoyancyPlayAreaComponent ) {
         super();
         this.densityObject = densityObject;
         this._canvas = canvas;
@@ -43,14 +43,14 @@ public class DensityAndBuoyancyObjectNode extends ObjectContainer3D implements P
         densityObject.getXProperty().addListener( updateGeometry );
         densityObject.addRemovalListener( remove );
 
-        densityObjectReadoutNode = new DensityObjectReadoutNode( densityObject, getFontReadoutSize() );
+        densityObjectReadoutNode = new DensityObjectReadout( densityObject, getFontReadoutSize() );
     }
 
     public function get canvas(): AbstractDensityAndBuoyancyPlayAreaComponent {
         return _canvas;
     }
 
-    public function addArrowNode( arrowNode: ArrowNode ): void {
+    public function addArrowNode( arrowNode: ArrowMesh ): void {
         var listener: Function = function(): void {
             arrowNode.z = frontZProperty.value - 1E-6 * arrowNode.offset + z;//Offset so they don't overlap in z
             trace( frontZProperty.value );
@@ -95,21 +95,21 @@ public class DensityAndBuoyancyObjectNode extends ObjectContainer3D implements P
 
     public function addOverlayObjects(): void {
         canvas.overlayViewport.scene.addChild( densityObjectReadoutNode.textReadout );
-        for each ( var arrowNode: ArrowNode in arrowNodes ) {
+        for each ( var arrowNode: ArrowMesh in arrowNodes ) {
             canvas.addChild( arrowNode.vectorValueNode );
         }
     }
 
     public function removeOverlayObjects(): void {
         canvas.overlayViewport.scene.removeChild( densityObjectReadoutNode.textReadout );
-        for each ( var arrowNode: ArrowNode in arrowNodes ) {
+        for each ( var arrowNode: ArrowMesh in arrowNodes ) {
             canvas.overlayViewport.scene.removeChild( arrowNode );
             canvas.removeChild( arrowNode.vectorValueNode );
         }
         arrowNodes = new Array();
     }
 
-    public function get densityObjectNode(): DensityAndBuoyancyObjectNode {
+    public function get densityObjectNode(): DensityAndBuoyancyObject3D {
         return this;
     }
 

@@ -93,7 +93,7 @@ public class CustomObjectPropertiesPanel extends DensityVBox {
         radioButtonPanel.addChild( comboBox );
 
         //Show the name of the block using the same code used in the play area
-        var sprite: Sprite = new BlockLabel( densityObject.name, densityObject.nameVisibleProperty );
+        var sprite: Sprite = new BlockLabelSprite( densityObject.name, densityObject.nameVisibleProperty );
         var uiComponent: UIComponent = new UIComponent();
         uiComponent.width = sprite.width;
         uiComponent.addChild( sprite );

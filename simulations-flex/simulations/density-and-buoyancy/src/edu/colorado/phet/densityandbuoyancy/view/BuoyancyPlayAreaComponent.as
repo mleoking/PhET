@@ -5,9 +5,9 @@ import edu.colorado.phet.densityandbuoyancy.model.DensityAndBuoyancyModel;
 import edu.colorado.phet.densityandbuoyancy.model.DensityAndBuoyancyObject;
 import edu.colorado.phet.densityandbuoyancy.model.Scale;
 import edu.colorado.phet.densityandbuoyancy.test.Box2DDebug;
-import edu.colorado.phet.densityandbuoyancy.view.away3d.ArrowNode;
-import edu.colorado.phet.densityandbuoyancy.view.away3d.DensityAndBuoyancyObjectNode;
-import edu.colorado.phet.densityandbuoyancy.view.away3d.ScaleNode;
+import edu.colorado.phet.densityandbuoyancy.view.away3d.ArrowMesh;
+import edu.colorado.phet.densityandbuoyancy.view.away3d.DensityAndBuoyancyObject3D;
+import edu.colorado.phet.densityandbuoyancy.view.away3d.ScaleObject3D;
 import edu.colorado.phet.densityandbuoyancy.view.modes.BuoyancyPlaygroundMode;
 import edu.colorado.phet.densityandbuoyancy.view.modes.BuoyancySameDensityMode;
 import edu.colorado.phet.densityandbuoyancy.view.modes.BuoyancySameMassMode;
@@ -111,8 +111,8 @@ public class BuoyancyPlayAreaComponent extends AbstractDensityAndBuoyancyPlayAre
         return _container;
     }
 
-    override protected function createNode( densityObject: DensityAndBuoyancyObject ): DensityAndBuoyancyObjectNode {
-        var densityObjectNode: DensityAndBuoyancyObjectNode = super.createNode( densityObject );
+    override protected function createNode( densityObject: DensityAndBuoyancyObject ): DensityAndBuoyancyObject3D {
+        var densityObjectNode: DensityAndBuoyancyObject3D = super.createNode( densityObject );
         addArrowNodes( densityObjectNode );
         return densityObjectNode;
     }
@@ -121,21 +121,21 @@ public class BuoyancyPlayAreaComponent extends AbstractDensityAndBuoyancyPlayAre
      * Add arrow nodes to depict the forces acting on the specified DensityObjectNode
      * @param densityObjectNode
      */
-    private function addArrowNodes( densityObjectNode: DensityAndBuoyancyObjectNode ): void {
-        if ( !(densityObjectNode is ScaleNode) ) {
+    private function addArrowNodes( densityObjectNode: DensityAndBuoyancyObject3D ): void {
+        if ( !(densityObjectNode is ScaleObject3D) ) {
 
             var densityObject: DensityAndBuoyancyObject = densityObjectNode.getDensityObject();
 //            var offset: Number = 8;
             var offset: Number = 0;  //TODO: trial test of setting offsets to zero, maybe will revert
-            const gravityNode: ArrowNode = new ArrowNode( densityObject, densityObject.getGravityForceArrowModel(), DensityAndBuoyancyConstants.GRAVITY_COLOR, gravityArrowsVisible, mainCamera, mainViewport, vectorValuesVisible,
+            const gravityNode: ArrowMesh = new ArrowMesh( densityObject, densityObject.getGravityForceArrowModel(), DensityAndBuoyancyConstants.GRAVITY_COLOR, gravityArrowsVisible, mainCamera, mainViewport, vectorValuesVisible,
                                                           createOffset( densityObject.getGravityForceArrowModel(), densityObject, 0 ), true );
-            const buoyancyNode: ArrowNode = new ArrowNode( densityObject, densityObject.getBuoyancyForceArrowModel(), DensityAndBuoyancyConstants.BUOYANCY_COLOR, buoyancyArrowsVisible, mainCamera, mainViewport, vectorValuesVisible,
+            const buoyancyNode: ArrowMesh = new ArrowMesh( densityObject, densityObject.getBuoyancyForceArrowModel(), DensityAndBuoyancyConstants.BUOYANCY_COLOR, buoyancyArrowsVisible, mainCamera, mainViewport, vectorValuesVisible,
                                                            createOffset( densityObject.getBuoyancyForceArrowModel(), densityObject, 0 ), true );
-            const contactForceNode: ArrowNode = new ArrowNode( densityObject, densityObject.getContactForceArrowModel(), DensityAndBuoyancyConstants.CONTACT_COLOR, contactArrowsVisible, mainCamera, mainViewport, vectorValuesVisible,
+            const contactForceNode: ArrowMesh = new ArrowMesh( densityObject, densityObject.getContactForceArrowModel(), DensityAndBuoyancyConstants.CONTACT_COLOR, contactArrowsVisible, mainCamera, mainViewport, vectorValuesVisible,
                                                                createOffset( densityObject.getContactForceArrowModel(), densityObject, offset ), false );
 
             const arrowList: Array = [gravityNode, buoyancyNode, contactForceNode];
-            for each ( var arrowNode: ArrowNode in arrowList ) {
+            for each ( var arrowNode: ArrowMesh in arrowList ) {
                 densityObjectNode.addArrowNode( arrowNode );
             }
         }

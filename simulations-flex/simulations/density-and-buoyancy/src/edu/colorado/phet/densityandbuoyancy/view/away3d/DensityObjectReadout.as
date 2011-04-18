@@ -4,12 +4,14 @@ import edu.colorado.phet.densityandbuoyancy.model.DensityAndBuoyancyObject;
 
 import flash.text.TextFormat;
 
-//REVIEW class doc
-public class DensityObjectReadoutNode {
+/**
+ * Class that produces a TextFieldMesh and TextFormat for showing the readout on a DensityAndBuoyancyObject in Away3D
+ */
+public class DensityObjectReadout {
     private var _textReadout: TextFieldMesh;
     private var fontSize: Number;
 
-    public function DensityObjectReadoutNode( densityObject: DensityAndBuoyancyObject, fontSize: Number ) {
+    public function DensityObjectReadout( densityAndBuoyancyObject: DensityAndBuoyancyObject, fontSize: Number ) {
         this.fontSize = fontSize;
         _textReadout = new TextFieldMesh( "hello", createLabelTextFormat() );
     }

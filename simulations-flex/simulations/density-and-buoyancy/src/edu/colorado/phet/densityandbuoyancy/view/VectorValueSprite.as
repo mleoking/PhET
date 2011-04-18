@@ -5,7 +5,7 @@ import away3d.core.base.Vertex;
 import away3d.core.draw.ScreenVertex;
 
 import edu.colorado.phet.densityandbuoyancy.DensityAndBuoyancyConstants;
-import edu.colorado.phet.densityandbuoyancy.view.away3d.ArrowNode;
+import edu.colorado.phet.densityandbuoyancy.view.away3d.ArrowMesh;
 import edu.colorado.phet.flexcommon.FlexSimStrings;
 import edu.colorado.phet.flexcommon.model.BooleanProperty;
 
@@ -21,10 +21,10 @@ public class VectorValueSprite extends Sprite {
     private var mainViewport: Away3DViewport;
     private var textField: TextField;
     private var mainCamera: Camera3D;
-    private var arrowNode: ArrowNode;
+    private var arrowNode: ArrowMesh;
     private var right: Boolean;
 
-    public function VectorValueSprite( mainCamera: Camera3D, arrowNode: ArrowNode, //Use the actual ArrowNode for getting view bounds for layout of this sprite
+    public function VectorValueSprite( mainCamera: Camera3D, arrowNode: ArrowMesh, //Use the actual ArrowNode for getting view bounds for layout of this sprite
                                        mainViewport: Away3DViewport, visibilityProperty: BooleanProperty, right: Boolean ) {
         this.mainViewport = mainViewport;
         this.mainCamera = mainCamera;
