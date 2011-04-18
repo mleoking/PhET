@@ -6,11 +6,11 @@ import away3d.materials.ColorMaterial;
 
 import edu.colorado.phet.densityandbuoyancy.model.DensityAndBuoyancyModel;
 import edu.colorado.phet.densityandbuoyancy.model.DensityAndBuoyancyObject;
-import edu.colorado.phet.densityandbuoyancy.model.Vector2D;
 import edu.colorado.phet.densityandbuoyancy.view.Away3DViewport;
 import edu.colorado.phet.densityandbuoyancy.view.VectorValueSprite;
 import edu.colorado.phet.flexcommon.model.BooleanProperty;
 import edu.colorado.phet.flexcommon.model.NumericProperty;
+import edu.colorado.phet.flexcommon.model.Vector2D;
 
 //REVIEW why are you using Piccolo "node" terminology here? Confusing to both Piccolo and Flex developers.
 //REVIEW This "node" terminology occurs throughout view package, only noted here. Not recommended.
