@@ -2,10 +2,7 @@
 
 package edu.colorado.phet.capacitorlab.view.meters;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Stroke;
+import java.awt.*;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -92,12 +89,12 @@ public abstract class BarMeterNode extends PhetPNode {
     /**
      * Constructor.
      *
-     * @param meter model element for the meter
-     * @param title title displayed below the meter
-     * @param barColor color used to fill the bar
+     * @param meter                model element for the meter
+     * @param title                title displayed below the meter
+     * @param barColor             color used to fill the bar
      * @param valueMantissaPattern pattern used to format the mantissa of the value displayed below the meter
-     * @param exponent exponent of the value display and max label
-     * @param units units
+     * @param exponent             exponent of the value display and max label
+     * @param units                units
      */
     public BarMeterNode( final BarMeter meter, final CLModelViewTransform3D mvt, Color barColor, String title, String valueMantissaPattern, int exponent, String units ) {
 
@@ -165,9 +162,9 @@ public abstract class BarMeterNode extends PhetPNode {
         closeButton.addInputEventListener( new PBasicInputEventHandler() {
             @Override
             public void mouseReleased( PInputEvent event ) {
-                meter.setVisible( false );
+                meter.visibleProperty.setValue( false );
             }
-        });
+        } );
         zoomButton.addInputEventListener( new PBasicInputEventHandler() {
             @Override
             public void mouseReleased( PInputEvent event ) {
@@ -175,18 +172,18 @@ public abstract class BarMeterNode extends PhetPNode {
                     updateExponent();
                 }
             }
-        });
+        } );
         addInputEventListener( new CursorHandler() );
         addInputEventListener( new LocationDragHandler( this, mvt ) {
 
             protected Point3D getModelLocation() {
-                return meter.getLocationReference();
+                return meter.locationProperty.getValue();
             }
 
             protected void setModelLocation( Point3D location ) {
-                meter.setLocation( location );
+                meter.locationProperty.setValue( location );
             }
-        });
+        } );
 
         // layout
         updateLayout();
@@ -204,16 +201,16 @@ public abstract class BarMeterNode extends PhetPNode {
             } );
 
             // visibility
-            meter.addVisibleObserver( new SimpleObserver() {
+            meter.visibleProperty.addObserver( new SimpleObserver() {
                 public void update() {
-                    setVisible( meter.isVisible() );
+                    setVisible( meter.visibleProperty.getValue() );
                 }
             } );
 
             // location
-            meter.addLocationObserver( new SimpleObserver() {
+            meter.locationProperty.addObserver( new SimpleObserver() {
                 public void update() {
-                    setOffset( mvt.modelToView( meter.getLocationReference() ) );
+                    setOffset( mvt.modelToView( meter.locationProperty.getValue() ) );
                 }
             } );
         }
@@ -285,6 +282,7 @@ public abstract class BarMeterNode extends PhetPNode {
     /**
      * Sets the value displayed by the meter.
      * Updates the bar and the value below the meter.
+     *
      * @param value
      */
     protected void setValue( double value ) {
@@ -327,6 +325,7 @@ public abstract class BarMeterNode extends PhetPNode {
 
     /**
      * Sets the color used to fill the bar.
+     *
      * @param color
      */
     protected void setBarColor( Color color ) {

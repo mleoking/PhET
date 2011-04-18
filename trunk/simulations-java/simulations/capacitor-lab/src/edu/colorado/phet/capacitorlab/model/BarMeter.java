@@ -15,24 +15,31 @@ import edu.colorado.phet.common.phetcommon.util.function.Function1;
  */
 public abstract class BarMeter {
 
-    private final ICircuit circuit;
+    // public observable properties
+    public final WorldLocationProperty locationProperty;
+    public final Property<Boolean> visibleProperty;
 
-    // observable properties
-    private final WorldLocationProperty locationProperty;
-    private final Property<Boolean> visibleProperty;
+    // private observable properties
     private final Property<Double> valueProperty;
 
-    public BarMeter( final ICircuit circuit, final World world, Point3D location, boolean visible, final Function1<ICircuit, Double> valueFunction ) {
+    // immutable fields
+    private final Function1<ICircuit, Double> valueFunction;
+
+    // mutable fields
+    private ICircuit circuit;
+
+    public BarMeter( ICircuit circuit, World world, Point3D location, boolean visible, final Function1<ICircuit, Double> valueFunction ) {
 
         this.circuit = circuit;
         this.locationProperty = new WorldLocationProperty( world, location );
         this.visibleProperty = new Property<Boolean>( visible );
         this.valueProperty = new Property<Double>( valueFunction.apply( circuit ) );
+        this.valueFunction = valueFunction;
 
         // change the value when the circuit changes
         circuit.addCircuitChangeListener( new CircuitChangeListener() {
             public void circuitChanged() {
-                setValue( valueFunction.apply( circuit ) );
+                updateValue();
             }
         } );
     }
@@ -43,43 +50,22 @@ public abstract class BarMeter {
         valueProperty.reset();
     }
 
-    public void addLocationObserver( SimpleObserver o ) {
-        locationProperty.addObserver( o );
-    }
-
-    public void setLocation( Point3D location ) {
-        locationProperty.setValue( location );
-    }
-
-    public Point3D getLocationReference() {
-        return locationProperty.getValue();
-    }
-
-    public void addVisibleObserver( SimpleObserver o ) {
-        visibleProperty.addObserver( o );
-    }
-
-    public Property<Boolean> getVisibleProperty() {
-        return visibleProperty;
-    }
-
-    public void setVisible( boolean visible ) {
-        visibleProperty.setValue( visible );
-    }
-
-    public boolean isVisible() {
-        return visibleProperty.getValue();
+    public void setCircuit( ICircuit circuit ) {
+        if ( this.circuit != circuit ) {
+            this.circuit = circuit;
+            updateValue();
+        }
     }
 
     public void addValueObserver( SimpleObserver o ) {
         valueProperty.addObserver( o );
     }
 
-    private void setValue( double value ) {
-        valueProperty.setValue( value );
-    }
-
     public double getValue() {
         return valueProperty.getValue();
+    }
+
+    private void updateValue() {
+        valueProperty.setValue( valueFunction.apply( circuit ) );
     }
 }
