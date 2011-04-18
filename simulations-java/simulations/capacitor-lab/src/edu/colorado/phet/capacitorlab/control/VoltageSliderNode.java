@@ -2,10 +2,7 @@
 
 package edu.colorado.phet.capacitorlab.control;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Stroke;
+import java.awt.*;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
@@ -76,7 +73,7 @@ public class VoltageSliderNode extends PhetPNode {
         addChild( trackNode );
 
         // ticks
-        assert( voltageRange.getMax() > 0 && voltageRange.getMin() < 0 );
+        assert ( voltageRange.getMax() > 0 && voltageRange.getMin() < 0 );
         TickNode maxTickNode = new TickNode( TICK_MARK_LENGTH, voltageRange.getMax() );
         addChild( maxTickNode );
         TickNode zeroTickNode = new TickNode( TICK_MARK_LENGTH, 0 );
@@ -109,6 +106,7 @@ public class VoltageSliderNode extends PhetPNode {
 
     /**
      * Sets the voltage value and moves the knob to the proper position.
+     *
      * @param voltage
      */
     public void setVoltage( double voltage ) {
@@ -126,6 +124,7 @@ public class VoltageSliderNode extends PhetPNode {
 
     /**
      * Gets the voltage value.
+     *
      * @return
      */
     public double getVoltage() {
@@ -157,8 +156,8 @@ public class VoltageSliderNode extends PhetPNode {
 
             @Override
             protected void drag( PInputEvent event ) {
-               super.drag( event );
-               updateVoltage( event, true /* isDragging */ );
+                super.drag( event );
+                updateVoltage( event, true /* isDragging */ );
             }
 
             @Override
@@ -181,9 +180,11 @@ public class VoltageSliderNode extends PhetPNode {
                 double voltage = voltageRange.getMin() + voltageRange.getLength() * ( trackLength - yOffset ) / trackLength;
                 if ( voltage < voltageRange.getMin() ) {
                     voltage = voltageRange.getMin();
+                    System.out.println( "VoltageSliderNode.updateVoltage, clamping to min, voltage=" + voltage );//XXX
                 }
                 else if ( voltage > voltageRange.getMax() ) {
                     voltage = voltageRange.getMax();
+                    System.out.println( "VoltageSliderNode.updateVoltage, clamping to MAX, voltage=" + voltage );//XXX
                 }
 
                 // snap to zero if knob is release and value is close enough to zero
