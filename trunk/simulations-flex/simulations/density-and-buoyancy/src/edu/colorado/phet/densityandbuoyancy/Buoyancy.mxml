@@ -3,7 +3,7 @@
 <!--Main application class for Buoyancy-->
 <mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:view="edu.colorado.phet.densityandbuoyancy.view.*"
                 layout="absolute" width="100%" height="100%" frameRate="30" applicationComplete="ApplicationLifecycle.applicationComplete( stage );">
-    <view:BuoyancyApplication id="buoyancyApplication"/>
+    <view:BuoyancyTabNavigatorCanvas id="buoyancyApplication"/>
     <mx:Style>
         /*Arabic words can appear in the wrong order when using some fonts.  However, this problem doesn't
         seem to occur when specifying Arial font for the entire application, see #2703*/

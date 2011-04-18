@@ -7,15 +7,14 @@ import edu.colorado.phet.flexcommon.PhetTabNavigator;
 
 import mx.containers.Canvas;
 
-//REVIEW top-level class type is inconsistent (based on whether sim has tabs?) DensityContainer vs BuoyancyApplication - let's standardize, also in XML
 /**
  * Main application entry point for the Buoyancy sim.
  *
  * This is linked from Buoyancy.mxml, and sets up the modules with tabs. Since Density has no tabs, it does not have a
  * corresponding application class, but directly references its container.
  */
-public class BuoyancyApplication extends Canvas {
-    public function BuoyancyApplication() {
+public class BuoyancyTabNavigatorCanvas extends Canvas {
+    public function BuoyancyTabNavigatorCanvas() {
         super();
 
         var introModule: BuoyancyModule = new BuoyancyModule( FlexSimStrings.get( "buoyancy.tab.intro", "Intro" ), new BuoyancyIntroCanvas() );
