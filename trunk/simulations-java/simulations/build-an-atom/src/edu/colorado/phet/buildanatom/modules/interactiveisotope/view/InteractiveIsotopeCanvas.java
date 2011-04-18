@@ -103,6 +103,12 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas implements Resettable 
         rootNode = new PNode();
         addWorldChild( rootNode );
 
+        // Add the legend/particle count indicator.
+        final ParticleCountLegend particleCountLegend = new ParticleCountLegend( model.getAtom(), BACKGROUND_COLOR );
+        particleCountLegend.setScale( 1.1 );
+        particleCountLegend.setOffset( 20, 10 );
+        rootNode.addChild( particleCountLegend );
+
         // Create the node that represents the scale upon which the atom sits.
         scaleNode = new AtomScaleNode( model.getAtom() ) {
             {
@@ -127,7 +133,9 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas implements Resettable 
         final PText myIsotopeLabel = new PText("My Isotope:"){{
             setFont( new PhetFont( 24, true ) );
             setTextPaint( Color.DARK_GRAY );
-            setOffset( 100, 100 );
+            setOffset(
+                    mvt.modelToViewX( 0 ) - getFullBoundsReference().width / 2,
+                    particleCountLegend.getFullBoundsReference().getMaxY() + 30 );
         }};
 
         rootNode.addChild( myIsotopeLabel );
@@ -203,12 +211,6 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas implements Resettable 
         resetButtonNode.centerFullBoundsOnPoint(
                 abundanceWindow.getFullBoundsReference().getCenterX(),
                 BuildAnAtomDefaults.STAGE_SIZE.height - resetButtonNode.getFullBoundsReference().height );
-
-        // Add the legend/particle count indicator.
-        ParticleCountLegend particleCountLegend = new ParticleCountLegend( model.getAtom(), BACKGROUND_COLOR );
-        particleCountLegend.setScale( 1.1 );
-        particleCountLegend.setOffset( 20, 10 );
-        rootNode.addChild( particleCountLegend );
 
         // Close up the maximizable nodes that contain some of the indicators.
         // This is done here rather than when they are constructed because
