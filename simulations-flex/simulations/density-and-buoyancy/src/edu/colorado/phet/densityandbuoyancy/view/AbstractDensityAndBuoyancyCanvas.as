@@ -18,7 +18,7 @@ import mx.controls.TextInput;
 /**
  * Base class for the main UI of the density and buoyancy sims.
  */
-public class AbstractDBContainer extends Canvas {
+public class AbstractDensityAndBuoyancyCanvas extends Canvas {
     protected var background: Canvas;
 
     protected var phetLogoButton: PhetLogoButton; //REVIEW this is apparently optional in multi-tab sims (eg BuoyancyContainer), so why is this in the base class?
@@ -29,7 +29,7 @@ public class AbstractDBContainer extends Canvas {
     public function resetAll(): void {
     }
 
-    public function AbstractDBContainer() {
+    public function AbstractDensityAndBuoyancyCanvas() {
         super();
         percentWidth = 100;
         percentHeight = 100;

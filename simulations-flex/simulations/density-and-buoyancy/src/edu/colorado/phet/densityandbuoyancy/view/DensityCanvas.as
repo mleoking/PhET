@@ -17,17 +17,17 @@ import mx.controls.RadioButton;
 /**
  * Main canvas for the density sim. Contains all of the sim-related UI
  */
-public class DensityContainer extends AbstractDBContainer {
+public class DensityCanvas extends AbstractDensityAndBuoyancyCanvas {
 
     private var densityCanvas: DensityPlayAreaComponent;
     private var customButton: RadioButton;
 
     public var modeControlPanel: DensityVBox;
 
-    public function DensityContainer() {
+    public function DensityCanvas() {
         super();
 
-        const myThis: DensityContainer = this; //REVIEW why is this necessary? we tried removing it and it appeared to work OK.
+        const myThis: DensityCanvas = this; //REVIEW why is this necessary? we tried removing it and it appeared to work OK.
 
         addBackground();
 

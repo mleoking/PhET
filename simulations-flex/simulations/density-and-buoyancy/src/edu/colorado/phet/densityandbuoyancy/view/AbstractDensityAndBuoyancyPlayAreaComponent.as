@@ -406,7 +406,7 @@ public class AbstractDensityAndBuoyancyPlayAreaComponent extends UIComponent {
         return _model;
     }
 
-    public function get container(): AbstractDBContainer {
+    public function get container(): AbstractDensityAndBuoyancyCanvas {
         throw new AbstractMethodError();
     }
 

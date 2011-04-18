@@ -23,7 +23,7 @@ import edu.colorado.phet.flexcommon.model.Vector2D;
  */
 public class BuoyancyPlayAreaComponent extends AbstractDensityAndBuoyancyPlayAreaComponent {
 
-    private var _container: BuoyancyContainer;
+    private var _container: BuoyancyCanvas;
 
     private var defaultMode: Mode;
     public var sameMassMode: BuoyancySameMassMode;
@@ -38,7 +38,7 @@ public class BuoyancyPlayAreaComponent extends AbstractDensityAndBuoyancyPlayAre
     public const contactArrowsVisible: BooleanProperty = new BooleanProperty( false );
     public const vectorValuesVisible: BooleanProperty = new BooleanProperty( false );
 
-    public function BuoyancyPlayAreaComponent( container: BuoyancyContainer, extendedPool: Boolean, showExactLiquidColor: Boolean ) {
+    public function BuoyancyPlayAreaComponent( container: BuoyancyCanvas, extendedPool: Boolean, showExactLiquidColor: Boolean ) {
         super( extendedPool, showExactLiquidColor );
         this._container = container;
 
@@ -107,7 +107,7 @@ public class BuoyancyPlayAreaComponent extends AbstractDensityAndBuoyancyPlayAre
         setMode( defaultMode );
     }
 
-    override public function get container(): AbstractDBContainer {
+    override public function get container(): AbstractDensityAndBuoyancyCanvas {
         return _container;
     }
 

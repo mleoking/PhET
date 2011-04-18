@@ -15,13 +15,13 @@ import mx.controls.RadioButton;
 /**
  * Adds Buoyancy Playground-tab specific UI
  */
-public class BuoyancyPlaygroundContainer extends BuoyancyContainer {
+public class BuoyancyPlaygroundCanvas extends BuoyancyCanvas {
     private var count: Number = 0;//REVIEW static in BuoyancyPlaygroundContainer, but not here. Which is correct?
 
     private var oneObjectButton: RadioButton;
 
     //REVIEW doc chunk of code in constructor, I shouldn't have to read all of this to find what I need
-    public function BuoyancyPlaygroundContainer() {
+    public function BuoyancyPlaygroundCanvas() {
         super( true, false );
         var modeControlPanel: DensityVBox = new DensityVBox();
         modeControlPanel.setStyle( "right", DensityAndBuoyancyConstants.CONTROL_INSET );

@@ -18,8 +18,8 @@ public class BuoyancyApplication extends Canvas {
     public function BuoyancyApplication() {
         super();
 
-        var introModule: BuoyancyModule = new BuoyancyModule( FlexSimStrings.get( "buoyancy.tab.intro", "Intro" ), new BuoyancyIntroContainer() );
-        var playgroundModule: BuoyancyModule = new BuoyancyModule( FlexSimStrings.get( "buoyancy.tab.playground", "Buoyancy Playground" ), new BuoyancyPlaygroundContainer() );
+        var introModule: BuoyancyModule = new BuoyancyModule( FlexSimStrings.get( "buoyancy.tab.intro", "Intro" ), new BuoyancyIntroCanvas() );
+        var playgroundModule: BuoyancyModule = new BuoyancyModule( FlexSimStrings.get( "buoyancy.tab.playground", "Buoyancy Playground" ), new BuoyancyPlaygroundCanvas() );
 
         var tabNavigator: PhetTabNavigator = new PhetTabNavigator( [ introModule, playgroundModule ] );
 
@@ -57,13 +57,13 @@ public class BuoyancyApplication extends Canvas {
 }
 }
 
-import edu.colorado.phet.densityandbuoyancy.view.BuoyancyContainer;
+import edu.colorado.phet.densityandbuoyancy.view.BuoyancyCanvas;
 import edu.colorado.phet.flexcommon.Module;
 
 class BuoyancyModule extends Module {
-    private var container: BuoyancyContainer;
+    private var container: BuoyancyCanvas;
 
-    function BuoyancyModule( title: String, canvas: BuoyancyContainer ) {
+    function BuoyancyModule( title: String, canvas: BuoyancyCanvas ) {
         super( title, canvas );
         this.container = canvas;
     }
