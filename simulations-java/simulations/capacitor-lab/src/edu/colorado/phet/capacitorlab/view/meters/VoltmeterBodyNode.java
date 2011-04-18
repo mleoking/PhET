@@ -2,9 +2,7 @@
 
 package edu.colorado.phet.capacitorlab.view.meters;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Image;
+import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.text.NumberFormat;
@@ -64,7 +62,7 @@ public class VoltmeterBodyNode extends PhetPNode {
         closeButtonNode.addInputEventListener( new PBasicInputEventHandler() {
             @Override
             public void mouseReleased( PInputEvent event ) {
-                voltmeter.setVisible( false );
+                voltmeter.visibleProperty.setValue( false );
             }
         } );
         addChild( closeButtonNode );
@@ -98,13 +96,13 @@ public class VoltmeterBodyNode extends PhetPNode {
         addInputEventListener( new LocationDragHandler( this, mvt ) {
 
             protected Point3D getModelLocation() {
-                return voltmeter.getBodyLocationReference();
+                return voltmeter.bodyLocationProperty.getValue();
             }
 
             protected void setModelLocation( Point3D location ) {
-                voltmeter.setBodyLocation( location );
+                voltmeter.bodyLocationProperty.setValue( location );
             }
-        });
+        } );
 
         // observers
         {
@@ -117,9 +115,9 @@ public class VoltmeterBodyNode extends PhetPNode {
             } );
 
             // update location
-            voltmeter.addBodyLocationObserver( new SimpleObserver() {
+            voltmeter.bodyLocationProperty.addObserver( new SimpleObserver() {
                 public void update() {
-                    setOffset( mvt.modelToView( voltmeter.getBodyLocationReference() ) );
+                    setOffset( mvt.modelToView( voltmeter.bodyLocationProperty.getValue() ) );
                 }
             } );
         }

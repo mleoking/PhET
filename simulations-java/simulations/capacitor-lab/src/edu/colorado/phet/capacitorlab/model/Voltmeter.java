@@ -22,25 +22,27 @@ public class Voltmeter {
     // size of the probe tips, determined by visual inspection of the associated image files
     private final PDimension PROBE_TIP_SIZE = new PDimension( 0.0005, 0.0015 ); // meters
 
-    private final ICircuit circuit;
     private final VoltmeterShapeFactory shapeFactory;
 
-    // observable properties
-    private final Property<Boolean> visibleProperty;
-    private final WorldLocationProperty bodyLocationProperty, positiveProbeLocationProperty, negativeProbeLocationProperty;
+    // public observable properties
+    public final Property<Boolean> visibleProperty;
+    public final WorldLocationProperty bodyLocationProperty, positiveProbeLocationProperty, negativeProbeLocationProperty;
 
     // derived observable properties
     private final Property<Double> valueProperty;
 
+    private ICircuit circuit;
+
+
     public Voltmeter( ICircuit circuit, final World world, CLModelViewTransform3D mvt,
-            Point3D bodyLocation, Point3D positiveProbeLocation, Point3D negativeProbeLocation, boolean visible ) {
+                      Point3D bodyLocation, Point3D positiveProbeLocation, Point3D negativeProbeLocation, boolean visible ) {
 
         this.circuit = circuit;
         circuit.addCircuitChangeListener( new CircuitChangeListener() {
             public void circuitChanged() {
                 updateValue();
             }
-        });
+        } );
 
         this.shapeFactory = new VoltmeterShapeFactory( this, mvt );
         this.visibleProperty = new Property<Boolean>( visible );
@@ -80,66 +82,19 @@ public class Voltmeter {
         // value property updates other properties are reset
     }
 
+    public void setCircuit( ICircuit circuit ) {
+        if ( circuit != this.circuit ) {
+            this.circuit = circuit;
+            updateValue();
+        }
+    }
+
     public boolean isVisible() {
         return visibleProperty.getValue();
     }
 
-    public void setVisible( boolean visible ) {
-        if ( visible != isVisible() ) {
-            this.visibleProperty.setValue( visible );
-        }
-    }
-
-    public void addVisibleObserver( SimpleObserver o ) {
-        visibleProperty.addObserver( o );
-    }
-
-    public Property<Boolean> getVisibleProperty() {
-        return visibleProperty;
-    }
-
-    public Point3D getBodyLocationReference() {
-        return bodyLocationProperty.getValue();
-    }
-
-    public void setBodyLocation( Point3D location ) {
-        bodyLocationProperty.setValue( location );
-    }
-
-    public void addBodyLocationObserver( SimpleObserver o ) {
-        bodyLocationProperty.addObserver( o );
-    }
-
-    public Point3D getPositiveProbeLocationReference() {
-        return positiveProbeLocationProperty.getValue();
-    }
-
-    public void setPositiveProbeLocation( Point3D location ) {
-        positiveProbeLocationProperty.setValue( location );
-    }
-
-    public void addPositiveProbeLocationObserver( SimpleObserver o ) {
-        positiveProbeLocationProperty.addObserver( o );
-    }
-
-    public Point3D getNegativeProbeLocationReference() {
-        return negativeProbeLocationProperty.getValue();
-    }
-
-    public void setNegativeProbeLocation( Point3D location ) {
-        negativeProbeLocationProperty.setValue( location );
-    }
-
-    public void addNegativeProbeLocationObserver( SimpleObserver o ) {
-        negativeProbeLocationProperty.addObserver( o );
-    }
-
     public double getValue() {
         return valueProperty.getValue();
-    }
-
-    public void setValue( double value ) {
-        valueProperty.setValue( value );
     }
 
     public void addValueObserver( SimpleObserver o ) {

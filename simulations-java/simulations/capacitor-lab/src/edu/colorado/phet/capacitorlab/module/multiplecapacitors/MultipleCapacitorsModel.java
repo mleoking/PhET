@@ -58,12 +58,13 @@ public class MultipleCapacitorsModel {
         currentCircuit.addObserver( new SimpleObserver() {
             public void update() {
                 ICircuit circuit = currentCircuit.getValue();
-                System.out.println( "currentCircuit=" + circuit.getDisplayName() );//XXX
+                System.out.println( "MultipleCapacitorsModel$SimpleObserver.update circuit=" + circuit.getDisplayName() );//XXX
                 //TODO change circuit based on selection
                 capacitanceMeter.setCircuit( circuit );
                 plateChargeMeter.setCircuit( circuit );
                 storedEnergyMeter.setCircuit( circuit );
                 eFieldDetector.setCircuit( circuit );
+                voltmeter.setCircuit( circuit );
             }
         } );
     }
