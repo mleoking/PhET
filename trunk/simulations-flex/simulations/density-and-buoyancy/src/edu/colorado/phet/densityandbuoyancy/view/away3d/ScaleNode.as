@@ -15,13 +15,13 @@ import edu.colorado.phet.densityandbuoyancy.view.*;
 public class ScaleNode extends CuboidNode {
 
     private var _scale: Scale;
-    private var _view: AbstractDBCanvas;
+    private var _view: AbstractDensityAndBuoyancyPlayAreaComponent;
 
     private var base: PickableCube;
     private var top: PickableCube;
     private var stand: PickableCube;
 
-    public function ScaleNode( scale: Scale, view: AbstractDBCanvas ): void {
+    public function ScaleNode( scale: Scale, view: AbstractDensityAndBuoyancyPlayAreaComponent ): void {
         super( scale, view );
         this._scale = scale;
         this._view = view;

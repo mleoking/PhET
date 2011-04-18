@@ -14,7 +14,7 @@ import edu.colorado.phet.flashcommon.ApplicationLifecycle;
 /**
  * Contains the sim play area for Density (not including control panels)
  */
-public class DensityCanvas extends AbstractDBCanvas {
+public class DensityPlayAreaComponent extends AbstractDensityAndBuoyancyPlayAreaComponent {
 
     private var _container: DensityContainer;  //REVIEW why are we dealing with AS getter naming goofiness instead of making this public?
 
@@ -25,10 +25,10 @@ public class DensityCanvas extends AbstractDBCanvas {
     private var mysteryObjectsMode: DensityMysteryObjectsMode;
     private var mode: Mode;
 
-    public function DensityCanvas( densityContainer: DensityContainer ) {
+    public function DensityPlayAreaComponent( densityContainer: DensityContainer ) {
         super( false );
         this._container = densityContainer;
-        const myThis: DensityCanvas = this;
+        const myThis: DensityPlayAreaComponent = this;
         //REVIEW doc, why can't modes be created until applicationComplete event is dispatched? what's the dependency?
         ApplicationLifecycle.addApplicationCompleteListener( function(): void {
             customObjectMode = new DensityCustomObjectMode( myThis );

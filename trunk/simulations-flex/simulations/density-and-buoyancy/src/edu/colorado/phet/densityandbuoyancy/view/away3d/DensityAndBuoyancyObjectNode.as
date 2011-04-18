@@ -24,7 +24,7 @@ public class DensityAndBuoyancyObjectNode extends ObjectContainer3D implements P
     //REVIEW don't understand the above comment or implications of the TODO
     public var frontZProperty: NumericProperty = new NumericProperty( "ZZZZ", "FakeUnits, FIX ME", 0 ); // TODO refactor so we can opt out of units
 
-    private var _canvas: AbstractDBCanvas;
+    private var _canvas: AbstractDensityAndBuoyancyPlayAreaComponent;
 
     protected var densityObjectReadoutNode: DensityObjectReadoutNode;
 
@@ -35,7 +35,7 @@ public class DensityAndBuoyancyObjectNode extends ObjectContainer3D implements P
     private var arrowNodes: Array = new Array();
     private var _mousePressed: Boolean = false;
 
-    public function DensityAndBuoyancyObjectNode( densityObject: DensityAndBuoyancyObject, canvas: AbstractDBCanvas ) {
+    public function DensityAndBuoyancyObjectNode( densityObject: DensityAndBuoyancyObject, canvas: AbstractDensityAndBuoyancyPlayAreaComponent ) {
         super();
         this.densityObject = densityObject;
         this._canvas = canvas;
@@ -46,7 +46,7 @@ public class DensityAndBuoyancyObjectNode extends ObjectContainer3D implements P
         densityObjectReadoutNode = new DensityObjectReadoutNode( densityObject, getFontReadoutSize() );
     }
 
-    public function get canvas(): AbstractDBCanvas {
+    public function get canvas(): AbstractDensityAndBuoyancyPlayAreaComponent {
         return _canvas;
     }
 

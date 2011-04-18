@@ -20,7 +20,7 @@ public class BuoyancyPlaygroundContainer extends BuoyancyContainer {
 
     private var oneObjectButton: RadioButton;
 
-     //REVIEW doc chunk of code in constructor, I shouldn't have to read all of this to find what I need
+    //REVIEW doc chunk of code in constructor, I shouldn't have to read all of this to find what I need
     public function BuoyancyPlaygroundContainer() {
         super( true, false );
         var modeControlPanel: DensityVBox = new DensityVBox();
@@ -66,7 +66,7 @@ public class BuoyancyPlaygroundContainer extends BuoyancyContainer {
         } );
     }
 
-    override public function getDefaultMode( canvas: AbstractDBCanvas ): Mode {
+    override public function getDefaultMode( canvas: AbstractDensityAndBuoyancyPlayAreaComponent ): Mode {
         return buoyancyCanvas.playgroundModes;
     }
 }

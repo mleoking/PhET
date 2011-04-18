@@ -12,7 +12,7 @@ public class CubeNode extends CuboidNode {
     private var cube: PickableCube;
     private var _blockLabelNode: BlockLabel;
 
-    public function CubeNode( cuboid: Cuboid, canvas: AbstractDBCanvas ) {
+    public function CubeNode( cuboid: Cuboid, canvas: AbstractDensityAndBuoyancyPlayAreaComponent ) {
         super( cuboid, canvas );
         cube = new PickableCube( this );
         cube.segmentsH = 2;

@@ -2,7 +2,7 @@
 package edu.colorado.phet.densityandbuoyancy.view.modes {
 import edu.colorado.phet.densityandbuoyancy.components.CustomObjectPropertiesPanel;
 import edu.colorado.phet.densityandbuoyancy.model.DensityAndBuoyancyObject;
-import edu.colorado.phet.densityandbuoyancy.view.AbstractDBCanvas;
+import edu.colorado.phet.densityandbuoyancy.view.AbstractDensityAndBuoyancyPlayAreaComponent;
 
 /**
  * Control for customizing the properties of the buoyancy objects in BuoyancyPlayground mode.
@@ -10,9 +10,9 @@ import edu.colorado.phet.densityandbuoyancy.view.AbstractDBCanvas;
 public class CustomObjectPropertiesPanelWrapper {
     public var customObjectPropertiesPanel: CustomObjectPropertiesPanel;
     private var customObjectPropertiesPanelShowing: Boolean = false;
-    private var canvas: AbstractDBCanvas;
+    private var canvas: AbstractDensityAndBuoyancyPlayAreaComponent;
 
-    public function CustomObjectPropertiesPanelWrapper( block: DensityAndBuoyancyObject, canvas: AbstractDBCanvas, x: Number, y: Number ) {
+    public function CustomObjectPropertiesPanelWrapper( block: DensityAndBuoyancyObject, canvas: AbstractDensityAndBuoyancyPlayAreaComponent, x: Number, y: Number ) {
         this.canvas = canvas;
         customObjectPropertiesPanel = new CustomObjectPropertiesPanel( block, canvas.units, 200 );
         customObjectPropertiesPanel.x = x;

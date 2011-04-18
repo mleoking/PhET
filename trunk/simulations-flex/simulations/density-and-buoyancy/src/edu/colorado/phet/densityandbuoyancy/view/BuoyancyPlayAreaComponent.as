@@ -18,11 +18,10 @@ import edu.colorado.phet.flexcommon.model.BooleanProperty;
 import edu.colorado.phet.flexcommon.model.NumericProperty;
 import edu.colorado.phet.flexcommon.model.Vector2D;
 
-//REVIEW if the control panels are not displayed in this play area, where are they displayed?
 /**
- * Contains the sim play area for Buoyancy (not including control panels)
+ * Contains the sim play area for Buoyancy (not including control panels, which are shown in the BuoyancyApplication)
  */
-public class BuoyancyCanvas extends AbstractDBCanvas {
+public class BuoyancyPlayAreaComponent extends AbstractDensityAndBuoyancyPlayAreaComponent {
 
     private var _container: BuoyancyContainer;
 
@@ -39,14 +38,14 @@ public class BuoyancyCanvas extends AbstractDBCanvas {
     public const contactArrowsVisible: BooleanProperty = new BooleanProperty( false );
     public const vectorValuesVisible: BooleanProperty = new BooleanProperty( false );
 
-    public function BuoyancyCanvas( container: BuoyancyContainer, extendedPool: Boolean, showExactLiquidColor: Boolean ) {
+    public function BuoyancyPlayAreaComponent( container: BuoyancyContainer, extendedPool: Boolean, showExactLiquidColor: Boolean ) {
         super( extendedPool, showExactLiquidColor );
         this._container = container;
 
         _model.scalesMovableProperty.initialValue = true; // for now, do this early so that when scales are constructed they are initialized properly
 
         //Initialize the modes (for some reason cannot be done until application is fully loaded).
-        const myThis: BuoyancyCanvas = this;
+        const myThis: BuoyancyPlayAreaComponent = this;
         ApplicationLifecycle.addApplicationCompleteListener( function(): void {
             sameMassMode = new BuoyancySameMassMode( myThis );
             sameVolumeMode = new BuoyancySameVolumeMode( myThis );

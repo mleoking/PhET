@@ -84,7 +84,7 @@ public class BuoyancyIntroContainer extends BuoyancyContainer {
         sameMassButton.selected = true;
     }
 
-    override public function getDefaultMode( canvas: AbstractDBCanvas ): Mode {
+    override public function getDefaultMode( canvas: AbstractDensityAndBuoyancyPlayAreaComponent ): Mode {
         return buoyancyCanvas.sameMassMode;
     }
 }

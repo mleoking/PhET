@@ -4,7 +4,7 @@ import edu.colorado.phet.densityandbuoyancy.DensityAndBuoyancyConstants;
 import edu.colorado.phet.densityandbuoyancy.model.Block;
 import edu.colorado.phet.densityandbuoyancy.model.DensityAndBuoyancyObject;
 import edu.colorado.phet.densityandbuoyancy.model.Material;
-import edu.colorado.phet.densityandbuoyancy.view.AbstractDBCanvas;
+import edu.colorado.phet.densityandbuoyancy.view.AbstractDensityAndBuoyancyPlayAreaComponent;
 import edu.colorado.phet.flexcommon.FlexSimStrings;
 import edu.colorado.phet.flexcommon.model.BooleanProperty;
 
@@ -23,7 +23,7 @@ public class BuoyancyPlaygroundMode extends BuoyancyMode {
 
     private const defaultMaterial: Material = Material.WOOD;
 
-    public function BuoyancyPlaygroundMode( canvas: AbstractDBCanvas ) {
+    public function BuoyancyPlaygroundMode( canvas: AbstractDensityAndBuoyancyPlayAreaComponent ) {
         super( canvas );
         //Showing the blocks as partially floating allows easier visualization of densities
         const volume: Number = DensityAndBuoyancyConstants.litersToMetersCubed( 5 );
