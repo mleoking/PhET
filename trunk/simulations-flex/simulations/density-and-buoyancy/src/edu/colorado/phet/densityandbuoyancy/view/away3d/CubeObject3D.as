@@ -1,6 +1,6 @@
 //  Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.densityandbuoyancy.view.away3d {
-import edu.colorado.phet.densityandbuoyancy.components.BlockLabel;
+import edu.colorado.phet.densityandbuoyancy.components.BlockLabelSprite;
 import edu.colorado.phet.densityandbuoyancy.model.Cuboid;
 import edu.colorado.phet.densityandbuoyancy.model.DensityAndBuoyancyModel;
 import edu.colorado.phet.densityandbuoyancy.view.*;
@@ -8,16 +8,16 @@ import edu.colorado.phet.densityandbuoyancy.view.*;
 /**
  * The CubeNode renders graphics and provides interactivity for Cuboids.
  */
-public class CubeNode extends CuboidNode {
+public class CubeObject3D extends CuboidObject3D {
     private var cube: PickableCube;
-    private var _blockLabelNode: BlockLabel;
+    private var _blockLabelNode: BlockLabelSprite;
 
-    public function CubeNode( cuboid: Cuboid, canvas: AbstractDensityAndBuoyancyPlayAreaComponent ) {
+    public function CubeObject3D( cuboid: Cuboid, canvas: AbstractDensityAndBuoyancyPlayAreaComponent ) {
         super( cuboid, canvas );
         cube = new PickableCube( this );
         cube.segmentsH = 2;
         cube.segmentsW = 2;
-        _blockLabelNode = new Away3DBlockLabelNode( getDensityObject().name, this, getDensityObject().nameVisibleProperty, canvas, canvas.mainCamera, canvas.mainViewport );
+        _blockLabelNode = new Away3DBlockLabelSprite( getDensityObject().name, this, getDensityObject().nameVisibleProperty, canvas, canvas.mainCamera, canvas.mainViewport );
     }
 
     public function getCube(): PickableCube {
@@ -37,7 +37,7 @@ public class CubeNode extends CuboidNode {
         var added: Boolean = false;
         // find the index of another block label, and insert it there (if applicable)
         for ( var i: int = 0; i < canvas.numChildren; i++ ) {
-            if ( canvas.getChildAt( i ) instanceof BlockLabel ) {
+            if ( canvas.getChildAt( i ) instanceof BlockLabelSprite ) {
                 canvas.addChildAt( _blockLabelNode, i );
                 added = true;
                 break;

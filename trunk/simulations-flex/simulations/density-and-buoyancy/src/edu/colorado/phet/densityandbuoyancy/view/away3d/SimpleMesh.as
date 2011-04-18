@@ -3,11 +3,10 @@ package edu.colorado.phet.densityandbuoyancy.view.away3d {
 import away3d.core.base.*;
 import away3d.materials.ITriangleMaterial;
 
-//REVIEW "My" is an inappropriate prefix for production code. Choose a name that describes how this extends Mesh.
 /**
  * Provides convenience methods for creating custom Mesh instances.
  */
-public class MyMesh extends Mesh {
+public class SimpleMesh extends Mesh {
     private var varr: Array = [];
     private var uvarr: Array = [];
 
@@ -92,7 +91,7 @@ public class MyMesh extends Mesh {
         return obj;
     }
 
-    public function MyMesh( init: Object = null ) {
+    public function SimpleMesh( init: Object = null ) {
         super( init );
         build();
     }

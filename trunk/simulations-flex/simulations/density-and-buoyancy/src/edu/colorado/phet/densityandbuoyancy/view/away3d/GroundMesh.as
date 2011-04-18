@@ -8,12 +8,11 @@ import edu.colorado.phet.densityandbuoyancy.DensityAndBuoyancyConstants;
 import edu.colorado.phet.densityandbuoyancy.model.DensityAndBuoyancyModel;
 import edu.colorado.phet.densityandbuoyancy.view.*;
 
-//REVIEW nice one-liners for code chunks, took me 5 seconds to browse this file
 /**
  * 3D Geometry for rendering the ground, including the cutaway at z=0 and cutout for the pool.
  */
-public class GroundNode extends MyMesh {
-    public function GroundNode( model: DensityAndBuoyancyModel ) {
+public class GroundMesh extends SimpleMesh {
+    public function GroundMesh( model: DensityAndBuoyancyModel ) {
         super();
 
         var poolWidth: Number = model.getPoolWidth() * DensityAndBuoyancyModel.DISPLAY_SCALE;
@@ -93,7 +92,7 @@ public class GroundNode extends MyMesh {
         plane( GROUND_RIGHT_FAR, GROUND_LEFT_FAR, GROUND_LEFT_BACK, GROUND_RIGHT_BACK, grassMaterial );
         plane( GROUND_RIGHT_FAR, GROUND_LEFT_FAR, GROUND_LEFT_BACK, GROUND_RIGHT_BACK, grassMaterial );
 
-        type = "edu.colorado.phet.densityandbuoyancy.view.away3d.GroundNode";
+        type = "edu.colorado.phet.densityandbuoyancy.view.away3d.GroundMesh";
         url = "density";
     }
 

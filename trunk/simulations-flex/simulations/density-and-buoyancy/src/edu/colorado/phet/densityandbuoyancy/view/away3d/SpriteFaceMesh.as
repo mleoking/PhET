@@ -8,14 +8,14 @@ import flash.display.Sprite;
 /**
  * This is used as a child in Sprite3D, they are created each time the sprite is resized.
  */
-public class SpriteFace extends MyMesh {
+public class SpriteFaceMesh extends SimpleMesh {
     private var sprite: Sprite;
     private var bottomLeft: Number;
     private var bottomRight: Number;
     private var topLeft: Number;
     private var topRight: Number;
 
-    public function SpriteFace( sprite: Sprite ) {
+    public function SpriteFaceMesh( sprite: Sprite ) {
         super();
         this.sprite = sprite;
         bottomLeft = v( 0, 0, 0 );

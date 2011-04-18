@@ -4,7 +4,7 @@ package edu.colorado.phet.densityandbuoyancy.view.away3d {
 import away3d.cameras.Camera3D;
 import away3d.core.draw.ScreenVertex;
 
-import edu.colorado.phet.densityandbuoyancy.components.BlockLabel;
+import edu.colorado.phet.densityandbuoyancy.components.BlockLabelSprite;
 import edu.colorado.phet.densityandbuoyancy.view.*;
 import edu.colorado.phet.flexcommon.model.BooleanProperty;
 
@@ -12,13 +12,13 @@ import edu.colorado.phet.flexcommon.model.BooleanProperty;
 /**
  * This is a flash sprite that displays text for a block, and is positioned using Away3D geometry.
  */
-public class Away3DBlockLabelNode extends BlockLabel {
+public class Away3DBlockLabelSprite extends BlockLabelSprite {
     private var mainViewport: Away3DViewport;
     private var mainCamera: Camera3D;
-    private var cubeNode: CubeNode;
+    private var cubeNode: CubeObject3D;
     private var canvas: AbstractDensityAndBuoyancyPlayAreaComponent;
 
-    public function Away3DBlockLabelNode( name: String, cubeNode: CubeNode, visibilityProperty: BooleanProperty, canvas: AbstractDensityAndBuoyancyPlayAreaComponent, mainCamera: Camera3D, mainViewport: Away3DViewport ) {
+    public function Away3DBlockLabelSprite( name: String, cubeNode: CubeObject3D, visibilityProperty: BooleanProperty, canvas: AbstractDensityAndBuoyancyPlayAreaComponent, mainCamera: Camera3D, mainViewport: Away3DViewport ) {
         this.canvas = canvas;
         super( name, visibilityProperty );
         this.mainViewport = mainViewport;

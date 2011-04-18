@@ -15,8 +15,8 @@ import edu.colorado.phet.densityandbuoyancy.DensityAndBuoyancyConstants;
 import edu.colorado.phet.densityandbuoyancy.model.DensityAndBuoyancyModel;
 import edu.colorado.phet.densityandbuoyancy.model.DensityAndBuoyancyObject;
 import edu.colorado.phet.densityandbuoyancy.model.Material;
-import edu.colorado.phet.densityandbuoyancy.view.away3d.DensityAndBuoyancyObjectNode;
-import edu.colorado.phet.densityandbuoyancy.view.away3d.GroundNode;
+import edu.colorado.phet.densityandbuoyancy.view.away3d.DensityAndBuoyancyObject3D;
+import edu.colorado.phet.densityandbuoyancy.view.away3d.GroundMesh;
 import edu.colorado.phet.densityandbuoyancy.view.away3d.Pickable;
 import edu.colorado.phet.densityandbuoyancy.view.units.LinearUnit;
 import edu.colorado.phet.densityandbuoyancy.view.units.Units;
@@ -57,7 +57,7 @@ public class AbstractDensityAndBuoyancyPlayAreaComponent extends UIComponent {
     // references to the water Away3D surfaces, so we can change the water height visually
     private var waterTop: Plane;
     private var waterFront: Plane;
-    private var groundNode: GroundNode; // our visual display of the ground
+    private var groundNode: GroundMesh; // our visual display of the ground
     private var _running: Boolean = true;//true if the module associated with this canvas is running
     private var marker: ObjectContainer3D; // testing object to verify locations in 3D
     private var waterVolumeIndicator: PoolVolumeIndicator;
@@ -165,7 +165,7 @@ public class AbstractDensityAndBuoyancyPlayAreaComponent extends UIComponent {
         } );
 
         // add grass, earth and pool inside
-        groundNode = new GroundNode( _model );
+        groundNode = new GroundMesh( _model );
         mainViewport.scene.addChild( groundNode );
 
         mainViewport.addLight();
@@ -181,19 +181,19 @@ public class AbstractDensityAndBuoyancyPlayAreaComponent extends UIComponent {
 
     //called by the model when an object is added to the model, and the corresponding node should be added to the view
     private function addDensityObject( densityObject: DensityAndBuoyancyObject ): void {
-        const densityObjectNode: DensityAndBuoyancyObjectNode = createNode( densityObject );
+        const densityObjectNode: DensityAndBuoyancyObject3D = createNode( densityObject );
         mainViewport.scene.addChild( densityObjectNode );
         densityObjectNode.addOverlayObjects();
     }
 
     //called by the model when an object is removed from the model, and the corresponding node should be removed from the view
-    public function removeDensityObject( densityObjectNode: DensityAndBuoyancyObjectNode ): void {
+    public function removeDensityObject( densityObjectNode: DensityAndBuoyancyObject3D ): void {
         mainViewport.scene.removeChild( densityObjectNode );
         densityObjectNode.removeOverlayObjects();
     }
 
     //called by the model when an object is created to create the corresponding view element
-    protected function createNode( densityObject: DensityAndBuoyancyObject ): DensityAndBuoyancyObjectNode {
+    protected function createNode( densityObject: DensityAndBuoyancyObject ): DensityAndBuoyancyObject3D {
         return densityObject.createNode( this, massReadoutsVisible );
     }
 

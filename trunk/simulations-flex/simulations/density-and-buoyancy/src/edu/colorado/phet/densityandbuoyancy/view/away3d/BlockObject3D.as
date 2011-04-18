@@ -18,7 +18,7 @@ import mx.core.BitmapAsset;
 /**
  * BlockNode renders graphics and provides interactivity for Blocks.
  */
-public class BlockNode extends CubeNode implements Pickable {
+public class BlockObject3D extends CubeObject3D implements Pickable {
 
     private var block: Block;
 
@@ -28,7 +28,7 @@ public class BlockNode extends CubeNode implements Pickable {
     private var label: StringProperty;
     private var readoutFontScale: Number; //REVIEW doc
 
-    public function BlockNode( block: Block, canvas: AbstractDensityAndBuoyancyPlayAreaComponent, label: StringProperty, massReadoutVisible: BooleanProperty, readoutFontScale: Number = 1 ): void {
+    public function BlockObject3D( block: Block, canvas: AbstractDensityAndBuoyancyPlayAreaComponent, label: StringProperty, massReadoutVisible: BooleanProperty, readoutFontScale: Number = 1 ): void {
         this.label = label;
         this.block = block;
         this.readoutFontScale = readoutFontScale;

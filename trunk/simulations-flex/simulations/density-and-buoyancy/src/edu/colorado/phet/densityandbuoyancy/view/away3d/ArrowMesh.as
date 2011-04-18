@@ -12,12 +12,10 @@ import edu.colorado.phet.flexcommon.model.BooleanProperty;
 import edu.colorado.phet.flexcommon.model.NumericProperty;
 import edu.colorado.phet.flexcommon.model.Vector2D;
 
-//REVIEW why are you using Piccolo "node" terminology here? Confusing to both Piccolo and Flex developers.
-//REVIEW This "node" terminology occurs throughout view package, only noted here. Not recommended.
 /**
  * Displays a 2D vector arrow as a 3D geometry in Away3D.
  */
-public class ArrowNode extends MyMesh {
+public class ArrowMesh extends SimpleMesh {
     private var _arrowModel: Vector2D;
     private const ARROW_HEIGHT: Number = 200;
     private const scaleFromModelToView: Number = 2;
@@ -33,7 +31,7 @@ public class ArrowNode extends MyMesh {
     private var offsetX: NumericProperty;
     private var right: Boolean;
 
-    public function ArrowNode( densityObject: DensityAndBuoyancyObject, arrowModel: Vector2D, color: *, visibilityProperty: BooleanProperty, mainCamera: Camera3D, mainViewport: Away3DViewport, valueVisibilityProperty: BooleanProperty, offsetX: NumericProperty, right: Boolean ) {
+    public function ArrowMesh( densityObject: DensityAndBuoyancyObject, arrowModel: Vector2D, color: *, visibilityProperty: BooleanProperty, mainCamera: Camera3D, mainViewport: Away3DViewport, valueVisibilityProperty: BooleanProperty, offsetX: NumericProperty, right: Boolean ) {
         super( combine( {material:new ColorMaterial( color, {alpha: 0.75} )}, null ) );
         this._color = color;
         this.densityObject = densityObject;
@@ -109,7 +107,7 @@ public class ArrowNode extends MyMesh {
         f( 2, 5, 6, 2, 5, 6 );
         f( 4, 3, 6, 4, 3, 6 );
 
-        type = "edu.colorado.phet.densityandbuoyancy.view.away3d.ArrowNode";
+        type = "edu.colorado.phet.densityandbuoyancy.view.away3d.ArrowMesh";
         url = "density";
     }
 
