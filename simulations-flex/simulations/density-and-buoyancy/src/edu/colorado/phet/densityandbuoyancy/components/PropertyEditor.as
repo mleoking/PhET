@@ -161,7 +161,7 @@ public class PropertyEditor extends GridRow {
     }
 
     protected function getSliderThumbClass(): Class {
-        return MySliderThumb;
+        return BiggerSliderThumb;
     }
 
     private function addGridItem( displayObject: DisplayObject, colSpan: Number = 1 ): void {
