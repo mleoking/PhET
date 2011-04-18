@@ -20,7 +20,7 @@ public class MultipleCapacitorsControlPanel extends CLControlPanel {
     public MultipleCapacitorsControlPanel( Frame parentFrame, Module module, MultipleCapacitorsModel model, MultipleCapacitorsCanvas canvas, boolean dev ) {
         addControlFullWidth( new ViewControlPanel( model.plateChargesVisible, model.eFieldVisible ) );
         addControlFullWidth( new MetersControlPanel( model.getCapacitanceMeter(), model.getPlateChargeMeter(), model.getStoredEnergyMeter(), model.getVoltmeter(), model.getEFieldDetector() ) );
-        addControlFullWidth( new CircuitChoiceControl( model.circuitChoice ) );
+        addControlFullWidth( new CircuitChoiceControl( model.getCircuits(), model.currentCircuit ) );
         addResetAllButton( module );
     }
 }

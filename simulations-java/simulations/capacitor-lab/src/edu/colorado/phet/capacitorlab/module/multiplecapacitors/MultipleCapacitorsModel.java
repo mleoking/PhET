@@ -3,6 +3,7 @@
 package edu.colorado.phet.capacitorlab.module.multiplecapacitors;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.model.*;
@@ -13,10 +14,12 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 public class MultipleCapacitorsModel {
 
+    private final ArrayList<ICircuit> circuits; // the set of circuits to choose from
+
     // directly observable properties
     public final Property<Boolean> plateChargesVisible = new Property<Boolean>( CLConstants.PLATE_CHARGES_VISIBLE );
     public final Property<Boolean> eFieldVisible = new Property<Boolean>( CLConstants.EFIELD_VISIBLE );
-    public final Property<PreconfiguredCircuitChoices> circuitChoice = new Property<PreconfiguredCircuitChoices>( PreconfiguredCircuitChoices.SINGLE );
+    public final Property<ICircuit> currentCircuit;
 
     private final World world;
     private final CapacitanceMeter capacitanceMeter;
@@ -25,30 +28,41 @@ public class MultipleCapacitorsModel {
     private final EFieldDetector eFieldDetector;
     private final Voltmeter voltmeter;
 
-    private ICircuit circuit;
-
     public MultipleCapacitorsModel( CLClock clock, CLModelViewTransform3D mvt ) {
+
+        // create circuits
+        circuits = new ArrayList<ICircuit>() {{
+            add( new DummyCircuit( "Dummy 1" ) );
+            add( new DummyCircuit( "Dummy 2" ) );
+            add( new DummyCircuit( "Dummy 3" ) );
+        }};
+
+        currentCircuit = new Property<ICircuit>( circuits.get( 0 ) );
 
         world = new World();
 
-        circuit = new DummyCircuit();
+        capacitanceMeter = new CapacitanceMeter( currentCircuit.getValue(), world, CLConstants.CAPACITANCE_METER_LOCATION, CLConstants.CAPACITANCE_METER_VISIBLE );
+        plateChargeMeter = new PlateChargeMeter( currentCircuit.getValue(), world, CLConstants.PLATE_CHARGE_METER_LOCATION, CLConstants.PLATE_CHARGE_METER_VISIBLE );
+        storedEnergyMeter = new StoredEnergyMeter( currentCircuit.getValue(), world, CLConstants.STORED_ENERGY_METER_LOCATION, CLConstants.STORED_ENERGY_METER_VISIBLE );
 
-        capacitanceMeter = new CapacitanceMeter( circuit, world, CLConstants.CAPACITANCE_METER_LOCATION, CLConstants.CAPACITANCE_METER_VISIBLE );
-        plateChargeMeter = new PlateChargeMeter( circuit, world, CLConstants.PLATE_CHARGE_METER_LOCATION, CLConstants.PLATE_CHARGE_METER_VISIBLE );
-        storedEnergyMeter = new StoredEnergyMeter( circuit, world, CLConstants.STORED_ENERGY_METER_LOCATION, CLConstants.STORED_ENERGY_METER_VISIBLE );
-
-        eFieldDetector = new EFieldDetector( circuit, world, CLConstants.EFIELD_DETECTOR_BODY_LOCATION, CLConstants.EFIELD_DETECTOR_PROBE_LOCATION,
+        eFieldDetector = new EFieldDetector( currentCircuit.getValue(), world, CLConstants.EFIELD_DETECTOR_BODY_LOCATION, CLConstants.EFIELD_DETECTOR_PROBE_LOCATION,
                                              CLConstants.EFIELD_DETECTOR_VISIBLE, CLConstants.EFIELD_PLATE_VECTOR_VISIBLE, CLConstants.EFIELD_DIELECTRIC_VECTOR_VISIBLE,
                                              CLConstants.EFIELD_SUM_VECTOR_VISIBLE, CLConstants.EFIELD_VALUES_VISIBLE );
 
-        voltmeter = new Voltmeter( circuit, world, mvt,
+        voltmeter = new Voltmeter( currentCircuit.getValue(), world, mvt,
                                    CLConstants.VOLTMETER_BODY_LOCATION, CLConstants.VOLTMETER_POSITIVE_PROBE_LOCATION, CLConstants.VOLTMETER_NEGATIVE_PROBE_LOCATION,
                                    CLConstants.VOLTMETER_VISIBLE );
 
-        circuitChoice.addObserver( new SimpleObserver() {
+
+        // when the circuit changes...
+        currentCircuit.addObserver( new SimpleObserver() {
             public void update() {
-                System.out.println( "circuitChoice=" + circuitChoice.getValue() );//XXX
+                ICircuit circuit = currentCircuit.getValue();
+                System.out.println( "currentCircuit=" + circuit.getDisplayName() );//XXX
                 //TODO change circuit based on selection
+                capacitanceMeter.setCircuit( circuit );
+                plateChargeMeter.setCircuit( circuit );
+                storedEnergyMeter.setCircuit( circuit );
             }
         } );
     }
@@ -56,7 +70,7 @@ public class MultipleCapacitorsModel {
     public void reset() {
         plateChargesVisible.reset();
         eFieldVisible.reset();
-        circuitChoice.reset();
+        currentCircuit.reset();
         capacitanceMeter.reset();
         plateChargeMeter.reset();
         storedEnergyMeter.reset();
@@ -66,6 +80,10 @@ public class MultipleCapacitorsModel {
 
     public World getWorld() {
         return world;
+    }
+
+    public ArrayList<ICircuit> getCircuits() {
+        return circuits;
     }
 
     public CapacitanceMeter getCapacitanceMeter() {
@@ -91,7 +109,11 @@ public class MultipleCapacitorsModel {
     /*
      * This circuit does nothing.
      */
-    private static class DummyCircuit implements ICircuit {
+    private static class DummyCircuit extends AbstractCircuit {
+
+        public DummyCircuit( String displayName ) {
+            super( displayName );
+        }
 
         public double getTotalCapacitance() {
             return 0;

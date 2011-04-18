@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.capacitorlab.model;
 
-import java.awt.Shape;
+import java.awt.*;
 import java.util.EventListener;
 
 import edu.colorado.phet.common.phetcommon.math.Point3D;
@@ -13,6 +13,14 @@ import edu.colorado.phet.common.phetcommon.math.Point3D;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public interface ICircuit {
+
+    /**
+     * Gets the name of the circuit that is visible to the user.
+     * This string should be localized.
+     *
+     * @return
+     */
+    public String getDisplayName();
 
     /**
      * Gets the total capacitance of the circuit.
@@ -43,7 +51,6 @@ public interface ICircuit {
      *
      * @param positiveShape
      * @param negativeShape
-     *
      * @return voltage, Double.NaN if the 2 Shape are not both connected to the circuit
      */
     public double getVoltageBetween( Shape positiveShape, Shape negativeShape );
