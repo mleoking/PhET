@@ -12,8 +12,7 @@ import flash.events.MouseEvent;
 import mx.controls.Label;
 import mx.controls.RadioButton;
 
-//REVIEW top-level class naming is inconsistent, DensityContainer vs BuoyancyApplication - let's standardize, also in XML
-//REVIEW is this the top-level class because there's only 1 tab in this sim?  Would be nice to have an application-level class that supports N tabs, where N>=1
+//REVIEW is this the top-level class because there's only 1 tab in this sim?
 /**
  * Main canvas for the density sim. Contains all of the sim-related UI
  */

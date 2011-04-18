@@ -8,15 +8,16 @@ import mx.events.IndexChangedEvent;
 
 /**
  * Displays tabs for a flex application
+ * TODO: Would be nice to have an application-level class that supports N tabs, where N>=1
  */
 public class PhetTabNavigator extends TabNavigator {
-    private var modules:Array;
+    private var modules: Array;
 
     /**
      * Construction
      * @param modules components must be type Module
      */
-    public function PhetTabNavigator( modules:Array ) {
+    public function PhetTabNavigator( modules: Array ) {
         super();
         this.modules = modules;
         setStyle( "fontSize", 20 );
@@ -25,24 +26,24 @@ public class PhetTabNavigator extends TabNavigator {
 
         percentWidth = 100;
         percentHeight = 100;
-        for each ( var module:Module in modules ) {
+        for each ( var module: Module in modules ) {
             addChild( new Tab( module.title, module.component ) );
         }
-        addEventListener( IndexChangedEvent.CHANGE, function( e:Event ):void {
+        addEventListener( IndexChangedEvent.CHANGE, function( e: Event ): void {
             trace( "selected: " + selectedIndex );
             runModule( selectedIndex );
             updateTabColors();
         } );
     }
 
-    override protected function updateDisplayList( unscaledWidth:Number, unscaledHeight:Number ):void {
+    override protected function updateDisplayList( unscaledWidth: Number, unscaledHeight: Number ): void {
         super.updateDisplayList( unscaledWidth, unscaledHeight );
         updateTabColors();
     }
 
-    public function updateTabColors():void {
-        for ( var idx:int = 0; idx < modules.length; idx++ ) {
-            var tab:Button = getTabAt( idx );
+    public function updateTabColors(): void {
+        for ( var idx: int = 0; idx < modules.length; idx++ ) {
+            var tab: Button = getTabAt( idx );
             tab.setStyle( "fillAlphas", [1.0, 1.0] );
             if ( idx == selectedIndex ) {
                 tab.setStyle( "color", 0x000000 );
@@ -58,13 +59,13 @@ public class PhetTabNavigator extends TabNavigator {
     }
 
     //Todo: could rewrite this so that only the changed modules are messaged
-    public function runModule( moduleIndex:Number ):void {
-        for ( var i:Number = 0; i < modules.length; i++ ) {
+    public function runModule( moduleIndex: Number ): void {
+        for ( var i: Number = 0; i < modules.length; i++ ) {
             modules[i].running = moduleIndex == i;
         }
     }
 
-    public function onApplicationComplete():void {
+    public function onApplicationComplete(): void {
         runModule( 0 );
     }
 }
@@ -75,7 +76,7 @@ import mx.core.UIComponent;
 
 class Tab extends VBox {
 
-    public function Tab( title:String, content:UIComponent ) {
+    public function Tab( title: String, content: UIComponent ) {
         super();
         percentWidth = 100;
         label = title;
