@@ -31,9 +31,9 @@ public class IsotopeElectronCloudNode extends PNode {
     // Base color to use when drawing clouds.
     private static final Color CLOUD_BASE_COLOR = Color.BLUE;
 
-    private static final double MIN_RADIUS = 80;
-    private static final double MAX_RADIUS = 150;
-    private static final int MAX_ELECTRONS = 18; // For argon.
+    private static final double MIN_RADIUS = 70;
+    private static final double MAX_RADIUS = 100;
+    private static final int MAX_ELECTRONS = 10; // For neon.
 
     // Cloud version of the representation.
     private final PhetPPath electronCloudNode;
@@ -55,14 +55,17 @@ public class IsotopeElectronCloudNode extends PNode {
                 final Shape electronShellShape = mvt.modelToView( new Ellipse2D.Double( centerX - radius,
                         centerY - radius, radius * 2, radius * 2 ) );
                 electronCloudNode.setPathTo( electronShellShape );
-                Function.LinearFunction electronCountToAlphaMapping = new Function.LinearFunction( 0, MAX_ELECTRONS, 90, 175 );//Map to alpha values
+                Function.LinearFunction electronCountToAlphaMapping = new Function.LinearFunction( 0, MAX_ELECTRONS, 80, 110 );//Map to alpha values
                 int alpha = atom.getNumElectrons() == 0 ? 0 : (int) electronCountToAlphaMapping.evaluate( atom.getNumElectrons() );//But if there are no electrons, be transparent
+                // Create the paint for depicting the electron cloud.  This is lighter
+                // in the center and darker as we move out so that the nucleus can be
+                // clearly seen, and it looks like a cloud but with a distinct edge.
                 Paint shellGradientPaint = new RoundGradientPaint(
                         electronShellShape.getBounds2D().getCenterX(),
                         electronShellShape.getBounds2D().getCenterY(),
-                        new Color( CLOUD_BASE_COLOR.getRed(), CLOUD_BASE_COLOR.getGreen(), CLOUD_BASE_COLOR.getBlue(), alpha ),
+                        new Color( CLOUD_BASE_COLOR.getRed(), CLOUD_BASE_COLOR.getGreen(), CLOUD_BASE_COLOR.getBlue(), 0 ),
                         new Point2D.Double( electronShellShape.getBounds2D().getWidth() / 3, electronShellShape.getBounds2D().getHeight() / 3 ),
-                        new Color( CLOUD_BASE_COLOR.getRed(), CLOUD_BASE_COLOR.getGreen(), CLOUD_BASE_COLOR.getBlue(), 0 ) );
+                        new Color( CLOUD_BASE_COLOR.getRed(), CLOUD_BASE_COLOR.getGreen(), CLOUD_BASE_COLOR.getBlue(), alpha ) );
                 electronCloudNode.setPaint( shellGradientPaint );
             }
         } );
