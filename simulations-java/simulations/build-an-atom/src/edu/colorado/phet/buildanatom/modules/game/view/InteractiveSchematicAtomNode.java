@@ -42,12 +42,12 @@ public class InteractiveSchematicAtomNode extends SchematicAtomNode {
         this.model = model;
 
         // Add a marker that depicts the center of the atom's nucleus.
-        backLayer.addChild( new CenterMarkerNode( model, mvt ) );
+        electronShellLayer.addChild( new CenterMarkerNode( model, mvt ) );
 
         // Add the buckets that hold the sub-atomic particles.
         BucketNode electronBucketNode = new BucketNode( model.getElectronBucket(), mvt );
         electronBucketNode.setOffset( mvt.modelToView( model.getElectronBucket().getPosition() ) );
-        backLayer.addChild( electronBucketNode.getHoleLayer() );
+        electronShellLayer.addChild( electronBucketNode.getHoleLayer() );
         frontLayer.addChild( electronBucketNode.getContainerLayer() );
         for ( SphericalParticle electron : model.getElectronBucket().getParticleList() ) {
             // Add these particles to the atom representation even though they
@@ -57,7 +57,7 @@ public class InteractiveSchematicAtomNode extends SchematicAtomNode {
         }
         BucketNode protonBucketNode = new BucketNode( model.getProtonBucket(), mvt );
         protonBucketNode.setOffset( mvt.modelToView( model.getProtonBucket().getPosition() ) );
-        backLayer.addChild( protonBucketNode.getHoleLayer() );
+        electronShellLayer.addChild( protonBucketNode.getHoleLayer() );
         frontLayer.addChild( protonBucketNode.getContainerLayer() );
         for ( SphericalParticle proton : model.getProtonBucket().getParticleList() ) {
             // Add these particles to the atom representation even though they
@@ -67,7 +67,7 @@ public class InteractiveSchematicAtomNode extends SchematicAtomNode {
         }
         BucketNode neutronBucketNode = new BucketNode( model.getNeutronBucket(), mvt );
         neutronBucketNode.setOffset( mvt.modelToView( model.getNeutronBucket().getPosition() ) );
-        backLayer.addChild( neutronBucketNode.getHoleLayer() );
+        electronShellLayer.addChild( neutronBucketNode.getHoleLayer() );
         frontLayer.addChild( neutronBucketNode.getContainerLayer() );
         for ( SphericalParticle neutron : model.getNeutronBucket().getParticleList() ) {
             // Add these particles to the atom representation even though they
