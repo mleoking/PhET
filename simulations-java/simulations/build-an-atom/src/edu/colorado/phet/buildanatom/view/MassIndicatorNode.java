@@ -11,6 +11,7 @@ import java.awt.geom.RoundRectangle2D;
 import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
 import edu.colorado.phet.buildanatom.BuildAnAtomResources;
 import edu.colorado.phet.buildanatom.model.Atom;
+import edu.colorado.phet.buildanatom.model.AtomListener;
 import edu.colorado.phet.buildanatom.model.ElectronShell;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -66,8 +67,9 @@ public class MassIndicatorNode extends PNode {
         double nucleusWidth=1;
         atomNode.addChild( new PhetPPath( new Ellipse2D.Double( -nucleusWidth / 2, -nucleusWidth / 2, nucleusWidth, nucleusWidth ), Color.red ) {{
             setOffset( atomNode.getFullBounds().getCenter2D() );
-            final SimpleObserver updateNucleusNode = new SimpleObserver() {
-                public void update() {
+            final AtomListener updateNucleusNode = new AtomListener.Adapter() {
+                @Override
+                public void configurationChanged() {
                     setVisible( atom.getNumProtons() + atom.getNumNeutrons() > 0 );
                     if ( atom.getNumProtons() > 0 ) {
                         setPaint( Color.red );//if any protons, it should look red
@@ -77,13 +79,14 @@ public class MassIndicatorNode extends PNode {
                     } //if no protons, but some neutrons, should look neutron colored
                 }
             };
-            atom.addObserver( updateNucleusNode );
-            updateNucleusNode.update();
+            atom.addAtomListener( updateNucleusNode );
+            updateNucleusNode.configurationChanged(); // Initial update.
         }} );
         addChild( atomNode );
 
-        final SimpleObserver updateAtomOffset = new SimpleObserver() {
-            public void update() {
+        final AtomListener updateAtomOffset = new AtomListener.Adapter() {
+            @Override
+            public void configurationChanged() {
                 // Position the atom and the scale such that the (0,0) position is the
                 // upper left corner of the whole assembly.
                 double y = 0;
@@ -102,8 +105,12 @@ public class MassIndicatorNode extends PNode {
                 atomNode.setOffset( weighScaleImageNode.getFullBoundsReference().getCenterX(), y );
             }
         };
-        orbitalViewProperty.addObserver( updateAtomOffset );
-        atom.addObserver( updateAtomOffset );//update when number of e- changes in outer shell
+        atom.addAtomListener( updateAtomOffset );//update when number of e- changes in outer shell
+        orbitalViewProperty.addObserver( new SimpleObserver() {
+            public void update() {
+                updateAtomOffset.configurationChanged();
+            }
+        });
 
         // There is a tweak factor here to set the vertical relationship between
         // the atom and scale.
@@ -116,14 +123,15 @@ public class MassIndicatorNode extends PNode {
                 weighScaleImageNode.getFullBoundsReference().getMaxX() - readout.getFullBoundsReference().height - 2.5);
 
         // Add the test to the readout.
-        final SimpleObserver readoutUpdater = new SimpleObserver() {
-            public void update() {
+        final AtomListener readoutUpdater = new AtomListener.Adapter() {
+            @Override
+            public void configurationChanged() {
                 readoutPText.setText( atom.getMassNumber() + "" );
                 readoutPText.setOffset( readout.getFullBounds().getCenterX() - readoutPText.getFullBounds().getWidth() / 2, readout.getFullBounds().getCenterY()-readoutPText.getFullBounds().getHeight()/2);
             }
         };
-        atom.addObserver( readoutUpdater );
-        readoutUpdater.update();
+        atom.addAtomListener( readoutUpdater );
+        readoutUpdater.configurationChanged(); // Initial update.
         addChild( readoutPText );
 
         // Prevent user from interacting with this readout node.

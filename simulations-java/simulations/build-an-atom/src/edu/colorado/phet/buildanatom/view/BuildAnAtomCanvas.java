@@ -17,6 +17,7 @@ import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
 import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
 import edu.colorado.phet.buildanatom.model.Atom;
+import edu.colorado.phet.buildanatom.model.AtomListener;
 import edu.colorado.phet.buildanatom.model.BuildAnAtomModel;
 import edu.colorado.phet.buildanatom.modules.game.view.InteractiveSchematicAtomNode;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
@@ -94,8 +95,9 @@ public class BuildAnAtomCanvas extends PhetPCanvas implements Resettable {
         // Show whether the nucleus is stable.
         final StabilityIndicator stabilityIndicator = new StabilityIndicator( model.getAtom(), showStableUnstable );
         // Position the stability indicator under the nucleus
-        model.getAtom().addObserver( new SimpleObserver() {
-            public void update() {
+        model.getAtom().addAtomListener( new AtomListener.Adapter() {
+            @Override
+            public void configurationChanged() {
                 stabilityIndicator.setOffset( mvt.modelToViewX( 0 ) - stabilityIndicator.getFullBounds().getWidth() / 2, mvt.modelToViewY( -Atom.ELECTRON_SHELL_1_RADIUS * 3.0 / 4.0 ) - stabilityIndicator.getFullBounds().getHeight() );
             }
         } );

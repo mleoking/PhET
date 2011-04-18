@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import edu.colorado.phet.buildanatom.model.Atom;
+import edu.colorado.phet.buildanatom.model.AtomListener;
 import edu.colorado.phet.buildanatom.model.Electron;
 import edu.colorado.phet.buildanatom.model.ElectronShell;
 import edu.colorado.phet.buildanatom.model.Neutron;
@@ -279,14 +280,17 @@ public class SchematicAtomNode extends PNode {
 
         // Create the node to represent this particle.
         final ElectronNode electronNode = new ElectronNode( mvt, electron ){{
-            final SimpleObserver updateVisibility = new SimpleObserver() {
+            orbitalViewProperty.addObserver( new SimpleObserver() {
                 public void update() {
                     setVisible( orbitalViewProperty.getValue() == OrbitalView.PARTICLES || !atom.containsElectron( electron ) );
                 }
-            };
-            orbitalViewProperty.addObserver( updateVisibility );
-            atom.addObserver( updateVisibility );
-            updateVisibility.update();
+            } );
+            atom.addAtomListener( new AtomListener.Adapter(){
+                @Override
+                public void configurationChanged() {
+                    setVisible( orbitalViewProperty.getValue() == OrbitalView.PARTICLES || !atom.containsElectron( electron ) );
+                }
+            } );
         }};
 
         // Add the particle to the representation.

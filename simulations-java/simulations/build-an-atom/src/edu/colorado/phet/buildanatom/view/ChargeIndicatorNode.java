@@ -12,11 +12,11 @@ import java.awt.geom.RoundRectangle2D;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
 import edu.colorado.phet.buildanatom.BuildAnAtomResources;
+import edu.colorado.phet.buildanatom.model.AtomListener;
 import edu.colorado.phet.buildanatom.model.IAtom;
 import edu.colorado.phet.buildanatom.model.IDynamicAtom;
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
@@ -81,29 +81,31 @@ public class ChargeIndicatorNode extends PNode {
 
         final PText textNode = new PText( atom.getCharge() + "" ) {{setFont( BuildAnAtomConstants.WINDOW_TITLE_FONT );}};
         //center text below pie
-        SimpleObserver updateText = new SimpleObserver() {
-            public void update() {
+        AtomListener updateText = new AtomListener.Adapter() {
+            @Override
+            public void configurationChanged() {
                 textNode.setText( atom.getFormattedCharge() );
                 textNode.setOffset( pieNode.getFullBounds().getCenterX() - textNode.getFullBounds().getWidth() / 2,
                         ( pieNode.getFullBounds().getMaxY() + chargeMeterImageNode.getFullBounds().getMaxY() ) / 2 - textNode.getFullBounds().getHeight() / 2 );
                 textNode.setTextPaint( getTextPaint( atom ) );
             }
         };
-        atom.addObserver( updateText );
-        updateText.update();
+        atom.addAtomListener( updateText );
+        updateText.configurationChanged(); // Initial update.
         addChild( textNode );
 
         final PhetPPath arrowNode = new PhetPPath( Color.black );
-        final SimpleObserver updateArrow = new SimpleObserver() {
-            public void update() {
+        final AtomListener updateArrow = new AtomListener.Adapter() {
+            @Override
+            public void configurationChanged() {
                 Function.LinearFunction linearFunction = new Function.LinearFunction( 0, 12, -Math.PI / 2, 0 );//can only have 11 electrons, but map 12 to theta=0 so 11 looks maxed out
                 double angle = linearFunction.evaluate( atom.getCharge() );
                 arrowNode.setPathTo( new Arrow( new Point2D.Double( pieNode.getFullBounds().getCenterX(), pieNode.getFullBounds().getMaxY() ),
                                                 ImmutableVector2D.parseAngleAndMagnitude( pieNode.getFullBounds().getHeight() * 0.98, angle ), 8, 8, 4, 4, false ).getShape() );
             }
         };
-        atom.addObserver( updateArrow );
-        updateArrow.update();
+        atom.addAtomListener( updateArrow );
+        updateArrow.configurationChanged();
         addChild( arrowNode );
 
         //+ and - labels on the pie part of the indicator

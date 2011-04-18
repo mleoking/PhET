@@ -21,6 +21,7 @@ import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
 import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
 import edu.colorado.phet.buildanatom.model.Atom;
+import edu.colorado.phet.buildanatom.model.AtomListener;
 import edu.colorado.phet.buildanatom.model.IDynamicAtom;
 import edu.colorado.phet.buildanatom.modules.interactiveisotope.model.InteractiveIsotopeModel;
 import edu.colorado.phet.buildanatom.view.ElementNameIndicator;
@@ -31,7 +32,6 @@ import edu.colorado.phet.buildanatom.view.StabilityIndicator;
 import edu.colorado.phet.buildanatom.view.SymbolIndicatorNode;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
@@ -138,8 +138,9 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas implements Resettable 
 
         // Add indicator that shows whether the nucleus is stable.
         final StabilityIndicator stabilityIndicator = new StabilityIndicator( model.getAtom(), new BooleanProperty( true ) );
-        model.getAtom().addObserver( new SimpleObserver() {
-                public void update() {
+        model.getAtom().addAtomListener( new AtomListener.Adapter() {
+                @Override
+                public void configurationChanged() {
                 stabilityIndicator.setOffset( mvt.modelToViewX( 0 ) - stabilityIndicator.getFullBoundsReference().width / 2,
                         mvt.modelToViewY( -Atom.ELECTRON_SHELL_1_RADIUS ) - stabilityIndicator.getFullBoundsReference().height);
                 }
@@ -278,8 +279,9 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas implements Resettable 
             // the section of the pie chart the refers to other isotopes.
             final HTMLNode otherIsotopesCaption = new HTMLNode(){{
                 setFont( new PhetFont( 18 ) );
-                atom.addObserver( new SimpleObserver() {
-                    public void update() {
+                atom.addAtomListener( new AtomListener.Adapter() {
+                    @Override
+                    public void configurationChanged() {
                         setHTML( "<html><center>Other<br>" + atom.getName() + "<br>Isotopes</html>" );
                         setOffset(
                                 pieChart.getFullBoundsReference().getMaxX() + 4,
@@ -306,9 +308,10 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas implements Resettable 
             // empirically determined, tweak if needed.
             pieChart.setOffset( maxReadoutWidth + CONNECTING_LINE_LEGNTH, 0 );
 
-            // Create the observer for watching the atom and making updates.
-            SimpleObserver atomObserver = new SimpleObserver() {
-                public void update() {
+            // Create the listener for watching the atom configuration and making updates.
+            AtomListener atomConfigListener = new AtomListener.Adapter() {
+                @Override
+                public void configurationChanged() {
                     // Show the abundance value
                     final double abundancePercent = atom.getNaturalAbundance() * 100;
                     value.setHTML( abundancePercent < MIN_ABUNDANCE_TO_SHOW && abundancePercent > 0 ? BuildAnAtomStrings.VERY_SMALL : ABUNDANCE_FORMATTER.format( abundancePercent ) + "%" );
@@ -330,10 +333,10 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas implements Resettable 
             };
 
             // Watch the atom for changes and update the abundance information accordingly.
-            atom.addObserver( atomObserver );
+            atom.addAtomListener( atomConfigListener );
 
             // Do the initial update to establish the layout.
-            atomObserver.update();
+            atomConfigListener.configurationChanged();
         }
     }
 

@@ -16,6 +16,7 @@ import java.text.DecimalFormat;
 
 import javax.swing.JPanel;
 
+import edu.colorado.phet.buildanatom.model.AtomListener;
 import edu.colorado.phet.buildanatom.model.IDynamicAtom;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -213,8 +214,9 @@ public class AtomScaleNode extends PNode {
             } );
 
             // Watch the atom and update the readout whenever it changes.
-            atom.addObserver( new SimpleObserver() {
-                public void update() {
+            atom.addAtomListener( new AtomListener.Adapter() {
+                @Override
+                public void configurationChanged() {
                     updateReadout();
                 }
             } );

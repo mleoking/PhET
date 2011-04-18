@@ -4,6 +4,7 @@ package edu.colorado.phet.buildanatom.view;
 import java.awt.Color;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
+import edu.colorado.phet.buildanatom.model.AtomListener;
 import edu.colorado.phet.buildanatom.model.IDynamicAtom;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -24,8 +25,9 @@ public class StabilityIndicator extends PNode {
             setTextPaint( Color.black );
         }};
         addChild( child );
-        SimpleObserver updateVisibility = new SimpleObserver() {
-            public void update() {
+        final AtomListener updateVisibility = new AtomListener.Adapter() {
+            @Override
+            public void configurationChanged() {
                 setVisible( showLabels.getValue() && atom.getMassNumber() > 0 );
                 if (atom.isStable()){
                     child.setText( BuildAnAtomStrings.STABLE );
@@ -34,8 +36,12 @@ public class StabilityIndicator extends PNode {
                 }
             }
         };
-        atom.addObserver( updateVisibility );
-        showLabels.addObserver( updateVisibility );
-        updateVisibility.update();
+        atom.addAtomListener( updateVisibility );
+        showLabels.addObserver( new SimpleObserver(){
+            public void update(){
+                updateVisibility.configurationChanged();
+            }
+        } );
+        updateVisibility.configurationChanged(); // Initial update.
     }
 }
