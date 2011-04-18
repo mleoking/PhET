@@ -29,7 +29,6 @@ public class PropertyEditor extends GridRow {
     protected var addLabels: Boolean;
     private var userChanged: Boolean = false;
 
-    //REVIEW why do you use a Function for dataTipClamp, but a Bounds for sliderWidth? They both do the same thing (clamp to some max), so wouldn't it be clearer to use a Bounds for both?
     public function PropertyEditor( property: NumericProperty, minimum: Number, maximum: Number, unit: Unit, dataTipClamp: Function, bounds: NumericClamp, sliderWidth: Number = 280, addLabels: Boolean = true ) {
         super();
         this.addLabels = addLabels;
@@ -43,7 +42,7 @@ public class PropertyEditor extends GridRow {
         label.setStyle( DensityAndBuoyancyConstants.FLEX_FONT_WEIGHT, DensityAndBuoyancyConstants.FLEX_FONT_BOLD );
         addGridItem( label );
 
-        _sliderDecorator = createSlider( property, minimum, maximum, unit, dataTipClamp, bounds );
+        _sliderDecorator = createSlider( property, minimum, maximum, unit, bounds );
         if ( addLabels ) {
             addGridItem( _sliderDecorator );
         }
@@ -109,7 +108,7 @@ public class PropertyEditor extends GridRow {
     //The density slider requires a reference to the density object in order to bound the volume when necessary.
     //This is because when selecting Styrofoam or other non-dense objects, then moving the mass slider to maximum,
     //The volume increases dramatically, making the object larger than the pool size.
-    protected function createSlider( property: NumericProperty, minimum: Number, maximum: Number, unit: Unit, dataTipClamp: Function, bounds: NumericClamp ): SliderDecorator {
+    protected function createSlider( property: NumericProperty, minimum: Number, maximum: Number, unit: Unit, bounds: NumericClamp ): SliderDecorator {
         const slider: SliderDecorator = new SliderDecorator( getSliderThumbOffset() );
         slider.sliderThumbClass = getSliderThumbClass();
         slider.sliderWidth = sliderWidth;
