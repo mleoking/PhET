@@ -1,7 +1,7 @@
 //  Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.densityandbuoyancy.components {
 import edu.colorado.phet.densityandbuoyancy.DensityAndBuoyancyConstants;
-import edu.colorado.phet.densityandbuoyancy.model.DensityObject;
+import edu.colorado.phet.densityandbuoyancy.model.DensityAndBuoyancyObject;
 import edu.colorado.phet.densityandbuoyancy.model.Material;
 import edu.colorado.phet.densityandbuoyancy.model.Not;
 import edu.colorado.phet.densityandbuoyancy.view.units.Units;
@@ -26,11 +26,11 @@ import mx.events.ListEvent;
  */
 public class CustomObjectPropertiesPanel extends DensityVBox {
     private var grid: Grid = new Grid();
-    private var densityObject: DensityObject;
+    private var densityObject: DensityAndBuoyancyObject;
     private var comboBox: ComboBox;
     public const myBlockSelected: BooleanProperty = new BooleanProperty( false );
 
-    public function CustomObjectPropertiesPanel( densityObject: DensityObject, units: Units, sliderWidth: Number = 280 ) {
+    public function CustomObjectPropertiesPanel( densityObject: DensityAndBuoyancyObject, units: Units, sliderWidth: Number = 280 ) {
         super();
         this.densityObject = densityObject;
 

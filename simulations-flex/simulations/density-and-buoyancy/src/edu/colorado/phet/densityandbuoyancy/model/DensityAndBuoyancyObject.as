@@ -18,7 +18,7 @@ import edu.colorado.phet.flexcommon.model.StringProperty;
 /**
  * Base class for "something movable that behaves like an object in the play area", including Scales and Blocks.
  */
-public class DensityObject {
+public class DensityAndBuoyancyObject {
 
     private var _volume: NumericProperty;
     private var _mass: NumericProperty;
@@ -56,7 +56,7 @@ public class DensityObject {
 
     private var shouldOverrideVelocity: Boolean = false; //REVIEW should doc too.
 
-    public function DensityObject( x: Number, y: Number, z: Number, model: DensityAndBuoyancyModel, __density: Number, mass: Number, __volume: Number, __material: Material ) {
+    public function DensityAndBuoyancyObject( x: Number, y: Number, z: Number, model: DensityAndBuoyancyModel, __density: Number, mass: Number, __volume: Number, __material: Material ) {
         this._material = __material;
         //REVIEW why aren't you using a Units object to supply units, as in CustomObjectPropertiesPanel?
         //REVIEW why aren't units internationalized?

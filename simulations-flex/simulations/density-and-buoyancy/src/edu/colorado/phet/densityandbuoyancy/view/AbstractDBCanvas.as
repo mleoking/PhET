@@ -13,7 +13,7 @@ import away3d.primitives.*;
 
 import edu.colorado.phet.densityandbuoyancy.DensityAndBuoyancyConstants;
 import edu.colorado.phet.densityandbuoyancy.model.DensityAndBuoyancyModel;
-import edu.colorado.phet.densityandbuoyancy.model.DensityObject;
+import edu.colorado.phet.densityandbuoyancy.model.DensityAndBuoyancyObject;
 import edu.colorado.phet.densityandbuoyancy.model.Material;
 import edu.colorado.phet.densityandbuoyancy.view.away3d.DensityObjectNode;
 import edu.colorado.phet.densityandbuoyancy.view.away3d.GroundNode;
@@ -180,7 +180,7 @@ public class AbstractDBCanvas extends UIComponent {
     }
 
     //REVIEW doc - called by the model when an object is added
-    private function addDensityObject( densityObject: DensityObject ): void {
+    private function addDensityObject( densityObject: DensityAndBuoyancyObject ): void {
         const densityObjectNode: DensityObjectNode = createDensityObjectNode( densityObject );
         mainViewport.scene.addChild( densityObjectNode );
         densityObjectNode.addOverlayObjects();
@@ -193,7 +193,7 @@ public class AbstractDBCanvas extends UIComponent {
     }
 
     //REVIEW doc - called by the model when an object is created
-    protected function createDensityObjectNode( densityObject: DensityObject ): DensityObjectNode {
+    protected function createDensityObjectNode( densityObject: DensityAndBuoyancyObject ): DensityObjectNode {
         return densityObject.createNode( this, massReadoutsVisible );
     }
 

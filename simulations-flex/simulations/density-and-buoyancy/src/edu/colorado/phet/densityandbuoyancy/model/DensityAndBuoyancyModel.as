@@ -70,12 +70,12 @@ public class DensityAndBuoyancyModel {
 
     public function reset(): void {
         fluidDensity.reset();
-        for each ( var densityObject: DensityObject in densityObjects ) {
+        for each ( var densityObject: DensityAndBuoyancyObject in densityObjects ) {
             densityObject.reset();
         }
     }
 
-    public function addDensityObject( densityObject: DensityObject ): void {
+    public function addDensityObject( densityObject: DensityAndBuoyancyObject ): void {
         trace( "Added object: " + densityObject.toString() );
         densityObjects.push( densityObject );
         for each ( var listener: Function in densityObjectCreationListeners ) {
@@ -90,17 +90,17 @@ public class DensityAndBuoyancyModel {
 
     //Remove all the blocks & scales from the model
     public function clearDensityObjects(): void {
-        for each ( var densityObject: DensityObject in densityObjects ) {
+        for each ( var densityObject: DensityAndBuoyancyObject in densityObjects ) {
             densityObject.remove();
         }
         densityObjects = new Array();
     }
 
-    public function removeDensityObject( densityObject: DensityObject ): void {
+    public function removeDensityObject( densityObject: DensityAndBuoyancyObject ): void {
         densityObject.remove();
         //Hooray, my code to remove an element from an as3 array
         var newArray: Array = new Array();
-        for each ( var d: DensityObject in densityObjects ) {
+        for each ( var d: DensityAndBuoyancyObject in densityObjects ) {
             if ( d != densityObject ) {
                 newArray.push( d );
             }
@@ -211,7 +211,7 @@ public class DensityAndBuoyancyModel {
             world.Step( DT_PER_STEP, 10 );
 
             // pull the Box2D data into our model objects
-            for each( var densityObject: DensityObject in densityObjects ) {
+            for each( var densityObject: DensityAndBuoyancyObject in densityObjects ) {
                 densityObject.updatePositionFromBox2D();
             }
 

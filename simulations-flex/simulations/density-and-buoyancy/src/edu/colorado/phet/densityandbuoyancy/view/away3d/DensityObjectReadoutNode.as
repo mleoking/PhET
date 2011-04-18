@@ -1,6 +1,6 @@
 //  Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.densityandbuoyancy.view.away3d {
-import edu.colorado.phet.densityandbuoyancy.model.DensityObject;
+import edu.colorado.phet.densityandbuoyancy.model.DensityAndBuoyancyObject;
 
 import flash.text.TextFormat;
 
@@ -9,7 +9,7 @@ public class DensityObjectReadoutNode {
     private var _textReadout: TextFieldMesh;
     private var fontSize: Number;
 
-    public function DensityObjectReadoutNode( densityObject: DensityObject, fontSize: Number ) {
+    public function DensityObjectReadoutNode( densityObject: DensityAndBuoyancyObject, fontSize: Number ) {
         this.fontSize = fontSize;
         _textReadout = new TextFieldMesh( "hello", createLabelTextFormat() );
     }

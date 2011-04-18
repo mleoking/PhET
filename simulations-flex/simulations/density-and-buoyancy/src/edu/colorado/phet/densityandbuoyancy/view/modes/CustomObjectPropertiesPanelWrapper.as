@@ -1,7 +1,7 @@
 //  Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.densityandbuoyancy.view.modes {
 import edu.colorado.phet.densityandbuoyancy.components.CustomObjectPropertiesPanel;
-import edu.colorado.phet.densityandbuoyancy.model.DensityObject;
+import edu.colorado.phet.densityandbuoyancy.model.DensityAndBuoyancyObject;
 import edu.colorado.phet.densityandbuoyancy.view.AbstractDBCanvas;
 
 /**
@@ -12,7 +12,7 @@ public class CustomObjectPropertiesPanelWrapper {
     private var customObjectPropertiesPanelShowing: Boolean = false;
     private var canvas: AbstractDBCanvas;
 
-    public function CustomObjectPropertiesPanelWrapper( block: DensityObject, canvas: AbstractDBCanvas, x: Number, y: Number ) {
+    public function CustomObjectPropertiesPanelWrapper( block: DensityAndBuoyancyObject, canvas: AbstractDBCanvas, x: Number, y: Number ) {
         this.canvas = canvas;
         customObjectPropertiesPanel = new CustomObjectPropertiesPanel( block, canvas.units, 200 );
         customObjectPropertiesPanel.x = x;

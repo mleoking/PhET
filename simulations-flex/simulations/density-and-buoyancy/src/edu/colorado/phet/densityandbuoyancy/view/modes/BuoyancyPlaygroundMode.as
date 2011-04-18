@@ -2,7 +2,7 @@
 package edu.colorado.phet.densityandbuoyancy.view.modes {
 import edu.colorado.phet.densityandbuoyancy.DensityAndBuoyancyConstants;
 import edu.colorado.phet.densityandbuoyancy.model.Block;
-import edu.colorado.phet.densityandbuoyancy.model.DensityObject;
+import edu.colorado.phet.densityandbuoyancy.model.DensityAndBuoyancyObject;
 import edu.colorado.phet.densityandbuoyancy.model.Material;
 import edu.colorado.phet.densityandbuoyancy.view.AbstractDBCanvas;
 import edu.colorado.phet.flexcommon.FlexSimStrings;
@@ -15,8 +15,8 @@ import flash.geom.ColorTransform;
  * The 'buoyancy playground' mode always shows one buoyancy object and a control panel to mutate it, and includes an optional 2nd object.
  */
 public class BuoyancyPlaygroundMode extends BuoyancyMode {
-    private var block1: DensityObject;
-    private var block2: DensityObject;
+    private var block1: DensityAndBuoyancyObject;
+    private var block2: DensityAndBuoyancyObject;
     private var customObjectPropertiesPanelWrapper1: CustomObjectPropertiesPanelWrapper;
     private var customObjectPropertiesPanelWrapper2: CustomObjectPropertiesPanelWrapper;
     public var oneObject: BooleanProperty = new BooleanProperty( true );
