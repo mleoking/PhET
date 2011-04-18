@@ -2,11 +2,12 @@
 
 package edu.colorado.phet.capacitorlab.model;
 
-import java.awt.Shape;
+import java.awt.*;
 
 import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
+import edu.colorado.phet.capacitorlab.CLStrings;
 import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeListener;
 import edu.colorado.phet.capacitorlab.model.Wire.BottomWire;
 import edu.colorado.phet.capacitorlab.model.Wire.TopWire;
@@ -18,13 +19,13 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
  * Model of a circuit with a battery connected to a capacitor.
- * <p>
+ * <p/>
  * Variable names used in this implementation where chosen to match the specification
  * in the design document, and therefore violate Java naming conventions.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class BatteryCapacitorCircuit implements ICircuit {
+public class BatteryCapacitorCircuit extends AbstractCircuit {
 
     // immutable instance data
     private final Battery battery;
@@ -43,6 +44,7 @@ public class BatteryCapacitorCircuit implements ICircuit {
 
     /**
      * Constructor
+     *
      * @param clock
      * @param battery
      * @param capacitor
@@ -50,6 +52,7 @@ public class BatteryCapacitorCircuit implements ICircuit {
      * @param mvt
      */
     public BatteryCapacitorCircuit( CLClock clock, final Battery battery, final Capacitor capacitor, boolean batteryConnected, CLModelViewTransform3D mvt ) {
+        super( CLStrings.SINGLE );
 
         this.clock = clock;
         this.listeners = new EventListenerList();
@@ -65,7 +68,7 @@ public class BatteryCapacitorCircuit implements ICircuit {
             public void simulationTimeChanged( ClockEvent clockEvent ) {
                 updateCurrentAmplitude();
             }
-        });
+        } );
 
         // Create the wires
         topWire = new TopWire( battery, capacitor, CLConstants.WIRE_THICKNESS, mvt );
@@ -114,6 +117,7 @@ public class BatteryCapacitorCircuit implements ICircuit {
 
     /**
      * Is the battery connected to the capacitor?
+     *
      * @return
      */
     public boolean isBatteryConnected() {
@@ -122,6 +126,7 @@ public class BatteryCapacitorCircuit implements ICircuit {
 
     /**
      * Determines whether the battery is connected to the capacitor.
+     *
      * @param batteryConnected
      */
     public void setBatteryConnected( boolean batteryConnected ) {
@@ -258,7 +263,7 @@ public class BatteryCapacitorCircuit implements ICircuit {
     public double getDielectricEFieldAt( Point3D location ) {
         double eField = 0;
         if ( capacitor.isInsideDielectricBetweenPlatesShape( location ) ) {
-   eField = capacitor.getDielectricEField();
+            eField = capacitor.getDielectricEField();
         }
         else if ( capacitor.isInsideAirBetweenPlatesShape( location ) ) {
             eField = capacitor.getAirEField();
