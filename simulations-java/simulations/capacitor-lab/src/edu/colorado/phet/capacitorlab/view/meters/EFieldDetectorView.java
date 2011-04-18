@@ -30,13 +30,13 @@ public class EFieldDetectorView {
         bodyNode = new EFieldDetectorBodyNode( detector, mvt, vectorReferenceMagnitude );
         probeNode = new EFieldDetectorProbeNode( detector, mvt, dev );
         wireNode = new ProbeWireNode( bodyNode, probeNode, BODY_CONTROL_POINT_OFFSET, PROBE_CONTROL_POINT_OFFSET,
-                bodyNode.getConnectionOffset(), probeNode.getConnectionOffset(), CLPaints.EFIELD_DETECTOR_WIRE );
+                                      bodyNode.getConnectionOffset(), probeNode.getConnectionOffset(), CLPaints.EFIELD_DETECTOR_WIRE );
 
-        detector.addVisibleObserver( new SimpleObserver() {
+        detector.visibleProperty.addObserver( new SimpleObserver() {
             public void update() {
-                setVisible( detector.isVisible() );
+                setVisible( detector.visibleProperty.getValue() );
             }
-        });
+        } );
     }
 
     private void setVisible( boolean visible ) {

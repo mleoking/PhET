@@ -51,7 +51,7 @@ public abstract class BarMeter {
     }
 
     public void setCircuit( ICircuit circuit ) {
-        if ( this.circuit != circuit ) {
+        if ( circuit != this.circuit ) {
             this.circuit = circuit;
             updateValue();
         }

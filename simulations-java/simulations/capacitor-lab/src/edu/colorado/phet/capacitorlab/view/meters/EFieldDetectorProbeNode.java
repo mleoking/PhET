@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.capacitorlab.view.meters;
 
-import java.awt.Color;
+import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 
@@ -47,29 +47,29 @@ public class EFieldDetectorProbeNode extends PhetPNode {
         // Put a dot at origin to check that probe image is offset properly.
         if ( dev ) {
             double diameter = 4;
-            PPath originNode = new PPath( new Ellipse2D.Double( -diameter/2, -diameter/2, diameter, diameter ) );
+            PPath originNode = new PPath( new Ellipse2D.Double( -diameter / 2, -diameter / 2, diameter, diameter ) );
             originNode.setStroke( null );
             originNode.setPaint( Color.RED );
             addChild( originNode );
         }
 
-        detector.addProbeLocationObserver( new SimpleObserver() {
+        detector.probeLocationProperty.addObserver( new SimpleObserver() {
             public void update() {
-                setOffset( mvt.modelToView( detector.getProbeLocationReference() ) );
+                setOffset( mvt.modelToView( detector.probeLocationProperty.getValue() ) );
             }
-        });
+        } );
 
         addInputEventListener( new CursorHandler() );
         addInputEventListener( new LocationDragHandler( this, mvt ) {
 
             protected Point3D getModelLocation() {
-                return detector.getProbeLocationReference();
+                return detector.probeLocationProperty.getValue();
             }
 
             protected void setModelLocation( Point3D location ) {
-                detector.setProbeLocation( location );
+                detector.probeLocationProperty.setValue( location );
             }
-        });
+        } );
     }
 
     public Point2D getConnectionOffset() {

@@ -2,9 +2,7 @@
 
 package edu.colorado.phet.capacitorlab.view.meters;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
@@ -14,11 +12,7 @@ import java.text.DecimalFormat;
 import java.text.MessageFormat;
 import java.text.NumberFormat;
 
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JLabel;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
+import javax.swing.*;
 
 import edu.colorado.phet.capacitorlab.CLImages;
 import edu.colorado.phet.capacitorlab.CLPaints;
@@ -27,8 +21,10 @@ import edu.colorado.phet.capacitorlab.drag.LocationDragHandler;
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.colorado.phet.capacitorlab.model.EFieldDetector;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.phetcommon.view.util.GridPanel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
@@ -88,53 +84,46 @@ public class EFieldDetectorBodyNode extends PhetPNode {
     public EFieldDetectorBodyNode( final EFieldDetector detector, final CLModelViewTransform3D mvt, double vectorReferenceMagnitude ) {
 
         // title that appears at the top
-        PText titleNode = new PText( CLStrings.ELECTRIC_FIELD );
-        titleNode.setTextPaint( TITLE_COLOR );
-        titleNode.setFont( TITLE_FONT );
+        PText titleNode = new PText( CLStrings.ELECTRIC_FIELD ) {{
+            setTextPaint( TITLE_COLOR );
+            setFont( TITLE_FONT );
+        }};
 
         // close button
-        PImage closeButtonNode = new PImage( CLImages.CLOSE_BUTTON );
-        closeButtonNode.addInputEventListener( new CursorHandler() );
-        closeButtonNode.addInputEventListener( new PBasicInputEventHandler() {
-            @Override
-            public void mouseReleased( PInputEvent event ) {
-                detector.setVisible( false );
-            }
-        } );
+        PImage closeButtonNode = new PImage( CLImages.CLOSE_BUTTON ) {{
+            addInputEventListener( new CursorHandler() );
+            addInputEventListener( new PBasicInputEventHandler() {
+                @Override
+                public void mouseReleased( PInputEvent event ) {
+                    detector.visibleProperty.setValue( false );
+                }
+            } );
+        }};
+
 
         // display area for vectors and values
         vectorDisplayNode = new VectorDisplayNode( detector, vectorReferenceMagnitude );
 
         // Vector controls
-        ShowVectorsPanel showVectorsPanel = new ShowVectorsPanel( detector );
-        showVectorsPSwing = new PSwing( showVectorsPanel );
+        showVectorsPSwing = new PSwing( new ShowVectorsPanel( detector ) );
 
         // Zoom controls
-        zoomPanel = new ZoomPanel( ZOOM_LEVEL_RANGE );
-        zoomPanel.addZoomInListener( new ActionListener() {
-            public void actionPerformed( ActionEvent event ) {
-                vectorDisplayNode.zoomIn();
-            }
-        });
-        zoomPanel.addZoomOutListener( new ActionListener() {
-            public void actionPerformed( ActionEvent event ) {
-                vectorDisplayNode.zoomOut();
-            }
-        });
+        zoomPanel = new ZoomPanel( ZOOM_LEVEL_RANGE ) {{
+            addZoomInListener( new ActionListener() {
+                public void actionPerformed( ActionEvent event ) {
+                    vectorDisplayNode.zoomIn();
+                }
+            } );
+            addZoomOutListener( new ActionListener() {
+                public void actionPerformed( ActionEvent event ) {
+                    vectorDisplayNode.zoomOut();
+                }
+            } );
+        }};
         PSwing zoomPSwing = new PSwing( zoomPanel );
 
         // Show Values check box
-        final JCheckBox showValuesCheckBox = new JCheckBox( CLStrings.SHOW_VALUES );
-        showValuesCheckBox.setOpaque( false );
-        showValuesCheckBox.setFont( CONTROL_FONT );
-        showValuesCheckBox.setForeground( CONTROL_COLOR );
-        showValuesCheckBox.setSelected( detector.isValuesVisible() );
-        showValuesCheckBox.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent event ) {
-                detector.setValuesVisible( showValuesCheckBox.isSelected() );
-            }
-        } );
-        PSwing showValuesPSwing = new PSwing( showValuesCheckBox );
+        PSwing showValuesPSwing = new PSwing( new DetectorCheckBox( CLStrings.SHOW_VALUES, detector.valuesVisibleProperty, CONTROL_COLOR ) );
 
         // background
         double maxControlWidth = Math.max( showVectorsPSwing.getFullBoundsReference().getWidth(), showValuesPSwing.getFullBoundsReference().getWidth() );
@@ -155,33 +144,35 @@ public class EFieldDetectorBodyNode extends PhetPNode {
         addChild( vectorDisplayNode );
 
         // layout
-        double x = 0;
-        double y = 0;
-        backgroundNode.setOffset( x, y );
-        // title
-        x = backgroundNode.getFullBoundsReference().getCenterX() - ( titleNode.getFullBoundsReference().getWidth() / 2 );
-        y = BODY_Y_MARGIN;
-        titleNode.setOffset( x, y );
-        // close button
-        x = backgroundNode.getFullBoundsReference().getMaxX() - closeButtonNode.getFullBoundsReference().getWidth() - BODY_X_MARGIN;
-        y = backgroundNode.getFullBoundsReference().getMinY() + BODY_Y_MARGIN;
-        closeButtonNode.setOffset( x, y );
-        // vector controls in upper left
-        x = BODY_X_MARGIN;
-        y = titleNode.getFullBoundsReference().getMaxY() + BODY_Y_SPACING;
-        showVectorsPSwing.setOffset( x, y );
-        // zoom controls below vector controls
-        x = showVectorsPSwing.getFullBoundsReference().getMinX();
-        y = showVectorsPSwing.getFullBoundsReference().getMaxY() + ( 2 * BODY_Y_SPACING );
-        zoomPSwing.setOffset( x, y );
-        // "Show values" control at lower left
-        x = BODY_X_MARGIN;
-        y = backgroundNode.getFullBoundsReference().getMaxY() - showValuesPSwing.getFullBoundsReference().getHeight() - BODY_Y_MARGIN;
-        showValuesPSwing.setOffset( x, y );
-        // vectors
-        x = BODY_X_MARGIN + maxControlWidth + BODY_X_SPACING;
-        y = showVectorsPSwing.getYOffset();
-        vectorDisplayNode.setOffset( x, y );
+        {
+            double x = 0;
+            double y = 0;
+            backgroundNode.setOffset( x, y );
+            // title
+            x = backgroundNode.getFullBoundsReference().getCenterX() - ( titleNode.getFullBoundsReference().getWidth() / 2 );
+            y = BODY_Y_MARGIN;
+            titleNode.setOffset( x, y );
+            // close button
+            x = backgroundNode.getFullBoundsReference().getMaxX() - closeButtonNode.getFullBoundsReference().getWidth() - BODY_X_MARGIN;
+            y = backgroundNode.getFullBoundsReference().getMinY() + BODY_Y_MARGIN;
+            closeButtonNode.setOffset( x, y );
+            // vector controls in upper left
+            x = BODY_X_MARGIN;
+            y = titleNode.getFullBoundsReference().getMaxY() + BODY_Y_SPACING;
+            showVectorsPSwing.setOffset( x, y );
+            // zoom controls below vector controls
+            x = showVectorsPSwing.getFullBoundsReference().getMinX();
+            y = showVectorsPSwing.getFullBoundsReference().getMaxY() + ( 2 * BODY_Y_SPACING );
+            zoomPSwing.setOffset( x, y );
+            // "Show values" control at lower left
+            x = BODY_X_MARGIN;
+            y = backgroundNode.getFullBoundsReference().getMaxY() - showValuesPSwing.getFullBoundsReference().getHeight() - BODY_Y_MARGIN;
+            showValuesPSwing.setOffset( x, y );
+            // vectors
+            x = BODY_X_MARGIN + maxControlWidth + BODY_X_SPACING;
+            y = showVectorsPSwing.getYOffset();
+            vectorDisplayNode.setOffset( x, y );
+        }
 
         // wire connects to the left center of the detector body
         connectionOffset = new Point2D.Double( 0, getFullBoundsReference().getHeight() / 2 );
@@ -191,27 +182,20 @@ public class EFieldDetectorBodyNode extends PhetPNode {
         addInputEventListener( new LocationDragHandler( this, mvt ) {
 
             protected Point3D getModelLocation() {
-                return detector.getBodyLocationReference();
+                return detector.bodyLocationProperty.getValue();
             }
 
             protected void setModelLocation( Point3D location ) {
-                detector.setBodyLocation( location );
+                detector.bodyLocationProperty.setValue( location );
             }
-        });
+        } );
 
         // observers
         {
             // location
-            detector.addBodyLocationObserver( new SimpleObserver() {
+            detector.bodyLocationProperty.addObserver( new SimpleObserver() {
                 public void update() {
-                    setOffset( mvt.modelToView( detector.getBodyLocationReference() ) );
-                }
-            } );
-
-            // show values check box
-            detector.addValuesVisibleObserver( new SimpleObserver() {
-                public void update() {
-                    showValuesCheckBox.setSelected( detector.isValuesVisible() );
+                    setOffset( mvt.modelToView( detector.bodyLocationProperty.getValue() ) );
                 }
             } );
         }
@@ -220,6 +204,7 @@ public class EFieldDetectorBodyNode extends PhetPNode {
     /**
      * Calling this with true provides a simplified E-Field detector,
      * with fewer controls and fewer visible vectors.
+     *
      * @param simplified
      */
     public void setSimplified( boolean simplified ) {
@@ -236,44 +221,17 @@ public class EFieldDetectorBodyNode extends PhetPNode {
      */
     private static class ShowVectorsPanel extends GridPanel {
 
-        private final JCheckBox plateCheckBox, dielectricCheckBox, sumCheckBox;
-
         public ShowVectorsPanel( final EFieldDetector detector ) {
             setBackground( BODY_COLOR );
 
-            JLabel showVectorsLabel = new JLabel( CLStrings.SHOW_VECTORS );
-            showVectorsLabel.setFont( CONTROL_FONT );
-            showVectorsLabel.setForeground( CONTROL_COLOR );
-
-            plateCheckBox = new JCheckBox( CLStrings.PLATE );
-            plateCheckBox.setOpaque( false );
-            plateCheckBox.setFont( CONTROL_FONT );
-            plateCheckBox.setForeground( CLPaints.PLATE_EFIELD_VECTOR );
-            plateCheckBox.addChangeListener( new ChangeListener() {
-                public void stateChanged( ChangeEvent event ) {
-                    detector.setPlateVisible( plateCheckBox.isSelected() );
-                }
-            } );
-
-            dielectricCheckBox = new JCheckBox( CLStrings.DIELECTRIC );
-            dielectricCheckBox.setOpaque( false );
-            dielectricCheckBox.setFont( CONTROL_FONT );
-            dielectricCheckBox.setForeground( CLPaints.DIELECTRIC_EFIELD_VECTOR );
-            dielectricCheckBox.addChangeListener( new ChangeListener() {
-                public void stateChanged( ChangeEvent event ) {
-                    detector.setDielectricVisible( dielectricCheckBox.isSelected() );
-                }
-            } );
-
-            sumCheckBox = new JCheckBox( CLStrings.SUM );
-            sumCheckBox.setOpaque( false );
-            sumCheckBox.setFont( CONTROL_FONT );
-            sumCheckBox.setForeground( CLPaints.SUM_EFIELD_VECTOR );
-            sumCheckBox.addChangeListener( new ChangeListener() {
-                public void stateChanged( ChangeEvent event ) {
-                    detector.setSumVisible( sumCheckBox.isSelected() );
-                }
-            } );
+            // components
+            JLabel showVectorsLabel = new JLabel( CLStrings.SHOW_VECTORS ) {{
+                setFont( CONTROL_FONT );
+                setForeground( CONTROL_COLOR );
+            }};
+            JCheckBox plateCheckBox = new DetectorCheckBox( CLStrings.PLATE, detector.plateVisibleProperty, CLPaints.PLATE_EFIELD_VECTOR );
+            JCheckBox dielectricCheckBox = new DetectorCheckBox( CLStrings.DIELECTRIC, detector.dielectricVisibleProperty, CLPaints.DIELECTRIC_EFIELD_VECTOR );
+            JCheckBox sumCheckBox = new DetectorCheckBox( CLStrings.SUM, detector.sumVisibleProperty, CLPaints.SUM_EFIELD_VECTOR );
 
             // layout
             setAnchor( Anchor.WEST );
@@ -283,27 +241,6 @@ public class EFieldDetectorBodyNode extends PhetPNode {
             add( plateCheckBox, row++, column );
             add( dielectricCheckBox, row++, column );
             add( sumCheckBox, row++, column );
-
-            // observers
-            {
-                detector.addPlateVisibleObserver( new SimpleObserver() {
-                    public void update() {
-                        plateCheckBox.setSelected( detector.isPlateVisible() );
-                    }
-                } );
-
-                detector.addDielectricVisibleObserver( new SimpleObserver() {
-                    public void update() {
-                        dielectricCheckBox.setSelected( detector.isDielectricVisible() );
-                    }
-                } );
-
-                detector.addSumVisibleObserver( new SimpleObserver() {
-                    public void update() {
-                        sumCheckBox.setSelected( detector.isSumVectorVisible() );
-                    }
-                } );
-            }
         }
     }
 
@@ -347,48 +284,33 @@ public class EFieldDetectorBodyNode extends PhetPNode {
             addChild( dielectricValueNode );
             addChild( sumValueNode );
 
-            // listen to detector properties
-            detector.addPlateVectorObserver( new SimpleObserver() {
+            // observe vector changes
+            SimpleObserver vectorsObserver = new SimpleObserver() {
                 public void update() {
                     updateVectors();
                 }
-            } );
-            detector.addDielectricVectorObserver( new SimpleObserver() {
-                public void update() {
-                    updateVectors();
-                }
-            } );
-            detector.addSumVectorObserver( new SimpleObserver() {
-                public void update() {
-                    updateVectors();
-                }
-            } );
-            detector.addPlateVisibleObserver( new SimpleObserver() {
+            };
+            detector.addPlateVectorObserver( vectorsObserver );
+            detector.addDielectricVectorObserver( vectorsObserver );
+            detector.addSumVectorObserver( vectorsObserver );
+
+            // observer visibility changes
+            SimpleObserver visibilityObserver = new SimpleObserver() {
                 public void update() {
                     updateVisibility();
                 }
-            } );
-            detector.addDielectricVisibleObserver( new SimpleObserver() {
-                public void update() {
-                    updateVisibility();
-                }
-            } );
-            detector.addSumVisibleObserver( new SimpleObserver() {
-                public void update() {
-                    updateVisibility();
-                }
-            } );
-            detector.addValuesVisibleObserver( new SimpleObserver() {
-                public void update() {
-                    updateVisibility();
-                }
-            } );
+            };
+            detector.plateVisibleProperty.addObserver( visibilityObserver );
+            detector.dielectricVisibleProperty.addObserver( visibilityObserver );
+            detector.sumVisibleProperty.addObserver( visibilityObserver );
+            detector.valuesVisibleProperty.addObserver( visibilityObserver );
 
             updateLayout();
         }
 
         /**
          * When the vector display is simplified, only the Plate vector is shown.
+         *
          * @param simplified
          */
         public void setSimplified( boolean simplified ) {
@@ -408,6 +330,7 @@ public class EFieldDetectorBodyNode extends PhetPNode {
             updateVectors();
         }
 
+        // Updates vectors and numeric values.
         private void updateVectors() {
 
             plateVectorNode.setXY( 0, zoomMultiplier * detector.getPlateVector() );
@@ -422,19 +345,25 @@ public class EFieldDetectorBodyNode extends PhetPNode {
             updateLayout();
         }
 
+        // Updates visibility of vectors and numeric values.
         private void updateVisibility() {
 
-            plateVectorNode.setVisible( detector.isPlateVisible() );
-            plateValueNode.setVisible( detector.isPlateVisible() );
-            plateValueNode.setValueVisible( detector.isValuesVisible() );
+            final boolean valuesVisible = detector.valuesVisibleProperty.getValue();
 
-            dielectricVectorNode.setVisible( detector.isDielectricVisible() && !simplified );
-            dielectricValueNode.setVisible( detector.isDielectricVisible() && !simplified );
-            dielectricValueNode.setValueVisible( detector.isValuesVisible() && !simplified );
+            final boolean plateVisible = detector.plateVisibleProperty.getValue();
+            plateVectorNode.setVisible( plateVisible );
+            plateValueNode.setVisible( plateVisible );
+            plateValueNode.setValueVisible( valuesVisible );
 
-            sumVectorNode.setVisible( detector.isSumVectorVisible() && !simplified );
-            sumValueNode.setVisible( detector.isSumVectorVisible() && !simplified );
-            sumValueNode.setValueVisible( detector.isValuesVisible() && !simplified );
+            final boolean dielectricVisible = detector.dielectricVisibleProperty.getValue() && !simplified;
+            dielectricVectorNode.setVisible( dielectricVisible );
+            dielectricValueNode.setVisible( dielectricVisible );
+            dielectricValueNode.setValueVisible( valuesVisible && !simplified );
+
+            boolean sumVisible = detector.sumVisibleProperty.getValue() && !simplified;
+            sumVectorNode.setVisible( sumVisible );
+            sumValueNode.setVisible( sumVisible );
+            sumValueNode.setValueVisible( valuesVisible && !simplified );
 
             updateLayout();
         }
@@ -510,6 +439,18 @@ public class EFieldDetectorBodyNode extends PhetPNode {
                 }
                 dielectricValueNode.setOffset( x, y );
             }
+        }
+    }
+
+    /*
+     * Encapsulates the "look" of check boxes in the detector.
+     */
+    private static class DetectorCheckBox extends PropertyCheckBox {
+        public DetectorCheckBox( String text, Property<Boolean> property, Color foreground ) {
+            super( text, property );
+            setOpaque( false );
+            setFont( CONTROL_FONT );
+            setForeground( foreground );
         }
     }
 
@@ -602,14 +543,14 @@ public class EFieldDetectorBodyNode extends PhetPNode {
                 public void actionPerformed( ActionEvent e ) {
                     setZoomLevel( zoomLevel + 1 );
                 }
-            });
+            } );
 
             zoomOutButton = new JButton( ZoomButtonNode.getZoomOutIcon( 1.5 /* scale */ ) );
             zoomOutButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     setZoomLevel( zoomLevel - 1 );
                 }
-            });
+            } );
 
             // layout
             setAnchor( Anchor.WEST );
