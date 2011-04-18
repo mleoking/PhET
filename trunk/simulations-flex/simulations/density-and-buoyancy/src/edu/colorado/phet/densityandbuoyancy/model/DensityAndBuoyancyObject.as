@@ -34,14 +34,14 @@ public class DensityAndBuoyancyObject {
     private var contactForceArrowModel: Vector2D = new Vector2D( 0, 0 );
 
     private const _forceVectors: Array = [gravityForceArrowModel,buoyancyForceArrowModel,contactForceArrowModel];
-    //REVIEW: Why does each density object need to have a reference to the model?  Seems like a design weakness that
+    //TODO: Remove reference to parent object, since it is a design weakness that
     // introduces unnecessary coupling.  Would be better if model listened for notification of removal, and if this
     // class had a method for setting the fluid density.
     private var model: DensityAndBuoyancyModel;
 
     private var body: b2Body; // our reference to the Box2D "body" in the physics engine
     private var submergedVolume: Number = 0.0;
-    private var contactImpulseMap: Object = new Object();  //REVIEW doc, couldn't tell what this was.
+    private var contactImpulseMap: Object = new Object();  //Mapping from other DensityAndBuoyancyObjects to the physical impulse (force * time) between them, which is provided by box2d
     private var labelProperty: StringProperty;
     private const removalListeners: Array = new Array();
     private var _userControlled: Boolean = false;
@@ -57,9 +57,9 @@ public class DensityAndBuoyancyObject {
     public function DensityAndBuoyancyObject( x: Number, y: Number, z: Number, model: DensityAndBuoyancyModel, __density: Number, mass: Number, __volume: Number, __material: Material ) {
         this._material = __material;
         //REVIEW why aren't you using a Units object to supply units, as in CustomObjectPropertiesPanel?
-        //REVIEW why aren't units internationalized?
+        //TODO: why aren't units internationalized?, see #2810
         this._volume = new NumericProperty( FlexSimStrings.get( "properties.volume", "Volume" ), "m\u00b3", __volume );
-        //REVIEW Confused by the fact that the units string is a pattern for mass.
+        //TODO: why aren't units internationalized?, see #2810
         this._mass = new NumericProperty( FlexSimStrings.get( "properties.mass", "Mass" ), "{0} kg", mass );
         this._density = new NumericProperty( FlexSimStrings.get( "properties.density", "Density" ), "kg/m\u00b3", __density );
         this.labelProperty = new StringProperty( getLabelString() );//Showing one decimal point is a good tradeoff between readability and complexity);
@@ -110,9 +110,7 @@ public class DensityAndBuoyancyObject {
     }
 
     private function getLabelString(): String {
-        //REVIEW Why isn't this getting the units from the mass property, since they were set up above?  In that case
-        // the pattern should be "{0} {1}".
-        //REVIEW why is formatting handled by SimStrings?
+        //TODO: why aren't units internationalized?, see #2810
         return FlexSimStrings.get( "properties.massKilogramValue", "{0} kg", [DensityAndBuoyancyConstants.format( getMass() )] );
     }
 
@@ -124,7 +122,7 @@ public class DensityAndBuoyancyObject {
         materialListeners.push( listener );
     }
 
-    //REVIEW doc - What's a color transform?
+    //Listen to changes in the color transform (flash instance that is used to colorize the object at painting time)
     public function addColorTransformListener( listener: Function ): void {
         colorTransformListeners.push( listener );
     }
@@ -178,6 +176,7 @@ public class DensityAndBuoyancyObject {
         return x.value;
     }
 
+    //TODO: Z, x and y should be provided by similar interfaces (function get)
     public function getY(): Number {
         return y.value;
     }
@@ -186,7 +185,6 @@ public class DensityAndBuoyancyObject {
         return _z.value;
     }
 
-    //REVIEW Why is z the only dimension that has this style setter, and the underscore, and all that?
     public function set z( z: Number ): void {
         this._z.value = z;
     }
@@ -213,7 +211,7 @@ public class DensityAndBuoyancyObject {
     }
 
     private function updatePosition(): void {
-        //REVIEW Why is there this separate scaling constant instead of a model-view transform?
+        //Transform from the Box2D model to the actual model.  Transformation is through a uniform-aspect-ratio scale with no offset, so represented with a single multiplier.
         var newX: Number = x.value * DensityAndBuoyancyConstants.SCALE_BOX2D;
         var newY: Number = y.value * DensityAndBuoyancyConstants.SCALE_BOX2D;
         if ( body != null ) { //body is only non-null after inScene = true, so only update when possible 
@@ -227,7 +225,7 @@ public class DensityAndBuoyancyObject {
         return body;
     }
 
-    //REVIEW doc - Is this hooking the density object up to the physics engine or something?
+    //When the body for this object changes, make sure the old body gets removed from the box2D model
     public function setBody( body: b2Body ): void {
         if ( this.body != null ) {
             //delete from world
@@ -245,18 +243,21 @@ public class DensityAndBuoyancyObject {
      * @param contact
      */
     public function registerContact( contact: b2ContactResult ): void {
-        //REVIEW: This seems important, so it could use some internal documentation that describes what is going
-        //on.  The general idea is clear - it has something to do with contacts between bodies - but the details are
-        //hard to understand by just reading the code.
         var other: b2Body = contact.shape1.GetBody();
+
+        //Determine whether this block is being pushed or doing the pushing
         var sign: Number = 1.0;
         if ( other == body ) {
             other = contact.shape2.GetBody();
             sign = -1.0;
         }
+
+        //Make an entry in the map if there wasn't one already
         if ( contactImpulseMap[other] == undefined ) {
             contactImpulseMap[other] = new b2Vec2( 0, 0 );
         }
+
+        //Add the new impulse term to the sum of impulses.
         var term: b2Vec2 = contact.normal.Copy();
         term.Multiply( sign * contact.normalImpulse );
         contactImpulseMap[other].Add( term );
