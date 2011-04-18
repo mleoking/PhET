@@ -12,7 +12,7 @@ import mx.core.UIComponent;
  * Slider control that adds tick marks, a data tip, a thumb offset, different rending for enabled/disabled.
  */
 public class SliderDecorator extends UIComponent {
-    private var slider: MyHSlider;
+    private var slider: CommittableHSlider;
 
     private var tickMarkSet: Sprite;
     private var ticks: Array = new Array();
@@ -25,7 +25,7 @@ public class SliderDecorator extends UIComponent {
     public function SliderDecorator( thumbOffset: Number/*Number=>Number*/ ) {
         super();
 
-        slider = new MyHSlider();
+        slider = new CommittableHSlider();
         slider.showDataTip = false;
         slider.setStyle( "thumbOffset", thumbOffset );
 
