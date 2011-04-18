@@ -26,21 +26,21 @@ helium-nucleus.png author=PhET
 hydrogen-nucleus.png  author=PhET
 magenta_block.png author=PhET
 moving-man.gif author=PhET
-volcano_cool.png source=Microsoft Clip Art
-volcano_hot.png source=Microsoft Clip Art
+volcano_cool.png source=Open Clip Art notes='Volcano 2', "http://www.openclipart.org/detail/64057"
+volcano_hot.png source=Open Clip Art notes='Volcano', "http://www.openclipart.org/detail/64051"
 
-air_probe.png source=Microsoft Clip Art
-bone.png source=Microsoft Clip Art
-cloud_1.png source=Microsoft Clip Art
-cup.png source source=Microsoft Clip Art
-dinosaur_skull.png source=Microsoft Clip Art
-fish_bones.png source=Microsoft Clip Art
-fish_fossil.png source=Microsoft Clip Art
-house.png source=Microsoft Clip Art
-skull_animal.png source=Microsoft Clip Art
-skull_animal_2.png source=Microsoft Clip Art
-skull_human.png source=Microsoft Clip Art
-trilobyte_fossil.png source=Microsoft Clip Art
+air_probe.png source=Open Clip Art notes='Chemistry set', "http://www.openclipart.org/detail/1763"
+bone.png source=Wikimedia Commons notes='Bone award', "http://commons.wikimedia.org/wiki/File:Bone_award.png"
+cloud_1.png source=Open Clip Art notes='cloud ', "http://www.openclipart.org/detail/28302"
+cup.png source source=Wikimedia Commons notes='The Antioch Chalice, first half of 6th century, Metropolitan Museum of Art', "http://commons.wikimedia.org/wiki/File:The_Antioch_Chalice,_first_half_of_6th_century,_Metropolitan_Museum_of_Art.jpg"
+dinosaur_skull.png source=Wikimedia Commons notes='Velociraptor skull crâne 2', "http://commons.wikimedia.org/wiki/File:Velociraptor_skull_crâne_2.png"
+fish_bones.png source=Wikimedia Commons notes='Beryx decadactylus1', "http://commons.wikimedia.org/wiki/File:Beryx_decadactylus1.jpg"
+fish_fossil.png source=Wikimedia Commons notes='Knightia Exhibit Museum of Natural History 03', "http://commons.wikimedia.org/wiki/File:Knightia_Exhibit_Museum_of_Natural_History_03.JPG"
+house.png source=Open Clip Art notes='tango go home', "http://www.openclipart.org/detail/30805"
+skull_animal.png source=Wikimedia Commons notes='Buffalo Skull - Phoenix AZ',"http://commons.wikimedia.org/wiki/File:Buffalo_Skull_-_Phoenix_AZ.jpg"
+skull_animal_2.png source=Wikimedia Commons notes='Bison bonasus européen wisent MNHN', "http://commons.wikimedia.org/wiki/File:Bison_bonasus_europ%C3%A9en_wisent_MNHN.jpg"
+skull_human.png source=Open Clip Art notes='skull', "http://www.openclipart.org/detail/86479"
+trilobyte_fossil.png source=Open Clip Art notes='trilobite', "http://www.openclipart.org/detail/4950"
 
 dead_tree.png author=PhET
 geiger_probe_6.png author=PhET
