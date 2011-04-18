@@ -5,16 +5,16 @@
         import mx.core.Application;
         import mx.managers.PopUpManager;
 
-        private function init() : void {
+        private function init(): void {
             this.transform.colorTransform = Application.application.transform.colorTransform;
         }
 
-        private function closeDialog() : void {
-            PopUpManager.removePopUp(this);
+        private function closeDialog(): void {
+            PopUpManager.removePopUp( this );
         }
 
-        public function linkHandler( event:TextEvent ):void {
-            navigateToURL(new URLRequest(event.text), '_blank')
+        public function linkHandler( event: TextEvent ): void {
+            navigateToURL( new URLRequest( event.text ), '_blank' )
         }
         ]]>
     </mx:Script>

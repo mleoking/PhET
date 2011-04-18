@@ -5,19 +5,19 @@
         import mx.core.Application;
         import mx.managers.PopUpManager;
 
-        private function init() : void {
+        private function init(): void {
             this.transform.colorTransform = Application.application.transform.colorTransform;
         }
 
-        private function closeDialog() : void {
-            PopUpManager.removePopUp(this);
+        private function closeDialog(): void {
+            PopUpManager.removePopUp( this );
         }
 
-        public function linkHandler(event:TextEvent):void {
-            navigateToURL(new URLRequest(event.text), '_blank')
+        public function linkHandler( event: TextEvent ): void {
+            navigateToURL( new URLRequest( event.text ), '_blank' )
         }
 
-        public function setRegularContrast() : void {
+        public function setRegularContrast(): void {
             this.transform.colorTransform = Application.application.transform.colorTransform = new ColorTransform();
             Application.application.flexcommon.highContrast = false;
 
@@ -33,8 +33,8 @@
             //StyleManager.getStyleDeclaration("global").clearStyle( "highlightAlphas" );
         }
 
-        public function setHighContrast() : void {
-            this.transform.colorTransform = Application.application.transform.colorTransform = new ColorTransform(-1, -1, -1, 1, 255, 255, 255, 0);
+        public function setHighContrast(): void {
+            this.transform.colorTransform = Application.application.transform.colorTransform = new ColorTransform( -1, -1, -1, 1, 255, 255, 255, 0 );
             Application.application.flexcommon.highContrast = true;
 
             Application.application.setStyle( "color", 0xFFFFFF );
@@ -48,27 +48,28 @@
             //StyleManager.getStyleDeclaration("global").setStyle( "highlightAlphas", [0, 0] );
         }
 
-        public function changeContrast() : void {
-            if( highContrastCheckBox.selected ) {
+        public function changeContrast(): void {
+            if ( highContrastCheckBox.selected ) {
                 setHighContrast();
-            } else {
+            }
+            else {
                 setRegularContrast();
             }
         }
 
-        private function ok() : void {
+        private function ok(): void {
             changeContrast();
             closeDialog();
         }
 
-        private function cancel() : void {
+        private function cancel(): void {
             closeDialog();
         }
         ]]>
     </mx:Script>
 
     <mx:HBox>
-        <mx:CheckBox id="highContrastCheckBox" label="High Contrast" selected="{Application.application.flexcommon.highContrast}" />
+        <mx:CheckBox id="highContrastCheckBox" label="High Contrast" selected="{Application.application.flexcommon.highContrast}"/>
     </mx:HBox>
 
     <mx:HBox>

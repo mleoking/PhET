@@ -17,7 +17,7 @@ public class PhetLogoButton extends UIComponent {
         useHandCursor = true;
         buttonMode = true;
         var bitmap: Bitmap = new logoClass();
-        var scale:Number = height / bitmap.height;
+        var scale: Number = height / bitmap.height;
         bitmap.scaleX = scale;
         bitmap.scaleY = scale;
         addChild( bitmap );
