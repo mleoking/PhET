@@ -84,7 +84,6 @@ public class Cuboid extends DensityAndBuoyancyObject {
         }
     }
 
-    //REVIEW why?
     //TODO: these getters should be rewritten with 'function get' syntax
     public function getWidth(): Number {
         return width;
