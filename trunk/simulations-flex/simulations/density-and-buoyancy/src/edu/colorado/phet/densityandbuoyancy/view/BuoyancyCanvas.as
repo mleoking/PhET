@@ -112,8 +112,8 @@ public class BuoyancyCanvas extends AbstractDBCanvas {
         return _container;
     }
 
-    override protected function createDensityObjectNode( densityObject: DensityAndBuoyancyObject ): DensityAndBuoyancyObjectNode {
-        var densityObjectNode: DensityAndBuoyancyObjectNode = super.createDensityObjectNode( densityObject );
+    override protected function createNode( densityObject: DensityAndBuoyancyObject ): DensityAndBuoyancyObjectNode {
+        var densityObjectNode: DensityAndBuoyancyObjectNode = super.createNode( densityObject );
         addArrowNodes( densityObjectNode );
         return densityObjectNode;
     }
