@@ -125,15 +125,15 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas implements Resettable 
         // Add the "My Isotope" label.
         // TODO: i18n
         final PText myIsotopeLabel = new PText("My Isotope:"){{
-            setFont( new PhetFont( 20, true ) );
-            setTextPaint( Color.LIGHT_GRAY );
+            setFont( new PhetFont( 24, true ) );
+            setTextPaint( Color.DARK_GRAY );
+            setOffset( 100, 100 );
         }};
-        myIsotopeLabel.setOffset( mvt.modelToViewX( 0 ) - myIsotopeLabel.getFullBoundsReference().width / 2,
-                mvt.modelToViewY( 50 ) );
+
         rootNode.addChild( myIsotopeLabel );
 
         // Add indicator that shows the name of the element.
-        ElementNameIndicator elementNameIndicator = new ElementNameIndicator( model.getAtom(), new BooleanProperty( true ), true ){{
+        final ElementNameIndicator elementNameIndicator = new ElementNameIndicator( model.getAtom(), new BooleanProperty( true ), true ){{
             setFont( new PhetFont( 20, true ) );
             setColor( Color.BLACK );
             setOffset( mvt.modelToViewX( 0 ), myIsotopeLabel.getFullBoundsReference().getMaxY() + getFullBoundsReference().height );
@@ -142,22 +142,21 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas implements Resettable 
 
         // Add indicator that shows whether the nucleus is stable.
         final StabilityIndicator stabilityIndicator = new StabilityIndicator( model.getAtom(), new BooleanProperty( true ) );
-        model.getAtom().addAtomListener( new AtomListener.Adapter() {
-                @Override
-                public void configurationChanged() {
-                stabilityIndicator.setOffset( mvt.modelToViewX( 0 ) - stabilityIndicator.getFullBoundsReference().width / 2,
-                        mvt.modelToViewY( -Atom.ELECTRON_SHELL_1_RADIUS ) - stabilityIndicator.getFullBoundsReference().height);
-                }
-                } );
         rootNode.addChild( stabilityIndicator );
 
         // Add functionality to position the labels based on the location of
         // the nucleus.
-        atomAndBucketNode.addNucleusBoundsChangeListener( new PropertyChangeListener() {
-            public void propertyChange( PropertyChangeEvent evt ) {
-                System.out.println( "Bounds = " + atomAndBucketNode.getNucleusBounds());
-                PBounds bounds = atomAndBucketNode.getNucleusBounds();
-                stabilityIndicator.setOffset( bounds.x, bounds.y );
+        model.getAtom().addAtomListener( new AtomListener.Adapter(){
+            @Override
+            public void postitionChanged(){
+                double centerX = model.getAtom().getPosition().getX();
+                double centerY = model.getAtom().getPosition().getY();
+                elementNameIndicator.setOffset(
+                        mvt.modelToViewX( centerX ),
+                        mvt.modelToViewY( centerY ) - elementNameIndicator.getFullBounds().height - 25 );
+                stabilityIndicator.setOffset(
+                        mvt.modelToViewX( centerX ) - stabilityIndicator.getFullBoundsReference().width / 2,
+                        mvt.modelToViewY( centerY ) + elementNameIndicator.getFullBounds().height + 20 );
             }
         });
 
