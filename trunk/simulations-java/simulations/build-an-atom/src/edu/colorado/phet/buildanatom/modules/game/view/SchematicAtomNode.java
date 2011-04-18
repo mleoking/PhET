@@ -123,13 +123,13 @@ public class SchematicAtomNode extends PNode {
 
         // Add the subatomic particles.
         for ( final Electron electron : atom.getElectrons() ){
-            addElectron( electron );
+            addElectronNode( electron );
         }
         for ( final Proton proton : atom.getProtons()){
-            addProton( proton );
+            addProtonNode( proton );
         }
         for ( final Neutron neutron : atom.getNeutrons()){
-            addNeutron( neutron );
+            addNeutronNode( neutron );
         }
     }
 
@@ -199,7 +199,7 @@ public class SchematicAtomNode extends PNode {
      *
      * @param proton
      */
-    protected void addProton( final Proton proton ){
+    protected void addProtonNode( final Proton proton ){
 
         // Create the node to represent this particle.
         final ProtonNode protonNode = new ProtonNode( mvt, proton );
@@ -238,7 +238,7 @@ public class SchematicAtomNode extends PNode {
      *
      * @param neutron
      */
-    protected void addNeutron( final Neutron neutron ){
+    protected void addNeutronNode( final Neutron neutron ){
         // Create the node to represent this particle.
         final NeutronNode neutronNode = new NeutronNode( mvt, neutron );
         neutron.addPositionListener( new SimpleObserver() {
@@ -276,7 +276,7 @@ public class SchematicAtomNode extends PNode {
      *
      * @param electron
      */
-    protected void addElectron( final Electron electron ){
+    protected void addElectronNode( final Electron electron ){
 
         // Create the node to represent this particle.
         final ElectronNode electronNode = new ElectronNode( mvt, electron ){{
@@ -319,15 +319,15 @@ public class SchematicAtomNode extends PNode {
      *
      * @param particle
      */
-    protected void addParticle( SphericalParticle particle ) {
+    protected void addParticleNode( SphericalParticle particle ) {
         if ( particle instanceof Neutron ) {
-            addNeutron( (Neutron) particle );
+            addNeutronNode( (Neutron) particle );
         }
         else if ( particle instanceof Proton ) {
-            addProton( (Proton) particle );
+            addProtonNode( (Proton) particle );
         }
         else if ( particle instanceof Electron ) {
-            addElectron( (Electron) particle );
+            addElectronNode( (Electron) particle );
         }
     }
 }

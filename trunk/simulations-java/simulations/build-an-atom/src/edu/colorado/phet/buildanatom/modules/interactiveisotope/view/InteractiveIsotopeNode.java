@@ -29,7 +29,7 @@ public class InteractiveIsotopeNode extends SchematicAtomNode {
         model.addListener( new InteractiveIsotopeModel.Adapter() {
             @Override
             public void particleAdded( SphericalParticle subatomicParticle ) {
-                addParticle( subatomicParticle );
+                addParticleNode( subatomicParticle );
             }
         });
 
@@ -42,7 +42,7 @@ public class InteractiveIsotopeNode extends SchematicAtomNode {
             // Add these particles to the atom representation even though they
             // are outside of the atom, since they may well be added to the
             // atom later.
-            addNeutron( (Neutron) neutron );
+            addNeutronNode( (Neutron) neutron );
         }
     }
 }
