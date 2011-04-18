@@ -13,10 +13,8 @@ import edu.colorado.phet.flexcommon.model.BooleanProperty;
 import edu.colorado.phet.flexcommon.model.NumericProperty;
 import edu.colorado.phet.flexcommon.model.StringProperty;
 
-//REVIEW: A look at the code seems to indicate that this is supposed to be abstract.  This should be documented or
-//the name should be changed to make this more clear.
 /**
- * Base class for "something movable that behaves like an object in the play area", including Scales and Blocks.
+ * Abstract base class for "something movable that behaves like an object in the play area", including Scales and Blocks.
  */
 public class DensityAndBuoyancyObject {
 
@@ -50,11 +48,11 @@ public class DensityAndBuoyancyObject {
 
     private var lastPosition: b2Vec2; // last position, used for velocity
     private var velocity: b2Vec2 = new b2Vec2();
-    private var _inScene: BooleanProperty = new BooleanProperty( false );  //REVIEW doc
+    private var _inScene: BooleanProperty = new BooleanProperty( false );  //Flag to indicate whether a block is currently in the away3d scene.  If so, its box2d companion model will be updated.
     private const _nameVisible: BooleanProperty = new BooleanProperty( false );
     private var _name: String = "name";
 
-    private var shouldOverrideVelocity: Boolean = false; //REVIEW should doc too.
+    private var shouldOverrideVelocity: Boolean = false; //If true, the object was thrown and should maintain the same velocity after letting go as before
 
     public function DensityAndBuoyancyObject( x: Number, y: Number, z: Number, model: DensityAndBuoyancyModel, __density: Number, mass: Number, __volume: Number, __material: Material ) {
         this._material = __material;
@@ -143,7 +141,7 @@ public class DensityAndBuoyancyObject {
     }
 
     //REVIEW Can this be private?
-    public function notifyColorTransformListeners(): void {
+    private function notifyColorTransformListeners(): void {
         for each ( var listener: Function in colorTransformListeners ) {
             listener();
         }
@@ -203,7 +201,7 @@ public class DensityAndBuoyancyObject {
         _inScene.value = false;
     }
 
-    //REVIEW doc - clarify the relationship between this and the Box2D.
+    //Update this model position after the Box2D physics engine has stepped
     public function updatePositionFromBox2D(): void {
         setPosition( body.GetPosition().x / DensityAndBuoyancyConstants.SCALE_BOX2D, body.GetPosition().y / DensityAndBuoyancyConstants.SCALE_BOX2D );
     }
@@ -308,13 +306,11 @@ public class DensityAndBuoyancyObject {
         mytrace( "y: " + y.value );
     }
 
-    //REVIEW doc
+    //If the object was thrown it should maintain the same velocity after letting go as before
     public function beforeModelStep( dt: Number ): void {
-        mytrace( "STEP" );
         if ( shouldOverrideVelocity ) {
             shouldOverrideVelocity = false;
             body.SetLinearVelocity( velocity.Copy() );
-            trace( "SET VELOCITY: " + velocity.x + ", " + velocity.y );
         }
     }
 
