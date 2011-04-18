@@ -8,9 +8,8 @@ import flash.geom.ColorTransform;
 
 import mx.core.UIComponent;
 
-//REVIEW this has nothing to do with flashcommon, it's an MX subclass. rename to DensityAndBuoyancyUIComponent?
 /**
- * Adds project-specific customization for common button locations and high contrast
+ * Adds project-specific customization for flashcommon button locations (such as about...) and high contrast
  */
 public class DensityAndBuoyancyFlashCommon extends UIComponent {
     public function DensityAndBuoyancyFlashCommon() {

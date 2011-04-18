@@ -12,9 +12,8 @@ import flash.events.MouseEvent;
 import mx.controls.Label;
 import mx.controls.RadioButton;
 
-//REVIEW is this the top-level class because there's only 1 tab in this sim?
 /**
- * Main canvas for the density sim. Contains all of the sim-related UI
+ * Main canvas for the density sim. Contains all of the sim-related UI.  Top level class because there's only 1 tab in the sim (and therefore no tabs).
  */
 public class DensityCanvas extends AbstractDensityAndBuoyancyCanvas {
 
@@ -26,11 +25,9 @@ public class DensityCanvas extends AbstractDensityAndBuoyancyCanvas {
     public function DensityCanvas() {
         super();
 
-        const myThis: DensityCanvas = this; //REVIEW why is this necessary? we tried removing it and it appeared to work OK.
-
         addBackground();
 
-        densityCanvas = new DensityPlayAreaComponent( myThis );
+        densityCanvas = new DensityPlayAreaComponent( this );
         addChild( densityCanvas );
 
         //REVIEW suggest that modeControlPanel should be a subclass of DensityVBox, eg ModeControlPanel that takes densityCanvas as constructor arg
