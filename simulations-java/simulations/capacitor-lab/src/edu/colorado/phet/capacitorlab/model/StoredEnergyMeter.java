@@ -12,9 +12,9 @@ import edu.colorado.phet.common.phetcommon.util.function.Function1;
  */
 public class StoredEnergyMeter extends BarMeter {
 
-    public StoredEnergyMeter( final ICircuit circuit, World world, Point3D location, boolean visible ) {
+    public StoredEnergyMeter( ICircuit circuit, World world, Point3D location, boolean visible ) {
         super( circuit, world, location, visible, new Function1<ICircuit, Double>() {
-            public Double apply( ICircuit iCircuit ) {
+            public Double apply( ICircuit circuit ) {
                 return circuit.getStoredEnergy();
             }
         } );

@@ -12,9 +12,9 @@ import edu.colorado.phet.common.phetcommon.util.function.Function1;
  */
 public class CapacitanceMeter extends BarMeter {
 
-    public CapacitanceMeter( final ICircuit circuit, World world, Point3D location, boolean visible ) {
+    public CapacitanceMeter( ICircuit circuit, World world, Point3D location, boolean visible ) {
         super( circuit, world, location, visible, new Function1<ICircuit, Double>() {
-            public Double apply( ICircuit iCircuit ) {
+            public Double apply( ICircuit circuit ) {
                 return circuit.getTotalCapacitance();
             }
         } );

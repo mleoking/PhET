@@ -1,3 +1,4 @@
+4/18/11 BarMeter: make some properties final public, add setCircuit so that meters can be connected to different circuits
 4/18/11 replace abstract method with function parameter in BarMeter base class
 4/11/11 add meters to Multi-Cap canvas
 4/11/11 added circuit choice property to model and control panel

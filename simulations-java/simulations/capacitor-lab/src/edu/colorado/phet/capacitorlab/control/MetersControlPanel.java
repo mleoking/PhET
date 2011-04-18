@@ -2,9 +2,9 @@
 
 package edu.colorado.phet.capacitorlab.control;
 
-import java.awt.BorderLayout;
+import java.awt.*;
 
-import javax.swing.JCheckBox;
+import javax.swing.*;
 
 import edu.colorado.phet.capacitorlab.CLStrings;
 import edu.colorado.phet.capacitorlab.model.*;
@@ -24,9 +24,9 @@ public class MetersControlPanel extends PhetTitledPanel {
         super( CLStrings.METERS );
 
         // check boxes
-        JCheckBox capacitanceCheckBox = new PropertyCheckBox( CLStrings.CAPACITANCE, capacitanceMeter.getVisibleProperty() );
-        JCheckBox plateChargeCheckBox = new PropertyCheckBox( CLStrings.PLATE_CHARGE, plateChangeMeter.getVisibleProperty() );
-        JCheckBox storedEnergyCheckBox = new PropertyCheckBox( CLStrings.STORED_ENERGY, storedEnergyMeter.getVisibleProperty() );
+        JCheckBox capacitanceCheckBox = new PropertyCheckBox( CLStrings.CAPACITANCE, capacitanceMeter.visibleProperty );
+        JCheckBox plateChargeCheckBox = new PropertyCheckBox( CLStrings.PLATE_CHARGE, plateChangeMeter.visibleProperty );
+        JCheckBox storedEnergyCheckBox = new PropertyCheckBox( CLStrings.STORED_ENERGY, storedEnergyMeter.visibleProperty );
         JCheckBox voltmeterCheckBox = new PropertyCheckBox( CLStrings.VOLTMETER, voltmeter.getVisibleProperty() );
         JCheckBox eFieldDetectorCheckBox = new PropertyCheckBox( CLStrings.ELECTRIC_FIELD_DETECTOR, eFieldDetector.getVisibleProperty() );
 
