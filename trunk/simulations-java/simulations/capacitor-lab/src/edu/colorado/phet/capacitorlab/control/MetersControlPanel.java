@@ -28,7 +28,7 @@ public class MetersControlPanel extends PhetTitledPanel {
         JCheckBox plateChargeCheckBox = new PropertyCheckBox( CLStrings.PLATE_CHARGE, plateChangeMeter.visibleProperty );
         JCheckBox storedEnergyCheckBox = new PropertyCheckBox( CLStrings.STORED_ENERGY, storedEnergyMeter.visibleProperty );
         JCheckBox voltmeterCheckBox = new PropertyCheckBox( CLStrings.VOLTMETER, voltmeter.getVisibleProperty() );
-        JCheckBox eFieldDetectorCheckBox = new PropertyCheckBox( CLStrings.ELECTRIC_FIELD_DETECTOR, eFieldDetector.getVisibleProperty() );
+        JCheckBox eFieldDetectorCheckBox = new PropertyCheckBox( CLStrings.ELECTRIC_FIELD_DETECTOR, eFieldDetector.visibleProperty );
 
         // layout
         GridPanel innerPanel = new GridPanel();

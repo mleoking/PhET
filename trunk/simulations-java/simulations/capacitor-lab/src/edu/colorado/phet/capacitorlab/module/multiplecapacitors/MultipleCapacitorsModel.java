@@ -63,6 +63,7 @@ public class MultipleCapacitorsModel {
                 capacitanceMeter.setCircuit( circuit );
                 plateChargeMeter.setCircuit( circuit );
                 storedEnergyMeter.setCircuit( circuit );
+                eFieldDetector.setCircuit( circuit );
             }
         } );
     }

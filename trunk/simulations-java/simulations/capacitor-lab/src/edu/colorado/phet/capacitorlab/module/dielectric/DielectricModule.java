@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.capacitorlab.module.dielectric;
 
-import java.awt.Frame;
+import java.awt.*;
 
 import edu.colorado.phet.capacitorlab.CLStrings;
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
@@ -28,7 +28,7 @@ public class DielectricModule extends CLModule {
 
         CLModelViewTransform3D mvt = new CLModelViewTransform3D();
 
-        model = new DielectricModel( getCLClock(), mvt);
+        model = new DielectricModel( getCLClock(), mvt );
 
         canvas = new DielectricCanvas( model, mvt, dev );
         setSimulationPanel( canvas );
@@ -71,10 +71,10 @@ public class DielectricModule extends CLModule {
     }
 
     protected void setEFieldDetectorDielectricVisible( boolean visible ) {
-        model.getEFieldDetector().setDielectricVisible( visible );
+        model.getEFieldDetector().dielectricVisibleProperty.setValue( visible );
     }
 
     protected void setEFieldDetectorSumVisible( boolean visible ) {
-        model.getEFieldDetector().setSumVisible( visible );
+        model.getEFieldDetector().sumVisibleProperty.setValue( visible );
     }
 }
