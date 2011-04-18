@@ -19,8 +19,9 @@ import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 /*
 NOTES (questions):
 
-(1): Should we support showing a "schematic" view in the collection boxes? (possibly hard to see).
+---completed (1): Should we support showing a "schematic" view in the collection boxes? (possibly hard to see).
 If so, should we only show a "canonical" version? Molecules with a vertical layout may be very difficult to see.
+    response: No, don't need to show this
 
 (2): Currently the highlight showing a completed collection box is (to my eyes) somewhat faint. Should the colors be changed, and/or should we add in
 a sound when a collection box is filled?
