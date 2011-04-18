@@ -1,6 +1,6 @@
 //  Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.densityandbuoyancy.components {
-import edu.colorado.phet.densityandbuoyancy.model.DensityObject;
+import edu.colorado.phet.densityandbuoyancy.model.DensityAndBuoyancyObject;
 import edu.colorado.phet.densityandbuoyancy.model.Material;
 import edu.colorado.phet.densityandbuoyancy.view.units.Unit;
 import edu.colorado.phet.flexcommon.model.NumericProperty;
@@ -11,7 +11,7 @@ import edu.colorado.phet.flexcommon.model.NumericProperty;
  * The density cannot be directly controlled, the user changes mass and volume and sees the effect on density.
  */
 public class DensityEditor extends PropertyEditor {
-    private var densityObject: DensityObject;
+    private var densityObject: DensityAndBuoyancyObject;
 
     public function DensityEditor( property: NumericProperty, minimum: Number, maximum: Number, unit: Unit, dataTipClamp: Function, bounds: NumericClamp, sliderWidth: Number ) {
         super( property, minimum, maximum, unit, dataTipClamp, bounds, sliderWidth + 80, false );

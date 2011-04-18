@@ -91,15 +91,15 @@ public class Scale extends Cuboid {
             return;
         }
 
-        if ( !(body1.GetUserData() is DensityObject && body2.GetUserData() is DensityObject) ) {
+        if ( !(body1.GetUserData() is DensityAndBuoyancyObject && body2.GetUserData() is DensityAndBuoyancyObject) ) {
             // not between movable models!
             return;
         }
 
-        var model1: DensityObject = body1.GetUserData() as DensityObject;
-        var model2: DensityObject = body2.GetUserData() as DensityObject;
+        var model1: DensityAndBuoyancyObject = body1.GetUserData() as DensityAndBuoyancyObject;
+        var model2: DensityAndBuoyancyObject = body2.GetUserData() as DensityAndBuoyancyObject;
 
-        var topModel: DensityObject = model1.getY() > model2.getY() ? model1 : model2;
+        var topModel: DensityAndBuoyancyObject = model1.getY() > model2.getY() ? model1 : model2;
 
         //This conditional block is meant to avoid incorporating forces from underneath the scale
         if ( this == topModel ) {

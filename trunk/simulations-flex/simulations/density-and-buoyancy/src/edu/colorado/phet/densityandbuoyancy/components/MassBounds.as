@@ -1,16 +1,16 @@
 //  Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.densityandbuoyancy.components {
 import edu.colorado.phet.densityandbuoyancy.DensityAndBuoyancyConstants;
-import edu.colorado.phet.densityandbuoyancy.model.DensityObject;
+import edu.colorado.phet.densityandbuoyancy.model.DensityAndBuoyancyObject;
 import edu.colorado.phet.densityandbuoyancy.model.Material;
 
 /**
  * This implementation of Bounds ensures that a the mass for an object can't exceed the maximum (depends on the material type).
  */
 public class MassBounds implements NumericClamp {
-    private var densityObject: DensityObject;
+    private var densityObject: DensityAndBuoyancyObject;
 
-    public function MassBounds( densityObject: DensityObject ) {
+    public function MassBounds( densityObject: DensityAndBuoyancyObject ) {
         this.densityObject = densityObject;
     }
 

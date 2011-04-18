@@ -2,7 +2,7 @@
 package edu.colorado.phet.densityandbuoyancy.view.modes {
 import edu.colorado.phet.densityandbuoyancy.DensityAndBuoyancyConstants;
 import edu.colorado.phet.densityandbuoyancy.model.Block;
-import edu.colorado.phet.densityandbuoyancy.model.DensityObject;
+import edu.colorado.phet.densityandbuoyancy.model.DensityAndBuoyancyObject;
 import edu.colorado.phet.densityandbuoyancy.model.Material;
 import edu.colorado.phet.densityandbuoyancy.view.AbstractDBCanvas;
 
@@ -12,8 +12,8 @@ import flash.geom.ColorTransform;
  * The 'same mass' mode in Buoyancy shows 2 blocks of the same volume, of differing materials.
  */
 public class BuoyancySameVolumeMode extends BuoyancyMode {
-    private var woodBlock: DensityObject;
-    private var brick: DensityObject;
+    private var woodBlock: DensityAndBuoyancyObject;
+    private var brick: DensityAndBuoyancyObject;
 
     public function BuoyancySameVolumeMode( canvas: AbstractDBCanvas ) {
         super( canvas );

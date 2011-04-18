@@ -13,10 +13,10 @@ public class ContactHandler extends b2ContactListener {
     }
 
     override public function Result( point: b2ContactResult ): void {
-        if ( point.shape1.GetBody().GetUserData() is DensityObject ) {
+        if ( point.shape1.GetBody().GetUserData() is DensityAndBuoyancyObject ) {
             point.shape1.GetBody().GetUserData().registerContact( point );
         }
-        if ( point.shape2.GetBody().GetUserData() is DensityObject ) {
+        if ( point.shape2.GetBody().GetUserData() is DensityAndBuoyancyObject ) {
             point.shape2.GetBody().GetUserData().registerContact( point );
         }
     }

@@ -4,7 +4,7 @@ import Box2D.Dynamics.b2Body;
 
 import away3d.containers.ObjectContainer3D;
 
-import edu.colorado.phet.densityandbuoyancy.model.DensityObject;
+import edu.colorado.phet.densityandbuoyancy.model.DensityAndBuoyancyObject;
 import edu.colorado.phet.densityandbuoyancy.view.*;
 import edu.colorado.phet.flashcommon.AbstractMethodError;
 import edu.colorado.phet.flexcommon.model.BooleanProperty;
@@ -14,7 +14,7 @@ import edu.colorado.phet.flexcommon.model.NumericProperty;
  * Base class for deep hierarchy of 3D objects in the play area that can be moved by the user (including blocks and scales).
  */
 public class DensityObjectNode extends ObjectContainer3D implements Pickable {
-    private var densityObject: DensityObject;
+    private var densityObject: DensityAndBuoyancyObject;
 
     /**
      * the depth of the object so arrows will render just outside of the object
@@ -35,7 +35,7 @@ public class DensityObjectNode extends ObjectContainer3D implements Pickable {
     private var arrowNodes: Array = new Array();
     private var _mousePressed: Boolean = false;
 
-    public function DensityObjectNode( densityObject: DensityObject, canvas: AbstractDBCanvas ) {
+    public function DensityObjectNode( densityObject: DensityAndBuoyancyObject, canvas: AbstractDBCanvas ) {
         super();
         this.densityObject = densityObject;
         this._canvas = canvas;
@@ -61,7 +61,7 @@ public class DensityObjectNode extends ObjectContainer3D implements Pickable {
         canvas.overlayViewport.scene.addChild( arrowNode );
     }
 
-    public function getDensityObject(): DensityObject {
+    public function getDensityObject(): DensityAndBuoyancyObject {
         return densityObject;
     }
 

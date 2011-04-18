@@ -3,7 +3,7 @@ package edu.colorado.phet.densityandbuoyancy.view.modes {
 import edu.colorado.phet.densityandbuoyancy.DensityAndBuoyancyConstants;
 import edu.colorado.phet.densityandbuoyancy.components.CustomObjectPropertiesPanel;
 import edu.colorado.phet.densityandbuoyancy.model.Block;
-import edu.colorado.phet.densityandbuoyancy.model.DensityObject;
+import edu.colorado.phet.densityandbuoyancy.model.DensityAndBuoyancyObject;
 import edu.colorado.phet.densityandbuoyancy.model.Material;
 import edu.colorado.phet.densityandbuoyancy.view.AbstractDBCanvas;
 
@@ -17,7 +17,7 @@ import flash.geom.ColorTransform;
  * Represents a 'custom object' mode in the density sim, in which the user sees and manipulates a single customizable block.
  */
 public class DensityCustomObjectMode extends Mode {
-    private var customizableObject: DensityObject;
+    private var customizableObject: DensityAndBuoyancyObject;
     private var customObjectPropertiesPanel: CustomObjectPropertiesPanel;
 
     private var DEFAULT_MATERIAL: Material = Material.WOOD;

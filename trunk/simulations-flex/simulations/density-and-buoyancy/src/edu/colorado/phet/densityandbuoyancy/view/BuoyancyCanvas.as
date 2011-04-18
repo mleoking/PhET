@@ -2,7 +2,7 @@
 package edu.colorado.phet.densityandbuoyancy.view {
 import edu.colorado.phet.densityandbuoyancy.DensityAndBuoyancyConstants;
 import edu.colorado.phet.densityandbuoyancy.model.DensityAndBuoyancyModel;
-import edu.colorado.phet.densityandbuoyancy.model.DensityObject;
+import edu.colorado.phet.densityandbuoyancy.model.DensityAndBuoyancyObject;
 import edu.colorado.phet.densityandbuoyancy.model.Scale;
 import edu.colorado.phet.densityandbuoyancy.model.Vector2D;
 import edu.colorado.phet.densityandbuoyancy.test.Box2DDebug;
@@ -112,7 +112,7 @@ public class BuoyancyCanvas extends AbstractDBCanvas {
         return _container;
     }
 
-    override protected function createDensityObjectNode( densityObject: DensityObject ): DensityObjectNode {
+    override protected function createDensityObjectNode( densityObject: DensityAndBuoyancyObject ): DensityObjectNode {
         var densityObjectNode: DensityObjectNode = super.createDensityObjectNode( densityObject );
         addArrowNodes( densityObjectNode );
         return densityObjectNode;
@@ -125,7 +125,7 @@ public class BuoyancyCanvas extends AbstractDBCanvas {
     private function addArrowNodes( densityObjectNode: DensityObjectNode ): void {
         if ( !(densityObjectNode is ScaleNode) ) {
 
-            var densityObject: DensityObject = densityObjectNode.getDensityObject();
+            var densityObject: DensityAndBuoyancyObject = densityObjectNode.getDensityObject();
 //            var offset: Number = 8;
             var offset: Number = 0;  //TODO: trial test of setting offsets to zero, maybe will revert
             const gravityNode: ArrowNode = new ArrowNode( densityObject, densityObject.getGravityForceArrowModel(), DensityAndBuoyancyConstants.GRAVITY_COLOR, gravityArrowsVisible, mainCamera, mainViewport, vectorValuesVisible,
@@ -145,7 +145,7 @@ public class BuoyancyCanvas extends AbstractDBCanvas {
     /**
      * Helper function for addArrowNodes that creates a NumericProperty to offset the arrows so they don't overlap.  The offset changes with the sim state, so is NumericProperty.
      */
-    private function createOffset( arrowModel: Vector2D, densityObject: DensityObject, dx: Number ): NumericProperty {
+    private function createOffset( arrowModel: Vector2D, densityObject: DensityAndBuoyancyObject, dx: Number ): NumericProperty {
         var offsetX: NumericProperty = new NumericProperty( "offsetX", "pixels", dx );
 
         function tooMuchOverlap( y1: Number, y2: Number ): Boolean {

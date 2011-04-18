@@ -8,7 +8,7 @@ import edu.colorado.phet.densityandbuoyancy.DensityAndBuoyancyConstants;
 /**
  * Model for all cuboid (block-shaped) objects. Scales are represented in the physical model as a block, so they are Cuboids too
  */
-public class Cuboid extends DensityObject {
+public class Cuboid extends DensityAndBuoyancyObject {
 
     protected var width: Number;
     protected var height: Number;
