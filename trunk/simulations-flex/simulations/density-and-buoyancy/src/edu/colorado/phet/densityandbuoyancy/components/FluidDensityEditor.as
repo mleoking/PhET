@@ -16,7 +16,7 @@ public class FluidDensityEditor extends PropertyEditor {
         const slider: SliderDecorator = super.createSlider( property, minimum, maximum, unit, bounds );
         slider.isFluidDensitySlider = true;
         slider.enableTickmarks();
-        //REVIEW Material.LABELED_LIQUID_MATERIALS is an unnecessary coupling, better to pass in material list as an arg.
+        //TODO: Material.LABELED_LIQUID_MATERIALS is an unnecessary coupling, better to pass in material list as an arg.
         for each ( var material: Material in Material.LABELED_LIQUID_MATERIALS ) {
             var unitDensity: Number = unit.fromSI( material.getDensity() );
             slider.addTick( unitDensity, material.tickColor, material.name )

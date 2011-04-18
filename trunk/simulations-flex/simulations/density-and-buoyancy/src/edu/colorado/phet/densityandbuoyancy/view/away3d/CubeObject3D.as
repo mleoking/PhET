@@ -31,8 +31,7 @@ public class CubeObject3D extends CuboidObject3D {
         cube.depth = getCuboid().getDepth() * DensityAndBuoyancyModel.DISPLAY_SCALE;
     }
 
-
-    //REVIEW doc
+    //Add labels and other graphics that should be in the front layer.
     override public function addOverlayObjects(): void {
         var added: Boolean = false;
         // find the index of another block label, and insert it there (if applicable)

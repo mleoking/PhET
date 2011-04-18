@@ -26,7 +26,7 @@ public class BlockObject3D extends CubeObject3D implements Pickable {
 
     private var textureBitmap: Bitmap; // the texture being used (wood bitmap, wall (custom) bitmap, etc.)
     private var label: StringProperty;
-    private var readoutFontScale: Number; //REVIEW doc
+    private var readoutFontScale: Number; //Readouts for different blocks appear at different sizes, specified with this scaling factor
 
     public function BlockObject3D( block: Block, canvas: AbstractDensityAndBuoyancyPlayAreaComponent, label: StringProperty, massReadoutVisible: BooleanProperty, readoutFontScale: Number = 1 ): void {
         this.label = label;
@@ -77,7 +77,8 @@ public class BlockObject3D extends CubeObject3D implements Pickable {
         cube.cubeMaterials.back = cube.cubeMaterials.left = cube.cubeMaterials.right = cube.cubeMaterials.top = cube.cubeMaterials.bottom = cube.cubeMaterials.front = sideMaterial;
     }
 
-    //REVIEW doc
+    //If the material is custom, then render as a bitmap loaded from customObjectTexture.
+    //TODO: maybe this code should be moved to Material?
     private function getCustomBitmap(): Bitmap {
         var wallData: BitmapData = (new Material.customObjectTexture() as BitmapAsset).bitmapData;
         wallData.colorTransform( new Rectangle( 0, 0, wallData.width, wallData.height ), block.colorTransform );

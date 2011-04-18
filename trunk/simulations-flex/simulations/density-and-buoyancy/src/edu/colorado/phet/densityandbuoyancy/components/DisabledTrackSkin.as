@@ -7,12 +7,11 @@ import mx.skins.halo.SliderTrackSkin;
 import mx.styles.StyleManager;
 import mx.utils.ColorUtil;
 
-//REVIEW "My" is not a prefix that's suitable for production code.
 /**
  * Provides a skin for how a slider (used in SliderDecorator) should look when it is disabled.
  * Copied from SliderTrackSkin.as, since we weren't able to override or replace style values otherwise.
  */
-public class MyTrackSkin extends SliderTrackSkin {
+public class DisabledTrackSkin extends SliderTrackSkin {
 
     override protected function updateDisplayList( w: Number, h: Number ): void {
         super.updateDisplayList( w, h );

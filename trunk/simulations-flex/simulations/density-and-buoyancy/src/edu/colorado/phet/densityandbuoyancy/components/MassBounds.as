@@ -16,12 +16,11 @@ public class MassBounds implements NumericClamp {
 
     public function clamp( value: Number ): Number {
         //TODO: factor out this duplicated code, probably by introducing a method material.getMaximum()
-        //REVIEW I don't see the workaround mentioned in the 2 comments below.
         //REVIEW These constants feel kludgy here, adding another similar object in the future will be difficult because of this coupling.
-        if ( value > DensityAndBuoyancyConstants.STYROFOAM_MAX_MASS && densityObject.material.equals( Material.STYROFOAM ) ) {//TODO: See related workaround in CustomObjectPropertiesPanel
+        if ( value > DensityAndBuoyancyConstants.STYROFOAM_MAX_MASS && densityObject.material.equals( Material.STYROFOAM ) ) {
             return DensityAndBuoyancyConstants.STYROFOAM_MAX_MASS;
         }
-        else if ( value > DensityAndBuoyancyConstants.WOOD_MAX_MASS && densityObject.material.equals( Material.WOOD ) ) {//TODO: See related workaround in CustomObjectPropertiesPanel
+        else if ( value > DensityAndBuoyancyConstants.WOOD_MAX_MASS && densityObject.material.equals( Material.WOOD ) ) {
             return DensityAndBuoyancyConstants.WOOD_MAX_MASS;
         }
         else {

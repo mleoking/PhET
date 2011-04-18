@@ -18,14 +18,14 @@ import flash.text.TextFormat;
  * Displays a numeric readout of magnitude next to a force vector
  */
 public class VectorValueSprite extends Sprite {
-    private var mainViewport: Away3DViewport;
+    private var mainViewport: Away3DContext;
     private var textField: TextField;
     private var mainCamera: Camera3D;
     private var arrowNode: ArrowMesh;
     private var right: Boolean;
 
     public function VectorValueSprite( mainCamera: Camera3D, arrowNode: ArrowMesh, //Use the actual ArrowNode for getting view bounds for layout of this sprite
-                                       mainViewport: Away3DViewport, visibilityProperty: BooleanProperty, right: Boolean ) {
+                                       mainViewport: Away3DContext, visibilityProperty: BooleanProperty, right: Boolean ) {
         this.mainViewport = mainViewport;
         this.mainCamera = mainCamera;
         this.arrowNode = arrowNode;

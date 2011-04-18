@@ -96,7 +96,7 @@ public class DensityAndBuoyancyObject {
 
         getDensityProperty().addListener( densityChanged );
 
-        //REVIEW Why are units not internationalized?
+        //TODO: why aren't units internationalized?, see #2810
         this.x = new NumericProperty( "x", "m", x );
         this.y = new NumericProperty( "y", "m", y );
         this._z = new NumericProperty( "z", "m", z );

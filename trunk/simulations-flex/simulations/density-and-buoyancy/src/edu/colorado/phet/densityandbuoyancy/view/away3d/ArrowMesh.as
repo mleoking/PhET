@@ -6,7 +6,7 @@ import away3d.materials.ColorMaterial;
 
 import edu.colorado.phet.densityandbuoyancy.model.DensityAndBuoyancyModel;
 import edu.colorado.phet.densityandbuoyancy.model.DensityAndBuoyancyObject;
-import edu.colorado.phet.densityandbuoyancy.view.Away3DViewport;
+import edu.colorado.phet.densityandbuoyancy.view.Away3DContext;
 import edu.colorado.phet.densityandbuoyancy.view.VectorValueSprite;
 import edu.colorado.phet.flexcommon.model.BooleanProperty;
 import edu.colorado.phet.flexcommon.model.NumericProperty;
@@ -31,7 +31,7 @@ public class ArrowMesh extends SimpleMesh {
     private var offsetX: NumericProperty;
     private var right: Boolean;
 
-    public function ArrowMesh( densityObject: DensityAndBuoyancyObject, arrowModel: Vector2D, color: *, visibilityProperty: BooleanProperty, mainCamera: Camera3D, mainViewport: Away3DViewport, valueVisibilityProperty: BooleanProperty, offsetX: NumericProperty, right: Boolean ) {
+    public function ArrowMesh( densityObject: DensityAndBuoyancyObject, arrowModel: Vector2D, color: *, visibilityProperty: BooleanProperty, mainCamera: Camera3D, mainViewport: Away3DContext, valueVisibilityProperty: BooleanProperty, offsetX: NumericProperty, right: Boolean ) {
         super( combine( {material:new ColorMaterial( color, {alpha: 0.75} )}, null ) );
         this._color = color;
         this.densityObject = densityObject;

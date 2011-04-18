@@ -33,9 +33,8 @@ public class MysteryObjectsControlPanel extends DensityVBox {
     public function MysteryObjectsControlPanel() {
         super();
 
+        //Create the grid that shows the table of known substances and their densities
         const grid: Grid = new Grid();
-        //REVIEW one-line comments for each chunk of code here would be helpful to future developers
-
         grid.addChild( toGridRow( FlexSimStrings.get( "mysteryObject.material", "Material" ),
                                   FlexSimStrings.get( "mysteryObject.densityColumnHeader", "Density ({0})", [FlexSimStrings.get( "mysteryObject.densityUnitsKgL", "kg/L" )] ),
                                   DensityAndBuoyancyConstants.FLEX_UNDERLINE ) );
@@ -45,6 +44,7 @@ public class MysteryObjectsControlPanel extends DensityVBox {
             grid.addChild( toGridRow( material.name, DensityAndBuoyancyConstants.formatWithPrecision( density, density >= 10 ? 1 : 2 ), DensityAndBuoyancyConstants.FLEX_NONE ) );
         }
 
+        //Create the window that shows the table of known substances and their densities
         titleWindow = new TitleWindow();
         titleWindow.title = FlexSimStrings.get( "mysteryObject.table.title", "Densities of Various Materials" );
         titleWindow.setStyle( DensityAndBuoyancyConstants.FLEX_FONT_SIZE, 18 );
@@ -57,6 +57,7 @@ public class MysteryObjectsControlPanel extends DensityVBox {
         } );
         titleWindow.addChild( grid );
 
+        //Add the button that shows/hides the table
         tableButton.addEventListener( MouseEvent.CLICK, function( evt: MouseEvent ): void {
             titleWindowVisible.value = !titleWindowVisible.value;
         } );
@@ -65,6 +66,7 @@ public class MysteryObjectsControlPanel extends DensityVBox {
         x = DensityAndBuoyancyConstants.CONTROL_INSET;
         y = DensityAndBuoyancyConstants.CONTROL_INSET;
 
+        //Handle visibility of the popup window
         var visibilityChangeListener: Function = function(): void {
             if ( titleWindowVisible.value ) {
                 PopUpManager.addPopUp( titleWindow, parent, false );
