@@ -280,14 +280,14 @@ public class DensityAndBuoyancyObject {
         contactImpulseMap = new Object();
     }
 
-    //REVIEW: doc - Looks like it is abstract, so base classes need to know what functionality is needed.
-    public function createNode( view: AbstractDBCanvas, massReadoutsVisible: BooleanProperty ): DensityAndBuoyancyObjectNode {
+    //Abstract method
+    //Create the node for this DensityAndBuoyancyObject which will be shown in the specified canvas, and will show the readouts as specified by the massReadoutsVisible Property
+    public function createNode( canvas: AbstractDBCanvas, massReadoutsVisible: BooleanProperty ): DensityAndBuoyancyObjectNode {
         throw new AbstractMethodError();
     }
 
     public function onFrameStep( dt: Number ): void {
-        //REVIEW Have the to do items been addressed?
-        velocityArrowModel.setValue( body.GetLinearVelocity().x, body.GetLinearVelocity().y );//todo: use estimated velocity here?
+        velocityArrowModel.setValue( body.GetLinearVelocity().x, body.GetLinearVelocity().y );
         gravityForceArrowModel.setValue( getGravityForce().x, getGravityForce().y );
         buoyancyForceArrowModel.setValue( getBuoyancyForce().x, getBuoyancyForce().y );
         contactForceArrowModel.setValue( getNetContactForce().x, getNetContactForce().y );
@@ -327,8 +327,7 @@ public class DensityAndBuoyancyObject {
         return new b2Vec2( 0, DensityAndBuoyancyConstants.GRAVITY * submergedVolume * model.fluidDensity.value );
     }
 
-    //REVIEW doc - Why is it necessary to set the submerged volume?  Why would this be any different than its
-    //default volume.
+    //Set the volume of this object that is underwater for purposes of computing the buoyant force
     public function setSubmergedVolume( submergedVolume: Number ): void {
         this.submergedVolume = submergedVolume;
     }
@@ -349,7 +348,6 @@ public class DensityAndBuoyancyObject {
         return getDragForce( body.GetLinearVelocity() );
     }
 
-    //REVIEW - nice comment.
     /**
      * Return the drag force to be used in the model.  When showing this value in the view, showing the actual physical drag force yields creates this problem:
      * When holding block A on top of Block b, with block b underwater, there is displayed a fluid drag force on block b, even though it is not moving.
@@ -360,10 +358,7 @@ public class DensityAndBuoyancyObject {
             return new b2Vec2();
         }
         else {
-            //REVIEW Can the commented line be removed?
-            //var dragForce: b2Vec2 = body.GetLinearVelocity().Copy();
             var dragForce: b2Vec2 = velocity.Copy();
-            //mytrace( dragForce.x + ", " + dragForce.y );
             dragForce.Multiply( -600 * submergedVolume * (model.fluidDensity.value / Material.WATER.getDensity()) );
             return dragForce;
         }
@@ -382,9 +377,6 @@ public class DensityAndBuoyancyObject {
         return _density.value;
     }
 
-    //REVIEW When are you using the actionscript-supported getter and setter methods versus writing your own
-    //versus making members public?  In this case, these value assignments look like member var accesses but they are
-    //actually function calls that have side effects (such as sending notifications).
     public function setVolume( value: Number ): void {
         this._volume.value = value;
         updateBox2DModel();
@@ -421,7 +413,7 @@ public class DensityAndBuoyancyObject {
         return x;
     }
 
-    //REVIEW - doc - this is abstract, which should it do?
+    //Update the corresponding box2D model based on the state of this model object
     public function updateBox2DModel(): void {
         throw new AbstractMethodError();
     }
@@ -446,7 +438,7 @@ public class DensityAndBuoyancyObject {
         return _userControlled;
     }
 
-    //REVIEW - doc - looks like this is intended to be overridden.
+    //True if it is possible for the user to drag the object
     public function isMovable(): Boolean {
         return true;
     }
@@ -466,9 +458,8 @@ public class DensityAndBuoyancyObject {
         return _inScene;
     }
 
-    //REVIEW: For future debug, shouldn't this also have the name of the object?
     public function toString(): String {
-        return "x = " + x.value + ", y=" + y.value;
+        return "x = " + x.value + ", y=" + y.value;//Not all blocks have names so don't show it in the default toString
     }
 
     public function set nameVisible( nameVisible: Boolean ): void {
