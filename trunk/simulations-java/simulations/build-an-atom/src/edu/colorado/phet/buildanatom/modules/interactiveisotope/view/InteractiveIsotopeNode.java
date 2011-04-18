@@ -2,6 +2,10 @@
 
 package edu.colorado.phet.buildanatom.modules.interactiveisotope.view;
 
+import java.awt.geom.Point2D;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
 import edu.colorado.phet.buildanatom.model.Neutron;
 import edu.colorado.phet.buildanatom.model.SphericalParticle;
 import edu.colorado.phet.buildanatom.modules.game.view.SchematicAtomNode;
@@ -23,7 +27,7 @@ public class InteractiveIsotopeNode extends SchematicAtomNode {
     /**
      * Constructor.
      */
-    public InteractiveIsotopeNode( final InteractiveIsotopeModel model, ModelViewTransform mvt ) {
+    public InteractiveIsotopeNode( final InteractiveIsotopeModel model, final ModelViewTransform mvt, final Point2D bottomPoint ) {
         super( model.getAtom(), mvt, new OrbitalViewProperty( OrbitalView.RESIZING_CLOUD ), false, true, false );
 
         model.addListener( new InteractiveIsotopeModel.Adapter() {
@@ -36,7 +40,7 @@ public class InteractiveIsotopeNode extends SchematicAtomNode {
         // Add the bucket that holds the neutrons.
         BucketNode neutronBucketNode = new BucketNode( model.getNeutronBucket(), mvt );
         neutronBucketNode.setOffset( mvt.modelToView( model.getNeutronBucket().getPosition() ) );
-        backLayer.addChild( neutronBucketNode.getHoleLayer() );
+        electronShellLayer.addChild( neutronBucketNode.getHoleLayer() );
         frontLayer.addChild( neutronBucketNode.getContainerLayer() );
         for ( SphericalParticle neutron : model.getNeutronBucket().getParticleList() ) {
             // Add these particles to the atom representation even though they
@@ -44,5 +48,15 @@ public class InteractiveIsotopeNode extends SchematicAtomNode {
             // atom later.
             addNeutronNode( (Neutron) neutron );
         }
+
+        // Add the handler that keeps the bottom of the atom in one place.
+        // This was added due to a request to make the atom get larger and
+        // smaller but to stay on the scale.
+        getElectronCloudNode().addPropertyChangeListener( PROPERTY_FULL_BOUNDS, new PropertyChangeListener() {
+            public void propertyChange( PropertyChangeEvent evt ) {
+                model.getAtom().setPosition( mvt.viewToModel( bottomPoint.getX(),
+                        bottomPoint.getY() - getElectronCloudNode().getFullBoundsReference().height / 2 ) );
+            }
+        });
     }
 }

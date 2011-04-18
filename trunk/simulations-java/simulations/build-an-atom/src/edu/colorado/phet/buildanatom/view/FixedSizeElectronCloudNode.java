@@ -57,7 +57,7 @@ public class FixedSizeElectronCloudNode extends PNode {
         electronCloudNode = new PhetPPath( electronShellShape, shellGradientPaint ){{
             orbitalView.addObserver( new SimpleObserver() {
                 public void update() {
-                    setVisible( orbitalView.getValue() == OrbitalView.FIXED_SIZE_CLOUD );
+//                    setVisible( orbitalView.getValue() == OrbitalView.FIXED_SIZE_CLOUD );
                 }
             } );
         }};

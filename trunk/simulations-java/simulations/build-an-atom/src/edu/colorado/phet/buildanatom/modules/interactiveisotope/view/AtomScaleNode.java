@@ -57,6 +57,7 @@ public class AtomScaleNode extends PNode {
     // ------------------------------------------------------------------------
 
     private final Property<DisplayMode> displayModeProperty = new Property<DisplayMode>( DisplayMode.MASS_NUMBER );
+    private final PNode weighPlateTop;
 
     // ------------------------------------------------------------------------
     // Constructor(s)
@@ -151,8 +152,8 @@ public class AtomScaleNode extends PNode {
                 (float) weighPlateTopShapeBounds.getCenterX(),
                 (float) weighPlateTopShapeBounds.getMinY(),
                 ColorUtils.darkerColor( COLOR, 0.2 ) );
-        PNode scaleTop = new PhetPPath( weighPlateTopShape.getGeneralPath(), weighPlateTopPaint, STROKE, STROKE_PAINT );
-        addChild( scaleTop );
+        weighPlateTop = new PhetPPath( weighPlateTopShape.getGeneralPath(), weighPlateTopPaint, STROKE, STROKE_PAINT );
+        addChild( weighPlateTop );
 
         // Add the front of the weigh plate.
         Rectangle2D frontOfWeighPlateShape = new Rectangle2D.Double( centerX - WIEIGH_PLATE_WIDTH / 2,
@@ -166,6 +167,10 @@ public class AtomScaleNode extends PNode {
 
     public void reset(){
         displayModeProperty.reset();
+    }
+
+    public double getWeighPlateTopProjectedHeight(){
+        return weighPlateTop.getFullBoundsReference().getHeight();
     }
 
     // ------------------------------------------------------------------------

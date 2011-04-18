@@ -2,6 +2,8 @@
 package edu.colorado.phet.buildanatom.modules.game.view;
 
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -53,7 +55,7 @@ public class SchematicAtomNode extends PNode {
     private final ArrayList<PNode> nucleusLayers = new ArrayList<PNode>( NUM_NUCLEUS_LAYERS );
 
     // Other layers that make up this node.
-    protected final PNode backLayer;
+    protected final PNode electronShellLayer;
     protected final PNode frontLayer;
     private final PNode electronLayer;
 
@@ -62,6 +64,8 @@ public class SchematicAtomNode extends PNode {
     private final boolean electronsAreInteractive;
     private final boolean protonsAreInteractive;
     private final boolean neutronsAreInteractive;
+
+    private final ResizingElectronCloudNode electronCloudNode;
 
     /**
      * Constructor that assumes that all particles are interactive, meaning
@@ -100,8 +104,8 @@ public class SchematicAtomNode extends PNode {
         this.orbitalViewProperty = orbitalViewProperty;
 
         // Create the layers and add them in the desired order.
-        backLayer = new PNode( );
-        addChild( backLayer );
+        electronShellLayer = new PNode( );
+        addChild( electronShellLayer );
         electronLayer = new PNode( );
         addChild( electronLayer );
         for (int i = 0; i < NUM_NUCLEUS_LAYERS; i++){
@@ -116,10 +120,10 @@ public class SchematicAtomNode extends PNode {
         // Add the atom's electron shells to the canvas.  There are three representations that are mutually
         // exclusive - the orbital view, the resizing cloud view, and the fixed-size cloud view.
         for ( ElectronShell electronShell : atom.getElectronShells() ) {
-            backLayer.addChild( new ElectronOrbitalNode( mvt, orbitalViewProperty, atom, electronShell, true ) );
+            electronShellLayer.addChild( new ElectronOrbitalNode( mvt, orbitalViewProperty, atom, electronShell, true ) );
         }
-        backLayer.addChild( new ResizingElectronCloudNode( mvt, orbitalViewProperty, atom ) );
-        backLayer.addChild( new FixedSizeElectronCloudNode( mvt, orbitalViewProperty, atom ) );
+        electronCloudNode = new ResizingElectronCloudNode( mvt, orbitalViewProperty, atom );
+        electronShellLayer.addChild( electronCloudNode );
 
         // Add the subatomic particles.
         for ( final Electron electron : atom.getElectrons() ){
@@ -131,6 +135,10 @@ public class SchematicAtomNode extends PNode {
         for ( final Neutron neutron : atom.getNeutrons()){
             addNeutronNode( neutron );
         }
+    }
+
+    protected ResizingElectronCloudNode getElectronCloudNode() {
+        return electronCloudNode;
     }
 
     /**

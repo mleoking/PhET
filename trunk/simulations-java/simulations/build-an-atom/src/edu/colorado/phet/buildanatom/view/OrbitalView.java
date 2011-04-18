@@ -8,5 +8,4 @@ package edu.colorado.phet.buildanatom.view;
 public enum OrbitalView {
     PARTICLES,         // Electrons are shown as individual particles.
     RESIZING_CLOUD,    // Electrons are depicted as a cloud that grows as more are added.
-    FIXED_SIZE_CLOUD   // Electrons are depicted as a fixed-size cloud regardless of the number in the atom.
 }
