@@ -13,8 +13,6 @@ import edu.colorado.phet.flexcommon.model.BooleanProperty;
 import edu.colorado.phet.flexcommon.model.NumericProperty;
 import edu.colorado.phet.flexcommon.model.StringProperty;
 
-//REVIEW: Shouldn't this be DensityAndBuoyancyObject?  The name gives the impression that this is only used in the
-// density sim.
 //REVIEW: A look at the code seems to indicate that this is supposed to be abstract.  This should be documented or
 //the name should be changed to make this more clear.
 /**

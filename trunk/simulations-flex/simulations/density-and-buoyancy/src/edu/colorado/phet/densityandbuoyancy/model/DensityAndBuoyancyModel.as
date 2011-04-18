@@ -16,7 +16,7 @@ import edu.colorado.phet.flexcommon.model.NumericProperty;
  * The main model for Density and Buoyancy simulations.
  */
 public class DensityAndBuoyancyModel {
-    private var densityObjects: Array;
+    private var densityObjects: Array;//The list of blocks & scales in the model, to be shown in the play area
 
     private var poolWidth: Number = DensityAndBuoyancyConstants.POOL_WIDTH_X;
     private var poolHeight: Number;
@@ -88,7 +88,7 @@ public class DensityAndBuoyancyModel {
         clearDensityObjects();
     }
 
-    //REVIEW: doc - Would be helpful to make it clear what "density objects" are.
+    //Remove all the blocks & scales from the model
     public function clearDensityObjects(): void {
         for each ( var densityObject: DensityObject in densityObjects ) {
             densityObject.remove();
