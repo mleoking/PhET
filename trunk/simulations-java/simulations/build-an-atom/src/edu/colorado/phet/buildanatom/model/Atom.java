@@ -3,6 +3,7 @@ package edu.colorado.phet.buildanatom.model;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Random;
 
 import edu.colorado.phet.buildanatom.developer.DeveloperConfiguration;
@@ -10,7 +11,6 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
-import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
@@ -24,7 +24,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  * @author Sam Reid
  * @author Kevin Bacon
  */
-public class Atom extends SimpleObservable implements IDynamicAtom {
+public class Atom implements IDynamicAtom {
 
     // ------------------------------------------------------------------------
     // Class Data
@@ -63,7 +63,7 @@ public class Atom extends SimpleObservable implements IDynamicAtom {
     private final SimpleObserver electronShellChangeObserver = new SimpleObserver() {
         public void update() {
             checkAndReconfigureShells();
-            notifyObservers();
+            notifyConfigurationChanged();
         }
     };
 
@@ -82,6 +82,8 @@ public class Atom extends SimpleObservable implements IDynamicAtom {
         }
     };
 
+    // Collection of registered listeners.
+    private final HashSet<AtomListener> listeners =new HashSet<AtomListener>( );
 
     // ------------------------------------------------------------------------
     // Constructor(s)
@@ -94,9 +96,8 @@ public class Atom extends SimpleObservable implements IDynamicAtom {
     public Atom( Point2D position, BuildAnAtomClock clock ) {
         this.position.setLocation( position );
 
-        // Only need to listen for 'removal' notifications on the inner shell
-        // to decide when an outer electron should fall.
         electronShell1.addObserver( electronShellChangeObserver );
+        electronShell2.addObserver( electronShellChangeObserver );
 
         clock.addClockListener( new ClockAdapter() {
 
@@ -193,7 +194,7 @@ public class Atom extends SimpleObservable implements IDynamicAtom {
         boolean found = protons.remove( proton );
         proton.removeListener( nucleonGrabbedListener );
         reconfigureNucleus( false );
-        notifyObservers();
+        notifyConfigurationChanged();
         return found ? proton : null;
     }
 
@@ -212,7 +213,7 @@ public class Atom extends SimpleObservable implements IDynamicAtom {
         boolean found = neutrons.remove( neutron );
         neutron.removeListener( nucleonGrabbedListener );
         reconfigureNucleus( false );
-        notifyObservers();
+        notifyConfigurationChanged();
         return found ? neutron : null;
     }
 
@@ -292,7 +293,7 @@ public class Atom extends SimpleObservable implements IDynamicAtom {
         electronShell2.reset();
         electronShell1.reset();
 
-        notifyObservers();
+        notifyConfigurationChanged();
     }
 
     public ArrayList<ElectronShell> getElectronShells() {
@@ -312,6 +313,14 @@ public class Atom extends SimpleObservable implements IDynamicAtom {
 
     public Point2D getPosition() {
         return new Point2D.Double( position.getX(), position.getY() );
+    }
+
+    public void setPosition(double x, double y){
+        position.setLocation( x, y );
+    }
+
+    public void setPosition( Point2D position ){
+        setPosition( position.getX(), position.getY() );
     }
 
     /**
@@ -341,7 +350,7 @@ public class Atom extends SimpleObservable implements IDynamicAtom {
 
         proton.addListener( nucleonGrabbedListener );
 
-        notifyObservers();
+        notifyConfigurationChanged();
     }
 
     public void addNeutron( final Neutron neutron, boolean moveImmediately ) {
@@ -356,7 +365,7 @@ public class Atom extends SimpleObservable implements IDynamicAtom {
 
         neutron.addListener( nucleonGrabbedListener );
 
-        notifyObservers();
+        notifyConfigurationChanged();
     }
 
     public void addElectron( final Electron electron, boolean moveImmediately ) {
@@ -372,7 +381,7 @@ public class Atom extends SimpleObservable implements IDynamicAtom {
             assert false;
         }
 
-        notifyObservers();
+        notifyConfigurationChanged();
     }
 
     /**
@@ -548,7 +557,7 @@ public class Atom extends SimpleObservable implements IDynamicAtom {
         while ( getNumElectrons() < answer.getNumElectrons() ) {
             addElectron( model.getFreeElectron(), moveImmediately );
         }
-        notifyObservers();
+        notifyConfigurationChanged();
         return removedParticles;
     }
 
@@ -591,5 +600,25 @@ public class Atom extends SimpleObservable implements IDynamicAtom {
 
     public double getNaturalAbundance() {
         return AtomIdentifier.getNaturalAbundance( this );
+    }
+
+    public void addAtomListener(AtomListener listener) {
+        listeners.add( listener );
+    }
+
+    public void removeListener(AtomListener listener){
+        listeners.remove( listener );
+    }
+
+    private void notifyConfigurationChanged(){
+        for (AtomListener listener : listeners ){
+            listener.configurationChanged();
+        }
+    }
+
+    private void notifyPositionChanged(){
+        for (AtomListener listener : listeners ){
+            listener.postitionChanged();
+        }
     }
 }

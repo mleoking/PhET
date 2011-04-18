@@ -6,6 +6,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Shape;
 
+import edu.colorado.phet.buildanatom.model.AtomListener;
 import edu.colorado.phet.buildanatom.model.BuildAnAtomModel;
 import edu.colorado.phet.buildanatom.model.Electron;
 import edu.colorado.phet.buildanatom.model.ImmutableAtom;
@@ -14,7 +15,6 @@ import edu.colorado.phet.buildanatom.model.Proton;
 import edu.colorado.phet.buildanatom.model.SphericalParticle;
 import edu.colorado.phet.buildanatom.view.BucketNode;
 import edu.colorado.phet.buildanatom.view.OrbitalViewProperty;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -90,8 +90,9 @@ public class InteractiveSchematicAtomNode extends SchematicAtomNode {
             setPickable( false );
             setChildrenPickable( false );
 
-            model.getAtom().addObserver( new SimpleObserver() {
-                public void update() {
+            model.getAtom().addAtomListener( new AtomListener.Adapter() {
+                @Override
+                public void configurationChanged() {
                     // Only visible when there are no nucleons in the atom.
                     setVisible (model.getAtom().getMassNumber() == 0);
                 }

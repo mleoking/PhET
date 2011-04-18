@@ -14,10 +14,10 @@ import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomResources;
 import edu.colorado.phet.buildanatom.model.AtomIdentifier;
+import edu.colorado.phet.buildanatom.model.AtomListener;
 import edu.colorado.phet.buildanatom.model.IConfigurableAtomModel;
 import edu.colorado.phet.buildanatom.model.IDynamicAtom;
 import edu.colorado.phet.buildanatom.model.ImmutableAtom;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.ButtonEventHandler;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -289,8 +289,9 @@ public class PeriodicTableControlNode extends PNode {
             }
             addChild( text );
 
-            atom.addObserver( new SimpleObserver() {
-                public void update() {
+            atom.addAtomListener( new AtomListener.Adapter() {
+                @Override
+                public void configurationChanged() {
                     updateSelected();
                 }
             } );
@@ -415,8 +416,9 @@ public class PeriodicTableControlNode extends PNode {
             text.centerFullBoundsOnPoint( buttonDimension / 2 / buttonScale, buttonDimension / 2 / buttonScale);
             buttonNode.addChild( text );
 
-            atom.addObserver( new SimpleObserver() {
-                public void update() {
+            atom.addAtomListener( new AtomListener.Adapter() {
+                @Override
+                public void configurationChanged() {
                     updateSelected();
                 }
             } );

@@ -7,8 +7,8 @@ import java.awt.Point;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.buildanatom.model.AtomIdentifier;
+import edu.colorado.phet.buildanatom.model.AtomListener;
 import edu.colorado.phet.buildanatom.model.IDynamicAtom;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
@@ -181,8 +181,9 @@ public class PeriodicTableNode extends PNode {
             text.setOffset( box.getFullBounds().getCenterX() - text.getFullBounds().getWidth() / 2,
                     box.getFullBounds().getCenterY() - text.getFullBounds().getHeight() / 2 );
             addChild( text );
-            atom.addObserver( new SimpleObserver() {
-                public void update() {
+            atom.addAtomListener( new AtomListener.Adapter() {
+                @Override
+                public void configurationChanged() {
                     boolean match = atom.getNumProtons() == atomicNumber;
                     text.setFont( new PhetFont( PhetFont.getDefaultFontSize(), match ) );
                     if ( match ) {

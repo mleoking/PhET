@@ -2,7 +2,6 @@
 
 package edu.colorado.phet.buildanatom.model;
 
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
  * Interface for atoms that can change their configuration, e.g. can gain an
@@ -13,11 +12,13 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 public interface IDynamicAtom extends IAtom {
 
     /**
-     * Register for notifications of changes to this atom's configuration.
+     * Register for notifications of changes to this atom's configuration,
+     * position, or any other dynamic aspects of it.  See the definition of
+     * the listener for details of what exactly can change.
      *
-     * @param simpleObserver
+     * @param atomListener
      */
-    void addObserver( SimpleObserver simpleObserver );
+    void addAtomListener( AtomListener atomListener );
 
     /**
      * Get a static snapshot that represents the current configuration of the

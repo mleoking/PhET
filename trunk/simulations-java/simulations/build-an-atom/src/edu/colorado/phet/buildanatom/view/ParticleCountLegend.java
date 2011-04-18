@@ -10,12 +10,12 @@ import java.beans.PropertyChangeListener;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
 import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
+import edu.colorado.phet.buildanatom.model.AtomListener;
 import edu.colorado.phet.buildanatom.model.Electron;
 import edu.colorado.phet.buildanatom.model.IDynamicAtom;
 import edu.colorado.phet.buildanatom.model.Neutron;
 import edu.colorado.phet.buildanatom.model.Proton;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -131,13 +131,14 @@ public class ParticleCountLegend extends PNode {
             textNode = new PText( label ) {{setFont( BuildAnAtomConstants.ITEM_FONT );}};
             addChild( iconChildNode );
             addChild( textNode );
-            SimpleObserver updateReadout = new SimpleObserver() {
-                public void update() {
+            AtomListener updateReadout = new AtomListener.Adapter() {
+                @Override
+                public void configurationChanged() {
                     updateLayout();
                 }
             };
-            atom.addObserver( updateReadout );
-            updateReadout.update();
+            atom.addAtomListener( updateReadout );
+            updateReadout.configurationChanged();
         }
 
         private void updateLayout() {

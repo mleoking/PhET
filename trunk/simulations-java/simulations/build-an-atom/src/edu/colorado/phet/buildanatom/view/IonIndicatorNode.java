@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Font;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
+import edu.colorado.phet.buildanatom.model.AtomListener;
 import edu.colorado.phet.buildanatom.model.IDynamicAtom;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -23,8 +24,9 @@ public class IonIndicatorNode extends PNode {
         addChild( new PText( BuildAnAtomStrings.POSITIVE_ION ) {{       //dummy text is never shown, just used for initial layout size
             setFont( ATOM_ION_FONT );
             setTextPaint( Color.blue );
-            final SimpleObserver observer = new SimpleObserver() {
-                public void update() {
+            final AtomListener atomConfigListener = new AtomListener.Adapter() {
+                @Override
+                public void configurationChanged() {
                     setVisible( showLabels.getValue() && atom.getNumProtons() > 0 );//don't show the ion indicator when only electrons are present
                     if ( atom.getCharge() > 0 ) {
                         setText( BuildAnAtomStrings.POSITIVE_ION );
@@ -44,8 +46,12 @@ public class IonIndicatorNode extends PNode {
                     }
                 }
             };
-            atom.addObserver( observer );
-            showLabels.addObserver( observer );
+            atom.addAtomListener( atomConfigListener );
+            showLabels.addObserver( new SimpleObserver() {
+                public void update() {
+                    atomConfigListener.configurationChanged();
+                }
+            });
         }} );
     }
 }

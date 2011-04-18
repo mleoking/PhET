@@ -2,11 +2,13 @@
 
 package edu.colorado.phet.buildanatom.modules.game.model;
 
+import java.util.HashSet;
+
 import edu.colorado.phet.buildanatom.model.AtomIdentifier;
+import edu.colorado.phet.buildanatom.model.AtomListener;
 import edu.colorado.phet.buildanatom.model.IAtom;
 import edu.colorado.phet.buildanatom.model.IDynamicAtom;
 import edu.colorado.phet.buildanatom.model.ImmutableAtom;
-import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 
 /**
  * An atom that simply tracks the quantities of the various subatomic
@@ -16,11 +18,14 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
  * @author Sam Reid
  * @author John Blanco
  */
-public class SimpleAtom extends SimpleObservable implements IDynamicAtom {
+public class SimpleAtom implements IDynamicAtom {
 
     private int numProtons = 0;
     private int numNeutrons = 0;
     private int numElectrons = 0;
+
+    // Collection of registered listeners.
+    private final HashSet<AtomListener> listeners =new HashSet<AtomListener>( );
 
     /**
      * Default constructor.
@@ -53,7 +58,7 @@ public class SimpleAtom extends SimpleObservable implements IDynamicAtom {
     public void setNumNeutrons( int numNeutrons ) {
         if ( this.numNeutrons != numNeutrons ){
             this.numNeutrons = numNeutrons;
-            notifyObservers();
+            notifyConfigurationChanged();
         }
     }
 
@@ -64,7 +69,7 @@ public class SimpleAtom extends SimpleObservable implements IDynamicAtom {
     public void setNumElectrons( int numElectrons ) {
         if ( this.numElectrons != numElectrons ){
             this.numElectrons = numElectrons;
-            notifyObservers();
+            notifyConfigurationChanged();
         }
     }
 
@@ -75,7 +80,7 @@ public class SimpleAtom extends SimpleObservable implements IDynamicAtom {
     public void setNumProtons( int numProtons ) {
         if ( this.numProtons != numProtons ) {
             this.numProtons = numProtons;
-            notifyObservers();
+            notifyConfigurationChanged();
         }
     }
 
@@ -84,7 +89,7 @@ public class SimpleAtom extends SimpleObservable implements IDynamicAtom {
             this.numProtons = atom.getNumProtons();
             this.numNeutrons = atom.getNumNeutrons();
             this.numElectrons = atom.getNumElectrons();
-            notifyObservers();
+            notifyConfigurationChanged();
         }
     }
 
@@ -123,16 +128,14 @@ public class SimpleAtom extends SimpleObservable implements IDynamicAtom {
         setNumElectrons( 0 );
     }
 
-    /* (non-Javadoc)
-     * @see edu.colorado.phet.buildanatom.model.IAtom#getAtomicNumber()
-     */
+    public void addAtomListener(AtomListener listener) {
+        listeners.add( listener );
+    }
+
     public int getMassNumber() {
         return getNumProtons() + getNumNeutrons();
     }
 
-    /* (non-Javadoc)
-     * @see edu.colorado.phet.buildanatom.model.IDynamicAtom#toImmutableAtom()
-     */
     public ImmutableAtom toImmutableAtom() {
         return new ImmutableAtom( getNumProtons(), getNumNeutrons(), getNumElectrons());
     }
@@ -141,10 +144,13 @@ public class SimpleAtom extends SimpleObservable implements IDynamicAtom {
         return AtomIdentifier.getAtomicMass( this );
     }
 
-    /* (non-Javadoc)
-     * @see edu.colorado.phet.buildanatom.model.IAtom#getNaturalAbundance()
-     */
     public double getNaturalAbundance() {
         return AtomIdentifier.getNaturalAbundance( this );
+    }
+
+    private void notifyConfigurationChanged(){
+        for (AtomListener listener : listeners ){
+            listener.configurationChanged();
+        }
     }
 }

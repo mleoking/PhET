@@ -7,8 +7,8 @@ import java.awt.Font;
 import java.awt.Paint;
 import java.awt.geom.Rectangle2D;
 
+import edu.colorado.phet.buildanatom.model.AtomListener;
 import edu.colorado.phet.buildanatom.model.IDynamicAtom;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
@@ -69,8 +69,9 @@ public class SymbolIndicatorNode extends PNode {
         double height = 83;
 
         this.atom = atom;
-        atom.addObserver( new SimpleObserver() {
-            public void update() {
+        atom.addAtomListener( new AtomListener.Adapter() {
+            @Override
+            public void configurationChanged() {
                 updateSymbol();
             }
         } );
