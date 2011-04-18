@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.capacitorlab.view.meters;
 
-import java.awt.Image;
+import java.awt.*;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.capacitorlab.CLImages;
@@ -72,22 +72,22 @@ public abstract class VoltmeterProbeNode extends PhetPNode {
             addInputEventListener( new LocationDragHandler( this, mvt ) {
 
                 protected Point3D getModelLocation() {
-                    return voltmeter.getPositiveProbeLocationReference();
+                    return voltmeter.positiveProbeLocationProperty.getValue();
                 }
 
                 protected void setModelLocation( Point3D location ) {
-                    voltmeter.setPositiveProbeLocation( location );
+                    voltmeter.positiveProbeLocationProperty.setValue( location );
                 }
-            });
+            } );
         }
 
         @Override
         protected void addLocationObserver( final Voltmeter voltmeter, final CLModelViewTransform3D mvt ) {
-            voltmeter.addPositiveProbeLocationObserver( new SimpleObserver() {
+            voltmeter.positiveProbeLocationProperty.addObserver( new SimpleObserver() {
                 public void update() {
-                    setOffset( mvt.modelToView( voltmeter.getPositiveProbeLocationReference() ) );
+                    setOffset( mvt.modelToView( voltmeter.positiveProbeLocationProperty.getValue() ) );
                 }
-            });
+            } );
         }
     }
 
@@ -105,22 +105,22 @@ public abstract class VoltmeterProbeNode extends PhetPNode {
             addInputEventListener( new LocationDragHandler( this, mvt ) {
 
                 protected Point3D getModelLocation() {
-                    return voltmeter.getNegativeProbeLocationReference();
+                    return voltmeter.negativeProbeLocationProperty.getValue();
                 }
 
                 protected void setModelLocation( Point3D location ) {
-                    voltmeter.setNegativeProbeLocation( location );
+                    voltmeter.negativeProbeLocationProperty.setValue( location );
                 }
-            });
+            } );
         }
 
         @Override
         protected void addLocationObserver( final Voltmeter voltmeter, final CLModelViewTransform3D mvt ) {
-            voltmeter.addNegativeProbeLocationObserver( new SimpleObserver() {
+            voltmeter.negativeProbeLocationProperty.addObserver( new SimpleObserver() {
                 public void update() {
-                    setOffset( mvt.modelToView( voltmeter.getNegativeProbeLocationReference() ) );
+                    setOffset( mvt.modelToView( voltmeter.negativeProbeLocationProperty.getValue() ) );
                 }
-            });
+            } );
         }
     }
 }

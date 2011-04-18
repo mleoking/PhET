@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.capacitorlab.shapes;
 
-import java.awt.Shape;
+import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 
@@ -28,18 +28,20 @@ public class VoltmeterShapeFactory {
 
     /**
      * Gets the shape of the positive probe's tip in the world coordinate frame.
+     *
      * @return
      */
     public Shape getPositiveProbeTipShape() {
-        return getProbeTipShape( voltmeter.getPositiveProbeLocationReference(), -mvt.getYaw() );
+        return getProbeTipShape( voltmeter.positiveProbeLocationProperty.getValue(), -mvt.getYaw() );
     }
 
     /**
      * Gets the shape of the negative probe's tip in the world coordinate frame.
+     *
      * @return
      */
     public Shape getNegativeProbeTipShape() {
-        return getProbeTipShape( voltmeter.getNegativeProbeLocationReference(), -mvt.getYaw() );
+        return getProbeTipShape( voltmeter.negativeProbeLocationProperty.getValue(), -mvt.getYaw() );
     }
 
     /*

@@ -1,3 +1,4 @@
+4/18/11 voltmeter: make some properties final public, add setCircuit so that meter can be connected to different circuits
 4/18/11 EField detector: make some properties final public, add setCircuit so that meter can be connected to different circuits, use PropertyCheckBox in control panel
 4/18/11 replace circuit choice enum with a list of circuit instances and currentCircuit property
 4/18/11 add displayName field to circuit

@@ -33,11 +33,11 @@ public class VoltmeterView {
         positiveProbeNode = new PositiveVoltmeterProbeNode( voltmeter, mvt );
         negativeProbeNode = new NegativeVoltmeterProbeNode( voltmeter, mvt );
         positiveWireNode = new ProbeWireNode( bodyNode, positiveProbeNode, BODY_CONTROL_POINT_OFFSET, PROBE_CONTROL_POINT_OFFSET,
-                bodyNode.getPositiveConnectionOffset(), positiveProbeNode.getConnectionOffset(), CLPaints.VOLTMETER_POSITIVE_WIRE );
+                                              bodyNode.getPositiveConnectionOffset(), positiveProbeNode.getConnectionOffset(), CLPaints.VOLTMETER_POSITIVE_WIRE );
         negativeWireNode = new ProbeWireNode( bodyNode, negativeProbeNode, BODY_CONTROL_POINT_OFFSET, PROBE_CONTROL_POINT_OFFSET,
-                bodyNode.getNegativeConnectionOffset(), negativeProbeNode.getConnectionOffset(), CLPaints.VOLTMETER_NEGATIVE_WIRE );
+                                              bodyNode.getNegativeConnectionOffset(), negativeProbeNode.getConnectionOffset(), CLPaints.VOLTMETER_NEGATIVE_WIRE );
 
-        voltmeter.addVisibleObserver( new SimpleObserver() {
+        voltmeter.visibleProperty.addObserver( new SimpleObserver() {
             public void update() {
                 setVisible( voltmeter.isVisible() );
             }

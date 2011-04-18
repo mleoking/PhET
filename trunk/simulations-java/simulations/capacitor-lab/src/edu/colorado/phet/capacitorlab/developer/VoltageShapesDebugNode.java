@@ -2,9 +2,7 @@
 
 package edu.colorado.phet.capacitorlab.developer;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Stroke;
+import java.awt.*;
 
 import edu.colorado.phet.capacitorlab.CLPaints;
 import edu.colorado.phet.capacitorlab.model.*;
@@ -136,21 +134,21 @@ public class VoltageShapesDebugNode extends PComposite {
             addChild( negativeTipNode );
 
             // set shape to match positive probe location
-            voltmeter.addPositiveProbeLocationObserver( new SimpleObserver() {
+            voltmeter.positiveProbeLocationProperty.addObserver( new SimpleObserver() {
                 public void update() {
                     positiveTipNode.setPathTo( shapeFactory.getPositiveProbeTipShape() );
                 }
             } );
 
             // set shape to match negative probe location
-            voltmeter.addNegativeProbeLocationObserver( new SimpleObserver() {
+            voltmeter.negativeProbeLocationProperty.addObserver( new SimpleObserver() {
                 public void update() {
                     negativeTipNode.setPathTo( shapeFactory.getNegativeProbeTipShape() );
                 }
             } );
 
             // set visibility to match voltmeter visibility
-            voltmeter.addVisibleObserver( new SimpleObserver() {
+            voltmeter.visibleProperty.addObserver( new SimpleObserver() {
                 public void update() {
                     positiveTipNode.setVisible( voltmeter.isVisible() );
                     negativeTipNode.setVisible( voltmeter.isVisible() );

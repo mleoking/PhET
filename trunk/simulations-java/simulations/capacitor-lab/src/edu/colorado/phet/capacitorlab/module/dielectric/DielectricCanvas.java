@@ -181,7 +181,7 @@ public class DielectricCanvas extends CLCanvas {
                 }
             };
             model.eFieldVisible.addObserver( o );
-            model.getVoltmeter().addVisibleObserver( o );
+            model.getVoltmeter().visibleProperty.addObserver( o );
             model.getEFieldDetector().visibleProperty.addObserver( o );
         }
 
