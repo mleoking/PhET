@@ -53,7 +53,7 @@ public class InteractiveSchematicAtomNode extends SchematicAtomNode {
             // Add these particles to the atom representation even though they
             // are outside of the atom, since they may well be added to the
             // atom later.
-            addElectron( (Electron) electron );
+            addElectronNode( (Electron) electron );
         }
         BucketNode protonBucketNode = new BucketNode( model.getProtonBucket(), mvt );
         protonBucketNode.setOffset( mvt.modelToView( model.getProtonBucket().getPosition() ) );
@@ -63,7 +63,7 @@ public class InteractiveSchematicAtomNode extends SchematicAtomNode {
             // Add these particles to the atom representation even though they
             // are outside of the atom, since they may well be added to the
             // atom later.
-            addProton( (Proton) proton );
+            addProtonNode( (Proton) proton );
         }
         BucketNode neutronBucketNode = new BucketNode( model.getNeutronBucket(), mvt );
         neutronBucketNode.setOffset( mvt.modelToView( model.getNeutronBucket().getPosition() ) );
@@ -73,7 +73,7 @@ public class InteractiveSchematicAtomNode extends SchematicAtomNode {
             // Add these particles to the atom representation even though they
             // are outside of the atom, since they may well be added to the
             // atom later.
-            addNeutron( (Neutron) neutron );
+            addNeutronNode( (Neutron) neutron );
         }
     }
 
