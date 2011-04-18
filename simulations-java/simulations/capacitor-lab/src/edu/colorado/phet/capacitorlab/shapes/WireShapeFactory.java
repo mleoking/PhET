@@ -2,9 +2,7 @@
 
 package edu.colorado.phet.capacitorlab.shapes;
 
-import java.awt.BasicStroke;
-import java.awt.Shape;
-import java.awt.Stroke;
+import java.awt.*;
 import java.awt.geom.Area;
 import java.awt.geom.Line2D;
 
@@ -38,7 +36,7 @@ public class WireShapeFactory {
     }
 
     private Shape createWireSegmentShape( WireSegment segment, double thickness ) {
-        Line2D line = new Line2D.Double( segment.getStartPoint(), segment.getEndPoint() );
+        Line2D line = new Line2D.Double( segment.startPointProperty.getValue(), segment.endPointProperty.getValue() );
         Stroke stroke = new BasicStroke( (float) thickness, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER ); // use CAP_BUTT so that ends are accurate
         Shape s = new Area( stroke.createStrokedShape( line ) );
         return mvt.modelToView( s );

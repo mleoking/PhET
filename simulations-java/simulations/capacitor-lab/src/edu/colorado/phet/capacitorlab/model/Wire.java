@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.capacitorlab.model;
 
-import java.awt.Shape;
+import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
@@ -19,7 +19,7 @@ import edu.colorado.phet.common.phetcommon.view.util.ShapeUtils;
 /**
  * A wire is a collection of connected wire segments.
  * It has an associated voltage.
- * <p>
+ * <p/>
  * NOTE: It's the client's responsibility to ensure
  * that all segments are connected.  No checking is done here.
  *
@@ -55,8 +55,8 @@ public class Wire {
                 }
             };
             for ( WireSegment segment : segments ) {
-                segment.addStartPointObserver( segmentObserver );
-                segment.addEndPointObserver( segmentObserver );
+                segment.startPointProperty.addObserver( segmentObserver );
+                segment.endPointProperty.addObserver( segmentObserver );
             }
         }
     }
@@ -64,16 +64,16 @@ public class Wire {
     public void addSegment( WireSegment segment ) {
         if ( !segments.contains( segment ) ) {
             segments.add( segment );
-            segment.addStartPointObserver( segmentObserver );
-            segment.addEndPointObserver( segmentObserver );
+            segment.startPointProperty.addObserver( segmentObserver );
+            segment.endPointProperty.addObserver( segmentObserver );
         }
     }
 
     public void removeSegment( WireSegment segment ) {
         if ( segments.contains( segment ) ) {
             segments.remove( segment );
-            segment.removeStartPointObserver( segmentObserver );
-            segment.removeEndPointObserver( segmentObserver );
+            segment.startPointProperty.removeObserver( segmentObserver );
+            segment.endPointProperty.removeObserver( segmentObserver );
         }
     }
 
