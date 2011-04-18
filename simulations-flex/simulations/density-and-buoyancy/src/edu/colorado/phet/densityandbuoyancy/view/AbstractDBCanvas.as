@@ -192,7 +192,7 @@ public class AbstractDBCanvas extends UIComponent {
         densityObjectNode.removeOverlayObjects();
     }
 
-    //REVIEW doc - called by the model when an object is created
+    //called by the model when an object is created to create the corresponding view element
     protected function createNode( densityObject: DensityAndBuoyancyObject ): DensityAndBuoyancyObjectNode {
         return densityObject.createNode( this, massReadoutsVisible );
     }
