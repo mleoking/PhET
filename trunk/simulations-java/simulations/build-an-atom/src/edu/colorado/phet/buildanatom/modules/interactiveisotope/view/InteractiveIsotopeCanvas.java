@@ -43,6 +43,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PieChartNode.PieValue;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PLine;
 import edu.umd.cs.piccolox.util.LineShape;
@@ -114,7 +115,7 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas implements Resettable 
         // Create the node that contains both the atom and the neutron bucket.
         Point2D topCenterOfScale = new Point2D.Double( scaleNode.getFullBoundsReference().getCenterX(),
                 scaleNode.getFullBoundsReference().getMinY() + scaleNode.getWeighPlateTopProjectedHeight() / 2 + 20 );
-        final PNode atomAndBucketNode = new InteractiveIsotopeNode( model, mvt, topCenterOfScale );
+        final InteractiveIsotopeNode atomAndBucketNode = new InteractiveIsotopeNode( model, mvt, topCenterOfScale );
 
         // Add the scale followed by the atom so that the layering effect is
         // correct.
@@ -149,6 +150,16 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas implements Resettable 
                 }
                 } );
         rootNode.addChild( stabilityIndicator );
+
+        // Add functionality to position the labels based on the location of
+        // the nucleus.
+        atomAndBucketNode.addNucleusBoundsChangeListener( new PropertyChangeListener() {
+            public void propertyChange( PropertyChangeEvent evt ) {
+                System.out.println( "Bounds = " + atomAndBucketNode.getNucleusBounds());
+                PBounds bounds = atomAndBucketNode.getNucleusBounds();
+                stabilityIndicator.setOffset( bounds.x, bounds.y );
+            }
+        });
 
         // Add the interactive periodic table that allows the user to select
         // the current element.
