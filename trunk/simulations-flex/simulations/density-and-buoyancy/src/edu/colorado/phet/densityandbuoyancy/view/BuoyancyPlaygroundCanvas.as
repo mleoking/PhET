@@ -16,24 +16,25 @@ import mx.controls.RadioButton;
  * Adds Buoyancy Playground-tab specific UI
  */
 public class BuoyancyPlaygroundCanvas extends BuoyancyCanvas {
-    private var count: Number = 0;//REVIEW static in BuoyancyPlaygroundContainer, but not here. Which is correct?
+    private static var count: Number = 0;
 
     private var oneObjectButton: RadioButton;
 
-    //REVIEW doc chunk of code in constructor, I shouldn't have to read all of this to find what I need
     public function BuoyancyPlaygroundCanvas() {
         super( true, false );
+        //Create the panel that lets the user choose "one object" or "two object" mode
         var modeControlPanel: DensityVBox = new DensityVBox();
         modeControlPanel.setStyle( "right", DensityAndBuoyancyConstants.CONTROL_INSET );
         modeControlPanel.y = DensityAndBuoyancyConstants.CONTROL_INSET;
 
+        //Label that says "Blocks"
         var label: Label = new Label();
         label.text = FlexSimStrings.get( 'mode.title', 'Blocks' );
         label.setStyle( "fontWeight", "bold" );
         modeControlPanel.addChild( label );
 
+        //Radio button for choosing "one block" mode
         var groupName: String = "playground_modes" + count;
-
         oneObjectButton = new RadioButton();
         oneObjectButton.groupName = groupName;
         oneObjectButton.label = FlexSimStrings.get( 'mode.one', 'One' );
@@ -42,6 +43,7 @@ public class BuoyancyPlaygroundCanvas extends BuoyancyCanvas {
         } );
         modeControlPanel.addChild( oneObjectButton );
 
+        //Radio button for choosing "two blocks" mode
         var twoObjectsButton: RadioButton = new RadioButton();
         twoObjectsButton.groupName = groupName;
         twoObjectsButton.label = FlexSimStrings.get( 'mode.two', 'Two' );
