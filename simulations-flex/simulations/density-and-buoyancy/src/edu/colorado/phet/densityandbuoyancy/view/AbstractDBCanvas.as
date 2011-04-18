@@ -181,7 +181,7 @@ public class AbstractDBCanvas extends UIComponent {
 
     //called by the model when an object is added to the model, and the corresponding node should be added to the view
     private function addDensityObject( densityObject: DensityAndBuoyancyObject ): void {
-        const densityObjectNode: DensityAndBuoyancyObjectNode = createDensityObjectNode( densityObject );
+        const densityObjectNode: DensityAndBuoyancyObjectNode = createNode( densityObject );
         mainViewport.scene.addChild( densityObjectNode );
         densityObjectNode.addOverlayObjects();
     }
@@ -193,7 +193,7 @@ public class AbstractDBCanvas extends UIComponent {
     }
 
     //REVIEW doc - called by the model when an object is created
-    protected function createDensityObjectNode( densityObject: DensityAndBuoyancyObject ): DensityAndBuoyancyObjectNode {
+    protected function createNode( densityObject: DensityAndBuoyancyObject ): DensityAndBuoyancyObjectNode {
         return densityObject.createNode( this, massReadoutsVisible );
     }
 
