@@ -15,7 +15,7 @@ import edu.colorado.phet.densityandbuoyancy.DensityAndBuoyancyConstants;
 import edu.colorado.phet.densityandbuoyancy.model.DensityAndBuoyancyModel;
 import edu.colorado.phet.densityandbuoyancy.model.DensityAndBuoyancyObject;
 import edu.colorado.phet.densityandbuoyancy.model.Material;
-import edu.colorado.phet.densityandbuoyancy.view.away3d.DensityObjectNode;
+import edu.colorado.phet.densityandbuoyancy.view.away3d.DensityAndBuoyancyObjectNode;
 import edu.colorado.phet.densityandbuoyancy.view.away3d.GroundNode;
 import edu.colorado.phet.densityandbuoyancy.view.away3d.Pickable;
 import edu.colorado.phet.densityandbuoyancy.view.units.LinearUnit;
@@ -179,21 +179,21 @@ public class AbstractDBCanvas extends UIComponent {
         //        scene.addChild(marker);//For debugging
     }
 
-    //REVIEW doc - called by the model when an object is added
+    //called by the model when an object is added to the model, and the corresponding node should be added to the view
     private function addDensityObject( densityObject: DensityAndBuoyancyObject ): void {
-        const densityObjectNode: DensityObjectNode = createDensityObjectNode( densityObject );
+        const densityObjectNode: DensityAndBuoyancyObjectNode = createDensityObjectNode( densityObject );
         mainViewport.scene.addChild( densityObjectNode );
         densityObjectNode.addOverlayObjects();
     }
 
-    //REVIEW doc - called by the model when an object is added
-    public function removeDensityObject( densityObjectNode: DensityObjectNode ): void {
+    //called by the model when an object is removed from the model, and the corresponding node should be removed from the view
+    public function removeDensityObject( densityObjectNode: DensityAndBuoyancyObjectNode ): void {
         mainViewport.scene.removeChild( densityObjectNode );
         densityObjectNode.removeOverlayObjects();
     }
 
     //REVIEW doc - called by the model when an object is created
-    protected function createDensityObjectNode( densityObject: DensityAndBuoyancyObject ): DensityObjectNode {
+    protected function createDensityObjectNode( densityObject: DensityAndBuoyancyObject ): DensityAndBuoyancyObjectNode {
         return densityObject.createNode( this, massReadoutsVisible );
     }
 

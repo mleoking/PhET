@@ -21,6 +21,6 @@ public interface Pickable {
      */
     function isPickableProperty(): BooleanProperty;
 
-    function get densityObjectNode(): DensityObjectNode;
+    function get densityObjectNode(): DensityAndBuoyancyObjectNode;
 }
 }

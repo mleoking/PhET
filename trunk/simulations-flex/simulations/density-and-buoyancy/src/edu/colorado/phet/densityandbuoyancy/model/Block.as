@@ -2,7 +2,7 @@
 package edu.colorado.phet.densityandbuoyancy.model {
 import edu.colorado.phet.densityandbuoyancy.view.AbstractDBCanvas;
 import edu.colorado.phet.densityandbuoyancy.view.away3d.BlockNode;
-import edu.colorado.phet.densityandbuoyancy.view.away3d.DensityObjectNode;
+import edu.colorado.phet.densityandbuoyancy.view.away3d.DensityAndBuoyancyObjectNode;
 import edu.colorado.phet.flexcommon.model.BooleanProperty;
 
 import flash.geom.ColorTransform;
@@ -39,7 +39,7 @@ public class Block extends Cuboid {
         return _colorTransform;
     }
 
-    override public function createNode( view: AbstractDBCanvas, massReadoutsVisible: BooleanProperty ): DensityObjectNode {
+    override public function createNode( view: AbstractDBCanvas, massReadoutsVisible: BooleanProperty ): DensityAndBuoyancyObjectNode {
         return new BlockNode( this, view, getLabelProperty(), massReadoutsVisible );
     }
 
