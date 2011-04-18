@@ -1,6 +1,6 @@
 //  Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.densityandbuoyancy.view.modes {
-import edu.colorado.phet.densityandbuoyancy.view.AbstractDBCanvas;
+import edu.colorado.phet.densityandbuoyancy.view.AbstractDensityAndBuoyancyPlayAreaComponent;
 
 //TODO-REVIEW -
 // This was initially confusing because it differs greatly from the concept of modes used in Gravity and Orbits,
@@ -25,9 +25,9 @@ import edu.colorado.phet.densityandbuoyancy.view.AbstractDBCanvas;
  * A mode is a different configuration within a single module (tab), which can be selected via a radio button in the top-right of the canvas.
  */
 public class Mode {
-    protected var canvas: AbstractDBCanvas;
+    protected var canvas: AbstractDensityAndBuoyancyPlayAreaComponent;
 
-    public function Mode( canvas: AbstractDBCanvas ) {
+    public function Mode( canvas: AbstractDensityAndBuoyancyPlayAreaComponent ) {
         this.canvas = canvas;
     }
 

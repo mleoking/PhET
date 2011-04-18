@@ -5,7 +5,7 @@ import edu.colorado.phet.densityandbuoyancy.components.MysteryObjectsControlPane
 import edu.colorado.phet.densityandbuoyancy.model.Material;
 import edu.colorado.phet.densityandbuoyancy.model.MysteryBlock;
 import edu.colorado.phet.densityandbuoyancy.model.Scale;
-import edu.colorado.phet.densityandbuoyancy.view.AbstractDBCanvas;
+import edu.colorado.phet.densityandbuoyancy.view.AbstractDensityAndBuoyancyPlayAreaComponent;
 import edu.colorado.phet.densityandbuoyancy.view.DensityContainer;
 import edu.colorado.phet.flexcommon.FlexSimStrings;
 
@@ -18,7 +18,7 @@ import mx.events.FlexEvent;
 public class DensityMysteryObjectsMode extends Mode {
     private var mysteryObjectsControlPanel: MysteryObjectsControlPanel;
 
-    function DensityMysteryObjectsMode( canvas: AbstractDBCanvas ) {
+    function DensityMysteryObjectsMode( canvas: AbstractDensityAndBuoyancyPlayAreaComponent ) {
         super( canvas );
         mysteryObjectsControlPanel = new MysteryObjectsControlPanel();
         mysteryObjectsControlPanel.setStyle( "right", DensityAndBuoyancyConstants.CONTROL_INSET );

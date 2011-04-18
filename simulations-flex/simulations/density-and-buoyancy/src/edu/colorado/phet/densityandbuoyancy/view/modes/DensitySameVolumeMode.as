@@ -4,14 +4,14 @@ import edu.colorado.phet.densityandbuoyancy.DensityAndBuoyancyConstants;
 import edu.colorado.phet.densityandbuoyancy.model.Block;
 import edu.colorado.phet.densityandbuoyancy.model.DensityAndBuoyancyModel;
 import edu.colorado.phet.densityandbuoyancy.model.Material;
-import edu.colorado.phet.densityandbuoyancy.view.AbstractDBCanvas;
+import edu.colorado.phet.densityandbuoyancy.view.AbstractDensityAndBuoyancyPlayAreaComponent;
 
 /**
  * Density simulation mode which shows 4 blocks of the same volume.
  */
 public class DensitySameVolumeMode extends Mode {
 
-    public function DensitySameVolumeMode( canvas: AbstractDBCanvas ) {
+    public function DensitySameVolumeMode( canvas: AbstractDensityAndBuoyancyPlayAreaComponent ) {
         super( canvas );
     }
 

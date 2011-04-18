@@ -18,14 +18,14 @@ import mx.controls.Label;
  */
 public class BuoyancyContainer extends AbstractDBContainer {
 
-    protected var buoyancyCanvas: BuoyancyCanvas;
+    protected var buoyancyCanvas: BuoyancyPlayAreaComponent;
 
     public function BuoyancyContainer( extendedPool: Boolean, showExactLiquidColor: Boolean ) {
         super();
 
         addBackground();
 
-        buoyancyCanvas = new BuoyancyCanvas( this, extendedPool, showExactLiquidColor );
+        buoyancyCanvas = new BuoyancyPlayAreaComponent( this, extendedPool, showExactLiquidColor );
         addChild( buoyancyCanvas );
 
 
@@ -127,7 +127,7 @@ public class BuoyancyContainer extends AbstractDBContainer {
         buoyancyCanvas.resetAll();
     }
 
-    public function getDefaultMode( canvas: AbstractDBCanvas ): Mode {
+    public function getDefaultMode( canvas: AbstractDensityAndBuoyancyPlayAreaComponent ): Mode {
         throw new AbstractMethodError();
     }
 

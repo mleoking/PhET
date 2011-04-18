@@ -5,7 +5,7 @@ import Box2D.Dynamics.Contacts.b2ContactResult;
 import Box2D.Dynamics.b2Body;
 
 import edu.colorado.phet.densityandbuoyancy.DensityAndBuoyancyConstants;
-import edu.colorado.phet.densityandbuoyancy.view.AbstractDBCanvas;
+import edu.colorado.phet.densityandbuoyancy.view.AbstractDensityAndBuoyancyPlayAreaComponent;
 import edu.colorado.phet.densityandbuoyancy.view.away3d.DensityAndBuoyancyObjectNode;
 import edu.colorado.phet.flashcommon.AbstractMethodError;
 import edu.colorado.phet.flexcommon.FlexSimStrings;
@@ -283,7 +283,7 @@ public class DensityAndBuoyancyObject {
 
     //Abstract method
     //Create the node for this DensityAndBuoyancyObject which will be shown in the specified canvas, and will show the readouts as specified by the massReadoutsVisible Property
-    public function createNode( canvas: AbstractDBCanvas, massReadoutsVisible: BooleanProperty ): DensityAndBuoyancyObjectNode {
+    public function createNode( canvas: AbstractDensityAndBuoyancyPlayAreaComponent, massReadoutsVisible: BooleanProperty ): DensityAndBuoyancyObjectNode {
         throw new AbstractMethodError();
     }
 

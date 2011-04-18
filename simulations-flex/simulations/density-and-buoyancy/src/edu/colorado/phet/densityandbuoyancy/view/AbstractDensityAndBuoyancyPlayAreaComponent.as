@@ -35,7 +35,7 @@ import mx.core.UIComponent;
  * Base class for the canvas, subclassed for each sim. Contains all of the drawables in the play area (but not the
  * control panels)
  */
-public class AbstractDBCanvas extends UIComponent {
+public class AbstractDensityAndBuoyancyPlayAreaComponent extends UIComponent {
     //model
     protected var _model: DensityAndBuoyancyModel;
 
@@ -78,7 +78,7 @@ public class AbstractDBCanvas extends UIComponent {
      * @param extendedPool Whether the pool should be deeper than normal
      * @param showExactLiquidColor Whether we show realistic liquid colors, or a fake oil color
      */
-    public function AbstractDBCanvas( extendedPool: Boolean, showExactLiquidColor: Boolean = false ) {
+    public function AbstractDensityAndBuoyancyPlayAreaComponent( extendedPool: Boolean, showExactLiquidColor: Boolean = false ) {
         super();
         this.extendedPool = extendedPool;
         _model = createModel( showExactLiquidColor );

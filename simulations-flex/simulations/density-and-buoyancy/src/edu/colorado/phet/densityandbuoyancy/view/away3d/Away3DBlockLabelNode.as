@@ -4,8 +4,8 @@ package edu.colorado.phet.densityandbuoyancy.view.away3d {
 import away3d.cameras.Camera3D;
 import away3d.core.draw.ScreenVertex;
 
-import edu.colorado.phet.densityandbuoyancy.view.*;
 import edu.colorado.phet.densityandbuoyancy.components.BlockLabel;
+import edu.colorado.phet.densityandbuoyancy.view.*;
 import edu.colorado.phet.flexcommon.model.BooleanProperty;
 
 //REVIEW If it's a sprite, then why is the class name *Node?
@@ -16,9 +16,9 @@ public class Away3DBlockLabelNode extends BlockLabel {
     private var mainViewport: Away3DViewport;
     private var mainCamera: Camera3D;
     private var cubeNode: CubeNode;
-    private var canvas: AbstractDBCanvas;
+    private var canvas: AbstractDensityAndBuoyancyPlayAreaComponent;
 
-    public function Away3DBlockLabelNode( name: String, cubeNode: CubeNode, visibilityProperty: BooleanProperty, canvas: AbstractDBCanvas, mainCamera: Camera3D, mainViewport: Away3DViewport ) {
+    public function Away3DBlockLabelNode( name: String, cubeNode: CubeNode, visibilityProperty: BooleanProperty, canvas: AbstractDensityAndBuoyancyPlayAreaComponent, mainCamera: Camera3D, mainViewport: Away3DViewport ) {
         this.canvas = canvas;
         super( name, visibilityProperty );
         this.mainViewport = mainViewport;

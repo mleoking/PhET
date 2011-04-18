@@ -19,7 +19,7 @@ import mx.controls.RadioButton;
  */
 public class DensityContainer extends AbstractDBContainer {
 
-    private var densityCanvas: DensityCanvas;
+    private var densityCanvas: DensityPlayAreaComponent;
     private var customButton: RadioButton;
 
     public var modeControlPanel: DensityVBox;
@@ -31,7 +31,7 @@ public class DensityContainer extends AbstractDBContainer {
 
         addBackground();
 
-        densityCanvas = new DensityCanvas( myThis );
+        densityCanvas = new DensityPlayAreaComponent( myThis );
         addChild( densityCanvas );
 
         //REVIEW suggest that modeControlPanel should be a subclass of DensityVBox, eg ModeControlPanel that takes densityCanvas as constructor arg

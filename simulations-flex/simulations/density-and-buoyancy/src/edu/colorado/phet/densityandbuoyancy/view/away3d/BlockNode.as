@@ -28,7 +28,7 @@ public class BlockNode extends CubeNode implements Pickable {
     private var label: StringProperty;
     private var readoutFontScale: Number; //REVIEW doc
 
-    public function BlockNode( block: Block, canvas: AbstractDBCanvas, label: StringProperty, massReadoutVisible: BooleanProperty, readoutFontScale: Number = 1 ): void {
+    public function BlockNode( block: Block, canvas: AbstractDensityAndBuoyancyPlayAreaComponent, label: StringProperty, massReadoutVisible: BooleanProperty, readoutFontScale: Number = 1 ): void {
         this.label = label;
         this.block = block;
         this.readoutFontScale = readoutFontScale;

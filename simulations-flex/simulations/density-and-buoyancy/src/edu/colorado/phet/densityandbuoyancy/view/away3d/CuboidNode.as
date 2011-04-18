@@ -13,7 +13,7 @@ public class CuboidNode extends DensityAndBuoyancyObjectNode implements Pickable
 
     private var cuboid: Cuboid;
 
-    public function CuboidNode( cuboid: Cuboid, canvas: AbstractDBCanvas ): void {
+    public function CuboidNode( cuboid: Cuboid, canvas: AbstractDensityAndBuoyancyPlayAreaComponent ): void {
         super( cuboid, canvas );
         this.cuboid = cuboid;
         this.x = cuboid.getX() * DensityAndBuoyancyModel.DISPLAY_SCALE;

@@ -1,6 +1,6 @@
 //  Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.densityandbuoyancy.model {
-import edu.colorado.phet.densityandbuoyancy.view.AbstractDBCanvas;
+import edu.colorado.phet.densityandbuoyancy.view.AbstractDensityAndBuoyancyPlayAreaComponent;
 import edu.colorado.phet.densityandbuoyancy.view.away3d.BlockNode;
 import edu.colorado.phet.densityandbuoyancy.view.away3d.DensityAndBuoyancyObjectNode;
 import edu.colorado.phet.flexcommon.model.BooleanProperty;
@@ -19,7 +19,7 @@ public class MysteryBlock extends Block {
         this.label = label;
     }
 
-    override public function createNode( view: AbstractDBCanvas, massReadoutsVisible: BooleanProperty ): DensityAndBuoyancyObjectNode {
+    override public function createNode( view: AbstractDensityAndBuoyancyPlayAreaComponent, massReadoutsVisible: BooleanProperty ): DensityAndBuoyancyObjectNode {
         return new BlockNode( this, view, new StringProperty( label ), massReadoutsVisible, 2 );
     }
 

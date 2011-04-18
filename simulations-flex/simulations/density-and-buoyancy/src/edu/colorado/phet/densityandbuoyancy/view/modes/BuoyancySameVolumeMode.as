@@ -4,7 +4,7 @@ import edu.colorado.phet.densityandbuoyancy.DensityAndBuoyancyConstants;
 import edu.colorado.phet.densityandbuoyancy.model.Block;
 import edu.colorado.phet.densityandbuoyancy.model.DensityAndBuoyancyObject;
 import edu.colorado.phet.densityandbuoyancy.model.Material;
-import edu.colorado.phet.densityandbuoyancy.view.AbstractDBCanvas;
+import edu.colorado.phet.densityandbuoyancy.view.AbstractDensityAndBuoyancyPlayAreaComponent;
 
 import flash.geom.ColorTransform;
 
@@ -15,7 +15,7 @@ public class BuoyancySameVolumeMode extends BuoyancyMode {
     private var woodBlock: DensityAndBuoyancyObject;
     private var brick: DensityAndBuoyancyObject;
 
-    public function BuoyancySameVolumeMode( canvas: AbstractDBCanvas ) {
+    public function BuoyancySameVolumeMode( canvas: AbstractDensityAndBuoyancyPlayAreaComponent ) {
         super( canvas );
         //Showing the blocks as partially floating allows easier visualization of densities
         const material: Material = Material.WOOD;
