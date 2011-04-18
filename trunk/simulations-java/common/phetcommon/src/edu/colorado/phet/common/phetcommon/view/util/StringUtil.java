@@ -115,4 +115,14 @@ public class StringUtil {
         }
         return b;
     }
+
+    /**
+     * Gets the basename of a class, useful in debug and toString implementations.
+     *
+     * @param c
+     * @return
+     */
+    public static String basename( Class c ) {
+        return c.getName().replaceAll( ".*\\.", "" );
+    }
 }

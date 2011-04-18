@@ -3,6 +3,8 @@
 package edu.colorado.phet.common.phetcommon.math;
 
 
+import edu.colorado.phet.common.phetcommon.view.util.StringUtil;
+
 /**
  * Point3D is a point in 3 dimensional space.
  * This implementation was modeled after java.awt.geom.Point2D (for better or worse).
@@ -95,6 +97,6 @@ public abstract class Point3D {
     }
 
     public String toString() {
-        return ( getClass().getName() + "[x=" + getX() + ",y=" + getY() + ",z=" + getZ() + "]" );
+        return ( StringUtil.basename( getClass() ) + "[" + getX() + "," + getY() + "," + getZ() + "]" );
     }
 }
