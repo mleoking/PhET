@@ -151,9 +151,13 @@ public class BatteryCapacitorCircuit extends AbstractCircuit {
         if ( !batteryConnected ) {
             V = disconnectedPlateCharge / capacitor.getTotalCapacitance(); // V = Q/C
         }
-        capacitor.setPlatesVoltage( V );
-        topWire.setVoltage( V );
+        //TODO:
+        // There's an order dependency here. Voltmeter is listening for a circuitChanged notification,
+        // so if we set the plate voltage first and a probe is on a wire, then the meter will be
+        // reading a stale wire voltage.
         bottomWire.setVoltage( 0 );
+        topWire.setVoltage( V );
+        capacitor.setPlatesVoltage( V );
     }
 
     //----------------------------------------------------------------------------------
