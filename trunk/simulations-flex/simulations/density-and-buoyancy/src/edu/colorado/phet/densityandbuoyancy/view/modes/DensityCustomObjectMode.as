@@ -9,7 +9,6 @@ import edu.colorado.phet.densityandbuoyancy.view.AbstractDBCanvas;
 
 import flash.geom.ColorTransform;
 
-
 //REVIEW This class is part of the view (at least according to the package organization) but it retains model
 // state in that it keeps the customizableObject around so that it can add it back.  The behavior of the sim is
 // a bit inconsistent because one mode retains state and others do not.  Seems like it would work better to have a
@@ -20,7 +19,6 @@ import flash.geom.ColorTransform;
 public class DensityCustomObjectMode extends Mode {
     private var customizableObject: DensityObject;
     private var customObjectPropertiesPanel: CustomObjectPropertiesPanel;
-    private var customObjectPropertiesPanelShowing: Boolean = false;//REVIEW why is this necessary? Can't you use canvas.getChildByName to see if the panel is showing?
 
     private var DEFAULT_MATERIAL: Material = Material.WOOD;
 
@@ -38,9 +36,8 @@ public class DensityCustomObjectMode extends Mode {
 
     override public function teardown(): void {
         super.teardown();
-        if ( customObjectPropertiesPanelShowing ) {
+        if ( customObjectPropertiesPanelShowing() ) {
             canvas.container.removeChild( customObjectPropertiesPanel );
-            customObjectPropertiesPanelShowing = false;
         }
     }
 
@@ -48,11 +45,14 @@ public class DensityCustomObjectMode extends Mode {
         super.init();
         customizableObject.updateBox2DModel();
 
-        if ( !customObjectPropertiesPanelShowing ) {
+        if ( !customObjectPropertiesPanelShowing() ) {
             canvas.container.addChild( customObjectPropertiesPanel );
-            customObjectPropertiesPanelShowing = true;
         }
         canvas.model.addDensityObject( customizableObject );
+    }
+
+    private function customObjectPropertiesPanelShowing(): Boolean {
+        return canvas.container.contains( customObjectPropertiesPanel );
     }
 
     public override function reset(): void {
