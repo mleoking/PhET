@@ -2,7 +2,7 @@
 package edu.colorado.phet.densityandbuoyancy.view.modes {
 import edu.colorado.phet.densityandbuoyancy.view.AbstractDBCanvas;
 
-//REVIEW -
+//TODO-REVIEW -
 // This was initially confusing because it differs greatly from the concept of modes used in Gravity and Orbits,
 // where each mode has a separate canvas and model. In this sim, there is one canvas and one model, shared
 // by all modes.
@@ -31,19 +31,19 @@ public class Mode {
         this.canvas = canvas;
     }
 
-    //REVIEW doc, when is this called and what should be done in here?
+    //Called when a mode has been exited, the mode should remove any relevant parts from the model and view
     public function teardown(): void {
         canvas.model.teardown();
     }
 
-    //REVIEW doc, when is this called and what should be done in here?
-    //REVIEW this smells abstract, add throw Error("...")
+    //Called when a mode is initialized, should create and initialize any relevant model or view components
     public function init(): void {
+        //No AbstractMethodError is thrown since subclasses should call super.init() in case inheritance hierarchy changes or code is added here in the future
     }
 
-    //REVIEW doc, when is this called and what should be done in here?
-    //REVIEW this smells abstract, add throw Error("...")
+    //Called when a mode is reset, should restore original values
     public function reset(): void {
+        //No AbstractMethodError is thrown since subclasses should call super.init() in case inheritance hierarchy changes or code is added here in the future
     }
 }
 }
