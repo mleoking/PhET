@@ -21,15 +21,16 @@ public class BuoyancyIntroCanvas extends BuoyancyCanvas {
     public static var count: Number = 0;//for different button groups
     private var sameMassButton: RadioButton;
 
-    //REVIEW doc chunk of code in constructor, I shouldn't have to read all of this to find what I need
     public function BuoyancyIntroCanvas() {
         super( false, true );
         count = count + 1;
 
+        //Vertical panel that lets the user choose from the different modes
         var modeControlPanel: DensityVBox = new DensityVBox();
         modeControlPanel.setStyle( "right", DensityAndBuoyancyConstants.CONTROL_INSET );
         modeControlPanel.y = DensityAndBuoyancyConstants.CONTROL_INSET;
 
+        //Title for the box that says "Blocks"
         var label: Label = new Label();
         label.text = FlexSimStrings.get( 'mode.title', 'Blocks' );
         label.setStyle( "fontWeight", "bold" );
@@ -37,6 +38,7 @@ public class BuoyancyIntroCanvas extends BuoyancyCanvas {
 
         var groupName: String = "modes" + count;
 
+        //Button for same mass mode
         sameMassButton = new RadioButton();
         sameMassButton.groupName = groupName;
         sameMassButton.label = FlexSimStrings.get( 'mode.objectsOfSameMass', 'Same Mass' );
@@ -45,6 +47,7 @@ public class BuoyancyIntroCanvas extends BuoyancyCanvas {
         } );
         modeControlPanel.addChild( sameMassButton );
 
+        //Button for same volume mode
         var sameVolumeButton: RadioButton = new RadioButton();
         sameVolumeButton.groupName = groupName;
         sameVolumeButton.label = FlexSimStrings.get( 'mode.objectsOfSameVolume', 'Same Volume' );
@@ -53,6 +56,7 @@ public class BuoyancyIntroCanvas extends BuoyancyCanvas {
         } );
         modeControlPanel.addChild( sameVolumeButton );
 
+        //Button for same density mode
         var sameDensityButton: RadioButton = new RadioButton();
         sameDensityButton.groupName = groupName;
         sameDensityButton.label = FlexSimStrings.get( 'mode.objectsOfSameDensity', 'Same Density' );
@@ -61,9 +65,13 @@ public class BuoyancyIntroCanvas extends BuoyancyCanvas {
         } );
         modeControlPanel.addChild( sameDensityButton );
 
+        //Add the control panel
         addChild( modeControlPanel );
+
+        //Set the initial mode
         sameMassButton.selected = true;
 
+        //Add the fluid density control and wire it up
         ApplicationLifecycle.addApplicationCompleteListener( function(): void {
             const fluidDensityControl: IntroFluidDensityControl = new IntroFluidDensityControl( buoyancyCanvas.model.fluidDensity );
             fluidDensityControl.setStyle( "bottom", DensityAndBuoyancyConstants.CONTROL_INSET );

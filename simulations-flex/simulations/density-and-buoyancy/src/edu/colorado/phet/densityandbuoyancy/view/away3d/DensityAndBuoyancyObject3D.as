@@ -16,13 +16,8 @@ import edu.colorado.phet.flexcommon.model.NumericProperty;
 public class DensityAndBuoyancyObject3D extends ObjectContainer3D implements Pickable {
     private var densityObject: DensityAndBuoyancyObject;
 
-    /**
-     * the depth of the object so arrows will render just outside of the object
-     * this is in the away3d scale
-     */
-    //REVIEW protected?
-    //REVIEW don't understand the above comment or implications of the TODO
-    public var frontZProperty: NumericProperty = new NumericProperty( "ZZZZ", "FakeUnits, FIX ME", 0 ); // TODO refactor so we can opt out of units
+    // TODO refactor so we can opt out of units
+    protected var frontZProperty: NumericProperty = new NumericProperty( "ZZZZ", "FakeUnits, FIX ME", 0 );//Front of the object (in away3d coordinates) so objects can be placed in front of it
 
     private var _canvas: AbstractDensityAndBuoyancyPlayAreaComponent;
 

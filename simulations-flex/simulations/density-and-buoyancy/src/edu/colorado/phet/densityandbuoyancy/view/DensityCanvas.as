@@ -30,7 +30,7 @@ public class DensityCanvas extends AbstractDensityAndBuoyancyCanvas {
         densityCanvas = new DensityPlayAreaComponent( this );
         addChild( densityCanvas );
 
-        //REVIEW suggest that modeControlPanel should be a subclass of DensityVBox, eg ModeControlPanel that takes densityCanvas as constructor arg
+        //TODO: modeControlPanel should be a subclass of DensityVBox, eg ModeControlPanel that takes densityCanvas as constructor arg
         modeControlPanel = new DensityVBox();
         modeControlPanel.setStyle( "right", DensityAndBuoyancyConstants.CONTROL_INSET );
         modeControlPanel.y = DensityAndBuoyancyConstants.CONTROL_INSET;

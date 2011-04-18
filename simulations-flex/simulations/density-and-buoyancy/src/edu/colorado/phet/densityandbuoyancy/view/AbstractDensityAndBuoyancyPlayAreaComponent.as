@@ -40,8 +40,8 @@ public class AbstractDensityAndBuoyancyPlayAreaComponent extends UIComponent {
     protected var _model: DensityAndBuoyancyModel;
 
     // we use two viewports so we can layer things that go in front
-    public const mainViewport: Away3DViewport = new Away3DViewport();
-    public const overlayViewport: Away3DViewport = new Away3DViewport();
+    public const mainViewport: Away3DContext = new Away3DContext();
+    public const overlayViewport: Away3DContext = new Away3DContext();
 
     //navigation variables
     private var moving: Boolean = false;
@@ -120,8 +120,8 @@ public class AbstractDensityAndBuoyancyPlayAreaComponent extends UIComponent {
 
     //Sets up Away3D views for each both viewport "layers"
     public function initEngine(): void {
-        mainViewport.initEngine();
-        overlayViewport.initEngine();
+        mainViewport.init();
+        overlayViewport.init();
     }
 
     //Create Away3D geometries and add them to the scene

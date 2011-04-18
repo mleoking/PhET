@@ -67,7 +67,7 @@ public class SliderDecorator extends UIComponent {
                 slider.alpha = 1.0;
             }
             else {
-                slider.setStyle( "trackSkin", MyTrackSkin );
+                slider.setStyle( "trackSkin", DisabledTrackSkin );
             }
         }
     }

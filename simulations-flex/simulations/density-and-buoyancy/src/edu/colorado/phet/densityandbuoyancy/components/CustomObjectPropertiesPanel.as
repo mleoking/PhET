@@ -76,7 +76,6 @@ public class CustomObjectPropertiesPanel extends DensityVBox {
         myBlockSelected.addListener( function(): void {
             if ( myBlockSelected.value ) {
                 if ( !densityObject.material.isCustom() ) {
-                    //REVIEW has this been addressed?
                     // TODO: is customObject.custom currently used? there is material.custom!
                     densityObject.material = new Material( myBlockName, densityObject.density, true );
                 }
