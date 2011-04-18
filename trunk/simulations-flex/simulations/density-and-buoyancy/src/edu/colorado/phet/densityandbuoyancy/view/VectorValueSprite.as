@@ -14,19 +14,18 @@ import flash.text.TextField;
 import flash.text.TextFieldAutoSize;
 import flash.text.TextFormat;
 
-//REVIEW why are you using Piccolo "node" terminology here? Confusing to both Piccolo and Flex developers. Rename VectorValueSprite.
 /**
  * Displays a numeric readout of magnitude next to a force vector
  */
-public class VectorValueNode extends Sprite {
+public class VectorValueSprite extends Sprite {
     private var mainViewport: Away3DViewport;
     private var textField: TextField;
     private var mainCamera: Camera3D;
     private var arrowNode: ArrowNode;
     private var right: Boolean;
 
-    //REVIEW why doesn't this node create its own ArrowNode?
-    public function VectorValueNode( mainCamera: Camera3D, arrowNode: ArrowNode, mainViewport: Away3DViewport, visibilityProperty: BooleanProperty, right: Boolean ) {
+    public function VectorValueSprite( mainCamera: Camera3D, arrowNode: ArrowNode, //Use the actual ArrowNode for getting view bounds for layout of this sprite
+                                       mainViewport: Away3DViewport, visibilityProperty: BooleanProperty, right: Boolean ) {
         this.mainViewport = mainViewport;
         this.mainCamera = mainCamera;
         this.arrowNode = arrowNode;
@@ -59,29 +58,31 @@ public class VectorValueNode extends Sprite {
         textFormat.bold = true;
         textField.setTextFormat( textFormat );
 
-        //REVIEW doc - draw the text with an outline and white background
+        //draw the text with an outline and white background
         graphics.lineStyle( 1, 0x000000 );
         graphics.beginFill( 0xFFFFFF );
         graphics.drawRoundRect( textField.x, textField.y, textField.width, textField.height, 6, 6 );
         graphics.endFill();
 
-        //REVIEW doc (looks like something is being positioned based on arrow and text)
+        //Update the location of the value based on the arrow model value, if the value is pointing up, the readout should be above the arrow, etc.
+        //The 'right' flag is used to make sure values don't overlap too much.
         try {
-            if ( right && arrowNode.arrowModel.y > 0 ) {
+            const y: Number = arrowNode.arrowModel.y;
+            if ( right && y > 0 ) {
                 updateLocation( arrowNode.arrowHeadRightCornerVertex, 0 );
             }
-            else if ( right && arrowNode.arrowModel.y <= 0 ) {
+            else if ( right && y <= 0 ) {
                 updateLocation( arrowNode.arrowHeadLeftCornerVertex, 0 );
             }
-            else if ( !right && arrowNode.arrowModel.y > 0 ) {
+            else if ( !right && y > 0 ) {
                 updateLocation( arrowNode.arrowHeadLeftCornerVertex, -textField.width );
             }
-            else if ( !right && arrowNode.arrowModel.y <= 0 ) {
+            else if ( !right && y <= 0 ) {
                 updateLocation( arrowNode.arrowHeadRightCornerVertex, -textField.width );
             }
             else {//shouldn't happen
-                x = 0;
-                y = 0;
+                this.x = 0;
+                this.y = 0;
             }
         }
         catch( e: * ) {
@@ -89,7 +90,7 @@ public class VectorValueNode extends Sprite {
         }
     }
 
-    //REVIEW doc
+    //Update the location of this readout sprite to have the relative offset to the specified screen vertex of the provided vertex
     private function updateLocation( vertex: Vertex, offsetX: Number ): void {
         var screenVertex: ScreenVertex = mainCamera.screen( arrowNode, vertex );
         x = screenVertex.x + mainViewport.view.x + offsetX;

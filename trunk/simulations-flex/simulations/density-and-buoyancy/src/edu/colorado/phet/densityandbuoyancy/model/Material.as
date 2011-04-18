@@ -29,32 +29,30 @@ public class Material {
     [Embed(source="../../../../../../data/density-and-buoyancy/images/ice.jpg")]
     private static var iceTextureClass: Class;
 
-    //REVIEW - should all of these vars be const?
-    public static var STYROFOAM: Material = new Material( FlexSimStrings.get( "material.styrofoam", "Styrofoam" ), 150, false, 0xcccccc, new styrofoamTextureClass() );//between 25 and 200 according to http://wiki.answers.com/Q/What_is_the_density_of_styrofoam; chose 150 so it isn't too low to show on slider, but not 200 so it's not half of wood
-    public static var WOOD: Material = new Material( FlexSimStrings.get( "material.wood", "Wood" ), 400, false, 0xa87113, new woodTextureClass() );
-    public static var ICE: Material = new Material( FlexSimStrings.get( "material.ice", "Ice" ), 919, false, 0x6fbcff, new iceTextureClass(), 0.75 );
-    public static var WATER: Material = new Material( FlexSimStrings.get( "material.water", "Water" ), 1000.0, false, 0x0088FF );
-    public static var BRICK: Material = new Material( FlexSimStrings.get( "material.brick", "Brick" ), 2000, false, 0xd34f32, new brickTextureClass() );//see http://www.simetric.co.uk/si_materials.htm also tuned so that in BuoyancySameVolumeMode the brick is exactly 10.0kg
-    public static var ALUMINUM: Material = new Material( FlexSimStrings.get( "material.aluminum", "Aluminum" ), 2700, false, 0x646464, new aluminumTextureClass() );
-    public static var CUSTOM: Material = new Material( FlexSimStrings.get( "material.custom", "My Block" ), 1000.0, true, new customObjectTexture() );
+    public static const STYROFOAM: Material = new Material( FlexSimStrings.get( "material.styrofoam", "Styrofoam" ), 150, false, 0xcccccc, new styrofoamTextureClass() );//between 25 and 200 according to http://wiki.answers.com/Q/What_is_the_density_of_styrofoam; chose 150 so it isn't too low to show on slider, but not 200 so it's not half of wood
+    public static const WOOD: Material = new Material( FlexSimStrings.get( "material.wood", "Wood" ), 400, false, 0xa87113, new woodTextureClass() );
+    public static const ICE: Material = new Material( FlexSimStrings.get( "material.ice", "Ice" ), 919, false, 0x6fbcff, new iceTextureClass(), 0.75 );
+    public static const WATER: Material = new Material( FlexSimStrings.get( "material.water", "Water" ), 1000.0, false, 0x0088FF );
+    public static const BRICK: Material = new Material( FlexSimStrings.get( "material.brick", "Brick" ), 2000, false, 0xd34f32, new brickTextureClass() );//see http://www.simetric.co.uk/si_materials.htm also tuned so that in BuoyancySameVolumeMode the brick is exactly 10.0kg
+    public static const ALUMINUM: Material = new Material( FlexSimStrings.get( "material.aluminum", "Aluminum" ), 2700, false, 0x646464, new aluminumTextureClass() );
+    public static const CUSTOM: Material = new Material( FlexSimStrings.get( "material.custom", "My Block" ), 1000.0, true, new customObjectTexture() );
 
     //NOTE: If other materials less dense than Wood are added, then a volume-bounding solution will need to be applied, like
     //the workaround in PropertyEditor.createSlider
-    public static var SELECTABLE_MATERIALS: Array = [STYROFOAM, WOOD, ICE, BRICK, ALUMINUM];//Note that Custom is omitted from here, though it is added in some places where this list is used
+    public static const SELECTABLE_MATERIALS: Array = [STYROFOAM, WOOD, ICE, BRICK, ALUMINUM];//Note that Custom is omitted from here, though it is added in some places where this list is used
     public static const LABELED_DENSITY_MATERIALS: Array = [STYROFOAM, WOOD, ICE, BRICK, ALUMINUM];
 
-    public static var AIR: Material = new Material( FlexSimStrings.get( "material.air", "Air" ), 1.2, false, 0x666666 );
-    public static var LEAD: Material = new Material( FlexSimStrings.get( "material.lead", "Lead" ), 11340, false );
-    public static var DIAMOND: Material = new Material( FlexSimStrings.get( "material.diamond", "Diamond" ), 3530, false );
-    public static var GOLD: Material = new Material( FlexSimStrings.get( "material.gold", "Gold" ), 19300, false );
-    public static var GASOLINE: Material = new Material( FlexSimStrings.get( "material.gasoline", "Gasoline" ), 700, false, 0x444400 );
-    public static var OLIVE_OIL: Material = new Material( FlexSimStrings.get( "material.oliveOil", "Olive Oil" ), 918, false, 0xAAAA00 );
-    public static var HONEY: Material = new Material( FlexSimStrings.get( "material.honey", "Honey" ), 1420, false, 0xCC8800 );
-    public static var APPLE: Material = new Material( FlexSimStrings.get( "material.apple", "Apple" ), 641, false );
+    public static const AIR: Material = new Material( FlexSimStrings.get( "material.air", "Air" ), 1.2, false, 0x666666 );
+    public static const LEAD: Material = new Material( FlexSimStrings.get( "material.lead", "Lead" ), 11340, false );
+    public static const DIAMOND: Material = new Material( FlexSimStrings.get( "material.diamond", "Diamond" ), 3530, false );
+    public static const GOLD: Material = new Material( FlexSimStrings.get( "material.gold", "Gold" ), 19300, false );
+    public static const GASOLINE: Material = new Material( FlexSimStrings.get( "material.gasoline", "Gasoline" ), 700, false, 0x444400 );
+    public static const OLIVE_OIL: Material = new Material( FlexSimStrings.get( "material.oliveOil", "Olive Oil" ), 918, false, 0xAAAA00 );
+    public static const HONEY: Material = new Material( FlexSimStrings.get( "material.honey", "Honey" ), 1420, false, 0xCC8800 );
+    public static const APPLE: Material = new Material( FlexSimStrings.get( "material.apple", "Apple" ), 641, false );
 
-    public static var LABELED_LIQUID_MATERIALS: Array = [AIR,GASOLINE,OLIVE_OIL,WATER,HONEY];
+    public static const LABELED_LIQUID_MATERIALS: Array = [AIR,GASOLINE,OLIVE_OIL,WATER,HONEY];
 
-    //REVIEW We reviewers grouped the sort function, the declaration of the ALL array, and its sorting to be together.
     private static function sortOnDensity( a: Material, b: Material ): Number {
         var aValue: Number = a.getDensity();
         var bValue: Number = b.getDensity();
