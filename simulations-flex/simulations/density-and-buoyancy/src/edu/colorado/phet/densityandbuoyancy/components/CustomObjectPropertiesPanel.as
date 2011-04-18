@@ -106,9 +106,8 @@ public class CustomObjectPropertiesPanel extends DensityVBox {
         addChild( grid );
     }
 
-    //REVIEW private?
     //Helper function to create a GridRow, to put some vertical spacing between mass,volume and the density readout.
-    public function createSpacerRow( height: int ): GridRow {
+    private function createSpacerRow( height: int ): GridRow {
         var spacerRow: GridRow = new GridRow();
         var spacerItem: GridItem = new GridItem();
         var spacerElement: Spacer = new Spacer();
