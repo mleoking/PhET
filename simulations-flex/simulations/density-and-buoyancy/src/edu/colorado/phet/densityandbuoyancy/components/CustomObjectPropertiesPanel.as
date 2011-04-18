@@ -3,10 +3,10 @@ package edu.colorado.phet.densityandbuoyancy.components {
 import edu.colorado.phet.densityandbuoyancy.DensityAndBuoyancyConstants;
 import edu.colorado.phet.densityandbuoyancy.model.DensityAndBuoyancyObject;
 import edu.colorado.phet.densityandbuoyancy.model.Material;
-import edu.colorado.phet.densityandbuoyancy.model.Not;
 import edu.colorado.phet.densityandbuoyancy.view.units.Units;
 import edu.colorado.phet.flexcommon.FlexSimStrings;
 import edu.colorado.phet.flexcommon.model.BooleanProperty;
+import edu.colorado.phet.flexcommon.model.Not;
 
 import flash.display.Sprite;
 

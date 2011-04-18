@@ -12,6 +12,7 @@ import edu.colorado.phet.flexcommon.FlexSimStrings;
 import edu.colorado.phet.flexcommon.model.BooleanProperty;
 import edu.colorado.phet.flexcommon.model.NumericProperty;
 import edu.colorado.phet.flexcommon.model.StringProperty;
+import edu.colorado.phet.flexcommon.model.Vector2D;
 
 /**
  * Abstract base class for "something movable that behaves like an object in the play area", including Scales and Blocks.

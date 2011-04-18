@@ -1,10 +1,9 @@
 //  Copyright 2002-2011, University of Colorado
 
-//REVIEW generalize and move to common?
 /**
  * Model for a 2d vector that signifies changes to listeners.
  */
-package edu.colorado.phet.densityandbuoyancy.model {
+package edu.colorado.phet.flexcommon.model {
 public class Vector2D {
     private var _x: Number;
     private var _y: Number;

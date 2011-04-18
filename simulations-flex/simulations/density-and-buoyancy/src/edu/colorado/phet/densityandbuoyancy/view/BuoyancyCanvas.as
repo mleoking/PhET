@@ -4,7 +4,6 @@ import edu.colorado.phet.densityandbuoyancy.DensityAndBuoyancyConstants;
 import edu.colorado.phet.densityandbuoyancy.model.DensityAndBuoyancyModel;
 import edu.colorado.phet.densityandbuoyancy.model.DensityAndBuoyancyObject;
 import edu.colorado.phet.densityandbuoyancy.model.Scale;
-import edu.colorado.phet.densityandbuoyancy.model.Vector2D;
 import edu.colorado.phet.densityandbuoyancy.test.Box2DDebug;
 import edu.colorado.phet.densityandbuoyancy.view.away3d.ArrowNode;
 import edu.colorado.phet.densityandbuoyancy.view.away3d.DensityAndBuoyancyObjectNode;
@@ -17,6 +16,7 @@ import edu.colorado.phet.densityandbuoyancy.view.modes.Mode;
 import edu.colorado.phet.flashcommon.ApplicationLifecycle;
 import edu.colorado.phet.flexcommon.model.BooleanProperty;
 import edu.colorado.phet.flexcommon.model.NumericProperty;
+import edu.colorado.phet.flexcommon.model.Vector2D;
 
 //REVIEW if the control panels are not displayed in this play area, where are they displayed?
 /**
