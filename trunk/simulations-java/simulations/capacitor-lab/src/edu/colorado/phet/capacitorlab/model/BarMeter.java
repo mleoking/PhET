@@ -6,6 +6,7 @@ import edu.colorado.phet.capacitorlab.model.ICircuit.CircuitChangeListener;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
 
 /**
  * Base class for all bar meter model elements.
@@ -21,29 +22,19 @@ public abstract class BarMeter {
     private final Property<Boolean> visibleProperty;
     private final Property<Double> valueProperty;
 
-    public BarMeter( final ICircuit circuit, final World world, Point3D location, boolean visible ) {
+    public BarMeter( final ICircuit circuit, final World world, Point3D location, boolean visible, final Function1<ICircuit, Double> valueFunction ) {
 
         this.circuit = circuit;
         this.locationProperty = new WorldLocationProperty( world, location );
         this.visibleProperty = new Property<Boolean>( visible );
-        this.valueProperty = new Property<Double>( getCircuitValue() );
+        this.valueProperty = new Property<Double>( valueFunction.apply( circuit ) );
 
         // change the value when the circuit changes
         circuit.addCircuitChangeListener( new CircuitChangeListener() {
             public void circuitChanged() {
-                setValue( getCircuitValue() );
+                setValue( valueFunction.apply( circuit ) );
             }
         } );
-    }
-
-    /**
-     * Subclasses implement this to get the value being measured from the circuit.
-     * @return
-     */
-    protected abstract double getCircuitValue();
-
-    protected ICircuit getCircuit() {
-        return circuit;
     }
 
     public void reset() {
@@ -84,7 +75,7 @@ public abstract class BarMeter {
         valueProperty.addObserver( o );
     }
 
-    protected void setValue( double value ) {
+    private void setValue( double value ) {
         valueProperty.setValue( value );
     }
 

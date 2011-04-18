@@ -3,6 +3,7 @@
 package edu.colorado.phet.capacitorlab.model;
 
 import edu.colorado.phet.common.phetcommon.math.Point3D;
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
 
 /**
  * Model element for the Stored Energy meter.
@@ -12,11 +13,10 @@ import edu.colorado.phet.common.phetcommon.math.Point3D;
 public class StoredEnergyMeter extends BarMeter {
 
     public StoredEnergyMeter( final ICircuit circuit, World world, Point3D location, boolean visible ) {
-        super( circuit, world, location, visible );
-    }
-
-    @Override
-    protected double getCircuitValue() {
-        return getCircuit().getStoredEnergy();
+        super( circuit, world, location, visible, new Function1<ICircuit, Double>() {
+            public Double apply( ICircuit iCircuit ) {
+                return circuit.getStoredEnergy();
+            }
+        } );
     }
 }
