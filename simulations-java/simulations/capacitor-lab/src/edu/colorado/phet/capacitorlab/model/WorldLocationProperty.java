@@ -21,7 +21,7 @@ public class WorldLocationProperty extends Property<Point3D> {
     public WorldLocationProperty( World world, Point3D location ) {
         super( location );
         this.world = world;
-        world.addBoundsObserver( new SimpleObserver() {
+        world.boundsProperty.addObserver( new SimpleObserver() {
             public void update() {
                 setValue( getValue() );
             }

@@ -7,7 +7,6 @@ import java.awt.geom.Rectangle2D;
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
  * World coordinate system for the model.
@@ -18,42 +17,30 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  */
 public class World {
 
-    // observable properties
-    private final Property<Rectangle2D> bounds; // meters
+    // publicly observable properties
+    public final Property<Rectangle2D> boundsProperty; // meters
 
     public World() {
-        this.bounds = new Property<Rectangle2D>( new Rectangle2D.Double() );
+        this.boundsProperty = new Property<Rectangle2D>( new Rectangle2D.Double() );
     }
 
+    // Convenience method for setting bounds property
     public void setBounds( double x, double y, double width, double height ) {
-        setBounds( new Rectangle2D.Double( x, y, width, height ) );
-    }
-
-    public void setBounds( Rectangle2D bounds ) {
-        if ( !this.bounds.equals( bounds ) ) {
-            this.bounds.setValue( bounds );
-        }
-    }
-
-    public Rectangle2D getBoundsReference() {
-        return bounds.getValue();
+        boundsProperty.setValue( new Rectangle2D.Double( x, y, width, height ) );
     }
 
     public boolean isBoundsEmpty() {
-        return bounds.getValue().getWidth() == 0 || bounds.getValue().getHeight() == 0;
-    }
-
-    public void addBoundsObserver( SimpleObserver o ) {
-        bounds.addObserver( o );
+        return boundsProperty.getValue().getWidth() == 0 || boundsProperty.getValue().getHeight() == 0;
     }
 
     public boolean contains( Point3D p ) {
-        return bounds.getValue().contains( p.getX(), p.getY() );
+        return boundsProperty.getValue().contains( p.getX(), p.getY() );
     }
 
     /**
      * Returns the point that is closest to the specified point and still inside the bounds of the world.
      * In all cases, this returns a new Point3D.
+     *
      * @param p
      * @return
      */
@@ -63,22 +50,24 @@ public class World {
             pConstrained = new Point3D.Double( p );
         }
         else {
+            final Rectangle2D bounds = boundsProperty.getValue();
+
             // adjust x coordinate
             double newX = p.getX();
-            if ( p.getX() < getBoundsReference().getX() + margin ) {
-                newX = getBoundsReference().getX() + margin;
+            if ( p.getX() < bounds.getX() + margin ) {
+                newX = bounds.getX() + margin;
             }
-            else if ( p.getX() > getBoundsReference().getMaxX() - margin ) {
-                newX = getBoundsReference().getMaxX() - margin;
+            else if ( p.getX() > bounds.getMaxX() - margin ) {
+                newX = bounds.getMaxX() - margin;
             }
 
             // adjust y coordinate
             double newY = p.getY();
-            if ( p.getY() < getBoundsReference().getY() + margin ) {
-                newY = getBoundsReference().getY() + margin;
+            if ( p.getY() < bounds.getY() + margin ) {
+                newY = bounds.getY() + margin;
             }
-            else if ( p.getY() > getBoundsReference().getMaxY() - margin ) {
-                newY = getBoundsReference().getMaxY() - margin;
+            else if ( p.getY() > bounds.getMaxY() - margin ) {
+                newY = bounds.getMaxY() - margin;
             }
 
             // z is fixed
