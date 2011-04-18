@@ -2,8 +2,6 @@
 package edu.colorado.phet.buildanatom.modules.game.view;
 
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -16,7 +14,7 @@ import edu.colorado.phet.buildanatom.model.Proton;
 import edu.colorado.phet.buildanatom.model.SphericalParticle;
 import edu.colorado.phet.buildanatom.view.ElectronNode;
 import edu.colorado.phet.buildanatom.view.ElectronOrbitalNode;
-import edu.colorado.phet.buildanatom.view.FixedSizeElectronCloudNode;
+import edu.colorado.phet.buildanatom.view.IsotopeElectronCloudNode;
 import edu.colorado.phet.buildanatom.view.NeutronNode;
 import edu.colorado.phet.buildanatom.view.OrbitalView;
 import edu.colorado.phet.buildanatom.view.OrbitalViewProperty;
@@ -53,11 +51,12 @@ public class SchematicAtomNode extends PNode {
     // 3D sort of look, with the particles toward the center of the nucleus
     // on top and those at the edges on the bottom.
     private final ArrayList<PNode> nucleusLayers = new ArrayList<PNode>( NUM_NUCLEUS_LAYERS );
+    private final PNode nucleusLayersParentNode;
 
     // Other layers that make up this node.
     protected final PNode electronShellLayer;
-    protected final PNode frontLayer;
-    private final PNode electronLayer;
+    private final PNode electronParticleLayer;
+    protected final PNode frontLayer; // Used by subclasses to put things in front of nucleus.
 
     // Flags that control whether or not the corresponding subatomic particles
     // are interactive.
@@ -66,6 +65,7 @@ public class SchematicAtomNode extends PNode {
     private final boolean neutronsAreInteractive;
 
     private final ResizingElectronCloudNode electronCloudNode;
+    private final IsotopeElectronCloudNode isotopeElectronCloudNode;
 
     /**
      * Constructor that assumes that all particles are interactive, meaning
@@ -106,15 +106,19 @@ public class SchematicAtomNode extends PNode {
         // Create the layers and add them in the desired order.
         electronShellLayer = new PNode( );
         addChild( electronShellLayer );
-        electronLayer = new PNode( );
-        addChild( electronLayer );
+        electronParticleLayer = new PNode( );
+        addChild( electronParticleLayer );
+        nucleusLayersParentNode = new PNode();
+        addChild( nucleusLayersParentNode );
         for (int i = 0; i < NUM_NUCLEUS_LAYERS; i++){
             PNode particleLayer = new PNode();
-            addChild( particleLayer );
+            nucleusLayersParentNode.addChild( particleLayer );
             nucleusLayers.add( particleLayer );
         }
         Collections.reverse( nucleusLayers ); // So that lower index values are higher layers.
-        frontLayer = new PNode( );
+
+        // Add the "front layer", which is intended for use in subclasses.
+        frontLayer = new PNode();
         addChild( frontLayer );
 
         // Add the atom's electron shells to the canvas.  There are three representations that are mutually
@@ -124,6 +128,8 @@ public class SchematicAtomNode extends PNode {
         }
         electronCloudNode = new ResizingElectronCloudNode( mvt, orbitalViewProperty, atom );
         electronShellLayer.addChild( electronCloudNode );
+        isotopeElectronCloudNode = new IsotopeElectronCloudNode( mvt, orbitalViewProperty, atom );
+        electronShellLayer.addChild( isotopeElectronCloudNode );
 
         // Add the subatomic particles.
         for ( final Electron electron : atom.getElectrons() ){
@@ -137,8 +143,12 @@ public class SchematicAtomNode extends PNode {
         }
     }
 
-    protected ResizingElectronCloudNode getElectronCloudNode() {
-        return electronCloudNode;
+    protected IsotopeElectronCloudNode getIsotopeElectronCloudNode() {
+        return isotopeElectronCloudNode;
+    }
+
+    protected PNode getNucleusLayerParentNode() {
+        return nucleusLayersParentNode;
     }
 
     /**
@@ -302,14 +312,14 @@ public class SchematicAtomNode extends PNode {
         }};
 
         // Add the particle to the representation.
-        electronLayer.addChild( electronNode );
+        electronParticleLayer.addChild( electronNode );
 
         // Set up automatic removal of the particle's representation when it
         // is removed from the model.
         electron.addListener( new SphericalParticle.Adapter() {
             @Override
             public void removedFromModel( SphericalParticle particle ) {
-                electronLayer.removeChild( electronNode );
+                electronParticleLayer.removeChild( electronNode );
                 electron.removeListener( this );
             }
         });

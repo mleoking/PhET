@@ -6,6 +6,7 @@ package edu.colorado.phet.buildanatom.view;
  * some type of cloud.
  */
 public enum OrbitalView {
-    PARTICLES,         // Electrons are shown as individual particles.
-    RESIZING_CLOUD,    // Electrons are depicted as a cloud that grows as more are added.
+    PARTICLES,                 // Electrons are shown as individual particles.
+    RESIZING_CLOUD,            // Electrons are depicted as a cloud that grows as more are added.
+    ISOTOPES_RESIZING_CLOUD,   // Electrons are depicted as a cloud, but with some special behavior needed by isotopes sim.
 }

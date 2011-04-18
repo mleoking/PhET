@@ -14,6 +14,7 @@ import edu.colorado.phet.buildanatom.view.BucketNode;
 import edu.colorado.phet.buildanatom.view.OrbitalView;
 import edu.colorado.phet.buildanatom.view.OrbitalViewProperty;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.umd.cs.piccolo.util.PBounds;
 
 /**
  * This class defines a Piccolo Node that represents an atom in "schematic"
@@ -28,7 +29,7 @@ public class InteractiveIsotopeNode extends SchematicAtomNode {
      * Constructor.
      */
     public InteractiveIsotopeNode( final InteractiveIsotopeModel model, final ModelViewTransform mvt, final Point2D bottomPoint ) {
-        super( model.getAtom(), mvt, new OrbitalViewProperty( OrbitalView.RESIZING_CLOUD ), false, true, false );
+        super( model.getAtom(), mvt, new OrbitalViewProperty( OrbitalView.ISOTOPES_RESIZING_CLOUD ), false, true, false );
 
         model.addListener( new InteractiveIsotopeModel.Adapter() {
             @Override
@@ -52,11 +53,19 @@ public class InteractiveIsotopeNode extends SchematicAtomNode {
         // Add the handler that keeps the bottom of the atom in one place.
         // This was added due to a request to make the atom get larger and
         // smaller but to stay on the scale.
-        getElectronCloudNode().addPropertyChangeListener( PROPERTY_FULL_BOUNDS, new PropertyChangeListener() {
+        getIsotopeElectronCloudNode().addPropertyChangeListener( PROPERTY_FULL_BOUNDS, new PropertyChangeListener() {
             public void propertyChange( PropertyChangeEvent evt ) {
                 model.getAtom().setPosition( mvt.viewToModel( bottomPoint.getX(),
-                        bottomPoint.getY() - getElectronCloudNode().getFullBoundsReference().height / 2 ) );
+                        bottomPoint.getY() - getIsotopeElectronCloudNode().getFullBoundsReference().height / 2 ) );
             }
         });
+    }
+
+    public PBounds getNucleusBounds(){
+        return getNucleusLayerParentNode().getFullBounds();
+    }
+
+    public void addNucleusBoundsChangeListener( PropertyChangeListener listener ){
+        getNucleusLayerParentNode().addPropertyChangeListener( PROPERTY_FULL_BOUNDS, listener );
     }
 }
