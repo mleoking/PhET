@@ -12,7 +12,7 @@ import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
 
 /**
  * Serializable state for simsharing, allows transmission of a bufferedimage for thumbnail
- * See http://www.ni-c.de/2008/10/serializable-bufferedimage/
+ * Copied verbatim from http://www.ni-c.de/2008/10/serializable-bufferedimage/ which is ditsributed under Creative Commons license
  */
 public class SerializableBufferedImage implements IProguardKeepClass {
 
