@@ -24,7 +24,6 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.multiScaleToWidth;
-import static edu.colorado.phet.gravityandorbits.GAOStrings.*;
 import static edu.colorado.phet.gravityandorbits.GravityAndOrbitsApplication.RESOURCES;
 import static edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsClock.DEFAULT_DT;
 import static edu.colorado.phet.gravityandorbits.view.MeasuringTape.milesToMeters;
@@ -190,39 +189,39 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
         //Create the modes.
         int SEC_PER_YEAR = 365 * 24 * 60 * 60;
         final double SUN_MODES_VELOCITY_SCALE = 4.48E6;
-        add( new GravityAndOrbitsMode( SUN_AND_PLANET,
-                                       sunEarth.forceScale,
-                                       false,
-                                       sunEarth.dt,
-                                       scaledDays( sunEarth.timeScale ),
-                                       createIconImage( true, true, false, false ),
-                                       SEC_PER_YEAR,
-                                       SUN_MODES_VELOCITY_SCALE,
-                                       readoutInEarthMasses,
-                                       sunEarth.initialMeasuringTapeLocation,
-                                       sunEarth.zoom,
-                                       new ImmutableVector2D( 0, 0 ),
-                                       sunEarth.earth.x / 2,
-                                       new Point2D.Double( 0, 0 ),
-                                       p ) {{
+        add( new GravityAndOrbitsMode(
+                sunEarth.forceScale,
+                false,
+                sunEarth.dt,
+                scaledDays( sunEarth.timeScale ),
+                createIconImage( true, true, false, false ),
+                SEC_PER_YEAR,
+                SUN_MODES_VELOCITY_SCALE,
+                readoutInEarthMasses,
+                sunEarth.initialMeasuringTapeLocation,
+                sunEarth.zoom,
+                new ImmutableVector2D( 0, 0 ),
+                sunEarth.earth.x / 2,
+                new Point2D.Double( 0, 0 ),
+                p ) {{
             addBody( createSun( getMaxPathLength(), sunEarth.sun ) );
             addBody( createEarth( getMaxPathLength(), sunEarth.earth ) );
         }} );
-        add( new GravityAndOrbitsMode( SUN_PLANET_AND_MOON,
-                                       sunEarthMoon.forceScale,
-                                       false,
-                                       sunEarthMoon.dt,
-                                       scaledDays( sunEarthMoon.timeScale ),
-                                       createIconImage( true, true, true, false ),
-                                       SEC_PER_YEAR,
-                                       SUN_MODES_VELOCITY_SCALE,
-                                       readoutInEarthMasses,
-                                       sunEarthMoon.initialMeasuringTapeLocation,
-                                       sunEarthMoon.zoom,
-                                       new ImmutableVector2D( 0, 0 ),
-                                       sunEarthMoon.earth.x / 2,
-                                       new Point2D.Double( 0, 0 ),
-                                       p ) {{
+        add( new GravityAndOrbitsMode(
+                sunEarthMoon.forceScale,
+                false,
+                sunEarthMoon.dt,
+                scaledDays( sunEarthMoon.timeScale ),
+                createIconImage( true, true, true, false ),
+                SEC_PER_YEAR,
+                SUN_MODES_VELOCITY_SCALE,
+                readoutInEarthMasses,
+                sunEarthMoon.initialMeasuringTapeLocation,
+                sunEarthMoon.zoom,
+                new ImmutableVector2D( 0, 0 ),
+                sunEarthMoon.earth.x / 2,
+                new Point2D.Double( 0, 0 ),
+                p ) {{
             addBody( createSun( getMaxPathLength(), sunEarthMoon.sun ) );
             addBody( createEarth( getMaxPathLength(), sunEarthMoon.earth ) );
             addBody( createMoon( false,//no room for the slider
@@ -230,21 +229,21 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
                                  false, sunEarthMoon.moon ) );//so it doesn't intersect with earth mass readout
         }} );
         int SEC_PER_MOON_ORBIT = 28 * 24 * 60 * 60;
-        add( new GravityAndOrbitsMode( PLANET_AND_MOON,
-                                       earthMoon.forceScale,
-                                       false,
-                                       GravityAndOrbitsClock.DEFAULT_DT / 3,
-                                       scaledDays( 1.0 ),//actual days
-                                       createIconImage( false, true, true, false ),
-                                       SEC_PER_MOON_ORBIT,
-                                       SUN_MODES_VELOCITY_SCALE * 0.06,
-                                       readoutInEarthMasses,
-                                       earthMoon.initialMeasuringTapeLocation,
-                                       earthMoon.zoom,
-                                       new ImmutableVector2D( earthMoon.earth.x, 0 ),
-                                       earthMoon.moon.y / 2,
-                                       new Point2D.Double( earthMoon.earth.x, 0 ),
-                                       p ) {{
+        add( new GravityAndOrbitsMode(
+                earthMoon.forceScale,
+                false,
+                GravityAndOrbitsClock.DEFAULT_DT / 3,
+                scaledDays( 1.0 ),//actual days
+                createIconImage( false, true, true, false ),
+                SEC_PER_MOON_ORBIT,
+                SUN_MODES_VELOCITY_SCALE * 0.06,
+                readoutInEarthMasses,
+                earthMoon.initialMeasuringTapeLocation,
+                earthMoon.zoom,
+                new ImmutableVector2D( earthMoon.earth.x, 0 ),
+                earthMoon.moon.y / 2,
+                new Point2D.Double( earthMoon.earth.x, 0 ),
+                p ) {{
             //scale so it is a similar size to other modes
             addBody( createEarth( getMaxPathLength(), earthMoon.earth ) );
             addBody( createMoon( true, getMaxPathLength(), true, earthMoon.moon ) );
@@ -254,21 +253,21 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
                 return new SpaceStationMassReadoutNode( bodyNode, visible );
             }
         };
-        add( new GravityAndOrbitsMode( PLANET_AND_SPACE_STATION,
-                                       earthSpaceStation.forceScale,
-                                       false,
-                                       GravityAndOrbitsClock.DEFAULT_DT * 9E-4,
-                                       minutes,
-                                       createIconImage( false, true, false, true ),
-                                       5400,
-                                       SUN_MODES_VELOCITY_SCALE / 10000,
-                                       spaceStationMassReadoutFactory,
-                                       earthSpaceStation.initialMeasuringTapeLocation,
-                                       earthSpaceStation.zoom,
-                                       new ImmutableVector2D( earthSpaceStation.earth.x, 0 ),
-                                       earthSpaceStation.spaceStation.x - earthSpaceStation.earth.x,
-                                       new Point2D.Double( earthSpaceStation.earth.x, 0 ),
-                                       p ) {{
+        add( new GravityAndOrbitsMode(
+                earthSpaceStation.forceScale,
+                false,
+                GravityAndOrbitsClock.DEFAULT_DT * 9E-4,
+                minutes,
+                createIconImage( false, true, false, true ),
+                5400,
+                SUN_MODES_VELOCITY_SCALE / 10000,
+                spaceStationMassReadoutFactory,
+                earthSpaceStation.initialMeasuringTapeLocation,
+                earthSpaceStation.zoom,
+                new ImmutableVector2D( earthSpaceStation.earth.x, 0 ),
+                earthSpaceStation.spaceStation.x - earthSpaceStation.earth.x,
+                new Point2D.Double( earthSpaceStation.earth.x, 0 ),
+                p ) {{
             addBody( createEarth( getMaxPathLength(), earthSpaceStation.earth ) );
 
             addBody( new Body( GAOStrings.SATELLITE, earthSpaceStation.spaceStation.x, earthSpaceStation.spaceStation.y,

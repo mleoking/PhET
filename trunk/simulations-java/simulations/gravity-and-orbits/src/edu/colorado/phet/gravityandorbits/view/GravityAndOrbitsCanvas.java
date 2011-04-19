@@ -77,7 +77,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
         } );
 
         for ( Body body : model.getBodies() ) {
-            addChild( new PathNode( body, mode.modelViewTransformProperty, module.showPathProperty, body.getColor() ) );
+            addChild( new PathNode( body, mode.transform, module.showPathProperty, body.getColor() ) );
         }
 
         Color forceVectorColorFill = PhetColorScheme.GRAVITATIONAL_FORCE;
@@ -89,7 +89,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
         //Add graphics for each of the bodies (including BodyNode, mass readout and wire up 'return object' button).
         ArrayList<Property<Boolean>> returnable = new ArrayList<Property<Boolean>>();//Use canvas coordinates to determine whether something has left the visible area
         for ( final Body body : model.getBodies() ) {
-            final BodyNode bodyNode = new BodyNode( body, mode.modelViewTransformProperty, mousePositionProperty, this, body.getLabelAngle() );
+            final BodyNode bodyNode = new BodyNode( body, mode.transform, mousePositionProperty, this, body.getLabelAngle() );
             addChild( bodyNode );
             returnable.add( new Property<Boolean>( false ) {{
                 final SimpleObserver updateReturnable = new SimpleObserver() {
@@ -114,28 +114,28 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
                     }
                 } );
             }} );
-            addChild( mode.getMassReadoutFactory().apply( bodyNode, module.showMassProperty ) );
+            addChild( mode.massReadoutFactory.apply( bodyNode, module.showMassProperty ) );
         }
 
         //Add gravity force vector nodes
         for ( Body body : model.getBodies() ) {
-            addChild( new VectorNode( body, mode.modelViewTransformProperty, module.showGravityForceProperty, body.getForceProperty(), forceScale, forceVectorColorFill, forceVectorColorOutline ) );
+            addChild( new VectorNode( body, mode.transform, module.showGravityForceProperty, body.getForceProperty(), forceScale, forceVectorColorFill, forceVectorColorOutline ) );
         }
         //Add velocity vector nodes
         for ( Body body : model.getBodies() ) {
             if ( !body.fixed ) {
-                addChild( new GrabbableVectorNode( body, mode.modelViewTransformProperty, module.showVelocityProperty, body.getVelocityProperty(),
-                                                   mode.getVelocityScale(), velocityVectorColorFill, velocityVectorColorOutline, "V" ) );//TODO: i18n of "V", also recommended to trim to 1 char
+                addChild( new GrabbableVectorNode( body, mode.transform, module.showVelocityProperty, body.getVelocityProperty(),
+                                                   mode.getVelocityVectorScale(), velocityVectorColorFill, velocityVectorColorOutline, "V" ) );//TODO: i18n of "V", also recommended to trim to 1 char
             }
         }
 
         //Add explosion nodes, which are always in the scene graph but only visible during explosions
         for ( Body body : model.getBodies() ) {
-            addChild( new ExplosionNode( body, mode.modelViewTransformProperty ) );
+            addChild( new ExplosionNode( body, mode.transform ) );
         }
 
         //Add the piccolo node for the overlay grid, setting its visibility based on the module.showGridProperty
-        addChild( new GridNode( mode.modelViewTransformProperty, mode.getGridSpacing(), mode.getGridCenter() ) {{
+        addChild( new GridNode( mode.transform, mode.getGridSpacing(), mode.getGridCenter() ) {{
             module.showGridProperty.addObserver( new SimpleObserver() {
                 public void update() {
                     setVisible( module.showGridProperty.getValue() );
@@ -202,18 +202,20 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
                                                 new IfElse<Color>( module.whiteBackgroundProperty, Color.black, Color.white ) ) );
         }} );
 
-        addChild( new MeasuringTape( module.measuringTapeVisibleProperty, mode.measuringTapeStartPoint, mode.measuringTapeEndPoint, mode.modelViewTransformProperty ) );
+        addChild( new MeasuringTape( module.measuringTapeVisibleProperty, mode.measuringTapeStartPoint, mode.measuringTapeEndPoint, mode.transform ) );
 
         // shows the bounds of the "stage", which is different from the canvas
         if ( false ) {
             addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, STAGE_SIZE.width, STAGE_SIZE.height ), new BasicStroke( 1f ), Color.RED ) );
         }
 
-        //REVIEW is everything in this next chunk related? doesn't look that way. add whitespace and doc chunks.
+        //Tell each of the bodies about the stage size (in model coordinates) so they know if they are out of bounds
         Rectangle2D stage = new Rectangle2D.Double( 0, 0, STAGE_SIZE.width, STAGE_SIZE.height );
         for ( Body body : mode.getModel().getBodies() ) {
-            body.getBounds().setValue( mode.modelViewTransformProperty.getValue().viewToModel( stage ) );
+            body.getBounds().setValue( mode.transform.getValue().viewToModel( stage ) );
         }
+
+        //If any body is out of bounds, show a "return object" button
         final MultiwayOr anythingReturnable = new MultiwayOr( returnable );
         addChild( new ButtonNode( RETURN_OBJECT, buttonBackgroundColor ) {{
             addActionListener( new ActionListener() {
@@ -230,9 +232,13 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
             setOffset( 100, 100 );
         }} );
 
-        //REVIEW this anonymous PNode should be a PNode subclass, it's noisy inlined like this and not reusable
         //Zoom controls
-        addChild( new PNode() {{
+        addChild( createZoomControls( mode ) );
+    }
+
+    //TODO: this anonymous PNode should be a PNode subclass, it's not reusable
+    private PNode createZoomControls( final GravityAndOrbitsMode mode ) {
+        return new PNode() {{
             final double MAX = 1.5;
             final double MIN = 0.5;
             final double DELTA_ZOOM = 0.1;
@@ -292,7 +298,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
             addChild( zoomOutButton );
 
             setOffset( 10, 10 );
-        }} );
+        }};
     }
 
     private void addChild( PNode node ) {
