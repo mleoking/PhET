@@ -149,18 +149,6 @@ public class BuildAnAtomModel implements Resettable {
     // Methods
     //----------------------------------------------------------------------------
 
-    public int numElectrons() {
-        return electrons.size();
-    }
-
-    public int numProtons() {
-        return protons.size();
-    }
-
-    public int numNeutrons() {
-        return neutrons.size();
-    }
-
     public void reset() {
 
         // Reset the constituent model elements.

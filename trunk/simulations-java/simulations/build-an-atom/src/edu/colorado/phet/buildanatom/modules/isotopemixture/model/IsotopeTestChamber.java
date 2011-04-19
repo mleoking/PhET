@@ -76,10 +76,6 @@ public class IsotopeTestChamber {
     // Methods
     // ------------------------------------------------------------------------
 
-    public Dimension2D getTestChamberSize() {
-        return SIZE;
-    }
-
     /**
      * Get the number of isotopes currently in the chamber that match the
      * specified configuration.
@@ -346,11 +342,9 @@ public class IsotopeTestChamber {
      */
     public static class State {
         private final List<MovableAtom> containedIsotopes;
-        private final double averageAtomicMassValue;
 
         public State( IsotopeTestChamber isotopeTestChamber ){
             this.containedIsotopes = new ArrayList<MovableAtom>( isotopeTestChamber.getContainedIsotopes() );
-            this.averageAtomicMassValue = isotopeTestChamber.getAverageAtomicMass();
         }
 
         protected List<MovableAtom> getContainedIsotopes() {
