@@ -33,12 +33,11 @@ public class MediumState {
         this.custom = custom;
     }
 
-    @Override
-    public String toString() {
+    @Override public String toString() {
         return name;
     }
 
-    public double index() {
+    public double getIndexOfRefractionForRedLight() {
         return dispersionFunction.getIndexOfRefraction( WAVELENGTH_RED );
     }
 }

@@ -20,16 +20,16 @@ public class MediumColorFactory {
 
     //Maps index of refraction to color
     public static Color getColor( double indexOfRefractionForRed ) {
-        if ( indexOfRefractionForRed < BendingLightModel.WATER.index() ) {
-            double ratio = new Function.LinearFunction( 1.0, BendingLightModel.WATER.index(), 0, 1 ).evaluate( indexOfRefractionForRed );
+        if ( indexOfRefractionForRed < BendingLightModel.WATER.getIndexOfRefractionForRedLight() ) {
+            double ratio = new Function.LinearFunction( 1.0, BendingLightModel.WATER.getIndexOfRefractionForRedLight(), 0, 1 ).evaluate( indexOfRefractionForRed );
             return colorBlend( AIR_COLOR, WATER_COLOR, ratio );
         }
-        else if ( indexOfRefractionForRed < BendingLightModel.GLASS.index() ) {
-            double ratio = new Function.LinearFunction( BendingLightModel.WATER.index(), BendingLightModel.GLASS.index(), 0, 1 ).evaluate( indexOfRefractionForRed );
+        else if ( indexOfRefractionForRed < BendingLightModel.GLASS.getIndexOfRefractionForRedLight() ) {
+            double ratio = new Function.LinearFunction( BendingLightModel.WATER.getIndexOfRefractionForRedLight(), BendingLightModel.GLASS.getIndexOfRefractionForRedLight(), 0, 1 ).evaluate( indexOfRefractionForRed );
             return colorBlend( WATER_COLOR, GLASS_COLOR, ratio );
         }
-        else if ( indexOfRefractionForRed < BendingLightModel.DIAMOND.index() ) {
-            double ratio = new Function.LinearFunction( BendingLightModel.GLASS.index(), BendingLightModel.DIAMOND.index(), 0, 1 ).evaluate( indexOfRefractionForRed );
+        else if ( indexOfRefractionForRed < BendingLightModel.DIAMOND.getIndexOfRefractionForRedLight() ) {
+            double ratio = new Function.LinearFunction( BendingLightModel.GLASS.getIndexOfRefractionForRedLight(), BendingLightModel.DIAMOND.getIndexOfRefractionForRedLight(), 0, 1 ).evaluate( indexOfRefractionForRed );
             return colorBlend( GLASS_COLOR, DIAMOND_COLOR, ratio );
         }
         else {
@@ -37,6 +37,7 @@ public class MediumColorFactory {
         }
     }
 
+    //Blend colors a and b with the specified amount of "b" to use between 0 and 1
     private static Color colorBlend( Color a, Color b, double ratio ) {
         return new Color(
                 clamp( (int) ( ( (float) a.getRed() ) * ( 1 - ratio ) + ( (float) b.getRed() ) * ratio ) ),
@@ -46,6 +47,7 @@ public class MediumColorFactory {
         );
     }
 
+    //Make sure light doesn't go outside of the 0..255 bounds
     private static int clamp( int value ) {
         if ( value < 0 ) { return 0; }
         else if ( value > 255 ) { return 255; }

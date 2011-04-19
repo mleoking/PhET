@@ -5,10 +5,12 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 
 /**
+ * Model for the protractor angle and position
+ *
  * @author Sam Reid
  */
 public class ProtractorModel {
-    public final Property<ImmutableVector2D> position;
+    public final Property<ImmutableVector2D> position;//Position of the center
     public final Property<Double> angle = new Property<Double>( 0.0 );
 
     public ProtractorModel( double x, double y ) {

@@ -24,12 +24,12 @@ import static java.lang.Math.*;
  */
 public class IntroModel extends BendingLightModel {
     public final Property<Medium> topMedium = new Property<Medium>( new Medium( new Rectangle2D.Double( -1, 0, 2, 1 ),//in Meters, very large compared to visible model region in the stage
-                                                                                AIR, MediumColorFactory.getColor( AIR.index() ) ) );
+                                                                                AIR, MediumColorFactory.getColor( AIR.getIndexOfRefractionForRedLight() ) ) );
     public final Property<Medium> bottomMedium;
 
     public IntroModel( MediumState _bottomMedium ) {
         super( PI * 3 / 4, true, DEFAULT_DIST_FROM_PIVOT );
-        bottomMedium = new Property<Medium>( new Medium( new Rectangle2D.Double( -1, -1, 2, 1 ), _bottomMedium, MediumColorFactory.getColor( _bottomMedium.index() ) ) );
+        bottomMedium = new Property<Medium>( new Medium( new Rectangle2D.Double( -1, -1, 2, 1 ), _bottomMedium, MediumColorFactory.getColor( _bottomMedium.getIndexOfRefractionForRedLight() ) ) );
 
         //Update the model when top or bottom mediums change
         new RichSimpleObserver() {
@@ -133,7 +133,7 @@ public class IntroModel extends BendingLightModel {
             if ( intersects != null && intersects[0] != null && intersects[1] != null ) {
                 double x = intersects[0].getX() + intersects[1].getX();
                 double y = intersects[0].getY() + intersects[1].getY();
-                LightRay interrupted = new LightRay( ray.tail.getValue(), new ImmutableVector2D( x / 2, y / 2 ), ray.indexOfRefraction, ray.getWavelength(), ray.getPowerFraction(), laser.color.getValue().getColor(),
+                LightRay interrupted = new LightRay( ray.tail, new ImmutableVector2D( x / 2, y / 2 ), ray.indexOfRefraction, ray.getWavelength(), ray.getPowerFraction(), laser.color.getValue().getColor(),
                                                      ray.getWaveWidth(), ray.getNumWavelengthsPhaseOffset(), ray.getOppositeMedium(), false, ray.extendBackwards );
 
                 //don't let the wave intersect the intensity meter if it is behind the laser emission point
@@ -183,7 +183,7 @@ public class IntroModel extends BendingLightModel {
                 final double amplitude = Math.sqrt( ray.getPowerFraction() );
 
                 //Find out how far the light has come, so we can compute the remainder of phases
-                final double distanceAlongRay = ray.getUnitVector().dot( new ImmutableVector2D( ray.tail.getValue().toPoint2D(), position.toPoint2D() ) );
+                final double distanceAlongRay = ray.getUnitVector().dot( new ImmutableVector2D( ray.tail.toPoint2D(), position.toPoint2D() ) );
                 final double phase = ray.getCosArg( distanceAlongRay );
 
                 //Wave is a*cos(theta)

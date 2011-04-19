@@ -6,7 +6,6 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.bendinglight.model.LightRay;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
@@ -28,16 +27,12 @@ public class LightRayNode extends PNode {
         Color color = lightRay.getColor();
         PhetPPath path = new PhetPPath( new BasicStroke( (float) transform.modelToViewDeltaX( lightRay.getRayWidth() ) ),
                                         new Color( color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f, (float) sqrt( lightRay.getPowerFraction() ) ) ) {{
-            lightRay.addObserver( new SimpleObserver() {
-                public void update() {
-                    //Update the view coordinates for the start and end of this ray
-                    viewStart = transform.modelToView( lightRay.tip.getValue().toPoint2D() );
-                    viewEnd = transform.modelToView( lightRay.tail.getValue().toPoint2D() );
+            //Update the view coordinates for the start and end of this ray
+            viewStart = transform.modelToView( lightRay.tip.toPoint2D() );
+            viewEnd = transform.modelToView( lightRay.tail.toPoint2D() );
 
-                    //Update the PPath
-                    setPathTo( getLine() );
-                }
-            } );
+            //Update the PPath
+            setPathTo( getLine() );
         }};
         //Add the PPath
         addChild( path );
