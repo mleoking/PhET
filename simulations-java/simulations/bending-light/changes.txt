@@ -1,3 +1,4 @@
+Improved documentation and minor refactors
 # 0.00.45 (50760) Apr 18, 2011
 Added a border around combo boxes to make them easier to see on Mac
 # 0.00.44 (50757) Apr 16, 2011

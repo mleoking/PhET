@@ -6,6 +6,8 @@ import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import static edu.colorado.phet.bendinglight.BendingLightApplication.RESOURCES;
 
 /**
+ * Translated strings for "Bending Light" are loaded eagerly to make sure everything exists on sim startup.
+ *
  * @author Sam Reid
  */
 public class BendingLightStrings {
@@ -43,9 +45,13 @@ public class BendingLightStrings {
     public static final String TIME = getString( "time" );
     public static final String MORE_TOOLS = getString( "moreTools" );
 
+    //Common Strings
     public static final String RESET = PhetCommonResources.getString( PhetCommonResources.STRING_RESET_ALL );
+
+    //String patterns
     public static final String PATTERN_SPEED_OF_LIGHT_READOUT_VALUE_C = getString( "pattern.value_c" );
 
+    //Method to get the translated string for the specified key
     public static String getString( String key ) {
         return RESOURCES.getLocalizedString( key );
     }
