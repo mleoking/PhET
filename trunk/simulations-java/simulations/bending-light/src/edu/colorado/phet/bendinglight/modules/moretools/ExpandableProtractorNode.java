@@ -33,27 +33,7 @@ public class ExpandableProtractorNode extends ProtractorNode {
         super( transform, showProtractor, protractorModel, translateShape, rotateShape, scale, 1 );
         this.originalScale = scale;
 
-        //Button that allows the user to expand the protractor node in the more tools tab
-        class MaxMinButton extends PImage {
-            MaxMinButton( BufferedImage image, ObservableProperty<Boolean> expanded, final boolean expand ) {
-                super( image );
-                setScale( 2 );
-                //Put the +/- to the right side of the protractor? For some reason NP thinks that would feel more natural.
-                setOffset( innerBarShape.getX() + innerBarShape.getWidth() * 0.75 - getFullBounds().getWidth() / 2, innerBarShape.getCenterY() - getFullBounds().getHeight() / 2 );
-                addInputEventListener( new CursorHandler() );
-                addInputEventListener( new PBasicInputEventHandler() {
-                    @Override public void mousePressed( PInputEvent event ) {
-                        setExpanded( expand );
-                    }
-                } );
-                expanded.addObserver( new VoidFunction1<Boolean>() {
-                    public void apply( Boolean expanded ) {
-                        setVisible( expanded );
-                    }
-                } );
-            }
-        }
-
+        //Add buttons for growing and shrinking the protractor
         addChild( new MaxMinButton( getMaximizeButtonImage(), new Not( expanded ), true ) );
         addChild( new MaxMinButton( getMinimizeButtonImage(), expanded, false ) );
     }
@@ -64,5 +44,30 @@ public class ExpandableProtractorNode extends ProtractorNode {
         setProtractorScale( originalScale * ( expanded ? 2.3//make sure the protractor circle fits within the play area when it is centered
                                                        : 1 ) );
         updateTransform();
+    }
+
+    //Button that allows the user to expand the protractor node in the more tools tab
+    class MaxMinButton extends PImage {
+        MaxMinButton( BufferedImage image, ObservableProperty<Boolean> expanded, final boolean expand ) {
+            super( image );
+            setScale( 2 );
+            //Put the +/- to the right side of the protractor? For some reason NP thinks that would feel more natural.
+            setOffset( innerBarShape.getX() + innerBarShape.getWidth() * 0.75 - getFullBounds().getWidth() / 2, innerBarShape.getCenterY() - getFullBounds().getHeight() / 2 );
+
+            //Add interaction, so that it expands or shrinks when the button is pressed
+            addInputEventListener( new CursorHandler() );
+            addInputEventListener( new PBasicInputEventHandler() {
+                @Override public void mousePressed( PInputEvent event ) {
+                    setExpanded( expand );
+                }
+            } );
+
+            //Only show the + button when small, and vice versa
+            expanded.addObserver( new VoidFunction1<Boolean>() {
+                public void apply( Boolean expanded ) {
+                    setVisible( expanded );
+                }
+            } );
+        }
     }
 }

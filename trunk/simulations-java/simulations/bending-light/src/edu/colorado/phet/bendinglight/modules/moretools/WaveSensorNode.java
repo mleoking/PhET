@@ -56,9 +56,9 @@ public class WaveSensorNode extends ToolNode {
             }} );
 
             //Add the chart inside the body, with one series for each of the dark and light probes
-            addChild( new ChartNode( waveSensor.clock, chartArea, new ArrayList<ChartNode.Series>() {{
-                add( new ChartNode.Series( waveSensor.probe1.series, darkProbeColor ) );
-                add( new ChartNode.Series( waveSensor.probe2.series, lightProbeColor ) );
+            addChild( new ChartNode( waveSensor.clock, chartArea, new ArrayList<Series>() {{
+                add( new Series( waveSensor.probe1.series, darkProbeColor ) );
+                add( new Series( waveSensor.probe2.series, lightProbeColor ) );
             }} ) );
 
             //Synchronize the body position with the model (centered on the model point)
