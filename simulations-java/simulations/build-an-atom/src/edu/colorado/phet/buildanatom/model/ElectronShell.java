@@ -25,7 +25,6 @@ public class ElectronShell extends SimpleObservable {
 
     /**
      * Constructor.
-     * @param initialLocation TODO
      */
     ElectronShell( double radius, int electronCapacity, Point2D initialLocation ) {
         this.radius = radius;

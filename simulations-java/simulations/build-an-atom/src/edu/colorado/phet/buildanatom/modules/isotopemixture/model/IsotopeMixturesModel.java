@@ -72,6 +72,9 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
         SLIDERS_AND_SMALL_ATOMS   // The user is adding and removing small isotopes to/from the chamber using sliders.
     }
 
+    // Total number of atoms placed in the chamber when depicting nature's mix.
+    private static final int NUM_NATURES_MIX_ATOMS = 1000;
+
     // -----------------------------------------------------------------------
     // Instance Data
     // -----------------------------------------------------------------------
@@ -247,12 +250,10 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
         interactivityModeProperty.setValue( modelState.getInteractivityMode() );
         interactivityModeProperty.addObserver( interactivityModeObserver, false );
 
-        // Restore the mix mode.
-        // TODO: As of this writing (3/16/2011) the mix mode should always
-        // match the current setting.  The assertion checks this.  At some
-        // point, this requirement may change, at which point the assertion
-        // should be removed and such state changes should be thoroughly
-        // tested.
+        // Restore the mix mode.  The assertion here checks that the mix mode
+        // (i.e. nature's or user's mix) matches the value that is being
+        // restored.  This requirement is true as of 3/16/2011.  It is
+        // possible that it could change, but for now, it is good to test.
         assert modelState.isShowingNaturesMix() == showingNaturesMixProperty.getValue();
         showingNaturesMixProperty.setValue( modelState.isShowingNaturesMix() );
 
@@ -545,7 +546,6 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
 
     private void showNaturesMix(){
         assert showingNaturesMixProperty.getValue() == true; // This method shouldn't be called if we're not showing nature's mix.
-        int totalNumIsotopes = 1000;  // TODO: Make this a constant if actually used.
 
         // Clear out anything that is in the test chamber.  If anything
         // needed to be stored, it should have been done by now.
@@ -563,7 +563,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
 
         // Add the isotopes.
         for ( ImmutableAtom isotopeConfig : possibleIsotopesCopy ){
-            int numToCreate = (int)Math.round( totalNumIsotopes * AtomIdentifier.getNaturalAbundance( isotopeConfig ) );
+            int numToCreate = (int)Math.round( NUM_NATURES_MIX_ATOMS * AtomIdentifier.getNaturalAbundance( isotopeConfig ) );
             if ( numToCreate == 0 ){
                 System.err.println("Warning: Calculated quantity at zero for " + AtomIdentifier.getName( isotopeConfig ) + "-" + isotopeConfig.getMassNumber() + ", adding min quantity (1)." );
                 numToCreate = 1;
