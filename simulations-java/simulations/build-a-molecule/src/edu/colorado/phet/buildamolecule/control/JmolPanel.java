@@ -10,7 +10,7 @@ import org.jmol.api.JmolViewer;
 import edu.colorado.phet.buildamolecule.model.CompleteMolecule;
 
 public class JmolPanel extends JPanel {
-    JmolViewer viewer;
+    private JmolViewer viewer;
 
     public JmolPanel( CompleteMolecule molecule ) {
         viewer = JmolViewer.allocateViewer( this, new SmarterJmolAdapter(), null, null, null, null, null );
@@ -37,6 +37,10 @@ public class JmolPanel extends JPanel {
         Rectangle clipBounds = new Rectangle();
         g.getClipBounds( clipBounds );
         viewer.renderScreenImage( g, currentSize, clipBounds );
+    }
+
+    public JmolViewer getViewer() {
+        return viewer;
     }
 
     public static void main( String[] args ) {
