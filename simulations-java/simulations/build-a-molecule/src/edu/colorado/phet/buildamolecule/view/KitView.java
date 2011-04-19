@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.buildamolecule.view;
 
+import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,7 +28,7 @@ public class KitView {
 
     private Map<MoleculeStructure, MoleculeNode> moleculeMap = new HashMap<MoleculeStructure, MoleculeNode>();
 
-    public KitView( final Kit kit, final ModelViewTransform mvt ) {
+    public KitView( final Frame parentFrame, final Kit kit, final ModelViewTransform mvt ) {
         for ( Bucket bucket : kit.getBuckets() ) {
             BucketView bucketView = new BucketView( bucket, mvt );
 
@@ -67,7 +68,7 @@ public class KitView {
         kit.addMoleculeListener( new Kit.MoleculeAdapter() {
             @Override
             public void addedMolecule( MoleculeStructure moleculeStructure ) {
-                MoleculeNode moleculeNode = new MoleculeNode( kit, moleculeStructure, mvt );
+                MoleculeNode moleculeNode = new MoleculeNode( parentFrame, kit, moleculeStructure, mvt );
                 metadataLayer.addChild( moleculeNode );
                 moleculeMap.put( moleculeStructure, moleculeNode );
             }

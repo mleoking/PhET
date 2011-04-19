@@ -8,6 +8,7 @@ import edu.colorado.phet.buildamolecule.BuildAMoleculeStrings;
 import edu.colorado.phet.buildamolecule.model.*;
 import edu.colorado.phet.buildamolecule.model.buckets.Bucket;
 import edu.colorado.phet.buildamolecule.view.BuildAMoleculeCanvas;
+import edu.colorado.phet.buildamolecule.view.MoleculeCollectingCanvas;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -31,7 +32,7 @@ public class CollectMultipleModule extends PiccoloModule {
     //----------------------------------------------------------------------------
 
     public CollectMultipleModule( Frame parentFrame ) {
-        super( BuildAMoleculeStrings.TITLE_MAKE_MOLECULE, new ConstantDtClock( 30 ) );
+        super( BuildAMoleculeStrings.TITLE_COLLECT_MULTIPLE, new ConstantDtClock( 30 ) );
 
         setClockControlPanel( null );
 
@@ -39,7 +40,7 @@ public class CollectMultipleModule extends PiccoloModule {
         * initial model
         *----------------------------------------------------------------------------*/
 
-        final LayoutBounds bounds = new LayoutBounds();
+        final LayoutBounds bounds = new LayoutBounds( false );
 
         final KitCollectionModel initialModel = new KitCollectionModel( bounds ) {{
             addKit( new Kit( bounds,
@@ -83,7 +84,7 @@ public class CollectMultipleModule extends PiccoloModule {
         /*---------------------------------------------------------------------------*
         * canvas
         *----------------------------------------------------------------------------*/
-        canvas = new BuildAMoleculeCanvas( initialModel, false ); // single collection mode
+        canvas = new MoleculeCollectingCanvas( parentFrame, initialModel, false ); // multiple collection mode
         setSimulationPanel( canvas );
 
         // Set initial state

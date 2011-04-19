@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Map;
 
 import edu.colorado.phet.buildamolecule.BuildAMoleculeConstants;
-import edu.colorado.phet.buildamolecule.control.CollectionAreaNode;
 import edu.colorado.phet.buildamolecule.control.KitPanel;
 import edu.colorado.phet.buildamolecule.model.Kit;
 import edu.colorado.phet.buildamolecule.model.KitCollectionModel;
@@ -21,11 +20,16 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
 
-public class BuildAMoleculeCanvas extends PhetPCanvas {
+/**
+ * Common canvas for Build a Molecule. It features kits shown at the bottom. Can be extended to add other parts
+ */
+public abstract class BuildAMoleculeCanvas extends PhetPCanvas {
 
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
+
+    private Frame parentFrame;
 
     // Model
     private final Property<KitCollectionModel> modelProperty;
@@ -46,12 +50,17 @@ public class BuildAMoleculeCanvas extends PhetPCanvas {
 
     private List<SimpleObserver> fullyLayedOutObservers = new LinkedList<SimpleObserver>();
 
+    protected boolean singleCollectionMode; // TODO: find solution for LargerMoleculesCanvas so that we don't need this boolean and the separate constructor
 
-    //----------------------------------------------------------------------------
-    // Constructors
-    //----------------------------------------------------------------------------
+    protected abstract void addChildren();
 
-    public BuildAMoleculeCanvas( KitCollectionModel initialModel, final boolean singleCollectionMode ) {
+    public BuildAMoleculeCanvas( Frame parentFrame, KitCollectionModel initialModel ) {
+        this( parentFrame, initialModel, true );
+    }
+
+    public BuildAMoleculeCanvas( Frame parentFrame, KitCollectionModel initialModel, boolean singleCollectionMode ) {
+        this.singleCollectionMode = singleCollectionMode;
+        this.parentFrame = parentFrame;
 
         modelProperty = new Property<KitCollectionModel>( initialModel );
 
@@ -74,12 +83,7 @@ public class BuildAMoleculeCanvas extends PhetPCanvas {
 //        PNode tempImage = new PImage( BuildAMoleculeResources.getImage( "tab-1-temp-sketch.png" ) );
 //        addWorldChild( tempImage );
 
-        // TODO: make this so we can construct/destruct
-        CollectionAreaNode collectionAreaNode = new CollectionAreaNode( this, getModel(), singleCollectionMode ) {{
-            double collectionAreaPadding = 20;
-            setOffset( BuildAMoleculeConstants.STAGE_SIZE.width - getFullBounds().getWidth() - collectionAreaPadding, collectionAreaPadding );
-        }};
-        addWorldChild( collectionAreaNode );
+        addChildren();
 
         addWorldChild( bottomLayer );
         addWorldChild( atomLayer );
@@ -106,7 +110,7 @@ public class BuildAMoleculeCanvas extends PhetPCanvas {
         bottomLayer.addChild( new KitPanel( getModel(), mvt ) );
 
         for ( final Kit kit : getModel().getKits() ) {
-            KitView kitView = new KitView( kit, mvt );
+            KitView kitView = new KitView( parentFrame, kit, mvt );
             kitMap.put( kit, kitView );
             bottomLayer.addChild( kitView.getBottomLayer() );
             atomLayer.addChild( kitView.getAtomLayer() );
