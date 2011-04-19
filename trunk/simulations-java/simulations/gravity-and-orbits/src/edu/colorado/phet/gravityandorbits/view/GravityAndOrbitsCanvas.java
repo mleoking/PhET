@@ -174,7 +174,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
             p.add( body.anyPropertyDifferent() );
         }
         //Add the clock control within the play area
-        addChild( new FloatingClockControlNode( Not.not( module.clockPausedProperty ), mode.getTimeFormatter(), model.getClock(), GAOStrings.RESET, new IfElse<Color>( module.whiteBackgroundProperty, Color.black, Color.white ) ) {{
+        addChild( new FloatingClockControlNode( Not.not( module.clockPausedProperty ), mode.getTimeFormatter(), model.getClock(), GAOStrings.CLEAR, new IfElse<Color>( module.whiteBackgroundProperty, Color.black, Color.white ) ) {{
             setOffset( GravityAndOrbitsCanvas.STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2, GravityAndOrbitsCanvas.STAGE_SIZE.getHeight() - getFullBounds().getHeight() );
 
             // Add the rewind button and hook it up as needed.
