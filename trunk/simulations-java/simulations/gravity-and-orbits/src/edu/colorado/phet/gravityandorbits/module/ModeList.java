@@ -181,9 +181,9 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
                 p ) {{
             addBody( createSun( getMaxPathLength(), sunEarthMoon.sun ) );
             addBody( createEarth( getMaxPathLength(), sunEarthMoon.earth ) );
-            addBody( createMoon( false,//no room for the slider
-                                 getMaxPathLength(),
-                                 false, sunEarthMoon.moon ) );//so it doesn't intersect with earth mass readout
+            addBody( new Moon( false,//no room for the slider
+                               getMaxPathLength(),
+                               false, sunEarthMoon.moon ) );//so it doesn't intersect with earth mass readout
         }} );
         int SEC_PER_MOON_ORBIT = 28 * 24 * 60 * 60;
         add( new GravityAndOrbitsMode(
@@ -203,7 +203,7 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
                 p ) {{
             //scale so it is a similar size to other modes
             addBody( createEarth( getMaxPathLength(), earthMoon.earth ) );
-            addBody( createMoon( true, getMaxPathLength(), true, earthMoon.moon ) );
+            addBody( new Moon( true, getMaxPathLength(), true, earthMoon.moon ) );
         }} );
         Function2<BodyNode, Property<Boolean>, PNode> spaceStationMassReadoutFactory = new Function2<BodyNode, Property<Boolean>, PNode>() {
             public PNode apply( BodyNode bodyNode, Property<Boolean> visible ) {
@@ -257,28 +257,29 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
 
     //REVIEW  Very difficult to read all 4 creation methods. Why not encapsulate in subclasses of Body, one for each of the bodies used in this sim? Let's discuss...
     //REVIEW Why isn't Body creation handled in the model?
-    private Body createMoon( boolean massSettable, int maxPathLength, final boolean massReadoutBelow, BodyConfiguration body ) {
-        return new Body( GAOStrings.MOON, body.x, body.y, body.radius * 2, body.vx, body.vy, body.mass, Color.magenta, Color.white,
-                         //putting this number too large makes a kink or curly-q in the moon trajectory, which should be avoided
-                         getRenderer( "moon.png", body.mass ), -3 * Math.PI / 4, massSettable, maxPathLength,
-                         massReadoutBelow, body.mass, GAOStrings.OUR_MOON, p.clockPaused, p.stepping, p.rewinding, body.fixed ) {
-            @Override
-            protected void doReturnBody( GravityAndOrbitsModel model ) {
-                super.doReturnBody( model );
-                Body earth = model.getBody( "Planet" );
-                //Restore the moon near the earth and with the same relative velocity vector
-                if ( earth != null ) {
-                    ImmutableVector2D relativePosition = getPositionProperty().getInitialValue().minus( earth.getPositionProperty().getInitialValue() );
-                    getPositionProperty().setValue( earth.getPosition().plus( relativePosition ) );
+    class Moon extends Body {
+        public Moon( boolean massSettable, int maxPathLength, final boolean massReadoutBelow, BodyConfiguration body ) {
+            super( GAOStrings.MOON, body.x, body.y, body.radius * 2, body.vx, body.vy, body.mass, Color.magenta, Color.white,
+                   //putting this number too large makes a kink or curly-q in the moon trajectory, which should be avoided
+                   getRenderer( "moon.png", body.mass ), -3 * Math.PI / 4, massSettable, maxPathLength,
+                   massReadoutBelow, body.mass, GAOStrings.OUR_MOON, p.clockPaused, p.stepping, p.rewinding, body.fixed );
+        }
 
-                    ImmutableVector2D relativeVelocity = getVelocityProperty().getInitialValue().minus( earth.getVelocityProperty().getInitialValue() );
-                    getVelocityProperty().setValue( earth.getVelocity().plus( relativeVelocity ) );
-                }
-                else {
-                    throw new RuntimeException( "Couldn't find planet." );
-                }
+        @Override protected void doReturnBody( GravityAndOrbitsModel model ) {
+            super.doReturnBody( model );
+            Body earth = model.getBody( "Planet" );
+            //Restore the moon near the earth and with the same relative velocity vector
+            if ( earth != null ) {
+                ImmutableVector2D relativePosition = getPositionProperty().getInitialValue().minus( earth.getPositionProperty().getInitialValue() );
+                getPositionProperty().setValue( earth.getPosition().plus( relativePosition ) );
+
+                ImmutableVector2D relativeVelocity = getVelocityProperty().getInitialValue().minus( earth.getVelocityProperty().getInitialValue() );
+                getVelocityProperty().setValue( earth.getVelocity().plus( relativeVelocity ) );
             }
-        };
+            else {
+                throw new RuntimeException( "Couldn't find planet." );
+            }
+        }
     }
 
     private Body createEarth( int maxPathLength, BodyConfiguration body ) {
