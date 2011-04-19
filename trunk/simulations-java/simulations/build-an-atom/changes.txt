@@ -1,4 +1,5 @@
 isotopes-and-atomic-mass: Made the isotope on the first tab grow and shrink based on the selected element.
+isotopes-and-atomic-mass: Changed various label text and positions based on input from the chemistry team.
 # 2.03.00 (50694) Apr 15, 2011
 4/15/11 > Fixed an issue with extraction of electrons from the cloud representation.
 # 2.01.06 (50623) Apr 13, 2011
