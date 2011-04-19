@@ -34,12 +34,11 @@ public class BodyNode extends PNode {
     private final Body body;
     private final BodyRenderer bodyRenderer;
 
-    //REVIEW describe mousePositionProperty and labelAngle
     public BodyNode( final Body body,
                      final Property<ModelViewTransform> modelViewTransform,
-                     final Property<ImmutableVector2D> mousePosition,
+                     final Property<ImmutableVector2D> mousePosition,//Keep track of the mouse position in case a body moves underneath a stationary mouse (in which case the mouse should become a hand cursor)
                      final PComponent parentComponent,
-                     final double labelAngle ) {
+                     final double labelAngle ) {//Angle at which to show the name label, different for different BodyNodes so they don't overlap too much
         this.modelViewTransform = modelViewTransform;
         this.body = body;
         body.getCollidedProperty().addObserver( new SimpleObserver() {
@@ -73,7 +72,7 @@ public class BodyNode extends PNode {
                 body.setUserControlled( false );
             }
         } );
-        //REVIEW I would use another mouse handler rather than overloading cursorHandler here.
+        //TODO: Investigate using another mouse handler rather than overloading cursorHandler here.
         new RichSimpleObserver() {
             public void update() {
                 /* we need to determine whether the mouse is over the body both before and after the model change so
@@ -84,7 +83,8 @@ public class BodyNode extends PNode {
                 boolean isMouseOverBefore = bodyRenderer.getGlobalFullBounds().contains( mousePosition.getValue().toPoint2D() );
                 setOffset( getPosition( modelViewTransform, body ).toPoint2D() );
                 boolean isMouseOverAfter = bodyRenderer.getGlobalFullBounds().contains( mousePosition.getValue().toPoint2D() );
-                //REVIEW doc. what's going on here? Why are you feeding cursorHandler manufactured events?
+
+                //Send mouse entered and mouse exited events when body moves underneath a stationary mouse (in which case the mouse should become a hand cursor)
                 if ( parentComponent != null ) {
                     if ( isMouseOverBefore && !isMouseOverAfter ) {
                         cursorHandler.mouseExited( new PInputEvent( null, null ) {
@@ -110,9 +110,13 @@ public class BodyNode extends PNode {
             }
         }.observe( body.getDiameterProperty(), modelViewTransform );
 
-        //REVIEW this should be a class, why would you want to inline this much initialization? It's noisy for the reader.
         //Points to the sphere with a text indicator and line, for when it is too small to see (in modes with realistic units)
-        PNode arrowIndicator = new PNode() {{
+        addChild( createArrowIndicator( body, labelAngle ) );
+    }
+
+    //Points to the sphere with a text indicator and line, for when it is too small to see (in modes with realistic units)
+    private PNode createArrowIndicator( final Body body, final double labelAngle ) {
+        return new PNode() {{
             Point2D viewCenter = new Point2D.Double( 0, 0 );
             ImmutableVector2D northEastVector = ImmutableVector2D.parseAngleAndMagnitude( 1, labelAngle );
             Point2D tip = northEastVector.getScaledInstance( 10 ).getDestination( viewCenter );
@@ -134,7 +138,6 @@ public class BodyNode extends PNode {
             bodyRenderer.addPropertyChangeListener( PROPERTY_FULL_BOUNDS, updateVisibility );
             updateVisibility.propertyChange( null );
         }};
-        addChild( arrowIndicator );
     }
 
     private ImmutableVector2D getPosition( Property<ModelViewTransform> modelViewTransform, Body body ) {

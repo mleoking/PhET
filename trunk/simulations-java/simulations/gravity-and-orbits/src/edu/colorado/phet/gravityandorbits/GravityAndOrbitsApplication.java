@@ -46,7 +46,7 @@ public class GravityAndOrbitsApplication extends PiccoloPhetApplication {
         public IntroModule( final PhetFrame phetFrame, Property<Boolean> whiteBackgroundProperty ) {
             super( phetFrame, whiteBackgroundProperty, CARTOON, false, new Function1<ModeListParameterList, ArrayList<GravityAndOrbitsMode>>() {
                 public ArrayList<GravityAndOrbitsMode> apply( ModeListParameterList p ) {
-                    return new CartoonModeList( p.clockPausedProperty, p.gravityEnabledProperty, p.stepping, p.rewinding, p.timeSpeedScaleProperty );
+                    return new CartoonModeList( p.clockPaused, p.gravityEnabled, p.stepping, p.rewinding, p.timeSpeedScale );
                 }
             }, 0, false );
         }
@@ -56,7 +56,7 @@ public class GravityAndOrbitsApplication extends PiccoloPhetApplication {
         public CartoonModule( final PhetFrame phetFrame, Property<Boolean> whiteBackgroundProperty ) {
             super( phetFrame, whiteBackgroundProperty, TO_SCALE, true, new Function1<ModeListParameterList, ArrayList<GravityAndOrbitsMode>>() {
                 public ArrayList<GravityAndOrbitsMode> apply( ModeListParameterList p ) {
-                    return new RealModeList( p.clockPausedProperty, p.gravityEnabledProperty, p.stepping, p.rewinding, p.timeSpeedScaleProperty );
+                    return new RealModeList( p.clockPaused, p.gravityEnabled, p.stepping, p.rewinding, p.timeSpeedScale );
                 }
             }, 3,//Start Real tab in earth/satellite mode because it is more playful
                    true );

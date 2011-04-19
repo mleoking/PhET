@@ -9,18 +9,17 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
  * @author Sam Reid
  */
 public class ModeListParameterList {
-    public final Property<Boolean> clockPausedProperty;
-    public final Property<Boolean> gravityEnabledProperty;
-    public final Property<Boolean> stepping;
-    public final Property<Boolean> rewinding;
-    public final Property<Double> timeSpeedScaleProperty;
+    public final Property<Boolean> clockPaused;
+    public final Property<Boolean> gravityEnabled;
+    public final Property<Boolean> stepping;//True if the user is pressing the "step" button, to support storing states for the rewind feature
+    public final Property<Boolean> rewinding;//Flag to indicate if a "rewind" event is taking place, to support storing states for the rewind feature
+    public final Property<Double> timeSpeedScale;
 
-    //REVIEW semantics of stepping and rewinding params is not obvious, please doc either params or public members
     public ModeListParameterList( Property<Boolean> clockPaused, Property<Boolean> gravityEnabled, Property<Boolean> stepping, Property<Boolean> rewinding, Property<Double> timeSpeedScale ) {
-        this.clockPausedProperty = clockPaused;
-        this.gravityEnabledProperty = gravityEnabled;
+        this.clockPaused = clockPaused;
+        this.gravityEnabled = gravityEnabled;
         this.stepping = stepping;
         this.rewinding = rewinding;
-        this.timeSpeedScaleProperty = timeSpeedScale;
+        this.timeSpeedScale = timeSpeedScale;
     }
 }
