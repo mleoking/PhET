@@ -2,8 +2,12 @@
 
 package edu.colorado.phet.buildanatom.model;
 
-import java.text.DecimalFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.StringTokenizer;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
 import edu.colorado.phet.common.phetcommon.util.PrecisionDecimal;
