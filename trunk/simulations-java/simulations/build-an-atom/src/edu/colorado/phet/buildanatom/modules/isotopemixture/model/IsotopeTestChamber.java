@@ -301,9 +301,6 @@ public class IsotopeTestChamber {
     public double getIsotopeProportion( ImmutableAtom isotopeConfig ){
         assert isotopeConfig.getCharge() == 0;
         double isotopeProportion = 0;
-        // TODO: This could be done by a map that is updated each time an
-        // atom is added if better performance is needed.  This should be
-        // decided before publishing this sim.
         int isotopeCount = 0;
         for ( MovableAtom isotope : containedIsotopes ){
             if ( isotopeConfig.equals( isotope.getAtomConfiguration() )){

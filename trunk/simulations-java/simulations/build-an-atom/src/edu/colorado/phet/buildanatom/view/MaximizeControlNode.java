@@ -51,7 +51,6 @@ public class MaximizeControlNode extends PhetPNode {
     private final ArrayList<ChangeListener> listeners;
     private boolean isMaximized;
 
-    //TODO: consider rewriting with Property<Boolean> parameter
     public MaximizeControlNode( String label, PDimension maximizedSize, PNode managedNode, boolean isMaximized ) {
         super();
 

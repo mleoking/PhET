@@ -249,9 +249,6 @@ public class ProblemSet {
         case SCHEMATIC_TO_MASS_QUESTION:
             problem = new SchematicToMassQuestionProblem( model, atomValue );
             break;
-        case SCHEMATIC_TO_PROTON_COUNT_QUESTION:
-            problem = new SchematicToProtonCountQuestionProblem( model, atomValue );
-            break;
         case SCHEMATIC_TO_SYMBOL_ALL:
             problem = new SchematicToSymbolProblem( model, atomValue, true, true, true );
             break;
@@ -288,7 +285,6 @@ public class ProblemSet {
         return ( problemType == ProblemType.SCHEMATIC_TO_ELEMENT ||
                  problemType == ProblemType.SCHEMATIC_TO_CHARGE_QUESTION ||
                  problemType == ProblemType.SCHEMATIC_TO_MASS_QUESTION ||
-                 problemType == ProblemType.SCHEMATIC_TO_PROTON_COUNT_QUESTION ||
                  problemType == ProblemType.SCHEMATIC_TO_SYMBOL_ALL ||
                  problemType == ProblemType.SCHEMATIC_TO_SYMBOL_PROTON_COUNT ||
                  problemType == ProblemType.SCHEMATIC_TO_SYMBOL_CHARGE ||

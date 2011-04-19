@@ -102,7 +102,7 @@ class IsotopeProprotionsPieChart extends PNode {
                     // appeared to fix this, but this check should be left for a
                     // while to make sure that it doesn't come back.  If the
                     // errors from this haven't been seen for a while, it can
-                    // probably be safely removed.
+                    // probably be safely removed.  jblanco, mid-March 2011.
                     if ( pieSlices.size() == 0){
                         System.out.println("No pie slices, aborting update of chart.");
                         System.out.println("Prototype isotope = " + model.getAtom().toImmutableAtom());
