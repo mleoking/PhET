@@ -13,35 +13,43 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
 /**
- * This Piccolo node shows a textual label to indicate whether the atom is stable or unstable.
+ * This Piccolo node shows a textual label to indicate whether the atom is
+ * stable or unstable.
+ *
+ * So that it is easier to position, the center of this node is at offset
+ * (0,0), rather than the more common upper left edge.
  *
  * @author Sam Reid
  */
 public class StabilityIndicator extends PNode {
 
     public StabilityIndicator( final IDynamicAtom atom, final BooleanProperty showLabels ) {
-        final PText child = new PText( BuildAnAtomStrings.UNSTABLE ) {{
+        final PText stabilityText = new PText( BuildAnAtomStrings.UNSTABLE ) {{
             setFont( new PhetFont( 18, true ) );
             setTextPaint( Color.black );
         }};
-        addChild( child );
-        final AtomListener updateVisibility = new AtomListener.Adapter() {
+        addChild( stabilityText );
+        final AtomListener updateText = new AtomListener.Adapter() {
             @Override
             public void configurationChanged() {
                 setVisible( showLabels.getValue() && atom.getMassNumber() > 0 );
                 if (atom.isStable()){
-                    child.setText( BuildAnAtomStrings.STABLE );
+                    stabilityText.setText( BuildAnAtomStrings.STABLE );
                 }else{
-                    child.setText( BuildAnAtomStrings.UNSTABLE );
+                    stabilityText.setText( BuildAnAtomStrings.UNSTABLE );
                 }
+                // Adjust the offset so that the center of this node is at (0,0).
+                stabilityText.setOffset(
+                        -stabilityText.getFullBoundsReference().width / 2,
+                        -stabilityText.getFullBoundsReference().height / 2 );
             }
         };
-        atom.addAtomListener( updateVisibility );
+        atom.addAtomListener( updateText );
         showLabels.addObserver( new SimpleObserver(){
             public void update(){
-                updateVisibility.configurationChanged();
+                updateText.configurationChanged();
             }
         } );
-        updateVisibility.configurationChanged(); // Initial update.
+        updateText.configurationChanged(); // Initial update.
     }
 }

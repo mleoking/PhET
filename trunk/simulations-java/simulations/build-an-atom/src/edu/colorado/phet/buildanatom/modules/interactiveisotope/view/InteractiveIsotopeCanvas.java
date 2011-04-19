@@ -161,13 +161,20 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas implements Resettable 
         model.getAtom().addAtomListener( new AtomListener.Adapter(){
             @Override
             public void postitionChanged(){
+                updateLabelPositions();
+            }
+            @Override
+            public void configurationChanged() {
+                updateLabelPositions();
+            }
+            private void updateLabelPositions(){
                 double centerX = model.getAtom().getPosition().getX();
                 double centerY = model.getAtom().getPosition().getY();
                 elementNameIndicator.setOffset(
                         mvt.modelToViewX( centerX ),
                         mvt.modelToViewY( centerY ) - elementNameIndicator.getFullBounds().height - 25 );
                 stabilityIndicator.setOffset(
-                        mvt.modelToViewX( centerX ) - stabilityIndicator.getFullBoundsReference().width / 2,
+                        mvt.modelToViewX( centerX ),
                         mvt.modelToViewY( centerY ) + elementNameIndicator.getFullBounds().height + 20 );
             }
         });
