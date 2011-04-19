@@ -1,3 +1,5 @@
+# 2.03.01 (50876) Apr 19, 2011
+4/19/11 Publishing to dev for review and possibly for interviews.
 isotopes-and-atomic-mass: Made the isotope on the first tab grow and shrink based on the selected element.
 isotopes-and-atomic-mass: Changed various label text and positions based on input from the chemistry team.
 # 2.03.00 (50694) Apr 15, 2011
