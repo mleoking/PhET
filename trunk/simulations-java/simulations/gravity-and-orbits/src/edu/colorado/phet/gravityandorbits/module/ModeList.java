@@ -374,7 +374,7 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
     };
 
     //Have to artificially scale up the time readout so that Sun/Earth/Moon mode has a stable orbit with correct periods
-    public static final Function1<Double, String> scaledDays( final double scale ) {
+    public static Function1<Double, String> scaledDays( final double scale ) {
         return new Function1<Double, String>() {
             public String apply( Double time ) {
                 int value = (int) ( time / GravityAndOrbitsClock.SECONDS_PER_DAY * scale );
