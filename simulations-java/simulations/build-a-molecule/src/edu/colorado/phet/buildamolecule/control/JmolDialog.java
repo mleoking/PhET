@@ -23,7 +23,7 @@ public class JmolDialog extends JDialog {
 
         getContentPane().add( new JPanel() {{
             final ButtonGroup group = new ButtonGroup();
-            add( new JRadioButton( "Spheres", true ) {{
+            add( new JRadioButton( "Space Filling", true ) {{ // 50% TODO i18n
                 group.add( this );
                 addActionListener( new ActionListener() {
                     public void actionPerformed( ActionEvent e ) {
@@ -31,7 +31,7 @@ public class JmolDialog extends JDialog {
                     }
                 } );
             }} );
-            add( new JRadioButton( "Ball and Stick", false ) {{
+            add( new JRadioButton( "Ball and Stick", false ) {{ // TODO i18n
                 group.add( this );
                 addActionListener( new ActionListener() {
                     public void actionPerformed( ActionEvent e ) {
