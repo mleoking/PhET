@@ -26,15 +26,16 @@ import static java.lang.Math.*;
 public class PrismsModel extends BendingLightModel {
     private ArrayList<Prism> prisms = new ArrayList<Prism>();
     public final Property<Boolean> manyRays = new Property<Boolean>( false );//show multiple beams to help show how lenses work
-    public final Property<Medium> environment = new Property<Medium>( new Medium( new Rectangle2D.Double( -1, 0, 2, 1 ), AIR, MediumColorFactory.getColor( AIR.index() ) ) );
-    public final Property<Medium> prismMedium = new Property<Medium>( new Medium( new Rectangle2D.Double( -1, -1, 2, 1 ), GLASS, MediumColorFactory.getColor( GLASS.index() ) ) );
+    public final Property<Medium> environment = new Property<Medium>( new Medium( new Rectangle2D.Double( -1, 0, 2, 1 ), AIR, MediumColorFactory.getColor( AIR.index() ) ) );//Environment the laser is in
+    public final Property<Medium> prismMedium = new Property<Medium>( new Medium( new Rectangle2D.Double( -1, -1, 2, 1 ), GLASS, MediumColorFactory.getColor( GLASS.index() ) ) );//Material that comprises the prisms
     public final Property<Boolean> showReflections = new Property<Boolean>( false );//If false, will hide non TIR reflections
-    public final ArrayList<Intersection> intersections = new ArrayList<Intersection>();
-    public final ArrayList<VoidFunction1<Intersection>> intersectionListeners = new ArrayList<VoidFunction1<Intersection>>();
-    private final ProtractorModel protractorModel = new ProtractorModel( 0, 0 );
+    public final ArrayList<Intersection> intersections = new ArrayList<Intersection>();//List of intersections, which can be shown graphically
+    public final ArrayList<VoidFunction1<Intersection>> intersectionListeners = new ArrayList<VoidFunction1<Intersection>>();//Listen for creation of intersections to show them
+    private final ProtractorModel protractorModel = new ProtractorModel( 0, 0 );//Draggable and rotatable protractor
 
     public PrismsModel() {
         super( PI, false, DEFAULT_DIST_FROM_PIVOT * 0.9 );
+        //Recompute the model when any dependencies change
         new RichSimpleObserver() {
             public void update() {
                 updateModel();
@@ -46,7 +47,7 @@ public class PrismsModel extends BendingLightModel {
     public void resetAll() {
         super.resetAll();
         while ( prisms.size() > 0 ) {
-            removePrism( prisms.get( 0 ) );//TODO: need to remove the graphic for this too
+            removePrism( prisms.get( 0 ) );
         }
         manyRays.reset();
         environment.reset();
@@ -55,6 +56,7 @@ public class PrismsModel extends BendingLightModel {
         protractorModel.reset();
     }
 
+    //List of prism prototypes that can be created in the sim
     public static ArrayList<Prism> getPrismPrototypes() {
         return new ArrayList<Prism>() {{
             final double a = CHARACTERISTIC_LENGTH * 10;//characteristic length scale
@@ -107,6 +109,7 @@ public class PrismsModel extends BendingLightModel {
         }};
     }
 
+    //Adds a prism to the model; doesn't signal a "prism added event", adding graphics must be handled by the client that added the prism
     public void addPrism( Prism prism ) {
         prism.shape.addObserver( new SimpleObserver() {
             public void update() {
@@ -118,28 +121,6 @@ public class PrismsModel extends BendingLightModel {
 
     public Iterable<? extends Prism> getPrisms() {
         return prisms;
-    }
-
-    @Override
-    protected void propagateRays() {
-        super.propagateRays();
-        if ( laser.on.getValue() ) {
-            final ImmutableVector2D tail = new ImmutableVector2D( laser.emissionPoint.getValue() );
-
-            final boolean laserInPrism = isLaserInPrism();
-            final ImmutableVector2D directionUnitVector = laser.getDirectionUnitVector();
-            //This can be used to show the main central ray
-            if ( !manyRays.getValue() ) {
-                propagate( tail, directionUnitVector, 1.0, laserInPrism );
-            }
-            else {
-                //Many parallel rays
-                for ( double x = -WAVELENGTH_RED; x <= WAVELENGTH_RED * 1.1; x += WAVELENGTH_RED / 2 ) {
-                    ImmutableVector2D offsetDir = directionUnitVector.getRotatedInstance( Math.PI / 2 ).times( x );
-                    propagate( tail.plus( offsetDir ), directionUnitVector, 1.0, laserInPrism );
-                }
-            }
-        }
     }
 
     private void propagate( ImmutableVector2D tail, ImmutableVector2D directionUnitVector, double power, boolean laserInPrism ) {
@@ -159,6 +140,28 @@ public class PrismsModel extends BendingLightModel {
         }
     }
 
+    //Algorithm that computes the trajectories of the rays throughout the system
+    @Override protected void propagateRays() {
+        super.propagateRays();
+        if ( laser.on.getValue() ) {
+            final ImmutableVector2D tail = new ImmutableVector2D( laser.emissionPoint.getValue() );
+            final boolean laserInPrism = isLaserInPrism();
+            final ImmutableVector2D directionUnitVector = laser.getDirectionUnitVector();
+            if ( !manyRays.getValue() ) {
+                //This can be used to show the main central ray
+                propagate( tail, directionUnitVector, 1.0, laserInPrism );
+            }
+            else {
+                //Many parallel rays
+                for ( double x = -WAVELENGTH_RED; x <= WAVELENGTH_RED * 1.1; x += WAVELENGTH_RED / 2 ) {
+                    ImmutableVector2D offset = directionUnitVector.getRotatedInstance( Math.PI / 2 ).times( x );
+                    propagate( tail.plus( offset ), directionUnitVector, 1.0, laserInPrism );
+                }
+            }
+        }
+    }
+
+    //Determine if the laser beam originates within a prism for purpose of determining what index of refraction to use initially
     private boolean isLaserInPrism() {
         for ( Prism prism : prisms ) {
             if ( prism.contains( laser.emissionPoint.getValue() ) ) { return true; }
@@ -166,16 +169,26 @@ public class PrismsModel extends BendingLightModel {
         return false;
     }
 
+    //Recursive algorithm to compute the pattern of rays in the system.  This is the main computation of this model, rays are cleared beforehand and this algorithm adds them as it goes
     private void propagate( Ray incidentRay, int count ) {
         double waveWidth = CHARACTERISTIC_LENGTH * 5;
-        if ( count > 50 || incidentRay.power < 0.001 ) {//binary recursion: 2^10 = 1024
+
+        //Termination condition of we have reached too many iterations or if the ray is very weak
+        if ( count > 50 || incidentRay.power < 0.001 ) {
             return;
         }
+
+        //Check for an intersection
         Intersection intersection = getIntersection( incidentRay, prisms );
         ImmutableVector2D L = incidentRay.directionUnitVector;
         final double n1 = incidentRay.mediumIndexOfRefraction;
         final double wavelengthInN1 = incidentRay.wavelength / n1;
         if ( intersection != null ) {
+            //There was an intersection, so reflect and refract the light
+
+            //List the intersection in the model
+            addIntersection( intersection );
+
             ImmutableVector2D pointOnOtherSide = new ImmutableVector2D( intersection.getPoint() ).plus( incidentRay.directionUnitVector.getInstanceOfMagnitude( 1E-12 ) );
             boolean outputInsidePrism = false;
             for ( Prism prism : prisms ) {
@@ -183,18 +196,17 @@ public class PrismsModel extends BendingLightModel {
                     outputInsidePrism = true;
                 }
             }
-            double otherMediumIndexValue = outputInsidePrism ? prismMedium.getValue().getIndexOfRefraction( incidentRay.getBaseWavelength() ) : environment.getValue().getIndexOfRefraction( incidentRay.getBaseWavelength() );
+            //Index of refraction of the other medium
+            double n2 = outputInsidePrism ? prismMedium.getValue().getIndexOfRefraction( incidentRay.getBaseWavelength() ) : environment.getValue().getIndexOfRefraction( incidentRay.getBaseWavelength() );
 
-            final double n2 = otherMediumIndexValue;
-
+            //Precompute for readability
             ImmutableVector2D point = intersection.getPoint();
             ImmutableVector2D n = intersection.getUnitNormal();
-            addIntersection( intersection );
-            //See http://en.wikipedia.org/wiki/Snell's_law#Vector_form
+
+            //Compute the output rays, see http://en.wikipedia.org/wiki/Snell's_law#Vector_form
             double cosTheta1 = n.dot( L.times( -1 ) );
             final double cosTheta2Radicand = 1 - pow( n1 / n2, 2 ) * ( 1 - pow( cosTheta1, 2 ) );
             double cosTheta2 = sqrt( cosTheta2Radicand );
-
             boolean totalInternalReflection = cosTheta2Radicand < 0;
             ImmutableVector2D vReflect = L.plus( n.times( 2 * cosTheta1 ) );
             ImmutableVector2D vRefract = cosTheta1 > 0 ?
@@ -204,8 +216,9 @@ public class PrismsModel extends BendingLightModel {
             final double reflectedPower = totalInternalReflection ? 1 : MathUtil.clamp( 0, getReflectedPower( n1, n2, cosTheta1, cosTheta2 ), 1 );
             final double transmittedPower = totalInternalReflection ? 0 : MathUtil.clamp( 0, getTransmittedPower( n1, n2, cosTheta1, cosTheta2 ), 1 );
 
+            //Create the new rays and propagate them recursively
             Ray reflected = new Ray( point.plus( incidentRay.directionUnitVector.times( -1E-12 ) ), vReflect, incidentRay.power * reflectedPower, incidentRay.wavelength, incidentRay.mediumIndexOfRefraction, incidentRay.frequency );
-            Ray refracted = new Ray( point.plus( incidentRay.directionUnitVector.times( +1E-12 ) ), vRefract, incidentRay.power * transmittedPower, incidentRay.wavelength, otherMediumIndexValue, incidentRay.frequency );
+            Ray refracted = new Ray( point.plus( incidentRay.directionUnitVector.times( +1E-12 ) ), vRefract, incidentRay.power * transmittedPower, incidentRay.wavelength, n2, incidentRay.frequency );
             if ( showReflections.getValue() || totalInternalReflection ) {
                 propagate( reflected, count + 1 );
             }
@@ -215,11 +228,13 @@ public class PrismsModel extends BendingLightModel {
             addRay( new LightRay( incidentRay.tail, intersection.getPoint(), n1, wavelengthInN1, incidentRay.power, new VisibleColor( incidentRay.wavelength * 1E9 ), waveWidth, 0, null, true, false ) );
         }
         else {
-            addRay( new LightRay( incidentRay.tail, incidentRay.tail.plus( incidentRay.directionUnitVector.times( 1 ) )//1 meter long ray
+            //No intersection, so the light ray should just keep going
+            addRay( new LightRay( incidentRay.tail, incidentRay.tail.plus( incidentRay.directionUnitVector.times( 1 ) )//1 meter long ray (long enough to seem like infinity for the sim which is at nm scale)
                     , n1, wavelengthInN1, incidentRay.power, new VisibleColor( incidentRay.wavelength * 1E9 ), waveWidth, 0, null, true, false ) );
         }
     }
 
+    //Signify that another ray/interface collision occurred
     private void addIntersection( Intersection intersection ) {
         intersections.add( intersection );
         for ( VoidFunction1<Intersection> intersectionListener : intersectionListeners ) {
@@ -227,15 +242,19 @@ public class PrismsModel extends BendingLightModel {
         }
     }
 
+    //Add a listener that will be notified when light hits an interface
     public void addIntersectionListener( VoidFunction1<Intersection> listener ) {
         intersectionListeners.add( listener );
     }
 
+    //Find the nearest intersection between a light ray and the set of prisms in the play area
     private static Intersection getIntersection( final Ray incidentRay, ArrayList<Prism> prisms ) {
         ArrayList<Intersection> allIntersections = new ArrayList<Intersection>();
         for ( Prism prism : prisms ) {
             allIntersections.addAll( prism.getIntersections( incidentRay ) );
         }
+
+        //Get the closest one (which would be hit first)
         Collections.sort( allIntersections, new Comparator<Intersection>() {
             public int compare( Intersection o1, Intersection o2 ) {
                 return Double.compare( o1.getPoint().getDistance( incidentRay.tail ),
@@ -250,8 +269,7 @@ public class PrismsModel extends BendingLightModel {
         updateModel();
     }
 
-    @Override
-    protected void clearModel() {
+    @Override protected void clearModel() {
         super.clearModel();
         if ( intersections != null ) {
             for ( Intersection intersection : intersections ) {
@@ -264,5 +282,4 @@ public class PrismsModel extends BendingLightModel {
     public ProtractorModel getProtractorModel() {
         return protractorModel;
     }
-
 }

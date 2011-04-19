@@ -16,6 +16,8 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
+import static java.awt.Color.darkGray;
+
 /**
  * Graphically depicts a draggable prism.
  *
@@ -26,7 +28,7 @@ public class PrismNode extends PNode {
 
     public PrismNode( final ModelViewTransform transform, final Prism prism, final Property<Medium> prismMedium ) {
         this.prism = prism;
-        addChild( new PhetPPath( new Color( 60, 214, 214 ), new BasicStroke(), Color.darkGray ) {{
+        addChild( new PhetPPath( new BasicStroke(), darkGray ) {{
             prism.shape.addObserver( new SimpleObserver() {
                 public void update() {
                     setPathTo( transform.modelToView( prism.shape.getValue().toShape() ) );

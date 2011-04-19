@@ -11,6 +11,8 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 
+import static java.lang.Math.sqrt;
+
 /**
  * Piccolo node for drawing a single light ray.
  *
@@ -25,7 +27,7 @@ public class LightRayNode extends PNode {
         this.lightRay = lightRay;
         Color color = lightRay.getColor();
         PhetPPath path = new PhetPPath( new BasicStroke( (float) transform.modelToViewDeltaX( lightRay.getRayWidth() ) ),
-                                        new Color( color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f, (float) Math.sqrt( lightRay.getPowerFraction() ) ) ) {{
+                                        new Color( color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f, (float) sqrt( lightRay.getPowerFraction() ) ) ) {{
             lightRay.addObserver( new SimpleObserver() {
                 public void update() {
                     //Update the view coordinates for the start and end of this ray
