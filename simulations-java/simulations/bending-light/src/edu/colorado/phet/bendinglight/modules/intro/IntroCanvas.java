@@ -154,7 +154,7 @@ public class IntroCanvas<T extends IntroModel> extends BendingLightCanvas<T> {
 
         afterLightLayer2.addChild( new BendingLightResetAllButtonNode( resetAll, this, stageSize ) );
 
-        afterLightLayer2.addChild( new FloatingClockControlNode( clockRunningPressed, null, model.getClock(), BendingLightStrings.RESET, new Property<Color>( Color.white ) ) {{
+        afterLightLayer2.addChild( new FloatingClockControlNode( playing, null, model.getClock(), BendingLightStrings.RESET, new Property<Color>( Color.white ) ) {{
             clockControlVisible.addObserver( new VoidFunction1<Boolean>() {
                 public void apply( Boolean visible ) {
                     setVisible( visible );
