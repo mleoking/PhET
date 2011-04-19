@@ -14,6 +14,8 @@ public class PrismsModule extends BendingLightModule<PrismsModel> {
 
     public PrismsModule() {
         super( BendingLightStrings.PRISM_BREAK, new PrismsModel() );
+
+        //Create and add the PrismsCanvas
         canvas = new PrismsCanvas( getBendingLightModel(), moduleActive, resetAll );
         setSimulationPanel( canvas );
     }

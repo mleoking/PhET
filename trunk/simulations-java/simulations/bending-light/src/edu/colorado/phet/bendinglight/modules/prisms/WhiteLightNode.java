@@ -7,9 +7,10 @@ import java.util.HashMap;
 
 import edu.colorado.phet.bendinglight.view.BresenhamLineAlgorithm;
 import edu.colorado.phet.bendinglight.view.LightRayNode;
-import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
+
+import static edu.colorado.phet.common.phetcommon.math.MathUtil.clamp;
 
 /**
  * In order to support white light, we need to perform additive color mixing (not subtractive,
@@ -23,27 +24,30 @@ import edu.umd.cs.piccolo.nodes.PImage;
  * @author Sam Reid
  */
 public class WhiteLightNode extends PImage {
-    private BufferedImage image = new BufferedImage( 1008, 706, BufferedImage.TYPE_INT_ARGB_PRE );//Dimensions will need to change if the model aspect ratio changes or stage size changes
+    private BufferedImage buffer = new BufferedImage( 1008, 706, BufferedImage.TYPE_INT_ARGB_PRE );//Buffer into which the light is rendered.  Dimensions will need to change if the model aspect ratio changes or stage size changes
     private final PNode rayLayer;
 
     public WhiteLightNode( PNode rayLayer ) {
         this.rayLayer = rayLayer;
-        setImage( image );
+        setImage( buffer );
+
+        //White light cannot be interacted with directly
         setPickable( false );
         setChildrenPickable( false );
     }
 
     public void updateImage() {
         //Prepare and clear the Graphics2D to render the rays
-        final Graphics2D graphics = image.createGraphics();
+        final Graphics2D graphics = buffer.createGraphics();
         graphics.setBackground( new Color( 0, 0, 0, 0 ) );
-        graphics.clearRect( 0, 0, image.getWidth(), image.getHeight() );
+        graphics.clearRect( 0, 0, buffer.getWidth(), buffer.getHeight() );
 
         //Store samples of RGB + Intensity in a sparse HashMap
-        final HashMap<Point, float[]> map = new HashMap<Point, float[]>();
+        final HashMap<Point, float[]> map = new HashMap<Point, float[]>();//maps Point => r,g,b,intensity
         for ( int i = 0; i < rayLayer.getChildrenCount(); i++ ) {
             final LightRayNode child = (LightRayNode) rayLayer.getChild( i );
             final BresenhamLineAlgorithm bresenhamLineAlgorithm = new BresenhamLineAlgorithm() {
+                //The specified pixel got hit by white light, so update the map
                 public void setPixel( int x0, int y0 ) {
                     Color color = child.getColor();
                     final double intensity = child.getLightRay().getPowerFraction();
@@ -52,24 +56,19 @@ public class WhiteLightNode extends PImage {
                     //Some additional points makes it look a lot better (less sparse) without slowing it down too much
                     addToMap( x0 + 1, y0, color, intensity, map );
                     addToMap( x0, y0 + 1, color, intensity, map );
-
-                    //This code makes a thicker ray (stroke width of 3)
-//                    for ( int dx = -3; dx <= 3; dx++ ) {
-//                        for ( int dy = -3; dy <= 3; dy++ ) {
-//                            addToMap( x0 + dx, y0 + dy, color, map );
-//                        }
-//                    }
                 }
 
                 @Override
                 public boolean isOutOfBounds( int x0, int y0 ) {
-                    return x0 < 0 || y0 < 0 || x0 > image.getWidth() || y0 > image.getHeight();
+                    return x0 < 0 || y0 < 0 || x0 > buffer.getWidth() || y0 > buffer.getHeight();
                 }
             };
+            //Get the line values to make the next part more readable
             final int x1 = (int) child.getLine().x1;
             final int y1 = (int) child.getLine().y1;
             final int x2 = (int) child.getLine().x2;
             final int y2 = (int) child.getLine().y2;
+
             //Some lines don't start in the play area; have to check and swap to make sure the line isn't pruned
             if ( bresenhamLineAlgorithm.isOutOfBounds( x1, y1 ) ) {
                 bresenhamLineAlgorithm.draw( x2, y2, x1, y1 );
@@ -94,18 +93,23 @@ public class WhiteLightNode extends PImage {
             if ( samples[1] > max ) { max = samples[1]; }
             if ( samples[2] > max ) { max = samples[2]; }
 
-            samples[0] = (float) MathUtil.clamp( 0, samples[0] / max * scale - whiteLimit, maxChannel );
-            samples[1] = (float) MathUtil.clamp( 0, samples[1] / max * scale - whiteLimit, maxChannel );
-            samples[2] = (float) MathUtil.clamp( 0, samples[2] / max * scale - whiteLimit, maxChannel );
+            //Scale and clamp the samples
+            samples[0] = (float) clamp( 0, samples[0] / max * scale - whiteLimit, maxChannel );
+            samples[1] = (float) clamp( 0, samples[1] / max * scale - whiteLimit, maxChannel );
+            samples[2] = (float) clamp( 0, samples[2] / max * scale - whiteLimit, maxChannel );
             intensity = intensity * max;
-            float alpha = (float) MathUtil.clamp( 0, Math.sqrt( intensity ), 1 );//don't let it become fully opaque or it looks too dark against white background
+
+            //Alpha value is square root of intensity as in LightRayNode
+            float alpha = (float) clamp( 0, Math.sqrt( intensity ), 1 );//don't let it become fully opaque or it looks too dark against white background
+
+            //Set the color and fill in the pixel in the buffer
             graphics.setPaint( new Color( samples[0], samples[1], samples[2], alpha ) );
             graphics.fillRect( point.x, point.y, 1, 1 );
         }
 
         //Cleanup and show the image.
         graphics.dispose();
-        setImage( image );
+        setImage( buffer );
     }
 
     //Add the specified point to the HashMap (creating a new entry if necessary, otherwise adding it to existing values.
