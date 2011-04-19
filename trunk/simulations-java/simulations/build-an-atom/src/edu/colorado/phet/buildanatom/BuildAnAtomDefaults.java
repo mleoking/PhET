@@ -18,10 +18,8 @@ public class BuildAnAtomDefaults {
     }
 
     // Clock
-    public static final boolean CLOCK_RUNNING = true;
     public static final int CLOCK_FRAME_RATE = 25; // fps, frames per second (wall time)
     public static final double CLOCK_DT = 1 / (double) CLOCK_FRAME_RATE;
-    public static final int CLOCK_TIME_COLUMNS = 10;
 
     // Model-view transform
     public static final PDimension STAGE_SIZE = new PDimension( 1008, 679 );
