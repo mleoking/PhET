@@ -180,11 +180,9 @@ public class VoltageSliderNode extends PhetPNode {
                 double voltage = voltageRange.getMin() + voltageRange.getLength() * ( trackLength - yOffset ) / trackLength;
                 if ( voltage < voltageRange.getMin() ) {
                     voltage = voltageRange.getMin();
-                    System.out.println( "VoltageSliderNode.updateVoltage, clamping to min, voltage=" + voltage );//XXX
                 }
                 else if ( voltage > voltageRange.getMax() ) {
                     voltage = voltageRange.getMax();
-                    System.out.println( "VoltageSliderNode.updateVoltage, clamping to MAX, voltage=" + voltage );//XXX
                 }
 
                 // snap to zero if knob is release and value is close enough to zero
