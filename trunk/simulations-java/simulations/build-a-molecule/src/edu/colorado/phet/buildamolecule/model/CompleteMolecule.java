@@ -20,6 +20,10 @@ public class CompleteMolecule {
     private String commonName;
     private MoleculeStructure moleculeStructure;
     private Function0<PNode> createNode;
+    private String cmlData = null; // data in the CML format to describe the molecule
+
+    // TODO: fully decide on 3d representation or data structure
+    //private Map<Atom, ImmutableVector2D> positionMap = new HashMap<Atom, ImmutableVector2D>();
 
     public PNode createPseudo3DNode() {
         if ( createNode == null ) {
@@ -28,14 +32,17 @@ public class CompleteMolecule {
         return createNode.apply();
     }
 
-    // TODO: add in 3D structure here. ideally a Map<Atom,Point3D>
-
     // TODO: i18n
 
     public CompleteMolecule( String commonName, MoleculeStructure moleculeStructure, Function0<PNode> createNode ) {
+        this( commonName, moleculeStructure, createNode, null );
+    }
+
+    public CompleteMolecule( String commonName, MoleculeStructure moleculeStructure, Function0<PNode> createNode, String cmlData ) {
         this.commonName = commonName;
         this.moleculeStructure = moleculeStructure;
         this.createNode = createNode;
+        this.cmlData = cmlData;
     }
 
     public String getCommonName() {
@@ -55,6 +62,14 @@ public class CompleteMolecule {
      */
     public static boolean isAllowedStructure( MoleculeStructure moleculeStructure ) {
         return isStructureInAllowedStructures( moleculeStructure );
+    }
+
+    public String getCmlData() {
+        return cmlData;
+    }
+
+    public boolean hasCmlData() {
+        return cmlData != null;
     }
 
     /*---------------------------------------------------------------------------*
@@ -111,11 +126,29 @@ public class CompleteMolecule {
         }}, createNode );
     }
 
-    public static final CompleteMolecule H2O = withTwoHydrogens( "Water", new O(), new Function0<PNode>() {
+    public static final CompleteMolecule H2O = new CompleteMolecule( "Water", new MoleculeStructure() {{
+        Atom atomA = addAtom( new H() );
+        Atom atomB = addAtom( new O() );
+        Atom atomC = addAtom( new H() );
+        addBond( atomA, atomB );
+        addBond( atomB, atomC );
+    }}, new Function0<PNode>() {
         public PNode apply() {
             return new H2ONode();
         }
-    } );
+    }, "<?xml version=\"1.0\"?>\n" +
+       "<molecule id=\"id962\" xmlns=\"http://www.xml-cml.org/schema\">\n" +
+       " <name>962</name>\n" +
+       " <atomArray>\n" +
+       "  <atom id=\"a1\" elementType=\"O\" x3=\"0.000000\" y3=\"0.000000\" z3=\"0.000000\"/>\n" +
+       "  <atom id=\"a2\" elementType=\"H\" x3=\"0.277400\" y3=\"0.892900\" z3=\"0.254400\"/>\n" +
+       "  <atom id=\"a3\" elementType=\"H\" x3=\"0.606800\" y3=\"-0.238300\" z3=\"-0.716900\"/>\n" +
+       " </atomArray>\n" +
+       " <bondArray>\n" +
+       "  <bond atomRefs2=\"a1 a2\" order=\"1\"/>\n" +
+       "  <bond atomRefs2=\"a1 a3\" order=\"1\"/>\n" +
+       " </bondArray>\n" +
+       "</molecule>\n" );
 
     public static final CompleteMolecule O2 = diatomic( "Oxygen", new O(), new O(), new Function0<PNode>() {
         public PNode apply() {
@@ -171,7 +204,21 @@ public class CompleteMolecule {
         addBond( H1, O1 );
         addBond( O1, O2 );
         addBond( O2, H2 );
-    }}, null );
+    }}, null, "<?xml version=\"1.0\"?>\n" +
+              "<molecule id=\"id784\" xmlns=\"http://www.xml-cml.org/schema\">\n" +
+              " <name>784</name>\n" +
+              " <atomArray>\n" +
+              "  <atom id=\"a1\" elementType=\"O\" x3=\"0.724700\" y3=\"0.000000\" z3=\"0.000000\"/>\n" +
+              "  <atom id=\"a2\" elementType=\"O\" x3=\"-0.724700\" y3=\"0.000000\" z3=\"0.000000\"/>\n" +
+              "  <atom id=\"a3\" elementType=\"H\" x3=\"0.823300\" y3=\"-0.700000\" z3=\"-0.667600\"/>\n" +
+              "  <atom id=\"a4\" elementType=\"H\" x3=\"-0.823300\" y3=\"-0.617500\" z3=\"0.744600\"/>\n" +
+              " </atomArray>\n" +
+              " <bondArray>\n" +
+              "  <bond atomRefs2=\"a1 a2\" order=\"1\"/>\n" +
+              "  <bond atomRefs2=\"a1 a3\" order=\"1\"/>\n" +
+              "  <bond atomRefs2=\"a2 a4\" order=\"1\"/>\n" +
+              " </bondArray>\n" +
+              "</molecule>" );
 
     public static final CompleteMolecule BH3 = withThreeHydrogens( "Borane", new B(), null );
     public static final CompleteMolecule H2S = withTwoHydrogens( "Hydrogen Sulfide", new S(), null );

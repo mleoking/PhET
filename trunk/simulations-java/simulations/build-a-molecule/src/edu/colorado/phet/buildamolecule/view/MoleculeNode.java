@@ -1,9 +1,11 @@
 package edu.colorado.phet.buildamolecule.view;
 
+import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.util.HashMap;
 import java.util.Map;
 
+import edu.colorado.phet.buildamolecule.control.JmolDialog;
 import edu.colorado.phet.buildamolecule.model.CompleteMolecule;
 import edu.colorado.phet.buildamolecule.model.Kit;
 import edu.colorado.phet.buildamolecule.model.MoleculeStructure;
@@ -31,10 +33,8 @@ public class MoleculeNode extends PNode {
     private Map<AtomModel, SimpleObserver> observerMap = new HashMap<AtomModel, SimpleObserver>();
 
     private static final double PADDING_BETWEEN_NODE_AND_ATOM = 5;
-    private HTMLNode commonNameLabel = null;
-    private PNode closeNode;
 
-    public MoleculeNode( final Kit kit, final MoleculeStructure moleculeStructure, ModelViewTransform mvt ) {
+    public MoleculeNode( final Frame parentFrame, final Kit kit, final MoleculeStructure moleculeStructure, ModelViewTransform mvt ) {
         this.kit = kit;
         this.moleculeStructure = moleculeStructure;
         this.mvt = mvt;
@@ -44,16 +44,25 @@ public class MoleculeNode extends PNode {
             return;
         }
 
-        CompleteMolecule completeMolecule = CompleteMolecule.findMatchingCompleteMolecule( moleculeStructure );
+        final CompleteMolecule completeMolecule = CompleteMolecule.findMatchingCompleteMolecule( moleculeStructure );
 
+        HTMLNode commonNameLabel = null;
         if ( completeMolecule != null ) {
             commonNameLabel = new HTMLNode( completeMolecule.getCommonName() ) {{
                 setFont( new PhetFont( 14, true ) );
+                if ( completeMolecule.hasCmlData() ) {
+                    addInputEventListener( new CursorHandler() {
+                        @Override
+                        public void mouseClicked( PInputEvent event ) {
+                            JmolDialog.displayMolecule3D( parentFrame, completeMolecule );
+                        }
+                    } );
+                }
             }};
             addChild( commonNameLabel );
         }
 
-        closeNode = new PNode() {{
+        final PNode closeNode = new PNode() {{
             addChild( new PImage( PhetCommonResources.getImage( PhetCommonResources.IMAGE_CLOSE_BUTTON ) ) );
             addInputEventListener( new CursorHandler() {
                 @Override

@@ -4,13 +4,19 @@ import edu.umd.cs.piccolo.util.PBounds;
 
 /**
  * Contains layout information relevant to where the kits are placed, where molecules can exist in the play area, etc.
+ * TODO: not a fan of this class particularly. Construct bounds in constants, and then pass in from each module?
  */
 public class LayoutBounds {
     private PBounds availableKitBounds;
     private PBounds availablePlayAreaBounds;
 
-    public LayoutBounds() {
-        availableKitBounds = new PBounds( -1600, -1000, 2200, 500 );
+    public LayoutBounds( boolean wide ) {
+        if ( wide ) {
+            availableKitBounds = new PBounds( -1600, -1000, 3200, 500 );
+        }
+        else {
+            availableKitBounds = new PBounds( -1600, -1000, 2200, 500 );
+        }
         availablePlayAreaBounds = new PBounds(
                 availableKitBounds.x,
                 availableKitBounds.y + availableKitBounds.height,

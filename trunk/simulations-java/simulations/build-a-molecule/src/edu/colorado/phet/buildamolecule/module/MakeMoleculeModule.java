@@ -8,6 +8,7 @@ import edu.colorado.phet.buildamolecule.BuildAMoleculeStrings;
 import edu.colorado.phet.buildamolecule.model.*;
 import edu.colorado.phet.buildamolecule.model.buckets.Bucket;
 import edu.colorado.phet.buildamolecule.view.BuildAMoleculeCanvas;
+import edu.colorado.phet.buildamolecule.view.MoleculeCollectingCanvas;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -40,7 +41,7 @@ public class MakeMoleculeModule extends PiccoloModule {
         * initial model
         *----------------------------------------------------------------------------*/
 
-        final LayoutBounds bounds = new LayoutBounds();
+        final LayoutBounds bounds = new LayoutBounds( false );
 
         final KitCollectionModel initialModel = new KitCollectionModel( bounds ) {{
             addKit( new Kit( bounds,
@@ -85,7 +86,7 @@ public class MakeMoleculeModule extends PiccoloModule {
         /*---------------------------------------------------------------------------*
         * canvas
         *----------------------------------------------------------------------------*/
-        canvas = new BuildAMoleculeCanvas( initialModel, true ); // single collection mode
+        canvas = new MoleculeCollectingCanvas( parentFrame, initialModel, true ); // single collection mode
         setSimulationPanel( canvas );
 
         // Set initial state
