@@ -24,7 +24,6 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
-import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 
 /**
@@ -199,12 +198,10 @@ public class PeriodicTableControlNode extends PNode {
      * basic square cell.
      */
     public class BasicElementCell extends PNode {
-        private final int atomicNumber;
         private final PText text;
         private final PhetPPath cellBoundary;
 
         public BasicElementCell( final IDynamicAtom atom, final int atomicNumber, final Color backgroundColor ) {
-            this.atomicNumber = atomicNumber;
             cellBoundary = new PhetPPath( new Rectangle2D.Double( 0, 0, CELL_DIMENSION, CELL_DIMENSION ),
                     backgroundColor, new BasicStroke( 1 ), Color.black );
             addChild( cellBoundary );
