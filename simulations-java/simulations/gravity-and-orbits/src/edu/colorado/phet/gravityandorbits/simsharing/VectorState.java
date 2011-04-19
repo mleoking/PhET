@@ -9,20 +9,20 @@ import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
  *
  * @author Sam Reid
  */
-public class VectorBean implements IProguardKeepClass {
+public class VectorState implements IProguardKeepClass {
 
     private double x;
     private double y;
 
-    public VectorBean( double x, double y ) {
+    public VectorState( double x, double y ) {
         this.x = x;
         this.y = y;
     }
 
-    public VectorBean() {
+    public VectorState() {
     }
 
-    public VectorBean( ImmutableVector2D value ) {
+    public VectorState( ImmutableVector2D value ) {
         this( value.getX(), value.getY() );
     }
 
