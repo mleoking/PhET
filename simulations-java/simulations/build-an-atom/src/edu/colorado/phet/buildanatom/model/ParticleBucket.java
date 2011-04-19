@@ -56,7 +56,7 @@ public class ParticleBucket extends Bucket {
             final Point2D initialPosition = particle.getDestination();
             particle.addPositionListener( new SimpleObserver() {
                 public void update() {
-                    if (initialPosition.distance( particle.getDestination() )>particle.getRadius()*10){
+                    if ( initialPosition.distance( particle.getDestination() ) > particle.getRadius() * 5 ){
                         relayoutBucketParticles();
                         particle.removePositionListener( this );
                     }
