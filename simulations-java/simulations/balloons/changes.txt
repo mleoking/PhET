@@ -1,3 +1,5 @@
+# 1.14.01 (50837) Apr 19, 2011
+4/19/11 Updated clip art for license compatibility
 4/19/2011 Fixed new balloon image, see #2800
 # 1.14.02 (50763) Apr 18, 2011
 Switched to use a balloon image from Open Clip Art Gallery
