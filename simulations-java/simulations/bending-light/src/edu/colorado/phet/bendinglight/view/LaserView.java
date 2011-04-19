@@ -12,6 +12,7 @@ import edu.umd.cs.piccolo.PNode;
  * @author Sam Reid
  */
 public abstract class LaserView {
+    //Ray view creates LightRayNodes and shows in the lightRayLayer
     public static final LaserView RAY = new LaserView() {
         public PNode createNode( ModelViewTransform transform, LightRay lightRay ) {
             return new LightRayNode( transform, lightRay );
@@ -22,6 +23,8 @@ public abstract class LaserView {
             return lightRayLayer;
         }
     };
+
+    //Wave view uses the LightWaveNode and renders in the lightWaveLayer
     public static final LaserView WAVE = new LaserView() {
         public PNode createNode( ModelViewTransform transform, LightRay lightRay ) {
             return new LightWaveNode( transform, lightRay );
@@ -33,14 +36,9 @@ public abstract class LaserView {
         }
     };
 
+    //Create the node for the specified lightRay
     public abstract PNode createNode( ModelViewTransform transform, LightRay lightRay );
 
-    /**
-     * Determine which layer to put the PNode in.
-     *
-     * @param lightRayLayer
-     * @param lightWaveLayer
-     * @return
-     */
+    //Determine which layer to put the PNode in.
     public abstract PNode getLayer( PNode lightRayLayer, PNode lightWaveLayer );
 }

@@ -9,6 +9,8 @@ import edu.colorado.phet.bendinglight.modules.intro.IntroModel;
 import edu.colorado.phet.bendinglight.view.LaserColor;
 
 /**
+ * Test that the model produces the correct rays
+ *
  * @author Sam Reid
  */
 public class TestModel extends TestCase {

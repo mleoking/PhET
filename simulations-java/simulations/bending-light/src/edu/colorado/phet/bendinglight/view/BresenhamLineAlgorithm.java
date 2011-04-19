@@ -30,10 +30,12 @@ public class BresenhamLineAlgorithm {
         }
     }
 
+    //Shortcut method to avoid computing points outside of the relevant bounds
     public boolean isOutOfBounds( int x0, int y0 ) {
         return false;
     }
 
+    //Sets the specified pixel to be hit (this implementation just prints debug info, but should be overriden to do something useful)
     public void setPixel( int x0, int y0 ) {
         System.out.println( x0 + ", " + y0 );
     }

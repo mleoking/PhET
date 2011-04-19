@@ -18,7 +18,6 @@ import edu.colorado.phet.common.phetcommon.util.function.Function2;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
-import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -33,26 +32,18 @@ import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.*
  * @author Sam Reid
  */
 public class LaserNode extends PNode {
+    boolean debug = false;
 
     public LaserNode( final ModelViewTransform transform,
                       final Laser laser,
                       final Property<Boolean> showRotationDragHandles,
                       final Property<Boolean> showTranslationDragHandles,
                       final Function1<Double, Double> clampDragAngle,
-                      Function2<Shape, Shape, Shape> translationRegion,//(full, front)=>selected
-                      Function2<Shape, Shape, Shape> rotationRegion, //full,back => selected
+                      Function2<Shape, Shape, Shape> translationRegion,//Select from the entire region and front region which should be used for translating the laser.  Signature is (full region, front region)=>selection region
+                      Function2<Shape, Shape, Shape> rotationRegion, //Select from the entire region and back region which should be used for rotating the laser.  Signature is (full region,back region)=> selected region
                       String imageName ) {
+        //Load the image
         final BufferedImage image = flipY( flipX( BendingLightApplication.RESOURCES.getImage( imageName ) ) );
-        final PNode clockwiseDragArrow = new PNode() {{
-            addChild( new ArrowNode( new Point2D.Double( image.getWidth() / 2, image.getHeight() / 2 ), new Point2D.Double( image.getWidth() / 2, image.getHeight() / 2 - 150 ), 20, 20, 10 ) {{
-                setPaint( Color.green );
-            }} );
-            setPickable( false );
-            setChildrenPickable( false );
-            setVisible( false );
-        }};
-
-        addChild( clockwiseDragArrow );
 
         //Properties to help identify where the mouse is so that arrows can be show indicating how the laser can be dragged
         final BooleanProperty mouseOverRotationPart = new BooleanProperty( false );
@@ -60,10 +51,11 @@ public class LaserNode extends PNode {
         final BooleanProperty draggingRotation = new BooleanProperty( false );
         final BooleanProperty draggingTranslation = new BooleanProperty( false );
 
-        final Or doShowRotationArrows = mouseOverRotationPart.or( draggingRotation );
-        doShowRotationArrows.addObserver( new SimpleObserver() {
+        //Continue to show the rotation arrows even if the mouse is outside of the region if the mouse is currently rotating the laser
+        final Or showRotationArrows = mouseOverRotationPart.or( draggingRotation );
+        showRotationArrows.addObserver( new SimpleObserver() {
             public void update() {
-                showRotationDragHandles.setValue( doShowRotationArrows.getValue() );
+                showRotationDragHandles.setValue( showRotationArrows.getValue() );
             }
         } );
 
@@ -83,17 +75,18 @@ public class LaserNode extends PNode {
             public Boolean getValue() {
                 return !parent.getValue();
             }
-
         }
 
+        //Continue to show the translation arrows even if the mouse is outside of the region if the mouse is currently translating the laser
         final Or doShowTranslationArrows = mouseOverTranslationPart.or( draggingTranslation );
-        final And a = new And( doShowTranslationArrows, new ObservableNot( doShowRotationArrows ) );
+        final And a = new And( doShowTranslationArrows, new ObservableNot( showRotationArrows ) );
         a.addObserver( new SimpleObserver() {
             public void update() {
                 showTranslationDragHandles.setValue( doShowTranslationArrows.getValue() );
             }
         } );
 
+        //Show the laser image
         addChild( new PImage( image ) );
 
         //Drag handlers can choose which of these regions to use for drag events
@@ -102,6 +95,7 @@ public class LaserNode extends PNode {
         Rectangle2D.Double backRectangle = new Rectangle2D.Double( image.getWidth() * ( 1 - fractionBackToRotateHandle ), 0, image.getWidth() * fractionBackToRotateHandle, image.getHeight() );
         Rectangle2D.Double fullRectangle = new Rectangle2D.Double( 0, 0, image.getWidth(), image.getHeight() );
 
+        //A drag region is an invisible shape that can be dragged with the mouse
         class DragRegion extends PhetPPath {
             DragRegion( Shape shape, Paint fill, final VoidFunction1<PInputEvent> eventHandler, final BooleanProperty isMouseOver, final BooleanProperty isDragging ) {
                 super( shape, fill );
@@ -130,18 +124,26 @@ public class LaserNode extends PNode {
             }
         }
 
-        final Color dragRegionColor = new Color( 255, 0, 0, 0 );
-        final Color rotationRegionColor = new Color( 0, 0, 255, 0 );
+        //Set up the colors to be invisible (or red and blue for debugging)
+        final Color dragRegionColor;
+        final Color rotationRegionColor;
+        if ( debug ) {
+            dragRegionColor = new Color( 255, 0, 0, 128 );
+            rotationRegionColor = new Color( 0, 0, 255, 128 );
+        }
+        else {
+            dragRegionColor = new Color( 255, 0, 0, 0 );
+            rotationRegionColor = new Color( 0, 0, 255, 0 );
+        }
 
-        //For debugging
-//        final Color dragRegionColor = new Color( 255, 0, 0, 128 );
-//        final Color rotationRegionColor = new Color( 0, 0, 255, 128 );
-
+        //Add the drag region for translating the laser
         addChild( new DragRegion( translationRegion.apply( fullRectangle, frontRectangle ), dragRegionColor, new VoidFunction1<PInputEvent>() {
             public void apply( PInputEvent event ) {
                 laser.translate( transform.viewToModelDelta( event.getDeltaRelativeTo( getParent().getParent() ) ) );
             }
         }, mouseOverTranslationPart, draggingTranslation ) );
+
+        //Add the drag region of rotating the laser
         addChild( new DragRegion( rotationRegion.apply( fullRectangle, backRectangle ), rotationRegionColor, new VoidFunction1<PInputEvent>() {
             public void apply( PInputEvent event ) {
                 ImmutableVector2D modelPoint = new ImmutableVector2D( transform.viewToModel( event.getPositionRelativeTo( getParent().getParent() ) ) );
@@ -152,7 +154,8 @@ public class LaserNode extends PNode {
             }
         }, mouseOverRotationPart, draggingRotation ) );
 
-        final RichSimpleObserver updateLaser = new RichSimpleObserver() {
+        //Update the transform of the laser when its model data (pivot or emission point) changes
+        new RichSimpleObserver() {
             public void update() {
                 Point2D emissionPoint = transform.modelToView( laser.emissionPoint.getValue() ).toPoint2D();
                 final double angle = transform.modelToView( ImmutableVector2D.parseAngleAndMagnitude( 1, laser.getAngle() ) ).getAngle();
@@ -164,23 +167,24 @@ public class LaserNode extends PNode {
 
                 LaserNode.this.setTransform( t );
             }
-        };
-        updateLaser.observe( laser.pivot, laser.emissionPoint );
+        }.observe( laser.pivot, laser.emissionPoint );
 
         //Show the button on the laser that turns it on and off
         final BufferedImage pressed = flipY( flipX( multiScaleToHeight( BendingLightApplication.RESOURCES.getImage( "button_pressed.png" ), 42 ) ) );
         final BufferedImage unpressed = flipY( flipX( multiScaleToHeight( BendingLightApplication.RESOURCES.getImage( "button_unpressed.png" ), 42 ) ) );
         addChild( new PImage( pressed ) {{
             setOffset( -getFullBounds().getWidth() / 2 + image.getWidth() / 2, -getFullBounds().getHeight() / 2 + image.getHeight() / 2 );
+            laser.on.addObserver( new SimpleObserver() {
+                public void update() {
+                    setImage( laser.on.getValue() ? pressed : unpressed );
+                }
+            } );
+
+            //User interaction: when the user presses the red laser button turn the laser and off
             addInputEventListener( new CursorHandler() );
             addInputEventListener( new PBasicInputEventHandler() {
                 public void mousePressed( PInputEvent event ) {
                     laser.on.setValue( !laser.on.getValue() );
-                }
-            } );
-            laser.on.addObserver( new SimpleObserver() {
-                public void update() {
-                    setImage( laser.on.getValue() ? pressed : unpressed );
                 }
             } );
         }} );

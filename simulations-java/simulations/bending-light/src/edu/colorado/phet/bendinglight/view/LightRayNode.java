@@ -17,39 +17,37 @@ import edu.umd.cs.piccolo.PNode;
  * @author Sam Reid
  */
 public class LightRayNode extends PNode {
-    public final PhetPPath ppath;
-    public Shape shape;
-    private Shape ss;
-    public Line2D.Double myline;
-    public Point2D mystart;
-    public Point2D myend;
     private final LightRay lightRay;
+    private Point2D viewStart;
+    private Point2D viewEnd;
 
     public LightRayNode( final ModelViewTransform transform, final LightRay lightRay ) {
         this.lightRay = lightRay;
-        float powerFraction = (float) lightRay.getPowerFraction();
         Color color = lightRay.getColor();
-        ppath = new PhetPPath( new BasicStroke( (float) transform.modelToViewDeltaX( lightRay.getRayWidth() ) ), new Color( color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f, (float) Math.sqrt( powerFraction ) ) ) {{
+        PhetPPath path = new PhetPPath( new BasicStroke( (float) transform.modelToViewDeltaX( lightRay.getRayWidth() ) ),
+                                        new Color( color.getRed() / 255f, color.getGreen() / 255f, color.getBlue() / 255f, (float) Math.sqrt( lightRay.getPowerFraction() ) ) ) {{
             lightRay.addObserver( new SimpleObserver() {
                 public void update() {
-                    final Point2D.Double start = lightRay.tip.getValue().toPoint2D();
-                    final Point2D.Double finish = lightRay.tail.getValue().toPoint2D();
-                    mystart = transform.modelToView( start );
-                    myend = transform.modelToView( finish );
-                    myline = new Line2D.Double( start, finish );
-                    shape = transform.modelToView( myline );
-                    ss = getStroke().createStrokedShape( shape );
-                    setPathTo( shape );
+                    //Update the view coordinates for the start and end of this ray
+                    viewStart = transform.modelToView( lightRay.tip.getValue().toPoint2D() );
+                    viewEnd = transform.modelToView( lightRay.tail.getValue().toPoint2D() );
+
+                    //Update the PPath
+                    setPathTo( getLine() );
                 }
             } );
         }};
-        addChild( ppath );
+        //Add the PPath
+        addChild( path );
+
+        //User cannot interact with the light ray directly
         setPickable( false );
         setChildrenPickable( false );
     }
 
+    //Get the line traversed by this light ray in view coordinates, for usage with the Bresenham algorithm in the WhiteLightNode
     public Line2D.Double getLine() {
-        return new Line2D.Double( mystart, myend );
+        return new Line2D.Double( viewStart, viewEnd );
     }
 
     public Color getColor() {

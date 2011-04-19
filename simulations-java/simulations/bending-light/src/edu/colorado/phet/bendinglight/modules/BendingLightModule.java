@@ -23,8 +23,11 @@ public class BendingLightModule<T extends BendingLightModel> extends Module {
     public BendingLightModule( String name, T model ) {
         super( name, model.getClock() );
         this.model = model;
-        setClockControlPanel( null );
+
+        setClockControlPanel( null );//Clock control is floating in the play area, and only visible when in wave mode
         getModulePanel().setLogoPanel( null );
+
+        //Keep a boolean flag for whether this module is active so subclasses can update when necessary (for performance reasons)
         addListener( new Listener() {
             public void activated() {
                 moduleActive.setValue( true );
