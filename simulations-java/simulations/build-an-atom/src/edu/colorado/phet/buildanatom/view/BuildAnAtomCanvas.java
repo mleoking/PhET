@@ -93,14 +93,10 @@ public class BuildAnAtomCanvas extends PhetPCanvas implements Resettable {
         rootNode.addChild( elementNameIndicator );
 
         // Show whether the nucleus is stable.
-        final StabilityIndicator stabilityIndicator = new StabilityIndicator( model.getAtom(), showStableUnstable );
-        // Position the stability indicator under the nucleus
-        model.getAtom().addAtomListener( new AtomListener.Adapter() {
-            @Override
-            public void configurationChanged() {
-                stabilityIndicator.setOffset( mvt.modelToViewX( 0 ) - stabilityIndicator.getFullBounds().getWidth() / 2, mvt.modelToViewY( -Atom.ELECTRON_SHELL_1_RADIUS * 3.0 / 4.0 ) - stabilityIndicator.getFullBounds().getHeight() );
-            }
-        } );
+        final StabilityIndicator stabilityIndicator = new StabilityIndicator( model.getAtom(), showStableUnstable ){{
+            // Position the stability indicator under the nucleus
+            setOffset( mvt.modelToViewX( 0 ), mvt.modelToViewY( -Atom.ELECTRON_SHELL_1_RADIUS * 0.67 ) );
+        }};
         rootNode.addChild( stabilityIndicator );
 
         // Show the legend/particle count indicator in the top left.
