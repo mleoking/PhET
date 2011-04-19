@@ -1,4 +1,5 @@
-Refactoring
+Changed clock time reset button from "Reset" to "Clear"
+Handled issues for the code review, including some refactoring, see #2801
 # 1.00.25 (50657) Apr 14, 2011
 Fixed: mass labels appear in the wrong location when initially shown
 Added docs and minor refactors for some issues in code review
