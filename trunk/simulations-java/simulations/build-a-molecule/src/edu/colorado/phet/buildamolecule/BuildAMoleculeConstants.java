@@ -24,8 +24,8 @@ public class BuildAMoleculeConstants {
     * colors
     *----------------------------------------------------------------------------*/
 
-    public static final Color CANVAS_BACKGROUND_COLOR = new Color( 149, 188, 228 );
-    public static final Color MOLECULE_COLLECTION_BACKGROUND = new Color( 202, 219, 42 );
+    public static final Color CANVAS_BACKGROUND_COLOR = new Color( 198, 226, 246 );
+    public static final Color MOLECULE_COLLECTION_BACKGROUND = new Color( 238, 238, 238 );
     public static final Color MOLECULE_COLLECTION_BORDER = Color.BLACK;
     public static final Color MOLECULE_COLLECTION_BOX_HIGHLIGHT = Color.YELLOW;
 }
