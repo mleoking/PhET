@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
+import edu.colorado.phet.buildamolecule.BuildAMoleculeStrings;
 import edu.colorado.phet.buildamolecule.model.CompleteMolecule;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
@@ -13,7 +14,7 @@ public class JmolDialog extends JDialog {
     public JmolDialog( Frame owner, CompleteMolecule molecule ) {
         super( owner );
 
-        setTitle( molecule.getCommonName() ); // TODO: i18n?
+        setTitle( molecule.getCommonName() );
         setSize( 410, 410 );
 
         setContentPane( new JPanel( new BorderLayout() ) );
@@ -23,7 +24,7 @@ public class JmolDialog extends JDialog {
 
         getContentPane().add( new JPanel() {{
             final ButtonGroup group = new ButtonGroup();
-            add( new JRadioButton( "Space Filling", true ) {{ // 50% TODO i18n
+            add( new JRadioButton( BuildAMoleculeStrings.JMOL_3D_SPACE_FILLING, true ) {{ // 50% size
                 group.add( this );
                 addActionListener( new ActionListener() {
                     public void actionPerformed( ActionEvent e ) {
@@ -31,7 +32,7 @@ public class JmolDialog extends JDialog {
                     }
                 } );
             }} );
-            add( new JRadioButton( "Ball and Stick", false ) {{ // TODO i18n
+            add( new JRadioButton( BuildAMoleculeStrings.JMOL_3D_BALL_AND_STICK, false ) {{
                 group.add( this );
                 addActionListener( new ActionListener() {
                     public void actionPerformed( ActionEvent e ) {

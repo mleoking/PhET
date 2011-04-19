@@ -9,6 +9,7 @@ import java.text.MessageFormat;
 import javax.swing.*;
 
 import edu.colorado.phet.buildamolecule.BuildAMoleculeConstants;
+import edu.colorado.phet.buildamolecule.BuildAMoleculeStrings;
 import edu.colorado.phet.buildamolecule.model.KitCollectionModel;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -37,21 +38,22 @@ public class KitPanel extends PNode {
         background.setStrokePaint( BuildAMoleculeConstants.KIT_BORDER );
         addChild( background );
 
-        PText kitLabel = new PText() {{
+        // label the kit with the kit number
+        addChild( new PText() {{
             int kitLabelXPadding = 10;
             int kitLabelYPadding = 5;
             setOffset( kitViewBounds.getX() + kitLabelXPadding, kitViewBounds.getY() + kitLabelYPadding );
             setFont( new PhetFont( 18, true ) );
             kitCollectionModel.getCurrentKitProperty().addObserver( new SimpleObserver() {
                 public void update() {
-                    setText( MessageFormat.format( "Kit #{0}", kitCollectionModel.getCurrentKitIndex() + 1 ) ); // TODO: i18n
+                    setText( MessageFormat.format( BuildAMoleculeStrings.KIT_LABEL, kitCollectionModel.getCurrentKitIndex() + 1 ) );
                 }
             } );
-        }};
-        addChild( kitLabel );
+        }} );
 
-        // TODO: i18n
-        final PSwing previousKitNode = new PSwing( new JButton( "Previous Kit (dev)" ) {{
+        // TODO: add reset kit
+
+        final PSwing previousKitNode = new PSwing( new JButton( BuildAMoleculeStrings.KIT_PREVIOUS ) {{
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     kitCollectionModel.previousKit();
@@ -67,7 +69,7 @@ public class KitPanel extends PNode {
         }};
         addChild( previousKitNode );
 
-        PSwing nextKitNode = new PSwing( new JButton( "Next Kit (dev)" ) {{
+        PSwing nextKitNode = new PSwing( new JButton( BuildAMoleculeStrings.KIT_NEXT ) {{
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     kitCollectionModel.nextKit();

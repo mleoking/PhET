@@ -4,6 +4,7 @@ package edu.colorado.phet.buildamolecule.control;
 import java.awt.*;
 
 import edu.colorado.phet.buildamolecule.BuildAMoleculeConstants;
+import edu.colorado.phet.buildamolecule.BuildAMoleculeStrings;
 import edu.colorado.phet.buildamolecule.model.CollectionBox;
 import edu.colorado.phet.buildamolecule.model.KitCollectionModel;
 import edu.colorado.phet.buildamolecule.view.BuildAMoleculeCanvas;
@@ -36,7 +37,7 @@ public class CollectionAreaNode extends PNode {
         c.gridy = 0;
         c.insets = new Insets( 0, 0, 20, 0 );
 
-        layoutNode.addChild( new HTMLNode( "<center>Your Molecule<br>Collection</center>" ) {{ // TODO: i18n
+        layoutNode.addChild( new HTMLNode( BuildAMoleculeStrings.COLLECTION_AREA_YOUR_MOLECULE_COLLECTION ) {{
             setFont( new PhetFont( 22 ) );
         }}, c );
 
