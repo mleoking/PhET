@@ -10,6 +10,7 @@ import java.beans.PropertyChangeListener;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -31,13 +32,14 @@ import edu.umd.cs.piccolo.nodes.PText;
 public class BodyNode extends PNode {
     private final Property<ModelViewTransform> modelViewTransform;
     private final Body body;
-    private final PNode arrowIndicator; //REVIEW this can be converted to a local variable
     private final BodyRenderer bodyRenderer;
 
-    //REVIEW inconsistent naming conventions for Property, eg modelViewTransform and mousePositionProperty
     //REVIEW describe mousePositionProperty and labelAngle
-    public BodyNode( final Body body, final Property<ModelViewTransform> modelViewTransform,
-                     final Property<ImmutableVector2D> mousePositionProperty, final PComponent parentComponent, final double labelAngle ) {
+    public BodyNode( final Body body,
+                     final Property<ModelViewTransform> modelViewTransform,
+                     final Property<ImmutableVector2D> mousePosition,
+                     final PComponent parentComponent,
+                     final double labelAngle ) {
         this.modelViewTransform = modelViewTransform;
         this.body = body;
         body.getCollidedProperty().addObserver( new SimpleObserver() {
@@ -73,52 +75,45 @@ public class BodyNode extends PNode {
         } );
         //REVIEW I would use another mouse handler rather than overloading cursorHandler here.
         //REVIEW naming: updatePosition sounds like a function name, how about positionObserver?
-        final SimpleObserver updatePosition = new SimpleObserver() {
+        new RichSimpleObserver() {
             public void update() {
                 /* we need to determine whether the mouse is over the body both before and after the model change so
                  * that we can toggle the hand pointer over the body.
                  *
                  * otherwise the body can move over the mouse and be dragged without ever seeing the hand pointer
                  */
-                boolean isMouseOverBefore = bodyRenderer.getGlobalFullBounds().contains( mousePositionProperty.getValue().toPoint2D() );
+                boolean isMouseOverBefore = bodyRenderer.getGlobalFullBounds().contains( mousePosition.getValue().toPoint2D() );
                 setOffset( getPosition( modelViewTransform, body ).toPoint2D() );
-                boolean isMouseOverAfter = bodyRenderer.getGlobalFullBounds().contains( mousePositionProperty.getValue().toPoint2D() );
+                boolean isMouseOverAfter = bodyRenderer.getGlobalFullBounds().contains( mousePosition.getValue().toPoint2D() );
                 //REVIEW doc. what's going on here? Why are you feeding cursorHandler manufactured events?
                 if ( parentComponent != null ) {
                     if ( isMouseOverBefore && !isMouseOverAfter ) {
                         cursorHandler.mouseExited( new PInputEvent( null, null ) {
-                            @Override
-                            public PComponent getComponent() {
+                            @Override public PComponent getComponent() {
                                 return parentComponent;
                             }
                         } );
                     }
                     if ( !isMouseOverBefore && isMouseOverAfter ) {
                         cursorHandler.mouseEntered( new PInputEvent( null, null ) {
-                            @Override
-                            public PComponent getComponent() {
+                            @Override public PComponent getComponent() {
                                 return parentComponent;
                             }
                         } );
                     }
                 }
             }
-        };
-        body.getPositionProperty().addObserver( updatePosition );
-        modelViewTransform.addObserver( updatePosition );
+        }.observe( body.getPositionProperty(), modelViewTransform );
 
-        //REVIEW naming: updatePosition sounds like a function name, how about diameterObserver?
-        final SimpleObserver updateDiameter = new SimpleObserver() {
+        new RichSimpleObserver() {
             public void update() {
                 bodyRenderer.setDiameter( getViewDiameter() );
             }
-        };
-        body.getDiameterProperty().addObserver( updateDiameter );
-        modelViewTransform.addObserver( updateDiameter );
+        }.observe( body.getDiameterProperty(), modelViewTransform );
 
         //REVIEW this should be a class, why would you want to inline this much initialization? It's noisy for the reader.
         //Points to the sphere with a text indicator and line, for when it is too small to see (in modes with realistic units)
-        arrowIndicator = new PNode() {{
+        PNode arrowIndicator = new PNode() {{
             Point2D viewCenter = new Point2D.Double( 0, 0 );
             ImmutableVector2D northEastVector = ImmutableVector2D.parseAngleAndMagnitude( 1, labelAngle );
             Point2D tip = northEastVector.getScaledInstance( 10 ).getDestination( viewCenter );

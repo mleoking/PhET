@@ -13,7 +13,7 @@ import edu.colorado.phet.gravityandorbits.model.Body;
 import edu.colorado.phet.gravityandorbits.module.CartoonModeList;
 import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsMode;
 import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsModule;
-import edu.colorado.phet.gravityandorbits.module.ModeListParameter;
+import edu.colorado.phet.gravityandorbits.module.ModeListParameterList;
 
 import static edu.colorado.phet.gravityandorbits.GAOStrings.CARTOON;
 
@@ -33,9 +33,9 @@ public class InitialConditionSampler {
 
     private static void runSim( final double alpha, final double delta ) {
         JFrame frame = new JFrame() {{
-            final GravityAndOrbitsModule intro = new GravityAndOrbitsModule( null, new Property<Boolean>( false ), CARTOON, false, new Function1<ModeListParameter, ArrayList<GravityAndOrbitsMode>>() {
-                public ArrayList<GravityAndOrbitsMode> apply( ModeListParameter p ) {
-                    return new CartoonModeList( p.clockPausedProperty, p.gravityEnabledProperty, p.stepping, p.rewinding, p.timeSpeedScaleProperty, alpha );
+            final GravityAndOrbitsModule intro = new GravityAndOrbitsModule( null, new Property<Boolean>( false ), CARTOON, false, new Function1<ModeListParameterList, ArrayList<GravityAndOrbitsMode>>() {
+                public ArrayList<GravityAndOrbitsMode> apply( ModeListParameterList p ) {
+                    return new CartoonModeList( p.clockPausedProperty, p.gravityEnabledProperty, p.stepping, p.rewinding, p.timeSpeedScaleProperty );
                 }
             }, 1, true );
             intro.getModes().get( 1 ).p.clockPausedProperty.setValue( false );

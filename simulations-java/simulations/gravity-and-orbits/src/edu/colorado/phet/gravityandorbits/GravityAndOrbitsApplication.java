@@ -44,9 +44,9 @@ public class GravityAndOrbitsApplication extends PiccoloPhetApplication {
 
     public static class IntroModule extends GravityAndOrbitsModule {
         public IntroModule( final PhetFrame phetFrame, Property<Boolean> whiteBackgroundProperty ) {
-            super( phetFrame, whiteBackgroundProperty, CARTOON, false, new Function1<ModeListParameter, ArrayList<GravityAndOrbitsMode>>() {
-                public ArrayList<GravityAndOrbitsMode> apply( ModeListParameter p ) {
-                    return new CartoonModeList( p.clockPausedProperty, p.gravityEnabledProperty, p.stepping, p.rewinding, p.timeSpeedScaleProperty, 1 );
+            super( phetFrame, whiteBackgroundProperty, CARTOON, false, new Function1<ModeListParameterList, ArrayList<GravityAndOrbitsMode>>() {
+                public ArrayList<GravityAndOrbitsMode> apply( ModeListParameterList p ) {
+                    return new CartoonModeList( p.clockPausedProperty, p.gravityEnabledProperty, p.stepping, p.rewinding, p.timeSpeedScaleProperty );
                 }
             }, 0, false );
         }
@@ -54,8 +54,8 @@ public class GravityAndOrbitsApplication extends PiccoloPhetApplication {
 
     public static class CartoonModule extends GravityAndOrbitsModule {
         public CartoonModule( final PhetFrame phetFrame, Property<Boolean> whiteBackgroundProperty ) {
-            super( phetFrame, whiteBackgroundProperty, TO_SCALE, true, new Function1<ModeListParameter, ArrayList<GravityAndOrbitsMode>>() {
-                public ArrayList<GravityAndOrbitsMode> apply( ModeListParameter p ) {
+            super( phetFrame, whiteBackgroundProperty, TO_SCALE, true, new Function1<ModeListParameterList, ArrayList<GravityAndOrbitsMode>>() {
+                public ArrayList<GravityAndOrbitsMode> apply( ModeListParameterList p ) {
                     return new RealModeList( p.clockPausedProperty, p.gravityEnabledProperty, p.stepping, p.rewinding, p.timeSpeedScaleProperty );
                 }
             }, 3,//Start Real tab in earth/satellite mode because it is more playful

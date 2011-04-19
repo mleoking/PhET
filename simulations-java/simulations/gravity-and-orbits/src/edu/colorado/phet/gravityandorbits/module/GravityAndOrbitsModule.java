@@ -26,12 +26,9 @@ import edu.colorado.phet.common.piccolophet.PiccoloModule;
  * @see edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsModel
  */
 public class GravityAndOrbitsModule extends PiccoloModule {
-
     public static final double G = 6.67428E-11;
 
-    /*
-     * Properties that are common to all "modes" should live here.
-     */
+    //Properties that are common to all "modes" should live here.
     public final Property<Boolean> showGravityForceProperty = new Property<Boolean>( false );
     public final Property<Boolean> showPathProperty = new Property<Boolean>( false );
     public final Property<Boolean> showGridProperty = new Property<Boolean>( false );
@@ -40,7 +37,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
     public final Property<Boolean> clockPausedProperty = new Property<Boolean>( true );
     public final Property<Double> timeSpeedScaleProperty = new Property<Double>( ( 0.1 + 2 ) / 4 );//one quarter of the way up between 1/10 and 2 scale factors
     public final Property<Boolean> measuringTapeVisibleProperty = new Property<Boolean>( false );
-    public final Property<Boolean> gravityEnabledProperty = new Property<Boolean>( true );//TODO: remove
+    public final Property<Boolean> gravityEnabledProperty = new Property<Boolean>( true );
     public final Property<Boolean> stepping = new Property<Boolean>( false );
     public final Property<Boolean> rewinding = new Property<Boolean>( false );
 
@@ -50,12 +47,11 @@ public class GravityAndOrbitsModule extends PiccoloModule {
     private final ArrayList<GravityAndOrbitsMode> modes;
     public final boolean showMassCheckBox;
 
-    //REVIEW consider renaming initialMode to initialModeIndex, on first read I thought that modes were ints
-    public GravityAndOrbitsModule( final PhetFrame phetFrame, Property<Boolean> whiteBackgroundProperty, final String name, boolean showMeasuringTape, Function1<ModeListParameter, ArrayList<GravityAndOrbitsMode>> createModes, int initialMode, boolean showMassCheckBox ) {
+    public GravityAndOrbitsModule( final PhetFrame phetFrame, Property<Boolean> whiteBackgroundProperty, final String name, boolean showMeasuringTape, Function1<ModeListParameterList, ArrayList<GravityAndOrbitsMode>> createModes, int initialModeIndex, boolean showMassCheckBox ) {
         super( name, new ConstantDtClock( 30, 1 ) );//TODO: I don't think this clock is used since each mode has its own clock; perhaps this just runs the active tab?
         this.showMassCheckBox = showMassCheckBox;
-        modes = createModes.apply( new ModeListParameter( clockPausedProperty, gravityEnabledProperty, stepping, rewinding, timeSpeedScaleProperty ) );
-        modeProperty = new Property<GravityAndOrbitsMode>( modes.get( initialMode ) );
+        modes = createModes.apply( new ModeListParameterList( clockPausedProperty, gravityEnabledProperty, stepping, rewinding, timeSpeedScaleProperty ) );
+        modeProperty = new Property<GravityAndOrbitsMode>( modes.get( initialModeIndex ) );
         this.whiteBackgroundProperty = whiteBackgroundProperty;
         this.showMeasuringTape = showMeasuringTape;
         getModulePanel().setLogoPanel( null );
@@ -100,7 +96,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
 
     private void updateActiveModule() {
         for ( GravityAndOrbitsMode mode : modes ) {
-            mode.setActive( mode == getMode() );
+            mode.active.setValue( mode == getMode() );
         }
     }
 

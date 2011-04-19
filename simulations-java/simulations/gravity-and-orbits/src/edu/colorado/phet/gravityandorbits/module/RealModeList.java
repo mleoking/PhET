@@ -10,7 +10,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
  */
 public class RealModeList extends ModeList {
     public RealModeList( Property<Boolean> clockPaused, Property<Boolean> gravityEnabled, Property<Boolean> stepping, Property<Boolean> rewinding, Property<Double> timeSpeedScale ) {
-        super( new ModeListParameter( clockPaused, gravityEnabled, stepping, rewinding, timeSpeedScale ),
+        super( new ModeListParameterList( clockPaused, gravityEnabled, stepping, rewinding, timeSpeedScale ),
                new SunEarth(), new SunEarthMoon(), new EarthMoon(), new EarthSpaceStation() );
     }
 }

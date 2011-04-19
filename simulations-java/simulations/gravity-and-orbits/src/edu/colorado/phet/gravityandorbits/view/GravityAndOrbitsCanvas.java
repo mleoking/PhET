@@ -294,8 +294,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
         }} );
     }
 
-    //REVIEW private
-    public void addChild( PNode node ) {
+    private void addChild( PNode node ) {
         rootNode.addChild( node );
     }
 }

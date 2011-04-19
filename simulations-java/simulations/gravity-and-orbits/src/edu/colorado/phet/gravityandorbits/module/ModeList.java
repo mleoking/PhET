@@ -29,10 +29,8 @@ import static edu.colorado.phet.gravityandorbits.GravityAndOrbitsApplication.RES
 import static edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsClock.DEFAULT_DT;
 import static edu.colorado.phet.gravityandorbits.view.MeasuringTape.milesToMeters;
 
-//REVIEW incorrect class name in javadoc
-
 /**
- * GravityAndOrbitsModeList enumerates and declares the possible modes in the GravityAndOrbitsModule, such as "Sun & Earth" mode.
+ * ModeList enumerates and declares the possible modes in the GravityAndOrbitsModule, such as "Sun & Earth" mode.
  *
  * @author Sam Reid
  */
@@ -61,7 +59,7 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
     public static final double SPACE_STATION_SPEED = 7706;
     public static final double SPACE_STATION_PERIGEE = 347000;
 
-    private ModeListParameter p;
+    private ModeListParameterList p;
 
     //REVIEW recommend moving Mode and its subclasses to a new class file, they are >100 lines of this file.
     //REVIEW are these really modes, or mode descriptions? Confusion that this is unrelated to GravityAndOrbitsMode.
@@ -77,7 +75,7 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
 
         public void center() {
             ImmutableVector2D deltaVelocity = getTotalMomentum().times( -1.0 / getTotalMass() );
-            for ( BodyPrototype prototype : getBodies() ) {
+            for ( BodyConfiguration prototype : getBodies() ) {
                 prototype.vx += deltaVelocity.getX();
                 prototype.vy += deltaVelocity.getY();
             }
@@ -86,7 +84,7 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
         //Compute the total momentum for purposes of centering the camera on the center of momentum frame
         private ImmutableVector2D getTotalMomentum() {
             ImmutableVector2D totalMomentum = new ImmutableVector2D();
-            for ( BodyPrototype body : getBodies() ) {
+            for ( BodyConfiguration body : getBodies() ) {
                 totalMomentum = totalMomentum.plus( body.getMomentum() );
             }
             return totalMomentum;
@@ -94,19 +92,19 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
 
         private double getTotalMass() {
             double totalMass = 0.0;
-            for ( BodyPrototype prototype : getBodies() ) {
+            for ( BodyConfiguration prototype : getBodies() ) {
                 totalMass += prototype.mass;
             }
             return totalMass;
         }
 
-        protected abstract BodyPrototype[] getBodies();
+        protected abstract BodyConfiguration[] getBodies();
     }
 
     //REVIEW usages would be clearer if Mode subclasses were named (for example) SunEarthMode
     public static class SunEarth extends Mode {
-        BodyPrototype sun = new BodyPrototype( SUN_MASS, SUN_RADIUS, 0, 0, 0, 0 );
-        BodyPrototype earth = new BodyPrototype( EARTH_MASS, EARTH_RADIUS, EARTH_PERIHELION, 0, 0, EARTH_ORBITAL_SPEED_AT_PERIHELION );
+        BodyConfiguration sun = new BodyConfiguration( SUN_MASS, SUN_RADIUS, 0, 0, 0, 0 );
+        BodyConfiguration earth = new BodyConfiguration( EARTH_MASS, EARTH_RADIUS, EARTH_PERIHELION, 0, 0, EARTH_ORBITAL_SPEED_AT_PERIHELION );
         double timeScale = 1;
 
         public SunEarth() {
@@ -116,15 +114,15 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
         }
 
         @Override
-        protected BodyPrototype[] getBodies() {
-            return new BodyPrototype[] { sun, earth };
+        protected BodyConfiguration[] getBodies() {
+            return new BodyConfiguration[] { sun, earth };
         }
     }
 
     public static class SunEarthMoon extends Mode {
-        BodyPrototype sun = new BodyPrototype( SUN_MASS, SUN_RADIUS, 0, 0, 0, 0 );
-        BodyPrototype earth = new BodyPrototype( EARTH_MASS, EARTH_RADIUS, EARTH_PERIHELION, 0, 0, EARTH_ORBITAL_SPEED_AT_PERIHELION );
-        BodyPrototype moon = new BodyPrototype( MOON_MASS, MOON_RADIUS, MOON_X, MOON_Y, MOON_SPEED, EARTH_ORBITAL_SPEED_AT_PERIHELION );
+        BodyConfiguration sun = new BodyConfiguration( SUN_MASS, SUN_RADIUS, 0, 0, 0, 0 );
+        BodyConfiguration earth = new BodyConfiguration( EARTH_MASS, EARTH_RADIUS, EARTH_PERIHELION, 0, 0, EARTH_ORBITAL_SPEED_AT_PERIHELION );
+        BodyConfiguration moon = new BodyConfiguration( MOON_MASS, MOON_RADIUS, MOON_X, MOON_Y, MOON_SPEED, EARTH_ORBITAL_SPEED_AT_PERIHELION );
         double timeScale = 1;
 
         public SunEarthMoon() {
@@ -134,14 +132,14 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
         }
 
         @Override
-        protected BodyPrototype[] getBodies() {
-            return new BodyPrototype[] { sun, earth, moon };
+        protected BodyConfiguration[] getBodies() {
+            return new BodyConfiguration[] { sun, earth, moon };
         }
     }
 
     public static class EarthMoon extends Mode {
-        BodyPrototype earth = new BodyPrototype( EARTH_MASS, EARTH_RADIUS, EARTH_PERIHELION, 0, 0, 0 );
-        BodyPrototype moon = new BodyPrototype( MOON_MASS, MOON_RADIUS, MOON_X, MOON_Y, MOON_SPEED, 0 );
+        BodyConfiguration earth = new BodyConfiguration( EARTH_MASS, EARTH_RADIUS, EARTH_PERIHELION, 0, 0, 0 );
+        BodyConfiguration moon = new BodyConfiguration( MOON_MASS, MOON_RADIUS, MOON_X, MOON_Y, MOON_SPEED, 0 );
 
         public EarthMoon() {
             super( 400 );
@@ -150,14 +148,14 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
         }
 
         @Override
-        protected BodyPrototype[] getBodies() {
-            return new BodyPrototype[] { earth, moon };
+        protected BodyConfiguration[] getBodies() {
+            return new BodyConfiguration[] { earth, moon };
         }
     }
 
     public static class EarthSpaceStation extends Mode {
-        BodyPrototype earth = new BodyPrototype( EARTH_MASS, EARTH_RADIUS, 0, 0, 0, 0 );
-        BodyPrototype spaceStation = new BodyPrototype( SPACE_STATION_MASS, SPACE_STATION_RADIUS, SPACE_STATION_PERIGEE + EARTH_RADIUS + SPACE_STATION_RADIUS, 0, 0, SPACE_STATION_SPEED );
+        BodyConfiguration earth = new BodyConfiguration( EARTH_MASS, EARTH_RADIUS, 0, 0, 0, 0 );
+        BodyConfiguration spaceStation = new BodyConfiguration( SPACE_STATION_MASS, SPACE_STATION_RADIUS, SPACE_STATION_PERIGEE + EARTH_RADIUS + SPACE_STATION_RADIUS, 0, 0, SPACE_STATION_SPEED );
 
         public EarthSpaceStation() {
             super( 21600 );
@@ -166,12 +164,12 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
         }
 
         @Override
-        protected BodyPrototype[] getBodies() {
-            return new BodyPrototype[] { earth, spaceStation };
+        protected BodyConfiguration[] getBodies() {
+            return new BodyConfiguration[] { earth, spaceStation };
         }
     }
 
-    public ModeList( final ModeListParameter p,
+    public ModeList( final ModeListParameterList p,
                      final SunEarth sunEarth,
                      final SunEarthMoon sunEarthMoon,
                      final EarthMoon earthMoon,
@@ -303,7 +301,7 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
 
     //REVIEW  Very difficult to read all 4 creation methods. Why not encapsulate in subclasses of Body, one for each of the bodies used in this sim? Let's discuss...
     //REVIEW Why isn't Body creation handled in the model?
-    private Body createMoon( boolean massSettable, int maxPathLength, final boolean massReadoutBelow, BodyPrototype body ) {
+    private Body createMoon( boolean massSettable, int maxPathLength, final boolean massReadoutBelow, BodyConfiguration body ) {
         return new Body( GAOStrings.MOON, body.x, body.y, body.radius * 2, body.vx, body.vy, body.mass, Color.magenta, Color.white,
                          //putting this number too large makes a kink or curly-q in the moon trajectory, which should be avoided
                          getRenderer( "moon.png", body.mass ), -3 * Math.PI / 4, massSettable, maxPathLength,
@@ -327,13 +325,13 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
         };
     }
 
-    private Body createEarth( int maxPathLength, BodyPrototype body ) {
+    private Body createEarth( int maxPathLength, BodyConfiguration body ) {
         return new Body( GAOStrings.PLANET, body.x, body.y, body.radius * 2, body.vx, body.vy, body.mass, Color.gray, Color.lightGray,
                          getRenderer( "earth_satellite.gif", body.mass ), -Math.PI / 4, true,
                          maxPathLength, true, body.mass, GAOStrings.EARTH, p.clockPausedProperty, p.stepping, p.rewinding, body.fixed );
     }
 
-    private Body createSun( int maxPathLength, final BodyPrototype body ) {
+    private Body createSun( int maxPathLength, final BodyConfiguration body ) {
         return new Body( GAOStrings.STAR, body.x, body.y, body.radius * 2, body.vx, body.vy, body.mass, Color.yellow, Color.white,
                          SUN_RENDERER, -Math.PI / 4, true, maxPathLength, true, body.mass, GAOStrings.OUR_SUN, p.clockPausedProperty, p.stepping, p.rewinding, body.fixed ) {
             @Override public void updateBodyStateFromModel( BodyState bodyState ) {
@@ -375,7 +373,6 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
         }
     };
 
-    //REVIEW static method doesn't need to be declared final
     //Have to artificially scale up the time readout so that Sun/Earth/Moon mode has a stable orbit with correct periods
     public static final Function1<Double, String> scaledDays( final double scale ) {
         return new Function1<Double, String>() {
@@ -387,7 +384,6 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
         };
     }
 
-    //REVIEW static method doesn't need to be declared final
     //REVIEW doc
     //REVIEW Java naming convention violation, should be MINUTES (or better, SECONDS_TO_MINUTES_FUNCTION)
     private static final Function1<Double, String> minutes = new Function1<Double, String>() {
