@@ -106,19 +106,16 @@ public class GravityAndOrbitsModule extends PiccoloModule {
         }
         showGravityForceProperty.reset();
         showPathProperty.reset();
+        showGridProperty.reset();
         showVelocityProperty.reset();
         showMassProperty.reset();
-        modeProperty.reset();
-        measuringTapeVisibleProperty.reset();
         clockPausedProperty.reset();
-        gravityEnabledProperty.reset();
-        showGridProperty.reset();
         timeSpeedScaleProperty.reset();
-        //REVIEW
-        //  This is a general comment about reset methods like this one.
-        //  You have Property members that this class instantiates that are not reset here (eg, stepping, rewinding).
-        //  Assuming that's correct, I think it's helpful to document why some properties are not reset here.
-        //  Otherwise it's really difficult to determine which properties need to be reset, which don't, and why.
+        measuringTapeVisibleProperty.reset();
+        gravityEnabledProperty.reset();
+        stepping.reset();
+        rewinding.reset();
+        modeProperty.reset();
     }
 
     public void setTeacherMode( boolean b ) {

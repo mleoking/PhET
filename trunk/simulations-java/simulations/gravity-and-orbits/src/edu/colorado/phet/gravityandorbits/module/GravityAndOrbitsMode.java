@@ -173,11 +173,6 @@ public abstract class GravityAndOrbitsMode {
         body.addUserModifiedVelocityListener( update );
     }
 
-    //REVIEW not used
-    public String getName() {
-        return name;
-    }
-
     public GravityAndOrbitsModel getModel() {
         return model;
     }
@@ -189,6 +184,7 @@ public abstract class GravityAndOrbitsMode {
         measuringTapeStartPoint.reset();
         measuringTapeEndPoint.reset();
         zoomLevel.reset();
+        //TODO: any other properties to reset here?
     }
 
     public JComponent getCanvas() {
@@ -215,7 +211,6 @@ public abstract class GravityAndOrbitsMode {
         }};
     }
 
-    //REVIEW not used
     public Function1<Double, String> getTimeFormatter() {
         return timeFormatter;
     }
@@ -244,12 +239,10 @@ public abstract class GravityAndOrbitsMode {
         rewinding.setValue( false );
     }
 
-    //REVIEW not used
     public double getGridSpacing() {
         return gridSpacing;
     }
 
-    //REVIEW not used
     public Point2D.Double getGridCenter() {
         return gridCenter;
     }

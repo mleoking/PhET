@@ -74,7 +74,6 @@ public class BodyNode extends PNode {
             }
         } );
         //REVIEW I would use another mouse handler rather than overloading cursorHandler here.
-        //REVIEW naming: updatePosition sounds like a function name, how about positionObserver?
         new RichSimpleObserver() {
             public void update() {
                 /* we need to determine whether the mouse is over the body both before and after the model change so
@@ -147,6 +146,7 @@ public class BodyNode extends PNode {
         return Math.max( viewDiameter, 2 );
     }
 
+    //Create a new image at the specified width. Use body.createRenderer() instead of bodyRenderer since we must specify a new width value
     public Image renderImage( int width ) {
         return body.createRenderer( width ).toImage( width, width, new Color( 0, 0, 0, 0 ) );
     }
@@ -155,7 +155,6 @@ public class BodyNode extends PNode {
         return body;
     }
 
-    //REVIEW why doesn't renderImage use bodyRenderer? Is there a different between this renderer and the one used in renderImage?
     public BodyRenderer getBodyRenderer() {
         return bodyRenderer;
     }
