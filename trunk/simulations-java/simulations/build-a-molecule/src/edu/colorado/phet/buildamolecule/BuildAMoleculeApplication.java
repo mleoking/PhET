@@ -22,12 +22,9 @@ TODO:
 Improve kit controls and add kit number?
 Add in the BCE's "ding" when a collection box is filled
 Add in "Reset Kit" button
+Make kits sufficient to fill the entire collection box
 
 NOTES (questions):
-
----completed (1): Should we support showing a "schematic" view in the collection boxes? (possibly hard to see).
-If so, should we only show a "canonical" version? Molecules with a vertical layout may be very difficult to see.
-    response: No, don't need to show this
 
 ---mostly completed (2): Currently the highlight showing a completed collection box is (to my eyes) somewhat faint. Should the colors be changed, and/or should we add in
 a sound when a collection box is filled?
@@ -46,9 +43,6 @@ tab like normal? Should we have a "Reset Kit" button that pulls all atoms back t
 necessary)?
     Middle schoolers are quite timid about using reset. I like the idea of having a "reset kit" button, that way minimal work is undone if students
     select this. It will need to appear only after a student has gotten a molecule made from that kit into a collection box.
-
----completed (5): Current behavior when trying to add a molecule to a "full" collection box just pulls it back out to the play area. Is this acceptable?
-    I think this is fine. The student yesterday had no trouble interpreting this.
 
 (6): Current behavior of the molecule readout is in conflict with the design doc. Doc shows "H20" above the molecule in ONE part, and in another
 shows the formula above and the molecule name BELOW. Sim shows the molecule name (e.g. "water") above currently, but could easily switch to showing
@@ -105,10 +99,6 @@ there is no carbon, STILL put the hydrogen first).
 dialog. Should I add in a prototype, or should we sketch a quick design first?
     If it’s easy, why don’t you do something like...have a popup box that appears and maybe have the outline for the whole toolbar light up. If you
     can do that by Thursday, we can all discuss further. Or, if you have a better idea, go for that.
-
-(12): For the 3rd tab (3D view), it should be possible to change the view style. We could offer the user "Filled spheres", "Ball-and-stick", and
-possibly more. Do we want to integrate those style changes into the design, or should I work them into a prototype?
-    I’m not sure about what you mean by this question. I think ‘space filling’ and ‘ball and stick’ should be sufficient options.
 
 (13): Currently atoms all move with the same speed in different situations (falling back to buckets, moving back to the play area, breaking apart).
 I'd like to speed up movement when the atom is far from its destination, but keep it about the same when it is close (like breaking up). Is that OK?
