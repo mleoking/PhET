@@ -7,46 +7,45 @@ import java.awt.geom.Line2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 
 import static edu.colorado.phet.bendinglight.model.BendingLightModel.SPEED_OF_LIGHT;
 
 /**
- * A LightRay models one straight segment of a beam, with a specific wavelength.
+ * A LightRay models one straight segment of a beam (completely within a single medium), with a specific wavelength.
  *
  * @author Sam Reid
  */
 public class LightRay {
-    public final Property<ImmutableVector2D> tip;
-    public final Property<ImmutableVector2D> tail;
-    public final double indexOfRefraction;
+    //Directionality is important for propagation
+    public final ImmutableVector2D tip;
+    public final ImmutableVector2D tail;
+    public final double indexOfRefraction;//The index of refraction of the medium the lightray inhabits
     public final double wavelength; // wavelength in meters
-    private final double powerFraction;
+    private final double powerFraction;//amount of power this light has (full strength is 1.0)
     private ArrayList<VoidFunction0> removalListeners = new ArrayList<VoidFunction0>();
     private ArrayList<VoidFunction0> moveToFrontListeners = new ArrayList<VoidFunction0>();
     private Color color;
     private double waveWidth;
-    private double numWavelengthsPhaseOffset;
-    private final Shape oppositeMedium;
-    public final boolean extendBackwards;
-    private boolean extend;
+    private double numWavelengthsPhaseOffset; //This number indicates how many wavelengths have passed before this light ray begins; it is zero for the light coming out of the laser.
+    private final Shape oppositeMedium;//Used to create a clipped shape for wave mode
+
+    //fill in the triangular chip near y=0 even for truncated beams, if it is the transmitted beam
+    public final boolean extendBackwards;//Light must be extended backwards for the transmitted wave shape to be correct
+    private boolean extend;//has to be an integral number of wavelength so that the phases work out correctly, turing this up too high past 1E6 causes things not to render properly
+
     private double time;
     private ArrayList<VoidFunction0> stepListeners = new ArrayList<VoidFunction0>();
 
     public LightRay( ImmutableVector2D tail, ImmutableVector2D tip, double indexOfRefraction, double wavelength,
-                     double powerFraction, Color color, double waveWidth,
-                     double numWavelengthsPhaseOffset,//This number indicates how many wavelengths have passed before this light ray begins; it is zero for the light coming out of the laser.
-                     Shape oppositeMedium,//for clipping
-                     boolean extend,//has to be an integral number of wavelength so that the phases work out correctly, turing this up too high past 1E6 causes things not to render properly
-                     boolean extendBackwards ) {
+                     double powerFraction, Color color, double waveWidth, double numWavelengthsPhaseOffset, Shape oppositeMedium,
+                     boolean extend, boolean extendBackwards ) {
         this.oppositeMedium = oppositeMedium;
         this.extendBackwards = extendBackwards;
         this.color = color;
         this.waveWidth = waveWidth;
-        this.tip = new Property<ImmutableVector2D>( tip );
-        this.tail = new Property<ImmutableVector2D>( tail );
+        this.tip = tip;
+        this.tail = tail;
         this.indexOfRefraction = indexOfRefraction;
         this.wavelength = wavelength;
         this.powerFraction = powerFraction;
@@ -58,13 +57,9 @@ public class LightRay {
         removalListeners.add( listener );
     }
 
+    //Used for getting the right z-ordering for wave mode
     public void addMoveToFrontListener( VoidFunction0 listener ) {
         moveToFrontListeners.add( listener );
-    }
-
-    public void addObserver( SimpleObserver simpleObserver ) {
-        tip.addObserver( simpleObserver );
-        tail.addObserver( simpleObserver );
     }
 
     public double getSpeed() {
@@ -75,8 +70,6 @@ public class LightRay {
         for ( VoidFunction0 removalListener : removalListeners ) {
             removalListener.apply();
         }
-        tip.removeAllObservers();
-        tail.removeAllObservers();
         removalListeners.clear();
     }
 
@@ -91,15 +84,15 @@ public class LightRay {
     }
 
     public Line2D toLine2D() {
-        return new Line2D.Double( tail.getValue().toPoint2D(), tip.getValue().toPoint2D() );
+        return new Line2D.Double( tail.toPoint2D(), tip.toPoint2D() );
     }
 
     public double getLength() {
-        return tip.getValue().minus( tail.getValue() ).getMagnitude();
+        return tip.minus( tail ).getMagnitude();
     }
 
     public ImmutableVector2D toVector2D() {
-        return new ImmutableVector2D( tail.getValue().toPoint2D(), tip.getValue().toPoint2D() );
+        return new ImmutableVector2D( tail.toPoint2D(), tip.toPoint2D() );
     }
 
     public Color getColor() {
@@ -142,16 +135,16 @@ public class LightRay {
 
     //Have to extend the line so that it can be clipped against the opposite medium, so it will won't show any missing triangular chips.
     private Line2D.Double getExtendedLine() {
-        return new Line2D.Double( tail.getValue().toPoint2D(), tip.getValue().plus( getUnitVector().times( getExtensionFactor() ) ).toPoint2D() );
+        return new Line2D.Double( tail.toPoint2D(), tip.plus( getUnitVector().times( getExtensionFactor() ) ).toPoint2D() );
     }
 
     //Use this one for the transmitted beam
     private Line2D.Double getExtendedLineBackwards() {
-        return new Line2D.Double( tail.getValue().plus( getUnitVector().times( -getExtensionFactor() ) ).toPoint2D(), tip.getValue().toPoint2D() );
+        return new Line2D.Double( tail.plus( getUnitVector().times( -getExtensionFactor() ) ).toPoint2D(), tip.toPoint2D() );
     }
 
     public ImmutableVector2D getUnitVector() {
-        return new ImmutableVector2D( tail.getValue().toPoint2D(), tip.getValue().toPoint2D() ).getNormalizedInstance();
+        return new ImmutableVector2D( tail.toPoint2D(), tip.toPoint2D() ).getNormalizedInstance();
     }
 
     public double getAngle() {
@@ -199,7 +192,7 @@ public class LightRay {
     }
 
     public ImmutableVector2D getVelocity() {
-        return tip.getValue().minus( tail.getValue() ).getNormalizedInstance().times( getSpeed() );
+        return tip.minus( tail ).getNormalizedInstance().times( getSpeed() );
     }
 
     public double getFrequency() {

@@ -9,7 +9,7 @@ import java.awt.*;
  * @author Sam Reid
  */
 public class Medium {
-    public final Shape shape;
+    public final Shape shape;//immutable shape
     private final MediumState mediumState;
     public final Color color;//Color is based on the index of refraction at red wavelength
 

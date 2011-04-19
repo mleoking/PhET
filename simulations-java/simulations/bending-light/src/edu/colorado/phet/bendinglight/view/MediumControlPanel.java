@@ -38,7 +38,7 @@ public class MediumControlPanel extends PNode {
 
     //Dummy state for putting the combo box in "custom" mode, meaning none of the other named substances are selected
     private final MediumState CUSTOM = new MediumState( BendingLightStrings.CUSTOM,
-                                                        BendingLightModel.MYSTERY_B.index() + 1.2,//Higher value than could be shown on the slider
+                                                        BendingLightModel.MYSTERY_B.getIndexOfRefractionForRedLight() + 1.2,//Higher value than could be shown on the slider
                                                         false,
                                                         true );
     private final Property<Medium> medium;//The medium to observe
@@ -203,9 +203,9 @@ public class MediumControlPanel extends PNode {
                     setPaintTicks( true );
                     setPaintLabels( true );
                     setLabelTable( new Hashtable<Object, Object>() {{
-                        put( (int) mapping.createInverse().evaluate( BendingLightModel.AIR.index() ), new TickLabel( BendingLightStrings.AIR ) );
-                        put( (int) mapping.createInverse().evaluate( BendingLightModel.WATER.index() ), new TickLabel( BendingLightStrings.WATER ) );
-                        put( (int) mapping.createInverse().evaluate( BendingLightModel.GLASS.index() ), new TickLabel( BendingLightStrings.GLASS ) );
+                        put( (int) mapping.createInverse().evaluate( BendingLightModel.AIR.getIndexOfRefractionForRedLight() ), new TickLabel( BendingLightStrings.AIR ) );
+                        put( (int) mapping.createInverse().evaluate( BendingLightModel.WATER.getIndexOfRefractionForRedLight() ), new TickLabel( BendingLightStrings.WATER ) );
+                        put( (int) mapping.createInverse().evaluate( BendingLightModel.GLASS.getIndexOfRefractionForRedLight() ), new TickLabel( BendingLightStrings.GLASS ) );
                     }} );
                     setPreferredSize( new Dimension( Math.max( (int) sliderTopComponent.getFullBounds().getWidth(), 200 ), getPreferredSize().height ) );
                 }};
@@ -263,6 +263,6 @@ public class MediumControlPanel extends PNode {
 
     //Update the medium state from the combo box
     private void setMediumState( MediumState mediumState, Property<Medium> medium ) {
-        medium.setValue( new Medium( medium.getValue().shape, mediumState, MediumColorFactory.getColor( mediumState.index() ) ) );
+        medium.setValue( new Medium( medium.getValue().shape, mediumState, MediumColorFactory.getColor( mediumState.getIndexOfRefractionForRedLight() ) ) );
     }
 }

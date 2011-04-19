@@ -5,7 +5,6 @@ import java.awt.*;
 
 import edu.colorado.phet.bendinglight.model.LightRay;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -22,12 +21,9 @@ public class LightWaveNode extends PNode {
     public LightWaveNode( final ModelViewTransform transform, final LightRay lightRay ) {
         //PPath that shows the oscillating wave view for the LightRay
         addChild( new PhetPPath( createPaint( transform, lightRay ) ) {{
-            //Update the path when the shape changes
-            lightRay.addObserver( new SimpleObserver() {
-                public void update() {
-                    setPathTo( transform.modelToView( lightRay.getWaveShape() ) );
-                }
-            } );
+            //Set the path based on the light ray shape
+            setPathTo( transform.modelToView( lightRay.getWaveShape() ) );
+
             //Update the gradient paint when time passes
             lightRay.addStepListener( new VoidFunction0() {
                 public void apply() {
@@ -63,8 +59,8 @@ public class LightWaveNode extends PNode {
         //Has to match perfectly with the model so that sensor readings match up
         final double totalPhaseOffsetInNumberOfWavelengths = lightRay.getPhaseOffset() / 2 / Math.PI;
         ImmutableVector2D phaseOffset = directionVector.times( transform.modelToViewDeltaX( totalPhaseOffsetInNumberOfWavelengths * lightRay.getWavelength() ) );
-        float x0 = (float) ( phaseOffset.getX() + transform.modelToViewX( lightRay.tail.getValue().getX() ) );//the rightmost term ensures that phase doesn't depend on angle of the beam.
-        float y0 = (float) ( phaseOffset.getY() + transform.modelToViewY( lightRay.tail.getValue().getY() ) );
+        float x0 = (float) ( phaseOffset.getX() + transform.modelToViewX( lightRay.tail.getX() ) );//the rightmost term ensures that phase doesn't depend on angle of the beam.
+        float y0 = (float) ( phaseOffset.getY() + transform.modelToViewY( lightRay.tail.getY() ) );
         return new GradientPaint( x0, y0, red,
                                   x0 + (float) waveVector.getX() / 2, y0 + (float) waveVector.getY() / 2, black, true );
     }
