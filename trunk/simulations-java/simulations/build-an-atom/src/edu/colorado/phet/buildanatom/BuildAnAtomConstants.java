@@ -2,10 +2,8 @@
 
 package edu.colorado.phet.buildanatom;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Stroke;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
@@ -40,22 +38,12 @@ public class BuildAnAtomConstants {
     // Fonts
     //----------------------------------------------------------------------------
 
-    // Default font properties
-    public static final int DEFAULT_FONT_STYLE = Font.PLAIN;
-    public static final int DEFAULT_FONT_SIZE = 16;
-
-    public static final Font CONTROL_PANEL_TITLE_FONT = new PhetFont( Font.BOLD, 12 );
-    public static final Font CONTROL_PANEL_CONTROL_FONT = new PhetFont( Font.PLAIN, 12 );
-
     //----------------------------------------------------------------------------
     // Paints
     //----------------------------------------------------------------------------
 
     // Color of the "play area"
     public static final Color CANVAS_BACKGROUND = new Color(255, 255, 153);
-
-    // Color of labels placed directly on the play area
-    public static final Color CANVAS_LABELS_COLOR = Color.BLACK;
 
     //----------------------------------------------------------------------------
     // Images
