@@ -28,6 +28,12 @@ import edu.umd.cs.piccolo.util.PBounds;
  * @author Sam Reid
  */
 public class Tool extends PNode {
+    private final Property<Boolean> showTool;//Whether the tool should be shown in the play area (e.g., if it has been dragged out)
+    private final ModelViewTransform transform;
+    private final BendingLightCanvas canvas;
+    private final NodeFactory nodeMaker;
+    private final ResetModel resetModel;
+    private final Function0<Rectangle2D> globalToolboxBounds;//For dropping the tool back in the toolbox
 
     public static interface NodeFactory {
         ToolNode createNode( ModelViewTransform transform, Property<Boolean> visible, Point2D location );
@@ -39,82 +45,24 @@ public class Tool extends PNode {
                  final BendingLightCanvas canvas,
                  final NodeFactory nodeMaker,
                  final ResetModel resetModel,
-                 final Function0<Rectangle2D> globalToolboxBounds//For dropping the tool back in the toolbox
-    ) {
+                 final Function0<Rectangle2D> globalToolboxBounds ) {
+        this.showTool = showTool;
+        this.transform = transform;
+        this.canvas = canvas;
+        this.nodeMaker = nodeMaker;
+        this.resetModel = resetModel;
+        this.globalToolboxBounds = globalToolboxBounds;
+
+        //Create the thumbnail to show in the toolbox (if the object should be shown)
         final PImage thumbnailIcon = new PImage( thumbnail ) {{
             showTool.addObserver( new SimpleObserver() {
                 public void update() {
                     setVisible( !showTool.getValue() );
                 }
             } );
-            final PImage thumbRef = this;
-            addInputEventListener( new PBasicInputEventHandler() {
-                {
-                    resetModel.addResetListener( new VoidFunction0() {
-                        public void apply() {
-                            reset();
-                        }
-                    } );
-                }
 
-                ToolNode node = null;//The node that has been dragged out
-                boolean intersect = false;//true if the node is ready to be dropped back in the toolbox
-
-                // Create the node and add it to the scene
-                @Override public void mousePressed( PInputEvent event ) {
-                    showTool.setValue( true );
-                    setVisible( false );
-                    if ( node == null ) {
-                        node = nodeMaker.createNode( transform, showTool, transform.viewToModel( event.getPositionRelativeTo( canvas.getRootNode() ) ) );
-                        final PropertyChangeListener boundChangeListener = new PropertyChangeListener() {
-                            public void propertyChange( PropertyChangeEvent evt ) {
-                                boolean t = false;//TODO: fold left
-                                for ( PNode child : node.getDroppableComponents() ) {
-                                    PBounds bound = child.getGlobalFullBounds();
-                                    if ( globalToolboxBounds.apply().contains( bound.getCenterX(), bound.getCenterY() ) ) {
-                                        t = true;
-                                    }
-                                }
-                                intersect = t;
-                            }
-                        };
-                        node.addPropertyChangeListener( PROPERTY_FULL_BOUNDS, boundChangeListener );
-                        node.addInputEventListener( new PBasicInputEventHandler() {
-                            public void mouseReleased( PInputEvent event ) {
-                                if ( intersect ) {
-                                    showTool.setValue( false );
-                                    thumbRef.setVisible( true );
-                                    if ( node != null ) {
-                                        node.removePropertyChangeListener( boundChangeListener );
-                                    }
-                                    reset();
-                                }
-                            }
-                        } );
-                        Tool.this.addChild( canvas, node );
-                    }
-                }
-
-                //Translate the created node
-                public void mouseDragged( PInputEvent event ) {
-                    node.dragAll( event.getDeltaRelativeTo( node.getParent().getParent() ) );
-                }
-
-                //This is when the user drags the object out of the toolbox then drops it right back in the toolbox.
-                public void mouseReleased( PInputEvent event ) {
-                    if ( intersect ) {
-                        showTool.setValue( false );
-                        thumbRef.setVisible( true );
-                        reset();
-                        //TODO: how to remove pcl?
-                    }
-                }
-
-                private void reset() {
-                    doRemoveChild( canvas, node );
-                    node = null;
-                }
-            } );
+            //Add user interaction
+            addInputEventListener( new ToolDragListener( this ) );
             addInputEventListener( new CursorHandler() );
         }};
 
@@ -129,5 +77,95 @@ public class Tool extends PNode {
     //Could not be named removeChild because of conflicts in Tool class
     protected void doRemoveChild( BendingLightCanvas canvas, ToolNode node ) {
         canvas.removeChild( node );
+    }
+
+    //input listener that will handle creating and dragging out the tool
+    class ToolDragListener extends PBasicInputEventHandler {
+        private final PImage thumbnailIcon;
+        ToolNode node = null;//The node that has been dragged out
+        boolean intersect = false;//true if the node is ready to be dropped back in the toolbox
+
+        ToolDragListener( final PImage thumbnailIcon ) {
+            this.thumbnailIcon = thumbnailIcon;
+
+            //Reset this node when the model signifies a reset
+            resetModel.addResetListener( new VoidFunction0() {
+                public void apply() {
+                    reset();
+                }
+            } );
+        }
+
+        // Create the node and add it to the scene
+        @Override public void mousePressed( PInputEvent event ) {
+            showTool.setValue( true );
+            thumbnailIcon.setVisible( false );
+
+            //If the node hasn't already been created, make it now
+            if ( node == null ) {
+                node = nodeMaker.createNode( transform, showTool, transform.viewToModel( event.getPositionRelativeTo( canvas.getRootNode() ) ) );
+
+                //Determine if the node is ready to be dropped back in the toolbox
+                final PropertyChangeListener boundChangeListener = new PropertyChangeListener() {
+                    public void propertyChange( PropertyChangeEvent evt ) {
+                        boolean anyIntersection = false;
+                        //It can be dropped back in if any of its components are over the toolbox
+                        for ( PNode child : node.getDroppableComponents() ) {
+                            PBounds bound = child.getGlobalFullBounds();
+                            if ( globalToolboxBounds.apply().contains( bound.getCenterX(), bound.getCenterY() ) ) {
+                                anyIntersection = true;
+                            }
+                        }
+                        intersect = anyIntersection;
+                    }
+                };
+                node.addPropertyChangeListener( PROPERTY_FULL_BOUNDS, boundChangeListener );
+
+                //When the mouse is released, if the node is over the toolbox, drop it back in
+                node.addInputEventListener( new PBasicInputEventHandler() {
+                    public void mouseReleased( PInputEvent event ) {
+                        if ( intersect ) {
+                            //Update the model to signify the tool is out of the play area
+                            showTool.setValue( false );
+
+                            //Show the thumbnail again so it can be dragged out again
+                            thumbnailIcon.setVisible( true );
+
+                            //Remove listeners to prevent memory leaks
+                            if ( node != null ) {
+                                node.removePropertyChangeListener( boundChangeListener );
+                            }
+
+                            //Remove the tool from the play area
+                            reset();
+                        }
+                    }
+                } );
+
+                //Put the created node in the canvas
+                addChild( canvas, node );
+            }
+        }
+
+        //Translate the created node
+        public void mouseDragged( PInputEvent event ) {
+            node.dragAll( event.getDeltaRelativeTo( node.getParent().getParent() ) );
+        }
+
+        //This is when the user drags the object out of the toolbox then drops it right back in the toolbox.
+        public void mouseReleased( PInputEvent event ) {
+            if ( intersect ) {
+                showTool.setValue( false );
+                thumbnailIcon.setVisible( true );
+                reset();
+                //TODO: how to remove pcl?
+            }
+        }
+
+        //Remove the created node, if any
+        private void reset() {
+            doRemoveChild( canvas, node );
+            node = null;//Flag to indicate another item can be dragged out now
+        }
     }
 }
