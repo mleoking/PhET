@@ -214,7 +214,7 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
                 earthSpaceStation.forceScale,
                 false,
                 GravityAndOrbitsClock.DEFAULT_DT * 9E-4,
-                minutes,
+                formatMinutes,
                 createIconImage( false, true, false, true ),
                 5400,
                 SUN_MODES_VELOCITY_SCALE / 10000,
@@ -314,8 +314,8 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
         }
     }
 
-    //REVIEW why are these function visible to ModeList, or to other Body subclasses for that matter? These should be internal to each Body subclass (Moon, Sun, etc.)
-    //REVIEW doc
+    //TODO: These could be internal to each Body subclass (Moon, Sun, etc.)
+    //Creates a BodyRenderer that just shows the specified image
     public static Function2<Body, Double, BodyRenderer> getImageRenderer( final String image ) {
         return new Function2<Body, Double, BodyRenderer>() {
             public BodyRenderer apply( Body body, Double viewDiameter ) {
@@ -324,7 +324,7 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
         };
     }
 
-    //REVIEW doc
+    //Creates a BodyRenderer that shows an image when at the targetMass, otherwise shows a shaded sphere
     public static Function2<Body, Double, BodyRenderer> getRenderer( final String image, final double targetMass ) {//the mass for which to use the image
         return new Function2<Body, Double, BodyRenderer>() {
             public BodyRenderer apply( Body body, Double viewDiameter ) {
@@ -352,9 +352,8 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
         };
     }
 
-    //REVIEW doc
-    //REVIEW Java naming convention violation, should be MINUTES (or better, SECONDS_TO_MINUTES_FUNCTION)
-    private static final Function1<Double, String> minutes = new Function1<Double, String>() {
+    //Create a function that converts SI (seconds) to a string indicating elapsed minutes, used in formatting the elapsed clock readout
+    private static final Function1<Double, String> formatMinutes = new Function1<Double, String>() {
         final double SECONDS_PER_MINUTE = 60;
 
         public String apply( Double time ) {
