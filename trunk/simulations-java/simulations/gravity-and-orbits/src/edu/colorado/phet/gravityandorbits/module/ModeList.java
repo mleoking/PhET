@@ -25,17 +25,16 @@ import edu.umd.cs.piccolo.nodes.PImage;
 
 import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.multiScaleToWidth;
 import static edu.colorado.phet.gravityandorbits.GravityAndOrbitsApplication.RESOURCES;
-import static edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsClock.DEFAULT_DT;
 import static edu.colorado.phet.gravityandorbits.view.MeasuringTape.milesToMeters;
 
 /**
- * ModeList enumerates and declares the possible modes in the GravityAndOrbitsModule, such as "Sun & Earth" mode.
+ * ModeList enumerates and declares the possible modes in the GravityAndOrbitsModule, such as "Sun & Earth" mode.  Models (and the bodies they contain) are created in ModeList.
  *
  * @author Sam Reid
  */
 public class ModeList extends ArrayList<GravityAndOrbitsMode> {
 
-    //REVIEW why are all of these constants visible to ModeList? this belongs in the model!
+    //These constants are only used in ModeList, and ModeList is used to create the specific model instantiations, so we keep them here instead of the model
     public static final double SUN_RADIUS = 6.955E8;
     public static final double SUN_MASS = 1.989E30;
 
@@ -60,53 +59,12 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
 
     private ModeListParameterList p;
 
-    //REVIEW recommend moving Mode and its subclasses to a new class file, they are >100 lines of this file.
-    //REVIEW are these really modes, or mode descriptions? Confusion that this is unrelated to GravityAndOrbitsMode.
-    public static abstract class Mode {
-        double zoom;
-        double dt = DEFAULT_DT;
-        protected double forceScale;
-        public Line2D.Double initialMeasuringTapeLocation;
-
-        public Mode( double zoom ) {
-            this.zoom = zoom;
-        }
-
-        public void center() {
-            ImmutableVector2D deltaVelocity = getTotalMomentum().times( -1.0 / getTotalMass() );
-            for ( BodyConfiguration prototype : getBodies() ) {
-                prototype.vx += deltaVelocity.getX();
-                prototype.vy += deltaVelocity.getY();
-            }
-        }
-
-        //Compute the total momentum for purposes of centering the camera on the center of momentum frame
-        private ImmutableVector2D getTotalMomentum() {
-            ImmutableVector2D totalMomentum = new ImmutableVector2D();
-            for ( BodyConfiguration body : getBodies() ) {
-                totalMomentum = totalMomentum.plus( body.getMomentum() );
-            }
-            return totalMomentum;
-        }
-
-        private double getTotalMass() {
-            double totalMass = 0.0;
-            for ( BodyConfiguration prototype : getBodies() ) {
-                totalMass += prototype.mass;
-            }
-            return totalMass;
-        }
-
-        protected abstract BodyConfiguration[] getBodies();
-    }
-
-    //REVIEW usages would be clearer if Mode subclasses were named (for example) SunEarthMode
-    public static class SunEarth extends Mode {
+    public static class SunEarthModeConfig extends ModeConfig {
         BodyConfiguration sun = new BodyConfiguration( SUN_MASS, SUN_RADIUS, 0, 0, 0, 0 );
         BodyConfiguration earth = new BodyConfiguration( EARTH_MASS, EARTH_RADIUS, EARTH_PERIHELION, 0, 0, EARTH_ORBITAL_SPEED_AT_PERIHELION );
         double timeScale = 1;
 
-        public SunEarth() {
+        public SunEarthModeConfig() {
             super( 1.25 );
             initialMeasuringTapeLocation = new Line2D.Double( ( sun.x + earth.x ) / 3, -earth.x / 2, ( sun.x + earth.x ) / 3 + milesToMeters( 50000000 ), -earth.x / 2 );
             forceScale = VectorNode.FORCE_SCALE * 120;
@@ -118,13 +76,13 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
         }
     }
 
-    public static class SunEarthMoon extends Mode {
+    public static class SunEarthMoonModeConfig extends ModeConfig {
         BodyConfiguration sun = new BodyConfiguration( SUN_MASS, SUN_RADIUS, 0, 0, 0, 0 );
         BodyConfiguration earth = new BodyConfiguration( EARTH_MASS, EARTH_RADIUS, EARTH_PERIHELION, 0, 0, EARTH_ORBITAL_SPEED_AT_PERIHELION );
         BodyConfiguration moon = new BodyConfiguration( MOON_MASS, MOON_RADIUS, MOON_X, MOON_Y, MOON_SPEED, EARTH_ORBITAL_SPEED_AT_PERIHELION );
         double timeScale = 1;
 
-        public SunEarthMoon() {
+        public SunEarthMoonModeConfig() {
             super( 1.25 );
             initialMeasuringTapeLocation = new Line2D.Double( ( sun.x + earth.x ) / 3, -earth.x / 2, ( sun.x + earth.x ) / 3 + milesToMeters( 50000000 ), -earth.x / 2 );
             forceScale = VectorNode.FORCE_SCALE * 120;
@@ -136,11 +94,11 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
         }
     }
 
-    public static class EarthMoon extends Mode {
+    public static class EarthMoonModeConfig extends ModeConfig {
         BodyConfiguration earth = new BodyConfiguration( EARTH_MASS, EARTH_RADIUS, EARTH_PERIHELION, 0, 0, 0 );
         BodyConfiguration moon = new BodyConfiguration( MOON_MASS, MOON_RADIUS, MOON_X, MOON_Y, MOON_SPEED, 0 );
 
-        public EarthMoon() {
+        public EarthMoonModeConfig() {
             super( 400 );
             initialMeasuringTapeLocation = new Line2D.Double( earth.x + earth.radius * 2, -moon.y * 0.7, earth.x + earth.radius * 2 + milesToMeters( 100000 ), -moon.y * 0.7 );
             forceScale = VectorNode.FORCE_SCALE * 45;
@@ -152,11 +110,11 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
         }
     }
 
-    public static class EarthSpaceStation extends Mode {
+    public static class EarthSpaceStationModeConfig extends ModeConfig {
         BodyConfiguration earth = new BodyConfiguration( EARTH_MASS, EARTH_RADIUS, 0, 0, 0, 0 );
         BodyConfiguration spaceStation = new BodyConfiguration( SPACE_STATION_MASS, SPACE_STATION_RADIUS, SPACE_STATION_PERIGEE + EARTH_RADIUS + SPACE_STATION_RADIUS, 0, 0, SPACE_STATION_SPEED );
 
-        public EarthSpaceStation() {
+        public EarthSpaceStationModeConfig() {
             super( 21600 );
             initialMeasuringTapeLocation = new Line2D.Double( 3162119, 7680496, 6439098, 7680496 );//Sampled at runtime from MeasuringTape
             forceScale = VectorNode.FORCE_SCALE * 3E13;
@@ -169,10 +127,10 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
     }
 
     public ModeList( final ModeListParameterList p,
-                     final SunEarth sunEarth,
-                     final SunEarthMoon sunEarthMoon,
-                     final EarthMoon earthMoon,
-                     final EarthSpaceStation earthSpaceStation ) {
+                     final SunEarthModeConfig sunEarth,
+                     final SunEarthMoonModeConfig sunEarthMoon,
+                     final EarthMoonModeConfig earthMoon,
+                     final EarthSpaceStationModeConfig earthSpaceStation ) {
         sunEarth.center();
         sunEarthMoon.center();
         earthMoon.center();
@@ -184,9 +142,8 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
             }
         };
 
-        //REVIEW create the modes?!?... Modes were passed in as constructor args.
-        //REVIEW Very difficult to read this constructor. Why not encapsulate in subclasses GravityAndOrbitsMode, one for each of the 4 modes in this sim?  Let's discuss...
-        //Create the modes.
+        //TODO: Very difficult to read this constructor. Why not encapsulate in subclasses GravityAndOrbitsMode, one for each of the 4 modes in this sim?  Let's discuss...
+        //Create the actual modes (GravityAndOrbitsModes) from the specifications passed in (ModeConfigs).
         int SEC_PER_YEAR = 365 * 24 * 60 * 60;
         final double SUN_MODES_VELOCITY_SCALE = 4.48E6;
         add( new GravityAndOrbitsMode(
