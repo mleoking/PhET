@@ -161,8 +161,8 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
                 sunEarth.earth.x / 2,
                 new Point2D.Double( 0, 0 ),
                 p ) {{
-            addBody( createSun( getMaxPathLength(), sunEarth.sun ) );
-            addBody( createEarth( getMaxPathLength(), sunEarth.earth ) );
+            addBody( new Sun( getMaxPathLength(), sunEarth.sun ) );
+            addBody( new Earth( getMaxPathLength(), sunEarth.earth ) );
         }} );
         add( new GravityAndOrbitsMode(
                 sunEarthMoon.forceScale,
@@ -179,8 +179,8 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
                 sunEarthMoon.earth.x / 2,
                 new Point2D.Double( 0, 0 ),
                 p ) {{
-            addBody( createSun( getMaxPathLength(), sunEarthMoon.sun ) );
-            addBody( createEarth( getMaxPathLength(), sunEarthMoon.earth ) );
+            addBody( new Sun( getMaxPathLength(), sunEarthMoon.sun ) );
+            addBody( new Earth( getMaxPathLength(), sunEarthMoon.earth ) );
             addBody( new Moon( false,//no room for the slider
                                getMaxPathLength(),
                                false, sunEarthMoon.moon ) );//so it doesn't intersect with earth mass readout
@@ -202,7 +202,7 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
                 new Point2D.Double( earthMoon.earth.x, 0 ),
                 p ) {{
             //scale so it is a similar size to other modes
-            addBody( createEarth( getMaxPathLength(), earthMoon.earth ) );
+            addBody( new Earth( getMaxPathLength(), earthMoon.earth ) );
             addBody( new Moon( true, getMaxPathLength(), true, earthMoon.moon ) );
         }} );
         Function2<BodyNode, Property<Boolean>, PNode> spaceStationMassReadoutFactory = new Function2<BodyNode, Property<Boolean>, PNode>() {
@@ -225,14 +225,20 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
                 earthSpaceStation.spaceStation.x - earthSpaceStation.earth.x,
                 new Point2D.Double( earthSpaceStation.earth.x, 0 ),
                 p ) {{
-            addBody( createEarth( getMaxPathLength(), earthSpaceStation.earth ) );
+            addBody( new Earth( getMaxPathLength(), earthSpaceStation.earth ) );
 
-            addBody( new Body( GAOStrings.SATELLITE, earthSpaceStation.spaceStation.x, earthSpaceStation.spaceStation.y,
-                               earthSpaceStation.spaceStation.radius * 2000,
-                               earthSpaceStation.spaceStation.vx, earthSpaceStation.spaceStation.vy, earthSpaceStation.spaceStation.mass, Color.gray, Color.white,
-                               getImageRenderer( "space-station.png" ), -Math.PI / 4, true, getMaxPathLength(), true,
-                               earthSpaceStation.spaceStation.mass, GAOStrings.SPACE_STATION, p.clockPaused, p.stepping, p.rewinding, earthSpaceStation.spaceStation.fixed ) );
+            addBody( new SpaceStation( earthSpaceStation, getMaxPathLength() ) );
         }} );
+    }
+
+    class SpaceStation extends Body {
+        public SpaceStation( EarthSpaceStationModeConfig earthSpaceStation, int maxPathLength ) {
+            super( GAOStrings.SATELLITE, earthSpaceStation.spaceStation.x, earthSpaceStation.spaceStation.y,
+                   earthSpaceStation.spaceStation.radius * 2000,
+                   earthSpaceStation.spaceStation.vx, earthSpaceStation.spaceStation.vy, earthSpaceStation.spaceStation.mass, Color.gray, Color.white,
+                   getImageRenderer( "space-station.png" ), -Math.PI / 4, true, maxPathLength, true,
+                   earthSpaceStation.spaceStation.mass, GAOStrings.SPACE_STATION, p.clockPaused, p.stepping, p.rewinding, earthSpaceStation.spaceStation.fixed );
+        }
     }
 
     //Creates an image that can be used for the mode icon, showing the nodes of each body in the mode.
@@ -255,8 +261,6 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
         }.toImage();
     }
 
-    //REVIEW  Very difficult to read all 4 creation methods. Why not encapsulate in subclasses of Body, one for each of the bodies used in this sim? Let's discuss...
-    //REVIEW Why isn't Body creation handled in the model?
     class Moon extends Body {
         public Moon( boolean massSettable, int maxPathLength, final boolean massReadoutBelow, BodyConfiguration body ) {
             super( GAOStrings.MOON, body.x, body.y, body.radius * 2, body.vx, body.vy, body.mass, Color.magenta, Color.white,
@@ -282,25 +286,32 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
         }
     }
 
-    private Body createEarth( int maxPathLength, BodyConfiguration body ) {
-        return new Body( GAOStrings.PLANET, body.x, body.y, body.radius * 2, body.vx, body.vy, body.mass, Color.gray, Color.lightGray,
-                         getRenderer( "earth_satellite.gif", body.mass ), -Math.PI / 4, true,
-                         maxPathLength, true, body.mass, GAOStrings.EARTH, p.clockPaused, p.stepping, p.rewinding, body.fixed );
+    class Earth extends Body {
+        public Earth( int maxPathLength, BodyConfiguration body ) {
+            super( GAOStrings.PLANET, body.x, body.y, body.radius * 2, body.vx, body.vy, body.mass, Color.gray, Color.lightGray,
+                   getRenderer( "earth_satellite.gif", body.mass ), -Math.PI / 4, true,
+                   maxPathLength, true, body.mass, GAOStrings.EARTH, p.clockPaused, p.stepping, p.rewinding, body.fixed );
+        }
     }
 
-    private Body createSun( int maxPathLength, final BodyConfiguration body ) {
-        return new Body( GAOStrings.STAR, body.x, body.y, body.radius * 2, body.vx, body.vy, body.mass, Color.yellow, Color.white,
-                         SUN_RENDERER, -Math.PI / 4, true, maxPathLength, true, body.mass, GAOStrings.OUR_SUN, p.clockPaused, p.stepping, p.rewinding, body.fixed ) {
-            @Override public void updateBodyStateFromModel( BodyState bodyState ) {
-                ImmutableVector2D position = getPosition();//store the original position in case it must be restored
-                super.updateBodyStateFromModel( bodyState );
-                //Sun shouldn't move in cartoon modes
-                if ( body.fixed ) {
-                    setPosition( position.getX(), position.getY() );
-                    setVelocity( new ImmutableVector2D() );
-                }
+    class Sun extends Body {
+        private final BodyConfiguration body;
+
+        public Sun( int maxPathLength, final BodyConfiguration body ) {
+            super( GAOStrings.STAR, body.x, body.y, body.radius * 2, body.vx, body.vy, body.mass, Color.yellow, Color.white,
+                   SUN_RENDERER, -Math.PI / 4, true, maxPathLength, true, body.mass, GAOStrings.OUR_SUN, p.clockPaused, p.stepping, p.rewinding, body.fixed );
+            this.body = body;
+        }
+
+        @Override public void updateBodyStateFromModel( BodyState bodyState ) {
+            ImmutableVector2D position = getPosition();//store the original position in case it must be restored
+            super.updateBodyStateFromModel( bodyState );
+            //Sun shouldn't move in cartoon modes
+            if ( body.fixed ) {
+                setPosition( position.getX(), position.getY() );
+                setVelocity( new ImmutableVector2D() );
             }
-        };
+        }
     }
 
     //REVIEW why are these function visible to ModeList, or to other Body subclasses for that matter? These should be internal to each Body subclass (Moon, Sun, etc.)
