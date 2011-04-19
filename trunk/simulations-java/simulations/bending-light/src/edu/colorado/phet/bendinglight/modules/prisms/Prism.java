@@ -16,8 +16,9 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 public class Prism {
     public final Property<Polygon> shape;
 
-    public Prism( ImmutableVector2D... vectors ) {
-        this( new Polygon( vectors ) );
+    //Create a prism with the specified corner points
+    public Prism( ImmutableVector2D... points ) {
+        this( new Polygon( points ) );
     }
 
     public Prism( Polygon polygon ) {
@@ -28,12 +29,13 @@ public class Prism {
         shape.setValue( shape.getValue().getTranslatedInstance( dx, dy ) );
     }
 
+    //Compute the intersections of the specified ray with this polygon's edges
     public ArrayList<Intersection> getIntersections( Ray incidentRay ) {
         return shape.getValue().getIntersections( incidentRay );
     }
 
-    public boolean contains( ImmutableVector2D emissionPoint ) {
-        return shape.getValue().toShape().contains( emissionPoint.toPoint2D() );
+    public boolean contains( ImmutableVector2D point ) {
+        return shape.getValue().toShape().contains( point.toPoint2D() );
     }
 
     public Prism copy() {

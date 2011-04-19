@@ -12,9 +12,9 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
  * @author Sam Reid
  */
 public class Intersection {
-    private ImmutableVector2D unitNormal;
-    private ImmutableVector2D point;
-    private ArrayList<VoidFunction0> cleanupListeners = new ArrayList<VoidFunction0>();
+    private ImmutableVector2D unitNormal;//Unit normal at the meeting between two interfaces where the light ray has struck
+    private ImmutableVector2D point;//The point where the light ray struck
+    private ArrayList<VoidFunction0> cleanupListeners = new ArrayList<VoidFunction0>();//Listeners to get a callback when being removed from the model
 
     public Intersection( ImmutableVector2D unitNormal, ImmutableVector2D point ) {
         this.unitNormal = unitNormal;
