@@ -14,6 +14,7 @@ import javax.swing.*;
 import edu.colorado.phet.bendinglight.model.BendingLightModel;
 import edu.colorado.phet.bendinglight.model.LightRay;
 import edu.colorado.phet.bendinglight.modules.prisms.WhiteLightNode;
+import edu.colorado.phet.common.phetcommon.model.property.And;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -57,6 +58,7 @@ public class BendingLightCanvas<T extends BendingLightModel> extends PhetPCanvas
     protected final PNode beforeLightLayer = new PNode();
     protected final PNode afterLightLayer = new PNode();//in back of afterlightlayer2
     protected final PNode afterLightLayer2 = new PNode();
+    public final BooleanProperty playing;//True if the play/pause buttons are in "play" mode
     private BufferedImage bufferedImage;
 
     public BendingLightCanvas( final T model,
@@ -121,10 +123,12 @@ public class BendingLightCanvas<T extends BendingLightModel> extends PhetPCanvas
             }
         } );
 
-        //Have the clock running if and only if the module is active
-        moduleActive.addObserver( new SimpleObserver() {
+        //No time readout
+        playing = new BooleanProperty( true );
+        final And clockRunning = playing.and( moduleActive );
+        clockRunning.addObserver( new SimpleObserver() {
             public void update() {
-                if ( moduleActive.getValue() ) {
+                if ( clockRunning.getValue() ) {
                     model.getClock().start();
                 }
                 else {
@@ -223,6 +227,7 @@ public class BendingLightCanvas<T extends BendingLightModel> extends PhetPCanvas
     public void resetAll() {
         showNormal.reset();
         showProtractor.reset();
+        playing.reset();
     }
 
     public T getModel() {
