@@ -16,8 +16,8 @@ public class CartoonModeList extends ModeList {
                getSunEarth(), getSunEarthMoon(), getEarthMoon(), getEarthSpaceStation() );
     }
 
-    private static SunEarth getSunEarth() {
-        return new SunEarth() {{
+    private static SunEarthModeConfig getSunEarth() {
+        return new SunEarthModeConfig() {{
             sun.radius *= 50;
             earth.radius *= 800;
 
@@ -30,8 +30,8 @@ public class CartoonModeList extends ModeList {
         }};
     }
 
-    private static SunEarthMoon getSunEarthMoon() {
-        return new SunEarthMoon() {{
+    private static SunEarthMoonModeConfig getSunEarthMoon() {
+        return new SunEarthMoonModeConfig() {{
             sun.radius *= 50;
             earth.radius *= 800;
             moon.radius *= 800;
@@ -47,16 +47,16 @@ public class CartoonModeList extends ModeList {
         }};
     }
 
-    private static EarthMoon getEarthMoon() {
-        return new EarthMoon() {{
+    private static EarthMoonModeConfig getEarthMoon() {
+        return new EarthMoonModeConfig() {{
             earth.radius *= 15;
             moon.radius *= 15;
             forceScale *= 0.77;//so that default gravity force takes up 1/2 cell in grid
         }};
     }
 
-    private static EarthSpaceStation getEarthSpaceStation() {
-        return new EarthSpaceStation() {{
+    private static EarthSpaceStationModeConfig getEarthSpaceStation() {
+        return new EarthSpaceStationModeConfig() {{
             earth.radius *= 0.8;
             spaceStation.radius *= 8;
         }};
