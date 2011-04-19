@@ -1,3 +1,4 @@
+4/19/2011 Fixed new balloon image, see #2800
 # 1.14.02 (50763) Apr 18, 2011
 Switched to use a balloon image from Open Clip Art Gallery
 # 1.14.01 (50654) Apr 14, 2011
