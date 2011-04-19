@@ -11,16 +11,16 @@ import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsMode;
  */
 public class GravityAndOrbitsModeState implements IProguardKeepClass {
     private GravityAndOrbitsModelState modelState;
-    private VectorBean measuringTapeStartPoint;
-    private VectorBean measuringTapeEndPoint;
+    private VectorState measuringTapeStartPoint;
+    private VectorState measuringTapeEndPoint;
 
     public GravityAndOrbitsModeState() {
     }
 
     public GravityAndOrbitsModeState( GravityAndOrbitsMode mode ) {
         modelState = new GravityAndOrbitsModelState( mode.getModel() );
-        measuringTapeStartPoint = new VectorBean( mode.measuringTapeStartPoint.getValue() );
-        measuringTapeEndPoint = new VectorBean( mode.measuringTapeEndPoint.getValue() );
+        measuringTapeStartPoint = new VectorState( mode.measuringTapeStartPoint.getValue() );
+        measuringTapeEndPoint = new VectorState( mode.measuringTapeEndPoint.getValue() );
     }
 
     public void apply( GravityAndOrbitsMode gravityAndOrbitsMode ) {
@@ -37,19 +37,19 @@ public class GravityAndOrbitsModeState implements IProguardKeepClass {
         this.modelState = modelState;
     }
 
-    public VectorBean getMeasuringTapeStartPoint() {
+    public VectorState getMeasuringTapeStartPoint() {
         return measuringTapeStartPoint;
     }
 
-    public void setMeasuringTapeStartPoint( VectorBean measuringTapeStartPoint ) {
+    public void setMeasuringTapeStartPoint( VectorState measuringTapeStartPoint ) {
         this.measuringTapeStartPoint = measuringTapeStartPoint;
     }
 
-    public VectorBean getMeasuringTapeEndPoint() {
+    public VectorState getMeasuringTapeEndPoint() {
         return measuringTapeEndPoint;
     }
 
-    public void setMeasuringTapeEndPoint( VectorBean measuringTapeEndPoint ) {
+    public void setMeasuringTapeEndPoint( VectorState measuringTapeEndPoint ) {
         this.measuringTapeEndPoint = measuringTapeEndPoint;
     }
 }
