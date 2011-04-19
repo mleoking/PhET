@@ -274,7 +274,23 @@ public class CompleteMolecule {
         addBond( C1, H2 );
         addBond( C1, H3 );
         addBond( C1, F1 );
-    }}, null );
+    }}, null, "<?xml version=\"1.0\"?>\n" +
+              "<molecule id=\"id11638\" xmlns=\"http://www.xml-cml.org/schema\">\n" +
+              " <name>11638</name>\n" +
+              " <atomArray>\n" +
+              "  <atom id=\"a1\" elementType=\"F\" x3=\"0.678300\" y3=\"0.000000\" z3=\"0.000000\"/>\n" +
+              "  <atom id=\"a2\" elementType=\"C\" x3=\"-0.678300\" y3=\"0.000000\" z3=\"0.000000\"/>\n" +
+              "  <atom id=\"a3\" elementType=\"H\" x3=\"-1.029300\" y3=\"0.464000\" z3=\"0.923900\"/>\n" +
+              "  <atom id=\"a4\" elementType=\"H\" x3=\"-1.029300\" y3=\"0.568100\" z3=\"-0.863900\"/>\n" +
+              "  <atom id=\"a5\" elementType=\"H\" x3=\"-1.029300\" y3=\"-1.032200\" z3=\"-0.060100\"/>\n" +
+              " </atomArray>\n" +
+              " <bondArray>\n" +
+              "  <bond atomRefs2=\"a1 a2\" order=\"1\"/>\n" +
+              "  <bond atomRefs2=\"a2 a3\" order=\"1\"/>\n" +
+              "  <bond atomRefs2=\"a2 a4\" order=\"1\"/>\n" +
+              "  <bond atomRefs2=\"a2 a5\" order=\"1\"/>\n" +
+              " </bondArray>\n" +
+              "</molecule>\n" );
     public static final CompleteMolecule CH2F2 = new CompleteMolecule( "Difluoromethane", new MoleculeStructure() {{
         Atom C1 = addAtom( new C() );
         Atom H1 = addAtom( new H() );
