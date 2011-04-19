@@ -14,7 +14,6 @@ import edu.colorado.phet.buildanatom.view.BucketNode;
 import edu.colorado.phet.buildanatom.view.OrbitalView;
 import edu.colorado.phet.buildanatom.view.OrbitalViewProperty;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
-import edu.umd.cs.piccolo.util.PBounds;
 
 /**
  * This class defines a Piccolo Node that represents an atom in "schematic"
@@ -61,11 +60,15 @@ public class InteractiveIsotopeNode extends SchematicAtomNode {
         });
     }
 
-    public PBounds getNucleusBounds(){
-        return getNucleusLayerParentNode().getFullBounds();
+    /**
+     * Get the cloud radius in screen coords.  This ignores all but the
+     * isotope cloud in the parent class.
+     */
+    public double getCloudRadius(){
+        return getIsotopeElectronCloudNode().getFullBoundsReference().height / 2;
     }
 
-    public void addNucleusBoundsChangeListener( PropertyChangeListener listener ){
-        getNucleusLayerParentNode().addPropertyChangeListener( PROPERTY_FULL_BOUNDS, listener );
+    public void addElectronCloudBoundsChangeListener( PropertyChangeListener listener ){
+        getIsotopeElectronCloudNode().addPropertyChangeListener( PROPERTY_FULL_BOUNDS, listener );
     }
 }

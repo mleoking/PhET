@@ -20,7 +20,6 @@ import java.text.DecimalFormat;
 import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
 import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
-import edu.colorado.phet.buildanatom.model.Atom;
 import edu.colorado.phet.buildanatom.model.AtomListener;
 import edu.colorado.phet.buildanatom.model.IDynamicAtom;
 import edu.colorado.phet.buildanatom.modules.interactiveisotope.model.InteractiveIsotopeModel;
@@ -43,7 +42,6 @@ import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PieChartNode.PieValue;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
-import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PLine;
 import edu.umd.cs.piccolox.util.LineShape;
@@ -110,13 +108,11 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas implements Resettable 
         rootNode.addChild( particleCountLegend );
 
         // Create the node that represents the scale upon which the atom sits.
-        scaleNode = new AtomScaleNode( model.getAtom() ) {
-            {
+        scaleNode = new AtomScaleNode( model.getAtom() ) {{
                 // The scale needs to sit just below the atom, and there are some
                 // "tweak factors" needed to get it looking right.
                 setOffset( mvt.modelToViewX( 0 ) - getFullBoundsReference().width / 2, 530 );
-            }
-        };
+        }};
 
         // Create the node that contains both the atom and the neutron bucket.
         Point2D topCenterOfScale = new Point2D.Double( scaleNode.getFullBoundsReference().getCenterX(),
@@ -137,8 +133,16 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas implements Resettable 
                     mvt.modelToViewX( 0 ) - getFullBoundsReference().width / 2,
                     particleCountLegend.getFullBoundsReference().getMaxY() + 30 );
         }};
-
         rootNode.addChild( myIsotopeLabel );
+        atomAndBucketNode.addElectronCloudBoundsChangeListener( new PropertyChangeListener() {
+            public void propertyChange( PropertyChangeEvent evt ) {
+                // Position the "My Isotope" indicator to be just above the
+                // electron cloud.
+                myIsotopeLabel.setOffset(
+                        mvt.modelToViewX( model.getAtom().getPosition().getX()) - myIsotopeLabel.getFullBoundsReference().width / 2,
+                        mvt.modelToViewY( model.getAtom().getPosition().getY() ) - atomAndBucketNode.getCloudRadius() - myIsotopeLabel.getFullBoundsReference().height - 4);
+            }
+        });
 
         // Add indicator that shows the name of the element.
         final ElementNameIndicator elementNameIndicator = new ElementNameIndicator( model.getAtom(), new BooleanProperty( true ), true ){{
