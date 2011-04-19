@@ -19,6 +19,7 @@ import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 /*
 TODO:
 
+I18n
 Improve kit controls and add kit number?
 Add in the BCE's "ding" when a collection box is filled
 Add in "Reset Kit" button

@@ -100,12 +100,11 @@ public class KitCollectionModel {
     }
 
     public int getCurrentKitIndex() {
-        for ( int i = 0; i < kits.size(); i++ ) {
-            if ( kits.get( i ) == currentKit.getValue() ) {
-                return i;
-            }
+        int index = kits.indexOf( currentKit.getValue() );
+        if( index < 0 ) {
+            throw new RuntimeException( "Could not find current kit index" );
         }
-        throw new RuntimeException( "Could not find current kit index" );
+        return index;
     }
 
     public boolean hasNextKit() {
