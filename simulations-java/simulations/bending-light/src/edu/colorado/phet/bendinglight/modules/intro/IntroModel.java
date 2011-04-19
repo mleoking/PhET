@@ -28,7 +28,7 @@ public class IntroModel extends BendingLightModel {
     public final Property<Medium> bottomMedium;
 
     public IntroModel( MediumState _bottomMedium ) {
-        super( PI * 3 / 4, true, DEFAULT_DIST_FROM_PIVOT );
+        super( PI * 3 / 4, true, DEFAULT_LASER_DISTANCE_FROM_PIVOT );
         bottomMedium = new Property<Medium>( new Medium( new Rectangle2D.Double( -1, -1, 2, 1 ), _bottomMedium, MediumColorFactory.getColor( _bottomMedium.getIndexOfRefractionForRedLight() ) ) );
 
         //Update the model when top or bottom mediums change
@@ -169,7 +169,7 @@ public class IntroModel extends BendingLightModel {
     protected Option<ImmutableVector2D> getVelocity( ImmutableVector2D position ) {
         for ( LightRay ray : rays ) {
             if ( ray.contains( position, laserView.getValue() == LaserView.WAVE ) ) {
-                return new Option.Some<ImmutableVector2D>( ray.getVelocity() );
+                return new Option.Some<ImmutableVector2D>( ray.getVelocityVector() );
             }
         }
         return new Option.None<ImmutableVector2D>();

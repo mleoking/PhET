@@ -19,9 +19,9 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 public class IntensityMeter {
     public final Property<ImmutableVector2D> sensorPosition;
     public final Property<ImmutableVector2D> bodyPosition;
-    public final Property<Boolean> enabled = new Property<Boolean>( false );
-    public final Property<Reading> reading = new Property<Reading>( Reading.MISS );
-    private final ArrayList<Reading> rayReadings = new ArrayList<Reading>();
+    public final Property<Boolean> enabled = new Property<Boolean>( false );//True if it is in the play area and gathering data
+    public final Property<Reading> reading = new Property<Reading>( Reading.MISS );//Value to show on the body
+    private final ArrayList<Reading> rayReadings = new ArrayList<Reading>();//Accumulation of readings
 
     public IntensityMeter( double sensorX, double sensorY, double bodyX, double bodyY ) {
         sensorPosition = new Property<ImmutableVector2D>( new ImmutableVector2D( sensorX, sensorY ) );
@@ -47,17 +47,27 @@ public class IntensityMeter {
         reading.setValue( Reading.MISS );
     }
 
+    //Add a new reading to the accumulator and update the readout
     public void addRayReading( Reading r ) {
         rayReadings.add( r );
+        updateReading();
+    }
+
+    //Update the body text based on the accumulated Reading values
+    private void updateReading() {
+        //Enumerate the hits
         ArrayList<Reading> hits = new ArrayList<Reading>();
         for ( Reading rayReading : rayReadings ) {
             if ( rayReading.isHit() ) {
                 hits.add( rayReading );
             }
         }
+
+        //If not hits, say "MISS"
         if ( hits.size() == 0 ) {
             reading.setValue( Reading.MISS );
         }
+        //otherwise, sum the intensities
         else {
             double total = 0.0;
             for ( Reading hit : hits ) {

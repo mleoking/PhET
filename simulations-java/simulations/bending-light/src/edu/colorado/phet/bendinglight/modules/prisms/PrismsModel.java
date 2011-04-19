@@ -34,7 +34,7 @@ public class PrismsModel extends BendingLightModel {
     private final ProtractorModel protractorModel = new ProtractorModel( 0, 0 );//Draggable and rotatable protractor
 
     public PrismsModel() {
-        super( PI, false, DEFAULT_DIST_FROM_PIVOT * 0.9 );
+        super( PI, false, DEFAULT_LASER_DISTANCE_FROM_PIVOT * 0.9 );
         //Recompute the model when any dependencies change
         new RichSimpleObserver() {
             public void update() {
