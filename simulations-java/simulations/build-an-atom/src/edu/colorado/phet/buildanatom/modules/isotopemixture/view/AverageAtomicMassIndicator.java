@@ -7,7 +7,6 @@ import java.awt.Color;
 import java.awt.Stroke;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.RoundRectangle2D;
-import java.text.DecimalFormat;
 import java.util.List;
 
 import edu.colorado.phet.buildanatom.model.AtomIdentifier;

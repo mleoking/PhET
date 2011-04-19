@@ -5,12 +5,19 @@ package edu.colorado.phet.buildanatom.modules.interactiveisotope.model;
 import java.awt.Color;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
-import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
 import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
-import edu.colorado.phet.buildanatom.model.*;
+import edu.colorado.phet.buildanatom.model.Atom;
+import edu.colorado.phet.buildanatom.model.BuildAnAtomClock;
+import edu.colorado.phet.buildanatom.model.Electron;
+import edu.colorado.phet.buildanatom.model.IAtom;
+import edu.colorado.phet.buildanatom.model.IConfigurableAtomModel;
+import edu.colorado.phet.buildanatom.model.ImmutableAtom;
+import edu.colorado.phet.buildanatom.model.Neutron;
+import edu.colorado.phet.buildanatom.model.ParticleBucket;
+import edu.colorado.phet.buildanatom.model.Proton;
+import edu.colorado.phet.buildanatom.model.SphericalParticle;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.umd.cs.piccolo.util.PDimension;
 
