@@ -1,3 +1,4 @@
+# 1.04.01 (50840) Apr 19, 2011
 4/14/2011 changed MS clip art image "light.gif" to Wikimedia , see #2800
 4/11/2011 Set frame size to be 1024x768
 # 1.04.00 (37986) Jan 8, 2010
