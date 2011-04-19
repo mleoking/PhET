@@ -47,50 +47,42 @@ import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.Model
  * @author Sam Reid
  */
 public abstract class GravityAndOrbitsMode {
-    private final String name;
     private final GravityAndOrbitsModel model;
-    private GravityAndOrbitsCanvas canvas;//REVIEW javadoc says that a mode has its own canvas, so explain why this isn't final.
+    private GravityAndOrbitsCanvas canvas;//Not final because it must be set lazily, after we can get a reference to the parent module
     private final double forceScale;
     public final Property<Boolean> active;
     private final Function1<Double, String> timeFormatter;
     private final Image iconImage;
-    private final double defaultOrbitalPeriod;//REVIEW doc
+    private final double defaultOrbitalPeriod;//Precomputed value for the orbital period under default conditions (i.e. no other changes), for purposes of determining the path length (about 2 orbits)
     private final double dt;
-    private final double velocityScale; //REVIEW doc
-    private final Function2<BodyNode, Property<Boolean>, PNode> massReadoutFactory;//REVIEW doc
-    private final Property<Boolean> deviatedFromEarthValuesProperty = new Property<Boolean>( false ); //REVIEW doc
+    private final double velocityVectorScale; //How much to scale (shrink or grow) the velocity vectors; a mapping from meters/second to stage coordinates
+    public final Function2<BodyNode, Property<Boolean>, PNode> massReadoutFactory;//Function that creates a PNode to readout the mass for the specified bodynode (with the specified visibility flag)
+    private final Property<Boolean> deviatedFromDefaults = new Property<Boolean>( false ); //Flag to indicate whether any value has deviated from the original value (which was originally used for showing a reset button, but not anymore)
     private double rewindClockTime;
     //the play area only takes up the left side of the canvas; the control panel is on the right side
-    private static final double PLAY_AREA_WIDTH = GravityAndOrbitsCanvas.STAGE_SIZE.width * 0.60; //REVIEW not robust, this does not account for variable control panel size due to i18n
+    private static final double PLAY_AREA_WIDTH = GravityAndOrbitsCanvas.STAGE_SIZE.width * 0.60; //TODO: not robust, this does not account for variable control panel size due to i18n
     private static final double PLAY_AREA_HEIGHT = GravityAndOrbitsCanvas.STAGE_SIZE.height;
     private final double gridSpacing;//in meters
     private final Point2D.Double gridCenter;
 
-    public final Property<ModelViewTransform> modelViewTransformProperty;
+    public final Property<ModelViewTransform> transform;
     public final Property<Boolean> rewinding;
     public final Property<Double> timeSpeedScaleProperty;
     public final Property<ImmutableVector2D> measuringTapeStartPoint;
     public final Property<ImmutableVector2D> measuringTapeEndPoint;
-    public final double defaultZoomScale;//REVIEW not used
     public final Property<Double> zoomLevel = new Property<Double>( 1.0 );//additional scale factor on top of defaultZoomScale
     public final ModeListParameterList p;
 
-    //REVIEW this constructor is worth documenting, many non-obvious parameters
-    public GravityAndOrbitsMode( final String name,//mode name, currently used only for debugging, i18n not required
-                                 double forceScale, boolean active, double dt, Function1<Double, String> timeFormatter, Image iconImage,
-                                 double defaultOrbitalPeriod,//for determining the length of the path
-                                 double velocityScale, Function2<BodyNode, Property<Boolean>, PNode> massReadoutFactory,
-                                 Line2D.Double initialMeasuringTapeLocation, final double defaultZoomScale, final ImmutableVector2D zoomOffset,
-                                 double gridSpacing, Point2D.Double gridCenter,
-                                 final ModeListParameterList p ) {
+    //Create a new GravityAndOrbitsMode that shares ModeListParameterList values with other modes
+    public GravityAndOrbitsMode( double forceScale, boolean active, double dt, Function1<Double, String> timeFormatter, Image iconImage, double defaultOrbitalPeriod, double velocityVectorScale,
+                                 Function2<BodyNode, Property<Boolean>, PNode> massReadoutFactory, Line2D.Double initialMeasuringTapeLocation, final double defaultZoomScale,
+                                 final ImmutableVector2D zoomOffset, double gridSpacing, Point2D.Double gridCenter, final ModeListParameterList p ) {
         this.dt = dt;
         this.p = p;
-        this.defaultZoomScale = defaultZoomScale;
-        this.name = name;
         this.forceScale = forceScale;
         this.iconImage = iconImage;
         this.defaultOrbitalPeriod = defaultOrbitalPeriod;
-        this.velocityScale = velocityScale;
+        this.velocityVectorScale = velocityVectorScale;
         this.gridSpacing = gridSpacing;
         this.gridCenter = gridCenter;
         this.rewinding = p.rewinding;
@@ -99,17 +91,16 @@ public abstract class GravityAndOrbitsMode {
         this.timeFormatter = timeFormatter;
         this.massReadoutFactory = massReadoutFactory;
 
-        modelViewTransformProperty = new Property<ModelViewTransform>( createTransform( defaultZoomScale, zoomOffset ) );
+        transform = new Property<ModelViewTransform>( createTransform( defaultZoomScale, zoomOffset ) );
         zoomLevel.addObserver( new SimpleObserver() {
             public void update() {
-                modelViewTransformProperty.setValue( createTransform( defaultZoomScale, zoomOffset ) );
+                transform.setValue( createTransform( defaultZoomScale, zoomOffset ) );
             }
         } );
         model = new GravityAndOrbitsModel( new GravityAndOrbitsClock( dt, p.stepping, timeSpeedScaleProperty ), p.gravityEnabledProperty );
 
+        //When the user pauses the clock, assume they will change some other parameters as well, and set a new rewind point
         this.rewindClockTime = 0;
-        //REVIEW have you addressed this?
-        //TODO: this block looks nonsensical--why would we want to set the rewind clock time each time the clock is paused?
         getClock().addClockListener( new ClockAdapter() {
             @Override
             public void clockPaused( ClockEvent clockEvent ) {
@@ -126,7 +117,7 @@ public abstract class GravityAndOrbitsMode {
         measuringTapeEndPoint = new Property<ImmutableVector2D>( new ImmutableVector2D( initialMeasuringTapeLocation.getP2() ) );
     }
 
-    //REVIEW doc. create transform for what?
+    //Create the transform from model coordinates to stage coordinates
     private ModelViewTransform createTransform( double defaultZoomScale, ImmutableVector2D zoomOffset ) {
         Rectangle2D.Double targetRectangle = getTargetRectangle( defaultZoomScale * zoomLevel.getValue(), zoomOffset );
         final double x = targetRectangle.getMinX();
@@ -136,7 +127,7 @@ public abstract class GravityAndOrbitsMode {
         return createRectangleInvertedYMapping( new Rectangle2D.Double( x, y, w, h ), new Rectangle2D.Double( 0, 0, PLAY_AREA_WIDTH, PLAY_AREA_HEIGHT ) );
     }
 
-    //REVIEW doc
+    //Find the rectangle that should be viewed in the model
     public static Rectangle2D.Double getTargetRectangle( double targetScale, ImmutableVector2D targetCenterModelPoint ) {
         double z = targetScale * 1.5E-9;
         double modelWidth = PLAY_AREA_WIDTH / z;
@@ -160,7 +151,7 @@ public abstract class GravityAndOrbitsMode {
         model.addBody( body );
         final SimpleObserver updater = new SimpleObserver() {
             public void update() {
-                deviatedFromEarthValuesProperty.setValue( true );
+                deviatedFromDefaults.setValue( true );
             }
         };
         body.getMassProperty().addObserver( updater, false );
@@ -180,7 +171,7 @@ public abstract class GravityAndOrbitsMode {
     public void reset() {
         model.getClock().resetSimulationTime();// reset the clock
         model.resetAll();
-        deviatedFromEarthValuesProperty.reset();
+        deviatedFromDefaults.reset();
         measuringTapeStartPoint.reset();
         measuringTapeEndPoint.reset();
         zoomLevel.reset();
@@ -218,15 +209,11 @@ public abstract class GravityAndOrbitsMode {
     //REVIEW doc
     public void resetBodies() {
         model.resetBodies();
-        deviatedFromEarthValuesProperty.setValue( false );
+        deviatedFromDefaults.setValue( false );
     }
 
-    public double getVelocityScale() {
-        return velocityScale;
-    }
-
-    public Function2<BodyNode, Property<Boolean>, PNode> getMassReadoutFactory() {
-        return massReadoutFactory;
+    public double getVelocityVectorScale() {
+        return velocityVectorScale;
     }
 
     //Restore the last set of initial conditions that were set while the sim was paused.
