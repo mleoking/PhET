@@ -12,6 +12,8 @@ import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
  * @author Sam Reid
  */
 public abstract class LaserColor {
+
+    //White light appears gray against a white background
     public static final LaserColor WHITE_LIGHT = new LaserColor() {
         @Override
         public double getWavelength() {
@@ -25,8 +27,6 @@ public abstract class LaserColor {
         }
     };
 
-    public abstract double getWavelength();
-
     public static class OneColor extends LaserColor {
         private double wavelength;
 
@@ -36,7 +36,8 @@ public abstract class LaserColor {
 
         @Override
         public Color getColor() {
-            return new VisibleColor( wavelength * 1E9 ).toColor();
+            return new VisibleColor( wavelength * 1E9//convert to nanometers
+            ).toColor();
         }
 
         @Override
@@ -45,5 +46,9 @@ public abstract class LaserColor {
         }
     }
 
+    //Determine the wavelength (in nm) of the light
+    public abstract double getWavelength();
+
+    //Determine the color of the light.
     public abstract Color getColor();
 }
