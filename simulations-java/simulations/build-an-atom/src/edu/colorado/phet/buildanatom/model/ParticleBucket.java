@@ -133,10 +133,6 @@ public class ParticleBucket extends Bucket {
         return containedParticles;
     }
 
-    protected double getParticleRadius() {
-        return particleRadius;
-    }
-
     /*
      * Returns the first location in a bucket that a particle could be placed without overlapping another particle.
      * Locations may be above (+y) other particles, in order to create a stacking effect.

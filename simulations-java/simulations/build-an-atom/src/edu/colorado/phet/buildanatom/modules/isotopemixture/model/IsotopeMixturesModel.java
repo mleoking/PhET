@@ -217,22 +217,6 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
         addIsotopeControllers();
     }
 
-    /**
-     * Remove an arbitrary isotope instance that matches the specified
-     * configuration from the model.
-     *
-     * @return The removed isotope instance, null of no instances can be
-     * found.
-     */
-    protected MovableAtom removeArbitraryIsotope( ImmutableAtom isotopeConfig ){
-        // For now, this only handles the case where the interactivity mode is
-        // set to be sliders, since that is all that is initially needed.
-        assert interactivityModeProperty.getValue() == InteractivityMode.SLIDERS_AND_SMALL_ATOMS;
-        MovableAtom removedIsotope = testChamber.removeIsotopeMatchingConfig( isotopeConfig );
-        removedIsotope.removedFromModel();
-        return removedIsotope;
-    }
-
     public BuildAnAtomClock getClock() {
         return clock;
     }
@@ -505,14 +489,6 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
 
     public Property<InteractivityMode> getInteractivityModeProperty() {
         return interactivityModeProperty;
-    }
-
-    public List<MonoIsotopeParticleBucket> getBucketList() {
-        return bucketList;
-    }
-
-    protected List<NumericalIsotopeQuantityControl> getNumericalControllerListProperty() {
-        return numericalControllerList;
     }
 
     public BooleanProperty getShowingNaturesMixProperty() {
@@ -797,14 +773,6 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
          */
         protected void removedFromModel(){
             partOfModelProperty.setValue( false );
-        }
-
-        /**
-         * Create a new instance of the isotope for this controller and add
-         * it to the test chamber.
-         */
-        public void addIsotopeToChamber(){
-            model.createAndAddIsotope( isotopeConfig );
         }
 
         /**

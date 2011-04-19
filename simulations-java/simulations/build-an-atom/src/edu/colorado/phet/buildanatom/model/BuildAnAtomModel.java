@@ -5,11 +5,9 @@ package edu.colorado.phet.buildanatom.model;
 import java.awt.Color;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
 import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -22,11 +20,6 @@ public class BuildAnAtomModel implements Resettable {
     //----------------------------------------------------------------------------
     // Class Data
     //----------------------------------------------------------------------------
-
-    private static final Rectangle2D MODEL_VIEWPORT =
-            new Rectangle2D.Double( -200, -150,
-            400,
-            400 * BuildAnAtomDefaults.STAGE_SIZE.getHeight() / BuildAnAtomDefaults.STAGE_SIZE.getWidth() );//use the same aspect ratio so circles don't become elliptical
 
     // Constants that define the number of sub-atomic particles that exist
     // within the sim.
@@ -156,27 +149,12 @@ public class BuildAnAtomModel implements Resettable {
     // Methods
     //----------------------------------------------------------------------------
 
-    public Electron getElectron( int i ) {
-        assert i >= 0 && i < numElectrons();
-        return electrons.get( i );
-    }
-
     public int numElectrons() {
         return electrons.size();
     }
 
-    public Proton getProton( int i ) {
-        assert i >= 0 && i < numProtons();
-        return protons.get( i );
-    }
-
     public int numProtons() {
         return protons.size();
-    }
-
-    public Neutron getNeutron( int i ) {
-        assert i >= 0 && i < numNeutrons();
-        return neutrons.get( i );
     }
 
     public int numNeutrons() {
@@ -209,10 +187,6 @@ public class BuildAnAtomModel implements Resettable {
 
     public Atom getAtom() {
         return atom;
-    }
-
-    public Rectangle2D getModelViewport() {
-        return MODEL_VIEWPORT;
     }
 
     public BuildAnAtomClock getClock() {

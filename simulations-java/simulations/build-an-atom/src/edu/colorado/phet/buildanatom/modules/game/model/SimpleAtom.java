@@ -118,10 +118,6 @@ public class SimpleAtom implements IDynamicAtom {
         return AtomIdentifier.isStable( this );
     }
 
-    public int getNumParticles() {
-        return getMassNumber()+getNumElectrons();
-    }
-
     public void reset(){
         setNumProtons( 0 );
         setNumNeutrons( 0 );

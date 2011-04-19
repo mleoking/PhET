@@ -103,17 +103,6 @@ public class IsotopeTestChamber {
     }
 
     /**
-     * Get the position of the chamber.  The position is defined as the
-     * center of the chamber, not as the upper left corner or any other
-     * point.
-     *
-     * @return
-     */
-    public Point2D getPosition() {
-        return new Point2D.Double( TEST_CHAMBER_RECT.getCenterX(), TEST_CHAMBER_RECT.getCenterY() );
-    }
-
-    /**
      * Test whether an isotope is within the chamber.  This is strictly
      * a 2D test that looks as the isotopes center position and determines
      * if it is within the bounds of the chamber rectangle.
@@ -366,13 +355,6 @@ public class IsotopeTestChamber {
 
         protected List<MovableAtom> getContainedIsotopes() {
             return containedIsotopes;
-        }
-
-        /**
-         * @return the averageAtomicMassValue
-         */
-        public double getAverageAtomicMassValue() {
-            return averageAtomicMassValue;
         }
     }
 }
