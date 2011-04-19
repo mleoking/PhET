@@ -20,15 +20,20 @@ import edu.colorado.phet.common.phetcommon.util.function.Function1;
 public class WaveSensor {
     private static final double DELTA = 1;//offset the probe so it isn't taking data by default
 
-    //Set the relative location of the probes
+    //Set the relative location of the probes and body in model coordinates (SI)
     public final Probe probe1 = new Probe( -4.173076923076922E-7 - DELTA, 9.180769230769231E-7 - DELTA );
     public final Probe probe2 = new Probe( -1.5440384615384618E-6 - DELTA, -1.2936538461538458E-6 - DELTA );
     public final Property<ImmutableVector2D> bodyPosition = new Property<ImmutableVector2D>( new ImmutableVector2D( 4.882500000000015E-6 - DELTA, -3.1298076923077013E-6 - DELTA ) );
-    public final Clock clock;
+
+    public final Clock clock;//Clock to observe the passage of time
     public final BooleanProperty visible = new BooleanProperty( false );//in the play area
 
-    public WaveSensor( final Clock clock, final Function1<ImmutableVector2D, Option<Double>> probe1Value, final Function1<ImmutableVector2D, Option<Double>> probe2Value ) {
+    public WaveSensor( final Clock clock,
+                       final Function1<ImmutableVector2D, Option<Double>> probe1Value,//Function for getting data from a probe at the specified point
+                       final Function1<ImmutableVector2D, Option<Double>> probe2Value ) {
         this.clock = clock;
+
+        //Read samples from the probes when the simulation time changes
         clock.addClockListener( new ClockAdapter() {
             public void simulationTimeChanged( ClockEvent clockEvent ) {
                 updateProbeSample( probe1, probe1Value, clock );
@@ -37,7 +42,9 @@ public class WaveSensor {
         } );
     }
 
+    //Read samples from the probes when the simulation time changes
     private void updateProbeSample( Probe probe, Function1<ImmutableVector2D, Option<Double>> probeValue, Clock clock ) {
+        //Read the value from the probe function.  May be None if not intersecting a light ray
         final Option<Double> value = probeValue.apply( probe.position.getValue() );
         if ( value.isSome() ) {
             probe.addSample( new Option.Some<DataPoint>( new DataPoint( clock.getSimulationTime(), value.get() ) ) );
@@ -56,14 +63,17 @@ public class WaveSensor {
         translateAll( new ImmutableVector2D( position ).minus( probe1.position.getValue() ) );
     }
 
+    //Translate the body and probes by the specified model delta
     public void translateAll( ImmutableVector2D delta ) {
         probe1.translate( delta );
         probe2.translate( delta );
         bodyPosition.setValue( bodyPosition.getValue().plus( delta ) );
     }
 
+    //Model for a probe, including its position and recorded data series
     public static class Probe {
         public final Property<ImmutableVector2D> position;
+        //Note that mutable data structures typically shouldn't be used with Property, but we are careful not to modify the ArrayList so it is okay (would be better if Java or we provided an immutable list class)
         public final Property<ArrayList<Option<DataPoint>>> series = new Property<ArrayList<Option<DataPoint>>>( new ArrayList<Option<DataPoint>>() );
 
         public Probe( double x, double y ) {
