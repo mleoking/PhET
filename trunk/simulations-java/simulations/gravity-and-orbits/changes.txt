@@ -1,34 +1,34 @@
 # 1.00.26 (50854) Apr 19, 2011
-Changed clock time reset button from "Reset" to "Clear"
+> Changed clock time reset button from "Reset" to "Clear"
 Handled issues for the code review, including some refactoring, see #2801
 # 1.00.25 (50657) Apr 14, 2011
 Fixed: mass labels appear in the wrong location when initially shown
 Added docs and minor refactors for some issues in code review
 # 1.00.24 (50589) Apr 12, 2011
-Made the 1 grid spacing the earth-satellite distance in Earth/Satellite mode
+> Made the 1 grid spacing the earth-satellite distance in Earth/Satellite mode
 # 1.00.23 (50566) Apr 12, 2011
 Fixed time readout scale factor for cartoon Sun/Earth/Moon
 # 1.00.22 (50564) Apr 12, 2011
 Switch cartoon Sun/Earth mode to use same parameters as cartoon Sun/Earth/Moon mode, but with a different time readout scale factor
 # 1.00.21 (50558) Apr 12, 2011
-Fixed gravity force arrow scale so that default scaling is 1/2 a grid cell
+> Fixed gravity force arrow scale so that default scaling is 1/2 a grid cell
 Fixed: "Return object" should recalculate the gravity force vectors and update them even when paused ... right now it displays the force vectors of the prior situation before it moved the moon or planet.
 Fixed: orbital period should be 365 days instead of 357 days for cartoon sun/earth mode
 # 1.00.20 (50552) Apr 12, 2011
 Improved the performance by buffering round gradient paint graphics for bodies
 Switched sim speed slider to use SimSpeedControlPNode, which has improved support for i18n
 # 1.00.19 (50427) Apr 7, 2011
-Hid the velocity vector for fixed bodies such as the sun in cartoon mode
+> Hid the velocity vector for fixed bodies such as the sun in cartoon mode
 # 1.00.18 (50425) Apr 7, 2011
 Fixed: sun can't be moved by the user in cartoon modes
 # 1.00.17 (50423) Apr 7, 2011
-Renamed "sun" to "star"
-Hold the position of the sun fixed
+> Renamed "sun" to "star"
+> Hold the position of the sun fixed
 # 1.00.16 (50041) Mar 21, 2011
-Made it so that vector arrowheads shrink as the vector shrinks
+> Made it so that vector arrowheads shrink as the vector shrinks
 Made it so that vectors are always shown at a minimum size of 10 pixels (even if they would be too small to see)
 Artificially scale up the time readout so that Sun/Earth/Moon mode has a stable orbit with correct periods
-Tuned cartoon initial conditions so that there are 12 cartoon lunar orbits in one cartoon earth orbit
+> Tuned cartoon initial conditions so that there are 12 cartoon lunar orbits in one cartoon earth orbit
 # 1.00.15 (50035) Mar 21, 2011
 > 3/21/2011 Added improved measuring tape image and converted gravity-and-orbits to use it, see #2785
 > Fixed: return object should account for the camera zoom
@@ -51,16 +51,16 @@ Tuned cartoon initial conditions so that there are 12 cartoon lunar orbits in on
 > Only show the "return object" button if the object goes 12% outside of the bounds so the button doesn't flash on and off so often
 Removed unused Scale strategy
 Internal fixes: documentation, property refactoring, minor refactors
-Fixed: Simulation crashes on startup on Mac 10.5 with Java 1.5, see #2771
+> Fixed: Simulation crashes on startup on Mac 10.5 with Java 1.5, see #2771
 Refactored teacher playback controls
 # 1.00.08 (49543) Mar 6, 2011
-Restore the moon near the earth and with the same relative velocity vector
+> Restore the moon near the earth and with the same relative velocity vector
 Internationalized "Return Object"
 # 1.00.07 (49537) Mar 5, 2011
-Centered each mode in the center of momentum frame
+> Centered each mode in the center of momentum frame
 # 1.00.06 (49535) Mar 5, 2011
 Made earth the same size in sun/earth/moon mode as it is in sun/earth mode
-Fixed: force vectors are too large in "intro" in sun/earth/moon mode
+> Fixed: force vectors are too large in "intro" in sun/earth/moon mode
 # 1.00.05 (49529) Mar 4, 2011
 Fixed: the "to scale" tab should start in earth/satellite mode
 # 1.00.04 (49527) Mar 4, 2011
@@ -76,7 +76,7 @@ Removed measuring tape from intro tab
 Removed cartoon scaling
 Removed scaling control panel
 Moved measuring tape from "scaling" panel to "show" panel
-Started a new module
+> Added tabs for cartoon vs real
 # 1.00.01 (49396) Mar 2, 2011
 Don't add to the path if the user is dragging the body, see #2767
 Reversed the initial velocity of the moon so it will orbit counterclockwise, resolves #2766
