@@ -77,8 +77,10 @@ public class LightRay {
         return powerFraction;
     }
 
-    public boolean intersects( Shape sensorShape ) {
-        return !new Area( sensorShape ) {{
+    //Check to see if this light ray hits the specified sensor region
+    public boolean intersects( Shape sensorRegion ) {
+        return !new Area( sensorRegion ) {{
+            //Use a stroke smaller than the characteristic length scale to promote the line to a shape for hit detection
             intersect( new Area( new BasicStroke( 1E-10f ).createStrokedShape( toLine2D() ) ) );
         }}.isEmpty();
     }
@@ -103,20 +105,20 @@ public class LightRay {
         return wavelength;
     }
 
+    //Signify that this LightRay should be moved to the front, to get the z-ordering right for wave mode
     public void moveToFront() {
         for ( VoidFunction0 moveToFrontListener : moveToFrontListeners ) {
             moveToFrontListener.apply();
         }
     }
 
-    @Override
-    public String toString() {
+    @Override public String toString() {
         return "tail = " + tail + ", tip = " + tip;
     }
 
+    //fill in the triangular chip near y=0 even for truncated beams, if it is the transmitted beam
     public double getExtensionFactor() {
-        if ( extendBackwards ||//fill in the triangular chip near y=0 even for truncated beams, if it is the transmitted beam
-             extend ) {
+        if ( extendBackwards || extend ) {
             return wavelength * 1E6;
         }
         else {
@@ -124,6 +126,7 @@ public class LightRay {
         }
     }
 
+    //The wave is wider than the ray, and must be clipped against the opposite medium so it doesn't leak over
     public Shape getWaveShape() {
         final BasicStroke stroke = new BasicStroke( (float) ( waveWidth ), BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER );
         final Shape strokedShape = stroke.createStrokedShape( extendBackwards ? getExtendedLineBackwards() : getExtendedLine() );
@@ -151,10 +154,12 @@ public class LightRay {
         return toVector2D().getAngle();
     }
 
+    //Add a listener that detects when time passed for this light ray
     public void addStepListener( VoidFunction0 stepListener ) {
         stepListeners.add( stepListener );
     }
 
+    //Update the time and notify wave listeners so they can update the phase of the wave graphic
     public void setTime( double time ) {
         this.time = time;
         for ( VoidFunction0 stepListener : stepListeners ) {
@@ -178,6 +183,7 @@ public class LightRay {
         return oppositeMedium;
     }
 
+    //Determine if the light ray contains the specified position, accounting for whether it is shown as a thin light ray or wide wave
     public boolean contains( ImmutableVector2D position, boolean waveMode ) {
         if ( waveMode ) {
             return getWaveShape().contains( position.getX(), position.getY() );
@@ -191,7 +197,7 @@ public class LightRay {
         return 1.5992063492063494E-7;//At the default transform, this yields a 4 pixel wide stroke
     }
 
-    public ImmutableVector2D getVelocity() {
+    public ImmutableVector2D getVelocityVector() {
         return tip.minus( tail ).getNormalizedInstance().times( getSpeed() );
     }
 
@@ -207,6 +213,7 @@ public class LightRay {
         return getAngularFrequency() * time - 2 * Math.PI * numWavelengthsPhaseOffset;
     }
 
+    //Get the total argument to the cosine for the wave function (k * x - omega * t + phase)
     public double getCosArg( double distanceAlongRay ) {
         double w = getAngularFrequency();
         double k = 2 * Math.PI / getWavelength();

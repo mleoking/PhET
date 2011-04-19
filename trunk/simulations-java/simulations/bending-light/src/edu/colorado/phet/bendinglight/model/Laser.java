@@ -21,11 +21,11 @@ public class Laser {
     public final Property<ImmutableVector2D> emissionPoint;//where the light comes from
     public final Property<ImmutableVector2D> pivot = new Property<ImmutableVector2D>( new ImmutableVector2D( 0, 0 ) );//point to be pivoted about, and at which the laser points
 
-    public final Property<Boolean> on = new Property<Boolean>( false );
+    public final Property<Boolean> on = new Property<Boolean>( false );//True if the laser is activated and emitting light
     public final Property<LaserColor> color = new Property<LaserColor>( new LaserColor.OneColor( WAVELENGTH_RED ) );
     public final Property<Boolean> wave = new Property<Boolean>( false );
 
-    public static final double MAX_ANGLE_IN_WAVE_MODE = 3.0194002144959584;//so the refracted wave mode doesn't get too big
+    public static final double MAX_ANGLE_IN_WAVE_MODE = 3.0194002144959584;//so the refracted wave mode doesn't get too big because at angle = 0 it would become infinite
 
     public Laser( final double distanceFromPivot, final double angle, final boolean topLeftQuadrant ) {
         //Prevent laser from going to 90 degrees when in wave mode, should go until laser bumps into edge.
@@ -37,6 +37,8 @@ public class Laser {
             }
         };
         wave.addObserver( clampAngle );
+
+        //Model the point where light comes out of the laser
         emissionPoint = new Property<ImmutableVector2D>( parseAngleAndMagnitude( distanceFromPivot, angle ) );
         emissionPoint.addObserver( clampAngle );
     }

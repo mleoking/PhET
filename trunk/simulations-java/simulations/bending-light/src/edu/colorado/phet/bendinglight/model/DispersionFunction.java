@@ -46,14 +46,16 @@ public class DispersionFunction {
 
     //See class-level documentation for an explanation of this algorithm
     public double getIndexOfRefraction( double wavelength ) {
+        //Get the reference values
         double nAirReference = getAirIndex( referenceWavelength );
         double nGlassReference = getSellmeierValue( referenceWavelength );
 
+        //Determine the mapping and make sure it is in a good range
         double delta = nGlassReference - nAirReference;
         double x = ( referenceIndexOfRefraction - nAirReference ) / delta;//0 to 1 (air to glass)
-
         x = MathUtil.clamp( 0, x, Double.POSITIVE_INFINITY );
 
+        //Take a linear combination of glass and air equations
         final double index = x * getSellmeierValue( wavelength ) + ( 1 - x ) * getAirIndex( wavelength );
         return index;
     }
