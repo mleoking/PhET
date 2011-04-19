@@ -18,9 +18,13 @@ public class NormalLine extends PNode {
         this( transform, modelHeight, 1, 10, 10 );
     }
 
-    public NormalLine( ModelViewTransform transform, double modelHeight, float strokeWidth, float on, float off ) {
+    public NormalLine( ModelViewTransform transform,
+                       double modelHeight,//Height of the entire model
+                       float strokeWidth, float on, float off ) {
         //Normal Line
         double x = transform.modelToViewX( 0 );
+
+        //Normal line should go halfway up the entire model (so 1/4 up + 1/4 down)
         double y1 = transform.modelToViewY( 0 - modelHeight / 4 );
         double y2 = transform.modelToViewY( 0 + modelHeight / 4 );
         addChild( new PhetPPath( new Line2D.Double( x, y1, x, y2 ), new BasicStroke( strokeWidth, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1.0f, new float[] { on, off }, 0 ), Color.black ) );

@@ -30,22 +30,32 @@ public class IntensitySensorTool extends Tool {
                                 final IntensityMeterNode iconNode,
                                 final int sensorIconHeight ) {
         super( iconNode.toImage( ToolboxNode.ICON_WIDTH, sensorIconHeight, new Color( 0, 0, 0, 0 ) ),
-               intensityMeter.enabled, transform, canvas, new Tool.NodeFactory() {
-                    public IntensityMeterNode createNode( ModelViewTransform transform, Property<Boolean> visible, final Point2D location ) {
-                        return new IntensityMeterNode( transform, intensityMeter ) {{
-                            intensityMeter.sensorPosition.setValue( new ImmutableVector2D( modelWidth * 0.3, -modelHeight * 0.3 ) );
-                            intensityMeter.bodyPosition.setValue( new ImmutableVector2D( modelWidth * 0.4, -modelHeight * 0.3 ) );
-                            final ImmutableVector2D delta = new ImmutableVector2D( location ).minus( intensityMeter.sensorPosition.getValue() );
-                            intensityMeter.translateAll( new PDimension( delta.getX(), delta.getY() ) );
-                        }};
-                    }
-                }, canvas.getModel(), new Function0<Rectangle2D>() {
-                    public Rectangle2D apply() {
-                        return parent.getGlobalFullBounds();
-                    }
-                } );
+               intensityMeter.enabled,
+               transform,
+               canvas,
+               //Factory that creates new IntensityMeterNodes at the right location
+               new Tool.NodeFactory() {
+                   public IntensityMeterNode createNode( ModelViewTransform transform, Property<Boolean> visible, final Point2D location ) {
+                       return new IntensityMeterNode( transform, intensityMeter ) {{
+                           //Set the correct relative locations
+                           intensityMeter.sensorPosition.setValue( new ImmutableVector2D( modelWidth * 0.3, -modelHeight * 0.3 ) );
+                           intensityMeter.bodyPosition.setValue( new ImmutableVector2D( modelWidth * 0.4, -modelHeight * 0.3 ) );
+
+                           //Move everything so the mouse is at the middle of the sensor probe
+                           final ImmutableVector2D delta = new ImmutableVector2D( location ).minus( intensityMeter.sensorPosition.getValue() );
+                           intensityMeter.translateAll( new PDimension( delta.getX(), delta.getY() ) );
+                       }};
+                   }
+               },
+               canvas.getModel(),
+               new Function0<Rectangle2D>() {
+                   public Rectangle2D apply() {
+                       return parent.getGlobalFullBounds();
+                   }
+               } );
     }
 
+    //Intensity sensor must go behind the light so the light goes in front for an interception
     @Override protected void addChild( BendingLightCanvas canvas, ToolNode node ) {
         canvas.addChildBehindLight( node );
     }
