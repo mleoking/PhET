@@ -12,10 +12,9 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
  * @author Sam Reid
  */
 public class CartoonModeList extends ModeList {
-    //REVIEW alpha parameter unused
     //REVIEW inconsistent naming convention for Property params (eg clockPausedProperty vs stepping)
-    public CartoonModeList( Property<Boolean> clockPausedProperty, Property<Boolean> gravityEnabledProperty, Property<Boolean> stepping, Property<Boolean> rewinding, Property<Double> timeSpeedScaleProperty, final double alpha ) {
-        super( new ModeListParameter( clockPausedProperty, gravityEnabledProperty, stepping, rewinding, timeSpeedScaleProperty ),
+    public CartoonModeList( Property<Boolean> clockPausedProperty, Property<Boolean> gravityEnabledProperty, Property<Boolean> stepping, Property<Boolean> rewinding, Property<Double> timeSpeedScaleProperty ) {
+        super( new ModeListParameterList( clockPausedProperty, gravityEnabledProperty, stepping, rewinding, timeSpeedScaleProperty ),
                //REVIEW difficult to read, why not encapsulate this in subclasses? (eg, CartoonSunEarth extends EarthSun)
                new SunEarth() {{
                    sun.radius *= 50;

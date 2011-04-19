@@ -3,15 +3,12 @@ package edu.colorado.phet.gravityandorbits.module;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 
-//REVIEW Misleading class name? Is this really a prototype? I don't see any clone method,
-//    and I see "new Body" is called. This looks like a data structure that describes a body's parameters.
-
 /**
- * Class that facilitates configuration of body instances for a GravityAndOrbitsMode.
+ * Class that facilitates configuration of body instances for a GravityAndOrbitsMode; a data structure that describes a body's parameters.
  *
  * @author Sam Reid
  */
-public class BodyPrototype {
+public class BodyConfiguration {
     public double mass;
     public double radius;
     public double x;
@@ -20,7 +17,7 @@ public class BodyPrototype {
     public double vy;
     public boolean fixed = false;//True if the object doesn't move when the clock ticks
 
-    public BodyPrototype( double mass, double radius, double x, double y, double vx, double vy ) {
+    public BodyConfiguration( double mass, double radius, double x, double y, double vx, double vy ) {
         this.mass = mass;
         this.radius = radius;
         this.x = x;

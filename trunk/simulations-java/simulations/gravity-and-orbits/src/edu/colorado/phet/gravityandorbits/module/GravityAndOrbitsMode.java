@@ -63,8 +63,8 @@ public abstract class GravityAndOrbitsMode {
     //the play area only takes up the left side of the canvas; the control panel is on the right side
     private static final double PLAY_AREA_WIDTH = GravityAndOrbitsCanvas.STAGE_SIZE.width * 0.60; //REVIEW not robust, this does not account for variable control panel size due to i18n
     private static final double PLAY_AREA_HEIGHT = GravityAndOrbitsCanvas.STAGE_SIZE.height;
-    private double gridSpacing;//in meters //REVIEW final?
-    private Point2D.Double gridCenter;//REVIEW final?
+    private final double gridSpacing;//in meters
+    private final Point2D.Double gridCenter;
 
     public final Property<ModelViewTransform> modelViewTransformProperty;
     public final Property<Boolean> rewinding;
@@ -73,7 +73,7 @@ public abstract class GravityAndOrbitsMode {
     public final Property<ImmutableVector2D> measuringTapeEndPoint;
     public final double defaultZoomScale;//REVIEW not used
     public final Property<Double> zoomLevel = new Property<Double>( 1.0 );//additional scale factor on top of defaultZoomScale
-    public final ModeListParameter p;
+    public final ModeListParameterList p;
 
     //REVIEW this constructor is worth documenting, many non-obvious parameters
     public GravityAndOrbitsMode( final String name,//mode name, currently used only for debugging, i18n not required
@@ -82,7 +82,7 @@ public abstract class GravityAndOrbitsMode {
                                  double velocityScale, Function2<BodyNode, Property<Boolean>, PNode> massReadoutFactory,
                                  Line2D.Double initialMeasuringTapeLocation, final double defaultZoomScale, final ImmutableVector2D zoomOffset,
                                  double gridSpacing, Point2D.Double gridCenter,
-                                 final ModeListParameter p ) {
+                                 final ModeListParameterList p ) {
         this.dt = dt;
         this.p = p;
         this.defaultZoomScale = defaultZoomScale;
@@ -119,7 +119,7 @@ public abstract class GravityAndOrbitsMode {
 
         new RichSimpleObserver() {
             public void update() {
-                model.getClock().setRunning( !p.clockPausedProperty.getValue() && isActive() );
+                model.getClock().setRunning( !p.clockPausedProperty.getValue() && GravityAndOrbitsMode.this.active.getValue() );
             }
         }.observe( p.clockPausedProperty, this.active );
         measuringTapeStartPoint = new Property<ImmutableVector2D>( new ImmutableVector2D( initialMeasuringTapeLocation.getP1() ) );
@@ -213,16 +213,6 @@ public abstract class GravityAndOrbitsMode {
                 } );
             }} );
         }};
-    }
-
-    //REVIEW redundant, active property is public
-    public void setActive( boolean active ) {
-        this.active.setValue( active );
-    }
-
-    //REVIEW redundant, active property is public
-    public boolean isActive() {
-        return active.getValue();
     }
 
     //REVIEW not used
