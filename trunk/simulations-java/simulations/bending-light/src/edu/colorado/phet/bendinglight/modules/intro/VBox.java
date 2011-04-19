@@ -21,6 +21,7 @@ import static java.util.Collections.max;
 
 /**
  * Layout the nodes in a vertical fashion, centered horizontally with the specified vertical padding between nodes.
+ * The layout doesn't update when children bounds change, layout is only performed when new children are added (sufficient for bending light usage).
  *
  * @author Sam Reid
  */
@@ -40,13 +41,17 @@ public class VBox extends PhetPNode {
         updateLayout();
     }
 
+    //Layout the nodes in a vertical fashion, keeping them centered
     private void updateLayout() {
+        //Find the width of the biggest child node so far
         double maxWidth = max( getChildren(), new Comparator<PNode>() {
             public int compare( PNode o1, PNode o2 ) {
                 return Double.compare( o1.getFullBounds().getWidth(), o2.getFullBounds().getWidth() );
             }
         } ).getFullBounds().getWidth();
         double y = 0;
+
+        //Move each child 'spacing' below the previous child and center it
         for ( PNode child : getChildren() ) {
             final PBounds bounds = child.getFullBounds();
             double childOriginX = bounds.getX() - child.getOffset().getX();

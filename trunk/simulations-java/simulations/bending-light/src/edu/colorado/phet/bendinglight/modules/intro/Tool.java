@@ -39,7 +39,8 @@ public class Tool extends PNode {
                  final BendingLightCanvas canvas,
                  final NodeFactory nodeMaker,
                  final ResetModel resetModel,
-                 final Function0<Rectangle2D> getGlobalDropTargetBounds ) {
+                 final Function0<Rectangle2D> globalToolboxBounds//For dropping the tool back in the toolbox
+    ) {
         final PImage thumbnailIcon = new PImage( thumbnail ) {{
             showTool.addObserver( new SimpleObserver() {
                 public void update() {
@@ -70,7 +71,7 @@ public class Tool extends PNode {
                                 boolean t = false;//TODO: fold left
                                 for ( PNode child : node.getDroppableComponents() ) {
                                     PBounds bound = child.getGlobalFullBounds();
-                                    if ( getGlobalDropTargetBounds.apply().contains( bound.getCenterX(), bound.getCenterY() ) ) {
+                                    if ( globalToolboxBounds.apply().contains( bound.getCenterX(), bound.getCenterY() ) ) {
                                         t = true;
                                     }
                                 }
