@@ -9,7 +9,7 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -30,33 +30,28 @@ public class GrabbableVectorNode extends VectorNode {
     private PhetPPath grabArea;
 
     public GrabbableVectorNode( final Body body, final Property<ModelViewTransform> modelViewTransform, final Property<Boolean> visible, final Property<ImmutableVector2D> vector,
-                                final double scale, Color fill, Color outline ) {
+                                final double scale, Color fill, Color outline, final String labelText ) {
         super( body, modelViewTransform, visible, vector, scale, fill, outline );
         final Point2D tip = getTip();
 
         //a circle with text (a character) in the center, to help indicate what it represents ("v" for velocity in this sim)
         grabArea = new PhetPPath( new Ellipse2D.Double( 0, 0, 40, 40 ), new Color( 0, 0, 0, 0 ), new BasicStroke( 3 ), Color.lightGray ) {{
             final PNode parent = this;
-            addChild( new PText( "V" ) {{ //REVIEW i18n of "V". I would restrict this to 1 char. SR: also, move to constructor parameter since this class is velocity-agnostic
-                PText v = this;
+            addChild( new PText( labelText ) {{
                 setFont( new PhetFont( 28, true ) );
                 setTextPaint( Color.gray );
-                setOffset( parent.getFullBounds().getWidth() / 2 - v.getFullBounds().getWidth() / 2, parent.getFullBounds().getHeight() / 2 - v.getFullBounds().getHeight() / 2 );
+                setOffset( parent.getFullBounds().getWidth() / 2 - getFullBounds().getWidth() / 2, parent.getFullBounds().getHeight() / 2 - getFullBounds().getHeight() / 2 );
             }} );
             setOffset( tip.getX() - getFullBounds().getWidth() / 2, tip.getY() - getFullBounds().getHeight() / 2 );
         }};
+        addChild( grabArea );
 
-        //REVIEW comment describing what's going on in the next chunk of code
-        final SimpleObserver updateGrabArea = new SimpleObserver() {
+        //Center the grab area on the tip (see getTip()) when any of its dependencies change
+        new RichSimpleObserver() {
             public void update() {
-                final Point2D tip = getTip();
-                grabArea.setOffset( tip.getX() - grabArea.getFullBounds().getWidth() / 2, tip.getY() - grabArea.getFullBounds().getHeight() / 2 );
+                grabArea.setOffset( getTip().getX() - grabArea.getFullBounds().getWidth() / 2, getTip().getY() - grabArea.getFullBounds().getHeight() / 2 );
             }
-        };
-        vector.addObserver( updateGrabArea );
-        body.getPositionProperty().addObserver( updateGrabArea );
-        modelViewTransform.addObserver( updateGrabArea );
-        addChild( grabArea );//REVIEW why is this added after the grab area stuff, instead of up above where the node is created?
+        }.observe( vector, body.getPositionProperty(), modelViewTransform );
 
         //Add the drag handler
         grabArea.addInputEventListener( new PBasicInputEventHandler() {
@@ -70,7 +65,7 @@ public class GrabbableVectorNode extends VectorNode {
         } );
         grabArea.addInputEventListener( new CursorHandler() );//todo: use same pattern as in body node so that mouse turns into cursor when arrow moves under stationary mouse?
 
-        //REVIEW comment here: move behind the geometry created by the superclass
+        //move behind the geometry created by the superclass
         grabArea.moveToBack();
     }
 }

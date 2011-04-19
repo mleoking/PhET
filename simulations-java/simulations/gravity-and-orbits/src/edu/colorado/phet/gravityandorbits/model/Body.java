@@ -263,6 +263,7 @@ public class Body implements IBodyColors {
         collidedProperty.reset();
         clockTicksSinceExplosion.reset();
         clearPath();
+        //TODO: anything else to reset here?
     }
 
     public RewindableProperty<ImmutableVector2D> getVelocityProperty() {

@@ -124,7 +124,8 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
         //Add velocity vector nodes
         for ( Body body : model.getBodies() ) {
             if ( !body.fixed ) {
-                addChild( new GrabbableVectorNode( body, mode.modelViewTransformProperty, module.showVelocityProperty, body.getVelocityProperty(), mode.getVelocityScale(), velocityVectorColorFill, velocityVectorColorOutline ) );
+                addChild( new GrabbableVectorNode( body, mode.modelViewTransformProperty, module.showVelocityProperty, body.getVelocityProperty(),
+                                                   mode.getVelocityScale(), velocityVectorColorFill, velocityVectorColorOutline, "V" ) );//TODO: i18n of "V", also recommended to trim to 1 char
             }
         }
 
@@ -133,7 +134,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
             addChild( new ExplosionNode( body, mode.modelViewTransformProperty ) );
         }
 
-        //REVIEW doc
+        //Add the piccolo node for the overlay grid, setting its visibility based on the module.showGridProperty
         addChild( new GridNode( mode.modelViewTransformProperty, mode.getGridSpacing(), mode.getGridCenter() ) {{
             module.showGridProperty.addObserver( new SimpleObserver() {
                 public void update() {

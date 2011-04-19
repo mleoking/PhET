@@ -9,6 +9,8 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.gravityandorbits.GAOStrings;
 import edu.colorado.phet.gravityandorbits.module.RealModeList;
 
+import static edu.colorado.phet.gravityandorbits.GAOStrings.*;
+
 /**
  * Provides a textual readout of a Body's mass in "earth masses"
  *
@@ -26,24 +28,23 @@ public class EarthMassReadoutNode extends MassReadoutNode {
         double earthMasses = massKG / RealModeList.EARTH_MASS;
 
         //Show the value in terms of earth masses (or thousands of earth masses)
-        //REVIEW initialize units=GAOStrings.EARTH_MASSES, then change it for the one case that's different.
         String value, units;
         if ( earthMasses > 1E3 ) {
             value = new DecimalFormat( "0" ).format( Math.round( earthMasses / 1E3 ) );
-            units = GAOStrings.THOUSAND_EARTH_MASSES;
+            units = THOUSAND_EARTH_MASSES;
         }
         else if ( Math.abs( earthMasses - 1 ) < 1E-2 ) {
             value = "1";
-            units = GAOStrings.EARTH_MASS;
+            units = EARTH_MASS;
         }
         else if ( earthMasses < 1 ) {
             value = new DecimalFormat( "0.00" ).format( earthMasses );
-            units = GAOStrings.EARTH_MASSES;
+            units = EARTH_MASSES;
         }
         else {
-            //REVIEW identical to else-if directly above
+            //Handle showing exactly "1 earth mass" instead of "1 earth masses"
             value = new DecimalFormat( "0.00" ).format( earthMasses );
-            units = ( earthMasses == 1.0 ) ? GAOStrings.EARTH_MASS : GAOStrings.EARTH_MASSES; //REVIEW same in both cases
+            units = ( earthMasses == 1.0 ) ? EARTH_MASS : EARTH_MASSES;
         }
         return MessageFormat.format( GAOStrings.PATTERN_VALUE_UNITS, value, units );
     }
