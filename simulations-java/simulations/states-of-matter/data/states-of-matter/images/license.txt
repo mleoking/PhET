@@ -17,7 +17,7 @@ finger-4.png source=PhET author=John Blanco
 flames.gif author=PhET 
 ice.gif author=PhET 
 stove.png author=PhET
-push-pin.png source=microsoft clip art
+push-pin.png source=Open Clip Art notes='Thumbtack/Pushpin 2', "http://www.openclipart.org/detail/33601"
 gas.png source=PhET author=Noah Podolefsky
 ice-cube.png source=PhET author=Noah Podolefsky
 liquid-in-cup.png source=PhET author=Noah Podolefsky
