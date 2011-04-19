@@ -9,6 +9,7 @@ import edu.colorado.phet.bendinglight.BendingLightApplication;
 import edu.colorado.phet.bendinglight.model.Laser;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -33,21 +34,21 @@ public class TranslationDragHandle extends PNode {
         } );
         final BufferedImage image = flipY( flipX( BendingLightApplication.RESOURCES.getImage( "laser.png" ) ) );
 
-        final SimpleObserver update = new SimpleObserver() {
+        //Update the location when laser pivot or emission point change
+        new RichSimpleObserver() {
             public void update() {
                 removeAllChildren();
                 final PNode counterClockwiseDragArrow = new PNode() {{
-                    Point2D pt = transform.modelToView( laser.emissionPoint.getValue().toPoint2D() );
-                    ImmutableVector2D vec = ImmutableVector2D.parseAngleAndMagnitude( image.getWidth() / 2, -laser.getAngle() );
-                    addChild( new PhetPPath( new Arrow( new Point2D.Double( pt.getX() + vec.getX(), pt.getY() + vec.getY() ), new ImmutableVector2D( dx, dy ), 20, 20, 10, 2, true ).getShape(), Color.green, new BasicStroke( 1 ), Color.black ) );
+                    Point2D laserEmissionViewPoint = transform.modelToView( laser.emissionPoint.getValue().toPoint2D() );
+                    ImmutableVector2D viewDelta = ImmutableVector2D.parseAngleAndMagnitude( image.getWidth() / 2, -laser.getAngle() );
+                    addChild( new PhetPPath( new Arrow( new Point2D.Double( laserEmissionViewPoint.getX() + viewDelta.getX(), laserEmissionViewPoint.getY() + viewDelta.getY() ),
+                                                        new ImmutableVector2D( dx, dy ), 20, 20, 10, 2, true ).getShape(), Color.green, new BasicStroke( 1 ), Color.black ) );
                     setPickable( false );
                     setChildrenPickable( false );
                 }};
                 addChild( counterClockwiseDragArrow );
             }
-        };
-        laser.pivot.addObserver( update );
-        laser.emissionPoint.addObserver( update );
+        }.observe( laser.pivot, laser.emissionPoint );
     }
 
 }

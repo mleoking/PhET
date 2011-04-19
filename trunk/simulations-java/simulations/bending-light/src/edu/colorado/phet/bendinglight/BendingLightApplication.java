@@ -15,16 +15,19 @@ import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
  * @author Sam Reid
  */
 public class BendingLightApplication extends PiccoloPhetApplication {
-    private static final String NAME = "bending-light";
+    private static final String NAME = "bending-light";//Internal name used for loading the sim and its resources
     public static final PhetResources RESOURCES = new PhetResources( NAME );
 
     public BendingLightApplication( PhetApplicationConfig config ) {
         super( config );
+
+        //Add the modules
         addModule( new IntroModule() );
         addModule( new MoreToolsModule() );
         addModule( new PrismsModule() );
     }
 
+    //Launch main for Bending Light
     public static void main( String[] args ) {
         new PhetApplicationLauncher().launchSim( args, NAME, BendingLightApplication.class );
     }

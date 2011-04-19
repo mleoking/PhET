@@ -17,7 +17,9 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class MediumNode extends PNode {
     public MediumNode( final ModelViewTransform transform, final Property<Medium> medium ) {
+        //Add the shape that paints the medium
         addChild( new PhetPPath( medium.getValue().color ) {{
+            //Update whenever the medium changes
             medium.addObserver( new SimpleObserver() {
                 public void update() {
                     setPathTo( transform.modelToView( medium.getValue().shape ) );
@@ -26,6 +28,8 @@ public class MediumNode extends PNode {
                 }
             } );
         }} );
+
+        //User can't interact with the medium except through control panels.
         setPickable( false );
         setChildrenPickable( false );
     }

@@ -27,13 +27,16 @@ import static java.lang.Math.toDegrees;
 import static java.lang.Math.toRadians;
 
 /**
- * Graphic that depicts how the laser may be moved.  It is only shown when the cursor is over the laser and is non-interactive.
+ * Graphic that depicts how the laser may be moved (in one direction).  It is only shown when the cursor is over the laser and is non-interactive.
  *
  * @author Sam Reid
  */
 public class RotationDragHandle extends PNode {
 
-    public RotationDragHandle( final ModelViewTransform transform, final Laser laser, final double deltaAngleDegrees, final BooleanProperty showDragHandles, final Function1<Double, Boolean> notAtMax ) {
+    public RotationDragHandle( final ModelViewTransform transform, final Laser laser, final double deltaAngleDegrees, final BooleanProperty showDragHandles,
+                               final Function1<Double, Boolean> notAtMax//Function that determines whether the laser is already at the max angle (if at the max angle then that drag handle disappears)
+    ) {
+        //Temporary property to help determine whether the drag handle should be shown
         ObservableProperty<Boolean> notAtMaximum = new ObservableProperty<Boolean>() {
             {
                 laser.emissionPoint.addObserver( new SimpleObserver() {
@@ -47,6 +50,8 @@ public class RotationDragHandle extends PNode {
                 return notAtMax.apply( laser.getAngle() );
             }
         };
+
+        //Show the drag handle if the "show drag handles" is true and if the laser isn't already at the max angle.
         final And showArrow = showDragHandles.and( notAtMaximum );
         showArrow.addObserver( new SimpleObserver() {
             public void update() {
@@ -55,33 +60,40 @@ public class RotationDragHandle extends PNode {
         } );
         final BufferedImage image = flipY( flipX( BendingLightApplication.RESOURCES.getImage( "laser.png" ) ) );
 
+        //Update the PNode
         final SimpleObserver update = new SimpleObserver() {
             public void update() {
                 removeAllChildren();
                 final PNode counterClockwiseDragArrow = new PNode() {{
+                    //Draw a curved shape with an arc
                     final double distance = transform.modelToViewDeltaX( laser.getDistanceFromPivot() ) + image.getWidth() * 0.85;
                     final Point2D viewOrigin = transform.modelToView( laser.pivot.getValue() ).toPoint2D();
                     final double laserAngleInDegrees = toDegrees( laser.getAngle() );
                     Arc2D.Double arc = new Arc2D.Double( -distance + viewOrigin.getX(), -distance + viewOrigin.getY(), 2 * distance, 2 * distance, laserAngleInDegrees, deltaAngleDegrees, Arc2D.OPEN );
                     final Shape arrowBody = new BasicStroke( 10, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER ).createStrokedShape( arc );
 
+                    //Curve to the tail and tip
                     double EPSILON = 0.1;
                     ImmutableVector2D arrowTail = new ImmutableVector2D( viewOrigin ).plus( parseAngleAndMagnitude( distance, toRadians( -laserAngleInDegrees - deltaAngleDegrees * ( 1 - EPSILON ) ) ) );
                     ImmutableVector2D arrowTip = new ImmutableVector2D( viewOrigin ).plus( parseAngleAndMagnitude( distance, toRadians( -laserAngleInDegrees - deltaAngleDegrees * 1.1 ) ) );
 
+                    //Draw the arrowhead
                     final Shape arrowHead = new Arrow( arrowTail.toPoint2D(), arrowTip.toPoint2D(), 20, 20, 0, 1.0, false ).getShape();
-                    Area area = new Area( arrowBody ) {{
+                    Area arrowArea = new Area( arrowBody ) {{
                         add( new Area( arrowHead ) );
                     }};
-                    final PhetPPath child = new PhetPPath( area, Color.green, new BasicStroke( 1 ), Color.black );
-                    addChild( child );
+
+                    //Add the graphic
+                    addChild( new PhetPPath( arrowArea, Color.green, new BasicStroke( 1 ), Color.black ) );
+
+                    //Only the laser body is draggable, not the arrow itself
                     setPickable( false );
                     setChildrenPickable( false );
                 }};
                 addChild( counterClockwiseDragArrow );
             }
         };
-        laser.emissionPoint.addObserver( update );
+        laser.emissionPoint.addObserver( update );//Update the shape when the laser moves
     }
 
 }
