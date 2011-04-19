@@ -1,3 +1,4 @@
+# 1.00.26 (50854) Apr 19, 2011
 Changed clock time reset button from "Reset" to "Clear"
 Handled issues for the code review, including some refactoring, see #2801
 # 1.00.25 (50657) Apr 14, 2011
