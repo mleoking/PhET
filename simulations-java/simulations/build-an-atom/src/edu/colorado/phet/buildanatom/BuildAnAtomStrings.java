@@ -3,7 +3,6 @@
 package edu.colorado.phet.buildanatom;
 
 import static edu.colorado.phet.buildanatom.BuildAnAtomResources.getString;
-import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 
 /**
  * A collection of localized strings used by this simulation.  We load all
@@ -84,7 +83,6 @@ public class BuildAnAtomStrings {
     public static final String TITLE_GAME_MODULE = getString( "title.gameModule" );
     public static final String TITLE_INTERACTIVE_ISOTOPE_MODULE = getString( "title.interactiveIsotopeModule" );
     public static final String TITLE_ISOTOPE_MIXTURES_MODULE = getString( "title.isotopeMixtures" );
-    public static final String TITLE_ERROR = PhetCommonResources.getString( "Common.title.error" );
 
     public static final String ABUNDANCE_IN_NATURE = getString( "abundanceInNature" );
     public static final String THIS_ISOTOPE = getString( "thisIsotope" );

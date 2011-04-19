@@ -52,10 +52,6 @@ public abstract class SphericalParticle {
     // Constructor(s)
     // ------------------------------------------------------------------------
 
-    public SphericalParticle( double radius, double x, double y ) {
-        this( radius, x, y, null );
-    }
-
     public SphericalParticle( double radius, double x, double y, ConstantDtClock clock ) {
         this.clock = clock;
         this.radius = radius;

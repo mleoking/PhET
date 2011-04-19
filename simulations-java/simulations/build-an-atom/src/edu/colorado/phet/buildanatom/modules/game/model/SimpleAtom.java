@@ -118,12 +118,6 @@ public class SimpleAtom implements IDynamicAtom {
         return AtomIdentifier.isStable( this );
     }
 
-    public void reset(){
-        setNumProtons( 0 );
-        setNumNeutrons( 0 );
-        setNumElectrons( 0 );
-    }
-
     public void addAtomListener(AtomListener listener) {
         listeners.add( listener );
     }

@@ -9,7 +9,6 @@ import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenu;
 
 import edu.colorado.phet.buildanatom.developer.DeveloperConfiguration;
-import edu.colorado.phet.buildanatom.developer.ProblemTypeSelectionDialog;
 import edu.colorado.phet.buildanatom.modules.interactiveisotope.InteractiveIsotopeModule;
 import edu.colorado.phet.buildanatom.modules.isotopemixture.IsotopeMixturesModule;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
@@ -26,8 +25,6 @@ public class IsotopesAndAtomicMassApplication extends PiccoloPhetApplication {
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
-
-    ProblemTypeSelectionDialog problemTypeSelectionDialog = ProblemTypeSelectionDialog.createInstance( getPhetFrame() );
 
     //----------------------------------------------------------------------------
     // Constructors
