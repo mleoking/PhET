@@ -47,35 +47,49 @@ public class IntroCanvas<T extends IntroModel> extends BendingLightCanvas<T> {
     public IntroCanvas( final T model,
                         final BooleanProperty moduleActive,
                         final Resettable resetAll,
-                        final Function3<IntroModel, Double, Double, PNode> additionalLaserControls,
+                        final Function3<IntroModel, Double, Double, PNode> additionalLaserControls,//Function to create any additional laser controls necessary to show in the laser control panel.
                         final double centerOffsetLeft,
                         final ObservableProperty<Boolean> clockControlVisible,
                         final ResetModel resetModel,
                         final String indexOfRefractionFormatPattern,//decimal format pattern to use in the medium control panel
                         final int columns ) {//number of columns to show in the MediumControlPanel readout
-        super( model, moduleActive, new Function1<Double, Double>() {
-            public Double apply( Double angle ) {
-                if ( angle < -Math.PI / 2 ) { angle = Math.PI; }
-                if ( angle < Math.PI / 2 && angle > 0 ) { angle = Math.PI / 2; }
-                return angle;
-            }
-        }, new Function1<Double, Boolean>() {
-            public Boolean apply( Double aDouble ) {
-                return aDouble < Math.PI;
-            }
-        }, new Function1<Double, Boolean>() {
-            public Boolean apply( Double aDouble ) {
-                return aDouble > Math.PI / 2;
-            }
-        }, true,
-               getProtractorRotationRegion(), new Function2<Shape, Shape, Shape>() {
-                    public Shape apply( Shape full, Shape back ) {
-                        return full; //rotation if the user clicks anywhere on the object.
-                    }
-                }, "laser.png", centerOffsetLeft );
+        super( model,
+               moduleActive,
+               //Specify how the drag angle should be clamped, in this case the laser must remain in the top left quadrant
+               new Function1<Double, Double>() {
+                   public Double apply( Double angle ) {
+                       if ( angle < -Math.PI / 2 ) { angle = Math.PI; }
+                       if ( angle < Math.PI / 2 && angle > 0 ) { angle = Math.PI / 2; }
+                       return angle;
+                   }
+               },
+               //Indicate if the laser is not at its max angle, and therefore can be dragged to larger angles
+               new Function1<Double, Boolean>() {
+                   public Boolean apply( Double laserAngle ) {
+                       return laserAngle < Math.PI;
+                   }
+               },
+               //Indicate if the laser is not at its min angle, and can therefore be dragged to smaller angles.
+               new Function1<Double, Boolean>() {
+                   public Boolean apply( Double laserAngle ) {
+                       return laserAngle > Math.PI / 2;
+                   }
+               },
+               true,
+               getProtractorRotationRegion(),
+               //rotation if the user clicks anywhere on the object.
+               new Function2<Shape, Shape, Shape>() {
+                   public Shape apply( Shape full, Shape back ) {
+                       return full;
+                   }
+               },
+               "laser.png", centerOffsetLeft );
+
+        //Add MediumNodes for top and bottom
         mediumNode.addChild( new MediumNode( transform, model.topMedium ) );
         mediumNode.addChild( new MediumNode( transform, model.bottomMedium ) );
 
+        //Add control panels for setting the index of refraction for each medium
         afterLightLayer2.addChild( new ControlPanelNode( new MediumControlPanel( this, model.topMedium, BendingLightStrings.MATERIAL, true, model.wavelengthProperty, indexOfRefractionFormatPattern, columns ) ) {{
             setOffset( stageSize.width - getFullBounds().getWidth() - 10, transform.modelToViewY( 0 ) - 10 - getFullBounds().getHeight() );
         }} );
@@ -88,6 +102,7 @@ public class IntroCanvas<T extends IntroModel> extends BendingLightCanvas<T> {
             setPickable( false );
         }} );
 
+        //Show the normal line where the laser strikes the interface between mediums
         afterLightLayer2.addChild( new NormalLine( transform, model.getHeight() ) {{
             showNormal.addObserver( new VoidFunction1<Boolean>() {
                 public void apply( Boolean value ) {
@@ -98,8 +113,11 @@ public class IntroCanvas<T extends IntroModel> extends BendingLightCanvas<T> {
 
         //Laser control panel
         afterLightLayer2.addChild( new ControlPanelNode( new PNode() {{
+            //Title readout
             final PText title = new PText( BendingLightStrings.LASER_VIEW ) {{setFont( labelFont );}};
             addChild( title );
+
+            //Radio buttons to select "ray" or "wave"
             final PSwing radioButtonPanel = new PSwing( new VerticalLayoutPanel() {{
                 add( new PropertyRadioButton<LaserView>( BendingLightStrings.RAY, model.laserView, LaserView.RAY ) {{setFont( labelFont );}} );
                 add( new PropertyRadioButton<LaserView>( BendingLightStrings.WAVE, model.laserView, LaserView.WAVE ) {{setFont( labelFont );}} );
@@ -107,6 +125,8 @@ public class IntroCanvas<T extends IntroModel> extends BendingLightCanvas<T> {
                 setOffset( 0, title.getFullBounds().getMaxY() );
             }};
             addChild( radioButtonPanel );
+
+            //Add any additional controls (used in more tools tab)
             final PNode additionalControl = additionalLaserControls.apply( model, 30.0, radioButtonPanel.getFullBounds().getMaxY() + 5 );
             addChild( additionalControl );
         }} ) {
@@ -114,7 +134,7 @@ public class IntroCanvas<T extends IntroModel> extends BendingLightCanvas<T> {
                 setOffset( 5, 5 );
             }
 
-            private PBounds layoutSize = null;
+            private PBounds layoutSize = null;//Store so only the original value is used
 
             //In the laser view box, putting the wavelength slider all the way to red makes the box size change--this override ensures the control panel wide enough to hold the laser wavelength control, but not resize as controls move around.
             @Override protected PBounds getControlPanelBounds( PNode content ) {
@@ -126,12 +146,14 @@ public class IntroCanvas<T extends IntroModel> extends BendingLightCanvas<T> {
             }
         } );
 
+        //Create a tool for dragging out the protractor
+        final Tool.NodeFactory protractorNodeFactory = new Tool.NodeFactory() {
+            public ProtractorNode createNode( ModelViewTransform transform, Property<Boolean> showTool, Point2D model ) {
+                return newProtractorNode( transform, showTool, model );
+            }
+        };
         final Tool protractor = new Tool( multiScaleToWidth( RESOURCES.getImage( "protractor.png" ), ToolboxNode.ICON_WIDTH ), showProtractor,
-                                          transform, this, new Tool.NodeFactory() {
-                    public ProtractorNode createNode( ModelViewTransform transform, Property<Boolean> showTool, Point2D model ) {
-                        return newProtractorNode( transform, showTool, model );
-                    }
-                }, model, new Function0<Rectangle2D>() {
+                                          transform, this, protractorNodeFactory, model, new Function0<Rectangle2D>() {
                     public Rectangle2D apply() {
                         return toolboxNode.getGlobalFullBounds();
                     }
@@ -146,14 +168,18 @@ public class IntroCanvas<T extends IntroModel> extends BendingLightCanvas<T> {
                 canvas.removeChildAfterLight( node );
             }
         };
+
+        //Create the toolbox
         toolboxNode = new ToolboxNode( this, transform, protractor, getMoreTools( model ), model.getIntensityMeter(), showNormal );
         final ControlPanelNode toolbox = new ControlPanelNode( toolboxNode ) {{
             setOffset( 10, stageSize.height - getFullBounds().getHeight() - 10 );
         }};
         beforeLightLayer.addChild( toolbox );
 
+        //Add the reset all button, floating in the play area
         afterLightLayer2.addChild( new BendingLightResetAllButtonNode( resetAll, this, stageSize ) );
 
+        //Add the clock control node, which is only visible when in wave mode or when the user has selected the wave sensor
         afterLightLayer2.addChild( new FloatingClockControlNode( playing, null, model.getClock(), BendingLightStrings.RESET, new Property<Color>( Color.white ) ) {{
             clockControlVisible.addObserver( new VoidFunction1<Boolean>() {
                 public void apply( Boolean visible ) {
@@ -174,6 +200,7 @@ public class IntroCanvas<T extends IntroModel> extends BendingLightCanvas<T> {
                 } );
             }};
 
+            //Add a slider to change the sim speed
             final SimSpeedControlPNode speedSlider = new SimSpeedControlPNode( MIN_DT, simSpeedProperty, MAX_DT, 0, new Property<Color>( black ) );
             addChild( speedSlider );
 
@@ -182,14 +209,17 @@ public class IntroCanvas<T extends IntroModel> extends BendingLightCanvas<T> {
         }} );
     }
 
+    //No more tools available in IntroCanvas, but this is overriden in MoreToolsCanvas to provide additional tools
     protected PNode[] getMoreTools( ResetModel resetModel ) {
         return new PNode[0];
     }
 
+    //Create a protractor node, used by the protractor Tool
     protected ProtractorNode newProtractorNode( ModelViewTransform transform, Property<Boolean> showTool, Point2D model ) {
         return new ProtractorNode( transform, showTool, new ProtractorModel( model.getX(), model.getY() ), getProtractorDragRegion(), getProtractorRotationRegion(), ProtractorNode.DEFAULT_SCALE, 1 );
     }
 
+    //Get the function that chooses which region of the protractor can be used for rotation--none in this tab.
     protected static Function2<Shape, Shape, Shape> getProtractorRotationRegion() {
         return new Function2<Shape, Shape, Shape>() {
             public Shape apply( Shape innerBar, Shape outerCircle ) {
@@ -198,6 +228,7 @@ public class IntroCanvas<T extends IntroModel> extends BendingLightCanvas<T> {
         };
     }
 
+    //Get the function that chooses which region of the protractor can be used for translation--both the inner bar and outer circle in this tab
     protected Function2<Shape, Shape, Shape> getProtractorDragRegion() {
         return new Function2<Shape, Shape, Shape>() {
             public Shape apply( Shape innerBar, final Shape outerCircle ) {
