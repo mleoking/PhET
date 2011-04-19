@@ -22,8 +22,6 @@ public class EntryPanel extends PNode {
 
     private static final int DEFAULT_MIN = 0;
     private static final int DEFAULT_MAX = 30;
-    public static final NumberFormat DEFAULT_NUMBER_FORMAT = ValueNode.DEFAULT_NUMBER_FORMAT;
-    public static final Function0<Color> DEFAULT_COLOR_FUNCTION = new Function0.Constant<Color>( Color.black );
     private final static Font FONT = new PhetFont( 30 );
     private final HTMLNode label;
     private final ValueNode valueNode;

@@ -217,125 +217,8 @@ public class PeriodicTableControlNode extends PNode {
             cellBoundary.setStroke( new BasicStroke( 1 ) );
             cellBoundary.setPaint( backgroundColor );
         }
-
-        public int getAtomicNumber() {
-            return atomicNumber;
-        }
     }
 
-    /**
-     * PNode that represents a cell on the periodic table.  This version is a
-     * cell that looks like a button, intended to convey to the user that it
-     * is interactive.
-     */
-    public static class ButtonElementCellOld extends PNode {
-        private static final Color IDLE_COLOR = new Color( 240, 240, 240 );
-        private static final Color SELECTED_COLOR = new Color( 255, 200, 200 );
-        private static final Color FOCUS_COLOR = Color.WHITE;
-        private final int atomicNumber;
-        private final IDynamicAtom atom;
-        private final PPath idleButtonNode;
-        private final PText text;
-        private final EventListenerList listeners;
-
-        public ButtonElementCellOld( final IDynamicAtom atom, final int atomicNumber, final Color backgroundColor ) {
-            this.atom = atom;
-            this.atomicNumber = atomicNumber;
-            listeners = new EventListenerList();
-
-            // Create the node that will act as the button, receiving events
-            // from the user.
-            idleButtonNode = new PhetPPath(
-                    new Rectangle2D.Double(0, 0, CELL_DIMENSION, CELL_DIMENSION ),
-                    IDLE_COLOR,
-                    new BasicStroke( 1 ),
-                    Color.BLACK);
-            addChild( idleButtonNode );
-
-            // Register a handler to watch for button state changes.
-            ButtonEventHandler handler = new ButtonEventHandler(){{
-                addButtonEventListener( new ButtonEventAdapter() {
-                    @Override
-                    public void setFocus( boolean focus ) {
-                        boolean match = atom.getNumProtons() == atomicNumber;
-                        if ( match ){
-                            idleButtonNode.setPaint( SELECTED_COLOR );
-                        }
-                        else{
-                            idleButtonNode.setPaint( focus ? FOCUS_COLOR : IDLE_COLOR );
-                        }
-                    }
-                    @Override
-                    public void fire() {
-                        ActionEvent event = new ActionEvent( this, 0, "BUTTON_FIRED" );
-                        for ( ActionListener listener : listeners.getListeners( ActionListener.class ) ) {
-                            listener.actionPerformed( event );
-                        }
-                    }
-                } );
-            }};
-            idleButtonNode.addInputEventListener( handler );
-
-            // Add the text node that displays the chemical symbol.
-            text = new PText( AtomIdentifier.getSymbol( atomicNumber ) );
-            double buttonDimension = idleButtonNode.getFullBoundsReference().width;
-            text.centerBoundsOnPoint( buttonDimension / 2, buttonDimension / 2 );
-            text.setPickable( false ); // Don't pick up mouse events intended for the button.
-            if ( text.getFullBoundsReference().width >= buttonDimension || text.getFullBoundsReference().height >= buttonDimension ){
-                // Scale the text to fit in the cell.
-                double scaleFactor = Math.min( buttonDimension / text.getFullBoundsReference().width,
-                        buttonDimension / text.getFullBoundsReference().height );
-                text.setScale( scaleFactor );
-            }
-            addChild( text );
-
-            atom.addAtomListener( new AtomListener.Adapter() {
-                @Override
-                public void configurationChanged() {
-                    updateSelected();
-                }
-            } );
-            updateSelected();
-        }
-
-        public void updateSelected() {
-            boolean match = atom.getNumProtons() == atomicNumber;
-            text.setFont( new PhetFont( PhetFont.getDefaultFontSize(), match ) );
-            if ( match ) {
-                idleButtonNode.setPaint( SELECTED_COLOR );
-            }
-            else {
-                idleButtonNode.setPaint( IDLE_COLOR );
-            }
-        }
-
-        public int getAtomicNumber() {
-            return atomicNumber;
-        }
-
-        /**
-         * Get the atom configuration associated with this cell on the
-         * periodic table.  The atom returned is a neutral version of the
-         * most common isotope of the atom found presently on earth.
-         *
-         * @return
-         */
-        public ImmutableAtom getAtomConfiguration(){
-            return AtomIdentifier.getMostCommonIsotope( atomicNumber );
-        }
-
-        public void addActionListener( ActionListener listener ) {
-            listeners.add( ActionListener.class, listener );
-        }
-
-        public void removeActionListener( ActionListener listener ) {
-            listeners.remove( ActionListener.class, listener );
-        }
-
-        public void setTextColor( Color color ){
-            text.setTextPaint( color );
-        }
-    }
     /**
      * PNode that represents a cell on the periodic table.  This version is a
      * cell that looks like a button, intended to convey to the user that it
@@ -437,10 +320,6 @@ public class PeriodicTableControlNode extends PNode {
             }
         }
 
-        public int getAtomicNumber() {
-            return atomicNumber;
-        }
-
         /**
          * Get the atom configuration associated with this cell on the
          * periodic table.  The atom returned is a neutral version of the
@@ -458,10 +337,6 @@ public class PeriodicTableControlNode extends PNode {
 
         public void removeActionListener( ActionListener listener ) {
             listeners.remove( ActionListener.class, listener );
-        }
-
-        public void setTextColor( Color color ){
-            text.setTextPaint( color );
         }
     }
 }

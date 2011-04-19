@@ -63,10 +63,6 @@ public class ProblemSet {
         problems.add( problem );
     }
 
-    public Problem getProblem( int i ) {
-        return problems.get( i );
-    }
-
     public int getProblemIndex( Problem problem ) {
         return problems.indexOf( problem );
     }

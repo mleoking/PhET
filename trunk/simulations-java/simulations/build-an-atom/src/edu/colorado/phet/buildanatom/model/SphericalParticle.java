@@ -167,12 +167,6 @@ public abstract class SphericalParticle {
         translate( vector2D.getX(), vector2D.getY() );
     }
 
-    public void reset() {
-        position.reset();
-        destination.setLocation( position.getValue() );
-        userControlled.reset();
-    }
-
     /**
      * This method should be called when this particle is removed from the
      * model.  It causes the particle to send out notifications of its

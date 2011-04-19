@@ -114,24 +114,6 @@ public class Atom implements IDynamicAtom {
         } );
     }
 
-    /**
-     * Constructor that creates an atom that is initially configured as
-     * specified in the supplied atom configuration.  Creates subatomic
-     * particles as needed.
-     */
-    public Atom( Point2D position, BuildAnAtomClock clock, ImmutableAtom initialConfiguration ) {
-        this( position, clock );
-        for ( int i = 0; i < initialConfiguration.getNumElectrons(); i++ ) {
-            addElectron( new Electron( clock ), true );
-        }
-        for ( int i = 0; i < initialConfiguration.getNumProtons(); i++ ) {
-            addProton( new Proton( clock ), true );
-        }
-        for ( int i = 0; i < initialConfiguration.getNumNeutrons(); i++ ) {
-            addNeutron( new Neutron( clock ), true );
-        }
-    }
-
     // ------------------------------------------------------------------------
     // Methods
     // ------------------------------------------------------------------------

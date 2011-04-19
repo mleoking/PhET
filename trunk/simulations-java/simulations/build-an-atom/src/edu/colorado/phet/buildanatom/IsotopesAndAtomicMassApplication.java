@@ -86,13 +86,6 @@ public class IsotopesAndAtomicMassApplication extends PiccoloPhetApplication {
         developerMenu.add( animateNucleusCheckBox );
     }
 
-    /**
-     * @param isVisible
-     */
-    protected void setProblemTypeDialogVisible( boolean isVisible ) {
-        problemTypeSelectionDialog.setVisible( isVisible );
-    }
-
     //----------------------------------------------------------------------------
     // main
     //----------------------------------------------------------------------------

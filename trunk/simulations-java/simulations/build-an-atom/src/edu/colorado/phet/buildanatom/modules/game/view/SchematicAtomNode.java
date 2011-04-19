@@ -147,10 +147,6 @@ public class SchematicAtomNode extends PNode {
         return isotopeElectronCloudNode;
     }
 
-    protected PNode getNucleusLayerParentNode() {
-        return nucleusLayersParentNode;
-    }
-
     /**
      * Decide which of the layers this nucleon should be based on its
      * location.  Atoms close to the center of the nucleus are on the more

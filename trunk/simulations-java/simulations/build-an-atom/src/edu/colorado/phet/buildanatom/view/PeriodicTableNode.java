@@ -168,7 +168,7 @@ public class PeriodicTableNode extends PNode {
         private final int atomicNumber;
         private final PText text;
         private final PhetPPath box;
-        private boolean disabledLooking = false;
+        private final boolean disabledLooking = false;
 
         public ElementCell( final IDynamicAtom atom, final int atomicNumber, final Color backgroundColor ) {
             this.atomicNumber = atomicNumber;
@@ -209,12 +209,6 @@ public class PeriodicTableNode extends PNode {
 
         public int getAtomicNumber() {
             return atomicNumber;
-        }
-
-        // FIXME: This is prototype.  Should come up with a better way to make the cells look disabled once we have
-        // figured out how they should look.
-        public void setDisabledLooking( boolean disabledLooking ){
-            this.disabledLooking = disabledLooking;
         }
     }
 }
