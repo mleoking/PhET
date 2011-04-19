@@ -32,6 +32,16 @@ public class BuildAMoleculeStrings {
     public static final String ATOM_SILICON = BuildAMoleculeResources.getString( "atom.silicon" );
     public static final String ATOM_PHOSPHORUS = BuildAMoleculeResources.getString( "atom.phosphorus" );
 
+    public static final String KIT_LABEL = BuildAMoleculeResources.getString( "kit.label" );
+    public static final String KIT_NEXT = BuildAMoleculeResources.getString( "kit.nextKit" );
+    public static final String KIT_PREVIOUS = BuildAMoleculeResources.getString( "kit.previousKit" );
+    public static final String KIT_RESET = BuildAMoleculeResources.getString( "kit.resetKit" );
+
+    public static final String JMOL_3D_SPACE_FILLING = BuildAMoleculeResources.getString( "3d.spaceFilling" );
+    public static final String JMOL_3D_BALL_AND_STICK = BuildAMoleculeResources.getString( "3d.ballAndStick" );
+
+    public static final String COLLECTION_AREA_YOUR_MOLECULE_COLLECTION = BuildAMoleculeResources.getString( "collection.yourMoleculeCollection" );
+
     private static final Map<String, String> atomStringMap = new HashMap<String, String>();
 
     static {
