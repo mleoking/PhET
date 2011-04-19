@@ -11,6 +11,7 @@ import java.text.MessageFormat;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
@@ -26,18 +27,16 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
 
-//REVIEW indicate (more clearly) why you aren't using the standard measuring tap in piccolo-phet.
-
 /**
  * Shows a piccolo measuring tape that works in multiple scales.  Its body and tip can be moved, and it provides a readout in the appropriate units.
+ * Rewrote instead of using pre-existing piccolo measuring tape for improved compatibility with Property<T> paradigm and reported problems using the other scale at multiple scale (not sure why)
  *
  * @author Sam Reid
  */
 public class MeasuringTape extends PNode {
-    static double crossHairsRadius = 4; //REVIEW constant should be private static final, all uppercase
+    private static final double CROSS_HAIR_RADIUS = 4;
     public static double METERS_PER_MILE = 0.000621371192;
 
-    //REVIEW would be much easier to read if you had inner classes for tape, body and numerical readout (as you do for crosshairs).
     public MeasuringTape( final ObservableProperty<Boolean> visible,
                           final Property<ImmutableVector2D> modelStart,
                           final Property<ImmutableVector2D> modelEnd,
@@ -45,36 +44,17 @@ public class MeasuringTape extends PNode {
         //The line that represents the "tape" part of the measuring tape
         addChild( new PhetPPath( new BasicStroke( 3 ), Color.gray ) {{
             setPickable( false );
-            final SimpleObserver updateTape = new SimpleObserver() {
+            new RichSimpleObserver() {
                 public void update() {
                     setPathTo( new Line2D.Double( transform.getValue().modelToView( modelStart.getValue() ).toPoint2D(),
                                                   transform.getValue().modelToView( modelEnd.getValue() ).toPoint2D() ) );
                 }
-            };
-            modelStart.addObserver( updateTape );
-            modelEnd.addObserver( updateTape );
-            transform.addObserver( updateTape );
+            }.observe( modelStart, modelEnd, transform );
         }} );
 
         //The body of the measuring tape
         try {
-            addChild( new PImage( ImageLoader.loadBufferedImage( "piccolo-phet/images/measuringTape.png" ) ) {{
-                final SimpleObserver updateBody = new SimpleObserver() {
-                    public void update() {
-                        setTransform( new AffineTransform() );
-                        Point2D.Double offset = transform.getValue().modelToView( modelStart.getValue() ).toPoint2D();
-                        translate( offset.getX() - getFullBounds().getWidth(), offset.getY() - getFullBounds().getHeight() + crossHairsRadius );
-                        final ImmutableVector2D delta = new ImmutableVector2D( modelStart.getValue().toPoint2D(), modelEnd.getValue().toPoint2D() );
-                        double angle = new ImmutableVector2D( delta.getX(), -delta.getY() ).getAngle();//invert coordinate frame
-                        rotateAboutPoint( angle, getFullBounds().getWidth(), getFullBounds().getHeight() - crossHairsRadius );
-                    }
-                };
-                modelStart.addObserver( updateBody );
-                modelEnd.addObserver( updateBody );
-                transform.addObserver( updateBody );
-                addInputEventListener( new CursorHandler() );
-                addInputEventListener( new DragHandler( this, transform, modelStart, modelEnd ) );
-            }} );
+            addChild( createMeasuringTapeBody( modelStart, modelEnd, transform ) );
         }
         catch ( IOException e ) {
             e.printStackTrace();
@@ -83,14 +63,23 @@ public class MeasuringTape extends PNode {
         addChild( new CrossHairGraphic( modelEnd, transform ) );
 
         //The textual (numeric) readout
-        addChild( new PText( "Hello" ) {{  //Dummy string to get the layout right
+        addChild( createTextReadout( modelStart, modelEnd, transform ) );
+        visible.addObserver( new SimpleObserver() {
+            public void update() {
+                setVisible( visible.getValue() );
+            }
+        } );
+    }
+
+    private PText createTextReadout( final Property<ImmutableVector2D> modelStart, final Property<ImmutableVector2D> modelEnd, final Property<ModelViewTransform> transform ) {
+        return new PText( "Hello" ) {{  //Dummy string to get the layout right
             setFont( new PhetFont( 18, true ) );
             setTextPaint( Color.white );
             setPickable( false );
             final SimpleObserver updateOffset = new SimpleObserver() {
                 public void update() {
                     final Point2D offset = transform.getValue().modelToView( modelStart.getValue().toPoint2D() );
-                    setOffset( offset.getX() - getFullBounds().getWidth() / 2, offset.getY() + crossHairsRadius );
+                    setOffset( offset.getX() - getFullBounds().getWidth() / 2, offset.getY() + CROSS_HAIR_RADIUS );
                 }
             };
             transform.addObserver( updateOffset );
@@ -114,29 +103,42 @@ public class MeasuringTape extends PNode {
             };
             modelStart.addObserver( updateReadout );
             modelEnd.addObserver( updateReadout );
-        }} );
-        visible.addObserver( new SimpleObserver() {
-            public void update() {
-                setVisible( visible.getValue() );
-            }
-        } );
+        }};
     }
 
-    //REVIEW not appropriate here, this is a view component
+    private PImage createMeasuringTapeBody( final Property<ImmutableVector2D> modelStart, final Property<ImmutableVector2D> modelEnd, final Property<ModelViewTransform> transform ) throws IOException {
+        return new PImage( ImageLoader.loadBufferedImage( "piccolo-phet/images/measuringTape.png" ) ) {{
+            final SimpleObserver updateBody = new SimpleObserver() {
+                public void update() {
+                    setTransform( new AffineTransform() );
+                    Point2D.Double offset = transform.getValue().modelToView( modelStart.getValue() ).toPoint2D();
+                    translate( offset.getX() - getFullBounds().getWidth(), offset.getY() - getFullBounds().getHeight() + CROSS_HAIR_RADIUS );
+                    final ImmutableVector2D delta = new ImmutableVector2D( modelStart.getValue().toPoint2D(), modelEnd.getValue().toPoint2D() );
+                    double angle = new ImmutableVector2D( delta.getX(), -delta.getY() ).getAngle();//invert coordinate frame
+                    rotateAboutPoint( angle, getFullBounds().getWidth(), getFullBounds().getHeight() - CROSS_HAIR_RADIUS );
+                }
+            };
+            modelStart.addObserver( updateBody );
+            modelEnd.addObserver( updateBody );
+            transform.addObserver( updateBody );
+            addInputEventListener( new CursorHandler() );
+            addInputEventListener( new DragHandler( this, transform, modelStart, modelEnd ) );
+        }};
+    }
+
     public static double metersToMiles( double modelDistance ) {
         return modelDistance * METERS_PER_MILE;
     }
 
-    //REVIEW not appropriate here, this is a view component
     public static double milesToMeters( double modelDistance ) {
         return modelDistance / METERS_PER_MILE;
     }
 
     private static class CrossHairGraphic extends PNode {
         public CrossHairGraphic( final Property<ImmutableVector2D> point, final Property<ModelViewTransform> transform ) {
-            addChild( new PhetPPath( new Ellipse2D.Double( -crossHairsRadius, -crossHairsRadius, crossHairsRadius * 2, crossHairsRadius * 2 ), new Color( 0, 0, 0, 0 ) ) );
-            addChild( new PhetPPath( new Line2D.Double( -crossHairsRadius, 0, crossHairsRadius, 0 ), new BasicStroke( 2 ), PhetColorScheme.RED_ALTERNATIVE ) );
-            addChild( new PhetPPath( new Line2D.Double( 0, -crossHairsRadius, 0, crossHairsRadius ), new BasicStroke( 2 ), PhetColorScheme.RED_ALTERNATIVE ) );
+            addChild( new PhetPPath( new Ellipse2D.Double( -CROSS_HAIR_RADIUS, -CROSS_HAIR_RADIUS, CROSS_HAIR_RADIUS * 2, CROSS_HAIR_RADIUS * 2 ), new Color( 0, 0, 0, 0 ) ) );
+            addChild( new PhetPPath( new Line2D.Double( -CROSS_HAIR_RADIUS, 0, CROSS_HAIR_RADIUS, 0 ), new BasicStroke( 2 ), PhetColorScheme.RED_ALTERNATIVE ) );
+            addChild( new PhetPPath( new Line2D.Double( 0, -CROSS_HAIR_RADIUS, 0, CROSS_HAIR_RADIUS ), new BasicStroke( 2 ), PhetColorScheme.RED_ALTERNATIVE ) );
             final SimpleObserver updateOffset = new SimpleObserver() {
                 public void update() {
                     setOffset( transform.getValue().modelToView( point.getValue() ).toPoint2D() );

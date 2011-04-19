@@ -150,7 +150,6 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
         }};
         addChild( controlPanelNode );
 
-        //REVIEW Putting this button here is ridiculous. It has no proximity to the thing it controls (the mode) and it's right about a button with an almost identical name (Reset All).
         //Reset mode button
         final Color buttonForegroundColor = Color.BLACK;
         final ButtonNode resetModeButton = new ButtonNode( GAOStrings.RESET, (int) ( GravityAndOrbitsControlPanel.CONTROL_FONT.getSize() * 1.3 ), buttonForegroundColor, buttonBackgroundColor ) {{

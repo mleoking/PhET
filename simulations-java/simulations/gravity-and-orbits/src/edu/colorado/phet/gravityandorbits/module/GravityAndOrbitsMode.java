@@ -32,10 +32,8 @@ import edu.umd.cs.piccolo.PNode;
 
 import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createRectangleInvertedYMapping;
 
-//REVIEW Very confusing that this is unrelated to class ModeList.Mode.  What is the relationship? Is something misnamed?
-
 /**
- * A GravityAndOrbitsMode behaves like a module, it has its own model, control panel, canvas, and remembers its state when you leave and come back.
+ * A GravityAndOrbitsMode behaves like a module, it has its own model, control panel, canvas, and remembers its state when you leave and come back.  It is created with defaults from ModeList.Mode.
  * <p/>
  * The sim was designed this way so that objects are replaced instead of mutated.
  * For instance, when switching from Mode 1 to Mode 2, instead of removing Mode 1 bodies from the model, storing their state, and replacing with the Mode 2 bodies,
@@ -86,7 +84,7 @@ public abstract class GravityAndOrbitsMode {
         this.gridSpacing = gridSpacing;
         this.gridCenter = gridCenter;
         this.rewinding = p.rewinding;
-        this.timeSpeedScaleProperty = p.timeSpeedScaleProperty;
+        this.timeSpeedScaleProperty = p.timeSpeedScale;
         this.active = new Property<Boolean>( active );
         this.timeFormatter = timeFormatter;
         this.massReadoutFactory = massReadoutFactory;
@@ -97,7 +95,7 @@ public abstract class GravityAndOrbitsMode {
                 transform.setValue( createTransform( defaultZoomScale, zoomOffset ) );
             }
         } );
-        model = new GravityAndOrbitsModel( new GravityAndOrbitsClock( dt, p.stepping, timeSpeedScaleProperty ), p.gravityEnabledProperty );
+        model = new GravityAndOrbitsModel( new GravityAndOrbitsClock( dt, p.stepping, timeSpeedScaleProperty ), p.gravityEnabled );
 
         //When the user pauses the clock, assume they will change some other parameters as well, and set a new rewind point
         this.rewindClockTime = 0;
@@ -110,9 +108,9 @@ public abstract class GravityAndOrbitsMode {
 
         new RichSimpleObserver() {
             public void update() {
-                model.getClock().setRunning( !p.clockPausedProperty.getValue() && GravityAndOrbitsMode.this.active.getValue() );
+                model.getClock().setRunning( !p.clockPaused.getValue() && GravityAndOrbitsMode.this.active.getValue() );
             }
-        }.observe( p.clockPausedProperty, this.active );
+        }.observe( p.clockPaused, this.active );
         measuringTapeStartPoint = new Property<ImmutableVector2D>( new ImmutableVector2D( initialMeasuringTapeLocation.getP1() ) );
         measuringTapeEndPoint = new Property<ImmutableVector2D>( new ImmutableVector2D( initialMeasuringTapeLocation.getP2() ) );
     }
@@ -206,7 +204,7 @@ public abstract class GravityAndOrbitsMode {
         return timeFormatter;
     }
 
-    //REVIEW doc
+    //Return the bodies to their original states when the user presses "reset" (not "reset all")
     public void resetBodies() {
         model.resetBodies();
         deviatedFromDefaults.setValue( false );
