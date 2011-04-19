@@ -286,7 +286,8 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
         }
     }
 
-    class Earth extends Body {
+    public class Earth extends Body {//public to facilitate debugging in GravityAndOrbitsModel
+
         public Earth( int maxPathLength, BodyConfiguration body ) {
             super( GAOStrings.PLANET, body.x, body.y, body.radius * 2, body.vx, body.vy, body.mass, Color.gray, Color.lightGray,
                    getRenderer( "earth_satellite.gif", body.mass ), -Math.PI / 4, true,
@@ -294,7 +295,7 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
         }
     }
 
-    class Sun extends Body {
+    public class Sun extends Body {//public to facilitate debugging in GravityAndOrbitsModel
         private final BodyConfiguration body;
 
         public Sun( int maxPathLength, final BodyConfiguration body ) {

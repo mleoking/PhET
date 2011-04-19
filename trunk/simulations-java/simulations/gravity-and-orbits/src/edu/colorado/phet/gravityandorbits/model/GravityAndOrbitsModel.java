@@ -27,7 +27,7 @@ public class GravityAndOrbitsModel {
     public boolean teacherMode;//Flag for simsharing debugging
     private final VoidFunction1<Double> stepModel;
 
-    public GravityAndOrbitsModel( GravityAndOrbitsClock clock, final Property<Boolean> gravityEnabledProperty ) {
+    public GravityAndOrbitsModel( final GravityAndOrbitsClock clock, final Property<Boolean> gravityEnabledProperty ) {
         super();
         this.clock = clock;
 
@@ -62,6 +62,9 @@ public class GravityAndOrbitsModel {
                 for ( int i = 0; i < bodies.size(); i++ ) {
                     bodies.get( i ).allBodiesUpdated();
                 }
+
+                //For debugging error in the integrator
+//                System.out.println( clock.getSimulationTime() + "\t" + getSunEarthDistance() );
             }
 
             private Body getSmaller( Body other, Body body ) {
@@ -92,6 +95,14 @@ public class GravityAndOrbitsModel {
                 updateForceVectors();
             }
         } );
+    }
+
+    //For debugging the stability of the integration rule
+    private double getSunEarthDistance() {
+        final Body star = getBody( "star" );
+        final Body planet = getBody( "planet" );
+        if ( star == null || planet == null ) { return Double.NaN; }
+        return star.getPosition().getDistance( planet.getPosition() );
     }
 
     public GravityAndOrbitsClock getClock() {
