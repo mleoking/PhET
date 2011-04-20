@@ -205,9 +205,10 @@ public abstract class GravityAndOrbitsMode {
     }
 
     //Return the bodies to their original states when the user presses "reset" (not "reset all")
-    public void resetBodies() {
+    public void resetMode() {
         model.resetBodies();
         deviatedFromDefaults.setValue( false );
+        getClock().setSimulationTime( 0.0 );//Same as pressing "clear" in the FloatingClockControlNode
     }
 
     public double getVelocityVectorScale() {
