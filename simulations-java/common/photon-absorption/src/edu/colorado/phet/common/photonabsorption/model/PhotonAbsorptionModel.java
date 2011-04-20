@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.EventListener;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 import javax.swing.event.EventListenerList;
@@ -16,7 +17,14 @@ import javax.swing.event.EventListenerList;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import edu.colorado.phet.common.photonabsorption.model.molecules.*;
+import edu.colorado.phet.common.photonabsorption.model.molecules.CH4;
+import edu.colorado.phet.common.photonabsorption.model.molecules.CO;
+import edu.colorado.phet.common.photonabsorption.model.molecules.CO2;
+import edu.colorado.phet.common.photonabsorption.model.molecules.H2O;
+import edu.colorado.phet.common.photonabsorption.model.molecules.N2;
+import edu.colorado.phet.common.photonabsorption.model.molecules.NO2;
+import edu.colorado.phet.common.photonabsorption.model.molecules.O2;
+import edu.colorado.phet.common.photonabsorption.model.molecules.O3;
 
 /**
  * Primary model for the Photon Absorption tab.  This models photons being
@@ -84,14 +92,14 @@ public class PhotonAbsorptionModel {
 
     // Initial and max values for the numbers of molecules in the configurable
     // atmosphere.
-    private static final HashMap<MoleculeID, Integer> INITIAL_ATMOSPHERE_CONCENTRATIONS = new HashMap< MoleculeID, Integer>() {{
+    private static final Map<MoleculeID, Integer> INITIAL_ATMOSPHERE_CONCENTRATIONS = new HashMap< MoleculeID, Integer>() {{
         put(MoleculeID.N2, 0);
         put(MoleculeID.O2, 0);
         put(MoleculeID.CO2, 0);
         put(MoleculeID.CH4, 0);
         put(MoleculeID.H2O, 0);
     }};
-    private static final HashMap< MoleculeID , Integer> MAX_ATMOSPHERE_CONCENTRATIONS = new HashMap< MoleculeID, Integer>() {{
+    private static final Map< MoleculeID , Integer> MAX_ATMOSPHERE_CONCENTRATIONS = new HashMap< MoleculeID, Integer>() {{
         put(MoleculeID.N2, 15);
         put(MoleculeID.O2, 15);
         put(MoleculeID.CO2, 15);
@@ -724,11 +732,11 @@ public class PhotonAbsorptionModel {
 
         assert photonTarget != PhotonTarget.CONFIGURABLE_ATMOSPHERE; // See method header comment if this assertion is hit.
 
-        setConfigurableAtmosphereInitialLevel( MoleculeID.CH4);
-        setConfigurableAtmosphereInitialLevel( MoleculeID.CO2);
-        setConfigurableAtmosphereInitialLevel( MoleculeID.H2O);
-        setConfigurableAtmosphereInitialLevel( MoleculeID.N2);
-        setConfigurableAtmosphereInitialLevel( MoleculeID.O2);
+        setConfigurableAtmosphereInitialLevel( MoleculeID.CH4) ;
+        setConfigurableAtmosphereInitialLevel( MoleculeID.CO2 );
+        setConfigurableAtmosphereInitialLevel( MoleculeID.H2O );
+        setConfigurableAtmosphereInitialLevel( MoleculeID.N2 );
+        setConfigurableAtmosphereInitialLevel( MoleculeID.O2 );
     }
 
     private void notifyPhotonAdded(Photon photon){
