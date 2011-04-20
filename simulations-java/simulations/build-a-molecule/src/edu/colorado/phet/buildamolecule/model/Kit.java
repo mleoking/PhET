@@ -296,6 +296,9 @@ public class Kit {
         }
 
         // finally clear our record of ANY molecules
+        for ( MoleculeStructure molecule : new ArrayList<MoleculeStructure>( molecules ) ) {
+            removeMolecule( molecule );
+        }
         molecules.clear();
 
         // conceptually pull our molecules from the boxes (reduce box count)
