@@ -2,9 +2,18 @@
 
 package edu.colorado.phet.moleculesandlight.view;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GradientPaint;
+import java.awt.Image;
+import java.awt.Paint;
+import java.awt.Stroke;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
@@ -13,7 +22,10 @@ import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
-import edu.colorado.phet.common.phetcommon.view.util.*;
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
+import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.phetcommon.view.util.SpectrumImageFactory.ExponentialGrowthSpectrumImageFactory;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
@@ -42,6 +54,10 @@ public class SpectrumWindow extends JFrame {
         // Size and center this window.
         setToDefaultSizeAndPosition();
 
+        // Make sure the window is hidden when closed, not destroyed.  This
+        // is actually the default value, but it is good to make sure.
+        setDefaultCloseOperation( WindowConstants.HIDE_ON_CLOSE );
+
         // Create the canvas and set up its transform.
         PhetPCanvas canvas = new PhetPCanvas();
         canvas.setBackground( new Color( 233, 236, 174 ) );
@@ -57,7 +73,9 @@ public class SpectrumWindow extends JFrame {
         ButtonNode closeButton = new ButtonNode( MoleculesAndLightResources.getCommonString( "Common.choice.close" ), Color.ORANGE );
         closeButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
-                SpectrumWindow.this.setVisible( false );
+                // Post an event in the system queue that indicates a close.
+                WindowEvent wev = new WindowEvent(SpectrumWindow.this, WindowEvent.WINDOW_CLOSING);
+                Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(wev);
             }
         } );
         closeButton.centerFullBoundsOnPoint( spectrumDiagram.getFullBoundsReference().getCenterX(),
