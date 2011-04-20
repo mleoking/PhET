@@ -31,6 +31,8 @@ public class BuildAMoleculeStrings {
     public static final String ATOM_SULPHUR = BuildAMoleculeResources.getString( "atom.sulphur" );
     public static final String ATOM_SILICON = BuildAMoleculeResources.getString( "atom.silicon" );
     public static final String ATOM_PHOSPHORUS = BuildAMoleculeResources.getString( "atom.phosphorus" );
+    public static final String ATOM_IODINE = BuildAMoleculeResources.getString( "atom.iodine" );
+    public static final String ATOM_BROMINE = BuildAMoleculeResources.getString( "atom.bromine" );
 
     public static final String KIT_LABEL = BuildAMoleculeResources.getString( "kit.label" );
     public static final String KIT_NEXT = BuildAMoleculeResources.getString( "kit.nextKit" );
@@ -55,6 +57,8 @@ public class BuildAMoleculeStrings {
         atomStringMap.put( "S", ATOM_SULPHUR );
         atomStringMap.put( "Si", ATOM_SILICON );
         atomStringMap.put( "P", ATOM_PHOSPHORUS );
+        atomStringMap.put( "I", ATOM_IODINE );
+        atomStringMap.put( "Br", ATOM_BROMINE );
     }
 
     public static String getAtomName( Atom atom ) {

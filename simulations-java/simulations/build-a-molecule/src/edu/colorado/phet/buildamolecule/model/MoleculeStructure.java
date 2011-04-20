@@ -3,6 +3,7 @@ package edu.colorado.phet.buildamolecule.model;
 
 import java.util.*;
 
+import edu.colorado.phet.buildamolecule.model.buckets.AtomModel;
 import edu.colorado.phet.chemistry.model.Atom;
 import edu.colorado.phet.chemistry.utils.ChemUtils;
 
@@ -91,6 +92,41 @@ public class MoleculeStructure {
         }
         ret.addBond( a, b );
         return ret;
+    }
+
+    public String toSerial() {
+        String ret = atoms.size() + "|" + bonds.size();
+        List<Atom> atoms = new LinkedList<Atom>( getAtoms() );
+        for ( Atom atom : atoms ) {
+            ret += "|" + atom.getSymbol();
+        }
+
+        for ( Bond bond : bonds ) {
+            int a = atoms.indexOf( bond.a );
+            int b = atoms.indexOf( bond.b );
+            ret += "|" + a + "|" + b;
+        }
+
+        return ret;
+    }
+
+    public static MoleculeStructure fromSerial( String str ) {
+        MoleculeStructure structure = new MoleculeStructure();
+        StringTokenizer t = new StringTokenizer( str, "|" );
+        int atomCount = Integer.parseInt( t.nextToken() );
+        int bondCount = Integer.parseInt( t.nextToken() );
+        Atom[] atoms = new Atom[atomCount];
+
+        for ( int i = 0; i < atomCount; i++ ) {
+            atoms[i] = AtomModel.createAtomBySymbol( t.nextToken() );
+            structure.addAtom( atoms[i] );
+        }
+
+        for ( int i = 0; i < bondCount; i++ ) {
+            structure.addBond( atoms[Integer.parseInt( t.nextToken() )], atoms[Integer.parseInt( t.nextToken() )] );
+        }
+
+        return structure;
     }
 
     public static class Bond {

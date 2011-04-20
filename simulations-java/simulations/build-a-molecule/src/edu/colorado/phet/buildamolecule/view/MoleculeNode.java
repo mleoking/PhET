@@ -50,7 +50,7 @@ public class MoleculeNode extends PNode {
         if ( completeMolecule != null ) {
             commonNameLabel = new HTMLNode( completeMolecule.getCommonName() ) {{
                 setFont( new PhetFont( 14, true ) );
-                if ( completeMolecule.hasCmlData() ) {
+                if ( true ) {
                     addInputEventListener( new CursorHandler() {
                         @Override
                         public void mouseClicked( PInputEvent event ) {

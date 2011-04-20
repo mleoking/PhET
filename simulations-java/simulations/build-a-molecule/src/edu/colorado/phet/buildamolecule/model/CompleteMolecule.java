@@ -1,52 +1,93 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.buildamolecule.model;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.io.*;
+import java.lang.reflect.InvocationTargetException;
+import java.util.*;
 
+import edu.colorado.phet.buildamolecule.BuildAMoleculeResources;
+import edu.colorado.phet.buildamolecule.model.buckets.AtomModel;
 import edu.colorado.phet.chemistry.model.Atom;
-import edu.colorado.phet.chemistry.molecules.H2ONode;
-import edu.colorado.phet.chemistry.molecules.NH3Node;
-import edu.colorado.phet.common.phetcommon.util.function.Function0;
+import edu.colorado.phet.chemistry.molecules.*;
 import edu.umd.cs.piccolo.PNode;
 
-import static edu.colorado.phet.chemistry.model.Atom.*;
 import static edu.colorado.phet.chemistry.molecules.HorizontalMoleculeNode.*;
 
 /**
- * Represents a complete (stable) molecule with a name and structure
+ * Represents a complete (stable) molecule with a name and structure. Includes 2d and 3d representations, and can generate visuals of both types.
  */
 public class CompleteMolecule {
-    private String commonName;
+    private String commonName; // as said by pubchem (or overridden)
+    private String molecularFormula; // as said by pubchem
     private MoleculeStructure moleculeStructure;
-    private Function0<PNode> createNode;
-    private String cmlData = null; // data in the CML format to describe the molecule
 
-    // TODO: fully decide on 3d representation or data structure
-    //private Map<Atom, ImmutableVector2D> positionMap = new HashMap<Atom, ImmutableVector2D>();
+    // more advanced molecule support. primarily for 3d display
+    private AtomWrapper[] atomWrappers;
+    private BondWrapper[] bondWrappers;
 
-    public PNode createPseudo3DNode() {
-        if ( createNode == null ) {
-            throw new RuntimeException( "PNode not implemented for " + commonName );
+    // nodes listed so we can construct them with reflection TODO: auto-construction of nodes like the default case, but tuned?
+    private static final Class[] nodeClasses = new Class[] {
+            Cl2Node.class, CO2Node.class, CO2Node.class, CS2Node.class, F2Node.class, H2Node.class, N2Node.class, NONode.class, N2ONode.class,
+            O2Node.class, C2H2Node.class, C2H4Node.class, C2H5ClNode.class, C2H5OHNode.class, C2H6Node.class, CH2ONode.class, CH3OHNode.class,
+            CH4Node.class, H2ONode.class, H2SNode.class, HClNode.class, HFNode.class, NH3Node.class, NO2Node.class, OF2Node.class, P4Node.class,
+            PCl3Node.class, PCl5Node.class, PF3Node.class, PH3Node.class, SO2Node.class, SO3Node.class
+    };
+
+    // TODO: i18n. how?
+
+    /**
+     * Construct a molecule out of a pipe-separated line.
+     *
+     * @param line
+     */
+    public CompleteMolecule( String line ) {
+        StringTokenizer t = new StringTokenizer( line, "|" );
+
+        // read common name first
+        commonName = t.nextToken();
+
+        // molecular formula
+        molecularFormula = t.nextToken();
+
+        // # of atoms
+        int atomCount = Integer.parseInt( t.nextToken() );
+
+        // # of bonds
+        int bondCount = Integer.parseInt( t.nextToken() );
+        moleculeStructure = new MoleculeStructure();
+
+        // for each atom, read its symbol, then 2d coordinates, then 3d coordinates (total of 6 fields)
+        atomWrappers = new AtomWrapper[atomCount];
+        for ( int i = 0; i < atomCount; i++ ) {
+            String symbol = t.nextToken();
+            double x2d = Double.parseDouble( t.nextToken() );
+            double y2d = Double.parseDouble( t.nextToken() );
+            double x3d = Double.parseDouble( t.nextToken() );
+            double y3d = Double.parseDouble( t.nextToken() );
+            double z3d = Double.parseDouble( t.nextToken() );
+            Atom atom = AtomModel.createAtomBySymbol( symbol );
+            moleculeStructure.addAtom( atom );
+            atomWrappers[i] = new AtomWrapper( x2d, y2d, x3d, y3d, z3d, atom );
         }
-        return createNode.apply();
-    }
 
-    // TODO: i18n
-
-    public CompleteMolecule( String commonName, MoleculeStructure moleculeStructure, Function0<PNode> createNode ) {
-        this( commonName, moleculeStructure, createNode, null );
-    }
-
-    public CompleteMolecule( String commonName, MoleculeStructure moleculeStructure, Function0<PNode> createNode, String cmlData ) {
-        this.commonName = commonName;
-        this.moleculeStructure = moleculeStructure;
-        this.createNode = createNode;
-        this.cmlData = cmlData;
+        // for each bond, read atom indices (2 of them, which are 1-indexed), and then the order of the bond (single, double, triple, etc.)
+        bondWrappers = new BondWrapper[bondCount];
+        for ( int i = 0; i < bondCount; i++ ) {
+            int a = Integer.parseInt( t.nextToken() );
+            int b = Integer.parseInt( t.nextToken() );
+            int order = Integer.parseInt( t.nextToken() );
+            MoleculeStructure.Bond bond = new MoleculeStructure.Bond( atomWrappers[a - 1].atom, atomWrappers[b - 1].atom ); // -1 since our format is 1-based
+            moleculeStructure.addBond( bond );
+            bondWrappers[i] = new BondWrapper( a, b, bond, order );
+        }
     }
 
     public String getCommonName() {
         return commonName;
+    }
+
+    private void setCommonName( String commonName ) {
+        this.commonName = commonName;
     }
 
     public MoleculeStructure getMoleculeStructure() {
@@ -61,321 +102,86 @@ public class CompleteMolecule {
      * @return True if it is allowed
      */
     public static boolean isAllowedStructure( MoleculeStructure moleculeStructure ) {
-        return isStructureInAllowedStructures( moleculeStructure );
+        String formula = moleculeStructure.getMolecularFormulaHTMLFragment();
+
+        // use the allowed structure map as an acceleration feature
+        if ( allowedStructureMap.containsKey( formula ) ) {
+            for ( MoleculeStructure structure : allowedStructureMap.get( formula ) ) {
+                if ( structure.isEquivalent( moleculeStructure ) ) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
+    /**
+     * @return An XML CML string for our 3D representation
+     */
     public String getCmlData() {
-        return cmlData;
+        String ret = "<?xml version=\"1.0\"?>\n" +
+                     "<molecule id=\"" + commonName + "\" xmlns=\"http://www.xml-cml.org/schema\">";
+        ret += "<name>" + commonName + "</name>";
+        ret += "<atomArray>";
+        for ( int i = 0; i < atomWrappers.length; i++ ) {
+            AtomWrapper atomWrapper = atomWrappers[i];
+            // TODO: include the formal charge possibly later, if Jmol can show it?
+            ret += "<atom id=\"a" + ( i + 1 ) + "\" elementType=\"" + atomWrapper.atom.getSymbol() + "\" x3=\"" + atomWrapper.x3d + "\" y3=\"" + atomWrapper.y3d + "\" z3=\"" + atomWrapper.z3d + "\"/>";
+        }
+        ret += "</atomArray>";
+        ret += "<bondArray>";
+        for ( BondWrapper bondWrapper : bondWrappers ) {
+            ret += "<bond atomRefs2=\"a" + bondWrapper.a + " a" + bondWrapper.b + "\" order=\"" + bondWrapper.order + "\"/>";
+        }
+        ret += "</bondArray>";
+        ret += "</molecule>";
+        return ret;
     }
 
-    public boolean hasCmlData() {
-        return cmlData != null;
+    /**
+     * @return A node that represents a 2d but quasi-3D version
+     */
+    public PNode createPseudo3DNode() {
+        // if we can find it in the common chemistry nodes, use that
+        for ( Class nodeClass : nodeClasses ) {
+            if ( nodeClass.getSimpleName().equals( molecularFormula + "Node" ) || ( nodeClass == NH3Node.class && molecularFormula.equals( "H3N" ) ) ) {
+                try {
+                    return (PNode) nodeClass.getConstructors()[0].newInstance();
+                }
+                catch ( InstantiationException e ) {
+                    e.printStackTrace();
+                }
+                catch ( IllegalAccessException e ) {
+                    e.printStackTrace();
+                }
+                catch ( InvocationTargetException e ) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        // otherwise, use our 2d positions to construct a version. we get the correct back-to-front rendering
+        return new PNode() {{
+            List<AtomWrapper> wrappers = new LinkedList<AtomWrapper>( Arrays.asList( atomWrappers ) );
+
+            // sort by Z-depth in 3D
+            Collections.sort( wrappers, new Comparator<AtomWrapper>() {
+                public int compare( AtomWrapper a, AtomWrapper b ) {
+                    return ( new Double( a.z3d ) ).compareTo( b.z3d );
+                }
+            } );
+
+            for ( final AtomWrapper atomWrapper : wrappers ) {
+                addChild( new AtomNode( atomWrapper.atom ) {{
+                    setOffset( atomWrapper.x2d * 15, atomWrapper.y2d * 15 ); // custom scale for now.
+                }} );
+            }
+        }};
     }
 
     /*---------------------------------------------------------------------------*
     * complete molecules
     *----------------------------------------------------------------------------*/
-
-    // NOTE: some results used http://webbook.nist.gov/chemistry/form-ser.html for the common names
-
-    private static CompleteMolecule diatomic( String commonName, final Atom a, final Atom b, Function0<PNode> createNode ) {
-        return new CompleteMolecule( commonName, new MoleculeStructure() {{
-            Atom atomA = addAtom( a );
-            Atom atomB = addAtom( b );
-            addBond( atomA, atomB );
-        }}, createNode );
-    }
-
-    private static CompleteMolecule triatomic( String commonName, final Atom a, final Atom b, final Atom c, Function0<PNode> createNode ) {
-        return new CompleteMolecule( commonName, new MoleculeStructure() {{
-            Atom atomA = addAtom( a );
-            Atom atomB = addAtom( b );
-            Atom atomC = addAtom( c );
-            addBond( atomA, atomB );
-            addBond( atomB, atomC );
-        }}, createNode );
-    }
-
-    private static CompleteMolecule withTwoHydrogens( String commonName, final Atom a, Function0<PNode> createNode ) {
-        return triatomic( commonName, new H(), a, new H(), createNode );
-    }
-
-    private static CompleteMolecule withThreeHydrogens( String commonName, final Atom a, Function0<PNode> createNode ) {
-        return new CompleteMolecule( commonName, new MoleculeStructure() {{
-            Atom atom = addAtom( a );
-            Atom H1 = addAtom( new H() );
-            Atom H2 = addAtom( new H() );
-            Atom H3 = addAtom( new H() );
-            addBond( atom, H1 );
-            addBond( atom, H2 );
-            addBond( atom, H3 );
-        }}, createNode );
-    }
-
-    private static CompleteMolecule withFourHydrogens( String commonName, final Atom a, Function0<PNode> createNode ) {
-        return new CompleteMolecule( commonName, new MoleculeStructure() {{
-            Atom atom = addAtom( a );
-            Atom H1 = addAtom( new H() );
-            Atom H2 = addAtom( new H() );
-            Atom H3 = addAtom( new H() );
-            Atom H4 = addAtom( new H() );
-            addBond( atom, H1 );
-            addBond( atom, H2 );
-            addBond( atom, H3 );
-            addBond( atom, H4 );
-        }}, createNode );
-    }
-
-    public static final CompleteMolecule H2O = new CompleteMolecule( "Water", new MoleculeStructure() {{
-        Atom atomA = addAtom( new H() );
-        Atom atomB = addAtom( new O() );
-        Atom atomC = addAtom( new H() );
-        addBond( atomA, atomB );
-        addBond( atomB, atomC );
-    }}, new Function0<PNode>() {
-        public PNode apply() {
-            return new H2ONode();
-        }
-    }, "<?xml version=\"1.0\"?>\n" +
-       "<molecule id=\"id962\" xmlns=\"http://www.xml-cml.org/schema\">\n" +
-       " <name>962</name>\n" +
-       " <atomArray>\n" +
-       "  <atom id=\"a1\" elementType=\"O\" x3=\"0.000000\" y3=\"0.000000\" z3=\"0.000000\"/>\n" +
-       "  <atom id=\"a2\" elementType=\"H\" x3=\"0.277400\" y3=\"0.892900\" z3=\"0.254400\"/>\n" +
-       "  <atom id=\"a3\" elementType=\"H\" x3=\"0.606800\" y3=\"-0.238300\" z3=\"-0.716900\"/>\n" +
-       " </atomArray>\n" +
-       " <bondArray>\n" +
-       "  <bond atomRefs2=\"a1 a2\" order=\"1\"/>\n" +
-       "  <bond atomRefs2=\"a1 a3\" order=\"1\"/>\n" +
-       " </bondArray>\n" +
-       "</molecule>\n" );
-
-    public static final CompleteMolecule O2 = diatomic( "Oxygen", new O(), new O(), new Function0<PNode>() {
-        public PNode apply() {
-            return new O2Node();
-        }
-    } );
-
-    public static final CompleteMolecule H2 = diatomic( "Hydrogen", new H(), new H(), new Function0<PNode>() {
-        public PNode apply() {
-            return new H2Node();
-        }
-    } );
-
-    public static final CompleteMolecule CO = diatomic( "Carbon Monoxide", new C(), new O(), new Function0<PNode>() {
-        public PNode apply() {
-            return new CONode();
-        }
-    } );
-
-    public static final CompleteMolecule CO2 = triatomic( "Carbon Dioxide", new O(), new C(), new O(), new Function0<PNode>() {
-        public PNode apply() {
-            return new CO2Node();
-        }
-    } );
-
-    public static final CompleteMolecule N2 = diatomic( "Nitrogen", new N(), new N(), new Function0<PNode>() {
-        public PNode apply() {
-            return new N2Node();
-        }
-    } );
-
-    public static final CompleteMolecule O3 = triatomic( "Ozone", new O(), new O(), new O(), null );
-
-    public static final CompleteMolecule F2 = diatomic( "Fluorine", new F(), new F(), null );
-
-    public static final CompleteMolecule Cl2 = diatomic( "Chlorine", new Cl(), new Cl(), new Function0<PNode>() {
-        public PNode apply() {
-            return new Cl2Node();
-        }
-    } );
-
-    public static final CompleteMolecule NO = diatomic( "Nitric Oxide", new N(), new O(), null );
-
-    public static final CompleteMolecule NO2 = triatomic( "Nitrogen Dioxide", new O(), new N(), new O(), null );
-
-    public static final CompleteMolecule N20 = triatomic( "Nitrous Oxide", new N(), new N(), new O(), null );
-
-    public static final CompleteMolecule H2O2 = new CompleteMolecule( "Hydrogen Peroxide", new MoleculeStructure() {{
-        Atom O1 = addAtom( new Atom.O() );
-        Atom O2 = addAtom( new Atom.O() );
-        Atom H1 = addAtom( new Atom.H() );
-        Atom H2 = addAtom( new Atom.H() );
-        addBond( H1, O1 );
-        addBond( O1, O2 );
-        addBond( O2, H2 );
-    }}, null, "<?xml version=\"1.0\"?>\n" +
-              "<molecule id=\"id784\" xmlns=\"http://www.xml-cml.org/schema\">\n" +
-              " <name>784</name>\n" +
-              " <atomArray>\n" +
-              "  <atom id=\"a1\" elementType=\"O\" x3=\"0.724700\" y3=\"0.000000\" z3=\"0.000000\"/>\n" +
-              "  <atom id=\"a2\" elementType=\"O\" x3=\"-0.724700\" y3=\"0.000000\" z3=\"0.000000\"/>\n" +
-              "  <atom id=\"a3\" elementType=\"H\" x3=\"0.823300\" y3=\"-0.700000\" z3=\"-0.667600\"/>\n" +
-              "  <atom id=\"a4\" elementType=\"H\" x3=\"-0.823300\" y3=\"-0.617500\" z3=\"0.744600\"/>\n" +
-              " </atomArray>\n" +
-              " <bondArray>\n" +
-              "  <bond atomRefs2=\"a1 a2\" order=\"1\"/>\n" +
-              "  <bond atomRefs2=\"a1 a3\" order=\"1\"/>\n" +
-              "  <bond atomRefs2=\"a2 a4\" order=\"1\"/>\n" +
-              " </bondArray>\n" +
-              "</molecule>" );
-
-    public static final CompleteMolecule BH3 = withThreeHydrogens( "Borane", new B(), null );
-    public static final CompleteMolecule H2S = withTwoHydrogens( "Hydrogen Sulfide", new S(), null );
-    public static final CompleteMolecule NH3 = withThreeHydrogens( "Ammonia", new N(), new Function0<PNode>() {
-        public PNode apply() {
-            return new NH3Node();
-        }
-    } );
-    public static final CompleteMolecule CH4 = withFourHydrogens( "Methane", new C(), null );
-    public static final CompleteMolecule FH = diatomic( "Hydrogen Fluoride", new F(), new H(), null );
-    public static final CompleteMolecule PH3 = withThreeHydrogens( "Phosphine", new P(), null );
-    public static final CompleteMolecule SiH4 = withFourHydrogens( "Silane", new Si(), null );
-    public static final CompleteMolecule ClH = diatomic( "Hydrogen Chloride", new H(), new Cl(), null );
-    public static final CompleteMolecule BF3 = new CompleteMolecule( "Boron Trifluoride", new MoleculeStructure() {{
-        Atom B1 = addAtom( new B() );
-        Atom F1 = addAtom( new F() );
-        Atom F2 = addAtom( new F() );
-        Atom F3 = addAtom( new F() );
-        addBond( B1, F1 );
-        addBond( B1, F2 );
-        addBond( B1, F3 );
-    }}, null );
-    public static final CompleteMolecule CHN = triatomic( "Hydrogen Cyanide", new H(), new C(), new N(), null );
-    public static final CompleteMolecule CH2O = new CompleteMolecule( "Formaldehyde", new MoleculeStructure() {{
-        Atom C1 = addAtom( new C() );
-        Atom H1 = addAtom( new H() );
-        Atom H2 = addAtom( new H() );
-        Atom O1 = addAtom( new O() );
-        addBond( C1, H1 );
-        addBond( C1, H2 );
-        addBond( C1, O1 );
-    }}, null );
-    public static final CompleteMolecule CH3OH = new CompleteMolecule( "Methyl Alcohol", new MoleculeStructure() {{
-        Atom C1 = addAtom( new C() );
-        Atom H1 = addAtom( new H() );
-        Atom H2 = addAtom( new H() );
-        Atom H3 = addAtom( new H() );
-        Atom H4 = addAtom( new H() );
-        Atom O1 = addAtom( new O() );
-        addBond( C1, H1 );
-        addBond( C1, H2 );
-        addBond( C1, H3 );
-        addBond( C1, O1 );
-        addBond( O1, H4 );
-    }}, null );
-    public static final CompleteMolecule CH3F = new CompleteMolecule( "Fluoromethane", new MoleculeStructure() {{
-        Atom C1 = addAtom( new C() );
-        Atom H1 = addAtom( new H() );
-        Atom H2 = addAtom( new H() );
-        Atom H3 = addAtom( new H() );
-        Atom F1 = addAtom( new F() );
-        addBond( C1, H1 );
-        addBond( C1, H2 );
-        addBond( C1, H3 );
-        addBond( C1, F1 );
-    }}, null, "<?xml version=\"1.0\"?>\n" +
-              "<molecule id=\"id11638\" xmlns=\"http://www.xml-cml.org/schema\">\n" +
-              " <name>11638</name>\n" +
-              " <atomArray>\n" +
-              "  <atom id=\"a1\" elementType=\"F\" x3=\"0.678300\" y3=\"0.000000\" z3=\"0.000000\"/>\n" +
-              "  <atom id=\"a2\" elementType=\"C\" x3=\"-0.678300\" y3=\"0.000000\" z3=\"0.000000\"/>\n" +
-              "  <atom id=\"a3\" elementType=\"H\" x3=\"-1.029300\" y3=\"0.464000\" z3=\"0.923900\"/>\n" +
-              "  <atom id=\"a4\" elementType=\"H\" x3=\"-1.029300\" y3=\"0.568100\" z3=\"-0.863900\"/>\n" +
-              "  <atom id=\"a5\" elementType=\"H\" x3=\"-1.029300\" y3=\"-1.032200\" z3=\"-0.060100\"/>\n" +
-              " </atomArray>\n" +
-              " <bondArray>\n" +
-              "  <bond atomRefs2=\"a1 a2\" order=\"1\"/>\n" +
-              "  <bond atomRefs2=\"a2 a3\" order=\"1\"/>\n" +
-              "  <bond atomRefs2=\"a2 a4\" order=\"1\"/>\n" +
-              "  <bond atomRefs2=\"a2 a5\" order=\"1\"/>\n" +
-              " </bondArray>\n" +
-              "</molecule>\n" );
-    public static final CompleteMolecule CH2F2 = new CompleteMolecule( "Difluoromethane", new MoleculeStructure() {{
-        Atom C1 = addAtom( new C() );
-        Atom H1 = addAtom( new H() );
-        Atom H2 = addAtom( new H() );
-        Atom F1 = addAtom( new F() );
-        Atom F2 = addAtom( new F() );
-        addBond( C1, H1 );
-        addBond( C1, H2 );
-        addBond( C1, F1 );
-        addBond( C1, F2 );
-    }}, null );
-    public static final CompleteMolecule CHF3 = new CompleteMolecule( "Trifluoromethane", new MoleculeStructure() {{
-        Atom C1 = addAtom( new C() );
-        Atom H1 = addAtom( new H() );
-        Atom F1 = addAtom( new F() );
-        Atom F2 = addAtom( new F() );
-        Atom F3 = addAtom( new F() );
-        addBond( C1, H1 );
-        addBond( C1, F1 );
-        addBond( C1, F2 );
-        addBond( C1, F3 );
-    }}, null );
-    public static final CompleteMolecule CF4 = new CompleteMolecule( "Carbon Tetrafluoride", new MoleculeStructure() {{
-        Atom C1 = addAtom( new C() );
-        Atom F1 = addAtom( new F() );
-        Atom F2 = addAtom( new F() );
-        Atom F3 = addAtom( new F() );
-        Atom F4 = addAtom( new F() );
-        addBond( C1, F1 );
-        addBond( C1, F2 );
-        addBond( C1, F3 );
-        addBond( C1, F4 );
-    }}, null );
-    public static final CompleteMolecule CH3Cl = new CompleteMolecule( "Chloromethane", new MoleculeStructure() {{
-        Atom C1 = addAtom( new C() );
-        Atom H1 = addAtom( new H() );
-        Atom H2 = addAtom( new H() );
-        Atom H3 = addAtom( new H() );
-        Atom Cl1 = addAtom( new Cl() );
-        addBond( C1, H1 );
-        addBond( C1, H2 );
-        addBond( C1, H3 );
-        addBond( C1, Cl1 );
-    }}, null );
-    public static final CompleteMolecule CH2Cl2 = new CompleteMolecule( "Methylene Chloride", new MoleculeStructure() {{
-        Atom C1 = addAtom( new C() );
-        Atom H1 = addAtom( new H() );
-        Atom H2 = addAtom( new H() );
-        Atom Cl1 = addAtom( new Cl() );
-        Atom Cl2 = addAtom( new Cl() );
-        addBond( C1, H1 );
-        addBond( C1, H2 );
-        addBond( C1, Cl1 );
-        addBond( C1, Cl2 );
-    }}, null );
-
-    public static final CompleteMolecule C2H2 = new CompleteMolecule( "Acetylene", new MoleculeStructure() {{
-        Atom C1 = addAtom( new Atom.C() );
-        Atom C2 = addAtom( new Atom.C() );
-        Atom H1 = addAtom( new Atom.H() );
-        Atom H2 = addAtom( new Atom.H() );
-        addBond( H1, C1 );
-        addBond( C1, C2 );
-        addBond( C2, H2 );
-    }}, null );
-
-    public static final CompleteMolecule C2H4 = new CompleteMolecule( "Ethylene", new MoleculeStructure() {{
-        Atom C1 = addAtom( new Atom.C() );
-        Atom C2 = addAtom( new Atom.C() );
-        Atom H1 = addAtom( new Atom.H() );
-        Atom H2 = addAtom( new Atom.H() );
-        Atom H3 = addAtom( new Atom.H() );
-        Atom H4 = addAtom( new Atom.H() );
-        addBond( H1, C1 );
-        addBond( H2, C1 );
-        addBond( C1, C2 );
-        addBond( C2, H3 );
-        addBond( C2, H4 );
-    }}, null );
-
-
-    public static final CompleteMolecule[] COMPLETE_MOLECULES = new CompleteMolecule[] {
-            H2O, O2, H2, CO2, N2, O3, CO, F2, Cl2, NO, NO2, N20, H2O2, BH3, H2S, NH3, CH4, FH, PH3, SiH4, ClH, BF3, CHN,
-            CH2O, CH3OH, CH3F, CH2F2, CHF3, CF4, CH3Cl, CH2Cl2, C2H2, C2H4
-    };
 
     /**
      * Find a complete molecule with an equivalent structure to the passed in molecule
@@ -384,7 +190,7 @@ public class CompleteMolecule {
      * @return Either a matching CompleteMolecule, or null if none is found
      */
     public static CompleteMolecule findMatchingCompleteMolecule( MoleculeStructure moleculeStructure ) {
-        for ( CompleteMolecule completeMolecule : CompleteMolecule.COMPLETE_MOLECULES ) {
+        for ( CompleteMolecule completeMolecule : CompleteMolecule.completeMolecules ) {
             if ( moleculeStructure.isEquivalent( completeMolecule.getMoleculeStructure() ) ) {
                 return completeMolecule;
             }
@@ -392,8 +198,158 @@ public class CompleteMolecule {
         return null;
     }
 
+    public static CompleteMolecule getMoleculeByName( String name ) {
+        return moleculeMap.get( name );
+    }
+
     /*---------------------------------------------------------------------------*
     * computation of allowed molecule structures
+    *----------------------------------------------------------------------------*/
+
+    // TODO: pair down some of the data structures for simplicity
+
+    private static List<CompleteMolecule> completeMolecules = new LinkedList<CompleteMolecule>(); // all complete molecules
+    private static Map<String, CompleteMolecule> moleculeMap = new HashMap<String, CompleteMolecule>(); // map from unique name => complete molecule
+
+    // maps to allow us to efficiently look things up by molecular formula. since we allow isomers, multiple structures can have the same formula.
+    private static Map<String, List<CompleteMolecule>> completeMoleculeMap = new HashMap<String, List<CompleteMolecule>>();
+    private static Map<String, List<MoleculeStructure>> allowedStructureMap = new HashMap<String, List<MoleculeStructure>>();
+
+    private static void addCompleteMolecule( final CompleteMolecule completeMolecule ) {
+        String formula = completeMolecule.getMoleculeStructure().getMolecularFormulaHTMLFragment();
+        if ( completeMoleculeMap.containsKey( formula ) ) {
+            completeMoleculeMap.get( formula ).add( completeMolecule );
+        }
+        else {
+            completeMoleculeMap.put( formula, new LinkedList<CompleteMolecule>() {{
+                add( completeMolecule );
+            }} );
+        }
+    }
+
+    private static void addAllowedStructure( final MoleculeStructure structure ) {
+        String formula = structure.getMolecularFormulaHTMLFragment();
+        if ( allowedStructureMap.containsKey( formula ) ) {
+            allowedStructureMap.get( formula ).add( structure );
+        }
+        else {
+            allowedStructureMap.put( formula, new LinkedList<MoleculeStructure>() {{
+                add( structure );
+            }} );
+        }
+    }
+
+    static {
+        try {
+            long a = System.currentTimeMillis();
+
+            /*---------------------------------------------------------------------------*
+            * read our complete molecules
+            *----------------------------------------------------------------------------*/
+
+            BufferedReader moleculeReader = new BufferedReader( new InputStreamReader( BuildAMoleculeResources.getResourceLoader().getResourceAsStream( "molecules.txt" ) ) );
+            try {
+                while ( moleculeReader.ready() ) {
+                    String line = moleculeReader.readLine();
+                    CompleteMolecule molecule = new CompleteMolecule( line );
+                    completeMolecules.add( molecule );
+                    moleculeMap.put( molecule.getCommonName(), molecule );
+
+                    addCompleteMolecule( molecule );
+                    addAllowedStructure( molecule.getMoleculeStructure() );
+                }
+            }
+            finally {
+                moleculeReader.close();
+            }
+            long b = System.currentTimeMillis();
+            System.out.println( "molecules read in: " + ( b - a ) + "ms" );
+
+            /*---------------------------------------------------------------------------*
+            * read our incomplete (but allowed) structures
+            *----------------------------------------------------------------------------*/
+
+            BufferedReader structureReader = new BufferedReader( new InputStreamReader( BuildAMoleculeResources.getResourceLoader().getResourceAsStream( "structures.txt" ) ) );
+            try {
+                while ( structureReader.ready() ) {
+                    String line = structureReader.readLine();
+                    MoleculeStructure structure = MoleculeStructure.fromSerial( line );
+                    addAllowedStructure( structure );
+                }
+            }
+            finally {
+                structureReader.close();
+            }
+            long c = System.currentTimeMillis();
+            System.out.println( "other structures read in: " + ( c - b ) + "ms" );
+        }
+        catch ( IOException e ) {
+            e.printStackTrace();
+        }
+    }
+
+    /*---------------------------------------------------------------------------*
+    * molecule references and customized names
+    *----------------------------------------------------------------------------*/
+
+    public static final CompleteMolecule CO2 = getMoleculeByName( "carbon dioxide" );
+    public static final CompleteMolecule H2O = getMoleculeByName( "water" );
+    public static final CompleteMolecule N2 = getMoleculeByName( "molecular nitrogen" );
+    public static final CompleteMolecule CO = getMoleculeByName( "carbon monoxide" );
+    public static final CompleteMolecule O2 = getMoleculeByName( "molecular oxygen" );
+    public static final CompleteMolecule H2 = getMoleculeByName( "molecular hydrogen" );
+    public static final CompleteMolecule NH3 = getMoleculeByName( "ammonia" );
+
+    static {
+        // TODO: automatic capitalization?
+        H2O.setCommonName( "Water" );
+        O2.setCommonName( "Oxygen" );
+        H2.setCommonName( "Hydrogen" );
+        CO2.setCommonName( "Carbon Dioxide" );
+        CO.setCommonName( "Carbon Monoxide" );
+        N2.setCommonName( "Nitrogen" );
+        NH3.setCommonName( "Ammonia" );
+    }
+
+    private static class AtomWrapper {
+        // 2d coordinates
+        public final double x2d;
+        public final double y2d;
+
+        // 3d coordinates
+        public final double x3d;
+        public final double y3d;
+        public final double z3d;
+
+        // our atom
+        public final Atom atom;
+
+        private AtomWrapper( double x2d, double y2d, double x3d, double y3d, double z3d, Atom atom ) {
+            this.x2d = x2d;
+            this.y2d = y2d;
+            this.x3d = x3d;
+            this.y3d = y3d;
+            this.z3d = z3d;
+            this.atom = atom;
+        }
+    }
+
+    private static class BondWrapper {
+        public int a;
+        public int b;
+        public final MoleculeStructure.Bond bond;
+        public final int order;
+
+        private BondWrapper( int a, int b, MoleculeStructure.Bond bond, int order ) {
+            this.a = a;
+            this.b = b;
+            this.bond = bond;
+            this.order = order;
+        }
+    }
+
+    /*---------------------------------------------------------------------------*
+    * precomputation of allowed molecule structures TODO: consider separating this into another class
     *----------------------------------------------------------------------------*/
 
     private static final List<MoleculeStructure> allowedStructures = new LinkedList<MoleculeStructure>();
@@ -420,13 +376,40 @@ public class CompleteMolecule {
         }
     }
 
-    static {
+    /**
+     * This generates a list of allowed "structures" that are not complete molecules. Since this takes about 10 minutes, we need to precompute the
+     * majority of it.
+     *
+     * @param args
+     */
+    public static void main( String[] args ) {
+        StringBuilder builder = new StringBuilder();
         // add all possible molecule paths to our allowed structures
         long a = System.currentTimeMillis();
-        for ( CompleteMolecule completeMolecule : COMPLETE_MOLECULES ) {
+        for ( CompleteMolecule completeMolecule : completeMolecules ) {
+            System.out.println( "processing molecule and children: " + completeMolecule.getCommonName() );
             addMoleculeAndChildren( completeMolecule.getMoleculeStructure() );
         }
         long b = System.currentTimeMillis();
         System.out.println( "Built allowed molecule structures in " + ( b - a ) + "ms" );
+        for ( MoleculeStructure structure : allowedStructures ) {
+            if ( findMatchingCompleteMolecule( structure ) == null ) {
+                // it is an intermediate structure
+                builder.append( structure.toSerial() + "\n" );
+            }
+        }
+        try {
+            File outputFile = new File( "structures.txt" );
+            FileOutputStream outputStream = new FileOutputStream( outputFile );
+            try {
+                outputStream.write( builder.toString().getBytes( "utf-8" ) );
+            }
+            finally {
+                outputStream.close();
+            }
+        }
+        catch ( IOException e ) {
+            e.printStackTrace();
+        }
     }
 }
