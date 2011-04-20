@@ -23,7 +23,7 @@ List of possible molecules, their nodes and formulas.
 Find what molecules say they are "equivalent" to each other
 Check that molecules "pushed" away don't try to bond? BUG BUG when large molecule group is moved. Hydrogen can bond to hydrogen in some cases!
 I18n
-Add in the BCE's "ding" when a collection box is filled
+Add in the BCE's "ding" when a collection box is filled - possibly? might have issues with that
 Detect alcohols in structures and put in their molecular formula
 
 NOTES (questions):
@@ -34,11 +34,6 @@ a sound when a collection box is filled?
     the light blue color (it’s water in the bending light sim, but I don’t think that will be confusing). What do you think of these colors? Then
     the box outline will stand out more.
     I like the idea of adding a sound, perhaps the single ding sound that’s in BCE game after balancing one of the equations would be good.
-
----completed (3): Should we add in an indication that a just-created molecule could be put in an associated collection box?
-    I interviewed a student on this yesterday, he was I 4th grade. He noticed right away that the two tabs had different ‘collection areas’, but it
-    took him almost 10 minutes to realize he could put molecules in those boxes. What if the outline of the collection box blinks when the student
-    makes an appropriate molecule?
 
 (6): Current behavior of the molecule readout is in conflict with the design doc. Doc shows "H20" above the molecule in ONE part, and in another
 shows the formula above and the molecule name BELOW. Sim shows the molecule name (e.g. "water") above currently, but could easily switch to showing
@@ -73,7 +68,7 @@ the collection box on the left, and shift the molecules to the right.
     so it won’t get much longer. I’m ok with the idea of having the quantity on the same line, as long as it doesn’t distract from, or clutter, the
     goal formula and coefficient (I guess this would mean that a decent amount of space needs to separate the goal:formula from the quantity amount).
 
-(10): For molecular formulas, I was under the impression that the Hill System was the standard, however this gives us "H3N" for "NH3". Is there a
+--- mostly completed (10): For molecular formulas, I was under the impression that the Hill System was the standard, however this gives us "H3N" for "NH3". Is there a
 procedure or set of steps that can be used to get an accurate naming convention? (One way that may work would be to break the Hill convention and if
 there is no carbon, STILL put the hydrogen first).
     There are a number of categories of naming systems, and unfortunately the molecules included in the sim span two cases, regular covalent compounds
