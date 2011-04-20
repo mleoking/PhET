@@ -26,18 +26,18 @@ public class HAModelViewManager extends ModelViewManager {
 
     public HAModelViewManager( Model model, AnimationBoxNode animationBoxNode ) {
         super( model );
-        
+
         PLayer bottomLayer = animationBoxNode.getAtomLayer();
         PLayer middleLayer = animationBoxNode.getParticleLayer();
         PLayer topLayer = animationBoxNode.getTopLayer();
-        
+
         // Particles are in the middle layer
         addNodeFactory( new PhotonNodeFactory( middleLayer ) );
         addNodeFactory( new AlphaParticleNodeFactory( middleLayer ) );
-        
-        // "Experiement" atom is in front of particles
+
+        // "Experiment" atom is in front of particles
         addNodeFactory( new ExperimentNodeFactory( topLayer ) );
-        
+
         // All other atoms are behind particles
         addNodeFactory( new BilliardBallNodeFactory( bottomLayer ) );
         addNodeFactory( new BohrNodeFactory( bottomLayer ) );
