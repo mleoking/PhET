@@ -106,9 +106,12 @@ public class CompleteMolecule {
 
         // use the allowed structure map as an acceleration feature
         if ( allowedStructureMap.containsKey( formula ) ) {
-            for ( MoleculeStructure structure : allowedStructureMap.get( formula ) ) {
-                if ( structure.isEquivalent( moleculeStructure ) ) {
-                    return true;
+            List<MoleculeStructure> moleculeStructures = allowedStructureMap.get( formula );
+            if ( moleculeStructures != null ) {
+                for ( MoleculeStructure structure : moleculeStructures ) {
+                    if ( structure.isEquivalent( moleculeStructure ) ) {
+                        return true;
+                    }
                 }
             }
         }
