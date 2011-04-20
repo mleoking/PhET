@@ -77,6 +77,11 @@ public abstract class PhotonAbsorptionStrategy {
         return isPhotonAbsorbed;
     }
 
+    /**
+     * Photon absorption strategy that causes a molecule to hold a photon
+     * once is has absorbed it, then after some amount of time re-emit it.
+     * In the
+     */
     public static abstract class PhotonHoldStrategy extends PhotonAbsorptionStrategy{
 
         private double absorbedWavelength;
@@ -112,6 +117,10 @@ public abstract class PhotonAbsorptionStrategy {
         protected abstract void photonAbsorbed();
     }
 
+    /**
+     * Photon absorption strategy that causes a molecule to vibrate after
+     * absorbing a photon, and re-emit the photon after some length of time.
+     */
     public static class VibrationStrategy extends PhotonHoldStrategy {
 
         public VibrationStrategy( Molecule molecule ) {
@@ -132,6 +141,10 @@ public abstract class PhotonAbsorptionStrategy {
 
     }
 
+    /**
+     * Photon absorption strategy that causes a molecule to rotate after
+     * absorbing a photon, and re-emit the photon after some length of time.
+     */
     public static class RotationStrategy extends PhotonHoldStrategy {
 
         public RotationStrategy( Molecule molecule ) {
@@ -152,6 +165,10 @@ public abstract class PhotonAbsorptionStrategy {
 
     }
 
+    /**
+     * Photon absorption strategy that causes a molecule to break apart after
+     * absorbing a photon.
+     */
     public static class BreakApartStrategy extends PhotonAbsorptionStrategy {
 
         public BreakApartStrategy( Molecule molecule ) {
@@ -167,6 +184,12 @@ public abstract class PhotonAbsorptionStrategy {
         }
     }
 
+    /**
+     * Photon absorption strategy that causes a molecule to enter an exited
+     * state after absorbing a photon, and then re-emit the photon after some
+     * length of time.  At the time of this writing, and "excited state" is
+     * depicted in the view as a glow that surrounds the molecule.
+     */
     public static class ExcitationStrategy extends PhotonHoldStrategy {
 
         public ExcitationStrategy( Molecule molecule ) {
@@ -185,6 +208,10 @@ public abstract class PhotonAbsorptionStrategy {
         }
     }
 
+    /**
+     * Photon absorption strategy that does nothing, meaning that it will
+     * never cause a photon to be absorbed.
+     */
     public static class NullPhotonAbsorptionStrategy extends PhotonAbsorptionStrategy {
         /**
          * Constructor.
