@@ -40,7 +40,8 @@ public class GravityAndOrbitsModel {
                         add( body.toBodyState() );
                     }
                 }} ).getNextState( dt,
-                                   100, // 1000 looks great, 50 starts to look awkward for sun+earth+moon, but 100 seems okay
+                                   400, // 1000 looks great, 50 starts to look awkward for sun+earth+moon, but 100 seems okay.
+                                   //Update: 100 is poor for sun/earth/moon system in "to scale" because the orbit is gradually expanding.  We'll try increasing it...
                                    gravityEnabledProperty );
                 //Set each body to its computed next state.
                 //assumes that ModelState.getBodyState returns states in the same order as the container (ArrayList) used for bodies. A possible future improvement would be
