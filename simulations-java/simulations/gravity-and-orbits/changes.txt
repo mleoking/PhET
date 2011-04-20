@@ -1,3 +1,4 @@
+> Fixed: the "reset" button should restart the clock at 0
 Removed unused strings
 # 2.00.01 (50878) Apr 19, 2011
 > Increased precision of the numerical integration because "to scale" Sun/Earth/Moon orbit is unstable (growing)

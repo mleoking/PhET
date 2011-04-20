@@ -30,7 +30,7 @@ public class FloatingClockControlNode extends PNode {
     private final PlayPauseButton playPauseButton;
     private final StepButton stepButton;
 
-    public FloatingClockControlNode( SettableProperty<Boolean> clockRunning, final Function1<Double, String> timeReadout, final IClock clock, final String resetString,
+    public FloatingClockControlNode( SettableProperty<Boolean> clockRunning, final Function1<Double, String> timeReadout, final IClock clock, final String clearString,
                                      ObservableProperty<Color> timeReadoutColor ) {
         this( clockRunning, timeReadout == null ? null : new Property<String>( timeReadout.apply( clock.getSimulationTime() ) ) {{
             clock.addClockListener( new ClockAdapter() {
@@ -39,29 +39,31 @@ public class FloatingClockControlNode extends PNode {
                     setValue( timeReadout.apply( clock.getSimulationTime() ) );
                 }
             } );
-        }}, new VoidFunction0() {
-            public void apply() {
-                clock.stepClockWhilePaused();
-            }
-        }, new VoidFunction0() {
-            public void apply() {
-                clock.setSimulationTime( 0.0 );
-            }
-        },
+        }},
+              new VoidFunction0() {
+                  public void apply() {
+                      clock.stepClockWhilePaused();
+                  }
+              },
+              new VoidFunction0() {
+                  public void apply() {
+                      clock.setSimulationTime( 0.0 );
+                  }
+              },
               new Property<Double>( clock.getSimulationTime() ) {{
                   clock.addClockListener( new ClockAdapter() {
                       public void simulationTimeChanged( ClockEvent clockEvent ) {
                           setValue( clock.getSimulationTime() );
                       }
                   } );
-              }}, resetString, timeReadoutColor );
+              }}, clearString, timeReadoutColor );
     }
 
     public FloatingClockControlNode( final SettableProperty<Boolean> clockRunning,//property to indicate whether the clock should be running or not; this value is mediated by a Property<Boolean> since this needs to also be 'and'ed with whether the module is active for multi-tab simulations.
                                      final Property<String> timeReadout,
                                      final VoidFunction0 step,//steps the clock when 'step' is pressed which the sim is paused
                                      final VoidFunction0 resetTime,
-                                     final Property<Double> simulationTime, final String resetString, final ObservableProperty<Color> timeReadoutColor ) {
+                                     final Property<Double> simulationTime, final String clearString, final ObservableProperty<Color> timeReadoutColor ) {
         playPauseButton = new PlayPauseButton( 80 ) {{
             setPlaying( clockRunning.getValue() );
             final Listener updatePlayPauseButtons = new Listener() {
@@ -125,7 +127,7 @@ public class FloatingClockControlNode extends PNode {
                 } );
             }};
             addChild( readoutNode );
-            addChild( new ButtonNode( resetString ) {{
+            addChild( new ButtonNode( clearString ) {{
                 setOffset( readoutNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, readoutNode.getFullBounds().getMaxY() );
                 addActionListener( new ActionListener() {
                     public void actionPerformed( ActionEvent e ) {

@@ -14,7 +14,6 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.IfElse;
-import edu.colorado.phet.common.phetcommon.model.property.Not;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
@@ -35,8 +34,11 @@ import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
-import static edu.colorado.phet.gravityandorbits.GAOStrings.RETURN_OBJECT;
+import static edu.colorado.phet.common.phetcommon.model.property.Not.not;
+import static edu.colorado.phet.gravityandorbits.GAOStrings.*;
 import static edu.colorado.phet.gravityandorbits.controlpanel.GravityAndOrbitsControlPanel.BACKGROUND;
+import static edu.colorado.phet.gravityandorbits.controlpanel.GravityAndOrbitsControlPanel.CONTROL_FONT;
+import static java.awt.Color.BLACK;
 import static java.awt.Color.green;
 
 /**
@@ -151,19 +153,19 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
         addChild( controlPanelNode );
 
         //Reset mode button
-        final Color buttonForegroundColor = Color.BLACK;
-        final ButtonNode resetModeButton = new ButtonNode( GAOStrings.RESET, (int) ( GravityAndOrbitsControlPanel.CONTROL_FONT.getSize() * 1.3 ), buttonForegroundColor, buttonBackgroundColor ) {{
+        final Color buttonForegroundColor = BLACK;
+        final ButtonNode resetModeButton = new ButtonNode( RESET, (int) ( CONTROL_FONT.getSize() * 1.3 ), buttonForegroundColor, buttonBackgroundColor ) {{
             setOffset( controlPanelNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, controlPanelNode.getFullBounds().getMaxY() + 5 );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    module.modeProperty.getValue().resetBodies();//also clears the deviated enable flag
+                    module.modeProperty.getValue().resetMode();//also clears the deviated enable flag
                 }
             } );
         }};
         addChild( resetModeButton );
 
         //Reset all button
-        addChild( new ResetAllButtonNode( module, this, (int) ( GravityAndOrbitsControlPanel.CONTROL_FONT.getSize() * 1.3 ), buttonForegroundColor, buttonBackgroundColor ) {{
+        addChild( new ResetAllButtonNode( module, this, (int) ( CONTROL_FONT.getSize() * 1.3 ), buttonForegroundColor, buttonBackgroundColor ) {{
             setOffset( resetModeButton.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, resetModeButton.getFullBounds().getMaxY() + 5 );
             setConfirmationEnabled( false );
         }} );
@@ -174,7 +176,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
             p.add( body.anyPropertyDifferent() );
         }
         //Add the clock control within the play area
-        addChild( new FloatingClockControlNode( Not.not( module.clockPausedProperty ), mode.getTimeFormatter(), model.getClock(), GAOStrings.CLEAR, new IfElse<Color>( module.whiteBackgroundProperty, Color.black, Color.white ) ) {{
+        addChild( new FloatingClockControlNode( not( module.clockPausedProperty ), mode.getTimeFormatter(), model.getClock(), CLEAR, new IfElse<Color>( module.whiteBackgroundProperty, Color.black, Color.white ) ) {{
             setOffset( GravityAndOrbitsCanvas.STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2, GravityAndOrbitsCanvas.STAGE_SIZE.getHeight() - getFullBounds().getHeight() );
 
             // Add the rewind button and hook it up as needed.
