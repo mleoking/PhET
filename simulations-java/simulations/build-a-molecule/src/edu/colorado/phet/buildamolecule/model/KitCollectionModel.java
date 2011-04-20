@@ -118,6 +118,10 @@ public class KitCollectionModel {
         return layoutBounds.getAvailableKitBounds();
     }
 
+    public PBounds getAvailablePlayAreaBounds() {
+        return layoutBounds.getAvailablePlayAreaBounds();
+    }
+
     public Kit getCurrentKit() {
         return currentKit.getValue();
     }
