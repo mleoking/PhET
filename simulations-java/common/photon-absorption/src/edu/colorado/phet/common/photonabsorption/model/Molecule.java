@@ -72,7 +72,7 @@ public abstract class Molecule {
     private final Map<Atom, Vector2D> vibrationAtomOffsets = new HashMap<Atom, Vector2D>();
 
     // Listeners to events that come from this molecule.
-    protected final ArrayList<Listener> listeners = new ArrayList<Listener>();
+    private final ArrayList<Listener> listeners = new ArrayList<Listener>();
 
     // Velocity for this molecule.
     private final Vector2D velocity = new Vector2D( 0, 0 );
@@ -507,6 +507,12 @@ public abstract class Molecule {
     private void notifyPhotonEmitted(Photon photon){
         for (Listener listener : listeners){
             listener.photonEmitted( photon );
+        }
+    }
+
+    protected void notifyBrokeApart(){
+        for ( Listener listener : new ArrayList<Listener>( listeners ) ) {
+            listener.brokeApart( this );
         }
     }
 

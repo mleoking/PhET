@@ -3,7 +3,6 @@
 package edu.colorado.phet.common.photonabsorption.model.molecules;
 
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
@@ -167,9 +166,6 @@ public class NO2 extends Molecule {
         addConstituentMolecule( singleOxygenMolecule );
 
         // Send out notifications about this molecule breaking apart.
-        ArrayList<Listener> copyOfListeners = new ArrayList<Listener>( listeners );
-        for ( Listener listener : copyOfListeners ) {
-            listener.brokeApart( this );
-        }
+        notifyBrokeApart();
     }
 }
