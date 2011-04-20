@@ -51,6 +51,14 @@ public class AtomNode extends PNode {
         // Add a cursor handler to signal to the user that this is movable.
         addInputEventListener( new CursorHandler() );
 
+        // respond to the visibility of the atom
+        atom.visible.addObserver( new SimpleObserver() {
+            public void update() {
+                setVisible( atom.visible.getValue() );
+            }
+        } );
+
+        // and if we remove the atom from play, we will get rid of this node
         atom.addListener( new AtomModel.Adapter() {
             @Override
             public void removedFromModel( AtomModel atom ) {

@@ -44,6 +44,8 @@ public class AtomModel {
     private final HashSet<Listener> listeners = new HashSet<Listener>();
     private ImmutableVector2D destination = new ImmutableVector2D();
 
+    public final Property<Boolean> visible = new Property<Boolean>( true ); // invisible for instance when in a collection box
+
     // Listener to the clock, used for motion.
     private final ClockAdapter clockListener = new ClockAdapter() {
         @Override
@@ -181,6 +183,7 @@ public class AtomModel {
         position.reset();
         destination = position.getValue();
         userControlled.reset();
+        visible.reset();
     }
 
     /**

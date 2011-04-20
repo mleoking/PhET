@@ -56,4 +56,8 @@ public class CollectionBox {
     public void addMolecule( MoleculeStructure molecule ) {
         quantity.setValue( quantity.getValue() + 1 );
     }
+
+    public void removeMolecule( MoleculeStructure molecule ) {
+        quantity.setValue( quantity.getValue() - 1 );
+    }
 }
