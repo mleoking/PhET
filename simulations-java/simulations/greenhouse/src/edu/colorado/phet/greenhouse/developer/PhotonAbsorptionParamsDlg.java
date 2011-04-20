@@ -13,13 +13,13 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.photonabsorption.model.PhotonAbsorptionModel;
-import edu.colorado.phet.common.photonabsorption.model.SingleMoleculePhotonAbsorptionProbability;
+import edu.colorado.phet.common.photonabsorption.model.PhotonAbsorptionStrategy;
 
 
 /**
  * Developer control dialog for altering some parameters that affect the behavior
  * of the Photon Absorption tab.
- * 
+ *
  * @author John Blanco
  */
 public class PhotonAbsorptionParamsDlg extends PaintImmediateDialog {
@@ -60,18 +60,18 @@ public class PhotonAbsorptionParamsDlg extends PaintImmediateDialog {
         final LinearValueControl abosrptionProbabilitySlider = new LinearValueControl( 0, 1, "Probability", "#.#", null );
         abosrptionProbabilitySlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                SingleMoleculePhotonAbsorptionProbability.getInstance().setAbsorptionsProbability( abosrptionProbabilitySlider.getValue() );
+                PhotonAbsorptionStrategy.photonAbsorptionProbability.setValue( abosrptionProbabilitySlider.getValue() );
             }
         });
-        abosrptionProbabilitySlider.setValue( SingleMoleculePhotonAbsorptionProbability.getInstance().getAbsorptionsProbability() );
+        abosrptionProbabilitySlider.setValue( PhotonAbsorptionStrategy.photonAbsorptionProbability.getValue() );
         add( abosrptionProbabilitySlider  );
 
         // Set this to hide itself if the user clicks the close button.
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-        
+
         // Center this in the parent frame.
         setLocationRelativeTo( null );
-        
+
         // Size the dialog to just fit all the controls.
         pack();
     }
