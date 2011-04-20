@@ -56,16 +56,22 @@ public class KitCollectionModel {
                 public void droppedByUser( AtomModel atom ) {
                     boolean wasDroppedInCollectionBox = false;
 
-                    // check to see if we are trying to drop it in a collection box.
-                    for ( CollectionBox box : boxes ) {
-                        if ( box.getDropBounds().contains( atom.getPosition().toPoint2D() ) ) {
-                            MoleculeStructure moleculeStructure = kit.getMoleculeStructure( atom );
+                    // don't drop an atom from the kit to the collection box directly
+                    if ( kit.isAtomInPlay( atom.getAtomInfo() ) ) {
+                        MoleculeStructure moleculeStructure = kit.getMoleculeStructure( atom );
 
-                            // if our box takes this type of molecule
-                            if ( box.willAllowMoleculeDrop( moleculeStructure ) ) {
-                                kit.moleculePutInCollectionBox( moleculeStructure, box );
-                                wasDroppedInCollectionBox = true;
-                                break;
+                        // check to see if we are trying to drop it in a collection box.
+                        for ( CollectionBox box : boxes ) {
+
+                            // permissive, so that if the box bounds and molecule bounds intersect, we call it a "hit"
+                            if ( box.getDropBounds().intersects( kit.getMoleculePositionBounds( moleculeStructure ) ) ) {
+
+                                // if our box takes this type of molecule
+                                if ( box.willAllowMoleculeDrop( moleculeStructure ) ) {
+                                    kit.moleculePutInCollectionBox( moleculeStructure, box );
+                                    wasDroppedInCollectionBox = true;
+                                    break;
+                                }
                             }
                         }
                     }
