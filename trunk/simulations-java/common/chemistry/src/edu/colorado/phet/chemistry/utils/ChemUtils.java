@@ -14,9 +14,20 @@ public class ChemUtils {
     * The atoms must be specified in order of appearance in the symbol.
     * Examples:
     *    [C,C,H,H,H,H] becomes "C<sub>2</sub>H<sub>4</sub>"
-    *    [HHO] becomes "H<sub>2</sub>O"
+    *    [H,H,O] becomes "H<sub>2</sub>O"
     */
     public static String createSymbol( Atom[] atoms ) {
+        return toSubscript( createSymbolWithoutSubscripts( atoms ) );
+    }
+
+    /*
+    * Creates a symbol (text) based on the list of atoms in the molecule.
+    * The atoms must be specified in order of appearance in the symbol.
+    * Examples:
+    *    [C,C,H,H,H,H] becomes "C2H4"
+    *    [H,H,O] becomes "H2O"
+    */
+    public static String createSymbolWithoutSubscripts( Atom[] atoms ) {
         StringBuffer b = new StringBuffer();
         int atomCount = 1;
         for ( int i = 0; i < atoms.length; i++ ) {
@@ -42,7 +53,7 @@ public class ChemUtils {
             // create a subscript for the final atom
             b.append( String.valueOf( atomCount ) );
         }
-        return toSubscript( b.toString() );
+        return b.toString();
     }
 
     /**
