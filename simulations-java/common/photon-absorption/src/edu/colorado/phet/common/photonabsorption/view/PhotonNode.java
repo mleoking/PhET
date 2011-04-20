@@ -50,7 +50,7 @@ public class PhotonNode extends PNode implements Observer {
      * needed but doesn't really correspond to anything in the model.
      */
     public PhotonNode( double wavelength ){
-        this( new Photon(wavelength, null), new ModelViewTransform2D());
+        this( new Photon(wavelength), new ModelViewTransform2D());
     }
 
     /**

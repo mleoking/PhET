@@ -486,7 +486,7 @@ public abstract class Molecule {
      * @param wavelength
      */
     public void emitPhoton( double wavelength ){
-        emitPhoton( new Photon( wavelength, null ) );
+        emitPhoton( new Photon( wavelength ) );
     }
 
     /**

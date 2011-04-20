@@ -417,7 +417,7 @@ public class PhotonAbsorptionModel {
      */
     public void emitPhoton(){
 
-        Photon photon = new Photon( photonWavelength, null );
+        Photon photon = new Photon( photonWavelength );
         photon.setLocation( PHOTON_EMISSION_LOCATION.getX(), PHOTON_EMISSION_LOCATION.getY() );
         double emissionAngle = 0; // Straight to the right.
         if (photonTarget == PhotonTarget.CONFIGURABLE_ATMOSPHERE){

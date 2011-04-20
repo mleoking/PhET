@@ -10,30 +10,26 @@ package edu.colorado.phet.common.photonabsorption.model;
 import java.awt.geom.Point2D;
 import java.util.Observable;
 
+/**
+ * Class that represents a photon.  Primarily keeps track of wavelength,
+ * position, and velocity (as odd as that may seem) and can be stepped in
+ * order to make the photon move in model space.
+ *
+ * @author John Blanco
+ */
 public class Photon extends Observable {
 
-    private static final double SPEED_OF_LIGHT = 2.99798458E8;
+    private final double wavelength;
+    private final Point2D location;
+    private double vx;
+    private double vy;
 
-    private double wavelength;
-    private PhotonEmitter source;
-    private Point2D.Double location;
-    private double radius;
-    private float vx;
-    private float vy;
-
-    public Photon( double wavelength, PhotonEmitter source ) {
+    public Photon( double wavelength ) {
         location = new Point2D.Double();
-        radius = 0.1;
         this.wavelength = wavelength;
-        this.source = source;
     }
 
-    public void setDirection( double theta ) {
-        setVelocity( (float) ( SPEED_OF_LIGHT * Math.cos( theta ) ),
-                     (float) ( SPEED_OF_LIGHT * Math.sin( theta ) ) );
-    }
-
-    public void setVelocity( float vx, float vy ) {
+    public void setVelocity( double vx, double vy ) {
         this.vx = vx;
         this.vy = vy;
     }
@@ -42,25 +38,17 @@ public class Photon extends Observable {
         return wavelength;
     }
 
-    public PhotonEmitter getSource() {
-        return source;
-    }
-
-//    public void leaveSystem() {
-//        deleteObservers();
-//    }
-
-    public Point2D.Double getLocation() {
+    public Point2D getLocation() {
         return location;
     }
 
-    public void setLocation( double x,double y) {
+    public void setLocation( double x, double y) {
         this.location.setLocation( x, y );
         setChanged();
         notifyObservers();
     }
 
     public void stepInTime( double dt ) {
-        setLocation( location.x + vx * dt, location.y + vy * dt  );
+        setLocation( location.getX() + vx * dt, location.getY() + vy * dt  );
     }
 }
