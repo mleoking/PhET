@@ -35,7 +35,7 @@ a sound when a collection box is filled?
     the box outline will stand out more.
     I like the idea of adding a sound, perhaps the single ding sound that’s in BCE game after balancing one of the equations would be good.
 
-(3): Should we add in an indication that a just-created molecule could be put in an associated collection box?
+---completed (3): Should we add in an indication that a just-created molecule could be put in an associated collection box?
     I interviewed a student on this yesterday, he was I 4th grade. He noticed right away that the two tabs had different ‘collection areas’, but it
     took him almost 10 minutes to realize he could put molecules in those boxes. What if the outline of the collection box blinks when the student
     makes an appropriate molecule?

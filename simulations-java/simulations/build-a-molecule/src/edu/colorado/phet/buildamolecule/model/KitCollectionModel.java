@@ -6,6 +6,7 @@ import java.util.List;
 
 import edu.colorado.phet.buildamolecule.model.buckets.AtomModel;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction2;
 import edu.umd.cs.piccolo.util.PBounds;
 
@@ -19,6 +20,8 @@ public class KitCollectionModel {
 
     private LayoutBounds layoutBounds;//picometers
     private Property<Kit> currentKit;
+
+    public final Property<Boolean> allCollectionBoxesFilled = new Property<Boolean>( false );
 
     public KitCollectionModel( LayoutBounds layoutBounds ) {
         this.layoutBounds = layoutBounds;
@@ -73,10 +76,34 @@ public class KitCollectionModel {
                 }
             } );
         }
+
+        kit.addMoleculeListener( new Kit.MoleculeAdapter() {
+            @Override
+            public void addedMolecule( MoleculeStructure moleculeStructure ) {
+                for ( CollectionBox box : getCollectionBoxes() ) {
+                    if ( box.willAllowMoleculeDrop( moleculeStructure ) ) {
+                        box.onAcceptedMoleculeCreation( moleculeStructure );
+                    }
+                }
+            }
+        } );
     }
 
     public void addCollectionBox( CollectionBox box ) {
         boxes.add( box );
+
+        // listen to when our collection boxes change, so that we can identify when all of our collection boxes are filled
+        box.quantity.addObserver( new SimpleObserver() {
+            public void update() {
+                boolean allFull = true;
+                for ( CollectionBox collectionBox : boxes ) {
+                    if ( !collectionBox.isFull() ) {
+                        allFull = false;
+                    }
+                }
+                allCollectionBoxesFilled.setValue( allFull );
+            }
+        } );
     }
 
     public List<Kit> getKits() {
