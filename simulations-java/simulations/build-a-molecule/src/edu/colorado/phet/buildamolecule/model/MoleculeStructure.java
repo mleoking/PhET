@@ -136,6 +136,7 @@ public class MoleculeStructure {
         public Bond( Atom a, Atom b ) {
             this.a = a;
             this.b = b;
+            assert ( a != b );
         }
 
         @Override
