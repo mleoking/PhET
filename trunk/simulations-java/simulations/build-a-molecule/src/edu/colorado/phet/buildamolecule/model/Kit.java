@@ -439,10 +439,23 @@ public class Kit {
         if ( molA == molB ) {
             throw new RuntimeException( "WARNING: loop or other invalid structure detected in a molecule" );
         }
-        else {
-            removeMolecule( molA );
-            removeMolecule( molB );
-            addMolecule( MoleculeStructure.getCombinedMoleculeFromBond( molA, molB, a.getAtomInfo(), b.getAtomInfo() ) );
+
+        removeMolecule( molA );
+        removeMolecule( molB );
+        addMolecule( MoleculeStructure.getCombinedMoleculeFromBond( molA, molB, a.getAtomInfo(), b.getAtomInfo() ) );
+
+        /*---------------------------------------------------------------------------*
+        * bonding diagnostics and sanity checks
+        *----------------------------------------------------------------------------*/
+
+        System.out.println( "bonded to molecule structure; " + getMoleculeStructure( a ).toSerial() );
+        MoleculeStructure struc = getMoleculeStructure( a );
+        if ( struc.getAtoms().size() > 2 ) {
+            for ( MoleculeStructure.Bond bond : struc.getBonds() ) {
+                if ( bond.a.isSameTypeOfAtom( bond.b ) && bond.a.getSymbol().equals( "H" ) ) {
+                    System.out.println( "WARNING: Hydrogen bonded to another hydrogen in a molecule which is not diatomic hydrogen" );
+                }
+            }
         }
 
         assert ( getMoleculeStructure( a ) == getMoleculeStructure( b ) );
@@ -451,12 +464,9 @@ public class Kit {
     private MoleculeStructure getPossibleMoleculeStructureFromBond( AtomModel a, AtomModel b ) {
         MoleculeStructure molA = getMoleculeStructure( a );
         MoleculeStructure molB = getMoleculeStructure( b );
-        if ( molA == molB ) {
-            return molA.getCopy();
-        }
-        else {
-            return MoleculeStructure.getCombinedMoleculeFromBond( molA, molB, a.getAtomInfo(), b.getAtomInfo() );
-        }
+        assert ( molA != molB );
+
+        return MoleculeStructure.getCombinedMoleculeFromBond( molA, molB, a.getAtomInfo(), b.getAtomInfo() );
     }
 
     /**
@@ -466,20 +476,33 @@ public class Kit {
     private boolean attemptToBondMolecule( MoleculeStructure moleculeStructure ) {
         BondingOption bestLocation = null;
         double bestDistanceFromIdealLocation = Double.POSITIVE_INFINITY;
-        for ( Atom atomInfo : moleculeStructure.getAtoms() ) {
-            AtomModel atom = getAtomModel( atomInfo );
+
+        // for each atom in our molecule, we try to see if it can bond to other atoms
+        for ( Atom ourAtomInfo : moleculeStructure.getAtoms() ) {
+            AtomModel ourAtom = getAtomModel( ourAtomInfo );
+
+            // all other atoms
             for ( AtomModel otherAtom : atoms ) {
+                // disallow loops in an already-connected molecule
+                if ( getMoleculeStructure( otherAtom ) == moleculeStructure ) {
+                    continue;
+                }
+
+                // don't bond to something in a bucket!
                 if ( !isContainedInBucket( otherAtom ) ) {
-                    if ( otherAtom == atom || !canBond( atom, otherAtom ) ) {
+
+                    // sanity check, and run it through our molecule structure model to see if it would be allowable
+                    if ( otherAtom == ourAtom || !canBond( ourAtom, otherAtom ) ) {
                         continue;
                     }
-                    for ( LewisDotModel.Direction direction : lewisDotModel.getOpenDirections( otherAtom.getAtomInfo() ) ) {
-                        if ( !lewisDotModel.getOpenDirections( atomInfo ).contains( LewisDotModel.Direction.opposite( direction ) ) ) {
+
+                    for ( LewisDotModel.Direction otherDirection : lewisDotModel.getOpenDirections( otherAtom.getAtomInfo() ) ) {
+                        if ( !lewisDotModel.getOpenDirections( ourAtomInfo ).contains( LewisDotModel.Direction.opposite( otherDirection ) ) ) {
                             // the spot on otherAtom was open, but the corresponding spot on our main atom was not
                             continue;
                         }
-                        BondingOption location = new BondingOption( otherAtom, direction, atom );
-                        double distance = atom.getPosition().getDistance( location.getIdealLocation() );
+                        BondingOption location = new BondingOption( otherAtom, otherDirection, ourAtom );
+                        double distance = ourAtom.getPosition().getDistance( location.getIdealLocation() );
                         if ( distance < bestDistanceFromIdealLocation ) {
                             bestLocation = location;
                             bestDistanceFromIdealLocation = distance;
@@ -488,6 +511,8 @@ public class Kit {
                 }
             }
         }
+
+        // if our closest bond is too far, then ignore it
         if ( bestLocation == null || bestDistanceFromIdealLocation > BOND_DISTANCE_THRESHOLD ) {
             return false;
         }
