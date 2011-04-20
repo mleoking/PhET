@@ -2,6 +2,8 @@
 package edu.colorado.phet.buildamolecule.model;
 
 import java.awt.geom.Rectangle2D;
+import java.util.LinkedList;
+import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 
@@ -13,6 +15,8 @@ public class CollectionBox {
     private int capacity; // how many molecules need to be put in to be complete
     public final Property<Integer> quantity = new Property<Integer>( 0 ); // start with zero
     private Rectangle2D dropBounds; // calculated by the view
+
+    private List<Listener> listeners = new LinkedList<Listener>();
 
     public CollectionBox( CompleteMolecule moleculeType, int capacity ) {
         this.moleculeType = moleculeType;
@@ -55,9 +59,58 @@ public class CollectionBox {
 
     public void addMolecule( MoleculeStructure molecule ) {
         quantity.setValue( quantity.getValue() + 1 );
+
+        // notify our listeners
+        for ( Listener listener : listeners ) {
+            listener.onAddedMolecule( molecule );
+        }
     }
 
     public void removeMolecule( MoleculeStructure molecule ) {
         quantity.setValue( quantity.getValue() - 1 );
+
+        // notify our listeners
+        for ( Listener listener : listeners ) {
+            listener.onRemovedMolecule( molecule );
+        }
     }
+
+    /**
+     * Called when a molecule that can fit in this box is created
+     *
+     * @param moleculeStructure The molecule structure that was created
+     */
+    public void onAcceptedMoleculeCreation( MoleculeStructure moleculeStructure ) {
+        for ( Listener listener : listeners ) {
+            listener.onAcceptedMoleculeCreation( moleculeStructure );
+        }
+    }
+
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
+    }
+
+    public void removeListener( Listener listener ) {
+        listeners.remove( listener );
+    }
+
+    public static interface Listener {
+        public void onAddedMolecule( MoleculeStructure moleculeStructure );
+
+        public void onRemovedMolecule( MoleculeStructure moleculeStructure );
+
+        public void onAcceptedMoleculeCreation( MoleculeStructure moleculeStructure );
+    }
+
+    public static class Adapter implements Listener {
+        public void onAddedMolecule( MoleculeStructure moleculeStructure ) {
+        }
+
+        public void onRemovedMolecule( MoleculeStructure moleculeStructure ) {
+        }
+
+        public void onAcceptedMoleculeCreation( MoleculeStructure moleculeStructure ) {
+        }
+    }
+
 }

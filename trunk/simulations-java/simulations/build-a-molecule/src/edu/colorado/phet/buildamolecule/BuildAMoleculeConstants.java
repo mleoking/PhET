@@ -24,14 +24,18 @@ public class BuildAMoleculeConstants {
     * colors
     *----------------------------------------------------------------------------*/
 
-    public static final Color CANVAS_BACKGROUND_COLOR = new Color( 198, 226, 246 );
-    public static final Color MOLECULE_COLLECTION_BACKGROUND = new Color( 238, 238, 238 );
-    public static final Color MOLECULE_COLLECTION_BORDER = Color.BLACK;
-    public static final Color MOLECULE_COLLECTION_BOX_HIGHLIGHT = Color.YELLOW;
+    public static final Color CANVAS_BACKGROUND_COLOR = new Color( 198, 226, 246 ); // main play area background
+    public static final Color MOLECULE_COLLECTION_BACKGROUND = new Color( 238, 238, 238 ); // collection area background
+    public static final Color MOLECULE_COLLECTION_BORDER = Color.BLACK; // border around collection area
+    public static final Color MOLECULE_COLLECTION_BOX_HIGHLIGHT = Color.YELLOW; // box highlight (border when full)
+    public static final Color MOLECULE_COLLECTION_BOX_BACKGROUND = Color.BLACK; // box background
 
-    public static final Color KIT_BACKGROUND = Color.WHITE;
-    public static final Color KIT_BORDER = Color.BLACK;
+    public static final Color MOLECULE_COLLECTION_BOX_BACKGROUND_BLINK = MOLECULE_COLLECTION_BOX_BACKGROUND; // box background when blinking
+    public static final Color MOLECULE_COLLECTION_BOX_BORDER_BLINK = Color.BLUE; // box border when blinking
 
-    public static final Color KIT_ARROW_BACKGROUND_ENABLED = Color.YELLOW;
-    public static final Color KIT_ARROW_BORDER_ENABLED = Color.BLACK;
+    public static final Color KIT_BACKGROUND = Color.WHITE; // kit area background
+    public static final Color KIT_BORDER = Color.BLACK; // border around the kit area
+
+    public static final Color KIT_ARROW_BACKGROUND_ENABLED = Color.YELLOW; // kit next/prev arrow background
+    public static final Color KIT_ARROW_BORDER_ENABLED = Color.BLACK; // kit next/prev arrow border
 }

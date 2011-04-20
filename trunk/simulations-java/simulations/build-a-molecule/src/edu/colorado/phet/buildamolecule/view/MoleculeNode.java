@@ -44,7 +44,7 @@ public class MoleculeNode extends PNode {
             return;
         }
 
-        final CompleteMolecule completeMolecule = CompleteMolecule.findMatchingCompleteMolecule( moleculeStructure );
+        final CompleteMolecule completeMolecule = moleculeStructure.getMatchingCompleteMolecule();
 
         HTMLNode commonNameLabel = null;
         if ( completeMolecule != null ) {

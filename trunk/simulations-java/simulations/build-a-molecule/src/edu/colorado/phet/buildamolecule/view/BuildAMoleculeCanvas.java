@@ -22,6 +22,7 @@ import edu.umd.cs.piccolo.PNode;
 
 /**
  * Common canvas for Build a Molecule. It features kits shown at the bottom. Can be extended to add other parts
+ * TODO: handle changing kits
  */
 public abstract class BuildAMoleculeCanvas extends PhetPCanvas {
 
@@ -105,7 +106,7 @@ public abstract class BuildAMoleculeCanvas extends PhetPCanvas {
         }
     }
 
-    private void buildFromModel() {
+    protected void buildFromModel() {
         // bottom-most layer is our kit panel
         bottomLayer.addChild( new KitPanel( getModel(), mvt ) );
 

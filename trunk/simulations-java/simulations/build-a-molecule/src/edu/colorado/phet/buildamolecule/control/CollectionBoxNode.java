@@ -5,12 +5,15 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import edu.colorado.phet.buildamolecule.BuildAMoleculeConstants;
 import edu.colorado.phet.buildamolecule.model.CollectionBox;
+import edu.colorado.phet.buildamolecule.model.MoleculeStructure;
 import edu.colorado.phet.buildamolecule.view.BuildAMoleculeCanvas;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction2;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PBounds;
@@ -30,6 +33,7 @@ public class CollectionBoxNode extends SwingLayoutNode {
     private final List<PNode> moleculeNodes = new LinkedList<PNode>();
 
     private static final double MOLECULE_PADDING = 5;
+    private Timer blinkTimer = new Timer();
 
     public CollectionBoxNode( final BuildAMoleculeCanvas canvas, final CollectionBox box, PNode... headerNodes ) {
         super( new GridBagLayout() );
@@ -49,7 +53,7 @@ public class CollectionBoxNode extends SwingLayoutNode {
 
         c.insets = new Insets( 3, 0, 0, 0 ); // some padding between the black box
 
-        blackBox = new PhetPPath( new Rectangle2D.Double( 0, 0, 160, 50 ), Color.BLACK ) {{
+        blackBox = new PhetPPath( new Rectangle2D.Double( 0, 0, 160, 50 ), BuildAMoleculeConstants.MOLECULE_COLLECTION_BOX_BACKGROUND ) {{
             canvas.addFullyLayedOutObserver( new SimpleObserver() {
                 public void update() {
                     // we need to pass the collection box model coordinates, but here we have relative piccolo coordinates
@@ -80,21 +84,23 @@ public class CollectionBoxNode extends SwingLayoutNode {
 
         updateBoxGraphics();
 
-        box.quantity.addObserver( new VoidFunction2<Integer, Integer>() {
-            public void apply( Integer newValue, Integer oldValue ) {
-                if ( newValue > oldValue ) {
-                    assert ( newValue - 1 == oldValue );
-                    addMolecule();
-                }
-                else {
-                    assert ( newValue + 1 == oldValue );
-                    removeMolecule();
-                }
+        box.addListener( new CollectionBox.Listener() {
+            public void onAddedMolecule( MoleculeStructure moleculeStructure ) {
+                addMolecule();
+            }
+
+            public void onRemovedMolecule( MoleculeStructure moleculeStructure ) {
+                removeMolecule();
+            }
+
+            public void onAcceptedMoleculeCreation( MoleculeStructure moleculeStructure ) {
+                blink();
             }
         } );
     }
 
     private void addMolecule() {
+        cancelBlinksInProgress();
         updateBoxGraphics();
 
         PNode pseudo3DNode = box.getMoleculeType().createPseudo3DNode();
@@ -106,6 +112,7 @@ public class CollectionBoxNode extends SwingLayoutNode {
     }
 
     private void removeMolecule() {
+        cancelBlinksInProgress();
         updateBoxGraphics();
 
         PNode lastMoleculeNode = moleculeNodes.get( moleculeNodes.size() - 1 );
@@ -115,6 +122,62 @@ public class CollectionBoxNode extends SwingLayoutNode {
         if ( box.quantity.getValue() > 0 ) {
             centerMoleculesInBlackBox();
         }
+    }
+
+    /**
+     * Sets up a blinking box to register that a molecule was created that can go into a box
+     */
+    private void blink() {
+        double blinkLengthInSeconds = 1.3;
+
+        // our delay between states
+        int blinkDelayInMs = 100;
+
+        // properties that we will use over time in our blinker
+        final Property<Boolean> on = new Property<Boolean>( false ); // on/off state
+        final Property<Integer> counts = new Property<Integer>( (int) ( blinkLengthInSeconds * 1000 / blinkDelayInMs ) ); // decrements to zero to stop the blinker
+
+        cancelBlinksInProgress();
+
+        blinkTimer.schedule( new TimerTask() {
+            @Override
+            public void run() {
+                // decrement and check
+                counts.setValue( counts.getValue() - 1 );
+                assert ( counts.getValue() >= 0 );
+
+                if ( counts.getValue() == 0 ) {
+                    // set up our normal graphics (border/background)
+                    updateBoxGraphics();
+
+                    // make sure we don't get called again
+                    blinkTimer.cancel();
+                }
+                else {
+                    // toggle state
+                    on.setValue( !on.getValue() );
+
+                    // draw graphics
+                    if ( on.getValue() ) {
+                        blackBox.setPaint( BuildAMoleculeConstants.MOLECULE_COLLECTION_BOX_BACKGROUND_BLINK );
+                        blackBox.setStrokePaint( BuildAMoleculeConstants.MOLECULE_COLLECTION_BOX_BORDER_BLINK );
+                    }
+                    else {
+                        blackBox.setPaint( BuildAMoleculeConstants.MOLECULE_COLLECTION_BOX_BACKGROUND );
+                        blackBox.setStrokePaint( BuildAMoleculeConstants.MOLECULE_COLLECTION_BACKGROUND );
+                    }
+
+                    // make sure this paint happens immediately
+                    blackBox.repaint();
+                }
+            }
+        }, 0, blinkDelayInMs );
+    }
+
+    private void cancelBlinksInProgress() {
+        // stop any previous blinking from happening. don't want double-blinking
+        blinkTimer.cancel();
+        blinkTimer = new Timer();
     }
 
     private void centerMoleculesInBlackBox() {

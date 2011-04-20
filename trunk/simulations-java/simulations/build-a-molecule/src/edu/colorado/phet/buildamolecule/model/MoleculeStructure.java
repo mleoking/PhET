@@ -50,6 +50,13 @@ public class MoleculeStructure {
         addBond( new Bond( a, b ) );
     }
 
+    /**
+     * @return A complete molecule that matches, or null.
+     */
+    public CompleteMolecule getMatchingCompleteMolecule() {
+        return CompleteMolecule.findMatchingCompleteMolecule( this );
+    }
+
     public String getHillSystemFormulaFragment() {
         return ChemUtils.hillOrderedSymbol( atoms );
     }
