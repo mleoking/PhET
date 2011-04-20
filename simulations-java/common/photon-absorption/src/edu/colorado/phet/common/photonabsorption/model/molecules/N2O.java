@@ -81,9 +81,9 @@ public class N2O extends Molecule {
      */
     @Override
     protected void initializeAtomOffsets() {
-        initialAtomCogOffsets.put(centerNitrogenAtom, new Vector2D(0, 0));
-        initialAtomCogOffsets.put(sideNitrogenAtom, new Vector2D(-INITIAL_NITROGEN_NITROGEN_DISTANCE, 0));
-        initialAtomCogOffsets.put(oxygenAtom, new Vector2D(INITIAL_NITROGEN_OXYGEN_DISTANCE, 0));
+        addInitialAtomCogOffset(centerNitrogenAtom, new Vector2D(0, 0));
+        addInitialAtomCogOffset(sideNitrogenAtom, new Vector2D(-INITIAL_NITROGEN_NITROGEN_DISTANCE, 0));
+        addInitialAtomCogOffset(oxygenAtom, new Vector2D(INITIAL_NITROGEN_OXYGEN_DISTANCE, 0));
 
         updateAtomPositions();
     }
@@ -92,10 +92,10 @@ public class N2O extends Molecule {
     public void setVibration( double vibrationRadians ){
         super.setVibration( vibrationRadians );
         double multFactor = Math.sin( vibrationRadians );
-        initialAtomCogOffsets.put(centerNitrogenAtom, new Vector2D(0, multFactor * MAX_CENTER_NITROGEN_DEFLECTION));
-        initialAtomCogOffsets.put(sideNitrogenAtom, new Vector2D(-INITIAL_NITROGEN_NITROGEN_DISTANCE,
+        addInitialAtomCogOffset(centerNitrogenAtom, new Vector2D(0, multFactor * MAX_CENTER_NITROGEN_DEFLECTION));
+        addInitialAtomCogOffset(sideNitrogenAtom, new Vector2D(-INITIAL_NITROGEN_NITROGEN_DISTANCE,
                 -multFactor * MAX_SIDE_NITROGEN_DEFLECTION));
-        initialAtomCogOffsets.put(oxygenAtom, new Vector2D(INITIAL_NITROGEN_OXYGEN_DISTANCE,
+        addInitialAtomCogOffset(oxygenAtom, new Vector2D(INITIAL_NITROGEN_OXYGEN_DISTANCE,
                 -multFactor * MAX_OXYGEN_DEFLECTION));
         updateAtomPositions();
     }

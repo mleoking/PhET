@@ -64,8 +64,8 @@ public class NO extends Molecule {
      */
     @Override
     protected void initializeAtomOffsets() {
-        initialAtomCogOffsets.put(nitrogenAtom, new Vector2D(-INITIAL_NITROGEN_OXYGEN_DISTANCE / 2, 0));
-        initialAtomCogOffsets.put(oxygenAtom, new Vector2D(INITIAL_NITROGEN_OXYGEN_DISTANCE / 2, 0));
+        addInitialAtomCogOffset(nitrogenAtom, new Vector2D(-INITIAL_NITROGEN_OXYGEN_DISTANCE / 2, 0));
+        addInitialAtomCogOffset(oxygenAtom, new Vector2D(INITIAL_NITROGEN_OXYGEN_DISTANCE / 2, 0));
 
         updateAtomPositions();
     }

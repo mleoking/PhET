@@ -108,9 +108,9 @@ public class O3 extends Molecule {
      */
     @Override
     protected void initializeAtomOffsets() {
-        initialAtomCogOffsets.put( centerOxygenAtom, new Vector2D( 0, INITIAL_CENTER_OXYGEN_VERTICAL_OFFSET ) );
-        initialAtomCogOffsets.put( leftOxygenAtom, new Vector2D( -INITIAL_OXYGEN_HORIZONTAL_OFFSET, INITIAL_OXYGEN_VERTICAL_OFFSET ) );
-        initialAtomCogOffsets.put( rightOxygenAtom, new Vector2D( INITIAL_OXYGEN_HORIZONTAL_OFFSET, INITIAL_OXYGEN_VERTICAL_OFFSET ) );
+        addInitialAtomCogOffset( centerOxygenAtom, new Vector2D( 0, INITIAL_CENTER_OXYGEN_VERTICAL_OFFSET ) );
+        addInitialAtomCogOffset( leftOxygenAtom, new Vector2D( -INITIAL_OXYGEN_HORIZONTAL_OFFSET, INITIAL_OXYGEN_VERTICAL_OFFSET ) );
+        addInitialAtomCogOffset( rightOxygenAtom, new Vector2D( INITIAL_OXYGEN_HORIZONTAL_OFFSET, INITIAL_OXYGEN_VERTICAL_OFFSET ) );
 
         updateAtomPositions();
     }
@@ -147,16 +147,16 @@ public class O3 extends Molecule {
         final double breakApartAngle;
         if ( doubleBondOnRight ){
             diatomicOxygenMolecule.rotate( -diatomicMoleculeRotationAngle );
-            diatomicOxygenMolecule.setCenterOfGravityPos( ( initialAtomCogOffsets.get( rightOxygenAtom ).getX() + initialAtomCogOffsets.get( centerOxygenAtom ).getX() ) / 2,
-                    ( initialAtomCogOffsets.get( centerOxygenAtom ).getY() + initialAtomCogOffsets.get( rightOxygenAtom ).getY() ) / 2);
+            diatomicOxygenMolecule.setCenterOfGravityPos( ( getInitialAtomCogOffset( rightOxygenAtom ).getX() + getInitialAtomCogOffset( centerOxygenAtom ).getX() ) / 2,
+                    ( getInitialAtomCogOffset( centerOxygenAtom ).getY() + getInitialAtomCogOffset( rightOxygenAtom ).getY() ) / 2);
             breakApartAngle = Math.PI / 4 + RAND.nextDouble() * Math.PI / 4;
             singleOxygenMolecule.setCenterOfGravityPos( -INITIAL_OXYGEN_HORIZONTAL_OFFSET, INITIAL_OXYGEN_VERTICAL_OFFSET );
         }
         else{
             diatomicOxygenMolecule.rotate( diatomicMoleculeRotationAngle );
             breakApartAngle = Math.PI / 2 + RAND.nextDouble() * Math.PI / 4;
-            diatomicOxygenMolecule.setCenterOfGravityPos( ( initialAtomCogOffsets.get( leftOxygenAtom ).getX() + initialAtomCogOffsets.get( centerOxygenAtom ).getX() ) / 2,
-                    ( initialAtomCogOffsets.get( leftOxygenAtom ).getY() + initialAtomCogOffsets.get( centerOxygenAtom ).getY() ) / 2);
+            diatomicOxygenMolecule.setCenterOfGravityPos( ( getInitialAtomCogOffset( leftOxygenAtom ).getX() + getInitialAtomCogOffset( centerOxygenAtom ).getX() ) / 2,
+                    ( getInitialAtomCogOffset( leftOxygenAtom ).getY() + getInitialAtomCogOffset( centerOxygenAtom ).getY() ) / 2);
             singleOxygenMolecule.setCenterOfGravityPos( INITIAL_OXYGEN_HORIZONTAL_OFFSET, INITIAL_OXYGEN_VERTICAL_OFFSET );
         }
         diatomicOxygenMolecule.setVelocity( BREAK_APART_VELOCITY * 0.33 * Math.cos(breakApartAngle), BREAK_APART_VELOCITY * 0.33 * Math.sin(breakApartAngle) );
