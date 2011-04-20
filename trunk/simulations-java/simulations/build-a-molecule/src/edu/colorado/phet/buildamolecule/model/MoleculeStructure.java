@@ -50,8 +50,85 @@ public class MoleculeStructure {
         addBond( new Bond( a, b ) );
     }
 
-    public String getMolecularFormulaHTMLFragment() {
+    public String getHillSystemFormulaFragment() {
         return ChemUtils.hillOrderedSymbol( atoms );
+    }
+
+    private static final Map<String, String> formulaExceptions = new HashMap<String, String>();
+
+    static {
+        formulaExceptions.put( "H3N", "NH3" ); // treated as if it is organic
+        formulaExceptions.put( "CHN", "HCN" ); // not considered organic
+    }
+
+    /**
+     * Our best attempt at getting a general molecular naming algorithm that handles organic and non-organic compounds. It should also handle
+     * exceptions and alcohols.
+     * <p/>
+     * TODO: detect alcohol structure, and things like CH3OH.
+     *
+     * @return Text which is the molecular formula
+     */
+    public String getGeneralFormula() {
+        boolean containsCarbon = containsAtomOfType( new Atom.C() );
+        boolean containsHydrogen = containsAtomOfType( new Atom.H() );
+
+        boolean organic = containsCarbon && containsHydrogen;
+
+        List<Atom> sortedAtoms = new LinkedList<Atom>( atoms );
+        if ( organic ) {
+            // carbon first, then hydrogen, then others alphabetically
+            Collections.sort( sortedAtoms, new Comparator<Atom>() {
+                public int compare( Atom a, Atom b ) {
+                    return new Double( organicSortValue( a ) ).compareTo( organicSortValue( b ) );
+                }
+            } );
+        }
+        else {
+            // sort by increasing electronegativity
+            Collections.sort( sortedAtoms, new Comparator<Atom>() {
+                public int compare( Atom a, Atom b ) {
+                    return new Double( electronegativeSortValue( a ) ).compareTo( electronegativeSortValue( b ) );
+                }
+            } );
+        }
+
+        // grab our formula out
+        String formula = ChemUtils.createSymbolWithoutSubscripts( sortedAtoms.toArray( new Atom[sortedAtoms.size()] ) );
+
+        // return the formula, unless it is in our exception list (in which case, handle the exception case)
+        return formulaExceptions.containsKey( formula ) ? formulaExceptions.get( formula ) : formula;
+    }
+
+    /**
+     * Use the above general molecular formula, but return it with HTML subscripts
+     *
+     * @return Molecular formula with HTML subscripts
+     */
+    public String getGeneralFormulaFragment() {
+        return ChemUtils.toSubscript( getGeneralFormula() );
+    }
+
+    private static double electronegativeSortValue( Atom atom ) {
+        return atom.getElectronegativity();
+    }
+
+    private static double organicSortValue( Atom atom ) {
+        if ( atom.isSameTypeOfAtom( new Atom.C() ) ) {
+            return 0;
+        }
+        if ( atom.isSameTypeOfAtom( new Atom.H() ) ) {
+            return 1;
+        }
+        return alphabeticSortValue( atom );
+    }
+
+    private static double alphabeticSortValue( Atom atom ) {
+        int value = 1000 * ( (int) atom.getSymbol().charAt( 0 ) );
+        if ( atom.getSymbol().length() > 1 ) {
+            value += (int) atom.getSymbol().charAt( 1 );
+        }
+        return value;
     }
 
     public Set<Atom> getAtoms() {
@@ -127,6 +204,15 @@ public class MoleculeStructure {
         }
 
         return structure;
+    }
+
+    private boolean containsAtomOfType( Atom referenceAtom ) {
+        for ( Atom atom : atoms ) {
+            if ( atom.isSameTypeOfAtom( referenceAtom ) ) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public static class Bond {
@@ -208,7 +294,7 @@ public class MoleculeStructure {
             // same instance
             return true;
         }
-        if ( !getMolecularFormulaHTMLFragment().equals( other.getMolecularFormulaHTMLFragment() ) ) {
+        if ( !getHillSystemFormulaFragment().equals( other.getHillSystemFormulaFragment() ) ) {
             // different molecular formula
             return false;
         }
