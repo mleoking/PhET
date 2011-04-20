@@ -146,14 +146,11 @@ public class IsotopeElectronCloudNode extends PNode {
      * This is a very specialized function for the purposes of this class.
      */
     private double reduceRadiusRange( double value ){
-        // The following two factors define the way in which the input values
-        // are increased or decreased.  These values can be adjusted as needed
-        // to make the cloud size appear as desired.  In general, the min
-        // value will be somewhat larger than the smallest value in the table,
-        // and the max value will be somewhat smaller than the largest value
-        // in the table.
+        // The following two factors define the way in which an input value is
+        // increased or decreased.  These values can be adjusted as needed
+        // to make the cloud size appear as desired.
         double minChangedRadius = 40;
-        double maxChangedRadius = 110;
+        double maxChangedRadius = 100;
 
         Function.LinearFunction compressionFunction = new Function.LinearFunction( minShellRadius, maxShellRadius, minChangedRadius, maxChangedRadius );
         return compressionFunction.evaluate( value );
