@@ -22,9 +22,7 @@ TODO:
 Find what molecules say they are "equivalent" to each other
 Check that molecules "pushed" away don't try to bond? BUG BUG when large molecule group is moved. Hydrogen can bond to hydrogen in some cases!
 I18n
-Improve kit controls and add kit number?
 Add in the BCE's "ding" when a collection box is filled
-Make kits sufficient to fill the entire collection box
 
 NOTES (questions):
 
