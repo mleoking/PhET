@@ -163,8 +163,8 @@ public class NO2 extends Molecule {
         singleOxygenMolecule.setVelocity( -BREAK_APART_VELOCITY * 0.67 * Math.cos(breakApartAngle), -BREAK_APART_VELOCITY * 0.67 * Math.sin(breakApartAngle) );
 
         // Add these constituent molecules to the constituent list.
-        constituentMolecules.add( nitrogenMonoxideMolecule );
-        constituentMolecules.add( singleOxygenMolecule );
+        addConstituentMolecule( nitrogenMonoxideMolecule );
+        addConstituentMolecule( singleOxygenMolecule );
 
         // Send out notifications about this molecule breaking apart.
         ArrayList<Listener> copyOfListeners = new ArrayList<Listener>( listeners );

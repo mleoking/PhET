@@ -81,7 +81,7 @@ public abstract class Molecule {
     // The strategies contained in this structure define whether the
     // molecule can absorb a given photon and, if it does absorb it, how it
     // will react.
-    private final HashMap<Double, PhotonAbsorptionStrategy> mapWavelengthToAbsorptionStrategy = new HashMap<Double, PhotonAbsorptionStrategy>();
+    private final Map<Double, PhotonAbsorptionStrategy> mapWavelengthToAbsorptionStrategy = new HashMap<Double, PhotonAbsorptionStrategy>();
 
     // Currently active photon absorption strategy, active because a photon
     // was absorbed that activated it.
@@ -116,7 +116,7 @@ public abstract class Molecule {
 
     // List of constituent molecules. This comes into play only when the
     // molecule breaks apart, which many of the molecules never do.
-    protected final ArrayList<Molecule> constituentMolecules = new ArrayList<Molecule>();
+    private final ArrayList<Molecule> constituentMolecules = new ArrayList<Molecule>();
 
     //------------------------------------------------------------------------
     // Constructor(s)
@@ -171,6 +171,16 @@ public abstract class Molecule {
             System.out.println(getClass().getName() + " - Warning: Attempt to get vibrational COG offset for atom that is not in molecule.");
         }
         return vibrationAtomOffsets.get( atom );
+    }
+
+    /**
+     * Add a "constituent molecule" to this molecule's list.  Constituent
+     * molecules are what this molecule will break into if it breaks apart.
+     * Note that this does NOT check for any sort of conservation of atoms,
+     * so use this carefully or weird break apart behaviors could result.
+     */
+    protected void addConstituentMolecule( Molecule molecule ){
+        constituentMolecules.add( molecule );
     }
 
     /**
