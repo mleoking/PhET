@@ -6,7 +6,6 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.photonabsorption.model.Molecule;
-import edu.colorado.phet.common.photonabsorption.model.MoleculeID;
 import edu.colorado.phet.common.photonabsorption.model.PhotonAbsorptionStrategy;
 import edu.colorado.phet.common.photonabsorption.model.WavelengthConstants;
 import edu.colorado.phet.common.photonabsorption.model.atoms.AtomicBond;
@@ -98,10 +97,5 @@ public class N2O extends Molecule {
         addInitialAtomCogOffset(oxygenAtom, new Vector2D(INITIAL_NITROGEN_OXYGEN_DISTANCE,
                 -multFactor * MAX_OXYGEN_DEFLECTION));
         updateAtomPositions();
-    }
-
-    @Override
-    public MoleculeID getMoleculeID() {
-        return MoleculeID.N2O;
     }
 }

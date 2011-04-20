@@ -11,6 +11,7 @@ import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -27,7 +28,6 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.photonabsorption.model.Molecule;
-import edu.colorado.phet.common.photonabsorption.model.MoleculeID;
 import edu.colorado.phet.common.photonabsorption.model.PhotonAbsorptionModel;
 import edu.colorado.phet.common.photonabsorption.model.PhotonAbsorptionModel.PhotonTarget;
 import edu.colorado.phet.common.photonabsorption.model.molecules.CH4;
@@ -70,7 +70,7 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
 
     private final PhotonAbsorptionModel model;
 
-    private final HashMap<MoleculeID, LinearValueControl> moleculeToSliderMap = new HashMap<MoleculeID, LinearValueControl>();
+    private final Map<Class<? extends Molecule>, LinearValueControl> moleculeToSliderMap = new HashMap<Class<? extends Molecule>, LinearValueControl>();
 
     // The following data structure defines each of the gas selectors
     // that will exist on this control panel.
@@ -134,19 +134,19 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
         // Add the molecule control sliders.
         addSliderForMolecule(
                 GreenhouseResources.getString("ControlPanel.CH4"),
-                atmosphereSliderPanel, MoleculeID.CH4 );
+                atmosphereSliderPanel, CH4.class );
         addSliderForMolecule(
                 GreenhouseResources.getString("ControlPanel.CO2"),
-                atmosphereSliderPanel, MoleculeID.CO2 );
+                atmosphereSliderPanel, CO2.class );
         addSliderForMolecule(
                 GreenhouseResources.getString("ControlPanel.H2O"),
-                atmosphereSliderPanel, MoleculeID.H2O );
+                atmosphereSliderPanel, H2O.class );
         addSliderForMolecule(
                 GreenhouseResources.getString("ControlPanel.N2"),
-                atmosphereSliderPanel, MoleculeID.N2 );
+                atmosphereSliderPanel, N2.class );
         addSliderForMolecule(
                 GreenhouseResources.getString("ControlPanel.O2"),
-                atmosphereSliderPanel, MoleculeID.O2 );
+                atmosphereSliderPanel, O2.class );
 
         atmosphericGasesPanel.add( atmosphereSliderPanel ,constraints);
 
@@ -164,8 +164,8 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
     // ------------------------------------------------------------------------
 
     private void updateSliderPositions(){
-        for ( MoleculeID moleculeID : moleculeToSliderMap.keySet() ){
-            moleculeToSliderMap.get( moleculeID ).setValue( model.getConfigurableAtmosphereGasLevel( moleculeID ) );
+        for ( Class<? extends Molecule> moleculeClass : moleculeToSliderMap.keySet() ){
+            moleculeToSliderMap.get( moleculeClass ).setValue( model.getConfigurableAtmosphereGasLevel( moleculeClass ) );
         }
     }
 
@@ -182,9 +182,9 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
      * convenience method that prevents duplication of code.
      *
      * @param slider
-     * @param moleculeID
+     * @param moleculeClass
      */
-    private void addSliderForMolecule( String labelText, JPanel panel, final MoleculeID moleculeID){
+    private void addSliderForMolecule( String labelText, JPanel panel, final Class<? extends Molecule> moleculeClass){
 
         // The overall width of the control that is created by this method
         // needs to be a little less that the total control panel so that it
@@ -199,24 +199,24 @@ public class PhotonAbsorptionControlPanel extends ControlPanel {
         spacerPanel.add( Box.createHorizontalStrut( indent ) );
 
         final LinearValueControl slider = new LinearValueControl( 0,
-                model.getConfigurableAtmosphereMaxLevel( moleculeID ), labelText, "###",
+                model.getConfigurableAtmosphereMaxLevel( moleculeClass ), labelText, "###",
                 GreenhouseResources.getString("ControlPanel.Molecules"));
         slider.setFont( LABEL_FONT );
         slider.setUpDownArrowDelta( 1 );
         slider.setTextFieldEditable( true );
         slider.setMajorTicksVisible( false );
-        slider.setValue( model.getConfigurableAtmosphereGasLevel( moleculeID ) );
+        slider.setValue( model.getConfigurableAtmosphereGasLevel( moleculeClass ) );
         slider.setSliderWidth( overallWidth - indent );
         slider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                int currentLevel = model.getConfigurableAtmosphereGasLevel( moleculeID );
+                int currentLevel = model.getConfigurableAtmosphereGasLevel( moleculeClass );
                 int sliderValue = (int)Math.round( slider.getValue() );
                 if ( sliderValue != currentLevel ){
-                    model.setConfigurableAtmosphereGasLevel( moleculeID, sliderValue );
+                    model.setConfigurableAtmosphereGasLevel( moleculeClass, sliderValue );
                 }
             }
         });
-        moleculeToSliderMap.put(moleculeID, slider);
+        moleculeToSliderMap.put(moleculeClass, slider);
         sliderPanel.add( spacerPanel );
         sliderPanel.add( slider );
         panel.add( sliderPanel );

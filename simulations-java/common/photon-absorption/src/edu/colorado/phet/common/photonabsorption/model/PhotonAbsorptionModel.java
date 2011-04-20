@@ -90,21 +90,12 @@ public class PhotonAbsorptionModel {
     private static final double DEFAULT_EMITTED_PHOTON_WAVELENGTH = WavelengthConstants.IR_WAVELENGTH;
     private static final double INITIAL_COUNTDOWN_WHEN_EMISSION_ENABLED = 300;
 
-    // Initial and max values for the numbers of molecules in the configurable
-    // atmosphere.
-    private static final Map<MoleculeID, Integer> INITIAL_ATMOSPHERE_CONCENTRATIONS = new HashMap< MoleculeID, Integer>() {{
-        put(MoleculeID.N2, 0);
-        put(MoleculeID.O2, 0);
-        put(MoleculeID.CO2, 0);
-        put(MoleculeID.CH4, 0);
-        put(MoleculeID.H2O, 0);
-    }};
-    private static final Map< MoleculeID , Integer> MAX_ATMOSPHERE_CONCENTRATIONS = new HashMap< MoleculeID, Integer>() {{
-        put(MoleculeID.N2, 15);
-        put(MoleculeID.O2, 15);
-        put(MoleculeID.CO2, 15);
-        put(MoleculeID.CH4, 15);
-        put(MoleculeID.H2O, 15);
+    private static final Map< Class<? extends Molecule> , Integer> MAX_ATMOSPHERE_CONCENTRATIONS = new HashMap< Class<? extends Molecule>, Integer>() {{
+        put( N2.class, 15 );
+        put( O2.class, 15 );
+        put( CO2.class, 15 );
+        put( CH4.class, 15 );
+        put( H2O.class, 15 );
     }};
 
     // Random number generator.
@@ -468,13 +459,13 @@ public class PhotonAbsorptionModel {
     /**
      * Get the number of the specified molecule in the configurable atmosphere.
      *
-     * @param moleculeID
+     * @param moleculeClass
      * @return
      */
-    public int getConfigurableAtmosphereGasLevel(MoleculeID moleculeID){
+    public int getConfigurableAtmosphereGasLevel(Class<? extends Molecule> moleculeClass){
         int moleculeCount = 0;
-        for (Molecule molecule : configurableAtmosphereMolecules){
-            if (molecule.getMoleculeID() == moleculeID){
+        for ( Molecule molecule : configurableAtmosphereMolecules ) {
+            if ( molecule.getClass() == moleculeClass ) {
                 moleculeCount++;
             }
         }
@@ -484,27 +475,26 @@ public class PhotonAbsorptionModel {
     /**
      * Set the level of the specified gas in the configurable atmosphere.
      *
-     * @param moleculeID
+     * @param moleculeClass
      * @param targetQuantity
      */
-    public void setConfigurableAtmosphereGasLevel(MoleculeID moleculeID, int targetQuantity){
-
+    public void setConfigurableAtmosphereGasLevel(Class<? extends Molecule> moleculeClass, int targetQuantity){
         // Bounds checking.
         assert targetQuantity >= 0;
-        if (targetQuantity < 0){
-            System.err.println(getClass().getName() + " - Error: Invalid target quantity for gas level.");
+        if ( targetQuantity < 0 ) {
+            System.err.println( getClass().getName() + " - Error: Invalid target quantity for gas level." );
             return;
         }
-        else if (targetQuantity > MAX_ATMOSPHERE_CONCENTRATIONS.get( moleculeID )){
-            System.err.println(getClass().getName() + " - Error: Target quantity of " + targetQuantity +
-                    "is out of range, limiting to " + MAX_ATMOSPHERE_CONCENTRATIONS.get( moleculeID ));
-            targetQuantity = MAX_ATMOSPHERE_CONCENTRATIONS.get( moleculeID );
+        else if ( targetQuantity > MAX_ATMOSPHERE_CONCENTRATIONS.get( moleculeClass ) ) {
+            System.err.println( getClass().getName() + " - Error: Target quantity of " + targetQuantity +
+                    "is out of range, limiting to " + MAX_ATMOSPHERE_CONCENTRATIONS.get( moleculeClass ) );
+            targetQuantity = MAX_ATMOSPHERE_CONCENTRATIONS.get( moleculeClass );
         }
 
         // Count the number of the specified type that currently exists.
         int numMoleculesOfSpecifiedType = 0;
-        for (Molecule molecule : configurableAtmosphereMolecules){
-            if (molecule.getMoleculeID() == moleculeID){
+        for ( Molecule molecule : configurableAtmosphereMolecules ) {
+            if ( molecule.getClass() == moleculeClass ) {
                 numMoleculesOfSpecifiedType++;
             }
         }
@@ -513,42 +503,42 @@ public class PhotonAbsorptionModel {
         int numMoleculesToAdd = targetQuantity - numMoleculesOfSpecifiedType;
 
         // Make the changes.
-        if (numMoleculesToAdd > 0){
+        if ( numMoleculesToAdd > 0 ) {
             // Add the necessary number of the specified molecule.
-            for (int i = 0; i < numMoleculesToAdd; i++){
-                Molecule moleculeToAdd = Molecule.createMolecule( moleculeID );
+            for ( int i = 0; i < numMoleculesToAdd; i++ ) {
+                Molecule moleculeToAdd = Molecule.createMolecule( moleculeClass );
                 moleculeToAdd.setCenterOfGravityPos( findLocationInAtmosphereForMolecule( moleculeToAdd ) );
                 configurableAtmosphereMolecules.add( moleculeToAdd );
                 moleculeToAdd.addListener( moleculePhotonEmissionListener );
             }
         }
-        else if (numMoleculesToAdd < 0){
+        else if ( numMoleculesToAdd < 0 ) {
             // Remove the necessary number of the specified molecule.
             ArrayList<Molecule> moleculesToRemove = new ArrayList<Molecule>();
-            for (Molecule molecule : configurableAtmosphereMolecules){
-                if (molecule.getMoleculeID() == moleculeID){
+            for ( Molecule molecule : configurableAtmosphereMolecules ) {
+                if ( molecule.getClass() == moleculeClass ) {
                     moleculesToRemove.add( molecule );
-                    if (moleculesToRemove.size() >= Math.abs( numMoleculesToAdd ) ){
+                    if ( moleculesToRemove.size() >= Math.abs( numMoleculesToAdd ) ) {
                         break;
                     }
                 }
             }
             configurableAtmosphereMolecules.removeAll( moleculesToRemove );
         }
-        else{
-            if (targetQuantity != 0){
-                System.err.println(getClass().getName() + " - Warning: Ignoring call to set molecule levels to current level.");
+        else {
+            if ( targetQuantity != 0 ) {
+                System.err.println( getClass().getName() + " - Warning: Ignoring call to set molecule levels to current level." );
             }
         }
 
         // Send notifications of the change.
-        if (numMoleculesToAdd != 0){
+        if ( numMoleculesToAdd != 0 ) {
             notifyConfigurableAtmospherCompositionChanged();
         }
 
         // If the configurable atmosphere is the currently selected target,
         // then these changes must be synchronized with the active molecules.
-        if (photonTarget == PhotonTarget.CONFIGURABLE_ATMOSPHERE){
+        if ( photonTarget == PhotonTarget.CONFIGURABLE_ATMOSPHERE ) {
             syncConfigAtmosphereToActiveMolecules();
         }
     }
@@ -556,14 +546,14 @@ public class PhotonAbsorptionModel {
     /**
      * Get the number of the specified molecule in the configurable atmosphere.
      *
-     * @param moleculeID
+     * @param moleculeClass
      * @return
      */
-    public int getConfigurableAtmosphereMaxLevel(MoleculeID moleculeID){
-        if ( MAX_ATMOSPHERE_CONCENTRATIONS.containsKey( moleculeID )){
-            return MAX_ATMOSPHERE_CONCENTRATIONS.get( moleculeID );
+    public int getConfigurableAtmosphereMaxLevel( Class<? extends Molecule> moleculeClass ) {
+        if ( MAX_ATMOSPHERE_CONCENTRATIONS.containsKey( moleculeClass ) ) {
+            return MAX_ATMOSPHERE_CONCENTRATIONS.get( moleculeClass );
         }
-        else{
+        else {
             return 0;
         }
     }
@@ -718,25 +708,12 @@ public class PhotonAbsorptionModel {
         return overlap;
     }
 
-    private void setConfigurableAtmosphereInitialLevel(MoleculeID moleculeID){
-        if ( INITIAL_ATMOSPHERE_CONCENTRATIONS.containsKey( moleculeID )){
-            setConfigurableAtmosphereGasLevel( moleculeID, INITIAL_ATMOSPHERE_CONCENTRATIONS.get( moleculeID  ) );
-        }
-    }
-
     /**
      * Reset the configurable atmosphere by adding the initial levels of all
-     * gasses.
+     * gases.
      */
     private void resetConfigurableAtmosphere(){
-
         assert photonTarget != PhotonTarget.CONFIGURABLE_ATMOSPHERE; // See method header comment if this assertion is hit.
-
-        setConfigurableAtmosphereInitialLevel( MoleculeID.CH4) ;
-        setConfigurableAtmosphereInitialLevel( MoleculeID.CO2 );
-        setConfigurableAtmosphereInitialLevel( MoleculeID.H2O );
-        setConfigurableAtmosphereInitialLevel( MoleculeID.N2 );
-        setConfigurableAtmosphereInitialLevel( MoleculeID.O2 );
     }
 
     private void notifyPhotonAdded(Photon photon){

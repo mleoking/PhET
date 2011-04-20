@@ -14,13 +14,6 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.photonabsorption.model.atoms.Atom;
 import edu.colorado.phet.common.photonabsorption.model.atoms.AtomicBond;
-import edu.colorado.phet.common.photonabsorption.model.molecules.CH4;
-import edu.colorado.phet.common.photonabsorption.model.molecules.CO2;
-import edu.colorado.phet.common.photonabsorption.model.molecules.H2O;
-import edu.colorado.phet.common.photonabsorption.model.molecules.N2;
-import edu.colorado.phet.common.photonabsorption.model.molecules.N2O;
-import edu.colorado.phet.common.photonabsorption.model.molecules.O;
-import edu.colorado.phet.common.photonabsorption.model.molecules.O2;
 
 /**
  * Class that represents a molecule in the model.  This, by its nature, is
@@ -183,43 +176,17 @@ public abstract class Molecule {
         constituentMolecules.add( molecule );
     }
 
-    /**
-     * Get the ID used for this molecule.
-     */
-    public abstract MoleculeID getMoleculeID();
-
-    /**
-     * Static factory method for producing molecules of a given type.
-     */
-    public static Molecule createMolecule( MoleculeID moleculeID ){
+    public static Molecule createMolecule( Class<? extends Molecule> moleculeClass ){
         Molecule newMolecule = null;
-        switch ( moleculeID ){
-        case CH4:
-            newMolecule = new CH4();
-            break;
-        case CO2:
-            newMolecule = new CO2();
-            break;
-        case H2O:
-            newMolecule = new H2O();
-            break;
-        case N2:
-            newMolecule = new N2();
-            break;
-        case N2O:
-            newMolecule = new N2O();
-            break;
-        case O:
-            newMolecule = new O();
-            break;
-        case O2:
-            newMolecule = new O2();
-            break;
-        default:
-            System.err.println("Molecule: " + " - Error: Unrecognized molecule type.");
-            assert false;
+        try {
+            newMolecule = moleculeClass.newInstance();
         }
-
+        catch ( InstantiationException e ) {
+            e.printStackTrace();
+        }
+        catch ( IllegalAccessException e ) {
+            e.printStackTrace();
+        }
         return newMolecule;
     }
 
