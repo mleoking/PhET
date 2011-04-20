@@ -90,14 +90,14 @@ public class CH4 extends Molecule {
      */
     @Override
     protected void initializeAtomOffsets() {
-        initialAtomCogOffsets.put(carbonAtom, new Vector2D(0, 0));
-        initialAtomCogOffsets.put(hydrogenAtom1, new Vector2D(-ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE,
+        addInitialAtomCogOffset(carbonAtom, new Vector2D(0, 0));
+        addInitialAtomCogOffset(hydrogenAtom1, new Vector2D(-ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE,
                 ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE));
-        initialAtomCogOffsets.put(hydrogenAtom2, new Vector2D(ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE,
+        addInitialAtomCogOffset(hydrogenAtom2, new Vector2D(ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE,
                 ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE));
-        initialAtomCogOffsets.put(hydrogenAtom3, new Vector2D(ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE,
+        addInitialAtomCogOffset(hydrogenAtom3, new Vector2D(ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE,
                 -ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE));
-        initialAtomCogOffsets.put(hydrogenAtom4, new Vector2D(-ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE,
+        addInitialAtomCogOffset(hydrogenAtom4, new Vector2D(-ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE,
                 -ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE));
 
         updateAtomPositions();
@@ -108,28 +108,28 @@ public class CH4 extends Molecule {
         super.setVibration( vibrationRadians );
         if (vibrationRadians != 0){
             double multFactor = Math.sin( vibrationRadians );
-            initialAtomCogOffsets.put(hydrogenAtom1,
+            addInitialAtomCogOffset(hydrogenAtom1,
                     new Vector2D(-ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE + multFactor * HYDROGEN_VIBRATION_DISTANCE_X,
                             ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE + multFactor * HYDROGEN_VIBRATION_DISTANCE_Y));
-            initialAtomCogOffsets.put(hydrogenAtom2,
+            addInitialAtomCogOffset(hydrogenAtom2,
                     new Vector2D(ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE - multFactor * HYDROGEN_VIBRATION_DISTANCE_X,
                             ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE + multFactor * HYDROGEN_VIBRATION_DISTANCE_Y));
-            initialAtomCogOffsets.put(hydrogenAtom3,
+            addInitialAtomCogOffset(hydrogenAtom3,
                     new Vector2D(-ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE - multFactor * HYDROGEN_VIBRATION_DISTANCE_X,
                             -ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE + multFactor * HYDROGEN_VIBRATION_DISTANCE_Y));
-            initialAtomCogOffsets.put(hydrogenAtom4,
+            addInitialAtomCogOffset(hydrogenAtom4,
                     new Vector2D(ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE + multFactor * HYDROGEN_VIBRATION_DISTANCE_X,
                             -ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE + multFactor * HYDROGEN_VIBRATION_DISTANCE_Y));
 
             // Position the carbon atom so that the center of mass of the
             // molecule remains the same.
             double carbonXPos = -(HydrogenAtom.MASS / CarbonAtom.MASS) *
-                    (initialAtomCogOffsets.get( hydrogenAtom1 ).getX() + initialAtomCogOffsets.get( hydrogenAtom2 ).getX() +
-                    initialAtomCogOffsets.get( hydrogenAtom3 ).getX() + initialAtomCogOffsets.get( hydrogenAtom4 ).getX());
+                    (getInitialAtomCogOffset( hydrogenAtom1 ).getX() + getInitialAtomCogOffset( hydrogenAtom2 ).getX() +
+                    getInitialAtomCogOffset( hydrogenAtom3 ).getX() + getInitialAtomCogOffset( hydrogenAtom4 ).getX());
             double carbonYPos = -(HydrogenAtom.MASS / CarbonAtom.MASS) *
-                    (initialAtomCogOffsets.get( hydrogenAtom1 ).getY() + initialAtomCogOffsets.get( hydrogenAtom2 ).getY() +
-                    initialAtomCogOffsets.get( hydrogenAtom3 ).getY() + initialAtomCogOffsets.get( hydrogenAtom4 ).getY());
-            initialAtomCogOffsets.put( carbonAtom, new Vector2D(carbonXPos, carbonYPos) );
+                    (getInitialAtomCogOffset( hydrogenAtom1 ).getY() + getInitialAtomCogOffset( hydrogenAtom2 ).getY() +
+                    getInitialAtomCogOffset( hydrogenAtom3 ).getY() + getInitialAtomCogOffset( hydrogenAtom4 ).getY());
+            addInitialAtomCogOffset( carbonAtom, new Vector2D(carbonXPos, carbonYPos) );
         }
         else{
             initializeAtomOffsets();

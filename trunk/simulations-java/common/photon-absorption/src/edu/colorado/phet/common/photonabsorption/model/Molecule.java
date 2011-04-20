@@ -6,6 +6,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
@@ -13,7 +14,13 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.photonabsorption.model.atoms.Atom;
 import edu.colorado.phet.common.photonabsorption.model.atoms.AtomicBond;
-import edu.colorado.phet.common.photonabsorption.model.molecules.*;
+import edu.colorado.phet.common.photonabsorption.model.molecules.CH4;
+import edu.colorado.phet.common.photonabsorption.model.molecules.CO2;
+import edu.colorado.phet.common.photonabsorption.model.molecules.H2O;
+import edu.colorado.phet.common.photonabsorption.model.molecules.N2;
+import edu.colorado.phet.common.photonabsorption.model.molecules.N2O;
+import edu.colorado.phet.common.photonabsorption.model.molecules.O;
+import edu.colorado.phet.common.photonabsorption.model.molecules.O2;
 
 /**
  * Class that represents a molecule in the model.  This, by its nature, is
@@ -48,8 +55,8 @@ public abstract class Molecule {
     //------------------------------------------------------------------------
 
     // Atoms and bonds that comprise this molecule.
-    protected final ArrayList<Atom> atoms = new ArrayList<Atom>();
-    protected final ArrayList<AtomicBond> atomicBonds = new ArrayList<AtomicBond>();
+    private final ArrayList<Atom> atoms = new ArrayList<Atom>();
+    private final ArrayList<AtomicBond> atomicBonds = new ArrayList<AtomicBond>();
 
     // This is basically the location of the molecule, but it is specified as
     // the center of gravity since a molecule is a composite object.
@@ -58,7 +65,7 @@ public abstract class Molecule {
     // Structure of the molecule in terms of offsets from the center of
     // gravity.  These indicate the atom's position in the "relaxed" (i.e.
     // non-vibrating), non-rotated state.
-    protected final HashMap<Atom, Vector2D> initialAtomCogOffsets = new HashMap<Atom, Vector2D>();
+    private final Map<Atom, Vector2D> initialAtomCogOffsets = new HashMap<Atom, Vector2D>();
 
     // Vibration offsets - these represent the amount of deviation from the
     // relaxed configuration for each molecule.
@@ -127,6 +134,32 @@ public abstract class Molecule {
         // If there is an active non-null photon absorption strategy, it
         // indicates that a photon has been absorbed.
         return !(activePhotonAbsorptionStrategy instanceof PhotonAbsorptionStrategy.NullPhotonAbsorptionStrategy);
+    }
+
+    /**
+     * Add an initial offset from the molecule's Center of Gravity (COG).
+     * The offset is "initial" because this is where the atom should be when
+     * it is not vibrating or rotating.
+     */
+    protected void addInitialAtomCogOffset( Atom atom, Vector2D offset ){
+        // Check that the specified atom is a part of this molecule.  While it
+        // would probably work to add the offsets first and the atoms later,
+        // that's not how the sim was designed, so this is some enforcement of
+        // the "add the atoms first" policy.
+        assert atoms.contains( atom );
+
+        initialAtomCogOffsets.put( atom, offset );
+    }
+
+    /**
+     * Get the initial offset from the molecule's center of gravity (COG) for
+     * the specified molecule.
+     */
+    protected Vector2D getInitialAtomCogOffset( Atom atom ){
+        if ( !initialAtomCogOffsets.containsKey( atom )){
+            System.out.println(getClass().getName() + " - Warning: Attempt to get COG offset for atom that is not in molecule.");
+        }
+        return initialAtomCogOffsets.get( atom );
     }
 
     /**
