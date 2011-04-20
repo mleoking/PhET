@@ -53,7 +53,7 @@ public abstract class Atom {
 
     public static class Br extends Atom {
         public Br() {
-            super( "Br", 114, new Color( 139, 125, 107 ) );// peach/salmon colored
+            super( "Br", 114, new Color( 139, 125, 107 ) );// brown
         }
     }
 
