@@ -112,7 +112,7 @@ public class ActiveCircles extends JFrame implements ActionListener {
         // we painted ourselves, so let's turn it transparent
         ( (JComponent) getContentPane() ).setOpaque( false );
         // now set the JPanel's opaque, along with other Swing components whose
-        // backgrounds we don’t want shown
+        // backgrounds we don't want shown
         changeColorPanel.setOpaque( false );
         programTitlePanel.setOpaque( false );
         limitFpsPanel.setOpaque( false );

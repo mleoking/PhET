@@ -185,7 +185,7 @@ public class FluidFlowModel extends FluidPressureAndFlowModel implements Velocit
     }
 
     public void addDrop() {
-        double min = 0.1;//Don’t show any particles near the edges, since their velocity should be zero in physical reality (or a full-blown fluid dynamics simulation)
+        double min = 0.1;//Don't show any particles near the edges, since their velocity should be zero in physical reality (or a full-blown fluid dynamics simulation)
         double max = 1 - min;
         double range = max - min;
         final Particle newParticle = new Particle( pipe.getMinX() + 1E-6, random.nextDouble() * range + min, pipe, 0.1 );
