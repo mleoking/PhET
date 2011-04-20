@@ -202,6 +202,10 @@ public class CompleteMolecule {
         return moleculeMap.get( name );
     }
 
+    public static List<CompleteMolecule> getAllCompleteMolecules() {
+        return new LinkedList<CompleteMolecule>( completeMolecules );
+    }
+
     /*---------------------------------------------------------------------------*
     * computation of allowed molecule structures
     *----------------------------------------------------------------------------*/
