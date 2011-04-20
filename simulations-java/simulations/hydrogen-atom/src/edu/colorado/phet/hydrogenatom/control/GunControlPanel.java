@@ -11,16 +11,14 @@
 
 package edu.colorado.phet.hydrogenatom.control;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.swing.JLabel;
+import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -50,32 +48,32 @@ public class GunControlPanel extends PhetPNode implements Observer {
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
-    
-    // Controls that I was asked to removed, in case they want them restored...
+
+    // Controls that I was asked to remove, in case they want them restored...
     private static final boolean SHOW_ALPHA_PARTICLE_CONTROLS = false;
     private static final boolean SHOW_LIGHT_INTENSITY_CONTROL = false;
     private static final boolean SHOW_ALPHA_PARTICLES_INTENSITY_CONTROL = false;
-    
+
     private static final int FONT_STYLE = HAConstants.DEFAULT_FONT_STYLE;
     private static final int DEFAULT_FONT_SIZE = HAConstants.DEFAULT_FONT_SIZE;
     private static final String FONT_SIZE_RESOURCE = "gunControls.font.size";
-    
+
     private static final double X_MARGIN = 40;
     private static final double Y_MARGIN = 10;
     private static final double Y_SPACING = 5;
-    
+
     private static final Dimension INTENSITY_CONTROL_SIZE = new Dimension( 175, 20 );
     private static final Color LABEL_COLOR = Color.WHITE;
-    
+
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
-    
+
     private Gun _gun;
     private TracesNode _tracesNode;
-    
+
     private GunTypeControl _gunTypeControl;
-    
+
     private PhetPNode _lightControls;
     private LightTypeControl _lightTypeControl;
     private IntensityControl _lightIntensityControl;
@@ -83,59 +81,59 @@ public class GunControlPanel extends PhetPNode implements Observer {
     private TransitionMarksControl _transitionMarksControl;
     private PSwing _transitionMarksControlWrapper;
     private boolean _transitionMarksControlVisible;
-    
+
     private PhetPNode _alphaParticleControls;
     private IntensityControl _alphaParticlesIntensityControl;
     private TracesControl _alphaParticlesTracesControl;
-    
+
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
-    
+
     /**
      * Constructor.
      */
     public GunControlPanel( Gun gun, TracesNode tracesNode ) {
         super();
-        
+
         _gun = gun;
         _tracesNode = tracesNode;
         _transitionMarksControlVisible = false;
-        
+
         // Font
         int fontSize = HAResources.getInt( FONT_SIZE_RESOURCE, DEFAULT_FONT_SIZE );
         Font font = new PhetFont( FONT_STYLE, fontSize );
-        
+
         PImage panel = HAResources.getImageNode( HAConstants.IMAGE_GUN_PANEL );
-        
+
         JLabel lightControlsLabel = new JLabel( HAResources.getString( "label.lightControls" ) );
-        Font labelFont = new PhetFont( FONT_STYLE, fontSize+2 );
+        Font labelFont = new PhetFont( FONT_STYLE, fontSize + 2 );
         lightControlsLabel.setFont( labelFont );
-        PSwing lightControlsLabelWrapper = new PSwing(lightControlsLabel );
-        
+        PSwing lightControlsLabelWrapper = new PSwing( lightControlsLabel );
+
         _gunTypeControl = new GunTypeControl( font );
-        
+
         _lightControls = new PhetPNode();
         _lightTypeControl = new LightTypeControl( font );
         _lightIntensityControl = new IntensityControl( INTENSITY_CONTROL_SIZE, font );
         _wavelengthControl = new GunWavelengthControl( _gun.getMinWavelength(), _gun.getMaxWavelength(),
-                HAConstants.UV_TRACK_COLOR, HAConstants.UV_LABEL_COLOR,
-                HAConstants.IR_TRACK_COLOR, HAConstants.IR_LABEL_COLOR );
+                                                       HAConstants.UV_TRACK_COLOR, HAConstants.UV_LABEL_COLOR,
+                                                       HAConstants.IR_TRACK_COLOR, HAConstants.IR_LABEL_COLOR );
         _transitionMarksControl = new TransitionMarksControl( font );
-        
+
         _alphaParticleControls = new PhetPNode();
         _alphaParticlesIntensityControl = new IntensityControl( INTENSITY_CONTROL_SIZE, font );
         _alphaParticlesIntensityControl.setColor( HAConstants.ALPHA_PARTICLES_COLOR );
-        
+
         _alphaParticlesTracesControl = new TracesControl( font );
 
         // Wrappers for Swing components
-        PSwing lightTypeControlWrapper = new PSwing(_lightTypeControl );
-        PSwing lightIntensityControlWrapper = new PSwing(_lightIntensityControl );
-        _transitionMarksControlWrapper = new PSwing(_transitionMarksControl );
-        PSwing alphaParticlesIntensityControlWrapper = new PSwing(_alphaParticlesIntensityControl );
-        PSwing alphaParticlesTracesControlWrapper = new PSwing(_alphaParticlesTracesControl );
-        
+        PSwing lightTypeControlWrapper = new PSwing( _lightTypeControl );
+        PSwing lightIntensityControlWrapper = new PSwing( _lightIntensityControl );
+        _transitionMarksControlWrapper = new PSwing( _transitionMarksControl );
+        PSwing alphaParticlesIntensityControlWrapper = new PSwing( _alphaParticlesIntensityControl );
+        PSwing alphaParticlesTracesControlWrapper = new PSwing( _alphaParticlesTracesControl );
+
         // Layering, back to front
         {
             _lightControls.addChild( lightTypeControlWrapper );
@@ -165,7 +163,7 @@ public class GunControlPanel extends PhetPNode implements Observer {
         {
             PBounds bTop; // bounds of top-most component
             PBounds bAbove; // bounds of the node directly above the one we're positioning
-            
+
             if ( SHOW_ALPHA_PARTICLE_CONTROLS ) {
                 _gunTypeControl.setOffset( X_MARGIN, Y_MARGIN );
                 bTop = _gunTypeControl.getFullBounds();
@@ -174,7 +172,7 @@ public class GunControlPanel extends PhetPNode implements Observer {
                 lightControlsLabelWrapper.setOffset( X_MARGIN, Y_MARGIN );
                 bTop = lightControlsLabelWrapper.getFullBounds();
             }
-            
+
             // Light controls
             _lightControls.setOffset( bTop.getX(), bTop.getY() + bTop.getHeight() + Y_SPACING );
             lightTypeControlWrapper.setOffset( 0, 0 );
@@ -201,30 +199,30 @@ public class GunControlPanel extends PhetPNode implements Observer {
                 alphaParticlesTracesControlWrapper.setOffset( 0, 0 );
             }
         }
-        
+
         // Scale the panel background image
         {
             _wavelengthControl.setWavelength( HAConstants.MAX_WAVELENGTH );
             _wavelengthControl.setTextFieldFont( font );
             _wavelengthControl.setUnitsFont( font );
-            
+
             PBounds pb = panel.getFullBounds();
             PBounds gtb = ( SHOW_ALPHA_PARTICLE_CONTROLS ) ? _gunTypeControl.getFullBounds() : lightControlsLabelWrapper.getFullBounds();
             PBounds lb = _lightControls.getFullBounds();
             PBounds ab = _alphaParticleControls.getFullBounds();
-            
+
             double xFudge = 30; // fudge factor for text field above wavelength slider
-            
+
             double width = Math.max( gtb.getWidth(), Math.max( lb.getWidth() - xFudge, ab.getWidth() ) ) + ( 2 * X_MARGIN );
             double height = gtb.getHeight() + Y_SPACING + Math.max( lb.getHeight(), ab.getHeight() ) + ( 2 * Y_MARGIN );
-           
+
             double scaleX = width / pb.getWidth();
             double scaleY = height / pb.getHeight();
             AffineTransform xform = new AffineTransform();
             xform.scale( scaleX, scaleY );
             panel.setTransform( xform );
         }
-        
+
         // Colors
         _gunTypeControl.setLabelsForeground( LABEL_COLOR );
         lightControlsLabel.setForeground( LABEL_COLOR );
@@ -234,16 +232,16 @@ public class GunControlPanel extends PhetPNode implements Observer {
         _transitionMarksControl.setForeground( LABEL_COLOR );
         _alphaParticlesIntensityControl.setUnitsForeground( LABEL_COLOR );
         _alphaParticlesTracesControl.setForeground( LABEL_COLOR );
-        
+
         // Event handling
         {
             panel.setPickable( false );
-            
+
             GunChangeListener listener = new GunChangeListener();
-            
+
             // ActionListeners
             _transitionMarksControl.addActionListener( listener );
-            
+
             // ChangeListeners
             _gunTypeControl.addChangeListener( listener );
             _lightTypeControl.addChangeListener( listener );
@@ -251,7 +249,7 @@ public class GunControlPanel extends PhetPNode implements Observer {
             _wavelengthControl.addChangeListener( listener );
             _alphaParticlesIntensityControl.addChangeListener( listener );
             _alphaParticlesTracesControl.addChangeListener( listener );
-            
+
             // InputEventListeners
             _gunTypeControl.addInputEventListener( new CursorHandler() );
             lightTypeControlWrapper.addInputEventListener( new CursorHandler() );
@@ -260,18 +258,18 @@ public class GunControlPanel extends PhetPNode implements Observer {
             alphaParticlesIntensityControlWrapper.addInputEventListener( new CursorHandler() );
             alphaParticlesTracesControlWrapper.addInputEventListener( new CursorHandler() );
         }
-        
+
         // Sync with model
         updateAll();
         _wavelengthControl.setTransitionMarksVisible( HADefaults.SHOW_TRANSITION_WAVELENGTHS );
         _transitionMarksControlWrapper.setVisible( _transitionMarksControlVisible );
         _gun.addObserver( this );
     }
-    
+
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
-    
+
     /**
      * Forces an update of the wavelength control's drag bounds.
      * This is a workaround for a problem with the wavelength control's ConstrainedDragHandler.
@@ -279,17 +277,17 @@ public class GunControlPanel extends PhetPNode implements Observer {
     public void updateWavelengthControlDragBounds() {
         _wavelengthControl.updateDragBounds();
     }
-    
+
     /**
      * Sets the transition wavelengths for the wavelength control.
-     * 
+     *
      * @param transitionWavelengths possibly null
      */
     public void setTransitionWavelengths( double[] transitionWavelengths ) {
-        
+
         _wavelengthControl.setTransitionWavelengths( transitionWavelengths );
         _wavelengthControl.setKnobHilitingEnabled( true );
-        
+
         _transitionMarksControlVisible = ( transitionWavelengths != null );
         if ( _lightTypeControl.isMonochromaticSelected() ) {
             _transitionMarksControlWrapper.setVisible( _transitionMarksControlVisible );
@@ -298,14 +296,14 @@ public class GunControlPanel extends PhetPNode implements Observer {
             _transitionMarksControlWrapper.setVisible( false );
         }
     }
-    
+
     //----------------------------------------------------------------------------
     // Event handling
     //----------------------------------------------------------------------------
-    
+
     /*
-     * Listens for changes to the gun controls.
-     */
+    * Listens for changes to the gun controls.
+    */
     private class GunChangeListener implements ActionListener, ChangeListener {
 
         public void actionPerformed( ActionEvent event ) {
@@ -314,7 +312,7 @@ public class GunControlPanel extends PhetPNode implements Observer {
                 handleTransitionMarksChange();
             }
         }
-        
+
         public void stateChanged( ChangeEvent event ) {
             Object source = event.getSource();
             if ( source == _gunTypeControl ) {
@@ -335,12 +333,12 @@ public class GunControlPanel extends PhetPNode implements Observer {
             else if ( source == _alphaParticlesTracesControl ) {
                 handleAlphaParticlesTraceChange();
             }
-        }   
+        }
     }
-    
+
     /*
-     * Handles selection gun type (photons or alpha particles).
-     */
+    * Handles selection gun type (photons or alpha particles).
+    */
     private void handleGunTypeChange() {
         _tracesNode.setEnabled( _gun.isAlphaParticlesMode() && _alphaParticlesTracesControl.isSelected() );
         _lightControls.setVisible( _gun.isPhotonsMode() );
@@ -348,12 +346,12 @@ public class GunControlPanel extends PhetPNode implements Observer {
         GunMode mode = ( _gunTypeControl.isPhotonsSelected() ? GunMode.PHOTONS : GunMode.ALPHA_PARTICLES );
         _gun.setMode( mode );
     }
-    
+
     /*
-     * Handles selection of light type (white or monochrome).
-     */
+    * Handles selection of light type (white or monochrome).
+    */
     private void handleLightTypeChange() {
-        
+
         LightType lightType = null;
         if ( _lightTypeControl.isMonochromaticSelected() ) {
             _lightIntensityControl.setColor( _wavelengthControl.getWavelengthColor() );
@@ -367,57 +365,57 @@ public class GunControlPanel extends PhetPNode implements Observer {
             _transitionMarksControlWrapper.setVisible( false );
             lightType = LightType.WHITE;
         }
-        
+
         _gun.setLightType( lightType );
     }
-    
+
     /*
-     * Handles changes to light intensity control.
-     */
+    * Handles changes to light intensity control.
+    */
     private void handleLightIntensityChange() {
         double intensity = _lightIntensityControl.getValue() / 100d;
         _gun.setLightIntensity( intensity );
     }
-    
+
     /*
-     * Handles changes to light wavelength control.
-     */
+    * Handles changes to light wavelength control.
+    */
     private void handleWavelengthChange() {
         if ( _gun.isMonochromaticLightType() ) {
             _lightIntensityControl.setColor( _wavelengthControl.getWavelengthColor() );
         }
         _gun.setWavelength( _wavelengthControl.getWavelength() );
     }
-    
+
     /*
-     * Handles changes to the control that shows markings for transitions on the wavelength control.
-     */
+    * Handles changes to the control that shows markings for transitions on the wavelength control.
+    */
     private void handleTransitionMarksChange() {
         _wavelengthControl.setTransitionMarksVisible( _transitionMarksControl.isSelected() );
     }
-    
+
     /*
-     * Handles changes to alpha particle intensity control.
-     */
+    * Handles changes to alpha particle intensity control.
+    */
     private void handleAlphaParticlesIntensityChange() {
         double intensity = _alphaParticlesIntensityControl.getValue() / 100d;
         _gun.setAlphaParticlesIntensity( intensity );
     }
-    
+
     /*
-     * Handles change to the "show traces" control for alpha particles.
-     */
+    * Handles change to the "show traces" control for alpha particles.
+    */
     private void handleAlphaParticlesTraceChange() {
         _tracesNode.setEnabled( _alphaParticlesTracesControl.isSelected() );
     }
-    
+
     //----------------------------------------------------------------------------
     // Observer implementation
     //----------------------------------------------------------------------------
 
     /**
      * Updates the control panel when the gun model changes.
-     * 
+     *
      * @param o
      * @param arg
      */
@@ -433,19 +431,19 @@ public class GunControlPanel extends PhetPNode implements Observer {
                 _wavelengthControl.setWavelength( _gun.getWavelength() );
             }
             else if ( arg == Gun.PROPERTY_LIGHT_INTENSITY ) {
-                int i = (int)( 100 * _gun.getLightIntensity() );
+                int i = (int) ( 100 * _gun.getLightIntensity() );
                 _lightIntensityControl.setValue( i );
             }
             else if ( arg == Gun.PROPERTY_ALPHA_PARTICLES_INTENSITY ) {
-                int i = (int)( 100 * _gun.getAlphaParticlesIntensity() );
+                int i = (int) ( 100 * _gun.getAlphaParticlesIntensity() );
                 _alphaParticlesIntensityControl.setValue( i );
             }
         }
     }
-    
+
     /*
-     * Synchronizes all controls with the state of the gun model.
-     */
+    * Synchronizes all controls with the state of the gun model.
+    */
     private void updateAll() {
         _gunTypeControl.setPhotonsSelected( _gun.isPhotonsMode() );
         _lightControls.setVisible( _gun.isPhotonsMode() );
@@ -461,8 +459,8 @@ public class GunControlPanel extends PhetPNode implements Observer {
             _wavelengthControl.setVisible( false );
         }
         _wavelengthControl.setWavelength( _gun.getWavelength() );
-        _lightIntensityControl.setValue( (int)( 100 * _gun.getLightIntensity() ) );
-        _alphaParticlesIntensityControl.setValue( (int)( 100 * _gun.getAlphaParticlesIntensity() ) );
+        _lightIntensityControl.setValue( (int) ( 100 * _gun.getLightIntensity() ) );
+        _alphaParticlesIntensityControl.setValue( (int) ( 100 * _gun.getAlphaParticlesIntensity() ) );
         _alphaParticlesTracesControl.setSelected( _tracesNode.isEnabled() );
     }
 }
