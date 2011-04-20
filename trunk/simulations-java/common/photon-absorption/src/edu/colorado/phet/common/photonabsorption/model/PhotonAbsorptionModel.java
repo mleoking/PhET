@@ -23,6 +23,11 @@ import edu.colorado.phet.common.photonabsorption.model.molecules.*;
  * absorbed (or often NOT absorbed) by various molecules.  The scale for this
  * model is picometers (10E-12 meters).
  *
+ * The basic idea for this model is that there is some sort of photon emitter
+ * that emits photons, and some sort of photon target that could potentially
+ * some of the emitted photons and react in some way.  In many cases, the
+ * photon target can re-emit one or more photons after absorption.
+ *
  * @author John Blanco
  */
 public class PhotonAbsorptionModel {
@@ -122,6 +127,9 @@ public class PhotonAbsorptionModel {
     private double photonWavelength = WavelengthConstants.VISIBLE_WAVELENGTH;
     private final ArrayList<Molecule> activeMolecules = new ArrayList<Molecule>();
     private final PhotonTarget initialPhotonTarget;
+
+    // The photon target is the thing that the photons are shot at, and based
+    // on its particular nature, it may or may not absorb some of the photons.
     private PhotonTarget photonTarget = null;
 
     // Variables that control periodic photon emission.
@@ -413,7 +421,9 @@ public class PhotonAbsorptionModel {
     }
 
     /**
-     * Cause a photon to be emitted from the emission point.
+     * Cause a photon to be emitted from the emission point.  Emitted photons
+     * will travel toward the photon target, which will decide whether a given
+     * photon should be absorbed.
      */
     public void emitPhoton(){
 
