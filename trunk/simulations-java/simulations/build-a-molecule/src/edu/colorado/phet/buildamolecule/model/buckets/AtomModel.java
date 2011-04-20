@@ -297,4 +297,66 @@ public class AtomModel {
             return new Atom.Si();
         }
     };
+
+    public static final Function0<Atom> BROMINE_FACTORY = new Function0<Atom>() {
+        public Atom apply() {
+            return new Atom.Br();
+        }
+    };
+
+    public static final Function0<Atom> IODINE_FACTORY = new Function0<Atom>() {
+        public Atom apply() {
+            return new Atom.I();
+        }
+    };
+
+    public static final Function0<Atom> PHOSPHORUS_FACTORY = new Function0<Atom>() {
+        public Atom apply() {
+            return new Atom.P();
+        }
+    };
+
+    public static Function0<Atom> getAtomFactoryBySymbol( String symbol ) {
+        if ( symbol.equals( "O" ) ) {
+            return OXYGEN_FACTORY;
+        }
+        else if ( symbol.equals( "H" ) ) {
+            return HYDROGEN_FACTORY;
+        }
+        else if ( symbol.equals( "C" ) ) {
+            return CARBON_FACTORY;
+        }
+        else if ( symbol.equals( "N" ) ) {
+            return NITROGEN_FACTORY;
+        }
+        else if ( symbol.equals( "F" ) ) {
+            return FLUORINE_FACTORY;
+        }
+        else if ( symbol.equals( "Cl" ) ) {
+            return CHLORINE_FACTORY;
+        }
+        else if ( symbol.equals( "B" ) ) {
+            return BORON_FACTORY;
+        }
+        else if ( symbol.equals( "S" ) ) {
+            return SULPHUR_FACTORY;
+        }
+        else if ( symbol.equals( "Si" ) ) {
+            return SILICON_FACTORY;
+        }
+        else if ( symbol.equals( "Br" ) ) {
+            return BROMINE_FACTORY;
+        }
+        else if ( symbol.equals( "I" ) ) {
+            return IODINE_FACTORY;
+        }
+        else if ( symbol.equals( "P" ) ) {
+            return PHOSPHORUS_FACTORY;
+        }
+        throw new RuntimeException( "Tried to create unknown atom with symbol: " + symbol );
+    }
+
+    public static Atom createAtomBySymbol( String symbol ) {
+        return getAtomFactoryBySymbol( symbol ).apply();
+    }
 }

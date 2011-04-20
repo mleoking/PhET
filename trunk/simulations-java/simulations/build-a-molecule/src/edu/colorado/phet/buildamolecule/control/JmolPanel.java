@@ -17,7 +17,7 @@ public class JmolPanel extends JPanel {
 
         setPreferredSize( new Dimension( 400, 400 ) );
 
-        assert ( molecule.hasCmlData() );
+        assert ( true );
 
         String errorString = viewer.openStringInline( molecule.getCmlData() );
         if ( errorString != null ) {
