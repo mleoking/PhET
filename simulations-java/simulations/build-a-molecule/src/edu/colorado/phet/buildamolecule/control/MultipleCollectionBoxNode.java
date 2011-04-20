@@ -15,7 +15,7 @@ import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 public class MultipleCollectionBoxNode extends CollectionBoxNode {
     public MultipleCollectionBoxNode( final BuildAMoleculeCanvas canvas, final CollectionBox box ) {
         super( canvas, box,
-               new HTMLNode( MessageFormat.format( "Goal: {0}{1}", box.getCapacity(), box.getMoleculeType().getMoleculeStructure().getMolecularFormulaHTMLFragment() ) ) {{
+               new HTMLNode( MessageFormat.format( "Goal: {0}{1}", box.getCapacity(), box.getMoleculeType().getMoleculeStructure().getGeneralFormulaFragment() ) ) {{
                    // TODO: i18nize
                    setFont( new PhetFont( 16, true ) );
                }},
@@ -33,7 +33,7 @@ public class MultipleCollectionBoxNode extends CollectionBoxNode {
                                setHTML( subscriptFix + "You have: (empty)" + subscriptFix );
                            }
                            else {
-                               setHTML( MessageFormat.format( subscriptFix + "You have: {0}{1}" + subscriptFix, box.quantity.getValue(), box.getMoleculeType().getMoleculeStructure().getMolecularFormulaHTMLFragment() ) );
+                               setHTML( MessageFormat.format( subscriptFix + "You have: {0}{1}" + subscriptFix, box.quantity.getValue(), box.getMoleculeType().getMoleculeStructure().getGeneralFormulaFragment() ) );
                            }
                        }
                    } );

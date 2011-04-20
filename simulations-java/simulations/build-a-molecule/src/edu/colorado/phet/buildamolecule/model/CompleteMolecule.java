@@ -102,7 +102,7 @@ public class CompleteMolecule {
      * @return True if it is allowed
      */
     public static boolean isAllowedStructure( MoleculeStructure moleculeStructure ) {
-        String formula = moleculeStructure.getMolecularFormulaHTMLFragment();
+        String formula = moleculeStructure.getHillSystemFormulaFragment();
 
         // use the allowed structure map as an acceleration feature
         if ( allowedStructureMap.containsKey( formula ) ) {
@@ -223,7 +223,7 @@ public class CompleteMolecule {
     private static Map<String, List<MoleculeStructure>> allowedStructureMap = new HashMap<String, List<MoleculeStructure>>();
 
     private static void addCompleteMolecule( final CompleteMolecule completeMolecule ) {
-        String formula = completeMolecule.getMoleculeStructure().getMolecularFormulaHTMLFragment();
+        String formula = completeMolecule.getMoleculeStructure().getHillSystemFormulaFragment();
         if ( completeMoleculeMap.containsKey( formula ) ) {
             completeMoleculeMap.get( formula ).add( completeMolecule );
         }
@@ -235,7 +235,7 @@ public class CompleteMolecule {
     }
 
     private static void addAllowedStructure( final MoleculeStructure structure ) {
-        String formula = structure.getMolecularFormulaHTMLFragment();
+        String formula = structure.getHillSystemFormulaFragment();
         if ( allowedStructureMap.containsKey( formula ) ) {
             allowedStructureMap.get( formula ).add( structure );
         }
