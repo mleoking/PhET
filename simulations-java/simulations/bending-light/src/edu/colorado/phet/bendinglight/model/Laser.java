@@ -47,6 +47,8 @@ public class Laser {
         on.reset();
         color.reset();
         wave.reset();
+        emissionPoint.reset();
+        pivot.reset();
     }
 
     public void translate( Dimension2D delta ) {
