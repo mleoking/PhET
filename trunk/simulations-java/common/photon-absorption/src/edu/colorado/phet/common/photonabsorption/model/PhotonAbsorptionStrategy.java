@@ -4,6 +4,8 @@ package edu.colorado.phet.common.photonabsorption.model;
 
 import java.util.Random;
 
+import edu.colorado.phet.common.phetcommon.model.property.Property;
+
 /**
  * This is the base class for the strategies that define how a molecule
  * reacts to a given photon.  It is responsible for the following:
@@ -20,6 +22,12 @@ public abstract class PhotonAbsorptionStrategy {
     private static final double MAX_PHOTON_HOLD_TIME = 1200; // Milliseconds of sim time.
 
     private static final Random RAND = new Random();
+
+    // Property that contains the probability that a given photon will be
+    // absorbed.  It is a property rather than a simple constant so that it
+    // can be hooked up to developer controls, since this was requested during
+    // the development process.
+    public static final Property<Double> photonAbsorptionProbability = new Property<Double>( 0.5 );
 
     private final Molecule molecule;
 
@@ -65,7 +73,7 @@ public abstract class PhotonAbsorptionStrategy {
     public boolean queryAndAbsorbPhoton( Photon photon ) {
         // All circumstances are correct for photon absorption, so now we decide probabilistically whether or not to
         // actually do it.  This essentially simulates the quantum nature of the absorption.
-        final boolean absorbed = !isPhotonAbsorbed && RAND.nextDouble() < SingleMoleculePhotonAbsorptionProbability.getInstance().getAbsorptionsProbability();
+        final boolean absorbed = !isPhotonAbsorbed && RAND.nextDouble() < photonAbsorptionProbability.getValue();
         if (absorbed){
             isPhotonAbsorbed = true;
             photonHoldCountdownTime = MIN_PHOTON_HOLD_TIME + RAND.nextDouble() * ( MAX_PHOTON_HOLD_TIME - MIN_PHOTON_HOLD_TIME );
