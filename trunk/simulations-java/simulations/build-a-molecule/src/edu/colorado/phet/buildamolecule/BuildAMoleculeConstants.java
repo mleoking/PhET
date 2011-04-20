@@ -31,4 +31,7 @@ public class BuildAMoleculeConstants {
 
     public static final Color KIT_BACKGROUND = Color.WHITE;
     public static final Color KIT_BORDER = Color.BLACK;
+
+    public static final Color KIT_ARROW_BACKGROUND_ENABLED = Color.YELLOW;
+    public static final Color KIT_ARROW_BORDER_ENABLED = Color.BLACK;
 }

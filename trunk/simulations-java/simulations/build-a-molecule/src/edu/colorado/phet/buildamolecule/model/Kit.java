@@ -19,6 +19,7 @@ public class Kit {
     private final LewisDotModel lewisDotModel; // lewis-dot connections between atoms on the play area
     private final Set<MoleculeStructure> molecules = new HashSet<MoleculeStructure>(); // molecule structures in the play area
     public final Property<Boolean> visible = new Property<Boolean>( false );
+    public final Property<Boolean> hasMoleculesInBoxes = new Property<Boolean>( false ); // we record this so we know when the "reset kit" should be shown
     private LayoutBounds layoutBounds;
 
     private final List<MoleculeListener> moleculeListeners = new LinkedList<MoleculeListener>();
@@ -270,6 +271,14 @@ public class Kit {
 
     public void removeMoleculeListener( MoleculeListener listener ) {
         moleculeListeners.remove( listener );
+    }
+
+    public void resetKit() {
+        // TODO: implement
+    }
+
+    public Property<Boolean> getHasMoleculesInBoxes() {
+        return hasMoleculesInBoxes;
     }
 
     public static interface MoleculeListener {
