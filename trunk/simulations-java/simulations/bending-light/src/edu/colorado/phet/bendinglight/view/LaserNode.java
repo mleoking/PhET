@@ -95,7 +95,7 @@ public class LaserNode extends PNode {
         Rectangle2D.Double backRectangle = new Rectangle2D.Double( image.getWidth() * ( 1 - fractionBackToRotateHandle ), 0, image.getWidth() * fractionBackToRotateHandle, image.getHeight() );
         Rectangle2D.Double fullRectangle = new Rectangle2D.Double( 0, 0, image.getWidth(), image.getHeight() );
 
-        //A drag region is an invisible shape that can be dragged with the mouse
+        //A drag region is an invisible shape that can be dragged with the mouse for translation or rotation
         class DragRegion extends PhetPPath {
             DragRegion( Shape shape, Paint fill, final VoidFunction1<PInputEvent> eventHandler, final BooleanProperty isMouseOver, final BooleanProperty isDragging ) {
                 super( shape, fill );
@@ -143,7 +143,7 @@ public class LaserNode extends PNode {
             }
         }, mouseOverTranslationPart, draggingTranslation ) );
 
-        //Add the drag region of rotating the laser
+        //Add the drag region for rotating the laser
         addChild( new DragRegion( rotationRegion.apply( fullRectangle, backRectangle ), rotationRegionColor, new VoidFunction1<PInputEvent>() {
             public void apply( PInputEvent event ) {
                 ImmutableVector2D modelPoint = new ImmutableVector2D( transform.viewToModel( event.getPositionRelativeTo( getParent().getParent() ) ) );

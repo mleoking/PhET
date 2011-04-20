@@ -4,6 +4,8 @@ package edu.colorado.phet.bendinglight.view;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -12,10 +14,12 @@ import java.awt.image.BufferedImage;
 import javax.swing.*;
 
 import edu.colorado.phet.bendinglight.model.BendingLightModel;
+import edu.colorado.phet.bendinglight.model.ImmutableRectangle2D;
 import edu.colorado.phet.bendinglight.model.LightRay;
 import edu.colorado.phet.bendinglight.modules.prisms.WhiteLightNode;
 import edu.colorado.phet.common.phetcommon.model.property.And;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
@@ -157,11 +161,13 @@ public class BendingLightCanvas<T extends BendingLightModel> extends PhetPCanvas
             }
         } );
 
-        //Add rotation and translation indicators for the laser
+        //Add rotation for the laser that show if/when the laser can be rotated about its pivot
         final BooleanProperty showRotationDragHandles = new BooleanProperty( false );
         final BooleanProperty showTranslationDragHandles = new BooleanProperty( false );
         addChild( new RotationDragHandle( transform, model.getLaser(), 10, showRotationDragHandles, clockwiseArrowNotAtMax ) );
         addChild( new RotationDragHandle( transform, model.getLaser(), -10, showRotationDragHandles, ccwArrowNotAtMax ) );
+
+        //Add translation indicators that show if/when the laser can be moved by dragging
         double arrowLength = 100;
         addChild( new TranslationDragHandle( transform, model.getLaser(), -arrowLength, 0, showTranslationDragHandles ) );
         addChild( new TranslationDragHandle( transform, model.getLaser(), 0, -arrowLength, showTranslationDragHandles ) );
@@ -190,10 +196,40 @@ public class BendingLightCanvas<T extends BendingLightModel> extends PhetPCanvas
         } );
         timer.start();
 
-        //Debug for showing stage
+        //Notify model elements about the canvas area so they can't be dragged outside it.
+        final VoidFunction0 updateDragBounds = new VoidFunction0() {
+            public void apply() {
+                final Rectangle2D.Double viewBounds = new Rectangle2D.Double( 0, 0, stageSize.width, stageSize.height );
+                final ImmutableRectangle2D modelBounds = new ImmutableRectangle2D( transform.viewToModel( viewBounds ) );
+                System.out.println( "viewBounds = " + viewBounds + " => " + modelBounds );
+                model.visibleModelBounds.setValue( new Option.Some<ImmutableRectangle2D>( modelBounds ) );
+            }
+        };
+        updateDragBounds.apply();
+        addComponentListener( new ComponentAdapter() {
+            @Override public void componentShown( ComponentEvent e ) {
+                updateDragBounds.apply();
+            }
+
+            @Override public void componentResized( ComponentEvent e ) {
+                updateDragBounds.apply();
+            }
+        } );
+
         if ( debug ) {
+            //Debug for showing stage
             addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, stageSize.getWidth(), stageSize.getHeight() ), new BasicStroke( 2 ), Color.red ) );
+
+            //Debug for showing model bounds
+            addChild( new PhetPPath( new BasicStroke( 3 ), Color.green ) {{
+                model.visibleModelBounds.addObserver( new VoidFunction1<Option<ImmutableRectangle2D>>() {
+                    public void apply( Option<ImmutableRectangle2D> immutableRectangle2DOption ) {
+                        setPathTo( immutableRectangle2DOption.isSome() ? transform.modelToView( immutableRectangle2DOption.get().toShape() ) : null );
+                    }
+                } );
+            }} );
         }
+
     }
 
     public PNode getRootNode() {
