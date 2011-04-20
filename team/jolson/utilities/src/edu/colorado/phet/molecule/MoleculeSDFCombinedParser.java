@@ -51,17 +51,31 @@ public class MoleculeSDFCombinedParser {
 //                System.out.println( "Processing #" + cid );
 
                 BufferedReader reader2d = new BufferedReader( new FileReader( file ) );
-                BufferedReader reader3d = new BufferedReader( new FileReader( new File( dir3d, file.getName() ) ) );
+                File file3D = new File( dir3d, file.getName() );
+                BufferedReader reader3d = null;
+                boolean has3d = true;
+                if ( file3D.exists() ) {
+                    reader3d = new BufferedReader( new FileReader( file3D ) );
+                }
+                else {
+                    // for some molecules, we don't get the 3d representation. they should be 2d-only (like H2), so we just need to convert info
+                    has3d = false;
+
+                    System.out.println( "WARNING: no 3d file for " + cid );
+                }
 
                 // burn the 1st three lines
                 reader2d.readLine();
                 reader2d.readLine();
                 reader2d.readLine();
-                reader3d.readLine();
-                reader3d.readLine();
-                reader3d.readLine();
+                if ( has3d ) {
+                    reader3d.readLine();
+                    reader3d.readLine();
+                    reader3d.readLine();
 
-                reader3d.readLine(); // burn it for the duplicated 3d version
+                    reader3d.readLine(); // burn it for the duplicated 3d version
+                }
+
                 StringTokenizer infoTokenizer = new StringTokenizer( reader2d.readLine(), " " );
                 int atomCount = Integer.parseInt( infoTokenizer.nextToken() );
                 int bondCount = Integer.parseInt( infoTokenizer.nextToken() );
@@ -74,15 +88,28 @@ public class MoleculeSDFCombinedParser {
 
                 for ( int i = 0; i < atomCount; i++ ) {
                     StringTokenizer t2d = new StringTokenizer( reader2d.readLine(), " " );
-                    StringTokenizer t3d = new StringTokenizer( reader3d.readLine(), " " );
                     double x2d = Double.parseDouble( t2d.nextToken() );
                     double y2d = Double.parseDouble( t2d.nextToken() );
                     t2d.nextToken(); // burn it
-                    double x3d = Double.parseDouble( t3d.nextToken() );
-                    double y3d = Double.parseDouble( t3d.nextToken() );
-                    double z3d = Double.parseDouble( t3d.nextToken() );
                     String symbol = t2d.nextToken();
                     symbols.add( symbol );
+
+                    double x3d;
+                    double y3d;
+                    double z3d;
+
+                    if ( has3d ) {
+                        StringTokenizer t3d = new StringTokenizer( reader3d.readLine(), " " );
+                        x3d = Double.parseDouble( t3d.nextToken() );
+                        y3d = Double.parseDouble( t3d.nextToken() );
+                        z3d = Double.parseDouble( t3d.nextToken() );
+                    }
+                    else {
+                        // should be planar, so just transfer over the coordinates
+                        x3d = x2d;
+                        y3d = y2d;
+                        z3d = 0;
+                    }
                     atoms[i] = new AtomInfo( x2d, y2d, x3d, y3d, z3d, symbol );
                 }
 
@@ -92,7 +119,9 @@ public class MoleculeSDFCombinedParser {
 
                 for ( int i = 0; i < bondCount; i++ ) {
                     StringTokenizer t2d = new StringTokenizer( reader2d.readLine(), " " );
-                    reader3d.readLine();
+                    if ( has3d ) {
+                        reader3d.readLine();
+                    }
 
                     int a = Integer.parseInt( t2d.nextToken() );
                     int b = Integer.parseInt( t2d.nextToken() );
@@ -108,10 +137,12 @@ public class MoleculeSDFCombinedParser {
                 // don't read charges or other stuff for now
 
                 // just fill up our properties
-                funnelProperties( reader3d, moleculeProperties ); // 3d first, so 2d will overwrite if necessary
+                if ( has3d ) {
+                    funnelProperties( reader3d, moleculeProperties ); // 3d first, so 2d will overwrite if necessary
+                }
                 funnelProperties( reader2d, moleculeProperties );
 
-                hasRings = moleculeProperties.getProperty( "PUBCHEM_PHARMACOPHORE_FEATURES" ).contains( "rings" );
+                hasRings = has3d && moleculeProperties.getProperty( "PUBCHEM_PHARMACOPHORE_FEATURES" ).contains( "rings" );
                 hasName = moleculeProperties.getProperty( "PUBCHEM_IUPAC_TRADITIONAL_NAME" ) != null;
 
                 propertiesUsed.addAll( moleculeProperties.stringPropertyNames() );
@@ -127,7 +158,9 @@ public class MoleculeSDFCombinedParser {
                 }
 
                 reader2d.close();
-                reader3d.close();
+                if ( has3d ) {
+                    reader3d.close();
+                }
 
                 if ( hasName && !hasRings && cid != 139247 && cid != 9561073 ) { // blacklist
                     // we will accept it
