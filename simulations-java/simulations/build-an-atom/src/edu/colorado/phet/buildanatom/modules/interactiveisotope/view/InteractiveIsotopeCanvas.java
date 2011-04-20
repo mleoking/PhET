@@ -205,7 +205,7 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas implements Resettable 
         final PDimension abundanceWindowSize = new PDimension( 400, 150 );
         final PNode abundanceIndicatorNode = new AbundanceIndicatorNode( model.getAtom() );
         abundanceIndicatorNode.setOffset(
-                0,
+                20, // Empirically determined.
                 abundanceWindowSize.getHeight() - abundanceIndicatorNode.getFullBoundsReference().height - 10 );
         abundanceWindow = new MaximizeControlNode( BuildAnAtomStrings.ABUNDANCE_IN_NATURE, abundanceWindowSize, abundanceIndicatorNode, true );
         abundanceWindow.setOffset( indicatorWindowPosX, symbolWindow.getFullBoundsReference().getMaxY() + 30 );
