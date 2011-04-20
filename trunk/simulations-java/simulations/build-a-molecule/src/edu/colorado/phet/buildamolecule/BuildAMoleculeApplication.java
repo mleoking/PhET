@@ -35,13 +35,6 @@ a sound when a collection box is filled?
     the box outline will stand out more.
     I like the idea of adding a sound, perhaps the single ding sound that’s in BCE game after balancing one of the equations would be good.
 
-(6): Current behavior of the molecule readout is in conflict with the design doc. Doc shows "H20" above the molecule in ONE part, and in another
-shows the formula above and the molecule name BELOW. Sim shows the molecule name (e.g. "water") above currently, but could easily switch to showing
-the formula in addition (additional padding between molecules may be necessary)
-    We’ll need to discuss this at the CHEM meeting. I think if possible it would be good to allow the greatest flexibility, with an option for name
-    and formula, though which one should be the default I’m not sure. Problem the formula should be the default, because it’s simple to understand as
-    the symbols match the atoms.
-
 (7): For kits and collection boxes (particularly randomly generated ones), is it ok for 1 kit to not completely fill one multiple-molecule collection
 box? For instance, if we want 2 C2H2, a kit with four carbons would require MANY more molecules in our database, so we may want to have a larger
 quantity of kits than collection boxes.
