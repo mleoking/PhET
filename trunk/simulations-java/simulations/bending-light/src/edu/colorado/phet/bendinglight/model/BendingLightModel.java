@@ -176,6 +176,7 @@ public class BendingLightModel implements ResetModel {
         return pow( ( n1 * cosTheta1 - n2 * cosTheta2 ) / ( n1 * cosTheta1 + n2 * cosTheta2 ), 2 );
     }
 
+    //Add a listener that is notified after the model gets updated (by having the ray propagation scheme run again)
     public void addModelUpdateListener( VoidFunction0 listener ) {
         modelUpdateListeners.add( listener );
     }

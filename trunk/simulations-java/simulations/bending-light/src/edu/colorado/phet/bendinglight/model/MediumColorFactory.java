@@ -5,35 +5,45 @@ import java.awt.*;
 
 import edu.colorado.phet.common.phetcommon.math.Function;
 
+import static edu.colorado.phet.bendinglight.model.BendingLightModel.*;
+
 /**
  * For determining the colors of different mediums as a function of characteristic index of refraction.
  *
  * @author Sam Reid
  */
 public class MediumColorFactory {
-
     public static final Color AIR_COLOR = Color.white;
     public static final Color WATER_COLOR = new Color( 198, 226, 246 );
     public static final Color GLASS_COLOR = new Color( 171, 169, 212 );
     public static final Color DIAMOND_COLOR = new Color( 78, 79, 164 );
 
+    //Maps index of refraction to color using linear functions
+    public static Color getColor( double indexForRed ) {
+        //Precompute to improve readability below
+        final double waterIndexForRed = WATER.getIndexOfRefractionForRedLight();
+        final double glassIndexForRed = GLASS.getIndexOfRefractionForRedLight();
+        final double diamondIndexForRed = DIAMOND.getIndexOfRefractionForRedLight();
 
-    //Maps index of refraction to color
-    public static Color getColor( double indexOfRefractionForRed ) {
-        if ( indexOfRefractionForRed < BendingLightModel.WATER.getIndexOfRefractionForRedLight() ) {
-            double ratio = new Function.LinearFunction( 1.0, BendingLightModel.WATER.getIndexOfRefractionForRedLight(), 0, 1 ).evaluate( indexOfRefractionForRed );
+        //Find out what region the index of refraction lies in, and linearly interpolate between adjacent medium colors
+        if ( indexForRed < waterIndexForRed ) {
+            double ratio = new Function.LinearFunction( 1.0, waterIndexForRed, 0, 1 ).evaluate( indexForRed );
             return colorBlend( AIR_COLOR, WATER_COLOR, ratio );
         }
-        else if ( indexOfRefractionForRed < BendingLightModel.GLASS.getIndexOfRefractionForRedLight() ) {
-            double ratio = new Function.LinearFunction( BendingLightModel.WATER.getIndexOfRefractionForRedLight(), BendingLightModel.GLASS.getIndexOfRefractionForRedLight(), 0, 1 ).evaluate( indexOfRefractionForRed );
-            return colorBlend( WATER_COLOR, GLASS_COLOR, ratio );
-        }
-        else if ( indexOfRefractionForRed < BendingLightModel.DIAMOND.getIndexOfRefractionForRedLight() ) {
-            double ratio = new Function.LinearFunction( BendingLightModel.GLASS.getIndexOfRefractionForRedLight(), BendingLightModel.DIAMOND.getIndexOfRefractionForRedLight(), 0, 1 ).evaluate( indexOfRefractionForRed );
-            return colorBlend( GLASS_COLOR, DIAMOND_COLOR, ratio );
-        }
         else {
-            return DIAMOND_COLOR;
+            if ( indexForRed < glassIndexForRed ) {
+                double ratio = new Function.LinearFunction( waterIndexForRed, glassIndexForRed, 0, 1 ).evaluate( indexForRed );
+                return colorBlend( WATER_COLOR, GLASS_COLOR, ratio );
+            }
+            else {
+                if ( indexForRed < diamondIndexForRed ) {
+                    double ratio = new Function.LinearFunction( glassIndexForRed, diamondIndexForRed, 0, 1 ).evaluate( indexForRed );
+                    return colorBlend( GLASS_COLOR, DIAMOND_COLOR, ratio );
+                }
+                else {
+                    return DIAMOND_COLOR;
+                }
+            }
         }
     }
 
