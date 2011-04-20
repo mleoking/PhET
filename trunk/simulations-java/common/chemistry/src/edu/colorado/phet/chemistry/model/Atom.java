@@ -53,7 +53,7 @@ public abstract class Atom {
 
     public static class Br extends Atom {
         public Br() {
-            super( "Br", 114, new Color( 139, 125, 107 ) );// brown
+            super( "Br", 114, new Color( 190, 30, 20 ) );// brown
         }
     }
 
@@ -101,7 +101,7 @@ public abstract class Atom {
 
     public static class P extends Atom {
         public P() {
-            super( "P", 110, new Color( 255, 0, 255 ) );
+            super( "P", 110, new Color( 255, 128, 0 ) );
         }
     }
 
