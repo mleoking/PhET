@@ -17,11 +17,13 @@ public abstract class Atom {
 
     private final String symbol;
     private final double radius; // picometers
+    private final double electronegativity; // dimensionless, see https://secure.wikimedia.org/wikipedia/en/wiki/Electronegativity
     private final Color color; // color used in visual representations
 
-    public Atom( String symbol, double radius, Color color ) {
+    public Atom( String symbol, double radius, double electronegativity, Color color ) {
         this.symbol = symbol;
         this.radius = radius;
+        this.electronegativity = electronegativity;
         this.color = color;
     }
 
@@ -47,74 +49,74 @@ public abstract class Atom {
     public static class B extends Atom {
         public B() {
             // TODO: grab this color from a model kit (avogadro?)
-            super( "B", 85, new Color( 255, 160, 122 ) );// peach/salmon colored
+            super( "B", 85, 2.04, new Color( 255, 160, 122 ) );// peach/salmon colored
         }
     }
 
     public static class Br extends Atom {
         public Br() {
-            super( "Br", 114, new Color( 190, 30, 20 ) );// brown
+            super( "Br", 114, 2.96, new Color( 190, 30, 20 ) );// brown
         }
     }
 
     public static class C extends Atom {
         public C() {
-            super( "C", 77, new Color( 178, 178, 178 ) );
+            super( "C", 77, 2.55, new Color( 178, 178, 178 ) );
         }
     }
 
     public static class Cl extends Atom {
         public Cl() {
-            super( "Cl", 100, new Color( 153, 242, 57 ) );
+            super( "Cl", 100, 3.16, new Color( 153, 242, 57 ) );
         }
     }
 
     public static class F extends Atom {
         public F() {
-            super( "F", 72, new Color( 247, 255, 74 ) );
+            super( "F", 72, 3.98, new Color( 247, 255, 74 ) );
         }
     }
 
     public static class H extends Atom {
         public H() {
-            super( "H", 37, Color.WHITE );
+            super( "H", 37, 2.20, Color.WHITE );
         }
     }
 
     public static class I extends Atom {
         public I() {
-            super( "I", 133, new Color( 150, 0, 150 ) );
+            super( "I", 133, 2.66, new Color( 150, 0, 150 ) );
         }
     }
 
     public static class N extends Atom {
         public N() {
-            super( "N", 75, Color.BLUE );
+            super( "N", 75, 3.04, Color.BLUE );
         }
     }
 
     public static class O extends Atom {
         public O() {
-            super( "O", 73, new Color( 255, 85, 0 ) );
+            super( "O", 73, 3.44, new Color( 255, 85, 0 ) );
         }
     }
 
     public static class P extends Atom {
         public P() {
-            super( "P", 110, new Color( 255, 128, 0 ) );
+            super( "P", 110, 2.19, new Color( 255, 128, 0 ) );
         }
     }
 
     public static class S extends Atom {
         public S() {
-            super( "S", 103, new Color( 212, 181, 59 ) );
+            super( "S", 103, 2.58, new Color( 212, 181, 59 ) );
         }
     }
 
     public static class Si extends Atom {
         public Si() {
             // TODO: grab this color from a model kit (avogadro?)
-            super( "Si", 118, new Color( 100, 100, 150 ) );
+            super( "Si", 118, 1.90, new Color( 100, 100, 150 ) );
         }
     }
 
