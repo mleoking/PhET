@@ -35,6 +35,10 @@ public abstract class Atom {
         return radius;
     }
 
+    public double getElectronegativity() {
+        return electronegativity;
+    }
+
     public Color getColor() {
         return color;
     }
