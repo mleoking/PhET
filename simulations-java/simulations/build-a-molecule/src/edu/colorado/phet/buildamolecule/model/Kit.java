@@ -188,7 +188,7 @@ public class Kit {
             atomModel.visible.setValue( false );
         }
         hasMoleculesInBoxes.setValue( true );
-        box.addMolecule( molecule ); // TODO: include the lewis dot structure, if we need lewis dot structure in the collection box
+        box.addMolecule( molecule );
         removedMolecules.add( new Pair<MoleculeStructure, CollectionBox>( molecule, box ) );
     }
 
