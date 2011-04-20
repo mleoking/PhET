@@ -68,8 +68,8 @@ public abstract class Molecule {
     private final Map<Atom, Vector2D> initialAtomCogOffsets = new HashMap<Atom, Vector2D>();
 
     // Vibration offsets - these represent the amount of deviation from the
-    // relaxed configuration for each molecule.
-    protected final HashMap<Atom, Vector2D> vibrationAtomOffsets = new HashMap<Atom, Vector2D>();
+    // initial (a.k.a relaxed) configuration for each molecule.
+    private final Map<Atom, Vector2D> vibrationAtomOffsets = new HashMap<Atom, Vector2D>();
 
     // Listeners to events that come from this molecule.
     protected final ArrayList<Listener> listeners = new ArrayList<Listener>();
@@ -157,9 +157,20 @@ public abstract class Molecule {
      */
     protected Vector2D getInitialAtomCogOffset( Atom atom ){
         if ( !initialAtomCogOffsets.containsKey( atom )){
-            System.out.println(getClass().getName() + " - Warning: Attempt to get COG offset for atom that is not in molecule.");
+            System.out.println(getClass().getName() + " - Warning: Attempt to get initial COG offset for atom that is not in molecule.");
         }
         return initialAtomCogOffsets.get( atom );
+    }
+
+    /**
+     * Get the current vibration offset from the molecule's center of gravity
+     * (COG) for the specified molecule.
+     */
+    protected Vector2D getVibrationAtomOffset( Atom atom ){
+        if ( !vibrationAtomOffsets.containsKey( atom )){
+            System.out.println(getClass().getName() + " - Warning: Attempt to get vibrational COG offset for atom that is not in molecule.");
+        }
+        return vibrationAtomOffsets.get( atom );
     }
 
     /**
