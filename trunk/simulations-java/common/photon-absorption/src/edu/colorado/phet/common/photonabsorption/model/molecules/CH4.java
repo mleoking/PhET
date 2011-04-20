@@ -6,7 +6,6 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.photonabsorption.model.Molecule;
-import edu.colorado.phet.common.photonabsorption.model.MoleculeID;
 import edu.colorado.phet.common.photonabsorption.model.PhotonAbsorptionStrategy;
 import edu.colorado.phet.common.photonabsorption.model.WavelengthConstants;
 import edu.colorado.phet.common.photonabsorption.model.atoms.AtomicBond;
@@ -135,10 +134,5 @@ public class CH4 extends Molecule {
             initializeAtomOffsets();
         }
         updateAtomPositions();
-    }
-
-    @Override
-    public MoleculeID getMoleculeID() {
-        return MoleculeID.CH4;
     }
 }

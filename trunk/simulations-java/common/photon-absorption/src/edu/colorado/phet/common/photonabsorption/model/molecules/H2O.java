@@ -6,7 +6,6 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.photonabsorption.model.Molecule;
-import edu.colorado.phet.common.photonabsorption.model.MoleculeID;
 import edu.colorado.phet.common.photonabsorption.model.PhotonAbsorptionStrategy;
 import edu.colorado.phet.common.photonabsorption.model.WavelengthConstants;
 import edu.colorado.phet.common.photonabsorption.model.atoms.AtomicBond;
@@ -104,10 +103,5 @@ public class H2O extends Molecule {
         addInitialAtomCogOffset( hydrogenAtom2, new Vector2D( -INITIAL_HYDROGEN_HORIZONTAL_OFFSET - multFactor * maxHydrogenDisplacement,
                 INITIAL_HYDROGEN_VERTICAL_OFFSET + multFactor * maxHydrogenDisplacement ) );
         updateAtomPositions();
-    }
-
-    @Override
-    public MoleculeID getMoleculeID() {
-        return MoleculeID.H2O;
     }
 }

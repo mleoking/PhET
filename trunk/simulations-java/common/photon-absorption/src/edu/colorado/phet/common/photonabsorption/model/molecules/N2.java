@@ -5,10 +5,9 @@ package edu.colorado.phet.common.photonabsorption.model.molecules;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.photonabsorption.model.MoleculeID;
+import edu.colorado.phet.common.photonabsorption.model.Molecule;
 import edu.colorado.phet.common.photonabsorption.model.atoms.AtomicBond;
 import edu.colorado.phet.common.photonabsorption.model.atoms.NitrogenAtom;
-import edu.colorado.phet.common.photonabsorption.model.Molecule;
 
 
 /**
@@ -67,10 +66,5 @@ public class N2 extends Molecule {
         addInitialAtomCogOffset(nitrogenAtom2, new Vector2D(INITIAL_NITROGEN_NITROGEN_DISTANCE / 2, 0));
 
         updateAtomPositions();
-    }
-
-    @Override
-    public MoleculeID getMoleculeID() {
-        return MoleculeID.N2;
     }
 }

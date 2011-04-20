@@ -21,7 +21,7 @@ public abstract class Atom extends SimpleObservable {
     // Instance Data
     //----------------------------------------------------------------------------
 
-    private Point2D position;
+    private final Point2D position;
     private final Color representationColor;
     private final double radius;
     private final double mass;
