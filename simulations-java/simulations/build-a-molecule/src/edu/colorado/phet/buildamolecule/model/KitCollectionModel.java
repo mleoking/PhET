@@ -101,7 +101,7 @@ public class KitCollectionModel {
 
     public int getCurrentKitIndex() {
         int index = kits.indexOf( currentKit.getValue() );
-        if( index < 0 ) {
+        if ( index < 0 ) {
             throw new RuntimeException( "Could not find current kit index" );
         }
         return index;
