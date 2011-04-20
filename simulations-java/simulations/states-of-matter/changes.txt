@@ -1,3 +1,4 @@
+# 1.07.03 (50944) Apr 20, 2011
 4/19/11 Changed 'push-pin.png' from MS Clip Art to Open Clip Art, see #2800
 # 1.07.02 (49946) Mar 18, 2011
 3/18/11 Deploying a test version without the 3rd tab.
