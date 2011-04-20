@@ -26,6 +26,7 @@ public class MakeMoleculeModule extends PiccoloModule {
     //----------------------------------------------------------------------------
 
     private BuildAMoleculeCanvas canvas;
+    private LayoutBounds bounds;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -42,7 +43,7 @@ public class MakeMoleculeModule extends PiccoloModule {
         * initial model
         *----------------------------------------------------------------------------*/
 
-        final LayoutBounds bounds = new LayoutBounds( false );
+        bounds = new LayoutBounds( false );
 
         final KitCollectionModel initialModel = new KitCollectionModel( bounds ) {{
             addKit( new Kit( bounds,
@@ -68,15 +69,43 @@ public class MakeMoleculeModule extends PiccoloModule {
         /*---------------------------------------------------------------------------*
         * canvas
         *----------------------------------------------------------------------------*/
-        canvas = new MoleculeCollectingCanvas( parentFrame, initialModel, true, new VoidFunction0() {
-            public void apply() {
-                System.out.println( "Regenerate" );
-            }
-        } ); // single collection mode
+        canvas = createCanvas( parentFrame, initialModel );
         setSimulationPanel( canvas );
 
         // Set initial state
         reset();
+    }
+
+    private KitCollectionModel generateModel() {
+        // TODO
+        return new KitCollectionModel( bounds ) {{
+            addKit( new Kit( bounds,
+                             new Bucket( new PDimension( 600, 200 ), getClock(), HYDROGEN_FACTORY, 3 ),
+                             new Bucket( new PDimension( 600, 200 ), getClock(), NITROGEN_FACTORY, 3 )
+            ) );
+            addKit( new Kit( bounds,
+                             new Bucket( new PDimension( 400, 200 ), getClock(), HYDROGEN_FACTORY, 4 ),
+                             new Bucket( new PDimension( 450, 200 ), getClock(), OXYGEN_FACTORY, 2 )
+            ) );
+            addKit( new Kit( bounds,
+                             new Bucket( new PDimension( 350, 200 ), getClock(), CARBON_FACTORY, 1 ),
+                             new Bucket( new PDimension( 450, 200 ), getClock(), OXYGEN_FACTORY, 2 )
+            ) );
+            addCollectionBox( new CollectionBox( CompleteMolecule.NH3, 1 ) );
+            addCollectionBox( new CollectionBox( CompleteMolecule.CO2, 1 ) );
+            addCollectionBox( new CollectionBox( CompleteMolecule.H2O, 1 ) );
+            addCollectionBox( new CollectionBox( CompleteMolecule.H2, 1 ) );
+            addCollectionBox( new CollectionBox( CompleteMolecule.N2, 1 ) );
+        }};
+    }
+
+    private MoleculeCollectingCanvas createCanvas( final Frame parentFrame, KitCollectionModel initialModel ) {
+        return new MoleculeCollectingCanvas( parentFrame, initialModel, true, new VoidFunction0() {
+            public void apply() {
+                canvas = createCanvas( parentFrame, generateModel() );
+                setSimulationPanel( canvas );
+            }
+        } ); // single collection mode
     }
 
     //----------------------------------------------------------------------------
