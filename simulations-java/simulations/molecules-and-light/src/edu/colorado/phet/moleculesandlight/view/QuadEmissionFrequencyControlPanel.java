@@ -17,11 +17,11 @@ import javax.swing.JRadioButton;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.photonabsorption.model.PhotonAbsorptionModel;
+import edu.colorado.phet.common.photonabsorption.model.WavelengthConstants;
 import edu.colorado.phet.common.photonabsorption.view.PhotonNode;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.moleculesandlight.MoleculesAndLightConfig;
 import edu.colorado.phet.moleculesandlight.MoleculesAndLightResources;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -55,13 +55,13 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
 
         // Add the radio buttons that set the emission wavelength.
         final WavelengthSelectButtonNode microwaveSelectorNode =
-            new WavelengthSelectButtonNode( MoleculesAndLightResources.getString( "QuadWavelengthSelector.Microwave" ), model, MoleculesAndLightConfig.MICRO_WAVELENGTH );
+            new WavelengthSelectButtonNode( MoleculesAndLightResources.getString( "QuadWavelengthSelector.Microwave" ), model, WavelengthConstants.MICRO_WAVELENGTH );
         final WavelengthSelectButtonNode infraredSelectorNode =
-            new WavelengthSelectButtonNode( MoleculesAndLightResources.getString( "QuadWavelengthSelector.Infrared" ), model, MoleculesAndLightConfig.IR_WAVELENGTH );
+            new WavelengthSelectButtonNode( MoleculesAndLightResources.getString( "QuadWavelengthSelector.Infrared" ), model, WavelengthConstants.IR_WAVELENGTH );
         final WavelengthSelectButtonNode visibleLightSelectorNode =
-            new WavelengthSelectButtonNode( MoleculesAndLightResources.getString( "QuadWavelengthSelector.Visible" ), model, MoleculesAndLightConfig.VISIBLE_WAVELENGTH );
+            new WavelengthSelectButtonNode( MoleculesAndLightResources.getString( "QuadWavelengthSelector.Visible" ), model, WavelengthConstants.VISIBLE_WAVELENGTH );
         final WavelengthSelectButtonNode ultravioletSelectorNode =
-            new WavelengthSelectButtonNode( MoleculesAndLightResources.getString( "QuadWavelengthSelector.Ultraviolet" ), model, MoleculesAndLightConfig.UV_WAVELENGTH );
+            new WavelengthSelectButtonNode( MoleculesAndLightResources.getString( "QuadWavelengthSelector.Ultraviolet" ), model, WavelengthConstants.UV_WAVELENGTH );
 
         // Put all the buttons into a button group.  Without this, for some
         // reason, the individual buttons will toggle to the off state if
