@@ -1,3 +1,4 @@
+Refactored MediumControlPanel to use PhetPComboBox instead of PComboBox, see #705
 # 0.00.46 (50881) Apr 19, 2011
 Fixed: reset all does not return the laser to default position, affects all tabs
 Fixed: reset all does not have a confirm dialog, affects all tabs
