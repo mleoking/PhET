@@ -5,7 +5,7 @@
  * Author: Another Guy
  * Date: Oct 10, 2003
  */
-package edu.colorado.phet.common.photonabsorption.model;
+package edu.colorado.phet.greenhouse.model;
 
 
 public interface PhotonEmitter<T> {

@@ -22,13 +22,13 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-import edu.colorado.phet.common.photonabsorption.model.PhotonEmitter;
 import edu.colorado.phet.greenhouse.common.graphics.ApparatusPanel;
 import edu.colorado.phet.greenhouse.common.graphics.Graphic;
 import edu.colorado.phet.greenhouse.common.graphics.ImageGraphic;
 import edu.colorado.phet.greenhouse.model.GlassPane;
 import edu.colorado.phet.greenhouse.model.GreenhouseModel;
 import edu.colorado.phet.greenhouse.model.PhotonAbsorber;
+import edu.colorado.phet.greenhouse.model.PhotonEmitter;
 import edu.colorado.phet.greenhouse.view.GlassPaneGraphic;
 
 public class GlassPaneModule extends BaseGreenhouseModule {
