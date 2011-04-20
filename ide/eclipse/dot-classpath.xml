@@ -87,6 +87,7 @@
 	<classpathentry kind="src" path="simulations-java/contrib/Jama/src"/>
 	<classpathentry kind="lib" path="simulations-java/contrib/jdom/jdom.jar"/>
 	<classpathentry kind="lib" path="simulations-java/contrib/javaws/jnlp.jar"/>
+	<classpathentry kind="lib" path="simulations-java/contrib/jmol/Jmol.jar"/>
 	<classpathentry kind="lib" path="simulations-java/contrib/JSci/classes/jsci-core.jar"/>
 	<classpathentry kind="lib" path="simulations-java/contrib/junit/junit.jar"/>
 	<classpathentry kind="lib" path="simulations-java/contrib/log4j/log4j-1.2.16.jar"/>
