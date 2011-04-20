@@ -75,6 +75,12 @@ public abstract class Atom {
         }
     }
 
+    public static class I extends Atom {
+        public I() {
+            super( "I", 133, new Color( 150, 0, 150 ) );
+        }
+    }
+
     public static class N extends Atom {
         public N() {
             super( "N", 75, Color.BLUE );
