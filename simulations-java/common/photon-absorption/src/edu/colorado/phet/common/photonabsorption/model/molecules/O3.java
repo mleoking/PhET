@@ -163,8 +163,8 @@ public class O3 extends Molecule {
         singleOxygenMolecule.setVelocity( -BREAK_APART_VELOCITY * 0.67 * Math.cos(breakApartAngle), -BREAK_APART_VELOCITY * 0.67 * Math.sin(breakApartAngle) );
 
         // Add these constituent molecules to the constituent list.
-        constituentMolecules.add( diatomicOxygenMolecule );
-        constituentMolecules.add( singleOxygenMolecule );
+        addConstituentMolecule( diatomicOxygenMolecule );
+        addConstituentMolecule( singleOxygenMolecule );
 
         // Send out notifications about this molecule breaking apart.
         ArrayList<Listener> copyOfListeners = new ArrayList<Listener>( listeners );
