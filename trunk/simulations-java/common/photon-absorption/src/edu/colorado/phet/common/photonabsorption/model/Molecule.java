@@ -191,7 +191,7 @@ public abstract class Molecule {
     /**
      * Static factory method for producing molecules of a given type.
      */
-    public static Molecule createMolecule( MoleculeID moleculeID){
+    public static Molecule createMolecule( MoleculeID moleculeID ){
         Molecule newMolecule = null;
         switch ( moleculeID ){
         case CH4:
