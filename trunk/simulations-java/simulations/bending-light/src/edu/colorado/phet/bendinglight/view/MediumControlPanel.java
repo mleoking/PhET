@@ -19,6 +19,7 @@ import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPComboBox;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PComboBox;
@@ -72,10 +73,8 @@ public class MediumControlPanel extends PNode {
             };
 
             //Create and add the combo box
-            final PComboBox comboBox = new PComboBox( mediumStates ) {
+            final PComboBox comboBox = new PhetPComboBox( mediumStates ) {
                 {
-                    setBorder( BorderFactory.createLineBorder( Color.BLACK, 1 ) );//Mac workaround, see #705
-                    setBackground( Color.WHITE );//Mac workaround, see #705
                     addActionListener( new ActionListener() {
                         public void actionPerformed( ActionEvent e ) {
                             MediumState selected = (MediumState) getSelectedItem();
