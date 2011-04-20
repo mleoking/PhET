@@ -36,7 +36,6 @@ public class GAOStrings {
     public static final String PLANET = getString( "planet" );
     public static final String SPACE_STATION = getString( "spaceStation" );
     public static final String SPACE_STATION_MASS = getString( "spaceStationMass" );
-    public static final String SPACE_STATION_MASSES = getString( "spaceStationMasses" );
     public static final String SATELLITE = getString( "satellite" );
     public static final String SHOW = getString( "show" );
     public static final String RESET = getString( "reset" );
@@ -51,13 +50,6 @@ public class GAOStrings {
     public static final String PATTERN_VALUE_UNITS = getString( "pattern.0value.1units" );
     public static final String ZOOM_IN = getString( "zoomIn" );
     public static final String ZOOM_OUT = getString( "zoomOut" );
-
-    //These strings not currently used, but may be put in as tooltips or labels later
-    public static final String SUN_AND_PLANET = getString( "sunAndPlanet" );
-    public static final String SUN_PLANET_AND_MOON = getString( "sunPlanetAndMoon" );
-    public static final String PLANET_AND_MOON = getString( "planetAndMoon" );
-    public static final String PLANET_AND_SPACE_STATION = getString( "planetAndSpaceStation" );
-
     public static final String RETURN_OBJECT = getString( "returnObject" );
 
     private static String getString( String key ) {
