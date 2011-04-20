@@ -21,7 +21,7 @@ public class KitCollectionModel {
     private LayoutBounds layoutBounds;//picometers
     private Property<Kit> currentKit;
 
-    public final Property<Boolean> allCollectionBoxesFilled = new Property<Boolean>( false );
+    public final Property<Boolean> allCollectionBoxesFilled = new Property<Boolean>( false ); // this will remain false if we have no collection boxes
 
     public KitCollectionModel( LayoutBounds layoutBounds ) {
         this.layoutBounds = layoutBounds;
@@ -101,7 +101,7 @@ public class KitCollectionModel {
                         allFull = false;
                     }
                 }
-                allCollectionBoxesFilled.setValue( allFull );
+                allCollectionBoxesFilled.setValue( !boxes.isEmpty() && allFull );
             }
         } );
     }
