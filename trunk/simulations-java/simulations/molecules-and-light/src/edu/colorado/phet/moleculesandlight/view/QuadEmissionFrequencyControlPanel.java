@@ -7,20 +7,15 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Paint;
-import java.awt.Stroke;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 import java.awt.geom.RoundRectangle2D;
-import java.util.HashMap;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JRadioButton;
 
-import edu.colorado.phet.common.phetcommon.util.DoubleRange;
-import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.phetcommon.view.util.SpectrumImageFactory.ExponentialGrowthSpectrumImageFactory;
 import edu.colorado.phet.common.photonabsorption.model.PhotonAbsorptionModel;
 import edu.colorado.phet.common.photonabsorption.view.PhotonNode;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
@@ -31,8 +26,6 @@ import edu.colorado.phet.moleculesandlight.MoleculesAndLightResources;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
-import edu.umd.cs.piccolo.nodes.PImage;
-import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
@@ -177,112 +170,8 @@ public class QuadEmissionFrequencyControlPanel extends PNode {
     }
 
     /**
-     * Class that defines the spectrum that is shown on this control panel.
-     * This consists of the spectrum and of a marker that exists below the
-     * actual spectrum that shows the currently selected range.
-     *
-     * @author John Blanco
-     */
-    private static class SpectrumNode extends PNode {
-
-        private static final double MIN_WAVELENGTH = 1E-10; // In meters.
-        private static final double MAX_WAVELENGTH = 10; // In meters
-        private static final double SPECTRUM_HEIGHT_PROPORTION = 0.5;
-        private static final Stroke MARKER_STROKE = new BasicStroke( 5, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, null, 0.0f);
-        private static final Color MARKER_COLOR = new Color( 139, 129, 76 );
-
-        // Static data structure that maps the frequency values used in the
-        // model to frequency ranges depicted on this spectrum.
-        private static final HashMap<Double, DoubleRange> mapFreqToRange = new HashMap<Double, DoubleRange>(){{
-            put( MoleculesAndLightConfig.MICRO_WAVELENGTH, new DoubleRange(1E-3, 1));
-            put( MoleculesAndLightConfig.IR_WAVELENGTH, new DoubleRange(780E-9, 1E-3));
-            put( MoleculesAndLightConfig.VISIBLE_WAVELENGTH, new DoubleRange(380E-9, 780E-9));
-            put( MoleculesAndLightConfig.UV_WAVELENGTH, new DoubleRange(1E-9, 380E-9));
-        }};
-
-        private final PhotonAbsorptionModel model;
-        private final PPath markerNode = new PhetPPath( MARKER_STROKE, MARKER_COLOR );
-        private final PImage spectrumImageNode;
-        private final double height;
-        HashMap<Double, Double> mapWavelengthToXPos;
-
-        /**
-         * Constructor.
-         * @param mapWavelengthToXPos
-         */
-        public SpectrumNode( int width, int height, PhotonAbsorptionModel model, HashMap<Double, Double> mapWavelengthToXPos ){
-            this.model = model;
-            this.height = height;
-            this.mapWavelengthToXPos = mapWavelengthToXPos;
-
-            model.addListener( new PhotonAbsorptionModel.Adapter(){
-                @Override
-                public void emittedPhotonWavelengthChanged() {
-                    updateMarker();
-                }
-            });
-
-            spectrumImageNode = new PImage( new ExponentialGrowthSpectrumImageFactory().createHorizontalSpectrum( width,
-                    (int)( height * SPECTRUM_HEIGHT_PROPORTION ), MIN_WAVELENGTH * 1E9, MAX_WAVELENGTH * 1E9) );
-
-            // The spectrum image factory creates a spectrum by default that
-            // is oriented from short to long wavelengths, and we need the
-            // opposite, so we flip it here.  Note that this makes the offset
-            // go to the lower right corner, so positioning becomes a bit
-            // tricky.
-            spectrumImageNode.rotateAboutPoint( Math.PI, spectrumImageNode.getFullBoundsReference().getCenter2D() );
-            spectrumImageNode.setOffset( spectrumImageNode.getOffset().getX(), height );
-
-            addChild( spectrumImageNode );
-            addChild( markerNode );
-
-            updateMarker();
-        }
-
-        /**
-         * Update the marker, which reflects the currently selected band of
-         * the spectrum.  The marker consists of a spectrum range indicator
-         * and a line connecting it to the selector.
-         */
-        private void updateMarker(){
-            double wavelengthSetting = model.getEmittedPhotonWavelength();
-            DoubleRange wavelengthRange = mapFreqToRange.get( wavelengthSetting );
-            double totalMarkerHeight = height - spectrumImageNode.getFullBoundsReference().height;
-
-            // Add the range indicator to the path.
-            double rangeIndicatorMinY = totalMarkerHeight * 2 / 3;
-            double rangeIndicatorMaxY = totalMarkerHeight;
-            double rangeIndicatorMinX = mapWavelengthToNormalizedXPos( wavelengthRange.getMin() ) * spectrumImageNode.getFullBoundsReference().width;
-            double rangeIndicatorMaxX = mapWavelengthToNormalizedXPos( wavelengthRange.getMax() ) * spectrumImageNode.getFullBoundsReference().width;
-            DoubleGeneralPath markerPath = new DoubleGeneralPath();
-            markerPath.moveTo( rangeIndicatorMinX, rangeIndicatorMaxY );
-            markerPath.lineTo( rangeIndicatorMinX, rangeIndicatorMinY );
-            markerPath.lineTo( rangeIndicatorMaxX, rangeIndicatorMinY );
-            markerPath.lineTo( rangeIndicatorMaxX, rangeIndicatorMaxY );
-
-            // Now add the line that connects the range indicator to the selector.
-            double rangeIndicatorMiddleX = rangeIndicatorMinX + ( ( rangeIndicatorMaxX - rangeIndicatorMinX  ) / 2 );
-            assert mapWavelengthToXPos.containsKey( model.getEmittedPhotonWavelength() ); // If not there, we can't draw the connecting line.
-            Point2D connectingLineEndPoint = parentToLocal( new Point2D.Double( mapWavelengthToXPos.get( model.getEmittedPhotonWavelength() ), 0 ) );
-            markerPath.moveTo( rangeIndicatorMiddleX, rangeIndicatorMinY );
-            markerPath.lineTo( rangeIndicatorMiddleX, rangeIndicatorMinY - totalMarkerHeight / 3 );
-            markerPath.lineTo( connectingLineEndPoint.getX(), rangeIndicatorMinY - totalMarkerHeight / 3 );
-            markerPath.lineTo( connectingLineEndPoint.getX(), 0 );
-
-            // Set the node to the path that we just calculated.
-            markerNode.setPathTo( markerPath.getGeneralPath() );
-        }
-
-        private double mapWavelengthToNormalizedXPos( double wavelength ){
-            return 1 - Math.log( wavelength / MIN_WAVELENGTH ) / Math.log( MAX_WAVELENGTH / MIN_WAVELENGTH );
-        }
-    }
-
-    /**
      * Class that defines the "energy arrow", which is an arrow that depicts
      * the direction of increasing energy.
-     *
-     * @author John Blanco
      */
     private static class EnergyArrow extends PNode {
 
