@@ -1,3 +1,4 @@
+# 2.00.02 (50902) Apr 20, 2011
 > Fixed: the "reset" button should restart the clock at 0
 Removed unused strings
 # 2.00.01 (50878) Apr 19, 2011
