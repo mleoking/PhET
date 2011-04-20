@@ -13,7 +13,6 @@ import java.util.Iterator;
 import java.util.Observable;
 
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
-import edu.colorado.phet.common.photonabsorption.model.PhotonEmitter;
 
 public abstract class AbstractPhotonEmitter extends Observable implements ModelElement, PhotonEmitter<Photon> {
 
