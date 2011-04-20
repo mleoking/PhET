@@ -24,6 +24,10 @@ import edu.umd.cs.piccolo.PNode;
 /**
  * ModelViewManager manages the creation of PNodes for ModelElements.
  * Supports multiple views of a ModelElement.
+ * <p/>
+ * As indicated in package.html:
+ * In hindsight, this is an overly-complex framework, borrowed (and ported to Piccolo)
+ * from some of the other particle-based simulations.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
@@ -33,32 +37,33 @@ public class ModelViewManager implements ModelListener {
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
-    
+
     /* 
-     * The model that we're listening to, interested in
-     * when ModelElements are added and removed.
-     */
+    * The model that we're listening to, interested in
+    * when ModelElements are added and removed.
+    */
     private Model _model;
-    
+
     /* 
-     * Maps a ModelElement class to an ArrayList of NodeFactory.
-     * Each NodeFactory is the mechanism for creating a view of the ModelElement type.
-     */
+    * Maps a ModelElement class to an ArrayList of NodeFactory.
+    * Each NodeFactory is the mechanism for creating a view of the ModelElement type.
+    */
     private HashMap _factoriesMap;
-    
+
     /*
-     * Maps a ModelElement instance to an ArrayList of NodeRecord.
-     * Each NodeRecord describes how to remove the view of the ModelElement instance
-     * from the Piccolo scenegraph.
-     */
+    * Maps a ModelElement instance to an ArrayList of NodeRecord.
+    * Each NodeRecord describes how to remove the view of the ModelElement instance
+    * from the Piccolo scenegraph.
+    */
     private HashMap _nodeRecordsMap;
-    
+
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
-    
+
     /**
      * Constructor.
+     *
      * @param model
      */
     public ModelViewManager( Model model ) {
@@ -67,17 +72,17 @@ public class ModelViewManager implements ModelListener {
         _factoriesMap = new HashMap();
         _nodeRecordsMap = new HashMap();
     }
-    
+
     //----------------------------------------------------------------------------
     // NodeFactory management
     //----------------------------------------------------------------------------
-    
+
     /**
      * Adds a NodeFactory.
      * The factory is added to the list of factories for the ModelElement class.
      * If this is the first factory to be added for the ModelElement class,
      * the list is created and added to the map.
-     * 
+     *
      * @param factory
      */
     public void addNodeFactory( NodeFactory factory ) {
@@ -89,13 +94,13 @@ public class ModelViewManager implements ModelListener {
         }
         factoryList.add( factory );
     }
-    
+
     /**
      * Removes a NodeFactory.
      * The factory is removed from the list of factories for the ModelElement class.
      * If this is the last factory for the ModelElement class, the list is removed
      * from the map.
-     * 
+     *
      * @param factory
      */
     public void removeNodeFactory( NodeFactory factory ) {
@@ -104,20 +109,20 @@ public class ModelViewManager implements ModelListener {
         if ( factoryList != null ) {
             factoryList.remove( factory );
             if ( factoryList.size() == 0 ) {
-                _factoriesMap.remove( modelElementClass );  
+                _factoriesMap.remove( modelElementClass );
             }
         }
     }
-    
+
     //----------------------------------------------------------------------------
     // ModelListener implementation
     //----------------------------------------------------------------------------
-    
+
     /**
      * Called when a ModelElement has been added to the model.
-     * Adds a view of the ModelElement for each NodeFactory that 
+     * Adds a view of the ModelElement for each NodeFactory that
      * is registered for the ModelElement's class.
-     * 
+     *
      * @param event
      */
     public void modelElementAdded( ModelEvent event ) {
@@ -126,9 +131,9 @@ public class ModelViewManager implements ModelListener {
         Class modelElementClass = modelElement.getClass();
         ArrayList factoryList = (ArrayList) _factoriesMap.get( modelElementClass );
         if ( factoryList != null ) {
-            
+
             ArrayList nodeRecordList = null;
-            
+
             Iterator i = factoryList.iterator();
             while ( i.hasNext() ) {
                 NodeFactory factory = (NodeFactory) i.next();
@@ -146,15 +151,15 @@ public class ModelViewManager implements ModelListener {
             }
         }
     }
-    
+
     /**
      * Called when a ModelElement has been removed from the model.
      * Removes all views of the ModelElement.
-     * 
+     *
      * @param event
      */
     public void modelElementRemoved( ModelEvent event ) {
-        
+
         ModelElement modelElement = event.getModelElement();
         ArrayList nodeRecordList = (ArrayList) _nodeRecordsMap.get( modelElement );
         if ( nodeRecordList != null ) {
@@ -168,17 +173,17 @@ public class ModelViewManager implements ModelListener {
             _nodeRecordsMap.remove( modelElement );
         }
     }
-    
+
     //----------------------------------------------------------------------------
     // Inner classes
     //----------------------------------------------------------------------------
-    
+
     /**
      * NodeFactory is the base class for factories that create
      * PNodes for a specific class of model element.
      */
     public static abstract class NodeFactory {
-        
+
         private Class _modelElementClass;
         private PNode _parent;
 
@@ -197,13 +202,13 @@ public class ModelViewManager implements ModelListener {
 
         public abstract PNode createNode( ModelElement modelElement );
     }
-    
+
     /*
-     * NodeRecord encapsulates the relationship between a node
-     * and its parent in the Piccolo scene graph.
-     */
+    * NodeRecord encapsulates the relationship between a node
+    * and its parent in the Piccolo scene graph.
+    */
     private static class NodeRecord {
-        
+
         private PNode _node;
         private PNode _parent;
 
