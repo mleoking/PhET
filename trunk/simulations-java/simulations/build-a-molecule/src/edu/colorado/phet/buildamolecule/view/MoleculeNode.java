@@ -46,20 +46,18 @@ public class MoleculeNode extends PNode {
 
         final CompleteMolecule completeMolecule = moleculeStructure.getMatchingCompleteMolecule();
 
-        HTMLNode commonNameLabel = null;
+        HTMLNode moleculeLabel = null;
         if ( completeMolecule != null ) {
-            commonNameLabel = new HTMLNode( completeMolecule.getCommonName() ) {{
+            moleculeLabel = new HTMLNode( completeMolecule.getMoleculeStructure().getGeneralFormulaFragment() + " (" + completeMolecule.getCommonName() + ")" ) {{ // TODO i18n
                 setFont( new PhetFont( 14, true ) );
-                if ( true ) {
-                    addInputEventListener( new CursorHandler() {
-                        @Override
-                        public void mouseClicked( PInputEvent event ) {
-                            JmolDialog.displayMolecule3D( parentFrame, completeMolecule );
-                        }
-                    } );
-                }
+                addInputEventListener( new CursorHandler() {
+                    @Override
+                    public void mouseClicked( PInputEvent event ) {
+                        JmolDialog.displayMolecule3D( parentFrame, completeMolecule );
+                    }
+                } );
             }};
-            addChild( commonNameLabel );
+            addChild( moleculeLabel );
         }
 
         final PNode closeNode = new PNode() {{
@@ -71,8 +69,8 @@ public class MoleculeNode extends PNode {
                 }
             } );
         }};
-        if ( commonNameLabel != null ) {
-            closeNode.setOffset( commonNameLabel.getFullBounds().getWidth() + 10, 0 );
+        if ( moleculeLabel != null ) {
+            closeNode.setOffset( moleculeLabel.getFullBounds().getWidth() + 10, 0 );
         }
         addChild( closeNode );
 

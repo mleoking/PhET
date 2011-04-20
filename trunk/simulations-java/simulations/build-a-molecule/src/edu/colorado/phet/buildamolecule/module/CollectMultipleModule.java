@@ -10,6 +10,7 @@ import edu.colorado.phet.buildamolecule.model.buckets.Bucket;
 import edu.colorado.phet.buildamolecule.view.BuildAMoleculeCanvas;
 import edu.colorado.phet.buildamolecule.view.MoleculeCollectingCanvas;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -67,7 +68,11 @@ public class CollectMultipleModule extends PiccoloModule {
         /*---------------------------------------------------------------------------*
         * canvas
         *----------------------------------------------------------------------------*/
-        canvas = new MoleculeCollectingCanvas( parentFrame, initialModel, false ); // multiple collection mode
+        canvas = new MoleculeCollectingCanvas( parentFrame, initialModel, false, new VoidFunction0() {
+            public void apply() {
+
+            }
+        } ); // multiple collection mode
         setSimulationPanel( canvas );
 
         // Set initial state
