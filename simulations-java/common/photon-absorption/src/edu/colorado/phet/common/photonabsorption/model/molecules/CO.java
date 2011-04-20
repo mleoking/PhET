@@ -70,8 +70,8 @@ public class CO extends Molecule {
     public void setVibration( double vibrationRadians ) {
         super.setVibration( vibrationRadians );
         double multFactor = Math.sin( vibrationRadians );
-        vibrationAtomOffsets.get( carbonAtom ).setComponents( VIBRATION_MAGNITUDE * multFactor, 0 );
-        vibrationAtomOffsets.get( oxygenAtom ).setComponents( -VIBRATION_MAGNITUDE * multFactor, 0 );
+        getVibrationAtomOffset( carbonAtom ).setComponents( VIBRATION_MAGNITUDE * multFactor, 0 );
+        getVibrationAtomOffset( oxygenAtom ).setComponents( -VIBRATION_MAGNITUDE * multFactor, 0 );
         updateAtomPositions();
     }
 
