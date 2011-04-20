@@ -24,7 +24,6 @@ Check that molecules "pushed" away don't try to bond? BUG BUG when large molecul
 I18n
 Improve kit controls and add kit number?
 Add in the BCE's "ding" when a collection box is filled
-Add in "Reset Kit" button
 Make kits sufficient to fill the entire collection box
 
 NOTES (questions):
@@ -40,12 +39,6 @@ a sound when a collection box is filled?
     I interviewed a student on this yesterday, he was I 4th grade. He noticed right away that the two tabs had different ‘collection areas’, but it
     took him almost 10 minutes to realize he could put molecules in those boxes. What if the outline of the collection box blinks when the student
     makes an appropriate molecule?
-
-(4): How should resetting work in general? Should we have a "Reset All" button, and should this reset back to the very initial configuration of the
-tab like normal? Should we have a "Reset Kit" button that pulls all atoms back to the buckets (and pulls molecules out of collection boxes if
-necessary)?
-    Middle schoolers are quite timid about using reset. I like the idea of having a "reset kit" button, that way minimal work is undone if students
-    select this. It will need to appear only after a student has gotten a molecule made from that kit into a collection box.
 
 (6): Current behavior of the molecule readout is in conflict with the design doc. Doc shows "H20" above the molecule in ONE part, and in another
 shows the formula above and the molecule name BELOW. Sim shows the molecule name (e.g. "water") above currently, but could easily switch to showing

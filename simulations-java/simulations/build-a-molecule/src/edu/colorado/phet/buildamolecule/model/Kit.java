@@ -8,6 +8,7 @@ import edu.colorado.phet.buildamolecule.model.buckets.Bucket;
 import edu.colorado.phet.chemistry.model.Atom;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.Pair;
 import edu.umd.cs.piccolo.util.PBounds;
 
 /**
@@ -15,9 +16,11 @@ import edu.umd.cs.piccolo.util.PBounds;
  */
 public class Kit {
     private final List<Bucket> buckets;
-    private final List<AtomModel> atoms = new LinkedList<AtomModel>(); // our master list of atoms (in and out of buckets)
+    private final List<AtomModel> atomsInPlay = new LinkedList<AtomModel>(); // our master list of atoms (in and out of buckets), but not ones in collection boxes
+    private final List<AtomModel> atomsInCollectionBox = new LinkedList<AtomModel>(); // atoms in the collection box
     private final LewisDotModel lewisDotModel; // lewis-dot connections between atoms on the play area
     private final Set<MoleculeStructure> molecules = new HashSet<MoleculeStructure>(); // molecule structures in the play area
+    private final Set<Pair<MoleculeStructure, CollectionBox>> removedMolecules = new HashSet<Pair<MoleculeStructure, CollectionBox>>(); // molecule structures that were put into the collection box
     public final Property<Boolean> visible = new Property<Boolean>( false );
     public final Property<Boolean> hasMoleculesInBoxes = new Property<Boolean>( false ); // we record this so we know when the "reset kit" should be shown
     private LayoutBounds layoutBounds;
@@ -36,7 +39,7 @@ public class Kit {
 
         // keep track of all atoms in our kit
         for ( Bucket bucket : buckets ) {
-            atoms.addAll( bucket.getAtoms() );
+            atomsInPlay.addAll( bucket.getAtoms() );
 
             for ( AtomModel atom : bucket.getAtoms() ) {
                 lewisDotModel.addAtom( atom.getAtomInfo() );
@@ -89,8 +92,8 @@ public class Kit {
         return buckets;
     }
 
-    public List<AtomModel> getAtoms() {
-        return atoms;
+    public List<AtomModel> getAtomsInPlay() {
+        return atomsInPlay;
     }
 
     public Bucket getBucketForAtomType( Atom atom ) {
@@ -132,7 +135,7 @@ public class Kit {
                 recycleMoleculeIntoBuckets( getMoleculeStructure( atom ) );
             }
             else {
-                recycleAtomIntoBuckets( atom.getAtomInfo() );
+                recycleAtomIntoBuckets( atom.getAtomInfo(), true ); // animate
             }
         }
         else {
@@ -180,10 +183,13 @@ public class Kit {
         removeMolecule( molecule );
         for ( Atom atom : molecule.getAtoms() ) {
             AtomModel atomModel = getAtomModel( atom );
-            atoms.remove( atomModel );
-            atomModel.removedFromModel();
+            atomsInPlay.remove( atomModel );
+            atomsInCollectionBox.add( atomModel );
+            atomModel.visible.setValue( false );
         }
+        hasMoleculesInBoxes.setValue( true );
         box.addMolecule( molecule ); // TODO: include the lewis dot structure, if we need lewis dot structure in the collection box
+        removedMolecules.add( new Pair<MoleculeStructure, CollectionBox>( molecule, box ) );
     }
 
     /**
@@ -210,7 +216,7 @@ public class Kit {
     }
 
     public AtomModel getAtomModel( Atom atom ) {
-        for ( AtomModel atomModel : atoms ) {
+        for ( AtomModel atomModel : atomsInPlay ) {
             if ( atomModel.getAtomInfo() == atom ) {
                 return atomModel;
             }
@@ -274,7 +280,29 @@ public class Kit {
     }
 
     public void resetKit() {
-        // TODO: implement
+        // not resetting visible, since that is not handled by us
+
+        // handle moving things from the collection box into play
+        hasMoleculesInBoxes.reset();
+        for ( AtomModel atomModel : atomsInCollectionBox ) {
+            atomsInPlay.add( atomModel );
+        }
+        atomsInCollectionBox.clear();
+
+        // reset our atoms, and pull them into the buckets
+        for ( AtomModel atomModel : atomsInPlay ) {
+            atomModel.reset();
+            recycleAtomIntoBuckets( atomModel.getAtomInfo(), false ); // do not animate. just put them back
+        }
+
+        // finally clear our record of ANY molecules
+        molecules.clear();
+
+        // conceptually pull our molecules from the boxes (reduce box count)
+        for ( Pair<MoleculeStructure, CollectionBox> removedMolecule : removedMolecules ) {
+            removedMolecule._2.removeMolecule( removedMolecule._1 );
+        }
+        removedMolecules.clear();
     }
 
     public Property<Boolean> getHasMoleculesInBoxes() {
@@ -335,12 +363,13 @@ public class Kit {
     /**
      * Takes an atom, invalidates the structural bonds it may have, and puts it in the correct bucket
      *
-     * @param atom The atom to recycle
+     * @param atom    The atom to recycle
+     * @param animate Whether we should display animation
      */
-    private void recycleAtomIntoBuckets( Atom atom ) {
+    private void recycleAtomIntoBuckets( Atom atom, boolean animate ) {
         lewisDotModel.breakBondsOfAtom( atom );
         Bucket bucket = Kit.this.getBucketForAtomType( atom );
-        bucket.addAtom( getAtomModel( atom ), true );
+        bucket.addAtom( getAtomModel( atom ), animate );
     }
 
     /**
@@ -350,7 +379,7 @@ public class Kit {
      */
     private void recycleMoleculeIntoBuckets( MoleculeStructure molecule ) {
         for ( Atom atom : molecule.getAtoms() ) {
-            recycleAtomIntoBuckets( atom );
+            recycleAtomIntoBuckets( atom, true );
         }
         removeMolecule( molecule );
     }
@@ -482,7 +511,7 @@ public class Kit {
             AtomModel ourAtom = getAtomModel( ourAtomInfo );
 
             // all other atoms
-            for ( AtomModel otherAtom : atoms ) {
+            for ( AtomModel otherAtom : atomsInPlay ) {
                 // disallow loops in an already-connected molecule
                 if ( getMoleculeStructure( otherAtom ) == moleculeStructure ) {
                     continue;
