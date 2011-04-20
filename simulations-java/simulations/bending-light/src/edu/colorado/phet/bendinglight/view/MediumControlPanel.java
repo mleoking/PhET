@@ -74,7 +74,8 @@ public class MediumControlPanel extends PNode {
             //Create and add the combo box
             final PComboBox comboBox = new PComboBox( mediumStates ) {
                 {
-                    setBorder( BorderFactory.createLineBorder( Color.BLACK, 1 ) );
+                    setBorder( BorderFactory.createLineBorder( Color.BLACK, 1 ) );//Mac workaround, see #705
+                    setBackground( Color.WHITE );//Mac workaround, see #705
                     addActionListener( new ActionListener() {
                         public void actionPerformed( ActionEvent e ) {
                             MediumState selected = (MediumState) getSelectedItem();
