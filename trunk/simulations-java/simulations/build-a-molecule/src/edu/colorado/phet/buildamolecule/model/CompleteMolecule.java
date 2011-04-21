@@ -286,8 +286,13 @@ public class CompleteMolecule {
                     String line = moleculeReader.readLine();
                     CompleteMolecule molecule = new CompleteMolecule( line );
 
+                    // TODO: potentially in the future remove the unnecessary checks here if we filter data correctly
                     if ( molecule.getMoleculeStructure().hasLoopsOrIsDisconnected() ) {
                         System.out.println( "ignoring molecule: " + molecule.getCommonName() );
+                        continue;
+                    }
+                    if ( molecule.getMoleculeStructure().hasWeirdHydrogenProperties() ) {
+                        System.out.println( "weird hydrogen pattern in: " + molecule.getCommonName() );
                         continue;
                     }
 
@@ -313,6 +318,12 @@ public class CompleteMolecule {
                 while ( structureReader.ready() ) {
                     String line = structureReader.readLine();
                     MoleculeStructure structure = MoleculeStructure.fromSerial( line );
+
+                    if ( structure.hasWeirdHydrogenProperties() ) {
+                        System.out.println( "weird hydrogen pattern in structure: " + line );
+                        continue;
+                    }
+
                     addAllowedStructure( structure );
                 }
             }
