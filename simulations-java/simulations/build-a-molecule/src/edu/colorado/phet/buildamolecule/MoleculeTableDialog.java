@@ -2,13 +2,17 @@
 package edu.colorado.phet.buildamolecule;
 
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
 import javax.swing.*;
 
+import edu.colorado.phet.buildamolecule.control.JmolDialog;
 import edu.colorado.phet.buildamolecule.model.CompleteMolecule;
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
@@ -51,6 +55,14 @@ public class MoleculeTableDialog extends JDialog {
                 setPreferredSize( preferredSize );
                 node.centerFullBoundsOnPoint( preferredSize.getWidth() / 2, preferredSize.getHeight() / 2 );
                 addScreenChild( node );
+            }}, constraints );
+            content.add( new JLabel( new ImageIcon( PhetCommonResources.getMaximizeButtonImage() ) ) {{
+                setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
+                addMouseListener( new MouseAdapter() {
+                    @Override public void mousePressed( MouseEvent e ) {
+                        JmolDialog.displayMolecule3D( owner, completeMolecule );
+                    }
+                } );
             }}, constraints );
             count++;
         }
