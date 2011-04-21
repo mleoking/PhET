@@ -7,42 +7,24 @@ import java.awt.*;
 import edu.colorado.phet.buildamolecule.BuildAMoleculeStrings;
 import edu.colorado.phet.buildamolecule.model.Kit;
 import edu.colorado.phet.buildamolecule.model.KitCollectionModel;
-import edu.colorado.phet.buildamolecule.model.LayoutBounds;
 import edu.colorado.phet.buildamolecule.model.buckets.Bucket;
 import edu.colorado.phet.buildamolecule.view.BuildAMoleculeCanvas;
 import edu.colorado.phet.buildamolecule.view.LargerMoleculesCanvas;
-import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.umd.cs.piccolo.util.PDimension;
 
 import static edu.colorado.phet.buildamolecule.model.buckets.AtomModel.*;
 
 /**
  * Module for the 3rd tab. Shows kits below as normal, but without collection boxes. Instead, the user is presented with an option of a "3d" view
- * TODO: put together common BuildAMoleculeModule behavior
  */
-public class LargerMoleculesModule extends PiccoloModule {
-
-    //----------------------------------------------------------------------------
-    // Instance data
-    //----------------------------------------------------------------------------
-
-    private BuildAMoleculeCanvas canvas;
-
-    //----------------------------------------------------------------------------
-    // Constructors
-    //----------------------------------------------------------------------------
+public class LargerMoleculesModule extends AbstractBuildAMoleculeModule {
 
     public LargerMoleculesModule( Frame parentFrame ) {
-        super( BuildAMoleculeStrings.TITLE_LARGER_MOLECULES, new ConstantDtClock( 30 ) );
-
-        setClockControlPanel( null );
+        super( parentFrame, BuildAMoleculeStrings.TITLE_LARGER_MOLECULES, true );
 
         /*---------------------------------------------------------------------------*
         * initial model
         *----------------------------------------------------------------------------*/
-
-        final LayoutBounds bounds = new LayoutBounds( true );
 
         final KitCollectionModel initialModel = new KitCollectionModel( bounds ) {{
             addKit( new Kit( bounds,
@@ -74,24 +56,10 @@ public class LargerMoleculesModule extends PiccoloModule {
             ) );
         }};
 
-        /*---------------------------------------------------------------------------*
-        * canvas
-        *----------------------------------------------------------------------------*/
-        canvas = new LargerMoleculesCanvas( parentFrame, initialModel );
-        setSimulationPanel( canvas );
-
-        // Set initial state
-        reset();
+        setModel( initialModel );
     }
 
-    //----------------------------------------------------------------------------
-    // Module overrides
-    //----------------------------------------------------------------------------
-
-    /**
-     * Resets the module.
-     */
-    public void reset() {
-        // TODO: global reset entry point
+    @Override protected BuildAMoleculeCanvas buildCanvas( KitCollectionModel model ) {
+        return new LargerMoleculesCanvas( parentFrame, model );
     }
 }
