@@ -1,4 +1,4 @@
-* reset kit broken bucket locations now!
+* reset kit something is broken
 
 Arrow and message that "you can put this in the collection box" at the start. Points to correct collection box.
 Drop-down menu. Options: "Show in 3D", possibly show chemical formula, possibly option to move to collection box

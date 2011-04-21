@@ -376,9 +376,7 @@ public class Kit {
     private void recycleAtomIntoBuckets( Atom atom, boolean animate ) {
         lewisDotModel.breakBondsOfAtom( atom );
         Bucket bucket = Kit.this.getBucketForAtomType( atom );
-        if ( !bucket.containsAtom( getAtomModel( atom ) ) ) {
-            bucket.addAtom( getAtomModel( atom ), animate );
-        }
+        bucket.addAtom( getAtomModel( atom ), animate );
     }
 
     /**
