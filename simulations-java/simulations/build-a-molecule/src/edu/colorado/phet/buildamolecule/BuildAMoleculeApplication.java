@@ -24,26 +24,26 @@ TODO:
 
 Send out TODO list
 
-* Move kit label/arrows to right, move reset kit down
-* Just show molecule name above, not formula (for now)
+* Move kit label/arrows to right of the kit area, move "reset kit" down
+* Just show molecule name above, not the formula (for now)
 
-Arrow and message that "you can put this in the collection box" at the start
-drop-down menu?
-on kit-switch (or breaking molecule or goes away), close 3d views
-+ only opens 1 dialog for 1 3d view of a type
-investigate "molecular workbench"
-add developer option to allow collection box generation of all types
-Talk with translations about translating names. subset?
-Possibly attempt to use less kits? unknown
-
+Arrow and message that "you can put this in the collection box" at the start. Points to correct collection box.
+Drop-down menu. Options: "Show in 3D", possibly show chemical formula, possibly option to move to collection box
+Close relevant 3d views on: kit switch, break of molecule, or any other way the molecule isn't visible.
+Only show 1 3d view of a particular molecule type at a time
+Add developer option to allow collection box generation of all molecule types (instead of just a subset)
+Talk with translators (Sandor) about translating names. Developer recommendation: translate a subset
 Reset kit button enabled whenever something is in the play area
-Sync colors with Jmol
+Synchronize colors with Jmol (sulfur and others look different colors in 3d views)
 Bugfix: drag 2 atoms to the far lower-left at the start and they are pushed to cover each other (without bonding)
-Find what molecules say they are "equivalent" to each other
-I18n
-Add in the BCE's "ding" when a collection box is filled - possibly? might have issues with that
-Detect alcohols in structures and put in their molecular formula
-Reduce Jmol-caused delay
+Find what molecules say they are "equivalent" to each other (some isomers pulled from PubChem seem identical to the sim model)
+Add in a sound when a collection box is filled
+Detect alcohols (or other structures) and modify their molecular formulas accordingly
+Reduce delay (Jmol-caused) between clicking on "Show 3D" and it actually appearing
+Investigate "molecular workbench", see if there are any other ideas
+Possibly attempt to generate less kits? PENDING feedback
+(dev) Internationalization
+(dev) Switch to more mode-like canvas handling, instead of individual visibility handling
 
 NOTES (questions):
 
