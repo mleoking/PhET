@@ -5,6 +5,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.LinkedList;
 import java.util.List;
 
+import edu.colorado.phet.buildamolecule.BuildAMoleculeApplication;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 
 /**
@@ -54,7 +55,14 @@ public class CollectionBox {
      * @return Whether it can be dropped in
      */
     public boolean willAllowMoleculeDrop( MoleculeStructure moleculeStructure ) {
-        return getMoleculeType().getMoleculeStructure().isEquivalent( moleculeStructure ) && quantity.getValue() < capacity;
+        boolean equivalent = getMoleculeType().getMoleculeStructure().isEquivalent( moleculeStructure );
+        boolean areIsomers = getMoleculeType().getMoleculeStructure().isIsomer( moleculeStructure );
+
+        // whether the structure is acceptable
+        boolean structureOk = BuildAMoleculeApplication.allowCollectionBoxMatchingByMolecularFormula.getValue()
+                              ? ( areIsomers && moleculeStructure.getMatchingCompleteMolecule() != null ) // it is an isomer that is also complete
+                              : equivalent;
+        return structureOk && quantity.getValue() < capacity;
     }
 
     public void addMolecule( MoleculeStructure molecule ) {

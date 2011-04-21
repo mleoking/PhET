@@ -3,10 +3,8 @@ package edu.colorado.phet.buildamolecule.control;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.util.LinkedList;
+import java.util.*;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import edu.colorado.phet.buildamolecule.BuildAMoleculeConstants;
 import edu.colorado.phet.buildamolecule.model.CollectionBox;
@@ -31,6 +29,9 @@ public class CollectionBoxNode extends SwingLayoutNode {
     private final PhetPPath blackBox;
     private final PNode moleculeLayer = new PNode();
     private final List<PNode> moleculeNodes = new LinkedList<PNode>();
+
+    // stores nodes for each molecule
+    private final Map<MoleculeStructure, PNode> moleculeNodeMap = new HashMap<MoleculeStructure, PNode>();
 
     private static final double MOLECULE_PADDING = 5;
     private Timer blinkTimer = null;
@@ -86,11 +87,11 @@ public class CollectionBoxNode extends SwingLayoutNode {
 
         box.addListener( new CollectionBox.Listener() {
             public void onAddedMolecule( MoleculeStructure moleculeStructure ) {
-                addMolecule();
+                addMolecule( moleculeStructure );
             }
 
             public void onRemovedMolecule( MoleculeStructure moleculeStructure ) {
-                removeMolecule();
+                removeMolecule( moleculeStructure );
             }
 
             public void onAcceptedMoleculeCreation( MoleculeStructure moleculeStructure ) {
@@ -99,28 +100,49 @@ public class CollectionBoxNode extends SwingLayoutNode {
         } );
     }
 
-    private void addMolecule() {
+    private void addMolecule( MoleculeStructure moleculeStructure ) {
         cancelBlinksInProgress();
         updateBoxGraphics();
 
-        PNode pseudo3DNode = box.getMoleculeType().createPseudo3DNode();
-        pseudo3DNode.setOffset( moleculeNodes.size() * ( pseudo3DNode.getFullBounds().getWidth() + MOLECULE_PADDING ) - pseudo3DNode.getFullBounds().getX(), 0 ); // add it to the right
+        PNode pseudo3DNode = moleculeStructure.getMatchingCompleteMolecule().createPseudo3DNode();
+        //pseudo3DNode.setOffset( moleculeNodes.size() * ( pseudo3DNode.getFullBounds().getWidth() + MOLECULE_PADDING ) - pseudo3DNode.getFullBounds().getX(), 0 ); // add it to the right
         moleculeLayer.addChild( pseudo3DNode );
         moleculeNodes.add( pseudo3DNode );
+        moleculeNodeMap.put( moleculeStructure, pseudo3DNode );
+
+        updateMoleculeLayout();
 
         centerMoleculesInBlackBox();
     }
 
-    private void removeMolecule() {
+    private void removeMolecule( MoleculeStructure moleculeStructure ) {
         cancelBlinksInProgress();
         updateBoxGraphics();
 
-        PNode lastMoleculeNode = moleculeNodes.get( moleculeNodes.size() - 1 );
+        PNode lastMoleculeNode = moleculeNodeMap.get( moleculeStructure );
         moleculeLayer.removeChild( lastMoleculeNode );
         moleculeNodes.remove( lastMoleculeNode );
+        moleculeNodeMap.remove( moleculeStructure );
+
+        updateMoleculeLayout();
 
         if ( box.quantity.getValue() > 0 ) {
             centerMoleculesInBlackBox();
+        }
+    }
+
+    /**
+     * Layout of molecules. Spaced horizontally with MOLECULE_PADDING, and vertically centered
+     */
+    private void updateMoleculeLayout() {
+        double maxHeight = 0;
+        for ( PNode moleculeNode : moleculeNodes ) {
+            maxHeight = Math.max( maxHeight, moleculeNode.getFullBounds().getHeight() );
+        }
+        double x = 0;
+        for ( PNode moleculeNode : moleculeNodes ) {
+            moleculeNode.setOffset( x, ( maxHeight - moleculeNode.getFullBounds().getHeight() ) / 2 );
+            x += moleculeNode.getFullBounds().getWidth() + MOLECULE_PADDING;
         }
     }
 

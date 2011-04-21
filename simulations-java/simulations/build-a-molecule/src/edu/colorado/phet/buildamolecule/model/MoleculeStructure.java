@@ -408,6 +408,14 @@ public class MoleculeStructure {
     }
 
     /**
+     * @param other Other molecule
+     * @return Whether the two molecules are isomers (have the same molecular formula)
+     */
+    public boolean isIsomer( MoleculeStructure other ) {
+        return getHillSystemFormulaFragment().equals( other.getHillSystemFormulaFragment() );
+    }
+
+    /**
      * @param atom         An atom
      * @param exclusionSet A set of atoms that should not be in the return value
      * @return All neighboring atoms that are connected by bonds to the passed in atom AND aren't in the exclusionSet

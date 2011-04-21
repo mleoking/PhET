@@ -5,6 +5,7 @@ import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
+import edu.colorado.phet.buildamolecule.BuildAMoleculeApplication;
 import edu.colorado.phet.buildamolecule.BuildAMoleculeResources;
 import edu.colorado.phet.buildamolecule.model.buckets.AtomModel;
 import edu.colorado.phet.chemistry.model.Atom;
@@ -394,7 +395,12 @@ public class CompleteMolecule {
     private static Random random = new Random( System.currentTimeMillis() );
 
     public static CompleteMolecule pickRandomCollectionBoxMolecule() {
-        return COLLECTION_BOX_MOLECULES[random.nextInt( COLLECTION_BOX_MOLECULES.length )];
+        if ( BuildAMoleculeApplication.allowGenerationWithAllMolecules.getValue() ) {
+            return completeMolecules.get( random.nextInt( completeMolecules.size() ) );
+        }
+        else {
+            return COLLECTION_BOX_MOLECULES[random.nextInt( COLLECTION_BOX_MOLECULES.length )];
+        }
     }
 
     private static class AtomWrapper {

@@ -15,7 +15,9 @@ import edu.colorado.phet.buildamolecule.module.MakeMoleculeModule;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
+import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBoxMenuItem;
 import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 
@@ -24,13 +26,15 @@ import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
  */
 public class BuildAMoleculeApplication extends PiccoloPhetApplication {
 
-    //----------------------------------------------------------------------------
-    // Instance data
-    //----------------------------------------------------------------------------
+    /**
+     * Allows use of all molecules in the collection boxes
+     */
+    public static final Property<Boolean> allowGenerationWithAllMolecules = new Property<Boolean>( false );
 
-    //----------------------------------------------------------------------------
-    // Constructors
-    //----------------------------------------------------------------------------
+    /**
+     * Allows putting any molecule into a box when it has the same molecular formula
+     */
+    public static final Property<Boolean> allowCollectionBoxMatchingByMolecularFormula = new Property<Boolean>( false );
 
     /**
      * Sole constructor.
@@ -96,6 +100,8 @@ public class BuildAMoleculeApplication extends PiccoloPhetApplication {
                 }
             } );
         }} );
+        developerMenu.add( new PropertyCheckBoxMenuItem( "Allow generation with all molecules", allowGenerationWithAllMolecules ) );
+        developerMenu.add( new PropertyCheckBoxMenuItem( "Allow all isomers of target molecule in boxes", allowCollectionBoxMatchingByMolecularFormula ) );
     }
 
     //----------------------------------------------------------------------------
