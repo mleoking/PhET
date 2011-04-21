@@ -209,6 +209,14 @@ public abstract class Module implements Resettable {
      */
     protected void setSimulationPanel( JComponent panel ) {
         modulePanel.setSimulationPanel( panel );
+
+        //Setting the simulation panel often requires invalidation/validation/doLayout if the simulation is already running (not if this happens during startup), see #2812
+        Window window = SwingUtilities.getWindowAncestor( panel );
+        if ( window != null ) {
+            window.invalidate();
+            window.validate();
+            window.doLayout();
+        }
     }
 
     /**
