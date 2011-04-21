@@ -109,10 +109,12 @@ public class AtomModel {
 
             double farDistanceMultiple = 10; // if we are this many times away, we speed up
 
+            // if we are far from the target, let's speed up the velocity
             if ( distanceToTarget > distanceToTravel * farDistanceMultiple ) {
                 double extraDistance = distanceToTarget - distanceToTravel * farDistanceMultiple;
                 distanceToTravel *= 1 + extraDistance / 300;
             }
+
             if ( distanceToTravel >= distanceToTarget ) {
                 // Closer than one step, so just go there.
                 setPosition( destination );
