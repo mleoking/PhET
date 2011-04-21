@@ -342,9 +342,8 @@ public class CompleteMolecule {
             CO2, H2O, N2, CO, O2, H2, NH3, Cl2, NO,
             getMoleculeByName( "Acetylene" ),
             getMoleculeByName( "Formaldehyde" ),
-            getMoleculeByName( "Isobutane" ),
             getMoleculeByName( "Hydrogen Cyanide" ),
-            getMoleculeByName( "Sulphur Dioxide" )
+            getMoleculeByName( "Sulfur Dioxide" )
     };
 
     static {

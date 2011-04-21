@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
+import edu.colorado.phet.buildamolecule.module.AbstractBuildAMoleculeModule;
 import edu.colorado.phet.buildamolecule.module.CollectMultipleModule;
 import edu.colorado.phet.buildamolecule.module.LargerMoleculesModule;
 import edu.colorado.phet.buildamolecule.module.MakeMoleculeModule;
@@ -159,6 +160,13 @@ public class BuildAMoleculeApplication extends PiccoloPhetApplication {
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     new MoleculeTableDialog( getPhetFrame() ).setVisible( true );
+                }
+            } );
+        }} );
+        developerMenu.add( new JMenuItem( "Regenerate model" ) {{
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    ( (AbstractBuildAMoleculeModule) getActiveModule() ).regenerateModelIfPossible();
                 }
             } );
         }} );
