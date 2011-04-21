@@ -1,3 +1,4 @@
+Added a table to show all the molecules
 Added a "+" button to show molecule in 3D
 4/20/11 Major reworking of molecule handling. 1602 complete molecules are allowed
 # 0.00.03 (50650) Apr 14, 2011
