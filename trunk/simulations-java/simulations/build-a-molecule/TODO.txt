@@ -1,10 +1,11 @@
+* Reset kit bug - build water, put in box, reset, then can't combine stuff
+
 Arrow and message that "you can put this in the collection box" at the start. Points to correct collection box.
 Drop-down menu. Options: "Show in 3D", possibly show chemical formula, possibly option to move to collection box
 Close relevant 3d views on: kit switch, break of molecule, or any other way the molecule isn't visible.
 Only show 1 3d view of a particular molecule type at a time
 Add developer option to allow collection box generation of all molecule types (instead of just a subset)
 Talk with translators (Sandor) about translating names. Developer recommendation: translate a subset
-Reset kit button enabled whenever something is in the play area
 Synchronize colors with Jmol (sulfur and others look different colors in 3d views)
 Bugfix: drag 2 atoms to the far lower-left at the start and they are pushed to cover each other (without bonding)
 Find what molecules say they are "equivalent" to each other (some isomers pulled from PubChem seem identical to the sim model)
