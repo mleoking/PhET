@@ -31,14 +31,14 @@ Reduce Jmol-caused delay
 
 NOTES (questions):
 
-(8): Is the scale of the pseudo-3d molecules in the collection boxes OK? (We can only fit 2 C02s with the current size, but we could increase the
+--- feedback? (8): Is the scale of the pseudo-3d molecules in the collection boxes OK? (We can only fit 2 C02s with the current size, but we could increase the
 width of the actual collection boxes a bit safely.
     I think it’s important to have the molecules show as large as possible. What do you think about having the molecules be larger in the first tab,
     and in the second tab start out the same size as in the first tab, but as you add molecules they get smaller (to fit)? Would that look weird? I’m
     also ok with having the boxes be different sizes (for example chloromethane box larger than hydrogen box). We should discuss this further at the
     CHEM meeting, I’m not the best at visualizing these types of changes.
 
-    Personally I would be fine with that!
+    I've added that to the sim for feedback
 
 --- mostly completed (10): For molecular formulas, I was under the impression that the Hill System was the standard, however this gives us "H3N" for "NH3". Is there a
 procedure or set of steps that can be used to get an accurate naming convention? (One way that may work would be to break the Hill convention and if

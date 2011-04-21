@@ -186,6 +186,13 @@ public class CollectionBoxNode extends SwingLayoutNode {
 
     private void centerMoleculesInBlackBox() {
         PBounds blackBoxFullBounds = blackBox.getFullBounds();
+
+        // for now, we scale the molecules up and down depending on their size
+        moleculeLayer.setScale( 1 );
+        double xScale = ( blackBoxFullBounds.getWidth() - 25 ) / moleculeLayer.getFullBounds().getWidth();
+        double yScale = ( blackBoxFullBounds.getHeight() - 25 ) / moleculeLayer.getFullBounds().getHeight();
+        moleculeLayer.setScale( Math.min( xScale, yScale ) );
+
         moleculeLayer.centerFullBoundsOnPoint(
                 blackBoxFullBounds.getCenterX() - blackBoxFullBounds.getX(),
                 blackBoxFullBounds.getCenterY() - blackBoxFullBounds.getY() );
