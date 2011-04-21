@@ -307,6 +307,19 @@ public class CompleteMolecule {
     public static final CompleteMolecule H2 = getMoleculeByName( "molecular hydrogen" );
     public static final CompleteMolecule NH3 = getMoleculeByName( "ammonia" );
 
+    /**
+     * Molecules that can be used for collection boxes
+     */
+    private static final CompleteMolecule[] COLLECTION_BOX_MOLECULES = new CompleteMolecule[] {
+            CO2, H2O, N2, CO, O2, H2, NH3
+    };
+
+    private static Random random = new Random( System.currentTimeMillis() );
+
+    public static CompleteMolecule pickRandomCollectionBoxMolecule() {
+        return COLLECTION_BOX_MOLECULES[random.nextInt( COLLECTION_BOX_MOLECULES.length )];
+    }
+
     static {
         // TODO: automatic capitalization?
         H2O.setCommonName( "Water" );
