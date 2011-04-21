@@ -24,7 +24,7 @@ import edu.umd.cs.piccolo.PNode;
  * Common canvas for Build a Molecule. It features kits shown at the bottom. Can be extended to add other parts
  * TODO: handle changing kits
  */
-public abstract class BuildAMoleculeCanvas extends PhetPCanvas {
+public class BuildAMoleculeCanvas extends PhetPCanvas {
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -53,7 +53,9 @@ public abstract class BuildAMoleculeCanvas extends PhetPCanvas {
 
     protected boolean singleCollectionMode; // TODO: find solution for LargerMoleculesCanvas so that we don't need this boolean and the separate constructor
 
-    protected abstract void addChildren();
+    protected void addChildren() {
+
+    }
 
     public BuildAMoleculeCanvas( Frame parentFrame, KitCollectionModel initialModel ) {
         this( parentFrame, initialModel, true );

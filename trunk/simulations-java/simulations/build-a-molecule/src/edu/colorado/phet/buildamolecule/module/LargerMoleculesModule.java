@@ -9,7 +9,6 @@ import edu.colorado.phet.buildamolecule.model.Kit;
 import edu.colorado.phet.buildamolecule.model.KitCollectionModel;
 import edu.colorado.phet.buildamolecule.model.buckets.Bucket;
 import edu.colorado.phet.buildamolecule.view.BuildAMoleculeCanvas;
-import edu.colorado.phet.buildamolecule.view.LargerMoleculesCanvas;
 import edu.umd.cs.piccolo.util.PDimension;
 
 import static edu.colorado.phet.buildamolecule.model.buckets.AtomModel.*;
@@ -60,6 +59,6 @@ public class LargerMoleculesModule extends AbstractBuildAMoleculeModule {
     }
 
     @Override protected BuildAMoleculeCanvas buildCanvas( KitCollectionModel model ) {
-        return new LargerMoleculesCanvas( parentFrame, model );
+        return new BuildAMoleculeCanvas( parentFrame, model );
     }
 }

@@ -10,7 +10,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 
 /**
- * Canvas that shows multiple kits AND a collection area to the right
+ * Canvas (like its subclass) that shows kits, but also has a collection area to the right-hand side
  */
 public class MoleculeCollectingCanvas extends BuildAMoleculeCanvas {
 
@@ -19,7 +19,6 @@ public class MoleculeCollectingCanvas extends BuildAMoleculeCanvas {
     public MoleculeCollectingCanvas( Frame parentFrame, final KitCollectionModel initialModel, final boolean singleCollectionMode, final VoidFunction0 regenerateCallback ) {
         super( parentFrame, initialModel, singleCollectionMode );
 
-        // TODO: change if we support changing models
         initialModel.allCollectionBoxesFilled.addObserver( new SimpleObserver() {
             public void update() {
                 if ( !initialModel.allCollectionBoxesFilled.getValue() ) {
@@ -31,8 +30,7 @@ public class MoleculeCollectingCanvas extends BuildAMoleculeCanvas {
         } );
     }
 
-    @Override
-    protected void addChildren() {
+    @Override protected void addChildren() {
         collectionAreaNode = new CollectionAreaNode( this, getModel(), singleCollectionMode ) {{
             double collectionAreaPadding = 20;
             setOffset( BuildAMoleculeConstants.STAGE_SIZE.width - getFullBounds().getWidth() - collectionAreaPadding, collectionAreaPadding );

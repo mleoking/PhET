@@ -93,6 +93,10 @@ I'd like to speed up movement when the atom is far from its destination, but kee
 
 (14): What names should we have for "Sphere fill" or "Ball & Stick"?
 
+(15): Should molecules (once grabbed) show in front of the buckets?
+
+(16): Change layout of kit "arrows" to far left/right? (where would reset go?)
+
  */
 
 /**
