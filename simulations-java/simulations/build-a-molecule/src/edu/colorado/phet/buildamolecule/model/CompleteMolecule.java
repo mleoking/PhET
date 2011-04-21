@@ -137,7 +137,8 @@ public class CompleteMolecule {
                             System.out.println( "inherent structure invalid" );
                         }
                         if ( !moleculeStructure.isValid() ) {
-                            System.out.println( "presented structure invalid" );
+                            System.out.println( "presented structure invalid!" );
+                            System.out.println( "comparing " + structure.toSerial() + " to " + moleculeStructure.toSerial() );
                         }
                         return true;
                     }
