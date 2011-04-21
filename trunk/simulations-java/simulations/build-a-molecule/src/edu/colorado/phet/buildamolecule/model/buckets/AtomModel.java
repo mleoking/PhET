@@ -105,7 +105,15 @@ public class AtomModel {
         if ( getPosition().getDistance( destination ) != 0 ) {
             // Move towards the current destination.
             double distanceToTravel = MOTION_VELOCITY * dt;
-            if ( distanceToTravel >= getPosition().getDistance( destination ) ) {
+            double distanceToTarget = getPosition().getDistance( destination );
+
+            double farDistanceMultiple = 10; // if we are this many times away, we speed up
+
+            if ( distanceToTarget > distanceToTravel * farDistanceMultiple ) {
+                double extraDistance = distanceToTarget - distanceToTravel * farDistanceMultiple;
+                distanceToTravel *= 1 + extraDistance / 300;
+            }
+            if ( distanceToTravel >= distanceToTarget ) {
                 // Closer than one step, so just go there.
                 setPosition( destination );
             }
