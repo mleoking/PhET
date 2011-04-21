@@ -160,6 +160,42 @@ public class MoleculeStructure {
         return ret;
     }
 
+    public boolean hasLoopsOrIsDisconnected() {
+        Set<Atom> visitedAtoms = new HashSet<Atom>();
+        Set<Atom> dirtyAtoms = new HashSet<Atom>();
+
+        // pull one atom out. doesn't matter which one
+        dirtyAtoms.add( atoms.iterator().next() );
+
+        while ( !dirtyAtoms.isEmpty() ) {
+            // while atoms are dirty, pull one out
+            Atom atom = dirtyAtoms.iterator().next();
+
+            // for each neighbor, make "unvisited" atoms dirty and count "visited" atoms
+            int visitedCount = 0;
+            for ( Atom otherAtom : getNeighbors( atom ) ) {
+                if ( visitedAtoms.contains( otherAtom ) ) {
+                    visitedCount += 1;
+                }
+                else {
+                    dirtyAtoms.add( otherAtom );
+                }
+            }
+
+            // if a dirty atom has two visited neighbors, it means there was a loop somewhere
+            if ( visitedCount > 1 ) {
+                return true;
+            }
+
+            // move our atom from dirty to visited
+            dirtyAtoms.remove( atom );
+            visitedAtoms.add( atom );
+        }
+
+        // since it has no loops, now we check to see if we reached all atoms. if not, the molecule must not be connected
+        return visitedAtoms.size() != atoms.size();
+    }
+
     /**
      * Combines molecules together by bonding their atoms A and B
      *
