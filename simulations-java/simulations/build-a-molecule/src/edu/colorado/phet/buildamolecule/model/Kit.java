@@ -29,7 +29,7 @@ public class Kit {
 
     public static final double BOND_DISTANCE_THRESHOLD = 200;
     public static final double BUCKET_PADDING = 50;
-    public static final double INTER_MOLECULE_PADDING = 100;
+    public static final double INTER_MOLECULE_PADDING = 150;
 
     public Kit( final LayoutBounds layoutBounds, Bucket... buckets ) {
         this.buckets = new LinkedList<Bucket>( Arrays.asList( buckets ) );
