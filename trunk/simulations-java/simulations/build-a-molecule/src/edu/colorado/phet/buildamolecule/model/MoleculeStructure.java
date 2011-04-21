@@ -160,6 +160,15 @@ public class MoleculeStructure {
         return ret;
     }
 
+    /**
+     * Combines molecules together by bonding their atoms A and B
+     *
+     * @param molA Molecule A
+     * @param molB Molecule B
+     * @param a    Atom A
+     * @param b    Atom B
+     * @return A completely new molecule with all atoms in A and B, where atom A is joined to atom B
+     */
     public static MoleculeStructure getCombinedMoleculeFromBond( MoleculeStructure molA, MoleculeStructure molB, Atom a, Atom b ) {
         MoleculeStructure ret = new MoleculeStructure();
         for ( Atom atom : molA.getAtoms() ) {
@@ -178,6 +187,13 @@ public class MoleculeStructure {
         return ret;
     }
 
+    /**
+     * @return A serialized form of this structure. It is |-separated tokens, with the format:
+     *         atom quantity
+     *         bond quantity
+     *         for each atom, it's symbol
+     *         for each bond, two zero-indexed indices of atoms above
+     */
     public String toSerial() {
         String ret = atoms.size() + "|" + bonds.size();
         List<Atom> atoms = new LinkedList<Atom>( getAtoms() );
@@ -194,6 +210,12 @@ public class MoleculeStructure {
         return ret;
     }
 
+    /**
+     * Reads in the serialized form produced above
+     *
+     * @param str Serialized form of a structure
+     * @return Molecule structure
+     */
     public static MoleculeStructure fromSerial( String str ) {
         MoleculeStructure structure = new MoleculeStructure();
         StringTokenizer t = new StringTokenizer( str, "|" );
