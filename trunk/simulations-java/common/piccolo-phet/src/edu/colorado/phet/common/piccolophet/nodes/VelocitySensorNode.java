@@ -16,9 +16,8 @@ import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.common.piccolophet.event.RelativeDragHandler;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
-import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -37,10 +36,15 @@ public class VelocitySensorNode extends ToolNode {
     private final ModelViewTransform transform;
     private final VelocitySensor velocitySensor;
 
+    public VelocitySensorNode( final ModelViewTransform transform, final VelocitySensor velocitySensor, final double arrowScale, final Property<Function1<Double, String>> formatter ) {
+        this( transform, velocitySensor, arrowScale, formatter, new Function1.Identity<Point2D>() );
+    }
+
     public VelocitySensorNode( final ModelViewTransform transform,
                                final VelocitySensor velocitySensor,
                                final double arrowScale,//Scale to use for the vector--the length of the vector is the view value times this scale factor
-                               final Property<Function1<Double, String>> formatter ) {
+                               final Property<Function1<Double, String>> formatter,
+                               final Function1<Point2D, Point2D> boundedConstraint ) {
         this.transform = transform;
         this.velocitySensor = velocitySensor;
         final int titleOffsetY = 7;
@@ -128,12 +132,7 @@ public class VelocitySensorNode extends ToolNode {
 
         //Add interactivity
         addInputEventListener( new CursorHandler() );
-        addInputEventListener( new PBasicInputEventHandler() {
-            @Override
-            public void mouseDragged( PInputEvent event ) {
-                dragAll( event.getDeltaRelativeTo( getParent() ) );
-            }
-        } );
+        addInputEventListener( new RelativeDragHandler( this, transform, velocitySensor.position, boundedConstraint ) );
 
         //Update the entire location of this node based on the location of the model ViewSensor, keeping the hot spot at the specified location.
         velocitySensor.position.addObserver( new SimpleObserver() {

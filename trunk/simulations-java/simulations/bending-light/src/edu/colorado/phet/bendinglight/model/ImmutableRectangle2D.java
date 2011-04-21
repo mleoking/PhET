@@ -51,4 +51,14 @@ public class ImmutableRectangle2D {
     public Shape toShape() {
         return new Rectangle2D.Double( x, y, width, height );
     }
+
+    //Find a point in the rectangle closest to the specified point.  Used for making sure a dragged object doesn't get outside the visible play area
+    public Point2D getClosestPoint( Point2D point ) {
+        Point2D.Double newPoint = new Point2D.Double( point.getX(), point.getY() );
+        if ( newPoint.getX() < x ) { newPoint.x = x; }
+        if ( newPoint.getX() > x + width ) { newPoint.x = x + width; }
+        if ( newPoint.getY() < y ) { newPoint.y = y; }
+        if ( newPoint.getY() > y + height ) { newPoint.y = y + height; }
+        return newPoint;
+    }
 }

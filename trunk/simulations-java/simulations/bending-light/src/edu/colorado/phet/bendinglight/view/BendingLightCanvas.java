@@ -199,9 +199,12 @@ public class BendingLightCanvas<T extends BendingLightModel> extends PhetPCanvas
         //Notify model elements about the canvas area so they can't be dragged outside it.
         final VoidFunction0 updateDragBounds = new VoidFunction0() {
             public void apply() {
-                final Rectangle2D.Double viewBounds = new Rectangle2D.Double( 0, 0, stageSize.width, stageSize.height );
-                final ImmutableRectangle2D modelBounds = new ImmutableRectangle2D( transform.viewToModel( viewBounds ) );
-                System.out.println( "viewBounds = " + viewBounds + " => " + modelBounds );
+                //identify the bounds that objects will be constrained to be dragged within
+                int insetPixels = 10;
+                final Rectangle2D.Double viewBounds = new Rectangle2D.Double( insetPixels, insetPixels, getWidth() - insetPixels * 2, getHeight() - insetPixels * 2 );
+
+                //Convert to model bounds and store in the model
+                final ImmutableRectangle2D modelBounds = new ImmutableRectangle2D( transform.viewToModel( getRootNode().globalToLocal( viewBounds ) ) );
                 model.visibleModelBounds.setValue( new Option.Some<ImmutableRectangle2D>( modelBounds ) );
             }
         };
@@ -229,7 +232,6 @@ public class BendingLightCanvas<T extends BendingLightModel> extends PhetPCanvas
                 } );
             }} );
         }
-
     }
 
     public PNode getRootNode() {
@@ -293,5 +295,14 @@ public class BendingLightCanvas<T extends BendingLightModel> extends PhetPCanvas
             //Dispose for memory
             bufferedGraphics.dispose();
         }
+    }
+
+    //Returns a function that maps from proposed model point to allowed model point (i.e. within visible bounds), for use with RelativeDragHandler
+    public Function1<Point2D, Point2D> getBoundedConstraint() {
+        return new Function1<Point2D, Point2D>() {
+            public Point2D apply( Point2D proposedModelPoint ) {
+                return model.visibleModelBounds.getClosestPoint( proposedModelPoint );
+            }
+        };
     }
 }

@@ -113,7 +113,6 @@ public class MoreToolsCanvas extends IntroCanvas<MoreToolsModel> {
                 return MessageFormat.format( BendingLightStrings.PATTERN_SPEED_OF_LIGHT_READOUT_VALUE_C, value );
             }
         };
-        final VelocitySensorNode velocitySensorNode = new VelocitySensorNode( transform, new VelocitySensor(), arrowScale, new Property<Function1<Double, String>>( formatter ) );
 
         //Make sure the existence in the toolbox resets when the sim resets
         final Property<Boolean> showVelocitySensor = new Property<Boolean>( false );
@@ -125,9 +124,9 @@ public class MoreToolsCanvas extends IntroCanvas<MoreToolsModel> {
 
         //Create the NodeFactory which creates the VelocitySensorNode when dragged out of the toolbox
         final Tool.NodeFactory velocityNodeFactory = new Tool.NodeFactory() {
-            public VelocitySensorNode createNode( ModelViewTransform transform, final Property<Boolean> showTool, final Point2D modelPt ) {
+            public VelocitySensorNode createNode( final ModelViewTransform transform, final Property<Boolean> showTool, final Point2D modelPt ) {
                 model.velocitySensor.position.setValue( new ImmutableVector2D( modelPt ) );
-                return new VelocitySensorNode( transform, model.velocitySensor, arrowScale, new Property<Function1<Double, String>>( formatter ) ) {{
+                return new VelocitySensorNode( transform, model.velocitySensor, arrowScale, new Property<Function1<Double, String>>( formatter ), getBoundedConstraint() ) {{
                     showTool.addObserver( new VoidFunction1<Boolean>() {
                         public void apply( Boolean visible ) {
                             setVisible( visible );
@@ -138,8 +137,9 @@ public class MoreToolsCanvas extends IntroCanvas<MoreToolsModel> {
         };
 
         //Create and return the tool for dragging out of the toolbox
-        final int velocityToolHeight = (int) ( velocitySensorNode.getFullBounds().getHeight() / velocitySensorNode.getFullBounds().getWidth() * ICON_WIDTH );
-        return new Tool( velocitySensorNode.toImage( ICON_WIDTH, velocityToolHeight, new Color( 0, 0, 0, 0 ) ), showVelocitySensor, transform, this, velocityNodeFactory, resetModel, getToolboxBounds() );
+        final VelocitySensorNode thumbnailSensorNode = new VelocitySensorNode( transform, new VelocitySensor(), arrowScale, new Property<Function1<Double, String>>( formatter ) );
+        final int velocityToolHeight = (int) ( thumbnailSensorNode.getFullBounds().getHeight() / thumbnailSensorNode.getFullBounds().getWidth() * ICON_WIDTH );
+        return new Tool( thumbnailSensorNode.toImage( ICON_WIDTH, velocityToolHeight, new Color( 0, 0, 0, 0 ) ), showVelocitySensor, transform, this, velocityNodeFactory, resetModel, getToolboxBounds() );
     }
 
     //Gets the bounds in which tools can be dropped back in the toolbox

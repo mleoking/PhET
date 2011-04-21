@@ -13,7 +13,6 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
@@ -64,7 +63,7 @@ public class BendingLightModel implements ResetModel {
     protected final IntensityMeter intensityMeter = new IntensityMeter( modelWidth * 0.3, -modelHeight * 0.3, modelWidth * 0.4, -modelHeight * 0.3 );
 
     //initial support for bounding drags, not fully implemented yet
-    public final Property<Option<ImmutableRectangle2D>> visibleModelBounds = new Property<Option<ImmutableRectangle2D>>( new Option.None<ImmutableRectangle2D>() );//model coordinates of what is visible on the screen, or None if not yet set (has to be set by canvas after canvas is constructed)
+    public final ModelBounds visibleModelBounds = new ModelBounds();//model coordinates of what is visible on the screen, or None if not yet set (has to be set by canvas after canvas is constructed)
 
     //Listeners
     private final ArrayList<VoidFunction1<LightRay>> rayAddedListeners = new ArrayList<VoidFunction1<LightRay>>();

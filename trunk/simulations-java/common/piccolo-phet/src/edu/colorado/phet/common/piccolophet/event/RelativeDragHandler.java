@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.fluidpressureandflow.view;
+package edu.colorado.phet.common.piccolophet.event;
 
 import java.awt.geom.Point2D;
 
@@ -12,17 +12,18 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
 /**
- * Drag handler that keeps the dragged object within a specified bounded region, but also makes it so the mouse does not get disassociated from the node.
+ * Drag handler that keeps the dragged object within a specified bounded region,
+ * but also makes it so the mouse does not get disassociated from the node (so the relative grab point on the node is always correct).
  *
  * @author Sam Reid
  */
 public class RelativeDragHandler extends PBasicInputEventHandler {
-    private final ModelViewTransform transform;
-    private final Property<ImmutableVector2D> modelLocation;
-    private final Function1<Point2D, Point2D> constraint;
-    private final PNode node;
+    private final ModelViewTransform transform;//Transform from model coordinates to stage
+    private final Property<ImmutableVector2D> modelLocation;//Way to read and write the property in model coordinates
+    private final Function1<Point2D, Point2D> constraint;////maps a proposed model location to an allowed model location
+    private final PNode node;//The node this handler is applied to
 
-    private Point2D.Double relativeGrabPoint;
+    private Point2D.Double relativeGrabPoint;//Coordinates inside the node where it was grabbed
 
     //Constructs a RelativeDragHandler without a constraint, so that drag behavior is unbounded.
     public RelativeDragHandler( PNode node, ModelViewTransform transform, Property<ImmutableVector2D> modelLocation ) {
@@ -31,7 +32,7 @@ public class RelativeDragHandler extends PBasicInputEventHandler {
 
     //Constructs a RelativeDragHandler with the specified constraint which maps from a proposed model point to an allowed model point
     public RelativeDragHandler( PNode node, ModelViewTransform transform, Property<ImmutableVector2D> modelLocation,
-                                Function1<Point2D, Point2D> constraint ) {//maps a proposed model location to an allowed model location
+                                Function1<Point2D, Point2D> constraint ) {
         this.node = node;
         this.transform = transform;
         this.modelLocation = modelLocation;
@@ -51,12 +52,17 @@ public class RelativeDragHandler extends PBasicInputEventHandler {
 
     //Drag the node to the constrained location
     public void mouseDragged( PInputEvent event ) {
+        //Make sure we started the drag already
         if ( relativeGrabPoint == null ) {
             updateGrabPoint( event );
         }
+
+        //Compute the targeted model point for the drag
         final Point2D newDragPosition = event.getPositionRelativeTo( node.getParent() );
         Point2D modelPt = transform.viewToModel( newDragPosition.getX() - relativeGrabPoint.getX(),
                                                  newDragPosition.getY() - relativeGrabPoint.getY() );
+
+        //Find the constrained point for the targeted model point and apply it
         Point2D constrained = constraint.apply( modelPt );
         this.modelLocation.setValue( new ImmutableVector2D( constrained ) );
     }
