@@ -1,5 +1,3 @@
-* Move kit label/arrows to right of the kit area, move "reset kit" down
-
 Arrow and message that "you can put this in the collection box" at the start. Points to correct collection box.
 Drop-down menu. Options: "Show in 3D", possibly show chemical formula, possibly option to move to collection box
 Close relevant 3d views on: kit switch, break of molecule, or any other way the molecule isn't visible.
@@ -20,14 +18,7 @@ Possibly attempt to generate less kits? PENDING feedback
 
 NOTES (questions):
 
---- feedback? (8): Is the scale of the pseudo-3d molecules in the collection boxes OK? (We can only fit 2 C02s with the current size, but we could increase the
-width of the actual collection boxes a bit safely.
-    I think it’s important to have the molecules show as large as possible. What do you think about having the molecules be larger in the first tab,
-    and in the second tab start out the same size as in the first tab, but as you add molecules they get smaller (to fit)? Would that look weird? I’m
-    also ok with having the boxes be different sizes (for example chloromethane box larger than hydrogen box). We should discuss this further at the
-    CHEM meeting, I’m not the best at visualizing these types of changes.
-
-    I've added that to the sim for feedback
+Move reset button from bottom-right (or off bottom, or below)?
 
 --- mostly completed (10): For molecular formulas, I was under the impression that the Hill System was the standard, however this gives us "H3N" for "NH3". Is there a
 procedure or set of steps that can be used to get an accurate naming convention? (One way that may work would be to break the Hill convention and if
@@ -46,17 +37,3 @@ there is no carbon, STILL put the hydrogen first).
         * NH3, name like organic where the H is second
         * HCN not considered organic, so name as regular covalent
         * CH3OH, name shows structure, doesn’t follow either naming convention.
-
-(14): What names should we have for "Sphere fill" or "Ball & Stick" in the 3d view?
-    Leave as-is
-
-(15): Should molecules (once grabbed) show in front of the buckets? Currently they show behind the front of the bucket, and can cause glitches!
-    Leave as-is
-
-(16): Should we change layout of kit "arrows" to far left/right? (where would reset go?) I keep wanting to reach for the "Next kit" on the right side.
-    Move kit label/arrows to right, move reset kit down
-
-(17): How to handle 3D? Design won't handle multiple molecules, so will the added "+" to show 3d work, and should we only put it on the 3rd tab? Kind of nice on all tabs.
-
-(18): Potentially reduce bonding threshold distance due to "cheating" annoyance
-    Not now
