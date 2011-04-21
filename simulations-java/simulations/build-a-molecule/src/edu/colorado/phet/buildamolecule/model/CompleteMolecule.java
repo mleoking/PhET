@@ -132,6 +132,13 @@ public class CompleteMolecule {
             if ( moleculeStructures != null ) {
                 for ( MoleculeStructure structure : moleculeStructures ) {
                     if ( structure.isEquivalent( moleculeStructure ) ) {
+                        // sanity checks TODO: change to assertions once we figure out the bug
+                        if ( !structure.isValid() ) {
+                            System.out.println( "inherent structure invalid" );
+                        }
+                        if ( !moleculeStructure.isValid() ) {
+                            System.out.println( "presented structure invalid" );
+                        }
                         return true;
                     }
                 }

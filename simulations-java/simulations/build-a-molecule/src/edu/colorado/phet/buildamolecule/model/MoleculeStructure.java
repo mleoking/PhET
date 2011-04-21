@@ -287,6 +287,17 @@ public class MoleculeStructure {
         return structure;
     }
 
+    public String getDebuggingDump() {
+        String str = "Molecule\n";
+        for ( Atom atom : atoms ) {
+            str += "atom: " + atom.getSymbol() + " " + atom.hashCode() + "\n";
+        }
+        for ( Bond bond : bonds ) {
+            str += "bond: " + bond.a.hashCode() + " - " + bond.b.hashCode() + "\n";
+        }
+        return str;
+    }
+
     private boolean containsAtomOfType( Atom referenceAtom ) {
         for ( Atom atom : atoms ) {
             if ( atom.isSameTypeOfAtom( referenceAtom ) ) {
