@@ -113,7 +113,7 @@ public class MoleculeStructure {
      * @return Molecular formula with HTML subscripts
      */
     public String getGeneralFormulaFragment() {
-        return uglyHackAddSpaceBeforeSubscripts( ChemUtils.toSubscript( getGeneralFormula() ) );
+        return ChemUtils.toSubscript( getGeneralFormula() );
     }
 
     private static String uglyHackAddSpaceBeforeSubscripts( String str ) {
