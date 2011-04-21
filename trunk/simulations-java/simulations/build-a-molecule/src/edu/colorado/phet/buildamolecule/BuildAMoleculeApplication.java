@@ -31,13 +31,6 @@ Reduce Jmol-caused delay
 
 NOTES (questions):
 
----mostly completed (2): Currently the highlight showing a completed collection box is (to my eyes) somewhat faint. Should the colors be changed, and/or should we add in
-a sound when a collection box is filled?
-    I like the colors used in this sim http://www.colorado.edu/physics/phet/dev/bending-light/0.00.41/ with the grey background on the toolbars and
-    the light blue color (it’s water in the bending light sim, but I don’t think that will be confusing). What do you think of these colors? Then
-    the box outline will stand out more.
-    I like the idea of adding a sound, perhaps the single ding sound that’s in BCE game after balancing one of the equations would be good.
-
 (8): Is the scale of the pseudo-3d molecules in the collection boxes OK? (We can only fit 2 C02s with the current size, but we could increase the
 width of the actual collection boxes a bit safely.
     I think it’s important to have the molecules show as large as possible. What do you think about having the molecules be larger in the first tab,
