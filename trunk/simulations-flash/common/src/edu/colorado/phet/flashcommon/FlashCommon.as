@@ -143,9 +143,7 @@ class edu.colorado.phet.flashcommon.FlashCommon {
 		preferences = new Preferences();
 
 		// DEVELOPMENT: load the inspector
-//		if(getDev()) {
-		if(true) {
-            // TODO: replace back with regular version
+		if(getDev()) {
             debug("Development version.\n");
 			inspector = new Inspector();
 		}
