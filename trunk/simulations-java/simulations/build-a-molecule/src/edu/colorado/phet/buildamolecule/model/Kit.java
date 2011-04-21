@@ -474,7 +474,24 @@ public class Kit {
 
         removeMolecule( molA );
         removeMolecule( molB );
-        addMolecule( MoleculeStructure.getCombinedMoleculeFromBond( molA, molB, a.getAtomInfo(), b.getAtomInfo() ) );
+        MoleculeStructure newMolecule = MoleculeStructure.getCombinedMoleculeFromBond( molA, molB, a.getAtomInfo(), b.getAtomInfo() );
+
+        // sanity check and debugging information
+        if ( !newMolecule.isValid() ) {
+            System.out.println( "invalid molecule!" );
+            System.out.println( "bonding: " + a.getAtomInfo().getSymbol() + "(" + a.getAtomInfo().hashCode() + "), " + dirAtoB + " "
+                                + b.getAtomInfo().getSymbol() + " (" + b.getAtomInfo().hashCode() + ")" );
+            System.out.println( "A" );
+            System.out.println( molA.getDebuggingDump() );
+            System.out.println( "B" );
+            System.out.println( molB.getDebuggingDump() );
+            System.out.println( "combined" );
+            System.out.println( newMolecule.getDebuggingDump() );
+
+            System.out.println( "found: " + CompleteMolecule.isAllowedStructure( newMolecule ) );
+        }
+
+        addMolecule( newMolecule );
 
         /*---------------------------------------------------------------------------*
         * bonding diagnostics and sanity checks
