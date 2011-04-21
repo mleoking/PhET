@@ -26,21 +26,23 @@ public class AllFilledDialogNode extends PNode {
         addChild( background );
         addChild( new SwingLayoutNode( new GridBagLayout() ) {{
             // TODO: i18n
-            addChild( new HTMLNode( "You have filled all of your collection boxes.<br>Would you like to fill a different set of collection boxes?" ) {{
-                setFont( new PhetFont( 16 ) );
+            addChild( new HTMLNode( "You have filled all of your collection boxes!" ) {{
+                setFont( new PhetFont( 20, true ) );
             }},
                       new GridBagConstraints() {{
                           gridx = 0;
                           gridy = 0;
                       }} );
             // TODO: i18n
-            addChild( new PSwing( new JButton( "Yes" ) {{ // or how about just "I guess, since I have no other option"
+            addChild( new PSwing( new JButton( "Try with different molecules" ) {{ // or how about just "I guess, since I have no other option"
                 addActionListener( new ActionListener() {
                     public void actionPerformed( ActionEvent e ) {
                         regenerateCallback.apply();
                     }
                 } );
-            }} ),
+            }} ) {{
+                setScale( 1.5 );
+            }},
                       new GridBagConstraints() {{
                           gridx = 0;
                           gridy = 1;
