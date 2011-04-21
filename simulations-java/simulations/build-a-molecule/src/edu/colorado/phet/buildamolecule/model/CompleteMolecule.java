@@ -285,6 +285,12 @@ public class CompleteMolecule {
                 while ( moleculeReader.ready() ) {
                     String line = moleculeReader.readLine();
                     CompleteMolecule molecule = new CompleteMolecule( line );
+
+                    if ( molecule.getMoleculeStructure().hasLoopsOrIsDisconnected() ) {
+                        System.out.println( "ignoring molecule: " + molecule.getCommonName() );
+                        continue;
+                    }
+
                     completeMolecules.add( molecule );
                     moleculeMap.put( molecule.getCommonName(), molecule );
 
