@@ -113,7 +113,12 @@ public class MoleculeStructure {
      * @return Molecular formula with HTML subscripts
      */
     public String getGeneralFormulaFragment() {
-        return ChemUtils.toSubscript( getGeneralFormula() );
+        return uglyHackAddSpaceBeforeSubscripts( ChemUtils.toSubscript( getGeneralFormula() ) );
+    }
+
+    private static String uglyHackAddSpaceBeforeSubscripts( String str ) {
+        // this adds just a touch of space before the subscripts so it isn't so cramped
+        return str.replace( "<sub", "<font size=\"0\"> </font><sub" );
     }
 
     private static double electronegativeSortValue( Atom atom ) {
