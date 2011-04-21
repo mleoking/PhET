@@ -127,7 +127,9 @@ public abstract class AbstractBuildAMoleculeModule extends PiccoloModule {
                 double atomRadius = atomFactory.apply().getRadius();
 
                 // funky math part. sqrt scales it so that we can get two layers of atoms if the atom count is above 2
-                int bucketWidth = ( (int) ( 2 * atomRadius * Math.sqrt( atomCount - 1 ) ) ) + 350;
+                int bucketWidth = calculateIdealBucketWidth( atomRadius, atomCount );
+                System.out.println( bucketWidth );
+                //int bucketWidth = ( (int) ( 2 * atomRadius * Math.pow( atomCount + 1, 0.4 ) ) ) + 200;
 
                 buckets.add( new Bucket( new PDimension( bucketWidth, 200 ), getClock(), atomFactory, atomCount ) );
             }
@@ -161,6 +163,24 @@ public abstract class AbstractBuildAMoleculeModule extends PiccoloModule {
             model.addCollectionBox( box );
         }
         return model;
+    }
+
+    /**
+     * Make sure we can fit all of our atoms in just two rows
+     *
+     * @param radius   Atomic radius (picometers)
+     * @param quantity Quantity of atoms in bucket
+     * @return Width of bucket
+     */
+    private static int calculateIdealBucketWidth( double radius, int quantity ) {
+        // calculate atoms to go on the bottom row
+        int numOnBottomRow = ( quantity <= 2 ) ? quantity : ( quantity / 2 + 1 );
+
+        // figure out our width, accounting for radius-padding on each side
+        double width = 2 * radius * ( numOnBottomRow + 1 );
+
+        // add a bit, and make sure we don't go under 350
+        return (int) Math.max( 350, width + 1 );
     }
 
     private CompleteMolecule pickRandomMoleculeNotIn( Set<CompleteMolecule> molecules ) {
