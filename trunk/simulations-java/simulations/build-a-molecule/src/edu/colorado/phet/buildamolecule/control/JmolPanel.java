@@ -16,7 +16,7 @@ public class JmolPanel extends JPanel {
     private JmolViewer viewer;
 
     public JmolPanel( CompleteMolecule molecule ) {
-        viewer = JmolViewer.allocateViewer( this, new SmarterJmolAdapter(), null, null, null, null, null );
+        viewer = JmolViewer.allocateViewer( this, new SmarterJmolAdapter(), null, null, null, "-applet", null );
 
         setPreferredSize( new Dimension( 400, 400 ) );
 
