@@ -22,6 +22,21 @@ import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 /*
 TODO:
 
+Send out TODO list
+
+* Move kit label/arrows to right, move reset kit down
+* Just show molecule name above, not formula (for now)
+
+Arrow and message that "you can put this in the collection box" at the start
+drop-down menu?
+on kit-switch (or breaking molecule or goes away), close 3d views
++ only opens 1 dialog for 1 3d view of a type
+investigate "molecular workbench"
+add developer option to allow collection box generation of all types
+Talk with translations about translating names. subset?
+Possibly attempt to use less kits? unknown
+
+Reset kit button enabled whenever something is in the play area
 Sync colors with Jmol
 Bugfix: drag 2 atoms to the far lower-left at the start and they are pushed to cover each other (without bonding)
 Find what molecules say they are "equivalent" to each other
@@ -60,14 +75,18 @@ there is no carbon, STILL put the hydrogen first).
         * CH3OH, name shows structure, doesn’t follow either naming convention.
 
 (14): What names should we have for "Sphere fill" or "Ball & Stick" in the 3d view?
+    Leave as-is
 
 (15): Should molecules (once grabbed) show in front of the buckets? Currently they show behind the front of the bucket, and can cause glitches!
+    Leave as-is
 
 (16): Should we change layout of kit "arrows" to far left/right? (where would reset go?) I keep wanting to reach for the "Next kit" on the right side.
+    Move kit label/arrows to right, move reset kit down
 
 (17): How to handle 3D? Design won't handle multiple molecules, so will the added "+" to show 3d work, and should we only put it on the 3rd tab? Kind of nice on all tabs.
 
 (18): Potentially reduce bonding threshold distance due to "cheating" annoyance
+    Not now
 
  */
 
