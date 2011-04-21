@@ -13,6 +13,7 @@ import edu.colorado.phet.buildamolecule.BuildAMoleculeConstants;
 import edu.colorado.phet.buildamolecule.BuildAMoleculeStrings;
 import edu.colorado.phet.buildamolecule.model.Kit;
 import edu.colorado.phet.buildamolecule.model.KitCollectionModel;
+import edu.colorado.phet.buildamolecule.model.MoleculeStructure;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -138,11 +139,19 @@ public class KitPanel extends PNode {
                 } );
                 observer = new SimpleObserver() {
                     public void update() {
-                        setEnabled( kitCollectionModel.getCurrentKit().getHasMoleculesInBoxes().getValue() );
+                        setEnabled( kitCollectionModel.getCurrentKit().hasAtomsOutsideOfBuckets() );
                     }
                 };
                 for ( Kit kit : kitCollectionModel.getKits() ) {
-                    kit.getHasMoleculesInBoxes().addObserver( observer );
+                    kit.addMoleculeListener( new Kit.MoleculeListener() {
+                        public void addedMolecule( MoleculeStructure moleculeStructure ) {
+                            observer.update();
+                        }
+
+                        public void removedMolecule( MoleculeStructure moleculeStructure ) {
+                            observer.update();
+                        }
+                    } );
                 }
                 kitCollectionModel.getCurrentKitProperty().addObserver( observer );
             }

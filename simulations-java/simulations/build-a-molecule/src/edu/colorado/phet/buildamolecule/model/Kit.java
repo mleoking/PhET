@@ -180,6 +180,7 @@ public class Kit {
      */
     public void moleculePutInCollectionBox( MoleculeStructure molecule, CollectionBox box ) {
         System.out.println( "You have dropped in a " + box.getMoleculeType().getCommonName() );
+        hasMoleculesInBoxes.setValue( true );
         removeMolecule( molecule );
         for ( Atom atom : molecule.getAtoms() ) {
             AtomModel atomModel = getAtomModel( atom );
@@ -187,7 +188,6 @@ public class Kit {
             atomsInCollectionBox.add( atomModel );
             atomModel.visible.setValue( false );
         }
-        hasMoleculesInBoxes.setValue( true );
         box.addMolecule( molecule );
         removedMolecules.add( new Pair<MoleculeStructure, CollectionBox>( molecule, box ) );
     }
@@ -310,6 +310,10 @@ public class Kit {
 
     public Property<Boolean> getHasMoleculesInBoxes() {
         return hasMoleculesInBoxes;
+    }
+
+    public boolean hasAtomsOutsideOfBuckets() {
+        return !molecules.isEmpty() || hasMoleculesInBoxes.getValue();
     }
 
     public static interface MoleculeListener {
