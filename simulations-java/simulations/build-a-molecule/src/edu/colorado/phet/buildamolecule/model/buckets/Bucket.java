@@ -218,6 +218,18 @@ public class Bucket {
         particle.removeListener( atomRemovalListener );
     }
 
+    /**
+     * Instantly place the atom in the correct position, whether or not it is in the bucket
+     *
+     * @param atom The atom
+     */
+    public void placeAtom( final AtomModel atom ) {
+        if ( containsAtom( atom ) ) {
+            removeAtom( atom );
+        }
+        addAtom( atom, false );
+    }
+
     public void addAtom( final AtomModel atom, boolean animate ) {
         // Determine an open location in the bucket.
         ImmutableVector2D freeParticleLocation = getFirstOpenLocation();

@@ -45,7 +45,7 @@ public class KitCollectionModel {
         }
         kits.add( kit );
 
-        for ( AtomModel atomModel : kit.getAtomsInPlay() ) {
+        for ( AtomModel atomModel : kit.getAtoms() ) {
             atomModel.addListener( new AtomModel.Adapter() {
                 @Override
                 public void grabbedByUser( AtomModel atom ) {

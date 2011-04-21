@@ -16,7 +16,7 @@ import edu.umd.cs.piccolo.util.PBounds;
  */
 public class Kit {
     private final List<Bucket> buckets;
-    private final List<AtomModel> atomsInPlay = new LinkedList<AtomModel>(); // our master list of atoms (in and out of buckets), but not ones in collection boxes
+    private final List<AtomModel> atoms = new LinkedList<AtomModel>(); // our master list of atoms (in and out of buckets), but not ones in collection boxes
     private final List<AtomModel> atomsInCollectionBox = new LinkedList<AtomModel>(); // atoms in the collection box
     private final LewisDotModel lewisDotModel; // lewis-dot connections between atoms on the play area
     private final Set<MoleculeStructure> molecules = new HashSet<MoleculeStructure>(); // molecule structures in the play area
@@ -39,7 +39,7 @@ public class Kit {
 
         // keep track of all atoms in our kit
         for ( Bucket bucket : buckets ) {
-            atomsInPlay.addAll( bucket.getAtoms() );
+            atoms.addAll( bucket.getAtoms() );
 
             for ( AtomModel atom : bucket.getAtoms() ) {
                 lewisDotModel.addAtom( atom.getAtomInfo() );
@@ -92,8 +92,8 @@ public class Kit {
         return buckets;
     }
 
-    public List<AtomModel> getAtomsInPlay() {
-        return atomsInPlay;
+    public List<AtomModel> getAtoms() {
+        return atoms;
     }
 
     public Bucket getBucketForAtomType( Atom atom ) {
@@ -184,7 +184,7 @@ public class Kit {
         removeMolecule( molecule );
         for ( Atom atom : molecule.getAtoms() ) {
             AtomModel atomModel = getAtomModel( atom );
-            atomsInPlay.remove( atomModel );
+            atoms.remove( atomModel );
             atomsInCollectionBox.add( atomModel );
             atomModel.visible.setValue( false );
         }
@@ -216,7 +216,7 @@ public class Kit {
     }
 
     public AtomModel getAtomModel( Atom atom ) {
-        for ( AtomModel atomModel : atomsInPlay ) {
+        for ( AtomModel atomModel : atoms ) {
             if ( atomModel.getAtomInfo() == atom ) {
                 return atomModel;
             }
@@ -282,17 +282,25 @@ public class Kit {
     public void resetKit() {
         // not resetting visible, since that is not handled by us
 
+        // TODO: improve state simplification so that this isn't such a mess
+
         // handle moving things from the collection box into play
-        hasMoleculesInBoxes.reset();
         for ( AtomModel atomModel : atomsInCollectionBox ) {
-            atomsInPlay.add( atomModel );
+            atoms.add( atomModel );
         }
         atomsInCollectionBox.clear();
+        hasMoleculesInBoxes.reset();
 
-        // reset our atoms, and pull them into the buckets
-        for ( AtomModel atomModel : atomsInPlay ) {
+        // pull our atoms into buckets
+        for ( AtomModel atomModel : atoms ) {
+            // reset everything about the atom itself
             atomModel.reset();
-            recycleAtomIntoBuckets( atomModel.getAtomInfo(), false ); // do not animate. just put them back
+
+            // reset the bond information we stored about it
+            lewisDotModel.breakBondsOfAtom( atomModel.getAtomInfo() );
+
+            // place it in the correct bucket
+            getBucketForAtomType( atomModel.getAtomInfo() ).placeAtom( getAtomModel( atomModel.getAtomInfo() ) );
         }
 
         // finally clear our record of ANY molecules
@@ -538,7 +546,7 @@ public class Kit {
             AtomModel ourAtom = getAtomModel( ourAtomInfo );
 
             // all other atoms
-            for ( AtomModel otherAtom : atomsInPlay ) {
+            for ( AtomModel otherAtom : atoms ) {
                 // disallow loops in an already-connected molecule
                 if ( getMoleculeStructure( otherAtom ) == moleculeStructure ) {
                     continue;
