@@ -22,6 +22,7 @@ import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 /*
 TODO:
 
+Bugfix: drag 2 atoms to the far lower-left at the start and they are pushed to cover each other (without bonding)
 Find what molecules say they are "equivalent" to each other
 I18n
 Add in the BCE's "ding" when a collection box is filled - possibly? might have issues with that
