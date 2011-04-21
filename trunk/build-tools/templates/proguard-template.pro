@@ -86,6 +86,11 @@
     public protected *;
 }
 
+# see if we can change this, but we may not be able to!
+-keep public class org.jmol.**{
+    public protected *;
+}
+
 -keep public class gnu.xml.aelfred2.**{
     public protected *;
 }
