@@ -67,6 +67,8 @@ there is no carbon, STILL put the hydrogen first).
 
 (17): How to handle 3D? Design won't handle multiple molecules, so will the added "+" to show 3d work, and should we only put it on the 3rd tab? Kind of nice on all tabs.
 
+(18): Potentially reduce bonding threshold distance due to "cheating" annoyance
+
  */
 
 /**
