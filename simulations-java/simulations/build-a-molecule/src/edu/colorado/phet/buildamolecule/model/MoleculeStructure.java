@@ -438,7 +438,7 @@ public class MoleculeStructure {
         otherVisited.add( otherAtom );
 
         /*
-          symmetric equivalency matrix. each entry is basically whether the subtree in the direction of the "my" atom is
+          equivalency matrix. each entry is basically whether the subtree in the direction of the "my" atom is
           equivalent to the subtree in the direction of the "other" atom, for all possible my and other atoms
         */
         boolean[][] equivalences = new boolean[size][size];
@@ -446,12 +446,11 @@ public class MoleculeStructure {
         // keep track of available indices for the following matrix equivalency check
         List<Integer> availableIndices = new LinkedList<Integer>();
 
-        // compute this for each part of (my,other) atoms. since it is symmetric, we only do approximately half of the heavy-lifting
+        // for the love of god, this matrix is NOT symmetric. It computes whether each tree branch for A is equivalent to each tree branch for B
         for ( int myIndex = 0; myIndex < size; myIndex++ ) {
             availableIndices.add( myIndex );
-            for ( int otherIndex = myIndex; otherIndex < size; otherIndex++ ) {
+            for ( int otherIndex = 0; otherIndex < size; otherIndex++ ) {
                 equivalences[myIndex][otherIndex] = checkEquivalency( other, myVisited, otherVisited, myUnvisitedNeighbors.get( myIndex ), otherUnvisitedNeighbors.get( otherIndex ) );
-                equivalences[otherIndex][myIndex] = equivalences[myIndex][otherIndex]; // just for sanity, because this is symmetric
             }
         }
 
@@ -464,7 +463,7 @@ public class MoleculeStructure {
     }
 
     /**
-     * Given a symmetric matrix of equivalencies, can we find a permutation of the "other" atoms that are equivalent to
+     * Given a matrix of equivalencies, can we find a permutation of the "other" atoms that are equivalent to
      * their respective "my" atoms?
      *
      * @param equivalences          Equivalence Matrix
