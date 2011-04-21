@@ -1,3 +1,4 @@
+# 0.00.06 (51012) Apr 21, 2011
 # 0.00.05 (51010) Apr 21, 2011
 4/21/11 Kit / collection cleanup, added 3d, pulls ~1600 compounds from pubchem
 Added 3d to the table
