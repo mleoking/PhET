@@ -48,52 +48,6 @@ public class KitPanel extends PNode {
         addChild( background );
 
         /*---------------------------------------------------------------------------*
-        * previous kit
-        *----------------------------------------------------------------------------*/
-
-        final PhetPPath previousKitNode = new PhetPPath( new Path2D.Double() {{
-            // triangle pointing to the left
-            moveTo( 0, 12 );
-            lineTo( 17, 0 );
-            lineTo( 17, 24 );
-            closePath();
-        }} ) {{
-            setPaint( BuildAMoleculeConstants.KIT_ARROW_BACKGROUND_ENABLED );
-            setStrokePaint( BuildAMoleculeConstants.KIT_ARROW_BORDER_ENABLED );
-            addInputEventListener( new CursorHandler() {
-                @Override
-                public void mouseClicked( PInputEvent event ) {
-                    if ( kitCollectionModel.hasPreviousKit() ) {
-                        kitCollectionModel.previousKit();
-                    }
-                }
-            } );
-            setOffset( kitViewBounds.getX() + 5, kitViewBounds.getY() + KIT_ARROW_Y_OFFSET );
-            kitCollectionModel.getCurrentKitProperty().addObserver( new SimpleObserver() {
-                public void update() {
-                    setVisible( kitCollectionModel.hasPreviousKit() );
-                }
-            } );
-        }};
-        addChild( previousKitNode );
-
-        /*---------------------------------------------------------------------------*
-        * kit number label
-        *----------------------------------------------------------------------------*/
-
-        // label the kit with the kit number
-        final PText kitLabel = new PText() {{
-            setOffset( previousKitNode.getFullBounds().getMaxX() + KIT_LABEL_ARROW_PADDING, kitViewBounds.getY() + KIT_LABEL_Y_OFFSET );
-            setFont( new PhetFont( 18, true ) );
-            kitCollectionModel.getCurrentKitProperty().addObserver( new SimpleObserver() {
-                public void update() {
-                    setText( MessageFormat.format( BuildAMoleculeStrings.KIT_LABEL, kitCollectionModel.getCurrentKitIndex() + 1 ) );
-                }
-            } );
-        }};
-        addChild( kitLabel );
-
-        /*---------------------------------------------------------------------------*
         * next kit
         *----------------------------------------------------------------------------*/
 
@@ -114,7 +68,7 @@ public class KitPanel extends PNode {
                     }
                 }
             } );
-            setOffset( kitLabel.getFullBounds().getMaxX() + KIT_LABEL_ARROW_PADDING, kitViewBounds.getY() + KIT_ARROW_Y_OFFSET );
+            setOffset( kitViewBounds.getMaxX() - getFullBounds().getWidth() - 5, kitViewBounds.getY() + KIT_ARROW_Y_OFFSET );
             kitCollectionModel.getCurrentKitProperty().addObserver( new SimpleObserver() {
                 public void update() {
                     setVisible( kitCollectionModel.hasNextKit() );
@@ -122,6 +76,52 @@ public class KitPanel extends PNode {
             } );
         }};
         addChild( nextKitNode );
+
+        /*---------------------------------------------------------------------------*
+        * kit number label
+        *----------------------------------------------------------------------------*/
+
+        // label the kit with the kit number
+        final PText kitLabel = new PText() {{
+            setFont( new PhetFont( 18, true ) );
+            kitCollectionModel.getCurrentKitProperty().addObserver( new SimpleObserver() {
+                public void update() {
+                    setText( MessageFormat.format( BuildAMoleculeStrings.KIT_LABEL, kitCollectionModel.getCurrentKitIndex() + 1 ) );
+                }
+            } );
+            setOffset( nextKitNode.getFullBounds().getX() - getFullBounds().getWidth() - KIT_LABEL_ARROW_PADDING, kitViewBounds.getY() + KIT_LABEL_Y_OFFSET );
+        }};
+        addChild( kitLabel );
+
+        /*---------------------------------------------------------------------------*
+        * previous kit
+        *----------------------------------------------------------------------------*/
+
+        final PhetPPath previousKitNode = new PhetPPath( new Path2D.Double() {{
+            // triangle pointing to the left
+            moveTo( 0, 12 );
+            lineTo( 17, 0 );
+            lineTo( 17, 24 );
+            closePath();
+        }} ) {{
+            setPaint( BuildAMoleculeConstants.KIT_ARROW_BACKGROUND_ENABLED );
+            setStrokePaint( BuildAMoleculeConstants.KIT_ARROW_BORDER_ENABLED );
+            addInputEventListener( new CursorHandler() {
+                @Override
+                public void mouseClicked( PInputEvent event ) {
+                    if ( kitCollectionModel.hasPreviousKit() ) {
+                        kitCollectionModel.previousKit();
+                    }
+                }
+            } );
+            setOffset( kitLabel.getFullBounds().getX() - getFullBounds().getWidth() - KIT_LABEL_ARROW_PADDING, kitViewBounds.getY() + KIT_LABEL_Y_OFFSET );
+            kitCollectionModel.getCurrentKitProperty().addObserver( new SimpleObserver() {
+                public void update() {
+                    setVisible( kitCollectionModel.hasPreviousKit() );
+                }
+            } );
+        }};
+        addChild( previousKitNode );
 
         /*---------------------------------------------------------------------------*
         * reset kit
@@ -147,7 +147,7 @@ public class KitPanel extends PNode {
                 kitCollectionModel.getCurrentKitProperty().addObserver( observer );
             }
         } ) {{
-            setOffset( kitViewBounds.getMaxX() - getFullBounds().getWidth() - 5, kitViewBounds.getY() + 5 );
+            setOffset( kitViewBounds.getMaxX() - getFullBounds().getWidth() - 5, kitViewBounds.getMaxY() - getFullBounds().getHeight() - 5 );
         }};
         addChild( resetKitNode );
     }
