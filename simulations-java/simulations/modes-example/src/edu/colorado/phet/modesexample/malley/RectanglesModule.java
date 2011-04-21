@@ -5,8 +5,6 @@ package edu.colorado.phet.modesexample.malley;
 import java.awt.*;
 import java.util.ArrayList;
 
-import javax.swing.*;
-
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -65,18 +63,7 @@ public class RectanglesModule extends PiccoloModule {
         // when the mode changes, change the play area
         currentMode.addObserver( new SimpleObserver() {
             public void update() {
-                // This bit of code is borrowed from GravityAndOrbitsModule.
-                // TODO Need to make canvas switching more transparent to applications.
-                SwingUtilities.invokeLater( new Runnable() {
-                    public void run() {
-                        setSimulationPanel( currentMode.getValue().canvas );
-                        if ( frame != null ) {
-                            frame.invalidate();
-                            frame.validate();
-                            frame.doLayout();
-                        }
-                    }
-                } );
+                setSimulationPanel( currentMode.getValue().canvas );
             }
         } );
     }
