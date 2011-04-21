@@ -83,7 +83,29 @@ public class CompleteMolecule {
     }
 
     public String getCommonName() {
-        return commonName;
+        String ret = commonName;
+        if ( ret.startsWith( "molecular " ) ) {
+            ret = ret.substring( "molecular ".length() );
+        }
+        return capitalize( ret );
+    }
+
+    private String capitalize( String str ) {
+        char[] characters = str.toCharArray();
+        boolean lastWasSpace = true;
+        for ( int i = 0; i < characters.length; i++ ) {
+            char character = characters[i];
+            if ( Character.isWhitespace( character ) ) {
+                lastWasSpace = true;
+            }
+            else {
+                if ( lastWasSpace && Character.isLetter( character ) && Character.isLowerCase( character ) ) {
+                    characters[i] = Character.toUpperCase( character );
+                }
+                lastWasSpace = false;
+            }
+        }
+        return String.valueOf( characters );
     }
 
     private void setCommonName( String commonName ) {
@@ -202,7 +224,11 @@ public class CompleteMolecule {
     }
 
     public static CompleteMolecule getMoleculeByName( String name ) {
-        return moleculeMap.get( name );
+        CompleteMolecule ret = moleculeMap.get( name );
+        if ( ret == null ) {
+            System.out.println( "WARNING: could not find molecule with name: " + name );
+        }
+        return ret;
     }
 
     public static List<CompleteMolecule> getAllCompleteMolecules() {
@@ -299,36 +325,36 @@ public class CompleteMolecule {
     * molecule references and customized names
     *----------------------------------------------------------------------------*/
 
-    public static final CompleteMolecule CO2 = getMoleculeByName( "carbon dioxide" );
-    public static final CompleteMolecule H2O = getMoleculeByName( "water" );
-    public static final CompleteMolecule N2 = getMoleculeByName( "molecular nitrogen" );
-    public static final CompleteMolecule CO = getMoleculeByName( "carbon monoxide" );
-    public static final CompleteMolecule O2 = getMoleculeByName( "molecular oxygen" );
-    public static final CompleteMolecule H2 = getMoleculeByName( "molecular hydrogen" );
-    public static final CompleteMolecule NH3 = getMoleculeByName( "ammonia" );
+    public static final CompleteMolecule CO2 = getMoleculeByName( "Carbon Dioxide" );
+    public static final CompleteMolecule H2O = getMoleculeByName( "Water" );
+    public static final CompleteMolecule N2 = getMoleculeByName( "Nitrogen" );
+    public static final CompleteMolecule CO = getMoleculeByName( "Carbon Monoxide" );
+    public static final CompleteMolecule NO = getMoleculeByName( "Nitric Oxide" );
+    public static final CompleteMolecule O2 = getMoleculeByName( "Oxygen" );
+    public static final CompleteMolecule H2 = getMoleculeByName( "Hydrogen" );
+    public static final CompleteMolecule Cl2 = getMoleculeByName( "Chlorine" );
+    public static final CompleteMolecule NH3 = getMoleculeByName( "Ammonia" );
+    public static final CompleteMolecule SO2 = getMoleculeByName( "Sulphur Dioxide" );
+    public static final CompleteMolecule HCN = getMoleculeByName( "Hydrogen Cyanide" );
 
     /**
      * Molecules that can be used for collection boxes
      */
     private static final CompleteMolecule[] COLLECTION_BOX_MOLECULES = new CompleteMolecule[] {
-            CO2, H2O, N2, CO, O2, H2, NH3
+            CO2, H2O, N2, CO, O2, H2, NH3, Cl2, NO, SO2, HCN
     };
+
+    static {
+        // TODO: i18n
+        for ( CompleteMolecule m : COLLECTION_BOX_MOLECULES ) {
+            assert ( m != null );
+        }
+    }
 
     private static Random random = new Random( System.currentTimeMillis() );
 
     public static CompleteMolecule pickRandomCollectionBoxMolecule() {
         return COLLECTION_BOX_MOLECULES[random.nextInt( COLLECTION_BOX_MOLECULES.length )];
-    }
-
-    static {
-        // TODO: automatic capitalization?
-        H2O.setCommonName( "Water" );
-        O2.setCommonName( "Oxygen" );
-        H2.setCommonName( "Hydrogen" );
-        CO2.setCommonName( "Carbon Dioxide" );
-        CO.setCommonName( "Carbon Monoxide" );
-        N2.setCommonName( "Nitrogen" );
-        NH3.setCommonName( "Ammonia" );
     }
 
     private static class AtomWrapper {
