@@ -3,6 +3,8 @@
 package edu.colorado.phet.buildamolecule;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
@@ -155,6 +157,13 @@ public class BuildAMoleculeApplication extends PiccoloPhetApplication {
         // Developer menu
         JMenu developerMenu = frame.getDeveloperMenu();
         // add items to the Developer menu here...
+        developerMenu.add( new JMenuItem( "Show Table of Molecules" ) {{
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    new MoleculeTableDialog( getPhetFrame() ).setVisible( true );
+                }
+            } );
+        }} );
     }
 
     //----------------------------------------------------------------------------
