@@ -51,10 +51,17 @@ public class MoleculeNode extends PNode {
         final Property<Double> currentX = new Property<Double>( 0.0 );
 
         if ( completeMolecule != null ) {
+            /*---------------------------------------------------------------------------*
+            * label with chemical formula and common name
+            *----------------------------------------------------------------------------*/
             addChild( new HTMLNode( completeMolecule.getMoleculeStructure().getGeneralFormulaFragment() + " (" + completeMolecule.getCommonName() + ")" ) {{ // TODO i18n
                 setFont( new PhetFont( 14, true ) );
                 currentX.setValue( currentX.getValue() + getFullBounds().getWidth() + 10 );
             }} );
+
+            /*---------------------------------------------------------------------------*
+            * show 3d button
+            *----------------------------------------------------------------------------*/
             addChild( new PNode() {{
                 addChild( new PImage( PhetCommonResources.getMaximizeButtonImage() ) );
                 addInputEventListener( new CursorHandler() {
@@ -68,6 +75,9 @@ public class MoleculeNode extends PNode {
             }} );
         }
 
+        /*---------------------------------------------------------------------------*
+        * break-up button
+        *----------------------------------------------------------------------------*/
         addChild( new PNode() {{
             addChild( new PImage( PhetCommonResources.getImage( PhetCommonResources.IMAGE_CLOSE_BUTTON ) ) );
             addInputEventListener( new CursorHandler() {
