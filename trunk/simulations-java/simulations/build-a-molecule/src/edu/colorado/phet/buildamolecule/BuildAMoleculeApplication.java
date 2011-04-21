@@ -58,13 +58,13 @@ there is no carbon, STILL put the hydrogen first).
         * HCN not considered organic, so name as regular covalent
         * CH3OH, name shows structure, doesn’t follow either naming convention.
 
-(14): What names should we have for "Sphere fill" or "Ball & Stick"?
+(14): What names should we have for "Sphere fill" or "Ball & Stick" in the 3d view?
 
-(15): Should molecules (once grabbed) show in front of the buckets?
+(15): Should molecules (once grabbed) show in front of the buckets? Currently they show behind the front of the bucket, and can cause glitches!
 
-(16): Change layout of kit "arrows" to far left/right? (where would reset go?)
+(16): Should we change layout of kit "arrows" to far left/right? (where would reset go?) I keep wanting to reach for the "Next kit" on the right side.
 
-(17): How to handle 3D? Design won't handle multiple molecules, so will added + work, and should we only put it on the 3rd tab? Kind of nice on all tabs.
+(17): How to handle 3D? Design won't handle multiple molecules, so will the added "+" to show 3d work, and should we only put it on the 3rd tab? Kind of nice on all tabs.
 
  */
 
