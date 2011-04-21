@@ -45,7 +45,10 @@ public class MoleculeTableDialog extends JDialog {
                 anchor = WEST;
                 insets = new Insets( 4, 4, 4, 4 );
             }};
-            content.add( new JLabel( completeMolecule.getCommonName() ), constraints );
+            content.add( new JTextField( completeMolecule.getCommonName() ) {{
+                setEditable( false );
+                setBorder( null );
+            }}, constraints );
             content.add( new JLabel( "<html>" + completeMolecule.getMoleculeStructure().getGeneralFormulaFragment() + "</html>" ), constraints );
             content.add( new PhetPCanvas() {{
                 setBorder( null );
