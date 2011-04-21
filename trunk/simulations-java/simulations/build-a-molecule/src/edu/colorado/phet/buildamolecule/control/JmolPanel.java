@@ -22,10 +22,16 @@ public class JmolPanel extends JPanel {
             throw new RuntimeException( "Jmol problem: " + errorString );
         }
 
-//        viewer.script( "wireframe off; spacefill on;" ); // space fill
-        //viewer.script( "wireframe 0.2; spacefill 25%" ); // ball and stick
-        //viewer.script( "wireframe off; spacefill 25%" ); // no bonds
-        viewer.script( "wireframe off; spacefill 50%" ); // no bonds
+        setSpaceFill();
+        viewer.script( "spin on;" );
+    }
+
+    public void setSpaceFill() {
+        viewer.script( "wireframe off; spacefill 60%" );
+    }
+
+    public void setBallAndStick() {
+        viewer.script( "wireframe 0.2; spacefill 25%" );
     }
 
     @Override
@@ -35,10 +41,6 @@ public class JmolPanel extends JPanel {
         Rectangle clipBounds = new Rectangle();
         g.getClipBounds( clipBounds );
         viewer.renderScreenImage( g, currentSize, clipBounds );
-    }
-
-    public JmolViewer getViewer() {
-        return viewer;
     }
 
     public static void main( String[] args ) {
