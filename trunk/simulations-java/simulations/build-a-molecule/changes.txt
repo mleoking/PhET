@@ -1,3 +1,7 @@
+Added developer controls to allow generation of all molecules for boxes AND/OR allowing isotopes of the target molecule in collection boxes
+Reset kit fixes
+Moved kit arrows/label and reset button
+Show only molecule name above molecules
 # 0.00.07 (51020) Apr 21, 2011
 4/21/11 Bugfix
 # 0.00.06 (51012) Apr 21, 2011
