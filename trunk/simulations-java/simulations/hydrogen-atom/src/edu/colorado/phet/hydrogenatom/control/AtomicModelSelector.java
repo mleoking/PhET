@@ -1,26 +1,17 @@
 // Copyright 2002-2011, University of Colorado
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
-
 package edu.colorado.phet.hydrogenatom.control;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
 
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -69,23 +60,9 @@ public class AtomicModelSelector extends PhetPNode {
     // Instance data
     //----------------------------------------------------------------------------
 
-    private HTMLNode _billiardBallLabel;
-    private HTMLNode _plumPuddingLabel;
-    private HTMLNode _solarSystemLabel;
-    private HTMLNode _bohrLabel;
-    private HTMLNode _deBroglieLabel;
-    private HTMLNode _schrodingerLabel;
-
-    private PImage _billiardBallButton;
-    private PImage _plumPuddingButton;
-    private PImage _solarSystemButton;
-    private PImage _bohrButton;
-    private PImage _deBroglieButton;
-    private PImage _schrodingerButton;
-
-    private PPath _selectionIndicator;
-
-    private EventListenerList _listenerList;
+    private final ArrayList<ButtonNode> buttons;
+    private final PPath _selectionIndicator;
+    private final EventListenerList _listenerList;
 
     private AtomicModel _selectedModel;
 
@@ -98,115 +75,71 @@ public class AtomicModelSelector extends PhetPNode {
      */
     public AtomicModelSelector() {
 
-        ArrayList<PNode> panelSizeNodes = new ArrayList<PNode>(); // nodes used to determine panel size
+        buttons = new ArrayList<ButtonNode>();
 
         // Fonts
-        Font titleFont = new PhetFont( Font.BOLD,
-                                       HAResources.getInt( "atomicModelSelector.title.font.size", HAConstants.DEFAULT_FONT_SIZE ) );
-        Font continuumFont = new PhetFont( Font.PLAIN,
-                                           HAResources.getInt( "atomicModelSelector.continuum.font.size", HAConstants.DEFAULT_FONT_SIZE ) );
-        Font buttonFont = new PhetFont( Font.BOLD,
-                                        HAResources.getInt( "atomicModelSelector.button.font.size", HAConstants.DEFAULT_FONT_SIZE ) );
+        Font titleFont = new PhetFont( Font.BOLD, HAResources.getInt( "atomicModelSelector.title.font.size", HAConstants.DEFAULT_FONT_SIZE ) );
+        Font continuumFont = new PhetFont( Font.PLAIN, HAResources.getInt( "atomicModelSelector.continuum.font.size", HAConstants.DEFAULT_FONT_SIZE ) );
+        Font buttonFont = new PhetFont( Font.BOLD, HAResources.getInt( "atomicModelSelector.button.font.size", HAConstants.DEFAULT_FONT_SIZE ) );
 
         // Panel
         PImage panel = HAResources.getImageNode( HAConstants.IMAGE_ATOMIC_MODEL_PANEL );
 
         // Title
-        HTMLNode atomicModelLabel = new HTMLNode( HAResources.getString( "label.atomicModel" ) );
-        atomicModelLabel.setFont( titleFont );
-        atomicModelLabel.setHTMLColor( TITLE_COLOR );
-        panelSizeNodes.add( atomicModelLabel );
+        HTMLNode titleNode = new HTMLNode( HAResources.getString( "label.atomicModel" ) );
+        titleNode.setFont( titleFont );
+        titleNode.setHTMLColor( TITLE_COLOR );
 
-        // Continuum min/max labels
+        // Continuum range labels
         PText classicalLabel = new PText( HAResources.getString( "label.classical" ) );
         classicalLabel.setFont( continuumFont );
-        classicalLabel.setTextPaint( CONTINUUM_QUANTUM_COLOR ); // yes, this is correct
+        classicalLabel.setTextPaint( CONTINUUM_QUANTUM_COLOR ); // use opposite color for text
 
         PText quantumLabel = new PText( HAResources.getString( "label.quantum" ) );
         quantumLabel.setFont( continuumFont );
-        quantumLabel.setTextPaint( CONTINUUM_CLASSICAL_COLOR ); // yes, this is correct
-
-        // Button labels
-        _billiardBallLabel = new HTMLNode( HAResources.getString( "button.billiardBall" ) );
-        _billiardBallLabel.setFont( buttonFont );
-        panelSizeNodes.add( _billiardBallLabel );
-
-        _plumPuddingLabel = new HTMLNode( HAResources.getString( "button.plumPudding" ) );
-        _plumPuddingLabel.setFont( buttonFont );
-        panelSizeNodes.add( _plumPuddingLabel );
-
-        _solarSystemLabel = new HTMLNode( HAResources.getString( "button.solarSystem" ) );
-        _solarSystemLabel.setFont( buttonFont );
-        panelSizeNodes.add( _solarSystemLabel );
-
-        _bohrLabel = new HTMLNode( HAResources.getString( "button.bohr" ) );
-        _bohrLabel.setFont( buttonFont );
-        panelSizeNodes.add( _bohrLabel );
-
-        _deBroglieLabel = new HTMLNode( HAResources.getString( "button.deBroglie" ) );
-        _deBroglieLabel.setFont( buttonFont );
-        panelSizeNodes.add( _deBroglieLabel );
-
-        _schrodingerLabel = new HTMLNode( HAResources.getString( "button.schrodinger" ) );
-        _schrodingerLabel.setFont( buttonFont );
-        panelSizeNodes.add( _schrodingerLabel );
+        quantumLabel.setTextPaint( CONTINUUM_CLASSICAL_COLOR ); // use opposite color for text
 
         // Buttons
-        _billiardBallButton = HAResources.getImageNode( HAConstants.IMAGE_BILLIARD_BALL_BUTTON );
-        panelSizeNodes.add( _billiardBallButton );
+        VoidFunction1<AtomicModel> selectionFunction = new VoidFunction1<AtomicModel>() {
+            public void apply( AtomicModel model ) {
+                setSelection( model );
+            }
+        };
+        buttons.add( new ButtonNode( AtomicModel.BILLIARD_BALL, "button.billiardBall", buttonFont, HAConstants.IMAGE_BILLIARD_BALL_BUTTON, selectionFunction ) );
+        buttons.add( new ButtonNode( AtomicModel.PLUM_PUDDING, "button.plumPudding", buttonFont, HAConstants.IMAGE_PLUM_PUDDING_BUTTON, selectionFunction ) );
+        buttons.add( new ButtonNode( AtomicModel.SOLAR_SYSTEM, "button.solarSystem", buttonFont, HAConstants.IMAGE_SOLAR_SYSTEM_BUTTON, selectionFunction ) );
+        buttons.add( new ButtonNode( AtomicModel.BOHR, "button.bohr", buttonFont, HAConstants.IMAGE_BOHR_BUTTON, selectionFunction ) );
+        buttons.add( new ButtonNode( AtomicModel.DEBROGLIE, "button.deBroglie", buttonFont, HAConstants.IMAGE_DEBROGLIE_BUTTON, selectionFunction ) );
+        buttons.add( new ButtonNode( AtomicModel.SCHRODINGER, "button.schrodinger", buttonFont, HAConstants.IMAGE_SCHRODINGER_BUTTON, selectionFunction ) );
 
-        _plumPuddingButton = HAResources.getImageNode( HAConstants.IMAGE_PLUM_PUDDING_BUTTON );
-        panelSizeNodes.add( _plumPuddingButton );
-
-        _solarSystemButton = HAResources.getImageNode( HAConstants.IMAGE_SOLAR_SYSTEM_BUTTON );
-        panelSizeNodes.add( _solarSystemButton );
-
-        _bohrButton = HAResources.getImageNode( HAConstants.IMAGE_BOHR_BUTTON );
-        panelSizeNodes.add( _bohrButton );
-
-        _deBroglieButton = HAResources.getImageNode( HAConstants.IMAGE_DEBROGLIE_BUTTON );
-        panelSizeNodes.add( _deBroglieButton );
-
-        _schrodingerButton = HAResources.getImageNode( HAConstants.IMAGE_SCHRODINGER_BUTTON );
-        panelSizeNodes.add( _schrodingerButton );
-
-        // Panel & continuum sizing
+        // Continuum dimensions
         double continuumWidth = 0;
         double continuumHeight = 0;
         {
-            // Height of the panel
-            double panelHeight = 0;
-            Iterator j = panelSizeNodes.iterator();
-            while ( j.hasNext() ) {
-                PNode node = (PNode) j.next();
-                panelHeight += node.getFullBounds().getHeight();
-            }
-            panelHeight += ( 6 * LABEL_SPACING );
-            panelHeight += ( 7 * BUTTON_SPACING );
-            panelHeight += ( 2 * Y_MARGIN );
-
-            // Width and height of continuum (dependent on panel height)
             double w1 = classicalLabel.getFullBounds().getHeight(); // will be rotated 90 degrees
             double w2 = quantumLabel.getFullBounds().getHeight(); // will be rotated 90 degrees
             continuumWidth = Math.max( w1, w2 ) + 2;
-            continuumHeight = panelHeight - atomicModelLabel.getFullBounds().getHeight() - ( 2 * Y_MARGIN ) - ( 2 * BUTTON_SPACING );
-
-            // Width of the panel (dependent on continuum width)
-            double panelWidth = 0;
-            double maxNodeWidth = 0;
-            Iterator i = panelSizeNodes.iterator();
-            while ( i.hasNext() ) {
-                PNode node = (PNode) i.next();
-                if ( node.getFullBounds().getWidth() > maxNodeWidth ) {
-                    maxNodeWidth = node.getFullBounds().getWidth();
-                }
+            continuumHeight = 0;
+            for ( ButtonNode button : buttons ) {
+                continuumHeight += button.getFullBoundsReference().getHeight();
             }
-            panelWidth += maxNodeWidth;
-            panelWidth += CONTINUUM_SPACING;
-            panelWidth += continuumWidth;
-            panelWidth += ( 2 * X_MARGIN );
+            continuumHeight += ( buttons.size() - 1 ) * BUTTON_SPACING;
+        }
 
-            // Scale the panel
+        // Panel dimensions
+        {
+            // width
+            double maxNodeWidth = titleNode.getFullBoundsReference().getWidth();
+            for ( ButtonNode button : buttons ) {
+                maxNodeWidth = Math.max( maxNodeWidth, button.getFullBoundsReference().getWidth() );
+            }
+            double panelWidth = maxNodeWidth + CONTINUUM_SPACING + continuumWidth + ( 2 * X_MARGIN );
+
+            // height
+            double panelHeight = Y_MARGIN + titleNode.getFullBoundsReference().getHeight() + BUTTON_SPACING + continuumHeight + Y_MARGIN;
+            panelHeight += ( 2 * Y_MARGIN ); // a little extra space at the bottom
+
+            // Scale the panel image
             PBounds pb = panel.getFullBounds();
             double scaleX = panelWidth / pb.getWidth();
             double scaleY = panelHeight / pb.getHeight();
@@ -215,11 +148,11 @@ public class AtomicModelSelector extends PhetPNode {
             panel.setTransform( xform );
         }
 
-        // Selection indicator
+        // Selection indicator, appears behind selected button's image.
         {
             _selectionIndicator = new PPath();
             double w = panel.getFullBounds().getWidth() - continuumWidth - CONTINUUM_SPACING - ( 2 * X_MARGIN );
-            double h = _billiardBallButton.getFullBounds().getHeight() + 4; // Assumes that all buttons are the same size!
+            double h = buttons.get( 0 ).getImageHeight() + 4; // Assumes that all buttons are the same size!
             _selectionIndicator.setPathTo( new Rectangle2D.Double( 0, 0, w, h ) );
             _selectionIndicator.setPaint( BUTTON_SELECTED_COLOR );
             _selectionIndicator.setStroke( null );
@@ -250,20 +183,11 @@ public class AtomicModelSelector extends PhetPNode {
 
         // Layout, front to back
         addChild( panel );
-        addChild( atomicModelLabel );
+        addChild( titleNode );
         addChild( _selectionIndicator );
-        addChild( _billiardBallLabel );
-        addChild( _billiardBallButton );
-        addChild( _plumPuddingLabel );
-        addChild( _plumPuddingButton );
-        addChild( _solarSystemLabel );
-        addChild( _solarSystemButton );
-        addChild( _bohrLabel );
-        addChild( _bohrButton );
-        addChild( _deBroglieLabel );
-        addChild( _deBroglieButton );
-        addChild( _schrodingerLabel );
-        addChild( _schrodingerButton );
+        for ( ButtonNode button : buttons ) {
+            addChild( button );
+        }
         addChild( continuumNode );
 
         // Positioning
@@ -271,24 +195,17 @@ public class AtomicModelSelector extends PhetPNode {
             panel.setOffset( 0, 0 );
             double panelWidth = panel.getFullBounds().getWidth();
 
-            atomicModelLabel.setOffset( ( panelWidth - atomicModelLabel.getFullBounds().getWidth() ) / 2, Y_MARGIN );
+            titleNode.setOffset( ( panelWidth - titleNode.getFullBounds().getWidth() ) / 2, Y_MARGIN );
 
-            setOffsetCentered( _billiardBallLabel, atomicModelLabel, panel, continuumNode, BUTTON_SPACING );
-            setOffsetCentered( _billiardBallButton, _billiardBallLabel, panel, continuumNode, LABEL_SPACING );
-            setOffsetCentered( _plumPuddingLabel, _billiardBallButton, panel, continuumNode, BUTTON_SPACING );
-            setOffsetCentered( _plumPuddingButton, _plumPuddingLabel, panel, continuumNode, LABEL_SPACING );
-            setOffsetCentered( _solarSystemLabel, _plumPuddingButton, panel, continuumNode, BUTTON_SPACING );
-            setOffsetCentered( _solarSystemButton, _solarSystemLabel, panel, continuumNode, LABEL_SPACING );
-            setOffsetCentered( _bohrLabel, _solarSystemButton, panel, continuumNode, BUTTON_SPACING );
-            setOffsetCentered( _bohrButton, _bohrLabel, panel, continuumNode, LABEL_SPACING );
-            setOffsetCentered( _deBroglieLabel, _bohrButton, panel, continuumNode, BUTTON_SPACING );
-            setOffsetCentered( _deBroglieButton, _deBroglieLabel, panel, continuumNode, LABEL_SPACING );
-            setOffsetCentered( _schrodingerLabel, _deBroglieButton, panel, continuumNode, BUTTON_SPACING );
-            setOffsetCentered( _schrodingerButton, _schrodingerLabel, panel, continuumNode, LABEL_SPACING );
+            PNode previousNode = titleNode;
+            for ( ButtonNode button : buttons ) {
+                setOffsetCentered( button, previousNode, panel, continuumNode, BUTTON_SPACING );
+                previousNode = button;
+            }
 
             PBounds pb = panel.getFullBounds();
             AffineTransform xform = new AffineTransform();
-            xform.translate( pb.getWidth() - continuumNode.getFullBounds().getHeight() - X_MARGIN, _billiardBallLabel.getFullBounds().getY() );
+            xform.translate( pb.getWidth() - continuumNode.getFullBounds().getHeight() - X_MARGIN, buttons.get( 0 ).getFullBounds().getY() );
             xform.rotate( Math.toRadians( 90 ) );
             xform.translate( 0, -continuumNode.getFullBounds().getHeight() );
             continuumNode.setTransform( xform );
@@ -297,85 +214,12 @@ public class AtomicModelSelector extends PhetPNode {
         // Event handling 
         {
             _listenerList = new EventListenerList();
-
             panel.setPickable( false );
             continuumNode.setPickable( false );
-            atomicModelLabel.setPickable( false );
+            titleNode.setPickable( false );
             classicalLabel.setPickable( false );
             quantumLabel.setPickable( false );
             _selectionIndicator.setPickable( false );
-
-            _billiardBallButton.addInputEventListener( new CursorHandler() );
-            _billiardBallButton.addInputEventListener( new PBasicInputEventHandler() {
-                public void mousePressed( PInputEvent event ) {
-                    setSelection( AtomicModel.BILLIARD_BALL );
-                }
-            } );
-            _billiardBallLabel.addInputEventListener( new PBasicInputEventHandler() {
-                public void mousePressed( PInputEvent event ) {
-                    setSelection( AtomicModel.BILLIARD_BALL );
-                }
-            } );
-
-            _plumPuddingButton.addInputEventListener( new CursorHandler() );
-            _plumPuddingButton.addInputEventListener( new PBasicInputEventHandler() {
-                public void mousePressed( PInputEvent event ) {
-                    setSelection( AtomicModel.PLUM_PUDDING );
-                }
-            } );
-            _plumPuddingLabel.addInputEventListener( new PBasicInputEventHandler() {
-                public void mousePressed( PInputEvent event ) {
-                    setSelection( AtomicModel.PLUM_PUDDING );
-                }
-            } );
-
-            _solarSystemButton.addInputEventListener( new CursorHandler() );
-            _solarSystemButton.addInputEventListener( new PBasicInputEventHandler() {
-                public void mousePressed( PInputEvent event ) {
-                    setSelection( AtomicModel.SOLAR_SYSTEM );
-                }
-            } );
-            _solarSystemLabel.addInputEventListener( new PBasicInputEventHandler() {
-                public void mousePressed( PInputEvent event ) {
-                    setSelection( AtomicModel.SOLAR_SYSTEM );
-                }
-            } );
-
-            _bohrButton.addInputEventListener( new CursorHandler() );
-            _bohrButton.addInputEventListener( new PBasicInputEventHandler() {
-                public void mousePressed( PInputEvent event ) {
-                    setSelection( AtomicModel.BOHR );
-                }
-            } );
-            _bohrLabel.addInputEventListener( new PBasicInputEventHandler() {
-                public void mousePressed( PInputEvent event ) {
-                    setSelection( AtomicModel.BOHR );
-                }
-            } );
-
-            _deBroglieButton.addInputEventListener( new CursorHandler() );
-            _deBroglieButton.addInputEventListener( new PBasicInputEventHandler() {
-                public void mousePressed( PInputEvent event ) {
-                    setSelection( AtomicModel.DEBROGLIE );
-                }
-            } );
-            _deBroglieLabel.addInputEventListener( new PBasicInputEventHandler() {
-                public void mousePressed( PInputEvent event ) {
-                    setSelection( AtomicModel.DEBROGLIE );
-                }
-            } );
-
-            _schrodingerButton.addInputEventListener( new CursorHandler() );
-            _schrodingerButton.addInputEventListener( new PBasicInputEventHandler() {
-                public void mousePressed( PInputEvent event ) {
-                    setSelection( AtomicModel.SCHRODINGER );
-                }
-            } );
-            _schrodingerLabel.addInputEventListener( new PBasicInputEventHandler() {
-                public void mousePressed( PInputEvent event ) {
-                    setSelection( AtomicModel.SCHRODINGER );
-                }
-            } );
         }
 
         // Default state
@@ -383,8 +227,8 @@ public class AtomicModelSelector extends PhetPNode {
     }
 
     /*
-    * Handles alignment of a button.
-    */
+     * Handles alignment of a button.
+     */
     private void setOffsetCentered( PNode node, PNode nodeAbove, PNode panel, PNode continuumNode, double spacing ) {
         double x = ( panel.getFullBounds().getWidth() - continuumNode.getFullBounds().getHeight() - CONTINUUM_SPACING - node.getFullBounds().getWidth() ) / 2;
         double y = nodeAbove.getFullBounds().getMaxY() + spacing;
@@ -442,13 +286,21 @@ public class AtomicModelSelector extends PhetPNode {
         else if ( _selectedModel == AtomicModel.SCHRODINGER ) {
             resourceName = "label.schrodinger";
         }
+        return HAResources.getString( resourceName );
+    }
 
-        String name = HAResources.getString( resourceName );
-        if ( name.indexOf( "<html>" ) != -1 ) {
-            System.err.println( "WARNING: resource " + resourceName + " should not contain HTML!" );
+    /*
+     * Gets the selected button.
+     */
+    private ButtonNode getSelectedButton() {
+        ButtonNode selectedButton = null;
+        for ( ButtonNode button : buttons ) {
+            if ( button.getModel() == _selectedModel ) {
+                selectedButton = button;
+            }
         }
-
-        return name;
+        assert ( selectedButton != null );
+        return selectedButton;
     }
 
     //----------------------------------------------------------------------------
@@ -461,42 +313,16 @@ public class AtomicModelSelector extends PhetPNode {
     */
     private void updateUI() {
 
-        _billiardBallLabel.setHTMLColor( BUTTON_DESELECTED_COLOR );
-        _plumPuddingLabel.setHTMLColor( BUTTON_DESELECTED_COLOR );
-        _solarSystemLabel.setHTMLColor( BUTTON_DESELECTED_COLOR );
-        _bohrLabel.setHTMLColor( BUTTON_DESELECTED_COLOR );
-        _deBroglieLabel.setHTMLColor( BUTTON_DESELECTED_COLOR );
-        _schrodingerLabel.setHTMLColor( BUTTON_DESELECTED_COLOR );
+        // set selection state of each button
+        for ( ButtonNode button : buttons ) {
+            button.setSelection( _selectedModel );
+        }
 
-        PNode selectedButton = null;
-        if ( _selectedModel == AtomicModel.BILLIARD_BALL ) {
-            selectedButton = _billiardBallButton;
-            _billiardBallLabel.setHTMLColor( BUTTON_SELECTED_COLOR );
-        }
-        else if ( _selectedModel == AtomicModel.PLUM_PUDDING ) {
-            selectedButton = _plumPuddingButton;
-            _plumPuddingLabel.setHTMLColor( BUTTON_SELECTED_COLOR );
-        }
-        else if ( _selectedModel == AtomicModel.SOLAR_SYSTEM ) {
-            selectedButton = _solarSystemButton;
-            _solarSystemLabel.setHTMLColor( BUTTON_SELECTED_COLOR );
-        }
-        else if ( _selectedModel == AtomicModel.BOHR ) {
-            selectedButton = _bohrButton;
-            _bohrLabel.setHTMLColor( BUTTON_SELECTED_COLOR );
-        }
-        else if ( _selectedModel == AtomicModel.DEBROGLIE ) {
-            selectedButton = _deBroglieButton;
-            _deBroglieLabel.setHTMLColor( BUTTON_SELECTED_COLOR );
-        }
-        else if ( _selectedModel == AtomicModel.SCHRODINGER ) {
-            selectedButton = _schrodingerButton;
-            _schrodingerLabel.setHTMLColor( BUTTON_SELECTED_COLOR );
-        }
-        PBounds sbb = selectedButton.getFullBounds();
+        // position the selection indicator behind the selected button's image
+        PBounds sbb = getSelectedButton().getFullBounds();
         PBounds sib = _selectionIndicator.getFullBounds();
         double x = sbb.getX() - ( ( sib.getWidth() - sbb.getWidth() ) / 2 );
-        double y = sbb.getY() - ( ( sib.getHeight() - sbb.getHeight() ) / 2 );
+        double y = sbb.getMaxY() - sib.getHeight() + ( ( sib.getHeight() - getSelectedButton().getImageHeight() ) / 2 );
         _selectionIndicator.setOffset( x, y );
     }
 
@@ -533,6 +359,61 @@ public class AtomicModelSelector extends PhetPNode {
             if ( listeners[i] == ChangeListener.class ) {
                 ( (ChangeListener) listeners[i + 1] ).stateChanged( event );
             }
+        }
+    }
+
+    /*
+     * Button that consists of a label centered above an image.
+     * Origin is at upper-left corner of bounding rectangle.
+     * When the button is pressed, a specified function is called.
+     */
+    private static class ButtonNode extends PNode {
+
+        private final AtomicModel model;
+        private final HTMLNode htmlNode;
+        private final PImage imageNode;
+
+        public ButtonNode( final AtomicModel model, String htmlResourceName, Font font, String imageResourceName, final VoidFunction1<AtomicModel> pressedFunction ) {
+
+            this.model = model;
+
+            // label
+            htmlNode = new HTMLNode( HAResources.getString( htmlResourceName ) );
+            htmlNode.setFont( font );
+            addChild( htmlNode );
+
+            // image
+            imageNode = new PImage( HAResources.getImage( imageResourceName ) );
+            addChild( imageNode );
+
+            // layout, label centered above image
+            double maxWidth = Math.max( htmlNode.getFullBounds().getWidth(), imageNode.getFullBoundsReference().getWidth() );
+            double x = ( maxWidth / 2 ) - ( htmlNode.getFullBoundsReference().getWidth() / 2 );
+            double y = 0;
+            htmlNode.setOffset( x, y );
+            x = ( maxWidth / 2 ) - ( imageNode.getFullBoundsReference().getWidth() / 2 );
+            y = htmlNode.getFullBoundsReference().getMaxY() + LABEL_SPACING;
+            imageNode.setOffset( x, y );
+
+            // events
+            addInputEventListener( new CursorHandler() );
+            addInputEventListener( new PBasicInputEventHandler() {
+                public void mousePressed( PInputEvent event ) {
+                    pressedFunction.apply( model );
+                }
+            } );
+        }
+
+        public void setSelection( AtomicModel model ) {
+            htmlNode.setHTMLColor( model == this.model ? BUTTON_SELECTED_COLOR : BUTTON_DESELECTED_COLOR );
+        }
+
+        public AtomicModel getModel() {
+            return model;
+        }
+
+        public double getImageHeight() {
+            return imageNode.getFullBoundsReference().getHeight();
         }
     }
 }
