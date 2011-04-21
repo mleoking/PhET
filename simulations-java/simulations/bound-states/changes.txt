@@ -1,3 +1,5 @@
+# 1.07.02 (51023) Apr 21, 2011
+# 1.07.01 (51017) Apr 21, 2011
 5/4/10 replace BSAbstractHandle.HighlightHandler with piccolo-phet's PaintHighlightHandler
 # 1.07.00 (40180) Apr 28, 2010
 4/28/10 > restore the time value display
