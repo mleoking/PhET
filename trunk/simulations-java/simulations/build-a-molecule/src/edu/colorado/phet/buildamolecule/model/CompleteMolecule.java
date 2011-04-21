@@ -457,6 +457,7 @@ public class CompleteMolecule {
      */
     public static void main( String[] args ) {
         StringBuilder builder = new StringBuilder();
+        List<String> serializedStructures = new LinkedList<String>();
         // add all possible molecule paths to our allowed structures
         long a = System.currentTimeMillis();
         for ( CompleteMolecule completeMolecule : completeMolecules ) {
@@ -468,8 +469,12 @@ public class CompleteMolecule {
         for ( MoleculeStructure structure : allowedStructures ) {
             if ( findMatchingCompleteMolecule( structure ) == null ) {
                 // it is an intermediate structure
-                builder.append( structure.toSerial() + "\n" );
+                serializedStructures.add( structure.toSerial() );
             }
+        }
+        Collections.sort( serializedStructures );
+        for ( String serializedStructure : serializedStructures ) {
+            builder.append( serializedStructure + "\n" );
         }
         try {
             File outputFile = new File( "structures.txt" );
