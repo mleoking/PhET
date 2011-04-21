@@ -33,7 +33,7 @@ public class CollectionBoxNode extends SwingLayoutNode {
     private final List<PNode> moleculeNodes = new LinkedList<PNode>();
 
     private static final double MOLECULE_PADDING = 5;
-    private Timer blinkTimer = new Timer();
+    private Timer blinkTimer = null;
 
     public CollectionBoxNode( final BuildAMoleculeCanvas canvas, final CollectionBox box, PNode... headerNodes ) {
         super( new GridBagLayout() );
@@ -139,6 +139,7 @@ public class CollectionBoxNode extends SwingLayoutNode {
 
         cancelBlinksInProgress();
 
+        blinkTimer = new Timer();
         blinkTimer.schedule( new TimerTask() {
             @Override
             public void run() {
@@ -152,6 +153,7 @@ public class CollectionBoxNode extends SwingLayoutNode {
 
                     // make sure we don't get called again
                     blinkTimer.cancel();
+                    blinkTimer = null;
                 }
                 else {
                     // toggle state
@@ -176,8 +178,10 @@ public class CollectionBoxNode extends SwingLayoutNode {
 
     private void cancelBlinksInProgress() {
         // stop any previous blinking from happening. don't want double-blinking
-        blinkTimer.cancel();
-        blinkTimer = new Timer();
+        if ( blinkTimer != null ) {
+            blinkTimer.cancel();
+            blinkTimer = null;
+        }
     }
 
     private void centerMoleculesInBlackBox() {
