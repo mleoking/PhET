@@ -18,7 +18,7 @@ Possibly attempt to generate less kits? PENDING feedback
 
 NOTES (questions):
 
-Move reset button from bottom-right (or off bottom, or below)?
+Move reset button from bottom-right (or off bottom, or below)? Or back to the other way? Personally it feels a little weird now that I see it that way.
 
 --- mostly completed (10): For molecular formulas, I was under the impression that the Hill System was the standard, however this gives us "H3N" for "NH3". Is there a
 procedure or set of steps that can be used to get an accurate naming convention? (One way that may work would be to break the Hill convention and if
