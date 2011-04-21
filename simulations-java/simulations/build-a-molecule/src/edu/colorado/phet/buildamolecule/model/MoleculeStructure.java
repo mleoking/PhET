@@ -160,6 +160,22 @@ public class MoleculeStructure {
         return ret;
     }
 
+    public boolean isValid() {
+        return !hasWeirdHydrogenProperties() && !hasLoopsOrIsDisconnected();
+    }
+
+    public boolean hasWeirdHydrogenProperties() {
+        // check for hydrogens that are bonded to more than 1 atom
+        for ( Atom atom : atoms ) {
+            if ( atom.isSameTypeOfAtom( new Atom.H() ) ) {
+                if ( getNeighbors( atom ).size() > 1 ) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     public boolean hasLoopsOrIsDisconnected() {
         Set<Atom> visitedAtoms = new HashSet<Atom>();
         Set<Atom> dirtyAtoms = new HashSet<Atom>();
