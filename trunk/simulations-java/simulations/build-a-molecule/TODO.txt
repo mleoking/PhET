@@ -1,8 +1,9 @@
+* reset kit broken bucket locations now!
+
 Arrow and message that "you can put this in the collection box" at the start. Points to correct collection box.
 Drop-down menu. Options: "Show in 3D", possibly show chemical formula, possibly option to move to collection box
 Close relevant 3d views on: kit switch, break of molecule, or any other way the molecule isn't visible.
 Only show 1 3d view of a particular molecule type at a time
-Add developer option to allow collection box generation of all molecule types (instead of just a subset)
 Talk with translators (Sandor) about translating names. Developer recommendation: translate a subset
 Synchronize colors with Jmol (sulfur and others look different colors in 3d views)
 Bugfix: drag 2 atoms to the far lower-left at the start and they are pushed to cover each other (without bonding)
