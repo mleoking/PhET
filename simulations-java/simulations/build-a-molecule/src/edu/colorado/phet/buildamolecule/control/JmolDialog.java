@@ -28,7 +28,7 @@ public class JmolDialog extends JDialog {
                 group.add( this );
                 addActionListener( new ActionListener() {
                     public void actionPerformed( ActionEvent e ) {
-                        jmolPanel.getViewer().script( "wireframe off; spacefill 50%" );
+                        jmolPanel.setSpaceFill();
                     }
                 } );
             }} );
@@ -36,7 +36,7 @@ public class JmolDialog extends JDialog {
                 group.add( this );
                 addActionListener( new ActionListener() {
                     public void actionPerformed( ActionEvent e ) {
-                        jmolPanel.getViewer().script( "wireframe 0.2; spacefill 25%" );
+                        jmolPanel.setBallAndStick();
                     }
                 } );
             }} );
