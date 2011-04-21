@@ -22,6 +22,7 @@ import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 /*
 TODO:
 
+Sync colors with Jmol
 Bugfix: drag 2 atoms to the far lower-left at the start and they are pushed to cover each other (without bonding)
 Find what molecules say they are "equivalent" to each other
 I18n
