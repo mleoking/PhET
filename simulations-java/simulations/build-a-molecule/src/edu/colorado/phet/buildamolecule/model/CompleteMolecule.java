@@ -366,8 +366,8 @@ public class CompleteMolecule {
     private static final CompleteMolecule[] COLLECTION_BOX_MOLECULES = new CompleteMolecule[] {
             CO2, H2O, N2, CO, O2, H2, NH3, Cl2, NO,
             getMoleculeByName( "Acetylene" ),
-            //TODO: borane
-            //TODO: boron trifluoride
+            getMoleculeByName( "Borane" ),
+            getMoleculeByName( "Trifluoroborane" ),
             getMoleculeByName( "Chloromethane" ),
             getMoleculeByName( "Ethylene" ),
             getMoleculeByName( "Fluorine" ),
