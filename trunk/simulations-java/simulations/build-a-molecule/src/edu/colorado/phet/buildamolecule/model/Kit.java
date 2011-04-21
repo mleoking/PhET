@@ -18,7 +18,7 @@ public class Kit {
     private final List<Bucket> buckets;
     private final List<AtomModel> atoms = new LinkedList<AtomModel>(); // our master list of atoms (in and out of buckets), but not ones in collection boxes
     private final List<AtomModel> atomsInCollectionBox = new LinkedList<AtomModel>(); // atoms in the collection box
-    private final LewisDotModel lewisDotModel; // lewis-dot connections between atoms on the play area
+    private LewisDotModel lewisDotModel; // lewis-dot connections between atoms on the play area
     private final Set<MoleculeStructure> molecules = new HashSet<MoleculeStructure>(); // molecule structures in the play area
     private final Set<Pair<MoleculeStructure, CollectionBox>> removedMolecules = new HashSet<Pair<MoleculeStructure, CollectionBox>>(); // molecule structures that were put into the collection box
     public final Property<Boolean> visible = new Property<Boolean>( false );
@@ -35,7 +35,42 @@ public class Kit {
         this.buckets = new LinkedList<Bucket>( Arrays.asList( buckets ) );
         this.layoutBounds = layoutBounds;
 
+        resetKit();
+
+        // lays out the buckets correctly, and takes care of changing atom positions
+        layoutBuckets( buckets );
+    }
+
+    public void resetKit() {
+        // not resetting visible, since that is not handled by us
+        hasMoleculesInBoxes.reset();
+
+        // take molecules back from the collection boxes
+        for ( Pair<MoleculeStructure, CollectionBox> removedMolecule : removedMolecules ) {
+            removedMolecule._2.removeMolecule( removedMolecule._1 );
+        }
+
+        // send out notifications for all removed molecules
+        for ( MoleculeStructure molecule : new ArrayList<MoleculeStructure>( molecules ) ) {
+            removeMolecule( molecule );
+        }
+
+        // put everything back in buckets
+        atoms.addAll( atomsInCollectionBox );
+        for ( AtomModel atom : atoms ) {
+            // reset the actual atom
+            atom.reset();
+
+            // THEN place it so we overwrite its "bad" position and destination info
+            getBucketForAtomType( atom.getAtomInfo() ).placeAtom( getAtomModel( atom.getAtomInfo() ) );
+        }
+
+        // wipe our internal state
+        atoms.clear();
+        atomsInCollectionBox.clear();
         lewisDotModel = new LewisDotModel();
+        molecules.clear();
+        removedMolecules.clear();
 
         // keep track of all atoms in our kit
         for ( Bucket bucket : buckets ) {
@@ -45,11 +80,9 @@ public class Kit {
                 lewisDotModel.addAtom( atom.getAtomInfo() );
             }
         }
+    }
 
-        /*---------------------------------------------------------------------------*
-        * bucket layout
-        *----------------------------------------------------------------------------*/
-
+    private void layoutBuckets( Bucket[] buckets ) {
         double kitY = getAvailableKitBounds().getCenterY();
         double kitXCenter = getAvailableKitBounds().getCenterX();
 
@@ -67,6 +100,8 @@ public class Kit {
 
         // centers the buckets horizontally within the kit
         for ( Bucket bucket : buckets ) {
+
+            // also note: this moves the atoms also!
             bucket.setPosition( new ImmutableVector2D( bucket.getPosition().getX() - usedWidth / 2 + kitXCenter + bucket.getWidth() / 2, kitY ) );
         }
     }
@@ -277,43 +312,6 @@ public class Kit {
 
     public void removeMoleculeListener( MoleculeListener listener ) {
         moleculeListeners.remove( listener );
-    }
-
-    public void resetKit() {
-        // not resetting visible, since that is not handled by us
-
-        // TODO: improve state simplification so that this isn't such a mess
-
-        // handle moving things from the collection box into play
-        for ( AtomModel atomModel : atomsInCollectionBox ) {
-            atoms.add( atomModel );
-        }
-        atomsInCollectionBox.clear();
-        hasMoleculesInBoxes.reset();
-
-        // pull our atoms into buckets
-        for ( AtomModel atomModel : atoms ) {
-            // reset everything about the atom itself
-            atomModel.reset();
-
-            // reset the bond information we stored about it
-            lewisDotModel.breakBondsOfAtom( atomModel.getAtomInfo() );
-
-            // place it in the correct bucket
-            getBucketForAtomType( atomModel.getAtomInfo() ).placeAtom( getAtomModel( atomModel.getAtomInfo() ) );
-        }
-
-        // finally clear our record of ANY molecules
-        for ( MoleculeStructure molecule : new ArrayList<MoleculeStructure>( molecules ) ) {
-            removeMolecule( molecule );
-        }
-        molecules.clear();
-
-        // conceptually pull our molecules from the boxes (reduce box count)
-        for ( Pair<MoleculeStructure, CollectionBox> removedMolecule : removedMolecules ) {
-            removedMolecule._2.removeMolecule( removedMolecule._1 );
-        }
-        removedMolecules.clear();
     }
 
     public Property<Boolean> getHasMoleculesInBoxes() {

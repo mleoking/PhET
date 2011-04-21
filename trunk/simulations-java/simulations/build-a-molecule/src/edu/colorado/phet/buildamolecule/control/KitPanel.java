@@ -3,7 +3,6 @@ package edu.colorado.phet.buildamolecule.control;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 import java.text.MessageFormat;
 
@@ -16,6 +15,7 @@ import edu.colorado.phet.buildamolecule.model.KitCollectionModel;
 import edu.colorado.phet.buildamolecule.model.MoleculeStructure;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -52,13 +52,13 @@ public class KitPanel extends PNode {
         * next kit
         *----------------------------------------------------------------------------*/
 
-        final PhetPPath nextKitNode = new PhetPPath( new Path2D.Double() {{
+        final PhetPPath nextKitNode = new PhetPPath( new DoubleGeneralPath() {{
             // triangle pointing to the left
             moveTo( 17, 12 );
             lineTo( 0, 0 );
             lineTo( 0, 24 );
             closePath();
-        }} ) {{
+        }}.getGeneralPath() ) {{
             setPaint( BuildAMoleculeConstants.KIT_ARROW_BACKGROUND_ENABLED );
             setStrokePaint( BuildAMoleculeConstants.KIT_ARROW_BORDER_ENABLED );
             addInputEventListener( new CursorHandler() {
@@ -98,13 +98,13 @@ public class KitPanel extends PNode {
         * previous kit
         *----------------------------------------------------------------------------*/
 
-        final PhetPPath previousKitNode = new PhetPPath( new Path2D.Double() {{
+        final PhetPPath previousKitNode = new PhetPPath( new DoubleGeneralPath() {{
             // triangle pointing to the left
             moveTo( 0, 12 );
             lineTo( 17, 0 );
             lineTo( 17, 24 );
             closePath();
-        }} ) {{
+        }}.getGeneralPath() ) {{
             setPaint( BuildAMoleculeConstants.KIT_ARROW_BACKGROUND_ENABLED );
             setStrokePaint( BuildAMoleculeConstants.KIT_ARROW_BORDER_ENABLED );
             addInputEventListener( new CursorHandler() {
