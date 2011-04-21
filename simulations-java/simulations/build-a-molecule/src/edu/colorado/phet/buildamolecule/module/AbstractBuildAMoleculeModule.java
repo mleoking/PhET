@@ -1,15 +1,18 @@
 package edu.colorado.phet.buildamolecule.module;
 
 import java.awt.*;
+import java.util.*;
+import java.util.List;
 
 import edu.colorado.phet.buildamolecule.model.*;
+import edu.colorado.phet.buildamolecule.model.buckets.AtomModel;
 import edu.colorado.phet.buildamolecule.model.buckets.Bucket;
 import edu.colorado.phet.buildamolecule.view.BuildAMoleculeCanvas;
+import edu.colorado.phet.chemistry.model.Atom;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.umd.cs.piccolo.util.PDimension;
-
-import static edu.colorado.phet.buildamolecule.model.buckets.AtomModel.*;
 
 /**
  * Superclass for modules in Build a Molecule. Handles code required for all modules (bounds, canvas handling, and the ability to switch models)
@@ -18,6 +21,8 @@ public abstract class AbstractBuildAMoleculeModule extends PiccoloModule {
     protected final LayoutBounds bounds;
     protected BuildAMoleculeCanvas canvas;
     protected Frame parentFrame;
+
+    private static Random random = new Random( System.currentTimeMillis() );
 
     public AbstractBuildAMoleculeModule( Frame parentFrame, String name, boolean wide ) {
         super( name, new ConstantDtClock( 30 ) );
@@ -33,26 +38,125 @@ public abstract class AbstractBuildAMoleculeModule extends PiccoloModule {
         setSimulationPanel( canvas );
     }
 
-    protected KitCollectionModel generateModel() {
-        // TODO
-        return new KitCollectionModel( bounds ) {{
-            addKit( new Kit( bounds,
-                             new Bucket( new PDimension( 600, 200 ), getClock(), HYDROGEN_FACTORY, 3 ),
-                             new Bucket( new PDimension( 600, 200 ), getClock(), NITROGEN_FACTORY, 3 )
-            ) );
-            addKit( new Kit( bounds,
-                             new Bucket( new PDimension( 400, 200 ), getClock(), HYDROGEN_FACTORY, 4 ),
-                             new Bucket( new PDimension( 450, 200 ), getClock(), OXYGEN_FACTORY, 2 )
-            ) );
-            addKit( new Kit( bounds,
-                             new Bucket( new PDimension( 350, 200 ), getClock(), CARBON_FACTORY, 1 ),
-                             new Bucket( new PDimension( 450, 200 ), getClock(), OXYGEN_FACTORY, 2 )
-            ) );
-            addCollectionBox( new CollectionBox( CompleteMolecule.NH3, 1 ) );
-            addCollectionBox( new CollectionBox( CompleteMolecule.CO2, 1 ) );
-            addCollectionBox( new CollectionBox( CompleteMolecule.H2O, 1 ) );
-            addCollectionBox( new CollectionBox( CompleteMolecule.H2, 1 ) );
-            addCollectionBox( new CollectionBox( CompleteMolecule.N2, 1 ) );
-        }};
+    /**
+     * Generate a group of collection boxes and kits such that the boxes can be filled.
+     *
+     * @param allowMultipleMolecules Whether collection boxes can have more than 1 molecule
+     * @param numBoxes               Number of collection boxes
+     * @return A consistent model
+     */
+    protected KitCollectionModel generateModel( boolean allowMultipleMolecules, int numBoxes ) {
+        final int MAX_IN_BOX = 3;
+
+        Set<CompleteMolecule> usedMolecules = new HashSet<CompleteMolecule>();
+        List<Kit> kits = new LinkedList<Kit>();
+        List<CollectionBox> boxes = new LinkedList<CollectionBox>();
+
+        List<MoleculeStructure> molecules = new LinkedList<MoleculeStructure>(); // store all the molecules that will need to be created
+
+        for ( int i = 0; i < numBoxes; i++ ) {
+            CompleteMolecule molecule = pickRandomMoleculeNotIn( usedMolecules );
+            usedMolecules.add( molecule );
+
+            CollectionBox box = new CollectionBox( molecule, allowMultipleMolecules ? random.nextInt( MAX_IN_BOX ) + 1 : 1 );
+            boxes.add( box );
+
+            // add in that many molecules
+            for ( int j = 0; j < box.getCapacity(); j++ ) {
+                molecules.add( molecule.getMoleculeStructure().getCopy() );
+            }
+        }
+
+        // randomize the molecules that we will pull from
+        Collections.shuffle( molecules );
+
+        // while more molecules to construct are left, create another kit
+        while ( !molecules.isEmpty() ) {
+            List<Bucket> buckets = new LinkedList<Bucket>();
+
+            // pull off the 1st molecule
+            MoleculeStructure molecule = molecules.get( 0 );
+
+            // get the set of atoms that we need
+            Set<String> atomSymbols = new HashSet<String>();
+            for ( Atom atom : molecule.getAtoms() ) {
+                atomSymbols.add( atom.getSymbol() );
+            }
+
+            // TODO: potentially add another type of atom?
+
+            int equivalentMoleculesRemaining = 0;
+            for ( MoleculeStructure moleculeStructure : molecules ) {
+                if ( moleculeStructure.getHillSystemFormulaFragment().equals( molecule.getHillSystemFormulaFragment() ) ) {
+                    equivalentMoleculesRemaining++;
+                }
+            }
+
+            boolean ableToIncreaseMultiple = allowMultipleMolecules && equivalentMoleculesRemaining > 1;
+            int atomMultiple = 1 + ( ableToIncreaseMultiple ? random.nextInt( equivalentMoleculesRemaining ) : 0 );
+
+            // for each type of atom
+            for ( String symbol : atomSymbols ) {
+                // find out how many atoms of this type we need
+                int requiredAtomCount = 0;
+                for ( Atom atom : molecule.getAtoms() ) {
+                    if ( atom.getSymbol().equals( symbol ) ) {
+                        requiredAtomCount++;
+                    }
+                }
+
+                Function0<Atom> atomFactory = AtomModel.getAtomFactoryBySymbol( symbol );
+
+                // create a multiple of the required number of atoms, so they can construct 'atomMultiple' molecules with this
+                int atomCount = requiredAtomCount * atomMultiple;
+
+                // possibly add another, if we can only have 1 molecule per box
+                atomCount += random.nextInt( 1 );
+
+                double atomRadius = atomFactory.apply().getRadius();
+
+                // funky math part. sqrt scales it so that we can get two layers of atoms if the atom count is above 2
+                int bucketWidth = ( (int) ( 2 * atomRadius * Math.sqrt( atomCount - 1 ) ) ) + 350;
+
+                buckets.add( new Bucket( new PDimension( bucketWidth, 200 ), getClock(), atomFactory, atomCount ) );
+            }
+
+            // add the kit
+            kits.add( new Kit( bounds, buckets.toArray( new Bucket[buckets.size()] ) ) );
+
+            // remove our 1 main molecule
+            molecules.remove( molecule );
+            atomMultiple -= 1;
+
+            // TODO: sort through and find out if we can construct another whole atom within our larger margins
+
+            // if we can remove others (due to an atom multiple), remove the others
+            while ( atomMultiple > 0 ) {
+                for ( int i = 0; i < molecules.size(); i++ ) {
+                    if ( molecules.get( i ).getHillSystemFormulaFragment().equals( molecule.getHillSystemFormulaFragment() ) ) {
+                        molecules.remove( i );
+                        break;
+                    }
+                }
+            }
+        }
+
+        KitCollectionModel model = new KitCollectionModel( bounds );
+        for ( Kit kit : kits ) {
+            model.addKit( kit );
+        }
+        for ( CollectionBox box : boxes ) {
+            model.addCollectionBox( box );
+        }
+        return model;
+    }
+
+    private CompleteMolecule pickRandomMoleculeNotIn( Set<CompleteMolecule> molecules ) {
+        while ( true ) {
+            CompleteMolecule molecule = CompleteMolecule.pickRandomCollectionBoxMolecule();
+            if ( !molecules.contains( molecule ) ) {
+                return molecule;
+            }
+        }
     }
 }

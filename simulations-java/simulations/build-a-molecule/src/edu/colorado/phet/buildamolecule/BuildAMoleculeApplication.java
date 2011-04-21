@@ -26,6 +26,7 @@ Check that molecules "pushed" away don't try to bond? BUG BUG when large molecul
 I18n
 Add in the BCE's "ding" when a collection box is filled - possibly? might have issues with that
 Detect alcohols in structures and put in their molecular formula
+Reduce Jmol-caused delay
 
 NOTES (questions):
 
@@ -96,6 +97,8 @@ I'd like to speed up movement when the atom is far from its destination, but kee
 (15): Should molecules (once grabbed) show in front of the buckets?
 
 (16): Change layout of kit "arrows" to far left/right? (where would reset go?)
+
+(17): How to handle 3D? Design won't handle multiple molecules, so will added + work, and should we only put it on the 3rd tab? Kind of nice on all tabs.
 
  */
 

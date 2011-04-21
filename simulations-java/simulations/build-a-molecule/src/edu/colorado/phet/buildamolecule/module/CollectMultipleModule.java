@@ -57,7 +57,7 @@ public class CollectMultipleModule extends AbstractBuildAMoleculeModule {
     @Override protected BuildAMoleculeCanvas buildCanvas( KitCollectionModel model ) {
         return new MoleculeCollectingCanvas( parentFrame, model, false, new VoidFunction0() {
             public void apply() {
-                setModel( generateModel() );
+                setModel( generateModel( true, 4 ) );
             }
         } );
     }
