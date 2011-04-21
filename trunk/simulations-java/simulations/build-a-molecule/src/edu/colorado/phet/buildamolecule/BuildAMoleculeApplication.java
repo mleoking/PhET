@@ -22,8 +22,7 @@ import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 /*
 TODO:
 
-Find what molecules say they are "equivalent" to each other !!!!!!!!!!!! detect loops, this should fix a decent part of the problem?
-Check that molecules "pushed" away don't try to bond? BUG BUG when large molecule group is moved. Hydrogen can bond to hydrogen in some cases!
+Find what molecules say they are "equivalent" to each other
 I18n
 Add in the BCE's "ding" when a collection box is filled - possibly? might have issues with that
 Detect alcohols in structures and put in their molecular formula
