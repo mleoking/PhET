@@ -15,6 +15,6 @@ public class SingleCollectionBoxNode extends CollectionBoxNode {
             // TODO: i18nize
             setFont( new PhetFont( 16, true ) );
         }} );
-        assert ( box.quantity.getValue() == 1 );
+        assert ( box.getCapacity() == 1 );
     }
 }
