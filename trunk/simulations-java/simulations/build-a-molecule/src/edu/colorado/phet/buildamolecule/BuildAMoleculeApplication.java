@@ -27,6 +27,7 @@ I18n
 Add in the BCE's "ding" when a collection box is filled - possibly? might have issues with that
 Detect alcohols in structures and put in their molecular formula
 Reduce Jmol-caused delay
+Speed up atom movement when far away
 
 NOTES (questions):
 
@@ -37,20 +38,14 @@ a sound when a collection box is filled?
     the box outline will stand out more.
     I like the idea of adding a sound, perhaps the single ding sound that’s in BCE game after balancing one of the equations would be good.
 
-(7): For kits and collection boxes (particularly randomly generated ones), is it ok for 1 kit to not completely fill one multiple-molecule collection
-box? For instance, if we want 2 C2H2, a kit with four carbons would require MANY more molecules in our database, so we may want to have a larger
-quantity of kits than collection boxes.
-    I think it will work to have multiple kits necessary to fill the multiple molecule collection boxes. The student yesterday had no trouble (once
-    he figured out he needed to fill the collection boxes) understanding that he may need to flip between kits to find what he needs. He actually was
-    really bummed out when he realized that in the current version, there is not enough of the right atoms to fill the collection boxes! He told me I
-    should let him know what that gets fixed so he can keep playing.
-
 (8): Is the scale of the pseudo-3d molecules in the collection boxes OK? (We can only fit 2 C02s with the current size, but we could increase the
 width of the actual collection boxes a bit safely.
     I think it’s important to have the molecules show as large as possible. What do you think about having the molecules be larger in the first tab,
     and in the second tab start out the same size as in the first tab, but as you add molecules they get smaller (to fit)? Would that look weird? I’m
     also ok with having the boxes be different sizes (for example chloromethane box larger than hydrogen box). We should discuss this further at the
     CHEM meeting, I’m not the best at visualizing these types of changes.
+
+    Personally I would be fine with that!
 
 (9): I am not terribly pleased with the spacing on the 2nd tab collection box labels. The subscripts are farther down and larger than shown in the
 design doc, so the layout gives it more space. Should we either (a) tweak the subscripts to be smaller, (b) try to manually reduce the padding, or
@@ -80,11 +75,6 @@ there is no carbon, STILL put the hydrogen first).
         * NH3, name like organic where the H is second
         * HCN not considered organic, so name as regular covalent
         * CH3OH, name shows structure, doesn’t follow either naming convention.
-
-(11): We currently have no design for the "You have filled all of your collection boxes. Would you like to fill a different set of collection boxes?"
-dialog. Should I add in a prototype, or should we sketch a quick design first?
-    If it’s easy, why don’t you do something like...have a popup box that appears and maybe have the outline for the whole toolbar light up. If you
-    can do that by Thursday, we can all discuss further. Or, if you have a better idea, go for that.
 
 (13): Currently atoms all move with the same speed in different situations (falling back to buckets, moving back to the play area, breaking apart).
 I'd like to speed up movement when the atom is far from its destination, but keep it about the same when it is close (like breaking up). Is that OK?
