@@ -17,14 +17,12 @@ public class JmolPanel extends JPanel {
 
         setPreferredSize( new Dimension( 400, 400 ) );
 
-        assert ( true );
-
         String errorString = viewer.openStringInline( molecule.getCmlData() );
         if ( errorString != null ) {
             throw new RuntimeException( "Jmol problem: " + errorString );
         }
 
-        //viewer.script( "wireframe off; spacefill on;" ); // space fill
+//        viewer.script( "wireframe off; spacefill on;" ); // space fill
         //viewer.script( "wireframe 0.2; spacefill 25%" ); // ball and stick
         //viewer.script( "wireframe off; spacefill 25%" ); // no bonds
         viewer.script( "wireframe off; spacefill 50%" ); // no bonds

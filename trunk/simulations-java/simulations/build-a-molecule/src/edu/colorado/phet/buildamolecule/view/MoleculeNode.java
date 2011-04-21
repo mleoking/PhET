@@ -54,7 +54,7 @@ public class MoleculeNode extends PNode {
                 setFont( new PhetFont( 14, true ) );
             }} );
             contentNode.addChild( new PNode() {{
-                addChild( new PImage( PhetCommonResources.getImage( PhetCommonResources.IMAGE_MAXIMIZE_BUTTON ) ) );
+                addChild( new PImage( PhetCommonResources.getMaximizeButtonImage() ) );
                 addInputEventListener( new CursorHandler() {
                     @Override
                     public void mouseClicked( PInputEvent event ) {
