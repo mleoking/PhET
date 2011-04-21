@@ -334,14 +334,17 @@ public class CompleteMolecule {
     public static final CompleteMolecule H2 = getMoleculeByName( "Hydrogen" );
     public static final CompleteMolecule Cl2 = getMoleculeByName( "Chlorine" );
     public static final CompleteMolecule NH3 = getMoleculeByName( "Ammonia" );
-    public static final CompleteMolecule SO2 = getMoleculeByName( "Sulphur Dioxide" );
-    public static final CompleteMolecule HCN = getMoleculeByName( "Hydrogen Cyanide" );
 
     /**
      * Molecules that can be used for collection boxes
      */
     private static final CompleteMolecule[] COLLECTION_BOX_MOLECULES = new CompleteMolecule[] {
-            CO2, H2O, N2, CO, O2, H2, NH3, Cl2, NO, SO2, HCN
+            CO2, H2O, N2, CO, O2, H2, NH3, Cl2, NO,
+            getMoleculeByName( "Acetylene" ),
+            getMoleculeByName( "Formaldehyde" ),
+            getMoleculeByName( "Isobutane" ),
+            getMoleculeByName( "Hydrogen Cyanide" ),
+            getMoleculeByName( "Sulphur Dioxide" )
     };
 
     static {
