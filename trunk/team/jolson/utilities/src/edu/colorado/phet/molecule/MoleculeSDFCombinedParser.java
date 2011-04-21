@@ -1,10 +1,7 @@
 package edu.colorado.phet.molecule;
 
 import java.io.*;
-import java.util.HashSet;
-import java.util.Properties;
-import java.util.Set;
-import java.util.StringTokenizer;
+import java.util.*;
 
 import edu.colorado.phet.buildtools.util.FileUtils;
 
@@ -37,7 +34,7 @@ public class MoleculeSDFCombinedParser {
         int uniqueAcceptedAtoms = 0;
         Set<String> names = new HashSet<String>();
 
-        StringBuilder moleculeString = new StringBuilder();
+        List<String> molecules = new LinkedList<String>();
 
         try {
 
@@ -173,6 +170,7 @@ public class MoleculeSDFCombinedParser {
                     uniqueAcceptedAtoms++;
                     names.add( name );
 
+                    StringBuilder moleculeString = new StringBuilder();
                     moleculeString.append( name + SEPARATOR + formula + SEPARATOR + atomCount + SEPARATOR + bondCount );
                     for ( AtomInfo atom : atoms ) {
                         moleculeString.append( SEPARATOR );
@@ -183,6 +181,7 @@ public class MoleculeSDFCombinedParser {
                         moleculeString.append( bond.toString() );
                     }
                     moleculeString.append( "\n" );
+                    molecules.add( moleculeString.toString() );
                 }
             }
 
@@ -206,7 +205,12 @@ public class MoleculeSDFCombinedParser {
         System.out.println( "unique names: " + names.size() );
 
         try {
-            FileUtils.writeString( new File( moleculeDir, "molecules.txt" ), moleculeString.toString() );
+            StringBuilder mainBuilder = new StringBuilder();
+            Collections.sort( molecules );
+            for ( String molecule : molecules ) {
+                mainBuilder.append( molecule );
+            }
+            FileUtils.writeString( new File( moleculeDir, "molecules.txt" ), mainBuilder.toString() );
         }
         catch ( IOException e ) {
             e.printStackTrace();
