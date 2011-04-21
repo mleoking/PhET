@@ -9,6 +9,9 @@ import org.jmol.api.JmolViewer;
 
 import edu.colorado.phet.buildamolecule.model.CompleteMolecule;
 
+/**
+ * Displays a 3D molecule structure that can be rotated
+ */
 public class JmolPanel extends JPanel {
     private JmolViewer viewer;
 
