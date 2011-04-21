@@ -143,12 +143,18 @@ class edu.colorado.phet.flashcommon.FlashCommon {
 		preferences = new Preferences();
 
 		// DEVELOPMENT: load the inspector
-		if(getDev()) {
+//		if(getDev()) {
+		if(true) {
+            // TODO: replace back with regular version
+            debug("Development version.\n");
 			inspector = new Inspector();
 		}
 
         if( simStrings.stringExists( "ksu.credits" ) ) {
+            debug("This is a KSU translation. Showing the dialog.\n");
             displayKSULogo();
+        } else {
+            debug("Not a KSU translation\n");
         }
 	}
 
