@@ -92,6 +92,9 @@ I'd like to speed up movement when the atom is far from its destination, but kee
     Sounds good to me. As a note, I noticed that when the student yesterday would break apart molecules, sometimes that atoms would bump into another
     atom and form a molecule spontaneously. The student didn’t seem confused by this, but I’ll bring it up at the meeting.
 
+
+(14): What names should we have for "Sphere fill" or "Ball & Stick"?
+
  */
 
 /**
