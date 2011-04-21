@@ -38,6 +38,17 @@ public abstract class AbstractBuildAMoleculeModule extends PiccoloModule {
         setSimulationPanel( canvas );
     }
 
+    protected KitCollectionModel generateModel() {
+        return null;
+    }
+
+    public void regenerateModelIfPossible() {
+        KitCollectionModel model = generateModel();
+        if ( model != null ) {
+            setModel( model );
+        }
+    }
+
     /**
      * Generate a group of collection boxes and kits such that the boxes can be filled.
      *
@@ -138,6 +149,7 @@ public abstract class AbstractBuildAMoleculeModule extends PiccoloModule {
                         break;
                     }
                 }
+                atomMultiple -= 1;
             }
         }
 
