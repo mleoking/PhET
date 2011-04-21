@@ -27,7 +27,6 @@ I18n
 Add in the BCE's "ding" when a collection box is filled - possibly? might have issues with that
 Detect alcohols in structures and put in their molecular formula
 Reduce Jmol-caused delay
-Speed up atom movement when far away
 
 NOTES (questions):
 
@@ -75,12 +74,6 @@ there is no carbon, STILL put the hydrogen first).
         * NH3, name like organic where the H is second
         * HCN not considered organic, so name as regular covalent
         * CH3OH, name shows structure, doesn’t follow either naming convention.
-
-(13): Currently atoms all move with the same speed in different situations (falling back to buckets, moving back to the play area, breaking apart).
-I'd like to speed up movement when the atom is far from its destination, but keep it about the same when it is close (like breaking up). Is that OK?
-    Sounds good to me. As a note, I noticed that when the student yesterday would break apart molecules, sometimes that atoms would bump into another
-    atom and form a molecule spontaneously. The student didn’t seem confused by this, but I’ll bring it up at the meeting.
-
 
 (14): What names should we have for "Sphere fill" or "Ball & Stick"?
 
