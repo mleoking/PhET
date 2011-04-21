@@ -472,8 +472,6 @@ public class Kit {
             throw new RuntimeException( "WARNING: loop or other invalid structure detected in a molecule" );
         }
 
-        removeMolecule( molA );
-        removeMolecule( molB );
         MoleculeStructure newMolecule = MoleculeStructure.getCombinedMoleculeFromBond( molA, molB, a.getAtomInfo(), b.getAtomInfo() );
 
         // sanity check and debugging information
@@ -489,8 +487,13 @@ public class Kit {
             System.out.println( newMolecule.getDebuggingDump() );
 
             System.out.println( "found: " + CompleteMolecule.isAllowedStructure( newMolecule ) );
+
+            // just exit out for now
+            return;
         }
 
+        removeMolecule( molA );
+        removeMolecule( molB );
         addMolecule( newMolecule );
 
         /*---------------------------------------------------------------------------*
