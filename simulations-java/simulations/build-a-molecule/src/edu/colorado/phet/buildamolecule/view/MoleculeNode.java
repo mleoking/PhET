@@ -11,6 +11,7 @@ import edu.colorado.phet.buildamolecule.model.Kit;
 import edu.colorado.phet.buildamolecule.model.MoleculeStructure;
 import edu.colorado.phet.buildamolecule.model.buckets.AtomModel;
 import edu.colorado.phet.chemistry.model.Atom;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -21,7 +22,6 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PBounds;
-import edu.umd.cs.piccolox.swing.SwingLayoutNode;
 
 /**
  * Displays the molecule name and 'X' to break apart the molecule
@@ -36,8 +36,7 @@ public class MoleculeNode extends PNode {
     private static final double PADDING_BETWEEN_NODE_AND_ATOM = 5;
 
     public MoleculeNode( final Frame parentFrame, final Kit kit, final MoleculeStructure moleculeStructure, ModelViewTransform mvt ) {
-        SwingLayoutNode contentNode = new SwingLayoutNode();
-        addChild( contentNode );
+        // SwingLayoutNode was doing some funky stuff (and wasn't centering), so we're rolling back to manual positioning
         this.kit = kit;
         this.moleculeStructure = moleculeStructure;
         this.mvt = mvt;
@@ -49,11 +48,14 @@ public class MoleculeNode extends PNode {
 
         final CompleteMolecule completeMolecule = moleculeStructure.getMatchingCompleteMolecule();
 
+        final Property<Double> currentX = new Property<Double>( 0.0 );
+
         if ( completeMolecule != null ) {
-            contentNode.addChild( new HTMLNode( completeMolecule.getMoleculeStructure().getGeneralFormulaFragment() + " (" + completeMolecule.getCommonName() + ")" ) {{ // TODO i18n
+            addChild( new HTMLNode( completeMolecule.getMoleculeStructure().getGeneralFormulaFragment() + " (" + completeMolecule.getCommonName() + ")" ) {{ // TODO i18n
                 setFont( new PhetFont( 14, true ) );
+                currentX.setValue( currentX.getValue() + getFullBounds().getWidth() + 10 );
             }} );
-            contentNode.addChild( new PNode() {{
+            addChild( new PNode() {{
                 addChild( new PImage( PhetCommonResources.getMaximizeButtonImage() ) );
                 addInputEventListener( new CursorHandler() {
                     @Override
@@ -61,10 +63,12 @@ public class MoleculeNode extends PNode {
                         JmolDialog.displayMolecule3D( parentFrame, completeMolecule );
                     }
                 } );
+                setOffset( currentX.getValue(), 0 );
+                currentX.setValue( currentX.getValue() + getFullBounds().getWidth() + 5 );
             }} );
         }
 
-        contentNode.addChild( new PNode() {{
+        addChild( new PNode() {{
             addChild( new PImage( PhetCommonResources.getImage( PhetCommonResources.IMAGE_CLOSE_BUTTON ) ) );
             addInputEventListener( new CursorHandler() {
                 @Override
@@ -72,6 +76,7 @@ public class MoleculeNode extends PNode {
                     kit.breakMolecule( moleculeStructure );
                 }
             } );
+            setOffset( currentX.getValue(), 0 );
         }} );
 
         for ( Atom atom : moleculeStructure.getAtoms() ) {
