@@ -40,17 +40,6 @@ width of the actual collection boxes a bit safely.
 
     Personally I would be fine with that!
 
-(9): I am not terribly pleased with the spacing on the 2nd tab collection box labels. The subscripts are farther down and larger than shown in the
-design doc, so the layout gives it more space. Should we either (a) tweak the subscripts to be smaller, (b) try to manually reduce the padding, or
-(c) combine the 1st and 2nd lines somehow, or put the 2nd line to the left of the collection box? We could even put the quantity (e.g. 1NH3) inside
-the collection box on the left, and shift the molecules to the right.
-    I have one suggestion for how the formulas look on the second tab, can the subscript be moved slightly to the right from the letter on the left.
-    It looks to me like the subscript touches the letter to it’s left, and I would rather have a slight amount of space there. Maybe half the distance
-    as is between the coefficient and the formula.
-    On this tab, since the focus is on coefficients versus subscripts, the collection box will always be labeled with the formula, not the full name,
-    so it won’t get much longer. I’m ok with the idea of having the quantity on the same line, as long as it doesn’t distract from, or clutter, the
-    goal formula and coefficient (I guess this would mean that a decent amount of space needs to separate the goal:formula from the quantity amount).
-
 --- mostly completed (10): For molecular formulas, I was under the impression that the Hill System was the standard, however this gives us "H3N" for "NH3". Is there a
 procedure or set of steps that can be used to get an accurate naming convention? (One way that may work would be to break the Hill convention and if
 there is no carbon, STILL put the hydrogen first).
