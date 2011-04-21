@@ -10,6 +10,9 @@ import edu.colorado.phet.buildamolecule.BuildAMoleculeStrings;
 import edu.colorado.phet.buildamolecule.model.CompleteMolecule;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
+/**
+ * A dialog that shows a 3D molecule structure, and allows the user to switch between representation modes
+ */
 public class JmolDialog extends JDialog {
     public JmolDialog( Frame owner, CompleteMolecule molecule ) {
         super( owner );
