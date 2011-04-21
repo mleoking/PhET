@@ -54,7 +54,7 @@ public class MoleculeNode extends PNode {
             /*---------------------------------------------------------------------------*
             * label with chemical formula and common name
             *----------------------------------------------------------------------------*/
-            addChild( new HTMLNode( completeMolecule.getMoleculeStructure().getGeneralFormulaFragment() + " (" + completeMolecule.getCommonName() + ")" ) {{ // TODO i18n
+            addChild( new HTMLNode( completeMolecule.getCommonName() ) {{
                 setFont( new PhetFont( 14, true ) );
                 currentX.setValue( currentX.getValue() + getFullBounds().getWidth() + 10 );
             }} );
