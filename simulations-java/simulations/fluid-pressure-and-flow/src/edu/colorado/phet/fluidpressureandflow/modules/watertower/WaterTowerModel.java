@@ -57,31 +57,6 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
         }
     }
 
-    private void updateFaucet( double dt, double origFluidVolume ) {
-        //emit drops from faucet that will keep the tank at a constant volume (time averaged)
-        double newVolume = waterTower.fluidVolume.getValue();
-        double faucetDropVolume = faucetFlowLevel.automatic.getValue() ?
-                                  origFluidVolume - newVolume :
-                                  faucetFlowLevel.flow.getValue();
-        if ( faucetDropVolume > 0 && !waterTower.isFull() ) {
-            WaterDrop faucetDrop = new WaterDrop( new ImmutableVector2D( -3,//magic number picked based on graphics
-                                                                         WaterTower.MAX_Y + WaterTower.TANK_HEIGHT + 2 ), new ImmutableVector2D( 0, 0 ), faucetDropVolume );
-            faucetDrops.add( faucetDrop );
-            for ( int i = 0; i < dropAddedListeners.size(); i++ ) {
-                dropAddedListeners.get( i ).apply( faucetDrop );
-            }
-        }
-
-        updateWaterDrops( -2,//graphics looked weird if we had them remove at y=0 since the water drops would flicker
-                          waterTowerDrops, dt, new VoidFunction1.Null<WaterDrop>() );
-        updateWaterDrops( waterTower.getWaterShape().getBounds2D().getMaxY(), faucetDrops, dt, new VoidFunction1<WaterDrop>() {
-            public void apply( WaterDrop drop ) {
-                //absorb the water from the faucet and increase the water tower volume
-                waterTower.setFluidVolume( Math.min( waterTower.fluidVolume.getValue() + drop.getVolume(), WaterTower.tankVolume ) );
-            }
-        } );
-    }
-
     private double updateWaterTower() {
         //Compute the velocity of water leaving the water tower at the bottom from Toricelli's theorem
         double velocity = Math.sqrt( 2 * g * waterTower.getWaterLevel() );//Toricelli's theorem, one of the main learning goals of this tab
@@ -115,6 +90,32 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
             waterTower.setFluidVolume( waterTower.fluidVolume.getValue() - drop.getVolume() );
         }
         return origFluidVolume;
+    }
+
+    //Perform any model updates related to the faucet, creating new drops to fall into the water tower and propagating them
+    private void updateFaucet( double dt, double origFluidVolume ) {
+        //emit drops from faucet that will keep the tank at a constant volume (time averaged)
+        double newVolume = waterTower.fluidVolume.getValue();
+        double faucetDropVolume = faucetFlowLevel.automatic.getValue() ?
+                                  origFluidVolume - newVolume :
+                                  faucetFlowLevel.flow.getValue();
+        if ( faucetDropVolume > 0 && !waterTower.isFull() ) {
+            WaterDrop faucetDrop = new WaterDrop( new ImmutableVector2D( -3,//magic number picked based on graphics
+                                                                         WaterTower.MAX_Y + WaterTower.TANK_HEIGHT + 2 ), new ImmutableVector2D( 0, 0 ), faucetDropVolume );
+            faucetDrops.add( faucetDrop );
+            for ( int i = 0; i < dropAddedListeners.size(); i++ ) {
+                dropAddedListeners.get( i ).apply( faucetDrop );
+            }
+        }
+
+        updateWaterDrops( -2,//graphics looked weird if we had them remove at y=0 since the water drops would flicker
+                          waterTowerDrops, dt, new VoidFunction1.Null<WaterDrop>() );
+        updateWaterDrops( waterTower.getWaterShape().getBounds2D().getMaxY(), faucetDrops, dt, new VoidFunction1<WaterDrop>() {
+            public void apply( WaterDrop drop ) {
+                //absorb the water from the faucet and increase the water tower volume
+                waterTower.setFluidVolume( Math.min( waterTower.fluidVolume.getValue() + drop.getVolume(), WaterTower.tankVolume ) );
+            }
+        } );
     }
 
     private void updateWaterDrops( double thresholdY, ArrayList<WaterDrop> waterDrops, double dt, VoidFunction1<WaterDrop> collision ) {
