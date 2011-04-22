@@ -43,10 +43,16 @@ public class Laser {
         emissionPoint.addObserver( clampAngle );
     }
 
+    //Reset all parts of the laser
     public void resetAll() {
         on.reset();
         color.reset();
         wave.reset();
+        resetLocation();
+    }
+
+    //Called if the laser is dropped out of bounds
+    public void resetLocation() {
         emissionPoint.reset();
         pivot.reset();
     }

@@ -9,12 +9,14 @@ import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.bendinglight.BendingLightApplication;
 import edu.colorado.phet.bendinglight.model.Laser;
+import edu.colorado.phet.bendinglight.model.ModelBounds;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.*;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.Function2;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -41,7 +43,8 @@ public class LaserNode extends PNode {
                       final Function1<Double, Double> clampDragAngle,
                       Function2<Shape, Shape, Shape> translationRegion,//Select from the entire region and front region which should be used for translating the laser.  Signature is (full region, front region)=>selection region
                       Function2<Shape, Shape, Shape> rotationRegion, //Select from the entire region and back region which should be used for rotating the laser.  Signature is (full region,back region)=> selected region
-                      String imageName ) {
+                      String imageName,
+                      final ModelBounds modelBounds ) {//For making sure the laser doesn't get rotated out of sight
         //Load the image
         final BufferedImage image = flipY( flipX( BendingLightApplication.RESOURCES.getImage( imageName ) ) );
 
@@ -97,7 +100,10 @@ public class LaserNode extends PNode {
 
         //A drag region is an invisible shape that can be dragged with the mouse for translation or rotation
         class DragRegion extends PhetPPath {
-            DragRegion( Shape shape, Paint fill, final VoidFunction1<DragEvent> eventHandler, final BooleanProperty isMouseOver, final BooleanProperty isDragging ) {
+            DragRegion( Shape shape, Paint fill, final VoidFunction1<DragEvent> eventHandler, final BooleanProperty isMouseOver,
+                        final BooleanProperty isDragging,
+                        final VoidFunction0 dropped//function that will be called when the laser gets dropped, e.g., to ensure it is in a good bounds
+            ) {
                 super( shape, fill );
                 addInputEventListener( new CursorHandler() );
                 addInputEventListener( new BoundedDragHandler( LaserNode.this ) {
@@ -119,6 +125,9 @@ public class LaserNode extends PNode {
                     public void mouseReleased( PInputEvent event ) {
                         super.mouseReleased( event );//call the super since we extend BoundedDragHandler
                         isDragging.setValue( false );
+
+                        //Signify that the laser was dropped so it can be bounds tested.
+                        dropped.apply();
                     }
 
                     public void mousePressed( PInputEvent event ) {
@@ -146,7 +155,7 @@ public class LaserNode extends PNode {
             public void apply( DragEvent event ) {
                 laser.translate( transform.viewToModelDelta( event.delta ) );
             }
-        }, mouseOverTranslationPart, draggingTranslation ) );
+        }, mouseOverTranslationPart, draggingTranslation, new VoidFunction0.Null() ) );
 
         //Add the drag region for rotating the laser
         addChild( new DragRegion( rotationRegion.apply( fullRectangle, backRectangle ), rotationRegionColor, new VoidFunction1<DragEvent>() {
@@ -157,7 +166,14 @@ public class LaserNode extends PNode {
                 double after = clampDragAngle.apply( angle );
                 laser.setAngle( after );
             }
-        }, mouseOverRotationPart, draggingRotation ) );
+        }, mouseOverRotationPart, draggingRotation, new VoidFunction0() {
+            public void apply() {
+                //If the laser's emission point got dropped outside the visible play area, then move it back to its initial location
+                if ( !modelBounds.contains( laser.emissionPoint.getValue() ) ) {
+                    laser.resetLocation();
+                }
+            }
+        } ) );
 
         //Update the transform of the laser when its model data (pivot or emission point) changes
         new RichSimpleObserver() {
