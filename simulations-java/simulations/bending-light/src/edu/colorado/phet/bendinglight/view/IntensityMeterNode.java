@@ -55,8 +55,8 @@ public class IntensityMeterNode extends ToolNode {
             //Make it draggable, but keep it constrained in the play area
             addInputEventListener( new CursorHandler() );
             addInputEventListener( new BoundedDragHandler( IntensityMeterNode.this ) {
-                @Override protected void dragNode( PDimension delta ) {
-                    intensityMeter.translateSensor( transform.viewToModelDelta( delta ) );
+                @Override protected void dragNode( DragEvent event ) {
+                    intensityMeter.translateSensor( transform.viewToModelDelta( event.delta ) );
                 }
             } );
         }};
@@ -72,8 +72,8 @@ public class IntensityMeterNode extends ToolNode {
             //Make it draggable, but keep it constrained in the play area
             addInputEventListener( new CursorHandler() );
             addInputEventListener( new BoundedDragHandler( IntensityMeterNode.this ) {
-                @Override protected void dragNode( PDimension delta ) {
-                    intensityMeter.translateBody( transform.viewToModelDelta( delta ) );
+                @Override protected void dragNode( DragEvent event ) {
+                    intensityMeter.translateBody( transform.viewToModelDelta( event.delta ) );
                 }
             } );
         }};
