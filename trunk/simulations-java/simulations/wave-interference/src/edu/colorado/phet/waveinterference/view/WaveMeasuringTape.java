@@ -19,11 +19,9 @@ import edu.colorado.phet.common.piccolophet.nodes.MeasuringTape;
 public class WaveMeasuringTape extends MeasuringTape {
     private LatticeScreenCoordinates latticeScreenCoordinates;
     private Rectangle2D modelBounds = new Rectangle2D.Double( 0, 0, 30, 30 );
-    private Point2D.Double initialSrc;
-    private Point2D.Double initialDst;
 
     public WaveMeasuringTape( LatticeScreenCoordinates latticeScreenCoordinates, double physicalWidth, double physicalHeight ) {
-        super( new ModelViewTransform2D( new Rectangle( 50, 50 ), new Rectangle( 50, 50 ) ), new Point2D.Double() ,"cm");
+        super( new ModelViewTransform2D( new Rectangle( 50, 50 ), new Rectangle( 50, 50 ) ), new Point2D.Double(), "cm" );
         this.latticeScreenCoordinates = latticeScreenCoordinates;
         latticeScreenCoordinates.addListener( new LatticeScreenCoordinates.Listener() {
             public void mappingChanged() {
@@ -47,14 +45,5 @@ public class WaveMeasuringTape extends MeasuringTape {
     private void updateMapping() {
         ModelViewTransform2D tx = new ModelViewTransform2D( modelBounds, latticeScreenCoordinates.getScreenRect() );
         super.setModelViewTransform2D( tx );
-    }
-
-    public void setLocation( Point2D src, Point2D dst ) {
-        setModelSrc( src );
-        setModelDst( dst );
-    }
-
-    public void reset() {
-        setLocation( initialSrc, initialDst );
     }
 }

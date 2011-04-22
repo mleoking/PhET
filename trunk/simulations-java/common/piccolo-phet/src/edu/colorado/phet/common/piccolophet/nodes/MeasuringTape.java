@@ -40,6 +40,9 @@ public class MeasuringTape extends PhetPNode {
     private EndGraphic endGraphic;
     private ReadoutGraphic readoutGraphic;
 
+    protected Point2D.Double initialSrc;
+    protected Point2D.Double initialDst;
+
     public MeasuringTape( ModelViewTransform2D modelViewTransform2D, Point2D.Double modelSrc ) {
         this( modelViewTransform2D, modelSrc, "m" );
     }
@@ -59,6 +62,9 @@ public class MeasuringTape extends PhetPNode {
         addChild( endGraphic );
         addChild( readoutGraphic );
 
+
+        this.initialSrc = new Point2D.Double( modelSrc.getX(), modelSrc.getY() );
+        this.initialDst = new Point2D.Double( modelDst.getX(), modelDst.getY() );
         update();
     }
 
@@ -257,5 +263,16 @@ public class MeasuringTape extends PhetPNode {
             setPickable( false );
             setChildrenPickable( false );
         }
+    }
+
+    //Set the model location for both start and end points
+    public void setLocation( Point2D src, Point2D dst ) {
+        setModelSrc( src );
+        setModelDst( dst );
+    }
+
+    //Revert to the original location, angle and distance
+    public void reset() {
+        setLocation( initialSrc, initialDst );
     }
 }

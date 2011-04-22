@@ -1,3 +1,4 @@
+Refactored measuring tape to facilitate resetting
 # 1.09.00 (40820) May 17, 2010
 # 1.09.00 (40819) May 17, 2010
 # 1.08.04 (40818) May 17, 2010
