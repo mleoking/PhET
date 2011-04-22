@@ -11,7 +11,7 @@ import edu.colorado.phet.bendinglight.BendingLightStrings;
 import edu.colorado.phet.bendinglight.model.ProtractorModel;
 import edu.colorado.phet.bendinglight.modules.intro.IntroCanvas;
 import edu.colorado.phet.bendinglight.modules.intro.IntroModel;
-import edu.colorado.phet.bendinglight.modules.intro.Tool;
+import edu.colorado.phet.bendinglight.modules.intro.ToolIconNode;
 import edu.colorado.phet.bendinglight.view.BendingLightWavelengthControl;
 import edu.colorado.phet.bendinglight.view.LaserView;
 import edu.colorado.phet.bendinglight.view.ProtractorNode;
@@ -62,7 +62,7 @@ public class MoreToolsCanvas extends IntroCanvas<MoreToolsModel> {
         return new PNode[] { createVelocitySensorTool( resetModel ), createWaveSensorTool( resetModel ) };
     }
 
-    private Tool createWaveSensorTool( ResetModel resetModel ) {
+    private ToolIconNode createWaveSensorTool( ResetModel resetModel ) {
         //Create a model for depicting with the WaveSensorNode
         final Function1.Constant<ImmutableVector2D, Option<Double>> value = new Function1.Constant<ImmutableVector2D, Option<Double>>( new Option.None<Double>() );//Dummy function that always returns None
         final WaveSensor waveSensor = new WaveSensor( new ConstantDtClock(), value, value );
@@ -77,7 +77,7 @@ public class MoreToolsCanvas extends IntroCanvas<MoreToolsModel> {
         final int waveToolHeight = (int) ( waveSensorNode.getFullBounds().getHeight() / waveSensorNode.getFullBounds().getWidth() * ICON_WIDTH );
 
         //Provide a way of generating the WaveSensorNode when dragged out of the toolbox
-        final Tool.NodeFactory waveNodeFactory = new Tool.NodeFactory() {
+        final ToolIconNode.NodeFactory waveNodeFactory = new ToolIconNode.NodeFactory() {
             public WaveSensorNode createNode( ModelViewTransform transform, final Property<Boolean> showTool, final Point2D modelPt ) {
                 //Reset wave sensor positions so that they come out in the right relative location after resetting previous instance
                 model.waveSensor.probe1.position.reset();
@@ -102,10 +102,10 @@ public class MoreToolsCanvas extends IntroCanvas<MoreToolsModel> {
         };
 
         //Create the tool itself for dragging out of the toolbox
-        return new Tool( waveSensorNode.toImage( ICON_WIDTH, waveToolHeight, new Color( 0, 0, 0, 0 ) ), model.waveSensor.visible, transform, this, waveNodeFactory, resetModel, getToolboxBounds() );
+        return new ToolIconNode( waveSensorNode.toImage( ICON_WIDTH, waveToolHeight, new Color( 0, 0, 0, 0 ) ), model.waveSensor.visible, transform, this, waveNodeFactory, resetModel, getToolboxBounds() );
     }
 
-    private Tool createVelocitySensorTool( ResetModel resetModel ) {
+    private ToolIconNode createVelocitySensorTool( ResetModel resetModel ) {
         //Create the VelocitySensorNode to depict in the toolbox
         final Function1<Double, String> formatter = new Function1<Double, String>() {
             public String apply( Double magnitude ) {
@@ -123,7 +123,7 @@ public class MoreToolsCanvas extends IntroCanvas<MoreToolsModel> {
         } );
 
         //Create the NodeFactory which creates the VelocitySensorNode when dragged out of the toolbox
-        final Tool.NodeFactory velocityNodeFactory = new Tool.NodeFactory() {
+        final ToolIconNode.NodeFactory velocityNodeFactory = new ToolIconNode.NodeFactory() {
             public VelocitySensorNode createNode( final ModelViewTransform transform, final Property<Boolean> showTool, final Point2D modelPt ) {
                 model.velocitySensor.position.setValue( new ImmutableVector2D( modelPt ) );
                 return new VelocitySensorNode( transform, model.velocitySensor, arrowScale, new Property<Function1<Double, String>>( formatter ), getBoundedConstraint() ) {{
@@ -139,7 +139,7 @@ public class MoreToolsCanvas extends IntroCanvas<MoreToolsModel> {
         //Create and return the tool for dragging out of the toolbox
         final VelocitySensorNode thumbnailSensorNode = new VelocitySensorNode( transform, new VelocitySensor(), arrowScale, new Property<Function1<Double, String>>( formatter ) );
         final int velocityToolHeight = (int) ( thumbnailSensorNode.getFullBounds().getHeight() / thumbnailSensorNode.getFullBounds().getWidth() * ICON_WIDTH );
-        return new Tool( thumbnailSensorNode.toImage( ICON_WIDTH, velocityToolHeight, new Color( 0, 0, 0, 0 ) ), showVelocitySensor, transform, this, velocityNodeFactory, resetModel, getToolboxBounds() );
+        return new ToolIconNode( thumbnailSensorNode.toImage( ICON_WIDTH, velocityToolHeight, new Color( 0, 0, 0, 0 ) ), showVelocitySensor, transform, this, velocityNodeFactory, resetModel, getToolboxBounds() );
     }
 
     //Gets the bounds in which tools can be dropped back in the toolbox

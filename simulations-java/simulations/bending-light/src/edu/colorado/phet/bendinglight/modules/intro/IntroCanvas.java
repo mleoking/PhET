@@ -147,13 +147,13 @@ public class IntroCanvas<T extends IntroModel> extends BendingLightCanvas<T> {
         } );
 
         //Create a tool for dragging out the protractor
-        final Tool.NodeFactory protractorNodeFactory = new Tool.NodeFactory() {
+        final ToolIconNode.NodeFactory protractorNodeFactory = new ToolIconNode.NodeFactory() {
             public ProtractorNode createNode( ModelViewTransform transform, Property<Boolean> showTool, Point2D model ) {
                 return newProtractorNode( transform, showTool, model );
             }
         };
-        final Tool protractor = new Tool( multiScaleToWidth( RESOURCES.getImage( "protractor.png" ), ToolboxNode.ICON_WIDTH ), showProtractor,
-                                          transform, this, protractorNodeFactory, model, new Function0<Rectangle2D>() {
+        final ToolIconNode protractor = new ToolIconNode( multiScaleToWidth( RESOURCES.getImage( "protractor.png" ), ToolboxNode.ICON_WIDTH ), showProtractor,
+                                                          transform, this, protractorNodeFactory, model, new Function0<Rectangle2D>() {
                     public Rectangle2D apply() {
                         return toolboxNode.getGlobalFullBounds();
                     }
