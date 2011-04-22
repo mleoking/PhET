@@ -33,6 +33,13 @@ public class PrismsModel extends BendingLightModel {
     public final ArrayList<VoidFunction1<Intersection>> intersectionListeners = new ArrayList<VoidFunction1<Intersection>>();//Listen for creation of intersections to show them
     private final ProtractorModel protractorModel = new ProtractorModel( 0, 0 );//Draggable and rotatable protractor
 
+    //Listener that updates the model when the prism shapes change, keep a reference to it so it can be removed to avoid memory leaks on removePrism()
+    private final SimpleObserver updateModel = new SimpleObserver() {
+        public void update() {
+            updateModel();
+        }
+    };
+
     public PrismsModel() {
         super( PI, false, DEFAULT_LASER_DISTANCE_FROM_PIVOT * 0.9 );
         //Recompute the model when any dependencies change
@@ -111,12 +118,14 @@ public class PrismsModel extends BendingLightModel {
 
     //Adds a prism to the model; doesn't signal a "prism added event", adding graphics must be handled by the client that added the prism
     public void addPrism( Prism prism ) {
-        prism.shape.addObserver( new SimpleObserver() {
-            public void update() {
-                updateModel();
-            }
-        } );
+        prism.shape.addObserver( updateModel );
         prisms.add( prism );
+    }
+
+    public void removePrism( Prism prism ) {
+        prisms.remove( prism );
+        prism.shape.removeObserver( updateModel );
+        updateModel();
     }
 
     public Iterable<? extends Prism> getPrisms() {
@@ -262,11 +271,6 @@ public class PrismsModel extends BendingLightModel {
             }
         } );
         return allIntersections.size() == 0 ? null : allIntersections.get( 0 );
-    }
-
-    public void removePrism( Prism prism ) {
-        prisms.remove( prism );
-        updateModel();
     }
 
     @Override protected void clearModel() {

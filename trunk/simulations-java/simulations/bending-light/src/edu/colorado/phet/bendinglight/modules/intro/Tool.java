@@ -28,45 +28,43 @@ import edu.umd.cs.piccolo.util.PBounds;
  * @author Sam Reid
  */
 public class Tool extends PNode {
-    private final Property<Boolean> showTool;//Whether the tool should be shown in the play area (e.g., if it has been dragged out)
+    private final Property<Boolean> showToolInPlayArea;//Whether the tool should be shown in the play area (e.g., if it has been dragged out)
     private final ModelViewTransform transform;
     private final BendingLightCanvas canvas;
     private final NodeFactory nodeMaker;
     private final ResetModel resetModel;
     private final Function0<Rectangle2D> globalToolboxBounds;//For dropping the tool back in the toolbox
+    public boolean dragMultiple = false;
 
     public static interface NodeFactory {
         ToolNode createNode( ModelViewTransform transform, Property<Boolean> visible, Point2D location );
     }
 
     public Tool( final Image thumbnail,
-                 final Property<Boolean> showTool,
+                 final Property<Boolean> showToolInPlayArea,
                  final ModelViewTransform transform,
                  final BendingLightCanvas canvas,
                  final NodeFactory nodeMaker,
                  final ResetModel resetModel,
                  final Function0<Rectangle2D> globalToolboxBounds ) {
-        this.showTool = showTool;
+        this.showToolInPlayArea = showToolInPlayArea;
         this.transform = transform;
         this.canvas = canvas;
         this.nodeMaker = nodeMaker;
         this.resetModel = resetModel;
         this.globalToolboxBounds = globalToolboxBounds;
-
         //Create the thumbnail to show in the toolbox (if the object should be shown)
-        final PImage thumbnailIcon = new PImage( thumbnail ) {{
-            showTool.addObserver( new SimpleObserver() {
+        addChild( new PImage( thumbnail ) {{
+            showToolInPlayArea.addObserver( new SimpleObserver() {
                 public void update() {
-                    setVisible( !showTool.getValue() );
+                    setVisible( !showToolInPlayArea.getValue() );
                 }
             } );
 
             //Add user interaction
             addInputEventListener( new ToolDragListener( this ) );
             addInputEventListener( new CursorHandler() );
-        }};
-
-        addChild( thumbnailIcon );
+        }} );
     }
 
     //Provide a point of abstraction for adding children to a canvas so that they may optionally be put in different layers.
@@ -74,7 +72,7 @@ public class Tool extends PNode {
         canvas.addChild( node );
     }
 
-    //Could not be named removeChild because of conflicts in Tool class
+    //Could not be named removeChild because of conflicts in Tool class//TODO: rename removeChild
     protected void doRemoveChild( BendingLightCanvas canvas, ToolNode node ) {
         canvas.removeChild( node );
     }
@@ -99,12 +97,14 @@ public class Tool extends PNode {
 
         // Create the node and add it to the scene
         @Override public void mousePressed( PInputEvent event ) {
-            showTool.setValue( true );
-            thumbnailIcon.setVisible( false );
+            if ( !dragMultiple ) {
+                showToolInPlayArea.setValue( true );
+                thumbnailIcon.setVisible( false );
+            }
 
             //If the node hasn't already been created, make it now
             if ( node == null ) {
-                node = nodeMaker.createNode( transform, showTool, transform.viewToModel( event.getPositionRelativeTo( canvas.getRootNode() ) ) );
+                node = nodeMaker.createNode( transform, showToolInPlayArea, transform.viewToModel( event.getPositionRelativeTo( canvas.getRootNode() ) ) );
 
                 //Determine if the node is ready to be dropped back in the toolbox
                 final PropertyChangeListener boundChangeListener = new PropertyChangeListener() {
@@ -127,7 +127,7 @@ public class Tool extends PNode {
                     public void mouseReleased( PInputEvent event ) {
                         if ( intersect ) {
                             //Update the model to signify the tool is out of the play area
-                            showTool.setValue( false );
+                            showToolInPlayArea.setValue( false );
 
                             //Show the thumbnail again so it can be dragged out again
                             thumbnailIcon.setVisible( true );
@@ -159,7 +159,7 @@ public class Tool extends PNode {
         //This is when the user drags the object out of the toolbox then drops it right back in the toolbox.
         public void mouseReleased( PInputEvent event ) {
             if ( intersect ) {
-                showTool.setValue( false );
+                showToolInPlayArea.setValue( false );
                 thumbnailIcon.setVisible( true );
                 reset();
                 //TODO: how to remove pcl?
