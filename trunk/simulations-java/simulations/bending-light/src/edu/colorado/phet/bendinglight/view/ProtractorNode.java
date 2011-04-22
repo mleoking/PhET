@@ -6,6 +6,7 @@ import java.awt.geom.*;
 import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.bendinglight.model.ProtractorModel;
+import edu.colorado.phet.bendinglight.modules.intro.BoundedToolDragHandler;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
@@ -76,12 +77,13 @@ public class ProtractorNode extends ToolNode {
             addChild( new PhetPPath( innerBarShape, new Color( 0, 255, 0, 128 ) ) );//For debugging the drag hit area
         }
 
-        //Add a mouse listener for dragging when the inner horizontal bar is dragged
+        //Add a mouse listener for dragging when the drag region (entire body in all tabs, just the inner bar on prism break tab) is dragged
         addChild( new PhetPPath( translateShape.apply( innerBarShape, outerRimShape ), debug ? Color.blue : new Color( 0, 0, 0, 0 ) ) {{
             addInputEventListener( new CursorHandler() );
-            addInputEventListener( new PBasicInputEventHandler() {
-                public void mouseDragged( PInputEvent event ) {
-                    dragAll( event.getDeltaRelativeTo( getParent().getParent() ) );
+            addInputEventListener( new BoundedToolDragHandler( ProtractorNode.this ) {
+                //Drag by changing the associated model element instead of just moving the node around
+                @Override public void dragNode( PDimension delta ) {
+                    dragAll( delta );
                 }
             } );
         }} );
