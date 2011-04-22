@@ -1,3 +1,4 @@
+# 1.14.05 (51046) Apr 21, 2011
 Fixed: reset button should say "reset" instead of "reset all"
 # 1.14.04 (51035) Apr 21, 2011
 Made the blue balloon image the same size as the yellow balloon since the size difference was causing the balloons to overlap the wall, resolves #2816
