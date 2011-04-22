@@ -1,3 +1,4 @@
+Fixed: tools cannot be dragged out of the play area when dragging out of the toolbox
 refactored base class Box for use in VBox and HBox, created HBox class
 Fixed: when dragging tools out of the toolbox they can be dragged out of the visible region
 Constrained velocity sensor node to remain in the play area
