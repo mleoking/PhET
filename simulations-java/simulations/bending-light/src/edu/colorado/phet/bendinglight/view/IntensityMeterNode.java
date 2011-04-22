@@ -7,7 +7,7 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.bendinglight.model.IntensityMeter;
-import edu.colorado.phet.bendinglight.modules.intro.BoundedToolDragHandler;
+import edu.colorado.phet.bendinglight.modules.intro.BoundedDragHandler;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -55,7 +55,7 @@ public class IntensityMeterNode extends ToolNode {
 
             //Make it draggable, but keep it constrained in the play area
             addInputEventListener( new CursorHandler() );
-            addInputEventListener( new BoundedToolDragHandler( IntensityMeterNode.this ) {
+            addInputEventListener( new BoundedDragHandler( IntensityMeterNode.this ) {
                 @Override protected void dragNode( PDimension delta ) {
                     intensityMeter.translateSensor( transform.viewToModelDelta( delta ) );
                 }
@@ -72,7 +72,7 @@ public class IntensityMeterNode extends ToolNode {
 
             //Make it draggable, but keep it constrained in the play area
             addInputEventListener( new CursorHandler() );
-            addInputEventListener( new BoundedToolDragHandler( IntensityMeterNode.this ) {
+            addInputEventListener( new BoundedDragHandler( IntensityMeterNode.this ) {
                 @Override protected void dragNode( PDimension delta ) {
                     intensityMeter.translateBody( transform.viewToModelDelta( delta ) );
                 }

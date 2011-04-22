@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
+import edu.colorado.phet.bendinglight.modules.intro.BoundedDragHandler;
 import edu.colorado.phet.bendinglight.view.WireNode;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -13,8 +14,6 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.ToolNode;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
-import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -69,12 +68,11 @@ public class WaveSensorNode extends ToolNode {
                 }
             } );
 
-            //Add interaction, the body is draggable
+            //Add interaction, the body is draggable, but keep it constrained to stay in the play area
             addInputEventListener( new CursorHandler() );
-            addInputEventListener( new PBasicInputEventHandler() {
-                @Override
-                public void mouseDragged( PInputEvent event ) {
-                    waveSensor.translateBody( transform.viewToModelDelta( event.getDeltaRelativeTo( getParent() ) ) );
+            addInputEventListener( new BoundedDragHandler( WaveSensorNode.this ) {
+                @Override protected void dragNode( PDimension delta ) {
+                    waveSensor.translateBody( transform.viewToModelDelta( delta ) );
                 }
             } );
         }};
@@ -107,12 +105,11 @@ public class WaveSensorNode extends ToolNode {
             //Draw the probe
             addChild( new PImage( RESOURCES.getImage( imageName ) ) );
 
-            //Interaction: translates when dragged
+            //Interaction: translates when dragged, but keep it bounded within the play area
             addInputEventListener( new CursorHandler() );
-            addInputEventListener( new PBasicInputEventHandler() {
-                @Override
-                public void mouseDragged( PInputEvent event ) {
-                    probe.translate( transform.viewToModelDelta( event.getDeltaRelativeTo( getParent() ) ) );
+            addInputEventListener( new BoundedDragHandler( this ) {
+                @Override protected void dragNode( PDimension delta ) {
+                    probe.translate( transform.viewToModelDelta( delta ) );
                 }
             } );
             probe.position.addObserver( new SimpleObserver() {
