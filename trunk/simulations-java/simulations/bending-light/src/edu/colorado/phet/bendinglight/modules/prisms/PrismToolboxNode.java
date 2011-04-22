@@ -11,7 +11,7 @@ import javax.imageio.ImageIO;
 
 import edu.colorado.phet.bendinglight.BendingLightStrings;
 import edu.colorado.phet.bendinglight.modules.intro.HBox;
-import edu.colorado.phet.bendinglight.modules.intro.Tool;
+import edu.colorado.phet.bendinglight.modules.intro.ToolIconNode;
 import edu.colorado.phet.bendinglight.view.BendingLightCanvas;
 import edu.colorado.phet.bendinglight.view.MediumControlPanel;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -43,7 +43,7 @@ public class PrismToolboxNode extends PNode {
 
         //Iterate over the prism prototypes in the model and create a draggable icon for each one
         for ( final Prism prism : getPrismPrototypes() ) {
-            content.addChild( new PrismTool( prism, model, transform, canvas, new Function0<Rectangle2D>() {
+            content.addChild( new PrismIcon( prism, model, transform, canvas, new Function0<Rectangle2D>() {
                 public Rectangle2D apply() {
                     return getGlobalFullBounds();
                 }
@@ -54,9 +54,8 @@ public class PrismToolboxNode extends PNode {
         content.addChild( new MediumControlPanel( canvas, model.prismMedium, BendingLightStrings.OBJECTS, false, model.wavelengthProperty, "0.0000000", 8 ) );
     }
 
-    //TODO: rename Tool and ToolNode, they are confusing.  Rename to ToolIconNode and ToolNode
-    static class PrismTool extends Tool {
-        public PrismTool( final Prism prism, final PrismsModel model, ModelViewTransform transform, PrismsCanvas canvas, final Function0<Rectangle2D> globalToolboxBounds ) {
+    static class PrismIcon extends ToolIconNode {
+        public PrismIcon( final Prism prism, final PrismsModel model, ModelViewTransform transform, PrismsCanvas canvas, final Function0<Rectangle2D> globalToolboxBounds ) {
             super( toThumbnail( prism, model, transform ), new Property<Boolean>( false ) {
                 @Override public void setValue( Boolean value ) {
                     super.setValue( false );

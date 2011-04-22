@@ -20,7 +20,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  *
  * @author Sam Reid
  */
-public class IntensitySensorTool extends Tool {
+public class IntensitySensorTool extends ToolIconNode {
     public IntensitySensorTool( final BendingLightCanvas canvas,
                                 final ModelViewTransform transform,
                                 final IntensityMeter intensityMeter,
@@ -34,7 +34,7 @@ public class IntensitySensorTool extends Tool {
                transform,
                canvas,
                //Factory that creates new IntensityMeterNodes at the right location
-               new Tool.NodeFactory() {
+               new ToolIconNode.NodeFactory() {
                    public IntensityMeterNode createNode( ModelViewTransform transform, Property<Boolean> visible, final Point2D location ) {
                        return new IntensityMeterNode( transform, intensityMeter ) {{
                            //Set the correct relative locations

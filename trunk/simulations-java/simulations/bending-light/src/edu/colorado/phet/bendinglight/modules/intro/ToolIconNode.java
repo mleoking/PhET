@@ -27,7 +27,7 @@ import edu.umd.cs.piccolo.util.PBounds;
  *
  * @author Sam Reid
  */
-public class Tool extends PNode {
+public class ToolIconNode extends PNode {
     private final Property<Boolean> showToolInPlayArea;//Whether the tool should be shown in the play area (e.g., if it has been dragged out)
     private final ModelViewTransform transform;
     private final BendingLightCanvas canvas;
@@ -40,13 +40,13 @@ public class Tool extends PNode {
         ToolNode createNode( ModelViewTransform transform, Property<Boolean> visible, Point2D location );
     }
 
-    public Tool( final Image thumbnail,
-                 final Property<Boolean> showToolInPlayArea,
-                 final ModelViewTransform transform,
-                 final BendingLightCanvas canvas,
-                 final NodeFactory nodeMaker,
-                 final ResetModel resetModel,
-                 final Function0<Rectangle2D> globalToolboxBounds ) {
+    public ToolIconNode( final Image thumbnail,
+                         final Property<Boolean> showToolInPlayArea,
+                         final ModelViewTransform transform,
+                         final BendingLightCanvas canvas,
+                         final NodeFactory nodeMaker,
+                         final ResetModel resetModel,
+                         final Function0<Rectangle2D> globalToolboxBounds ) {
         this.showToolInPlayArea = showToolInPlayArea;
         this.transform = transform;
         this.canvas = canvas;
