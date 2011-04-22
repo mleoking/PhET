@@ -147,7 +147,7 @@ public class IntroCanvas<T extends IntroModel> extends BendingLightCanvas<T> {
         } );
 
         //Create a tool for dragging out the protractor
-        final ToolIconNode.NodeFactory protractorNodeFactory = new ToolIconNode.NodeFactory() {
+        final NodeFactory protractorNodeFactory = new NodeFactory() {
             public ProtractorNode createNode( ModelViewTransform transform, Property<Boolean> showTool, Point2D model ) {
                 return newProtractorNode( transform, showTool, model );
             }

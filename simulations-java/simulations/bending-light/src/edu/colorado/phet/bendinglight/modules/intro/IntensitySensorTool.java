@@ -34,7 +34,7 @@ public class IntensitySensorTool extends ToolIconNode {
                transform,
                canvas,
                //Factory that creates new IntensityMeterNodes at the right location
-               new ToolIconNode.NodeFactory() {
+               new NodeFactory() {
                    public IntensityMeterNode createNode( ModelViewTransform transform, Property<Boolean> visible, final Point2D location ) {
                        return new IntensityMeterNode( transform, intensityMeter ) {{
                            //Set the correct relative locations

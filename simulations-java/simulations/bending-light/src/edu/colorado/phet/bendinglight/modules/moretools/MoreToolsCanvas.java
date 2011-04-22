@@ -11,6 +11,7 @@ import edu.colorado.phet.bendinglight.BendingLightStrings;
 import edu.colorado.phet.bendinglight.model.ProtractorModel;
 import edu.colorado.phet.bendinglight.modules.intro.IntroCanvas;
 import edu.colorado.phet.bendinglight.modules.intro.IntroModel;
+import edu.colorado.phet.bendinglight.modules.intro.NodeFactory;
 import edu.colorado.phet.bendinglight.modules.intro.ToolIconNode;
 import edu.colorado.phet.bendinglight.view.BendingLightWavelengthControl;
 import edu.colorado.phet.bendinglight.view.LaserView;
@@ -77,7 +78,7 @@ public class MoreToolsCanvas extends IntroCanvas<MoreToolsModel> {
         final int waveToolHeight = (int) ( waveSensorNode.getFullBounds().getHeight() / waveSensorNode.getFullBounds().getWidth() * ICON_WIDTH );
 
         //Provide a way of generating the WaveSensorNode when dragged out of the toolbox
-        final ToolIconNode.NodeFactory waveNodeFactory = new ToolIconNode.NodeFactory() {
+        final NodeFactory waveNodeFactory = new NodeFactory() {
             public WaveSensorNode createNode( ModelViewTransform transform, final Property<Boolean> showTool, final Point2D modelPt ) {
                 //Reset wave sensor positions so that they come out in the right relative location after resetting previous instance
                 model.waveSensor.probe1.position.reset();
@@ -123,7 +124,7 @@ public class MoreToolsCanvas extends IntroCanvas<MoreToolsModel> {
         } );
 
         //Create the NodeFactory which creates the VelocitySensorNode when dragged out of the toolbox
-        final ToolIconNode.NodeFactory velocityNodeFactory = new ToolIconNode.NodeFactory() {
+        final NodeFactory velocityNodeFactory = new NodeFactory() {
             public VelocitySensorNode createNode( final ModelViewTransform transform, final Property<Boolean> showTool, final Point2D modelPt ) {
                 model.velocitySensor.position.setValue( new ImmutableVector2D( modelPt ) );
                 return new VelocitySensorNode( transform, model.velocitySensor, arrowScale, new Property<Function1<Double, String>>( formatter ), getBoundedConstraint() ) {{

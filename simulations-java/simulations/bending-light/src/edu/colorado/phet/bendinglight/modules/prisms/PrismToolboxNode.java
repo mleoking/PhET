@@ -11,6 +11,7 @@ import javax.imageio.ImageIO;
 
 import edu.colorado.phet.bendinglight.BendingLightStrings;
 import edu.colorado.phet.bendinglight.modules.intro.HBox;
+import edu.colorado.phet.bendinglight.modules.intro.NodeFactory;
 import edu.colorado.phet.bendinglight.modules.intro.ToolIconNode;
 import edu.colorado.phet.bendinglight.view.BendingLightCanvas;
 import edu.colorado.phet.bendinglight.view.MediumControlPanel;
@@ -64,8 +65,7 @@ public class PrismToolboxNode extends PNode {
                 public ToolNode createNode( ModelViewTransform transform, Property<Boolean> visible, Point2D location ) {
                     return new PrismToolNode( transform, prism.copy(), model, location );
                 }
-            }, model, globalToolboxBounds );
-            dragMultiple = true;
+            }, model, globalToolboxBounds, true );
         }
 
         @Override protected void addChild( BendingLightCanvas canvas, ToolNode node ) {
