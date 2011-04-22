@@ -13,6 +13,7 @@ import edu.colorado.phet.bendinglight.view.BendingLightCanvas;
 import edu.colorado.phet.bendinglight.view.MediumControlPanel;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -25,13 +26,16 @@ import static edu.colorado.phet.bendinglight.modules.prisms.PrismsModel.getPrism
  *
  * @author Sam Reid
  */
-public class PrismToolboxNode extends HBox {
+public class PrismToolboxNode extends PNode {
     public PrismToolboxNode( final PrismsCanvas canvas, final ModelViewTransform transform, final PrismsModel model ) {
         //Create and add Title label for the prism toolbox
         final PText titleLabel = new PText( BendingLightStrings.PRISMS ) {{
             setFont( BendingLightCanvas.labelFont );
         }};
         addChild( titleLabel );
+        HBox content = new HBox();
+        content.setOffset( 0, 5 );//Move it down so it doesn't overlap the title label
+        addChild( content );
 
         //Iterate over the prism prototypes in the model and create a draggable icon for each one
         for ( final Prism prism : getPrismPrototypes() ) {
@@ -102,10 +106,10 @@ public class PrismToolboxNode extends HBox {
                 } );
                 addInputEventListener( new CursorHandler() );
             }};
-            addChild( thumbnail );
+            content.addChild( thumbnail );
         }
 
         //Allow the user to control the type of material in the prisms
-        addChild( new MediumControlPanel( canvas, model.prismMedium, BendingLightStrings.OBJECTS, false, model.wavelengthProperty, "0.0000000", 8 ) );
+        content.addChild( new MediumControlPanel( canvas, model.prismMedium, BendingLightStrings.OBJECTS, false, model.wavelengthProperty, "0.0000000", 8 ) );
     }
 }
