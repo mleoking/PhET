@@ -7,6 +7,7 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.bendinglight.model.IntensityMeter;
+import edu.colorado.phet.bendinglight.modules.intro.BoundedToolDragHandler;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -14,8 +15,6 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.ToolNode;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
-import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -53,10 +52,12 @@ public class IntensityMeterNode extends ToolNode {
                     setOffset( sensorViewPoint.getX() - getFullBounds().getWidth() / 2, sensorViewPoint.getY() - getFullBounds().getHeight() * 0.32 );
                 }
             } );
+
+            //Make it draggable, but keep it constrained in the play area
             addInputEventListener( new CursorHandler() );
-            addInputEventListener( new PBasicInputEventHandler() {
-                public void mouseDragged( PInputEvent event ) {
-                    intensityMeter.translateSensor( transform.viewToModelDelta( event.getDeltaRelativeTo( getParent() ) ) );
+            addInputEventListener( new BoundedToolDragHandler( IntensityMeterNode.this ) {
+                @Override protected void dragNode( PDimension delta ) {
+                    intensityMeter.translateSensor( transform.viewToModelDelta( delta ) );
                 }
             } );
         }};
@@ -68,10 +69,12 @@ public class IntensityMeterNode extends ToolNode {
                     setOffset( transform.modelToView( intensityMeter.bodyPosition.getValue() ).toPoint2D() );
                 }
             } );
+
+            //Make it draggable, but keep it constrained in the play area
             addInputEventListener( new CursorHandler() );
-            addInputEventListener( new PBasicInputEventHandler() {
-                public void mouseDragged( PInputEvent event ) {
-                    intensityMeter.translateBody( transform.viewToModelDelta( event.getDeltaRelativeTo( getParent() ) ) );
+            addInputEventListener( new BoundedToolDragHandler( IntensityMeterNode.this ) {
+                @Override protected void dragNode( PDimension delta ) {
+                    intensityMeter.translateBody( transform.viewToModelDelta( delta ) );
                 }
             } );
         }};

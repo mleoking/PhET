@@ -58,8 +58,9 @@ public class BoundedToolDragHandler extends PBasicInputEventHandler {
     }
 
     //Handles dragging the node.  This method is overrideable since some usages may need to set the position of a model element instead of just translating the pnode
-    protected void dragNode( PDimension globalDelta ) {
-        node.dragAll( new PDimension( globalDelta.getWidth(), globalDelta.getHeight() ) );
+    //Delta is in the coordinate frame of the node itself
+    protected void dragNode( PDimension delta ) {
+        node.dragAll( new PDimension( delta.getWidth(), delta.getHeight() ) );
     }
 
     public void mouseReleased( PInputEvent event ) {
