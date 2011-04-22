@@ -34,10 +34,8 @@ public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> ext
     protected final ModelViewTransform transform;
     public static final PDimension STAGE_SIZE = new PDimension( 1008, 680 );
     private final PNode rootNode;
-    private final FluidPressureAndFlowModule<T> module;
 
-    public FluidPressureAndFlowCanvas( final FluidPressureAndFlowModule module, ModelViewTransform transform ) {
-        this.module = module;
+    public FluidPressureAndFlowCanvas( ModelViewTransform transform ) {
         this.transform = transform;
         setWorldTransformStrategy( new PhetPCanvas.CenteredStage( this, STAGE_SIZE ) );
 

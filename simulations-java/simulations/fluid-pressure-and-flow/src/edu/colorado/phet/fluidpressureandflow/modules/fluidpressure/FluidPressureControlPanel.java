@@ -30,9 +30,4 @@ public class FluidPressureControlPanel<T extends FluidPressureAndFlowModel> exte
     private void addControlFullWidth( JComponent component ) {
         add( component );
     }
-
-    private void addControl( JComponent panel ) {
-        add( panel );
-    }
-
 }

@@ -44,8 +44,6 @@ public class Units {
 
         double toSI( double value );
 
-        String getName();
-
         String getAbbreviation();
 
         public DecimalFormat getDecimalFormat();
@@ -62,10 +60,6 @@ public class Units {
             this.abbreviation = abbreviation;
             this.decimalFormat = decimalFormat;
             linearFunction = new Function.LinearFunction( 0, 1, 0, siToUnitScale );
-        }
-
-        public String getName() {
-            return name;
         }
 
         public String getAbbreviation() {

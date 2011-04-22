@@ -10,7 +10,6 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  *
  * @author Sam Reid
  * @see PressureSensor
- * @see VelocitySensor
  */
 public abstract class Sensor<T> {
 
@@ -29,18 +28,6 @@ public abstract class Sensor<T> {
 
     public ImmutableVector2D getLocation() {
         return location.getValue();
-    }
-
-    public double getX() {
-        return getLocation().getX();
-    }
-
-    public double getY() {
-        return getLocation().getY();
-    }
-
-    public void setLocation( double x, double y ) {
-        location.setValue( new ImmutableVector2D( x, y ) );
     }
 
     public T getValue() {
