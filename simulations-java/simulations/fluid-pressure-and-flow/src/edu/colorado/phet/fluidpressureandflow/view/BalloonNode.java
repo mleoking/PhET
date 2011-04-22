@@ -14,8 +14,8 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.event.RelativeDragHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.fluidpressureandflow.model.Balloon;
-import edu.colorado.phet.fluidpressureandflow.model.Pool;
 import edu.colorado.phet.fluidpressureandflow.model.Units;
+import edu.colorado.phet.fluidpressureandflow.modules.fluidpressure.Pool;
 import edu.umd.cs.piccolo.PNode;
 
 /**

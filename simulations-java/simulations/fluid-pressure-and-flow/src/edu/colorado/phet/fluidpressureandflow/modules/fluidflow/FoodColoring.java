@@ -8,7 +8,6 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
-import edu.colorado.phet.fluidpressureandflow.model.Pipe;
 
 /**
  * @author Sam Reid

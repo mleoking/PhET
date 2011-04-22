@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.fluidpressureandflow.model;
+package edu.colorado.phet.fluidpressureandflow.modules.fluidflow;
 
 import java.awt.*;
 import java.awt.geom.Point2D;

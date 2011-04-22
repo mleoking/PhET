@@ -12,9 +12,9 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.RelativeDragHandler;
 import edu.colorado.phet.common.piccolophet.nodes.ThreeImageNode;
 import edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowApplication;
-import edu.colorado.phet.fluidpressureandflow.model.Pool;
 import edu.colorado.phet.fluidpressureandflow.model.PressureSensor;
 import edu.colorado.phet.fluidpressureandflow.model.Units;
+import edu.colorado.phet.fluidpressureandflow.modules.fluidpressure.Pool;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 

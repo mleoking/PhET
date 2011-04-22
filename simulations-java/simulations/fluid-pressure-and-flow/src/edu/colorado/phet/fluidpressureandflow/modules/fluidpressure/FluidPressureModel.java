@@ -3,7 +3,6 @@ package edu.colorado.phet.fluidpressureandflow.modules.fluidpressure;
 
 import edu.colorado.phet.fluidpressureandflow.model.Balloon;
 import edu.colorado.phet.fluidpressureandflow.model.FluidPressureAndFlowModel;
-import edu.colorado.phet.fluidpressureandflow.model.Pool;
 import edu.colorado.phet.fluidpressureandflow.model.PressureSensor;
 
 /**

@@ -4,7 +4,7 @@ package edu.colorado.phet.fluidpressureandflow.model;
 /**
  * This was a feasibility test for showing a balloon and its compression under different pressures.
  * Currently not used since under real world scenarios the change in size of a balloon would be too small to see
- * But we left this feature here in case we add support for it later.
+ * But we left this feature here in case we add support for it later (or we may use a cartoon scaling to make the effect more apparent).
  *
  * @author Sam Reid
  */

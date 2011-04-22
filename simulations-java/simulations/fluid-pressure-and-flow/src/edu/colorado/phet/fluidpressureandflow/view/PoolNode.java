@@ -17,7 +17,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.fluidpressureandflow.model.Pool;
+import edu.colorado.phet.fluidpressureandflow.modules.fluidpressure.Pool;
 import edu.umd.cs.piccolo.PNode;
 
 /**

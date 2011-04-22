@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.fluidpressureandflow.model;
+package edu.colorado.phet.fluidpressureandflow.modules.fluidflow;
 
 import java.awt.geom.Point2D;
 
@@ -31,6 +31,7 @@ public class CrossSection {
         return bottom.getValue().toPoint2D();
     }
 
+    //Observe both the top and bottom position of the pipe cross section
     public void addObserver( SimpleObserver simpleObserver ) {
         top.addObserver( simpleObserver );
         bottom.addObserver( simpleObserver );
