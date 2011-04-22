@@ -5,7 +5,6 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
-import edu.colorado.phet.bendinglight.view.BresenhamLineAlgorithm;
 import edu.colorado.phet.bendinglight.view.LightRayNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;

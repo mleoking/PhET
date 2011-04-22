@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.bendinglight.view;
+package edu.colorado.phet.bendinglight.modules.prisms;
 
 /**
  * Algorithm that is used to compute pixels hit in the white light algorithm, necessary since we have to

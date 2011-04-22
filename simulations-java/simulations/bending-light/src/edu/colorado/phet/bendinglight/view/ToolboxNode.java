@@ -1,12 +1,12 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.bendinglight.modules.intro;
+package edu.colorado.phet.bendinglight.view;
 
 import java.awt.*;
 
 import edu.colorado.phet.bendinglight.BendingLightStrings;
 import edu.colorado.phet.bendinglight.model.IntensityMeter;
-import edu.colorado.phet.bendinglight.view.BendingLightCanvas;
-import edu.colorado.phet.bendinglight.view.IntensityMeterNode;
+import edu.colorado.phet.bendinglight.modules.intro.IntensitySensorTool;
+import edu.colorado.phet.bendinglight.modules.intro.NormalLine;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;

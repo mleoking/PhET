@@ -11,11 +11,7 @@ import edu.colorado.phet.bendinglight.BendingLightStrings;
 import edu.colorado.phet.bendinglight.model.ProtractorModel;
 import edu.colorado.phet.bendinglight.modules.intro.IntroCanvas;
 import edu.colorado.phet.bendinglight.modules.intro.IntroModel;
-import edu.colorado.phet.bendinglight.modules.intro.NodeFactory;
-import edu.colorado.phet.bendinglight.modules.intro.ToolIconNode;
-import edu.colorado.phet.bendinglight.view.BendingLightWavelengthControl;
-import edu.colorado.phet.bendinglight.view.LaserView;
-import edu.colorado.phet.bendinglight.view.ProtractorNode;
+import edu.colorado.phet.bendinglight.view.*;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.ResetModel;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
@@ -32,7 +28,7 @@ import edu.colorado.phet.common.piccolophet.nodes.VelocitySensor;
 import edu.colorado.phet.common.piccolophet.nodes.VelocitySensorNode;
 import edu.umd.cs.piccolo.PNode;
 
-import static edu.colorado.phet.bendinglight.modules.intro.ToolboxNode.ICON_WIDTH;
+import static edu.colorado.phet.bendinglight.view.ToolboxNode.ICON_WIDTH;
 
 /**
  * Canvas for the "more tools" tab, which adds more tools to the toolbox, and a few more controls for the laser.

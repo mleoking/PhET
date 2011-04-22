@@ -6,7 +6,7 @@ import java.awt.geom.Rectangle2D;
 
 import javax.swing.*;
 
-import edu.colorado.phet.bendinglight.modules.intro.VBox;
+import edu.colorado.phet.bendinglight.view.VBox;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
