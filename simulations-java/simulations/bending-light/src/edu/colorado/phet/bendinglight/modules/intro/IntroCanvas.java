@@ -164,7 +164,7 @@ public class IntroCanvas<T extends IntroModel> extends BendingLightCanvas<T> {
                 canvas.addChildAfterLight( node );
             }
 
-            @Override protected void doRemoveChild( BendingLightCanvas canvas, ToolNode node ) {
+            @Override protected void removeChild( BendingLightCanvas canvas, ToolNode node ) {
                 canvas.removeChildAfterLight( node );
             }
         };

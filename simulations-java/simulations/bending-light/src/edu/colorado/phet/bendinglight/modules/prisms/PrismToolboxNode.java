@@ -63,7 +63,7 @@ public class PrismToolboxNode extends PNode {
             canvas.addChildBehindLight( node );
         }
 
-        @Override protected void doRemoveChild( BendingLightCanvas canvas, ToolNode node ) {
+        @Override protected void removeChild( BendingLightCanvas canvas, ToolNode node ) {
             canvas.removeChildBehindLight( node );
         }
 
