@@ -20,7 +20,6 @@ import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
 import edu.colorado.phet.balloons.common.paint.*;
-import edu.colorado.phet.balloons.common.paint.Painter;
 import edu.colorado.phet.balloons.common.phys2d.DoublePoint;
 import edu.colorado.phet.balloons.common.phys2d.ParticleLaw;
 import edu.colorado.phet.balloons.common.phys2d.Repaint;
@@ -39,7 +38,7 @@ public class BalloonsSimulationPanel extends JPanel {
     private BufferedImage sweaterImage;
     private int wallWidth;
     private JPanel controlPanel;
-	private Wall wall;
+    private Wall wall;
 
     static final int CHARGE_LEVEL = 1;
 
@@ -136,7 +135,7 @@ public class BalloonsSimulationPanel extends JPanel {
         wall = new Wall( showWall, wallChargeBounds, wallBack, plusPainter, minusPainter, blueBalloon, yellowBalloon );
 
         Rectangle dragBounds = new Rectangle( 0, 0, PANEL_WIDTH - balloon.getWidth() - wallWidth, PANEL_HEIGHT - balloon.getHeight() - 55 );
-        BalloonDragger bd = new BalloonDragger( new BalloonPainter[]{blueBalloon, yellowBalloon}, painterPanel, dragBounds, wall );
+        BalloonDragger bd = new BalloonDragger( new BalloonPainter[] { blueBalloon, yellowBalloon }, painterPanel, dragBounds, wall );
         painterPanel.addMouseListener( bd );
         painterPanel.addMouseMotionListener( bd );
 
@@ -192,7 +191,7 @@ public class BalloonsSimulationPanel extends JPanel {
         buttonPanel.add( showNoCharges );
         buttonPanel.add( showDiff );
         buttonPanel.setBorder( createSmoothBorder( BalloonsResources.getString( "BalloonApplet.ChargeDisplay" ) ) );
-        JButton resetBtn = new JButton( PhetCommonResources.getString( PhetCommonResources.STRING_RESET_ALL ) );
+        JButton resetBtn = new JButton( PhetCommonResources.getString( PhetCommonResources.STRING_RESET ) );
         controlPanel.add( resetBtn );
         controlPanel.add( buttonPanel );
 
