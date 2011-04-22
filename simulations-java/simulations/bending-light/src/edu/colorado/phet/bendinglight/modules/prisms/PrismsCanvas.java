@@ -131,6 +131,6 @@ public class PrismsCanvas extends BendingLightCanvas<PrismsModel> {
 
     @Override public void resetAll() {
         super.resetAll();
-        prismLayer.removeAllChildren();//TODO: see PrismToolboxNode for how prism nodes are created and managed; it doesn't use normal MVC pattern
+        prismLayer.removeAllChildren();//see PrismToolboxNode for how prism nodes are created and managed; it doesn't use normal MVC pattern
     }
 }
