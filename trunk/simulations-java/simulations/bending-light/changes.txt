@@ -1,3 +1,4 @@
+Fixed: prisms can be dragged out of the play area
 Fixed: intensity sensor can be dragged out of the play area
 Fixed: protractor can be dragged out of the play area
 Fixed: tools cannot be dragged out of the play area when dragging out of the toolbox

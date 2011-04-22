@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.bendinglight.model.Medium;
+import edu.colorado.phet.bendinglight.view.BoundedDragHandler;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -16,6 +17,7 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.util.PDimension;
 
 import static java.awt.Color.darkGray;
 
@@ -56,11 +58,11 @@ public class PrismNode extends PNode {
                 }
             } );
 
-            //Make it draggable
+            //Make it draggable, but constrain it within the play area
             addInputEventListener( new CursorHandler() );
-            addInputEventListener( new PBasicInputEventHandler() {
-                public void mouseDragged( PInputEvent event ) {
-                    prism.translate( transform.viewToModelDelta( event.getDeltaRelativeTo( getParent() ) ) );
+            addInputEventListener( new BoundedDragHandler( this ) {
+                @Override protected void dragNode( PDimension delta ) {
+                    prism.translate( transform.viewToModelDelta( delta ) );
                 }
             } );
         }} );
@@ -83,6 +85,7 @@ public class PrismNode extends PNode {
                 addInputEventListener( new PBasicInputEventHandler() {
                     double previousAngle;
 
+                    //Store the original angle since rotations are computed as deltas between each event
                     public void mousePressed( PInputEvent event ) {
                         previousAngle = getAngle( event );
                     }
@@ -93,6 +96,7 @@ public class PrismNode extends PNode {
                                                       transform.viewToModel( event.getPositionRelativeTo( getParent() ) ) ).getAngle();
                     }
 
+                    //Drag the prism to rotate it
                     public void mouseDragged( PInputEvent event ) {
                         double angle = getAngle( event );
                         prism.rotate( angle - previousAngle );
