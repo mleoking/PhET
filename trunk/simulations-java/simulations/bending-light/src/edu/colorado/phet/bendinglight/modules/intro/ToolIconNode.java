@@ -2,7 +2,6 @@
 package edu.colorado.phet.bendinglight.modules.intro;
 
 import java.awt.*;
-import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -34,11 +33,7 @@ public class ToolIconNode extends PNode {
     private final NodeFactory nodeMaker;
     private final ResetModel resetModel;
     private final Function0<Rectangle2D> globalToolboxBounds;//For dropping the tool back in the toolbox
-    public boolean dragMultiple = false;
-
-    public static interface NodeFactory {
-        ToolNode createNode( ModelViewTransform transform, Property<Boolean> visible, Point2D location );
-    }
+    private final boolean dragMultiple;//True if multiple copies of the tool can be dragged out
 
     public ToolIconNode( final Image thumbnail,
                          final Property<Boolean> showToolInPlayArea,
@@ -47,12 +42,24 @@ public class ToolIconNode extends PNode {
                          final NodeFactory nodeMaker,
                          final ResetModel resetModel,
                          final Function0<Rectangle2D> globalToolboxBounds ) {
+        this( thumbnail, showToolInPlayArea, transform, canvas, nodeMaker, resetModel, globalToolboxBounds, false );//Only one copy of a tool by default
+    }
+
+    public ToolIconNode( final Image thumbnail,
+                         final Property<Boolean> showToolInPlayArea,
+                         final ModelViewTransform transform,
+                         final BendingLightCanvas canvas,
+                         final NodeFactory nodeMaker,
+                         final ResetModel resetModel,
+                         final Function0<Rectangle2D> globalToolboxBounds,
+                         final boolean dragMultiple ) {
         this.showToolInPlayArea = showToolInPlayArea;
         this.transform = transform;
         this.canvas = canvas;
         this.nodeMaker = nodeMaker;
         this.resetModel = resetModel;
         this.globalToolboxBounds = globalToolboxBounds;
+        this.dragMultiple = dragMultiple;
         //Create the thumbnail to show in the toolbox (if the object should be shown)
         addChild( new PImage( thumbnail ) {{
             showToolInPlayArea.addObserver( new SimpleObserver() {
@@ -103,7 +110,7 @@ public class ToolIconNode extends PNode {
             }
 
             //If the node hasn't already been created, make it now
-            if ( node == null ) {
+            if ( node == null || dragMultiple ) {
                 node = nodeMaker.createNode( transform, showToolInPlayArea, transform.viewToModel( event.getPositionRelativeTo( canvas.getRootNode() ) ) );
 
                 //Determine if the node is ready to be dropped back in the toolbox
