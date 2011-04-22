@@ -36,7 +36,7 @@ public class FaucetNode extends PNode {
         }
     }
 
-    public FaucetNode( ModelViewTransform transform, final FaucetFlowLevel faucetFlowLevel ) {
+    public FaucetNode( ModelViewTransform transform, final FaucetFlowRate faucetFlowLevel ) {
         addChild( new PImage( FluidPressureAndFlowApplication.RESOURCES.getImage( "faucet.png" ) ) {{
             setScale( 0.75 );
             setOffset( -27, 0 );
