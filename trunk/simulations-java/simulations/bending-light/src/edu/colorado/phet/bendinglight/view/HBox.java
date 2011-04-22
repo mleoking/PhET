@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.bendinglight.modules.intro;
+package edu.colorado.phet.bendinglight.view;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
@@ -23,30 +23,30 @@ import edu.umd.cs.piccolo.util.PBounds;
  *
  * @author Sam Reid
  */
-public class VBox extends Box {
-    public VBox() {
+public class HBox extends Box {
+    public HBox() {
         this( 10 );
     }
 
-    //Creates a VBox which lays out nodes vertically.  This constructor invocation is meant to be read with 'code folding' on and a good healthy right margin (like 200)
-    public VBox( int spacing ) {
+    //Creates a VBox which lays out nodes horizontally.  This constructor invocation is meant to be read with 'code folding' on and a good healthy right margin (like 200)
+    public HBox( int spacing ) {
         super( spacing,
-               //Specify the width of the node which is used in determining the overall width of the VBox
-               new Function1<PBounds, Double>() {
-                   public Double apply( PBounds bounds ) {
-                       return bounds.getWidth();
-                   }
-               },
-               //Specify the height of the node, for spacing the nodes vertically
+               //Specify the width of the node which is used in determining the overall height of the HBox
                new Function1<PBounds, Double>() {
                    public Double apply( PBounds bounds ) {
                        return bounds.getHeight();
                    }
                },
+               //Specify the height of the node, for spacing the nodes horizontally
+               new Function1<PBounds, Double>() {
+                   public Double apply( PBounds bounds ) {
+                       return bounds.getWidth();
+                   }
+               },
                //Determine the position to place the node, given its center line, bounds and spaced position
                new Function3<Double, PBounds, Double, Point2D>() {
                    public Point2D apply( Double center, PBounds bounds, Double position ) {
-                       return new Point2D.Double( center - bounds.getWidth() / 2, position );
+                       return new Point2D.Double( position, center - bounds.getHeight() / 2 );
                    }
                } );
     }
@@ -55,7 +55,7 @@ public class VBox extends Box {
     public static void main( String[] args ) {
         new JFrame() {{
             setContentPane( new PhetPCanvas() {{
-                addScreenChild( new ControlPanelNode( new VBox( 5 ) {{
+                addScreenChild( new ControlPanelNode( new HBox( 5 ) {{
                     addChild( new PText( "Testing" ) );
                     addChild( new PImage( new BufferedImage( 100, 100, BufferedImage.TYPE_INT_ARGB_PRE ) {{
                         Graphics2D g2 = createGraphics();

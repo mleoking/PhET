@@ -10,11 +10,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import edu.colorado.phet.bendinglight.BendingLightStrings;
-import edu.colorado.phet.bendinglight.modules.intro.HBox;
-import edu.colorado.phet.bendinglight.modules.intro.NodeFactory;
-import edu.colorado.phet.bendinglight.modules.intro.ToolIconNode;
-import edu.colorado.phet.bendinglight.view.BendingLightCanvas;
-import edu.colorado.phet.bendinglight.view.MediumControlPanel;
+import edu.colorado.phet.bendinglight.view.*;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;

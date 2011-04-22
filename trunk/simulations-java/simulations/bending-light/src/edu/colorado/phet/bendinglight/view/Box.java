@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.bendinglight.modules.intro;
+package edu.colorado.phet.bendinglight.view;
 
 import java.awt.geom.Point2D;
 import java.util.Comparator;

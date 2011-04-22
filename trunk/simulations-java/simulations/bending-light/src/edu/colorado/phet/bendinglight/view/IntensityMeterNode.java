@@ -7,7 +7,6 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.bendinglight.model.IntensityMeter;
-import edu.colorado.phet.bendinglight.modules.intro.BoundedDragHandler;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;

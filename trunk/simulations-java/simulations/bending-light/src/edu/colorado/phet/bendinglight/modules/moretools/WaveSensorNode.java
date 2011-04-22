@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
-import edu.colorado.phet.bendinglight.modules.intro.BoundedDragHandler;
+import edu.colorado.phet.bendinglight.view.BoundedDragHandler;
 import edu.colorado.phet.bendinglight.view.WireNode;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
