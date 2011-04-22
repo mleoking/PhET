@@ -1,9 +1,11 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.fluidpressureandflow.model;
+package edu.colorado.phet.fluidpressureandflow.modules.fluidpressure;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+
+import edu.colorado.phet.fluidpressureandflow.model.Units;
 
 /**
  * The pool is the region of water in which the sensors can be submerged.

@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.fluidpressureandflow.view;
+package edu.colorado.phet.fluidpressureandflow.modules.fluidflow;
 
 import javax.swing.*;
 
@@ -7,6 +7,8 @@ import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.fluidpressureandflow.FPAFStrings;
 import edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowModule;
 import edu.colorado.phet.fluidpressureandflow.model.FluidPressureAndFlowModel;
+import edu.colorado.phet.fluidpressureandflow.view.CheckBox;
+import edu.colorado.phet.fluidpressureandflow.view.UnitsControlPanel;
 
 /**
  * @author Sam Reid
