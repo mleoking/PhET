@@ -100,8 +100,14 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
                                   origFluidVolume - newVolume :
                                   faucetFlowLevel.flow.getValue();
         if ( faucetDropVolume > 0 && !waterTower.isFull() ) {
-            WaterDrop faucetDrop = new WaterDrop( new ImmutableVector2D( -3,//magic number picked based on graphics
-                                                                         WaterTower.MAX_Y + WaterTower.TANK_HEIGHT + 2 ), new ImmutableVector2D( 0, 0 ), faucetDropVolume );
+            //Randomly spread out the water in x and y so it doesn't look so discrete when it falls a long way and separates
+            double spreadX = 0.02;
+            double spreadY = 0.15;
+            double velocitySpreadX = 0.02;
+            double velocitySpreadY = 0.02;
+            WaterDrop faucetDrop = new WaterDrop( new ImmutableVector2D( -3 + random.nextGaussian() * spreadX,//magic number picked based on graphics
+                                                                         WaterTower.MAX_Y + WaterTower.TANK_HEIGHT + 2 + random.nextGaussian() * spreadY ),
+                                                  new ImmutableVector2D( random.nextGaussian() * velocitySpreadX, random.nextGaussian() * velocitySpreadY ), faucetDropVolume );
             faucetDrops.add( faucetDrop );
             for ( int i = 0; i < dropAddedListeners.size(); i++ ) {
                 dropAddedListeners.get( i ).apply( faucetDrop );

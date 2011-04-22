@@ -1,3 +1,4 @@
+Randomly spread out the water in x and y so it doesn't look so discrete when it falls a long way and drops separate
 Fixed: measuring tape doesn't reset
 Removed unused code
 Fixed: Reset All does not reset location of ruler
