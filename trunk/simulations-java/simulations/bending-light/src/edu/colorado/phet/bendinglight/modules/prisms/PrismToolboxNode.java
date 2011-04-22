@@ -4,17 +4,12 @@ package edu.colorado.phet.bendinglight.modules.prisms;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
 
 import edu.colorado.phet.bendinglight.BendingLightStrings;
 import edu.colorado.phet.bendinglight.view.*;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
-import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.piccolophet.nodes.ToolNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -75,14 +70,7 @@ public class PrismToolboxNode extends PNode {
         private static Image toThumbnail( Prism prism, PrismsModel model, ModelViewTransform transform ) {
             PrismNode prismNode = new PrismNode( transform, prism, model.prismMedium );
             final int thumbnailHeight = 70;
-            final Image image = prismNode.toImage( (int) ( prismNode.getFullBounds().getWidth() * thumbnailHeight / prismNode.getFullBounds().getHeight() ), thumbnailHeight, null );
-            try {
-                ImageIO.write( BufferedImageUtils.toBufferedImage( image ), "PNG", new File( "C:/Users/Sam/Desktop/testimage_" + System.currentTimeMillis() + ".png" ) );
-            }
-            catch ( IOException e ) {
-                e.printStackTrace();
-            }
-            return image;
+            return prismNode.toImage( (int) ( prismNode.getFullBounds().getWidth() * thumbnailHeight / prismNode.getFullBounds().getHeight() ), thumbnailHeight, null );
         }
     }
 
