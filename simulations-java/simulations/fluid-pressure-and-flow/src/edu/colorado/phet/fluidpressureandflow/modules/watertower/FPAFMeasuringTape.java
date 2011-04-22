@@ -40,4 +40,9 @@ public class FPAFMeasuringTape extends PNode {
             }
         } );
     }
+
+    //Resets the measuring tape to its default location
+    public void reset() {
+        measuringTape.reset();
+    }
 }

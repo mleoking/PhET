@@ -1,3 +1,4 @@
+Fixed: measuring tape doesn't reset
 Removed unused code
 Fixed: Reset All does not reset location of ruler
 Fixed: Velocity sensors don't change their units to ft/s in any modules, they are always in m/s.

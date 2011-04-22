@@ -1,3 +1,4 @@
+4/22/11 Refactored measuring tape to facilitate resetting
 4/14/11 fix Wavelength control so that it doesn't throw exception when using up/down arrow at the ends of the slider range
 4/8/11 Reformatted according to PhET's IntelliJ code style
 4/7/2011 Made it possible to override the getControlPanelBounds strategy

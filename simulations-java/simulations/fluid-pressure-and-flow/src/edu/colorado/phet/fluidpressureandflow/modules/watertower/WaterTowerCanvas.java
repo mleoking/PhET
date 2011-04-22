@@ -25,6 +25,7 @@ public class WaterTowerCanvas extends FluidPressureAndFlowCanvas {
     private static final double modelHeight = 50;
     private static final double scale = STAGE_SIZE.getHeight() / modelHeight;
     private PNode waterDropLayer = new PNode();
+    private final FPAFMeasuringTape measuringTape;
 
     public WaterTowerCanvas( final WaterTowerModule module ) {
         super( ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( STAGE_SIZE.width * 0.25, STAGE_SIZE.height * 0.75 ), scale ) );
@@ -56,7 +57,7 @@ public class WaterTowerCanvas extends FluidPressureAndFlowCanvas {
 
         //TODO: this is duplicated in FluidFlowCanvas
         // Control Panel
-        final FluidPressureAndFlowControlPanelNode controlPanelNode = new FluidPressureAndFlowControlPanelNode( new WaterTowerControlPanel<WaterTowerModel>( module ) ) {{
+        final FluidPressureAndFlowControlPanelNode controlPanelNode = new FluidPressureAndFlowControlPanelNode( new WaterTowerControlPanel( module ) ) {{
             setOffset( STAGE_SIZE.getWidth() - getFullBounds().getWidth() - 2, 2 );
         }};
         addChild( controlPanelNode );
@@ -77,7 +78,8 @@ public class WaterTowerCanvas extends FluidPressureAndFlowCanvas {
         addChild( meterStick );
         addChild( englishRuler );
 
-        addChild( new FPAFMeasuringTape( transform, module.measuringTapeVisible, module.getFluidPressureAndFlowModel().distanceUnit ) );
+        measuringTape = new FPAFMeasuringTape( transform, module.measuringTapeVisible, module.getFluidPressureAndFlowModel().distanceUnit );
+        addChild( measuringTape );
 
         Property<Boolean> moduleActive = new Property<Boolean>( false ) {{
             module.addListener( new Module.Listener() {
@@ -103,5 +105,10 @@ public class WaterTowerCanvas extends FluidPressureAndFlowCanvas {
         addChild( new FloatingClockControlNode( clockRunning, null, module.getClock(), FPAFStrings.RESET, new Property<Color>( Color.white ) ) {{
             setOffset( STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2, STAGE_SIZE.getHeight() - getFullBounds().getHeight() );
         }} );
+    }
+
+    //Additionally reset the measuring tape since not reset elsewhere
+    public void reset() {
+        measuringTape.reset();
     }
 }
