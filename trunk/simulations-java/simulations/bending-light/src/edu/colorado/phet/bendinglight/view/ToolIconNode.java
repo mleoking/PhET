@@ -167,7 +167,7 @@ public class ToolIconNode extends PNode {
                 showToolInPlayArea.setValue( false );
                 thumbnailIcon.setVisible( true );
                 reset();
-                //TODO: how to remove pcl?
+                //TODO: how to remove property change listener?
             }
         }
 

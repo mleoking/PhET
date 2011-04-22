@@ -67,7 +67,7 @@ public class Laser {
     }
 
     public ImmutableVector2D getDirectionUnitVector() {
-        return pivot.getValue().minus( emissionPoint.getValue() ).getNormalizedInstance();//TODO: why is this flipped by 180 degrees?
+        return pivot.getValue().minus( emissionPoint.getValue() ).getNormalizedInstance();
     }
 
     //Rotate about the fixed pivot
