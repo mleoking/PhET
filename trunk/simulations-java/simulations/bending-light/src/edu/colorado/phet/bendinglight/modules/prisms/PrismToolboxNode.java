@@ -8,11 +8,11 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import edu.colorado.phet.bendinglight.BendingLightStrings;
+import edu.colorado.phet.bendinglight.modules.intro.HBox;
 import edu.colorado.phet.bendinglight.view.BendingLightCanvas;
 import edu.colorado.phet.bendinglight.view.MediumControlPanel;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
-import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -25,7 +25,7 @@ import static edu.colorado.phet.bendinglight.modules.prisms.PrismsModel.getPrism
  *
  * @author Sam Reid
  */
-public class PrismToolboxNode extends PNode {
+public class PrismToolboxNode extends HBox {
     public PrismToolboxNode( final PrismsCanvas canvas, final ModelViewTransform transform, final PrismsModel model ) {
         //Create and add Title label for the prism toolbox
         final PText titleLabel = new PText( BendingLightStrings.PRISMS ) {{
@@ -34,7 +34,6 @@ public class PrismToolboxNode extends PNode {
         addChild( titleLabel );
 
         //Iterate over the prism prototypes in the model and create a draggable icon for each one
-        final double[] x = { 0 };
         for ( final Prism prism : getPrismPrototypes() ) {
             //Create a node for the prism, just used to create the thumbnail
             PrismNode prismNode = new PrismNode( transform, prism, model.prismMedium );
@@ -42,8 +41,6 @@ public class PrismToolboxNode extends PNode {
             Image image = prismNode.toImage( (int) ( prismNode.getFullBounds().getWidth() * thumbnailHeight / prismNode.getFullBounds().getHeight() ), thumbnailHeight, null );
             final PImage thumbnail = new PImage( image ) {{
                 final PImage thumbnailRef = this;
-                setOffset( x[0], titleLabel.getFullBounds().getMaxY() );
-                x[0] = x[0] + getFullBounds().getWidth() + 10; //Space out the prism thumbnails in the toolbox
 
                 //Add user interaction
                 addInputEventListener( new PBasicInputEventHandler() {
@@ -109,6 +106,6 @@ public class PrismToolboxNode extends PNode {
         }
 
         //Allow the user to control the type of material in the prisms
-        addChild( new MediumControlPanel( canvas, model.prismMedium, BendingLightStrings.OBJECTS, false, model.wavelengthProperty, "0.0000000", 8 ) {{setOffset( x[0], 0 );}} );
+        addChild( new MediumControlPanel( canvas, model.prismMedium, BendingLightStrings.OBJECTS, false, model.wavelengthProperty, "0.0000000", 8 ) );
     }
 }
