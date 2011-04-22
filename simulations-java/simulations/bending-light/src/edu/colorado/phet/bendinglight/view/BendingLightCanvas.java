@@ -175,7 +175,7 @@ public class BendingLightCanvas<T extends BendingLightModel> extends PhetPCanvas
         addChild( new TranslationDragHandle( transform, model.getLaser(), 0, arrowLength, showTranslationDragHandles ) );
 
         //Add the laser itself
-        addChild( new LaserNode( transform, model.getLaser(), showRotationDragHandles, showTranslationDragHandles, clampDragAngle, laserTranslationRegion, laserRotationRegion, laserImageName ) );
+        addChild( new LaserNode( transform, model.getLaser(), showRotationDragHandles, showTranslationDragHandles, clampDragAngle, laserTranslationRegion, laserRotationRegion, laserImageName, model.visibleModelBounds ) );
 
         //Coalesce repeat updates so work is not duplicated
         final boolean[] dirty = new boolean[] { true };
