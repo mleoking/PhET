@@ -2,6 +2,8 @@
 
 package edu.colorado.phet.statesofmatter;
 
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+
 
 /**
  * StatesOfMatterStrings is the collection of localized strings used by this simulations.
@@ -12,7 +14,7 @@ package edu.colorado.phet.statesofmatter;
 public class StatesOfMatterStrings {
     /* Not intended for instantiation. */
     private StatesOfMatterStrings() {}
-    
+
     public static final String STOVE_CONTROL_PANEL_TITLE = StatesOfMatterResources.getString( "Stove.Title" );
     public static final String STOVE_CONTROL_PANEL_ADD_LABEL = StatesOfMatterResources.getString( "Stove.Add" );
     public static final String STOVE_CONTROL_PANEL_REMOVE_LABEL = StatesOfMatterResources.getString( "Stove.Remove" );
@@ -37,7 +39,7 @@ public class StatesOfMatterStrings {
     public static final String PHASE_STATE_SOLID = StatesOfMatterResources.getString("SolidLiquidGasControl.Solid");
     public static final String PHASE_STATE_LIQUID = StatesOfMatterResources.getString("SolidLiquidGasControl.Liquid");
     public static final String PHASE_STATE_GAS = StatesOfMatterResources.getString("SolidLiquidGasControl.Gas");
-    
+
     public static final String PHASE_DIAGRAM_X_AXIS_LABEL = StatesOfMatterResources.getString("PhaseChanges.PhaseDiagram.xAxisLabel");
     public static final String PHASE_DIAGRAM_Y_AXIS_LABEL = StatesOfMatterResources.getString("PhaseChanges.PhaseDiagram.yAxisLabel");
     public static final String PHASE_DIAGRAM_SOLID = StatesOfMatterResources.getString("PhaseChanges.PhaseDiagram.Solid");
@@ -46,7 +48,7 @@ public class StatesOfMatterStrings {
     public static final String PHASE_DIAGRAM_TRIPLE_POINT = StatesOfMatterResources.getString("PhaseChanges.PhaseDiagram.TriplePoint");
     public static final String PHASE_DIAGRAM_CRITICAL_POINT = StatesOfMatterResources.getString("PhaseChanges.PhaseDiagram.CriticalPoint");
     public static final String PHASE_DIAGRAM_BUTTON_LABEL = StatesOfMatterResources.getString("PhaseChanges.PhaseDiagram.ButtonLabel");
-    
+
     public static final String INTERACTION_POTENTIAL_ATOM_SELECT_LABEL = StatesOfMatterResources.getString("InteractionPotential.Atoms");
     public static final String FIXED_ATOM_LABEL = StatesOfMatterResources.getString("InteractionPotential.FixedAtom");
     public static final String MOVABLE_ATOM_LABEL = StatesOfMatterResources.getString("InteractionPotential.MovableAtom");
@@ -75,7 +77,7 @@ public class StatesOfMatterStrings {
     public static final String INTERACTION_STRENGTH_WEAK = StatesOfMatterResources.getString("InteractionStrengthControl.Weak");
     public static final String INTERACTION_STRENGTH_STRONG = StatesOfMatterResources.getString("InteractionStrengthControl.Strong");
 
-    public static final String CLOCK_SPEED_CONTROL_CAPTION = StatesOfMatterResources.getString("ClockSpeedControlCaption");
+    public static final String CLOCK_SPEED_CONTROL_CAPTION = PhetCommonResources.getString("Common.sim.speed");
 
     public static final String RESET = StatesOfMatterResources.getString("Reset");
 
