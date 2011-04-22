@@ -38,6 +38,12 @@ public abstract class BoundedDragHandler extends PBasicInputEventHandler {
 
     //Drag the node to the constrained location
     public void mouseDragged( final PInputEvent event ) {
+        //Some clients such as the LaserNode only pass messages through the mouseDragged function,
+        //so check first and see if we need to get the initial location
+        if ( lastLocation == null ) {
+            mousePressed( event );
+        }
+
         //Compute the global coordinate for where the drag is supposed to take the node
         Point2D newDragPosition = event.getPositionRelativeTo( node.getParent().getParent() );//see note in constructor
         newDragPosition = node.getParent().getParent().localToGlobal( newDragPosition );
@@ -53,13 +59,13 @@ public abstract class BoundedDragHandler extends PBasicInputEventHandler {
         delta = node.localToParent( delta );
 
         //Translate the node and get ready for next event
-        dragNode( new PDimension( delta.getWidth(), delta.getHeight() ) );
+        dragNode( new DragEvent( event, new PDimension( delta.getWidth(), delta.getHeight() ) ) );
         lastLocation = constrained;
     }
 
     //Handles dragging the node.  This method is overrideable since some usages may need to set the position of a model element instead of just translating the pnode
     //Delta is in the coordinate frame of the node itself
-    protected abstract void dragNode( PDimension delta );
+    protected abstract void dragNode( DragEvent event );
 
     //Forget the relative drag location for the next drag sequence
     public void mouseReleased( PInputEvent event ) {

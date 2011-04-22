@@ -81,8 +81,8 @@ public class ProtractorNode extends ToolNode {
             addInputEventListener( new CursorHandler() );
             addInputEventListener( new BoundedDragHandler( ProtractorNode.this ) {
                 //Drag by changing the associated model element instead of just moving the node around
-                @Override public void dragNode( PDimension delta ) {
-                    dragAll( delta );
+                @Override public void dragNode( DragEvent event ) {
+                    dragAll( event.delta );
                 }
             } );
         }} );

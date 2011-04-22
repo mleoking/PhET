@@ -6,6 +6,7 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.bendinglight.view.BoundedDragHandler;
+import edu.colorado.phet.bendinglight.view.DragEvent;
 import edu.colorado.phet.bendinglight.view.WireNode;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -71,8 +72,8 @@ public class WaveSensorNode extends ToolNode {
             //Add interaction, the body is draggable, but keep it constrained to stay in the play area
             addInputEventListener( new CursorHandler() );
             addInputEventListener( new BoundedDragHandler( WaveSensorNode.this ) {
-                @Override protected void dragNode( PDimension delta ) {
-                    waveSensor.translateBody( transform.viewToModelDelta( delta ) );
+                @Override protected void dragNode( DragEvent event ) {
+                    waveSensor.translateBody( transform.viewToModelDelta( event.delta ) );
                 }
             } );
         }};
@@ -108,8 +109,8 @@ public class WaveSensorNode extends ToolNode {
             //Interaction: translates when dragged, but keep it bounded within the play area
             addInputEventListener( new CursorHandler() );
             addInputEventListener( new BoundedDragHandler( this ) {
-                @Override protected void dragNode( PDimension delta ) {
-                    probe.translate( transform.viewToModelDelta( delta ) );
+                @Override protected void dragNode( DragEvent event ) {
+                    probe.translate( transform.viewToModelDelta( event.delta ) );
                 }
             } );
             probe.position.addObserver( new SimpleObserver() {

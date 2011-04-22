@@ -6,6 +6,7 @@ import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.bendinglight.model.Medium;
 import edu.colorado.phet.bendinglight.view.BoundedDragHandler;
+import edu.colorado.phet.bendinglight.view.DragEvent;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -17,7 +18,6 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
-import edu.umd.cs.piccolo.util.PDimension;
 
 import static java.awt.Color.darkGray;
 
@@ -61,8 +61,8 @@ public class PrismNode extends PNode {
             //Make it draggable, but constrain it within the play area
             addInputEventListener( new CursorHandler() );
             addInputEventListener( new BoundedDragHandler( this ) {
-                @Override protected void dragNode( PDimension delta ) {
-                    prism.translate( transform.viewToModelDelta( delta ) );
+                @Override protected void dragNode( DragEvent event ) {
+                    prism.translate( transform.viewToModelDelta( event.delta ) );
                 }
             } );
         }} );

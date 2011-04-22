@@ -97,28 +97,33 @@ public class LaserNode extends PNode {
 
         //A drag region is an invisible shape that can be dragged with the mouse for translation or rotation
         class DragRegion extends PhetPPath {
-            DragRegion( Shape shape, Paint fill, final VoidFunction1<PInputEvent> eventHandler, final BooleanProperty isMouseOver, final BooleanProperty isDragging ) {
+            DragRegion( Shape shape, Paint fill, final VoidFunction1<DragEvent> eventHandler, final BooleanProperty isMouseOver, final BooleanProperty isDragging ) {
                 super( shape, fill );
                 addInputEventListener( new CursorHandler() );
-                addInputEventListener( new PBasicInputEventHandler() {
+                addInputEventListener( new BoundedDragHandler( LaserNode.this ) {
+                    //Pass the event through to the eventHandler
+                    @Override protected void dragNode( DragEvent event ) {
+                        eventHandler.apply( event );
+                    }
+
                     public void mouseEntered( PInputEvent event ) {
+                        super.mouseEntered( event );//call the super since we extend BoundedDragHandler
                         isMouseOver.setValue( true );
                     }
 
                     public void mouseExited( PInputEvent event ) {
+                        super.mouseExited( event );//call the super since we extend BoundedDragHandler
                         isMouseOver.setValue( false );
                     }
 
                     public void mouseReleased( PInputEvent event ) {
+                        super.mouseReleased( event );//call the super since we extend BoundedDragHandler
                         isDragging.setValue( false );
                     }
 
                     public void mousePressed( PInputEvent event ) {
+                        super.mousePressed( event );//call the super since we extend BoundedDragHandler
                         isDragging.setValue( true );
-                    }
-
-                    public void mouseDragged( PInputEvent event ) {
-                        eventHandler.apply( event );
                     }
                 } );
             }
@@ -137,16 +142,16 @@ public class LaserNode extends PNode {
         }
 
         //Add the drag region for translating the laser
-        addChild( new DragRegion( translationRegion.apply( fullRectangle, frontRectangle ), dragRegionColor, new VoidFunction1<PInputEvent>() {
-            public void apply( PInputEvent event ) {
-                laser.translate( transform.viewToModelDelta( event.getDeltaRelativeTo( getParent().getParent() ) ) );
+        addChild( new DragRegion( translationRegion.apply( fullRectangle, frontRectangle ), dragRegionColor, new VoidFunction1<DragEvent>() {
+            public void apply( DragEvent event ) {
+                laser.translate( transform.viewToModelDelta( event.delta ) );
             }
         }, mouseOverTranslationPart, draggingTranslation ) );
 
         //Add the drag region for rotating the laser
-        addChild( new DragRegion( rotationRegion.apply( fullRectangle, backRectangle ), rotationRegionColor, new VoidFunction1<PInputEvent>() {
-            public void apply( PInputEvent event ) {
-                ImmutableVector2D modelPoint = new ImmutableVector2D( transform.viewToModel( event.getPositionRelativeTo( getParent().getParent() ) ) );
+        addChild( new DragRegion( rotationRegion.apply( fullRectangle, backRectangle ), rotationRegionColor, new VoidFunction1<DragEvent>() {
+            public void apply( DragEvent event ) {
+                ImmutableVector2D modelPoint = new ImmutableVector2D( transform.viewToModel( event.event.getPositionRelativeTo( getParent().getParent() ) ) );
                 ImmutableVector2D vector = modelPoint.minus( laser.pivot.getValue() );
                 final double angle = vector.getAngle();
                 double after = clampDragAngle.apply( angle );

@@ -1,3 +1,4 @@
+Fixed: laser can be dragged out of the play area
 Fixed: prisms can be dragged out of the play area
 Fixed: intensity sensor can be dragged out of the play area
 Fixed: protractor can be dragged out of the play area
