@@ -1,3 +1,4 @@
+refactored base class Box for use in VBox and HBox, created HBox class
 Fixed: when dragging tools out of the toolbox they can be dragged out of the visible region
 Constrained velocity sensor node to remain in the play area
 Refactored MediumControlPanel to use PhetPComboBox instead of PComboBox, see #705
