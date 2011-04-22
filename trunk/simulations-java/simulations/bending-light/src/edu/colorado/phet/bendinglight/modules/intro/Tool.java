@@ -84,6 +84,7 @@ public class Tool extends PNode {
         private final PImage thumbnailIcon;
         ToolNode node = null;//The node that has been dragged out
         boolean intersect = false;//true if the node is ready to be dropped back in the toolbox
+        private BoundedToolDragHandler dragHandler;//Used for dragging the created ToolNode, but making sure it remains in canvas bounds
 
         ToolDragListener( final PImage thumbnailIcon ) {
             this.thumbnailIcon = thumbnailIcon;
@@ -144,12 +145,15 @@ public class Tool extends PNode {
 
                 //Put the created node in the canvas
                 addChild( canvas, node );
+
+                //Create a new bounded drag handler now that everything is initialized
+                dragHandler = new BoundedToolDragHandler( node, event );
             }
         }
 
-        //Translate the created node
-        public void mouseDragged( PInputEvent event ) {
-            node.dragAll( event.getDeltaRelativeTo( node.getParent().getParent() ) );
+        //Process events with the bounded drag handler, which ensures the node remains in the visible area
+        @Override public void mouseDragged( PInputEvent event ) {
+            dragHandler.mouseDragged( event );
         }
 
         //This is when the user drags the object out of the toolbox then drops it right back in the toolbox.
