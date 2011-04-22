@@ -1,3 +1,4 @@
+# 0.00.47 (51066) Apr 22, 2011
 Fixed: laser can be rotated out of the play area
 Fixed: laser can be dragged out of the play area
 Fixed: prisms can be dragged out of the play area
