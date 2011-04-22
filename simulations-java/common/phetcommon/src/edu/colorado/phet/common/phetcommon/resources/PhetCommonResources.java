@@ -23,6 +23,8 @@ public class PhetCommonResources {
     public static final String STRING_CLOCK_RESTART = "Common.ClockControlPanel.Restart";
     public static final String STRING_CLOCK_REWIND = "Common.ClockControlPanel.Rewind";
     public static final String STRING_RESET_ALL = "ControlPanel.button.resetAll";
+    //The RESET string may cause problems since it is loaded from the StopwatchPanel, but it is already used like this in many places, so it shouldn't be changed lightly
+    public static final String STRING_RESET = "Common.StopwatchPanel.reset";
     public static final String STRING_YES = "Common.choice.yes";
     public static final String STRING_NO = "Common.choice.no";
     public static final String STRING_HELP_MENU_HELP = "Common.HelpMenu.Help";
