@@ -18,8 +18,8 @@ public class PipeCrossSectionControl extends PNode {
     public static final double MAX_DRAG_Y = 3;//make it so that the control point can't be dragged offscreen in the up direction
 
     public PipeCrossSectionControl( final ModelViewTransform transform, final CrossSection pipePosition ) {
-        final PipeControlPoint top = new PipeControlPoint( pipePosition.top, true );
-        final PipeControlPoint bottom = new PipeControlPoint( pipePosition.bottom, false );
+        final PipeControlPoint top = new PipeControlPoint( pipePosition.top );
+        final PipeControlPoint bottom = new PipeControlPoint( pipePosition.bottom );
 
         Function1<Point2D, Point2D> bottomConstraint = new Function1<Point2D, Point2D>() {
             public Point2D apply( Point2D bottomLocation ) {

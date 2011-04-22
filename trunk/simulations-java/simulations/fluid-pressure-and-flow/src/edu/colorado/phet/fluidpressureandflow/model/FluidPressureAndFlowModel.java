@@ -1,7 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fluidpressureandflow.model;
 
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.Function;
@@ -26,10 +25,7 @@ public class FluidPressureAndFlowModel implements PressureSensor.Context, ResetM
     public static final double GASOLINE_DENSITY = 700;
     public static final double WATER_DENSITY = 1000;
     public static final double HONEY_DENSITY = 1420;
-
     public static final Double EARTH_GRAVITY = 9.8;
-    public static final Double MOON_GRAVITY = EARTH_GRAVITY / 6.0; //TODO: not currently used, but should be used in future version
-    public static final Double JUPITER_GRAVITY = EARTH_GRAVITY * 2.364;
 
     private final ConstantDtClock clock = new ConstantDtClock( 30 );
     private final ArrayList<PressureSensor> pressureSensors = new ArrayList<PressureSensor>();
@@ -88,10 +84,6 @@ public class FluidPressureAndFlowModel implements PressureSensor.Context, ResetM
         else {
             return Double.NaN;
         }
-    }
-
-    public double getPressure( Point2D position ) {
-        return getPressure( position.getX(), position.getY() );
     }
 
     /*

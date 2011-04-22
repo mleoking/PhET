@@ -42,38 +42,17 @@ public class ParticleInjectorNode extends PNode {
     // error and will need to be tweaked if the images change.
     private static final Point2D BUTTON_OFFSET = new Point2D.Double( -100, -65 );
 
-    //------------------------------------------------------------------------
-    // Instance Data
-    //------------------------------------------------------------------------
-
     private final PImage buttonImageNode;
     private final BufferedImage unpressedButtonImage;
     private final BufferedImage pressedButtonImage;
 
-    // Count is incremented every time the simulation clock ticks, so that we can inject particles every ITERATIONS_BETWEEN_INJECTION steps
-    private int count;
-
-    // Time the user has been holding down the injection button, or Long.MAX_VALUE if the button is not currently depressed
-    private long buttonPressedTime = Long.MAX_VALUE;
-
-    // The time in milliseconds that the user must hold down the button before particles are continuously autoinjected
-    private static final long TIME_BEFORE_AUTOINJECT = 500;
-
-    // The number of iterations between each injected particle, see 'count' above. 
-    private static final int ITERATIONS_BETWEEN_INJECTION = 7;
-
-    //------------------------------------------------------------------------
-    // Constructor
-    //------------------------------------------------------------------------
-
-    /**
+    /*
      * Constructs a particle injection node.
      *
      * @param mvt           - Model-view transform for relating view space to model space.
      * @param rotationAngle - Angle of rotation for the injection bulb.
      */
     public ParticleInjectorNode( final ModelViewTransform mvt, double rotationAngle, final Pipe pipe, final SimpleObserver squirt ) {
-
         double NOMINAL_ION_INJECTION_VELOCITY = 30;
         Vector2D nominalInjectionVelocityVector = new Vector2D( NOMINAL_ION_INJECTION_VELOCITY, 0 );
         nominalInjectionVelocityVector.rotate( rotationAngle );
@@ -122,7 +101,6 @@ public class ParticleInjectorNode extends PNode {
         buttonImageNode.addInputEventListener( new PBasicInputEventHandler() {
             @Override
             public void mousePressed( PInputEvent event ) {
-                buttonPressedTime = System.currentTimeMillis();
                 buttonImageNode.setImage( pressedButtonImage );
                 squirt.update();
             }
@@ -130,7 +108,6 @@ public class ParticleInjectorNode extends PNode {
             @Override
             public void mouseReleased( PInputEvent event ) {
                 buttonImageNode.setImage( unpressedButtonImage );
-                buttonPressedTime = Long.MAX_VALUE;
             }
         } );
 

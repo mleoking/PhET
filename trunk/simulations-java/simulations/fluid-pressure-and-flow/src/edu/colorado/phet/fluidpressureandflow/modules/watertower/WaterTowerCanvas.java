@@ -27,7 +27,7 @@ public class WaterTowerCanvas extends FluidPressureAndFlowCanvas {
     private PNode waterDropLayer = new PNode();
 
     public WaterTowerCanvas( final WaterTowerModule module ) {
-        super( module, ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( STAGE_SIZE.width * 0.25, STAGE_SIZE.height * 0.75 ), scale ) );
+        super( ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( STAGE_SIZE.width * 0.25, STAGE_SIZE.height * 0.75 ), scale ) );
 
         addChild( new SkyNode( transform ) );
         addChild( new WaterTowerNode( transform, module.getFluidPressureAndFlowModel().getWaterTower(), module.getFluidPressureAndFlowModel().liquidDensity ) );
