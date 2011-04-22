@@ -78,8 +78,7 @@ public class ToolIconNode extends PNode {
         canvas.addChild( node );
     }
 
-    //Could not be named removeChild because of conflicts in Tool class//TODO: rename removeChild
-    protected void doRemoveChild( BendingLightCanvas canvas, ToolNode node ) {
+    protected void removeChild( BendingLightCanvas canvas, ToolNode node ) {
         canvas.removeChild( node );
     }
 
@@ -174,7 +173,7 @@ public class ToolIconNode extends PNode {
 
         //Remove the created node, if any
         private void reset() {
-            doRemoveChild( canvas, node );
+            removeChild( canvas, node );
             node = null;//Flag to indicate another item can be dragged out now
         }
     }
