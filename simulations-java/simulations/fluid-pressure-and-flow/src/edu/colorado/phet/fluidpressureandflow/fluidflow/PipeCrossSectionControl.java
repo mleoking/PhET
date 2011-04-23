@@ -1,11 +1,11 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.fluidpressureandflow.modules.fluidflow;
+package edu.colorado.phet.fluidpressureandflow.fluidflow;
 
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
-import edu.colorado.phet.fluidpressureandflow.modules.fluidflow.model.CrossSection;
+import edu.colorado.phet.fluidpressureandflow.fluidflow.model.CrossSection;
 import edu.umd.cs.piccolo.PNode;
 
 import static edu.colorado.phet.common.phetcommon.math.MathUtil.clamp;

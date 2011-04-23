@@ -5,7 +5,7 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
-import edu.colorado.phet.fluidpressureandflow.modules.fluidflow.FluidFlowModule;
+import edu.colorado.phet.fluidpressureandflow.fluidflow.FluidFlowModule;
 import edu.colorado.phet.fluidpressureandflow.modules.fluidpressure.FluidPressureModule;
 import edu.colorado.phet.fluidpressureandflow.modules.watertower.WaterTowerModule;
 

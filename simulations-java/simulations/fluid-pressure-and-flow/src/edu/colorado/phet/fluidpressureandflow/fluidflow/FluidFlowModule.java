@@ -1,9 +1,9 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.fluidpressureandflow.modules.fluidflow;
+package edu.colorado.phet.fluidpressureandflow.fluidflow;
 
 import edu.colorado.phet.fluidpressureandflow.common.FPAFStrings;
 import edu.colorado.phet.fluidpressureandflow.common.FluidPressureAndFlowModule;
-import edu.colorado.phet.fluidpressureandflow.modules.fluidflow.model.FluidFlowModel;
+import edu.colorado.phet.fluidpressureandflow.fluidflow.model.FluidFlowModel;
 
 /**
  * @author Sam Reid

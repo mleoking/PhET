@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.fluidpressureandflow.modules.fluidflow;
+package edu.colorado.phet.fluidpressureandflow.fluidflow;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -16,9 +16,9 @@ import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.FloatingClockControlNode;
 import edu.colorado.phet.fluidpressureandflow.common.FPAFStrings;
 import edu.colorado.phet.fluidpressureandflow.common.model.PressureSensor;
-import edu.colorado.phet.fluidpressureandflow.modules.fluidflow.model.FluidFlowModel;
-import edu.colorado.phet.fluidpressureandflow.modules.fluidflow.model.FoodColoring;
-import edu.colorado.phet.fluidpressureandflow.modules.fluidflow.model.Particle;
+import edu.colorado.phet.fluidpressureandflow.fluidflow.model.FluidFlowModel;
+import edu.colorado.phet.fluidpressureandflow.fluidflow.model.FoodColoring;
+import edu.colorado.phet.fluidpressureandflow.fluidflow.model.Particle;
 import edu.colorado.phet.fluidpressureandflow.modules.fluidpressure.FluidPressureControlPanel;
 import edu.colorado.phet.fluidpressureandflow.modules.fluidpressure.Pool;
 import edu.umd.cs.piccolo.PNode;
