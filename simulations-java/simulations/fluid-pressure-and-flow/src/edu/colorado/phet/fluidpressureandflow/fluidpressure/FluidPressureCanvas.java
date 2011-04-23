@@ -8,6 +8,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.fluidpressureandflow.common.model.PressureSensor;
+import edu.colorado.phet.fluidpressureandflow.common.view.*;
 
 /**
  * @author Sam Reid
