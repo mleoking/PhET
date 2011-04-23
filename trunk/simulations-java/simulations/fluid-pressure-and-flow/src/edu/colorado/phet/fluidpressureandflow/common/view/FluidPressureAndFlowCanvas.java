@@ -19,6 +19,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.MinimizeMaximizeNode;
 import edu.colorado.phet.common.piccolophet.nodes.VelocitySensor;
 import edu.colorado.phet.common.piccolophet.nodes.VelocitySensorNode;
+import edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowApplication;
 import edu.colorado.phet.fluidpressureandflow.common.FPAFStrings;
 import edu.colorado.phet.fluidpressureandflow.common.FluidPressureAndFlowModule;
 import edu.colorado.phet.fluidpressureandflow.common.model.FluidPressureAndFlowModel;
@@ -91,6 +92,9 @@ public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> ext
                     }
                 } );
                 translate( 0, -getFullBounds().getHeight() );
+
+                //The default green + button is invisible against the green ground, so use a blue one instead
+                setMaximizeImage( FluidPressureAndFlowApplication.RESOURCES.getImage( "maximizeButtonBlue.png" ) );
             }};
 
             addChild( fluidDensityControl );
