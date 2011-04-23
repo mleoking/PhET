@@ -27,7 +27,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  * @author John Blanco
  * @author Sam Reid
  */
-public class ParticleInjectorNode extends PNode {
+public class DropperNode extends PNode {
 
     //------------------------------------------------------------------------
     // Class Data
@@ -52,7 +52,7 @@ public class ParticleInjectorNode extends PNode {
      * @param mvt           - Model-view transform for relating view space to model space.
      * @param rotationAngle - Angle of rotation for the injection bulb.
      */
-    public ParticleInjectorNode( final ModelViewTransform mvt, double rotationAngle, final Pipe pipe, final SimpleObserver squirt ) {
+    public DropperNode( final ModelViewTransform mvt, double rotationAngle, final Pipe pipe, final SimpleObserver squirt ) {
         double NOMINAL_ION_INJECTION_VELOCITY = 30;
         Vector2D nominalInjectionVelocityVector = new Vector2D( NOMINAL_ION_INJECTION_VELOCITY, 0 );
         nominalInjectionVelocityVector.rotate( rotationAngle );

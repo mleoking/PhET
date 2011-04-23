@@ -10,6 +10,7 @@ import edu.colorado.phet.common.phetcommon.model.property.And;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.FloatingClockControlNode;
@@ -19,6 +20,7 @@ import edu.colorado.phet.fluidpressureandflow.modules.fluidpressure.FluidPressur
 import edu.colorado.phet.fluidpressureandflow.modules.fluidpressure.Pool;
 import edu.colorado.phet.fluidpressureandflow.view.*;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 //import edu.colorado.phet.fluidpressureandflow.model.VelocitySensor;
 
@@ -44,6 +46,9 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas {
         foodColoringLayer = new PNode();
         addChild( foodColoringLayer );
         addChild( particleLayer );
+
+        final FluidFlowModel model = module.getFluidFlowModel();
+
         addChild( new PipeFrontNode( transform, module.getFluidFlowModel().getPipe() ) );
         for ( final Particle p : module.getFluidFlowModel().getParticles() ) {
             addParticleNode( p );
@@ -60,14 +65,22 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas {
 
         addVelocitySensorNodes( module.getFluidPressureAndFlowModel() );
 
-        final FluidFlowModel model = module.getFluidFlowModel();
-
-        addChild( new ParticleInjectorNode( transform, 3 * Math.PI / 2, model.getPipe(), new SimpleObserver() {
+        final DropperNode dropperNode = new DropperNode( transform, 3 * Math.PI / 2, model.getPipe(), new SimpleObserver() {
             public void update() {
                 model.pourFoodColoring();
             }
-        } ) );
+        } );
+        addChild( dropperNode );
 
+        //Show a checkbox that enabled/disables adding dots to the fluid
+        addChild( new PSwing( new PropertyCheckBox( "Dots", model.dropperEnabled ) {{
+            setFont( FluidPressureControlPanel.CONTROL_FONT );
+            setBackground( new Color( 0, 0, 0, 0 ) );
+        }} ) {{
+            setOffset( dropperNode.getFullBounds().getMaxX(), dropperNode.getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
+        }} );
+
+        //Add the colored fluid graphic when model instances are created
         model.addFoodColoringObserver( new VoidFunction1<FoodColoring>() {
             public void apply( FoodColoring foodColoring ) {
                 addFoodColoringNode( foodColoring );
