@@ -25,6 +25,7 @@ public class FluidFlowModel extends FluidPressureAndFlowModel implements Velocit
     private ArrayList<VoidFunction1<Particle>> particleAddedObservers = new ArrayList<VoidFunction1<Particle>>();
     private ArrayList<VoidFunction1<FoodColoring>> foodColoringObservers = new ArrayList<VoidFunction1<FoodColoring>>();
     public final Property<Double> dropperRate = new Property<Double>( 33.0 );//percent probability to drop in each frame
+    public final Property<Boolean> dropperEnabled = new Property<Boolean>( true );//true if the dropper is dropping in red dots
     private ArrayList<FoodColoring> foodColorings = new ArrayList<FoodColoring>();
 
     public FluidFlowModel() {
@@ -32,7 +33,7 @@ public class FluidFlowModel extends FluidPressureAndFlowModel implements Velocit
             @Override
             public void clockTicked( ClockEvent clockEvent ) {
                 double value = dropperRate.getValue() / 100.0;
-                if ( random.nextDouble() < value ) {
+                if ( random.nextDouble() < value && dropperEnabled.getValue() ) {
                     addDrop();
                 }
 
