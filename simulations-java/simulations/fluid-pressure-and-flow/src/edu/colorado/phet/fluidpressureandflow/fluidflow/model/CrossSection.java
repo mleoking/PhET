@@ -61,4 +61,10 @@ public class CrossSection {
     public double getCenterY() {
         return ( top.getValue().getY() + bottom.getValue().getY() ) / 2;
     }
+
+    //Translate both top and bottom parts of the pipe
+    public void translate( double dx, double dy ) {
+        translateTop( dx, dy );
+        translateBottom( dx, dy );
+    }
 }

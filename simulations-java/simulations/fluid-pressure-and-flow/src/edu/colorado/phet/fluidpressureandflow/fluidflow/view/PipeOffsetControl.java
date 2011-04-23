@@ -21,7 +21,6 @@ import static edu.colorado.phet.fluidpressureandflow.fluidflow.view.PipeCrossSec
  * @author Sam Reid
  */
 public class PipeOffsetControl extends PNode {
-
     public PipeOffsetControl( final ModelViewTransform transform, final CrossSection pipePosition, final double offsetX ) {
         final double x = pipePosition.getX() + offsetX;
         final Property<ImmutableVector2D> point = new Property<ImmutableVector2D>( new ImmutableVector2D( x, pipePosition.getCenterY() ) );
@@ -30,8 +29,7 @@ public class PipeOffsetControl extends PNode {
                 double pipeCenter = pipePosition.getCenterY();
                 double nodeCenter = point.getValue().getY();
                 double delta = nodeCenter - pipeCenter;
-                pipePosition.translateTop( 0, delta );
-                pipePosition.translateBottom( 0, delta );
+                pipePosition.translate( 0, delta );
             }
         } );
         final SimpleObserver updateCenter = new SimpleObserver() {
@@ -41,7 +39,7 @@ public class PipeOffsetControl extends PNode {
         };
         pipePosition.top.addObserver( updateCenter );
         pipePosition.bottom.addObserver( updateCenter );
-        addChild( new PipeBackNode.GrabHandle( transform, new PipeControlPoint(
+        addChild( new GrabHandle( transform, new PipeControlPoint(
                 point ), new Function1<Point2D, Point2D>() {
             public Point2D apply( Point2D proposedDragPoint ) {
                 return new Point2D.Double( x, MathUtil.clamp( MIN_DRAG_Y, proposedDragPoint.getY(), MAX_DRAG_Y ) );
