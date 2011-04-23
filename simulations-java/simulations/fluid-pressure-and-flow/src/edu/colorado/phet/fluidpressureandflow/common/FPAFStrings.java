@@ -1,5 +1,7 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.fluidpressureandflow;
+package edu.colorado.phet.fluidpressureandflow.common;
+
+import edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowApplication;
 
 /**
  * @author Sam Reid

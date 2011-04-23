@@ -1,13 +1,13 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.fluidpressureandflow;
+package edu.colorado.phet.fluidpressureandflow.common;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.model.property.And;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.ValueEquals;
-import edu.colorado.phet.fluidpressureandflow.model.FluidPressureAndFlowModel;
-import edu.colorado.phet.fluidpressureandflow.model.Units;
+import edu.colorado.phet.fluidpressureandflow.common.model.FluidPressureAndFlowModel;
+import edu.colorado.phet.fluidpressureandflow.common.model.Units;
 
 /**
  * Base class for the different modules for FluidPressureAndFlow, parameterized on its model type.

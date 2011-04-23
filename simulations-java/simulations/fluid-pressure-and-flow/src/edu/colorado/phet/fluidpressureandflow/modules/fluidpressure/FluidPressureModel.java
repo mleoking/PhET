@@ -1,9 +1,9 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fluidpressureandflow.modules.fluidpressure;
 
-import edu.colorado.phet.fluidpressureandflow.model.Balloon;
-import edu.colorado.phet.fluidpressureandflow.model.FluidPressureAndFlowModel;
-import edu.colorado.phet.fluidpressureandflow.model.PressureSensor;
+import edu.colorado.phet.fluidpressureandflow.common.model.Balloon;
+import edu.colorado.phet.fluidpressureandflow.common.model.FluidPressureAndFlowModel;
+import edu.colorado.phet.fluidpressureandflow.common.model.PressureSensor;
 
 /**
  * @author Sam Reid

@@ -14,14 +14,13 @@ import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.FloatingClockControlNode;
-import edu.colorado.phet.fluidpressureandflow.FPAFStrings;
-import edu.colorado.phet.fluidpressureandflow.model.PressureSensor;
+import edu.colorado.phet.fluidpressureandflow.common.FPAFStrings;
+import edu.colorado.phet.fluidpressureandflow.common.model.PressureSensor;
 import edu.colorado.phet.fluidpressureandflow.modules.fluidflow.model.FluidFlowModel;
 import edu.colorado.phet.fluidpressureandflow.modules.fluidflow.model.FoodColoring;
 import edu.colorado.phet.fluidpressureandflow.modules.fluidflow.model.Particle;
 import edu.colorado.phet.fluidpressureandflow.modules.fluidpressure.FluidPressureControlPanel;
 import edu.colorado.phet.fluidpressureandflow.modules.fluidpressure.Pool;
-import edu.colorado.phet.fluidpressureandflow.view.*;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 

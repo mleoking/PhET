@@ -7,8 +7,7 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
-import edu.colorado.phet.fluidpressureandflow.model.PressureSensor;
-import edu.colorado.phet.fluidpressureandflow.view.*;
+import edu.colorado.phet.fluidpressureandflow.common.model.PressureSensor;
 
 /**
  * @author Sam Reid

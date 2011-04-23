@@ -16,8 +16,8 @@ import edu.colorado.phet.common.piccolophet.event.RelativeDragHandler;
 import edu.colorado.phet.common.piccolophet.nodes.DoubleArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowApplication;
+import edu.colorado.phet.fluidpressureandflow.common.view.PoolNode;
 import edu.colorado.phet.fluidpressureandflow.modules.fluidflow.model.Pipe;
-import edu.colorado.phet.fluidpressureandflow.view.PoolNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 

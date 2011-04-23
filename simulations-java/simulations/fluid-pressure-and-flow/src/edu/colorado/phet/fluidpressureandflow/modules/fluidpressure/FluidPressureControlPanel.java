@@ -7,11 +7,11 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.fluidpressureandflow.FPAFStrings;
-import edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowModule;
-import edu.colorado.phet.fluidpressureandflow.model.FluidPressureAndFlowModel;
-import edu.colorado.phet.fluidpressureandflow.view.CheckBox;
-import edu.colorado.phet.fluidpressureandflow.view.UnitsControlPanel;
+import edu.colorado.phet.fluidpressureandflow.common.FPAFStrings;
+import edu.colorado.phet.fluidpressureandflow.common.FluidPressureAndFlowModule;
+import edu.colorado.phet.fluidpressureandflow.common.model.FluidPressureAndFlowModel;
+import edu.colorado.phet.fluidpressureandflow.common.view.CheckBox;
+import edu.colorado.phet.fluidpressureandflow.common.view.UnitsControlPanel;
 
 /**
  * @author Sam Reid

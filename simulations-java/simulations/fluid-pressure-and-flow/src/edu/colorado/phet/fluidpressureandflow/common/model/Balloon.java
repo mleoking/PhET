@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.fluidpressureandflow.model;
+package edu.colorado.phet.fluidpressureandflow.common.model;
 
 /**
  * This was a feasibility test for showing a balloon and its compression under different pressures.

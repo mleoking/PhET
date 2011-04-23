@@ -1,8 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fluidpressureandflow.modules.fluidflow;
 
-import edu.colorado.phet.fluidpressureandflow.FPAFStrings;
-import edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowModule;
+import edu.colorado.phet.fluidpressureandflow.common.FPAFStrings;
+import edu.colorado.phet.fluidpressureandflow.common.FluidPressureAndFlowModule;
 import edu.colorado.phet.fluidpressureandflow.modules.fluidflow.model.FluidFlowModel;
 
 /**

@@ -9,7 +9,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.nodes.MeasuringTape;
-import edu.colorado.phet.fluidpressureandflow.model.Units;
+import edu.colorado.phet.fluidpressureandflow.common.model.Units;
 import edu.umd.cs.piccolo.PNode;
 
 /**
