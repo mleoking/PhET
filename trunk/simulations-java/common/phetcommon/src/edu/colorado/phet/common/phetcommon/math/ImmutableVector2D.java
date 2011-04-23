@@ -194,6 +194,10 @@ public class ImmutableVector2D implements Serializable {
         return getSubtractedInstance( v );
     }
 
+    public ImmutableVector2D minus( double x, double y ) {
+        return getSubtractedInstance( x, y );
+    }
+
     public ImmutableVector2D times( double scale ) {
         return getScaledInstance( scale );
     }
