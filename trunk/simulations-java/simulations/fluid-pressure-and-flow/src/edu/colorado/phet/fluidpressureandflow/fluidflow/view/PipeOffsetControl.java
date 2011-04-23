@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.fluidpressureandflow.fluidflow;
+package edu.colorado.phet.fluidpressureandflow.fluidflow.view;
 
 import java.awt.geom.Point2D;
 
@@ -12,8 +12,8 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.fluidpressureandflow.fluidflow.model.CrossSection;
 import edu.umd.cs.piccolo.PNode;
 
-import static edu.colorado.phet.fluidpressureandflow.fluidflow.PipeCrossSectionControl.MAX_DRAG_Y;
-import static edu.colorado.phet.fluidpressureandflow.fluidflow.PipeCrossSectionControl.MIN_DRAG_Y;
+import static edu.colorado.phet.fluidpressureandflow.fluidflow.view.PipeCrossSectionControl.MAX_DRAG_Y;
+import static edu.colorado.phet.fluidpressureandflow.fluidflow.view.PipeCrossSectionControl.MIN_DRAG_Y;
 
 /**
  * Translate a pipe cross section

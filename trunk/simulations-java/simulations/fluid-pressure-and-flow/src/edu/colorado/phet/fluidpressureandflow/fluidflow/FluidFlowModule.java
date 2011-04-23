@@ -4,6 +4,7 @@ package edu.colorado.phet.fluidpressureandflow.fluidflow;
 import edu.colorado.phet.fluidpressureandflow.common.FPAFStrings;
 import edu.colorado.phet.fluidpressureandflow.common.FluidPressureAndFlowModule;
 import edu.colorado.phet.fluidpressureandflow.fluidflow.model.FluidFlowModel;
+import edu.colorado.phet.fluidpressureandflow.fluidflow.view.FluidFlowCanvas;
 
 /**
  * @author Sam Reid
