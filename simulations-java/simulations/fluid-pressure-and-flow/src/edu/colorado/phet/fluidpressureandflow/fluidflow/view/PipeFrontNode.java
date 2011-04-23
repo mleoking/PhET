@@ -23,14 +23,14 @@ import edu.umd.cs.piccolo.nodes.PImage;
 public class PipeFrontNode extends PNode {
     private final ModelViewTransform transform;
     private final Pipe pipe;
+    public static final BasicStroke EDGE_STROKE = new BasicStroke( 8 );
 
     public PipeFrontNode( final ModelViewTransform transform, final Pipe pipe ) {
         this.transform = transform;
         this.pipe = pipe;
 
         final int edgeOffset = 4;
-        BasicStroke edgeStroke = new BasicStroke( 8 );
-        addChild( new PhetPPath( edgeStroke, new Color( 165, 91, 0 ) ) {{
+        addChild( new PhetPPath( EDGE_STROKE, new Color( 165, 91, 0 ) ) {{
             pipe.addShapeChangeListener( new SimpleObserver() {
                 public void update() {
                     setPathTo( AffineTransform.getTranslateInstance( 0, -edgeOffset ).createTransformedShape( transform.modelToView( pipe.getTopPath() ) ) );
@@ -38,7 +38,7 @@ public class PipeFrontNode extends PNode {
             } );
         }} );
 
-        addChild( new PhetPPath( edgeStroke, new Color( 0, 51, 91 ) ) {{
+        addChild( new PhetPPath( EDGE_STROKE, new Color( 0, 51, 91 ) ) {{
             pipe.addShapeChangeListener( new SimpleObserver() {
                 public void update() {
                     setPathTo( AffineTransform.getTranslateInstance( 0, +edgeOffset ).createTransformedShape( transform.modelToView( pipe.getBottomPath() ) ) );

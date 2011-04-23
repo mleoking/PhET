@@ -19,6 +19,18 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class GrabHandle extends PNode {
     public GrabHandle( final ModelViewTransform transform, final PipeControlPoint controlPoint, final Function1<Point2D, Point2D> constraint ) {
+        //Feasibility test for showing a handle image
+//        addChild( new PImage( BufferedImageUtils.multiScaleToWidth( RESOURCES.getImage( "handle.png" ), 40 ) ) {{
+//            controlPoint.point.addObserver( new SimpleObserver() {
+//                public void update() {
+//                    setOffset( transform.modelToView( controlPoint.point.getValue() ).plus( -getFullBounds().getWidth() / 2, -getFullBounds().getHeight() - PipeFrontNode.EDGE_STROKE.getLineWidth() ).toPoint2D() );
+//                }
+//            } );
+//            addInputEventListener( new CursorHandler() );
+//            addInputEventListener( new RelativeDragHandler( this, transform, controlPoint.point, constraint ) );
+//        }} );
+
+        //Shows a green double-headed arrow for dragging
         double arrowLength = 20;
         addChild( new DoubleArrowNode( new Point2D.Double( 0, -arrowLength ), new Point2D.Double( 0, arrowLength ), 16, 16, 8 ) {{
             setPaint( Color.green );
