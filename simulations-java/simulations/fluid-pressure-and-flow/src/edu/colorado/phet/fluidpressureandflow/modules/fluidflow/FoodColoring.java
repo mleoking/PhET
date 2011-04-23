@@ -19,20 +19,24 @@ public class FoodColoring {
     private ArrayList<SimpleObserver> observers = new ArrayList<SimpleObserver>();
 
     public FoodColoring( double x0, double width, Pipe pipe ) {
+        //Pull back the food coloring by 10 pixels or so.  It shouldn't be moving at the water/pipe interface, so we avoid the problem by not showing any dye there
+        double yMin = 0 + 0.05;
+        double yMax = 1 - 0.05;
+        double dy = 0.1;
         //top
         for ( double x = x0; x <= x0 + width; x += 0.1 ) {
-            particles.add( new Particle( x, 0, pipe ) );
+            particles.add( new Particle( x, yMin, pipe ) );
         }
         //right
-        for ( double y = 0; y <= 1; y += 0.1 ) {
+        for ( double y = yMin; y <= yMax; y += dy ) {
             particles.add( new Particle( x0 + width, y, pipe ) );
         }
         //bottom
         for ( double x = x0 + width; x >= x0; x -= 0.1 ) {
-            particles.add( new Particle( x, 1, pipe ) );
+            particles.add( new Particle( x, yMax, pipe ) );
         }
         //left
-        for ( double y = 1; y >= 0; y -= 0.1 ) {
+        for ( double y = yMax; y >= yMin; y -= dy ) {
             particles.add( new Particle( x0, y, pipe ) );
         }
         this.pipe = pipe;
