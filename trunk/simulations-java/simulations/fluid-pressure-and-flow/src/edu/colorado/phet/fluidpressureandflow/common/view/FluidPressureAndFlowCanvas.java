@@ -23,7 +23,7 @@ import edu.colorado.phet.fluidpressureandflow.common.FPAFStrings;
 import edu.colorado.phet.fluidpressureandflow.common.FluidPressureAndFlowModule;
 import edu.colorado.phet.fluidpressureandflow.common.model.FluidPressureAndFlowModel;
 import edu.colorado.phet.fluidpressureandflow.common.model.Units;
-import edu.colorado.phet.fluidpressureandflow.modules.fluidpressure.FluidPressureControlPanel;
+import edu.colorado.phet.fluidpressureandflow.fluidpressure.FluidPressureControlPanel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 

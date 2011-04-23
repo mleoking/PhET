@@ -19,8 +19,8 @@ import edu.colorado.phet.fluidpressureandflow.common.model.PressureSensor;
 import edu.colorado.phet.fluidpressureandflow.fluidflow.model.FluidFlowModel;
 import edu.colorado.phet.fluidpressureandflow.fluidflow.model.FoodColoring;
 import edu.colorado.phet.fluidpressureandflow.fluidflow.model.Particle;
-import edu.colorado.phet.fluidpressureandflow.modules.fluidpressure.FluidPressureControlPanel;
-import edu.colorado.phet.fluidpressureandflow.modules.fluidpressure.Pool;
+import edu.colorado.phet.fluidpressureandflow.fluidpressure.FluidPressureControlPanel;
+import edu.colorado.phet.fluidpressureandflow.fluidpressure.Pool;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 

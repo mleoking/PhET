@@ -14,7 +14,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ThreeImageNode;
 import edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowApplication;
 import edu.colorado.phet.fluidpressureandflow.common.model.PressureSensor;
 import edu.colorado.phet.fluidpressureandflow.common.model.Units;
-import edu.colorado.phet.fluidpressureandflow.modules.fluidpressure.Pool;
+import edu.colorado.phet.fluidpressureandflow.fluidpressure.Pool;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
