@@ -36,7 +36,7 @@ public class PipeCrossSectionControl extends PNode {
             }
         };
 
-        addChild( new PipeBackNode.GrabHandle( transform, bottom, bottomConstraint ) );
-        addChild( new PipeBackNode.GrabHandle( transform, top, topConstraint ) );
+        addChild( new GrabHandle( transform, bottom, bottomConstraint ) );
+        addChild( new GrabHandle( transform, top, topConstraint ) );
     }
 }
