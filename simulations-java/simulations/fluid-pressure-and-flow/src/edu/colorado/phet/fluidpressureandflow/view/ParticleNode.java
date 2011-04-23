@@ -7,7 +7,7 @@ import java.awt.geom.Ellipse2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.fluidpressureandflow.modules.fluidflow.Particle;
+import edu.colorado.phet.fluidpressureandflow.modules.fluidflow.model.Particle;
 import edu.umd.cs.piccolo.PNode;
 
 /**
