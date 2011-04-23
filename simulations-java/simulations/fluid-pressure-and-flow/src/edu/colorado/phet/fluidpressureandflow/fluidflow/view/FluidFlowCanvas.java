@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.fluidpressureandflow.fluidflow;
+package edu.colorado.phet.fluidpressureandflow.fluidflow.view;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -17,6 +17,7 @@ import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.FloatingClockCont
 import edu.colorado.phet.fluidpressureandflow.common.FPAFStrings;
 import edu.colorado.phet.fluidpressureandflow.common.model.PressureSensor;
 import edu.colorado.phet.fluidpressureandflow.common.view.*;
+import edu.colorado.phet.fluidpressureandflow.fluidflow.FluidFlowModule;
 import edu.colorado.phet.fluidpressureandflow.fluidflow.model.FluidFlowModel;
 import edu.colorado.phet.fluidpressureandflow.fluidflow.model.FoodColoring;
 import edu.colorado.phet.fluidpressureandflow.fluidflow.model.Particle;
