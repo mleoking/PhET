@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.fluidpressureandflow.view;
+package edu.colorado.phet.fluidpressureandflow.common.view;
 
 import java.awt.geom.Point2D;
 

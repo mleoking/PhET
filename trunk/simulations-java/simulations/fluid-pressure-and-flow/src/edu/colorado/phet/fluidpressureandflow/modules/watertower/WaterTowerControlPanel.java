@@ -6,10 +6,10 @@ import java.awt.*;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
-import edu.colorado.phet.fluidpressureandflow.view.CheckBox;
-import edu.colorado.phet.fluidpressureandflow.view.UnitsControlPanel;
+import edu.colorado.phet.fluidpressureandflow.common.view.CheckBox;
+import edu.colorado.phet.fluidpressureandflow.common.view.UnitsControlPanel;
 
-import static edu.colorado.phet.fluidpressureandflow.FPAFStrings.*;
+import static edu.colorado.phet.fluidpressureandflow.common.FPAFStrings.*;
 
 /**
  * Control panel for the Water Tower module, has ruler, measuring tape, units and 'hose'

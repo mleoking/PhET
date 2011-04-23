@@ -5,7 +5,7 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.nodes.VelocitySensor;
-import edu.colorado.phet.fluidpressureandflow.model.VelocitySensorContext;
+import edu.colorado.phet.fluidpressureandflow.common.model.VelocitySensorContext;
 
 /**
  * @author Sam Reid

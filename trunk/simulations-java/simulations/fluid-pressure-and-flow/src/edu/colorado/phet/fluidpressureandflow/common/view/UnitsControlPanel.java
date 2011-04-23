@@ -1,15 +1,15 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.fluidpressureandflow.view;
+package edu.colorado.phet.fluidpressureandflow.common.view;
 
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.view.PhetTitledPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
-import edu.colorado.phet.fluidpressureandflow.FPAFStrings;
-import edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowModule;
-import edu.colorado.phet.fluidpressureandflow.model.FluidPressureAndFlowModel;
-import edu.colorado.phet.fluidpressureandflow.model.Units;
+import edu.colorado.phet.fluidpressureandflow.common.FPAFStrings;
+import edu.colorado.phet.fluidpressureandflow.common.FluidPressureAndFlowModule;
+import edu.colorado.phet.fluidpressureandflow.common.model.FluidPressureAndFlowModel;
+import edu.colorado.phet.fluidpressureandflow.common.model.Units;
 import edu.colorado.phet.fluidpressureandflow.modules.fluidflow.FluidFlowModule;
 import edu.colorado.phet.fluidpressureandflow.modules.fluidpressure.FluidPressureControlPanel;
 

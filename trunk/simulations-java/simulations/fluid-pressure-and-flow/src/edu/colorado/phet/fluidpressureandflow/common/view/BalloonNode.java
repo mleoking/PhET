@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.fluidpressureandflow.view;
+package edu.colorado.phet.fluidpressureandflow.common.view;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
@@ -13,8 +13,8 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.event.RelativeDragHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.fluidpressureandflow.model.Balloon;
-import edu.colorado.phet.fluidpressureandflow.model.Units;
+import edu.colorado.phet.fluidpressureandflow.common.model.Balloon;
+import edu.colorado.phet.fluidpressureandflow.common.model.Units;
 import edu.colorado.phet.fluidpressureandflow.modules.fluidpressure.Pool;
 import edu.umd.cs.piccolo.PNode;
 

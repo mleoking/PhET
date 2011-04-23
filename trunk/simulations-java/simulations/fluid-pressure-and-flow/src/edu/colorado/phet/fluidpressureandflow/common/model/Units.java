@@ -1,11 +1,11 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.fluidpressureandflow.model;
+package edu.colorado.phet.fluidpressureandflow.common.model;
 
 import java.text.DecimalFormat;
 import java.text.FieldPosition;
 
 import edu.colorado.phet.common.phetcommon.math.Function;
-import edu.colorado.phet.fluidpressureandflow.FPAFStrings;
+import edu.colorado.phet.fluidpressureandflow.common.FPAFStrings;
 
 /**
  * The units for the Fluid Pressure and Flow model are SI, and Units converts them to and from different units systems.

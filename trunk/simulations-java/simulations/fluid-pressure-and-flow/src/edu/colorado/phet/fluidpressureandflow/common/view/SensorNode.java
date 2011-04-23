@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.fluidpressureandflow.view;
+package edu.colorado.phet.fluidpressureandflow.common.view;
 
 import java.text.MessageFormat;
 
@@ -8,9 +8,9 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
-import edu.colorado.phet.fluidpressureandflow.FPAFStrings;
-import edu.colorado.phet.fluidpressureandflow.model.Sensor;
-import edu.colorado.phet.fluidpressureandflow.model.Units;
+import edu.colorado.phet.fluidpressureandflow.common.FPAFStrings;
+import edu.colorado.phet.fluidpressureandflow.common.model.Sensor;
+import edu.colorado.phet.fluidpressureandflow.common.model.Units;
 import edu.umd.cs.piccolo.PNode;
 
 /**

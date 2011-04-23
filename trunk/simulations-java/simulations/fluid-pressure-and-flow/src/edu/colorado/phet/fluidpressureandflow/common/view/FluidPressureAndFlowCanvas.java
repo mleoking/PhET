@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.fluidpressureandflow.view;
+package edu.colorado.phet.fluidpressureandflow.common.view;
 
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
@@ -19,10 +19,10 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.MinimizeMaximizeNode;
 import edu.colorado.phet.common.piccolophet.nodes.VelocitySensor;
 import edu.colorado.phet.common.piccolophet.nodes.VelocitySensorNode;
-import edu.colorado.phet.fluidpressureandflow.FPAFStrings;
-import edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowModule;
-import edu.colorado.phet.fluidpressureandflow.model.FluidPressureAndFlowModel;
-import edu.colorado.phet.fluidpressureandflow.model.Units;
+import edu.colorado.phet.fluidpressureandflow.common.FPAFStrings;
+import edu.colorado.phet.fluidpressureandflow.common.FluidPressureAndFlowModule;
+import edu.colorado.phet.fluidpressureandflow.common.model.FluidPressureAndFlowModel;
+import edu.colorado.phet.fluidpressureandflow.common.model.Units;
 import edu.colorado.phet.fluidpressureandflow.modules.fluidpressure.FluidPressureControlPanel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
