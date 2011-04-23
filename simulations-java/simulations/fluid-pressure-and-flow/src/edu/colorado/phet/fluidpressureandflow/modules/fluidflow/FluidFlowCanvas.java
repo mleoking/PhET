@@ -2,14 +2,8 @@
 package edu.colorado.phet.fluidpressureandflow.modules.fluidflow;
 
 import java.awt.*;
-import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.util.Hashtable;
-
-import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.model.property.And;
@@ -17,8 +11,6 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.FloatingClockControlNode;
 import edu.colorado.phet.fluidpressureandflow.FPAFStrings;
@@ -27,7 +19,6 @@ import edu.colorado.phet.fluidpressureandflow.modules.fluidpressure.FluidPressur
 import edu.colorado.phet.fluidpressureandflow.modules.fluidpressure.Pool;
 import edu.colorado.phet.fluidpressureandflow.view.*;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolox.pswing.PSwing;
 
 //import edu.colorado.phet.fluidpressureandflow.model.VelocitySensor;
 
@@ -77,45 +68,6 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas {
             }
         } ) );
 
-        final PSwing rateControlNode = new PSwing(
-                new JSlider( JSlider.HORIZONTAL, 0, 100, 4 ) {{
-                    setFont( new PhetFont( 16, true ) );
-                    FluidPressureAndFlowCanvas.makeTransparent( this );
-                    setPaintTicks( true );
-                    setPaintLabels( true );
-                    setLabelTable( new Hashtable<Object, Object>() {{
-                        final PhetFont tickFont = new PhetFont( 16, false );
-                        put( 0, new JLabel( FPAFStrings.NONE ) {{setFont( tickFont );}} );
-                        put( 100, new JLabel( FPAFStrings.LOTS, new ImageIcon( new PNode() {{
-                            final double w = 10;
-                            addChild( new PhetPPath( new Ellipse2D.Double( -w / 2, -w / 2, w, w ), Color.red ) );
-                        }}.toImage() ), LEADING ) {{
-                            setFont( tickFont );
-                        }} );
-                    }} );
-                    addChangeListener( new ChangeListener() {
-                        public void stateChanged( ChangeEvent e ) {
-                            model.dropperRate.setValue( (double) getValue() );
-                        }
-                    } );
-                    model.dropperRate.addObserver( new SimpleObserver() {
-                        public void update() {
-                            setValue( model.dropperRate.getValue().intValue() );
-                        }
-                    } );
-                }}
-        ) {{
-            final Pipe pipe = model.getPipe();
-            pipe.addShapeChangeListener( new SimpleObserver() {
-                public void update() {
-                    final Point2D pipeTopLeft = transform.modelToView( pipe.getTopLeft() );
-                    final Point2D pipeBottomLeft = transform.modelToView( pipe.getBottomLeft() );
-                    setOffset( pipeTopLeft.getX() - getFullBounds().getWidth() / 2 + 10, pipeBottomLeft.getY() + 50 );
-                }
-            } );
-        }};
-        addChild( rateControlNode );
-
         model.addFoodColoringObserver( new VoidFunction1<FoodColoring>() {
             public void apply( FoodColoring foodColoring ) {
                 addFoodColoringNode( foodColoring );
@@ -132,7 +84,7 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas {
         }} );
 
         addChild( new FluidDensityControl<FluidFlowModel>( module ) {{
-            setOffset( rateControlNode.getFullBounds().getMaxX(), STAGE_SIZE.getHeight() - getFullBounds().getHeight() );
+            setOffset( 0, STAGE_SIZE.getHeight() - getFullBounds().getHeight() );
         }} );
 
         //Some nodes go behind the pool so that it looks like they submerge

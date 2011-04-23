@@ -1,3 +1,5 @@
+Fix red dot density to be 1/3
+Removed slider for dot density
 Pulled back the red dye by 10 percent since fluid shouldn't flow next to the barrier edge
 Randomly spread out the water in x and y so it doesn't look so discrete when it falls a long way and drops separate
 Fixed: measuring tape doesn't reset
