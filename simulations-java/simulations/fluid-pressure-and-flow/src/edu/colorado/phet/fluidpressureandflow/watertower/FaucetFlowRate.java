@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.fluidpressureandflow.modules.watertower;
+package edu.colorado.phet.fluidpressureandflow.watertower;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 
