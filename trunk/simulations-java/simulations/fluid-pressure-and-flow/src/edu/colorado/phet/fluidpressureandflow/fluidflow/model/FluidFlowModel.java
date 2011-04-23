@@ -13,7 +13,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.fluidpressureandflow.common.model.FluidPressureAndFlowModel;
 import edu.colorado.phet.fluidpressureandflow.common.model.PressureSensor;
 import edu.colorado.phet.fluidpressureandflow.common.model.VelocitySensorContext;
-import edu.colorado.phet.fluidpressureandflow.modules.watertower.FPAFVelocitySensor;
+import edu.colorado.phet.fluidpressureandflow.watertower.FPAFVelocitySensor;
 
 /**
  * @author Sam Reid
