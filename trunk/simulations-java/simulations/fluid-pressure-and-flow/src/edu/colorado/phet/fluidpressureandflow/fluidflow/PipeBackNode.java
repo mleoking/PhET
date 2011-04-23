@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.fluidpressureandflow.modules.fluidflow;
+package edu.colorado.phet.fluidpressureandflow.fluidflow;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -17,7 +17,7 @@ import edu.colorado.phet.common.piccolophet.nodes.DoubleArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowApplication;
 import edu.colorado.phet.fluidpressureandflow.common.view.PoolNode;
-import edu.colorado.phet.fluidpressureandflow.modules.fluidflow.model.Pipe;
+import edu.colorado.phet.fluidpressureandflow.fluidflow.model.Pipe;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 

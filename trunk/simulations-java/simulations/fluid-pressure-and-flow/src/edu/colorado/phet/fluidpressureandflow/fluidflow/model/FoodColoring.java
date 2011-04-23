@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.fluidpressureandflow.modules.fluidflow.model;
+package edu.colorado.phet.fluidpressureandflow.fluidflow.model;
 
 import java.awt.*;
 import java.awt.geom.Area;

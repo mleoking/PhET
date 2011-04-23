@@ -1,6 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 
-package edu.colorado.phet.fluidpressureandflow.modules.fluidflow;
+package edu.colorado.phet.fluidpressureandflow.fluidflow;
 
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
@@ -12,7 +12,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowApplication;
-import edu.colorado.phet.fluidpressureandflow.modules.fluidflow.model.Pipe;
+import edu.colorado.phet.fluidpressureandflow.fluidflow.model.Pipe;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;

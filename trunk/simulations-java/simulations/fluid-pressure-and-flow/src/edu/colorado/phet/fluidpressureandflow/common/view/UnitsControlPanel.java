@@ -10,7 +10,7 @@ import edu.colorado.phet.fluidpressureandflow.common.FPAFStrings;
 import edu.colorado.phet.fluidpressureandflow.common.FluidPressureAndFlowModule;
 import edu.colorado.phet.fluidpressureandflow.common.model.FluidPressureAndFlowModel;
 import edu.colorado.phet.fluidpressureandflow.common.model.Units;
-import edu.colorado.phet.fluidpressureandflow.modules.fluidflow.FluidFlowModule;
+import edu.colorado.phet.fluidpressureandflow.fluidflow.FluidFlowModule;
 import edu.colorado.phet.fluidpressureandflow.modules.fluidpressure.FluidPressureControlPanel;
 
 /**
