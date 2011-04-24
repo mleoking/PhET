@@ -13,6 +13,7 @@ import edu.colorado.phet.common.phetcommon.util.function.Function3;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
@@ -29,7 +30,9 @@ public class VBox extends edu.colorado.phet.bendinglight.view.Box {
     }
 
     //Creates a VBox which lays out nodes vertically.  This constructor invocation is meant to be read with 'code folding' on and a good healthy right margin (like 200)
-    public VBox( int spacing ) {
+    public VBox( int spacing,
+                 PNode... children//List of children to be added on initialization
+    ) {
         super( spacing,
                //Specify the width of the node which is used in determining the overall width of the VBox
                new Function1<PBounds, Double>() {
@@ -48,7 +51,8 @@ public class VBox extends edu.colorado.phet.bendinglight.view.Box {
                    public Point2D apply( Double center, PBounds bounds, Double position ) {
                        return new Point2D.Double( center - bounds.getWidth() / 2, position );
                    }
-               } );
+               },
+               children );
     }
 
     //Test

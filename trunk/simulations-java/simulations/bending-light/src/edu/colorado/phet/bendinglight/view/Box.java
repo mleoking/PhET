@@ -29,11 +29,16 @@ public class Box extends PhetPNode {
         this( 0, getPanelDimension, getNodeDimension, getRelativePosition );
     }
 
-    public Box( int spacing, Function1<PBounds, Double> getPanelDimension, Function1<PBounds, Double> getNodeDimension, Function3<Double, PBounds, Double, Point2D> getRelativePosition ) {
+    public Box( int spacing, Function1<PBounds, Double> getPanelDimension, Function1<PBounds, Double> getNodeDimension, Function3<Double, PBounds, Double, Point2D> getRelativePosition, PNode... children ) {
         this.spacing = spacing;
         this.getPanelDimension = getPanelDimension;
         this.getNodeDimension = getNodeDimension;
         this.getRelativePosition = getRelativePosition;
+
+        //Add any children provided in the constructor
+        for ( PNode child : children ) {
+            addChild( child );
+        }
     }
 
     //Adds the specified child and updates the layout.  This overrides the method that provides 'index' since that is the central point which is called from any of the addChild methods.
