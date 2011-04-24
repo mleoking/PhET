@@ -17,8 +17,11 @@ import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.MinimizeMaximizeNode;
+import edu.colorado.phet.common.piccolophet.nodes.SimSpeedControlPNode;
 import edu.colorado.phet.common.piccolophet.nodes.VelocitySensor;
 import edu.colorado.phet.common.piccolophet.nodes.VelocitySensorNode;
+import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
+import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.FloatingClockControlNode;
 import edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowApplication;
 import edu.colorado.phet.fluidpressureandflow.common.FPAFStrings;
 import edu.colorado.phet.fluidpressureandflow.common.FluidPressureAndFlowModule;
@@ -57,6 +60,15 @@ public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> ext
                 makeTransparent( (JComponent) component1 );
             }
         }
+    }
+
+    //Create clock controls (play/pause), including a time speed slider (no time readout)
+    protected HBox createClockControls( final FluidPressureAndFlowModule<T> module, final Property<Boolean> clockRunning ) {
+        return new HBox( 10,
+                         new SimSpeedControlPNode( 0.1, new Property<Double>( 1.0 ), 2.0, 0.0, new Property<Color>( Color.black ) ),
+                         new FloatingClockControlNode( clockRunning, null, module.getClock(), FPAFStrings.RESET, new Property<Color>( Color.white ) ) ) {{
+            setOffset( STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2, STAGE_SIZE.getHeight() - getFullBounds().getHeight() );
+        }};
     }
 
     protected void addChild( PNode node ) {

@@ -13,8 +13,6 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
-import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.FloatingClockControlNode;
-import edu.colorado.phet.fluidpressureandflow.common.FPAFStrings;
 import edu.colorado.phet.fluidpressureandflow.common.model.PressureSensor;
 import edu.colorado.phet.fluidpressureandflow.common.view.*;
 import edu.colorado.phet.fluidpressureandflow.fluidflow.FluidFlowModule;
@@ -124,7 +122,7 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas {
             } );
         }};
 
-        Property<Boolean> clockRunning = new Property<Boolean>( true );
+        final Property<Boolean> clockRunning = new Property<Boolean>( true );
         //wire up the clock to be running if the module is active and if the clock control button has been pressed
         new And( clockRunning, moduleActive ) {{
             addObserver( new SimpleObserver() {
@@ -133,10 +131,9 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas {
                 }
             } );
         }};
-        //No time readout
-        addChild( new FloatingClockControlNode( clockRunning, null, module.getClock(), FPAFStrings.RESET, new Property<Color>( Color.white ) ) {{
-            setOffset( STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2, STAGE_SIZE.getHeight() - getFullBounds().getHeight() );
-        }} );
+
+        //Add clock controls (play/pause), including a time speed slider (no time readout)
+        addChild( createClockControls( module, clockRunning ) );
     }
 
     private void addFoodColoringNode( final FoodColoring p ) {
