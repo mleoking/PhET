@@ -40,6 +40,7 @@ public class FluidPressureAndFlowModel implements PressureSensor.Context, ResetM
 
     private final Function.LinearFunction pressureFunction = new Function.LinearFunction( 0, 500, standardAirPressure.getValue(), EARTH_AIR_PRESSURE_AT_500_FT );//see http://www.engineeringtoolbox.com/air-altitude-pressure-d_462.html
     private ArrayList<VoidFunction0> resetListeners = new ArrayList<VoidFunction0>();
+    public final Property<Double> simulationTimeStep = new Property<Double>( clock.getDt() );//Property<Double> that indicates (and can be used to set) the clock's dt time step (in seconds)
 
     public FluidPressureAndFlowModel() {
         distanceUnit.addObserver( new VoidFunction1<Units.Unit>() {
@@ -53,6 +54,18 @@ public class FluidPressureAndFlowModel implements PressureSensor.Context, ResetM
                 else {
                     throw new RuntimeException( "Unknown unit: " + unit );
                 }
+            }
+        } );
+
+        //Wire up the clock to the Property<Double> that identifies the dt value
+        simulationTimeStep.addObserver( new VoidFunction1<Double>() {
+            public void apply( Double dt ) {
+                clock.setDt( dt );
+            }
+        } );
+        clock.addConstantDtClockListener( new ConstantDtClock.ConstantDtClockAdapter() {
+            @Override public void dtChanged( ConstantDtClock.ConstantDtClockEvent event ) {
+                simulationTimeStep.setValue( event.getClock().getDt() );
             }
         } );
     }

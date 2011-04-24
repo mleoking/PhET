@@ -1,4 +1,4 @@
-Added time speed slider (not wired up)
+Added time speed slider
 Changed the maximize button from green to blue to make it more visible, see #2824
 # 0.00.12 (51100) Apr 23, 2011
 Added handle images onto the side of the pipe
