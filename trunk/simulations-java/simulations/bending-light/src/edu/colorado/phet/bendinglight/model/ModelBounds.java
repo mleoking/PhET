@@ -18,10 +18,6 @@ public class ModelBounds extends Property<Option<ImmutableRectangle2D>> {
         super( new Option.None<ImmutableRectangle2D>() );
     }
 
-    public ModelBounds( Option<ImmutableRectangle2D> value ) {
-        super( value );
-    }
-
     public Point2D getClosestPoint( Point2D point ) {
         if ( getValue().isNone() ) {
             return point;

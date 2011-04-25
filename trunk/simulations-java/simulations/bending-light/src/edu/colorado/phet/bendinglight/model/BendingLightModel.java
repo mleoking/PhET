@@ -62,7 +62,7 @@ public class BendingLightModel implements ResetModel {
     public final Property<Double> wavelengthProperty;
     protected final IntensityMeter intensityMeter = new IntensityMeter( modelWidth * 0.3, -modelHeight * 0.3, modelWidth * 0.4, -modelHeight * 0.3 );
 
-    //initial support for bounding drags, not fully implemented yet
+    //support for bounding drags
     public final ModelBounds visibleModelBounds = new ModelBounds();//model coordinates of what is visible on the screen, or None if not yet set (has to be set by canvas after canvas is constructed)
 
     //Listeners
