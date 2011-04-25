@@ -32,22 +32,22 @@ public class PhetColorScheme {
     public static final Color PINK = new Color( 255, 153, 204 );
     public static final Color GOLD = new Color( 255, 235, 0 );
     public static final Color TAN_ORANGE = new Color( 236, 153, 55 );
-    public static final Color RED_ALTERNATIVE = new Color( 255, 85, 0 );//Reddish color that also looks good in colorblind tests, see #2753
+    public static final Color RED_COLORBLIND = new Color( 255, 85, 0 );//Reddish color that also looks good in colorblind tests, see #2753
 
     public static final Color TOTAL_ENERGY = TAN_ORANGE;
     public static final Color KINETIC_ENERGY = GREEN;
     public static final Color POTENTIAL_ENERGY = BLUE;
-    public static final Color HEAT_THERMAL_ENERGY = RED_ALTERNATIVE;
+    public static final Color HEAT_THERMAL_ENERGY = RED_COLORBLIND;
     public static final Color ELASTIC_ENERGY = PALE_BLUE;
     public static final Color NET_WORK = DARK_GREEN;
     public static final Color TOTAL_FORCE = DARK_GREEN;
-    public static final Color FRICTION_FORCE = RED_ALTERNATIVE;
+    public static final Color FRICTION_FORCE = RED_COLORBLIND;
     public static final Color NORMAL_FORCE = GOLD;
     public static final Color GRAVITATIONAL_FORCE = LIGHT_BLUE;
     public static final Color APPLIED_FORCE = TAN_ORANGE;
     public static final Color WALL_FORCE = BRICK_RED_BROWN;
     public static final Color POSITION = BLUE;
-    public static final Color VELOCITY = RED_ALTERNATIVE;
+    public static final Color VELOCITY = RED_COLORBLIND;
     public static final Color ACCELERATION = GREEN;
     public static final Color REAL_PART = ORANGE;
     public static final Color IMAGINARY_PART = PURPLE;

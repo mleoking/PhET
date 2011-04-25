@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.common.photonabsorption.model.atoms;
 
-import java.awt.Color;
+import java.awt.*;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
@@ -19,7 +19,7 @@ public class OxygenAtom extends Atom {
     // Class Data
     //------------------------------------------------------------------------
 
-    private static final Color REPRESENTATION_COLOR = PhetColorScheme.RED_ALTERNATIVE;
+    private static final Color REPRESENTATION_COLOR = PhetColorScheme.RED_COLORBLIND;
     public static final double MASS = 12.011;   // In atomic mass units (AMU).
     private static final double RADIUS = 73;     // In picometers.
 
@@ -32,6 +32,6 @@ public class OxygenAtom extends Atom {
     }
 
     public OxygenAtom() {
-        this( new Point2D.Double(0, 0) );
+        this( new Point2D.Double( 0, 0 ) );
     }
 }

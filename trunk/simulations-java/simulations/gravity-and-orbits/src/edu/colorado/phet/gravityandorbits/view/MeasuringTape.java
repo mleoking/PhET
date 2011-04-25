@@ -137,8 +137,8 @@ public class MeasuringTape extends PNode {
     private static class CrossHairGraphic extends PNode {
         public CrossHairGraphic( final Property<ImmutableVector2D> point, final Property<ModelViewTransform> transform ) {
             addChild( new PhetPPath( new Ellipse2D.Double( -CROSS_HAIR_RADIUS, -CROSS_HAIR_RADIUS, CROSS_HAIR_RADIUS * 2, CROSS_HAIR_RADIUS * 2 ), new Color( 0, 0, 0, 0 ) ) );
-            addChild( new PhetPPath( new Line2D.Double( -CROSS_HAIR_RADIUS, 0, CROSS_HAIR_RADIUS, 0 ), new BasicStroke( 2 ), PhetColorScheme.RED_ALTERNATIVE ) );
-            addChild( new PhetPPath( new Line2D.Double( 0, -CROSS_HAIR_RADIUS, 0, CROSS_HAIR_RADIUS ), new BasicStroke( 2 ), PhetColorScheme.RED_ALTERNATIVE ) );
+            addChild( new PhetPPath( new Line2D.Double( -CROSS_HAIR_RADIUS, 0, CROSS_HAIR_RADIUS, 0 ), new BasicStroke( 2 ), PhetColorScheme.RED_COLORBLIND ) );
+            addChild( new PhetPPath( new Line2D.Double( 0, -CROSS_HAIR_RADIUS, 0, CROSS_HAIR_RADIUS ), new BasicStroke( 2 ), PhetColorScheme.RED_COLORBLIND ) );
             final SimpleObserver updateOffset = new SimpleObserver() {
                 public void update() {
                     setOffset( transform.getValue().modelToView( point.getValue() ).toPoint2D() );

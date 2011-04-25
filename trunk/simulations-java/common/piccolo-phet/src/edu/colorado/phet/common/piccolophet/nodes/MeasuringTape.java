@@ -252,11 +252,11 @@ public class MeasuringTape extends PhetPNode {
         public CrossHairGraphic( int length ) {
             PPath verticalStroke = new PPath( new Line2D.Double( length / 2, 0, length / 2, length ) );
             verticalStroke.setStroke( new BasicStroke( 2 ) );
-            verticalStroke.setStrokePaint( PhetColorScheme.RED_ALTERNATIVE );
+            verticalStroke.setStrokePaint( PhetColorScheme.RED_COLORBLIND );
 
             PPath horizStroke = new PPath( new Line2D.Double( 0, length / 2, length, length / 2 ) );
             horizStroke.setStroke( new BasicStroke( 2 ) );
-            horizStroke.setStrokePaint( PhetColorScheme.RED_ALTERNATIVE );
+            horizStroke.setStrokePaint( PhetColorScheme.RED_COLORBLIND );
 
             addChild( verticalStroke );
             addChild( horizStroke );
