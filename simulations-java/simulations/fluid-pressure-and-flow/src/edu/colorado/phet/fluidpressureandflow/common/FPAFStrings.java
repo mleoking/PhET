@@ -22,6 +22,7 @@ public class FPAFStrings {
     public static final String WATER_TOWER = getString( "waterTower" );
     public static final String FLUID_DENSITY = getString( "fluidDensity" );
     public static final String KG_PER_M_3 = getString( "kgPerM3" );
+    public static final String LB_PER_FT_3 = getString( "lbPerFt3" );
     public static final String GASOLINE = getString( "gasoline" );
     public static final String WATER = getString( "water" );
     public static final String HONEY = getString( "honey" );
