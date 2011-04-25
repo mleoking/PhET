@@ -26,9 +26,8 @@ helium-nucleus.png author=PhET
 hydrogen-nucleus.png  author=PhET
 magenta_block.png author=PhET
 moving-man.gif author=PhET
-volcano_cool.png source=Open Clip Art notes='Volcano 2', "http://www.openclipart.org/detail/64057"
-volcano_hot.png source=Open Clip Art notes='Volcano', "http://www.openclipart.org/detail/64051"
-
+volcano_cool.png source=PhET
+volcano_hot.png source=PhET
 air_probe.png source=Open Clip Art notes='Chemistry set', "http://www.openclipart.org/detail/1763"
 bone.png source=Wikimedia Commons notes='Bone award', "http://commons.wikimedia.org/wiki/File:Bone_award.png"
 cloud_1.png source=Open Clip Art notes='cloud ', "http://www.openclipart.org/detail/28302"
