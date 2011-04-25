@@ -1,3 +1,4 @@
+Removed balloon model and view
 Fixed: Fluid Density metric units should be HTML to show superscript
 Made it possible to select groups of units as "metric" or "english", but left "atmospheres" pressure unit in 1st tab
 Added time speed slider
