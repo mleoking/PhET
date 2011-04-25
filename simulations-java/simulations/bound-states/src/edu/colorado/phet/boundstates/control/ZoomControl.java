@@ -1,14 +1,5 @@
 // Copyright 2002-2011, University of Colorado
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
-
 package edu.colorado.phet.boundstates.control;
 
 import java.awt.*;
@@ -36,7 +27,6 @@ import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
  * ZoomControl is a control for zooming in and out.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class ZoomControl extends JPanel {
 
@@ -56,7 +46,6 @@ public class ZoomControl extends JPanel {
     private int _orientation;
     private ArrayList _plots; // array of XYPlot
     private ZoomSpec _zoomSpec;
-    private int _zoomIndex;
     private JButton _zoomInButton, _zoomOutButton;
 
     //----------------------------------------------------------------------------
@@ -131,7 +120,6 @@ public class ZoomControl extends JPanel {
      */
     public void setZoomSpec( ZoomSpec zoomSpec ) {
         _zoomSpec = zoomSpec;
-        _zoomIndex = zoomSpec.getDefaultIndex();
         updateAxis();
         updateButtons();
     }
@@ -150,59 +138,11 @@ public class ZoomControl extends JPanel {
         }
     }
 
-    /**
-     * Removes a plot from the collection of plots that will be zoomed.
-     *
-     * @param plot
-     */
-    public void removePlot( XYPlot plot ) {
-        _plots.remove( plot );
-    }
-
-    /**
-     * Gets the current zoom index.
-     * The zoom index is an index into the constructor's specs argument.
-     *
-     * @return int
-     */
-    public int getZoomIndex() {
-        return _zoomIndex;
-    }
-
-    /**
-     * Gets the AxisSpec that corresponds to the current zoom level.
-     *
-     * @return AxisSpec
-     */
-    public AxisSpec getAxisSpec() {
-        return _zoomSpec.getAxisSpec( _zoomIndex );
-    }
-
-    /**
-     * Sets the zoom index.
-     *
-     * @param zoomIndex
-     */
-    public void setZoomIndex( int zoomIndex ) {
-        _zoomIndex = zoomIndex;
-        updateAxis();
-        updateButtons();
-    }
-
-    /**
-     * Resets to the default zoom level.
-     */
-    public void resetZoom() {
-        _zoomIndex = _zoomSpec.getDefaultIndex();
-        updateAxis();
-        updateButtons();
-    }
-
     /*
     * Zooms in one level.
     */
     private void handleZoomIn() {
-        _zoomIndex--;
+        _zoomSpec.zoomIn();
         updateAxis();
         updateButtons();
     }
@@ -211,7 +151,7 @@ public class ZoomControl extends JPanel {
     * Zooms out one level.
     */
     private void handleZoomOut() {
-        _zoomIndex++;
+        _zoomSpec.zoomOut();
         updateAxis();
         updateButtons();
     }
@@ -222,7 +162,7 @@ public class ZoomControl extends JPanel {
     private void updateAxis() {
 
         // Range
-        AxisSpec axisSpec = _zoomSpec.getAxisSpec( _zoomIndex );
+        AxisSpec axisSpec = _zoomSpec.getAxisSpec();
         Range range = axisSpec.getRange();
 
         // Ticks
@@ -250,8 +190,8 @@ public class ZoomControl extends JPanel {
     * Updates the state of the zoom buttons.
     */
     private void updateButtons() {
-        _zoomInButton.setEnabled( _zoomSpec != null && _zoomIndex > 0 );
-        _zoomOutButton.setEnabled( _zoomSpec != null && _zoomIndex < _zoomSpec.getNumberOfZoomLevels() - 1 );
+        _zoomInButton.setEnabled( _zoomSpec != null && _zoomSpec.getIndex() > 0 );
+        _zoomOutButton.setEnabled( _zoomSpec != null && _zoomSpec.getIndex() < _zoomSpec.getNumberOfZoomLevels() - 1 );
     }
 
     //----------------------------------------------------------------------------
@@ -260,20 +200,19 @@ public class ZoomControl extends JPanel {
 
     /**
      * ZoomSpec describes the number of zoom levels, how to configure the axis
-     * for each zoom level, and which zoom level is the default.
+     * for each zoom level, and the current zoom index.
      * The axisSpecs are assumed to be ordered from smallest to largest range.
-     * Objects of this type are immutable.
      */
     public static class ZoomSpec {
 
         private AxisSpec[] _axisSpecs;
-        private int _defaultIndex;
+        private int _index;
 
-        public ZoomSpec( AxisSpec[] axisSpecs, final int defaultIndex ) {
+        public ZoomSpec( AxisSpec[] axisSpecs, final int index ) {
             assert ( axisSpecs.length > 0 );
-            assert ( defaultIndex < axisSpecs.length );
+            assert ( index < axisSpecs.length );
             _axisSpecs = axisSpecs;
-            _defaultIndex = defaultIndex;
+            _index = index;
         }
 
         public ZoomSpec( AxisSpec[] axisSpecs ) {
@@ -281,26 +220,34 @@ public class ZoomControl extends JPanel {
         }
 
         /**
-         * Convenience constructor, for axes that don't really zoom.
+         * Convenience constructor, for axes that have 1 zoom level, and therefore don't zoom.
          *
          * @param axisSpec
          */
         public ZoomSpec( AxisSpec axisSpec ) {
-            _axisSpecs = new AxisSpec[1];
-            _axisSpecs[0] = axisSpec;
-            _defaultIndex = 0;
+            this( new AxisSpec[] { axisSpec } );
         }
 
         public int getNumberOfZoomLevels() {
             return _axisSpecs.length;
         }
 
-        public int getDefaultIndex() {
-            return _defaultIndex;
+        public int getIndex() {
+            return _index;
         }
 
-        public AxisSpec getAxisSpec( int index ) {
-            return _axisSpecs[index];
+        public void zoomIn() {
+            _index--;
+            assert ( _index >= 0 );
+        }
+
+        public void zoomOut() {
+            _index++;
+            assert ( _index <= getNumberOfZoomLevels() - 1 );
+        }
+
+        public AxisSpec getAxisSpec() {
+            return _axisSpecs[_index];
         }
     }
 }
