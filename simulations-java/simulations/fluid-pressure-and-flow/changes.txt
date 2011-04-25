@@ -1,3 +1,4 @@
+Fixed: Fluid Density metric units should be HTML to show superscript
 Made it possible to select groups of units as "metric" or "english", but left "atmospheres" pressure unit in 1st tab
 Added time speed slider
 Changed the maximize button from green to blue to make it more visible, see #2824

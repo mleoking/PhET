@@ -4,11 +4,8 @@ package edu.colorado.phet.fluidpressureandflow.common.view;
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.HashMap;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import javax.swing.text.JTextComponent;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -16,18 +13,15 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.nodes.MinimizeMaximizeNode;
 import edu.colorado.phet.common.piccolophet.nodes.SimSpeedControlPNode;
 import edu.colorado.phet.common.piccolophet.nodes.VelocitySensor;
 import edu.colorado.phet.common.piccolophet.nodes.VelocitySensorNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.FloatingClockControlNode;
-import edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowApplication;
 import edu.colorado.phet.fluidpressureandflow.common.FPAFStrings;
 import edu.colorado.phet.fluidpressureandflow.common.FluidPressureAndFlowModule;
 import edu.colorado.phet.fluidpressureandflow.common.model.FluidPressureAndFlowModel;
 import edu.colorado.phet.fluidpressureandflow.common.model.units.Unit;
-import edu.colorado.phet.fluidpressureandflow.fluidpressure.FluidPressureControlPanel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -79,41 +73,6 @@ public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> ext
 
     protected void removeChild( PNode node ) {
         rootNode.removeChild( node );
-    }
-
-    public static class FluidDensityControl<T extends FluidPressureAndFlowModel> extends PNode {
-        public FluidDensityControl( final FluidPressureAndFlowModule<T> module ) {
-            final SliderControl fluidDensityControl = new SliderControl( FPAFStrings.FLUID_DENSITY, FPAFStrings.KG_PER_M_3, FluidPressureAndFlowModel.GASOLINE_DENSITY, FluidPressureAndFlowModel.HONEY_DENSITY, module.getFluidPressureAndFlowModel().liquidDensity, new HashMap<Double, TickLabel>() {{
-                put( FluidPressureAndFlowModel.GASOLINE_DENSITY, new TickLabel( FPAFStrings.GASOLINE ) );
-                put( FluidPressureAndFlowModel.WATER_DENSITY, new TickLabel( FPAFStrings.WATER ) );
-                put( FluidPressureAndFlowModel.HONEY_DENSITY, new TickLabel( FPAFStrings.HONEY ) );
-            }} ) {{
-                module.fluidDensityControlVisible.addObserver( new SimpleObserver() {
-                    public void update() {
-                        setVisible( module.fluidDensityControlVisible.getValue() );
-                    }
-                } );
-            }};
-            MinimizeMaximizeNode minimizeMaximizeNode = new MinimizeMaximizeNode( FPAFStrings.FLUID_DENSITY, MinimizeMaximizeNode.BUTTON_LEFT, FluidPressureControlPanel.CONTROL_FONT, Color.black, 10 ) {{
-                addChangeListener( new ChangeListener() {
-                    public void stateChanged( ChangeEvent e ) {
-                        module.fluidDensityControlVisible.setValue( isMaximized() );
-                    }
-                } );
-                module.fluidDensityControlVisible.addObserver( new SimpleObserver() {
-                    public void update() {
-                        setMaximized( module.fluidDensityControlVisible.getValue() );
-                    }
-                } );
-                translate( 0, -getFullBounds().getHeight() );
-
-                //The default green + button is invisible against the green ground, so use a blue one instead
-                setMaximizeImage( FluidPressureAndFlowApplication.RESOURCES.getImage( "maximizeButtonBlue.png" ) );
-            }};
-
-            addChild( fluidDensityControl );
-            addChild( minimizeMaximizeNode );
-        }
     }
 
     protected void synchronizeRulerLocations( final MeterStick meterStick, final EnglishRuler englishRuler ) {
