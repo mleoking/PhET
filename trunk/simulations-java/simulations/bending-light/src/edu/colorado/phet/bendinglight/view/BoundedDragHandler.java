@@ -11,7 +11,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
- * The BoundedToolDragHandler is used by Tool instances so that when they are dragged out of the toolbox, they translate around the screen but without leaving the visible bounds.
+ * The BoundedToolDragHandler is used by draggable instances so that when they are dragged about the play area they are constrained to remain on the screen.
  *
  * @author Sam Reid
  */
