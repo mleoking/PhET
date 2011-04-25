@@ -1,14 +1,5 @@
 // Copyright 2002-2011, University of Colorado
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
-
 package edu.colorado.phet.common.piccolophet.nodes;
 
 import java.awt.*;
@@ -50,7 +41,6 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * It handles visible wavelengths, plus optional UV and IR wavelengths.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class WavelengthControl extends PhetPNode {
 

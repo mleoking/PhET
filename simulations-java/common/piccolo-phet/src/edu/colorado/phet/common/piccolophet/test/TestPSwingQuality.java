@@ -1,14 +1,4 @@
 // Copyright 2002-2011, University of Colorado
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
-
 package edu.colorado.phet.common.piccolophet.test;
 
 import java.awt.*;
@@ -26,7 +16,6 @@ import edu.umd.cs.piccolox.pswing.PSwingCanvas;
  * transparent panels is unacceptable.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class TestPSwingQuality extends JFrame {
 

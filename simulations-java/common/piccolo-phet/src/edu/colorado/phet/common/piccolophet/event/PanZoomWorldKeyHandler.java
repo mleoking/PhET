@@ -1,13 +1,4 @@
 // Copyright 2002-2011, University of Colorado
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
 package edu.colorado.phet.common.piccolophet.event;
 
 import java.awt.event.KeyEvent;
@@ -16,12 +7,6 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.activities.PActivity;
-
-/**
- * User: Sam Reid
- * Date: Sep 13, 2005
- * Time: 1:20:04 AM
- */
 
 public class PanZoomWorldKeyHandler implements KeyListener {
     private PhetPCanvas phetPCanvas;

@@ -1,14 +1,4 @@
 // Copyright 2002-2011, University of Colorado
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
-
 package edu.colorado.phet.common.piccolophet.test.help;
 
 import java.awt.*;
@@ -36,7 +26,6 @@ import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
-
 /**
  * TestGlassPaneCanvas tests GlassPaneCanvas.
  * <p/>
@@ -48,7 +37,6 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * so that you can verify that the cursor is being set correctly.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class TestGlassPaneCanvas extends PhetApplication {
 

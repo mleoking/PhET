@@ -1,14 +1,4 @@
 // Copyright 2002-2011, University of Colorado
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
-
 package edu.colorado.phet.common.piccolophet.test.help;
 
 import java.awt.*;
@@ -33,7 +23,6 @@ import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PComposite;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
-
 /**
  * TestHelpPane tests PhET's Piccolo-compatible help subsystem.
  * It tests position and visibilty tracking for various objects.
@@ -41,7 +30,6 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * "screen children" and "world children".
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class TestHelpPane extends PhetApplication {
 

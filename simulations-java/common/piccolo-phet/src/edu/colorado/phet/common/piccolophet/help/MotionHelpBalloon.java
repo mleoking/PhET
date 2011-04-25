@@ -1,14 +1,4 @@
 // Copyright 2002-2011, University of Colorado
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
-
 package edu.colorado.phet.common.piccolophet.help;
 
 import java.awt.event.ActionEvent;
@@ -39,7 +29,6 @@ import edu.umd.cs.piccolo.util.PAffineTransform;
  * visual attributes (text, balloon, arrow, etc.)
  *
  * @author Sam Reid / Chris Malley
- * @version $Revision$
  */
 public class MotionHelpBalloon extends HelpBalloon {
 

@@ -1,13 +1,5 @@
 // Copyright 2002-2011, University of Colorado
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
 package edu.colorado.phet.common.piccolophet.util;
 
 import edu.umd.cs.piccolo.PCamera;
@@ -17,7 +9,6 @@ import edu.umd.cs.piccolo.nodes.PText;
 /**
  * Prints the piccolo tree.
  */
-
 public class DebugPiccoloTree {
     public DebugPiccoloTree() {
     }

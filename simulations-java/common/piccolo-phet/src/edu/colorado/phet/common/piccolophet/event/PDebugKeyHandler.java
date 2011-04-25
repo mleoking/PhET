@@ -1,21 +1,10 @@
 // Copyright 2002-2011, University of Colorado
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
-
 package edu.colorado.phet.common.piccolophet.event;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 import edu.umd.cs.piccolo.util.PDebug;
-
 
 /**
  * PDebugKeyHandler is a key handler that allows you to toggle
@@ -35,7 +24,6 @@ import edu.umd.cs.piccolo.util.PDebug;
  * </code>
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class PDebugKeyHandler extends KeyAdapter {
 

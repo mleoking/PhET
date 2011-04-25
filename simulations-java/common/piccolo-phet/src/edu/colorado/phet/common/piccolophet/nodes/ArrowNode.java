@@ -1,14 +1,5 @@
 // Copyright 2002-2011, University of Colorado
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
-
 package edu.colorado.phet.common.piccolophet.nodes;
 
 import java.awt.geom.Point2D;
@@ -20,7 +11,6 @@ import edu.umd.cs.piccolo.nodes.PPath;
  * ArrowNode is a PPath that draws an arrow.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class ArrowNode extends PPath {
 
