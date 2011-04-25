@@ -1,3 +1,4 @@
+Fixed bounds of sweater charge generation to better fit the new image
 4/25/2011 Changed 'balloon-blue.gif', 'balloon-yellow.gif', 'sweaterWidth300.gif' to new pictures taken by Kathy and Oliver, see #2800
 # 1.14.05 (51046) Apr 21, 2011
 Fixed: reset button should say "reset" instead of "reset all"

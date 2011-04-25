@@ -232,10 +232,10 @@ public class BalloonsSimulationPanel extends JPanel {
         layeredPainter.addPainter( wall, 10 );
 
         int numSweaterCharges = 100;
-        int minX = 50;
-        int maxX = sweaterImage.getWidth() - 50;
-        int minY = 50;
-        int maxY = sweaterImage.getHeight() - 50;
+        int minX = 70;
+        int maxX = sweaterImage.getWidth() - 55;
+        int minY = 90;
+        int maxY = sweaterImage.getHeight() - 80;
         final System2D sys = new System2D();
         Sweater wool = new Sweater( new DoublePoint( sweaterImage.getWidth() / 2, sweaterImage.getHeight() / 2 ) );
 
