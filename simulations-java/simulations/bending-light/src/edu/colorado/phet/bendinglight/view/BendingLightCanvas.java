@@ -4,8 +4,6 @@ package edu.colorado.phet.bendinglight.view;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -196,29 +194,6 @@ public class BendingLightCanvas<T extends BendingLightModel> extends PhetPCanvas
         } );
         timer.start();
 
-        //Notify model elements about the canvas area so they can't be dragged outside it.
-        final VoidFunction0 updateDragBounds = new VoidFunction0() {
-            public void apply() {
-                //identify the bounds that objects will be constrained to be dragged within
-                int insetPixels = 10;
-                final Rectangle2D.Double viewBounds = new Rectangle2D.Double( insetPixels, insetPixels, getWidth() - insetPixels * 2, getHeight() - insetPixels * 2 );
-
-                //Convert to model bounds and store in the model
-                final ImmutableRectangle2D modelBounds = new ImmutableRectangle2D( transform.viewToModel( getRootNode().globalToLocal( viewBounds ) ) );
-                model.visibleModelBounds.setValue( new Option.Some<ImmutableRectangle2D>( modelBounds ) );
-            }
-        };
-        updateDragBounds.apply();
-        addComponentListener( new ComponentAdapter() {
-            @Override public void componentShown( ComponentEvent e ) {
-                updateDragBounds.apply();
-            }
-
-            @Override public void componentResized( ComponentEvent e ) {
-                updateDragBounds.apply();
-            }
-        } );
-
         if ( debug ) {
             //Debug for showing stage
             addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, stageSize.getWidth(), stageSize.getHeight() ), new BasicStroke( 2 ), Color.red ) );
@@ -232,6 +207,19 @@ public class BendingLightCanvas<T extends BendingLightModel> extends PhetPCanvas
                 } );
             }} );
         }
+    }
+
+    //Notify model elements about the canvas area so they can't be dragged outside it.
+    @Override protected void updateLayout() {
+        super.updateLayout();
+
+        //identify the bounds that objects will be constrained to be dragged within
+        int insetPixels = 10;
+        final Rectangle2D.Double viewBounds = new Rectangle2D.Double( insetPixels, insetPixels, getWidth() - insetPixels * 2, getHeight() - insetPixels * 2 );
+
+        //Convert to model bounds and store in the model
+        final ImmutableRectangle2D modelBounds = new ImmutableRectangle2D( transform.viewToModel( getRootNode().globalToLocal( viewBounds ) ) );
+        model.visibleModelBounds.setValue( new Option.Some<ImmutableRectangle2D>( modelBounds ) );
     }
 
     public PNode getRootNode() {
