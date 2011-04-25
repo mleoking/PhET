@@ -47,7 +47,7 @@ public class WaterTowerCanvas extends FluidPressureAndFlowCanvas {
         } );
 
         for ( PressureSensor pressureSensor : module.getFluidPressureAndFlowModel().getPressureSensors() ) {
-            addChild( new PressureSensorNode( transform, pressureSensor, module.getFluidPressureAndFlowModel().pressureUnit ) );
+            addChild( new PressureSensorNode( transform, pressureSensor, module.getFluidPressureAndFlowModel().units ) );
         }
 
         addVelocitySensorNodes( module.getFluidPressureAndFlowModel() );
@@ -75,7 +75,7 @@ public class WaterTowerCanvas extends FluidPressureAndFlowCanvas {
         addChild( meterStick );
         addChild( englishRuler );
 
-        measuringTape = new FPAFMeasuringTape( transform, module.measuringTapeVisible, module.getFluidPressureAndFlowModel().distanceUnit );
+        measuringTape = new FPAFMeasuringTape( transform, module.measuringTapeVisible, module.getFluidPressureAndFlowModel().units );
         addChild( measuringTape );
 
         Property<Boolean> moduleActive = new Property<Boolean>( false ) {{

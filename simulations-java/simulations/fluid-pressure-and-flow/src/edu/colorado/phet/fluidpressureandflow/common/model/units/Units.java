@@ -1,10 +1,9 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.fluidpressureandflow.common.model;
+package edu.colorado.phet.fluidpressureandflow.common.model.units;
 
 import java.text.DecimalFormat;
 import java.text.FieldPosition;
 
-import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.fluidpressureandflow.common.FPAFStrings;
 
 /**
@@ -37,46 +36,6 @@ public class Units {
 
     public double feetToMeters( double feet ) {
         return feet * 0.3048;
-    }
-
-    public static interface Unit {
-        double siToUnit( double value );
-
-        double toSI( double value );
-
-        String getAbbreviation();
-
-        public DecimalFormat getDecimalFormat();
-    }
-
-    public static class LinearUnit implements Unit {
-        private final Function.LinearFunction linearFunction;
-        private final String name;
-        private final String abbreviation;
-        private final DecimalFormat decimalFormat;
-
-        public LinearUnit( String name, String abbreviation, double siToUnitScale, DecimalFormat decimalFormat ) {
-            this.name = name;
-            this.abbreviation = abbreviation;
-            this.decimalFormat = decimalFormat;
-            linearFunction = new Function.LinearFunction( 0, 1, 0, siToUnitScale );
-        }
-
-        public String getAbbreviation() {
-            return abbreviation;
-        }
-
-        public DecimalFormat getDecimalFormat() {
-            return decimalFormat;
-        }
-
-        public double siToUnit( double value ) {
-            return linearFunction.evaluate( value );
-        }
-
-        public double toSI( double value ) {
-            return linearFunction.createInverse().evaluate( value );
-        }
     }
 
 }

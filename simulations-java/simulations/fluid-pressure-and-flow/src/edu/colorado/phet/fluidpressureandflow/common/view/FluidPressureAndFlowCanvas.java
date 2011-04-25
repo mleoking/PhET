@@ -26,7 +26,7 @@ import edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowApplication;
 import edu.colorado.phet.fluidpressureandflow.common.FPAFStrings;
 import edu.colorado.phet.fluidpressureandflow.common.FluidPressureAndFlowModule;
 import edu.colorado.phet.fluidpressureandflow.common.model.FluidPressureAndFlowModel;
-import edu.colorado.phet.fluidpressureandflow.common.model.Units;
+import edu.colorado.phet.fluidpressureandflow.common.model.units.Unit;
 import edu.colorado.phet.fluidpressureandflow.fluidpressure.FluidPressureControlPanel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -132,7 +132,7 @@ public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> ext
 
     protected void addVelocitySensorNodes( final FluidPressureAndFlowModel model ) {
         final Property<Function1<Double, String>> formatter = new Property<Function1<Double, String>>( createFormatter( model ) ) {{
-            model.velocityUnit.addObserver( new SimpleObserver() {
+            model.units.addObserver( new SimpleObserver() {
                 public void update() {
                     setValue( createFormatter( model ) );
                 }
@@ -146,7 +146,7 @@ public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> ext
     private Function1<Double, String> createFormatter( final FluidPressureAndFlowModel model ) {
         return new Function1<Double, String>() {
             public String apply( Double aDouble ) {
-                final Units.Unit unit = model.velocityUnit.getValue();
+                final Unit unit = model.units.getValue().velocity;
                 return unit.getDecimalFormat().format( unit.siToUnit( aDouble ) ) + " " + unit.getAbbreviation();//TODO: correct units (from SI) and i18n
             }
         };

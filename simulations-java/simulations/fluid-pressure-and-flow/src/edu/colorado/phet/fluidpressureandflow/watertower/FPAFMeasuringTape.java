@@ -9,7 +9,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.nodes.MeasuringTape;
-import edu.colorado.phet.fluidpressureandflow.common.model.Units;
+import edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -18,19 +18,19 @@ import edu.umd.cs.piccolo.PNode;
 public class FPAFMeasuringTape extends PNode {
     public final MeasuringTape measuringTape;
 
-    public FPAFMeasuringTape( ModelViewTransform transform, final ObservableProperty<Boolean> measuringTapeVisible, final Property<Units.Unit> unit ) {
+    public FPAFMeasuringTape( ModelViewTransform transform, final ObservableProperty<Boolean> measuringTapeVisible, final Property<UnitSet> unit ) {
         final Point2D.Double zero = new Point2D.Double( 0, 0 );
         final Point2D.Double one = new Point2D.Double( 1, 1 );
         final ModelViewTransform2D modelViewTransform2D = new ModelViewTransform2D( zero, one,
                                                                                     transform.modelToView( zero ), transform.modelToView( one ) );
-        measuringTape = new MeasuringTape( modelViewTransform2D, zero, unit.getValue().getAbbreviation() ) {
+        measuringTape = new MeasuringTape( modelViewTransform2D, zero, unit.getValue().distance.getAbbreviation() ) {
             protected double modelDistanceToReadoutDistance( double modelDistance ) {
-                return unit.getValue().siToUnit( modelDistance );
+                return unit.getValue().distance.siToUnit( modelDistance );
             }
         };
         unit.addObserver( new SimpleObserver() {
             public void update() {
-                measuringTape.setUnits( unit.getValue().getAbbreviation() );
+                measuringTape.setUnits( unit.getValue().distance.getAbbreviation() );
             }
         } );
         addChild( measuringTape );

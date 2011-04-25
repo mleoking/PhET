@@ -48,4 +48,6 @@ public class FPAFStrings {
     public static final String M_PER_S = getString( "mPerS" );
     public static final String FT_PER_S = getString( "ftPerS" );
     public static final String PRESSURE = getString( "pressure" );
+    public static final String ENGLISH = getString( "english" );
+    public static final String METRIC = getString( "metric" );
 }

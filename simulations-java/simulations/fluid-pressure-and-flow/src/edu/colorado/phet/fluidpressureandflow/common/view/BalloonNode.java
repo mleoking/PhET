@@ -14,7 +14,7 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.event.RelativeDragHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.fluidpressureandflow.common.model.Balloon;
-import edu.colorado.phet.fluidpressureandflow.common.model.Units;
+import edu.colorado.phet.fluidpressureandflow.common.model.units.Unit;
 import edu.colorado.phet.fluidpressureandflow.fluidpressure.Pool;
 import edu.umd.cs.piccolo.PNode;
 
@@ -25,7 +25,7 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class BalloonNode extends PNode {
 
-    public BalloonNode( final ModelViewTransform transform, final Balloon sensor, final Property<Units.Unit> unitsProperty, final Pool pool ) {
+    public BalloonNode( final ModelViewTransform transform, final Balloon sensor, final Property<Unit> unitsProperty, final Pool pool ) {
         addInputEventListener( new CursorHandler() );
         addChild( new PhetPPath( Color.blue, new BasicStroke( 1 ), Color.lightGray ) {{
             final SimpleObserver update = new SimpleObserver() {

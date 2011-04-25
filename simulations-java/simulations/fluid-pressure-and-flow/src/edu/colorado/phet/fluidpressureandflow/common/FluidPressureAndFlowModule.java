@@ -7,7 +7,7 @@ import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.ValueEquals;
 import edu.colorado.phet.fluidpressureandflow.common.model.FluidPressureAndFlowModel;
-import edu.colorado.phet.fluidpressureandflow.common.model.Units;
+import edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet;
 
 /**
  * Base class for the different modules for FluidPressureAndFlow, parameterized on its model type.
@@ -26,8 +26,8 @@ public class FluidPressureAndFlowModule<T extends FluidPressureAndFlowModel> ext
     protected FluidPressureAndFlowModule( String name, T model ) {
         super( name, model.getClock() );
         this.model = model;
-        meterStickVisible = new And( rulerVisible, new ValueEquals<Units.Unit>( model.distanceUnit, Units.METERS ) );
-        yardStickVisible = new And( rulerVisible, new ValueEquals<Units.Unit>( model.distanceUnit, Units.FEET ) );
+        meterStickVisible = new And( rulerVisible, new ValueEquals<UnitSet>( model.units, UnitSet.METRIC ) );
+        yardStickVisible = new And( rulerVisible, new ValueEquals<UnitSet>( model.units, UnitSet.ENGLISH ) );
 
         getModulePanel().setLogoPanel( null );
         setClockControlPanel( null );

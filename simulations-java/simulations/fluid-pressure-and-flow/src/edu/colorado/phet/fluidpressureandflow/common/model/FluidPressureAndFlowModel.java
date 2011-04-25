@@ -11,6 +11,9 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.nodes.VelocitySensor;
+import edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet;
+
+import static edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet.ENGLISH;
 
 /**
  * Main model class for FluidPressureAndFlow.  Units for this sim are by default in MKS, and conversions through class
@@ -34,29 +37,13 @@ public class FluidPressureAndFlowModel implements PressureSensor.Context, ResetM
     public final Property<Double> gravity = new Property<Double>( EARTH_GRAVITY );
     public final Property<Double> standardAirPressure = new Property<Double>( EARTH_AIR_PRESSURE );//air pressure at y=0
     public final Property<Double> liquidDensity = new Property<Double>( 1000.0 );//SI
-    public final Property<Units.Unit> pressureUnit = new Property<Units.Unit>( Units.ATMOSPHERE );
-    public final Property<Units.Unit> velocityUnit = new Property<Units.Unit>( Units.METERS_PER_SECOND );
-    public final Property<Units.Unit> distanceUnit = new Property<Units.Unit>( Units.FEET );
+    public final Property<UnitSet> units = new Property<UnitSet>( ENGLISH );//Set of units for the sim (distance, velocity, pressure).
 
     private final Function.LinearFunction pressureFunction = new Function.LinearFunction( 0, 500, standardAirPressure.getValue(), EARTH_AIR_PRESSURE_AT_500_FT );//see http://www.engineeringtoolbox.com/air-altitude-pressure-d_462.html
     private ArrayList<VoidFunction0> resetListeners = new ArrayList<VoidFunction0>();
     public final Property<Double> simulationTimeStep = new Property<Double>( clock.getDt() );//Property<Double> that indicates (and can be used to set) the clock's dt time step (in seconds)
 
     public FluidPressureAndFlowModel() {
-        distanceUnit.addObserver( new VoidFunction1<Units.Unit>() {
-            public void apply( Units.Unit unit ) {
-                if ( unit == Units.FEET ) {
-                    velocityUnit.setValue( Units.FEET_PER_SECOND );
-                }
-                else if ( unit == Units.METERS ) {
-                    velocityUnit.setValue( Units.METERS_PER_SECOND );
-                }
-                else {
-                    throw new RuntimeException( "Unknown unit: " + unit );
-                }
-            }
-        } );
-
         //Wire up the clock to the Property<Double> that identifies the dt value
         simulationTimeStep.addObserver( new VoidFunction1<Double>() {
             public void apply( Double dt ) {
@@ -127,9 +114,7 @@ public class FluidPressureAndFlowModel implements PressureSensor.Context, ResetM
     public void reset() {
         gravity.reset();
         standardAirPressure.reset();
-        pressureUnit.reset();
-        velocityUnit.reset();
-        distanceUnit.reset();
+        units.reset();
         liquidDensity.reset();
         for ( VelocitySensor velocitySensor : velocitySensors ) {
             velocitySensor.reset();
