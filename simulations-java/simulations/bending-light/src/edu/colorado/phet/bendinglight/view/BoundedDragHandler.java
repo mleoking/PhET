@@ -19,11 +19,11 @@ public abstract class BoundedDragHandler extends PBasicInputEventHandler {
     private Point2D lastLocation;
     private PNode node;
 
-    //Create a handler, using the PInputEvent that created the ToolNode
     public BoundedDragHandler( PNode node ) {
         this.node = node;
     }
 
+    //Create a handler and start a drag sequence (useful when dragging from a toolbox)
     public BoundedDragHandler( PNode node, PInputEvent event ) {
         this( node );
         mousePressed( event );
