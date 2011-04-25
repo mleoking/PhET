@@ -2,9 +2,7 @@
 
 package edu.colorado.phet.boundstates.module;
 
-import java.awt.Dimension;
-import java.awt.Point;
-import java.awt.RenderingHints;
+import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.WindowAdapter;
@@ -15,8 +13,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.swing.JDialog;
-import javax.swing.JFrame;
+import javax.swing.*;
 
 import edu.colorado.phet.boundstates.BSConstants;
 import edu.colorado.phet.boundstates.BSResources;
@@ -333,7 +330,7 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
 
         // Clock Controls
         {
-            _clockControls = new BSClockControls( (BSClock)getClock() );
+            _clockControls = new BSClockControls( (BSClock) getClock() );
             setClockControlPanel( _clockControls );
             addClockListener( new ClockAdapter() {
                 public void simulationTimeReset( ClockEvent clockEvent ) {
@@ -350,11 +347,11 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
             HelpPane helpPane = getDefaultHelpPane();
 
             HelpBalloon restartHelp = new HelpBalloon( helpPane, BSResources.getString( "help.restart" ), HelpBalloon.BOTTOM_LEFT, 80 );
-            helpPane.add(  restartHelp );
+            helpPane.add( restartHelp );
             restartHelp.pointAt( _clockControls.getRewindButton(), _clockControls.getButtonCanvas() );
 
             HelpBalloon clockSpeedHelp = new HelpBalloon( helpPane, BSResources.getString( "help.clockSpeed" ), HelpBalloon.BOTTOM_RIGHT, 80 );
-            helpPane.add(  clockSpeedHelp );
+            helpPane.add( clockSpeedHelp );
             clockSpeedHelp.pointAt( _clockControls.getClockIndexComponent() );
 
             if ( _magnifyingGlass != null ) {
@@ -486,7 +483,7 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
             AffineTransform transform = new AffineTransform();
             // position it at the lower right corner of the energy plot
             transform.translate( energyPlotBounds.getX() + energyPlotBounds.getWidth() - ZOOM_X_OFFSET,
-                    energyPlotBounds.getY() + energyPlotBounds.getHeight() - ZOOM_Y_OFFSET );
+                                 energyPlotBounds.getY() + energyPlotBounds.getHeight() - ZOOM_Y_OFFSET );
             // registration point at lower right
             transform.translate( -_energyZoomControlNode.getWidth() * scale, -_energyZoomControlNode.getHeight() * scale );
             transform.scale( scale, scale );
@@ -566,8 +563,8 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
      */
     public void update( Observable o, Object arg ) {
         if ( o == _model && arg != BSModel.PROPERTY_HILITED_EIGENSTATE_INDEX ) {
-           resetClock();
-           disableWiggleMe();
+            resetClock();
+            disableWiggleMe();
         }
     }
 
@@ -598,40 +595,40 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
             wellSpec = _moduleSpec.getAsymmetricSpec();
             if ( wellSpec != null ) {
                 _asymmetricPotential = new BSAsymmetricPotential( _particle,
-                    wellSpec.getOffsetRange().getDefault(),
-                    wellSpec.getHeightRange().getDefault(),
-                    wellSpec.getWidthRange().getDefault() );
+                                                                  wellSpec.getOffsetRange().getDefault(),
+                                                                  wellSpec.getHeightRange().getDefault(),
+                                                                  wellSpec.getWidthRange().getDefault() );
             }
 
             wellSpec = _moduleSpec.getCoulomb1DSpec();
             if ( wellSpec != null ) {
                 _coulomb1DPotential = new BSCoulomb1DPotential( _particle,
-                    numberOfWells,
-                    wellSpec.getOffsetRange().getDefault(),
-                    wellSpec.getSpacingRange().getDefault() );
+                                                                numberOfWells,
+                                                                wellSpec.getOffsetRange().getDefault(),
+                                                                wellSpec.getSpacingRange().getDefault() );
             }
 
             wellSpec = _moduleSpec.getCoulomb3DSpec();
             if ( wellSpec != null ) {
                 _coulomb3DPotential = new BSCoulomb3DPotential( _particle,
-                    wellSpec.getOffsetRange().getDefault() );
+                                                                wellSpec.getOffsetRange().getDefault() );
             }
 
             wellSpec = _moduleSpec.getHarmonicOscillatorSpec();
             if ( wellSpec != null ) {
                 _harmonicOscillatorPotential = new BSHarmonicOscillatorPotential( _particle,
-                    wellSpec.getOffsetRange().getDefault(),
-                    wellSpec.getAngularFrequencyRange().getDefault() );
+                                                                                  wellSpec.getOffsetRange().getDefault(),
+                                                                                  wellSpec.getAngularFrequencyRange().getDefault() );
             }
 
             wellSpec = _moduleSpec.getSquareSpec();
             if ( wellSpec != null ) {
                 _squarePotential = new BSSquarePotential( _particle,
-                    numberOfWells,
-                    wellSpec.getOffsetRange().getDefault(),
-                    wellSpec.getHeightRange().getDefault(),
-                    wellSpec.getWidthRange().getDefault(),
-                    wellSpec.getSeparationRange().getDefault() );
+                                                          numberOfWells,
+                                                          wellSpec.getOffsetRange().getDefault(),
+                                                          wellSpec.getHeightRange().getDefault(),
+                                                          wellSpec.getWidthRange().getDefault(),
+                                                          wellSpec.getSeparationRange().getDefault() );
             }
 
             // Select the default...
@@ -660,8 +657,8 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
             else {
                 throw new UnsupportedOperationException( "unsupported well type: " + defaultWellType );
             }
-            assert( defaultPotential != null );
-            assert( defaultDragManager != null );
+            assert ( defaultPotential != null );
+            assert ( defaultDragManager != null );
 
             // Populate the model...
             if ( _model != null ) {
@@ -685,6 +682,8 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
 
         // Control
         {
+            // reset the zoom level for each well type, then reset the zoom control
+            resetZoomSpecs();
             configureZoomControls( _model.getWellType() );
 
             _controlPanel.setWellType( _model.getWellType() );
@@ -731,6 +730,27 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
         // Clock
         _clockControls.setClockIndex( BSConstants.DEFAULT_CLOCK_INDEX );
         resetClock();
+    }
+
+    /*
+     * Resets the zoom level for each well type.
+     */
+    private void resetZoomSpecs() {
+        resetZoomSpec( _moduleSpec.getAsymmetricSpec() );
+        resetZoomSpec( _moduleSpec.getCoulomb1DSpec() );
+        resetZoomSpec( _moduleSpec.getCoulomb3DSpec() );
+        resetZoomSpec( _moduleSpec.getHarmonicOscillatorSpec() );
+        resetZoomSpec( _moduleSpec.getSquareSpec() );
+    }
+
+    /*
+     * Resets the zoom level for a well type.
+     * A module may not have some well types, so if this is null, do nothing.
+     */
+    private void resetZoomSpec( BSPotentialSpec spec ) {
+        if ( spec != null ) {
+            spec.getEnergyZoomSpec().reset();
+        }
     }
 
     /*
@@ -800,13 +820,13 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
 
     /**
      * Saves the module's configuration.
-     * 
+     *
      * @return BSModuleConfig
      */
     public BSModuleConfig save() {
 
         BSModuleConfig config = new BSModuleConfig();
-        
+
         // Clock
         config.setClockRunning( getClock().isRunning() );
         config.setClockIndex( _clockControls.getClockIndex() );
@@ -826,11 +846,11 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
         config.setMagnifyingGlassSelected( _controlPanel.isMagnifyingGlassSelected() );
         config.setRealSelected( _controlPanel.isRealSelected() );
         config.setImaginarySelected( _controlPanel.isImaginarySelected() );
-        config.setMagnitudeSelected( _controlPanel.isMagnitudeSelected( ) );
+        config.setMagnitudeSelected( _controlPanel.isMagnitudeSelected() );
         config.setPhaseSelected( _controlPanel.isPhaseSelected() );
         config.saveBottomPlotMode( _controlPanel.getBottomPlotMode() );
         config.setFieldConstant( _controlPanel.getFieldConstant() );
-        
+
         return config;
     }
 
@@ -880,7 +900,7 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
             _harmonicOscillatorDragManager.setColorScheme( _colorScheme );
             _squareDragManager.setPotential( _squarePotential );
             _squareDragManager.setColorScheme( _colorScheme );
-            
+
             // set the potential that is selected
             BSWellType wellType = config.loadSelectedWellType();
             BSAbstractPotential potential = null;
@@ -912,11 +932,11 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
             }
             assert ( potential != null );
             _model.setPotential( potential );
-            
+
             // show the drag handles for the selected potential
             hideAllDragManagers();
             defaultDragManager.setVisible( true );
-            
+
             // Restore coefficients after setting potential
             double[] c = config.getSuperpositionCoefficients();
             for ( int i = 0; i < c.length; i++ ) {
@@ -1123,7 +1143,7 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
             resetClock();
         }
     }
-    
+
     private Point _configDialogLocation;
     private Point _superpositionStateDialogLocation;
 

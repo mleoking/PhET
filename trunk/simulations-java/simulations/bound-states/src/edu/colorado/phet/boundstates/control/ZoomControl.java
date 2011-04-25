@@ -2,6 +2,8 @@
 
 package edu.colorado.phet.boundstates.control;
 
+import JSci.maths.statistics.OutOfRangeException;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -190,8 +192,8 @@ public class ZoomControl extends JPanel {
     * Updates the state of the zoom buttons.
     */
     private void updateButtons() {
-        _zoomInButton.setEnabled( _zoomSpec != null && _zoomSpec.getIndex() > 0 );
-        _zoomOutButton.setEnabled( _zoomSpec != null && _zoomSpec.getIndex() < _zoomSpec.getNumberOfZoomLevels() - 1 );
+        _zoomInButton.setEnabled( _zoomSpec != null && _zoomSpec.getCurrentIndex() > 0 );
+        _zoomOutButton.setEnabled( _zoomSpec != null && _zoomSpec.getCurrentIndex() < _zoomSpec.getNumberOfZoomLevels() - 1 );
     }
 
     //----------------------------------------------------------------------------
@@ -205,14 +207,15 @@ public class ZoomControl extends JPanel {
      */
     public static class ZoomSpec {
 
-        private AxisSpec[] _axisSpecs;
-        private int _index;
+        private final AxisSpec[] _axisSpecs;
+        private final int _startIndex;
+        private int _currentIndex;
 
-        public ZoomSpec( AxisSpec[] axisSpecs, final int index ) {
+        public ZoomSpec( AxisSpec[] axisSpecs, final int startIndex ) {
             assert ( axisSpecs.length > 0 );
-            assert ( index < axisSpecs.length );
+            assert ( startIndex >= 0 && startIndex < axisSpecs.length );
             _axisSpecs = axisSpecs;
-            _index = index;
+            _startIndex = _currentIndex = startIndex;
         }
 
         public ZoomSpec( AxisSpec[] axisSpecs ) {
@@ -232,22 +235,31 @@ public class ZoomControl extends JPanel {
             return _axisSpecs.length;
         }
 
-        public int getIndex() {
-            return _index;
+        public void setCurrentIndex( int index ) {
+            if ( _currentIndex < 0 || _currentIndex > getNumberOfZoomLevels() - 1 ) {
+                throw new OutOfRangeException( "index out of range: " + index );
+            }
+            _currentIndex = index;
+        }
+
+        public int getCurrentIndex() {
+            return _currentIndex;
         }
 
         public void zoomIn() {
-            _index--;
-            assert ( _index >= 0 );
+            setCurrentIndex( getCurrentIndex() - 1 );
         }
 
         public void zoomOut() {
-            _index++;
-            assert ( _index <= getNumberOfZoomLevels() - 1 );
+            setCurrentIndex( getCurrentIndex() + 1 );
         }
 
         public AxisSpec getAxisSpec() {
-            return _axisSpecs[_index];
+            return _axisSpecs[_currentIndex];
+        }
+
+        public void reset() {
+            _currentIndex = _startIndex;
         }
     }
 }
