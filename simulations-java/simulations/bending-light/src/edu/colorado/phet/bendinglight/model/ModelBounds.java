@@ -9,7 +9,7 @@ import edu.colorado.phet.common.phetcommon.util.Option;
 
 /**
  * Model coordinates of what is visible on the screen, or None if not yet set (has to be set by canvas after canvas is constructed).
- * This is a convenience subclass that adds a method or 2.
+ * This is a convenience subclass that adds methods for determining nearby points and checking containment of points.
  *
  * @author Sam Reid
  */
