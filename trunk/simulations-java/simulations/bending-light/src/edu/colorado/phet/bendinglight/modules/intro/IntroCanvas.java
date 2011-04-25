@@ -83,6 +83,8 @@ public class IntroCanvas<T extends IntroModel> extends BendingLightCanvas<T> {
                //rotation if the user clicks anywhere on the object.
                new Function2<Shape, Shape, Shape>() {
                    public Shape apply( Shape full, Shape back ) {
+                       //REVIEW: I looked at this for a few minutes but don't get it.  What does
+                       // this function do and why does this instantiation always return full?
                        return full;
                    }
                },
@@ -115,6 +117,10 @@ public class IntroCanvas<T extends IntroModel> extends BendingLightCanvas<T> {
         }} );
 
         //Laser control panel
+        //REVIEW: The following is difficult to read due to usage of double brace initialization
+        //twice inside of one "addChild" parameter list.  At the very least, the formatting should
+        //be cleaned up, but I would prefer separation of the creation of the interior PNode and
+        //then embedding it in the ControlPanelNode.
         afterLightLayer2.addChild( new ControlPanelNode( new PNode() {{
             //Title readout
             final PText title = new PText( BendingLightStrings.LASER_VIEW ) {{setFont( labelFont );}};
@@ -155,19 +161,20 @@ public class IntroCanvas<T extends IntroModel> extends BendingLightCanvas<T> {
                 return newProtractorNode( transform, showTool, model );
             }
         };
-        final ToolIconNode protractor = new ToolIconNode( multiScaleToWidth( RESOURCES.getImage( "protractor.png" ), ToolboxNode.ICON_WIDTH ), showProtractor,
+        final ToolIconNode<T> protractor = new ToolIconNode<T>( multiScaleToWidth( RESOURCES.getImage( "protractor.png" ), ToolboxNode.ICON_WIDTH ), showProtractor,
                                                           transform, this, protractorNodeFactory, model, new Function0<Rectangle2D>() {
                     public Rectangle2D apply() {
                         return toolboxNode.getGlobalFullBounds();
                     }
                 } ) {
             //Move the protractor behind the light node so that it also goes behind other controls (such as wavelength controls), since otherwise it obscures them from interaction
-            @Override protected void addChild( BendingLightCanvas canvas, ToolNode node ) {
+            @Override protected void addChild( BendingLightCanvas<T> canvas, ToolNode node ) {
+                //REVIEW: Can commented-out code be removed?
 //                canvas.addChildBehindLight( node );
                 canvas.addChildAfterLight( node );
             }
 
-            @Override protected void removeChild( BendingLightCanvas canvas, ToolNode node ) {
+            @Override protected void removeChild( BendingLightCanvas<T> canvas, ToolNode node ) {
                 canvas.removeChildAfterLight( node );
             }
         };

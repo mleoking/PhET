@@ -27,6 +27,7 @@ public class IntroModel extends BendingLightModel {
                                                                                 AIR, MediumColorFactory.getColor( AIR.getIndexOfRefractionForRedLight() ) ) );
     public final Property<Medium> bottomMedium;
 
+    //REVIEW: Why the underscore in the name, and why isn't it "bottomMediumState"?
     public IntroModel( MediumState _bottomMedium ) {
         super( PI * 3 / 4, true, DEFAULT_LASER_DISTANCE_FROM_PIVOT );
         bottomMedium = new Property<Medium>( new Medium( new Rectangle2D.Double( -1, -1, 2, 1 ), _bottomMedium, MediumColorFactory.getColor( _bottomMedium.getIndexOfRefractionForRedLight() ) ) );

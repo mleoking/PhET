@@ -28,6 +28,7 @@ public class IntroModule extends BendingLightModule<IntroModel> {
 
     @Override
     protected void resetAll() {
+
         super.resetAll();
         canvas.resetAll();
     }
