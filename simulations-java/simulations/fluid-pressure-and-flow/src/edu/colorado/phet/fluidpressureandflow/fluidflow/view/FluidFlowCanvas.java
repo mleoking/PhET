@@ -38,7 +38,7 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas {
     private static final double modelWidth = modelHeight / STAGE_SIZE.getHeight() * STAGE_SIZE.getWidth();
 
     public FluidFlowCanvas( final FluidFlowModule module ) {
-        super( ModelViewTransform.createRectangleInvertedYMapping( new Rectangle2D.Double( -modelWidth / 2, -modelHeight / 2 + pipeCenterY + 0.75, modelWidth, modelHeight ), new Rectangle2D.Double( 0, 0, STAGE_SIZE.width, STAGE_SIZE.height ) ) );
+        super( ModelViewTransform.createRectangleInvertedYMapping( new Rectangle2D.Double( -modelWidth / 2, -modelHeight / 2 + pipeCenterY + 0.75, modelWidth, modelHeight ), new Rectangle2D.Double( 0, 0, STAGE_SIZE.width, STAGE_SIZE.height ) ), module.getFluidPressureAndFlowModel().visibleModelBounds );
 
         addChild( new GroundNode( transform ) );
         addChild( new SkyNode( transform ) );

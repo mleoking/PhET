@@ -3,6 +3,7 @@ package edu.colorado.phet.fluidpressureandflow.common.model;
 
 import java.util.ArrayList;
 
+import edu.colorado.phet.bendinglight.model.ModelBounds;
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.model.ResetModel;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
@@ -39,6 +40,9 @@ public class FluidPressureAndFlowModel implements PressureSensor.Context, ResetM
     private final Function.LinearFunction pressureFunction = new Function.LinearFunction( 0, 500, standardAirPressure.getValue(), EARTH_AIR_PRESSURE_AT_500_FT );//see http://www.engineeringtoolbox.com/air-altitude-pressure-d_462.html
     private ArrayList<VoidFunction0> resetListeners = new ArrayList<VoidFunction0>();
     public final Property<Double> simulationTimeStep = new Property<Double>( clock.getDt() );//Property<Double> that indicates (and can be used to set) the clock's dt time step (in seconds)
+
+    //support for bounding drags
+    public final ModelBounds visibleModelBounds = new ModelBounds();//model coordinates of what is visible on the screen, or None if not yet set (has to be set by canvas after canvas is constructed)
 
     //Construct a FluidPressureAndFlow model with the specified set of units (such as metric)
     public FluidPressureAndFlowModel( UnitSet unitSet ) {
