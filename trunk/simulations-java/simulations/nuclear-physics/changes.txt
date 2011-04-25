@@ -1,3 +1,5 @@
+# 3.24.00 (51143) Apr 25, 2011
+4/25/11 > Added new translation credits features, updated artwork, fixed an issue with drag handles in Alpha Decay sim, and fixed layout issues with some translations.
 # 3.23.05 (51127) Apr 25, 2011
 4/25/11 Deploying to dev for testing.
 radioactive-dating-game: Replaced volcano images.
