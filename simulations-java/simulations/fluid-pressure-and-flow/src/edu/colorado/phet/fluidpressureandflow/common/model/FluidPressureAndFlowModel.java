@@ -13,8 +13,6 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.nodes.VelocitySensor;
 import edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet;
 
-import static edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet.ENGLISH;
-
 /**
  * Main model class for FluidPressureAndFlow.  Units for this sim are by default in MKS, and conversions through class
  * Units are used to convert to different units systems.
@@ -37,13 +35,15 @@ public class FluidPressureAndFlowModel implements PressureSensor.Context, ResetM
     public final Property<Double> gravity = new Property<Double>( EARTH_GRAVITY );
     public final Property<Double> standardAirPressure = new Property<Double>( EARTH_AIR_PRESSURE );//air pressure at y=0
     public final Property<Double> liquidDensity = new Property<Double>( 1000.0 );//SI
-    public final Property<UnitSet> units = new Property<UnitSet>( ENGLISH );//Set of units for the sim (distance, velocity, pressure).
+    public final Property<UnitSet> units;//Set of units for the sim (distance, velocity, pressure).
 
     private final Function.LinearFunction pressureFunction = new Function.LinearFunction( 0, 500, standardAirPressure.getValue(), EARTH_AIR_PRESSURE_AT_500_FT );//see http://www.engineeringtoolbox.com/air-altitude-pressure-d_462.html
     private ArrayList<VoidFunction0> resetListeners = new ArrayList<VoidFunction0>();
     public final Property<Double> simulationTimeStep = new Property<Double>( clock.getDt() );//Property<Double> that indicates (and can be used to set) the clock's dt time step (in seconds)
 
-    public FluidPressureAndFlowModel() {
+    //Construct a FluidPressureAndFlow model with the specified set of units (such as metric)
+    public FluidPressureAndFlowModel( UnitSet unitSet ) {
+        units = new Property<UnitSet>( unitSet );
         //Wire up the clock to the Property<Double> that identifies the dt value
         simulationTimeStep.addObserver( new VoidFunction1<Double>() {
             public void apply( Double dt ) {

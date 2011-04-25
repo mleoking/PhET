@@ -13,6 +13,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.fluidpressureandflow.common.model.FluidPressureAndFlowModel;
 import edu.colorado.phet.fluidpressureandflow.common.model.PressureSensor;
 import edu.colorado.phet.fluidpressureandflow.common.model.VelocitySensorContext;
+import edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet;
 import edu.colorado.phet.fluidpressureandflow.watertower.FPAFVelocitySensor;
 
 /**
@@ -29,6 +30,7 @@ public class FluidFlowModel extends FluidPressureAndFlowModel implements Velocit
     private ArrayList<FoodColoring> foodColorings = new ArrayList<FoodColoring>();
 
     public FluidFlowModel() {
+        super( UnitSet.ENGLISH );
         getClock().addClockListener( new ClockAdapter() {
             @Override
             public void clockTicked( ClockEvent clockEvent ) {

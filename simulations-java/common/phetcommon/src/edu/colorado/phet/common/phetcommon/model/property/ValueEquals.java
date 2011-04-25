@@ -32,6 +32,11 @@ public class ValueEquals<T> extends ObservableProperty<Boolean> {
         valueAtLastNotification = getValue();
     }
 
+    //Returns a property that is an 'or' conjunction of this and the provided argument
+    public Or or( ObservableProperty<Boolean> p ) {
+        return new Or( this, p );
+    }
+
     @Override
     public Boolean getValue() {
         return property.getValue() == value;
