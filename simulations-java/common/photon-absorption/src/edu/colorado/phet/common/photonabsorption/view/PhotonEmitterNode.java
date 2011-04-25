@@ -3,8 +3,7 @@
 package edu.colorado.phet.common.photonabsorption.view;
 
 
-import java.awt.Color;
-import java.awt.Dimension;
+import java.awt.*;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -14,8 +13,8 @@ import edu.colorado.phet.common.phetcommon.view.controls.IntensitySlider;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.photonabsorption.PhotonAbsorptionResources;
 import edu.colorado.phet.common.photonabsorption.model.PhotonAbsorptionModel;
-import edu.colorado.phet.common.photonabsorption.model.WavelengthConstants;
 import edu.colorado.phet.common.photonabsorption.model.PhotonAbsorptionModel.PhotonTarget;
+import edu.colorado.phet.common.photonabsorption.model.WavelengthConstants;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PBounds;
@@ -25,7 +24,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * PNode that represents the photon emitter in the view.  The graphical
  * representation of the emitter changes based on the wavelength of photons
  * that the model is set to emit.
- *
+ * <p/>
  * This node is set up such that setting its offset at on the photon emission
  * point in the model should position it correctly.  This assumes that photons
  * are emitted to the right.
@@ -59,9 +58,9 @@ public class PhotonEmitterNode extends PNode {
      * Constructor.
      *
      * @param width - Desired width of the emitter image in screen coords. The
-     * height will be based on the aspect ratio of the image.
-     * @param mvt - Model-view transform for translating between model and
-     * view coordinate systems.
+     *              height will be based on the aspect ratio of the image.
+     * @param mvt   - Model-view transform for translating between model and
+     *              view coordinate systems.
      * @param model
      */
     public PhotonEmitterNode( double width, ModelViewTransform2D mvt, final PhotonAbsorptionModel model ) {
@@ -89,7 +88,7 @@ public class PhotonEmitterNode extends PNode {
 
         // Add the slider that will control the rate of photon emission.
         Dimension emissionControlSliderSize = new Dimension( 100, 30 ); // This may be adjusted as needed for best look.
-        emissionRateControlSlider = new IntensitySlider( PhetColorScheme.RED_ALTERNATIVE, IntensitySlider.HORIZONTAL, emissionControlSliderSize );
+        emissionRateControlSlider = new IntensitySlider( PhetColorScheme.RED_COLORBLIND, IntensitySlider.HORIZONTAL, emissionControlSliderSize );
         emissionRateControlSlider.setMinimum( 0 );
         emissionRateControlSlider.setMaximum( SLIDER_RANGE );
         emissionRateControlSlider.addChangeListener( new ChangeListener() {
@@ -142,11 +141,11 @@ public class PhotonEmitterNode extends PNode {
         else if ( model.getEmittedPhotonWavelength() == WavelengthConstants.VISIBLE_WAVELENGTH ) {
             photonEmitterImage = new PImage( PhotonAbsorptionResources.getImage( "flashlight2.png" ) );
         }
-        else if ( model.getEmittedPhotonWavelength() == WavelengthConstants.UV_WAVELENGTH){
-            photonEmitterImage = new PImage(PhotonAbsorptionResources.getImage("uv_light_2.png"));
+        else if ( model.getEmittedPhotonWavelength() == WavelengthConstants.UV_WAVELENGTH ) {
+            photonEmitterImage = new PImage( PhotonAbsorptionResources.getImage( "uv_light_2.png" ) );
         }
-        else if ( model.getEmittedPhotonWavelength() == WavelengthConstants.MICRO_WAVELENGTH){
-            photonEmitterImage = new PImage(PhotonAbsorptionResources.getImage("microwave-transmitter.png"));
+        else if ( model.getEmittedPhotonWavelength() == WavelengthConstants.MICRO_WAVELENGTH ) {
+            photonEmitterImage = new PImage( PhotonAbsorptionResources.getImage( "microwave-transmitter.png" ) );
         }
 
         photonEmitterImage.scale( flashlightWidth / photonEmitterImage.getFullBoundsReference().width );
@@ -183,6 +182,7 @@ public class PhotonEmitterNode extends PNode {
                 public void emittedPhotonWavelengthChanged() {
                     update();
                 }
+
                 @Override
                 public void photonEmissionPeriodChanged() {
                     update();
@@ -190,7 +190,7 @@ public class PhotonEmitterNode extends PNode {
             } );
 
             Dimension emissionControlSliderSize = new Dimension( 100, 30 ); // This may be adjusted as needed for best look.
-            emissionRateControlSlider = new IntensitySlider( Color.RED, IntensitySlider.HORIZONTAL, emissionControlSliderSize ){{
+            emissionRateControlSlider = new IntensitySlider( Color.RED, IntensitySlider.HORIZONTAL, emissionControlSliderSize ) {{
                 setMinimum( 0 );
                 setMaximum( SLIDER_RANGE );
                 addChangeListener( new ChangeListener() {
@@ -221,27 +221,27 @@ public class PhotonEmitterNode extends PNode {
             int mappedFrequency;
             if ( model.getPhotonTarget() == PhotonTarget.CONFIGURABLE_ATMOSPHERE ) {
                 mappedFrequency = (int) Math.round( PhotonAbsorptionModel.MIN_PHOTON_EMISSION_PERIOD_MULTIPLE_TARGET /
-                        model.getPhotonEmissionPeriod() * SLIDER_RANGE );
+                                                    model.getPhotonEmissionPeriod() * SLIDER_RANGE );
             }
             else {
                 mappedFrequency = (int) Math.round( PhotonAbsorptionModel.MIN_PHOTON_EMISSION_PERIOD_SINGLE_TARGET /
-                        model.getPhotonEmissionPeriod() * SLIDER_RANGE );
+                                                    model.getPhotonEmissionPeriod() * SLIDER_RANGE );
             }
 
             emissionRateControlSlider.setValue( mappedFrequency );
 
             // Update the color of the slider.
             if ( model.getEmittedPhotonWavelength() == WavelengthConstants.IR_WAVELENGTH ) {
-                emissionRateControlSlider.setColor( PhetColorScheme.RED_ALTERNATIVE );
+                emissionRateControlSlider.setColor( PhetColorScheme.RED_COLORBLIND );
             }
             else if ( model.getEmittedPhotonWavelength() == WavelengthConstants.VISIBLE_WAVELENGTH ) {
                 emissionRateControlSlider.setColor( Color.YELLOW );
             }
             else if ( model.getEmittedPhotonWavelength() == WavelengthConstants.UV_WAVELENGTH ) {
-                emissionRateControlSlider.setColor( new Color( 200, 0, 200) );
+                emissionRateControlSlider.setColor( new Color( 200, 0, 200 ) );
             }
             else if ( model.getEmittedPhotonWavelength() == WavelengthConstants.MICRO_WAVELENGTH ) {
-                emissionRateControlSlider.setColor( new Color( 200, 200, 200) );
+                emissionRateControlSlider.setColor( new Color( 200, 200, 200 ) );
             }
             else {
                 System.err.println( getClass().getName() + "- Error: Unrecognized photon." );
