@@ -7,7 +7,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.fluidpressureandflow.common.view.CheckBox;
-import edu.colorado.phet.fluidpressureandflow.common.view.MultiUnitsControlPanel;
+import edu.colorado.phet.fluidpressureandflow.common.view.EnglishMetricControlPanel;
 
 import static edu.colorado.phet.fluidpressureandflow.common.FPAFStrings.*;
 
@@ -21,7 +21,7 @@ public class WaterTowerControlPanel extends VerticalLayoutPanel {
         //Measuring devices and units
         add( new CheckBox( RULER, module.rulerVisible ) );
         add( new CheckBox( MEASURING_TAPE, module.measuringTapeVisible ) );
-        add( new MultiUnitsControlPanel<WaterTowerModel>( module.getFluidPressureAndFlowModel() ) );
+        add( new EnglishMetricControlPanel<WaterTowerModel>( module.getFluidPressureAndFlowModel() ) );
 
         //Separator
         add( Box.createRigidArea( new Dimension( 5, 5 ) ) );//separate the "hose" control a bit from the other controls so it is easier to parse visually

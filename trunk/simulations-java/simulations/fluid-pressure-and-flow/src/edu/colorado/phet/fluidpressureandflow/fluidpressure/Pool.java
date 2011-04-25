@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.fluidpressureandflow.common.model.Units;
+import edu.colorado.phet.fluidpressureandflow.common.model.units.Units;
 
 /**
  * The pool is the region of water in which the sensors can be submerged.

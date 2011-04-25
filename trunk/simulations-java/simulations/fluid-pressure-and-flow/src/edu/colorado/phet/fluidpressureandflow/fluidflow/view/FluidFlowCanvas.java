@@ -62,7 +62,7 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas {
         } );
 
         for ( PressureSensor sensor : module.getFluidPressureAndFlowModel().getPressureSensors() ) {
-            addChild( new PressureSensorNode( transform, sensor, module.getFluidPressureAndFlowModel().pressureUnit ) );
+            addChild( new PressureSensorNode( transform, sensor, module.getFluidPressureAndFlowModel().units ) );
         }
 
         addVelocitySensorNodes( module.getFluidPressureAndFlowModel() );

@@ -8,7 +8,7 @@ import edu.colorado.phet.fluidpressureandflow.common.FPAFStrings;
 import edu.colorado.phet.fluidpressureandflow.common.FluidPressureAndFlowModule;
 import edu.colorado.phet.fluidpressureandflow.common.model.FluidPressureAndFlowModel;
 import edu.colorado.phet.fluidpressureandflow.common.view.CheckBox;
-import edu.colorado.phet.fluidpressureandflow.common.view.MultiUnitsControlPanel;
+import edu.colorado.phet.fluidpressureandflow.common.view.EnglishMetricControlPanel;
 
 /**
  * @author Sam Reid
@@ -16,7 +16,7 @@ import edu.colorado.phet.fluidpressureandflow.common.view.MultiUnitsControlPanel
 public class FluidFlowControlPanel<T extends FluidPressureAndFlowModel> extends VerticalLayoutPanel {
     public FluidFlowControlPanel( final FluidPressureAndFlowModule<T> module ) {
         addControlFullWidth( new CheckBox( FPAFStrings.RULER, module.rulerVisible ) );
-        addControlFullWidth( new MultiUnitsControlPanel<T>( module.getFluidPressureAndFlowModel() ) );
+        addControlFullWidth( new EnglishMetricControlPanel<T>( module.getFluidPressureAndFlowModel() ) );
     }
 
     private void addControlFullWidth( JComponent component ) {

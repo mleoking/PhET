@@ -10,7 +10,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.fluidpressureandflow.common.FPAFStrings;
 import edu.colorado.phet.fluidpressureandflow.common.model.Sensor;
-import edu.colorado.phet.fluidpressureandflow.common.model.Units;
+import edu.colorado.phet.fluidpressureandflow.common.model.units.Unit;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -20,7 +20,7 @@ public abstract class SensorNode<T> extends PNode {
 
     protected final Property<String> text;
 
-    public SensorNode( final ModelViewTransform transform, final Sensor<T> sensor, final Property<Units.Unit> units ) {
+    public SensorNode( final ModelViewTransform transform, final Sensor<T> sensor, final Property<Unit> units ) {
         final Function0<String> getString = new Function0<String>() {
             public String apply() {
                 String pattern = FPAFStrings.SENSOR_PATTERN; //TODO i18n
