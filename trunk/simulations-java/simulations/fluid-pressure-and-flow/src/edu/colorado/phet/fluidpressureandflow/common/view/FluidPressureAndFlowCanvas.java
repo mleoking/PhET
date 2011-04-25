@@ -2,15 +2,20 @@
 package edu.colorado.phet.fluidpressureandflow.common.view;
 
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import javax.swing.*;
 import javax.swing.text.JTextComponent;
 
+import edu.colorado.phet.bendinglight.model.ImmutableRectangle2D;
+import edu.colorado.phet.bendinglight.model.ModelBounds;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.SimSpeedControlPNode;
@@ -33,7 +38,7 @@ public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> ext
     public static final PDimension STAGE_SIZE = new PDimension( 1008, 680 );
     private final PNode rootNode;
 
-    public FluidPressureAndFlowCanvas( ModelViewTransform transform ) {
+    public FluidPressureAndFlowCanvas( final ModelViewTransform transform, final ModelBounds bounds ) {
         this.transform = transform;
         setWorldTransformStrategy( new PhetPCanvas.CenteredStage( this, STAGE_SIZE ) );
 
@@ -42,6 +47,19 @@ public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> ext
         addWorldChild( rootNode );
 
         setBorder( null );
+
+        //Notify model elements about the canvas area so they can't be dragged outside it.
+        final VoidFunction0 updateDragBounds = new VoidFunction0() {
+            public void apply() {
+                //identify the bounds that objects will be constrained to be dragged within
+                int insetPixels = 10;
+                final Rectangle2D.Double viewBounds = new Rectangle2D.Double( insetPixels, insetPixels, getWidth() - insetPixels * 2, getHeight() - insetPixels * 2 );
+
+                //Convert to model bounds and store in the model
+                final ImmutableRectangle2D modelBounds = new ImmutableRectangle2D( transform.viewToModel( rootNode.globalToLocal( viewBounds ) ) );
+                bounds.setValue( new Option.Some<ImmutableRectangle2D>( modelBounds ) );
+            }
+        };
     }
 
     public static void makeTransparent( JComponent component ) {
