@@ -21,6 +21,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 
 import static edu.colorado.phet.bendinglight.modules.prisms.PrismsModel.getPrismPrototypes;
 
+//REVIEW: This file needs cleanup of its use of generics.
 /**
  * Prism toolbox which contains draggable prisms as well as the control panel for their index of refraction.
  *
