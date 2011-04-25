@@ -25,6 +25,7 @@ public class Laser {
     public final Property<LaserColor> color = new Property<LaserColor>( new LaserColor.OneColor( WAVELENGTH_RED ) );
     public final Property<Boolean> wave = new Property<Boolean>( false );
 
+    //REVIEW: Why is this value so precise?  And the comment seems to be wrong, should say angle = PI (I think).
     public static final double MAX_ANGLE_IN_WAVE_MODE = 3.0194002144959584;//so the refracted wave mode doesn't get too big because at angle = 0 it would become infinite
 
     public Laser( final double distanceFromPivot, final double angle, final boolean topLeftQuadrant ) {
