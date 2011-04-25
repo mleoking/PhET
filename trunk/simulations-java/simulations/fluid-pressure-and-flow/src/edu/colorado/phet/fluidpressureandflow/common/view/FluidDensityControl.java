@@ -1,7 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fluidpressureandflow.common.view;
 
-import java.awt.*;
 import java.util.HashMap;
 
 import javax.swing.event.ChangeEvent;
@@ -12,12 +11,13 @@ import edu.colorado.phet.common.piccolophet.nodes.MinimizeMaximizeNode;
 import edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowApplication;
 import edu.colorado.phet.fluidpressureandflow.common.FluidPressureAndFlowModule;
 import edu.colorado.phet.fluidpressureandflow.common.model.FluidPressureAndFlowModel;
-import edu.colorado.phet.fluidpressureandflow.fluidpressure.FluidPressureControlPanel;
 import edu.umd.cs.piccolo.PNode;
 
 import static edu.colorado.phet.common.piccolophet.nodes.MinimizeMaximizeNode.BUTTON_LEFT;
 import static edu.colorado.phet.fluidpressureandflow.common.FPAFStrings.*;
 import static edu.colorado.phet.fluidpressureandflow.common.model.FluidPressureAndFlowModel.*;
+import static edu.colorado.phet.fluidpressureandflow.fluidpressure.FluidPressureControlPanel.CONTROL_FONT;
+import static java.awt.Color.black;
 
 /**
  * @author Sam Reid
@@ -35,7 +35,7 @@ public class FluidDensityControl<T extends FluidPressureAndFlowModel> extends PN
                 }
             } );
         }};
-        MinimizeMaximizeNode minimizeMaximizeNode = new MinimizeMaximizeNode( FLUID_DENSITY, BUTTON_LEFT, FluidPressureControlPanel.CONTROL_FONT, Color.black, 10 ) {{
+        MinimizeMaximizeNode minimizeMaximizeNode = new MinimizeMaximizeNode( FLUID_DENSITY, BUTTON_LEFT, CONTROL_FONT, black, 10 ) {{
             addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
                     module.fluidDensityControlVisible.setValue( isMaximized() );
