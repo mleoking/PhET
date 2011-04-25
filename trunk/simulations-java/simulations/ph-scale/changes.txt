@@ -1,4 +1,5 @@
 # 1.02.04 (51034) Apr 21, 2011
+> added new translation credits features
 # 1.02.03 (51020) Apr 21, 2011
 # 1.02.02 (48204) Jan 24, 2011
 1/24/11 #2690, increase canvas rendering width so that Concentration graph isn't clipped when resizing main frame
