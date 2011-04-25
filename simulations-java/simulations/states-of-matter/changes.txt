@@ -1,3 +1,5 @@
+# 1.08.00 (51136) Apr 25, 2011
+4/25/11 > Added new translation credits features and fixed layout issues with some translations. 
 # 1.07.06 (51131) Apr 25, 2011
 4/25/11 Deploying to dev for testing of some recent fixes.
 # 1.07.05 (51039) Apr 21, 2011
