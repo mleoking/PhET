@@ -10,14 +10,6 @@
  */
 package edu.colorado.phet.idealgas.instrumentation;
 
-import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common.phetgraphics.view.util.GraphicsState;
-import edu.colorado.phet.common.phetgraphics.view.util.GraphicsUtil;
-import edu.colorado.phet.idealgas.IdealGasConfig;
-import edu.colorado.phet.idealgas.IdealGasResources;
-
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
@@ -26,13 +18,22 @@ import java.awt.geom.RoundRectangle2D;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
+import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.phetgraphics.view.util.GraphicsState;
+import edu.colorado.phet.common.phetgraphics.view.util.GraphicsUtil;
+import edu.colorado.phet.idealgas.IdealGasConfig;
+import edu.colorado.phet.idealgas.IdealGasResources;
+
 public class Thermometer extends PhetGraphic {
 
     //----------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------
 
-    private static Color s_color = Color.red;
+    private static Color s_color = PhetColorScheme.RED_COLORBLIND;
     private static Color s_outlineColor = IdealGasConfig.COLOR_SCHEME.thermometerOutline;
 
     //----------------------------------------------------------------
@@ -117,8 +118,8 @@ public class Thermometer extends PhetGraphic {
 
         int readoutHeight = fontMetrics.getHeight() + fontMetrics.getMaxDescent();
         int readoutWidth = fontMetrics.stringWidth( "XXXXXXX" );
-        int yLoc = Math.max( (int)( location.getY() + maxScreenLevel - readoutHeight - value * scale ),
-                             (int)( location.getY() - readoutHeight ) );
+        int yLoc = Math.max( (int) ( location.getY() + maxScreenLevel - readoutHeight - value * scale ),
+                             (int) ( location.getY() - readoutHeight ) );
 
         readoutRect.setRoundRect( location.getX() + thickness + columnStrokeWidth * 2,
                                   yLoc - rectBorderThickness,
@@ -150,8 +151,8 @@ public class Thermometer extends PhetGraphic {
         double v = Double.isNaN( value ) ? 0 : value / 1000;
         String temperatureStr = formatter.format( v ) + IdealGasResources.getString( "temperature.units.abbreviation" );
         g.setColor( Color.black );
-        int strLocY = (int)innerRect.getMinY() + fontMetrics.getHeight();
-        g.drawString( temperatureStr, (int)innerRect.getMaxX() - 5 - fontMetrics.stringWidth( temperatureStr ), strLocY );
+        int strLocY = (int) innerRect.getMinY() + fontMetrics.getHeight();
+        g.drawString( temperatureStr, (int) innerRect.getMaxX() - 5 - fontMetrics.stringWidth( temperatureStr ), strLocY );
 
         GraphicsUtil.setAntiAliasingOn( g );
         g.setStroke( columnStroke );
