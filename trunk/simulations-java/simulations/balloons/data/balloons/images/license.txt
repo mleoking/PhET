@@ -3,7 +3,7 @@
 # Automatically generated on Fri Aug 08 00:08:00 MDT 2008
 ###################################
 
-balloon-blue.gif source=Open Clip Art Gallery notes=balloon-blue-aj.svg, http://www.openclipart.org/people/Anonymous/balloon-blue-aj.svg
+balloon-blue.gif source=PhET author=Kathy P., Oliver N.
 balloon-meg.gif source=phet author=PhET 
-balloon-yellow.gif source=???
-sweaterWidth300.gif source=http://www.gemfarmsbuffalo.com/giftsclothes.htm notes=emailed site, don't think I heard back  
+balloon-yellow.gif source= PhET author=Kathy P., Oliver N.
+sweaterWidth300.gif source=PhET author=Kathy P., Oliver N.
