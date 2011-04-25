@@ -135,10 +135,8 @@ public class MediumControlPanel extends PNode {
                 addChild( label );
 
                 //If the text field is supposed to be shown, add a JTextField so the user can see and change the index of refraction
-                System.out.println("textFieldVisible = " + textFieldVisible);
                 if ( textFieldVisible ) {
                     addChild( new PSwing( new JTextField( new DecimalFormat( format ).format( medium.getValue().getIndexOfRefraction( laserWavelength.getValue() ) ), columns ) {{
-                        System.out.println("Entered initializer");
                         setFont( BendingLightCanvas.labelFont );
 
                         //Listen for when the user presses enter
@@ -146,7 +144,6 @@ public class MediumControlPanel extends PNode {
                             public void actionPerformed( ActionEvent e ) {
                                 double value = Double.parseDouble( getText() );
                                 if ( value > MIN && value < MAX ) {
-                                    System.out.println("Wow!!!!");
                                     setCustomIndexOfRefraction( value );
                                 }
                             }
