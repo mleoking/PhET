@@ -30,7 +30,6 @@ public class FluidPressureAndFlowModel implements PressureSensor.Context, ResetM
 
     private final ConstantDtClock clock = new ConstantDtClock( 30 );
     private final ArrayList<PressureSensor> pressureSensors = new ArrayList<PressureSensor>();
-    private final ArrayList<Balloon> balloons = new ArrayList<Balloon>();
     private final ArrayList<VelocitySensor> velocitySensors = new ArrayList<VelocitySensor>();
     public final Property<Double> gravity = new Property<Double>( EARTH_GRAVITY );
     public final Property<Double> standardAirPressure = new Property<Double>( EARTH_AIR_PRESSURE );//air pressure at y=0
@@ -59,10 +58,6 @@ public class FluidPressureAndFlowModel implements PressureSensor.Context, ResetM
 
     public void addPressureSensor( PressureSensor sensor ) {
         pressureSensors.add( sensor );
-    }
-
-    public void addBalloon( Balloon balloon ) {
-        balloons.add( balloon );
     }
 
     public void addVelocitySensor( VelocitySensor sensor ) {
@@ -121,9 +116,6 @@ public class FluidPressureAndFlowModel implements PressureSensor.Context, ResetM
         }
         for ( PressureSensor pressureSensor : pressureSensors ) {
             pressureSensor.reset();
-        }
-        for ( Balloon balloon : balloons ) {
-            balloon.reset();
         }
         clock.resetSimulationTime();
         for ( VoidFunction0 resetListener : resetListeners ) {
