@@ -26,8 +26,11 @@ public class FluidPressureAndFlowModule<T extends FluidPressureAndFlowModel> ext
     protected FluidPressureAndFlowModule( String name, T model ) {
         super( name, model.getClock() );
         this.model = model;
+        //Show the meter stick if the units are in meters
         meterStickVisible = new And( rulerVisible, new ValueEquals<UnitSet>( model.units, UnitSet.METRIC ) );
-        yardStickVisible = new And( rulerVisible, new ValueEquals<UnitSet>( model.units, UnitSet.ENGLISH ) );
+
+        //Show the yard stick if the units are in feet (whether in atms or psi pressure unit)
+        yardStickVisible = new And( rulerVisible, new ValueEquals<UnitSet>( model.units, UnitSet.ENGLISH ).or( new ValueEquals<UnitSet>( model.units, UnitSet.ATMOSPHERES ) ) );
 
         getModulePanel().setLogoPanel( null );
         setClockControlPanel( null );
