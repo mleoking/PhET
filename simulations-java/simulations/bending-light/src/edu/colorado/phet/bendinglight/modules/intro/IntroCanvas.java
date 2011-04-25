@@ -36,6 +36,9 @@ import static edu.colorado.phet.bendinglight.model.BendingLightModel.MIN_DT;
 import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.multiScaleToWidth;
 import static java.awt.Color.black;
 
+//REVIEW: The name of this class and the header comment are misleading, since
+//this class is used in the "More Tools" module as well as the "Intro"
+//module.
 /**
  * Canvas for the "intro" tab.
  *
