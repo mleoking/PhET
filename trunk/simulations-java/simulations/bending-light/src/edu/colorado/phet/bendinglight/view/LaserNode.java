@@ -106,7 +106,7 @@ public class LaserNode extends PNode {
             ) {
                 super( shape, fill );
                 addInputEventListener( new CursorHandler() );
-                addInputEventListener( new BoundedDragHandler( LaserNode.this ) {
+                addInputEventListener( new CanvasBoundedDragHandler( LaserNode.this ) {
                     //Pass the event through to the eventHandler
                     @Override protected void dragNode( DragEvent event ) {
                         eventHandler.apply( event );

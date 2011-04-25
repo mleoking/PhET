@@ -79,7 +79,7 @@ public class ProtractorNode extends ToolNode {
         //Add a mouse listener for dragging when the drag region (entire body in all tabs, just the inner bar on prism break tab) is dragged
         addChild( new PhetPPath( translateShape.apply( innerBarShape, outerRimShape ), debug ? Color.blue : new Color( 0, 0, 0, 0 ) ) {{
             addInputEventListener( new CursorHandler() );
-            addInputEventListener( new BoundedDragHandler( ProtractorNode.this ) {
+            addInputEventListener( new CanvasBoundedDragHandler( ProtractorNode.this ) {
                 //Drag by changing the associated model element instead of just moving the node around
                 @Override public void dragNode( DragEvent event ) {
                     dragAll( event.delta );
