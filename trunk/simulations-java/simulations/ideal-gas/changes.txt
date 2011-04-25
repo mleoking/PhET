@@ -1,3 +1,4 @@
+> added new translation credits features
 # 3.13.02 (51024) Apr 21, 2011
 # 3.13.01 (51019) Apr 21, 2011
 # 3.13.00 (48272) Jan 26, 2011
