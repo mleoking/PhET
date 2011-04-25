@@ -9,7 +9,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  *
  * @author Sam Reid
  */
-public class BoundedToolDragHandler extends BoundedDragHandler {
+public class BoundedToolDragHandler extends CanvasBoundedDragHandler {
     private ToolNode node;
 
     public BoundedToolDragHandler( ToolNode node ) {

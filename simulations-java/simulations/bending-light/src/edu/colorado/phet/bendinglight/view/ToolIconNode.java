@@ -87,7 +87,7 @@ public class ToolIconNode extends PNode {
         private final PImage thumbnailIcon;
         ToolNode node = null;//The node that has been dragged out
         boolean intersect = false;//true if the node is ready to be dropped back in the toolbox
-        private BoundedDragHandler dragHandler;//Used for dragging the created ToolNode, but making sure it remains in canvas bounds
+        private CanvasBoundedDragHandler dragHandler;//Used for dragging the created ToolNode, but making sure it remains in canvas bounds
 
         ToolDragListener( final PImage thumbnailIcon ) {
             this.thumbnailIcon = thumbnailIcon;

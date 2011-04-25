@@ -11,20 +11,20 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
- * The BoundedToolDragHandler is used by draggable instances so that when they are dragged about the play area they are constrained to remain within the visible screen bounds.
+ * Used by draggable instances so that when they are dragged about the play area they are constrained to remain within the region of the canvas.
  *
  * @author Sam Reid
  */
-public abstract class BoundedDragHandler extends PBasicInputEventHandler {
+public abstract class CanvasBoundedDragHandler extends PBasicInputEventHandler {
     private Point2D lastLocation;
     private PNode node;
 
-    public BoundedDragHandler( PNode node ) {
+    public CanvasBoundedDragHandler( PNode node ) {
         this.node = node;
     }
 
     //Create a handler and start a drag sequence (useful when dragging from a toolbox)
-    public BoundedDragHandler( PNode node, PInputEvent event ) {
+    public CanvasBoundedDragHandler( PNode node, PInputEvent event ) {
         this( node );
         mousePressed( event );
     }
