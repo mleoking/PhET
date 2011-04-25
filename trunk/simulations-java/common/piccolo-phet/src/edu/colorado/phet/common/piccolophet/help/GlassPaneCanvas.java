@@ -1,14 +1,4 @@
 // Copyright 2002-2011, University of Colorado
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
-
 package edu.colorado.phet.common.piccolophet.help;
 
 import java.awt.*;
@@ -20,7 +10,6 @@ import javax.swing.*;
 
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.event.PInputEventListener;
-
 
 /**
  * GlassPaneCanvas is a Piccolo-based glass pane that does not intercept any events.
@@ -38,7 +27,6 @@ import edu.umd.cs.piccolo.event.PInputEventListener;
  * </code>
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class GlassPaneCanvas extends PCanvas {
 

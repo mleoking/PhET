@@ -1,13 +1,4 @@
 // Copyright 2002-2011, University of Colorado
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author:samreid $
- * Revision : $Revision:14676 $
- * Date modified : $Date:2007-04-17 02:58:50 -0500 (Tue, 17 Apr 2007) $
- */
 package edu.colorado.phet.common.piccolophet;
 
 import javax.swing.*;
@@ -27,7 +18,6 @@ import edu.colorado.phet.common.phetcommon.view.ModulePanel;
  * This class depends on PhetTabbedPane and Piccolo.
  *
  * @author Sam and Ron
- * @version $Revision:14676 $
  */
 public class TabbedModulePanePiccolo extends PhetTabbedPane implements ITabbedModulePane {
     private Module current;

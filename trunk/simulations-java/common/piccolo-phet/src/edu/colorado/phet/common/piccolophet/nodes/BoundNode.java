@@ -1,13 +1,4 @@
 // Copyright 2002-2011, University of Colorado
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
 package edu.colorado.phet.common.piccolophet.nodes;
 
 import java.awt.geom.Point2D;
@@ -22,7 +13,6 @@ import edu.umd.cs.piccolo.nodes.PPath;
 /**
  * Draws a boundary around the specified PNode.
  */
-
 public class BoundNode extends PPath {
     private PNode src;
     private double insetX;

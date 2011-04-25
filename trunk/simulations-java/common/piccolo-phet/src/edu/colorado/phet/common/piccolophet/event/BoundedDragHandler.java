@@ -1,13 +1,4 @@
 // Copyright 2002-2011, University of Colorado
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
 package edu.colorado.phet.common.piccolophet.event;
 
 import java.awt.geom.Point2D;
@@ -20,7 +11,6 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  * Drag behavior that ensures the dragged object stays inside the specified bounds.
  * The bounds must be rectangular, and this fails with rotated bounds.
  */
-
 public class BoundedDragHandler extends PBasicInputEventHandler {
     private PNode dragNode;
     private PNode boundingNode;

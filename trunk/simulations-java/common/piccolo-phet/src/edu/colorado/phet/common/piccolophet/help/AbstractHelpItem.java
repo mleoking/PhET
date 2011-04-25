@@ -1,14 +1,4 @@
 // Copyright 2002-2011, University of Colorado
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
-
 package edu.colorado.phet.common.piccolophet.help;
 
 import java.awt.event.ComponentEvent;
@@ -27,7 +17,6 @@ import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PAffineTransform;
 import edu.umd.cs.piccolox.pswing.PSwing;
-
 
 /**
  * AbstractHelpItem is the base class for help items.

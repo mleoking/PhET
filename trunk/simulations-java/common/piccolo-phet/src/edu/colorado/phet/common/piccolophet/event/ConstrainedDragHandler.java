@@ -1,14 +1,4 @@
 // Copyright 2002-2011, University of Colorado
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
-
 package edu.colorado.phet.common.piccolophet.event;
 
 import java.awt.geom.Point2D;
@@ -17,7 +7,6 @@ import java.awt.geom.Rectangle2D;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
-
 
 /**
  * ConstrainedDragHandler constrains drags to a specified bounding box.

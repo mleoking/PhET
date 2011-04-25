@@ -1,13 +1,4 @@
 // Copyright 2002-2011, University of Colorado
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
 package edu.colorado.phet.common.piccolophet.util;
 
 import java.awt.*;
@@ -27,7 +18,6 @@ import edu.umd.cs.piccolo.nodes.PImage;
  * in the classpath.
  *
  * @author Ron LeMaster
- * @version $Revision$
  * @deprecated this class should not be used
  */
 public class PImageFactory {

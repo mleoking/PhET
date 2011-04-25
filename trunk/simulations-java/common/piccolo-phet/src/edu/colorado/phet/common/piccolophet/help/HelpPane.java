@@ -1,14 +1,5 @@
 // Copyright 2002-2011, University of Colorado
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
-
 package edu.colorado.phet.common.piccolophet.help;
 
 import java.awt.event.ComponentAdapter;
@@ -19,13 +10,11 @@ import javax.swing.*;
 
 import edu.umd.cs.piccolo.PNode;
 
-
 /**
  * HelpPane is an extension of PGlassPane that provides methods
  * for managing help items on the glass pane.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class HelpPane extends GlassPaneCanvas {
 

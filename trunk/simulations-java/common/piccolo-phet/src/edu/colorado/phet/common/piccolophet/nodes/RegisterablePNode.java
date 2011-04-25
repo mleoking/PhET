@@ -1,13 +1,5 @@
 // Copyright 2002-2011, University of Colorado
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
 package edu.colorado.phet.common.piccolophet.nodes;
 
 import java.awt.geom.AffineTransform;
@@ -36,7 +28,6 @@ import edu.umd.cs.piccolo.PNode;
  * </code>
  *
  * @author Ron LeMaster
- * @version $Revision$
  */
 public class RegisterablePNode extends PNode {
 

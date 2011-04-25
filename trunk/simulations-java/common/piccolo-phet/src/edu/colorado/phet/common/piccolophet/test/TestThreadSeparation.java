@@ -1,13 +1,4 @@
 // Copyright 2002-2011, University of Colorado
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author:samreid $
- * Revision : $Revision:14676 $
- * Date modified : $Date:2007-04-17 02:58:50 -0500 (Tue, 17 Apr 2007) $
- */
 package edu.colorado.phet.common.piccolophet.test;
 
 import java.awt.*;
@@ -32,7 +23,6 @@ import edu.colorado.phet.common.piccolophet.PiccoloModule;
  * TestThreadSeparation
  *
  * @author Ron LeMaster
- * @version $Revision:14676 $
  */
 public class TestThreadSeparation {
 

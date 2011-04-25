@@ -1,13 +1,4 @@
 // Copyright 2002-2011, University of Colorado
-
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
 package edu.colorado.phet.common.piccolophet.nodes;
 
 import java.awt.*;
@@ -21,7 +12,6 @@ import edu.umd.cs.piccolo.PNode;
 /**
  * Shows the connection between two nodes as an arrow.
  */
-
 public class ArrowConnectorNode extends ConnectorNode {
     private double headHeight;
     private double headWidth;

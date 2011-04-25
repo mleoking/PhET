@@ -1,14 +1,5 @@
 // Copyright 2002-2011, University of Colorado
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
-
 package edu.colorado.phet.common.piccolophet.help;
 
 import java.awt.*;
@@ -42,7 +33,6 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * Many visual attributes can be customized using set methods.
  *
  * @author Chris Malley
- * @version $Revision$
  */
 public class HelpBalloon extends AbstractHelpItem {
 

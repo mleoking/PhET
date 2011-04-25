@@ -1,13 +1,5 @@
 // Copyright 2002-2011, University of Colorado
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
 package edu.colorado.phet.common.piccolophet.nodes;
 
 import java.awt.*;
@@ -24,7 +16,6 @@ import edu.umd.cs.piccolo.nodes.PPath;
 /**
  * Shows a Line connection between two PNodes.
  */
-
 public class ConnectorNode extends PPath {
 
     private PNode source;
