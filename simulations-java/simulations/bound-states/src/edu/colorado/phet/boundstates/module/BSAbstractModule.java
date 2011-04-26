@@ -922,6 +922,9 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
             for ( int i = 0; i < c.length; i++ ) {
                 _superpositionCoefficients.setCoefficient( i, c[i] );
             }
+
+            // Restore field constant after setting potential
+            setFieldConstant( config.getFieldConstant() );
         }
         _model.setNotifyEnabled( true );
 
