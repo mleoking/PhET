@@ -314,7 +314,7 @@ public class IsotopeTestChamber {
         isotopeProportion = (double)isotopeCount / (double)containedIsotopes.size();
         return isotopeProportion;
     }
-    
+
     /**
      * Move all the particles in the chamber such that they don't overlap.
      * This is intended for usage where there are not a lot of particles in
@@ -327,71 +327,78 @@ public class IsotopeTestChamber {
             System.out.println(getClass().getName() + " - Warning: Ignoring request to adjust for overlap - too many particles in the chamber for that.");
             return;
         }
-        
-        while ( checkForParticleOverlap() ){
-            // There is overlap, so the particles should be moved until
-            // there isn't.
-            double interParticleForceConst = 1000;
+
+        // Check for overlap and adjust particle positions until none exists.
+        int maxIterations = 10000;
+        int i;
+        for ( i = 0; checkForParticleOverlap() && i < maxIterations; i++ ){
+            // Adjustment factors for the repositioning algorithm.
+            double interParticleForceConst = 2000;
             double wallForceConst = interParticleForceConst * 10;
-            double minDistance = 0.0001;
-            Map<MovableAtom, Vector2D> repulsiveForces = new HashMap<MovableAtom, Vector2D>();
+            double minInterParticleDistance = 0.0001;
+            Map<MovableAtom, Vector2D> mapIsotopesToForces = new HashMap<MovableAtom, Vector2D>();
             for ( MovableAtom isotope1 : containedIsotopes ){
-                Vector2D totalRepulsiveForce = new Vector2D(0, 0);
-                // Calculate the repulsive forces from other isotopes.
+                Vector2D totalForce = new Vector2D(0, 0);
+                // Calculate the forces due to other isotopes.
                 for ( MovableAtom isotope2: containedIsotopes ){
                     if ( isotope1 == isotope2 ){
                         // Same one, so skip it.
                         continue;
                     }
-                    Vector2D forceFromIsotope = new Vector2D(0, 0); 
-                    if ( isotope1.getPosition().equals( isotope2.getPosition() ) ){
+                    Vector2D forceFromIsotope = new Vector2D(0, 0);
+                    double distanceBetweenIsotopes = isotope1.getPosition().distance( isotope2.getPosition() );
+                    if ( distanceBetweenIsotopes == 0 ){
                         // These isotopes are sitting right on top of one
                         // another.  Add the max amount of inter-particle
                         // force in a random direction.
-                        forceFromIsotope.setMagnitude( interParticleForceConst / (minDistance * minDistance) );
+                        forceFromIsotope.setMagnitude( interParticleForceConst / (minInterParticleDistance * minInterParticleDistance) );
                         forceFromIsotope.setAngle( RAND.nextDouble() * 2 * Math.PI );
                     }
-                    else{
+                    else if ( distanceBetweenIsotopes < isotope1.getRadius() + isotope2.getRadius() ){
                         // Calculate the repulsive force based on the distance.
-                        forceFromIsotope.setComponents( 
-                                isotope1.getPosition().getX() - isotope2.getPosition().getX(), 
+                        forceFromIsotope.setComponents(
+                                isotope1.getPosition().getX() - isotope2.getPosition().getX(),
                                 isotope1.getPosition().getY() - isotope2.getPosition().getY());
-                        double distance = Math.max( forceFromIsotope.getMagnitude(), minDistance );
+                        double distance = Math.max( forceFromIsotope.getMagnitude(), minInterParticleDistance );
                         forceFromIsotope.normalize();
                         forceFromIsotope.scale( interParticleForceConst / ( distance * distance ) );
                     }
-                    totalRepulsiveForce.add( forceFromIsotope );
+                    totalForce.add( forceFromIsotope );
                 }
                 // Calculate the force due to the walls.  This prevents
                 // particles from being pushed out of the bounds of the
                 // chamber.
                 if (isotope1.getPosition().getX() + isotope1.getRadius() >= TEST_CHAMBER_RECT.getMaxX()){
                     double distanceFromRightWall = TEST_CHAMBER_RECT.getMaxX() - isotope1.getPosition().getX();
-                    totalRepulsiveForce.add( new ImmutableVector2D( -wallForceConst / (distanceFromRightWall * distanceFromRightWall), 0 ) );
+                    totalForce.add( new ImmutableVector2D( -wallForceConst / (distanceFromRightWall * distanceFromRightWall), 0 ) );
                 }
                 else if (isotope1.getPosition().getX() - isotope1.getRadius() <= TEST_CHAMBER_RECT.getMinX()){
                     double distanceFromLeftWall = isotope1.getPosition().getX() - TEST_CHAMBER_RECT.getMinX();
-                    totalRepulsiveForce.add( new ImmutableVector2D( wallForceConst / (distanceFromLeftWall * distanceFromLeftWall), 0 ) );
+                    totalForce.add( new ImmutableVector2D( wallForceConst / (distanceFromLeftWall * distanceFromLeftWall), 0 ) );
                 }
                 if (isotope1.getPosition().getY() + isotope1.getRadius() >= TEST_CHAMBER_RECT.getMaxY()){
                     double distanceFromTopWall = TEST_CHAMBER_RECT.getMaxY() - isotope1.getPosition().getY();
-                    totalRepulsiveForce.add( new ImmutableVector2D( 0, -wallForceConst / (distanceFromTopWall * distanceFromTopWall) ) );
+                    totalForce.add( new ImmutableVector2D( 0, -wallForceConst / (distanceFromTopWall * distanceFromTopWall) ) );
                 }
                 else if (isotope1.getPosition().getY() - isotope1.getRadius() <= TEST_CHAMBER_RECT.getMinY()){
                     double distanceFromBottomWall = isotope1.getPosition().getY() - TEST_CHAMBER_RECT.getMinY();
-                    totalRepulsiveForce.add( new ImmutableVector2D( 0, wallForceConst / (distanceFromBottomWall * distanceFromBottomWall) ) );
+                    totalForce.add( new ImmutableVector2D( 0, wallForceConst / (distanceFromBottomWall * distanceFromBottomWall) ) );
                 }
-                
+
                 // Put the calculated repulsive force into the map.
-                repulsiveForces.put(isotope1, totalRepulsiveForce);
+                mapIsotopesToForces.put(isotope1, totalForce);
             }
             // Adjust the particle positions based on forces.
-            for ( MovableAtom isotope : repulsiveForces.keySet() ){
-                isotope.setPositionAndDestination( repulsiveForces.get( isotope ).getDestination( isotope.getPosition() ) );
+            for ( MovableAtom isotope : mapIsotopesToForces.keySet() ){
+                isotope.setPositionAndDestination( mapIsotopesToForces.get( isotope ).getDestination( isotope.getPosition() ) );
+            }
+            if ( i == maxIterations - 1){
+                System.out.println(getClass().getName() + " - Warning: Hit max iterations of repositioning algorithm.");
             }
         }
+        System.out.println("Iteration count = " + i);
     }
-    
+
     private boolean checkForParticleOverlap(){
         for ( MovableAtom isotope1 : containedIsotopes ){
             for ( MovableAtom isotope2 : containedIsotopes ){
