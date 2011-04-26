@@ -12,7 +12,8 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.fluidpressureandflow.common.model.FluidPressureAndFlowModel;
 import edu.colorado.phet.fluidpressureandflow.common.model.PressureSensor;
 import edu.colorado.phet.fluidpressureandflow.common.model.VelocitySensorContext;
-import edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet;
+
+import static edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet.ENGLISH;
 
 /**
  * Model class for the water tower, which has a water tower that the user can raise/lower and empty/fill.
@@ -30,12 +31,12 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
     private ArrayList<SimpleObserver> velocityUpdateListeners = new ArrayList<SimpleObserver>();
 
     public WaterTowerModel() {
-        super( UnitSet.ENGLISH );
+        super( ENGLISH );
         //Add the pressure and velocity sensors
-        addPressureSensor( new PressureSensor( this, 29, 20.1 ) );
-        addPressureSensor( new PressureSensor( this, 29, 26.5 ) );
-        addVelocitySensor( new FPAFVelocitySensor( this, 37.7, 30.6 ) );
-        addVelocitySensor( new FPAFVelocitySensor( this, 37.7, 33.6 ) );
+        addPressureSensor( new PressureSensor( this, 30, 25 ) );
+        addPressureSensor( new PressureSensor( this, 30, 25 ) );
+        addVelocitySensor( new FPAFVelocitySensor( this, 30, 30 ) );
+        addVelocitySensor( new FPAFVelocitySensor( this, 30, 30 ) );
 
         //Step when the clock ticks
         getClock().addClockListener( new ClockAdapter() {
