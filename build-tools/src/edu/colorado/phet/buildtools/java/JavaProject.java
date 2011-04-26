@@ -47,7 +47,7 @@ public abstract class JavaProject extends PhetProject {
                 PhetProject phetProject = new JavaSimulationProject( projectDir, sim );
                 projects.add( phetProject );
             }
-            catch( IOException e ) {
+            catch ( IOException e ) {
                 throw new BuildException( e );
             }
         }
@@ -71,7 +71,8 @@ public abstract class JavaProject extends PhetProject {
     }
 
     public File getTranslationFile( Locale locale ) {
-        String lang = locale.getLanguage().equals( "en" ) ? "" : "_" + locale.getLanguage();
+        String localeString = LocaleUtils.localeToString( locale );
+        String lang = localeString.equals( "en" ) ? "" : "_" + localeString; // JO: fixed locale bug
         return new File( getProjectDir(), "data" + File.separator + getName() + File.separator + "localization" + File.separator + getName() + "-strings" + lang + ".properties" );
     }
 
@@ -88,7 +89,7 @@ public abstract class JavaProject extends PhetProject {
         String[] a = getSimulation( simulationName ).getArgs();
         for ( int i = 0; i < a.length; i++ ) {
             String s = a[i];
-            args += " " + s ;
+            args += " " + s;
         }
         java.setArgs( args );
 
@@ -116,7 +117,7 @@ public abstract class JavaProject extends PhetProject {
             String text = FileUtils.loadFileAsString( file );
             System.out.println( "Process finished:\n" + text );
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
     }
@@ -167,7 +168,7 @@ public abstract class JavaProject extends PhetProject {
 
             return new Simulation( simulationName, title, mainclass, args );
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
             throw new RuntimeException( e );
         }
@@ -184,7 +185,7 @@ public abstract class JavaProject extends PhetProject {
                 try {
                     buildJNLP( locale, simulationName, codebase, dev );
                 }
-                catch( Exception e ) {
+                catch ( Exception e ) {
                     e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                 }
             }
