@@ -28,11 +28,6 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas {
             addChild( new PressureSensorNode( transform, pressureSensor, module.getFluidPressureAndFlowModel().units, module.getFluidPressureAndFlowModel().getPool() ) );
         }
 
-        //Balloons not shown while we evaluate whether they will be used at all
-//        for ( Balloon pressureSensor : module.getFluidPressureAndFlowModel().getBalloons() ) {
-//            addChild( new BalloonNode( transform, pressureSensor, module.getFluidPressureAndFlowModel().getPressureUnitProperty(), module.getFluidPressureAndFlowModel().getPool() ) );
-//        }
-
         //Some nodes go behind the pool so that it looks like they submerge
         final Point2D.Double rulerModelOrigin = new Point2D.Double( module.getFluidPressureAndFlowModel().getPool().getMinX(), module.getFluidPressureAndFlowModel().getPool().getMinY() );
         final MeterStick meterStick = new MeterStick( transform, module.meterStickVisible, module.rulerVisible, rulerModelOrigin, module.getFluidPressureAndFlowModel() );
@@ -45,7 +40,7 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas {
         addChild( poolNode );
 
         // Control Panel
-        final FluidPressureAndFlowControlPanelNode controlPanelNode = new FluidPressureAndFlowControlPanelNode( new FluidPressureControlPanel( module ) ) {{
+        final FluidPressureAndFlowControlPanelNode controlPanelNode = new FluidPressureAndFlowControlPanelNode( new FluidPressureControlPanel<FluidPressureModel>( module ) ) {{
             setOffset( STAGE_SIZE.getWidth() - getFullBounds().getWidth() - 2, STAGE_SIZE.getHeight() / 2 - getFullBounds().getHeight() / 2 );
         }};
         addChild( controlPanelNode );
@@ -53,9 +48,7 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas {
             setOffset( controlPanelNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, controlPanelNode.getFullBounds().getMaxY() + 20 );
         }} );
 
-        final Point2D.Double layoutPoint = new Point2D.Double( poolNode.getFullBounds().getMinX(), poolNode.getFullBounds().getMaxY() );
-        addChild( new FluidDensityControl<FluidPressureModel>( module ) {{
-            setOffset( Math.max( layoutPoint.getX() - getFullBounds().getWidth() - 2, 0 ), layoutPoint.getY() - getFullBounds().getHeight() );
-        }} );
+        //Create and show the fluid density controls
+        addFluidDensityControl( module );
     }
 }

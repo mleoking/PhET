@@ -7,13 +7,20 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.fluidpressureandflow.fluidpressure.FluidPressureControlPanel;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
+ * ControlPanelNode used to show controls in the play area of Fluid Pressure and Flow
+ *
  * @author Sam Reid
  */
 public class FluidPressureAndFlowControlPanelNode extends ControlPanelNode {
     public FluidPressureAndFlowControlPanelNode( JComponent controlPanel ) {
-        super( new PSwing( controlPanel ), FluidPressureControlPanel.BACKGROUND, new BasicStroke( 1 ), Color.gray, 4 );
+        this( new PSwing( controlPanel ) );
+    }
+
+    public FluidPressureAndFlowControlPanelNode( PNode content ) {
+        super( content, FluidPressureControlPanel.BACKGROUND, new BasicStroke( 1 ), Color.gray, 4 );
     }
 }

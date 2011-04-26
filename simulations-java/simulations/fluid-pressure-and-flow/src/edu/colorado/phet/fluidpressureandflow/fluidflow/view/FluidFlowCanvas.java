@@ -98,9 +98,8 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas {
             setOffset( STAGE_SIZE.getWidth() - getFullBounds().getWidth() - 2, STAGE_SIZE.getHeight() - getFullBounds().getHeight() - 2 );
         }} );
 
-        addChild( new FluidDensityControl<FluidFlowModel>( module ) {{
-            setOffset( 0, STAGE_SIZE.getHeight() - getFullBounds().getHeight() );
-        }} );
+        //Create and show the fluid density controls
+        addFluidDensityControl( module );
 
         //Some nodes go behind the pool so that it looks like they submerge
         final Point2D.Double rulerModelOrigin = new Point2D.Double( 0, 0 );
