@@ -1,3 +1,4 @@
+4/26/11 Moved ImmutableRectangle2D from bending-light to phetcommon, see #2811
 4/25/11 Removed unused PDFHandler class (which was fully commented out already)
 4/21/11 Added a string key for getting the "Reset" string
 4/20/11 Repaint frame when simulation panel changes to prevent "freezing" behavior, see #2812

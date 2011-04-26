@@ -1,16 +1,12 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.bendinglight.model;
+package edu.colorado.phet.common.phetcommon.math;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-
-//REVIEW: In reference to the TODO below, I think it is worth moving to phetcommon.  I'd use it.
 /**
- * Immutable Rectangle2D class, suitable for usage in Property<ImmutableRectangle2D> pattern.
- * TODO: Consider moving to phetcommon.
+ * Immutable Rectangle2D class, suitable for usage in Property<ImmutableRectangle2D> pattern, which also adds convenience methods missing from awt's Rectangle2D.
  *
  * @author Sam Reid
  */

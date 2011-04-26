@@ -4,7 +4,7 @@ package edu.colorado.phet.bendinglight.view;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.bendinglight.model.ImmutableRectangle2D;
+import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
