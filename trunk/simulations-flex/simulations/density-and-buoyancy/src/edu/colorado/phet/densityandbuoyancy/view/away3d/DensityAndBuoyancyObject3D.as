@@ -17,7 +17,7 @@ public class DensityAndBuoyancyObject3D extends ObjectContainer3D implements Pic
     private var densityObject: DensityAndBuoyancyObject;
 
     // TODO refactor so we can opt out of units
-    protected var frontZProperty: NumericProperty = new NumericProperty( "ZZZZ", "FakeUnits, FIX ME", 0 );//Front of the object (in away3d coordinates) so objects can be placed in front of it
+    public var frontZProperty: NumericProperty = new NumericProperty( "ZZZZ", "FakeUnits, FIX ME", 0 );//Front of the object (in away3d coordinates) so objects can be placed in front of it
 
     private var _canvas: AbstractDensityAndBuoyancyPlayAreaComponent;
 
