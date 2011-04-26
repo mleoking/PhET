@@ -9,6 +9,7 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.RoundRectangle2D;
 import java.util.List;
 
+import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
 import edu.colorado.phet.buildanatom.model.AtomIdentifier;
 import edu.colorado.phet.buildanatom.model.ImmutableAtom;
 import edu.colorado.phet.buildanatom.modules.isotopemixture.model.IsotopeMixturesModel;
@@ -221,8 +222,7 @@ public class AverageAtomicMassIndicator extends PNode {
                 weight = model.getIsotopeTestChamber().getAverageAtomicMass();
                 numDecimalPlacesToDisplay = DECIMAL_PLACES_FOR_USERS_MIX;
             }
-            // TODO: i18n
-            textualReadout.setText( VariablePrecisionNumberFormat.format( weight, numDecimalPlacesToDisplay ) + " amu" );
+            textualReadout.setText( VariablePrecisionNumberFormat.format( weight, numDecimalPlacesToDisplay ) + BuildAnAtomStrings.UNITS_AMU );
             textualReadout.setScale( 1 );
             if ( textualReadout.getFullBoundsReference().width >= readoutBackgroundNode.getFullBoundsReference().getWidth() * 0.95 ){
                 textualReadout.setScale( readoutBackgroundNode.getFullBoundsReference().width / textualReadout.getFullBoundsReference().width * 0.95 );

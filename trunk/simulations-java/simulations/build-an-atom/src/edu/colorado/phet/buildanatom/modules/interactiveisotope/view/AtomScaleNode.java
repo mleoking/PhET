@@ -16,6 +16,7 @@ import java.text.DecimalFormat;
 
 import javax.swing.JPanel;
 
+import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
 import edu.colorado.phet.buildanatom.model.AtomListener;
 import edu.colorado.phet.buildanatom.model.IDynamicAtom;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -264,14 +265,12 @@ public class AtomScaleNode extends PNode {
             JPanel buttonPanel = new JPanel( new GridLayout( 2, 1 ) ){{
                 setBackground( COLOR );
             }};
-            // TODO: i18n
-            PropertyRadioButton<DisplayMode> massNumberButton = new PropertyRadioButton<DisplayMode>( "Mass Number", displayModeProperty, DisplayMode.MASS_NUMBER ){{
+            PropertyRadioButton<DisplayMode> massNumberButton = new PropertyRadioButton<DisplayMode>( BuildAnAtomStrings.MASS_NUMBER, displayModeProperty, DisplayMode.MASS_NUMBER ){{
                 setBackground( COLOR );
                 setFont( LABEL_FONT );
             }};
             buttonPanel.add( massNumberButton );
-            // TODO: i18n
-            PropertyRadioButton<DisplayMode> atomicMassButton = new PropertyRadioButton<DisplayMode>( "Atomic Mass (amu)", displayModeProperty, DisplayMode.ATOMIC_MASS ){{
+            PropertyRadioButton<DisplayMode> atomicMassButton = new PropertyRadioButton<DisplayMode>( BuildAnAtomStrings.ATOMIC_MASS, displayModeProperty, DisplayMode.ATOMIC_MASS ){{
                 setBackground( COLOR );
                 setFont( LABEL_FONT );
             }};
