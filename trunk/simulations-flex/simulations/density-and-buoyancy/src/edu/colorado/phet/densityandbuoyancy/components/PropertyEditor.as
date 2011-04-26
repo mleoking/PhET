@@ -67,8 +67,7 @@ public class PropertyEditor extends GridRow {
                     return;
                 }
                 userChanged = true;
-                //const number: Number = unit.toSI( Number( textField.text ) );
-                const number: Number = unit.toSI( Math.round( Number( textField.text ) ) );
+                const number: Number = unit.toSI( Number( textField.text ) );
                 property.value = bounds.clamp( MathUtil.clamp( minimum, number, maximum ) );
                 if ( number != property.value ) {
                     // it was changed!
@@ -119,8 +118,7 @@ public class PropertyEditor extends GridRow {
         slider.liveDragging = true;//Update values during drag instead of only after dropping the thumb
 
         function sliderDragHandler( event: SliderEvent ): void {
-            //var newValue: Number = unit.toSI( event.value );
-            var newValue: Number = unit.toSI( Math.round( event.value ) );
+            var newValue: Number = unit.toSI( event.value );
             newValue = bounds.clamp( newValue );
             property.value = newValue;
             slider.value = unit.fromSI( newValue );//Make sure the slider thumb does not move beyond the clamped value (none of the other indicators move beyond the clamped value either)

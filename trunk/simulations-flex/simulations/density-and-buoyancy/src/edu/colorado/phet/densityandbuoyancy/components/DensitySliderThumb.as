@@ -26,19 +26,19 @@ public class DensitySliderThumb extends SliderThumb {
         graphics.lineTo( -10 + offsetX, 10 );
         graphics.endFill();
 
-//        var dataTip: DensitySliderDataTip = new DensitySliderDataTip();
-//        addChild( dataTip );
-//        trace( "init.parent = " + parent );
-//
-//        //When the simulation updates, synchronize the location of the slider thumb
-//        DensityAndBuoyancyModel.frameSteppedListener.push( function(): void {
-//            var p: PropertyEditor = getPropertyEditor( parent );
-//            dataTip.setDensity( p.property.value, p.unit );
-//
-//            //Magic numbers to make sure the data tip appears in the right location
-//            dataTip.x = -dataTip.width / 2 - 5 + offsetX;
-//            dataTip.y = 10 + dataTip.height / 2;
-//        } );
+        var dataTip: DensitySliderDataTip = new DensitySliderDataTip();
+        addChild( dataTip );
+        trace( "init.parent = " + parent );
+
+        //When the simulation updates, synchronize the location of the slider thumb
+        DensityAndBuoyancyModel.frameSteppedListener.push( function(): void {
+            var p: PropertyEditor = getPropertyEditor( parent );
+            dataTip.setDensity( p.property.value, p.unit );
+
+            //Magic numbers to make sure the data tip appears in the right location
+            dataTip.x = -dataTip.width / 2 - 5 + offsetX;
+            dataTip.y = 10 + dataTip.height / 2;
+        } );
     }
 
     //Recursively search up a component hierarchy for the PropertyEditor parent.
