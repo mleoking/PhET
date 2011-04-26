@@ -23,12 +23,11 @@ import static edu.colorado.phet.common.phetcommon.math.MathUtil.clamp;
  * @author Sam Reid
  */
 public class WhiteLightNode extends PImage {
-    //REVIEW: Where do these width and height values come from?  They look like the stage size, so why not just use the
-    //stage size (in case it ever changes)?
-    private BufferedImage buffer = new BufferedImage( 1008, 706, BufferedImage.TYPE_INT_ARGB_PRE );//Buffer into which the light is rendered.  Dimensions will need to change if the model aspect ratio changes or stage size changes
+    private BufferedImage buffer;
     private final PNode rayLayer;
 
-    public WhiteLightNode( PNode rayLayer ) {
+    public WhiteLightNode( PNode rayLayer, int stageWidth, int stageHeight ) {
+        this.buffer = new BufferedImage( stageWidth, stageHeight, BufferedImage.TYPE_INT_ARGB_PRE );//Buffer into which the light is rendered, only in the stage (light moving off the stage won't be seen even if it is in the canvas)
         this.rayLayer = rayLayer;
         setImage( buffer );
 
@@ -84,8 +83,7 @@ public class WhiteLightNode extends PImage {
         final float scale = 2f;//extra factor to make it white instead of cream/orange
 
         //Iterate over the sample points and draw them in the BufferedImage
-        //REVIEW: Has performance been evaluated to see whether the following TODO is necessary? 
-        //TODO: could maybe speed up by caching colors for individual points
+        //could maybe speed up by caching colors for individual points, but right now performance is acceptable
         for ( Point point : map.keySet() ) {
             final float[] samples = map.get( point );
             float intensity = samples[3];
