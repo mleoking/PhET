@@ -44,12 +44,13 @@ public class MinimizeMaximizeNode extends PNode {
     private static final Font DEFAULT_FONT = new PhetFont();
     private static final Color DEFAULT_TEXT_COLOR = Color.BLACK;
 
-    private final static Image DEFAULT_MINIMIZE_IMAGE = PhetCommonResources.getMinimizeButtonImage();
-    private final static Image DEFAULT_MAXIMIZE_IMAGE = PhetCommonResources.getMinimizeButtonImage();
+    private final static Image MINIMIZE_IMAGE;
+    private final static Image MAXIMIZE_IMAGE;
 
-    //Use the default minimize and maximize images, but can be overriden by setXXXImage()
-    private Image minimizeImage = DEFAULT_MINIMIZE_IMAGE;
-    private Image maximizeImage = DEFAULT_MAXIMIZE_IMAGE;
+    static {
+        MINIMIZE_IMAGE = PhetCommonResources.getMinimizeButtonImage();
+        MAXIMIZE_IMAGE = PhetCommonResources.getMaximizeButtonImage();
+    }
 
     //----------------------------------------------------------------------------
     // Instance data
@@ -98,7 +99,7 @@ public class MinimizeMaximizeNode extends PNode {
         textNode.setTextPaint( textPaint );
         addChild( textNode );
 
-        buttonNode = new PImage( maximizeImage );
+        buttonNode = new PImage( MAXIMIZE_IMAGE );
         addChild( buttonNode );
 
         final PNode thisNode = this;
@@ -168,19 +169,7 @@ public class MinimizeMaximizeNode extends PNode {
     */
     private void updateView() {
         textNode.setVisible( minimized );
-        buttonNode.setImage( minimized ? maximizeImage : minimizeImage );
-    }
-
-    //Change the maximize image
-    public void setMaximizeImage( Image maximizeImage ) {
-        this.maximizeImage = maximizeImage;
-        updateView();
-    }
-
-    //Change the minimize image
-    public void setMinimizeImage( Image minimizeImage ) {
-        this.minimizeImage = minimizeImage;
-        updateView();
+        buttonNode.setImage( minimized ? MAXIMIZE_IMAGE : MINIMIZE_IMAGE );
     }
 
     //----------------------------------------------------------------------------
