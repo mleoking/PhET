@@ -116,6 +116,10 @@ public class PrismsModel extends BendingLightModel {
         }};
     }
 
+    //REVIEW: This header comment is very helpful, but it would be good to understand why.  Seems to me that the
+    //event should come from here, and it is counter-intuitive that it doesn't.
+    //REVIEW: This comment should be Javadoc so that it can be easily seen outside of this file (at least when
+    //using Eclipse).
     //Adds a prism to the model; doesn't signal a "prism added event", adding graphics must be handled by the client that added the prism
     public void addPrism( Prism prism ) {
         prism.shape.addObserver( updateModel );
