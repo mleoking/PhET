@@ -99,4 +99,7 @@ public class BuildAnAtomStrings {
     public static final String NATURES_MIX_OF_ISOTOPES = getString( "naturesMixOfIsotopes" );
     public static final String MORE = getString( "more" );
     public static final String LESS = getString( "less" );
+    public static final String CLEAR_BOX = getString( "clearBox" );
+    public static final String OTHER = getString( "other" );
+    public static final String ISOTOPES = getString( "isotopes" );
 }

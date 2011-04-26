@@ -257,7 +257,7 @@ public class IsotopeMixturesCanvas extends PhetPCanvas implements Resettable {
         model.getShowingNaturesMixProperty().addObserver( moreLessButtonVizUpdater );
 
         // Add the button that clears the test chamber.
-        final ButtonNode clearTestChamberButton = new ButtonNode( "Clear Box", BUTTON_FONT_SIZE, new Color( 255, 153, 0 ) ){{
+        final ButtonNode clearTestChamberButton = new ButtonNode( BuildAnAtomStrings.CLEAR_BOX, BUTTON_FONT_SIZE, new Color( 255, 153, 0 ) ){{
             centerFullBoundsOnPoint( averageAtomicMassWindow.getFullBoundsReference().getMinX() + 80,
                     BuildAnAtomDefaults.STAGE_SIZE.height - DISTANCE_BUTTON_CENTER_FROM_BOTTOM );
             addActionListener( new ActionListener() {
