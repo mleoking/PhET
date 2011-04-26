@@ -1,6 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 
-package edu.colorado.phet.balancingchemicalequations.test;
+package edu.colorado.phet.balancingchemicalequations.developer;
 
 import java.awt.*;
 
@@ -30,15 +30,15 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class TestMoleculeNodes extends PhetPCanvas {
+public class PreviewMoleculesCanvas extends PhetPCanvas {
 
     /**
      * Constructor that displays the nodes used in "Balancing Chemical Equations".
      *
      * @param parentFrame
      */
-    public TestMoleculeNodes( Frame parentFrame ) {
-        this( parentFrame, BCEConstants.CANVAS_RENDERING_SIZE, BCEConstants.CANVAS_BACKGROUND, 8, 100, 100, 50,
+    public PreviewMoleculesCanvas( Frame parentFrame ) {
+        this( parentFrame, BCEConstants.CANVAS_BACKGROUND, 8, 100, 100, 20,
               new Molecule[] {
                       new CMolecule(),
                       new C2H2(),
@@ -80,18 +80,19 @@ public class TestMoleculeNodes extends PhetPCanvas {
     /**
      * Constructor that displays any set of molecules.
      * Molecules are displayed in an grid, in row-major order.
+     * Canvas is automatically sized so that all nodes are visible.
      *
      * @param parentFrame color chooser dialog will be parented to this frame
+     * @param background  background color of the canvas
      * @param columns     number of columns in the grid
      * @param xSpacing    horizontal spacing between molecules
      * @param ySpacing    vertical spacing between molecules
      * @param margin      margin around the edge of the play area
-     * @param molecules   molecule to display
+     * @param molecules   molecules to display
      */
-    public TestMoleculeNodes( Frame parentFrame, Dimension renderingSize, Color background, int columns, int xSpacing, int ySpacing, int margin, Molecule[] molecules ) {
-        super( renderingSize );
+    public PreviewMoleculesCanvas( Frame parentFrame, Color background, int columns, int xSpacing, int ySpacing, int margin, Molecule[] molecules ) {
+        super();
         setBackground( background );
-        setPreferredSize( renderingSize );
 
         // parent node of all molecule nodes
         PNode parent = new PNode();
@@ -113,7 +114,12 @@ public class TestMoleculeNodes extends PhetPCanvas {
             double y = margin + ( ( i / columns ) ) * ySpacing;
             child.setOffset( x, y );
         }
-        colorControl.setOffset( margin, parent.getFullBoundsReference().getMaxY() + ySpacing );
+        colorControl.setOffset( margin, parent.getFullBoundsReference().getMaxY() + 10 );
+
+        // compute preferred size
+        int width = (int) parent.getFullBoundsReference().getMaxX() + margin;
+        int height = (int) colorControl.getFullBoundsReference().getMaxY() + margin;
+        setPreferredSize( new Dimension( width, height ) );
     }
 
     /*
@@ -121,11 +127,17 @@ public class TestMoleculeNodes extends PhetPCanvas {
      */
     private static class LabeledMoleculeNode extends PComposite {
         public LabeledMoleculeNode( Molecule molecule ) {
+
+            // image
             PNode moleculeNode = new PImage( molecule.getImage() );
             addChild( moleculeNode );
+
+            // label
             HTMLNode labelNode = new HTMLNode( molecule.getSymbol() );
             labelNode.setHTMLColor( Color.BLACK );
             addChild( labelNode );
+
+            // layout: label centered below image
             double x = moleculeNode.getFullBoundsReference().getCenterX() - ( labelNode.getFullBoundsReference().getWidth() / 2 );
             double y = moleculeNode.getFullBoundsReference().getMaxY() + 2;
             labelNode.setOffset( x, y );
@@ -139,7 +151,7 @@ public class TestMoleculeNodes extends PhetPCanvas {
     private static class CanvasColorControl extends JPanel {
         public CanvasColorControl( Frame parentFrame, final PCanvas canvas ) {
             setBorder( new CompoundBorder( new LineBorder( Color.WHITE ), new LineBorder( Color.BLACK ) ) );
-            final ColorControl colorControl = new ColorControl( parentFrame, "play area color:", canvas.getBackground() );
+            final ColorControl colorControl = new ColorControl( parentFrame, "background color:", canvas.getBackground() );
             add( colorControl );
             SwingUtils.setBackgroundDeep( this, Color.WHITE );
             colorControl.addChangeListener( new ChangeListener() {
@@ -150,9 +162,10 @@ public class TestMoleculeNodes extends PhetPCanvas {
         }
     }
 
+    // test the canvas
     public static void main( String[] args ) {
-        JFrame frame = new JFrame( TestMoleculeNodes.class.getName() ) {{
-            setContentPane( new TestMoleculeNodes( this ) );
+        JFrame frame = new JFrame( PreviewMoleculesCanvas.class.getName() ) {{
+            setContentPane( new PreviewMoleculesCanvas( this ) );
             pack();
             setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
         }};

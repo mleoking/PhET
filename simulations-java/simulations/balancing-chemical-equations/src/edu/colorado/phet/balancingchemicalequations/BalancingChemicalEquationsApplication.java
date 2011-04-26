@@ -2,11 +2,11 @@
 
 package edu.colorado.phet.balancingchemicalequations;
 
-import javax.swing.JMenu;
-import javax.swing.JSeparator;
+import javax.swing.*;
 
 import edu.colorado.phet.balancingchemicalequations.control.BCEOptionsMenu;
-import edu.colorado.phet.balancingchemicalequations.control.DeveloperColorsMenuItem;
+import edu.colorado.phet.balancingchemicalequations.developer.ColorsMenuItem;
+import edu.colorado.phet.balancingchemicalequations.developer.PreviewMoleculesMenuItem;
 import edu.colorado.phet.balancingchemicalequations.module.game.GameModule;
 import edu.colorado.phet.balancingchemicalequations.module.introduction.IntroductionModule;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
@@ -35,16 +35,19 @@ public class BalancingChemicalEquationsApplication extends PiccoloPhetApplicatio
         getPhetFrame().addMenu( new BCEOptionsMenu( globalProperties ) );
 
         // Developer menu
-        JMenu developerMenu = getPhetFrame().getDeveloperMenu();
-        developerMenu.add( new JSeparator() );
-        developerMenu.add( new DeveloperColorsMenuItem( globalProperties ) );
-        developerMenu.add( new PropertyCheckBoxMenuItem( "Show answers", globalProperties.answersVisible ) );
-        developerMenu.add( new JSeparator() );
-        developerMenu.add( new PropertyCheckBoxMenuItem( "Game: play all equations", globalProperties.playAllEquations ) );
-        developerMenu.add( new JSeparator() );
-        developerMenu.add( new PropertyCheckBoxMenuItem( "Game Popups: add \"Show Why\" button", globalProperties.popupsWhyButtonVisible ) );
-        developerMenu.add( new PropertyCheckBoxMenuItem( "Game Popups: show close button", globalProperties.popupsCloseButtonVisible ) );
-        developerMenu.add( new PropertyCheckBoxMenuItem( "Game Popups: show top bar", globalProperties.popupsTitleBarVisible ) );
+        {
+            JMenu developerMenu = getPhetFrame().getDeveloperMenu();
+            developerMenu.add( new JSeparator() );
+            developerMenu.add( new PreviewMoleculesMenuItem( globalProperties.frame ) );
+            developerMenu.add( new ColorsMenuItem( globalProperties ) );
+            developerMenu.add( new PropertyCheckBoxMenuItem( "Show answers", globalProperties.answersVisible ) );
+            developerMenu.add( new JSeparator() );
+            developerMenu.add( new PropertyCheckBoxMenuItem( "Game: play all equations", globalProperties.playAllEquations ) );
+            developerMenu.add( new JSeparator() );
+            developerMenu.add( new PropertyCheckBoxMenuItem( "Game Popups: add \"Show Why\" button", globalProperties.popupsWhyButtonVisible ) );
+            developerMenu.add( new PropertyCheckBoxMenuItem( "Game Popups: show close button", globalProperties.popupsCloseButtonVisible ) );
+            developerMenu.add( new PropertyCheckBoxMenuItem( "Game Popups: show top bar", globalProperties.popupsTitleBarVisible ) );
+        }
     }
 
     public static void main( final String[] args ) throws ClassNotFoundException {
