@@ -94,13 +94,12 @@ public class Polygon implements IShape {
     }
 
     //Gets a rotated copy of this polygon
-    public IShape getRotatedInstance( final double angle ) {
-        final ImmutableVector2D centroid = getCentroid();//cache for performance
+    public IShape getRotatedInstance( final double angle, final ImmutableVector2D rotationPoint ) {
         return new Polygon( new ArrayList<ImmutableVector2D>() {{
             for ( ImmutableVector2D point : points ) {
-                ImmutableVector2D vectorAboutCentroid = point.minus( centroid );
+                ImmutableVector2D vectorAboutCentroid = point.minus( rotationPoint );
                 final ImmutableVector2D rotated = vectorAboutCentroid.getRotatedInstance( angle );
-                add( rotated.plus( centroid ) );
+                add( rotated.plus( rotationPoint ) );
             }
         }} );
     }
