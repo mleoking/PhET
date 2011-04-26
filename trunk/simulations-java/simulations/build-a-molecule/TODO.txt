@@ -1,7 +1,5 @@
 * Arrow and message that "Collect your molecule!" at the start. Points to correct collection box.
-* Close relevant 3d views on: kit switch, break of molecule, or any other way the molecule isn't visible.
 * Add in a sound when a collection box is filled
-* Reduce delay (Jmol-caused) between clicking on "Show 3D" and it actually appearing
 
 Synchronize colors with Jmol (sulfur and others look different colors in 3d views) -- Emily preference for matching Jmol colors
 Drop-down menu. Options: "Show in 3D", possibly show chemical formula, possibly option to move to collection box

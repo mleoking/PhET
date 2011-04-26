@@ -20,7 +20,8 @@ public class JmolDialog extends JDialog {
         setTitle( molecule.getCommonName() );
         setSize( 410, 410 );
 
-        setContentPane( new JPanel( new BorderLayout() ) );
+        JPanel container = new JPanel( new BorderLayout() );
+        setContentPane( container );
 
         final JmolPanel jmolPanel = new JmolPanel( molecule );
         getContentPane().add( jmolPanel, BorderLayout.CENTER );
@@ -46,10 +47,15 @@ public class JmolDialog extends JDialog {
         }}, BorderLayout.SOUTH );
 
         setVisible( true );
+
+        container.paintImmediately( 0, 0, container.getWidth(), container.getHeight() );
+
+        setDefaultCloseOperation( JDialog.DISPOSE_ON_CLOSE );
     }
 
-    public static void displayMolecule3D( Frame frame, CompleteMolecule completeMolecule ) {
-        JDialog jmolDialog = new JmolDialog( frame, completeMolecule );
+    public static JmolDialog displayMolecule3D( Frame frame, CompleteMolecule completeMolecule ) {
+        JmolDialog jmolDialog = new JmolDialog( frame, completeMolecule );
         SwingUtils.centerDialogInParent( jmolDialog );
+        return jmolDialog;
     }
 }
