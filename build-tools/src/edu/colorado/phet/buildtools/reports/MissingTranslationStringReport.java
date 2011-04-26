@@ -14,7 +14,7 @@ import edu.colorado.phet.buildtools.util.FileUtils;
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 
 /**
- * Show what strings are missing from translations
+ * Show what strings are missing from translations. Puts this in a report located at trunk/build-tools/deploy/missing-translation-string-report.html
  */
 public class MissingTranslationStringReport {
     private static Set<String> IGNORE_KEYS = new HashSet<String>() {{
