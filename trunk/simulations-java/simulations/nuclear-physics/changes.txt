@@ -11,7 +11,7 @@ nuclear-fission: Fixed an issue with layout for the Arabic translations.
 # 3.23.03 (51027) Apr 21, 2011
 # 3.23.02 (51020) Apr 21, 2011
 # 3.23.01 (50942) Apr 20, 2011
-4/18/11 > Changed Microsoft Clip Art Images for 'air_probe.png', 'bone.png', 'cloud.png', 'cup.png', 'dinosaur_skull.png', 'fish_bones.png','fish_fossil.png', 'house.png', 'skull_animal.png', 'skull_animal_2.png', 'skull_human.png', 'trilobyte_fossil.png', 'volcano_hot.png', 'volcano_cool.png' to Open Clip Art, Wikimedia Commons see #2800.
+4/18/11 Changed Microsoft Clip Art Images for 'air_probe.png', 'bone.png', 'cloud.png', 'cup.png', 'dinosaur_skull.png', 'fish_bones.png','fish_fossil.png', 'house.png', 'skull_animal.png', 'skull_animal_2.png', 'skull_human.png', 'trilobyte_fossil.png', 'volcano_hot.png', 'volcano_cool.png' to Open Clip Art, Wikimedia Commons see #2800.
 # 3.23.00 (50429) Apr 7, 2011
 4/5/11 > Fixed an issue where some windows displayed incorrectly for right-to-left languages.
 nuclear-fission: Fixed an issue where the "Close" button on the reactor dialog was not internationalized.
