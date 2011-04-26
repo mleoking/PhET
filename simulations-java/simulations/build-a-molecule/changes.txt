@@ -1,3 +1,6 @@
+While 3D view is open for a molecule, its '+' for 3D view button is grayed out (disabled)
+Can only open 1 3D view for each molecule, and it closes whenever the molecule is hidden (broken, kit changes, put in collection box, etc)
+Showing of 3D view dialog is immediate, and shows a "loading" message.
 Bugfix: added NO2 as a potential molecule
 # 0.00.08 (51043) Apr 21, 2011
 Added developer controls to allow generation of all molecules for boxes AND/OR allowing isotopes of the target molecule in collection boxes
