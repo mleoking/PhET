@@ -1,1 +1,0 @@
-This directory should contain BitRock and a license.xml file.

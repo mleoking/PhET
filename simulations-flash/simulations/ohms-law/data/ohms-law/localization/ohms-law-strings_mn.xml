@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--ohms-law-strings_mn.xml created Thu Jan 22 17:56:02 ICT 2009 using: ohms-law 1.00.00 (22498), translation-utility 1.09.00 (26682)-->
-<SimStrings>
-<string key="currentEq" value="Цахилгаан гүйдэл"/>
-<string key="resistance" value="Эсэргүүцэл"/>
-<string key="sound" value="дуу"/>
-<string key="voltage" value="хүчдэл"/>
-</SimStrings>

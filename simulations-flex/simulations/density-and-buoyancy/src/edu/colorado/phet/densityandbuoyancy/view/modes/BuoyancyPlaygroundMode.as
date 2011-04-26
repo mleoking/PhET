@@ -42,6 +42,8 @@ public class BuoyancyPlaygroundMode extends BuoyancyMode {
         customObjectPropertiesPanelWrapper1.customObjectPropertiesPanel.addEventListener( Event.RESIZE, function(): void {
             customObjectPropertiesPanelWrapper2.customObjectPropertiesPanel.x = customObjectPropertiesPanelWrapper1.x + customObjectPropertiesPanelWrapper1.width + DensityAndBuoyancyConstants.CONTROL_INSET;
         } );
+
+        setTwoObjects();
     }
 
     override public function init(): void {
@@ -63,7 +65,7 @@ public class BuoyancyPlaygroundMode extends BuoyancyMode {
         block1.material = defaultMaterial;
         block2.reset();
         block2.material = defaultMaterial;
-        setOneObject();
+        setTwoObjects();
         customObjectPropertiesPanelWrapper1.reset();
         customObjectPropertiesPanelWrapper2.reset();
     }

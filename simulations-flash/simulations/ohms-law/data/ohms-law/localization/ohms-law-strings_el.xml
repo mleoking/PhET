@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--ohms-law-strings_el.xml created Thu Nov 04 12:29:06 EET 2010 using: ohms-law 2.01.00 (37318), translation-utility 2.09.00 (44031) Σεπ 14, 2010-->
-<SimStrings>
-<string key="currentEq" value="Ρεύμα="/>
-<string key="resistance" value="αντίσταση"/>
-<string key="simTitle" value="Νόμος του Ωμ"/>
-<string key="sound" value="ήχος"/>
-<string key="voltage" value="τάση"/>
-</SimStrings>

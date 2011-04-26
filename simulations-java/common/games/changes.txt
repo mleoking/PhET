@@ -1,5 +1,0 @@
-2/10/11 #2727, rewrite GameSettings to use properties exclusively, remove old-style constructors and accessor methods
-2/10/11 #2727, add GameSettings model class, and GameSettingsPanel constructor to wire it up
-10/23/10 migrated audio from RPAL
-10/19/10 #2547, migrate user-interface components from reactants-products-and-leftovers
-10/19/10 games package created

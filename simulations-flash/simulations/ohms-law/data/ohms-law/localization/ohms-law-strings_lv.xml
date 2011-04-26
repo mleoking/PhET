@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--ohms-law-strings_lv.xml created Sat Mar 12 07:36:39 EET 2011 using: ohms-law 2.01.00 (37318), translation-utility 2.09.00 (44031) Sep 14, 2010-->
-<SimStrings>
-<string key="currentEq" value="pašlaik ="/>
-<string key="resistance" value="pretestība"/>
-<string key="simTitle" value="Oma likums"/>
-<string key="sound" value="skaņa"/>
-<string key="voltage" value="spriegums"/>
-</SimStrings>
