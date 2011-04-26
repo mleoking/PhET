@@ -1,3 +1,4 @@
+# 1.08.01 (51167) Apr 25, 2011
 > fix File->Load for E-Field value
 4/25/11 #2815, fix File->Load so that E-field constant is properly restored
 > fix File->Save/Load for chart magnification level
