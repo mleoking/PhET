@@ -1,14 +1,15 @@
-Arrow and message that "you can put this in the collection box" at the start. Points to correct collection box.
+* Arrow and message that "you can put this in the collection box" at the start. Points to correct collection box.
+* Close relevant 3d views on: kit switch, break of molecule, or any other way the molecule isn't visible.
+* Add in a sound when a collection box is filled
+* Reduce delay (Jmol-caused) between clicking on "Show 3D" and it actually appearing
+
+Synchronize colors with Jmol (sulfur and others look different colors in 3d views) -- Emily preference for matching Jmol colors
 Drop-down menu. Options: "Show in 3D", possibly show chemical formula, possibly option to move to collection box
-Close relevant 3d views on: kit switch, break of molecule, or any other way the molecule isn't visible.
 Only show 1 3d view of a particular molecule type at a time
 Talk with translators (Sandor) about translating names. Developer recommendation: translate a subset
-Synchronize colors with Jmol (sulfur and others look different colors in 3d views)
 Bugfix: drag 2 atoms to the far lower-left at the start and they are pushed to cover each other (without bonding)
 Find what molecules say they are "equivalent" to each other (some isomers pulled from PubChem seem identical to the sim model)
-Add in a sound when a collection box is filled
 Detect alcohols (or other structures) and modify their molecular formulas accordingly
-Reduce delay (Jmol-caused) between clicking on "Show 3D" and it actually appearing
 Investigate "molecular workbench", see if there are any other ideas
 Possibly attempt to generate less kits? PENDING feedback
 (dev) Internationalization
