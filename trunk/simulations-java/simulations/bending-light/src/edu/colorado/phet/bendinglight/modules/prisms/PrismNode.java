@@ -76,7 +76,7 @@ public class PrismNode extends PNode {
                 addChild( new PhetPPath( new Rectangle2D.Double( -width / 2, -width / 2, width, width ), Color.white, new BasicStroke( 1 ), Color.gray ) {{}} );
                 prism.shape.addObserver( new SimpleObserver() {
                     public void update() {
-                        setOffset( transform.modelToView( prism.shape.getValue().getPoint( 0 ) ).toPoint2D() );
+                        setOffset( transform.modelToView( prism.shape.getValue().getReferencePoint().get() ).toPoint2D() );
                     }
                 } );
 
@@ -105,6 +105,10 @@ public class PrismNode extends PNode {
                 } );
             }
         }
-        addChild( new RotationDragHandle() );
+
+        //Circles are not rotatable since they are symmetric, so they do not provide a reference point
+        if ( prism.shape.getValue().getReferencePoint().isSome() ) {
+            addChild( new RotationDragHandle() );
+        }
     }
 }
