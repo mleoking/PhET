@@ -134,6 +134,11 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas {
 
         //Add clock controls (play/pause), including a time speed slider (no time readout)
         addChild( createClockControls( module, clockRunning ) );
+
+        //Add a control for viewing and changing the fluid flow rate
+        addChild( new FluidPressureAndFlowControlPanelNode( new FluidFlowControl( module ) ) {{
+            setOffset( 10, 10 );
+        }} );
     }
 
     private void addFoodColoringNode( final FoodColoring p ) {

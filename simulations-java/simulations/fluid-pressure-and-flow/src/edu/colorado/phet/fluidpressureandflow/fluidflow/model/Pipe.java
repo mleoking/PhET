@@ -10,6 +10,7 @@ import java.util.Comparator;
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
@@ -224,11 +225,12 @@ public class Pipe {
         return list.get( 0 );
     }
 
+    public Property<Double> k = new Property<Double>( 5.0 ); // v2 / a1 from continuity equation a1 v1 = a2 v2
+
     public double getSpeed( double x ) {
         //Continuity equation: a1 v1 = a2 v2
         //TODO: treat pipes as if they are cylindrical cross sections?
-        double k = 5.0;
-        return k / getCrossSection( x ).getHeight();
+        return k.getValue() / getCrossSection( x ).getHeight();
     }
 
     public ImmutableVector2D getVelocity( double x, double y ) {

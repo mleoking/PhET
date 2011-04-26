@@ -34,47 +34,7 @@ public class FluidFlowModel extends FluidPressureAndFlowModel implements Velocit
         getClock().addClockListener( new ClockAdapter() {
             @Override
             public void clockTicked( ClockEvent clockEvent ) {
-                double value = dropperRate.getValue() / 100.0;
-                if ( random.nextDouble() < value && dropperEnabled.getValue() ) {
-                    addDrop();
-                }
-
-                //UPDATE PARTICLES
-                final double dt = clockEvent.getSimulationTimeChange();
-                {
-                    ArrayList<Particle> toRemove = new ArrayList<Particle>();
-                    for ( int i = 0; i < particles.size(); i++ ) {
-                        Particle particle = particles.get( i );
-                        boolean remove = updateParticle( dt, particle );
-                        if ( remove ) {
-                            toRemove.add( particle );
-                        }
-                    }
-                    for ( int i = 0; i < toRemove.size(); i++ ) {
-                        removeParticle( toRemove.get( i ) );
-                    }
-                }
-
-                //UPDATE FOOD COLORING
-                {
-                    ArrayList<FoodColoring> toRemove = new ArrayList<FoodColoring>();
-                    for ( int i = 0; i < foodColorings.size(); i++ ) {
-                        boolean canRemove = true;
-                        FoodColoring foodColoring = foodColorings.get( i );
-                        ArrayList<Particle> p = foodColoring.getParticles();
-                        for ( Particle particle : p ) {
-                            boolean remove = updateParticle( dt, particle );
-                            canRemove = canRemove && remove;//only remove if all particles have exited
-                        }
-                        foodColoring.notifyObservers();
-                        if ( canRemove ) {
-                            toRemove.add( foodColoring );
-                        }
-                    }
-                    for ( int i = 0; i < toRemove.size(); i++ ) {
-                        removeFoodColoring( toRemove.get( i ) );
-                    }
-                }
+                stepInTime( clockEvent );
             }
         } );
 
@@ -83,6 +43,51 @@ public class FluidFlowModel extends FluidPressureAndFlowModel implements Velocit
         addPressureSensor( new PressureSensor( this, 3, 1.1882302540898015 ) );
         addVelocitySensor( new FPAFVelocitySensor( this, 1, 0.473501677688827 ) );
         addVelocitySensor( new FPAFVelocitySensor( this, 1, 0.473501677688827 ) );
+    }
+
+    private void stepInTime( ClockEvent clockEvent ) {
+        updateParticles( clockEvent.getSimulationTimeChange() );
+        updateFoodColoring( clockEvent.getSimulationTimeChange() );
+    }
+
+    //Update the solid red patches (food coloring)
+    private void updateFoodColoring( double dt ) {
+        ArrayList<FoodColoring> toRemove = new ArrayList<FoodColoring>();
+        for ( int i = 0; i < foodColorings.size(); i++ ) {
+            boolean canRemove = true;
+            FoodColoring foodColoring = foodColorings.get( i );
+            ArrayList<Particle> p = foodColoring.getParticles();
+            for ( Particle particle : p ) {
+                boolean remove = updateParticle( dt, particle );
+                canRemove = canRemove && remove;//only remove if all particles have exited
+            }
+            foodColoring.notifyObservers();
+            if ( canRemove ) {
+                toRemove.add( foodColoring );
+            }
+        }
+        for ( int i = 0; i < toRemove.size(); i++ ) {
+            removeFoodColoring( toRemove.get( i ) );
+        }
+    }
+
+    //Update the red dots
+    private void updateParticles( double dt ) {
+        double value = dropperRate.getValue() / 100.0;
+        if ( random.nextDouble() < value && dropperEnabled.getValue() ) {
+            addDrop();
+        }
+        ArrayList<Particle> toRemove = new ArrayList<Particle>();
+        for ( int i = 0; i < particles.size(); i++ ) {
+            Particle particle = particles.get( i );
+            boolean remove = updateParticle( dt, particle );
+            if ( remove ) {
+                toRemove.add( particle );
+            }
+        }
+        for ( int i = 0; i < toRemove.size(); i++ ) {
+            removeParticle( toRemove.get( i ) );
+        }
     }
 
     private void removeFoodColoring( FoodColoring foodColoring ) {
