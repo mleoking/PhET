@@ -682,8 +682,6 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
 
         // Control
         {
-            // reset the zoom level for each well type, then reset the zoom control
-            resetZoomSpecs();
             configureZoomControls( _model.getWellType() );
 
             _controlPanel.setWellType( _model.getWellType() );
@@ -730,27 +728,6 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
         // Clock
         _clockControls.setClockIndex( BSConstants.DEFAULT_CLOCK_INDEX );
         resetClock();
-    }
-
-    /*
-     * Resets the zoom level for each well type.
-     */
-    private void resetZoomSpecs() {
-        resetZoomSpec( _moduleSpec.getAsymmetricSpec() );
-        resetZoomSpec( _moduleSpec.getCoulomb1DSpec() );
-        resetZoomSpec( _moduleSpec.getCoulomb3DSpec() );
-        resetZoomSpec( _moduleSpec.getHarmonicOscillatorSpec() );
-        resetZoomSpec( _moduleSpec.getSquareSpec() );
-    }
-
-    /*
-     * Resets the zoom level for a well type.
-     * A module may not have some well types, so if this is null, do nothing.
-     */
-    private void resetZoomSpec( BSPotentialSpec spec ) {
-        if ( spec != null ) {
-            spec.getEnergyZoomSpec().reset();
-        }
     }
 
     /*
