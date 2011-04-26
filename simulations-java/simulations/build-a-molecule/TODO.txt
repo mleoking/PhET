@@ -1,4 +1,4 @@
-* Arrow and message that "you can put this in the collection box" at the start. Points to correct collection box.
+* Arrow and message that "Collect your molecule!" at the start. Points to correct collection box.
 * Close relevant 3d views on: kit switch, break of molecule, or any other way the molecule isn't visible.
 * Add in a sound when a collection box is filled
 * Reduce delay (Jmol-caused) between clicking on "Show 3D" and it actually appearing
@@ -13,7 +13,6 @@ Detect alcohols (or other structures) and modify their molecular formulas accord
 Investigate "molecular workbench", see if there are any other ideas
 Possibly attempt to generate less kits? PENDING feedback
 (dev) Internationalization
-(dev) Switch to more mode-like canvas handling, instead of individual visibility handling
 
 TESTING
 
