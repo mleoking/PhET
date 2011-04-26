@@ -828,6 +828,9 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
         config.saveBottomPlotMode( _controlPanel.getBottomPlotMode() );
         config.setFieldConstant( _controlPanel.getFieldConstant() );
 
+        // Zoom
+        config.setZoomIndex( _energyZoomControl.getZoomIndex() );
+
         return config;
     }
 
@@ -934,7 +937,10 @@ public abstract class BSAbstractModule extends PiccoloModule implements Observer
         _controlPanel.setNumberOfWellsControlVisible( _model.getPotential().supportsMultipleWells() );
         _controlPanel.setNumberOfWells( _model.getNumberOfWells() );
         _controlPanel.setFieldConstant( config.getFieldConstant() );
+
+        // Zoom
         configureZoomControls( _model.getWellType() );
+        _energyZoomControl.setZoomIndex( config.getZoomIndex() );
     }
 
     /**
