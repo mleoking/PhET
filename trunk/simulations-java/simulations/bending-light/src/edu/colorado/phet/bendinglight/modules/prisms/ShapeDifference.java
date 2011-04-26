@@ -10,39 +10,37 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.Option;
 
 /**
- * Creates a shape that is the intersection of two shapes.
+ * Creates a shape that is the difference of two shapes. It contains a point x iff: A contains x && B does not contain x
  * <p/>
  * CSG intro: https://secure.wikimedia.org/wikipedia/en/wiki/Constructive_solid_geometry
  * Rationale for intersection: http://groups.csail.mit.edu/graphics/classes/6.838/F01/lectures/SmoothSurfaces/0the_s040.html
  */
-public class ShapeIntersection implements IShape {
+public class ShapeDifference implements IShape {
     public final IShape a;
     public final IShape b;
 
-    public ShapeIntersection( IShape a, IShape b ) {
+    public ShapeDifference( IShape a, IShape b ) {
         this.a = a;
         this.b = b;
     }
 
     public Shape toShape() {
         return new Area( a.toShape() ) {{
-            intersect( new Area( b.toShape() ) );
+            subtract( new Area( b.toShape() ) );
         }};
     }
 
     public IShape getTranslatedInstance( double dx, double dy ) {
-        return new ShapeIntersection( a.getTranslatedInstance( dx, dy ), b.getTranslatedInstance( dx, dy ) );
+        return new ShapeDifference( a.getTranslatedInstance( dx, dy ), b.getTranslatedInstance( dx, dy ) );
     }
 
     public ArrayList<Intersection> getIntersections( Ray ray ) {
-        // for CSG intersection, intersection points need to be at the boundary of one surface, and INSIDE the other. If it was outside one of the
-        // shapes, it would not be in the intersection
-
+        // for CSG difference, intersection points need to be at the boundary of one surface, and either be INSIDE A, or OUTSIDE B
         ArrayList<Intersection> result = new ArrayList<Intersection>();
 
-        // find all intersections with A that are in B
+        // find all intersections with A that are outside of B
         for ( Intersection intersection : a.getIntersections( ray ) ) {
-            if ( b.containsPoint( intersection.getPoint() ) ) {
+            if ( !b.containsPoint( intersection.getPoint() ) ) {
                 result.add( intersection );
             }
         }
@@ -58,18 +56,18 @@ public class ShapeIntersection implements IShape {
     }
 
     public Rectangle2D getBounds() {
-        // Area's getBounds() was failing, so we need to use our own version
-        return a.getBounds().createUnion( b.getBounds() );
+        // as a simplification, we just need to return A's bounds
+        return a.getBounds();
     }
 
     public IShape getRotatedInstance( double angle, ImmutableVector2D rotationPoint ) {
         // rotate the children around the same rotation point
-        return new ShapeIntersection( a.getRotatedInstance( angle, rotationPoint ), b.getRotatedInstance( angle, rotationPoint ) );
+        return new ShapeDifference( a.getRotatedInstance( angle, rotationPoint ), b.getRotatedInstance( angle, rotationPoint ) );
     }
 
     public ImmutableVector2D getRotationCenter() {
-        // average child centroids. NOTE: this is NOT the true centroid!!!
-        return a.getRotationCenter().getAddedInstance( b.getRotationCenter() ).times( 0.5 );
+        // just grab A's centroid, since it is simplier. NOTE: this is NOT the true centroid!!!
+        return a.getRotationCenter();
     }
 
     public Option<ImmutableVector2D> getReferencePoint() {
@@ -83,6 +81,6 @@ public class ShapeIntersection implements IShape {
     }
 
     public boolean containsPoint( ImmutableVector2D point ) {
-        return a.containsPoint( point ) && b.containsPoint( point );
+        return a.containsPoint( point ) && !b.containsPoint( point );
     }
 }

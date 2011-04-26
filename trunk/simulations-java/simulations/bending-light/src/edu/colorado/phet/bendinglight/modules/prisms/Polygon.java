@@ -114,7 +114,7 @@ public class Polygon implements IShape {
     }
 
     //Computes the centroid of the corner points (e.g. the center of "mass" assuming the corner points have equal "mass")
-    public ImmutableVector2D getCentroid() {
+    public ImmutableVector2D getRotationCenter() {
         return new ImmutableVector2D( PolygonUtils.getCentroid( toPointArray() ) );
     }
 

@@ -92,7 +92,7 @@ public class PrismNode extends PNode {
 
                     //Find the angle about the center of the prism
                     private double getAngle( PInputEvent event ) {
-                        return new ImmutableVector2D( prism.shape.getValue().getCentroid().toPoint2D(),
+                        return new ImmutableVector2D( prism.shape.getValue().getRotationCenter().toPoint2D(),
                                                       transform.viewToModel( event.getPositionRelativeTo( getParent() ) ) ).getAngle();
                     }
 

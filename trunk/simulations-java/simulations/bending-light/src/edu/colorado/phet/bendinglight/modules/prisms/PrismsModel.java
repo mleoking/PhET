@@ -99,16 +99,13 @@ public class PrismsModel extends BendingLightModel {
                     new ImmutableVector2D( -radius, radius )
             } ) ) ) );
 
-            //Diverging lens: half an hourglass shape
-            add( new Prism( new Polygon( new ArrayList<ImmutableVector2D>() {{
-                int numSamples = 1000;
-                for ( int i = numSamples / 2; i < numSamples; i++ ) {
-                    add( ImmutableVector2D.parseAngleAndMagnitude( a / 2, (double) i / numSamples * Math.PI * 2 +
-                                                                          Math.PI / 2 ) );//turn it so that the circular part is on the left, not on the top
-                }
-                add( new ImmutableVector2D( a * 0.6, a / 2 ) );
-                add( new ImmutableVector2D( a * 0.6, -a / 2 ) );
-            }} ) ) );
+            //Continuous Diverging Lens
+            add( new Prism( new ShapeDifference( new Polygon( new ImmutableVector2D[] {
+                    new ImmutableVector2D( 0, -radius ),
+                    new ImmutableVector2D( radius * ( 0.6 / 0.5 ), -radius ),
+                    new ImmutableVector2D( radius * ( 0.6 / 0.5 ), radius ),
+                    new ImmutableVector2D( 0, radius )
+            } ), new Circle( new ImmutableVector2D(), radius ) ) ) );
         }};
     }
 

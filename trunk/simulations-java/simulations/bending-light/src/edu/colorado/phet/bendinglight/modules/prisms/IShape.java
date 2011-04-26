@@ -26,8 +26,8 @@ public interface IShape {
     //Gets a rotated copy of this polygon about the rotationPoint
     IShape getRotatedInstance( double angle, ImmutableVector2D rotationPoint );
 
-    //Computes the centroid of the corner points (e.g. the center of "mass" assuming the corner points have equal "mass")
-    ImmutableVector2D getCentroid();
+    //Determines the point about which the shape should be rotated
+    ImmutableVector2D getRotationCenter();
 
     //Gets a point that will be used to place the rotation drag handle (or None if not rotatable, like for circles)
     Option<ImmutableVector2D> getReferencePoint();
