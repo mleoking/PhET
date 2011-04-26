@@ -8,8 +8,8 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.fluidpressureandflow.fluidpressure.FluidPressureCanvas;
-import edu.colorado.phet.fluidpressureandflow.fluidpressure.FluidPressureControlPanel;
+import edu.colorado.phet.fluidpressureandflow.fluidpressure.view.FluidPressureCanvas;
+import edu.colorado.phet.fluidpressureandflow.fluidpressure.view.FluidPressureControlPanel;
 
 /**
  * @author Sam Reid

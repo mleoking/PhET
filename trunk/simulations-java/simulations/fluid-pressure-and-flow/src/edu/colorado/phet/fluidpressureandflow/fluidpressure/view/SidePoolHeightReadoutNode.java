@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.fluidpressureandflow.fluidpressure;
+package edu.colorado.phet.fluidpressureandflow.fluidpressure.view;
 
 import java.awt.*;
 import java.text.DecimalFormat;
@@ -12,6 +12,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet;
 import edu.colorado.phet.fluidpressureandflow.common.model.units.Units;
+import edu.colorado.phet.fluidpressureandflow.fluidpressure.model.Pool;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 

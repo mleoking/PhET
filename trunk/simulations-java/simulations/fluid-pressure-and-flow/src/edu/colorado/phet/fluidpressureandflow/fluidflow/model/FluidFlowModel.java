@@ -14,7 +14,7 @@ import edu.colorado.phet.fluidpressureandflow.common.model.FluidPressureAndFlowM
 import edu.colorado.phet.fluidpressureandflow.common.model.PressureSensor;
 import edu.colorado.phet.fluidpressureandflow.common.model.VelocitySensorContext;
 import edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet;
-import edu.colorado.phet.fluidpressureandflow.watertower.FPAFVelocitySensor;
+import edu.colorado.phet.fluidpressureandflow.watertower.model.FPAFVelocitySensor;
 
 /**
  * @author Sam Reid
