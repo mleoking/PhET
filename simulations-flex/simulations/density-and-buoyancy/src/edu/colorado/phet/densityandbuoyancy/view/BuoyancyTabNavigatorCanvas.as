@@ -17,10 +17,10 @@ public class BuoyancyTabNavigatorCanvas extends Canvas {
     public function BuoyancyTabNavigatorCanvas() {
         super();
 
-        var introModule: BuoyancyModule = new BuoyancyModule( FlexSimStrings.get( "buoyancy.tab.intro", "Intro" ), new BuoyancyIntroCanvas() );
+        //var introModule: BuoyancyModule = new BuoyancyModule( FlexSimStrings.get( "buoyancy.tab.intro", "Intro" ), new BuoyancyIntroCanvas() );
         var playgroundModule: BuoyancyModule = new BuoyancyModule( FlexSimStrings.get( "buoyancy.tab.playground", "Buoyancy Playground" ), new BuoyancyPlaygroundCanvas() );
 
-        var tabNavigator: PhetTabNavigator = new PhetTabNavigator( [ introModule, playgroundModule ] );
+        var tabNavigator: PhetTabNavigator = new PhetTabNavigator( [ playgroundModule ] );
 
         addChild( tabNavigator );
         percentWidth = 100;
