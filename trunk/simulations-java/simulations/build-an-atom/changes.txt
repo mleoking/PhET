@@ -1,3 +1,4 @@
+isotopes-and-atomic-mass: Added an algorithm to reposition atoms when dropped on top of one another in the test chamber.
 # 2.03.02 (50953) Apr 20, 2011
 4/20/11 Publishing do dev for review and possible use in interviews
 isotopes-and-atomic-mass: Changed the scaling of the atom diameters so that the My Isotope label, which is positioned above the electron shell, never overlaps with the particle legend.
