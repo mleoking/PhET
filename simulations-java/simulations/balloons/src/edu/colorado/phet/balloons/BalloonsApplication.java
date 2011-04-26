@@ -1,11 +1,10 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.balloons;
 
-import java.awt.Color;
-import java.awt.HeadlessException;
+import java.awt.*;
 import java.io.IOException;
 
-import javax.swing.JFrame;
+import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.*;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
@@ -69,7 +68,7 @@ public class BalloonsApplication extends PiccoloPhetApplication {
             try {
                 balloonsSimulationPanel.init( this );
             }
-            catch( IOException e ) {
+            catch ( IOException e ) {
                 e.printStackTrace();
             }
             setSimulationPanel( balloonsSimulationPanel );
@@ -79,10 +78,6 @@ public class BalloonsApplication extends PiccoloPhetApplication {
             setHelpPanel( null );
         }
 
-        public boolean hasMegaHelp() {
-            return true;
-        }
-
         public boolean hasHelp() {
             return true;
         }
@@ -90,11 +85,6 @@ public class BalloonsApplication extends PiccoloPhetApplication {
         public void setHelpEnabled( boolean enabled ) {
             super.setHelpEnabled( enabled );
             balloonsSimulationPanel.setHelpEnabled( enabled );
-        }
-
-        public void showMegaHelp() {
-            super.showMegaHelp();
-            balloonsSimulationPanel.showMegaHelp();
         }
 
         public int getControlPanelHeight() {

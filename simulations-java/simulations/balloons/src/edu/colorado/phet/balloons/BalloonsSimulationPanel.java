@@ -323,15 +323,6 @@ public class BalloonsSimulationPanel extends JPanel {
     private void repaintAll() {
     }
 
-    public void showMegaHelp() {
-        //            new ImageDebugFrame( ImageLoader2.loadBufferedImage("sweaterWidth300.gif" ) ).setVisible( true );
-        new ImageFrame( BalloonsResources.getImage( "balloon-meg.gif" ) ).setVisible( true );
-    }
-
-    public boolean hasMegaHelp() {
-        return true;
-    }
-
     public float getSweaterMaxX() {
         return sweaterImage.getWidth();
     }
