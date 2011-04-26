@@ -204,8 +204,8 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas implements Resettable 
         final PDimension abundanceWindowSize = new PDimension( 400, 150 );
         final PNode abundanceIndicatorNode = new AbundanceIndicatorNode( model.getAtom() );
         abundanceIndicatorNode.setOffset(
-                20, // Empirically determined.
-                abundanceWindowSize.getHeight() - abundanceIndicatorNode.getFullBoundsReference().height - 10 );
+                abundanceWindowSize.getWidth() / 2 + 40,    // Tweak factor empirically determined.
+                abundanceWindowSize.getHeight() / 2 + 10);  // Tweak factor empirically determined.
         abundanceWindow = new MaximizeControlNode( BuildAnAtomStrings.ABUNDANCE_IN_NATURE, abundanceWindowSize, abundanceIndicatorNode, true );
         abundanceWindow.setOffset( indicatorWindowPosX, symbolWindow.getFullBoundsReference().getMaxY() + 30 );
         rootNode.addChild( abundanceWindow );
@@ -250,13 +250,15 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas implements Resettable 
     //------------------------------------------------------------------------
 
     /**
-     * Shows the abundance readout for a user-selected isotope.
+     * Shows the abundance readout for a user-selected isotope.  Note that the
+     * center of this node matches the center of the pie chart.  This helps to
+     * minimize the impact of translations, number lengths, etc. on the layout
+     * of the node.
      */
     private static class AbundanceIndicatorNode extends PNode {
 
         private static DecimalFormat ABUNDANCE_FORMATTER = new DecimalFormat( "#.####" );
         private static final double MIN_ABUNDANCE_TO_SHOW = 0.0001; // Should match the resolution of the ABUNDANCE_FORMATTER
-        private static final double WIDEST_ABUNDANCE_TO_SHOW = 99.99999; // Should match the resolution of the ABUNDANCE_FORMATTER
         private static final Font READOUT_FONT = new PhetFont( 20 );
         private static final int PIE_CHART_DIAMETER = 100; // In screen coords, which is close to pixels.
         private static final int CONNECTING_LINE_LEGNTH = 40; // In screen coords, which is close to pixels.
@@ -320,20 +322,9 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas implements Resettable 
 
             addChild( otherIsotopesCaption );
 
-            // Figure out what the max width of the readout will be so that
-            // things can be laid out in a way that will make the width of
-            // the indicator consistent.
-            value.setHTML( ABUNDANCE_FORMATTER.format( WIDEST_ABUNDANCE_TO_SHOW ) + "%" );
-            double maxReadoutWidthTemp = value.getFullBoundsReference().getWidth();
-            value.setHTML( BuildAnAtomStrings.VERY_SMALL );
-            maxReadoutWidthTemp = Math.max( value.getFullBoundsReference().width, maxReadoutWidthTemp );
-            maxReadoutWidthTemp += RECTANGLE_INSET_X * 2;
-            final double maxReadoutWidth = maxReadoutWidthTemp;
-
-            // Position the pie chart so that it is far enough away from the
-            // readout that they won't end up overlapping.  Values were
-            // empirically determined, tweak if needed.
-            pieChart.setOffset( maxReadoutWidth + CONNECTING_LINE_LEGNTH, 0 );
+            // Position the pie chart in the center of this node.  Everything
+            // else is laid out relative to this node.
+            pieChart.setOffset( 0, 0 );
 
             // Create the listener for watching the atom configuration and making updates.
             AtomListener atomConfigListener = new AtomListener.Adapter() {
@@ -342,8 +333,9 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas implements Resettable 
                     // Show the abundance value
                     final double abundancePercent = atom.getNaturalAbundance() * 100;
                     value.setHTML( abundancePercent < MIN_ABUNDANCE_TO_SHOW && abundancePercent > 0 ? BuildAnAtomStrings.VERY_SMALL : ABUNDANCE_FORMATTER.format( abundancePercent ) + "%" );
-                    value.setOffset( maxReadoutWidth - value.getFullBoundsReference().width,
-                            PIE_CHART_DIAMETER / 2 - value.getFullBoundsReference().height / 2 );
+                    value.setOffset( 
+                            pieChart.getFullBoundsReference().getMinX() - value.getFullBoundsReference().getWidth() - CONNECTING_LINE_LEGNTH,
+                            pieChart.getFullBoundsReference().getCenterY() - value.getFullBoundsReference().height / 2 );
 
                     // Expand the white background to contain the text value
                     final Rectangle2D r = RectangleUtils.expand( value.getFullBounds(), RECTANGLE_INSET_X, 3 );
@@ -397,7 +389,6 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas implements Resettable 
             pieChart = new PieChartNode(
                     pieSlices,
                     new Rectangle( -pieChartDiameter / 2, -pieChartDiameter / 2, pieChartDiameter, pieChartDiameter ) );
-            pieChart.setOffset( pieChartDiameter / 2, pieChartDiameter / 2 );
             addChild( pieChart );
             updateValues( initialLeftSliceValue, initialRightSliceValue );
         }
