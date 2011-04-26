@@ -5,10 +5,14 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import edu.colorado.phet.buildanatom.model.ImmutableAtom;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -309,6 +313,81 @@ public class IsotopeTestChamber {
         }
         isotopeProportion = (double)isotopeCount / (double)containedIsotopes.size();
         return isotopeProportion;
+    }
+    
+    /**
+     * Move all the particles in the chamber such that they don't overlap.
+     * This is intended for usage where there are not a lot of particles in
+     * the chamber.  Using it in cases where there are a lost of particles
+     * could take a very long time.
+     */
+    public void adjustForOverlap(){
+        // Bounds checking.  The threshold is pretty much arbitrary.
+        if ( getTotalIsotopeCount() > 100 ){
+            System.out.println(getClass().getName() + " - Warning: Ignoring request to adjust for overlap - too many particles in the chamber for that.");
+            return;
+        }
+        
+        while ( checkForParticleOverlap() ){
+            // There is overlap, so the particles should be moved until
+            // there isn't.
+            double interParticleForceConst = 100;
+            double wallForceConst = 1;
+            double minDistance = 0.0001;
+            Map<MovableAtom, Vector2D> repulsiveForces = new HashMap<MovableAtom, Vector2D>();
+            for ( MovableAtom isotope1 : containedIsotopes ){
+                Vector2D totalRepulsiveForce = new Vector2D(0, 0);
+                // Calculate the repulsive forces from other isotopes.
+                for ( MovableAtom isotope2: containedIsotopes ){
+                    if ( isotope1 == isotope2 ){
+                        // Same one, so skip it.
+                        continue;
+                    }
+                    Vector2D forceFromIsotope = new Vector2D(0, 0); 
+                    if ( isotope1.getPosition().equals( isotope2.getPosition() ) ){
+                        // These isotopes are sitting right on top of one
+                        // another.  Add the max amount of inter-particle
+                        // force in a random direction.
+                        forceFromIsotope.setMagnitude( interParticleForceConst / (minDistance * minDistance) );
+                        forceFromIsotope.setAngle( RAND.nextDouble() * 2 * Math.PI );
+                    }
+                    else{
+                        // Calculate the repulsive force based on the distance.
+                        forceFromIsotope.setComponents( 
+                                isotope1.getPosition().getX() - isotope2.getPosition().getX(), 
+                                isotope1.getPosition().getY() - isotope2.getPosition().getY());
+                        double distance = Math.max( forceFromIsotope.getMagnitude(), minDistance );
+                        forceFromIsotope.normalize();
+                        forceFromIsotope.scale( interParticleForceConst / ( distance * distance ) );
+                    }
+                    totalRepulsiveForce.add( forceFromIsotope );
+                }
+                // Calculate the force from each wall.
+                // TODO
+//                System.out.println("Reminder: Add wall force.");
+                repulsiveForces.put(isotope1, totalRepulsiveForce);
+            }
+            // Adjust the particle positions based on forces.
+            for ( MovableAtom isotope : repulsiveForces.keySet() ){
+                isotope.setPositionAndDestination( repulsiveForces.get( isotope ).getDestination( isotope.getPosition() ) );
+            }
+        }
+    }
+    
+    private boolean checkForParticleOverlap(){
+        for ( MovableAtom isotope1 : containedIsotopes ){
+            for ( MovableAtom isotope2 : containedIsotopes ){
+                if ( isotope1 == isotope2 ){
+                    // Same isotope, so skip it.
+                    continue;
+                }
+                double distance = isotope1.getPosition().distance( isotope2.getPosition() );
+                if ( distance < isotope1.getRadius() + isotope2.getRadius()){
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     /**

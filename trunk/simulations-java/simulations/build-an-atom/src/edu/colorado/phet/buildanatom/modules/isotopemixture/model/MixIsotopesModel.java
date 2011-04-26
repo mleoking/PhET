@@ -652,8 +652,10 @@ public class MixIsotopesModel implements Resettable, IConfigurableAtomModel {
             assert particle instanceof MovableAtom;
             MovableAtom isotope = (MovableAtom)particle;
             if ( testChamber.isIsotopePositionedOverChamber( isotope ) ){
-                // Dropped inside the test chamber, so add it to the chamber.
+                // Dropped inside the test chamber, so add it to the chamber,
+                // but make sure it isn't overlapping any existing particles.
                 testChamber.addIsotopeToChamber( isotope );
+                testChamber.adjustForOverlap();
             }
             else{
                 // Particle was dropped outside of the test chamber, so return
