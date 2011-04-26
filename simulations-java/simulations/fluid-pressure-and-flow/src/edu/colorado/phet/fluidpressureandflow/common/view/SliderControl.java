@@ -10,7 +10,7 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
-import edu.colorado.phet.fluidpressureandflow.fluidpressure.FluidPressureCanvas;
+import edu.colorado.phet.fluidpressureandflow.fluidpressure.view.FluidPressureCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 

@@ -15,7 +15,7 @@ import edu.colorado.phet.fluidpressureandflow.common.FluidPressureAndFlowModule;
 import edu.colorado.phet.fluidpressureandflow.common.model.FluidPressureAndFlowModel;
 import edu.colorado.phet.fluidpressureandflow.common.model.units.Unit;
 import edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet;
-import edu.colorado.phet.fluidpressureandflow.fluidpressure.FluidPressureCanvas;
+import edu.colorado.phet.fluidpressureandflow.fluidpressure.view.FluidPressureCanvas;
 import edu.umd.cs.piccolo.PNode;
 
 import static edu.colorado.phet.common.piccolophet.nodes.MinimizeMaximizeNode.BUTTON_LEFT;

@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.fluidpressureandflow.fluidpressure;
+package edu.colorado.phet.fluidpressureandflow.fluidpressure.model;
 
 import edu.colorado.phet.fluidpressureandflow.common.model.FluidPressureAndFlowModel;
 import edu.colorado.phet.fluidpressureandflow.common.model.PressureSensor;

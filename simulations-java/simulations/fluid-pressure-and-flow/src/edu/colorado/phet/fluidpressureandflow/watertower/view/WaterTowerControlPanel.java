@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.fluidpressureandflow.watertower;
+package edu.colorado.phet.fluidpressureandflow.watertower.view;
 
 import java.awt.*;
 
@@ -11,6 +11,8 @@ import edu.colorado.phet.fluidpressureandflow.common.RadioButton;
 import edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet;
 import edu.colorado.phet.fluidpressureandflow.common.view.CheckBox;
 import edu.colorado.phet.fluidpressureandflow.common.view.EnglishMetricControlPanel;
+import edu.colorado.phet.fluidpressureandflow.watertower.WaterTowerModule;
+import edu.colorado.phet.fluidpressureandflow.watertower.model.WaterTowerModel;
 
 import static edu.colorado.phet.fluidpressureandflow.common.FPAFStrings.*;
 

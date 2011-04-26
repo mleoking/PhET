@@ -4,6 +4,8 @@ package edu.colorado.phet.fluidpressureandflow.watertower;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.fluidpressureandflow.common.FPAFStrings;
 import edu.colorado.phet.fluidpressureandflow.common.FluidPressureAndFlowModule;
+import edu.colorado.phet.fluidpressureandflow.watertower.model.WaterTowerModel;
+import edu.colorado.phet.fluidpressureandflow.watertower.view.WaterTowerCanvas;
 
 /**
  * The water tower module of the sim, shows a water tower which can be moved, and out of which water flows.  It also adds a measuring tape.

@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.fluidpressureandflow.watertower;
+package edu.colorado.phet.fluidpressureandflow.watertower.model;
 
 import java.awt.geom.Ellipse2D;
 import java.util.ArrayList;

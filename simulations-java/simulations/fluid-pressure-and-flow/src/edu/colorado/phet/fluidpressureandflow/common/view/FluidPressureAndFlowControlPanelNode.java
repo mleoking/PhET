@@ -6,7 +6,7 @@ import java.awt.*;
 import javax.swing.*;
 
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
-import edu.colorado.phet.fluidpressureandflow.fluidpressure.FluidPressureControlPanel;
+import edu.colorado.phet.fluidpressureandflow.fluidpressure.view.FluidPressureControlPanel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 

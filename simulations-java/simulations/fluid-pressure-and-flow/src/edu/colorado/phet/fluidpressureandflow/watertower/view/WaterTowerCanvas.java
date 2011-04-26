@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.fluidpressureandflow.watertower;
+package edu.colorado.phet.fluidpressureandflow.watertower.view;
 
 import java.awt.geom.Point2D;
 
@@ -12,8 +12,10 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.fluidpressureandflow.common.model.PressureSensor;
 import edu.colorado.phet.fluidpressureandflow.common.view.*;
-import edu.colorado.phet.fluidpressureandflow.fluidpressure.FluidPressureCanvas;
-import edu.colorado.phet.fluidpressureandflow.fluidpressure.FluidPressureControlPanel;
+import edu.colorado.phet.fluidpressureandflow.fluidpressure.view.FluidPressureCanvas;
+import edu.colorado.phet.fluidpressureandflow.fluidpressure.view.FluidPressureControlPanel;
+import edu.colorado.phet.fluidpressureandflow.watertower.WaterTowerModule;
+import edu.colorado.phet.fluidpressureandflow.watertower.model.WaterDrop;
 import edu.umd.cs.piccolo.PNode;
 
 /**

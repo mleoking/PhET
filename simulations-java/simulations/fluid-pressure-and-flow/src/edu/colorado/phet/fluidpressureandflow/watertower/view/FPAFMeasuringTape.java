@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.fluidpressureandflow.watertower;
+package edu.colorado.phet.fluidpressureandflow.watertower.view;
 
 import java.awt.geom.Point2D;
 

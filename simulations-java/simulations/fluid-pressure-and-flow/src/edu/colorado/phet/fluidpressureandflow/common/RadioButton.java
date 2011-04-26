@@ -3,7 +3,7 @@ package edu.colorado.phet.fluidpressureandflow.common;
 
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
-import edu.colorado.phet.fluidpressureandflow.fluidpressure.FluidPressureCanvas;
+import edu.colorado.phet.fluidpressureandflow.fluidpressure.view.FluidPressureCanvas;
 
 /**
  * Radio button used in fluid pressure and flow, which uses the sim-specific font for controls.

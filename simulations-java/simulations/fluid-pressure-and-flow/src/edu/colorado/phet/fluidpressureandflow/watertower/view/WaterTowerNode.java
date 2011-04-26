@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.fluidpressureandflow.watertower;
+package edu.colorado.phet.fluidpressureandflow.watertower.view;
 
 import java.awt.*;
 import java.awt.geom.Area;
@@ -17,6 +17,7 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.event.RelativeDragHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.fluidpressureandflow.common.view.PoolNode;
+import edu.colorado.phet.fluidpressureandflow.watertower.model.WaterTower;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
