@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+//  Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.bendinglight.modules.prisms;
 
 import java.awt.*;
@@ -67,11 +67,14 @@ public class Circle implements IShape {
     }
 
     public Rectangle2D getBounds() {
-        return toShape().getBounds();
+        return new Rectangle2D.Double( center.getX() - radius, center.getY() - radius, radius * 2, radius * 2 );
     }
 
-    public IShape getRotatedInstance( double angle ) {
-        return getTranslatedInstance( 0, 0 );
+    public IShape getRotatedInstance( double angle, ImmutableVector2D rotationPoint ) {
+        // we create a new circle with a rotated center point
+        ImmutableVector2D vectorAboutCentroid = getCentroid().minus( rotationPoint );
+        final ImmutableVector2D rotated = vectorAboutCentroid.getRotatedInstance( angle );
+        return new Circle( rotated.plus( rotationPoint ), radius );
     }
 
     public ImmutableVector2D getCentroid() {

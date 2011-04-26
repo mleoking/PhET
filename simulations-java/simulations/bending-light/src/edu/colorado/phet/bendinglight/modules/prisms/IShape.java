@@ -23,8 +23,8 @@ public interface IShape {
 
     Rectangle2D getBounds();
 
-    //Gets a rotated copy of this polygon about its centroid
-    IShape getRotatedInstance( double angle );
+    //Gets a rotated copy of this polygon about the rotationPoint
+    IShape getRotatedInstance( double angle, ImmutableVector2D rotationPoint );
 
     //Computes the centroid of the corner points (e.g. the center of "mass" assuming the corner points have equal "mass")
     ImmutableVector2D getCentroid();

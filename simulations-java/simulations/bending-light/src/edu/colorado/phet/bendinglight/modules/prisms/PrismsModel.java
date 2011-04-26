@@ -86,17 +86,18 @@ public class PrismsModel extends BendingLightModel {
                             new ImmutableVector2D( a / 2 - b, a * sqrt( 3 ) / 2.0 )
             ) );
 
-            //Continuous Circle
-            add( new Prism( new Circle( new ImmutableVector2D(), b ) ) );
+            double radius = a / 2;
 
-            //Semicircle
-            add( new Prism( new Polygon( new ArrayList<ImmutableVector2D>() {{
-                int numSamples = 1000;
-                for ( int i = 0; i < numSamples / 2; i++ ) {
-                    add( ImmutableVector2D.parseAngleAndMagnitude( a / 2, (double) i / numSamples * Math.PI * 2 +
-                                                                          Math.PI / 2 ) );//turn it so that the circular part is on the left, not on the top
-                }
-            }} ) ) );
+            //Continuous Circle
+            add( new Prism( new Circle( new ImmutableVector2D(), radius ) ) );
+
+            //Continuous Semicircle
+            add( new Prism( new ShapeIntersection( new Circle( new ImmutableVector2D(), radius ), new Polygon( new ImmutableVector2D[] {
+                    new ImmutableVector2D( 0, radius ),
+                    new ImmutableVector2D( 0, -radius ),
+                    new ImmutableVector2D( -radius, -radius ),
+                    new ImmutableVector2D( -radius, radius )
+            } ) ) ) );
 
             //Diverging lens: half an hourglass shape
             add( new Prism( new Polygon( new ArrayList<ImmutableVector2D>() {{
