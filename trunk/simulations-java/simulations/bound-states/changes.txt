@@ -1,5 +1,7 @@
-> Save/Load chart magnification level
-4/25/11 #2814, fix Save/Load for chart zoom level
+> fix File->Load for E-Field value
+4/25/11 #2815, fix File->Load so that E-field constant is properly restored
+> fix File->Save/Load for chart magnification level
+4/25/11 #2814, fix File->Save/Load for chart zoom level
 # 1.08.00 (51129) Apr 25, 2011
 # 1.07.02 (51023) Apr 21, 2011
 > added new translation credits features
