@@ -125,8 +125,7 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas implements Resettable 
         rootNode.addChild( atomAndBucketNode );
 
         // Add the "My Isotope" label.
-        // TODO: i18n
-        final PText myIsotopeLabel = new PText("My Isotope:"){{
+        final PText myIsotopeLabel = new PText(BuildAnAtomStrings.MY_ISOTOPE){{
             setFont( new PhetFont( 24, true ) );
             setTextPaint( Color.DARK_GRAY );
             setOffset(

@@ -5,8 +5,9 @@ package edu.colorado.phet.buildanatom;
 import static edu.colorado.phet.buildanatom.BuildAnAtomResources.getString;
 
 /**
- * A collection of localized strings used by this simulation.  We load all
- * strings as statics so that we will be warned at startup time of any missing strings.
+ * A collection of localized strings used by the Build an Atom and Isotopes
+ * and Atomic Mass simulations.  We load all strings as statics so that we
+ * will be warned at startup time of any missing strings.
  */
 public class BuildAnAtomStrings {
 
@@ -87,4 +88,15 @@ public class BuildAnAtomStrings {
     public static final String ABUNDANCE_IN_NATURE = getString( "abundanceInNature" );
     public static final String THIS_ISOTOPE = getString( "thisIsotope" );
     public static final String VERY_SMALL = getString( "verySmall" );
+    
+    public static final String MASS_NUMBER = getString( "massNumber" );
+    public static final String ATOMIC_MASS = getString( "atomicMass" );
+    public static final String MY_ISOTOPE = getString( "myIsotope" );
+    public static final String UNITS_AMU = getString( "units.amu" );
+    public static final String PERCENT_COMPOSITION = getString( "percentComposition" );
+    public static final String AVERAGE_ATOMIC_MASS = getString( "averageAtomicMass" );
+    public static final String MY_MIX_OF_ISOTOPES = getString( "myMixOfIsotopes" );
+    public static final String NATURES_MIX_OF_ISOTOPES = getString( "naturesMixOfIsotopes" );
+    public static final String MORE = getString( "more" );
+    public static final String LESS = getString( "less" );
 }

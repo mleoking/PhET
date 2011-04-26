@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
+import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
 import edu.colorado.phet.buildanatom.model.MonoIsotopeParticleBucket;
 import edu.colorado.phet.buildanatom.model.SphericalParticle;
 import edu.colorado.phet.buildanatom.modules.interactiveisotope.view.IsotopeSliderNode;
@@ -184,8 +185,7 @@ public class IsotopeMixturesCanvas extends PhetPCanvas implements Resettable {
         final double indicatorWindowX = periodicTableNode.getFullBoundsReference().getX();
         final PNode pieChart = new IsotopeProprotionsPieChart( model );
         pieChart.setOffset( 200, 90 ); // Empirically determined, tweak as needed.
-        // TODO: i18n
-        pieChartWindow = new MaximizeControlNode( "Percent Composition", new PDimension( 400, 155 ), pieChart, true ){{
+        pieChartWindow = new MaximizeControlNode( BuildAnAtomStrings.PERCENT_COMPOSITION, new PDimension( 400, 155 ), pieChart, true ){{
             setOffset( indicatorWindowX, periodicTableNode.getFullBoundsReference().getMaxY() + 25 );
             addChild( pieChart );
         }};
@@ -193,8 +193,7 @@ public class IsotopeMixturesCanvas extends PhetPCanvas implements Resettable {
 
         // Add the average atomic mass indicator to the canvas.
         final PNode averageAtomicMassIndicator = new AverageAtomicMassIndicator( model );
-        // TODO: i18n
-        averageAtomicMassWindow = new MaximizeControlNode( "Average Atomic Mass", new PDimension( 400, 120 ), averageAtomicMassIndicator, true ){{
+        averageAtomicMassWindow = new MaximizeControlNode( BuildAnAtomStrings.AVERAGE_ATOMIC_MASS, new PDimension( 400, 120 ), averageAtomicMassIndicator, true ){{
             setOffset( indicatorWindowX, testChamberNode.getFullBoundsReference().getMaxY() - getFullBoundsReference().height );
             addChild( averageAtomicMassIndicator );
         }};
@@ -205,12 +204,10 @@ public class IsotopeMixturesCanvas extends PhetPCanvas implements Resettable {
 
         // Add the radio buttons that allow the user to choose between their
         // mix and nature's mix.
-        // TODO: i18n
-        final PropertyRadioButton<Boolean> usersMixRadioButton = new PropertyRadioButton<Boolean>( "My mix of isotopes", model.getShowingNaturesMixProperty(), false ){{
+        final PropertyRadioButton<Boolean> usersMixRadioButton = new PropertyRadioButton<Boolean>( BuildAnAtomStrings.MY_MIX_OF_ISOTOPES, model.getShowingNaturesMixProperty(), false ){{
             setFont( new PhetFont( 20 ) );
         }};
-        // TODO: i18n
-        final PropertyRadioButton<Boolean> naturesMixRadioButton = new PropertyRadioButton<Boolean>( "Nature's mix of isotopes", model.getShowingNaturesMixProperty(), true ){{
+        final PropertyRadioButton<Boolean> naturesMixRadioButton = new PropertyRadioButton<Boolean>( BuildAnAtomStrings.NATURES_MIX_OF_ISOTOPES, model.getShowingNaturesMixProperty(), true ){{
             setFont( new PhetFont( 20 ) );
         }};
         JPanel radioButtonPanel = new VerticalLayoutPanel(){{
@@ -228,8 +225,7 @@ public class IsotopeMixturesCanvas extends PhetPCanvas implements Resettable {
         // and larger atoms.
         final Point2D moreLessButtonLocation = new Point2D.Double( testChamberNode.getFullBoundsReference().getCenterX(),
                 BuildAnAtomDefaults.STAGE_SIZE.height - DISTANCE_BUTTON_CENTER_FROM_BOTTOM );
-        // TODO: i18n
-        final ButtonNode moreAtomsButton = new ButtonNode( "More", BUTTON_FONT_SIZE, new Color( 0, 198, 158 ) ){{
+        final ButtonNode moreAtomsButton = new ButtonNode( BuildAnAtomStrings.MORE, BUTTON_FONT_SIZE, new Color( 0, 198, 158 ) ){{
             centerFullBoundsOnPoint( moreLessButtonLocation.getX(), moreLessButtonLocation.getY() );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -238,8 +234,7 @@ public class IsotopeMixturesCanvas extends PhetPCanvas implements Resettable {
             });
         }};
         controlsLayer.addChild( moreAtomsButton );
-        // TODO: i18n
-        final ButtonNode lessAtomsButton = new ButtonNode( "Less", BUTTON_FONT_SIZE, new Color( 159, 182, 205 ) ){{
+        final ButtonNode lessAtomsButton = new ButtonNode( BuildAnAtomStrings.LESS, BUTTON_FONT_SIZE, new Color( 159, 182, 205 ) ){{
             centerFullBoundsOnPoint( moreLessButtonLocation.getX(), moreLessButtonLocation.getY() );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
