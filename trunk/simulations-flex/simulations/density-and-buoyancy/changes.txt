@@ -1,3 +1,5 @@
+# 1.05.02 (51180) Apr 25, 2011
+4/25/11 Version without density slider numeric readout, mass/volume sliders/text entry restricted to integers, and Buoyancy is 2nd-tab only with 2 objects
 # 1.05.01 (50301) Apr 4, 2011
 4/4/11 Version without density slider numeric readout, and mass/volume sliders/text entry restricted to integers
 # 1.05.00 (50250) Mar 31, 2011
