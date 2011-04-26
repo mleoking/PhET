@@ -113,11 +113,8 @@ public class IntroCanvas<T extends IntroModel> extends BendingLightCanvas<T> {
         }} );
 
         //Laser control panel
-        //REVIEW: The following is difficult to read due to usage of double brace initialization
-        //twice inside of one "addChild" parameter list.  At the very least, the formatting should
-        //be cleaned up, but I would prefer separation of the creation of the interior PNode and
-        //then embedding it in the ControlPanelNode.
-        afterLightLayer2.addChild( new ControlPanelNode( new PNode() {{
+        //First create the content pane which shows the radio buttons and title
+        final PNode laserViewContentPane = new PNode() {{
             //Title readout
             final PText title = new PText( BendingLightStrings.LASER_VIEW ) {{setFont( labelFont );}};
             addChild( title );
@@ -134,11 +131,10 @@ public class IntroCanvas<T extends IntroModel> extends BendingLightCanvas<T> {
             //Add any additional controls (used in more tools tab)
             final PNode additionalControl = additionalLaserControls.apply( model, 30.0, radioButtonPanel.getFullBounds().getMaxY() + 5 );
             addChild( additionalControl );
-        }} ) {
-            {
-                setOffset( 5, 5 );
-            }
+        }};
 
+        //Embed in the a control panel node to get a border and background
+        final ControlPanelNode laserViewControlPanelNode = new ControlPanelNode( laserViewContentPane ) {
             private PBounds layoutSize = null;//Store so only the original value is used
 
             //In the laser view box, putting the wavelength slider all the way to red makes the box size change--this override ensures the control panel wide enough to hold the laser wavelength control, but not resize as controls move around.
@@ -149,7 +145,11 @@ public class IntroCanvas<T extends IntroModel> extends BendingLightCanvas<T> {
                 }
                 return layoutSize;
             }
-        } );
+        };
+
+        //Set the location and add to the scene
+        laserViewControlPanelNode.setOffset( 5, 5 );
+        afterLightLayer2.addChild( laserViewControlPanelNode );
 
         //Create a tool for dragging out the protractor
         final NodeFactory protractorNodeFactory = new NodeFactory() {
