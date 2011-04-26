@@ -86,13 +86,8 @@ public class PrismsModel extends BendingLightModel {
                             new ImmutableVector2D( a / 2 - b, a * sqrt( 3 ) / 2.0 )
             ) );
 
-            //Circle
-            add( new Prism( new Polygon( new ArrayList<ImmutableVector2D>() {{
-                int numSamples = 1000;//500 or less causes problems for white light, making the angles of reflection look funny
-                for ( int i = 0; i < numSamples; i++ ) {
-                    add( ImmutableVector2D.parseAngleAndMagnitude( a / 2, (double) i / numSamples * Math.PI * 2 ) );
-                }
-            }} ) ) );
+            //Continuous Circle
+            add( new Prism( new Circle( new ImmutableVector2D(), b ) ) );
 
             //Semicircle
             add( new Prism( new Polygon( new ArrayList<ImmutableVector2D>() {{

@@ -12,6 +12,7 @@ import java.util.List;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.PolygonUtils;
+import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 
 import static java.lang.Double.isNaN;
@@ -21,7 +22,7 @@ import static java.lang.Double.isNaN;
  *
  * @author Sam Reid
  */
-public class Polygon {
+public class Polygon implements IShape {
     private ArrayList<ImmutableVector2D> points = new ArrayList<ImmutableVector2D>();
 
     //Create a polygon with the specified corners
@@ -50,7 +51,7 @@ public class Polygon {
     }
 
     //Create a new Polygon translated by the specified amount
-    public Polygon getTranslatedInstance( final double dx, final double dy ) {
+    public IShape getTranslatedInstance( final double dx, final double dy ) {
         return new Polygon( new ArrayList<ImmutableVector2D>() {{
             for ( ImmutableVector2D point : points ) {
                 add( point.plus( dx, dy ) );
@@ -93,7 +94,7 @@ public class Polygon {
     }
 
     //Gets a rotated copy of this polygon
-    public Polygon getRotatedInstance( final double angle ) {
+    public IShape getRotatedInstance( final double angle ) {
         final ImmutableVector2D centroid = getCentroid();//cache for performance
         return new Polygon( new ArrayList<ImmutableVector2D>() {{
             for ( ImmutableVector2D point : points ) {
@@ -116,5 +117,14 @@ public class Polygon {
     //Computes the centroid of the corner points (e.g. the center of "mass" assuming the corner points have equal "mass")
     public ImmutableVector2D getCentroid() {
         return new ImmutableVector2D( PolygonUtils.getCentroid( toPointArray() ) );
+    }
+
+    //Just use the 0th point for the reference point for rotation drag handles
+    public Option<ImmutableVector2D> getReferencePoint() {
+        return new Option.Some<ImmutableVector2D>( getPoint( 0 ) );
+    }
+
+    public boolean containsPoint( ImmutableVector2D point ) {
+        return toShape().contains( point.toPoint2D() );
     }
 }

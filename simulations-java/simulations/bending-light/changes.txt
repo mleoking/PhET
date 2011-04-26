@@ -1,3 +1,4 @@
+Added continuous representation of circle prism
 Remove the associated prism from the model when dropped back in the toolbox, resolves #2833
 Handled review issues
 # 0.00.47 (51069) Apr 22, 2011

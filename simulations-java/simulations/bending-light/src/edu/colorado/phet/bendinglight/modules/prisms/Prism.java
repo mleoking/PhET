@@ -14,15 +14,15 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
  * @author Sam Reid
  */
 public class Prism {
-    public final Property<Polygon> shape;
+    public final Property<IShape> shape;
 
     //Create a prism with the specified corner points
     public Prism( ImmutableVector2D... points ) {
         this( new Polygon( points ) );
     }
 
-    public Prism( Polygon polygon ) {
-        this.shape = new Property<Polygon>( polygon );
+    public Prism( IShape shape ) {
+        this.shape = new Property<IShape>( shape );
     }
 
     public void translate( double dx, double dy ) {
@@ -35,7 +35,7 @@ public class Prism {
     }
 
     public boolean contains( ImmutableVector2D point ) {
-        return shape.getValue().toShape().contains( point.toPoint2D() );
+        return shape.getValue().containsPoint( point );
     }
 
     public Prism copy() {
