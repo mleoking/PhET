@@ -1,17 +1,14 @@
 // Copyright 2002-2011, University of Colorado
 
-package edu.colorado.phet.balancingchemicalequations.control;
+package edu.colorado.phet.balancingchemicalequations.developer;
 
-import java.awt.Color;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -31,12 +28,12 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class DeveloperColorsMenuItem extends JCheckBoxMenuItem {
+public class ColorsMenuItem extends JCheckBoxMenuItem {
 
     private final BCEGlobalProperties globalProperties;
     private DeveloperColorsDialog dialog;
 
-    public DeveloperColorsMenuItem( final BCEGlobalProperties globalProperties ) {
+    public ColorsMenuItem( final BCEGlobalProperties globalProperties ) {
         super( "Colors..." );
         this.globalProperties = globalProperties;
 
@@ -45,7 +42,7 @@ public class DeveloperColorsMenuItem extends JCheckBoxMenuItem {
             public void actionPerformed( ActionEvent event ) {
                 handleColorsDialog();
             }
-        });
+        } );
 
         // update the dialog if the canvas color changes
         globalProperties.canvasColor.addObserver( new SimpleObserver() {
@@ -56,7 +53,7 @@ public class DeveloperColorsMenuItem extends JCheckBoxMenuItem {
             }
         } );
 
-         // update the dialog if the box color changes
+        // update the dialog if the box color changes
         globalProperties.boxColor.addObserver( new SimpleObserver() {
             public void update() {
                 if ( dialog != null ) {
@@ -77,9 +74,11 @@ public class DeveloperColorsMenuItem extends JCheckBoxMenuItem {
                 public void windowClosed( WindowEvent e ) {
                     cleanup();
                 }
+
                 public void windowClosing( WindowEvent e ) {
                     cleanup();
                 }
+
                 private void cleanup() {
                     setSelected( false );
                     dialog = null;

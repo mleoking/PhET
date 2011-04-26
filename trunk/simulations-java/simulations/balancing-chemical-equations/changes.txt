@@ -1,3 +1,5 @@
+4/26/11 move all developer code to a new developer package
+4/26/11 add "Developer->Preview molecules" menu item (used to be a separate app for previewing molecule colors on choosable background color)
 4/9/11 #2796, handled all REVIEW task tags that were added during code review, see ticket for changesets
 # 1.00.00 (50396) Apr 6, 2011
 4/6/11 delete TODO file, all tasks completed, post-1.00 tasks will be tracked via Unfuddle
