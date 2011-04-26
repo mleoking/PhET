@@ -7,7 +7,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
-import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
+import edu.colorado.phet.fluidpressureandflow.common.RadioButton;
 import edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet;
 import edu.colorado.phet.fluidpressureandflow.common.view.CheckBox;
 import edu.colorado.phet.fluidpressureandflow.common.view.EnglishMetricControlPanel;
@@ -28,8 +28,8 @@ public class WaterTowerControlPanel extends VerticalLayoutPanel {
         //Units control panel that allows choice between english and metric
         SettableProperty<UnitSet> units = module.getFluidPressureAndFlowModel().units;
         add( new EnglishMetricControlPanel<WaterTowerModel>(
-                new PropertyRadioButton<UnitSet>( ENGLISH, units, UnitSet.ENGLISH ),
-                new PropertyRadioButton<UnitSet>( METRIC, units, UnitSet.METRIC ) )
+                new RadioButton<UnitSet>( ENGLISH, units, UnitSet.ENGLISH ),
+                new RadioButton<UnitSet>( METRIC, units, UnitSet.METRIC ) )
         );
 
         //Separator

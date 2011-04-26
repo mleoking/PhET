@@ -8,6 +8,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.fluidpressureandflow.fluidpressure.FluidPressureCanvas;
 import edu.colorado.phet.fluidpressureandflow.fluidpressure.FluidPressureControlPanel;
 
 /**
@@ -17,7 +18,7 @@ public class CheckBox extends JCheckBox {
     public CheckBox( String label, final Property<Boolean> property ) {
         super( label, property.getValue() );
         setForeground( FluidPressureControlPanel.FOREGROUND );
-        setFont( FluidPressureControlPanel.CONTROL_FONT );
+        setFont( FluidPressureCanvas.CONTROL_FONT );
         addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 property.setValue( isSelected() );

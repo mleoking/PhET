@@ -28,8 +28,8 @@ import static edu.colorado.phet.common.phetcommon.model.property.Not.not;
 public class FaucetNode extends PNode {
     final static Color TRANSPARENT = new Color( 0, 0, 0, 0 );
 
-    public static class RadioButton extends PropertyRadioButton<Boolean> {
-        public RadioButton( String name, SettableProperty<Boolean> selected ) {
+    public static class FaucetRadioButton extends PropertyRadioButton<Boolean> {
+        public FaucetRadioButton( String name, SettableProperty<Boolean> selected ) {
             super( name, selected, true );
             setBackground( TRANSPARENT );
             setFont( new PhetFont( 18, true ) );
@@ -66,8 +66,8 @@ public class FaucetNode extends PNode {
             addChild( sliderNode );
             addChild( new PSwing( new VerticalLayoutPanel() {{
                 setInsets( new Insets( -6, 0, 0, 0 ) );//Bring the radio buttons a bit closer together
-                add( new RadioButton( FPAFStrings.MATCH_LEAKAGE, faucetFlowLevel.automatic ) );
-                add( new RadioButton( FPAFStrings.MANUAL, not( faucetFlowLevel.automatic ) ) );
+                add( new FaucetRadioButton( FPAFStrings.MATCH_LEAKAGE, faucetFlowLevel.automatic ) );
+                add( new FaucetRadioButton( FPAFStrings.MANUAL, not( faucetFlowLevel.automatic ) ) );
                 setBackground( TRANSPARENT );
             }} ) {{
                 setOffset( sliderNode.getFullBounds().getMaxX() - getFullBounds().getWidth(),//Right align with slider

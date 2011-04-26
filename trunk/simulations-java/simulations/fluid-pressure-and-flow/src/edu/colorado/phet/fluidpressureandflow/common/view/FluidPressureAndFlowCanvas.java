@@ -17,6 +17,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.SimSpeedControlPNode;
 import edu.colorado.phet.common.piccolophet.nodes.VelocitySensor;
@@ -35,8 +36,10 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> extends PhetPCanvas {
     protected final ModelViewTransform transform;
-    public static final PDimension STAGE_SIZE = new PDimension( 1008, 680 );
     private final PNode rootNode;
+
+    public static final PDimension STAGE_SIZE = new PDimension( 1008, 680 );
+    public static final Font CONTROL_FONT = new PhetFont( 15, false );//Font to use for the majority of controls in this sim
 
     public FluidPressureAndFlowCanvas( final ModelViewTransform transform, final ModelBounds bounds ) {
         this.transform = transform;

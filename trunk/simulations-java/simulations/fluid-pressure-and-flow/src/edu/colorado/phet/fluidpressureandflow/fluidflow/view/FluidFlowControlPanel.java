@@ -5,9 +5,9 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
-import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
 import edu.colorado.phet.fluidpressureandflow.common.FPAFStrings;
 import edu.colorado.phet.fluidpressureandflow.common.FluidPressureAndFlowModule;
+import edu.colorado.phet.fluidpressureandflow.common.RadioButton;
 import edu.colorado.phet.fluidpressureandflow.common.model.FluidPressureAndFlowModel;
 import edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet;
 import edu.colorado.phet.fluidpressureandflow.common.view.CheckBox;
@@ -26,8 +26,8 @@ public class FluidFlowControlPanel<T extends FluidPressureAndFlowModel> extends 
 
         //Units control panel that allows choice between english and metric
         addControlFullWidth( new EnglishMetricControlPanel<T>(
-                new PropertyRadioButton<UnitSet>( ENGLISH, units, UnitSet.ENGLISH ),
-                new PropertyRadioButton<UnitSet>( METRIC, units, UnitSet.METRIC ) )
+                new RadioButton<UnitSet>( ENGLISH, units, UnitSet.ENGLISH ),
+                new RadioButton<UnitSet>( METRIC, units, UnitSet.METRIC ) )
         );
     }
 

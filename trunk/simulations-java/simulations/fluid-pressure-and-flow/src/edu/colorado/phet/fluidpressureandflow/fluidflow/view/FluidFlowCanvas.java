@@ -19,6 +19,7 @@ import edu.colorado.phet.fluidpressureandflow.fluidflow.FluidFlowModule;
 import edu.colorado.phet.fluidpressureandflow.fluidflow.model.FluidFlowModel;
 import edu.colorado.phet.fluidpressureandflow.fluidflow.model.FoodColoring;
 import edu.colorado.phet.fluidpressureandflow.fluidflow.model.Particle;
+import edu.colorado.phet.fluidpressureandflow.fluidpressure.FluidPressureCanvas;
 import edu.colorado.phet.fluidpressureandflow.fluidpressure.FluidPressureControlPanel;
 import edu.colorado.phet.fluidpressureandflow.fluidpressure.Pool;
 import edu.umd.cs.piccolo.PNode;
@@ -76,7 +77,7 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas {
 
         //Show a checkbox that enabled/disables adding dots to the fluid
         addChild( new PSwing( new PropertyCheckBox( "Dots", model.dropperEnabled ) {{
-            setFont( FluidPressureControlPanel.CONTROL_FONT );
+            setFont( FluidPressureCanvas.CONTROL_FONT );
             setBackground( new Color( 0, 0, 0, 0 ) );
         }} ) {{
             setOffset( dropperNode.getFullBounds().getMaxX(), dropperNode.getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
@@ -94,7 +95,7 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas {
             setOffset( STAGE_SIZE.getWidth() - getFullBounds().getWidth() - 2, 2 );
         }};
         addChild( controlPanelNode );
-        addChild( new ResetAllButtonNode( module, this, (int) ( FluidPressureControlPanel.CONTROL_FONT.getSize() * 1.3 ), FluidPressureControlPanel.FOREGROUND, FluidPressureControlPanel.BACKGROUND ) {{
+        addChild( new ResetAllButtonNode( module, this, (int) ( FluidPressureCanvas.CONTROL_FONT.getSize() * 1.3 ), FluidPressureControlPanel.FOREGROUND, FluidPressureControlPanel.BACKGROUND ) {{
             setOffset( STAGE_SIZE.getWidth() - getFullBounds().getWidth() - 2, STAGE_SIZE.getHeight() - getFullBounds().getHeight() - 2 );
         }} );
 
