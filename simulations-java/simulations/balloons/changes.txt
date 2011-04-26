@@ -1,3 +1,4 @@
+# 1.16.00 (51216) Apr 26, 2011
 > Removed megahelp
 # 1.15.00 (51200) Apr 26, 2011
 > added new translation credits features
