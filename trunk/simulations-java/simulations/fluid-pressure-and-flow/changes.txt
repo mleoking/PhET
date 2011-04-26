@@ -1,3 +1,4 @@
+Added fluid flow rate control
 Fixed: velocity sensor overlap
 Improved default starting locations for sensors
 Reduced font and made fonts more uniform throughout the sim
