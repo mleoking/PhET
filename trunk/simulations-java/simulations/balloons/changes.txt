@@ -1,3 +1,6 @@
+> added new translation credits features
+> changed images in the sim
+updated balloons screenshot
 # 1.15.00 (51194) Apr 26, 2011
 # 1.14.07 (51192) Apr 26, 2011
 # 1.14.06 (51186) Apr 26, 2011
