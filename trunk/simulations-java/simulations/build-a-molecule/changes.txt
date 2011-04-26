@@ -1,5 +1,5 @@
+Bugfix: added NO2 as a potential molecule
 # 0.00.08 (51043) Apr 21, 2011
-# 0.00.08 (51042) Apr 21, 2011
 Added developer controls to allow generation of all molecules for boxes AND/OR allowing isotopes of the target molecule in collection boxes
 Reset kit fixes
 Moved kit arrows/label and reset button
