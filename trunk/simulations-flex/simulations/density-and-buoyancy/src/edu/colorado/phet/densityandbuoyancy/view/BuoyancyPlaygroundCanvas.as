@@ -52,7 +52,7 @@ public class BuoyancyPlaygroundCanvas extends BuoyancyCanvas {
         } );
         modeControlPanel.addChild( twoObjectsButton );
 
-        addChild( modeControlPanel );
+        //addChild( modeControlPanel );
         oneObjectButton.selected = true;
 
         ApplicationLifecycle.addApplicationCompleteListener( function(): void {
