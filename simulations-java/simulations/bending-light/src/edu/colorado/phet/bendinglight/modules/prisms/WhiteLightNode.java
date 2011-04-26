@@ -23,6 +23,8 @@ import static edu.colorado.phet.common.phetcommon.math.MathUtil.clamp;
  * @author Sam Reid
  */
 public class WhiteLightNode extends PImage {
+    //REVIEW: Where do these width and height values come from?  They look like the stage size, so why not just use the
+    //stage size (in case it ever changes)?
     private BufferedImage buffer = new BufferedImage( 1008, 706, BufferedImage.TYPE_INT_ARGB_PRE );//Buffer into which the light is rendered.  Dimensions will need to change if the model aspect ratio changes or stage size changes
     private final PNode rayLayer;
 
@@ -82,6 +84,7 @@ public class WhiteLightNode extends PImage {
         final float scale = 2f;//extra factor to make it white instead of cream/orange
 
         //Iterate over the sample points and draw them in the BufferedImage
+        //REVIEW: Has performance been evaluated to see whether the following TODO is necessary? 
         //TODO: could maybe speed up by caching colors for individual points
         for ( Point point : map.keySet() ) {
             final float[] samples = map.get( point );
@@ -111,7 +114,7 @@ public class WhiteLightNode extends PImage {
         setImage( buffer );
     }
 
-    //Add the specified point to the HashMap (creating a new entry if necessary, otherwise adding it to existing values.
+    //Add the specified point to the HashMap, creating a new entry if necessary, otherwise adding it to existing values.
     //Take the intensity as the last component of the array
     private void addToMap( int x0, int y0, Color color, double intensity, HashMap<Point, float[]> map ) {
         float brightnessFactor = 0.017f;//so that rays don't start fully saturated: this makes it so that it is possible to see the decrease in intensity after a (nontotal) reflection

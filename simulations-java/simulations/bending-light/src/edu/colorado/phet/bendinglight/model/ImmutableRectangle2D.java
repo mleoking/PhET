@@ -7,6 +7,7 @@ import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 
+//REVIEW: In reference to the TODO below, I think it is worth moving to phetcommon.  I'd use it.
 /**
  * Immutable Rectangle2D class, suitable for usage in Property<ImmutableRectangle2D> pattern.
  * TODO: Consider moving to phetcommon.
