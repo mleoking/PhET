@@ -11,7 +11,6 @@ import edu.colorado.phet.common.phetcommon.model.property.ValueEquals;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.nodes.MinimizeMaximizeNode;
-import edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowApplication;
 import edu.colorado.phet.fluidpressureandflow.common.FluidPressureAndFlowModule;
 import edu.colorado.phet.fluidpressureandflow.common.model.FluidPressureAndFlowModel;
 import edu.colorado.phet.fluidpressureandflow.common.model.units.Unit;
@@ -102,9 +101,6 @@ public class FluidDensityControl<T extends FluidPressureAndFlowModel> extends PN
                     }
                 } );
                 translate( 0, -getFullBounds().getHeight() );
-
-                //The default green + button is invisible against the green ground, so use a blue one instead
-                setMaximizeImage( FluidPressureAndFlowApplication.RESOURCES.getImage( "maximizeButtonBlue.png" ) );
             }};
 
             //Add children
