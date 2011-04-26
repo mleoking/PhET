@@ -22,7 +22,7 @@ import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
- * This is the primary model class for the Build an Isotope module.  This
+ * This is the primary model class for the Make Isotopes module.  This
  * class acts as the main interface for model actions, and contains the
  * constituent model elements.  It watches all neutrons and, based on where
  * they are placed by the user, moves them between the neutron bucket and the
@@ -30,7 +30,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  *
  * In this model, units are picometers (1E-12).
  */
-public class InteractiveIsotopeModel implements Resettable, IConfigurableAtomModel {
+public class MakeIsotopesModel implements Resettable, IConfigurableAtomModel {
 
     //----------------------------------------------------------------------------
     // Class Data
@@ -99,7 +99,7 @@ public class InteractiveIsotopeModel implements Resettable, IConfigurableAtomMod
     /**
      * Construct the model with the atoms initially in the bucket.
      */
-    public InteractiveIsotopeModel( BuildAnAtomClock clock ) {
+    public MakeIsotopesModel( BuildAnAtomClock clock ) {
         this.clock = clock;
 
         // Create the atom.

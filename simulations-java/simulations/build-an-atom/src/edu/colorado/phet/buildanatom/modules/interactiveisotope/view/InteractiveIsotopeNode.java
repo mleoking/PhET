@@ -9,7 +9,7 @@ import java.beans.PropertyChangeListener;
 import edu.colorado.phet.buildanatom.model.Neutron;
 import edu.colorado.phet.buildanatom.model.SphericalParticle;
 import edu.colorado.phet.buildanatom.modules.game.view.SchematicAtomNode;
-import edu.colorado.phet.buildanatom.modules.interactiveisotope.model.InteractiveIsotopeModel;
+import edu.colorado.phet.buildanatom.modules.interactiveisotope.model.MakeIsotopesModel;
 import edu.colorado.phet.buildanatom.view.BucketNode;
 import edu.colorado.phet.buildanatom.view.OrbitalView;
 import edu.colorado.phet.buildanatom.view.OrbitalViewProperty;
@@ -27,10 +27,10 @@ public class InteractiveIsotopeNode extends SchematicAtomNode {
     /**
      * Constructor.
      */
-    public InteractiveIsotopeNode( final InteractiveIsotopeModel model, final ModelViewTransform mvt, final Point2D bottomPoint ) {
+    public InteractiveIsotopeNode( final MakeIsotopesModel model, final ModelViewTransform mvt, final Point2D bottomPoint ) {
         super( model.getAtom(), mvt, new OrbitalViewProperty( OrbitalView.ISOTOPES_RESIZING_CLOUD ), false, true, false );
 
-        model.addListener( new InteractiveIsotopeModel.Adapter() {
+        model.addListener( new MakeIsotopesModel.Adapter() {
             @Override
             public void particleAdded( SphericalParticle subatomicParticle ) {
                 addParticleNode( subatomicParticle );
