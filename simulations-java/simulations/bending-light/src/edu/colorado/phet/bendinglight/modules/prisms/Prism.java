@@ -51,6 +51,6 @@ public class Prism {
     }
 
     public void rotate( double deltaAngle ) {
-        shape.setValue( shape.getValue().getRotatedInstance( deltaAngle, shape.getValue().getCentroid() ) );
+        shape.setValue( shape.getValue().getRotatedInstance( deltaAngle, shape.getValue().getRotationCenter() ) );
     }
 }

@@ -53,12 +53,12 @@ public class Circle implements IShape {
             if ( intersectionPoint != null ) {
                 ImmutableVector2D vector = new ImmutableVector2D( intersectionPoint ).minus( ray.tail );
 
-                //The normal vector should point toward the incoming ray
-                double normalDirection = containsPoint( ray.tail ) ? 1 : -1;
-
                 //Only consider intersections that are in front of the ray
                 if ( vector.dot( ray.directionUnitVector ) > 0 ) {
-                    ImmutableVector2D normalVector = new ImmutableVector2D( intersectionPoint ).minus( center ).times( -normalDirection ).getNormalizedInstance();
+                    ImmutableVector2D normalVector = new ImmutableVector2D( intersectionPoint ).minus( center ).getNormalizedInstance();
+                    if ( normalVector.dot( ray.directionUnitVector ) > 0 ) {
+                        normalVector = normalVector.negate();
+                    }
                     intersectionList.add( new Intersection( normalVector, new ImmutableVector2D( intersectionPoint ) ) );
                 }
             }
@@ -72,12 +72,12 @@ public class Circle implements IShape {
 
     public IShape getRotatedInstance( double angle, ImmutableVector2D rotationPoint ) {
         // we create a new circle with a rotated center point
-        ImmutableVector2D vectorAboutCentroid = getCentroid().minus( rotationPoint );
+        ImmutableVector2D vectorAboutCentroid = getRotationCenter().minus( rotationPoint );
         final ImmutableVector2D rotated = vectorAboutCentroid.getRotatedInstance( angle );
         return new Circle( rotated.plus( rotationPoint ), radius );
     }
 
-    public ImmutableVector2D getCentroid() {
+    public ImmutableVector2D getRotationCenter() {
         return center;
     }
 
