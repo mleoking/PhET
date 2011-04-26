@@ -1,15 +1,28 @@
 package edu.colorado.phet.buildtools.translate;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.Locale;
+import java.util.Properties;
+import java.util.Set;
+
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 import edu.colorado.phet.buildtools.BuildToolsPaths;
 import edu.colorado.phet.buildtools.PhetProject;
 import edu.colorado.phet.buildtools.flash.FlashSimulationProject;
 import edu.colorado.phet.buildtools.flex.FlexSimulationProject;
 import edu.colorado.phet.buildtools.java.projects.JavaSimulationProject;
+import edu.colorado.phet.buildtools.util.FileUtils;
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
+import edu.colorado.phet.flashlauncher.util.XMLUtils;
 
 /**
  * Handles information pertaining to a particular translation
@@ -20,7 +33,7 @@ public class Translation {
     private File file;
     private File trunk;
 
-    // types of translations
+    // types of translations TODO: consider enumeration instead
     public static final String TRANSLATION_JAVA = "java";
     public static final String TRANSLATION_FLASH = "flash";
 
@@ -188,6 +201,49 @@ public class Translation {
         else {
             return file.getName() + " (possibly invalid)";
         }
+    }
+
+    /**
+     * @return A set of translation keys that are in the translation file
+     */
+    public Set<String> getTranslationKeys() {
+        Set<String> ret = new HashSet<String>();
+
+        try {
+
+            if ( getType().equals( TRANSLATION_JAVA ) ) {
+                Properties properties = new Properties();
+                FileInputStream in = new FileInputStream( getFile() );
+                try {
+                    properties.load( in );
+                    ret.addAll( properties.stringPropertyNames() );
+                }
+                finally {
+                    in.close();
+                }
+            }
+            else if ( getType().equals( TRANSLATION_FLASH ) ) {
+                Document document = XMLUtils.toDocument( FileUtils.loadFileAsString( getFile() ) );
+                NodeList strings = document.getElementsByTagName( "string" );
+
+                for ( int i = 0; i < strings.getLength(); i++ ) {
+                    ret.add( ( (Element) strings.item( i ) ).getAttribute( "key" ) );
+                }
+            }
+            else {
+                throw new RuntimeException( "Unknown type of translation: " + getFile().getAbsolutePath() );
+            }
+        }
+        catch ( IOException e ) {
+            throw new RuntimeException( "translation key problem in " + getFile().getAbsolutePath(), e );
+        }
+        catch ( ParserConfigurationException e ) {
+            throw new RuntimeException( "translation key problem in " + getFile().getAbsolutePath(), e );
+        }
+        catch ( TransformerException e ) {
+            throw new RuntimeException( "translation key problem in " + getFile().getAbsolutePath(), e );
+        }
+        return ret;
     }
 
 }
