@@ -12,7 +12,7 @@ import java.util.List;
 import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
 import edu.colorado.phet.buildanatom.model.AtomIdentifier;
 import edu.colorado.phet.buildanatom.model.ImmutableAtom;
-import edu.colorado.phet.buildanatom.modules.isotopemixture.model.IsotopeMixturesModel;
+import edu.colorado.phet.buildanatom.modules.isotopemixture.model.MixIsotopesModel;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -35,7 +35,7 @@ public class AverageAtomicMassIndicator extends PNode {
     private double massSpan = 3; // In amu.
     private double minMass = 0; // In amu.
 
-    public AverageAtomicMassIndicator( final IsotopeMixturesModel model ){
+    public AverageAtomicMassIndicator( final MixIsotopesModel model ){
         // Root node onto which all other nodes are added.  This is done so
         // so that the root node can be offset at the end of construction in
         // such a way that the (0,0) location will be in the upper left corner.
@@ -169,11 +169,11 @@ public class AverageAtomicMassIndicator extends PNode {
         private static final double TRIANGULAR_POINTER_HEIGHT = 15;
         private static final double TRIANGULAR_POINTER_WIDTH = 20;
         private static final int DECIMAL_PLACES_FOR_USERS_MIX = 5;
-        private final IsotopeMixturesModel model;
+        private final MixIsotopesModel model;
         private final PText textualReadout;
         private final PNode readoutBackgroundNode;
 
-        public ReadoutPointer ( IsotopeMixturesModel model ){
+        public ReadoutPointer ( MixIsotopesModel model ){
             this.model = model;
             // Add the triangular pointer.  This is created such that the
             // point of the triangle is at (0,0) for this node.

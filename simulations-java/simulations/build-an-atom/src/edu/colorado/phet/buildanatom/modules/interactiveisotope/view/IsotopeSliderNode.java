@@ -12,9 +12,9 @@ import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.buildanatom.modules.isotopemixture.model.IsotopeMixturesModel;
+import edu.colorado.phet.buildanatom.modules.isotopemixture.model.MixIsotopesModel;
 import edu.colorado.phet.buildanatom.modules.isotopemixture.model.MovableAtom;
-import edu.colorado.phet.buildanatom.modules.isotopemixture.view.IsotopeMixturesCanvas;
+import edu.colorado.phet.buildanatom.modules.isotopemixture.view.MixIsotopesCanvas;
 import edu.colorado.phet.buildanatom.modules.isotopemixture.view.LabeledIsotopeNode;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.DefaultLayoutStrategy;
@@ -37,7 +37,7 @@ public class IsotopeSliderNode extends PNode {
 
     private static final Dimension2D SIZE = new PDimension( 120, 75 );
 
-    public IsotopeSliderNode( final IsotopeMixturesModel.NumericalIsotopeQuantityControl modelControl, ModelViewTransform mvt ){
+    public IsotopeSliderNode( final MixIsotopesModel.NumericalIsotopeQuantityControl modelControl, ModelViewTransform mvt ){
         PNode rootNode = new PNode();
         rootNode.setOffset( mvt.modelToView( modelControl.getCenterPositionRef() ) );
         addChild( rootNode );
@@ -57,7 +57,7 @@ public class IsotopeSliderNode extends PNode {
                             modelControl.setIsotopeQuantity( (int)Math.round( getValue() ) );
                         }
                     });
-                    SwingUtils.setBackgroundDeep( this, IsotopeMixturesCanvas.BACKGROUND_COLOR );
+                    SwingUtils.setBackgroundDeep( this, MixIsotopesCanvas.BACKGROUND_COLOR );
                     getTextField().setBackground( Color.WHITE );
                     PNode isotopeNode = new LabeledIsotopeNode(ModelViewTransform.createIdentity(), new MovableAtom(
                             modelControl.getIsotopeConfig().getNumProtons(), modelControl.getIsotopeConfig().getNumNeutrons(),

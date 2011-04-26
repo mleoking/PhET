@@ -50,7 +50,7 @@ public class IsotopeTestChamber {
     // ------------------------------------------------------------------------
 
     // Isotope Mixtures Model that contains this test chamber.
-    private final IsotopeMixturesModel model;
+    private final MixIsotopesModel model;
 
     // List of isotopes that are inside the chamber.  This is updated as
     // isotopes come and go.
@@ -68,7 +68,7 @@ public class IsotopeTestChamber {
     // Constructor(s)
     // ------------------------------------------------------------------------
 
-    IsotopeTestChamber( IsotopeMixturesModel model ){
+    IsotopeTestChamber( MixIsotopesModel model ){
         this.model = model;
     }
 

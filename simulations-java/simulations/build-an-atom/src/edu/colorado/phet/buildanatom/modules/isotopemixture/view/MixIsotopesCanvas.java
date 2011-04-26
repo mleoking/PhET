@@ -16,10 +16,10 @@ import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
 import edu.colorado.phet.buildanatom.model.MonoIsotopeParticleBucket;
 import edu.colorado.phet.buildanatom.model.SphericalParticle;
 import edu.colorado.phet.buildanatom.modules.interactiveisotope.view.IsotopeSliderNode;
-import edu.colorado.phet.buildanatom.modules.isotopemixture.model.IsotopeMixturesModel;
+import edu.colorado.phet.buildanatom.modules.isotopemixture.model.MixIsotopesModel;
 import edu.colorado.phet.buildanatom.modules.isotopemixture.model.MovableAtom;
-import edu.colorado.phet.buildanatom.modules.isotopemixture.model.IsotopeMixturesModel.InteractivityMode;
-import edu.colorado.phet.buildanatom.modules.isotopemixture.model.IsotopeMixturesModel.NumericalIsotopeQuantityControl;
+import edu.colorado.phet.buildanatom.modules.isotopemixture.model.MixIsotopesModel.InteractivityMode;
+import edu.colorado.phet.buildanatom.modules.isotopemixture.model.MixIsotopesModel.NumericalIsotopeQuantityControl;
 import edu.colorado.phet.buildanatom.view.BucketFrontNode;
 import edu.colorado.phet.buildanatom.view.BucketHoleNode;
 import edu.colorado.phet.buildanatom.view.MaximizeControlNode;
@@ -43,7 +43,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * Canvas for the tab where the user experiments with mixtures of different
  * isotopes.
  */
-public class IsotopeMixturesCanvas extends PhetPCanvas implements Resettable {
+public class MixIsotopesCanvas extends PhetPCanvas implements Resettable {
 
     //----------------------------------------------------------------------------
     // Class Data
@@ -58,7 +58,7 @@ public class IsotopeMixturesCanvas extends PhetPCanvas implements Resettable {
     //----------------------------------------------------------------------------
 
     // Model
-    private final IsotopeMixturesModel model;
+    private final MixIsotopesModel model;
 
     // View
     private final PNode rootNode;
@@ -74,7 +74,7 @@ public class IsotopeMixturesCanvas extends PhetPCanvas implements Resettable {
     // Constructor(s)
     //----------------------------------------------------------------------------
 
-    public IsotopeMixturesCanvas( final IsotopeMixturesModel model ) {
+    public MixIsotopesCanvas( final MixIsotopesModel model ) {
         this.model = model;
 
         // Set up the canvas-screen transform.
@@ -112,7 +112,7 @@ public class IsotopeMixturesCanvas extends PhetPCanvas implements Resettable {
         rootNode.addChild( controlsLayer );
 
         // Listen to the model for events that concern the canvas.
-        model.addListener( new IsotopeMixturesModel.Adapter() {
+        model.addListener( new MixIsotopesModel.Adapter() {
             @Override
             public void isotopeInstanceAdded( final MovableAtom atom ) {
                 // Add a representation of the new atom to the canvas.
