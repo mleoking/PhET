@@ -139,7 +139,7 @@ public class BendingLightCanvas<T extends BendingLightModel> extends PhetPCanvas
             }
         } );
 
-        final WhiteLightNode whiteLightNode = new WhiteLightNode( lightRayLayer );
+        final WhiteLightNode whiteLightNode = new WhiteLightNode( lightRayLayer, (int) stageSize.getWidth(), (int) stageSize.getHeight() );
 
         //layering
         addChild( beforeLightLayer );

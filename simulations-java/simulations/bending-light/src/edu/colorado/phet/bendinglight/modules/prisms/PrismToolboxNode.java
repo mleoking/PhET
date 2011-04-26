@@ -65,14 +65,12 @@ public class PrismToolboxNode extends PNode {
             }, model, globalToolboxBounds, true );
             this.model = model;
         }
-        
-        //REVIEW: Type safety - BendingLightCanvas should be parameterized.
-        @Override protected void addChild( BendingLightCanvas canvas, ToolNode node ) {
+
+        @Override protected void addChild( BendingLightCanvas<PrismsModel> canvas, ToolNode node ) {
             canvas.addChildBehindLight( node );
         }
 
-        //REVIEW: Type safety - BendingLightCanvas should be parameterized.
-        @Override protected void removeChild( BendingLightCanvas canvas, ToolNode node ) {
+        @Override protected void removeChild( BendingLightCanvas<PrismsModel> canvas, ToolNode node ) {
             canvas.removeChildBehindLight( node );
 
             //Remove the associated prism from the model when dropped back in the toolbox, resolves #2833
