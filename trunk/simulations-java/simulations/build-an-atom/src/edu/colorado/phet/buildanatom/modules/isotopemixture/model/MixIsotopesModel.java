@@ -29,14 +29,14 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
- * Model portion of Isotopes Mixture module.  This model contains a mixture
+ * Model portion of "Mix Isotopes" module.  This model contains a mixture
  * of isotopes and allows a user to move various different isotopes in and
  * out of the "Isotope Test Chamber", and simply keeps track of the average
  * mass within the chamber.
  *
  * @author John Blanco
  */
-public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel {
+public class MixIsotopesModel implements Resettable, IConfigurableAtomModel {
 
     // -----------------------------------------------------------------------
     // Class Data
@@ -141,7 +141,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
     // Constructor(s)
     // -----------------------------------------------------------------------
 
-    public IsotopeMixturesModel( BuildAnAtomClock clock ) {
+    public MixIsotopesModel( BuildAnAtomClock clock ) {
         this.clock = clock;
 
         // Listen to our own interactive mode property so that things can be
@@ -691,7 +691,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
         private final InteractivityMode interactivityMode;
         private boolean showingNaturesMix;
 
-        public State( IsotopeMixturesModel model ){
+        public State( MixIsotopesModel model ){
             elementConfig = model.getAtom().toImmutableAtom();
             isotopeTestChamberState = model.getIsotopeTestChamber().getState();
             interactivityMode = model.getInteractivityModeProperty().getValue();
@@ -734,7 +734,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
         private static final int CAPACITY = 100;
         private final Point2D centerPosition = new Point2D.Double();
         private final ImmutableAtom isotopeConfig;
-        private final IsotopeMixturesModel model;
+        private final MixIsotopesModel model;
         private final Property<Integer> quantityProperty = new Property<Integer>( 0 );
 
         // This property tracks whether this model element is still a part
@@ -744,7 +744,7 @@ public class IsotopeMixturesModel implements Resettable, IConfigurableAtomModel 
         /**
          * Constructor.
          */
-        public NumericalIsotopeQuantityControl( IsotopeMixturesModel model, ImmutableAtom atomConfig, Point2D position ){
+        public NumericalIsotopeQuantityControl( MixIsotopesModel model, ImmutableAtom atomConfig, Point2D position ){
             this.model = model;
             this.isotopeConfig = atomConfig;
             this.centerPosition.setLocation( position );

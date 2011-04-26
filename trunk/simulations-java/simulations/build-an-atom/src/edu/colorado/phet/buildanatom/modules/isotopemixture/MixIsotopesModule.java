@@ -5,36 +5,36 @@ package edu.colorado.phet.buildanatom.modules.isotopemixture;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
 import edu.colorado.phet.buildanatom.model.BuildAnAtomClock;
-import edu.colorado.phet.buildanatom.modules.isotopemixture.model.IsotopeMixturesModel;
-import edu.colorado.phet.buildanatom.modules.isotopemixture.view.IsotopeMixturesCanvas;
+import edu.colorado.phet.buildanatom.modules.isotopemixture.model.MixIsotopesModel;
+import edu.colorado.phet.buildanatom.modules.isotopemixture.view.MixIsotopesCanvas;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 
 /**
- * Module for the Build Isotope tab.
+ * Module for the Mix Isotopes module.
  */
-public class IsotopeMixturesModule extends PiccoloModule {
+public class MixIsotopesModule extends PiccoloModule {
 
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
 
-    private final IsotopeMixturesModel model;
-    private final IsotopeMixturesCanvas canvas;
+    private final MixIsotopesModel model;
+    private final MixIsotopesCanvas canvas;
 
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
 
-    public IsotopeMixturesModule() {
+    public MixIsotopesModule() {
         super( BuildAnAtomStrings.TITLE_ISOTOPE_MIXTURES_MODULE, new BuildAnAtomClock() );
         setClockControlPanel( null );
 
         // Model
         BuildAnAtomClock clock = (BuildAnAtomClock) getClock();
-        model = new IsotopeMixturesModel( clock );
+        model = new MixIsotopesModel( clock );
 
         // Canvas
-        canvas = new IsotopeMixturesCanvas( model );
+        canvas = new MixIsotopesCanvas( model );
         setSimulationPanel( canvas );
 
         // Help

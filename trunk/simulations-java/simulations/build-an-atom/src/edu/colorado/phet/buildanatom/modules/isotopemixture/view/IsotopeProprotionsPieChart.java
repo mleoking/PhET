@@ -15,7 +15,7 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.buildanatom.model.AtomIdentifier;
 import edu.colorado.phet.buildanatom.model.ImmutableAtom;
-import edu.colorado.phet.buildanatom.modules.isotopemixture.model.IsotopeMixturesModel;
+import edu.colorado.phet.buildanatom.modules.isotopemixture.model.MixIsotopesModel;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.PrecisionDecimal;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -42,7 +42,7 @@ class IsotopeProprotionsPieChart extends PNode {
     /**
      * Constructor.
      */
-    public IsotopeProprotionsPieChart( final IsotopeMixturesModel model ) {
+    public IsotopeProprotionsPieChart( final MixIsotopesModel model ) {
         // Create and add a layer where the labels will be placed.
         final PNode labelLayer = new PNode();
         addChild( labelLayer );
