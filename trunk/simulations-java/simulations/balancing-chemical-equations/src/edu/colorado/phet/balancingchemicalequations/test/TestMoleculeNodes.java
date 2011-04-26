@@ -32,69 +32,66 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  */
 public class TestMoleculeNodes extends PhetPCanvas {
 
-    private static final Color CANVAS_COLOR = BCEConstants.CANVAS_BACKGROUND;
-    private static final Color TEXT_COLOR = Color.BLACK;
-
     /**
      * Constructor that displays the nodes used in "Balancing Chemical Equations".
      *
      * @param parentFrame
      */
     public TestMoleculeNodes( Frame parentFrame ) {
-        this( parentFrame, 8, 100, 100, 50, new Molecule[] {
-                new CMolecule(),
-                new C2H2(),
-                new C2H4(),
-                new C2H5Cl(),
-                new C2H5OH(),
-                new C2H6(),
-                new CH2O(),
-                new CH3OH(),
-                new CH4(),
-                new Cl2(),
-                new CO(),
-                new CO2(),
-                new CS2(),
-                new F2(),
-                new H2(),
-                new H2O(),
-                new H2S(),
-                new HCl(),
-                new HF(),
-                new N2(),
-                new N2O(),
-                new NH3(),
-                new NO(),
-                new NO2(),
-                new O2(),
-                new OF2(),
-                new P4(),
-                new PCl3(),
-                new PCl5(),
-                new PF3(),
-                new PH3(),
-                new SMolecule(),
-                new SO2(),
-                new SO3()
-
-        } );
+        this( parentFrame, BCEConstants.CANVAS_RENDERING_SIZE, BCEConstants.CANVAS_BACKGROUND, 8, 100, 100, 50,
+              new Molecule[] {
+                      new CMolecule(),
+                      new C2H2(),
+                      new C2H4(),
+                      new C2H5Cl(),
+                      new C2H5OH(),
+                      new C2H6(),
+                      new CH2O(),
+                      new CH3OH(),
+                      new CH4(),
+                      new Cl2(),
+                      new CO(),
+                      new CO2(),
+                      new CS2(),
+                      new F2(),
+                      new H2(),
+                      new H2O(),
+                      new H2S(),
+                      new HCl(),
+                      new HF(),
+                      new N2(),
+                      new N2O(),
+                      new NH3(),
+                      new NO(),
+                      new NO2(),
+                      new O2(),
+                      new OF2(),
+                      new P4(),
+                      new PCl3(),
+                      new PCl5(),
+                      new PF3(),
+                      new PH3(),
+                      new SMolecule(),
+                      new SO2(),
+                      new SO3()
+              } );
     }
 
     /**
      * Constructor that displays any set of molecules.
      * Molecules are displayed in an grid, in row-major order.
      *
-     * @param parentFrame
+     * @param parentFrame color chooser dialog will be parented to this frame
      * @param columns     number of columns in the grid
      * @param xSpacing    horizontal spacing between molecules
      * @param ySpacing    vertical spacing between molecules
      * @param margin      margin around the edge of the play area
-     * @param molecules
+     * @param molecules   molecule to display
      */
-    public TestMoleculeNodes( Frame parentFrame, int columns, int xSpacing, int ySpacing, int margin, Molecule[] molecules ) {
-        super( BCEConstants.CANVAS_RENDERING_SIZE );
-        setBackground( CANVAS_COLOR );
-        setPreferredSize( new Dimension( 1024, 768 ) );
+    public TestMoleculeNodes( Frame parentFrame, Dimension renderingSize, Color background, int columns, int xSpacing, int ySpacing, int margin, Molecule[] molecules ) {
+        super( renderingSize );
+        setBackground( background );
+        setPreferredSize( renderingSize );
 
         // parent node of all molecule nodes
         PNode parent = new PNode();
@@ -127,7 +124,7 @@ public class TestMoleculeNodes extends PhetPCanvas {
             PNode moleculeNode = new PImage( molecule.getImage() );
             addChild( moleculeNode );
             HTMLNode labelNode = new HTMLNode( molecule.getSymbol() );
-            labelNode.setHTMLColor( TEXT_COLOR );
+            labelNode.setHTMLColor( Color.BLACK );
             addChild( labelNode );
             double x = moleculeNode.getFullBoundsReference().getCenterX() - ( labelNode.getFullBoundsReference().getWidth() / 2 );
             double y = moleculeNode.getFullBoundsReference().getMaxY() + 2;
