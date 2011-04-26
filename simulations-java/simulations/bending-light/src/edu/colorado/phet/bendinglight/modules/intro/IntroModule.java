@@ -16,8 +16,7 @@ import static edu.colorado.phet.bendinglight.model.BendingLightModel.WATER;
  * @author Sam Reid
  */
 public class IntroModule extends BendingLightModule<IntroModel> {
-    //REVIEW: IntroCanvas should be parameterized, since it is a generic type.
-    public IntroCanvas canvas;
+    public IntroCanvas<IntroModel> canvas;
 
     public IntroModule() {
         super( BendingLightStrings.INTRO, new IntroModel( WATER ) );
