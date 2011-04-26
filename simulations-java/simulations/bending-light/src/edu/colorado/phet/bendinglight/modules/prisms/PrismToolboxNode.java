@@ -51,6 +51,8 @@ public class PrismToolboxNode extends PNode {
     }
 
     static class PrismIcon extends ToolIconNode<PrismsModel> {
+        private final PrismsModel model;
+
         public PrismIcon( final Prism prism, final PrismsModel model, ModelViewTransform transform, PrismsCanvas canvas, final Function0<Rectangle2D> globalToolboxBounds ) {
             super( toThumbnail( prism, model, transform ), new Property<Boolean>( false ) {
                 @Override public void setValue( Boolean value ) {
@@ -61,6 +63,7 @@ public class PrismToolboxNode extends PNode {
                     return new PrismToolNode( transform, prism.copy(), model, location );
                 }
             }, model, globalToolboxBounds, true );
+            this.model = model;
         }
 
         @Override protected void addChild( BendingLightCanvas canvas, ToolNode node ) {
@@ -69,6 +72,9 @@ public class PrismToolboxNode extends PNode {
 
         @Override protected void removeChild( BendingLightCanvas canvas, ToolNode node ) {
             canvas.removeChildBehindLight( node );
+
+            //Remove the associated prism from the model when dropped back in the toolbox, resolves #2833
+            model.removePrism( ( (PrismToolNode) node ).prism );
         }
 
         private static Image toThumbnail( Prism prism, PrismsModel model, ModelViewTransform transform ) {
