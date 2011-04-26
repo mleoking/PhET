@@ -21,7 +21,6 @@ import edu.umd.cs.piccolo.util.PDimension;
 
 import static edu.colorado.phet.bendinglight.modules.prisms.PrismsModel.getPrismPrototypes;
 
-//REVIEW: This file needs cleanup of its use of generics.
 /**
  * Prism toolbox which contains draggable prisms as well as the control panel for their index of refraction.
  *
@@ -51,7 +50,7 @@ public class PrismToolboxNode extends PNode {
         content.addChild( new MediumControlPanel( canvas, model.prismMedium, BendingLightStrings.OBJECTS, false, model.wavelengthProperty, "0.0000000", 8 ) );
     }
 
-    static class PrismIcon extends ToolIconNode {
+    static class PrismIcon extends ToolIconNode<PrismsModel> {
         public PrismIcon( final Prism prism, final PrismsModel model, ModelViewTransform transform, PrismsCanvas canvas, final Function0<Rectangle2D> globalToolboxBounds ) {
             super( toThumbnail( prism, model, transform ), new Property<Boolean>( false ) {
                 @Override public void setValue( Boolean value ) {

@@ -20,18 +20,15 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
 import static java.lang.Math.pow;
 
-//REVIEW: BendingLightModel is never directly instantiated.  Can is be made
-//abstract?
 /**
  * Main model for bending light application.  Rays are recomputed whenever laser parameters changed.
  * Each ray oscillates in time, as shown in the wave view.  There are model representations for several tools as well as their visibility.
  *
  * @author Sam Reid
  */
-public class BendingLightModel implements ResetModel {
+public abstract class BendingLightModel implements ResetModel {
     //Default values
     public static final double DEFAULT_LASER_DISTANCE_FROM_PIVOT = 8.125E-6;
-    //REVIEW: Made this final, since it seemed like it should be.
     public static final double DIAMOND_INDEX_OF_REFRACTION_FOR_RED_LIGHT = 2.419;
 
     //Mediums that can be selected
@@ -165,9 +162,8 @@ public class BendingLightModel implements ResetModel {
         }
     }
 
-    //REVIEW: If the class is made abstract, this probably should be too.
-    protected void propagateRays() {
-    }
+    //Abstract method for creating all the rays in the model after the model has been cleared
+    protected abstract void propagateRays();
 
     //Get the fraction of power transmitted through the medium
     public static double getTransmittedPower( double n1, double n2, double cosTheta1, double cosTheta2 ) {

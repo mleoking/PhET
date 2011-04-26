@@ -27,17 +27,16 @@ public class IntroModel extends BendingLightModel {
                                                                                 AIR, MediumColorFactory.getColor( AIR.getIndexOfRefractionForRedLight() ) ) );
     public final Property<Medium> bottomMedium;
 
-    //REVIEW: Why the underscore in the name, and why isn't it "bottomMediumState"?
-    public IntroModel( MediumState _bottomMedium ) {
+    public IntroModel( MediumState bottomMediumState ) {
         super( PI * 3 / 4, true, DEFAULT_LASER_DISTANCE_FROM_PIVOT );
-        bottomMedium = new Property<Medium>( new Medium( new Rectangle2D.Double( -1, -1, 2, 1 ), _bottomMedium, MediumColorFactory.getColor( _bottomMedium.getIndexOfRefractionForRedLight() ) ) );
+        this.bottomMedium = new Property<Medium>( new Medium( new Rectangle2D.Double( -1, -1, 2, 1 ), bottomMediumState, MediumColorFactory.getColor( bottomMediumState.getIndexOfRefractionForRedLight() ) ) );
 
         //Update the model when top or bottom mediums change
         new RichSimpleObserver() {
             public void update() {
                 updateModel();
             }
-        }.observe( bottomMedium, topMedium );
+        }.observe( this.bottomMedium, topMedium );
     }
 
     //Light rays were cleared from model before propagateRays was called, this creates them according to the laser and mediums

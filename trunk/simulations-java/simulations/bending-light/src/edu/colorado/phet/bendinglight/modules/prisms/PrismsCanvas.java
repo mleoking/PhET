@@ -121,16 +121,6 @@ public class PrismsCanvas extends BendingLightCanvas<PrismsModel> {
         }} );
     }
 
-    //REVIEW: This is unused.  Can it be removed?
-    public void addPrismNode( PrismNode node ) {
-        prismLayer.addChild( node );
-    }
-
-    //REVIEW: This is unused.  Can it be removed?
-    public void removePrismNode( PrismNode node ) {
-        prismLayer.removeChild( node );
-    }
-
     @Override public void resetAll() {
         super.resetAll();
         prismLayer.removeAllChildren();//see PrismToolboxNode for how prism nodes are created and managed; it doesn't use normal MVC pattern

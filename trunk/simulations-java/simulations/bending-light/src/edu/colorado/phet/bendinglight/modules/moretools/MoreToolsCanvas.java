@@ -59,8 +59,7 @@ public class MoreToolsCanvas extends IntroCanvas<MoreToolsModel> {
         return new PNode[] { createVelocitySensorTool( resetModel ), createWaveSensorTool( resetModel ) };
     }
 
-    //REVIEW: Generic type should be parameterized.
-    private ToolIconNode createWaveSensorTool( ResetModel resetModel ) {
+    private ToolIconNode<MoreToolsModel> createWaveSensorTool( ResetModel resetModel ) {
         //Create a model for depicting with the WaveSensorNode
         final Function1.Constant<ImmutableVector2D, Option<Double>> value = new Function1.Constant<ImmutableVector2D, Option<Double>>( new Option.None<Double>() );//Dummy function that always returns None
         final WaveSensor waveSensor = new WaveSensor( new ConstantDtClock(), value, value );
@@ -100,8 +99,7 @@ public class MoreToolsCanvas extends IntroCanvas<MoreToolsModel> {
         };
 
         //Create the tool itself for dragging out of the toolbox
-        //REVIEW: Generic type should be parameterized.
-        return new ToolIconNode( waveSensorNode.toImage( ICON_WIDTH, waveToolHeight, new Color( 0, 0, 0, 0 ) ), model.waveSensor.visible, transform, this, waveNodeFactory, resetModel, getToolboxBounds() );
+        return new ToolIconNode<MoreToolsModel>( waveSensorNode.toImage( ICON_WIDTH, waveToolHeight, new Color( 0, 0, 0, 0 ) ), model.waveSensor.visible, transform, this, waveNodeFactory, resetModel, getToolboxBounds() );
     }
 
     private ToolIconNode createVelocitySensorTool( ResetModel resetModel ) {
@@ -138,8 +136,7 @@ public class MoreToolsCanvas extends IntroCanvas<MoreToolsModel> {
         //Create and return the tool for dragging out of the toolbox
         final VelocitySensorNode thumbnailSensorNode = new VelocitySensorNode( transform, new VelocitySensor(), arrowScale, new Property<Function1<Double, String>>( formatter ) );
         final int velocityToolHeight = (int) ( thumbnailSensorNode.getFullBounds().getHeight() / thumbnailSensorNode.getFullBounds().getWidth() * ICON_WIDTH );
-        //REVIEW: Generic type should be parameterized.
-        return new ToolIconNode( thumbnailSensorNode.toImage( ICON_WIDTH, velocityToolHeight, new Color( 0, 0, 0, 0 ) ), showVelocitySensor, transform, this, velocityNodeFactory, resetModel, getToolboxBounds() );
+        return new ToolIconNode<MoreToolsModel>( thumbnailSensorNode.toImage( ICON_WIDTH, velocityToolHeight, new Color( 0, 0, 0, 0 ) ), showVelocitySensor, transform, this, velocityNodeFactory, resetModel, getToolboxBounds() );
     }
 
     //Gets the bounds in which tools can be dropped back in the toolbox

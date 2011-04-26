@@ -36,11 +36,8 @@ import static edu.colorado.phet.bendinglight.model.BendingLightModel.MIN_DT;
 import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.multiScaleToWidth;
 import static java.awt.Color.black;
 
-//REVIEW: The name of this class and the header comment are misleading, since
-//this class is used in the "More Tools" module as well as the "Intro"
-//module.
 /**
- * Canvas for the "intro" tab.
+ * Canvas for the "intro" tab, which is also subclassed for use in the MoreTools tab
  *
  * @author Sam Reid
  */
@@ -80,11 +77,10 @@ public class IntroCanvas<T extends IntroModel> extends BendingLightCanvas<T> {
                },
                true,
                getProtractorRotationRegion(),
-               //rotation if the user clicks anywhere on the object.
+               //rotation if the user clicks anywhere on the object
                new Function2<Shape, Shape, Shape>() {
                    public Shape apply( Shape full, Shape back ) {
-                       //REVIEW: I looked at this for a few minutes but don't get it.  What does
-                       // this function do and why does this instantiation always return full?
+                       // In this tab, clicking anywhere on the laser (i.e. on its 'full' bounds) translates it, so always return the 'full' region
                        return full;
                    }
                },
@@ -162,15 +158,13 @@ public class IntroCanvas<T extends IntroModel> extends BendingLightCanvas<T> {
             }
         };
         final ToolIconNode<T> protractor = new ToolIconNode<T>( multiScaleToWidth( RESOURCES.getImage( "protractor.png" ), ToolboxNode.ICON_WIDTH ), showProtractor,
-                                                          transform, this, protractorNodeFactory, model, new Function0<Rectangle2D>() {
+                                                                transform, this, protractorNodeFactory, model, new Function0<Rectangle2D>() {
                     public Rectangle2D apply() {
                         return toolboxNode.getGlobalFullBounds();
                     }
                 } ) {
             //Move the protractor behind the light node so that it also goes behind other controls (such as wavelength controls), since otherwise it obscures them from interaction
             @Override protected void addChild( BendingLightCanvas<T> canvas, ToolNode node ) {
-                //REVIEW: Can commented-out code be removed?
-//                canvas.addChildBehindLight( node );
                 canvas.addChildAfterLight( node );
             }
 

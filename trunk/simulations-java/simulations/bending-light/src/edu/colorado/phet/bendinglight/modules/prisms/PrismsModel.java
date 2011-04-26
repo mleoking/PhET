@@ -151,7 +151,6 @@ public class PrismsModel extends BendingLightModel {
 
     //Algorithm that computes the trajectories of the rays throughout the system
     @Override protected void propagateRays() {
-        super.propagateRays();
         if ( laser.on.getValue() ) {
             final ImmutableVector2D tail = new ImmutableVector2D( laser.emissionPoint.getValue() );
             final boolean laserInPrism = isLaserInPrism();

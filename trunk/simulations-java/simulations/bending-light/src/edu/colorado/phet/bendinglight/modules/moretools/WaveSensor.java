@@ -21,8 +21,7 @@ public class WaveSensor {
     private static final double DELTA = 1;//offset the probe so it isn't taking data by default
 
     //Set the relative location of the probes and body in model coordinates (SI)
-    //REVIEW: These values for initial probe and body locations look very specific.  Where did
-    // they come from, and why are there so many digits?
+    //These values for initial probe and body locations were obtained by printing out actual values at runtime, then dragging the objects to a good looking location.  This amount of precision is unnecessary, but these values were just sampled directly.
     public final Probe probe1 = new Probe( -4.173076923076922E-7 - DELTA, 9.180769230769231E-7 - DELTA );
     public final Probe probe2 = new Probe( -1.5440384615384618E-6 - DELTA, -1.2936538461538458E-6 - DELTA );
     public final Property<ImmutableVector2D> bodyPosition = new Property<ImmutableVector2D>( new ImmutableVector2D( 4.882500000000015E-6 - DELTA, -3.1298076923077013E-6 - DELTA ) );
