@@ -210,4 +210,7 @@ public class ImmutableVector2D implements Serializable {
         }} );
     }
 
+    public ImmutableVector2D negate() {
+        return getScaledInstance( -1 );
+    }
 }
