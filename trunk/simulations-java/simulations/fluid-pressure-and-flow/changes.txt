@@ -1,3 +1,4 @@
+Added a border around the fluid density control so it will work with the green button color
 Fixed: Fluid Density is expressed in metric (kg/m3) even when units are set to feet
 Removed balloon model and view
 Fixed: Fluid Density metric units should be HTML to show superscript

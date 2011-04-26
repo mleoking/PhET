@@ -38,7 +38,8 @@ public class ControlPanelNode extends PNode {
             final PropertyChangeListener updateSize = new PropertyChangeListener() {
                 public void propertyChange( PropertyChangeEvent evt ) {
                     final PBounds layoutSize = getControlPanelBounds( content );
-                    setPathTo( new RoundRectangle2D.Double( 0, 0, layoutSize.width + inset * 2, layoutSize.height + inset * 2, arc, arc ) );
+                    //Set the size of the border, subtracting out any local offset of the content node
+                    setPathTo( new RoundRectangle2D.Double( layoutSize.getX() - inset, layoutSize.getY() - inset, layoutSize.width + inset * 2, layoutSize.height + inset * 2, arc, arc ) );
                 }
             };
             content.addPropertyChangeListener( PROPERTY_FULL_BOUNDS, updateSize );

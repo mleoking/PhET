@@ -1,3 +1,4 @@
+4/24/11 Updated ControlPanelNode to subtract out any local offset of the content node
 4/24/11 removed PinnedLayoutNode, closes #2825
 4/25/11 Removed 'CVS Info' headers and revision text annotations from class headers in piccolo-phet
 4/24/11 Added layout nodes VBox, HBox and their parent Box (moved from bending light)
