@@ -5,36 +5,36 @@ package edu.colorado.phet.buildanatom.modules.interactiveisotope;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
 import edu.colorado.phet.buildanatom.model.BuildAnAtomClock;
-import edu.colorado.phet.buildanatom.modules.interactiveisotope.model.InteractiveIsotopeModel;
-import edu.colorado.phet.buildanatom.modules.interactiveisotope.view.InteractiveIsotopeCanvas;
+import edu.colorado.phet.buildanatom.modules.interactiveisotope.model.MakeIsotopesModel;
+import edu.colorado.phet.buildanatom.modules.interactiveisotope.view.MakeIsotopesCanvas;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 
 /**
- * Module for the Build Isotope tab.
+ * Module for the Make Isotopes tab.
  */
-public class InteractiveIsotopeModule extends PiccoloModule {
+public class MakeIsotopesModule extends PiccoloModule {
 
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
 
-    private final InteractiveIsotopeModel model;
-    private final InteractiveIsotopeCanvas canvas;
+    private final MakeIsotopesModel model;
+    private final MakeIsotopesCanvas canvas;
 
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
 
-    public InteractiveIsotopeModule() {
+    public MakeIsotopesModule() {
         super( BuildAnAtomStrings.TITLE_INTERACTIVE_ISOTOPE_MODULE, new BuildAnAtomClock() );
         setClockControlPanel( null );
 
         // Model
         BuildAnAtomClock clock = (BuildAnAtomClock) getClock();
-        model = new InteractiveIsotopeModel( clock );
+        model = new MakeIsotopesModel( clock );
 
         // Canvas
-        canvas = new InteractiveIsotopeCanvas( model );
+        canvas = new MakeIsotopesCanvas( model );
         setSimulationPanel( canvas );
 
         // Help

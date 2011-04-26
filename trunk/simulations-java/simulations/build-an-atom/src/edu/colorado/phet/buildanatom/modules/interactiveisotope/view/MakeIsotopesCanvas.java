@@ -22,7 +22,7 @@ import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
 import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
 import edu.colorado.phet.buildanatom.model.AtomListener;
 import edu.colorado.phet.buildanatom.model.IDynamicAtom;
-import edu.colorado.phet.buildanatom.modules.interactiveisotope.model.InteractiveIsotopeModel;
+import edu.colorado.phet.buildanatom.modules.interactiveisotope.model.MakeIsotopesModel;
 import edu.colorado.phet.buildanatom.view.ElementNameIndicator;
 import edu.colorado.phet.buildanatom.view.MaximizeControlNode;
 import edu.colorado.phet.buildanatom.view.ParticleCountLegend;
@@ -48,9 +48,10 @@ import edu.umd.cs.piccolox.util.LineShape;
 import edu.umd.cs.piccolox.util.XYArray;
 
 /**
- * Canvas for the tab where the user builds an atom.
+ * Canvas for the tab where the user makes isotopes of a given element by
+ * adding and removing neutrons.
  */
-public class InteractiveIsotopeCanvas extends PhetPCanvas implements Resettable {
+public class MakeIsotopesCanvas extends PhetPCanvas implements Resettable {
 
     //----------------------------------------------------------------------------
     // Class Data
@@ -63,7 +64,7 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas implements Resettable 
     //----------------------------------------------------------------------------
 
     // Model
-    private final InteractiveIsotopeModel model;
+    private final MakeIsotopesModel model;
 
     // View
     private final PNode rootNode;
@@ -80,7 +81,7 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas implements Resettable 
     // Constructor(s)
     //----------------------------------------------------------------------------
 
-    public InteractiveIsotopeCanvas( final InteractiveIsotopeModel model ) {
+    public MakeIsotopesCanvas( final MakeIsotopesModel model ) {
         this.model = model;
 
         // Set up the canvas-screen transform.
