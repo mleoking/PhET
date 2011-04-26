@@ -1,3 +1,4 @@
+Reduced font and made fonts more uniform throughout the sim
 Added a border around the fluid density control so it will work with the green button color
 Fixed: Fluid Density is expressed in metric (kg/m3) even when units are set to feet
 Removed balloon model and view

@@ -15,6 +15,7 @@ import edu.colorado.phet.fluidpressureandflow.common.FluidPressureAndFlowModule;
 import edu.colorado.phet.fluidpressureandflow.common.model.FluidPressureAndFlowModel;
 import edu.colorado.phet.fluidpressureandflow.common.model.units.Unit;
 import edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet;
+import edu.colorado.phet.fluidpressureandflow.fluidpressure.FluidPressureCanvas;
 import edu.umd.cs.piccolo.PNode;
 
 import static edu.colorado.phet.common.piccolophet.nodes.MinimizeMaximizeNode.BUTTON_LEFT;
@@ -22,7 +23,6 @@ import static edu.colorado.phet.fluidpressureandflow.common.FPAFStrings.*;
 import static edu.colorado.phet.fluidpressureandflow.common.model.FluidPressureAndFlowModel.*;
 import static edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet.ENGLISH;
 import static edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet.METRIC;
-import static edu.colorado.phet.fluidpressureandflow.fluidpressure.FluidPressureControlPanel.CONTROL_FONT;
 import static java.awt.Color.black;
 
 /**
@@ -89,7 +89,7 @@ public class FluidDensityControl<T extends FluidPressureAndFlowModel> extends PN
             }};
 
             //Button for showing/hiding the slider
-            MinimizeMaximizeNode minimizeMaximizeNode = new MinimizeMaximizeNode( FLUID_DENSITY, BUTTON_LEFT, CONTROL_FONT, black, 10 ) {{
+            MinimizeMaximizeNode minimizeMaximizeNode = new MinimizeMaximizeNode( FLUID_DENSITY, BUTTON_LEFT, FluidPressureCanvas.CONTROL_FONT, black, 10 ) {{
                 addChangeListener( new ChangeListener() {
                     public void stateChanged( ChangeEvent e ) {
                         module.fluidDensityControlVisible.setValue( isMaximized() );

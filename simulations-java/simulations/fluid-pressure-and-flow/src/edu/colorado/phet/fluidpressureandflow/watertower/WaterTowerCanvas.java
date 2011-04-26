@@ -12,6 +12,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.fluidpressureandflow.common.model.PressureSensor;
 import edu.colorado.phet.fluidpressureandflow.common.view.*;
+import edu.colorado.phet.fluidpressureandflow.fluidpressure.FluidPressureCanvas;
 import edu.colorado.phet.fluidpressureandflow.fluidpressure.FluidPressureControlPanel;
 import edu.umd.cs.piccolo.PNode;
 
@@ -58,7 +59,7 @@ public class WaterTowerCanvas extends FluidPressureAndFlowCanvas {
             setOffset( STAGE_SIZE.getWidth() - getFullBounds().getWidth() - 2, 2 );
         }};
         addChild( controlPanelNode );
-        addChild( new ResetAllButtonNode( module, this, (int) ( FluidPressureControlPanel.CONTROL_FONT.getSize() * 1.3 ), FluidPressureControlPanel.FOREGROUND, FluidPressureControlPanel.BACKGROUND ) {{
+        addChild( new ResetAllButtonNode( module, this, (int) ( FluidPressureCanvas.CONTROL_FONT.getSize() * 1.3 ), FluidPressureControlPanel.FOREGROUND, FluidPressureControlPanel.BACKGROUND ) {{
             setOffset( STAGE_SIZE.getWidth() - getFullBounds().getWidth() - 2, STAGE_SIZE.getHeight() - getFullBounds().getHeight() - 2 );
         }} );
 
