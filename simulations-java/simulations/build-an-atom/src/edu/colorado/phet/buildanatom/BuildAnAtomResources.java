@@ -25,7 +25,8 @@ public class BuildAnAtomResources {
     }
 
     public static final String getString( String name ) {
-        return RESOURCES.getLocalizedString( name  );
+        return "Xxx";
+//        return RESOURCES.getLocalizedString( name  );
     }
 
     public static final char getChar( String name, char defaultValue ) {

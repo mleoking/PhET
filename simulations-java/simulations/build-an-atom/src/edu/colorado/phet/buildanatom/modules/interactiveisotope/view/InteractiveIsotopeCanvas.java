@@ -307,7 +307,9 @@ public class InteractiveIsotopeCanvas extends PhetPCanvas implements Resettable 
                 atom.addAtomListener( new AtomListener.Adapter() {
                     @Override
                     public void configurationChanged() {
-                        setHTML( "<html><center>Other<br>" + atom.getName() + "<br>Isotopes</html>" );
+                        String caption = "<center>" + BuildAnAtomStrings.OTHER + "<br>" + atom.getName() + "<br>" +
+                            BuildAnAtomStrings.ISOTOPES + "</center>";
+                        setHTML( caption );
                         setOffset(
                                 pieChart.getFullBoundsReference().getMaxX() + 4,
                                 pieChart.getFullBoundsReference().getCenterY() - getFullBoundsReference().height / 2 );
