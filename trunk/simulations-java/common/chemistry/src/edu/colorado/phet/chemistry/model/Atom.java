@@ -52,8 +52,7 @@ public abstract class Atom {
 
     public static class B extends Atom {
         public B() {
-            // TODO: grab this color from a model kit (avogadro?)
-            super( "B", 85, 2.04, new Color( 255, 160, 122 ) );// peach/salmon colored
+            super( "B", 85, 2.04, new Color( 255, 170, 119 ) );// peach/salmon colored, CPK coloring
         }
     }
 
@@ -89,7 +88,7 @@ public abstract class Atom {
 
     public static class I extends Atom {
         public I() {
-            super( "I", 133, 2.66, new Color( 150, 0, 150 ) );
+            super( "I", 133, 2.66, new Color( 0x940094 ) ); // dark violet, CPK coloring
         }
     }
 
@@ -119,8 +118,7 @@ public abstract class Atom {
 
     public static class Si extends Atom {
         public Si() {
-            // TODO: grab this color from a model kit (avogadro?)
-            super( "Si", 118, 1.90, new Color( 100, 100, 150 ) );
+            super( "Si", 118, 1.90, new Color( 240, 200, 160 ) ); // tan, Jmol coloring listed from https://secure.wikimedia.org/wikipedia/en/wiki/CPK_coloring
         }
     }
 
