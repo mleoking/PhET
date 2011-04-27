@@ -6,13 +6,13 @@ Bugfix: drag 2 atoms to the far lower-left at the start and they are pushed to c
 Find what molecules say they are "equivalent" to each other (some isomers pulled from PubChem seem identical to the sim model)
 Detect alcohols (or other structures) and modify their molecular formulas accordingly
 Investigate "molecular workbench", see if there are any other ideas
-Possibly attempt to generate less kits? PENDING feedback
 (dev) Internationalization
 
 EVALUATION
 Animation for collection box hint arrow?
 Evaluate color scheme and BCE connection
 Only show 1 3d view of a particular molecule type at a time -- currently we only show 1 view for a particular molecule. Is this acceptable?
+Possibly attempt to generate less kits? PENDING feedback
 
 TESTING
 
