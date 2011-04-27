@@ -2,9 +2,7 @@
 
 package edu.colorado.phet.capacitorlab.view.meters;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Stroke;
+import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.CubicCurve2D;
 import java.awt.geom.Point2D;
@@ -22,10 +20,21 @@ public class ProbeWireNode extends PPath {
 
     private static final Stroke WIRE_STROKE = new BasicStroke( 3f );
 
-    private final PNode bodyNode,  probeNode;
+    private final PNode bodyNode, probeNode;
     private final Point2D bodyControlPointOffset, probeControlPointOffset;
     private final Point2D bodyConnectionOffset, probeConnectionOffset;
 
+    /**
+     * Constructor.
+     *
+     * @param bodyNode
+     * @param probeNode
+     * @param bodyControlPointOffset  cubic control point for the end of the wire that connects to the body
+     * @param probeControlPointOffset cubic control point for the end of the wire that connects to the probe
+     * @param bodyConnectionOffset    wire connection point on the body, relative to the body's origin
+     * @param probeConnectionOffset   wire connection point on the probe, relative to the probe's origin
+     * @param color                   wire color
+     */
     public ProbeWireNode( PNode bodyNode, PNode probeNode, Point2D bodyControlPointOffset, Point2D probeControlPointOffset, Point2D bodyConnectionOffset, Point2D probeConnectionOffset, Color color ) {
         setPickable( false );
         setStroke( WIRE_STROKE );
@@ -69,11 +78,12 @@ public class ProbeWireNode extends PPath {
      * Gets the point where the wire connects to a specified node.
      * The offset is used to account for rotation, and is the offset for the *unrotated* node.
      */
-    private Point2D getConnectionPoint( PNode node, Point2D offset ) {
-        double x = node.getXOffset() + offset.getX();
-        double y = node.getYOffset() + offset.getY();
-        // rotate the connection point to match the node's rotation
+    private Point2D getConnectionPoint( PNode node, Point2D connectionOffset ) {
+        // create a transform that matches the node's rotation
         AffineTransform t = AffineTransform.getRotateInstance( node.getRotation(), node.getXOffset(), node.getYOffset() );
+        // rotate the connection point to match the node's rotation
+        double x = node.getXOffset() + connectionOffset.getX();
+        double y = node.getYOffset() + connectionOffset.getY();
         return t.transform( new Point2D.Double( x, y ), null );
     }
 }

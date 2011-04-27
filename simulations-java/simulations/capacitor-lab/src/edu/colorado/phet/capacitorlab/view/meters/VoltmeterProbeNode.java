@@ -22,12 +22,9 @@ import edu.umd.cs.piccolo.nodes.PImage;
  */
 /* package private */ abstract class VoltmeterProbeNode extends PhetPNode {
 
-    private final Voltmeter voltmeter;
     private final Point2D connectionOffset; // offset for connection point of wire that attaches probe to body
 
     public VoltmeterProbeNode( Image image, Voltmeter voltmeter, CLModelViewTransform3D mvt ) {
-
-        this.voltmeter = voltmeter;
 
         PImage imageNode = new PImage( image );
         addChild( imageNode );
@@ -44,10 +41,6 @@ import edu.umd.cs.piccolo.nodes.PImage;
         addDragHandler( voltmeter, mvt );
 
         addLocationObserver( voltmeter, mvt );
-    }
-
-    protected Voltmeter getVoltmeter() {
-        return voltmeter;
     }
 
     public Point2D getConnectionOffset() {
