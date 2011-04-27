@@ -34,8 +34,4 @@ public abstract class CLCanvas extends PhetPCanvas {
             rootNode.removeChild( node );
         }
     }
-
-    protected boolean isRootChild( PNode node ) {
-        return rootNode.getChildrenReference().contains( node );
-    }
 }
