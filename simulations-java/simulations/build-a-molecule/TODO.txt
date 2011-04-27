@@ -1,6 +1,6 @@
-* Arrow and message that "Collect your molecule!" at the start. Points to correct collection box.
 * Add in a sound when a collection box is filled
 
+Animation for collection box hint arrow?
 Synchronize colors with Jmol (sulfur and others look different colors in 3d views) -- Emily preference for matching Jmol colors
 Drop-down menu. Options: "Show in 3D", possibly show chemical formula, possibly option to move to collection box
 Only show 1 3d view of a particular molecule type at a time

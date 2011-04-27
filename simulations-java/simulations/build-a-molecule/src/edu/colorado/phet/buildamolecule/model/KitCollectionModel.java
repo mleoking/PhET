@@ -95,6 +95,15 @@ public class KitCollectionModel {
         } );
     }
 
+    public CollectionBox getFirstTargetBox( MoleculeStructure structure ) {
+        for ( CollectionBox box : boxes ) {
+            if ( box.willAllowMoleculeDrop( structure ) ) {
+                return box;
+            }
+        }
+        return null;
+    }
+
     public void addCollectionBox( CollectionBox box ) {
         boxes.add( box );
 
