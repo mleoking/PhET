@@ -10,11 +10,12 @@ import java.text.DecimalFormat;
 import java.text.MessageFormat;
 import java.text.NumberFormat;
 
+import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLImages;
+import edu.colorado.phet.capacitorlab.CLPaints;
 import edu.colorado.phet.capacitorlab.CLStrings;
 import edu.colorado.phet.capacitorlab.drag.LocationDragHandler;
-import edu.colorado.phet.capacitorlab.model.BarMeter;
-import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
+import edu.colorado.phet.capacitorlab.model.*;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -37,6 +38,41 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public abstract class BarMeterNode extends PhetPNode {
+
+    /**
+     * Meter that displays capacitance.
+     */
+    public static class CapacitanceMeterNode extends BarMeterNode {
+        public CapacitanceMeterNode( CapacitanceMeter meter, final CLModelViewTransform3D mvt ) {
+            super( meter, mvt, CLPaints.CAPACITANCE, CLStrings.CAPACITANCE, "0.00", CLConstants.CAPACITANCE_METER_VALUE_EXPONENT, CLStrings.FARADS );
+        }
+    }
+
+    /**
+     * Meter that displays absolute charge on the capacitor plates.
+     */
+    public static class PlateChargeMeterNode extends BarMeterNode {
+
+        public PlateChargeMeterNode( PlateChargeMeter meter, CLModelViewTransform3D mvt ) {
+            super( meter, mvt, CLPaints.POSITIVE_CHARGE, CLStrings.PLATE_CHARGE_TOP, "0.00", CLConstants.PLATE_CHARGE_METER_VALUE_EXPONENT, CLStrings.COULOMBS );
+        }
+
+        // This meter displays absolute value, and changes color to indicate positive or negative charge.
+        @Override
+        protected void setValue( double value ) {
+            super.setValue( Math.abs( value ) );
+            setBarColor( ( value >= 0 ) ? CLPaints.POSITIVE_CHARGE : CLPaints.NEGATIVE_CHARGE );
+        }
+    }
+
+    /**
+     * Meter that displays stored energy.
+     */
+    public static class StoredEnergyMeterNode extends BarMeterNode {
+        public StoredEnergyMeterNode( StoredEnergyMeter meter, final CLModelViewTransform3D mvt ) {
+            super( meter, mvt, CLPaints.STORED_ENERGY, CLStrings.STORED_ENERGY, "0.00", CLConstants.STORED_ENERGY_METER_VALUE_EXPONENT, CLStrings.JOULES );
+        }
+    }
 
     // track
     private static final PDimension TRACK_SIZE = new PDimension( 50, 200 );
