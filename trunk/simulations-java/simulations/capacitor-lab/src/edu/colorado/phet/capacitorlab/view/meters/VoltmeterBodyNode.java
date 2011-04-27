@@ -30,7 +30,7 @@ import edu.umd.cs.piccolo.util.PBounds;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class VoltmeterBodyNode extends PhetPNode {
+/* package private */ class VoltmeterBodyNode extends PhetPNode {
 
     // body of the meter
     private static final Image BODY_IMAGE = CLImages.VOLTMETER;

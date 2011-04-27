@@ -48,7 +48,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class EFieldDetectorBodyNode extends PhetPNode {
+/* package private */ class EFieldDetectorBodyNode extends PhetPNode {
 
     private static final Font TITLE_FONT = new PhetFont( Font.BOLD, 18 );
     private static final Color TITLE_COLOR = Color.WHITE;
