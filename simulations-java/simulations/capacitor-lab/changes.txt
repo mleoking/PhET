@@ -1,3 +1,4 @@
+4/27/11 big simplification of VoltmeterProbeNode hierarchy
 4/27/11 simplify WorldLocationDragHandler by operating directly on a WorldLocationProperty
 4/27/11 change visibility of some view object subcomponents to "package private"
 4/27/11 cleanup BarMeterNode class hierarchy
