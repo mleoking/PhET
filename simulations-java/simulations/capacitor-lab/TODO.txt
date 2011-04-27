@@ -16,11 +16,14 @@ HIGH PRIORITY
 - one current indicator on multi-cap circuits, near battery poles (like in other tabs)
 
 MEDUIUM PRIORITY
-- convert DielectricMaterialControl to use Property<DielectricMaterial> and PropertyRadioButton
-- convert DielectricConstantControl to use Property<Double>
-- convert VoltageSliderNode to use Property<Double>
-- convert PlateChargeControlNode to use Property<Double>
-- convert BatteryConnectionButtonNode to use Property<Boolean>
+- add "air" dielectric, figure out how to make it the dielectric in Intro tab
+- redesign "IntroductionModule extends DielectricModule"
+- convert DielectricMaterialControl to use PropertyRadioButton and Property<DielectricMaterial> dielectricMaterial
+- convert DielectricConstantControl to use Property<Double> dielectricConstant
+- convert VoltageSliderNode to use Property<Double> voltage
+- convert PlateChargeControlNode to use Property<Double> disconnectedPlateCharge
+- convert BatteryConnectionButtonNode to use Property<Boolean> batteryConnected
+- convert CurrentIndicatorNode to observer of Property<Double> currentAmplitude
 - merge MultipleCapacitorsModule/Model/Canvas/ControlPanel into DielectricModule/Model/Canvas/ControlPanel
 - add setCircuit methods to all persistent controls
 
