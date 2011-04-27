@@ -9,7 +9,7 @@ package edu.colorado.phet.common.phetcommon.view.controls.valuecontrol;
  */
 public class LinearSlider extends AbstractSlider {
 
-    private static final int DEFAULT_SLIDER_RESOLUTION = 1000;
+    public static final int DEFAULT_SLIDER_RESOLUTION = 1000;
 
     public LinearSlider( double min, double max ) {
         this( min, max, DEFAULT_SLIDER_RESOLUTION );
