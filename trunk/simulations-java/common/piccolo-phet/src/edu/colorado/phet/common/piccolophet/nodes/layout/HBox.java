@@ -9,7 +9,6 @@ import java.awt.image.BufferedImage;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
-import edu.colorado.phet.common.phetcommon.util.function.Function3;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -24,7 +23,7 @@ import edu.umd.cs.piccolo.util.PBounds;
  *
  * @author Sam Reid
  */
-public class HBox extends edu.colorado.phet.common.piccolophet.nodes.layout.Box {
+public class HBox extends Box {
     //Creates an HBox with the default spacing and specified children to add
     public HBox( PNode... children ) {
         this( 10, children );
@@ -48,13 +47,12 @@ public class HBox extends edu.colorado.phet.common.piccolophet.nodes.layout.Box 
                    }
                },
                //Determine the position to place the node, given its center line, bounds and spaced position
-               new Function3<Double, PBounds, Double, Point2D>() {
-                   public Point2D apply( Double center, PBounds bounds, Double position ) {
-                       return new Point2D.Double( position, center - bounds.getHeight() / 2 );
+               new PositionStrategy() {
+                   public Point2D getRelativePosition( PNode node, double maxSize, double location ) {
+                       return new Point2D.Double( location, maxSize / 2 - node.getFullBounds().getHeight() / 2 );
                    }
                },
                children );
-
     }
 
     //Test

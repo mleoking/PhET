@@ -5,7 +5,6 @@ import java.awt.geom.Point2D;
 import java.util.Comparator;
 
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
-import edu.colorado.phet.common.phetcommon.util.function.Function3;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PBounds;
@@ -22,18 +21,18 @@ import static java.util.Collections.max;
 public class Box extends PhetPNode {
     private final Function1<PBounds, Double> getPanelDimension;//Function that determines the layout size to use (e.g. full width or height) of a node.  In the VBox it determines the width of nodes to set the width of the whole vbox
     private final Function1<PBounds, Double> getNodeDimension;//Function that determines the size of a node for purposes of placing nodes next to each other.
-    private Function3<Double, PBounds, Double, Point2D> getRelativePosition;//Compute the Point2D that positions the node in the layout (not accounting for its local origin, which is handled elsewhere)
+    private PositionStrategy positionStrategy;//Compute the Point2D that positions the node in the layout (not accounting for its local origin, which is handled elsewhere)
     private final int spacing;//distance between nodes in the layout
 
-    public Box( Function1<PBounds, Double> getPanelDimension, Function1<PBounds, Double> getNodeDimension, Function3<Double, PBounds, Double, Point2D> getRelativePosition ) {
-        this( 0, getPanelDimension, getNodeDimension, getRelativePosition );
+    public Box( Function1<PBounds, Double> getPanelDimension, Function1<PBounds, Double> getNodeDimension, PositionStrategy positionStrategy ) {
+        this( 0, getPanelDimension, getNodeDimension, positionStrategy );
     }
 
-    public Box( int spacing, Function1<PBounds, Double> getPanelDimension, Function1<PBounds, Double> getNodeDimension, Function3<Double, PBounds, Double, Point2D> getRelativePosition, PNode... children ) {
+    public Box( int spacing, Function1<PBounds, Double> getPanelDimension, Function1<PBounds, Double> getNodeDimension, PositionStrategy positionStrategy, PNode... children ) {
         this.spacing = spacing;
         this.getPanelDimension = getPanelDimension;
         this.getNodeDimension = getNodeDimension;
-        this.getRelativePosition = getRelativePosition;
+        this.positionStrategy = positionStrategy;
 
         //Add any children provided in the constructor
         for ( PNode child : children ) {
@@ -45,6 +44,11 @@ public class Box extends PhetPNode {
     @Override public void addChild( int index, PNode child ) {
         super.addChild( index, child );
         updateLayout();
+    }
+
+    //Interface that chooses where to place a child PNode based layout constraints such as max size and accumulated location thus far.
+    public static interface PositionStrategy {
+        Point2D getRelativePosition( PNode node, double maxSize, double location );
     }
 
     //Layout the nodes in a vertical fashion, keeping them centered
@@ -67,7 +71,7 @@ public class Box extends PhetPNode {
             double childOriginY = bounds.getY() - child.getOffset().getY();
 
             //Determine where to put the node and do so
-            Point2D relativePosition = getRelativePosition.apply( maxSize / 2, bounds, position );
+            Point2D relativePosition = positionStrategy.getRelativePosition( child, maxSize, position );
             child.setOffset( relativePosition.getX() - childOriginX, relativePosition.getY() - childOriginY );
 
             //Move the position accumulator to the next space for the next node
