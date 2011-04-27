@@ -14,9 +14,8 @@ import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLImages;
 import edu.colorado.phet.capacitorlab.CLPaints;
 import edu.colorado.phet.capacitorlab.CLStrings;
-import edu.colorado.phet.capacitorlab.drag.LocationDragHandler;
+import edu.colorado.phet.capacitorlab.drag.WorldLocationDragHandler;
 import edu.colorado.phet.capacitorlab.model.*;
-import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
@@ -210,16 +209,7 @@ public abstract class BarMeterNode extends PhetPNode {
             }
         } );
         addInputEventListener( new CursorHandler() );
-        addInputEventListener( new LocationDragHandler( this, mvt ) {
-
-            protected Point3D getModelLocation() {
-                return meter.locationProperty.getValue();
-            }
-
-            protected void setModelLocation( Point3D location ) {
-                meter.locationProperty.setValue( location );
-            }
-        } );
+        addInputEventListener( new WorldLocationDragHandler( meter.locationProperty, this, mvt ) );
 
         // layout
         updateLayout();

@@ -6,10 +6,9 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.capacitorlab.CLImages;
-import edu.colorado.phet.capacitorlab.drag.LocationDragHandler;
+import edu.colorado.phet.capacitorlab.drag.WorldLocationDragHandler;
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.colorado.phet.capacitorlab.model.Voltmeter;
-import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -62,16 +61,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
 
         @Override
         protected void addDragHandler( final Voltmeter voltmeter, final CLModelViewTransform3D mvt ) {
-            addInputEventListener( new LocationDragHandler( this, mvt ) {
-
-                protected Point3D getModelLocation() {
-                    return voltmeter.positiveProbeLocationProperty.getValue();
-                }
-
-                protected void setModelLocation( Point3D location ) {
-                    voltmeter.positiveProbeLocationProperty.setValue( location );
-                }
-            } );
+            addInputEventListener( new WorldLocationDragHandler( voltmeter.positiveProbeLocationProperty, this, mvt ) );
         }
 
         @Override
@@ -95,16 +85,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
 
         @Override
         protected void addDragHandler( final Voltmeter voltmeter, final CLModelViewTransform3D mvt ) {
-            addInputEventListener( new LocationDragHandler( this, mvt ) {
-
-                protected Point3D getModelLocation() {
-                    return voltmeter.negativeProbeLocationProperty.getValue();
-                }
-
-                protected void setModelLocation( Point3D location ) {
-                    voltmeter.negativeProbeLocationProperty.setValue( location );
-                }
-            } );
+            addInputEventListener( new WorldLocationDragHandler( voltmeter.negativeProbeLocationProperty, this, mvt ) );
         }
 
         @Override

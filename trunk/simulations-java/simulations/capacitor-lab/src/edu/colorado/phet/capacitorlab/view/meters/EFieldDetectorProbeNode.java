@@ -7,10 +7,9 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.capacitorlab.CLImages;
-import edu.colorado.phet.capacitorlab.drag.LocationDragHandler;
+import edu.colorado.phet.capacitorlab.drag.WorldLocationDragHandler;
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.colorado.phet.capacitorlab.model.EFieldDetector;
-import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -60,16 +59,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
         } );
 
         addInputEventListener( new CursorHandler() );
-        addInputEventListener( new LocationDragHandler( this, mvt ) {
-
-            protected Point3D getModelLocation() {
-                return detector.probeLocationProperty.getValue();
-            }
-
-            protected void setModelLocation( Point3D location ) {
-                detector.probeLocationProperty.setValue( location );
-            }
-        } );
+        addInputEventListener( new WorldLocationDragHandler( detector.probeLocationProperty, this, mvt ) );
     }
 
     public Point2D getConnectionOffset() {

@@ -5,18 +5,20 @@ package edu.colorado.phet.capacitorlab.drag;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
-import edu.colorado.phet.common.phetcommon.math.Point3D;
+import edu.colorado.phet.capacitorlab.model.WorldLocationProperty;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragSequenceEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
 /**
- * Base class for all drag handlers that set a model element's location.
+ * Drag handler that modify a WorldLocationProperty,
+ * typically used to model an object's 3D location.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class LocationDragHandler extends PDragSequenceEventHandler {
+public class WorldLocationDragHandler extends PDragSequenceEventHandler {
 
+    private final WorldLocationProperty locationProperty;
     private final PNode dragNode;
     private final CLModelViewTransform3D mvt;
 
@@ -25,26 +27,22 @@ public abstract class LocationDragHandler extends PDragSequenceEventHandler {
     /**
      * Constructor.
      *
-     * @param dragNode the node being dragged
-     * @param mvt      transform between model and view coordinate frames
+     * @param locationProperty the location we're controlling
+     * @param dragNode         the node being dragged
+     * @param mvt              transform between model and view coordinate frames
      */
-    public LocationDragHandler( PNode dragNode, CLModelViewTransform3D mvt ) {
+    public WorldLocationDragHandler( WorldLocationProperty locationProperty, PNode dragNode, CLModelViewTransform3D mvt ) {
+        this.locationProperty = locationProperty;
         this.dragNode = dragNode;
         this.mvt = mvt;
     }
-
-    // Gets the current value of the model location that we're controlling.
-    protected abstract Point3D getModelLocation();
-
-    // Sets the new value of the model location that we're controlling.
-    protected abstract void setModelLocation( Point3D location );
 
     // When we start the drag, compute offset from dragNode's origin.
     @Override
     protected void startDrag( PInputEvent event ) {
         super.startDrag( event );
         Point2D pMouse = event.getPositionRelativeTo( dragNode.getParent() );
-        Point2D pOrigin = mvt.modelToViewDelta( getModelLocation() );
+        Point2D pOrigin = mvt.modelToViewDelta( locationProperty.getValue() );
         clickXOffset = pMouse.getX() - pOrigin.getX();
         clickYOffset = pMouse.getY() - pOrigin.getY();
     }
@@ -56,6 +54,6 @@ public abstract class LocationDragHandler extends PDragSequenceEventHandler {
         Point2D pMouse = event.getPositionRelativeTo( dragNode.getParent() );
         double xView = pMouse.getX() - clickXOffset;
         double yView = pMouse.getY() - clickYOffset;
-        setModelLocation( mvt.viewToModel( xView, yView ) );
+        locationProperty.setValue( mvt.viewToModel( xView, yView ) );
     }
 }

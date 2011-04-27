@@ -17,10 +17,9 @@ import javax.swing.*;
 import edu.colorado.phet.capacitorlab.CLImages;
 import edu.colorado.phet.capacitorlab.CLPaints;
 import edu.colorado.phet.capacitorlab.CLStrings;
-import edu.colorado.phet.capacitorlab.drag.LocationDragHandler;
+import edu.colorado.phet.capacitorlab.drag.WorldLocationDragHandler;
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.colorado.phet.capacitorlab.model.EFieldDetector;
-import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -179,16 +178,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 
         // interactivity
         addInputEventListener( new CursorHandler() );
-        addInputEventListener( new LocationDragHandler( this, mvt ) {
-
-            protected Point3D getModelLocation() {
-                return detector.bodyLocationProperty.getValue();
-            }
-
-            protected void setModelLocation( Point3D location ) {
-                detector.bodyLocationProperty.setValue( location );
-            }
-        } );
+        addInputEventListener( new WorldLocationDragHandler( detector.bodyLocationProperty, this, mvt ) );
 
         // observers
         {
