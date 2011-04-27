@@ -9,6 +9,7 @@ import edu.colorado.phet.capacitorlab.model.DielectricMaterial.Glass;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial.Paper;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial.Teflon;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 
 /**
@@ -33,7 +34,7 @@ public class DielectricModel {
     private final EFieldDetector eFieldDetector;
     private final Voltmeter voltmeter;
 
-    public DielectricModel( CLClock clock, CLModelViewTransform3D mvt ) {
+    public DielectricModel( IClock clock, CLModelViewTransform3D mvt ) {
 
         world = new World();
 

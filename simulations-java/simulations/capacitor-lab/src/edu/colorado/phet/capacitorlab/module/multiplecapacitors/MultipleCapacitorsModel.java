@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.model.*;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
@@ -28,7 +29,7 @@ public class MultipleCapacitorsModel {
     private final EFieldDetector eFieldDetector;
     private final Voltmeter voltmeter;
 
-    public MultipleCapacitorsModel( CLClock clock, CLModelViewTransform3D mvt ) {
+    public MultipleCapacitorsModel( IClock clock, CLModelViewTransform3D mvt ) {
 
         // create circuits
         circuits = new ArrayList<ICircuit>() {{

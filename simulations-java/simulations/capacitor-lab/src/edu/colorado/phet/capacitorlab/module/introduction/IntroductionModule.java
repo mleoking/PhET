@@ -2,15 +2,14 @@
 
 package edu.colorado.phet.capacitorlab.module.introduction;
 
-import java.awt.Frame;
-
 import edu.colorado.phet.capacitorlab.CLConstants;
+import edu.colorado.phet.capacitorlab.CLGlobalProperties;
 import edu.colorado.phet.capacitorlab.CLStrings;
 import edu.colorado.phet.capacitorlab.module.dielectric.DielectricModule;
 
 /**
  * The "Introduction" module.
- * <p>
+ * <p/>
  * This module is identical to the "Dielectric" module, except that:
  * <ul>
  * <li>the dielectric is not visible
@@ -23,8 +22,8 @@ import edu.colorado.phet.capacitorlab.module.dielectric.DielectricModule;
  */
 public class IntroductionModule extends DielectricModule {
 
-    public IntroductionModule( Frame parentFrame, boolean dev ) {
-        super( CLStrings.INTRODUCTION, parentFrame, dev );
+    public IntroductionModule( CLGlobalProperties globalProperties ) {
+        super( CLStrings.INTRODUCTION, globalProperties );
         setDielectricVisible( false );
         setDielectricPropertiesControlPanelVisible( false );
         setEFieldDetectorSimplified( true );

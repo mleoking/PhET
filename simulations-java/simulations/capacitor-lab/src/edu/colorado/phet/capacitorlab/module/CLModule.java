@@ -12,18 +12,9 @@ import edu.colorado.phet.common.piccolophet.PiccoloModule;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public abstract class CLModule extends PiccoloModule {
-
     public CLModule( String title ) {
         super( title, new CLClock(), false /* startsPaused */ );
-        setLogoPanel( null );
+        setLogoPanel( null ); // workaround for #2015
         setClockControlPanel( null );
     }
-
-    public CLClock getCLClock() {
-        return (CLClock)getClock();
-    }
-
-    public abstract void setEFieldShapesDebugEnabled( boolean enabled );
-
-    public abstract void setVoltageShapesDebugEnabled( boolean enabled );
 }

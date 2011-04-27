@@ -2,8 +2,7 @@
 
 package edu.colorado.phet.capacitorlab.module.dielectric;
 
-import java.awt.*;
-
+import edu.colorado.phet.capacitorlab.CLGlobalProperties;
 import edu.colorado.phet.capacitorlab.CLStrings;
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.colorado.phet.capacitorlab.module.CLModule;
@@ -19,21 +18,21 @@ public class DielectricModule extends CLModule {
     private final DielectricCanvas canvas;
     private final DielectricControlPanel controlPanel;
 
-    public DielectricModule( Frame parentFrame, boolean dev ) {
-        this( CLStrings.DIELECTRIC, parentFrame, dev );
+    public DielectricModule( CLGlobalProperties globalProperties ) {
+        this( CLStrings.DIELECTRIC, globalProperties );
     }
 
-    protected DielectricModule( String title, Frame parentFrame, boolean dev ) {
+    protected DielectricModule( String title, CLGlobalProperties globalProperties ) {
         super( title );
 
         CLModelViewTransform3D mvt = new CLModelViewTransform3D();
 
-        model = new DielectricModel( getCLClock(), mvt );
+        model = new DielectricModel( getClock(), mvt );
 
-        canvas = new DielectricCanvas( model, mvt, dev );
+        canvas = new DielectricCanvas( model, mvt, globalProperties );
         setSimulationPanel( canvas );
 
-        controlPanel = new DielectricControlPanel( parentFrame, this, model, canvas, dev );
+        controlPanel = new DielectricControlPanel( this, model, globalProperties );
         setControlPanel( controlPanel );
 
         reset();
@@ -44,14 +43,6 @@ public class DielectricModule extends CLModule {
         super.reset();
         model.reset();
         canvas.reset();
-    }
-
-    public void setEFieldShapesDebugEnabled( boolean enabled ) {
-        canvas.setEFieldShapesVisible( enabled );
-    }
-
-    public void setVoltageShapesDebugEnabled( boolean enabled ) {
-        canvas.setVoltageShapesVisible( enabled );
     }
 
     protected void setDielectricVisible( boolean visible ) {
@@ -68,13 +59,5 @@ public class DielectricModule extends CLModule {
 
     protected void setEFieldDetectorSimplified( boolean simplified ) {
         canvas.setEFieldDetectorSimplified( simplified );
-    }
-
-    protected void setEFieldDetectorDielectricVisible( boolean visible ) {
-        model.getEFieldDetector().dielectricVisibleProperty.setValue( visible );
-    }
-
-    protected void setEFieldDetectorSumVisible( boolean visible ) {
-        model.getEFieldDetector().sumVisibleProperty.setValue( visible );
     }
 }

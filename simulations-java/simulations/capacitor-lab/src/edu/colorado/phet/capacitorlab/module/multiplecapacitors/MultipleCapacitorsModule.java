@@ -2,8 +2,7 @@
 
 package edu.colorado.phet.capacitorlab.module.multiplecapacitors;
 
-import java.awt.*;
-
+import edu.colorado.phet.capacitorlab.CLGlobalProperties;
 import edu.colorado.phet.capacitorlab.CLStrings;
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.colorado.phet.capacitorlab.module.CLModule;
@@ -19,17 +18,17 @@ public class MultipleCapacitorsModule extends CLModule {
     private final MultipleCapacitorsCanvas canvas;
     private final MultipleCapacitorsControlPanel controlPanel;
 
-    public MultipleCapacitorsModule( Frame parentFrame, boolean dev ) {
+    public MultipleCapacitorsModule( CLGlobalProperties globalProperties ) {
         super( CLStrings.MULTIPLE_CAPACITORS );
 
         CLModelViewTransform3D mvt = new CLModelViewTransform3D();
 
-        model = new MultipleCapacitorsModel( getCLClock(), mvt );
+        model = new MultipleCapacitorsModel( getClock(), mvt );
 
-        canvas = new MultipleCapacitorsCanvas( model, mvt, dev );
+        canvas = new MultipleCapacitorsCanvas( model, mvt, globalProperties );
         setSimulationPanel( canvas );
 
-        controlPanel = new MultipleCapacitorsControlPanel( parentFrame, this, model, canvas, dev );
+        controlPanel = new MultipleCapacitorsControlPanel( this, model, globalProperties );
         setControlPanel( controlPanel );
     }
 
@@ -38,13 +37,5 @@ public class MultipleCapacitorsModule extends CLModule {
         super.reset();
         model.reset();
         canvas.reset();
-    }
-
-    public void setEFieldShapesDebugEnabled( boolean enabled ) {
-        //XXX
-    }
-
-    public void setVoltageShapesDebugEnabled( boolean enabled ) {
-        //XXX
     }
 }
