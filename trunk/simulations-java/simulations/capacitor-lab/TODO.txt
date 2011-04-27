@@ -17,6 +17,10 @@ HIGH PRIORITY
 - one current indicator on multi-cap circuits, near battery poles
 
 MEDUIUM PRIORITY
+- convert DielectricMaterialControl to use Property<DielectricMaterial> and PropertyRadioButton
+- convert DielectricConstantControl to use Property<Double>
+- convert VoltageSliderNode to use Property<Double>
+- convert PlateChargeControlNode to use Property<Double>
 - Win: need some space between dielectric material combo box and separator below it
 - add circuit construction to Multiple Capacitors tab?
 

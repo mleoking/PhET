@@ -1,3 +1,4 @@
+4/27/11 change World to "WorldBounds extends Property"
 4/27/11 convert to using global properties for things controlled from the menu bar
 4/27/11 big simplification of VoltmeterProbeNode hierarchy
 4/27/11 simplify WorldLocationDragHandler by operating directly on a WorldLocationProperty

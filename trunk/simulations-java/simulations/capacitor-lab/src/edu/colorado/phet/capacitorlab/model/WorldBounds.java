@@ -9,32 +9,29 @@ import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 
 /**
- * World coordinate system for the model.
- * The primary purpose of this class is to define the visible bounds of the world,
- * so that we can constrain object locations and dragging.
+ * Bounds of the world coordinate system for the model.
+ * This is a 2D bounds, and defines the bounds of the x and y axes; the z axis is infinite.
+ * Primarily used to constrain object locations when dragging and resizing the canvas.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class World {
+public class WorldBounds extends Property<Rectangle2D> {
 
-    // publicly observable properties
-    public final Property<Rectangle2D> boundsProperty; // meters
-
-    public World() {
-        this.boundsProperty = new Property<Rectangle2D>( new Rectangle2D.Double() );
+    public WorldBounds() {
+        super( new Rectangle2D.Double() ); //TODO questionable aspect of this approach is that we start with empty bounds until the canvas is realized
     }
 
     // Convenience method for setting bounds property
     public void setBounds( double x, double y, double width, double height ) {
-        boundsProperty.setValue( new Rectangle2D.Double( x, y, width, height ) );
+        setValue( new Rectangle2D.Double( x, y, width, height ) );
     }
 
-    public boolean isBoundsEmpty() {
-        return boundsProperty.getValue().getWidth() == 0 || boundsProperty.getValue().getHeight() == 0;
+    public boolean isEmpty() {
+        return getValue().getWidth() == 0 || getValue().getHeight() == 0;
     }
 
     public boolean contains( Point3D p ) {
-        return boundsProperty.getValue().contains( p.getX(), p.getY() );
+        return getValue().contains( p.getX(), p.getY() );
     }
 
     /**
@@ -42,15 +39,16 @@ public class World {
      * In all cases, this returns a new Point3D.
      *
      * @param p
+     * @param margin
      * @return
      */
-    public Point3D getConstrainedLocation( Point3D p, double margin ) {
+    public Point3D getClosest( Point3D p, double margin ) {
         Point3D pConstrained = null;
-        if ( isBoundsEmpty() ) {
+        if ( isEmpty() ) {
             pConstrained = new Point3D.Double( p );
         }
         else {
-            final Rectangle2D bounds = boundsProperty.getValue();
+            final Rectangle2D bounds = getValue();
 
             // adjust x coordinate
             double newX = p.getX();
@@ -78,7 +76,7 @@ public class World {
         return pConstrained;
     }
 
-    public Point3D getConstrainedLocation( Point3D p ) {
-        return getConstrainedLocation( p, CLConstants.WORLD_DRAG_MARGIN );
+    public Point3D getClosest( Point3D p ) {
+        return getClosest( p, CLConstants.WORLD_DRAG_MARGIN );
     }
 }
