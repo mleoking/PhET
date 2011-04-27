@@ -5,9 +5,8 @@
 
 ball.png author=PhET 
 blackhole_large_2.jpg 
-bugboard.gif source=microsoft clip art notes=board from j0355709.wmf and bug from j0091003.wmf
-bulldog.png source=microsoft clip art notes=bulldog from AN00261_.wmf and skateboard from HH01336_.wmf 
-earth-background.jpg author=PhET 
+bugboard.gif (board) source= Open Clip Art notes="skateboard", 'http://www.openclipart.org/detail/2239' (bug) source=Open Clip Art notes="insect 16", 'http://www.openclipart.org/detail/45511'
+bulldog.png (board) source= Open Clip Art notes="skateboard", 'http://www.openclipart.org/detail/2239' (bulldog) source=Wikimedia Commons notes="Racibórz 2007 082", 'http://commons.wikimedia.org/wiki/File:Racib%C3%B3rz_2007_082.jpg'earth-background.jpg author=PhET 
 earth3.jpg author=PhET 
 house.png author=PhET 
 jupiter4.jpg 
@@ -16,8 +15,8 @@ moon2.jpg
 mountains.gif author=PhET 
 peicon.png author=PhET 
 red-ball.png author=PhET 
-rocket5.png source=microsoft notes=  j0359473.wmf  
-ruler-thumb.png source=microsoft notes=j0290924.wmf 
+rocket5.png source= Open Clip Art notes="Rocket blue and red", 'http://www.openclipart.org/detail/116911'
+ruler-thumb.png source= Open Clip Art notes="Ruller", 'http://www.openclipart.org/detail/13549'
 skater3.png author=PhET 
 starskater2.gif author=PhET 
 tape.gif author=PhET 
