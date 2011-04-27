@@ -1,3 +1,4 @@
+Moved static clamp method from rotation's MathUtil to the usage class, and deleted rotation's MathUtil to avoid name clash with phetcommon's MathUtil
 Fixed: RotationRulerNode was broken after base class RulerNode received bugfixes, see #2678
 # 1.09.02 (39831) Apr 12, 2010
 # 1.09.02 (39830) Apr 12, 2010
