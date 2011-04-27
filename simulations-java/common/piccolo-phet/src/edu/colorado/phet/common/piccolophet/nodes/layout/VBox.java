@@ -9,7 +9,6 @@ import java.awt.image.BufferedImage;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
-import edu.colorado.phet.common.phetcommon.util.function.Function3;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -48,9 +47,9 @@ public class VBox extends Box {
                    }
                },
                //Determine the position to place the node, given its center line, bounds and spaced position
-               new Function3<Double, PBounds, Double, Point2D>() {
-                   public Point2D apply( Double center, PBounds bounds, Double position ) {
-                       return new Point2D.Double( center - bounds.getWidth() / 2, position );
+               new PositionStrategy() {
+                   public Point2D getRelativePosition( PNode node, double maxSize, double location ) {
+                       return new Point2D.Double( maxSize / 2 - node.getFullBounds().getWidth() / 2, location );
                    }
                },
                children );
