@@ -40,7 +40,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
 
         connectionOffset = new Point2D.Double( 0, imageNode.getFullBoundsReference().getHeight() + y ); // connect wire to bottom center
 
-        // rotate after computing the connection offset
+        // image is vertical, rotate into pseudo-3D perspective after computing the connection offset
         rotate( -mvt.getYaw() );
 
         // Put a dot at origin to check that probe image is offset properly.
@@ -52,16 +52,19 @@ import edu.umd.cs.piccolo.nodes.PPath;
             addChild( originNode );
         }
 
+        // make draggable
+        addInputEventListener( new CursorHandler() );
+        addInputEventListener( new WorldLocationDragHandler( detector.probeLocationProperty, this, mvt ) );
+
+        // move the node when the model changes
         detector.probeLocationProperty.addObserver( new SimpleObserver() {
             public void update() {
                 setOffset( mvt.modelToView( detector.probeLocationProperty.getValue() ) );
             }
         } );
-
-        addInputEventListener( new CursorHandler() );
-        addInputEventListener( new WorldLocationDragHandler( detector.probeLocationProperty, this, mvt ) );
     }
 
+    // Gets the point, relative to the probe, where the wire connects to the probe.
     public Point2D getConnectionOffset() {
         return new Point2D.Double( connectionOffset.getX(), connectionOffset.getY() );
     }
