@@ -2,16 +2,14 @@
 
 package edu.colorado.phet.capacitorlab.drag;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Stroke;
+import java.awt.*;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 
 import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
- * Dashed line used to connect a drag handle to the thing that its dragging.
+ * Dashed line used to connect a drag handle to the thing that it's dragging.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

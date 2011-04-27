@@ -6,8 +6,8 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLStrings;
-import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
+import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.capacitorlab.util.UnitsUtils;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -16,14 +16,17 @@ import edu.colorado.phet.common.piccolophet.PhetPNode;
 /**
  * Drag handle for changing the dielectric offset.
  * Origin is at the end of the dashed line that is farthest from the arrow.
+ * Attached to the center of the dielectric's right face.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class DielectricOffsetDragHandleNode extends PhetPNode {
 
-    private static final Point2D ARROW_TIP_LOCATION = new Point2D.Double( 0, 0 );
-    private static final Point2D ARROW_TAIL_LOCATION = new Point2D.Double( CLConstants.DRAG_HANDLE_ARROW_LENGTH, 0 );
+    // endpoints for horizontal double-headed arrow
+    private static final Point2D ARROW_START_LOCATION = new Point2D.Double( 0, 0 );
+    private static final Point2D ARROW_END_LOCATION = new Point2D.Double( CLConstants.DRAG_HANDLE_ARROW_LENGTH, 0 );
 
+    // endpoints for horizontal line
     private static final double LINE_LENGTH = 60;
     private static final Point2D LINE_START_LOCATION = new Point2D.Double( 0, 0 );
     private static final Point2D LINE_END_LOCATION = new Point2D.Double( LINE_LENGTH, 0 );
@@ -38,7 +41,7 @@ public class DielectricOffsetDragHandleNode extends PhetPNode {
         this.mvt = mvt;
 
         // arrow
-        DragHandleArrowNode arrowNode = new DragHandleArrowNode( ARROW_TIP_LOCATION, ARROW_TAIL_LOCATION );
+        DragHandleArrowNode arrowNode = new DragHandleArrowNode( ARROW_START_LOCATION, ARROW_END_LOCATION );
         arrowNode.addInputEventListener( new DielectricOffsetDragHandler( this, capacitor, mvt, valueRange ) );
 
         // line
@@ -53,7 +56,7 @@ public class DielectricOffsetDragHandleNode extends PhetPNode {
         addChild( arrowNode );
         addChild( valueNode );
 
-        // layout
+        // layout: arrow to the right of line, vertically centered
         double x = 0;
         double y = 0;
         lineNode.setOffset( x, y );
@@ -78,11 +81,13 @@ public class DielectricOffsetDragHandleNode extends PhetPNode {
         } );
     }
 
+    // synchronizes the value display with the model
     private void updateValueDisplay() {
         double millimeters = UnitsUtils.metersToMillimeters( capacitor.getDielectricOffset() );
         valueNode.setValue( millimeters );
     }
 
+    // Attach drag handle to center of dielectric's right face.
     private void updateOffset() {
         double x = capacitor.getLocationReference().getX() + ( capacitor.getPlateWidth() / 2 ) + capacitor.getDielectricOffset();
         double y = capacitor.getLocationReference().getY();

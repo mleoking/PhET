@@ -34,6 +34,15 @@ import edu.umd.cs.piccolox.nodes.PComposite;
         this( pattern, label, value, units, DEFAULT_FORMAT );
     }
 
+    /**
+     * Constructor.
+     *
+     * @param pattern MessageFormat pattern, used to format label, value and units
+     * @param label
+     * @param value
+     * @param units
+     * @param format  numeric formatter for value
+     */
     public DragHandleValueNode( String pattern, String label, double value, String units, NumberFormat format ) {
 
         this.pattern = pattern;
@@ -50,11 +59,10 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 
         setValue( value );
 
-        // layout
+        // layout: value below label, left-justified
         double x = 0;
         double y = 0;
         labelNode.setOffset( x, y );
-        // value below the label, left justified
         x = labelNode.getXOffset();
         y = labelNode.getFullBoundsReference().getMaxY() + 1;
         valueNode.setOffset( x, y );

@@ -6,8 +6,8 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLStrings;
-import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
+import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.capacitorlab.util.UnitsUtils;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -16,14 +16,17 @@ import edu.colorado.phet.common.piccolophet.PhetPNode;
 /**
  * Drag handle for changing the plate area.
  * Origin is at the end of the dashed line that is farthest from the arrow.
+ * Attached to the capacitor's top plate, at front-left corner of top face.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class PlateAreaDragHandleNode extends PhetPNode {
 
+    // endpoints for a vertical double-headed arrow, this will be rotated to point along the plate's pseudo-3D diagonal
     private static final Point2D ARROW_TIP_LOCATION = new Point2D.Double( 0, 0 );
     private static final Point2D ARROW_TAIL_LOCATION = new Point2D.Double( 0, CLConstants.DRAG_HANDLE_ARROW_LENGTH );
 
+    // endpoints for a vertical line, this will be rotated to point along the plate's pseudo-3D diagonal
     private static final double LINE_LENGTH = 22;
     private static final Point2D LINE_START_LOCATION = new Point2D.Double( 0, 0 );
     private static final Point2D LINE_END_LOCATION = new Point2D.Double( 0, LINE_LENGTH );
@@ -53,7 +56,7 @@ public class PlateAreaDragHandleNode extends PhetPNode {
         addChild( arrowNode );
         addChild( valueNode );
 
-        // layout
+        // layout: arrow below line, rotate into alignment with top plate's pseudo-3D diagonal
         double x = 0;
         double y = 0;
         final double angle = ( Math.PI / 2 ) + ( mvt.getYaw() / 2 ); // aligned with diagonal of plate surface
@@ -82,11 +85,13 @@ public class PlateAreaDragHandleNode extends PhetPNode {
         } );
     }
 
+    // synchronizes the value display with the model
     private void updateDisplay() {
         double millimetersSquared = UnitsUtils.metersSquaredToMillimetersSquared( capacitor.getPlateArea() );
         valueNode.setValue( millimetersSquared );
     }
 
+    // Attach drag handle to capacitor's top plate, at front-left corner of top face.
     private void updateOffset() {
         double x = capacitor.getLocationReference().getX() - ( capacitor.getPlateWidth() / 2 );
         double y = capacitor.getLocationReference().getY() - ( capacitor.getPlateSeparation() / 2 ) - capacitor.getPlateHeight();
