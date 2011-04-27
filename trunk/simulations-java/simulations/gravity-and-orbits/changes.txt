@@ -1,3 +1,4 @@
+Removed unused earth.png image
 Removed workaround for invalidation when changing canvas since it is solved in Module, see #2812
 # 2.01.00 (50921) Apr 20, 2011
 # 2.00.02 (50902) Apr 20, 2011
