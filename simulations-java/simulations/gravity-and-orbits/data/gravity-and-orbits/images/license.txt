@@ -1,4 +1,3 @@
-earth.png source=microsoft clip art
 earth_satellite.gif source=NASA notes=see http://www.harmsy.freeuk.com/images/earth2.jpeg, http://cac-science8.wikispaces.com/
 moon.png source=microsoft clip art
 space-station.png source=microsoft clip art
