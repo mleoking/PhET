@@ -31,6 +31,9 @@ public class JmolPanel extends JPanel {
                     throw new RuntimeException( "Jmol problem: " + errorString );
                 }
 
+                // set the visible colors to our model colors
+                molecule.fixJmolColors( viewer );
+
                 // store reference to this AFTER we have processed the molecule data, so that the "Loading" text shows up until the molecule is loaded
                 JmolPanel.this.viewer = viewer;
 
