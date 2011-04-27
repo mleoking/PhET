@@ -1,3 +1,4 @@
+Converted from swing to piccolo for slider control components, see #2447
 Added fluid flow rate control
 Fixed: velocity sensor overlap
 Improved default starting locations for sensors
