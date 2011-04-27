@@ -6,6 +6,7 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
+import edu.colorado.phet.capacitorlab.CLGlobalProperties;
 import edu.colorado.phet.capacitorlab.control.BatteryConnectionButtonNode;
 import edu.colorado.phet.capacitorlab.control.PlateChargeControlNode;
 import edu.colorado.phet.capacitorlab.developer.EFieldShapesDebugNode;
@@ -67,7 +68,7 @@ public class DielectricCanvas extends CLCanvas {
 
     // bounds of the play area, for constraining dragging to within the play area
 
-    public DielectricCanvas( final DielectricModel model, CLModelViewTransform3D mvt, boolean dev ) {
+    public DielectricCanvas( final DielectricModel model, CLModelViewTransform3D mvt, final CLGlobalProperties globalProperties ) {
 
         this.model = model;
         this.mvt = mvt;
@@ -95,7 +96,7 @@ public class DielectricCanvas extends CLCanvas {
         plateChargeMeterNode = new PlateChargeMeterNode( model.getPlateChargeMeter(), mvt );
         storedEnergyMeterNode = new StoredEnergyMeterNode( model.getStoredEnergyMeter(), mvt );
         voltmeter = new VoltmeterView( model.getVoltmeter(), mvt );
-        eFieldDetector = new EFieldDetectorView( model.getEFieldDetector(), mvt, eFieldVectorReferenceMagnitude, dev );
+        eFieldDetector = new EFieldDetectorView( model.getEFieldDetector(), mvt, eFieldVectorReferenceMagnitude, globalProperties.dev );
 
         plateChargeControNode = new PlateChargeControlNode( model.getCircuit(), new DoubleRange( -maxPlateCharge, maxPlateCharge ) );
 
@@ -187,6 +188,20 @@ public class DielectricCanvas extends CLCanvas {
             model.eFieldVisible.addObserver( o );
             model.getVoltmeter().visibleProperty.addObserver( o );
             model.getEFieldDetector().visibleProperty.addObserver( o );
+
+            // debug shapes for measuring E-field
+            globalProperties.eFieldShapesVisibleProperty.addObserver( new SimpleObserver() {
+                public void update() {
+                    eFieldShapesDebugNode.setVisible( globalProperties.eFieldShapesVisibleProperty.getValue() );
+                }
+            } );
+
+            // debug shapes for measuring voltage
+            globalProperties.voltageShapesVisibleProperty.addObserver( new SimpleObserver() {
+                public void update() {
+                    voltageShapesDebugNode.setVisible( globalProperties.voltageShapesVisibleProperty.getValue() );
+                }
+            } );
         }
 
         // default state
@@ -196,38 +211,6 @@ public class DielectricCanvas extends CLCanvas {
     public void reset() {
         // battery connectivity
         updateBatteryConnectivity();
-    }
-
-    public void setEFieldShapesVisible( boolean enabled ) {
-        eFieldShapesDebugNode.setVisible( enabled );
-    }
-
-    public void setVoltageShapesVisible( boolean enabled ) {
-        voltageShapesDebugNode.setVisible( enabled );
-    }
-
-    public CapacitorNode getCapacitorNode() {
-        return capacitorNode;
-    }
-
-    public PNode getChargeMeterNode() {
-        return plateChargeMeterNode;
-    }
-
-    public PNode getCapacitanceMeterNode() {
-        return capacitanceMeterNode;
-    }
-
-    public PNode getEnergyMeterNode() {
-        return storedEnergyMeterNode;
-    }
-
-    public VoltmeterView getVoltMeter() {
-        return voltmeter;
-    }
-
-    public EFieldDetectorView getEFieldDetector() {
-        return eFieldDetector;
     }
 
     public void setEFieldDetectorSimplified( boolean simplified ) {

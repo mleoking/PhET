@@ -14,6 +14,7 @@ import edu.colorado.phet.capacitorlab.model.Wire.TopWire;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
@@ -31,7 +32,7 @@ public class BatteryCapacitorCircuit extends AbstractCircuit {
     private final Battery battery;
     private final Capacitor capacitor;
     private final Wire topWire, bottomWire;
-    private final CLClock clock;
+    private final IClock clock;
     private final EventListenerList listeners;
 
     // observable properties
@@ -51,7 +52,7 @@ public class BatteryCapacitorCircuit extends AbstractCircuit {
      * @param batteryConnected
      * @param mvt
      */
-    public BatteryCapacitorCircuit( CLClock clock, final Battery battery, final Capacitor capacitor, boolean batteryConnected, CLModelViewTransform3D mvt ) {
+    public BatteryCapacitorCircuit( IClock clock, final Battery battery, final Capacitor capacitor, boolean batteryConnected, CLModelViewTransform3D mvt ) {
         super( CLStrings.SINGLE );
 
         this.clock = clock;
@@ -300,7 +301,7 @@ public class BatteryCapacitorCircuit extends AbstractCircuit {
     private void updateCurrentAmplitude() {
         double Q = getTotalCharge();
         double dQ = Q - previousTotalCharge;
-        double dt = clock.getDt();
+        double dt = clock.getSimulationTimeChange();
         previousTotalCharge = Q;
         currentAmplitudeProperty.setValue( dQ / dt );
     }

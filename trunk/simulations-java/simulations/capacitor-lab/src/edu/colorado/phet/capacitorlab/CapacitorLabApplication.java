@@ -2,18 +2,15 @@
 
 package edu.colorado.phet.capacitorlab;
 
-import java.awt.*;
-
 import javax.swing.*;
 
-import edu.colorado.phet.capacitorlab.developer.EFieldShapesDebugMenuItem;
-import edu.colorado.phet.capacitorlab.developer.VoltageShapesDebugMenuItem;
 import edu.colorado.phet.capacitorlab.module.dielectric.DielectricModule;
 import edu.colorado.phet.capacitorlab.module.introduction.IntroductionModule;
 import edu.colorado.phet.capacitorlab.module.multiplecapacitors.MultipleCapacitorsModule;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
+import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBoxMenuItem;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 
 /**
@@ -23,29 +20,19 @@ import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
  */
 public class CapacitorLabApplication extends PiccoloPhetApplication {
 
-    /**
-     * Sole constructor.
-     *
-     * @param config the configuration for this application
-     */
     public CapacitorLabApplication( PhetApplicationConfig config ) {
         super( config );
-        initModules();
-        initMenuBar();
+        CLGlobalProperties globalProperties = new CLGlobalProperties( getPhetFrame(), isDeveloperControlsEnabled() );
+        initModules( globalProperties );
+        initMenuBar( globalProperties );
     }
 
-    /*
-     * Initializes the modules.
-     */
-    private void initModules() {
-
-        Frame parentFrame = getPhetFrame();
-        boolean dev = isDeveloperControlsEnabled();
+    private void initModules( CLGlobalProperties globalProperties ) {
 
         // add modules
-        addModule( new IntroductionModule( parentFrame, dev ) );
-        addModule( new DielectricModule( parentFrame, dev ) );
-        addModule( new MultipleCapacitorsModule( parentFrame, dev ) );
+        addModule( new IntroductionModule( globalProperties ) );
+        addModule( new DielectricModule( globalProperties ) );
+        addModule( new MultipleCapacitorsModule( globalProperties ) );
 
         // make all control panels the same width
         int maxWidth = 0;
@@ -57,21 +44,18 @@ public class CapacitorLabApplication extends PiccoloPhetApplication {
         }
 
         // start with Multiple Capacitor module for development
-        if ( dev ) {
+        if ( globalProperties.dev ) {
             setStartModule( getModule( 1 ) );
         }
     }
 
-    private void initMenuBar() {
-        // Developer menu items
+    private void initMenuBar( CLGlobalProperties globalProperties ) {
+        // Developer menu items, no i18n
         JMenu developerMenu = getPhetFrame().getDeveloperMenu();
-        developerMenu.add( new EFieldShapesDebugMenuItem( this ) );
-        developerMenu.add( new VoltageShapesDebugMenuItem( this ) );
+        developerMenu.add( new JSeparator() );
+        developerMenu.add( new PropertyCheckBoxMenuItem( "Show E-Field measurement shapes", globalProperties.eFieldShapesVisibleProperty ) );
+        developerMenu.add( new PropertyCheckBoxMenuItem( "Show voltage measurement shapes", globalProperties.voltageShapesVisibleProperty ) );
     }
-
-    //----------------------------------------------------------------------------
-    // main
-    //----------------------------------------------------------------------------
 
     public static void main( final String[] args ) {
         new PhetApplicationLauncher().launchSim( args, CLConstants.PROJECT_NAME, CapacitorLabApplication.class );
