@@ -25,8 +25,9 @@ import edu.umd.cs.piccolo.util.PBounds;
  * @author Sam Reid
  */
 public class VBox extends Box {
-    public VBox() {
-        this( 10 );
+    //Creates a VBox with the default spacing and specified children to add
+    public VBox( PNode... children ) {
+        this( 10, children );
     }
 
     //Creates a VBox which lays out nodes vertically.  This constructor invocation is meant to be read with 'code folding' on and a good healthy right margin (like 200)

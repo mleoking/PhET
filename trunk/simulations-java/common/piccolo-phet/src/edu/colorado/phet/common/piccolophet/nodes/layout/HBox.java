@@ -25,8 +25,9 @@ import edu.umd.cs.piccolo.util.PBounds;
  * @author Sam Reid
  */
 public class HBox extends edu.colorado.phet.common.piccolophet.nodes.layout.Box {
-    public HBox() {
-        this( 10 );
+    //Creates an HBox with the default spacing and specified children to add
+    public HBox( PNode... children ) {
+        this( 10, children );
     }
 
     //Creates a VBox which lays out nodes horizontally.  This constructor invocation is meant to be read with 'code folding' on and a good healthy right margin (like 200)
