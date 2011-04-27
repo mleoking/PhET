@@ -10,15 +10,15 @@ import edu.colorado.phet.capacitorlab.control.DielectricPropertiesControlPanel;
 import edu.colorado.phet.capacitorlab.control.MetersControlPanel;
 import edu.colorado.phet.capacitorlab.control.ViewControlPanel;
 import edu.colorado.phet.capacitorlab.developer.DeveloperControlPanel;
-import edu.colorado.phet.capacitorlab.module.CLControlPanel;
 import edu.colorado.phet.common.phetcommon.application.Module;
+import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 
 /**
  * Control panel for the "Dielectric" module.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class DielectricControlPanel extends CLControlPanel {
+public class DielectricControlPanel extends ControlPanel {
 
     private final JPanel dielectricPropertiesControlPanel;
 
