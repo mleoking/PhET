@@ -247,6 +247,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
     /*
      * Rectangular area where the vectors are displayed.
      * Vectors are clipped to this area.
+     * Vector size is computed relative to a specified reference magnitude.
      */
     private static final class VectorDisplayNode extends PClip {
 

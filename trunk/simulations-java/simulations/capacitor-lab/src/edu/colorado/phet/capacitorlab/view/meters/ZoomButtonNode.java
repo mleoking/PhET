@@ -2,15 +2,11 @@
 
 package edu.colorado.phet.capacitorlab.view.meters;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Paint;
-import java.awt.Stroke;
+import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
+import javax.swing.*;
 
 import edu.colorado.phet.capacitorlab.view.MinusNode;
 import edu.colorado.phet.capacitorlab.view.PlusNode;
@@ -22,7 +18,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  * The button can be either disabled or enabled.
  * When disabled, it appears grayed out.
  * When enabled, it shows either a '+' or '-' to indicate whether we'll be zooming in or out.
- * <p>
+ * <p/>
  * Origin is at the upper-left corner of the bounding rectangle.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
@@ -35,7 +31,7 @@ public class ZoomButtonNode extends PComposite {
     private static final Color ENABLED_COLOR = Color.BLACK;
     private static final Color DISABLED_COLOR = new Color( 180, 180, 180 ); // grey
 
-    private static final float GLASS_STROKE_WIDTH = (float)( GLASS_DIAMETER / 7f );
+    private static final float GLASS_STROKE_WIDTH = (float) ( GLASS_DIAMETER / 7f );
     private static final Stroke GLASS_STROKE = new BasicStroke( GLASS_STROKE_WIDTH );
 
     private static final double HANDLE_WIDTH = 0.2 * GLASS_DIAMETER;
@@ -101,6 +97,11 @@ public class ZoomButtonNode extends PComposite {
         return enabled;
     }
 
+    /**
+     * Determines whether the plus or minus is visible on the button.
+     *
+     * @param plusVisible
+     */
     public void setPlusVisible( boolean plusVisible ) {
         if ( plusVisible != this.plusVisible ) {
             this.plusVisible = plusVisible;
