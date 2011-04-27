@@ -6,7 +6,11 @@ import java.awt.geom.Dimension2D;
 
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.colorado.phet.capacitorlab.module.CLCanvas;
-import edu.colorado.phet.capacitorlab.view.meters.*;
+import edu.colorado.phet.capacitorlab.view.meters.BarMeterNode.CapacitanceMeterNode;
+import edu.colorado.phet.capacitorlab.view.meters.BarMeterNode.PlateChargeMeterNode;
+import edu.colorado.phet.capacitorlab.view.meters.BarMeterNode.StoredEnergyMeterNode;
+import edu.colorado.phet.capacitorlab.view.meters.EFieldDetectorView;
+import edu.colorado.phet.capacitorlab.view.meters.VoltmeterView;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 
 /**
