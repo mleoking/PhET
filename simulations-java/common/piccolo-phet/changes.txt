@@ -1,3 +1,4 @@
+4/27/11 Added convenience constructors to HBox and VBox
 4/25/11 Reverted changes to MinimizeMaximizeNode that allowed different button icons, closes #2824
 4/24/11 Updated ControlPanelNode to subtract out any local offset of the content node
 4/24/11 removed PinnedLayoutNode, closes #2825
