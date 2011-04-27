@@ -2,9 +2,7 @@
 
 package edu.colorado.phet.capacitorlab.drag;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Stroke;
+import java.awt.*;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.capacitorlab.CLPaints;
@@ -26,7 +24,6 @@ import edu.colorado.phet.common.piccolophet.nodes.DoubleArrowNode;
 
     public DragHandleArrowNode( Point2D pStart, Point2D pEnd ) {
         this( pStart, pEnd, Math.abs( pStart.distance( pEnd ) ) );
-
     }
 
     private DragHandleArrowNode( Point2D pStart, Point2D pEnd, double length ) {

@@ -22,15 +22,24 @@ public abstract class LocationDragHandler extends PDragSequenceEventHandler {
 
     private double clickXOffset, clickYOffset;
 
+    /**
+     * Constructor.
+     *
+     * @param dragNode the node being dragged
+     * @param mvt      transform between model and view coordinate frames
+     */
     public LocationDragHandler( PNode dragNode, CLModelViewTransform3D mvt ) {
         this.dragNode = dragNode;
         this.mvt = mvt;
     }
 
+    // Gets the current value of the model location that we're controlling.
     protected abstract Point3D getModelLocation();
 
+    // Sets the new value of the model location that we're controlling.
     protected abstract void setModelLocation( Point3D location );
 
+    // When we start the drag, compute offset from dragNode's origin.
     @Override
     protected void startDrag( PInputEvent event ) {
         super.startDrag( event );
@@ -40,6 +49,7 @@ public abstract class LocationDragHandler extends PDragSequenceEventHandler {
         clickYOffset = pMouse.getY() - pOrigin.getY();
     }
 
+    // As we drag, compute the new location and update the model.
     @Override
     protected void drag( final PInputEvent event ) {
         super.drag( event );

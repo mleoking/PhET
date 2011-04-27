@@ -4,8 +4,8 @@ package edu.colorado.phet.capacitorlab.drag;
 
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
+import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragSequenceEventHandler;
@@ -13,6 +13,8 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 
 /**
  * Drag handler for capacitor plate separation property.
+ * Plate separation is a vertical quantity, so we're dragging along the y axis.
+ * Other axes are ignored.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -32,6 +34,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
         this.valueRange = new DoubleRange( valueRange );
     }
 
+    // When we start the drag, compute offset from dragNode's origin.
     @Override
     protected void startDrag( PInputEvent event ) {
         super.startDrag( event );
@@ -40,6 +43,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
         clickYOffset = pMouse.getY() - pOrigin.getY();
     }
 
+    // As we drag, compute the new plate separation (subject to range constraint) and update the model.
     @Override
     protected void drag( final PInputEvent event ) {
         super.drag( event );

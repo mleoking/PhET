@@ -6,8 +6,8 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLStrings;
-import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
+import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.capacitorlab.util.UnitsUtils;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -16,14 +16,17 @@ import edu.colorado.phet.common.piccolophet.PhetPNode;
 /**
  * Drag handle for changing the plate separation.
  * Origin is at the end of the dashed line that is farthest from the arrow.
+ * Attached to the top capacitor plate, in the center of the plate's top face.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class PlateSeparationDragHandleNode extends PhetPNode {
 
-    private static final Point2D ARROW_TIP_LOCATION = new Point2D.Double( 0, 0 );
-    private static final Point2D ARROW_TAIL_LOCATION = new Point2D.Double( 0, -CLConstants.DRAG_HANDLE_ARROW_LENGTH );
+    // endpoints for vertical double-headed arrow
+    private static final Point2D ARROW_START_LOCATION = new Point2D.Double( 0, 0 );
+    private static final Point2D ARROW_END_LOCATION = new Point2D.Double( 0, -CLConstants.DRAG_HANDLE_ARROW_LENGTH );
 
+    // endpoints for vertical line
     private static final double LINE_LENGTH = 60;
     private static final Point2D LINE_START_LOCATION = new Point2D.Double( 0, 0 );
     private static final Point2D LINE_END_LOCATION = new Point2D.Double( 0, -LINE_LENGTH );
@@ -38,7 +41,7 @@ public class PlateSeparationDragHandleNode extends PhetPNode {
         this.mvt = mvt;
 
         // arrow
-        DragHandleArrowNode arrowNode = new DragHandleArrowNode( ARROW_TIP_LOCATION, ARROW_TAIL_LOCATION );
+        DragHandleArrowNode arrowNode = new DragHandleArrowNode( ARROW_START_LOCATION, ARROW_END_LOCATION );
         arrowNode.addInputEventListener( new PlateSeparationDragHandler( this, capacitor, mvt, valueRange ) );
 
         // line
@@ -53,7 +56,7 @@ public class PlateSeparationDragHandleNode extends PhetPNode {
         addChild( arrowNode );
         addChild( valueNode );
 
-        // layout
+        // layout: arrow about line, horizontally centered
         double x = 0;
         double y = 0;
         lineNode.setOffset( x, y );
@@ -78,11 +81,13 @@ public class PlateSeparationDragHandleNode extends PhetPNode {
         } );
     }
 
+    // synchronizes the value display with the model
     private void updateValueDisplay() {
         double millimeters = UnitsUtils.metersToMillimeters( capacitor.getPlateSeparation() );
         valueNode.setValue( millimeters );
     }
 
+    // Attach drag handle top capacitor plate, in center the plate's top face.
     private void updateOffset() {
         double x = capacitor.getLocationReference().getX() - ( 0.3 * capacitor.getPlateWidth() );
         double y = capacitor.getLocationReference().getY() - ( capacitor.getPlateSeparation() / 2 ) - capacitor.getPlateHeight();

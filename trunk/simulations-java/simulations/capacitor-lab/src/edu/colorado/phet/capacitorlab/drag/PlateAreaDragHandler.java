@@ -16,6 +16,8 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  * Drag handler for capacitor plate area property.
  * This drag handle is attached to the front-left corner of the capacitor plate, and its
  * drag axis is the diagonal line from the front-left corner to the back-right corner of the plate.
+ * <p/>
+ * Dragging on a diagonal is tricky; all computations are based on the x axis, ignoring other axes.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -35,6 +37,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
         this.valueRange = new DoubleRange( valueRange );
     }
 
+    // When we start the drag, compute offset from dragNode's origin.
     @Override
     protected void startDrag( PInputEvent event ) {
         super.startDrag( event );
@@ -43,6 +46,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
         clickXOffset = pMouse.getX() - pOrigin.getX();
     }
 
+    // As we drag, compute the new plate width (subject to range constraint) and update the model.
     @Override
     protected void drag( PInputEvent event ) {
         super.drag( event );
