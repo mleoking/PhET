@@ -6,6 +6,7 @@ import java.awt.*;
 import java.util.ArrayList;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
+import edu.colorado.phet.capacitorlab.CLStrings;
 import edu.colorado.phet.capacitorlab.model.*;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
@@ -33,9 +34,13 @@ public class MultipleCapacitorsModel {
 
         // create circuits
         circuits = new ArrayList<ICircuit>() {{
-            add( new DummyCircuit( "Dummy 1" ) );
-            add( new DummyCircuit( "Dummy 2" ) );
-            add( new DummyCircuit( "Dummy 3" ) );
+            add( new DummyCircuit( CLStrings.SINGLE ) );
+            add( new DummyCircuit( CLStrings.TWO_IN_SERIES ) );
+            add( new DummyCircuit( CLStrings.THREE_IN_SERIES ) );
+            add( new DummyCircuit( CLStrings.TWO_IN_PARALLEL ) );
+            add( new DummyCircuit( CLStrings.THREE_IN_PARALLEL ) );
+            add( new DummyCircuit( CLStrings.COMBINATION_1 ) );
+            add( new DummyCircuit( CLStrings.COMBINATION_2 ) );
         }};
 
         currentCircuit = new Property<ICircuit>( circuits.get( 0 ) );
