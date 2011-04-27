@@ -12,6 +12,7 @@ import edu.umd.cs.piccolo.PNode;
 
 /**
  * Electric-field (E-field) detector.
+ * A voltmeter has a body, 1 probe, and 1 wire connecting the probe to the body.
  * This is not a node, but it manages the connections and interactivity of a set of related nodes.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
