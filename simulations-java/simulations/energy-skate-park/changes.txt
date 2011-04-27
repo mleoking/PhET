@@ -1,3 +1,4 @@
+4/27/2011 switched Microsoft Clip Art Images for 'bugboard.gif', 'bulldog.png', 'rocket5.png', 'ruler-thumb.png'
 Moved spline computations from phetcommon to common/spline since it depends on Jama
 Moved spline computations from energy-skate-park to phetcommon for reuse in fluid-pressure-and-flow
 Optimize imports, see #2071
