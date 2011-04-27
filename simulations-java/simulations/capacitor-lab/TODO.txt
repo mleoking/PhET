@@ -22,6 +22,7 @@ MEDUIUM PRIORITY
 - convert PlateChargeControlNode to use Property<Double>
 - convert BatteryConnectionButtonNode to use Property<Boolean>
 - merge MultipleCapacitorsModule/Model/Canvas/ControlPanel into DielectricModule/Model/Canvas/ControlPanel
+- add setCircuit methods to all persistent controls
 
 LOW PRIORITY
 - Win: need some space between dielectric material combo box and separator below it
