@@ -245,6 +245,6 @@ public class DielectricCanvas extends CLCanvas {
 
         // adjust the model bounds
         Point3D p = mvt.viewToModelDelta( worldSize.getWidth(), worldSize.getHeight() );
-        model.getWorld().setBounds( 0, 0, p.getX(), p.getY() );
+        model.getWorldBounds().setBounds( 0, 0, p.getX(), p.getY() );
     }
 }

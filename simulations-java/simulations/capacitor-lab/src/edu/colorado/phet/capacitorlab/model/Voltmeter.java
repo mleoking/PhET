@@ -34,7 +34,7 @@ public class Voltmeter {
     private ICircuit circuit;
 
 
-    public Voltmeter( ICircuit circuit, final World world, CLModelViewTransform3D mvt,
+    public Voltmeter( ICircuit circuit, final WorldBounds worldBounds, CLModelViewTransform3D mvt,
                       Point3D bodyLocation, Point3D positiveProbeLocation, Point3D negativeProbeLocation, boolean visible ) {
 
         this.circuit = circuit;
@@ -46,9 +46,9 @@ public class Voltmeter {
 
         this.shapeFactory = new VoltmeterShapeFactory( this, mvt );
         this.visibleProperty = new Property<Boolean>( visible );
-        this.bodyLocationProperty = new WorldLocationProperty( world, bodyLocation );
-        this.positiveProbeLocationProperty = new WorldLocationProperty( world, positiveProbeLocation );
-        this.negativeProbeLocationProperty = new WorldLocationProperty( world, negativeProbeLocation );
+        this.bodyLocationProperty = new WorldLocationProperty( worldBounds, bodyLocation );
+        this.positiveProbeLocationProperty = new WorldLocationProperty( worldBounds, positiveProbeLocation );
+        this.negativeProbeLocationProperty = new WorldLocationProperty( worldBounds, negativeProbeLocation );
         this.valueProperty = new Property<Double>( 0d ); // will be properly initialized by updateValue
 
         // update value when probes move

@@ -27,14 +27,14 @@ public class EFieldDetector {
     // mutable fields
     private ICircuit circuit;
 
-    public EFieldDetector( ICircuit circuit, final World world, Point3D bodyLocation, Point3D probeLocation,
+    public EFieldDetector( ICircuit circuit, final WorldBounds worldBounds, Point3D bodyLocation, Point3D probeLocation,
                            boolean visible, boolean plateVisible, boolean dielectricVisible, boolean sumVisible, boolean valuesVisible ) {
 
         this.circuit = circuit;
 
         this.visibleProperty = new Property<Boolean>( visible );
-        this.bodyLocationProperty = new WorldLocationProperty( world, bodyLocation );
-        this.probeLocationProperty = new WorldLocationProperty( world, probeLocation );
+        this.bodyLocationProperty = new WorldLocationProperty( worldBounds, bodyLocation );
+        this.probeLocationProperty = new WorldLocationProperty( worldBounds, probeLocation );
 
         this.plateVectorProperty = new Property<Double>( 0d );
         this.dielectricVectorProperty = new Property<Double>( 0d );

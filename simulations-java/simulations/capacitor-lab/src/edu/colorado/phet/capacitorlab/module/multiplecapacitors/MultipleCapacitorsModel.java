@@ -22,7 +22,7 @@ public class MultipleCapacitorsModel {
     public final Property<Boolean> eFieldVisible = new Property<Boolean>( CLConstants.EFIELD_VISIBLE );
     public final Property<ICircuit> currentCircuit;
 
-    private final World world;
+    private final WorldBounds worldBounds;
     private final CapacitanceMeter capacitanceMeter;
     private final PlateChargeMeter plateChargeMeter;
     private final StoredEnergyMeter storedEnergyMeter;
@@ -40,17 +40,17 @@ public class MultipleCapacitorsModel {
 
         currentCircuit = new Property<ICircuit>( circuits.get( 0 ) );
 
-        world = new World();
+        worldBounds = new WorldBounds();
 
-        capacitanceMeter = new CapacitanceMeter( currentCircuit.getValue(), world, CLConstants.CAPACITANCE_METER_LOCATION, CLConstants.CAPACITANCE_METER_VISIBLE );
-        plateChargeMeter = new PlateChargeMeter( currentCircuit.getValue(), world, CLConstants.PLATE_CHARGE_METER_LOCATION, CLConstants.PLATE_CHARGE_METER_VISIBLE );
-        storedEnergyMeter = new StoredEnergyMeter( currentCircuit.getValue(), world, CLConstants.STORED_ENERGY_METER_LOCATION, CLConstants.STORED_ENERGY_METER_VISIBLE );
+        capacitanceMeter = new CapacitanceMeter( currentCircuit.getValue(), worldBounds, CLConstants.CAPACITANCE_METER_LOCATION, CLConstants.CAPACITANCE_METER_VISIBLE );
+        plateChargeMeter = new PlateChargeMeter( currentCircuit.getValue(), worldBounds, CLConstants.PLATE_CHARGE_METER_LOCATION, CLConstants.PLATE_CHARGE_METER_VISIBLE );
+        storedEnergyMeter = new StoredEnergyMeter( currentCircuit.getValue(), worldBounds, CLConstants.STORED_ENERGY_METER_LOCATION, CLConstants.STORED_ENERGY_METER_VISIBLE );
 
-        eFieldDetector = new EFieldDetector( currentCircuit.getValue(), world, CLConstants.EFIELD_DETECTOR_BODY_LOCATION, CLConstants.EFIELD_DETECTOR_PROBE_LOCATION,
+        eFieldDetector = new EFieldDetector( currentCircuit.getValue(), worldBounds, CLConstants.EFIELD_DETECTOR_BODY_LOCATION, CLConstants.EFIELD_DETECTOR_PROBE_LOCATION,
                                              CLConstants.EFIELD_DETECTOR_VISIBLE, CLConstants.EFIELD_PLATE_VECTOR_VISIBLE, CLConstants.EFIELD_DIELECTRIC_VECTOR_VISIBLE,
                                              CLConstants.EFIELD_SUM_VECTOR_VISIBLE, CLConstants.EFIELD_VALUES_VISIBLE );
 
-        voltmeter = new Voltmeter( currentCircuit.getValue(), world, mvt,
+        voltmeter = new Voltmeter( currentCircuit.getValue(), worldBounds, mvt,
                                    CLConstants.VOLTMETER_BODY_LOCATION, CLConstants.VOLTMETER_POSITIVE_PROBE_LOCATION, CLConstants.VOLTMETER_NEGATIVE_PROBE_LOCATION,
                                    CLConstants.VOLTMETER_VISIBLE );
 
@@ -81,8 +81,8 @@ public class MultipleCapacitorsModel {
         voltmeter.reset();
     }
 
-    public World getWorld() {
-        return world;
+    public WorldBounds getWorldBounds() {
+        return worldBounds;
     }
 
     public ArrayList<ICircuit> getCircuits() {

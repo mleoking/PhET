@@ -28,10 +28,10 @@ public abstract class BarMeter {
     // mutable fields
     private ICircuit circuit;
 
-    public BarMeter( ICircuit circuit, World world, Point3D location, boolean visible, final Function1<ICircuit, Double> valueFunction ) {
+    public BarMeter( ICircuit circuit, WorldBounds worldBounds, Point3D location, boolean visible, final Function1<ICircuit, Double> valueFunction ) {
 
         this.circuit = circuit;
-        this.locationProperty = new WorldLocationProperty( world, location );
+        this.locationProperty = new WorldLocationProperty( worldBounds, location );
         this.visibleProperty = new Property<Boolean>( visible );
         this.valueProperty = new Property<Double>( valueFunction.apply( circuit ) );
         this.valueFunction = valueFunction;
