@@ -12,8 +12,10 @@ import java.util.Map;
 
 import edu.colorado.phet.buildamolecule.BuildAMoleculeConstants;
 import edu.colorado.phet.buildamolecule.control.KitPanel;
+import edu.colorado.phet.buildamolecule.model.CollectionBox;
 import edu.colorado.phet.buildamolecule.model.Kit;
 import edu.colorado.phet.buildamolecule.model.KitCollectionModel;
+import edu.colorado.phet.buildamolecule.model.MoleculeStructure;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -51,6 +53,8 @@ public class BuildAMoleculeCanvas extends PhetPCanvas {
 
     private List<SimpleObserver> fullyLayedOutObservers = new LinkedList<SimpleObserver>();
 
+    private CollectionBoxHintNode collectionBoxHintNode = null;
+
     protected boolean singleCollectionMode; // TODO: find solution for LargerMoleculesCanvas so that we don't need this boolean and the separate constructor
 
     protected void addChildren() {
@@ -61,11 +65,11 @@ public class BuildAMoleculeCanvas extends PhetPCanvas {
         this( parentFrame, initialModel, true );
     }
 
-    public BuildAMoleculeCanvas( Frame parentFrame, KitCollectionModel initialModel, boolean singleCollectionMode ) {
+    public BuildAMoleculeCanvas( Frame parentFrame, final KitCollectionModel model, boolean singleCollectionMode ) {
         this.singleCollectionMode = singleCollectionMode;
         this.parentFrame = parentFrame;
 
-        modelProperty = new Property<KitCollectionModel>( initialModel );
+        modelProperty = new Property<KitCollectionModel>( model );
 
         // Set up the canvas-screen transform.
         setWorldTransformStrategy( new PhetPCanvas.CenteredStage( this, BuildAMoleculeConstants.STAGE_SIZE ) );
@@ -105,6 +109,45 @@ public class BuildAMoleculeCanvas extends PhetPCanvas {
 
         for ( SimpleObserver observer : fullyLayedOutObservers ) {
             observer.update();
+        }
+
+        /*---------------------------------------------------------------------------*
+        * collection box hint arrow
+        *----------------------------------------------------------------------------*/
+
+        for ( final Kit kit : model.getKits() ) {
+            kit.addMoleculeListener( new Kit.MoleculeAdapter() {
+                @Override public void addedMolecule( MoleculeStructure moleculeStructure ) {
+                    CollectionBox targetBox = model.getFirstTargetBox( moleculeStructure );
+
+                    // if a hint doesn't exist AND we have a target box, add it
+                    if ( collectionBoxHintNode == null && targetBox != null ) {
+                        collectionBoxHintNode = new CollectionBoxHintNode( mvt, kit.getMoleculeDestinationBounds( moleculeStructure ), targetBox );
+                        addWorldChild( collectionBoxHintNode );
+                    }
+                    else if ( collectionBoxHintNode != null ) {
+                        // otherwise clear any other hint nodes
+                        collectionBoxHintNode.disperse();
+                    }
+                }
+
+                @Override public void removedMolecule( MoleculeStructure moleculeStructure ) {
+                    // clear any existing hint node on molecule removal
+                    if ( collectionBoxHintNode != null ) {
+                        collectionBoxHintNode.disperse();
+                    }
+                }
+            } );
+
+            // whenever a kit switch happens, remove the arrow
+            kit.visible.addObserver( new SimpleObserver() {
+                public void update() {
+                    // clear any existing hint node on molecule removal
+                    if ( collectionBoxHintNode != null ) {
+                        collectionBoxHintNode.disperse();
+                    }
+                }
+            } );
         }
     }
 
