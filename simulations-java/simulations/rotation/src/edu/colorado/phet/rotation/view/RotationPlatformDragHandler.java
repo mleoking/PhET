@@ -6,7 +6,6 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.common.motion.model.IPositionDriven;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.rotation.model.RotationPlatform;
-import edu.colorado.phet.rotation.util.MathUtil;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -52,7 +51,7 @@ public class RotationPlatformDragHandler extends PBasicInputEventHandler {
         double angleDiff = b.getAngle() - a.getAngle();
 //                System.out.println( "a=" + a + ", b=" + b + ", center=" + center + ", angleDiff = " + angleDiff );
 
-        angleDiff = MathUtil.clampAngle( angleDiff, -Math.PI, Math.PI );
+        angleDiff = clampAngle( angleDiff, -Math.PI, Math.PI );
 
         double angle = initAngle + angleDiff;
 //                System.out.println( "angleDiff=" + angleDiff + ", angle=" + angle );
@@ -63,5 +62,18 @@ public class RotationPlatformDragHandler extends PBasicInputEventHandler {
     private void resetDrag( double angle, PInputEvent event ) {
         initAngle = angle;
         initLoc = event.getPositionRelativeTo( rotationPlatformNode );
+    }
+
+    public static double clampAngle( double angle, double min, double max ) {
+        if ( max <= min ) {
+            throw new IllegalArgumentException( "max<=min" );
+        }
+        while ( angle < min ) {
+            angle += Math.PI * 2;
+        }
+        while ( angle > max ) {
+            angle -= Math.PI * 2;
+        }
+        return angle;
     }
 }
