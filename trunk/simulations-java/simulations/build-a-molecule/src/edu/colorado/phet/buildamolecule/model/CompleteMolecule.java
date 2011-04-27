@@ -1,9 +1,13 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.buildamolecule.model;
 
+import java.awt.*;
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
+import java.util.List;
+
+import org.jmol.api.JmolViewer;
 
 import edu.colorado.phet.buildamolecule.BuildAMoleculeApplication;
 import edu.colorado.phet.buildamolecule.BuildAMoleculeResources;
@@ -170,6 +174,22 @@ public class CompleteMolecule {
         ret += "</bondArray>";
         ret += "</molecule>";
         return ret;
+    }
+
+    /**
+     * Coloring scripts based on http://jmol.sourceforge.net/scripting/
+     *
+     * @param viewer Jmol viewer with molecule initialized from getCmlData()
+     */
+    public void fixJmolColors( JmolViewer viewer ) {
+        for ( int i = 0; i < atomWrappers.length; i++ ) {
+            Color color = atomWrappers[i].atom.getColor();
+
+            viewer.script( "select a" + ( i + 1 ) + ";  color [" + color.getRed() + "," + color.getGreen() + "," + color.getBlue() + "];" );
+        }
+
+        // set our selection back to everything
+        viewer.script( "select all;" );
     }
 
     /**
