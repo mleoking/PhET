@@ -10,21 +10,22 @@ DESIGN ISSUES
 HIGH PRIORITY
 - rewrite BatteryCapacitorCircuit using "nested circuits" design
 - add Multiple Capacitors module
-- control panel for selecting prefab circuits
 - more general way to create Wire model elements, subclasses like TopWire and BottomWire are not scalable
 - move shape creation out of Wire and into WireNode (via WireShapeFactory) to be consistent with pattern used elsewhere
 - hack in BottomWire.createShape
-- one current indicator on multi-cap circuits, near battery poles
+- one current indicator on multi-cap circuits, near battery poles (like in other tabs)
 
 MEDUIUM PRIORITY
 - convert DielectricMaterialControl to use Property<DielectricMaterial> and PropertyRadioButton
 - convert DielectricConstantControl to use Property<Double>
 - convert VoltageSliderNode to use Property<Double>
 - convert PlateChargeControlNode to use Property<Double>
-- Win: need some space between dielectric material combo box and separator below it
-- add circuit construction to Multiple Capacitors tab?
+- convert BatteryConnectionButtonNode to use Property<Boolean>
+- merge MultipleCapacitorsModule/Model/Canvas/ControlPanel into DielectricModule/Model/Canvas/ControlPanel
 
 LOW PRIORITY
+- Win: need some space between dielectric material combo box and separator below it
+- add circuit construction to Multiple Capacitors tab?
 - small (100mm^2) capacitor plates look like they are at a 46-degree yaw, instead of 45-degree
 - only update things that are visible, do this in the model wherever possible by observing visibleProperty
 - add explicit properties for capacitance, charge, E-field (if performance becomes an issue)
