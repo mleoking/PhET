@@ -14,6 +14,7 @@ import edu.umd.cs.piccolo.PNode;
 
 /**
  * Voltmeter view.
+ * A voltmeter has a body, 2 probes, and 2 wires connecting the probes to the body.
  * This is not a node, but it manages the connections and interactivity of a set of related nodes.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
