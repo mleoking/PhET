@@ -26,7 +26,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class EFieldDetectorProbeNode extends PhetPNode {
+/* package private */ class EFieldDetectorProbeNode extends PhetPNode {
 
     private final Point2D connectionOffset; // offset for connection point of wire that attaches probe to body
 

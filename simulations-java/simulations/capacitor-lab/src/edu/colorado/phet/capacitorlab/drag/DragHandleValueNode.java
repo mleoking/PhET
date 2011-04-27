@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.capacitorlab.drag;
 
-import java.awt.Font;
+import java.awt.*;
 import java.text.DecimalFormat;
 import java.text.MessageFormat;
 import java.text.NumberFormat;
@@ -18,7 +18,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class DragHandleValueNode extends PComposite {
+/* package private */ class DragHandleValueNode extends PComposite {
 
     private static final DecimalFormat DEFAULT_FORMAT = new DecimalFormat( "0.0" );
     private static final Font LABEL_FONT = new PhetFont( Font.BOLD, 18 );
