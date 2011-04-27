@@ -147,6 +147,5 @@ public class CLConstants {
 
     // E-field
     public static final boolean EFIELD_VISIBLE = false;
-    public static final DoubleRange EFIELD_SPACING_RANGE = new DoubleRange( PLATE_WIDTH_RANGE.getMin() / 15, PLATE_WIDTH_RANGE.getMin() / 2 ); // meters
     public static final IntegerRange NUMBER_OF_EFIELD_LINES = new IntegerRange( 4, 900 ); // number of lines on smallest plate
 }
