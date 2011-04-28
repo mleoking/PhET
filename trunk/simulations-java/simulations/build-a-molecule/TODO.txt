@@ -1,5 +1,7 @@
-Talk with translators (Sandor) about translating names. Developer recommendation: translate a subset
 Bugfix: drag 2 atoms to the far lower-left at the start and they are pushed to cover each other (without bonding)
+
+PENDING:
+    Emailed Sandor about translating names. Developer recommendation: translate a subset
 
 EVALUATION
 Alcohol structures and matching
