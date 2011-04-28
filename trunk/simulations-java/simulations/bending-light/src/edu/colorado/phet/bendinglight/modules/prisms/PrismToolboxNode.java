@@ -68,6 +68,9 @@ public class PrismToolboxNode extends PNode {
 
         @Override protected void addChild( BendingLightCanvas<PrismsModel> canvas, ToolNode node ) {
             canvas.addChildBehindLight( node );
+
+            //Add the prism model element
+            model.addPrism( ( (PrismToolNode) node ).prism );
         }
 
         @Override protected void removeChild( BendingLightCanvas<PrismsModel> canvas, ToolNode node ) {
@@ -95,7 +98,6 @@ public class PrismToolboxNode extends PNode {
             final Rectangle2D bounds = prism.getBounds();
             Point2D copyCenter = new Point2D.Double( bounds.getX(), bounds.getY() );
             prism.translate( modelPoint.getX() - copyCenter.getX() - bounds.getWidth() / 2, modelPoint.getY() - copyCenter.getY() - bounds.getHeight() / 2 );
-            model.addPrism( prism );
             addChild( new PrismNode( transform, prism, model.prismMedium ) );
         }
 
