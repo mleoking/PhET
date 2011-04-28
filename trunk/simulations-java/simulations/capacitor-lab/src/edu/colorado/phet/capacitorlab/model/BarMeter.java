@@ -15,6 +15,39 @@ import edu.colorado.phet.common.phetcommon.util.function.Function1;
  */
 public abstract class BarMeter {
 
+    // Convenience class for capacitance meter
+    public static class CapacitanceMeter extends BarMeter {
+        public CapacitanceMeter( ICircuit circuit, WorldBounds worldBounds, Point3D location, boolean visible ) {
+            super( circuit, worldBounds, location, visible, new Function1<ICircuit, Double>() {
+                public Double apply( ICircuit circuit ) {
+                    return circuit.getTotalCapacitance();
+                }
+            } );
+        }
+    }
+
+    // Convenience class for plate charge meter
+    public static class PlateChargeMeter extends BarMeter {
+        public PlateChargeMeter( ICircuit circuit, WorldBounds worldBounds, Point3D location, boolean visible ) {
+            super( circuit, worldBounds, location, visible, new Function1<ICircuit, Double>() {
+                public Double apply( ICircuit circuit ) {
+                    return circuit.getTotalCharge();
+                }
+            } );
+        }
+    }
+
+    // Convenience class for stored energy meter
+    public static class StoredEnergyMeter extends BarMeter {
+        public StoredEnergyMeter( ICircuit circuit, WorldBounds worldBounds, Point3D location, boolean visible ) {
+            super( circuit, worldBounds, location, visible, new Function1<ICircuit, Double>() {
+                public Double apply( ICircuit circuit ) {
+                    return circuit.getStoredEnergy();
+                }
+            } );
+        }
+    }
+
     // public observable properties
     public final WorldLocationProperty locationProperty;
     public final Property<Boolean> visibleProperty;

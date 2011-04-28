@@ -15,7 +15,11 @@ import edu.colorado.phet.capacitorlab.CLImages;
 import edu.colorado.phet.capacitorlab.CLPaints;
 import edu.colorado.phet.capacitorlab.CLStrings;
 import edu.colorado.phet.capacitorlab.drag.WorldLocationDragHandler;
-import edu.colorado.phet.capacitorlab.model.*;
+import edu.colorado.phet.capacitorlab.model.BarMeter;
+import edu.colorado.phet.capacitorlab.model.BarMeter.CapacitanceMeter;
+import edu.colorado.phet.capacitorlab.model.BarMeter.PlateChargeMeter;
+import edu.colorado.phet.capacitorlab.model.BarMeter.StoredEnergyMeter;
+import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
@@ -38,18 +42,12 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 public abstract class BarMeterNode extends PhetPNode {
 
-    /**
-     * Meter that displays capacitance.
-     */
     public static class CapacitanceMeterNode extends BarMeterNode {
         public CapacitanceMeterNode( CapacitanceMeter meter, final CLModelViewTransform3D mvt ) {
             super( meter, mvt, CLPaints.CAPACITANCE, CLStrings.CAPACITANCE, "0.00", CLConstants.CAPACITANCE_METER_VALUE_EXPONENT, CLStrings.FARADS );
         }
     }
 
-    /**
-     * Meter that displays absolute charge on the capacitor plates.
-     */
     public static class PlateChargeMeterNode extends BarMeterNode {
 
         public PlateChargeMeterNode( PlateChargeMeter meter, CLModelViewTransform3D mvt ) {
@@ -64,9 +62,6 @@ public abstract class BarMeterNode extends PhetPNode {
         }
     }
 
-    /**
-     * Meter that displays stored energy.
-     */
     public static class StoredEnergyMeterNode extends BarMeterNode {
         public StoredEnergyMeterNode( StoredEnergyMeter meter, final CLModelViewTransform3D mvt ) {
             super( meter, mvt, CLPaints.STORED_ENERGY, CLStrings.STORED_ENERGY, "0.00", CLConstants.STORED_ENERGY_METER_VALUE_EXPONENT, CLStrings.JOULES );
