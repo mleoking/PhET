@@ -7,6 +7,7 @@ import javax.swing.*;
 import org.jmol.adapter.smarter.SmarterJmolAdapter;
 import org.jmol.api.JmolViewer;
 
+import edu.colorado.phet.buildamolecule.BuildAMoleculeStrings;
 import edu.colorado.phet.buildamolecule.model.CompleteMolecule;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -67,7 +68,7 @@ public class JmolPanel extends JPanel {
             super.paint( g );
 
             // create a piccolo node (helpful for centering and styling)
-            PText text = new PText( "Loading 3D..." ) {{ // TODO: i18n
+            PText text = new PText( BuildAMoleculeStrings.JMOL_3D_LOADING ) {{
                 setTextPaint( Color.WHITE );
                 setFont( new PhetFont( 20 ) );
 

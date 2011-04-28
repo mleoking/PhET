@@ -16,14 +16,14 @@ public class MoleculeCollectingCanvas extends BuildAMoleculeCanvas {
 
     private CollectionAreaNode collectionAreaNode;
 
-    public MoleculeCollectingCanvas( Frame parentFrame, final KitCollectionModel initialModel, final boolean singleCollectionMode, final VoidFunction0 regenerateCallback ) {
-        super( parentFrame, initialModel, singleCollectionMode );
+    public MoleculeCollectingCanvas( Frame parentFrame, final KitCollectionModel model, final boolean singleCollectionMode, final VoidFunction0 regenerateCallback ) {
+        super( parentFrame, model, singleCollectionMode );
 
-        final AllFilledDialogNode allFilledDialogNode = new AllFilledDialogNode( initialModel, getModelViewTransform(), regenerateCallback );
+        final AllFilledDialogNode allFilledDialogNode = new AllFilledDialogNode( model, getModelViewTransform(), regenerateCallback );
 
-        initialModel.allCollectionBoxesFilled.addObserver( new SimpleObserver() {
+        model.allCollectionBoxesFilled.addObserver( new SimpleObserver() {
             public void update() {
-                if ( initialModel.allCollectionBoxesFilled.getValue() ) {
+                if ( model.allCollectionBoxesFilled.getValue() ) {
                     addWorldChild( allFilledDialogNode );
                 }
                 else {

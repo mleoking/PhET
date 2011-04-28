@@ -2,6 +2,7 @@ package edu.colorado.phet.buildamolecule.control;
 
 import java.text.MessageFormat;
 
+import edu.colorado.phet.buildamolecule.BuildAMoleculeStrings;
 import edu.colorado.phet.buildamolecule.model.CollectionBox;
 import edu.colorado.phet.buildamolecule.view.BuildAMoleculeCanvas;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -15,8 +16,7 @@ import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 public class MultipleCollectionBoxNode extends CollectionBoxNode {
     public MultipleCollectionBoxNode( final BuildAMoleculeCanvas canvas, final CollectionBox box ) {
         super( canvas, box,
-               new HTMLNode( MessageFormat.format( "Goal: {0}{1}", box.getCapacity(), box.getMoleculeType().getMoleculeStructure().getStructuralFormulaFragment() ) ) {{
-                   // TODO: i18nize
+               new HTMLNode( MessageFormat.format( BuildAMoleculeStrings.COLLECTION_MULTIPLE_GOAL_FORMAT, box.getCapacity(), box.getMoleculeType().getMoleculeStructure().getStructuralFormulaFragment() ) ) {{
                    setFont( new PhetFont( 16, true ) );
                }},
                new HTMLNode() {{
@@ -28,12 +28,11 @@ public class MultipleCollectionBoxNode extends CollectionBoxNode {
                    // update when the quantity changes
                    box.quantity.addObserver( new SimpleObserver() {
                        public void update() {
-                           // TODO: i18nize
                            if ( box.quantity.getValue() == 0 ) {
-                               setHTML( subscriptFix + "You have: (empty)" + subscriptFix );
+                               setHTML( subscriptFix + BuildAMoleculeStrings.COLLECTION_MULTIPLE_QUANTITY_EMPTY + subscriptFix );
                            }
                            else {
-                               setHTML( MessageFormat.format( subscriptFix + "You have: {0}{1}" + subscriptFix, box.quantity.getValue(), box.getMoleculeType().getMoleculeStructure().getStructuralFormulaFragment() ) );
+                               setHTML( MessageFormat.format( subscriptFix + BuildAMoleculeStrings.COLLECTION_MULTIPLE_QUANTITY_FORMAT + subscriptFix, box.quantity.getValue(), box.getMoleculeType().getMoleculeStructure().getStructuralFormulaFragment() ) );
                            }
                        }
                    } );

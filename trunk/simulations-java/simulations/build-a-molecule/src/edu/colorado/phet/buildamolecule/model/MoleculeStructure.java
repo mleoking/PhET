@@ -69,10 +69,8 @@ public class MoleculeStructure {
     }
 
     /**
-     * Our best attempt at getting a general molecular naming algorithm that handles organic and non-organic compounds. It should also handle
-     * exceptions and alcohols.
+     * Our best attempt at getting a general molecular naming algorithm that handles organic and non-organic compounds.
      * <p/>
-     * TODO: detect alcohol structure, and things like CH3OH.
      *
      * @return Text which is the molecular formula
      */
