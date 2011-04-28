@@ -565,7 +565,9 @@ public class MixIsotopesModel implements Resettable, IConfigurableAtomModel {
         for ( ImmutableAtom isotopeConfig : possibleIsotopesCopy ){
             int numToCreate = (int)Math.round( NUM_NATURES_MIX_ATOMS * AtomIdentifier.getNaturalAbundance( isotopeConfig ) );
             if ( numToCreate == 0 ){
-                System.err.println("Warning: Calculated quantity at zero for " + AtomIdentifier.getName( isotopeConfig ) + "-" + isotopeConfig.getMassNumber() + ", adding min quantity (1)." );
+                // The calculated quantity was 0, but we don't want to have
+                // no instances of this isotope in the chamber, so add only
+                // one.  This behavior was requested by the design team.
                 numToCreate = 1;
             }
             List<MovableAtom> isotopesToAdd = new ArrayList<MovableAtom>();
