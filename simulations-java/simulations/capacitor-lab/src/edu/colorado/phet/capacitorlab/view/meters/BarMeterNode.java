@@ -43,7 +43,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 public abstract class BarMeterNode extends PhetPNode {
 
     public static class CapacitanceMeterNode extends BarMeterNode {
-        public CapacitanceMeterNode( CapacitanceMeter meter, final CLModelViewTransform3D mvt ) {
+        public CapacitanceMeterNode( CapacitanceMeter meter, CLModelViewTransform3D mvt ) {
             super( meter, mvt, CLPaints.CAPACITANCE, CLStrings.CAPACITANCE, "0.00", CLConstants.CAPACITANCE_METER_VALUE_EXPONENT, CLStrings.FARADS );
         }
     }
@@ -63,7 +63,7 @@ public abstract class BarMeterNode extends PhetPNode {
     }
 
     public static class StoredEnergyMeterNode extends BarMeterNode {
-        public StoredEnergyMeterNode( StoredEnergyMeter meter, final CLModelViewTransform3D mvt ) {
+        public StoredEnergyMeterNode( StoredEnergyMeter meter, CLModelViewTransform3D mvt ) {
             super( meter, mvt, CLPaints.STORED_ENERGY, CLStrings.STORED_ENERGY, "0.00", CLConstants.STORED_ENERGY_METER_VALUE_EXPONENT, CLStrings.JOULES );
         }
     }
