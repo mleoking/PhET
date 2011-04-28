@@ -1,1 +1,1 @@
-phet-credits lead-design=Noah Podolefsky software-development=Sam Reid, Jon Olson design-team=Kathy Perkins, Trish Loeblein interviews=Noah Podolefsky
+phet-credits lead-design=Noah Podolefsky, Emily Moore software-development=Sam Reid, Jon Olson design-team=Kathy Perkins, Trish Loeblein interviews=Noah Podolefsky, Emily Moore
