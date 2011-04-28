@@ -6,12 +6,12 @@ import java.util.ArrayList;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.Option.Some;
 
-public class PhetObservable<T> {
-    private final ArrayList<PhetObserver<T>> observers = new ArrayList<PhetObserver<T>>();
+public class Observable<T> {
+    private final ArrayList<Observer<T>> observers = new ArrayList<Observer<T>>();
     private final T initialValue;
     private T value;
 
-    protected PhetObservable( T value ) {
+    protected Observable( T value ) {
         this.initialValue = value;
         this.value = value;
     }
@@ -24,17 +24,17 @@ public class PhetObservable<T> {
         setValue( initialValue );
     }
 
-    public void addObserver( PhetObserver<T> observer ) {
+    public void addObserver( Observer<T> observer ) {
         observers.add( observer );
         observer.update( new UpdateEvent<T>( value, new Option.None<T>() ) );
     }
 
-    public void removeObserver( PhetObserver<T> observer ) {
+    public void removeObserver( Observer<T> observer ) {
         observers.remove( observer );
     }
 
     protected void notifyObservers( UpdateEvent<T> event ) {
-        for ( PhetObserver<T> observer : new ArrayList<PhetObserver<T>>( observers ) ) {
+        for ( Observer<T> observer : new ArrayList<Observer<T>>( observers ) ) {
             observer.update( event );
         }
     }

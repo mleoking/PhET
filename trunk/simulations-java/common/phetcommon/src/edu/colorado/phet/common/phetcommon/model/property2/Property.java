@@ -4,8 +4,8 @@ package edu.colorado.phet.common.phetcommon.model.property2;
 /**
  * @author Sam Reid
  */
-public class PhetProperty<T> extends PhetObservable<T> {
-    protected PhetProperty( T value ) {
+public class Property<T> extends Observable<T> {
+    protected Property( T value ) {
         super( value );
     }
 
