@@ -1,9 +1,12 @@
-Bugfix: drag 2 atoms to the far lower-left at the start and they are pushed to cover each other (without bonding)
+(clear)
 
 PENDING:
-    Emailed Sandor about translating names. Developer recommendation: translate a subset
+Emailed Sandor about translating names. Developer recommendation: translate a subset
 
-EVALUATION
+TESTING:
+I18n
+
+EVALUATION:
 Alcohol structures and matching
 Animation for collection box hint arrow?
 Evaluate color scheme and BCE connection
