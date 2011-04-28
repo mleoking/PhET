@@ -29,6 +29,7 @@ public class PhetRuleSet extends AbstractRuleSet {
 
                 //compatible licenses
                 new LicenseStartsWith( "PUBLIC DOMAIN" ),
+                new LicenseStartsWith( "NASA" ),//Nasa is okay as long as we give attribution, see http://www.nasa.gov/audience/formedia/features/MP_Photo_Guidelines.html
                 new LicenseStartsWith( "Used with permission" ),
                 new LicenseStartsWith( "http://creativecommons.org" ),
                 new LicenseStartsWith( "Creative Commons, royalty free, public domain" ),
