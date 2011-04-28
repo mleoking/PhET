@@ -44,9 +44,7 @@ public class VoltmeterShapeFactory {
         return getProbeTipShape( voltmeter.negativeProbeLocationProperty.getValue(), -mvt.getYaw() );
     }
 
-    /*
-     * Gets the shape of a probe tip relative to some specified origin.
-     */
+    // Gets the shape of a probe tip relative to some specified origin.
     private Shape getProbeTipShape( Point3D origin, double theta ) {
         final double width = voltmeter.getProbeTipSizeReference().getWidth();
         final double height = voltmeter.getProbeTipSizeReference().getHeight();

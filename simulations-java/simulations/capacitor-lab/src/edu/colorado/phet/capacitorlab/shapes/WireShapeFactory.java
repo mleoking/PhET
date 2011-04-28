@@ -26,6 +26,7 @@ public class WireShapeFactory {
         this.mvt = mvt;
     }
 
+    // Create the wire shape by using constructive area geometry to add shapes of wire segments.
     public Shape createWireShape() {
         Area area = new Area();
         for ( WireSegment segment : wire.getSegmentsReference() ) {
@@ -35,6 +36,7 @@ public class WireShapeFactory {
         return area;
     }
 
+    // Create the shape for one wire segment.
     private Shape createWireSegmentShape( WireSegment segment, double thickness ) {
         Line2D line = new Line2D.Double( segment.startPointProperty.getValue(), segment.endPointProperty.getValue() );
         Stroke stroke = new BasicStroke( (float) thickness, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER ); // use CAP_BUTT so that ends are accurate
