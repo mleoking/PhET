@@ -1,6 +1,5 @@
 Talk with translators (Sandor) about translating names. Developer recommendation: translate a subset
 Bugfix: drag 2 atoms to the far lower-left at the start and they are pushed to cover each other (without bonding)
-Find what molecules say they are "equivalent" to each other (some isomers pulled from PubChem seem identical to the sim model)
 Investigate "molecular workbench", see if there are any other ideas
 (dev) Internationalization
 

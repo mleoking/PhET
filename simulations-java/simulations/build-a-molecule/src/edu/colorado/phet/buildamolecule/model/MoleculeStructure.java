@@ -449,6 +449,10 @@ public class MoleculeStructure {
             // same instance
             return true;
         }
+        if ( this.getAtoms().size() != other.getAtoms().size() ) {
+            // must have same number of atoms
+            return false;
+        }
         if ( !getHillSystemFormulaFragment().equals( other.getHillSystemFormulaFragment() ) ) {
             // different molecular formula
             return false;
