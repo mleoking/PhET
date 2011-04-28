@@ -9,8 +9,8 @@ import java.beans.PropertyChangeListener;
 import javax.swing.*;
 import javax.swing.text.JTextComponent;
 
-import edu.colorado.phet.bendinglight.model.ModelBounds;
 import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
+import edu.colorado.phet.common.phetcommon.math.ModelBounds;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
