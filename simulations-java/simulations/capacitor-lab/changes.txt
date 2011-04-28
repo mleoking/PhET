@@ -1,3 +1,4 @@
+4/27/11 move convenience classes to inner classes
 4/27/11 give better names to combination circuits, at least for development
 4/27/11 change World to "WorldBounds extends Property"
 4/27/11 convert to using global properties for things controlled from the menu bar
