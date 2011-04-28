@@ -1,11 +1,11 @@
 Talk with translators (Sandor) about translating names. Developer recommendation: translate a subset
 Bugfix: drag 2 atoms to the far lower-left at the start and they are pushed to cover each other (without bonding)
 Find what molecules say they are "equivalent" to each other (some isomers pulled from PubChem seem identical to the sim model)
-Detect alcohols (or other structures) and modify their molecular formulas accordingly
 Investigate "molecular workbench", see if there are any other ideas
 (dev) Internationalization
 
 EVALUATION
+Alcohol structures and matching
 Animation for collection box hint arrow?
 Evaluate color scheme and BCE connection
 Drop-down menu. Options: "Show in 3D", possibly show chemical formula, possibly option to move to collection box?

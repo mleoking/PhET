@@ -1,3 +1,4 @@
+Added in structural formulas, taking into account alcohol (hydroxyl) groups
 # 0.00.10 (51253) Apr 27, 2011
 Removed text on blue hint arrow
 Jmol 3D view uses same color scheme for atoms
