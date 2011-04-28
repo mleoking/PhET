@@ -11,7 +11,7 @@ public class Observable<T> {
     private final T initialValue;
     private T value;
 
-    protected Observable( T value ) {
+    public Observable( T value ) {
         this.initialValue = value;
         this.value = value;
     }
