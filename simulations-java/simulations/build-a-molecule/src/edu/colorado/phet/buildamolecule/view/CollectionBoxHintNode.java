@@ -28,23 +28,9 @@ public class CollectionBoxHintNode extends PNode {
         addChild( new ArrowNode( tail.toPoint2D(), tip.toPoint2D(), 30, 40, 20 ) {{
             setPaint( Color.BLUE );
         }} );
-
-//        addChild( new PText( "Collect your molecule!" ) {{
-//            setFont( new PhetFont( 18 ) );
-//            double lowestObstacle = Math.max( tail.getY(), tip.getY() );
-//            double xOffset = tip.getX() - 30 - getFullBounds().getWidth();
-//            double belowObstaclePadding = 20;
-//            setOffset( xOffset, lowestObstacle + belowObstaclePadding );
-//
-//            // TODO: how to handle this nicely? it can overlap our molecule!
-//            if ( getFullBounds().intersects( moleculeViewBounds ) ) {
-//                setOffset( xOffset, moleculeViewBounds.getMaxY() + belowObstaclePadding );
-//            }
-//        }} );
     }
 
     public void disperse() {
-        // TODO: animation
         setVisible( false );
     }
 }

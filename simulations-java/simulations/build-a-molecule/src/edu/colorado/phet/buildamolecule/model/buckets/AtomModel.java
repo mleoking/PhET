@@ -20,7 +20,6 @@ import edu.umd.cs.piccolo.util.PBounds;
  * Abstract base class from which spherical particles, which can be anything
  * from a proton to an atom (or a round rock, for that matter) extend.
  * <p/>
- * TODO: possibly change the speed so that if it is quite far, it will be a faster acceleration
  *
  * @author Sam Reid
  * @author John Blanco

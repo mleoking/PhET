@@ -24,7 +24,6 @@ import edu.umd.cs.piccolo.PNode;
 
 /**
  * Common canvas for Build a Molecule. It features kits shown at the bottom. Can be extended to add other parts
- * TODO: handle changing kits
  */
 public class BuildAMoleculeCanvas extends PhetPCanvas {
 
@@ -37,8 +36,6 @@ public class BuildAMoleculeCanvas extends PhetPCanvas {
     // Model
     private final Property<KitCollectionModel> modelProperty;
     private Map<Kit, KitView> kitMap = new HashMap<Kit, KitView>(); // so we can pull our kit view for a particular kit
-
-    // TODO: (possible) separate canvases for different kits?
 
     // View
     private final PNode _rootNode;
@@ -61,8 +58,8 @@ public class BuildAMoleculeCanvas extends PhetPCanvas {
 
     }
 
-    public BuildAMoleculeCanvas( Frame parentFrame, KitCollectionModel initialModel ) {
-        this( parentFrame, initialModel, true );
+    public BuildAMoleculeCanvas( Frame parentFrame, KitCollectionModel model ) {
+        this( parentFrame, model, true );
     }
 
     public BuildAMoleculeCanvas( Frame parentFrame, final KitCollectionModel model, boolean singleCollectionMode ) {
@@ -86,20 +83,12 @@ public class BuildAMoleculeCanvas extends PhetPCanvas {
 
         setBackground( BuildAMoleculeConstants.CANVAS_BACKGROUND_COLOR );
 
-//        // TODO: Temp - add an image that represents the tab.
-//        PNode tempImage = new PImage( BuildAMoleculeResources.getImage( "tab-1-temp-sketch.png" ) );
-//        addWorldChild( tempImage );
-
         addChildren();
 
         addWorldChild( bottomLayer );
         addWorldChild( atomLayer );
         addWorldChild( metadataLayer );
         addWorldChild( topLayer );
-
-//        PNode locationTestNode = new PhetPPath( new Rectangle2D.Double(-20, -20, 40, 40), Color.PINK );
-//        locationTestNode.setOffset( mvt.modelToView( new Point2D.Double(0, 0) ) );
-//        addWorldChild( locationTestNode );
 
         // Root of our scene graph
         _rootNode = new PNode();
@@ -164,8 +153,6 @@ public class BuildAMoleculeCanvas extends PhetPCanvas {
             topLayer.addChild( kitView.getTopLayer() );
         }
     }
-
-    // TODO: add destruct so we can switch models
 
     public KitCollectionModel getModel() {
         return modelProperty.getValue();
