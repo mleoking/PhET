@@ -211,6 +211,10 @@ public class MoleculeSDFCombinedParser {
 
         for ( String aString : molecules.toArray( new String[molecules.size()] ) ) {
             CompleteMolecule aMol = new CompleteMolecule( aString.trim() );
+            if ( aMol.getMoleculeStructure().hasLoopsOrIsDisconnected() ) {
+                molecules.remove( aString );
+                System.out.println( "ignoring molecule with loops or disconnected parts: " + aMol.getCommonName() );
+            }
             for ( String bString : molecules.toArray( new String[molecules.size()] ) ) {
                 if ( !aString.equals( bString ) ) {
                     CompleteMolecule bMol = new CompleteMolecule( bString.trim() );
