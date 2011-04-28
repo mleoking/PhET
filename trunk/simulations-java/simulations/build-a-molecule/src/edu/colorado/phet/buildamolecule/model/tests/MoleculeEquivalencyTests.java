@@ -4,6 +4,9 @@ import java.util.List;
 
 import edu.colorado.phet.buildamolecule.model.CompleteMolecule;
 
+/**
+ * Check for duplicate molecules
+ */
 public class MoleculeEquivalencyTests {
     public static void main( String[] args ) {
         List<CompleteMolecule> molecules = CompleteMolecule.getAllCompleteMolecules();

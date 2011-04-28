@@ -270,7 +270,7 @@ public class CompleteMolecule {
 
     // TODO: pair down some of the data structures for simplicity
 
-    private static List<CompleteMolecule> completeMolecules = new LinkedList<CompleteMolecule>(); // all complete molecules
+    private static List<CompleteMolecule> completeMolecules = new ArrayList<CompleteMolecule>(); // all complete molecules
     private static Map<String, CompleteMolecule> moleculeMap = new HashMap<String, CompleteMolecule>(); // map from unique name => complete molecule
 
     // maps to allow us to efficiently look things up by molecular formula. since we allow isomers, multiple structures can have the same formula.

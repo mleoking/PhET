@@ -3,6 +3,7 @@ package edu.colorado.phet.molecule;
 import java.io.*;
 import java.util.*;
 
+import edu.colorado.phet.buildamolecule.model.CompleteMolecule;
 import edu.colorado.phet.buildtools.util.FileUtils;
 
 /**
@@ -203,6 +204,29 @@ public class MoleculeSDFCombinedParser {
         }
         System.out.println( "uniqueAcceptedAtoms: " + uniqueAcceptedAtoms );
         System.out.println( "unique names: " + names.size() );
+
+        /*---------------------------------------------------------------------------*
+        * toss molecules that are "duplicates", but keep shortest name one
+        *----------------------------------------------------------------------------*/
+
+        for ( String aString : molecules.toArray( new String[molecules.size()] ) ) {
+            CompleteMolecule aMol = new CompleteMolecule( aString.trim() );
+            for ( String bString : molecules.toArray( new String[molecules.size()] ) ) {
+                if ( !aString.equals( bString ) ) {
+                    CompleteMolecule bMol = new CompleteMolecule( bString.trim() );
+                    if ( aMol.getMoleculeStructure().isEquivalent( bMol.getMoleculeStructure() ) ) {
+                        if ( bMol.getCommonName().length() < aMol.getCommonName().length() ) {
+                            molecules.remove( aString );
+                            System.out.println( "tossing duplicate " + aMol.getCommonName() );
+                        }
+                        else {
+                            molecules.remove( bString );
+                            System.out.println( "tossing duplicate " + bMol.getCommonName() );
+                        }
+                    }
+                }
+            }
+        }
 
         try {
             StringBuilder mainBuilder = new StringBuilder();
