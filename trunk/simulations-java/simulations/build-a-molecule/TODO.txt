@@ -1,6 +1,5 @@
 Talk with translators (Sandor) about translating names. Developer recommendation: translate a subset
 Bugfix: drag 2 atoms to the far lower-left at the start and they are pushed to cover each other (without bonding)
-(dev) Internationalization
 
 EVALUATION
 Alcohol structures and matching
@@ -8,29 +7,3 @@ Animation for collection box hint arrow?
 Evaluate color scheme and BCE connection
 Drop-down menu. Options: "Show in 3D", possibly show chemical formula, possibly option to move to collection box?
 Possibly attempt to generate less kits? PENDING feedback
-
-TESTING
-
-Verify "Reset kit" unbondable bug is fixed
-
-NOTES (questions):
-
-Move reset button from bottom-right (or off bottom, or below)? Or back to the other way? Personally it feels a little weird now that I see it that way.
-
---- mostly completed (10): For molecular formulas, I was under the impression that the Hill System was the standard, however this gives us "H3N" for "NH3". Is there a
-procedure or set of steps that can be used to get an accurate naming convention? (One way that may work would be to break the Hill convention and if
-there is no carbon, STILL put the hydrogen first).
-    There are a number of categories of naming systems, and unfortunately the molecules included in the sim span two cases, regular covalent compounds
-    and organic compounds. For all molecules that are not organic (these contain C and H but do not include HCN) the names follow the rule that the
-    symbols are listed in increasing order of electronegativity. Here’s a table of electronegativey ( http://en.wikipedia.org/wiki/Electronegativity
-    scroll down to periodic table view). For example, in HF, hydrogen has an electronegativity of 2.2 and fluorine has an electronegativity of 3.98,
-    so the order is HF.
-    For organic compounds, you start with C, then H, then whatever else...unless it’s an an alcohol in the case of CH3OH (this way of naming indicates
-    something about the structure, that you have an OH group hanging off the side). So in short, would be naming rules that work for the molecules
-    included in the sim:
-        * If don’t include both C and H, name in increasing order of electronegativity
-        * If includes C and H name with C first, then H, then whatever else.
-    Exceptions:
-        * NH3, name like organic where the H is second
-        * HCN not considered organic, so name as regular covalent
-        * CH3OH, name shows structure, doesn’t follow either naming convention.
