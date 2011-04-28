@@ -4,10 +4,10 @@ package edu.colorado.phet.common.phetcommon.model.property2;
 /**
  * @author Sam Reid
  */
-public class PhetAnd extends PhetObservable<Boolean> {
-    public PhetAnd( final PhetObservable<Boolean> a, final PhetObservable<Boolean> b ) {
+public class And extends Observable<Boolean> {
+    public And( final Observable<Boolean> a, final Observable<Boolean> b ) {
         super( a.getValue() && b.getValue() );
-        new PhetObserver<Boolean>() {
+        new Observer<Boolean>() {
             public void update( UpdateEvent<Boolean> event ) {
                 setValue( a.getValue() && b.getValue() );
             }
@@ -15,16 +15,16 @@ public class PhetAnd extends PhetObservable<Boolean> {
     }
 
     public static void main( String[] args ) {
-        PhetObservable<Boolean> a = new PhetObservable<Boolean>( true );
-        a.addObserver( new PhetObserver<Boolean>() {
+        Observable<Boolean> a = new Observable<Boolean>( true );
+        a.addObserver( new Observer<Boolean>() {
             public void update( UpdateEvent<Boolean> event ) {
                 System.out.println( "a changed: " + event );
             }
         } );
-        PhetObservable<Boolean> b = new PhetObservable<Boolean>( false );
+        Observable<Boolean> b = new Observable<Boolean>( false );
 
-        final PhetAnd phetAndProperty = new PhetAnd( a, b );
-        phetAndProperty.addObserver( new PhetObserver<Boolean>() {
+        final And phetAndProperty = new And( a, b );
+        phetAndProperty.addObserver( new Observer<Boolean>() {
             public void update( UpdateEvent<Boolean> event ) {
                 System.out.println( "event = " + event );
             }
