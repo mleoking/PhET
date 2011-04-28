@@ -3,8 +3,8 @@ package edu.colorado.phet.fluidpressureandflow.common.model;
 
 import java.util.ArrayList;
 
-import edu.colorado.phet.bendinglight.model.ModelBounds;
 import edu.colorado.phet.common.phetcommon.math.Function;
+import edu.colorado.phet.common.phetcommon.math.ModelBounds;
 import edu.colorado.phet.common.phetcommon.model.ResetModel;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
