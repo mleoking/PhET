@@ -92,6 +92,10 @@ public class BatteryCapacitorCircuit extends AbstractCircuit {
         } );
     }
 
+    public void reset() {
+        //TODO reset any properties?
+    }
+
     //----------------------------------------------------------------------------------
     // Circuit components
     //----------------------------------------------------------------------------------

@@ -87,6 +87,9 @@ public class MultipleCapacitorsModel {
         storedEnergyMeter.reset();
         eFieldDetector.reset();
         voltmeter.reset();
+        for ( ICircuit circuit : circuits ) {
+            circuit.reset();
+        }
     }
 
     public WorldBounds getWorldBounds() {
@@ -159,6 +162,10 @@ public class MultipleCapacitorsModel {
         }
 
         public void removeCircuitChangeListener( CircuitChangeListener listener ) {
+            // do nothing
+        }
+
+        public void reset() {
             // do nothing
         }
     }

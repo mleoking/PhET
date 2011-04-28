@@ -1,3 +1,4 @@
+4/27/11 add ICircuit.reset, reset all circuits in model.reset
 4/27/11 move convenience classes to inner classes
 4/27/11 give better names to combination circuits, at least for development
 4/27/11 change World to "WorldBounds extends Property"
