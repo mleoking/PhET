@@ -48,7 +48,7 @@ public abstract class ObservableProperty<T> extends SimpleObservable {
         }
     }
 
-    public void notifyObservers( T value, T oldValue ) {
+    protected void notifyObservers( T value, T oldValue ) {
         super.notifyObservers();//Notify SimpleObservers
         notifyNewValueObservers( value );//Notify listeners with new value
         notifyNewAndOldValueObservers( value, oldValue );//Notify listeners with both new and old values
