@@ -1,14 +1,17 @@
-(clear)
+'+' to view 3d from collection box
+Developer option to make "Reset kit" not pull from collection box
+Add BCE sound ding + bottom of collection box
+Process molecule lists instead of (<=4 heavy) to (works with our kits)
+Change icons: Information "i" OR "eye" icon for 3D? Asterisk or explosion to break apart
+Try out "opposing arrows" mouse-over to break bonds. Or change cursor
+Use molecular, not structural (alcohol) formulas
 
 PENDING:
 Emailed Sandor about translating names. Developer recommendation: translate a subset
 
 TESTING:
 I18n
+Color blindness test
 
 EVALUATION:
-Alcohol structures and matching
-Animation for collection box hint arrow?
-Evaluate color scheme and BCE connection
-Drop-down menu. Options: "Show in 3D", possibly show chemical formula, possibly option to move to collection box?
 Possibly attempt to generate less kits? PENDING feedback
