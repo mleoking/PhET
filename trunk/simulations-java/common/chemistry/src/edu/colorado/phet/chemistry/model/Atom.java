@@ -48,8 +48,6 @@ public abstract class Atom {
         return symbol;
     }
 
-    // TODO: should we have common strings for molecules?
-
     public static class B extends Atom {
         public B() {
             super( "B", 85, 2.04, new Color( 255, 170, 119 ) );// peach/salmon colored, CPK coloring
