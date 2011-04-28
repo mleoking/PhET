@@ -1,6 +1,3 @@
-* Add in a sound when a collection box is filled
-
-Drop-down menu. Options: "Show in 3D", possibly show chemical formula, possibly option to move to collection box
 Talk with translators (Sandor) about translating names. Developer recommendation: translate a subset
 Bugfix: drag 2 atoms to the far lower-left at the start and they are pushed to cover each other (without bonding)
 Find what molecules say they are "equivalent" to each other (some isomers pulled from PubChem seem identical to the sim model)
@@ -11,7 +8,7 @@ Investigate "molecular workbench", see if there are any other ideas
 EVALUATION
 Animation for collection box hint arrow?
 Evaluate color scheme and BCE connection
-Only show 1 3d view of a particular molecule type at a time -- currently we only show 1 view for a particular molecule. Is this acceptable?
+Drop-down menu. Options: "Show in 3D", possibly show chemical formula, possibly option to move to collection box?
 Possibly attempt to generate less kits? PENDING feedback
 
 TESTING
