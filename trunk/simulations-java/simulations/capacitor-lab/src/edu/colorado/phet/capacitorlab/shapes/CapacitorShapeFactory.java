@@ -2,11 +2,11 @@
 
 package edu.colorado.phet.capacitorlab.shapes;
 
-import java.awt.Shape;
+import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
+import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.common.phetcommon.math.Dimension3D;
 import edu.colorado.phet.common.phetcommon.view.util.ShapeUtils;
 
@@ -33,43 +33,32 @@ public class CapacitorShapeFactory {
     // unoccluded shapes
     //----------------------------------------------------------------------------------------
 
-    /*
-     * Top plate
-     * @return
-     */
+    // Top plate
     private Shape createTopPlateShape() {
         return createBoxShape( capacitor.getX(), capacitor.getTopPlateCenter().getY(), capacitor.getZ(), capacitor.getPlateSize() );
     }
 
     /**
-     * Bottom plate
+     * Bottom plate, unoccluded.
+     *
      * @return
      */
     public Shape createBottomPlateShape() {
         return createBoxShape( capacitor.getX(), capacitor.getY() + ( capacitor.getPlateSeparation() / 2 ), capacitor.getZ(), capacitor.getPlateSize() );
     }
 
-    /*
-     * Dielectric
-     * @return
-     */
+    // Dielectric
     private Shape createDielectricShape() {
         return createBoxShape( capacitor.getX() + capacitor.getDielectricOffset(),
-                capacitor.getY() - ( capacitor.getDielectricSize().getHeight() / 2 ), capacitor.getZ(), capacitor.getDielectricSize() );
+                               capacitor.getY() - ( capacitor.getDielectricSize().getHeight() / 2 ), capacitor.getZ(), capacitor.getDielectricSize() );
     }
 
-    /*
-     * Volume between the capacitor plates
-     * @return
-     */
+    // Volume between the capacitor plates
     private Shape createBetweenPlatesShape() {
         return createBoxShape( capacitor.getX(), capacitor.getY() - ( capacitor.getPlateSeparation() / 2 ), capacitor.getZ(), capacitor.getDielectricSize() );
     }
 
-    /*
-     * Portion of the dielectric that is between the capacitor plates
-     * @return
-     */
+    // Portion of the dielectric that is between the capacitor plates
     private Shape createDielectricBetweenPlatesShape() {
         if ( capacitor.getDielectricOffset() >= capacitor.getPlateWidth() ) {
             return createEmptyShape();
@@ -79,10 +68,7 @@ public class CapacitorShapeFactory {
         }
     }
 
-    /*
-     * Air that is between the capacitor plates
-     * @return
-     */
+    // Air that is between the capacitor plates
     private Shape createAirBetweenPlateShape() {
         if ( capacitor.getDielectricOffset() == 0 ) {
             return createEmptyShape();
@@ -99,6 +85,7 @@ public class CapacitorShapeFactory {
     /**
      * Visible portion of the top plate.
      * Nothing occludes the top plate.
+     *
      * @return
      */
     public Shape createTopPlateShapeOccluded() {
@@ -108,6 +95,7 @@ public class CapacitorShapeFactory {
     /**
      * Visible portion of the bottom plate.
      * May be partially occluded by the top plate.
+     *
      * @return
      */
     public Shape createBottomPlateShapeOccluded() {
@@ -117,6 +105,8 @@ public class CapacitorShapeFactory {
     /**
      * Visible portion of the dielectric between the plates.
      * May be partially occluded by the top plate.
+     *
+     * @return
      */
     public Shape createDielectricBetweenPlatesShapeOccluded() {
         return ShapeUtils.subtract( createDielectricBetweenPlatesShape(), createTopPlateShape() );
@@ -125,6 +115,8 @@ public class CapacitorShapeFactory {
     /**
      * Visible portion of air between the plates.
      * May be partially occluded by the top plate.
+     *
+     * @return
      */
     public Shape createAirBetweenPlatesShapeOccluded() {
         return ShapeUtils.subtract( createAirBetweenPlateShape(), createTopPlateShape() );
@@ -134,16 +126,12 @@ public class CapacitorShapeFactory {
     // general shapes
     //----------------------------------------------------------------------------------------
 
-    /*
-     * A box, relative to a specific origin.
-     */
+    // A box, relative to a specific origin.
     private Shape createBoxShape( double x, double y, double z, Dimension3D size ) {
         return boxShapeFactory.createBoxShape( x, y, z, size.getWidth(), size.getHeight(), size.getDepth() );
     }
 
-    /*
-     * Encapsulation of empty shape.
-     */
+    // Encapsulation of empty shape.
     private Shape createEmptyShape() {
         return new Rectangle2D.Double( 0, 0, 0, 0 );
     }
