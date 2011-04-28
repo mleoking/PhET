@@ -1,16 +1,12 @@
 // Copyright 2002-2011, University of Colorado
 
-package edu.colorado.phet.capacitorlab.test;
+package edu.colorado.phet.common.piccolophet.test;
 
-import java.awt.Color;
-import java.awt.Dimension;
+import java.awt.*;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 
-import javax.swing.JCheckBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.WindowConstants;
+import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.view.util.GridPanel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -27,16 +23,16 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * See Unfuddle #2557.
- *
+ * <p/>
  * Demonstrates problems with dragging PSwing nodes.
  * This problem was first observed with the E-Field Detector in the capacitor-lab simulation,
  * then with the laser power control panel in optical tweezers.  It probably exists
  * in any sim that has a draggable node that involves a PSwing.
- * <p>
+ * <p/>
  * For a PSwing that is places directly on the canvas, drag both inside the canvas
  * and beyond the bounds of the canvas causes the PSwing to jump to the upper-left
  * corner of the canvas.  This occurs with either a PDragEventHandler or BoundedDragHandler.
- * <p>
+ * <p/>
  * For a complex node that contains a PSwing child, something similar happens.
  * If you try to drag the node by grabbing any part of its PSwing child, the entire
  * node jumps around.  If you grab the node by some non-PSwing child, dragging works as expected.
@@ -118,7 +114,7 @@ public class TestDragPSwing extends JFrame {
             }};
 
             // composite node, dragging constrained to canvas
-            PNode compositeConstrained = new MyCompositeNode( "CompositeConstrained") {{
+            PNode compositeConstrained = new MyCompositeNode( "CompositeConstrained" ) {{
                 addInputEventListener( new CursorHandler() );
                 addInputEventListener( new BoundedDragHandler( this, canvasBoundsNode ) );
             }};
