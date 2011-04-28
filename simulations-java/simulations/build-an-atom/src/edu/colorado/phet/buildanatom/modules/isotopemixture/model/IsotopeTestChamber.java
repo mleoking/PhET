@@ -330,8 +330,7 @@ public class IsotopeTestChamber {
 
         // Check for overlap and adjust particle positions until none exists.
         int maxIterations = 10000;
-        int i;
-        for ( i = 0; checkForParticleOverlap() && i < maxIterations; i++ ){
+        for ( int i = 0; checkForParticleOverlap() && i < maxIterations; i++ ){
             // Adjustment factors for the repositioning algorithm.
             double interParticleForceConst = 2000;
             double wallForceConst = interParticleForceConst * 10;
@@ -396,7 +395,6 @@ public class IsotopeTestChamber {
                 System.out.println(getClass().getName() + " - Warning: Hit max iterations of repositioning algorithm.");
             }
         }
-        System.out.println("Iteration count = " + i);
     }
 
     private boolean checkForParticleOverlap(){
