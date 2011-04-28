@@ -101,4 +101,6 @@ public interface ICircuit {
     public void addCircuitChangeListener( CircuitChangeListener listener );
 
     public void removeCircuitChangeListener( CircuitChangeListener listener );
+
+    public void reset();
 }

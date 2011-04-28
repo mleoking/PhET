@@ -121,7 +121,8 @@ public class DielectricModel {
         storedEnergyMeter.reset();
         eFieldDetector.reset();
         voltmeter.reset();
-        getCircuit().setBatteryConnected( CLConstants.BATTERY_CONNECTED ); //XXX replace with getCircuit().reset()
+        circuit.setBatteryConnected( CLConstants.BATTERY_CONNECTED ); //XXX replace with getCircuit().reset()
+        circuit.reset();
     }
 
     /**
