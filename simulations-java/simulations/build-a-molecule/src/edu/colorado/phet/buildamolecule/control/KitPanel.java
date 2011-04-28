@@ -156,7 +156,7 @@ public class KitPanel extends PNode {
                 kitCollectionModel.getCurrentKitProperty().addObserver( observer );
             }
         } ) {{
-            setOffset( kitViewBounds.getMaxX() - getFullBounds().getWidth() - 5, kitViewBounds.getMaxY() - getFullBounds().getHeight() - 5 );
+            setOffset( kitViewBounds.getMinX() + 5, kitViewBounds.getMinY() + 5 );
         }};
         addChild( resetKitNode );
     }
