@@ -49,7 +49,7 @@ public class MoleculeTableDialog extends JDialog {
                 setEditable( false );
                 setBorder( null );
             }}, constraints );
-            content.add( new JLabel( "<html>" + completeMolecule.getMoleculeStructure().getGeneralFormulaFragment() + "</html>" ), constraints );
+            content.add( new JLabel( "<html>" + completeMolecule.getMoleculeStructure().getStructuralFormulaFragment() + "</html>" ), constraints );
             content.add( new PhetPCanvas() {{
                 setBorder( null );
                 setBackground( new JPanel().getBackground() );

@@ -108,12 +108,70 @@ public class MoleculeStructure {
     }
 
     /**
+     * Return the molecular formula, with structural information available if possible. Currently handles alcohol structure based on
+     * https://secure.wikimedia.org/wikipedia/en/wiki/Alcohols#Common_Names
+     *
+     * @return Text which is the structural formula
+     */
+    public String getStructuralFormula() {
+
+        // scan for alcohols (OH bonded to C)
+        int alcoholCount = 0;
+
+        // we pull of the alcohols so we can get that molecular formula (and we append the alcohols afterwards)
+        MoleculeStructure structureWithoutAlcohols = getCopy();
+        for ( Atom oxygenAtom : atoms ) {
+            // only process if it is an oxygen atom
+            if ( oxygenAtom.isSameTypeOfAtom( new Atom.O() ) ) {
+                List<Atom> neighbors = getNeighbors( oxygenAtom );
+
+                // for an alcohol subgroup (hydroxyl) we need:
+                if ( neighbors.size() == 2 && // 2 neighbors
+                     // 1st carbon, 2nd hydrogen
+                     ( neighbors.get( 0 ).isSameTypeOfAtom( new Atom.C() ) && neighbors.get( 1 ).isSameTypeOfAtom( new Atom.H() ) )
+                     // OR 2nd carbon, 1st hydrogen
+                     || ( neighbors.get( 0 ).isSameTypeOfAtom( new Atom.H() ) && neighbors.get( 1 ).isSameTypeOfAtom( new Atom.C() ) ) ) {
+                    alcoholCount++;
+
+                    // pull off the hydrogen
+                    structureWithoutAlcohols = structureWithoutAlcohols.getCopyWithAtomRemoved( neighbors.get( neighbors.get( 0 ).isSameTypeOfAtom( new Atom.H() ) ? 0 : 1 ) );
+
+                    // and pull off the oxygen
+                    structureWithoutAlcohols = structureWithoutAlcohols.getCopyWithAtomRemoved( oxygenAtom );
+                }
+            }
+        }
+
+        if ( alcoholCount == 0 ) {
+            // no alcohols, use the regular formula
+            return getGeneralFormula();
+        }
+        else if ( alcoholCount == 1 ) {
+            // one alcohol, tag it at the end
+            return structureWithoutAlcohols.getGeneralFormula() + "OH";
+        }
+        else {
+            // more than one alcohol. use a count at the end
+            return structureWithoutAlcohols.getGeneralFormula() + "(OH)" + alcoholCount;
+        }
+    }
+
+    /**
      * Use the above general molecular formula, but return it with HTML subscripts
      *
      * @return Molecular formula with HTML subscripts
      */
     public String getGeneralFormulaFragment() {
         return ChemUtils.toSubscript( getGeneralFormula() );
+    }
+
+    /**
+     * Use the above structural molecular formula, but return it with HTML subscripts
+     *
+     * @return Molecular formula with HTML subscripts
+     */
+    public String getStructuralFormulaFragment() {
+        return ChemUtils.toSubscript( getStructuralFormula() );
     }
 
     private static String uglyHackAddSpaceBeforeSubscripts( String str ) {
