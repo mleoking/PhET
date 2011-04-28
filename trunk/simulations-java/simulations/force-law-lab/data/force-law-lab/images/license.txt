@@ -3,5 +3,5 @@
 # Automatically generated on Fri Aug 08 00:08:03 MDT 2008
 ###################################
 
-push-pin.png source=microsoft clip art
-rope-pattern.png source=microsoft clip art comments=subsampled from j0385413.jpg 
+push-pin.png source=Open Clip Art notes="Thumbtack/Pushpin 2 ", 'http://www.openclipart.org/detail/33601'
+rope-pattern.png source= Wikimedia Commons notes="Cordage en chanvre.jpg", 'http://commons.wikimedia.org/wiki/File:Cordage_en_chanvre.jpg'
