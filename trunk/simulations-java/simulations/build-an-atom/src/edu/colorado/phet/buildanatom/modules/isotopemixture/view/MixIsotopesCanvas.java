@@ -20,8 +20,7 @@ import edu.colorado.phet.buildanatom.modules.isotopemixture.model.MixIsotopesMod
 import edu.colorado.phet.buildanatom.modules.isotopemixture.model.MovableAtom;
 import edu.colorado.phet.buildanatom.modules.isotopemixture.model.MixIsotopesModel.InteractivityMode;
 import edu.colorado.phet.buildanatom.modules.isotopemixture.model.MixIsotopesModel.NumericalIsotopeQuantityControl;
-import edu.colorado.phet.buildanatom.view.BucketFrontNode;
-import edu.colorado.phet.buildanatom.view.BucketHoleNode;
+import edu.colorado.phet.buildanatom.view.BucketView;
 import edu.colorado.phet.buildanatom.view.MaximizeControlNode;
 import edu.colorado.phet.buildanatom.view.PeriodicTableControlNode;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
@@ -132,19 +131,16 @@ public class MixIsotopesCanvas extends PhetPCanvas implements Resettable {
             }
             @Override
             public void isotopeBucketAdded( final MonoIsotopeParticleBucket bucket ) {
-                final BucketFrontNode bucketFrontNode = new BucketFrontNode( bucket, mvt );
-                bucketFrontNode.setOffset( mvt.modelToView( bucket.getPosition() ) );
-                final BucketHoleNode bucketHoleNode = new BucketHoleNode( bucket, mvt );
-                bucketHoleNode.setOffset( mvt.modelToView( bucket.getPosition() ) );
-                bucketFrontLayer.addChild( bucketFrontNode );
-                bucketHoleLayer.addChild( bucketHoleNode );
+                final BucketView bucketView = new BucketView( bucket, mvt );
+                bucketHoleLayer.addChild( bucketView.getHoleNode() );
+                bucketFrontLayer.addChild( bucketView.getFrontNode() );
                 bucket.getPartOfModelProperty().addObserver( new SimpleObserver() {
                     public void update() {
                         // Remove the representation of the bucket when the bucket
                         // itself is removed from the model.
                         if ( !bucket.getPartOfModelProperty().getValue() ){
-                            bucketFrontLayer.removeChild( bucketFrontNode );
-                            bucketHoleLayer.removeChild( bucketHoleNode );
+                            bucketFrontLayer.removeChild( bucketView.getFrontNode() );
+                            bucketHoleLayer.removeChild( bucketView.getHoleNode() );
                         }
                     }
                 }, false );

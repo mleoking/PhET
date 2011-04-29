@@ -102,11 +102,11 @@ public class BucketView {
     // Methods
     // ------------------------------------------------------------------------
 
-    public PNode getHoleLayer() {
+    public PNode getHoleNode() {
         return holeLayer;
     }
 
-    public PNode getContainerLayer() {
+    public PNode getFrontNode() {
         return containerLayer;
     }
 
