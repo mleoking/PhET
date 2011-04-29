@@ -1,7 +1,6 @@
 '+' to view 3d from collection box
 Add BCE sound ding + bottom of collection box
 Process molecule lists instead of (<=4 heavy) to (works with our kits)
-Use molecular, not structural (alcohol) formulas
 Remove isomer developer control, and/or pulling from all molecules
 I18n of molecule names
 
