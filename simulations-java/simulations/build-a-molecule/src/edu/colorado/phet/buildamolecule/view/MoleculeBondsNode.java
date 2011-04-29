@@ -3,6 +3,8 @@ package edu.colorado.phet.buildamolecule.view;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.buildamolecule.model.AtomModel;
 import edu.colorado.phet.buildamolecule.model.Kit;
@@ -11,9 +13,11 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.util.PPaintContext;
 
 import static edu.colorado.phet.buildamolecule.model.LewisDotModel.Direction;
 
@@ -47,7 +51,7 @@ public class MoleculeBondsNode extends PNode {
                         setPaint( Color.BLUE );
                         setStrokePaint( Color.RED );
                         setTransparency( 0.0f );
-                        addInputEventListener( new CursorHandler( isHorizontal ? Cursor.E_RESIZE_CURSOR : Cursor.N_RESIZE_CURSOR ) {
+                        addInputEventListener( new CursorHandler( createCursor( isHorizontal ) ) {
                             @Override public void mouseClicked( PInputEvent event ) {
                                 kit.breakBond( a, b );
                             }
@@ -74,5 +78,46 @@ public class MoleculeBondsNode extends PNode {
                 }
             } );
         }
+    }
+
+    private static void paintArrow( Point2D tail, Point2D tip, PPaintContext context ) {
+
+        double headHeight = 5;
+        double headWidth = 10;
+        double tailWidth = 3;
+
+        // shadow
+        new ArrowNode( new Point2D.Double( tail.getX() + 3, tail.getY() + 2 ), new Point2D.Double( tip.getX() + 3, tip.getY() + 2 ), headHeight, headWidth, tailWidth ) {{
+            setPaint( Color.BLACK );
+            setStrokePaint( null );
+            setTransparency( 0.5f );
+        }}.fullPaint( context );
+
+        // arrow
+        new ArrowNode( tail, tip, headHeight, headWidth, tailWidth ) {{
+            setPaint( Color.WHITE );
+            setStrokePaint( Color.BLACK );
+        }}.fullPaint( context );
+    }
+
+    private static Cursor createCursor( final boolean isHorizontal ) {
+        BufferedImage image = new BufferedImage( 32, 32, BufferedImage.TYPE_INT_ARGB );
+        Graphics2D g2 = image.createGraphics();
+        g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF );
+        PPaintContext context = new PPaintContext( g2 );
+        if ( isHorizontal ) {
+            paintArrow( new Point2D.Double( 15, 16 ), new Point2D.Double( 3, 16 ), context );
+            paintArrow( new Point2D.Double( 17, 16 ), new Point2D.Double( 29, 16 ), context );
+        }
+        else {
+            paintArrow( new Point2D.Double( 16, 15 ), new Point2D.Double( 16, 3 ), context );
+            paintArrow( new Point2D.Double( 16, 17 ), new Point2D.Double( 16, 29 ), context );
+        }
+
+        // Use the image to create a cursor
+        Point hotSpot = new Point( image.getWidth() / 2, image.getHeight() / 2 );
+        String name = "DragHandleCursor";
+        Cursor cursor = Toolkit.getDefaultToolkit().createCustomCursor( image, hotSpot, name );
+        return cursor;
     }
 }
