@@ -13,7 +13,7 @@ import edu.colorado.phet.buildanatom.model.ImmutableAtom;
 import edu.colorado.phet.buildanatom.model.Neutron;
 import edu.colorado.phet.buildanatom.model.Proton;
 import edu.colorado.phet.buildanatom.model.SphericalParticle;
-import edu.colorado.phet.buildanatom.view.BucketNode;
+import edu.colorado.phet.buildanatom.view.BucketView;
 import edu.colorado.phet.buildanatom.view.OrbitalViewProperty;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
@@ -45,7 +45,7 @@ public class InteractiveSchematicAtomNode extends SchematicAtomNode {
         electronShellLayer.addChild( new CenterMarkerNode( model, mvt ) );
 
         // Add the buckets that hold the sub-atomic particles.
-        BucketNode electronBucketNode = new BucketNode( model.getElectronBucket(), mvt );
+        BucketView electronBucketNode = new BucketView( model.getElectronBucket(), mvt );
         electronBucketNode.setOffset( mvt.modelToView( model.getElectronBucket().getPosition() ) );
         electronShellLayer.addChild( electronBucketNode.getHoleLayer() );
         frontLayer.addChild( electronBucketNode.getContainerLayer() );
@@ -55,7 +55,7 @@ public class InteractiveSchematicAtomNode extends SchematicAtomNode {
             // atom later.
             addElectronNode( (Electron) electron );
         }
-        BucketNode protonBucketNode = new BucketNode( model.getProtonBucket(), mvt );
+        BucketView protonBucketNode = new BucketView( model.getProtonBucket(), mvt );
         protonBucketNode.setOffset( mvt.modelToView( model.getProtonBucket().getPosition() ) );
         electronShellLayer.addChild( protonBucketNode.getHoleLayer() );
         frontLayer.addChild( protonBucketNode.getContainerLayer() );
@@ -65,7 +65,7 @@ public class InteractiveSchematicAtomNode extends SchematicAtomNode {
             // atom later.
             addProtonNode( (Proton) proton );
         }
-        BucketNode neutronBucketNode = new BucketNode( model.getNeutronBucket(), mvt );
+        BucketView neutronBucketNode = new BucketView( model.getNeutronBucket(), mvt );
         neutronBucketNode.setOffset( mvt.modelToView( model.getNeutronBucket().getPosition() ) );
         electronShellLayer.addChild( neutronBucketNode.getHoleLayer() );
         frontLayer.addChild( neutronBucketNode.getContainerLayer() );

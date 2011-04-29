@@ -20,13 +20,16 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
 /**
- * This Piccolo2D node represents a bucket.  It is set up to have a sort of
- * "faux 3D" look, where it is tipped slightly so that the hole at the top
- * can be seen and there is shading on the outer portion.
+ * This is the view representation of a bucket.  It is set up to have a sort
+ * of "faux 3D" look, where it is tipped slightly so that the hole at the top
+ * can be seen and there is shading on the outer portion.  It does NOT extend
+ * a PNode, because it has a front and back that must be placed on different
+ * layers in order to allow objects to look as though they are in the buckets,
+ * so the API allows users to obtain the front and back layers separately.
  *
  * @author John Blanco
  */
-public class BucketNode extends PNode {
+public class BucketView {
 
     // ------------------------------------------------------------------------
     // Class Data
@@ -48,11 +51,7 @@ public class BucketNode extends PNode {
     // Constructor(s)
     // ------------------------------------------------------------------------
 
-    public BucketNode( Bucket bucket, ModelViewTransform mvt ) {
-        // Add the layers.
-        addChild( containerLayer );
-        addChild( holeLayer );
-
+    public BucketView( Bucket bucket, ModelViewTransform mvt ) {
         // Create a scaling transform based on the provided MVT, since we only
         // want the scaling portion and we want to avoid any translation.
         AffineTransform scaleTransform = AffineTransform.getScaleInstance( mvt.getTransform().getScaleX(),
@@ -94,6 +93,9 @@ public class BucketNode extends PNode {
                     scaledContainerShape.getBounds2D().getCenterY() - caption.getFullBoundsReference().getHeight() / 2 );
             containerLayer.addChild( caption );
         }
+
+        holeLayer.setOffset( mvt.modelToView( bucket.getPosition() ) );
+        containerLayer.setOffset( mvt.modelToView( bucket.getPosition() ) );
     }
 
     // ------------------------------------------------------------------------
@@ -108,14 +110,11 @@ public class BucketNode extends PNode {
         return containerLayer;
     }
 
-    @Override
     public void setOffset( double x, double y ) {
-        super.setOffset( x, y );
         holeLayer.setOffset( x, y );
         containerLayer.setOffset( x, y );
     }
 
-    @Override
     public void setOffset( Point2D point ) {
         setOffset( point.getX(), point.getY() );
     }
