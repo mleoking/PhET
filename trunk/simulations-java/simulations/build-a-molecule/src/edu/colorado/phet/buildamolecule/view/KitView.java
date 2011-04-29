@@ -5,6 +5,7 @@ import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
+import edu.colorado.phet.buildamolecule.BuildAMoleculeApplication;
 import edu.colorado.phet.buildamolecule.model.Kit;
 import edu.colorado.phet.buildamolecule.model.MoleculeStructure;
 import edu.colorado.phet.buildamolecule.model.buckets.AtomModel;
@@ -26,9 +27,16 @@ public class KitView {
     private PNode atomLayer = new PNode();
     private PNode bottomLayer = new PNode();
 
-    private Map<MoleculeStructure, MoleculeNode> moleculeMap = new HashMap<MoleculeStructure, MoleculeNode>();
+    private final Kit kit;
+    private final ModelViewTransform mvt;
+
+    private Map<MoleculeStructure, MoleculeMetadataNode> metadataMap = new HashMap<MoleculeStructure, MoleculeMetadataNode>();
+    private Map<MoleculeStructure, MoleculeBondsNode> bondMap = new HashMap<MoleculeStructure, MoleculeBondsNode>();
 
     public KitView( final Frame parentFrame, final Kit kit, final ModelViewTransform mvt ) {
+        this.kit = kit;
+        this.mvt = mvt;
+
         for ( Bucket bucket : kit.getBuckets() ) {
             BucketView bucketView = new BucketView( bucket, mvt );
 
@@ -68,17 +76,43 @@ public class KitView {
         kit.addMoleculeListener( new Kit.MoleculeAdapter() {
             @Override
             public void addedMolecule( MoleculeStructure moleculeStructure ) {
-                MoleculeNode moleculeNode = new MoleculeNode( parentFrame, kit, moleculeStructure, mvt );
-                metadataLayer.addChild( moleculeNode );
-                moleculeMap.put( moleculeStructure, moleculeNode );
+                MoleculeMetadataNode moleculeMetadataNode = new MoleculeMetadataNode( parentFrame, kit, moleculeStructure, mvt );
+                metadataLayer.addChild( moleculeMetadataNode );
+                metadataMap.put( moleculeStructure, moleculeMetadataNode );
+
+                if ( BuildAMoleculeApplication.allowBondBreaking.getValue() ) {
+                    addMoleculeBondNodes( moleculeStructure );
+                }
             }
 
             @Override
             public void removedMolecule( MoleculeStructure moleculeStructure ) {
-                MoleculeNode moleculeNode = moleculeMap.get( moleculeStructure );
-                moleculeNode.destruct();
-                metadataLayer.removeChild( moleculeNode );
-                moleculeMap.remove( moleculeStructure );
+                MoleculeMetadataNode moleculeMetadataNode = metadataMap.get( moleculeStructure );
+                moleculeMetadataNode.destruct();
+                metadataLayer.removeChild( moleculeMetadataNode );
+                metadataMap.remove( moleculeStructure );
+
+                if ( BuildAMoleculeApplication.allowBondBreaking.getValue() ) {
+                    removeMoleculeBondNodes( moleculeStructure );
+                }
+            }
+        } );
+
+        // support removing bonds for molecules
+        BuildAMoleculeApplication.allowBondBreaking.addObserver( new SimpleObserver() {
+            public void update() {
+                if ( BuildAMoleculeApplication.allowBondBreaking.getValue() ) {
+                    // enabled, so add in bond nodes
+                    for ( MoleculeStructure moleculeStructure : metadataMap.keySet() ) {
+                        addMoleculeBondNodes( moleculeStructure );
+                    }
+                }
+                else {
+                    // disabled, so remove bond nodes
+                    for ( MoleculeStructure moleculeStructure : bondMap.keySet() ) {
+                        removeMoleculeBondNodes( moleculeStructure );
+                    }
+                }
             }
         } );
 
@@ -92,6 +126,17 @@ public class KitView {
                 bottomLayer.setVisible( visible );
             }
         } );
+    }
+
+    public void addMoleculeBondNodes( MoleculeStructure moleculeStructure ) {
+        MoleculeBondsNode moleculeBondsNode = new MoleculeBondsNode( kit, moleculeStructure, mvt );
+        metadataLayer.addChild( moleculeBondsNode );
+        bondMap.put( moleculeStructure, moleculeBondsNode );
+    }
+
+    public void removeMoleculeBondNodes( MoleculeStructure moleculeStructure ) {
+        metadataLayer.removeChild( bondMap.get( moleculeStructure ) );
+        bondMap.remove( moleculeStructure );
     }
 
     public PNode getTopLayer() {

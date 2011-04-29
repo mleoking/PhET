@@ -314,6 +314,30 @@ public class Kit {
         separateMoleculeDestinations();
     }
 
+    /**
+     * Breaks a bond between two atoms in a molecule.
+     *
+     * @param a Atom A
+     * @param b Atom B
+     */
+    public void breakBond( AtomModel a, AtomModel b ) {
+        // get our old and new molecule structures
+        MoleculeStructure oldMolecule = getMoleculeStructure( a );
+        List<MoleculeStructure> newMolecules = MoleculeStructure.getMoleculesFromBrokenBond( oldMolecule, oldMolecule.getBond( a.getAtomInfo(), b.getAtomInfo() ) );
+
+        // break the bond in our lewis dot model
+        lewisDotModel.breakBond( a.getAtomInfo(), b.getAtomInfo() );
+
+        // remove the old one, add the new ones (firing listeners)
+        removeMolecule( oldMolecule );
+        for ( MoleculeStructure molecule : newMolecules ) {
+            addMolecule( molecule );
+        }
+
+        // push the new separate molecules away
+        separateMoleculeDestinations();
+    }
+
     public void addMoleculeListener( MoleculeListener listener ) {
         moleculeListeners.add( listener );
     }
@@ -324,6 +348,10 @@ public class Kit {
 
     public Property<Boolean> getHasMoleculesInBoxes() {
         return hasMoleculesInBoxes;
+    }
+
+    public LewisDotModel.Direction getBondDirection( Atom a, Atom b ) {
+        return lewisDotModel.getBondDirection( a, b );
     }
 
     public boolean hasAtomsOutsideOfBuckets() {

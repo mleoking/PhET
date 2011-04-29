@@ -74,6 +74,14 @@ public class LewisDotModel {
         }
     }
 
+    public void breakBond( Atom a, Atom b ) {
+        LewisDotAtom dotA = getLewisDotAtom( a );
+        LewisDotAtom dotB = getLewisDotAtom( b );
+        Direction direction = getBondDirection( a, b );
+        dotA.disconnect( direction );
+        dotB.disconnect( Direction.opposite( direction ) );
+    }
+
     public void bond( Atom a, Direction dirAtoB, Atom b ) {
         LewisDotAtom dotA = getLewisDotAtom( a );
         LewisDotAtom dotB = getLewisDotAtom( b );
@@ -101,6 +109,16 @@ public class LewisDotModel {
             }
         }
         return ret;
+    }
+
+    public Direction getBondDirection( Atom a, Atom b ) {
+        LewisDotAtom dotA = getLewisDotAtom( a );
+        for ( Direction direction : Direction.values() ) {
+            if ( dotA.hasConnection( direction ) && dotA.connections.get( direction ).get().atom == b ) {
+                return direction;
+            }
+        }
+        throw new RuntimeException( "Bond not found" );
     }
 
     /*---------------------------------------------------------------------------*
