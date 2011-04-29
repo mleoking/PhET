@@ -31,7 +31,7 @@ import edu.umd.cs.piccolo.util.PBounds;
 /**
  * Displays the molecule name and 'X' to break apart the molecule
  */
-public class MoleculeNode extends PNode {
+public class MoleculeMetadataNode extends PNode {
     private Kit kit;
     private MoleculeStructure moleculeStructure;
     private ModelViewTransform mvt;
@@ -41,7 +41,7 @@ public class MoleculeNode extends PNode {
 
     private static final double PADDING_BETWEEN_NODE_AND_ATOM = 5;
 
-    public MoleculeNode( final Frame parentFrame, final Kit kit, final MoleculeStructure moleculeStructure, ModelViewTransform mvt ) {
+    public MoleculeMetadataNode( final Frame parentFrame, final Kit kit, final MoleculeStructure moleculeStructure, ModelViewTransform mvt ) {
         // SwingLayoutNode was doing some funky stuff (and wasn't centering), so we're rolling back to manual positioning
         this.kit = kit;
         this.moleculeStructure = moleculeStructure;

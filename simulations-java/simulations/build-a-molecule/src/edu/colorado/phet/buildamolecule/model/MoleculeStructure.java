@@ -301,6 +301,88 @@ public class MoleculeStructure {
     }
 
     /**
+     * Split a bond in a molecule, and return the remaining molecule structure(s)
+     *
+     * @param structure The molecule
+     * @param bond      The bond to break
+     * @return A list of remaining structures
+     */
+    public static List<MoleculeStructure> getMoleculesFromBrokenBond( MoleculeStructure structure, final Bond bond ) {
+        // TODO: in the future when we have loops, we can't assume that this will break a molecule into two separate molecules!
+        final MoleculeStructure molA = new MoleculeStructure();
+        final MoleculeStructure molB = new MoleculeStructure();
+
+        /*---------------------------------------------------------------------------*
+        * separate out which atoms belong in which remaining molecule
+        * TODO: separate out code into a "get connected submolecule" code?
+        *----------------------------------------------------------------------------*/
+
+        Set<Atom> atomsInA = new HashSet<Atom>() {{
+            add( bond.a );
+        }};
+
+        // atoms left after removing atoms
+        Set<Atom> remainingAtoms = new HashSet<Atom>( structure.getAtoms() );
+        remainingAtoms.remove( bond.a );
+        Set<Atom> dirtyAtoms = new HashSet<Atom>() {{
+            add( bond.a );
+        }};
+        while ( !dirtyAtoms.isEmpty() ) {
+            Atom atom = dirtyAtoms.iterator().next();
+            dirtyAtoms.remove( atom );
+
+            // for all neighbors that don't use our "bond"
+            for ( Bond otherBond : structure.bonds ) {
+                if ( otherBond != bond && otherBond.contains( atom ) ) {
+                    Atom neighbor = otherBond.getOtherAtom( atom );
+
+                    // pick out our neighbor, mark it as in "A", and mark it as dirty so we can process its neighbors
+                    if ( remainingAtoms.contains( neighbor ) ) {
+                        remainingAtoms.remove( neighbor );
+                        dirtyAtoms.add( neighbor );
+                        atomsInA.add( neighbor );
+                    }
+                }
+            }
+        }
+
+        /*---------------------------------------------------------------------------*
+        * construct our two molecules
+        *----------------------------------------------------------------------------*/
+
+        for ( Atom atom : structure.getAtoms() ) {
+            if ( atomsInA.contains( atom ) ) {
+                molA.addAtom( atom );
+            }
+            else {
+                molB.addAtom( atom );
+            }
+        }
+
+        for ( Bond otherBond : structure.getBonds() ) {
+            if ( otherBond != bond ) {
+                if ( atomsInA.contains( otherBond.a ) ) {
+                    assert atomsInA.contains( otherBond.b );
+                    molA.addBond( otherBond );
+                }
+                else {
+                    molB.addBond( otherBond );
+                }
+            }
+        }
+
+        System.out.println( "splitting " + structure.toSerial() + " into:" );
+        System.out.println( molA.toSerial() );
+        System.out.println( molB.toSerial() );
+
+        // return our two molecules
+        return new LinkedList<MoleculeStructure>() {{
+            add( molA );
+            add( molB );
+        }};
+    }
+
+    /**
      * @return A serialized form of this structure. It is |-separated tokens, with the format:
      *         atom quantity
      *         bond quantity
@@ -366,6 +448,15 @@ public class MoleculeStructure {
             }
         }
         return false;
+    }
+
+    public Bond getBond( Atom a, Atom b ) {
+        for ( Bond bond : bonds ) {
+            if ( bond.contains( a ) && bond.contains( b ) ) {
+                return bond;
+            }
+        }
+        throw new RuntimeException( "Could not find bond!" );
     }
 
     public static class Bond {

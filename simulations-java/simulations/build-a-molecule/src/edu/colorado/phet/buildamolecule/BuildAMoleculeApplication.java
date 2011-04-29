@@ -42,6 +42,11 @@ public class BuildAMoleculeApplication extends PiccoloPhetApplication {
     public static final Property<Boolean> resetKitIgnoresCollectionBoxes = new Property<Boolean>( false );
 
     /**
+     * Shows a cursor that indicates a bond will be split when the mouse is over, and on a click it will break the bond
+     */
+    public static final Property<Boolean> allowBondBreaking = new Property<Boolean>( true );
+
+    /**
      * Sole constructor.
      *
      * @param config the configuration for this application
@@ -108,6 +113,7 @@ public class BuildAMoleculeApplication extends PiccoloPhetApplication {
         developerMenu.add( new PropertyCheckBoxMenuItem( "Allow generation with all molecules", allowGenerationWithAllMolecules ) );
         developerMenu.add( new PropertyCheckBoxMenuItem( "Allow all isomers of target molecule in boxes", allowCollectionBoxMatchingByMolecularFormula ) );
         developerMenu.add( new PropertyCheckBoxMenuItem( "Reset kit leaves collection box alone (any molecule left in box will be permanent)", resetKitIgnoresCollectionBoxes ) );
+        developerMenu.add( new PropertyCheckBoxMenuItem( "Enable bond breaking", allowBondBreaking ) );
     }
 
     //----------------------------------------------------------------------------
