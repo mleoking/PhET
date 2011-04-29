@@ -5,8 +5,6 @@ import java.util.*;
 import java.util.List;
 
 import edu.colorado.phet.buildamolecule.model.*;
-import edu.colorado.phet.buildamolecule.model.buckets.AtomModel;
-import edu.colorado.phet.buildamolecule.model.buckets.Bucket;
 import edu.colorado.phet.buildamolecule.view.BuildAMoleculeCanvas;
 import edu.colorado.phet.chemistry.model.Atom;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;

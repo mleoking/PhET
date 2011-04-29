@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.buildamolecule;
+package edu.colorado.phet.buildamolecule.tests;
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;

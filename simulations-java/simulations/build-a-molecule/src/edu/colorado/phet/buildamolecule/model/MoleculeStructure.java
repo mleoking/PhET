@@ -3,7 +3,6 @@ package edu.colorado.phet.buildamolecule.model;
 
 import java.util.*;
 
-import edu.colorado.phet.buildamolecule.model.buckets.AtomModel;
 import edu.colorado.phet.chemistry.model.Atom;
 import edu.colorado.phet.chemistry.utils.ChemUtils;
 

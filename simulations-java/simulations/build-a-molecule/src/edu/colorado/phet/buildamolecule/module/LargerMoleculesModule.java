@@ -5,13 +5,13 @@ package edu.colorado.phet.buildamolecule.module;
 import java.awt.*;
 
 import edu.colorado.phet.buildamolecule.BuildAMoleculeStrings;
+import edu.colorado.phet.buildamolecule.model.Bucket;
 import edu.colorado.phet.buildamolecule.model.Kit;
 import edu.colorado.phet.buildamolecule.model.KitCollectionModel;
-import edu.colorado.phet.buildamolecule.model.buckets.Bucket;
 import edu.colorado.phet.buildamolecule.view.BuildAMoleculeCanvas;
 import edu.umd.cs.piccolo.util.PDimension;
 
-import static edu.colorado.phet.buildamolecule.model.buckets.AtomModel.*;
+import static edu.colorado.phet.buildamolecule.model.AtomModel.*;
 
 /**
  * Module for the 3rd tab. Shows kits below as normal, but without collection boxes. Instead, the user is presented with an option of a "3d" view

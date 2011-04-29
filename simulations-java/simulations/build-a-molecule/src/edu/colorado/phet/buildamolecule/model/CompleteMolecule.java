@@ -11,7 +11,6 @@ import org.jmol.api.JmolViewer;
 
 import edu.colorado.phet.buildamolecule.BuildAMoleculeApplication;
 import edu.colorado.phet.buildamolecule.BuildAMoleculeResources;
-import edu.colorado.phet.buildamolecule.model.buckets.AtomModel;
 import edu.colorado.phet.chemistry.model.Atom;
 import edu.colorado.phet.chemistry.molecules.*;
 import edu.umd.cs.piccolo.PNode;

@@ -3,7 +3,7 @@ package edu.colorado.phet.buildamolecule.view;
 
 import java.awt.*;
 
-import edu.colorado.phet.buildamolecule.model.buckets.AtomModel;
+import edu.colorado.phet.buildamolecule.model.AtomModel;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;

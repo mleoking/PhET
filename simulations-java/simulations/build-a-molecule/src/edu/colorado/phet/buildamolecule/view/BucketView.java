@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.buildamolecule.model.buckets.Bucket;
+import edu.colorado.phet.buildamolecule.model.Bucket;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;

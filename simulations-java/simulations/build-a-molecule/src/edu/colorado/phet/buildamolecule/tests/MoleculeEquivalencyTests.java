@@ -1,4 +1,4 @@
-package edu.colorado.phet.buildamolecule.model.tests;
+package edu.colorado.phet.buildamolecule.tests;
 
 import java.util.List;
 
