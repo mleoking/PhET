@@ -72,8 +72,16 @@ public class PeriodicTableNode extends PNode {
     // Methods
     // ------------------------------------------------------------------------
 
+    /**
+     * Override to create cells that look different or implement some unique
+     * behavior.
+     */
+    protected ElementCell createCellForElement( IDynamicAtom atomBeingWatched, int atomicNumberOfCell, Color backgroundColor ){
+        return new BasicElementCell( atomBeingWatched, atomicNumberOfCell, backgroundColor );
+    }
+
     private void addElement( final IDynamicAtom atom, final PNode table, int atomicNumber ) {
-        ElementCell elementCell = new ElementCell( atom, atomicNumber, backgroundColor );
+        ElementCell elementCell = createCellForElement( atom, atomicNumber, backgroundColor );
         final Point gridPoint = getGridPoint( atomicNumber );
         double x = ( gridPoint.getY() - 1 ) * CELL_DIMENSION;     //expansion cells render as "..." on top of each other
         double y = ( gridPoint.getX() - 1 ) * CELL_DIMENSION;
@@ -90,6 +98,7 @@ public class PeriodicTableNode extends PNode {
      * @param elementCell
      */
     protected void elementCellCreated( ElementCell elementCell ) {
+        // Does nothing by default.
     }
 
     /**
@@ -160,18 +169,40 @@ public class PeriodicTableNode extends PNode {
         return new Point( 1, 1 );
     }
 
-    // ------------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     // Inner Classes and Interfaces
     //------------------------------------------------------------------------
 
-    public class ElementCell extends PNode {
+    /**
+     * Abstract base class for cells that comprise the periodic table.
+     */
+    public static abstract class ElementCell extends PNode{
         private final int atomicNumber;
+        private final IDynamicAtom atom;
+
+        public ElementCell( IDynamicAtom atom, int atomicNumber ) {
+            this.atom = atom;
+            this.atomicNumber = atomicNumber;
+        }
+
+        public int getAtomicNumber() {
+            return atomicNumber;
+        }
+
+        protected IDynamicAtom getAtom() {
+            return atom;
+        }
+    }
+
+    /**
+     * Basic, non-interactive cell for periodic table.
+     */
+    public static class BasicElementCell extends ElementCell {
         private final PText text;
         private final PhetPPath box;
-        private final boolean disabledLooking = false;
 
-        public ElementCell( final IDynamicAtom atom, final int atomicNumber, final Color backgroundColor ) {
-            this.atomicNumber = atomicNumber;
+        public BasicElementCell( final IDynamicAtom atom, final int atomicNumber, final Color backgroundColor ) {
+            super( atom, atomicNumber );
             box = new PhetPPath( new Rectangle2D.Double( 0, 0, CELL_DIMENSION, CELL_DIMENSION ),
                     backgroundColor, new BasicStroke( 1 ), Color.black );
             addChild( box );
@@ -181,34 +212,43 @@ public class PeriodicTableNode extends PNode {
             text.setOffset( box.getFullBounds().getCenterX() - text.getFullBounds().getWidth() / 2,
                     box.getFullBounds().getCenterY() - text.getFullBounds().getHeight() / 2 );
             addChild( text );
-            atom.addAtomListener( new AtomListener.Adapter() {
+        }
+
+        protected PText getText() {
+            return text;
+        }
+
+        protected PhetPPath getBox() {
+            return box;
+        }
+    }
+
+    /**
+     * Cell that watches the atom and highlights the cell if the atomic number
+     * matches that of the cell.
+     */
+    public static class HightlightingElementCell extends BasicElementCell {
+        public HightlightingElementCell( final IDynamicAtom atom, final int atomicNumber, final Color backgroundColor ) {
+            super( atom, atomicNumber, backgroundColor );
+            getAtom().addAtomListener( new AtomListener.Adapter() {
                 @Override
                 public void configurationChanged() {
-                    boolean match = atom.getNumProtons() == atomicNumber;
-                    text.setFont( new PhetFont( PhetFont.getDefaultFontSize(), match ) );
+                    boolean match = getAtom().getNumProtons() == atomicNumber;
+                    getText().setFont( new PhetFont( PhetFont.getDefaultFontSize(), match ) );
                     if ( match ) {
-                        box.setStroke( new BasicStroke( 2 ) );
-                        box.setStrokePaint( Color.RED );
-                        box.setPaint( Color.white );
-                        ElementCell.this.moveToFront();
+                        getBox().setStroke( new BasicStroke( 2 ) );
+                        getBox().setStrokePaint( Color.RED );
+                        getBox().setPaint( Color.white );
+                        HightlightingElementCell.this.moveToFront();
                     }
                     else {
-                        if ( !disabledLooking ){
-                            box.setStroke( new BasicStroke( 1 ) );
-                            box.setStrokePaint( Color.BLACK );
-                            box.setPaint( backgroundColor );
-                        }
-                        else{
-                            text.setTextPaint( Color.LIGHT_GRAY );
-                            box.setStrokePaint( Color.LIGHT_GRAY );
-                        }
+                        getText().setTextPaint( Color.BLACK );
+                        getBox().setStrokePaint( Color.BLACK );
+                        getBox().setPaint( backgroundColor );
+                        getBox().setStroke( new BasicStroke( 1 ) );
                     }
                 }
             } );
-        }
-
-        public int getAtomicNumber() {
-            return atomicNumber;
         }
     }
 }
