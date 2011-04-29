@@ -60,7 +60,7 @@ public class MoleculeMetadataNode extends PNode {
             /*---------------------------------------------------------------------------*
             * label with chemical formula and common name
             *----------------------------------------------------------------------------*/
-            addChild( new HTMLNode( completeMolecule.getCommonName() ) {{
+            addChild( new HTMLNode( completeMolecule.getDisplayName() ) {{
                 setFont( new PhetFont( 14, true ) );
                 currentX.setValue( currentX.getValue() + getFullBounds().getWidth() + 10 );
             }} );

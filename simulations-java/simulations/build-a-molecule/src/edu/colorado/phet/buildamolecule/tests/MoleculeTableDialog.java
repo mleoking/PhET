@@ -45,7 +45,7 @@ public class MoleculeTableDialog extends JDialog {
                 anchor = WEST;
                 insets = new Insets( 4, 4, 4, 4 );
             }};
-            content.add( new JTextField( completeMolecule.getCommonName() ) {{
+            content.add( new JTextField( completeMolecule.getDisplayName() ) {{
                 setEditable( false );
                 setBorder( null );
             }}, constraints );

@@ -17,7 +17,7 @@ public class JmolDialog extends JDialog {
     public JmolDialog( Frame owner, CompleteMolecule molecule ) {
         super( owner );
 
-        setTitle( molecule.getCommonName() );
+        setTitle( molecule.getDisplayName() );
         setSize( 410, 410 );
 
         JPanel container = new JPanel( new BorderLayout() );
