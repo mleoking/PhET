@@ -94,6 +94,10 @@ public class CompleteMolecule {
         return capitalize( ret );
     }
 
+    /**
+     * @return A translated display name if possible. This does a weird lookup so that we can only list some of the names in the translation, but can
+     *         accept an even larger number of translated names in a translation file
+     */
     public String getDisplayName() {
         // first check if we have it translated. do NOT warn on missing
         String lookupKey = "molecule." + commonName.replace( ' ', '_' );
