@@ -9,6 +9,7 @@ import java.awt.geom.Rectangle2D;
 import edu.colorado.phet.buildanatom.model.AtomIdentifier;
 import edu.colorado.phet.buildanatom.model.AtomListener;
 import edu.colorado.phet.buildanatom.model.IDynamicAtom;
+import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
@@ -229,7 +230,7 @@ public class PeriodicTableNode extends PNode {
                     getText().setFont( new PhetFont( PhetFont.getDefaultFontSize(), match ) );
                     if ( match ) {
                         getBox().setStroke( new BasicStroke( 2 ) );
-                        getBox().setStrokePaint( Color.RED );
+                        getBox().setStrokePaint( PhetColorScheme.RED_COLORBLIND );
                         getBox().setPaint( Color.white );
                         HightlightingElementCell.this.moveToFront();
                     }

@@ -14,6 +14,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.SignedIntegerFormat;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
@@ -75,11 +76,11 @@ public class InteractiveSymbolNode extends PNode {
 
         final PText elementName = new PText() {{
                 setFont( ELEMENT_NAME_FONT );
-                setTextPaint( Color.red );
+                setTextPaint( PhetColorScheme.RED_COLORBLIND );
         }};
         addChild( elementName );
 
-        ValueNode protonValueNode = new ValueNode( protonCountProperty, 0, 20, 1, interactiveProtonCountProperty, ValueNode.DEFAULT_NUMBER_FORMAT, new Function0.Constant<Color>( Color.red ) );
+        ValueNode protonValueNode = new ValueNode( protonCountProperty, 0, 20, 1, interactiveProtonCountProperty, ValueNode.DEFAULT_NUMBER_FORMAT, new Function0.Constant<Color>( PhetColorScheme.RED_COLORBLIND ) );
         protonValueNode.setScale( SPINNER_HEIGHT / protonValueNode.getFullBoundsReference().height );
         protonValueNode.setOffset( SPINNER_EDGE_OFFSET, WIDTH - protonValueNode.getFullBoundsReference().height - SPINNER_EDGE_OFFSET );
         addChild( protonValueNode );
@@ -112,7 +113,7 @@ public class InteractiveSymbolNode extends PNode {
                 int v = chargeProperty.getValue();
                 Color color;
                 if ( v > 0 ) {
-                    color = Color.red;
+                    color = PhetColorScheme.RED_COLORBLIND;
                 }
                 else if ( v < 0 ) {
                     color = Color.blue;

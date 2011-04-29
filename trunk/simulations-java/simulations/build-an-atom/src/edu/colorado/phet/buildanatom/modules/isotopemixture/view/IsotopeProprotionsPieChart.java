@@ -46,8 +46,8 @@ class IsotopeProprotionsPieChart extends PNode {
         // Create and add a layer where the labels will be placed.
         final PNode labelLayer = new PNode();
         addChild( labelLayer );
-        // Create and add the pie chart itself.
-        final PieChartNode pieChart = new PieChartNode( new PieValue[] { new PieValue( 100, Color.red ) },
+        // Create and add the pie chart itself.  Initial color is arbitrary.
+        final PieChartNode pieChart = new PieChartNode( new PieValue[] { new PieValue( 100, Color.yellow ) },
                 new Rectangle( -PIE_CHART_DIAMETER / 2, -PIE_CHART_DIAMETER / 2, PIE_CHART_DIAMETER, PIE_CHART_DIAMETER ) ) {{
                 setOffset( 0, 0 );
             }};

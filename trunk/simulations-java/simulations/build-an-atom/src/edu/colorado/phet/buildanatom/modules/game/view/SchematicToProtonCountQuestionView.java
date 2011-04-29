@@ -10,6 +10,7 @@ import edu.colorado.phet.buildanatom.model.ImmutableAtom;
 import edu.colorado.phet.buildanatom.modules.game.model.BuildAnAtomGameModel;
 import edu.colorado.phet.buildanatom.modules.game.model.Problem;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
+import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 
 /**
  * View for the problem that presents a schematic view of an atom and asks
@@ -30,7 +31,7 @@ public class SchematicToProtonCountQuestionView extends SchematicToQuestionView 
         super( model, gameCanvas, problem, BuildAnAtomStrings.GAME_ANSWER_THE_PROTON_COUNT_QUESTION, 0, 100, new DecimalFormat( "0" ) );
 
         // Display the value in red.
-        getQuestion().setValueColorFunction( new Function0.Constant<Color>( Color.RED ) );
+        getQuestion().setValueColorFunction( new Function0.Constant<Color>( PhetColorScheme.RED_COLORBLIND ) );
     }
 
     @Override

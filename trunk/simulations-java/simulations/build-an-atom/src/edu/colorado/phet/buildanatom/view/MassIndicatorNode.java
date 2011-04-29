@@ -14,6 +14,7 @@ import edu.colorado.phet.buildanatom.model.Atom;
 import edu.colorado.phet.buildanatom.model.AtomListener;
 import edu.colorado.phet.buildanatom.model.ElectronShell;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
@@ -72,7 +73,7 @@ public class MassIndicatorNode extends PNode {
                 public void configurationChanged() {
                     setVisible( atom.getNumProtons() + atom.getNumNeutrons() > 0 );
                     if ( atom.getNumProtons() > 0 ) {
-                        setPaint( Color.red );//if any protons, it should look red
+                        setPaint( PhetColorScheme.RED_COLORBLIND );//if any protons, it should look red
                     }
                     else {
                         setPaint( Color.gray );
