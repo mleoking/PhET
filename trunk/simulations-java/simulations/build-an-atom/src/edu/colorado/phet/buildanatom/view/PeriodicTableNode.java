@@ -16,11 +16,11 @@ import edu.umd.cs.piccolo.nodes.PText;
 
 /**
  * This class defines a node that represents a periodic table of the elements.
- * It is not interactive by default, but provides overrides that can be used
- * to add interactivity.
+ * It is not interactive by default, but provides infrastructure that can be
+ * used to add interactivity in subclasses.
  *
  * This makes some assumptions about which portions of the table to display,
- * and may not work for all situations.
+ * and may not work for all situations where a periodic table is needed.
  *
  * @author Sam Reid
  * @author John Blanco
@@ -31,13 +31,13 @@ public class PeriodicTableNode extends PNode {
     // Class Data
     // ------------------------------------------------------------------------
 
-    public static int CELL_DIMENSION = 20;
+    public static final int CELL_DIMENSION = 20; // In screen coordinates.
 
     // ------------------------------------------------------------------------
     // Instance Data
     // ------------------------------------------------------------------------
 
-    public Color backgroundColor = null;
+    public final Color backgroundColor;
 
     // ------------------------------------------------------------------------
     // Constructor(s)
@@ -45,7 +45,6 @@ public class PeriodicTableNode extends PNode {
 
     /**
      * Constructor.
-     * @param backgroundColor
      */
     public PeriodicTableNode( final IDynamicAtom atom, Color backgroundColor ) {
         this.backgroundColor = backgroundColor;
@@ -72,9 +71,13 @@ public class PeriodicTableNode extends PNode {
     // Methods
     // ------------------------------------------------------------------------
 
+    protected static int getCellDimension() {
+        return CELL_DIMENSION;
+    }
+
     /**
-     * Override to create cells that look different or implement some unique
-     * behavior.
+     * Create a cell for an individual element.  Override this to create cells
+     * that look different or implement some unique behavior.
      */
     protected ElementCell createCellForElement( IDynamicAtom atomBeingWatched, int atomicNumberOfCell, Color backgroundColor ){
         return new BasicElementCell( atomBeingWatched, atomicNumberOfCell, backgroundColor );
@@ -87,18 +90,6 @@ public class PeriodicTableNode extends PNode {
         double y = ( gridPoint.getX() - 1 ) * CELL_DIMENSION;
         elementCell.setOffset( x, y );
         table.addChild( elementCell );
-        elementCellCreated( elementCell );
-    }
-
-    /**
-     * Listener callback, override when needing notification of the creation
-     * of element cells.  This is useful when creating an interactive chart,
-     * since it is a good opportunity to hook up event listeners to the cell.
-     *
-     * @param elementCell
-     */
-    protected void elementCellCreated( ElementCell elementCell ) {
-        // Does nothing by default.
     }
 
     /**
@@ -203,6 +194,7 @@ public class PeriodicTableNode extends PNode {
 
         public BasicElementCell( final IDynamicAtom atom, final int atomicNumber, final Color backgroundColor ) {
             super( atom, atomicNumber );
+
             box = new PhetPPath( new Rectangle2D.Double( 0, 0, CELL_DIMENSION, CELL_DIMENSION ),
                     backgroundColor, new BasicStroke( 1 ), Color.black );
             addChild( box );

@@ -29,8 +29,9 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * This class defines the version of the periodic table that is used within
- * the Build an Atom game.  It add basic interactivity that allows the user
- * to select an atom on the chart, generally in answer to a question.
+ * the Build an Atom game.  It adds basic interactivity to the base class
+ * that allows the user to select an atom on the chart, generally in answer to
+ * a question.
  *
  * @author John Blanco
  */
@@ -152,6 +153,11 @@ public class GamePeriodicTable extends PNode {
         jradioButtonListeners.add(simpleObserver);
     }
 
+    /**
+     * This class defines a cell for the periodic table that can be clicked
+     * on by the user in order to submit a guess about an atom's
+     * configuration.
+     */
     private static class SelectableElementCell extends PeriodicTableNode.HightlightingElementCell {
         public SelectableElementCell( final GamePeriodicTable table, final IDynamicAtom atom, final int atomicNumber, final Color backgroundColor ) {
             super( atom, atomicNumber, backgroundColor );

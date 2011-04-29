@@ -7,8 +7,8 @@ import java.awt.Color;
 import edu.colorado.phet.buildanatom.model.IDynamicAtom;
 
 /**
- *
- * @author John Blanco
+ * A version of the periodic table that highlights the cell that matches the
+ * supplied atom's configuration.
  */
 public class HighlightingPeriodicTable extends PeriodicTableNode {
 

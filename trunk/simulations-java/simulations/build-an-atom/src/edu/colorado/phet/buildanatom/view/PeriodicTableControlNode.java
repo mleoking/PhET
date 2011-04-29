@@ -29,8 +29,6 @@ public class PeriodicTableControlNode extends PNode {
     // Class Data
     // ------------------------------------------------------------------------
 
-    public static int CELL_DIMENSION = 20; // Cells are square, this is both width and height.
-
     // ------------------------------------------------------------------------
     // Instance Data
     // ------------------------------------------------------------------------
@@ -95,7 +93,7 @@ public class PeriodicTableControlNode extends PNode {
             // Create the node that will act as the button, receiving events
             // from the user.
             buttonNode = new PImage( IDLE_IMAGE );
-            double buttonScale = CELL_DIMENSION / buttonNode.getFullBoundsReference().width;
+            double buttonScale = PeriodicTableNode.getCellDimension() / buttonNode.getFullBoundsReference().width;
             buttonNode.setScale( buttonScale );
             addChild( buttonNode );
 
