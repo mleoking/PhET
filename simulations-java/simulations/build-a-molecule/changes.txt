@@ -1,3 +1,4 @@
+# 0.00.13 (51325) Apr 29, 2011
 Using new 3D icon and changed cursor for "breaking" bonds
 # 0.00.12 (51317) Apr 29, 2011
 Added i18n for molecule names
