@@ -4,8 +4,6 @@ package edu.colorado.phet.buildamolecule.model;
 import java.util.*;
 
 import edu.colorado.phet.buildamolecule.BuildAMoleculeApplication;
-import edu.colorado.phet.buildamolecule.model.buckets.AtomModel;
-import edu.colorado.phet.buildamolecule.model.buckets.Bucket;
 import edu.colorado.phet.chemistry.model.Atom;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;

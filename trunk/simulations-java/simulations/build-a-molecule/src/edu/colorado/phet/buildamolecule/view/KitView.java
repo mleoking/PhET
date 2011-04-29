@@ -6,10 +6,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import edu.colorado.phet.buildamolecule.BuildAMoleculeApplication;
+import edu.colorado.phet.buildamolecule.model.AtomModel;
+import edu.colorado.phet.buildamolecule.model.Bucket;
 import edu.colorado.phet.buildamolecule.model.Kit;
 import edu.colorado.phet.buildamolecule.model.MoleculeStructure;
-import edu.colorado.phet.buildamolecule.model.buckets.AtomModel;
-import edu.colorado.phet.buildamolecule.model.buckets.Bucket;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;

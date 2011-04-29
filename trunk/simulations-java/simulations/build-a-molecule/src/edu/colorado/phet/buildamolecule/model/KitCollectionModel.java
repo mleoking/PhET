@@ -4,7 +4,6 @@ package edu.colorado.phet.buildamolecule.model;
 import java.util.LinkedList;
 import java.util.List;
 
-import edu.colorado.phet.buildamolecule.model.buckets.AtomModel;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction2;

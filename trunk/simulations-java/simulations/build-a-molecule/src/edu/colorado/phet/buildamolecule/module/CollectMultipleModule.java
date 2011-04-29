@@ -5,17 +5,13 @@ package edu.colorado.phet.buildamolecule.module;
 import java.awt.*;
 
 import edu.colorado.phet.buildamolecule.BuildAMoleculeStrings;
-import edu.colorado.phet.buildamolecule.model.CollectionBox;
-import edu.colorado.phet.buildamolecule.model.CompleteMolecule;
-import edu.colorado.phet.buildamolecule.model.Kit;
-import edu.colorado.phet.buildamolecule.model.KitCollectionModel;
-import edu.colorado.phet.buildamolecule.model.buckets.Bucket;
+import edu.colorado.phet.buildamolecule.model.*;
 import edu.colorado.phet.buildamolecule.view.BuildAMoleculeCanvas;
 import edu.colorado.phet.buildamolecule.view.MoleculeCollectingCanvas;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.umd.cs.piccolo.util.PDimension;
 
-import static edu.colorado.phet.buildamolecule.model.buckets.AtomModel.*;
+import static edu.colorado.phet.buildamolecule.model.AtomModel.*;
 
 /**
  * Module for 2nd tab. Collection boxes take multiple molecules of the same type, and start off with a different kit collection each time

@@ -12,6 +12,7 @@ import edu.colorado.phet.buildamolecule.module.AbstractBuildAMoleculeModule;
 import edu.colorado.phet.buildamolecule.module.CollectMultipleModule;
 import edu.colorado.phet.buildamolecule.module.LargerMoleculesModule;
 import edu.colorado.phet.buildamolecule.module.MakeMoleculeModule;
+import edu.colorado.phet.buildamolecule.tests.MoleculeTableDialog;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
