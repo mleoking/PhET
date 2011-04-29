@@ -1,10 +1,11 @@
 '+' to view 3d from collection box
-Developer option to make "Reset kit" not pull from collection box
 Add BCE sound ding + bottom of collection box
 Process molecule lists instead of (<=4 heavy) to (works with our kits)
 Change icons: Information "i" OR "eye" icon for 3D? Asterisk or explosion to break apart
 Try out "opposing arrows" mouse-over to break bonds. Or change cursor
 Use molecular, not structural (alcohol) formulas
+Remove isomer developer control, and/or pulling from all molecules
+I18n of molecule names
 
 PENDING:
 Emailed Sandor about translating names. Developer recommendation: translate a subset
@@ -15,3 +16,4 @@ Color blindness test
 
 EVALUATION:
 Possibly attempt to generate less kits? PENDING feedback
+Developer option to make "Reset kit" not pull from collection box

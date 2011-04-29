@@ -1,3 +1,4 @@
+Added developer control to make "Reset kit" not touch molecules in collection boxes
 # 0.00.11 (51284) Apr 27, 2011
 Moved "Reset kit" button to the upper-left of kit area
 Removed "duplicate" molecule definitions
