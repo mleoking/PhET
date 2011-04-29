@@ -2,7 +2,6 @@
 Add BCE sound ding + bottom of collection box
 Process molecule lists instead of (<=4 heavy) to (works with our kits)
 Remove isomer developer control, and/or pulling from all molecules
-I18n of molecule names
 
 PENDING:
 Emailed Sandor about translating names. Developer recommendation: translate a subset

@@ -94,6 +94,21 @@ public class CompleteMolecule {
         return capitalize( ret );
     }
 
+    public String getDisplayName() {
+        // first check if we have it translated. do NOT warn on missing
+        String lookupKey = "molecule." + commonName.replace( ' ', '_' );
+        String stringLookup = BuildAMoleculeResources.getResourceLoader().getLocalizedProperties().getString( lookupKey, false );
+
+        // we need to check whether it came back the same as the key due to how getString works.
+        if ( stringLookup != null && !stringLookup.equals( lookupKey ) ) {
+            return stringLookup;
+        }
+        else {
+            // if we didn't find it, pull it from our English data
+            return getCommonName();
+        }
+    }
+
     private String capitalize( String str ) {
         char[] characters = str.toCharArray();
         boolean lastWasSpace = true;

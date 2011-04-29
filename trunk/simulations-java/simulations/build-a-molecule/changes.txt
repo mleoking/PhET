@@ -1,3 +1,4 @@
+Added i18n for molecule names
 Molecules push each other relative to their approximate molecular weight
 Added single bond break user interface (cursor with arrows), and developer control to disable it if desired
 Changed icons for 3D view and break molecule
