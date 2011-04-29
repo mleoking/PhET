@@ -37,6 +37,11 @@ public class BuildAMoleculeApplication extends PiccoloPhetApplication {
     public static final Property<Boolean> allowCollectionBoxMatchingByMolecularFormula = new Property<Boolean>( false );
 
     /**
+     * If true, resetting a kit doesn't pull atoms from the collection box, but instead creates new ones to fill the buckets
+     */
+    public static final Property<Boolean> resetKitIgnoresCollectionBoxes = new Property<Boolean>( false );
+
+    /**
      * Sole constructor.
      *
      * @param config the configuration for this application
@@ -102,6 +107,7 @@ public class BuildAMoleculeApplication extends PiccoloPhetApplication {
         }} );
         developerMenu.add( new PropertyCheckBoxMenuItem( "Allow generation with all molecules", allowGenerationWithAllMolecules ) );
         developerMenu.add( new PropertyCheckBoxMenuItem( "Allow all isomers of target molecule in boxes", allowCollectionBoxMatchingByMolecularFormula ) );
+        developerMenu.add( new PropertyCheckBoxMenuItem( "Reset kit leaves collection box alone (any molecule left in box will be permanent)", resetKitIgnoresCollectionBoxes ) );
     }
 
     //----------------------------------------------------------------------------

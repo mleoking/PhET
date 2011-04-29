@@ -3,6 +3,7 @@ package edu.colorado.phet.buildamolecule.model;
 
 import java.util.*;
 
+import edu.colorado.phet.buildamolecule.BuildAMoleculeApplication;
 import edu.colorado.phet.buildamolecule.model.buckets.AtomModel;
 import edu.colorado.phet.buildamolecule.model.buckets.Bucket;
 import edu.colorado.phet.chemistry.model.Atom;
@@ -46,8 +47,10 @@ public class Kit {
         hasMoleculesInBoxes.reset();
 
         // take molecules back from the collection boxes
-        for ( Pair<MoleculeStructure, CollectionBox> removedMolecule : removedMolecules ) {
-            removedMolecule._2.removeMolecule( removedMolecule._1 );
+        if ( !BuildAMoleculeApplication.resetKitIgnoresCollectionBoxes.getValue() ) {
+            for ( Pair<MoleculeStructure, CollectionBox> removedMolecule : removedMolecules ) {
+                removedMolecule._2.removeMolecule( removedMolecule._1 );
+            }
         }
 
         // send out notifications for all removed molecules
@@ -63,6 +66,11 @@ public class Kit {
 
             // THEN place it so we overwrite its "bad" position and destination info
             getBucketForAtomType( atom.getAtomInfo() ).placeAtom( getAtomModel( atom.getAtomInfo() ) );
+        }
+
+        // if reset kit ignores collection boxes, add in other atoms that are equivalent to how the bucket started
+        if ( BuildAMoleculeApplication.resetKitIgnoresCollectionBoxes.getValue() ) {
+            // TODO
         }
 
         // wipe our internal state
