@@ -69,7 +69,7 @@ public class MoleculeMetadataNode extends PNode {
             * show 3d button
             *----------------------------------------------------------------------------*/
             addChild( new PNode() {{
-                PImage image = new PImage( BuildAMoleculeResources.getImage( BuildAMoleculeConstants.IMAGE_EYE_ICON ) );
+                PImage image = new PImage( BuildAMoleculeResources.getImage( BuildAMoleculeConstants.IMAGE_3D_ICON ) );
                 addChild( image );
                 addInputEventListener( new CursorHandler() {
                     @Override
