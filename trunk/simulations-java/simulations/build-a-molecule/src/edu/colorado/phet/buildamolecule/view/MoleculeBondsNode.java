@@ -3,6 +3,7 @@ package edu.colorado.phet.buildamolecule.view;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
@@ -105,14 +106,39 @@ public class MoleculeBondsNode extends PNode {
         Graphics2D g2 = image.createGraphics();
         g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF );
         PPaintContext context = new PPaintContext( g2 );
-        if ( isHorizontal ) {
-            paintArrow( new Point2D.Double( 15, 16 ), new Point2D.Double( 3, 16 ), context );
-            paintArrow( new Point2D.Double( 17, 16 ), new Point2D.Double( 29, 16 ), context );
-        }
-        else {
-            paintArrow( new Point2D.Double( 16, 15 ), new Point2D.Double( 16, 3 ), context );
-            paintArrow( new Point2D.Double( 16, 17 ), new Point2D.Double( 16, 29 ), context );
-        }
+
+        // shadow
+        new PhetPPath( new Line2D.Double( 10 + 2, 10 + 1.5, 22 + 2, 22 + 1.5 ) ) {{
+            setPaint( Color.BLACK );
+            setStrokePaint( Color.BLACK );
+            setStroke( new BasicStroke( 3 ) );
+        }}.fullPaint( context );
+        new PhetPPath( new Line2D.Double( 10 + 2, 22 + 1.5, 22 + 2, 10 + 1.5 ) ) {{
+            setPaint( Color.BLACK );
+            setStrokePaint( Color.BLACK );
+            setStroke( new BasicStroke( 3 ) );
+        }}.fullPaint( context );
+
+        // red X
+        new PhetPPath( new Line2D.Double( 10, 10, 22, 22 ) ) {{
+            setPaint( Color.RED );
+            setStrokePaint( Color.RED );
+            setStroke( new BasicStroke( 3 ) );
+        }}.fullPaint( context );
+        new PhetPPath( new Line2D.Double( 10, 22, 22, 10 ) ) {{
+            setPaint( Color.RED );
+            setStrokePaint( Color.RED );
+            setStroke( new BasicStroke( 3 ) );
+        }}.fullPaint( context );
+
+//        if ( isHorizontal ) {
+//            paintArrow( new Point2D.Double( 15, 16 ), new Point2D.Double( 3, 16 ), context );
+//            paintArrow( new Point2D.Double( 17, 16 ), new Point2D.Double( 29, 16 ), context );
+//        }
+//        else {
+//            paintArrow( new Point2D.Double( 16, 15 ), new Point2D.Double( 16, 3 ), context );
+//            paintArrow( new Point2D.Double( 16, 17 ), new Point2D.Double( 16, 29 ), context );
+//        }
 
         // Use the image to create a cursor
         Point hotSpot = new Point( image.getWidth() / 2, image.getHeight() / 2 );

@@ -45,4 +45,5 @@ public class BuildAMoleculeConstants {
 
     public static final String IMAGE_EYE_ICON = "eye.png";
     public static final String IMAGE_SPLIT_ICON = "split-red.png";
+    public static final String IMAGE_3D_ICON = "3d.png";
 }
