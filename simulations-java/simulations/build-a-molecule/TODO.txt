@@ -1,5 +1,4 @@
 Try out "opposing arrows" mouse-over to break bonds. Or change cursor
-Change icons: Information "i" OR "eye" icon for 3D? Asterisk or explosion to break apart
 '+' to view 3d from collection box
 Add BCE sound ding + bottom of collection box
 Process molecule lists instead of (<=4 heavy) to (works with our kits)
@@ -17,3 +16,4 @@ Color blindness test
 EVALUATION:
 Possibly attempt to generate less kits? PENDING feedback
 Developer option to make "Reset kit" not pull from collection box
+Icons
