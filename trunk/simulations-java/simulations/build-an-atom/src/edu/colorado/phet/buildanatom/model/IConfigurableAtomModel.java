@@ -4,11 +4,11 @@ package edu.colorado.phet.buildanatom.model;
 
 /**
  * This interface is implemented by models that contain a single configurable
- * atom.  Through this interface, an user is able to obtain a reference to the
- * atom itself (which is generally done to add a listener) and to set the
- * configuration of the atom.  The configuration of the atom is NOT set by
- * setting the configuration of the atom directly.  This is necessary to allow
- * the models to have different underlying atom implementations.
+ * atom.  Through this interface, a user is able to obtain a reference to the
+ * atom itself, which can be used in order to add a change listener.  This
+ * interface also contains a method for setting the atom's configuration.  The
+ * configuration of the atom should NOT set by directly configuring the atom
+ * itself, since this may bypass notifications.
  *
  * @author John Blanco
  */
