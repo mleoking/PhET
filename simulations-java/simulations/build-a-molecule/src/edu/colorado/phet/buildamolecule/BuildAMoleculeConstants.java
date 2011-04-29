@@ -38,4 +38,11 @@ public class BuildAMoleculeConstants {
 
     public static final Color KIT_ARROW_BACKGROUND_ENABLED = Color.YELLOW; // kit next/prev arrow background
     public static final Color KIT_ARROW_BORDER_ENABLED = Color.BLACK; // kit next/prev arrow border
+
+    /*---------------------------------------------------------------------------*
+    * images
+    *----------------------------------------------------------------------------*/
+
+    public static final String IMAGE_EYE_ICON = "eye.png";
+    public static final String IMAGE_SPLIT_ICON = "split-red.png";
 }
