@@ -7,6 +7,8 @@ import java.awt.geom.Rectangle2D;
 import java.util.HashMap;
 import java.util.Map;
 
+import edu.colorado.phet.buildamolecule.BuildAMoleculeConstants;
+import edu.colorado.phet.buildamolecule.BuildAMoleculeResources;
 import edu.colorado.phet.buildamolecule.control.JmolDialog;
 import edu.colorado.phet.buildamolecule.model.CompleteMolecule;
 import edu.colorado.phet.buildamolecule.model.Kit;
@@ -14,7 +16,6 @@ import edu.colorado.phet.buildamolecule.model.MoleculeStructure;
 import edu.colorado.phet.buildamolecule.model.buckets.AtomModel;
 import edu.colorado.phet.chemistry.model.Atom;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -68,7 +69,7 @@ public class MoleculeNode extends PNode {
             * show 3d button
             *----------------------------------------------------------------------------*/
             addChild( new PNode() {{
-                PImage image = new PImage( PhetCommonResources.getMaximizeButtonImage() );
+                PImage image = new PImage( BuildAMoleculeResources.getImage( BuildAMoleculeConstants.IMAGE_EYE_ICON ) );
                 addChild( image );
                 addInputEventListener( new CursorHandler() {
                     @Override
@@ -119,7 +120,7 @@ public class MoleculeNode extends PNode {
         * break-up button
         *----------------------------------------------------------------------------*/
         addChild( new PNode() {{
-            addChild( new PImage( PhetCommonResources.getImage( PhetCommonResources.IMAGE_CLOSE_BUTTON ) ) );
+            addChild( new PImage( BuildAMoleculeResources.getImage( BuildAMoleculeConstants.IMAGE_SPLIT_ICON ) ) );
             addInputEventListener( new CursorHandler() {
                 @Override
                 public void mouseClicked( PInputEvent event ) {
