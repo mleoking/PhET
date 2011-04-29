@@ -221,6 +221,15 @@ public class MoleculeStructure {
         return ret;
     }
 
+    public double getApproximateMolecularWeight() {
+        // TODO: verify the accuracy of this
+        double result = 0;
+        for ( Atom atom : atoms ) {
+            result += atom.getAtomicWeight();
+        }
+        return result;
+    }
+
     public boolean isValid() {
         return !hasWeirdHydrogenProperties() && !hasLoopsOrIsDisconnected();
     }

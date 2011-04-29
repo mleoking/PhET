@@ -449,7 +449,7 @@ public class Kit {
      * Update atom destinations so that separate molecules will be separated visually
      */
     private void separateMoleculeDestinations() {
-        int maxIterations = 100;
+        int maxIterations = 500;
         double pushAmount = 10; // how much to push two molecules away
 
         boolean foundOverlap = true;
@@ -490,11 +490,18 @@ public class Kit {
                         ImmutableVector2D bCenter = new ImmutableVector2D( bBounds.getCenter2D() ).getAddedInstance( Math.random() - 0.5, Math.random() - 0.5 );
 
                         // delta from center of A to center of B, scaled to half of our push amount.
-                        ImmutableVector2D delta = bCenter.getSubtractedInstance( aCenter ).getNormalizedInstance().getScaledInstance( pushAmount / 2 );
+                        ImmutableVector2D delta = bCenter.getSubtractedInstance( aCenter ).getNormalizedInstance().getScaledInstance( pushAmount );
 
-                        // push B half of the way, then push A the same amount in the opposite direction
-                        shiftMoleculeDestination( b, delta );
-                        shiftMoleculeDestination( a, delta.getScaledInstance( -1 ) );
+                        // how hard B should be pushed (A will be pushed (1-pushRatio)). Heuristic, power is to make the ratio not too skewed
+                        // this is done so that heavier molecules will be pushed less, while lighter ones will be pushed more
+                        double pushPower = 1;
+                        double pushRatio = Math.pow( a.getApproximateMolecularWeight(), pushPower ) / ( Math.pow( a.getApproximateMolecularWeight(), pushPower ) + Math.pow( b.getApproximateMolecularWeight(), pushPower ) );
+
+                        // push B by the pushRatio
+                        shiftMoleculeDestination( b, delta.getScaledInstance( pushRatio ) );
+
+                        // push A the opposite way, by (1 - pushRatio)
+                        shiftMoleculeDestination( a, delta.getScaledInstance( -1 * ( 1 - pushRatio ) ) );
 
                         aBounds = padMoleculeBounds( getMoleculeDestinationBounds( a ) );
                     }
