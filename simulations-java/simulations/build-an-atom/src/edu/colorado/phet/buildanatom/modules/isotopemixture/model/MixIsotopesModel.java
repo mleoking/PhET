@@ -26,6 +26,7 @@ import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -63,8 +64,12 @@ public class MixIsotopesModel implements Resettable, IConfigurableAtomModel {
     private static final int NUM_LARGE_ISOTOPES_PER_BUCKET = 9;
 
     // List of colors which will be used to represent the various isotopes.
-    private static final Color [] ISOTOPE_COLORS = new Color [] { new Color( 180, 82, 205), Color.green,
-        new Color(255, 69, 0), new Color( 139, 90, 43 ) };
+    private static final Color [] ISOTOPE_COLORS = new Color [] {
+        new Color( 180, 82, 205), // Purple
+        Color.green,
+        new Color(255, 69, 0),   // Red with a touch of orange
+        new Color( 139, 90, 43 ) // Brown
+        };
 
     // Enum of the possible interactivity types.
     public enum InteractivityMode {

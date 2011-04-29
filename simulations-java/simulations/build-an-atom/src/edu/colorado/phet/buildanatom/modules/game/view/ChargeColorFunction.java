@@ -6,6 +6,7 @@ import java.awt.Color;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
+import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 
 /**
  * This function returns a different color value based on the property with
@@ -25,7 +26,7 @@ public class ChargeColorFunction implements Function0<Color> {
     public Color apply() {
         Color color;
         if ( chargeProperty.getValue() > 0 ){
-            color = Color.RED;
+            color = PhetColorScheme.RED_COLORBLIND;
         }
         else if ( chargeProperty.getValue() < 0 ){
             color = Color.BLUE;

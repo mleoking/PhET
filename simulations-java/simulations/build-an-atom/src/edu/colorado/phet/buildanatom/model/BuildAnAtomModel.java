@@ -10,6 +10,7 @@ import java.util.Collections;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
+import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -54,7 +55,7 @@ public class BuildAnAtomModel implements Resettable {
     private final ParticleBucket electronBucket = new ParticleBucket( ELECTRON_BUCKET_POSITION,
             BUCKET_SIZE, Color.blue, BuildAnAtomStrings.ELECTRONS_NAME, Electron.RADIUS, 0.6, -Electron.RADIUS / 2 );
     private final ParticleBucket protonBucket = new ParticleBucket( PROTON_BUCKET_POSITION,
-            BUCKET_SIZE, Color.red, BuildAnAtomStrings.PROTONS_NAME, Proton.RADIUS );
+            BUCKET_SIZE, PhetColorScheme.RED_COLORBLIND, BuildAnAtomStrings.PROTONS_NAME, Proton.RADIUS );
     private final ParticleBucket neutronBucket = new ParticleBucket( NEUTRON_BUCKET_POSITION,
             BUCKET_SIZE, Color.gray, BuildAnAtomStrings.NEUTRONS_NAME, Neutron.RADIUS );
 

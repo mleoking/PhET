@@ -9,6 +9,7 @@ import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.buildanatom.model.AtomListener;
 import edu.colorado.phet.buildanatom.model.IDynamicAtom;
+import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
@@ -91,7 +92,7 @@ public class SymbolIndicatorNode extends PNode {
         // Proton number.
         protonCount = new PText();
         protonCount.setFont( NUMBER_FONT );
-        protonCount.setTextPaint( Color.RED );
+        protonCount.setTextPaint( PhetColorScheme.RED_COLORBLIND );
         textContent.addChild( protonCount );
 
         // Mass number.
