@@ -15,7 +15,7 @@ import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 public class SingleCollectionBoxNode extends CollectionBoxNode {
     public SingleCollectionBoxNode( final BuildAMoleculeCanvas canvas, final CollectionBox box ) {
         super( canvas, box, new HTMLNode( MessageFormat.format( BuildAMoleculeStrings.COLLECTION_SINGLE_FORMAT,
-                                                                box.getMoleculeType().getMoleculeStructure().getStructuralFormulaFragment(),
+                                                                box.getMoleculeType().getMoleculeStructure().getGeneralFormulaFragment(),
                                                                 box.getMoleculeType().getCommonName() ) ) {{
             setFont( new PhetFont( 16, true ) );
         }} );
