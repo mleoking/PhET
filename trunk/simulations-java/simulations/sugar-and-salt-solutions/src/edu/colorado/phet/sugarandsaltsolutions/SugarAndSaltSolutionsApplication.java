@@ -5,6 +5,8 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
+import edu.colorado.phet.sugarandsaltsolutions.intro.IntroModule;
+import edu.colorado.phet.sugarandsaltsolutions.micro.MicroscopicModule;
 
 /**
  * Main application for PhET's "Sugar and Salt Solutions" simulation

@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.sugarandsaltsolutions;
+package edu.colorado.phet.sugarandsaltsolutions.common.view;
 
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.umd.cs.piccolo.PNode;
@@ -22,6 +22,9 @@ public class SaltShakerNode extends PNode {
         addInputEventListener( new PBasicInputEventHandler() {
             @Override public void mouseDragged( PInputEvent event ) {
                 translate( event.getCanvasDelta().getWidth(), event.getCanvasDelta().getHeight() );
+                if ( event.getCanvasDelta().getHeight() < 0 ) {
+
+                }
             }
         } );
     }
