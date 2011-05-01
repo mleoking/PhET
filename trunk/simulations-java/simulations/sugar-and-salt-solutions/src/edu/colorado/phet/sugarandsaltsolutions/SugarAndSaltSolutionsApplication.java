@@ -10,7 +10,7 @@ import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
  * @author Sam Reid
  */
 public class SugarAndSaltSolutionsApplication extends PiccoloPhetApplication {
-    private static final String NAME = "bending-light";
+    private static final String NAME = "sugar-and-salt-solutions";
     public static final PhetResources RESOURCES = new PhetResources( NAME );
 
     public SugarAndSaltSolutionsApplication( PhetApplicationConfig config ) {
