@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--ohms-law-strings_tr.xml created Thu May 13 00:43:13 EEST 2010 using: ohms-law 2.01.00 (37318), translation-utility 2.08.00 (39581) Nis 2, 2010-->
-<SimStrings>
-<string key="currentEq" value="akım="/>
-<string key="resistance" value="direnç"/>
-<string key="simTitle" value="Ohm Kanunu"/>
-<string key="sound" value="ses"/>
-<string key="voltage" value="gerilim"/>
-</SimStrings>

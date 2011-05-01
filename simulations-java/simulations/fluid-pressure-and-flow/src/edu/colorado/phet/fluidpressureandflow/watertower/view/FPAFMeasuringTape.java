@@ -4,7 +4,9 @@ package edu.colorado.phet.fluidpressureandflow.watertower.view;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
-import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.model.property2.Observer;
+import edu.colorado.phet.common.phetcommon.model.property2.Property;
+import edu.colorado.phet.common.phetcommon.model.property2.UpdateEvent;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
@@ -28,8 +30,8 @@ public class FPAFMeasuringTape extends PNode {
                 return unit.getValue().distance.siToUnit( modelDistance );
             }
         };
-        unit.addObserver( new SimpleObserver() {
-            public void update() {
+        unit.addObserver( new Observer<UnitSet>() {
+            @Override public void update( UpdateEvent<UnitSet> unitSetUpdateEvent ) {
                 measuringTape.setUnits( unit.getValue().distance.getAbbreviation() );
             }
         } );

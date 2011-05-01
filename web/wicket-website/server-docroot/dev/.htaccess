@@ -1,5 +1,0 @@
-#Options +Indexes
-IndexOptions FancyIndexing SuppressHTMLPreamble NameWidth=55
-HeaderName HEADER.html
-IndexIgnore HEADER.html
-

@@ -1,8 +1,9 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fluidpressureandflow.common.view;
 
-import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.common.phetcommon.model.property2.Observer;
+import edu.colorado.phet.common.phetcommon.model.property2.Property;
+import edu.colorado.phet.common.phetcommon.model.property2.UpdateEvent;
 
 /**
  * This provides a 2-way mapping between properties, but where one of the values is scaled by a specified factor.
@@ -13,14 +14,14 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 public class ScaledDoubleProperty extends Property<Double> {
     public ScaledDoubleProperty( final Property<Double> property, final double scale ) {
         super( property.getValue() * scale );
-        property.addObserver( new VoidFunction1<Double>() {
-            public void apply( Double value ) {
-                setValue( value * scale );
+        property.addObserver( new Observer<Double>() {
+            @Override public void update( UpdateEvent<Double> event ) {
+                setValue( event.value * scale );
             }
         } );
-        addObserver( new VoidFunction1<Double>() {
-            public void apply( Double value ) {
-                property.setValue( value / scale );
+        addObserver( new Observer<Double>() {
+            @Override public void update( UpdateEvent<Double> event ) {
+                property.setValue( event.value / scale );
             }
         } );
     }

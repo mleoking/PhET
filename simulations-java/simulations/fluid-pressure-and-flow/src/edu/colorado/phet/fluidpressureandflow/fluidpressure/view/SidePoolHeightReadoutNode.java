@@ -4,8 +4,9 @@ package edu.colorado.phet.fluidpressureandflow.fluidpressure.view;
 import java.awt.*;
 import java.text.DecimalFormat;
 
-import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.model.property2.Observer;
+import edu.colorado.phet.common.phetcommon.model.property2.Property;
+import edu.colorado.phet.common.phetcommon.model.property2.UpdateEvent;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -26,8 +27,8 @@ public class SidePoolHeightReadoutNode extends PNode {
             setFont( new PhetFont( 16, true ) );
         }};
 
-        units.addObserver( new SimpleObserver() {
-            public void update() {
+        units.addObserver( new Observer<UnitSet>() {
+            @Override public void update( UpdateEvent<UnitSet> event ) {
                 DecimalFormat format = new DecimalFormat( "0.000" );
                 if ( units.getValue().distance == Units.FEET ) {
                     format = new DecimalFormat( "0" );
@@ -44,7 +45,6 @@ public class SidePoolHeightReadoutNode extends PNode {
                 text.setOffset( bracket.getFullBounds().getMaxX(), bracket.getFullBounds().getCenterY() - text.getFullBounds().getHeight() / 2 );
             }
         } );
-
 
         addChild( bracket );
         addChild( text );

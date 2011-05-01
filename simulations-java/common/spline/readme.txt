@@ -1,3 +1,0 @@
-This project was created so that fluid-pressure-and-flow could share spline code with Energy Skate park.
-This is awkward and arcane code, and should only be used with caution; furthermore, it is subject to be rewritten, so
-don't depend on it too highly.

@@ -1,1 +1,0 @@
-Added a null check for Application.application when running locally/IntelliJ/Flash debug player

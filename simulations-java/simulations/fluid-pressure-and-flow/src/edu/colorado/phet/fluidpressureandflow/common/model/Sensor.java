@@ -2,8 +2,8 @@
 package edu.colorado.phet.fluidpressureandflow.common.model;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.model.property2.Observer;
+import edu.colorado.phet.common.phetcommon.model.property2.Property;
 
 /**
  * Abstract base class for different types of sensor that read a value at their (x,y) location.
@@ -40,7 +40,7 @@ public abstract class Sensor<T> {
 
     public abstract double getScalarValue();
 
-    public void addValueObserver( SimpleObserver observer ) {
+    public void addValueObserver( Observer<T> observer ) {
         value.addObserver( observer );
     }
 }

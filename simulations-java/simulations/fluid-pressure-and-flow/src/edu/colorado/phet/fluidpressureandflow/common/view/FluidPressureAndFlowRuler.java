@@ -4,10 +4,10 @@ package edu.colorado.phet.fluidpressureandflow.common.view;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.model.ResetModel;
-import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
-import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.model.property2.Observer;
+import edu.colorado.phet.common.phetcommon.model.property2.Property;
+import edu.colorado.phet.common.phetcommon.model.property2.UpdateEvent;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -23,16 +23,16 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class FluidPressureAndFlowRuler extends PNode {
     public FluidPressureAndFlowRuler( final ModelViewTransform transform,
-                                      final ObservableProperty<Boolean> visible,//getter
+                                      final Property<Boolean> visible,//getter
                                       final Property<Boolean> setVisible, //setter, separate from getter since has to be 'and'ed with units property in FluidPressureCanvas
                                       double length,
                                       String[] majorTicks,
                                       String units,
                                       final Point2D rulerModelOrigin,
                                       ResetModel resetModel ) {
-        visible.addObserver( new SimpleObserver() {
-            public void update() {
-                setVisible( visible.getValue() );
+        visible.addObserver( new Observer<Boolean>() {
+            @Override public void update( UpdateEvent<Boolean> event ) {
+                setVisible( event.value );
             }
         } );
         final RulerNode rulerNode = new RulerNode( length, 50, majorTicks, units, 4, 15 ) {{

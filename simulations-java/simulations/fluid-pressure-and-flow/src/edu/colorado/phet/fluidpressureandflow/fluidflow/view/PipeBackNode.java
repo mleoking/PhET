@@ -7,7 +7,9 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
-import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.model.property2.Observer;
+import edu.colorado.phet.common.phetcommon.model.property2.Property;
+import edu.colorado.phet.common.phetcommon.model.property2.UpdateEvent;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -87,9 +89,9 @@ public class PipeBackNode extends PNode {
                     setPathTo( transform.modelToView( pipe.getShape() ) );
                 }
             } );
-            fluidDensity.addObserver( new SimpleObserver() {
-                public void update() {
-                    setPaint( PoolNode.getBottomColor( fluidDensity.getValue() ) );
+            fluidDensity.addObserver( new Observer<Double>() {
+                @Override public void update( UpdateEvent<Double> event ) {
+                    setPaint( PoolNode.getBottomColor( event.value ) );
                 }
             } );
         }} );

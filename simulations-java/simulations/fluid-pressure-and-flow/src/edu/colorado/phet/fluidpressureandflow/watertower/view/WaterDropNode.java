@@ -4,7 +4,7 @@ package edu.colorado.phet.fluidpressureandflow.watertower.view;
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 
-import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.model.property2.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;

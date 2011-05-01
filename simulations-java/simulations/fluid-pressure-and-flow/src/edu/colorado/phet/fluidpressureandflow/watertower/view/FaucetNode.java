@@ -8,8 +8,9 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
+import edu.colorado.phet.common.phetcommon.model.property2.Observer;
+import edu.colorado.phet.common.phetcommon.model.property2.UpdateEvent;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -50,16 +51,16 @@ public class FaucetNode extends PNode {
                         faucetFlowLevel.flow.setValue( getValue() / 100.0 );
                     }
                 } );
-                faucetFlowLevel.flow.addObserver( new SimpleObserver() {
-                    public void update() {
+                faucetFlowLevel.flow.addObserver( new Observer<Double>() {
+                    @Override public void update( UpdateEvent<Double> doubleUpdateEvent ) {
                         setValue( (int) ( faucetFlowLevel.flow.getValue() * 100 ) );
                     }
                 } );
             }} ) {{
                 translate( 186, -2 + ( PhetUtilities.isMacintosh() ? -8 : 0 ) );//Mac sliders render lower than windows slider, so have to compensate
                 //Faucet slider should be invisible when in "auto" mode
-                faucetFlowLevel.automatic.addObserver( new SimpleObserver() {
-                    public void update() {
+                faucetFlowLevel.automatic.addObserver( new Observer<Boolean>() {
+                    @Override public void update( UpdateEvent<Boolean> e ) {
                         setVisible( !faucetFlowLevel.automatic.getValue() );
                     }
                 } );

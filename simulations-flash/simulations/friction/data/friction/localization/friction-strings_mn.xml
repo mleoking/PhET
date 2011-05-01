@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--үрэлт_mn.xml created Fri Apr 16 11:58:06 ULAT 2010 using: friction 2.02.00 (37305), translation-utility 2.08.00 (39581) Apr 2, 2010-->
-<SimStrings>
-<string key="rubYellowAtoms" value="шар болон ногоон атомууд шүргэлцэнэ."/>
-<string key="physics" value="физикийн ном"/>
-<string key="reset" value="дахин эхлүүлэх"/>
-<string key="simTitle" value="үрэлт"/>
-<string key="chemistry" value="химийн ном"/>
-</SimStrings>

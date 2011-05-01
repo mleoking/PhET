@@ -2,10 +2,9 @@
 package edu.colorado.phet.fluidpressureandflow.common;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.model.property.And;
-import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
-import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.model.property.ValueEquals;
+import edu.colorado.phet.common.phetcommon.model.property2.And;
+import edu.colorado.phet.common.phetcommon.model.property2.Property;
+import edu.colorado.phet.common.phetcommon.model.property2.ValueEquals;
 import edu.colorado.phet.fluidpressureandflow.common.model.FluidPressureAndFlowModel;
 import edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet;
 
@@ -19,8 +18,8 @@ public class FluidPressureAndFlowModule<T extends FluidPressureAndFlowModel> ext
     public final Property<Boolean> fluidDensityControlVisible = new Property<Boolean>( false );
     public final Property<Boolean> gravityControlVisible = new Property<Boolean>( false );
     public final Property<Boolean> rulerVisible = new Property<Boolean>( false );
-    public final ObservableProperty<Boolean> meterStickVisible;
-    public final ObservableProperty<Boolean> yardStickVisible;
+    public final Property<Boolean> meterStickVisible;
+    public final Property<Boolean> yardStickVisible;
     public final Property<Boolean> hoseVisible = new Property<Boolean>( false );
 
     protected FluidPressureAndFlowModule( String name, T model ) {

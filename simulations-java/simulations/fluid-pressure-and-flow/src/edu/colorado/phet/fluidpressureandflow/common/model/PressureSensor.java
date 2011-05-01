@@ -1,7 +1,9 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fluidpressureandflow.common.model;
 
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.model.property2.Observer;
+import edu.colorado.phet.common.phetcommon.model.property2.UpdateEvent;
 
 /**
  * Model instance that can determine the pressure at its location.
@@ -12,8 +14,8 @@ public class PressureSensor extends Sensor<Double> {
 
     public PressureSensor( final Context context, double x, double y ) {
         super( x, y, context.getPressure( x, y ) );
-        final SimpleObserver updatePressure = new SimpleObserver() {
-            public void update() {
+        Observer<ImmutableVector2D> updatePressure = new Observer<ImmutableVector2D>() {
+            @Override public void update( UpdateEvent<ImmutableVector2D> immutableVector2DUpdateEvent ) {
                 setValue( context.getPressure( getLocation().getX(), getLocation().getY() ) );
             }
         };
@@ -29,6 +31,6 @@ public class PressureSensor extends Sensor<Double> {
     public static interface Context {
         double getPressure( double x, double y );
 
-        void addFluidChangeObserver( SimpleObserver updatePressure );
+        void addFluidChangeObserver( Observer<ImmutableVector2D> updatePressure );
     }
 }

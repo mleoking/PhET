@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--resistance-in-a-wire-strings_zh_TW.xml created Thu Jul 23 18:19:35 CST 2009 using: resistance-in-a-wire 2.00.00 (30671), translation-utility 2.01.00 (31673) 五月 15, 2009-->
-<SimStrings>
-<string key="cm" value="公分"/>
-<string key="resistanceEq" value="電阻 ="/>
-<string key="ohm" value="歐姆"/>
-<string key="simTitle" value="電線的電阻"/>
-</SimStrings>

@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--equation-grapher-strings_tr.xml created Thu May 13 10:26:46 EEST 2010 using: equation-grapher 2.01.00 (37298), translation-utility 2.08.00 (39581) Nis 2, 2010-->
-<SimStrings>
-<string key="showYEq" value="(Göster) y="/>
-<string key="erase" value="Temizle"/>
-<string key="save" value="Kaydet"/>
-<string key="zero" value="Sıfırla"/>
-<string key="simTitle" value="Denklem Grafiklerini Çizmek"/>
-</SimStrings>
