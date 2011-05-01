@@ -2,6 +2,7 @@
 package edu.colorado.phet.sugarandsaltsolutions.intro;
 
 import edu.colorado.phet.sugarandsaltsolutions.common.SugarAndSaltSolutionsModule;
+import edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas;
 
 /**
  * Intro module for sugar and salt solutions
@@ -9,8 +10,11 @@ import edu.colorado.phet.sugarandsaltsolutions.common.SugarAndSaltSolutionsModul
  * @author Sam Reid
  */
 public class IntroModule extends SugarAndSaltSolutionsModule {
+    private final IntroModel model;
+
     public IntroModule() {
         super( "Intro" );
-        setSimulationPanel( new IntroCanvas() );
+        model = new IntroModel();
+        setSimulationPanel( new SugarAndSaltSolutionsCanvas( model ) );
     }
 }

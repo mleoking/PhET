@@ -1,17 +1,20 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.sugarandsaltsolutions.intro;
+package edu.colorado.phet.sugarandsaltsolutions.common.view;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
+import java.awt.geom.Point2D.Double;
 import java.awt.geom.Rectangle2D;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
-import edu.colorado.phet.sugarandsaltsolutions.common.view.SaltShakerNode;
+import edu.colorado.phet.sugarandsaltsolutions.intro.IntroModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -22,11 +25,11 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  *
  * @author Sam Reid
  */
-public class IntroCanvas extends PhetPCanvas {
+public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
     private PNode rootNode;
     private final int INSET = 5;
 
-    public IntroCanvas() {
+    public SugarAndSaltSolutionsCanvas( IntroModel model ) {
         // Root of our scene graph
         rootNode = new PNode();
         addWorldChild( rootNode );
@@ -34,15 +37,17 @@ public class IntroCanvas extends PhetPCanvas {
         //Width of the stage
         final int stageWidth = 1000;
 
-        //Right now the model is just a width/height ratio
-        double modelHeight = 0.7;
-        double modelWidth = 1.04;
-
         //Set the stage size according to the model aspect ratio
-        final PDimension stageSize = new PDimension( stageWidth, stageWidth * modelHeight / modelWidth );
+        final PDimension stageSize = new PDimension( stageWidth, stageWidth * model.width / model.height );
 
         //Set the transform from stage coordinates to screen coordinates
         setWorldTransformStrategy( new PhetPCanvas.CenteredStage( this, stageSize ) );
+
+        //Create the transform from model (SI) to view (stage) coordinates
+        final double scale = stageSize.getHeight() / model.height;
+        ModelViewTransform transform = ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ),
+                                                                                                  new Double( stageSize.getWidth() / 2, stageSize.getHeight() / 2 ),
+                                                                                                  scale );
 
         //Allows the user to select a solute
         final ControlPanelNode soluteControlPanelNode = new ControlPanelNode( new VBox() {{
@@ -69,6 +74,7 @@ public class IntroCanvas extends PhetPCanvas {
         }};
         addChild( toolsControlPanelNode );
 
+        addChild( new BeakerNode( transform, model.beaker ) );
         addChild( new SaltShakerNode() );
 
         //Debug for showing stage
