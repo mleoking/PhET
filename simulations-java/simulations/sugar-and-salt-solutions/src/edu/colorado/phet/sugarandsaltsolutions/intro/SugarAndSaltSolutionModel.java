@@ -10,5 +10,5 @@ public class SugarAndSaltSolutionModel {
     public final double width = 0.7;//visible width in meters
     public final double height = 1.04;//visible height in meters
 
-    public final Beaker beaker = new Beaker( width / 2, height / 2 );//The beaker into which you can add water, salt and sugar.
+    public final Beaker beaker = new Beaker( width, height );//The beaker into which you can add water, salt and sugar.
 }
