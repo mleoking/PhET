@@ -7,6 +7,8 @@ import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 
 /**
+ * Main application for PhET's "Sugar and Salt Solutions" simulation
+ *
  * @author Sam Reid
  */
 public class SugarAndSaltSolutionsApplication extends PiccoloPhetApplication {

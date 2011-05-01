@@ -2,7 +2,6 @@
 package edu.colorado.phet.sugarandsaltsolutions;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 
 /**
@@ -13,8 +12,11 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 public class SugarAndSaltSolutionsModule extends Module {
     public SugarAndSaltSolutionsModule( String name ) {
         super( name, new ConstantDtClock() );
-        setModel( new BaseModel() );
+
+        //Clock control panel will be shown floating in the simulation panel, so don't show the top level swing component for the clock control panel
         setClockControlPanel( null );
+
+        //Don't show the logo panel--since the sim is multi-tab, the logo should be shown in the tab tray at the far right
         getModulePanel().setLogoPanel( null );
     }
 }
