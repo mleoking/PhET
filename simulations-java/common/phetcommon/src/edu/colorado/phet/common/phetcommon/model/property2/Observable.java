@@ -57,14 +57,50 @@ public class Observable<T> {
     }
 
     public static void main( String[] args ) {
-        final Observable<Integer> p = new Observable<Integer>( 5 );
+        final Observable<Integer> age = new Observable<Integer>( 25 );
         final BooleanProperty b = new BooleanProperty( true );
-        p.addObserver( new Observer<Integer>() {
+        age.addObserver( new Observer<Integer>() {
             @Override public void update( UpdateEvent<Integer> integerUpdateEvent ) {
                 System.out.println( b.getValue() );
             }
         } ); // 1st listener to fire
-        ValueEquals<Integer> x = new ValueEquals<Integer>( p, 5 );
-        p.setValue( 1 ); // will print true since b will not update before our first listener runs.
+        ValueEquals<Integer> x = new ValueEquals<Integer>( age, 25 );
+        age.setValue( 1 ); // will print true since b will not update before our first listener runs.
+    }
+
+    public static class Sum extends Observable<Integer> {
+        public Sum( final Observable<Integer> a, final Observable<Integer> b ) {
+            super( a.getValue() + b.getValue() );
+            new Observer<Integer>() {
+                @Override public void update( UpdateEvent<Integer> e ) {
+                    setValue( a.getValue() + b.getValue() );
+                }
+            }.observe( a, b );
+        }
+    }
+
+    public static class Twice extends Observable<Integer> {
+        public Twice( final Observable<Integer> a ) {
+            super( a.getValue() * 2 );
+            a.addObserver( new Observer<Integer>() {
+                @Override public void update( UpdateEvent<Integer> integerUpdateEvent ) {
+                    setValue( a.getValue() * 2 );
+                }
+            } );
+        }
+    }
+
+    public static class Test2 {
+        public static void main( String[] args ) {
+            final Property<Integer> yourWages = new Property<Integer>( 100 );
+            final Observable<Integer> myWages = new Twice( yourWages );
+            final Observable<Integer> totalWages = new Sum( myWages, yourWages );
+            totalWages.addObserver( new Observer<Integer>() {
+                @Override public void update( UpdateEvent<Integer> e ) {
+                    System.out.println( "total wages = " + e.value );
+                }
+            } );
+            yourWages.setValue( 200 );
+        }
     }
 }
