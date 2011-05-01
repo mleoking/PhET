@@ -1,0 +1,2 @@
+added a shaker image
+initialized application

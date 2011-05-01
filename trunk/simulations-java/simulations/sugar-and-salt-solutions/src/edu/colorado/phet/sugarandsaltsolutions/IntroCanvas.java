@@ -23,6 +23,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  */
 public class IntroCanvas extends PhetPCanvas {
     private PNode rootNode;
+    private final int INSET = 5;
 
     public IntroCanvas() {
         // Root of our scene graph
@@ -37,7 +38,7 @@ public class IntroCanvas extends PhetPCanvas {
         double modelWidth = 1.04;
 
         //Set the stage size according to the model aspect ratio
-        PDimension stageSize = new PDimension( stageWidth, stageWidth * modelHeight / modelWidth );
+        final PDimension stageSize = new PDimension( stageWidth, stageWidth * modelHeight / modelWidth );
 
         //Set the transform from stage coordinates to screen coordinates
         setWorldTransformStrategy( new PhetPCanvas.CenteredStage( this, stageSize ) );
@@ -45,24 +46,29 @@ public class IntroCanvas extends PhetPCanvas {
         //Allows the user to select a solute
         final ControlPanelNode soluteControlPanelNode = new ControlPanelNode( new VBox() {{
             addChild( new PText( "Solute" ) {{setFont( new PhetFont( 14, true ) );}} );
-            addChild( new PhetPPath( new Rectangle( 0, 0, 10, 10 ), new Color( 0, 0, 0, 0 ) ) );//spacer
+            addChild( new PhetPPath( new Rectangle( 0, 0, 0, 0 ), new Color( 0, 0, 0, 0 ) ) );//spacer
             addChild( new PSwing( new JRadioButton( "Salt" ) ) );
             addChild( new PSwing( new JRadioButton( "Sugar" ) ) );
-        }} );
+
+        }} ) {{
+            setOffset( stageSize.getWidth() - getFullBounds().getWidth() - INSET, 150 );
+        }};
         addChild( soluteControlPanelNode );
 
         //Tools for the user to use
         ControlPanelNode toolsControlPanelNode = new ControlPanelNode( new VBox() {{
             addChild( new PText( "Tools" ) {{setFont( new PhetFont( 14, true ) );}} );
-            addChild( new PhetPPath( new Rectangle( 0, 0, 10, 10 ), new Color( 0, 0, 0, 0 ) ) );//spacer
+            addChild( new PhetPPath( new Rectangle( 0, 0, 0, 0 ), new Color( 0, 0, 0, 0 ) ) );//spacer
             addChild( new PSwing( new JCheckBox( "Show concentration" ) ) );
             addChild( new PSwing( new JCheckBox( "Show values" ) ) );
             addChild( new PSwing( new JCheckBox( "Measure conductivity" ) ) );
             addChild( new PSwing( new JCheckBox( "Evaporate water" ) ) );
         }} ) {{
-            setOffset( 0, soluteControlPanelNode.getFullBounds().getMaxY() + 10 );
+            setOffset( stageSize.getWidth() - getFullBounds().getWidth(), soluteControlPanelNode.getFullBounds().getMaxY() + INSET );
         }};
         addChild( toolsControlPanelNode );
+
+        addChild( new SaltShakerNode() );
 
         //Debug for showing stage
         addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, stageSize.getWidth(), stageSize.getHeight() ), new BasicStroke( 2 ), Color.red ) );
