@@ -32,12 +32,14 @@ public class IntroCanvas extends PhetPCanvas {
         //Width of the stage
         final int stageWidth = 1000;
 
-        //Right now this is just the ratio of width/height
+        //Right now the model is just a width/height ratio
         double modelHeight = 0.7;
         double modelWidth = 1.04;
 
+        //Set the stage size according to the model aspect ratio
         PDimension stageSize = new PDimension( stageWidth, stageWidth * modelHeight / modelWidth );
 
+        //Set the transform from stage coordinates to screen coordinates
         setWorldTransformStrategy( new PhetPCanvas.CenteredStage( this, stageSize ) );
 
         //Allows the user to select a solute
