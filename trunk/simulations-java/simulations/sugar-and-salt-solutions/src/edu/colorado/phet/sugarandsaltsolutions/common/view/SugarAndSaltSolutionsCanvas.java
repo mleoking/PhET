@@ -3,7 +3,6 @@ package edu.colorado.phet.sugarandsaltsolutions.common.view;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
-import java.awt.geom.Point2D.Double;
 import java.awt.geom.Rectangle2D;
 
 import javax.swing.*;
@@ -20,6 +19,8 @@ import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
+import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createSinglePointScaleInvertedYMapping;
+
 /**
  * Canvas for the introductory (first) tab in the Sugar and Salt Solutions Sim
  *
@@ -35,7 +36,7 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
         addWorldChild( rootNode );
 
         //Width of the stage
-        final int stageWidth = 1000;
+        final int stageWidth = 1008;//Actual size of the canvas coming up on windows from the IDE is java.awt.Dimension[width=1008,height=676]
 
         //Set the stage size according to the model aspect ratio
         final PDimension stageSize = new PDimension( stageWidth, stageWidth * model.width / model.height );
@@ -45,9 +46,9 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
 
         //Create the transform from model (SI) to view (stage) coordinates
         final double scale = stageSize.getHeight() / model.height;
-        ModelViewTransform transform = ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ),
-                                                                                                  new Double( stageSize.getWidth() / 2, stageSize.getHeight() / 2 ),
-                                                                                                  scale );
+        ModelViewTransform transform = createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ),
+                                                                               new Point2D.Double( stageSize.getWidth() / 2, stageSize.getHeight() / 2 ),
+                                                                               scale );
 
         //Allows the user to select a solute
         final ControlPanelNode soluteControlPanelNode = new ControlPanelNode( new VBox() {{
