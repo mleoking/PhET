@@ -3,6 +3,7 @@ package edu.colorado.phet.common.phetcommon.model.property2;
 
 import java.util.ArrayList;
 
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.Option.Some;
 
@@ -53,5 +54,17 @@ public class Observable<T> {
             this.value = newValue;
             notifyObservers( new UpdateEvent<T>( newValue, new Some<T>( oldValue ) ) );
         }
+    }
+
+    public static void main( String[] args ) {
+        final Observable<Integer> p = new Observable<Integer>( 5 );
+        final BooleanProperty b = new BooleanProperty( true );
+        p.addObserver( new Observer<Integer>() {
+            @Override public void update( UpdateEvent<Integer> integerUpdateEvent ) {
+                System.out.println( b.getValue() );
+            }
+        } ); // 1st listener to fire
+        ValueEquals<Integer> x = new ValueEquals<Integer>( p, 5 );
+        p.setValue( 1 ); // will print true since b will not update before our first listener runs.
     }
 }
