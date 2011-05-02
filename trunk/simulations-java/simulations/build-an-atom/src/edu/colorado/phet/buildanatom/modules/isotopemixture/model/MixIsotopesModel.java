@@ -26,7 +26,6 @@ import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -50,6 +49,10 @@ public class MixIsotopesModel implements Resettable, IConfigurableAtomModel {
 
     // Size of the buckets that will hold the isotopes.
     private static final Dimension2D BUCKET_SIZE = new PDimension( 1000, 400 ); // In picometers.
+
+    // Speed with which atoms move when animated.  Empirically determined,
+    // adjust as needed for the desired look.
+    private static final double ATOM_MOTION_SPEED = 2500; // In picometers per sec of sim time.
 
     // Within this model, the isotopes come in two sizes, small and large, and
     // atoms are either one size or another, and all atoms that are shown at
@@ -188,7 +191,7 @@ public class MixIsotopesModel implements Resettable, IConfigurableAtomModel {
      * Create and add an isotope of the specified configuration.  Where the
      * isotope is initially placed depends upon the current interactivity mode.
      */
-    protected MovableAtom createAndAddIsotope( ImmutableAtom isotopeConfig ){
+    protected MovableAtom createAndAddIsotope( ImmutableAtom isotopeConfig, boolean moveImmediately ){
         assert isotopeConfig.getNumProtons() == prototypeIsotope.getNumProtons(); // Verify that this is a valid isotope.
         assert isotopeConfig.getNumProtons() == isotopeConfig.getNumElectrons();  // Should always be neutral.
         MovableAtom newIsotope;
@@ -196,9 +199,10 @@ public class MixIsotopesModel implements Resettable, IConfigurableAtomModel {
             // Create the specified isotope and add it to the appropriate bucket.
             newIsotope = new MovableAtom( isotopeConfig.getNumProtons(), isotopeConfig.getNumNeutrons(),
                     LARGE_ISOTOPE_RADIUS, new Point2D.Double(), getClock() );
+            newIsotope.setMotionVelocity( ATOM_MOTION_SPEED );
             newIsotope.addListener( isotopeGrabbedListener );
             // Add this isotope to a bucket.
-            getBucketForIsotope( isotopeConfig ).addIsotopeInstance( newIsotope );
+            getBucketForIsotope( isotopeConfig ).addIsotopeInstance( newIsotope, moveImmediately );
         }
         else{
             // Create the specified isotope and add it directly to the test chamber.
@@ -414,25 +418,25 @@ public class MixIsotopesModel implements Resettable, IConfigurableAtomModel {
         }
         // Add the controllers.
         for ( int i = 0; i < possibleIsotopesProperty.getValue().size(); i++ ) {
-            ImmutableAtom isotope = possibleIsotopesProperty.getValue().get( i );
+            ImmutableAtom isotopeConfig = possibleIsotopesProperty.getValue().get( i );
             if ( buckets ) {
-                String bucketCaption = AtomIdentifier.getName( isotope ) + "-" + isotope.getMassNumber();
+                String bucketCaption = AtomIdentifier.getName( isotopeConfig ) + "-" + isotopeConfig.getMassNumber();
                 MonoIsotopeParticleBucket newBucket = new MonoIsotopeParticleBucket( new Point2D.Double(
                         controllerXOffset + interControllerDistanceX * i, controllerYOffset ),
-                        BUCKET_SIZE, getColorForIsotope( isotope ), bucketCaption, LARGE_ISOTOPE_RADIUS,
-                        isotope.getNumProtons(), isotope.getNumNeutrons() );
+                        BUCKET_SIZE, getColorForIsotope( isotopeConfig ), bucketCaption, LARGE_ISOTOPE_RADIUS,
+                        isotopeConfig.getNumProtons(), isotopeConfig.getNumNeutrons() );
                 addBucket( newBucket );
                 if ( !showingNaturesMixProperty.getValue() ) {
                     // Create and add initial isotopes to the new bucket.
                     for ( int j = 0; j < NUM_LARGE_ISOTOPES_PER_BUCKET; j++){
-                        createAndAddIsotope( isotope );
+                        createAndAddIsotope( isotopeConfig, true );
                     }
                 }
             }
             else {
                 // Assume a numerical controller.
-                NumericalIsotopeQuantityControl newController = new NumericalIsotopeQuantityControl( this, isotope, new Point2D.Double( controllerXOffset + interControllerDistanceX * i, controllerYOffset ) );
-                newController.setIsotopeQuantity( testChamber.getIsotopeCount( isotope ) );
+                NumericalIsotopeQuantityControl newController = new NumericalIsotopeQuantityControl( this, isotopeConfig, new Point2D.Double( controllerXOffset + interControllerDistanceX * i, controllerYOffset ) );
+                newController.setIsotopeQuantity( testChamber.getIsotopeCount( isotopeConfig ) );
                 numericalControllerList.add( newController );
                 notifyNumericalControllerAdded( newController );
             }
@@ -621,7 +625,7 @@ public class MixIsotopesModel implements Resettable, IConfigurableAtomModel {
             testChamber.removeIsotopeFromChamber( isotope );
             if ( interactivityModeProperty.getValue() == InteractivityMode.BUCKETS_AND_LARGE_ATOMS ){
                 // Add isotope to bucket.
-                getBucketForIsotope( isotope.getAtomConfiguration() ).addIsotopeInstance( isotope );
+                getBucketForIsotope( isotope.getAtomConfiguration() ).addIsotopeInstance( isotope, true );
             }
             else{
                 // Remove isotope completely from the model.
@@ -669,7 +673,7 @@ public class MixIsotopesModel implements Resettable, IConfigurableAtomModel {
                 // it to the bucket.
                 MonoIsotopeParticleBucket bucket = getBucketForIsotope( isotope.getAtomConfiguration() );
                 assert bucket != null; // Should never have an isotope without a home.
-                bucket.addIsotopeInstance( isotope );
+                bucket.addIsotopeInstance( isotope, false );
             }
             particle.removeListener( isotopeDroppedListener );
         }

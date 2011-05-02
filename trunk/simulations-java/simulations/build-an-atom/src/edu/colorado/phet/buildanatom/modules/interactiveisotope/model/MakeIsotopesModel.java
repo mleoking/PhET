@@ -43,6 +43,10 @@ public class MakeIsotopesModel implements Resettable, IConfigurableAtomModel {
     private static final Dimension2D BUCKET_SIZE = new PDimension( 65, 30 );
     private static final Point2D NEUTRON_BUCKET_POSITION = new Point2D.Double( -120, -140 );
 
+    // Speed at which neutrons move back to the bucket when released.  This
+    // value is empirically determined, adjust as needed for desired look.
+    private static final double NEUTRON_MOTION_VELOCITY = 200; // In picometers per second of sim time.
+
     // Distance at which nucleons are captured by the nucleus.
     protected static final double NUCLEUS_CAPTURE_DISTANCE = Atom.ELECTRON_SHELL_1_RADIUS;
 
@@ -165,6 +169,7 @@ public class MakeIsotopesModel implements Resettable, IConfigurableAtomModel {
             }
             for ( int i = 0; i < atomConfig.getNumNeutrons(); i++ ){
                 Neutron neutron = new Neutron( clock );
+                neutron.setMotionVelocity( NEUTRON_MOTION_VELOCITY );
                 neutron.addListener( neutronDropListener );
                 atom.addNeutron( neutron, true );
                 neutrons.add( neutron );
@@ -192,6 +197,7 @@ public class MakeIsotopesModel implements Resettable, IConfigurableAtomModel {
             // the additions.
             for ( int i = 0; i < targetNumNeutrons; i++ ) {
                 Neutron newNeutron = new Neutron( clock );
+                newNeutron.setMotionVelocity( NEUTRON_MOTION_VELOCITY );
                 newNeutron.addListener( neutronDropListener );
                 neutronBucket.addParticle( newNeutron, true );
                 neutrons.add( newNeutron );
