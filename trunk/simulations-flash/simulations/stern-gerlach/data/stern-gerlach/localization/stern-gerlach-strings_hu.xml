@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--stern-gerlach-strings_hu.xml created Sat Jan 01 12:31:49 CET 2011 using: stern-gerlach 2.01.00 (37325), translation-utility 2.09.00 (44031) Sep 14, 2010-->
+<!--stern-gerlach-strings_hu.xml created Sun May 01 14:29:20 CEST 2011 using: stern-gerlach 2.01.00 (37325), translation-utility 2.10.00 (48775) Feb 9, 2011-->
 <SimStrings>
 <string key="angle3" value="szög 3"/>
 <string key="angle2" value="szög 2"/>
@@ -16,6 +16,7 @@
 <string key="numberOfMagnets" value="mágnesek\nszáma"/>
 <string key="fireAtom" value="Atombelövés"/>
 <string key="autoFire" value="Sorozat"/>
+<string key="translation.credits" value="&lt;html&gt;&lt;a href=&quot;http://nasa.web.elte.hu/defhu.htm&quot;&gt;Nagy Sándor&lt;/a&gt;&lt;br&gt;ELTE, &lt;a href=&quot;http://www.chem.elte.hu/pr/&quot;&gt;Kémiai Intézet&lt;/a&gt;, Budapest&lt;/html&gt;"/>
 <string key="angle" value="szög"/>
 <string key="reset" value="Visszaállít"/>
 <string key="resetCount" value="Beütést nulláz"/>
