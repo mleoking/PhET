@@ -25,7 +25,7 @@ public abstract class SphericalParticle {
     // Class Data
     // ------------------------------------------------------------------------
 
-    private static final double MOTION_VELOCITY = 120; // In picometers per second of sim time.
+    private static final double DEFAULT_MOTION_VELOCITY = 120; // In picometers per second of sim time.
 
     // ------------------------------------------------------------------------
     // Instance Data
@@ -47,6 +47,8 @@ public abstract class SphericalParticle {
 
     // Reference to the clock.
     private final ConstantDtClock clock;
+
+    private double motionVelocity = DEFAULT_MOTION_VELOCITY;
 
     // ------------------------------------------------------------------------
     // Constructor(s)
@@ -91,7 +93,7 @@ public abstract class SphericalParticle {
     private void stepInTime( double dt ) {
         if ( getPosition().distance( destination ) != 0 ) {
             // Move towards the current destination.
-            double distanceToTravel = MOTION_VELOCITY * dt;
+            double distanceToTravel = motionVelocity * dt;
             if ( distanceToTravel >= getPosition().distance( destination ) ) {
                 // Closer than one step, so just go there.
                 setPosition( destination );
@@ -199,6 +201,14 @@ public abstract class SphericalParticle {
 
     public void moveToDestination() {
         setPosition( getDestination() );
+    }
+
+    /**
+     * Set the velocity with which this particle should move when its
+     * position does not match its destination.
+     */
+    public void setMotionVelocity( double motionVelocity ) {
+        this.motionVelocity = motionVelocity;
     }
 
     // -----------------------------------------------------------------------
