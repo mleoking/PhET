@@ -10,6 +10,7 @@ import javax.swing.*;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
@@ -53,10 +54,10 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
 
         //Allows the user to select a solute
         final ControlPanelNode soluteControlPanelNode = new ControlPanelNode( new VBox() {{
-            addChild( new PText( "Solute" ) {{setFont( new PhetFont( 14, true ) );}} );
+            addChild( new PText( "Solute" ) {{setFont( TITLE_FONT );}} );
             addChild( new PhetPPath( new Rectangle( 0, 0, 0, 0 ), new Color( 0, 0, 0, 0 ) ) );//spacer
-            addChild( new PSwing( new JRadioButton( "Salt" ) ) );
-            addChild( new PSwing( new JRadioButton( "Sugar" ) ) );
+            addChild( new PSwing( new JRadioButton( "Salt" ) {{setFont( CONTROL_FONT );}} ) );
+            addChild( new PSwing( new JRadioButton( "Sugar" ) {{setFont( CONTROL_FONT );}} ) );
 
         }} ) {{
             setOffset( stageSize.getWidth() - getFullBounds().getWidth() - INSET, 150 );
@@ -64,18 +65,26 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
         addChild( soluteControlPanelNode );
 
         //Tools for the user to use
-        ControlPanelNode toolsControlPanelNode = new ControlPanelNode( new VBox() {{
-            addChild( new PText( "Tools" ) {{setFont( new PhetFont( 14, true ) );}} );
+        final ControlPanelNode toolsControlPanelNode = new ControlPanelNode( new VBox() {{
+            addChild( new PText( "Tools" ) {{setFont( TITLE_FONT );}} );
             addChild( new PhetPPath( new Rectangle( 0, 0, 0, 0 ), new Color( 0, 0, 0, 0 ) ) );//spacer
-            addChild( new PSwing( new JCheckBox( "Show concentration" ) ) );
-            addChild( new PSwing( new JCheckBox( "Show values" ) ) );
-            addChild( new PSwing( new JCheckBox( "Measure conductivity" ) ) );
-            addChild( new PSwing( new JCheckBox( "Evaporate water" ) ) );
+            addChild( new PSwing( new CheckBox( "Show concentration" ) ) );
+            addChild( new PSwing( new CheckBox( "Show values" ) ) );
+            addChild( new PSwing( new CheckBox( "Measure conductivity" ) ) );
+            addChild( new PSwing( new CheckBox( "Evaporate water" ) ) );
         }} ) {{
+            //Set the location of the control panel
             setOffset( stageSize.getWidth() - getFullBounds().getWidth(), soluteControlPanelNode.getFullBounds().getMaxY() + INSET );
         }};
         addChild( toolsControlPanelNode );
 
+        //Add the reset all button
+        addChild( new ButtonNode( "Reset All", Color.yellow ) {{
+            setOffset( toolsControlPanelNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, toolsControlPanelNode.getFullBounds().getMaxY() + INSET );
+            setFont( CONTROL_FONT );
+        }} );
+
+        //Add the beaker, water and salt shaker
         addChild( new BeakerNode( transform, model.beaker ) );
         addChild( new WaterNode( transform, model.water ) );
         addChild( new SaltShakerNode() );
@@ -87,4 +96,7 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
     private void addChild( PNode node ) {
         rootNode.addChild( node );
     }
+
+    public static Font CONTROL_FONT = new PhetFont( 16 );
+    public static Font TITLE_FONT = new PhetFont( 16, true );
 }
