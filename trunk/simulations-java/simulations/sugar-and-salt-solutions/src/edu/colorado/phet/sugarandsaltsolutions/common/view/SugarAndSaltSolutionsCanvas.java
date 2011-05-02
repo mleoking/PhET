@@ -8,6 +8,7 @@ import java.awt.geom.Rectangle2D;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.model.property2.Property;
+import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -64,9 +65,10 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
         final ControlPanelNode soluteControlPanelNode = new ControlPanelNode( new VBox() {{
             addChild( new PText( "Solute" ) {{setFont( TITLE_FONT );}} );
             addChild( new PhetPPath( new Rectangle( 0, 0, 0, 0 ), new Color( 0, 0, 0, 0 ) ) );//spacer
-            addChild( new PSwing( new JRadioButton( "Salt" ) {{setFont( CONTROL_FONT );}} ) );
-            addChild( new PSwing( new JRadioButton( "Sugar" ) {{setFont( CONTROL_FONT );}} ) );
-
+            addChild( new PSwing( new VerticalLayoutPanel() {{
+                add( new JRadioButton( "Salt" ) {{setFont( CONTROL_FONT );}} );
+                add( new JRadioButton( "Sugar" ) {{setFont( CONTROL_FONT );}} );
+            }} ) );
         }} ) {{
             setOffset( stageSize.getWidth() - getFullBounds().getWidth() - INSET, 150 );
         }};
@@ -74,12 +76,20 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
 
         //Tools for the user to use
         final ControlPanelNode toolsControlPanelNode = new ControlPanelNode( new VBox() {{
+            //Add title and a spacer below it
             addChild( new PText( "Tools" ) {{setFont( TITLE_FONT );}} );
             addChild( new PhetPPath( new Rectangle( 0, 0, 0, 0 ), new Color( 0, 0, 0, 0 ) ) );//spacer
-            addChild( new PSwing( new CheckBox( "Show concentration" ) ) );
-            addChild( new PSwing( new CheckBox( "Show values" ) ) );
-            addChild( new PSwing( new CheckBox( "Measure conductivity" ) ) );
-            addChild( new PSwing( new CheckBox( "Evaporate water" ) ) );
+
+            //Add the controls in the control panel
+            addChild( new PSwing( new VerticalLayoutPanel() {{
+                add( new CheckBox( "Show concentration" ) );
+                add( new JPanel() {{
+                    add( Box.createHorizontalStrut( 10 ) );//Indent the show values a bit since it relates to show concentration box
+                    add( new CheckBox( "Show values" ) );
+                }} );
+                add( new CheckBox( "Measure conductivity" ) );
+                add( new CheckBox( "Evaporate water" ) );
+            }} ) );
         }} ) {{
             //Set the location of the control panel
             setOffset( stageSize.getWidth() - getFullBounds().getWidth(), soluteControlPanelNode.getFullBounds().getMaxY() + INSET );
