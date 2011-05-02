@@ -48,7 +48,7 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
         //Create the transform from model (SI) to view (stage) coordinates
         final double scale = stageWidth / model.width;
         ModelViewTransform transform = createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ),
-                                                                               new Point2D.Double( stageSize.getWidth() / 2, stageSize.getHeight() - INSET ),
+                                                                               new Point2D.Double( stageSize.getWidth() * 0.43, stageSize.getHeight() - 50 ),
                                                                                scale );
 
         //Allows the user to select a solute
