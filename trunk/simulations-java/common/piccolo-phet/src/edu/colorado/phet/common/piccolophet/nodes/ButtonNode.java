@@ -75,50 +75,34 @@ public class ButtonNode extends PhetPNode {
     // Constructors
     //------------------------------------------------------------------------
 
-    /**
-     * Constructor for creating a default button with only the label specified.
-     *
-     * @param text text that will appear on button, supports HTML
-     */
     public ButtonNode( String text ) {
         this( text, FONT_SIZE, ENABLED_BACKGROUND_COLOR );
     }
 
-    /**
-     * Constructor for creating a button assuming the default font size & color.
-     *
-     * @param text            text that will appear on button, supports HTML
-     * @param backgroundColor
-     */
     public ButtonNode( String text, Color backgroundColor ) {
         this( text, FONT_SIZE, backgroundColor );
     }
 
-    /**
-     * Construct a button node.
-     *
-     * @param text            text that will appear on button, supports HTML
-     * @param fontSize        size of font for the label text.
-     * @param backgroundColor overall color of button from which gradient will be created.
-     */
     public ButtonNode( String text, int fontSize, Color backgroundColor ) {
         this( text, fontSize, ENABLED_TEXT_COLOR, backgroundColor );
     }
 
+    public ButtonNode( String text, int fontSize, Color textColor, Color backgroundColor ) {
+        this( text, new PhetFont( FONT_STYLE, fontSize ), textColor, backgroundColor );
+    }
+
     /**
      * Construct a button node.
      *
      * @param text            text that will appear on button, supports HTML
-     * @param fontSize        size of font for the label text.
+     * @param font            font for the label text.
      * @param textColor       color of the HTML that will appear on the button.
      * @param backgroundColor overall color of button from which gradient will be created.
      */
-    public ButtonNode( String text, int fontSize, Color textColor, Color backgroundColor ) {
-        this( createHtmlNode( text, fontSize, textColor ), textColor, backgroundColor );
+    public ButtonNode( String text, Font font, Color textColor, Color backgroundColor ) {
+        this( createHtmlNode( text, font, textColor ), textColor, backgroundColor );
     }
 
-    //XXX what does this comment about offset mean? I don't think it's correct.
-    //Assumes the PNode has an offset of (0,0)
     /*
      * Primary constructor, all other constructors ultimately result in this one being called.
      */
@@ -200,9 +184,9 @@ public class ButtonNode extends PhetPNode {
     // Methods
     //------------------------------------------------------------------------
 
-    private static HTMLNode createHtmlNode( String text, int fontSize, Color textColor ) {
+    private static HTMLNode createHtmlNode( String text, Font font, Color textColor ) {
         final HTMLNode _buttonText = new HTMLNode( text, textColor );
-        _buttonText.setFont( new PhetFont( FONT_STYLE, fontSize ) );
+        _buttonText.setFont( font );
         _buttonText.setPickable( false );
         return _buttonText;
     }
@@ -351,7 +335,7 @@ public class ButtonNode extends PhetPNode {
         testButton06.setOffset( 200, 300 );
         testButton06.addActionListener( listener );
 
-        ButtonNode testButton07 = new ButtonNode( "Toggle Enabled ->", new Color( 200, 200, 0 ) );
+        ButtonNode testButton07 = new ButtonNode( "Toggle Enabled ->", new PhetFont( Font.ITALIC, 16 ), Color.RED, new Color( 200, 200, 0 ) );
         testButton07.setOffset( 10, 300 );
         testButton07.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
