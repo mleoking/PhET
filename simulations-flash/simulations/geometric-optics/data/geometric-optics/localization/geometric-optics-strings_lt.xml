@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--geometric-optics-strings_lt.xml created Sun May 01 13:22:04 EEST 2011 using: geometric-optics 2.04.00 (37306), translation-utility 2.10.00 (48775) Vas 9, 2011-->
+<SimStrings>
+<string key="draggableScreen" value="Kilnojamas ekranas"/>
+<string key="draggableLens" value="Kilnojamas lęšis"/>
+<string key="screen" value="Ekranas"/>
+<string key="draggableRuler" value="Kilnojama liniuotė"/>
+<string key="simTitle" value="Geometrinė optika"/>
+<string key="showHelp" value="Pagalba"/>
+<string key="moveMe" value="Pajudink mane!"/>
+<string key="showGuides" value="Gidas"/>
+<string key="diameter" value="skersmuo (m)"/>
+<string key="ruler" value="Liniuotė"/>
+<string key="focalPoint" value="centras"/>
+<string key="curvatureRadius" value="kreivio spindulys (m)"/>
+<string key="changeObject" value="Pakeisti Objektą"/>
+<string key="principalRays" value="Pagr. spinduliai"/>
+<string key="marginalRays" value="Krašt. spinduliai"/>
+<string key="virtualImage" value="Virtualus paveiksliukas"/>
+<string key="noRays" value="Be spindulių"/>
+<string key="secondSource" value="Antras taškas"/>
+<string key="hideHelp" value="Paslėpti pagalbą"/>
+<string key="refractiveIndex" value="lūžio rodiklis"/>
+<string key="manyRays" value="Gaug spindulių"/>
+</SimStrings>
