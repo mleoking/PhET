@@ -1,4 +1,4 @@
-Consider a black X to break apart atoms?
+Consider a black X to break apart atoms? Scissors (see email)!
 Prevent 4 heavy atoms in a "square".
 Add bubble with "Drag your molecule here" inside, or another phrase? (With blue arrow)
 '+' to view 3d from collection box
