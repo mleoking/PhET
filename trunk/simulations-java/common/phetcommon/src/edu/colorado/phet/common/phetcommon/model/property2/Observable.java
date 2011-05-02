@@ -17,7 +17,8 @@ public class Observable<T> {
         this.value = value;
     }
 
-    public T getInitialValue() {
+    //Protected so it doesn't appear in IDE auto-completes
+    protected T getInitialValue() {
         return initialValue;
     }
 
