@@ -99,6 +99,8 @@ public class MixIsotopesCanvas extends PhetPCanvas implements Resettable {
         addWorldChild( rootNode );
 
         // Add the nodes that will allow the canvas to be layered.
+        final PNode controlsLayer = new PNode();
+        rootNode.addChild( controlsLayer );
         final PNode bucketHoleLayer = new PNode();
         rootNode.addChild( bucketHoleLayer );
         PNode chamberLayer = new PNode();
@@ -107,8 +109,6 @@ public class MixIsotopesCanvas extends PhetPCanvas implements Resettable {
         rootNode.addChild( particleLayer );
         final PNode bucketFrontLayer = new PNode();
         rootNode.addChild( bucketFrontLayer );
-        final PNode controlsLayer = new PNode();
-        rootNode.addChild( controlsLayer );
 
         // Listen to the model for events that concern the canvas.
         model.addListener( new MixIsotopesModel.Adapter() {

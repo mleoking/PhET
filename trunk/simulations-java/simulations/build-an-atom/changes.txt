@@ -1,3 +1,4 @@
+isotopes-and-atomic-mass: Made the atoms on the 2nd tab be in front of all indicators and buttons in case the user tries to drag them there.
 isotopes-and-atomic-mass: Made the neutrons be on top of all indicators (e.g. the periodic table) in case the user drags them there.
 Fixed up the colors - particularly red - to work better for color blind individuals.
 # 2.03.03 (51226) Apr 26, 2011
