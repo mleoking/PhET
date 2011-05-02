@@ -13,8 +13,12 @@ public class IntroModule extends SugarAndSaltSolutionsModule {
     private final IntroModel model;
 
     public IntroModule() {
-        super( "Intro" );
-        model = new IntroModel();
-        setSimulationPanel( new SugarAndSaltSolutionsCanvas( model ) );
+        this( new IntroModel() );
+    }
+
+    public IntroModule( final IntroModel model ) {
+        super( "Intro", model.clock );
+        this.model = model;
+        setSimulationPanel( new SugarAndSaltSolutionsCanvas( this.model ) );
     }
 }
