@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--my-solar-system-strings_hu.xml created Sat Jan 01 16:47:48 CET 2011 using: my-solar-system 2.02.00 (37313), translation-utility 2.09.00 (44031) Sep 14, 2010-->
+<!--my-solar-system-strings_hu.xml created Sun May 01 10:41:32 CEST 2011 using: my-solar-system 2.02.00 (37313), translation-utility 2.10.00 (48775) Feb 9, 2011-->
 <SimStrings>
 <string key="slingshot" value="Parittya"/>
 <string key="binaryStarPlanet" value="Kettőscsillag+bolygó"/>
@@ -11,6 +11,7 @@
 <string key="body1" value="1. test"/>
 <string key="velocity" value="Sebesség"/>
 <string key="doubleDouble" value="Dupla kettős"/>
+<string key="translation.credits" value="&lt;html&gt;&lt;a href=&quot;http://nasa.web.elte.hu/defhu.htm&quot;&gt;Nagy Sándor&lt;/a&gt;&lt;br&gt;ELTE, &lt;a href=&quot;http://www.chem.elte.hu/pr/&quot;&gt;Kémiai Intézet&lt;/a&gt;, Budapest&lt;/html&gt;"/>
 <string key="massEquals" value="tömeg ="/>
 <string key="hyperbolics" value="Hiperbolák"/>
 <string key="help9" value="Jogtulajdonosok: PhET és a Univerisity of Colorado (Boulder, USA)."/>
