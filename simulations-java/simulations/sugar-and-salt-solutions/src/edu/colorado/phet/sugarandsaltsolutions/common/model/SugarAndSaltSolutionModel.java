@@ -42,6 +42,13 @@ public class SugarAndSaltSolutionModel {
     private void updateModel( double dt ) {
         //Change the water volume based on input and output flow
         double newVolume = water.volume.getValue() + dt * ( inputFlowRate.getValue() - outputFlowRate.getValue() ) * FLOW_SCALE;
+
+        //Turn off the input flow if the beaker would overflow
+        if ( newVolume >= beaker.getMaxFluidVolume() ) {
+            inputFlowRate.setValue( 0.0 );
+        }
+
+        //Update the water volume
         water.volume.setValue( MathUtil.clamp( 0, newVolume, beaker.getMaxFluidVolume() ) );
     }
 }
