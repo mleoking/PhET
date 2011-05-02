@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--plinko-probability-strings_hu.xml created Fri Dec 24 08:21:17 CET 2010 using: plinko-probability 2.01.00 (37320), translation-utility 2.09.00 (44031) Sep 14, 2010-->
+<!--plinko-probability-strings_hu.xml created Sun May 01 17:26:39 CEST 2011 using: plinko-probability 2.01.00 (37320), translation-utility 2.10.00 (48775) Feb 9, 2011-->
 <SimStrings>
+<string key="translation.credits" value="&lt;html&gt;&lt;a href=&quot;http://nasa.web.elte.hu/defhu.htm&quot;&gt;Nagy Sándor&lt;/a&gt;&lt;br&gt;ELTE, &lt;a href=&quot;http://www.chem.elte.hu/pr/&quot;&gt;Kémiai Intézet&lt;/a&gt;, Budapest&lt;/html&gt;"/>
 <string key="ball" value="golyó"/>
 <string key="number" value="darab"/>
 <string key="simTitle" value="Galton-deszka"/>
 <string key="help" value="Súgó"/>
 <string key="continuous" value="folyamatos"/>
 <string key="reset" value="Újrakezd"/>
-<string key="histogramDisplay" value="Hisztogram \ntípusa"/>
 <string key="none" value="semmi"/>
+<string key="histogramDisplay" value="Hisztogram \ntípusa"/>
 <string key="oneBall" value="1 golyó"/>
 <string key="show" value="Látszik"/>
 <string key="sound" value="Hang"/>
