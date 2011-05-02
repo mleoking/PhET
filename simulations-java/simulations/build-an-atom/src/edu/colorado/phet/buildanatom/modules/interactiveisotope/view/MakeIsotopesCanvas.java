@@ -102,11 +102,18 @@ public class MakeIsotopesCanvas extends PhetPCanvas implements Resettable {
         rootNode = new PNode();
         addWorldChild( rootNode );
 
+        // Layers upon which the various display elements are placed.  This
+        // allows us to created the desired layering effects.
+        PNode indicatorLayer = new PNode();
+        rootNode.addChild( indicatorLayer );
+        PNode atomLayer = new PNode();
+        rootNode.addChild( atomLayer );
+
         // Add the legend/particle count indicator.
         final ParticleCountLegend particleCountLegend = new ParticleCountLegend( model.getAtom(), BACKGROUND_COLOR );
         particleCountLegend.setScale( 1.1 );
         particleCountLegend.setOffset( 20, 10 );
-        rootNode.addChild( particleCountLegend );
+        indicatorLayer.addChild( particleCountLegend );
 
         // Create the node that represents the scale upon which the atom sits.
         scaleNode = new AtomScaleNode( model.getAtom() ) {{
@@ -119,11 +126,6 @@ public class MakeIsotopesCanvas extends PhetPCanvas implements Resettable {
         Point2D topCenterOfScale = new Point2D.Double( scaleNode.getFullBoundsReference().getCenterX(),
                 scaleNode.getFullBoundsReference().getMinY() + scaleNode.getWeighPlateTopProjectedHeight() / 2 );
         final InteractiveIsotopeNode atomAndBucketNode = new InteractiveIsotopeNode( model, mvt, topCenterOfScale );
-
-        // Add the scale followed by the atom so that the layering effect is
-        // correct.
-        rootNode.addChild( scaleNode );
-        rootNode.addChild( atomAndBucketNode );
 
         // Add the "My Isotope" label.
         final PText myIsotopeLabel = new PText(BuildAnAtomStrings.MY_ISOTOPE){{
@@ -144,17 +146,22 @@ public class MakeIsotopesCanvas extends PhetPCanvas implements Resettable {
             }
         });
 
+        // Add the scale followed by the atom so that the layering effect is
+        // correct.
+        atomLayer.addChild( scaleNode );
+        atomLayer.addChild( atomAndBucketNode );
+
         // Add indicator that shows the name of the element.
         final ElementNameIndicator elementNameIndicator = new ElementNameIndicator( model.getAtom(), new BooleanProperty( true ), true ){{
             setFont( new PhetFont( 20, true ) );
             setColor( Color.BLACK );
             setOffset( mvt.modelToViewX( 0 ), myIsotopeLabel.getFullBoundsReference().getMaxY() + getFullBoundsReference().height );
         }};
-        rootNode.addChild( elementNameIndicator );
+        indicatorLayer.addChild( elementNameIndicator );
 
         // Add indicator that shows whether the nucleus is stable.
         final StabilityIndicator stabilityIndicator = new StabilityIndicator( model.getAtom(), new BooleanProperty( true ) );
-        rootNode.addChild( stabilityIndicator );
+        indicatorLayer.addChild( stabilityIndicator );
 
         // Add functionality to position the labels based on the location of
         // the nucleus.
@@ -188,7 +195,7 @@ public class MakeIsotopesCanvas extends PhetPCanvas implements Resettable {
                 setOffset( STAGE_SIZE.width - getFullBoundsReference().width - 20, 20 );
             }
         };
-        rootNode.addChild( periodicTableNode );
+        indicatorLayer.addChild( periodicTableNode );
 
         // Set the x position of the indicators.
         int indicatorWindowPosX = 600;
@@ -199,7 +206,7 @@ public class MakeIsotopesCanvas extends PhetPCanvas implements Resettable {
         symbolWindow = new MaximizeControlNode( BuildAnAtomStrings.INDICATOR_SYMBOL, new PDimension( 400, 100 ), symbolIndicatorNode, true );
         symbolIndicatorNode.setOffset( 20, symbolWindow.getFullBoundsReference().height / 2 - symbolIndicatorNode.getFullBounds().getHeight() / 2 );
         symbolWindow.setOffset( indicatorWindowPosX, 270 );
-        rootNode.addChild( symbolWindow );
+        indicatorLayer.addChild( symbolWindow );
 
         // Add the node that indicates the percentage abundance.
         final PDimension abundanceWindowSize = new PDimension( 400, 150 );
@@ -209,7 +216,7 @@ public class MakeIsotopesCanvas extends PhetPCanvas implements Resettable {
                 abundanceWindowSize.getHeight() / 2 + 10);  // Tweak factor empirically determined.
         abundanceWindow = new MaximizeControlNode( BuildAnAtomStrings.ABUNDANCE_IN_NATURE, abundanceWindowSize, abundanceIndicatorNode, true );
         abundanceWindow.setOffset( indicatorWindowPosX, symbolWindow.getFullBoundsReference().getMaxY() + 30 );
-        rootNode.addChild( abundanceWindow );
+        indicatorLayer.addChild( abundanceWindow );
 
         // Add the "Reset All" button.
         ResetAllButtonNode resetButtonNode = new ResetAllButtonNode( this, this, 16, Color.BLACK, new Color( 255, 153, 0 ) ){{
@@ -217,7 +224,7 @@ public class MakeIsotopesCanvas extends PhetPCanvas implements Resettable {
         }};
         double desiredResetButtonWidth = 100;
         resetButtonNode.setScale( desiredResetButtonWidth / resetButtonNode.getFullBoundsReference().width );
-        rootNode.addChild( resetButtonNode );
+        indicatorLayer.addChild( resetButtonNode );
 
         resetButtonNode.centerFullBoundsOnPoint(
                 abundanceWindow.getFullBoundsReference().getCenterX(),
@@ -334,7 +341,7 @@ public class MakeIsotopesCanvas extends PhetPCanvas implements Resettable {
                     // Show the abundance value
                     final double abundancePercent = atom.getNaturalAbundance() * 100;
                     value.setHTML( abundancePercent < MIN_ABUNDANCE_TO_SHOW && abundancePercent > 0 ? BuildAnAtomStrings.VERY_SMALL : ABUNDANCE_FORMATTER.format( abundancePercent ) + "%" );
-                    value.setOffset( 
+                    value.setOffset(
                             pieChart.getFullBoundsReference().getMinX() - value.getFullBoundsReference().getWidth() - CONNECTING_LINE_LEGNTH,
                             pieChart.getFullBoundsReference().getCenterY() - value.getFullBoundsReference().height / 2 );
 
