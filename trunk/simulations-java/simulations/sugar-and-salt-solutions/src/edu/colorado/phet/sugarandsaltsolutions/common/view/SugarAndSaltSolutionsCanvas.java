@@ -7,6 +7,9 @@ import java.awt.geom.Rectangle2D;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -15,6 +18,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.Salt;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -22,6 +26,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createSinglePointScaleInvertedYMapping;
+import static javax.swing.SwingUtilities.invokeLater;
 
 /**
  * Canvas for the introductory (first) tab in the Sugar and Salt Solutions Sim
@@ -111,8 +116,38 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
                        beakerBottomRightView.getY() - getFullBounds().getHeight() );
         }} );
 
+        //Add salt crystals graphics when salt crystals are added to the model
+        model.addSaltAddedListener( new VoidFunction1<Salt>() {
+            public void apply( final Salt salt ) {
+                //Create the node
+                final SaltNode saltNode = new SaltNode( transform, salt );
+
+                //Set up to remove the node and its listener when salt crystal removed from the model
+                salt.addRemovalListener( new VoidFunction0() {
+                    public void apply() {
+                        removeChild( saltNode );
+
+                        //Store a reference to the removalListener instance, for use in the anonymous inner class below
+                        final VoidFunction0 removalListener = this;
+
+                        //invoke later to avoid concurrentmodificationexception, since this is called during Crystal.remove()
+                        //This code should be read with IntelliJ's closure folding
+                        invokeLater( new Runnable() {
+                            public void run() {
+                                salt.removeRemovalListener( removalListener );
+                            }
+                        } );
+                    }
+                } );
+                addChild( saltNode );
+            }
+        } );
         //add the beaker, water and salt shaker
-        addChild( new SaltShakerNode() );
+        addChild( new SaltShakerNode( transform, new VoidFunction1<ImmutableVector2D>() {
+            public void apply( ImmutableVector2D position ) {
+                model.addSalt( new Salt( position ) );
+            }
+        } ) );
         addChild( new BeakerNode( transform, model.beaker ) );
         addChild( new WaterNode( transform, model.water ) );
 
@@ -122,5 +157,9 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
 
     private void addChild( PNode node ) {
         rootNode.addChild( node );
+    }
+
+    private void removeChild( PNode node ) {
+        rootNode.removeChild( node );
     }
 }
