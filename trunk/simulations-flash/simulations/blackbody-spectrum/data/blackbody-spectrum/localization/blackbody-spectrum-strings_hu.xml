@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--blackbody-spectrum-strings_hu.xml created Thu Sep 10 07:27:24 CEST 2009 using: blackbody-spectrum 2.00.00 (30671), translation-utility 2.02.00 (34911) Sep 9, 2009-->
+<!--blackbody-spectrum-strings_hu.xml created Sun May 01 14:59:19 CEST 2011 using: blackbody-spectrum 2.01.00 (39582), translation-utility 2.10.00 (48775) Feb 9, 2011-->
 <SimStrings>
 <string key="r" value="V"/>
+<string key="translation.credits" value="&lt;html&gt;&lt;a href=&quot;http://nasa.web.elte.hu/defhu.htm&quot;&gt;Nagy Sándor&lt;/a&gt;&lt;br&gt;ELTE, &lt;a href=&quot;http://www.chem.elte.hu/pr/&quot;&gt;Kémiai Intézet&lt;/a&gt;, Budapest&lt;/html&gt;"/>
 <string key="zoomIn" value="széthúz"/>
 <string key="intensity" value="  I"/>
 <string key="simTitle" value="Hőmérsékleti sugárzás spektruma"/>
