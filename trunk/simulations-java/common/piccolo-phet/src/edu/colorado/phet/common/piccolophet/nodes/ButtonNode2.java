@@ -37,9 +37,10 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 public class ButtonNode2 extends PhetPNode {
 
-    enum TextPosition {ABOVE, BELOW, LEFT, RIGHT}
-
-    ; // position of text relative to image
+    // position of text relative to image
+    public static enum TextPosition {
+        ABOVE, BELOW, LEFT, RIGHT
+    }
 
     private static final double COLOR_SCALING_FACTOR = 0.5; // scaling factor for creating brighter colors
 
