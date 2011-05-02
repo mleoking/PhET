@@ -1,3 +1,6 @@
+Consider a black X to break apart atoms?
+Prevent 4 heavy atoms in a "square".
+Add bubble with "Drag your molecule here" inside, or another phrase? (With blue arrow)
 '+' to view 3d from collection box
 Add BCE sound ding + bottom of collection box
 Process molecule lists instead of (<=4 heavy) to (works with our kits)
