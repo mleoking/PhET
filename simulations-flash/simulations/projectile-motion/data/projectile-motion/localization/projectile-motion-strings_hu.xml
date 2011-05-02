@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--projectile-motion-strings_hu.xml created Wed Jan 05 11:07:37 CET 2011 using: projectile-motion 2.02.00 (37323), translation-utility 2.09.00 (44031) Sep 14, 2010-->
+<!--projectile-motion-strings_hu.xml created Sun May 01 10:32:08 CEST 2011 using: projectile-motion 2.02.00 (37323), translation-utility 2.10.00 (48775) Feb 9, 2011-->
 <SimStrings>
 <string key="dragLabel" value="ellenállási koeff."/>
 <string key="userChoice" value="Amit akarsz!"/>
@@ -21,6 +21,7 @@
 <string key="height" value="mag. (m)"/>
 <string key="pumpkin" value="tök"/>
 <string key="score" value="Talált!"/>
+<string key="translation.credits" value="&lt;html&gt;&lt;a href=&quot;http://nasa.web.elte.hu/defhu.htm&quot;&gt;Nagy Sándor&lt;/a&gt;&lt;br&gt;ELTE, &lt;a href=&quot;http://www.chem.elte.hu/pr/&quot;&gt;Kémiai Intézet&lt;/a&gt;, Budapest&lt;/html&gt;"/>
 <string key="angle" value="szög (fok)"/>
 <string key="airResistance" value="Légellenállás"/>
 <string key="fire" value="Tűz!"/>
