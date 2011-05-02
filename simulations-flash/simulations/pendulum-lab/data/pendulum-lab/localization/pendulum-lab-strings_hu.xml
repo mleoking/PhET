@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--pendulum-lab-strings_hu.xml created Thu Jan 06 19:56:25 CET 2011 using: pendulum-lab 2.02.00 (37319), translation-utility 2.09.00 (44031) Sep 14, 2010-->
+<!--pendulum-lab-strings_hu.xml created Sun May 01 14:37:14 CEST 2011 using: pendulum-lab 2.02.00 (37319), translation-utility 2.10.00 (48775) Feb 9, 2011-->
 <SimStrings>
 <string key="resetStopwatch" value="nulláz"/>
 <string key="earth" value="Föld"/>
@@ -9,6 +9,7 @@
 <string key="showEnergyOf" value="Energiagrafikon:"/>
 <string key="PE" value="Pot"/>
 <string key="velocity" value="sebesség"/>
+<string key="translation.credits" value="&lt;html&gt;&lt;a href=&quot;http://nasa.web.elte.hu/defhu.htm&quot;&gt;Nagy Sándor&lt;/a&gt;&lt;br&gt;ELTE, &lt;a href=&quot;http://www.chem.elte.hu/pr/&quot;&gt;Kémiai Intézet&lt;/a&gt;, Budapest&lt;/html&gt;"/>
 <string key="realTime" value="valós idő"/>
 <string key="length" value="hossz"/>
 <string key="lots" value="nagy"/>
