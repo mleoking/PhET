@@ -529,14 +529,14 @@ import edu.umd.cs.piccolox.pswing.PSwing;
             label.setFont( CONTROL_FONT );
             label.setForeground( CONTROL_COLOR );
 
-            zoomInButton = new JButton( ZoomButtonNode.getZoomInIcon( 1.5 /* scale */ ) );
+            zoomInButton = new ZoomButton( true );
             zoomInButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     setZoomLevel( zoomLevel + 1 );
                 }
             } );
 
-            zoomOutButton = new JButton( ZoomButtonNode.getZoomOutIcon( 1.5 /* scale */ ) );
+            zoomOutButton = new ZoomButton( false );
             zoomOutButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     setZoomLevel( zoomLevel - 1 );
