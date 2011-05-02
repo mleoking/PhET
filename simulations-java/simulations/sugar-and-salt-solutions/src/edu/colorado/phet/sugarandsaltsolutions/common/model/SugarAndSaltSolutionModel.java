@@ -1,7 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.sugarandsaltsolutions.intro;
-
-import edu.colorado.phet.sugarandsaltsolutions.common.model.Beaker;
+package edu.colorado.phet.sugarandsaltsolutions.common.model;
 
 /**
  * @author Sam Reid
