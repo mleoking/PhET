@@ -53,4 +53,9 @@ public class Beaker {
     public Point2D getOutputFaucetAttachmentPoint() {
         return new Point2D.Double( x + width, y );
     }
+
+    //Determine how much water could this beaker hold
+    public double getMaxFluidVolume() {
+        return width * width * height;//Assumes a square cylinder
+    }
 }

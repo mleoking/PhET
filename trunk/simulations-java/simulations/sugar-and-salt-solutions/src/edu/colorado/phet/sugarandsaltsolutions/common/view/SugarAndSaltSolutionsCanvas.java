@@ -7,7 +7,6 @@ import java.awt.geom.Rectangle2D;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.phetcommon.model.property2.Property;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -16,7 +15,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
-import edu.colorado.phet.sugarandsaltsolutions.intro.IntroModel;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -40,7 +39,7 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
     public static Font CONTROL_FONT = new PhetFont( 16 );
     public static Font TITLE_FONT = new PhetFont( 16, true );
 
-    public SugarAndSaltSolutionsCanvas( final IntroModel model ) {
+    public SugarAndSaltSolutionsCanvas( final SugarAndSaltSolutionModel model ) {
         // Root of our scene graph
         rootNode = new PNode();
         addWorldChild( rootNode );
@@ -103,8 +102,8 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
         }} );
 
         //Add the faucets
-        addChild( new FaucetNode( transform, new Property<Double>( 0.0 ) ) );
-        addChild( new FaucetNode( transform, new Property<Double>( 0.0 ) ) {{
+        addChild( new FaucetNode( transform, model.inputFlowRate ) );
+        addChild( new FaucetNode( transform, model.outputFlowRate ) {{
             Point2D beakerBottomRight = model.beaker.getOutputFaucetAttachmentPoint();
             Point2D beakerBottomRightView = transform.modelToView( beakerBottomRight );
             //Move it up by the height of the faucet image, otherwise it sticks out underneath the beaker
