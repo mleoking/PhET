@@ -37,17 +37,18 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
 
         //Width of the stage
         final int stageWidth = 1008;//Actual size of the canvas coming up on windows from the IDE is java.awt.Dimension[width=1008,height=676]
+        final int stageHeight = (int) ( stageWidth / model.width * model.height );
 
         //Set the stage size according to the model aspect ratio
-        final PDimension stageSize = new PDimension( stageWidth, stageWidth * model.width / model.height );
+        final PDimension stageSize = new PDimension( stageWidth, stageHeight );
 
         //Set the transform from stage coordinates to screen coordinates
-        setWorldTransformStrategy( new PhetPCanvas.CenteredStage( this, stageSize ) );
+        setWorldTransformStrategy( new CenteredStage( this, stageSize ) );
 
         //Create the transform from model (SI) to view (stage) coordinates
-        final double scale = stageSize.getHeight() / model.height;
+        final double scale = stageWidth / model.width;
         ModelViewTransform transform = createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ),
-                                                                               new Point2D.Double( stageSize.getWidth() / 2, stageSize.getHeight() / 2 ),
+                                                                               new Point2D.Double( stageSize.getWidth() / 2, stageSize.getHeight() - INSET ),
                                                                                scale );
 
         //Allows the user to select a solute

@@ -10,15 +10,19 @@ import java.awt.geom.Rectangle2D;
  * @author Sam Reid
  */
 public class Beaker {
+    private final double x;
+    private final double y;
     private final double width;
     private final double height;
 
-    public Beaker( double width, double height ) {
+    public Beaker( double x, double y, double width, double height ) {
+        this.x = x;
+        this.y = y;
         this.width = width;
         this.height = height;
     }
 
     public Shape getWallShape() {
-        return new Rectangle2D.Double( 0, 0, width, height );
+        return new Rectangle2D.Double( x, y, width, height );
     }
 }
