@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--wave-on-a-string-strings_hu.xml created Thu Jan 06 19:11:17 CET 2011 using: wave-on-a-string 2.01.00 (37327), translation-utility 2.09.00 (44031) Sep 14, 2010-->
+<!--wave-on-a-string-strings_hu.xml created Sun May 01 14:40:38 CEST 2011 using: wave-on-a-string 2.03.00 (51205), translation-utility 2.10.00 (48775) Feb 9, 2011-->
 <SimStrings>
 <string key="manual" value="Fogóval bárhogy"/>
 <string key="resetTimer" value="nulláz"/>
@@ -22,8 +22,9 @@
 <string key="frequency" value="Frekvencia"/>
 <string key="wrenchHelp" value="fel-le mozog"/>
 <string key="fixedEnd" value="Rögzített végű"/>
-<string key="refLineHelp" value="mozgatható vízszintes"/>
 <string key="hideHelp" value="Súgót elrejt"/>
+<string key="refLineHelp" value="mozgatható vízszintes"/>
+<string key="translation.credits" value="&lt;html&gt;&lt;a href=&quot;http://nasa.web.elte.hu/defhu.htm&quot;&gt;Nagy Sándor&lt;/a&gt;&lt;br&gt;ELTE, &lt;a href=&quot;http://www.chem.elte.hu/pr/&quot;&gt;Kémiai Intézet&lt;/a&gt;, Budapest&lt;/html&gt;"/>
 <string key="timerHelp" value="mozgatható stopper"/>
 <string key="looseEnd" value="Szabad végű"/>
 <string key="noEnd" value="Végtelen"/>
