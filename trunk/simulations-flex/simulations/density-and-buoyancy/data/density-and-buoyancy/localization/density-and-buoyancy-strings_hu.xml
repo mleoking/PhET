@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--density-and-buoyancy-strings_hu.xml created Thu Dec 23 08:55:38 CET 2010 using: density-and-buoyancy 1.04.00 (47280), translation-utility 2.09.00 (44031) Sep 14, 2010-->
+<!--density-and-buoyancy-strings_hu.xml created Sun May 01 08:58:48 CEST 2011 using: density-and-buoyancy 1.05.00 (50250), translation-utility 2.10.00 (48775) Feb 9, 2011-->
 <SimStrings>
 <string key="buoyancy.tab.intro" value="Bevezetés"/>
 <string key="properties.mass" value="Tömeg"/>
 <string key="controlPanel.showVectorValues" value="Erők"/>
 <string key="forceArrows.contact" value="Támasztóerő"/>
 <string key="mode.objectsOfSameVolume" value="Azonos térfogat"/>
-<string key="bottle.2L" value="2 l"/>
 <string key="mysteryObject.densityColumnHeader" value="Sűrűség ({0})"/>
 <string key="material.aluminum" value="Alumínium"/>
 <string key="material.air" value="Levegő"/>
@@ -21,6 +20,7 @@
 <string key="material.honey" value="Méz"/>
 <string key="material.apple" value="Alma"/>
 <string key="material.ice" value="Jég"/>
+<string key="translation.credits" value="&lt;html&gt;&lt;a href=&quot;http://nasa.web.elte.hu/defhu.htm&quot;&gt;Nagy Sándor&lt;/a&gt;&lt;br&gt;ELTE, &lt;a href=&quot;http://www.chem.elte.hu/pr/&quot;&gt;Kémiai Intézet&lt;/a&gt;, Budapest&lt;/html&gt;"/>
 <string key="buoyancy.tab.playground" value="Kísérletezzünk!"/>
 <string key="fluid.controls.intro.label" value="Folyadék"/>
 <string key="material.diamond" value="Gyémánt"/>
@@ -42,7 +42,6 @@
 <string key="density.simTitle" value="Sűrűség"/>
 <string key="controlPanel.readouts" value="Számadatok:"/>
 <string key="properties.volumeMilliLiterValue" value="{0} ml"/>
-<string key="forceArrows.fluidDrag" value="Közegellenállás"/>
 <string key="mode.customObject" value="Választható"/>
 <string key="mode.objectsOfSameMass" value="Azonos tömeg"/>
 <string key="application.resetAll" value="Alapállás"/>
