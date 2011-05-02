@@ -7,6 +7,7 @@ import java.awt.geom.Rectangle2D;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.model.property2.Property;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -28,10 +29,17 @@ import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.Model
  * @author Sam Reid
  */
 public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
+    //Root node that shows the nodes in the stage coordinate frame
     private PNode rootNode;
+
+    //Insets to be used for padding between edge of canvas and controls, or between controls
     private final int INSET = 5;
 
-    public SugarAndSaltSolutionsCanvas( IntroModel model ) {
+    //Fonts
+    public static Font CONTROL_FONT = new PhetFont( 16 );
+    public static Font TITLE_FONT = new PhetFont( 16, true );
+
+    public SugarAndSaltSolutionsCanvas( final IntroModel model ) {
         // Root of our scene graph
         rootNode = new PNode();
         addWorldChild( rootNode );
@@ -48,9 +56,9 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
 
         //Create the transform from model (SI) to view (stage) coordinates
         final double scale = stageWidth / model.width;
-        ModelViewTransform transform = createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ),
-                                                                               new Point2D.Double( stageSize.getWidth() * 0.43, stageSize.getHeight() - 50 ),
-                                                                               scale );
+        final ModelViewTransform transform = createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ),
+                                                                                     new Point2D.Double( stageSize.getWidth() * 0.43, stageSize.getHeight() - 50 ),
+                                                                                     scale );
 
         //Allows the user to select a solute
         final ControlPanelNode soluteControlPanelNode = new ControlPanelNode( new VBox() {{
@@ -84,10 +92,20 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
             setFont( CONTROL_FONT );
         }} );
 
-        //Add the beaker, water and salt shaker
+        //Add the faucets
+        addChild( new FaucetNode( transform, new Property<Double>( 0.0 ) ) );
+        addChild( new FaucetNode( transform, new Property<Double>( 0.0 ) ) {{
+            Point2D beakerBottomRight = model.beaker.getOutputFaucetAttachmentPoint();
+            Point2D beakerBottomRightView = transform.modelToView( beakerBottomRight );
+            //Move it up by the height of the faucet image, otherwise it sticks out underneath the beaker
+            setOffset( beakerBottomRightView.getX() - getFullBounds().getWidth() * 0.4, //Hand tuned so it doesn't overlap the reset button in English
+                       beakerBottomRightView.getY() - getFullBounds().getHeight() );
+        }} );
+
+        //add the beaker, water and salt shaker
+        addChild( new SaltShakerNode() );
         addChild( new BeakerNode( transform, model.beaker ) );
         addChild( new WaterNode( transform, model.water ) );
-        addChild( new SaltShakerNode() );
 
         //Debug for showing stage
         addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, stageSize.getWidth(), stageSize.getHeight() ), new BasicStroke( 2 ), Color.red ) );
@@ -96,7 +114,4 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
     private void addChild( PNode node ) {
         rootNode.addChild( node );
     }
-
-    public static Font CONTROL_FONT = new PhetFont( 16 );
-    public static Font TITLE_FONT = new PhetFont( 16, true );
 }
