@@ -41,4 +41,10 @@ public class Beaker {
         //Since the stroke goes on both sides of the line, subtract out the main area so that the water won't overlap with the edges
         return new Area( wallShape ) {{subtract( new Area( new Rectangle2D.Double( x, y, width, height ) ) );}};
     }
+
+    public Shape getFluidShape( double volume ) {
+        double area = width * width;//assumes a square "cylinder"
+        double height = volume / area;
+        return new Rectangle2D.Double( x, y, width, height );
+    }
 }

@@ -14,4 +14,5 @@ public class SugarAndSaltSolutionModel {
     public final double beakerHeight = height * 0.5;
 
     public final Beaker beaker = new Beaker( beakerX, 0, beakerWidth, beakerHeight );//The beaker into which you can add water, salt and sugar.
+    public final Water water = new Water( beaker );
 }

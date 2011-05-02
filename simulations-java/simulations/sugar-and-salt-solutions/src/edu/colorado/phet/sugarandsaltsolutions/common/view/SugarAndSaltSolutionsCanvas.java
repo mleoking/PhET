@@ -77,6 +77,7 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
         addChild( toolsControlPanelNode );
 
         addChild( new BeakerNode( transform, model.beaker ) );
+        addChild( new WaterNode( transform, model.water ) );
         addChild( new SaltShakerNode() );
 
         //Debug for showing stage
