@@ -4,7 +4,9 @@ package edu.colorado.phet.buildanatom.model;
 import java.awt.Color;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.Point2D.Double;
 import java.util.ArrayList;
+import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
@@ -106,8 +108,8 @@ public class ParticleBucket extends Bucket {
     }
 
     public void addParticle( final SphericalParticle particle, boolean moveImmediately ) {
-        // Determine an open location in the bucket.
-        Point2D freeParticleLocation = getFirstOpenLocation();
+        // Determine the closest open location in the bucket.
+        Point2D freeParticleLocation = getNearestOpenLocation( particle.getPosition() );
 
         // Move the particle.
         if ( moveImmediately ) {
@@ -146,7 +148,7 @@ public class ParticleBucket extends Bucket {
         int positionInLayer = 0;
         boolean found = false;
         while ( !found ) {
-            double yPos = getYPositionForRow( row );
+            double yPos = getYPositionForLayer( row );
             double xPos = getPosition().getX() - holeShape.getBounds2D().getWidth() / 2 + offsetFromBucketEdge + positionInLayer * 2 * particleRadius;
             if ( isPositionOpen( xPos, yPos ) ) {
                 // We found a location that is open.
@@ -178,11 +180,66 @@ public class ParticleBucket extends Bucket {
     }
 
     /**
+     * Get the nearest open location to the provide location.
      *
-     * @param row 0 for the y=0 row, 1 for the next row, etc.
+     * @param location
      * @return
      */
-    private double getYPositionForRow( int row ) {
+    private Point2D getNearestOpenLocation( Point2D currentLocation ) {
+        List<Point2D> openLocationsInRow = new ArrayList<Point2D>();
+        double placeableWidth = holeShape.getBounds2D().getWidth() * usableWidthProportion - 2 * particleRadius;
+        double offsetFromBucketEdge = (holeShape.getBounds2D().getWidth() - placeableWidth) / 2 + particleRadius;
+        int numParticlesInLayer = (int) Math.floor( placeableWidth / ( particleRadius * 2 ) );
+        int layer = 0;
+        while ( openLocationsInRow.isEmpty() ) {
+            // Make a list of all open locations in the current layer.
+            for ( int positionInLayer = 0; positionInLayer < numParticlesInLayer; positionInLayer++){
+                double yPos = getYPositionForLayer( layer );
+                double xPos = getPosition().getX() - holeShape.getBounds2D().getWidth() / 2 + offsetFromBucketEdge + positionInLayer * 2 * particleRadius;
+                if ( isPositionOpen( xPos, yPos ) ) {
+                    // We found a location that is open, add it to our list.
+                    openLocationsInRow.add( new Point2D.Double( xPos, yPos ) );
+                }
+            }
+            if ( openLocationsInRow.isEmpty() ){
+                // Move to the next layer.
+                layer++;
+                numParticlesInLayer--;
+                offsetFromBucketEdge += particleRadius;
+                if ( numParticlesInLayer == 0 ) {
+                    // If the stacking pyramid is full, meaning that there are
+                    // no locations that are open within it, this algorithm
+                    // classifies the locations directly above the top of the
+                    // pyramid as being open.  This would result in a stack
+                    // of particles with a pyramid base.  So far, this hasn't
+                    // been a problem, but this limitation may limit
+                    // reusability of this algorithm.
+                    numParticlesInLayer = 1;
+                    offsetFromBucketEdge -= particleRadius;
+                }
+            }
+        }
+        // The algorithm above is intended to always provide at least one
+        // open location.  Make sure that it does.
+        assert !openLocationsInRow.isEmpty();
+
+        // Find the closest open location to the provided current location.
+        Point2D closestOpenLocation = openLocationsInRow.get( 0 );
+        for ( Point2D openLocation : openLocationsInRow ){
+            if ( openLocation.distance( currentLocation ) < closestOpenLocation.distance( currentLocation )){
+                // This location is closer.
+                closestOpenLocation = openLocation;
+            }
+        }
+        return closestOpenLocation;
+    }
+
+    /**
+     *
+     * @param row 0 for the bottom (y=0) row, 1 for the next row, etc.
+     * @return
+     */
+    private double getYPositionForLayer( int row ) {
         return getPosition().getY() + row * particleRadius * 2 * 0.866 + yOffset;
     }
 
@@ -202,7 +259,7 @@ public class ParticleBucket extends Bucket {
      * space in the stack of particles.  Dangling particles should fall.
      */
     private boolean isDangling( SphericalParticle particle ) {
-        boolean onBottomRow = particle.getDestination().getY() == getYPositionForRow( 0 );
+        boolean onBottomRow = particle.getDestination().getY() == getYPositionForLayer( 0 );
         return !onBottomRow && countSupportingParticles( particle ) < 2;
     }
 
