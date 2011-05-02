@@ -64,7 +64,7 @@ public class MixIsotopesModel implements Resettable, IConfigurableAtomModel {
 
     // Numbers of isotopes that are placed into the buckets when a new atomic
     // number is selected.
-    private static final int NUM_LARGE_ISOTOPES_PER_BUCKET = 9;
+    private static final int NUM_LARGE_ISOTOPES_PER_BUCKET = 10;
 
     // List of colors which will be used to represent the various isotopes.
     private static final Color [] ISOTOPE_COLORS = new Color [] {
