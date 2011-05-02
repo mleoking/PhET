@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--estimation-strings_hu.xml created Fri Dec 24 20:46:27 CET 2010 using: estimation 2.01.00 (37299), translation-utility 2.09.00 (44031) Sep 14, 2010-->
+<!--estimation-strings_hu.xml created Sun May 01 10:22:39 CEST 2011 using: estimation 2.01.00 (37299), translation-utility 2.10.00 (48775) Feb 9, 2011-->
 <SimStrings>
 <string key="ratioOfAreasIs" value="A területek aránya"/>
 <string key="closeEnough" value="Egész jó ! \nA pontos érték:"/>
@@ -18,6 +18,7 @@
 <string key="home" value="Vissza"/>
 <string key="whatIsRatioOfVolumes" value="Mekkora a térfogatok aránya?"/>
 <string key="tooFarOff" value="Túl messze van! \nA pontos érték:"/>
+<string key="translation.credits" value="&lt;html&gt;&lt;a href=&quot;http://nasa.web.elte.hu/defhu.htm&quot;&gt;Nagy Sándor&lt;/a&gt;&lt;br&gt;ELTE, &lt;a href=&quot;http://www.chem.elte.hu/pr/&quot;&gt;Kémiai Intézet&lt;/a&gt;, Budapest&lt;/html&gt;"/>
 <string key="scorePerTimeColon" value="pontszám/idő:"/>
 <string key="PleasePickANumber" value="Válassz egy számot 1 és 100000 között."/>
 <string key="answerIsOutside" value="A válasz a határokon kívül esik."/>
