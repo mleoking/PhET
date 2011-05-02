@@ -114,18 +114,25 @@ public class PeriodicTableControlNode extends PNode {
                     }
                     @Override
                     public void setArmed( boolean armed ) {
-                        if ( armed ) {
-                            buttonNode.setImage( PRESSED_IMAGE );
+                        if ( atom.getNumProtons() == atomicNumber ){
+                            buttonNode.setImage( SELECTED_IMAGE );
                         }
-                        else {
-                            buttonNode.setImage( focus ? FOCUSED_IMAGE : IDLE_IMAGE );
+                        else{
+                            if ( armed ) {
+                                buttonNode.setImage( PRESSED_IMAGE );
+                            }
+                            else {
+                                buttonNode.setImage( focus ? FOCUSED_IMAGE : IDLE_IMAGE );
+                            }
                         }
                     }
                     @Override
                     public void fire() {
                         // Set the configuration of the atom within the model
                         // to match this cell.
-                        model.setAtomConfiguration( AtomIdentifier.getMostCommonIsotope( getAtomicNumber() ) );
+                        if ( !( atom.getNumProtons() == atomicNumber ) ) {
+                            model.setAtomConfiguration( AtomIdentifier.getMostCommonIsotope( getAtomicNumber() ) );
+                        }
                     }
                 } );
             }};
