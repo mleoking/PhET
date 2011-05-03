@@ -10,7 +10,6 @@ import java.awt.geom.RoundRectangle2D;
 import javax.swing.*;
 import javax.swing.event.EventListenerList;
 
-import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
@@ -246,7 +245,7 @@ public class ButtonNode extends PhetPNode {
     * See Unfuddle Ticket #553, GradientPaint crashes Mac.
     */
     private boolean useGradient() {
-        return !PhetUtilities.isMacintosh();
+        return true;//!PhetUtilities.isMacintosh();
     }
 
     protected PPath getButton() {
@@ -311,31 +310,31 @@ public class ButtonNode extends PhetPNode {
             }
         };
 
-        ButtonNode testButton01 = new ButtonNode( "Test Me", 16, Color.GREEN );
+        ButtonNode testButton01 = new ButtonNode( "1. Test Me", 16, Color.GREEN );
         testButton01.setOffset( 5, 5 );
         testButton01.addActionListener( listener );
 
-        ButtonNode testButton02 = new ButtonNode( "<html>Test <br> Me Too</html>", 24, new Color( 0x99cccc ) );
+        ButtonNode testButton02 = new ButtonNode( "<html>2. Test <br> Me Too</html>", 24, new Color( 0x99cccc ) );
         testButton02.setOffset( 200, 5 );
         testButton02.addActionListener( listener );
 
-        ButtonNode testButton03 = new ButtonNode( "<html><center>Default Color<br>and Font<center></html>" );
+        ButtonNode testButton03 = new ButtonNode( "<html><center>3. Default Color<br>and Font<center></html>" );
         testButton03.setOffset( 5, 200 );
         testButton03.addActionListener( listener );
 
-        ButtonNode testButton04 = new ButtonNode( "Default Font Size", new Color( 0xcc3366 ) );
+        ButtonNode testButton04 = new ButtonNode( "4. Default Font Size", new Color( 0xcc3366 ) );
         testButton04.setOffset( 200, 200 );
         testButton04.addActionListener( listener );
 
-        ButtonNode testButton05 = new ButtonNode( "Transparent", new Color( 255, 0, 0, 100 ) );
+        ButtonNode testButton05 = new ButtonNode( "5. Transparent", new Color( 255, 0, 0, 100 ) );
         testButton05.setOffset( 200, 100 );
         testButton05.addActionListener( listener );
 
-        final ButtonNode testButton06 = new ButtonNode( "Test Enabled", new Color( 0, 200, 200 ) );
-        testButton06.setOffset( 200, 300 );
+        final ButtonNode testButton06 = new ButtonNode( "6. Test Enabled", new Color( 0, 200, 200 ) );
+        testButton06.setOffset( 230, 300 );
         testButton06.addActionListener( listener );
 
-        ButtonNode testButton07 = new ButtonNode( "Toggle Enabled ->", new PhetFont( Font.ITALIC, 16 ), Color.RED, new Color( 200, 200, 0 ) );
+        ButtonNode testButton07 = new ButtonNode( "7. Toggle Enabled ->", new PhetFont( Font.ITALIC, 16 ), Color.RED, new Color( 200, 200, 0 ) );
         testButton07.setOffset( 10, 300 );
         testButton07.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
