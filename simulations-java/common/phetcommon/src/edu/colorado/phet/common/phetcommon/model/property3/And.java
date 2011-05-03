@@ -32,5 +32,6 @@ public class And
             }
         } );
         selected.set( true );
+        selected.reset();
     }
 }

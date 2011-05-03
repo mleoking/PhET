@@ -26,7 +26,7 @@ public class OperatorBoolean
         notificationHelper = new Notifier<Boolean>( get() );
         new RichListener() {
             public void apply() {
-                if ( notificationHelper.change( get() ) ) {
+                if ( notificationHelper.set( get() ) ) {
                     listeners.notifyListeners();
                 }
             }

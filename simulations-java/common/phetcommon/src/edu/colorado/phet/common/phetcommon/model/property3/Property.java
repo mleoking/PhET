@@ -29,8 +29,13 @@ public class Property<T> implements Gettable<T>, Settable<T>, Observable0 {
     }
 
     public void set( T value ) {
-        if ( notifier.change( value ) ) {
+        if ( notifier.set( value ) ) {
             listenerList.notifyListeners();
         }
+    }
+
+    //Sets the value of this property to be its initial value
+    public void reset() {
+        set( notifier.getInitialValue() );
     }
 }
