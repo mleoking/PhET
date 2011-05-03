@@ -1,3 +1,4 @@
+5/3/11 Moved AbstractNotifier and Notifier to phetcommon from sugar and salt solutions
 4/27/11 Made LinearSlider.DEFAULT_RESOLUTION public
 4/26/11 Moved ImmutableRectangle2D from bending-light to phetcommon, see #2811
 4/25/11 Removed unused PDFHandler class (which was fully commented out already)
