@@ -32,7 +32,7 @@ public class PeriodicTableNode extends PNode {
     // Class Data
     // ------------------------------------------------------------------------
 
-    public static final int CELL_DIMENSION = 20; // In screen coordinates.
+    public static final int CELL_DIMENSION = 20; // In screen coordinates, only one number because cells are square.
 
     // ------------------------------------------------------------------------
     // Instance Data
