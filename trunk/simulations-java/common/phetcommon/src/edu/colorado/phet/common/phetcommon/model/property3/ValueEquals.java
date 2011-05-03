@@ -1,31 +1,29 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.phetcommon.model.property3;
 
-import edu.colorado.phet.common.phetcommon.util.function.Function2;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
 /**
- * Combines values from two binary parents using a combination operator such as AND or OR.
+ * Observable property that indicates whether its argument (also observable) is equal to the specified value
  *
  * @author Sam Reid
  */
-public abstract class OperatorBoolean extends RichObservable<Boolean> {//Nor can this generally be set because the semantics of synchronizing with parents are undefined
-    private Gettable<Boolean> a;
-    private Gettable<Boolean> b;
-    private final Function2<Boolean, Boolean, Boolean> operator;
+public class ValueEquals<T> implements GettableObservable0<Boolean> {//No set defined on ValueEquals since undefined what to set the value to if "false"
+    private final GettableObservable0<T> property;
+    private final T value;
 
-    private Notifier<Boolean> notifier;
+    //Keep track of state and don't send out notifications unless the values changes
+    private final Notifier<Boolean> notifier;
     private ListenerList<VoidFunction0> listeners = new ListenerList<VoidFunction0>( new VoidFunction1<VoidFunction0>() {
         public void apply( VoidFunction0 listener ) {
             listener.apply();
         }
     } );
 
-    public OperatorBoolean( GettableObservable0<Boolean> a, GettableObservable0<Boolean> b, Function2<Boolean, Boolean, Boolean> operator ) {
-        this.a = a;
-        this.b = b;
-        this.operator = operator;
+    public ValueEquals( GettableObservable0<T> property, T value ) {
+        this.property = property;
+        this.value = value;
         notifier = new Notifier<Boolean>( get() );
         new RichListener() {
             public void apply() {
@@ -33,11 +31,12 @@ public abstract class OperatorBoolean extends RichObservable<Boolean> {//Nor can
                     listeners.notifyListeners();
                 }
             }
-        }.observe( a, b );
+        }.observe( property );
     }
 
+    //Returns true if the wrapped observable is equal to the specified value
     public Boolean get() {
-        return operator.apply( a.get(), b.get() );
+        return property.get() == value;
     }
 
     public void addObserver( VoidFunction0 observer ) {
@@ -47,5 +46,4 @@ public abstract class OperatorBoolean extends RichObservable<Boolean> {//Nor can
     public void removeObserver( VoidFunction0 observer ) {
         listeners.remove( observer );
     }
-
 }

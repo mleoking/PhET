@@ -9,7 +9,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.event.Notifier;
-import edu.colorado.phet.common.phetcommon.model.property2.Property;
+import edu.colorado.phet.common.phetcommon.model.property3.Property;
 
 import static edu.colorado.phet.sugarandsaltsolutions.common.model.Dispenser.SALT;
 
@@ -70,15 +70,15 @@ public class SugarAndSaltSolutionModel {
     //Update the model when the clock ticks
     private void updateModel( double dt ) {
         //Change the water volume based on input and output flow
-        double newVolume = water.volume.getValue() + dt * ( inputFlowRate.getValue() - outputFlowRate.getValue() ) * FLOW_SCALE;
+        double newVolume = water.volume.get() + dt * ( inputFlowRate.get() - outputFlowRate.get() ) * FLOW_SCALE;
 
         //Turn off the input flow if the beaker would overflow
         if ( newVolume >= beaker.getMaxFluidVolume() ) {
-            inputFlowRate.setValue( 0.0 );
+            inputFlowRate.set( 0.0 );
         }
 
         //Update the water volume
-        water.volume.setValue( MathUtil.clamp( 0, newVolume, beaker.getMaxFluidVolume() ) );
+        water.volume.set( MathUtil.clamp( 0, newVolume, beaker.getMaxFluidVolume() ) );
 
         //Move about the sugar and salt crystals
         updateCrystals( dt, saltList );
@@ -93,7 +93,7 @@ public class SugarAndSaltSolutionModel {
             crystal.stepInTime( gravity.times( crystal.mass ), dt / 10 );
 
             //If the salt hits the water, absorb it
-            if ( water.getShape().getBounds2D().contains( crystal.position.getValue().toPoint2D() ) ) {
+            if ( water.getShape().getBounds2D().contains( crystal.position.get().toPoint2D() ) ) {
                 toRemove.add( crystal );
             }
         }
