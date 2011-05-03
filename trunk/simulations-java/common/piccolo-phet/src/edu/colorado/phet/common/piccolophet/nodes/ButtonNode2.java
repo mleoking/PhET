@@ -30,10 +30,12 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * A Piccolo button with interface similar to JButton.
- * Supports both text (plain or HTML) and images.
+ * Supports both text (plaintext or HTML) and images.
+ * Filled with a gradient paint, and has a drop shadow.
  * Origin is at the upper left of the bounding rectangle.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
+ * @author John Blanco (previous text-only version of ButtonNode)
  */
 public class ButtonNode2 extends PhetPNode {
 
