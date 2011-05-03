@@ -11,6 +11,8 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property2.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
+import static edu.colorado.phet.sugarandsaltsolutions.common.model.Dispenser.SALT;
+
 /**
  * @author Sam Reid
  */
@@ -40,6 +42,7 @@ public class SugarAndSaltSolutionModel {
     private ImmutableVector2D gravity = new ImmutableVector2D( 0, -9.8 );//Force due to gravity near the surface of the earth
 
     private static final double FLOW_SCALE = 0.02;//Flow controls vary between 0 and 1, this scales it down to a good model value
+    public final Property<Dispenser> dispenser = new Property<Dispenser>( SALT );//Which dispenser the user has selected
 
     public SugarAndSaltSolutionModel() {
         clock = new ConstantDtClock( 30 );
@@ -82,21 +85,27 @@ public class SugarAndSaltSolutionModel {
         water.volume.setValue( MathUtil.clamp( 0, newVolume, beaker.getMaxFluidVolume() ) );
 
         //Move about the sugar and salt crystals
-        ArrayList<Salt> toRemove = new ArrayList<Salt>();
-        for ( Salt salt : saltList ) {
+        updateCrystals( dt, saltList );
+        updateCrystals( dt, sugarList );
+    }
+
+    //Propagate the sugar and salt crystals, and absorb them if they hit the water
+    private void updateCrystals( double dt, final ArrayList<? extends Crystal> crystalList ) {
+        ArrayList<Crystal> toRemove = new ArrayList<Crystal>();
+        for ( Crystal crystal : crystalList ) {
             //slow the motion down a little bit or it moves too fast
-            salt.stepInTime( gravity.times( salt.mass ), dt / 10 );
+            crystal.stepInTime( gravity.times( crystal.mass ), dt / 10 );
 
             //If the salt hits the water, absorb it
-            if ( water.getShape().getBounds2D().contains( salt.position.getValue().toPoint2D() ) ) {
-                toRemove.add( salt );
+            if ( water.getShape().getBounds2D().contains( crystal.position.getValue().toPoint2D() ) ) {
+                toRemove.add( crystal );
             }
         }
         //Remove the salt crystals that hit the water
-        for ( Salt salt : toRemove ) {
-            salt.remove();
-            saltList.remove( salt );
-            //TODO: increase salt concentration in the water
+        for ( Crystal crystal : toRemove ) {
+            crystal.remove();
+            crystalList.remove( crystal );
+            //TODO: increase concentration in the water
         }
     }
 

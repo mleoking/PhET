@@ -4,6 +4,9 @@ package edu.colorado.phet.sugarandsaltsolutions.common.view;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.model.property2.Observer;
+import edu.colorado.phet.common.phetcommon.model.property2.Property;
+import edu.colorado.phet.common.phetcommon.model.property2.UpdateEvent;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -19,12 +22,17 @@ import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsAppli
  *
  * @author Sam Reid
  */
-public class SaltShakerNode extends PNode {
+public class DispenserNode extends PNode {
     private ArrayList<Double> historyDY = new ArrayList<Double>();
 
-    public SaltShakerNode( final ModelViewTransform transform, final VoidFunction1<ImmutableVector2D> addSalt ) {
+    public DispenserNode( final ModelViewTransform transform, final VoidFunction1<ImmutableVector2D> addSalt, final String image, Property<Boolean> visible ) {
         //Show the image of the shaker
-        addChild( new PImage( RESOURCES.getImage( "shaker.png" ) ) );
+        addChild( new PImage( RESOURCES.getImage( image ) ) );
+        visible.addObserver( new Observer<Boolean>() {
+            @Override public void update( UpdateEvent<Boolean> e ) {
+                setVisible( e.value );
+            }
+        } );
 
         //Add interactivity
         addInputEventListener( new CursorHandler() );

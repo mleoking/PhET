@@ -13,4 +13,9 @@ public class Property<T> extends Observable<T> {
     @Override public void setValue( T newValue ) {
         super.setValue( newValue );
     }
+
+    //Creates a new property that is true if this property equals the specified value
+    public ValueEquals<T> valueEquals( T value ) {
+        return new ValueEquals<T>( this, value );
+    }
 }
