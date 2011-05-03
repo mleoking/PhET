@@ -3,7 +3,7 @@ package edu.colorado.phet.common.phetcommon.model.property3;
 
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
 /**
  * Provides reusable implementation of a list of listeners that can be notified on any kind of event.
@@ -11,23 +11,27 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
  *
  * @author Sam Reid
  */
-public class ListenerList<T extends VoidFunction0> {
+public class ListenerList<T> {//T is the listener type
     private ArrayList<T> listeners = new ArrayList<T>();
+    private final VoidFunction1<T> notifyListener;
 
-    public void notifyListeners() {
-        for ( T listener : new ArrayList<T>( listeners ) ) {
-            notifyListener( listener );
-        }
+    //Create a listener list, and pass in the function that will be used to notify the listeners
+    public ListenerList( VoidFunction1<T> notifyListener ) {
+        this.notifyListener = notifyListener;
     }
 
-    protected void notifyListener( T listener ) {
-        listener.apply();
+    //Notifies the listeners
+    public void notifyListeners() {
+        //Makes a copy of the list during iteration to avoid ConcurrentModificationExceptions
+        for ( T listener : new ArrayList<T>( listeners ) ) {
+            notifyListener.apply( listener );
+        }
     }
 
     //Add a listener and send out notifications to the listener
     public void add( T observer ) {
         listeners.add( observer );
-        notifyListener( observer );
+        notifyListener.apply( observer );
     }
 
     public void remove( T observer ) {

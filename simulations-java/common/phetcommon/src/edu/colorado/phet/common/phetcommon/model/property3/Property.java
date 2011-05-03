@@ -2,15 +2,20 @@
 package edu.colorado.phet.common.phetcommon.model.property3;
 
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
 /**
  * Default implementation of Gettable, Settable and Observable that stores its value and signifies events when the value changes.
  *
  * @author Sam Reid
  */
-public class Property<T> implements Gettable<T>, Settable<T>, Observable0 {
+public class Property<T> extends RichObservable<T> implements Settable<T> {
     private Notifier<T> notifier;
-    private ListenerList<VoidFunction0> listenerList = new ListenerList<VoidFunction0>();
+    private ListenerList<VoidFunction0> listenerList = new ListenerList<VoidFunction0>( new VoidFunction1<VoidFunction0>() {
+        public void apply( VoidFunction0 listener ) {
+            listener.apply();
+        }
+    } );
 
     public Property( T value ) {
         this.notifier = new Notifier<T>( value );
