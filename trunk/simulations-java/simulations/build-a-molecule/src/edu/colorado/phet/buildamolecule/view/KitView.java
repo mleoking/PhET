@@ -131,13 +131,15 @@ public class KitView {
     }
 
     public void addMoleculeBondNodes( MoleculeStructure moleculeStructure ) {
-        MoleculeBondContainerNode moleculeBondsNode = new MoleculeBondContainerNode( kit, moleculeStructure, mvt, canvas );
-        metadataLayer.addChild( moleculeBondsNode );
-        bondMap.put( moleculeStructure, moleculeBondsNode );
+        MoleculeBondContainerNode moleculeBondContainerNode = new MoleculeBondContainerNode( kit, moleculeStructure, mvt, canvas );
+        metadataLayer.addChild( moleculeBondContainerNode );
+        bondMap.put( moleculeStructure, moleculeBondContainerNode );
     }
 
     public void removeMoleculeBondNodes( MoleculeStructure moleculeStructure ) {
-        metadataLayer.removeChild( bondMap.get( moleculeStructure ) );
+        MoleculeBondContainerNode moleculeBondContainerNode = bondMap.get( moleculeStructure );
+        moleculeBondContainerNode.destruct();
+        metadataLayer.removeChild( moleculeBondContainerNode );
         bondMap.remove( moleculeStructure );
     }
 
