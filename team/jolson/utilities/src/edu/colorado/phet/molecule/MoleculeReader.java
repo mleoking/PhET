@@ -51,108 +51,113 @@ public class MoleculeReader {
         } );
     }
 
-    public MoleculeFile nextMoleculeFile() throws IOException {
-        // implicitly loop through all possible files if necessary to find the next molecule file
-        while ( true ) {
+    public MoleculeFile nextMoleculeFile() {
+        try {
+            // implicitly loop through all possible files if necessary to find the next molecule file
+            while ( true ) {
 
-            // if the file (reader) isn't open, we will open it
-            if ( reader == null ) {
-                openNextFile();
+                // if the file (reader) isn't open, we will open it
                 if ( reader == null ) {
-                    // we have reached the end, so we return null
-                    return null;
+                    openNextFile();
+                    if ( reader == null ) {
+                        // we have reached the end, so we return null
+                        return null;
+                    }
                 }
-            }
 
-            // holds the molecule "file" as it is read in
-            StringBuilder builder = new StringBuilder();
+                // holds the molecule "file" as it is read in
+                StringBuilder builder = new StringBuilder();
 
-            while ( reader.ready() ) {
-                String line = reader.readLine();
-                if ( atStartOfMolecule ) {
-                    atStartOfMolecule = false;
-                    cid = Integer.parseInt( line );
+                while ( reader.ready() ) {
+                    String line = reader.readLine();
+                    if ( atStartOfMolecule ) {
+                        atStartOfMolecule = false;
+                        cid = Integer.parseInt( line );
 //                System.out.println( "Reading: #" + cid );
-                }
+                    }
 
-                // every molecule in the archive ends with this
-                if ( line.equals( "$$$$" ) ) {
-                    // separator
+                    // every molecule in the archive ends with this
+                    if ( line.equals( "$$$$" ) ) {
+                        // separator
 
-                    // reset state so that we can start reading again without problems
-                    atStartOfMolecule = true;
-                    isotopeMarker = false;
-                    heavyMarker = false;
-                    componentMarker = false;
-                    chargeMarker = false;
+                        // reset state so that we can start reading again without problems
+                        atStartOfMolecule = true;
+                        isotopeMarker = false;
+                        heavyMarker = false;
+                        componentMarker = false;
+                        chargeMarker = false;
 
-                    if ( ok ) {
-                        debug( cid, "OK" );
-                        countInFile++;
-                        return new MoleculeFile( cid, builder.toString() );
-                        //FileUtils.writeString( new File( "/home/jon/phet/molecules/full3d/" + cid + ".sdf" ), builder.toString() );
+                        if ( ok ) {
+                            debug( cid, "OK" );
+                            countInFile++;
+                            return new MoleculeFile( cid, builder.toString() );
+                            //FileUtils.writeString( new File( "/home/jon/phet/molecules/full3d/" + cid + ".sdf" ), builder.toString() );
+                        }
+                        else {
+                            // if we weren't OK, reset the builder and OK flag
+                            builder = new StringBuilder();
+                            ok = true;
+                        }
                     }
                     else {
-                        // if we weren't OK, reset the builder and OK flag
-                        builder = new StringBuilder();
-                        ok = true;
-                    }
-                }
-                else {
-                    if ( ok ) {
-                        builder.append( line ).append( "\n" );
-                        if ( isotopeMarker ) {
-                            isotopeMarker = false;
-                            int isotopic = Integer.parseInt( line );
-                            if ( isotopic > 0 ) {
-                                ok = false;
-                                debug( cid, "ISO" );
+                        if ( ok ) {
+                            builder.append( line ).append( "\n" );
+                            if ( isotopeMarker ) {
+                                isotopeMarker = false;
+                                int isotopic = Integer.parseInt( line );
+                                if ( isotopic > 0 ) {
+                                    ok = false;
+                                    debug( cid, "ISO" );
+                                }
                             }
-                        }
-                        if ( heavyMarker ) {
-                            heavyMarker = false;
-                            int heavy = Integer.parseInt( line );
-                            if ( heavy > maxHeavy ) {
-                                ok = false;
-                                debug( cid, "HEAVY" );
+                            if ( heavyMarker ) {
+                                heavyMarker = false;
+                                int heavy = Integer.parseInt( line );
+                                if ( heavy > maxHeavy ) {
+                                    ok = false;
+                                    debug( cid, "HEAVY" );
+                                }
                             }
-                        }
-                        if ( componentMarker ) {
-                            componentMarker = false;
-                            int components = Integer.parseInt( line );
-                            if ( components > 1 ) {
-                                ok = false;
-                                debug( cid, "COMPONENTS" );
+                            if ( componentMarker ) {
+                                componentMarker = false;
+                                int components = Integer.parseInt( line );
+                                if ( components > 1 ) {
+                                    ok = false;
+                                    debug( cid, "COMPONENTS" );
+                                }
                             }
-                        }
-                        if ( chargeMarker ) {
-                            chargeMarker = false;
-                            if ( !line.trim().equals( "0" ) ) {
-                                ok = false;
-                                debug( cid, "TOTAL CHARGE" );
+                            if ( chargeMarker ) {
+                                chargeMarker = false;
+                                if ( !line.trim().equals( "0" ) ) {
+                                    ok = false;
+                                    debug( cid, "TOTAL CHARGE" );
+                                }
                             }
-                        }
-                        if ( line.equals( "> <PUBCHEM_ISOTOPIC_ATOM_COUNT>" ) ) {
-                            isotopeMarker = true;
-                        }
-                        if ( line.equals( "> <PUBCHEM_HEAVY_ATOM_COUNT>" ) ) {
-                            heavyMarker = true;
-                        }
-                        if ( line.equals( "> <PUBCHEM_COMPONENT_COUNT>" ) ) {
-                            componentMarker = true;
-                        }
-                        if ( line.equals( "> <PUBCHEM_TOTAL_CHARGE>" ) ) {
-                            chargeMarker = true;
+                            if ( line.equals( "> <PUBCHEM_ISOTOPIC_ATOM_COUNT>" ) ) {
+                                isotopeMarker = true;
+                            }
+                            if ( line.equals( "> <PUBCHEM_HEAVY_ATOM_COUNT>" ) ) {
+                                heavyMarker = true;
+                            }
+                            if ( line.equals( "> <PUBCHEM_COMPONENT_COUNT>" ) ) {
+                                componentMarker = true;
+                            }
+                            if ( line.equals( "> <PUBCHEM_TOTAL_CHARGE>" ) ) {
+                                chargeMarker = true;
+                            }
                         }
                     }
                 }
+
+                System.out.println( countInFile + " in file" );
+
+                reader.close();
+
+                reader = null;
             }
-
-            System.out.println( countInFile + " in file" );
-
-            reader.close();
-
-            reader = null;
+        }
+        catch( IOException e ) {
+            throw new RuntimeException( "molecule reader failure", e );
         }
     }
 
@@ -183,16 +188,6 @@ public class MoleculeReader {
         }
     }
 
-    public static class MoleculeFile {
-        public final int cid;
-        public final String content;
-
-        public MoleculeFile( int cid, String content ) {
-            this.cid = cid;
-            this.content = content;
-        }
-    }
-
     public static void debug( int cid, String mess ) {
 //        System.out.println( mess + ": " + cid );
     }
@@ -202,16 +197,11 @@ public class MoleculeReader {
         File dirFile2d = new File( args[0] );
         File dirFile3d = new File( args[1] );
 
-        try {
-            MoleculeReader reader2d = new MoleculeReader( dirFile2d, 4 );
+        MoleculeReader reader2d = new MoleculeReader( dirFile2d, 4 );
 
-            for ( int i = 0; i < 10000; i++ ) {
-                MoleculeFile molFile = reader2d.nextMoleculeFile();
-                System.out.println( "received molecule file: #" + molFile.cid );
-            }
-        }
-        catch( IOException e ) {
-            e.printStackTrace();
+        for ( int i = 0; i < 10000; i++ ) {
+            MoleculeFile molFile = reader2d.nextMoleculeFile();
+            System.out.println( "received molecule file: #" + molFile.cid );
         }
 
     }
