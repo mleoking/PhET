@@ -22,7 +22,6 @@ import edu.umd.cs.piccolo.nodes.PImage;
 
 /**
  * This is a circular mouse target that when moused-over turns the mouse cursor into scissors that will split the referenced bond
- * TODO: remove this when our MoleculeStructure is removed from play
  */
 public class MoleculeBondNode extends PNode {
 
@@ -31,24 +30,37 @@ public class MoleculeBondNode extends PNode {
      */
     public static final double BOND_RADIUS = 5;
 
+    private PNode scissorsNode; // scissors image, rotated depending on the orientation
+    private BuildAMoleculeCanvas canvas;
+    private RichSimpleObserver positionObserver;
+
+    // our two atoms
+    private AtomModel a;
+    private AtomModel b;
+
     public MoleculeBondNode( MoleculeStructure.Bond bond, final Kit kit, final BuildAMoleculeCanvas canvas, final ModelViewTransform mvt ) {
-        final AtomModel a = kit.getAtomModel( bond.a );
-        final AtomModel b = kit.getAtomModel( bond.b );
+        this.canvas = canvas;
+        a = kit.getAtomModel( bond.a );
+        b = kit.getAtomModel( bond.b );
 
         // use the lewis dot model to get our bond direction
         LewisDotModel.Direction bondDirection = kit.getBondDirection( a.getAtomInfo(), b.getAtomInfo() );
         final boolean isHorizontal = bondDirection == LewisDotModel.Direction.West || bondDirection == LewisDotModel.Direction.East;
 
+        // construct our scissors node
+        scissorsNode = new PImage( BuildAMoleculeResources.getImage( BuildAMoleculeConstants.IMAGE_SCISSORS_ICON ) ) {{
+            if ( isHorizontal ) {
+                rotateInPlace( -Math.PI / 2 );
+            }
+            setPickable( false );
+            setVisible( false );
+        }};
+
+        // add our scissors image to the world as a screen child
+        canvas.addScreenChild( scissorsNode );
+
         // hit target
         addChild( new PhetPPath( new Ellipse2D.Double( -BOND_RADIUS, -BOND_RADIUS, 2 * BOND_RADIUS, 2 * BOND_RADIUS ) ) {
-            // scissors image rotated depending on the orientation
-            private PNode scissorsNode = new PImage( BuildAMoleculeResources.getImage( BuildAMoleculeConstants.IMAGE_SCISSORS_ICON ) ) {{
-                if ( isHorizontal ) {
-                    rotateInPlace( -Math.PI / 2 );
-                }
-                setPickable( false );
-                setVisible( false );
-            }};
 
             private boolean isDragging = false; // keep track of mouse-down state so we can NOT hide the cursor when it goes out of our hit zone
             private boolean isOver = false; // keep track of whether the mouse is over our hit zone, so that when the mouse is released we can keep the scissors visible if we are inside the hit zone
@@ -56,11 +68,10 @@ public class MoleculeBondNode extends PNode {
             {
                 setPaint( Color.RED );
                 setStrokePaint( Color.BLUE );
+
                 // hit target is invisible
                 setTransparency( 0.0f );
 
-                // add our scissors image to the world as a screen child
-                canvas.addScreenChild( scissorsNode );
                 addInputEventListener( new CursorHandler( createEmptyCursor() ) {
                     @Override public void mouseClicked( PInputEvent event ) {
                         // actually snip and break the bond
@@ -133,15 +144,21 @@ public class MoleculeBondNode extends PNode {
         } );
 
         // listener that will update the position of our hit target
-        new RichSimpleObserver() {
+        positionObserver = new RichSimpleObserver() {
             public void update() {
                 ImmutableVector2D location = b.getPosition().getSubtractedInstance( a.getPosition() ).getNormalizedInstance().getScaledInstance( a.getRadius() ).getAddedInstance( a.getPosition() );
                 setOffset( mvt.modelToView( location.toPoint2D() ) );
             }
-        }.observe( a.position, b.position );
+        };
+        positionObserver.observe( a.position, b.position );
     }
 
     private static Cursor createEmptyCursor() {
         return Toolkit.getDefaultToolkit().createCustomCursor( new BufferedImage( 16, 16, BufferedImage.TYPE_INT_ARGB ), new Point( 0, 0 ), "invisibleCursor" );
+    }
+
+    public void destruct() {
+        canvas.removeScreenChild( scissorsNode );
+        positionObserver.unobserve( a.position, b.position );
     }
 }
