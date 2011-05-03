@@ -1,3 +1,4 @@
+Changed single bond breaking cursor to scissors
 3D icon has bolder text
 # 0.00.13 (51325) Apr 29, 2011
 Using new 3D icon and changed cursor for "breaking" bonds
