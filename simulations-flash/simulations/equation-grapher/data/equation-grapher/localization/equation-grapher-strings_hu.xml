@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--equation-grapher-strings_hu.xml created Thu Dec 23 20:04:02 CET 2010 using: equation-grapher 2.01.00 (37298), translation-utility 2.09.00 (44031) Sep 14, 2010-->
+<!--equation-grapher-strings_hu.xml created Sun May 01 19:55:20 CEST 2011 using: equation-grapher 2.01.00 (37298), translation-utility 2.10.00 (48775) Feb 9, 2011-->
 <SimStrings>
 <string key="showYEq" value="Mutasd a tagokat: y ="/>
 <string key="erase" value="Töröl"/>
 <string key="save" value="Ment"/>
 <string key="zero" value="Nulláz"/>
 <string key="simTitle" value="Másodfokú polinomrajzoló"/>
+<string key="translation.credits" value="&lt;html&gt;&lt;a href=&quot;http://nasa.web.elte.hu/defhu.htm&quot;&gt;Nagy Sándor&lt;/a&gt;&lt;br&gt;ELTE, &lt;a href=&quot;http://www.chem.elte.hu/pr/&quot;&gt;Kémiai Intézet&lt;/a&gt;, Budapest&lt;/html&gt;"/>
 </SimStrings>
