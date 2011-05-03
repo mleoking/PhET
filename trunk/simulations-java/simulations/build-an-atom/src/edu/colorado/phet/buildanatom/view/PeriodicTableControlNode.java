@@ -85,11 +85,12 @@ public class PeriodicTableControlNode extends PNode {
      */
     private static class ButtonElementCell extends PeriodicTableNode.ElementCell {
         private static final double CELL_WIDTH = PeriodicTableNode.getCellDimension();
-        private static final Paint IDLE_PAINT = new GradientPaint( 0, 0, new Color( 230, 230, 230), 0, (float)CELL_WIDTH, new Color( 190, 190, 190 ) );
+        private static final Paint IDLE_PAINT = new GradientPaint( 0, (float)(CELL_WIDTH / 2), new Color( 220, 220, 220 ), 0, (float)CELL_WIDTH, new Color( 180, 180, 180 ) );
         private static final Paint FOCUSED_PAINT = new GradientPaint( 0, 0, new Color( 255, 255, 255), 0, (float)CELL_WIDTH, new Color(200, 200, 200 ) );
         private static final Paint PRESSED_PAINT = new GradientPaint( 0, 0, new Color( 170, 170, 170), 0, (float)CELL_WIDTH, new Color(210, 210, 210 ) );
         private static final Paint SELECTED_PAINT = Color.WHITE;
-        private static final Stroke STROKE = new BasicStroke( 1f );
+        private static final Stroke IDLE_STROKE = new BasicStroke( 1f );
+        private static final Stroke SELECTED_STROKE = new BasicStroke( 2f );
         private final Font LABEL_FONT = new PhetFont( 12 );
 
         private final PPath buttonNode;
@@ -102,7 +103,7 @@ public class PeriodicTableControlNode extends PNode {
             // Create the node that will act as the button, receiving events
             // from the user.
             buttonNode = new PhetPPath( new Rectangle2D.Double( 0, 0, CELL_WIDTH, CELL_WIDTH ),
-                    IDLE_PAINT, STROKE, Color.BLACK );
+                    IDLE_PAINT, IDLE_STROKE, Color.BLACK );
             addChild( buttonNode );
 
             // Register a handler to watch for button state changes.
@@ -174,11 +175,13 @@ public class PeriodicTableControlNode extends PNode {
             text.setFont( new PhetFont( PhetFont.getDefaultFontSize(), match ) );
             if ( match ) {
                 buttonNode.setPaint( SELECTED_PAINT );
+                buttonNode.setStroke( SELECTED_STROKE );
                 buttonNode.setStrokePaint( PhetColorScheme.RED_COLORBLIND );
                 moveToFront();
             }
             else {
                 buttonNode.setPaint( IDLE_PAINT );
+                buttonNode.setStroke( IDLE_STROKE );
                 buttonNode.setStrokePaint( Color.BLACK );
             }
         }
