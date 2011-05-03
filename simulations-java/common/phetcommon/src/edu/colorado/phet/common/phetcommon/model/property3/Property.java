@@ -9,7 +9,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
  *
  * @author Sam Reid
  */
-public class Property<T> extends RichObservable<T> implements Settable<T> {
+public class Property<T> extends RichObservable<T> implements GettableSettableObservable0<T> {
     private Notifier<T> notifier;
     private ListenerList<VoidFunction0> listenerList = new ListenerList<VoidFunction0>( new VoidFunction1<VoidFunction0>() {
         public void apply( VoidFunction0 listener ) {

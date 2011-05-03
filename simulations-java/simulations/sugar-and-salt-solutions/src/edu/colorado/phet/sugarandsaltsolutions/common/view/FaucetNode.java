@@ -9,10 +9,9 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.common.phetcommon.model.property2.Observer;
-import edu.colorado.phet.common.phetcommon.model.property2.Property;
-import edu.colorado.phet.common.phetcommon.model.property2.UpdateEvent;
+import edu.colorado.phet.common.phetcommon.model.property3.Property;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -45,12 +44,12 @@ public class FaucetNode extends PNode {
                 //Wire up 2-way communication with the Property
                 addChangeListener( new ChangeListener() {
                     public void stateChanged( ChangeEvent e ) {
-                        faucetFlowLevel.setValue( getValue() / 100.0 );
+                        faucetFlowLevel.set( getValue() / 100.0 );
                     }
                 } );
-                faucetFlowLevel.addObserver( new Observer<Double>() {
-                    @Override public void update( UpdateEvent<Double> doubleUpdateEvent ) {
-                        setValue( (int) ( faucetFlowLevel.getValue() * 100 ) );
+                faucetFlowLevel.addObserver( new VoidFunction1<Double>() {
+                    public void apply( Double value ) {
+                        setValue( (int) ( value * 100 ) );
                     }
                 } );
             }} ) {{

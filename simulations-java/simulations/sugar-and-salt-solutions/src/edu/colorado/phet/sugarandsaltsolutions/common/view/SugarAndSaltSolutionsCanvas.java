@@ -8,7 +8,7 @@ import java.awt.geom.Rectangle2D;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.model.property2.controls.PropertyRadioButton;
+import edu.colorado.phet.common.phetcommon.model.property3.controls.PropertyRadioButton;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
