@@ -1,3 +1,4 @@
+Added sugar crystals
 Added a beaker
 added a shaker image
 initialized application

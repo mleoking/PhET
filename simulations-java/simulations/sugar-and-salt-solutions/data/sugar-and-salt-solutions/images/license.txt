@@ -1,1 +1,2 @@
-shaker.png author=PhET 
+salt-dispenser.png author=PhET
+sugar-dispenser.png author=PhET

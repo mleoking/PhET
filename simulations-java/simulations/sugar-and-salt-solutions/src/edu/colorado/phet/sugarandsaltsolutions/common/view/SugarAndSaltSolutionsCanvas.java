@@ -8,7 +8,8 @@ import java.awt.geom.Rectangle2D;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
+import edu.colorado.phet.common.phetcommon.model.property2.controls.PropertyRadioButton;
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -18,7 +19,9 @@ import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.Dispenser;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.Salt;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.Sugar;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -26,7 +29,8 @@ import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createSinglePointScaleInvertedYMapping;
-import static javax.swing.SwingUtilities.invokeLater;
+import static edu.colorado.phet.sugarandsaltsolutions.common.model.Dispenser.SALT;
+import static edu.colorado.phet.sugarandsaltsolutions.common.model.Dispenser.SUGAR;
 
 /**
  * Canvas for the introductory (first) tab in the Sugar and Salt Solutions Sim
@@ -73,8 +77,8 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
             addChild( new PText( "Solute" ) {{setFont( TITLE_FONT );}} );
             addChild( new PhetPPath( new Rectangle( 0, 0, 0, 0 ), new Color( 0, 0, 0, 0 ) ) );//spacer
             addChild( new PSwing( new VerticalLayoutPanel() {{
-                add( new JRadioButton( "Salt" ) {{setFont( CONTROL_FONT );}} );
-                add( new JRadioButton( "Sugar" ) {{setFont( CONTROL_FONT );}} );
+                add( new PropertyRadioButton<Dispenser>( "Salt", model.dispenser, SALT ) {{setFont( CONTROL_FONT );}} );
+                add( new PropertyRadioButton<Dispenser>( "Sugar", model.dispenser, Dispenser.SUGAR ) {{setFont( CONTROL_FONT );}} );
             }} ) );
         }} ) {{
             setOffset( stageSize.getWidth() - getFullBounds().getWidth() - INSET, 150 );
@@ -120,37 +124,34 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
         }} );
 
         //Add salt crystals graphics when salt crystals are added to the model
-        model.addSaltAddedListener( new VoidFunction1<Salt>() {
-            public void apply( final Salt salt ) {
-                //Create the node
-                final SaltNode saltNode = new SaltNode( transform, salt );
-
-                //Set up to remove the node and its listener when salt crystal removed from the model
-                salt.addRemovalListener( new VoidFunction0() {
-                    public void apply() {
-                        crystalLayer.removeChild( saltNode );
-
-                        //Store a reference to the removalListener instance, for use in the anonymous inner class below
-                        final VoidFunction0 removalListener = this;
-
-                        //invoke later to avoid concurrentmodificationexception, since this is called during Crystal.remove()
-                        //This code should be read with IntelliJ's closure folding
-                        invokeLater( new Runnable() {
-                            public void run() {
-                                salt.removeRemovalListener( removalListener );
-                            }
-                        } );
-                    }
-                } );
-                crystalLayer.addChild( saltNode );
+        model.addSaltAddedListener( new CrystalMaker<Salt>( transform, crystalLayer, new Function1<Salt, PNode>() {
+            public PNode apply( Salt salt ) {
+                return new SaltNode( transform, salt );
             }
-        } );
+        } ) );
+
+        //Add sugar crystals graphics when sugar crystals are added to the model
+        model.addSugarAddedListener( new CrystalMaker<Sugar>( transform, crystalLayer, new Function1<Sugar, PNode>() {
+            public PNode apply( Sugar sugar ) {
+                return new SugarNode( transform, sugar );
+            }
+        } ) );
+
         //add the salt shaker node
-        addChild( new SaltShakerNode( transform, new VoidFunction1<ImmutableVector2D>() {
+        addChild( new DispenserNode( transform, new VoidFunction1<ImmutableVector2D>() {
             public void apply( ImmutableVector2D position ) {
                 model.addSalt( new Salt( position ) );
             }
-        } ) );
+        },
+                                     "salt-dispenser.png", model.dispenser.valueEquals( SALT ) ) );
+
+        //add the sugar dispenser node
+        addChild( new DispenserNode( transform, new VoidFunction1<ImmutableVector2D>() {
+            public void apply( ImmutableVector2D position ) {
+                model.addSugar( new Sugar( position ) );
+            }
+        },
+                                     "sugar-dispenser.png", model.dispenser.valueEquals( SUGAR ) ) );
 
         //Show the crystal layer behind the water and beaker so the crystals look like they go into the water instead of in front of it.
         addChild( crystalLayer );
