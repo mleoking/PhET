@@ -43,11 +43,14 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
     //Fonts
     public static Font CONTROL_FONT = new PhetFont( 16 );
     public static Font TITLE_FONT = new PhetFont( 16, true );
+    private PNode crystalLayer = new PNode();//Layer that holds the sugar and salt crystals
 
     public SugarAndSaltSolutionsCanvas( final SugarAndSaltSolutionModel model ) {
         // Root of our scene graph
         rootNode = new PNode();
         addWorldChild( rootNode );
+
+        setBackground( Color.white );
 
         //Width of the stage
         final int stageWidth = 1008;//Actual size of the canvas coming up on windows from the IDE is java.awt.Dimension[width=1008,height=676]
@@ -125,7 +128,7 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
                 //Set up to remove the node and its listener when salt crystal removed from the model
                 salt.addRemovalListener( new VoidFunction0() {
                     public void apply() {
-                        removeChild( saltNode );
+                        crystalLayer.removeChild( saltNode );
 
                         //Store a reference to the removalListener instance, for use in the anonymous inner class below
                         final VoidFunction0 removalListener = this;
@@ -139,15 +142,20 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
                         } );
                     }
                 } );
-                addChild( saltNode );
+                crystalLayer.addChild( saltNode );
             }
         } );
-        //add the beaker, water and salt shaker
+        //add the salt shaker node
         addChild( new SaltShakerNode( transform, new VoidFunction1<ImmutableVector2D>() {
             public void apply( ImmutableVector2D position ) {
                 model.addSalt( new Salt( position ) );
             }
         } ) );
+
+        //Show the crystal layer behind the water and beaker so the crystals look like they go into the water instead of in front of it.
+        addChild( crystalLayer );
+
+        //Add beaker and water nodes
         addChild( new BeakerNode( transform, model.beaker ) );
         addChild( new WaterNode( transform, model.water ) );
 
