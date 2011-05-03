@@ -1,5 +1,5 @@
 # 1.00.02 (51504) May 3, 2011
-5/3/11 demonstate new zoom buttons for bar meters
+5/3/11 demonstrate new zoom buttons for bar meters
 5/3/11 temporarily hide Multiple Capacitors tab
 5/3/11 #2483, change to 2 zoom buttons (in and out) on bar meter
 5/2/11 #2843, make zoom button on bar meter look like a button
