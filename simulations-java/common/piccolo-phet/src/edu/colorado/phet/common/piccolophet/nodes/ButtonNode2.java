@@ -43,6 +43,7 @@ public class ButtonNode2 extends PhetPNode {
     }
 
     private static final double COLOR_SCALING_FACTOR = 0.5; // scaling factor for creating brighter colors
+    private static final int DEFAULT_FONT_STYLE = Font.BOLD; //TODO using bold as the default style is a bad practice
 
     private final PNode parentNode; // intermediate parent for all nodes created herein
     private final ArrayList<ActionListener> actionListeners;
@@ -66,11 +67,11 @@ public class ButtonNode2 extends PhetPNode {
     //------------------------------------------------------------------------
 
     public ButtonNode2() {
-        this( null, null );
+        this( (String) null, (BufferedImage) null );
     }
 
     public ButtonNode2( String text ) {
-        this( text, null );
+        this( text, (BufferedImage) null );
     }
 
     public ButtonNode2( BufferedImage image ) {
@@ -84,7 +85,7 @@ public class ButtonNode2 extends PhetPNode {
 
         // default settings
         disabledImage = null;
-        font = new PhetFont( Font.BOLD, 14 ); //TODO using bold as the default style is a bad practice
+        font = new PhetFont( DEFAULT_FONT_STYLE, 14 );
         foreground = Color.BLACK;
         background = Color.GRAY;
         shadowColor = new Color( 0f, 0f, 0f, 0.2f ); // translucent black
@@ -108,6 +109,27 @@ public class ButtonNode2 extends PhetPNode {
         actionListeners = new ArrayList<ActionListener>();
 
         update();
+    }
+
+    // Convenience constructor
+    public ButtonNode2( String text, Color background ) {
+        this( text );
+        setBackground( background );
+    }
+
+    // Convenience constructor
+    public ButtonNode2( String text, int fontSize, Color background ) {
+        this( text );
+        setFont( new PhetFont( DEFAULT_FONT_STYLE, fontSize ) );
+        setBackground( background );
+    }
+
+    // Convenience constructor
+    public ButtonNode2( String text, int fontSize, Color foreground, Color background ) {
+        this( text );
+        setFont( new PhetFont( DEFAULT_FONT_STYLE, fontSize ) );
+        setForeground( foreground );
+        setBackground( background );
     }
 
     //------------------------------------------------------------------------
