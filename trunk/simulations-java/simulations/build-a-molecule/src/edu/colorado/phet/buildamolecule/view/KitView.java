@@ -29,13 +29,15 @@ public class KitView {
 
     private final Kit kit;
     private final ModelViewTransform mvt;
+    private final BuildAMoleculeCanvas canvas;
 
     private Map<MoleculeStructure, MoleculeMetadataNode> metadataMap = new HashMap<MoleculeStructure, MoleculeMetadataNode>();
-    private Map<MoleculeStructure, MoleculeBondsNode> bondMap = new HashMap<MoleculeStructure, MoleculeBondsNode>();
+    private Map<MoleculeStructure, MoleculeBondContainerNode> bondMap = new HashMap<MoleculeStructure, MoleculeBondContainerNode>();
 
-    public KitView( final Frame parentFrame, final Kit kit, final ModelViewTransform mvt ) {
+    public KitView( final Frame parentFrame, final Kit kit, final ModelViewTransform mvt, BuildAMoleculeCanvas canvas ) {
         this.kit = kit;
         this.mvt = mvt;
+        this.canvas = canvas;
 
         for ( Bucket bucket : kit.getBuckets() ) {
             BucketView bucketView = new BucketView( bucket, mvt );
@@ -129,7 +131,7 @@ public class KitView {
     }
 
     public void addMoleculeBondNodes( MoleculeStructure moleculeStructure ) {
-        MoleculeBondsNode moleculeBondsNode = new MoleculeBondsNode( kit, moleculeStructure, mvt );
+        MoleculeBondContainerNode moleculeBondsNode = new MoleculeBondContainerNode( kit, moleculeStructure, mvt, canvas );
         metadataLayer.addChild( moleculeBondsNode );
         bondMap.put( moleculeStructure, moleculeBondsNode );
     }

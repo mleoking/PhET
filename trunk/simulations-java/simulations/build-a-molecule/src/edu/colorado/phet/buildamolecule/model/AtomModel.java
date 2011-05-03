@@ -38,7 +38,7 @@ public class AtomModel {
 
     private final Atom atom;
     private final String name;
-    private final Property<ImmutableVector2D> position;
+    public final Property<ImmutableVector2D> position;
     private final Property<Boolean> userControlled = new Property<Boolean>( false );//True if the particle is being dragged by the user
     private final HashSet<Listener> listeners = new HashSet<Listener>();
     private ImmutableVector2D destination = new ImmutableVector2D();

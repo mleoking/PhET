@@ -145,7 +145,7 @@ public class BuildAMoleculeCanvas extends PhetPCanvas {
         bottomLayer.addChild( new KitPanel( getModel(), mvt ) );
 
         for ( final Kit kit : getModel().getKits() ) {
-            KitView kitView = new KitView( parentFrame, kit, mvt );
+            KitView kitView = new KitView( parentFrame, kit, mvt, this );
             kitMap.put( kit, kitView );
             bottomLayer.addChild( kitView.getBottomLayer() );
             atomLayer.addChild( kitView.getAtomLayer() );
