@@ -622,6 +622,7 @@ public class Atom implements IDynamicAtom {
         for (AtomListener listener : listeners ){
             listener.configurationChanged();
         }
+        return;
     }
 
     private void notifyPositionChanged(){

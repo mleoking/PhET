@@ -3,6 +3,7 @@ package edu.colorado.phet.buildanatom.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Point;
 import java.awt.geom.Rectangle2D;
 
@@ -32,7 +33,7 @@ public class PeriodicTableNode extends PNode {
     // Class Data
     // ------------------------------------------------------------------------
 
-    public static final int CELL_DIMENSION = 20; // In screen coordinates, only one number because cells are square.
+    public static final double CELL_DIMENSION = 20; // In screen coordinates, only one number because cells are square.
 
     // ------------------------------------------------------------------------
     // Instance Data
@@ -72,7 +73,7 @@ public class PeriodicTableNode extends PNode {
     // Methods
     // ------------------------------------------------------------------------
 
-    protected static int getCellDimension() {
+    protected static double getCellDimension() {
         return CELL_DIMENSION;
     }
 
@@ -190,6 +191,7 @@ public class PeriodicTableNode extends PNode {
      * Basic, non-interactive cell for periodic table.
      */
     public static class BasicElementCell extends ElementCell {
+        private final Font LABEL_FONT = new PhetFont( 12 );
         private final PText text;
         private final PhetPPath box;
 
@@ -201,7 +203,9 @@ public class PeriodicTableNode extends PNode {
             addChild( box );
 
             String abbreviation = AtomIdentifier.getSymbol( atomicNumber );
-            text = new PText( abbreviation );
+            text = new PText( abbreviation ){{
+                setFont( LABEL_FONT );
+            }};
             text.setOffset( box.getFullBounds().getCenterX() - text.getFullBounds().getWidth() / 2,
                     box.getFullBounds().getCenterY() - text.getFullBounds().getHeight() / 2 );
             addChild( text );
