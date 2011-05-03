@@ -22,6 +22,8 @@ import edu.colorado.phet.capacitorlab.model.BarMeter.CapacitanceMeter;
 import edu.colorado.phet.capacitorlab.model.BarMeter.PlateChargeMeter;
 import edu.colorado.phet.capacitorlab.model.BarMeter.StoredEnergyMeter;
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
+import edu.colorado.phet.capacitorlab.view.meters.ZoomButton.ZoomInButton;
+import edu.colorado.phet.capacitorlab.view.meters.ZoomButton.ZoomOutButton;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
@@ -112,8 +114,8 @@ public abstract class BarMeterNode extends PhetPNode {
     private final PowerOfTenRangeLabelNode maxLabelNode;
     private final RangeLabelNode minLabelNode;
     private final OverloadIndicatorNode overloadIndicatorNode;
-    private final ZoomButton zoomButton;
-    private final PSwing zoomButtonPSwing;
+    private final ZoomButton zoomInButton, zoomOutButton;
+    private final PSwing zoomInButtonPSwing, zoomOutButtonPSwing;
     private final PImage closeButton;
     private final TickMarkNode maxTickMarkNode, minTickMarkNode;
 
@@ -187,10 +189,15 @@ public abstract class BarMeterNode extends PhetPNode {
         closeButton = new PImage( CLImages.CLOSE_BUTTON );
         addChild( closeButton );
 
-        // zoom button
-        zoomButton = new ZoomButton( true );
-        zoomButtonPSwing = new PSwing( zoomButton );
-        addChild( zoomButtonPSwing );
+        // zoom-in button
+        zoomInButton = new ZoomInButton();
+        zoomInButtonPSwing = new PSwing( zoomInButton );
+        addChild( zoomInButtonPSwing );
+
+        // zoom-out button
+        zoomOutButton = new ZoomOutButton();
+        zoomOutButtonPSwing = new PSwing( zoomOutButton );
+        addChild( zoomOutButtonPSwing );
 
         // interactivity
         closeButton.addInputEventListener( new PBasicInputEventHandler() {
@@ -199,19 +206,22 @@ public abstract class BarMeterNode extends PhetPNode {
                 meter.visibleProperty.setValue( false );
             }
         } );
-        zoomButton.addActionListener( new ActionListener() {
+
+        ActionListener zoomListener = new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
-                updateExponent();
+                handleZoom();
             }
-        } );
+        };
+        zoomInButton.addActionListener( zoomListener );
+        zoomOutButton.addActionListener( zoomListener );
         addInputEventListener( new CursorHandler() );
         addInputEventListener( new WorldLocationDragHandler( meter.locationProperty, this, mvt ) );
 
         // layout
         updateLayout();
 
-        updateExponent();
-        updateZoomButton();
+        handleZoom();
+        updateZoomButtons();
 
         // observers
         {
@@ -276,21 +286,24 @@ public abstract class BarMeterNode extends PhetPNode {
         x = trackNode.getFullBoundsReference().getMaxX() + 2;
         y = trackNode.getFullBoundsReference().getMinY();
         closeButton.setOffset( x, y );
-        // zoom button below max label
-        x = maxLabelNode.getFullBoundsReference().getMaxX() - zoomButtonPSwing.getFullBoundsReference().getWidth() - 8;
+        // zoom buttons below max label
+        x = maxLabelNode.getFullBoundsReference().getMaxX() - zoomOutButtonPSwing.getFullBoundsReference().getWidth() - 8;
         y = maxLabelNode.getFullBoundsReference().getMaxY() + 5;
-        zoomButtonPSwing.setOffset( x, y );
+        zoomOutButtonPSwing.setOffset( x, y );
+        x = zoomOutButtonPSwing.getFullBoundsReference().getMinX() - zoomInButtonPSwing.getFullBoundsReference().getWidth() - 2;
+        y = zoomOutButtonPSwing.getYOffset();
+        zoomInButtonPSwing.setOffset( x, y );
     }
 
-    private void updateZoomButton() {
+    private void updateZoomButtons() {
         double mantissa = value / Math.pow( 10, exponent );
-        boolean plusEnabled = ( mantissa < 0.1 );
-        boolean minusEnabled = ( mantissa > 1 );
-        zoomButton.setEnabled( ( value != 0 ) && ( plusEnabled || minusEnabled ) );
-        zoomButton.setZoomIn( plusEnabled );
+        boolean plusEnabled = ( value != 0 ) && ( mantissa < 0.1 );
+        boolean minusEnabled = ( value != 0 ) && ( mantissa > 1 );
+        zoomInButton.setEnabled( plusEnabled );
+        zoomOutButton.setEnabled( minusEnabled );
     }
 
-    private void updateExponent() {
+    private void handleZoom() {
         if ( value != 0 ) {
             int exponent = 0;
             // look for an exponent that make the mantissa >= 0.1
@@ -321,7 +334,7 @@ public abstract class BarMeterNode extends PhetPNode {
             valueNode.setValue( value );
 
             updateLayout();
-            updateZoomButton();
+            updateZoomButtons();
         }
     }
 
@@ -341,7 +354,7 @@ public abstract class BarMeterNode extends PhetPNode {
             valueNode.setExponent( exponent );
 
             updateLayout();
-            updateZoomButton();
+            updateZoomButtons();
         }
     }
 

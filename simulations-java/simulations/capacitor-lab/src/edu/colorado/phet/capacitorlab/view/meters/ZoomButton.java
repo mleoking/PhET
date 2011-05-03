@@ -19,20 +19,28 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ZoomButton extends JButton {
+public abstract class ZoomButton extends JButton {
 
-    public ZoomButton( boolean zoomIn ) {
-        setZoomIn( zoomIn );
+    public static class ZoomInButton extends ZoomButton {
+        public ZoomInButton() {
+            super( true );
+        }
     }
 
-    public void setZoomIn( boolean zoomIn ) {
+    public static class ZoomOutButton extends ZoomButton {
+        public ZoomOutButton() {
+            super( false );
+        }
+    }
+
+    public ZoomButton( boolean zoomIn ) {
         setIcon( new ImageIcon( new ZoomImageNode( zoomIn ).toImage() ) );
     }
 
     private static class ZoomImageNode extends PComposite {
 
         // all other dimensions are derived from the glass diameter
-        private static final double GLASS_DIAMETER = 18;
+        private static final double GLASS_DIAMETER = 13;
 
         private static final Color COLOR = Color.BLACK;
 

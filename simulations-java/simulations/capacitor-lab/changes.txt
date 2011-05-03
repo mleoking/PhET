@@ -1,3 +1,4 @@
+5/3/11 #2483, change to 2 zoom buttons (in and out) on bar meter
 5/2/11 #2843, make zoom button on bar meter look like a button
 4/27/11 add ICircuit.reset, reset all circuits in model.reset
 4/27/11 move convenience classes to inner classes
