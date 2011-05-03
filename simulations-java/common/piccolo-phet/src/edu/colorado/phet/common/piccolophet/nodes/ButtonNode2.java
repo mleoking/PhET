@@ -117,7 +117,7 @@ public class ButtonNode2 extends PhetPNode {
     // completely rebuilds the button when any property changes
     private void update() {
 
-        // add children are parented to this node, so that clients can addChild
+        // All parts of the button are parented to this node, so that we don't blow away additional children that clients might add.
         parentNode.removeAllChildren();
 
         // text and image, with an intermediate parent
@@ -127,7 +127,7 @@ public class ButtonNode2 extends PhetPNode {
         textImageParent.addChild( textNode );
         textImageParent.addChild( imageNode );
 
-        // layout text and image based
+        // layout text and image
         double textX, imageX = 0;
         double textY, imageY = 0;
         PBounds tb = textNode.getFullBoundsReference();
@@ -162,7 +162,7 @@ public class ButtonNode2 extends PhetPNode {
         textNode.setOffset( textX, textY );
         imageNode.setOffset( imageX, imageY );
 
-        // gradients
+        // gradients, used in button handler to indicate state changes
         final double gradientWidth = textImageParent.getFullBoundsReference().getWidth();
         final double gradientHeight = textImageParent.getFullBoundsReference().getHeight();
         final Paint mouseNotOverGradient = createMouseNotOverGradient( gradientWidth, gradientWidth );
@@ -509,7 +509,7 @@ public class ButtonNode2 extends PhetPNode {
             node = htmlNode;
         }
         else {
-            node = new PNode();
+            node = new PNode(); // if we have no text, return an empty node as a placeholder
         }
         return node;
     }
@@ -526,18 +526,18 @@ public class ButtonNode2 extends PhetPNode {
                     node = new PImage( disabledImage );
                 }
                 else {
-                    node = new PImage( createGrayscaleImage( image ) );
+                    node = new PImage( createGrayscaleImage( image ) ); // if we have no disabledImage, generate one
                 }
             }
         }
         else {
-            node = new PNode();
+            node = new PNode(); // if we have no image, return an empty node as a placeholder
         }
         return node;
     }
 
     // Converts an image to grayscale, to denote that the button is disabled.
-    //TODO There are undoubtedly better ways to do this, but this is the only method I found that worked with images that contain transparency.
+    //TODO This needs tweaking to better match the disabled look of other parts of the button.
     private static BufferedImage createGrayscaleImage( BufferedImage colorImage ) {
         ColorSpace cs = ColorSpace.getInstance( ColorSpace.CS_GRAY );
         ColorConvertOp op = new ColorConvertOp( cs, null );
@@ -583,11 +583,13 @@ public class ButtonNode2 extends PhetPNode {
         }
     }
 
-    // See Unfuddle Ticket #553, GradientPaint crashes Mac.
+    // See Unfuddle Ticket #553, GradientPaint crashes on Mac OS.
+    //TODO GradientPaint crashes only for some versions of Mac OS. Return false only for those versions?
     private boolean useGradient() {
         return !PhetUtilities.isMacintosh();
     }
 
+    // Creates a brighter color. Unlike Color.brighter, this algorithm preserves transparency.
     private static Color createBrighterColor( Color origColor ) {
         int red = origColor.getRed() + (int) Math.round( ( 255 - origColor.getRed() ) * COLOR_SCALING_FACTOR );
         int green = origColor.getGreen() + (int) Math.round( ( 255 - origColor.getGreen() ) * COLOR_SCALING_FACTOR );
