@@ -1,7 +1,9 @@
 Consider a black X to break apart atoms? Scissors (see email)!
 Prevent 4 heavy atoms in a "square".
-Add bubble with "Drag your molecule here" inside, or another phrase? (With blue arrow)
-'+' to view 3d from collection box
+Make Reset button more playful (piccolo node?) Orange?
+Add bubble with "Drag your molecule here" inside, or another phrase? (With blue arrow). Also animate the arrow!
+Once an atom is selected and dragged close to another atom, it goes behind the atom. Can selected atoms that are being manipulated remain in front?
+View 3D button from collection box
 Add BCE sound ding + bottom of collection box
 Process molecule lists instead of (<=4 heavy) to (works with our kits)
 Remove isomer developer control, and/or pulling from all molecules
