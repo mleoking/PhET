@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--calculus-grapher-strings_hu.xml created Thu Dec 23 18:49:09 CET 2010 using: calculus-grapher 2.03.00 (42751), translation-utility 2.09.00 (44031) Sep 14, 2010-->
+<!--calculus-grapher-strings_hu.xml created Sun May 01 18:31:07 CEST 2011 using: calculus-grapher 2.03.00 (42751), translation-utility 2.10.00 (48775) Feb 9, 2011-->
 <SimStrings>
 <string key="grid" value="Négyzetháló"/>
 <string key="smooth" value="Simítás"/>
 <string key="integral" value="Integrál"/>
 <string key="sine" value="Szinusz"/>
 <string key="derivative" value="Derivált"/>
+<string key="translation.credits" value="&lt;html&gt;&lt;a href=&quot;http://nasa.web.elte.hu/defhu.htm&quot;&gt;Nagy Sándor&lt;/a&gt;&lt;br&gt;ELTE, &lt;a href=&quot;http://www.chem.elte.hu/pr/&quot;&gt;Kémiai Intézet&lt;/a&gt;, Budapest&lt;/html&gt;"/>
 <string key="offset" value="Eltolás"/>
 <string key="simTitle" value="Függvénytani rajzoló"/>
 <string key="hill" value="Harang"/>
