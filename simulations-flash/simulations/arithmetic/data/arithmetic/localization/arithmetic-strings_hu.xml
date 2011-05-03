@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--arithmetic-strings_hu.xml created Thu Dec 30 14:20:02 CET 2010 using: arithmetic 2.02.00 (37294), translation-utility 2.09.00 (44031) Sep 14, 2010-->
+<!--arithmetic-strings_hu.xml created Sun May 01 19:04:19 CEST 2011 using: arithmetic 2.02.00 (37294), translation-utility 2.10.00 (48775) Feb 9, 2011-->
 <SimStrings>
 <string key="level" value="Szint:"/>
 <string key="typeAnswer" value="Írd be a választ, \nés nyomj Enter-t"/>
@@ -22,6 +22,7 @@
 <string key="mustTypeNbr" value="Számot kell\nbeírni"/>
 <string key="score" value="Pontszám:"/>
 <string key="scorePer" value="pontszám"/>
+<string key="translation.credits" value="&lt;html&gt;&lt;a href=&quot;http://nasa.web.elte.hu/defhu.htm&quot;&gt;Nagy Sándor&lt;/a&gt;&lt;br&gt;ELTE, &lt;a href=&quot;http://www.chem.elte.hu/pr/&quot;&gt;Kémiai Intézet&lt;/a&gt;, Budapest&lt;/html&gt;"/>
 <string key="nbrWrong" value="Rossz válasz:"/>
 <string key="reset" value="Törlés"/>
 <string key="clock" value="Óra"/>
