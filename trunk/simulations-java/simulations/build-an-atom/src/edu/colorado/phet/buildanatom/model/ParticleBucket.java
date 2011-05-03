@@ -57,7 +57,7 @@ public class ParticleBucket extends Bucket {
             final Point2D initialPosition = particle.getDestination();
             particle.addPositionListener( new SimpleObserver() {
                 public void update() {
-                    if ( initialPosition.distance( particle.getDestination() ) > particle.getRadius() * 5 ){
+                    if ( initialPosition.distance( particle.getDestination() ) > particle.getRadius() * 2 ){
                         relayoutBucketParticles();
                         particle.removePositionListener( this );
                     }
@@ -249,9 +249,12 @@ public class ParticleBucket extends Bucket {
         assert !openLocationsInRow.isEmpty();
 
         // Find the closest open location to the provided current location.
+        // Only the X-component is used for this determination, because if
+        // the Y-component is used the particles often appear to fall sideways
+        // when released above the bucket, which just looks weird.
         Point2D closestOpenLocation = openLocationsInRow.get( 0 );
         for ( Point2D openLocation : openLocationsInRow ){
-            if ( openLocation.distance( currentLocation ) < closestOpenLocation.distance( currentLocation )){
+            if ( Math.abs( openLocation.getX() - currentLocation.getX() ) < Math.abs( closestOpenLocation.getX() - currentLocation.getX() ) ){
                 // This location is closer.
                 closestOpenLocation = openLocation;
             }
