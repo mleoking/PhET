@@ -249,8 +249,6 @@ public class ButtonNode extends PhetPNode {
         return !PhetUtilities.isMacintosh();
     }
 
-    s
-
     protected PPath getButton() {
         return _buttonNode;
     }
