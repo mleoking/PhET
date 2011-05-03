@@ -20,6 +20,8 @@ import edu.colorado.phet.capacitorlab.CLStrings;
 import edu.colorado.phet.capacitorlab.drag.WorldLocationDragHandler;
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.colorado.phet.capacitorlab.model.EFieldDetector;
+import edu.colorado.phet.capacitorlab.view.meters.ZoomButton.ZoomInButton;
+import edu.colorado.phet.capacitorlab.view.meters.ZoomButton.ZoomOutButton;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -529,14 +531,14 @@ import edu.umd.cs.piccolox.pswing.PSwing;
             label.setFont( CONTROL_FONT );
             label.setForeground( CONTROL_COLOR );
 
-            zoomInButton = new ZoomButton( true );
+            zoomInButton = new ZoomInButton();
             zoomInButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     setZoomLevel( zoomLevel + 1 );
                 }
             } );
 
-            zoomOutButton = new ZoomButton( false );
+            zoomOutButton = new ZoomOutButton();
             zoomOutButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     setZoomLevel( zoomLevel - 1 );
@@ -547,7 +549,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
             setAnchor( Anchor.WEST );
             int row = 0;
             int column = 0;
-            add( label, row++, column );
+            add( label, row++, column, 2, 1 );
             add( zoomInButton, row, column++ );
             add( zoomOutButton, row, column++ );
 
