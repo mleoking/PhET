@@ -15,7 +15,7 @@ public abstract class RichObservable<T> implements GettableObservable0<T> {
     private NewProperty<T> newProperty;
 
     //Returns a NewProperty which can be used with a callback value interface.  Value is stored so that listeners can be removed
-    public NewProperty<T> toNewProperty() {
+    private NewProperty<T> toNewProperty() {
         if ( newProperty == null ) {
             newProperty = new NewProperty<T>( this );
         }

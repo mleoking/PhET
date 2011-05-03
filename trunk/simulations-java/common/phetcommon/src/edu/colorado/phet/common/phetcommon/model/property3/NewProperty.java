@@ -47,7 +47,7 @@ public class NewProperty<T> implements Observable1<T> {
         final And and = new And( visible, selected );
         selected.set( true );
 
-        and.toNewProperty().addObserver( new VoidFunction1<Boolean>() {
+        and.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean o ) {
                 System.out.println( "o = " + o );
             }
