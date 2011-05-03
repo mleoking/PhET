@@ -12,7 +12,7 @@ import edu.colorado.phet.common.phetcommon.util.Pair;
 
 /**
  * NOT PRODUCTION CODE. Turns separate 2d and 3d SDF files into a filtered ready-to-use chemical file
- * TODO: find any that we need to manually add in (those without names?)
+ * TODO: find any that we need to manually add in (those without names?) NO2?
  */
 public class MoleculeSDFCombinedParser {
 
@@ -25,7 +25,23 @@ public class MoleculeSDFCombinedParser {
             , "PUBCHEM_IUPAC_OPENEYE_NAME", "PUBCHEM_IUPAC_CAS_NAME", "PUBCHEM_IUPAC_NAME", "PUBCHEM_IUPAC_SYSTEMATIC_NAME"
     };
 
-    private static int maxHeavy = 4; // TODO: set this properly in the future. Should help with processing speed
+    private static Set<String> allowedChemicalSymbols = new HashSet<String>() {{
+        add( "B" );
+        add( "Br" );
+        add( "C" );
+        add( "Cl" );
+        add( "F" );
+        add( "H" );
+        add( "I" );
+        add( "N" );
+        add( "O" );
+        add( "P" );
+        add( "S" );
+        add( "Si" );
+    }};
+
+    private static int maxHeavy = 12; // hard-count of 12
+    private static int maxCarbon = 4;
 
     public static void main( String[] args ) {
         File dir2d = new File( args[0] );
@@ -59,10 +75,10 @@ public class MoleculeSDFCombinedParser {
                     reader3d = new BufferedReader( new StringReader( pair._2.content ) );
                 }
                 else {
-                    System.out.println( "WARNING: no 3d file for " + cid );
+//                    System.out.println( "WARNING: no 3d file for " + cid );
                 }
 
-                System.out.println( "processing #" + cid + ", 3d: " + has3d );
+//                System.out.println( "processing #" + cid + ", 3d: " + has3d );
 
                 // burn the 1st three lines
                 reader2d.readLine();
@@ -86,6 +102,9 @@ public class MoleculeSDFCombinedParser {
                 boolean hasRings;
                 boolean hasName;
 
+                int numCarbon = 0;
+                boolean atomCountsOk = true;
+
                 for ( int i = 0; i < atomCount; i++ ) {
                     StringTokenizer t2d = new StringTokenizer( reader2d.readLine(), " " );
                     double x2d = Double.parseDouble( t2d.nextToken() );
@@ -93,6 +112,14 @@ public class MoleculeSDFCombinedParser {
                     t2d.nextToken(); // burn it
                     String symbol = t2d.nextToken();
                     symbols.add( symbol );
+
+                    if ( symbol.equals( "C" ) ) {
+                        numCarbon++;
+                    }
+                    if ( !allowedChemicalSymbols.contains( symbol ) ) {
+                        // has something like lead that we are not allowing
+                        atomCountsOk = false;
+                    }
 
                     double x3d;
                     double y3d;
@@ -113,81 +140,78 @@ public class MoleculeSDFCombinedParser {
                     atoms[i] = new AtomInfo( x2d, y2d, x3d, y3d, z3d, symbol );
                 }
 
-//                for ( AtomInfo atom : atoms ) {
-//                    System.out.println( atom );
-//                }
+                atomCountsOk = atomCountsOk && numCarbon <= maxCarbon;
 
-                for ( int i = 0; i < bondCount; i++ ) {
-                    StringTokenizer t2d = new StringTokenizer( reader2d.readLine(), " " );
+                if ( atomCountsOk ) {
+
+                    for ( int i = 0; i < bondCount; i++ ) {
+                        StringTokenizer t2d = new StringTokenizer( reader2d.readLine(), " " );
+                        if ( has3d ) {
+                            reader3d.readLine();
+                        }
+
+                        int a = Integer.parseInt( t2d.nextToken() );
+                        int b = Integer.parseInt( t2d.nextToken() );
+                        int order = Integer.parseInt( t2d.nextToken() );
+
+                        bonds[i] = new BondInfo( a, b, order );
+                    }
+
+                    // don't read charges or other stuff for now
+
+                    // just fill up our properties
                     if ( has3d ) {
-                        reader3d.readLine();
+                        funnelProperties( reader3d, moleculeProperties ); // 3d first, so 2d will overwrite if necessary
+                    }
+                    funnelProperties( reader2d, moleculeProperties );
+
+                    hasRings = has3d && moleculeProperties.getProperty( "PUBCHEM_PHARMACOPHORE_FEATURES" ).contains( "rings" );
+                    hasName = moleculeProperties.getProperty( "PUBCHEM_IUPAC_TRADITIONAL_NAME" ) != null;
+
+                    propertiesUsed.addAll( moleculeProperties.stringPropertyNames() );
+
+                    for ( String key : desiredProperties ) {
+                        if ( moleculeProperties.containsKey( key ) ) {
+                            //System.out.println( key + ": " + moleculeProperties.getProperty( key ) );
+                        }
+                        else {
+                            //System.out.println( cid + " missing " + key );
+                            propertiesNotOnEveryMolecule.add( key );
+                        }
                     }
 
-                    int a = Integer.parseInt( t2d.nextToken() );
-                    int b = Integer.parseInt( t2d.nextToken() );
-                    int order = Integer.parseInt( t2d.nextToken() );
+                    if ( hasName && !hasRings && cid != 139247 && cid != 9561073 ) { // blacklist
+                        // we will accept it
+                        String name = moleculeProperties.getProperty( "PUBCHEM_IUPAC_TRADITIONAL_NAME" );
+                        String formula = moleculeProperties.getProperty( "PUBCHEM_MOLECULAR_FORMULA" );
+                        if ( names.contains( name ) ) {
+                            System.out.println( "duplicate name: " + name );
+                        }
 
-                    bonds[i] = new BondInfo( a, b, order );
-                }
+                        uniqueAcceptedAtoms++;
+                        names.add( name );
 
-//                for ( BondInfo bond : bonds ) {
-//                    System.out.println( bond );
-//                }
+                        StringBuilder moleculeString = new StringBuilder();
+                        moleculeString.append( name + SEPARATOR + formula + SEPARATOR + atomCount + SEPARATOR + bondCount );
+                        for ( AtomInfo atom : atoms ) {
+                            moleculeString.append( SEPARATOR );
+                            moleculeString.append( atom.toString() );
+                        }
+                        for ( BondInfo bond : bonds ) {
+                            moleculeString.append( SEPARATOR );
+                            moleculeString.append( bond.toString() );
+                        }
+                        moleculeString.append( "\n" );
+                        String moleculeResult = moleculeString.toString();
+                        molecules.add( moleculeResult );
 
-                // don't read charges or other stuff for now
-
-                // just fill up our properties
-                if ( has3d ) {
-                    funnelProperties( reader3d, moleculeProperties ); // 3d first, so 2d will overwrite if necessary
-                }
-                funnelProperties( reader2d, moleculeProperties );
-
-                hasRings = has3d && moleculeProperties.getProperty( "PUBCHEM_PHARMACOPHORE_FEATURES" ).contains( "rings" );
-                hasName = moleculeProperties.getProperty( "PUBCHEM_IUPAC_TRADITIONAL_NAME" ) != null;
-
-                propertiesUsed.addAll( moleculeProperties.stringPropertyNames() );
-
-                for ( String key : desiredProperties ) {
-                    if ( moleculeProperties.containsKey( key ) ) {
-                        //System.out.println( key + ": " + moleculeProperties.getProperty( key ) );
-                    }
-                    else {
-                        //System.out.println( cid + " missing " + key );
-                        propertiesNotOnEveryMolecule.add( key );
+//                        System.out.print( moleculeResult );
                     }
                 }
 
                 reader2d.close();
                 if ( has3d ) {
                     reader3d.close();
-                }
-
-                if ( hasName && !hasRings && cid != 139247 && cid != 9561073 ) { // blacklist
-                    // we will accept it
-                    String name = moleculeProperties.getProperty( "PUBCHEM_IUPAC_TRADITIONAL_NAME" );
-                    String formula = moleculeProperties.getProperty( "PUBCHEM_MOLECULAR_FORMULA" );
-                    if ( names.contains( name ) ) {
-                        System.out.println( "duplicate name: " + name );
-                    }
-
-                    uniqueAcceptedAtoms++;
-                    names.add( name );
-
-                    StringBuilder moleculeString = new StringBuilder();
-                    moleculeString.append( name + SEPARATOR + formula + SEPARATOR + atomCount + SEPARATOR + bondCount );
-                    for ( AtomInfo atom : atoms ) {
-                        moleculeString.append( SEPARATOR );
-                        moleculeString.append( atom.toString() );
-                    }
-                    for ( BondInfo bond : bonds ) {
-                        moleculeString.append( SEPARATOR );
-                        moleculeString.append( bond.toString() );
-                    }
-                    moleculeString.append( "\n" );
-                    String moleculeResult = moleculeString.toString();
-                    molecules.add( moleculeResult );
-
-                    System.out.println( moleculeResult );
                 }
             }
 

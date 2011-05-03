@@ -32,7 +32,7 @@ public class FilteredMoleculeIterator implements Iterator<Pair<MoleculeFile, Mol
 
     public Pair<MoleculeFile, MoleculeFile> next() {
         while ( file3d != null && file2d.cid > file3d.cid ) {
-            System.out.println( "2d cid " + file2d.cid + " > 3d cid " + file3d.cid );
+//            System.out.println( "2d cid " + file2d.cid + " > 3d cid " + file3d.cid );
             read3d();
         }
         boolean hasValid3d = file3d != null && file2d.cid == file3d.cid;
