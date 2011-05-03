@@ -124,14 +124,14 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
         }} );
 
         //Add salt crystals graphics when salt crystals are added to the model
-        model.addSaltAddedListener( new CrystalMaker<Salt>( transform, crystalLayer, new Function1<Salt, PNode>() {
+        model.saltAdded.addListener( new CrystalMaker<Salt>( transform, crystalLayer, new Function1<Salt, PNode>() {
             public PNode apply( Salt salt ) {
                 return new SaltNode( transform, salt );
             }
         } ) );
 
         //Add sugar crystals graphics when sugar crystals are added to the model
-        model.addSugarAddedListener( new CrystalMaker<Sugar>( transform, crystalLayer, new Function1<Sugar, PNode>() {
+        model.sugarAdded.addListener( new CrystalMaker<Sugar>( transform, crystalLayer, new Function1<Sugar, PNode>() {
             public PNode apply( Sugar sugar ) {
                 return new SugarNode( transform, sugar );
             }
