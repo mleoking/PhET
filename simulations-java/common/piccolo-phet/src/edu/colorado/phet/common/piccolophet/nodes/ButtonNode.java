@@ -10,6 +10,7 @@ import java.awt.geom.RoundRectangle2D;
 import javax.swing.*;
 import javax.swing.event.EventListenerList;
 
+import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
@@ -245,8 +246,10 @@ public class ButtonNode extends PhetPNode {
     * See Unfuddle Ticket #553, GradientPaint crashes Mac.
     */
     private boolean useGradient() {
-        return true;//!PhetUtilities.isMacintosh();
+        return !PhetUtilities.isMacintosh();
     }
+
+    s
 
     protected PPath getButton() {
         return _buttonNode;
