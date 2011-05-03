@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.sugarandsaltsolutions.common.model;
+package edu.colorado.phet.common.phetcommon.model.event;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -23,7 +23,7 @@ public class AbstractNotifier<T> {//T is the listener type
         listeners.remove( listener );
     }
 
-    //Notify the listeners that an event has occurred
+    //Notify the listeners that an event has occurred.  This is called 'update' instead of 'notify' to avoid clashing with java 'notify' methods.
     public void updateListeners( VoidFunction1<T> callback ) {
         for ( T listener : new ArrayList<T>( listeners ) ) {
             callback.apply( listener );
