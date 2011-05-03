@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--collision-lab-strings_hu.xml created Wed Dec 22 10:52:54 CET 2010 using: collision-lab 0.01.00 (45337), translation-utility 2.09.00 (44031) Sep 14, 2010-->
+<!--collision-lab-strings_hu.xml created Sun May 01 18:47:54 CEST 2011 using: collision-lab 0.01.00 (45337), translation-utility 2.10.00 (48775) Feb 9, 2011-->
 <SimStrings>
 <string key="ControlPanel.reflectingBorder" value="Mandinerrel"/>
 <string key="MomentumView.tipToTail" value="Hegyét a végéhez"/>
@@ -7,7 +7,7 @@
 <string key="PlayPauseButtons.rewind" value=" "/>
 <string key="PlayPauseButtons.step" value=" "/>
 <string key="MomentumView.total" value="összeg"/>
-<string key="simTitle" value="Ütközések (léghoki)"/>
+<string key="simTitle" value="Ütközések (légkorong)"/>
 <string key="ControlPanel.momentaDiagram" value="Impulzusgrafikon"/>
 <string key="DataTable.mass" value="tömeg"/>
 <string key="DataTable.lessData" value="Kevesebbet"/>
@@ -28,6 +28,7 @@
 <string key="ControlPanel.sound" value="Hang"/>
 <string key="ControlPanel.resetAll" value="Előről"/>
 <string key="PlayPauseButtons.play" value=" "/>
+<string key="translation.credits" value="&lt;html&gt;&lt;a href=&quot;http://nasa.web.elte.hu/defhu.htm&quot;&gt;Nagy Sándor&lt;/a&gt;&lt;br&gt;ELTE, &lt;a href=&quot;http://www.chem.elte.hu/pr/&quot;&gt;Kémiai Intézet&lt;/a&gt;, Budapest&lt;/html&gt;"/>
 <string key="TableView.time" value="Idő = {0} s"/>
 <string key="ControlPanel.showCenterOfMass" value="Tömegközéppont"/>
 </SimStrings>
