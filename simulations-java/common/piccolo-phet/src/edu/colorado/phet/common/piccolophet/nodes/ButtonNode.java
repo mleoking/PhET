@@ -310,51 +310,51 @@ public class ButtonNode extends PhetPNode {
             }
         };
 
-        ButtonNode testButton01 = new ButtonNode( "1. Test Me", 16, Color.GREEN );
-        testButton01.setOffset( 5, 5 );
-        testButton01.addActionListener( listener );
+        ButtonNode button1 = new ButtonNode( "1. Test Me", 16, Color.GREEN );
+        button1.setOffset( 5, 5 );
+        button1.addActionListener( listener );
 
-        ButtonNode testButton02 = new ButtonNode( "<html>2. Test <br> Me Too</html>", 24, new Color( 0x99cccc ) );
-        testButton02.setOffset( 200, 5 );
-        testButton02.addActionListener( listener );
+        ButtonNode button2 = new ButtonNode( "<html>2. Test <br> Me Too</html>", 24, new Color( 0x99cccc ) );
+        button2.setOffset( 200, 5 );
+        button2.addActionListener( listener );
 
-        ButtonNode testButton03 = new ButtonNode( "<html><center>3. Default Color<br>and Font<center></html>" );
-        testButton03.setOffset( 5, 200 );
-        testButton03.addActionListener( listener );
+        ButtonNode button3 = new ButtonNode( "<html><center>3. Default Color<br>and Font<center></html>" );
+        button3.setOffset( 5, 200 );
+        button3.addActionListener( listener );
 
-        ButtonNode testButton04 = new ButtonNode( "4. Default Font Size", new Color( 0xcc3366 ) );
-        testButton04.setOffset( 200, 200 );
-        testButton04.addActionListener( listener );
+        ButtonNode button4 = new ButtonNode( "4. Default Font Size", new Color( 0xcc3366 ) );
+        button4.setOffset( 200, 200 );
+        button4.addActionListener( listener );
 
-        ButtonNode testButton05 = new ButtonNode( "5. Transparent", new Color( 255, 0, 0, 100 ) );
-        testButton05.setOffset( 200, 100 );
-        testButton05.addActionListener( listener );
+        ButtonNode button5 = new ButtonNode( "5. Transparent", new Color( 255, 0, 0, 100 ) );
+        button5.setOffset( 200, 100 );
+        button5.addActionListener( listener );
 
-        final ButtonNode testButton06 = new ButtonNode( "6. Test Enabled", new Color( 0, 200, 200 ) );
-        testButton06.setOffset( 230, 300 );
-        testButton06.addActionListener( listener );
+        final ButtonNode button6 = new ButtonNode( "6. Test Enabled", new Color( 0, 200, 200 ) );
+        button6.setOffset( 230, 300 );
+        button6.addActionListener( listener );
 
-        ButtonNode testButton07 = new ButtonNode( "7. Toggle Enabled ->", new PhetFont( Font.ITALIC, 16 ), Color.RED, new Color( 200, 200, 0 ) );
-        testButton07.setOffset( 10, 300 );
-        testButton07.addActionListener( new ActionListener() {
+        ButtonNode button7 = new ButtonNode( "7. Toggle Enabled ->", new PhetFont( Font.ITALIC, 16 ), Color.RED, new Color( 200, 200, 0 ) );
+        button7.setOffset( 10, 300 );
+        button7.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
                 System.out.println( "actionPerformed event= " + event );
-                testButton06.setEnabled( !testButton06.isEnabled() );
+                button6.setEnabled( !button6.isEnabled() );
             }
         } );
 
         PhetPCanvas canvas = new PhetPCanvas();
-        canvas.addScreenChild( testButton01 );
-        canvas.addScreenChild( testButton02 );
-        canvas.addScreenChild( testButton03 );
-        canvas.addScreenChild( testButton04 );
-        canvas.addScreenChild( testButton05 );
-        canvas.addScreenChild( testButton06 );
-        canvas.addScreenChild( testButton07 );
+        canvas.addScreenChild( button1 );
+        canvas.addScreenChild( button2 );
+        canvas.addScreenChild( button3 );
+        canvas.addScreenChild( button4 );
+        canvas.addScreenChild( button5 );
+        canvas.addScreenChild( button6 );
+        canvas.addScreenChild( button7 );
 
-        JFrame frame = new JFrame( "ButtonNode.main" );
+        JFrame frame = new JFrame( ButtonNode.class.getName() );
         frame.setContentPane( canvas );
-        frame.setSize( 400, 450 );
+        frame.setSize( 475, 425 );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         frame.setVisible( true );
     }
