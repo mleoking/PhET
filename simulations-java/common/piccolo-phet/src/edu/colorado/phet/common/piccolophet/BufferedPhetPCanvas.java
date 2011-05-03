@@ -15,6 +15,7 @@ import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
  * @author Sam Reid
  * @deprecated see Unfuddle #1621: unbuffered JFreeChartNode doesn't work with buffered PCanvas on Mac
  */
+@Deprecated
 public class BufferedPhetPCanvas extends PhetPCanvas {
 
     private BufferedImage bufferedImage;
@@ -26,14 +27,19 @@ public class BufferedPhetPCanvas extends PhetPCanvas {
         super( pDimension );
     }
 
+    @Override
     public void paintComponent( Graphics g ) {
         if ( PhetUtilities.isMacintosh() ) {
-        	// This is unneccesssary
+        	// This workaround is not needed on mac, and introduces issues
+            // (mostly slider knobs in weird places). See Unfuddle tickets
+            // #1619 and #2848.
             super.paintComponent( g );
         }
         else{
+            // Apply the workaround on windows and linux since they have
+            // similar behaviors.
 	        if ( bufferedImage == null || bufferedImage.getWidth() != getWidth() || bufferedImage.getHeight() != getHeight() ) {
-	            bufferedImage = new BufferedImage( getWidth(), getHeight(), getBufferedImageType() );
+	            bufferedImage = new BufferedImage( getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB );
 	        }
 	        Graphics2D bufferedGraphics = bufferedImage.createGraphics();
 	        bufferedGraphics.setClip( g.getClipBounds() );//TODO is this correct?
@@ -41,10 +47,5 @@ public class BufferedPhetPCanvas extends PhetPCanvas {
 	        ( (Graphics2D) g ).drawRenderedImage( bufferedImage, new AffineTransform() );
 	        bufferedGraphics.dispose();
         }
-    }
-
-    // Using INT_RGB on a Mac doesn't allow any transparency to appear, INT_ARGB_PRE seems to resolve this issue.
-    private int getBufferedImageType() {
-        return PhetUtilities.isMacintosh() ? BufferedImage.TYPE_INT_ARGB_PRE : BufferedImage.TYPE_INT_RGB;
     }
 }
