@@ -27,14 +27,20 @@ public class BufferedPhetPCanvas extends PhetPCanvas {
     }
 
     public void paintComponent( Graphics g ) {
-        if ( bufferedImage == null || bufferedImage.getWidth() != getWidth() || bufferedImage.getHeight() != getHeight() ) {
-            bufferedImage = new BufferedImage( getWidth(), getHeight(), getBufferedImageType() );
+        if ( PhetUtilities.isMacintosh() ) {
+        	// This is unneccesssary
+            super.paintComponent( g );
         }
-        Graphics2D bufferedGraphics = bufferedImage.createGraphics();
-        bufferedGraphics.setClip( g.getClipBounds() );//TODO is this correct?
-        super.paintComponent( bufferedGraphics );
-        ( (Graphics2D) g ).drawRenderedImage( bufferedImage, new AffineTransform() );
-        bufferedGraphics.dispose();
+        else{
+	        if ( bufferedImage == null || bufferedImage.getWidth() != getWidth() || bufferedImage.getHeight() != getHeight() ) {
+	            bufferedImage = new BufferedImage( getWidth(), getHeight(), getBufferedImageType() );
+	        }
+	        Graphics2D bufferedGraphics = bufferedImage.createGraphics();
+	        bufferedGraphics.setClip( g.getClipBounds() );//TODO is this correct?
+	        super.paintComponent( bufferedGraphics );
+	        ( (Graphics2D) g ).drawRenderedImage( bufferedImage, new AffineTransform() );
+	        bufferedGraphics.dispose();
+        }
     }
 
     // Using INT_RGB on a Mac doesn't allow any transparency to appear, INT_ARGB_PRE seems to resolve this issue.
