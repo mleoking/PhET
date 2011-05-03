@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--mass-spring-lab-strings_hu.xml created Fri Jan 07 09:48:05 CET 2011 using: mass-spring-lab 2.02.00 (37312), translation-utility 2.09.00 (44031) Sep 14, 2010-->
+<!--mass-spring-lab-strings_hu.xml created Sun May 01 19:22:56 CEST 2011 using: mass-spring-lab 2.03.00 (49899), translation-utility 2.10.00 (48775) Feb 9, 2011-->
 <SimStrings>
 <string key="pause" value="állj"/>
 <string key="earth" value="Föld"/>
@@ -14,6 +14,7 @@
 <string key="resetTimer" value="nulláz"/>
 <string key="hard" value="kemény"/>
 <string key="mass7Label" value="100 gramm"/>
+<string key="translation.credits" value="&lt;html&gt;&lt;a href=&quot;http://nasa.web.elte.hu/defhu.htm&quot;&gt;Nagy Sándor&lt;/a&gt;&lt;br&gt;ELTE, &lt;a href=&quot;http://www.chem.elte.hu/pr/&quot;&gt;Kémiai Intézet&lt;/a&gt;, Budapest&lt;/html&gt;"/>
 <string key="stopWatch" value="Stopper"/>
 <string key="none" value="0"/>
 <string key="realTime" value="valós idő"/>
