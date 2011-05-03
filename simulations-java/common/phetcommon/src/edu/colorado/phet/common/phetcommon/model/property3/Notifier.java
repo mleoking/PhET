@@ -16,7 +16,7 @@ public class Notifier<T> implements Gettable<T> {
         this.initialValue = value;
     }
 
-    //Sets the specified value and retuns true if the value changed
+    //Sets the specified value and returns true if the value changed
     public boolean set( T value ) {
         boolean changed = !value.equals( this.value );
         this.value = value;
