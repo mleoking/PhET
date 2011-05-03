@@ -9,7 +9,6 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property2.Property;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
 import static edu.colorado.phet.sugarandsaltsolutions.common.model.Dispenser.SALT;
 
@@ -33,11 +32,11 @@ public class SugarAndSaltSolutionModel {
 
     //Sugar and its listeners
     public final ArrayList<Sugar> sugarList = new ArrayList<Sugar>();//The sugar crystals that haven't been dissolved
-    public final ArrayList<VoidFunction1<Sugar>> sugarAddedListeners = new ArrayList<VoidFunction1<Sugar>>();//Listeners for when sugar crystals are added
+    public final Notifier<Sugar> sugarAdded = new Notifier<Sugar>();//Listeners for when sugar crystals are added
 
     //Salt and its listeners
     public final ArrayList<Salt> saltList = new ArrayList<Salt>();//The salt crystals that haven't been dissolved
-    public final ArrayList<VoidFunction1<Salt>> saltAddedListeners = new ArrayList<VoidFunction1<Salt>>();//Listeners for when salt crystals are added
+    public final Notifier<Salt> saltAdded = new Notifier<Salt>();//Listeners for when salt crystals are added
 
     private ImmutableVector2D gravity = new ImmutableVector2D( 0, -9.8 );//Force due to gravity near the surface of the earth
 
@@ -56,19 +55,15 @@ public class SugarAndSaltSolutionModel {
     }
 
     //Adds the specified Sugar crystal to the model
-    public void addSugar( Sugar sugar ) {
+    public void addSugar( final Sugar sugar ) {
         sugarList.add( sugar );
-        for ( VoidFunction1<Sugar> listener : sugarAddedListeners ) {
-            listener.apply( sugar );
-        }
+        sugarAdded.updateListeners( sugar );
     }
 
     //Adds the specified salt crystal to the model
     public void addSalt( Salt salt ) {
         this.saltList.add( salt );
-        for ( VoidFunction1<Salt> listener : saltAddedListeners ) {
-            listener.apply( salt );
-        }
+        saltAdded.updateListeners( salt );
     }
 
     //Update the model when the clock ticks
@@ -107,13 +102,5 @@ public class SugarAndSaltSolutionModel {
             crystalList.remove( crystal );
             //TODO: increase concentration in the water
         }
-    }
-
-    public void addSaltAddedListener( VoidFunction1<Salt> e ) {
-        saltAddedListeners.add( e );
-    }
-
-    public void addSugarAddedListener( VoidFunction1<Sugar> e ) {
-        sugarAddedListeners.add( e );
     }
 }
