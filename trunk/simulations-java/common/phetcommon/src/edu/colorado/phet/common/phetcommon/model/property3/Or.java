@@ -8,11 +8,8 @@ import edu.colorado.phet.common.phetcommon.util.function.Function2;
  *
  * @author Sam Reid
  */
-public class Or
-        <T extends Gettable<Boolean> & Observable0>//parents are gettable and observable but not settable
-        extends OperatorBoolean<T> {
-
-    public Or( T a, T b ) {
+public class Or extends OperatorBoolean {
+    public Or( GettableObservable0<Boolean> a, GettableObservable0<Boolean> b ) {
         super( a, b, new Function2<Boolean, Boolean, Boolean>() {
             public Boolean apply( Boolean a, Boolean b ) {
                 return a || b;
