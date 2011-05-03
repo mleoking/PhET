@@ -188,8 +188,7 @@ public class MakeIsotopesCanvas extends PhetPCanvas implements Resettable {
 
         // Add the interactive periodic table that allows the user to select
         // the current element.
-        final PeriodicTableControlNode periodicTableNode = new PeriodicTableControlNode( model,
-                10, BACKGROUND_COLOR ) {
+        final PeriodicTableControlNode periodicTableNode = new PeriodicTableControlNode( model, 10, BACKGROUND_COLOR ) {
             {
                 setScale( 1.3 );
                 setOffset( STAGE_SIZE.width - getFullBoundsReference().width - 20, 20 );
