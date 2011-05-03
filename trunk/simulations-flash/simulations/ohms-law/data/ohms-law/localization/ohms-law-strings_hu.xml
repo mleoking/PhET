@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--ohms-law-strings_hu.xml created Wed Dec 29 19:38:34 CET 2010 using: ohms-law 2.01.00 (37318), translation-utility 2.09.00 (44031) Sep 14, 2010-->
+<!--ohms-law-strings_hu.xml created Sun May 01 19:39:50 CEST 2011 using: ohms-law 2.03.00 (51206), translation-utility 2.10.00 (48775) Feb 9, 2011-->
 <SimStrings>
 <string key="currentEq" value="Áramerősség (I)  ="/>
 <string key="resistance" value="Ellenállás (R)"/>
 <string key="simTitle" value="Ohm-törvény"/>
 <string key="sound" value=" hang"/>
+<string key="translation.credits" value="&lt;html&gt;&lt;a href=&quot;http://nasa.web.elte.hu/defhu.htm&quot;&gt;Nagy Sándor&lt;/a&gt;&lt;br&gt;ELTE, &lt;a href=&quot;http://www.chem.elte.hu/pr/&quot;&gt;Kémiai Intézet&lt;/a&gt;, Budapest&lt;/html&gt;"/>
 <string key="voltage" value="Feszültség"/>
 </SimStrings>
