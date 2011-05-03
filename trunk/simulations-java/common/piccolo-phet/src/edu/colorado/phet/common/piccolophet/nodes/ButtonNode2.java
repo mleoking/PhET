@@ -162,17 +162,15 @@ public class ButtonNode2 extends PhetPNode {
         textNode.setOffset( textX, textY );
         imageNode.setOffset( imageX, imageY );
 
-        // gradients, used in button handler to indicate state changes
-        final double gradientWidth = textImageParent.getFullBoundsReference().getWidth();
-        final double gradientHeight = textImageParent.getFullBoundsReference().getHeight();
-        final Paint mouseNotOverGradient = createMouseNotOverGradient( gradientWidth, gradientWidth );
-        final Paint mouseOverGradient = createMouseOverGradient( gradientWidth, gradientWidth );
-        final Paint armedGradient = createArmedGradient( gradientWidth, gradientWidth );
-
         // button shape
-        double width = textImageParent.getFullBoundsReference().getWidth() + margin.left + margin.right;
-        double height = textImageParent.getFullBoundsReference().getHeight() + margin.top + margin.bottom;
-        RoundRectangle2D buttonShape = new RoundRectangle2D.Double( 0, 0, width, height, cornerRadius, cornerRadius );
+        double backgroundWidth = textImageParent.getFullBoundsReference().getWidth() + margin.left + margin.right;
+        double backgroundHeight = textImageParent.getFullBoundsReference().getHeight() + margin.top + margin.bottom;
+        RoundRectangle2D buttonShape = new RoundRectangle2D.Double( 0, 0, backgroundWidth, backgroundHeight, cornerRadius, cornerRadius );
+
+        // gradients, used in button handler to indicate state changes
+        final Paint mouseNotOverGradient = createMouseNotOverGradient( backgroundWidth, backgroundHeight );
+        final Paint mouseOverGradient = createMouseOverGradient( backgroundWidth, backgroundHeight );
+        final Paint armedGradient = createArmedGradient( backgroundWidth, backgroundHeight );
 
         // background
         final PPath backgroundNode = new PPath( buttonShape );
@@ -182,7 +180,7 @@ public class ButtonNode2 extends PhetPNode {
             backgroundNode.setStrokePaint( strokeColor );
         }
         else {
-            backgroundNode.setPaint( createDisabledGradient( gradientWidth, gradientHeight ) );
+            backgroundNode.setPaint( createDisabledGradient( backgroundWidth, backgroundHeight ) );
             backgroundNode.setStrokePaint( disabledStrokeColor );
         }
 
@@ -576,7 +574,7 @@ public class ButtonNode2 extends PhetPNode {
     */
     private Paint createGradient( Color topColor, Color bottomColor, double width, double height ) {
         if ( useGradient() ) {
-            return new GradientPaint( (float) width / 2, 0f, topColor, (float) width * 0.5f, (float) height, bottomColor );
+            return new GradientPaint( (float) width / 2f, 0f, topColor, (float) width * 0.5f, (float) height, bottomColor );
         }
         else {
             return bottomColor;
@@ -606,7 +604,6 @@ public class ButtonNode2 extends PhetPNode {
 
         PhetResources resources = new PhetResources( "phetcommon" );
         BufferedImage image = resources.getImage( "buttons/minimizeButton.png" );
-        final BufferedImage disabledImage = resources.getImage( "buttons/maximizeButton.png" );
 
         ActionListener listener = new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
@@ -614,73 +611,73 @@ public class ButtonNode2 extends PhetPNode {
             }
         };
 
-        ButtonNode2 testButton01 = new ButtonNode2( "1. Test Me", image ) {{
+        ButtonNode2 button1 = new ButtonNode2( "1. Test Me", image ) {{
             setCornerRadius( 20 );
             setImageTextGap( 20 );
             setMargin( 20, 10, 20, 10 );
             setFont( new PhetFont( 16 ) );
             setBackground( Color.GREEN );
         }};
-        testButton01.setOffset( 5, 5 );
-        testButton01.addActionListener( listener );
+        button1.setOffset( 5, 5 );
+        button1.addActionListener( listener );
 
-        ButtonNode2 testButton02 = new ButtonNode2( "<html>2. Test <br> Me Too</html>", image ) {{
+        ButtonNode2 button2 = new ButtonNode2( "<html>2. Test <br> Me Too</html>", image ) {{
             setTextPosition( TextPosition.BELOW );
             setFont( new PhetFont( 24 ) );
             setBackground( new Color( 0x99cccc ) );
         }};
-        testButton02.setOffset( 200, 5 );
-        testButton02.addActionListener( listener );
+        button2.setOffset( 200, 5 );
+        button2.addActionListener( listener );
 
-        ButtonNode2 testButton03 = new ButtonNode2( "<html><center>3. Default Color<br>and Font<center></html>" );
-        testButton03.setOffset( 5, 200 );
-        testButton03.addActionListener( listener );
+        ButtonNode2 button3 = new ButtonNode2( "<html><center>3. Default Color<br>and Font<center></html>" );
+        button3.setOffset( 5, 200 );
+        button3.addActionListener( listener );
 
-        ButtonNode2 testButton04 = new ButtonNode2( "4. Default Font Size" ) {{
+        ButtonNode2 button4 = new ButtonNode2( "4. Default Font Size" ) {{
             setBackground( new Color( 0xcc3366 ) );
         }};
-        testButton04.setOffset( 200, 200 );
-        testButton04.addActionListener( listener );
+        button4.setOffset( 200, 200 );
+        button4.addActionListener( listener );
 
-        ButtonNode2 testButton05 = new ButtonNode2( "5. Transparent" ) {{
+        ButtonNode2 button5 = new ButtonNode2( "5. Transparent" ) {{
             setBackground( new Color( 255, 0, 0, 100 ) );
         }};
-        testButton05.setOffset( 200, 125 );
-        testButton05.addActionListener( listener );
+        button5.setOffset( 200, 125 );
+        button5.addActionListener( listener );
 
-        final ButtonNode2 testButton06 = new ButtonNode2( "6. Test Enabled", image ) {{
+        final ButtonNode2 button6 = new ButtonNode2( "6. Test Enabled", image ) {{
             setBackground( new Color( 0, 200, 200 ) );
             setTextPosition( TextPosition.ABOVE );
         }};
-        testButton06.setOffset( 230, 300 );
-        testButton06.addActionListener( listener );
+        button6.setOffset( 230, 300 );
+        button6.addActionListener( listener );
 
-        ButtonNode2 testButton07 = new ButtonNode2( "7. Toggle Enabled ->" ) {{
+        ButtonNode2 button7 = new ButtonNode2( "7. Toggle Enabled ->" ) {{
             setFont( new PhetFont( Font.ITALIC, 16 ) );
             setForeground( Color.RED );
             setBackground( new Color( 200, 200, 0 ) );
             setToolTipText( "<html>click me to<br>disabled button 6</html>" );
         }};
-        testButton07.setOffset( 10, 300 );
-        testButton07.addActionListener( new ActionListener() {
+        button7.setOffset( 10, 300 );
+        button7.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
                 System.out.println( "actionPerformed event= " + event );
-                testButton06.setEnabled( !testButton06.isEnabled() );
+                button6.setEnabled( !button6.isEnabled() );
             }
         } );
 
         PhetPCanvas canvas = new PhetPCanvas();
-        canvas.addScreenChild( testButton01 );
-        canvas.addScreenChild( testButton02 );
-        canvas.addScreenChild( testButton03 );
-        canvas.addScreenChild( testButton04 );
-        canvas.addScreenChild( testButton05 );
-        canvas.addScreenChild( testButton06 );
-        canvas.addScreenChild( testButton07 );
+        canvas.addScreenChild( button1 );
+        canvas.addScreenChild( button2 );
+        canvas.addScreenChild( button3 );
+        canvas.addScreenChild( button4 );
+        canvas.addScreenChild( button5 );
+        canvas.addScreenChild( button6 );
+        canvas.addScreenChild( button7 );
 
-        JFrame frame = new JFrame( "ButtonNode.main" );
+        JFrame frame = new JFrame( ButtonNode2.class.getName() );
         frame.setContentPane( canvas );
-        frame.setSize( 400, 450 );
+        frame.setSize( 475, 425 );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         frame.setVisible( true );
     }
