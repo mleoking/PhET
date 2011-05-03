@@ -1,32 +1,38 @@
 package edu.colorado.phet.molecule;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.StringReader;
 import java.util.*;
 
 import edu.colorado.phet.buildamolecule.model.CompleteMolecule;
 import edu.colorado.phet.buildtools.util.FileUtils;
+import edu.colorado.phet.common.phetcommon.util.Pair;
 
 /**
  * NOT PRODUCTION CODE. Turns separate 2d and 3d SDF files into a filtered ready-to-use chemical file
+ * TODO: find any that we need to manually add in (those without names?)
  */
 public class MoleculeSDFCombinedParser {
 
     private static final String SEPARATOR = "|";
 
-    private static String[] desiredProperties = new String[] {
+    private static String[] desiredProperties = new String[]{
             "PUBCHEM_IUPAC_TRADITIONAL_NAME",
             "PUBCHEM_MOLECULAR_FORMULA", "PUBCHEM_PHARMACOPHORE_FEATURES"
 
             , "PUBCHEM_IUPAC_OPENEYE_NAME", "PUBCHEM_IUPAC_CAS_NAME", "PUBCHEM_IUPAC_NAME", "PUBCHEM_IUPAC_SYSTEMATIC_NAME"
     };
 
+    private static int maxHeavy = 4; // TODO: set this properly in the future. Should help with processing speed
+
     public static void main( String[] args ) {
-        File moleculeDir = new File( args[0] );
+        File dir2d = new File( args[0] );
+        File dir3d = new File( args[1] );
 
-        assert ( moleculeDir.exists() );
-
-        File dir2d = new File( moleculeDir, "2d" );
-        File dir3d = new File( moleculeDir, "3d" );
+        assert ( dir2d.exists() );
+        assert ( dir3d.exists() );
 
         Set<String> symbols = new HashSet<String>();
         Set<String> propertiesNotOnEveryMolecule = new HashSet<String>();
@@ -37,30 +43,26 @@ public class MoleculeSDFCombinedParser {
 
         List<String> molecules = new LinkedList<String>();
 
+        FilteredMoleculeIterator moleculeIterator = new FilteredMoleculeIterator( new MoleculeReader( dir2d, maxHeavy ), new MoleculeReader( dir3d, maxHeavy ) );
+
         try {
 
-            for ( File file : dir2d.listFiles( new FilenameFilter() {
-                public boolean accept( File dir, String name ) {
-                    return name.endsWith( ".sdf" );
-                }
-            } ) ) {
-                int cid = Integer.parseInt( file.getName().substring( 0, file.getName().indexOf( "." ) ) );
+            while ( moleculeIterator.hasNext() ) {
+                Pair<MoleculeFile, MoleculeFile> pair = moleculeIterator.next();
+                int cid = pair._1.cid;
 
-//                System.out.println( "Processing #" + cid );
-
-                BufferedReader reader2d = new BufferedReader( new FileReader( file ) );
-                File file3D = new File( dir3d, file.getName() );
+                BufferedReader reader2d = new BufferedReader( new StringReader( pair._1.content ) );
                 BufferedReader reader3d = null;
-                boolean has3d = true;
-                if ( file3D.exists() ) {
-                    reader3d = new BufferedReader( new FileReader( file3D ) );
+                boolean has3d = pair._2 != null;
+                if ( has3d ) {
+                    assert ( pair._1.cid == pair._2.cid );
+                    reader3d = new BufferedReader( new StringReader( pair._2.content ) );
                 }
                 else {
-                    // for some molecules, we don't get the 3d representation. they should be 2d-only (like H2), so we just need to convert info
-                    has3d = false;
-
                     System.out.println( "WARNING: no 3d file for " + cid );
                 }
+
+                System.out.println( "processing #" + cid + ", 3d: " + has3d );
 
                 // burn the 1st three lines
                 reader2d.readLine();
@@ -182,12 +184,15 @@ public class MoleculeSDFCombinedParser {
                         moleculeString.append( bond.toString() );
                     }
                     moleculeString.append( "\n" );
-                    molecules.add( moleculeString.toString() );
+                    String moleculeResult = moleculeString.toString();
+                    molecules.add( moleculeResult );
+
+                    System.out.println( moleculeResult );
                 }
             }
 
         }
-        catch ( IOException e ) {
+        catch( IOException e ) {
             e.printStackTrace();
         }
 
@@ -238,9 +243,9 @@ public class MoleculeSDFCombinedParser {
             for ( String molecule : molecules ) {
                 mainBuilder.append( molecule );
             }
-            FileUtils.writeString( new File( moleculeDir, "molecules.txt" ), mainBuilder.toString() );
+            FileUtils.writeString( new File( dir2d, "molecules.txt" ), mainBuilder.toString() );
         }
-        catch ( IOException e ) {
+        catch( IOException e ) {
             e.printStackTrace();
         }
     }
@@ -250,6 +255,10 @@ public class MoleculeSDFCombinedParser {
         String value = "";
         while ( reader.ready() ) {
             String line = reader.readLine();
+            if ( line == null ) {
+                // TODO: why do we need this? is reader.ready() returning true for StringReader?
+                return;
+            }
             if ( line.startsWith( "> <" ) ) {
                 if ( key != null ) {
                     properties.put( key, value );
