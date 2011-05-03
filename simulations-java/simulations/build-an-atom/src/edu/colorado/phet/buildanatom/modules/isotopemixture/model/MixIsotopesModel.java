@@ -95,7 +95,7 @@ public class MixIsotopesModel implements Resettable, IConfigurableAtomModel {
     // This atom is the "prototype isotope", meaning that it is set in order
     // to set the atomic weight of the family of isotopes that are currently
     // in use.
-    private final SimpleAtom prototypeIsotope = new SimpleAtom( DEFAULT_PROTOTYPE_ISOTOPE_CONFIG );
+    private final SimpleAtom prototypeIsotope = new SimpleAtom( 0, 0, 0 );
 
     // This property contains the list of isotopes that exist in nature as
     // variations of the current "prototype isotope".  In other words, this
