@@ -5,8 +5,6 @@ import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 
-import edu.colorado.phet.buildamolecule.BuildAMoleculeConstants;
-import edu.colorado.phet.buildamolecule.BuildAMoleculeResources;
 import edu.colorado.phet.buildamolecule.model.AtomModel;
 import edu.colorado.phet.buildamolecule.model.Kit;
 import edu.colorado.phet.buildamolecule.model.LewisDotModel;
@@ -18,7 +16,6 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
-import edu.umd.cs.piccolo.nodes.PImage;
 
 /**
  * This is a circular mouse target that when moused-over turns the mouse cursor into scissors that will split the referenced bond
@@ -30,7 +27,7 @@ public class MoleculeBondNode extends PNode {
      */
     public static final double BOND_RADIUS = 5;
 
-    private PNode scissorsNode; // scissors image, rotated depending on the orientation
+    private ScissorsNode scissorsNode; // scissors image, rotated depending on the orientation
     private BuildAMoleculeCanvas canvas;
     private RichSimpleObserver positionObserver;
 
@@ -48,12 +45,16 @@ public class MoleculeBondNode extends PNode {
         final boolean isHorizontal = bondDirection == LewisDotModel.Direction.West || bondDirection == LewisDotModel.Direction.East;
 
         // construct our scissors node
-        scissorsNode = new PImage( BuildAMoleculeResources.getImage( BuildAMoleculeConstants.IMAGE_SCISSORS_ICON ) ) {{
+        scissorsNode = new ScissorsNode() {{
             if ( isHorizontal ) {
                 rotateInPlace( -Math.PI / 2 );
             }
-            setPickable( false );
+
+            // hide it by default
             setVisible( false );
+
+            // can't be clicked
+            setPickable( false );
         }};
 
         // add our scissors image to the world as a screen child
@@ -108,6 +109,8 @@ public class MoleculeBondNode extends PNode {
 
                         // mark the mouse as down
                         isDragging = true;
+
+                        scissorsNode.setClosed( true );
                     }
 
                     @Override public void mouseReleased( PInputEvent event ) {
@@ -120,6 +123,8 @@ public class MoleculeBondNode extends PNode {
                             // if we are outside of the hit zone and we released, we need to hide the scissors
                             scissorsNode.setVisible( false );
                         }
+
+                        scissorsNode.setClosed( false );
                     }
 
                     /*---------------------------------------------------------------------------*
