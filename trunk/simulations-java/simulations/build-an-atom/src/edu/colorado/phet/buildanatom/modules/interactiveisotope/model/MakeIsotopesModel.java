@@ -91,7 +91,7 @@ public class MakeIsotopesModel implements Resettable, IConfigurableAtomModel {
                 atom.addNeutron( (Neutron) particle, false );
             }
             else {
-                neutronBucket.addParticle( particle, false );
+                neutronBucket.addParticleNearestOpen( particle, false );
             }
         }
     };
@@ -122,7 +122,7 @@ public class MakeIsotopesModel implements Resettable, IConfigurableAtomModel {
                         atom.addNeutron( neutron, false );
                     }
                     else {
-                        neutronBucket.addParticle( neutron, false );
+                        neutronBucket.addParticleNearestOpen( neutron, false );
                     }
                 }
             } );
@@ -199,7 +199,7 @@ public class MakeIsotopesModel implements Resettable, IConfigurableAtomModel {
                 Neutron newNeutron = new Neutron( clock );
                 newNeutron.setMotionVelocity( NEUTRON_MOTION_VELOCITY );
                 newNeutron.addListener( neutronDropListener );
-                neutronBucket.addParticle( newNeutron, true );
+                neutronBucket.addParticleFirstOpen( newNeutron, true );
                 neutrons.add( newNeutron );
                 notifyParticleAdded( newNeutron );
             }

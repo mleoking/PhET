@@ -99,7 +99,7 @@ public class BuildAnAtomModel implements Resettable {
                         atom.addElectron( electron , false );
                     }
                     else {
-                        electronBucket.addParticle( electron, false );
+                        electronBucket.addParticleNearestOpen( electron, false );
                     }
                 }
             } );
@@ -118,7 +118,7 @@ public class BuildAnAtomModel implements Resettable {
                         atom.addProton( proton, false );
                     }
                     else {
-                        protonBucket.addParticle( proton, false );
+                        protonBucket.addParticleNearestOpen( proton, false );
                     }
                 }
             } );
@@ -137,7 +137,7 @@ public class BuildAnAtomModel implements Resettable {
                         atom.addNeutron( neutron, false );
                     }
                     else {
-                        neutronBucket.addParticle( neutron, false );
+                        neutronBucket.addParticleNearestOpen( neutron, false );
                     }
                 }
             } );
@@ -164,13 +164,13 @@ public class BuildAnAtomModel implements Resettable {
     private void initializeBuckets(){
         // Put all the particles into their respective buckets.
         for ( Electron electron : electrons ) {
-            electronBucket.addParticle( electron, true );
+            electronBucket.addParticleFirstOpen( electron, true );
         }
         for ( Proton proton : protons ) {
-            protonBucket.addParticle( proton, true );
+            protonBucket.addParticleFirstOpen( proton, true );
         }
         for ( Neutron neutron : neutrons ) {
-            neutronBucket.addParticle( neutron, true );
+            neutronBucket.addParticleFirstOpen( neutron, true );
         }
     }
 
@@ -229,13 +229,13 @@ public class BuildAnAtomModel implements Resettable {
         ArrayList<SphericalParticle> removedParticles = getAtom().setState( answer, this, moveImmediately );
         for ( SphericalParticle particle : removedParticles ) {
             if ( particle instanceof Proton ) {
-                protonBucket.addParticle( particle, moveImmediately );
+                protonBucket.addParticleNearestOpen( particle, moveImmediately );
             }
             else if ( particle instanceof Electron ) {
-                electronBucket.addParticle( particle, moveImmediately );
+                electronBucket.addParticleNearestOpen( particle, moveImmediately );
             }
             else if ( particle instanceof Neutron ) {
-                neutronBucket.addParticle( particle, moveImmediately );
+                neutronBucket.addParticleNearestOpen( particle, moveImmediately );
             }
         }
     }

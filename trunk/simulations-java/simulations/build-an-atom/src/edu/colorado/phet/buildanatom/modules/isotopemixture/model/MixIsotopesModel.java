@@ -202,7 +202,7 @@ public class MixIsotopesModel implements Resettable, IConfigurableAtomModel {
             newIsotope.setMotionVelocity( ATOM_MOTION_SPEED );
             newIsotope.addListener( isotopeGrabbedListener );
             // Add this isotope to a bucket.
-            getBucketForIsotope( isotopeConfig ).addIsotopeInstance( newIsotope, moveImmediately );
+            getBucketForIsotope( isotopeConfig ).addIsotopeInstanceFirstOpen( newIsotope, moveImmediately );
         }
         else{
             // Create the specified isotope and add it directly to the test chamber.
@@ -625,7 +625,7 @@ public class MixIsotopesModel implements Resettable, IConfigurableAtomModel {
             testChamber.removeIsotopeFromChamber( isotope );
             if ( interactivityModeProperty.getValue() == InteractivityMode.BUCKETS_AND_LARGE_ATOMS ){
                 // Add isotope to bucket.
-                getBucketForIsotope( isotope.getAtomConfiguration() ).addIsotopeInstance( isotope, true );
+                getBucketForIsotope( isotope.getAtomConfiguration() ).addIsotopeInstanceFirstOpen( isotope, true );
             }
             else{
                 // Remove isotope completely from the model.
@@ -673,7 +673,7 @@ public class MixIsotopesModel implements Resettable, IConfigurableAtomModel {
                 // it to the bucket.
                 MonoIsotopeParticleBucket bucket = getBucketForIsotope( isotope.getAtomConfiguration() );
                 assert bucket != null; // Should never have an isotope without a home.
-                bucket.addIsotopeInstance( isotope, false );
+                bucket.addIsotopeInstanceNearestOpen( isotope, false );
             }
             particle.removeListener( isotopeDroppedListener );
         }

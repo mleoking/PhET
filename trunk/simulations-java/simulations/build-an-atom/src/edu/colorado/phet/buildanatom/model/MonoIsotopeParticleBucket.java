@@ -34,9 +34,27 @@ public class MonoIsotopeParticleBucket extends ParticleBucket {
         this.numNeutronsInIsotope = numNeutronsInIsotope;
     }
 
-    public void addIsotopeInstance( MovableAtom isotope, boolean moveImmediately ){
+    /**
+     * Add an isotope to the first open location in the bucket.
+     *
+     * @param isotope
+     * @param moveImmediately
+     */
+    public void addIsotopeInstanceFirstOpen( MovableAtom isotope, boolean moveImmediately ){
         if ( isIsotopeAllowed( isotope.getAtomConfiguration() )){
-            addParticle( isotope, moveImmediately );
+            addParticleFirstOpen( isotope, moveImmediately );
+        }
+    }
+
+    /**
+     * Add an isotope to the nearest open location in the bucket.
+     *
+     * @param isotope
+     * @param moveImmediately
+     */
+    public void addIsotopeInstanceNearestOpen( MovableAtom isotope, boolean moveImmediately ){
+        if ( isIsotopeAllowed( isotope.getAtomConfiguration() )){
+            addParticleNearestOpen( isotope, moveImmediately );
         }
     }
 
