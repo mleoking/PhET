@@ -12,9 +12,9 @@ public class RichListener implements VoidFunction0 {
     public void apply() {
     }
 
-    public void observe( Observable0... o ) {
-        for ( Observable0 x : o ) {
-            x.addObserver( this );
+    public void observe( Observable0... observables ) {
+        for ( Observable0 observable : observables ) {
+            observable.addObserver( this );
         }
     }
 }
