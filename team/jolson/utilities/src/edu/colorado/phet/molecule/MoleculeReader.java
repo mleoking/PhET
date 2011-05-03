@@ -66,7 +66,7 @@ public class MoleculeReader {
                 }
 
                 // holds the molecule "file" as it is read in
-                StringBuilder builder = new StringBuilder();
+                ArrayList<String> lines = new ArrayList<String>( 200 );
 
                 while ( reader.ready() ) {
                     String line = reader.readLine();
@@ -90,18 +90,22 @@ public class MoleculeReader {
                         if ( ok ) {
                             debug( cid, "OK" );
                             countInFile++;
+                            StringBuilder builder = new StringBuilder();
+                            for ( String allLine : lines ) {
+                                builder.append( allLine ).append( "\n" );
+                            }
                             return new MoleculeFile( cid, builder.toString() );
                             //FileUtils.writeString( new File( "/home/jon/phet/molecules/full3d/" + cid + ".sdf" ), builder.toString() );
                         }
                         else {
-                            // if we weren't OK, reset the builder and OK flag
-                            builder = new StringBuilder();
+                            // if we weren't OK, reset the lines and OK flag
+                            lines.clear();
                             ok = true;
                         }
                     }
                     else {
                         if ( ok ) {
-                            builder.append( line ).append( "\n" );
+                            lines.add( line );
                             if ( isotopeMarker ) {
                                 isotopeMarker = false;
                                 int isotopic = Integer.parseInt( line );
@@ -133,17 +137,19 @@ public class MoleculeReader {
                                     debug( cid, "TOTAL CHARGE" );
                                 }
                             }
-                            if ( line.equals( "> <PUBCHEM_ISOTOPIC_ATOM_COUNT>" ) ) {
-                                isotopeMarker = true;
-                            }
-                            if ( line.equals( "> <PUBCHEM_HEAVY_ATOM_COUNT>" ) ) {
-                                heavyMarker = true;
-                            }
-                            if ( line.equals( "> <PUBCHEM_COMPONENT_COUNT>" ) ) {
-                                componentMarker = true;
-                            }
-                            if ( line.equals( "> <PUBCHEM_TOTAL_CHARGE>" ) ) {
-                                chargeMarker = true;
+                            if ( line.startsWith( "> <" ) ) {
+                                if ( line.equals( "> <PUBCHEM_ISOTOPIC_ATOM_COUNT>" ) ) {
+                                    isotopeMarker = true;
+                                }
+                                if ( line.equals( "> <PUBCHEM_HEAVY_ATOM_COUNT>" ) ) {
+                                    heavyMarker = true;
+                                }
+                                if ( line.equals( "> <PUBCHEM_COMPONENT_COUNT>" ) ) {
+                                    componentMarker = true;
+                                }
+                                if ( line.equals( "> <PUBCHEM_TOTAL_CHARGE>" ) ) {
+                                    chargeMarker = true;
+                                }
                             }
                         }
                     }
