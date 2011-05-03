@@ -21,4 +21,15 @@ public abstract class RichSimpleObserver implements SimpleObserver {
             property.addObserver( this );
         }
     }
+
+    /**
+     * Remove this instance as an observer of the specified Property<T> arguments.
+     *
+     * @param properties the properties to stop observing.
+     */
+    public void unobserve( Property... properties ) {
+        for ( Property property : properties ) {
+            property.removeObserver( this );
+        }
+    }
 }
