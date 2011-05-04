@@ -17,8 +17,8 @@ public class Prism {
     public final Property<IShape> shape;
 
     //Create a prism with the specified corner points
-    public Prism( ImmutableVector2D... points ) {
-        this( new Polygon( points ) );
+    public Prism( int referencePointIndex, ImmutableVector2D... points ) {
+        this( new Polygon( points, referencePointIndex ) );
     }
 
     public Prism( IShape shape ) {
