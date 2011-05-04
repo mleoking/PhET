@@ -1,3 +1,4 @@
+# 0.00.49 (51534) May 4, 2011
 Attached knob to the prism corner for rotation
 Fixed: exception in prism break when resetting after creating and returning a prism
 Fixed: when going from mystery to custom, the slider should reappear
