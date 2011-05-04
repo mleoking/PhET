@@ -64,6 +64,10 @@ public class ButtonNode2 extends PhetPNode {
     private int shadowOffset; // horizontal and vertical offset of the shadow
     private String toolTipText;
 
+    private PPath backgroundNode;
+    private boolean focus; // true if the button has focus
+    private Paint mouseNotOverGradient, mouseOverGradient, armedGradient;
+
     //------------------------------------------------------------------------
     // Constructors
     //------------------------------------------------------------------------
@@ -192,12 +196,12 @@ public class ButtonNode2 extends PhetPNode {
         RoundRectangle2D buttonShape = new RoundRectangle2D.Double( 0, 0, backgroundWidth, backgroundHeight, cornerRadius, cornerRadius );
 
         // gradients, used in button handler to indicate state changes
-        final Paint mouseNotOverGradient = createMouseNotOverGradient( backgroundWidth, backgroundHeight );
-        final Paint mouseOverGradient = createMouseOverGradient( backgroundWidth, backgroundHeight );
-        final Paint armedGradient = createArmedGradient( backgroundWidth, backgroundHeight );
+        mouseNotOverGradient = createMouseNotOverGradient( backgroundWidth, backgroundHeight );
+        mouseOverGradient = createMouseOverGradient( backgroundWidth, backgroundHeight );
+        armedGradient = createArmedGradient( backgroundWidth, backgroundHeight );
 
         // background
-        final PPath backgroundNode = new PPath( buttonShape );
+        backgroundNode = new PPath( buttonShape );
         backgroundNode.addInputEventListener( new CursorHandler() );
         if ( enabled ) {
             backgroundNode.setPaint( mouseNotOverGradient );
@@ -230,24 +234,12 @@ public class ButtonNode2 extends PhetPNode {
         backgroundNode.addInputEventListener( handler );
         handler.addButtonEventListener( new ButtonEventListener() {
 
-            private boolean focus = false; // true if the button has focus
-
             public void setFocus( boolean focus ) {
-                this.focus = focus;
-                if ( enabled ) {
-                    backgroundNode.setPaint( focus ? mouseOverGradient : mouseNotOverGradient );
-                }
+                ButtonNode2.this.setFocus( focus );
             }
 
             public void setArmed( boolean armed ) {
-                if ( armed ) {
-                    backgroundNode.setPaint( armedGradient );
-                    backgroundNode.setOffset( shadowOffset, shadowOffset );
-                }
-                else {
-                    backgroundNode.setPaint( focus ? mouseOverGradient : mouseNotOverGradient );
-                    backgroundNode.setOffset( 0, 0 );
-                }
+                ButtonNode2.this.setArmed( armed );
             }
 
             public void fire() {
@@ -263,6 +255,28 @@ public class ButtonNode2 extends PhetPNode {
         // ignore events when disabled
         setPickable( enabled );
         setChildrenPickable( enabled );
+    }
+
+    //------------------------------------------------------------------------
+    // Controlling button state
+    //------------------------------------------------------------------------
+
+    protected void setFocus( boolean focus ) {
+        this.focus = focus;
+        if ( enabled ) {
+            backgroundNode.setPaint( focus ? mouseOverGradient : mouseNotOverGradient );
+        }
+    }
+
+    protected void setArmed( boolean armed ) {
+        if ( armed ) {
+            backgroundNode.setPaint( armedGradient );
+            backgroundNode.setOffset( shadowOffset, shadowOffset );
+        }
+        else {
+            backgroundNode.setPaint( focus ? mouseOverGradient : mouseNotOverGradient );
+            backgroundNode.setOffset( 0, 0 );
+        }
     }
 
     //------------------------------------------------------------------------
