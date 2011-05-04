@@ -23,8 +23,8 @@ public class BendingLightApplication extends PiccoloPhetApplication {
 
         //Add the modules
         addModule( new IntroModule() );
-        addModule( new MoreToolsModule() );
         addModule( new PrismsModule() );
+        addModule( new MoreToolsModule() );
     }
 
     //Launch main for Bending Light
