@@ -1,3 +1,4 @@
+Fixed: exception in prism break when resetting after creating and returning a prism
 Fixed: when going from mystery to custom, the slider should reappear
 Reordered tabs so that prisms comes before more tools
 renamed "n=?" to "What is n?"

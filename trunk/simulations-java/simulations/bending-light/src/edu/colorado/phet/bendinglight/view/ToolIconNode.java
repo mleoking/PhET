@@ -174,8 +174,11 @@ public class ToolIconNode<T extends BendingLightModel> extends PNode {
 
         //Remove the created node, if any
         private void reset() {
-            removeChild( canvas, node );
-            node = null;//Flag to indicate another item can be dragged out now
+            //if the node was already removed (by the user dropping it in), don't try to reset or you will receive NullPointerException
+            if ( node != null ) {
+                removeChild( canvas, node );
+                node = null;//Flag to indicate another item can be dragged out now
+            }
         }
     }
 }
