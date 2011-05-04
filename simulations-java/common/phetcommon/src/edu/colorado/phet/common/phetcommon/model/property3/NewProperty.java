@@ -9,7 +9,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
  *
  * @author Sam Reid
  */
-public class NewProperty<T> implements Observable1<T> {
+class NewProperty<T> implements Observable1<T> {
     //Parent value which will be observed for change events
     private final GettableObservable0<T> parent;
 
