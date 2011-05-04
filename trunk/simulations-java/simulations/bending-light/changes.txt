@@ -1,3 +1,4 @@
+Reordered tabs so that prisms comes before more tools
 renamed "n=?" to "What is n?"
 # 0.00.48 (51214) Apr 26, 2011
 Converted curved objects to use analytical expressions instead of polygonal approximations, resolves #2832
