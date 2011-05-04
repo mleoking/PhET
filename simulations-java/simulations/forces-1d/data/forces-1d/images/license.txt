@@ -6,12 +6,12 @@
 arrow-down.png author=PhET 
 arrow-right-png-50.png author=PhET 
 barrier.jpg 
-cabinet.gif source=microsoft notes=j0215727.wmf
+cabinet.gif source=Open Clip Art notes="transfer cabinet", http://www.openclipart.org/detail/16254
 cottage.gif source=clker.com
-crate.gif source=microsoft notes=j0310276.wmf 
-fridge.gif source=microsoft notes=HH01559_.wmf 
+crate.gif source=Open Clip Art notes="wooden crate ", http://www.openclipart.org/detail/62833
+fridge.gif source=Open Clip Art notes="Refrigerator ", http://www.openclipart.org/detail/46375
 ollie.gif author=PhET 
-phetbook.gif source=microsoft notes=j0310496.wmf 
+phetbook.gif source=Open Clip Art notes="Stack of Paperbacks ", http://www.openclipart.org/detail/38869
 standing-man.png author=PhET 
 tear-20.png 
 tree.gif 
