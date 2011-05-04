@@ -43,14 +43,18 @@ public class FilteredMoleculeIterator implements Iterator<Pair<MoleculeFile, Mol
 
     private void read2d() {
         file2d = reader2d.nextMoleculeFile();
-        assert ( old2dcid < file2d.cid );
-        old2dcid = file2d.cid;
+        if ( file2d != null ) {
+            assert ( old2dcid < file2d.cid );
+            old2dcid = file2d.cid;
+        }
     }
 
     private void read3d() {
         file3d = reader3d.nextMoleculeFile();
-        assert ( old3dcid < file3d.cid );
-        old3dcid = file3d.cid;
+        if ( file3d != null ) {
+            assert ( old3dcid < file3d.cid );
+            old3dcid = file3d.cid;
+        }
     }
 
     public void remove() {
