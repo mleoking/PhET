@@ -170,7 +170,7 @@ public abstract class AbstractBuildAMoleculeModule extends PiccoloModule {
      * @param quantity Quantity of atoms in bucket
      * @return Width of bucket
      */
-    private static int calculateIdealBucketWidth( double radius, int quantity ) {
+    public static int calculateIdealBucketWidth( double radius, int quantity ) {
         // calculate atoms to go on the bottom row
         int numOnBottomRow = ( quantity <= 2 ) ? quantity : ( quantity / 2 + 1 );
 

@@ -89,7 +89,7 @@ public class Kit {
     }
 
     private void layoutBuckets( Bucket[] buckets ) {
-        double kitY = getAvailableKitBounds().getCenterY();
+        double kitY = getAvailableKitBounds().getCenterY() - 20;
         double kitXCenter = getAvailableKitBounds().getCenterX();
 
         double usedWidth = 0;
