@@ -9,6 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import edu.colorado.phet.buildamolecule.BuildAMoleculeStrings;
+import edu.colorado.phet.buildamolecule.module.AbstractBuildAMoleculeModule;
 import edu.colorado.phet.chemistry.model.Atom;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
@@ -16,6 +17,7 @@ import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
+import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Class that defines the shape and common functionality for a "bucket", which
@@ -112,6 +114,11 @@ public class Bucket {
     // ------------------------------------------------------------------------
     // Constructor(s)
     // ------------------------------------------------------------------------
+
+    public Bucket( IClock clock, Function0<Atom> atomFactory, int quantity ) {
+        // automatically compute the desired width with a height of 200;
+        this( new PDimension( AbstractBuildAMoleculeModule.calculateIdealBucketWidth( atomFactory.apply().getRadius(), quantity ), 200 ), clock, atomFactory, quantity );
+    }
 
     public Bucket( Dimension2D size, IClock clock, Function0<Atom> atomFactory, int quantity ) {
         this( size, 1, 0, clock, atomFactory, quantity );

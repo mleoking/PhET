@@ -12,10 +12,10 @@ public class LayoutBounds {
 
     public LayoutBounds( boolean wide ) {
         if ( wide ) {
-            availableKitBounds = new PBounds( -1600, -1000, 3200, 500 );
+            availableKitBounds = new PBounds( -1600, -1050, 3200, 550 );
         }
         else {
-            availableKitBounds = new PBounds( -1600, -1000, 2200, 500 );
+            availableKitBounds = new PBounds( -1600, -1050, 2200, 550 );
         }
         availablePlayAreaBounds = new PBounds(
                 availableKitBounds.x,
