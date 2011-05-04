@@ -3,13 +3,17 @@
 package edu.colorado.phet.common.piccolophet.nodes;
 
 import java.awt.*;
+import java.awt.color.ColorSpace;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.RoundRectangle2D;
+import java.awt.image.BufferedImage;
+import java.awt.image.ColorConvertOp;
+import java.util.ArrayList;
 
 import javax.swing.*;
-import javax.swing.event.EventListenerList;
 
+import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -17,214 +21,609 @@ import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.ButtonEventHandler;
 import edu.colorado.phet.common.piccolophet.event.ButtonEventHandler.ButtonEventListener;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.util.PBounds;
+import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * This class represents a button that is a PNode and thus can be placed
- * within another PNode or on a PCanvas, and that is filled with a color
- * gradient to make it more "fun" looking (and thus suitable for adding to
- * the play area of the sims).
+ * A Piccolo button with interface similar to JButton.
+ * Supports both text (plaintext or HTML) and images.
+ * Filled with a gradient paint, and has a drop shadow.
+ * Origin is at the upper left of the bounding rectangle.
  *
- * @author John Blanco
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ * @author John Blanco (previous text-only version of ButtonNode)
  */
 public class ButtonNode extends PhetPNode {
 
-    //------------------------------------------------------------------------
-    // Class Data
-    //------------------------------------------------------------------------
+    // position of text relative to image
+    public static enum TextPosition {
+        ABOVE, BELOW, LEFT, RIGHT
+    }
 
-    // padding (or margin) around the button text
-    private static final double VERTICAL_PADDING = 3;
-    private static final double HORIZONTAL_PADDING = 10;
+    private static final double COLOR_SCALING_FACTOR = 0.5; // scaling factor for creating brighter colors
+    private static final int DEFAULT_FONT_STYLE = Font.BOLD; //TODO using bold as the default style is a bad practice
 
-    // general button properties
-    private static final int FONT_SIZE = 14;
-    private static final int FONT_STYLE = Font.BOLD;
-    private static final double COLOR_SCALING_FACTOR = 0.5;
-    private static final double BUTTON_CORNER_ROUNDEDNESS = 8;
-    private static final int SHADOW_OFFSET = 3;
+    private final PNode parentNode; // intermediate parent for all nodes created herein
+    private final ArrayList<ActionListener> actionListeners;
 
-    // button enabled properties
-    private static final Color ENABLED_TEXT_COLOR = Color.BLACK;
-    private static final Color ENABLED_BACKGROUND_COLOR = Color.GRAY;
-    private static final Color ENABLED_STROKE_COLOR = Color.BLACK;
-    private static final Color ENABLED_SHADOW_COLOR = new Color( 0f, 0f, 0f, 0.2f ); // transparent so that it's invisible
+    // settable properties
+    private String text;
+    private BufferedImage image, disabledImage;
+    private Font font;
+    private Color foreground, background, shadowColor, strokeColor;
+    private Color disabledForeground, disabledBackground, disabledShadowColor, disabledStrokeColor;
+    private TextPosition textPosition;
+    private boolean enabled;
+    private Insets margin;
+    private int imageTextGap; // space between image and text
+    private int cornerRadius; // radius on the corners of the button and shadow
+    private int shadowOffset; // horizontal and vertical offset of the shadow
+    private String toolTipText;
 
-    // button disabled properties
-    private static final Color DISABLED_TEXT_COLOR = new Color( 180, 180, 180 );
-    private static final Color DISABLED_BACKGROUND_COLOR = new Color( 210, 210, 210 );
-    private static final Color DISABLED_STROKE_COLOR = new Color( 190, 190, 190 );
-    private static final Color DISABLED_SHADOW_COLOR = new Color( 0, 0, 0, 0 );
-
-    //------------------------------------------------------------------------
-    // Instance Data
-    //------------------------------------------------------------------------
-
-    // immutable
-    private final EventListenerList _listeners;
-    private final Color _backgroundColor;
-    private final HTMLNode _htmlNode;
-    private final PPath _buttonNode;
-    private final PPath _shadowNode;
-
-    // mutable
-    private Color _textColor;
-    private boolean _enabled;
+    private PPath backgroundNode;
+    private boolean focus, armed;
+    private Paint mouseNotOverGradient, mouseOverGradient, armedGradient;
 
     //------------------------------------------------------------------------
     // Constructors
     //------------------------------------------------------------------------
 
+    public ButtonNode() {
+        this( (String) null, (BufferedImage) null );
+    }
+
     public ButtonNode( String text ) {
-        this( text, FONT_SIZE, ENABLED_BACKGROUND_COLOR );
+        this( text, (BufferedImage) null );
     }
 
-    public ButtonNode( String text, Color backgroundColor ) {
-        this( text, FONT_SIZE, backgroundColor );
+    public ButtonNode( BufferedImage image ) {
+        this( null, image );
     }
 
-    public ButtonNode( String text, int fontSize, Color backgroundColor ) {
-        this( text, fontSize, ENABLED_TEXT_COLOR, backgroundColor );
+    public ButtonNode( String text, BufferedImage image ) {
+
+        this.text = text;
+        this.image = image;
+
+        // default settings
+        disabledImage = null;
+        font = new PhetFont( DEFAULT_FONT_STYLE, 14 );
+        foreground = Color.BLACK;
+        background = Color.GRAY;
+        shadowColor = new Color( 0f, 0f, 0f, 0.2f ); // translucent black
+        strokeColor = Color.BLACK;
+        disabledForeground = new Color( 180, 180, 180 ); // medium gray
+        disabledBackground = new Color( 210, 210, 210 ); // light gray
+        disabledShadowColor = new Color( 0, 0, 0, 0 ); // invisible
+        disabledStrokeColor = new Color( 190, 190, 190 );
+        textPosition = TextPosition.RIGHT;
+        enabled = true;
+        margin = new Insets( 3, 10, 3, 10 );
+        imageTextGap = 5;
+        cornerRadius = 8;
+        shadowOffset = 3;
+        toolTipText = null;
+
+        // parent of all nodes created herein
+        parentNode = new PNode();
+        addChild( parentNode );
+
+        actionListeners = new ArrayList<ActionListener>();
+
+        update();
     }
 
-    public ButtonNode( String text, int fontSize, Color textColor, Color backgroundColor ) {
-        this( text, new PhetFont( FONT_STYLE, fontSize ), textColor, backgroundColor );
+    // Convenience constructor
+    public ButtonNode( String text, Color background ) {
+        this( text );
+        setBackground( background );
     }
 
-    /**
-     * Construct a button node.
-     *
-     * @param text            text that will appear on button, supports HTML
-     * @param font            font for the label text.
-     * @param textColor       color of the HTML that will appear on the button.
-     * @param backgroundColor overall color of button from which gradient will be created.
-     */
-    public ButtonNode( String text, Font font, Color textColor, Color backgroundColor ) {
-        this( createHtmlNode( text, font, textColor ), textColor, backgroundColor );
+    // Convenience constructor
+    public ButtonNode( String text, int fontSize, Color background ) {
+        this( text );
+        setFont( new PhetFont( DEFAULT_FONT_STYLE, fontSize ) );
+        setBackground( background );
     }
+
+    // Convenience constructor
+    public ButtonNode( String text, int fontSize, Color foreground, Color background ) {
+        this( text );
+        setFont( new PhetFont( DEFAULT_FONT_STYLE, fontSize ) );
+        setForeground( foreground );
+        setBackground( background );
+    }
+
+    //------------------------------------------------------------------------
+    //
+    //------------------------------------------------------------------------
 
     /*
-     * Primary constructor, all other constructors ultimately result in this one being called.
+     * Completely rebuilds the button when any property changes.
+     * This is not as bad as it sounds, since there are only 4 nodes involved.
+     * Reconstructing them greatly simplifies the implementation.
      */
-    private ButtonNode( HTMLNode htmlLabelNode, Color textColor, Color backgroundColor ) {
+    private void update() {
 
-        this._htmlNode = htmlLabelNode;
-        _htmlNode.setOffset( HORIZONTAL_PADDING, VERTICAL_PADDING );
+        // All parts of the button are parented to this node, so that we don't blow away additional children that clients might add.
+        parentNode.removeAllChildren();
 
-        this._textColor = textColor;
-        this._backgroundColor = backgroundColor;
-        this._enabled = true;
+        // text and image, with an intermediate parent
+        PNode textNode = createTextNode( text, font, foreground, disabledForeground, enabled );
+        PNode imageNode = createImageNode( image, disabledImage, enabled );
+        PNode textImageParent = new PComposite();
+        textImageParent.addChild( textNode );
+        textImageParent.addChild( imageNode );
 
-        // Initialize local data.
-        _listeners = new EventListenerList();
+        // layout text and image
+        double textX, imageX = 0;
+        double textY, imageY = 0;
+        PBounds tb = textNode.getFullBoundsReference();
+        PBounds ib = imageNode.getFullBoundsReference();
+        if ( textPosition == TextPosition.ABOVE ) {
+            textX = 0;
+            imageX = tb.getCenterX() - ( ib.getWidth() / 2 );
+            textY = 0;
+            imageY = tb.getMaxY() + imageTextGap;
+        }
+        else if ( textPosition == TextPosition.BELOW ) {
+            imageX = 0;
+            textX = ib.getCenterX() - ( tb.getWidth() / 2 );
+            imageY = 0;
+            textY = ib.getMaxY() + imageTextGap;
+        }
+        else if ( textPosition == TextPosition.LEFT ) {
+            textX = 0;
+            imageX = tb.getMaxX() + imageTextGap;
+            textY = 0;
+            imageY = tb.getCenterY() - ( ib.getHeight() / 2 );
+        }
+        else if ( textPosition == TextPosition.RIGHT ) {
+            imageX = 0;
+            textX = ib.getMaxX() + imageTextGap;
+            imageY = 0;
+            textY = ib.getCenterY() - ( tb.getHeight() / 2 );
+        }
+        else {
+            throw new UnsupportedOperationException( "unsupported text position: " + textPosition );
+        }
+        textNode.setOffset( textX, textY );
+        imageNode.setOffset( imageX, imageY );
 
-        final Paint mouseNotOverGradient = createMouseNotOverGradient();
-        // Gradient for when the mouse is over the button.
-        final Paint mouseOverGradient = createMouseOverGradient();
-        // Gradient for when the button is armed.
-        final Paint armedGradient = createArmedGradient();
+        // button shape
+        double backgroundWidth = textImageParent.getFullBoundsReference().getWidth() + margin.left + margin.right;
+        double backgroundHeight = textImageParent.getFullBoundsReference().getHeight() + margin.top + margin.bottom;
+        RoundRectangle2D buttonShape = new RoundRectangle2D.Double( 0, 0, backgroundWidth, backgroundHeight, cornerRadius, cornerRadius );
 
-        // button
-        RoundRectangle2D buttonShape = new RoundRectangle2D.Double( 0, 0,
-                                                                    getHtmlWidth() + HORIZONTAL_PADDING * 2,
-                                                                    getHtmlHeight() + VERTICAL_PADDING * 2,
-                                                                    BUTTON_CORNER_ROUNDEDNESS, BUTTON_CORNER_ROUNDEDNESS );
-        _buttonNode = new PPath( buttonShape );
-        _buttonNode.setPaint( mouseNotOverGradient );
-        _buttonNode.setStrokePaint( ENABLED_STROKE_COLOR );
-        _buttonNode.addInputEventListener( new CursorHandler() ); // Does the hand cursor thing.
+        // gradients, used in button handler to indicate state changes
+        mouseNotOverGradient = createMouseNotOverGradient( backgroundWidth, backgroundHeight );
+        mouseOverGradient = createMouseOverGradient( backgroundWidth, backgroundHeight );
+        armedGradient = createArmedGradient( backgroundWidth, backgroundHeight );
 
-        // drop shadow
-        _shadowNode = new PPath( buttonShape );
-        _shadowNode.setPaint( ENABLED_SHADOW_COLOR );
-        _shadowNode.setPickable( false );
-        _shadowNode.setOffset( SHADOW_OFFSET, SHADOW_OFFSET );
-        _shadowNode.setStroke( null );
+        // background
+        backgroundNode = new PPath( buttonShape );
+        backgroundNode.addInputEventListener( new CursorHandler() );
+        if ( enabled ) {
+            backgroundNode.setPaint( mouseNotOverGradient );
+            backgroundNode.setStrokePaint( strokeColor );
+        }
+        else {
+            backgroundNode.setPaint( createDisabledGradient( backgroundWidth, backgroundHeight ) );
+            backgroundNode.setStrokePaint( disabledStrokeColor );
+        }
 
-        // Add the children to the node in the appropriate order so that they appear as desired.
-        addChild( _shadowNode );
-        addChild( _buttonNode );
-        _buttonNode.addChild( _htmlNode ); // HTML is a child of the button so we don't have to move it separately
+        // shadow
+        PPath shadowNode = new PPath( buttonShape );
+        shadowNode.setPickable( false );
+        shadowNode.setOffset( shadowOffset, shadowOffset );
+        shadowNode.setStroke( null );
+        shadowNode.setPaint( enabled ? shadowColor : disabledShadowColor );
+
+        // text and image are children of background, to simplify interactivity
+        backgroundNode.addChild( textImageParent );
+        double x = margin.left - PNodeLayoutUtils.getOriginXOffset( textImageParent );
+        double y = margin.top - PNodeLayoutUtils.getOriginYOffset( textImageParent );
+        textImageParent.setOffset( x, y );
+
+        // shadow behind background
+        parentNode.addChild( shadowNode );
+        parentNode.addChild( backgroundNode );
 
         // Register a handler to watch for button state changes.
         ButtonEventHandler handler = new ButtonEventHandler();
-        _buttonNode.addInputEventListener( handler );
+        backgroundNode.addInputEventListener( handler );
         handler.addButtonEventListener( new ButtonEventListener() {
 
-            private boolean focus = false; // true if the button has focus
-
             public void setFocus( boolean focus ) {
-                this.focus = focus;
-                if ( _enabled ) {
-                    _buttonNode.setPaint( focus ? mouseOverGradient : mouseNotOverGradient );
-                }
+                ButtonNode.this.setFocus( focus );
             }
 
             public void setArmed( boolean armed ) {
-                if ( armed ) {
-                    _buttonNode.setPaint( armedGradient );
-                    _buttonNode.setOffset( SHADOW_OFFSET, SHADOW_OFFSET );
-                }
-                else {
-                    _buttonNode.setPaint( focus ? mouseOverGradient : mouseNotOverGradient );
-                    _buttonNode.setOffset( 0, 0 );
-                }
+                ButtonNode.this.setArmed( armed );
             }
 
             public void fire() {
-                ActionEvent event = new ActionEvent( this, 0, "BUTTON_FIRED" );
-                for ( ActionListener listener : _listeners.getListeners( ActionListener.class ) ) {
-                    listener.actionPerformed( event );
-                }
+                notifyActionPerformed();
             }
         } );
+
+        // tool tip
+        if ( toolTipText != null ) {
+            parentNode.addChild( new ToolTipNode( toolTipText, this ) );
+        }
+
+        // ignore events when disabled
+        setPickable( enabled );
+        setChildrenPickable( enabled );
+    }
+
+    //----------------------------------------------------------------------------------------
+    // Controlling button state - exposed for subclasses who want to implemented "auto press".
+    //----------------------------------------------------------------------------------------
+
+    /**
+     * Determines whether the button looks like it has focus (ie, is highlighted).
+     *
+     * @param focus
+     */
+    protected void setFocus( boolean focus ) {
+        if ( focus != this.focus ) {
+            this.focus = focus;
+            updateAppearance();
+        }
+    }
+
+    /**
+     * Determines whether the button looks like it is armed (ie, is pressed).
+     *
+     * @param armed
+     */
+    protected void setArmed( boolean armed ) {
+        if ( armed != this.armed ) {
+            this.armed = armed;
+            updateAppearance();
+        }
+    }
+
+    // Updates appearance (gradient and offset) based on armed and focus state.
+    private void updateAppearance() {
+        if ( armed ) {
+            backgroundNode.setPaint( armedGradient );
+            backgroundNode.setOffset( shadowOffset, shadowOffset );
+        }
+        else {
+            backgroundNode.setPaint( focus ? mouseOverGradient : mouseNotOverGradient );
+            backgroundNode.setOffset( 0, 0 );
+        }
     }
 
     //------------------------------------------------------------------------
-    // Methods
+    // Setters and getters
     //------------------------------------------------------------------------
 
-    private static HTMLNode createHtmlNode( String text, Font font, Color textColor ) {
-        final HTMLNode _buttonText = new HTMLNode( text, textColor );
-        _buttonText.setFont( font );
-        _buttonText.setPickable( false );
-        return _buttonText;
+    public void setText( String text ) {
+        if ( text == null || !text.equals( this.text ) ) {
+            this.text = text;
+            update();
+        }
     }
 
-    private double getHtmlWidth() {
-        return _htmlNode.getFullBoundsReference().getWidth();
+    public String getText() {
+        return text;
     }
 
-    private double getHtmlHeight() {
-        return _htmlNode.getFullBoundsReference().getHeight();
+    public void setImage( BufferedImage image ) {
+        if ( image == null || !image.equals( this.image ) ) {
+            this.image = image;
+            update();
+        }
     }
 
-    /*
-     * When the mouse is not over the node, its specified background color is used.
+    public BufferedImage getImage() {
+        return image;
+    }
+
+    /**
+     * Sets the image to be used when the button is disabled.
+     * If an image has not been provided for the enabled state, then this disabled image is ignored.
+     * If no disabled image is provided, the default behavior is to generate a grayscale version
+     * of the enabled image.
+     *
+     * @param disabledImage
      */
-    protected Paint createMouseNotOverGradient() {
-        return createGradient( createBrighterColor( _backgroundColor ), _backgroundColor );
+    public void setDisabledImage( BufferedImage disabledImage ) {
+        if ( disabledImage == null || !disabledImage.equals( this.disabledImage ) ) {
+            this.disabledImage = disabledImage;
+            update();
+        }
     }
 
-    /*
-    * When the mouse is over the node but not pressed, the button gets brighter.
-    */
-    protected Paint createMouseOverGradient() {
-        return createGradient( createBrighterColor( createBrighterColor( _backgroundColor ) ), createBrighterColor( _backgroundColor ) );
+    public BufferedImage getDisabledImage() {
+        return disabledImage;
     }
 
-    /*
-    * When the button is armed (pressed), the color is similar to mouse-not-over, but the button is brighter at the bottom.
-    */
-    protected Paint createArmedGradient() {
-        return createGradient( _backgroundColor, createBrighterColor( _backgroundColor ) );
+    public void setFont( Font font ) {
+        if ( !font.equals( this.font ) ) {
+            this.font = font;
+            update();
+        }
     }
 
-    /*
-     * When the button is disabled, we use a standardized color to indicate disabled.
+    public Font getFont() {
+        return font;
+    }
+
+    public void setBackground( Color background ) {
+        if ( !background.equals( this.background ) ) {
+            this.background = background;
+            update();
+        }
+    }
+
+    public Color getBackground() {
+        return background;
+    }
+
+    public void setForeground( Color foreground ) {
+        if ( !foreground.equals( this.foreground ) ) {
+            this.foreground = foreground;
+            update();
+        }
+    }
+
+    public Color getForeground() {
+        return foreground;
+    }
+
+    public void setShadowColor( Color shadowColor ) {
+        if ( !shadowColor.equals( this.shadowColor ) ) {
+            this.shadowColor = shadowColor;
+            update();
+        }
+    }
+
+    public Color getShadowColor() {
+        return shadowColor;
+    }
+
+    public void setStrokeColor( Color strokeColor ) {
+        if ( !strokeColor.equals( this.strokeColor ) ) {
+            this.strokeColor = strokeColor;
+            update();
+        }
+    }
+
+    public Color getStrokeColor() {
+        return strokeColor;
+    }
+
+    public void setDisabledBackground( Color disabledBackground ) {
+        if ( !disabledBackground.equals( this.disabledBackground ) ) {
+            this.disabledBackground = disabledBackground;
+            update();
+        }
+    }
+
+    public Color getDisabledBackground() {
+        return disabledBackground;
+    }
+
+    public void setDisabledForeground( Color disabledForeground ) {
+        if ( !disabledForeground.equals( this.disabledForeground ) ) {
+            this.disabledForeground = disabledForeground;
+            update();
+        }
+    }
+
+    public Color getDisabledForeground() {
+        return disabledForeground;
+    }
+
+    public void setDisabledShadowColor( Color disabledShadowColor ) {
+        if ( !disabledShadowColor.equals( this.disabledShadowColor ) ) {
+            this.disabledShadowColor = disabledShadowColor;
+            update();
+        }
+    }
+
+    public Color getDisabledShadowColor() {
+        return disabledShadowColor;
+    }
+
+
+    public void setDisabledStrokeColor( Color disabledStrokeColor ) {
+        if ( !disabledStrokeColor.equals( this.disabledStrokeColor ) ) {
+            this.disabledStrokeColor = disabledStrokeColor;
+            update();
+        }
+    }
+
+    public Color getDisabledStrokeColor() {
+        return disabledStrokeColor;
+    }
+
+    public void setEnabled( boolean enabled ) {
+        if ( enabled != this.enabled ) {
+            this.enabled = enabled;
+            update();
+        }
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setTextPosition( TextPosition textPosition ) {
+        if ( textPosition != this.textPosition ) {
+            this.textPosition = textPosition;
+            update();
+        }
+    }
+
+    public TextPosition getTextPosition() {
+        return textPosition;
+    }
+
+    public void setMargin( Insets margin ) {
+        if ( !margin.equals( this.margin ) ) {
+            this.margin = new Insets( margin.top, margin.left, margin.bottom, margin.right );
+            update();
+        }
+    }
+
+    // Convenience method
+    public void setMargin( int top, int left, int bottom, int right ) {
+        setMargin( new Insets( top, left, bottom, right ) );
+    }
+
+    public Insets getMargin() {
+        return new Insets( margin.top, margin.left, margin.bottom, margin.right );
+    }
+
+    public void setImageTextGap( int imageTextGap ) {
+        if ( imageTextGap != this.imageTextGap ) {
+            this.imageTextGap = imageTextGap;
+            update();
+        }
+    }
+
+    public int getImageTextGap() {
+        return imageTextGap;
+    }
+
+    /**
+     * Provides very basic, default tool tip behavior.
+     * If you want more control over tool tips, use ToolTipNode directly.
+     *
+     * @param toolTipText
      */
-    private Paint createDisabledGradient() {
-        return createGradient( createBrighterColor( DISABLED_BACKGROUND_COLOR ), DISABLED_BACKGROUND_COLOR );
+    public void setToolTipText( String toolTipText ) {
+        if ( toolTipText == null || !toolTipText.equals( this.toolTipText ) ) {
+            this.toolTipText = toolTipText;
+            update();
+        }
+    }
+
+    public String getToolTipText() {
+        return toolTipText;
+    }
+
+    public void setCornerRadius( int cornerRadius ) {
+        if ( cornerRadius != this.cornerRadius ) {
+            this.cornerRadius = cornerRadius;
+            update();
+        }
+    }
+
+    public int getCornerRadius() {
+        return cornerRadius;
+    }
+
+    public void setShadowOffset( int shadowOffset ) {
+        if ( shadowOffset != this.shadowOffset ) {
+            this.shadowOffset = shadowOffset;
+            update();
+        }
+    }
+
+    public int getShadowOffset() {
+        return shadowOffset;
+    }
+
+    //------------------------------------------------------------------------
+    // Listeners
+    //------------------------------------------------------------------------
+
+    public void addActionListener( ActionListener listener ) {
+        actionListeners.add( listener );
+    }
+
+    public void removeActionListener( ActionListener listener ) {
+        actionListeners.remove( listener );
+    }
+
+    private void notifyActionPerformed() {
+        ActionEvent event = new ActionEvent( this, 0, "BUTTON_FIRED" );
+        for ( ActionListener actionListener : new ArrayList<ActionListener>( actionListeners ) ) {
+            actionListener.actionPerformed( event );
+        }
+    }
+
+    //------------------------------------------------------------------------
+    // Node creation utilities
+    //------------------------------------------------------------------------
+
+    // Creates an HTML node that corresponds to the enabled state.
+    private static PNode createTextNode( String text, Font font, Color textColor, Color disabledTextColor, boolean enabled ) {
+        PNode node = null;
+        if ( text != null ) {
+            final HTMLNode htmlNode = new HTMLNode( text, enabled ? textColor : disabledTextColor );
+            htmlNode.setFont( font );
+            htmlNode.setPickable( false );
+            node = htmlNode;
+        }
+        else {
+            node = new PNode(); // if we have no text, return an empty node as a placeholder
+        }
+        return node;
+    }
+
+    // Creates an image node that corresponds to the enabled state.
+    private static PNode createImageNode( BufferedImage image, BufferedImage disabledImage, boolean enabled ) {
+        PNode node = null;
+        if ( image != null ) {
+            if ( enabled ) {
+                node = new PImage( image );
+            }
+            else {
+                if ( disabledImage != null ) {
+                    node = new PImage( disabledImage );
+                }
+                else {
+                    node = new PImage( createGrayscaleImage( image ) ); // if we have no disabledImage, generate one
+                }
+            }
+        }
+        else {
+            node = new PNode(); // if we have no image, return an empty node as a placeholder
+        }
+        return node;
+    }
+
+    // Converts an image to grayscale, to denote that the button is disabled.
+    //TODO This needs tweaking to better match the disabled look of other parts of the button.
+    private static BufferedImage createGrayscaleImage( BufferedImage colorImage ) {
+        ColorSpace cs = ColorSpace.getInstance( ColorSpace.CS_GRAY );
+        ColorConvertOp op = new ColorConvertOp( cs, null );
+        return op.filter( colorImage, null );
+    }
+
+    //------------------------------------------------------------------------
+    // Gradient creation utilities
+    //------------------------------------------------------------------------
+
+    // When the mouse is not over the node, its specified background color is used.
+    protected Paint createMouseNotOverGradient( double width, double height ) {
+        return createGradient( createBrighterColor( background ), background, width, height );
+    }
+
+    // When the mouse is over the node but not pressed, the button gets brighter.
+    protected Paint createMouseOverGradient( double width, double height ) {
+        return createGradient( createBrighterColor( createBrighterColor( background ) ), createBrighterColor( background ), width, height );
+    }
+
+    // When the button is armed (pressed), the color is similar to mouse-not-over, but the button is brighter at the bottom.
+    protected Paint createArmedGradient( double width, double height ) {
+        return createGradient( background, createBrighterColor( background ), width, height );
+    }
+
+    // When the button is disabled, we use a different color to indicate disabled.
+    private Paint createDisabledGradient( double width, double height ) {
+        return createGradient( createBrighterColor( disabledBackground ), disabledBackground, width, height );
     }
 
     /*
@@ -233,38 +632,22 @@ public class ButtonNode extends PhetPNode {
     * @param bottomColor
     * @return Paint
     */
-    private Paint createGradient( Color topColor, Color bottomColor ) {
+    private Paint createGradient( Color topColor, Color bottomColor, double width, double height ) {
         if ( useGradient() ) {
-            return new GradientPaint( (float) getHtmlWidth() / 2, 0f, topColor, (float) getHtmlWidth() * 0.5f, (float) getHtmlHeight(), bottomColor );
+            return new GradientPaint( (float) width / 2f, 0f, topColor, (float) width * 0.5f, (float) height, bottomColor );
         }
         else {
             return bottomColor;
         }
     }
 
-    /*
-    * See Unfuddle Ticket #553, GradientPaint crashes Mac.
-    */
+    // See Unfuddle Ticket #553, GradientPaint crashes on Mac OS.
+    //TODO GradientPaint crashes only for some versions of Mac OS. Return false only for those versions?
     private boolean useGradient() {
         return !PhetUtilities.isMacintosh();
     }
 
-    protected PPath getButton() {
-        return _buttonNode;
-    }
-
-    protected int getShadowOffset() {
-        return SHADOW_OFFSET;
-    }
-
-    public void addActionListener( ActionListener listener ) {
-        _listeners.add( ActionListener.class, listener );
-    }
-
-    public void removeActionListener( ActionListener listener ) {
-        _listeners.remove( ActionListener.class, listener );
-    }
-
+    // Creates a brighter color. Unlike Color.brighter, this algorithm preserves transparency.
     private static Color createBrighterColor( Color origColor ) {
         int red = origColor.getRed() + (int) Math.round( ( 255 - origColor.getRed() ) * COLOR_SCALING_FACTOR );
         int green = origColor.getGreen() + (int) Math.round( ( 255 - origColor.getGreen() ) * COLOR_SCALING_FACTOR );
@@ -273,37 +656,14 @@ public class ButtonNode extends PhetPNode {
         return new Color( red, green, blue, alpha );
     }
 
-    public void setEnabled( boolean enabled ) {
-        if ( this._enabled != enabled ) {
-            this._enabled = enabled;
-            if ( enabled ) {
-                // Restore original colors.
-                _buttonNode.setPaint( createMouseNotOverGradient() );
-                _buttonNode.setStrokePaint( ENABLED_STROKE_COLOR );
-                _htmlNode.setHTMLColor( _textColor );
-                _shadowNode.setPaint( ENABLED_SHADOW_COLOR );
-            }
-            else {
-                // Set the colors to make the button appear disabled.
-                _buttonNode.setPaint( createDisabledGradient() );
-                _buttonNode.setStrokePaint( DISABLED_STROKE_COLOR );
-                _htmlNode.setHTMLColor( DISABLED_TEXT_COLOR );
-                _shadowNode.setPaint( DISABLED_SHADOW_COLOR );
-            }
-            setPickable( enabled );
-            setChildrenPickable( enabled );
-        }
-    }
-
-    public boolean isEnabled() {
-        return _enabled;
-    }
-
     //------------------------------------------------------------------------
     // Test Harness
     //------------------------------------------------------------------------
 
     public static void main( String[] args ) {
+
+        PhetResources resources = new PhetResources( "phetcommon" );
+        BufferedImage image = resources.getImage( "buttons/minimizeButton.png" );
 
         ActionListener listener = new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
@@ -311,11 +671,21 @@ public class ButtonNode extends PhetPNode {
             }
         };
 
-        ButtonNode button1 = new ButtonNode( "1. Test Me", 16, Color.GREEN );
+        ButtonNode button1 = new ButtonNode( "1. Test Me", image ) {{
+            setCornerRadius( 20 );
+            setImageTextGap( 20 );
+            setMargin( 20, 10, 20, 10 );
+            setFont( new PhetFont( 16 ) );
+            setBackground( Color.GREEN );
+        }};
         button1.setOffset( 5, 5 );
         button1.addActionListener( listener );
 
-        ButtonNode button2 = new ButtonNode( "<html>2. Test <br> Me Too</html>", 24, new Color( 0x99cccc ) );
+        ButtonNode button2 = new ButtonNode( "<html>2. Test <br> Me Too</html>", image ) {{
+            setTextPosition( TextPosition.BELOW );
+            setFont( new PhetFont( 24 ) );
+            setBackground( new Color( 0x99cccc ) );
+        }};
         button2.setOffset( 200, 5 );
         button2.addActionListener( listener );
 
@@ -323,19 +693,31 @@ public class ButtonNode extends PhetPNode {
         button3.setOffset( 5, 200 );
         button3.addActionListener( listener );
 
-        ButtonNode button4 = new ButtonNode( "4. Default Font Size", new Color( 0xcc3366 ) );
+        ButtonNode button4 = new ButtonNode( "4. Default Font Size" ) {{
+            setBackground( new Color( 0xcc3366 ) );
+        }};
         button4.setOffset( 200, 200 );
         button4.addActionListener( listener );
 
-        ButtonNode button5 = new ButtonNode( "5. Transparent", new Color( 255, 0, 0, 100 ) );
-        button5.setOffset( 200, 100 );
+        ButtonNode button5 = new ButtonNode( "5. Transparent" ) {{
+            setBackground( new Color( 255, 0, 0, 100 ) );
+        }};
+        button5.setOffset( 200, 125 );
         button5.addActionListener( listener );
 
-        final ButtonNode button6 = new ButtonNode( "6. Test Enabled", new Color( 0, 200, 200 ) );
+        final ButtonNode button6 = new ButtonNode( "6. Test Enabled", image ) {{
+            setBackground( new Color( 0, 200, 200 ) );
+            setTextPosition( TextPosition.ABOVE );
+        }};
         button6.setOffset( 230, 300 );
         button6.addActionListener( listener );
 
-        ButtonNode button7 = new ButtonNode( "7. Toggle Enabled ->", new PhetFont( Font.ITALIC, 16 ), Color.RED, new Color( 200, 200, 0 ) );
+        ButtonNode button7 = new ButtonNode( "7. Toggle Enabled ->" ) {{
+            setFont( new PhetFont( Font.ITALIC, 16 ) );
+            setForeground( Color.RED );
+            setBackground( new Color( 200, 200, 0 ) );
+            setToolTipText( "<html>click me to<br>disabled button 6</html>" );
+        }};
         button7.setOffset( 10, 300 );
         button7.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
