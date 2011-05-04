@@ -1,3 +1,4 @@
+# 0.00.50 (51536) May 4, 2011
 Show the rotation drag handle behind the prism shape so it looks like it attaches solidly instead of sticking out on top
 # 0.00.49 (51534) May 4, 2011
 Attached knob to the prism corner for rotation
