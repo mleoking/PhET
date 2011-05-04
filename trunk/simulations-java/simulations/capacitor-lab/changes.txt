@@ -1,3 +1,4 @@
+5/4/11 enable Multiple Capacitors tab
 # 1.00.02 (51504) May 3, 2011
 5/3/11 demonstrate new zoom buttons for bar meters
 5/3/11 temporarily hide Multiple Capacitors tab
