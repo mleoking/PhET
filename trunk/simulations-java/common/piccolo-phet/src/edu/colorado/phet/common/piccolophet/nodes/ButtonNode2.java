@@ -65,7 +65,7 @@ public class ButtonNode2 extends PhetPNode {
     private String toolTipText;
 
     private PPath backgroundNode;
-    private boolean focus; // true if the button has focus
+    private boolean focus, armed;
     private Paint mouseNotOverGradient, mouseOverGradient, armedGradient;
 
     //------------------------------------------------------------------------
@@ -142,7 +142,11 @@ public class ButtonNode2 extends PhetPNode {
     //
     //------------------------------------------------------------------------
 
-    // completely rebuilds the button when any property changes
+    /*
+     * Completely rebuilds the button when any property changes.
+     * This is not as bad as it sounds, since there are only 4 nodes involved.
+     * Reconstructing them greatly simplifies the implementation.
+     */
     private void update() {
 
         // All parts of the button are parented to this node, so that we don't blow away additional children that clients might add.
@@ -257,18 +261,36 @@ public class ButtonNode2 extends PhetPNode {
         setChildrenPickable( enabled );
     }
 
-    //------------------------------------------------------------------------
-    // Controlling button state
-    //------------------------------------------------------------------------
+    //----------------------------------------------------------------------------------------
+    // Controlling button state - exposed for subclasses who want to implemented "auto press".
+    //----------------------------------------------------------------------------------------
 
+    /**
+     * Determines whether the button looks like it has focus (ie, is highlighted).
+     *
+     * @param focus
+     */
     protected void setFocus( boolean focus ) {
-        this.focus = focus;
-        if ( enabled ) {
-            backgroundNode.setPaint( focus ? mouseOverGradient : mouseNotOverGradient );
+        if ( focus != this.focus ) {
+            this.focus = focus;
+            updateAppearance();
         }
     }
 
+    /**
+     * Determines whether the button looks like it is armed (ie, is pressed).
+     *
+     * @param armed
+     */
     protected void setArmed( boolean armed ) {
+        if ( armed != this.armed ) {
+            this.armed = armed;
+            updateAppearance();
+        }
+    }
+
+    // Updates appearance (gradient and offset) based on armed and focus state.
+    private void updateAppearance() {
         if ( armed ) {
             backgroundNode.setPaint( armedGradient );
             backgroundNode.setOffset( shadowOffset, shadowOffset );
