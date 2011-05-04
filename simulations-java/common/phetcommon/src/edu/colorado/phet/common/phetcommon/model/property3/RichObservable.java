@@ -11,8 +11,8 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
  * @author Sam Reid
  */
 public abstract class RichObservable<T> implements GettableObservable0<T> {
-    //Store the value of the associated NewProperty lazily so that it is only created if necessary
     private NewProperty<T> newProperty;
+    private OldNewProperty<T> oldNewProperty;
 
     //Returns a NewProperty which can be used with a callback value interface.  Value is stored so that listeners can be removed
     private NewProperty<T> toNewProperty() {
@@ -30,6 +30,24 @@ public abstract class RichObservable<T> implements GettableObservable0<T> {
     //Removes a listener that will receive the value during a callback
     public void removeObserver( VoidFunction1<T> listener ) {
         toNewProperty().removeObserver( listener );
+    }
+
+    //Returns a Oldnewproperty which can be used with a callback value interface.  Value is stored so that listeners can be removed
+    private OldNewProperty<T> toOldNewProperty() {
+        if ( oldNewProperty == null ) {
+            oldNewProperty = new OldNewProperty<T>( this );
+        }
+        return oldNewProperty;
+    }
+
+    //Adds a listener that will receive the value during a callback
+    public void addObserver( ChangeObserver<T> listener ) {
+        toOldNewProperty().addObserver( listener );
+    }
+
+    //Removes a listener that will receive the value during a callback
+    public void removeObserver( ChangeObserver<T> listener ) {
+        toOldNewProperty().removeObserver( listener );
     }
 
     public ValueEquals<T> valueEquals( T value ) {
