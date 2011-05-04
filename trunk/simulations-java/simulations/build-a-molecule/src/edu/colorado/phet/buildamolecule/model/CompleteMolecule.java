@@ -483,10 +483,14 @@ public class CompleteMolecule {
     * precomputation of allowed molecule structures TODO: consider separating this into another class
     *----------------------------------------------------------------------------*/
 
-    private static final List<MoleculeStructure> allowedStructures = new LinkedList<MoleculeStructure>();
+    private static final Map<String, List<MoleculeStructure>> allowedStructures = new HashMap<String, List<MoleculeStructure>>();
 
     private static boolean isStructureInAllowedStructures( MoleculeStructure moleculeStructure ) {
-        for ( MoleculeStructure allowedStructure : allowedStructures ) {
+        List<MoleculeStructure> structuresWithSameFormula = allowedStructures.get( moleculeStructure.getHillSystemFormulaFragment() );
+        if ( structuresWithSameFormula == null ) {
+            return false;
+        }
+        for ( MoleculeStructure allowedStructure : structuresWithSameFormula ) {
             if ( moleculeStructure.isEquivalent( allowedStructure ) ) {
                 return true;
             }
@@ -494,10 +498,17 @@ public class CompleteMolecule {
         return false;
     }
 
-    private static void addMoleculeAndChildren( MoleculeStructure molecule ) {
+    private static void addMoleculeAndChildren( final MoleculeStructure molecule ) {
         if ( !isStructureInAllowedStructures( molecule ) ) {
             // NOTE: only handles tree-based structures here
-            allowedStructures.add( molecule );
+            if ( allowedStructures.containsKey( molecule.getHillSystemFormulaFragment() ) ) {
+                allowedStructures.get( molecule.getHillSystemFormulaFragment() ).add( molecule );
+            }
+            else {
+                allowedStructures.put( molecule.getHillSystemFormulaFragment(), new LinkedList<MoleculeStructure>() {{
+                    add( molecule );
+                }} );
+            }
             for ( Atom atom : molecule.getAtoms() ) {
                 if ( molecule.getNeighbors( atom ).size() < 2 && molecule.getAtoms().size() >= 2 ) {
                     // we could remove this atom and it wouldn't break apart
@@ -524,10 +535,12 @@ public class CompleteMolecule {
         }
         long b = System.currentTimeMillis();
         System.out.println( "Built allowed molecule structures in " + ( b - a ) + "ms" );
-        for ( MoleculeStructure structure : allowedStructures ) {
-            if ( findMatchingCompleteMolecule( structure ) == null ) {
-                // it is an intermediate structure
-                serializedStructures.add( structure.toSerial() );
+        for ( List<MoleculeStructure> moleculeStructures : allowedStructures.values() ) {
+            for ( MoleculeStructure structure : moleculeStructures ) {
+                if ( findMatchingCompleteMolecule( structure ) == null ) {
+                    // it is an intermediate structure
+                    serializedStructures.add( structure.toSerial() );
+                }
             }
         }
         Collections.sort( serializedStructures );
