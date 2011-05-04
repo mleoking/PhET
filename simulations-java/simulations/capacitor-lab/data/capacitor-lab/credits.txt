@@ -1,1 +1,1 @@
-phet-credits lead-design=Noah Podolefsky software-development=Chris Malley design-team=Mike Dubson, Kathy Perkins
+phet-credits lead-design=Noah Podolefsky software-development=Chris Malley design-team=Mike Dubson, Kathy Perkins interviews=Emily Moore, Noah Podolefsky
