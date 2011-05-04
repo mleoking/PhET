@@ -12,11 +12,15 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.bendinglight.BendingLightStrings;
-import edu.colorado.phet.bendinglight.model.*;
+import edu.colorado.phet.bendinglight.model.BendingLightModel;
+import edu.colorado.phet.bendinglight.model.DispersionFunction;
+import edu.colorado.phet.bendinglight.model.Medium;
+import edu.colorado.phet.bendinglight.model.MediumState;
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPComboBox;
@@ -25,6 +29,8 @@ import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PComboBox;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
+import static edu.colorado.phet.bendinglight.model.BendingLightModel.WAVELENGTH_RED;
+import static edu.colorado.phet.bendinglight.model.MediumColorFactory.getColor;
 import static edu.colorado.phet.bendinglight.view.BendingLightCanvas.labelFont;
 
 /**
@@ -45,6 +51,10 @@ public class MediumControlPanel extends PNode {
     private final Property<Medium> medium;//The medium to observe
     private final Property<Double> laserWavelength;
 
+    //Store the value the user used last (unless it was mystery), so we can revert to it when going to custom.
+    //If we kept the same index of refraction, the user could use that to easily look up the mystery values.
+    private double lastNonMysteryIndexAtRed;
+
     public MediumControlPanel( final PhetPCanvas phetPCanvas,
                                final Property<Medium> medium,
                                final String name,
@@ -55,6 +65,17 @@ public class MediumControlPanel extends PNode {
         this.medium = medium;
         this.laserWavelength = laserWavelength;
         final MediumState initialMediumState = medium.getValue().getMediumState();
+        lastNonMysteryIndexAtRed = initialMediumState.getIndexOfRefractionForRedLight();
+
+        //Store the value the user used last (unless it was mystery), so we can revert to it when going to custom.
+        //If we kept the same index of refraction, the user could use that to easily look up the mystery values.
+        medium.addObserver( new VoidFunction1<Medium>() {
+            public void apply( Medium medium ) {
+                if ( !medium.isMystery() ) {
+                    lastNonMysteryIndexAtRed = medium.getIndexOfRefraction( WAVELENGTH_RED );
+                }
+            }
+        } );
 
         //Create the top component which contains the title & combo box
         final PNode topComponent = new PNode() {{
@@ -78,8 +99,13 @@ public class MediumControlPanel extends PNode {
                     addActionListener( new ActionListener() {
                         public void actionPerformed( ActionEvent e ) {
                             MediumState selected = (MediumState) getSelectedItem();
+                            //Set the material if it was non-custom
                             if ( !selected.custom ) {
-                                setMediumState( selected, medium );
+                                setMediumState( selected );
+                            }
+                            //If it was custom, then use the the index of refraction but keep the name as "custom"
+                            else {
+                                setMediumState( new MediumState( selected.name, lastNonMysteryIndexAtRed, selected.mystery, selected.custom ) );
                             }
                         }
                     } );
@@ -90,7 +116,7 @@ public class MediumControlPanel extends PNode {
                         }
                     } );
                     setFont( labelFont );
-                    setMediumState( initialMediumState, medium );
+                    setMediumState( initialMediumState );
                 }
 
                 //Updates the combo box to show which item is selected
@@ -102,7 +128,8 @@ public class MediumControlPanel extends PNode {
                             selected = i;
                         }
                     }
-                    if ( selected != -1 ) {
+                    //Only set to a different substance if "custom" wasn't specified.  Otherwise pressing "air" then "custom" will make the combobox jump back to "air"
+                    if ( selected != -1 && !medium.getValue().getMediumState().custom ) {
                         setSelectedIndex( selected );
                     }
                     else {
@@ -258,11 +285,15 @@ public class MediumControlPanel extends PNode {
     private void setCustomIndexOfRefraction( double indexOfRefraction ) {
         //Have to pass the value through the dispersion function to account for the current wavelength of the laser (since index of refraction is a function of wavelength)
         final DispersionFunction dispersionFunction = new DispersionFunction( indexOfRefraction, laserWavelength.getValue() );
-        medium.setValue( new Medium( medium.getValue().shape, new MediumState( BendingLightStrings.CUSTOM, dispersionFunction, false, false ), MediumColorFactory.getColor( dispersionFunction.getIndexOfRefractionForRed() ) ) );
+        setMedium( new Medium( medium.getValue().shape, new MediumState( BendingLightStrings.CUSTOM, dispersionFunction, false, true ), getColor( dispersionFunction.getIndexOfRefractionForRed() ) ) );
     }
 
     //Update the medium state from the combo box
-    private void setMediumState( MediumState mediumState, Property<Medium> medium ) {
-        medium.setValue( new Medium( medium.getValue().shape, mediumState, MediumColorFactory.getColor( mediumState.getIndexOfRefractionForRedLight() ) ) );
+    private void setMediumState( MediumState mediumState ) {
+        setMedium( new Medium( medium.getValue().shape, mediumState, getColor( mediumState.getIndexOfRefractionForRedLight() ) ) );
+    }
+
+    private void setMedium( Medium mediumValue ) {
+        medium.setValue( mediumValue );
     }
 }
