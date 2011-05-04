@@ -65,7 +65,7 @@ public class ButtonNode extends PhetPNode {
     private String toolTipText;
 
     private PPath backgroundNode;
-    private boolean focus, armed;
+    private boolean focus, armed; // semantics defined in ButtonEventListener javadoc
     private Paint mouseNotOverGradient, mouseOverGradient, armedGradient;
 
     //------------------------------------------------------------------------
@@ -139,13 +139,15 @@ public class ButtonNode extends PhetPNode {
     }
 
     //------------------------------------------------------------------------
-    //
+    // Scenegraph creation
     //------------------------------------------------------------------------
 
     /*
      * Completely rebuilds the button when any property changes.
      * This is not as bad as it sounds, since there are only 4 nodes involved.
-     * Reconstructing them greatly simplifies the implementation.
+     * Yes, we could figure out which nodes are dependent on which properties,
+     * and write code that update only the affected nodes. But such code would
+     * be more complicated and more difficult to debug, maintain and test.
      */
     private void update() {
 
@@ -262,7 +264,7 @@ public class ButtonNode extends PhetPNode {
     }
 
     //----------------------------------------------------------------------------------------
-    // Controlling button state - exposed for subclasses who want to implemented "auto press".
+    // Button state control - exposed for subclasses who want to implemented "auto press".
     //----------------------------------------------------------------------------------------
 
     /**
@@ -547,7 +549,7 @@ public class ButtonNode extends PhetPNode {
     }
 
     private void notifyActionPerformed() {
-        ActionEvent event = new ActionEvent( this, 0, "BUTTON_FIRED" );
+        ActionEvent event = new ActionEvent( this, 0, "BUTTON_FIRED" ); //TODO: id is bogus and command is undocumented. Address if this becomes an issue for clients.
         for ( ActionListener actionListener : new ArrayList<ActionListener>( actionListeners ) ) {
             actionListener.actionPerformed( event );
         }
@@ -595,7 +597,7 @@ public class ButtonNode extends PhetPNode {
     }
 
     // Converts an image to grayscale, to denote that the button is disabled.
-    //TODO This needs tweaking to better match the disabled look of other parts of the button.
+    //TODO This needs tweaking to better match the disabled look of other parts of the button. Address when it becomes an issue.
     private static BufferedImage createGrayscaleImage( BufferedImage colorImage ) {
         ColorSpace cs = ColorSpace.getInstance( ColorSpace.CS_GRAY );
         ColorConvertOp op = new ColorConvertOp( cs, null );
