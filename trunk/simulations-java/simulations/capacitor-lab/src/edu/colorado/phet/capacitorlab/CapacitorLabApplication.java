@@ -6,6 +6,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.capacitorlab.module.dielectric.DielectricModule;
 import edu.colorado.phet.capacitorlab.module.introduction.IntroductionModule;
+import edu.colorado.phet.capacitorlab.module.multiplecapacitors.MultipleCapacitorsModule;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
