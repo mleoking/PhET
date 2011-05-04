@@ -10,13 +10,13 @@ import javax.swing.*;
 import edu.colorado.phet.common.piccolophet.nodes.ButtonNode2;
 
 /**
- * This class extends the gradient button in order to add the capability of
+ * This class extends ButtonNode in order to add the capability of
  * doing an "auto-press", which means that it is told to look like it just
  * got pressed for a bit and then released.
  *
  * @author John Blanco
  */
-public class AutoPressGradientButtonNode extends ButtonNode2 {
+public class AutoPressButtonNode extends ButtonNode2 {
 
     private static final int HIGHLIGHT_TIME = 250; // In milliseconds.
     private static final int PRESS_TIME = 500; // In milliseconds.
@@ -26,12 +26,12 @@ public class AutoPressGradientButtonNode extends ButtonNode2 {
     private final Timer PRESS_TIMER = new Timer( PRESS_TIME, null );
     private final Timer POST_PRESS_HIGHLIGHT_TIMER = new Timer( HIGHLIGHT_TIME, null );
 
-    private boolean animatioInProgress = false;
+    private boolean animationInProgress = false;
 
     /**
      * Constructor.
      */
-    public AutoPressGradientButtonNode( String label, int fontSize, Color buttonColor ) {
+    public AutoPressButtonNode( String label, int fontSize, Color buttonColor ) {
         super( label, fontSize, buttonColor );
 
         PRE_PRESS_HIGHLIGHT_TIMER.addActionListener( new ActionListener() {
@@ -57,18 +57,18 @@ public class AutoPressGradientButtonNode extends ButtonNode2 {
                 // Make the button look like it is neither pressed nor highlighted.
                 setFocus( false );
                 POST_PRESS_HIGHLIGHT_TIMER.stop();
-                animatioInProgress = false;
+                animationInProgress = false;
             }
         } );
     }
 
     public void autoPress() {
-        if ( !animatioInProgress ) {
+        if ( !animationInProgress ) {
             // Make the button look like it is highlighted.
             setFocus( true );
 
             // Start the timer for the next step.
-            animatioInProgress = true;
+            animationInProgress = true;
             PRE_PRESS_HIGHLIGHT_TIMER.start();
 
         }
