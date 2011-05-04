@@ -11,13 +11,13 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
  * @author Sam Reid
  */
 public abstract class RichObservable<T> implements GettableObservable0<T> {
-    private NewProperty<T> newProperty;
-    private OldNewProperty<T> oldNewProperty;
+    private NewNotifier<T> newProperty;
+    private OldNewNotifier<T> oldNewProperty;
 
     //Returns a NewProperty which can be used with a callback value interface.  Value is stored so that listeners can be removed
-    private NewProperty<T> toNewProperty() {
+    private NewNotifier<T> toNewProperty() {
         if ( newProperty == null ) {
-            newProperty = new NewProperty<T>( this );
+            newProperty = new NewNotifier<T>( this );
         }
         return newProperty;
     }
@@ -33,9 +33,9 @@ public abstract class RichObservable<T> implements GettableObservable0<T> {
     }
 
     //Returns a Oldnewproperty which can be used with a callback value interface.  Value is stored so that listeners can be removed
-    private OldNewProperty<T> toOldNewProperty() {
+    private OldNewNotifier<T> toOldNewProperty() {
         if ( oldNewProperty == null ) {
-            oldNewProperty = new OldNewProperty<T>( this );
+            oldNewProperty = new OldNewNotifier<T>( this );
         }
         return oldNewProperty;
     }

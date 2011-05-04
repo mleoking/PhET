@@ -5,38 +5,42 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
 /**
- * This Property implementation signifies the new value on callbacks by wrapping an Observable0 property.  It is implemented by composition of a wrapped observable.
+ * This class propagates events to listeners of type ChangeObserver<T>, notifying listeners about the new and old values.
  *
  * @author Sam Reid
  */
-class NewProperty<T> implements Observable1<T> {
+class OldNewNotifier<T> implements Observable2<T> {
     //Parent value which will be observed for change events
     private final GettableObservable0<T> parent;
 
+    //Keep track of the old value for notifications
+    private T oldValue;
+
     //List of listeners that will receive the value in callbacks
-    private final ListenerList<VoidFunction1<T>> listenerList = new ListenerList<VoidFunction1<T>>( new VoidFunction1<VoidFunction1<T>>() {
-        public void apply( VoidFunction1<T> listener ) {
-            listener.apply( parent.get() );
+    private final ListenerList<ChangeObserver<T>> listenerList = new ListenerList<ChangeObserver<T>>( new VoidFunction1<ChangeObserver<T>>() {
+        public void apply( ChangeObserver<T> observer ) {
+            observer.update( new ChangeEvent<T>( parent.get(), oldValue ) );
         }
     } );
 
     //Create a NewProperty wrapped around the specified parent
-    public NewProperty( GettableObservable0<T> parent ) {
+    public OldNewNotifier( final GettableObservable0<T> parent ) {
         this.parent = parent;
         parent.addObserver( new VoidFunction0() {
             public void apply() {
                 listenerList.notifyListeners();
+                oldValue = parent.get();
             }
         } );
     }
 
     //adds a listener that will receive the new value in its callback
-    public void addObserver( VoidFunction1<T> observer ) {
+    public void addObserver( ChangeObserver<T> observer ) {
         listenerList.add( observer );
     }
 
     //removes a listener that will receive the new value in its callback
-    public void removeObserver( VoidFunction1<T> observer ) {
+    public void removeObserver( ChangeObserver<T> observer ) {
         listenerList.remove( observer );
     }
 
@@ -47,12 +51,23 @@ class NewProperty<T> implements Observable1<T> {
         final And and = new And( visible, selected );
         selected.set( true );
 
-        and.addObserver( new VoidFunction1<Boolean>() {
-            public void apply( Boolean o ) {
-                System.out.println( "o = " + o );
+        and.addObserver( new ChangeObserver<Boolean>() {
+            public void update( ChangeEvent<Boolean> e ) {
+                System.out.println( "e = " + e );
             }
         } );
         visible.set( true );
         selected.set( true );
+        selected.reset();
+
+        visible.addObserver( new ChangeObserver<Boolean>() {
+            public void update( ChangeEvent<Boolean> e ) {
+                System.out.println( "visible changed: " + e );
+            }
+        } );
+        visible.set( true );
+        visible.set( false );
+        visible.set( false );
+        visible.set( true );
     }
 }
