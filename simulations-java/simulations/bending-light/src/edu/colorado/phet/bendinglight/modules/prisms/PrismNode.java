@@ -39,38 +39,6 @@ public class PrismNode extends PNode {
     ) {
         this.prism = prism;
 
-        //Show the draggable prism shape
-        addChild( new PhetPPath( new BasicStroke(), darkGray ) {{
-            prism.shape.addObserver( new SimpleObserver() {
-                public void update() {
-                    setPathTo( transform.modelToView( prism.shape.getValue().toShape() ) );
-                }
-            } );
-            prismMedium.addObserver( new SimpleObserver() {
-                public void update() {
-                    //Set the fill color
-                    final Color color = prismMedium.getValue().color;
-                    setPaint( color );
-
-                    //Make the border color darker than the fill color
-                    Function1<Integer, Integer> darker = new Function1<Integer, Integer>() {
-                        public Integer apply( Integer value ) {
-                            return (int) MathUtil.clamp( 0, value - 28, 255 );
-                        }
-                    };
-                    setStrokePaint( new Color( darker.apply( color.getRed() ), darker.apply( color.getGreen() ), darker.apply( color.getBlue() ) ) );
-                }
-            } );
-
-            //Make it draggable, but constrain it within the play area
-            addInputEventListener( new CursorHandler() );
-            addInputEventListener( new CanvasBoundedDragHandler( this ) {
-                @Override protected void dragNode( DragEvent event ) {
-                    prism.translate( transform.viewToModelDelta( event.delta ) );
-                }
-            } );
-        }} );
-
         //Depict drag handles on the PrismNode that allow it to be rotated
         class RotationDragHandle extends PNode {
             RotationDragHandle() {
@@ -130,7 +98,40 @@ public class PrismNode extends PNode {
 
         //Circles are not rotatable since they are symmetric, so they do not provide a reference point
         if ( prism.shape.getValue().getReferencePoint().isSome() ) {
+            // Show the rotation drag handle behind the prism shape so it looks like it attaches solidly instead of sticking out on top
             addChild( new RotationDragHandle() );
         }
+
+        //Show the draggable prism shape
+        addChild( new PhetPPath( new BasicStroke(), darkGray ) {{
+            prism.shape.addObserver( new SimpleObserver() {
+                public void update() {
+                    setPathTo( transform.modelToView( prism.shape.getValue().toShape() ) );
+                }
+            } );
+            prismMedium.addObserver( new SimpleObserver() {
+                public void update() {
+                    //Set the fill color
+                    final Color color = prismMedium.getValue().color;
+                    setPaint( color );
+
+                    //Make the border color darker than the fill color
+                    Function1<Integer, Integer> darker = new Function1<Integer, Integer>() {
+                        public Integer apply( Integer value ) {
+                            return (int) MathUtil.clamp( 0, value - 28, 255 );
+                        }
+                    };
+                    setStrokePaint( new Color( darker.apply( color.getRed() ), darker.apply( color.getGreen() ), darker.apply( color.getBlue() ) ) );
+                }
+            } );
+
+            //Make it draggable, but constrain it within the play area
+            addInputEventListener( new CursorHandler() );
+            addInputEventListener( new CanvasBoundedDragHandler( this ) {
+                @Override protected void dragNode( DragEvent event ) {
+                    prism.translate( transform.viewToModelDelta( event.delta ) );
+                }
+            } );
+        }} );
     }
 }
