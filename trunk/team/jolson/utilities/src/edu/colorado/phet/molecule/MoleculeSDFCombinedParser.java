@@ -25,7 +25,7 @@ public class MoleculeSDFCombinedParser {
             , "PUBCHEM_IUPAC_OPENEYE_NAME", "PUBCHEM_IUPAC_CAS_NAME", "PUBCHEM_IUPAC_NAME", "PUBCHEM_IUPAC_SYSTEMATIC_NAME"
     };
 
-    private static Set<String> allowedChemicalSymbols = new HashSet<String>() {{
+    public static Set<String> ALLOWED_CHEMICAL_SYMBOLS = new HashSet<String>() {{
         add( "B" );
         add( "Br" );
         add( "C" );
@@ -118,7 +118,7 @@ public class MoleculeSDFCombinedParser {
                     if ( symbol.equals( "C" ) ) {
                         numCarbon++;
                     }
-                    if ( !allowedChemicalSymbols.contains( symbol ) ) {
+                    if ( !ALLOWED_CHEMICAL_SYMBOLS.contains( symbol ) ) {
                         // has something like lead that we are not allowing
                         atomCountsOk = false;
                     }
