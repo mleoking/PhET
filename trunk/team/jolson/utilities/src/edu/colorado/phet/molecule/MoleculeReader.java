@@ -49,10 +49,6 @@ public class MoleculeReader {
                 return a.getName().compareTo( b.getName() );
             }
         } );
-
-        while ( archiveFiles.size() > 10 ) {
-            archiveFiles.remove( 2 );
-        }
     }
 
     public MoleculeFile nextMoleculeFile() {

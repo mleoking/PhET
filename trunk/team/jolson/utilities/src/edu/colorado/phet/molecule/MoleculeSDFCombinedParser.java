@@ -46,9 +46,11 @@ public class MoleculeSDFCombinedParser {
     public static void main( String[] args ) {
         File dir2d = new File( args[0] );
         File dir3d = new File( args[1] );
+        File outfile = new File( args[2] );
 
         assert ( dir2d.exists() );
         assert ( dir3d.exists() );
+        assert ( outfile.getParentFile().exists() );
 
         Set<String> symbols = new HashSet<String>();
         Set<String> propertiesNotOnEveryMolecule = new HashSet<String>();
@@ -235,26 +237,57 @@ public class MoleculeSDFCombinedParser {
         System.out.println( "unique names: " + names.size() );
 
         /*---------------------------------------------------------------------------*
+        * filter molecules by validity, and group together isomers so we can filter out duplicates later
+        *----------------------------------------------------------------------------*/
+
+        Map<String, List<String>> formulaMap = new HashMap<String, List<String>>(); // map of formula => list of molecule lines
+
+        for ( final String aString : molecules.toArray( new String[molecules.size()] ) ) {
+            final CompleteMolecule completeMolecule = new CompleteMolecule( aString.trim() );
+            if ( completeMolecule.getMoleculeStructure().hasLoopsOrIsDisconnected() ) {
+                // bad molecule, remove it from consideration!
+                molecules.remove( aString );
+                System.out.println( "ignoring molecule with loops or disconnected parts: " + completeMolecule.getCommonName() );
+            }
+            else {
+                // good molecule. store it in the map so we can scan for duplicates
+                String hillFormula = completeMolecule.getMoleculeStructure().getHillSystemFormulaFragment();
+                if ( formulaMap.containsKey( hillFormula ) ) {
+                    formulaMap.get( hillFormula ).add( aString );
+                }
+                else {
+                    formulaMap.put( hillFormula, new LinkedList<String>() {{
+                        add( aString );
+                    }} );
+                }
+            }
+        }
+
+        /*---------------------------------------------------------------------------*
         * toss molecules that are "duplicates", but keep shortest name one
         *----------------------------------------------------------------------------*/
 
-        for ( String aString : molecules.toArray( new String[molecules.size()] ) ) {
-            CompleteMolecule aMol = new CompleteMolecule( aString.trim() );
-            if ( aMol.getMoleculeStructure().hasLoopsOrIsDisconnected() ) {
-                molecules.remove( aString );
-                System.out.println( "ignoring molecule with loops or disconnected parts: " + aMol.getCommonName() );
-            }
-            for ( String bString : molecules.toArray( new String[molecules.size()] ) ) {
-                if ( !aString.equals( bString ) ) {
-                    CompleteMolecule bMol = new CompleteMolecule( bString.trim() );
-                    if ( aMol.getMoleculeStructure().isEquivalent( bMol.getMoleculeStructure() ) ) {
-                        if ( bMol.getCommonName().length() < aMol.getCommonName().length() ) {
-                            molecules.remove( aString );
-                            System.out.println( "tossing duplicate " + aMol.getCommonName() );
-                        }
-                        else {
-                            molecules.remove( bString );
-                            System.out.println( "tossing duplicate " + bMol.getCommonName() );
+        // for each set of molecules with the same formula
+        for ( String hillFormula : formulaMap.keySet() ) {
+            List<String> moleculesWithSameFormula = formulaMap.get( hillFormula );
+
+            // pick two of them (not the most efficient)
+            for ( String aString : moleculesWithSameFormula ) {
+                CompleteMolecule aMol = new CompleteMolecule( aString.trim() );
+                for ( String bString : moleculesWithSameFormula ) {
+                    if ( !aString.equals( bString ) ) {
+                        CompleteMolecule bMol = new CompleteMolecule( bString.trim() );
+
+                        // if they are equivalent, axe the one with the longer name
+                        if ( aMol.getMoleculeStructure().isEquivalent( bMol.getMoleculeStructure() ) ) {
+                            if ( bMol.getCommonName().length() < aMol.getCommonName().length() ) {
+                                molecules.remove( aString );
+                                System.out.println( "tossing duplicate " + aMol.getCommonName() );
+                            }
+                            else {
+                                molecules.remove( bString );
+                                System.out.println( "tossing duplicate " + bMol.getCommonName() );
+                            }
                         }
                     }
                 }
@@ -267,7 +300,7 @@ public class MoleculeSDFCombinedParser {
             for ( String molecule : molecules ) {
                 mainBuilder.append( molecule );
             }
-            FileUtils.writeString( new File( dir2d, "molecules.txt" ), mainBuilder.toString() );
+            FileUtils.writeString( outfile, mainBuilder.toString() );
         }
         catch( IOException e ) {
             e.printStackTrace();
