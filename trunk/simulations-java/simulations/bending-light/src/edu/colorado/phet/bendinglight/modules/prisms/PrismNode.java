@@ -2,7 +2,8 @@
 package edu.colorado.phet.bendinglight.modules.prisms;
 
 import java.awt.*;
-import java.awt.geom.Rectangle2D;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
 
 import edu.colorado.phet.bendinglight.model.Medium;
 import edu.colorado.phet.bendinglight.view.CanvasBoundedDragHandler;
@@ -13,12 +14,15 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.nodes.PImage;
 
+import static edu.colorado.phet.bendinglight.BendingLightApplication.RESOURCES;
 import static java.awt.Color.darkGray;
 
 /**
@@ -69,11 +73,29 @@ public class PrismNode extends PNode {
 
         //Depict drag handles on the PrismNode that allow it to be rotated
         class RotationDragHandle extends PNode {
-            double width = 10;
-
             RotationDragHandle() {
                 //It looks like a box on the side of the prism
-                addChild( new PhetPPath( new Rectangle2D.Double( -width / 2, -width / 2, width, width ), Color.white, new BasicStroke( 1 ), Color.gray ) {{}} );
+                addChild( new PImage( BufferedImageUtils.multiScaleToHeight( RESOURCES.getImage( "knob.png" ), 18 ) ) {{
+                    prism.shape.addObserver( new SimpleObserver() {
+                        public void update() {
+                            //Clear the transform and reset it so the knob is at the reference point, pointing toward the center of the prism
+                            setTransform( new AffineTransform() );
+
+                            //Compute the angle in view coordinates (otherwise inverted y in model gives wrong angle)
+                            double angle = new ImmutableVector2D( transform.modelToView( prism.shape.getValue().getReferencePoint().get().toPoint2D() ),
+                                                                  transform.modelToView( prism.shape.getValue().getRotationCenter().toPoint2D() ) ).getAngle();
+
+                            //Move the knob so its attachment point (at the right middle of the image) attaches to the corner of the prism (its reference point)
+                            Point2D.Double offset = new Point2D.Double( -getFullBounds().getWidth()
+                                                                        + 5,//let the knob protrude into the prism a bit so you don't see the edge of the knob image
+                                                                        -getFullBounds().getHeight() / 2 );
+                            translate( offset.x, offset.y );
+
+                            //Rotate so the knob is pointing away from the centroid of the prism
+                            rotateAboutPoint( angle, -offset.x, -offset.y );
+                        }
+                    } );
+                }} );
                 prism.shape.addObserver( new SimpleObserver() {
                     public void update() {
                         setOffset( transform.modelToView( prism.shape.getValue().getReferencePoint().get() ).toPoint2D() );
