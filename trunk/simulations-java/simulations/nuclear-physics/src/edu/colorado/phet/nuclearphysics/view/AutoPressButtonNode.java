@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.piccolophet.nodes.ButtonNode2;
+import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
 
 /**
  * This class extends ButtonNode in order to add the capability of
@@ -16,7 +16,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ButtonNode2;
  *
  * @author John Blanco
  */
-public class AutoPressButtonNode extends ButtonNode2 {
+public class AutoPressButtonNode extends ButtonNode {
 
     private static final int HIGHLIGHT_TIME = 250; // In milliseconds.
     private static final int PRESS_TIME = 500; // In milliseconds.
