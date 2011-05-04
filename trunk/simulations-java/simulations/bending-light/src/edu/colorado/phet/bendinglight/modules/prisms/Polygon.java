@@ -25,14 +25,18 @@ import static java.lang.Double.isNaN;
 public class Polygon implements IShape {
     private ArrayList<ImmutableVector2D> points = new ArrayList<ImmutableVector2D>();
 
+    //Index for the point used as the "reference" point, which is used as the drag handle corner for rotation
+    private int referencePointIndex;
+
     //Create a polygon with the specified corners
-    public Polygon( ImmutableVector2D[] points ) {
-        this( Arrays.asList( points ) );
+    public Polygon( ImmutableVector2D[] points, int referencePointIndex ) {
+        this( Arrays.asList( points ), referencePointIndex );
     }
 
     //Create a polygon with the specified corners
-    public Polygon( List<ImmutableVector2D> points ) {
+    public Polygon( List<ImmutableVector2D> points, int referencePointIndex ) {
         this.points = new ArrayList<ImmutableVector2D>( points );
+        this.referencePointIndex = referencePointIndex;
     }
 
     //Convert to a java.awt.Shape
@@ -56,7 +60,7 @@ public class Polygon implements IShape {
             for ( ImmutableVector2D point : points ) {
                 add( point.plus( dx, dy ) );
             }
-        }} );
+        }}, referencePointIndex );
     }
 
     //Compute the intersections of the specified ray with this polygon's edges
@@ -101,7 +105,7 @@ public class Polygon implements IShape {
                 final ImmutableVector2D rotated = vectorAboutCentroid.getRotatedInstance( angle );
                 add( rotated.plus( rotationPoint ) );
             }
-        }} );
+        }}, referencePointIndex );
     }
 
     //Lists the corner points
@@ -120,7 +124,7 @@ public class Polygon implements IShape {
 
     //Just use the 0th point for the reference point for rotation drag handles
     public Option<ImmutableVector2D> getReferencePoint() {
-        return new Option.Some<ImmutableVector2D>( getPoint( 0 ) );
+        return new Option.Some<ImmutableVector2D>( getPoint( referencePointIndex ) );
     }
 
     public boolean containsPoint( ImmutableVector2D point ) {

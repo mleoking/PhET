@@ -69,18 +69,21 @@ public class PrismsModel extends BendingLightModel {
             final double a = CHARACTERISTIC_LENGTH * 10;//characteristic length scale
             final double b = a / 4;//characteristic length scale
             //Square
-            add( new Prism( new ImmutableVector2D(),
+            add( new Prism( 3,//attach at bottom right
+                            new ImmutableVector2D(),
                             new ImmutableVector2D( 0, a ),
                             new ImmutableVector2D( a, a ),
                             new ImmutableVector2D( a, 0 ) ) );
 
             //Triangle
-            add( new Prism( new ImmutableVector2D(),
+            add( new Prism( 1,//attach at bottom right
+                            new ImmutableVector2D(),
                             new ImmutableVector2D( a, 0 ),
                             new ImmutableVector2D( a / 2, a * sqrt( 3 ) / 2.0 ) ) );
 
             //Trapezoid
-            add( new Prism( new ImmutableVector2D(),
+            add( new Prism( 1,//attach at bottom right
+                            new ImmutableVector2D(),
                             new ImmutableVector2D( a, 0 ),
                             new ImmutableVector2D( a / 2 + b, a * sqrt( 3 ) / 2.0 ),
                             new ImmutableVector2D( a / 2 - b, a * sqrt( 3 ) / 2.0 )
@@ -97,7 +100,8 @@ public class PrismsModel extends BendingLightModel {
                     new ImmutableVector2D( 0, -radius ),
                     new ImmutableVector2D( -radius, -radius ),
                     new ImmutableVector2D( -radius, radius )
-            } ) ) ) );
+            }, 1//attach at bottom right
+            ) ) ) );
 
             //Continuous Diverging Lens
             add( new Prism( new ShapeDifference( new Polygon( new ImmutableVector2D[] {
@@ -105,7 +109,8 @@ public class PrismsModel extends BendingLightModel {
                     new ImmutableVector2D( radius * ( 0.6 / 0.5 ), -radius ),
                     new ImmutableVector2D( radius * ( 0.6 / 0.5 ), radius ),
                     new ImmutableVector2D( 0, radius )
-            } ), new Circle( new ImmutableVector2D(), radius ) ) ) );
+            }, 1//attach at bottom right
+            ), new Circle( new ImmutableVector2D(), radius ) ) ) );
         }};
     }
 
