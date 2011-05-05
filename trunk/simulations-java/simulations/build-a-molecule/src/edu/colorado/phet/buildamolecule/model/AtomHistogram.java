@@ -1,17 +1,32 @@
 package edu.colorado.phet.buildamolecule.model;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import edu.colorado.phet.chemistry.model.Atom;
-import edu.colorado.phet.molecule.MoleculeSDFCombinedParser;
 
 /**
  * Count of each atom type, and allows fast comparison
  */
 public class AtomHistogram {
+    public static Set<String> ALLOWED_CHEMICAL_SYMBOLS = new HashSet<String>() {{
+        add( "B" );
+        add( "Br" );
+        add( "C" );
+        add( "Cl" );
+        add( "F" );
+        add( "H" );
+        add( "I" );
+        add( "N" );
+        add( "O" );
+        add( "P" );
+        add( "S" );
+        add( "Si" );
+    }};
     public final Map<String, Integer> quantities = new HashMap<String, Integer>() {{
-        for ( String symbol : MoleculeSDFCombinedParser.ALLOWED_CHEMICAL_SYMBOLS ) {
+        for ( String symbol : ALLOWED_CHEMICAL_SYMBOLS ) {
             put( symbol, 0 );
         }
     }};
@@ -34,7 +49,7 @@ public class AtomHistogram {
     }
 
     public boolean containsAsSubset( AtomHistogram otherHistogram ) {
-        for ( String symbol : MoleculeSDFCombinedParser.ALLOWED_CHEMICAL_SYMBOLS ) {
+        for ( String symbol : ALLOWED_CHEMICAL_SYMBOLS ) {
             if ( quantities.get( symbol ) < otherHistogram.quantities.get( symbol ) ) {
                 return false;
             }
@@ -44,7 +59,7 @@ public class AtomHistogram {
 
     public String getHashString() {
         String hashString = "";
-        for ( String symbol : MoleculeSDFCombinedParser.ALLOWED_CHEMICAL_SYMBOLS ) {
+        for ( String symbol : ALLOWED_CHEMICAL_SYMBOLS ) {
             hashString += quantities.get( symbol );
         }
         return hashString;
@@ -59,7 +74,7 @@ public class AtomHistogram {
     public boolean equals( Object obj ) {
         if ( obj instanceof AtomHistogram ) {
             AtomHistogram otherHistogram = (AtomHistogram) obj;
-            for ( String symbol : MoleculeSDFCombinedParser.ALLOWED_CHEMICAL_SYMBOLS ) {
+            for ( String symbol : ALLOWED_CHEMICAL_SYMBOLS ) {
                 if ( !quantities.get( symbol ).equals( otherHistogram.quantities.get( symbol ) ) ) {
                     return false;
                 }

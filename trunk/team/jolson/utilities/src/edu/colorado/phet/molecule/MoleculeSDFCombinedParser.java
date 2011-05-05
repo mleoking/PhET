@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.*;
 
+import edu.colorado.phet.buildamolecule.model.AtomHistogram;
 import edu.colorado.phet.buildamolecule.model.CompleteMolecule;
 import edu.colorado.phet.buildtools.util.FileUtils;
 import edu.colorado.phet.common.phetcommon.util.Pair;
@@ -24,21 +25,6 @@ public class MoleculeSDFCombinedParser {
 
             , "PUBCHEM_IUPAC_OPENEYE_NAME", "PUBCHEM_IUPAC_CAS_NAME", "PUBCHEM_IUPAC_NAME", "PUBCHEM_IUPAC_SYSTEMATIC_NAME"
     };
-
-    public static Set<String> ALLOWED_CHEMICAL_SYMBOLS = new HashSet<String>() {{
-        add( "B" );
-        add( "Br" );
-        add( "C" );
-        add( "Cl" );
-        add( "F" );
-        add( "H" );
-        add( "I" );
-        add( "N" );
-        add( "O" );
-        add( "P" );
-        add( "S" );
-        add( "Si" );
-    }};
 
     private static int maxHeavy = 12; // hard-count of 12
     private static int maxCarbon = 4;
@@ -118,7 +104,7 @@ public class MoleculeSDFCombinedParser {
                     if ( symbol.equals( "C" ) ) {
                         numCarbon++;
                     }
-                    if ( !ALLOWED_CHEMICAL_SYMBOLS.contains( symbol ) ) {
+                    if ( !AtomHistogram.ALLOWED_CHEMICAL_SYMBOLS.contains( symbol ) ) {
                         // has something like lead that we are not allowing
                         atomCountsOk = false;
                     }
