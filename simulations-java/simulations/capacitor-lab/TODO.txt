@@ -41,7 +41,6 @@ LOW PRIORITY
 
 LOWEST PRIORITY
 - don't allow meters to be dragged by buttons, this prevents ability to roll off buttons
-- battery and positive terminal shapes should be cylinders (but rectangles is good enough)
 - round the ends of wires
 - gradient paint on plate top surfaces (not on edges)
 - use a gradient paint for wires to give them a 3D look
