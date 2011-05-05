@@ -3,6 +3,11 @@ package edu.colorado.phet.common.phetcommon.property4;
 
 import java.util.ArrayList;
 
+/*
+ * TODO: It's possible for subclasses to call or override setValue, which is not cool for a composite property.
+ * Investigate using composition instead of inheritance for storing the value.
+ */
+
 /**
  * A composite property's value is based on a set of dependent properties (the "args") and a function.
  * The args may be of homogeneous or heterogeneous types.
