@@ -1,0 +1,59 @@
+/* Copyright 2002-2011, University of Colorado */
+
+package edu.colorado.phet.sugarandsaltsolutions.common.view;
+
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.geom.Rectangle2D;
+
+import edu.colorado.phet.common.phetcommon.model.property3.RichObservable;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.nodes.PText;
+
+/**
+ *
+ * @author John Blanco
+ */
+public class ConcentrationBarChart extends PNode {
+
+    private final double CHART_HEIGHT = 200;
+
+    public ConcentrationBarChart( RichObservable<Double> saltConcentration ) {
+        final double totalWidth = 125;
+        PNode background = new PhetPPath(new Rectangle2D.Double(0, 0, totalWidth, CHART_HEIGHT),
+                new Color(240, 255, 175), new BasicStroke( 1f ), Color.BLACK );
+        addChild( background );
+
+        addChild( new Bar( Color.red, "Salt", saltConcentration ){{
+            setOffset( totalWidth / 2 - getFullBoundsReference().width / 2, CHART_HEIGHT-getFullBoundsReference().getMaxY() ); }});
+    }
+
+    // This class represents the bars on the bar chart.  They grow upwards in
+    // the Y direction from a baseline offset of y=0.
+    public static class Bar extends PNode {
+        public static final float WIDTH = 40;
+        public Bar( Color color, String caption, RichObservable<Double> value ) {
+            // Create and add the bar itself.
+            final PPath bar = new PhetPPath( color, new BasicStroke( 1f ), Color.BLACK );
+            addChild( bar );
+            // Wire up the bar to change size based on the observable entity.
+            value.addObserver( new VoidFunction1<Double>(){
+                public void apply( Double t ) {
+                    float height = (float)(t * 1E5);
+                    bar.setPathToRectangle( 0, -height, WIDTH, height );
+                }
+            });
+            // Create and add the caption.
+            PText captionNode = new PText(caption){{
+                setFont( new PhetFont( 16 ) );
+                // Position so that it is centered under the bar.
+                setOffset( WIDTH / 2 - getFullBoundsReference().width / 2, 5 );
+            }};
+            addChild( captionNode );
+        }
+    }
+}

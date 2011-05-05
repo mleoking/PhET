@@ -39,7 +39,7 @@ import static edu.colorado.phet.sugarandsaltsolutions.common.model.Dispenser.SUG
  */
 public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
     //Root node that shows the nodes in the stage coordinate frame
-    private PNode rootNode;
+    private final PNode rootNode;
 
     //Insets to be used for padding between edge of canvas and controls, or between controls
     private final int INSET = 5;
@@ -47,7 +47,10 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
     //Fonts
     public static Font CONTROL_FONT = new PhetFont( 16 );
     public static Font TITLE_FONT = new PhetFont( 16, true );
-    private PNode crystalLayer = new PNode();//Layer that holds the sugar and salt crystals
+    private final PNode crystalLayer = new PNode();//Layer that holds the sugar and salt crystals
+
+    private final ControlPanelNode soluteControlPanelNode;
+    private final ControlPanelNode toolsControlPanelNode;
 
     public SugarAndSaltSolutionsCanvas( final SugarAndSaltSolutionModel model ) {
         // Root of our scene graph
@@ -72,8 +75,7 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
                                                                                      new Point2D.Double( stageSize.getWidth() * 0.43, stageSize.getHeight() - 50 ),
                                                                                      scale );
 
-        //Allows the user to select a solute
-        final ControlPanelNode soluteControlPanelNode = new ControlPanelNode( new VBox() {{
+        soluteControlPanelNode = new ControlPanelNode( new VBox() {{
             addChild( new PText( "Solute" ) {{setFont( TITLE_FONT );}} );
             addChild( new PhetPPath( new Rectangle( 0, 0, 0, 0 ), new Color( 0, 0, 0, 0 ) ) );//spacer
             addChild( new PSwing( new VerticalLayoutPanel() {{
@@ -85,8 +87,7 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
         }};
         addChild( soluteControlPanelNode );
 
-        //Tools for the user to use
-        final ControlPanelNode toolsControlPanelNode = new ControlPanelNode( new VBox() {{
+        toolsControlPanelNode = new ControlPanelNode( new VBox() {{
             //Add title and a spacer below it
             addChild( new PText( "Tools" ) {{setFont( TITLE_FONT );}} );
             addChild( new PhetPPath( new Rectangle( 0, 0, 0, 0 ), new Color( 0, 0, 0, 0 ) ) );//spacer
@@ -170,11 +171,15 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
         addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, stageSize.getWidth(), stageSize.getHeight() ), new BasicStroke( 2 ), Color.red ) );
     }
 
-    private void addChild( PNode node ) {
+    public void addChild( PNode node ) {
         rootNode.addChild( node );
     }
 
-    private void removeChild( PNode node ) {
+    public void removeChild( PNode node ) {
         rootNode.removeChild( node );
+    }
+
+    protected double getControlPanelMinX(){
+        return Math.min( soluteControlPanelNode.getFullBoundsReference().getMinX(), toolsControlPanelNode.getFullBoundsReference().getMinX() );
     }
 }
