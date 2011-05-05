@@ -94,22 +94,19 @@ public class CLConstants {
 
     // Capacitance meter
     public static final Point3D CAPACITANCE_METER_LOCATION = new Point3D.Double( 0.038, 0.0017, 0 );
-    public static final int CAPACITANCE_METER_VALUE_EXPONENT = -12;
     public static final boolean CAPACITANCE_METER_VISIBLE = false;
 
     // Plate Charge meter
     public static final Point3D PLATE_CHARGE_METER_LOCATION = new Point3D.Double( 0.049, 0.0017, 0 );
-    public static final int PLATE_CHARGE_METER_VALUE_EXPONENT = -13;
     public static final boolean PLATE_CHARGE_METER_VISIBLE = false;
 
     // Stored Energy meter
     public static final Point3D STORED_ENERGY_METER_LOCATION = new Point3D.Double( 0.06, 0.0017, 0 );
-    public static final int STORED_ENERGY_METER_VALUE_EXPONENT = -13;
     public static final boolean STORED_ENERGY_METER_VISIBLE = false;
 
     // E-Field detector
     public static final Point3D EFIELD_DETECTOR_BODY_LOCATION = new Point3D.Double( 0.043, 0.041, 0 );
-    public static final Point3D EFIELD_DETECTOR_PROBE_LOCATION = CAPACITOR_LOCATION; //XXX should probably start somewhere outside the capacitor
+    public static final Point3D EFIELD_DETECTOR_PROBE_LOCATION = CAPACITOR_LOCATION;
     public static final boolean EFIELD_DETECTOR_VISIBLE = false;
     public static final boolean EFIELD_PLATE_VECTOR_VISIBLE = true;
     public static final boolean EFIELD_DIELECTRIC_VECTOR_VISIBLE = true;
@@ -137,6 +134,11 @@ public class CLConstants {
     public static final double PSWING_SCALE = 1.5;
 
     public static final double DRAG_HANDLE_ARROW_LENGTH = 35; // pixels
+
+    // default exponents for the meters
+    public static final int CAPACITANCE_METER_VALUE_EXPONENT = -12;
+    public static final int PLATE_CHARGE_METER_VALUE_EXPONENT = -13;
+    public static final int STORED_ENERGY_METER_VALUE_EXPONENT = -13;
 
     // plate charges
     public static final IntegerRange NUMBER_OF_PLATE_CHARGES = new IntegerRange( 1, 625 );
