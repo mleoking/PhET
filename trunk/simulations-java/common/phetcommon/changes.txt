@@ -1,3 +1,4 @@
+5/5/11 removed unused property2 package, see #2775
 5/4/11 #2848, new implementation of ButtonNode
 5/3/11 Moved AbstractNotifier and Notifier to phetcommon from sugar and salt solutions
 4/27/11 Made LinearSlider.DEFAULT_RESOLUTION public
