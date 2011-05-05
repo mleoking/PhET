@@ -346,22 +346,32 @@ import edu.umd.cs.piccolox.pswing.PSwing;
          */
         private void updateVisibility() {
 
-            final boolean valuesVisible = detector.valuesVisibleProperty.getValue();
-
+            // vectors
             final boolean plateVisible = detector.plateVisibleProperty.getValue();
             plateVectorNode.setVisible( plateVisible );
             plateValueNode.setVisible( plateVisible );
-            plateValueNode.setValueVisible( valuesVisible );
 
-            final boolean dielectricVisible = detector.dielectricVisibleProperty.getValue() && !simplified;
+            final boolean dielectricVisible = detector.dielectricVisibleProperty.getValue();
             dielectricVectorNode.setVisible( dielectricVisible );
             dielectricValueNode.setVisible( dielectricVisible );
-            dielectricValueNode.setValueVisible( valuesVisible && !simplified );
 
-            boolean sumVisible = detector.sumVisibleProperty.getValue() && !simplified;
+            boolean sumVisible = detector.sumVisibleProperty.getValue();
             sumVectorNode.setVisible( sumVisible );
             sumValueNode.setVisible( sumVisible );
-            sumValueNode.setValueVisible( valuesVisible && !simplified );
+
+            // values
+            final boolean valuesVisible = detector.valuesVisibleProperty.getValue();
+            plateValueNode.setValueVisible( valuesVisible );
+            dielectricValueNode.setValueVisible( valuesVisible );
+            sumValueNode.setValueVisible( valuesVisible );
+
+            // When the vector display is simplified, only the Plate vector is shown.
+            if ( simplified ) {
+                dielectricVectorNode.setVisible( false );
+                dielectricValueNode.setVisible( false );
+                sumVectorNode.setVisible( false );
+                sumValueNode.setVisible( false );
+            }
 
             updateLayout();
         }
