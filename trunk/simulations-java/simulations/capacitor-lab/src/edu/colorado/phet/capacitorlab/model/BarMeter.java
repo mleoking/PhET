@@ -50,7 +50,7 @@ public abstract class BarMeter {
 
     // public observable properties
     public final WorldLocationProperty locationProperty;
-    public final Property<Integer> maxExponentProperty;
+    public final Property<Integer> maxExponentProperty; // the max value of the meter's scale is a power of 10, this is its exponent
     public final Property<Boolean> visibleProperty;
 
     // private observable properties
