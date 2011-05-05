@@ -49,9 +49,9 @@ public class DielectricModel {
                                              customDielectricMaterial, CLConstants.PLATE_WIDTH_RANGE.getDefault() /* dielectricOffset */, mvt );
         circuit = new BatteryCapacitorCircuit( clock, battery, capacitor, CLConstants.BATTERY_CONNECTED, mvt );
 
-        capacitanceMeter = new CapacitanceMeter( circuit, worldBounds, CLConstants.CAPACITANCE_METER_LOCATION, CLConstants.CAPACITANCE_METER_VISIBLE );
-        plateChargeMeter = new PlateChargeMeter( circuit, worldBounds, CLConstants.PLATE_CHARGE_METER_LOCATION, CLConstants.PLATE_CHARGE_METER_VISIBLE );
-        storedEnergyMeter = new StoredEnergyMeter( circuit, worldBounds, CLConstants.STORED_ENERGY_METER_LOCATION, CLConstants.STORED_ENERGY_METER_VISIBLE );
+        capacitanceMeter = new CapacitanceMeter( circuit, worldBounds, CLConstants.CAPACITANCE_METER_LOCATION, CLConstants.CAPACITANCE_METER_VALUE_EXPONENT, CLConstants.CAPACITANCE_METER_VISIBLE );
+        plateChargeMeter = new PlateChargeMeter( circuit, worldBounds, CLConstants.PLATE_CHARGE_METER_LOCATION, CLConstants.PLATE_CHARGE_METER_VALUE_EXPONENT, CLConstants.PLATE_CHARGE_METER_VISIBLE );
+        storedEnergyMeter = new StoredEnergyMeter( circuit, worldBounds, CLConstants.STORED_ENERGY_METER_LOCATION, CLConstants.STORED_ENERGY_METER_VALUE_EXPONENT, CLConstants.STORED_ENERGY_METER_VISIBLE );
 
         eFieldDetector = new EFieldDetector( circuit, worldBounds, CLConstants.EFIELD_DETECTOR_BODY_LOCATION, CLConstants.EFIELD_DETECTOR_PROBE_LOCATION,
                                              CLConstants.EFIELD_DETECTOR_VISIBLE, CLConstants.EFIELD_PLATE_VECTOR_VISIBLE, CLConstants.EFIELD_DIELECTRIC_VECTOR_VISIBLE,

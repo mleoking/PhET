@@ -12,7 +12,6 @@ import java.text.DecimalFormat;
 import java.text.MessageFormat;
 import java.text.NumberFormat;
 
-import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLImages;
 import edu.colorado.phet.capacitorlab.CLPaints;
 import edu.colorado.phet.capacitorlab.CLStrings;
@@ -49,14 +48,14 @@ public abstract class BarMeterNode extends PhetPNode {
 
     public static class CapacitanceMeterNode extends BarMeterNode {
         public CapacitanceMeterNode( CapacitanceMeter meter, CLModelViewTransform3D mvt ) {
-            super( meter, mvt, CLPaints.CAPACITANCE, CLStrings.CAPACITANCE, "0.00", CLConstants.CAPACITANCE_METER_VALUE_EXPONENT, CLStrings.FARADS );
+            super( meter, mvt, CLPaints.CAPACITANCE, CLStrings.CAPACITANCE, "0.00", CLStrings.FARADS );
         }
     }
 
     public static class PlateChargeMeterNode extends BarMeterNode {
 
         public PlateChargeMeterNode( PlateChargeMeter meter, CLModelViewTransform3D mvt ) {
-            super( meter, mvt, CLPaints.POSITIVE_CHARGE, CLStrings.PLATE_CHARGE_TOP, "0.00", CLConstants.PLATE_CHARGE_METER_VALUE_EXPONENT, CLStrings.COULOMBS );
+            super( meter, mvt, CLPaints.POSITIVE_CHARGE, CLStrings.PLATE_CHARGE_TOP, "0.00", CLStrings.COULOMBS );
         }
 
         // This meter displays absolute value, and changes color to indicate positive or negative charge.
@@ -69,7 +68,7 @@ public abstract class BarMeterNode extends PhetPNode {
 
     public static class StoredEnergyMeterNode extends BarMeterNode {
         public StoredEnergyMeterNode( StoredEnergyMeter meter, CLModelViewTransform3D mvt ) {
-            super( meter, mvt, CLPaints.STORED_ENERGY, CLStrings.STORED_ENERGY, "0.00", CLConstants.STORED_ENERGY_METER_VALUE_EXPONENT, CLStrings.JOULES );
+            super( meter, mvt, CLPaints.STORED_ENERGY, CLStrings.STORED_ENERGY, "0.00", CLStrings.JOULES );
         }
     }
 
@@ -119,8 +118,8 @@ public abstract class BarMeterNode extends PhetPNode {
     private final PImage closeButton;
     private final TickMarkNode maxTickMarkNode, minTickMarkNode;
 
+    private final BarMeter meter;
     private double value;
-    private int exponent;
 
     /**
      * Constructor.
@@ -129,24 +128,23 @@ public abstract class BarMeterNode extends PhetPNode {
      * @param title                title displayed below the meter
      * @param barColor             color used to fill the bar
      * @param valueMantissaPattern pattern used to format the mantissa of the value displayed below the meter
-     * @param exponent             exponent of the value display and max label
      * @param units                units
      */
-    public BarMeterNode( final BarMeter meter, final CLModelViewTransform3D mvt, Color barColor, String title, String valueMantissaPattern, int exponent, String units ) {
+    public BarMeterNode( final BarMeter meter, final CLModelViewTransform3D mvt, Color barColor, String title, String valueMantissaPattern, String units ) {
 
         if ( value < 0 ) {
             throw new IllegalArgumentException( "value must be >= 0 : " + value );
         }
 
+        this.meter = meter;
         this.value = meter.getValue();
-        this.exponent = exponent;
 
         // track
         trackNode = new TrackNode();
         addChild( trackNode );
 
         // bar
-        double maxValue = Math.pow( 10, exponent );
+        double maxValue = Math.pow( 10, meter.maxExponentProperty.getValue() );
         barNode = new BarNode( barColor, maxValue, value );
         addChild( barNode );
 
@@ -170,7 +168,7 @@ public abstract class BarMeterNode extends PhetPNode {
         addChild( minLabelNode );
 
         // max range label
-        maxLabelNode = new PowerOfTenRangeLabelNode( exponent );
+        maxLabelNode = new PowerOfTenRangeLabelNode( meter.maxExponentProperty.getValue() );
         addChild( maxLabelNode );
 
         // title
@@ -182,7 +180,7 @@ public abstract class BarMeterNode extends PhetPNode {
         addChild( overloadIndicatorNode );
 
         // value
-        valueNode = new ValueNode( new DecimalFormat( valueMantissaPattern ), exponent, units, value );
+        valueNode = new ValueNode( new DecimalFormat( valueMantissaPattern ), meter.maxExponentProperty.getValue(), units, value );
         addChild( valueNode );
 
         // close button
@@ -212,7 +210,7 @@ public abstract class BarMeterNode extends PhetPNode {
 
         ActionListener zoomListener = new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
-                updateExponent();
+                updateMaxExponent();
             }
         };
         zoomInButton.addActionListener( zoomListener );
@@ -244,6 +242,13 @@ public abstract class BarMeterNode extends PhetPNode {
             meter.locationProperty.addObserver( new SimpleObserver() {
                 public void update() {
                     setOffset( mvt.modelToView( meter.locationProperty.getValue() ) );
+                }
+            } );
+
+            // max exponent
+            meter.maxExponentProperty.addObserver( new SimpleObserver() {
+                public void update() {
+                    handleMaxExponentChanged( meter.maxExponentProperty.getValue() );
                 }
             } );
         }
@@ -298,21 +303,21 @@ public abstract class BarMeterNode extends PhetPNode {
     }
 
     private void updateZoomButtons() {
-        double mantissa = value / Math.pow( 10, exponent );
+        double mantissa = value / Math.pow( 10, meter.maxExponentProperty.getValue() );
         boolean plusEnabled = ( value != 0 ) && ( mantissa < 0.1 );
         boolean minusEnabled = ( value != 0 ) && ( mantissa > 1 );
         zoomInButton.setEnabled( plusEnabled );
         zoomOutButton.setEnabled( minusEnabled );
     }
 
-    private void updateExponent() {
+    private void updateMaxExponent() {
         if ( value != 0 ) {
             int exponent = 0;
             // look for an exponent that make the mantissa >= 0.1
             while ( ( value / Math.pow( 10, exponent ) ) < 0.1 ) {
                 exponent--;
             }
-            setExponent( exponent );
+            meter.maxExponentProperty.setValue( exponent );
         }
     }
 
@@ -343,21 +348,17 @@ public abstract class BarMeterNode extends PhetPNode {
     /*
      * Sets the exponent used for the value and max label.
      */
-    private void setExponent( int exponent ) {
-        if ( exponent != this.exponent ) {
+    private void handleMaxExponentChanged( int exponent ) {
 
-            this.exponent = exponent;
+        // update components
+        double maxValue = Math.pow( 10, exponent );
+        barNode.setMaxValue( maxValue );
+        overloadIndicatorNode.setMaxValue( maxValue );
+        maxLabelNode.setExponent( exponent );
+        valueNode.setExponent( exponent );
 
-            // update components
-            double maxValue = Math.pow( 10, exponent );
-            barNode.setMaxValue( maxValue );
-            overloadIndicatorNode.setMaxValue( maxValue );
-            maxLabelNode.setExponent( exponent );
-            valueNode.setExponent( exponent );
-
-            updateLayout();
-            updateZoomButtons();
-        }
+        updateLayout();
+        updateZoomButtons();
     }
 
     /**

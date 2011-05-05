@@ -17,8 +17,8 @@ public abstract class BarMeter {
 
     // Convenience class for capacitance meter
     public static class CapacitanceMeter extends BarMeter {
-        public CapacitanceMeter( ICircuit circuit, WorldBounds worldBounds, Point3D location, boolean visible ) {
-            super( circuit, worldBounds, location, visible, new Function1<ICircuit, Double>() {
+        public CapacitanceMeter( ICircuit circuit, WorldBounds worldBounds, Point3D location, int maxExponent, boolean visible ) {
+            super( circuit, worldBounds, location, maxExponent, visible, new Function1<ICircuit, Double>() {
                 public Double apply( ICircuit circuit ) {
                     return circuit.getTotalCapacitance();
                 }
@@ -28,8 +28,8 @@ public abstract class BarMeter {
 
     // Convenience class for plate charge meter
     public static class PlateChargeMeter extends BarMeter {
-        public PlateChargeMeter( ICircuit circuit, WorldBounds worldBounds, Point3D location, boolean visible ) {
-            super( circuit, worldBounds, location, visible, new Function1<ICircuit, Double>() {
+        public PlateChargeMeter( ICircuit circuit, WorldBounds worldBounds, Point3D location, int maxExponent, boolean visible ) {
+            super( circuit, worldBounds, location, maxExponent, visible, new Function1<ICircuit, Double>() {
                 public Double apply( ICircuit circuit ) {
                     return circuit.getTotalCharge();
                 }
@@ -39,8 +39,8 @@ public abstract class BarMeter {
 
     // Convenience class for stored energy meter
     public static class StoredEnergyMeter extends BarMeter {
-        public StoredEnergyMeter( ICircuit circuit, WorldBounds worldBounds, Point3D location, boolean visible ) {
-            super( circuit, worldBounds, location, visible, new Function1<ICircuit, Double>() {
+        public StoredEnergyMeter( ICircuit circuit, WorldBounds worldBounds, Point3D location, int maxExponent, boolean visible ) {
+            super( circuit, worldBounds, location, maxExponent, visible, new Function1<ICircuit, Double>() {
                 public Double apply( ICircuit circuit ) {
                     return circuit.getStoredEnergy();
                 }
@@ -50,6 +50,7 @@ public abstract class BarMeter {
 
     // public observable properties
     public final WorldLocationProperty locationProperty;
+    public final Property<Integer> maxExponentProperty;
     public final Property<Boolean> visibleProperty;
 
     // private observable properties
@@ -61,10 +62,11 @@ public abstract class BarMeter {
     // mutable fields
     private ICircuit circuit;
 
-    public BarMeter( ICircuit circuit, WorldBounds worldBounds, Point3D location, boolean visible, final Function1<ICircuit, Double> valueFunction ) {
+    public BarMeter( ICircuit circuit, WorldBounds worldBounds, Point3D location, int maxExponent, boolean visible, final Function1<ICircuit, Double> valueFunction ) {
 
         this.circuit = circuit;
         this.locationProperty = new WorldLocationProperty( worldBounds, location );
+        this.maxExponentProperty = new Property<Integer>( maxExponent );
         this.visibleProperty = new Property<Boolean>( visible );
         this.valueProperty = new Property<Double>( valueFunction.apply( circuit ) );
         this.valueFunction = valueFunction;
@@ -79,6 +81,7 @@ public abstract class BarMeter {
 
     public void reset() {
         locationProperty.reset();
+        maxExponentProperty.reset();
         visibleProperty.reset();
         valueProperty.reset();
     }

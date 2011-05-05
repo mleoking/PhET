@@ -50,9 +50,9 @@ public class MultipleCapacitorsModel {
 
         worldBounds = new WorldBounds();
 
-        capacitanceMeter = new CapacitanceMeter( currentCircuit.getValue(), worldBounds, CLConstants.CAPACITANCE_METER_LOCATION, CLConstants.CAPACITANCE_METER_VISIBLE );
-        plateChargeMeter = new PlateChargeMeter( currentCircuit.getValue(), worldBounds, CLConstants.PLATE_CHARGE_METER_LOCATION, CLConstants.PLATE_CHARGE_METER_VISIBLE );
-        storedEnergyMeter = new StoredEnergyMeter( currentCircuit.getValue(), worldBounds, CLConstants.STORED_ENERGY_METER_LOCATION, CLConstants.STORED_ENERGY_METER_VISIBLE );
+        capacitanceMeter = new CapacitanceMeter( currentCircuit.getValue(), worldBounds, CLConstants.CAPACITANCE_METER_LOCATION, CLConstants.CAPACITANCE_METER_VALUE_EXPONENT, CLConstants.CAPACITANCE_METER_VISIBLE );
+        plateChargeMeter = new PlateChargeMeter( currentCircuit.getValue(), worldBounds, CLConstants.PLATE_CHARGE_METER_LOCATION, CLConstants.PLATE_CHARGE_METER_VALUE_EXPONENT, CLConstants.PLATE_CHARGE_METER_VISIBLE );
+        storedEnergyMeter = new StoredEnergyMeter( currentCircuit.getValue(), worldBounds, CLConstants.STORED_ENERGY_METER_LOCATION, CLConstants.STORED_ENERGY_METER_VALUE_EXPONENT, CLConstants.STORED_ENERGY_METER_VISIBLE );
 
         eFieldDetector = new EFieldDetector( currentCircuit.getValue(), worldBounds, CLConstants.EFIELD_DETECTOR_BODY_LOCATION, CLConstants.EFIELD_DETECTOR_PROBE_LOCATION,
                                              CLConstants.EFIELD_DETECTOR_VISIBLE, CLConstants.EFIELD_PLATE_VECTOR_VISIBLE, CLConstants.EFIELD_DIELECTRIC_VECTOR_VISIBLE,
