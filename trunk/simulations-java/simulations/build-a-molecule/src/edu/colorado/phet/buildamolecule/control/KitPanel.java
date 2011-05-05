@@ -1,12 +1,11 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.buildamolecule.control;
 
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Rectangle2D;
 import java.text.MessageFormat;
-
-import javax.swing.*;
 
 import edu.colorado.phet.buildamolecule.BuildAMoleculeConstants;
 import edu.colorado.phet.buildamolecule.BuildAMoleculeStrings;
@@ -18,12 +17,12 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
-import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * Contains the kit background and controls for switching between kits
@@ -128,7 +127,39 @@ public class KitPanel extends PNode {
         * reset kit
         *----------------------------------------------------------------------------*/
 
-        final PSwing resetKitNode = new PSwing( new JButton( BuildAMoleculeStrings.KIT_RESET ) {
+//        final PSwing resetKitNode = new PSwing( new JButton( BuildAMoleculeStrings.KIT_RESET ) {
+//            private SimpleObserver observer; // makes sure that we are enabled or disabled whenever the current kit is
+//
+//            {
+//                addActionListener( new ActionListener() {
+//                    public void actionPerformed( ActionEvent e ) {
+//                        kitCollectionModel.getCurrentKit().resetKit();
+//                    }
+//                } );
+//                observer = new SimpleObserver() {
+//                    public void update() {
+//                        setEnabled( kitCollectionModel.getCurrentKit().hasAtomsOutsideOfBuckets() );
+//                    }
+//                };
+//                for ( Kit kit : kitCollectionModel.getKits() ) {
+//                    kit.addMoleculeListener( new Kit.MoleculeListener() {
+//                        public void addedMolecule( MoleculeStructure moleculeStructure ) {
+//                            observer.update();
+//                        }
+//
+//                        public void removedMolecule( MoleculeStructure moleculeStructure ) {
+//                            observer.update();
+//                        }
+//                    } );
+//                }
+//                kitCollectionModel.getCurrentKitProperty().addObserver( observer );
+//            }
+//        } ) {{
+//            setOffset( kitViewBounds.getMinX() + 5, kitViewBounds.getMinY() + 5 );
+//        }};
+//        addChild( resetKitNode );
+
+        addChild( new ButtonNode( BuildAMoleculeStrings.KIT_RESET, 12, Color.ORANGE ) {
             private SimpleObserver observer; // makes sure that we are enabled or disabled whenever the current kit is
 
             {
@@ -154,10 +185,8 @@ public class KitPanel extends PNode {
                     } );
                 }
                 kitCollectionModel.getCurrentKitProperty().addObserver( observer );
+                setOffset( kitViewBounds.getMinX() + 5, kitViewBounds.getMinY() + 5 );
             }
-        } ) {{
-            setOffset( kitViewBounds.getMinX() + 5, kitViewBounds.getMinY() + 5 );
-        }};
-        addChild( resetKitNode );
+        } );
     }
 }
