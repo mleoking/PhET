@@ -4,7 +4,7 @@ package edu.colorado.phet.common.phetcommon.property4;
 import java.util.ArrayList;
 
 /**
- * A composite property is computed based on a set of dependent properties (the "args") and a function.
+ * A composite property's value is based on a set of dependent properties (the "args") and a function.
  * The args may be of homogeneous or heterogeneous types.
  * A composite property is publicly gettable, but not publicly settable because its value is derived.
  *
