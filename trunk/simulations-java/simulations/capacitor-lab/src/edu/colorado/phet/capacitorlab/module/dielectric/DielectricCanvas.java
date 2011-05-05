@@ -224,6 +224,7 @@ public class DielectricCanvas extends CLCanvas {
         capacitanceMeterNode.reset();
         plateChargeMeterNode.reset();
         storedEnergyMeterNode.reset();
+        eFieldDetector.reset();
     }
 
     public void setEFieldDetectorSimplified( boolean simplified ) {
