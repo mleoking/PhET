@@ -53,8 +53,36 @@ public class GettableProperty<T> extends PropertyChangeNotifier {
         setValue( initialValue );
     }
 
+    /**
+     * Adds a listener and performs immediate callback.
+     *
+     * @param listener
+     */
+    @Override public void addListener( PropertyChangeListener listener ) {
+        addListener( listener, true );
+    }
+
+    /**
+     * Adds a listener and optionally performs immediate callback.
+     *
+     * @param listener
+     * @param immediateCallback
+     */
+    public void addListener( PropertyChangeListener listener, boolean immediateCallback ) {
+        super.addListener( listener );
+        if ( immediateCallback ) {
+            firePropertyChanged( oldValue, value );
+        }
+    }
+
     public static void main( String[] args ) {
-        GettableProperty<Integer> age = new GettableProperty<Integer>( 40 );
+        GettableProperty<Integer> age = new GettableProperty<Integer>( 40 ) {{
+            addListener( new PropertyChangeListener<Integer>() {
+                public void propertyChanged( PropertyChangeEvent<Integer> event ) {
+                    System.out.println( "age: " + event.toString() );
+                }
+            } );
+        }};
         assert ( age.getValue() == 40 );
         System.out.println( "age=" + age.getValue() );
     }
