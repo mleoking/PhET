@@ -470,7 +470,6 @@ public class Capacitor {
 
     public void setPlatesVoltage( double voltage ) {
         platesVoltageProperty.setValue( voltage );
-        fireCapacitorChanged();
     }
 
     public double getPlatesVoltage() {
