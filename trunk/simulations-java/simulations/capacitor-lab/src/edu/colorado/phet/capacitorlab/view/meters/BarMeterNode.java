@@ -287,13 +287,14 @@ public abstract class BarMeterNode extends PhetPNode {
         x = trackNode.getFullBoundsReference().getMaxX() + 2;
         y = trackNode.getFullBoundsReference().getMinY();
         closeButton.setOffset( x, y );
-        // zoom buttons below max label
-        x = maxLabelNode.getFullBoundsReference().getMaxX() - zoomOutButtonPSwing.getFullBoundsReference().getWidth() - 8;
+        // zoom-in button below max label
+        x = maxLabelNode.getFullBoundsReference().getMaxX() - zoomInButtonPSwing.getFullBoundsReference().getWidth();
         y = maxLabelNode.getFullBoundsReference().getMaxY() + 5;
-        zoomOutButtonPSwing.setOffset( x, y );
-        x = zoomOutButtonPSwing.getFullBoundsReference().getMinX() - zoomInButtonPSwing.getFullBoundsReference().getWidth() - 2;
-        y = zoomOutButtonPSwing.getYOffset();
         zoomInButtonPSwing.setOffset( x, y );
+        // zoom-out button below zoom-in button
+        x = zoomInButtonPSwing.getXOffset();
+        y = zoomInButtonPSwing.getFullBoundsReference().getMaxY() + 1;
+        zoomOutButtonPSwing.setOffset( x, y );
     }
 
     private void updateZoomButtons() {
