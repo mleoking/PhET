@@ -132,10 +132,6 @@ public abstract class BarMeterNode extends PhetPNode {
      */
     public BarMeterNode( final BarMeter meter, final CLModelViewTransform3D mvt, Color barColor, String title, String valueMantissaPattern, String units ) {
 
-        if ( value < 0 ) {
-            throw new IllegalArgumentException( "value must be >= 0 : " + value );
-        }
-
         this.meter = meter;
         this.value = meter.getValue();
 
