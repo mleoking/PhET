@@ -71,7 +71,7 @@ public class GettableProperty<T> extends PropertyChangeNotifier {
     public void addListener( PropertyChangeListener listener, boolean immediateCallback ) {
         super.addListener( listener );
         if ( immediateCallback ) {
-            firePropertyChanged( oldValue, value );
+            listener.propertyChanged( new PropertyChangeEvent( oldValue, value ) );
         }
     }
 
