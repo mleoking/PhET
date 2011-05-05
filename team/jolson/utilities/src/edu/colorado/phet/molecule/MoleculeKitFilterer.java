@@ -10,10 +10,7 @@ import java.util.List;
 import javax.swing.*;
 
 import edu.colorado.phet.buildamolecule.BuildAMoleculeResources;
-import edu.colorado.phet.buildamolecule.model.Bucket;
-import edu.colorado.phet.buildamolecule.model.CompleteMolecule;
-import edu.colorado.phet.buildamolecule.model.Kit;
-import edu.colorado.phet.buildamolecule.model.KitCollectionModel;
+import edu.colorado.phet.buildamolecule.model.*;
 import edu.colorado.phet.buildamolecule.module.LargerMoleculesModule;
 import edu.colorado.phet.buildtools.util.FileUtils;
 

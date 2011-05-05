@@ -127,6 +127,6 @@ public abstract class Atom {
     }
 
     public boolean isSameTypeOfAtom( Atom atom ) {
-        return atom.getSymbol().equals( this.getSymbol() ) && atom.getRadius() == this.getRadius() && atom.getColor().equals( this.getColor() );
+        return atom.getSymbol().equals( this.getSymbol() );
     }
 }
