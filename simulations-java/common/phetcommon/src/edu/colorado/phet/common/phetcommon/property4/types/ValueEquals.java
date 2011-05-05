@@ -7,7 +7,7 @@ import edu.colorado.phet.common.phetcommon.property4.*;
 /**
  * Keeps track of whether a property has a specified value.
  * </p>
- * This demonstrates an alternative way to implement the CompositeFunction.apply.
+ * This demonstrates an alternative way to implement CompositeFunction.apply.
  * Instead of accessing function args via CompositeFunction.getArgs, args can be
  * passed to the function's apply method via final constructor parameters.
  *
