@@ -9,7 +9,7 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
  * @author Sam Reid
  */
 public class Salt extends Crystal {
-    public Salt( ImmutableVector2D position ) {
-        super( position );
+    public Salt( ImmutableVector2D position, double moles ) {
+        super( position, moles );
     }
 }

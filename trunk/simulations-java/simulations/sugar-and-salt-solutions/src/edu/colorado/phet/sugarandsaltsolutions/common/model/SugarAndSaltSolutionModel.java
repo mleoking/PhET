@@ -102,6 +102,12 @@ public class SugarAndSaltSolutionModel {
             crystal.remove();
             crystalList.remove( crystal );
             //TODO: increase concentration in the water
+            crystalAbsorbed( crystal );
         }
+    }
+
+    //Called when a crystal is absorbed by the water.
+    // For instance, in the first tab it computes the resulting concentration change
+    protected void crystalAbsorbed( Crystal crystal ) {
     }
 }
