@@ -1,3 +1,4 @@
+5/4/11 temporarily hide Multiple Capacitors tab
 5/4/11 simplified the implementation of EFieldDetectorBodyNode.updateVisibility
 5/4/11 #2843, fix reset of E-field detector zoom
 5/4/11 move some global properties from model to view (dielectric charge view type, plate charge visibility, E-field visibility)
