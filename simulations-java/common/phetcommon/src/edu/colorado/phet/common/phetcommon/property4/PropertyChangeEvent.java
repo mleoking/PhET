@@ -12,16 +12,16 @@ package edu.colorado.phet.common.phetcommon.property4;
  */
 public class PropertyChangeEvent<T> {
 
-    // As a compromise for improved code readability, these fields are made public and their names are terse.
-    public final T old; // the old (previous) value
+    // As a compromise for improved code readability, these fields are made public.
+    public final T oldValue; // the old (previous) value
     public final T value; // the current value
 
-    public PropertyChangeEvent( T old, T value ) {
-        this.old = old;
+    public PropertyChangeEvent( T oldValue, T value ) {
+        this.oldValue = oldValue;
         this.value = value;
     }
 
     @Override public String toString() {
-        return "old=" + old + ",value=" + value;
+        return "oldValue=" + oldValue + ",value=" + value;
     }
 }
