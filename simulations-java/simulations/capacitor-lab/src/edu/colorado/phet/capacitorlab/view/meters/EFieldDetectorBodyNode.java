@@ -547,11 +547,10 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 
             // layout
             setAnchor( Anchor.WEST );
-            int row = 0;
-            int column = 0;
-            add( label, row++, column, 2, 1 );
-            add( zoomInButton, row, column++ );
-            add( zoomOutButton, row, column++ );
+            setInsets( new Insets( 0, 0, 1, 10 ) );
+            add( label, 0, 0 );
+            add( zoomInButton, 0, 1 );
+            add( zoomOutButton, 1, 1 );
 
             // default state
             setZoomLevel( zoomLevelRange.getDefault() );
