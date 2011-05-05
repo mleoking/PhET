@@ -22,6 +22,6 @@ public class PropertyChangeEvent<T> {
     }
 
     @Override public String toString() {
-        return "old=" + old.toString() + ",value=" + value.toString();
+        return "old=" + old + ",value=" + value;
     }
 }
