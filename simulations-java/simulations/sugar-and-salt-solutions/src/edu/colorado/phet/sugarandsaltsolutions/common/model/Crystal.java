@@ -19,8 +19,11 @@ public class Crystal {
     public Property<ImmutableVector2D> acceleration = new Property<ImmutableVector2D>( new ImmutableVector2D( 0, 0 ) );
     private ArrayList<VoidFunction0> removalListeners = new ArrayList<VoidFunction0>();
 
-    public Crystal( ImmutableVector2D position ) {
+    private double moles;//The number of moles of the crystal.  We couldn't just count the number of atoms since it would overflow Long
+
+    public Crystal( ImmutableVector2D position, double moles ) {
         this.position = new Property<ImmutableVector2D>( position );
+        this.moles = moles;
     }
 
     //propagate the crystal according to the specified applied forces, using euler integration
@@ -45,5 +48,9 @@ public class Crystal {
         for ( VoidFunction0 removalListener : removalListeners ) {
             removalListener.apply();
         }
+    }
+
+    public double getMoles() {
+        return moles;
     }
 }

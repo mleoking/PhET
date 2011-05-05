@@ -140,18 +140,24 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
         //add the salt shaker node
         addChild( new DispenserNode( transform, new VoidFunction1<ImmutableVector2D>() {
             public void apply( ImmutableVector2D position ) {
-                model.addSalt( new Salt( position ) );
+                //The approximate number of NaCl molecules in a salt crystal is about 1E18 according to http://www.physlink.com/education/askexperts/ae342.cfm
+                double atomsPerCrystal = 1.2E18;
+                double avogadrosNumber = 6.022E23;
+                double moles = atomsPerCrystal / avogadrosNumber;
+                model.addSalt( new Salt( position, moles ) );
             }
-        },
-                                     "salt-dispenser.png", model.dispenser.valueEquals( SALT ) ) );
+        }, "salt-dispenser.png", model.dispenser.valueEquals( SALT ) ) );
 
         //add the sugar dispenser node
         addChild( new DispenserNode( transform, new VoidFunction1<ImmutableVector2D>() {
             public void apply( ImmutableVector2D position ) {
-                model.addSugar( new Sugar( position ) );
+                //The approximate number of NaCl molecules in a sugar crystal is about 6E17, see http://www.chem.uky.edu/Courses/che101/7-che101_05.pdf
+                double atomsPerCrystal = 6E17;
+                double avogadrosNumber = 6.022E23;
+                double moles = atomsPerCrystal / avogadrosNumber;
+                model.addSugar( new Sugar( position, moles ) );
             }
-        },
-                                     "sugar-dispenser.png", model.dispenser.valueEquals( SUGAR ) ) );
+        }, "sugar-dispenser.png", model.dispenser.valueEquals( SUGAR ) ) );
 
         //Show the crystal layer behind the water and beaker so the crystals look like they go into the water instead of in front of it.
         addChild( crystalLayer );
