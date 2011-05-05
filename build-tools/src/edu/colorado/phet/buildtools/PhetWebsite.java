@@ -327,12 +327,12 @@ public abstract class PhetWebsite {
 
         @Override
         public String getServerHost() {
-            return "127.0.0.1";
+            return "192.168.1.64";
         }
 
         @Override
         public String getWebHost() {
-            return "127.0.0.1";
+            return "192.168.1.64";
         }
 
         @Override
