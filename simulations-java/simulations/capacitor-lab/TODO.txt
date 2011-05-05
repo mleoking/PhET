@@ -8,6 +8,8 @@ DESIGN ISSUES
 - what happens when meters are in the way while building circuits?
 
 HIGH PRIORITY
+- #2850, E-Field bug with battery disconnected, introduced in 1.00.01
+- #2843, meter zoom issues
 - rewrite BatteryCapacitorCircuit using "nested circuits" design
 - add Multiple Capacitors module
 - more general way to create Wire model elements, subclasses like TopWire and BottomWire are not scalable
