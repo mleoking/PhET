@@ -144,7 +144,7 @@ public abstract class BarMeterNode extends PhetPNode {
         addChild( trackNode );
 
         // bar
-        double maxValue = Math.pow( 10, meter.maxExponentProperty.getValue() );
+        double maxValue = Math.pow( 10, meter.valueExponentProperty.getValue() );
         barNode = new BarNode( barColor, maxValue, value );
         addChild( barNode );
 
@@ -168,7 +168,7 @@ public abstract class BarMeterNode extends PhetPNode {
         addChild( minLabelNode );
 
         // max range label
-        maxLabelNode = new PowerOfTenRangeLabelNode( meter.maxExponentProperty.getValue() );
+        maxLabelNode = new PowerOfTenRangeLabelNode( meter.valueExponentProperty.getValue() );
         addChild( maxLabelNode );
 
         // title
@@ -180,7 +180,7 @@ public abstract class BarMeterNode extends PhetPNode {
         addChild( overloadIndicatorNode );
 
         // value
-        valueNode = new ValueNode( new DecimalFormat( valueMantissaPattern ), meter.maxExponentProperty.getValue(), units, value );
+        valueNode = new ValueNode( new DecimalFormat( valueMantissaPattern ), meter.valueExponentProperty.getValue(), units, value );
         addChild( valueNode );
 
         // close button
@@ -210,7 +210,7 @@ public abstract class BarMeterNode extends PhetPNode {
 
         ActionListener zoomListener = new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
-                updateMaxExponent();
+                updateValueExponent();
             }
         };
         zoomInButton.addActionListener( zoomListener );
@@ -245,10 +245,10 @@ public abstract class BarMeterNode extends PhetPNode {
                 }
             } );
 
-            // max exponent
-            meter.maxExponentProperty.addObserver( new SimpleObserver() {
+            // value exponent
+            meter.valueExponentProperty.addObserver( new SimpleObserver() {
                 public void update() {
-                    handleMaxExponentChanged( meter.maxExponentProperty.getValue() );
+                    handleValueExponentChanged( meter.valueExponentProperty.getValue() );
                 }
             } );
         }
@@ -303,21 +303,21 @@ public abstract class BarMeterNode extends PhetPNode {
     }
 
     private void updateZoomButtons() {
-        double mantissa = value / Math.pow( 10, meter.maxExponentProperty.getValue() );
+        double mantissa = value / Math.pow( 10, meter.valueExponentProperty.getValue() );
         boolean plusEnabled = ( value != 0 ) && ( mantissa < 0.1 );
         boolean minusEnabled = ( value != 0 ) && ( mantissa > 1 );
         zoomInButton.setEnabled( plusEnabled );
         zoomOutButton.setEnabled( minusEnabled );
     }
 
-    private void updateMaxExponent() {
+    private void updateValueExponent() {
         if ( value != 0 ) {
             int exponent = 0;
             // look for an exponent that make the mantissa >= 0.1
             while ( ( value / Math.pow( 10, exponent ) ) < 0.1 ) {
                 exponent--;
             }
-            meter.maxExponentProperty.setValue( exponent );
+            meter.valueExponentProperty.setValue( exponent );
         }
     }
 
@@ -348,7 +348,7 @@ public abstract class BarMeterNode extends PhetPNode {
     /*
      * Sets the exponent used for the value and max label.
      */
-    private void handleMaxExponentChanged( int exponent ) {
+    private void handleValueExponentChanged( int exponent ) {
 
         // update components
         double maxValue = Math.pow( 10, exponent );
