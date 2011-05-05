@@ -6,6 +6,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.capacitorlab.module.dielectric.DielectricModule;
 import edu.colorado.phet.capacitorlab.module.introduction.IntroductionModule;
+import edu.colorado.phet.capacitorlab.module.multiplecapacitors.MultipleCapacitorsModule;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
@@ -31,7 +32,7 @@ public class CapacitorLabApplication extends PiccoloPhetApplication {
         // add modules
         addModule( new IntroductionModule( globalProperties ) );
         addModule( new DielectricModule( globalProperties ) );
-//        addModule( new MultipleCapacitorsModule( globalProperties ) );
+        addModule( new MultipleCapacitorsModule( globalProperties ) );
 
         // make all control panels the same width
         int maxWidth = 0;

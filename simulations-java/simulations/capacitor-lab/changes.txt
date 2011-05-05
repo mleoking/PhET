@@ -1,3 +1,4 @@
+5/5/11 enable Multiple Capacitors tab
 # 1.00.03 (51551) May 5, 2011
 5/5/11 demonstrate additional zoom changes
 5/4/11 temporarily hide Multiple Capacitors tab
