@@ -477,10 +477,6 @@ public class Capacitor {
         return platesVoltageProperty.getValue();
     }
 
-    public void addPlatesVoltageObserver( SimpleObserver o ) {
-        platesVoltageProperty.addObserver( o );
-    }
-
     //----------------------------------------------------------------------------------
     // Plate Charge (Q)
     //----------------------------------------------------------------------------------
