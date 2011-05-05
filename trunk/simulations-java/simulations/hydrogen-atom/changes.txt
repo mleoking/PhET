@@ -1,3 +1,4 @@
+# 1.09.01 (51573) May 5, 2011
 4/20/11 moved boilerplate code in AtomicModelSelector into ButtonNode inner class
 4/20/11 use one ArrayList<PNode> to determine dimensions of Atomic Model control panel
 4/20/11 replace AbstractEnum with Java 1.5 enum (no usage changes required)
