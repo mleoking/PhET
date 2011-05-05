@@ -189,15 +189,18 @@ public abstract class BarMeterNode extends PhetPNode {
         closeButton = new PImage( CLImages.CLOSE_BUTTON );
         addChild( closeButton );
 
-        // zoom-in button
-        zoomInButton = new ZoomInButton();
-        zoomInButtonPSwing = new PSwing( zoomInButton );
-        addChild( zoomInButtonPSwing );
+        // zoom buttons
+        {
+            zoomInButton = new ZoomInButton();
+            zoomInButtonPSwing = new PSwing( zoomInButton );
+            addChild( zoomInButtonPSwing );
 
-        // zoom-out button
-        zoomOutButton = new ZoomOutButton();
-        zoomOutButtonPSwing = new PSwing( zoomOutButton );
-        addChild( zoomOutButtonPSwing );
+            zoomOutButton = new ZoomOutButton();
+            zoomOutButtonPSwing = new PSwing( zoomOutButton );
+            addChild( zoomOutButtonPSwing );
+
+            updateZoomButtons();
+        }
 
         // interactivity
         closeButton.addInputEventListener( new PBasicInputEventHandler() {
@@ -209,7 +212,7 @@ public abstract class BarMeterNode extends PhetPNode {
 
         ActionListener zoomListener = new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
-                handleZoom();
+                updateExponent();
             }
         };
         zoomInButton.addActionListener( zoomListener );
@@ -220,8 +223,6 @@ public abstract class BarMeterNode extends PhetPNode {
         // layout
         updateLayout();
 
-        handleZoom();
-        updateZoomButtons();
 
         // observers
         {
@@ -303,7 +304,7 @@ public abstract class BarMeterNode extends PhetPNode {
         zoomOutButton.setEnabled( minusEnabled );
     }
 
-    private void handleZoom() {
+    private void updateExponent() {
         if ( value != 0 ) {
             int exponent = 0;
             // look for an exponent that make the mantissa >= 0.1
