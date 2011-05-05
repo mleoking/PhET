@@ -1,3 +1,4 @@
+# 2.05.01 (51572) May 5, 2011
 # 2.05.00 (44219) Sep 20, 2010
 > calibrated Field view so that the drop-off is more apparent
 9/20/10 #2485, reduce B-field scale to 2.7 so that drop-off is more apparent
