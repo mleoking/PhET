@@ -15,6 +15,7 @@ import edu.colorado.phet.capacitorlab.drag.DielectricOffsetDragHandleNode;
 import edu.colorado.phet.capacitorlab.drag.PlateAreaDragHandleNode;
 import edu.colorado.phet.capacitorlab.drag.PlateSeparationDragHandleNode;
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
+import edu.colorado.phet.capacitorlab.model.DielectricChargeView;
 import edu.colorado.phet.capacitorlab.model.ICircuit.CircuitChangeListener;
 import edu.colorado.phet.capacitorlab.module.CLCanvas;
 import edu.colorado.phet.capacitorlab.view.BatteryNode;
@@ -27,6 +28,7 @@ import edu.colorado.phet.capacitorlab.view.meters.BarMeterNode.StoredEnergyMeter
 import edu.colorado.phet.capacitorlab.view.meters.EFieldDetectorView;
 import edu.colorado.phet.capacitorlab.view.meters.VoltmeterView;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.umd.cs.piccolo.PNode;
@@ -37,6 +39,11 @@ import edu.umd.cs.piccolo.PNode;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class DielectricCanvas extends CLCanvas {
+
+    // global view properties, directly observable
+    public final Property<Boolean> plateChargesVisible = new Property<Boolean>( CLConstants.PLATE_CHARGES_VISIBLE );
+    public final Property<Boolean> eFieldVisible = new Property<Boolean>( CLConstants.EFIELD_VISIBLE );
+    public final Property<DielectricChargeView> dielectricChargeView = new Property<DielectricChargeView>( CLConstants.DIELECTRIC_CHARGE_VIEW );
 
     private final DielectricModel model;
     private final CLModelViewTransform3D mvt;
@@ -66,8 +73,6 @@ public class DielectricCanvas extends CLCanvas {
     // controls
     private final PlateChargeControlNode plateChargeControNode;
 
-    // bounds of the play area, for constraining dragging to within the play area
-
     public DielectricCanvas( final DielectricModel model, CLModelViewTransform3D mvt, final CLGlobalProperties globalProperties ) {
 
         this.model = model;
@@ -81,7 +86,7 @@ public class DielectricCanvas extends CLCanvas {
         final double eFieldVectorReferenceMagnitude = DielectricModel.getMaxPlatesDielectricEFieldWithBattery();
 
         batteryNode = new BatteryNode( model.getBattery(), CLConstants.BATTERY_VOLTAGE_RANGE );
-        capacitorNode = new CapacitorNode( model.getCircuit().getCapacitor(), mvt, model.plateChargesVisible, model.eFieldVisible, model.dielectricChargeView,
+        capacitorNode = new CapacitorNode( model.getCircuit().getCapacitor(), mvt, plateChargesVisible, eFieldVisible, dielectricChargeView,
                                            maxPlateCharge, maxExcessDielectricPlateCharge, maxEffectiveEfield, maxDielectricEField );
         topWireNode = new WireNode( model.getTopWire(), mvt );
         bottomWireNode = new WireNode( model.getBottomWire(), mvt );
@@ -181,11 +186,11 @@ public class DielectricCanvas extends CLCanvas {
             // things whose visibility causes the dielectric to become transparent
             SimpleObserver o = new SimpleObserver() {
                 public void update() {
-                    boolean transparent = model.eFieldVisible.getValue() || model.getVoltmeter().isVisible() || model.getEFieldDetector().visibleProperty.getValue();
+                    boolean transparent = eFieldVisible.getValue() || model.getVoltmeter().isVisible() || model.getEFieldDetector().visibleProperty.getValue();
                     capacitorNode.getDielectricNode().setOpaque( !transparent );
                 }
             };
-            model.eFieldVisible.addObserver( o );
+            eFieldVisible.addObserver( o );
             model.getVoltmeter().visibleProperty.addObserver( o );
             model.getEFieldDetector().visibleProperty.addObserver( o );
 
@@ -209,6 +214,10 @@ public class DielectricCanvas extends CLCanvas {
     }
 
     public void reset() {
+        // global properties of the view
+        plateChargesVisible.reset();
+        eFieldVisible.reset();
+        dielectricChargeView.reset();
         // battery connectivity
         updateBatteryConnectivity();
         // zoom level of meters

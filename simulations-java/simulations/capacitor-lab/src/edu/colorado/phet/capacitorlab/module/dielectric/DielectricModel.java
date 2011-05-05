@@ -13,7 +13,6 @@ import edu.colorado.phet.capacitorlab.model.DielectricMaterial.Paper;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial.Teflon;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
-import edu.colorado.phet.common.phetcommon.model.property.Property;
 
 /**
  * Model for the "Dielectric" module.
@@ -21,11 +20,6 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class DielectricModel {
-
-    // directly observable properties
-    public final Property<Boolean> plateChargesVisible = new Property<Boolean>( CLConstants.PLATE_CHARGES_VISIBLE );
-    public final Property<Boolean> eFieldVisible = new Property<Boolean>( CLConstants.EFIELD_VISIBLE );
-    public final Property<DielectricChargeView> dielectricChargeView = new Property<DielectricChargeView>( CLConstants.DIELECTRIC_CHARGE_VIEW );
 
     private final WorldBounds worldBounds;
     private final CustomDielectricMaterial customDielectricMaterial;
@@ -111,8 +105,6 @@ public class DielectricModel {
     }
 
     public void reset() {
-        plateChargesVisible.reset();
-        eFieldVisible.reset();
         getBattery().reset();
         getCapacitor().reset();
         customDielectricMaterial.reset();
