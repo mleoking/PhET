@@ -16,7 +16,7 @@ public class GettableProperty<T> extends PropertyChangeNotifier {
     public GettableProperty( T value ) {
         this.initialValue = value;
         this.value = value;
-        this.oldValue = null;
+        this.oldValue = null; //TODO discuss using null (untyped) vs Option.None (typed, but more complicated syntax)
     }
 
     public T getValue() {
