@@ -1,3 +1,4 @@
+# 1.05.02 (51578) May 5, 2011
 4/11/2011 Set frame size to be 1024x768
 # 1.05.01 (45064) Oct 14, 2010
 10/14/10 > Fixed an issue where locales that used commas in numbers were not able to get current to flow.
