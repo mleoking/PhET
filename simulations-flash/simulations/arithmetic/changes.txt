@@ -1,3 +1,4 @@
+# 2.02.06 (51565) May 5, 2011
 # 2.02.05 (48402) Jan 31, 2011
 1/31/11 dev version for KSU credits testing
 # 2.02.04 (48365) Jan 31, 2011
