@@ -1,5 +1,6 @@
+5/4/11 #2843, fix reset of E-field detector zoom
 5/4/11 move some global properties from model to view (dielectric charge view type, plate charge visibility, E-field visibility)
-5/4/11 #2843, fix reset of bar meter scale (move max exponent for bar meters to model, to facilitate resetting)
+5/4/11 #2843, fix reset of bar meter zoom (move max exponent for bar meters to model, to facilitate resetting)
 5/4/11 #2843, change request: put zoom in button above zoom out button in bar meters and E-field detector
 5/4/11 #2843, change request: set default max of Capacitance meter to 10^-12
 5/4/11 add interviews to credits.txt

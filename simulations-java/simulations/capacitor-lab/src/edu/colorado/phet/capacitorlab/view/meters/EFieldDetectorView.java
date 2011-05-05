@@ -40,6 +40,10 @@ public class EFieldDetectorView {
         } );
     }
 
+    public void reset() {
+        bodyNode.reset();
+    }
+
     private void setVisible( boolean visible ) {
         bodyNode.setVisible( visible );
         probeNode.setVisible( visible );

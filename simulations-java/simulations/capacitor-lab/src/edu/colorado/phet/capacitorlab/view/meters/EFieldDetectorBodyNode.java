@@ -109,18 +109,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
         showVectorsPSwing = new PSwing( new ShowVectorsPanel( detector ) );
 
         // Zoom controls
-        zoomPanel = new ZoomPanel( ZOOM_LEVEL_RANGE ) {{
-            addZoomInListener( new ActionListener() {
-                public void actionPerformed( ActionEvent event ) {
-                    vectorDisplayNode.zoomIn();
-                }
-            } );
-            addZoomOutListener( new ActionListener() {
-                public void actionPerformed( ActionEvent event ) {
-                    vectorDisplayNode.zoomOut();
-                }
-            } );
-        }};
+        zoomPanel = new ZoomPanel( ZOOM_FACTOR, ZOOM_LEVEL_RANGE );
         PSwing zoomPSwing = new PSwing( zoomPanel );
 
         // Show Values check box
@@ -190,7 +179,18 @@ import edu.umd.cs.piccolox.pswing.PSwing;
                     setOffset( mvt.modelToView( detector.bodyLocationProperty.getValue() ) );
                 }
             } );
+
+            // when the zoom level changes, update the vector display
+            zoomPanel.addZoomLevelObserver( new SimpleObserver() {
+                public void update() {
+                    vectorDisplayNode.setScaleFactor( zoomPanel.getScaleFactor() );
+                }
+            } );
         }
+    }
+
+    public void reset() {
+        zoomPanel.reset();
     }
 
     /**
@@ -246,7 +246,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
         private final EFieldDetector detector;
         private final FieldVectorNode plateVectorNode, dielectricVectorNode, sumVectorNode;
         private final FieldValueNode plateValueNode, dielectricValueNode, sumValueNode;
-        private double zoomMultiplier;
+        private double scaleFactor;
         private boolean simplified;
 
         public VectorDisplayNode( final EFieldDetector detector, double vectorReferenceMagnitude ) {
@@ -256,7 +256,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
             setStroke( null );
 
             this.detector = detector;
-            zoomMultiplier = 1;
+            scaleFactor = 1;
             simplified = false;
 
             // vectors
@@ -302,7 +302,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
         }
 
         /**
-         * When the vector display is simplified, only the Plate vector is shown.
+         * A simplified detector shows less stuff.
          *
          * @param simplified
          */
@@ -313,32 +313,37 @@ import edu.umd.cs.piccolox.pswing.PSwing;
             }
         }
 
-        public void zoomIn() {
-            zoomMultiplier *= ZOOM_FACTOR;
-            updateVectors();
-        }
-
-        public void zoomOut() {
-            zoomMultiplier /= ZOOM_FACTOR;
-            updateVectors();
+        /**
+         * Vectors will be scaled by this factor.
+         *
+         * @param scaleFactor
+         */
+        public void setScaleFactor( double scaleFactor ) {
+            if ( scaleFactor != this.scaleFactor ) {
+                this.scaleFactor = scaleFactor;
+                updateVectors();
+            }
         }
 
         // Updates vectors and numeric values.
         private void updateVectors() {
 
-            plateVectorNode.setXY( 0, zoomMultiplier * detector.getPlateVector() );
+            plateVectorNode.setXY( 0, scaleFactor * detector.getPlateVector() );
             plateValueNode.setValue( detector.getPlateVector() );
 
-            dielectricVectorNode.setXY( 0, zoomMultiplier * -detector.getDielectricVector() ); // change sign because dielectric vector points in opposite direction
+            dielectricVectorNode.setXY( 0, scaleFactor * -detector.getDielectricVector() ); // change sign because dielectric vector points in opposite direction
             dielectricValueNode.setValue( detector.getDielectricVector() );
 
-            sumVectorNode.setXY( 0, zoomMultiplier * detector.getSumVector() );
+            sumVectorNode.setXY( 0, scaleFactor * detector.getSumVector() );
             sumValueNode.setValue( detector.getSumVector() );
 
             updateLayout();
         }
 
-        // Updates visibility of vectors and numeric values.
+        /*
+         * Updates visibility of vectors and numeric values.
+         * When the vector display is simplified, only the Plate vector is shown.
+         */
         private void updateVisibility() {
 
             final boolean valuesVisible = detector.valuesVisibleProperty.getValue();
@@ -492,6 +497,10 @@ import edu.umd.cs.piccolox.pswing.PSwing;
             updateLayout();
         }
 
+        /*
+         * Changes visibility of the value by adding/removing it from the scenegraph,
+         * so that it only contributes to bounds computations when visible.
+         */
         public void setValueVisible( boolean valueVisible ) {
             if ( valueVisible ) {
                 addChild( valueNode );
@@ -518,30 +527,32 @@ import edu.umd.cs.piccolox.pswing.PSwing;
      */
     private static class ZoomPanel extends GridPanel {
 
+        private final double zoomFactor;
         private final IntegerRange zoomLevelRange;
-        private final JButton zoomInButton, zoomOutButton;
-        private int zoomLevel;
+        private final Property<Integer> zoomLevelProperty;
 
-        public ZoomPanel( IntegerRange zoomLevelRange ) {
+        public ZoomPanel( double zoomFactor, final IntegerRange zoomLevelRange ) {
             setOpaque( false );
 
-            this.zoomLevelRange = new IntegerRange( zoomLevelRange );
+            this.zoomFactor = zoomFactor;
+            this.zoomLevelRange = zoomLevelRange;
+            this.zoomLevelProperty = new Property<Integer>( zoomLevelRange.getDefault() );
 
             JLabel label = new JLabel( CLStrings.ZOOM );
             label.setFont( CONTROL_FONT );
             label.setForeground( CONTROL_COLOR );
 
-            zoomInButton = new ZoomInButton();
+            final JButton zoomInButton = new ZoomInButton();
             zoomInButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    setZoomLevel( zoomLevel + 1 );
+                    zoomLevelProperty.setValue( zoomLevelProperty.getValue() + 1 );
                 }
             } );
 
-            zoomOutButton = new ZoomOutButton();
+            final JButton zoomOutButton = new ZoomOutButton();
             zoomOutButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    setZoomLevel( zoomLevel - 1 );
+                    zoomLevelProperty.setValue( zoomLevelProperty.getValue() - 1 );
                 }
             } );
 
@@ -552,30 +563,25 @@ import edu.umd.cs.piccolox.pswing.PSwing;
             add( zoomInButton, 0, 1 );
             add( zoomOutButton, 1, 1 );
 
-            // default state
-            setZoomLevel( zoomLevelRange.getDefault() );
+            // Disable buttons at the extremes of the zoom range.
+            zoomLevelProperty.addObserver( new SimpleObserver() {
+                public void update() {
+                    zoomInButton.setEnabled( zoomLevelProperty.getValue() != zoomLevelRange.getMax() );
+                    zoomOutButton.setEnabled( zoomLevelProperty.getValue() != zoomLevelRange.getMin() );
+                }
+            } );
         }
 
-        private void setZoomLevel( int zoomLevel ) {
-            this.zoomLevel = zoomLevel;
-            setZoomInEnabled( zoomLevel != zoomLevelRange.getMax() );
-            setZoomOutEnabled( zoomLevel != zoomLevelRange.getMin() );
+        public void addZoomLevelObserver( SimpleObserver o ) {
+            zoomLevelProperty.addObserver( o );
         }
 
-        private void setZoomInEnabled( boolean enabled ) {
-            zoomInButton.setEnabled( enabled );
+        public double getScaleFactor() {
+            return ( 1 / Math.pow( zoomFactor, zoomLevelRange.getMax() - zoomLevelProperty.getValue() ) );
         }
 
-        private void setZoomOutEnabled( boolean enabled ) {
-            zoomOutButton.setEnabled( enabled );
-        }
-
-        public void addZoomInListener( ActionListener listener ) {
-            zoomInButton.addActionListener( listener );
-        }
-
-        public void addZoomOutListener( ActionListener listener ) {
-            zoomOutButton.addActionListener( listener );
+        public void reset() {
+            zoomLevelProperty.reset();
         }
     }
 }
