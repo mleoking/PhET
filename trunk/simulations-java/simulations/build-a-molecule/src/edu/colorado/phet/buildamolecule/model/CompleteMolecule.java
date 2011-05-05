@@ -30,7 +30,7 @@ public class CompleteMolecule {
     private BondWrapper[] bondWrappers;
 
     // nodes listed so we can construct them with reflection TODO: auto-construction of nodes like the default case, but tuned?
-    private static final Class[] nodeClasses = new Class[] {
+    private static final Class[] nodeClasses = new Class[]{
             Cl2Node.class, CO2Node.class, CO2Node.class, CS2Node.class, F2Node.class, H2Node.class, N2Node.class, NONode.class, N2ONode.class,
             O2Node.class, C2H2Node.class, C2H4Node.class, C2H5ClNode.class, C2H5OHNode.class, C2H6Node.class, CH2ONode.class, CH3OHNode.class,
             CH4Node.class, H2ONode.class, H2SNode.class, HClNode.class, HFNode.class, NH3Node.class, NO2Node.class, OF2Node.class, P4Node.class,
@@ -220,13 +220,13 @@ public class CompleteMolecule {
                 try {
                     return (PNode) nodeClass.getConstructors()[0].newInstance();
                 }
-                catch ( InstantiationException e ) {
+                catch( InstantiationException e ) {
                     e.printStackTrace();
                 }
-                catch ( IllegalAccessException e ) {
+                catch( IllegalAccessException e ) {
                     e.printStackTrace();
                 }
-                catch ( InvocationTargetException e ) {
+                catch( InvocationTargetException e ) {
                     e.printStackTrace();
                 }
             }
@@ -381,7 +381,7 @@ public class CompleteMolecule {
             long c = System.currentTimeMillis();
             System.out.println( "other structures read in: " + ( c - b ) + "ms" );
         }
-        catch ( IOException e ) {
+        catch( IOException e ) {
             e.printStackTrace();
         }
     }
@@ -403,7 +403,7 @@ public class CompleteMolecule {
     /**
      * Molecules that can be used for collection boxes
      */
-    public static final CompleteMolecule[] COLLECTION_BOX_MOLECULES = new CompleteMolecule[] {
+    public static final CompleteMolecule[] COLLECTION_BOX_MOLECULES = new CompleteMolecule[]{
             CO2, H2O, N2, CO, O2, H2, NH3, Cl2, NO,
             getMoleculeByName( "Acetylene" ),
             getMoleculeByName( "Borane" ),
@@ -486,7 +486,7 @@ public class CompleteMolecule {
     private static final Map<String, List<MoleculeStructure>> allowedStructures = new HashMap<String, List<MoleculeStructure>>();
 
     private static boolean isStructureInAllowedStructures( MoleculeStructure moleculeStructure ) {
-        List<MoleculeStructure> structuresWithSameFormula = allowedStructures.get( moleculeStructure.getHillSystemFormulaFragment() );
+        List<MoleculeStructure> structuresWithSameFormula = allowedStructures.get( moleculeStructure.getHistogram().getHashString() );
         if ( structuresWithSameFormula == null ) {
             return false;
         }
@@ -501,11 +501,13 @@ public class CompleteMolecule {
     private static void addMoleculeAndChildren( final MoleculeStructure molecule ) {
         if ( !isStructureInAllowedStructures( molecule ) ) {
             // NOTE: only handles tree-based structures here
-            if ( allowedStructures.containsKey( molecule.getHillSystemFormulaFragment() ) ) {
-                allowedStructures.get( molecule.getHillSystemFormulaFragment() ).add( molecule );
+            String hashString = molecule.getHistogram().getHashString();
+            List<MoleculeStructure> structuresWithSameFormula = allowedStructures.get( hashString );
+            if ( structuresWithSameFormula != null ) {
+                structuresWithSameFormula.add( molecule );
             }
             else {
-                allowedStructures.put( molecule.getHillSystemFormulaFragment(), new LinkedList<MoleculeStructure>() {{
+                allowedStructures.put( hashString, new LinkedList<MoleculeStructure>() {{
                     add( molecule );
                 }} );
             }
@@ -557,7 +559,7 @@ public class CompleteMolecule {
                 outputStream.close();
             }
         }
-        catch ( IOException e ) {
+        catch( IOException e ) {
             e.printStackTrace();
         }
     }

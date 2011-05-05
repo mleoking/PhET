@@ -212,10 +212,8 @@ public class MoleculeStructure {
      */
     public List<Atom> getNeighbors( Atom atom ) {
         List<Atom> ret = new LinkedList<Atom>();
-        for ( Bond bond : bonds ) {
-            if ( bond.contains( atom ) ) {
-                ret.add( bond.getOtherAtom( atom ) );
-            }
+        for ( Bond bond : bondMap.get( atom ) ) {
+            ret.add( bond.getOtherAtom( atom ) );
         }
         return ret;
     }
@@ -467,6 +465,10 @@ public class MoleculeStructure {
         throw new RuntimeException( "Could not find bond!" );
     }
 
+    public AtomHistogram getHistogram() {
+        return new AtomHistogram( this );
+    }
+
     public static class Bond {
         public Atom a;
         public Atom b;
@@ -550,7 +552,7 @@ public class MoleculeStructure {
             // must have same number of atoms
             return false;
         }
-        if ( !getHillSystemFormulaFragment().equals( other.getHillSystemFormulaFragment() ) ) {
+        if ( !getHistogram().equals( other.getHistogram() ) ) {
             // different molecular formula
             return false;
         }
