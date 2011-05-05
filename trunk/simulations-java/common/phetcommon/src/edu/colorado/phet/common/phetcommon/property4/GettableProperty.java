@@ -10,9 +10,11 @@ package edu.colorado.phet.common.phetcommon.property4;
  */
 public class GettableProperty<T> extends PropertyChangeNotifier {
 
-    private T initialValue, value, oldValue;
+    private final T initialValue;
+    private T value, oldValue;
 
     public GettableProperty( T value ) {
+        this.initialValue = value;
         this.value = value;
         this.oldValue = null;
     }

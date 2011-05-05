@@ -12,6 +12,7 @@ package edu.colorado.phet.common.phetcommon.property4;
  */
 public class PropertyChangeEvent<T> {
 
+    // As a compromise for improved code readability, these fields are made public and their names are terse.
     public final T old; // the old (previous) value
     public final T value; // the current value
 
