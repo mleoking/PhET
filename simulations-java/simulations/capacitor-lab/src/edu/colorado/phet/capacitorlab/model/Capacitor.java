@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.capacitorlab.model;
 
-import java.awt.Shape;
+import java.awt.*;
 import java.util.EventListener;
 
 import javax.swing.event.EventListenerList;
@@ -18,14 +18,14 @@ import edu.colorado.phet.common.phetcommon.view.util.ShapeUtils;
 
 /**
  * Model of a capacitor.
- * <p>
+ * <p/>
  * A capacitor consists of 2 parallel, square plates, with a dielectric material between the plates.
  * When the dielectric can be partially inserted, the capacitor must be modeled as 2 parallel capacitors,
  * one of which has the dielectric between its plates, and the other of which has air between its plates.
- * <p>
+ * <p/>
  * A capacitor's capacitance (C) is solely dependent on its geometry and the dielectric material.
  * Charge (Q) on the plates is a function of capacitance and voltage (V) across the plates: Q = CV
- * <p>
+ * <p/>
  * Variable names used in this implementation where chosen to match the specification
  * in the design document, and therefore violate Java naming conventions.
  *
@@ -55,6 +55,7 @@ public class Capacitor {
 
     /**
      * Constructor
+     *
      * @param location
      * @param plateWidth
      * @param plateSeparation
@@ -141,6 +142,7 @@ public class Capacitor {
 
     /**
      * Gets the plate size.
+     *
      * @return
      */
     public Dimension3D getPlateSize() {
@@ -150,7 +152,7 @@ public class Capacitor {
     /**
      * Sets the plate width.
      * (design doc symbol: L)
-     * <p>
+     * <p/>
      * Only the plate width settable.
      * Plates are square, the plate depth is identical to the width.
      * And the height (thickness) is constant.
@@ -158,7 +160,7 @@ public class Capacitor {
      * @param plateWidth meters
      */
     public void setPlateWidth( double plateWidth ) {
-        if ( ! ( plateWidth > 0 ) ) {
+        if ( !( plateWidth > 0 ) ) {
             throw new IllegalArgumentException( "plateWidth must be > 0: " + plateWidth );
         }
         plateSizeProperty.setValue( new Dimension3D( plateWidth, plateSizeProperty.getValue().getHeight(), plateWidth ) );
@@ -168,7 +170,7 @@ public class Capacitor {
      * Gets the length of a plate's side. Plates are square, so all sides have equal length.
      * (design doc symbol: L)
      *
-     * @param return length, in meters
+     * @return length, in meters
      */
     public double getPlateWidth() {
         return plateSizeProperty.getValue().getWidth();
@@ -177,7 +179,7 @@ public class Capacitor {
     /**
      * Gets the height (thickness) of the plates.
      *
-     * @param thickness, in meters
+     * @return thickness, in meters
      */
     public double getPlateHeight() {
         return plateSizeProperty.getValue().getHeight();
@@ -222,7 +224,7 @@ public class Capacitor {
     /**
      * Gets the distance between the 2 parallel plates.
      * (design doc symbol: d)
-     *
+     * <p/>
      * return distance, in meters.
      */
     public double getPlateSeparation() {
@@ -236,6 +238,7 @@ public class Capacitor {
     /**
      * Convenience method for determining the outside center of the top plate.
      * This is a wire attachment point.
+     *
      * @return
      */
     public Point3D getTopPlateCenter() {
@@ -245,10 +248,11 @@ public class Capacitor {
     /**
      * Convenience method for determining the outside center of the bottom plate.
      * This is a wire attachment point.
+     *
      * @return
      */
     public Point3D getBottomPlateCenter() {
-        return new Point3D.Double( getX(), getY() + ( getPlateSeparation() / 2 ) + getPlateHeight(), getZ());
+        return new Point3D.Double( getX(), getY() + ( getPlateSeparation() / 2 ) + getPlateHeight(), getZ() );
     }
 
     //----------------------------------------------------------------------------------
@@ -257,6 +261,7 @@ public class Capacitor {
 
     /**
      * Sets the dielectric material that is between the plates.
+     *
      * @param dielectricMaterial
      */
     public void setDielectricMaterial( DielectricMaterial dielectricMaterial ) {
@@ -270,6 +275,7 @@ public class Capacitor {
 
     /**
      * Gets the dielectric material that is between the plates.
+     *
      * @return
      */
     public DielectricMaterial getDielectricMaterial() {
@@ -292,6 +298,7 @@ public class Capacitor {
 
     /**
      * Convenience method for getting dielectric size.
+     *
      * @return
      */
     public Dimension3D getDielectricSize() {
@@ -315,6 +322,7 @@ public class Capacitor {
     /**
      * Gets the offset of the dielectric.
      * When the dielectric is fully inserted between the plates, its offset is zero.
+     *
      * @return offset, in meters.
      */
     public double getDielectricOffset() {
@@ -408,6 +416,7 @@ public class Capacitor {
 
     /**
      * Does a Shape intersect the top plate shape?
+     *
      * @param shape
      * @return
      */
@@ -417,6 +426,7 @@ public class Capacitor {
 
     /**
      * Does a shape intersect the bottom plate shape?
+     *
      * @param shape
      * @return
      */
@@ -477,8 +487,9 @@ public class Capacitor {
 
     /**
      * Gets the charge for the portion of the top plate contacting the air.
+     *
      * @return charge, in Coulombs
-     * (design doc symbol: Q_air)
+     *         (design doc symbol: Q_air)
      */
     public double getAirPlateCharge() {
         return getAirCapacitance() * getPlatesVoltage();
@@ -600,7 +611,7 @@ public class Capacitor {
      * @return E-field, in Volts/meter
      */
     public double getPlatesAirEField() {
-        return getPlatesEField( EPSILON_AIR,  getPlatesVoltage(), getPlateSeparation() );
+        return getPlatesEField( EPSILON_AIR, getPlatesVoltage(), getPlateSeparation() );
     }
 
     /**
@@ -621,7 +632,6 @@ public class Capacitor {
      * @param d plate separation, meters
      * @return E-field, in Volts/meter
      */
-    // epsilon_air * V_plates / d
     private static double getPlatesEField( double epsilon_r, double V_plates, double d ) {
         if ( !( d > 0 ) ) {
             throw new IllegalArgumentException( "model requires d (plate separation) > 0 : " + d );
