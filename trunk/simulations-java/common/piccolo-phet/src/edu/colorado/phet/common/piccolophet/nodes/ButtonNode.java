@@ -291,15 +291,21 @@ public class ButtonNode extends PhetPNode {
         }
     }
 
-    // Updates appearance (gradient and offset) based on armed and focus state.
+    // Updates appearance (gradient and offset) based on armed and focus state if enabled
     private void updateAppearance() {
-        if ( armed ) {
-            backgroundNode.setPaint( armedGradient );
-            backgroundNode.setOffset( shadowOffset, shadowOffset );
-        }
-        else {
-            backgroundNode.setPaint( focus ? mouseOverGradient : mouseNotOverGradient );
-            backgroundNode.setOffset( 0, 0 );
+        /*
+            Only update with this type of "pressed"/"unpressed" appearance if we are enabled.
+            This will prevent the button with an "enabled/unpressed" background if it is set to disabled before it is unarmed.
+         */
+        if ( enabled ) {
+            if ( armed ) {
+                backgroundNode.setPaint( armedGradient );
+                backgroundNode.setOffset( shadowOffset, shadowOffset );
+            }
+            else {
+                backgroundNode.setPaint( focus ? mouseOverGradient : mouseNotOverGradient );
+                backgroundNode.setOffset( 0, 0 );
+            }
         }
     }
 
