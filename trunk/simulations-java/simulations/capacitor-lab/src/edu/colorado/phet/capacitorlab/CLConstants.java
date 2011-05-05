@@ -54,13 +54,10 @@ public class CLConstants {
     public static final DoubleRange PLATE_WIDTH_RANGE = new DoubleRange( 0.01, 0.02, 0.01 ); // meters
     public static final double PLATE_HEIGHT = 0.0005; // meters
     public static final DoubleRange PLATE_SEPARATION_RANGE = new DoubleRange( 0.005, 0.01, 0.01 ); // meters
-    public static final boolean PLATE_CHARGES_VISIBLE = true;
-    public static final boolean EFIELD_VISIBLE = false;
 
     // dielectric
     public static final DoubleRange DIELECTRIC_CONSTANT_RANGE = new DoubleRange( 1, 5, 5 ); // dimensionless
     public static final DoubleRange DIELECTRIC_OFFSET_RANGE = new DoubleRange( 0, PLATE_WIDTH_RANGE.getMax(), PLATE_WIDTH_RANGE.getDefault() ); // meters
-    public static final DielectricChargeView DIELECTRIC_CHARGE_VIEW = DielectricChargeView.TOTAL;
 
     // dielectric constants (dimensionless)
     public static final double EPSILON_VACUUM = 1;
@@ -143,7 +140,12 @@ public class CLConstants {
     // plate charges
     public static final IntegerRange NUMBER_OF_PLATE_CHARGES = new IntegerRange( 1, 625 );
     public static final Dimension NEGATIVE_CHARGE_SIZE = new Dimension( 7, 2 );
+    public static final boolean PLATE_CHARGES_VISIBLE = true;
+
+    // dielectric charges
+    public static final DielectricChargeView DIELECTRIC_CHARGE_VIEW = DielectricChargeView.TOTAL;
 
     // E-field
     public static final IntegerRange NUMBER_OF_EFIELD_LINES = new IntegerRange( 4, 900 ); // number of lines on smallest plate
+    public static final boolean EFIELD_VISIBLE = false;
 }

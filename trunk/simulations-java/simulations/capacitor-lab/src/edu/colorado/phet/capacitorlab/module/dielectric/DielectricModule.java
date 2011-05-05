@@ -32,7 +32,7 @@ public class DielectricModule extends CLModule {
         canvas = new DielectricCanvas( model, mvt, globalProperties );
         setSimulationPanel( canvas );
 
-        controlPanel = new DielectricControlPanel( this, model, globalProperties );
+        controlPanel = new DielectricControlPanel( this, model, canvas, globalProperties );
         setControlPanel( controlPanel );
 
         reset();
