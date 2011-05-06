@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.common.phetcommon.property4;
+package edu.colorado.phet.common.phetcommon.model.property4;
 
 /**
  * A property that is publicly gettable and settable.

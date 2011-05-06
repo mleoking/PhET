@@ -1,7 +1,7 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.common.phetcommon.property4.types;
+package edu.colorado.phet.common.phetcommon.model.property4.composite;
 
-import edu.colorado.phet.common.phetcommon.property4.*;
+import edu.colorado.phet.common.phetcommon.model.property4.*;
 
 /**
  * Computes the sum of a variable number of Double properties.

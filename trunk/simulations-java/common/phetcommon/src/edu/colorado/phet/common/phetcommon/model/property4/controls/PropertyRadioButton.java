@@ -1,14 +1,14 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.common.phetcommon.property4.controls;
+package edu.colorado.phet.common.phetcommon.model.property4.controls;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.phetcommon.property4.PropertyChangeEvent;
-import edu.colorado.phet.common.phetcommon.property4.PropertyChangeListener;
-import edu.colorado.phet.common.phetcommon.property4.SettableProperty;
+import edu.colorado.phet.common.phetcommon.model.property4.PropertyChangeEvent;
+import edu.colorado.phet.common.phetcommon.model.property4.PropertyChangeListener;
+import edu.colorado.phet.common.phetcommon.model.property4.SettableProperty;
 
 /**
  * PropertyRadioButton wires up a JRadioButton to a property of type T in an enum-style Property<T>.
