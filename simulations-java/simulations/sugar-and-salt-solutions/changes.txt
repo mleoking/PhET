@@ -1,3 +1,4 @@
+# 0.00.01 (51610) May 6, 2011
 Added initial version of the bar chart
 added concentration values to the model
 Added sugar crystals
