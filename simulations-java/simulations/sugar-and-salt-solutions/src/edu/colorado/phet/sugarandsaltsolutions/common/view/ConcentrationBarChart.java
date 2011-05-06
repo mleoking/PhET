@@ -2,8 +2,7 @@
 
 package edu.colorado.phet.sugarandsaltsolutions.common.view;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
+import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.model.property3.RichObservable;
@@ -15,7 +14,9 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 
 /**
+ * Optional bar chart that shows concentrations for both salt and sugar (if any)
  *
+ * @author Sam Reid
  * @author John Blanco
  */
 public class ConcentrationBarChart extends PNode {
@@ -24,31 +25,37 @@ public class ConcentrationBarChart extends PNode {
 
     public ConcentrationBarChart( RichObservable<Double> saltConcentration ) {
         final double totalWidth = 125;
-        PNode background = new PhetPPath(new Rectangle2D.Double(0, 0, totalWidth, CHART_HEIGHT),
-                new Color(240, 255, 175), new BasicStroke( 1f ), Color.BLACK );
+        PNode background = new PhetPPath( new Rectangle2D.Double( 0, 0, totalWidth, CHART_HEIGHT ),
+                                          new Color( 240, 255, 175 ), new BasicStroke( 1f ), Color.BLACK );
         addChild( background );
 
-        addChild( new Bar( Color.red, "Salt", saltConcentration ){{
-            setOffset( totalWidth / 2 - getFullBoundsReference().width / 2, CHART_HEIGHT-getFullBoundsReference().getMaxY() ); }});
+        addChild( new Bar( Color.red, "Salt", saltConcentration ) {{
+            setOffset( totalWidth / 2 - getFullBoundsReference().width / 2, CHART_HEIGHT - getFullBoundsReference().getMaxY() );
+        }} );
     }
 
     // This class represents the bars on the bar chart.  They grow upwards in
     // the Y direction from a baseline offset of y=0.
     public static class Bar extends PNode {
         public static final float WIDTH = 40;
+
         public Bar( Color color, String caption, RichObservable<Double> value ) {
             // Create and add the bar itself.
             final PPath bar = new PhetPPath( color, new BasicStroke( 1f ), Color.BLACK );
             addChild( bar );
             // Wire up the bar to change size based on the observable entity.
-            value.addObserver( new VoidFunction1<Double>(){
-                public void apply( Double t ) {
-                    float height = (float)(t * 1E5);
+            value.addObserver( new VoidFunction1<Double>() {
+                public void apply( Double value ) {
+                    float height = (float) ( value * 1E5 );
+                    float maxBarHeight = 10000f;
+                    if ( height > maxBarHeight || Float.isNaN( height ) || Float.isInfinite( height ) ) {
+                        height = maxBarHeight;
+                    }
                     bar.setPathToRectangle( 0, -height, WIDTH, height );
                 }
-            });
+            } );
             // Create and add the caption.
-            PText captionNode = new PText(caption){{
+            PText captionNode = new PText( caption ) {{
                 setFont( new PhetFont( 16 ) );
                 // Position so that it is centered under the bar.
                 setOffset( WIDTH / 2 - getFullBoundsReference().width / 2, 5 );
