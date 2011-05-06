@@ -10,6 +10,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
  *
  * @author Sam Reid
  */
+//TODO not general, limited to 2 booleans
 public class And extends OperatorBoolean {
 
     public And( GettableObservable0<Boolean> a, GettableObservable0<Boolean> b ) {
