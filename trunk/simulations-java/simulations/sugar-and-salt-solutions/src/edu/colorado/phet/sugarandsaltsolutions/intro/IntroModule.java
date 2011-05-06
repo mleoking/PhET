@@ -2,7 +2,6 @@
 package edu.colorado.phet.sugarandsaltsolutions.intro;
 
 import edu.colorado.phet.sugarandsaltsolutions.common.SugarAndSaltSolutionsModule;
-import edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas;
 
 /**
  * Intro module for sugar and salt solutions

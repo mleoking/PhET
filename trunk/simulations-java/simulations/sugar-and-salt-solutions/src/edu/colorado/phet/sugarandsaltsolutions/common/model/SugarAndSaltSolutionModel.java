@@ -87,21 +87,21 @@ public class SugarAndSaltSolutionModel {
 
     //Propagate the sugar and salt crystals, and absorb them if they hit the water
     private void updateCrystals( double dt, final ArrayList<? extends Crystal> crystalList ) {
-        ArrayList<Crystal> toRemove = new ArrayList<Crystal>();
+        ArrayList<Crystal> hitTheWater = new ArrayList<Crystal>();
         for ( Crystal crystal : crystalList ) {
             //slow the motion down a little bit or it moves too fast
             crystal.stepInTime( gravity.times( crystal.mass ), dt / 10 );
 
             //If the salt hits the water, absorb it
             if ( water.getShape().getBounds2D().contains( crystal.position.get().toPoint2D() ) ) {
-                toRemove.add( crystal );
+                hitTheWater.add( crystal );
             }
         }
         //Remove the salt crystals that hit the water
-        removeCrystals( crystalList, toRemove );
+        removeCrystals( crystalList, hitTheWater );
 
         //increase concentration in the water for crystals that hit
-        for ( Crystal crystal : crystalList ) {
+        for ( Crystal crystal : hitTheWater ) {
             crystalAbsorbed( crystal );
         }
     }

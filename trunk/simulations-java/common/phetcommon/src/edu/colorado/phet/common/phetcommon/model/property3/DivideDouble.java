@@ -26,8 +26,7 @@ public class DivideDouble extends CompositeProperty<Double> {//No set defined on
         }.observe( numerator, denominator );
     }
 
-    //TODO say what?...
-    //Returns true if the wrapped observable is equal to the specified value
+    //Returns the quotient (numerator / denominator)
     public Double get() {
         return numerator.get() / denominator.get();
     }
