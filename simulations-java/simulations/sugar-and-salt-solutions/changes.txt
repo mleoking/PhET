@@ -1,3 +1,4 @@
+Fixed: when you remove the solution, the concentration changes
 Fixed: the sim crashes when you empty out the entire solution
 Added a button that removes solutes from the sim
 # 0.00.02 (51613) May 6, 2011
