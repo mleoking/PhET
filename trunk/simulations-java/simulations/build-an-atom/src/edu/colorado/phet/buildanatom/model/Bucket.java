@@ -8,7 +8,6 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 
 /**
@@ -53,12 +52,6 @@ public class Bucket {
 
     // Caption to be shown on the bucket.
     private final String captionText;
-
-    // The following boolean property indicates whether this bucket is
-    // currently a part of the larger model.  It is intended to be used as a
-    // notification for when the bucket goes away, so that the corresponding
-    // view element can also be removed.
-    private final BooleanProperty partOfModelProperty = new BooleanProperty( true );
 
     // ------------------------------------------------------------------------
     // Constructor(s)
@@ -125,9 +118,5 @@ public class Bucket {
 
     public String getCaptionText() {
         return captionText;
-    }
-
-    public BooleanProperty getPartOfModelProperty(){
-        return partOfModelProperty;
     }
 }

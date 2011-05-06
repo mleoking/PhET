@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.Map;
 
 import edu.colorado.phet.buildanatom.model.AtomIdentifier;
-import edu.colorado.phet.buildanatom.model.Bucket;
 import edu.colorado.phet.buildanatom.model.BuildAnAtomClock;
 import edu.colorado.phet.buildanatom.model.IAtom;
 import edu.colorado.phet.buildanatom.model.IConfigurableAtomModel;
@@ -380,10 +379,10 @@ public class MixIsotopesModel implements Resettable, IConfigurableAtomModel {
                 movableAtom.removeListener( isotopeGrabbedListener );
             }
         }
-        ArrayList< Bucket > oldBuckets = new ArrayList< Bucket >( bucketList );
+        ArrayList< MonoIsotopeParticleBucket > oldBuckets = new ArrayList< MonoIsotopeParticleBucket >( bucketList );
         bucketList.clear();
-        for ( Bucket bucket : oldBuckets ) {
-            bucket.getPartOfModelProperty().setValue( false );
+        for ( MonoIsotopeParticleBucket bucket : oldBuckets ) {
+            notifyBucketRemoved( bucket );
         }
     }
 
@@ -547,6 +546,12 @@ public class MixIsotopesModel implements Resettable, IConfigurableAtomModel {
         }
     }
 
+    private void notifyBucketRemoved( MonoIsotopeParticleBucket bucket ){
+        for ( Listener listener : listeners ) {
+            listener.isotopeBucketRemoved( bucket );
+        }
+    }
+
     private void notifyNumericalControllerAdded( NumericalIsotopeQuantityControl controller ){
         for ( Listener listener : listeners ) {
             listener.isotopeNumericalControllerAdded( controller );
@@ -682,12 +687,14 @@ public class MixIsotopesModel implements Resettable, IConfigurableAtomModel {
     public interface Listener {
         void isotopeInstanceAdded( MovableAtom atom );
         void isotopeBucketAdded( MonoIsotopeParticleBucket bucket );
+        void isotopeBucketRemoved( MonoIsotopeParticleBucket bucket );
         void isotopeNumericalControllerAdded( NumericalIsotopeQuantityControl controller );
     }
 
     public static class Adapter implements Listener {
         public void isotopeInstanceAdded( MovableAtom atom ) {}
         public void isotopeBucketAdded( MonoIsotopeParticleBucket bucket ) {}
+        public void isotopeBucketRemoved( MonoIsotopeParticleBucket bucket ) {}
         public void isotopeNumericalControllerAdded( NumericalIsotopeQuantityControl controller ) {}
     }
 
