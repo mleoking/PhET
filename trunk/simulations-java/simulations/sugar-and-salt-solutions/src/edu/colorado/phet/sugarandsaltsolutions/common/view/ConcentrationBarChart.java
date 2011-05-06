@@ -35,12 +35,12 @@ public class ConcentrationBarChart extends PNode {
         addChild( new PhetPPath( new Line2D.Double( INSET, abscissaY, totalWidth - INSET, abscissaY ), new BasicStroke( 2 ), Color.black ) );
 
         //Add a Sugar concentration bar
-        addChild( new Bar( Color.red, "Sugar", sugarConcentration ) {{
+        addChild( new Bar( Color.white, "Salt", saltConcentration ) {{
             setOffset( totalWidth / 2 - getFullBoundsReference().width / 2 - Bar.WIDTH, abscissaY );
         }} );
 
         //Add a Salt concentration bar
-        addChild( new Bar( Color.green, "Salt", saltConcentration ) {{
+        addChild( new Bar( Color.white, "Sugar", sugarConcentration ) {{
             setOffset( totalWidth / 2 - getFullBoundsReference().width / 2 + Bar.WIDTH, abscissaY );
         }} );
     }
