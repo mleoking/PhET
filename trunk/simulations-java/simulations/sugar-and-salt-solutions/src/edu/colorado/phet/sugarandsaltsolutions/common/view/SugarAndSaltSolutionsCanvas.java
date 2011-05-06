@@ -141,22 +141,14 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
         //add the salt shaker node
         addChild( new DispenserNode( transform, new VoidFunction1<ImmutableVector2D>() {
             public void apply( ImmutableVector2D position ) {
-                //The approximate number of NaCl molecules in a salt crystal is about 1E18 according to http://www.physlink.com/education/askexperts/ae342.cfm
-                double atomsPerCrystal = 1.2E18;
-                double avogadrosNumber = 6.022E23;
-                double moles = atomsPerCrystal / avogadrosNumber;
-                model.addSalt( new Salt( position, moles ) );
+                model.addSalt( new Salt( position ) );
             }
         }, "salt-dispenser.png", model.dispenser.valueEquals( SALT ) ) );
 
         //add the sugar dispenser node
         addChild( new DispenserNode( transform, new VoidFunction1<ImmutableVector2D>() {
             public void apply( ImmutableVector2D position ) {
-                //The approximate number of NaCl molecules in a sugar crystal is about 6E17, see http://www.chem.uky.edu/Courses/che101/7-che101_05.pdf
-                double atomsPerCrystal = 6E17;
-                double avogadrosNumber = 6.022E23;
-                double moles = atomsPerCrystal / avogadrosNumber;
-                model.addSugar( new Sugar( position, moles ) );
+                model.addSugar( new Sugar( position ) );
             }
         }, "sugar-dispenser.png", model.dispenser.valueEquals( SUGAR ) ) );
 
@@ -179,7 +171,7 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
         rootNode.removeChild( node );
     }
 
-    protected double getControlPanelMinX(){
+    protected double getControlPanelMinX() {
         return Math.min( soluteControlPanelNode.getFullBoundsReference().getMinX(), toolsControlPanelNode.getFullBoundsReference().getMinX() );
     }
 }
