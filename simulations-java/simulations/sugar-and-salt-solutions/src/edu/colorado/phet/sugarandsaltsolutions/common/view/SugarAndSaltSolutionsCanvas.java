@@ -57,7 +57,7 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
         rootNode = new PNode();
         addWorldChild( rootNode );
 
-        setBackground( Color.white );
+        setBackground( Color.black );//Background is black so that white crystals can be seen
 
         //Width of the stage
         final int stageWidth = 1008;//Actual size of the canvas coming up on windows from the IDE is java.awt.Dimension[width=1008,height=676]
