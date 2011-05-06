@@ -2,6 +2,8 @@
 package edu.colorado.phet.sugarandsaltsolutions.common.view;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
@@ -156,8 +158,21 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
         addChild( crystalLayer );
 
         //Add beaker and water nodes
-        addChild( new BeakerNode( transform, model.beaker ) );
+        final BeakerNode beakerNode = new BeakerNode( transform, model.beaker );
+        addChild( beakerNode );
         addChild( new WaterNode( transform, model.water ) );
+
+        //Add a button that allows the user to remove all solutes
+        addChild( new ButtonNode( "Remove salt/sugar" ) {{
+            //Button should be inside the beaker
+            setOffset( beakerNode.getFullBounds().getMaxX() - getFullBounds().getWidth() - INSET,
+                       beakerNode.getFullBounds().getMaxY() - getFullBounds().getHeight() - INSET );
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    model.removeSaltAndSugar();
+                }
+            } );
+        }} );
 
         //Debug for showing stage
         addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, stageSize.getWidth(), stageSize.getHeight() ), new BasicStroke( 2 ), Color.red ) );
