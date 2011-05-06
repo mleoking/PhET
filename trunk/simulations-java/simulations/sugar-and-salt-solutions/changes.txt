@@ -1,5 +1,6 @@
 Made water a lighter blue
 Made the bar chart background the same color as the water
+Made sugar and salt bars white in the concentration bar chart
 Set the faucet flow back to zero when the user lets go, the user has to hold the slider to keep the faucet on
 Moved salt bar to the left of sugar bar in concentration bar chart
 Added water coming out of the faucets
