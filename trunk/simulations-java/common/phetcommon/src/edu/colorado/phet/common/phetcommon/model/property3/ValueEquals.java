@@ -28,6 +28,6 @@ public class ValueEquals<T> extends CompositeProperty<Boolean> {//No set defined
 
     //Returns true if the wrapped observable is equal to the specified value
     public Boolean get() {
-        return property.get() == value;
+        return property.get() == value;//TODO why is this referential equality? What if we're comparing Booleans with autoboxing?
     }
 }
