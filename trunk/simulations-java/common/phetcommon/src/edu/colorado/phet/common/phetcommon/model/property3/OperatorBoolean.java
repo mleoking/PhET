@@ -8,6 +8,7 @@ import edu.colorado.phet.common.phetcommon.util.function.Function2;
  *
  * @author Sam Reid
  */
+//TODO not general, limited to 2 booleans
 public abstract class OperatorBoolean extends CompositeProperty<Boolean> {//Nor can this generally be set because the semantics of synchronizing with parents are undefined
     private Gettable<Boolean> a;
     private Gettable<Boolean> b;

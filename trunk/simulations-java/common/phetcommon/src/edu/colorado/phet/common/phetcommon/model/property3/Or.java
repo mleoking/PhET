@@ -8,6 +8,7 @@ import edu.colorado.phet.common.phetcommon.util.function.Function2;
  *
  * @author Sam Reid
  */
+//TODO not general, limited to 2 booleans
 public class Or extends OperatorBoolean {
     public Or( GettableObservable0<Boolean> a, GettableObservable0<Boolean> b ) {
         super( a, b, new Function2<Boolean, Boolean, Boolean>() {
