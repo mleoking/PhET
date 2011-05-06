@@ -11,7 +11,7 @@ import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.buildanatom.model.Bucket;
+import edu.colorado.phet.common.phetcommon.model.Bucket;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
