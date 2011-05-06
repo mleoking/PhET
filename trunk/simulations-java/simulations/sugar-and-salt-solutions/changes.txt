@@ -1,4 +1,3 @@
-# 0.00.03 (51618) May 6, 2011
 Added a horizontal axis for the bar chart
 Added a bar for sugar concentration
 Fixed: when you remove the solution, the concentration changes
