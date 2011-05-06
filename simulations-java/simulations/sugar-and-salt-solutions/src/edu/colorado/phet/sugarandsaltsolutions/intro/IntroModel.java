@@ -43,14 +43,20 @@ public class IntroModel extends SugarAndSaltSolutionModel {
     @Override protected void waterExited( double outVolume ) {
         super.waterExited( outVolume );
 
+        //Make sure to keep the concentration the same when water flowing out
+        updateConcentration( outVolume, molesOfSalt );
+        updateConcentration( outVolume, molesOfSugar );
+    }
+
+    //Make sure to keep the concentration the same when water flowing out
+    private void updateConcentration( double outVolume, Property<Double> property ) {
         //Find what the concentration was before water exited
-        double initConcentration = molesOfSalt.get() / ( water.volume.get() + outVolume );
+        double initConcentration = property.get() / ( water.volume.get() + outVolume );
 
         //Find the new number of moles that keeps the concentration the same
-        double finalConcentration = initConcentration;
-        double finalMoles = finalConcentration * water.volume.get();
+        double finalMoles = initConcentration * water.volume.get();
 
         //Set the number of moles
-        molesOfSalt.set( finalMoles );
+        property.set( finalMoles );
     }
 }
