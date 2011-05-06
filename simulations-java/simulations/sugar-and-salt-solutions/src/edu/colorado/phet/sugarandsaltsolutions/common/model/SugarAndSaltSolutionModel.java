@@ -98,16 +98,31 @@ public class SugarAndSaltSolutionModel {
             }
         }
         //Remove the salt crystals that hit the water
-        for ( Crystal crystal : toRemove ) {
+        removeCrystals( crystalList, toRemove );
+
+        //increase concentration in the water for crystals that hit
+        for ( Crystal crystal : crystalList ) {
+            crystalAbsorbed( crystal );
+        }
+    }
+
+    //Remove the specified crystals.  Note that the toRemove
+    private void removeCrystals( ArrayList<? extends Crystal> crystalList, ArrayList<? extends Crystal> toRemove ) {
+        for ( Crystal crystal : new ArrayList<Crystal>( toRemove ) ) {
             crystal.remove();
             crystalList.remove( crystal );
-            //TODO: increase concentration in the water
-            crystalAbsorbed( crystal );
         }
     }
 
     //Called when a crystal is absorbed by the water.
     // For instance, in the first tab it computes the resulting concentration change
     protected void crystalAbsorbed( Crystal crystal ) {
+        removeSaltAndSugar();
+    }
+
+    //Called when the user presses a button to clear the solutes, removes all solutes from the sim
+    public void removeSaltAndSugar() {
+        removeCrystals( sugarList, sugarList );
+        removeCrystals( saltList, saltList );
     }
 }

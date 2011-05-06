@@ -1,3 +1,4 @@
+Added a button that removes solutes from the sim
 # 0.00.02 (51613) May 6, 2011
 Made background black and crystals white
 made it so each grain of sugar and salt as 1E-6 moles (no randomness)
