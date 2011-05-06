@@ -10,10 +10,10 @@ import edu.colorado.phet.buildanatom.model.Neutron;
 import edu.colorado.phet.buildanatom.model.SphericalParticle;
 import edu.colorado.phet.buildanatom.modules.game.view.SchematicAtomNode;
 import edu.colorado.phet.buildanatom.modules.interactiveisotope.model.MakeIsotopesModel;
-import edu.colorado.phet.buildanatom.view.BucketView;
 import edu.colorado.phet.buildanatom.view.OrbitalView;
 import edu.colorado.phet.buildanatom.view.OrbitalViewProperty;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.common.piccolophet.nodes.BucketView;
 
 /**
  * This class defines a Piccolo Node that represents an atom in "schematic"
