@@ -7,6 +7,14 @@ import java.util.ArrayList;
  * TODO: It's possible for subclasses to call or override setValue, which is not cool for a composite property.
  * Investigate using composition instead of inheritance for storing the value.
  */
+/**
+ * TODO: If a client adds a listener to one of the arg properties, and calls getValue on the composite in
+ * that listener's callback, the composite value may not have been updated yet and will return a stale
+ * (and therefore incorrect value.)   This is a synchronization issue. It's also bad client code.
+ * But perhaps we should try to design so that this can't happen, since real-world dependencies can get complicated.
+ * Evaluating the composite when getValue is called makes it problematic to define and store oldValue,
+ * and as a general solution, could be an issue if the computation of the value is performance intensive.
+ */
 
 /**
  * A composite property's value is based on a set of dependent properties (the "args") and a function.
