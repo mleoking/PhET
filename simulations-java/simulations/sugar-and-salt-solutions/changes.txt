@@ -1,3 +1,4 @@
+Set the faucet flow back to zero when the user lets go, the user has to hold the slider to keep the faucet on
 Moved salt bar to the left of sugar bar in concentration bar chart
 Added water coming out of the faucets
 # 0.00.03 (51620) May 6, 2011
