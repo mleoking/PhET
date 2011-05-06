@@ -1,13 +1,13 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.common.phetcommon.property4.controls;
+package edu.colorado.phet.common.phetcommon.model.property4.controls;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.common.phetcommon.property4.PropertyChangeEvent;
-import edu.colorado.phet.common.phetcommon.property4.PropertyChangeListener;
-import edu.colorado.phet.common.phetcommon.property4.SettableProperty;
+import edu.colorado.phet.common.phetcommon.model.property4.PropertyChangeEvent;
+import edu.colorado.phet.common.phetcommon.model.property4.PropertyChangeListener;
+import edu.colorado.phet.common.phetcommon.model.property4.SettableProperty;
 
 /**
  * JCheckBox that is wired to a SettableValue<Boolean>.
