@@ -1,3 +1,4 @@
+# 0.00.02 (51613) May 6, 2011
 Made background black and crystals white
 made it so each grain of sugar and salt as 1E-6 moles (no randomness)
 # 0.00.01 (51610) May 6, 2011
