@@ -7,6 +7,8 @@ import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.JPanel;
 
@@ -68,6 +70,9 @@ public class MixIsotopesCanvas extends PhetPCanvas implements Resettable {
     // Nodes that hide and show the pie chart and mass indicator.
     private final MaximizeControlNode pieChartWindow;
     private final MaximizeControlNode averageAtomicMassWindow;
+
+    // Map of the buckets in the model to their view representation.
+    private final Map<MonoIsotopeParticleBucket, BucketView> mapBucketToView = new HashMap<MonoIsotopeParticleBucket, BucketView>();
 
     //----------------------------------------------------------------------------
     // Constructor(s)
@@ -134,16 +139,20 @@ public class MixIsotopesCanvas extends PhetPCanvas implements Resettable {
                 final BucketView bucketView = new BucketView( bucket, mvt );
                 bucketHoleLayer.addChild( bucketView.getHoleNode() );
                 bucketFrontLayer.addChild( bucketView.getFrontNode() );
-                bucket.getPartOfModelProperty().addObserver( new SimpleObserver() {
-                    public void update() {
-                        // Remove the representation of the bucket when the bucket
-                        // itself is removed from the model.
-                        if ( !bucket.getPartOfModelProperty().getValue() ){
-                            bucketFrontLayer.removeChild( bucketView.getFrontNode() );
-                            bucketHoleLayer.removeChild( bucketView.getHoleNode() );
-                        }
-                    }
-                }, false );
+                mapBucketToView.put( bucket, bucketView );
+            }
+            @Override
+            public void isotopeBucketRemoved( final MonoIsotopeParticleBucket bucket ) {
+                // Remove the representation of the bucket when the bucket
+                // itself is removed from the model.
+                if ( mapBucketToView.containsKey( bucket )){
+                    bucketFrontLayer.removeChild( mapBucketToView.get( bucket ).getFrontNode() );
+                    bucketHoleLayer.removeChild(  mapBucketToView.get( bucket ).getHoleNode() );
+                    mapBucketToView.remove( bucket );
+                }
+                else{
+                    System.out.println(getClass().getName() + "Warning: Attempt to remove bucket with no view component.");
+                }
             }
             @Override
             public void isotopeNumericalControllerAdded( final NumericalIsotopeQuantityControl controller ) {
