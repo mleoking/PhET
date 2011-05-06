@@ -4,6 +4,8 @@ package edu.colorado.phet.sugarandsaltsolutions.common.view;
 // Copyright 2002-2011, University of Colorado
 
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
 
 import javax.swing.*;
@@ -52,6 +54,12 @@ public class FaucetNode extends PNode {
                 faucetFlowLevel.addObserver( new VoidFunction1<Double>() {
                     public void apply( Double value ) {
                         setValue( (int) ( value * 100 ) );
+                    }
+                } );
+                //Set the flow back to zero when the user lets go, the user has to hold the slider to keep the faucet on
+                addMouseListener( new MouseAdapter() {
+                    @Override public void mouseReleased( MouseEvent e ) {
+                        faucetFlowLevel.set( 0.0 );
                     }
                 } );
             }} ) {{
