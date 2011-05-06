@@ -3,6 +3,7 @@
 package edu.colorado.phet.sugarandsaltsolutions.common.view;
 
 import java.awt.*;
+import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.model.property3.RichObservable;
@@ -22,15 +23,25 @@ import edu.umd.cs.piccolo.nodes.PText;
 public class ConcentrationBarChart extends PNode {
 
     private final double CHART_HEIGHT = 200;
+    private final int INSET = 5;
 
-    public ConcentrationBarChart( RichObservable<Double> saltConcentration ) {
-        final double totalWidth = 125;
+    public ConcentrationBarChart( RichObservable<Double> saltConcentration, RichObservable<Double> sugarConcentration ) {
+        final double totalWidth = 200;
         PNode background = new PhetPPath( new Rectangle2D.Double( 0, 0, totalWidth, CHART_HEIGHT ),
                                           new Color( 240, 255, 175 ), new BasicStroke( 1f ), Color.BLACK );
         addChild( background );
 
-        addChild( new Bar( Color.red, "Salt", saltConcentration ) {{
-            setOffset( totalWidth / 2 - getFullBoundsReference().width / 2, CHART_HEIGHT - getFullBoundsReference().getMaxY() );
+        final double abscissaY = CHART_HEIGHT - 50;
+        addChild( new PhetPPath( new Line2D.Double( INSET, abscissaY, totalWidth - INSET, abscissaY ), new BasicStroke( 2 ), Color.black ) );
+
+        //Add a Sugar concentration bar
+        addChild( new Bar( Color.red, "Sugar", sugarConcentration ) {{
+            setOffset( totalWidth / 2 - getFullBoundsReference().width / 2 - Bar.WIDTH, abscissaY );
+        }} );
+
+        //Add a Salt concentration bar
+        addChild( new Bar( Color.green, "Salt", saltConcentration ) {{
+            setOffset( totalWidth / 2 - getFullBoundsReference().width / 2 + Bar.WIDTH, abscissaY );
         }} );
     }
 
