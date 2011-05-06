@@ -36,9 +36,11 @@ public class PlayPauseButton extends IconButton {
         addInputEventListener( handler );
         handler.addButtonEventListener( new ButtonEventAdapter() {
             public void fire() {
-                setPlaying( !isPlaying() );
-                update();
-                notifyListeners();
+                if ( isEnabled() ) {
+                    setPlaying( !isPlaying() );
+                    update();
+                    notifyListeners();
+                }
             }
         } );
 

@@ -296,7 +296,7 @@ public class PiccoloTimeControlPanel extends JPanel {
      *
      * @param enabled true or false
      */
-    public void setEnabled( boolean enabled ) {
+    @Override public void setEnabled( boolean enabled ) {
         super.setEnabled( enabled );
         updateButtons();
     }
