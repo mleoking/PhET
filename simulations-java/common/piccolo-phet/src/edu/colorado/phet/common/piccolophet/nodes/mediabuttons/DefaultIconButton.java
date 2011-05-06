@@ -21,7 +21,9 @@ public class DefaultIconButton extends IconButton {
         addInputEventListener( handler );
         handler.addButtonEventListener( new ButtonEventHandler.ButtonEventAdapter() {
             public void fire() {
-                notifyListeners();
+                if ( isEnabled() ) {
+                    notifyListeners();
+                }
             }
         } );
     }
