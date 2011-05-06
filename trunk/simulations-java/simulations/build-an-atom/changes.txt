@@ -1,3 +1,5 @@
+# 2.03.04 (51620) May 6, 2011
+5/6/11 Depolying for testing - this is a release candidate for the initial release of the Isotopes sim.
 isotopes-and-atomic-mass: Replaced the background images used on the periodic tables (on both tabs) with coded gradients.  This fixes some Mac issues.
 isotopes-and-atomic-mass: Made the atoms on the 2nd tab be animated when they return to the bucket, and made the animation roughly consistent between the two tabs.
 isotopes-and-atomic-mass: Made the atoms on the 2nd tab be in front of all indicators and buttons in case the user tries to drag them there.
