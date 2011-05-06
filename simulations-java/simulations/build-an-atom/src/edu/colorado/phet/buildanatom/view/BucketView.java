@@ -28,6 +28,7 @@ import edu.umd.cs.piccolo.nodes.PText;
  * so the API allows users to obtain the front and back layers separately.
  *
  * @author John Blanco
+ * @author Jonathan Olson
  */
 public class BucketView {
 
@@ -94,8 +95,7 @@ public class BucketView {
             containerLayer.addChild( caption );
         }
 
-        holeLayer.setOffset( mvt.modelToView( bucket.getPosition() ) );
-        containerLayer.setOffset( mvt.modelToView( bucket.getPosition() ) );
+        setOffset( mvt.modelToView( bucket.getPosition() ) );
     }
 
     // ------------------------------------------------------------------------
@@ -110,16 +110,12 @@ public class BucketView {
         return containerLayer;
     }
 
-    public void setOffset( double x, double y ) {
+    private void setOffset( double x, double y ) {
         holeLayer.setOffset( x, y );
         containerLayer.setOffset( x, y );
     }
 
-    public void setOffset( Point2D point ) {
+    private void setOffset( Point2D point ) {
         setOffset( point.getX(), point.getY() );
     }
-
-    // ------------------------------------------------------------------------
-    // Inner Classes and Interfaces
-    //------------------------------------------------------------------------
 }
