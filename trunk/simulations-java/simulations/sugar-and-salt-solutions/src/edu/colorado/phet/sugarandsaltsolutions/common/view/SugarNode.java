@@ -10,7 +10,7 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.Sugar;
 import edu.umd.cs.piccolo.PNode;
 
-import static java.awt.Color.lightGray;
+import static java.awt.Color.white;
 
 /**
  * Graphical representation of a sugar crystal
@@ -20,7 +20,7 @@ import static java.awt.Color.lightGray;
 public class SugarNode extends PNode {
     public SugarNode( final ModelViewTransform transform, final Sugar sugar ) {
         //Draw the shape of the sugar crystal at its location
-        addChild( new PhetPPath( lightGray ) {{
+        addChild( new PhetPPath( white ) {{
             sugar.position.addObserver( new VoidFunction1<ImmutableVector2D>() {
                 public void apply( ImmutableVector2D modelPosition ) {
                     ImmutableVector2D viewPosition = transform.modelToView( modelPosition );

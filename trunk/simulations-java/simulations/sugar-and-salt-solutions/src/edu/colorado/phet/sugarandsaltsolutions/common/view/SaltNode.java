@@ -10,7 +10,7 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.Salt;
 import edu.umd.cs.piccolo.PNode;
 
-import static java.awt.Color.lightGray;
+import static java.awt.Color.white;
 
 /**
  * Graphical representation of a salt crystal
@@ -20,7 +20,7 @@ import static java.awt.Color.lightGray;
 public class SaltNode extends PNode {
     public SaltNode( final ModelViewTransform transform, final Salt salt ) {
         //Draw the shape of the salt crystal at its location
-        addChild( new PhetPPath( lightGray ) {{
+        addChild( new PhetPPath( white ) {{
             salt.position.addObserver( new VoidFunction1<ImmutableVector2D>() {
                 public void apply( ImmutableVector2D value ) {
                     ImmutableVector2D position = transform.modelToView( value );
