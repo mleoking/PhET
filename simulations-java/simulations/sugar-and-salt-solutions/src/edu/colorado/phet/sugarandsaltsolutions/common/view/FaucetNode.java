@@ -4,6 +4,7 @@ package edu.colorado.phet.sugarandsaltsolutions.common.view;
 // Copyright 2002-2011, University of Colorado
 
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -13,6 +14,7 @@ import edu.colorado.phet.common.phetcommon.model.property3.Property;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -28,7 +30,7 @@ import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsAppli
 public class FaucetNode extends PNode {
 
     public FaucetNode( ModelViewTransform transform, final Property<Double> faucetFlowLevel ) {
-        addChild( new PImage( RESOURCES.getImage( "faucet.png" ) ) {{
+        PImage imageNode = new PImage( RESOURCES.getImage( "faucet.png" ) ) {{
             //Scale and offset so that the slider will fit into the tap control component
             setScale( 0.75 );
             setOffset( -27, 0 );
@@ -57,7 +59,19 @@ public class FaucetNode extends PNode {
                 //Faucet slider should be invisible when in "auto" mode
             }};
             addChild( sliderNode );
+        }};
+        final double imageWidth = imageNode.getFullBounds().getMaxX();
+        final double imageHeight = imageNode.getFullBounds().getMaxY();
+        addChild( new PhetPPath( Color.blue ) {{
+            faucetFlowLevel.addObserver( new VoidFunction1<Double>() {
+                public void apply( Double flow ) {
+                    double width = flow * 100 * 0.5;
+                    double pipeWidth = 56;
+                    setPathTo( new Rectangle2D.Double( imageWidth - width / 2 - pipeWidth / 2, imageHeight, width, 10000 ) );
+                }
+            } );
         }} );
+        addChild( imageNode );
         setOffset( 20, 10 );
     }
 }
