@@ -10,6 +10,7 @@ import edu.colorado.phet.common.phetcommon.model.property3.RichObservable;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsApplication;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -28,7 +29,7 @@ public class ConcentrationBarChart extends PNode {
     public ConcentrationBarChart( RichObservable<Double> saltConcentration, RichObservable<Double> sugarConcentration ) {
         final double totalWidth = 200;
         PNode background = new PhetPPath( new Rectangle2D.Double( 0, 0, totalWidth, CHART_HEIGHT ),
-                                          new Color( 240, 255, 175 ), new BasicStroke( 1f ), Color.BLACK );
+                                          SugarAndSaltSolutionsApplication.WATER_COLOR, new BasicStroke( 1f ), Color.BLACK );
         addChild( background );
 
         final double abscissaY = CHART_HEIGHT - 50;
