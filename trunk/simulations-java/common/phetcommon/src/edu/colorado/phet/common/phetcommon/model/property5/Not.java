@@ -14,6 +14,7 @@ public class Not extends SettableProperty<Boolean> {
     private Boolean lastValue;
 
     public Not( final Property<Boolean> parent ) {
+        super( !parent.getValue() );
         this.parent = parent;
         lastValue = getValue();
         parent.addObserver( new SimpleObserver() {

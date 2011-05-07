@@ -1,9 +1,10 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.phetcommon.model.property5;
 
+import edu.colorado.phet.common.phetcommon.model.property3.ChangeEvent;
+import edu.colorado.phet.common.phetcommon.model.property3.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction2;
 
 /**
  * Property<T> can be used to represent a value of type T in a MVC style pattern.  It remembers its default value and can be reset.
@@ -19,6 +20,7 @@ public class Property<T> extends SettableProperty<T> {
     private final T initialValue;
 
     public Property( T value ) {
+        super( value );
         this.initialValue = value;
         this.value = value;
     }
@@ -63,9 +65,9 @@ public class Property<T> extends SettableProperty<T> {
                 System.out.println( "VoidFunction1 newValue=" + newValue );
             }
         } );
-        enabled.addObserver( new VoidFunction2<Boolean, Boolean>() {
-            public void apply( Boolean newValue, Boolean oldValue ) {
-                System.out.println( "VoidFunction1 newValue=" + newValue + " oldValue=" + oldValue );
+        enabled.addObserver( new ChangeObserver<Boolean>() {
+            public void update( ChangeEvent<Boolean> e ) {
+                System.out.println( "VoidFunction1 newValue=" + e.value + " oldValue=" + e.oldValue );
             }
         } );
         enabled.setValue( !enabled.getValue() );

@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import edu.colorado.phet.common.phetcommon.model.property3.ChangeEvent;
+import edu.colorado.phet.common.phetcommon.model.property3.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -30,7 +32,14 @@ public abstract class ObservableProperty<T> extends SimpleObservable {
     }
 
     private final ArrayList<VoidFunction1<T>> newValueObservers = new ArrayList<VoidFunction1<T>>();//Listeners that receive the new value in the callback
-    private final ArrayList<VoidFunction2<T, T>> newAndOldValueObservers = new ArrayList<VoidFunction2<T, T>>();//Listeners that receive the new and old values in the callback
+    private final ArrayList<ChangeObserver<T>> newAndOldValueObservers = new ArrayList<ChangeObserver<T>>();//Listeners that receive the new and old values in the callback
+
+    //Store the value that was previously notified so we can prevent sending out notifications when the value didn't actually change
+    private T oldValue;
+
+    public ObservableProperty( T oldValue ) {
+        this.oldValue = oldValue;
+    }
 
     /**
      * Adds a SimpleObserver to observe the value of this instance.
@@ -82,8 +91,8 @@ public abstract class ObservableProperty<T> extends SimpleObservable {
      * Notify observers that receive the new and old values in the callback.
      */
     private void notifyNewAndOldValueObservers( T newValue, T oldValue ) {
-        for ( VoidFunction2<T, T> observer : new ArrayList<VoidFunction2<T, T>>( newAndOldValueObservers ) ) {//Iterate on a copy of the observer list to avoid ConcurrentModificationException, see #2741
-            observer.apply( newValue, oldValue );
+        for ( ChangeObserver<T> observer : new ArrayList<ChangeObserver<T>>( newAndOldValueObservers ) ) {//Iterate on a copy of the observer list to avoid ConcurrentModificationException, see #2741
+            observer.update( new ChangeEvent<T>( newValue, oldValue ) );
         }
     }
 
@@ -94,7 +103,7 @@ public abstract class ObservableProperty<T> extends SimpleObservable {
      *
      * @param observer
      */
-    public void addObserver( VoidFunction2<T, T> observer ) {
+    public void addObserver( ChangeObserver<T> observer ) {
         newAndOldValueObservers.add( observer );
     }
 
@@ -141,5 +150,18 @@ public abstract class ObservableProperty<T> extends SimpleObservable {
         Property<String> p = new Property<String>( "hello" );
         p.trace( "text" );
         p.setValue( "world" );
+    }
+
+    /**
+     * Check to see if the value is different than the the value during the last notification, then send out
+     * notifications if the value has changed (and storing the new value for next time).
+     */
+    public void notifyIfChanged() {
+        T newValue = getValue();
+        //TODO: handle nulls in this equality test
+        if ( !newValue.equals( oldValue ) ) {
+            notifyObservers( newValue, oldValue );
+            oldValue = newValue;
+        }
     }
 }

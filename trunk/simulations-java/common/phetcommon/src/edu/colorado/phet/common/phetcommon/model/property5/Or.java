@@ -3,7 +3,7 @@ package edu.colorado.phet.common.phetcommon.model.property5;
 
 import java.util.List;
 
-import edu.colorado.phet.common.phetcommon.util.function.Function2;
+import edu.colorado.phet.common.phetcommon.util.function.Function0;
 
 /**
  * Returns a boolean AND over Property arguments.  This provides read-only access;
@@ -11,13 +11,13 @@ import edu.colorado.phet.common.phetcommon.util.function.Function2;
  *
  * @author Sam Reid
  */
-public class Or extends BinaryBooleanProperty {
-    public Or( ObservableProperty<Boolean> a, ObservableProperty<Boolean> b ) {
-        super( a, b, new Function2<Boolean, Boolean, Boolean>() {
-            public Boolean apply( Boolean x, Boolean y ) {
-                return x || y;
-            }
-        } );
+public class Or extends CompositeProperty<Boolean> {
+    public Or( final ObservableProperty<Boolean> a, final ObservableProperty<Boolean> b ) {
+        super( new Function0<Boolean>() {
+                   public Boolean apply() {
+                       return a.getValue() || b.getValue();
+                   }
+               }, a, b );
     }
 
     public And and( ObservableProperty<Boolean> b ) {
