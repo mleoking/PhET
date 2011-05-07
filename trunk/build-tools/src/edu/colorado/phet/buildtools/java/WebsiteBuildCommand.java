@@ -64,10 +64,10 @@ public class WebsiteBuildCommand extends JavaBuildCommand {
             }
 
             for ( File file : project.getAllJarFiles() ) {
-                if ( file.getName().equals( "scala-compiler.jar" ) || file.getName().equals( "scala-library.jar" ) ) {
-                    System.out.println( "skipping " + file.getAbsolutePath() + " for file size." );
-                    continue;
-                }
+//                if ( file.getName().equals( "scala-compiler.jar" ) || file.getName().equals( "scala-library.jar" ) ) {
+//                    System.out.println( "skipping " + file.getAbsolutePath() + " for file size." );
+//                    continue;
+//                }
                 System.out.println( "Adding (or overwriting) lib with: " + file.getAbsolutePath() );
                 FileUtils.copyToDir( file, libDir );
             }
