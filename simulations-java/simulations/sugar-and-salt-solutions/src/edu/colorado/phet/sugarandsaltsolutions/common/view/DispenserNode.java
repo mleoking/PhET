@@ -4,8 +4,8 @@ package edu.colorado.phet.sugarandsaltsolutions.common.view;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.model.property3.GettableObservable0;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
+import edu.colorado.phet.common.phetcommon.model.property5.ObservableProperty;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -24,12 +24,12 @@ import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsAppli
 public class DispenserNode extends PNode {
     private ArrayList<Double> historyDY = new ArrayList<Double>();
 
-    public DispenserNode( final ModelViewTransform transform, final VoidFunction1<ImmutableVector2D> addSalt, final String image, final GettableObservable0<Boolean> visible ) {
+    public DispenserNode( final ModelViewTransform transform, final VoidFunction1<ImmutableVector2D> addSalt, final String image, final ObservableProperty<Boolean> visible ) {
         //Show the image of the shaker
         addChild( new PImage( RESOURCES.getImage( image ) ) );
-        visible.addObserver( new VoidFunction0() {
-            public void apply() {
-                setVisible( visible.get() );
+        visible.addObserver( new SimpleObserver() {
+            public void update() {
+                setVisible( visible.getValue() );
             }
         } );
 

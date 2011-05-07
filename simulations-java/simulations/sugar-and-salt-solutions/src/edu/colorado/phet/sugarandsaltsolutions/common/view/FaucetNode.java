@@ -12,7 +12,7 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.common.phetcommon.model.property3.Property;
+import edu.colorado.phet.common.phetcommon.model.property5.Property;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -48,7 +48,7 @@ public class FaucetNode extends PNode {
                 //Wire up 2-way communication with the Property
                 addChangeListener( new ChangeListener() {
                     public void stateChanged( ChangeEvent e ) {
-                        faucetFlowLevel.set( getValue() / 100.0 );
+                        faucetFlowLevel.setValue( getValue() / 100.0 );
                     }
                 } );
                 faucetFlowLevel.addObserver( new VoidFunction1<Double>() {
@@ -59,7 +59,7 @@ public class FaucetNode extends PNode {
                 //Set the flow back to zero when the user lets go, the user has to hold the slider to keep the faucet on
                 addMouseListener( new MouseAdapter() {
                     @Override public void mouseReleased( MouseEvent e ) {
-                        faucetFlowLevel.set( 0.0 );
+                        faucetFlowLevel.setValue( 0.0 );
                     }
                 } );
             }} ) {{

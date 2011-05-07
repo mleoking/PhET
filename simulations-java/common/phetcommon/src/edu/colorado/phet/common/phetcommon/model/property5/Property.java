@@ -72,4 +72,8 @@ public class Property<T> extends SettableProperty<T> {
         } );
         enabled.setValue( !enabled.getValue() );
     }
+
+    public ObservableProperty<Boolean> valueEquals( T salt ) {
+        return new ValueEquals<T>( this, salt );
+    }
 }

@@ -4,7 +4,7 @@ package edu.colorado.phet.sugarandsaltsolutions.common.model;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.model.property3.Property;
+import edu.colorado.phet.common.phetcommon.model.property5.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 
 /**
@@ -28,9 +28,9 @@ public class Crystal {
 
     //propagate the crystal according to the specified applied forces, using euler integration
     public void stepInTime( ImmutableVector2D appliedForce, double dt ) {
-        acceleration.set( appliedForce.times( 1.0 / mass ) );
-        velocity.set( velocity.get().plus( acceleration.get().times( dt ) ) );
-        position.set( position.get().plus( velocity.get().times( dt ) ) );
+        acceleration.setValue( appliedForce.times( 1.0 / mass ) );
+        velocity.setValue( velocity.getValue().plus( acceleration.getValue().times( dt ) ) );
+        position.setValue( position.getValue().plus( velocity.getValue().times( dt ) ) );
     }
 
     //Add a listener which will be notified when this crystal is removed from the model

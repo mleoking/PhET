@@ -10,8 +10,7 @@ import java.awt.geom.Rectangle2D;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.model.property3.Property;
-import edu.colorado.phet.common.phetcommon.model.property3.controls.PropertyRadioButton;
+import edu.colorado.phet.common.phetcommon.model.property5.Property;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
@@ -82,8 +81,8 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
             addChild( new PText( "Solute" ) {{setFont( TITLE_FONT );}} );
             addChild( new PhetPPath( new Rectangle( 0, 0, 0, 0 ), new Color( 0, 0, 0, 0 ) ) );//spacer
             addChild( new PSwing( new VerticalLayoutPanel() {{
-                add( new PropertyRadioButton<Dispenser>( "Salt", model.dispenser, SALT ) {{setFont( CONTROL_FONT );}} );
-                add( new PropertyRadioButton<Dispenser>( "Sugar", model.dispenser, Dispenser.SUGAR ) {{setFont( CONTROL_FONT );}} );
+//                add( new PropertyRadioButton<Dispenser>( "Salt", model.dispenser, SALT ) {{setFont( CONTROL_FONT );}} );
+//                add( new PropertyRadioButton<Dispenser>( "Sugar", model.dispenser, Dispenser.SUGAR ) {{setFont( CONTROL_FONT );}} );
             }} ) );
         }} ) {{
             setOffset( stageSize.getWidth() - getFullBounds().getWidth() - INSET, 150 );
