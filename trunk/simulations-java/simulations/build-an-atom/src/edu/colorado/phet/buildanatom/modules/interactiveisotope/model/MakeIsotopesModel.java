@@ -15,7 +15,7 @@ import edu.colorado.phet.buildanatom.model.IAtom;
 import edu.colorado.phet.buildanatom.model.IConfigurableAtomModel;
 import edu.colorado.phet.buildanatom.model.ImmutableAtom;
 import edu.colorado.phet.buildanatom.model.Neutron;
-import edu.colorado.phet.buildanatom.model.ParticleBucket;
+import edu.colorado.phet.common.phetcommon.model.SphereBucket;
 import edu.colorado.phet.buildanatom.model.Proton;
 import edu.colorado.phet.buildanatom.model.SphericalParticle;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
@@ -71,7 +71,7 @@ public class MakeIsotopesModel implements Resettable, IConfigurableAtomModel {
     private final ArrayList<Electron> electrons = new ArrayList<Electron>();
 
     // The buckets that holds the neutrons that are not in the atom.
-    private final ParticleBucket neutronBucket = new ParticleBucket( NEUTRON_BUCKET_POSITION,
+    private final SphereBucket<SphericalParticle> neutronBucket = new SphereBucket<SphericalParticle>( NEUTRON_BUCKET_POSITION,
             BUCKET_SIZE, Color.gray, BuildAnAtomStrings.NEUTRONS_NAME, Neutron.RADIUS );
 
     // Listener support
@@ -276,7 +276,7 @@ public class MakeIsotopesModel implements Resettable, IConfigurableAtomModel {
     /**
      * @return
      */
-    public ParticleBucket getNeutronBucket() {
+    public SphereBucket<SphericalParticle> getNeutronBucket() {
         return neutronBucket;
     }
 

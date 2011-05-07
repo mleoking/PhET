@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.model.IBucketSphere;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
@@ -19,7 +20,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  * @author Sam Reid
  * @author John Blanco
  */
-public abstract class SphericalParticle {
+public abstract class SphericalParticle implements IBucketSphere<SphericalParticle> {
 
     // ------------------------------------------------------------------------
     // Class Data
@@ -34,7 +35,7 @@ public abstract class SphericalParticle {
     private final double radius;
     private final Property<Point2D.Double> position;
     private final Property<Boolean> userControlled=new Property<Boolean>( false );//True if the particle is being dragged by the user
-    private final HashSet<Listener> listeners =new HashSet<Listener>( );
+    private final HashSet<IBucketSphere.Listener<SphericalParticle>> listeners =new HashSet<IBucketSphere.Listener<SphericalParticle>>( );
     private final Point2D destination = new Point2D.Double();
 
     // Listener to the clock, used for motion.
@@ -62,13 +63,13 @@ public abstract class SphericalParticle {
         addedToModel(); // Assume that this is initially an active part of the model.
         userControlled.addObserver( new SimpleObserver() {
             public void update() {
-                ArrayList<Listener> copy = new ArrayList<Listener>( listeners );//ConcurrentModificationException if listener removed while iterating, so use a copy
+                ArrayList<IBucketSphere.Listener<SphericalParticle>> copy = new ArrayList<IBucketSphere.Listener<SphericalParticle>>( listeners );//ConcurrentModificationException if listener removed while iterating, so use a copy
                 if (userControlled.getValue()){
-                    for ( Listener listener : copy ) {
+                    for ( IBucketSphere.Listener<SphericalParticle> listener : copy ) {
                         listener.grabbedByUser( SphericalParticle.this );
                     }
                 }else{
-                    for ( Listener listener : copy ) {
+                    for ( IBucketSphere.Listener<SphericalParticle> listener : copy ) {
                         listener.droppedByUser( SphericalParticle.this );
                     }
                 }
@@ -80,10 +81,11 @@ public abstract class SphericalParticle {
     // Methods
     // ------------------------------------------------------------------------
 
-    public void addListener(Listener listener) {
+    public void addListener( IBucketSphere.Listener<SphericalParticle> listener ) {
         listeners.add( listener );
     }
-    public void removeListener(Listener listener){
+
+    public void removeListener( IBucketSphere.Listener<SphericalParticle> listener ) {
         listeners.remove( listener );
     }
 
@@ -175,8 +177,8 @@ public abstract class SphericalParticle {
         if ( clock != null ){
             clock.removeClockListener( clockListener );
         }
-        ArrayList<Listener> copyOfListeners = new ArrayList<Listener>( listeners );
-        for ( Listener listener : copyOfListeners ) {
+        ArrayList<IBucketSphere.Listener<SphericalParticle>> copyOfListeners = new ArrayList<IBucketSphere.Listener<SphericalParticle>>( listeners );
+        for ( IBucketSphere.Listener<SphericalParticle> listener : copyOfListeners ) {
             listener.removedFromModel( this );
         }
     }
@@ -215,15 +217,9 @@ public abstract class SphericalParticle {
     // Inner Classes and Interfaces
     //------------------------------------------------------------------------
 
-    public static interface Listener {
-        void grabbedByUser( SphericalParticle particle );
-        void droppedByUser( SphericalParticle particle );
-        void removedFromModel( SphericalParticle particle );
+    public static interface Listener extends IBucketSphere.Listener<SphericalParticle> {
     }
 
-    public static class Adapter implements Listener{
-        public void grabbedByUser( SphericalParticle particle ) {}
-        public void droppedByUser( SphericalParticle particle ) {}
-        public void removedFromModel( SphericalParticle particle ) {}
+    public static class Adapter extends IBucketSphere.Adapter<SphericalParticle> implements Listener {
     }
 }
