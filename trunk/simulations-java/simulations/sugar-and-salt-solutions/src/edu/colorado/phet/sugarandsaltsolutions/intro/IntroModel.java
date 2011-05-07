@@ -23,6 +23,8 @@ public class IntroModel extends SugarAndSaltSolutionModel {
     //Sugar moles and concentration
     private final DoubleProperty molesOfSugar = new DoubleProperty( 0.0 );
     public final DivideDouble sugarConcentration = molesOfSugar.dividedBy( water.volume );
+
+    //Determine if there are any solutes (i.e., if moles of salt or moles of sugar is greater than zero).  This is used to show/hide the "remove solutes" button
     public final ObservableProperty<Boolean> anySolutes = molesOfSalt.greaterThan( 0 ).or( molesOfSugar.greaterThan( 0 ) );
 
     //When a crystal is absorbed by the water, increase the number of moles in solution
