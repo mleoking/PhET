@@ -1,3 +1,4 @@
+Fixed water color for faucets
 Added reset for water level, solute molarities, faucet flow levels and existence of crystals in the air
 Moved the reset all button to the bottom right
 Made it so the "remove solutes" button only appears if there are any solutes

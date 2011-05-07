@@ -17,6 +17,7 @@ import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsApplication;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -70,7 +71,7 @@ public class FaucetNode extends PNode {
         }};
         final double imageWidth = imageNode.getFullBounds().getMaxX();
         final double imageHeight = imageNode.getFullBounds().getMaxY();
-        addChild( new PhetPPath( Color.blue ) {{
+        addChild( new PhetPPath( SugarAndSaltSolutionsApplication.WATER_COLOR ) {{
             faucetFlowLevel.addObserver( new VoidFunction1<Double>() {
                 public void apply( Double flow ) {
                     double width = flow * 100 * 0.5;
