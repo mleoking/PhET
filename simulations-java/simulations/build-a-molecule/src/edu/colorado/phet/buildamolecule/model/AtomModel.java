@@ -8,6 +8,7 @@ import java.util.HashSet;
 import edu.colorado.phet.buildamolecule.BuildAMoleculeStrings;
 import edu.colorado.phet.chemistry.model.Atom;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.model.IBucketSphere;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
@@ -24,7 +25,7 @@ import edu.umd.cs.piccolo.util.PBounds;
  * @author Sam Reid
  * @author John Blanco
  */
-public class AtomModel {
+public class AtomModel implements IBucketSphere<AtomModel> {
 
     // ------------------------------------------------------------------------
     // Class Data
@@ -40,7 +41,7 @@ public class AtomModel {
     private final String name;
     public final Property<ImmutableVector2D> position;
     private final Property<Boolean> userControlled = new Property<Boolean>( false );//True if the particle is being dragged by the user
-    private final HashSet<Listener> listeners = new HashSet<Listener>();
+    private final HashSet<IBucketSphere.Listener<AtomModel>> listeners = new HashSet<IBucketSphere.Listener<AtomModel>>();
     private ImmutableVector2D destination = new ImmutableVector2D();
 
     public final Property<Boolean> visible = new Property<Boolean>( true ); // invisible for instance when in a collection box
@@ -65,14 +66,14 @@ public class AtomModel {
         addedToModel(); // Assume that this is initially an active part of the model.
         userControlled.addObserver( new SimpleObserver() {
             public void update() {
-                ArrayList<Listener> copy = new ArrayList<Listener>( listeners );//ConcurrentModificationException if listener removed while iterating, so use a copy
+                ArrayList<IBucketSphere.Listener<AtomModel>> copy = new ArrayList<IBucketSphere.Listener<AtomModel>>( listeners );//ConcurrentModificationException if listener removed while iterating, so use a copy
                 if ( userControlled.getValue() ) {
-                    for ( Listener listener : copy ) {
+                    for ( IBucketSphere.Listener<AtomModel> listener : copy ) {
                         listener.grabbedByUser( AtomModel.this );
                     }
                 }
                 else {
-                    for ( Listener listener : copy ) {
+                    for ( IBucketSphere.Listener<AtomModel> listener : copy ) {
                         listener.droppedByUser( AtomModel.this );
                     }
                 }
@@ -84,11 +85,11 @@ public class AtomModel {
     // Methods
     // ------------------------------------------------------------------------
 
-    public void addListener( Listener listener ) {
+    public void addListener( IBucketSphere.Listener<AtomModel> listener ) {
         listeners.add( listener );
     }
 
-    public void removeListener( Listener listener ) {
+    public void removeListener( IBucketSphere.Listener<AtomModel> listener ) {
         listeners.remove( listener );
     }
 
@@ -205,8 +206,8 @@ public class AtomModel {
         if ( clock != null ) {
             clock.removeClockListener( clockListener );
         }
-        ArrayList<Listener> copyOfListeners = new ArrayList<Listener>( listeners );
-        for ( Listener listener : copyOfListeners ) {
+        ArrayList<IBucketSphere.Listener<AtomModel>> copyOfListeners = new ArrayList<IBucketSphere.Listener<AtomModel>>( listeners );
+        for ( IBucketSphere.Listener<AtomModel> listener : copyOfListeners ) {
             listener.removedFromModel( this );
         }
     }
@@ -233,23 +234,10 @@ public class AtomModel {
     // Inner Classes and Interfaces
     //------------------------------------------------------------------------
 
-    public static interface Listener {
-        void grabbedByUser( AtomModel atom );
-
-        void droppedByUser( AtomModel atom );
-
-        void removedFromModel( AtomModel atom );
+    public static interface Listener extends IBucketSphere.Listener<AtomModel> {
     }
 
-    public static class Adapter implements Listener {
-        public void grabbedByUser( AtomModel atom ) {
-        }
-
-        public void droppedByUser( AtomModel atom ) {
-        }
-
-        public void removedFromModel( AtomModel atom ) {
-        }
+    public static class Adapter extends IBucketSphere.Adapter<AtomModel> implements Listener {
     }
 
     /*---------------------------------------------------------------------------*
