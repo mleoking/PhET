@@ -33,10 +33,10 @@ public abstract class SphericalParticle implements IBucketSphere<SphericalPartic
     // ------------------------------------------------------------------------
 
     private final double radius;
-    private final Property<Point2D.Double> position;
-    private final Property<Boolean> userControlled=new Property<Boolean>( false );//True if the particle is being dragged by the user
-    private final HashSet<IBucketSphere.Listener<SphericalParticle>> listeners =new HashSet<IBucketSphere.Listener<SphericalParticle>>( );
-    private final Point2D destination = new Point2D.Double();
+    private final Property<ImmutableVector2D> position;
+    private final Property<Boolean> userControlled = new Property<Boolean>( false );//True if the particle is being dragged by the user
+    private final HashSet<IBucketSphere.Listener<SphericalParticle>> listeners = new HashSet<IBucketSphere.Listener<SphericalParticle>>();
+    private ImmutableVector2D destination = new ImmutableVector2D();
 
     // Listener to the clock, used for motion.
     private final ClockAdapter clockListener = new ClockAdapter() {
@@ -58,17 +58,18 @@ public abstract class SphericalParticle implements IBucketSphere<SphericalPartic
     public SphericalParticle( double radius, double x, double y, ConstantDtClock clock ) {
         this.clock = clock;
         this.radius = radius;
-        position = new Property<Point2D.Double>( new Point2D.Double( x, y ) );
-        this.destination.setLocation( x, y );
+        position = new Property<ImmutableVector2D>( new ImmutableVector2D( x, y ) );
+        destination = new ImmutableVector2D( x, y );
         addedToModel(); // Assume that this is initially an active part of the model.
         userControlled.addObserver( new SimpleObserver() {
             public void update() {
                 ArrayList<IBucketSphere.Listener<SphericalParticle>> copy = new ArrayList<IBucketSphere.Listener<SphericalParticle>>( listeners );//ConcurrentModificationException if listener removed while iterating, so use a copy
-                if (userControlled.getValue()){
+                if ( userControlled.getValue() ) {
                     for ( IBucketSphere.Listener<SphericalParticle> listener : copy ) {
                         listener.grabbedByUser( SphericalParticle.this );
                     }
-                }else{
+                }
+                else {
                     for ( IBucketSphere.Listener<SphericalParticle> listener : copy ) {
                         listener.droppedByUser( SphericalParticle.this );
                     }
@@ -93,28 +94,32 @@ public abstract class SphericalParticle implements IBucketSphere<SphericalPartic
      * @param dt
      */
     private void stepInTime( double dt ) {
-        if ( getPosition().distance( destination ) != 0 ) {
+        if ( getPosition().getDistance( destination ) != 0 ) {
             // Move towards the current destination.
             double distanceToTravel = motionVelocity * dt;
-            if ( distanceToTravel >= getPosition().distance( destination ) ) {
+            if ( distanceToTravel >= getPosition().getDistance( destination ) ) {
                 // Closer than one step, so just go there.
                 setPosition( destination );
             }
             else {
                 // Move towards the destination.
                 double angle = Math.atan2( destination.getY() - getPosition().getY(),
-                        destination.getX() - getPosition().getX() );
+                                           destination.getX() - getPosition().getX() );
                 translate( distanceToTravel * Math.cos( angle ), distanceToTravel * Math.sin( angle ) );
             }
         }
     }
 
-    public Point2D getPosition() {
+    public ImmutableVector2D getPosition() {
         return position.getValue();
     }
 
-    public Point2D getDestination() {
-        return new Point2D.Double( destination.getX(), destination.getY() );
+    public ImmutableVector2D getDestination() {
+        return new ImmutableVector2D( destination.getX(), destination.getY() );
+    }
+
+    public void setPosition( ImmutableVector2D position ) {
+        setPosition( position.getX(), position.getY() );
     }
 
     public void setPosition( Point2D position ) {
@@ -122,7 +127,11 @@ public abstract class SphericalParticle implements IBucketSphere<SphericalPartic
     }
 
     public void setPosition( double x, double y ) {
-        position.setValue( new Point2D.Double( x, y ) );
+        position.setValue( new ImmutableVector2D( x, y ) );
+    }
+
+    public void setDestination( ImmutableVector2D position ) {
+        setDestination( position.getX(), position.getY() );
     }
 
     public void setDestination( Point2D position ) {
@@ -130,12 +139,17 @@ public abstract class SphericalParticle implements IBucketSphere<SphericalPartic
     }
 
     public void setDestination( double x, double y ) {
-        destination.setLocation( x, y );
+        destination = new ImmutableVector2D( x, y );
     }
 
     public void setPositionAndDestination( double x, double y ) {
         setPosition( x, y );
         setDestination( x, y );
+    }
+
+    public void setPositionAndDestination( ImmutableVector2D p ) {
+        setPosition( p );
+        setDestination( p );
     }
 
     public void setPositionAndDestination( Point2D p ) {
@@ -174,7 +188,7 @@ public abstract class SphericalParticle implements IBucketSphere<SphericalPartic
      * representation.
      */
     public void removedFromModel() {
-        if ( clock != null ){
+        if ( clock != null ) {
             clock.removeClockListener( clockListener );
         }
         ArrayList<IBucketSphere.Listener<SphericalParticle>> copyOfListeners = new ArrayList<IBucketSphere.Listener<SphericalParticle>>( listeners );
@@ -187,8 +201,8 @@ public abstract class SphericalParticle implements IBucketSphere<SphericalPartic
      * Call this when adding this element to the model, or when re-adding
      * after having removed it.
      */
-    public void addedToModel(){
-        if ( clock != null ){
+    public void addedToModel() {
+        if ( clock != null ) {
             clock.addClockListener( clockListener );
         }
     }

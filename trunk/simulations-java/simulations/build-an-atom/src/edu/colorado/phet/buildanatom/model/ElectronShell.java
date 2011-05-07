@@ -80,7 +80,7 @@ public class ElectronShell extends SimpleObservable {
                 if ( closestElectron == null ) {
                     closestElectron = candidateElectron;
                 }
-                else if ( candidateElectron.getPosition().distance( point2d ) < closestElectron.getPosition().distance( point2d ) ) {
+                else if ( candidateElectron.getPosition().getDistance( point2d ) < closestElectron.getPosition().getDistance( point2d ) ) {
                     // This electron is closer.
                     closestElectron = candidateElectron;
                 }
@@ -170,7 +170,7 @@ public class ElectronShell extends SimpleObservable {
      * the target location, which results in an animation effect.
      */
     protected void addElectron( final Electron electronToAdd, boolean moveImmediately ) {
-        Point2D shellLocation = findClosestOpenLocation( electronToAdd.getPosition() );
+        Point2D shellLocation = findClosestOpenLocation( electronToAdd.getPosition().toPoint2D() );
         if (shellLocation == null){
             System.err.println( getClass().getName() + " - Error: No space in shell." );
         }

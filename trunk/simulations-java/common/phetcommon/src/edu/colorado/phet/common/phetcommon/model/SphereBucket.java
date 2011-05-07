@@ -7,6 +7,7 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
@@ -54,10 +55,10 @@ public class SphereBucket<T extends IBucketSphere> extends Bucket {
             containedParticles.remove( particle );
             particle.removeListener( this );
 
-            final Point2D initialPosition = particle.getDestination();
+            final ImmutableVector2D initialPosition = particle.getDestination();
             particle.addPositionListener( new SimpleObserver() {
                 public void update() {
-                    if ( initialPosition.distance( particle.getDestination() ) > particle.getRadius() * 1.5 ) {
+                    if ( initialPosition.getDistance( particle.getDestination() ) > particle.getRadius() * 1.5 ) {
                         relayoutBucketParticles();
                         particle.removePositionListener( this );
                     }
@@ -128,11 +129,11 @@ public class SphereBucket<T extends IBucketSphere> extends Bucket {
         // Move the particle.
         if ( moveImmediately ) {
             // Move the particle instantaneously to the destination.
-            particle.setPositionAndDestination( locationInBucket );
+            particle.setPositionAndDestination( new ImmutableVector2D( locationInBucket ) );
         }
         else {
             // Set the destination and let the particle find its own way.
-            particle.setDestination( locationInBucket );
+            particle.setDestination( new ImmutableVector2D( locationInBucket ) );
         }
 
         // Listen for when the user removes this particle from the bucket.
@@ -201,7 +202,7 @@ public class SphereBucket<T extends IBucketSphere> extends Bucket {
      * @param location
      * @return
      */
-    private Point2D getNearestOpenLocation( Point2D currentLocation ) {
+    private Point2D getNearestOpenLocation( ImmutableVector2D currentLocation ) {
         // Determine the highest occupied layer.  The bottom layer is 0.
         int highestOccupiedLayer = 0;
         for ( T particle : containedParticles ) {
@@ -311,7 +312,7 @@ public class SphereBucket<T extends IBucketSphere> extends Bucket {
         for ( T particle : containedParticles ) {
             if ( particle != p &&//not ourself
                  particle.getDestination().getY() < p.getDestination().getY() && //must be in a lower layer
-                 particle.getDestination().distance( p.getDestination() ) < p.getRadius() * 3 ) {
+                 particle.getDestination().getDistance( p.getDestination() ) < p.getRadius() * 3 ) {
                 count++;
             }
         }
@@ -323,7 +324,7 @@ public class SphereBucket<T extends IBucketSphere> extends Bucket {
         for ( T particle : containedParticles ) {
             if ( !particle.getPosition().equals( particle ) && //not ourself
                  particle.getDestination().getY() < particleLocation.getY() && //must be in a lower layer
-                 particle.getDestination().distance( particleLocation ) < particle.getRadius() * 3 ) {
+                 particle.getDestination().getDistance( particleLocation ) < particle.getRadius() * 3 ) {
                 count++;
             }
         }
@@ -341,7 +342,7 @@ public class SphereBucket<T extends IBucketSphere> extends Bucket {
     private boolean isPositionOpen( double x, double y ) {
         boolean positionOpen = true;
         for ( T particle : containedParticles ) {
-            Point2D position = particle.getDestination();
+            ImmutableVector2D position = particle.getDestination();
             if ( position.getX() == x && position.getY() == y ) {
                 positionOpen = false;
                 break;
