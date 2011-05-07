@@ -113,7 +113,7 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
 
         //Add the reset all button
         addChild( new ButtonNode( "Reset All", Color.yellow ) {{
-            setOffset( toolsControlPanelNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, toolsControlPanelNode.getFullBounds().getMaxY() + INSET );
+            setOffset( stageSize.width - getFullBounds().getWidth() - INSET, stageSize.height - getFullBounds().getHeight() - INSET );
             setFont( CONTROL_FONT );
         }} );
 
