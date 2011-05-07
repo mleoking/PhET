@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.buildanatom.model;
+package edu.colorado.phet.common.phetcommon.model;
 
 import java.awt.Color;
 import java.awt.geom.Dimension2D;
@@ -7,19 +7,19 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.colorado.phet.common.phetcommon.model.Bucket;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
  * Class that defines a model of a bucket that can hold particles.
- *
+ * <p/>
  * IMPORTANT NOTE: The shapes that are created and that comprise the
  * bucket are set up such that the point (0,0) is in the center of the
  * bucket's hole.
  *
  * @author John Blanco
+ * @author Jonathan Olson
  */
-public class ParticleBucket extends Bucket {
+public class SphereBucket<T extends IBucketSphere> extends Bucket {
 
     // ------------------------------------------------------------------------
     // Class Data
@@ -30,7 +30,7 @@ public class ParticleBucket extends Bucket {
     // ------------------------------------------------------------------------
 
     // Particles that are in this bucket.
-    private final ArrayList<SphericalParticle> containedParticles = new ArrayList<SphericalParticle>();
+    private final ArrayList<T> containedParticles = new ArrayList<T>();
 
     // Radius of particles that will be going into this bucket.  This is
     // used for placing particles.
@@ -46,9 +46,8 @@ public class ParticleBucket extends Bucket {
 
     // Listener for events where the user grabs the particle, which is interpreted as
     // removal from the bucket.
-    private final SphericalParticle.Adapter particleRemovalListener = new SphericalParticle.Adapter() {
-        @Override
-        public void grabbedByUser( final SphericalParticle particle ) {
+    private final IBucketSphere.Adapter<T> particleRemovalListener = new IBucketSphere.Adapter<T>() {
+        @Override public void grabbedByUser( final T particle ) {
             // The user has picked up this particle, so we assume
             // that they want to remove it.
             assert containedParticles.contains( particle );
@@ -58,7 +57,7 @@ public class ParticleBucket extends Bucket {
             final Point2D initialPosition = particle.getDestination();
             particle.addPositionListener( new SimpleObserver() {
                 public void update() {
-                    if ( initialPosition.distance( particle.getDestination() ) > particle.getRadius() * 1.5 ){
+                    if ( initialPosition.distance( particle.getDestination() ) > particle.getRadius() * 1.5 ) {
                         relayoutBucketParticles();
                         particle.removePositionListener( this );
                     }
@@ -74,8 +73,8 @@ public class ParticleBucket extends Bucket {
     /**
      * Constructor.
      */
-    public ParticleBucket( Point2D position, Dimension2D size, Color baseColor, String caption, double particleRadius,
-            double usableWidthProportion, double yOffset ) {
+    public SphereBucket( Point2D position, Dimension2D size, Color baseColor, String caption, double particleRadius,
+                         double usableWidthProportion, double yOffset ) {
         super( position, size, baseColor, caption );
         this.particleRadius = particleRadius;
         this.usableWidthProportion = usableWidthProportion;
@@ -86,8 +85,8 @@ public class ParticleBucket extends Bucket {
      * Constructor that assumes that the entire width of the bucket should be
      * used for particle placement.
      */
-    public ParticleBucket( Point2D position, Dimension2D size, Color baseColor, String caption, double particleRadius ) {
-        this(position, size, baseColor, caption, particleRadius, 1, 0);
+    public SphereBucket( Point2D position, Dimension2D size, Color baseColor, String caption, double particleRadius ) {
+        this( position, size, baseColor, caption, particleRadius, 1, 0 );
     }
 
     // ------------------------------------------------------------------------
@@ -98,9 +97,9 @@ public class ParticleBucket extends Bucket {
         containedParticles.clear();
     }
 
-    public void removeParticle( SphericalParticle particle ) {
-        if (!containedParticles.contains( particle )){
-           System.err.println( getClass().getName() + " - Error: Particle not here, can't remove." );
+    public void removeParticle( T particle ) {
+        if ( !containedParticles.contains( particle ) ) {
+            System.err.println( getClass().getName() + " - Error: Particle not here, can't remove." );
         }
         assert containedParticles.contains( particle );
         containedParticles.remove( particle );
@@ -113,19 +112,19 @@ public class ParticleBucket extends Bucket {
      * @param particle
      * @param moveImmediately
      */
-    public void addParticleNearestOpen( final SphericalParticle particle, boolean moveImmediately ) {
+    public void addParticleNearestOpen( final T particle, boolean moveImmediately ) {
         // Determine the closest open location in the bucket.
         Point2D nearestOpenLocation = getNearestOpenLocation( particle.getPosition() );
         addParticle( particle, nearestOpenLocation, moveImmediately );
     }
 
-    public void addParticleFirstOpen( final SphericalParticle particle, boolean moveImmediately ) {
+    public void addParticleFirstOpen( final T particle, boolean moveImmediately ) {
         // Determine the first open location in the bucket.
         Point2D firstOpenLocation = getFirstOpenLocation();
         addParticle( particle, firstOpenLocation, moveImmediately );
     }
 
-    private void addParticle( final SphericalParticle particle, Point2D locationInBucket, boolean moveImmediately ){
+    private void addParticle( final T particle, Point2D locationInBucket, boolean moveImmediately ) {
         // Move the particle.
         if ( moveImmediately ) {
             // Move the particle instantaneously to the destination.
@@ -142,11 +141,11 @@ public class ParticleBucket extends Bucket {
         containedParticles.add( particle );
     }
 
-    public boolean containsParticle( SphericalParticle particle ){
+    public boolean containsParticle( T particle ) {
         return containedParticles.contains( particle );
     }
 
-    public ArrayList<SphericalParticle> getParticleList(){
+    public ArrayList<T> getParticleList() {
         return containedParticles;
     }
 
@@ -158,7 +157,7 @@ public class ParticleBucket extends Bucket {
     private Point2D getFirstOpenLocation() {
         Point2D openLocation = new Point2D.Double();
         double placeableWidth = holeShape.getBounds2D().getWidth() * usableWidthProportion - 2 * particleRadius;
-        double offsetFromBucketEdge = (holeShape.getBounds2D().getWidth() - placeableWidth) / 2 + particleRadius;
+        double offsetFromBucketEdge = ( holeShape.getBounds2D().getWidth() - placeableWidth ) / 2 + particleRadius;
         int numParticlesInLayer = (int) Math.floor( placeableWidth / ( particleRadius * 2 ) );
         int row = 0;
         int positionInLayer = 0;
@@ -205,26 +204,26 @@ public class ParticleBucket extends Bucket {
     private Point2D getNearestOpenLocation( Point2D currentLocation ) {
         // Determine the highest occupied layer.  The bottom layer is 0.
         int highestOccupiedLayer = 0;
-        for ( SphericalParticle particle : containedParticles ){
+        for ( T particle : containedParticles ) {
             int layer = getLayerForYPosition( particle.getPosition().getY() );
-            if ( layer > highestOccupiedLayer ){
+            if ( layer > highestOccupiedLayer ) {
                 highestOccupiedLayer = layer;
             }
         }
         // Make a list of all open locations in the occupied layers.
         List<Point2D> openLocationsInRow = new ArrayList<Point2D>();
         double placeableWidth = holeShape.getBounds2D().getWidth() * usableWidthProportion - 2 * particleRadius;
-        double offsetFromBucketEdge = (holeShape.getBounds2D().getWidth() - placeableWidth) / 2 + particleRadius;
+        double offsetFromBucketEdge = ( holeShape.getBounds2D().getWidth() - placeableWidth ) / 2 + particleRadius;
         int numParticlesInLayer = (int) Math.floor( placeableWidth / ( particleRadius * 2 ) );
         // Loop, searching for open positions in the particle stack.
-        for (int layer = 0; layer <= highestOccupiedLayer + 1; layer++ ){
+        for ( int layer = 0; layer <= highestOccupiedLayer + 1; layer++ ) {
             // Make a list of all open locations in the current layer.
-            for ( int positionInLayer = 0; positionInLayer < numParticlesInLayer; positionInLayer++){
+            for ( int positionInLayer = 0; positionInLayer < numParticlesInLayer; positionInLayer++ ) {
                 double yPos = getYPositionForLayer( layer );
                 double xPos = getPosition().getX() - holeShape.getBounds2D().getWidth() / 2 + offsetFromBucketEdge + positionInLayer * 2 * particleRadius;
                 if ( isPositionOpen( xPos, yPos ) ) {
                     // We found a location that is unoccupied.
-                    if ( layer == 0 || countSupportingParticles( new Point2D.Double( xPos, yPos ) ) == 2 ){
+                    if ( layer == 0 || countSupportingParticles( new Point2D.Double( xPos, yPos ) ) == 2 ) {
                         // This is a valid open location.
                         openLocationsInRow.add( new Point2D.Double( xPos, yPos ) );
                     }
@@ -254,8 +253,8 @@ public class ParticleBucket extends Bucket {
         // the Y-component is used the particles often appear to fall sideways
         // when released above the bucket, which just looks weird.
         Point2D closestOpenLocation = openLocationsInRow.get( 0 );
-        for ( Point2D openLocation : openLocationsInRow ){
-            if ( Math.abs( openLocation.getX() - currentLocation.getX() ) < Math.abs( closestOpenLocation.getX() - currentLocation.getX() ) ){
+        for ( Point2D openLocation : openLocationsInRow ) {
+            if ( Math.abs( openLocation.getX() - currentLocation.getX() ) < Math.abs( closestOpenLocation.getX() - currentLocation.getX() ) ) {
                 // This location is closer.
                 closestOpenLocation = openLocation;
             }
@@ -268,11 +267,10 @@ public class ParticleBucket extends Bucket {
      * in the stack of particles in the bucket.  This method determines the Y
      * offset for a given layer in the stacking pyramid.
      *
-     * @param row 0 for the bottom (y=0) row, 1 for the next row, etc.
      * @return
      */
     private int getLayerForYPosition( double yPosition ) {
-        return (int)Math.round( (yPosition - getPosition().getY() - yOffset ) / ( particleRadius * 2 * 0.866 ) );
+        return (int) Math.round( ( yPosition - getPosition().getY() - yOffset ) / ( particleRadius * 2 * 0.866 ) );
     }
 
     /**
@@ -289,11 +287,11 @@ public class ParticleBucket extends Bucket {
     }
 
     private void relayoutBucketParticles() {
-        ArrayList<SphericalParticle> copyOfContainedParticles = new ArrayList<SphericalParticle>( containedParticles );
-        for ( SphericalParticle containedParticle : copyOfContainedParticles) {
-            if (isDangling(containedParticle)){
+        ArrayList<T> copyOfContainedParticles = new ArrayList<T>( containedParticles );
+        for ( T containedParticle : copyOfContainedParticles ) {
+            if ( isDangling( containedParticle ) ) {
                 removeParticle( containedParticle );
-                addParticleNearestOpen( containedParticle, false);
+                addParticleNearestOpen( containedParticle, false );
                 relayoutBucketParticles();
             }
         }
@@ -303,14 +301,14 @@ public class ParticleBucket extends Bucket {
      * Determine whether a particle is 'dangling', i.e. hanging above an open
      * space in the stack of particles.  Dangling particles should fall.
      */
-    private boolean isDangling( SphericalParticle particle ) {
+    private boolean isDangling( T particle ) {
         boolean onBottomRow = particle.getDestination().getY() == getYPositionForLayer( 0 );
         return !onBottomRow && countSupportingParticles( particle ) < 2;
     }
 
-    private int countSupportingParticles( SphericalParticle p ) {
-        int count =0 ;
-        for ( SphericalParticle particle : containedParticles ) {
+    private int countSupportingParticles( T p ) {
+        int count = 0;
+        for ( T particle : containedParticles ) {
             if ( particle != p &&//not ourself
                  particle.getDestination().getY() < p.getDestination().getY() && //must be in a lower layer
                  particle.getDestination().distance( p.getDestination() ) < p.getRadius() * 3 ) {
@@ -321,8 +319,8 @@ public class ParticleBucket extends Bucket {
     }
 
     private int countSupportingParticles( Point2D particleLocation ) {
-        int count =0 ;
-        for ( SphericalParticle particle : containedParticles ) {
+        int count = 0;
+        for ( T particle : containedParticles ) {
             if ( !particle.getPosition().equals( particle ) && //not ourself
                  particle.getDestination().getY() < particleLocation.getY() && //must be in a lower layer
                  particle.getDestination().distance( particleLocation ) < particle.getRadius() * 3 ) {
@@ -342,7 +340,7 @@ public class ParticleBucket extends Bucket {
      */
     private boolean isPositionOpen( double x, double y ) {
         boolean positionOpen = true;
-        for ( SphericalParticle particle : containedParticles ) {
+        for ( T particle : containedParticles ) {
             Point2D position = particle.getDestination();
             if ( position.getX() == x && position.getY() == y ) {
                 positionOpen = false;

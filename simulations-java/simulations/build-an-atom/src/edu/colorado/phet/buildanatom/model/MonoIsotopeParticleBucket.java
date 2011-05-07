@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.colorado.phet.buildanatom.modules.isotopemixture.model.MovableAtom;
+import edu.colorado.phet.common.phetcommon.model.SphereBucket;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -17,7 +18,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  *
  * @author John Blanco
  */
-public class MonoIsotopeParticleBucket extends ParticleBucket {
+public class MonoIsotopeParticleBucket extends SphereBucket<SphericalParticle> {
 
     private final Dimension2D size = new PDimension();
     private int numProtonsInIsotope = 0;

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
+import edu.colorado.phet.common.phetcommon.model.SphereBucket;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -52,11 +53,11 @@ public class BuildAnAtomModel implements Resettable {
     private final ArrayList<Neutron> neutrons = new ArrayList<Neutron>();
 
     // The buckets which can hold the subatomic particles.
-    private final ParticleBucket electronBucket = new ParticleBucket( ELECTRON_BUCKET_POSITION,
+    private final SphereBucket<SphericalParticle> electronBucket = new SphereBucket<SphericalParticle>( ELECTRON_BUCKET_POSITION,
             BUCKET_SIZE, Color.blue, BuildAnAtomStrings.ELECTRONS_NAME, Electron.RADIUS, 0.6, -Electron.RADIUS / 2 );
-    private final ParticleBucket protonBucket = new ParticleBucket( PROTON_BUCKET_POSITION,
+    private final SphereBucket<SphericalParticle> protonBucket = new SphereBucket<SphericalParticle>( PROTON_BUCKET_POSITION,
             BUCKET_SIZE, PhetColorScheme.RED_COLORBLIND, BuildAnAtomStrings.PROTONS_NAME, Proton.RADIUS );
-    private final ParticleBucket neutronBucket = new ParticleBucket( NEUTRON_BUCKET_POSITION,
+    private final SphereBucket<SphericalParticle> neutronBucket = new SphereBucket<SphericalParticle>( NEUTRON_BUCKET_POSITION,
             BUCKET_SIZE, Color.gray, BuildAnAtomStrings.NEUTRONS_NAME, Neutron.RADIUS );
 
     //----------------------------------------------------------------------------
@@ -182,15 +183,15 @@ public class BuildAnAtomModel implements Resettable {
         return clock;
     }
 
-    public ParticleBucket getElectronBucket() {
+    public SphereBucket<SphericalParticle> getElectronBucket() {
         return electronBucket;
     }
 
-    public ParticleBucket getProtonBucket() {
+    public SphereBucket<SphericalParticle> getProtonBucket() {
         return protonBucket;
     }
 
-    public ParticleBucket getNeutronBucket() {
+    public SphereBucket<SphericalParticle> getNeutronBucket() {
         return neutronBucket;
     }
 
