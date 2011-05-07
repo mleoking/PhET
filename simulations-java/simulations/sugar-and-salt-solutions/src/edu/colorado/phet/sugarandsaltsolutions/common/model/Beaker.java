@@ -15,7 +15,7 @@ import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
  */
 public class Beaker {
     private final double x;
-    private final double y;
+    private final double y;//the y-location of the base of the beaker
     private final double width;
     private final double height;
     private final float wallWidth = 0.01f;
@@ -27,6 +27,7 @@ public class Beaker {
         this.height = height;
     }
 
+    //Gets the y-location of the base of the beaker
     public double getY() {
         return y;
     }

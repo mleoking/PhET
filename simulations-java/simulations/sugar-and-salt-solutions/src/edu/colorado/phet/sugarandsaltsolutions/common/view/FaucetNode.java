@@ -33,7 +33,10 @@ import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsAppli
  */
 public class FaucetNode extends PNode {
 
-    public FaucetNode( ModelViewTransform transform, final Property<Double> faucetFlowLevel, final Option<Double> flowPoint ) {
+    public FaucetNode( ModelViewTransform transform,
+                       final Property<Double> faucetFlowLevel,
+                       final Option<Double> flowPoint//if some, the point at which water should stop flowing (for the input faucet, water should stop at the beaker base
+    ) {
         PImage imageNode = new PImage( RESOURCES.getImage( "faucet.png" ) ) {{
             //Scale and offset so that the slider will fit into the tap control component
             setScale( 0.75 );
@@ -72,12 +75,14 @@ public class FaucetNode extends PNode {
         }};
         final double imageWidth = imageNode.getFullBounds().getMaxX();
         final double imageHeight = imageNode.getFullBounds().getMaxY();
+
+        //Show the water flowing out of the faucet
         addChild( new PhetPPath( SugarAndSaltSolutionsApplication.WATER_COLOR ) {{
             faucetFlowLevel.addObserver( new VoidFunction1<Double>() {
                 public void apply( Double flow ) {
                     double width = flow * 100 * 0.5;
                     double pipeWidth = 56;
-                    double bottomY = flowPoint.getOrElse( 1000.0 );
+                    double bottomY = flowPoint.getOrElse( 1000.0 );//Compute the bottom of the water (e.g. if it collides with the beaker)
                     double topY = imageHeight;
                     double height = bottomY - topY;
                     setPathTo( new Rectangle2D.Double( imageWidth - width / 2 - pipeWidth / 2, imageHeight, width, height ) );
