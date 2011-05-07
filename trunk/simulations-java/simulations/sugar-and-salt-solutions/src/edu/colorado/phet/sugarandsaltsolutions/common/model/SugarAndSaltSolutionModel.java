@@ -9,6 +9,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.event.Notifier;
 import edu.colorado.phet.common.phetcommon.model.property5.Property;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 
 import static edu.colorado.phet.sugarandsaltsolutions.common.model.Dispenser.SALT;
 
@@ -42,6 +43,9 @@ public class SugarAndSaltSolutionModel {
 
     private static final double FLOW_SCALE = 0.02;//Flow controls vary between 0 and 1, this scales it down to a good model value
     public final Property<Dispenser> dispenser = new Property<Dispenser>( SALT );//Which dispenser the user has selected
+
+    //Listeners which are notified when the sim is reset.
+    private ArrayList<VoidFunction0> resetListeners = new ArrayList<VoidFunction0>();
 
     public SugarAndSaltSolutionModel() {
         clock = new ConstantDtClock( 30 );
@@ -145,9 +149,20 @@ public class SugarAndSaltSolutionModel {
     }
 
     public void reset() {
+        //Reset the model state
         removeSaltAndSugar();
         water.reset();
         inputFlowRate.reset();
         outputFlowRate.reset();
+
+        //Notify listeners that registered for a reset message
+        for ( VoidFunction0 resetListener : resetListeners ) {
+            resetListener.apply();
+        }
+    }
+
+    //Adds a listener that will be notified when the model is reset
+    public void addResetListener( VoidFunction0 listener ) {
+        resetListeners.add( listener );
     }
 }
