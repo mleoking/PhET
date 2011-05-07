@@ -115,6 +115,11 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
         addChild( new ButtonNode( "Reset All", Color.yellow ) {{
             setOffset( stageSize.width - getFullBounds().getWidth() - INSET, stageSize.height - getFullBounds().getHeight() - INSET );
             setFont( CONTROL_FONT );
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    model.reset();
+                }
+            } );
         }} );
 
         //Add the faucets

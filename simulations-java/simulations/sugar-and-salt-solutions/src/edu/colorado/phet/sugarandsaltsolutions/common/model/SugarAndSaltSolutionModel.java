@@ -143,4 +143,11 @@ public class SugarAndSaltSolutionModel {
         removeCrystals( sugarList, sugarList );
         removeCrystals( saltList, saltList );
     }
+
+    public void reset() {
+        removeSaltAndSugar();
+        water.reset();
+        inputFlowRate.reset();
+        outputFlowRate.reset();
+    }
 }
