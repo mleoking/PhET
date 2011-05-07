@@ -211,11 +211,16 @@ public abstract class Module implements Resettable {
         modulePanel.setSimulationPanel( panel );
 
         //Setting the simulation panel often requires invalidation/validation/doLayout if the simulation is already running (not if this happens during startup), see #2812
-        Window window = SwingUtilities.getWindowAncestor( panel );
-        if ( window != null ) {
-            window.invalidate();
-            window.validate();
-            window.doLayout();
+        //First make sure the panel is non-null (it is null is Glaciers, see #2812)
+        if ( panel != null ) {
+            Window window = SwingUtilities.getWindowAncestor( panel );
+
+            //Only proceed if the panel was already in a window
+            if ( window != null ) {
+                window.invalidate();
+                window.validate();
+                window.doLayout();
+            }
         }
     }
 
