@@ -1,5 +1,4 @@
-// Copyright 2002-2011, University of Colorado
-
+//  Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.piccolophet.nodes;
 
 import java.awt.BasicStroke;
@@ -52,10 +51,14 @@ public class BucketView {
     // ------------------------------------------------------------------------
 
     public BucketView( Bucket bucket, ModelViewTransform mvt ) {
+        this( bucket, mvt, Color.WHITE );
+    }
+
+    public BucketView( Bucket bucket, ModelViewTransform mvt, Color captionColor ) {
         // Create a scaling transform based on the provided MVT, since we only
         // want the scaling portion and we want to avoid any translation.
         AffineTransform scaleTransform = AffineTransform.getScaleInstance( mvt.getTransform().getScaleX(),
-                mvt.getTransform().getScaleY() );
+                                                                           mvt.getTransform().getScaleY() );
 
         // Create the scaled shapes.
         Shape scaledHoleShape = scaleTransform.createTransformedShape( bucket.getHoleShape() );
@@ -83,7 +86,7 @@ public class BucketView {
         if ( bucket.getCaptionText() != null ) {
             PText caption = new PText( bucket.getCaptionText() );
             caption.setFont( LABEL_FONT );
-            caption.setTextPaint( Color.WHITE );
+            caption.setTextPaint( captionColor );
             if ( caption.getFullBoundsReference().getWidth() > scaledContainerShape.getBounds().getWidth() * 0.8 ) {
                 // The caption must be scaled in order to fit on the container.
                 caption.scale( scaledContainerShape.getBounds().getWidth() * 0.8 / caption.getFullBoundsReference().getWidth() );

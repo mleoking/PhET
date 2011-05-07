@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+//  Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.phetcommon.model;
 
 import java.awt.Color;
@@ -15,11 +15,11 @@ import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
  * is container into which some sort of model objects may be placed.  This is
  * a model object in the Model-View-Controller paradigm, and requires a
  * counterpart in the view in order to be presented to the user.
- *
+ * <p/>
  * In general, this is intended to be a base class, and subclasses should be
  * used to add specific functionality, such as how other model objects are
  * added to and removed from the bucket.
- *
+ * <p/>
  * One other important note: The position of the bucket in model space is
  * based on the center of the bucket's opening.
  *
@@ -41,7 +41,7 @@ public class Bucket {
     // ------------------------------------------------------------------------
 
     // The position is defined to be where the center of the hole is.
-    private final Point2D position = new Point2D.Double();
+    private Point2D position = new Point2D.Double();
 
     // The two shapes that define the overall shape of the bucket.
     protected final Shape holeShape;
@@ -69,9 +69,9 @@ public class Bucket {
 
         // Create the shape of the bucket's hole.
         holeShape = new Ellipse2D.Double( -size.getWidth() / 2,
-                -size.getHeight() * HOLE_ELLIPSE_HEIGHT_PROPORTION / 2,
-                size.getWidth(),
-                size.getHeight() * HOLE_ELLIPSE_HEIGHT_PROPORTION );
+                                          -size.getHeight() * HOLE_ELLIPSE_HEIGHT_PROPORTION / 2,
+                                          size.getWidth(),
+                                          size.getHeight() * HOLE_ELLIPSE_HEIGHT_PROPORTION );
 
         // Create the shape of the container.  This code is a bit "tweaky",
         // meaning that there are a lot of fractional multipliers in here
@@ -102,6 +102,11 @@ public class Bucket {
 
     public Point2D getPosition() {
         return position;
+    }
+
+    public void setPosition( Point2D position ) {
+        // TODO: change to property
+        this.position = position;
     }
 
     public Shape getHoleShape() {

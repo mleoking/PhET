@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.buildamolecule.model;
 
+import java.awt.geom.Point2D;
 import java.util.*;
 
 import edu.colorado.phet.buildamolecule.BuildAMoleculeApplication;
@@ -100,7 +101,7 @@ public class Kit {
             if ( i != 0 ) {
                 usedWidth += BUCKET_PADDING;
             }
-            bucket.setPosition( new ImmutableVector2D( usedWidth, kitY ) );
+            bucket.setPosition( new Point2D.Double( usedWidth, kitY ) );
             usedWidth += bucket.getWidth();
         }
 
@@ -108,7 +109,7 @@ public class Kit {
         for ( Bucket bucket : buckets ) {
 
             // also note: this moves the atoms also!
-            bucket.setPosition( new ImmutableVector2D( bucket.getPosition().getX() - usedWidth / 2 + kitXCenter + bucket.getWidth() / 2, kitY ) );
+            bucket.setPosition( new Point2D.Double( bucket.getPosition().getX() - usedWidth / 2 + kitXCenter + bucket.getWidth() / 2, kitY ) );
         }
     }
 

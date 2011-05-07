@@ -13,6 +13,7 @@ import edu.colorado.phet.buildamolecule.model.MoleculeStructure;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.common.piccolophet.nodes.BucketView;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -40,10 +41,10 @@ public class KitView {
         this.canvas = canvas;
 
         for ( Bucket bucket : kit.getBuckets() ) {
-            BucketView bucketView = new BucketView( bucket, mvt );
+            BucketView bucketView = new BucketView( bucket, mvt, Color.BLACK );
 
-            topLayer.addChild( bucketView.getContainerLayer() );
-            bottomLayer.addChild( bucketView.getHoleLayer() );
+            topLayer.addChild( bucketView.getFrontNode() );
+            bottomLayer.addChild( bucketView.getHoleNode() );
 
             for ( final AtomModel atom : bucket.getAtoms() ) {
                 final AtomNode atomNode = new AtomNode( mvt, atom );
