@@ -9,7 +9,7 @@ import edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutions
  */
 public class IntroCanvas extends SugarAndSaltSolutionsCanvas {
     public IntroCanvas( final IntroModel model ) {
-        super( model );
+        super( model, model.anySolutes );
 
         addChild( new ConcentrationBarChart( model.saltConcentration, model.sugarConcentration ) {{
             setOffset( getControlPanelMinX() - getFullBoundsReference().width - 20, 20 );
