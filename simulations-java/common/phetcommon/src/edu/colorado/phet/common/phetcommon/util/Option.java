@@ -23,6 +23,11 @@ public abstract class Option<T> {
         return !isSome();
     }
 
+    //if Some, gets the option value, otherwise gets the elseValue
+    public T getOrElse( T elseValue ) {
+        return isSome() ? get() : elseValue;
+    }
+
     public static class None<T> extends Option<T> {
         public T get() {
             throw new UnsupportedOperationException( "Cannot get value on none." );
