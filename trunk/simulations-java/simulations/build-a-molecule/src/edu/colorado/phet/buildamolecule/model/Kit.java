@@ -123,7 +123,7 @@ public class Kit {
 
     public boolean isContainedInBucket( AtomModel atom ) {
         for ( Bucket bucket : buckets ) {
-            if ( bucket.containsAtom( atom ) ) {
+            if ( bucket.containsParticle( atom ) ) {
                 return true;
             }
         }
@@ -417,7 +417,7 @@ public class Kit {
     private void recycleAtomIntoBuckets( Atom atom, boolean animate ) {
         lewisDotModel.breakBondsOfAtom( atom );
         Bucket bucket = Kit.this.getBucketForAtomType( atom );
-        bucket.addAtom( getAtomModel( atom ), animate );
+        bucket.addParticleNearestOpen( getAtomModel( atom ), !animate );
     }
 
     /**
