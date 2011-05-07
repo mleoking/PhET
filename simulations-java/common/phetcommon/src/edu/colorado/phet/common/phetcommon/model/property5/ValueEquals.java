@@ -1,7 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.phetcommon.model.property5;
 
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.Function0;
 
 /**
  * This adapter class converts an enumeration property to a boolean property indicating
@@ -12,33 +12,17 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  * @param <T> the property value type
  * @author Sam Reid
  */
-public class ValueEquals<T> extends ObservableProperty<Boolean> {
-    private T value;
-    private Property<T> property;
-    private boolean valueAtLastNotification;
-
+public class ValueEquals<T> extends CompositeProperty<Boolean> {
     public ValueEquals( final Property<T> property, final T value ) {
-        this.value = value;
-        this.property = property;
-        //Send out notifications, being careful not to send duplicate notifications when there wasn't actually a change in getValue()
-        property.addObserver( new SimpleObserver() {
-            public void update() {
-                if ( getValue() != valueAtLastNotification ) {
-                    notifyObservers( getValue(), valueAtLastNotification );
-                    valueAtLastNotification = getValue();
-                }
-            }
-        } );
-        valueAtLastNotification = getValue();
+        super( new Function0<Boolean>() {
+                   public Boolean apply() {
+                       return property.getValue().equals( value );
+                   }
+               }, property );
     }
 
     //Returns a property that is an 'or' conjunction of this and the provided argument
     public Or or( ObservableProperty<Boolean> p ) {
         return new Or( this, p );
-    }
-
-    @Override
-    public Boolean getValue() {
-        return property.getValue() == value;
     }
 }

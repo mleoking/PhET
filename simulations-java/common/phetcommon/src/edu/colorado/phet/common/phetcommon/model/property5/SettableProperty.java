@@ -9,5 +9,9 @@ package edu.colorado.phet.common.phetcommon.model.property5;
  * @author Sam Reid
  */
 public abstract class SettableProperty<T> extends ObservableProperty<T> {
+    public SettableProperty( T oldValue ) {
+        super( oldValue );
+    }
+
     public abstract void setValue( T value );
 }
