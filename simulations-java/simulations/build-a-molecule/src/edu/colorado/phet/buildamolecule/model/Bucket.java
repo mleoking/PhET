@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.geom.Area;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Point2D;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -17,6 +18,7 @@ import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
+import edu.colorado.phet.statesofmatter.model.AtomType;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -34,39 +36,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  *
  * @author John Blanco
  */
-public class Bucket {
-
-    // ------------------------------------------------------------------------
-    // Class Data
-    // ------------------------------------------------------------------------
-
-    // Proportion of the total height which the ellipse that represents
-    // the hole occupies.  It is assumed that the width of the hole
-    // is the same as the width specified at construction.
-    private static final double HOLE_ELLIPSE_HEIGHT_PROPORTION = 0.25;
-
-    // ------------------------------------------------------------------------
-    // Instance Data
-    // ------------------------------------------------------------------------
-
-    // The position is defined to be where the center of the hole is.
-    private ImmutableVector2D position = new ImmutableVector2D();
-
-    // The two shapes that define the overall shape of the bucket.
-    protected final Shape holeShape;
-    private final Shape containerShape;
-
-    // Base color of the bucket.
-    private final Color baseColor;
-
-    // Caption to be shown on the bucket.
-    private final String captionText;
-
-    // The following boolean property indicates whether this bucket is
-    // currently a part of the larger model.  It is intended to be used as a
-    // notification for when the bucket goes away, so that the corresponding
-    // view element can also be removed. TODO: change visibility handling to be kit-based (through KitView)
-    private final BooleanProperty partOfModelProperty = new BooleanProperty( true );
+public class Bucket extends edu.colorado.phet.common.phetcommon.model.Bucket {
 
     // Particles that are in this bucket.
     private final List<AtomModel> containedAtoms = new LinkedList<AtomModel>();
@@ -130,86 +100,29 @@ public class Bucket {
      * reusability in any 2D model.
      */
     public Bucket( Dimension2D size, double usableWidthProportion, double yOffset, IClock clock, Function0<Atom> atomFactory, int quantity ) {
+        super( new Point2D.Double(), size, atomFactory.apply().getColor(), BuildAMoleculeStrings.getAtomName( atomFactory.apply() ) );
         Atom atomType = atomFactory.apply();
-        this.baseColor = atomType.getColor();
-        this.captionText = BuildAMoleculeStrings.getAtomName( atomType );
         this.usableWidthProportion = usableWidthProportion;
         this.yOffset = yOffset;
         this.atomType = atomType;
         this.particleRadius = atomType.getRadius();
-
-        // Create the shape of the bucket's hole.
-        holeShape = new Ellipse2D.Double( -size.getWidth() / 2,
-                                          -size.getHeight() * HOLE_ELLIPSE_HEIGHT_PROPORTION / 2,
-                                          size.getWidth(),
-                                          size.getHeight() * HOLE_ELLIPSE_HEIGHT_PROPORTION );
-
-        // Create the shape of the container.  This code is a bit "tweaky",
-        // meaning that there are a lot of fractional multipliers in here
-        // to try to achieve the desired pseudo-3D look.  The intent is
-        // that the "tilt" of the bucket can be changed without needing to
-        // rework this code.
-        double containerHeight = size.getHeight() * ( 1 - ( HOLE_ELLIPSE_HEIGHT_PROPORTION / 2 ) );
-        DoubleGeneralPath containerPath = new DoubleGeneralPath();
-        containerPath.moveTo( -size.getWidth() * 0.5, 0 );
-        containerPath.lineTo( -size.getWidth() * 0.4, -containerHeight * 0.8 );
-        containerPath.curveTo(
-                -size.getWidth() * 0.3,
-                -containerHeight * 0.8 - size.getHeight() * HOLE_ELLIPSE_HEIGHT_PROPORTION * 0.6,
-                size.getWidth() * 0.3,
-                -containerHeight * 0.8 - size.getHeight() * HOLE_ELLIPSE_HEIGHT_PROPORTION * 0.6,
-                size.getWidth() * 0.4,
-                -containerHeight * 0.8 );
-        containerPath.lineTo( size.getWidth() * 0.5, 0 );
-        containerPath.closePath();
-        Area containerArea = new Area( containerPath.getGeneralPath() );
-        containerArea.subtract( new Area( holeShape ) );
-        containerShape = containerArea;
 
         for ( int i = 0; i < quantity; i++ ) {
             addAtom( new AtomModel( atomFactory.apply(), clock ), false ); // do not animate initial atoms
         }
     }
 
-    // ------------------------------------------------------------------------
-    // Methods
-    // ------------------------------------------------------------------------
-
-    public ImmutableVector2D getPosition() {
-        return position;
-    }
-
-    public void setPosition( ImmutableVector2D point ) {
+    @Override public void setPosition( Point2D point ) {
         // when we move the bucket, we must also move our contained atoms
-        ImmutableVector2D delta = point.getSubtractedInstance( position );
+        ImmutableVector2D delta = new ImmutableVector2D( point ).minus( new ImmutableVector2D( getPosition() ) );
         for ( AtomModel atom : containedAtoms ) {
             atom.setPositionAndDestination( atom.getPosition().getAddedInstance( delta ) );
         }
-        position = point;
-    }
-
-    public Shape getHoleShape() {
-        return holeShape;
-    }
-
-    public Shape getContainerShape() {
-        return containerShape;
-    }
-
-    public Color getBaseColor() {
-        return baseColor;
-    }
-
-    public String getCaptionText() {
-        return captionText;
-    }
-
-    public BooleanProperty getPartOfModelProperty() {
-        return partOfModelProperty;
+        super.setPosition( point );
     }
 
     public double getWidth() {
-        return containerShape.getBounds().getWidth();
+        return getContainerShape().getBounds().getWidth();
     }
 
     public void reset() {
