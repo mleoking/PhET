@@ -21,6 +21,7 @@ public class IntroModel extends SugarAndSaltSolutionModel {
     //Sugar moles and concentration
     private final Property<Double> molesOfSugar = new Property<Double>( 0.0 );
     public final DivideDouble sugarConcentration = new DivideDouble( molesOfSugar, water.volume );
+    public final Property<Boolean> anySolutes = new Property<Boolean>( true );
 
     //When a crystal is absorbed by the water, increase the number of moles in solution
     protected void crystalAbsorbed( Crystal crystal ) {

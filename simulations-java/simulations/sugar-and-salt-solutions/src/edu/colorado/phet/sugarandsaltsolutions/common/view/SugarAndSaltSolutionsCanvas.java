@@ -10,6 +10,7 @@ import java.awt.geom.Rectangle2D;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.model.property3.Property;
 import edu.colorado.phet.common.phetcommon.model.property3.controls.PropertyRadioButton;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -54,7 +55,7 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
     private final ControlPanelNode soluteControlPanelNode;
     private final ControlPanelNode toolsControlPanelNode;
 
-    public SugarAndSaltSolutionsCanvas( final SugarAndSaltSolutionModel model ) {
+    public SugarAndSaltSolutionsCanvas( final SugarAndSaltSolutionModel model, final Property<Boolean> removeSaltSugarButtonVisible ) {
         // Root of our scene graph
         rootNode = new PNode();
         addWorldChild( rootNode );
@@ -170,6 +171,11 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     model.removeSaltAndSugar();
+                }
+            } );
+            removeSaltSugarButtonVisible.addObserver( new VoidFunction1<Boolean>() {
+                public void apply( Boolean visible ) {
+                    setVisible( visible );
                 }
             } );
         }} );
