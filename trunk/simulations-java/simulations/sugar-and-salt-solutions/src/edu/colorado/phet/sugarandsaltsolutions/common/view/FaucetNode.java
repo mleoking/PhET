@@ -13,6 +13,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.model.property5.Property;
+import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -32,7 +33,7 @@ import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsAppli
  */
 public class FaucetNode extends PNode {
 
-    public FaucetNode( ModelViewTransform transform, final Property<Double> faucetFlowLevel ) {
+    public FaucetNode( ModelViewTransform transform, final Property<Double> faucetFlowLevel, final Option<Double> flowPoint ) {
         PImage imageNode = new PImage( RESOURCES.getImage( "faucet.png" ) ) {{
             //Scale and offset so that the slider will fit into the tap control component
             setScale( 0.75 );
@@ -76,11 +77,14 @@ public class FaucetNode extends PNode {
                 public void apply( Double flow ) {
                     double width = flow * 100 * 0.5;
                     double pipeWidth = 56;
-                    setPathTo( new Rectangle2D.Double( imageWidth - width / 2 - pipeWidth / 2, imageHeight, width, 10000 ) );
+                    double bottomY = flowPoint.getOrElse( 1000.0 );
+                    double topY = imageHeight;
+                    double height = bottomY - topY;
+                    setPathTo( new Rectangle2D.Double( imageWidth - width / 2 - pipeWidth / 2, imageHeight, width, height ) );
                 }
             } );
         }} );
         addChild( imageNode );
-        setOffset( 20, 10 );
+//        setOffset( 0, 0 );
     }
 }

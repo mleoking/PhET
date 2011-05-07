@@ -27,6 +27,10 @@ public class Beaker {
         this.height = height;
     }
 
+    public double getY() {
+        return y;
+    }
+
     //Determines the model shape of the walls of the beaker that can be used to render it in the view
     public Shape getWallShape() {
         //Stroke (in model coordinates) that will be used to create the walls
