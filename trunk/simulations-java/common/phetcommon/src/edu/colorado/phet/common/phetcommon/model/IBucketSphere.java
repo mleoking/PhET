@@ -12,7 +12,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 public interface IBucketSphere<U extends IBucketSphere> {
 
     /*---------------------------------------------------------------------------*
-    * TODO: document the following methods
+    * TODO: document the following methods, convert to or augment with abstract class
     *----------------------------------------------------------------------------*/
 
     double getRadius();
