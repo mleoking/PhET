@@ -6,7 +6,7 @@ import java.awt.*;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.common.phetcommon.model.property3.RichObservable;
+import edu.colorado.phet.common.phetcommon.model.property5.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -26,7 +26,7 @@ public class ConcentrationBarChart extends PNode {
     private final double CHART_HEIGHT = 200;
     private final int INSET = 5;
 
-    public ConcentrationBarChart( RichObservable<Double> saltConcentration, RichObservable<Double> sugarConcentration ) {
+    public ConcentrationBarChart( ObservableProperty<Double> saltConcentration, ObservableProperty<Double> sugarConcentration ) {
         final double totalWidth = 200;
         PNode background = new PhetPPath( new Rectangle2D.Double( 0, 0, totalWidth, CHART_HEIGHT ),
                                           SugarAndSaltSolutionsApplication.WATER_COLOR, new BasicStroke( 1f ), Color.BLACK );
@@ -51,7 +51,7 @@ public class ConcentrationBarChart extends PNode {
     public static class Bar extends PNode {
         public static final float WIDTH = 40;
 
-        public Bar( Color color, String caption, RichObservable<Double> value ) {
+        public Bar( Color color, String caption, ObservableProperty<Double> value ) {
             // Create and add the bar itself.
             final PPath bar = new PhetPPath( color, new BasicStroke( 1f ), Color.BLACK );
             addChild( bar );

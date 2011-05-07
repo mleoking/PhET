@@ -3,7 +3,7 @@ package edu.colorado.phet.sugarandsaltsolutions.common.model;
 
 import java.awt.*;
 
-import edu.colorado.phet.common.phetcommon.model.property3.Property;
+import edu.colorado.phet.common.phetcommon.model.property5.Property;
 
 /**
  * @author Sam Reid
@@ -17,6 +17,6 @@ public class Water {
     }
 
     public Shape getShape() {
-        return beaker.getFluidShape( volume.get() );
+        return beaker.getFluidShape( volume.getValue() );
     }
 }
