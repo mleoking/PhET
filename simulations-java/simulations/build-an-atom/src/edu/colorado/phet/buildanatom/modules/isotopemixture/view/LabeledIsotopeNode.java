@@ -76,7 +76,7 @@ public class LabeledIsotopeNode extends PNode {
         // changes.
         isotope.addPositionListener( new SimpleObserver(){
             public void update() {
-                sphericalNode.setOffset( mvt.modelToView( isotope.getPosition() ) );
+                sphericalNode.setOffset( mvt.modelToView( isotope.getPosition().toPoint2D() ) );
             }
         });
 

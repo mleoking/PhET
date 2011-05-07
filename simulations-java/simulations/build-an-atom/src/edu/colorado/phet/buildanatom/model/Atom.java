@@ -153,7 +153,7 @@ public class Atom implements IDynamicAtom {
 
     private void translateNucleons( ImmutableVector2D motionVector, boolean away ) {
         for ( SphericalParticle nucleon : getNucleons() ) {
-            nucleon.setPositionAndDestination( motionVector.getDestination( nucleon.getDestination() ) );
+            nucleon.setPositionAndDestination( motionVector.getDestination( nucleon.getDestination().toPoint2D() ) );
         }
         isAway = away;
     }

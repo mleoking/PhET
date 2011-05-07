@@ -1,8 +1,7 @@
 //  Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.phetcommon.model;
 
-import java.awt.geom.Point2D;
-
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
@@ -18,15 +17,15 @@ public interface IBucketSphere<U extends IBucketSphere> {
 
     double getRadius();
 
-    Point2D getPosition();
+    ImmutableVector2D getPosition();
 
-    void setPosition( Point2D position );
+    void setPosition( ImmutableVector2D position );
 
-    Point2D getDestination();
+    ImmutableVector2D getDestination();
 
-    void setDestination( Point2D destination );
+    void setDestination( ImmutableVector2D destination );
 
-    void setPositionAndDestination( Point2D position );
+    void setPositionAndDestination( ImmutableVector2D position );
 
     void addListener( Listener<U> listener );
 

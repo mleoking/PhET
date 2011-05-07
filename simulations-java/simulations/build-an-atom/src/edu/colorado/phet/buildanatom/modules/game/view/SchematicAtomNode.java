@@ -159,7 +159,7 @@ public class SchematicAtomNode extends PNode {
         // Note: This algorithm for layering was made up to look reasonable,
         // and can be modified as needed to produce better looking nuclei.
         double maxNucleusRadius = Neutron.RADIUS * 6;
-        double distanceFromCenter = nucleon.getPosition().distance( atom.getPosition() );
+        double distanceFromCenter = nucleon.getPosition().getDistance( atom.getPosition() );
         return Math.min( (int)Math.floor( distanceFromCenter / (maxNucleusRadius / NUM_NUCLEUS_LAYERS )), NUM_NUCLEUS_LAYERS - 1 );
     }
 

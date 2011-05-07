@@ -82,7 +82,7 @@ public class SubatomicParticleNode extends PNode {
     }
 
     private void updatePosition() {
-        Point2D location = mvt.modelToView( subatomicParticle.getPosition() );
+        Point2D location = mvt.modelToView( subatomicParticle.getPosition().toPoint2D() );
         sphericalNode.setOffset( location );
     }
 }

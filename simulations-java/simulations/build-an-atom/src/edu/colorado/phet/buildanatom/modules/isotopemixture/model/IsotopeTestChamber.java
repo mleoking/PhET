@@ -106,11 +106,11 @@ public class IsotopeTestChamber {
      * Test whether an isotope is within the chamber.  This is strictly
      * a 2D test that looks as the isotopes center position and determines
      * if it is within the bounds of the chamber rectangle.
-     * @param isotop
+     * @param isotope
      * @return
      */
     public boolean isIsotopePositionedOverChamber( MovableAtom isotope ){
-        return TEST_CHAMBER_RECT.contains( isotope.getPosition() );
+        return TEST_CHAMBER_RECT.contains( isotope.getPosition().toPoint2D() );
     }
 
     /**
@@ -345,7 +345,7 @@ public class IsotopeTestChamber {
                         continue;
                     }
                     Vector2D forceFromIsotope = new Vector2D(0, 0);
-                    double distanceBetweenIsotopes = isotope1.getPosition().distance( isotope2.getPosition() );
+                    double distanceBetweenIsotopes = isotope1.getPosition().getDistance( isotope2.getPosition() );
                     if ( distanceBetweenIsotopes == 0 ){
                         // These isotopes are sitting right on top of one
                         // another.  Add the max amount of inter-particle
@@ -389,7 +389,7 @@ public class IsotopeTestChamber {
             }
             // Adjust the particle positions based on forces.
             for ( MovableAtom isotope : mapIsotopesToForces.keySet() ){
-                isotope.setPositionAndDestination( mapIsotopesToForces.get( isotope ).getDestination( isotope.getPosition() ) );
+                isotope.setPositionAndDestination( mapIsotopesToForces.get( isotope ).getDestination( isotope.getPosition().toPoint2D() ) );
             }
             if ( i == maxIterations - 1){
                 System.out.println(getClass().getName() + " - Warning: Hit max iterations of repositioning algorithm.");
@@ -404,7 +404,7 @@ public class IsotopeTestChamber {
                     // Same isotope, so skip it.
                     continue;
                 }
-                double distance = isotope1.getPosition().distance( isotope2.getPosition() );
+                double distance = isotope1.getPosition().getDistance( isotope2.getPosition() );
                 if ( distance < isotope1.getRadius() + isotope2.getRadius()){
                     return true;
                 }

@@ -87,7 +87,7 @@ public class MakeIsotopesModel implements Resettable, IConfigurableAtomModel {
             // The user just released this neutron.  If it is close
             // enough to the nucleus, send it there, otherwise
             // send it to its bucket.
-            if ( particle.getPosition().distance( atom.getPosition() ) < NUCLEUS_CAPTURE_DISTANCE ) {
+            if ( particle.getPosition().getDistance( atom.getPosition() ) < NUCLEUS_CAPTURE_DISTANCE ) {
                 atom.addNeutron( (Neutron) particle, false );
             }
             else {
@@ -118,7 +118,7 @@ public class MakeIsotopesModel implements Resettable, IConfigurableAtomModel {
                     // The user just released this neutron.  If it is close
                     // enough to the nucleus, send it there, otherwise
                     // send it to its bucket.
-                    if ( neutron.getPosition().distance( atom.getPosition() ) < NUCLEUS_CAPTURE_DISTANCE ) {
+                    if ( neutron.getPosition().getDistance( atom.getPosition() ) < NUCLEUS_CAPTURE_DISTANCE ) {
                         atom.addNeutron( neutron, false );
                     }
                     else {
