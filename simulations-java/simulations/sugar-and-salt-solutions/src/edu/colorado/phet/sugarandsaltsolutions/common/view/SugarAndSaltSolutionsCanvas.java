@@ -14,6 +14,7 @@ import edu.colorado.phet.common.phetcommon.model.property5.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.util.Option.None;
 import edu.colorado.phet.common.phetcommon.util.Option.Some;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -153,14 +154,32 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
             public void apply( ImmutableVector2D position ) {
                 model.addSalt( new Salt( position ) );
             }
-        }, "salt-dispenser.png", model.dispenser.valueEquals( SALT ) ) );
+        }, "salt-dispenser.png", model.dispenser.valueEquals( SALT ) ) {{
+            //Move the shaker to the right so it is centered above the beaker and doesn't overlap with the faucet
+            VoidFunction0 initPosition = new VoidFunction0() {
+                public void apply() {
+                    setOffset( 250, 10 );
+                }
+            };
+            initPosition.apply();
+            model.addResetListener( initPosition );
+        }} );
 
         //add the sugar dispenser node
         addChild( new DispenserNode( transform, new VoidFunction1<ImmutableVector2D>() {
             public void apply( ImmutableVector2D position ) {
                 model.addSugar( new Sugar( position ) );
             }
-        }, "sugar-dispenser.png", model.dispenser.valueEquals( SUGAR ) ) );
+        }, "sugar-dispenser.png", model.dispenser.valueEquals( SUGAR ) ) {{
+            //Move the shaker to the right so it is centered above the beaker and doesn't overlap with the faucet
+            VoidFunction0 initPosition = new VoidFunction0() {
+                public void apply() {
+                    setOffset( 250, 10 );
+                }
+            };
+            initPosition.apply();
+            model.addResetListener( initPosition );
+        }} );
 
         //Show the crystal layer behind the water and beaker so the crystals look like they go into the water instead of in front of it.
         addChild( crystalLayer );

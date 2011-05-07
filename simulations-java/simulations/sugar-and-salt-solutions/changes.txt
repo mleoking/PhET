@@ -1,3 +1,4 @@
+Reset the shaker location on reset
 Made salt crystals square instead of round
 Fixed: If you empty the solution, the bar charts go off-scale and stay that way when you add more water
 Fixed: input faucet flows past the base of the beaker
