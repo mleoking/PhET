@@ -10,7 +10,7 @@ import java.awt.geom.Rectangle2D;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.model.property5.Property;
+import edu.colorado.phet.common.phetcommon.model.property5.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
@@ -21,7 +21,6 @@ import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
-import edu.colorado.phet.sugarandsaltsolutions.common.model.Dispenser;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.Salt;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.Sugar;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel;
@@ -54,7 +53,7 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
     private final ControlPanelNode soluteControlPanelNode;
     private final ControlPanelNode toolsControlPanelNode;
 
-    public SugarAndSaltSolutionsCanvas( final SugarAndSaltSolutionModel model, final Property<Boolean> removeSaltSugarButtonVisible ) {
+    public SugarAndSaltSolutionsCanvas( final SugarAndSaltSolutionModel model, final ObservableProperty<Boolean> removeSaltSugarButtonVisible ) {
         // Root of our scene graph
         rootNode = new PNode();
         addWorldChild( rootNode );
