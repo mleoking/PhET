@@ -1,3 +1,4 @@
+Made it so the "remove solutes" button only appears if there are any solutes
 Made water a lighter blue
 Made the bar chart background the same color as the water
 Made sugar and salt bars white in the concentration bar chart

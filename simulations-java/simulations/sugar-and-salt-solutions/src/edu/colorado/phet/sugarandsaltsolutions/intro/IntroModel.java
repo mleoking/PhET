@@ -2,7 +2,9 @@
 package edu.colorado.phet.sugarandsaltsolutions.intro;
 
 import edu.colorado.phet.common.phetcommon.model.property5.DivideDouble;
+import edu.colorado.phet.common.phetcommon.model.property5.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property5.Property;
+import edu.colorado.phet.common.phetcommon.model.property5.doubleproperty.DoubleProperty;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.Crystal;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.Salt;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.Sugar;
@@ -15,13 +17,13 @@ import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolution
  */
 public class IntroModel extends SugarAndSaltSolutionModel {
     //Salt moles and concentration
-    private final Property<Double> molesOfSalt = new Property<Double>( 0.0 );
-    public final DivideDouble saltConcentration = new DivideDouble( molesOfSalt, water.volume );
+    private final DoubleProperty molesOfSalt = new DoubleProperty( 0.0 );
+    public final DivideDouble saltConcentration = molesOfSalt.dividedBy( water.volume );
 
     //Sugar moles and concentration
-    private final Property<Double> molesOfSugar = new Property<Double>( 0.0 );
-    public final DivideDouble sugarConcentration = new DivideDouble( molesOfSugar, water.volume );
-    public final Property<Boolean> anySolutes = new Property<Boolean>( true );
+    private final DoubleProperty molesOfSugar = new DoubleProperty( 0.0 );
+    public final DivideDouble sugarConcentration = molesOfSugar.dividedBy( water.volume );
+    public final ObservableProperty<Boolean> anySolutes = molesOfSalt.greaterThan( 0 ).or( molesOfSugar.greaterThan( 0 ) );
 
     //When a crystal is absorbed by the water, increase the number of moles in solution
     protected void crystalAbsorbed( Crystal crystal ) {
