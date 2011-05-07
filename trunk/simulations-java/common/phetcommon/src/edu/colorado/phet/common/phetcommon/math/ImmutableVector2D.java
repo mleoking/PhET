@@ -174,7 +174,7 @@ public class ImmutableVector2D implements Serializable {
     }
 
     public double getDistance( Point2D point ) {
-        return getDistance( new ImmutableVector2D( point ) );
+        return getSubtractedInstance( point.getX(), point.getY() ).getMagnitude();
     }
 
     public static ImmutableVector2D parseAngleAndMagnitude( double r, double angle ) {
