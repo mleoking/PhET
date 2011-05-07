@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.colorvision;
 
-import java.awt.Color;
+import java.awt.*;
 
 import edu.colorado.phet.colorvision.view.BoundsOutliner;
 import edu.colorado.phet.common.phetcommon.application.*;
@@ -10,7 +10,7 @@ import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 
 /**
  * ColorVisionApplication is the main application for the Color Vision simulation.
- * 
+ *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class ColorVisionApplication extends PiccoloPhetApplication {
@@ -23,8 +23,8 @@ public class ColorVisionApplication extends PiccoloPhetApplication {
 
     /**
      * Sole constructor.
-     * 
-     * @param appModel the application model
+     *
+     * @param config the application model
      */
     public ColorVisionApplication( PhetApplicationConfig config ) {
         super( config );
@@ -33,20 +33,20 @@ public class ColorVisionApplication extends PiccoloPhetApplication {
         addModule( rgbBulbsModule );
         Module singleBulbModule = new SingleBulbModule();
         addModule( singleBulbModule );
-        
+
         getPhetFrame().setBackground( BACKGROUND );
     }
 
     public static void main( final String[] args ) {
-        
+
         BoundsOutliner.setEnabled( BOUNDS_OUTLINE_ENABLED ); // DEBUG
-        
+
         ApplicationConstructor appConstructor = new ApplicationConstructor() {
             public PhetApplication getApplication( PhetApplicationConfig config ) {
                 return new ColorVisionApplication( config );
             }
         };
-        
+
         PhetApplicationConfig appConfig = new PhetApplicationConfig( args, ColorVisionConstants.PROJECT_NAME );
         new PhetApplicationLauncher().launchSim( appConfig, appConstructor );
     }
