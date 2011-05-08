@@ -24,12 +24,12 @@ public abstract class OldPhetServer {
             new PhetDevServer(
                     "spot.colorado.edu", // Server host
                     "www.colorado.edu",  // Web host
-                    "/Net/www/webdata/htdocs/UCB/AcademicAffairs/ArtsSciences/physics/phet/dev", // Deploy path on server
+                    "/htdocs/UCB/AcademicAffairs/ArtsSciences/physics/phet/dev", // Deploy path on server
                     "/physics/phet/dev", // Deploy path on web host
                     null, // Cache clear full URL
                     null, // Cache clear file
                     null, // Localization generation command
-                    "/Net/www/webdata/htdocs/UCB/AcademicAffairs/ArtsSciences/physics/phet/dev/build-tools/config/build-local.properties",
+                    "/htdocs/UCB/AcademicAffairs/ArtsSciences/physics/phet/dev/build-tools/config/build-local.properties",
                     null
             );
 
