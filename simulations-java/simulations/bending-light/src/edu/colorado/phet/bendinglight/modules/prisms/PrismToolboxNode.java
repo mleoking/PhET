@@ -19,7 +19,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 
-import static edu.colorado.phet.bendinglight.modules.prisms.PrismsModel.getPrismPrototypes;
+import static edu.colorado.phet.bendinglight.modules.prisms.PrismBreakModel.getPrismPrototypes;
 
 /**
  * Prism toolbox which contains draggable prisms as well as the control panel for their index of refraction.
@@ -27,7 +27,7 @@ import static edu.colorado.phet.bendinglight.modules.prisms.PrismsModel.getPrism
  * @author Sam Reid
  */
 public class PrismToolboxNode extends PNode {
-    public PrismToolboxNode( final PrismsCanvas canvas, final ModelViewTransform transform, final PrismsModel model ) {
+    public PrismToolboxNode( final PrismBreakCanvas canvas, final ModelViewTransform transform, final PrismBreakModel model ) {
         //Create and add Title label for the prism toolbox
         final PText titleLabel = new PText( BendingLightStrings.PRISMS ) {{
             setFont( BendingLightCanvas.labelFont );
@@ -50,37 +50,38 @@ public class PrismToolboxNode extends PNode {
         content.addChild( new MediumControlPanel( canvas, model.prismMedium, BendingLightStrings.OBJECTS, false, model.wavelengthProperty, "0.0000000", 8 ) );
     }
 
-    static class PrismIcon extends ToolIconNode<PrismsModel> {
-        private final PrismsModel model;
+    static class PrismIcon extends ToolIconNode<PrismBreakModel> {
+        private final PrismBreakModel model;
 
-        public PrismIcon( final Prism prism, final PrismsModel model, ModelViewTransform transform, PrismsCanvas canvas, final Function0<Rectangle2D> globalToolboxBounds ) {
+        public PrismIcon( final Prism prism, final PrismBreakModel model, ModelViewTransform transform, PrismBreakCanvas canvas, final Function0<Rectangle2D> globalToolboxBounds ) {
             super( toThumbnail( prism, model, transform ), new Property<Boolean>( false ) {
-                @Override public void setValue( Boolean value ) {
-                    super.setValue( false );
-                }
-            }, transform, canvas, new NodeFactory() {
-                public ToolNode createNode( ModelViewTransform transform, Property<Boolean> visible, Point2D location ) {
-                    return new PrismToolNode( transform, prism.copy(), model, location );
-                }
-            }, model, globalToolboxBounds, true );
+                       @Override public void setValue( Boolean value ) {
+                           super.setValue( false );
+                       }
+                   }, transform, canvas, new NodeFactory() {
+                       public ToolNode createNode( ModelViewTransform transform, Property<Boolean> visible, Point2D location ) {
+                           return new PrismToolNode( transform, prism.copy(), model, location );
+                       }
+                   }, model, globalToolboxBounds, true
+            );
             this.model = model;
         }
 
-        @Override protected void addChild( BendingLightCanvas<PrismsModel> canvas, ToolNode node ) {
+        @Override protected void addChild( BendingLightCanvas<PrismBreakModel> canvas, ToolNode node ) {
             canvas.addChildBehindLight( node );
 
             //Add the prism model element
             model.addPrism( ( (PrismToolNode) node ).prism );
         }
 
-        @Override protected void removeChild( BendingLightCanvas<PrismsModel> canvas, ToolNode node ) {
+        @Override protected void removeChild( BendingLightCanvas<PrismBreakModel> canvas, ToolNode node ) {
             canvas.removeChildBehindLight( node );
 
             //Remove the associated prism from the model when dropped back in the toolbox, resolves #2833
             model.removePrism( ( (PrismToolNode) node ).prism );
         }
 
-        private static Image toThumbnail( Prism prism, PrismsModel model, ModelViewTransform transform ) {
+        private static Image toThumbnail( Prism prism, PrismBreakModel model, ModelViewTransform transform ) {
             PrismNode prismNode = new PrismNode( transform, prism, model.prismMedium );
             final int thumbnailHeight = 70;
             return prismNode.toImage( (int) ( prismNode.getFullBounds().getWidth() * thumbnailHeight / prismNode.getFullBounds().getHeight() ), thumbnailHeight, null );
@@ -91,7 +92,7 @@ public class PrismToolboxNode extends PNode {
         private final ModelViewTransform transform;
         private final Prism prism;
 
-        PrismToolNode( final ModelViewTransform transform, final Prism prism, final PrismsModel model, Point2D modelPoint ) {
+        PrismToolNode( final ModelViewTransform transform, final Prism prism, final PrismBreakModel model, Point2D modelPoint ) {
             this.transform = transform;
             this.prism = prism;
             //Create a new prism model, and add it to the model

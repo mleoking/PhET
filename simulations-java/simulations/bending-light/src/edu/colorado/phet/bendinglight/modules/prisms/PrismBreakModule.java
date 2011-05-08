@@ -9,14 +9,14 @@ import edu.colorado.phet.bendinglight.modules.BendingLightModule;
  *
  * @author Sam Reid
  */
-public class PrismsModule extends BendingLightModule<PrismsModel> {
-    public PrismsCanvas canvas;
+public class PrismBreakModule extends BendingLightModule<PrismBreakModel> {
+    public PrismBreakCanvas canvas;
 
-    public PrismsModule() {
-        super( BendingLightStrings.PRISM_BREAK, new PrismsModel() );
+    public PrismBreakModule() {
+        super( BendingLightStrings.PRISM_BREAK, new PrismBreakModel() );
 
         //Create and add the PrismsCanvas
-        canvas = new PrismsCanvas( getBendingLightModel(), moduleActive, resetAll );
+        canvas = new PrismBreakCanvas( getBendingLightModel(), moduleActive, resetAll );
         setSimulationPanel( canvas );
     }
 
