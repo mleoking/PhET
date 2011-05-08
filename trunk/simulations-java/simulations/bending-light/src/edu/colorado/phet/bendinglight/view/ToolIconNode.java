@@ -111,6 +111,7 @@ public class ToolIconNode<T extends BendingLightModel> extends PNode {
             //If the node hasn't already been created, make it now
             if ( node == null || dragMultiple ) {
                 node = nodeMaker.createNode( transform, showToolInPlayArea, transform.viewToModel( event.getPositionRelativeTo( canvas.getRootNode() ) ) );
+                final ToolNode nodeRef = node;
 
                 //Determine if the node is ready to be dropped back in the toolbox
                 final PropertyChangeListener boundChangeListener = new PropertyChangeListener() {
@@ -154,6 +155,13 @@ public class ToolIconNode<T extends BendingLightModel> extends PNode {
 
                 //Create a new bounded drag handler now that everything is initialized
                 dragHandler = new BoundedToolDragHandler( node, event );
+
+                //Create a closure on the nodeRef instance to make sure it gets removed when the sim is reset
+                resetModel.addResetListener( new VoidFunction0() {
+                    public void apply() {
+                        removeChild( canvas, nodeRef );
+                    }
+                } );
             }
         }
 
@@ -174,11 +182,8 @@ public class ToolIconNode<T extends BendingLightModel> extends PNode {
 
         //Remove the created node, if any
         private void reset() {
-            //if the node was already removed (by the user dropping it in), don't try to reset or you will receive NullPointerException
-            if ( node != null ) {
-                removeChild( canvas, node );
-                node = null;//Flag to indicate another item can be dragged out now
-            }
+            //The node is removed in the resetModel listener above, this part just sets a flag to indicate that a new toolnode should be created
+            node = null;
         }
     }
 }
