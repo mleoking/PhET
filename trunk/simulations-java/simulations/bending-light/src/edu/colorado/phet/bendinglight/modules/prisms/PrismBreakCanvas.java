@@ -26,10 +26,10 @@ import static edu.colorado.phet.bendinglight.model.BendingLightModel.WAVELENGTH_
  *
  * @author Sam Reid
  */
-public class PrismsCanvas extends BendingLightCanvas<PrismsModel> {
+public class PrismBreakCanvas extends BendingLightCanvas<PrismBreakModel> {
     private PNode prismLayer = new PNode();
 
-    public PrismsCanvas( final PrismsModel model, BooleanProperty moduleActive, Resettable resetAll ) {
+    public PrismBreakCanvas( final PrismBreakModel model, BooleanProperty moduleActive, Resettable resetAll ) {
         super( model, moduleActive, new Function1.Identity<Double>(), new Function1.Constant<Double, Boolean>( true ), new Function1.Constant<Double, Boolean>( true ), false,
                new Function2<Shape, Shape, Shape>() {
                    public Shape apply( Shape full, Shape front ) {
@@ -39,7 +39,8 @@ public class PrismsCanvas extends BendingLightCanvas<PrismsModel> {
                     public Shape apply( Shape full, Shape back ) {
                         return back;
                     }
-                }, "laser_knob.png", 150 );
+                }, "laser_knob.png", 150
+        );
 
         //add the prisms to the canvas
         for ( Prism prism : model.getPrisms() ) {

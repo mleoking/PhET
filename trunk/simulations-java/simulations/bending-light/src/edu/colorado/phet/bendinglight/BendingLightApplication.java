@@ -3,7 +3,7 @@ package edu.colorado.phet.bendinglight;
 
 import edu.colorado.phet.bendinglight.modules.intro.IntroModule;
 import edu.colorado.phet.bendinglight.modules.moretools.MoreToolsModule;
-import edu.colorado.phet.bendinglight.modules.prisms.PrismsModule;
+import edu.colorado.phet.bendinglight.modules.prisms.PrismBreakModule;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
@@ -23,7 +23,7 @@ public class BendingLightApplication extends PiccoloPhetApplication {
 
         //Add the modules
         addModule( new IntroModule() );
-        addModule( new PrismsModule() );
+        addModule( new PrismBreakModule() );
         addModule( new MoreToolsModule() );
     }
 
