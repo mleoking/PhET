@@ -1,6 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.phetcommon.model.property3;
 
+import edu.colorado.phet.common.phetcommon.model.property5.ChangeEvent;
+import edu.colorado.phet.common.phetcommon.model.property5.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
