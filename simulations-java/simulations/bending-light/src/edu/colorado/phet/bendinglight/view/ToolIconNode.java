@@ -86,9 +86,10 @@ public class ToolIconNode<T extends BendingLightModel> extends PNode {
     //input listener that will handle creating and dragging out the tool
     class ToolDragListener extends PBasicInputEventHandler {
         private final PImage thumbnailIcon;
-        ToolNode node = null;//The node that has been dragged out
+        private ToolNode node = null;//The node that has been dragged out
         boolean intersect = false;//true if the node is ready to be dropped back in the toolbox
         private CanvasBoundedDragHandler dragHandler;//Used for dragging the created ToolNode, but making sure it remains in canvas bounds
+        private PropertyChangeListener boundChangeListener;
 
         ToolDragListener( final PImage thumbnailIcon ) {
             this.thumbnailIcon = thumbnailIcon;
@@ -110,15 +111,15 @@ public class ToolIconNode<T extends BendingLightModel> extends PNode {
 
             //If the node hasn't already been created, make it now
             if ( node == null || dragMultiple ) {
-                node = nodeMaker.createNode( transform, showToolInPlayArea, transform.viewToModel( event.getPositionRelativeTo( canvas.getRootNode() ) ) );
-                final ToolNode nodeRef = node;
+                final ToolNode nodeRef = nodeMaker.createNode( transform, showToolInPlayArea, transform.viewToModel( event.getPositionRelativeTo( canvas.getRootNode() ) ) );
+                node = nodeRef;
 
                 //Determine if the node is ready to be dropped back in the toolbox
-                final PropertyChangeListener boundChangeListener = new PropertyChangeListener() {
+                boundChangeListener = new PropertyChangeListener() {
                     public void propertyChange( PropertyChangeEvent evt ) {
                         boolean anyIntersection = false;
                         //It can be dropped back in if any of its components are over the toolbox
-                        for ( PNode child : node.getDroppableComponents() ) {
+                        for ( PNode child : nodeRef.getDroppableComponents() ) {
                             PBounds bound = child.getGlobalFullBounds();
                             if ( globalToolboxBounds.apply().contains( bound.getCenterX(), bound.getCenterY() ) ) {
                                 anyIntersection = true;
@@ -127,34 +128,20 @@ public class ToolIconNode<T extends BendingLightModel> extends PNode {
                         intersect = anyIntersection;
                     }
                 };
-                node.addPropertyChangeListener( PROPERTY_FULL_BOUNDS, boundChangeListener );
+                nodeRef.addPropertyChangeListener( PROPERTY_FULL_BOUNDS, boundChangeListener );
 
                 //When the mouse is released, if the node is over the toolbox, drop it back in
-                node.addInputEventListener( new PBasicInputEventHandler() {
+                nodeRef.addInputEventListener( new PBasicInputEventHandler() {
                     public void mouseReleased( PInputEvent event ) {
-                        if ( intersect ) {
-                            //Update the model to signify the tool is out of the play area
-                            showToolInPlayArea.setValue( false );
-
-                            //Show the thumbnail again so it can be dragged out again
-                            thumbnailIcon.setVisible( true );
-
-                            //Remove listeners to prevent memory leaks
-                            if ( node != null ) {
-                                node.removePropertyChangeListener( boundChangeListener );
-                            }
-
-                            //Remove the tool from the play area
-                            reset();
-                        }
+                        testDropIn( nodeRef );
                     }
                 } );
 
                 //Put the created node in the canvas
-                addChild( canvas, node );
+                addChild( canvas, nodeRef );
 
                 //Create a new bounded drag handler now that everything is initialized
-                dragHandler = new BoundedToolDragHandler( node, event );
+                dragHandler = new BoundedToolDragHandler( nodeRef, event );
 
                 //Create a closure on the nodeRef instance to make sure it gets removed when the sim is reset
                 resetModel.addResetListener( new VoidFunction0() {
@@ -172,11 +159,29 @@ public class ToolIconNode<T extends BendingLightModel> extends PNode {
 
         //This is when the user drags the object out of the toolbox then drops it right back in the toolbox.
         public void mouseReleased( PInputEvent event ) {
+            testDropIn( node );
+        }
+
+        //Checks to see if the node is over the toolbox and ready to be dropped in.  If so, it is dropped in and removed from the canvas.
+        public void testDropIn( ToolNode node ) {
             if ( intersect ) {
+                //Update the model to signify the tool is out of the play area
                 showToolInPlayArea.setValue( false );
+
+                //Show the thumbnail again so it can be dragged out again
                 thumbnailIcon.setVisible( true );
+
+                //Remove listeners to prevent memory leaks
+                if ( node != null && boundChangeListener != null ) {
+                    node.removePropertyChangeListener( boundChangeListener );
+                }
+
+                if ( node != null ) {
+                    removeChild( canvas, node );
+                }
+
+                //Remove the tool from the play area
                 reset();
-                //TODO: how to remove property change listener?
             }
         }
 
