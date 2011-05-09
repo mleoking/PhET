@@ -101,10 +101,37 @@ public class RgbBulbsModule extends PhetGraphicsModule implements ChangeListener
     // Constructors
     //----------------------------------------------------------------------------
 
+//    //This override can make the apparatus panel come up at the right size even for resolutions less than 1024 x 768, see #2860
+//    @Override public void setApparatusPanel( final ApparatusPanel apparatusPanel ) {
+//        super.setApparatusPanel( apparatusPanel );
+//
+//        //Set the preferred size of the apparatus panel or it never renders
+//        final Dimension size = new Dimension( 1024,630);
+//        apparatusPanel.setPreferredSize( size );
+//
+//        //Use a PhETPCanvas with a PSwing around the apparatusPanel to handle the resizing
+//        setSimulationPanel( new PhetPCanvas() {{
+//            setWorldTransformStrategy( new CenteredStage( this, size ) );
+//            addWorldChild( new PSwing( apparatusPanel ) );
+//        }} );
+//
+//        //Wire up to make repaints happen whenever the clock ticks
+//        if (apparatusPanel instanceof ApparatusPanel2){
+//            ApparatusPanel2 p = (ApparatusPanel2) apparatusPanel;
+//            p.getClock().addClockListener( new ClockAdapter() {
+//                @Override public void simulationTimeChanged( ClockEvent clockEvent ) {
+//                    super.simulationTimeChanged( clockEvent );
+//                    getSimulationPanel().repaint();
+//                }
+//            } );
+//        }
+//    }
+
     public RgbBulbsModule() {
 
         super( ColorVisionStrings.RGB_BULBS_MODULE_TITLE, new SwingClock( ColorVisionConstants.CLOCK_DELAY, ColorVisionConstants.CLOCK_DT ) );
 
+        setLogoPanel( null );
         //----------------------------------------------------------------------------
         // Model
         //----------------------------------------------------------------------------
@@ -161,7 +188,7 @@ public class RgbBulbsModule extends PhetGraphicsModule implements ChangeListener
         //----------------------------------------------------------------------------
 
         // Control Panel
-        this.setControlPanel( new RgbBulbsControlPanel() );
+//        this.setControlPanel( new RgbBulbsControlPanel() );
 
         // Apparatus Panel
         ApparatusPanel2 apparatusPanel = new ApparatusPanel2( getClock() );
