@@ -75,7 +75,7 @@ public class ConductivityTesterNode extends PhetPNode {
     private static final int NEGATIVE_WIRE_CONTROL_POINT_DX = -POSITIVE_WIRE_CONTROL_POINT_DX;
     private static final int NEGATIVE_WIRE_CONTROL_POINT_DY = POSITIVE_WIRE_CONTROL_POINT_DY;
     
-    private final ConductivityTester tester;
+    private final IConductivityTester tester;
 
     private final LightBulbNode lightBulbNode;
     private final LightRaysNode lightRaysNode;
@@ -89,7 +89,7 @@ public class ConductivityTesterNode extends PhetPNode {
      * @param tester model element
      * @param dev whether to enable developer features
      */
-    public ConductivityTesterNode( final ConductivityTester tester, boolean dev ) {
+    public ConductivityTesterNode( final IConductivityTester tester, boolean dev ) {
         
         this.tester = tester;
         tester.addSolutionRepresentationChangeListener( new SolutionRepresentationChangeAdapter() {

@@ -47,6 +47,9 @@ public class SugarAndSaltSolutionModel {
     //Listeners which are notified when the sim is reset.
     private ArrayList<VoidFunction0> resetListeners = new ArrayList<VoidFunction0>();
 
+    //Model for the conductivity tester, which can be dipped into the liquid to indicate the conductivity by lighting a light bulb
+    public final ConductivityTester conductivityTester = new ConductivityTester();
+
     public SugarAndSaltSolutionModel() {
         clock = new ConstantDtClock( 30 );
 
