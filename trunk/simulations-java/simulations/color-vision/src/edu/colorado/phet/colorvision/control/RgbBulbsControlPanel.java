@@ -2,18 +2,16 @@
 
 package edu.colorado.phet.colorvision.control;
 
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 import edu.colorado.phet.colorvision.ColorVisionConstants;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 
 /**
  * RgbBulbsControlPanel is the control panel for the "RGB Bulbs" simulation module.
- * This control panel currently has no controls, but does contain the default PhET logo
- * graphic and Help buttons.
- * 
+ * This control panel currently has no controls, but it's included so that the
+ * play area will be the same size in all modules.
+ *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class RgbBulbsControlPanel extends ControlPanel {
