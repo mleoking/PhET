@@ -1,3 +1,4 @@
+# 0.00.51 (51671) May 8, 2011
 Fixed: If you drag out more than 1 object in Prism Break, reset all does not remove the first object.
 # 0.00.50 (51536) May 4, 2011
 Show the rotation drag handle behind the prism shape so it looks like it attaches solidly instead of sticking out on top
