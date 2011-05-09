@@ -1,3 +1,5 @@
+# 1.02.00 (51717) May 9, 2011
+5/9/11 > added new translation credits features
 # 1.01.01 (51561) May 5, 2011
 3/29/11 #2375, use Piccolo's SwingLayoutNode in MagnifyingGlassPrototypeApplication
 3/29/11 #2615, use Piccolo molecule rendering in MagnifyingGlassPrototypeApplication
