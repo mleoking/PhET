@@ -108,16 +108,6 @@ public class ApparatusPanel2 extends ApparatusPanel implements ClockListener {
         init( clock );
     }
 
-    /**
-     * @param model
-     * @deprecated
-     */
-    public ApparatusPanel2( BaseModel model ) {
-        super( null );
-        init( null );
-        throw new RuntimeException( "Don't work no more!" );
-    }
-
     protected void init( IClock clock ) {
         // Attach ourself to the clock
         this.clock = clock;
@@ -135,6 +125,10 @@ public class ApparatusPanel2 extends ApparatusPanel implements ClockListener {
         transformManager = new TransformManager( this );
         paintStrategy = new DefaultPaintStrategy( this );
         scaledComponentLayout = new ScaledComponentLayout( this );
+    }
+
+    public IClock getClock() {
+        return clock;
     }
 
     public TransformManager getTransformManager() {
