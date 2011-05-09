@@ -1,1 +1,2 @@
+5/9/2011: removed unused constructor in ApparatusPanel2 and made clock accessible through a getter, see #2860
 5/18/2010: made inner classes and interfaces static to satisfy scala eclipse plugin, see #2183
