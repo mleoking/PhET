@@ -16,47 +16,27 @@ import edu.colorado.phet.common.phetgraphics.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
 
 /**
- * SpectrumSlider is a UI component, similar to a JSlider, for selecting a
- * wavelength from the visible spectrum.
- * <p/>
- * The slider track shows the spectrum of colors that correspond to visible
- * wavelengths.  As the slider knob is moved, the knob color changes to match
- * the selected wavelength.  If a transmission width has been set, then a
- * bell curve is overlayed on the spectrum, aligned with the knob.
- * <p/>
- * The slider value is determined by the position of the slider knob,
- * and corresponds to a wavelength in the range VisibleColor.MIN_WAVELENGTH
- * to VisibleColor.MAX_WAVELENGTH, inclusive.
- * <p/>
- * The default orientation of the slider is horizontal. See setOrientation
- * for a description of the UI layout for each orientation.
+ * Color intensity slider.
+ * Intensity is a percentage, with a range of 0-100 inclusive.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
 public class ColorSlider extends GraphicLayerSet {
 
+    private final int MIN = 0;
+    private final int MAX = 100;
     private final int TRACK_MARGIN = 10;
     private final int TRACK_WIDTH = 3;
 
-    //----------------------------------------------------------------------------
-    // Instance data
-    //----------------------------------------------------------------------------
-
-    private Component _component; // The parent Component.
     private int _value; // The current value.
-    private int _minimum, _maximum; // Minimum and maximum range, inclusive.
     private Point _location; // The upper left corner of the spectrum graphic.
     private Rectangle _dragBounds; //The bounds that constrain dragging of the slider knob.
-    private EventListenerList _listenerList;
+    private final EventListenerList _listenerList;
 
     private final PhetShapeGraphic _background;
     private final PhetShapeGraphic _track;
     private final SpectrumSliderKnob _knob;
-
-    //----------------------------------------------------------------------------
-    // Constructors
-    //----------------------------------------------------------------------------
 
     /**
      * Sole constructor.
@@ -64,14 +44,10 @@ public class ColorSlider extends GraphicLayerSet {
      * @param component parent Component
      */
     public ColorSlider( Component component, Color color, Dimension size ) {
-
-        super( null );
+        super( component );
 
         // Initialize instance data.
-        _component = component;
-        _minimum = 0;
-        _maximum = 100;
-        _value = _minimum;
+        _value = MIN;
         _dragBounds = new Rectangle( 0, 0, 0, 0 ); // set correctly by setLocation
         _listenerList = new EventListenerList();
 
@@ -92,15 +68,11 @@ public class ColorSlider extends GraphicLayerSet {
 
         // Initialize interactivity
         _knob.setCursorHand();
-        _knob.addMouseInputListener( new SpectrumSliderMouseInputListener() );
+        _knob.addMouseInputListener( new KnobDragListener() );
 
         // This call recalculates the location of all graphic elements.
         setLocation( 0, 0 );
     }
-
-    //----------------------------------------------------------------------------
-    // Accessors
-    //----------------------------------------------------------------------------
 
     /**
      * Sets the slider value.
@@ -111,7 +83,7 @@ public class ColorSlider extends GraphicLayerSet {
         System.out.println( "ColorSlider.setValue " + value );
 
         // Silently clamp the value to the allowed range.
-        _value = (int) MathUtil.clamp( _minimum, value, _maximum );
+        _value = (int) MathUtil.clamp( MIN, value, MAX );
 
         // Fire a ChangeEvent to notify listeners that the value has changed.
         fireChangeEvent( new ChangeEvent( this ) );
@@ -136,7 +108,7 @@ public class ColorSlider extends GraphicLayerSet {
      */
     private int getValue( int x, int y ) {
         double percent = 1 - ( ( y - _dragBounds.y ) / (double) ( _dragBounds.height ) );
-        int value = (int) ( percent * ( _maximum - _minimum ) ) + _minimum;
+        int value = (int) ( percent * ( MAX - MIN ) ) + MIN;
         return value;
     }
 
@@ -196,7 +168,7 @@ public class ColorSlider extends GraphicLayerSet {
     private void updateKnob() {
 
         // Set the knob's location.
-        double percent = 1 - ( _value - _minimum ) / (double) ( _maximum - _minimum );
+        double percent = 1 - ( _value - MIN ) / (double) ( MAX - MIN );
         int x = _dragBounds.x;
         int y = _dragBounds.y + (int) ( percent * _dragBounds.height );
         _knob.setLocation( x, y );
@@ -204,46 +176,12 @@ public class ColorSlider extends GraphicLayerSet {
         repaint();
     }
 
-    //----------------------------------------------------------------------------
-    // Rendering
-    //----------------------------------------------------------------------------
-
-    /**
-     * Repaints the slider.
-     */
-    public void repaint() {
-
-        Rectangle r = getBounds();
-        _component.repaint( r.x, r.y, r.width, r.height );
-    }
-
-    /**
-     * Draws the slider.
-     *
-     * @param g2 the graphics context
-     */
-    public void paint( Graphics2D g2 ) {
-
-        if ( super.isVisible() ) {
-
-            // Draw the specturm & slider knob.
-            super.paint( g2 );
-
-            //BoundsOutliner.paint( g2, getBounds(), Color.GREEN, new BasicStroke(1f) ); // DEBUG
-        }
-    }
-
-    //----------------------------------------------------------------------------
-    // Event handling
-    //----------------------------------------------------------------------------
-
     /**
      * Adds a ChangeListener, ala JSlider.
      *
      * @param listener the listener to add
      */
     public void addChangeListener( ChangeListener listener ) {
-
         _listenerList.add( ChangeListener.class, listener );
     }
 
@@ -253,7 +191,6 @@ public class ColorSlider extends GraphicLayerSet {
      * @param listener the listener to remove
      */
     public void removeChangeListener( ChangeListener listener ) {
-
         _listenerList.remove( ChangeListener.class, listener );
     }
 
@@ -264,7 +201,6 @@ public class ColorSlider extends GraphicLayerSet {
      * @param event the event
      */
     private void fireChangeEvent( ChangeEvent event ) {
-
         Object[] listeners = _listenerList.getListenerList();
         for ( int i = 0; i < listeners.length; i += 2 ) {
             if ( listeners[i] == ChangeListener.class ) {
@@ -273,14 +209,8 @@ public class ColorSlider extends GraphicLayerSet {
         }
     }
 
-    /**
-     * SpectrumSliderMouseInputListener is an inner class the handles
-     * dragging of the slider knob.
-     *
-     * @author Chris Malley (cmalley@pixelzoom.com)
-     * @version $Id$
-     */
-    private class SpectrumSliderMouseInputListener extends MouseInputAdapter {
+    // Handles dragging of the slider knob.
+    private class KnobDragListener extends MouseInputAdapter {
 
         private int _mouseOffset; // Location of the mouse relative to the knob when a drag is started.
 
