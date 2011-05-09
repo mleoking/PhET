@@ -2,6 +2,8 @@ package edu.colorado.phet.reids.admin;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
@@ -43,31 +45,58 @@ public class TimesheetApp {
     private SelectionModel selectionModel = new SelectionModel();
     private MutableInt targetHours = new MutableInt( 0 );
     private final StretchingModel stretchingModel = new StretchingModel();
-    private String lastIconResource = null;
+    private final BufferedImage iconImage = new PhetResources( "timesheet" ).getImage( "x-office-calendar.png" );
+    private final BufferedImage warningImage = new PhetResources( "timesheet" ).getImage( "x-office-warning.png" );
+    private final BufferedImage bufferedIconImage = new BufferedImage( iconImage.getWidth(), iconImage.getHeight(), BufferedImage.TYPE_INT_RGB );
+    private AffineTransform identity = new AffineTransform();
 
     private void updateIconImage() {
-        String resource = null;
-        if ( stretchingModel.getTimeSinceBeginningOfLastSession( timesheetModel ) > 3600 ) {
-            resource = "x-office-warning.png";
-        }
-        else {
-            resource = timesheetModel.isClockedIn() ? "x-office-running.png" : "x-office-calendar.png";
-        }
-        if ( lastIconResource == null || !lastIconResource.equals( resource ) ) {
-            BufferedImage image = new PhetResources( "timesheet" ).getImage( resource );
-//            System.out.println( "Icon changed: " + image );
-            frame.setIconImage( image );
-            lastIconResource = resource;
+        if ( frame != null && frame.isVisible() ) {
+            double fractionComplete = stretchingModel.getTimeSinceBeginningOfLastSession( timesheetModel ) / 3600.0;
+            boolean timeToStretch = fractionComplete >= 1.0;
+
+            //Clear the graphics
+            Graphics2D graphics = bufferedIconImage.createGraphics();
+            graphics.setPaint( Color.white );
+            graphics.fillRect( 0, 0, bufferedIconImage.getWidth(), bufferedIconImage.getHeight() );
+
+            //Draw the base icon image
+            graphics.drawRenderedImage( timeToStretch ? warningImage : iconImage, identity );
+
+            //Show the progress bar
+            graphics.setPaint( Color.green );
+            int height = iconImage.getHeight() / 4;
+            graphics.fillRect( 0, 0, (int) ( fractionComplete * iconImage.getWidth() ), height );
+            graphics.setPaint( Color.red );
+            graphics.fillRect( 0, 0, 1, height );
+            graphics.fillRect( iconImage.getWidth() - 1, 0, 1, height );
+
+            //Show a red button if clocked in (like 'recording')
+            int inset = 5;
+            Ellipse2D.Double ellipse = new Ellipse2D.Double( inset, inset, bufferedIconImage.getWidth() - inset * 2, bufferedIconImage.getHeight() - inset * 2 );
+            if ( timesheetModel.isClockedIn() ) {
+                graphics.setPaint( Color.red );
+                graphics.fill( ellipse );
+            }
+
+            //Show a green outline around the red button if time to stretch
+            if ( fractionComplete >= 1.0 ) {
+                graphics.setPaint( Color.green );
+                graphics.setStroke( new BasicStroke( 1 ) );
+                graphics.draw( ellipse );
+            }
+            graphics.dispose();
+            frame.setIconImage( bufferedIconImage );
         }
     }
 
     public TimesheetApp() throws IOException {
         JIntellitypeSupport.init( new Runnable() {
-            public void run() {
-                System.out.println( "Clocking in for Work" );
-                timesheetModel.startNewTask();
-            }
-        }, new Runnable() {
+                                      public void run() {
+                                          System.out.println( "Clocking in for Work" );
+                                          timesheetModel.startNewTask();
+                                      }
+                                  }, new Runnable() {
             public void run() {
                 System.out.println( "Clocking out for Home" );
                 timesheetModel.clockOut();
@@ -78,9 +107,9 @@ public class TimesheetApp {
                     JOptionPane.showMessageDialog( frame, e1.getMessage() );
                 }
             }
-        } );
+        }
+        );
 
-        updateIconImage();
         timesheetModel.addClockedInListener( new TimesheetModel.ClockedInListener() {
             public void clockedInChanged() {
                 updateIconImage();
@@ -225,7 +254,8 @@ public class TimesheetApp {
                     e1.printStackTrace();
                 }
             }
-        } ), BorderLayout.SOUTH );
+        }
+        ), BorderLayout.SOUTH );
         frame.setContentPane( contentPane );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 //        table.setDefaultRenderer(Date.class, renderer);
@@ -449,6 +479,7 @@ public class TimesheetApp {
         new FrameSetup.CenteredWithSize( 1024, 768 ).initialize( frame );
         loadPreferences();
         frame.setVisible( true );
+        updateIconImage();
     }
 
     public static class SelectionModel {
