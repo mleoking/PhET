@@ -1,3 +1,5 @@
+# 2.05.02 (51678) May 9, 2011
+5/9/11 > fix: disabled clock buttons should not work (#2853)
 # 2.05.01 (51572) May 5, 2011
 # 2.05.00 (44219) Sep 20, 2010
 > calibrated Field view so that the drop-off is more apparent
