@@ -7,7 +7,7 @@ import java.awt.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.colorvision.control.ColorSlider;
+import edu.colorado.phet.colorvision.control.ColorIntensitySlider;
 import edu.colorado.phet.colorvision.control.RgbBulbsControlPanel;
 import edu.colorado.phet.colorvision.event.VisibleColorChangeEvent;
 import edu.colorado.phet.colorvision.event.VisibleColorChangeListener;
@@ -91,7 +91,7 @@ public class RgbBulbsModule extends PhetGraphicsModule implements ChangeListener
     private PhotonBeam _redPhotonBeamModel, _greenPhotonBeamModel, _bluePhotonBeamModel;
 
     // Views
-    private ColorSlider _redSlider, _greenSlider, _blueSlider;
+    private ColorIntensitySlider _redSlider, _greenSlider, _blueSlider;
 
     // Help
     private WiggleMe _wiggleMe;
@@ -222,17 +222,17 @@ public class RgbBulbsModule extends PhetGraphicsModule implements ChangeListener
         apparatusPanel.addGraphic( bluePhotonBeamGraphic, BLUE_BEAM_LAYER );
 
         // Red intensity control
-        _redSlider = new ColorSlider( apparatusPanel, VisibleColor.RED, INTENSITY_SLIDER_SIZE );
+        _redSlider = new ColorIntensitySlider( apparatusPanel, VisibleColor.RED, INTENSITY_SLIDER_SIZE );
         _redSlider.setLocation( RED_SLIDER_LOCATION );
         apparatusPanel.addGraphic( _redSlider, RED_SPOTLIGHT_LAYER );
 
         // Green intensity control
-        _greenSlider = new ColorSlider( apparatusPanel, VisibleColor.GREEN, INTENSITY_SLIDER_SIZE );
+        _greenSlider = new ColorIntensitySlider( apparatusPanel, VisibleColor.GREEN, INTENSITY_SLIDER_SIZE );
         _greenSlider.setLocation( GREEN_SLIDER_LOCATION );
         apparatusPanel.addGraphic( _greenSlider, GREEN_SPOTLIGHT_LAYER );
 
         // Blue intensity control
-        _blueSlider = new ColorSlider( apparatusPanel, VisibleColor.BLUE, INTENSITY_SLIDER_SIZE );
+        _blueSlider = new ColorIntensitySlider( apparatusPanel, VisibleColor.BLUE, INTENSITY_SLIDER_SIZE );
         _blueSlider.setLocation( BLUE_SLIDER_LOCATION );
         apparatusPanel.addGraphic( _blueSlider, BLUE_SPOTLIGHT_LAYER );
 
