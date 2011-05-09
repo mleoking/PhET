@@ -96,9 +96,9 @@ public class ScaleObject3D extends CuboidObject3D {
         return 36;
     }
 
-    //REVIEW doc - where is this object's origin, and where are we trying to position it?
     override public function setPosition( x: Number, y: Number ): void {
         // clamp the scale bounds manually because we set its mass to 0 while dragging which prevents intersection correction
+        // we are trying to position the scale so that it is not intersecting with the ground
 
         var scaleGroundHeight: Number = DensityAndBuoyancyModel.DISPLAY_SCALE * Scale.SCALE_HEIGHT / 2;
         var rightBound: Number = DensityAndBuoyancyModel.DISPLAY_SCALE * ((_view.model.getPoolWidth() - Scale.SCALE_WIDTH) / 2);
