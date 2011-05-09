@@ -155,8 +155,8 @@ public class BarMagnetModule extends FaradayModule {
         // Control
         //----------------------------------------------------------------------------
 
-        // Disable clock controls
-        getClockControlPanel().setEnabled( false );
+        // Replace clock controls with invisible panel.
+        setClockControlPanelEmpty( true );
 
         // Control Panel
         {

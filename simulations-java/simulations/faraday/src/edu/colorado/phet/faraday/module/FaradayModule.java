@@ -2,10 +2,9 @@
 
 package edu.colorado.phet.faraday.module;
 
-import java.awt.Color;
-import java.awt.Dimension;
+import java.awt.*;
 
-import javax.swing.JComponent;
+import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetgraphics.application.PhetGraphicsModule;
@@ -26,50 +25,50 @@ public abstract class FaradayModule extends PhetGraphicsModule implements ICompa
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
-    
+
     // Common graphics layers
     protected static final double DEBUG_LAYER = Double.MAX_VALUE - 1;
     protected static final double HELP_LAYER = Double.MAX_VALUE;
-    
+
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
-    
+
     private BFieldOutsideGraphic _bFieldOutsideGraphic;
     private DebuggerGraphic _debuggerGraphic;
-    
+
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
-    
+
     /**
      * Sole constructor.
-     * 
+     *
      * @param title the module title
      */
     public FaradayModule( String title ) {
         super( title, new SwingClock( FaradayConstants.CLOCK_DELAY, FaradayConstants.CLOCK_STEP ) );
         setLogoPanel( null );
     }
-    
+
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
-    
+
     /**
      * Sets the graphic that depicts the B-field graphic outside the magnet,
      * and that fills this module's play area.
-     * 
+     *
      * @param bFieldGraphic
      */
     public void setBFieldOutsideGraphic( BFieldOutsideGraphic bFieldGraphic ) {
-        assert( bFieldGraphic != null );
+        assert ( bFieldGraphic != null );
         _bFieldOutsideGraphic = bFieldGraphic;
     }
-    
+
     /**
      * Sets visibility of the clock control panel.
-     * 
+     *
      * @param visible
      */
     public void setClockControlPanelVisible( boolean visible ) {
@@ -78,14 +77,25 @@ public abstract class FaradayModule extends PhetGraphicsModule implements ICompa
             panel.setVisible( visible );
         }
     }
-    
+
+    protected void setClockControlPanelEmpty( boolean empty ) {
+        if ( empty ) {
+            // #2853, Replace standard clock controls with an empty panel of the same size.
+            JPanel emptyPanel = new JPanel() {{
+                add( Box.createVerticalStrut( (int) getClockControlPanel().getPreferredSize().getHeight() ) );
+                setPreferredSize( getClockControlPanel().getPreferredSize() );
+            }};
+            setClockControlPanel( emptyPanel );
+        }
+    }
+
     //----------------------------------------------------------------------------
     // Debugging
     //----------------------------------------------------------------------------
-    
+
     /**
      * Causes the graphic's location and bounds to be rendered.
-     * 
+     *
      * @param graphic the graphic
      */
     protected void drawBounds( PhetGraphic graphic ) {
@@ -102,10 +112,10 @@ public abstract class FaradayModule extends PhetGraphicsModule implements ICompa
     //----------------------------------------------------------------------------
     // ICompassGridModule implementation
     //----------------------------------------------------------------------------
-    
+
     /**
      * Sets the grid spacing.
-     * 
+     *
      * @param xSpacing space between needles in horizontal dimension, in pixels
      * @param ySpacing space between needles in the vertical dimension, in pixels
      */
@@ -117,7 +127,7 @@ public abstract class FaradayModule extends PhetGraphicsModule implements ICompa
 
     /**
      * Gets the horizontal spacing between needles.
-     * 
+     *
      * @return the spacing, in pixels
      */
     public int getGridXSpacing() {
@@ -130,7 +140,7 @@ public abstract class FaradayModule extends PhetGraphicsModule implements ICompa
 
     /**
      * Gets the vertical spacing between needles.
-     * 
+     *
      * @return the spacing, in pixels
      */
     public int getGridYSpacing() {
@@ -139,11 +149,11 @@ public abstract class FaradayModule extends PhetGraphicsModule implements ICompa
             ySpacing = _bFieldOutsideGraphic.getYSpacing();
         }
         return ySpacing;
-    }  
-    
+    }
+
     /**
      * Sets the size used for all needles in the grid.
-     * 
+     *
      * @param size the size, in pixels
      */
     public void setGridNeedleSize( Dimension size ) {
@@ -154,7 +164,7 @@ public abstract class FaradayModule extends PhetGraphicsModule implements ICompa
 
     /**
      * Gets the size of all needles in the grid.
-     * 
+     *
      * @return the size, in pixels
      */
     public Dimension getGridNeedleSize() {
@@ -164,10 +174,10 @@ public abstract class FaradayModule extends PhetGraphicsModule implements ICompa
         }
         return size;
     }
-    
+
     /**
      * Tells the grid its background color.
-     * 
+     *
      * @param color
      */
     public void setGridBackground( Color color ) {

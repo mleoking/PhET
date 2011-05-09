@@ -192,8 +192,8 @@ public class PickupCoilModule extends FaradayModule {
         // Control
         //----------------------------------------------------------------------------
 
-        // Disable clock controls
-        getClockControlPanel().setEnabled( false );
+        // #2853, Replace standard clock controls with an empty panel of the same size.
+        setClockControlPanelEmpty( true );
 
         // Control Panel
         {

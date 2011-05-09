@@ -1,3 +1,4 @@
+5/9/11 #2853, instead of disabling clock controls, substitute an empty panel of the same size
 5/9/11 #2853, restore disabled clock controls
 # 2.05.03 (51682) May 9, 2011
 5/9/11 #2853, dev version to demonstrate hiding (rather than disabling) the clock controls in the first 2 tabs
