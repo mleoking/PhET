@@ -1,0 +1,11 @@
+Model for Bending Light
+Sam Reid
+5/9/2011
+
+The bending light model uses Snell's Law at each interface for computing reflected/refracted angle and reflected/refracted light power:
+http://en.wikipedia.org/wiki/Snell's_law
+
+When showing multiple reflections in the Prism Break tab, light rays are terminated after 50 reflections/refractions to ensure computability.
+
+To compute the white-light representation, the light ray paths are rasterized according to the Bresenham Line algorithm, and individual rays are added up, increasing both the intensity
+and saturating the wavelength to make it appear whiter.  White light is actually depicted as gray to make the sim work against a white background.
