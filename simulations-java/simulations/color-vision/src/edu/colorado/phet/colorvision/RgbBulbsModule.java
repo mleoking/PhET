@@ -4,11 +4,10 @@ package edu.colorado.phet.colorvision;
 
 import java.awt.*;
 
-import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.colorvision.control.ColorIntensitySlider;
+import edu.colorado.phet.colorvision.control.ColorSlider;
 import edu.colorado.phet.colorvision.control.RgbBulbsControlPanel;
 import edu.colorado.phet.colorvision.event.VisibleColorChangeEvent;
 import edu.colorado.phet.colorvision.event.VisibleColorChangeListener;
@@ -76,7 +75,7 @@ public class RgbBulbsModule extends PhetGraphicsModule implements ChangeListener
     private static final double BLUE_SPOTLIGHT_ANGLE = -( RED_SPOTLIGHT_ANGLE );
 
     // Bounds
-    private static final Dimension INTENSITY_SLIDER_SIZE = new Dimension( 20, 100 );
+    private static final Dimension INTENSITY_SLIDER_SIZE = new Dimension( 35, 125 );
     private static final Rectangle BEAM_BOUNDS = new Rectangle( (int) SPOTLIGHT_X, (int) RED_SPOTLIGHT_Y, (int) ( PERSON_X - SPOTLIGHT_X + 100 ), (int) ( BLUE_SPOTLIGHT_Y - RED_SPOTLIGHT_Y ) );
 
     // Limits
@@ -92,7 +91,7 @@ public class RgbBulbsModule extends PhetGraphicsModule implements ChangeListener
     private PhotonBeam _redPhotonBeamModel, _greenPhotonBeamModel, _bluePhotonBeamModel;
 
     // Views
-    private ColorIntensitySlider _redSlider, _greenSlider, _blueSlider;
+    private ColorSlider _redSlider, _greenSlider, _blueSlider;
 
     // Help
     private WiggleMe _wiggleMe;
@@ -131,7 +130,6 @@ public class RgbBulbsModule extends PhetGraphicsModule implements ChangeListener
 
         super( ColorVisionStrings.RGB_BULBS_MODULE_TITLE, new SwingClock( ColorVisionConstants.CLOCK_DELAY, ColorVisionConstants.CLOCK_DT ) );
 
-        setLogoPanel( null );
         //----------------------------------------------------------------------------
         // Model
         //----------------------------------------------------------------------------
@@ -188,7 +186,7 @@ public class RgbBulbsModule extends PhetGraphicsModule implements ChangeListener
         //----------------------------------------------------------------------------
 
         // Control Panel
-//        this.setControlPanel( new RgbBulbsControlPanel() );
+        this.setControlPanel( new RgbBulbsControlPanel() );
 
         // Apparatus Panel
         ApparatusPanel2 apparatusPanel = new ApparatusPanel2( getClock() );
@@ -224,22 +222,19 @@ public class RgbBulbsModule extends PhetGraphicsModule implements ChangeListener
         apparatusPanel.addGraphic( bluePhotonBeamGraphic, BLUE_BEAM_LAYER );
 
         // Red intensity control
-        _redSlider = new ColorIntensitySlider( VisibleColor.RED, JSlider.VERTICAL, INTENSITY_SLIDER_SIZE );
+        _redSlider = new ColorSlider( apparatusPanel, VisibleColor.RED, INTENSITY_SLIDER_SIZE );
         _redSlider.setLocation( RED_SLIDER_LOCATION );
-        _redSlider.setCursor( new Cursor( Cursor.HAND_CURSOR ) );
-        apparatusPanel.add( _redSlider );
+        apparatusPanel.addGraphic( _redSlider, RED_SPOTLIGHT_LAYER );
 
         // Green intensity control
-        _greenSlider = new ColorIntensitySlider( VisibleColor.GREEN, JSlider.VERTICAL, INTENSITY_SLIDER_SIZE );
+        _greenSlider = new ColorSlider( apparatusPanel, VisibleColor.GREEN, INTENSITY_SLIDER_SIZE );
         _greenSlider.setLocation( GREEN_SLIDER_LOCATION );
-        _greenSlider.setCursor( new Cursor( Cursor.HAND_CURSOR ) );
-        apparatusPanel.add( _greenSlider );
+        apparatusPanel.addGraphic( _greenSlider, GREEN_SPOTLIGHT_LAYER );
 
         // Blue intensity control
-        _blueSlider = new ColorIntensitySlider( VisibleColor.BLUE, JSlider.VERTICAL, INTENSITY_SLIDER_SIZE );
+        _blueSlider = new ColorSlider( apparatusPanel, VisibleColor.BLUE, INTENSITY_SLIDER_SIZE );
         _blueSlider.setLocation( BLUE_SLIDER_LOCATION );
-        _blueSlider.setCursor( new Cursor( Cursor.HAND_CURSOR ) );
-        apparatusPanel.add( _blueSlider );
+        apparatusPanel.addGraphic( _blueSlider, BLUE_SPOTLIGHT_LAYER );
 
         //----------------------------------------------------------------------------
         // Observers

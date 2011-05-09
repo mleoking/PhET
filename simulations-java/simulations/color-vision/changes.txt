@@ -1,3 +1,4 @@
+5/9/11 #2862, reimplement color intensity slider in phetgraphics, so that it scales
 Added a (commented-out) solution for making sure the simulation panel comes up at the right size initially, even on low-res platforms such as netbooks, see #2860
 Removed the gray panel on the right, which had no controls in it
 # 1.03.00 (37985) Jan 8, 2010

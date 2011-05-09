@@ -20,13 +20,12 @@ import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
  * Intensity is a percentage, with a range of 0-100 inclusive.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class ColorSlider extends GraphicLayerSet {
 
     private final int MIN = 0;
     private final int MAX = 100;
-    private final int TRACK_MARGIN = 10;
+    private final int TRACK_MARGIN = 15;
     private final int TRACK_WIDTH = 3;
 
     private int _value; // The current value.
@@ -46,27 +45,28 @@ public class ColorSlider extends GraphicLayerSet {
     public ColorSlider( Component component, Color color, Dimension size ) {
         super( component );
 
-        // Initialize instance data.
         _value = MIN;
         _dragBounds = new Rectangle( 0, 0, 0, 0 ); // set correctly by setLocation
         _listenerList = new EventListenerList();
 
+        // background
         Paint backgroundPaint = new GradientPaint( 0f, (float) TRACK_MARGIN, color, 0f, (float) ( size.height - TRACK_MARGIN ), Color.BLACK );
-
         Shape backgroundShape = new Rectangle2D.Double( 0, 0, size.width, size.height );
         _background = new PhetShapeGraphic( component, backgroundShape, backgroundPaint, new BasicStroke( 1f ), Color.WHITE );
         addGraphic( _background );
 
+        // track
         Shape trackShape = new Rectangle2D.Double( ( size.width - TRACK_WIDTH ) / 2, TRACK_MARGIN, TRACK_WIDTH, size.height - ( 2 * TRACK_MARGIN ) );
         _track = new PhetShapeGraphic( component, trackShape, Color.LIGHT_GRAY, new BasicStroke( 0.5f ), Color.DARK_GRAY );
         addGraphic( _track );
 
+        // knob
         _knob = new SpectrumSliderKnob( component, new Dimension( 15, 20 ), Math.toRadians( -90 ) );
         _knob.setPaint( Color.GRAY );
         _knob.setBorderColor( Color.WHITE );
         addGraphic( _knob );
 
-        // Initialize interactivity
+        // interactivity
         _knob.setCursorHand();
         _knob.addMouseInputListener( new KnobDragListener() );
 
@@ -80,7 +80,7 @@ public class ColorSlider extends GraphicLayerSet {
      * @param value the value, silently clamped to the slider's range (ala JSlider)
      */
     public void setValue( int value ) {
-        System.out.println( "ColorSlider.setValue " + value );
+        System.out.println( "ColorSlider.setValue " + value );//XXX
 
         // Silently clamp the value to the allowed range.
         _value = (int) MathUtil.clamp( MIN, value, MAX );
@@ -124,23 +124,6 @@ public class ColorSlider extends GraphicLayerSet {
     }
 
     /**
-     * Gets the bounds.
-     *
-     * @return the bounds
-     */
-    public Rectangle getBounds() {
-
-        // Start with the spectrum graphic's bounds.
-        // Make a copy, so we don't accidentally change the graphic's bounds.
-        Rectangle bounds = new Rectangle( _background.getBounds() );
-
-        // Add the knob's bounds.
-        bounds.add( _knob.getBounds() );
-
-        return bounds;
-    }
-
-    /**
      * Updates all graphical components.
      * This method is shared by setter methods.
      */
@@ -154,8 +137,7 @@ public class ColorSlider extends GraphicLayerSet {
         _track.setLocation( x, y );
 
         // Set drag bounds.
-        Rectangle spectrumBounds = _background.getBounds();
-        _dragBounds = new Rectangle( x + spectrumBounds.width, y, 0, spectrumBounds.height );
+        _dragBounds = new Rectangle( x + ( ( _background.getBounds().width - _knob.getWidth() ) / 2 ), y + TRACK_MARGIN, 0, _background.getBounds().height - ( 2 * TRACK_MARGIN ) );
 
         // Update the knob.
         updateKnob();
