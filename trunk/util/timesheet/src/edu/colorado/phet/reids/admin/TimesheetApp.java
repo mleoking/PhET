@@ -72,7 +72,7 @@ public class TimesheetApp {
             graphics.fillRect( iconImage.getWidth() - 1, 0, 1, height );
 
             //Show a red button if clocked in (like 'recording')
-            int inset = 5;
+            int inset = 3;
             Ellipse2D.Double ellipse = new Ellipse2D.Double( inset, inset, bufferedIconImage.getWidth() - inset * 2, bufferedIconImage.getHeight() - inset * 2 );
             if ( timesheetModel.isClockedIn() ) {
                 graphics.setPaint( Color.red );
