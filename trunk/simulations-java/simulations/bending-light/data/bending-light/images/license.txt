@@ -1,8 +1,10 @@
-knob.png author=phet notes=NP, taken from laser_knob.png
 button_pressed.png author=phet notes=NP
 button_unpressed.png author=phet notes=NP
 intensity_meter_box.png author=phet notes=NP
 intensity_meter_probe.png author=phet notes=NP
+knob.png author=phet notes=NP, taken from laser_knob.png
 laser.png author=phet notes=NP
-protractor.png author=phet notes=NP
 laser_knob.png author=phet notes=NP
+wave_detector_box.png author=phet notes=NP
+wave_detector_box_dark.png author=phet notes=NP
+wave_detector_box_light.png author=phet notes=NP
