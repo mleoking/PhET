@@ -9,12 +9,10 @@ import java.util.logging.Logger;
 import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction2;
 import edu.colorado.phet.common.phetcommon.util.logging.LoggingUtils;
 
 //REVIEW super.removeAllObservers doesn't do what you think it does, override?
 //REVIEW why 3 totally different variants of addObserver? (SimpleObserver, VoidFunction2, ChangeObserver)
-//REVIEW why addObserver(ChangeObserver) and removeObserver(VoidFunction2)?
 //REVIEW if we're going to have separate listener lists, then absorb functionality of SimpleObservable?
 
 /**
@@ -111,7 +109,7 @@ public abstract class ObservableProperty<T> extends SimpleObservable {
         newAndOldValueObservers.add( observer );
     }
 
-    public void removeObserver( VoidFunction2<T, T> observer ) {
+    public void removeObserver( ChangeObserver<T> observer ) {
         newAndOldValueObservers.remove( observer );
     }
 
