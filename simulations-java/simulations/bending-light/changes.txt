@@ -90,16 +90,16 @@ Moved VelocitySensorNode to piccolo-phet for reuse in Fluid Pressure and Flow
 Improved docs and API for VelocitySensorNode
 # 0.00.28 (50003) Mar 20, 2011
 Fixed: Sim speed doesn't reset
-> Removed 'x' close button from intensity meter
+Removed 'x' close button from intensity meter
 Updated wave sensor to use new time units
 Switched to use DataPoint instead of ImmutableVector2D to improve readability
 Fixed time units so that dt is closer to 1E-14 instead of 1.0
-> Fixed: If the user changes the index of refraction, it should be index at the laser's current wavelength
-> Fixed: If the user changes the wavelength of light, the indices of refraction should change
+Fixed: If the user changes the index of refraction, it should be index at the laser's current wavelength
+Fixed: If the user changes the wavelength of light, the indices of refraction should change
 Added the Sellmeier equation
 Refactored dispersion to be part of medium instead of computed externally
 Converted from Function2<Double,Double,Double> to named interface DispersionFunction
-> Fixed: Tools should drop in the box when any piece is dropped in the box, not when the center of mass of all components is dropped in
+Fixed: Tools should drop in the box when any piece is dropped in the box, not when the center of mass of all components is dropped in
 # 0.00.27 (49883) Mar 16, 2011
 # 0.00.26 (49881) Mar 16, 2011
 Show speed vector at the tail instead of centered
