@@ -14,6 +14,13 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction2;
 import edu.colorado.phet.common.phetcommon.util.logging.LoggingUtils;
 
+//REVIEW this class has dependencies on property3
+
+//REVIEW super.removeAllObservers doesn't do what you think it does, override?
+//REVIEW why 3 totally different variants of addObserver? (SimpleObserver, VoidFunction2, ChangeObserver)
+//REVIEW why addObserver(ChangeObserver) and removeObserver(VoidFunction2)?
+//REVIEW if we're going to have separate listener lists, then absorb functionality of SimpleObservable?
+
 /**
  * This can be used to represent an observable model value in a MVC style pattern. Notifications are sent to observers when they
  * register with addObserver, and also when the value changes (it is up to subclasses to guarantee that notifications are sent when necessary, and not duplicated).
@@ -34,11 +41,12 @@ public abstract class ObservableProperty<T> extends SimpleObservable {
     private final ArrayList<VoidFunction1<T>> newValueObservers = new ArrayList<VoidFunction1<T>>();//Listeners that receive the new value in the callback
     private final ArrayList<ChangeObserver<T>> newAndOldValueObservers = new ArrayList<ChangeObserver<T>>();//Listeners that receive the new and old values in the callback
 
+    //REVIEW I don't see this value being used for the purpose described here, and there's no interface to set/get.
     //Store the value that was previously notified so we can prevent sending out notifications when the value didn't actually change
     private T oldValue;
 
     public ObservableProperty( T oldValue ) {
-        this.oldValue = oldValue;
+        this.oldValue = oldValue; //REVIEW discuss implications of this for notify-on-register
     }
 
     /**
@@ -92,7 +100,7 @@ public abstract class ObservableProperty<T> extends SimpleObservable {
      */
     private void notifyNewAndOldValueObservers( T newValue, T oldValue ) {
         for ( ChangeObserver<T> observer : new ArrayList<ChangeObserver<T>>( newAndOldValueObservers ) ) {//Iterate on a copy of the observer list to avoid ConcurrentModificationException, see #2741
-            observer.update( new ChangeEvent<T>( newValue, oldValue ) );
+            observer.update( new ChangeEvent<T>( newValue, oldValue ) ); //REVIEW change order of args
         }
     }
 

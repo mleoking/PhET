@@ -6,7 +6,7 @@ import java.util.List;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 
 /**
- * Returns a boolean AND over Property arguments.  This provides read-only access;
+ * Returns a boolean OR over Property arguments.  This provides read-only access;
  * calling setValue on this AndProperty doesn't propagate back to the original properties.
  *
  * @author Sam Reid
@@ -14,10 +14,10 @@ import edu.colorado.phet.common.phetcommon.util.function.Function0;
 public class Or extends CompositeProperty<Boolean> {
     public Or( final ObservableProperty<Boolean> a, final ObservableProperty<Boolean> b ) {
         super( new Function0<Boolean>() {
-                   public Boolean apply() {
-                       return a.getValue() || b.getValue();
-                   }
-               }, a, b );
+            public Boolean apply() {
+                return a.getValue() || b.getValue();
+            }
+        }, a, b );
     }
 
     public And and( ObservableProperty<Boolean> b ) {

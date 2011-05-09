@@ -15,12 +15,13 @@ import edu.colorado.phet.common.phetcommon.util.function.Function0;
 public class ValueEquals<T> extends CompositeProperty<Boolean> {
     public ValueEquals( final Property<T> property, final T value ) {
         super( new Function0<Boolean>() {
-                   public Boolean apply() {
-                       return property.getValue().equals( value );
-                   }
-               }, property );
+            public Boolean apply() {
+                return property.getValue().equals( value );
+            }
+        }, property );
     }
 
+    //REVIEW why is this here?
     //Returns a property that is an 'or' conjunction of this and the provided argument
     public Or or( ObservableProperty<Boolean> p ) {
         return new Or( this, p );

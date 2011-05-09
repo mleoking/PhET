@@ -4,8 +4,10 @@ package edu.colorado.phet.common.phetcommon.model.property5;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 
+//REVIEW where is oldValue set?
+
 /**
- * The CompositeProperty should be used for ObservableProperties that are combined, such as And, Or, ValueEquals, Sum, etc.
+ * The CompositeProperty should be used for ObservableProperties that are combined, such as And, Or, ValueEquals, etc.
  * It makes sure the dependencies are observed for changes and only sends out notifications when the composite value has changed.
  *
  * @param <T>
@@ -18,6 +20,7 @@ public class CompositeProperty<T> extends ObservableProperty<T> {
         super( function.apply() );
         this.function = function;
 
+        //REVIEW this creates a potential memory leak, provide a cleanup method to remove the observer
         //Observe all dependencies for changes, and if one of their changes causes this value to change, send out a notification
         SimpleObserver simpleObserver = new SimpleObserver() {
             public void update() {

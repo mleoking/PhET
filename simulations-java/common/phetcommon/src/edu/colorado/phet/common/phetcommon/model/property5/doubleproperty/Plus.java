@@ -10,12 +10,13 @@ import edu.colorado.phet.common.phetcommon.util.function.Function0;
  *
  * @author Sam Reid
  */
+//TODO make this varargs and rename to Sum, ala property4.Sum
 public class Plus extends CompositeProperty<Double> {
     public Plus( final ObservableProperty<Double> a, final ObservableProperty<Double> b ) {
         super( new Function0<Double>() {
-                   public Double apply() {
-                       return a.getValue() + b.getValue();
-                   }
-               }, a, b );
+            public Double apply() {
+                return a.getValue() + b.getValue();
+            }
+        }, a, b );
     }
 }
