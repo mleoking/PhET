@@ -12,6 +12,7 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.common.phetcommon.model.property5.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property5.Property;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
@@ -35,7 +36,8 @@ public class FaucetNode extends PNode {
 
     public FaucetNode( ModelViewTransform transform,
                        final Property<Double> faucetFlowLevel,
-                       final Option<Double> flowPoint//if some, the point at which water should stop flowing (for the input faucet, water should stop at the beaker base
+                       final Option<Double> flowPoint,//if some, the point at which water should stop flowing (for the input faucet, water should stop at the beaker base
+                       final ObservableProperty<Boolean> allowed//true if this faucet is allowed to add water.  The top faucet is allowed to add water if the beaker isn't full, and the bottom one can turn on if the beaker isn't empty.
     ) {
         PImage imageNode = new PImage( RESOURCES.getImage( "faucet.png" ) ) {{
             //Scale and offset so that the slider will fit into the tap control component
@@ -53,7 +55,10 @@ public class FaucetNode extends PNode {
                 //Wire up 2-way communication with the Property
                 addChangeListener( new ChangeListener() {
                     public void stateChanged( ChangeEvent e ) {
-                        faucetFlowLevel.setValue( getValue() / 100.0 );
+                        //Only change the flow rate if the beaker can accommodate
+                        if ( allowed.getValue() ) {
+                            faucetFlowLevel.setValue( getValue() / 100.0 );
+                        }
                     }
                 } );
                 faucetFlowLevel.addObserver( new VoidFunction1<Double>() {

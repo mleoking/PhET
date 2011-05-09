@@ -8,6 +8,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.event.Notifier;
+import edu.colorado.phet.common.phetcommon.model.property5.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property5.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 
@@ -46,6 +47,10 @@ public class SugarAndSaltSolutionModel {
 
     //Listeners which are notified when the sim is reset.
     private ArrayList<VoidFunction0> resetListeners = new ArrayList<VoidFunction0>();
+
+    //Convenience composite properties for determining whether the beaker is full or empty so we can shut off the faucets when necessary
+    public final ObservableProperty<Boolean> beakerFull = water.volume.valueEquals( beaker.getMaxFluidVolume() );
+    public final ObservableProperty<Boolean> beakerEmpty = water.volume.valueEquals( 0.0 );
 
     public SugarAndSaltSolutionModel() {
         clock = new ConstantDtClock( 30 );
@@ -92,6 +97,10 @@ public class SugarAndSaltSolutionModel {
         if ( newVolume >= beaker.getMaxFluidVolume() ) {
             inputFlowRate.setValue( 0.0 );
             //TODO: make the cursor drop the slider?
+        }
+        //Turn off the output flow if the beaker is empty
+        if ( newVolume <= 0 ) {
+            outputFlowRate.setValue( 0.0 );
         }
 
         //Update the water volume
