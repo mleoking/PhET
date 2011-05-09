@@ -29,7 +29,7 @@ public class DensityPlayAreaComponent extends AbstractDensityAndBuoyancyPlayArea
         super( false );
         this._container = densityContainer;
         const thisReference: DensityPlayAreaComponent = this;
-        //REVIEW doc, why can't modes be created until applicationComplete event is dispatched? what's the dependency?
+        // modes rely on the Stage being accessible for initialization, so we wait until the application has completed loading
         ApplicationLifecycle.addApplicationCompleteListener( function(): void {
             customObjectMode = new DensityCustomObjectMode( thisReference );
             sameMassMode = new DensitySameMassMode( thisReference );

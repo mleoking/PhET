@@ -2,7 +2,7 @@
 package edu.colorado.phet.densityandbuoyancy.view.modes {
 import edu.colorado.phet.densityandbuoyancy.view.AbstractDensityAndBuoyancyPlayAreaComponent;
 
-//TODO-REVIEW -
+//TODO -
 // This was initially confusing because it differs greatly from the concept of modes used in Gravity and Orbits,
 // where each mode has a separate canvas and model. In this sim, there is one canvas and one model, shared
 // by all modes.

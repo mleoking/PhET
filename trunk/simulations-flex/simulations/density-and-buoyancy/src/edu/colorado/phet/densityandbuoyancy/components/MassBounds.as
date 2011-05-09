@@ -16,7 +16,7 @@ public class MassBounds implements NumericClamp {
 
     public function clamp( value: Number ): Number {
         //TODO: factor out this duplicated code, probably by introducing a method material.getMaximum()
-        //REVIEW These constants feel kludgy here, adding another similar object in the future will be difficult because of this coupling.
+        // NOTE: the design requirements to have a set maximum styrofoam and wood mass that are even necessitate this code
         if ( value > DensityAndBuoyancyConstants.STYROFOAM_MAX_MASS && densityObject.material.equals( Material.STYROFOAM ) ) {
             return DensityAndBuoyancyConstants.STYROFOAM_MAX_MASS;
         }

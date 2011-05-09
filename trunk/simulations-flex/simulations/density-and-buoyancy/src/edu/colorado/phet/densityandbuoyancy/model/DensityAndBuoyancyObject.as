@@ -57,7 +57,7 @@ public class DensityAndBuoyancyObject {
 
     public function DensityAndBuoyancyObject( x: Number, y: Number, z: Number, model: DensityAndBuoyancyModel, __density: Number, mass: Number, __volume: Number, __material: Material ) {
         this._material = __material;
-        //REVIEW why aren't you using a Units object to supply units, as in CustomObjectPropertiesPanel?
+        //TODO why aren't you using a Units object to supply units, as in CustomObjectPropertiesPanel?
         //TODO: why aren't units internationalized?, see #2810
         this._volume = new NumericProperty( FlexSimStrings.get( "properties.volume", "Volume" ), "m\u00b3", __volume );
         //TODO: why aren't units internationalized?, see #2810

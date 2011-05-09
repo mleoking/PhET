@@ -21,7 +21,7 @@ import mx.controls.TextInput;
 public class AbstractDensityAndBuoyancyCanvas extends Canvas {
     protected var background: Canvas;
 
-    protected var phetLogoButton: PhetLogoButton; //REVIEW this is apparently optional in multi-tab sims (eg BuoyancyContainer), so why is this in the base class?
+    protected var phetLogoButton: PhetLogoButton; // not optional, is created with a specific size and position in each subclass
 
     /**
      * Override in sub-classes

@@ -4,9 +4,11 @@ import away3d.materials.MovieMaterial;
 
 import flash.display.Sprite;
 
-//REVIEW doc - nice to know where it's used and when they're created. but what are they? what are they displaying?
 /**
- * This is used as a child in Sprite3D, they are created each time the sprite is resized.
+ * This is a single rectangle in 3d that is filled visually with the contents of a sprite.
+ *
+ * This is used as a child in Sprite3D, they are created each time the sprite is resized, as it cannot handle changing its size when its sprite
+ * increases.
  */
 public class SpriteFaceMesh extends SimpleMesh {
     private var sprite: Sprite;

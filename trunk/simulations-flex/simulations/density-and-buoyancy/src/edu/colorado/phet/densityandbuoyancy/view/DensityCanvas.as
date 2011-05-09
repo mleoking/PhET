@@ -80,7 +80,7 @@ public class DensityCanvas extends AbstractDensityAndBuoyancyCanvas {
         densityCanvas.resetAll();
     }
 
-    //REVIEW this feature should be provided by common code: eg, PhetCanvas extends Canvas, and has method addLogo, all sims should extend PhetCanvas, not Canvas
+    //TODO this feature should be provided by common code: eg, PhetCanvas extends Canvas, and has method addLogo, all sims should extend PhetCanvas, not Canvas
     protected override function addLogo(): void {
         phetLogoButton = new PhetLogoButton();
         phetLogoButton.setStyle( "left", DensityAndBuoyancyConstants.CONTROL_INSET );
