@@ -345,8 +345,9 @@ public class ApparatusPanel2 extends ApparatusPanel implements ClockListener {
         gs.restoreGraphics();
         super.drawBorder( g2 );
     }
-    static Random rand=new Random();
-    private static final boolean debugRepaintRegion=false;
+
+    static Random rand = new Random();
+    private static final boolean debugRepaintRegion = false;
 
     /**
      * Gets the size of the drawing area (the canvas) that is available to clients.
@@ -391,15 +392,6 @@ public class ApparatusPanel2 extends ApparatusPanel implements ClockListener {
         if ( DEBUG_OUTPUT_ENABLED ) {
             System.out.println( "ApparatusPanel2.setReferenceBounds: referenceBounds=" + transformManager.getReferenceBounds() );
         }
-    }
-
-    /**
-     * Explicitly sets the apparatus panel's reference size to a specific dimension.
-     *
-     * @param renderingSize
-     */
-    public void setReferenceSize( Dimension renderingSize ) {
-        setReferenceSize( renderingSize.width, renderingSize.height );
     }
 
     /**
@@ -500,7 +492,7 @@ public class ApparatusPanel2 extends ApparatusPanel implements ClockListener {
 
         private void addMouseEvent( MouseEvent event ) {
             xformEventPt( event );
-            synchronized( mouseEventList ) {
+            synchronized ( mouseEventList ) {
                 mouseEventList.add( event );
             }
 
@@ -514,7 +506,7 @@ public class ApparatusPanel2 extends ApparatusPanel implements ClockListener {
         private void processMouseEventList() {
             MouseEvent event;
             while ( mouseEventList.size() > 0 ) {
-                synchronized( mouseEventList ) {
+                synchronized ( mouseEventList ) {
                     event = (MouseEvent) mouseEventList.removeFirst();
                 }
                 handleMouseEvent( event );
@@ -600,7 +592,8 @@ public class ApparatusPanel2 extends ApparatusPanel implements ClockListener {
     // Event-related classes
     //-----------------------------------------------------------------
     public static class ChangeEvent extends EventObject {
-    	private ApparatusPanel2 apparatusPanel;
+        private ApparatusPanel2 apparatusPanel;
+
         public ChangeEvent( ApparatusPanel2 source ) {
             super( source );
             this.apparatusPanel = source;
