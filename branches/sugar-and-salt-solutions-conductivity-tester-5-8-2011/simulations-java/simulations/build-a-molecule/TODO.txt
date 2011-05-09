@@ -1,0 +1,22 @@
+Prevent 4 heavy atoms in a "square".
+Make Reset button more playful (piccolo node?) Orange?
+Add bubble with "Drag your molecule here" inside, or another phrase? (With blue arrow). Also animate the arrow!
+Once an atom is selected and dragged close to another atom, it goes behind the atom. Can selected atoms that are being manipulated remain in front?
+View 3D button from collection box
+Add BCE sound ding + bottom of collection box
+Process molecule lists instead of (<=4 heavy) to (works with our kits)
+Remove isomer developer control, and/or pulling from all molecules
+Smiley face on collection boxes completion?
+
+PENDING:
+Emailed Sandor about translating names. Developer recommendation: translate a subset
+
+TESTING:
+I18n
+Color blindness test
+
+EVALUATION:
+Possibly attempt to generate less kits? PENDING feedback
+Developer option to make "Reset kit" not pull from collection box
+Icons
+Scissors

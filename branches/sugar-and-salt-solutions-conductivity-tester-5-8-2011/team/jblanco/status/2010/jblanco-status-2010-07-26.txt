@@ -1,0 +1,48 @@
+PhET Weekly Progress Report
+John Blanco
+July 26, 2010
+
+Greenhouse - 28.5 hrs
+
+•	Added subscripts for all chemical symbols.
+•	Restructured the control panel to contain one group of gases in alphabetical order (instead of explicitly identifying the greenhouse gases).
+•	Replaced the "Earth" and "Venus" choices with a "Build Atmosphere" selection.
+•	Converted the "Fire" button on the photon emitter to be a switch.  Leveraged the switch button from the Hydrogen Atom sim for this.
+•	Made photon absorption probabilistic and added a developer control for adjusting it.
+•	Made photon emission speed adjustable from a developer control.
+•	Made Reset All remove any in-transit photons and stop any molecular oscillation.
+•	Published a version for review of the set of changes above.
+•	Added the infrastructure for the "Build Atmosphere" feature to the model.
+•	Added an algorithm for distributing the molecules in the "atmosphere" (in collaboration with Sam R).
+•	Added sliders to the control panel to control the level of gases in the configurable atmosphere.
+•	Made the photon emitter send out photons at various angles when the Build Atmosphere option is selected.
+•	Added icons to the photon selector box.
+•	Tested, fixed several issues.
+•	Published a version for planned review at meeting on Tuesday, July 26.
+
+Installer Builder - 1.5 hrs
+
+•	Fixed an issue where the old backup directories were not being deleted once they were outdated.
+
+Customer Support - 2.5 hrs
+
+•	Tracked down an issue where long captions were not being properly rendered in right-to-left languages (see Unfuddle issue #2448 for details).
+
+Meetings, Email, and Other Administrative Overhead - 7.5 hrs
+
+•	Weekly PhET meeting
+•	Meeting to discuss Greenhouse sim (Kelly, Robert, Trish, Kathy, and myself).
+•	Set up better filtering for email messages.
+•	Normal review and updating of Unfuddle issues.
+•	Normal email and administrative overhead.
+
+Vacation, Holiday, and Sick Leave - 0.0 hrs
+
+•	Upcoming vacation from July 29 (this Thursday) - August 10
+
+What’s Next
+
+•	Implement input from review of Photon Absorption tab in Greenhouse.
+•	Support student interviews on Neuron.
+•	Continue port to Piccolo of existing tabs in Greenhouse.
+•	Continue work on Membrane Diffusion sim.

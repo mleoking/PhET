@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--faradays-law-strings_in.xml created Fri Feb 20 02:11:38 PST 2009 using: faradays-law 1.00.00 (22498), translation-utility 1.10.00 (28666)-->
+<SimStrings>
+<string key="twoCoils" value="2 kumparan"/>
+<string key="n" value="N"/>
+<string key="noSound" value="Tidak ada suara"/>
+<string key="showFieldLines" value="Tampilkan garis gaya"/>
+<string key="voltage" value="tegangan"/>
+<string key="flipMagnet" value="Balik magnet"/>
+<string key="oneCoil" value="1 kumparan"/>
+<string key="moveMe" value="Gerakan ini!"/>
+<string key="s" value="S"/>
+</SimStrings>

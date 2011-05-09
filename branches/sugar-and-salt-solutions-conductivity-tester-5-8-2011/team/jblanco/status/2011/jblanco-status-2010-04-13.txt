@@ -1,0 +1,71 @@
+PhET Weekly Progress Report
+John Blanco
+April 13th, 2011
+
+Time period covered: April 7th through April 13th.
+
+Isotopes and Atomic Mass – 7.5 hrs
+
+•	Implemented handling of significant digits for the pie chart labels when displaying "Nature's Mix".
+•	Implemented handling of significant digits for the average atomic mass when displaying "Nature's Mix".
+•	Changed the selector on the periodic table to the version preferred by the chemistry group.
+•	Published a version for use by Kelly L in interviews.
+
+Gene Machine II: Protein Synthesis - 2.0 hrs
+
+•	Incorporated latest drawings into the specification.
+•	Added text to describe the simulation so that it could be reviewed by Ingrid R.
+•	Sent request to Sam R to have Ingrid review the sim specification.
+
+Build a Molecule - 11.0 hrs
+
+•	Reviewed specification changes.
+•	Met with Emily to discuss design.
+•	Updated design drawings.
+•	Investigated licensing question with JMOL.
+•	Worked with Jonathan O to implement basic model and view for kits, atoms, and buckets.
+•	Worked with Jonathan O to implement view portion of collection area.
+•	Worked with Jonathan O on initial implementation of bonding.
+
+Gravity and Orbits - 2.0 hrs
+
+•	Worked on diagnosing some performance issues reported by Kathy P (in collaboration with Sam R).
+•	Worked on other items on Sam R's to do list for this sim (in collaboration with Sam R).
+
+Nuclear Physics - 0.5 hrs
+
+•	Worked with Jonathan O to resolve issue with 
+
+Common Code - 3.0 hrs
+
+•	Downloaded and tested the latest Piccolo2D build, which is version 1.3.1-rc1.
+•	Worked with Chris to get it tested on Mac.
+•	Chris casted +1 vote from PhET.
+
+Environment - 8.0
+
+•	Downloaded and installed the latest version of IntelliJ
+•	Worked with Sam R to get IntelliJ set up and working for inspection of Denisty & Buoyancy (which were written in Flex).
+•	Researched new computer, working with Kathy P on approval, Sam R on configuration, and Mindy on ordering.
+
+
+Meetings, Email, and Other Administrative Overhead - 6.0 hrs
+
+•	Weekly PhET status meeting.
+•	Weekly status report.
+•	Vacation and sick leave reporting.
+•	Normal review and updating of Unfuddle issues.
+•	Normal email and administrative overhead.
+
+Vacation, Holiday, and Sick Leave - 0.0 hrs
+
+•	Nothing on the immediate horizon.
+
+What’s Next
+
+•	Continue with final steps of implementing Isotopes sim.
+•	Continue working on implementation of the Build a Molecule sim.
+•	Code review of Bending Light simulation.
+•	Code review of Density/Buoyancy simulation.
+•	Follow up on Chris M's review of Molecules & Light code.
+•	Work on design of Protein Synthesis sim.

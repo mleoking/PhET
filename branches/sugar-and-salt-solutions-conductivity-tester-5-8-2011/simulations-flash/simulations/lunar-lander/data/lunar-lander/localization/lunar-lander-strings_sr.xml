@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--lunar-lander-strings_sr.xml created Thu Jul 01 23:27:40 CEST 2010 using: lunar-lander 2.02.00 (37307), translation-utility 2.01.00 (31673) May 14, 2009-->
+<SimStrings>
+<string key="hardLanding" value="Тврдо слетање"/>
+<string key="score" value="Резултат:"/>
+<string key="unpause" value="Крени"/>
+<string key="range" value="Домет (m)"/>
+<string key="fuel" value="гориво (kg)"/>
+<string key="altitude" value="Висина (m)"/>
+<string key="help3" value="Пауза"/>
+<string key="help2" value="На почетак"/>
+<string key="help1" value="Контроле са тастатуре:"/>
+<string key="hitBoulder" value="Удар у стење.\nоломљен стајник.\nНема горива"/>
+<string key="start" value="СТАРТ"/>
+<string key="hardLandingsColon" value="Тврдо слетање:"/>
+<string key="help" value="Помоћ/Пауза"/>
+<string key="sound" value="Звук"/>
+<string key="vectors" value="Вектори"/>
+<string key="reset" value="На почетак"/>
+<string key="longHelp" value="~ Спусти се на што више различитих места док не потрошиш сво гориво.\n~Након слетања укључи што већи потисак.\n~ Нема додатних поена за слетање на исто место.\n~ Више поена за слетања на тешка места: \n Лаке велике зоне = 5 поена Веома опасна места=  50 поена\n~ 10 екстра поена за меко слетање ( v &lt; 2 m/s).\n~ Игра се завршава ако додирнеш стење. ( Не може се слетети на стене)!\n~ Игра се завршава и кад звекнеш и разбијеш се  (v &gt; 12 m/s).\n~Победник добија пехар Нил Армстронг"/>
+<string key="r" value="R"/>
+<string key="p" value="P"/>
+<string key="accVector" value="Вектор убрзања"/>
+<string key="softLanding" value="Меко слетање"/>
+<string key="thrust" value="СИЛА ПОТИСКА(N) "/>
+<string key="simTitle" value="МЕСЕЧЕВ МОДУЛ"/>
+<string key="label7" value="На колико се зона можеш спустити пре него потрошиш сво гориво? \nодатни поени за свако меко спуштање. (v &lt; 2 m/s). \nИгри је крај ако се разбијеш о стење (v &gt; 6 m/s)."/>
+<string key="label6" value="Размак(Space Bar ) = Пун потисак"/>
+<string key="label5" value="Десно"/>
+<string key="crash2" value="Веома тврдо слетање, има погинулих"/>
+<string key="label4" value="Мањи потисак"/>
+<string key="crash1" value="Тврдо слетање, стајници поломљени, повратак немогућ"/>
+<string key="softLandingsColon" value="Број меких слетања:"/>
+<string key="full" value="Г"/>
+<string key="label3" value="Лево"/>
+<string key="paused" value="Пауза"/>
+<string key="label2" value="Већи потисак"/>
+<string key="label1" value="Управљај са тастатуре и &quot;приземљи&quot; сонду"/>
+<string key="landingSpeedEq" value="Брзина слетања ="/>
+<string key="velVector" value="Вектор брзине"/>
+</SimStrings>

@@ -1,0 +1,15 @@
+div.rtl #sponsors-people ul li {
+    zoom: 1;
+}
+
+.see-below {
+    margin-top: 10px;
+}
+
+.nml-link {
+    cursor: default;
+}
+
+div.practices {
+    padding-top: 15px !important;
+}

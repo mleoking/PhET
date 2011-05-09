@@ -1,0 +1,1 @@
+phet-credits lead-design=Michael Dubson software-development=Michael Dubson design-team=Trish Loeblein

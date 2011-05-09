@@ -1,0 +1,52 @@
+--
+Chris Malley (PixelZoom, Inc.) - Status Report
+
+PERIOD: April 1-6, 2011
+
+ACCOMPLISHMENTS:
+
+Balancing Chemical Equations:
+- team meeting about colors
+- fixed test-molecules app, wouldn't launch via JWS
+- fixed "dragging popups erases coefficients" problem
+- published 0.00.23
+- change request: change play area color to tan
+- prepared sim for publishing (screenshot, build file cleanup, design doc snapshot, etc.)
+- publish 1.00 to PhET website
+
+Capacitor Lab:
+- 1.00.01 sanity check tested "OK" by Noah P, no new problems introduced by major refactoring, safe to continue
+
+Faraday:
+- #2792, customer question about right-hand rule, waiting for reply from Mike D.
+
+Administrative:
+- weekly reports
+- Ariel Paul's presentation and interview
+
+Build:
+- #2790, responded to customer inquiry about how to build PhET source (duplicated work with JO)
+
+Common:
+- #2789, fixed i18n layout problems with "sim speed" control
+- #1704, identified Oracle bug report related to disabling of Swing components that have HTML text
+
+Website:
+- #2791, created ticket for fixing instructions on "PhET Source Code" page
+
+WHAT'S NEXT:
+
+- Capacitor Lab: continue working on Multiple Capacitors tab
+
+ISSUES:
+
+- none
+
+DATES UNAVAILABLE:
+
+- May 23-25
+- June 6-17
+- August 22 - September 2
+- October 19-29
+
+--

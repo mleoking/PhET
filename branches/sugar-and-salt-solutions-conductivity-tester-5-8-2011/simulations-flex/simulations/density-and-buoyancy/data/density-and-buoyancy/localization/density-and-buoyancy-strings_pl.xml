@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--density-and-buoyancy-strings_pl.xml created Sun Mar 20 19:34:50 CET 2011 using: density-and-buoyancy 1.04.00 (47280), translation-utility 2.10.00 (48775) lut 9, 2011-->
+<SimStrings>
+<string key="buoyancy.tab.intro" value="Intro"/>
+<string key="properties.mass" value="Masa"/>
+<string key="controlPanel.showVectorValues" value="Wartości Sił"/>
+<string key="forceArrows.contact" value="Siła Reakcji"/>
+<string key="mode.objectsOfSameVolume" value="Równej Objętości"/>
+<string key="bottle.2L" value="2l"/>
+<string key="mysteryObject.densityColumnHeader" value="Gęstość ({0})"/>
+<string key="material.aluminum" value="Aluminium"/>
+<string key="properties.massKilogram" value="kg"/>
+<string key="material.air" value="Powietrze"/>
+<string key="material.custom" value="Własny Klocek"/>
+<string key="material.gasoline" value="Benzyna"/>
+<string key="customObject.material" value="Materiał"/>
+<string key="mode.mysteryObjects" value="Zagadka"/>
+<string key="customObject.custom" value="Użytkownika"/>
+<string key="material.wood" value="Drewno"/>
+<string key="properties.massKilogramValue" value="{0} kg"/>
+<string key="mode.two" value="Dwa"/>
+<string key="material.styrofoam" value="Styropian"/>
+<string key="material.honey" value="Miód"/>
+<string key="material.apple" value="Jabłko"/>
+<string key="blockName.b" value="B"/>
+<string key="blockName.a" value="A"/>
+<string key="material.ice" value="Lód"/>
+<string key="translation.credits" value="Paweł Wiśniewski"/>
+<string key="buoyancy.tab.playground" value="Zmiana Ustawień"/>
+<string key="fluid.controls.intro.label" value="Ciecz"/>
+<string key="mode.mysteryObjects.E" value="E"/>
+<string key="mode.mysteryObjects.D" value="D"/>
+<string key="mode.mysteryObjects.C" value="C"/>
+<string key="mode.mysteryObjects.B" value="B"/>
+<string key="material.diamond" value="Diament"/>
+<string key="mode.mysteryObjects.A" value="A"/>
+<string key="mode.title" value="Klocki"/>
+<string key="material.oliveOil" value="Oliwa z oliwek"/>
+<string key="material.lead" value="Ołów"/>
+<string key="forceArrows.buoyancy" value="Siła Wyporu"/>
+<string key="properties.fluidDensity" value="Gęstość Cieczy"/>
+<string key="mysteryObject.densityUnitsKgL" value="kg/m^3"/>
+<string key="customObject.properties" value="Właściwości"/>
+<string key="forceArrows.gravity" value="Grawitacja"/>
+<string key="material.brick" value="Cegła"/>
+<string key="mysteryObject.material" value="Materiał"/>
+<string key="mysteryObject.table.title" value="Gęstości Materiałów"/>
+<string key="properties.weightPoundValue" value="{0} lb"/>
+<string key="material.oil" value="Ropa Naftowa"/>
+<string key="properties.volumeLiterValue" value="{0} l"/>
+<string key="mode.objectsOfSameDensity" value="Równej Gęstości"/>
+<string key="density.simTitle" value="Gęstość"/>
+<string key="controlPanel.readouts" value="Odczyty"/>
+<string key="properties.volumeMilliLiterValue" value="{0} ml"/>
+<string key="forceArrows.fluidDrag" value="Opór Aerodynamiczny"/>
+<string key="mode.customObject" value="Użytkownika"/>
+<string key="mode.objectsOfSameMass" value="Równej Masy"/>
+<string key="application.resetAll" value="Wyczyść wszystko"/>
+<string key="material.gold" value="Złoto"/>
+<string key="properties.densityValue" value="{0} kg/m^3"/>
+<string key="forceArrowControlPanelTitle" value="Pokaż Wektory Sił"/>
+<string key="properties.weightNewtonValue" value="{0} N"/>
+<string key="customObject.name" value="nazwa"/>
+<string key="controlPanel.showMasses" value="Masy"/>
+<string key="material.water" value="Woda"/>
+<string key="properties.massGramValue" value="{0} g"/>
+<string key="properties.density" value="Gęstość"/>
+<string key="material.waterBalloon" value="Balon Wodny"/>
+<string key="mysteryObject.table.showTable" value="Pokaż Tabelę"/>
+<string key="mode.one" value="Jeden"/>
+<string key="properties.volume" value="Objętość"/>
+<string key="buoyancy.simTitle" value="Siła Wyporu"/>
+<string key="properties.kilogramPerLiter" value="kg/m^3"/>
+<string key="properties.volumeLiter" value="l"/>
+</SimStrings>

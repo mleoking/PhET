@@ -1,0 +1,59 @@
+PhET Weekly Progress Report
+John Blanco
+May 26, 2010
+
+Neuron Sim - 11.0 hrs
+
+•	Met with Noah P and Sam R to discuss how the record/playback functionality could be simplified for this sim.
+•	Compiled use cases for record/playback and sent to Noah P for review.
+•	Internationlized the concentration readout strings.
+•	Resolved issues with the concentration readout display where they were not changing as much as they should (pointed out by Noah P).
+•	Made the concentration readouts be delayed a bit in order to better align with particle flow through the memebrane.
+•	Made the concentration readouts respond correctly to Reset All.
+•	Made the concentration readouts behave exponentially rather than linearly.
+•	Improved the behavior of the membrane potential chart to be a bit more intuitive.
+•	Reduced frame rate to 15 fps in order to get adequate performance on slower machines.
+•	Worked on an issue where clock control labels were being cut off.
+•	Published a new version for review and testing.
+
+Lac Operon - 4.0 hrs
+
+•	Resolved an issue where the lactose injector auto/manual control would be too far to the left on Macs, see #2362.
+•	Resolved an issue where an odd looking blue circle would be visibile at started up Macs.
+•	Published a new version to dev for review and feedback.
+
+Installer Builder - 7.0 hrs
+
+•	Worked with JO to make sure the right links are visible and the correct files are included for the Wicket-based version of the web site.
+•	Rebuilt and tested installer on Windows, and it is almost ready.
+•	Discussed the inclusion of activities with Kathy P, decided they would add too much size, but investigating details.
+
+Greenhouse - 3.0 hrs
+
+•	Met with Kelly L and Robert P to plan more details on the new Photon Absorption tab.
+•	Continued port to use Piccolo on the existing tabs.
+
+Miscellaneous - 2.0 hrs
+
+•	Had a phone conference with Bill Rowlett of the Hippocampus project.  We discussed how PhET could help them with integrating simulations into their web site.  This work will start in earnest in late June.
+•	Worked on resolving some SVN sync issues with Eclipse.
+•	Participated in discussion of aggregated change log.
+
+Meetings, Email, and Other Administrative Overhead - 5.0 hrs
+
+•	Met with Noah P to review Neuron, Lac Operon, and Membrane Diffusion issues.
+•	Normal review and updating of Unfuddle issues.
+•	Normal email and administrative overhead.
+
+Vacation and Sick Leave - 8.0 hrs
+
+•	Took Wednesday, May 27th as a vacation day.
+•	Planning a week of vacation June 7-11.
+
+What’s Next
+
+•	Implement record/playback, or some variation thereof for Neuron.
+•	Continue port to Piccolo of Greenhouse.
+•	Start implementation of 1st tab of the Greenhouse sim.
+•	Separate the Membrane Diffusion sim into a separate project, modify to match new spec.
+•	Complete the implementation of the installer for the wicket-based site.

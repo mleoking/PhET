@@ -1,0 +1,57 @@
+--
+Chris Malley (PixelZoom, Inc.) - Status Report
+
+PERIOD: March 23-31, 2011
+
+ACCOMPLISHMENTS:
+
+Acid-Base Solutions:
+- #2615, use Piccolo molecules/atoms in magnifying glass protoype
+
+Balancing Chemical Equations:
+change request: for the "Show Why" feature, level 1=scales, 2=random, 3=bars
+change request: restrict game level 1 equations so that equations with big molecules cannot be first
+- published 0.00.21
+
+Capacitor Lab:
+- major changes and reorganization of model, towards the goal of supporting multiple capacitors
+- published 1.00.01 as a sanity check
+
+Optical Tweezers:
+- #2782, verified that customer got the model info that he needed (closed)
+
+Administrative:
+- weekly reports
+- responded to Piccolo mailing list about issues of interest to PhET
+
+Build:
+- #2781, tested Pack200 compression on Mac OS
+
+Common:
+- #2018, investigated issues with PSwing scaling of LineBorder (Swing issue)
+- #2375, switched to Piccolo's implementation of SwingLayoutNode in all Java sims 
+- #2773, added notes on generalization of Piccolo molecules/atoms
+- #2770, fixed problem with GridPanel.setBorder
+- #2720, tested workaround for PSwing ellipses is Arabic versions of some sims (not resolved)
+
+Env:
+- investigated why Acid-Base Solutions translation files are not showing up in my SVN working copy (not resolved)
+- considering switch to IntelliJ
+
+WHAT'S NEXT:
+
+- Capacitor Lab: implement Multiple Capacitors tab
+- Balancing Chemical Equations: fixes and changes as requested; publish 1.00
+
+ISSUES:
+
+- none
+
+DATES UNAVAILABLE:
+
+- May 23-25
+- June 6-17
+- August 22 - September 2
+- October 19-29
+
+--

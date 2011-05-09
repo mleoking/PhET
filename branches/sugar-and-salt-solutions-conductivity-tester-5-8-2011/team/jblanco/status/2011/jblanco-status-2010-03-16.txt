@@ -1,0 +1,65 @@
+PhET Weekly Progress Report
+John Blanco
+March 16, 2011
+
+Time period covered: March 10th through March 16th.
+
+Isotopes and Atomic Mass – 25.5 hrs
+
+•	Changed appearance of element label on the first tab.
+•	Took out the confirmation dialog for Reset All on the first tab.
+•	Made the sliders look reasonable (they were crude prototypes last week).
+•	Reviewed with Chemistry Team and made a list of recommended changes.
+•	Got sliders working to add/remove particles.
+•	Revised the positioning algorithm for the isotope controllers (buckets and sliders).
+•	Fixed issues with dangling isotopes in buckets not moving into place.
+•	Refactored and restructured code in preparation for adding stateful behavior.
+•	Implemented the stateful behavior for switching between elements, interactivity modes, and mix type (user's mix versus nature's mix).
+•	Added Reset All button and associated functionality for 2nd tab.
+•	Added Clear Box button and associated functionality for 2nd tab.
+•	Improved layout of 2nd tab.
+•	Published a snapshot version for review, see http://www.colorado.edu/physics/phet/dev/build-an-atom/2.01.02/
+
+Build a Molecule - 6.0 hrs
+
+•	Met with Emily M, Kelly L, Jonathan O, and Sam R to brainstorm and draw up ideas for the design.
+•	Cleaned up sketches from meeting, created additional sketches based on notes.
+•	Circulated sketches for review and for inclusion into specification.
+
+Bending Light - 1.0 hrs
+
+•	Collaborated with Sam R on improvements and fixes for the tool behavior, particularly with respect to Reset All.
+
+Gene Machine: Protein Synthesis - 0.5
+
+•	Added notes from dialog with Mike Klymkowski to the specification.
+
+Sim Sharing - 0.5
+
+•	Contacted IT about firewall exceptions not working, they forwarded my question to CU IT Security, and I have not heard back.
+•	Did some testing with Sam R.
+
+Common Code - 1.0
+
+•	Read through issue about VoidFunction and added some thoughts (Unfuddle #2776).
+
+Miscellaneous - 0.5
+
+•	Investigated resources for color blindness.
+
+Meetings, Email, and Other Administrative Overhead - 6.0 hrs
+
+•	Weekly PhET status meeting.
+•	Normal review and updating of Unfuddle issues.
+•	Normal email and administrative overhead.
+
+Vacation, Holiday, and Sick Leave - 0 hrs
+
+•	Out all next week, taking March 21st through March 24th as vacation and March 25th is a holiday.
+
+What’s Next
+
+•	Continue design of Protein Synthesis simulation.
+•	Continue design of Build a Molecule simulation.
+•	Finish implementing Isotopes sim, publish versions for review and possibly for interviews.
+•	Follow up on Chris M's review of Molecules & Light code.

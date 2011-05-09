@@ -1,0 +1,33 @@
+###################################
+# License info for mri
+# Automatically generated on Fri Aug 08 00:08:02 MDT 2008
+###################################
+
+background.png author=PhET 
+baockground-A.png 
+baockground-B.png author=PhET 
+coil-1.gif author=PhET 
+coil-1.png author=PhET 
+coil-overlay.png author=PhET 
+control-background.png author=PhET 
+dipole-3.gif author=PhET 
+dipole-4.gif author=PhET 
+dipole-5-arrow.gif author=PhET 
+dipole-5-carbon.gif author=PhET 
+dipole-5-donut.gif author=PhET 
+dipole-5-hydrogen.gif author=PhET 
+dipole-5-nitrogen.gif author=PhET 
+dipole-5-oxygen.gif author=PhET 
+dipole-5-sodium.gif author=PhET 
+dipole-5-sulfur.gif author=PhET 
+dipole-5-unknown.gif author=PhET 
+dipole.gif author=PhET 
+head-1A.gif author=PhET 
+head-1A.png author=PhET 
+head-2.gif author=PhET 
+photon2.gif author=PhET 
+radio-button-background.png author=PhET 
+radiowave-control-background.png author=PhET 
+Untitled-1.png author=PhET 
+wave-item2.png author=PhET 
+wavetop2.gif author=PhET 

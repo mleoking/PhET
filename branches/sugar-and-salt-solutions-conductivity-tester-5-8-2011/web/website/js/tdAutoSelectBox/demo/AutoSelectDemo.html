@@ -1,0 +1,201 @@
+<html>
+<head>
+  <title>AutoSelectBox Demo</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <style type="text/css">
+  @import url(../css/tdStyles.css);
+  </style>
+</head>
+<script type="text/javascript" src="../tdCode/tdAutoSelectDefaults.js"></script>
+<script type="text/javascript" src="../tdCode/tdAutoSelectBox.js"></script>
+
+<body>
+
+<form>
+<h2>Auto SelectBox Examples</h2>
+
+    <h2>Basic Example</h2>
+    The following examples should illustrate the most basic features of tdAutoSelectBox.
+    Just start typing the name of a state, or select it from the list.
+    <br /><br />
+
+    <b>Select or type in a State.</b><br />
+    <div id="select1"></div>
+    <script>
+    //Basic example.
+    var StateSelectBox = new Object();
+    StateSelectBox.name = "StateSelectBox"; //must match the name of the selectbox object exactly
+
+    StateSelectBox.valList = "Alabama;al|Alaska;akArizona;az|Arkansas;ar|California;ca|Colorado;co|Connecticut;ct|Delaware;de|Florida;fl|Georgia;ga|"
+    StateSelectBox.valList += "Hawaii;hi|Idaho;id|Illinois;il|Indiana;in|Iowa;ia|Kansas;ks|Kentucky;ky|Louisiana;la|Maine;me|Maryland;md|"
+    StateSelectBox.valList += "Massachusetts;ma|Michigan;mi|Minnesota;mn|Mississippi;ms|Missouri;mo|Montana;mt|Nebraska;ne|"
+    StateSelectBox.valList += "Nevada;nv|New Hampshire;nh|New Jersey;nj|New Mexico;nm|New York;ny|North Carolina;nc|"
+    StateSelectBox.valList += "North Dakota;nd|Ohio;oh|Oklahoma;ok|Oregon;or|Pennsylvania;pa|Rhode Island;ri|"
+    StateSelectBox.valList += "South Carolina;sc|South Dakota;sd|Tennessee;tn|Texas;tx|Utah;ut|Vermont;vt|Virginia;va|"
+    StateSelectBox.valList += "Washington;wa|West virginia;wv|Wisconsin;wi|Wyoming;wy"
+
+    StateSelectBox.selectBoxID = "select1";
+    StateSelectBox.maxwidth = "120"; //pixils
+    StateSelectBox.maxchar = "35"; //characters
+    StateSelectBox.maxheight = "163"; //pixils
+    StateSelectBox.autotrunc = true;
+    StateSelectBox.freetype = false;
+
+    createSelectBox(StateSelectBox);
+    </script>
+    <br />
+    As you can see, there really is nothing to it.  It is simple and intuitive to use.
+    This is the way select boxes should be!
+
+    <h2>With Freetype Enabled</h2>
+    This example is similar to the previous, but has Freetype enabled. Freetype allows
+    as user to select from the list as above, but he can also type any value he wishes.
+    This is less secure (as it allows a user to submit any kind of value) but may have its
+    uses on certain kinds of web forms.
+    <br /><br />
+    <b>Select or type an item</b><br />
+    <div id="selectfree"></div>
+    <script>
+    //Freetype example.
+    var FreeSelectBox = new Object();
+    FreeSelectBox.name = "FreeSelectBox";
+    FreeSelectBox.selectBoxID = "selectfree";
+    FreeSelectBox.maxwidth = "100";
+    FreeSelectBox.maxchar = "10";
+    FreeSelectBox.maxheight = "90";
+    FreeSelectBox.autotrunc = true;
+    FreeSelectBox.freetype = true;
+    FreeSelectBox.valList = "Shirt|Shoes|Pants|Boots|Belt|Dress|Hat|Gloves|Jacket|Long Coat|Night Gown";
+
+    createSelectBox(FreeSelectBox);
+    </script>
+    <br />
+
+    <h2>Javascript Alert Example</h2>
+    This example is similar to the basic example, but has the added power of executing a
+    pop-up alert when the user clicks on an item in the list.  Otherwise, if he just types
+    the item, he should click "check" to check what he has typed.  This select box also has
+    a default value set to "Horse".  The autotruncate feature is also switched "off" so that
+    the list will not grow shorter or change as you type.
+    <br /><br />
+    <b>Select or type the name of an animal.</b><br />
+    <div id="select2"></div>
+    <script>
+    //shows how a javascript function can be called using the onSelect parameter
+
+    function popupTest(selectBoxName) {
+        selectBoxEl = document.getElementById("v"+selectBoxName);
+        alert('You selected a ' + selectBoxEl.value);
+        return true;
+    }
+
+    var AnimalSelectBox = new Object();
+    AnimalSelectBox.name = "AnimalSelectBox";
+    AnimalSelectBox.selectBoxID = "select2";
+    AnimalSelectBox.maxwidth = "80";
+    AnimalSelectBox.maxchar = "20";
+    AnimalSelectBox.maxheight = "90";
+    AnimalSelectBox.autotrunc = true;
+    AnimalSelectBox.freetype = false;
+    AnimalSelectBox.onSelect = "popupTest('select2')";
+
+    AnimalSelectBox.valList = "Cat;1|Dog;2|Horse;3|Wolf;4|Fox;5|Lion;6|Leopard;7|Monkey;8|Elephant;9|Lizard;10|Snake;11|Bat;12";
+    AnimalSelectBox.defaultValue = "3";
+    AnimalSelectBox.defaultName = "Horse";
+
+    createSelectBox(AnimalSelectBox);
+    </script>
+    <button onclick="popupTest('select2')">check</button>
+    <br /><br />
+    Any kind of javascript function can be invoked in this way, including code that auto-submits
+    the form.  However, this is for more advanced programs, as you will need to know how
+    to program the new javascript functions yourself.
+    <br /><br />
+
+    <h2>Multi-SelectBox Example</h2>
+    Here is an example of a select box, which feeds a multi-select area.  Simply select an item
+    from the list, and click "add".  If you want to remove an item from the multi-list, click it
+    (so that it turns gray with a line struck through) and click "del".
+    <br /><br />
+    <b>Add one or more items</b><br />
+    <div id="select3"></div>
+    <div id="multi1"></div>
+    <script>
+    //shows how to use the multi-select box features
+
+    var TestSelectBox = new Object();
+    TestSelectBox.name = "TestSelectBox";
+    TestSelectBox.selectBoxID = "select3";
+    TestSelectBox.maxwidth = "100";
+    TestSelectBox.maxchar = "20";
+    TestSelectBox.autotrunc = false;
+    TestSelectBox.freetype = false;
+    TestSelectBox.valList = "Shirt|Shoe|Pants|Boots|Belt|Dress|Hat|Gloves|Jacket|Long Coat|Dress|Night Gown";
+
+    var TestMultiSelectBox = new Object();
+    TestMultiSelectBox.name = "TestMultiSelectBox";
+    TestMultiSelectBox.multiBoxID = "multi1";
+    TestMultiSelectBox.multiwidth = TestSelectBox.maxwidth;
+    TestMultiSelectBox.multiDefList = "Shirt|Boots|Jacket";
+
+    createSelectBox(TestSelectBox);
+    createMultiSelectBox(TestMultiSelectBox, TestSelectBox);
+    </script>
+    (Click an item and select "Del" to remove)
+    <br /><br />
+    You may notice that you cannot add more than one occurrence of the same item to the list.  Behind
+    the scenes, the multi-select area is really a list of checkboxes (you just can't see
+    the checkboxes), and behaves exactly like an HTML multi-selectbox or set of checkboxes.
+    <br /><br />
+
+    <h2>Multi-SelectBox with Auto-Add</h2>
+    This is the same as above, but has Javascript added such that an item is automatically
+    added when it is selected from the drop-down list.
+    <br /><br />
+    <b>Select one or more items from the list</b><br />
+    <div id="select4"></div>
+    <div id="multi2"></div>
+    <script>
+    //shows how to use the multi-select box features
+
+    function autoAdd(selectBoxName) {
+        selectBoxEl = document.getElementById("v"+selectBoxName);
+        alert('You selected a ' + selectBoxEl.value);
+        return true;
+    }
+
+    var AutoAddSelectBox = new Object();
+    AutoAddSelectBox.name = "AutoAddSelectBox";
+    AutoAddSelectBox.selectBoxID = "select4";
+    AutoAddSelectBox.maxwidth = "100";
+    AutoAddSelectBox.maxchar = "20";
+    AutoAddSelectBox.maxheight = "90";
+    AutoAddSelectBox.autotrunc = true;
+    AutoAddSelectBox.freetype = false;
+    AutoAddSelectBox.valList = "Shirt|Shoes|Pants|Boots|Belt|Dress|Hat|Gloves|Jacket|Long Coat|Night Gown";
+
+    var AutoAddMultiSelectBox = new Object();
+    AutoAddMultiSelectBox.name = "AutoAddMultiSelectBox";
+    AutoAddMultiSelectBox.multiBoxID = "multi2";
+    AutoAddMultiSelectBox.multiwidth = AutoAddSelectBox.maxwidth;
+    AutoAddMultiSelectBox.multiDefList = "Dress|Hat|Night Gown";
+
+    AutoAddSelectBox.onSelect = "addSelected(AutoAddMultiSelectBox, AutoAddSelectBox)";
+
+    createSelectBox(AutoAddSelectBox);
+    createMultiSelectBox(AutoAddMultiSelectBox, AutoAddSelectBox);
+    </script>
+    (Click an item and select "Del" to remove)
+    <br /><br />
+
+<input name="submit" value="Submit" type="submit">
+
+<input name="reset" value="Reset" type="reset">
+
+<p>
+<a href="AutoSelectAJAX.html">Click here to see the AJAX example</a>
+</p>
+
+</form>
+</body>
+</html>

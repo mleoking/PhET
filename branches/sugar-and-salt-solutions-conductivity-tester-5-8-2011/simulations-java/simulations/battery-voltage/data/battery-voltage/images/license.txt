@@ -1,0 +1,6 @@
+###################################
+# License info for battery-voltage
+# Automatically generated on Fri Aug 08 00:08:00 MDT 2008
+###################################
+
+electron9.gif author=PhET 

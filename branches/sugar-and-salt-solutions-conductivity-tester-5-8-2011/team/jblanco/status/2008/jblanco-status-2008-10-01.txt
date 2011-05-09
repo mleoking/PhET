@@ -1,0 +1,37 @@
+PhET Progress Report
+John Blanco
+October 1, 2008
+
+States of Matter Sim - 24.5 hrs
+
+•	Implemented Mac-safe stove node.
+•	Resolved issues with using round gradients to depict spherical particles on Mac platform.
+•	Fixed issues with post-explosion particle behavior.
+•	Changed gradient on the Interaction Potential to look reasonable with the push pin.
+•	Implemented logarithmic scale for mapping model pressure on to phase diagram.
+•	Incorporated new temperature-to-phase diagram mappings supplied by Noah P.
+•	Changed the way pressure was calculated - now uses more of the container than just the lid, and is more responsive as a result.
+•	Made the pressure drop more quickly after container explodes.
+•	Implemented a bunch of other relatively minor UI changes requested by various reviewers.
+•	Currently working with Paul B. and Noah P. to finalize phase diagram behavior.
+
+Nuclear Physics - 4.0
+
+•	Posted new Alpha Radiation and Nuclear Physics sims, including new abstracts.
+
+Web Site – 2.0
+
+•	Implemented redirects for renamed flash sims.
+
+Meetings & Email - 3.5 hrs
+
+•	Regular weekly status meeting.
+•	Sim tracking meeting.
+•	Various discussions with Noah P, Paul B, Sam R, and Kathy in person and via email.
+
+Tools and Infrastructure - 6.0 hrs
+
+•	Set up installer development area on Tigercat to point to Unfuddle repository.
+•	Got set up to use IntelliJ as an alternative to Eclipse due to issues with Eclipse-SVN integration.
+•	Set up Eclipse on the Mac to point to the Unfuddle repository.
+•	Updated the Mac to the latest Java version.

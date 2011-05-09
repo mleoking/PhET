@@ -1,0 +1,10 @@
+###################################
+# License info for maze-game
+# Automatically generated on Fri Aug 08 00:08:01 MDT 2008
+###################################
+
+ballsmall.gif 
+ballsmall2.gif author=PhET 
+RedBang.gif 
+spiral.gif 
+sunburst.gif 

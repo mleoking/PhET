@@ -1,0 +1,57 @@
+--
+Chris Malley (PixelZoom, Inc.) - Status Report
+
+PERIOD: April 14-20, 2011
+
+ACCOMPLISHMENTS:
+
+Balancing Chemical Equations
+- #2808, revise learning goals (closed)
+- #2809, balance scales analogy breaks down with zero atoms (closed)
+
+Capacitor Lab
+- made many properties public final, to simplify code
+- added setCircuit to meters, to allow switching circuit
+- set up list of dummy circuits, implement circuit switching
+- investigated alternatives for implementing topology and wiring of multi-capacitor circuits
+
+Density, Buoyancy
+- reviewed ActionScript in preparation for code review
+- code review, collaborated with JB
+
+Gravity and Orbits
+- #2801, code review followup with Sam
+
+Hydrogen Atom
+- #2792, customer question about metastable states with monochromatic light (closed)
+- #2802, make wavelength slider thumb stay highlighted when its on an absorption wavelength (completed)
+- #2803, "excite me" button to get out of (2,0,0) with monochromatic light (pending)
+
+Molecules and Light
+- #2744, code review followup with JB (closed)
+
+Administrative
+- weekly status meeting
+- weekly reports
+
+Common
+- created example project for discussing "modes", demonstrated a simplified architecture
+- #705, combo box issue on Mac
+
+WHAT'S NEXT:
+
+- Capacitor Lab: continue working on version 2.00
+- Hydrogen Atom: #2803, "excite me" button
+
+ISSUES:
+
+- none
+
+DATES UNAVAILABLE:
+
+- May 23-25
+- June 6-17
+- August 22 - September 2
+- October 19-29
+
+--
