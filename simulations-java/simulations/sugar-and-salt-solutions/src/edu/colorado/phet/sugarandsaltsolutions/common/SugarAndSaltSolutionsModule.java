@@ -17,6 +17,6 @@ public class SugarAndSaltSolutionsModule extends Module {
         setClockControlPanel( null );
 
         //Don't show the logo panel--since the sim is multi-tab, the logo should be shown in the tab tray at the far right
-        getModulePanel().setLogoPanel( null );
+        setLogoPanel( null );
     }
 }
