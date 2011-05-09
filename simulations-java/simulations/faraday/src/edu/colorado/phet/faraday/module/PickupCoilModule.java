@@ -2,9 +2,7 @@
 
 package edu.colorado.phet.faraday.module;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Point;
+import java.awt.*;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
@@ -30,7 +28,7 @@ public class PickupCoilModule extends FaradayModule {
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
-    
+
     // Rendering layers
     private static final double PICKUP_COIL_BACK_LAYER = 1;
     private static final double B_FIELD_LAYER = 2;
@@ -47,26 +45,26 @@ public class PickupCoilModule extends FaradayModule {
 
     // Colors
     private static final Color APPARATUS_BACKGROUND = Color.BLACK;
-    
+
     // Bar Magnet
     private static final Dimension BAR_MAGNET_SIZE = FaradayConstants.BAR_MAGNET_SIZE;
     private static final double BAR_MAGNET_STRENGTH = 0.75 * FaradayConstants.BAR_MAGNET_STRENGTH_MAX;
     private static final double BAR_MAGNET_DIRECTION = 0.0; // radians
-    
+
     // Pickup Coil parameters
     private static final int PICKUP_COIL_NUMBER_OF_LOOPS = 2;
     private static final double PICKUP_COIL_LOOP_AREA = FaradayConstants.DEFAULT_PICKUP_LOOP_AREA;
     private static final double PICKUP_COIL_DIRECTION = 0.0; // radians
     private static final double PICKUP_COIL_TRANSITION_SMOOTHING_SCALE = 0.77; // see PickupCoil.setTransitionSmoothingScale
-    
+
     // Scaling
     private static final double CALIBRATION_EMF = 2700000; // see PickupCoil.calibrateEmf for calibration instructions
     private static final double ELECTRON_SPEED_SCALE = 3.0;
-    
+
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
-    
+
     private BarMagnet _barMagnetModel;
     private Compass _compassModel;
     private FieldMeter _fieldMeterModel;
@@ -78,18 +76,18 @@ public class PickupCoilModule extends FaradayModule {
     private BFieldOutsideGraphic _bFieldOutsideGraphic;
     private BarMagnetPanel _barMagnetPanel;
     private PickupCoilPanel _pickupCoilPanel;
-    
+
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
-    
+
     /**
      * Sole constructor.
      */
     public PickupCoilModule() {
 
         super( FaradayStrings.TITLE_PICKUP_COIL_MODULE );
-        
+
         //----------------------------------------------------------------------------
         // Model
         //----------------------------------------------------------------------------
@@ -97,7 +95,7 @@ public class PickupCoilModule extends FaradayModule {
         // Module model
         BaseModel model = new BaseModel();
         this.setModel( model );
-        
+
         // Bar Magnet
         _barMagnetModel = new BarMagnet();
         _barMagnetModel.setSize( BAR_MAGNET_SIZE.getWidth(), BAR_MAGNET_SIZE.getHeight() );
@@ -106,19 +104,19 @@ public class PickupCoilModule extends FaradayModule {
         _barMagnetModel.setStrength( BAR_MAGNET_STRENGTH );
         _barMagnetModel.setLocation( BAR_MAGNET_LOCATION );
         _barMagnetModel.setDirection( BAR_MAGNET_DIRECTION );
-        
+
         // Compass
         _compassModel = new Compass( _barMagnetModel, getClock() );
         _compassModel.setLocation( COMPASS_LOCATION );
         _compassModel.setBehavior( Compass.KINEMATIC_BEHAVIOR );
         _compassModel.setEnabled( false );
         model.addModelElement( _compassModel );
-        
+
         // Field Meter
         _fieldMeterModel = new FieldMeter( _barMagnetModel );
         _fieldMeterModel.setLocation( FIELD_METER_LOCATION );
         _fieldMeterModel.setEnabled( false );
-        
+
         // Pickup Coil
         _pickupCoilModel = new PickupCoil( _barMagnetModel, CALIBRATION_EMF, getName() );
         _pickupCoilModel.setNumberOfLoops( PICKUP_COIL_NUMBER_OF_LOOPS );
@@ -129,17 +127,17 @@ public class PickupCoilModule extends FaradayModule {
         final double ySpacing = _barMagnetModel.getHeight() / 10;
         _pickupCoilModel.setSamplePointsStrategy( new VariableNumberOfSamplePointsStrategy( ySpacing ) );
         model.addModelElement( _pickupCoilModel );
-       
+
         // Lightbulb
         _lightbulbModel = new Lightbulb( _pickupCoilModel );
         _lightbulbModel.setEnabled( true );
-        
+
         // Volt Meter
         _voltmeterModel = new Voltmeter( _pickupCoilModel );
         _voltmeterModel.setJiggleEnabled( true );
         _voltmeterModel.setEnabled( false );
         model.addModelElement( _voltmeterModel );
-        
+
         //----------------------------------------------------------------------------
         // View
         //----------------------------------------------------------------------------
@@ -153,7 +151,7 @@ public class PickupCoilModule extends FaradayModule {
         _barMagnetGraphic = new BarMagnetGraphic( apparatusPanel, _barMagnetModel );
         apparatusPanel.addChangeListener( _barMagnetGraphic );
         apparatusPanel.addGraphic( _barMagnetGraphic, BAR_MAGNET_LAYER );
-        
+
         // Pickup Coil
         _pickupCoilGraphic = new PickupCoilGraphic( apparatusPanel, model, _pickupCoilModel, _lightbulbModel, _voltmeterModel );
         _pickupCoilGraphic.getCoilGraphic().setElectronSpeedScale( ELECTRON_SPEED_SCALE );
@@ -169,7 +167,7 @@ public class PickupCoilModule extends FaradayModule {
         apparatusPanel.addChangeListener( _bFieldOutsideGraphic );
         apparatusPanel.addGraphic( _bFieldOutsideGraphic, B_FIELD_LAYER );
         super.setBFieldOutsideGraphic( _bFieldOutsideGraphic );
-        
+
         // CompassGraphic
         CompassGraphic compassGraphic = new CompassGraphic( apparatusPanel, _compassModel );
         compassGraphic.setLocation( COMPASS_LOCATION );
@@ -189,78 +187,79 @@ public class PickupCoilModule extends FaradayModule {
         compassGraphic.getCollisionDetector().add( _pickupCoilGraphic );
         _pickupCoilGraphic.getCollisionDetector().add( _barMagnetGraphic );
         _pickupCoilGraphic.getCollisionDetector().add( compassGraphic );
-        
+
         //----------------------------------------------------------------------------
         // Control
         //----------------------------------------------------------------------------
-        
+
         // Disable clock controls
-        getClockControlPanel().setEnabled( false );
-        
+//        getClockControlPanel().setEnabled( false );
+        setClockControlPanel( null );
+
         // Control Panel
         {
             FaradayControlPanel controlPanel = new FaradayControlPanel();
             setControlPanel( controlPanel );
-            
+
             // Bar Magnet controls
             _barMagnetPanel = new BarMagnetPanel(
                     _barMagnetModel, _compassModel, _fieldMeterModel, null, _bFieldOutsideGraphic, null );
             _barMagnetPanel.setSeeInsideControlVisible( false );
             controlPanel.addControlFullWidth( _barMagnetPanel );
-            
+
             // Spacer
             controlPanel.addDefaultVerticalSpace();
-            
+
             // Pickup Coil controls
-            _pickupCoilPanel = new PickupCoilPanel( 
+            _pickupCoilPanel = new PickupCoilPanel(
                     _pickupCoilModel, _pickupCoilGraphic, _lightbulbModel, _voltmeterModel );
             controlPanel.addControlFullWidth( _pickupCoilPanel );
-            
+
             // Developer controls
             if ( PhetApplication.getInstance().isDeveloperControlsEnabled() ) {
                 controlPanel.addDefaultVerticalSpace();
-                
+
                 DeveloperControlsPanel developerControlsPanel = new DeveloperControlsPanel( _pickupCoilModel, _pickupCoilGraphic, null, _pickupCoilGraphic.getLightbulbGraphic(), null, _bFieldOutsideGraphic );
                 controlPanel.addControlFullWidth( developerControlsPanel );
             }
-            
+
             // Reset button
             controlPanel.addResetAllButton( this );
         }
 
         reset();
     }
-    
+
     //----------------------------------------------------------------------------
     // Superclass overrides
     //----------------------------------------------------------------------------
-    
+
     /**
      * Resets everything to the initial state.
      */
     public void reset() {
-        
+
         // Bar Magnet model
         _barMagnetModel.setStrength( BAR_MAGNET_STRENGTH );
         _barMagnetModel.setLocation( BAR_MAGNET_LOCATION );
         _barMagnetModel.setDirection( BAR_MAGNET_DIRECTION );
-        
+
         // Compass model
         _compassModel.setLocation( COMPASS_LOCATION );
         _compassModel.setEnabled( false );
-        
+
         // Pickup Coil model
         _pickupCoilModel.setNumberOfLoops( PICKUP_COIL_NUMBER_OF_LOOPS );
         _pickupCoilModel.setLoopArea( PICKUP_COIL_LOOP_AREA );
         _pickupCoilModel.setDirection( PICKUP_COIL_DIRECTION );
-        _pickupCoilModel.setLocation( PICKUP_COIL_LOCATION);
-       
+        _pickupCoilModel.setLocation( PICKUP_COIL_LOCATION );
+
         // Lightbulb
         _lightbulbModel.setEnabled( true );
-        
+
         // Volt Meter
         _voltmeterModel.setEnabled( false );
-        
+
         // Pickup Coil view
         if ( FaradayConstants.HIDE_ELECTRONS_FEATURE ) {
             _pickupCoilGraphic.getCoilGraphic().setElectronAnimationEnabled( false );
@@ -269,7 +268,7 @@ public class PickupCoilModule extends FaradayModule {
         else {
             _pickupCoilGraphic.getCoilGraphic().setElectronAnimationEnabled( true );
         }
-        
+
         // B-field view outside the magnet
         if ( FaradayConstants.HIDE_BFIELD_FEATURE ) {
             _bFieldOutsideGraphic.setVisible( false );
@@ -278,11 +277,11 @@ public class PickupCoilModule extends FaradayModule {
         else {
             _bFieldOutsideGraphic.setVisible( true );
         }
-        
+
         // Field Meter view
         _fieldMeterModel.setLocation( FIELD_METER_LOCATION );
         _fieldMeterModel.setEnabled( false );
-        
+
         // Control panel
         _barMagnetPanel.update();
         _pickupCoilPanel.update();
