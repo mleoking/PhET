@@ -2,8 +2,9 @@ Model for Bending Light
 Sam Reid
 5/9/2011
 
-The bending light model uses Snell's Law at each interface for computing reflected/refracted angle and reflected/refracted light power:
-http://en.wikipedia.org/wiki/Snell's_law
+The bending light model uses Snell's Law at each interface for computing reflected/refracted angle: http://en.wikipedia.org/wiki/Snell's_law
+
+The reflected/refracted light powers are calculated using the Fresnel Equations for "s-polarized" (perpendicular) light: http://en.wikipedia.org/wiki/Fresnel_equations
 
 When showing multiple reflections in the Prism Break tab, light rays are terminated after 50 reflections/refractions to ensure computability.
 
