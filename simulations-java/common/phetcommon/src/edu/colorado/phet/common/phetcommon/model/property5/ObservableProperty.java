@@ -96,7 +96,7 @@ public abstract class ObservableProperty<T> extends SimpleObservable {
      */
     private void notifyNewAndOldValueObservers( T newValue, T oldValue ) {
         for ( ChangeObserver<T> observer : new ArrayList<ChangeObserver<T>>( newAndOldValueObservers ) ) {//Iterate on a copy of the observer list to avoid ConcurrentModificationException, see #2741
-            observer.update( new ChangeEvent<T>( newValue, oldValue ) ); //REVIEW change order of args
+            observer.update( new ChangeEvent<T>( oldValue, newValue ) );
         }
     }
 

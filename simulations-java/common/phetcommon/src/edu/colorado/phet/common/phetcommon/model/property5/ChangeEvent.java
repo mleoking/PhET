@@ -10,7 +10,7 @@ public class ChangeEvent<T> {
     public final T value;
     public final T oldValue;
 
-    public ChangeEvent( T value, T oldValue ) {
+    public ChangeEvent( T oldValue, T value ) {
         this.value = value;
         this.oldValue = oldValue;
     }
