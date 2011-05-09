@@ -21,7 +21,7 @@ class OldNewNotifier<T> implements Observable2<T> {
     //List of listeners that will receive the value in callbacks
     private final ListenerList<ChangeObserver<T>> listenerList = new ListenerList<ChangeObserver<T>>( new VoidFunction1<ChangeObserver<T>>() {
         public void apply( ChangeObserver<T> observer ) {
-            observer.update( new ChangeEvent<T>( parent.get(), oldValue ) );
+            observer.update( new ChangeEvent<T>( oldValue, parent.get() ) );
         }
     } );
 
