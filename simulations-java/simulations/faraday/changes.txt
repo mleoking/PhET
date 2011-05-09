@@ -1,3 +1,4 @@
+# 2.05.03 (51682) May 9, 2011
 5/9/11 dev version to demonstrate hiding (rather than disabling) the clock controls in the first 2 tabs
 # 2.05.02 (51678) May 9, 2011
 5/9/11 > fix: disabled clock buttons should not work (#2853)
