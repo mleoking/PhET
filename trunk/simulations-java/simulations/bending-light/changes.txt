@@ -1,3 +1,4 @@
+# 1.00.00 (51700) May 9, 2011
 # 0.00.52 (51674) May 8, 2011
 Fixed: can't put objects back in the toolbox. That is, when dragged back to the toolbox, the prisms sit on the toolbox but don't disappear.
 # 0.00.51 (51671) May 8, 2011
