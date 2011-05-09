@@ -5,6 +5,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 
 //REVIEW where is oldValue set?
+//oldValue gets set in the constructor's call to super
 
 /**
  * The CompositeProperty should be used for ObservableProperties that are combined, such as And, Or, ValueEquals, etc.
@@ -15,20 +16,29 @@ import edu.colorado.phet.common.phetcommon.util.function.Function0;
 public class CompositeProperty<T> extends ObservableProperty<T> {
     //Function for computing the new value, usually provided as a closure in the implementing class
     private Function0<T> function;
+    private SimpleObserver observer;
+    private final ObservableProperty<?>[] properties;
 
     public CompositeProperty( Function0<T> function, ObservableProperty<?>... properties ) {
         super( function.apply() );
         this.function = function;
+        this.properties = properties;
 
-        //REVIEW this creates a potential memory leak, provide a cleanup method to remove the observer
         //Observe all dependencies for changes, and if one of their changes causes this value to change, send out a notification
-        SimpleObserver simpleObserver = new SimpleObserver() {
+        observer = new SimpleObserver() {
             public void update() {
                 notifyIfChanged();
             }
         };
         for ( ObservableProperty<?> property : properties ) {
-            property.addObserver( simpleObserver );
+            property.addObserver( observer );
+        }
+    }
+
+    //Remove listeners that were attached to the dependencies to prevent potential memory leaks
+    public void cleanup() {
+        for ( ObservableProperty<?> property : properties ) {
+            property.removeObserver( observer );
         }
     }
 

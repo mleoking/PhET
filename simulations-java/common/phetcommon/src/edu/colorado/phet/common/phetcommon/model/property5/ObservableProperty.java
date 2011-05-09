@@ -6,15 +6,11 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import edu.colorado.phet.common.phetcommon.model.property3.ChangeEvent;
-import edu.colorado.phet.common.phetcommon.model.property3.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction2;
 import edu.colorado.phet.common.phetcommon.util.logging.LoggingUtils;
-
-//REVIEW this class has dependencies on property3
 
 //REVIEW super.removeAllObservers doesn't do what you think it does, override?
 //REVIEW why 3 totally different variants of addObserver? (SimpleObserver, VoidFunction2, ChangeObserver)
