@@ -25,8 +25,6 @@ import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 import edu.colorado.phet.common.phetgraphics.application.PhetGraphicsModule;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
-import edu.colorado.phet.common.phetgraphics.view.phetcomponents.PhetJComponent;
-import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 
 /**
  * RgbBulbsModule implements the simulation module that demonstrates how color
@@ -200,24 +198,21 @@ public class RgbBulbsModule extends PhetGraphicsModule implements ChangeListener
 
         // Red intensity control
         _redSlider = new ColorIntensitySlider( VisibleColor.RED, JSlider.VERTICAL, INTENSITY_SLIDER_SIZE );
+        _redSlider.setLocation( RED_SLIDER_LOCATION );
         _redSlider.setCursor( new Cursor( Cursor.HAND_CURSOR ) );
-        PhetGraphic redSliderGraphic = PhetJComponent.newInstance( apparatusPanel, _redSlider );
-        redSliderGraphic.setLocation( RED_SLIDER_LOCATION );
-        apparatusPanel.addGraphic( redSliderGraphic );
+        apparatusPanel.add( _redSlider );
 
         // Green intensity control
         _greenSlider = new ColorIntensitySlider( VisibleColor.GREEN, JSlider.VERTICAL, INTENSITY_SLIDER_SIZE );
+        _greenSlider.setLocation( GREEN_SLIDER_LOCATION );
         _greenSlider.setCursor( new Cursor( Cursor.HAND_CURSOR ) );
-        PhetGraphic greenSliderGraphic = PhetJComponent.newInstance( apparatusPanel, _greenSlider );
-        greenSliderGraphic.setLocation( GREEN_SLIDER_LOCATION );
-        apparatusPanel.addGraphic( greenSliderGraphic );
+        apparatusPanel.add( _greenSlider );
 
         // Blue intensity control
         _blueSlider = new ColorIntensitySlider( VisibleColor.BLUE, JSlider.VERTICAL, INTENSITY_SLIDER_SIZE );
+        _blueSlider.setLocation( BLUE_SLIDER_LOCATION );
         _blueSlider.setCursor( new Cursor( Cursor.HAND_CURSOR ) );
-        PhetGraphic blueSliderGraphic = PhetJComponent.newInstance( apparatusPanel, _blueSlider );
-        blueSliderGraphic.setLocation( BLUE_SLIDER_LOCATION );
-        apparatusPanel.addGraphic( blueSliderGraphic );
+        apparatusPanel.add( _blueSlider );
 
         //----------------------------------------------------------------------------
         // Observers

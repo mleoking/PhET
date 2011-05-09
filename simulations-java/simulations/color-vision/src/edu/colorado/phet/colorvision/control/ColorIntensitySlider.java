@@ -7,6 +7,9 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.EventListenerList;
 
 /**
  * ColorIntensitySlider is a slider used to control color intensity
@@ -15,7 +18,7 @@ import javax.swing.*;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class ColorIntensitySlider extends JSlider {
+public class ColorIntensitySlider extends JPanel implements ChangeListener {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -34,7 +37,10 @@ public class ColorIntensitySlider extends JSlider {
     // Instance data
     //----------------------------------------------------------------------------
 
+    private JPanel _containerPanel;
+    private JSlider _slider;
     private Color _color;
+    private EventListenerList _listenerList;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -50,22 +56,70 @@ public class ColorIntensitySlider extends JSlider {
     public ColorIntensitySlider( Color color, int orientation, Dimension size ) {
 
         _color = color;
+        _listenerList = new EventListenerList();
 
-        setOrientation( orientation );
-        setMinimum( 0 );
-        setMaximum( 100 );
-        setValue( 0 );
-        setPreferredSize( size );
-        setOpaque( false );
+        // Container panel, so we can put this component on the Apparatus panel.
+        _containerPanel = new JPanel();
+        _containerPanel.setBackground( color );
+
+        // Slider
+        _slider = new JSlider();
+        _slider.setOrientation( orientation );
+        _slider.setMinimum( 0 );
+        _slider.setMaximum( 100 );
+        _slider.setValue( 0 );
+        _slider.setPreferredSize( size );
+        _slider.addChangeListener( this );
+
+        // Layout
+        this.add( _containerPanel );
+        _containerPanel.add( _slider );
+
+        // Make all components transparent so we can draw a custom background.
+        this.setOpaque( false );
+        _containerPanel.setOpaque( false );
+        _slider.setOpaque( false );
 
         // If you don't do this, nothing is drawn.
-//        revalidate();
-//        repaint();
+        revalidate();
+        repaint();
     }
 
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
+
+    /**
+     * Sets the location and (as a side effect) the bounds for this component.
+     *
+     * @param x the X coordinate
+     * @param y the Y coordinate
+     */
+    public void setLocation( int x, int y ) {
+
+        super.setLocation( x, y );
+        super.setBounds( x, y, super.getPreferredSize().width, super.getPreferredSize().height );
+    }
+
+    /**
+     * Sets the slider value.
+     *
+     * @param value the value
+     */
+    public void setValue( int value ) {
+
+        _slider.setValue( value );
+    }
+
+    /**
+     * Gets the slider value.
+     *
+     * @return the value
+     */
+    public int getValue() {
+
+        return _slider.getValue();
+    }
 
     /**
      * Sets the color.
@@ -84,6 +138,55 @@ public class ColorIntensitySlider extends JSlider {
      */
     public Color getColor() {
         return _color;
+    }
+
+    //----------------------------------------------------------------------------
+    // Event handling
+    //----------------------------------------------------------------------------
+
+    /**
+     * Propogates a ChangeEvent, changes the source to this.
+     *
+     * @param event the event
+     */
+    public void stateChanged( ChangeEvent event ) {
+
+        fireChangeEvent( new ChangeEvent( this ) );
+    }
+
+    /**
+     * Adds a ChangeListener.
+     *
+     * @param listener the listener
+     */
+    public void addChangeListener( ChangeListener listener ) {
+
+        _listenerList.add( ChangeListener.class, listener );
+    }
+
+    /**
+     * Removes a ChangeListener.
+     *
+     * @param listener the listener
+     */
+    public void removeChangeListener( ChangeListener listener ) {
+
+        _listenerList.remove( ChangeListener.class, listener );
+    }
+
+    /**
+     * Fires a ChangeEvent.
+     *
+     * @param event the event
+     */
+    private void fireChangeEvent( ChangeEvent event ) {
+
+        Object[] listeners = _listenerList.getListenerList();
+        for ( int i = 0; i < listeners.length; i += 2 ) {
+            if ( listeners[i] == ChangeListener.class ) {
+                ( (ChangeListener) listeners[i + 1] ).stateChanged( event );
+            }
+        }
     }
 
     //----------------------------------------------------------------------------
@@ -106,7 +209,7 @@ public class ColorIntensitySlider extends JSlider {
             Stroke oldStroke = g2.getStroke();
 
             // Use local variables to improve code readability.
-            Component component = this;
+            Component component = _containerPanel;
             int x = component.getX();
             int y = component.getY();
             int w = component.getWidth();
@@ -124,7 +227,7 @@ public class ColorIntensitySlider extends JSlider {
 
             Shape top, bottom, middle, shape;
             Point2D p1, p2;
-            if ( getOrientation() == VERTICAL ) {
+            if ( _slider.getOrientation() == VERTICAL ) {
                 // The background shapes.
                 top = new Rectangle2D.Double( x, y, w, h / 2 );
                 bottom = new Rectangle2D.Double( x, y + ( h / 2 ), w, h / 2 );
