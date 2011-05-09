@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--vector-addition-strings_zh_CN.xml created Sun May 08 10:51:18 CST 2011 using: vector-addition 2.01.00 (37326), translation-utility 2.10.00 (48775) 二月 9, 2011-->
+<SimStrings>
+<string key="showSum" value="显示合矢量"/>
+<string key="translation.credits" value="&lt;html&gt;&#10;&lt;p&gt;&lt;strong&gt;张大红&lt;/strong&gt;&lt;/p&gt;&#10;&lt;p&gt;&lt;strong&gt;天铁第二中学&lt;/strong&gt;&lt;/p&gt;&#10;&lt;/html&gt;"/>
+<string key="simTitle" value="矢量叠加"/>
+<string key="grabOne" value="抓取一个"/>
+<string key="clearAll" value="清除所有"/>
+<string key="componentDisplay" value="显示组件"/>
+<string key="y" value="y"/>
+<string key="style3" value="风格3"/>
+<string key="none" value="无"/>
+<string key="showGrid" value="显示栅格"/>
+<string key="style2" value="风格2"/>
+<string key="x" value="x"/>
+<string key="style1" value="风格1"/>
+</SimStrings>
