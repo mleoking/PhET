@@ -11,7 +11,6 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.util.logging.LoggingUtils;
 
-//REVIEW super.removeAllObservers doesn't do what you think it does, override?
 //REVIEW why 3 totally different variants of addObserver? (SimpleObserver, VoidFunction2, ChangeObserver)
 //REVIEW if we're going to have separate listener lists, then absorb functionality of SimpleObservable?
 
@@ -165,5 +164,14 @@ public abstract class ObservableProperty<T> extends SimpleObservable {
             notifyObservers( newValue, oldValue );
             oldValue = newValue;
         }
+    }
+
+    /**
+     * Removes all observers (0-parameter, 1-parameter and 2-parameter) from this ObservableProperty.
+     */
+    public void removeAllObservers() {
+        super.removeAllObservers();
+        newValueObservers.clear();
+        newAndOldValueObservers.clear();
     }
 }
