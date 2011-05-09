@@ -6,38 +6,35 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-import javax.swing.JPanel;
-import javax.swing.JSlider;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.EventListenerList;
+import javax.swing.*;
 
 /**
  * ColorIntensitySlider is a slider used to control color intensity
  * Intensity is a percentage, with a range of 0-100 inclusive.
- * 
+ *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class ColorIntensitySlider extends JPanel implements ChangeListener {
+public class ColorIntensitySlider extends JSlider {
 
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
 
-    /** Horizontal orientation */
+    /**
+     * Horizontal orientation
+     */
     public static int HORIZONTAL = JSlider.HORIZONTAL;
-    /** Vertical orientation */
+    /**
+     * Vertical orientation
+     */
     public static int VERTICAL = JSlider.VERTICAL;
 
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
 
-    private JPanel _containerPanel;
-    private JSlider _slider;
     private Color _color;
-    private EventListenerList _listenerList;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -45,41 +42,25 @@ public class ColorIntensitySlider extends JPanel implements ChangeListener {
 
     /**
      * Sole constructor.
-     * 
-     * @param color the color whose intensity is being controlled
+     *
+     * @param color       the color whose intensity is being controlled
      * @param orientation orientation of the control, HORIZONTAL or VERTICAL)
-     * @param size the dimensions of the control
+     * @param size        the dimensions of the control
      */
     public ColorIntensitySlider( Color color, int orientation, Dimension size ) {
 
         _color = color;
-        _listenerList = new EventListenerList();
 
-        // Container panel, so we can put this component on the Apparatus panel.
-        _containerPanel = new JPanel();
-        _containerPanel.setBackground( color );
-
-        // Slider
-        _slider = new JSlider();
-        _slider.setOrientation( orientation );
-        _slider.setMinimum( 0 );
-        _slider.setMaximum( 100 );
-        _slider.setValue( 0 );
-        _slider.setPreferredSize( size );
-        _slider.addChangeListener( this );
-
-        // Layout
-        this.add( _containerPanel );
-        _containerPanel.add( _slider );
-
-        // Make all components transparent so we can draw a custom background.
-        this.setOpaque( false );
-        _containerPanel.setOpaque( false );
-        _slider.setOpaque( false );
+        setOrientation( orientation );
+        setMinimum( 0 );
+        setMaximum( 100 );
+        setValue( 0 );
+        setPreferredSize( size );
+        setOpaque( false );
 
         // If you don't do this, nothing is drawn.
-        revalidate();
-        repaint();
+//        revalidate();
+//        repaint();
     }
 
     //----------------------------------------------------------------------------
@@ -87,103 +68,22 @@ public class ColorIntensitySlider extends JPanel implements ChangeListener {
     //----------------------------------------------------------------------------
 
     /**
-     * Sets the location and (as a side effect) the bounds for this component.
-     * 
-     * @param x the X coordinate
-     * @param y the Y coordinate
-     */
-    public void setLocation( int x, int y ) {
-
-        super.setLocation( x, y );
-        super.setBounds( x, y, super.getPreferredSize().width, super.getPreferredSize().height );
-    }
-
-    /**
-     * Sets the slider value.
-     * 
-     * @param value the value
-     */
-    public void setValue( int value ) {
-
-        _slider.setValue( value );
-    }
-
-    /**
-     * Gets the slider value.
-     * 
-     * @return the value
-     */
-    public int getValue() {
-
-        return _slider.getValue();
-    }
-
-    /**
      * Sets the color.
-     * 
+     *
      * @param color the color
      */
     public void setColor( Color color ) {
         _color = color;
         super.repaint();
     }
-    
+
     /**
      * Gets the color.
-     * 
+     *
      * @return the color
      */
     public Color getColor() {
         return _color;
-    }
-    
-    //----------------------------------------------------------------------------
-    // Event handling
-    //----------------------------------------------------------------------------
-
-    /**
-     * Propogates a ChangeEvent, changes the source to this.
-     * 
-     * @param event the event
-     */
-    public void stateChanged( ChangeEvent event ) {
-
-        fireChangeEvent( new ChangeEvent( this ) );
-    }
-
-    /**
-     * Adds a ChangeListener.
-     * 
-     * @param listener the listener
-     */
-    public void addChangeListener( ChangeListener listener ) {
-
-        _listenerList.add( ChangeListener.class, listener );
-    }
-
-    /**
-     * Removes a ChangeListener.
-     * 
-     * @param listener the listener
-     */
-    public void removeChangeListener( ChangeListener listener ) {
-
-        _listenerList.remove( ChangeListener.class, listener );
-    }
-
-    /**
-     * Fires a ChangeEvent.
-     * 
-     * @param event the event
-     */
-    private void fireChangeEvent( ChangeEvent event ) {
-
-        Object[] listeners = _listenerList.getListenerList();
-        for( int i = 0; i < listeners.length; i += 2 ) {
-            if( listeners[i] == ChangeListener.class ) {
-                ( (ChangeListener) listeners[i + 1] ).stateChanged( event );
-            }
-        }
     }
 
     //----------------------------------------------------------------------------
@@ -193,12 +93,12 @@ public class ColorIntensitySlider extends JPanel implements ChangeListener {
     /**
      * Paints the component. A gradient fill, based on the model color, is used
      * for the background.
-     * 
+     *
      * @param g the graphics context
      */
     public void paintComponent( Graphics g ) {
 
-        if( super.isVisible() ) {
+        if ( super.isVisible() ) {
             Graphics2D g2 = (Graphics2D) g;
 
             // Save any graphics state that we'll be touching.
@@ -206,7 +106,7 @@ public class ColorIntensitySlider extends JPanel implements ChangeListener {
             Stroke oldStroke = g2.getStroke();
 
             // Use local variables to improve code readability.
-            Component component = _containerPanel;
+            Component component = this;
             int x = component.getX();
             int y = component.getY();
             int w = component.getWidth();
@@ -224,7 +124,7 @@ public class ColorIntensitySlider extends JPanel implements ChangeListener {
 
             Shape top, bottom, middle, shape;
             Point2D p1, p2;
-            if( _slider.getOrientation() == VERTICAL ) {
+            if ( getOrientation() == VERTICAL ) {
                 // The background shapes.
                 top = new Rectangle2D.Double( x, y, w, h / 2 );
                 bottom = new Rectangle2D.Double( x, y + ( h / 2 ), w, h / 2 );
@@ -234,8 +134,7 @@ public class ColorIntensitySlider extends JPanel implements ChangeListener {
                 p1 = new Point2D.Double( x + ( w / 2 ), y + trackOffset );
                 p2 = new Point2D.Double( x + ( w / 2 ), y + h - trackOffset );
             }
-            else /* HORIZONTAL */
-            {
+            else /* HORIZONTAL */ {
                 // The background shapes.
                 top = new Rectangle2D.Double( x + ( w / 2 ), y, w / 2, h );
                 bottom = new Rectangle2D.Double( x, y, w / 2, h );

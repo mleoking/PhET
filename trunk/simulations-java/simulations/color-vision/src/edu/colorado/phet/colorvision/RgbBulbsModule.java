@@ -4,7 +4,7 @@ package edu.colorado.phet.colorvision;
 
 import java.awt.*;
 
-import javax.swing.JSlider;
+import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -25,11 +25,13 @@ import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 import edu.colorado.phet.common.phetgraphics.application.PhetGraphicsModule;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
+import edu.colorado.phet.common.phetgraphics.view.phetcomponents.PhetJComponent;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 
 /**
  * RgbBulbsModule implements the simulation module that demonstrates how color
  * vision works in the context of three lights (red, green and blue).
- * 
+ *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class RgbBulbsModule extends PhetGraphicsModule implements ChangeListener, VisibleColorChangeListener {
@@ -198,21 +200,24 @@ public class RgbBulbsModule extends PhetGraphicsModule implements ChangeListener
 
         // Red intensity control
         _redSlider = new ColorIntensitySlider( VisibleColor.RED, JSlider.VERTICAL, INTENSITY_SLIDER_SIZE );
-        _redSlider.setLocation( RED_SLIDER_LOCATION );
         _redSlider.setCursor( new Cursor( Cursor.HAND_CURSOR ) );
-        apparatusPanel.add( _redSlider );
+        PhetGraphic redSliderGraphic = PhetJComponent.newInstance( apparatusPanel, _redSlider );
+        redSliderGraphic.setLocation( RED_SLIDER_LOCATION );
+        apparatusPanel.addGraphic( redSliderGraphic );
 
         // Green intensity control
         _greenSlider = new ColorIntensitySlider( VisibleColor.GREEN, JSlider.VERTICAL, INTENSITY_SLIDER_SIZE );
-        _greenSlider.setLocation( GREEN_SLIDER_LOCATION );
         _greenSlider.setCursor( new Cursor( Cursor.HAND_CURSOR ) );
-        apparatusPanel.add( _greenSlider );
+        PhetGraphic greenSliderGraphic = PhetJComponent.newInstance( apparatusPanel, _greenSlider );
+        greenSliderGraphic.setLocation( GREEN_SLIDER_LOCATION );
+        apparatusPanel.addGraphic( greenSliderGraphic );
 
         // Blue intensity control
         _blueSlider = new ColorIntensitySlider( VisibleColor.BLUE, JSlider.VERTICAL, INTENSITY_SLIDER_SIZE );
-        _blueSlider.setLocation( BLUE_SLIDER_LOCATION );
         _blueSlider.setCursor( new Cursor( Cursor.HAND_CURSOR ) );
-        apparatusPanel.add( _blueSlider );
+        PhetGraphic blueSliderGraphic = PhetJComponent.newInstance( apparatusPanel, _blueSlider );
+        blueSliderGraphic.setLocation( BLUE_SLIDER_LOCATION );
+        apparatusPanel.addGraphic( blueSliderGraphic );
 
         //----------------------------------------------------------------------------
         // Observers
@@ -271,7 +276,7 @@ public class RgbBulbsModule extends PhetGraphicsModule implements ChangeListener
     /**
      * Handles a VisibleColorChangeEvent, received when a photon hits the
      * person.
-     * 
+     *
      * @param event the event
      */
     public void colorChanged( VisibleColorChangeEvent event ) {
@@ -294,7 +299,7 @@ public class RgbBulbsModule extends PhetGraphicsModule implements ChangeListener
 
     /**
      * Handles a ChangeEvent, received when a slider is moved.
-     * 
+     *
      * @param event the event
      */
     public void stateChanged( ChangeEvent event ) {
@@ -302,18 +307,18 @@ public class RgbBulbsModule extends PhetGraphicsModule implements ChangeListener
         //System.out.println( "stateChanged " + event ); // DEBUG
 
         // Disable the wiggle-me when a slider is moved.
-        if( _wiggleMe.isRunning() ) {
+        if ( _wiggleMe.isRunning() ) {
             _wiggleMe.stop();
             _wiggleMe.setVisible( false );
         }
 
-        if( event.getSource() == _redSlider ) {
+        if ( event.getSource() == _redSlider ) {
             _redSpotlightModel.setIntensity( _redSlider.getValue() );
         }
-        else if( event.getSource() == _greenSlider ) {
+        else if ( event.getSource() == _greenSlider ) {
             _greenSpotlightModel.setIntensity( _greenSlider.getValue() );
         }
-        else if( event.getSource() == _blueSlider ) {
+        else if ( event.getSource() == _blueSlider ) {
             _blueSpotlightModel.setIntensity( _blueSlider.getValue() );
         }
         else {
