@@ -1,34 +1,34 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--wave-on-a-string-strings_fi.xml created Thu Feb 11 21:05:36 EET 2010 using: wave-on-a-string 2.01.00 (37327), translation-utility 2.06.00 (37959) tammi 8, 2010-->
+<!--wave-on-a-string-strings_fi.xml created Mon May 09 00:17:31 EEST 2011 using: wave-on-a-string 2.03.00 (51205), translation-utility 2.10.00 (48775) helmi 9, 2011-->
 <SimStrings>
-<string key="manual" value="Manuaali"/>
+<string key="manual" value="Manuaalinen"/>
 <string key="resetTimer" value="aloita alusta"/>
 <string key="damping" value="Vaimeneminen"/>
 <string key="simTitle" value="Aalto jousessa"/>
-<string key="showHelp" value="Näytä tuki"/>
+<string key="showHelp" value="Näytä ohje"/>
 <string key="pulse" value="Pulssi"/>
 <string key="amplitude" value="Amplitudi"/>
-<string key="pausePlay" value="Pysäytä/Käynnistä"/>
-<string key="step" value="Askel"/>
-<string key="tension" value="Jousen kireys"/>
-<string key="startTimer" value="Käynnistä/pysäytä"/>
+<string key="pausePlay" value="käynnistä/pysäytä"/>
+<string key="step" value="askel"/>
+<string key="tension" value="jäykkyys"/>
+<string key="startTimer" value="käynnistä/pysäytä"/>
 <string key="pulseWidth" value="Pulssin leveys"/>
-<string key="rulerHelp" value="Mittanauha"/>
-<string key="high" value="Korkea"/>
-<string key="wiggleWrench" value="Kisko putkipihtiä!"/>
-<string key="timer" value="Kello"/>
+<string key="rulerHelp" value="siirrettävä viivain"/>
+<string key="high" value="suuri"/>
+<string key="wiggleWrench" value="Heiluta jakoavainta!"/>
+<string key="timer" value="Ajastin"/>
 <string key="oscillate" value="Värähtely"/>
-<string key="rulers" value="Mittanauhat"/>
+<string key="rulers" value="Viivaimet"/>
 <string key="frequency" value="Taajuus"/>
-<string key="wrenchHelp" value="Liikuta tätä !!"/>
+<string key="wrenchHelp" value="siirrettävä jakoavain"/>
 <string key="fixedEnd" value="Kiinnitetty pää"/>
-<string key="refLineHelp" value="Siirrettävä suora "/>
-<string key="hideHelp" value="Piilota tuki"/>
-<string key="timerHelp" value="Ajastin"/>
+<string key="refLineHelp" value="siirrettävä vertailusuora"/>
+<string key="hideHelp" value="Piilota ohje"/>
+<string key="timerHelp" value="siirrettävä ajastin"/>
 <string key="looseEnd" value="Vapaa pää"/>
 <string key="noEnd" value="Ei loppua"/>
-<string key="paused" value="Keskeytetty"/>
+<string key="paused" value="Pysäytetty"/>
 <string key="reset" value="Aloita alusta"/>
 <string key="pulse2" value="Pulssi"/>
-<string key="low" value="Matala"/>
+<string key="low" value="pieni"/>
 </SimStrings>
