@@ -6,7 +6,7 @@ import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.bendinglight.model.ProtractorModel;
 import edu.colorado.phet.bendinglight.view.ProtractorNode;
-import edu.colorado.phet.common.phetcommon.model.property.Not;
+import edu.colorado.phet.common.phetcommon.model.property.SettableNot;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.Function2;
@@ -34,7 +34,7 @@ public class ExpandableProtractorNode extends ProtractorNode {
         this.originalScale = scale;
 
         //Add buttons for growing and shrinking the protractor
-        addChild( new MaxMinButton( getMaximizeButtonImage(), new Not( expanded ), true ) );
+        addChild( new MaxMinButton( getMaximizeButtonImage(), new SettableNot( expanded ), true ) );
         addChild( new MaxMinButton( getMinimizeButtonImage(), expanded, false ) );
     }
 

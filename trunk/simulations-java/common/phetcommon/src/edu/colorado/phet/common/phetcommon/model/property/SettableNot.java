@@ -8,10 +8,10 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
  *
  * @author Sam Reid
  */
-public class Not extends SettableProperty<Boolean> {
+public class SettableNot extends SettableProperty<Boolean> {
     private SettableProperty<Boolean> parent;
 
-    public Not( final SettableProperty<Boolean> parent ) {
+    public SettableNot( final SettableProperty<Boolean> parent ) {
         super( !parent.get() );
         this.parent = parent;
     }
@@ -24,8 +24,8 @@ public class Not extends SettableProperty<Boolean> {
         return new And(this,term);
     }
 
-    public static Not not( SettableProperty<Boolean> p ) {
-        return new Not( p );
+    public static SettableNot not( SettableProperty<Boolean> p ) {
+        return new SettableNot( p );
     }
 
     @Override public Boolean get() {
@@ -39,7 +39,7 @@ public class Not extends SettableProperty<Boolean> {
                 System.out.println( "a = " + aBoolean );
             }
         } );
-        Not b = new Not( a );
+        SettableNot b = new SettableNot( a );
         b.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean aBoolean ) {
                 System.out.println( "b = " + aBoolean );
