@@ -581,7 +581,7 @@ public class MoleculeStructure {
      * @param exclusionSet A set of atoms that should not be in the return value
      * @return All neighboring atoms that are connected by bonds to the passed in atom AND aren't in the exclusionSet
      */
-    private List<Atom> getNeighborsNotInSet( Atom atom, Set<Atom> exclusionSet ) {
+    public List<Atom> getNeighborsNotInSet( Atom atom, Set<Atom> exclusionSet ) {
         List<Atom> ret = new LinkedList<Atom>();
         for ( Atom otherAtom : getNeighbors( atom ) ) {
             if ( !exclusionSet.contains( otherAtom ) ) {
@@ -645,7 +645,7 @@ public class MoleculeStructure {
      * @param otherRemainingIndices Remaining available "other" indices
      * @return Whether a successful matching permutation was found
      */
-    private boolean checkEquivalencyMatrix( boolean[][] equivalences, int myIndex, List<Integer> otherRemainingIndices ) {
+    public static boolean checkEquivalencyMatrix( boolean[][] equivalences, int myIndex, List<Integer> otherRemainingIndices ) {
         // should be inefficient, but not too bad (computational complexity is not optimal)
         for ( Integer otherIndex : new ArrayList<Integer>( otherRemainingIndices ) ) { // loop over all remaining others
             if ( equivalences[myIndex][otherIndex] ) { // only follow path if it is true (equivalent)

@@ -189,6 +189,7 @@ public class MoleculeSDFCombinedParser {
                             moleculeString.append( SEPARATOR );
                             moleculeString.append( bond.toString() );
                         }
+                        moleculeString.append( SEPARATOR ).append( cid ); // add the CID on to the end (just for now)
                         moleculeString.append( "\n" );
                         String moleculeResult = moleculeString.toString();
                         molecules.add( moleculeResult );
