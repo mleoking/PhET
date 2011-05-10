@@ -1,3 +1,4 @@
+5/9/11 Moved ConductivityTester and related strings and images from acid-base-solutions to piccolo-phet, see #2864
 # 1.02.00 (51717) May 9, 2011
 5/9/11 > added new translation credits features
 # 1.01.01 (51561) May 5, 2011

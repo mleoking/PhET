@@ -7,9 +7,12 @@ import java.awt.geom.Dimension2D;
 import edu.colorado.phet.acidbasesolutions.constants.ABSColors;
 import edu.colorado.phet.acidbasesolutions.constants.ABSConstants;
 import edu.colorado.phet.acidbasesolutions.model.ABSModel;
+import edu.colorado.phet.acidbasesolutions.model.ConductivityTester;
+import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.SolutionRepresentationChangeAdapter;
 import edu.colorado.phet.acidbasesolutions.view.*;
 import edu.colorado.phet.acidbasesolutions.view.graph.ConcentrationGraphNode;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.nodes.conductivitytester.ConductivityTesterNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PBounds;
@@ -47,7 +50,16 @@ public class ABSCanvas extends PhetPCanvas {
         reactionEquationNode = new ReactionEquationNode( model.getReactionEquation() );
         pHPaperNode = new PHPaperNode( model.getPHPaper() );
         pHColorKeyNode = new PHColorKeyNode( model.getPHPaper() );
-        conductivityTesterNode = new ConductivityTesterNode( model.getConductivityTester(), dev );
+        final ConductivityTester tester = model.getConductivityTester();
+        conductivityTesterNode = new ConductivityTesterNode( tester, dev ) {{
+            //Wire up so the conductivity tester is only shown when selected
+            tester.addSolutionRepresentationChangeListener( new SolutionRepresentationChangeAdapter() {
+                public void visibilityChanged() {
+                    setVisible( tester.isVisible() );
+                }
+            } );
+        }};
+
         
         // rendering order
         addNode( pHMeterNode );

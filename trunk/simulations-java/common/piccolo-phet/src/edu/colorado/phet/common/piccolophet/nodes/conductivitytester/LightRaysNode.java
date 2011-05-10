@@ -1,6 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 
-package edu.colorado.phet.acidbasesolutions.view;
+package edu.colorado.phet.common.piccolophet.nodes.conductivitytester;
 
 import java.awt.BasicStroke;
 import java.awt.Color;

@@ -4,9 +4,8 @@ package edu.colorado.phet.sugarandsaltsolutions.common.model;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
-import edu.colorado.phet.acidbasesolutions.model.ConductivityTester.ConductivityTesterChangeListener;
 import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.SolutionRepresentationChangeListener;
-import edu.colorado.phet.acidbasesolutions.view.IConductivityTester;
+import edu.colorado.phet.common.piccolophet.nodes.conductivitytester.IConductivityTester;
 import edu.colorado.phet.common.phetcommon.model.property5.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.umd.cs.piccolo.util.PDimension;

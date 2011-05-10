@@ -33,7 +33,4 @@ public class ABSSymbols {
     public static final String Ka = "K<sub>a</sub>";
     public static final String Kb = "K<sub>b</sub>";
     public static final String Kw = "K<sub>w</sub>";
-    
-    public static final String PLUS = "+";
-    public static final String MINUS = "-";
 }

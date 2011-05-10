@@ -9,10 +9,8 @@ import java.awt.geom.Rectangle2D;
 
 import javax.swing.*;
 
-import edu.colorado.phet.acidbasesolutions.view.ConductivityTesterNode;
+import edu.colorado.phet.common.piccolophet.nodes.conductivitytester.ConductivityTesterNode;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.model.property5.Not;
-import edu.colorado.phet.common.phetcommon.model.property5.ObservableNot;
 import edu.colorado.phet.common.phetcommon.model.property5.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.util.Option.None;
 import edu.colorado.phet.common.phetcommon.util.Option.Some;
@@ -212,7 +210,13 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
         }} );
 
         //Add the graphic for the conductivity tester--the probes can be submerged to light the bulb
-        addChild( new ConductivityTesterNode( model.conductivityTester, false ) );
+        addChild( new ConductivityTesterNode( model.conductivityTester, false ){{
+            model.conductivityTester.visible.addObserver( new VoidFunction1<Boolean>() {
+                public void apply( Boolean visible ) {
+                    setVisible( visible );
+                }
+            } );
+        }} );
 
         //Debug for showing stage
         addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, stageSize.getWidth(), stageSize.getHeight() ), new BasicStroke( 2 ), Color.red ) );
