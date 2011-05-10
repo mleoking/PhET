@@ -12,8 +12,10 @@ import edu.colorado.phet.bendinglight.model.Laser;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.And;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -37,19 +39,11 @@ public class RotationDragHandle extends PNode {
                                final Function1<Double, Boolean> notAtMax//Function that determines whether the laser is already at the max angle (if at the max angle then that drag handle disappears)
     ) {
         //Temporary property to help determine whether the drag handle should be shown
-        ObservableProperty<Boolean> notAtMaximum = new ObservableProperty<Boolean>() {
-            {
-                laser.emissionPoint.addObserver( new SimpleObserver() {
-                    public void update() {
-                        notifyObservers();
-                    }
-                } );
-            }
-
-            public Boolean getValue() {
+        CompositeProperty<Boolean> notAtMaximum = new CompositeProperty<Boolean>( new Function0<Boolean>() {
+            public Boolean apply() {
                 return notAtMax.apply( laser.getAngle() );
             }
-        };
+        } ,laser.emissionPoint,laser.pivot);
 
         //Show the drag handle if the "show drag handles" is true and if the laser isn't already at the max angle.
         final And showArrow = showDragHandles.and( notAtMaximum );

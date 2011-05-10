@@ -62,24 +62,6 @@ public class LaserNode extends PNode {
             }
         } );
 
-        //Couldn't use phetcommon Not since this uses nonsettable parent
-        class ObservableNot extends ObservableProperty<Boolean> {
-            private ObservableProperty<Boolean> parent;
-
-            public ObservableNot( final ObservableProperty<Boolean> parent ) {
-                this.parent = parent;
-                parent.addObserver( new SimpleObserver() {
-                    public void update() {
-                        notifyObservers();
-                    }
-                } );
-            }
-
-            public Boolean getValue() {
-                return !parent.getValue();
-            }
-        }
-
         //Continue to show the translation arrows even if the mouse is outside of the region if the mouse is currently translating the laser
         final Or doShowTranslationArrows = mouseOverTranslationPart.or( draggingTranslation );
         final And a = new And( doShowTranslationArrows, new ObservableNot( showRotationArrows ) );

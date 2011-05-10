@@ -4,6 +4,7 @@ package edu.colorado.phet.buildamolecule.model;
 import java.util.LinkedList;
 import java.util.List;
 
+import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction2;
@@ -32,10 +33,10 @@ public class KitCollectionModel {
             kit.show();
 
             // handle kit visibility when this changes
-            currentKit.addObserver( new VoidFunction2<Kit, Kit>() {
-                public void apply( Kit newKit, Kit oldKit ) {
-                    newKit.show();
-                    oldKit.hide();
+            currentKit.addObserver( new ChangeObserver<Kit>() {
+                public void update( Kit newValue, Kit oldValue ) {
+                    newValue.show();
+                    oldValue.hide();
                 }
             } );
         }

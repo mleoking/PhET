@@ -17,7 +17,7 @@ public class CompositeBooleanProperty extends CompositeProperty<Boolean> {
         return new Or( this, p );
     }
 
-    public And and( SettableProperty<Boolean> p ) {
+    public And and( ObservableProperty<Boolean> p ) {
         return new And( this, p );
     }
 }
