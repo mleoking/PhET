@@ -28,6 +28,8 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
+//TODO The most general constructor should be ButtonNode(PNode), allowing any PNode to be put on a button.
+
 /**
  * A Piccolo button with interface similar to JButton.
  * Supports both text (plaintext or HTML) and images.
