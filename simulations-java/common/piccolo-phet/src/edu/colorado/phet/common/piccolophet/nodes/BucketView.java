@@ -1,12 +1,7 @@
 //  Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.piccolophet.nodes;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.GradientPaint;
-import java.awt.Paint;
-import java.awt.Shape;
+import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
