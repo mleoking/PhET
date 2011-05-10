@@ -24,15 +24,15 @@ public class Property<T> extends SettableProperty<T> {
     }
 
     public void reset() {
-        setValue( initialValue );
+        set( initialValue );
     }
 
     @Override
-    public T getValue() {
+    public T get() {
         return value;
     }
 
-    public void setValue( T value ) {
+    public void set( T value ) {
         this.value = value;
         notifyIfChanged();
     }
@@ -52,7 +52,7 @@ public class Property<T> extends SettableProperty<T> {
         final Property<Boolean> enabled = new Property<Boolean>( true );
         enabled.addObserver( new SimpleObserver() {
             public void update() {
-                System.out.println( "SimpleObserver enabled=" + enabled.getValue() );
+                System.out.println( "SimpleObserver enabled=" + enabled.get() );
             }
         } );
         enabled.addObserver( new VoidFunction1<Boolean>() {
@@ -65,7 +65,7 @@ public class Property<T> extends SettableProperty<T> {
                 System.out.println( "newValue = " + newValue + ", oldValue = " + oldValue );
             }
         } );
-        enabled.setValue( !enabled.getValue() );
+        enabled.set( !enabled.get() );
     }
 
     public ObservableProperty<Boolean> valueEquals( T salt ) {

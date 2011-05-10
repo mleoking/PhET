@@ -25,7 +25,7 @@ public class RectangleNode extends PPath {
         RichSimpleObserver geometryObserver = new RichSimpleObserver() {
             @Override
             public void update() {
-                setPathTo( new Rectangle2D.Double( rectangle.x.getValue(), rectangle.y.getValue(), rectangle.width.getValue(), rectangle.height.getValue() ) );
+                setPathTo( new Rectangle2D.Double( rectangle.x.get(), rectangle.y.get(), rectangle.width.get(), rectangle.height.get() ) );
             }
         };
         geometryObserver.observe( rectangle.x, rectangle.y, rectangle.width, rectangle.height );
@@ -34,14 +34,14 @@ public class RectangleNode extends PPath {
         // update fill color
         rectangle.fillColor.addObserver( new SimpleObserver() {
             public void update() {
-                setPaint( rectangle.fillColor.getValue() );
+                setPaint( rectangle.fillColor.get() );
             }
         } );
 
         // update stroke color
         rectangle.strokeColor.addObserver( new SimpleObserver() {
             public void update() {
-                setStrokePaint( rectangle.strokeColor.getValue() );
+                setStrokePaint( rectangle.strokeColor.get() );
             }
         } );
 
@@ -60,8 +60,8 @@ public class RectangleNode extends PPath {
             protected void startDrag( PInputEvent event ) {
                 super.startDrag( event );
                 Point2D pMouse = event.getPositionRelativeTo( RectangleNode.this.getParent() );
-                clickXOffset = pMouse.getX() - rectangle.x.getValue();
-                clickYOffset = pMouse.getY() - rectangle.y.getValue();
+                clickXOffset = pMouse.getX() - rectangle.x.get();
+                clickYOffset = pMouse.getY() - rectangle.y.get();
             }
 
             /*
@@ -72,8 +72,8 @@ public class RectangleNode extends PPath {
             protected void drag( final PInputEvent event ) {
                 super.drag( event );
                 Point2D pMouse = event.getPositionRelativeTo( RectangleNode.this.getParent() );
-                rectangle.x.setValue( (int) ( pMouse.getX() - clickXOffset ) );
-                rectangle.y.setValue( (int) ( pMouse.getY() - clickYOffset ) );
+                rectangle.x.set( (int) ( pMouse.getX() - clickXOffset ) );
+                rectangle.y.set( (int) ( pMouse.getY() - clickYOffset ) );
             }
         } );
 

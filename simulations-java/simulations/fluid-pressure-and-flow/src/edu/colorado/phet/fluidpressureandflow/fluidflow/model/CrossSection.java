@@ -24,11 +24,11 @@ public class CrossSection {
     }
 
     public Point2D getTop() {
-        return top.getValue().toPoint2D();
+        return top.get().toPoint2D();
     }
 
     public Point2D getBottom() {
-        return bottom.getValue().toPoint2D();
+        return bottom.get().toPoint2D();
     }
 
     //Observe both the top and bottom position of the pipe cross section
@@ -38,15 +38,15 @@ public class CrossSection {
     }
 
     public void translateTop( double dx, double dy ) {
-        top.setValue( new ImmutableVector2D( getTop().getX() + dx, getTop().getY() + dy ) );
+        top.set( new ImmutableVector2D( getTop().getX() + dx, getTop().getY() + dy ) );
     }
 
     public void translateBottom( double dx, double dy ) {
-        bottom.setValue( new ImmutableVector2D( getBottom().getX() + dx, getBottom().getY() + dy ) );
+        bottom.set( new ImmutableVector2D( getBottom().getX() + dx, getBottom().getY() + dy ) );
     }
 
     public double getX() {
-        return top.getValue().getX();
+        return top.get().getX();
     }
 
     public double getHeight() {
@@ -59,7 +59,7 @@ public class CrossSection {
     }
 
     public double getCenterY() {
-        return ( top.getValue().getY() + bottom.getValue().getY() ) / 2;
+        return ( top.get().getY() + bottom.get().getY() ) / 2;
     }
 
     //Translate both top and bottom parts of the pipe

@@ -49,7 +49,7 @@ public class ElectronOrbitalNode extends PNode {
                 setOffset( atom.getPosition() );
                 final SimpleObserver updateVisibility = new SimpleObserver() {
                     public void update() {
-                        setVisible( orbitalViewProperty.getValue() == OrbitalView.PARTICLES );
+                        setVisible( orbitalViewProperty.get() == OrbitalView.PARTICLES );
                     }
                 };
                 orbitalViewProperty.addObserver( updateVisibility );

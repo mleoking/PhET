@@ -76,7 +76,7 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
             bestTimes.put( i, 0L );
         }
         timer = new GameTimer( new BCEClock() );
-        equations = equationsFactory.createEquations( EQUATIONS_PER_GAME, settings.level.getValue() ); // needs to be non-null after initialization
+        equations = equationsFactory.createEquations( EQUATIONS_PER_GAME, settings.level.get() ); // needs to be non-null after initialization
         currentEquationIndex = 0;
         currentEquation = new Property<Equation>( equations.get( currentEquationIndex ) );
     }
@@ -85,16 +85,16 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
      * Called when the user presses the "Start Game" button.
      */
     public void startGame() {
-        equations = equationsFactory.createEquations( EQUATIONS_PER_GAME, settings.level.getValue() );
+        equations = equationsFactory.createEquations( EQUATIONS_PER_GAME, settings.level.get() );
         currentEquationIndex = 0;
-        balancedRepresentation = BALANCED_REPRESENTATION_STRATEGIES.get( settings.level.getValue() ).getBalancedRepresentation();
+        balancedRepresentation = BALANCED_REPRESENTATION_STRATEGIES.get( settings.level.get() ).getBalancedRepresentation();
         attempts = 0;
         isNewBestTime = false;
         timer.start();
         currentPoints = 0;
-        points.setValue( 0 );
-        currentEquation.setValue( equations.get( currentEquationIndex ) );
-        state.setValue( GameState.CHECK );
+        points.set( 0 );
+        currentEquation.set( equations.get( currentEquationIndex ) );
+        state.set( GameState.CHECK );
     }
 
     /**
@@ -102,7 +102,7 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
      */
     public void check() {
         attempts++;
-        if ( currentEquation.getValue().isBalancedAndSimplified() ) {
+        if ( currentEquation.get().isBalancedAndSimplified() ) {
 
             // award points
             if ( attempts == 1 ) {
@@ -115,26 +115,26 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
             else {
                 currentPoints = 0;
             }
-            points.setValue( points.getValue() + currentPoints );
+            points.set( points.get() + currentPoints );
 
             // end the game
             if ( currentEquationIndex == equations.size() - 1 ) {
                 timer.stop();
                 // check for new best time
-                long previousBestTime = getBestTime( settings.level.getValue() );
-                if ( isPerfectScore() && ( previousBestTime == 0 || timer.time.getValue() < previousBestTime ) ) {
+                long previousBestTime = getBestTime( settings.level.get() );
+                if ( isPerfectScore() && ( previousBestTime == 0 || timer.time.get() < previousBestTime ) ) {
                     isNewBestTime = true;
-                    bestTimes.put( settings.level.getValue(), timer.time.getValue() );
+                    bestTimes.put( settings.level.get(), timer.time.get() );
                 }
             }
 
-            state.setValue( GameState.NEXT );
+            state.set( GameState.NEXT );
         }
         else if ( attempts < 2 ) {
-            state.setValue( GameState.TRY_AGAIN );
+            state.set( GameState.TRY_AGAIN );
         }
         else {
-            state.setValue( GameState.SHOW_ANSWER );
+            state.set( GameState.SHOW_ANSWER );
         }
     }
 
@@ -142,14 +142,14 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
      * Called when the user presses the "Try Again" button.
      */
     public void tryAgain() {
-        state.setValue( GameState.CHECK );
+        state.set( GameState.CHECK );
     }
 
     /**
      * Called when the user presses the "Show Answer" button.
      */
     public void showAnswer() {
-        state.setValue( GameState.NEXT );
+        state.set( GameState.NEXT );
     }
 
     /**
@@ -159,13 +159,13 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
         if ( currentEquationIndex < equations.size() - 1 ) {
             attempts = 0;
             currentPoints = 0;
-            balancedRepresentation = BALANCED_REPRESENTATION_STRATEGIES.get( settings.level.getValue() ).getBalancedRepresentation();
+            balancedRepresentation = BALANCED_REPRESENTATION_STRATEGIES.get( settings.level.get() ).getBalancedRepresentation();
             currentEquationIndex++;
-            currentEquation.setValue( equations.get( currentEquationIndex ) );
-            state.setValue( GameState.CHECK );
+            currentEquation.set( equations.get( currentEquationIndex ) );
+            state.set( GameState.CHECK );
         }
         else {
-            state.setValue( GameState.NEW_GAME );
+            state.set( GameState.NEW_GAME );
         }
     }
 
@@ -173,7 +173,7 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
      * Called when the user presses the "New Game" button.
      */
     public void newGame() {
-        state.setValue( GameState.START_GAME );
+        state.set( GameState.START_GAME );
     }
 
     public boolean isNewBestTime() {
@@ -242,7 +242,7 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
      * @return
      */
     public boolean isPerfectScore() {
-        return points.getValue() == getPerfectScore();
+        return points.get() == getPerfectScore();
     }
 
     /**

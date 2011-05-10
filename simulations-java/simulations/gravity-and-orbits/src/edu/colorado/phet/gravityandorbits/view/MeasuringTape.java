@@ -46,8 +46,8 @@ public class MeasuringTape extends PNode {
             setPickable( false );
             new RichSimpleObserver() {
                 public void update() {
-                    setPathTo( new Line2D.Double( transform.getValue().modelToView( modelStart.getValue() ).toPoint2D(),
-                                                  transform.getValue().modelToView( modelEnd.getValue() ).toPoint2D() ) );
+                    setPathTo( new Line2D.Double( transform.get().modelToView( modelStart.get() ).toPoint2D(),
+                                                  transform.get().modelToView( modelEnd.get() ).toPoint2D() ) );
                 }
             }.observe( modelStart, modelEnd, transform );
         }} );
@@ -66,7 +66,7 @@ public class MeasuringTape extends PNode {
         addChild( createTextReadout( modelStart, modelEnd, transform ) );
         visible.addObserver( new SimpleObserver() {
             public void update() {
-                setVisible( visible.getValue() );
+                setVisible( visible.get() );
             }
         } );
     }
@@ -78,7 +78,7 @@ public class MeasuringTape extends PNode {
             setPickable( false );
             final SimpleObserver updateOffset = new SimpleObserver() {
                 public void update() {
-                    final Point2D offset = transform.getValue().modelToView( modelStart.getValue().toPoint2D() );
+                    final Point2D offset = transform.get().modelToView( modelStart.get().toPoint2D() );
                     setOffset( offset.getX() - getFullBounds().getWidth() / 2, offset.getY() + CROSS_HAIR_RADIUS );
                 }
             };
@@ -86,7 +86,7 @@ public class MeasuringTape extends PNode {
             modelStart.addObserver( updateOffset );
             final SimpleObserver updateReadout = new SimpleObserver() {
                 public void update() {
-                    double modelDistance = modelStart.getValue().getDistance( modelEnd.getValue() );
+                    double modelDistance = modelStart.get().getDistance( modelEnd.get() );
                     //use a scale that makes sense in all modes
                     double miles = metersToMiles( modelDistance );
                     double thousandMiles = miles / 1E3;
@@ -111,9 +111,9 @@ public class MeasuringTape extends PNode {
             final SimpleObserver updateBody = new SimpleObserver() {
                 public void update() {
                     setTransform( new AffineTransform() );
-                    Point2D.Double offset = transform.getValue().modelToView( modelStart.getValue() ).toPoint2D();
+                    Point2D.Double offset = transform.get().modelToView( modelStart.get() ).toPoint2D();
                     translate( offset.getX() - getFullBounds().getWidth(), offset.getY() - getFullBounds().getHeight() + CROSS_HAIR_RADIUS );
-                    final ImmutableVector2D delta = new ImmutableVector2D( modelStart.getValue().toPoint2D(), modelEnd.getValue().toPoint2D() );
+                    final ImmutableVector2D delta = new ImmutableVector2D( modelStart.get().toPoint2D(), modelEnd.get().toPoint2D() );
                     double angle = new ImmutableVector2D( delta.getX(), -delta.getY() ).getAngle();//invert coordinate frame
                     rotateAboutPoint( angle, getFullBounds().getWidth(), getFullBounds().getHeight() - CROSS_HAIR_RADIUS );
                 }
@@ -141,7 +141,7 @@ public class MeasuringTape extends PNode {
             addChild( new PhetPPath( new Line2D.Double( 0, -CROSS_HAIR_RADIUS, 0, CROSS_HAIR_RADIUS ), new BasicStroke( 2 ), PhetColorScheme.RED_COLORBLIND ) );
             final SimpleObserver updateOffset = new SimpleObserver() {
                 public void update() {
-                    setOffset( transform.getValue().modelToView( point.getValue() ).toPoint2D() );
+                    setOffset( transform.get().modelToView( point.get() ).toPoint2D() );
                 }
             };
             point.addObserver( updateOffset );
@@ -164,9 +164,9 @@ public class MeasuringTape extends PNode {
         }
 
         public void mouseDragged( PInputEvent event ) {
-            Dimension2D delta = transform.getValue().viewToModelDelta( event.getDeltaRelativeTo( node.getParent() ) );
+            Dimension2D delta = transform.get().viewToModelDelta( event.getDeltaRelativeTo( node.getParent() ) );
             for ( Property<ImmutableVector2D> point : points ) {
-                point.setValue( new ImmutableVector2D( point.getValue().getX() + delta.getWidth(), point.getValue().getY() + delta.getHeight() ) );
+                point.set( new ImmutableVector2D( point.get().getX() + delta.getWidth(), point.get().getY() + delta.getHeight() ) );
             }
         }
     }

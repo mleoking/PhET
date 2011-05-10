@@ -48,8 +48,8 @@ public class PoolNode extends PNode {
     //must be transparent so objects can submerge
 
     private GradientPaint createPaint( ModelViewTransform transform2D, Pool pool ) {
-        Color topColor = getTopColor( liquidDensity.getValue() );
-        Color bottomColor = getBottomColor( liquidDensity.getValue() );
+        Color topColor = getTopColor( liquidDensity.get() );
+        Color bottomColor = getBottomColor( liquidDensity.get() );
         double yBottom = transform2D.modelToViewY( -pool.getHeight() );//fade color halfway down
         double yTop = transform2D.modelToViewY( 0 );
         return new GradientPaint( 0, (float) yTop, topColor, 0, (float) yBottom, bottomColor );
@@ -71,7 +71,7 @@ public class PoolNode extends PNode {
                 final JColorChooser contentPane = new JColorChooser() {{
                     getSelectionModel().addChangeListener( new ChangeListener() {
                         public void stateChanged( ChangeEvent e ) {
-                            waterColor.setValue( getColor() );
+                            waterColor.set( getColor() );
                         }
                     } );
                 }};
@@ -133,8 +133,8 @@ public class PoolNode extends PNode {
     }
 
     public static PiecewiseFunction getColorComponent( Function1<Color, Integer> component ) {
-        final Function.LinearFunction rLow = new Function.LinearFunction( GAS_DENSITY, WATER_DENSITY, component.apply( gasColor ), component.apply( waterColor.getValue() ) );
-        final Function.LinearFunction rHigh = new Function.LinearFunction( WATER_DENSITY, HONEY_DENSITY, component.apply( waterColor.getValue() ), component.apply( honeyColor ) );
+        final Function.LinearFunction rLow = new Function.LinearFunction( GAS_DENSITY, WATER_DENSITY, component.apply( gasColor ), component.apply( waterColor.get() ) );
+        final Function.LinearFunction rHigh = new Function.LinearFunction( WATER_DENSITY, HONEY_DENSITY, component.apply( waterColor.get() ), component.apply( honeyColor ) );
 
         PiecewiseFunction colorComponent = new PiecewiseFunction( new PiecewiseFunction.Piece[] {
                 new PiecewiseFunction.Piece( LessThan( WATER_DENSITY ), Linear( rLow ) ),

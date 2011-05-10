@@ -30,11 +30,11 @@ public class BendingLightModule<T extends BendingLightModel> extends Module {
         //Keep a boolean flag for whether this module is active so subclasses can update when necessary (for performance reasons)
         addListener( new Listener() {
             public void activated() {
-                moduleActive.setValue( true );
+                moduleActive.set( true );
             }
 
             public void deactivated() {
-                moduleActive.setValue( false );
+                moduleActive.set( false );
             }
         } );
     }

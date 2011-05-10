@@ -96,7 +96,7 @@ public abstract class BendingLightModel implements ResetModel {
         wavelengthProperty = new Property<Double>( BendingLightModel.WAVELENGTH_RED ) {{
             addObserver( new VoidFunction1<Double>() {
                 public void apply( Double value ) {
-                    laser.color.setValue( new LaserColor.OneColor( value ) );
+                    laser.color.set( new LaserColor.OneColor( value ) );
                 }
             } );
         }};
@@ -105,7 +105,7 @@ public abstract class BendingLightModel implements ResetModel {
         laserView.addObserver( new SimpleObserver() {
             public void update() {
                 updateModel();//Maybe it would be better just to regenerate view, but now we just do this by telling the model to recompute and repopulate
-                getLaser().wave.setValue( laserView.getValue() == LaserView.WAVE );// synchronize view and model representations of whether it is wave or not
+                getLaser().wave.set( laserView.get() == LaserView.WAVE );// synchronize view and model representations of whether it is wave or not
             }
         } );
     }

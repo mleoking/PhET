@@ -89,8 +89,8 @@ public abstract class Equation {
             balanced = balanced && ( product.getUserCoefficient() == multiplier * product.getBalancedCoefficient() );
         }
 
-        balancedAndSimplifiedProperty.setValue( balanced && ( multiplier == 1 ) ); // set the more specific property first
-        balancedProperty.setValue( balanced );
+        balancedAndSimplifiedProperty.set( balanced && ( multiplier == 1 ) ); // set the more specific property first
+        balancedProperty.set( balanced );
     }
 
     /**
@@ -120,7 +120,7 @@ public abstract class Equation {
     }
 
     public boolean isBalanced() {
-        return balancedProperty.getValue();
+        return balancedProperty.get();
     }
 
     public Property<Boolean> getBalancedProperty() {
@@ -128,7 +128,7 @@ public abstract class Equation {
     }
 
     public boolean isBalancedAndSimplified() {
-        return balancedAndSimplifiedProperty.getValue();
+        return balancedAndSimplifiedProperty.get();
     }
 
     /**

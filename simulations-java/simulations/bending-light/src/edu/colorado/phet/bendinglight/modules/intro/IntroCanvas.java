@@ -194,7 +194,7 @@ public class IntroCanvas<T extends IntroModel> extends BendingLightCanvas<T> {
             final Property<Double> simSpeedProperty = new Property<Double>( dt ) {{
                 addObserver( new SimpleObserver() {
                     public void update() {
-                        model.getClock().setDt( getValue() );
+                        model.getClock().setDt( get() );
                     }
                 } );
                 resetModel.addResetListener( new VoidFunction0() {

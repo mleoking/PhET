@@ -17,7 +17,7 @@ public class Or extends CompositeBooleanProperty {
                    public Boolean apply() {
                        for ( ObservableProperty<Boolean> term : terms ) {
                            //Short circuit for improved performance, returning true as soon as any term evaluates to true
-                           if ( term.getValue() ) {
+                           if ( term.get() ) {
                                return true;
                            }
                        }
@@ -28,7 +28,7 @@ public class Or extends CompositeBooleanProperty {
 
     public static Boolean or( List<Property<Boolean>> p ) {
         for ( Property<Boolean> booleanProperty : p ) {
-            if ( booleanProperty.getValue() ) { return true; }
+            if ( booleanProperty.get() ) { return true; }
         }
         return false;
     }

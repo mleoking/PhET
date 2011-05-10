@@ -66,11 +66,11 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
 
         //Determine how much fluid should leave, and how much will be left
         double waterVolumeExpelled = velocity / 10;//Since water is incompressible, the volume that can flow out per second is proportional to the expelled velocity
-        double remainingVolume = waterTower.fluidVolume.getValue();
+        double remainingVolume = waterTower.fluidVolume.get();
 
         //the decrease in volume of the water tower should be proportional to the velocity at the output hole
         double dropVolume = remainingVolume > waterVolumeExpelled ? waterVolumeExpelled : remainingVolume;
-        double origFluidVolume = waterTower.fluidVolume.getValue();
+        double origFluidVolume = waterTower.fluidVolume.get();
 
         //Handle any water that should leak out
         if ( waterTower.isHoleOpen() && remainingVolume > 0 ) {
@@ -90,7 +90,7 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
             }
 
             //Decrease the volume of the water tower accordingly
-            waterTower.setFluidVolume( waterTower.fluidVolume.getValue() - drop.getVolume() );
+            waterTower.setFluidVolume( waterTower.fluidVolume.get() - drop.getVolume() );
         }
         return origFluidVolume;
     }
@@ -98,10 +98,10 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
     //Perform any model updates related to the faucet, creating new drops to fall into the water tower and propagating them
     private void updateFaucet( double dt, double origFluidVolume ) {
         //emit drops from faucet that will keep the tank at a constant volume (time averaged)
-        double newVolume = waterTower.fluidVolume.getValue();
-        double faucetDropVolume = faucetFlowLevel.automatic.getValue() ?
+        double newVolume = waterTower.fluidVolume.get();
+        double faucetDropVolume = faucetFlowLevel.automatic.get() ?
                                   origFluidVolume - newVolume :
-                                  faucetFlowLevel.flow.getValue();
+                                  faucetFlowLevel.flow.get();
         if ( faucetDropVolume > 0 && !waterTower.isFull() ) {
             //Randomly spread out the water in x and y so it doesn't look so discrete when it falls a long way and separates
             double spreadX = 0.02;
@@ -122,7 +122,7 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
         updateWaterDrops( waterTower.getWaterShape().getBounds2D().getMaxY(), faucetDrops, dt, new VoidFunction1<WaterDrop>() {
             public void apply( WaterDrop drop ) {
                 //absorb the water from the faucet and increase the water tower volume
-                waterTower.setFluidVolume( Math.min( waterTower.fluidVolume.getValue() + drop.getVolume(), WaterTower.tankVolume ) );
+                waterTower.setFluidVolume( Math.min( waterTower.fluidVolume.get() + drop.getVolume(), WaterTower.tankVolume ) );
             }
         } );
     }
@@ -131,7 +131,7 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
         ArrayList<WaterDrop> toRemove = new ArrayList<WaterDrop>();
         for ( WaterDrop drop : waterDrops ) {
             drop.stepInTime( dt );
-            if ( drop.position.getValue().getY() < thresholdY ) {
+            if ( drop.position.get().getY() < thresholdY ) {
                 collision.apply( drop );
                 toRemove.add( drop );
             }
@@ -153,12 +153,12 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
     public ImmutableVector2D getVelocity( double x, double y ) {
         for ( WaterDrop waterTowerDrop : waterTowerDrops ) {
             if ( waterTowerDrop.contains( x, y ) ) {
-                return waterTowerDrop.velocity.getValue();
+                return waterTowerDrop.velocity.get();
             }
         }
         for ( WaterDrop waterTowerDrop : faucetDrops ) {
             if ( waterTowerDrop.contains( x, y ) ) {
-                return waterTowerDrop.velocity.getValue();
+                return waterTowerDrop.velocity.get();
             }
         }
         return new ImmutableVector2D();
@@ -192,7 +192,7 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
             final double waterTopY = getWaterTower().getWaterShape().getBounds2D().getMaxY();
             double distanceUnderwater = waterTopY - y;
             double airPressureOnTop = super.getPressure( x, waterTopY );
-            return airPressureOnTop + liquidDensity.getValue() * gravity.getValue() * distanceUnderwater;
+            return airPressureOnTop + liquidDensity.get() * gravity.get() * distanceUnderwater;
         }
         else {
             return super.getPressure( x, y );

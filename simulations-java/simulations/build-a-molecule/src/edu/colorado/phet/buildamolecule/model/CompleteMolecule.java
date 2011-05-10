@@ -434,7 +434,7 @@ public class CompleteMolecule {
     private static Random random = new Random( System.currentTimeMillis() );
 
     public static CompleteMolecule pickRandomCollectionBoxMolecule() {
-        if ( BuildAMoleculeApplication.allowGenerationWithAllMolecules.getValue() ) {
+        if ( BuildAMoleculeApplication.allowGenerationWithAllMolecules.get() ) {
             return completeMolecules.get( random.nextInt( completeMolecules.size() ) );
         }
         else {

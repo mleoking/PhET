@@ -50,7 +50,7 @@ public abstract class MovingManModule extends Module {
 
         movingManModel.addCollisionListener(new JListener() {
             public void eventOccurred() {
-                if (soundEnabled.getValue())
+                if (soundEnabled.get())
                     CrashSound.play();
             }
         });
@@ -150,15 +150,15 @@ public abstract class MovingManModule extends Module {
 
     public static class SoundCheckBox extends JCheckBox {
         public SoundCheckBox(final BooleanProperty mutableBoolean) {
-            super(MovingManStrings.OPTIONS_SOUND, mutableBoolean.getValue());
+            super(MovingManStrings.OPTIONS_SOUND, mutableBoolean.get());
             mutableBoolean.addObserver(new SimpleObserver() {
                 public void update() {
-                    setSelected(mutableBoolean.getValue());
+                    setSelected(mutableBoolean.get());
                 }
             });
             addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    mutableBoolean.setValue(isSelected());
+                    mutableBoolean.set( isSelected() );
                 }
             });
             setBackground(new Color(0, 0, 0, 0));//Let the gradient background show through
@@ -180,7 +180,7 @@ public abstract class MovingManModule extends Module {
     }
 
     public void setPositiveToTheRight(boolean value) {
-        positiveToTheRight.setValue(value);
+        positiveToTheRight.set( value );
     }
 
     public BooleanProperty getPositiveToTheRight() {

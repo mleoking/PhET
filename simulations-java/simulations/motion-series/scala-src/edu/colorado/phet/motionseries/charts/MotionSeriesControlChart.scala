@@ -239,7 +239,7 @@ abstract class MotionSeriesControlChart(motionSeriesModel: MotionSeriesModel, fo
       val editableLabel = new EditableLabel(appliedForceSeries) {
         override def setValueFromText() = {
           super.setValueFromText()
-          goButtonVisible.setValue(true) //show the go button
+          goButtonVisible.set(true) //show the go button
         }
       }
       addToGrid(appliedForceSeries, editableLabel)
@@ -247,7 +247,7 @@ abstract class MotionSeriesControlChart(motionSeriesModel: MotionSeriesModel, fo
     }))
     sliderNode.addInputEventListener(new PBasicInputEventHandler() {
       override def mouseDragged(event: PInputEvent) = {
-        goButtonVisible.setValue(true)
+        goButtonVisible.set(true)
       }
     })
     val goButton = new GoButton(motionSeriesModel, goButtonVisible)

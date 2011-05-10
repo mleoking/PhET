@@ -96,7 +96,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
             addInputEventListener( new PBasicInputEventHandler() {
                 @Override
                 public void mouseReleased( PInputEvent event ) {
-                    detector.visibleProperty.setValue( false );
+                    detector.visibleProperty.set( false );
                 }
             } );
         }};
@@ -176,7 +176,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
             // location
             detector.bodyLocationProperty.addObserver( new SimpleObserver() {
                 public void update() {
-                    setOffset( mvt.modelToView( detector.bodyLocationProperty.getValue() ) );
+                    setOffset( mvt.modelToView( detector.bodyLocationProperty.get() ) );
                 }
             } );
 
@@ -347,20 +347,20 @@ import edu.umd.cs.piccolox.pswing.PSwing;
         private void updateVisibility() {
 
             // vectors
-            final boolean plateVisible = detector.plateVisibleProperty.getValue();
+            final boolean plateVisible = detector.plateVisibleProperty.get();
             plateVectorNode.setVisible( plateVisible );
             plateValueNode.setVisible( plateVisible );
 
-            final boolean dielectricVisible = detector.dielectricVisibleProperty.getValue();
+            final boolean dielectricVisible = detector.dielectricVisibleProperty.get();
             dielectricVectorNode.setVisible( dielectricVisible );
             dielectricValueNode.setVisible( dielectricVisible );
 
-            boolean sumVisible = detector.sumVisibleProperty.getValue();
+            boolean sumVisible = detector.sumVisibleProperty.get();
             sumVectorNode.setVisible( sumVisible );
             sumValueNode.setVisible( sumVisible );
 
             // values
-            final boolean valuesVisible = detector.valuesVisibleProperty.getValue();
+            final boolean valuesVisible = detector.valuesVisibleProperty.get();
             plateValueNode.setValueVisible( valuesVisible );
             dielectricValueNode.setValueVisible( valuesVisible );
             sumValueNode.setValueVisible( valuesVisible );
@@ -555,14 +555,14 @@ import edu.umd.cs.piccolox.pswing.PSwing;
             final JButton zoomInButton = new ZoomInButton();
             zoomInButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    zoomLevelProperty.setValue( zoomLevelProperty.getValue() + 1 );
+                    zoomLevelProperty.set( zoomLevelProperty.get() + 1 );
                 }
             } );
 
             final JButton zoomOutButton = new ZoomOutButton();
             zoomOutButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    zoomLevelProperty.setValue( zoomLevelProperty.getValue() - 1 );
+                    zoomLevelProperty.set( zoomLevelProperty.get() - 1 );
                 }
             } );
 
@@ -576,8 +576,8 @@ import edu.umd.cs.piccolox.pswing.PSwing;
             // Disable buttons at the extremes of the zoom range.
             zoomLevelProperty.addObserver( new SimpleObserver() {
                 public void update() {
-                    zoomInButton.setEnabled( zoomLevelProperty.getValue() != zoomLevelRange.getMax() );
-                    zoomOutButton.setEnabled( zoomLevelProperty.getValue() != zoomLevelRange.getMin() );
+                    zoomInButton.setEnabled( zoomLevelProperty.get() != zoomLevelRange.getMax() );
+                    zoomOutButton.setEnabled( zoomLevelProperty.get() != zoomLevelRange.getMin() );
                 }
             } );
         }
@@ -587,7 +587,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
         }
 
         public double getScaleFactor() {
-            return ( 1 / Math.pow( zoomFactor, zoomLevelRange.getMax() - zoomLevelProperty.getValue() ) );
+            return ( 1 / Math.pow( zoomFactor, zoomLevelRange.getMax() - zoomLevelProperty.get() ) );
         }
 
         public void reset() {

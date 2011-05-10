@@ -23,20 +23,20 @@ public class FPAFMeasuringTape extends PNode {
         final Point2D.Double one = new Point2D.Double( 1, 1 );
         final ModelViewTransform2D modelViewTransform2D = new ModelViewTransform2D( zero, one,
                                                                                     transform.modelToView( zero ), transform.modelToView( one ) );
-        measuringTape = new MeasuringTape( modelViewTransform2D, zero, unit.getValue().distance.getAbbreviation() ) {
+        measuringTape = new MeasuringTape( modelViewTransform2D, zero, unit.get().distance.getAbbreviation() ) {
             protected double modelDistanceToReadoutDistance( double modelDistance ) {
-                return unit.getValue().distance.siToUnit( modelDistance );
+                return unit.get().distance.siToUnit( modelDistance );
             }
         };
         unit.addObserver( new SimpleObserver() {
             public void update() {
-                measuringTape.setUnits( unit.getValue().distance.getAbbreviation() );
+                measuringTape.setUnits( unit.get().distance.getAbbreviation() );
             }
         } );
         addChild( measuringTape );
         measuringTapeVisible.addObserver( new SimpleObserver() {
             public void update() {
-                setVisible( measuringTapeVisible.getValue() );
+                setVisible( measuringTapeVisible.get() );
             }
         } );
     }

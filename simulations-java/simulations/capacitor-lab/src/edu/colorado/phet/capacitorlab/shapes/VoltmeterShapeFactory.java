@@ -32,7 +32,7 @@ public class VoltmeterShapeFactory {
      * @return
      */
     public Shape getPositiveProbeTipShape() {
-        return getProbeTipShape( voltmeter.positiveProbeLocationProperty.getValue(), -mvt.getYaw() );
+        return getProbeTipShape( voltmeter.positiveProbeLocationProperty.get(), -mvt.getYaw() );
     }
 
     /**
@@ -41,7 +41,7 @@ public class VoltmeterShapeFactory {
      * @return
      */
     public Shape getNegativeProbeTipShape() {
-        return getProbeTipShape( voltmeter.negativeProbeLocationProperty.getValue(), -mvt.getYaw() );
+        return getProbeTipShape( voltmeter.negativeProbeLocationProperty.get(), -mvt.getYaw() );
     }
 
     // Gets the shape of a probe tip relative to some specified origin.

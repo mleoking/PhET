@@ -42,18 +42,18 @@ public class IntroModel extends SugarAndSaltSolutionModel {
     //When a crystal is absorbed by the water, increase the number of moles in solution
     protected void crystalAbsorbed( Crystal crystal ) {
         if ( crystal instanceof Salt ) {
-            molesOfSalt.setValue( molesOfSalt.getValue() + crystal.getMoles() );
+            molesOfSalt.set( molesOfSalt.get() + crystal.getMoles() );
         }
         else if ( crystal instanceof Sugar ) {
-            molesOfSugar.setValue( molesOfSugar.getValue() + crystal.getMoles() );
+            molesOfSugar.set( molesOfSugar.get() + crystal.getMoles() );
         }
     }
 
     //Removes all sugar and salt from the liquid
     @Override public void removeSaltAndSugar() {
         super.removeSaltAndSugar();
-        molesOfSalt.setValue( 0.0 );
-        molesOfSugar.setValue( 0.0 );
+        molesOfSalt.set( 0.0 );
+        molesOfSugar.set( 0.0 );
     }
 
     //Have some moles of salt and sugar flow out so that the concentration remains unchanged
@@ -68,7 +68,7 @@ public class IntroModel extends SugarAndSaltSolutionModel {
     //Make sure to keep the concentration the same when water flowing out
     private void updateConcentration( double outVolume, Property<Double> property ) {
         //Find what the concentration was before water exited
-        double initConcentration = property.getValue() / ( water.volume.getValue() + outVolume );
+        double initConcentration = property.get() / ( water.volume.get() + outVolume );
 
         //If the water volume was zero, it could cause the initConcentration to be NaN, so handle error cases and just have all crystal moles exit in those cases.
         if ( initConcentration <= 0 || isInfinite( initConcentration ) || isNaN( initConcentration ) ) {
@@ -76,9 +76,9 @@ public class IntroModel extends SugarAndSaltSolutionModel {
         }
 
         //Find the new number of moles that keeps the concentration the same
-        double finalMoles = initConcentration * water.volume.getValue();
+        double finalMoles = initConcentration * water.volume.get();
 
         //Set the number of moles
-        property.setValue( finalMoles );
+        property.set( finalMoles );
     }
 }

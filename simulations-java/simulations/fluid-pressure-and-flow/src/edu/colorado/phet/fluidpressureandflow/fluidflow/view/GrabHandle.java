@@ -25,7 +25,7 @@ public class GrabHandle extends PNode {
         addChild( new PImage( BufferedImageUtils.multiScaleToWidth( RESOURCES.getImage( "handle.png" ), 40 ) ) {{
             controlPoint.point.addObserver( new SimpleObserver() {
                 public void update() {
-                    setOffset( transform.modelToView( controlPoint.point.getValue() ).plus( -getFullBounds().getWidth() / 2, -getFullBounds().getHeight() - PipeFrontNode.EDGE_STROKE.getLineWidth() ).toPoint2D() );
+                    setOffset( transform.modelToView( controlPoint.point.get() ).plus( -getFullBounds().getWidth() / 2, -getFullBounds().getHeight() - PipeFrontNode.EDGE_STROKE.getLineWidth() ).toPoint2D() );
                 }
             } );
             addInputEventListener( new CursorHandler() );

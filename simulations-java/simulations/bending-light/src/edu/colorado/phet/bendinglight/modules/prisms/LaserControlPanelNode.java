@@ -37,16 +37,16 @@ public class LaserControlPanelNode extends ControlPanelNode {
                                   final Property<Boolean> showReflections, final SettableProperty<Boolean> showNormal, final Property<Boolean> showProtractor, final Property<Double> wavelengthProperty ) {
         super( new PSwing( new VerticalLayoutPanel() {{
             //Add a radio button for "one color"
-            add( new JRadioButton( ONE_COLOR, laserColor.getValue() != WHITE_LIGHT ) {{
+            add( new JRadioButton( ONE_COLOR, laserColor.get() != WHITE_LIGHT ) {{
                 setFont( labelFont );
                 final SimpleObserver updateSelected = new SimpleObserver() {
                     public void update() {
-                        setSelected( laserColor.getValue() != WHITE_LIGHT );
+                        setSelected( laserColor.get() != WHITE_LIGHT );
                     }
                 };
                 addActionListener( new ActionListener() {
                     public void actionPerformed( ActionEvent e ) {
-                        laserColor.setValue( new LaserColor.OneColor( wavelengthProperty.getValue() ) );
+                        laserColor.set( new LaserColor.OneColor( wavelengthProperty.get() ) );
                         updateSelected.update();//make sure radio buttons don't toggle off, in case they're not in a button group
                     }
                 } );

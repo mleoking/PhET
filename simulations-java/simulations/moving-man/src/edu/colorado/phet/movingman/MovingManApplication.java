@@ -38,7 +38,7 @@ public class MovingManApplication extends PiccoloPhetApplication {
             introModule.getPositiveToTheRight().addObserver(new SimpleObserver() {
                 public void update() {
                     if (getActiveModule() == introModule) {
-                        positiveToTheRight.setValue(introModule.getPositiveToTheRight().getValue());
+                        positiveToTheRight.set( introModule.getPositiveToTheRight().get() );
                     }
                 }
             });
@@ -50,7 +50,7 @@ public class MovingManApplication extends PiccoloPhetApplication {
             chartingModule.getPositiveToTheRight().addObserver(new SimpleObserver() {
                 public void update() {
                     if (getActiveModule() == chartingModule) {
-                        positiveToTheRight.setValue(chartingModule.getPositiveToTheRight().getValue());
+                        positiveToTheRight.set( chartingModule.getPositiveToTheRight().get() );
                     }
                 }
             });
@@ -62,7 +62,7 @@ public class MovingManApplication extends PiccoloPhetApplication {
             }
 
             public void activeModuleChanged(ModuleEvent event) {
-                positiveToTheRight.setValue(getActiveMovingManModule().getPositiveToTheRight().getValue());
+                positiveToTheRight.set( getActiveMovingManModule().getPositiveToTheRight().get() );
             }
 
             public void moduleRemoved(ModuleEvent event) {
@@ -71,7 +71,7 @@ public class MovingManApplication extends PiccoloPhetApplication {
         getPhetFrame().addMenu(new SpecialFeaturesMenu(this));
         positiveToTheRight.addObserver( new SimpleObserver() {
             public void update() {
-                getActiveMovingManModule().setPositiveToTheRight( positiveToTheRight.getValue() );
+                getActiveMovingManModule().setPositiveToTheRight( positiveToTheRight.get() );
             }
         }, false );
     }

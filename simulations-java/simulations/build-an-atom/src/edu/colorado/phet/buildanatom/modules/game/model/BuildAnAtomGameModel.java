@@ -308,15 +308,15 @@ public class BuildAnAtomGameModel {
     }
 
     public int getLevel() {
-        return gameSettings.level.getValue();
+        return gameSettings.level.get();
     }
 
     public boolean isTimerEnabled() {
-        return gameSettings.timerEnabled.getValue();
+        return gameSettings.timerEnabled.get();
     }
 
     public boolean isSoundEnabled() {
-        return gameSettings.soundEnabled.getValue();
+        return gameSettings.soundEnabled.get();
     }
 
     public void startGame() {
@@ -364,7 +364,7 @@ public class BuildAnAtomGameModel {
      */
     public void processGuess( ImmutableAtom guess ) {
         problemSet.getCurrentProblem().processGuess( guess );
-        scoreProperty.setValue( scoreProperty.getValue() + problemSet.getCurrentProblem().getScore() );
+        scoreProperty.set( scoreProperty.get() + problemSet.getCurrentProblem().getScore() );
     }
 
     public Property<Integer> getScoreProperty() {
@@ -399,7 +399,7 @@ public class BuildAnAtomGameModel {
     }
 
     public int getScore() {
-        return scoreProperty.getValue();
+        return scoreProperty.get();
     }
 
     public int getMaximumPossibleScore() {

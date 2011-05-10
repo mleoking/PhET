@@ -92,7 +92,7 @@ public class MassIndicatorNode extends PNode {
                 // upper left corner of the whole assembly.
                 double y = 0;
                 //This logic makes sure the atom is centered on the scale, whether it has orbital rings or 1 or 2 levels of fuzziness
-                if ( orbitalViewProperty.getValue() != OrbitalView.RESIZING_CLOUD ) {
+                if ( orbitalViewProperty.get() != OrbitalView.RESIZING_CLOUD ) {
                     y = atomNode.getFullBoundsReference().height / 2;
                 }
                 else {

@@ -45,7 +45,7 @@ public class WaterTowerNode extends PNode {
         addChild( new PImage( RESOURCES.getImage( "handle.png" ) ) {{
             addInputEventListener( new RelativeDragHandler( this, transform, waterTower.tankBottomCenter, new Function1<Point2D, Point2D>() {
                 public Point2D apply( Point2D modelLocation ) {
-                    return new Point2D.Double( waterTower.tankBottomCenter.getValue().getX(), MathUtil.clamp( 0, modelLocation.getY(), WaterTower.MAX_Y ) );
+                    return new Point2D.Double( waterTower.tankBottomCenter.get().getX(), MathUtil.clamp( 0, modelLocation.getY(), WaterTower.MAX_Y ) );
                 }
             } ) );
             scale( 0.45 );
@@ -82,10 +82,10 @@ public class WaterTowerNode extends PNode {
         }} );
 
         //water in the tower
-        addChild( new PhetPPath( new Color( PoolNode.getTopColor( fluidDensity.getValue() ).getRGB() ) ) {{
+        addChild( new PhetPPath( new Color( PoolNode.getTopColor( fluidDensity.get() ).getRGB() ) ) {{
             fluidDensity.addObserver( new SimpleObserver() {
                 public void update() {
-                    setPaint( new Color( PoolNode.getTopColor( fluidDensity.getValue() ).getRGB() ) );
+                    setPaint( new Color( PoolNode.getTopColor( fluidDensity.get() ).getRGB() ) );
                 }
             } );
             final SimpleObserver updateWaterLocation = new SimpleObserver() {
@@ -99,10 +99,10 @@ public class WaterTowerNode extends PNode {
         }} );
 
         //water in the hole
-        addChild( new PhetPPath( new Color( PoolNode.getTopColor( fluidDensity.getValue() ).getRGB() ) ) {{
+        addChild( new PhetPPath( new Color( PoolNode.getTopColor( fluidDensity.get() ).getRGB() ) ) {{
             fluidDensity.addObserver( new SimpleObserver() {
                 public void update() {
-                    setPaint( new Color( PoolNode.getTopColor( fluidDensity.getValue() ).getRGB() ) );
+                    setPaint( new Color( PoolNode.getTopColor( fluidDensity.get() ).getRGB() ) );
                 }
             } );
             final SimpleObserver updateWaterLocation = new SimpleObserver() {
@@ -121,7 +121,7 @@ public class WaterTowerNode extends PNode {
         addChild( new PImage( BufferedImageUtils.multiScaleToHeight( RESOURCES.getImage( "panel.png" ), 50 ) ) {{
             final SimpleObserver updatePanelLocation = new SimpleObserver() {
                 public void update() {
-                    ImmutableVector2D viewPoint = transform.modelToView( waterTower.panelOffset.getValue().getAddedInstance( waterTower.tankBottomCenter.getValue() ) );
+                    ImmutableVector2D viewPoint = transform.modelToView( waterTower.panelOffset.get().getAddedInstance( waterTower.tankBottomCenter.get() ) );
                     setOffset( viewPoint.getX(), viewPoint.getY() - getFullBounds().getHeight() );
                 }
             };
@@ -131,10 +131,10 @@ public class WaterTowerNode extends PNode {
             addInputEventListener( new PBasicInputEventHandler() {
                 public void mouseDragged( PInputEvent event ) {
                     if ( event.getDeltaRelativeTo( getParent() ).getHeight() > 0 ) {
-                        waterTower.panelOffset.setValue( new ImmutableVector2D( WaterTower.PANEL_OFFSET, 0 ) );
+                        waterTower.panelOffset.set( new ImmutableVector2D( WaterTower.PANEL_OFFSET, 0 ) );
                     }
                     else if ( event.getDeltaRelativeTo( getParent() ).getHeight() < 0 ) {
-                        waterTower.panelOffset.setValue( new ImmutableVector2D( WaterTower.PANEL_OFFSET, 2 ) );
+                        waterTower.panelOffset.set( new ImmutableVector2D( WaterTower.PANEL_OFFSET, 2 ) );
                     }
                 }
             } );

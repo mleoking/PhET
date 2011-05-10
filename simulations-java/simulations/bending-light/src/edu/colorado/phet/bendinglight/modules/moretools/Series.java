@@ -27,7 +27,7 @@ public class Series {
     }
 
     public void addPoint( final double time, final double value ) {
-        path.setValue( new ArrayList<Option<DataPoint>>( path.getValue() ) {{
+        path.set( new ArrayList<Option<DataPoint>>( path.get() ) {{
             add( new Option.Some<DataPoint>( new DataPoint( time, value ) ) );
         }} );
     }
@@ -37,7 +37,7 @@ public class Series {
         DoubleGeneralPath generalPath = new DoubleGeneralPath();
         boolean moved = false;
         //Lift the pen off the paper for None values
-        for ( Option<DataPoint> value : path.getValue() ) {
+        for ( Option<DataPoint> value : path.get() ) {
             if ( value.isSome() ) {
                 final DataPoint dataPoint = value.get();
                 if ( !moved ) {
@@ -54,8 +54,8 @@ public class Series {
 
     //Discard early samples that have gone out of range
     public void keepLastSamples( final int maxSampleCount ) {
-        final int endIndex = path.getValue().size();
+        final int endIndex = path.get().size();
         final int startIndex = Math.max( 0, endIndex - maxSampleCount );
-        path.setValue( new ArrayList<Option<DataPoint>>( path.getValue().subList( startIndex, endIndex ) ) );
+        path.set( new ArrayList<Option<DataPoint>>( path.get().subList( startIndex, endIndex ) ) );
     }
 }

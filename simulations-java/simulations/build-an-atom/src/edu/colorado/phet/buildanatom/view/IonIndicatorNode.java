@@ -27,7 +27,7 @@ public class IonIndicatorNode extends PNode {
             final AtomListener atomConfigListener = new AtomListener.Adapter() {
                 @Override
                 public void configurationChanged() {
-                    setVisible( showLabels.getValue() && atom.getNumProtons() > 0 );//don't show the ion indicator when only electrons are present
+                    setVisible( showLabels.get() && atom.getNumProtons() > 0 );//don't show the ion indicator when only electrons are present
                     if ( atom.getCharge() > 0 ) {
                         setText( BuildAnAtomStrings.POSITIVE_ION );
                         setTextPaint( Color.red );

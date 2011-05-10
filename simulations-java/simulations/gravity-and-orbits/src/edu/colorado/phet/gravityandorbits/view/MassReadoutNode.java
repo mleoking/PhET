@@ -59,7 +59,7 @@ public abstract class MassReadoutNode extends PNode {
         new And( visible, new Not( bodyNode.getBody().getCollidedProperty() ) ) {{
             addObserver( new SimpleObserver() {
                 public void update() {
-                    setVisible( getValue() );
+                    setVisible( get() );
                 }
             } );
         }};

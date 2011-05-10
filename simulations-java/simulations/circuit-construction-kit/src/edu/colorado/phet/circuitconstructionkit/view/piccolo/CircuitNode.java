@@ -127,7 +127,7 @@ public class CircuitNode extends PhetPNode {
                     Branch branch = orderedList[i];
                     if (branch instanceof Wire) {
                         Wire wire = (Wire) branch;
-                        wire.setThickness(lifelikeProperty.getValue() ? Wire.LIFELIKE_THICKNESS : Wire.SCHEMATIC_THICKNESS);
+                        wire.setThickness(lifelikeProperty.get() ? Wire.LIFELIKE_THICKNESS : Wire.SCHEMATIC_THICKNESS);
                     }
                     addBranchNode(branch);
                 }
@@ -210,8 +210,8 @@ public class CircuitNode extends PhetPNode {
     }
 
     private void updateReadoutsVisible() {
-        readoutLayer.setVisible(readoutsVisibleProperty.getValue());
-        readoutLayer.setAllReadoutsVisible(readoutsVisibleProperty.getValue());
+        readoutLayer.setVisible(readoutsVisibleProperty.get());
+        readoutLayer.setAllReadoutsVisible(readoutsVisibleProperty.get());
     }
 
     public ClipFactory getClipFactory() {

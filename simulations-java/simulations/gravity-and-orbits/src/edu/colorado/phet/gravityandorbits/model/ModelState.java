@@ -66,7 +66,7 @@ public class ModelState {
     //Get the force on body at its proposed new position, unconventional but necessary for velocity verlet.
     private ImmutableVector2D getForce( BodyState target, ImmutableVector2D newTargetPosition, Property<Boolean> gravityEnabledProperty ) {
         ImmutableVector2D sum = new ImmutableVector2D(); //zero vector, for no gravity
-        if ( gravityEnabledProperty.getValue() ) {
+        if ( gravityEnabledProperty.get() ) {
             for ( BodyState source : bodyStates ) {
                 if ( source != target ) {
                     sum = sum.getAddedInstance( getForce( source, target, newTargetPosition ) );

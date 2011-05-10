@@ -43,7 +43,7 @@ public class PressureSensorNode extends SensorNode<Double> {
             final ThreeImageNode imageNode = new ThreeImageNode( FluidPressureAndFlowApplication.RESOURCES.getImage( "pressure_meter_left.png" ), FluidPressureAndFlowApplication.RESOURCES.getImage( "pressure_meter_center.png" ), FluidPressureAndFlowApplication.RESOURCES.getImage( "pressure_meter_right.png" ) );
             addChild( imageNode );
 
-            final PText textNode = new PText( text.getValue() ) {{
+            final PText textNode = new PText( text.get() ) {{
                 setFont( new PhetFont( 20, true ) );
             }};
             addChild( textNode );
@@ -52,7 +52,7 @@ public class PressureSensorNode extends SensorNode<Double> {
             text.addObserver( new SimpleObserver() {
                 public void update() {
                     //Update the text itself.
-                    textNode.setText( text.getValue() );
+                    textNode.setText( text.get() );
 
                     imageNode.setCenterWidth( textNode.getFullBounds().getWidth() );
 
@@ -78,10 +78,10 @@ public class PressureSensorNode extends SensorNode<Double> {
 
     //Gets a property corresponding to the Pressure unit in a UnitSet, consider creating a class UnitSetProperty and moving this method there
     private static Property<Unit> getPressureUnit( final Property<UnitSet> units ) {
-        return new Property<Unit>( units.getValue().pressure ) {{
+        return new Property<Unit>( units.get().pressure ) {{
             units.addObserver( new VoidFunction1<UnitSet>() {
                 public void apply( UnitSet unitSet ) {
-                    setValue( unitSet.pressure );
+                    set( unitSet.pressure );
                 }
             } );
         }};

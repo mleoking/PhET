@@ -229,7 +229,7 @@ public class AtomScaleNode extends PNode {
         }
 
         private void updateReadout(){
-            if ( displayModeProperty.getValue() == DisplayMode.MASS_NUMBER ){
+            if ( displayModeProperty.get() == DisplayMode.MASS_NUMBER ){
                 readoutText.setText( Integer.toString( atom.getMassNumber() ) );
             }
             else{

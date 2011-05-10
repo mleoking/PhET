@@ -18,12 +18,12 @@ import edu.umd.cs.piccolo.PNode;
 public class MediumNode extends PNode {
     public MediumNode( final ModelViewTransform transform, final Property<Medium> medium ) {
         //Add the shape that paints the medium
-        addChild( new PhetPPath( medium.getValue().color ) {{
+        addChild( new PhetPPath( medium.get().color ) {{
             //Update whenever the medium changes
             medium.addObserver( new SimpleObserver() {
                 public void update() {
-                    setPathTo( transform.modelToView( medium.getValue().shape ) );
-                    final Color color = medium.getValue().color;
+                    setPathTo( transform.modelToView( medium.get().shape ) );
+                    final Color color = medium.get().color;
                     setPaint( new Color( color.getRed(), color.getGreen(), color.getBlue() ) );
                 }
             } );

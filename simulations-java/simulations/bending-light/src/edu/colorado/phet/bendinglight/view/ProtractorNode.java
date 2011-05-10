@@ -54,7 +54,7 @@ public class ProtractorNode extends ToolNode {
         final PImage imageNode = new PImage( image ) {{
             showProtractor.addObserver( new SimpleObserver() {
                 public void update() {
-                    ProtractorNode.this.setVisible( showProtractor.getValue() );
+                    ProtractorNode.this.setVisible( showProtractor.get() );
                 }
             } );
             setPickable( false );//We handle the drag shapes separately for fine-grained control, since different drag regions have different behavior.
@@ -105,7 +105,7 @@ public class ProtractorNode extends ToolNode {
                     double deltaAngle = angle - startAngle;
 
                     //Rotate the protractor model
-                    protractorModel.angle.setValue( protractorModel.angle.getValue() + deltaAngle );
+                    protractorModel.angle.set( protractorModel.angle.get() + deltaAngle );
                 }
             } );
         }} );
@@ -128,9 +128,9 @@ public class ProtractorNode extends ToolNode {
     protected void updateTransform() {
         setTransform( new AffineTransform() );
         setScale( scale );
-        final Point2D point2D = transform.modelToView( protractorModel.position.getValue() ).toPoint2D();
+        final Point2D point2D = transform.modelToView( protractorModel.position.get() ).toPoint2D();
         setOffset( point2D.getX() - image.getWidth() / 2 * scale, point2D.getY() - image.getHeight() / 2 * scale );
-        rotateAboutPoint( protractorModel.angle.getValue(), image.getWidth() / 2, image.getHeight() / 2 );
+        rotateAboutPoint( protractorModel.angle.get(), image.getWidth() / 2, image.getHeight() / 2 );
     }
 
     //Create a protractor image given at the specified height

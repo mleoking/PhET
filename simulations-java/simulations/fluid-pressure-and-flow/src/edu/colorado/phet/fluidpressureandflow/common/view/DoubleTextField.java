@@ -36,11 +36,11 @@ public class DoubleTextField extends JFormattedTextField {
             public void actionPerformed( ActionEvent e ) {
                 try {
                     commitEdit();
-                    property.setValue( clamp( min, ( (Number) getValue() ).doubleValue(), max ) );
+                    property.set( clamp( min, ( (Number) getValue() ).doubleValue(), max ) );
                 }
                 catch ( ParseException e1 ) {
                     //If parse error, go back to the true value of the property.
-                    setValue( property.getValue() );
+                    setValue( property.get() );
                 }
             }
         };

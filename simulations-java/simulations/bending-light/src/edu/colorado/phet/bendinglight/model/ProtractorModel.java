@@ -18,7 +18,7 @@ public class ProtractorModel {
     }
 
     public void translate( double x, double y ) {
-        position.setValue( new ImmutableVector2D( position.getValue().getX() + x, position.getValue().getY() + y ) );
+        position.set( new ImmutableVector2D( position.get().getX() + x, position.get().getY() + y ) );
     }
 
     public void translate( ImmutableVector2D delta ) {

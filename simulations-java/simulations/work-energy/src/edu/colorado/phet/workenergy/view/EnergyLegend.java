@@ -33,7 +33,7 @@ public class EnergyLegend extends PNode {
         }} );
         visible.addObserver( new SimpleObserver() {
             public void update() {
-                setVisible( visible.getValue() );
+                setVisible( visible.get() );
             }
         } );
         double inset = 4;

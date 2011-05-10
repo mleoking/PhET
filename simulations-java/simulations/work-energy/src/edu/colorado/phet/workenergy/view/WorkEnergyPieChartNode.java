@@ -23,7 +23,7 @@ public class WorkEnergyPieChartNode extends PNode {
     public WorkEnergyPieChartNode( final Property<Boolean> visibleProperty, final WorkEnergyObject object, final ModelViewTransform2D transform ) {
         visibleProperty.addObserver( new SimpleObserver() {
             public void update() {
-                setVisible( visibleProperty.getValue() );
+                setVisible( visibleProperty.get() );
             }
         } );
         final SimpleObserver updatePieChartLocation = new SimpleObserver() {
@@ -44,9 +44,9 @@ public class WorkEnergyPieChartNode extends PNode {
         } );
         final SimpleObserver updatePieSlices = new SimpleObserver() {
             public void update() {
-                pieChartNode.setPieValues( new PieChartNode.PieValue[] { new PieChartNode.PieValue( object.getKineticEnergyProperty().getValue(), PhetColorScheme.KINETIC_ENERGY ),
-                        new PieChartNode.PieValue( object.getPotentialEnergyProperty().getValue(), PhetColorScheme.POTENTIAL_ENERGY ),
-                        new PieChartNode.PieValue( object.getThermalEnergyProperty().getValue(), PhetColorScheme.HEAT_THERMAL_ENERGY ) } );
+                pieChartNode.setPieValues( new PieChartNode.PieValue[] { new PieChartNode.PieValue( object.getKineticEnergyProperty().get(), PhetColorScheme.KINETIC_ENERGY ),
+                        new PieChartNode.PieValue( object.getPotentialEnergyProperty().get(), PhetColorScheme.POTENTIAL_ENERGY ),
+                        new PieChartNode.PieValue( object.getThermalEnergyProperty().get(), PhetColorScheme.HEAT_THERMAL_ENERGY ) } );
             }
         };
         object.getKineticEnergyProperty().addObserver( updatePieSlices );

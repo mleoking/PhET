@@ -2,7 +2,6 @@
 package edu.colorado.phet.workenergy.model;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.workenergy.WorkEnergyResources;
 
@@ -19,7 +18,7 @@ public class WorkEnergyModel {
         this.clock = new ConstantDtClock( 30, DEFAULT_DT );
         workEnergyObject.getPositionProperty().addObserver( new SimpleObserver() {
             public void update() {
-                if ( workEnergyObject.getPositionProperty().getValue().getX() > 200 ) {
+                if ( workEnergyObject.getPositionProperty().get().getX() > 200 ) {
                     addSnapshot( new Snapshot( workEnergyObject.copy() ) );
                 }
             }

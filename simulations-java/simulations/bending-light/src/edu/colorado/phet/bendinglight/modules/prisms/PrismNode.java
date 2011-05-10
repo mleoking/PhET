@@ -50,8 +50,8 @@ public class PrismNode extends PNode {
                             setTransform( new AffineTransform() );
 
                             //Compute the angle in view coordinates (otherwise inverted y in model gives wrong angle)
-                            double angle = new ImmutableVector2D( transform.modelToView( prism.shape.getValue().getReferencePoint().get().toPoint2D() ),
-                                                                  transform.modelToView( prism.shape.getValue().getRotationCenter().toPoint2D() ) ).getAngle();
+                            double angle = new ImmutableVector2D( transform.modelToView( prism.shape.get().getReferencePoint().get().toPoint2D() ),
+                                                                  transform.modelToView( prism.shape.get().getRotationCenter().toPoint2D() ) ).getAngle();
 
                             //Move the knob so its attachment point (at the right middle of the image) attaches to the corner of the prism (its reference point)
                             Point2D.Double offset = new Point2D.Double( -getFullBounds().getWidth()
@@ -66,7 +66,7 @@ public class PrismNode extends PNode {
                 }} );
                 prism.shape.addObserver( new SimpleObserver() {
                     public void update() {
-                        setOffset( transform.modelToView( prism.shape.getValue().getReferencePoint().get() ).toPoint2D() );
+                        setOffset( transform.modelToView( prism.shape.get().getReferencePoint().get() ).toPoint2D() );
                     }
                 } );
 
@@ -82,7 +82,7 @@ public class PrismNode extends PNode {
 
                     //Find the angle about the center of the prism
                     private double getAngle( PInputEvent event ) {
-                        return new ImmutableVector2D( prism.shape.getValue().getRotationCenter().toPoint2D(),
+                        return new ImmutableVector2D( prism.shape.get().getRotationCenter().toPoint2D(),
                                                       transform.viewToModel( event.getPositionRelativeTo( getParent() ) ) ).getAngle();
                     }
 
@@ -97,7 +97,7 @@ public class PrismNode extends PNode {
         }
 
         //Circles are not rotatable since they are symmetric, so they do not provide a reference point
-        if ( prism.shape.getValue().getReferencePoint().isSome() ) {
+        if ( prism.shape.get().getReferencePoint().isSome() ) {
             // Show the rotation drag handle behind the prism shape so it looks like it attaches solidly instead of sticking out on top
             addChild( new RotationDragHandle() );
         }
@@ -106,13 +106,13 @@ public class PrismNode extends PNode {
         addChild( new PhetPPath( new BasicStroke(), darkGray ) {{
             prism.shape.addObserver( new SimpleObserver() {
                 public void update() {
-                    setPathTo( transform.modelToView( prism.shape.getValue().toShape() ) );
+                    setPathTo( transform.modelToView( prism.shape.get().toShape() ) );
                 }
             } );
             prismMedium.addObserver( new SimpleObserver() {
                 public void update() {
                     //Set the fill color
-                    final Color color = prismMedium.getValue().color;
+                    final Color color = prismMedium.get().color;
                     setPaint( color );
 
                     //Make the border color darker than the fill color

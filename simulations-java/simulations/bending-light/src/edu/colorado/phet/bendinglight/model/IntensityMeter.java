@@ -29,22 +29,22 @@ public class IntensityMeter {
     }
 
     public void translateSensor( Dimension2D delta ) {
-        sensorPosition.setValue( sensorPosition.getValue().plus( delta ) );
+        sensorPosition.set( sensorPosition.get().plus( delta ) );
     }
 
     public void translateBody( Dimension2D delta ) {
-        bodyPosition.setValue( bodyPosition.getValue().plus( delta ) );
+        bodyPosition.set( bodyPosition.get().plus( delta ) );
     }
 
     public Ellipse2D.Double getSensorShape() {
         double radius = 1.215E-6;//Fine tuned to match the given image
-        return new Ellipse2D.Double( sensorPosition.getValue().getX() - radius, sensorPosition.getValue().getY() - radius, radius * 2, radius * 2 );
+        return new Ellipse2D.Double( sensorPosition.get().getX() - radius, sensorPosition.get().getY() - radius, radius * 2, radius * 2 );
     }
 
     //Should be called before a model update so that values from last computation don't leak over into the next summation
     public void clearRayReadings() {
         rayReadings.clear();
-        reading.setValue( Reading.MISS );
+        reading.set( Reading.MISS );
     }
 
     //Add a new reading to the accumulator and update the readout
@@ -65,7 +65,7 @@ public class IntensityMeter {
 
         //If not hits, say "MISS"
         if ( hits.size() == 0 ) {
-            reading.setValue( Reading.MISS );
+            reading.set( Reading.MISS );
         }
         //otherwise, sum the intensities
         else {
@@ -73,7 +73,7 @@ public class IntensityMeter {
             for ( Reading hit : hits ) {
                 total += hit.getValue();
             }
-            reading.setValue( new Reading( total ) );
+            reading.set( new Reading( total ) );
         }
     }
 

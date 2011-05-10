@@ -21,16 +21,16 @@ public class BCEOptionsMenu extends OptionsMenu {
     public BCEOptionsMenu( final BCEGlobalProperties globalProperties ) {
 
         // Hide molecules (check box)
-        final JCheckBoxMenuItem hideMoleculesMenuItem = new JCheckBoxMenuItem( BCEStrings.HIDE_MOLECULES, globalProperties.moleculesVisible.getValue() );
+        final JCheckBoxMenuItem hideMoleculesMenuItem = new JCheckBoxMenuItem( BCEStrings.HIDE_MOLECULES, globalProperties.moleculesVisible.get() );
         add( hideMoleculesMenuItem );
         hideMoleculesMenuItem.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                globalProperties.moleculesVisible.setValue( !hideMoleculesMenuItem.isSelected() );
+                globalProperties.moleculesVisible.set( !hideMoleculesMenuItem.isSelected() );
             }
         } );
         globalProperties.moleculesVisible.addObserver( new SimpleObserver() {
             public void update() {
-                hideMoleculesMenuItem.setSelected( !globalProperties.moleculesVisible.getValue() );
+                hideMoleculesMenuItem.setSelected( !globalProperties.moleculesVisible.get() );
             }
         } );
     }

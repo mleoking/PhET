@@ -64,7 +64,7 @@ public class WaveSensorNode extends ToolNode {
             //Synchronize the body position with the model (centered on the model point)
             waveSensor.bodyPosition.addObserver( new SimpleObserver() {
                 public void update() {
-                    final Point2D.Double viewPoint = transform.modelToView( waveSensor.bodyPosition.getValue() ).toPoint2D();
+                    final Point2D.Double viewPoint = transform.modelToView( waveSensor.bodyPosition.get() ).toPoint2D();
                     setOffset( viewPoint.getX() - getFullBounds().getWidth() / 2, viewPoint.getY() - getFullBounds().getHeight() );
                 }
             } );
@@ -115,7 +115,7 @@ public class WaveSensorNode extends ToolNode {
             } );
             probe.position.addObserver( new SimpleObserver() {
                 public void update() {
-                    final Point2D.Double viewPoint = transform.modelToView( probe.position.getValue() ).toPoint2D();
+                    final Point2D.Double viewPoint = transform.modelToView( probe.position.get() ).toPoint2D();
                     setOffset( viewPoint.getX() - getFullBounds().getWidth() / 2, viewPoint.getY() - getFullBounds().getHeight() / 2 );
                 }
             } );

@@ -28,7 +28,7 @@ public abstract class BCECanvas extends PhetPCanvas {
         // canvas color
         canvasColorProperty.addObserver( new SimpleObserver() {
             public void update() {
-                setBackground( canvasColorProperty.getValue() );
+                setBackground( canvasColorProperty.get() );
             }
         } );
 

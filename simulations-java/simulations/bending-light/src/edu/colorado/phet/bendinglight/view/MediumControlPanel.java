@@ -64,7 +64,7 @@ public class MediumControlPanel extends PNode {
                                final int columns ) {
         this.medium = medium;
         this.laserWavelength = laserWavelength;
-        final MediumState initialMediumState = medium.getValue().getMediumState();
+        final MediumState initialMediumState = medium.get().getMediumState();
         lastNonMysteryIndexAtRed = initialMediumState.getIndexOfRefractionForRedLight();
 
         //Store the value the user used last (unless it was mystery), so we can revert to it when going to custom.
@@ -124,12 +124,12 @@ public class MediumControlPanel extends PNode {
                     int selected = -1;
                     for ( int i = 0; i < mediumStates.length; i++ ) {
                         MediumState mediumState = (MediumState) mediumStates[i];
-                        if ( mediumState.dispersionFunction.getIndexOfRefraction( laserWavelength.getValue() ) == medium.getValue().getIndexOfRefraction( laserWavelength.getValue() ) ) {
+                        if ( mediumState.dispersionFunction.getIndexOfRefraction( laserWavelength.get() ) == medium.get().getIndexOfRefraction( laserWavelength.get() ) ) {
                             selected = i;
                         }
                     }
                     //Only set to a different substance if "custom" wasn't specified.  Otherwise pressing "air" then "custom" will make the combobox jump back to "air"
-                    if ( selected != -1 && !medium.getValue().getMediumState().custom ) {
+                    if ( selected != -1 && !medium.get().getMediumState().custom ) {
                         setSelectedIndex( selected );
                     }
                     else {
@@ -163,7 +163,7 @@ public class MediumControlPanel extends PNode {
 
                 //If the text field is supposed to be shown, add a JTextField so the user can see and change the index of refraction
                 if ( textFieldVisible ) {
-                    addChild( new PSwing( new JTextField( new DecimalFormat( format ).format( medium.getValue().getIndexOfRefraction( laserWavelength.getValue() ) ), columns ) {{
+                    addChild( new PSwing( new JTextField( new DecimalFormat( format ).format( medium.get().getIndexOfRefraction( laserWavelength.get() ) ), columns ) {{
                         setFont( BendingLightCanvas.labelFont );
 
                         //Listen for when the user presses enter
@@ -179,7 +179,7 @@ public class MediumControlPanel extends PNode {
                         //Update the text readout when the medium or laser wavelength changes (since laser wavelength change could change the index of refraction where dispersion is modeled)
                         new RichSimpleObserver() {
                             public void update() {
-                                setText( new DecimalFormat( format ).format( medium.getValue().getIndexOfRefraction( laserWavelength.getValue() ) ) );
+                                setText( new DecimalFormat( format ).format( medium.get().getIndexOfRefraction( laserWavelength.get() ) ) );
                             }
                         }.observe( medium, laserWavelength );
                     }} ) {{
@@ -224,7 +224,7 @@ public class MediumControlPanel extends PNode {
                     } );
                     new RichSimpleObserver() {
                         public void update() {
-                            setValue( (int) mapping.createInverse().evaluate( medium.getValue().getIndexOfRefraction( laserWavelength.getValue() ) ) );
+                            setValue( (int) mapping.createInverse().evaluate( medium.get().getIndexOfRefraction( laserWavelength.get() ) ) );
                         }
                     }.observe( medium, laserWavelength );
                     setPaintTicks( true );
@@ -257,7 +257,7 @@ public class MediumControlPanel extends PNode {
         //Hide the slider for "mystery" substance
         medium.addObserver( new SimpleObserver() {
             public void update() {
-                slider.setVisible( !medium.getValue().isMystery() );
+                slider.setVisible( !medium.get().isMystery() );
             }
         } );
 
@@ -267,7 +267,7 @@ public class MediumControlPanel extends PNode {
             centerFullBoundsOnPoint( slider.getFullBounds().getCenterX(), slider.getFullBounds().getCenterY() );
             medium.addObserver( new SimpleObserver() {
                 public void update() {
-                    setVisible( medium.getValue().isMystery() );
+                    setVisible( medium.get().isMystery() );
                 }
             } );
         }};
@@ -284,16 +284,16 @@ public class MediumControlPanel extends PNode {
     //Called when the user enters a new index of refraction (with text box or slider), updates the model with the specified value
     private void setCustomIndexOfRefraction( double indexOfRefraction ) {
         //Have to pass the value through the dispersion function to account for the current wavelength of the laser (since index of refraction is a function of wavelength)
-        final DispersionFunction dispersionFunction = new DispersionFunction( indexOfRefraction, laserWavelength.getValue() );
-        setMedium( new Medium( medium.getValue().shape, new MediumState( BendingLightStrings.CUSTOM, dispersionFunction, false, true ), getColor( dispersionFunction.getIndexOfRefractionForRed() ) ) );
+        final DispersionFunction dispersionFunction = new DispersionFunction( indexOfRefraction, laserWavelength.get() );
+        setMedium( new Medium( medium.get().shape, new MediumState( BendingLightStrings.CUSTOM, dispersionFunction, false, true ), getColor( dispersionFunction.getIndexOfRefractionForRed() ) ) );
     }
 
     //Update the medium state from the combo box
     private void setMediumState( MediumState mediumState ) {
-        setMedium( new Medium( medium.getValue().shape, mediumState, getColor( mediumState.getIndexOfRefractionForRedLight() ) ) );
+        setMedium( new Medium( medium.get().shape, mediumState, getColor( mediumState.getIndexOfRefractionForRedLight() ) ) );
     }
 
     private void setMedium( Medium mediumValue ) {
-        medium.setValue( mediumValue );
+        medium.set( mediumValue );
     }
 }

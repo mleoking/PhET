@@ -23,15 +23,15 @@ public class WorldBounds extends Property<Rectangle2D> {
 
     // Convenience method for setting bounds property
     public void setBounds( double x, double y, double width, double height ) {
-        setValue( new Rectangle2D.Double( x, y, width, height ) );
+        set( new Rectangle2D.Double( x, y, width, height ) );
     }
 
     public boolean isEmpty() {
-        return getValue().getWidth() == 0 || getValue().getHeight() == 0;
+        return get().getWidth() == 0 || get().getHeight() == 0;
     }
 
     public boolean contains( Point3D p ) {
-        return getValue().contains( p.getX(), p.getY() );
+        return get().contains( p.getX(), p.getY() );
     }
 
     /**
@@ -48,7 +48,7 @@ public class WorldBounds extends Property<Rectangle2D> {
             pConstrained = new Point3D.Double( p );
         }
         else {
-            final Rectangle2D bounds = getValue();
+            final Rectangle2D bounds = get();
 
             // adjust x coordinate
             double newX = p.getX();

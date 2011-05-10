@@ -36,7 +36,7 @@ public class FloatingClockControlNode extends PNode {
             clock.addClockListener( new ClockAdapter() {
                 @Override
                 public void simulationTimeChanged( ClockEvent clockEvent ) {
-                    setValue( timeReadout.apply( clock.getSimulationTime() ) );
+                    set( timeReadout.apply( clock.getSimulationTime() ) );
                 }
             } );
         }},
@@ -53,7 +53,7 @@ public class FloatingClockControlNode extends PNode {
               new Property<Double>( clock.getSimulationTime() ) {{
                   clock.addClockListener( new ClockAdapter() {
                       public void simulationTimeChanged( ClockEvent clockEvent ) {
-                          setValue( clock.getSimulationTime() );
+                          set( clock.getSimulationTime() );
                       }
                   } );
               }}, clearString, timeReadoutColor );
@@ -65,17 +65,17 @@ public class FloatingClockControlNode extends PNode {
                                      final VoidFunction0 resetTime,
                                      final Property<Double> simulationTime, final String clearString, final ObservableProperty<Color> timeReadoutColor ) {
         playPauseButton = new PlayPauseButton( 80 ) {{
-            setPlaying( clockRunning.getValue() );
+            setPlaying( clockRunning.get() );
             final Listener updatePlayPauseButtons = new Listener() {
                 public void playbackStateChanged() {
-                    clockRunning.setValue( isPlaying() );
+                    clockRunning.set( isPlaying() );
                 }
             };
             addListener( updatePlayPauseButtons );
             updatePlayPauseButtons.playbackStateChanged();//Sync immediately
             clockRunning.addObserver( new SimpleObserver() {
                 public void update() {
-                    setPlaying( clockRunning.getValue() );
+                    setPlaying( clockRunning.get() );
                 }
             } );
         }};
@@ -116,12 +116,12 @@ public class FloatingClockControlNode extends PNode {
                 setFont( new PhetFont( 24, true ) );
                 timeReadoutColor.addObserver( new SimpleObserver() {
                     public void update() {
-                        setTextPaint( timeReadoutColor.getValue() );
+                        setTextPaint( timeReadoutColor.get() );
                     }
                 } );
                 timeReadout.addObserver( new SimpleObserver() {
                     public void update() {
-                        setText( timeReadout.getValue() );
+                        setText( timeReadout.get() );
                         setOffset( stepButton.getFullBounds().getMaxX() + 5, stepButton.getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
                     }
                 } );
@@ -136,7 +136,7 @@ public class FloatingClockControlNode extends PNode {
                 } );
                 simulationTime.addObserver( new SimpleObserver() {
                     public void update() {
-                        setEnabled( simulationTime.getValue() > 0 );
+                        setEnabled( simulationTime.get() > 0 );
                     }
                 } );
             }} );

@@ -12,15 +12,15 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
  */
 public class ScaledDoubleProperty extends Property<Double> {
     public ScaledDoubleProperty( final Property<Double> property, final double scale ) {
-        super( property.getValue() * scale );
+        super( property.get() * scale );
         property.addObserver( new VoidFunction1<Double>() {
             public void apply( Double value ) {
-                setValue( value * scale );
+                set( value * scale );
             }
         } );
         addObserver( new VoidFunction1<Double>() {
             public void apply( Double value ) {
-                property.setValue( value / scale );
+                property.set( value / scale );
             }
         } );
     }

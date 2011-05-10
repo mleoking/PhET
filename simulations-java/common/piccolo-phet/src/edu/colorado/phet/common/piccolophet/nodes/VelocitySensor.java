@@ -25,7 +25,7 @@ public class VelocitySensor {
     }
 
     public void translate( Dimension2D delta ) {
-        position.setValue( position.getValue().plus( delta.getWidth(), delta.getHeight() ) );
+        position.set( position.get().plus( delta.getWidth(), delta.getHeight() ) );
     }
 
     public void reset() {

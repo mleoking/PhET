@@ -60,7 +60,7 @@ public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> ext
 
                 //Convert to model bounds and store in the model
                 final ImmutableRectangle2D modelBounds = new ImmutableRectangle2D( transform.viewToModel( rootNode.globalToLocal( viewBounds ) ) );
-                bounds.setValue( new Option.Some<ImmutableRectangle2D>( modelBounds ) );
+                bounds.set( new Option.Some<ImmutableRectangle2D>( modelBounds ) );
             }
         };
     }
@@ -82,7 +82,7 @@ public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> ext
         final Property<Double> dt = module.getFluidPressureAndFlowModel().simulationTimeStep;
         return new HBox( 10,
                          //Set the time speed slider to go between 1/2 and 2x the default dt
-                         new SimSpeedControlPNode( dt.getValue() / 2, dt, dt.getValue() * 2, 0.0, new Property<Color>( Color.black ) ),
+                         new SimSpeedControlPNode( dt.get() / 2, dt, dt.get() * 2, 0.0, new Property<Color>( Color.black ) ),
                          new FloatingClockControlNode( clockRunning, null, module.getClock(), FPAFStrings.RESET, new Property<Color>( Color.white ) ) ) {{
             setOffset( STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2, STAGE_SIZE.getHeight() - getFullBounds().getHeight() );
         }};
@@ -114,7 +114,7 @@ public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> ext
         final Property<Function1<Double, String>> formatter = new Property<Function1<Double, String>>( createFormatter( model ) ) {{
             model.units.addObserver( new SimpleObserver() {
                 public void update() {
-                    setValue( createFormatter( model ) );
+                    set( createFormatter( model ) );
                 }
             } );
         }};
@@ -126,7 +126,7 @@ public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> ext
     private Function1<Double, String> createFormatter( final FluidPressureAndFlowModel model ) {
         return new Function1<Double, String>() {
             public String apply( Double aDouble ) {
-                final Unit unit = model.units.getValue().velocity;
+                final Unit unit = model.units.get().velocity;
                 return unit.getDecimalFormat().format( unit.siToUnit( aDouble ) ) + " " + unit.getAbbreviation();//TODO: correct units (from SI) and i18n
             }
         };

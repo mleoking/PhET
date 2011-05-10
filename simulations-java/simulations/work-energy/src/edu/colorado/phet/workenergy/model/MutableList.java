@@ -14,8 +14,8 @@ public class MutableList<T> extends Property<ArrayList<T>> {
     }
 
     public void add( T snapshot ) {
-        ArrayList<T> copy = new ArrayList<T>( getValue() );
+        ArrayList<T> copy = new ArrayList<T>( get() );
         copy.add( snapshot );
-        setValue( copy );
+        set( copy );
     }
 }

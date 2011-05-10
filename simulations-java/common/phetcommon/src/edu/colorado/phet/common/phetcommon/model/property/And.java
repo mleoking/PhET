@@ -16,7 +16,7 @@ public class And extends CompositeBooleanProperty {
                        //Test to see whether all args are true
                        for ( ObservableProperty<Boolean> term : terms ) {
                            //Short circuit if any argument is false and return early for performance reasons
-                           if ( !term.getValue() ) {
+                           if ( !term.get() ) {
                                return false;
                            }
                        }

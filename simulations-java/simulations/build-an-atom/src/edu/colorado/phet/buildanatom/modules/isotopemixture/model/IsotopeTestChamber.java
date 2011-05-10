@@ -191,9 +191,9 @@ public class IsotopeTestChamber {
                 // Update the isotope count.
                 updateCountProperty();
                 // Update the average atomic mass.
-                averageAtomicMassProperty.setValue( (  ( averageAtomicMassProperty.getValue() *
-                        ( isotopeCountProperty.getValue() - 1 ) ) + isotope.getAtomConfiguration().getAtomicMass() ) /
-                        isotopeCountProperty.getValue() );
+                averageAtomicMassProperty.set( ( ( averageAtomicMassProperty.get() *
+                                                   ( isotopeCountProperty.get() - 1 ) ) + isotope.getAtomConfiguration().getAtomicMass() ) /
+                                               isotopeCountProperty.get() );
             }
         }
         else{
@@ -206,12 +206,12 @@ public class IsotopeTestChamber {
         containedIsotopes.remove( isotope );
         updateCountProperty();
         // Update the average atomic mass.
-        if ( isotopeCountProperty.getValue() > 0 ){
-            averageAtomicMassProperty.setValue( ( averageAtomicMassProperty.getValue() * ( isotopeCountProperty.getValue() + 1 )
-                    - isotope.getAtomConfiguration().getAtomicMass() ) / isotopeCountProperty.getValue() );
+        if ( isotopeCountProperty.get() > 0 ){
+            averageAtomicMassProperty.set( ( averageAtomicMassProperty.get() * ( isotopeCountProperty.get() + 1 )
+                                             - isotope.getAtomConfiguration().getAtomicMass() ) / isotopeCountProperty.get() );
         }
         else{
-            averageAtomicMassProperty.setValue( 0.0 );
+            averageAtomicMassProperty.set( 0.0 );
         }
     }
 
@@ -246,10 +246,10 @@ public class IsotopeTestChamber {
             }
         }
         updateCountProperty();
-        averageAtomicMassProperty.setValue( 0.0 );
+        averageAtomicMassProperty.set( 0.0 );
 
-        assert isotopeCountProperty.getValue() == 0;      // Logical consistency check.
-        assert averageAtomicMassProperty.getValue() == 0; // Logical consistency check.
+        assert isotopeCountProperty.get() == 0;      // Logical consistency check.
+        assert averageAtomicMassProperty.get() == 0; // Logical consistency check.
     }
 
     protected List<MovableAtom> getContainedIsotopes() {
@@ -260,7 +260,7 @@ public class IsotopeTestChamber {
      * Get a count of the total number of isotopes in the chamber.
      */
     public int getTotalIsotopeCount(){
-        return isotopeCountProperty.getValue();
+        return isotopeCountProperty.get();
     }
 
 
@@ -269,7 +269,7 @@ public class IsotopeTestChamber {
     }
 
     private void updateCountProperty(){
-        isotopeCountProperty.setValue( containedIsotopes.size() );
+        isotopeCountProperty.set( containedIsotopes.size() );
     }
 
     private void updateAverageAtomicMassProperty() {
@@ -278,10 +278,10 @@ public class IsotopeTestChamber {
             for ( MovableAtom isotope : containedIsotopes ){
                 totalMass += isotope.getAtomConfiguration().getAtomicMass();
             }
-            averageAtomicMassProperty.setValue( totalMass / containedIsotopes.size() );
+            averageAtomicMassProperty.set( totalMass / containedIsotopes.size() );
         }
         else{
-            averageAtomicMassProperty.setValue( 0.0 );
+            averageAtomicMassProperty.set( 0.0 );
         }
     }
 
@@ -290,7 +290,7 @@ public class IsotopeTestChamber {
     }
 
     public double getAverageAtomicMass(){
-        return averageAtomicMassProperty.getValue();
+        return averageAtomicMassProperty.get();
     }
 
     /**

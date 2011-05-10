@@ -20,54 +20,54 @@ import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValu
 public class InsideMagnetsControlPanel extends VerticalLayoutPanel {
     public InsideMagnetsControlPanel( final InsideMagnetsModule module ) {
         final Property<ImmutableVector2D> field = module.getInsideMagnetsModel().getExternalMagneticField();
-        add( new LinearValueControl( -5, 5, field.getValue().getX(), "Bx", "0.00", "T" ) {{
+        add( new LinearValueControl( -5, 5, field.get().getX(), "Bx", "0.00", "T" ) {{
             field.addObserver( new SimpleObserver() {
                 public void update() {
-                    setValue( field.getValue().getX() );
+                    setValue( field.get().getX() );
                 }
             } );
             addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
-                    field.setValue( new ImmutableVector2D( getValue(), field.getValue().getY() ) );
+                    field.set( new ImmutableVector2D( getValue(), field.get().getY() ) );
                 }
             } );
         }} );
-        add( new LinearValueControl( -5, 5, field.getValue().getY(), "By", "0.00", "T" ) {{
+        add( new LinearValueControl( -5, 5, field.get().getY(), "By", "0.00", "T" ) {{
             field.addObserver( new SimpleObserver() {
                 public void update() {
-                    setValue( field.getValue().getY() );
+                    setValue( field.get().getY() );
                 }
             } );
             addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
-                    field.setValue( new ImmutableVector2D( field.getValue().getX(), getValue() ) );
+                    field.set( new ImmutableVector2D( field.get().getX(), getValue() ) );
                 }
             } );
         }} );
 
         final Property<Double> temperature = module.getInsideMagnetsModel().getTemperature();
-        add( new LinearValueControl( 0.01, 2, temperature.getValue(), "Temperature", "0.00", "K" ) {{
+        add( new LinearValueControl( 0.01, 2, temperature.get(), "Temperature", "0.00", "K" ) {{
             temperature.addObserver( new SimpleObserver() {
                 public void update() {
-                    setValue( temperature.getValue() );
+                    setValue( temperature.get() );
                 }
             } );
             addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
-                    temperature.setValue( getValue() );
+                    temperature.set( getValue() );
                 }
             } );
         }} );
 
-        add( new JCheckBox( "Show Magnetization", module.getShowMagnetizationProperty().getValue() ) {{
+        add( new JCheckBox( "Show Magnetization", module.getShowMagnetizationProperty().get() ) {{
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    module.getShowMagnetizationProperty().setValue( isSelected() );
+                    module.getShowMagnetizationProperty().set( isSelected() );
                 }
             } );
             module.getShowMagnetizationProperty().addObserver( new SimpleObserver() {
                 public void update() {
-                    setSelected( module.getShowMagnetizationProperty().getValue() );
+                    setSelected( module.getShowMagnetizationProperty().get() );
                 }
             } );
         }} );

@@ -18,22 +18,22 @@ public class ModelBounds extends Property<Option<ImmutableRectangle2D>> {
     }
 
     public Point2D getClosestPoint( Point2D point ) {
-        if ( getValue().isNone() ) {
+        if ( get().isNone() ) {
             return point;
         }
         else {
-            return getValue().get().getClosestPoint( point );
+            return get().get().getClosestPoint( point );
         }
     }
 
     //Check whether the specified point is within the defined region of this model bounds.  If the model bound is still not yet set, then the point is contained,
     //since all points should be legal before we have the bounds definition
     public boolean contains( ImmutableVector2D value ) {
-        if ( getValue().isNone() ) {
+        if ( get().isNone() ) {
             return true;//any point legal if no bounds defined yet
         }
         else {
-            return getValue().get().contains( value.toPoint2D() );
+            return get().get().contains( value.toPoint2D() );
         }
     }
 }

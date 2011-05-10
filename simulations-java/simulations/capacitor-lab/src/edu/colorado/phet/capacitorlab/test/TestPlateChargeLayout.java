@@ -60,11 +60,11 @@ public class TestPlateChargeLayout extends JFrame {
         }
 
         public void setNumberOfCharges( int numberOfCharges ) {
-            numberOfChargesProperty.setValue( numberOfCharges );
+            numberOfChargesProperty.set( numberOfCharges );
         }
 
         public int getNumberOfCharges() {
-            return numberOfChargesProperty.getValue();
+            return numberOfChargesProperty.get();
         }
 
         public void addPlateSizeObserver( SimpleObserver o ) {
@@ -72,19 +72,19 @@ public class TestPlateChargeLayout extends JFrame {
         }
 
         public void setPlateWidth( int plateWidth ) {
-            plateSizeProperty.setValue( new Dimension( plateWidth, getPlateHeight() ) );
+            plateSizeProperty.set( new Dimension( plateWidth, getPlateHeight() ) );
         }
 
         public void setPlateHeight( int plateHeight ) {
-            plateSizeProperty.setValue( new Dimension( getPlateWidth(), plateHeight ) );
+            plateSizeProperty.set( new Dimension( getPlateWidth(), plateHeight ) );
         }
 
         public int getPlateWidth() {
-            return plateSizeProperty.getValue().width;
+            return plateSizeProperty.get().width;
         }
 
         public int getPlateHeight() {
-            return plateSizeProperty.getValue().height;
+            return plateSizeProperty.get().height;
         }
     }
 

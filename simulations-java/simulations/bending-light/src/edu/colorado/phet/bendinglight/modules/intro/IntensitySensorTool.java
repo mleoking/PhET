@@ -37,11 +37,11 @@ public class IntensitySensorTool extends ToolIconNode {
                    public IntensityMeterNode createNode( ModelViewTransform transform, Property<Boolean> visible, final Point2D location ) {
                        return new IntensityMeterNode( transform, intensityMeter ) {{
                            //Set the correct relative locations
-                           intensityMeter.sensorPosition.setValue( new ImmutableVector2D( modelWidth * 0.3, -modelHeight * 0.3 ) );
-                           intensityMeter.bodyPosition.setValue( new ImmutableVector2D( modelWidth * 0.4, -modelHeight * 0.3 ) );
+                           intensityMeter.sensorPosition.set( new ImmutableVector2D( modelWidth * 0.3, -modelHeight * 0.3 ) );
+                           intensityMeter.bodyPosition.set( new ImmutableVector2D( modelWidth * 0.4, -modelHeight * 0.3 ) );
 
                            //Move everything so the mouse is at the middle of the sensor probe
-                           final ImmutableVector2D delta = new ImmutableVector2D( location ).minus( intensityMeter.sensorPosition.getValue() );
+                           final ImmutableVector2D delta = new ImmutableVector2D( location ).minus( intensityMeter.sensorPosition.get() );
                            intensityMeter.translateAll( new PDimension( delta.getX(), delta.getY() ) );
                        }};
                    }

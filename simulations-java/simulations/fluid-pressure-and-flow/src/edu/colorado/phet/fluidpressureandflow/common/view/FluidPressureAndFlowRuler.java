@@ -32,7 +32,7 @@ public class FluidPressureAndFlowRuler extends PNode {
                                       ResetModel resetModel ) {
         visible.addObserver( new SimpleObserver() {
             public void update() {
-                setVisible( visible.getValue() );
+                setVisible( visible.get() );
             }
         } );
         final RulerNode rulerNode = new RulerNode( length, 50, majorTicks, units, 4, 15 ) {{
@@ -54,7 +54,7 @@ public class FluidPressureAndFlowRuler extends PNode {
         addChild( new PImage( PhetCommonResources.getImage( PhetCommonResources.IMAGE_CLOSE_BUTTON ) ) {{
             addInputEventListener( new PBasicInputEventHandler() {
                 public void mousePressed( PInputEvent event ) {
-                    setVisible.setValue( false );
+                    setVisible.set( false );
                 }
             } );
             setOffset( rulerNode.getFullBounds().getOrigin().getX(), rulerNode.getFullBounds().getOrigin().getY() - getFullBounds().getHeight() );

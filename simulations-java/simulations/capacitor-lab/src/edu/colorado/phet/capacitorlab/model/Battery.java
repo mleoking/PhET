@@ -91,11 +91,11 @@ public class Battery {
      * @param voltage
      */
     public void setVoltage( double voltage ) {
-        voltageProperty.setValue( voltage );
+        voltageProperty.set( voltage );
     }
 
     public double getVoltage() {
-        return voltageProperty.getValue();
+        return voltageProperty.get();
     }
 
     public void addVoltageObserver( SimpleObserver o ) {
@@ -103,11 +103,11 @@ public class Battery {
     }
 
     private void setPolarity( Polarity polarity ) {
-        polarityProperty.setValue( polarity );
+        polarityProperty.set( polarity );
     }
 
     public Polarity getPolarity() {
-        return polarityProperty.getValue();
+        return polarityProperty.get();
     }
 
     private static Polarity getPolarity( double voltage ) {

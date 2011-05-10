@@ -20,9 +20,9 @@ public abstract class ConstrainedProperty<T> extends Property<T> {
      * @param value
      */
     @Override
-    public void setValue( T value ) {
+    public void set( T value ) {
         if ( isValid( value ) ) {
-            super.setValue( value );
+            super.set( value );
         }
         else {
             handleInvalidValue( value );

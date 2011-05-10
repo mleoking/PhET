@@ -76,13 +76,13 @@ public class SymbolToCountsView extends ProblemView {
         }
 
         public ImmutableAtom getGuess() {
-            return new ImmutableAtom( protonGuess.getValue(), neutronGuess.getValue(), electronGuess.getValue() );
+            return new ImmutableAtom( protonGuess.get(), neutronGuess.get(), electronGuess.get() );
         }
 
         public void displayAnswer( ImmutableAtom answer ) {
-            protonGuess.setValue( answer.getNumProtons() );
-            electronGuess.setValue( answer.getNumElectrons() );
-            neutronGuess.setValue( answer.getNumNeutrons() );
+            protonGuess.set( answer.getNumProtons() );
+            electronGuess.set( answer.getNumElectrons() );
+            neutronGuess.set( answer.getNumNeutrons() );
             protonEntryPanel.setEditable( false );
             neutronEntryPanel.setEditable( false );
             electronEntryPanel.setEditable(false);

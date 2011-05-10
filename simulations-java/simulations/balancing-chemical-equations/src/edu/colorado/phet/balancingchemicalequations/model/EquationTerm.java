@@ -40,11 +40,11 @@ public class EquationTerm {
     }
 
     public void setUserCoefficient( int actualCoefficient ) {
-        userCoefficientProperty.setValue( actualCoefficient );
+        userCoefficientProperty.set( actualCoefficient );
     }
 
     public int getUserCoefficient() {
-        return userCoefficientProperty.getValue();
+        return userCoefficientProperty.get();
     }
 
     public Property<Integer> getUserCoefficientProperty() {

@@ -92,7 +92,7 @@ public abstract class GravityAndOrbitsMode {
         transform = new Property<ModelViewTransform>( createTransform( defaultZoomScale, zoomOffset ) );
         zoomLevel.addObserver( new SimpleObserver() {
             public void update() {
-                transform.setValue( createTransform( defaultZoomScale, zoomOffset ) );
+                transform.set( createTransform( defaultZoomScale, zoomOffset ) );
             }
         } );
         model = new GravityAndOrbitsModel( new GravityAndOrbitsClock( dt, p.stepping, timeSpeedScaleProperty ), p.gravityEnabled );
@@ -108,7 +108,7 @@ public abstract class GravityAndOrbitsMode {
 
         new RichSimpleObserver() {
             public void update() {
-                model.getClock().setRunning( !p.clockPaused.getValue() && GravityAndOrbitsMode.this.active.getValue() );
+                model.getClock().setRunning( !p.clockPaused.get() && GravityAndOrbitsMode.this.active.get() );
             }
         }.observe( p.clockPaused, this.active );
         measuringTapeStartPoint = new Property<ImmutableVector2D>( new ImmutableVector2D( initialMeasuringTapeLocation.getP1() ) );
@@ -117,7 +117,7 @@ public abstract class GravityAndOrbitsMode {
 
     //Create the transform from model coordinates to stage coordinates
     private ModelViewTransform createTransform( double defaultZoomScale, ImmutableVector2D zoomOffset ) {
-        Rectangle2D.Double targetRectangle = getTargetRectangle( defaultZoomScale * zoomLevel.getValue(), zoomOffset );
+        Rectangle2D.Double targetRectangle = getTargetRectangle( defaultZoomScale * zoomLevel.get(), zoomOffset );
         final double x = targetRectangle.getMinX();
         final double y = targetRectangle.getMinY();
         final double w = targetRectangle.getMaxX() - x;
@@ -149,7 +149,7 @@ public abstract class GravityAndOrbitsMode {
         model.addBody( body );
         final SimpleObserver updater = new SimpleObserver() {
             public void update() {
-                deviatedFromDefaults.setValue( true );
+                deviatedFromDefaults.set( true );
             }
         };
         body.getMassProperty().addObserver( updater, false );
@@ -193,7 +193,7 @@ public abstract class GravityAndOrbitsMode {
                 addMouseListener( new MouseAdapter() {
                     @Override
                     public void mouseReleased( MouseEvent e ) {
-                        modeProperty.setValue( GravityAndOrbitsMode.this ); //Make it so clicking on the icon also activates the mode
+                        modeProperty.set( GravityAndOrbitsMode.this ); //Make it so clicking on the icon also activates the mode
                     }
                 } );
             }} );
@@ -207,7 +207,7 @@ public abstract class GravityAndOrbitsMode {
     //Return the bodies to their original states when the user presses "reset" (not "reset all")
     public void resetMode() {
         model.resetBodies();
-        deviatedFromDefaults.setValue( false );
+        deviatedFromDefaults.set( false );
         getClock().setSimulationTime( 0.0 );//Same as pressing "clear" in the FloatingClockControlNode
     }
 
@@ -217,12 +217,12 @@ public abstract class GravityAndOrbitsMode {
 
     //Restore the last set of initial conditions that were set while the sim was paused.
     public void rewind() {
-        rewinding.setValue( true );
+        rewinding.set( true );
         getClock().setSimulationTime( rewindClockTime );
         for ( Body body : model.getBodies() ) {
             body.rewind();
         }
-        rewinding.setValue( false );
+        rewinding.set( false );
     }
 
     public double getGridSpacing() {

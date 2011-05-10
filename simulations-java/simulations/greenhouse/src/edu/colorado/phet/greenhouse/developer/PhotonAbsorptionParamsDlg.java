@@ -60,10 +60,10 @@ public class PhotonAbsorptionParamsDlg extends PaintImmediateDialog {
         final LinearValueControl abosrptionProbabilitySlider = new LinearValueControl( 0, 1, "Probability", "#.#", null );
         abosrptionProbabilitySlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                PhotonAbsorptionStrategy.photonAbsorptionProbability.setValue( abosrptionProbabilitySlider.getValue() );
+                PhotonAbsorptionStrategy.photonAbsorptionProbability.set( abosrptionProbabilitySlider.getValue() );
             }
         });
-        abosrptionProbabilitySlider.setValue( PhotonAbsorptionStrategy.photonAbsorptionProbability.getValue() );
+        abosrptionProbabilitySlider.setValue( PhotonAbsorptionStrategy.photonAbsorptionProbability.get() );
         add( abosrptionProbabilitySlider  );
 
         // Set this to hide itself if the user clicks the close button.

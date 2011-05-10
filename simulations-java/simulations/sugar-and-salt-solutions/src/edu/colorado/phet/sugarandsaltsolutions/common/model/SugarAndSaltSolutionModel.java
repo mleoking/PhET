@@ -80,33 +80,33 @@ public class SugarAndSaltSolutionModel {
     //Update the model when the clock ticks
     private void updateModel( double dt ) {
         //Change the water volume based on input and output flow
-        double inVolume = dt * inputFlowRate.getValue() * FLOW_SCALE;
-        double outVolume = dt * outputFlowRate.getValue() * FLOW_SCALE;
+        double inVolume = dt * inputFlowRate.get() * FLOW_SCALE;
+        double outVolume = dt * outputFlowRate.get() * FLOW_SCALE;
 
         //Compute the new water volume, but making sure it doesn't overflow or underflow
-        double newVolume = water.volume.getValue() + inVolume - outVolume;
+        double newVolume = water.volume.get() + inVolume - outVolume;
         if ( newVolume > beaker.getMaxFluidVolume() ) {
-            inVolume = beaker.getMaxFluidVolume() + outVolume - water.volume.getValue();
+            inVolume = beaker.getMaxFluidVolume() + outVolume - water.volume.get();
         }
         else if ( newVolume < 0 ) {
-            outVolume = inVolume + water.volume.getValue();
+            outVolume = inVolume + water.volume.get();
         }
 
         //Set the true value of the new volume based on clamped inputs and outputs
-        newVolume = water.volume.getValue() + inVolume - outVolume;
+        newVolume = water.volume.get() + inVolume - outVolume;
 
         //Turn off the input flow if the beaker would overflow
         if ( newVolume >= beaker.getMaxFluidVolume() ) {
-            inputFlowRate.setValue( 0.0 );
+            inputFlowRate.set( 0.0 );
             //TODO: make the cursor drop the slider?
         }
         //Turn off the output flow if the beaker is empty
         if ( newVolume <= 0 ) {
-            outputFlowRate.setValue( 0.0 );
+            outputFlowRate.set( 0.0 );
         }
 
         //Update the water volume
-        water.volume.setValue( newVolume );
+        water.volume.set( newVolume );
         waterExited( outVolume );
 
         //Move about the sugar and salt crystals
@@ -126,7 +126,7 @@ public class SugarAndSaltSolutionModel {
             crystal.stepInTime( gravity.times( crystal.mass ), dt / 10 );
 
             //If the salt hits the water, absorb it
-            if ( water.getShape().getBounds2D().contains( crystal.position.getValue().toPoint2D() ) ) {
+            if ( water.getShape().getBounds2D().contains( crystal.position.get().toPoint2D() ) ) {
                 hitTheWater.add( crystal );
             }
         }

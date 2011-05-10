@@ -39,7 +39,7 @@ public class VectorNode extends PNode {
         new And( visible, new Not( body.getCollidedProperty() ) ) {{
             addObserver( new SimpleObserver() {
                 public void update() {
-                    setVisible( getValue() );
+                    setVisible( get() );
                 }
             } );
         }};
@@ -59,7 +59,7 @@ public class VectorNode extends PNode {
     }
 
     private Point2D getTail() {
-        return modelViewTransform.getValue().modelToView( body.getPositionProperty().getValue().toPoint2D() );
+        return modelViewTransform.get().modelToView( body.getPositionProperty().get().toPoint2D() );
     }
 
     protected Point2D getTip() {
@@ -68,7 +68,7 @@ public class VectorNode extends PNode {
 
     private Point2D.Double getTip( Point2D tail ) {
         int minArrowLength = 10;
-        ImmutableVector2D force = new ImmutableVector2D( modelViewTransform.getValue().modelToViewDelta( vector.getValue().getScaledInstance( scale ).toPoint2D() ) );
+        ImmutableVector2D force = new ImmutableVector2D( modelViewTransform.get().modelToViewDelta( vector.get().getScaledInstance( scale ).toPoint2D() ) );
         if ( force.getMagnitude() < minArrowLength && force.getMagnitude() > 1E-12 ) {
             force = force.getInstanceOfMagnitude( minArrowLength );
         }

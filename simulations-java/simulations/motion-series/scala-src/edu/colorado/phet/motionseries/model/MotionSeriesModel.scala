@@ -43,7 +43,7 @@ class MotionSeriesModel(defaultPosition: Double,
 
   def _wallRange = edu.colorado.phet.motionseries.util.Range(-leftRampSegment.length + wall.width / 2, rightRampSegment.length - wall.width / 2)
 
-  def updateWallRange() = wallRange.setValue(_wallRange)
+  def updateWallRange() = wallRange.set(_wallRange)
   leftRampSegment.addListener(updateWallRange)
   rightRampSegment.addListener(updateWallRange)
   updateWallRange()
@@ -195,7 +195,7 @@ class MotionSeriesModel(defaultPosition: Double,
   def wallsBounce = _wallsBounce
 
   def wallsBounce_=(b: Boolean) = {
-    _wallsBounce.setValue(b)
+    _wallsBounce.set(b)
     notifyListeners()
   }
 
@@ -203,7 +203,7 @@ class MotionSeriesModel(defaultPosition: Double,
   def frictionless = _frictionless.booleanValue
 
   def frictionless_=(b: Boolean) = {
-    _frictionless.setValue(b)
+    _frictionless.set(b)
     notifyListeners()
   }
 
@@ -211,7 +211,7 @@ class MotionSeriesModel(defaultPosition: Double,
 
   def walls_=(b: Boolean) = {
     if (b != _walls.booleanValue) {
-      _walls.setValue(b)
+      _walls.set(b)
       updateSegmentLengths()
       notifyListeners()
     }
@@ -219,8 +219,8 @@ class MotionSeriesModel(defaultPosition: Double,
 
   //TODO: duplicates some work with wallrange
   def updateSegmentLengths() = {
-    val seg0Length = if (leftRampSegment.angle > 0 || _walls.getValue.booleanValue) DEFAULT_RAMP_LENGTH else FAR_DISTANCE
-    val seg1Length = if (rightRampSegment.angle > 0 || _walls.getValue.booleanValue) DEFAULT_RAMP_LENGTH else FAR_DISTANCE
+    val seg0Length = if (leftRampSegment.angle > 0 || _walls.get.booleanValue) DEFAULT_RAMP_LENGTH else FAR_DISTANCE
+    val seg1Length = if (rightRampSegment.angle > 0 || _walls.get.booleanValue) DEFAULT_RAMP_LENGTH else FAR_DISTANCE
     setSegmentLengths(seg0Length, seg1Length)
   }
 

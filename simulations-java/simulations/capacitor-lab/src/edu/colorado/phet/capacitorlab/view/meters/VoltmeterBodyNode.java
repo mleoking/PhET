@@ -61,7 +61,7 @@ import edu.umd.cs.piccolo.util.PBounds;
         closeButtonNode.addInputEventListener( new PBasicInputEventHandler() {
             @Override
             public void mouseReleased( PInputEvent event ) {
-                voltmeter.visibleProperty.setValue( false );
+                voltmeter.visibleProperty.set( false );
             }
         } );
         addChild( closeButtonNode );
@@ -107,7 +107,7 @@ import edu.umd.cs.piccolo.util.PBounds;
             // update location
             voltmeter.bodyLocationProperty.addObserver( new SimpleObserver() {
                 public void update() {
-                    setOffset( mvt.modelToView( voltmeter.bodyLocationProperty.getValue() ) );
+                    setOffset( mvt.modelToView( voltmeter.bodyLocationProperty.get() ) );
                 }
             } );
         }

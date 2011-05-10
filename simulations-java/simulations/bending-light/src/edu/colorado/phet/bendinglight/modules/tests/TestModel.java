@@ -16,8 +16,8 @@ import edu.colorado.phet.bendinglight.view.LaserColor;
 public class TestModel extends TestCase {
     public void testRays() {
         IntroModel introModel = new IntroModel( BendingLightModel.WATER );
-        introModel.getLaser().color.setValue( new LaserColor.OneColor( 479E-9 ) );
-        introModel.getLaser().on.setValue( true );
+        introModel.getLaser().color.set( new LaserColor.OneColor( 479E-9 ) );
+        introModel.getLaser().on.set( true );
         for ( LightRay lightRay : introModel.getRays() ) {
             System.out.println( "lightRay = " + lightRay + ", length = " + lightRay.getLength() + ", angularFrequency = " + lightRay.getAngularFrequency() + ", time = " + lightRay.getTime() + ", frequency = " + lightRay.getFrequency() + ", wavelength = " + lightRay.getWavelength() + ", cosarg(0) = " + lightRay.getCosArg( 0 ) + ", phaseOffset = " + lightRay.getPhaseOffset() + ", numWavelengthsPhaseOffset = " + lightRay.getNumWavelengthsPhaseOffset() );
         }

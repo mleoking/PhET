@@ -44,8 +44,8 @@ public class NotBalancedTerseNode extends GamePopupNode {
      * @param aligner
      */
     public NotBalancedTerseNode( BCEGlobalProperties globalProperties, final ActionListener whyButtonListener ) {
-        this( globalProperties.popupsCloseButtonVisible.getValue(), globalProperties.popupsTitleBarVisible.getValue(),
-              globalProperties.popupsWhyButtonVisible.getValue(), whyButtonListener );
+        this( globalProperties.popupsCloseButtonVisible.get(), globalProperties.popupsTitleBarVisible.get(),
+              globalProperties.popupsWhyButtonVisible.get(), whyButtonListener );
     }
 
     /*

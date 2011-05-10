@@ -54,7 +54,7 @@ public class ChartNode extends PClip {
 
                 //Update the mapping from model to chart
                 final double minTime = clock.getSimulationTime() - timeWidth;
-                transform.setValue( createRectangleMapping( new Rectangle2D.Double( minTime, -1, timeWidth, 2 ), chartArea ) );
+                transform.set( createRectangleMapping( new Rectangle2D.Double( minTime, -1, timeWidth, 2 ), chartArea ) );
 
                 //Clear grid lines and add them back in the new positions
                 gridLines.removeAllChildren();
@@ -96,7 +96,7 @@ public class ChartNode extends PClip {
             addChild( new PhetPPath( new BasicStroke( 2 ), s.getColor() ) {{
                 s.path.addObserver( new SimpleObserver() {
                     public void update() {
-                        setPathTo( transform.getValue().modelToView( s.toShape() ) );
+                        setPathTo( transform.get().modelToView( s.toShape() ) );
                     }
                 } );
             }} );
@@ -112,7 +112,7 @@ public class ChartNode extends PClip {
             addChild( new PhetPPath( new BasicStroke( strokeWidth, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1f, new float[] { DASH_ON, DASH_OFF }, (float) phase ), Color.lightGray ) {
                 {
                     //Grid lines are dynamically generated and therefore do not need to observe the transform
-                    setPathTo( transform.getValue().modelToView( new Line2D.Double( x1, y1, x2, y2 ) ) );
+                    setPathTo( transform.get().modelToView( new Line2D.Double( x1, y1, x2, y2 ) ) );
                 }
 
                 //Provide a faster implementation because regenerating grid lines with original getPathBoundsWithStroke is too expensive

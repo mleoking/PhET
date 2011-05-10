@@ -7,7 +7,6 @@ import java.util.List;
 import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction2;
 import edu.umd.cs.piccolo.util.PBounds;
 
 /**
@@ -116,7 +115,7 @@ public class KitCollectionModel {
                         allFull = false;
                     }
                 }
-                allCollectionBoxesFilled.setValue( !boxes.isEmpty() && allFull );
+                allCollectionBoxesFilled.set( !boxes.isEmpty() && allFull );
             }
         } );
     }
@@ -138,7 +137,7 @@ public class KitCollectionModel {
     }
 
     public Kit getCurrentKit() {
-        return currentKit.getValue();
+        return currentKit.get();
     }
 
     public Property<Kit> getCurrentKitProperty() {
@@ -146,7 +145,7 @@ public class KitCollectionModel {
     }
 
     public int getCurrentKitIndex() {
-        int index = kits.indexOf( currentKit.getValue() );
+        int index = kits.indexOf( currentKit.get() );
         if ( index < 0 ) {
             throw new RuntimeException( "Could not find current kit index" );
         }
@@ -163,13 +162,13 @@ public class KitCollectionModel {
 
     public void nextKit() {
         if ( hasNextKit() ) {
-            currentKit.setValue( kits.get( getCurrentKitIndex() + 1 ) );
+            currentKit.set( kits.get( getCurrentKitIndex() + 1 ) );
         }
     }
 
     public void previousKit() {
         if ( hasPreviousKit() ) {
-            currentKit.setValue( kits.get( getCurrentKitIndex() - 1 ) );
+            currentKit.set( kits.get( getCurrentKitIndex() - 1 ) );
         }
     }
 }

@@ -85,13 +85,13 @@ public class ResizingElectronCloudNode extends PNode {
             {
                 orbitalView.addObserver( new SimpleObserver() {
                     public void update() {
-                        setVisible( orbitalView.getValue() == OrbitalView.RESIZING_CLOUD );
+                        setVisible( orbitalView.get() == OrbitalView.RESIZING_CLOUD );
                     }
                 } );
                 // Make fuzzy electron shell graphic pickable if visible and if it contains any electrons.
                 final SimpleObserver updatePickable = new SimpleObserver() {
                     public void update() {
-                        final boolean pickable = getElectronCount() > 0 && orbitalView.getValue() == OrbitalView.RESIZING_CLOUD;
+                        final boolean pickable = getElectronCount() > 0 && orbitalView.get() == OrbitalView.RESIZING_CLOUD;
                         setPickable( pickable );
                         setChildrenPickable( pickable );
                     }

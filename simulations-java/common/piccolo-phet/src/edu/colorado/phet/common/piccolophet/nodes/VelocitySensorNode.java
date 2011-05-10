@@ -76,8 +76,8 @@ public class VelocitySensorNode extends ToolNode {
             imageNode.addCenterWidthObserver( updateTextLocation );
             new RichSimpleObserver() {
                 public void update() {
-                    final Option<ImmutableVector2D> value = velocitySensor.value.getValue();
-                    setText( ( value.isNone() ) ? PICCOLO_PHET_VELOCITY_SENSOR_NODE_UNKNOWN : formatter.getValue().apply( value.get().getMagnitude() ) );
+                    final Option<ImmutableVector2D> value = velocitySensor.value.get();
+                    setText( ( value.isNone() ) ? PICCOLO_PHET_VELOCITY_SENSOR_NODE_UNKNOWN : formatter.get().apply( value.get().getMagnitude() ) );
                     imageNode.setCenterWidth( Math.max( titleNode.getFullBounds().getWidth(), getFullBounds().getWidth() ) );
                     updateTextLocation.update();
                 }
@@ -104,7 +104,7 @@ public class VelocitySensorNode extends ToolNode {
             setStroke( new BasicStroke( 1 ) );
             final PropertyChangeListener updateArrow = new PropertyChangeListener() {
                 public void propertyChange( PropertyChangeEvent evt ) {
-                    final Option<ImmutableVector2D> value = velocitySensor.value.getValue();
+                    final Option<ImmutableVector2D> value = velocitySensor.value.get();
                     if ( value.isNone() ) {
                         setVisible( false );
                     }
@@ -137,7 +137,7 @@ public class VelocitySensorNode extends ToolNode {
         //Update the entire location of this node based on the location of the model ViewSensor, keeping the hot spot at the specified location.
         velocitySensor.position.addObserver( new SimpleObserver() {
             public void update() {
-                final Point2D.Double viewPoint = transform.modelToView( velocitySensor.position.getValue() ).toPoint2D();
+                final Point2D.Double viewPoint = transform.modelToView( velocitySensor.position.get() ).toPoint2D();
                 setOffset( viewPoint.getX() - imageNode.getFullBounds().getWidth() / 2, viewPoint.getY() - imageNode.getFullBounds().getHeight() - velocityPoint.getHeight() );
             }
         } );

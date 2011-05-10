@@ -59,7 +59,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
         // move the node when the model changes
         detector.probeLocationProperty.addObserver( new SimpleObserver() {
             public void update() {
-                setOffset( mvt.modelToView( detector.probeLocationProperty.getValue() ) );
+                setOffset( mvt.modelToView( detector.probeLocationProperty.get() ) );
             }
         } );
     }

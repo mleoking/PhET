@@ -38,9 +38,9 @@ public class InitialConditionSampler {
                     return new CartoonModeList( p.clockPaused, p.gravityEnabled, p.stepping, p.rewinding, p.timeSpeedScale );
                 }
             }, 1, true );
-            intro.getModes().get( 1 ).p.clockPaused.setValue( false );
-            intro.showPathProperty.setValue( true );
-            intro.getModes().get( 1 ).p.timeSpeedScale.setValue( 2.0 );
+            intro.getModes().get( 1 ).p.clockPaused.set( false );
+            intro.showPathProperty.set( true );
+            intro.getModes().get( 1 ).p.timeSpeedScale.set( 2.0 );
             intro.getModes().get( 1 ).getModel().getClock().addClockListener( new ClockAdapter() {
                 public void simulationTimeChanged( ClockEvent clockEvent ) {
                     invalidate();
@@ -50,7 +50,7 @@ public class InitialConditionSampler {
                     for ( Body body : bodies ) {
                         if ( body.isCollided() || getBody( bodies, "Planet" ).getPosition().getDistance( getBody( bodies, "Moon" ).getPosition() ) > getBody( bodies, "Star" ).getRadius() * 2 ) {
                             System.out.println( alpha + "\t" + clockEvent.getSimulationTime() );
-                            intro.getModes().get( 1 ).p.clockPaused.setValue( true );
+                            intro.getModes().get( 1 ).p.clockPaused.set( true );
                             new Thread( new Runnable() {
                                 public void run() {
                                     runSim( alpha + delta, delta );

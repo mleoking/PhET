@@ -95,10 +95,10 @@ public abstract class BarMeter {
     }
 
     public double getValue() {
-        return valueProperty.getValue();
+        return valueProperty.get();
     }
 
     private void updateValue() {
-        valueProperty.setValue( valueFunction.apply( circuit ) );
+        valueProperty.set( valueFunction.apply( circuit ) );
     }
 }

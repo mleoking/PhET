@@ -50,7 +50,7 @@ public class PrismBreakCanvas extends BendingLightCanvas<PrismBreakModel> {
         //Update the background now and when its medium changes
         model.environment.addObserver( new SimpleObserver() {
             public void update() {
-                final Color color = MediumColorFactory.getColor( model.environment.getValue().getIndexOfRefraction( WAVELENGTH_RED ) );
+                final Color color = MediumColorFactory.getColor( model.environment.get().getIndexOfRefraction( WAVELENGTH_RED ) );
                 setBackground( new Color( color.getRed(), color.getGreen(), color.getBlue() ) );//white background
             }
         } );
@@ -85,7 +85,7 @@ public class PrismBreakCanvas extends BendingLightCanvas<PrismBreakModel> {
         //Optionally show the normal lines at each intersection
         model.addIntersectionListener( new VoidFunction1<Intersection>() {
             public void apply( Intersection intersection ) {
-                if ( showNormal.getValue() ) {
+                if ( showNormal.get() ) {
                     final IntersectionNode node = new IntersectionNode( transform, intersection );
                     intersection.addCleanupListener( new VoidFunction0() {
                         public void apply() {
@@ -116,7 +116,7 @@ public class PrismBreakCanvas extends BendingLightCanvas<PrismBreakModel> {
         ) {{
             showProtractor.addObserver( new SimpleObserver() {
                 public void update() {
-                    setVisible( showProtractor.getValue() );
+                    setVisible( showProtractor.get() );
                 }
             } );
         }} );

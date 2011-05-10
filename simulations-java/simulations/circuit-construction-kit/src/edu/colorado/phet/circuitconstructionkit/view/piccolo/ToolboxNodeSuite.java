@@ -33,8 +33,8 @@ public class ToolboxNodeSuite extends PhetPNode {
 
         SimpleObserver updateLifelike = new SimpleObserver() {
             public void update() {
-                lifelikeToolbox.setVisible(lifelikeProperty.getValue());
-                schematicToolbox.setVisible(!lifelikeProperty.getValue());
+                lifelikeToolbox.setVisible(lifelikeProperty.get());
+                schematicToolbox.setVisible(!lifelikeProperty.get());
             }
         };
         lifelikeProperty.addObserver(updateLifelike);

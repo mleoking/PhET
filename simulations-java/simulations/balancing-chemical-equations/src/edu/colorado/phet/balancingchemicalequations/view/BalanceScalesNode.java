@@ -42,11 +42,11 @@ public class BalanceScalesNode extends PComposite {
                updateNode();
             }
         };
-        this.equation = equationProperty.getValue();
+        this.equation = equationProperty.get();
         equationProperty.addObserver( new SimpleObserver() {
             public void update() {
                 BalanceScalesNode.this.equation.removeCoefficientsObserver( coefficientsObserver );
-                BalanceScalesNode.this.equation = equationProperty.getValue();
+                BalanceScalesNode.this.equation = equationProperty.get();
                 BalanceScalesNode.this.equation.addCoefficientsObserver( coefficientsObserver );
             }
         } );

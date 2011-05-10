@@ -16,7 +16,7 @@ public class Plus extends CompositeProperty<Double> {
                    public Double apply() {
                        double sum = 0.0;
                        for ( ObservableProperty<Double> term : terms ) {
-                           sum = sum + term.getValue();
+                           sum = sum + term.get();
                        }
                        return sum;
                    }

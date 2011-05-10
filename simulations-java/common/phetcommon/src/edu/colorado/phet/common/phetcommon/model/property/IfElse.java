@@ -12,7 +12,7 @@ public class IfElse<T> extends CompositeProperty<T> {
     public IfElse( final Property<Boolean> condition, final T yes, final T no ) {
         super( new Function0<T>() {
                    public T apply() {
-                       return condition.getValue() ? yes : no;
+                       return condition.get() ? yes : no;
                    }
                }, condition );
     }

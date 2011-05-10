@@ -77,7 +77,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 
         this.model = model;
         this.globalProperties = globalProperties;
-        this.audioPlayer = new GameAudioPlayer( model.settings.soundEnabled.getValue() );
+        this.audioPlayer = new GameAudioPlayer( model.settings.soundEnabled.get() );
         this.aligner = new HorizontalAligner( BOX_SIZE, BOX_SEPARATION );
         this.gameRewardNode = new GameRewardNode();
 
@@ -142,7 +142,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 
         // Shows the answer (dev)
         final DevAnswerNode answerNode = new DevAnswerNode( model.currentEquation );
-        answerNode.setVisible( globalProperties.answersVisible.getValue() );
+        answerNode.setVisible( globalProperties.answersVisible.get() );
 
         // add top-level stuff to world so that we have centering control
         addWorldChild( gameRewardNode );
@@ -217,7 +217,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
         {
             model.state.addObserver( new SimpleObserver() {
                 public void update() {
-                    handleGameStateChange( model.state.getValue() );
+                    handleGameStateChange( model.state.get() );
                 }
             } );
 
@@ -229,43 +229,43 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 
             model.settings.level.addObserver( new SimpleObserver() {
                 public void update() {
-                    scoreboardNode.setLevel( model.settings.level.getValue() );
+                    scoreboardNode.setLevel( model.settings.level.get() );
                 }
             } );
 
             model.settings.timerEnabled.addObserver( new SimpleObserver() {
                 public void update() {
-                    scoreboardNode.setTimerVisible( model.settings.timerEnabled.getValue() );
+                    scoreboardNode.setTimerVisible( model.settings.timerEnabled.get() );
                 }
             } );
 
             model.settings.soundEnabled.addObserver( new SimpleObserver() {
                 public void update() {
-                    audioPlayer.setEnabled( model.settings.soundEnabled.getValue() );
+                    audioPlayer.setEnabled( model.settings.soundEnabled.get() );
                 }
             } );
 
             model.points.addObserver( new SimpleObserver() {
                 public void update() {
-                    scoreboardNode.setScore( model.points.getValue() );
+                    scoreboardNode.setScore( model.points.get() );
                 }
             } );
 
             model.timer.time.addObserver( new SimpleObserver() {
                 public void update() {
-                    scoreboardNode.setTime( model.timer.time.getValue() );
+                    scoreboardNode.setTime( model.timer.time.get() );
                 }
             } );
 
             globalProperties.answersVisible.addObserver( new SimpleObserver() {
                 public void update() {
-                    answerNode.setVisible( globalProperties.answersVisible.getValue() );
+                    answerNode.setVisible( globalProperties.answersVisible.get() );
                 }
             } );
 
             showWhyButtonListener = new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    swapPopups( new NotBalancedVerboseNode( model.currentEquation.getValue(), globalProperties, hideWhyButtonListener, model.getBalancedRepresentation(), aligner ) );
+                    swapPopups( new NotBalancedVerboseNode( model.currentEquation.get(), globalProperties, hideWhyButtonListener, model.getBalancedRepresentation(), aligner ) );
                 }
             };
             hideWhyButtonListener = new ActionListener() {
@@ -374,9 +374,9 @@ import edu.umd.cs.piccolox.pswing.PSwing;
     public void initNext() {
         setTopLevelNodeVisible( gamePlayParentNode );
         setButtonNodeVisible( nextButton );
-        setPopupVisible( model.currentEquation.getValue().isBalancedAndSimplified() );
+        setPopupVisible( model.currentEquation.get().isBalancedAndSimplified() );
         equationNode.setEditable( false );
-        model.currentEquation.getValue().balance(); // show the correct answer
+        model.currentEquation.get().balance(); // show the correct answer
         setBalancedHighlightEnabled( true );
     }
 
@@ -398,7 +398,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
      */
     private void setGameRewardVisible( boolean visible ) {
         if ( visible ) {
-            gameRewardNode.setLevel( model.settings.level.getValue(), model.isPerfectScore() );
+            gameRewardNode.setLevel( model.settings.level.get(), model.isPerfectScore() );
         }
         gameRewardNode.setVisible( visible );
     }
@@ -456,7 +456,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
         if ( visible ) {
 
             // evaluate the user's answer and create the proper type of node
-            Equation equation = model.currentEquation.getValue();
+            Equation equation = model.currentEquation.get();
             if ( equation.isBalancedAndSimplified() ) {
                 popupNode = new BalancedNode( model.getCurrentPoints(), globalProperties );
             }
@@ -506,7 +506,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
      * Plays the audio that corresponds to the accuracy of the user's guess.
      */
     private void playGuessAudio() {
-        if ( model.currentEquation.getValue().isBalancedAndSimplified() ) {
+        if ( model.currentEquation.get().isBalancedAndSimplified() ) {
             audioPlayer.correctAnswer();
         }
         else {
@@ -518,7 +518,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
      * Plays the audio that corresponds to the final results at the end of a game.
      */
     private void playGameOverAudio() {
-        if ( model.points.getValue() == 0 ) {
+        if ( model.points.get() == 0 ) {
             audioPlayer.gameOverZeroScore();
         }
         else if ( model.isPerfectScore() ) {
@@ -543,9 +543,9 @@ import edu.umd.cs.piccolox.pswing.PSwing;
         }
 
         // add a new node
-        int level = model.settings.level.getValue();
-        gameOverNode = new GameOverNode( level, model.points.getValue(), model.getPerfectScore(), new DecimalFormat( "0" ),
-                model.timer.time.getValue(), model.getBestTime( level ), model.isNewBestTime(), model.settings.timerEnabled.getValue() );
+        int level = model.settings.level.get();
+        gameOverNode = new GameOverNode( level, model.points.get(), model.getPerfectScore(), new DecimalFormat( "0" ),
+                model.timer.time.get(), model.getBestTime( level ), model.isNewBestTime(), model.settings.timerEnabled.get() );
         gameOverNode.scale( BCEConstants.SWING_SCALE );
         addWorldChild( gameOverNode );
 

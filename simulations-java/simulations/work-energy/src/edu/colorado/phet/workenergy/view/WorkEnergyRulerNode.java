@@ -27,7 +27,7 @@ public class WorkEnergyRulerNode extends PNode {
     public WorkEnergyRulerNode( final Property<Boolean> visibleProperty, ModelViewTransform2D transform, Point2D rulerModelOrigin ) {
         visibleProperty.addObserver( new SimpleObserver() {
             public void update() {
-                setVisible( visibleProperty.getValue() );
+                setVisible( visibleProperty.get() );
             }
         } );
 

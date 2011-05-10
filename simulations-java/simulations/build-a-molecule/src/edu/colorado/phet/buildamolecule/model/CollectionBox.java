@@ -45,7 +45,7 @@ public class CollectionBox {
     }
 
     public boolean isFull() {
-        return capacity == quantity.getValue();
+        return capacity == quantity.get();
     }
 
     /**
@@ -59,14 +59,14 @@ public class CollectionBox {
         boolean areIsomers = getMoleculeType().getMoleculeStructure().isIsomer( moleculeStructure );
 
         // whether the structure is acceptable
-        boolean structureOk = BuildAMoleculeApplication.allowCollectionBoxMatchingByMolecularFormula.getValue()
+        boolean structureOk = BuildAMoleculeApplication.allowCollectionBoxMatchingByMolecularFormula.get()
                               ? ( areIsomers && moleculeStructure.getMatchingCompleteMolecule() != null ) // it is an isomer that is also complete
                               : equivalent;
-        return structureOk && quantity.getValue() < capacity;
+        return structureOk && quantity.get() < capacity;
     }
 
     public void addMolecule( MoleculeStructure molecule ) {
-        quantity.setValue( quantity.getValue() + 1 );
+        quantity.set( quantity.get() + 1 );
 
         // notify our listeners
         for ( Listener listener : listeners ) {
@@ -75,7 +75,7 @@ public class CollectionBox {
     }
 
     public void removeMolecule( MoleculeStructure molecule ) {
-        quantity.setValue( quantity.getValue() - 1 );
+        quantity.set( quantity.get() - 1 );
 
         // notify our listeners
         for ( Listener listener : listeners ) {

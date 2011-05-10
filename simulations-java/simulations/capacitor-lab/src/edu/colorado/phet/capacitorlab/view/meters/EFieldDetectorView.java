@@ -35,7 +35,7 @@ public class EFieldDetectorView {
 
         detector.visibleProperty.addObserver( new SimpleObserver() {
             public void update() {
-                setVisible( detector.visibleProperty.getValue() );
+                setVisible( detector.visibleProperty.get() );
             }
         } );
     }

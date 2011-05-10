@@ -27,14 +27,14 @@ public class PropertyCheckBox extends JCheckBox {
         // update the model when the check box changes
         this.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                property.setValue( isSelected() );
+                property.set( isSelected() );
             }
         } );
 
         // update the check box when the model changes
         propertyObserver = new SimpleObserver() {
             public void update() {
-                setSelected( property.getValue() );
+                setSelected( property.get() );
             }
         };
         property.addObserver( propertyObserver );

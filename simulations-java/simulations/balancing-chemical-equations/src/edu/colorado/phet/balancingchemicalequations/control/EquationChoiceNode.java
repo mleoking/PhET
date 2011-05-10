@@ -51,7 +51,7 @@ public class EquationChoiceNode extends PhetPNode {
             // #2710 workaround, must do this after adding all components!
             backgroundProperty.addObserver( new SimpleObserver() {
                 public void update() {
-                    SwingUtils.setBackgroundDeep( EquationChoicePanel.this, backgroundProperty.getValue() );
+                    SwingUtils.setBackgroundDeep( EquationChoicePanel.this, backgroundProperty.get() );
                 }
             } );
         }

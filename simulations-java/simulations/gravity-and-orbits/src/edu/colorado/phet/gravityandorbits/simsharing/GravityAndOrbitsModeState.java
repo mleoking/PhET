@@ -19,14 +19,14 @@ public class GravityAndOrbitsModeState implements IProguardKeepClass {
 
     public GravityAndOrbitsModeState( GravityAndOrbitsMode mode ) {
         modelState = new GravityAndOrbitsModelState( mode.getModel() );
-        measuringTapeStartPoint = new VectorState( mode.measuringTapeStartPoint.getValue() );
-        measuringTapeEndPoint = new VectorState( mode.measuringTapeEndPoint.getValue() );
+        measuringTapeStartPoint = new VectorState( mode.measuringTapeStartPoint.get() );
+        measuringTapeEndPoint = new VectorState( mode.measuringTapeEndPoint.get() );
     }
 
     public void apply( GravityAndOrbitsMode gravityAndOrbitsMode ) {
         modelState.apply( gravityAndOrbitsMode.getModel() );
-        gravityAndOrbitsMode.measuringTapeStartPoint.setValue( measuringTapeStartPoint.toImmutableVector2D() );
-        gravityAndOrbitsMode.measuringTapeEndPoint.setValue( measuringTapeEndPoint.toImmutableVector2D() );
+        gravityAndOrbitsMode.measuringTapeStartPoint.set( measuringTapeStartPoint.toImmutableVector2D() );
+        gravityAndOrbitsMode.measuringTapeEndPoint.set( measuringTapeEndPoint.toImmutableVector2D() );
     }
 
     public GravityAndOrbitsModelState getModelState() {

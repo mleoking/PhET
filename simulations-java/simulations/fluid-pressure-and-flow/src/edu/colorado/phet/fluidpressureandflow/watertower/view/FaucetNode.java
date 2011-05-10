@@ -47,12 +47,12 @@ public class FaucetNode extends PNode {
                 setPreferredSize( new Dimension( 120, getPreferredSize().height ) );
                 addChangeListener( new ChangeListener() {
                     public void stateChanged( ChangeEvent e ) {
-                        faucetFlowLevel.flow.setValue( getValue() / 100.0 );
+                        faucetFlowLevel.flow.set( getValue() / 100.0 );
                     }
                 } );
                 faucetFlowLevel.flow.addObserver( new SimpleObserver() {
                     public void update() {
-                        setValue( (int) ( faucetFlowLevel.flow.getValue() * 100 ) );
+                        setValue( (int) ( faucetFlowLevel.flow.get() * 100 ) );
                     }
                 } );
             }} ) {{
@@ -60,7 +60,7 @@ public class FaucetNode extends PNode {
                 //Faucet slider should be invisible when in "auto" mode
                 faucetFlowLevel.automatic.addObserver( new SimpleObserver() {
                     public void update() {
-                        setVisible( !faucetFlowLevel.automatic.getValue() );
+                        setVisible( !faucetFlowLevel.automatic.get() );
                     }
                 } );
             }};

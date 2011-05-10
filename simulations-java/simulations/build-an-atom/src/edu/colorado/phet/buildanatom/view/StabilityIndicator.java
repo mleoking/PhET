@@ -32,7 +32,7 @@ public class StabilityIndicator extends PNode {
         final AtomListener updateText = new AtomListener.Adapter() {
             @Override
             public void configurationChanged() {
-                setVisible( showLabels.getValue() && atom.getMassNumber() > 0 );
+                setVisible( showLabels.get() && atom.getMassNumber() > 0 );
                 if (atom.isStable()){
                     stabilityText.setText( BuildAnAtomStrings.STABLE );
                 }else{

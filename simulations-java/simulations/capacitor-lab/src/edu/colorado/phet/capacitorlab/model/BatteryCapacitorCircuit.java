@@ -296,7 +296,7 @@ public class BatteryCapacitorCircuit extends AbstractCircuit {
     //----------------------------------------------------------------------------------
 
     public double getCurrentAmplitude() {
-        return currentAmplitudeProperty.getValue();
+        return currentAmplitudeProperty.get();
     }
 
     /*
@@ -307,7 +307,7 @@ public class BatteryCapacitorCircuit extends AbstractCircuit {
         double dQ = Q - previousTotalCharge;
         double dt = clock.getSimulationTimeChange();
         previousTotalCharge = Q;
-        currentAmplitudeProperty.setValue( dQ / dt );
+        currentAmplitudeProperty.set( dQ / dt );
     }
 
     public void addCurrentAmplitudeObserver( SimpleObserver o ) {

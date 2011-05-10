@@ -45,7 +45,7 @@ public class SizeControl extends GridPanel {
     private static class PropertyIntegerSlider extends JSlider {
 
         public PropertyIntegerSlider( int min, int max, final Property<Integer> property ) {
-            super( min, max, property.getValue() );
+            super( min, max, property.get() );
             setMajorTickSpacing( max - min );
             setPaintTicks( true );
             setPaintLabels( true );
@@ -53,14 +53,14 @@ public class SizeControl extends GridPanel {
             // when the slider changes, update the property
             addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
-                    property.setValue( getValue() );
+                    property.set( getValue() );
                 }
             } );
 
             // when the property changes, update the slider
             property.addObserver( new SimpleObserver() {
                 public void update() {
-                    setValue( property.getValue() );//TODO in a production app, we'd make sure this value is in the slider's range
+                    setValue( property.get() );//TODO in a production app, we'd make sure this value is in the slider's range
                 }
             } );
         }

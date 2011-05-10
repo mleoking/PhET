@@ -39,11 +39,11 @@ public abstract class DielectricMaterial {
     }
 
     public double getDielectricConstant() {
-        return dielectricConstantProperty.getValue();
+        return dielectricConstantProperty.get();
     }
 
     protected void setDielectricConstant( double dielectricConstant ) {
-        dielectricConstantProperty.setValue( dielectricConstant );
+        dielectricConstantProperty.set( dielectricConstant );
     }
 
     public void addDielectricConstantObserver( SimpleObserver o ) {

@@ -38,7 +38,7 @@ public class WireShapeFactory {
 
     // Create the shape for one wire segment.
     private Shape createWireSegmentShape( WireSegment segment, double thickness ) {
-        Line2D line = new Line2D.Double( segment.startPointProperty.getValue(), segment.endPointProperty.getValue() );
+        Line2D line = new Line2D.Double( segment.startPointProperty.get(), segment.endPointProperty.get() );
         Stroke stroke = new BasicStroke( (float) thickness, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER ); // use CAP_BUTT so that ends are accurate
         Shape s = new Area( stroke.createStrokedShape( line ) );
         return mvt.modelToView( s );

@@ -25,18 +25,18 @@ public class WorkEnergyControlPanel extends VerticalLayoutPanel {
 
     public static class WorkEnergyCheckBox extends JCheckBox {
         public WorkEnergyCheckBox( String label, final Property<Boolean> property ) {
-            super( label, property.getValue() );
+            super( label, property.get() );
             setBackground( BACKGROUND );
             setForeground( FOREGROUND );
             setFont( CONTROL_FONT );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    property.setValue( isSelected() );
+                    property.set( isSelected() );
                 }
             } );
             property.addObserver( new SimpleObserver() {
                 public void update() {
-                    setSelected( property.getValue() );
+                    setSelected( property.get() );
                 }
             } );
         }

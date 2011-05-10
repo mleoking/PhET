@@ -73,7 +73,7 @@ public abstract class PhotonAbsorptionStrategy {
     public boolean queryAndAbsorbPhoton( Photon photon ) {
         // All circumstances are correct for photon absorption, so now we decide probabilistically whether or not to
         // actually do it.  This essentially simulates the quantum nature of the absorption.
-        final boolean absorbed = !isPhotonAbsorbed && RAND.nextDouble() < photonAbsorptionProbability.getValue();
+        final boolean absorbed = !isPhotonAbsorbed && RAND.nextDouble() < photonAbsorptionProbability.get();
         if (absorbed){
             isPhotonAbsorbed = true;
             photonHoldCountdownTime = MIN_PHOTON_HOLD_TIME + RAND.nextDouble() * ( MAX_PHOTON_HOLD_TIME - MIN_PHOTON_HOLD_TIME );

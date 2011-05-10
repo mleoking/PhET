@@ -26,15 +26,15 @@ public class SpecialFeaturesMenu extends JMenu {
             }
         }));
 
-        final JCheckBoxMenuItem reverseXAxis = new JCheckBoxMenuItem(REVERSE_X_AXIS, !movingManApplication.getPositiveToTheRight().getValue());
+        final JCheckBoxMenuItem reverseXAxis = new JCheckBoxMenuItem(REVERSE_X_AXIS, !movingManApplication.getPositiveToTheRight().get());
         reverseXAxis.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                movingManApplication.getPositiveToTheRight().setValue(!reverseXAxis.isSelected());
+                movingManApplication.getPositiveToTheRight().set( !reverseXAxis.isSelected() );
             }
         });
         movingManApplication.getPositiveToTheRight().addObserver(new SimpleObserver() {
             public void update() {
-                reverseXAxis.setSelected(!movingManApplication.getPositiveToTheRight().getValue());
+                reverseXAxis.setSelected(!movingManApplication.getPositiveToTheRight().get());
             }
         });
         add(reverseXAxis);

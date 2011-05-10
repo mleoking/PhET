@@ -37,7 +37,7 @@ public class FluidPressureAndFlowModel implements PressureSensor.Context, ResetM
     public final Property<Double> liquidDensity = new Property<Double>( 1000.0 );//SI
     public final Property<UnitSet> units;//Set of units for the sim (distance, velocity, pressure).
 
-    private final Function.LinearFunction pressureFunction = new Function.LinearFunction( 0, 500, standardAirPressure.getValue(), EARTH_AIR_PRESSURE_AT_500_FT );//see http://www.engineeringtoolbox.com/air-altitude-pressure-d_462.html
+    private final Function.LinearFunction pressureFunction = new Function.LinearFunction( 0, 500, standardAirPressure.get(), EARTH_AIR_PRESSURE_AT_500_FT );//see http://www.engineeringtoolbox.com/air-altitude-pressure-d_462.html
     private ArrayList<VoidFunction0> resetListeners = new ArrayList<VoidFunction0>();
     public final Property<Double> simulationTimeStep = new Property<Double>( clock.getDt() );//Property<Double> that indicates (and can be used to set) the clock's dt time step (in seconds)
 
@@ -55,7 +55,7 @@ public class FluidPressureAndFlowModel implements PressureSensor.Context, ResetM
         } );
         clock.addConstantDtClockListener( new ConstantDtClock.ConstantDtClockAdapter() {
             @Override public void dtChanged( ConstantDtClock.ConstantDtClockEvent event ) {
-                simulationTimeStep.setValue( event.getClock().getDt() );
+                simulationTimeStep.set( event.getClock().getDt() );
             }
         } );
     }
@@ -99,7 +99,7 @@ public class FluidPressureAndFlowModel implements PressureSensor.Context, ResetM
     }
 
     public double getStandardAirPressure() {
-        return standardAirPressure.getValue();
+        return standardAirPressure.get();
     }
 
     public PressureSensor[] getPressureSensors() {

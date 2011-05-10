@@ -16,17 +16,17 @@ import edu.colorado.phet.fluidpressureandflow.fluidpressure.view.FluidPressureCo
  */
 public class CheckBox extends JCheckBox {
     public CheckBox( String label, final Property<Boolean> property ) {
-        super( label, property.getValue() );
+        super( label, property.get() );
         setForeground( FluidPressureControlPanel.FOREGROUND );
         setFont( FluidPressureCanvas.CONTROL_FONT );
         addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                property.setValue( isSelected() );
+                property.set( isSelected() );
             }
         } );
         property.addObserver( new SimpleObserver() {
             public void update() {
-                setSelected( property.getValue() );
+                setSelected( property.get() );
             }
         } );
     }

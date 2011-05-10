@@ -230,7 +230,7 @@ public class Pipe {
     public double getSpeed( double x ) {
         //Continuity equation: a1 v1 = a2 v2
         //TODO: treat pipes as if they are cylindrical cross sections?
-        return k.getValue() / getCrossSection( x ).getHeight();
+        return k.get() / getCrossSection( x ).getHeight();
     }
 
     public ImmutableVector2D getVelocity( double x, double y ) {

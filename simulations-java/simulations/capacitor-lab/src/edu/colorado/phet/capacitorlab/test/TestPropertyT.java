@@ -43,11 +43,11 @@ public class TestPropertyT extends JFrame {
 
         public void setFoo( boolean foo ) {
             System.out.println( "TestModel.setFoo " + foo );
-            this.foo.setValue( foo );
+            this.foo.set( foo );
         }
 
         public boolean isFoo() {
-            return foo.getValue();
+            return foo.get();
         }
 
         public void setBar( boolean bar ) {

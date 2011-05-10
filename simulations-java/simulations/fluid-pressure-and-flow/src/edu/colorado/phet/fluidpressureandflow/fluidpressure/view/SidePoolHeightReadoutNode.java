@@ -29,10 +29,10 @@ public class SidePoolHeightReadoutNode extends PNode {
         units.addObserver( new SimpleObserver() {
             public void update() {
                 DecimalFormat format = new DecimalFormat( "0.000" );
-                if ( units.getValue().distance == Units.FEET ) {
+                if ( units.get().distance == Units.FEET ) {
                     format = new DecimalFormat( "0" );
                 }
-                text.setText( format.format( units.getValue().distance.siToUnit( pool.getHeight() ) ) + " " + units.getValue().distance.getAbbreviation() );
+                text.setText( format.format( units.get().distance.siToUnit( pool.getHeight() ) ) + " " + units.get().distance.getAbbreviation() );
                 bracket.setPathTo( new DoubleGeneralPath() {{
                     moveTo( transform.modelToView( pool.getTopRight() ) );
                     moveToRelative( 5, 0 );

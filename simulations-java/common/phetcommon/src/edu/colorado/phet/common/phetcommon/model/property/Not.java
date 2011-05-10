@@ -12,12 +12,12 @@ public class Not extends SettableProperty<Boolean> {
     private SettableProperty<Boolean> parent;
 
     public Not( final SettableProperty<Boolean> parent ) {
-        super( !parent.getValue() );
+        super( !parent.get() );
         this.parent = parent;
     }
 
-    public void setValue( Boolean value ) {
-        parent.setValue( !value );//we'll observe the change in the constructor listener, and fire notifications.
+    public void set( Boolean value ) {
+        parent.set( !value );//we'll observe the change in the constructor listener, and fire notifications.
     }
 
     public And and( SettableProperty<Boolean> term ){
@@ -28,8 +28,8 @@ public class Not extends SettableProperty<Boolean> {
         return new Not( p );
     }
 
-    @Override public Boolean getValue() {
-        return !parent.getValue();
+    @Override public Boolean get() {
+        return !parent.get();
     }
 
     public static void main( String[] args ) {
@@ -46,9 +46,9 @@ public class Not extends SettableProperty<Boolean> {
             }
         } );
         System.out.println( "Setting a to false:" );
-        a.setValue( false );
+        a.set( false );
 
         System.out.println( "Setting a to true" );
-        a.setValue( true );
+        a.set( true );
     }
 }

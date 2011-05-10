@@ -43,7 +43,7 @@ public class WorkEnergyObjectNode extends PNode {
                                                     new BasicStroke( 1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 1f, new float[] { 4, 4 }, 0 ), Color.black ) {{
             originLineVisible.addObserver( new SimpleObserver() {
                 public void update() {
-                    setVisible( originLineVisible.getValue() );
+                    setVisible( originLineVisible.get() );
                 }
             } );
         }};
@@ -69,7 +69,7 @@ public class WorkEnergyObjectNode extends PNode {
 
         final SimpleObserver updatePosition = new SimpleObserver() {
             public void update() {
-                setOffset( transform.modelToView( workEnergyObject.getPositionProperty().getValue() ) );
+                setOffset( transform.modelToView( workEnergyObject.getPositionProperty().get() ) );
             }
         };
         updatePosition.update();

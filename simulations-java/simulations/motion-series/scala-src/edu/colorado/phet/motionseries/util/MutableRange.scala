@@ -16,5 +16,5 @@ class MutableRange(range: Range) extends Property[Range](range) {
     })
   }
 
-  def apply() = getValue
+  def apply() = get
 }

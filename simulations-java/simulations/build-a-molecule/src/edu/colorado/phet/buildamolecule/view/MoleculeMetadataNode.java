@@ -62,7 +62,7 @@ public class MoleculeMetadataNode extends PNode {
             *----------------------------------------------------------------------------*/
             addChild( new HTMLNode( completeMolecule.getDisplayName() ) {{
                 setFont( new PhetFont( 14, true ) );
-                currentX.setValue( currentX.getValue() + getFullBounds().getWidth() + 10 );
+                currentX.set( currentX.get() + getFullBounds().getWidth() + 10 );
             }} );
 
             /*---------------------------------------------------------------------------*
@@ -75,29 +75,29 @@ public class MoleculeMetadataNode extends PNode {
                     @Override
                     public void mouseClicked( PInputEvent event ) {
                         // if the 3D dialog is not shown, show it
-                        if ( dialog.getValue().isNone() ) {
+                        if ( dialog.get().isNone() ) {
                             // set our reference to it ("disables" this button)
-                            dialog.setValue( new Option.Some<JmolDialog>( JmolDialog.displayMolecule3D( parentFrame, completeMolecule ) ) );
+                            dialog.set( new Option.Some<JmolDialog>( JmolDialog.displayMolecule3D( parentFrame, completeMolecule ) ) );
 
                             // listen to when it closes so we can re-enable the button
-                            dialog.getValue().get().addWindowListener( new WindowAdapter() {
+                            dialog.get().get().addWindowListener( new WindowAdapter() {
                                 @Override public void windowClosed( WindowEvent e ) {
-                                    dialog.setValue( new Option.None<JmolDialog>() );
+                                    dialog.set( new Option.None<JmolDialog>() );
                                 }
                             } );
                         }
                         else {
-                            dialog.getValue().get().requestFocus();
+                            dialog.get().get().requestFocus();
                         }
                     }
                 } );
-                setOffset( currentX.getValue(), 0 );
-                currentX.setValue( currentX.getValue() + getFullBounds().getWidth() + 5 );
+                setOffset( currentX.get(), 0 );
+                currentX.set( currentX.get() + getFullBounds().getWidth() + 5 );
 
                 // change overall transparency based on dialog existence
                 dialog.addObserver( new SimpleObserver() {
                     public void update() {
-                        setTransparency( dialog.getValue().isSome() ? 0.5f : 1f );
+                        setTransparency( dialog.get().isSome() ? 0.5f : 1f );
                     }
                 } );
 
@@ -109,7 +109,7 @@ public class MoleculeMetadataNode extends PNode {
                     setStroke( null );
                     dialog.addObserver( new SimpleObserver() {
                         public void update() {
-                            setVisible( dialog.getValue().isSome() );
+                            setVisible( dialog.get().isSome() );
                         }
                     } );
                 }} );
@@ -127,7 +127,7 @@ public class MoleculeMetadataNode extends PNode {
                     kit.breakMolecule( moleculeStructure );
                 }
             } );
-            setOffset( currentX.getValue(), 0 );
+            setOffset( currentX.get(), 0 );
         }} );
 
         for ( Atom atom : moleculeStructure.getAtoms() ) {
@@ -148,7 +148,7 @@ public class MoleculeMetadataNode extends PNode {
         // hide 3D dialogs when the kit is hidden
         kit.visible.addObserver( new SimpleObserver() {
             public void update() {
-                if ( !kit.visible.getValue() ) {
+                if ( !kit.visible.get() ) {
                     hideDialogIfShown();
                 }
             }
@@ -163,9 +163,9 @@ public class MoleculeMetadataNode extends PNode {
     }
 
     public void hideDialogIfShown() {
-        if ( dialog.getValue().isSome() ) {
-            dialog.getValue().get().dispose();
-            dialog.setValue( new Option.None<JmolDialog>() );
+        if ( dialog.get().isSome() ) {
+            dialog.get().get().dispose();
+            dialog.set( new Option.None<JmolDialog>() );
         }
     }
 

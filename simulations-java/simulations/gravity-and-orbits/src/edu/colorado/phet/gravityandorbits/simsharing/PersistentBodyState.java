@@ -27,11 +27,11 @@ public class PersistentBodyState implements IProguardKeepClass {
         this.position = new VectorState( body.getPosition() );
         velocity = new VectorState( body.getVelocity() );
         acceleration = new VectorState( body.getAcceleration() );
-        force = new VectorState( body.getForceProperty().getValue() );
+        force = new VectorState( body.getForceProperty().get() );
         mass = body.getMass();
         diameter = body.getDiameter();
         userControlled = body.isUserControlled();
-        collided = body.getCollidedProperty().getValue();
+        collided = body.getCollidedProperty().get();
     }
 
     public void apply( Body body ) {
@@ -42,7 +42,7 @@ public class PersistentBodyState implements IProguardKeepClass {
         body.setMass( mass );
         body.setDiameter( diameter );
         body.setUserControlled( userControlled );
-        body.getCollidedProperty().setValue( collided );
+        body.getCollidedProperty().set( collided );
     }
 
     public VectorState getPosition() {

@@ -15,11 +15,11 @@ public class DividedBy extends CompositeProperty<Double> {
     public DividedBy( final ObservableProperty<Double> numerator, final ObservableProperty<Double> denominator ) {
         super( new Function0<Double>() {
                    public Double apply() {
-                       if ( numerator.getValue() == 0 ) {
+                       if ( numerator.get() == 0 ) {
                            return 0.0;
                        }
                        else {
-                           return numerator.getValue() / denominator.getValue();
+                           return numerator.get() / denominator.get();
                        }
                    }
                }, numerator, denominator );

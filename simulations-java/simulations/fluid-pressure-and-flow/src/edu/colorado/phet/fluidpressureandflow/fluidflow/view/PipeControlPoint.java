@@ -19,6 +19,6 @@ public class PipeControlPoint {
     }
 
     public Point2D getPoint() {
-        return point.getValue().toPoint2D();
+        return point.get().toPoint2D();
     }
 }

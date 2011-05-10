@@ -119,7 +119,7 @@ class MotionSeriesObject(_position: MutableDouble,
 
   def gravity = _gravity.value
 
-  def wallsExist = _wallsExist.getValue.booleanValue
+  def wallsExist = _wallsExist.get.booleanValue
 
   def state = {
     new MotionSeriesObjectState(position, velocity, acceleration, mass, staticFriction, kineticFriction, thermalEnergy, crashEnergy, time,

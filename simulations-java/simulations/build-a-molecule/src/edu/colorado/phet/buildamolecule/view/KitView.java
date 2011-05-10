@@ -83,7 +83,7 @@ public class KitView {
                 metadataLayer.addChild( moleculeMetadataNode );
                 metadataMap.put( moleculeStructure, moleculeMetadataNode );
 
-                if ( BuildAMoleculeApplication.allowBondBreaking.getValue() ) {
+                if ( BuildAMoleculeApplication.allowBondBreaking.get() ) {
                     addMoleculeBondNodes( moleculeStructure );
                 }
             }
@@ -95,7 +95,7 @@ public class KitView {
                 metadataLayer.removeChild( moleculeMetadataNode );
                 metadataMap.remove( moleculeStructure );
 
-                if ( BuildAMoleculeApplication.allowBondBreaking.getValue() ) {
+                if ( BuildAMoleculeApplication.allowBondBreaking.get() ) {
                     removeMoleculeBondNodes( moleculeStructure );
                 }
             }
@@ -104,7 +104,7 @@ public class KitView {
         // support removing bonds for molecules
         BuildAMoleculeApplication.allowBondBreaking.addObserver( new SimpleObserver() {
             public void update() {
-                if ( BuildAMoleculeApplication.allowBondBreaking.getValue() ) {
+                if ( BuildAMoleculeApplication.allowBondBreaking.get() ) {
                     // enabled, so add in bond nodes
                     for ( MoleculeStructure moleculeStructure : metadataMap.keySet() ) {
                         addMoleculeBondNodes( moleculeStructure );
@@ -122,7 +122,7 @@ public class KitView {
         // update visibility based on the kit visibility
         kit.visible.addObserver( new SimpleObserver() {
             public void update() {
-                Boolean visible = kit.visible.getValue();
+                Boolean visible = kit.visible.get();
                 topLayer.setVisible( visible );
                 metadataLayer.setVisible( visible );
                 atomLayer.setVisible( visible );

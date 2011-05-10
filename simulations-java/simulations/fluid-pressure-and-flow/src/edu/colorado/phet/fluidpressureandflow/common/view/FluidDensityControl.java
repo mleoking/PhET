@@ -83,7 +83,7 @@ public class FluidDensityControl<T extends FluidPressureAndFlowModel> extends PN
                     }} ) {{
                 module.fluidDensityControlVisible.addObserver( new SimpleObserver() {
                     public void update() {
-                        setVisible( fluidDensityControlVisible.getValue() );
+                        setVisible( fluidDensityControlVisible.get() );
                     }
                 } );
             }};
@@ -92,12 +92,12 @@ public class FluidDensityControl<T extends FluidPressureAndFlowModel> extends PN
             MinimizeMaximizeNode minimizeMaximizeNode = new MinimizeMaximizeNode( FLUID_DENSITY, BUTTON_LEFT, FluidPressureCanvas.CONTROL_FONT, black, 10 ) {{
                 addChangeListener( new ChangeListener() {
                     public void stateChanged( ChangeEvent e ) {
-                        module.fluidDensityControlVisible.setValue( isMaximized() );
+                        module.fluidDensityControlVisible.set( isMaximized() );
                     }
                 } );
                 module.fluidDensityControlVisible.addObserver( new SimpleObserver() {
                     public void update() {
-                        setMaximized( module.fluidDensityControlVisible.getValue() );
+                        setMaximized( module.fluidDensityControlVisible.get() );
                     }
                 } );
                 translate( 0, -getFullBounds().getHeight() );
@@ -111,16 +111,16 @@ public class FluidDensityControl<T extends FluidPressureAndFlowModel> extends PN
         //Find the size of this component when the slider is visible
         public double getMaximumHeight() {
             //Store the original value
-            boolean visible = fluidDensityControlVisible.getValue();
+            boolean visible = fluidDensityControlVisible.get();
 
             //Enable the slider visibility
-            fluidDensityControlVisible.setValue( true );
+            fluidDensityControlVisible.set( true );
 
             //Find the value we were looking for
             final double height = getFullBounds().getHeight();
 
             //Restore the old value; single threaded so nobody will notice a flicker
-            fluidDensityControlVisible.setValue( visible );
+            fluidDensityControlVisible.set( visible );
 
             //return the height of this component when slider is showing
             return height;

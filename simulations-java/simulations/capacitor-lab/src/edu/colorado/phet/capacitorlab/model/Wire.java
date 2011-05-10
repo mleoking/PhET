@@ -86,11 +86,11 @@ public class Wire {
     }
 
     public double getVoltage() {
-        return voltageProperty.getValue();
+        return voltageProperty.get();
     }
 
     public void setVoltage( double voltage ) {
-        voltageProperty.setValue( voltage );
+        voltageProperty.set( voltage );
     }
 
     public void addShapeObserver( SimpleObserver o ) {
@@ -98,15 +98,15 @@ public class Wire {
     }
 
     public Shape getShape() {
-        return shapeProperty.getValue();
+        return shapeProperty.get();
     }
 
     protected void setShape( Shape shape ) {
-        shapeProperty.setValue( shape );
+        shapeProperty.set( shape );
     }
 
     public boolean intersects( Shape shape ) {
-        return ShapeUtils.intersects( shapeProperty.getValue(), shape );
+        return ShapeUtils.intersects( shapeProperty.get(), shape );
     }
 
     protected Shape createShape() {

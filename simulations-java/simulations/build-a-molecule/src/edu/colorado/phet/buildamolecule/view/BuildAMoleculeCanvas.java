@@ -155,7 +155,7 @@ public class BuildAMoleculeCanvas extends PhetPCanvas {
     }
 
     public KitCollectionModel getModel() {
-        return modelProperty.getValue();
+        return modelProperty.get();
     }
 
     public ModelViewTransform getModelViewTransform() {

@@ -27,15 +27,15 @@ public abstract class Sensor<T> {
     }
 
     public ImmutableVector2D getLocation() {
-        return location.getValue();
+        return location.get();
     }
 
     public T getValue() {
-        return value.getValue();
+        return value.get();
     }
 
     protected void setValue( T value ) {
-        this.value.setValue( value );
+        this.value.set( value );
     }
 
     public abstract double getScalarValue();

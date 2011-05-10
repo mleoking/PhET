@@ -59,14 +59,14 @@ public class CapacitorNode extends PhetPNode {
 
             plateChargeVisible.addObserver( new SimpleObserver() {
                 public void update() {
-                    topPlateNode.setChargeVisible( plateChargeVisible.getValue() );
-                    bottomPlateNode.setChargeVisible( plateChargeVisible.getValue() );
+                    topPlateNode.setChargeVisible( plateChargeVisible.get() );
+                    bottomPlateNode.setChargeVisible( plateChargeVisible.get() );
                 }
             } );
 
             eFieldVisible.addObserver( new SimpleObserver() {
                 public void update() {
-                    eFieldNode.setVisible( eFieldVisible.getValue() );
+                    eFieldNode.setVisible( eFieldVisible.get() );
                 }
             } );
         }

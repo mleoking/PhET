@@ -8,12 +8,12 @@ import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty
  * @author Sam Reid
  */
 class ScalaMutableBoolean(v: Boolean) extends BooleanProperty(v) {
-  def booleanValue = super.getValue().booleanValue //to fix incompatibility between java.lang.Boolean and scala.Boolean
-  def value_=(v: Boolean) = setValue(v)
+  def booleanValue = super.get().booleanValue //to fix incompatibility between java.lang.Boolean and scala.Boolean
+  def value_=(v: Boolean) = set(v)
 
-  def value = getValue()
+  def value = get()
 
-  def apply() = getValue()
+  def apply() = get()
 
   def addListener(listener: () => Unit) = addObserver(new SimpleObserver {def update() = listener()})
 }

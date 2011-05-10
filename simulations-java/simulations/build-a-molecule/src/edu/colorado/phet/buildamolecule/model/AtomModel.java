@@ -62,12 +62,12 @@ public class AtomModel implements IBucketSphere<AtomModel> {
         this.name = BuildAMoleculeStrings.getAtomName( atom );
         this.atom = atom;
         position = new Property<ImmutableVector2D>( new ImmutableVector2D() );
-        destination = position.getValue();
+        destination = position.get();
         addedToModel(); // Assume that this is initially an active part of the model.
         userControlled.addObserver( new SimpleObserver() {
             public void update() {
                 ArrayList<IBucketSphere.Listener<AtomModel>> copy = new ArrayList<IBucketSphere.Listener<AtomModel>>( listeners );//ConcurrentModificationException if listener removed while iterating, so use a copy
-                if ( userControlled.getValue() ) {
+                if ( userControlled.get() ) {
                     for ( IBucketSphere.Listener<AtomModel> listener : copy ) {
                         listener.grabbedByUser( AtomModel.this );
                     }
@@ -94,7 +94,7 @@ public class AtomModel implements IBucketSphere<AtomModel> {
     }
 
     public PBounds getPositionBounds() {
-        return new PBounds( position.getValue().getX() - getRadius(), position.getValue().getY() - getRadius(), getDiameter(), getDiameter() );
+        return new PBounds( position.get().getX() - getRadius(), position.get().getY() - getRadius(), getDiameter(), getDiameter() );
     }
 
     public PBounds getDestinationBounds() {
@@ -129,7 +129,7 @@ public class AtomModel implements IBucketSphere<AtomModel> {
     }
 
     public ImmutableVector2D getPosition() {
-        return position.getValue();
+        return position.get();
     }
 
     public ImmutableVector2D getDestination() {
@@ -137,11 +137,11 @@ public class AtomModel implements IBucketSphere<AtomModel> {
     }
 
     public void setPosition( ImmutableVector2D point ) {
-        position.setValue( point );
+        position.set( point );
     }
 
     public void setPosition( double x, double y ) {
-        position.setValue( new ImmutableVector2D( x, y ) );
+        position.set( new ImmutableVector2D( x, y ) );
     }
 
     public void setDestination( ImmutableVector2D point ) {
@@ -174,15 +174,15 @@ public class AtomModel implements IBucketSphere<AtomModel> {
     }
 
     public boolean isUserControlled() {
-        return userControlled.getValue();
+        return userControlled.get();
     }
 
     public void setUserControlled( boolean userControlled ) {
-        this.userControlled.setValue( userControlled );
+        this.userControlled.set( userControlled );
     }
 
     public void translate( double dx, double dy ) {
-        setPosition( position.getValue().getX() + dx, position.getValue().getY() + dy );
+        setPosition( position.get().getX() + dx, position.get().getY() + dy );
     }
 
     public void translate( ImmutableVector2D vector2D ) {
@@ -191,7 +191,7 @@ public class AtomModel implements IBucketSphere<AtomModel> {
 
     public void reset() {
         position.reset();
-        destination = position.getValue();
+        destination = position.get();
         userControlled.reset();
         visible.reset();
     }

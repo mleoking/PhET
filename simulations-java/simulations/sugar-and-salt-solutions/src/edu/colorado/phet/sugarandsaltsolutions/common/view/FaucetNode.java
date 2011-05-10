@@ -56,8 +56,8 @@ public class FaucetNode extends PNode {
                 addChangeListener( new ChangeListener() {
                     public void stateChanged( ChangeEvent e ) {
                         //Only change the flow rate if the beaker can accommodate
-                        if ( allowed.getValue() ) {
-                            faucetFlowLevel.setValue( getValue() / 100.0 );
+                        if ( allowed.get() ) {
+                            faucetFlowLevel.set( getValue() / 100.0 );
                         }
                     }
                 } );
@@ -69,7 +69,7 @@ public class FaucetNode extends PNode {
                 //Set the flow back to zero when the user lets go, the user has to hold the slider to keep the faucet on
                 addMouseListener( new MouseAdapter() {
                     @Override public void mouseReleased( MouseEvent e ) {
-                        faucetFlowLevel.setValue( 0.0 );
+                        faucetFlowLevel.set( 0.0 );
                     }
                 } );
             }} ) {{

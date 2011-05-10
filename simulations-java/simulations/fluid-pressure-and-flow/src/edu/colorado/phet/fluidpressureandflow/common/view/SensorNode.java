@@ -26,15 +26,15 @@ public abstract class SensorNode<T> extends PNode {
                 String pattern = FPAFStrings.SENSOR_PATTERN; //TODO i18n
                 String value = FPAFStrings.QUESTION_MARK; //TODO i18n
                 if ( !Double.isNaN( sensor.getScalarValue() ) ) {
-                    value = units.getValue().getDecimalFormat().format( units.getValue().siToUnit( sensor.getScalarValue() ) );
+                    value = units.get().getDecimalFormat().format( units.get().siToUnit( sensor.getScalarValue() ) );
                 }
-                return MessageFormat.format( pattern, value, units.getValue().getAbbreviation() );
+                return MessageFormat.format( pattern, value, units.get().getAbbreviation() );
             }
         };
         text = new Property<String>( getString.apply() );
         final SimpleObserver observer = new SimpleObserver() {
             public void update() {
-                text.setValue( getString.apply() );
+                text.set( getString.apply() );
             }
         };
         sensor.addValueObserver( observer );

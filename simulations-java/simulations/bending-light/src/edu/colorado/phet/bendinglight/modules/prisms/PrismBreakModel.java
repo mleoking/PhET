@@ -134,28 +134,28 @@ public class PrismBreakModel extends BendingLightModel {
 
     private void propagate( ImmutableVector2D tail, ImmutableVector2D directionUnitVector, double power, boolean laserInPrism ) {
         //Determines whether to use white light or single color light
-        if ( laser.color.getValue() == LaserColor.WHITE_LIGHT ) {
+        if ( laser.color.get() == LaserColor.WHITE_LIGHT ) {
             final double min = VisibleColor.MIN_WAVELENGTH / 1E9;
             final double max = VisibleColor.MAX_WAVELENGTH / 1E9;
             double dw = ( max - min ) / 16;//This number sets the number of (equally spaced wavelength) rays to show in a white beam.  More rays looks better but is more computationally intensive.
             for ( double wavelength = min; wavelength <= max; wavelength += dw ) {
-                double mediumIndexOfRefraction = laserInPrism ? prismMedium.getValue().getIndexOfRefraction( wavelength ) : environment.getValue().getIndexOfRefraction( wavelength );
+                double mediumIndexOfRefraction = laserInPrism ? prismMedium.get().getIndexOfRefraction( wavelength ) : environment.get().getIndexOfRefraction( wavelength );
                 propagate( new Ray( tail, directionUnitVector, power, wavelength, mediumIndexOfRefraction, SPEED_OF_LIGHT / wavelength ), 0 );
             }
         }
         else {
-            double mediumIndexOfRefraction = laserInPrism ? prismMedium.getValue().getIndexOfRefraction( laser.getWavelength() ) : environment.getValue().getIndexOfRefraction( laser.getWavelength() );
+            double mediumIndexOfRefraction = laserInPrism ? prismMedium.get().getIndexOfRefraction( laser.getWavelength() ) : environment.get().getIndexOfRefraction( laser.getWavelength() );
             propagate( new Ray( tail, directionUnitVector, power, laser.getWavelength(), mediumIndexOfRefraction, laser.getFrequency() ), 0 );
         }
     }
 
     //Algorithm that computes the trajectories of the rays throughout the system
     @Override protected void propagateRays() {
-        if ( laser.on.getValue() ) {
-            final ImmutableVector2D tail = new ImmutableVector2D( laser.emissionPoint.getValue() );
+        if ( laser.on.get() ) {
+            final ImmutableVector2D tail = new ImmutableVector2D( laser.emissionPoint.get() );
             final boolean laserInPrism = isLaserInPrism();
             final ImmutableVector2D directionUnitVector = laser.getDirectionUnitVector();
-            if ( !manyRays.getValue() ) {
+            if ( !manyRays.get() ) {
                 //This can be used to show the main central ray
                 propagate( tail, directionUnitVector, 1.0, laserInPrism );
             }
@@ -172,7 +172,7 @@ public class PrismBreakModel extends BendingLightModel {
     //Determine if the laser beam originates within a prism for purpose of determining what index of refraction to use initially
     private boolean isLaserInPrism() {
         for ( Prism prism : prisms ) {
-            if ( prism.contains( laser.emissionPoint.getValue() ) ) { return true; }
+            if ( prism.contains( laser.emissionPoint.get() ) ) { return true; }
         }
         return false;
     }
@@ -205,7 +205,7 @@ public class PrismBreakModel extends BendingLightModel {
                 }
             }
             //Index of refraction of the other medium
-            double n2 = outputInsidePrism ? prismMedium.getValue().getIndexOfRefraction( incidentRay.getBaseWavelength() ) : environment.getValue().getIndexOfRefraction( incidentRay.getBaseWavelength() );
+            double n2 = outputInsidePrism ? prismMedium.get().getIndexOfRefraction( incidentRay.getBaseWavelength() ) : environment.get().getIndexOfRefraction( incidentRay.getBaseWavelength() );
 
             //Precompute for readability
             ImmutableVector2D point = intersection.getPoint();
@@ -227,7 +227,7 @@ public class PrismBreakModel extends BendingLightModel {
             //Create the new rays and propagate them recursively
             Ray reflected = new Ray( point.plus( incidentRay.directionUnitVector.times( -1E-12 ) ), vReflect, incidentRay.power * reflectedPower, incidentRay.wavelength, incidentRay.mediumIndexOfRefraction, incidentRay.frequency );
             Ray refracted = new Ray( point.plus( incidentRay.directionUnitVector.times( +1E-12 ) ), vRefract, incidentRay.power * transmittedPower, incidentRay.wavelength, n2, incidentRay.frequency );
-            if ( showReflections.getValue() || totalInternalReflection ) {
+            if ( showReflections.get() || totalInternalReflection ) {
                 propagate( reflected, count + 1 );
             }
             propagate( refracted, count + 1 );
