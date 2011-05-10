@@ -1,7 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.intro;
 
-import edu.colorado.phet.common.phetcommon.model.property5.DivideDouble;
+import edu.colorado.phet.common.phetcommon.model.property5.doubleproperty.DividedBy;
 import edu.colorado.phet.common.phetcommon.model.property5.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property5.Property;
 import edu.colorado.phet.common.phetcommon.model.property5.doubleproperty.DoubleProperty;
@@ -22,11 +22,11 @@ import static java.lang.Double.isNaN;
 public class IntroModel extends SugarAndSaltSolutionModel {
     //Salt moles and concentration
     private final DoubleProperty molesOfSalt = new DoubleProperty( 0.0 );
-    public final DivideDouble saltConcentration = molesOfSalt.dividedBy( water.volume );
+    public final DividedBy saltConcentration = molesOfSalt.dividedBy( water.volume );
 
     //Sugar moles and concentration
     private final DoubleProperty molesOfSugar = new DoubleProperty( 0.0 );
-    public final DivideDouble sugarConcentration = molesOfSugar.dividedBy( water.volume );
+    public final DividedBy sugarConcentration = molesOfSugar.dividedBy( water.volume );
 
     //Determine if there are any solutes (i.e., if moles of salt or moles of sugar is greater than zero).  This is used to show/hide the "remove solutes" button
     public final ObservableProperty<Boolean> anySolutes = molesOfSalt.greaterThan( 0 ).or( molesOfSugar.greaterThan( 0 ) );
