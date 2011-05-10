@@ -6,13 +6,14 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.common.phetcommon.model.property5.SettableProperty;
+import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
  * JCheckBox that is wired to a Property<Boolean>.
- * @deprecated This will be deleted when property5 is merged into property1
+ *
  * @author Chris Malley (cmalley@pixelzoom.com)
+ * @deprecated This will be deleted when property5 is merged into property1
  */
 public class Property5CheckBox extends JCheckBox {
 

@@ -1,9 +1,9 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.common.phetcommon.model.property5.doubleproperty;
+package edu.colorado.phet.common.phetcommon.model.property.doubleproperty;
 
-import edu.colorado.phet.common.phetcommon.model.property5.CompositeProperty;
-import edu.colorado.phet.common.phetcommon.model.property5.ObservableProperty;
-import edu.colorado.phet.common.phetcommon.model.property5.Or;
+import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
+import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
+import edu.colorado.phet.common.phetcommon.model.property.Or;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 
 /**
