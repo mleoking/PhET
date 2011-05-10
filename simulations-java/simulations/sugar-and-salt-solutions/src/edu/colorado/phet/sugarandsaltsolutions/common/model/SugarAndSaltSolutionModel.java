@@ -8,8 +8,8 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.event.Notifier;
-import edu.colorado.phet.common.phetcommon.model.property5.ObservableProperty;
-import edu.colorado.phet.common.phetcommon.model.property5.Property;
+import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 
 import static edu.colorado.phet.sugarandsaltsolutions.common.model.Dispenser.SALT;

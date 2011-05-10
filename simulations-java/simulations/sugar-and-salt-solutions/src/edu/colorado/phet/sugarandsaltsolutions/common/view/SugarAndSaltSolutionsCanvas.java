@@ -11,7 +11,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.piccolophet.nodes.conductivitytester.ConductivityTesterNode;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.model.property5.ObservableProperty;
+import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.util.Option.None;
 import edu.colorado.phet.common.phetcommon.util.Option.Some;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
@@ -35,7 +35,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
-import static edu.colorado.phet.common.phetcommon.model.property5.ObservableNot.not;
+import static edu.colorado.phet.common.phetcommon.model.property.ObservableNot.not;
 import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createSinglePointScaleInvertedYMapping;
 import static edu.colorado.phet.sugarandsaltsolutions.common.model.Dispenser.SALT;
 import static edu.colorado.phet.sugarandsaltsolutions.common.model.Dispenser.SUGAR;

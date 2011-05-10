@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.common.phetcommon.model.property5;
+package edu.colorado.phet.common.phetcommon.model.property;
 
 /**
  * This can be used to represent a Boolean value in a MVC style pattern.  It remembers its default value and can be reset.

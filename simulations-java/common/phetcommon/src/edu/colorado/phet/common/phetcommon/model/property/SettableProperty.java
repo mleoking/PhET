@@ -1,6 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 
-package edu.colorado.phet.common.phetcommon.model.property5;
+package edu.colorado.phet.common.phetcommon.model.property;
 
 /**
  * In addition to being Observable, this SettableProperty<T> is also settable, that is, it adds the method setValue().

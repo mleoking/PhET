@@ -3,7 +3,7 @@ package edu.colorado.phet.sugarandsaltsolutions.common.model;
 
 import java.awt.*;
 
-import edu.colorado.phet.common.phetcommon.model.property5.Property;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 
 /**
  * @author Sam Reid
