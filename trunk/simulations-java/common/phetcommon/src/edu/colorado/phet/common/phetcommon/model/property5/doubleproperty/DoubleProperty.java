@@ -1,7 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.phetcommon.model.property5.doubleproperty;
 
-import edu.colorado.phet.common.phetcommon.model.property5.DivideDouble;
 import edu.colorado.phet.common.phetcommon.model.property5.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property5.Property;
 
@@ -19,8 +18,8 @@ public class DoubleProperty extends Property<Double> {
         return new Plus( this, b );
     }
 
-    public DivideDouble dividedBy( ObservableProperty<Double> volume ) {
-        return new DivideDouble( this, volume );
+    public DividedBy dividedBy( ObservableProperty<Double> volume ) {
+        return new DividedBy( this, volume );
     }
 
     public GreaterThan greaterThan( double value ) {
