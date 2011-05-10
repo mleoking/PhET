@@ -56,7 +56,8 @@ public class FloatingClockControlNode extends PNode {
                           set( clock.getSimulationTime() );
                       }
                   } );
-              }}, clearString, timeReadoutColor );
+              }}, clearString, timeReadoutColor
+        );
     }
 
     public FloatingClockControlNode( final SettableProperty<Boolean> clockRunning,//property to indicate whether the clock should be running or not; this value is mediated by a Property<Boolean> since this needs to also be 'and'ed with whether the module is active for multi-tab simulations.

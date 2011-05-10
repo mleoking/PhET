@@ -52,7 +52,8 @@ public class VBox extends Box {
                        return new Point2D.Double( maxSize / 2 - node.getFullBounds().getWidth() / 2, location );
                    }
                },
-               children );
+               children
+        );
     }
 
     //Test

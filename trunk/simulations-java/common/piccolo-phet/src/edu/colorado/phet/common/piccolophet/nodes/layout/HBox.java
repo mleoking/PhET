@@ -52,7 +52,8 @@ public class HBox extends Box {
                        return new Point2D.Double( location, maxSize / 2 - node.getFullBounds().getHeight() / 2 );
                    }
                },
-               children );
+               children
+        );
     }
 
     //Test

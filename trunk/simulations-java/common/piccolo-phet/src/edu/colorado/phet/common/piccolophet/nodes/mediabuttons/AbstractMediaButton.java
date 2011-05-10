@@ -144,13 +144,13 @@ public class AbstractMediaButton extends PNode {
 
         public MyRescaleOp( final double scale, final double offset ) {
             super( new LookupTable( 0, 4 ) {
-                public int[] lookupPixel( int[] src, int[] dest ) {
-                    for ( int i = 0; i < src.length; i++ ) {
-                        dest[i] = (int) MathUtil.clamp( 0, src[i] * scale + offset, 255 );
-                    }
-                    return dest;
-                }
-            }, null );
+                       public int[] lookupPixel( int[] src, int[] dest ) {
+                           for ( int i = 0; i < src.length; i++ ) {
+                               dest[i] = (int) MathUtil.clamp( 0, src[i] * scale + offset, 255 );
+                           }
+                           return dest;
+                       }
+                   }, null );
         }
     }
 

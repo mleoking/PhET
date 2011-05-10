@@ -30,22 +30,22 @@ public class BufferedPhetPCanvas extends PhetPCanvas {
     @Override
     public void paintComponent( Graphics g ) {
         if ( PhetUtilities.isMacintosh() ) {
-        	// This workaround is not needed on mac, and introduces issues
+            // This workaround is not needed on mac, and introduces issues
             // (mostly slider knobs in weird places). See Unfuddle tickets
             // #1619 and #2848.
             super.paintComponent( g );
         }
-        else{
+        else {
             // Apply the workaround on windows and linux since they have
             // similar behaviors.
-	        if ( bufferedImage == null || bufferedImage.getWidth() != getWidth() || bufferedImage.getHeight() != getHeight() ) {
-	            bufferedImage = new BufferedImage( getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB );
-	        }
-	        Graphics2D bufferedGraphics = bufferedImage.createGraphics();
-	        bufferedGraphics.setClip( g.getClipBounds() );//TODO is this correct?
-	        super.paintComponent( bufferedGraphics );
-	        ( (Graphics2D) g ).drawRenderedImage( bufferedImage, new AffineTransform() );
-	        bufferedGraphics.dispose();
+            if ( bufferedImage == null || bufferedImage.getWidth() != getWidth() || bufferedImage.getHeight() != getHeight() ) {
+                bufferedImage = new BufferedImage( getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB );
+            }
+            Graphics2D bufferedGraphics = bufferedImage.createGraphics();
+            bufferedGraphics.setClip( g.getClipBounds() );//TODO is this correct?
+            super.paintComponent( bufferedGraphics );
+            ( (Graphics2D) g ).drawRenderedImage( bufferedImage, new AffineTransform() );
+            bufferedGraphics.dispose();
         }
     }
 }
