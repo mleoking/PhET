@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--curve-fitting-strings_zh_CN.xml created Tue May 10 14:55:26 CST 2011 using: curve-fitting 2.01.00 (37297), translation-utility 2.10.00 (48775) 二月 9, 2011-->
+<SimStrings>
+<string key="cEquals" value="c ="/>
+<string key="clearAll" value="清除所有"/>
+<string key="deviations" value="显示偏差"/>
+<string key="bEquals" value="b ="/>
+<string key="aEquals" value="a ="/>
+<string key="quartic" value="四次函数"/>
+<string key="simTitle" value="曲线拟合"/>
+<string key="bestFit" value="最佳匹配"/>
+<string key="quadratic" value="二次函数"/>
+<string key="bucketHelp2" value="放回"/>
+<string key="bucketHelp1" value="获取数据点"/>
+<string key="cubic" value="三次函数"/>
+<string key="noFit" value="不画拟合线"/>
+<string key="eEquals" value="e ="/>
+<string key="dEquals" value="d ="/>
+<string key="adjustableFit2" value="调整拟合"/>
+<string key="dataPointHelp" value="可拖动的误差线"/>
+<string key="bestFit2" value="最佳匹配"/>
+<string key="correlation" value="相关系数"/>
+<string key="hideHelp" value="隐藏帮助"/>
+<string key="bucketLabel" value="数据点"/>
+<string key="chiSqHelp5" value="：适合很好（误差线小）"/>
+<string key="chiSqHelp4" value="：非常适合（绿色区域）"/>
+<string key="chiSqHelp3" value="：不适合（红区）"/>
+<string key="chiSqHelp2" value="N = 数据点个数 \n f =拟合很好的点数 \n ( f = 4 三次函数符合点 )"/>
+<string key="help" value="帮助"/>
+<string key="chiSqHelp1" value="减少的平方差量为"/>
+<string key="adjustableFit" value="调整拟合"/>
+<string key="translation.credits" value="&lt;html&gt;&#10;&lt;p&gt;&lt;strong&gt;张大红&lt;/strong&gt;&lt;/p&gt;&#10;&lt;p&gt;&lt;strong&gt;天铁第二中学&lt;/strong&gt;&lt;/p&gt;&#10;&lt;/html&gt;&#10;"/>
+<string key="linear" value="线"/>
+</SimStrings>
