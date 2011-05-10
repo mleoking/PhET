@@ -1,2 +1,4 @@
-salt-dispenser.png author=PhET
-sugar-dispenser.png author=PhET
+faucet.png author=PhET
+salt_1.png author=PhET
+sugar_closed.png author=PhET
+sugar_open.png author=PhET
