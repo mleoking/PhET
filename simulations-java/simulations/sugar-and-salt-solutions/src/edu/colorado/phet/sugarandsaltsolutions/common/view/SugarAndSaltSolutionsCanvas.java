@@ -158,7 +158,7 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
             public void apply( ImmutableVector2D position ) {
                 model.addSalt( new Salt( position ) );
             }
-        }, "salt-dispenser.png", model.dispenser.valueEquals( SALT ) ) {{
+        }, "salt_1.png", model.dispenser.valueEquals( SALT ) ) {{
             //Move the shaker to the right so it is centered above the beaker and doesn't overlap with the faucet
             VoidFunction0 initPosition = new VoidFunction0() {
                 public void apply() {
@@ -174,7 +174,7 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
             public void apply( ImmutableVector2D position ) {
                 model.addSugar( new Sugar( position ) );
             }
-        }, "sugar-dispenser.png", model.dispenser.valueEquals( SUGAR ) ) {{
+        }, "sugar_open.png", model.dispenser.valueEquals( SUGAR ) ) {{
             //Move the shaker to the right so it is centered above the beaker and doesn't overlap with the faucet
             VoidFunction0 initPosition = new VoidFunction0() {
                 public void apply() {
