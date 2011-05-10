@@ -101,7 +101,8 @@ public class ColorChooserFactory {
                                                          public void actionPerformed( ActionEvent e ) {
                                                              listener.cancelled( initialColor );
                                                          }
-                                                     } );
+                                                     }
+        );
 
 
         SwingUtils.centerDialogInParent( dialog );

@@ -84,7 +84,8 @@ public class SimAutomaticUpdateDialog extends SimAbstractUpdateDialog {
             public boolean isSkipped( int version ) {
                 return false;  //To change body of implemented methods use File | Settings | File Templates.
             }
-        } );
+        }
+        );
 
         dialog.setVisible( true );
 

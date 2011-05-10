@@ -1,8 +1,7 @@
 //  Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.phetcommon.model;
 
-import java.awt.Color;
-import java.awt.Shape;
+import java.awt.*;
 import java.awt.geom.Area;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Ellipse2D;
