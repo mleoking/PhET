@@ -1,3 +1,5 @@
+# 1.09.00 (51724) May 9, 2011
+5/9/11 > added new translation credits features
 # 1.08.01 (51568) May 5, 2011
 # 1.08.00 (40417) May 5, 2010
 # 1.07.04 (40399) May 5, 2010
