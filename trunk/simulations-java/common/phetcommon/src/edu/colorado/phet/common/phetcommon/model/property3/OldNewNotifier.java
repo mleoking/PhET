@@ -1,7 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.phetcommon.model.property3;
 
-import edu.colorado.phet.common.phetcommon.model.property5.ChangeEvent;
 import edu.colorado.phet.common.phetcommon.model.property5.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -21,7 +20,7 @@ class OldNewNotifier<T> implements Observable2<T> {
     //List of listeners that will receive the value in callbacks
     private final ListenerList<ChangeObserver<T>> listenerList = new ListenerList<ChangeObserver<T>>( new VoidFunction1<ChangeObserver<T>>() {
         public void apply( ChangeObserver<T> observer ) {
-            observer.update( new ChangeEvent<T>( oldValue, parent.get() ) );
+            observer.update( parent.get(), oldValue );
         }
     } );
 
@@ -54,8 +53,7 @@ class OldNewNotifier<T> implements Observable2<T> {
         selected.set( true );
 
         and.addObserver( new ChangeObserver<Boolean>() {
-            public void update( ChangeEvent<Boolean> e ) {
-                System.out.println( "e = " + e );
+            public void update( Boolean newValue, Boolean oldValue ) {
             }
         } );
         visible.set( true );
@@ -63,8 +61,7 @@ class OldNewNotifier<T> implements Observable2<T> {
         selected.reset();
 
         visible.addObserver( new ChangeObserver<Boolean>() {
-            public void update( ChangeEvent<Boolean> e ) {
-                System.out.println( "visible changed: " + e );
+            public void update( Boolean newValue, Boolean oldValue ) {
             }
         } );
         visible.set( true );

@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.common.phetcommon.model.property5;
+package edu.colorado.phet.common.phetcommon.model.property3;
 
 /**
  * Event that signifies both the old and new values.

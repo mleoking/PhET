@@ -2,10 +2,10 @@
 package edu.colorado.phet.common.phetcommon.model.property5;
 
 /**
- * Observer that is notified about both the old and new values.
+ * Interface that indicates the value may be set, used for Not
  *
  * @author Sam Reid
  */
-public interface ChangeObserver<T> {
-    void update( T newValue, T oldValue );
+public interface Settable<T> {
+    public abstract void setValue( T value );
 }

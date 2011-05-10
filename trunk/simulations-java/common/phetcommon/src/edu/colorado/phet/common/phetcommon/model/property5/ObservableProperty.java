@@ -11,8 +11,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.util.logging.LoggingUtils;
 
-//REVIEW why 3 totally different variants of addObserver? (SimpleObserver, VoidFunction2, ChangeObserver)
-//REVIEW if we're going to have separate listener lists, then absorb functionality of SimpleObservable?
+//TODO: if we're going to have separate listener lists, then absorb functionality of SimpleObservable?
 
 /**
  * This can be used to represent an observable model value in a MVC style pattern. Notifications are sent to observers when they
@@ -34,7 +33,6 @@ public abstract class ObservableProperty<T> extends SimpleObservable {
     private final ArrayList<VoidFunction1<T>> newValueObservers = new ArrayList<VoidFunction1<T>>();//Listeners that receive the new value in the callback
     private final ArrayList<ChangeObserver<T>> newAndOldValueObservers = new ArrayList<ChangeObserver<T>>();//Listeners that receive the new and old values in the callback
 
-    //REVIEW I don't see this value being used for the purpose described here, and there's no interface to set/get.
     //Store the value that was previously notified so we can prevent sending out notifications when the value didn't actually change
     private T oldValue;
 
@@ -58,7 +56,8 @@ public abstract class ObservableProperty<T> extends SimpleObservable {
         }
     }
 
-    protected void notifyObservers( T value, T oldValue ) {
+    //Notifies all 0, 1 and 2 arg listeners.  Clients should call notifyIfChanged
+    private void notifyObservers( T value, T oldValue ) {
         super.notifyObservers();//Notify SimpleObservers
         notifyNewValueObservers( value );//Notify listeners with new value
         notifyNewAndOldValueObservers( value, oldValue );//Notify listeners with both new and old values
@@ -93,7 +92,7 @@ public abstract class ObservableProperty<T> extends SimpleObservable {
      */
     private void notifyNewAndOldValueObservers( T newValue, T oldValue ) {
         for ( ChangeObserver<T> observer : new ArrayList<ChangeObserver<T>>( newAndOldValueObservers ) ) {//Iterate on a copy of the observer list to avoid ConcurrentModificationException, see #2741
-            observer.update( new ChangeEvent<T>( oldValue, newValue ) );
+            observer.update( newValue, oldValue );
         }
     }
 

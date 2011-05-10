@@ -9,16 +9,23 @@ import edu.colorado.phet.common.phetcommon.util.function.Function0;
  *
  * @author Sam Reid
  */
-public class And extends CompositeProperty<Boolean> {
-    public And( final ObservableProperty<Boolean> a, final ObservableProperty<Boolean> b ) {
+public class And extends CompositeBooleanProperty {
+    public And( final ObservableProperty<Boolean>... terms ) {
         super( new Function0<Boolean>() {
                    public Boolean apply() {
-                       return a.getValue() && b.getValue();
+                       //Test to see whether all args are true
+                       for ( ObservableProperty<Boolean> term : terms ) {
+                           //Short circuit if any argument is false and return early for performance reasons
+                           if ( !term.getValue() ) {
+                               return false;
+                           }
+                       }
+                       return true;
                    }
-               }, a, b );
+               }, terms );
     }
 
-    public static And and( Property<Boolean> a, final Property<Boolean> b ) {
+    public static And and( ObservableProperty<Boolean> a, final ObservableProperty<Boolean> b ) {
         return new And( a, b );
     }
 }

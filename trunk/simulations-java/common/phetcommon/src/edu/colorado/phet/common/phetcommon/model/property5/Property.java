@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.phetcommon.model.property5;
 
+import edu.colorado.phet.common.phetcommon.model.property3.ChangeEvent;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
@@ -33,11 +34,8 @@ public class Property<T> extends SettableProperty<T> {
     }
 
     public void setValue( T value ) {
-        if ( !this.value.equals( value ) ) {
-            T oldValue = this.value;
-            this.value = value;
-            notifyObservers( value, oldValue );
-        }
+        this.value = value;
+        notifyIfChanged();
     }
 
     /**
@@ -64,8 +62,8 @@ public class Property<T> extends SettableProperty<T> {
             }
         } );
         enabled.addObserver( new ChangeObserver<Boolean>() {
-            public void update( ChangeEvent<Boolean> e ) {
-                System.out.println( "VoidFunction1 newValue=" + e.value + " oldValue=" + e.oldValue );
+            public void update( Boolean newValue, Boolean oldValue ) {
+                System.out.println( "newValue = " + newValue + ", oldValue = " + oldValue );
             }
         } );
         enabled.setValue( !enabled.getValue() );
