@@ -51,53 +51,41 @@ public class ConductivityTesterNode extends PhetPNode {
         return new PhetResources( "piccolo-phet" ).getImage( image );
     }
 
-    // light bulb
+    // light bulb properties
     private static final double PERCENT_LIGHT_BULB_ATTACHMENT = 0.12; // percent of light bulb's full height, from bottom of bulb, determines where to attach the probe wire
     private static final LinearFunction BRIGHTNESS_TO_ALPHA_FUNCTION = new LinearFunction( 0, 1, 0.85, 1 ); // alpha of the bulb
     private static final LinearFunction BRIGHTNESS_TO_INTENSITY_FUNCTION = new LinearFunction( 0, 1, 0, 1 ); // intensity of the light rays
 
-    // connector wire, connects bulb and battery
-    private Color connectorWireColor;
-    private static final double CONNECTOR_WIRE_LENGTH = 50;
-
-    // general probe properties
+    // probe properties
     private static final Color PROBE_STROKE_COLOR = Color.BLACK;
     private static final Stroke PROBE_STROKE = new BasicStroke( 1f );
     private static final Font PROBE_LABEL_FONT = new PhetFont( Font.BOLD, 24 );
-
-    // positive probe properties
-    private Color positiveProbeFillColor;
     private static final String POSITIVE_PROBE_LABEL = PLUS;
     private static final Color POSITIVE_PROBE_LABEL_COLOR = Color.WHITE;
-
-    // negative probe properties
-    private Color negativeProbeFillColor;
     private static final String NEGATIVE_PROBE_LABEL = MINUS;
     private static final Color NEGATIVE_PROBE_LABEL_COLOR = Color.WHITE;
 
-    // general wire properties
+    // wire properties
+    private static final double BULB_TO_BATTERY_WIRE_LENGTH = 50;
     private static final Stroke WIRE_STROKE = new BasicStroke( 3f );
-
-    // positive wire properties
-    private Color positiveWireColor;
     private static final int POSITIVE_WIRE_CONTROL_POINT_DX = 25;
     private static final int POSITIVE_WIRE_CONTROL_POINT_DY = -100;
-
-    // negative wire properties
-    private Color negativeWireColor;
     private static final int NEGATIVE_WIRE_CONTROL_POINT_DX = -POSITIVE_WIRE_CONTROL_POINT_DX;
     private static final int NEGATIVE_WIRE_CONTROL_POINT_DY = POSITIVE_WIRE_CONTROL_POINT_DY;
 
-    private IConductivityTester tester;
+    private final IConductivityTester tester;
+    private final Color connectorWireColor;
+    private final Color positiveProbeFillColor, negativeProbeFillColor;
+    private final Color positiveWireColor, negativeWireColor;
 
-    private LightBulbNode lightBulbNode;
-    private LightRaysNode lightRaysNode;
-    private BatteryNode batteryNode;
-    private ProbeNode positiveProbeNode, negativeProbeNode;
-    private CubicWireNode positiveWireNode, negativeWireNode;
-    private ValueNode valueNode;
+    private final LightBulbNode lightBulbNode;
+    private final LightRaysNode lightRaysNode;
+    private final BatteryNode batteryNode;
+    private final ProbeNode positiveProbeNode, negativeProbeNode;
+    private final CubicWireNode positiveWireNode, negativeWireNode;
+    private final ValueNode valueNode;
 
-    //Construct a conductivity tester node with black wires, red positive probe and black negative probe.  For use in acid-base-solutions where the background is light.
+    //Construct a conductivity tester node with black wires, red positive probe and black negative probe. For use in acid-base-solutions where the background is light.
     public ConductivityTesterNode( final IConductivityTester tester, boolean dev ) {
         this( tester, dev, Color.black, Color.red, Color.black );
     }
@@ -112,13 +100,13 @@ public class ConductivityTesterNode extends PhetPNode {
      * @param tester model element
      * @param dev    whether to enable developer features
      */
-    public ConductivityTesterNode( final IConductivityTester tester, boolean dev, Color _positiveWireColor, Color _negativeWireColor, Color _connectorWireColor, Color _positiveProbeFillColor, Color _negativeProbeFillColor ) {
+    public ConductivityTesterNode( final IConductivityTester tester, boolean dev, Color positiveWireColor, Color negativeWireColor, Color connectorWireColor, Color positiveProbeFillColor, Color negativeProbeFillColor ) {
         this.tester = tester;
-        this.positiveWireColor = _positiveWireColor;
-        this.negativeWireColor = _negativeWireColor;
-        this.connectorWireColor = _connectorWireColor;
-        this.positiveProbeFillColor = _positiveProbeFillColor;
-        this.negativeProbeFillColor = _negativeProbeFillColor;
+        this.positiveWireColor = positiveWireColor;
+        this.negativeWireColor = negativeWireColor;
+        this.connectorWireColor = connectorWireColor;
+        this.positiveProbeFillColor = positiveProbeFillColor;
+        this.negativeProbeFillColor = negativeProbeFillColor;
 
         tester.addConductivityTesterChangeListener( new ConductivityTesterChangeListener() {
 
@@ -147,13 +135,13 @@ public class ConductivityTesterNode extends PhetPNode {
         batteryNode = new BatteryNode();
 
         // wire that connects the light bulb to the battery
-        StraightWireNode connectorWireNode = new StraightWireNode( connectorWireColor );
+        StraightWireNode connectorWireNode = new StraightWireNode( this.connectorWireColor );
         Point2D lightBulbConnectionPoint = new Point2D.Double( 0, 0 );
-        Point2D batteryConnectionPoint = new Point2D.Double( 0, CONNECTOR_WIRE_LENGTH );
+        Point2D batteryConnectionPoint = new Point2D.Double( 0, BULB_TO_BATTERY_WIRE_LENGTH );
         connectorWireNode.setEndPoints( lightBulbConnectionPoint, batteryConnectionPoint );
 
         // positive probe
-        positiveProbeNode = new ProbeNode( tester.getProbeSizeReference(), positiveProbeFillColor, POSITIVE_PROBE_LABEL, POSITIVE_PROBE_LABEL_COLOR );
+        positiveProbeNode = new ProbeNode( tester.getProbeSizeReference(), this.positiveProbeFillColor, POSITIVE_PROBE_LABEL, POSITIVE_PROBE_LABEL_COLOR );
         positiveProbeNode.addInputEventListener( new CursorHandler( Cursor.N_RESIZE_CURSOR ) );
         positiveProbeNode.addInputEventListener( new PDragSequenceEventHandler() {
 
@@ -175,7 +163,7 @@ public class ConductivityTesterNode extends PhetPNode {
         } );
 
         // negative probe
-        negativeProbeNode = new ProbeNode( tester.getProbeSizeReference(), negativeProbeFillColor, NEGATIVE_PROBE_LABEL, NEGATIVE_PROBE_LABEL_COLOR );
+        negativeProbeNode = new ProbeNode( tester.getProbeSizeReference(), this.negativeProbeFillColor, NEGATIVE_PROBE_LABEL, NEGATIVE_PROBE_LABEL_COLOR );
         negativeProbeNode.addInputEventListener( new CursorHandler( Cursor.N_RESIZE_CURSOR ) );
         negativeProbeNode.addInputEventListener( new PDragSequenceEventHandler() {
 
@@ -199,7 +187,7 @@ public class ConductivityTesterNode extends PhetPNode {
         positiveWireNode = new CubicWireNode( this.positiveWireColor, POSITIVE_WIRE_CONTROL_POINT_DX, POSITIVE_WIRE_CONTROL_POINT_DY );
 
         // negative wire
-        negativeWireNode = new CubicWireNode( negativeWireColor, NEGATIVE_WIRE_CONTROL_POINT_DX, NEGATIVE_WIRE_CONTROL_POINT_DY );
+        negativeWireNode = new CubicWireNode( this.negativeWireColor, NEGATIVE_WIRE_CONTROL_POINT_DX, NEGATIVE_WIRE_CONTROL_POINT_DY );
 
         // brightness value, for debugging
         valueNode = new ValueNode();
@@ -224,7 +212,7 @@ public class ConductivityTesterNode extends PhetPNode {
         x = lightBulbNode.getFullBoundsReference().getCenterX();
         y = lightBulbNode.getFullBoundsReference().getMinY() + lightBulbRadius;
         lightRaysNode.setOffset( x, y );
-        x = lightBulbNode.getFullBoundsReference().getCenterX() + CONNECTOR_WIRE_LENGTH;
+        x = lightBulbNode.getFullBoundsReference().getCenterX() + BULB_TO_BATTERY_WIRE_LENGTH;
         y = lightBulbNode.getFullBounds().getMaxY();
         batteryNode.setOffset( x, y );
         connectorWireNode.setOffset( lightBulbNode.getFullBoundsReference().getCenterX(), lightBulbNode.getFullBoundsReference().getMaxY() );
@@ -366,7 +354,7 @@ public class ConductivityTesterNode extends PhetPNode {
         }
 
         public void setEndPoints( Point2D startPoint, Point2D endPoint ) {
-            setPathTo( new Line2D.Double( 0, 0, CONNECTOR_WIRE_LENGTH, 0 ) );
+            setPathTo( new Line2D.Double( 0, 0, BULB_TO_BATTERY_WIRE_LENGTH, 0 ) );
         }
     }
 
