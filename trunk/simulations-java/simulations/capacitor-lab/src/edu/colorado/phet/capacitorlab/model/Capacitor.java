@@ -11,6 +11,7 @@ import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.shapes.CapacitorShapeFactory;
 import edu.colorado.phet.common.phetcommon.math.Dimension3D;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
+import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction2;
@@ -95,8 +96,9 @@ public class Capacitor {
                 fireCapacitorChanged();
             }
         };
-        dielectricMaterialProperty.addObserver( new VoidFunction2<DielectricMaterial, DielectricMaterial>() {
-            public void apply( DielectricMaterial newMaterial, DielectricMaterial oldMaterial ) {
+
+        dielectricMaterialProperty.addObserver( new ChangeObserver<DielectricMaterial>() {
+            public void update( DielectricMaterial newMaterial, DielectricMaterial oldMaterial ) {
                 oldMaterial.removeDielectricConstantObserver( dielectricConstantObserver );
                 newMaterial.addDielectricConstantObserver( dielectricConstantObserver );
             }

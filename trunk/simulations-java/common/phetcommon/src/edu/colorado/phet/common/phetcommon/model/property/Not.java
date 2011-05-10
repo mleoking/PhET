@@ -8,11 +8,11 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
  *
  * @author Sam Reid
  */
-public class Not extends ObservableNot implements Settable<Boolean> {
-    private Property<Boolean> parent;
+public class Not extends SettableProperty<Boolean> {
+    private SettableProperty<Boolean> parent;
 
-    public Not( final Property<Boolean> parent ) {
-        super( parent );
+    public Not( final SettableProperty<Boolean> parent ) {
+        super( !parent.getValue() );
         this.parent = parent;
     }
 
@@ -20,8 +20,16 @@ public class Not extends ObservableNot implements Settable<Boolean> {
         parent.setValue( !value );//we'll observe the change in the constructor listener, and fire notifications.
     }
 
-    public static Not not( Property<Boolean> p ) {
+    public And and( SettableProperty<Boolean> term ){
+        return new And(this,term);
+    }
+
+    public static Not not( SettableProperty<Boolean> p ) {
         return new Not( p );
+    }
+
+    @Override public Boolean getValue() {
+        return !parent.getValue();
     }
 
     public static void main( String[] args ) {
