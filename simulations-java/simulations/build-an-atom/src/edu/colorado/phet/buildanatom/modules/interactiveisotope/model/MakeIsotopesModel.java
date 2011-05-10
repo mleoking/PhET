@@ -189,20 +189,17 @@ public class MakeIsotopesModel implements Resettable, IConfigurableAtomModel {
      * @param targetNumNeutrons
      */
     private void setNeutronBucketCount( int targetNumNeutrons ) {
+        clearBucket();
 
-        if ( targetNumNeutrons != neutronBucket.getParticleList().size() ) {
-            clearBucket();
-
-            // Add the target number of neutrons, sending notifications of
-            // the additions.
-            for ( int i = 0; i < targetNumNeutrons; i++ ) {
-                Neutron newNeutron = new Neutron( clock );
-                newNeutron.setMotionVelocity( NEUTRON_MOTION_VELOCITY );
-                newNeutron.addListener( neutronDropListener );
-                neutronBucket.addParticleFirstOpen( newNeutron, true );
-                neutrons.add( newNeutron );
-                notifyParticleAdded( newNeutron );
-            }
+        // Add the target number of neutrons, sending notifications of
+        // the additions.
+        for ( int i = 0; i < targetNumNeutrons; i++ ) {
+            Neutron newNeutron = new Neutron( clock );
+            newNeutron.setMotionVelocity( NEUTRON_MOTION_VELOCITY );
+            newNeutron.addListener( neutronDropListener );
+            neutronBucket.addParticleFirstOpen( newNeutron, true );
+            neutrons.add( newNeutron );
+            notifyParticleAdded( newNeutron );
         }
     }
 
@@ -266,11 +263,8 @@ public class MakeIsotopesModel implements Resettable, IConfigurableAtomModel {
      * default initial states.
      */
     public void reset(){
-        // Reset the atom.
+        // Reset the atom.  This also resets the neutron bucket.
         setAtomConfiguration( DEFAULT_ATOM_CONFIG );
-
-        // Reset the neutron bucket.
-        setNeutronBucketCount( DEFAULT_NUM_NEUTRONS_IN_BUCKET );
     }
 
     /**
