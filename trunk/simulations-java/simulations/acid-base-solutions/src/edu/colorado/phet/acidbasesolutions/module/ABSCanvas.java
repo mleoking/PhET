@@ -23,7 +23,7 @@ import edu.umd.cs.piccolo.util.PBounds;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class ABSCanvas extends PhetPCanvas {
-    
+
     private final PNode rootNode;
     private final BeakerNode beakerNode;
     private final PHMeterNode pHMeterNode;
@@ -33,15 +33,15 @@ public class ABSCanvas extends PhetPCanvas {
     private final PHPaperNode pHPaperNode;
     private final PNode pHColorKeyNode;
     private final ConductivityTesterNode conductivityTesterNode;
-    
+
     public ABSCanvas( ABSModel model, boolean dev ) {
         super( ABSConstants.CANVAS_RENDERING_SIZE );
         setBackground( ABSColors.CANVAS_BACKGROUND );
-        
+
         // Root of our scene graph, added to "world" so that we get automatic scaling
         rootNode = new PNode();
         addWorldChild( rootNode );
-        
+
         // nodes
         beakerNode = new BeakerNode( model.getBeaker() );
         pHMeterNode = new PHMeterNode( model.getPHMeter() );
@@ -50,17 +50,17 @@ public class ABSCanvas extends PhetPCanvas {
         reactionEquationNode = new ReactionEquationNode( model.getReactionEquation() );
         pHPaperNode = new PHPaperNode( model.getPHPaper() );
         pHColorKeyNode = new PHColorKeyNode( model.getPHPaper() );
-        final ConductivityTester tester = model.getConductivityTester();
-        conductivityTesterNode = new ConductivityTesterNode( tester, dev ) {{
+        final ConductivityTester conductivityTester = model.getConductivityTester();
+        conductivityTesterNode = new ConductivityTesterNode( conductivityTester, dev ) {{
             //Wire up so the conductivity tester is only shown when selected
-            tester.addSolutionRepresentationChangeListener( new SolutionRepresentationChangeAdapter() {
+            conductivityTester.addSolutionRepresentationChangeListener( new SolutionRepresentationChangeAdapter() {
                 public void visibilityChanged() {
-                    setVisible( tester.isVisible() );
+                    setVisible( conductivityTester.isVisible() );
                 }
             } );
         }};
 
-        
+
         // rendering order
         addNode( pHMeterNode );
         addNode( pHColorKeyNode );
@@ -70,32 +70,32 @@ public class ABSCanvas extends PhetPCanvas {
         addNode( magnifyingGlassNode );
         addNode( concentrationGraphNode );
         addNode( reactionEquationNode );
-        
+
         pHColorKeyNode.setOffset( ABSConstants.PH_COLOR_KEY_LOCATION );
         // NOTE: all layout is handled via locations of model elements.
-    }    
-    
+    }
+
     protected void addNode( PNode node ) {
         rootNode.addChild( node );
     }
-    
+
     protected void centerRootNode() {
         centerNode( rootNode );
     }
-    
+
     protected void centerNode( PNode node ) {
         if ( node != null ) {
             Dimension2D worldSize = getWorldSize();
             PBounds b = node.getFullBoundsReference();
             double xOffset = ( ( worldSize.getWidth() - b.getWidth() ) / 2 ) - PNodeLayoutUtils.getOriginXOffset( node );
-            double yOffset = ( ( worldSize.getHeight() - b.getHeight() ) / 2 )- PNodeLayoutUtils.getOriginYOffset( node );
+            double yOffset = ( ( worldSize.getHeight() - b.getHeight() ) / 2 ) - PNodeLayoutUtils.getOriginYOffset( node );
             node.setOffset( xOffset, yOffset );
         }
     }
-    
+
     /*
-     * Centers the root node on the canvas when the canvas size changes.
-     */
+    * Centers the root node on the canvas when the canvas size changes.
+    */
     @Override
     protected void updateLayout() {
         Dimension2D worldSize = getWorldSize();
