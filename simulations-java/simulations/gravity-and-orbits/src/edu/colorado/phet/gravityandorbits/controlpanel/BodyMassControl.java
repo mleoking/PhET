@@ -110,7 +110,7 @@ public class BodyMassControl extends VerticalLayoutPanel {
                             if ( Math.abs( sliderValue - labelValue ) / labelValue < SNAP_TOLERANCE ) {
                                 body.setMass( labelValue );
                                 //TODO: why is this necessary? Is this a workaround? If so, I would be concerned that you have an undiscovered bug.
-                                body.getMassProperty().notifyObservers();//For unknown reasons, without this call, updates won't be sent properly and the thumb won't snap to the tick
+                                body.getMassProperty().notifyIfChanged();//For unknown reasons, without this call, updates won't be sent properly and the thumb won't snap to the tick
                             }
                         }
                     } );

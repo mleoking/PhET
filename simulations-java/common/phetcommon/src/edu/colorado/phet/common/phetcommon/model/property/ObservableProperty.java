@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.util.logging.LoggingUtils;
@@ -22,7 +21,7 @@ import edu.colorado.phet.common.phetcommon.util.logging.LoggingUtils;
  * @author Sam Reid
  * @author Chris Malley
  */
-public abstract class ObservableProperty<T> extends SimpleObservable {
+public abstract class ObservableProperty<T> implements Cloneable {
     private static final Logger LOGGER = LoggingUtils.getLogger( ObservableProperty.class.getCanonicalName() );
 
     static {
@@ -30,6 +29,7 @@ public abstract class ObservableProperty<T> extends SimpleObservable {
         LOGGER.setLevel( Level.INFO );
     }
 
+    private final ArrayList<SimpleObserver> simpleObservers = new ArrayList<SimpleObserver>();
     private final ArrayList<VoidFunction1<T>> newValueObservers = new ArrayList<VoidFunction1<T>>();//Listeners that receive the new value in the callback
     private final ArrayList<ChangeObserver<T>> newAndOldValueObservers = new ArrayList<ChangeObserver<T>>();//Listeners that receive the new and old values in the callback
 
@@ -50,7 +50,7 @@ public abstract class ObservableProperty<T> extends SimpleObservable {
      * @param notifyOnAdd
      */
     public void addObserver( SimpleObserver simpleObserver, boolean notifyOnAdd ) {
-        super.addObserver( simpleObserver );
+        simpleObservers.add( simpleObserver );
         if ( notifyOnAdd ) {
             simpleObserver.update();
         }
@@ -58,9 +58,15 @@ public abstract class ObservableProperty<T> extends SimpleObservable {
 
     //Notifies all 0, 1 and 2 arg listeners.  Clients should call notifyIfChanged
     private void notifyObservers( T value, T oldValue ) {
-        super.notifyObservers();//Notify SimpleObservers
+        notifySimpleObservers();//Notify SimpleObservers
         notifyNewValueObservers( value );//Notify listeners with new value
         notifyNewAndOldValueObservers( value, oldValue );//Notify listeners with both new and old values
+    }
+
+    private void notifySimpleObservers() {
+        for ( SimpleObserver simpleObserver : new ArrayList<SimpleObserver>( simpleObservers ) ) {
+            simpleObserver.update();
+        }
     }
 
     /*
@@ -70,6 +76,10 @@ public abstract class ObservableProperty<T> extends SimpleObservable {
         for ( VoidFunction1<T> observer : new ArrayList<VoidFunction1<T>>( newValueObservers ) ) {//Iterate on a copy of the observer list to avoid ConcurrentModificationException, see #2741
             observer.apply( newValue );
         }
+    }
+
+    public void removeObserver( SimpleObserver observer ) {
+        simpleObservers.remove( observer );
     }
 
     /**
@@ -116,9 +126,8 @@ public abstract class ObservableProperty<T> extends SimpleObservable {
      *
      * @param simpleObserver
      */
-    @Override
     public void addObserver( SimpleObserver simpleObserver ) {
-        addObserver( simpleObserver, true /* notifyOnAdd */ );
+        addObserver( simpleObserver, true );
     }
 
     public abstract T get();
@@ -169,7 +178,7 @@ public abstract class ObservableProperty<T> extends SimpleObservable {
      * Removes all observers (0-parameter, 1-parameter and 2-parameter) from this ObservableProperty.
      */
     public void removeAllObservers() {
-        super.removeAllObservers();
+        simpleObservers.clear();
         newValueObservers.clear();
         newAndOldValueObservers.clear();
     }
