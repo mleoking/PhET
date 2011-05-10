@@ -1,3 +1,5 @@
+# 1.09.00 (51737) May 10, 2011
+5/10/11 > added new translation credits features
 # 1.08.05 (51577) May 5, 2011
 # 1.08.04 (48403) Jan 31, 2011
 1/31/11 dev version for KSU credits testing
