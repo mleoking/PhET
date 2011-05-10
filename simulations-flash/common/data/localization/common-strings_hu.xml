@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--common-strings_hu.xml created Fri Dec 18 11:42:13 CET 2009 using: flash-common-strings 2.01.00 (37304), translation-utility 2.03.00 (36202) Oct 29, 2009-->
+<!--common-strings_hu.xml created Tue May 10 18:33:44 CEST 2011 using: flash-common-strings 2.03.00 (48823), translation-utility 2.10.00 (48775) Feb 9, 2011-->
 <SimStrings>
 <string key="About..." value="Névjegy"/>
 <string key="SoftwareDevelopment" value="Szoftverfejlesztés"/>
 <string key="Cancel" value="Mégsem"/>
-<string key="StatisticsField-host_flash_accessibility" value="Hozzáférhető eszközt használ?"/>
+<string key="StatisticsField-host_flash_accessibility" value="Hozzáférhető eszközt használ?:"/>
 <string key="Privacy" value="Adatvédelem"/>
 <string key="Version" value="Verzió"/>
 <string key="NewVersionAvailable" value="Létezik új verzió"/>
 <string key="SoftwareAgreement" value="Felhasználási feltételek"/>
 <string key="PhETInstallation" value="A legfrissebb szimulációkat tartalmazó frissítés letöltéséhez látogassa meg az &lt;a href='{0}'&gt; offlájn PhET- webhelyet&lt;/a&gt; a telepítés végett."/>
-<string key="StatisticsField-sim_version_timestamp" value="Szimulációverzió (időbélyegző)"/>
-<string key="StatisticsField-sim_dev_version" value="Szimulációverzió (fejl)"/>
+<string key="StatisticsField-sim_version_timestamp" value="Szimulációverzió (időbélyegző):"/>
+<string key="StatisticsField-sim_dev_version" value="Szimulációverzió (fejl):"/>
 <string key="AskLater" value="Kérdezz máskor"/>
 <string key="AcceptContinue" value="Elfogadás és folytatás"/>
 <string key="BuildDate" value="Verzió (build) dátuma"/>
@@ -19,15 +19,15 @@
 <string key="FlashVersion" value="Flash-verzió"/>
 <string key="PhetSoftwareAgreement" value="PhET felhasználási feltételek"/>
 <string key="NoUpdatesAvailable" value="Nincs frissítés"/>
-<string key="StatisticsField-message_type" value="Üzenettípus"/>
+<string key="StatisticsField-message_type" value="Üzenettípus:"/>
 <string key="InstallationDated" value="Az offlájn PhET- webhely telepítési dátuma {0}."/>
 <string key="CheckUpdates" value="Frissítések automatikus ellenőrzése"/>
 <string key="UpToDate" value="Naprakész"/>
-<string key="StatisticsField-sim_major_version" value="Szimulációverzió (major)"/>
-<string key="StatisticsField-user_total_sessions" value="Az összes szimuláció összes futtatásainak száma"/>
+<string key="StatisticsField-sim_major_version" value="Szimulációverzió (major):"/>
+<string key="StatisticsField-user_total_sessions" value="Az összes szimuláció összes futtatásainak száma:"/>
 <string key="InstallationNewer" value="Újabb verzió létezik, melynek dátuma  {0}."/>
-<string key="StatisticsField-sim_sessions_since" value="A szimuláció futtatásainak száma az utolsó onlájn kapcsolat óta"/>
-<string key="StatisticsField-sim_distribution_tag" value="Szimulációverzió (terjesztett)"/>
+<string key="StatisticsField-sim_sessions_since" value="A szimuláció futtatásainak száma az utolsó onlájn kapcsolat óta:"/>
+<string key="StatisticsField-sim_distribution_tag" value="Szimulációverzió (terjesztett):"/>
 <string key="Yes!" value="Igen!"/>
 <string key="StatisticsField-host_flash_domain" value="Szimulációs domén:"/>
 <string key="DesignTeam" value="Dizájn Csoport"/>
@@ -35,51 +35,53 @@
 <string key="Preferences" value="Beállítások..."/>
 <string key="AllowMessages" value="Információküldés engedélyezése a PhET-hez"/>
 <string key="Updates" value="Frissítések"/>
-<string key="StatisticsField-sim_revision" value="Szimulációverzió (javítás)"/>
-<string key="StatisticsField-user_preference_file_creation_time" value="Beállítások fájlgenerálás időbélyegzője"/>
+<string key="StatisticsField-sim_revision" value="Szimulációverzió (javítás):"/>
+<string key="StatisticsField-user_preference_file_creation_time" value="Beállítások fájlgenerálás időbélyegzője:"/>
 <string key="Interviews" value="Konzultáció"/>
-<string key="StatisticsField-host_flash_time_offset" value="Időzóna"/>
+<string key="StatisticsField-host_flash_time_offset" value="Időzóna:"/>
 <string key="MostCurrentVersion" value="Önnek {1} legfrissebb verziója ({0}) van meg."/>
-<string key="StatisticsField-sim_deployment" value="Felhasználás típusa"/>
+<string key="StatisticsField-sim_deployment" value="Felhasználás típusa:"/>
 <string key="PrivacyRequirement" value="A PhET ingyenes használatát finanszírozó pályázatok  minimális mennnyiségű névtelen &lt;a href=&quot;{0}&quot;&gt;információ&lt;/a&gt; begyűjtését követelik meg, hogy dokumentálhassuk a PhET-szimulációk használatát, és  javíthassuk szolgáltatásainkat."/>
-<string key="StatisticsField-sim_type" value="Szimuláció típusa"/>
+<string key="StatisticsField-sim_type" value="Szimuláció típusa:"/>
 <string key="Close" value="Bezár"/>
-<string key="StatisticsField-sim_dev" value="Fejlesztői verzió?"/>
+<string key="StatisticsField-sim_dev" value="Fejlesztői verzió?:"/>
 <string key="InstallerAsk" value="Óhajtja a frissebb offlájn PhET- webhely telepítését?"/>
 <string key="PrivacyMessage2" value="Az  &quot;Elfogadás és folytatás&quot; pontra kattintva, elfogadja a PhET Felhasználási feltételeit, beleértve az adatvédelmi nyilatkozatot, nemcsak a jelen, hanem a többi  PhET-szimulációra  vonatkozóan  is, melyet futtat. (Részletek &lt;a href=&quot;{0}&quot;&gt;itt&lt;/a&gt;)."/>
-<string key="StatisticsField-sim_total_sessions" value="A szimuláció összes futtatásainak száma"/>
+<string key="StatisticsField-sim_total_sessions" value="A szimuláció összes futtatásainak száma:"/>
 <string key="PrivacyMessage1" value="A PhET-szimulációk minimális mennyiségű névtelen &lt;a href=&quot;{0}&quot;&gt;információt&lt;/a&gt; gyűjtenek a szimuláció  indításakor (pl.  szimulációverzió, operációs rendszer). Az információküldés bármikor letiltható a  Fájl-&gt;Beállítások menüpontban."/>
-<string key="StatisticsField-user_installation_timestamp" value="PhET-telepítés időbélyegzője"/>
-<string key="StatisticsField-sim_name" value="Szimuláció neve"/>
+<string key="StatisticsField-user_installation_timestamp" value="PhET-telepítés időbélyegzője:"/>
+<string key="StatisticsField-sim_name" value="Szimuláció neve:"/>
 <string key="UpdateOptionsAvailable" value="A frissítési opciók a &lt;i&gt;Beállítások&lt;/i&gt;-nál."/>
 <string key="PhetDevelopmentTeam" value="PhET Fejlesztő Csoport"/>
 <string key="InstallerInfo2" value="Ha a frissítés mellett dönt, egy új böngészőablak nyílik meg a PhET-webhellyel, ahonnan letöltheti az offlájn PhET- webhely telepítőjét."/>
 <string key="InstallerInfo1" value="Az offlájn PhET- webhely  frissítése lehetővé teszi, hogy elérje a legújabb PhET-szimulációkat&lt;br&gt;és a kiegészítő anyagokat."/>
-<string key="StatisticsField-sim_minor_version" value="Szimulációverzió (minor)"/>
+<string key="StatisticsField-sim_minor_version" value="Szimulációverzió (minor):"/>
+<string key="translation.credits" value="&lt;html&gt;&lt;a href=&quot;http://nasa.web.elte.hu/&quot;&gt;Nagy Sándor&lt;/a&gt;&lt;br&gt;ELTE, &lt;a href=&quot;http://www.chem.elte.hu/pr/&quot;&gt;Kémiai Intézet&lt;/a&gt;, Budapest&lt;/html&gt;"/>
 <string key="Credits" value="Hivatkozás"/>
-<string key="StatisticsField-host_flash_version" value="Flash -lejátszó verziója"/>
+<string key="StatisticsField-host_flash_version" value="Flash -lejátszó verziója:"/>
 <string key="TryNow" value="Kipróbálás"/>
 <string key="PrivacySkip" value="Kihagyom ezt a verziót"/>
 <string key="CheckInstallationUpdates" value="Offlájn PhET- webhely telepítő frissítésének ellenőrzése..."/>
-<string key="StatisticsField-sim_locale_language" value="Nyelv"/>
+<string key="StatisticsField-sim_locale_language" value="Nyelv:"/>
 <string key="Distribution" value="Forgalmazás"/>
 <string key="LicenseLibraries" value="Könyvtárlicenc-információ"/>
 <string key="PrivacyDetails" value="Adatvédelem (kifejtés)"/>
 <string key="NotUpdateSim" value="Ezt a szimulációt nem lehet automatikusan frissíteni."/>
 <string key="CurrentVersionIs" value="{0} jelenlegi verziója {1}."/>
 <string key="StatisticsField-host_flash_os" value="Operációs rendszer és neve:"/>
+<string key="TranslatedBy" value="Magyarítás:"/>
 <string key="Error" value="Hiba"/>
-<string key="StatisticsField-sim_project" value="Projekt neve"/>
-<string key="NewerVersionIs" value="Újabb verzió  {0} létezik"/>
 <string key="CheckSimUpdates" value="Szimulációfrissítés ellenőrzése..."/>
+<string key="NewerVersionIs" value="Újabb verzió  {0} létezik"/>
+<string key="StatisticsField-sim_project" value="Projekt neve:"/>
 <string key="SentInformation" value="Az alábbi információ mindannyiszor  elküldésre kerül, amikor a PhET -szimuláció elindul."/>
 <string key="OSVersion" value="OR"/>
 <string key="Details" value="Részletek"/>
-<string key="StatisticsField-message_version" value="Üzenetverzió"/>
+<string key="StatisticsField-message_version" value="Üzenetverzió:"/>
 <string key="LeadDesign" value="Dizájnirányítás"/>
-<string key="StatisticsField-host_locale_language" value="Szerver nyelve"/>
+<string key="StatisticsField-host_locale_language" value="Szerver nyelve:"/>
 <string key="AboutSim" value="Névjegy: {0}"/>
 <string key="VersionError2" value="Próbálkozzon később, vagy látogasson a következő helyre: &lt;a href='{0}'&gt;http://phet.colorado.edu&lt;/a&gt;"/>
 <string key="VersionError1" value="A verzióinformáció lekérdezése közben hiba történt."/>
-<string key="StatisticsField-sim_locale_country" value="Ország"/>
+<string key="StatisticsField-sim_locale_country" value="Ország:"/>
 </SimStrings>
