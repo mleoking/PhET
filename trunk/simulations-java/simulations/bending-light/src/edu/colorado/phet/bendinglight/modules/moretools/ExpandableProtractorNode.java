@@ -40,7 +40,7 @@ public class ExpandableProtractorNode extends ProtractorNode {
 
     //Set whether the protractor should be shown as large (expanded) or regular
     private void setExpanded( boolean expanded ) {
-        this.expanded.setValue( expanded );
+        this.expanded.set( expanded );
         setProtractorScale( originalScale * ( expanded ? 2.3//make sure the protractor circle fits within the play area when it is centered
                                                        : 1 ) );
         updateTransform();

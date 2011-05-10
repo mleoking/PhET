@@ -15,7 +15,7 @@ public class FPAFVelocitySensor extends VelocitySensor {
         super( x, y );
         final SimpleObserver updateValue = new SimpleObserver() {
             public void update() {
-                value.setValue( new Option.Some<ImmutableVector2D>( context.getVelocity( position.getValue().getX(), position.getValue().getY() ) ) );
+                value.set( new Option.Some<ImmutableVector2D>( context.getVelocity( position.get().getX(), position.get().getY() ) ) );
             }
         };
         position.addObserver( updateValue );

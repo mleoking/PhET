@@ -121,7 +121,7 @@ public class Atom implements IDynamicAtom {
     private void stepInTime() {
         animationCount++;
 
-        final boolean jumpAway = DeveloperConfiguration.ANIMATE_UNSTABLE_NUCLEUS_PROPERTY.getValue() &&//only jump away if the animation feature is unabled
+        final boolean jumpAway = DeveloperConfiguration.ANIMATE_UNSTABLE_NUCLEUS_PROPERTY.get() &&//only jump away if the animation feature is unabled
                                  !isStable() &&//only jump away if the atom is unstable
                                  !isAway && // only jump away if it wasn't already animated as away
                                  animationCount % 2 == 0; // only jump away every other animation step

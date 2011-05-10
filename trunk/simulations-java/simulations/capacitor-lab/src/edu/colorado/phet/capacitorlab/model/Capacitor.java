@@ -14,7 +14,6 @@ import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction2;
 import edu.colorado.phet.common.phetcommon.view.util.ShapeUtils;
 
 /**
@@ -87,7 +86,7 @@ public class Capacitor {
         plateSeparationProperty.addObserver( propertiesObserver );
         dielectricOffsetProperty.addObserver( propertiesObserver );
         dielectricMaterialProperty.addObserver( propertiesObserver );
-        dielectricMaterialProperty.getValue().addDielectricConstantObserver( propertiesObserver );
+        dielectricMaterialProperty.get().addDielectricConstantObserver( propertiesObserver );
         platesVoltageProperty.addObserver( propertiesObserver );
 
         // observe dielectric constant
@@ -148,7 +147,7 @@ public class Capacitor {
      * @return
      */
     public Dimension3D getPlateSize() {
-        return new Dimension3D( plateSizeProperty.getValue() );
+        return new Dimension3D( plateSizeProperty.get() );
     }
 
     /**
@@ -165,7 +164,7 @@ public class Capacitor {
         if ( !( plateWidth > 0 ) ) {
             throw new IllegalArgumentException( "plateWidth must be > 0: " + plateWidth );
         }
-        plateSizeProperty.setValue( new Dimension3D( plateWidth, plateSizeProperty.getValue().getHeight(), plateWidth ) );
+        plateSizeProperty.set( new Dimension3D( plateWidth, plateSizeProperty.get().getHeight(), plateWidth ) );
     }
 
     /**
@@ -175,7 +174,7 @@ public class Capacitor {
      * @return length, in meters
      */
     public double getPlateWidth() {
-        return plateSizeProperty.getValue().getWidth();
+        return plateSizeProperty.get().getWidth();
     }
 
     /**
@@ -184,11 +183,11 @@ public class Capacitor {
      * @return thickness, in meters
      */
     public double getPlateHeight() {
-        return plateSizeProperty.getValue().getHeight();
+        return plateSizeProperty.get().getHeight();
     }
 
     public double getPlateDepth() {
-        return plateSizeProperty.getValue().getDepth();
+        return plateSizeProperty.get().getDepth();
     }
 
     /**
@@ -220,7 +219,7 @@ public class Capacitor {
         if ( !( plateSeparation > 0 ) ) {
             throw new IllegalArgumentException( "plateSeparation must be > 0: " + plateSeparation );
         }
-        plateSeparationProperty.setValue( plateSeparation );
+        plateSeparationProperty.set( plateSeparation );
     }
 
     /**
@@ -230,7 +229,7 @@ public class Capacitor {
      * return distance, in meters.
      */
     public double getPlateSeparation() {
-        return plateSeparationProperty.getValue();
+        return plateSeparationProperty.get();
     }
 
     public void addPlateSeparationObserver( SimpleObserver o ) {
@@ -270,9 +269,9 @@ public class Capacitor {
         if ( dielectricMaterial == null ) {
             throw new IllegalArgumentException( "dielectricMaterial must be non-null" );
         }
-        dielectricMaterialProperty.getValue().removeDielectricConstantObserver( propertiesObserver );
-        dielectricMaterialProperty.setValue( dielectricMaterial );
-        dielectricMaterialProperty.getValue().addDielectricConstantObserver( propertiesObserver );
+        dielectricMaterialProperty.get().removeDielectricConstantObserver( propertiesObserver );
+        dielectricMaterialProperty.set( dielectricMaterial );
+        dielectricMaterialProperty.get().addDielectricConstantObserver( propertiesObserver );
     }
 
     /**
@@ -281,7 +280,7 @@ public class Capacitor {
      * @return
      */
     public DielectricMaterial getDielectricMaterial() {
-        return dielectricMaterialProperty.getValue();
+        return dielectricMaterialProperty.get();
     }
 
     public void addDielectricMaterialObserver( SimpleObserver o ) {
@@ -318,7 +317,7 @@ public class Capacitor {
         if ( !( dielectricOffset >= 0 ) ) {
             throw new IllegalArgumentException( "dielectricOffset must be >= 0: " + dielectricOffset );
         }
-        dielectricOffsetProperty.setValue( dielectricOffset );
+        dielectricOffsetProperty.set( dielectricOffset );
     }
 
     /**
@@ -328,7 +327,7 @@ public class Capacitor {
      * @return offset, in meters.
      */
     public double getDielectricOffset() {
-        return dielectricOffsetProperty.getValue();
+        return dielectricOffsetProperty.get();
     }
 
     public void addDielectricOffsetObserver( SimpleObserver o ) {
@@ -471,11 +470,11 @@ public class Capacitor {
     //----------------------------------------------------------------------------------
 
     public void setPlatesVoltage( double voltage ) {
-        platesVoltageProperty.setValue( voltage );
+        platesVoltageProperty.set( voltage );
     }
 
     public double getPlatesVoltage() {
-        return platesVoltageProperty.getValue();
+        return platesVoltageProperty.get();
     }
 
     //----------------------------------------------------------------------------------

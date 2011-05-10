@@ -29,7 +29,7 @@ public class TranslationDragHandle extends PNode {
     public TranslationDragHandle( final ModelViewTransform transform, final Laser laser, final double dx, final double dy, final BooleanProperty showDragHandles ) {
         showDragHandles.addObserver( new SimpleObserver() {
             public void update() {
-                setVisible( showDragHandles.getValue() );
+                setVisible( showDragHandles.get() );
             }
         } );
         final BufferedImage image = flipY( flipX( BendingLightApplication.RESOURCES.getImage( "laser.png" ) ) );
@@ -39,7 +39,7 @@ public class TranslationDragHandle extends PNode {
             public void update() {
                 removeAllChildren();
                 final PNode counterClockwiseDragArrow = new PNode() {{
-                    Point2D laserEmissionViewPoint = transform.modelToView( laser.emissionPoint.getValue().toPoint2D() );
+                    Point2D laserEmissionViewPoint = transform.modelToView( laser.emissionPoint.get().toPoint2D() );
                     ImmutableVector2D viewDelta = ImmutableVector2D.parseAngleAndMagnitude( image.getWidth() / 2, -laser.getAngle() );
                     addChild( new PhetPPath( new Arrow( new Point2D.Double( laserEmissionViewPoint.getX() + viewDelta.getX(), laserEmissionViewPoint.getY() + viewDelta.getY() ),
                                                         new ImmutableVector2D( dx, dy ), 20, 20, 10, 2, true ).getShape(), Color.green, new BasicStroke( 1 ), Color.black ) );

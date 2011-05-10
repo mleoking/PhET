@@ -53,8 +53,8 @@ public class MovingManSimulationPanel extends PhetPCanvas {
         final SimpleObserver updateViewRangeInstant = new SimpleObserver() {
             public void update() {
                 final int inset = 100;
-                double min = positiveToTheRight.getValue() ? inset : getWidth() - inset;
-                double max = positiveToTheRight.getValue() ? getWidth() - inset : inset;
+                double min = positiveToTheRight.get() ? inset : getWidth() - inset;
+                double max = positiveToTheRight.get() ? getWidth() - inset : inset;
                 viewRange.setMin(min);
                 viewRange.setMax(max);
             }
@@ -62,8 +62,8 @@ public class MovingManSimulationPanel extends PhetPCanvas {
         final SimpleObserver updateViewRangeAnimate = new SimpleObserver() {
             public void update() {
                 final int inset = 100;
-                double min = positiveToTheRight.getValue() ? inset : getWidth() - inset;
-                double max = positiveToTheRight.getValue() ? getWidth() - inset : inset;
+                double min = positiveToTheRight.get() ? inset : getWidth() - inset;
+                double max = positiveToTheRight.get() ? getWidth() - inset : inset;
                 //step towards the viewrange value to animate
                 viewRange.stepTowardsRange(min, max,getWidth()/600.0*20);//speed independent of screen size
             }
@@ -184,11 +184,11 @@ public class MovingManSimulationPanel extends PhetPCanvas {
     }
 
     private void updateAccelerationVectorVisible(PlayAreaVector accelerationVector, MovingManModel model) {
-        accelerationVector.setVisible(model.getAccelerationVectorVisible().getValue());
+        accelerationVector.setVisible(model.getAccelerationVectorVisible().get());
     }
 
     private void updateVelocityVectorVisibility(MovingManModel model, PlayAreaVector velocityVector) {
-        velocityVector.setVisible(model.getVelocityVectorVisible().getValue());
+        velocityVector.setVisible(model.getVelocityVectorVisible().get());
     }
 
     private class EarthNode extends PNode {

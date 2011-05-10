@@ -74,9 +74,9 @@ class IsotopeProprotionsPieChart extends PNode {
                     labelLayer.removeAllChildren();
                     // Update the proportions of the pie slices.
                     ArrayList<IsotopePieValue> pieSlices = new ArrayList<IsotopePieValue>();
-                    for ( ImmutableAtom isotope : model.getPossibleIsotopesProperty().getValue() ) {
+                    for ( ImmutableAtom isotope : model.getPossibleIsotopesProperty().get() ) {
                         PrecisionDecimal proportion;
-                        if ( model.getShowingNaturesMixProperty().getValue() ){
+                        if ( model.getShowingNaturesMixProperty().get() ){
                             proportion = AtomIdentifier.getNaturalAbundancePrecisionDecimal( isotope ) ;
                         }
                         else{
@@ -107,7 +107,7 @@ class IsotopeProprotionsPieChart extends PNode {
                         System.out.println("No pie slices, aborting update of chart.");
                         System.out.println("Prototype isotope = " + model.getAtom().toImmutableAtom());
                         System.out.println("Possible Isotopes: ");
-                        for (ImmutableAtom isotope : model.getPossibleIsotopesProperty().getValue()){
+                        for (ImmutableAtom isotope : model.getPossibleIsotopesProperty().get()){
                             System.out.println("   " + isotope);
                         }
                         return;
@@ -127,7 +127,7 @@ class IsotopeProprotionsPieChart extends PNode {
                         SliceLabel labelNode;
                         Point2D centerEdgeOfPieSlice = pieChart.getCenterEdgePtForSlice( i );
                         boolean labelOnLeft = centerEdgeOfPieSlice.getX() < 0;
-                        labelNode = new SliceLabel( model.getPossibleIsotopesProperty().getValue().get( i ),
+                        labelNode = new SliceLabel( model.getPossibleIsotopesProperty().get().get( i ),
                                 pieSlices.get( i ).getValue() / pieChart.getTotal() * 100,
                                 pieSlices.get( i ).getPrecisionDecimal().getNumberOfDecimalPlaces()-2,//Reduce precision by 2 since we multiplied by 2 orders of magnitude
                                 labelOnLeft );

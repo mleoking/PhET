@@ -186,7 +186,7 @@ public class DielectricCanvas extends CLCanvas {
             // things whose visibility causes the dielectric to become transparent
             SimpleObserver o = new SimpleObserver() {
                 public void update() {
-                    boolean transparent = eFieldVisible.getValue() || model.getVoltmeter().isVisible() || model.getEFieldDetector().visibleProperty.getValue();
+                    boolean transparent = eFieldVisible.get() || model.getVoltmeter().isVisible() || model.getEFieldDetector().visibleProperty.get();
                     capacitorNode.getDielectricNode().setOpaque( !transparent );
                 }
             };
@@ -197,14 +197,14 @@ public class DielectricCanvas extends CLCanvas {
             // debug shapes for measuring E-field
             globalProperties.eFieldShapesVisibleProperty.addObserver( new SimpleObserver() {
                 public void update() {
-                    eFieldShapesDebugNode.setVisible( globalProperties.eFieldShapesVisibleProperty.getValue() );
+                    eFieldShapesDebugNode.setVisible( globalProperties.eFieldShapesVisibleProperty.get() );
                 }
             } );
 
             // debug shapes for measuring voltage
             globalProperties.voltageShapesVisibleProperty.addObserver( new SimpleObserver() {
                 public void update() {
-                    voltageShapesDebugNode.setVisible( globalProperties.voltageShapesVisibleProperty.getValue() );
+                    voltageShapesDebugNode.setVisible( globalProperties.voltageShapesVisibleProperty.get() );
                 }
             } );
         }

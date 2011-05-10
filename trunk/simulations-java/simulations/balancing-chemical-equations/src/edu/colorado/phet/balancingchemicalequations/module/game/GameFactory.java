@@ -302,7 +302,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
         }
 
         // get strategy for level
-        IGameStrategy strategy = playAllEquationsProperty.getValue() ? DEV_STRATEGIES.get( level ) : STRATEGIES.get( level );
+        IGameStrategy strategy = playAllEquationsProperty.get() ? DEV_STRATEGIES.get( level ) : STRATEGIES.get( level );
 
         // get equation classes
         EquationClassesList equationClasses = strategy.getEquationClasses( numberOfEquations );

@@ -35,21 +35,21 @@ public class RewindableProperty<T> extends Property<T> {
     }
 
     @Override
-    public void setValue( T value ) {
-        super.setValue( value );
+    public void set( T value ) {
+        super.set( value );
         //If the user changed the initial conditions (as opposed to the state changing through model stepping), then store the new initial conditions, which can be rewound to
-        if ( clockPaused.getValue() && !stepping.getValue() && !rewinding.getValue() ) {
+        if ( clockPaused.get() && !stepping.get() && !rewinding.get() ) {
             storeRewindValueNoNotify();
             for ( VoidFunction0 rewindValueChangedListener : rewindValueChangedListeners ) {
                 rewindValueChangedListener.apply();
             }
         }
-        different.setValue( !equalsRewindPoint() );
+        different.set( !equalsRewindPoint() );
     }
 
     //Store the new value as the initial condition which can be rewound to.  We have to skip notifications sometimes or the wrong initial conditions get stored.
     public void storeRewindValueNoNotify() {
-        rewindValue = getValue();
+        rewindValue = get();
     }
 
     //Adds a listener that is notified when the user changes the initial conditions, which can be rewound to
@@ -58,11 +58,11 @@ public class RewindableProperty<T> extends Property<T> {
     }
 
     public boolean equalsRewindPoint() {
-        return rewindValue.equals( getValue() );
+        return rewindValue.equals( get() );
     }
 
     public void rewind() {
-        setValue( rewindValue );
+        set( rewindValue );
     }
 
     //Convenient access to whether the value has deviated from the initial condition

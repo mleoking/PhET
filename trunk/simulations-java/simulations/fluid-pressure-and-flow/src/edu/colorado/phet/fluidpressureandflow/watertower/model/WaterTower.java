@@ -25,15 +25,15 @@ public class WaterTower {
     public final Property<ImmutableVector2D> panelOffset = new Property<ImmutableVector2D>( new ImmutableVector2D( PANEL_OFFSET, 0 ) );//The movable panel that can cover the hole.
 
     public Rectangle2D.Double getTankShape() {
-        return new Rectangle2D.Double( tankBottomCenter.getValue().getX() - TANK_RADIUS, tankBottomCenter.getValue().getY(), TANK_RADIUS * 2, TANK_HEIGHT );
+        return new Rectangle2D.Double( tankBottomCenter.get().getX() - TANK_RADIUS, tankBottomCenter.get().getY(), TANK_RADIUS * 2, TANK_HEIGHT );
     }
 
     public Point2D getTankTopCenter() {
-        return new Point2D.Double( tankBottomCenter.getValue().getX(), tankBottomCenter.getValue().getY() + TANK_HEIGHT );
+        return new Point2D.Double( tankBottomCenter.get().getX(), tankBottomCenter.get().getY() + TANK_HEIGHT );
     }
 
     public Shape getSupportShape() {
-        final Point2D bottomCenter = tankBottomCenter.getValue().toPoint2D();
+        final Point2D bottomCenter = tankBottomCenter.get().toPoint2D();
         final Point2D.Double leftLegTop = new Point2D.Double( bottomCenter.getX() - TANK_RADIUS / 2, bottomCenter.getY() );
         final Point2D.Double leftLegBottom = new Point2D.Double( bottomCenter.getX() - TANK_RADIUS / 2 - LEG_EXTENSION, 0 );
         final Point2D.Double rightLegTop = new Point2D.Double( bottomCenter.getX() + TANK_RADIUS / 2, bottomCenter.getY() );
@@ -67,23 +67,23 @@ public class WaterTower {
     }
 
     public Shape getWaterShape() {
-        return new Rectangle2D.Double( tankBottomCenter.getValue().getX() - TANK_RADIUS, tankBottomCenter.getValue().getY(), TANK_RADIUS * 2, getWaterLevel() );
+        return new Rectangle2D.Double( tankBottomCenter.get().getX() - TANK_RADIUS, tankBottomCenter.get().getY(), TANK_RADIUS * 2, getWaterLevel() );
     }
 
     public double getWaterLevel() {
-        return fluidVolume.getValue() / Math.PI / TANK_RADIUS / TANK_RADIUS;
+        return fluidVolume.get() / Math.PI / TANK_RADIUS / TANK_RADIUS;
     }
 
     public Point2D getHoleLocation() {
-        return new Point2D.Double( tankBottomCenter.getValue().getX() + TANK_RADIUS + 0.55 / 2, tankBottomCenter.getValue().getY() - 0.15 );
+        return new Point2D.Double( tankBottomCenter.get().getX() + TANK_RADIUS + 0.55 / 2, tankBottomCenter.get().getY() - 0.15 );
     }
 
     public boolean isHoleOpen() {
-        return panelOffset.getValue().getY() > 0;
+        return panelOffset.get().getY() > 0;
     }
 
     public void setFluidVolume( double v ) {
-        fluidVolume.setValue( v );
+        fluidVolume.set( v );
     }
 
     public void reset() {
@@ -93,6 +93,6 @@ public class WaterTower {
     }
 
     public boolean isFull() {
-        return fluidVolume.getValue() >= tankVolume;
+        return fluidVolume.get() >= tankVolume;
     }
 }

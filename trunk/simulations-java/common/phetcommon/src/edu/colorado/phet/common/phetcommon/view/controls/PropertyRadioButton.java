@@ -29,7 +29,7 @@ public class PropertyRadioButton<T> extends JRadioButton {
         // update the model when the check box changes
         addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                property.setValue( value );
+                property.set( value );
                 propertyObserver.update();//make sure radio buttons don't toggle off, in case they're not in a button group
             }
         } );
@@ -37,7 +37,7 @@ public class PropertyRadioButton<T> extends JRadioButton {
         // update the check box when the model changes
         propertyObserver = new SimpleObserver() {
             public void update() {
-                setSelected( property.getValue() == value );
+                setSelected( property.get() == value );
             }
         };
         property.addObserver( propertyObserver );

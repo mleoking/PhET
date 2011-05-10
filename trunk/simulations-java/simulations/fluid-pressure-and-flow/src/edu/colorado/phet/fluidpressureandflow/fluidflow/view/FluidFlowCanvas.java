@@ -113,11 +113,11 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas {
         Property<Boolean> moduleActive = new Property<Boolean>( false ) {{
             module.addListener( new Module.Listener() {
                 public void activated() {
-                    setValue( true );
+                    set( true );
                 }
 
                 public void deactivated() {
-                    setValue( false );
+                    set( false );
                 }
             } );
         }};
@@ -127,7 +127,7 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas {
         new And( clockRunning, moduleActive ) {{
             addObserver( new SimpleObserver() {
                 public void update() {
-                    model.getClock().setRunning( getValue() );
+                    model.getClock().setRunning( get() );
                 }
             } );
         }};

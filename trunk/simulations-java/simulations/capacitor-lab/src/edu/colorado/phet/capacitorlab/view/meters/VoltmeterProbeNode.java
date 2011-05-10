@@ -58,7 +58,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
         // move the node when the model changes
         locationProperty.addObserver( new SimpleObserver() {
             public void update() {
-                setOffset( mvt.modelToView( locationProperty.getValue() ) );
+                setOffset( mvt.modelToView( locationProperty.get() ) );
             }
         } );
     }

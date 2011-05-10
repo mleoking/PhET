@@ -13,15 +13,15 @@ import java.awt.event.ActionListener;
  */
 public class ShowVectorCheckBox extends JCheckBox {
     public ShowVectorCheckBox(String title, final BooleanProperty visibleProperty) {
-        super(title, visibleProperty.getValue());
+        super(title, visibleProperty.get());
         addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                visibleProperty.setValue(isSelected());
+                visibleProperty.set( isSelected() );
             }
         });
         visibleProperty.addObserver(new SimpleObserver() {
             public void update() {
-                setSelected(visibleProperty.getValue());
+                setSelected(visibleProperty.get());
             }
         });
         setOpaque(false);//todo: does this work on mac?

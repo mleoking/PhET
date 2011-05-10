@@ -44,8 +44,8 @@ public class IntroModel extends BendingLightModel {
         //Relatively large regions to keep track of which side the light is on
         final Rectangle bottom = new Rectangle( -10, -10, 20, 10 );
         final Rectangle top = new Rectangle( -10, 0, 20, 10 );
-        if ( laser.on.getValue() ) {
-            final ImmutableVector2D tail = new ImmutableVector2D( laser.emissionPoint.getValue() );
+        if ( laser.on.get() ) {
+            final ImmutableVector2D tail = new ImmutableVector2D( laser.emissionPoint.get() );
 
             //Snell's law, see http://en.wikipedia.org/wiki/Snell's_law for definition of n1, n2, theta1, theta2
             final double n1 = getN1();//index in top medium
@@ -60,8 +60,8 @@ public class IntroModel extends BendingLightModel {
             double sourceWaveWidth = a / 2;//This one fixes the input beam to be a fixed width independent of angle
 
             //According to http://en.wikipedia.org/wiki/Wavelength
-            final Color color = laser.color.getValue().getColor();
-            final double wavelengthInTopMedium = laser.color.getValue().getWavelength() / n1;
+            final Color color = laser.color.get().getColor();
+            final double wavelengthInTopMedium = laser.color.get().getWavelength() / n1;
 
             //Since the n1 depends on the wavelength, when you change the wavelength, the wavelengthInTopMedium also changes (seemingly in the opposite direction)
             final LightRay incidentRay = new LightRay( tail, new ImmutableVector2D(), n1, wavelengthInTopMedium, sourcePower, color, sourceWaveWidth, 0.0, bottom, true, false );
@@ -111,12 +111,12 @@ public class IntroModel extends BendingLightModel {
 
     //Get the top medium index of refraction
     private double getN1() {
-        return topMedium.getValue().getIndexOfRefraction( laser.color.getValue().getWavelength() );
+        return topMedium.get().getIndexOfRefraction( laser.color.get().getWavelength() );
     }
 
     //Get the bottom medium index of refraction
     private double getN2() {
-        return bottomMedium.getValue().getIndexOfRefraction( laser.color.getValue().getWavelength() );
+        return bottomMedium.get().getIndexOfRefraction( laser.color.get().getWavelength() );
     }
 
     /*
@@ -124,7 +124,7 @@ public class IntroModel extends BendingLightModel {
      If the intensity meter misses the ray, the original ray is added.
      */
     protected boolean addAndAbsorb( LightRay ray ) {
-        boolean rayAbsorbed = ray.intersects( intensityMeter.getSensorShape() ) && intensityMeter.enabled.getValue();
+        boolean rayAbsorbed = ray.intersects( intensityMeter.getSensorShape() ) && intensityMeter.enabled.get();
         if ( rayAbsorbed ) {
             //Find intersection points with the intensity sensor
             Point2D[] intersects = getLineCircleIntersection( intensityMeter.getSensorShape(), ray.toLine2D() );
@@ -133,7 +133,7 @@ public class IntroModel extends BendingLightModel {
             if ( intersects != null && intersects[0] != null && intersects[1] != null ) {
                 double x = intersects[0].getX() + intersects[1].getX();
                 double y = intersects[0].getY() + intersects[1].getY();
-                LightRay interrupted = new LightRay( ray.tail, new ImmutableVector2D( x / 2, y / 2 ), ray.indexOfRefraction, ray.getWavelength(), ray.getPowerFraction(), laser.color.getValue().getColor(),
+                LightRay interrupted = new LightRay( ray.tail, new ImmutableVector2D( x / 2, y / 2 ), ray.indexOfRefraction, ray.getWavelength(), ray.getPowerFraction(), laser.color.get().getColor(),
                                                      ray.getWaveWidth(), ray.getNumWavelengthsPhaseOffset(), ray.getOppositeMedium(), false, ray.extendBackwards );
 
                 //don't let the wave intersect the intensity meter if it is behind the laser emission point
@@ -168,7 +168,7 @@ public class IntroModel extends BendingLightModel {
     //Determine the velocity of the topmost light ray at the specified position, if one exists, otherwise None
     protected Option<ImmutableVector2D> getVelocity( ImmutableVector2D position ) {
         for ( LightRay ray : rays ) {
-            if ( ray.contains( position, laserView.getValue() == LaserView.WAVE ) ) {
+            if ( ray.contains( position, laserView.get() == LaserView.WAVE ) ) {
                 return new Option.Some<ImmutableVector2D>( ray.getVelocityVector() );
             }
         }
@@ -178,7 +178,7 @@ public class IntroModel extends BendingLightModel {
     //Determine the wave value of the topmost light ray at the specified position, or None if none exists
     protected Option<Double> getWaveValue( ImmutableVector2D position ) {
         for ( LightRay ray : rays ) {
-            if ( ray.contains( position, laserView.getValue() == LaserView.WAVE ) ) {
+            if ( ray.contains( position, laserView.get() == LaserView.WAVE ) ) {
                 //Map power to displayed amplitude
                 final double amplitude = Math.sqrt( ray.getPowerFraction() );
 

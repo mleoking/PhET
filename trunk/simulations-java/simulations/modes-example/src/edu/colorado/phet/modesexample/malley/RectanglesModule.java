@@ -58,12 +58,12 @@ public class RectanglesModule extends PiccoloModule {
         // Set the default canvas.
         // We need to do this here because the currentMode observer below calls invokeLater,
         // so there may be a period of time where getSimulationPanel returns null.
-        setSimulationPanel( currentMode.getValue().canvas );
+        setSimulationPanel( currentMode.get().canvas );
 
         // when the mode changes, change the play area
         currentMode.addObserver( new SimpleObserver() {
             public void update() {
-                setSimulationPanel( currentMode.getValue().canvas );
+                setSimulationPanel( currentMode.get().canvas );
             }
         } );
     }

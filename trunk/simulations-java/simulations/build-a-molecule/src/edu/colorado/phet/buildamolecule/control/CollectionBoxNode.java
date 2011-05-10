@@ -126,7 +126,7 @@ public class CollectionBoxNode extends SwingLayoutNode {
 
         updateMoleculeLayout();
 
-        if ( box.quantity.getValue() > 0 ) {
+        if ( box.quantity.get() > 0 ) {
             centerMoleculesInBlackBox();
         }
     }
@@ -166,10 +166,10 @@ public class CollectionBoxNode extends SwingLayoutNode {
             @Override
             public void run() {
                 // decrement and check
-                counts.setValue( counts.getValue() - 1 );
-                assert ( counts.getValue() >= 0 );
+                counts.set( counts.get() - 1 );
+                assert ( counts.get() >= 0 );
 
-                if ( counts.getValue() == 0 ) {
+                if ( counts.get() == 0 ) {
                     // set up our normal graphics (border/background)
                     updateBoxGraphics();
 
@@ -179,10 +179,10 @@ public class CollectionBoxNode extends SwingLayoutNode {
                 }
                 else {
                     // toggle state
-                    on.setValue( !on.getValue() );
+                    on.set( !on.get() );
 
                     // draw graphics
-                    if ( on.getValue() ) {
+                    if ( on.get() ) {
                         blackBox.setPaint( BuildAMoleculeConstants.MOLECULE_COLLECTION_BOX_BACKGROUND_BLINK );
                         blackBox.setStrokePaint( BuildAMoleculeConstants.MOLECULE_COLLECTION_BOX_BORDER_BLINK );
                     }

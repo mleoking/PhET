@@ -54,7 +54,7 @@ public class AtomNode extends PNode {
         // respond to the visibility of the atom
         atom.visible.addObserver( new SimpleObserver() {
             public void update() {
-                setVisible( atom.visible.getValue() );
+                setVisible( atom.visible.get() );
             }
         } );
 

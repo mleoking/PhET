@@ -105,7 +105,7 @@ public class MovingManModel {
         {
             final MovingMan.Listener positonModeListener = new MovingMan.Listener() {
                 public void changed() {
-                    positionMode.setValue(getMovingMan().getMotionStrategy() == MovingMan.POSITION_DRIVEN);
+                    positionMode.set( getMovingMan().getMotionStrategy() == MovingMan.POSITION_DRIVEN );
                 }
             };
             getMovingMan().addListener(positonModeListener);
@@ -116,7 +116,7 @@ public class MovingManModel {
         {
             final MovingMan.Listener velocityModeListener = new MovingMan.Listener() {
                 public void changed() {
-                    velocityMode.setValue(getMovingMan().getMotionStrategy() == MovingMan.VELOCITY_DRIVEN);
+                    velocityMode.set( getMovingMan().getMotionStrategy() == MovingMan.VELOCITY_DRIVEN );
                 }
             };
             getMovingMan().addListener(velocityModeListener);
@@ -127,7 +127,7 @@ public class MovingManModel {
         {
             final MovingMan.Listener accelerationModeListener = new MovingMan.Listener() {
                 public void changed() {
-                    accelerationMode.setValue(getMovingMan().getMotionStrategy() == MovingMan.ACCELERATION_DRIVEN);
+                    accelerationMode.set( getMovingMan().getMotionStrategy() == MovingMan.ACCELERATION_DRIVEN );
                 }
             };
             accelerationModeListener.changed();
@@ -137,9 +137,9 @@ public class MovingManModel {
 
     public void resetAll() {
         movingMan.resetAll();
-        walls.setValue(WALLS_BY_DEFAULT);
-        velocityVectorVisible.setValue(VELOCITY_VECTOR_VISIBLE_BY_DEFAULT);
-        accelerationVectorVisible.setValue(ACCELERATION_VECTOR_VISIBLE_BY_DEFAULT);
+        walls.set( WALLS_BY_DEFAULT );
+        velocityVectorVisible.set( VELOCITY_VECTOR_VISIBLE_BY_DEFAULT );
+        accelerationVectorVisible.set( ACCELERATION_VECTOR_VISIBLE_BY_DEFAULT );
 
         clear();
     }
@@ -156,7 +156,7 @@ public class MovingManModel {
 
     public WallResult clampIfWalled(double x) {
         double clamped = range.clamp(x);
-        if (walls.getValue()) return new WallResult(clamped, clamped != x);
+        if (walls.get()) return new WallResult(clamped, clamped != x);
         else return new WallResult(x, false);
     }
 
@@ -395,13 +395,13 @@ public class MovingManModel {
      */
     public MovingManState getRecordingState() {
         return new MovingManState(positionGraphSeries.getLastPoint().getTime(), new ManState(positionGraphSeries.getLastPoint().getValue(),
-                velocityGraphSeries.getLastPoint().getValue(), accelerationGraphSeries.getLastPoint().getValue(), movingMan.getMotionStrategy()), walls.getValue());
+                velocityGraphSeries.getLastPoint().getValue(), accelerationGraphSeries.getLastPoint().getValue(), movingMan.getMotionStrategy()), walls.get());
     }
 
     public void setPlaybackState(MovingManState state) {
         this.time = state.getTime();//recording and playing back the state time ensures that the user cannot put the cursor in a time between two samples, thus we don't need to interpolate
         this.times.clear();
-        this.walls.setValue(state.getWalls());
+        this.walls.set( state.getWalls() );
         this.movingMan.setState(state.getMovingManState());
         setMousePosition(state.getMovingManState().getPosition());
         this.chartCursor.setTime(time);

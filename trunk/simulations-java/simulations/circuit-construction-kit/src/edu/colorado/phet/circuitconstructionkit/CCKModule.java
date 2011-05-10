@@ -64,11 +64,11 @@ public class CCKModule extends PiccoloModule {
     }
 
     public void setLifelike(boolean b) {
-        getCCKViewState().getLifelikeProperty().setValue(b);
+        getCCKViewState().getLifelikeProperty().set( b );
     }
 
     public boolean isLifelike() {
-        return getCCKViewState().getLifelikeProperty().getValue();
+        return getCCKViewState().getLifelikeProperty().get();
     }
 
     public CircuitChangeListener getCircuitChangeListener() {

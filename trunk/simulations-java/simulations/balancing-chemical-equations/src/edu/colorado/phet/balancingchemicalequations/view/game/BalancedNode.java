@@ -26,7 +26,7 @@ public class BalancedNode extends GamePopupNode {
      * Convenience constructor.
      */
     public BalancedNode( int points, BCEGlobalProperties globalProperties ) {
-        this( points, globalProperties.popupsCloseButtonVisible.getValue(), globalProperties.popupsTitleBarVisible.getValue() );
+        this( points, globalProperties.popupsCloseButtonVisible.get(), globalProperties.popupsTitleBarVisible.get() );
     }
 
     /*

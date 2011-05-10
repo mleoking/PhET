@@ -58,7 +58,7 @@ public class ElementNameIndicator extends PNode {
             elementName.setText( " " );
         }
         elementName.setOffset( -elementName.getFullBoundsReference().width / 2, -elementName.getFullBoundsReference().height / 2 );
-        elementName.setVisible( showLabels.getValue() );
+        elementName.setVisible( showLabels.get() );
     }
 
     public void setColor( Color color ){

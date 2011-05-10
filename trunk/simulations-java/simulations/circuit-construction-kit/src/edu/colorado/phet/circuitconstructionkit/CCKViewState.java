@@ -19,7 +19,7 @@ public class CCKViewState {
     }
 
     public void setReadoutsVisible(boolean r) {
-        readoutsVisible.setValue(r);
+        readoutsVisible.set( r );
     }
 
     public BooleanProperty getReadoutsVisibleProperty() {
@@ -31,6 +31,6 @@ public class CCKViewState {
     }
 
     public void setLifelike(boolean lifelike) {
-        getLifelikeProperty().setValue(lifelike);
+        getLifelikeProperty().set( lifelike );
     }
 }

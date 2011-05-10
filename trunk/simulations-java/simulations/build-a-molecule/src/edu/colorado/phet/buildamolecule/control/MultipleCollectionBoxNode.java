@@ -28,11 +28,11 @@ public class MultipleCollectionBoxNode extends CollectionBoxNode {
                    // update when the quantity changes
                    box.quantity.addObserver( new SimpleObserver() {
                        public void update() {
-                           if ( box.quantity.getValue() == 0 ) {
+                           if ( box.quantity.get() == 0 ) {
                                setHTML( subscriptFix + BuildAMoleculeStrings.COLLECTION_MULTIPLE_QUANTITY_EMPTY + subscriptFix );
                            }
                            else {
-                               setHTML( MessageFormat.format( subscriptFix + BuildAMoleculeStrings.COLLECTION_MULTIPLE_QUANTITY_FORMAT + subscriptFix, box.quantity.getValue(), box.getMoleculeType().getMoleculeStructure().getGeneralFormulaFragment() ) );
+                               setHTML( MessageFormat.format( subscriptFix + BuildAMoleculeStrings.COLLECTION_MULTIPLE_QUANTITY_FORMAT + subscriptFix, box.quantity.get(), box.getMoleculeType().getMoleculeStructure().getGeneralFormulaFragment() ) );
                            }
                        }
                    } );

@@ -17,7 +17,7 @@ public class WorkEnergyBarGraphNode extends PNode {
     public WorkEnergyBarGraphNode( final Property<Boolean> visibleProperty, final WorkEnergyObject object ) {
         visibleProperty.addObserver( new SimpleObserver() {
             public void update() {
-                setVisible( visibleProperty.getValue() );
+                setVisible( visibleProperty.get() );
             }
         } );
 
@@ -45,10 +45,10 @@ public class WorkEnergyBarGraphNode extends PNode {
 
     public static class WorkEnergyBarValue extends BarChartNode.Variable {
         public WorkEnergyBarValue( String name, final Property<Double> value, Color color, final BarChartNode parent ) {
-            super( name, value.getValue(), color );
+            super( name, value.get(), color );
             value.addObserver( new SimpleObserver() {
                 public void update() {
-                    setValue( value.getValue() );
+                    setValue( value.get() );
                     parent.update();
                 }
             } );

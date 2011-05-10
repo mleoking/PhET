@@ -46,7 +46,7 @@ public class RelativeDragHandler extends PBasicInputEventHandler {
     //Update the relative grabbed point within the PNode
     private void updateGrabPoint( PInputEvent event ) {
         Point2D viewStartingPoint = event.getPositionRelativeTo( node.getParent() );
-        ImmutableVector2D viewCoordinateOfObject = transform.modelToView( modelLocation.getValue() );
+        ImmutableVector2D viewCoordinateOfObject = transform.modelToView( modelLocation.get() );
         relativeGrabPoint = new Point2D.Double( viewStartingPoint.getX() - viewCoordinateOfObject.getX(), viewStartingPoint.getY() - viewCoordinateOfObject.getY() );
     }
 
@@ -64,7 +64,7 @@ public class RelativeDragHandler extends PBasicInputEventHandler {
 
         //Find the constrained point for the targeted model point and apply it
         Point2D constrained = constraint.apply( modelPt );
-        this.modelLocation.setValue( new ImmutableVector2D( constrained ) );
+        this.modelLocation.set( new ImmutableVector2D( constrained ) );
     }
 
     //Forget the relative grab point to reset for next drag sequence

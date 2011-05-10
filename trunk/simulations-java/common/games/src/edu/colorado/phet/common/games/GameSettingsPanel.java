@@ -221,7 +221,7 @@ public class GameSettingsPanel extends GridPanel {
         final Property<Boolean> powerEnabledProperty = new Property<Boolean>( true );
         powerEnabledProperty.addObserver( new SimpleObserver() {
             public void update() {
-                System.out.println( "powerEnabledProperty " + powerEnabledProperty.getValue() );
+                System.out.println( "powerEnabledProperty " + powerEnabledProperty.get() );
             }
         } );
 
@@ -229,25 +229,25 @@ public class GameSettingsPanel extends GridPanel {
         final GameSettings gameSettings = new GameSettings( new IntegerRange( 1,5,3), false, false );
         gameSettings.level.addObserver( new SimpleObserver() {
             public void update() {
-                System.out.println( "gameSettings.level " + gameSettings.level.getValue() );
+                System.out.println( "gameSettings.level " + gameSettings.level.get() );
             }
         } );
         gameSettings.timerEnabled.addObserver( new SimpleObserver() {
             public void update() {
-                System.out.println( "gameSettings.timerEnabled " + gameSettings.timerEnabled.getValue() );
+                System.out.println( "gameSettings.timerEnabled " + gameSettings.timerEnabled.get() );
             }
         } );
         gameSettings.soundEnabled.addObserver( new SimpleObserver() {
             public void update() {
-                System.out.println( "gameSettings.soundEnabled " + gameSettings.soundEnabled.getValue() );
+                System.out.println( "gameSettings.soundEnabled " + gameSettings.soundEnabled.get() );
             }
         } );
         VoidFunction0 startFunction = new VoidFunction0() {
             public void apply() {
-                System.out.println( "START: level=" + gameSettings.level.getValue() +
-                        " timerEnabled=" + gameSettings.timerEnabled.getValue() +
-                        " soundEnabled=" + gameSettings.soundEnabled.getValue() +
-                        " powerEnabled=" + powerEnabledProperty.getValue() );
+                System.out.println( "START: level=" + gameSettings.level.get() +
+                        " timerEnabled=" + gameSettings.timerEnabled.get() +
+                        " soundEnabled=" + gameSettings.soundEnabled.get() +
+                        " powerEnabled=" + powerEnabledProperty.get() );
             }
         };
 

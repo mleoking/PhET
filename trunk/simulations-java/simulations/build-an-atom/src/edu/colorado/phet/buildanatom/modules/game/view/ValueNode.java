@@ -44,11 +44,11 @@ public class ValueNode extends PNode {
     public ValueNode( final Property<Integer> numericProperty, final int minimum, final int maximum, int stepSize,
             final Property<Boolean> editable, final NumberFormat numberFormat, final Function0<Color> colorFunction ) {
         this.colorFunction = colorFunction;
-        spinner = new JSpinner( new SpinnerNumberModel( numericProperty.getValue().intValue(), minimum, maximum, stepSize ) ) {
+        spinner = new JSpinner( new SpinnerNumberModel( numericProperty.get().intValue(), minimum, maximum, stepSize ) ) {
             {
                 addChangeListener( new ChangeListener() {
                     public void stateChanged( ChangeEvent e ) {
-                        numericProperty.setValue( (Integer) getValue() );
+                        numericProperty.set( (Integer) getValue() );
                     }
                 } );
             }
@@ -58,7 +58,7 @@ public class ValueNode extends PNode {
         // text and the spinner will both need to be updated.
         updateReadouts = new SimpleObserver() {
             public void update() {
-                spinner.setValue( numericProperty.getValue() );
+                spinner.setValue( numericProperty.get() );
                 try {
                     //Try to set the text color to red for protons, but be prepared to fail due to type unsafety
                     ( (JSpinner.DefaultEditor) spinner.getEditor() ).getTextField().setForeground( ValueNode.this.colorFunction.apply() );
@@ -67,7 +67,7 @@ public class ValueNode extends PNode {
                     System.out.println( "ignoring = " + e );
                 }
                 text.setTextPaint( ValueNode.this.colorFunction.apply() );
-                text.setText( numberFormat.format( numericProperty.getValue() ) );
+                text.setText( numberFormat.format( numericProperty.get() ) );
             }
         };
         numericProperty.addObserver( updateReadouts );
@@ -83,8 +83,8 @@ public class ValueNode extends PNode {
         // editable version is shown or the fixed text is shown.
         editable.addObserver( new SimpleObserver() {
             public void update() {
-                spinnerPSwing.setVisible( editable.getValue() );
-                text.setVisible( !editable.getValue() );
+                spinnerPSwing.setVisible( editable.get() );
+                text.setVisible( !editable.get() );
             }
         } );
         final JSpinner.DefaultEditor numberEditor = (JSpinner.DefaultEditor) getSpinnerEditor();

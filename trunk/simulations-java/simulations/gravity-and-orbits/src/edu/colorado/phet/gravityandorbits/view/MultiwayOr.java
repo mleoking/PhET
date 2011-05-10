@@ -17,7 +17,7 @@ public class MultiwayOr extends Property<Boolean> {
         super( or( p ) );
         final SimpleObserver updateState = new SimpleObserver() {
             public void update() {
-                setValue( or( p ) );
+                set( or( p ) );
             }
         };
         for ( Property<Boolean> v : p ) {
@@ -27,7 +27,7 @@ public class MultiwayOr extends Property<Boolean> {
 
     private static Boolean or( List<Property<Boolean>> p ) {
         for ( Property<Boolean> booleanProperty : p ) {
-            if ( booleanProperty.getValue() ) { return true; }
+            if ( booleanProperty.get() ) { return true; }
         }
         return false;
     }

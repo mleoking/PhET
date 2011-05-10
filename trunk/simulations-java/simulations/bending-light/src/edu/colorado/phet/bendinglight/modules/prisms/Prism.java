@@ -26,24 +26,24 @@ public class Prism {
     }
 
     public void translate( double dx, double dy ) {
-        shape.setValue( shape.getValue().getTranslatedInstance( dx, dy ) );
+        shape.set( shape.get().getTranslatedInstance( dx, dy ) );
     }
 
     //Compute the intersections of the specified ray with this polygon's edges
     public ArrayList<Intersection> getIntersections( Ray incidentRay ) {
-        return shape.getValue().getIntersections( incidentRay );
+        return shape.get().getIntersections( incidentRay );
     }
 
     public boolean contains( ImmutableVector2D point ) {
-        return shape.getValue().containsPoint( point );
+        return shape.get().containsPoint( point );
     }
 
     public Prism copy() {
-        return new Prism( shape.getValue() );
+        return new Prism( shape.get() );
     }
 
     public Rectangle2D getBounds() {
-        return shape.getValue().getBounds();
+        return shape.get().getBounds();
     }
 
     public void translate( Dimension2D delta ) {
@@ -51,6 +51,6 @@ public class Prism {
     }
 
     public void rotate( double deltaAngle ) {
-        shape.setValue( shape.getValue().getRotatedInstance( deltaAngle, shape.getValue().getRotationCenter() ) );
+        shape.set( shape.get().getRotatedInstance( deltaAngle, shape.get().getRotationCenter() ) );
     }
 }

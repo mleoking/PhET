@@ -28,7 +28,7 @@ public class BalancedNotSimplifiedNode extends GamePopupNode {
      * Convenience constructor.
      */
     public BalancedNotSimplifiedNode( BCEGlobalProperties globalProperties ) {
-        this( globalProperties.popupsCloseButtonVisible.getValue(), globalProperties.popupsTitleBarVisible.getValue() );
+        this( globalProperties.popupsCloseButtonVisible.get(), globalProperties.popupsTitleBarVisible.get() );
     }
 
     /*

@@ -24,7 +24,7 @@ public class NetMagnetizationField extends PNode {
         setOffset( transform.modelToViewDouble( model.getLattice().getWidth() / 2, model.getLattice().getHeight() / 2 ) );
         magnetizationProperty.addObserver( new SimpleObserver() {
             public void update() {
-                ImmutableVector2D magnetization = magnetizationProperty.getValue();
+                ImmutableVector2D magnetization = magnetizationProperty.get();
                 magnetization = magnetization.getScaledInstance( -20 );
                 arrowNode.setTipAndTailLocations( new Point2D.Double( -magnetization.getX() / 2, -magnetization.getY() / 2 ),
                                                   new Point2D.Double( magnetization.getX() / 2, magnetization.getY() / 2 ) );

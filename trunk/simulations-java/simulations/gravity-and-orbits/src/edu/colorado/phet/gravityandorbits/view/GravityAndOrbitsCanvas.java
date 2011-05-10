@@ -59,7 +59,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
 
         module.whiteBackgroundProperty.addObserver( new SimpleObserver() {
             public void update() {
-                setBackground( module.whiteBackgroundProperty.getValue() ? Color.white : Color.black );
+                setBackground( module.whiteBackgroundProperty.get() ? Color.white : Color.black );
             }
         } );
 
@@ -74,7 +74,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
             }
 
             public void mouseMoved( MouseEvent mouseEvent ) {
-                mousePositionProperty.setValue( new ImmutableVector2D( mouseEvent.getPoint().x, mouseEvent.getPoint().y ) );
+                mousePositionProperty.set( new ImmutableVector2D( mouseEvent.getPoint().x, mouseEvent.getPoint().y ) );
             }
         } );
 
@@ -97,7 +97,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
                 final SimpleObserver updateReturnable = new SimpleObserver() {
                     public void update() {
                         Rectangle2D canvasBounds = new Rectangle2D.Double( 0, 0, GravityAndOrbitsCanvas.this.getWidth(), GravityAndOrbitsCanvas.this.getHeight() );
-                        setValue( !canvasBounds.intersects( bodyNode.getGlobalFullBounds() ) );
+                        set( !canvasBounds.intersects( bodyNode.getGlobalFullBounds() ) );
                     }
                 };
                 body.getPositionProperty().addObserver( updateReturnable );
@@ -140,7 +140,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
         addChild( new GridNode( mode.transform, mode.getGridSpacing(), mode.getGridCenter() ) {{
             module.showGridProperty.addObserver( new SimpleObserver() {
                 public void update() {
-                    setVisible( module.showGridProperty.getValue() );
+                    setVisible( module.showGridProperty.get() );
                 }
             } );
         }} );
@@ -158,7 +158,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
             setOffset( controlPanelNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, controlPanelNode.getFullBounds().getMaxY() + 5 );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    module.modeProperty.getValue().resetMode();//also clears the deviated enable flag
+                    module.modeProperty.get().resetMode();//also clears the deviated enable flag
                 }
             } );
         }};
@@ -191,7 +191,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
                 final MultiwayOr anyPropertyChanged = new MultiwayOr( p );
                 anyPropertyChanged.addObserver( new SimpleObserver() {
                     public void update() {
-                        setEnabled( anyPropertyChanged.getValue() );
+                        setEnabled( anyPropertyChanged.get() );
                     }
                 } );
             }};
@@ -213,7 +213,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
         //Tell each of the bodies about the stage size (in model coordinates) so they know if they are out of bounds
         Rectangle2D stage = new Rectangle2D.Double( 0, 0, STAGE_SIZE.width, STAGE_SIZE.height );
         for ( Body body : mode.getModel().getBodies() ) {
-            body.getBounds().setValue( mode.transform.getValue().viewToModel( stage ) );
+            body.getBounds().set( mode.transform.get().viewToModel( stage ) );
         }
 
         //If any body is out of bounds, show a "return object" button
@@ -222,12 +222,12 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     model.returnBodies();
-                    module.clockPausedProperty.setValue( true );//At 3/21/2011 meeting we decided that "return object" button should also always pause the clock.
+                    module.clockPausedProperty.set( true );//At 3/21/2011 meeting we decided that "return object" button should also always pause the clock.
                 }
             } );
             anythingReturnable.addObserver( new SimpleObserver() {
                 public void update() {
-                    setVisible( anythingReturnable.getValue() );
+                    setVisible( anythingReturnable.get() );
                 }
             } );
             setOffset( 100, 100 );
@@ -253,12 +253,12 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
                 setFont( zoomButtonFont );
                 addActionListener( new ActionListener() {
                     public void actionPerformed( ActionEvent e ) {
-                        mode.zoomLevel.setValue( Math.min( MAX, mode.zoomLevel.getValue() + DELTA_ZOOM ) );
+                        mode.zoomLevel.set( Math.min( MAX, mode.zoomLevel.get() + DELTA_ZOOM ) );
                     }
                 } );
                 mode.zoomLevel.addObserver( new SimpleObserver() {
                     public void update() {
-                        setEnabled( mode.zoomLevel.getValue() != MAX );
+                        setEnabled( mode.zoomLevel.get() != MAX );
                     }
                 } );
             }};
@@ -266,12 +266,12 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
                 setFont( zoomButtonFont );
                 addActionListener( new ActionListener() {
                     public void actionPerformed( ActionEvent e ) {
-                        mode.zoomLevel.setValue( Math.max( MIN, mode.zoomLevel.getValue() - DELTA_ZOOM ) );
+                        mode.zoomLevel.set( Math.max( MIN, mode.zoomLevel.get() - DELTA_ZOOM ) );
                     }
                 } );
                 mode.zoomLevel.addObserver( new SimpleObserver() {
                     public void update() {
-                        setEnabled( mode.zoomLevel.getValue() != MIN );
+                        setEnabled( mode.zoomLevel.get() != MIN );
                     }
                 } );
             }};
@@ -282,12 +282,12 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
                 final Function.LinearFunction modelToView = new Function.LinearFunction( 0, 100, MIN, MAX );
                 addChangeListener( new ChangeListener() {
                     public void stateChanged( ChangeEvent e ) {
-                        mode.zoomLevel.setValue( modelToView.evaluate( getValue() ) );
+                        mode.zoomLevel.set( modelToView.evaluate( getValue() ) );
                     }
                 } );
                 mode.zoomLevel.addObserver( new SimpleObserver() {
                     public void update() {
-                        setValue( (int) modelToView.createInverse().evaluate( mode.zoomLevel.getValue() ) );
+                        setValue( (int) modelToView.createInverse().evaluate( mode.zoomLevel.get() ) );
                     }
                 } );
             }} );

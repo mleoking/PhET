@@ -13,7 +13,6 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.And;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
-import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
@@ -49,7 +48,7 @@ public class RotationDragHandle extends PNode {
         final And showArrow = showDragHandles.and( notAtMaximum );
         showArrow.addObserver( new SimpleObserver() {
             public void update() {
-                setVisible( showArrow.getValue() );
+                setVisible( showArrow.get() );
             }
         } );
         final BufferedImage image = flipY( flipX( BendingLightApplication.RESOURCES.getImage( "laser.png" ) ) );
@@ -61,7 +60,7 @@ public class RotationDragHandle extends PNode {
                 final PNode counterClockwiseDragArrow = new PNode() {{
                     //Draw a curved shape with an arc
                     final double distance = transform.modelToViewDeltaX( laser.getDistanceFromPivot() ) + image.getWidth() * 0.85;
-                    final Point2D viewOrigin = transform.modelToView( laser.pivot.getValue() ).toPoint2D();
+                    final Point2D viewOrigin = transform.modelToView( laser.pivot.get() ).toPoint2D();
                     final double laserAngleInDegrees = toDegrees( laser.getAngle() );
                     Arc2D.Double arc = new Arc2D.Double( -distance + viewOrigin.getX(), -distance + viewOrigin.getY(), 2 * distance, 2 * distance, laserAngleInDegrees, deltaAngleDegrees, Arc2D.OPEN );
                     final Shape arrowBody = new BasicStroke( 10, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER ).createStrokedShape( arc );

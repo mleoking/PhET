@@ -26,7 +26,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.IClock;
         clock.addClockListener( new ClockAdapter() {
             @Override
             public void clockTicked( ClockEvent clockEvent ) {
-                time.setValue( clockEvent.getWallTime() - startTime );
+                time.set( clockEvent.getWallTime() - startTime );
             }
         } );
     }
@@ -36,7 +36,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.IClock;
      * When the timer is started, it restarts from zero.
      */
     public void start() {
-        time.setValue( 0L );
+        time.set( 0L );
         startTime = System.currentTimeMillis(); // don't use clock.getWallTime, it's not valid until the clock ticks
         clock.start();
     }

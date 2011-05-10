@@ -21,7 +21,7 @@ public class IntroductionFaceNode extends FaceNode {
         super( 120 );
         smile();
 
-        this.equation = currentEquationProperty.getValue();
+        this.equation = currentEquationProperty.get();
 
         // set visibility based on whether the current equation is balanced
         final SimpleObserver balancedObserver = new SimpleObserver() {
@@ -34,7 +34,7 @@ public class IntroductionFaceNode extends FaceNode {
         currentEquationProperty.addObserver( new SimpleObserver() {
             public void update() {
                 equation.getBalancedProperty().removeObserver( balancedObserver );
-                equation = currentEquationProperty.getValue();
+                equation = currentEquationProperty.get();
                 equation.getBalancedProperty().addObserver( balancedObserver );
             }
         } );

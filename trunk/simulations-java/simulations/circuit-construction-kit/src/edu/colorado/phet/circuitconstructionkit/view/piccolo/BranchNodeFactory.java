@@ -39,7 +39,7 @@ public class BranchNodeFactory {
     }
 
     protected BranchNode createNode(Branch branch) {
-        if (lifelikeProperty.getValue()) {
+        if (lifelikeProperty.get()) {
             return createLifelikeNode(branch);
         } else {
             return createSchematicNode(branch);

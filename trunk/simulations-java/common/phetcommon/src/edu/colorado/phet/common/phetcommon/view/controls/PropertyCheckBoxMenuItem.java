@@ -27,14 +27,14 @@ public class PropertyCheckBoxMenuItem extends JCheckBoxMenuItem {
         // update the model when the menu item changes
         this.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                property.setValue( isSelected() );
+                property.set( isSelected() );
             }
         } );
 
         // update the menu item when the model changes
         propertyObserver = new SimpleObserver() {
             public void update() {
-                setSelected( property.getValue() );
+                setSelected( property.get() );
             }
         };
         property.addObserver( propertyObserver );

@@ -31,7 +31,7 @@ public class GoButton extends PNode {
         });
         final SimpleObserver observer = new SimpleObserver() {
             public void update() {
-                button.setVisible(visible.getValue());
+                button.setVisible(visible.get());
             }
         };
         observer.update();

@@ -102,7 +102,7 @@ public class MoleculesAndLightCanvas extends PhetPCanvas {
         // menu) to force the background to be white.
         module.getWhiteBackgroundProperty().addObserver( new SimpleObserver() {
             public void update() {
-                setBackground( module.getWhiteBackgroundProperty().getValue() ? Color.white : Color.black );
+                setBackground( module.getWhiteBackgroundProperty().get() ? Color.white : Color.black );
             }
         } );
 

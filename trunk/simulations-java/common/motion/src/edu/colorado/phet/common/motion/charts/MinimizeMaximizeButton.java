@@ -27,7 +27,7 @@ public class MinimizeMaximizeButton extends PNode {
         
         SimpleObserver maximizedObserver = new SimpleObserver() {
             public void update() {
-                node.setMaximized( maximized.getValue() );
+                node.setMaximized( maximized.get() );
             }
         };
         
@@ -37,7 +37,7 @@ public class MinimizeMaximizeButton extends PNode {
         this.defaultMaximizedValue = maximizedValue;
         node.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent e) {
-                maximized.setValue(node.isMaximized());
+                maximized.set( node.isMaximized() );
             }
         });
     }
@@ -47,6 +47,6 @@ public class MinimizeMaximizeButton extends PNode {
     }
     
     public void reset() {
-        maximized.setValue( defaultMaximizedValue );
+        maximized.set( defaultMaximizedValue );
     }
 }

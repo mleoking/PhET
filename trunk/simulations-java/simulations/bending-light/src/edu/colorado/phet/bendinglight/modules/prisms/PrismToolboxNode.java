@@ -55,8 +55,8 @@ public class PrismToolboxNode extends PNode {
 
         public PrismIcon( final Prism prism, final PrismBreakModel model, ModelViewTransform transform, PrismBreakCanvas canvas, final Function0<Rectangle2D> globalToolboxBounds ) {
             super( toThumbnail( prism, model, transform ), new Property<Boolean>( false ) {
-                       @Override public void setValue( Boolean value ) {
-                           super.setValue( false );
+                       @Override public void set( Boolean value ) {
+                           super.set( false );
                        }
                    }, transform, canvas, new NodeFactory() {
                        public ToolNode createNode( ModelViewTransform transform, Property<Boolean> visible, Point2D location ) {

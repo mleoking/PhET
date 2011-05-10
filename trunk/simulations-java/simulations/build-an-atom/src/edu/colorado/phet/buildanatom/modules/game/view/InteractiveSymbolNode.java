@@ -88,13 +88,13 @@ public class InteractiveSymbolNode extends PNode {
         // Listen to the proton property value and update the symbol and element name accordingly.
         protonCountProperty.addObserver( new SimpleObserver() {
             public void update() {
-                symbol.setText( protonCountProperty.getValue() == 0 ? "-" : AtomIdentifier.getSymbol( protonCountProperty.getValue() ) );
+                symbol.setText( protonCountProperty.get() == 0 ? "-" : AtomIdentifier.getSymbol( protonCountProperty.get() ) );
                 symbol.setOffset( WIDTH / 2 - symbol.getFullBoundsReference().width / 2, WIDTH / 2 - symbol.getFullBoundsReference().height / 2 );
-                elementName.setText( AtomIdentifier.getName( protonCountProperty.getValue() ) );
+                elementName.setText( AtomIdentifier.getName( protonCountProperty.get() ) );
                 elementName.setOffset(
                         boundingBox.getFullBoundsReference().getCenterX() - elementName.getFullBoundsReference().width / 2,
                         boundingBox.getFullBoundsReference().getMaxY() + 5 );
-                elementName.setVisible( protonCountProperty.getValue() != 0 ); // Only show up for real elements.
+                elementName.setVisible( protonCountProperty.get() != 0 ); // Only show up for real elements.
             }
         } );
 
@@ -110,7 +110,7 @@ public class InteractiveSymbolNode extends PNode {
                 //Positive numbers are red and appear with a + sign
                 //Negative numbers are blue with a - sign
                 //Zero appears as 0 in black
-                int v = chargeProperty.getValue();
+                int v = chargeProperty.get();
                 Color color;
                 if ( v > 0 ) {
                     color = PhetColorScheme.RED_COLORBLIND;
@@ -145,19 +145,19 @@ public class InteractiveSymbolNode extends PNode {
      * @return the guess
      */
     public ImmutableAtom getGuess() {
-        final int protons = protonCountProperty.getValue();
-        final int massNumber = massProperty.getValue();
-        final int charge = chargeProperty.getValue();
+        final int protons = protonCountProperty.get();
+        final int massNumber = massProperty.get();
+        final int charge = chargeProperty.get();
         return new ImmutableAtom( protons, massNumber - protons, protons - charge );
     }
 
     public void displayAnswer( ImmutableAtom answer ) {
-        interactiveProtonCountProperty.setValue( false );
-        interactiveMassProperty.setValue( false );
-        interactiveChargeProperty.setValue( false );
-        protonCountProperty.setValue( answer.getNumProtons() );
-        massProperty.setValue( answer.getMassNumber() );
-        chargeProperty.setValue( answer.getCharge() );
+        interactiveProtonCountProperty.set( false );
+        interactiveMassProperty.set( false );
+        interactiveChargeProperty.set( false );
+        protonCountProperty.set( answer.getNumProtons() );
+        massProperty.set( answer.getMassNumber() );
+        chargeProperty.set( answer.getCharge() );
     }
 
     public void addChangeListener( final ChangeListener changeListener ) {

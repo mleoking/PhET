@@ -13,5 +13,5 @@ public abstract class SettableProperty<T> extends ObservableProperty<T> {
         super( oldValue );
     }
 
-    public abstract void setValue( T value );
+    public abstract void set( T value );
 }

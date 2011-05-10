@@ -86,9 +86,9 @@ public class MovingManNode extends PNode {
     private void updateMan() {
         double velocity = man.getVelocity();
         if (velocity > 0.1) {
-            imageNode.setImage(positiveToTheRight.getValue() ? imageRight : imageLeft);//make sure the man changes direction if the play area is flipped horizontally
+            imageNode.setImage(positiveToTheRight.get() ? imageRight : imageLeft);//make sure the man changes direction if the play area is flipped horizontally
         } else if (velocity < -0.1) {
-            imageNode.setImage(positiveToTheRight.getValue() ? imageLeft : imageRight);
+            imageNode.setImage(positiveToTheRight.get() ? imageLeft : imageRight);
         } else {
             imageNode.setImage(imageStanding);
         }

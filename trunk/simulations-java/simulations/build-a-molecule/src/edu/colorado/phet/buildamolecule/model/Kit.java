@@ -46,7 +46,7 @@ public class Kit {
         hasMoleculesInBoxes.reset();
 
         // take molecules back from the collection boxes
-        if ( !BuildAMoleculeApplication.resetKitIgnoresCollectionBoxes.getValue() ) {
+        if ( !BuildAMoleculeApplication.resetKitIgnoresCollectionBoxes.get() ) {
             for ( Pair<MoleculeStructure, CollectionBox> removedMolecule : removedMolecules ) {
                 removedMolecule._2.removeMolecule( removedMolecule._1 );
             }
@@ -68,7 +68,7 @@ public class Kit {
         }
 
         // if reset kit ignores collection boxes, add in other atoms that are equivalent to how the bucket started
-        if ( BuildAMoleculeApplication.resetKitIgnoresCollectionBoxes.getValue() ) {
+        if ( BuildAMoleculeApplication.resetKitIgnoresCollectionBoxes.get() ) {
             // TODO
         }
 
@@ -114,11 +114,11 @@ public class Kit {
     }
 
     public void show() {
-        visible.setValue( true );
+        visible.set( true );
     }
 
     public void hide() {
-        visible.setValue( false );
+        visible.set( false );
     }
 
     public boolean isContainedInBucket( AtomModel atom ) {
@@ -222,13 +222,13 @@ public class Kit {
      */
     public void moleculePutInCollectionBox( MoleculeStructure molecule, CollectionBox box ) {
         System.out.println( "You have dropped in a " + box.getMoleculeType().getCommonName() );
-        hasMoleculesInBoxes.setValue( true );
+        hasMoleculesInBoxes.set( true );
         removeMolecule( molecule );
         for ( Atom atom : molecule.getAtoms() ) {
             AtomModel atomModel = getAtomModel( atom );
             atoms.remove( atomModel );
             atomsInCollectionBox.add( atomModel );
-            atomModel.visible.setValue( false );
+            atomModel.visible.set( false );
         }
         box.addMolecule( molecule );
         removedMolecules.add( new Pair<MoleculeStructure, CollectionBox>( molecule, box ) );
@@ -354,7 +354,7 @@ public class Kit {
     }
 
     public boolean hasAtomsOutsideOfBuckets() {
-        return !molecules.isEmpty() || hasMoleculesInBoxes.getValue();
+        return !molecules.isEmpty() || hasMoleculesInBoxes.get();
     }
 
     public static interface MoleculeListener {

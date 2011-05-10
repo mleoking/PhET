@@ -26,7 +26,7 @@ public class PlayAreaObjectNode extends PNode {
         addChild(wallNode);
         SimpleObserver locationUpdate = new SimpleObserver() {
             public void update() {
-                setOffset(transform.evaluate(PlayAreaObjectNode.this.x) - getFullBounds().getWidth() / 2 + PlayAreaObjectNode.this.offsetX * (positiveToTheRight.getValue() ? 1 : -1), 0);
+                setOffset(transform.evaluate(PlayAreaObjectNode.this.x) - getFullBounds().getWidth() / 2 + PlayAreaObjectNode.this.offsetX * (positiveToTheRight.get() ? 1 : -1), 0);
             }
         };
         locationUpdate.update();

@@ -42,7 +42,7 @@ public class ExplosionNode extends PNode {
         //update the location of this node when the body changes
         body.getPositionProperty().addObserver( new SimpleObserver() {
             public void update() {
-                setOffset( modelViewTransform.getValue().modelToView( body.getPosition() ).toPoint2D() );
+                setOffset( modelViewTransform.get().modelToView( body.getPosition() ).toPoint2D() );
             }
         } );
     }
@@ -66,12 +66,12 @@ public class ExplosionNode extends PNode {
         return new BodyRenderer.SunRenderer( yellowAndWhite, 1, 14, getDoubleRadius ) {{
             new RichSimpleObserver() {
                 public void update() {
-                    setVisible( body.getCollidedProperty().getValue() && body.getClockTicksSinceExplosion().getValue() <= NUM_STEPS_FOR_ANIMATION );
+                    setVisible( body.getCollidedProperty().get() && body.getClockTicksSinceExplosion().get() <= NUM_STEPS_FOR_ANIMATION );
                 }
             }.observe( body.getCollidedProperty(), body.getClockTicksSinceExplosion() );
             body.getClockTicksSinceExplosion().addObserver( new SimpleObserver() {
                 public void update() {
-                    setDiameter( getDiameter.apply( body.getClockTicksSinceExplosion().getValue() ) );
+                    setDiameter( getDiameter.apply( body.getClockTicksSinceExplosion().get() ) );
                 }
             } );
 
@@ -79,6 +79,6 @@ public class ExplosionNode extends PNode {
     }
 
     private double getMaxViewDiameter( Body body, Property<ModelViewTransform> modelViewTransform ) {
-        return modelViewTransform.getValue().modelToViewDeltaX( body.getDiameter() ) * 2;
+        return modelViewTransform.get().modelToViewDeltaX( body.getDiameter() ) * 2;
     }
 }

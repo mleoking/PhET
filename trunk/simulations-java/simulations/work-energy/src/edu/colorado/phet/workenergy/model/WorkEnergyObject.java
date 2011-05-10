@@ -21,7 +21,7 @@ public class WorkEnergyObject {
 
     private final MutableVector2D appliedForce = new MutableVector2D( 0, 0 );
     private final MutableVector2D frictionForce = new MutableVector2D( 0, 0 );
-    private final MutableVector2D gravityForce = new MutableVector2D( 0, -9.8 * mass.getValue() );
+    private final MutableVector2D gravityForce = new MutableVector2D( 0, -9.8 * mass.get() );
     private final MutableVector2D netForce = new MutableVector2D( 0, 0 );
 
     private final DoubleProperty kineticEnergy = new DoubleProperty( 0 );
@@ -44,11 +44,11 @@ public class WorkEnergyObject {
         this.height = new DoubleProperty( height );
         final SimpleObserver updateNetForce = new SimpleObserver() {
             public void update() {
-                if ( position.getValue().getY() <= 0 || isUserControlled() ) {
-                    netForce.setValue( new ImmutableVector2D() );
+                if ( position.get().getY() <= 0 || isUserControlled() ) {
+                    netForce.set( new ImmutableVector2D() );
                 }
                 else {
-                    netForce.setValue( appliedForce.getValue().getAddedInstance( frictionForce.getValue() ).getAddedInstance( gravityForce.getValue() ) );
+                    netForce.set( appliedForce.get().getAddedInstance( frictionForce.get() ).getAddedInstance( gravityForce.get() ) );
                 }
             }
         };
@@ -61,7 +61,7 @@ public class WorkEnergyObject {
 
         SimpleObserver updateEnergy = new SimpleObserver() {
             public void update() {
-                totalEnergy.setValue( kineticEnergy.getValue() + potentialEnergy.getValue() + thermalEnergy.getValue() );
+                totalEnergy.set( kineticEnergy.get() + potentialEnergy.get() + thermalEnergy.get() );
             }
         };
         kineticEnergy.addObserver( updateEnergy );
@@ -71,7 +71,7 @@ public class WorkEnergyObject {
         //Velocity changing should trigger KE changing
         final SimpleObserver updateKineticEnergy = new SimpleObserver() {
             public void update() {
-                kineticEnergy.setValue( 1 / 2.0 * mass.getValue() * velocity.getValue().getMagnitudeSq() );
+                kineticEnergy.set( 1 / 2.0 * mass.get() * velocity.get().getMagnitudeSq() );
             }
         };
         mass.addObserver( updateKineticEnergy );
@@ -80,7 +80,7 @@ public class WorkEnergyObject {
         //Position changing should possibly trigger PE changing
         final SimpleObserver updatePotentialEnergy = new SimpleObserver() {
             public void update() {
-                potentialEnergy.setValue( -mass.getValue() * gravity.getValue() * position.getValue().getY() );
+                potentialEnergy.set( -mass.get() * gravity.get() * position.get().getY() );
             }
         };
         mass.addObserver( updatePotentialEnergy );
@@ -89,7 +89,7 @@ public class WorkEnergyObject {
 
         final SimpleObserver updateGravityForce = new SimpleObserver() {
             public void update() {
-                gravityForce.setValue( new ImmutableVector2D( 0, gravity.getValue() * mass.getValue() ) );
+                gravityForce.set( new ImmutableVector2D( 0, gravity.get() * mass.get() ) );
             }
         };
         gravity.addObserver( updateGravityForce );
@@ -97,7 +97,7 @@ public class WorkEnergyObject {
     }
 
     private boolean isUserControlled() {
-        return userControlled.getValue();
+        return userControlled.get();
     }
 
     static {
@@ -106,27 +106,27 @@ public class WorkEnergyObject {
 
     public void stepInTime( double dt ) {
         double initialEnergy = getTotalEnergy();
-        time.setValue( time.getValue() + dt );
+        time.set( time.get() + dt );
         //Assumes driven by applied force, not user setting position manually
-        acceleration.setValue( netForce.times( 1.0 / mass.getValue() ) );
-        velocity.setValue( acceleration.times( dt ).getAddedInstance( velocity.getValue() ) );
-        position.setValue( velocity.times( dt ).getAddedInstance( position.getValue() ) );
+        acceleration.set( netForce.times( 1.0 / mass.get() ) );
+        velocity.set( acceleration.times( dt ).getAddedInstance( velocity.get() ) );
+        position.set( velocity.times( dt ).getAddedInstance( position.get() ) );
 
         double deltaEnergy = initialEnergy - getTotalEnergy();
         //find a good vertical location for the object so energy is conserved
-        double deltaH = -deltaEnergy / mass.getValue() / gravity.getValue();
-        position.setValue( new ImmutableVector2D( position.getValue().getX(), position.getValue().getY() + deltaH ) );
+        double deltaH = -deltaEnergy / mass.get() / gravity.get();
+        position.set( new ImmutableVector2D( position.get().getX(), position.get().getY() + deltaH ) );
 
         if ( getY() <= 0 ) {
-            position.setValue( new ImmutableVector2D( getX(), 0 ) );
-            velocity.setValue( new ImmutableVector2D() );
-            thermalEnergy.setValue( initialEnergy - getKineticEnergyProperty().getValue() - getPotentialEnergyProperty().getValue() );
+            position.set( new ImmutableVector2D( getX(), 0 ) );
+            velocity.set( new ImmutableVector2D() );
+            thermalEnergy.set( initialEnergy - getKineticEnergyProperty().get() - getPotentialEnergyProperty().get() );
         }
 //        System.out.println( time.getValue() + "\t" + position.getValue().getY() + "\t" + velocity.getValue().getY() + "\t" + acceleration.getValue().getY() + "\t" + potentialEnergy.getValue() + "\t" + kineticEnergy.getValue() );
     }
 
     public void setAppliedForce( double fx, double fy ) {
-        appliedForce.setValue( new ImmutableVector2D( fx, fy ) );
+        appliedForce.set( new ImmutableVector2D( fx, fy ) );
     }
 
     public MutableVector2D getPositionProperty() {
@@ -143,36 +143,36 @@ public class WorkEnergyObject {
 
     public WorkEnergyObject copy() {
         final WorkEnergyObject snapshot = new WorkEnergyObject( image, getHeight() );
-        snapshot.mass.setValue( mass.getValue() );
-        snapshot.gravity.setValue( gravity.getValue() );
-        snapshot.position.setValue( position.getValue() );
-        snapshot.velocity.setValue( velocity.getValue() );
-        snapshot.acceleration.setValue( acceleration.getValue() );
-        snapshot.appliedForce.setValue( appliedForce.getValue() );
-        snapshot.frictionForce.setValue( frictionForce.getValue() );
-        snapshot.gravityForce.setValue( gravityForce.getValue() );
-        snapshot.netForce.setValue( netForce.getValue() );
-        snapshot.kineticEnergy.setValue( kineticEnergy.getValue() );
-        snapshot.thermalEnergy.setValue( thermalEnergy.getValue() );
-        snapshot.potentialEnergy.setValue( potentialEnergy.getValue() );
-        snapshot.totalEnergy.setValue( totalEnergy.getValue() );
-        snapshot.netWork.setValue( netWork.getValue() );
-        snapshot.gravityWork.setValue( gravityWork.getValue() );
-        snapshot.frictionWork.setValue( frictionWork.getValue() );
-        snapshot.appliedWork.setValue( appliedWork.getValue() );
+        snapshot.mass.set( mass.get() );
+        snapshot.gravity.set( gravity.get() );
+        snapshot.position.set( position.get() );
+        snapshot.velocity.set( velocity.get() );
+        snapshot.acceleration.set( acceleration.get() );
+        snapshot.appliedForce.set( appliedForce.get() );
+        snapshot.frictionForce.set( frictionForce.get() );
+        snapshot.gravityForce.set( gravityForce.get() );
+        snapshot.netForce.set( netForce.get() );
+        snapshot.kineticEnergy.set( kineticEnergy.get() );
+        snapshot.thermalEnergy.set( thermalEnergy.get() );
+        snapshot.potentialEnergy.set( potentialEnergy.get() );
+        snapshot.totalEnergy.set( totalEnergy.get() );
+        snapshot.netWork.set( netWork.get() );
+        snapshot.gravityWork.set( gravityWork.get() );
+        snapshot.frictionWork.set( frictionWork.get() );
+        snapshot.appliedWork.set( appliedWork.get() );
         return snapshot;
     }
 
     public void translate( double dx, double dy ) {
-        position.setValue( new ImmutableVector2D( getX() + dx, getY() + dy ) );
+        position.set( new ImmutableVector2D( getX() + dx, getY() + dy ) );
     }
 
     public double getY() {
-        return getPositionProperty().getValue().getY();
+        return getPositionProperty().get().getY();
     }
 
     public double getX() {
-        return getPositionProperty().getValue().getX();
+        return getPositionProperty().get().getX();
     }
 
     public BufferedImage getImage() {
@@ -180,7 +180,7 @@ public class WorkEnergyObject {
     }
 
     public double getHeight() {
-        return height.getValue();
+        return height.get();
     }
 
     public double getWidth() {
@@ -188,8 +188,8 @@ public class WorkEnergyObject {
     }
 
     public void setUserControlled( boolean b ) {
-        userControlled.setValue( b );
-        velocity.setValue( new ImmutableVector2D() );
+        userControlled.set( b );
+        velocity.set( new ImmutableVector2D() );
     }
 
     public Point2D getTopCenter() {
@@ -201,7 +201,7 @@ public class WorkEnergyObject {
     }
 
     public double getTotalEnergy() {
-        return totalEnergy.getValue();
+        return totalEnergy.get();
     }
 
     public DoubleProperty getPotentialEnergyProperty() {
@@ -236,6 +236,6 @@ public class WorkEnergyObject {
     }
 
     public void setPosition( double x, double y ) {
-        position.setValue( new ImmutableVector2D( x, y ));
+        position.set( new ImmutableVector2D( x, y ) );
     }
 }

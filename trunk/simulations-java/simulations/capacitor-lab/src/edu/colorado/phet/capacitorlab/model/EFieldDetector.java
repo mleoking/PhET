@@ -86,7 +86,7 @@ public class EFieldDetector {
     }
 
     public double getPlateVector() {
-        return plateVectorProperty.getValue();
+        return plateVectorProperty.get();
     }
 
     public void addDielectricVectorObserver( SimpleObserver o ) {
@@ -94,7 +94,7 @@ public class EFieldDetector {
     }
 
     public double getDielectricVector() {
-        return dielectricVectorProperty.getValue();
+        return dielectricVectorProperty.get();
     }
 
     public void addSumVectorObserver( SimpleObserver o ) {
@@ -102,13 +102,13 @@ public class EFieldDetector {
     }
 
     public double getSumVector() {
-        return sumVectorProperty.getValue();
+        return sumVectorProperty.get();
     }
 
     private void updateVectors() {
         // update values displayed by the meter based on probe location
-        plateVectorProperty.setValue( circuit.getPlatesDielectricEFieldAt( probeLocationProperty.getValue() ) );
-        dielectricVectorProperty.setValue( circuit.getDielectricEFieldAt( probeLocationProperty.getValue() ) );
-        sumVectorProperty.setValue( circuit.getEffectiveEFieldAt( probeLocationProperty.getValue() ) );
+        plateVectorProperty.set( circuit.getPlatesDielectricEFieldAt( probeLocationProperty.get() ) );
+        dielectricVectorProperty.set( circuit.getDielectricEFieldAt( probeLocationProperty.get() ) );
+        sumVectorProperty.set( circuit.getEffectiveEFieldAt( probeLocationProperty.get() ) );
     }
 }

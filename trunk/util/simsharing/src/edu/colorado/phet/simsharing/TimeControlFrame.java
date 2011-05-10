@@ -35,7 +35,7 @@ public class TimeControlFrame extends JFrame {
                 add( new JSpinner( new SpinnerNumberModel( 0, 0, 10000, 1 ) ) {{
                     addChangeListener( new ChangeListener() {
                         public void stateChanged( ChangeEvent e ) {
-                            frameToDisplay.setValue( (Integer) getValue() );
+                            frameToDisplay.set( (Integer) getValue() );
                         }
                     } );
                     frameToDisplay.addObserver( new VoidFunction1<Integer>() {
@@ -48,7 +48,7 @@ public class TimeControlFrame extends JFrame {
                     {
                         addActionListener( new ActionListener() {
                             public void actionPerformed( ActionEvent e ) {
-                                playing.setValue( true );
+                                playing.set( true );
                             }
                         } );
                         setEnabled( not( playing ).and( not( live ) ) );
@@ -65,7 +65,7 @@ public class TimeControlFrame extends JFrame {
                 add( new JButton( "Pause" ) {{
                     addActionListener( new ActionListener() {
                         public void actionPerformed( ActionEvent e ) {
-                            playing.setValue( false );
+                            playing.set( false );
                         }
                     } );
                     playing.and( not( live ) ).addObserver( new VoidFunction1<Boolean>() {
@@ -90,7 +90,7 @@ public class TimeControlFrame extends JFrame {
                 } );
                 addChangeListener( new ChangeListener() {
                     public void stateChanged( ChangeEvent e ) {
-                        frameToDisplay.setValue( getValue() );
+                        frameToDisplay.set( getValue() );
                     }
                 } );
                 frameToDisplay.addObserver( new VoidFunction1<Integer>() {

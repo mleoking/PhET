@@ -57,7 +57,7 @@ public class BarChartsNode extends PComposite {
         productsChartParent = new PComposite();
         addChild( productsChartParent );
 
-        equalsSignNode = new EqualsSignNode( equationProperty.getValue().isBalanced() );
+        equalsSignNode = new EqualsSignNode( equationProperty.get().isBalanced() );
         addChild( equalsSignNode );
 
         notEqualsSignNode = new NotEqualsSignNode();
@@ -69,11 +69,11 @@ public class BarChartsNode extends PComposite {
             }
         };
 
-        this.equation = equationProperty.getValue();
+        this.equation = equationProperty.get();
         equationProperty.addObserver( new SimpleObserver() {
             public void update() {
                 BarChartsNode.this.equation.removeCoefficientsObserver( coefficientsObserver );
-                BarChartsNode.this.equation = equationProperty.getValue();
+                BarChartsNode.this.equation = equationProperty.get();
                 BarChartsNode.this.equation.addCoefficientsObserver( coefficientsObserver );
             }
         } );

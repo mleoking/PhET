@@ -46,7 +46,7 @@ public class GridNode extends PNode {
     }
 
     private void addGridLine( Line2D.Double line, Property<ModelViewTransform> transform ) {
-        PhetPPath path = new PhetPPath( transform.getValue().modelToView( line ), new BasicStroke( 1 ), Color.darkGray );
+        PhetPPath path = new PhetPPath( transform.get().modelToView( line ), new BasicStroke( 1 ), Color.darkGray );
         addChild( path );
     }
 }

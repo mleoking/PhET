@@ -130,7 +130,7 @@ public class MixIsotopesCanvas extends PhetPCanvas implements Resettable {
                 } );
                 // Only allow interaction with the atoms when showing the
                 // buckets and when not showing nature's mix.
-                boolean interactiveParticles = model.getInteractivityModeProperty().getValue() == InteractivityMode.BUCKETS_AND_LARGE_ATOMS && !model.getShowingNaturesMixProperty().getValue();
+                boolean interactiveParticles = model.getInteractivityModeProperty().get() == InteractivityMode.BUCKETS_AND_LARGE_ATOMS && !model.getShowingNaturesMixProperty().get();
                 isotopeNode.setPickable( interactiveParticles );
                 isotopeNode.setChildrenPickable( interactiveParticles );
             }
@@ -160,7 +160,7 @@ public class MixIsotopesCanvas extends PhetPCanvas implements Resettable {
                 controlsLayer.addChild( controllerNode );
                 controller.getPartOfModelProperty().addObserver( new SimpleObserver() {
                     public void update() {
-                        if ( !controller.getPartOfModelProperty().getValue() ){
+                        if ( !controller.getPartOfModelProperty().get() ){
                             // Remove the representation of the bucket when the bucket
                             // itself is removed from the model.
                             controlsLayer.removeChild( controllerNode );
@@ -234,7 +234,7 @@ public class MixIsotopesCanvas extends PhetPCanvas implements Resettable {
             centerFullBoundsOnPoint( moreLessButtonLocation.getX(), moreLessButtonLocation.getY() );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    model.getInteractivityModeProperty().setValue( InteractivityMode.SLIDERS_AND_SMALL_ATOMS );
+                    model.getInteractivityModeProperty().set( InteractivityMode.SLIDERS_AND_SMALL_ATOMS );
                 }
             });
         }};
@@ -243,7 +243,7 @@ public class MixIsotopesCanvas extends PhetPCanvas implements Resettable {
             centerFullBoundsOnPoint( moreLessButtonLocation.getX(), moreLessButtonLocation.getY() );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    model.getInteractivityModeProperty().setValue( InteractivityMode.BUCKETS_AND_LARGE_ATOMS );
+                    model.getInteractivityModeProperty().set( InteractivityMode.BUCKETS_AND_LARGE_ATOMS );
                 }
             });
         }};
@@ -254,8 +254,8 @@ public class MixIsotopesCanvas extends PhetPCanvas implements Resettable {
         // model properties.
         SimpleObserver moreLessButtonVizUpdater = new SimpleObserver() {
             public void update() {
-                moreAtomsButton.setVisible( model.getInteractivityModeProperty().getValue() == InteractivityMode.BUCKETS_AND_LARGE_ATOMS && model.getShowingNaturesMixProperty().getValue() == false );
-                lessAtomsButton.setVisible( model.getInteractivityModeProperty().getValue() == InteractivityMode.SLIDERS_AND_SMALL_ATOMS && model.getShowingNaturesMixProperty().getValue() == false );
+                moreAtomsButton.setVisible( model.getInteractivityModeProperty().get() == InteractivityMode.BUCKETS_AND_LARGE_ATOMS && model.getShowingNaturesMixProperty().get() == false );
+                lessAtomsButton.setVisible( model.getInteractivityModeProperty().get() == InteractivityMode.SLIDERS_AND_SMALL_ATOMS && model.getShowingNaturesMixProperty().get() == false );
             }
         };
         model.getInteractivityModeProperty().addObserver( moreLessButtonVizUpdater );
@@ -277,7 +277,7 @@ public class MixIsotopesCanvas extends PhetPCanvas implements Resettable {
         // clears the test chamber.
         SimpleObserver clearBoxButtonVizUpdater = new SimpleObserver() {
             public void update() {
-                clearTestChamberButton.setVisible( model.getIsotopeTestChamber().getTotalIsotopeCount() > 0 && !model.getShowingNaturesMixProperty().getValue() );
+                clearTestChamberButton.setVisible( model.getIsotopeTestChamber().getTotalIsotopeCount() > 0 && !model.getShowingNaturesMixProperty().get() );
             }
         };
         model.getShowingNaturesMixProperty().addObserver( clearBoxButtonVizUpdater );

@@ -73,8 +73,8 @@ public class FluidFlowModel extends FluidPressureAndFlowModel implements Velocit
 
     //Update the red dots
     private void updateParticles( double dt ) {
-        double value = dropperRate.getValue() / 100.0;
-        if ( random.nextDouble() < value && dropperEnabled.getValue() ) {
+        double value = dropperRate.get() / 100.0;
+        if ( random.nextDouble() < value && dropperEnabled.get() ) {
             addDrop();
         }
         ArrayList<Particle> toRemove = new ArrayList<Particle>();
@@ -106,7 +106,7 @@ public class FluidFlowModel extends FluidPressureAndFlowModel implements Velocit
         double vSquared = velocity.getMagnitudeSq();
         double K = 101325;//choose a base value for pipe internal pressure, also ensure that pressure is never negative in the pipe in a narrow region
         if ( pipe.getShape().contains( x, y ) ) {
-            double pressure = K - 0.5 * liquidDensity.getValue() * vSquared - liquidDensity.getValue() * gravity.getValue() * y;
+            double pressure = K - 0.5 * liquidDensity.get() * vSquared - liquidDensity.get() * gravity.get() * y;
             return pressure;
         }
         else if ( y < 0 ) {

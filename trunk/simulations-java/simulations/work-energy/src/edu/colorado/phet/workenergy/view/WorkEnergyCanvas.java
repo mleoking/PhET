@@ -74,7 +74,7 @@ public class WorkEnergyCanvas extends PhetPCanvas {
         final Property<Boolean> clockRunning = new Property<Boolean>( true ) {{
             addObserver( new SimpleObserver() {
                 public void update() {
-                    model.getClock().setRunning( getValue() );
+                    model.getClock().setRunning( get() );
                 }
             } );
         }};

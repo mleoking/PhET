@@ -40,7 +40,7 @@ public class CompositeProperty<T> extends ObservableProperty<T> {
     }
 
     //Get the composite value which is a function of the dependencies
-    @Override public T getValue() {
+    @Override public T get() {
         return function.apply();
     }
 }

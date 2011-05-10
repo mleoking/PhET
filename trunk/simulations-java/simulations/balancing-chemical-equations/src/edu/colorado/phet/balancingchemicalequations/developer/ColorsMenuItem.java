@@ -48,7 +48,7 @@ public class ColorsMenuItem extends JCheckBoxMenuItem {
         globalProperties.canvasColor.addObserver( new SimpleObserver() {
             public void update() {
                 if ( dialog != null ) {
-                    dialog.setCanvasColor( globalProperties.canvasColor.getValue() );
+                    dialog.setCanvasColor( globalProperties.canvasColor.get() );
                 }
             }
         } );
@@ -57,7 +57,7 @@ public class ColorsMenuItem extends JCheckBoxMenuItem {
         globalProperties.boxColor.addObserver( new SimpleObserver() {
             public void update() {
                 if ( dialog != null ) {
-                    dialog.setBoxColor( globalProperties.boxColor.getValue() );
+                    dialog.setBoxColor( globalProperties.boxColor.get() );
                 }
             }
         } );
@@ -105,18 +105,18 @@ public class ColorsMenuItem extends JCheckBoxMenuItem {
             super.setResizable( false );
 
             // canvas (play area)
-            canvasColorControl = new ColorControl( globalProperties.frame, "play area:", globalProperties.canvasColor.getValue() );
+            canvasColorControl = new ColorControl( globalProperties.frame, "play area:", globalProperties.canvasColor.get() );
             canvasColorControl.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
-                    globalProperties.canvasColor.setValue( canvasColorControl.getColor() );
+                    globalProperties.canvasColor.set( canvasColorControl.getColor() );
                 }
             } );
 
             // boxes
-            boxColorControl = new ColorControl( globalProperties.frame, "boxes:", globalProperties.boxColor.getValue() );
+            boxColorControl = new ColorControl( globalProperties.frame, "boxes:", globalProperties.boxColor.get() );
             boxColorControl.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
-                    globalProperties.boxColor.setValue( boxColorControl.getColor() );
+                    globalProperties.boxColor.set( boxColorControl.getColor() );
                 }
             } );
 

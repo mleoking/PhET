@@ -25,7 +25,7 @@ public class WorldLocationProperty extends Property<Point3D> {
         // When the world bounds change, adjust the location so that it's inside world bounds.
         worldBounds.addObserver( new SimpleObserver() {
             public void update() {
-                setValue( getValue() );
+                set( get() );
             }
         } );
     }
@@ -38,7 +38,7 @@ public class WorldLocationProperty extends Property<Point3D> {
      * @param location
      */
     @Override
-    public void setValue( Point3D location ) {
-        super.setValue( worldBounds.getClosest( location ) );
+    public void set( Point3D location ) {
+        super.set( worldBounds.getClosest( location ) );
     }
 }

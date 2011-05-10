@@ -37,7 +37,7 @@ public class OrbitalViewControl extends PNode {
             {
                 setOpaque( false );
                 final ButtonGroup buttonGroup = new ButtonGroup();//Fixes the problem that clicking on a radio button twice causes it to become de-selected
-                add( new JRadioButton( BuildAnAtomStrings.ELECTRON_MODEL_ORBITS, orbitalViewProperty.getValue() == OrbitalView.PARTICLES ) {
+                add( new JRadioButton( BuildAnAtomStrings.ELECTRON_MODEL_ORBITS, orbitalViewProperty.get() == OrbitalView.PARTICLES ) {
                     {
                         setOpaque( false );
                         buttonGroup.add( this );
@@ -45,17 +45,17 @@ public class OrbitalViewControl extends PNode {
                         setFont( BuildAnAtomConstants.ITEM_FONT );
                         addActionListener( new ActionListener() {
                             public void actionPerformed( ActionEvent e ) {
-                                orbitalViewProperty.setValue( OrbitalView.PARTICLES );
+                                orbitalViewProperty.set( OrbitalView.PARTICLES );
                             }
                         } );
                         orbitalViewProperty.addObserver( new SimpleObserver() {
                             public void update() {
-                                setSelected( orbitalViewProperty.getValue() == OrbitalView.PARTICLES );
+                                setSelected( orbitalViewProperty.get() == OrbitalView.PARTICLES );
                             }
                         } );
                     }
                 } );
-                add( new JRadioButton( BuildAnAtomStrings.ELECTRON_MODEL_CLOUD, orbitalViewProperty.getValue() == OrbitalView.RESIZING_CLOUD) {
+                add( new JRadioButton( BuildAnAtomStrings.ELECTRON_MODEL_CLOUD, orbitalViewProperty.get() == OrbitalView.RESIZING_CLOUD) {
                     {
                         setOpaque( false );
                         buttonGroup.add( this );
@@ -63,12 +63,12 @@ public class OrbitalViewControl extends PNode {
                         setFont( BuildAnAtomConstants.ITEM_FONT );
                         addActionListener( new ActionListener() {
                             public void actionPerformed( ActionEvent e ) {
-                                orbitalViewProperty.setValue( OrbitalView.RESIZING_CLOUD );
+                                orbitalViewProperty.set( OrbitalView.RESIZING_CLOUD );
                             }
                         } );
                         orbitalViewProperty.addObserver( new SimpleObserver() {
                             public void update() {
-                                setSelected( orbitalViewProperty.getValue() == OrbitalView.RESIZING_CLOUD );
+                                setSelected( orbitalViewProperty.get() == OrbitalView.RESIZING_CLOUD );
                             }
                         } );
                     }

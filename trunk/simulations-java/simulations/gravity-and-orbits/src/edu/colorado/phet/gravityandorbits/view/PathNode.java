@@ -68,7 +68,7 @@ public class PathNode extends PNode {
         addChild( pathNode );
         visible.addObserver( new SimpleObserver() {
             public void update() {
-                setVisible( visible.getValue() );
+                setVisible( visible.get() );
                 body.clearPath();
                 points.clear();
                 pathNode.repaint();
@@ -78,7 +78,7 @@ public class PathNode extends PNode {
         //Update when the Body path changes
         final Body.PathListener listener = new Body.PathListener() {
             public void pointAdded( ImmutableVector2D point ) {
-                ImmutableVector2D pt = transform.getValue().modelToView( point );
+                ImmutableVector2D pt = transform.get().modelToView( point );
                 points.add( pt );
                 pathNode.repaint();
             }

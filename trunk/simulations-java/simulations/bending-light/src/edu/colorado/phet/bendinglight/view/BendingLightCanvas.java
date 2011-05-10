@@ -97,8 +97,8 @@ public class BendingLightCanvas<T extends BendingLightModel> extends PhetPCanvas
         //Inner function for adding light rays
         final VoidFunction1<LightRay> addLightRayNode = new VoidFunction1<LightRay>() {
             public void apply( LightRay lightRay ) {
-                final PNode node = model.laserView.getValue().createNode( transform, lightRay );
-                final PNode layer = model.laserView.getValue().getLayer( lightRayLayer, lightWaveLayer );
+                final PNode node = model.laserView.get().createNode( transform, lightRay );
+                final PNode layer = model.laserView.get().getLayer( lightRayLayer, lightWaveLayer );
                 layer.addChild( node );
                 lightRay.addMoveToFrontListener( new VoidFunction0() {
                     public void apply() {
@@ -130,7 +130,7 @@ public class BendingLightCanvas<T extends BendingLightModel> extends PhetPCanvas
         final And clockRunning = playing.and( moduleActive );
         clockRunning.addObserver( new SimpleObserver() {
             public void update() {
-                if ( clockRunning.getValue() ) {
+                if ( clockRunning.get() ) {
                     model.getClock().start();
                 }
                 else {
@@ -152,7 +152,7 @@ public class BendingLightCanvas<T extends BendingLightModel> extends PhetPCanvas
         //Switch between light renderers for white vs nonwhite light
         model.getLaser().color.addObserver( new SimpleObserver() {
             public void update() {
-                boolean white = model.getLaser().color.getValue() == LaserColor.WHITE_LIGHT;
+                boolean white = model.getLaser().color.get() == LaserColor.WHITE_LIGHT;
                 whiteLightNode.setVisible( white );
                 lightRayLayer.setVisible( !white );
                 lightWaveLayer.setVisible( !white );
@@ -219,7 +219,7 @@ public class BendingLightCanvas<T extends BendingLightModel> extends PhetPCanvas
 
         //Convert to model bounds and store in the model
         final ImmutableRectangle2D modelBounds = new ImmutableRectangle2D( transform.viewToModel( getRootNode().globalToLocal( viewBounds ) ) );
-        model.visibleModelBounds.setValue( new Option.Some<ImmutableRectangle2D>( modelBounds ) );
+        model.visibleModelBounds.set( new Option.Some<ImmutableRectangle2D>( modelBounds ) );
     }
 
     public PNode getRootNode() {

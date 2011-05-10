@@ -203,7 +203,7 @@ public abstract class BarMeterNode extends PhetPNode {
         closeButton.addInputEventListener( new PBasicInputEventHandler() {
             @Override
             public void mouseReleased( PInputEvent event ) {
-                meter.visibleProperty.setValue( false );
+                meter.visibleProperty.set( false );
             }
         } );
 
@@ -233,14 +233,14 @@ public abstract class BarMeterNode extends PhetPNode {
             // visibility
             meter.visibleProperty.addObserver( new SimpleObserver() {
                 public void update() {
-                    setVisible( meter.visibleProperty.getValue() );
+                    setVisible( meter.visibleProperty.get() );
                 }
             } );
 
             // location
             meter.locationProperty.addObserver( new SimpleObserver() {
                 public void update() {
-                    setOffset( mvt.modelToView( meter.locationProperty.getValue() ) );
+                    setOffset( mvt.modelToView( meter.locationProperty.get() ) );
                 }
             } );
 
@@ -306,7 +306,7 @@ public abstract class BarMeterNode extends PhetPNode {
     }
 
     private void updateZoomButtons() {
-        double mantissa = value / Math.pow( 10, exponentProperty.getValue() );
+        double mantissa = value / Math.pow( 10, exponentProperty.get() );
         boolean plusEnabled = ( value != 0 ) && ( mantissa < 0.1 );
         boolean minusEnabled = ( value != 0 ) && ( mantissa > 1 );
         zoomInButton.setEnabled( plusEnabled );
@@ -320,7 +320,7 @@ public abstract class BarMeterNode extends PhetPNode {
             while ( ( value / Math.pow( 10, exponent ) ) < 0.1 ) {
                 exponent--;
             }
-            exponentProperty.setValue( exponent );
+            exponentProperty.set( exponent );
         }
     }
 
@@ -353,7 +353,7 @@ public abstract class BarMeterNode extends PhetPNode {
      */
     private void handleExponentChanged() {
 
-        int exponent = exponentProperty.getValue();
+        int exponent = exponentProperty.get();
 
         // update components
         double maxValue = Math.pow( 10, exponent );

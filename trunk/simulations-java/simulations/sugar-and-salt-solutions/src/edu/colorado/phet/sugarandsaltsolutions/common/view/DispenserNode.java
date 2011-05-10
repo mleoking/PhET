@@ -29,7 +29,7 @@ public class DispenserNode extends PNode {
         addChild( new PImage( RESOURCES.getImage( image ) ) );
         visible.addObserver( new SimpleObserver() {
             public void update() {
-                setVisible( visible.getValue() );
+                setVisible( visible.get() );
             }
         } );
 

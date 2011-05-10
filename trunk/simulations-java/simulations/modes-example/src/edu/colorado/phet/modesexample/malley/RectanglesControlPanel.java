@@ -33,7 +33,7 @@ public class RectanglesControlPanel extends ControlPanel {
         addControlFullWidth( sizePanel );
         currentMode.addObserver( new SimpleObserver() {
             public void update() {
-                updateSizeControls( currentMode.getValue().model.getRectangles() );
+                updateSizeControls( currentMode.get().model.getRectangles() );
             }
         } );
 

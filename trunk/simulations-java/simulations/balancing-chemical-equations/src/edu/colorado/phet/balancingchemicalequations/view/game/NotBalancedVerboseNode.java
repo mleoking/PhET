@@ -49,8 +49,8 @@ public class NotBalancedVerboseNode extends GamePopupNode {
      * Convenience constructor.
      */
     public NotBalancedVerboseNode( final Equation equation, BCEGlobalProperties globalProperties, final ActionListener whyButtonListener, final BalancedRepresentation balancedRepresentation,  final HorizontalAligner aligner ) {
-        this( equation, globalProperties.popupsCloseButtonVisible.getValue(), globalProperties.popupsTitleBarVisible.getValue(),
-                globalProperties.popupsWhyButtonVisible.getValue(), whyButtonListener, balancedRepresentation, aligner );
+        this( equation, globalProperties.popupsCloseButtonVisible.get(), globalProperties.popupsTitleBarVisible.get(),
+                globalProperties.popupsWhyButtonVisible.get(), whyButtonListener, balancedRepresentation, aligner );
     }
 
     /*

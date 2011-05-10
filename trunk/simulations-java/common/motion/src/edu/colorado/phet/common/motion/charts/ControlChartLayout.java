@@ -89,7 +89,7 @@ public interface ControlChartLayout {
             int numVisibleCharts = 0;
             double minimizedChartSpace = 0;
             for (MinimizableControlChart chart : charts) {
-                if (chart.getMaximized().getValue()) {
+                if (chart.getMaximized().get()) {
                     numVisibleCharts++;
                 } else {
                     minimizedChartSpace += chart.getMinimizedHeight();
@@ -121,7 +121,7 @@ public interface ControlChartLayout {
                 chart.setMinimizeMaximizeButtonOffset(chartX + chartWidth - chart.getMinimizeMaximizeButton().getFullBounds().getWidth() - 4, 0);
 
                 //identify the location of the next chart
-                double currentChartHeight = (chart.getMaximized().getValue() ? maximizedChartHeight + chart.getDomainLabelHeight() : chart.getMinimizedHeight());
+                double currentChartHeight = (chart.getMaximized().get() ? maximizedChartHeight + chart.getDomainLabelHeight() : chart.getMinimizedHeight());
                 chartY += paddingBetweenCharts + currentChartHeight;
             }
         }

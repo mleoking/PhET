@@ -64,7 +64,7 @@ public class ToolIconNode<T extends BendingLightModel> extends PNode {
         addChild( new PImage( thumbnail ) {{
             showToolInPlayArea.addObserver( new SimpleObserver() {
                 public void update() {
-                    setVisible( !showToolInPlayArea.getValue() );
+                    setVisible( !showToolInPlayArea.get() );
                 }
             } );
 
@@ -105,7 +105,7 @@ public class ToolIconNode<T extends BendingLightModel> extends PNode {
         // Create the node and add it to the scene
         @Override public void mousePressed( PInputEvent event ) {
             if ( !dragMultiple ) {
-                showToolInPlayArea.setValue( true );
+                showToolInPlayArea.set( true );
                 thumbnailIcon.setVisible( false );
             }
 
@@ -166,7 +166,7 @@ public class ToolIconNode<T extends BendingLightModel> extends PNode {
         public void testDropIn( ToolNode node ) {
             if ( intersect ) {
                 //Update the model to signify the tool is out of the play area
-                showToolInPlayArea.setValue( false );
+                showToolInPlayArea.set( false );
 
                 //Show the thumbnail again so it can be dragged out again
                 thumbnailIcon.setVisible( true );

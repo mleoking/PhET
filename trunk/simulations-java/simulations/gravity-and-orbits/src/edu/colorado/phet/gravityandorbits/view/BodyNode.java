@@ -43,7 +43,7 @@ public class BodyNode extends PNode {
         this.body = body;
         body.getCollidedProperty().addObserver( new SimpleObserver() {
             public void update() {
-                setVisible( !body.getCollidedProperty().getValue() );
+                setVisible( !body.getCollidedProperty().get() );
             }
         } );
 
@@ -62,7 +62,7 @@ public class BodyNode extends PNode {
 
             @Override
             public void mouseDragged( PInputEvent event ) {
-                final Dimension2D delta = modelViewTransform.getValue().viewToModelDelta( event.getDeltaRelativeTo( getParent() ) );
+                final Dimension2D delta = modelViewTransform.get().viewToModelDelta( event.getDeltaRelativeTo( getParent() ) );
                 body.translate( new Point2D.Double( delta.getWidth(), delta.getHeight() ) );
                 body.notifyUserModifiedPosition();
             }
@@ -80,9 +80,9 @@ public class BodyNode extends PNode {
                  *
                  * otherwise the body can move over the mouse and be dragged without ever seeing the hand pointer
                  */
-                boolean isMouseOverBefore = bodyRenderer.getGlobalFullBounds().contains( mousePosition.getValue().toPoint2D() );
+                boolean isMouseOverBefore = bodyRenderer.getGlobalFullBounds().contains( mousePosition.get().toPoint2D() );
                 setOffset( getPosition( modelViewTransform, body ).toPoint2D() );
-                boolean isMouseOverAfter = bodyRenderer.getGlobalFullBounds().contains( mousePosition.getValue().toPoint2D() );
+                boolean isMouseOverAfter = bodyRenderer.getGlobalFullBounds().contains( mousePosition.get().toPoint2D() );
 
                 //Send mouse entered and mouse exited events when body moves underneath a stationary mouse (in which case the mouse should become a hand cursor)
                 if ( parentComponent != null ) {
@@ -141,11 +141,11 @@ public class BodyNode extends PNode {
     }
 
     private ImmutableVector2D getPosition( Property<ModelViewTransform> modelViewTransform, Body body ) {
-        return modelViewTransform.getValue().modelToView( body.getPosition() );
+        return modelViewTransform.get().modelToView( body.getPosition() );
     }
 
     private double getViewDiameter() {
-        double viewDiameter = modelViewTransform.getValue().modelToViewDeltaX( body.getDiameter() );
+        double viewDiameter = modelViewTransform.get().modelToViewDeltaX( body.getDiameter() );
         return Math.max( viewDiameter, 2 );
     }
 

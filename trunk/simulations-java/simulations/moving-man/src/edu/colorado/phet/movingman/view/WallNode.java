@@ -32,7 +32,7 @@ public class WallNode extends PlayAreaObjectNode {
             addChild( minimizeButton );
             minimizeButton.addInputEventListener( new PBasicInputEventHandler() {
                 public void mouseReleased( PInputEvent event ) {
-                    walls.setValue( false );
+                    walls.set( false );
                 }
             } );
         }
@@ -43,7 +43,7 @@ public class WallNode extends PlayAreaObjectNode {
             addChild( maximizeButton );
             maximizeButton.addInputEventListener( new PBasicInputEventHandler() {
                 public void mouseReleased( PInputEvent event ) {
-                    walls.setValue( true );
+                    walls.set( true );
                 }
             } );
         }
@@ -56,9 +56,9 @@ public class WallNode extends PlayAreaObjectNode {
     }
 
     private void updateVisibility() {
-        wallNode.setVisible( walls.getValue() );
-        minimizeButton.setVisible( walls.getValue() );
-        maximizeButton.setVisible( !walls.getValue() );
+        wallNode.setVisible( walls.get() );
+        minimizeButton.setVisible( walls.get() );
+        maximizeButton.setVisible( !walls.get() );
     }
 
 }

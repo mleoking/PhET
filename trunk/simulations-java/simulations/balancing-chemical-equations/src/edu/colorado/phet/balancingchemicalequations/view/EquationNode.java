@@ -64,7 +64,7 @@ public class EquationNode extends PhetPNode  {
         this.balancedHighlightEnabled = true;
 
         // arrow node, in a fixed location
-        arrowNode = new RightArrowNode( equationProperty.getValue().isBalanced() );
+        arrowNode = new RightArrowNode( equationProperty.get().isBalanced() );
         addChild( arrowNode );
         double x = aligner.getCenterXOffset() - ( arrowNode.getFullBoundsReference().getWidth() / 2 );
         double y = ( SymbolNode.getCapHeight() / 2 );
@@ -82,11 +82,11 @@ public class EquationNode extends PhetPNode  {
         };
 
         // if the equation changes...
-        this.equation = equationProperty.getValue();
+        this.equation = equationProperty.get();
         equationProperty.addObserver( new SimpleObserver() {
             public void update() {
                 EquationNode.this.equation.removeCoefficientsObserver( coefficientsObserver );
-                EquationNode.this.equation = equationProperty.getValue();
+                EquationNode.this.equation = equationProperty.get();
                 EquationNode.this.equation.addCoefficientsObserver( coefficientsObserver );
                 updateNode();
             }
@@ -227,10 +227,10 @@ public class EquationNode extends PhetPNode  {
             final IntegerSpinner spinner = new IntegerSpinner( range );
             spinner.setForeground( COEFFICIENT_COLOR );
             spinner.setFont( FONT );
-            spinner.setValue( coefficientProperty.getValue() );
+            spinner.setValue( coefficientProperty.get() );
             spinner.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
-                    coefficientProperty.setValue( spinner.getIntValue() );
+                    coefficientProperty.set( spinner.getIntValue() );
                 }
             } );
             spinnerNode = new PSwing( spinner );
@@ -250,8 +250,8 @@ public class EquationNode extends PhetPNode  {
             this.coefficientProperty = coefficientProperty;
             coefficientObserver = new SimpleObserver() {
                 public void update() {
-                    spinner.setIntValue( coefficientProperty.getValue() );
-                    textNode.setText( String.valueOf( coefficientProperty.getValue() ) );
+                    spinner.setIntValue( coefficientProperty.get() );
+                    textNode.setText( String.valueOf( coefficientProperty.get() ) );
                     textNode.setOffset( spinnerNode.getFullBoundsReference().getMaxX() - textNode.getFullBoundsReference().getWidth() - 12, 0 ); // right justified
                 }
             };

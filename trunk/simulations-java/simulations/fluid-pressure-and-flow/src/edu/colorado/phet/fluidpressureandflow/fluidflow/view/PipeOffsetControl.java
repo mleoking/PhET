@@ -27,14 +27,14 @@ public class PipeOffsetControl extends PNode {
         point.addObserver( new SimpleObserver() {
             public void update() {
                 double pipeCenter = pipePosition.getCenterY();
-                double nodeCenter = point.getValue().getY();
+                double nodeCenter = point.get().getY();
                 double delta = nodeCenter - pipeCenter;
                 pipePosition.translate( 0, delta );
             }
         } );
         final SimpleObserver updateCenter = new SimpleObserver() {
             public void update() {
-                point.setValue( new ImmutableVector2D( x, pipePosition.getCenterY() ) );
+                point.set( new ImmutableVector2D( x, pipePosition.getCenterY() ) );
             }
         };
         pipePosition.top.addObserver( updateCenter );

@@ -54,13 +54,13 @@ public class GamePeriodicTable extends PNode {
                 setBackground( BuildAnAtomConstants.CANVAS_BACKGROUND );
                 final SimpleObserver updateSelected = new SimpleObserver() {
                     public void update() {
-                        setSelected( chargeGuessProperty.getValue() == ChargeGuess.NEUTRAL_ATOM );
+                        setSelected( chargeGuessProperty.get() == ChargeGuess.NEUTRAL_ATOM );
                     }
                 };
                 chargeGuessProperty.addObserver( updateSelected );
                 addActionListener( new ActionListener() {
                     public void actionPerformed( ActionEvent e ) {
-                        chargeGuessProperty.setValue( ChargeGuess.NEUTRAL_ATOM );
+                        chargeGuessProperty.set( ChargeGuess.NEUTRAL_ATOM );
                         updateSelected.update();
                         notifyRadioButtonPressed();
                     }
@@ -72,13 +72,13 @@ public class GamePeriodicTable extends PNode {
                 setBackground( BuildAnAtomConstants.CANVAS_BACKGROUND );
                 final SimpleObserver updateSelected = new SimpleObserver() {
                     public void update() {
-                        setSelected( chargeGuessProperty.getValue() == ChargeGuess.ION );
+                        setSelected( chargeGuessProperty.get() == ChargeGuess.ION );
                     }
                 };
                 chargeGuessProperty.addObserver( updateSelected );
                 addActionListener( new ActionListener() {
                     public void actionPerformed( ActionEvent e ) {
-                        chargeGuessProperty.setValue( ChargeGuess.ION );
+                        chargeGuessProperty.set( ChargeGuess.ION );
                         updateSelected.update();
                         notifyRadioButtonPressed();
                     }
@@ -130,20 +130,20 @@ public class GamePeriodicTable extends PNode {
     }
 
     public boolean doesAtomChargeMatchGuess( ImmutableAtom atomValue ) {
-        if ( chargeGuessProperty.getValue() == ChargeGuess.UNANSWERED ) {
+        if ( chargeGuessProperty.get() == ChargeGuess.UNANSWERED ) {
             return false;
         }
-        return ( atomValue.isNeutral() && chargeGuessProperty.getValue() == ChargeGuess.NEUTRAL_ATOM ) || ( !atomValue.isNeutral() && chargeGuessProperty.getValue() == ChargeGuess.ION );
+        return ( atomValue.isNeutral() && chargeGuessProperty.get() == ChargeGuess.NEUTRAL_ATOM ) || ( !atomValue.isNeutral() && chargeGuessProperty.get() == ChargeGuess.ION );
     }
 
     public void setGuessNeutral( boolean isNeutral ){
         // This assumes that the guess is being set to something other
         // than UNANSWERED.
         if ( isNeutral ){
-            chargeGuessProperty.setValue( ChargeGuess.NEUTRAL_ATOM );
+            chargeGuessProperty.set( ChargeGuess.NEUTRAL_ATOM );
         }
         else{
-            chargeGuessProperty.setValue( ChargeGuess.ION );
+            chargeGuessProperty.set( ChargeGuess.ION );
         }
         // Display the selector node in case it isn't already visible.
         selectNeutralOrIonTypeNode.setVisible( true );

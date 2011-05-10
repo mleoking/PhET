@@ -83,8 +83,8 @@ public class Body implements IBodyColors {
         //Synchronize the scaled position, which accounts for the scale
         collidedProperty.addObserver( new SimpleObserver() {
             public void update() {
-                if ( collidedProperty.getValue() ) {
-                    clockTicksSinceExplosion.setValue( 0 );
+                if ( collidedProperty.get() ) {
+                    clockTicksSinceExplosion.set( 0 );
                 }
             }
         } );
@@ -136,7 +136,7 @@ public class Body implements IBodyColors {
     }
 
     public ImmutableVector2D getPosition() {
-        return positionProperty.getValue();
+        return positionProperty.get();
     }
 
     public Property<Double> getDiameterProperty() {
@@ -144,7 +144,7 @@ public class Body implements IBodyColors {
     }
 
     public double getDiameter() {
-        return diameterProperty.getValue();
+        return diameterProperty.get();
     }
 
     //TODO:
@@ -156,21 +156,21 @@ public class Body implements IBodyColors {
         translate( delta.getX(), delta.getY() );
 
         //Only add to the path if the object hasn't collided
-        if ( !collidedProperty.getValue() && !userControlled ) {
+        if ( !collidedProperty.get() && !userControlled ) {
             addPathPoint();
         }
     }
 
     public void translate( double dx, double dy ) {
-        positionProperty.setValue( new ImmutableVector2D( getX() + dx, getY() + dy ) );
+        positionProperty.set( new ImmutableVector2D( getX() + dx, getY() + dy ) );
     }
 
     public double getY() {
-        return positionProperty.getValue().getY();
+        return positionProperty.get().getY();
     }
 
     public double getX() {
-        return positionProperty.getValue().getX();
+        return positionProperty.get().getX();
     }
 
     public String getName() {
@@ -178,45 +178,45 @@ public class Body implements IBodyColors {
     }
 
     public void setDiameter( double value ) {
-        diameterProperty.setValue( value );
+        diameterProperty.set( value );
     }
 
     //create an immutable representation of this body for use in the physics engine
     public BodyState toBodyState() {
-        return new BodyState( getPosition(), getVelocity(), getAcceleration(), getMass(), collidedProperty.getValue() );
+        return new BodyState( getPosition(), getVelocity(), getAcceleration(), getMass(), collidedProperty.get() );
     }
 
     public double getMass() {
-        return massProperty.getValue();
+        return massProperty.get();
     }
 
     public ImmutableVector2D getAcceleration() {
-        return accelerationProperty.getValue();
+        return accelerationProperty.get();
     }
 
     public ImmutableVector2D getVelocity() {
-        return velocityProperty.getValue();
+        return velocityProperty.get();
     }
 
     //Take the updated BodyState from the physics engine and update the state of this body based on it.
     public void updateBodyStateFromModel( BodyState bodyState ) {
-        if ( collidedProperty.getValue() ) {
-            clockTicksSinceExplosion.setValue( clockTicksSinceExplosion.getValue() + 1 );
+        if ( collidedProperty.get() ) {
+            clockTicksSinceExplosion.set( clockTicksSinceExplosion.get() + 1 );
         }
         else {
             if ( !isUserControlled() ) {
-                positionProperty.setValue( bodyState.position );
-                velocityProperty.setValue( bodyState.velocity );
+                positionProperty.set( bodyState.position );
+                velocityProperty.set( bodyState.velocity );
             }
-            accelerationProperty.setValue( bodyState.acceleration );
-            forceProperty.setValue( bodyState.acceleration.getScaledInstance( bodyState.mass ) );
+            accelerationProperty.set( bodyState.acceleration );
+            forceProperty.set( bodyState.acceleration.getScaledInstance( bodyState.mass ) );
         }
     }
 
     //This method is called after all bodies have been updated by the physics engine (must be done as a batch), so that the path can be updated
     public void allBodiesUpdated() {
         //Only add to the path if the object hasn't collided and if the user isn't dragging it
-        if ( !collidedProperty.getValue() && !isUserControlled() ) {
+        if ( !collidedProperty.get() && !isUserControlled() ) {
             addPathPoint();
         }
     }
@@ -248,9 +248,9 @@ public class Body implements IBodyColors {
     }
 
     public void setMass( double mass ) {
-        massProperty.setValue( mass );
+        massProperty.set( mass );
         double radius = Math.pow( 3 * mass / 4 / Math.PI / density, 1.0 / 3.0 ); //derived from: density = mass/volume, and volume = 4/3 pi r r r
-        diameterProperty.setValue( radius * 2 );
+        diameterProperty.set( radius * 2 );
     }
 
     public void resetAll() {
@@ -287,19 +287,19 @@ public class Body implements IBodyColors {
     }
 
     public void setVelocity( ImmutableVector2D velocity ) {
-        velocityProperty.setValue( velocity );
+        velocityProperty.set( velocity );
     }
 
     public void setPosition( double x, double y ) {
-        positionProperty.setValue( new ImmutableVector2D( x, y ) );
+        positionProperty.set( new ImmutableVector2D( x, y ) );
     }
 
     public void setAcceleration( ImmutableVector2D acceleration ) {
-        this.accelerationProperty.setValue( acceleration );
+        this.accelerationProperty.set( acceleration );
     }
 
     public void setForce( ImmutableVector2D force ) {
-        this.forceProperty.setValue( force );
+        this.forceProperty.set( force );
     }
 
     public boolean isMassSettable() {
@@ -333,7 +333,7 @@ public class Body implements IBodyColors {
     }
 
     public void setCollided( boolean b ) {
-        collidedProperty.setValue( b );
+        collidedProperty.set( b );
     }
 
     public double getTickValue() {
@@ -380,7 +380,7 @@ public class Body implements IBodyColors {
 
     //Unexplodes and returns objects to the stage
     public void returnBody( GravityAndOrbitsModel model ) {
-        if ( collidedProperty.getValue() || !bounds.getValue().contains( getPosition().toPoint2D() ) ) {
+        if ( collidedProperty.get() || !bounds.get().contains( getPosition().toPoint2D() ) ) {
             setCollided( false );
             clearPath();//so there is no sudden jump in path from old to new location
             doReturnBody( model );
@@ -394,7 +394,7 @@ public class Body implements IBodyColors {
     }
 
     public boolean isCollided() {
-        return collidedProperty.getValue();
+        return collidedProperty.get();
     }
 
     //Listener interface for getting callbacks when the path has changed, for displaying the path with picclo

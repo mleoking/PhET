@@ -35,7 +35,7 @@ public class WireSegment {
             super( new Point2D.Double( battery.getX(), battery.getY() + battery.getTopTerminalYOffset() ), endPoint );
             battery.addPolarityObserver( new SimpleObserver() {
                 public void update() {
-                    startPointProperty.setValue( new Point2D.Double( battery.getX(), battery.getY() + battery.getTopTerminalYOffset() ) );
+                    startPointProperty.set( new Point2D.Double( battery.getX(), battery.getY() + battery.getTopTerminalYOffset() ) );
                 }
             } );
         }
@@ -50,7 +50,7 @@ public class WireSegment {
             super( new Point2D.Double( battery.getX(), battery.getY() + battery.getBottomTerminalYOffset() ), endPoint );
             battery.addPolarityObserver( new SimpleObserver() {
                 public void update() {
-                    startPointProperty.setValue( new Point2D.Double( battery.getX(), battery.getY() + battery.getBottomTerminalYOffset() ) );
+                    startPointProperty.set( new Point2D.Double( battery.getX(), battery.getY() + battery.getBottomTerminalYOffset() ) );
                 }
             } );
         }
@@ -65,7 +65,7 @@ public class WireSegment {
             super( startPoint, new Point2D.Double( capacitor.getTopPlateCenter().getX(), capacitor.getTopPlateCenter().getY() ) );
             capacitor.addPlateSeparationObserver( new SimpleObserver() {
                 public void update() {
-                    endPointProperty.setValue( new Point2D.Double( capacitor.getTopPlateCenter().getX(), capacitor.getTopPlateCenter().getY() ) );
+                    endPointProperty.set( new Point2D.Double( capacitor.getTopPlateCenter().getX(), capacitor.getTopPlateCenter().getY() ) );
                 }
             } );
         }
@@ -80,7 +80,7 @@ public class WireSegment {
             super( startPoint, new Point2D.Double( capacitor.getBottomPlateCenter().getX(), capacitor.getBottomPlateCenter().getY() ) );
             capacitor.addPlateSeparationObserver( new SimpleObserver() {
                 public void update() {
-                    endPointProperty.setValue( new Point2D.Double( capacitor.getBottomPlateCenter().getX(), capacitor.getBottomPlateCenter().getY() ) );
+                    endPointProperty.set( new Point2D.Double( capacitor.getBottomPlateCenter().getX(), capacitor.getBottomPlateCenter().getY() ) );
                 }
             } );
         }

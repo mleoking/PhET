@@ -89,7 +89,7 @@ public class PipeBackNode extends PNode {
             } );
             fluidDensity.addObserver( new SimpleObserver() {
                 public void update() {
-                    setPaint( PoolNode.getBottomColor( fluidDensity.getValue() ) );
+                    setPaint( PoolNode.getBottomColor( fluidDensity.get() ) );
                 }
             } );
         }} );

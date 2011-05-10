@@ -50,7 +50,7 @@ public class InsideMagnetsModel {
     private void torque( double dt ) {
         double Irot = 1;//rotational inertia
         double gam = 1.0;            /* damping of Langevin dynamics. passed to difeq.*/
-        double sigtau = Math.sqrt( 2.0 * gam * Irot * temperature.getValue() );
+        double sigtau = Math.sqrt( 2.0 * gam * Irot * temperature.get() );
         double sigomega = sigtau * Math.sqrt( dt ) / Irot;/* variance of the random velocity changes.	   */
         double dtI = dt / Irot;/* time step divided by rotational inertia. */
         double dtg = dt * gam;/* time step multiplied by damping.  */
@@ -63,8 +63,8 @@ public class InsideMagnetsModel {
                     sum = getLattice().getValue( neighborCell ).getSpinVector().getAddedInstance( sum );
                 }
 
-                double gx = sum.getX() * J.getX() - externalMagneticField.getValue().getX() - getLattice().getValue( x, y ).bx;
-                double gy = sum.getY() * J.getY() - externalMagneticField.getValue().getY() - getLattice().getValue( x, y ).by;
+                double gx = sum.getX() * J.getX() - externalMagneticField.get().getX() - getLattice().getValue( x, y ).bx;
+                double gy = sum.getY() * J.getY() - externalMagneticField.get().getY() - getLattice().getValue( x, y ).by;
 
                 //TODO: add boundary conditions
                 double sx = getLattice().getValue( x, y ).getSpinVector().getX();
@@ -136,7 +136,7 @@ The tmp arrays hold positions at t+0.5*dt.          */
             /* at this point, everything corresponds to the values at t+dt. */
         }
 
-        netMagnetizationProperty.setValue( getNetMagnetization() );
+        netMagnetizationProperty.set( getNetMagnetization() );
     }
 
     private double getOmega( int x, int y ) {

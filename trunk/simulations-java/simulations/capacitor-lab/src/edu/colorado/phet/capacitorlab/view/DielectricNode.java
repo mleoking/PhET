@@ -43,8 +43,8 @@ public class DielectricNode extends BoxNode {
 
         dielectricChargeView.addObserver( new SimpleObserver() {
             public void update() {
-                totalChargeNode.setVisible( dielectricChargeView.getValue() == DielectricChargeView.TOTAL );
-                excessChargeNode.setVisible( dielectricChargeView.getValue() == DielectricChargeView.EXCESS );
+                totalChargeNode.setVisible( dielectricChargeView.get() == DielectricChargeView.TOTAL );
+                excessChargeNode.setVisible( dielectricChargeView.get() == DielectricChargeView.EXCESS );
             }
         } );
 

@@ -48,7 +48,7 @@ public class ThreeImageNode extends PNode {
 
     public void setCenterWidth( double centerWidth ) {
         //Handling internal resizing before sending out notifications prevents an order dependency in listeners
-        if ( centerWidth != this.centerWidth.getValue() ) {
+        if ( centerWidth != this.centerWidth.get() ) {
             //Stretch center piece to fit the text, it is always an exact fit and there is no minimum.
             centerPatch.setTransform( new AffineTransform() );//reset the centerPatch so that its bounds can be used to compute the right scale sx
             double sx = centerWidth / centerPatch.getFullBounds().getWidth();//how much to scale the centerPatch
@@ -57,7 +57,7 @@ public class ThreeImageNode extends PNode {
 
             //Position the right patch to the side of the stretched center patch so they don't overlap
             rightPatch.setOffset( leftPatch.getFullBounds().getWidth() + centerWidth, 0 );
-            this.centerWidth.setValue( centerWidth );
+            this.centerWidth.set( centerWidth );
         }
     }
 

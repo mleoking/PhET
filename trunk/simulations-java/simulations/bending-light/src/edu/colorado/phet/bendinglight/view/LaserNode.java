@@ -58,7 +58,7 @@ public class LaserNode extends PNode {
         final Or showRotationArrows = mouseOverRotationPart.or( draggingRotation );
         showRotationArrows.addObserver( new SimpleObserver() {
             public void update() {
-                showRotationDragHandles.setValue( showRotationArrows.getValue() );
+                showRotationDragHandles.set( showRotationArrows.get() );
             }
         } );
 
@@ -67,7 +67,7 @@ public class LaserNode extends PNode {
         final And a = new And( doShowTranslationArrows, new ObservableNot( showRotationArrows ) );
         a.addObserver( new SimpleObserver() {
             public void update() {
-                showTranslationDragHandles.setValue( doShowTranslationArrows.getValue() );
+                showTranslationDragHandles.set( doShowTranslationArrows.get() );
             }
         } );
 
@@ -96,17 +96,17 @@ public class LaserNode extends PNode {
 
                     public void mouseEntered( PInputEvent event ) {
                         super.mouseEntered( event );//call the super since we extend BoundedDragHandler
-                        isMouseOver.setValue( true );
+                        isMouseOver.set( true );
                     }
 
                     public void mouseExited( PInputEvent event ) {
                         super.mouseExited( event );//call the super since we extend BoundedDragHandler
-                        isMouseOver.setValue( false );
+                        isMouseOver.set( false );
                     }
 
                     public void mouseReleased( PInputEvent event ) {
                         super.mouseReleased( event );//call the super since we extend BoundedDragHandler
-                        isDragging.setValue( false );
+                        isDragging.set( false );
 
                         //Signify that the laser was dropped so it can be bounds tested.
                         dropped.apply();
@@ -114,7 +114,7 @@ public class LaserNode extends PNode {
 
                     public void mousePressed( PInputEvent event ) {
                         super.mousePressed( event );//call the super since we extend BoundedDragHandler
-                        isDragging.setValue( true );
+                        isDragging.set( true );
                     }
                 } );
             }
@@ -143,7 +143,7 @@ public class LaserNode extends PNode {
         addChild( new DragRegion( rotationRegion.apply( fullRectangle, backRectangle ), rotationRegionColor, new VoidFunction1<DragEvent>() {
             public void apply( DragEvent event ) {
                 ImmutableVector2D modelPoint = new ImmutableVector2D( transform.viewToModel( event.event.getPositionRelativeTo( getParent().getParent() ) ) );
-                ImmutableVector2D vector = modelPoint.minus( laser.pivot.getValue() );
+                ImmutableVector2D vector = modelPoint.minus( laser.pivot.get() );
                 final double angle = vector.getAngle();
                 double after = clampDragAngle.apply( angle );
                 laser.setAngle( after );
@@ -151,7 +151,7 @@ public class LaserNode extends PNode {
         }, mouseOverRotationPart, draggingRotation, new VoidFunction0() {
             public void apply() {
                 //If the laser's emission point got dropped outside the visible play area, then move it back to its initial location
-                if ( !modelBounds.contains( laser.emissionPoint.getValue() ) ) {
+                if ( !modelBounds.contains( laser.emissionPoint.get() ) ) {
                     laser.resetLocation();
                 }
             }
@@ -160,7 +160,7 @@ public class LaserNode extends PNode {
         //Update the transform of the laser when its model data (pivot or emission point) changes
         new RichSimpleObserver() {
             public void update() {
-                Point2D emissionPoint = transform.modelToView( laser.emissionPoint.getValue() ).toPoint2D();
+                Point2D emissionPoint = transform.modelToView( laser.emissionPoint.get() ).toPoint2D();
                 final double angle = transform.modelToView( ImmutableVector2D.parseAngleAndMagnitude( 1, laser.getAngle() ) ).getAngle();
 
                 final AffineTransform t = new AffineTransform();
@@ -179,7 +179,7 @@ public class LaserNode extends PNode {
             setOffset( -getFullBounds().getWidth() / 2 + image.getWidth() / 2, -getFullBounds().getHeight() / 2 + image.getHeight() / 2 );
             laser.on.addObserver( new SimpleObserver() {
                 public void update() {
-                    setImage( laser.on.getValue() ? pressed : unpressed );
+                    setImage( laser.on.get() ? pressed : unpressed );
                 }
             } );
 
@@ -187,7 +187,7 @@ public class LaserNode extends PNode {
             addInputEventListener( new CursorHandler() );
             addInputEventListener( new PBasicInputEventHandler() {
                 public void mousePressed( PInputEvent event ) {
-                    laser.on.setValue( !laser.on.getValue() );
+                    laser.on.set( !laser.on.get() );
                 }
             } );
         }} );

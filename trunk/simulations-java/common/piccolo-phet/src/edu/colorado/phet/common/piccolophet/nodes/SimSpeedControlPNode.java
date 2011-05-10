@@ -33,15 +33,15 @@ public class SimSpeedControlPNode extends PNode {
      */
     public SimSpeedControlPNode( double min, final Property<Double> dt, double max, final double maxPosX, final ObservableProperty<Color> labelColors ) {
         //SimSpeedControl requires a ConstantDtClock, so we create a dummy one that we can use to pass our Property<Double> dt through
-        final ConstantDtClock clock = new ConstantDtClock( 30, dt.getValue() ) {{
+        final ConstantDtClock clock = new ConstantDtClock( 30, dt.get() ) {{
             dt.addObserver( new VoidFunction1<Double>() {
                 public void apply( Double aDouble ) {
-                    setDt( dt.getValue() );
+                    setDt( dt.get() );
                 }
             } );
             addConstantDtClockListener( new ConstantDtClockAdapter() {
                 @Override public void dtChanged( ConstantDtClockEvent event ) {
-                    dt.setValue( event.getClock().getDt() );
+                    dt.set( event.getClock().getDt() );
                 }
             } );
         }};

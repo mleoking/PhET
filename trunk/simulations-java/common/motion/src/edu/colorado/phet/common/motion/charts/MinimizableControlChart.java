@@ -26,7 +26,7 @@ public class MinimizableControlChart extends PNode {
 
         final SimpleObserver updateVisibility = new SimpleObserver() {
             public void update() {
-                controlChart.setVisible(minimizeMaximizeButton.getMaximized().getValue());
+                controlChart.setVisible(minimizeMaximizeButton.getMaximized().get());
             }
         };
         minimizeMaximizeButton.getMaximized().addObserver(updateVisibility);
@@ -43,7 +43,7 @@ public class MinimizableControlChart extends PNode {
     }
 
     public void setMaximized(Boolean maximized){
-        minimizeMaximizeButton.getMaximized().setValue(maximized);
+        minimizeMaximizeButton.getMaximized().set( maximized );
     }
 
     public void setMinimizeMaximizeButtonOffset(double x, double y) {

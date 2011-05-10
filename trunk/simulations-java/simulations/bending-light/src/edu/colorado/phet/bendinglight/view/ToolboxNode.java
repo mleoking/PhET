@@ -48,7 +48,7 @@ public class ToolboxNode extends VBox {
         final double modelWidth = CHARACTERISTIC_LENGTH * 62;
         final double modelHeight = modelWidth * 0.7;
         IntensityMeterNode iconNode = new IntensityMeterNode( transform, new IntensityMeter( modelWidth * 0.3, -modelHeight * 0.3, modelWidth * 0.4, -modelHeight * 0.3 ) {{
-            enabled.setValue( true );
+            enabled.set( true );
         }} );
         int sensorIconHeight = (int) ( iconNode.getFullBounds().getHeight() / iconNode.getFullBounds().getWidth() * ICON_WIDTH );
         addChild( new IntensitySensorTool( canvas, transform, intensityMeter, modelWidth, modelHeight, this, iconNode, sensorIconHeight ) );

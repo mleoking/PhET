@@ -57,7 +57,7 @@ public class GrabbableVectorNode extends VectorNode {
         grabArea.addInputEventListener( new PBasicInputEventHandler() {
             public void mouseDragged( PInputEvent event ) {
                 PDimension delta = event.getDeltaRelativeTo( getParent() );
-                final Dimension2D d = modelViewTransform.getValue().viewToModelDelta( delta );
+                final Dimension2D d = modelViewTransform.get().viewToModelDelta( delta );
                 Point2D modelDelta = new Point2D.Double( d.getWidth(), d.getHeight() );
                 body.setVelocity( body.getVelocity().getAddedInstance( modelDelta.getX() / scale, modelDelta.getY() / scale ) );
                 body.notifyUserModifiedVelocity();

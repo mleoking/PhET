@@ -42,7 +42,7 @@ public class WorldLocationDragHandler extends PDragSequenceEventHandler {
     protected void startDrag( PInputEvent event ) {
         super.startDrag( event );
         Point2D pMouse = event.getPositionRelativeTo( dragNode.getParent() );
-        Point2D pOrigin = mvt.modelToViewDelta( locationProperty.getValue() );
+        Point2D pOrigin = mvt.modelToViewDelta( locationProperty.get() );
         clickXOffset = pMouse.getX() - pOrigin.getX();
         clickYOffset = pMouse.getY() - pOrigin.getY();
     }
@@ -54,6 +54,6 @@ public class WorldLocationDragHandler extends PDragSequenceEventHandler {
         Point2D pMouse = event.getPositionRelativeTo( dragNode.getParent() );
         double xView = pMouse.getX() - clickXOffset;
         double yView = pMouse.getY() - clickYOffset;
-        locationProperty.setValue( mvt.viewToModel( xView, yView ) );
+        locationProperty.set( mvt.viewToModel( xView, yView ) );
     }
 }

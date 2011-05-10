@@ -27,7 +27,7 @@ public class SliderControl extends PNode {
         //Even though we only use the slider component of this linear value control, it is easier to create the whole LinearValueControl so that
         //We can use its facilities for settings ticks.
         //A better design would have been to move tickmark functionality to LinearSlider so we could just us it directly, see #2837
-        final PSwing slider = new PSwing( new LinearValueControl( min, max, property.getValue(), "", "0.00", "" ) {
+        final PSwing slider = new PSwing( new LinearValueControl( min, max, property.get(), "", "0.00", "" ) {
             {
                 setTickLabels( new Hashtable<Object, Object>() {{
                     for ( Double s : tickLabels.keySet() ) {
@@ -43,12 +43,12 @@ public class SliderControl extends PNode {
                 FluidPressureCanvas.makeTransparent( this );
                 addChangeListener( new ChangeListener() {
                     public void stateChanged( ChangeEvent e ) {
-                        property.setValue( getValue() );
+                        property.set( getValue() );
                     }
                 } );
                 property.addObserver( new SimpleObserver() {
                     public void update() {
-                        setValue( property.getValue() );
+                        setValue( property.get() );
                     }
                 } );
             }

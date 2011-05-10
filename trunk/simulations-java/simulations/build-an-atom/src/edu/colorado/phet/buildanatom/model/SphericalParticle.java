@@ -64,7 +64,7 @@ public abstract class SphericalParticle implements IBucketSphere<SphericalPartic
         userControlled.addObserver( new SimpleObserver() {
             public void update() {
                 ArrayList<IBucketSphere.Listener<SphericalParticle>> copy = new ArrayList<IBucketSphere.Listener<SphericalParticle>>( listeners );//ConcurrentModificationException if listener removed while iterating, so use a copy
-                if ( userControlled.getValue() ) {
+                if ( userControlled.get() ) {
                     for ( IBucketSphere.Listener<SphericalParticle> listener : copy ) {
                         listener.grabbedByUser( SphericalParticle.this );
                     }
@@ -111,7 +111,7 @@ public abstract class SphericalParticle implements IBucketSphere<SphericalPartic
     }
 
     public ImmutableVector2D getPosition() {
-        return position.getValue();
+        return position.get();
     }
 
     public ImmutableVector2D getDestination() {
@@ -127,7 +127,7 @@ public abstract class SphericalParticle implements IBucketSphere<SphericalPartic
     }
 
     public void setPosition( double x, double y ) {
-        position.setValue( new ImmutableVector2D( x, y ) );
+        position.set( new ImmutableVector2D( x, y ) );
     }
 
     public void setDestination( ImmutableVector2D position ) {
@@ -166,15 +166,15 @@ public abstract class SphericalParticle implements IBucketSphere<SphericalPartic
     }
 
     public boolean isUserControlled() {
-        return userControlled.getValue();
+        return userControlled.get();
     }
 
     public void setUserControlled( boolean userControlled ) {
-        this.userControlled.setValue( userControlled );
+        this.userControlled.set( userControlled );
     }
 
     public void translate( double dx, double dy ) {
-        setPosition( position.getValue().getX() + dx, position.getValue().getY() + dy );
+        setPosition( position.get().getX() + dx, position.get().getY() + dy );
     }
 
     public void translate( ImmutableVector2D vector2D ) {

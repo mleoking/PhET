@@ -25,7 +25,7 @@ public class DevAnswerNode extends HTMLNode {
                 StringBuffer b = new StringBuffer( "Answer: ");
 
                 // reactants
-                EquationTerm[] reactantTerms = equationProperty.getValue().getReactants();
+                EquationTerm[] reactantTerms = equationProperty.get().getReactants();
                 for ( int i = 0; i < reactantTerms.length; i++ ) {
                     b.append( reactantTerms[i].getBalancedCoefficient() );
                     b.append( reactantTerms[i].getMolecule().getSymbol() );
@@ -39,7 +39,7 @@ public class DevAnswerNode extends HTMLNode {
                 b.append( "\u2192 " );
 
                 // products
-                EquationTerm[] productTerms = equationProperty.getValue().getProducts();
+                EquationTerm[] productTerms = equationProperty.get().getProducts();
                 for ( int i = 0; i < productTerms.length; i++ ) {
                     b.append( productTerms[i].getBalancedCoefficient() );
                     b.append( productTerms[i].getMolecule().getSymbol() );

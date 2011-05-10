@@ -36,7 +36,7 @@ public class SchematicToProtonCountQuestionView extends SchematicToQuestionView 
 
     @Override
     protected void displayAnswer( ImmutableAtom answer ) {
-        getGuessProperty().setValue( answer.getNumProtons() );
+        getGuessProperty().set( answer.getNumProtons() );
         getQuestion().setEditable( false );
     }
 
@@ -48,7 +48,7 @@ public class SchematicToProtonCountQuestionView extends SchematicToQuestionView 
         // and nothing else.  So basically, if the mass value is correct, we
         // return the matching atom, and if not, we return a null atom.
         ImmutableAtom answer = null;
-        if ( getProblem().getAnswer().getNumProtons() == getGuessProperty().getValue() ){
+        if ( getProblem().getAnswer().getNumProtons() == getGuessProperty().get() ){
             answer = getProblem().getAnswer();
         }
         else{

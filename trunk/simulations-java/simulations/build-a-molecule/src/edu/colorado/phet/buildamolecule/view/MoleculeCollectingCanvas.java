@@ -23,7 +23,7 @@ public class MoleculeCollectingCanvas extends BuildAMoleculeCanvas {
 
         model.allCollectionBoxesFilled.addObserver( new SimpleObserver() {
             public void update() {
-                if ( model.allCollectionBoxesFilled.getValue() ) {
+                if ( model.allCollectionBoxesFilled.get() ) {
                     addWorldChild( allFilledDialogNode );
                 }
                 else {

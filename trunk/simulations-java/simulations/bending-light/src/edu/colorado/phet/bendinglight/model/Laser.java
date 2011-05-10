@@ -31,7 +31,7 @@ public class Laser {
         //Prevent laser from going to 90 degrees when in wave mode, should go until laser bumps into edge.
         final SimpleObserver clampAngle = new SimpleObserver() {
             public void update() {
-                if ( wave.getValue() && getAngle() > MAX_ANGLE_IN_WAVE_MODE && topLeftQuadrant ) {
+                if ( wave.get() && getAngle() > MAX_ANGLE_IN_WAVE_MODE && topLeftQuadrant ) {
                     setAngle( MAX_ANGLE_IN_WAVE_MODE );
                 }
             }
@@ -62,18 +62,18 @@ public class Laser {
     }
 
     public void translate( double dx, double dy ) {
-        emissionPoint.setValue( emissionPoint.getValue().plus( dx, dy ) );
-        pivot.setValue( pivot.getValue().plus( dx, dy ) );
+        emissionPoint.set( emissionPoint.get().plus( dx, dy ) );
+        pivot.set( pivot.get().plus( dx, dy ) );
     }
 
     public ImmutableVector2D getDirectionUnitVector() {
-        return pivot.getValue().minus( emissionPoint.getValue() ).getNormalizedInstance();
+        return pivot.get().minus( emissionPoint.get() ).getNormalizedInstance();
     }
 
     //Rotate about the fixed pivot
     public void setAngle( double angle ) {
-        double distFromPivot = pivot.getValue().getDistance( emissionPoint.getValue() );
-        emissionPoint.setValue( ImmutableVector2D.parseAngleAndMagnitude( distFromPivot, angle ).plus( pivot.getValue() ) );
+        double distFromPivot = pivot.get().getDistance( emissionPoint.get() );
+        emissionPoint.set( ImmutableVector2D.parseAngleAndMagnitude( distFromPivot, angle ).plus( pivot.get() ) );
     }
 
     public double getAngle() {
@@ -81,11 +81,11 @@ public class Laser {
     }
 
     public double getDistanceFromPivot() {
-        return emissionPoint.getValue().minus( pivot.getValue() ).getMagnitude();
+        return emissionPoint.get().minus( pivot.get() ).getMagnitude();
     }
 
     public double getWavelength() {
-        return color.getValue().getWavelength();
+        return color.get().getWavelength();
     }
 
     public double getFrequency() {

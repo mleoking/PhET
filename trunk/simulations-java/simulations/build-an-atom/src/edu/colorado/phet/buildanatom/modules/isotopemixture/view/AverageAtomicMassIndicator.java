@@ -58,7 +58,7 @@ public class AverageAtomicMassIndicator extends PNode {
         model.getPossibleIsotopesProperty().addObserver( new SimpleObserver() {
             public void update() {
                 tickMarkLayer.removeAllChildren();
-                List< ImmutableAtom > possibleIsotopeList = model.getPossibleIsotopesProperty().getValue();
+                List< ImmutableAtom > possibleIsotopeList = model.getPossibleIsotopesProperty().get();
                 double lightestIsotopeMass = Double.POSITIVE_INFINITY;
                 double heaviestIsotopeMass = 0;
                 minMass = Double.POSITIVE_INFINITY;
@@ -80,7 +80,7 @@ public class AverageAtomicMassIndicator extends PNode {
                 minMass = (heaviestIsotopeMass + lightestIsotopeMass) / 2 - massSpan / 2;
 
                 // Add the new tick marks.
-                for ( ImmutableAtom isotope : model.getPossibleIsotopesProperty().getValue() ){
+                for ( ImmutableAtom isotope : model.getPossibleIsotopesProperty().get() ){
                     IsotopeTickMark tickMark = new IsotopeTickMark( isotope );
                     tickMark.setOffset( calcXOffsetFromAtomicMass( isotope.getAtomicMass() ), barOffsetY );
                     tickMarkLayer.addChild( tickMark );
@@ -212,7 +212,7 @@ public class AverageAtomicMassIndicator extends PNode {
         private void updateReadout(){
             double weight;
             int numDecimalPlacesToDisplay;
-            if ( model.getShowingNaturesMixProperty().getValue() ){
+            if ( model.getShowingNaturesMixProperty().get() ){
                 weight = AtomIdentifier.getStandardAtomicMassPrecionDecimal( model.getAtom().getNumProtons() ).getPreciseValue();
                 numDecimalPlacesToDisplay = Math.min(
                         AtomIdentifier.getStandardAtomicMassPrecionDecimal( model.getAtom().getNumProtons() ).getNumberOfDecimalPlaces(),

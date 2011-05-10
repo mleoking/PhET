@@ -63,10 +63,10 @@ public class Voltmeter {
 
     private void updateValue() {
         if ( probesAreTouching() ) {
-            valueProperty.setValue( 0d );
+            valueProperty.set( 0d );
         }
         else {
-            valueProperty.setValue( circuit.getVoltageBetween( shapeFactory.getPositiveProbeTipShape(), shapeFactory.getNegativeProbeTipShape() ) );
+            valueProperty.set( circuit.getVoltageBetween( shapeFactory.getPositiveProbeTipShape(), shapeFactory.getNegativeProbeTipShape() ) );
         }
     }
 
@@ -90,11 +90,11 @@ public class Voltmeter {
     }
 
     public boolean isVisible() {
-        return visibleProperty.getValue();
+        return visibleProperty.get();
     }
 
     public double getValue() {
-        return valueProperty.getValue();
+        return valueProperty.get();
     }
 
     public void addValueObserver( SimpleObserver o ) {

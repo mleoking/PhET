@@ -59,17 +59,17 @@ public class BuildAnAtomGameCanvas extends PhetPCanvas {
             } );
             model.getScoreProperty().addObserver( new SimpleObserver() {
                 public void update() {
-                    setScore( model.getScoreProperty().getValue() );
+                    setScore( model.getScoreProperty().get() );
                 }
             } );
             model.getGameSettings().timerEnabled.addObserver( new SimpleObserver() {
                 public void update() {
-                    setTimerVisible( model.getGameSettings().timerEnabled.getValue() );
+                    setTimerVisible( model.getGameSettings().timerEnabled.get() );
                 }
             } );
             model.getGameSettings().level.addObserver( new SimpleObserver() {
                 public void update() {
-                    setLevel( model.getGameSettings().level.getValue() );
+                    setLevel( model.getGameSettings().level.get() );
                 }
             } );
         }};

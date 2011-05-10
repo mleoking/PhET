@@ -58,8 +58,8 @@ public class SimView {
                 doRun();
             }
         } );
-        timeControl.live.setValue( !playbackMode );
-        if ( playbackMode ) { timeControl.playing.setValue( true ); }
+        timeControl.live.set( !playbackMode );
+        if ( playbackMode ) { timeControl.playing.set( true ); }
     }
 
     private void doRun() {
@@ -67,8 +67,8 @@ public class SimView {
             try {
                 SwingUtilities.invokeAndWait( new Runnable() {
                     public void run() {
-                        if ( timeControl.playing.getValue() ) {//TODO: may need a sleep
-                            timeControl.frameToDisplay.setValue( Math.min( timeControl.frameToDisplay.getValue() + 1, timeControl.maxFrames.getValue() ) );
+                        if ( timeControl.playing.get() ) {//TODO: may need a sleep
+                            timeControl.frameToDisplay.set( Math.min( timeControl.frameToDisplay.get() + 1, timeControl.maxFrames.get() ) );
                         }
                     }
                 } );
@@ -80,7 +80,7 @@ public class SimView {
                 e.printStackTrace();
             }
 
-            final Pair<Sample, Integer> sample = sampleSource.getSample( timeControl.live.getValue() ? -1 : timeControl.frameToDisplay.getValue() );
+            final Pair<Sample, Integer> sample = sampleSource.getSample( timeControl.live.get() ? -1 : timeControl.frameToDisplay.get() );
             if ( sample != null ) {
                 GravityAndOrbitsApplicationState state = null;
                 try {
@@ -91,7 +91,7 @@ public class SimView {
                             SwingUtilities.invokeAndWait( new Runnable() {
                                 public void run() {
                                     finalState.apply( application );
-                                    timeControl.maxFrames.setValue( sample._2 );
+                                    timeControl.maxFrames.set( sample._2 );
                                 }
                             } );
                         }

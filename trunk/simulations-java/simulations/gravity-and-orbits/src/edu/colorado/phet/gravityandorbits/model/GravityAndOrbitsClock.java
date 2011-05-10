@@ -21,26 +21,26 @@ public class GravityAndOrbitsClock extends ConstantDtClock {
 
     public GravityAndOrbitsClock( final double baseDTValue,//multiplied by scale to obtain true dt
                                   Property<Boolean> stepping, final Property<Double> timeSpeedScale ) {
-        super( 1000 / CLOCK_FRAME_RATE, baseDTValue * timeSpeedScale.getValue() );
+        super( 1000 / CLOCK_FRAME_RATE, baseDTValue * timeSpeedScale.get() );
         this.stepping = stepping;
         timeSpeedScale.addObserver( new SimpleObserver() {
             public void update() {
-                setDt( baseDTValue * timeSpeedScale.getValue() );
+                setDt( baseDTValue * timeSpeedScale.get() );
             }
         } );
     }
 
     @Override
     public void stepClockWhilePaused() {
-        stepping.setValue( true );//See RewindableProperty which has to know whether the clock is running, paused, stepping, rewinding for application specific logic
+        stepping.set( true );//See RewindableProperty which has to know whether the clock is running, paused, stepping, rewinding for application specific logic
         super.stepClockWhilePaused();
-        stepping.setValue( false );
+        stepping.set( false );
     }
 
     @Override
     public void stepClockBackWhilePaused() {
-        stepping.setValue( true );
+        stepping.set( true );
         super.stepClockBackWhilePaused();
-        stepping.setValue( false );
+        stepping.set( false );
     }
 }

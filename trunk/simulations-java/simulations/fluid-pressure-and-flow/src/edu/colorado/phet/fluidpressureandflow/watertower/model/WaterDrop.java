@@ -30,7 +30,7 @@ public class WaterDrop {
         this.radius = new Property<Double>( toRadius( volume, v.getMagnitude(), v.getMagnitude() ) );
         this.velocity.addObserver( new SimpleObserver() {
             public void update() {
-                radius.setValue( toRadius( volume, velocity.getValue().getMagnitude(), v.getMagnitude() ) );
+                radius.set( toRadius( volume, velocity.get().getMagnitude(), v.getMagnitude() ) );
             }
         } );
     }
@@ -43,8 +43,8 @@ public class WaterDrop {
     public void stepInTime( double simulationTimeChange ) {
         ImmutableVector2D force = new ImmutableVector2D( 0, mass * gravity );
         ImmutableVector2D acceleration = force.getScaledInstance( 1.0 / mass );
-        velocity.setValue( acceleration.getScaledInstance( simulationTimeChange ).getAddedInstance( velocity.getValue() ) );
-        position.setValue( velocity.getValue().getScaledInstance( simulationTimeChange ).getAddedInstance( position.getValue() ) );
+        velocity.set( acceleration.getScaledInstance( simulationTimeChange ).getAddedInstance( velocity.get() ) );
+        position.set( velocity.get().getScaledInstance( simulationTimeChange ).getAddedInstance( position.get() ) );
     }
 
     public void addRemovalListener( SimpleObserver simpleObserver ) {
@@ -62,8 +62,8 @@ public class WaterDrop {
     }
 
     public boolean contains( double x, double y ) {
-        double r = radius.getValue();
-        final Ellipse2D.Double shape = new Ellipse2D.Double( position.getValue().getX() - r, position.getValue().getY() - r, r * 2, r * 2 );
+        double r = radius.get();
+        final Ellipse2D.Double shape = new Ellipse2D.Double( position.get().getX() - r, position.get().getY() - r, r * 2, r * 2 );
         return shape.contains( x, y );
     }
 }

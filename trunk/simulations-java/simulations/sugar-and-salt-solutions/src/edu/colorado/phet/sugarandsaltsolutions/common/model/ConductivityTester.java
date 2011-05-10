@@ -37,7 +37,7 @@ public class ConductivityTester implements IConductivityTester {
 
     //Determine if the conductivity tester is visible
     public boolean isVisible() {
-        return visible.getValue();
+        return visible.get();
     }
 
     //Add a listener

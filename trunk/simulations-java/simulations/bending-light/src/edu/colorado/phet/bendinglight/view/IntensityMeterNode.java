@@ -39,7 +39,7 @@ public class IntensityMeterNode extends ToolNode {
         this.intensityMeter = intensityMeter;
         intensityMeter.enabled.addObserver( new SimpleObserver() {
             public void update() {
-                setVisible( intensityMeter.enabled.getValue() );
+                setVisible( intensityMeter.enabled.get() );
             }
         } );
 
@@ -47,7 +47,7 @@ public class IntensityMeterNode extends ToolNode {
         sensorNode = new PImage( RESOURCES.getImage( "intensity_meter_probe.png" ) ) {{
             intensityMeter.sensorPosition.addObserver( new SimpleObserver() {
                 public void update() {
-                    final Point2D.Double sensorViewPoint = transform.modelToView( intensityMeter.sensorPosition.getValue() ).toPoint2D();
+                    final Point2D.Double sensorViewPoint = transform.modelToView( intensityMeter.sensorPosition.get() ).toPoint2D();
                     setOffset( sensorViewPoint.getX() - getFullBounds().getWidth() / 2, sensorViewPoint.getY() - getFullBounds().getHeight() * 0.32 );
                 }
             } );
@@ -65,7 +65,7 @@ public class IntensityMeterNode extends ToolNode {
         bodyNode = new PImage( RESOURCES.getImage( "intensity_meter_box.png" ) ) {{
             intensityMeter.bodyPosition.addObserver( new SimpleObserver() {
                 public void update() {
-                    setOffset( transform.modelToView( intensityMeter.bodyPosition.getValue() ).toPoint2D() );
+                    setOffset( transform.modelToView( intensityMeter.bodyPosition.get() ).toPoint2D() );
                 }
             } );
 
@@ -91,7 +91,7 @@ public class IntensityMeterNode extends ToolNode {
             intensityMeter.reading.addObserver( new SimpleObserver() {
                 public void update() {
                     setTransform( new AffineTransform() );
-                    setText( intensityMeter.reading.getValue().getString() );
+                    setText( intensityMeter.reading.get().getString() );
                     setOffset( bodyNode.getFullBounds().getWidth() / 2 - getFullBounds().getWidth() / 2, bodyNode.getFullBounds().getHeight() * 0.44 );
                 }
             } );

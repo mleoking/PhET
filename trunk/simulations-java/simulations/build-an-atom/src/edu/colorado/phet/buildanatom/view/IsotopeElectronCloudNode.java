@@ -79,7 +79,7 @@ public class IsotopeElectronCloudNode extends PNode {
             {
                 orbitalView.addObserver( new SimpleObserver() {
                     public void update() {
-                        setVisible( orbitalView.getValue() == OrbitalView.ISOTOPES_RESIZING_CLOUD );
+                        setVisible( orbitalView.get() == OrbitalView.ISOTOPES_RESIZING_CLOUD );
                     }
                 } );
             }

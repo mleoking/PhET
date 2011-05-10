@@ -32,7 +32,7 @@ public class MultiControlChart extends PNode {
         final SimpleObserver updateHorizontalZoomButtonVisibility = new SimpleObserver() {
             public void update() {
                 for (int i = charts.length - 1; i >= 0; i--) {
-                    if (charts[i].getMaximized().getValue()) {
+                    if (charts[i].getMaximized().get()) {
                         setHorizontalZoomButtonVisible(i);
                         break;
                     }
@@ -48,7 +48,7 @@ public class MultiControlChart extends PNode {
         final SimpleObserver updateRangeLabelsVisible = new SimpleObserver() {
             public void update() {
                 for (int i = charts.length - 1; i >= 0; i--) {
-                    if (charts[i].getMaximized().getValue()) {
+                    if (charts[i].getMaximized().get()) {
                         setDomainAxisLabelsVisible(i);
                         break;
                     }

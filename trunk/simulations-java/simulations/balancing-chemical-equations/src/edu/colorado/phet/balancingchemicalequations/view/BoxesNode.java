@@ -66,7 +66,7 @@ public class BoxesNode extends PComposite {
         addChild( productsBoxNode );
 
         // right-pointing arrow
-        arrowNode = new RightArrowNode( equationProperty.getValue().isBalanced() );
+        arrowNode = new RightArrowNode( equationProperty.get().isBalanced() );
         addChild( arrowNode );
 
         // molecules
@@ -104,25 +104,25 @@ public class BoxesNode extends PComposite {
             }
         };
         // equation changes
-        this.equation = equationProperty.getValue();
+        this.equation = equationProperty.get();
         equationProperty.addObserver( new SimpleObserver() {
             public void update() {
                 BoxesNode.this.equation.removeCoefficientsObserver( coefficientsObserver );
-                BoxesNode.this.equation = equationProperty.getValue();
+                BoxesNode.this.equation = equationProperty.get();
                 BoxesNode.this.equation.addCoefficientsObserver( coefficientsObserver );
             }
         } );
         // box color changes
         boxColorProperty.addObserver( new SimpleObserver() {
             public void update() {
-                reactantsBoxNode.setPaint( boxColorProperty.getValue() );
-                productsBoxNode.setPaint( boxColorProperty.getValue() );
+                reactantsBoxNode.setPaint( boxColorProperty.get() );
+                productsBoxNode.setPaint( boxColorProperty.get() );
             }
         } );
         // molecules visibility
         moleculesVisibleProperty.addObserver( new SimpleObserver() {
             public void update() {
-                setMoleculesVisible( moleculesVisibleProperty.getValue() );
+                setMoleculesVisible( moleculesVisibleProperty.get() );
             }
         } );
     }

@@ -68,7 +68,7 @@ public class EntryPanel extends PNode {
     }
 
     public void setEditable( boolean b ) {
-        editable.setValue( b );
+        editable.set( b );
     }
 
     /**

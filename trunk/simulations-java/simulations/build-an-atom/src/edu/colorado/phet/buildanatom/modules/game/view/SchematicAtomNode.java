@@ -296,13 +296,13 @@ public class SchematicAtomNode extends PNode {
         final ElectronNode electronNode = new ElectronNode( mvt, electron ){{
             orbitalViewProperty.addObserver( new SimpleObserver() {
                 public void update() {
-                    setVisible( orbitalViewProperty.getValue() == OrbitalView.PARTICLES || !atom.containsElectron( electron ) );
+                    setVisible( orbitalViewProperty.get() == OrbitalView.PARTICLES || !atom.containsElectron( electron ) );
                 }
             } );
             atom.addAtomListener( new AtomListener.Adapter(){
                 @Override
                 public void configurationChanged() {
-                    setVisible( orbitalViewProperty.getValue() == OrbitalView.PARTICLES || !atom.containsElectron( electron ) );
+                    setVisible( orbitalViewProperty.get() == OrbitalView.PARTICLES || !atom.containsElectron( electron ) );
                 }
             } );
         }};

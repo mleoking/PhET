@@ -25,10 +25,10 @@ public class ChargeColorFunction implements Function0<Color> {
 
     public Color apply() {
         Color color;
-        if ( chargeProperty.getValue() > 0 ){
+        if ( chargeProperty.get() > 0 ){
             color = PhetColorScheme.RED_COLORBLIND;
         }
-        else if ( chargeProperty.getValue() < 0 ){
+        else if ( chargeProperty.get() < 0 ){
             color = Color.BLUE;
         }
         else {

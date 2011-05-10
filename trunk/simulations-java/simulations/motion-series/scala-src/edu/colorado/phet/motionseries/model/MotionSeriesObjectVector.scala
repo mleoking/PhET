@@ -20,7 +20,7 @@ class Vector(val color: Color,
 
   def angle = vector2DModel.value.angle
 
-  def setVisible(vis: Boolean) = visible.setValue(vis)
+  def setVisible(vis: Boolean) = visible.set(vis)
 
   def getPaint = painter(vector2DModel(), color)
 

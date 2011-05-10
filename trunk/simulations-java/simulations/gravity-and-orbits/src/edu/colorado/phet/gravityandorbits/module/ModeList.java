@@ -275,10 +275,10 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
             //Restore the moon near the earth and with the same relative velocity vector
             if ( earth != null ) {
                 ImmutableVector2D relativePosition = getPositionProperty().getInitialValue().minus( earth.getPositionProperty().getInitialValue() );
-                getPositionProperty().setValue( earth.getPosition().plus( relativePosition ) );
+                getPositionProperty().set( earth.getPosition().plus( relativePosition ) );
 
                 ImmutableVector2D relativeVelocity = getVelocityProperty().getInitialValue().minus( earth.getVelocityProperty().getInitialValue() );
-                getVelocityProperty().setValue( earth.getVelocity().plus( relativeVelocity ) );
+                getVelocityProperty().set( earth.getVelocity().plus( relativeVelocity ) );
             }
             else {
                 throw new RuntimeException( "Couldn't find planet." );

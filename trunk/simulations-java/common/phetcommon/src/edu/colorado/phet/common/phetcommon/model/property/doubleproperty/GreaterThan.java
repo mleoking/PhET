@@ -15,7 +15,7 @@ public class GreaterThan extends CompositeProperty<Boolean> {
     public GreaterThan( final ObservableProperty<Double> a, final double b ) {
         super( new Function0<Boolean>() {
                    public Boolean apply() {
-                       return a.getValue() > b;
+                       return a.get() > b;
                    }
                }, a );
     }

@@ -50,15 +50,15 @@ public class MultipleCapacitorsModel {
 
         worldBounds = new WorldBounds();
 
-        capacitanceMeter = new CapacitanceMeter( currentCircuit.getValue(), worldBounds, CLConstants.CAPACITANCE_METER_LOCATION, CLConstants.CAPACITANCE_METER_VISIBLE );
-        plateChargeMeter = new PlateChargeMeter( currentCircuit.getValue(), worldBounds, CLConstants.PLATE_CHARGE_METER_LOCATION, CLConstants.PLATE_CHARGE_METER_VISIBLE );
-        storedEnergyMeter = new StoredEnergyMeter( currentCircuit.getValue(), worldBounds, CLConstants.STORED_ENERGY_METER_LOCATION, CLConstants.STORED_ENERGY_METER_VISIBLE );
+        capacitanceMeter = new CapacitanceMeter( currentCircuit.get(), worldBounds, CLConstants.CAPACITANCE_METER_LOCATION, CLConstants.CAPACITANCE_METER_VISIBLE );
+        plateChargeMeter = new PlateChargeMeter( currentCircuit.get(), worldBounds, CLConstants.PLATE_CHARGE_METER_LOCATION, CLConstants.PLATE_CHARGE_METER_VISIBLE );
+        storedEnergyMeter = new StoredEnergyMeter( currentCircuit.get(), worldBounds, CLConstants.STORED_ENERGY_METER_LOCATION, CLConstants.STORED_ENERGY_METER_VISIBLE );
 
-        eFieldDetector = new EFieldDetector( currentCircuit.getValue(), worldBounds, CLConstants.EFIELD_DETECTOR_BODY_LOCATION, CLConstants.EFIELD_DETECTOR_PROBE_LOCATION,
+        eFieldDetector = new EFieldDetector( currentCircuit.get(), worldBounds, CLConstants.EFIELD_DETECTOR_BODY_LOCATION, CLConstants.EFIELD_DETECTOR_PROBE_LOCATION,
                                              CLConstants.EFIELD_DETECTOR_VISIBLE, CLConstants.EFIELD_PLATE_VECTOR_VISIBLE, CLConstants.EFIELD_DIELECTRIC_VECTOR_VISIBLE,
                                              CLConstants.EFIELD_SUM_VECTOR_VISIBLE, CLConstants.EFIELD_VALUES_VISIBLE );
 
-        voltmeter = new Voltmeter( currentCircuit.getValue(), worldBounds, mvt,
+        voltmeter = new Voltmeter( currentCircuit.get(), worldBounds, mvt,
                                    CLConstants.VOLTMETER_BODY_LOCATION, CLConstants.VOLTMETER_POSITIVE_PROBE_LOCATION, CLConstants.VOLTMETER_NEGATIVE_PROBE_LOCATION,
                                    CLConstants.VOLTMETER_VISIBLE );
 
@@ -66,7 +66,7 @@ public class MultipleCapacitorsModel {
         // when the circuit changes...
         currentCircuit.addObserver( new SimpleObserver() {
             public void update() {
-                ICircuit circuit = currentCircuit.getValue();
+                ICircuit circuit = currentCircuit.get();
                 System.out.println( "MultipleCapacitorsModel$SimpleObserver.update circuit=" + circuit.getDisplayName() );//XXX
                 //TODO change circuit based on selection
                 capacitanceMeter.setCircuit( circuit );

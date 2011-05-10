@@ -80,7 +80,7 @@ public abstract class ObservableProperty<T> extends SimpleObservable {
      */
     public void addObserver( VoidFunction1<T> observer ) {
         newValueObservers.add( observer );
-        observer.apply( getValue() );
+        observer.apply( get() );
     }
 
     public void removeObserver( VoidFunction1<T> observer ) {
@@ -121,11 +121,11 @@ public abstract class ObservableProperty<T> extends SimpleObservable {
         addObserver( simpleObserver, true /* notifyOnAdd */ );
     }
 
-    public abstract T getValue();
+    public abstract T get();
 
     @Override
     public String toString() {
-        return getValue().toString();
+        return get().toString();
     }
 
     /**
@@ -149,7 +149,7 @@ public abstract class ObservableProperty<T> extends SimpleObservable {
     public static void main( String[] args ) {
         Property<String> p = new Property<String>( "hello" );
         p.trace( "text" );
-        p.setValue( "world" );
+        p.set( "world" );
     }
 
     /**
@@ -157,7 +157,7 @@ public abstract class ObservableProperty<T> extends SimpleObservable {
      * notifications if the value has changed (and storing the new value for next time).
      */
     public void notifyIfChanged() {
-        T newValue = getValue();
+        T newValue = get();
         //TODO: handle nulls in this equality test
         if ( !newValue.equals( oldValue ) ) {
             notifyObservers( newValue, oldValue );

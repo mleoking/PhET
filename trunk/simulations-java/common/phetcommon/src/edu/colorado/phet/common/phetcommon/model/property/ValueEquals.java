@@ -16,7 +16,7 @@ public class ValueEquals<T> extends CompositeBooleanProperty {
     public ValueEquals( final Property<T> property, final T value ) {
         super( new Function0<Boolean>() {
                    public Boolean apply() {
-                       return property.getValue().equals( value );
+                       return property.get().equals( value );
                    }
                }, property );
     }

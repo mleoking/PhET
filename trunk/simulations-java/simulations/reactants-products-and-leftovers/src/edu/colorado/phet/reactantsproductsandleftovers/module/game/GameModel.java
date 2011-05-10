@@ -279,7 +279,7 @@ public class GameModel extends RPALModel {
      * @return
      */
     public int getLevel() {
-        return gameSettings.level.getValue();
+        return gameSettings.level.get();
     }
 
     /**
@@ -287,14 +287,14 @@ public class GameModel extends RPALModel {
      * @return
      */
     public boolean isTimerVisible() {
-        return gameSettings.timerEnabled.getValue();
+        return gameSettings.timerEnabled.get();
     }
 
     /**
      * Is sound enabled?
      */
     public boolean isSoundEnabled() {
-        return gameSettings.soundEnabled.getValue();
+        return gameSettings.soundEnabled.get();
     }
 
     /**
@@ -302,7 +302,7 @@ public class GameModel extends RPALModel {
      * @return
      */
     public ChallengeVisibility getChallengeVisibility() {
-        return gameSettings.challengeVisibility.getValue();
+        return gameSettings.challengeVisibility.get();
     }
 
     /**

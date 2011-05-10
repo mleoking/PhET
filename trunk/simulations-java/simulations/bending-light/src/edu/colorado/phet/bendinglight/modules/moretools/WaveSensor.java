@@ -46,7 +46,7 @@ public class WaveSensor {
     //Read samples from the probes when the simulation time changes
     private void updateProbeSample( Probe probe, Function1<ImmutableVector2D, Option<Double>> probeValue, Clock clock ) {
         //Read the value from the probe function.  May be None if not intersecting a light ray
-        final Option<Double> value = probeValue.apply( probe.position.getValue() );
+        final Option<Double> value = probeValue.apply( probe.position.get() );
         if ( value.isSome() ) {
             probe.addSample( new Option.Some<DataPoint>( new DataPoint( clock.getSimulationTime(), value.get() ) ) );
         }
@@ -56,19 +56,19 @@ public class WaveSensor {
     }
 
     public void translateBody( Dimension2D delta ) {
-        bodyPosition.setValue( bodyPosition.getValue().plus( delta ) );
+        bodyPosition.set( bodyPosition.get().plus( delta ) );
     }
 
     //Moves the sensor body and probes until the hot spot (center of one probe) is on the specified position.
     public void translateToHotSpot( Point2D position ) {
-        translateAll( new ImmutableVector2D( position ).minus( probe1.position.getValue() ) );
+        translateAll( new ImmutableVector2D( position ).minus( probe1.position.get() ) );
     }
 
     //Translate the body and probes by the specified model delta
     public void translateAll( ImmutableVector2D delta ) {
         probe1.translate( delta );
         probe2.translate( delta );
-        bodyPosition.setValue( bodyPosition.getValue().plus( delta ) );
+        bodyPosition.set( bodyPosition.get().plus( delta ) );
     }
 
     //Model for a probe, including its position and recorded data series
@@ -82,15 +82,15 @@ public class WaveSensor {
         }
 
         public void translate( Dimension2D delta ) {
-            position.setValue( position.getValue().plus( delta ) );
+            position.set( position.get().plus( delta ) );
         }
 
         public void translate( ImmutableVector2D delta ) {
-            position.setValue( position.getValue().plus( delta ) );
+            position.set( position.get().plus( delta ) );
         }
 
         public void addSample( final Option<DataPoint> sample ) {
-            series.setValue( new ArrayList<Option<DataPoint>>( series.getValue() ) {{
+            series.set( new ArrayList<Option<DataPoint>>( series.get() ) {{
                 add( sample );
             }} );
         }

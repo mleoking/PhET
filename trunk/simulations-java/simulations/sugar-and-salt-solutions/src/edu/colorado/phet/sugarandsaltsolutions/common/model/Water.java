@@ -17,7 +17,7 @@ public class Water {
     }
 
     public Shape getShape() {
-        return beaker.getFluidShape( volume.getValue() );
+        return beaker.getFluidShape( volume.get() );
     }
 
     public void reset() {

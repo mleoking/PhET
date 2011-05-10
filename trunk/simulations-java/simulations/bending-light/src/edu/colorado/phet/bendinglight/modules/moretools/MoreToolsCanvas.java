@@ -89,7 +89,7 @@ public class MoreToolsCanvas extends IntroCanvas<MoreToolsModel> {
                     myWaveSensorNode = new WaveSensorNode( transform, model.waveSensor ) {{
                         showTool.addObserver( new SimpleObserver() {
                             public void update() {
-                                setVisible( showTool.getValue() );
+                                setVisible( showTool.get() );
                             }
                         } );
                     }};
@@ -122,7 +122,7 @@ public class MoreToolsCanvas extends IntroCanvas<MoreToolsModel> {
         //Create the NodeFactory which creates the VelocitySensorNode when dragged out of the toolbox
         final NodeFactory velocityNodeFactory = new NodeFactory() {
             public VelocitySensorNode createNode( final ModelViewTransform transform, final Property<Boolean> showTool, final Point2D modelPt ) {
-                model.velocitySensor.position.setValue( new ImmutableVector2D( modelPt ) );
+                model.velocitySensor.position.set( new ImmutableVector2D( modelPt ) );
                 return new VelocitySensorNode( transform, model.velocitySensor, arrowScale, new Property<Function1<Double, String>>( formatter ), getBoundedConstraint() ) {{
                     showTool.addObserver( new VoidFunction1<Boolean>() {
                         public void apply( Boolean visible ) {
