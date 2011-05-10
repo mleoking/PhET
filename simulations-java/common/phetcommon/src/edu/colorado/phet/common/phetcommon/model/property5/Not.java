@@ -1,37 +1,19 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.phetcommon.model.property5;
 
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
 /**
- * Provides the negation of a Property<Boolean>
+ * Provides the negation of a Property<Boolean>--this one is settable and propagates the (negation) of the set value back to its parent.
  *
  * @author Sam Reid
  */
-public class Not extends SettableProperty<Boolean> {
+public class Not extends ObservableNot implements Settable<Boolean> {
     private Property<Boolean> parent;
-    private Boolean lastValue;
 
     public Not( final Property<Boolean> parent ) {
-        super( !parent.getValue() );
+        super( parent );
         this.parent = parent;
-        lastValue = getValue();
-        parent.addObserver( new SimpleObserver() {
-            public void update() {
-                notifyObservers( getValue(), lastValue );
-                lastValue = getValue();
-            }
-        } );
-    }
-
-    public And and( SettableProperty<Boolean> p ) {
-        return new And( this, p );
-    }
-
-    @Override
-    public Boolean getValue() {
-        return !parent.getValue();
     }
 
     public void setValue( Boolean value ) {
@@ -57,7 +39,6 @@ public class Not extends SettableProperty<Boolean> {
         } );
         System.out.println( "Setting a to false:" );
         a.setValue( false );
-
 
         System.out.println( "Setting a to true" );
         a.setValue( true );

@@ -11,17 +11,19 @@ import edu.colorado.phet.common.phetcommon.util.function.Function0;
  *
  * @author Sam Reid
  */
-public class Or extends CompositeProperty<Boolean> {
-    public Or( final ObservableProperty<Boolean> a, final ObservableProperty<Boolean> b ) {
+public class Or extends CompositeBooleanProperty {
+    public Or( final ObservableProperty<Boolean>... terms ) {
         super( new Function0<Boolean>() {
-            public Boolean apply() {
-                return a.getValue() || b.getValue();
-            }
-        }, a, b );
-    }
-
-    public And and( ObservableProperty<Boolean> b ) {
-        return new And( this, b );
+                   public Boolean apply() {
+                       for ( ObservableProperty<Boolean> term : terms ) {
+                           //Short circuit for improved performance, returning true as soon as any term evaluates to true
+                           if ( term.getValue() ) {
+                               return true;
+                           }
+                       }
+                       return false;
+                   }
+               }, terms );
     }
 
     public static Boolean or( List<Property<Boolean>> p ) {

@@ -12,18 +12,12 @@ import edu.colorado.phet.common.phetcommon.util.function.Function0;
  * @param <T> the property value type
  * @author Sam Reid
  */
-public class ValueEquals<T> extends CompositeProperty<Boolean> {
+public class ValueEquals<T> extends CompositeBooleanProperty {
     public ValueEquals( final Property<T> property, final T value ) {
         super( new Function0<Boolean>() {
-            public Boolean apply() {
-                return property.getValue().equals( value );
-            }
-        }, property );
-    }
-
-    //REVIEW why is this here?
-    //Returns a property that is an 'or' conjunction of this and the provided argument
-    public Or or( ObservableProperty<Boolean> p ) {
-        return new Or( this, p );
+                   public Boolean apply() {
+                       return property.getValue().equals( value );
+                   }
+               }, property );
     }
 }
