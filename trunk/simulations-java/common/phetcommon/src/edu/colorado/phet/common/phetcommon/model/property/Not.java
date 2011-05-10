@@ -8,9 +8,9 @@ import edu.colorado.phet.common.phetcommon.util.function.Function0;
  *
  * @author Sam Reid
  */
-public class ObservableNot extends CompositeBooleanProperty {
+public class Not extends CompositeBooleanProperty {
 
-    public ObservableNot( final ObservableProperty<Boolean> parent ) {
+    public Not( final ObservableProperty<Boolean> parent ) {
         super( new Function0<Boolean>() {
                    public Boolean apply() {
                        return !parent.get();
@@ -18,7 +18,7 @@ public class ObservableNot extends CompositeBooleanProperty {
                }, parent );
     }
 
-    public static ObservableNot not( ObservableProperty<Boolean> p ) {
-        return new ObservableNot( p );
+    public static Not not( ObservableProperty<Boolean> p ) {
+        return new Not( p );
     }
 }
