@@ -11,9 +11,9 @@ import edu.colorado.phet.common.phetcommon.util.function.Function0;
 public class IfElse<T> extends CompositeProperty<T> {
     public IfElse( final Property<Boolean> condition, final T yes, final T no ) {
         super( new Function0<T>() {
-            public T apply() {
-                return condition.getValue() ? yes : no;
-            }
-        } );
+                   public T apply() {
+                       return condition.getValue() ? yes : no;
+                   }
+               }, condition );
     }
 }
