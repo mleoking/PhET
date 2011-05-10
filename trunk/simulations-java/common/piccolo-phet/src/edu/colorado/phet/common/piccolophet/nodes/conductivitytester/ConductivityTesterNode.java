@@ -1,18 +1,17 @@
 // Copyright 2002-2011, University of Colorado
 
-package edu.colorado.phet.acidbasesolutions.view;
+package edu.colorado.phet.common.piccolophet.nodes.conductivitytester;
 
 import java.awt.*;
 import java.awt.geom.CubicCurve2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 import java.text.DecimalFormat;
 
-import edu.colorado.phet.acidbasesolutions.constants.ABSImages;
-import edu.colorado.phet.acidbasesolutions.constants.ABSSymbols;
-import edu.colorado.phet.acidbasesolutions.model.ConductivityTester.ConductivityTesterChangeListener;
-import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.SolutionRepresentationChangeAdapter;
+import edu.colorado.phet.common.phetcommon.resources.PhetResources;
+import edu.colorado.phet.common.piccolophet.nodes.conductivitytester.IConductivityTester.ConductivityTesterChangeListener;
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
@@ -37,6 +36,21 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 public class ConductivityTesterNode extends PhetPNode {
 
+    //Strings to be shown on the probes
+    public static final String PLUS = "+";
+    public static final String MINUS = "-";
+
+    //Images used here
+    public static final BufferedImage BATTERY = getBufferedImage( "battery.png" );
+    public static final BufferedImage LIGHT_BULB_BASE = getBufferedImage( "lightBulbBase.png" );
+    public static final BufferedImage LIGHT_BULB_GLASS = getBufferedImage( "lightBulbGlass.png" );
+    public static final BufferedImage LIGHT_BULB_GLASS_MASK = getBufferedImage( "lightBulbGlassMask.png" );
+
+    //Utility method for loading the images used in this tester node
+    private static BufferedImage getBufferedImage( String image ) {
+        return new PhetResources( "piccolo-phet" ).getImage( image );
+    }
+
     // light bulb
     private static final double PERCENT_LIGHT_BULB_ATTACHMENT = 0.12; // percent of light bulb's full height, from bottom of bulb, determines where to attach the probe wire
     private static final LinearFunction BRIGHTNESS_TO_ALPHA_FUNCTION = new LinearFunction( 0, 1, 0.85, 1 ); // alpha of the bulb
@@ -53,12 +67,12 @@ public class ConductivityTesterNode extends PhetPNode {
 
     // positive probe properties
     private static final Color POSITIVE_PROBE_FILL_COLOR = Color.RED;
-    private static final String POSITIVE_PROBE_LABEL = ABSSymbols.PLUS;
+    private static final String POSITIVE_PROBE_LABEL = PLUS;
     private static final Color POSITIVE_PROBE_LABEL_COLOR = Color.WHITE;
 
     // negative probe properties
     private static final Color NEGATIVE_PROBE_FILL_COLOR = Color.BLACK;
-    private static final String NEGATIVE_PROBE_LABEL = ABSSymbols.MINUS;
+    private static final String NEGATIVE_PROBE_LABEL = MINUS;
     private static final Color NEGATIVE_PROBE_LABEL_COLOR = Color.WHITE;
 
     // general wire properties
@@ -90,13 +104,7 @@ public class ConductivityTesterNode extends PhetPNode {
      * @param dev    whether to enable developer features
      */
     public ConductivityTesterNode( final IConductivityTester tester, boolean dev ) {
-
         this.tester = tester;
-        tester.addSolutionRepresentationChangeListener( new SolutionRepresentationChangeAdapter() {
-            public void visibilityChanged() {
-                setVisible( tester.isVisible() );
-            }
-        } );
 
         tester.addConductivityTesterChangeListener( new ConductivityTesterChangeListener() {
 
@@ -266,11 +274,9 @@ public class ConductivityTesterNode extends PhetPNode {
 
         public LightBulbNode() {
 
-            PNode baseNode = new PImage( ABSImages.LIGHT_BULB_BASE );
-
-            glassNode = new PImage( ABSImages.LIGHT_BULB_GLASS );
-
-            PNode maskNode = new PImage( ABSImages.LIGHT_BULB_GLASS_MASK );
+            PNode baseNode = new PImage( LIGHT_BULB_BASE );
+            glassNode = new PImage( LIGHT_BULB_GLASS );
+            PNode maskNode = new PImage( LIGHT_BULB_GLASS_MASK );
 
             // rendering order
             addChild( maskNode );
@@ -297,7 +303,7 @@ public class ConductivityTesterNode extends PhetPNode {
     */
     private static class BatteryNode extends PComposite {
         public BatteryNode() {
-            PImage imageNode = new PImage( ABSImages.BATTERY );
+            PImage imageNode = new PImage( BATTERY );
             addChild( imageNode );
             double x = 0;
             double y = -imageNode.getFullBoundsReference().getHeight() / 2;
