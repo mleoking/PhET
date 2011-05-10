@@ -1,7 +1,2 @@
 arrow_double.png source=PhET
 arrow_single.png source=PhET
-battery.png source=PhET notes=reused from faraday
-lightBulbBase.png source=PhET notes=reused from faraday
-lightBulbGlass.png source=PhET notes=reused from faraday
-lightBulbGlassMask.png source=PhET notes=reused from faraday
-lightBulbMask.png source=PhET notes=masked version of lightBulbGlass.png

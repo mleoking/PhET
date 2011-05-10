@@ -1,3 +1,4 @@
+5/9/11 Moved ConductivityTester and related strings and images from acid-base-solutions to piccolo-phet, see #2864
 5/6/2011 Fixed: DefaultIconButton shouldn't send out events when disabled, see #2853
 4/27/11 Refactored Function3 to interface to improve readability and make easier to extend
 4/27/11 Added convenience constructors to HBox and VBox

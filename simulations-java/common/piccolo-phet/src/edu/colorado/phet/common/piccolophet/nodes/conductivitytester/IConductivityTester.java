@@ -1,14 +1,14 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.acidbasesolutions.view;
+package edu.colorado.phet.common.piccolophet.nodes.conductivitytester;
 
 import java.awt.geom.Point2D;
+import java.util.EventListener;
 
-import edu.colorado.phet.acidbasesolutions.model.ConductivityTester.ConductivityTesterChangeListener;
-import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.SolutionRepresentationChangeListener;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Interface used by ConductivityTesterNode
+ *
  * @author Sam Reid
  */
 public interface IConductivityTester {
@@ -30,5 +30,11 @@ public interface IConductivityTester {
 
     double getBrightness();
 
-    void addSolutionRepresentationChangeListener( SolutionRepresentationChangeListener solutionRepresentationChangeListener );
+    public interface ConductivityTesterChangeListener extends EventListener {
+        public void brightnessChanged();
+
+        public void positiveProbeLocationChanged();
+
+        public void negativeProbeLocationChanged();
+    }
 }

@@ -1,3 +1,4 @@
+5/9/11 Moved ConductivityTester and related strings and images from acid-base-solutions to piccolo-phet, see #2864
 Fixed: Faucet shows fluid flow even when beaker is full
 Reset the shaker location on reset
 Made salt crystals square instead of round

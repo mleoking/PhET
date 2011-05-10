@@ -24,10 +24,6 @@ public class ABSImages {
 
     public static final BufferedImage ARROW_DOUBLE = getBufferedImage( "arrow_double.png" );
     public static final BufferedImage ARROW_SINGLE = getBufferedImage( "arrow_single.png" );
-    public static final BufferedImage BATTERY= getBufferedImage( "battery.png" );
-    public static final BufferedImage LIGHT_BULB_BASE = getBufferedImage( "lightBulbBase.png" );
-    public static final BufferedImage LIGHT_BULB_GLASS = getBufferedImage( "lightBulbGlass.png" );
-    public static final BufferedImage LIGHT_BULB_GLASS_MASK = getBufferedImage( "lightBulbGlassMask.png" );
 
     // icons used in control panels
     public static final Icon BEAKER_ICON = getIcon( "icons/beaker_icon.png" );
