@@ -17,6 +17,7 @@ import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
+import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -108,7 +109,7 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
                     add( new CheckBox( "Show values" ) );
                 }} );
                 //Add a button that shows a conductivity meter, with probes that can be submerged
-                add( new Property5CheckBox( "Measure conductivity", model.conductivityTester.visible ) {{setFont( CONTROL_FONT );}} );
+                add( new PropertyCheckBox( "Measure conductivity", model.conductivityTester.visible ) {{setFont( CONTROL_FONT );}} );
                 add( new CheckBox( "Evaporate water" ) );
             }} ) );
         }} ) {{
