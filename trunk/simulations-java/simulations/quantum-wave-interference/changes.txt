@@ -1,3 +1,5 @@
+# 1.11.00 (51736) May 9, 2011
+5/9/11 > added new translation credits features
 # 1.10.01 (51574) May 5, 2011
 2/27/11 #2756, replaced validateTree() with validate()
 # 1.10.00 (38023) Jan 11, 2010
@@ -29,7 +31,7 @@ Fixed a bug that caused a null pointer exception crash in setOpaque
 
 (7-5-2007)
 Renamed 3rd tab from "Lasers" to "2 Lasers"
-Fixed: For massive particles, the label for “Wave function display” is missing the “y” at the end.
+Fixed: For massive particles, the label for ï¿½Wave function displayï¿½ is missing the ï¿½yï¿½ at the end.
 Fixed: part of state cannot be saved/loaded
 
 1.05.01
@@ -99,12 +101,12 @@ Added developer controls (in control panel) for Single Particle Module.
 
 1.02.03 (10-24-2006)
 Fixed: The clear button on the screen controls is disabled.  When I looked at this before, I thought it was only disabled in average intensity mode, 
-                but now it seems to be disabled all the time.  It shouldn’t be disabled ever.  
+                but now it seems to be disabled all the time.  It shouldnï¿½t be disabled ever.  
                 I've noticed repeatedly that this annoys people and they think it's broken, 
-                so even if it’s not necessary in average intensity mode, it should still be functional.
+                so even if itï¿½s not necessary in average intensity mode, it should still be functional.
 Fixed: If I run QWI on auto-repeat for single particles and a double slit for a long time, 
-                I would like an interference pattern to build up, but it doesn’t because the dots on the screen fade too fast.  
-                The rate of fading should be much slower in single particle mode than in the other two cases, since the dots don’t build up as fast.
+                I would like an interference pattern to build up, but it doesnï¿½t because the dots on the screen fade too fast.  
+                The rate of fading should be much slower in single particle mode than in the other two cases, since the dots donï¿½t build up as fast.
 Fixed: It would be nice to be have the fade checkbox in single particle mode so that I can turn it off.
                 
 1.02.02 (10-24-2006)
@@ -153,16 +155,16 @@ Added save/load of double-slits.
     Two Lasers Panel: Fixed left gun control running off the screen.
     Default configuration should be for the lasers to be different colors, blue and bright red.
 Changed format for helium max and min to 0.0 (not 0.000)
-Changed “Show Observable” to “Show Expectation Value”
-Removed “Print Model Parameter” menu item
-Changed “Wave Function Display” to “EM Wave Display” in photon mode.
+Changed ï¿½Show Observableï¿½ to ï¿½Show Expectation Valueï¿½
+Removed ï¿½Print Model Parameterï¿½ menu item
+Changed ï¿½Wave Function Displayï¿½ to ï¿½EM Wave Displayï¿½ in photon mode.
 Removed an error log message (in Java Web Start Console) when there is a detection in single-particle panel.
-Changed "one-shot" to “repeat detect”, behaves exactly opposite to “one-shot.”
-In High Intensity panel, changed “Advanced” to “Potential Barriers.”
-In Single Particles panel, break up “Advanced” into two buttons: “Potential Barriers” and “Detectors”
-Slider Scales: Width and Separation – currently min width is 3 pixels and min separation is zero.  Set min width to 4 pixels and min separation to 6 pixels.
+Changed "one-shot" to ï¿½repeat detectï¿½, behaves exactly opposite to ï¿½one-shot.ï¿½
+In High Intensity panel, changed ï¿½Advancedï¿½ to ï¿½Potential Barriers.ï¿½
+In Single Particles panel, break up ï¿½Advancedï¿½ into two buttons: ï¿½Potential Barriersï¿½ and ï¿½Detectorsï¿½
+Slider Scales: Width and Separation ï¿½ currently min width is 3 pixels and min separation is zero.  Set min width to 4 pixels and min separation to 6 pixels.
 Fixed the slit controls so the slit is constrained to be symmetric with respect to slit separation and size.
-Bugfix: If you pause the simulation and then press “Clear wave,” you have to step forward before it clears.  It should clear immediately.
+Bugfix: If you pause the simulation and then press ï¿½Clear wave,ï¿½ you have to step forward before it clears.  It should clear immediately.
 Bugfix: If you are stepping through time with detectors and there is a detection, sometimes the detector turns gray and the wave function collapses in the same step, but sometimes the detector turns gray in one step and the wave function collapses in the next step.  It should always behave in the former way.
 Bugfix: If ruler is oriented vertically and I resize the simulation, the close and rotate buttons on the ruler move off the ruler.
 Bugfix: If I put the ruler too far to the right and make the simulation size smaller, the ruler goes off the screen and I can't get it back without resizing.
@@ -189,10 +191,10 @@ Bugfix: If you start in E-field view and turn off detector,
     model looks temporarily like time-averaged intensity in upper half of box
     This effect also happens for electrons.
 Bugfix: Changing the particle type often messes up the wave function display.
-Bugfix: In “hits” mode, the dots appear on the screen in columns, so it appears that there are many very thin interference fringes.
-Bugfix: The “one-shot” checkbox doesn’t work.
+Bugfix: In ï¿½hitsï¿½ mode, the dots appear on the screen in columns, so it appears that there are many very thin interference fringes.
+Bugfix: The ï¿½one-shotï¿½ checkbox doesnï¿½t work.
 Bugfix: The detectors don't share probabilities equally.
-Bugfix: Text that says “Off” appears next to the left laser in the two lasers panel when maximizing the window.
+Bugfix: Text that says ï¿½Offï¿½ appears next to the left laser in the two lasers panel when maximizing the window.
 Bugfix: Putting a detector on the slits,  then turning the gun on causes empty graphics to appear north of the barriers.
 
 New in 1.00 (5-17-2006)
@@ -200,7 +202,7 @@ Posted on main site (replaces 0.37)
 Changed from alpha to beta.
 
 New in 0.00.62 (5-14-2006)
-Labeled the min and max of the velocity sliders for each type of particle so that students can easily see what the velocity range is and that it’s different for each particle.
+Labeled the min and max of the velocity sliders for each type of particle so that students can easily see what the velocity range is and that itï¿½s different for each particle.
 Reset button no longer has a warning.
 Reset resets slit width, and slit separation, but does not make the double slits go away.
 Bugfix: Adding a barrier in neutron mode no longer crashes the simulation.
@@ -283,7 +285,7 @@ Centered Reset button & clear wave button
 Added separators & spacing to the control panel
 
 New in 0.45
-Bugfix: At default resolution barrier doesn’t reach wall.
+Bugfix: At default resolution barrier doesnï¿½t reach wall.
 Switched to dark gray font for unselected tabs.
 Made the electron icon a little smaller than the neutron icon
 Added Switch/button for gun (instead of checkbox)
@@ -310,16 +312,16 @@ Added Separate gun controls for 2-Laser panel.
 Intensity Display for 2-Laser panel mixes colors.
 
 New in 0.42 (3-2-2006)
-Switched detector control from "auto-repeat" to “one shot.”
-Reworded “Speeding up time” messages.
-Set control panel so that it’s always as wide as it is when “double slits” is open, so that it doesn’t resize when you open it.
+Switched detector control from "auto-repeat" to ï¿½one shot.ï¿½
+Reworded ï¿½Speeding up timeï¿½ messages.
+Set control panel so that itï¿½s always as wide as it is when ï¿½double slitsï¿½ is open, so that it doesnï¿½t resize when you open it.
 Screen brightness reduced to 2 significant digits after decimal.
 Shrunk the window size so there is not so much extra space in the play area.
 Constrained resolution changes to ensure lattice cells are always an integral number of pixels.
 Resolution changes don't resize screen graphics.
 Potential barriers, detectors, slits respect change in resolution.
 Ruler respects change in resolution.
-In two lasers panel, made guns so that the box doesn’t need to resize when you go from one panel to the next.
+In two lasers panel, made guns so that the box doesnï¿½t need to resize when you go from one panel to the next.
 Gun controls are directly on gun.
 High intensity gun is off by default (at full intensity), rather than vice versa.
 Feasibility test for new tabs.
@@ -343,8 +345,8 @@ Make the tabs for the different panels larger. (about twice the current size)
 
 *New in 0.35 (1-23-2005)
 Added save/load feature for saving barriers/detectors.
-The controls look more fun.  (The controls on Ron’s new Photoelectric simulation might be a good model.)
-Made gun controls look like the ones in lasers and made sure they don’t overlap with the gun.
+The controls look more fun.  (The controls on Ronï¿½s new Photoelectric simulation might be a good model.)
+Made gun controls look like the ones in lasers and made sure they donï¿½t overlap with the gun.
 Put the intensity and wavelength sliders in a single box to the right of the gun, but attached to the gun like in lasers.
 Detect Now! button doesn't disable detectors.
 Added gun controls to the gun control panel (instead of hanging off the right hand side).
@@ -355,7 +357,7 @@ Add control panel buttons for stopwatch & ruler.
 Put the gun type menu in a control box to the left of the gun.
 Add a ruler and a clock.  When user changes from electrons to neutrons or helium atoms,
     put an animation of a clock whose hands are slowing down next to actual clock,
-    with a bubble that pops up and says “slowing down time.”
+    with a bubble that pops up and says ï¿½slowing down time.ï¿½
     If you go back to electrons, time speeds up and an analogous animation appears.
 Bug disappearance: o On mac (or is it just lower resolution?) 2-lasers panel comes up in a weird spot (offset to the left)
 Bug disappearance: On mac (or is it just lower resolution?) detector screen is not centered (hits appear above the center)
@@ -376,7 +378,7 @@ Moved the "Inverse Barrier" from "Advanced" to "Double Slits"
 Renamed the "Inverse Barrier" checkbox to "Anti-slits".
 The first detector appears in the center of the box just below the slits.
 Added a "Remove All" button for detectors.
-Bugfix: With lots of detectors in the single particle panel, I’ve seen it get into a mode where sometimes the wave function would suddenly disappear, but no dot would appear on the screen,and you have to hit the “clear wave button.” / In Single Particle, with a detector on each slit, sometimes both detectors fire simultaneously and the particle disappears.  Hard to reproduce this reliably.
+Bugfix: With lots of detectors in the single particle panel, Iï¿½ve seen it get into a mode where sometimes the wave function would suddenly disappear, but no dot would appear on the screen,and you have to hit the ï¿½clear wave button.ï¿½ / In Single Particle, with a detector on each slit, sometimes both detectors fire simultaneously and the particle disappears.  Hard to reproduce this reliably.
     -Multiple detectors were trying to grab the wavefunction at a single time.
 Fixed the range of sliders (for slits) to keep the physics in a meaningful range.
 Bugfix: High Intensity mode erroneously displays % values in slit-detectors.
@@ -391,11 +393,11 @@ Bugfix: If I add barriers, then add slits, then remove the slits, all the barrie
 Removed the 'one-shot' detection button
 Bugfix: Sometimes in autofire, the bullets fire quickly from the gun, not having enough time to move more than a few steps across the lattice.
 Attached the screen controls to the screen.
-Made the top of the left gun narrower so it’s about the same size as the other gun.
+Made the top of the left gun narrower so itï¿½s about the same size as the other gun.
 Moved the double slit controls to the control panel
 Got rid of double slits controls and all the advanced controls on 2-laser
 Moved 'clear wave' to the control panel
-Change the name of “slit absorption” to “absorbing barriers”
+Change the name of ï¿½slit absorptionï¿½ to ï¿½absorbing barriersï¿½
 Renamed 'save' to 'copy screen'
 When detectors are disabled, the border turns gray and readout disappears.
 Removed 'enable all' button (for detectors).
@@ -427,26 +429,26 @@ Moved barriers & detectors to Advanced panels in control panel.
 Increased the size of the Double Slit checkbox, to improve visibility.
 
 New in 0.22 (12-4-2005):
-Added neutrons to “gun type” list, change “atoms” to “He atoms”, added custom atoms.
+Added neutrons to ï¿½gun typeï¿½ list, change ï¿½atomsï¿½ to ï¿½He atomsï¿½, added custom atoms.
 Moved Double-Slit checkbox into the play area, and off the control panel.
-The “slit absorption” checkbox, the slit control sliders, and the detector controls, are all be invisible if the double slit is unchecked.
+The ï¿½slit absorptionï¿½ checkbox, the slit control sliders, and the detector controls, are all be invisible if the double slit is unchecked.
 Wave area size is computed based on all controls (to ensure everything fits).
-“One-shot” is now one-shot per particle.  Once the particle is detected at the screen, the detector is automatically enabled again.
-The “slit absorption” checkbox has been moved to the double slit control area.
-Fixed Bug: sometimes when I press “remove all” button, barriers becomes translucent but don’t go away.
+ï¿½One-shotï¿½ is now one-shot per particle.  Once the particle is detected at the screen, the detector is automatically enabled again.
+The ï¿½slit absorptionï¿½ checkbox has been moved to the double slit control area.
+Fixed Bug: sometimes when I press ï¿½remove allï¿½ button, barriers becomes translucent but donï¿½t go away.
 Barriers & Detectors appear at random locations (rather than all on top of each other at the same place).
 Default slits are wider, so in the default setup, lots more wave reaches the detector.
 Fixed Bug: the combo box was mistakenly shown in the Mandel panel.
 In two lasers, there are two guns, one the same as in the previous panels, one different.
 For electrons and atoms, gun is higher so that particles appear to come from inside the gun, not above it.
-When “one-shot” is unchecked, all the disabled detectors are automatically enabled.
+When ï¿½one-shotï¿½ is unchecked, all the disabled detectors are automatically enabled.
 One-Shot detection is now disable by default.
 Removed the swoop-style wiggle me.
 Gray component backgrounds are now light green.
-	<Change background color from gray to something more fun (blue background is better, but there’s still too much gray).>
-bugfix: ·Application crashes on startup when different region is specified (due to “0,00” parse error.)
-The default screen display on high intensity mode is “Average Intensity” not “hits.”
-Put “Double slit” checkbox on control panel.
+	<Change background color from gray to something more fun (blue background is better, but thereï¿½s still too much gray).>
+bugfix: ï¿½Application crashes on startup when different region is specified (due to ï¿½0,00ï¿½ parse error.)
+The default screen display on high intensity mode is ï¿½Average Intensityï¿½ not ï¿½hits.ï¿½
+Put ï¿½Double slitï¿½ checkbox on control panel.
 Double slit controls appear near slit if it is enabled.
 Bugfix: Double slit detectors should be hidden when barrier is hidden.
 Changing slit width no longer changes separation between centers of slits.
