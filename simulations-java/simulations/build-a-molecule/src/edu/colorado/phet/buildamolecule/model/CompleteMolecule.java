@@ -510,6 +510,7 @@ public class CompleteMolecule {
                 allowedStructures.put( hashString, new LinkedList<MoleculeStructure>() {{
                     add( molecule );
                 }} );
+                System.out.println( "keys: " + allowedStructures.keySet().size() );
             }
             for ( Atom atom : molecule.getAtoms() ) {
                 if ( molecule.getNeighbors( atom ).size() < 2 && molecule.getAtoms().size() >= 2 ) {
@@ -531,8 +532,10 @@ public class CompleteMolecule {
         List<String> serializedStructures = new LinkedList<String>();
         // add all possible molecule paths to our allowed structures
         long a = System.currentTimeMillis();
+        int num = 0;
         for ( CompleteMolecule completeMolecule : completeMolecules ) {
-            System.out.println( "processing molecule and children: " + completeMolecule.getCommonName() );
+            num++;
+            System.out.println( "processing molecule and children: " + completeMolecule.getCommonName() + "  (" + num + " of " + completeMolecules.size() + ")" );
             addMoleculeAndChildren( completeMolecule.getMoleculeStructure() );
         }
         long b = System.currentTimeMillis();
