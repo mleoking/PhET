@@ -49,7 +49,7 @@ class MotionSeriesMultiControlChart(canvas: PhetPCanvas, model: MotionSeriesMode
   //Show the time axis label under the bottom-most maximized chart
   val updateLabelLocation = new PropertyChangeListener() {
     def propertyChange(evt: PropertyChangeEvent) = {
-      val maximizedCharts = for (c <- charts if c.getMaximized.getValue.booleanValue) yield c
+      val maximizedCharts = for (c <- charts if c.getMaximized.get.booleanValue) yield c
       labelNode.setVisible(!maximizedCharts.isEmpty) //only show the time axis label if some charts are showing
       if (!maximizedCharts.isEmpty) {
         val bottomChart = maximizedCharts.last
