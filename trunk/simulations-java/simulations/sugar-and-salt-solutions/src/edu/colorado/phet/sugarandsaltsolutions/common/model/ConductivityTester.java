@@ -5,9 +5,9 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.SolutionRepresentationChangeListener;
-import edu.colorado.phet.common.piccolophet.nodes.conductivitytester.IConductivityTester;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.piccolophet.nodes.conductivitytester.IConductivityTester;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
