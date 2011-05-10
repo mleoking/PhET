@@ -7,7 +7,7 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.And;
-import edu.colorado.phet.common.phetcommon.model.property.Not;
+import edu.colorado.phet.common.phetcommon.model.property.SettableNot;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -36,7 +36,7 @@ public class VectorNode extends PNode {
         this.modelViewTransform = modelViewTransform;
         this.scale = scale;
         //Only show if the body hasn't collided
-        new And( visible, new Not( body.getCollidedProperty() ) ) {{
+        new And( visible, new SettableNot( body.getCollidedProperty() ) ) {{
             addObserver( new SimpleObserver() {
                 public void update() {
                     setVisible( get() );

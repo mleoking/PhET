@@ -21,7 +21,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
-import static edu.colorado.phet.common.phetcommon.model.property.Not.not;
+import static edu.colorado.phet.common.phetcommon.model.property.SettableNot.not;
 
 /**
  * @author Sam Reid
