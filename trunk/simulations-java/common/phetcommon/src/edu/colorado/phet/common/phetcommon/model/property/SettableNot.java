@@ -20,8 +20,8 @@ public class SettableNot extends SettableProperty<Boolean> {
         parent.set( !value );//we'll observe the change in the constructor listener, and fire notifications.
     }
 
-    public And and( SettableProperty<Boolean> term ){
-        return new And(this,term);
+    public And and( SettableProperty<Boolean> term ) {
+        return new And( this, term );
     }
 
     public static SettableNot not( SettableProperty<Boolean> p ) {
