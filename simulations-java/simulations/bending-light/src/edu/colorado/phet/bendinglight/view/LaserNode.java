@@ -64,7 +64,7 @@ public class LaserNode extends PNode {
 
         //Continue to show the translation arrows even if the mouse is outside of the region if the mouse is currently translating the laser
         final Or doShowTranslationArrows = mouseOverTranslationPart.or( draggingTranslation );
-        final And a = new And( doShowTranslationArrows, new ObservableNot( showRotationArrows ) );
+        final And a = new And( doShowTranslationArrows, new Not( showRotationArrows ) );
         a.addObserver( new SimpleObserver() {
             public void update() {
                 showTranslationDragHandles.set( doShowTranslationArrows.get() );
@@ -155,7 +155,8 @@ public class LaserNode extends PNode {
                     laser.resetLocation();
                 }
             }
-        } ) );
+        }
+        ) );
 
         //Update the transform of the laser when its model data (pivot or emission point) changes
         new RichSimpleObserver() {
