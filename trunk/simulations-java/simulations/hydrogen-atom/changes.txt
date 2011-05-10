@@ -1,3 +1,5 @@
+# 1.10.00 (51735) May 9, 2011
+5/9/11 > added new translation credits features
 # 1.09.01 (51573) May 5, 2011
 4/20/11 moved boilerplate code in AtomicModelSelector into ButtonNode inner class
 4/20/11 use one ArrayList<PNode> to determine dimensions of Atomic Model control panel
