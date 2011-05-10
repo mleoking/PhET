@@ -52,6 +52,8 @@ public class SugarAndSaltSolutionModel {
     public final ObservableProperty<Boolean> beakerFull = water.volume.valueEquals( beaker.getMaxFluidVolume() );
     public final ObservableProperty<Boolean> beakerEmpty = water.volume.valueEquals( 0.0 );
 
+    public final ConductivityTester conductivityTester = new ConductivityTester();
+
     public SugarAndSaltSolutionModel() {
         clock = new ConstantDtClock( 30 );
 

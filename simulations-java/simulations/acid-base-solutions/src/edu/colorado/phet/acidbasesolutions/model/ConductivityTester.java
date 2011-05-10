@@ -8,6 +8,7 @@ import java.util.EventListener;
 import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.acidbasesolutions.constants.ABSConstants;
+import edu.colorado.phet.acidbasesolutions.view.IConductivityTester;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -17,7 +18,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ConductivityTester extends SolutionRepresentation {
+public class ConductivityTester extends SolutionRepresentation implements IConductivityTester{
     
     private static final double NEUTRAL_PH = 7.0;
     private static final double NEUTRAL_BRIGHTNESS = 0.05; // brightness when pH == NEUTRAL_PH
@@ -159,7 +160,7 @@ public class ConductivityTester extends SolutionRepresentation {
         public void positiveProbeLocationChanged() {}
         public void negativeProbeLocationChanged() {}
     }
-    
+
     public void addConductivityTesterChangeListener( ConductivityTesterChangeListener listener ) {
         listeners.add( ConductivityTesterChangeListener.class, listener );
     }

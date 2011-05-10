@@ -9,6 +9,7 @@ import java.awt.geom.Rectangle2D;
 
 import javax.swing.*;
 
+import edu.colorado.phet.acidbasesolutions.view.ConductivityTesterNode;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property5.Not;
 import edu.colorado.phet.common.phetcommon.model.property5.ObservableNot;
@@ -108,7 +109,8 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
                     add( Box.createHorizontalStrut( 10 ) );//Indent the show values a bit since it relates to show concentration box
                     add( new CheckBox( "Show values" ) );
                 }} );
-                add( new CheckBox( "Measure conductivity" ) );
+                //Add a button that shows a conductivity meter, with probes that can be submerged
+                add( new Property5CheckBox( "Measure conductivity", model.conductivityTester.visible ) {{setFont( CONTROL_FONT );}} );
                 add( new CheckBox( "Evaporate water" ) );
             }} ) );
         }} ) {{
@@ -208,6 +210,9 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
                 }
             } );
         }} );
+
+        //Add the graphic for the conductivity tester--the probes can be submerged to light the bulb
+        addChild( new ConductivityTesterNode( model.conductivityTester, false ) );
 
         //Debug for showing stage
         addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, stageSize.getWidth(), stageSize.getHeight() ), new BasicStroke( 2 ), Color.red ) );
