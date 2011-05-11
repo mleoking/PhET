@@ -8,7 +8,6 @@ import java.awt.image.BufferedImage;
 import java.text.DecimalFormat;
 
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -86,22 +85,12 @@ public class ConductivityTesterNode extends PhetPNode {
     private final CubicWireNode positiveWireNode, negativeWireNode;
     private final ValueNode valueNode;
 
-    //Construct a conductivity tester node with black wires, red positive probe and black negative probe. For use in acid-base-solutions where the background is light.
-    public ConductivityTesterNode( final IConductivityTester tester, boolean dev ) {
-        this( ModelViewTransform.createIdentity(), tester, dev, Color.black, Color.red, Color.black );
+    // Convenience constructor, uses the same color for all wires.
+    public ConductivityTesterNode( final IConductivityTester tester, ModelViewTransform transform, Color wireColor, Color positiveProbeFillColor, Color negativeProbeFillColor, boolean dev ) {
+        this( tester, transform, wireColor, wireColor, wireColor, positiveProbeFillColor, negativeProbeFillColor, dev );
     }
 
-    public ConductivityTesterNode( ModelViewTransform transform, final IConductivityTester tester, boolean dev, Color wireColor, Color positiveProbeFillColor, Color negativeProbeFillColor ) {
-        this( transform, tester, dev, wireColor, wireColor, wireColor, positiveProbeFillColor, negativeProbeFillColor );
-    }
-
-    /*
-     * Constructor.
-     *
-     * @param tester model element
-     * @param dev    whether to enable developer features
-     */
-    public ConductivityTesterNode( final ModelViewTransform transform, final IConductivityTester tester, boolean dev, Color positiveWireColor, Color negativeWireColor, Color connectorWireColor, Color positiveProbeFillColor, Color negativeProbeFillColor ) {
+    public ConductivityTesterNode( final IConductivityTester tester, final ModelViewTransform transform, Color positiveWireColor, Color negativeWireColor, Color connectorWireColor, Color positiveProbeFillColor, Color negativeProbeFillColor, boolean dev ) {
         this.transform = transform;
         this.tester = tester;
         this.positiveWireColor = positiveWireColor;
@@ -201,7 +190,6 @@ public class ConductivityTesterNode extends PhetPNode {
         // location & visibility
         setOffset( tester.getLocationReference() );
         setVisible( tester.isVisible() );
-
 
         // Listeners
         tester.addConductivityTesterChangeListener( new ConductivityTesterChangeListener() {
@@ -317,7 +305,7 @@ public class ConductivityTesterNode extends PhetPNode {
     private static class ProbeNode extends PhetPNode {
 
         public ProbeNode( Dimension2D size, Color color, String label, Color labelColor ) {
-            System.out.println( "size = " + size );
+
             PPath pathNode = new PPath( new Rectangle2D.Double( -size.getWidth() / 2, -size.getHeight(), size.getWidth(), Math.abs( size.getHeight() ) ) );
             pathNode.setStroke( PROBE_STROKE );
             pathNode.setStrokePaint( PROBE_STROKE_COLOR );
@@ -335,15 +323,10 @@ public class ConductivityTesterNode extends PhetPNode {
         }
     }
 
-    /* Interface implemented by all wires. */
-    private interface IWire {
-        public void setEndPoints( Point2D startPoint, Point2D endPoint );
-    }
-
     /*
     * Wire that is drawn as a straight line.
     */
-    private static class StraightWireNode extends PPath implements IWire {
+    private static class StraightWireNode extends PPath {
 
         public StraightWireNode( Color color ) {
             super();
@@ -359,7 +342,7 @@ public class ConductivityTesterNode extends PhetPNode {
     /*
      * Wire that is drawn using a cubic parametric curve.
      */
-    private static class CubicWireNode extends PPath implements IWire {
+    private static class CubicWireNode extends PPath {
 
         private final double controlPointDx, controlPointDy;
 
@@ -399,40 +382,40 @@ public class ConductivityTesterNode extends PhetPNode {
         }
     }
 
+    // Drag handler for probes, handles model-view transform, constrains dragging to vertical.
     private static class ProbeDragHandler extends PBasicInputEventHandler {
-        private Point2D.Double relativeGrabPoint;
 
+        private final ProbeNode probeNode;
         private final ModelViewTransform transform;
-        private final PNode probeNode;
-        private final Function0<Point2D> getModelPosition;
-        private final VoidFunction1<Point2D> setModelPosition;
+        private final Function0<Point2D> getModelLocation;
+        private final VoidFunction1<Point2D> setModelLocation;
 
-        ProbeDragHandler( ModelViewTransform transform, PNode probeNode, Function0<Point2D> getModelPosition, VoidFunction1<Point2D> setModelPosition ) {
+        private Point2D.Double relativeGrabPoint; // where the mouse grabbed relative to the probe, in view coordinates
+
+        ProbeDragHandler( ModelViewTransform transform, ProbeNode probeNode, Function0<Point2D> getModelLocation, VoidFunction1<Point2D> setModelLocation ) {
             this.transform = transform;
             this.probeNode = probeNode;
-            this.getModelPosition = getModelPosition;
-            this.setModelPosition = setModelPosition;
+            this.getModelLocation = getModelLocation;
+            this.setModelLocation = setModelLocation;
         }
 
-        private void updateGrabPoint( PInputEvent event ) {
-            Point2D viewStartingPoint = event.getPositionRelativeTo( probeNode.getParent() );
-            ImmutableVector2D viewCoordinateOfObject = transform.modelToView( new ImmutableVector2D( getModelPosition.apply() ) );
-            relativeGrabPoint = new Point2D.Double( viewStartingPoint.getX() - viewCoordinateOfObject.getX(), viewStartingPoint.getY() - viewCoordinateOfObject.getY() );
+        // Set the relative grab point when the mouses is pressed.
+        @Override public void mousePressed( PInputEvent event ) {
+            Point2D pMouse = event.getPositionRelativeTo( probeNode.getParent() );
+            Point2D pProbe = transform.modelToView( getModelLocation.apply() );
+            relativeGrabPoint = new Point2D.Double( pMouse.getX() - pProbe.getX(), pMouse.getY() - pProbe.getY() );
         }
 
-        public void mouseDragged( PInputEvent event ) {
-            //Make sure we started the drag already
-            if ( relativeGrabPoint == null ) {
-                updateGrabPoint( event );
-            }
+        // Forget the relative grab point when the mouse is released.
+        @Override public void mouseReleased( PInputEvent event ) {
+            relativeGrabPoint = null;
+        }
 
-            //Compute the targeted model point for the drag
-            final Point2D newDragPosition = event.getPositionRelativeTo( probeNode.getParent() );
-            Point2D modelPt = transform.viewToModel( newDragPosition.getX() - relativeGrabPoint.getX(),
-                                                     newDragPosition.getY() - relativeGrabPoint.getY() );
-
-            //Find the constrained point for the targeted model point and apply it
-            setModelPosition.apply( new Point2D.Double( getModelPosition.apply().getX(), modelPt.getY() ) );
+        // Update the model as the mouse is dragged.
+        @Override public void mouseDragged( PInputEvent event ) {
+            Point2D pMouse = event.getPositionRelativeTo( probeNode.getParent() );
+            Point2D pProbe = transform.viewToModel( pMouse.getX() - relativeGrabPoint.getX(), pMouse.getY() - relativeGrabPoint.getY() );
+            setModelLocation.apply( new Point2D.Double( getModelLocation.apply().getX(), pProbe.getY() ) );
         }
     }
 }

@@ -205,7 +205,7 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
         }} );
 
         //Add the graphic for the conductivity tester--the probes can be submerged to light the bulb
-        addChild( new ConductivityTesterNode( transform, model.conductivityTester, false, Color.lightGray, Color.red, Color.green ) {{
+        addChild( new ConductivityTesterNode( model.conductivityTester, transform, Color.lightGray, Color.red, Color.green, false ) {{
             model.conductivityTester.visible.addObserver( new VoidFunction1<Boolean>() {
                 public void apply( Boolean visible ) {
                     setVisible( visible );
