@@ -1,4 +1,3 @@
-Duplicate molecule names: find, print out, and analyze which ones to keep. Smallest CID? Largest formula?
 Prevent 4 heavy atoms in a "square".
 Make Reset button more playful (piccolo node?) Orange? - do this with the button to regenerate?
 Add bubble with "Drag your molecule here" inside, or another phrase? (With blue arrow). Also animate the arrow!
