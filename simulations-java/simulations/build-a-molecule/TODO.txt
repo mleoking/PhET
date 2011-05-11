@@ -1,5 +1,4 @@
 Prevent 4 heavy atoms in a "square".
-Make Reset button more playful (piccolo node?) Orange? - do this with the button to regenerate?
 Add bubble with "Drag your molecule here" inside, or another phrase? (With blue arrow). Also animate the arrow!
 Once an atom is selected and dragged close to another atom, it goes behind the atom. Can selected atoms that are being manipulated remain in front?
 View 3D button from collection box
