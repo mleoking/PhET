@@ -25,4 +25,9 @@ public class DoubleProperty extends Property<Double> {
     public GreaterThan greaterThan( double value ) {
         return new GreaterThan( this, value );
     }
+
+    //Increments the DoubleProperty by the specified amount, notifying observers if the change was nonzero
+    public void add( double v ) {
+        set( get() + v );
+    }
 }

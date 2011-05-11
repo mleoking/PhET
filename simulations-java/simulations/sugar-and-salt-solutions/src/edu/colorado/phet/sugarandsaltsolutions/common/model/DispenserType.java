@@ -6,11 +6,11 @@ package edu.colorado.phet.sugarandsaltsolutions.common.model;
  *
  * @author Sam Reid
  */
-public class Dispenser {
-    public static Dispenser SALT = new Dispenser();
-    public static Dispenser SUGAR = new Dispenser();
+public class DispenserType {
+    public static DispenserType SALT = new DispenserType();
+    public static DispenserType SUGAR = new DispenserType();
 
     //Enum pattern, so no other instances should be created
-    private Dispenser() {
+    private DispenserType() {
     }
 }

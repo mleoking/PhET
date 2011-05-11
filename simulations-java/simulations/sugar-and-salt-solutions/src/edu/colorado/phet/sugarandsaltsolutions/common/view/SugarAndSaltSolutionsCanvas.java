@@ -26,7 +26,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.conductivitytester.ConductivityTesterNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
-import edu.colorado.phet.sugarandsaltsolutions.common.model.Dispenser;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.Salt;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.Sugar;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel;
@@ -38,8 +38,8 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 
 import static edu.colorado.phet.common.phetcommon.model.property.Not.not;
 import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createSinglePointScaleInvertedYMapping;
-import static edu.colorado.phet.sugarandsaltsolutions.common.model.Dispenser.SALT;
-import static edu.colorado.phet.sugarandsaltsolutions.common.model.Dispenser.SUGAR;
+import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType.SALT;
+import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType.SUGAR;
 
 /**
  * Canvas for the introductory (first) tab in the Sugar and Salt Solutions Sim
@@ -88,8 +88,8 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
             addChild( new PText( "Solute" ) {{setFont( TITLE_FONT );}} );
             addChild( new PhetPPath( new Rectangle( 0, 0, 0, 0 ), new Color( 0, 0, 0, 0 ) ) );//spacer
             addChild( new PSwing( new VerticalLayoutPanel() {{
-                add( new PropertyRadioButton<Dispenser>( "Salt", model.dispenser, SALT ) {{setFont( CONTROL_FONT );}} );
-                add( new PropertyRadioButton<Dispenser>( "Sugar", model.dispenser, Dispenser.SUGAR ) {{setFont( CONTROL_FONT );}} );
+                add( new PropertyRadioButton<DispenserType>( "Salt", model.dispenser, SALT ) {{setFont( CONTROL_FONT );}} );
+                add( new PropertyRadioButton<DispenserType>( "Sugar", model.dispenser, DispenserType.SUGAR ) {{setFont( CONTROL_FONT );}} );
             }} ) );
         }} ) {{
             setOffset( stageSize.getWidth() - getFullBounds().getWidth() - INSET, 150 );
@@ -170,19 +170,11 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
         }} );
 
         //add the sugar dispenser node
-        addChild( new DispenserNode( transform, new VoidFunction1<ImmutableVector2D>() {
+        addChild( new SugarDispenserNode( transform, new VoidFunction1<ImmutableVector2D>() {
             public void apply( ImmutableVector2D position ) {
                 model.addSugar( new Sugar( position ) );
             }
-        }, "sugar_open.png", model.dispenser.valueEquals( SUGAR ) ) {{
-            //Move the shaker to the right so it is centered above the beaker and doesn't overlap with the faucet
-            VoidFunction0 initPosition = new VoidFunction0() {
-                public void apply() {
-                    setOffset( 250, 10 );
-                }
-            };
-            initPosition.apply();
-            model.addResetListener( initPosition );
+        }, model.dispenser.valueEquals( SUGAR ), model.sugarDispenser ) {{
         }} );
 
         //Show the crystal layer behind the water and beaker so the crystals look like they go into the water instead of in front of it.
