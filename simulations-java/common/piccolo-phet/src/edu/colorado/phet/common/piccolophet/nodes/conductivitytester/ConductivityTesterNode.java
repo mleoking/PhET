@@ -108,21 +108,6 @@ public class ConductivityTesterNode extends PhetPNode {
         this.positiveProbeFillColor = positiveProbeFillColor;
         this.negativeProbeFillColor = negativeProbeFillColor;
 
-        tester.addConductivityTesterChangeListener( new ConductivityTesterChangeListener() {
-
-            public void positiveProbeLocationChanged() {
-                updatePositiveProbeLocation();
-            }
-
-            public void negativeProbeLocationChanged() {
-                updateNegativeProbeLocation();
-            }
-
-            public void brightnessChanged() {
-                updateBrightness();
-            }
-        } );
-
         // light bulb
         lightBulbNode = new LightBulbNode();
         lightBulbNode.setScale( 0.6 );
@@ -219,12 +204,32 @@ public class ConductivityTesterNode extends PhetPNode {
         x = lightBulbNode.getFullBoundsReference().getCenterX();
         y = batteryNode.getFullBoundsReference().getMaxY() + 3;
         valueNode.setOffset( x, y );
-        updatePositiveProbeLocation();
-        updateNegativeProbeLocation();
 
         // location & visibility
         setOffset( tester.getLocationReference() );
         setVisible( tester.isVisible() );
+
+
+        // Listeners
+        tester.addConductivityTesterChangeListener( new ConductivityTesterChangeListener() {
+
+            public void positiveProbeLocationChanged() {
+                updatePositiveProbeLocation();
+            }
+
+            public void negativeProbeLocationChanged() {
+                updateNegativeProbeLocation();
+            }
+
+            public void brightnessChanged() {
+                updateBrightness();
+            }
+        } );
+
+        //Synchronize with any state in case it was non-default
+        updateBrightness();
+        updatePositiveProbeLocation();
+        updateNegativeProbeLocation();
     }
 
     private void updatePositiveProbeLocation() {
