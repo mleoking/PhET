@@ -8,6 +8,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Interface implemented by all conductivity testers, used by ConductivityTesterNode.
+ * All locations are in model coordinates.
  *
  * @author Sam Reid
  */
@@ -16,7 +17,7 @@ public interface IConductivityTester {
     boolean isVisible();
 
     /**
-     * Gets a reference to the location of the tester.
+     * Gets a reference to the location of the tester, in model coordinates.
      * Clients should take care not to modify this point, or pass it to methods
      * that might modify the point.
      *
