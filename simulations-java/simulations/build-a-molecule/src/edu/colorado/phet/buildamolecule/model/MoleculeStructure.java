@@ -53,7 +53,15 @@ public class MoleculeStructure {
      * @return A complete molecule that matches, or null.
      */
     public CompleteMolecule getMatchingCompleteMolecule() {
-        return MoleculeList.findMatchingCompleteMolecule( this );
+        return MoleculeList.getMasterInstance().findMatchingCompleteMolecule( this );
+    }
+
+    public boolean isAllowedStructure() {
+        // shortcut, since we always allow single atoms!
+        if ( getAtoms().size() < 2 ) {
+            return true;
+        }
+        return MoleculeList.getMasterInstance().isAllowedStructure( this );
     }
 
     public String getHillSystemFormulaFragment() {

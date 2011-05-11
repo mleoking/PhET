@@ -10,24 +10,51 @@ import edu.colorado.phet.buildamolecule.BuildAMoleculeApplication;
 import edu.colorado.phet.buildamolecule.BuildAMoleculeResources;
 
 public class MoleculeList {
-    private static MoleculeList instance = null;
+    /*---------------------------------------------------------------------------*
+    * complete molecule data structures
+    *----------------------------------------------------------------------------*/
+    private List<CompleteMolecule> completeMolecules = new ArrayList<CompleteMolecule>(); // all complete molecules
+    private Map<String, CompleteMolecule> moleculeNameMap = new HashMap<String, CompleteMolecule>(); // map from unique name => complete molecule
+
+    // maps to allow us to efficiently look things up by molecular formula. since we allow isomers, multiple structures can have the same formula.
+    private Map<String, List<CompleteMolecule>> moleculeFormulaMap = new HashMap<String, List<CompleteMolecule>>();
+
+    /*---------------------------------------------------------------------------*
+    * allowed structure data structures
+    *----------------------------------------------------------------------------*/
+    private Map<String, List<StrippedMolecule>> allowedStructureFormulaMap = new HashMap<String, List<StrippedMolecule>>(); // formula => allowed stripped molecules
+
+    /*---------------------------------------------------------------------------*
+    * statics
+    *----------------------------------------------------------------------------*/
+    private static volatile MoleculeList masterInstance = null;
+    private static volatile boolean initialized = false;
     private static Thread computeThread = null;
     public static Random random = new Random( System.currentTimeMillis() );
+    private static final MoleculeList initialList = new MoleculeList() {{
+        loadInitialData();
+    }};
 
     public static synchronized void startInitialization() {
+        final long startTime = System.currentTimeMillis();
         computeThread = new Thread() {
             @Override public void run() {
+                masterInstance = new MoleculeList() {{
+                    loadMasterData();
+                }};
 
+                initialized = true;
 
-                System.out.println( "Completed MoleculeList initialization" );
+                final long stopTime = System.currentTimeMillis();
+                System.out.println( "completed MoleculeList initialization in " + ( stopTime - startTime ) + "ms" );
             }
         };
-        System.out.println( "Starting MoleculeList initialization" );
+        System.out.println( "starting MoleculeList initialization" );
         computeThread.start();
     }
 
-    public static synchronized MoleculeList getInstance() {
-        if ( instance == null ) {
+    public static synchronized MoleculeList getMasterInstance() {
+        if ( !initialized ) {
             if ( computeThread == null ) {
                 startInitialization();
             }
@@ -39,7 +66,48 @@ public class MoleculeList {
             }
         }
 
-        return instance;
+        return masterInstance;
+    }
+
+    public static CompleteMolecule getMoleculeByName( String name ) {
+        CompleteMolecule ret = initialList.moleculeNameMap.get( name );
+        if ( ret == null ) {
+            System.out.println( "WARNING: looking up " + name + " in master instance." );
+            ret = getMasterInstance().moleculeNameMap.get( name );
+        }
+        return ret;
+    }
+
+    protected void loadInitialData() {
+        List<CompleteMolecule> mainMolecules = readCompleteMoleculesFromFilename( "collection-molecules.txt" );
+        for ( CompleteMolecule molecule : mainMolecules ) {
+            completeMolecules.add( molecule );
+            moleculeNameMap.put( molecule.getCommonName(), molecule );
+
+            addCompleteMolecule( molecule );
+        }
+    }
+
+    protected void loadMasterData() {
+        List<CompleteMolecule> mainMolecules = readCompleteMoleculesFromFilename( "molecules.txt" );
+        for ( CompleteMolecule molecule : mainMolecules ) {
+
+            // if our molecule was included in the initial lookup, use that initial version instead so we can have instance equality preserved
+            CompleteMolecule initialListLookup = initialList.moleculeNameMap.get( molecule.getCommonName() );
+            if ( initialListLookup != null && molecule.getMoleculeStructure().isEquivalent( initialListLookup.getMoleculeStructure() ) ) {
+                molecule = initialListLookup;
+            }
+
+            completeMolecules.add( molecule );
+            moleculeNameMap.put( molecule.getCommonName(), molecule );
+
+            addCompleteMolecule( molecule );
+        }
+
+        List<MoleculeStructure> mainStructures = readMoleculeStructuresFromFilename( "structures.txt" );
+        for ( MoleculeStructure structure : mainStructures ) {
+            addAllowedStructure( structure );
+        }
     }
 
     /**
@@ -49,7 +117,7 @@ public class MoleculeList {
      * @param moleculeStructure Molecule to check
      * @return True if it is allowed
      */
-    public static boolean isAllowedStructure( MoleculeStructure moleculeStructure ) {
+    public boolean isAllowedStructure( MoleculeStructure moleculeStructure ) {
         StrippedMolecule strippedMolecule = new StrippedMolecule( moleculeStructure );
         String hashString = strippedMolecule.stripped.getHistogram().getHashString();
 
@@ -64,8 +132,8 @@ public class MoleculeList {
         }
 
         // use the allowed structure map as an acceleration feature
-        if ( allowedStructureMap.containsKey( hashString ) ) {
-            List<StrippedMolecule> moleculeStructures = allowedStructureMap.get( hashString );
+        if ( allowedStructureFormulaMap.containsKey( hashString ) ) {
+            List<StrippedMolecule> moleculeStructures = allowedStructureFormulaMap.get( hashString );
             if ( moleculeStructures != null ) {
                 for ( StrippedMolecule structure : moleculeStructures ) {
                     if ( structure.isHydrogenSubmolecule( strippedMolecule ) ) {
@@ -77,17 +145,13 @@ public class MoleculeList {
         return false;
     }
 
-    /*---------------------------------------------------------------------------*
-    * complete molecules
-    *----------------------------------------------------------------------------*/
-
     /**
      * Find a complete molecule with an equivalent structure to the passed in molecule
      *
      * @param moleculeStructure Molecule structure to match
      * @return Either a matching CompleteMolecule, or null if none is found
      */
-    public static CompleteMolecule findMatchingCompleteMolecule( MoleculeStructure moleculeStructure ) {
+    public CompleteMolecule findMatchingCompleteMolecule( MoleculeStructure moleculeStructure ) {
         for ( CompleteMolecule completeMolecule : completeMolecules ) {
             if ( moleculeStructure.isEquivalent( completeMolecule.getMoleculeStructure() ) ) {
                 return completeMolecule;
@@ -96,65 +160,63 @@ public class MoleculeList {
         return null;
     }
 
-    public static CompleteMolecule getMoleculeByName( String name ) {
-        CompleteMolecule ret = moleculeMap.get( name );
-        if ( ret == null ) {
-            System.out.println( "WARNING: could not find molecule with name: " + name );
-        }
-        return ret;
+    public List<CompleteMolecule> getAllCompleteMolecules() {
+        return new LinkedList<CompleteMolecule>( completeMolecules );
     }
 
-    public static List<CompleteMolecule> getAllCompleteMolecules() {
-        return new LinkedList<CompleteMolecule>( completeMolecules );
+    public CompleteMolecule pickRandomCollectionBoxMolecule() {
+        // TODO: once this is gone, refactor so we don't need the molecule list master instance for this
+        if ( BuildAMoleculeApplication.allowGenerationWithAllMolecules.get() ) {
+            return completeMolecules.get( random.nextInt( completeMolecules.size() ) );
+        }
+        else {
+            return CompleteMolecule.COLLECTION_BOX_MOLECULES[random.nextInt( CompleteMolecule.COLLECTION_BOX_MOLECULES.length )];
+        }
     }
 
     /*---------------------------------------------------------------------------*
     * computation of allowed molecule structures
     *----------------------------------------------------------------------------*/
 
-    // TODO: pair down some of the data structures for simplicity
-
-    private static List<CompleteMolecule> completeMolecules = new ArrayList<CompleteMolecule>(); // all complete molecules
-    private static Map<String, CompleteMolecule> moleculeMap = new HashMap<String, CompleteMolecule>(); // map from unique name => complete molecule
-
-    // maps to allow us to efficiently look things up by molecular formula. since we allow isomers, multiple structures can have the same formula.
-    private static Map<String, List<CompleteMolecule>> completeMoleculeMap = new HashMap<String, List<CompleteMolecule>>();
-    private static Map<String, List<StrippedMolecule>> allowedStructureMap = new HashMap<String, List<StrippedMolecule>>();
-
-    private static void addCompleteMolecule( final CompleteMolecule completeMolecule ) {
+    private void addCompleteMolecule( final CompleteMolecule completeMolecule ) {
         String formula = completeMolecule.getMoleculeStructure().getHillSystemFormulaFragment();
-        if ( completeMoleculeMap.containsKey( formula ) ) {
-            completeMoleculeMap.get( formula ).add( completeMolecule );
+        if ( moleculeFormulaMap.containsKey( formula ) ) {
+            moleculeFormulaMap.get( formula ).add( completeMolecule );
         }
         else {
-            completeMoleculeMap.put( formula, new LinkedList<CompleteMolecule>() {{
+            moleculeFormulaMap.put( formula, new LinkedList<CompleteMolecule>() {{
                 add( completeMolecule );
             }} );
         }
     }
 
-    private static void addAllowedStructure( final MoleculeStructure structure ) {
+    private void addAllowedStructure( final MoleculeStructure structure ) {
         final StrippedMolecule strippedMolecule = new StrippedMolecule( structure );
         String hashString = strippedMolecule.stripped.getHistogram().getHashString();
-        if ( allowedStructureMap.containsKey( hashString ) ) {
-            allowedStructureMap.get( hashString ).add( strippedMolecule );
+        if ( allowedStructureFormulaMap.containsKey( hashString ) ) {
+            allowedStructureFormulaMap.get( hashString ).add( strippedMolecule );
         }
         else {
-            allowedStructureMap.put( hashString, new LinkedList<StrippedMolecule>() {{
+            allowedStructureFormulaMap.put( hashString, new LinkedList<StrippedMolecule>() {{
                 add( strippedMolecule );
             }} );
         }
     }
 
-    static {
+    /*---------------------------------------------------------------------------*
+    * static helper methods
+    *----------------------------------------------------------------------------*/
+
+    /**
+     * @param filename File name relative to the sim's data directory
+     * @return A list of complete molecules
+     */
+    private static List<CompleteMolecule> readCompleteMoleculesFromFilename( String filename ) {
+        List<CompleteMolecule> result = new ArrayList<CompleteMolecule>();
         try {
-            long a = System.currentTimeMillis();
+            long startTime = System.currentTimeMillis();
 
-            /*---------------------------------------------------------------------------*
-            * read our complete molecules
-            *----------------------------------------------------------------------------*/
-
-            BufferedReader moleculeReader = new BufferedReader( new InputStreamReader( BuildAMoleculeResources.getResourceLoader().getResourceAsStream( "molecules.txt" ) ) );
+            BufferedReader moleculeReader = new BufferedReader( new InputStreamReader( BuildAMoleculeResources.getResourceLoader().getResourceAsStream( filename ) ) );
             try {
                 while ( moleculeReader.ready() ) {
                     String line = moleculeReader.readLine();
@@ -170,22 +232,29 @@ public class MoleculeList {
                         continue;
                     }
 
-                    completeMolecules.add( molecule );
-                    moleculeMap.put( molecule.getCommonName(), molecule );
-
-                    addCompleteMolecule( molecule );
-                    //addAllowedStructure( molecule.getMoleculeStructure() );
+                    result.add( molecule );
                 }
             }
             finally {
                 moleculeReader.close();
             }
-            long b = System.currentTimeMillis();
-            System.out.println( "molecules read in: " + ( b - a ) + "ms" );
+            long endTime = System.currentTimeMillis();
+            System.out.println( filename + " read in: " + ( endTime - startTime ) + "ms" );
+        }
+        catch ( IOException e ) {
+            throw new RuntimeException( e );
+        }
+        return result;
+    }
 
-            /*---------------------------------------------------------------------------*
-            * read our allowed structures
-            *----------------------------------------------------------------------------*/
+    /**
+     * @param filename File name relative to the sim's data directory
+     * @return A list of molecule structures
+     */
+    private static List<MoleculeStructure> readMoleculeStructuresFromFilename( String filename ) {
+        List<MoleculeStructure> result = new ArrayList<MoleculeStructure>();
+        try {
+            long startTime = System.currentTimeMillis();
 
             BufferedReader structureReader = new BufferedReader( new InputStreamReader( BuildAMoleculeResources.getResourceLoader().getResourceAsStream( "structures.txt" ) ) );
             try {
@@ -199,26 +268,18 @@ public class MoleculeList {
                         continue;
                     }
 
-                    addAllowedStructure( structure );
+                    result.add( structure );
                 }
             }
             finally {
                 structureReader.close();
             }
-            long c = System.currentTimeMillis();
-            System.out.println( "other structures read in: " + ( c - b ) + "ms" );
+            long endTime = System.currentTimeMillis();
+            System.out.println( filename + " read in: " + ( endTime - startTime ) + "ms" );
         }
         catch ( IOException e ) {
-            e.printStackTrace();
+            throw new RuntimeException( e );
         }
-    }
-
-    public static CompleteMolecule pickRandomCollectionBoxMolecule() {
-        if ( BuildAMoleculeApplication.allowGenerationWithAllMolecules.get() ) {
-            return completeMolecules.get( random.nextInt( completeMolecules.size() ) );
-        }
-        else {
-            return CompleteMolecule.COLLECTION_BOX_MOLECULES[random.nextInt( CompleteMolecule.COLLECTION_BOX_MOLECULES.length )];
-        }
+        return result;
     }
 }

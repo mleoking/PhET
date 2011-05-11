@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
+import edu.colorado.phet.buildamolecule.model.MoleculeList;
 import edu.colorado.phet.buildamolecule.module.AbstractBuildAMoleculeModule;
 import edu.colorado.phet.buildamolecule.module.CollectMultipleModule;
 import edu.colorado.phet.buildamolecule.module.LargerMoleculesModule;
@@ -127,5 +128,7 @@ public class BuildAMoleculeApplication extends PiccoloPhetApplication {
          * create your own PhetApplicationConfig and use one of the other launchSim methods
          */
         new PhetApplicationLauncher().launchSim( args, BuildAMoleculeConstants.PROJECT_NAME, BuildAMoleculeApplication.class );
+
+        MoleculeList.startInitialization();
     }
 }
