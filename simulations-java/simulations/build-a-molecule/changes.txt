@@ -1,3 +1,5 @@
+Animated blue hint arrow, and added a text bubble
+Orange button for "try with new molecules"
 # 0.00.17 (51781) May 10, 2011
 # 0.00.16 (51779) May 10, 2011
 # 0.00.15 (51777) May 10, 2011
