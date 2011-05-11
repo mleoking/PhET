@@ -35,8 +35,15 @@ public class IntroModel extends SugarAndSaltSolutionModel {
         saltConcentration.addObserver( new VoidFunction1<Double>() {
             public void apply( Double concentration ) {
                 System.out.println( "moles of salt = " + molesOfSalt + ", water volume = " + water.volume + ", => conc = " + concentration );
+
+                //Update the conductivity tester brightness since the brightness is a function of the salt concentration
+                updateConductivityTesterBrightness();
             }
         } );
+    }
+
+    @Override public double getSaltConcentration() {
+        return saltConcentration.get();
     }
 
     //When a crystal is absorbed by the water, increase the number of moles in solution
