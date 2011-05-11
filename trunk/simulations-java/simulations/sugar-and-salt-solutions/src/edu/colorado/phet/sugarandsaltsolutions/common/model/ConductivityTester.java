@@ -17,8 +17,8 @@ import edu.umd.cs.piccolo.util.PDimension;
 public class ConductivityTester implements IConductivityTester {
     //Locations are in view coordinates since ConductivityTesterNode doesn't support ModelViewTransform.  They are converted to model coordinates in SugarAndSaltSolutionModel for hit testing with the liquid
     private static final double PROBE_Y = 0;
-    private static final double NEGATIVE_PROBE_X = 0;
-    private static final double POSITIVE_PROBE_X = 0;
+    private static final double NEGATIVE_PROBE_X = -0.2;
+    private static final double POSITIVE_PROBE_X = +0.2;
 
     //Position of the probes, in model coordinates
     private Point2D.Double negativeProbeLocation = new Point2D.Double( NEGATIVE_PROBE_X, PROBE_Y );
@@ -55,7 +55,7 @@ public class ConductivityTester implements IConductivityTester {
 
     //Determine the size of the probes
     public PDimension getProbeSizeReference() {
-        return new PDimension( 0.1, 0.1 );
+        return new PDimension( 0.05, 0.1 );
     }
 
     //Determine the location of the positive probe
@@ -65,7 +65,7 @@ public class ConductivityTester implements IConductivityTester {
 
     //Determine the location of the bulb/battery unit.
     public Point2D getLocationReference() {
-        return new Point2D.Double( 0, PROBE_Y );
+        return new Point2D.Double( 0, 0 );
     }
 
     //Set the location of the positive probe and notify observers
