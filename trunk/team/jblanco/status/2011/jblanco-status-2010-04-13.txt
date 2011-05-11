@@ -34,7 +34,7 @@ Gravity and Orbits - 2.0 hrs
 
 Nuclear Physics - 0.5 hrs
 
-•	Worked with Jonathan O to resolve issue with 
+•	Worked with Jonathan O to resolve issue with deployment of this sim.
 
 Common Code - 3.0 hrs
 
