@@ -4,7 +4,6 @@ package edu.colorado.phet.sugarandsaltsolutions.common.model;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
-import edu.colorado.phet.acidbasesolutions.model.SolutionRepresentation.SolutionRepresentationChangeListener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.nodes.conductivitytester.IConductivityTester;
@@ -16,25 +15,29 @@ import edu.umd.cs.piccolo.util.PDimension;
  * @author Sam Reid
  */
 public class ConductivityTester implements IConductivityTester {
+    //Locations are in view coordinates since ConductivityTesterNode doesn't support ModelViewTransform.  They are converted to model coordinates in SugarAndSaltSolutionModel for hit testing with the liquid
     private static final double PROBE_Y = 200;
     private static final double NEGATIVE_PROBE_X = 200;
     private static final double POSITIVE_PROBE_X = 500;
-
 
     //Position of the probes, in model coordinates
     private Point2D.Double negativeProbeLocation = new Point2D.Double( NEGATIVE_PROBE_X, PROBE_Y );
     private Point2D.Double positiveProbeLocation = new Point2D.Double( POSITIVE_PROBE_X, PROBE_Y );
 
     //Listeners
-    private final ArrayList<SolutionRepresentationChangeListener> solutionRepresentationListeners = new ArrayList<SolutionRepresentationChangeListener>();
     private final ArrayList<ConductivityTesterChangeListener> conductivityTesterListeners = new ArrayList<ConductivityTesterChangeListener>();
 
-    //Visibility flag used as an adapter for signifying change messages when the user presses the "show conductivity tester" checkbox
-    public final Property<Boolean> visible = new Property<Boolean>( false ) {{
+    //True if the user has selected to use the conductivity tester
+    public final Property<Boolean> visible = new Property<Boolean>( false );
+
+    //Brightness value (between 0 and 1)
+    public final Property<Double> brightness = new Property<Double>( 0.0 ) {{
+
+        //When brightness changes, forward change events to ConductivityTesterChangeListeners
         addObserver( new SimpleObserver() {
             public void update() {
-                for ( SolutionRepresentationChangeListener listener : solutionRepresentationListeners ) {
-                    listener.visibilityChanged();
+                for ( ConductivityTesterChangeListener conductivityTesterListener : conductivityTesterListeners ) {
+                    conductivityTesterListener.brightnessChanged();
                 }
             }
         } );
@@ -88,12 +91,7 @@ public class ConductivityTester implements IConductivityTester {
 
     //Get the bulb brightness, a function of the conductivity of the liquid
     public double getBrightness() {
-        return 100;
-    }
-
-    //Add a listener for changes in the visibility of the control and other properties
-    public void addSolutionRepresentationChangeListener( SolutionRepresentationChangeListener listener ) {
-        solutionRepresentationListeners.add( listener );
+        return brightness.get();
     }
 
     public void reset() {

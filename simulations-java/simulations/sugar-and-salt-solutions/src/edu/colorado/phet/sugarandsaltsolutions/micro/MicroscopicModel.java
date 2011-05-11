@@ -7,4 +7,8 @@ import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolution
  * @author Sam Reid
  */
 public class MicroscopicModel extends SugarAndSaltSolutionModel {
+    //TODO: implement salt concentration
+    @Override public double getSaltConcentration() {
+        return 0;
+    }
 }

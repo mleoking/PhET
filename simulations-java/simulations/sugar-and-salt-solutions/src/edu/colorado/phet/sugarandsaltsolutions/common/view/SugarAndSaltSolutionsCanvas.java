@@ -33,13 +33,10 @@ import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolution
 import edu.colorado.phet.sugarandsaltsolutions.deprecated.PropertyRadioButton;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
-import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 import static edu.colorado.phet.common.phetcommon.model.property.Not.not;
-import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createSinglePointScaleInvertedYMapping;
 import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType.SALT;
-import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType.SUGAR;
 
 /**
  * Canvas for the introductory (first) tab in the Sugar and Salt Solutions Sim
@@ -68,21 +65,8 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
 
         setBackground( Color.black );//Background is black so that white crystals can be seen
 
-        //Width of the stage
-        final int stageWidth = 1008;//Actual size of the canvas coming up on windows from the IDE is java.awt.Dimension[width=1008,height=676]
-        final int stageHeight = (int) ( stageWidth / model.width * model.height );
-
-        //Set the stage size according to the model aspect ratio
-        final PDimension stageSize = new PDimension( stageWidth, stageHeight );
-
         //Set the transform from stage coordinates to screen coordinates
-        setWorldTransformStrategy( new CenteredStage( this, stageSize ) );
-
-        //Create the transform from model (SI) to view (stage) coordinates
-        final double scale = stageWidth / model.width;
-        final ModelViewTransform transform = createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ),
-                                                                                     new Point2D.Double( stageSize.getWidth() * 0.43, stageSize.getHeight() - 50 ),
-                                                                                     scale );
+        setWorldTransformStrategy( new CenteredStage( this, model.getStageSize() ) );
 
         soluteControlPanelNode = new ControlPanelNode( new VBox() {{
             addChild( new PText( "Solute" ) {{setFont( TITLE_FONT );}} );
@@ -92,7 +76,7 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
                 add( new PropertyRadioButton<DispenserType>( "Sugar", model.dispenserType, DispenserType.SUGAR ) {{setFont( CONTROL_FONT );}} );
             }} ) );
         }} ) {{
-            setOffset( stageSize.getWidth() - getFullBounds().getWidth() - INSET, 150 );
+            setOffset( model.getStageSize().getWidth() - getFullBounds().getWidth() - INSET, 150 );
         }};
         addChild( soluteControlPanelNode );
 
@@ -114,13 +98,13 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
             }} ) );
         }} ) {{
             //Set the location of the control panel
-            setOffset( stageSize.getWidth() - getFullBounds().getWidth(), soluteControlPanelNode.getFullBounds().getMaxY() + INSET );
+            setOffset( model.getStageSize().getWidth() - getFullBounds().getWidth(), soluteControlPanelNode.getFullBounds().getMaxY() + INSET );
         }};
         addChild( toolsControlPanelNode );
 
         //Add the reset all button
         addChild( new ButtonNode( "Reset All", Color.yellow ) {{
-            setOffset( stageSize.width - getFullBounds().getWidth() - INSET, stageSize.height - getFullBounds().getHeight() - INSET );
+            setOffset( model.getStageSize().width - getFullBounds().getWidth() - INSET, model.getStageSize().height - getFullBounds().getHeight() - INSET );
             setFont( CONTROL_FONT );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -128,6 +112,7 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
                 }
             } );
         }} );
+        final ModelViewTransform transform = model.getModelViewTransform();
 
         //Add the faucets, the first faucet should have the water stop at the base of the beaker
         addChild( new FaucetNode( transform, model.inputFlowRate, new Some<Double>( transform.modelToViewY( model.beaker.getY() ) ), not( model.beakerFull ) ) );
@@ -198,16 +183,19 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
         }} );
 
         //Add the graphic for the conductivity tester--the probes can be submerged to light the bulb
-        addChild( new ConductivityTesterNode( model.conductivityTester, false, Color.lightGray, Color.red, Color.green ) {{
-            model.conductivityTester.visible.addObserver( new VoidFunction1<Boolean>() {
-                public void apply( Boolean visible ) {
-                    setVisible( visible );
-                }
-            } );
+        addChild( new PNode() {{
+//            setTransform( transform.getTransform() );
+            addChild( new ConductivityTesterNode( model.conductivityTester, false, Color.lightGray, Color.red, Color.green ) {{
+                model.conductivityTester.visible.addObserver( new VoidFunction1<Boolean>() {
+                    public void apply( Boolean visible ) {
+                        setVisible( visible );
+                    }
+                } );
+            }} );
         }} );
 
         //Debug for showing stage
-        addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, stageSize.getWidth(), stageSize.getHeight() ), new BasicStroke( 2 ), Color.red ) );
+        addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, model.getStageSize().getWidth(), model.getStageSize().getHeight() ), new BasicStroke( 2 ), Color.red ) );
     }
 
     public void addChild( PNode node ) {
