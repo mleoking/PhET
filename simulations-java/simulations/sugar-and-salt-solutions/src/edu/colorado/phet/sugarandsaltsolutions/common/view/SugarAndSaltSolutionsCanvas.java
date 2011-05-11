@@ -9,12 +9,10 @@ import java.awt.geom.Rectangle2D;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.util.Option.None;
 import edu.colorado.phet.common.phetcommon.util.Option.Some;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
@@ -160,23 +158,8 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
             }
         } ) );
 
-        //add the salt shaker node
-        addChild( new DispenserNode( transform, new VoidFunction1<ImmutableVector2D>() {
-            public void apply( ImmutableVector2D position ) {
-                model.addSalt( new Salt( position ) );
-            }
-        }, "salt_1.png", model.dispenserType.valueEquals( SALT ) ) {{
-            //Move the shaker to the right so it is centered above the beaker and doesn't overlap with the faucet
-            VoidFunction0 initPosition = new VoidFunction0() {
-                public void apply() {
-                    setOffset( 250, 10 );
-                }
-            };
-            initPosition.apply();
-            model.addResetListener( initPosition );
-        }} );
-
-        //add the sugar dispenser node
+        //add the salt and sugar dispenser nodes
+        addChild( new SaltShakerNode( transform, model.saltShaker ) );
         addChild( new SugarDispenserNode( transform, model.sugarDispenser ) );
 
         //Show the crystal layer behind the water and beaker so the crystals look like they go into the water instead of in front of it.
