@@ -43,6 +43,7 @@ public class IntroModel extends SugarAndSaltSolutionModel {
     }
 
     @Override public double getSaltConcentration() {
+        if ( saltConcentration == null ) { return 0.0; }//this is called during super call before saltConcentration is set, so is null, so just return 0 in that case.  TODO: fix
         return saltConcentration.get();
     }
 
