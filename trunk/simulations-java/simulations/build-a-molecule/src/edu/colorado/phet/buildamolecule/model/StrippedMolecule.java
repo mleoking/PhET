@@ -9,7 +9,7 @@ import edu.colorado.phet.chemistry.model.Atom;
  * TODO: potentially move a "stripped" structure into MoleculeStructure for quick comparison!
  */
 public class StrippedMolecule {
-    public final MoleculeStructure original;
+    public MoleculeStructure original; // TODO: don't rely on this! It is stripped out for the runtime StrippedMolecules!
     public final MoleculeStructure stripped;
 
     private final Map<Atom, Integer> hydrogenCount = new HashMap<Atom, Integer>();
@@ -63,14 +63,14 @@ public class StrippedMolecule {
             // same instance
             return true;
         }
-        if ( this.original.getAtoms().size() != other.original.getAtoms().size() ) {
-            // must have same number of atoms
-            return false;
-        }
-        if ( !this.original.getHistogram().equals( other.original.getHistogram() ) ) {
-            // different molecular formula
-            return false;
-        }
+//        if ( this.original.getAtoms().size() != other.original.getAtoms().size() ) {
+//            // must have same number of atoms
+//            return false;
+//        }
+//        if ( !this.original.getHistogram().equals( other.original.getHistogram() ) ) {
+//            // different molecular formula
+//            return false;
+//        }
         if ( this.stripped.getAtoms().size() == 0 && other.stripped.getAtoms().size() == 0 ) {
             return true;
         }
@@ -91,12 +91,12 @@ public class StrippedMolecule {
             // same instance
             return true;
         }
-        if ( this.original.getAtoms().size() < other.original.getAtoms().size() ) {
-            return false;
-        }
-        if ( !this.original.getHistogram().containsAsSubset( other.original.getHistogram() ) ) {
-            return false;
-        }
+//        if ( this.original.getAtoms().size() < other.original.getAtoms().size() ) {
+//            return false;
+//        }
+//        if ( !this.original.getHistogram().containsAsSubset( other.original.getHistogram() ) ) {
+//            return false;
+//        }
         Set<Atom> myVisited = new HashSet<Atom>();
         Set<Atom> otherVisited = new HashSet<Atom>();
         Atom firstAtom = stripped.getAtoms().iterator().next(); // grab the 1st atom
