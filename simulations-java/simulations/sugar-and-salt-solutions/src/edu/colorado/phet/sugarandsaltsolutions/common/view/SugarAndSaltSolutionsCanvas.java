@@ -88,8 +88,8 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
             addChild( new PText( "Solute" ) {{setFont( TITLE_FONT );}} );
             addChild( new PhetPPath( new Rectangle( 0, 0, 0, 0 ), new Color( 0, 0, 0, 0 ) ) );//spacer
             addChild( new PSwing( new VerticalLayoutPanel() {{
-                add( new PropertyRadioButton<DispenserType>( "Salt", model.dispenser, SALT ) {{setFont( CONTROL_FONT );}} );
-                add( new PropertyRadioButton<DispenserType>( "Sugar", model.dispenser, DispenserType.SUGAR ) {{setFont( CONTROL_FONT );}} );
+                add( new PropertyRadioButton<DispenserType>( "Salt", model.dispenserType, SALT ) {{setFont( CONTROL_FONT );}} );
+                add( new PropertyRadioButton<DispenserType>( "Sugar", model.dispenserType, DispenserType.SUGAR ) {{setFont( CONTROL_FONT );}} );
             }} ) );
         }} ) {{
             setOffset( stageSize.getWidth() - getFullBounds().getWidth() - INSET, 150 );
@@ -158,7 +158,7 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
             public void apply( ImmutableVector2D position ) {
                 model.addSalt( new Salt( position ) );
             }
-        }, "salt_1.png", model.dispenser.valueEquals( SALT ) ) {{
+        }, "salt_1.png", model.dispenserType.valueEquals( SALT ) ) {{
             //Move the shaker to the right so it is centered above the beaker and doesn't overlap with the faucet
             VoidFunction0 initPosition = new VoidFunction0() {
                 public void apply() {
@@ -170,12 +170,7 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
         }} );
 
         //add the sugar dispenser node
-        addChild( new SugarDispenserNode( transform, new VoidFunction1<ImmutableVector2D>() {
-            public void apply( ImmutableVector2D position ) {
-                model.addSugar( new Sugar( position ) );
-            }
-        }, model.dispenser.valueEquals( SUGAR ), model.sugarDispenser ) {{
-        }} );
+        addChild( new SugarDispenserNode( transform, model.sugarDispenser ) );
 
         //Show the crystal layer behind the water and beaker so the crystals look like they go into the water instead of in front of it.
         addChild( crystalLayer );

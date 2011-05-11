@@ -7,10 +7,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
@@ -31,23 +28,24 @@ import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsAppli
 public class SugarDispenserNode extends PNode {
     private final boolean debug = false;
 
-    public SugarDispenserNode( final ModelViewTransform transform, final VoidFunction1<ImmutableVector2D> addSugar, final ObservableProperty<Boolean> visible, final SugarDispenser model ) {
+    public SugarDispenserNode( final ModelViewTransform transform, final SugarDispenser model ) {
         //Show the image of the shaker
         final BufferedImage openImage = BufferedImageUtils.multiScaleToHeight( RESOURCES.getImage( "sugar_open.png" ), 250 );
         final BufferedImage closedImage = BufferedImageUtils.multiScaleToHeight( RESOURCES.getImage( "sugar_closed.png" ), 250 );
         final PImage imageNode = new PImage( closedImage );
         addChild( imageNode );
-        visible.addObserver( new SimpleObserver() {
-            public void update() {
-                setVisible( visible.get() );
+
+        //Hide the sugar dispenser if it is not enabled (selected by the user)
+        model.enabled.addObserver( new VoidFunction1<Boolean>() {
+            public void apply( Boolean enabled ) {
+                setVisible( enabled );
             }
         } );
 
         //Choose the image based on the angle.  If it is tipped sideways the opening should flip open.
-        model.angle.addObserver( new VoidFunction1<Double>() {
-            public void apply( Double angle ) {
-                System.out.println( "angle = " + angle );
-                imageNode.setImage( angle < -Math.PI / 2 ? openImage : closedImage );
+        model.open.addObserver( new VoidFunction1<Boolean>() {
+            public void apply( Boolean open ) {
+                imageNode.setImage( open ? openImage : closedImage );
             }
         } );
 
@@ -61,7 +59,7 @@ public class SugarDispenserNode extends PNode {
                 Point2D.Double viewPoint = transform.modelToView( model.rotationPoint.get() ).toPoint2D();
 
                 //Rotate by the correct angle: Note: This angle doesn't get mapped into the right coordinate frame, so could be backwards
-                imageNode.rotate( model.angle.get() );
+                imageNode.rotate( -model.angle.get() );
 
                 //Center on the view point
                 imageNode.centerFullBoundsOnPoint( viewPoint.x, viewPoint.y );
