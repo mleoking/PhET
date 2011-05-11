@@ -13,6 +13,7 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableModel;
 
 import edu.colorado.phet.buildamolecule.model.CompleteMolecule;
+import edu.colorado.phet.buildamolecule.model.MoleculeList;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
@@ -24,7 +25,7 @@ import edu.umd.cs.piccolo.PNode;
 public class MoleculeTableDialog extends JDialog {
     public MoleculeTableDialog( final Frame owner ) {
         super( owner, false );
-        final List<CompleteMolecule> list = new ArrayList<CompleteMolecule>( CompleteMolecule.getAllCompleteMolecules() );
+        final List<CompleteMolecule> list = new ArrayList<CompleteMolecule>( MoleculeList.getAllCompleteMolecules() );
         Collections.sort( list, new Comparator<CompleteMolecule>() {
             public int compare( CompleteMolecule o1, CompleteMolecule o2 ) {
                 int sizeCompare = Double.compare( o1.getMoleculeStructure().getAtoms().size(), o2.getMoleculeStructure().getAtoms().size() );
