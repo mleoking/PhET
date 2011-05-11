@@ -1,3 +1,4 @@
+//  Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.buildamolecule.model;
 
 import java.util.*;
@@ -9,14 +10,10 @@ import edu.colorado.phet.chemistry.model.Atom;
  * TODO: potentially move a "stripped" structure into MoleculeStructure for quick comparison!
  */
 public class StrippedMolecule {
-    public MoleculeStructure original; // TODO: don't rely on this! It is stripped out for the runtime StrippedMolecules!
     public final MoleculeStructure stripped;
-
     private final Map<Atom, Integer> hydrogenCount = new HashMap<Atom, Integer>();
 
     public StrippedMolecule( MoleculeStructure original ) {
-        this.original = original;
-
         stripped = new MoleculeStructure();
 
         // copy non-hydrogens
@@ -52,6 +49,22 @@ public class StrippedMolecule {
                 }
             }
         }
+    }
+
+    /**
+     * @return MoleculeStructure, where the hydrogen atoms are not the original hydrogen atoms
+     */
+    public MoleculeStructure toMoleculeStructure() {
+        MoleculeStructure result = stripped.getCopy();
+        for ( Atom atom : hydrogenCount.keySet() ) {
+            int count = hydrogenCount.get( atom );
+            for ( int i = 0; i < count; i++ ) {
+                Atom.H hydrogenAtom = new Atom.H();
+                result.addAtom( hydrogenAtom );
+                result.addBond( atom, hydrogenAtom );
+            }
+        }
+        return result;
     }
 
     public int getHydrogenCount( Atom atom ) {
@@ -97,6 +110,10 @@ public class StrippedMolecule {
 //        if ( !this.original.getHistogram().containsAsSubset( other.original.getHistogram() ) ) {
 //            return false;
 //        }
+        if ( stripped.getAtoms().size() == 0 ) {
+            // if we have no heavy atoms
+            return other.stripped.getAtoms().size() == 0;
+        }
         Set<Atom> myVisited = new HashSet<Atom>();
         Set<Atom> otherVisited = new HashSet<Atom>();
         Atom firstAtom = stripped.getAtoms().iterator().next(); // grab the 1st atom
@@ -165,5 +182,13 @@ public class StrippedMolecule {
 
         // return whether we can find a successful permutation matching from our equivalency matrix
         return MoleculeStructure.checkEquivalencyMatrix( equivalences, 0, availableIndices );
+    }
+
+    public StrippedMolecule getCopyWithAtomRemoved( Atom atom ) {
+        StrippedMolecule result = new StrippedMolecule( stripped.getCopyWithAtomRemoved( atom ) );
+        for ( Atom resultAtom : result.stripped.getAtoms() ) {
+            result.hydrogenCount.put( resultAtom, hydrogenCount.get( resultAtom ) );
+        }
+        return result;
     }
 }
