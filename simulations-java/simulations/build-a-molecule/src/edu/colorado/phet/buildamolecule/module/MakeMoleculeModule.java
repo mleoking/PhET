@@ -39,11 +39,11 @@ public class MakeMoleculeModule extends AbstractBuildAMoleculeModule {
                              new Bucket( new PDimension( 450, 200 ), getClock(), OXYGEN_FACTORY, 2 ),
                              new Bucket( new PDimension( 500, 200 ), getClock(), NITROGEN_FACTORY, 2 )
             ) );
-            addCollectionBox( new CollectionBox( CompleteMolecule.H2O, 1 ) );
-            addCollectionBox( new CollectionBox( CompleteMolecule.O2, 1 ) );
-            addCollectionBox( new CollectionBox( CompleteMolecule.H2, 1 ) );
-            addCollectionBox( new CollectionBox( CompleteMolecule.CO2, 1 ) );
-            addCollectionBox( new CollectionBox( CompleteMolecule.N2, 1 ) );
+            addCollectionBox( new CollectionBox( MoleculeList.H2O, 1 ) );
+            addCollectionBox( new CollectionBox( MoleculeList.O2, 1 ) );
+            addCollectionBox( new CollectionBox( MoleculeList.H2, 1 ) );
+            addCollectionBox( new CollectionBox( MoleculeList.CO2, 1 ) );
+            addCollectionBox( new CollectionBox( MoleculeList.N2, 1 ) );
         }};
 
         setModel( initialModel );

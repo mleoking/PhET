@@ -24,7 +24,7 @@ public class MoleculeKitFilterer {
         * allowed kit histograms (atom counts)
         *----------------------------------------------------------------------------*/
 
-        for ( CompleteMolecule molecule : CompleteMolecule.COLLECTION_BOX_MOLECULES ) {
+        for ( CompleteMolecule molecule : MoleculeList.COLLECTION_BOX_MOLECULES ) {
             AtomHistogram histogram = new AtomHistogram();
 
             // allow twice each collection box molecule

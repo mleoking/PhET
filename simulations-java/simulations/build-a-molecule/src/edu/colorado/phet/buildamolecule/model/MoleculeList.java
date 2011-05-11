@@ -71,7 +71,7 @@ public class MoleculeList {
         return masterInstance;
     }
 
-    public static CompleteMolecule getMoleculeByName( String name ) {
+    public static synchronized CompleteMolecule getMoleculeByName( String name ) {
         CompleteMolecule ret = initialList.moleculeNameMap.get( name );
         if ( ret == null ) {
             System.out.println( "WARNING: looking up " + name + " in master instance." );
@@ -166,7 +166,7 @@ public class MoleculeList {
             return completeMolecules.get( random.nextInt( completeMolecules.size() ) );
         }
         else {
-            return CompleteMolecule.COLLECTION_BOX_MOLECULES[random.nextInt( CompleteMolecule.COLLECTION_BOX_MOLECULES.length )];
+            return COLLECTION_BOX_MOLECULES[random.nextInt( COLLECTION_BOX_MOLECULES.length )];
         }
     }
 
@@ -189,6 +189,51 @@ public class MoleculeList {
             allowedStructureFormulaMap.put( hashString, new LinkedList<StrippedMolecule>() {{
                 add( strippedMolecule );
             }} );
+        }
+    }
+
+    /*---------------------------------------------------------------------------*
+    * molecule references and customized names
+    *----------------------------------------------------------------------------*/
+
+    public static final CompleteMolecule CO2 = MoleculeList.getMoleculeByName( "Carbon Dioxide" );
+    public static final CompleteMolecule H2O = MoleculeList.getMoleculeByName( "Water" );
+    public static final CompleteMolecule N2 = MoleculeList.getMoleculeByName( "Nitrogen" );
+    public static final CompleteMolecule CO = MoleculeList.getMoleculeByName( "Carbon Monoxide" );
+    public static final CompleteMolecule NO = MoleculeList.getMoleculeByName( "Nitric Oxide" );
+    public static final CompleteMolecule O2 = MoleculeList.getMoleculeByName( "Oxygen" );
+    public static final CompleteMolecule H2 = MoleculeList.getMoleculeByName( "Hydrogen" );
+    public static final CompleteMolecule Cl2 = MoleculeList.getMoleculeByName( "Chlorine" );
+    public static final CompleteMolecule NH3 = MoleculeList.getMoleculeByName( "Ammonia" );
+
+    /**
+     * Molecules that can be used for collection boxes
+     */
+    public static final CompleteMolecule[] COLLECTION_BOX_MOLECULES = new CompleteMolecule[] {
+            CO2, H2O, N2, CO, O2, H2, NH3, Cl2, NO,
+            MoleculeList.getMoleculeByName( "Acetylene" ),
+            MoleculeList.getMoleculeByName( "Borane" ),
+            MoleculeList.getMoleculeByName( "Trifluoroborane" ),
+            MoleculeList.getMoleculeByName( "Chloromethane" ),
+            MoleculeList.getMoleculeByName( "Ethylene" ),
+            MoleculeList.getMoleculeByName( "Fluorine" ),
+            MoleculeList.getMoleculeByName( "Fluoromethane" ),
+            MoleculeList.getMoleculeByName( "Formaldehyde" ),
+            MoleculeList.getMoleculeByName( "Hydrogen Cyanide" ),
+            MoleculeList.getMoleculeByName( "Hydrogen Peroxide" ),
+            MoleculeList.getMoleculeByName( "Hydrogen Sulfide" ),
+            MoleculeList.getMoleculeByName( "Methane" ),
+            MoleculeList.getMoleculeByName( "Nitrous Oxide" ),
+            MoleculeList.getMoleculeByName( "Ozone" ),
+            MoleculeList.getMoleculeByName( "Phosphine" ),
+            MoleculeList.getMoleculeByName( "Silane" ),
+            MoleculeList.getMoleculeByName( "Sulfur Dioxide" )
+    };
+
+    static {
+        // TODO: i18n
+        for ( CompleteMolecule m : COLLECTION_BOX_MOLECULES ) {
+            assert ( m != null );
         }
     }
 
