@@ -557,7 +557,7 @@ public class ButtonNode extends PhetPNode {
     }
 
     private void notifyActionPerformed() {
-        ActionEvent event = new ActionEvent( this, ActionEvent.ACTION_PERFORMED, "BUTTON_FIRED" ); //TODO: command is undocumented. Address if this becomes an issue for clients.
+        ActionEvent event = new ActionEvent( this, ActionEvent.ACTION_PERFORMED, text ); // use Swing convention from AbstractButton.fireActionPerformed
         for ( ActionListener actionListener : new ArrayList<ActionListener>( actionListeners ) ) {
             actionListener.actionPerformed( event );
         }
@@ -681,7 +681,7 @@ public class ButtonNode extends PhetPNode {
             }
         };
 
-        ButtonNode button1 = new ButtonNode( "1. Test Me", image ) {{
+        ButtonNode button1 = new ButtonNode( image ) {{
             setCornerRadius( 20 );
             setImageTextGap( 20 );
             setMargin( 20, 10, 20, 10 );
