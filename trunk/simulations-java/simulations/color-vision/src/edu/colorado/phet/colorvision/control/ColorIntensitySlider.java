@@ -80,7 +80,6 @@ public class ColorIntensitySlider extends GraphicLayerSet {
      * @param value the value, silently clamped to the slider's range (ala JSlider)
      */
     public void setValue( int value ) {
-        System.out.println( "ColorSlider.setValue " + value );//XXX
 
         // Silently clamp the value to the allowed range.
         _value = (int) MathUtil.clamp( MIN, value, MAX );
