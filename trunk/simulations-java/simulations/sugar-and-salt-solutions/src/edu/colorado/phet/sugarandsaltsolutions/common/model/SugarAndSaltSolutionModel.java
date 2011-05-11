@@ -11,9 +11,11 @@ import edu.colorado.phet.common.phetcommon.model.event.Notifier;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.SugarDispenser;
 
 import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType.SALT;
+import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType.SUGAR;
 
 /**
  * @author Sam Reid
@@ -44,7 +46,7 @@ public class SugarAndSaltSolutionModel {
     private ImmutableVector2D gravity = new ImmutableVector2D( 0, -9.8 );//Force due to gravity near the surface of the earth
 
     private static final double FLOW_SCALE = 0.02;//Flow controls vary between 0 and 1, this scales it down to a good model value
-    public final Property<DispenserType> dispenser = new Property<DispenserType>( SALT );//Which dispenser the user has selected
+    public final Property<DispenserType> dispenserType = new Property<DispenserType>( SALT );//Which dispenser the user has selected
 
     //Listeners which are notified when the sim is reset.
     private ArrayList<VoidFunction0> resetListeners = new ArrayList<VoidFunction0>();
@@ -56,7 +58,14 @@ public class SugarAndSaltSolutionModel {
     public final ConductivityTester conductivityTester = new ConductivityTester();
 
     //Model for the sugar dispenser
-    public final SugarDispenser sugarDispenser = new SugarDispenser();
+    public final SugarDispenser sugarDispenser = new SugarDispenser() {{
+        //Wire up the SugarDispenser so it is enabled when the model has the SUGAR type dispenser selected
+        dispenserType.addObserver( new VoidFunction1<DispenserType>() {
+            public void apply( DispenserType dispenserType ) {
+                enabled.set( dispenserType == SUGAR );
+            }
+        } );
+    }};
 
     public SugarAndSaltSolutionModel() {
         clock = new ConstantDtClock( 30 );
@@ -83,6 +92,9 @@ public class SugarAndSaltSolutionModel {
 
     //Update the model when the clock ticks
     private void updateModel( double dt ) {
+        //Add any new crystals from the sugar shaker, if it is tipped
+        sugarDispenser.updateModel( this );
+
         //Change the water volume based on input and output flow
         double inVolume = dt * inputFlowRate.get() * FLOW_SCALE;
         double outVolume = dt * outputFlowRate.get() * FLOW_SCALE;
