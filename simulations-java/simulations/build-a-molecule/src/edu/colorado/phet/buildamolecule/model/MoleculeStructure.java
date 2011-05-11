@@ -53,7 +53,7 @@ public class MoleculeStructure {
      * @return A complete molecule that matches, or null.
      */
     public CompleteMolecule getMatchingCompleteMolecule() {
-        return CompleteMolecule.findMatchingCompleteMolecule( this );
+        return MoleculeList.findMatchingCompleteMolecule( this );
     }
 
     public String getHillSystemFormulaFragment() {
