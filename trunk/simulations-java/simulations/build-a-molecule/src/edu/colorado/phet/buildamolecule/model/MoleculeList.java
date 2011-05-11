@@ -9,15 +9,17 @@ import java.util.*;
 import edu.colorado.phet.buildamolecule.BuildAMoleculeApplication;
 import edu.colorado.phet.buildamolecule.BuildAMoleculeResources;
 
+/**
+ * Has functions relating to lists of molecules (e.g. is a molecule or submolecule allowed?) Uses static initialization to load in a small fraction
+ * of molecules from collection-molecules.txt, and then in a separate thread loads the rest of the molecules + the allowed structures. The 1st
+ * call that requires the full molecule list or allowed structures will block until it is all read in or computed
+ */
 public class MoleculeList {
     /*---------------------------------------------------------------------------*
     * complete molecule data structures
     *----------------------------------------------------------------------------*/
     private List<CompleteMolecule> completeMolecules = new ArrayList<CompleteMolecule>(); // all complete molecules
     private Map<String, CompleteMolecule> moleculeNameMap = new HashMap<String, CompleteMolecule>(); // map from unique name => complete molecule
-
-    // maps to allow us to efficiently look things up by molecular formula. since we allow isomers, multiple structures can have the same formula.
-    private Map<String, List<CompleteMolecule>> moleculeFormulaMap = new HashMap<String, List<CompleteMolecule>>();
 
     /*---------------------------------------------------------------------------*
     * allowed structure data structures
@@ -81,9 +83,6 @@ public class MoleculeList {
     protected void loadInitialData() {
         List<CompleteMolecule> mainMolecules = readCompleteMoleculesFromFilename( "collection-molecules.txt" );
         for ( CompleteMolecule molecule : mainMolecules ) {
-            completeMolecules.add( molecule );
-            moleculeNameMap.put( molecule.getCommonName(), molecule );
-
             addCompleteMolecule( molecule );
         }
     }
@@ -97,9 +96,6 @@ public class MoleculeList {
             if ( initialListLookup != null && molecule.getMoleculeStructure().isEquivalent( initialListLookup.getMoleculeStructure() ) ) {
                 molecule = initialListLookup;
             }
-
-            completeMolecules.add( molecule );
-            moleculeNameMap.put( molecule.getCommonName(), molecule );
 
             addCompleteMolecule( molecule );
         }
@@ -178,16 +174,9 @@ public class MoleculeList {
     * computation of allowed molecule structures
     *----------------------------------------------------------------------------*/
 
-    private void addCompleteMolecule( final CompleteMolecule completeMolecule ) {
-        String formula = completeMolecule.getMoleculeStructure().getHillSystemFormulaFragment();
-        if ( moleculeFormulaMap.containsKey( formula ) ) {
-            moleculeFormulaMap.get( formula ).add( completeMolecule );
-        }
-        else {
-            moleculeFormulaMap.put( formula, new LinkedList<CompleteMolecule>() {{
-                add( completeMolecule );
-            }} );
-        }
+    private void addCompleteMolecule( final CompleteMolecule molecule ) {
+        completeMolecules.add( molecule );
+        moleculeNameMap.put( molecule.getCommonName(), molecule );
     }
 
     private void addAllowedStructure( final MoleculeStructure structure ) {
