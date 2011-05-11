@@ -316,6 +316,7 @@ public class CompleteMolecule {
 
     private static void addAllowedStructure( final MoleculeStructure structure ) {
         final StrippedMolecule strippedMolecule = new StrippedMolecule( structure );
+        strippedMolecule.original = null;
         String hashString = strippedMolecule.stripped.getHistogram().getHashString();
         if ( allowedStructureMap.containsKey( hashString ) ) {
             allowedStructureMap.get( hashString ).add( strippedMolecule );
