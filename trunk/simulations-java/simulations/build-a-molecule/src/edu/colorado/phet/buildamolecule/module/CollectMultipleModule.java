@@ -41,10 +41,10 @@ public class CollectMultipleModule extends AbstractBuildAMoleculeModule {
                              new Bucket( new PDimension( 600, 200 ), getClock(), OXYGEN_FACTORY, 4 ),
                              new Bucket( new PDimension( 500, 200 ), getClock(), NITROGEN_FACTORY, 2 )
             ) );
-            addCollectionBox( new CollectionBox( CompleteMolecule.CO2, 2 ) );
-            addCollectionBox( new CollectionBox( CompleteMolecule.O2, 2 ) );
-            addCollectionBox( new CollectionBox( CompleteMolecule.H2, 4 ) );
-            addCollectionBox( new CollectionBox( CompleteMolecule.NH3, 2 ) );
+            addCollectionBox( new CollectionBox( MoleculeList.CO2, 2 ) );
+            addCollectionBox( new CollectionBox( MoleculeList.O2, 2 ) );
+            addCollectionBox( new CollectionBox( MoleculeList.H2, 4 ) );
+            addCollectionBox( new CollectionBox( MoleculeList.NH3, 2 ) );
         }};
 
         setModel( initialModel );

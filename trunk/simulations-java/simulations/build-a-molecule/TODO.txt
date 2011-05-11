@@ -11,6 +11,11 @@ Smiley face on collection boxes completion?
 Weird 3d structures?
 Add in "molecule data loading"?
 
+detection of molecules with those weird things like in 6432310, and check if it removes the name duplication issues earlier noted:
+    2.0000    0.7500    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
+    2.8660   -0.7500    0.0000 C   0  4  0  0  0  0  0  0  0  0  0  0
+    4.0420    0.2131    0.0000 H   0  0  0  0  0  0  0  0  0  0  0  0
+
 PENDING:
 Emailed Sandor about translating names. Developer recommendation: translate a subset
 

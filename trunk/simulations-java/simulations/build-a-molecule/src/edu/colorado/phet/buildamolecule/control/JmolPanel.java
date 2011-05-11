@@ -9,6 +9,7 @@ import org.jmol.api.JmolViewer;
 
 import edu.colorado.phet.buildamolecule.BuildAMoleculeStrings;
 import edu.colorado.phet.buildamolecule.model.CompleteMolecule;
+import edu.colorado.phet.buildamolecule.model.MoleculeList;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PPaintContext;
@@ -95,7 +96,7 @@ public class JmolPanel extends JPanel {
             setSize( 410, 410 );
         }};
         Container contentPane = frame.getContentPane();
-        JmolPanel jmolPanel = new JmolPanel( CompleteMolecule.H2O );
+        JmolPanel jmolPanel = new JmolPanel( MoleculeList.H2O );
 
         contentPane.add( jmolPanel );
 
