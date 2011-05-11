@@ -4,7 +4,7 @@ March 16, 2011
 
 Time period covered: March 10th through March 16th.
 
-Isotopes and Atomic Mass – 25.5 hrs
+Isotopes and Atomic Mass – 24.5 hrs
 
 •	Changed appearance of element label on the first tab.
 •	Took out the confirmation dialog for Reset All on the first tab.
