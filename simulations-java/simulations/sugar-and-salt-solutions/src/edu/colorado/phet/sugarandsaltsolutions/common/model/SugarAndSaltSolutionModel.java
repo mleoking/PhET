@@ -1,7 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.common.model;
 
-import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
@@ -16,12 +15,9 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.conductivitytester.IConductivityTester.ConductivityTesterChangeListener;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.SugarDispenser;
-import edu.umd.cs.piccolo.util.PDimension;
 
-import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createSinglePointScaleInvertedYMapping;
 import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType.SALT;
 import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType.SUGAR;
 
@@ -111,10 +107,9 @@ public abstract class SugarAndSaltSolutionModel {
     protected void updateConductivityTesterBrightness() {
 
         //Check for a collision with the probes
-        //Since ConductivityTesterNode doesn't support a ModelViewTransform, we treat its coordinates as view coordinates and back-convert them to model coordinates for hit test
         Rectangle2D waterBounds = water.getShape().getBounds2D();
-        boolean bothProbesSubmerged = waterBounds.contains( getModelViewTransform().viewToModel( conductivityTester.getPositiveProbeLocationReference() ) ) &&
-                                      waterBounds.contains( getModelViewTransform().viewToModel( conductivityTester.getNegativeProbeLocationReference() ) );
+        boolean bothProbesSubmerged = waterBounds.contains( conductivityTester.getPositiveProbeLocationReference() ) &&
+                                      waterBounds.contains( conductivityTester.getNegativeProbeLocationReference() );
 
         //Set the brightness to be a linear function of the salt concentration (but keeping it bounded between 0 and 1 which are the limits of the conductivity tester brightness
         conductivityTester.brightness.set( bothProbesSubmerged ? MathUtil.clamp( 0, getSaltConcentration() * 1E3, 1 ) : 0.0 );
@@ -238,28 +233,5 @@ public abstract class SugarAndSaltSolutionModel {
     //Adds a listener that will be notified when the model is reset
     public void addResetListener( VoidFunction0 listener ) {
         resetListeners.add( listener );
-    }
-
-    //Gets the size of the stage to be used in the view
-    // Since ConductivityTesterNode doesn't use a ModelViewTransform, we have to model the transform here for hit testing the probes with the liquid
-    public PDimension getStageSize() {
-        //Width of the stage
-        final int stageWidth = 1008;//Actual size of the canvas coming up on windows from the IDE is java.awt.Dimension[width=1008,height=676]
-        final int stageHeight = (int) ( stageWidth / width * height );
-
-        //Set the stage size according to the model aspect ratio
-        final PDimension stageSize = new PDimension( stageWidth, stageHeight );
-        return stageSize;
-    }
-
-    //Gets the ModelViewTransform used to go between model coordinates (SI) and stage coordinates (roughly pixels)
-    //Since ConductivityTesterNode doesn't use a ModelViewTransform, we have to model the transform here for hit testing the probes with the liquid
-    public ModelViewTransform getModelViewTransform() {
-        //Create the transform from model (SI) to view (stage) coordinates
-        final double scale = getStageSize().width / width;
-        final ModelViewTransform transform = createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ),
-                                                                                     new Point2D.Double( getStageSize().getWidth() * 0.43, getStageSize().getHeight() - 50 ),
-                                                                                     scale );
-        return transform;
     }
 }
