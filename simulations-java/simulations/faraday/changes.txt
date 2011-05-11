@@ -1,3 +1,4 @@
+# 2.06.00 (51790) May 11, 2011
 > added new translation credits features
 # 2.05.04 (51719) May 9, 2011
 > if clock controls are irrelevant, hide them instead of disabling them
