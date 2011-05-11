@@ -3,6 +3,7 @@ package edu.colorado.phet.common.phetcommon.view.graphics.transforms;
 
 import java.awt.*;
 import java.awt.geom.*;
+import java.awt.geom.Rectangle2D.*;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 
@@ -103,6 +104,12 @@ public class ModelViewTransform {
 
     public Shape modelToView( Shape shape ) {
         return transform.createTransformedShape( shape );
+    }
+
+    //Transforms a size in the model to a size in the view (without inverting y coordinates)
+    public Dimension2D modelToViewSize( Dimension2D modelSize ) {
+        Rectangle2D viewShape = modelToView( new Rectangle2D.Double( 0, 0, modelSize.getWidth(), modelSize.getHeight() ) ).getBounds2D();
+        return new Dimension2DDouble( viewShape.getWidth(), viewShape.getHeight() );
     }
 
     public double modelToViewX( double x ) {
