@@ -1,3 +1,4 @@
+Dragged atom/molecule always in front of other atoms/molecules
 Animated blue hint arrow, and added a text bubble
 Orange button for "try with new molecules"
 # 0.00.17 (51781) May 10, 2011
