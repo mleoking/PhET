@@ -61,4 +61,10 @@ public class SugarDispenser {
             }} );
         }
     }
+
+    public void reset() {
+        //Only need to set the primary properties, others (e.g., open/enabled) are derived and will auto-reset
+        rotationPoint.reset();
+        angle.reset();
+    }
 }
