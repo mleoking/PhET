@@ -43,7 +43,7 @@ public class CapacitorLabApplication extends PiccoloPhetApplication {
             module.getControlPanel().addControlFullWidth( Box.createHorizontalStrut( maxWidth ) );
         }
 
-        // start with Multiple Capacitor module for development
+        // start with a specific module for development
         if ( globalProperties.dev ) {
             setStartModule( getModule( 1 ) );
         }
