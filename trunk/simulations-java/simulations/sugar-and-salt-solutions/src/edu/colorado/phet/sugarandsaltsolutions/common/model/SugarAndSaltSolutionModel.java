@@ -181,6 +181,9 @@ public class SugarAndSaltSolutionModel {
         water.reset();
         inputFlowRate.reset();
         outputFlowRate.reset();
+        sugarDispenser.reset();
+        conductivityTester.reset();
+        dispenserType.reset();
 
         //Notify listeners that registered for a reset message
         for ( VoidFunction0 resetListener : resetListeners ) {

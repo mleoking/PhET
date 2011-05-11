@@ -16,9 +16,14 @@ import edu.umd.cs.piccolo.util.PDimension;
  * @author Sam Reid
  */
 public class ConductivityTester implements IConductivityTester {
+    private static final double PROBE_Y = 200;
+    private static final double NEGATIVE_PROBE_X = 200;
+    private static final double POSITIVE_PROBE_X = 500;
+
+
     //Position of the probes, in model coordinates
-    private Point2D.Double negativeProbeLocation = new Point2D.Double( 200, 200 );
-    private Point2D.Double positiveProbeLocation = new Point2D.Double( 500, 200 );
+    private Point2D.Double negativeProbeLocation = new Point2D.Double( NEGATIVE_PROBE_X, PROBE_Y );
+    private Point2D.Double positiveProbeLocation = new Point2D.Double( POSITIVE_PROBE_X, PROBE_Y );
 
     //Listeners
     private final ArrayList<SolutionRepresentationChangeListener> solutionRepresentationListeners = new ArrayList<SolutionRepresentationChangeListener>();
@@ -57,7 +62,7 @@ public class ConductivityTester implements IConductivityTester {
 
     //Determine the location of the bulb/battery unit.
     public Point2D getLocationReference() {
-        return new Point2D.Double( 300, 200 );
+        return new Point2D.Double( 300, PROBE_Y );
     }
 
     //Set the location of the positive probe and notify observers
@@ -89,5 +94,12 @@ public class ConductivityTester implements IConductivityTester {
     //Add a listener for changes in the visibility of the control and other properties
     public void addSolutionRepresentationChangeListener( SolutionRepresentationChangeListener listener ) {
         solutionRepresentationListeners.add( listener );
+    }
+
+    public void reset() {
+
+        //Reset the location of the probes
+        setNegativeProbeLocation( NEGATIVE_PROBE_X, PROBE_Y );
+        setPositiveProbeLocation( POSITIVE_PROBE_X, PROBE_Y );
     }
 }

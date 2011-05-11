@@ -1,3 +1,4 @@
+improved reset for conductivity tester and sugar dispenser
 improved sugar pouring
 improved user interaction for the sugar dispenser
 5/9/11 Moved ConductivityTester and related strings and images from acid-base-solutions to piccolo-phet, see #2864
