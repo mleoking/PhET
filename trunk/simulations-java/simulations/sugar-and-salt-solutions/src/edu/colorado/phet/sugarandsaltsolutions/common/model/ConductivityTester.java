@@ -15,8 +15,8 @@ import edu.umd.cs.piccolo.util.PDimension;
  * @author Sam Reid
  */
 public class ConductivityTester implements IConductivityTester {
-    //Locations are in view coordinates since ConductivityTesterNode doesn't support ModelViewTransform.  They are converted to model coordinates in SugarAndSaltSolutionModel for hit testing with the liquid
-    private static final double PROBE_Y = 0;
+    //Locations are in model coordinates (meters)
+    private static final double PROBE_Y = 0.3;
     private static final double NEGATIVE_PROBE_X = -0.2;
     private static final double POSITIVE_PROBE_X = +0.2;
 
