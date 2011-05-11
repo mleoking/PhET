@@ -1,5 +1,5 @@
+I18nize text bubble
 Prevent 4 heavy atoms in a "square".
-Add bubble with "Drag your molecule here" inside, or another phrase? (With blue arrow). Also animate the arrow!
 Once an atom is selected and dragged close to another atom, it goes behind the atom. Can selected atoms that are being manipulated remain in front?
 View 3D button from collection box
 Add BCE sound ding + bottom of collection box
@@ -22,6 +22,7 @@ I18n
 Color blindness test
 
 EVALUATION:
+Better way to do label on arrow?
 Possibly attempt to generate less kits? PENDING feedback
 Developer option to make "Reset kit" not pull from collection box
 Icons
