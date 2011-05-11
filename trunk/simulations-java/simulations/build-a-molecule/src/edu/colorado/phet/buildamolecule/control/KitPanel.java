@@ -127,38 +127,6 @@ public class KitPanel extends PNode {
         * reset kit
         *----------------------------------------------------------------------------*/
 
-//        final PSwing resetKitNode = new PSwing( new JButton( BuildAMoleculeStrings.KIT_RESET ) {
-//            private SimpleObserver observer; // makes sure that we are enabled or disabled whenever the current kit is
-//
-//            {
-//                addActionListener( new ActionListener() {
-//                    public void actionPerformed( ActionEvent e ) {
-//                        kitCollectionModel.getCurrentKit().resetKit();
-//                    }
-//                } );
-//                observer = new SimpleObserver() {
-//                    public void update() {
-//                        setEnabled( kitCollectionModel.getCurrentKit().hasAtomsOutsideOfBuckets() );
-//                    }
-//                };
-//                for ( Kit kit : kitCollectionModel.getKits() ) {
-//                    kit.addMoleculeListener( new Kit.MoleculeListener() {
-//                        public void addedMolecule( MoleculeStructure moleculeStructure ) {
-//                            observer.update();
-//                        }
-//
-//                        public void removedMolecule( MoleculeStructure moleculeStructure ) {
-//                            observer.update();
-//                        }
-//                    } );
-//                }
-//                kitCollectionModel.getCurrentKitProperty().addObserver( observer );
-//            }
-//        } ) {{
-//            setOffset( kitViewBounds.getMinX() + 5, kitViewBounds.getMinY() + 5 );
-//        }};
-//        addChild( resetKitNode );
-
         addChild( new ButtonNode( BuildAMoleculeStrings.KIT_RESET, 12, Color.ORANGE ) {
             private SimpleObserver observer; // makes sure that we are enabled or disabled whenever the current kit is
 
