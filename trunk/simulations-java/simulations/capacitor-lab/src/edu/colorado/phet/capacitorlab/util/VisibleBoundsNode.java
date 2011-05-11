@@ -28,9 +28,13 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * In Piccolo, full bounds is computed using all children, regardless of their visibility.
- * This node can be used to prune invisible nodes and their children from the full bounds computation.
+ * This node can be used to prune invisible nodes and their immediate children from the full bounds computation.
  * If this node is invisible, its full bounds will be empty.
  * If this node is visible, then only its visible children will be included in its full bounds computation.
+ * </p>
+ * Note: This node examines only the visibility of immediate children, not all nodes below it in the scenegraph.
+ * So (for example) if a grandchild is invisible but the child is visible, the grandchild will still be included
+ * in the bounds computation.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

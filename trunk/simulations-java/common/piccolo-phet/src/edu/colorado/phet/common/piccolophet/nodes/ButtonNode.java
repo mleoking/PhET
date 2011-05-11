@@ -557,7 +557,7 @@ public class ButtonNode extends PhetPNode {
     }
 
     private void notifyActionPerformed() {
-        ActionEvent event = new ActionEvent( this, 0, "BUTTON_FIRED" ); //TODO: id is bogus and command is undocumented. Address if this becomes an issue for clients.
+        ActionEvent event = new ActionEvent( this, ActionEvent.ACTION_PERFORMED, "BUTTON_FIRED" ); //TODO: command is undocumented. Address if this becomes an issue for clients.
         for ( ActionListener actionListener : new ArrayList<ActionListener>( actionListeners ) ) {
             actionListener.actionPerformed( event );
         }
