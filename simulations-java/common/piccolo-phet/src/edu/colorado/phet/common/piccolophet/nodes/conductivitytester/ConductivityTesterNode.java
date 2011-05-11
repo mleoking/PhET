@@ -3,26 +3,26 @@
 package edu.colorado.phet.common.piccolophet.nodes.conductivitytester;
 
 import java.awt.*;
-import java.awt.geom.CubicCurve2D;
-import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
+import java.awt.geom.*;
 import java.awt.image.BufferedImage;
 import java.text.DecimalFormat;
 
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
+import edu.colorado.phet.common.phetcommon.util.function.Function0;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.conductivitytester.IConductivityTester.ConductivityTesterChangeListener;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PDragSequenceEventHandler;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
-import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
@@ -73,6 +73,7 @@ public class ConductivityTesterNode extends PhetPNode {
     private static final int NEGATIVE_WIRE_CONTROL_POINT_DX = -POSITIVE_WIRE_CONTROL_POINT_DX;
     private static final int NEGATIVE_WIRE_CONTROL_POINT_DY = POSITIVE_WIRE_CONTROL_POINT_DY;
 
+    private final ModelViewTransform transform;
     private final IConductivityTester tester;
     private final Color connectorWireColor;
     private final Color positiveProbeFillColor, negativeProbeFillColor;
@@ -87,11 +88,11 @@ public class ConductivityTesterNode extends PhetPNode {
 
     //Construct a conductivity tester node with black wires, red positive probe and black negative probe. For use in acid-base-solutions where the background is light.
     public ConductivityTesterNode( final IConductivityTester tester, boolean dev ) {
-        this( tester, dev, Color.black, Color.red, Color.black );
+        this( ModelViewTransform.createIdentity(), tester, dev, Color.black, Color.red, Color.black );
     }
 
-    public ConductivityTesterNode( final IConductivityTester tester, boolean dev, Color wireColor, Color positiveProbeFillColor, Color negativeProbeFillColor ) {
-        this( tester, dev, wireColor, wireColor, wireColor, positiveProbeFillColor, negativeProbeFillColor );
+    public ConductivityTesterNode( ModelViewTransform transform, final IConductivityTester tester, boolean dev, Color wireColor, Color positiveProbeFillColor, Color negativeProbeFillColor ) {
+        this( transform, tester, dev, wireColor, wireColor, wireColor, positiveProbeFillColor, negativeProbeFillColor );
     }
 
     /*
@@ -100,7 +101,8 @@ public class ConductivityTesterNode extends PhetPNode {
      * @param tester model element
      * @param dev    whether to enable developer features
      */
-    public ConductivityTesterNode( final IConductivityTester tester, boolean dev, Color positiveWireColor, Color negativeWireColor, Color connectorWireColor, Color positiveProbeFillColor, Color negativeProbeFillColor ) {
+    public ConductivityTesterNode( final ModelViewTransform transform, final IConductivityTester tester, boolean dev, Color positiveWireColor, Color negativeWireColor, Color connectorWireColor, Color positiveProbeFillColor, Color negativeProbeFillColor ) {
+        this.transform = transform;
         this.tester = tester;
         this.positiveWireColor = positiveWireColor;
         this.negativeWireColor = negativeWireColor;
@@ -126,47 +128,38 @@ public class ConductivityTesterNode extends PhetPNode {
         connectorWireNode.setEndPoints( lightBulbConnectionPoint, batteryConnectionPoint );
 
         // positive probe
-        positiveProbeNode = new ProbeNode( tester.getProbeSizeReference(), this.positiveProbeFillColor, POSITIVE_PROBE_LABEL, POSITIVE_PROBE_LABEL_COLOR );
+        positiveProbeNode = new ProbeNode( transform.modelToViewSize( tester.getProbeSizeReference() ), this.positiveProbeFillColor, POSITIVE_PROBE_LABEL, POSITIVE_PROBE_LABEL_COLOR );
         positiveProbeNode.addInputEventListener( new CursorHandler( Cursor.N_RESIZE_CURSOR ) );
-        positiveProbeNode.addInputEventListener( new PDragSequenceEventHandler() {
-
-            private double clickYOffset; // y-offset of mouse click from meter's origin, in parent's coordinate frame
-
-            protected void startDrag( PInputEvent event ) {
-                super.startDrag( event );
-                Point2D pMouse = event.getPositionRelativeTo( getParent() );
-                clickYOffset = pMouse.getY() - tester.getPositiveProbeLocationReference().getY() + tester.getLocationReference().getY();
-            }
-
-            protected void drag( final PInputEvent event ) {
-                super.drag( event );
-                Point2D pMouse = event.getPositionRelativeTo( getParent() );
-                double y = pMouse.getY() - clickYOffset;
-                y += tester.getLocationReference().getY();
-                tester.setPositiveProbeLocation( tester.getPositiveProbeLocationReference().getX(), y );
-            }
-        } );
+        positiveProbeNode.addInputEventListener(
+                new ProbeDragHandler( transform, positiveProbeNode,
+                                      new Function0<Point2D>() {
+                                          public Point2D apply() {
+                                              return tester.getPositiveProbeLocationReference();
+                                          }
+                                      },
+                                      new VoidFunction1<Point2D>() {
+                                          public void apply( Point2D point2D ) {
+                                              tester.setPositiveProbeLocation( point2D.getX(), point2D.getY() );
+                                          }
+                                      }
+                ) );
 
         // negative probe
-        negativeProbeNode = new ProbeNode( tester.getProbeSizeReference(), this.negativeProbeFillColor, NEGATIVE_PROBE_LABEL, NEGATIVE_PROBE_LABEL_COLOR );
+        negativeProbeNode = new ProbeNode( transform.modelToViewSize( tester.getProbeSizeReference() ), this.negativeProbeFillColor, NEGATIVE_PROBE_LABEL, NEGATIVE_PROBE_LABEL_COLOR );
         negativeProbeNode.addInputEventListener( new CursorHandler( Cursor.N_RESIZE_CURSOR ) );
-        negativeProbeNode.addInputEventListener( new PDragSequenceEventHandler() {
-
-            private double clickYOffset; // y-offset of mouse click from meter's origin, in parent's coordinate frame
-
-            protected void startDrag( PInputEvent event ) {
-                super.startDrag( event );
-                Point2D pMouse = event.getPositionRelativeTo( getParent() );
-                clickYOffset = pMouse.getY() - tester.getNegativeProbeLocationReference().getY() + tester.getLocationReference().getY();
-            }
-
-            protected void drag( final PInputEvent event ) {
-                super.drag( event );
-                Point2D pMouse = event.getPositionRelativeTo( getParent() );
-                double y = pMouse.getY() + getYOffset() - clickYOffset;
-                tester.setNegativeProbeLocation( tester.getNegativeProbeLocationReference().getX(), y );
-            }
-        } );
+        negativeProbeNode.addInputEventListener(
+                new ProbeDragHandler( transform, negativeProbeNode,
+                                      new Function0<Point2D>() {
+                                          public Point2D apply() {
+                                              return tester.getNegativeProbeLocationReference();
+                                          }
+                                      },
+                                      new VoidFunction1<Point2D>() {
+                                          public void apply( Point2D point2D ) {
+                                              tester.setNegativeProbeLocation( point2D.getX(), point2D.getY() );
+                                          }
+                                      }
+                ) );
 
         // positive wire
         positiveWireNode = new CubicWireNode( this.positiveWireColor, POSITIVE_WIRE_CONTROL_POINT_DX, POSITIVE_WIRE_CONTROL_POINT_DY );
@@ -233,15 +226,15 @@ public class ConductivityTesterNode extends PhetPNode {
     }
 
     private void updatePositiveProbeLocation() {
-
         // probe
-        double x = tester.getPositiveProbeLocationReference().getX() - tester.getLocationReference().getX();
-        double y = tester.getPositiveProbeLocationReference().getY() - tester.getLocationReference().getY();
-        positiveProbeNode.setOffset( x, y );
+        Point2D probeLocation = new Point2D.Double( tester.getPositiveProbeLocationReference().getX() - tester.getLocationReference().getX(),
+                                                    tester.getPositiveProbeLocationReference().getY() - tester.getLocationReference().getY() );
+        Point2D viewLocation = transform.modelToView( probeLocation );
+        positiveProbeNode.setOffset( viewLocation );
 
         // wire
-        x = batteryNode.getFullBoundsReference().getMaxX();
-        y = batteryNode.getFullBoundsReference().getCenterY();
+        double x = batteryNode.getFullBoundsReference().getMaxX();
+        double y = batteryNode.getFullBoundsReference().getCenterY();
         Point2D batteryConnectionPoint = new Point2D.Double( x, y );
         x = positiveProbeNode.getFullBoundsReference().getCenterX();
         y = positiveProbeNode.getFullBoundsReference().getMinY();
@@ -250,15 +243,15 @@ public class ConductivityTesterNode extends PhetPNode {
     }
 
     private void updateNegativeProbeLocation() {
-
         // probe
-        double x = tester.getNegativeProbeLocationReference().getX() - tester.getLocationReference().getX();
-        double y = tester.getNegativeProbeLocationReference().getY() - tester.getLocationReference().getY();
-        negativeProbeNode.setOffset( x, y );
+        Point2D probeLocation = new Point2D.Double( tester.getNegativeProbeLocationReference().getX() - tester.getLocationReference().getX(),
+                                                    tester.getNegativeProbeLocationReference().getY() - tester.getLocationReference().getY() );
+        Point2D viewLocation = transform.modelToView( probeLocation );
+        negativeProbeNode.setOffset( viewLocation );
 
         // wire
-        x = lightBulbNode.getFullBoundsReference().getCenterX();
-        y = lightBulbNode.getFullBoundsReference().getMaxY() - ( lightBulbNode.getFullBoundsReference().getHeight() * PERCENT_LIGHT_BULB_ATTACHMENT );
+        double x = lightBulbNode.getFullBoundsReference().getCenterX();
+        double y = lightBulbNode.getFullBoundsReference().getMaxY() - ( lightBulbNode.getFullBoundsReference().getHeight() * PERCENT_LIGHT_BULB_ATTACHMENT );
         Point2D componentConnectionPoint = new Point2D.Double( x, y );
         x = negativeProbeNode.getFullBoundsReference().getCenterX();
         y = negativeProbeNode.getFullBoundsReference().getMinY();
@@ -323,9 +316,9 @@ public class ConductivityTesterNode extends PhetPNode {
     */
     private static class ProbeNode extends PhetPNode {
 
-        public ProbeNode( PDimension size, Color color, String label, Color labelColor ) {
-
-            PPath pathNode = new PPath( new Rectangle2D.Double( -size.getWidth() / 2, -size.getHeight(), size.getWidth(), size.getHeight() ) );
+        public ProbeNode( Dimension2D size, Color color, String label, Color labelColor ) {
+            System.out.println( "size = " + size );
+            PPath pathNode = new PPath( new Rectangle2D.Double( -size.getWidth() / 2, -size.getHeight(), size.getWidth(), Math.abs( size.getHeight() ) ) );
             pathNode.setStroke( PROBE_STROKE );
             pathNode.setStrokePaint( PROBE_STROKE_COLOR );
             pathNode.setPaint( color );
@@ -403,6 +396,43 @@ public class ConductivityTesterNode extends PhetPNode {
 
         public void setValue( double brightness ) {
             setText( "brightness=" + FORMAT.format( brightness ) ); // no i18n needed, this is a dev feature
+        }
+    }
+
+    private static class ProbeDragHandler extends PBasicInputEventHandler {
+        private Point2D.Double relativeGrabPoint;
+
+        private final ModelViewTransform transform;
+        private final PNode probeNode;
+        private final Function0<Point2D> getModelPosition;
+        private final VoidFunction1<Point2D> setModelPosition;
+
+        ProbeDragHandler( ModelViewTransform transform, PNode probeNode, Function0<Point2D> getModelPosition, VoidFunction1<Point2D> setModelPosition ) {
+            this.transform = transform;
+            this.probeNode = probeNode;
+            this.getModelPosition = getModelPosition;
+            this.setModelPosition = setModelPosition;
+        }
+
+        private void updateGrabPoint( PInputEvent event ) {
+            Point2D viewStartingPoint = event.getPositionRelativeTo( probeNode.getParent() );
+            ImmutableVector2D viewCoordinateOfObject = transform.modelToView( new ImmutableVector2D( getModelPosition.apply() ) );
+            relativeGrabPoint = new Point2D.Double( viewStartingPoint.getX() - viewCoordinateOfObject.getX(), viewStartingPoint.getY() - viewCoordinateOfObject.getY() );
+        }
+
+        public void mouseDragged( PInputEvent event ) {
+            //Make sure we started the drag already
+            if ( relativeGrabPoint == null ) {
+                updateGrabPoint( event );
+            }
+
+            //Compute the targeted model point for the drag
+            final Point2D newDragPosition = event.getPositionRelativeTo( probeNode.getParent() );
+            Point2D modelPt = transform.viewToModel( newDragPosition.getX() - relativeGrabPoint.getX(),
+                                                     newDragPosition.getY() - relativeGrabPoint.getY() );
+
+            //Find the constrained point for the targeted model point and apply it
+            setModelPosition.apply( new Point2D.Double( getModelPosition.apply().getX(), modelPt.getY() ) );
         }
     }
 }
