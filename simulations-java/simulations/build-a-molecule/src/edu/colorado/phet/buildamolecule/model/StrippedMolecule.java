@@ -71,6 +71,9 @@ public class StrippedMolecule {
             // different molecular formula
             return false;
         }
+        if ( this.stripped.getAtoms().size() == 0 && other.stripped.getAtoms().size() == 0 ) {
+            return true;
+        }
         Set<Atom> myVisited = new HashSet<Atom>();
         Set<Atom> otherVisited = new HashSet<Atom>();
         Atom firstAtom = stripped.getAtoms().iterator().next(); // grab the 1st atom

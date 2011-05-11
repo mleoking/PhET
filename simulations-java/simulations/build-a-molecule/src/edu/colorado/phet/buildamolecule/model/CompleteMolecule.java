@@ -29,6 +29,8 @@ public class CompleteMolecule {
     private AtomWrapper[] atomWrappers;
     private BondWrapper[] bondWrappers;
 
+    public final int cid;
+
     // nodes listed so we can construct them with reflection TODO: auto-construction of nodes like the default case, but tuned?
     private static final Class[] nodeClasses = new Class[]{
             Cl2Node.class, CO2Node.class, CO2Node.class, CS2Node.class, F2Node.class, H2Node.class, N2Node.class, NONode.class, N2ONode.class,
@@ -84,6 +86,8 @@ public class CompleteMolecule {
             moleculeStructure.addBond( bond );
             bondWrappers[i] = new BondWrapper( a, b, bond, order );
         }
+
+        cid = Integer.parseInt( t.nextToken() );
     }
 
     public String getCommonName() {
@@ -147,22 +151,25 @@ public class CompleteMolecule {
      * @return True if it is allowed
      */
     public static boolean isAllowedStructure( MoleculeStructure moleculeStructure ) {
-        String formula = moleculeStructure.getHillSystemFormulaFragment();
+        StrippedMolecule strippedMolecule = new StrippedMolecule( moleculeStructure );
+        String hashString = strippedMolecule.stripped.getHistogram().getHashString();
+
+        // if the molecule contained only 1 or 2 hydrogen, it is ok
+        if ( strippedMolecule.stripped.getAtoms().isEmpty() && moleculeStructure.getAtoms().size() <= 2 ) {
+            return true;
+        }
+
+        // don't allow invalid forms!
+        if ( !moleculeStructure.isValid() ) {
+            return false;
+        }
 
         // use the allowed structure map as an acceleration feature
-        if ( allowedStructureMap.containsKey( formula ) ) {
-            List<MoleculeStructure> moleculeStructures = allowedStructureMap.get( formula );
+        if ( allowedStructureMap.containsKey( hashString ) ) {
+            List<StrippedMolecule> moleculeStructures = allowedStructureMap.get( hashString );
             if ( moleculeStructures != null ) {
-                for ( MoleculeStructure structure : moleculeStructures ) {
-                    if ( structure.isEquivalent( moleculeStructure ) ) {
-                        // sanity checks TODO: change to assertions once we figure out the bug
-                        if ( !structure.isValid() ) {
-                            System.out.println( "inherent structure invalid" );
-                        }
-                        if ( !moleculeStructure.isValid() ) {
-                            System.out.println( "presented structure invalid!" );
-                            System.out.println( "comparing " + structure.toSerial() + " to " + moleculeStructure.toSerial() );
-                        }
+                for ( StrippedMolecule structure : moleculeStructures ) {
+                    if ( structure.isHydrogenSubmolecule( strippedMolecule ) ) {
                         return true;
                     }
                 }
@@ -293,7 +300,7 @@ public class CompleteMolecule {
 
     // maps to allow us to efficiently look things up by molecular formula. since we allow isomers, multiple structures can have the same formula.
     private static Map<String, List<CompleteMolecule>> completeMoleculeMap = new HashMap<String, List<CompleteMolecule>>();
-    private static Map<String, List<MoleculeStructure>> allowedStructureMap = new HashMap<String, List<MoleculeStructure>>();
+    private static Map<String, List<StrippedMolecule>> allowedStructureMap = new HashMap<String, List<StrippedMolecule>>();
 
     private static void addCompleteMolecule( final CompleteMolecule completeMolecule ) {
         String formula = completeMolecule.getMoleculeStructure().getHillSystemFormulaFragment();
@@ -308,13 +315,14 @@ public class CompleteMolecule {
     }
 
     private static void addAllowedStructure( final MoleculeStructure structure ) {
-        String formula = structure.getHillSystemFormulaFragment();
-        if ( allowedStructureMap.containsKey( formula ) ) {
-            allowedStructureMap.get( formula ).add( structure );
+        final StrippedMolecule strippedMolecule = new StrippedMolecule( structure );
+        String hashString = strippedMolecule.stripped.getHistogram().getHashString();
+        if ( allowedStructureMap.containsKey( hashString ) ) {
+            allowedStructureMap.get( hashString ).add( strippedMolecule );
         }
         else {
-            allowedStructureMap.put( formula, new LinkedList<MoleculeStructure>() {{
-                add( structure );
+            allowedStructureMap.put( hashString, new LinkedList<StrippedMolecule>() {{
+                add( strippedMolecule );
             }} );
         }
     }
@@ -347,7 +355,7 @@ public class CompleteMolecule {
                     moleculeMap.put( molecule.getCommonName(), molecule );
 
                     addCompleteMolecule( molecule );
-                    addAllowedStructure( molecule.getMoleculeStructure() );
+                    //addAllowedStructure( molecule.getMoleculeStructure() );
                 }
             }
             finally {
@@ -357,7 +365,7 @@ public class CompleteMolecule {
             System.out.println( "molecules read in: " + ( b - a ) + "ms" );
 
             /*---------------------------------------------------------------------------*
-            * read our incomplete (but allowed) structures
+            * read our allowed structures
             *----------------------------------------------------------------------------*/
 
             BufferedReader structureReader = new BufferedReader( new InputStreamReader( BuildAMoleculeResources.getResourceLoader().getResourceAsStream( "structures.txt" ) ) );
@@ -483,43 +491,62 @@ public class CompleteMolecule {
     * precomputation of allowed molecule structures TODO: consider separating this into another class
     *----------------------------------------------------------------------------*/
 
-    private static final Map<String, List<MoleculeStructure>> allowedStructures = new HashMap<String, List<MoleculeStructure>>();
+    private static final Map<String, List<StrippedMolecule>> allowedStructures = new HashMap<String, List<StrippedMolecule>>();
 
-    private static boolean isStructureInAllowedStructures( MoleculeStructure moleculeStructure ) {
-        List<MoleculeStructure> structuresWithSameFormula = allowedStructures.get( moleculeStructure.getHistogram().getHashString() );
+    private static boolean isStructureInAllowedStructures( StrippedMolecule moleculeStructure ) {
+        List<StrippedMolecule> structuresWithSameFormula = allowedStructures.get( moleculeStructure.stripped.getHistogram().getHashString() );
         if ( structuresWithSameFormula == null ) {
             return false;
         }
-        for ( MoleculeStructure allowedStructure : structuresWithSameFormula ) {
-            if ( moleculeStructure.isEquivalent( allowedStructure ) ) {
+        for ( StrippedMolecule allowedStructure : structuresWithSameFormula ) {
+            if ( allowedStructure.isHydrogenSubmolecule( moleculeStructure ) ) {
                 return true;
             }
         }
         return false;
     }
 
-    private static void addMoleculeAndChildren( final MoleculeStructure molecule ) {
+    private static void addMoleculeAndChildren( final StrippedMolecule molecule ) {
         if ( !isStructureInAllowedStructures( molecule ) ) {
             // NOTE: only handles tree-based structures here
-            String hashString = molecule.getHistogram().getHashString();
-            List<MoleculeStructure> structuresWithSameFormula = allowedStructures.get( hashString );
+            String hashString = molecule.stripped.getHistogram().getHashString();
+            List<StrippedMolecule> structuresWithSameFormula = allowedStructures.get( hashString );
             if ( structuresWithSameFormula != null ) {
                 structuresWithSameFormula.add( molecule );
             }
             else {
-                allowedStructures.put( hashString, new LinkedList<MoleculeStructure>() {{
+                allowedStructures.put( hashString, new LinkedList<StrippedMolecule>() {{
                     add( molecule );
                 }} );
                 System.out.println( "keys: " + allowedStructures.keySet().size() );
             }
-            for ( Atom atom : molecule.getAtoms() ) {
-                if ( molecule.getNeighbors( atom ).size() < 2 && molecule.getAtoms().size() >= 2 ) {
+            for ( Atom atom : molecule.stripped.getAtoms() ) {
+                if ( molecule.stripped.getNeighbors( atom ).size() < 2 && molecule.stripped.getAtoms().size() >= 2 ) {
                     // we could remove this atom and it wouldn't break apart
-                    addMoleculeAndChildren( molecule.getCopyWithAtomRemoved( atom ) );
+
+                    // strip off the hydrogens for now
+                    MoleculeStructure moleculeWithoutHydrogensOnAtom = molecule.original;
+                    for ( Atom hydrogenAtom : moleculeWithoutHydrogensOnAtom.getNeighbors( atom ) ) {
+                        if ( hydrogenAtom.isSameTypeOfAtom( new Atom.H() ) ) {
+                            moleculeWithoutHydrogensOnAtom = moleculeWithoutHydrogensOnAtom.getCopyWithAtomRemoved( hydrogenAtom );
+                        }
+                    }
+
+                    // and process the new stripped molecule
+                    addMoleculeAndChildren( new StrippedMolecule( moleculeWithoutHydrogensOnAtom.getCopyWithAtomRemoved( atom ) ) );
                 }
             }
         }
     }
+
+//    public static CompleteMolecule temporaryFindMatchingCompleteMolecule( StrippedMolecule strippedMolecule ) {
+//        for ( CompleteMolecule completeMolecule : CompleteMolecule.completeMolecules ) {
+//            if ( strippedMolecule.isEquivalent( new StrippedMolecule( completeMolecule.getMoleculeStructure() ) ) ) {
+//                return completeMolecule;
+//            }
+//        }
+//        return null;
+//    }
 
     /**
      * This generates a list of allowed "structures" that are not complete molecules. Since this takes about 10 minutes, we need to precompute the
@@ -536,24 +563,25 @@ public class CompleteMolecule {
         for ( CompleteMolecule completeMolecule : completeMolecules ) {
             num++;
             System.out.println( "processing molecule and children: " + completeMolecule.getCommonName() + "  (" + num + " of " + completeMolecules.size() + ")" );
-            addMoleculeAndChildren( completeMolecule.getMoleculeStructure() );
+            addMoleculeAndChildren( new StrippedMolecule( completeMolecule.getMoleculeStructure() ) );
         }
         long b = System.currentTimeMillis();
         System.out.println( "Built allowed molecule structures in " + ( b - a ) + "ms" );
-        for ( List<MoleculeStructure> moleculeStructures : allowedStructures.values() ) {
-            for ( MoleculeStructure structure : moleculeStructures ) {
-                if ( findMatchingCompleteMolecule( structure ) == null ) {
-                    // it is an intermediate structure
-                    serializedStructures.add( structure.toSerial() );
-                }
+        for ( List<StrippedMolecule> allowedStrippedMolecules : allowedStructures.values() ) {
+            for ( StrippedMolecule strippedMolecule : allowedStrippedMolecules ) {
+//                if ( temporaryFindMatchingCompleteMolecule( strippedMolecule ) == null ) {
+//                    // it is an intermediate structure
+                serializedStructures.add( strippedMolecule.original.toSerial() );
+//                }
             }
         }
+        System.out.println( "Sorting " + serializedStructures.size() );
         Collections.sort( serializedStructures );
         for ( String serializedStructure : serializedStructures ) {
             builder.append( serializedStructure + "\n" );
         }
         try {
-            File outputFile = new File( "structures.txt" );
+            File outputFile = new File( args[0], "structures-2.txt" );
             FileOutputStream outputStream = new FileOutputStream( outputFile );
             try {
                 outputStream.write( builder.toString().getBytes( "utf-8" ) );
@@ -561,6 +589,7 @@ public class CompleteMolecule {
             finally {
                 outputStream.close();
             }
+            System.out.println( "wrote file to " + outputFile.getAbsolutePath() );
         }
         catch( IOException e ) {
             e.printStackTrace();

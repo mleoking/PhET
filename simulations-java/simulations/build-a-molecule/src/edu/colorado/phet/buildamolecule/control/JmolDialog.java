@@ -20,6 +20,8 @@ public class JmolDialog extends JDialog {
         setTitle( molecule.getDisplayName() );
         setSize( 410, 410 );
 
+        System.out.println( "Showing 3D dialog for " + molecule.getDisplayName() + " #" + molecule.cid );
+
         JPanel container = new JPanel( new BorderLayout() );
         setContentPane( container );
 
