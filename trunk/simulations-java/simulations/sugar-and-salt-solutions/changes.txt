@@ -1,3 +1,4 @@
+Improved the salt shaker
 Show conductivity (and hence battery brightness) as linear with concentrations of salt ions
 improved reset for conductivity tester and sugar dispenser
 improved sugar pouring

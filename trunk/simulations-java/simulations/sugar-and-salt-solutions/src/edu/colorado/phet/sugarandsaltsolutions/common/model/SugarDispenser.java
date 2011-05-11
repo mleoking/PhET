@@ -4,40 +4,22 @@ package edu.colorado.phet.sugarandsaltsolutions.common.model;
 import java.awt.geom.Dimension2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
-import edu.colorado.phet.sugarandsaltsolutions.common.model.Sugar;
-import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel;
 
 /**
  * Model element for the sugar dispenser, which includes its position and rotation.
  *
  * @author Sam Reid
  */
-public class SugarDispenser {
-    //Start centered above the fluid
-    public final Property<ImmutableVector2D> rotationPoint = new Property<ImmutableVector2D>( new ImmutableVector2D( -0.018626373626373614, 0.5091208791208807 ) );//Values sampled from a sim runtime
-    public final DoubleProperty angle = new DoubleProperty( 0.0 );
+public class SugarDispenser extends Dispenser {
     public final Property<Boolean> enabled = new Property<Boolean>( false );
     public final Property<Boolean> open = new Property<Boolean>( false );
 
     //Keep track of the number of model updates so that sugar crystals can be added once every n steps (to decrease output sugar density)
-    private int updateModelCount = 0;
-
-    public void rotate( double v ) {
-        angle.add( v );
-    }
+    protected int updateModelCount = 0;
 
     public void translate( Dimension2D delta ) {
-        ImmutableVector2D proposedPoint = rotationPoint.get().plus( delta );
-        double y = MathUtil.clamp( 0.4, proposedPoint.getY(), Double.POSITIVE_INFINITY );
-        rotationPoint.set( new ImmutableVector2D( proposedPoint.getX(), y ) );
-        double yRotate = 0.5;//Below this y-value, the sugar dispenser will rotate
-        if ( rotationPoint.get().getY() < yRotate ) {
-            double amountPast = yRotate - rotationPoint.get().getY();
-            angle.set( amountPast * 20 );
-        }
+        super.translate( delta );
         open.set( angle.get() > Math.PI / 2 );
     }
 
@@ -53,18 +35,8 @@ public class SugarDispenser {
 
             //Add the sugar
             sugarAndSaltSolutionModel.addSugar( new Sugar( outputPoint ) {{
-
-                //Give the sugar an appropriate velocity when it comes out so it arcs
-                ImmutableVector2D directionVector = outputPoint.minus( rotationPoint.get() );
-                double anglePastTheHorizontal = angle.get() - Math.PI / 2;
-                velocity.set( directionVector.getInstanceOfMagnitude( 0.4 + 0.3 * Math.sin( anglePastTheHorizontal ) ) );
+                velocity.set( getCrystalVelocity( outputPoint ) );
             }} );
         }
-    }
-
-    public void reset() {
-        //Only need to set the primary properties, others (e.g., open/enabled) are derived and will auto-reset
-        rotationPoint.reset();
-        angle.reset();
     }
 }

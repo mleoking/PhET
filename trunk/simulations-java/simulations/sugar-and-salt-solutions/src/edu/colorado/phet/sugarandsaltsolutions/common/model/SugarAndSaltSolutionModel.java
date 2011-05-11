@@ -70,6 +70,15 @@ public abstract class SugarAndSaltSolutionModel {
         } );
     }};
 
+    public SaltShaker saltShaker = new SaltShaker() {{
+        //Wire up the SugarDispenser so it is enabled when the model has the SALT type dispenser selected
+        dispenserType.addObserver( new VoidFunction1<DispenserType>() {
+            public void apply( DispenserType dispenserType ) {
+                enabled.set( dispenserType == SALT );
+            }
+        } );
+    }};
+
     public SugarAndSaltSolutionModel() {
         clock = new ConstantDtClock( 30 );
 
@@ -130,8 +139,9 @@ public abstract class SugarAndSaltSolutionModel {
 
     //Update the model when the clock ticks
     private void updateModel( double dt ) {
-        //Add any new crystals from the sugar shaker, if it is tipped
+        //Add any new crystals from the salt & sugar dispensers
         sugarDispenser.updateModel( this );
+        saltShaker.updateModel( this );
 
         //Change the water volume based on input and output flow
         double inVolume = dt * inputFlowRate.get() * FLOW_SCALE;
