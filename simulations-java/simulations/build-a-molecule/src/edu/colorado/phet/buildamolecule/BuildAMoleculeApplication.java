@@ -123,12 +123,12 @@ public class BuildAMoleculeApplication extends PiccoloPhetApplication {
     //----------------------------------------------------------------------------
 
     public static void main( final String[] args ) throws ClassNotFoundException {
+        MoleculeList.startInitialization();
+
         /*
          * If you want to customize your application (look-&-feel, window size, etc)
          * create your own PhetApplicationConfig and use one of the other launchSim methods
          */
         new PhetApplicationLauncher().launchSim( args, BuildAMoleculeConstants.PROJECT_NAME, BuildAMoleculeApplication.class );
-
-        MoleculeList.startInitialization();
     }
 }
