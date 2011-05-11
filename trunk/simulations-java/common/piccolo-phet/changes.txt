@@ -1,3 +1,4 @@
+5/11/11 synchronize ConductivityTesterNode brightness value on init in case it was non-zero
 generalized conductivitytesternode to allow non-default colors for use against a black background, see #2864
 5/9/11 Moved ConductivityTester and related strings and images from acid-base-solutions to piccolo-phet, see #2864
 5/6/2011 Fixed: DefaultIconButton shouldn't send out events when disabled, see #2853
