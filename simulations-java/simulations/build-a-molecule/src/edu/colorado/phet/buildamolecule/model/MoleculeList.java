@@ -245,7 +245,7 @@ public class MoleculeList {
      * @param filename File name relative to the sim's data directory
      * @return A list of complete molecules
      */
-    private static List<CompleteMolecule> readCompleteMoleculesFromFilename( String filename ) {
+    public static List<CompleteMolecule> readCompleteMoleculesFromFilename( String filename ) {
         List<CompleteMolecule> result = new ArrayList<CompleteMolecule>();
         try {
             long startTime = System.currentTimeMillis();
@@ -285,7 +285,7 @@ public class MoleculeList {
      * @param filename File name relative to the sim's data directory
      * @return A list of molecule structures
      */
-    private static List<MoleculeStructure> readMoleculeStructuresFromFilename( String filename ) {
+    public static List<MoleculeStructure> readMoleculeStructuresFromFilename( String filename ) {
         List<MoleculeStructure> result = new ArrayList<MoleculeStructure>();
         try {
             long startTime = System.currentTimeMillis();
