@@ -9,6 +9,7 @@ Process molecule lists instead of (<=4 heavy) to (works with our kits)
 Remove isomer developer control, and/or pulling from all molecules
 Smiley face on collection boxes completion?
 Weird 3d structures?
+Add in "molecule data loading"?
 
 PENDING:
 Emailed Sandor about translating names. Developer recommendation: translate a subset
