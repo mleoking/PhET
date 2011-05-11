@@ -61,7 +61,7 @@ public class MoleculePreprocessing {
         // add all possible molecule paths to our allowed structures
         long a = System.currentTimeMillis();
         int num = 0;
-        List<CompleteMolecule> completeMolecules = MoleculeList.getAllCompleteMolecules();
+        List<CompleteMolecule> completeMolecules = MoleculeList.getMasterInstance().getAllCompleteMolecules();
         for ( CompleteMolecule completeMolecule : completeMolecules ) {
             num++;
             System.out.println( "processing molecule and children: " + completeMolecule.getCommonName() + "  (" + num + " of " + completeMolecules.size() + ")" );

@@ -538,7 +538,7 @@ public class Kit {
             System.out.println( "combined" );
             System.out.println( newMolecule.getDebuggingDump() );
 
-            System.out.println( "found: " + MoleculeList.isAllowedStructure( newMolecule ) );
+            System.out.println( "found: " + newMolecule.isAllowedStructure() );
 
             // just exit out for now
             return;
@@ -634,7 +634,7 @@ public class Kit {
     }
 
     private boolean canBond( AtomModel a, AtomModel b ) {
-        return getMoleculeStructure( a ) != getMoleculeStructure( b ) && MoleculeList.isAllowedStructure( getPossibleMoleculeStructureFromBond( a, b ) );
+        return getMoleculeStructure( a ) != getMoleculeStructure( b ) && getPossibleMoleculeStructureFromBond( a, b ).isAllowedStructure();
     }
 
     /**

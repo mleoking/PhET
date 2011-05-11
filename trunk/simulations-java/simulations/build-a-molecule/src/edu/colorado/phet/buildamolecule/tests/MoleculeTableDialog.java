@@ -25,7 +25,7 @@ import edu.umd.cs.piccolo.PNode;
 public class MoleculeTableDialog extends JDialog {
     public MoleculeTableDialog( final Frame owner ) {
         super( owner, false );
-        final List<CompleteMolecule> list = new ArrayList<CompleteMolecule>( MoleculeList.getAllCompleteMolecules() );
+        final List<CompleteMolecule> list = new ArrayList<CompleteMolecule>( MoleculeList.getMasterInstance().getAllCompleteMolecules() );
         Collections.sort( list, new Comparator<CompleteMolecule>() {
             public int compare( CompleteMolecule o1, CompleteMolecule o2 ) {
                 int sizeCompare = Double.compare( o1.getMoleculeStructure().getAtoms().size(), o2.getMoleculeStructure().getAtoms().size() );
