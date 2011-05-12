@@ -1,6 +1,5 @@
 I18nize text bubble
 Prevent 4 heavy atoms in a "square".
-Add BCE sound ding + bottom of collection box
 Remove isomer developer control, and/or pulling from all molecules
 Smiley face on collection boxes completion?
 Weird 3d structures?
