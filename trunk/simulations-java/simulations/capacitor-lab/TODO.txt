@@ -9,7 +9,6 @@ DESIGN ISSUES
 
 HIGH PRIORITY
 - view doesn't update when pressing "disconnect battery" button, no slider appears, wires don't disappear
-- #2843, make E-field zoom buttons work like bar meters (only 1 enabled, single-click to zoom)
 - #2850, E-Field bug with battery disconnected, introduced in 1.00.01
 - rewrite BatteryCapacitorCircuit using "nested circuits" design
 - add Multiple Capacitors module
