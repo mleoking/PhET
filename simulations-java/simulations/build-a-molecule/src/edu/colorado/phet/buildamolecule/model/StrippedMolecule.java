@@ -18,7 +18,7 @@ public class StrippedMolecule {
 
         // copy non-hydrogens
         for ( Atom atom : original.getAtoms() ) {
-            if ( !atom.isSameTypeOfAtom( new Atom.H() ) ) {
+            if ( !atom.isHydrogen() ) {
                 stripped.addAtom( atom );
 
                 // initialize bonded hydrogen count to 0
@@ -28,8 +28,8 @@ public class StrippedMolecule {
 
         // copy non-hydrogen honds, and mark hydrogen bonds
         for ( MoleculeStructure.Bond bond : original.getBonds() ) {
-            boolean aIsHydrogen = bond.a.isSameTypeOfAtom( new Atom.H() );
-            boolean bIsHydrogen = bond.b.isSameTypeOfAtom( new Atom.H() );
+            boolean aIsHydrogen = bond.a.isHydrogen();
+            boolean bIsHydrogen = bond.b.isHydrogen();
 
             // only do something if both aren't hydrogen
             if ( !aIsHydrogen || !bIsHydrogen ) {

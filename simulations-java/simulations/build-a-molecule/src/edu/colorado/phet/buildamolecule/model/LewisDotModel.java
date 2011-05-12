@@ -189,7 +189,7 @@ public class LewisDotModel {
         // if we have seen a different atom in this position
         if ( coordinateMap.containsKey( point ) ) {
             // if at least one isn't hydrogen, fail out
-            if ( !atom.isSameTypeOfAtom( new Atom.H() ) || !coordinateMap.get( point ).isSameTypeOfAtom( new Atom.H() ) ) {
+            if ( !atom.isHydrogen() || !coordinateMap.get( point ).isHydrogen() ) {
                 return false;
             }
             // here, they both must be hydrogen, so we don't need to worry about adding it in

@@ -29,7 +29,7 @@ public class MoleculeEquivalencyTests {
 
         Atom atom = null;
         for ( Atom possibleAtom : structure.getAtoms() ) {
-            if ( !possibleAtom.isSameTypeOfAtom( new Atom.H() ) ) {
+            if ( !possibleAtom.isHydrogen() ) {
                 atom = possibleAtom;
             }
         }

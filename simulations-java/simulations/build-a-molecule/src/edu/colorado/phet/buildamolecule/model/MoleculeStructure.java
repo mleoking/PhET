@@ -127,19 +127,19 @@ public class MoleculeStructure {
         MoleculeStructure structureWithoutAlcohols = getCopy();
         for ( Atom oxygenAtom : atoms ) {
             // only process if it is an oxygen atom
-            if ( oxygenAtom.isSameTypeOfAtom( new Atom.O() ) ) {
+            if ( oxygenAtom.isOxygen() ) {
                 List<Atom> neighbors = getNeighbors( oxygenAtom );
 
                 // for an alcohol subgroup (hydroxyl) we need:
                 if ( neighbors.size() == 2 && // 2 neighbors
                      // 1st carbon, 2nd hydrogen
-                     ( neighbors.get( 0 ).isSameTypeOfAtom( new Atom.C() ) && neighbors.get( 1 ).isSameTypeOfAtom( new Atom.H() ) )
+                     ( neighbors.get( 0 ).isCarbon() && neighbors.get( 1 ).isHydrogen() )
                      // OR 2nd carbon, 1st hydrogen
-                     || ( neighbors.get( 0 ).isSameTypeOfAtom( new Atom.H() ) && neighbors.get( 1 ).isSameTypeOfAtom( new Atom.C() ) ) ) {
+                     || ( neighbors.get( 0 ).isHydrogen() && neighbors.get( 1 ).isCarbon() ) ) {
                     alcoholCount++;
 
                     // pull off the hydrogen
-                    structureWithoutAlcohols = structureWithoutAlcohols.getCopyWithAtomRemoved( neighbors.get( neighbors.get( 0 ).isSameTypeOfAtom( new Atom.H() ) ? 0 : 1 ) );
+                    structureWithoutAlcohols = structureWithoutAlcohols.getCopyWithAtomRemoved( neighbors.get( neighbors.get( 0 ).isHydrogen() ? 0 : 1 ) );
 
                     // and pull off the oxygen
                     structureWithoutAlcohols = structureWithoutAlcohols.getCopyWithAtomRemoved( oxygenAtom );
@@ -189,10 +189,10 @@ public class MoleculeStructure {
     }
 
     private static double organicSortValue( Atom atom ) {
-        if ( atom.isSameTypeOfAtom( new Atom.C() ) ) {
+        if ( atom.isCarbon() ) {
             return 0;
         }
-        if ( atom.isSameTypeOfAtom( new Atom.H() ) ) {
+        if ( atom.isHydrogen() ) {
             return 1;
         }
         return alphabeticSortValue( atom );
@@ -242,7 +242,7 @@ public class MoleculeStructure {
     public boolean hasWeirdHydrogenProperties() {
         // check for hydrogens that are bonded to more than 1 atom
         for ( Atom atom : atoms ) {
-            if ( atom.isSameTypeOfAtom( new Atom.H() ) ) {
+            if ( atom.isHydrogen() ) {
                 if ( getNeighbors( atom ).size() > 1 ) {
                     return true;
                 }
