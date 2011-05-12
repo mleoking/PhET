@@ -130,7 +130,7 @@ public abstract class AbstractBuildAMoleculeModule extends PiccoloModule {
                 int atomCount = requiredAtomCount * atomMultiple;
 
                 // possibly add more, if we can only have 1 molecule per box
-                if ( !symbol.equals( "C" ) && (symbol.equals( "H" ) || atomCount < 4) ) {
+                if ( !symbol.equals( "C" ) && ( symbol.equals( "H" ) || atomCount < 4 ) ) {
                     atomCount += random.nextInt( 2 );
                 }
 

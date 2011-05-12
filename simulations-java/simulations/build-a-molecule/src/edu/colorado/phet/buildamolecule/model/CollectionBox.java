@@ -13,15 +13,23 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
  */
 public class CollectionBox {
     private final CompleteMolecule moleculeType;
-    private int capacity; // how many molecules need to be put in to be complete
+    private final int capacity; // how many molecules need to be put in to be complete
     public final Property<Integer> quantity = new Property<Integer>( 0 ); // start with zero
     private Rectangle2D dropBounds; // calculated by the view
 
     private List<Listener> listeners = new LinkedList<Listener>();
 
-    public CollectionBox( CompleteMolecule moleculeType, int capacity ) {
+    public CollectionBox( CompleteMolecule moleculeType, final int capacity ) {
         this.moleculeType = moleculeType;
         this.capacity = capacity;
+
+        addListener( new Adapter() {
+            @Override public void onAddedMolecule( MoleculeStructure moleculeStructure ) {
+                if ( quantity.get() == capacity ) {
+                    BuildAMoleculeApplication.playCollectionBoxFilledSound();
+                }
+            }
+        } );
     }
 
     public CompleteMolecule getMoleculeType() {

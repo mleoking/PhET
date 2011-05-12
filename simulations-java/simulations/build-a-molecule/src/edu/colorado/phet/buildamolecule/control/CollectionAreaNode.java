@@ -20,7 +20,7 @@ import edu.umd.cs.piccolox.swing.SwingLayoutNode;
 public class CollectionAreaNode extends PNode {
     private SwingLayoutNode layoutNode;
 
-    public static final int CONTAINER_PADDING = 20;
+    public static final int CONTAINER_PADDING = 15;
 
     /**
      * Creates a collection area (with collection boxes)
@@ -56,6 +56,10 @@ public class CollectionAreaNode extends PNode {
                 layoutNode.addChild( new MultipleCollectionBoxNode( parentFrame, canvas, collectionBox ), c );
             }
         }
+
+        c.insets = new Insets( 0, 0, 0, 0 );
+        c.gridy++;
+        layoutNode.addChild( new SoundOnOffNode(), c );
 
         PPath background = PPath.createRectangle( 0, 0, (float) getPlacementWidth(), (float) getPlacementHeight() );
 
