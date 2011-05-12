@@ -96,12 +96,14 @@ public class Capacitor {
             }
         };
 
+        // observe change of dielectric material
         dielectricMaterialProperty.addObserver( new ChangeObserver<DielectricMaterial>() {
             public void update( DielectricMaterial newMaterial, DielectricMaterial oldMaterial ) {
                 oldMaterial.removeDielectricConstantObserver( dielectricConstantObserver );
                 newMaterial.addDielectricConstantObserver( dielectricConstantObserver );
             }
         } );
+        dielectricMaterialProperty.get().addDielectricConstantObserver( dielectricConstantObserver );
     }
 
     public void reset() {
