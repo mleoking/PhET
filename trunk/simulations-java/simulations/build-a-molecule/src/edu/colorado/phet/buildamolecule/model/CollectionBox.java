@@ -64,13 +64,9 @@ public class CollectionBox {
      */
     public boolean willAllowMoleculeDrop( MoleculeStructure moleculeStructure ) {
         boolean equivalent = getMoleculeType().getMoleculeStructure().isEquivalent( moleculeStructure );
-        boolean areIsomers = getMoleculeType().getMoleculeStructure().isIsomer( moleculeStructure );
 
         // whether the structure is acceptable
-        boolean structureOk = BuildAMoleculeApplication.allowCollectionBoxMatchingByMolecularFormula.get()
-                              ? ( areIsomers && moleculeStructure.getMatchingCompleteMolecule() != null ) // it is an isomer that is also complete
-                              : equivalent;
-        return structureOk && quantity.get() < capacity;
+        return equivalent && quantity.get() < capacity;
     }
 
     public void addMolecule( MoleculeStructure molecule ) {

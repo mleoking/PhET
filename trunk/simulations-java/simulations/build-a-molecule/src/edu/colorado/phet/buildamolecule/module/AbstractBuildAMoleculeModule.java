@@ -195,7 +195,7 @@ public abstract class AbstractBuildAMoleculeModule extends PiccoloModule {
 
     private CompleteMolecule pickRandomMoleculeNotIn( Set<CompleteMolecule> molecules ) {
         while ( true ) {
-            CompleteMolecule molecule = MoleculeList.getMasterInstance().pickRandomCollectionBoxMolecule();
+            CompleteMolecule molecule = MoleculeList.COLLECTION_BOX_MOLECULES[MoleculeList.random.nextInt( MoleculeList.COLLECTION_BOX_MOLECULES.length )];
             if ( !molecules.contains( molecule ) ) {
                 return molecule;
             }

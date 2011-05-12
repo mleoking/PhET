@@ -1,3 +1,4 @@
+Removed a few deprecated developer options
 Added game-ding sound on collection box filled, with a sound on/off panel
 Improved kit-generation algorithm
 Added 3d button to the collection boxes
