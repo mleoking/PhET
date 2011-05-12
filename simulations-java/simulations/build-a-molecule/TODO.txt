@@ -1,4 +1,5 @@
 I18nize text bubble
+Scissors bug on Mac?
 Smiley face on collection boxes completion?
 Weird 3d structures?
 Add in "molecule data loading"?
