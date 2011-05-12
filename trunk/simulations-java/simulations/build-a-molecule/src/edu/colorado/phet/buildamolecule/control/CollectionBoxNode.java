@@ -45,6 +45,7 @@ public class CollectionBoxNode extends SwingLayoutNode {
     private GridBagConstraints headerConstraints = new GridBagConstraints() {{
         gridx = 0;
         gridy = 0;
+        insets = new Insets( 0, 0, -3, 0 );
     }};
 
     public CollectionBoxNode( final Frame parentFrame, final BuildAMoleculeCanvas canvas, final CollectionBox box, final int headerQuantity ) {

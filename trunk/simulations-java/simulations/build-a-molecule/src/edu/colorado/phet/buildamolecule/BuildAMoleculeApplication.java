@@ -14,6 +14,7 @@ import edu.colorado.phet.buildamolecule.module.CollectMultipleModule;
 import edu.colorado.phet.buildamolecule.module.LargerMoleculesModule;
 import edu.colorado.phet.buildamolecule.module.MakeMoleculeModule;
 import edu.colorado.phet.buildamolecule.tests.MoleculeTableDialog;
+import edu.colorado.phet.common.games.GameAudioPlayer;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
@@ -47,6 +48,14 @@ public class BuildAMoleculeApplication extends PiccoloPhetApplication {
      * Shows a cursor that indicates a bond will be split when the mouse is over, and on a click it will break the bond
      */
     public static final Property<Boolean> allowBondBreaking = new Property<Boolean>( true );
+
+
+    /*---------------------------------------------------------------------------*
+    * audio
+    *----------------------------------------------------------------------------*/
+
+    private static final GameAudioPlayer audioPlayer = new GameAudioPlayer( true );
+    public static final Property<Boolean> soundEnabled = new Property<Boolean>( true );
 
     /**
      * Sole constructor.
@@ -130,5 +139,11 @@ public class BuildAMoleculeApplication extends PiccoloPhetApplication {
          * create your own PhetApplicationConfig and use one of the other launchSim methods
          */
         new PhetApplicationLauncher().launchSim( args, BuildAMoleculeConstants.PROJECT_NAME, BuildAMoleculeApplication.class );
+    }
+
+    public static void playCollectionBoxFilledSound() {
+        if ( soundEnabled.get() ) {
+            audioPlayer.correctAnswer();
+        }
     }
 }
