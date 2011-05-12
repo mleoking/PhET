@@ -1,3 +1,4 @@
+# 0.00.04 (51837) May 11, 2011
 Removed workaround and improved probe initial locations
 Moved solute selection closer to the shaker
 Fixed: Offset fluid flow so it doesn't go past the bottom of the beaker
