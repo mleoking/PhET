@@ -1,3 +1,4 @@
+Fixed: Offset fluid flow so it doesn't go past the bottom of the beaker
 Moved the top faucet down a little bit, so the slider doesn't go offscreen
 Improved the salt shaker
 Show conductivity (and hence battery brightness) as linear with concentrations of salt ions
