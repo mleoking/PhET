@@ -1,3 +1,4 @@
+Moved solute selection closer to the shaker
 Fixed: Offset fluid flow so it doesn't go past the bottom of the beaker
 Moved the top faucet down a little bit, so the slider doesn't go offscreen
 Improved the salt shaker

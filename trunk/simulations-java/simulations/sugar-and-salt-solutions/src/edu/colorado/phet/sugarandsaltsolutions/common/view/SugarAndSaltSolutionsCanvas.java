@@ -48,17 +48,17 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
     private final PNode rootNode;
 
     //Insets to be used for padding between edge of canvas and controls, or between controls
-    private final int INSET = 5;
+    protected final int INSET = 5;
 
     //Fonts
     public static Font CONTROL_FONT = new PhetFont( 16 );
     public static Font TITLE_FONT = new PhetFont( 16, true );
     private final PNode crystalLayer = new PNode();//Layer that holds the sugar and salt crystals
 
-    private final ControlPanelNode soluteControlPanelNode;
+    protected final ControlPanelNode soluteControlPanelNode;
     private final ControlPanelNode toolsControlPanelNode;
     private final SugarAndSaltSolutionModel model;
-    private final PDimension stageSize;
+    protected final PDimension stageSize;
     private final ModelViewTransform transform;
 
     public SugarAndSaltSolutionsCanvas( final SugarAndSaltSolutionModel model, final ObservableProperty<Boolean> removeSaltSugarButtonVisible ) {
