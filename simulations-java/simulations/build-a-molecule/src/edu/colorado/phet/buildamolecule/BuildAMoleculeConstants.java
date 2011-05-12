@@ -4,6 +4,7 @@ package edu.colorado.phet.buildamolecule;
 
 import java.awt.*;
 
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -27,7 +28,7 @@ public class BuildAMoleculeConstants {
     public static final Color CANVAS_BACKGROUND_COLOR = new Color( 198, 226, 246 ); // main play area background
     public static final Color MOLECULE_COLLECTION_BACKGROUND = new Color( 238, 238, 238 ); // collection area background
     public static final Color MOLECULE_COLLECTION_BORDER = Color.BLACK; // border around collection area
-    public static final Color MOLECULE_COLLECTION_BOX_HIGHLIGHT = Color.YELLOW; // box highlight (border when full)
+    public static final Property<Color> MOLECULE_COLLECTION_BOX_HIGHLIGHT = new Property<Color>( Color.YELLOW ); // box highlight (border when full)
     public static final Color MOLECULE_COLLECTION_BOX_BACKGROUND = Color.BLACK; // box background
 
     public static final Color MOLECULE_COLLECTION_BOX_BACKGROUND_BLINK = MOLECULE_COLLECTION_BOX_BACKGROUND; // box background when blinking
