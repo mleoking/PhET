@@ -1,0 +1,74 @@
+--
+Chris Malley (PixelZoom, Inc.) - Status Report
+
+PERIOD: May 4-11, 2011
+
+ACCOMPLISHMENTS:
+
+Bending Light
+- #2873, reported graphics artifacts on Mac (pending)
+
+Capacitor Lab
+- #2483, completed new zoom buttons for bar meters and E-field detector (closed)
+- fixed "disconnect battery" bug, introduced afer 1.00, during refactoring
+- #2850, discovered E-field bug introduced in 1.00.01 (pending)
+
+Color Vision
+- #2862, rewrote sliders using phetgraphics, so that they scale and stay with lamps (resolved)
+
+Faraday
+- #2853, made disabled clock control ignore events, with SR (closed)
+- #2853, hide clock controls when they're not relevant (closed)
+- published 2.06
+
+Fluid Pressure and Flow
+- reported misc issues to SR, noticed while investigating something else
+
+Administrative
+- weekly status meeting
+- Julia Chamberlain presentation & interview
+- Developer Meeting X
+- weekly reports
+- misc developer discussions via email
+
+Common
+- #2846, ButtonNode support for "auto press", ActionEvent changes, with JB (resolved)
+- #2775, discussions, design and implementation on new property package, with SR & JO (closed)
+- #2775, fix to property notification, with JB  (closed)
+- #2826, discussed constraining objects to the play area (pending)
+- #2848, BufferedPhetPCanvas doesn't resolve artifacts on Mac (pending)
+- #2860, investigated play area initialization on Netbooks (pending)
+- #2869, created a custom Piccolo node that computes full bounds for visible children (pending)
+- #2875, investigated potential issues with Java double-brace initializers
+- #2864, worked on generalizing acid-base-solutions Conductivity Tester, with SR (pending)
+
+Environment
+- #2963, discussed location and organization of IntelliJ iml files
+
+Help
+- #2847, JWS caching problem with networked Macs (closed)
+- answered Sandor's questions about common translation credits
+- #2872, options for displaying common translation credits (pending)
+
+Website
+- #2791, reviewed changes to "PhET Source Code" web page (pending)
+
+WHAT'S NEXT:
+
+- Capacitor Lab: continue working on version 2.00
+- Hydrogen Atom: #2803, "excite me" button
+- KSU: #2783, republish all sims
+- Common: #2860, play area initialization on Netbooks (how to proceed?)
+
+ISSUES:
+
+- none
+
+DATES UNAVAILABLE:
+
+- May 23-25
+- June 13-24
+- August 22 - September 2
+- October 19-29
+
+--
