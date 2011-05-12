@@ -6,6 +6,7 @@ package edu.colorado.phet.sugarandsaltsolutions.common.view;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import javax.swing.*;
@@ -37,8 +38,10 @@ public class FaucetNode extends PNode {
     public FaucetNode( ModelViewTransform transform,
                        final Property<Double> faucetFlowLevel,
                        final Option<Double> flowPoint,//if some, the point at which water should stop flowing (for the input faucet, water should stop at the beaker base
-                       final ObservableProperty<Boolean> allowed//true if this faucet is allowed to add water.  The top faucet is allowed to add water if the beaker isn't full, and the bottom one can turn on if the beaker isn't empty.
+                       final ObservableProperty<Boolean> allowed,//true if this faucet is allowed to add water.  The top faucet is allowed to add water if the beaker isn't full, and the bottom one can turn on if the beaker isn't empty.
+                       final Point2D offset//Offset to account for in ending the output fluid flow, so it doesn't go past the bottom of the beaker
     ) {
+        setOffset( offset );
         PImage imageNode = new PImage( RESOURCES.getImage( "faucet.png" ) ) {{
             //Scale and offset so that the slider will fit into the tap control component
             setScale( 0.75 );
@@ -89,7 +92,7 @@ public class FaucetNode extends PNode {
                     double pipeWidth = 56;
                     double bottomY = flowPoint.getOrElse( 1000.0 );//Compute the bottom of the water (e.g. if it collides with the beaker)
                     double topY = imageHeight;
-                    double height = bottomY - topY;
+                    double height = bottomY - topY - offset.getY();
                     setPathTo( new Rectangle2D.Double( imageWidth - width / 2 - pipeWidth / 2, imageHeight, width, height ) );
                 }
             } );

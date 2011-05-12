@@ -135,11 +135,10 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
         }} );
 
         //Add the faucets, the first faucet should have the water stop at the base of the beaker
-        addChild( new FaucetNode( transform, model.inputFlowRate, new Some<Double>( transform.modelToViewY( model.beaker.getY() ) ), not( model.beakerFull ) ) {{
-            //move the top faucet down a little bit, so the slider doesn't go offscreen
-            setOffset( 0, 10 );
-        }} );
-        addChild( new FaucetNode( transform, model.outputFlowRate, new None<Double>(), not( model.beakerEmpty ) ) {{
+        addChild( new FaucetNode( transform, model.inputFlowRate, new Some<Double>( transform.modelToViewY( model.beaker.getY() ) ), not( model.beakerFull ),
+                                  //move the top faucet down a little bit, so the slider doesn't go offscreen
+                                  new Point2D.Double( 0, 10 ) ) );
+        addChild( new FaucetNode( transform, model.outputFlowRate, new None<Double>(), not( model.beakerEmpty ), new Point2D.Double( 0, 0 ) ) {{
             Point2D beakerBottomRight = model.beaker.getOutputFaucetAttachmentPoint();
             Point2D beakerBottomRightView = transform.modelToView( beakerBottomRight );
             //Move it up by the height of the faucet image, otherwise it sticks out underneath the beaker
