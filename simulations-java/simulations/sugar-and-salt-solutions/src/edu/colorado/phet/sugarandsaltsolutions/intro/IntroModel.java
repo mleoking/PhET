@@ -34,7 +34,7 @@ public class IntroModel extends SugarAndSaltSolutionModel {
     public IntroModel() {
         saltConcentration.addObserver( new VoidFunction1<Double>() {
             public void apply( Double concentration ) {
-                System.out.println( "moles of salt = " + molesOfSalt + ", water volume = " + water.volume + ", => conc = " + concentration );
+//                System.out.println( "moles of salt = " + molesOfSalt + ", water volume = " + water.volume + ", => conc = " + concentration );
 
                 //Update the conductivity tester brightness since the brightness is a function of the salt concentration
                 updateConductivityTesterBrightness();
