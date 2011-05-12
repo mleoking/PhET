@@ -54,6 +54,30 @@ public abstract class Atom {
         return symbol;
     }
 
+    /*---------------------------------------------------------------------------*
+    * comparison utilities
+    *----------------------------------------------------------------------------*/
+
+    public boolean isSameTypeOfAtom( Atom atom ) {
+        return atom.getSymbol().equals( this.getSymbol() );
+    }
+
+    public boolean isHydrogen() {
+        return isSameTypeOfAtom( new Atom.H() );
+    }
+
+    public boolean isCarbon() {
+        return isSameTypeOfAtom( new Atom.C() );
+    }
+
+    public boolean isOxygen() {
+        return isSameTypeOfAtom( new Atom.O() );
+    }
+
+    /*---------------------------------------------------------------------------*
+    * atoms
+    *----------------------------------------------------------------------------*/
+
     public static class B extends Atom {
         public B() {
             super( "B", 85, 2.04, 10.811, new Color( 255, 170, 119 ) );// peach/salmon colored, CPK coloring
@@ -126,7 +150,4 @@ public abstract class Atom {
         }
     }
 
-    public boolean isSameTypeOfAtom( Atom atom ) {
-        return atom.getSymbol().equals( this.getSymbol() );
-    }
 }
