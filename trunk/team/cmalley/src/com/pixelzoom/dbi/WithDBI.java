@@ -9,7 +9,7 @@ import javax.swing.*;
  * Simple example that uses double-brace initialization (DBI).
  * Compiles to 6 class files, total 3517 bytes.
  * This is 385% larger than the version of this example without DBI.
- * Startup time is about 10% longer.
+ * Startup time is about 10% longer (average of 10 runs).
  * <p/>
  * % javac -version
  * javac 1.6.0_24
