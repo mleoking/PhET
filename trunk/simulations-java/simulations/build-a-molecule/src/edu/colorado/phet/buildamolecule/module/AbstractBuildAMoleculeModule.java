@@ -7,6 +7,7 @@ import java.util.List;
 import edu.colorado.phet.buildamolecule.model.*;
 import edu.colorado.phet.buildamolecule.view.BuildAMoleculeCanvas;
 import edu.colorado.phet.chemistry.model.Atom;
+import edu.colorado.phet.chemistry.model.Atom.C;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
@@ -67,7 +68,15 @@ public abstract class AbstractBuildAMoleculeModule extends PiccoloModule {
             CompleteMolecule molecule = pickRandomMoleculeNotIn( usedMolecules );
             usedMolecules.add( molecule );
 
-            CollectionBox box = new CollectionBox( molecule, allowMultipleMolecules ? random.nextInt( MAX_IN_BOX ) + 1 : 1 );
+            int numberInBox = allowMultipleMolecules ? random.nextInt( MAX_IN_BOX ) + 1 : 1;
+
+            // restrict the number of carbon that we can have
+            int carbonCount = molecule.getMoleculeStructure().getHistogram().getQuantity( new C() );
+            if ( carbonCount > 1 ) {
+                numberInBox = Math.min( 2, numberInBox );
+            }
+
+            CollectionBox box = new CollectionBox( molecule, numberInBox );
             boxes.add( box );
 
             // add in that many molecules
@@ -102,7 +111,8 @@ public abstract class AbstractBuildAMoleculeModule extends PiccoloModule {
             }
 
             boolean ableToIncreaseMultiple = allowMultipleMolecules && equivalentMoleculesRemaining > 1;
-            int atomMultiple = 1 + ( ableToIncreaseMultiple ? random.nextInt( equivalentMoleculesRemaining ) : 0 );
+//            int atomMultiple = 1 + ( ableToIncreaseMultiple ? random.nextInt( equivalentMoleculesRemaining ) : 0 );
+            int atomMultiple = 1 + ( ableToIncreaseMultiple ? equivalentMoleculesRemaining : 0 );
 
             // for each type of atom
             for ( String symbol : atomSymbols ) {
@@ -119,8 +129,10 @@ public abstract class AbstractBuildAMoleculeModule extends PiccoloModule {
                 // create a multiple of the required number of atoms, so they can construct 'atomMultiple' molecules with this
                 int atomCount = requiredAtomCount * atomMultiple;
 
-                // possibly add another, if we can only have 1 molecule per box
-                atomCount += random.nextInt( 1 );
+                // possibly add more, if we can only have 1 molecule per box
+                if ( !symbol.equals( "C" ) && (symbol.equals( "H" ) || atomCount < 4) ) {
+                    atomCount += random.nextInt( 2 );
+                }
 
                 double atomRadius = atomFactory.apply().getRadius();
 

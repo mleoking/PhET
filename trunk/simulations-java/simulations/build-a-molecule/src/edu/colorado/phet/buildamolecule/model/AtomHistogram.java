@@ -38,6 +38,10 @@ public class AtomHistogram {
         add( molecule );
     }
 
+    public int getQuantity( Atom atom ) {
+        return quantities.get( atom.getSymbol() );
+    }
+
     public void add( Atom atom ) {
         quantities.put( atom.getSymbol(), quantities.get( atom.getSymbol() ) + 1 );
     }
