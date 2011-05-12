@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.buildamolecule.model;
 
+import java.awt.geom.Point2D;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -135,13 +136,90 @@ public class LewisDotModel {
         throw new RuntimeException( "Bond not found" );
     }
 
+    /**
+     * Decide whether this bonding would cause any layout issues. Does NOT detect loops, and will
+     * fail if given molecules with loops.
+     *
+     * @param a         A
+     * @param direction Direction from A to B
+     * @param b         B
+     * @return Whether this bond is considered acceptable
+     */
     public boolean willAllowBond( Atom a, Direction direction, Atom b ) {
-        return true;
+
+        /*---------------------------------------------------------------------------*
+        * We need to verify that if we bind these two together that no overlaps occur.
+        * This can be done by creating a coordinate system where atom A is our origin,
+        * and verifying that no atoms share the same coordinates if they are not both
+        * hydrogen.
+        *----------------------------------------------------------------------------*/
+
+        Map<Point2D, Atom> coordinateMap = new HashMap<Point2D, Atom>();
+
+        // map the molecule on the A side, from the origin
+        boolean success = mapMolecule( new ImmutableVector2D(), a, null, coordinateMap );
+
+        // map the molecule on the B side, with the offset from direction
+        success = success && mapMolecule( direction.getVector(), b, null, coordinateMap );
+
+        // we would have false if a conflict was found
+        return success;
     }
 
     /*---------------------------------------------------------------------------*
     * implementation details
     *----------------------------------------------------------------------------*/
+
+    /**
+     * Add "atom" to our coordinate map, and all of its neighbors EXCEPT for excludedAtom.
+     * This allows mapping a molecule without loops quite easily
+     *
+     * @param coordinates   Coordinates of "atom"
+     * @param atom          Atom to add
+     * @param excludedAtom  Atom not to
+     * @param coordinateMap Coordinate map to which we add the atoms to
+     * @return Success. Will return false if any heavy atom overlaps on another atom. If it returns false, the coordinate map may be inconsistent
+     */
+    private boolean mapMolecule( ImmutableVector2D coordinates, Atom atom, Atom excludedAtom, Map<Point2D, Atom> coordinateMap ) {
+        LewisDotAtom dotAtom = getLewisDotAtom( atom );
+
+        // for sanity and equality (negative zero equals zero, so don't worry about that)
+        Point2D point = new Point2D.Double( Math.round( coordinates.getX() ), Math.round( coordinates.getY() ) );
+
+        // if we have seen a different atom in this position
+        if ( coordinateMap.containsKey( point ) ) {
+            // if at least one isn't hydrogen, fail out
+            if ( !atom.isSameTypeOfAtom( new Atom.H() ) || !coordinateMap.get( point ).isSameTypeOfAtom( new Atom.H() ) ) {
+                return false;
+            }
+            // here, they both must be hydrogen, so we don't need to worry about adding it in
+        }
+        else {
+            coordinateMap.put( point, atom );
+        }
+
+        boolean success = true;
+
+        // check all directions so we can explore all other atoms that need to be mapped
+        for ( Direction direction : Direction.values() ) {
+            if ( dotAtom.hasConnection( direction ) ) {
+                LewisDotAtom otherDot = dotAtom.getLewisDotAtom( direction );
+
+                // if this atom isn't excluded
+                if ( otherDot.atom != excludedAtom ) {
+                    success = mapMolecule( coordinates.plus( direction.getVector() ), otherDot.atom, atom, coordinateMap );
+
+                    // if we had a failure mapping that one, bail out
+                    if ( !success ) {
+                        return false;
+                    }
+                }
+            }
+        }
+
+        // everything worked
+        return success;
+    }
 
     private LewisDotAtom getLewisDotAtom( Atom atom ) {
         return atomMap.get( atom );
