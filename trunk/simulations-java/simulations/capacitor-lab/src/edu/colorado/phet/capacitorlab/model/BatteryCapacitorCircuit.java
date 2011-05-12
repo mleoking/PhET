@@ -145,6 +145,7 @@ public class BatteryCapacitorCircuit extends AbstractCircuit {
             }
             this.batteryConnected = batteryConnected;
             updateVoltages();
+            fireCircuitChanged();
         }
     }
 
