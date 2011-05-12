@@ -16,9 +16,10 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class ConductivityTester implements IConductivityTester {
     //Locations are in model coordinates (meters)
-    private static final double PROBE_Y = 0.3;
-    private static final double NEGATIVE_PROBE_X = -0.2;
-    private static final double POSITIVE_PROBE_X = +0.2;
+    private static final double PROBE_Y = 1;
+    private static final double NEGATIVE_PROBE_X = -0.6;
+    private static final double POSITIVE_PROBE_X = -0.2;
+    private static final Point2D.Double location = new Point2D.Double( 0, 0.40 );
 
     //Position of the probes, in model coordinates
     private Point2D.Double negativeProbeLocation = new Point2D.Double( NEGATIVE_PROBE_X, PROBE_Y );
@@ -65,12 +66,13 @@ public class ConductivityTester implements IConductivityTester {
 
     //Determine the location of the bulb/battery unit.
     public Point2D getLocationReference() {
-        return new Point2D.Double( 0, 0 );
+        return location;
     }
 
     //Set the location of the positive probe and notify observers
     public void setPositiveProbeLocation( double x, double y ) {
         positiveProbeLocation.setLocation( x, y );
+        System.out.println( "positiveProbeLocation = " + positiveProbeLocation );
         for ( ConductivityTesterChangeListener listener : conductivityTesterListeners ) {
             listener.positiveProbeLocationChanged();
         }
@@ -84,6 +86,7 @@ public class ConductivityTester implements IConductivityTester {
     //Set the location of the negative probe and notify observers
     public void setNegativeProbeLocation( double x, double y ) {
         negativeProbeLocation.setLocation( x, y );
+        System.out.println( "negativeProbeLocation = " + negativeProbeLocation );
         for ( ConductivityTesterChangeListener listener : conductivityTesterListeners ) {
             listener.negativeProbeLocationChanged();
         }
@@ -99,5 +102,16 @@ public class ConductivityTester implements IConductivityTester {
         //Reset the location of the probes
         setNegativeProbeLocation( NEGATIVE_PROBE_X, PROBE_Y );
         setPositiveProbeLocation( POSITIVE_PROBE_X, PROBE_Y );
+    }
+
+    //Either I don't understand ConductivityTesterNode's coordinate frames or it is buggy (or both).
+    //Until those issues are resolved, we subtract out the faulty values here
+    //TODO: Remove the need for this awkward hack workaround
+    public Point2D getNegativeProbeModelLocation() {
+        return new Point2D.Double( getNegativeProbeLocationReference().getX() + 0.6, getNegativeProbeLocationReference().getY() - 0.6471336996336996 );
+    }
+
+    public Point2D getPositiveProbeModelLocation() {
+        return new Point2D.Double( getPositiveProbeLocationReference().getX() + 0.2, getPositiveProbeLocationReference().getY() - 0.6471336996336996 );
     }
 }
