@@ -1,3 +1,4 @@
+Added prevention of atoms in the same molecule "overlapping". Still allowing "square" formations.
 Removed a few deprecated developer options
 Added game-ding sound on collection box filled, with a sound on/off panel
 Improved kit-generation algorithm

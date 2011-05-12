@@ -1,5 +1,4 @@
 I18nize text bubble
-Prevent 4 heavy atoms in a "square".
 Smiley face on collection boxes completion?
 Weird 3d structures?
 Add in "molecule data loading"?
