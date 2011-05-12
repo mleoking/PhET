@@ -33,8 +33,8 @@ public class MoleculeCollectingCanvas extends BuildAMoleculeCanvas {
         } );
     }
 
-    @Override protected void addChildren() {
-        collectionAreaNode = new CollectionAreaNode( this, getModel(), singleCollectionMode ) {{
+    @Override protected void addChildren( Frame parentFrame ) {
+        collectionAreaNode = new CollectionAreaNode( parentFrame, this, getModel(), singleCollectionMode ) {{
             double collectionAreaPadding = 20;
             setOffset( BuildAMoleculeConstants.STAGE_SIZE.width - getFullBounds().getWidth() - collectionAreaPadding, collectionAreaPadding );
         }};

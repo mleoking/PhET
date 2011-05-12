@@ -2,14 +2,12 @@
 package edu.colorado.phet.buildamolecule.model;
 
 import java.awt.*;
-import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.List;
 
 import org.jmol.api.JmolViewer;
 
-import edu.colorado.phet.buildamolecule.BuildAMoleculeApplication;
 import edu.colorado.phet.buildamolecule.BuildAMoleculeResources;
 import edu.colorado.phet.chemistry.model.Atom;
 import edu.colorado.phet.chemistry.molecules.*;

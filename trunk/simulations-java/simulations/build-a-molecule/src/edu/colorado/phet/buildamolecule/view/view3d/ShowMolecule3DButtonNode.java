@@ -1,5 +1,5 @@
 //  Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.buildamolecule.view;
+package edu.colorado.phet.buildamolecule.view.view3d;
 
 import java.awt.*;
 import java.awt.event.WindowAdapter;
@@ -8,7 +8,6 @@ import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.buildamolecule.BuildAMoleculeConstants;
 import edu.colorado.phet.buildamolecule.BuildAMoleculeResources;
-import edu.colorado.phet.buildamolecule.control.JmolDialog;
 import edu.colorado.phet.buildamolecule.model.CompleteMolecule;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.Option;
@@ -26,7 +25,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
 public class ShowMolecule3DButtonNode extends PNode {
     public final Property<Option<JmolDialog>> dialog;
 
-    public ShowMolecule3DButtonNode( final Frame parentFrame, final Property<Option<JmolDialog>> dialog, final CompleteMolecule completeMolecule ) {
+    public ShowMolecule3DButtonNode( final Frame parentFrame, final JmolDialogProperty dialog, final CompleteMolecule completeMolecule ) {
         this.dialog = dialog;
 
         PImage image = new PImage( BuildAMoleculeResources.getImage( BuildAMoleculeConstants.IMAGE_3D_ICON ) );
