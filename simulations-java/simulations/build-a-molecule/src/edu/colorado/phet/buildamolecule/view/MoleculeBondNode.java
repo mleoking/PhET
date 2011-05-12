@@ -137,12 +137,16 @@ public class MoleculeBondNode extends PNode {
 
                     @Override public void mouseDragged( PInputEvent event ) {
                         super.mouseDragged( event );
-                        updateScissorsPosition( event );
+                        if ( scissorsNode.getVisible() ) {
+                            updateScissorsPosition( event );
+                        }
                     }
 
                     @Override public void mouseMoved( PInputEvent event ) {
                         super.mouseMoved( event );
-                        updateScissorsPosition( event );
+                        if ( scissorsNode.getVisible() ) {
+                            updateScissorsPosition( event );
+                        }
                     }
                 } );
             }
