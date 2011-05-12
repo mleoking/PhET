@@ -188,7 +188,7 @@ public class ConductivityTesterNode extends PhetPNode {
         valueNode.setOffset( x, y );
 
         // location & visibility
-        setOffset( tester.getLocationReference() );
+        setOffset( transform.modelToView( tester.getLocationReference() ) );
         setVisible( tester.isVisible() );
 
         // Listeners
