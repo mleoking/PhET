@@ -23,7 +23,6 @@ import edu.colorado.phet.capacitorlab.model.EFieldDetector;
 import edu.colorado.phet.capacitorlab.view.meters.ZoomButton.ZoomInButton;
 import edu.colorado.phet.capacitorlab.view.meters.ZoomButton.ZoomOutButton;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.phetcommon.view.util.GridPanel;
@@ -61,9 +60,10 @@ import edu.umd.cs.piccolox.pswing.PSwing;
     private static final int BODY_X_SPACING = 2;
     private static final int BODY_Y_SPACING = 4;
 
-    private static final PDimension VECTOR_DISPLAY_SIZE = new PDimension( 200, 200 );
-    private static final Color VECTOR_DISPLAY_BACKGROUND = Color.WHITE;
-    private static final double VECTOR_REFERENCE_LENGTH = 3 * VECTOR_DISPLAY_SIZE.getHeight();
+    private static final PDimension VIEWPORT_SIZE = new PDimension( 200, 200 );
+    private static final Color VIEWPORT_BACKGROUND = Color.WHITE;
+
+    private static final double VECTOR_REFERENCE_LENGTH = 3 * VIEWPORT_SIZE.getHeight();
     private static final Dimension VECTOR_ARROW_HEAD_SIZE = new Dimension( 30, 20 );
     private static final int VECTOR_ARROW_TAIL_WIDTH = 10;
 
@@ -74,11 +74,8 @@ import edu.umd.cs.piccolox.pswing.PSwing;
     private static final Font CONTROL_FONT = new PhetFont( Font.BOLD, 16 );
     private static final Color CONTROL_COLOR = Color.WHITE;
 
-    private static final int ZOOM_FACTOR = 5;
-    private static final IntegerRange ZOOM_LEVEL_RANGE = new IntegerRange( 0, 4, 4 ); // start fully zoomed in
-
     private final PSwing showVectorsPSwing;
-    private final VectorDisplayNode vectorDisplayNode;
+    private final ViewportNode viewportNode;
     private final Point2D connectionOffset; // offset for connection point of wire that attaches probe to body
     private final ZoomPanel zoomPanel;
 
@@ -101,25 +98,29 @@ import edu.umd.cs.piccolox.pswing.PSwing;
             } );
         }};
 
+        // Zoom controls
+        ActionListener zoomActionListener = new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                viewportNode.zoom();
+            }
+        };
+        zoomPanel = new ZoomPanel( zoomActionListener, zoomActionListener );
+        PSwing zoomPSwing = new PSwing( zoomPanel );
 
         // display area for vectors and values
-        vectorDisplayNode = new VectorDisplayNode( detector, vectorReferenceMagnitude );
+        viewportNode = new ViewportNode( detector, vectorReferenceMagnitude, zoomPanel.zoomInEnabledProperty, zoomPanel.zoomOutEnabledProperty );
 
         // Vector controls
         showVectorsPSwing = new PSwing( new ShowVectorsPanel( detector ) );
-
-        // Zoom controls
-        zoomPanel = new ZoomPanel( ZOOM_FACTOR, ZOOM_LEVEL_RANGE );
-        PSwing zoomPSwing = new PSwing( zoomPanel );
 
         // Show Values check box
         PSwing showValuesPSwing = new PSwing( new DetectorCheckBox( CLStrings.SHOW_VALUES, detector.valuesVisibleProperty, CONTROL_COLOR ) );
 
         // background
         double maxControlWidth = Math.max( showVectorsPSwing.getFullBoundsReference().getWidth(), showValuesPSwing.getFullBoundsReference().getWidth() );
-        double width = maxControlWidth + vectorDisplayNode.getFullBoundsReference().getWidth() + ( 2 * BODY_X_MARGIN ) + BODY_X_SPACING;
+        double width = maxControlWidth + viewportNode.getFullBoundsReference().getWidth() + ( 2 * BODY_X_MARGIN ) + BODY_X_SPACING;
         final double controlsHeight = showVectorsPSwing.getFullBoundsReference().getHeight() + showValuesPSwing.getFullBoundsReference().getHeight();
-        double height = titleNode.getFullBoundsReference().getHeight() + BODY_Y_SPACING + Math.max( controlsHeight, vectorDisplayNode.getFullBoundsReference().getHeight() ) + ( 2 * BODY_Y_MARGIN );
+        double height = titleNode.getFullBoundsReference().getHeight() + BODY_Y_SPACING + Math.max( controlsHeight, viewportNode.getFullBoundsReference().getHeight() ) + ( 2 * BODY_Y_MARGIN );
         PPath backgroundNode = new PPath( new RoundRectangle2D.Double( 0, 0, width, height, BODY_CORNER_RADIUS, BODY_CORNER_RADIUS ) );
         backgroundNode.setPaint( BODY_COLOR );
         backgroundNode.setStroke( null );
@@ -131,7 +132,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
         addChild( showVectorsPSwing );
         addChild( zoomPSwing );
         addChild( showValuesPSwing );
-        addChild( vectorDisplayNode );
+        addChild( viewportNode );
 
         // layout
         {
@@ -161,7 +162,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
             // vectors
             x = BODY_X_MARGIN + maxControlWidth + BODY_X_SPACING;
             y = showVectorsPSwing.getYOffset();
-            vectorDisplayNode.setOffset( x, y );
+            viewportNode.setOffset( x, y );
         }
 
         // wire connects to the left center of the detector body
@@ -171,26 +172,12 @@ import edu.umd.cs.piccolox.pswing.PSwing;
         addInputEventListener( new CursorHandler() );
         addInputEventListener( new WorldLocationDragHandler( detector.bodyLocationProperty, this, mvt ) );
 
-        // observers
-        {
-            // location
-            detector.bodyLocationProperty.addObserver( new SimpleObserver() {
-                public void update() {
-                    setOffset( mvt.modelToView( detector.bodyLocationProperty.get() ) );
-                }
-            } );
-
-            // when the zoom level changes, update the vector display
-            zoomPanel.addZoomLevelObserver( new SimpleObserver() {
-                public void update() {
-                    vectorDisplayNode.setScaleFactor( zoomPanel.getScaleFactor() );
-                }
-            } );
-        }
-    }
-
-    public void reset() {
-        zoomPanel.reset();
+        // location
+        detector.bodyLocationProperty.addObserver( new SimpleObserver() {
+            public void update() {
+                setOffset( mvt.modelToView( detector.bodyLocationProperty.get() ) );
+            }
+        } );
     }
 
     /**
@@ -201,7 +188,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
      */
     public void setSimplified( boolean simplified ) {
         showVectorsPSwing.setVisible( !simplified );
-        vectorDisplayNode.setSimplified( simplified );
+        viewportNode.setSimplified( simplified );
     }
 
     public Point2D getConnectionOffset() {
@@ -237,26 +224,31 @@ import edu.umd.cs.piccolox.pswing.PSwing;
     }
 
     /*
-     * Rectangular area where the vectors are displayed.
+     * Viewport where the vectors are displayed.
      * Vectors are clipped to this area.
      * Vector size is computed relative to a specified reference magnitude.
      */
-    private static final class VectorDisplayNode extends PClip {
+    private static final class ViewportNode extends PClip {
 
         private final EFieldDetector detector;
+        private final Property<Boolean> zoomInEnabled, zoomOutEnabled;
+
+        private final PComposite sceneNode; // the portion of the scenegraph visible in the viewport
         private final FieldVectorNode plateVectorNode, dielectricVectorNode, sumVectorNode;
         private final FieldValueNode plateValueNode, dielectricValueNode, sumValueNode;
-        private double scaleFactor;
+        private double vectorsScale;
         private boolean simplified;
 
-        public VectorDisplayNode( final EFieldDetector detector, double vectorReferenceMagnitude ) {
+        public ViewportNode( final EFieldDetector detector, double vectorReferenceMagnitude, Property<Boolean> zoomInEnabled, Property<Boolean> zoomOutEnabled ) {
 
-            setPathTo( new Rectangle2D.Double( 0, 0, VECTOR_DISPLAY_SIZE.getWidth(), VECTOR_DISPLAY_SIZE.getHeight() ) );
-            setPaint( VECTOR_DISPLAY_BACKGROUND );
+            setPathTo( new Rectangle2D.Double( 0, 0, VIEWPORT_SIZE.getWidth(), VIEWPORT_SIZE.getHeight() ) );
+            setPaint( VIEWPORT_BACKGROUND );
             setStroke( null );
 
             this.detector = detector;
-            scaleFactor = 1;
+            this.zoomInEnabled = zoomInEnabled;
+            this.zoomOutEnabled = zoomOutEnabled;
+            vectorsScale = 1;
             simplified = false;
 
             // vectors
@@ -269,13 +261,18 @@ import edu.umd.cs.piccolox.pswing.PSwing;
             dielectricValueNode = new FieldValueNode( CLStrings.DIELECTRIC, CLPaints.DIELECTRIC_EFIELD_VECTOR );
             sumValueNode = new FieldValueNode( CLStrings.SUM, CLPaints.SUM_EFIELD_VECTOR );
 
-            // rendering order
-            addChild( plateVectorNode );
-            addChild( dielectricVectorNode );
-            addChild( sumVectorNode );
-            addChild( plateValueNode );
-            addChild( dielectricValueNode );
-            addChild( sumValueNode );
+            /*
+             * Everything visible in the viewport is a child of this intermediate node.
+             * This allows us to compute the zoom scaling factor by comparing the scene bounds to the size of the viewport.
+             */
+            sceneNode = new PComposite();
+            addChild( sceneNode );
+            sceneNode.addChild( plateVectorNode );
+            sceneNode.addChild( dielectricVectorNode );
+            sceneNode.addChild( sumVectorNode );
+            sceneNode.addChild( plateValueNode );
+            sceneNode.addChild( dielectricValueNode );
+            sceneNode.addChild( sumValueNode );
 
             // observe vector changes
             SimpleObserver vectorsObserver = new SimpleObserver() {
@@ -298,7 +295,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
             detector.sumVisibleProperty.addObserver( visibilityObserver );
             detector.valuesVisibleProperty.addObserver( visibilityObserver );
 
-            updateLayout();
+            zoom();
         }
 
         /**
@@ -313,28 +310,72 @@ import edu.umd.cs.piccolox.pswing.PSwing;
             }
         }
 
-        /**
-         * Vectors will be scaled by this factor.
-         *
-         * @param scaleFactor
+        /*
+         * Zooms to the optimum scale that makes everything visible in the viewport,
+         * with a little bit of whitespace at the top and bottom of the viewport.
+         * The zoom factor computation is complicated by the fact that the vectors scale,
+         * while their labels and values do not.
+         * Zooming is based solely on vertical dimensions (height); width of the scene is irrelevant.
          */
-        public void setScaleFactor( double scaleFactor ) {
-            if ( scaleFactor != this.scaleFactor ) {
-                this.scaleFactor = scaleFactor;
-                updateVectors();
+        private void zoom() {
+            double viewportHeight = this.getFullBoundsReference().getHeight();
+            double sceneHeight = sceneNode.getFullBoundsReference().getHeight();
+            double plateVectorHeight = plateVectorNode.getFullBoundsReference().getHeight();
+            double labelsAndValuesHeight = sceneHeight - plateVectorHeight;
+            final double percentOfViewPortToFill = 0.9;
+            double zoomFactor = ( percentOfViewPortToFill * ( viewportHeight - labelsAndValuesHeight ) ) / ( sceneHeight - labelsAndValuesHeight );
+            vectorsScale = vectorsScale * zoomFactor;
+            updateVectors();
+        }
+
+        // True when the scene is zoomable, and the scene is clipped.
+        private boolean canZoomOut() {
+            boolean canZoomOut = false;
+            if ( isZoomable() ) {
+                double viewportHeight = this.getFullBoundsReference().getHeight();
+                double totalHeight = sceneNode.getFullBoundsReference().getHeight();
+                canZoomOut = ( viewportHeight < totalHeight );
             }
+            return canZoomOut;
+        }
+
+        // True when the scene is zoomable, and the scene fills less than some portion of the viewport.
+        private boolean canZoomIn() {
+            boolean canZoomIn = false;
+            if ( isZoomable() ) {
+                double viewportHeight = this.getFullBoundsReference().getHeight();
+                double totalHeight = sceneNode.getFullBoundsReference().getHeight();
+                final double percentOfViewportThatIsFilled = 0.75;
+                canZoomIn = ( percentOfViewportThatIsFilled * viewportHeight > totalHeight );
+            }
+            return canZoomIn;
+        }
+
+        // True when the scene contain a least one visible, non-zero vector.
+        private boolean isZoomable() {
+            return hasVisibleVector() && hasNonZeroVector();
+        }
+
+        // True if some vector is non-zero.
+        private boolean hasNonZeroVector() {
+            return detector.getPlateVector() != 0 || detector.getDielectricVector() != 0 || detector.getSumVector() != 0;
+        }
+
+        // True if some vector is visible.
+        private boolean hasVisibleVector() {
+            return plateVectorNode.isVisible() || dielectricVectorNode.isVisible() || sumVectorNode.isVisible();
         }
 
         // Updates vectors and numeric values.
         private void updateVectors() {
 
-            plateVectorNode.setXY( 0, scaleFactor * detector.getPlateVector() );
+            plateVectorNode.setXY( 0, vectorsScale * detector.getPlateVector() );
             plateValueNode.setValue( detector.getPlateVector() );
 
-            dielectricVectorNode.setXY( 0, scaleFactor * -detector.getDielectricVector() ); // change sign because dielectric vector points in opposite direction
+            dielectricVectorNode.setXY( 0, vectorsScale * -detector.getDielectricVector() ); // change sign because dielectric vector points in opposite direction
             dielectricValueNode.setValue( detector.getDielectricVector() );
 
-            sumVectorNode.setXY( 0, scaleFactor * detector.getSumVector() );
+            sumVectorNode.setXY( 0, vectorsScale * detector.getSumVector() );
             sumValueNode.setValue( detector.getSumVector() );
 
             updateLayout();
@@ -447,6 +488,13 @@ import edu.umd.cs.piccolox.pswing.PSwing;
                 }
                 dielectricValueNode.setOffset( x, y );
             }
+
+            updateZoomEnabled();
+        }
+
+        private void updateZoomEnabled() {
+            zoomInEnabled.set( canZoomIn() );
+            zoomOutEnabled.set( canZoomOut() );
         }
     }
 
@@ -537,34 +585,21 @@ import edu.umd.cs.piccolox.pswing.PSwing;
      */
     private static class ZoomPanel extends GridPanel {
 
-        private final double zoomFactor;
-        private final IntegerRange zoomLevelRange;
-        private final Property<Integer> zoomLevelProperty;
+        public Property<Boolean> zoomInEnabledProperty = new Property<Boolean>( false );
+        public Property<Boolean> zoomOutEnabledProperty = new Property<Boolean>( false );
 
-        public ZoomPanel( double zoomFactor, final IntegerRange zoomLevelRange ) {
+        public ZoomPanel( ActionListener zoomInActionListener, ActionListener zoomOutActionListener ) {
             setOpaque( false );
-
-            this.zoomFactor = zoomFactor;
-            this.zoomLevelRange = zoomLevelRange;
-            this.zoomLevelProperty = new Property<Integer>( zoomLevelRange.getDefault() );
 
             JLabel label = new JLabel( CLStrings.ZOOM );
             label.setFont( CONTROL_FONT );
             label.setForeground( CONTROL_COLOR );
 
             final JButton zoomInButton = new ZoomInButton();
-            zoomInButton.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    zoomLevelProperty.set( zoomLevelProperty.get() + 1 );
-                }
-            } );
+            zoomInButton.addActionListener( zoomInActionListener );
 
             final JButton zoomOutButton = new ZoomOutButton();
-            zoomOutButton.addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    zoomLevelProperty.set( zoomLevelProperty.get() - 1 );
-                }
-            } );
+            zoomOutButton.addActionListener( zoomOutActionListener );
 
             // layout
             setAnchor( Anchor.WEST );
@@ -573,25 +608,16 @@ import edu.umd.cs.piccolox.pswing.PSwing;
             add( zoomInButton, 0, 1 );
             add( zoomOutButton, 1, 1 );
 
-            // Disable buttons at the extremes of the zoom range.
-            zoomLevelProperty.addObserver( new SimpleObserver() {
+            zoomInEnabledProperty.addObserver( new SimpleObserver() {
                 public void update() {
-                    zoomInButton.setEnabled( zoomLevelProperty.get() != zoomLevelRange.getMax() );
-                    zoomOutButton.setEnabled( zoomLevelProperty.get() != zoomLevelRange.getMin() );
+                    zoomInButton.setEnabled( zoomInEnabledProperty.get() );
                 }
             } );
-        }
-
-        public void addZoomLevelObserver( SimpleObserver o ) {
-            zoomLevelProperty.addObserver( o );
-        }
-
-        public double getScaleFactor() {
-            return ( 1 / Math.pow( zoomFactor, zoomLevelRange.getMax() - zoomLevelProperty.get() ) );
-        }
-
-        public void reset() {
-            zoomLevelProperty.reset();
+            zoomOutEnabledProperty.addObserver( new SimpleObserver() {
+                public void update() {
+                    zoomOutButton.setEnabled( zoomOutEnabledProperty.get() );
+                }
+            } );
         }
     }
 }

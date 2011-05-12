@@ -220,11 +220,10 @@ public class DielectricCanvas extends CLCanvas {
         dielectricChargeView.reset();
         // battery connectivity
         updateBatteryConnectivity();
-        // zoom level of meters
+        // zoom level of bar meters
         capacitanceMeterNode.reset();
         plateChargeMeterNode.reset();
         storedEnergyMeterNode.reset();
-        eFieldDetector.reset();
     }
 
     public void setEFieldDetectorSimplified( boolean simplified ) {
