@@ -24,7 +24,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 public class ConcentrationBarChart extends PNode {
 
     private final double CHART_HEIGHT = 200;
-    private final int INSET = 5;
+    protected final int INSET = 5;
 
     public ConcentrationBarChart( ObservableProperty<Double> saltConcentration, ObservableProperty<Double> sugarConcentration ) {
         final double totalWidth = 200;
@@ -44,6 +44,11 @@ public class ConcentrationBarChart extends PNode {
         addChild( new Bar( Color.white, "Sugar", sugarConcentration ) {{
             setOffset( totalWidth / 2 - getFullBoundsReference().width / 2 + Bar.WIDTH, abscissaY );
         }} );
+
+        PText title = new PText( "Concentration" );
+        title.setFont( new PhetFont( 16 ) );
+        title.setOffset( getFullBounds().getCenterX() - title.getFullBounds().getWidth() / 2, INSET );
+        addChild( title );
     }
 
     // This class represents the bars on the bar chart.  They grow upwards in
