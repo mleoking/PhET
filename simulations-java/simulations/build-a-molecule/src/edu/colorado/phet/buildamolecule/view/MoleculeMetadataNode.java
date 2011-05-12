@@ -1,28 +1,25 @@
 package edu.colorado.phet.buildamolecule.view;
 
 import java.awt.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.awt.geom.Rectangle2D;
 import java.util.HashMap;
 import java.util.Map;
 
 import edu.colorado.phet.buildamolecule.BuildAMoleculeConstants;
 import edu.colorado.phet.buildamolecule.BuildAMoleculeResources;
-import edu.colorado.phet.buildamolecule.control.JmolDialog;
 import edu.colorado.phet.buildamolecule.model.AtomModel;
 import edu.colorado.phet.buildamolecule.model.CompleteMolecule;
 import edu.colorado.phet.buildamolecule.model.Kit;
 import edu.colorado.phet.buildamolecule.model.MoleculeStructure;
+import edu.colorado.phet.buildamolecule.view.view3d.JmolDialogProperty;
+import edu.colorado.phet.buildamolecule.view.view3d.ShowMolecule3DButtonNode;
 import edu.colorado.phet.chemistry.model.Atom;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
-import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -35,7 +32,7 @@ public class MoleculeMetadataNode extends PNode {
     private Kit kit;
     private MoleculeStructure moleculeStructure;
     private ModelViewTransform mvt;
-    private Property<Option<JmolDialog>> dialog = new Property<Option<JmolDialog>>( new Option.None<JmolDialog>() );
+    private final JmolDialogProperty dialog = new JmolDialogProperty();
 
     private Map<AtomModel, SimpleObserver> observerMap = new HashMap<AtomModel, SimpleObserver>();
 
@@ -107,7 +104,7 @@ public class MoleculeMetadataNode extends PNode {
         kit.visible.addObserver( new SimpleObserver() {
             public void update() {
                 if ( !kit.visible.get() ) {
-                    hideDialogIfShown();
+                    dialog.hideDialogIfShown();
                 }
             }
         } );
@@ -117,14 +114,7 @@ public class MoleculeMetadataNode extends PNode {
         for ( AtomModel atomModel : observerMap.keySet() ) {
             atomModel.removePositionListener( observerMap.get( atomModel ) );
         }
-        hideDialogIfShown();
-    }
-
-    public void hideDialogIfShown() {
-        if ( dialog.get().isSome() ) {
-            dialog.get().get().dispose();
-            dialog.set( new Option.None<JmolDialog>() );
-        }
+        dialog.hideDialogIfShown();
     }
 
     public void updatePosition() {

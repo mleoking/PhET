@@ -54,7 +54,7 @@ public class BuildAMoleculeCanvas extends PhetPCanvas {
 
     protected boolean singleCollectionMode; // TODO: find solution for LargerMoleculesCanvas so that we don't need this boolean and the separate constructor
 
-    protected void addChildren() {
+    protected void addChildren( Frame parentFrame ) {
 
     }
 
@@ -83,7 +83,7 @@ public class BuildAMoleculeCanvas extends PhetPCanvas {
 
         setBackground( BuildAMoleculeConstants.CANVAS_BACKGROUND_COLOR );
 
-        addChildren();
+        addChildren( parentFrame );
 
         addWorldChild( bottomLayer );
         addWorldChild( atomLayer );

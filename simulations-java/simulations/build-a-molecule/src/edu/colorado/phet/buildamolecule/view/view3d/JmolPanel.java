@@ -1,4 +1,4 @@
-package edu.colorado.phet.buildamolecule.control;
+package edu.colorado.phet.buildamolecule.view.view3d;
 
 import java.awt.*;
 

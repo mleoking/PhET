@@ -10,6 +10,8 @@ import edu.colorado.phet.buildamolecule.BuildAMoleculeConstants;
 import edu.colorado.phet.buildamolecule.model.CollectionBox;
 import edu.colorado.phet.buildamolecule.model.MoleculeStructure;
 import edu.colorado.phet.buildamolecule.view.BuildAMoleculeCanvas;
+import edu.colorado.phet.buildamolecule.view.view3d.JmolDialogProperty;
+import edu.colorado.phet.buildamolecule.view.view3d.ShowMolecule3DButtonNode;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -30,27 +32,30 @@ public class CollectionBoxNode extends SwingLayoutNode {
     private final PNode moleculeLayer = new PNode();
     private final List<PNode> moleculeNodes = new LinkedList<PNode>();
 
+    // show 3d elements
+    private final JmolDialogProperty dialog = new JmolDialogProperty();
+    private final PNode show3dButton;
+
     // stores nodes for each molecule
     private final Map<MoleculeStructure, PNode> moleculeNodeMap = new HashMap<MoleculeStructure, PNode>();
 
     private static final double MOLECULE_PADDING = 5;
     private Timer blinkTimer = null;
 
-    public CollectionBoxNode( final BuildAMoleculeCanvas canvas, final CollectionBox box, PNode... headerNodes ) {
+    private GridBagConstraints headerConstraints = new GridBagConstraints() {{
+        gridx = 0;
+        gridy = 0;
+    }};
+
+    public CollectionBoxNode( final Frame parentFrame, final BuildAMoleculeCanvas canvas, final CollectionBox box, final int headerQuantity ) {
         super( new GridBagLayout() );
         this.box = box;
 
         // grid bag layout and SwingLayoutNode for easier horizontal and vertical layout
         GridBagConstraints c = new GridBagConstraints() {{
             gridx = 0;
-            gridy = 0;
+            gridy = headerQuantity;
         }};
-
-        // add in our header nodes
-        for ( PNode headerNode : headerNodes ) {
-            addChild( headerNode, c );
-            c.gridy += 1;
-        }
 
         c.insets = new Insets( 3, 0, 0, 0 ); // some padding between the black box
 
@@ -83,6 +88,28 @@ public class CollectionBoxNode extends SwingLayoutNode {
         boxNode.addChild( moleculeLayer );
         addChild( boxNode, c );
 
+        // create our show 3D button, and have it change visibility based on the box quantity
+        show3dButton = new ShowMolecule3DButtonNode( parentFrame, dialog, box.getMoleculeType() ) {{
+//            box.addListener( new Adapter() {
+//                {
+//                    // update initial visibility
+//                    updateVisibility();
+//                }
+//
+//                private void updateVisibility() {
+//                    setVisible( box.quantity.get() > 0 );
+//                }
+//
+//                @Override public void onAddedMolecule( MoleculeStructure moleculeStructure ) {
+//                    updateVisibility();
+//                }
+//
+//                @Override public void onRemovedMolecule( MoleculeStructure moleculeStructure ) {
+//                    updateVisibility();
+//                }
+//            } );
+        }};
+
         updateBoxGraphics();
 
         box.addListener( new CollectionBox.Listener() {
@@ -98,6 +125,15 @@ public class CollectionBoxNode extends SwingLayoutNode {
                 blink();
             }
         } );
+    }
+
+    protected PNode getShow3dButton() {
+        return show3dButton;
+    }
+
+    protected void addHeaderNode( PNode headerNode ) {
+        addChild( headerNode, headerConstraints );
+        headerConstraints.gridy += 1;
     }
 
     private void addMolecule( MoleculeStructure moleculeStructure ) {
@@ -163,39 +199,39 @@ public class CollectionBoxNode extends SwingLayoutNode {
 
         blinkTimer = new Timer();
         blinkTimer.schedule( new TimerTask() {
-            @Override
-            public void run() {
-                // decrement and check
-                counts.set( counts.get() - 1 );
-                assert ( counts.get() >= 0 );
+                                 @Override
+                                 public void run() {
+                                     // decrement and check
+                                     counts.set( counts.get() - 1 );
+                                     assert ( counts.get() >= 0 );
 
-                if ( counts.get() == 0 ) {
-                    // set up our normal graphics (border/background)
-                    updateBoxGraphics();
+                                     if ( counts.get() == 0 ) {
+                                         // set up our normal graphics (border/background)
+                                         updateBoxGraphics();
 
-                    // make sure we don't get called again
-                    blinkTimer.cancel();
-                    blinkTimer = null;
-                }
-                else {
-                    // toggle state
-                    on.set( !on.get() );
+                                         // make sure we don't get called again
+                                         blinkTimer.cancel();
+                                         blinkTimer = null;
+                                     }
+                                     else {
+                                         // toggle state
+                                         on.set( !on.get() );
 
-                    // draw graphics
-                    if ( on.get() ) {
-                        blackBox.setPaint( BuildAMoleculeConstants.MOLECULE_COLLECTION_BOX_BACKGROUND_BLINK );
-                        blackBox.setStrokePaint( BuildAMoleculeConstants.MOLECULE_COLLECTION_BOX_BORDER_BLINK );
-                    }
-                    else {
-                        blackBox.setPaint( BuildAMoleculeConstants.MOLECULE_COLLECTION_BOX_BACKGROUND );
-                        blackBox.setStrokePaint( BuildAMoleculeConstants.MOLECULE_COLLECTION_BACKGROUND );
-                    }
+                                         // draw graphics
+                                         if ( on.get() ) {
+                                             blackBox.setPaint( BuildAMoleculeConstants.MOLECULE_COLLECTION_BOX_BACKGROUND_BLINK );
+                                             blackBox.setStrokePaint( BuildAMoleculeConstants.MOLECULE_COLLECTION_BOX_BORDER_BLINK );
+                                         }
+                                         else {
+                                             blackBox.setPaint( BuildAMoleculeConstants.MOLECULE_COLLECTION_BOX_BACKGROUND );
+                                             blackBox.setStrokePaint( BuildAMoleculeConstants.MOLECULE_COLLECTION_BACKGROUND );
+                                         }
 
-                    // make sure this paint happens immediately
-                    blackBox.repaint();
-                }
-            }
-        }, 0, blinkDelayInMs );
+                                         // make sure this paint happens immediately
+                                         blackBox.repaint();
+                                     }
+                                 }
+                             }, 0, blinkDelayInMs );
     }
 
     private void cancelBlinksInProgress() {

@@ -1,4 +1,4 @@
-package edu.colorado.phet.buildamolecule.control;
+package edu.colorado.phet.buildamolecule.view.view3d;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -29,24 +29,24 @@ public class JmolDialog extends JDialog {
         getContentPane().add( jmolPanel, BorderLayout.CENTER );
 
         getContentPane().add( new JPanel() {{
-            final ButtonGroup group = new ButtonGroup();
-            add( new JRadioButton( BuildAMoleculeStrings.JMOL_3D_SPACE_FILLING, true ) {{ // 50% size
-                group.add( this );
-                addActionListener( new ActionListener() {
-                    public void actionPerformed( ActionEvent e ) {
-                        jmolPanel.setSpaceFill();
-                    }
-                } );
-            }} );
-            add( new JRadioButton( BuildAMoleculeStrings.JMOL_3D_BALL_AND_STICK, false ) {{
-                group.add( this );
-                addActionListener( new ActionListener() {
-                    public void actionPerformed( ActionEvent e ) {
-                        jmolPanel.setBallAndStick();
-                    }
-                } );
-            }} );
-        }}, BorderLayout.SOUTH );
+                                  final ButtonGroup group = new ButtonGroup();
+                                  add( new JRadioButton( BuildAMoleculeStrings.JMOL_3D_SPACE_FILLING, true ) {{ // 50% size
+                                      group.add( this );
+                                      addActionListener( new ActionListener() {
+                                          public void actionPerformed( ActionEvent e ) {
+                                              jmolPanel.setSpaceFill();
+                                          }
+                                      } );
+                                  }} );
+                                  add( new JRadioButton( BuildAMoleculeStrings.JMOL_3D_BALL_AND_STICK, false ) {{
+                                      group.add( this );
+                                      addActionListener( new ActionListener() {
+                                          public void actionPerformed( ActionEvent e ) {
+                                              jmolPanel.setBallAndStick();
+                                          }
+                                      } );
+                                  }} );
+                              }}, BorderLayout.SOUTH );
 
         setVisible( true );
 
