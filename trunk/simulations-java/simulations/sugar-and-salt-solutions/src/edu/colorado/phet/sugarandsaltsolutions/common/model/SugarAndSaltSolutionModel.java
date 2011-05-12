@@ -116,8 +116,8 @@ public abstract class SugarAndSaltSolutionModel {
 
         //Check for a collision with the probes
         Rectangle2D waterBounds = water.getShape().getBounds2D();
-        boolean bothProbesSubmerged = waterBounds.contains( conductivityTester.getPositiveProbeModelLocation() ) &&
-                                      waterBounds.contains( conductivityTester.getNegativeProbeModelLocation() );
+        boolean bothProbesSubmerged = waterBounds.contains( conductivityTester.getPositiveProbeLocationReference() ) &&
+                                      waterBounds.contains( conductivityTester.getNegativeProbeLocationReference() );
 
         //Set the brightness to be a linear function of the salt concentration (but keeping it bounded between 0 and 1 which are the limits of the conductivity tester brightness
         conductivityTester.brightness.set( bothProbesSubmerged ? MathUtil.clamp( 0, getSaltConcentration() * 1E3, 1 ) : 0.0 );
