@@ -80,10 +80,10 @@ public class ChemUtils {
      * @return Value for sorting (lowest is first)
      */
     private static int carbonHillSortValue( Atom atom ) {
-        if ( atom.isSameTypeOfAtom( new Atom.C() ) ) {
+        if ( atom.isCarbon() ) {
             return 0;
         }
-        if ( atom.isSameTypeOfAtom( new Atom.H() ) ) {
+        if ( atom.isHydrogen() ) {
             return 1;
         }
         return nonCarbonHillSortValue( atom );
@@ -97,7 +97,7 @@ public class ChemUtils {
     public static String hillOrderedSymbol( Collection<Atom> atoms ) {
         boolean containsCarbon = false;
         for ( Atom atom : atoms ) {
-            if ( atom.isSameTypeOfAtom( new Atom.C() ) ) {
+            if ( atom.isCarbon() ) {
                 containsCarbon = true;
                 break;
             }
