@@ -18,9 +18,9 @@ public class MoleculeStructure {
     private int moleculeId; // used for molecule identification and ordering for optimization
 
     /**
-     * Map of atom => all bonds that contain that atom
+     * Map of atom => all bonds that contain that atom TODO: consider removing permanently. removed temporarily due to memory concerns
      */
-    private Map<Atom, Set<Bond>> bondMap = new HashMap<Atom, Set<Bond>>();
+//    private Map<Atom, Set<Bond>> bondMap = new HashMap<Atom, Set<Bond>>();
 
     public MoleculeStructure() {
         moleculeId = nextMoleculeId++;
@@ -33,7 +33,7 @@ public class MoleculeStructure {
     public Atom addAtom( Atom atom ) {
         assert ( !atoms.contains( atom ) );
         atoms.add( atom );
-        bondMap.put( atom, new HashSet<Bond>() );
+//        bondMap.put( atom, new HashSet<Bond>() );
         return atom;
     }
 
@@ -41,12 +41,22 @@ public class MoleculeStructure {
         assert ( atoms.contains( bond.a ) );
         assert ( atoms.contains( bond.b ) );
         bonds.add( bond );
-        bondMap.get( bond.a ).add( bond );
-        bondMap.get( bond.b ).add( bond );
+//        bondMap.get( bond.a ).add( bond );
+//        bondMap.get( bond.b ).add( bond );
     }
 
     public void addBond( Atom a, Atom b ) {
         addBond( new Bond( a, b ) );
+    }
+
+    public Set<Bond> getBondsInvolving( Atom atom ) {
+        Set<Bond> result = new HashSet<Bond>();
+        for ( Bond bond : bonds ) {
+            if ( bond.contains( atom ) ) {
+                result.add( bond );
+            }
+        }
+        return result;
     }
 
     /**
@@ -220,7 +230,7 @@ public class MoleculeStructure {
      */
     public List<Atom> getNeighbors( Atom atom ) {
         List<Atom> ret = new LinkedList<Atom>();
-        for ( Bond bond : bondMap.get( atom ) ) {
+        for ( Bond bond : getBondsInvolving( atom ) ) {
             ret.add( bond.getOtherAtom( atom ) );
         }
         return ret;
