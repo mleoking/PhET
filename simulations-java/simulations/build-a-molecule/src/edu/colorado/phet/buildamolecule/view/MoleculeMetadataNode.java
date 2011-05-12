@@ -68,51 +68,9 @@ public class MoleculeMetadataNode extends PNode {
             /*---------------------------------------------------------------------------*
             * show 3d button
             *----------------------------------------------------------------------------*/
-            addChild( new PNode() {{
-                PImage image = new PImage( BuildAMoleculeResources.getImage( BuildAMoleculeConstants.IMAGE_3D_ICON ) );
-                addChild( image );
-                addInputEventListener( new CursorHandler() {
-                    @Override
-                    public void mouseClicked( PInputEvent event ) {
-                        // if the 3D dialog is not shown, show it
-                        if ( dialog.get().isNone() ) {
-                            // set our reference to it ("disables" this button)
-                            dialog.set( new Option.Some<JmolDialog>( JmolDialog.displayMolecule3D( parentFrame, completeMolecule ) ) );
-
-                            // listen to when it closes so we can re-enable the button
-                            dialog.get().get().addWindowListener( new WindowAdapter() {
-                                @Override public void windowClosed( WindowEvent e ) {
-                                    dialog.set( new Option.None<JmolDialog>() );
-                                }
-                            } );
-                        }
-                        else {
-                            dialog.get().get().requestFocus();
-                        }
-                    }
-                } );
+            addChild( new ShowMolecule3DButtonNode( parentFrame, dialog, completeMolecule ) {{
                 setOffset( currentX.get(), 0 );
                 currentX.set( currentX.get() + getFullBounds().getWidth() + 5 );
-
-                // change overall transparency based on dialog existence
-                dialog.addObserver( new SimpleObserver() {
-                    public void update() {
-                        setTransparency( dialog.get().isSome() ? 0.5f : 1f );
-                    }
-                } );
-
-                /*---------------------------------------------------------------------------*
-                * gray "disabled" overlay
-                *----------------------------------------------------------------------------*/
-                addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, image.getWidth(), image.getHeight() ) ) {{
-                    setPaint( new Color( 128, 128, 128, 64 ) );
-                    setStroke( null );
-                    dialog.addObserver( new SimpleObserver() {
-                        public void update() {
-                            setVisible( dialog.get().isSome() );
-                        }
-                    } );
-                }} );
             }} );
         }
 
