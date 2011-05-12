@@ -215,10 +215,10 @@ public class ConductivityTesterNode extends PhetPNode {
 
     private void updatePositiveProbeLocation() {
         // probe
-        Point2D probeLocation = new Point2D.Double( tester.getPositiveProbeLocationReference().getX() - tester.getLocationReference().getX(),
-                                                    tester.getPositiveProbeLocationReference().getY() - tester.getLocationReference().getY() );
+        Point2D probeLocation = new Point2D.Double( tester.getPositiveProbeLocationReference().getX(),
+                                                    tester.getPositiveProbeLocationReference().getY() );
         Point2D viewLocation = transform.modelToView( probeLocation );
-        positiveProbeNode.setOffset( viewLocation );
+        positiveProbeNode.setOffset( viewLocation.getX() - getOffset().getX(), viewLocation.getY() - getOffset().getY() );
 
         // wire
         double x = batteryNode.getFullBoundsReference().getMaxX();
@@ -232,10 +232,10 @@ public class ConductivityTesterNode extends PhetPNode {
 
     private void updateNegativeProbeLocation() {
         // probe
-        Point2D probeLocation = new Point2D.Double( tester.getNegativeProbeLocationReference().getX() - tester.getLocationReference().getX(),
-                                                    tester.getNegativeProbeLocationReference().getY() - tester.getLocationReference().getY() );
+        Point2D probeLocation = new Point2D.Double( tester.getNegativeProbeLocationReference().getX(),
+                                                    tester.getNegativeProbeLocationReference().getY() );
         Point2D viewLocation = transform.modelToView( probeLocation );
-        negativeProbeNode.setOffset( viewLocation );
+        negativeProbeNode.setOffset( viewLocation.getX() - getOffset().getX(), viewLocation.getY() - getOffset().getY() );
 
         // wire
         double x = lightBulbNode.getFullBoundsReference().getCenterX();
