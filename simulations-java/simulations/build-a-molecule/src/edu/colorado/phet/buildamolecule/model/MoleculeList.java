@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
 
-import edu.colorado.phet.buildamolecule.BuildAMoleculeApplication;
 import edu.colorado.phet.buildamolecule.BuildAMoleculeResources;
 
 /**
@@ -158,16 +157,6 @@ public class MoleculeList {
 
     public List<CompleteMolecule> getAllCompleteMolecules() {
         return new LinkedList<CompleteMolecule>( completeMolecules );
-    }
-
-    public CompleteMolecule pickRandomCollectionBoxMolecule() {
-        // TODO: once this is gone, refactor so we don't need the molecule list master instance for this
-        if ( BuildAMoleculeApplication.allowGenerationWithAllMolecules.get() ) {
-            return completeMolecules.get( random.nextInt( completeMolecules.size() ) );
-        }
-        else {
-            return COLLECTION_BOX_MOLECULES[random.nextInt( COLLECTION_BOX_MOLECULES.length )];
-        }
     }
 
     /*---------------------------------------------------------------------------*
