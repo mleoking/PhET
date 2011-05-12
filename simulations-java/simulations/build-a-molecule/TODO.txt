@@ -7,6 +7,7 @@ Weird 3d structures?
 Add in "molecule data loading"?
 Size improvement on structures.txt (and serialized format)
 Jmol loading speed is slow - speed up
+Experiment with true 2d structure and loops!
 
 detection of molecules with those weird things like in 6432310, and check if it removes the name duplication issues earlier noted:
     2.0000    0.7500    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
