@@ -21,6 +21,9 @@ public class LewisDotModel {
     * directions
     *----------------------------------------------------------------------------*/
 
+    /**
+     * Represents a cardinal direction for use in our model. Also includes unit vector version
+     */
     public static enum Direction {
         North( new ImmutableVector2D( 0, 1 ) ),
         East( new ImmutableVector2D( 1, 0 ) ),
@@ -69,11 +72,17 @@ public class LewisDotModel {
         for ( Direction direction : Direction.values() ) {
             if ( dotAtom.hasConnection( direction ) ) {
                 LewisDotAtom other = dotAtom.getLewisDotAtom( direction );
-                unBond( dotAtom.getAtom(), other.getAtom() );
+                breakBond( dotAtom.getAtom(), other.getAtom() );
             }
         }
     }
 
+    /**
+     * Break the bond between A and B (if it exists)
+     *
+     * @param a A
+     * @param b B
+     */
     public void breakBond( Atom a, Atom b ) {
         LewisDotAtom dotA = getLewisDotAtom( a );
         LewisDotAtom dotB = getLewisDotAtom( b );
@@ -82,6 +91,13 @@ public class LewisDotModel {
         dotB.disconnect( Direction.opposite( direction ) );
     }
 
+    /**
+     * Bond together atoms A and B.
+     *
+     * @param a       A
+     * @param dirAtoB The direction from A to B. So if A is to the left, B is on the right, the direction would be East
+     * @param b       B
+     */
     public void bond( Atom a, Direction dirAtoB, Atom b ) {
         LewisDotAtom dotA = getLewisDotAtom( a );
         LewisDotAtom dotB = getLewisDotAtom( b );
@@ -89,17 +105,10 @@ public class LewisDotModel {
         dotB.connect( Direction.opposite( dirAtoB ), dotA );
     }
 
-    public void unBond( Atom a, Atom b ) {
-        LewisDotAtom dotA = getLewisDotAtom( a );
-        LewisDotAtom dotB = getLewisDotAtom( b );
-        for ( Direction direction : Direction.values() ) {
-            if ( dotA.hasConnection( direction ) && dotA.getLewisDotAtom( direction ) == dotB ) {
-                dotA.disconnect( direction );
-                dotB.disconnect( Direction.opposite( direction ) );
-            }
-        }
-    }
-
+    /**
+     * @param atom An atom
+     * @return All of the directions that are open (not bonded to another) on the atom
+     */
     public List<Direction> getOpenDirections( Atom atom ) {
         List<Direction> ret = new LinkedList<Direction>();
         LewisDotAtom dotAtom = getLewisDotAtom( atom );
@@ -111,14 +120,23 @@ public class LewisDotModel {
         return ret;
     }
 
+    /**
+     * @param a A
+     * @param b B
+     * @return The bond direction from A to B. If it doesn't exist, an exception is thrown
+     */
     public Direction getBondDirection( Atom a, Atom b ) {
         LewisDotAtom dotA = getLewisDotAtom( a );
         for ( Direction direction : Direction.values() ) {
-            if ( dotA.hasConnection( direction ) && dotA.connections.get( direction ).get().atom == b ) {
+            if ( dotA.hasConnection( direction ) && dotA.getLewisDotAtom( direction ).atom == b ) {
                 return direction;
             }
         }
         throw new RuntimeException( "Bond not found" );
+    }
+
+    public boolean willAllowBond( Atom a, Direction direction, Atom b ) {
+        return true;
     }
 
     /*---------------------------------------------------------------------------*

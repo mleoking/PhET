@@ -5,6 +5,7 @@ import java.awt.geom.Point2D;
 import java.util.*;
 
 import edu.colorado.phet.buildamolecule.BuildAMoleculeApplication;
+import edu.colorado.phet.buildamolecule.model.LewisDotModel.Direction;
 import edu.colorado.phet.chemistry.model.Atom;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -601,10 +602,17 @@ public class Kit {
                     }
 
                     for ( LewisDotModel.Direction otherDirection : lewisDotModel.getOpenDirections( otherAtom.getAtomInfo() ) ) {
-                        if ( !lewisDotModel.getOpenDirections( ourAtomInfo ).contains( LewisDotModel.Direction.opposite( otherDirection ) ) ) {
+                        Direction direction = Direction.opposite( otherDirection );
+                        if ( !lewisDotModel.getOpenDirections( ourAtomInfo ).contains( direction ) ) {
                             // the spot on otherAtom was open, but the corresponding spot on our main atom was not
                             continue;
                         }
+
+                        // check the lewis dot model to make sure we wouldn't have two "overlapping" atoms that aren't both hydrogen
+                        if ( !lewisDotModel.willAllowBond( ourAtomInfo, direction, otherAtom.getAtomInfo() ) ) {
+                            continue;
+                        }
+
                         BondingOption location = new BondingOption( otherAtom, otherDirection, ourAtom );
                         double distance = ourAtom.getPosition().getDistance( location.getIdealLocation() );
                         if ( distance < bestDistanceFromIdealLocation ) {
