@@ -126,6 +126,13 @@ public class CollectionBoxNode extends SwingLayoutNode {
                 blink();
             }
         } );
+
+        // update the color if it changes (developer control)
+        BuildAMoleculeConstants.MOLECULE_COLLECTION_BOX_HIGHLIGHT.addObserver( new SimpleObserver() {
+            public void update() {
+                updateBoxGraphics();
+            }
+        } );
     }
 
     protected PNode getShow3dButton() {
@@ -260,7 +267,7 @@ public class CollectionBoxNode extends SwingLayoutNode {
     private void updateBoxGraphics() {
         blackBox.setStroke( new BasicStroke( 4 ) );
         if ( box.isFull() ) {
-            blackBox.setStrokePaint( BuildAMoleculeConstants.MOLECULE_COLLECTION_BOX_HIGHLIGHT );
+            blackBox.setStrokePaint( BuildAMoleculeConstants.MOLECULE_COLLECTION_BOX_HIGHLIGHT.get() );
         }
         else {
             blackBox.setStrokePaint( BuildAMoleculeConstants.MOLECULE_COLLECTION_BACKGROUND );

@@ -7,6 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.buildamolecule.model.MoleculeList;
 import edu.colorado.phet.buildamolecule.module.AbstractBuildAMoleculeModule;
@@ -20,8 +22,10 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
+import edu.colorado.phet.common.phetcommon.view.controls.ColorControl;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBoxMenuItem;
 import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 
 /**
@@ -113,6 +117,27 @@ public class BuildAMoleculeApplication extends PiccoloPhetApplication {
         }} );
         developerMenu.add( new PropertyCheckBoxMenuItem( "Reset kit leaves collection box alone (any molecule left in box will be permanent)", resetKitIgnoresCollectionBoxes ) );
         developerMenu.add( new PropertyCheckBoxMenuItem( "Enable bond breaking", allowBondBreaking ) );
+        developerMenu.add( new JMenuItem( "Change Filled Collection Box Color" ) {{
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    new JDialog( frame ) {{
+                        setTitle( "Build a Molecule Colors" );
+                        setResizable( false );
+
+                        final ColorControl control = new ColorControl( frame, "box highlight:", BuildAMoleculeConstants.MOLECULE_COLLECTION_BOX_HIGHLIGHT.get() );
+                        control.addChangeListener( new ChangeListener() {
+                            public void stateChanged( ChangeEvent e ) {
+                                BuildAMoleculeConstants.MOLECULE_COLLECTION_BOX_HIGHLIGHT.set( control.getColor() );
+                            }
+                        } );
+
+                        setContentPane( control );
+                        pack();
+                        SwingUtils.centerInParent( this );
+                    }}.setVisible( true );
+                }
+            } );
+        }} );
     }
 
     //----------------------------------------------------------------------------
