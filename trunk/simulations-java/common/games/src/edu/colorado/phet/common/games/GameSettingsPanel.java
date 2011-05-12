@@ -8,7 +8,6 @@ import java.awt.FlowLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -16,7 +15,6 @@ import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
@@ -39,17 +37,6 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class GameSettingsPanel extends GridPanel {
-
-    // images
-    private static final BufferedImage SOUND_ICON = GamesResources.getImage( "sound-icon.png" );
-    private static final BufferedImage STOPWATCH_ICON = GamesResources.getImage( "blue-stopwatch.png" );
-
-    // localized strings
-    private static final String TITLE_GAME_SETTINGS = PhetCommonResources.getString( "Games.title.gameSettings" );
-    private static final String LABEL_LEVEL_CONTROL = PhetCommonResources.getString( "Games.label.levelControl" );
-    private static final String RADIO_BUTTON_ON = PhetCommonResources.getString( "Games.radioButton.on" );
-    private static final String RADIO_BUTTON_OFF = PhetCommonResources.getString( "Games.radioButton.off" );
-    private static final String BUTTON_START = PhetCommonResources.getString( "Games.button.start" );
 
     // "look" properties
     private static final PhetFont TITLE_FONT = new PhetFont( 24 );
@@ -85,7 +72,7 @@ public class GameSettingsPanel extends GridPanel {
         setBackground( BACKGROUND_FILL_COLOR );
 
         // Title
-        JLabel titleLabel = new JLabel( TITLE_GAME_SETTINGS );
+        JLabel titleLabel = new JLabel( GameConstants.TITLE_GAME_SETTINGS );
         titleLabel.setFont( TITLE_FONT );
 
         // title separator
@@ -93,7 +80,7 @@ public class GameSettingsPanel extends GridPanel {
         titleSeparator.setForeground( Color.BLACK );
 
         // Level control
-        JLabel levelLabel = new JLabel( LABEL_LEVEL_CONTROL );
+        JLabel levelLabel = new JLabel( GameConstants.LABEL_LEVEL_CONTROL );
         levelLabel.setFont( LABEL_FONT );
         JPanel levelPanel = new JPanel( new FlowLayout( FlowLayout.LEFT ) );
         final ArrayList<PropertyRadioButton<Integer>> levelRadioButtons = new ArrayList<PropertyRadioButton<Integer>>();
@@ -107,12 +94,12 @@ public class GameSettingsPanel extends GridPanel {
         }
 
         // Timer control
-        JLabel timerLabel = new JLabel( new ImageIcon( STOPWATCH_ICON ) );
+        JLabel timerLabel = new JLabel( new ImageIcon( GameConstants.STOPWATCH_ICON ) );
         timerLabel.setFont( LABEL_FONT );
-        final PropertyRadioButton<Boolean> timerOnRadioButton = new PropertyRadioButton<Boolean>( RADIO_BUTTON_ON, gameSettings.timerEnabled, true );
+        final PropertyRadioButton<Boolean> timerOnRadioButton = new PropertyRadioButton<Boolean>( GameConstants.RADIO_BUTTON_ON, gameSettings.timerEnabled, true );
         timerOnRadioButton.setFont( CONTROL_FONT );
         timerOnRadioButton.setOpaque( false );
-        final PropertyRadioButton<Boolean> timerOffRadioButton = new PropertyRadioButton<Boolean>( RADIO_BUTTON_OFF, gameSettings.timerEnabled, false );
+        final PropertyRadioButton<Boolean> timerOffRadioButton = new PropertyRadioButton<Boolean>( GameConstants.RADIO_BUTTON_OFF, gameSettings.timerEnabled, false );
         timerOffRadioButton.setFont( CONTROL_FONT );
         timerOffRadioButton.setOpaque( false );
         ButtonGroup timerButtonGroup = new ButtonGroup();
@@ -124,12 +111,12 @@ public class GameSettingsPanel extends GridPanel {
         timerPanel.add( timerOffRadioButton );
 
         // Sound control
-        JLabel soundLabel = new JLabel( new ImageIcon( SOUND_ICON ) );
+        JLabel soundLabel = new JLabel( new ImageIcon( GameConstants.SOUND_ICON ) );
         soundLabel.setFont( LABEL_FONT );
-        final PropertyRadioButton<Boolean> soundOnRadioButton = new PropertyRadioButton<Boolean>( RADIO_BUTTON_ON, gameSettings.soundEnabled, true );
+        final PropertyRadioButton<Boolean> soundOnRadioButton = new PropertyRadioButton<Boolean>( GameConstants.RADIO_BUTTON_ON, gameSettings.soundEnabled, true );
         soundOnRadioButton.setFont( CONTROL_FONT );
         soundOnRadioButton.setOpaque( false );
-        final PropertyRadioButton<Boolean> soundOffRadioButton = new PropertyRadioButton<Boolean>( RADIO_BUTTON_OFF, gameSettings.soundEnabled, false );
+        final PropertyRadioButton<Boolean> soundOffRadioButton = new PropertyRadioButton<Boolean>( GameConstants.RADIO_BUTTON_OFF, gameSettings.soundEnabled, false );
         soundOffRadioButton.setFont( CONTROL_FONT );
         soundOffRadioButton.setOpaque( false );
         ButtonGroup soundButtonGroup = new ButtonGroup();
@@ -154,7 +141,7 @@ public class GameSettingsPanel extends GridPanel {
         buttonSeparator.setForeground( Color.BLACK );
 
         // Start! button
-        JButton startButton = new JButton( BUTTON_START );
+        JButton startButton = new JButton( GameConstants.BUTTON_START );
         startButton.setOpaque( false );
         startButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
