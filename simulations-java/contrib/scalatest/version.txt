@@ -1,1 +1,1 @@
-1.0.1-for-scala-2.8.0.Beta1-NQRFPT  17-Mar-2010 17:01  
+scalatest-1.4.1 for Scala 2.9 on 5/12/2011
