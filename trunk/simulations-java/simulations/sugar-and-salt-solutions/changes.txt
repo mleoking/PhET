@@ -1,3 +1,4 @@
+Fixed: salt shaker doesn't reset on reset all
 Fixed: salt shaker should be in front
 Fixed: conductivity tester doesn't appear in the new coordinate frame
 Added tick marks and labels for beaker volume

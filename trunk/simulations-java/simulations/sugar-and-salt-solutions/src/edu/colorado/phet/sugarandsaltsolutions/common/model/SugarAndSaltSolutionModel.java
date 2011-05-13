@@ -246,6 +246,7 @@ public abstract class SugarAndSaltSolutionModel {
         inputFlowRate.reset();
         outputFlowRate.reset();
         sugarDispenser.reset();
+        saltShaker.reset();
         conductivityTester.reset();
         dispenserType.reset();
 
