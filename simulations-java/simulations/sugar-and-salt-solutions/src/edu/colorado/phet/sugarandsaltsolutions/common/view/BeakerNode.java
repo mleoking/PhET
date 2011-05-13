@@ -16,5 +16,8 @@ import edu.umd.cs.piccolo.PNode;
 public class BeakerNode extends PNode {
     public BeakerNode( ModelViewTransform transform, Beaker beaker ) {
         addChild( new PhetPPath( transform.modelToView( beaker.getWallShape() ), Color.gray ) );
+
+        System.out.println( "beaker.getMaxFluidVolume() = " + beaker.getMaxFluidVolume() );
+//        addChild( new PhetPPath( beaker.getMaxFluidVolume(), new BasicStroke( 1 ), Color.green ) );
     }
 }

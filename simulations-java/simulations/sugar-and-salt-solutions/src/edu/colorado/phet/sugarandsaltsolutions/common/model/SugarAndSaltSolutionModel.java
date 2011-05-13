@@ -32,6 +32,10 @@ public abstract class SugarAndSaltSolutionModel {
     public final double beakerX = -beakerWidth / 2;
     public final double beakerHeight = height * 0.5;
 
+//    public final double beakerWidth = 0.1;
+//    public final double beakerX = -beakerWidth / 2;
+//    public final double beakerHeight = 0.1;
+
     public final Beaker beaker = new Beaker( beakerX, 0, beakerWidth, beakerHeight );//The beaker into which you can add water, salt and sugar.
     public final Water water = new Water( beaker );
     public final Property<Double> inputFlowRate = new Property<Double>( 0.0 );//rate that water flows into the beaker in m^3/s
