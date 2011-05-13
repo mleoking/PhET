@@ -18,12 +18,21 @@ public class SugarDispenser extends Dispenser {
     //Keep track of the number of model updates so that sugar crystals can be added once every n steps (to decrease output sugar density)
     protected int updateModelCount = 0;
 
+    //Below this y-value, the dispenser will rotate
+    private final double yRotate;
+
     public SugarDispenser( double x, double y, Beaker beaker ) {
-        super( x, y, beaker );
+        super( x, y, 0.0, beaker );
+        yRotate = beaker.getTopY() + beaker.getHeight() * 0.5;
     }
 
     public void translate( Dimension2D delta ) {
         super.translate( delta );
+        //point it down if it is low enough
+        if ( center.get().getY() < yRotate ) {
+            double amountPast = yRotate - center.get().getY();
+            angle.set( amountPast * 20 * 4 );
+        }
         open.set( angle.get() > Math.PI / 2 );
     }
 

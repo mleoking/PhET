@@ -5,7 +5,6 @@ import java.awt.geom.Dimension2D;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.model.property.Property;
 
 /**
  * Model element for the salt shaker, which includes its position and rotation and adds salt to the model when shaken
@@ -13,30 +12,24 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
  * @author Sam Reid
  */
 public class SaltShaker extends Dispenser {
-    //True if the shaker is pointed down.  If pointed down and "reloaded" (see below), it will emit salt crystals
-    public final Property<Boolean> pointedDown = new Property<Boolean>( false );
-
-    //True if the user has rotated the shaker up, thus "reloading" it for another shake
-    public final Property<Boolean> reloaded = new Property<Boolean>( true );
     private final Random random = new Random();
 
+    //Keep track of whether the salt shaker was shaken, if so, then generate salt on the next updateModel() step
+    private boolean translated;
+
     public SaltShaker( double x, double y, Beaker beaker ) {
-        super( x, y, beaker );
+        super( x, y, Math.PI * 3 / 4, beaker );
     }
 
-    //Translate the shaker by the specified delta
-    public void translate( Dimension2D delta ) {
+    @Override public void translate( Dimension2D delta ) {
         super.translate( delta );
-        if ( angle.get() < Math.PI / 2 * 1.1 ) {
-            reloaded.set( true );
-        }
-        pointedDown.set( angle.get() > Math.PI / 2 && reloaded.get() );
+        translated = true;
     }
 
     //Called when the model steps in time, and adds any salt crystals to the sim if the dispenser is pouring
     public void updateModel( SugarAndSaltSolutionModel model ) {
         //Check to see if we should be emitting salt crystals-- if the shaker was shaken up then down it will be ready to emit salt
-        if ( enabled.get() && pointedDown.get() ) {
+        if ( enabled.get() && translated ) {
             int numCrystals = random.nextInt( 6 ) + 2;
             for ( int i = 0; i < numCrystals; i++ ) {
                 //Determine where the salt should come out
@@ -48,9 +41,8 @@ public class SaltShaker extends Dispenser {
                     //Give the salt an appropriate velocity when it comes out so it arcs
                     velocity.set( getCrystalVelocity( outputPoint ) );
                 }} );
+                translated = false;
             }
-            pointedDown.set( false );
-            reloaded.set( false );
         }
     }
 }
