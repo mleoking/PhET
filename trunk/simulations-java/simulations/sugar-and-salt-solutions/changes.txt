@@ -1,3 +1,4 @@
+Added tick marks and labels for beaker volume
 Fixed: bar charts fill up too quickly
 # 0.00.06 (51903) May 13, 2011
 Made the fluid start halfway up the beaker
