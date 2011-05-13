@@ -18,32 +18,27 @@ public class Dispenser {
     public final Property<ImmutableVector2D> center;
 
     //Model the angle of rotation, 0 degrees is straight up (not tilted)
-    public final DoubleProperty angle = new DoubleProperty( 0.0 );
+    public final DoubleProperty angle;
 
     //True if the user has selected this dispenser type
     public final Property<Boolean> enabled = new Property<Boolean>( false );
-    private final double yRotate;//Below this y-value, the dispenser will rotate
     private final Beaker beaker;
 
-    public Dispenser( double x, double y, Beaker beaker ) {
+    public Dispenser( double x, double y, double angle, Beaker beaker ) {
         this.beaker = beaker;
+        this.angle = new DoubleProperty( angle );
         center = new Property<ImmutableVector2D>( new ImmutableVector2D( x, y ) );
-        yRotate = beaker.getTopY() + beaker.getHeight() * 0.5;
     }
 
     public void rotate( double v ) {
         angle.add( v );
     }
 
-    //Translate the dispenser, pointing it down if it is low enough
+    //Translate the dispenser by the specified delta in model coordinates
     public void translate( Dimension2D delta ) {
         ImmutableVector2D proposedPoint = center.get().plus( delta );
         double y = MathUtil.clamp( beaker.getTopY(), proposedPoint.getY(), Double.POSITIVE_INFINITY );
         center.set( new ImmutableVector2D( proposedPoint.getX(), y ) );
-        if ( center.get().getY() < yRotate ) {
-            double amountPast = yRotate - center.get().getY();
-            angle.set( amountPast * 20 * 4 );
-        }
     }
 
     //Reset the dispenser's position and orientation

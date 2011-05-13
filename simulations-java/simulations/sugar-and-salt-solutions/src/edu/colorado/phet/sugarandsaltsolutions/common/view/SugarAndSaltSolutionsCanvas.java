@@ -166,6 +166,14 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
             }
         } ) );
 
+        //Add a node for children that should be behind the shakers
+        behindShakerNode = new PNode();
+        addChild( behindShakerNode );
+
+        //add the salt and sugar dispenser nodes, which should always be in front of everything
+        addChild( new SaltShakerNode( transform, model.saltShaker ) );
+        addChild( new SugarDispenserNode( transform, model.sugarDispenser ) );
+
         //Show the crystal layer behind the water and beaker so the crystals look like they go into the water instead of in front of it.
         addChild( crystalLayer );
 
@@ -192,7 +200,7 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
         }} );
 
         //Add the graphic for the conductivity tester--the probes can be submerged to light the bulb
-        addChild( new ConductivityTesterNode( model.conductivityTester, transform, Color.lightGray, Color.red, Color.green, false ) {{
+        behindShakerNode.addChild( new ConductivityTesterNode( model.conductivityTester, transform, Color.lightGray, Color.red, Color.green, false ) {{
             model.conductivityTester.visible.addObserver( new VoidFunction1<Boolean>() {
                 public void apply( Boolean visible ) {
                     setVisible( visible );
@@ -202,14 +210,6 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
 
         //Debug for showing stage
         addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, stageSize.getWidth(), stageSize.getHeight() ), new BasicStroke( 2 ), Color.red ) );
-
-        //Add a node for children that should be behind the shakers
-        behindShakerNode = new PNode();
-        addChild( behindShakerNode );
-
-        //add the salt and sugar dispenser nodes, which should always be in front of everything
-        addChild( new SaltShakerNode( transform, model.saltShaker ) );
-        addChild( new SugarDispenserNode( transform, model.sugarDispenser ) );
     }
 
     public void addChild( PNode node ) {
