@@ -67,8 +67,8 @@ class IsotopeProprotionsPieChart extends PNode {
                 boolean isotopesInChamber = model.getIsotopeTestChamber().getTotalIsotopeCount() > 0;
                 // Only show the chart if there is nothing in the chamber.
                 pieChart.setVisible( isotopesInChamber );
-                emptyPieChart.setVisible( isotopesInChamber );
                 labelLayer.setVisible( isotopesInChamber );
+                emptyPieChart.setVisible( !isotopesInChamber );
                 if ( isotopesInChamber ) {
                     // Clear the current labels.
                     labelLayer.removeAllChildren();
