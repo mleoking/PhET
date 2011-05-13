@@ -1,3 +1,4 @@
+Made it possible to modify background and salt colors with developer menu items
 Removed "show concentration" checkbox, will be moved to a maximize/minimize button on the concentration bar chart
 # 0.00.04 (51837) May 11, 2011
 Removed workaround and improved probe initial locations

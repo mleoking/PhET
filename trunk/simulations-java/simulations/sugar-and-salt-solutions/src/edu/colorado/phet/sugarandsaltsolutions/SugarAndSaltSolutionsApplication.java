@@ -22,11 +22,21 @@ public class SugarAndSaltSolutionsApplication extends PiccoloPhetApplication {
 
     public SugarAndSaltSolutionsApplication( PhetApplicationConfig config ) {
         super( config );
-        addModule( new IntroModule() );
-        addModule( new MicroscopicModule() );
+
+        //Create a shared configuration for changing colors in all tabs
+        final SugarAndSaltSolutionsConfig configuration = new SugarAndSaltSolutionsConfig();
+
+        //Create the modules
+        addModule( new IntroModule( configuration ) );
+        addModule( new MicroscopicModule( configuration ) );
+
+        //Add developer menus for changing the color of background and salt
+        getPhetFrame().getDeveloperMenu().add( new ColorDialogMenuItem( getPhetFrame(), "Background Color...", configuration.backgroundColor ) );
+        getPhetFrame().getDeveloperMenu().add( new ColorDialogMenuItem( getPhetFrame(), "Salt Color...", configuration.saltColor ) );
     }
 
     public static void main( String[] args ) {
         new PhetApplicationLauncher().launchSim( args, NAME, SugarAndSaltSolutionsApplication.class );
     }
+
 }

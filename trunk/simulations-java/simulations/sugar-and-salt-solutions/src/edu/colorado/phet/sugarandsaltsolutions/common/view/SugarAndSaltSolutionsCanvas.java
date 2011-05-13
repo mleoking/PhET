@@ -7,8 +7,6 @@ import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-import javax.swing.*;
-
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.Option.None;
@@ -26,6 +24,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.conductivitytester.ConductivityTesterNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
+import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsConfig;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.Salt;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.Sugar;
@@ -64,7 +63,7 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
 
     private final Property<Boolean> showValues = new Property<Boolean>( true );
 
-    public SugarAndSaltSolutionsCanvas( final SugarAndSaltSolutionModel model, final ObservableProperty<Boolean> removeSaltSugarButtonVisible ) {
+    public SugarAndSaltSolutionsCanvas( final SugarAndSaltSolutionModel model, final ObservableProperty<Boolean> removeSaltSugarButtonVisible, final SugarAndSaltSolutionsConfig config ) {
         this.model = model;
 
         //Gets the size of the stage to be used in the view
@@ -87,7 +86,12 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
         rootNode = new PNode();
         addWorldChild( rootNode );
 
-        setBackground( Color.black );//Background is black so that white crystals can be seen
+        //Use the background color specified in the backgroundColor, since it is changeable in the developer menu
+        config.backgroundColor.addObserver( new VoidFunction1<Color>() {
+            public void apply( Color color ) {
+                setBackground( config.backgroundColor.get() );
+            }
+        } );
 
         //Set the transform from stage coordinates to screen coordinates
         setWorldTransformStrategy( new CenteredStage( this, stageSize ) );
@@ -152,14 +156,14 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
         //Add salt crystals graphics when salt crystals are added to the model
         model.saltAdded.addListener( new CrystalMaker<Salt>( transform, crystalLayer, new Function1<Salt, PNode>() {
             public PNode apply( Salt salt ) {
-                return new SaltNode( transform, salt );
+                return new SaltNode( transform, salt, config.saltColor );
             }
         } ) );
 
         //Add sugar crystals graphics when sugar crystals are added to the model
         model.sugarAdded.addListener( new CrystalMaker<Sugar>( transform, crystalLayer, new Function1<Sugar, PNode>() {
             public PNode apply( Sugar sugar ) {
-                return new SugarNode( transform, sugar );
+                return new SugarNode( transform, sugar, config.saltColor );
             }
         } ) );
 
