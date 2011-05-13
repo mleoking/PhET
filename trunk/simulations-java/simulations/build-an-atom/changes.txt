@@ -1,3 +1,5 @@
+# 3.00.00 (51913) May 13, 2011
+5/13/11 >Initial publication of the Isotopes and Atomic Mass simulation.
 # 2.03.07 (51896) May 13, 2011
 5/13/11 Fixed issue with labels on pie chart, made sure particles are always above indicators.
 # 2.03.06 (51872) May 12, 2011
