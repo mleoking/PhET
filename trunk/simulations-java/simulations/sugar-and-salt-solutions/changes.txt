@@ -1,3 +1,4 @@
+Made the fluid start halfway up the beaker
 Fixed units and make the beaker, shakers and faucets be the right size and in the right locations in SI units
 Switched to semi-sweet chocolate as the default background color
 # 0.00.05 (51898) May 13, 2011

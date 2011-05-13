@@ -11,8 +11,8 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
  * @author Sam Reid
  */
 public class Water {
-    //volume in SI (m^3).  Start at 1 L (halfway up the 2L beaker)
-    public final Property<Double> volume = new Property<Double>( 0.1 );
+    //volume in SI (m^3).  Start at 1 L (halfway up the 2L beaker).  Note that 0.001 cubic meters = 1L
+    public final Property<Double> volume = new Property<Double>( 0.001 );
     private final Beaker beaker;
 
     public Water( Beaker beaker ) {
