@@ -45,6 +45,10 @@ public class BuildAnAtomCanvas extends PhetPCanvas implements Resettable {
     // Root node where all other nodes should be added.
     private final PNode rootNode;
 
+    // Nodes used to create layering effect on the canvas.
+    private final PNode particleLayer;
+    private final PNode indicatorLayer;
+
     // Transform.
     private final ModelViewTransform mvt;
 
@@ -83,25 +87,32 @@ public class BuildAnAtomCanvas extends PhetPCanvas implements Resettable {
         rootNode = new PNode();
         addWorldChild( rootNode );
 
-        rootNode.addChild( new InteractiveSchematicAtomNode(model, mvt, orbitalViewProperty ));
+        // Canvas layers.
+        indicatorLayer = new PNode();
+        rootNode.addChild( indicatorLayer );
+        particleLayer = new PNode();
+        rootNode.addChild( particleLayer );
+
+        // Add the atom, which includes all of the sub-atomic particles and the buckets.
+        particleLayer.addChild( new InteractiveSchematicAtomNode( model, mvt, orbitalViewProperty ) );
 
         // Show the name of the element.
         ElementNameIndicator elementNameIndicator = new ElementNameIndicator( model.getAtom(), showName, false );
         // Position the name indicator above the nucleus
         elementNameIndicator.setOffset( mvt.modelToViewX( 0 ), mvt.modelToViewY( Atom.ELECTRON_SHELL_1_RADIUS * 3.0 / 4.0 ) + elementNameIndicator.getFullBounds().getHeight() / 2 );
-        rootNode.addChild( elementNameIndicator );
+        indicatorLayer.addChild( elementNameIndicator );
 
         // Show whether the nucleus is stable.
         final StabilityIndicator stabilityIndicator = new StabilityIndicator( model.getAtom(), showStableUnstable ){{
             // Position the stability indicator under the nucleus
             setOffset( mvt.modelToViewX( 0 ), mvt.modelToViewY( -Atom.ELECTRON_SHELL_1_RADIUS * 0.67 ) );
         }};
-        rootNode.addChild( stabilityIndicator );
+        indicatorLayer.addChild( stabilityIndicator );
 
         // Show the legend/particle count indicator in the top left.
         ParticleCountLegend particleCountLegend = new ParticleCountLegend( model.getAtom() );
         particleCountLegend.setOffset( 20, 10 );//top left corner, but with some padding
-        rootNode.addChild( particleCountLegend );
+        indicatorLayer.addChild( particleCountLegend );
 
         final PDimension windowSize = new PDimension( 400, 100 );//for the 3 lower windows
         final double verticalSpacingBetweenWindows = 12;
@@ -114,7 +125,7 @@ public class BuildAnAtomCanvas extends PhetPCanvas implements Resettable {
         elementIndicatorNode.setOffset( elementIndicatorNodeWindowSize.width / 2 - elementIndicatorNode.getFullBounds().getWidth() / 2, elementIndicatorNodeWindowSize.getHeight() / 2 - elementIndicatorNode.getFullBounds().getHeight() / 2 );
         elementIndicatorWindow.setOffset( indicatorWindowPosX, verticalSpacingBetweenWindows );
         elementIndicatorNode.translate( 0, 10 );//fudge factor since centering wasn't quite right
-        rootNode.addChild( elementIndicatorWindow );
+        indicatorLayer.addChild( elementIndicatorWindow );
 
         // Symbol indicator
         SymbolIndicatorNode symbolNode = new SymbolIndicatorNode( model.getAtom(), false );
@@ -123,40 +134,40 @@ public class BuildAnAtomCanvas extends PhetPCanvas implements Resettable {
         final double insetX = 20;
         symbolNode.setOffset( insetX, windowSize.height / 2 - symbolNode.getFullBounds().getHeight() / 2 );
         symbolWindow.setOffset( indicatorWindowPosX, 250 );
-        rootNode.addChild( symbolWindow );
+        indicatorLayer.addChild( symbolWindow );
 
         // Mass indicator
         massWindow = new MaximizeControlNode( BuildAnAtomStrings.INDICATOR_MASS_NUMBER, windowSize, new MassIndicatorNode( model.getAtom(), orbitalViewProperty){{
             setOffset( insetX, windowSize.height / 2 - getFullBounds().getHeight() / 2 );
         }}, true );
         massWindow.setOffset( indicatorWindowPosX, symbolWindow.getFullBounds().getMaxY() + verticalSpacingBetweenWindows );
-        rootNode.addChild( massWindow );
+        indicatorLayer.addChild( massWindow );
 
         // Charge indicator
         final ChargeIndicatorNode chargeIndicatorNode = new ChargeIndicatorNode( model.getAtom() );
         chargeWindow = new MaximizeControlNode( BuildAnAtomStrings.INDICATOR_CHARGE, windowSize, chargeIndicatorNode, true );
         chargeIndicatorNode.setOffset( insetX, windowSize.height / 2 - chargeIndicatorNode.getFullBounds().getHeight() / 2 );
         chargeWindow.setOffset( indicatorWindowPosX, massWindow.getFullBounds().getMaxY() + verticalSpacingBetweenWindows );
-        rootNode.addChild( chargeWindow );
+        indicatorLayer.addChild( chargeWindow );
 
         // Check boxes that control the visibility of the labels.
         PSwing showNameCheckBox = createCheckBox( BuildAnAtomStrings.SHOW_ELEMENT_NAME, showName );
         showNameCheckBox.setOffset( chargeWindow.getFullBounds().getMinX(), chargeWindow.getFullBounds().getMaxY() + 5 );
-        rootNode.addChild( showNameCheckBox );
+        indicatorLayer.addChild( showNameCheckBox );
 
         PSwing showNeutralIonCheckBox = createCheckBox( BuildAnAtomStrings.SHOW_NEUTRAL_ION, showNeutralIon );
         showNeutralIonCheckBox.setOffset( showNameCheckBox.getFullBounds().getX(), showNameCheckBox.getFullBounds().getMaxY() - 5 );
-        rootNode.addChild( showNeutralIonCheckBox );
+        indicatorLayer.addChild( showNeutralIonCheckBox );
 
         PSwing showStableUnstableCheckBox = createCheckBox( BuildAnAtomStrings.SHOW_STABLE_UNSTABLE, showStableUnstable );
         showStableUnstableCheckBox.setOffset( showNeutralIonCheckBox.getFullBounds().getX(), showNeutralIonCheckBox.getFullBounds().getMaxY() - 5 );
-        rootNode.addChild( showStableUnstableCheckBox );
+        indicatorLayer.addChild( showStableUnstableCheckBox );
 
         // "Reset All" button.
         ResetAllButtonNode resetButtonNode = new ResetAllButtonNode( this, this, 16, Color.BLACK, new Color( 255, 153, 0 ) );
         double desiredResetButtonWidth = 100;
         resetButtonNode.setScale( desiredResetButtonWidth / resetButtonNode.getFullBoundsReference().width );
-        rootNode.addChild( resetButtonNode );
+        indicatorLayer.addChild( resetButtonNode );
 
         double maxCheckboxX = Collections.max( Arrays.asList( showNameCheckBox.getFullBoundsReference().getMaxX(),
                                                               showNeutralIonCheckBox.getFullBoundsReference().getMaxX(),
@@ -168,12 +179,12 @@ public class BuildAnAtomCanvas extends PhetPCanvas implements Resettable {
         // Add the Selection control for how to view the orbitals
         final OrbitalViewControl orbitalViewControl = new OrbitalViewControl( orbitalViewProperty );
         orbitalViewControl.setOffset( chargeWindow.getFullBounds().getMinX()-orbitalViewControl.getFullBounds().getWidth()-20, chargeWindow.getFullBounds().getY()-verticalSpacingBetweenWindows );
-        rootNode.addChild( orbitalViewControl );
+        indicatorLayer.addChild( orbitalViewControl );
 
         // Add the indicator for whether the atom is neutral or an ion.
         final IonIndicatorNode ionIndicatorNode = new IonIndicatorNode( model.getAtom(), showNeutralIon, 175);
         ionIndicatorNode.setOffset( elementIndicatorWindow.getFullBounds().getMinX() - ionIndicatorNode.getFullBounds().getWidth() - 10, elementIndicatorWindow.getFullBounds().getCenterY() - ionIndicatorNode.getFullBounds().getHeight() / 2 );
-        rootNode.addChild( ionIndicatorNode );
+        indicatorLayer.addChild( ionIndicatorNode );
 
         // Make the "orbits" button not focused by default, by focusing on the canvas.
         setFocusable( true );
