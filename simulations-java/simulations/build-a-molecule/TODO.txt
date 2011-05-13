@@ -1,4 +1,5 @@
 I18nize text bubble
+Put box 3d button in upper-right of black box? (smaller?)
 Scissors bug on Mac?
 Bucket phetcommon cleanup
 Icon improvement
