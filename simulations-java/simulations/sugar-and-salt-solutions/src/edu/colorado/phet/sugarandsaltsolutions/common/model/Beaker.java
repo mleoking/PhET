@@ -57,9 +57,12 @@ public class Beaker {
 
     //Get the Shape of the fluid given the volume
     public Shape getFluidShape( double volume ) {
-        // Rearrange the equation "Volume = width * height * depth"  To solve for height, assumes a square tank like a fish tank
-        double height = volume / width / depth;
-        return new Rectangle2D.Double( x, y, width, height );
+        return new Rectangle2D.Double( x, y, width, getHeightForVolume( volume ) );
+    }
+
+    // Rearrange the equation "Volume = width * height * depth"  To solve for height, assumes a square tank like a fish tank
+    public double getHeightForVolume( double volume ) {
+        return volume / width / depth;
     }
 
     //Gets the bottom right corner for attaching the output faucet
@@ -85,5 +88,20 @@ public class Beaker {
     //Get the height of the empty beaker
     public double getHeight() {
         return height;
+    }
+
+    //Gets the leftmost x component of the water-containing part of the beake
+    public double getX() {
+        return x;
+    }
+
+    //Gets the vertical center of the beaker
+    public double getCenterY() {
+        return toRectangle().getCenterY();
+    }
+
+    //Gets the width of the walls (edges) of the container
+    public double getWallWidth() {
+        return wallWidth;
     }
 }

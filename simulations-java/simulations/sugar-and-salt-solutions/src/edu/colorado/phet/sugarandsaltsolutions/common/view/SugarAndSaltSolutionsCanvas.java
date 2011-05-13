@@ -78,8 +78,8 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
         double modelScale = 0.75;//Scale the model down so there will be room for control panels.
         transform = ModelViewTransform.createRectangleInvertedYMapping( model.visibleRegion.toRectangle2D(),
                                                                         //Manually tuned so that the model part shows up in the left side of the canvas,
-                                                                        // leaving enough room for controls, and positioning it so it appears near the bottom
-                                                                        new Rectangle2D.Double( 0, 175, canvasSize.width * modelScale, canvasSize.height * modelScale ) );
+                                                                        // leaving enough room for controls, labels, and positioning it so it appears near the bottom
+                                                                        new Rectangle2D.Double( 20, 175, canvasSize.width * modelScale, canvasSize.height * modelScale ) );
 
         // Root of our scene graph
         rootNode = new PNode();
