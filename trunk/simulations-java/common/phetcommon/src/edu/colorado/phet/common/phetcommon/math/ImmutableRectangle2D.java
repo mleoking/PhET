@@ -11,10 +11,10 @@ import java.awt.geom.Rectangle2D;
  * @author Sam Reid
  */
 public class ImmutableRectangle2D {
-    private final double x;
-    private final double y;
-    private final double width;
-    private final double height;
+    public final double x;
+    public final double y;
+    public final double width;
+    public final double height;
 
     //Create a rectangle with x=y=0
     public ImmutableRectangle2D( double width, double height ) {
@@ -57,5 +57,10 @@ public class ImmutableRectangle2D {
         if ( newPoint.getY() < y ) { newPoint.y = y; }
         if ( newPoint.getY() > y + height ) { newPoint.y = y + height; }
         return newPoint;
+    }
+
+    //Creates a new Rectangle2D corresponding to this ImmutableRectangle2D
+    public Rectangle2D toRectangle2D() {
+        return new Rectangle2D.Double( x, y, width, height );
     }
 }
