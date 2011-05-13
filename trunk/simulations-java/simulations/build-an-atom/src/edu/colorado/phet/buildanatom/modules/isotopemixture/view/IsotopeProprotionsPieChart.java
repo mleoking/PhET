@@ -64,13 +64,13 @@ class IsotopeProprotionsPieChart extends PNode {
         // of the test chamber change.
         model.getIsotopeTestChamber().addTotalCountChangeObserver( new SimpleObserver() {
             public void update() {
-                int isotopeCount = model.getIsotopeTestChamber().getTotalIsotopeCount();
-                // Hide the chart if there is nothing in the chamber.
-                pieChart.setVisible( isotopeCount > 0 );
-                emptyPieChart.setVisible( isotopeCount == 0 );
-                labelLayer.setVisible( isotopeCount > 0 );
-                if ( isotopeCount > 0 ) {
-                    // Clear the labels.
+                boolean isotopesInChamber = model.getIsotopeTestChamber().getTotalIsotopeCount() > 0;
+                // Only show the chart if there is nothing in the chamber.
+                pieChart.setVisible( isotopesInChamber );
+                emptyPieChart.setVisible( isotopesInChamber );
+                labelLayer.setVisible( isotopesInChamber );
+                if ( isotopesInChamber ) {
+                    // Clear the current labels.
                     labelLayer.removeAllChildren();
                     // Update the proportions of the pie slices.
                     ArrayList<IsotopePieValue> pieSlices = new ArrayList<IsotopePieValue>();
@@ -89,7 +89,7 @@ class IsotopeProprotionsPieChart extends PNode {
                         }
                         // Only add non-zero values.
                         if ( proportion.getPreciseValue() > 0 ){
-                            pieSlices.add( new IsotopePieValue( proportion, model.getColorForIsotope( isotope ) ) );
+                            pieSlices.add( new IsotopePieValue( isotope, proportion, model.getColorForIsotope( isotope ) ) );
                         }
                     }
                     // Convert the pie value array into the type needed by the
@@ -127,7 +127,7 @@ class IsotopeProprotionsPieChart extends PNode {
                         SliceLabel labelNode;
                         Point2D centerEdgeOfPieSlice = pieChart.getCenterEdgePtForSlice( i );
                         boolean labelOnLeft = centerEdgeOfPieSlice.getX() < 0;
-                        labelNode = new SliceLabel( model.getPossibleIsotopesProperty().get().get( i ),
+                        labelNode = new SliceLabel( pieSlices.get( i ).getIsotopeConfig(),
                                 pieSlices.get( i ).getValue() / pieChart.getTotal() * 100,
                                 pieSlices.get( i ).getPrecisionDecimal().getNumberOfDecimalPlaces()-2,//Reduce precision by 2 since we multiplied by 2 orders of magnitude
                                 labelOnLeft );
@@ -395,20 +395,26 @@ class IsotopeProprotionsPieChart extends PNode {
      *
      * @author John Blanco
      */
-    private static class IsotopePieValue extends PieValue {
+    protected static class IsotopePieValue extends PieValue {
 
         private final PrecisionDecimal precisionDecimal;
+        private final ImmutableAtom isotopeConfig;
 
         /**
          * Constructor.
          */
-        public IsotopePieValue( PrecisionDecimal precisionDecimal, Color color ) {
+        protected IsotopePieValue( ImmutableAtom isotopeConfig, PrecisionDecimal precisionDecimal, Color color ) {
             super( precisionDecimal.getPreciseValue(), color );
+            this.isotopeConfig = isotopeConfig;
             this.precisionDecimal = precisionDecimal;
         }
 
-        public PrecisionDecimal getPrecisionDecimal() {
+        protected PrecisionDecimal getPrecisionDecimal() {
             return precisionDecimal;
+        }
+
+        protected ImmutableAtom getIsotopeConfig() {
+            return isotopeConfig;
         }
     }
 }
