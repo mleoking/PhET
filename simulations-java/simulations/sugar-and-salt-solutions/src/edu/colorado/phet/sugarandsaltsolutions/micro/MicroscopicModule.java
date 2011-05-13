@@ -2,6 +2,7 @@
 package edu.colorado.phet.sugarandsaltsolutions.micro;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsConfig;
 import edu.colorado.phet.sugarandsaltsolutions.common.SugarAndSaltSolutionsModule;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas;
 
@@ -13,13 +14,13 @@ import edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutions
 public class MicroscopicModule extends SugarAndSaltSolutionsModule {
     private final MicroscopicModel model;
 
-    public MicroscopicModule() {
-        this( new MicroscopicModel() );
+    public MicroscopicModule( SugarAndSaltSolutionsConfig config ) {
+        this( new MicroscopicModel(), config );
     }
 
-    public MicroscopicModule( final MicroscopicModel model ) {
+    public MicroscopicModule( final MicroscopicModel model, SugarAndSaltSolutionsConfig config ) {
         super( "Microscopic", model.clock );
         this.model = model;
-        setSimulationPanel( new SugarAndSaltSolutionsCanvas( this.model, new Property<Boolean>( true ) ) );
+        setSimulationPanel( new SugarAndSaltSolutionsCanvas( this.model, new Property<Boolean>( true ), config ) );
     }
 }
