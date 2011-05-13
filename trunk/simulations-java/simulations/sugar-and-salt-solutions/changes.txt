@@ -1,3 +1,4 @@
+Switched to semi-sweet chocolate as the default background color
 # 0.00.05 (51898) May 13, 2011
 Made it possible to modify background and salt colors with developer menu items
 Removed "show concentration" checkbox, will be moved to a maximize/minimize button on the concentration bar chart
