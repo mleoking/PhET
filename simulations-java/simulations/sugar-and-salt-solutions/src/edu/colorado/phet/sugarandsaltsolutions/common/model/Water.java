@@ -6,16 +6,20 @@ import java.awt.*;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 
 /**
+ * Model for the water, including its volume and a way of accessing its shape (by querying the containing beaker.)
+ *
  * @author Sam Reid
  */
 public class Water {
-    public final Property<Double> volume = new Property<Double>( 0.1 );//volume in SI (m^3)
+    //volume in SI (m^3).  Start at 1 L (halfway up the 2L beaker)
+    public final Property<Double> volume = new Property<Double>( 0.1 );
     private final Beaker beaker;
 
     public Water( Beaker beaker ) {
         this.beaker = beaker;
     }
 
+    //Get the shape this water takes in its containing beaker
     public Shape getShape() {
         return beaker.getFluidShape( volume.get() );
     }

@@ -4,6 +4,7 @@ package edu.colorado.phet.sugarandsaltsolutions.common.model;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
@@ -19,27 +20,37 @@ import edu.colorado.phet.common.piccolophet.nodes.conductivitytester.IConductivi
 
 import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType.SALT;
 import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType.SUGAR;
+import static edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas.canvasSize;
 
 /**
  * @author Sam Reid
  */
 public abstract class SugarAndSaltSolutionModel {
-    public final double width = 1.04;//visible width in meters
-    public final double height = 0.7;//visible height in meters
-
-    //Center the beaker's base at x=0 and have it go halfway up the screen
-    public final double beakerWidth = width * 0.6;
+    //Beaker dimensions and location in meters
+    public final double beakerWidth = 0.2;
     public final double beakerX = -beakerWidth / 2;
-    public final double beakerHeight = height * 0.5;
+    public final double beakerHeight = 0.1;
+    public final double beakerDepth = 0.1;//Depth is z-direction z-depth
 
-//    public final double beakerWidth = 0.1;
-//    public final double beakerX = -beakerWidth / 2;
-//    public final double beakerHeight = 0.1;
+    //Use the same aspect ratio as the view to minimize insets with blank regions
+    private final double aspectRatio = canvasSize.getWidth() / canvasSize.getHeight();
 
-    public final Beaker beaker = new Beaker( beakerX, 0, beakerWidth, beakerHeight );//The beaker into which you can add water, salt and sugar.
+    //Inset so the beaker doesn't touch the edge of the model bounds
+    public final double inset = beakerWidth * 0.1;
+    public final double modelWidth = beakerWidth + inset * 2;
+
+    //Visible model region: a bit bigger than the beaker, used to set the stage aspect ratio in the canvas
+    public final ImmutableRectangle2D visibleRegion = new ImmutableRectangle2D( -modelWidth / 2, -inset, modelWidth, modelWidth / aspectRatio );
+
+    //Beaker and water models
+    public final Beaker beaker = new Beaker( beakerX, 0, beakerWidth, beakerHeight, beakerDepth );//The beaker into which you can add water, salt and sugar.
     public final Water water = new Water( beaker );
+
+    //Model for input and output flows
     public final Property<Double> inputFlowRate = new Property<Double>( 0.0 );//rate that water flows into the beaker in m^3/s
     public final Property<Double> outputFlowRate = new Property<Double>( 0.0 );//rate that water flows out of the beaker in m^3/s
+
+    //Model clock
     public final ConstantDtClock clock;
 
     //Sugar and its listeners
@@ -50,9 +61,9 @@ public abstract class SugarAndSaltSolutionModel {
     public final ArrayList<Salt> saltList = new ArrayList<Salt>();//The salt crystals that haven't been dissolved
     public final Notifier<Salt> saltAdded = new Notifier<Salt>();//Listeners for when salt crystals are added
 
-    private ImmutableVector2D gravity = new ImmutableVector2D( 0, -9.8 );//Force due to gravity near the surface of the earth
+    private final ImmutableVector2D gravity = new ImmutableVector2D( 0, -9.8 );//Force due to gravity near the surface of the earth
 
-    private static final double FLOW_SCALE = 0.02;//Flow controls vary between 0 and 1, this scales it down to a good model value
+    private static final double FLOW_SCALE = 0.0005;//Flow controls vary between 0 and 1, this scales it down to a good model value
     public final Property<DispenserType> dispenserType = new Property<DispenserType>( SALT );//Which dispenser the user has selected
 
     //Listeners which are notified when the sim is reset.
@@ -65,7 +76,7 @@ public abstract class SugarAndSaltSolutionModel {
     public final ConductivityTester conductivityTester = new ConductivityTester();
 
     //Model for the sugar dispenser
-    public final SugarDispenser sugarDispenser = new SugarDispenser() {{
+    public final SugarDispenser sugarDispenser = new SugarDispenser( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker ) {{
         //Wire up the SugarDispenser so it is enabled when the model has the SUGAR type dispenser selected
         dispenserType.addObserver( new VoidFunction1<DispenserType>() {
             public void apply( DispenserType dispenserType ) {
@@ -74,7 +85,8 @@ public abstract class SugarAndSaltSolutionModel {
         } );
     }};
 
-    public SaltShaker saltShaker = new SaltShaker() {{
+    //Model for the salt shaker
+    public SaltShaker saltShaker = new SaltShaker( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker ) {{
         //Wire up the SugarDispenser so it is enabled when the model has the SALT type dispenser selected
         dispenserType.addObserver( new VoidFunction1<DispenserType>() {
             public void apply( DispenserType dispenserType ) {

@@ -18,13 +18,15 @@ public class Beaker {
     private final double y;//the y-location of the base of the beaker
     private final double width;
     private final double height;
+    private final double depth;//dimension of the beaker in the z-direction (into the screen)
     private final float wallWidth = 0.01f;
 
-    public Beaker( double x, double y, double width, double height ) {
+    public Beaker( double x, double y, double width, double height, double depth ) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
+        this.depth = depth;
     }
 
     //Gets the y-location of the base of the beaker
@@ -45,12 +47,18 @@ public class Beaker {
         }}.getGeneralPath() );
 
         //Since the stroke goes on both sides of the line, subtract out the main area so that the water won't overlap with the edges
-        return new Area( wallShape ) {{subtract( new Area( new Rectangle2D.Double( x, y, width, height ) ) );}};
+        return new Area( wallShape ) {{subtract( new Area( toRectangle() ) );}};
     }
 
+    //Returns a rectangle of the bounds of the beaker
+    private Rectangle2D.Double toRectangle() {
+        return new Rectangle2D.Double( x, y, width, height );
+    }
+
+    //Get the Shape of the fluid given the volume
     public Shape getFluidShape( double volume ) {
-        double area = width * width;//assumes a square "cylinder"
-        double height = volume / area;
+        // Rearrange the equation "Volume = width * height * depth"  To solve for height, assumes a square tank like a fish tank
+        double height = volume / width / depth;
         return new Rectangle2D.Double( x, y, width, height );
     }
 
@@ -61,6 +69,21 @@ public class Beaker {
 
     //Determine how much water could this beaker hold
     public double getMaxFluidVolume() {
-        return width * width * height;//Assumes a rectangular container
+        return width * height * depth;//Rectangular like a fish tank
+    }
+
+    //Get the center of the empty beaker
+    public double getCenterX() {
+        return toRectangle().getCenterX();
+    }
+
+    //Get the top of the empty beaker
+    public double getTopY() {
+        return y + height;
+    }
+
+    //Get the height of the empty beaker
+    public double getHeight() {
+        return height;
     }
 }
