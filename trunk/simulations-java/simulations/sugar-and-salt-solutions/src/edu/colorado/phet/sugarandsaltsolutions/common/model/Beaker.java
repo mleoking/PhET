@@ -61,6 +61,6 @@ public class Beaker {
 
     //Determine how much water could this beaker hold
     public double getMaxFluidVolume() {
-        return width * width * height;//Assumes a square cylinder
+        return width * width * height;//Assumes a rectangular container
     }
 }
