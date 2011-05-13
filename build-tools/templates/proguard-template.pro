@@ -25,6 +25,11 @@
     <methods>;
 }
 
+-keep public class akka.event.**{
+    <fields>;
+    <methods>;
+}
+
 -keep public class akka.serialization.**{
     <fields>;
     <methods>;
