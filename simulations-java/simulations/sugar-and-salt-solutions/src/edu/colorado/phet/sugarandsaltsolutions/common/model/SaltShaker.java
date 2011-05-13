@@ -41,7 +41,7 @@ public class SaltShaker extends Dispenser {
             for ( int i = 0; i < numCrystals; i++ ) {
                 //Determine where the salt should come out
                 double randUniform = ( random.nextDouble() - 0.5 ) * 2;
-                final ImmutableVector2D outputPoint = rotationPoint.get().plus( ImmutableVector2D.parseAngleAndMagnitude( 0.027, angle.get() + Math.PI / 2 + randUniform * Math.PI / 32 * 1.2 ) );//Hand tuned to match up with the image, will need to be re-tuned if the image changes
+                final ImmutableVector2D outputPoint = center.get().plus( ImmutableVector2D.parseAngleAndMagnitude( 0.027, angle.get() + Math.PI / 2 + randUniform * Math.PI / 32 * 1.2 ) );//Hand tuned to match up with the image, will need to be re-tuned if the image changes
 
                 //Add the salt
                 model.addSalt( new Salt( outputPoint ) {{
