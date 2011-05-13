@@ -9,17 +9,20 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.nodes.conductivitytester.IConductivityTester;
 import edu.umd.cs.piccolo.util.PDimension;
 
+import static edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel.BEAKER_HEIGHT;
+import static edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel.BEAKER_WIDTH;
+
 /**
  * Conductivity tester that can be dipped in the water to light a light bulb.
  *
  * @author Sam Reid
  */
 public class ConductivityTester implements IConductivityTester {
-    //Locations are in model coordinates (meters)
-    private static final double PROBE_Y = 0.35;
-    private static final double NEGATIVE_PROBE_X = -0.2;
-    private static final double POSITIVE_PROBE_X = 0.2;
-    private static final Point2D.Double location = new Point2D.Double( 0, 0.4 );
+    //Locations are in model coordinates (meters).
+    private static final double PROBE_Y = BEAKER_HEIGHT;
+    private static final double NEGATIVE_PROBE_X = -BEAKER_WIDTH / 3;
+    private static final double POSITIVE_PROBE_X = +BEAKER_WIDTH / 3;
+    private static final Point2D.Double location = new Point2D.Double( 0, PROBE_Y );
 
     //Position of the probes, in model coordinates
     private Point2D.Double negativeProbeLocation = new Point2D.Double( NEGATIVE_PROBE_X, PROBE_Y );
@@ -54,9 +57,9 @@ public class ConductivityTester implements IConductivityTester {
         conductivityTesterListeners.add( conductivityTesterChangeListener );
     }
 
-    //Determine the size of the probes
+    //Determine the size of the probes in meters
     public PDimension getProbeSizeReference() {
-        return new PDimension( 0.05, 0.1 );
+        return new PDimension( 0.0125, 0.025 );
     }
 
     //Determine the location of the positive probe
@@ -72,7 +75,6 @@ public class ConductivityTester implements IConductivityTester {
     //Set the location of the positive probe and notify observers
     public void setPositiveProbeLocation( double x, double y ) {
         positiveProbeLocation.setLocation( x, y );
-        System.out.println( "positiveProbeLocation = " + positiveProbeLocation );
         for ( ConductivityTesterChangeListener listener : conductivityTesterListeners ) {
             listener.positiveProbeLocationChanged();
         }
@@ -86,7 +88,6 @@ public class ConductivityTester implements IConductivityTester {
     //Set the location of the negative probe and notify observers
     public void setNegativeProbeLocation( double x, double y ) {
         negativeProbeLocation.setLocation( x, y );
-        System.out.println( "negativeProbeLocation = " + negativeProbeLocation );
         for ( ConductivityTesterChangeListener listener : conductivityTesterListeners ) {
             listener.negativeProbeLocationChanged();
         }

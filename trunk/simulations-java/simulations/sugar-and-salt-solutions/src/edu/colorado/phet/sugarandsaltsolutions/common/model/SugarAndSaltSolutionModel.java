@@ -26,24 +26,24 @@ import static edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSo
  * @author Sam Reid
  */
 public abstract class SugarAndSaltSolutionModel {
-    //Beaker dimensions and location in meters
-    public final double beakerWidth = 0.2;
-    public final double beakerX = -beakerWidth / 2;
-    public final double beakerHeight = 0.1;
-    public final double beakerDepth = 0.1;//Depth is z-direction z-depth
+    //Beaker dimensions and location in meters, public so other classes can use them for layout
+    public static final double BEAKER_WIDTH = 0.2;
+    public static final double BEAKER_X = -BEAKER_WIDTH / 2;
+    public static final double BEAKER_HEIGHT = 0.1;
+    public static final double BEAKER_DEPTH = 0.1;//Depth is z-direction z-depth
 
     //Use the same aspect ratio as the view to minimize insets with blank regions
     private final double aspectRatio = canvasSize.getWidth() / canvasSize.getHeight();
 
     //Inset so the beaker doesn't touch the edge of the model bounds
-    public final double inset = beakerWidth * 0.1;
-    public final double modelWidth = beakerWidth + inset * 2;
+    public final double inset = BEAKER_WIDTH * 0.1;
+    public final double modelWidth = BEAKER_WIDTH + inset * 2;
 
     //Visible model region: a bit bigger than the beaker, used to set the stage aspect ratio in the canvas
     public final ImmutableRectangle2D visibleRegion = new ImmutableRectangle2D( -modelWidth / 2, -inset, modelWidth, modelWidth / aspectRatio );
 
     //Beaker and water models
-    public final Beaker beaker = new Beaker( beakerX, 0, beakerWidth, beakerHeight, beakerDepth );//The beaker into which you can add water, salt and sugar.
+    public final Beaker beaker = new Beaker( BEAKER_X, 0, BEAKER_WIDTH, BEAKER_HEIGHT, BEAKER_DEPTH );//The beaker into which you can add water, salt and sugar.
     public final Water water = new Water( beaker );
 
     //Model for input and output flows
@@ -136,7 +136,7 @@ public abstract class SugarAndSaltSolutionModel {
                                       waterBounds.contains( conductivityTester.getNegativeProbeLocationReference() );
 
         //Set the brightness to be a linear function of the salt concentration (but keeping it bounded between 0 and 1 which are the limits of the conductivity tester brightness
-        conductivityTester.brightness.set( bothProbesSubmerged ? MathUtil.clamp( 0, getSaltConcentration() * 1E3, 1 ) : 0.0 );
+        conductivityTester.brightness.set( bothProbesSubmerged ? MathUtil.clamp( 0, getSaltConcentration() * 2, 1 ) : 0.0 );
     }
 
     public abstract double getSaltConcentration();

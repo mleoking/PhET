@@ -15,7 +15,7 @@ public class IntroCanvas extends SugarAndSaltSolutionsCanvas {
         ConcentrationBarChart concentrationBarChart = new ConcentrationBarChart( model.saltConcentration, model.sugarConcentration ) {{
             setOffset( stageSize.getWidth() - getFullBoundsReference().width - INSET, INSET );
         }};
-        addChild( concentrationBarChart );
+        behindShakerNode.addChild( concentrationBarChart );
 
         soluteControlPanelNode.setOffset( concentrationBarChart.getFullBounds().getX() - soluteControlPanelNode.getFullBounds().getWidth() - INSET, concentrationBarChart.getFullBounds().getY() );
     }

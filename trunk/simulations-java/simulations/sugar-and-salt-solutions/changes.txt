@@ -1,3 +1,5 @@
+Fixed: salt shaker should be in front
+Fixed: conductivity tester doesn't appear in the new coordinate frame
 Added tick marks and labels for beaker volume
 Fixed: bar charts fill up too quickly
 # 0.00.06 (51903) May 13, 2011
