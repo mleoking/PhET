@@ -1,3 +1,4 @@
+Fixed: bar charts fill up too quickly
 # 0.00.06 (51903) May 13, 2011
 Made the fluid start halfway up the beaker
 Fixed units and make the beaker, shakers and faucets be the right size and in the right locations in SI units

@@ -10,10 +10,12 @@ import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsApplication;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
+
+import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsApplication.WATER_COLOR;
+import static java.awt.Color.white;
 
 /**
  * Optional bar chart that shows concentrations for both salt and sugar (if any)
@@ -29,19 +31,19 @@ public class ConcentrationBarChart extends PNode {
     public ConcentrationBarChart( ObservableProperty<Double> saltConcentration, ObservableProperty<Double> sugarConcentration ) {
         final double totalWidth = 200;
         PNode background = new PhetPPath( new Rectangle2D.Double( 0, 0, totalWidth, CHART_HEIGHT ),
-                                          SugarAndSaltSolutionsApplication.WATER_COLOR, new BasicStroke( 1f ), Color.BLACK );
+                                          WATER_COLOR, new BasicStroke( 1f ), Color.BLACK );
         addChild( background );
 
         final double abscissaY = CHART_HEIGHT - 50;
         addChild( new PhetPPath( new Line2D.Double( INSET, abscissaY, totalWidth - INSET, abscissaY ), new BasicStroke( 2 ), Color.black ) );
 
         //Add a Sugar concentration bar
-        addChild( new Bar( Color.white, "Salt", saltConcentration ) {{
+        addChild( new Bar( white, "Salt", saltConcentration ) {{
             setOffset( totalWidth / 2 - getFullBoundsReference().width / 2 - Bar.WIDTH, abscissaY );
         }} );
 
         //Add a Salt concentration bar
-        addChild( new Bar( Color.white, "Sugar", sugarConcentration ) {{
+        addChild( new Bar( white, "Sugar", sugarConcentration ) {{
             setOffset( totalWidth / 2 - getFullBoundsReference().width / 2 + Bar.WIDTH, abscissaY );
         }} );
 
@@ -56,6 +58,9 @@ public class ConcentrationBarChart extends PNode {
     public static class Bar extends PNode {
         public static final float WIDTH = 40;
 
+        //Convert from model units (Mols) to stage units
+        private final int verticalAxisScale = 160;
+
         public Bar( Color color, String caption, ObservableProperty<Double> value ) {
             // Create and add the bar itself.
             final PPath bar = new PhetPPath( color, new BasicStroke( 1f ), Color.BLACK );
@@ -63,7 +68,9 @@ public class ConcentrationBarChart extends PNode {
             // Wire up the bar to change size based on the observable entity.
             value.addObserver( new VoidFunction1<Double>() {
                 public void apply( Double value ) {
-                    float height = (float) ( value * 1E5 );
+                    float height = (float) ( value * verticalAxisScale );
+
+                    //Graphics problems occur if you let the bar go too high, so clamp it
                     float maxBarHeight = 10000f;
                     if ( height > maxBarHeight || Float.isNaN( height ) || Float.isInfinite( height ) ) {
                         height = maxBarHeight;
