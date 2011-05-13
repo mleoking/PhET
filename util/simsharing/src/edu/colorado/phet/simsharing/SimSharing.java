@@ -19,11 +19,32 @@ public class SimSharing {
         File tmpPhetDir = new File( System.getProperty( "java.io.tmpdir" ), "phet" );
         tmpPhetDir.mkdirs();
 
-        File akkaFile = new File( tmpPhetDir, "akka.conf" );
-        BufferedWriter bufferedWriter = new BufferedWriter( new FileWriter( akkaFile ) );
-        bufferedWriter.write( toString( Thread.currentThread().getContextClassLoader().getResourceAsStream( "simsharing/akka.conf" ) ) );
-        bufferedWriter.close();
-        System.setProperty( "akka.config", akkaFile.getAbsolutePath() );
+        //Copy akka.conf to the temp directory.  This file just points to the akka-reference.conf in Akka 1.1
+        {
+            File akkaFile = new File( tmpPhetDir, "akka.conf" );
+            BufferedWriter bufferedWriter = new BufferedWriter( new FileWriter( akkaFile ) );
+            bufferedWriter.write( toString( Thread.currentThread().getContextClassLoader().getResourceAsStream( "simsharing/akka.conf" ) ) );
+            bufferedWriter.close();
+
+            //Register the copied config file with the system
+            System.setProperty( "akka.config", akkaFile.getAbsolutePath() );
+
+            if ( cleanup ) {
+                akkaFile.deleteOnExit();
+            }
+        }
+
+        //Copy akka-reference.conf to the temp directory
+        {
+            File akkaFile = new File( tmpPhetDir, "akka-reference.conf" );
+            BufferedWriter bufferedWriter = new BufferedWriter( new FileWriter( akkaFile ) );
+            bufferedWriter.write( toString( Thread.currentThread().getContextClassLoader().getResourceAsStream( "simsharing/akka-reference.conf" ) ) );
+            bufferedWriter.close();
+
+            if ( cleanup ) {
+                akkaFile.deleteOnExit();
+            }
+        }
 
         File logbackFile = new File( tmpPhetDir, "logback.xml" );
         BufferedWriter logbackWriter = new BufferedWriter( new FileWriter( logbackFile ) );
@@ -37,7 +58,6 @@ public class SimSharing {
 
         if ( cleanup ) {
             tmpPhetDir.deleteOnExit();
-            akkaFile.deleteOnExit();
             logbackFile.deleteOnExit();
         }
     }
