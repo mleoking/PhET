@@ -29,6 +29,9 @@ public class SimSharing {
             //Register the copied config file with the system
             System.setProperty( "akka.config", akkaFile.getAbsolutePath() );
 
+            //For debugging
+            System.out.println( "Set akka.config = " + akkaFile.getAbsolutePath() );
+
             if ( cleanup ) {
                 akkaFile.deleteOnExit();
             }
