@@ -66,6 +66,9 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
     //This field is public so the model can use the same aspect ratio (to simplify layout and minimize blank regions)
     public static final Dimension canvasSize = new Dimension( 1008, 676 );
 
+    //Other content that should go behind the shakers
+    protected PNode behindShakerNode;
+
     public SugarAndSaltSolutionsCanvas( final SugarAndSaltSolutionModel model, final ObservableProperty<Boolean> removeSaltSugarButtonVisible, final SugarAndSaltSolutionsConfig config ) {
         this.model = model;
 
@@ -163,10 +166,6 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
             }
         } ) );
 
-        //add the salt and sugar dispenser nodes
-        addChild( new SaltShakerNode( transform, model.saltShaker ) );
-        addChild( new SugarDispenserNode( transform, model.sugarDispenser ) );
-
         //Show the crystal layer behind the water and beaker so the crystals look like they go into the water instead of in front of it.
         addChild( crystalLayer );
 
@@ -203,6 +202,14 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
 
         //Debug for showing stage
         addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, stageSize.getWidth(), stageSize.getHeight() ), new BasicStroke( 2 ), Color.red ) );
+
+        //Add a node for children that should be behind the shakers
+        behindShakerNode = new PNode();
+        addChild( behindShakerNode );
+
+        //add the salt and sugar dispenser nodes, which should always be in front of everything
+        addChild( new SaltShakerNode( transform, model.saltShaker ) );
+        addChild( new SugarDispenserNode( transform, model.sugarDispenser ) );
     }
 
     public void addChild( PNode node ) {
