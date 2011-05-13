@@ -11,6 +11,10 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
  * @author Sam Reid
  */
 public class SugarAndSaltSolutionsConfig {
-    public final Property<Color> backgroundColor = new Property<Color>( Color.black );
+    //Color recommendations from KL
+    private static final Color bakersChocolate = new Color( 92, 51, 23 );
+    private static final Color semiSweetChocolate = new Color( 107, 66, 38 );
+
+    public final Property<Color> backgroundColor = new Property<Color>( semiSweetChocolate );
     public final Property<Color> saltColor = new Property<Color>( Color.white );
 }
