@@ -15,13 +15,21 @@ import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleP
  */
 public class Dispenser {
     //Start centered above the fluid
-    public final Property<ImmutableVector2D> rotationPoint = new Property<ImmutableVector2D>( new ImmutableVector2D( -0.018626373626373614, 0.5091208791208807 ) );//Values sampled from a sim runtime
+    public final Property<ImmutableVector2D> rotationPoint;
 
     //Model the angle of rotation, 0 degrees is straight up (not tilted)
     public final DoubleProperty angle = new DoubleProperty( 0.0 );
 
     //True if the user has selected this dispenser type
     public final Property<Boolean> enabled = new Property<Boolean>( false );
+    private final double yRotate;//Below this y-value, the dispenser will rotate
+    private final Beaker beaker;
+
+    public Dispenser( double x, double y, Beaker beaker ) {
+        this.beaker = beaker;
+        rotationPoint = new Property<ImmutableVector2D>( new ImmutableVector2D( x, y ) );
+        yRotate = beaker.getTopY() + beaker.getHeight() * 0.5;
+    }
 
     public void rotate( double v ) {
         angle.add( v );
@@ -30,12 +38,11 @@ public class Dispenser {
     //Translate the dispenser, pointing it down if it is low enough
     public void translate( Dimension2D delta ) {
         ImmutableVector2D proposedPoint = rotationPoint.get().plus( delta );
-        double y = MathUtil.clamp( 0.4, proposedPoint.getY(), Double.POSITIVE_INFINITY );
+        double y = MathUtil.clamp( beaker.getTopY(), proposedPoint.getY(), Double.POSITIVE_INFINITY );
         rotationPoint.set( new ImmutableVector2D( proposedPoint.getX(), y ) );
-        double yRotate = 0.5;//Below this y-value, the sugar dispenser will rotate
         if ( rotationPoint.get().getY() < yRotate ) {
             double amountPast = yRotate - rotationPoint.get().getY();
-            angle.set( amountPast * 20 );
+            angle.set( amountPast * 20 * 4 );
         }
     }
 
@@ -50,6 +57,6 @@ public class Dispenser {
     protected ImmutableVector2D getCrystalVelocity( ImmutableVector2D outputPoint ) {
         ImmutableVector2D directionVector = outputPoint.minus( rotationPoint.get() );
         double anglePastTheHorizontal = angle.get() - Math.PI / 2;
-        return directionVector.getInstanceOfMagnitude( 0.4 + 0.3 * Math.sin( anglePastTheHorizontal ) );
+        return directionVector.getInstanceOfMagnitude( 0.2 + 0.3 * Math.sin( anglePastTheHorizontal ) );
     }
 }

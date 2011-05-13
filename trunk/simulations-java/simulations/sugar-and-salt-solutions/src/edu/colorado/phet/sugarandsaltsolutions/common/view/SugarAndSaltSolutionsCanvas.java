@@ -35,7 +35,6 @@ import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 import static edu.colorado.phet.common.phetcommon.model.property.Not.not;
-import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createSinglePointScaleInvertedYMapping;
 import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType.SALT;
 
 /**
@@ -63,24 +62,24 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
 
     private final Property<Boolean> showValues = new Property<Boolean>( true );
 
+    //Actual size of the canvas coming up on windows from the IDE (with tabs) is java.awt.Dimension[width=1008,height=676].
+    //This field is public so the model can use the same aspect ratio (to simplify layout and minimize blank regions)
+    public static final Dimension canvasSize = new Dimension( 1008, 676 );
+
     public SugarAndSaltSolutionsCanvas( final SugarAndSaltSolutionModel model, final ObservableProperty<Boolean> removeSaltSugarButtonVisible, final SugarAndSaltSolutionsConfig config ) {
         this.model = model;
 
-        //Gets the size of the stage to be used in the view
-        //Width of the stage
-        final int stageWidth = 1008;//Actual size of the canvas coming up on windows from the IDE is java.awt.Dimension[width=1008,height=676]
-        final int stageHeight = (int) ( stageWidth / model.width * model.height );
-
-        //Set the stage size according to the model aspect ratio
-        stageSize = new PDimension( stageWidth, stageHeight );
-
+        //Set the stage size according to the same aspect ratio as used in the model
+        stageSize = new PDimension( canvasSize.width,
+                                    (int) ( canvasSize.width / model.visibleRegion.width * model.visibleRegion.height ) );
 
         //Gets the ModelViewTransform used to go between model coordinates (SI) and stage coordinates (roughly pixels)
         //Create the transform from model (SI) to view (stage) coordinates
-        final double scale = stageSize.width / model.width;
-        transform = createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ),
-                                                            new Point2D.Double( stageSize.getWidth() * 0.43, stageSize.getHeight() - 50 ),
-                                                            scale );
+        double modelScale = 0.75;//Scale the model down so there will be room for control panels.
+        transform = ModelViewTransform.createRectangleInvertedYMapping( model.visibleRegion.toRectangle2D(),
+                                                                        //Manually tuned so that the model part shows up in the left side of the canvas,
+                                                                        // leaving enough room for controls, and positioning it so it appears near the bottom
+                                                                        new Rectangle2D.Double( 0, 175, canvasSize.width * modelScale, canvasSize.height * modelScale ) );
 
         // Root of our scene graph
         rootNode = new PNode();
@@ -115,11 +114,8 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
 
             //Add the controls in the control panel
             addChild( new PSwing( new VerticalLayoutPanel() {{
-//                add( new CheckBox( "Show concentration" ) );
-//                add( new JPanel() {{
-//                    add( Box.createHorizontalStrut( 10 ) );//Indent the show values a bit since it relates to show concentration box
                 add( new PropertyCheckBox( "Show values", showValues ) {{setFont( CONTROL_FONT );}} );
-//                }} );
+
                 //Add a button that shows a conductivity meter, with probes that can be submerged
                 add( new PropertyCheckBox( "Measure conductivity", model.conductivityTester.visible ) {{setFont( CONTROL_FONT );}} );
                 add( new CheckBox( "Evaporate water" ) );
