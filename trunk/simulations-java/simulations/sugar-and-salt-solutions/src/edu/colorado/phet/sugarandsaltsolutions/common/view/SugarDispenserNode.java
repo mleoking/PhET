@@ -57,7 +57,7 @@ public class SugarDispenserNode extends PNode {
                 imageNode.setTransform( new AffineTransform() );
 
                 //Find the view coordinates of the rotation point of the model (its center)
-                Point2D.Double viewPoint = transform.modelToView( model.rotationPoint.get() ).toPoint2D();
+                Point2D.Double viewPoint = transform.modelToView( model.center.get() ).toPoint2D();
 
                 //Rotate by the correct angle: Note: This angle doesn't get mapped into the right coordinate frame, so could be backwards
                 imageNode.rotate( -model.angle.get() );
@@ -65,16 +65,16 @@ public class SugarDispenserNode extends PNode {
                 //Center on the view point
                 imageNode.centerFullBoundsOnPoint( viewPoint.x, viewPoint.y );
             }
-        }.observe( model.rotationPoint, model.angle );
+        }.observe( model.center, model.angle );
 
         //Show a rectangle at the rotation point of the shaker
         if ( debug ) {
             addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, 10, 10 ), Color.blue ) {{
                 new RichSimpleObserver() {
                     @Override public void update() {
-                        setOffset( transform.modelToView( model.rotationPoint.get() ).toPoint2D() );
+                        setOffset( transform.modelToView( model.center.get() ).toPoint2D() );
                     }
-                }.observe( model.rotationPoint, model.angle );
+                }.observe( model.center, model.angle );
             }} );
         }
 
@@ -84,7 +84,7 @@ public class SugarDispenserNode extends PNode {
                 model.translate( transform.viewToModelDelta( event.getDeltaRelativeTo( SugarDispenserNode.this.getParent() ) ) );
 
                 if ( debug ) {
-                    System.out.println( "model.rotationPoint = " + model.rotationPoint );
+                    System.out.println( "model.rotationPoint = " + model.center );
                 }
             }
         } );

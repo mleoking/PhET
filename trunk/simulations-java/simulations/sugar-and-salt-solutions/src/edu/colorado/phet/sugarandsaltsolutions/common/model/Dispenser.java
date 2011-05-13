@@ -15,7 +15,7 @@ import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleP
  */
 public class Dispenser {
     //Start centered above the fluid
-    public final Property<ImmutableVector2D> rotationPoint;
+    public final Property<ImmutableVector2D> center;
 
     //Model the angle of rotation, 0 degrees is straight up (not tilted)
     public final DoubleProperty angle = new DoubleProperty( 0.0 );
@@ -27,7 +27,7 @@ public class Dispenser {
 
     public Dispenser( double x, double y, Beaker beaker ) {
         this.beaker = beaker;
-        rotationPoint = new Property<ImmutableVector2D>( new ImmutableVector2D( x, y ) );
+        center = new Property<ImmutableVector2D>( new ImmutableVector2D( x, y ) );
         yRotate = beaker.getTopY() + beaker.getHeight() * 0.5;
     }
 
@@ -37,11 +37,11 @@ public class Dispenser {
 
     //Translate the dispenser, pointing it down if it is low enough
     public void translate( Dimension2D delta ) {
-        ImmutableVector2D proposedPoint = rotationPoint.get().plus( delta );
+        ImmutableVector2D proposedPoint = center.get().plus( delta );
         double y = MathUtil.clamp( beaker.getTopY(), proposedPoint.getY(), Double.POSITIVE_INFINITY );
-        rotationPoint.set( new ImmutableVector2D( proposedPoint.getX(), y ) );
-        if ( rotationPoint.get().getY() < yRotate ) {
-            double amountPast = yRotate - rotationPoint.get().getY();
+        center.set( new ImmutableVector2D( proposedPoint.getX(), y ) );
+        if ( center.get().getY() < yRotate ) {
+            double amountPast = yRotate - center.get().getY();
             angle.set( amountPast * 20 * 4 );
         }
     }
@@ -49,13 +49,13 @@ public class Dispenser {
     //Reset the dispenser's position and orientation
     public void reset() {
         //Only need to set the primary properties, others (e.g., open/enabled) are derived and will auto-reset
-        rotationPoint.reset();
+        center.reset();
         angle.reset();
     }
 
     //Give the crystal an appropriate velocity when it comes out so it arcs.  This method is used by subclasses when creating crystals
     protected ImmutableVector2D getCrystalVelocity( ImmutableVector2D outputPoint ) {
-        ImmutableVector2D directionVector = outputPoint.minus( rotationPoint.get() );
+        ImmutableVector2D directionVector = outputPoint.minus( center.get() );
         double anglePastTheHorizontal = angle.get() - Math.PI / 2;
         return directionVector.getInstanceOfMagnitude( 0.2 + 0.3 * Math.sin( anglePastTheHorizontal ) );
     }

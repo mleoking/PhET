@@ -35,7 +35,7 @@ public class SugarDispenser extends Dispenser {
         if ( enabled.get() && open.get() && updateModelCount % 1 == 0 ) {
 
             //Determine where the sugar should come out
-            final ImmutableVector2D outputPoint = rotationPoint.get().plus( ImmutableVector2D.parseAngleAndMagnitude( 0.03, angle.get() + Math.PI / 2 * 1.23 ) );//Hand tuned to match up with the image, will need to be re-tuned if the image changes
+            final ImmutableVector2D outputPoint = center.get().plus( ImmutableVector2D.parseAngleAndMagnitude( 0.03, angle.get() + Math.PI / 2 * 1.23 ) );//Hand tuned to match up with the image, will need to be re-tuned if the image changes
 
             //Add the sugar
             sugarAndSaltSolutionModel.addSugar( new Sugar( outputPoint ) {{
