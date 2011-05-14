@@ -1,3 +1,4 @@
+Fixed: cursor gets away from the salt shaker
 Improved sugar shaker so it only rotates, and emits sugar when it is being rotated and pointed down and to the left (proportionate to the amount of rotation)
 # 0.00.07 (51915) May 13, 2011
 Improved salt shaker so it uses acceleration and deceleration along its axis to determine how much salt comes out
