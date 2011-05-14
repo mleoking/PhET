@@ -7,11 +7,14 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.common.piccolophet.event.RelativeDragHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SaltShaker;
 import edu.umd.cs.piccolo.PNode;
@@ -20,6 +23,8 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsApplication.RESOURCES;
+import static edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel.BEAKER_HEIGHT;
+import static java.lang.Double.POSITIVE_INFINITY;
 
 /**
  * Sugar dispenser which can be rotated to pour out an endless supply of sugar.
@@ -80,6 +85,14 @@ public class SaltShakerNode extends PNode {
                 }
             }
         } );
+
+        //Allow dragging the shaker, making sure the cursor hand doesn't get away from the node
+        // but don't let the shaker be dragged underwater
+        addInputEventListener( new RelativeDragHandler( this, transform, model.center, new Function1<Point2D, Point2D>() {
+            public Point2D apply( Point2D modelPoint ) {
+                return new Point2D.Double( modelPoint.getX(), MathUtil.clamp( BEAKER_HEIGHT * 1.3, modelPoint.getY(), POSITIVE_INFINITY ) );
+            }
+        } ) );
 
         //Show a hand cursor when over the dispenser
         addInputEventListener( new CursorHandler() );
