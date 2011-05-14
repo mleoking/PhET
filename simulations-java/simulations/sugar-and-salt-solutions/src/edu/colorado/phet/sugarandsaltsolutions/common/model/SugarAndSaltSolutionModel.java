@@ -13,6 +13,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.event.Notifier;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -95,6 +96,10 @@ public abstract class SugarAndSaltSolutionModel {
         } );
     }};
 
+    //Rate at which liquid (but no solutes) leaves the model
+    public final SettableProperty<Integer> evaporationRate = new Property<Integer>( 0 );//Between 0 and 100
+    private static final double EVAPORATION_SCALE = FLOW_SCALE / 100.0;//Scaled down by 100 since the evaporation rate is 100 times bigger than flow scales
+
     public SugarAndSaltSolutionModel() {
         clock = new ConstantDtClock( 30 );
 
@@ -160,20 +165,28 @@ public abstract class SugarAndSaltSolutionModel {
         saltShaker.updateModel( this );
 
         //Change the water volume based on input and output flow
-        double inVolume = dt * inputFlowRate.get() * FLOW_SCALE;
-        double outVolume = dt * outputFlowRate.get() * FLOW_SCALE;
+        double inputWater = dt * inputFlowRate.get() * FLOW_SCALE;
+        double drainedWater = dt * outputFlowRate.get() * FLOW_SCALE;
+        double evaporatedWater = dt * evaporationRate.get() * EVAPORATION_SCALE;
 
         //Compute the new water volume, but making sure it doesn't overflow or underflow
-        double newVolume = water.volume.get() + inVolume - outVolume;
+        double newVolume = water.volume.get() + inputWater - drainedWater - evaporatedWater;
         if ( newVolume > beaker.getMaxFluidVolume() ) {
-            inVolume = beaker.getMaxFluidVolume() + outVolume - water.volume.get();
+            inputWater = beaker.getMaxFluidVolume() + drainedWater + evaporatedWater - water.volume.get();
         }
-        else if ( newVolume < 0 ) {
-            outVolume = inVolume + water.volume.get();
+        //Only allow drain to use up all the water if user is draining the liquid
+        else if ( newVolume < 0 && outputFlowRate.get() > 0 ) {
+            drainedWater = inputWater + water.volume.get();
         }
+        //Conversely, only allow evaporated water to use up all remaining water if the user is evaporating anything
+        else if ( newVolume < 0 && evaporationRate.get() > 0 ) {
+            evaporatedWater = inputWater + water.volume.get();
+        }
+        //Note that the user can't be both evaporating and draining fluid at the same time, since the controls are one-at-a-time controls.
+        //This simplifies the logic here.
 
         //Set the true value of the new volume based on clamped inputs and outputs
-        newVolume = water.volume.get() + inVolume - outVolume;
+        newVolume = water.volume.get() + inputWater - drainedWater - evaporatedWater;
 
         //Turn off the input flow if the beaker would overflow
         if ( newVolume >= beaker.getMaxFluidVolume() ) {
@@ -183,11 +196,20 @@ public abstract class SugarAndSaltSolutionModel {
         //Turn off the output flow if the beaker is empty
         if ( newVolume <= 0 ) {
             outputFlowRate.set( 0.0 );
+            //TODO: make the cursor drop the slider?
+        }
+
+        //Turn off evaporation if beaker is empty of water
+        if ( newVolume <= 0 ) {
+            evaporationRate.set( 0 );
+            //TODO: make the cursor drop the slider?
         }
 
         //Update the water volume
         water.volume.set( newVolume );
-        waterExited( outVolume );
+
+        //Notify listeners that some water (with solutes) exited the system, so they can decrease the amounts of solute (mols, not molarity) in the system
+        waterDrained( drainedWater );
 
         //Move about the sugar and salt crystals
         updateCrystals( dt, saltList );
@@ -195,7 +217,7 @@ public abstract class SugarAndSaltSolutionModel {
     }
 
     //Called when water (with dissolved solutes) flows out of the beaker, so that subclasses can update concentrations if necessary.
-    protected void waterExited( double outVolume ) {
+    protected void waterDrained( double outVolume ) {
     }
 
     //Propagate the sugar and salt crystals, and absorb them if they hit the water

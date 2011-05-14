@@ -82,7 +82,9 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
         transform = ModelViewTransform.createRectangleInvertedYMapping( model.visibleRegion.toRectangle2D(),
                                                                         //Manually tuned so that the model part shows up in the left side of the canvas,
                                                                         // leaving enough room for controls, labels, and positioning it so it appears near the bottom
-                                                                        new Rectangle2D.Double( 20, 175, canvasSize.width * modelScale, canvasSize.height * modelScale ) );
+                                                                        new Rectangle2D.Double( 20,
+                                                                                                135,//increasing this number moves down the beaker
+                                                                                                canvasSize.width * modelScale, canvasSize.height * modelScale ) );
 
         // Root of our scene graph
         rootNode = new PNode();
@@ -206,6 +208,12 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
                     setVisible( visible );
                 }
             } );
+        }} );
+
+        //Add an evaporation rate slider below the beaker
+        addChild( new EvaporationSlider( model.evaporationRate ) {{
+            Point2D point = transform.modelToView( 0, -model.beaker.getWallWidth() / 2 );
+            setOffset( point.getX() - getFullBounds().getWidth() / 2, point.getY() + INSET );
         }} );
 
         //Debug for showing stage

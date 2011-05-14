@@ -65,8 +65,8 @@ public class IntroModel extends SugarAndSaltSolutionModel {
     }
 
     //Have some moles of salt and sugar flow out so that the concentration remains unchanged
-    @Override protected void waterExited( double outVolume ) {
-        super.waterExited( outVolume );
+    @Override protected void waterDrained( double outVolume ) {
+        super.waterDrained( outVolume );
 
         //Make sure to keep the concentration the same when water flowing out
         updateConcentration( outVolume, molesOfSalt );
