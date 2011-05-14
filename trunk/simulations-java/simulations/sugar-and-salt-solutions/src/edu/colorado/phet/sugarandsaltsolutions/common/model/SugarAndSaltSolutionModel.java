@@ -76,6 +76,8 @@ public abstract class SugarAndSaltSolutionModel {
 
     public final ConductivityTester conductivityTester = new ConductivityTester();
 
+    public final Property<Boolean> showConcentrationValues = new Property<Boolean>( true );//True if the values should be shown
+
     //Model for the sugar dispenser
     public final SugarDispenser sugarDispenser = new SugarDispenser( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker ) {{
         //Wire up the SugarDispenser so it is enabled when the model has the SUGAR type dispenser selected
