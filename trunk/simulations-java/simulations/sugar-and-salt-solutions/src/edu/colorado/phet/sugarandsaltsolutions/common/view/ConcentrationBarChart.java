@@ -8,12 +8,17 @@ import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -35,7 +40,8 @@ public class ConcentrationBarChart extends PNode {
 
     public ConcentrationBarChart( ObservableProperty<Double> saltConcentration,
                                   ObservableProperty<Double> sugarConcentration,
-                                  SettableProperty<Boolean> showValues ) {
+                                  SettableProperty<Boolean> showValues,
+                                  final SettableProperty<Boolean> visible ) {
         final double totalWidth = 200;
         final PNode background = new PhetPPath( new Rectangle2D.Double( 0, 0, totalWidth, CHART_HEIGHT ),
                                                 WATER_COLOR, new BasicStroke( 1f ), Color.BLACK );
@@ -70,6 +76,24 @@ public class ConcentrationBarChart extends PNode {
             setOffset( background.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2,
                        background.getFullBounds().getMaxY() - getFullBounds().getHeight() - 1 );
         }} );
+
+        //Add a minimize button that hides the bar chart (replaced with a "+" button which can be used to restore it
+        addChild( new PImage( PhetCommonResources.getMinimizeButtonImage() ) {{
+            addInputEventListener( new CursorHandler() );
+            addInputEventListener( new PBasicInputEventHandler() {
+                @Override public void mousePressed( PInputEvent event ) {
+                    visible.set( false );
+                }
+            } );
+            setOffset( background.getFullBounds().getWidth() - getFullBounds().getWidth() - INSET, INSET );
+        }}
+        );
+        //Only show this bar chart if the user has opted to do so
+        visible.addObserver( new VoidFunction1<Boolean>() {
+            public void apply( Boolean visible ) {
+                setVisible( visible );
+            }
+        } );
     }
 
     // This class represents the bars on the bar chart.  They grow upwards in

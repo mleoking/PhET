@@ -30,6 +30,7 @@ public class IntroModel extends SugarAndSaltSolutionModel {
 
     //Determine if there are any solutes (i.e., if moles of salt or moles of sugar is greater than zero).  This is used to show/hide the "remove solutes" button
     public final ObservableProperty<Boolean> anySolutes = molesOfSalt.greaterThan( 0 ).or( molesOfSugar.greaterThan( 0 ) );
+    public final Property<Boolean> showConcentrationBarChart = new Property<Boolean>( false );
 
     public IntroModel() {
         saltConcentration.addObserver( new VoidFunction1<Double>() {
