@@ -66,6 +66,7 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
 
     //Other content that should go behind the shakers
     protected PNode behindShakerNode;
+    private boolean debug = false;
 
     public SugarAndSaltSolutionsCanvas( final SugarAndSaltSolutionModel model, final ObservableProperty<Boolean> removeSaltSugarButtonVisible, final SugarAndSaltSolutionsConfig config ) {
         this.model = model;
@@ -215,7 +216,9 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
         }} );
 
         //Debug for showing stage
-        addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, stageSize.getWidth(), stageSize.getHeight() ), new BasicStroke( 2 ), Color.red ) );
+        if ( debug ) {
+            addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, stageSize.getWidth(), stageSize.getHeight() ), new BasicStroke( 2 ), Color.red ) );
+        }
     }
 
     public void addChild( PNode node ) {
