@@ -1,3 +1,4 @@
+Removed "evaporate water" checkbox since the evaporation slider is always shown
 Added an evaporation slider to the canvas and wired it up to the model
 Fixed: cursor gets away from the salt shaker
 Improved sugar shaker so it only rotates, and emits sugar when it is being rotated and pointed down and to the left (proportionate to the amount of rotation)
