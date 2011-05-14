@@ -123,7 +123,6 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
 
                 //Add a button that shows a conductivity meter, with probes that can be submerged
                 add( new PropertyCheckBox( "Measure conductivity", model.conductivityTester.visible ) {{setFont( CONTROL_FONT );}} );
-                add( new CheckBox( "Evaporate water" ) );
             }} ) );
         }} ) {{
             //Set the location of the control panel
