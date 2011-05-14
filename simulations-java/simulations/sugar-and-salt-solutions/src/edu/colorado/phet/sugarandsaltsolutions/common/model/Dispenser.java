@@ -1,10 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.common.model;
 
-import java.awt.geom.Dimension2D;
-
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
 
@@ -22,7 +19,7 @@ public class Dispenser {
 
     //True if the user has selected this dispenser type
     public final Property<Boolean> enabled = new Property<Boolean>( false );
-    private final Beaker beaker;
+    protected final Beaker beaker;
 
     public Dispenser( double x, double y, double angle, Beaker beaker ) {
         this.beaker = beaker;
@@ -32,13 +29,6 @@ public class Dispenser {
 
     public void rotate( double v ) {
         angle.add( v );
-    }
-
-    //Translate the dispenser by the specified delta in model coordinates
-    public void translate( Dimension2D delta ) {
-        ImmutableVector2D proposedPoint = center.get().plus( delta );
-        double y = MathUtil.clamp( beaker.getTopY(), proposedPoint.getY(), Double.POSITIVE_INFINITY );
-        center.set( new ImmutableVector2D( proposedPoint.getX(), y ) );
     }
 
     //Reset the dispenser's position and orientation

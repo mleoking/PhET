@@ -15,8 +15,6 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarDispenser;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
-import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsApplication.RESOURCES;
@@ -78,16 +76,8 @@ public class SugarDispenserNode extends PNode {
             }} );
         }
 
-        //Translate the shaker when dragged
-        addInputEventListener( new PBasicInputEventHandler() {
-            @Override public void mouseDragged( PInputEvent event ) {
-                model.translate( transform.viewToModelDelta( event.getDeltaRelativeTo( SugarDispenserNode.this.getParent() ) ) );
-
-                if ( debug ) {
-                    System.out.println( "model.rotationPoint = " + model.center );
-                }
-            }
-        } );
+        //Rotate the sugar dispenser about its center when dragged
+        addInputEventListener( new RotationDragHandler( this, transform, model.angle, model.center ) );
 
         //Show a hand cursor when over the dispenser
         addInputEventListener( new CursorHandler() );
