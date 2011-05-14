@@ -5,6 +5,7 @@ package edu.colorado.phet.sugarandsaltsolutions.common.view;
 import java.awt.*;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
+import java.text.DecimalFormat;
 
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
@@ -51,12 +52,12 @@ public class ConcentrationBarChart extends PNode {
         addChild( new PhetPPath( new Line2D.Double( INSET, abscissaY, totalWidth - INSET, abscissaY ), new BasicStroke( 2 ), Color.black ) );
 
         //Add a Sugar concentration bar
-        addChild( new Bar( white, "Salt", saltConcentration ) {{
+        addChild( new Bar( white, "Salt", saltConcentration, showValues ) {{
             setOffset( totalWidth / 2 - getFullBoundsReference().width / 2 - Bar.WIDTH, abscissaY );
         }} );
 
         //Add a Salt concentration bar
-        addChild( new Bar( white, "Sugar", sugarConcentration ) {{
+        addChild( new Bar( white, "Sugar", sugarConcentration, showValues ) {{
             setOffset( totalWidth / 2 - getFullBoundsReference().width / 2 + Bar.WIDTH, abscissaY );
         }} );
 
@@ -104,7 +105,7 @@ public class ConcentrationBarChart extends PNode {
         //Convert from model units (Mols) to stage units
         private final int verticalAxisScale = 160;
 
-        public Bar( Color color, String caption, ObservableProperty<Double> value ) {
+        public Bar( Color color, String caption, final ObservableProperty<Double> value, final ObservableProperty<Boolean> showValue ) {
             // Create and add the bar itself.
             final PPath bar = new PhetPPath( color, new BasicStroke( 1f ), Color.BLACK );
             addChild( bar );
@@ -128,6 +129,31 @@ public class ConcentrationBarChart extends PNode {
                 setOffset( WIDTH / 2 - getFullBoundsReference().width / 2, 5 );
             }};
             addChild( captionNode );
+
+            //Optionally show the readout of the exact value above the bar itself
+            PText valueReadout = new PText() {{
+                value.addObserver( new VoidFunction1<Double>() {
+                    public void apply( Double molesPerMeterCubed ) {
+                        //Convert to Moles per Liter from SI
+                        double molesPerLiter = molesPerMeterCubed * 1000.0;
+
+                        //Update the text
+                        setText( new DecimalFormat( "0.00" ).format( molesPerLiter ) + " Mol/L" );
+
+                        //Show the label centered above the bar, even if bar is zero height
+                        setOffset( bar.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2,
+                                   bar.getFullBounds().getMinY() - getFullBounds().getHeight() );
+                    }
+                } );
+
+                //Only show the readout if the user has opted to do so
+                showValue.addObserver( new VoidFunction1<Boolean>() {
+                    public void apply( Boolean showValue ) {
+                        setVisible( showValue );
+                    }
+                } );
+            }};
+            addChild( valueReadout );
         }
     }
 }
