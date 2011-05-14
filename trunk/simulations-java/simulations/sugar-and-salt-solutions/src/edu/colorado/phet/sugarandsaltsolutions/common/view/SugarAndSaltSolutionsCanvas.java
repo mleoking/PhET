@@ -46,7 +46,7 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
     private final PNode rootNode;
 
     //Insets to be used for padding between edge of canvas and controls, or between controls
-    protected final int INSET = 5;
+    public static final int INSET = 5;
 
     //Fonts
     public static Font CONTROL_FONT = new PhetFont( 16 );
@@ -173,10 +173,11 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
         //Show the crystal layer behind the water and beaker so the crystals look like they go into the water instead of in front of it.
         addChild( crystalLayer );
 
-        //Add beaker and water nodes
+        //Add beaker and water nodes and an indicator for the water volume
         final BeakerNode beakerNode = new BeakerNode( transform, model.beaker );
         addChild( beakerNode );
         addChild( new WaterNode( transform, model.water ) );
+        addChild( new VolumeIndicatorNode( transform, model.water ) );
 
         //Add a button that allows the user to remove all solutes
         addChild( new ButtonNode( "Remove salt/sugar" ) {{
