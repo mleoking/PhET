@@ -135,10 +135,11 @@ public class ConcentrationBarChart extends PNode {
                 value.addObserver( new VoidFunction1<Double>() {
                     public void apply( Double molesPerMeterCubed ) {
                         //Convert to Moles per Liter from SI
-                        double molesPerLiter = molesPerMeterCubed * 1000.0;
+                        double litersPerCubicMeter = 1000;//See: http://wiki.answers.com/Q/How_many_metres_cubed_are_in_a_litre
+                        double molesPerLiter = molesPerMeterCubed / litersPerCubicMeter;
 
                         //Update the text
-                        setText( new DecimalFormat( "0.00" ).format( molesPerLiter ) + " Mol/L" );
+                        setText( new DecimalFormat( "0.00000" ).format( molesPerLiter ) + " M" );
 
                         //Show the label centered above the bar, even if bar is zero height
                         setOffset( bar.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2,

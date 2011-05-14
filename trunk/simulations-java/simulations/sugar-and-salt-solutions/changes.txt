@@ -1,3 +1,4 @@
+Improved units for concentration value readouts
 Show concentration values above the bars in the Concentration bar chart
 Added a volume readout for the water
 Added +/- buttons to show/hide the concentration bar chart
