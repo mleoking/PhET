@@ -1,3 +1,5 @@
+Fixed: When you let go of the faucet slider, it should snap back (even if the beaker is full or empty)
+Fixed: When you let go of the evaporation slider, it should snap back (even if the beaker is empty)
 Improved units for concentration value readouts
 Show concentration values above the bars in the Concentration bar chart
 Added a volume readout for the water
