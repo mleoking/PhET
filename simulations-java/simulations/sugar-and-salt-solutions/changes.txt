@@ -1,3 +1,4 @@
+Moved "show values" checkbox to the concentration bar chart
 Removed "evaporate water" checkbox since the evaporation slider is always shown
 Added an evaporation slider to the canvas and wired it up to the model
 Fixed: cursor gets away from the salt shaker

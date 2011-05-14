@@ -8,7 +8,6 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
-import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.Option.None;
 import edu.colorado.phet.common.phetcommon.util.Option.Some;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
@@ -59,8 +58,6 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
     private final SugarAndSaltSolutionModel model;
     protected final PDimension stageSize;
     private final ModelViewTransform transform;
-
-    private final Property<Boolean> showValues = new Property<Boolean>( true );
 
     //Actual size of the canvas coming up on windows from the IDE (with tabs) is java.awt.Dimension[width=1008,height=676].
     //This field is public so the model can use the same aspect ratio (to simplify layout and minimize blank regions)
@@ -119,8 +116,6 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
 
             //Add the controls in the control panel
             addChild( new PSwing( new VerticalLayoutPanel() {{
-                add( new PropertyCheckBox( "Show values", showValues ) {{setFont( CONTROL_FONT );}} );
-
                 //Add a button that shows a conductivity meter, with probes that can be submerged
                 add( new PropertyCheckBox( "Measure conductivity", model.conductivityTester.visible ) {{setFont( CONTROL_FONT );}} );
             }} ) );
