@@ -1,3 +1,4 @@
+Show concentration values above the bars in the Concentration bar chart
 Added a volume readout for the water
 Added +/- buttons to show/hide the concentration bar chart
 Made "show values" off by default and resets under "reset all"
