@@ -35,6 +35,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 
 import static edu.colorado.phet.common.phetcommon.model.property.Not.not;
 import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType.SALT;
+import static edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel.MIN_DRAIN_VOLUME;
 
 /**
  * Canvas for the introductory (first) tab in the Sugar and Salt Solutions Sim
@@ -140,7 +141,9 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
         addChild( new FaucetNode( transform, model.inputFlowRate, new Some<Double>( transform.modelToViewY( model.beaker.getY() ) ), not( model.beakerFull ),
                                   //move the top faucet down a little bit, so the slider doesn't go offscreen
                                   new Point2D.Double( 0, 10 ) ) );
-        addChild( new FaucetNode( transform, model.outputFlowRate, new None<Double>(), not( model.beakerEmpty ), new Point2D.Double( 0, 0 ) ) {{
+
+        //Add a faucet that drains the beaker
+        addChild( new FaucetNode( transform, model.outputFlowRate, new None<Double>(), model.water.volume.greaterThan( MIN_DRAIN_VOLUME ), new Point2D.Double( 0, 0 ) ) {{
             Point2D beakerBottomRight = model.beaker.getOutputFaucetAttachmentPoint();
             Point2D beakerBottomRightView = transform.modelToView( beakerBottomRight );
             //Move it up by the height of the faucet image, otherwise it sticks out underneath the beaker

@@ -3,7 +3,7 @@ package edu.colorado.phet.sugarandsaltsolutions.common.model;
 
 import java.awt.*;
 
-import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
 
 /**
  * Model for the water, including its volume and a way of accessing its shape (by querying the containing beaker.)
@@ -12,7 +12,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
  */
 public class Water {
     //volume in SI (m^3).  Start at 1 L (halfway up the 2L beaker).  Note that 0.001 cubic meters = 1L
-    public final Property<Double> volume = new Property<Double>( 0.001 );
+    public final DoubleProperty volume = new DoubleProperty( 0.001 );
     private final Beaker beaker;
 
     public Water( Beaker beaker ) {

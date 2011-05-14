@@ -102,6 +102,11 @@ public abstract class SugarAndSaltSolutionModel {
     public final SettableProperty<Integer> evaporationRate = new Property<Integer>( 0 );//Between 0 and 100
     private static final double EVAPORATION_SCALE = FLOW_SCALE / 100.0;//Scaled down by 100 since the evaporation rate is 100 times bigger than flow scales
 
+    //Make it so that when the water level is below the drain faucet, then no more water can flow through that pipe.
+    //This value was hand-tuned based on the graphical location of the lower part of the pipe in the view
+    //If the view changes, this value will need to change
+    public static final double MIN_DRAIN_VOLUME = 0.00025;
+
     public SugarAndSaltSolutionModel() {
         clock = new ConstantDtClock( 30 );
 
@@ -196,7 +201,7 @@ public abstract class SugarAndSaltSolutionModel {
             //TODO: make the cursor drop the slider?
         }
         //Turn off the output flow if the beaker is empty
-        if ( newVolume <= 0 ) {
+        if ( newVolume <= MIN_DRAIN_VOLUME ) {
             outputFlowRate.set( 0.0 );
             //TODO: make the cursor drop the slider?
         }
