@@ -76,7 +76,7 @@ public abstract class SugarAndSaltSolutionModel {
 
     public final ConductivityTester conductivityTester = new ConductivityTester();
 
-    public final Property<Boolean> showConcentrationValues = new Property<Boolean>( true );//True if the values should be shown
+    public final Property<Boolean> showConcentrationValues = new Property<Boolean>( false );//True if the values should be shown
 
     //Model for the sugar dispenser
     public final SugarDispenser sugarDispenser = new SugarDispenser( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker ) {{
@@ -273,6 +273,7 @@ public abstract class SugarAndSaltSolutionModel {
         saltShaker.reset();
         conductivityTester.reset();
         dispenserType.reset();
+        showConcentrationValues.reset();
 
         //Notify listeners that registered for a reset message
         for ( VoidFunction0 resetListener : resetListeners ) {
