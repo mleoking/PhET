@@ -1,3 +1,4 @@
+Added a vertical axis with tick marks and labels for the concentration bar chart
 Moved conductivity tester tool behind the shakers
 Made it so the conductivity tester can be dropped back in the toolbox
 Made the bulb draggable
