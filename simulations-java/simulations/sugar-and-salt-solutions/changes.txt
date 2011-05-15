@@ -1,3 +1,4 @@
+Made it so the conductivity tester can be dropped back in the toolbox
 Made the bulb draggable
 Added a draggable toolbox for the conductivity tester
 Hid the red stage outline
