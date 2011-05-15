@@ -140,7 +140,18 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements ToolboxC
             //Add the tool icon node, which can be dragged out of the toolbox to create the full-sized conductivity tester node
             addChild( new ToolIconNode<SugarAndSaltSolutionsCanvas>(
                     multiScaleToWidth( toBufferedImage( thumbnail ), 130 ), model.conductivityTester.visible, transform, SugarAndSaltSolutionsCanvas.this,
-                    conductivityNodeMaker, model, getToolboxBounds ) );
+                    conductivityNodeMaker, model, getToolboxBounds ) {
+
+                //Override addChild so that the created node will go behind the salt shaker, since the salt shaker should always be in front
+                @Override protected void addChild( SugarAndSaltSolutionsCanvas canvas, ToolNode node ) {
+                    canvas.behindShakerNode.addChild( node );
+                }
+
+                //Remove created tools from their parent node
+                @Override protected void removeChild( SugarAndSaltSolutionsCanvas canvas, ToolNode node ) {
+                    canvas.behindShakerNode.removeChild( node );
+                }
+            } );
         }} ) {{
             //Set the location of the control panel
             setOffset( stageSize.getWidth() - getFullBounds().getWidth(), soluteControlPanelNode.getFullBounds().getMaxY() + INSET );
