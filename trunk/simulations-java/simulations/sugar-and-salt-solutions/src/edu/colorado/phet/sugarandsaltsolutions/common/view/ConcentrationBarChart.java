@@ -38,12 +38,14 @@ public class ConcentrationBarChart extends PNode {
 
     private final double CHART_HEIGHT = 225;
     protected final int INSET = 5;
+    //Convert from model units (Mols) to stage units
+    private final int verticalAxisScale = 160;
 
     public ConcentrationBarChart( ObservableProperty<Double> saltConcentration,
                                   ObservableProperty<Double> sugarConcentration,
                                   SettableProperty<Boolean> showValues,
                                   final SettableProperty<Boolean> visible ) {
-        final double totalWidth = 200;
+        final double totalWidth = 250;
         final PNode background = new PhetPPath( new Rectangle2D.Double( 0, 0, totalWidth, CHART_HEIGHT ),
                                                 WATER_COLOR, new BasicStroke( 1f ), Color.BLACK );
         addChild( background );
@@ -52,17 +54,17 @@ public class ConcentrationBarChart extends PNode {
         addChild( new PhetPPath( new Line2D.Double( INSET, abscissaY, totalWidth - INSET, abscissaY ), new BasicStroke( 2 ), Color.black ) );
 
         //Add a Sugar concentration bar
-        addChild( new Bar( white, "Salt", saltConcentration, showValues ) {{
+        addChild( new Bar( white, "Salt", saltConcentration, showValues, verticalAxisScale ) {{
             setOffset( totalWidth / 2 - getFullBoundsReference().width / 2 - Bar.WIDTH, abscissaY );
         }} );
 
         //Add a Salt concentration bar
-        addChild( new Bar( white, "Sugar", sugarConcentration, showValues ) {{
+        addChild( new Bar( white, "Sugar", sugarConcentration, showValues, verticalAxisScale ) {{
             setOffset( totalWidth / 2 - getFullBoundsReference().width / 2 + Bar.WIDTH, abscissaY );
         }} );
 
         //Show the title
-        addChild( new PText( "Concentration" ) {{
+        addChild( new PText( "Concentration (M)" ) {{
             setFont( new PhetFont( 16 ) );
             setOffset( ConcentrationBarChart.this.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, INSET );
         }} );
@@ -78,6 +80,11 @@ public class ConcentrationBarChart extends PNode {
                        background.getFullBounds().getMaxY() - getFullBounds().getHeight() - 1 );
         }} );
 
+        //Add a vertical axis with labeled tick marks
+        addChild( new VerticalAxis( verticalAxisScale ) {{
+            setOffset( background.getFullBounds().getMaxX() - 50, abscissaY );
+        }} );
+
         //Add a minimize button that hides the bar chart (replaced with a "+" button which can be used to restore it
         addChild( new PImage( PhetCommonResources.getMinimizeButtonImage() ) {{
             addInputEventListener( new CursorHandler() );
@@ -89,6 +96,7 @@ public class ConcentrationBarChart extends PNode {
             setOffset( background.getFullBounds().getWidth() - getFullBounds().getWidth() - INSET, INSET );
         }}
         );
+
         //Only show this bar chart if the user has opted to do so
         visible.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean visible ) {
@@ -97,15 +105,13 @@ public class ConcentrationBarChart extends PNode {
         } );
     }
 
+
     // This class represents the bars on the bar chart.  They grow upwards in
     // the Y direction from a baseline offset of y=0.
     public static class Bar extends PNode {
         public static final float WIDTH = 40;
 
-        //Convert from model units (Mols) to stage units
-        private final int verticalAxisScale = 160;
-
-        public Bar( Color color, String caption, final ObservableProperty<Double> value, final ObservableProperty<Boolean> showValue ) {
+        public Bar( Color color, String caption, final ObservableProperty<Double> value, final ObservableProperty<Boolean> showValue, final double verticalAxisScale ) {
             // Create and add the bar itself.
             final PPath bar = new PhetPPath( color, new BasicStroke( 1f ), Color.BLACK );
             addChild( bar );
@@ -155,6 +161,38 @@ public class ConcentrationBarChart extends PNode {
                 } );
             }};
             addChild( valueReadout );
+        }
+    }
+
+    //Vertical axis and tick marks with labels
+    private class VerticalAxis extends PNode {
+        private VerticalAxis( double verticalAxisScale ) {
+
+            //Show the vertical line, like a y-axis
+            addChild( new PhetPPath( new Line2D.Double( 0, 0, 0, -verticalAxisScale * 0.82 ) ) );
+
+            //Show tick marks along the side
+            double[] tickMarks = new double[] { 0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08 };
+
+            //Only label the even tick marks
+            boolean even = false;
+            for ( double tickMark : tickMarks ) {
+
+                //Put it in the chart coordinate frame
+                double y = -tickMark * 10 * verticalAxisScale;
+
+                //Add the tick mark
+                PhetPPath tick = new PhetPPath( new Line2D.Double( 0, y, 4, y ) );
+                addChild( tick );
+
+                //If an even number, show the tick mark
+                if ( even ) {
+                    PText label = new PText( new DecimalFormat( "0.00000" ).format( tickMark / 1000.0 ) );
+                    label.setOffset( tick.getFullBounds().getMaxX(), tick.getFullBounds().getCenterY() - label.getFullBounds().getHeight() / 2 );
+                    addChild( label );
+                }
+                even = !even;
+            }
         }
     }
 }
