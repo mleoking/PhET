@@ -4,7 +4,6 @@ package edu.colorado.phet.sugarandsaltsolutions.common.view;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
@@ -20,21 +19,20 @@ import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.ToolNode;
-import edu.colorado.phet.common.piccolophet.nodes.conductivitytester.ConductivityTesterNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.common.piccolophet.nodes.toolbox.NodeFactory;
 import edu.colorado.phet.common.piccolophet.nodes.toolbox.ToolIconNode;
 import edu.colorado.phet.common.piccolophet.nodes.toolbox.ToolboxCanvas;
 import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsConfig;
-import edu.colorado.phet.sugarandsaltsolutions.common.model.*;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.Salt;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.Sugar;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
-import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -79,9 +77,6 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements ToolboxC
     protected PNode behindShakerNode;
     private boolean debug = false;
 
-    //PNode for the conductivity tester
-    private ConductivityTesterNode conductivityTesterNode;
-
     public SugarAndSaltSolutionsCanvas( final SugarAndSaltSolutionModel model, final ObservableProperty<Boolean> removeSaltSugarButtonVisible, final SugarAndSaltSolutionsConfig config ) {
         this.model = model;
 
@@ -113,33 +108,7 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements ToolboxC
         //Set the transform from stage coordinates to screen coordinates
         setWorldTransformStrategy( new CenteredStage( this, stageSize ) );
 
-        //Create the conductivity tester node, whose probes can be dipped in the water to test for conductivity
-        conductivityTesterNode = new ConductivityTesterNode( model.conductivityTester, transform, Color.lightGray, Color.red, Color.green, false ) {{
-            model.conductivityTester.visible.addObserver( new VoidFunction1<Boolean>() {
-                public void apply( Boolean visible ) {
-                    setVisible( visible );
-                }
-            } );
-            //Make it possible to drag the light bulb, which translates all parts of the conductivity tester (including probes)
-            lightBulbNode.addInputEventListener( new CursorHandler() );
-            lightBulbNode.addInputEventListener( new PBasicInputEventHandler() {
-                @Override public void mouseDragged( PInputEvent event ) {
-
-                    //The bulb and battery drag in view coordinates
-                    PDimension delta = event.getDeltaRelativeTo( getRootNode() );
-                    model.conductivityTester.setLocation( model.conductivityTester.getLocationReference().getX() + delta.getWidth(),
-                                                          model.conductivityTester.getLocationReference().getY() + delta.getHeight() );
-
-                    //The probes drag in model coordinates
-                    Dimension2D modelDelta = transform.viewToModelDelta( delta );
-                    model.conductivityTester.setNegativeProbeLocation( model.conductivityTester.getNegativeProbeLocationReference().getX() + modelDelta.getWidth(),
-                                                                       model.conductivityTester.getNegativeProbeLocationReference().getY() + modelDelta.getHeight() );
-                    model.conductivityTester.setPositiveProbeLocation( model.conductivityTester.getPositiveProbeLocationReference().getX() + modelDelta.getWidth(),
-                                                                       model.conductivityTester.getPositiveProbeLocationReference().getY() + modelDelta.getHeight() );
-                }
-            } );
-        }};
-
+        //Create the control panel for choosing sugar vs salt
         soluteControlPanelNode = new ControlPanelNode( new VBox() {{
             addChild( new PText( "Solute" ) {{setFont( TITLE_FONT );}} );
             addChild( new PhetPPath( new Rectangle( 0, 0, 0, 0 ), new Color( 0, 0, 0, 0 ) ) );//spacer
@@ -152,9 +121,6 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements ToolboxC
         }};
         addChild( soluteControlPanelNode );
 
-        //initialize the probe locations so that relative locations will be equivalent to those when it is dragged out of the toolbox (same code used)
-        setConductivityTesterLocation( transform, new Point2D.Double( 0, 0 ), model.conductivityTester );
-
         //Toolbox from which the conductivity tester can be dragged
         conductivityTesterToolbox = new ControlPanelNode( new VBox() {{
             //Add title and a spacer below it
@@ -163,26 +129,13 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements ToolboxC
             //Factory that creates the ConductivityTesterToolNode and positions it where the mouse is
             NodeFactory conductivityNodeMaker = new NodeFactory() {
                 public ToolNode createNode( final ModelViewTransform transform, Property<Boolean> visible, final Point2D location ) {
-                    //Move the conductivity tester in the model so it will match up with the mouse location
-                    setConductivityTesterLocation( transform, location, model.conductivityTester );
-
                     //Create and return the tool node, which reuses the same conductivityTesterNode
-                    return new ConductivityTesterToolNode( transform, conductivityTesterNode, model.conductivityTester );
+                    return new ConductivityTesterToolNode( new SugarAndSaltSolutionsConductivityTesterNode( model.conductivityTester, transform, getRootNode(), getToolboxBounds, location ) );
                 }
             };
 
-            //Function for determining whether the conductivity node should get dropped back in the toolbox.
-            Function0<Rectangle2D> getToolboxBounds = new Function0<Rectangle2D>() {
-                public Rectangle2D apply() {
-                    return conductivityTesterToolbox.getGlobalFullBounds();
-                }
-            };
-
-            //Generate a thumbnail of the conductivity tester node.  This is done by making it visible, calling toImage() and then making it invisible
-            boolean visible = model.conductivityTester.visible.get();
-            model.conductivityTester.visible.set( true );
-            Image thumbnail = conductivityTesterNode.toImage();
-            model.conductivityTester.visible.set( visible );//Restore default value
+            //Create a thumbnail to be shown in the toolbox
+            Image thumbnail = new SugarAndSaltSolutionsConductivityTesterNode( model.conductivityTester, transform, getRootNode(), getToolboxBounds, new Point2D.Double( 0, 0 ) ).createImage();
 
             //Add the tool icon node, which can be dragged out of the toolbox to create the full-sized conductivity tester node
             addChild( new ToolIconNode<SugarAndSaltSolutionsCanvas>(
@@ -267,9 +220,6 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements ToolboxC
             } );
         }} );
 
-        //Add the graphic for the conductivity tester--the probes can be submerged to light the bulb
-        behindShakerNode.addChild( conductivityTesterNode );
-
         //Add an evaporation rate slider below the beaker
         addChild( new EvaporationSlider( model.evaporationRate ) {{
             Point2D point = transform.modelToView( 0, -model.beaker.getWallWidth() / 2 );
@@ -280,15 +230,6 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements ToolboxC
         if ( debug ) {
             addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, stageSize.getWidth(), stageSize.getHeight() ), new BasicStroke( 2 ), Color.red ) );
         }
-    }
-
-    //Update the location of the body and probes for the conductivity tester, called on initialization
-    // (to make sure icon looks consistent) and when dragged out of the toolbox
-    private void setConductivityTesterLocation( ModelViewTransform transform, Point2D location, ConductivityTester conductivityTester ) {
-        Point2D viewLocation = transform.modelToView( location );
-        conductivityTester.setLocation( viewLocation.getX(), viewLocation.getY() );
-        conductivityTester.setNegativeProbeLocation( location.getX() - 0.03, location.getY() );
-        conductivityTester.setPositiveProbeLocation( location.getX() + 0.07, location.getY() );
     }
 
     public void addChild( PNode node ) {
@@ -302,4 +243,12 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements ToolboxC
     public PNode getRootNode() {
         return rootNode;
     }
+
+    //Function for determining whether the conductivity node should get dropped back in the toolbox.
+    //This is used by both the drag handler from the toolbox and by the node itself (after being dropped once, it gets a new drag handler)
+    private Function0<Rectangle2D> getToolboxBounds = new Function0<Rectangle2D>() {
+        public Rectangle2D apply() {
+            return conductivityTesterToolbox.getGlobalFullBounds();
+        }
+    };
 }
