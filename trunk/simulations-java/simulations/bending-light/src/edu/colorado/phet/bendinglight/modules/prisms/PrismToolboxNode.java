@@ -50,7 +50,7 @@ public class PrismToolboxNode extends PNode {
         content.addChild( new MediumControlPanel( canvas, model.prismMedium, BendingLightStrings.OBJECTS, false, model.wavelengthProperty, "0.0000000", 8 ) );
     }
 
-    static class PrismIcon extends ToolIconNode<PrismBreakModel> {
+    static class PrismIcon extends ToolIconNode<BendingLightCanvas<PrismBreakModel>> {
         private final PrismBreakModel model;
 
         public PrismIcon( final Prism prism, final PrismBreakModel model, ModelViewTransform transform, PrismBreakCanvas canvas, final Function0<Rectangle2D> globalToolboxBounds ) {

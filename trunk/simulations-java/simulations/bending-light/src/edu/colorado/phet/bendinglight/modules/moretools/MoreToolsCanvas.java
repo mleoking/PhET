@@ -41,13 +41,13 @@ public class MoreToolsCanvas extends IntroCanvas<MoreToolsModel> {
 
     public MoreToolsCanvas( MoreToolsModel model, BooleanProperty moduleActive, Resettable resetAll ) {
         super( model, moduleActive, resetAll, new Function3<IntroModel, Double, Double, PNode>() {
-            public PNode apply( IntroModel introModel, final Double x, final Double y ) {
-                //Create the new wavelength control which is an additional laser control in the more tools tab
-                return new BendingLightWavelengthControl( introModel.wavelengthProperty, introModel.getLaser().color ) {{
-                    setOffset( x, y );
-                }};
-            }
-        }, 0,
+                   public PNode apply( IntroModel introModel, final Double x, final Double y ) {
+                       //Create the new wavelength control which is an additional laser control in the more tools tab
+                       return new BendingLightWavelengthControl( introModel.wavelengthProperty, introModel.getLaser().color ) {{
+                           setOffset( x, y );
+                       }};
+                   }
+               }, 0,
                //Only show the clock control if the laser view is WAVE or if the wave sensor is showing
                new Or( new ValueEquals<LaserView>( model.laserView, LaserView.WAVE ), model.waveSensor.visible ),
                model, "0.000", 6 );
@@ -59,7 +59,7 @@ public class MoreToolsCanvas extends IntroCanvas<MoreToolsModel> {
         return new PNode[] { createVelocitySensorTool( resetModel ), createWaveSensorTool( resetModel ) };
     }
 
-    private ToolIconNode<MoreToolsModel> createWaveSensorTool( ResetModel resetModel ) {
+    private ToolIconNode<BendingLightCanvas<MoreToolsModel>> createWaveSensorTool( ResetModel resetModel ) {
         //Create a model for depicting with the WaveSensorNode
         final Function1.Constant<ImmutableVector2D, Option<Double>> value = new Function1.Constant<ImmutableVector2D, Option<Double>>( new Option.None<Double>() );//Dummy function that always returns None
         final WaveSensor waveSensor = new WaveSensor( new ConstantDtClock(), value, value );
@@ -99,7 +99,7 @@ public class MoreToolsCanvas extends IntroCanvas<MoreToolsModel> {
         };
 
         //Create the tool itself for dragging out of the toolbox
-        return new ToolIconNode<MoreToolsModel>( waveSensorNode.toImage( ICON_WIDTH, waveToolHeight, new Color( 0, 0, 0, 0 ) ), model.waveSensor.visible, transform, this, waveNodeFactory, resetModel, getToolboxBounds() );
+        return new ToolIconNode<BendingLightCanvas<MoreToolsModel>>( waveSensorNode.toImage( ICON_WIDTH, waveToolHeight, new Color( 0, 0, 0, 0 ) ), model.waveSensor.visible, transform, this, waveNodeFactory, resetModel, getToolboxBounds() );
     }
 
     private ToolIconNode createVelocitySensorTool( ResetModel resetModel ) {
@@ -136,7 +136,7 @@ public class MoreToolsCanvas extends IntroCanvas<MoreToolsModel> {
         //Create and return the tool for dragging out of the toolbox
         final VelocitySensorNode thumbnailSensorNode = new VelocitySensorNode( transform, new VelocitySensor(), arrowScale, new Property<Function1<Double, String>>( formatter ) );
         final int velocityToolHeight = (int) ( thumbnailSensorNode.getFullBounds().getHeight() / thumbnailSensorNode.getFullBounds().getWidth() * ICON_WIDTH );
-        return new ToolIconNode<MoreToolsModel>( thumbnailSensorNode.toImage( ICON_WIDTH, velocityToolHeight, new Color( 0, 0, 0, 0 ) ), showVelocitySensor, transform, this, velocityNodeFactory, resetModel, getToolboxBounds() );
+        return new ToolIconNode<BendingLightCanvas<MoreToolsModel>>( thumbnailSensorNode.toImage( ICON_WIDTH, velocityToolHeight, new Color( 0, 0, 0, 0 ) ), showVelocitySensor, transform, this, velocityNodeFactory, resetModel, getToolboxBounds() );
     }
 
     //Gets the bounds in which tools can be dropped back in the toolbox

@@ -84,7 +84,8 @@ public class IntroCanvas<T extends IntroModel> extends BendingLightCanvas<T> {
                        return full;
                    }
                },
-               "laser.png", centerOffsetLeft );
+               "laser.png", centerOffsetLeft
+        );
 
         //Add MediumNodes for top and bottom
         mediumNode.addChild( new MediumNode( transform, model.topMedium ) );
@@ -157,12 +158,12 @@ public class IntroCanvas<T extends IntroModel> extends BendingLightCanvas<T> {
                 return newProtractorNode( transform, showTool, model );
             }
         };
-        final ToolIconNode<T> protractor = new ToolIconNode<T>( multiScaleToWidth( RESOURCES.getImage( "protractor.png" ), ToolboxNode.ICON_WIDTH ), showProtractor,
-                                                                transform, this, protractorNodeFactory, model, new Function0<Rectangle2D>() {
-                    public Rectangle2D apply() {
-                        return toolboxNode.getGlobalFullBounds();
-                    }
-                } ) {
+        final ToolIconNode<BendingLightCanvas<T>> protractor = new ToolIconNode<BendingLightCanvas<T>>( multiScaleToWidth( RESOURCES.getImage( "protractor.png" ), ToolboxNode.ICON_WIDTH ), showProtractor,
+                                                                                                        transform, this, protractorNodeFactory, model, new Function0<Rectangle2D>() {
+            public Rectangle2D apply() {
+                return toolboxNode.getGlobalFullBounds();
+            }
+        } ) {
             //Move the protractor behind the light node so that it also goes behind other controls (such as wavelength controls), since otherwise it obscures them from interaction
             @Override protected void addChild( BendingLightCanvas<T> canvas, ToolNode node ) {
                 canvas.addChildAfterLight( node );

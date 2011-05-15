@@ -6,13 +6,13 @@ import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import edu.colorado.phet.bendinglight.model.BendingLightModel;
 import edu.colorado.phet.common.phetcommon.model.ResetModel;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.ToolNode;
 import edu.umd.cs.piccolo.PNode;
@@ -26,10 +26,10 @@ import edu.umd.cs.piccolo.util.PBounds;
  *
  * @author Sam Reid
  */
-public class ToolIconNode<T extends BendingLightModel> extends PNode {
+public class ToolIconNode<T extends PhetPCanvas & ToolboxCanvas> extends PNode {
     private final Property<Boolean> showToolInPlayArea;//Whether the tool should be shown in the play area (e.g., if it has been dragged out)
     private final ModelViewTransform transform;
-    private final BendingLightCanvas<T> canvas;
+    private final T canvas;
     private final NodeFactory nodeMaker;
     private final ResetModel resetModel;
     private final Function0<Rectangle2D> globalToolboxBounds;//For dropping the tool back in the toolbox
@@ -38,7 +38,7 @@ public class ToolIconNode<T extends BendingLightModel> extends PNode {
     public ToolIconNode( final Image thumbnail,
                          final Property<Boolean> showToolInPlayArea,
                          final ModelViewTransform transform,
-                         final BendingLightCanvas<T> canvas,
+                         final T canvas,
                          final NodeFactory nodeMaker,
                          final ResetModel resetModel,
                          final Function0<Rectangle2D> globalToolboxBounds ) {
@@ -48,7 +48,7 @@ public class ToolIconNode<T extends BendingLightModel> extends PNode {
     public ToolIconNode( final Image thumbnail,
                          final Property<Boolean> showToolInPlayArea,
                          final ModelViewTransform transform,
-                         final BendingLightCanvas<T> canvas,
+                         final T canvas,
                          final NodeFactory nodeMaker,
                          final ResetModel resetModel,
                          final Function0<Rectangle2D> globalToolboxBounds,
@@ -75,11 +75,11 @@ public class ToolIconNode<T extends BendingLightModel> extends PNode {
     }
 
     //Provide a point of abstraction for adding children to a canvas so that they may optionally be put in different layers.
-    protected void addChild( BendingLightCanvas<T> canvas, ToolNode node ) {
+    protected void addChild( T canvas, ToolNode node ) {
         canvas.addChild( node );
     }
 
-    protected void removeChild( BendingLightCanvas<T> canvas, ToolNode node ) {
+    protected void removeChild( T canvas, ToolNode node ) {
         canvas.removeChild( node );
     }
 
