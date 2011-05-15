@@ -8,12 +8,13 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.Option.None;
 import edu.colorado.phet.common.phetcommon.util.Option.Some;
+import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
-import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -21,19 +22,22 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.common.piccolophet.nodes.ToolNode;
 import edu.colorado.phet.common.piccolophet.nodes.conductivitytester.ConductivityTesterNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
+import edu.colorado.phet.common.piccolophet.nodes.toolbox.NodeFactory;
+import edu.colorado.phet.common.piccolophet.nodes.toolbox.ToolIconNode;
+import edu.colorado.phet.common.piccolophet.nodes.toolbox.ToolboxCanvas;
 import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsConfig;
-import edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType;
-import edu.colorado.phet.sugarandsaltsolutions.common.model.Salt;
-import edu.colorado.phet.sugarandsaltsolutions.common.model.Sugar;
-import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.*;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 import static edu.colorado.phet.common.phetcommon.model.property.Not.not;
+import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.multiScaleToWidth;
+import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.toBufferedImage;
 import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType.SALT;
 import static edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel.MIN_DRAIN_VOLUME;
 
@@ -42,7 +46,7 @@ import static edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltS
  *
  * @author Sam Reid
  */
-public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
+public class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements ToolboxCanvas {
     //Root node that shows the nodes in the stage coordinate frame
     private final PNode rootNode;
 
@@ -55,7 +59,9 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
     private final PNode crystalLayer = new PNode();//Layer that holds the sugar and salt crystals
 
     protected final ControlPanelNode soluteControlPanelNode;
-    private final ControlPanelNode toolsControlPanelNode;
+
+    //Toolbox where the conductivity tester can be dragged out of (and back into)
+    private final ControlPanelNode conductivityTesterToolbox;
     private final SugarAndSaltSolutionModel model;
     protected final PDimension stageSize;
     private final ModelViewTransform transform;
@@ -67,6 +73,9 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
     //Other content that should go behind the shakers
     protected PNode behindShakerNode;
     private boolean debug = false;
+
+    //PNode for the conductivity tester
+    private ConductivityTesterNode conductivityTesterNode;
 
     public SugarAndSaltSolutionsCanvas( final SugarAndSaltSolutionModel model, final ObservableProperty<Boolean> removeSaltSugarButtonVisible, final SugarAndSaltSolutionsConfig config ) {
         this.model = model;
@@ -99,6 +108,15 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
         //Set the transform from stage coordinates to screen coordinates
         setWorldTransformStrategy( new CenteredStage( this, stageSize ) );
 
+        //Create the conductivity tester node, whose probes can be dipped in the water to test for conductivity
+        conductivityTesterNode = new ConductivityTesterNode( model.conductivityTester, transform, Color.lightGray, Color.red, Color.green, false ) {{
+            model.conductivityTester.visible.addObserver( new VoidFunction1<Boolean>() {
+                public void apply( Boolean visible ) {
+                    setVisible( visible );
+                }
+            } );
+        }};
+
         soluteControlPanelNode = new ControlPanelNode( new VBox() {{
             addChild( new PText( "Solute" ) {{setFont( TITLE_FONT );}} );
             addChild( new PhetPPath( new Rectangle( 0, 0, 0, 0 ), new Color( 0, 0, 0, 0 ) ) );//spacer
@@ -111,21 +129,45 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
         }};
         addChild( soluteControlPanelNode );
 
-        toolsControlPanelNode = new ControlPanelNode( new VBox() {{
-            //Add title and a spacer below it
-            addChild( new PText( "Tools" ) {{setFont( TITLE_FONT );}} );
-            addChild( new PhetPPath( new Rectangle( 0, 0, 0, 0 ), new Color( 0, 0, 0, 0 ) ) );//spacer
+        //initialize the probe locations so that relative locations will be equivalent to those when it is dragged out of the toolbox (same code used)
+        setConductivityTesterLocation( transform, new Point2D.Double( 0, 0 ), model.conductivityTester );
 
-            //Add the controls in the control panel
-            addChild( new PSwing( new VerticalLayoutPanel() {{
-                //Add a button that shows a conductivity meter, with probes that can be submerged
-                add( new PropertyCheckBox( "Measure conductivity", model.conductivityTester.visible ) {{setFont( CONTROL_FONT );}} );
-            }} ) );
+        //Toolbox from which the conductivity tester can be dragged
+        conductivityTesterToolbox = new ControlPanelNode( new VBox() {{
+            //Add title and a spacer below it
+            addChild( new PText( "Conductivity Tester" ) {{setFont( TITLE_FONT );}} );
+
+            //Factory that creates the ConductivityTesterToolNode and positions it where the mouse is
+            NodeFactory conductivityNodeMaker = new NodeFactory() {
+                public ToolNode createNode( final ModelViewTransform transform, Property<Boolean> visible, final Point2D location ) {
+                    setConductivityTesterLocation( transform, location, model.conductivityTester );
+                    ConductivityTesterToolNode conductivityTesterToolNode = new ConductivityTesterToolNode( transform, conductivityTesterNode, model.conductivityTester );
+                    return conductivityTesterToolNode;
+                }
+            };
+
+            //Function for determining whether the conductivity node should get dropped back in the toolbox.
+            Function0<Rectangle2D> getToolboxBounds = new Function0<Rectangle2D>() {
+                public Rectangle2D apply() {
+                    return conductivityTesterToolbox.getGlobalFullBounds();
+                }
+            };
+
+            //Generate a thumbnail of the conductivity tester node.  This is done by making it visible, calling toImage() and then making it invisible
+            boolean visible = model.conductivityTester.visible.get();
+            model.conductivityTester.visible.set( true );
+            Image thumbnail = conductivityTesterNode.toImage();
+            model.conductivityTester.visible.set( visible );//Restore default value
+
+            //Add the tool icon node, which can be dragged out of the toolbox to create the full-sized conductivity tester node
+            addChild( new ToolIconNode<SugarAndSaltSolutionsCanvas>(
+                    multiScaleToWidth( toBufferedImage( thumbnail ), 130 ), model.conductivityTester.visible, transform, SugarAndSaltSolutionsCanvas.this,
+                    conductivityNodeMaker, model, getToolboxBounds ) );
         }} ) {{
             //Set the location of the control panel
             setOffset( stageSize.getWidth() - getFullBounds().getWidth(), soluteControlPanelNode.getFullBounds().getMaxY() + INSET );
         }};
-        addChild( toolsControlPanelNode );
+        addChild( conductivityTesterToolbox );
 
         //Add the reset all button
         addChild( new ButtonNode( "Reset All", Color.yellow ) {{
@@ -201,13 +243,7 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
         }} );
 
         //Add the graphic for the conductivity tester--the probes can be submerged to light the bulb
-        behindShakerNode.addChild( new ConductivityTesterNode( model.conductivityTester, transform, Color.lightGray, Color.red, Color.green, false ) {{
-            model.conductivityTester.visible.addObserver( new VoidFunction1<Boolean>() {
-                public void apply( Boolean visible ) {
-                    setVisible( visible );
-                }
-            } );
-        }} );
+        behindShakerNode.addChild( conductivityTesterNode );
 
         //Add an evaporation rate slider below the beaker
         addChild( new EvaporationSlider( model.evaporationRate ) {{
@@ -221,6 +257,15 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
         }
     }
 
+    //Update the location of the body and probes for the conductivity tester, called on initialization
+    // (to make sure icon looks consistent) and when dragged out of the toolbox
+    private void setConductivityTesterLocation( ModelViewTransform transform, Point2D location, ConductivityTester conductivityTester ) {
+        Point2D viewLocation = transform.modelToView( location );
+        conductivityTester.setLocation( viewLocation.getX(), viewLocation.getY() );
+        conductivityTester.setNegativeProbeLocation( location.getX() - 0.03, location.getY() );
+        conductivityTester.setPositiveProbeLocation( location.getX() + 0.07, location.getY() );
+    }
+
     public void addChild( PNode node ) {
         rootNode.addChild( node );
     }
@@ -229,7 +274,7 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas {
         rootNode.removeChild( node );
     }
 
-    protected double getControlPanelMinX() {
-        return Math.min( soluteControlPanelNode.getFullBoundsReference().getMinX(), toolsControlPanelNode.getFullBoundsReference().getMinX() );
+    public PNode getRootNode() {
+        return rootNode;
     }
 }
