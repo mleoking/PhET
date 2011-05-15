@@ -5,8 +5,6 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
-import edu.colorado.phet.bendinglight.view.CanvasBoundedDragHandler;
-import edu.colorado.phet.bendinglight.view.DragEvent;
 import edu.colorado.phet.bendinglight.view.WireNode;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -14,6 +12,8 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.ToolNode;
+import edu.colorado.phet.common.piccolophet.nodes.toolbox.CanvasBoundedDragHandler;
+import edu.colorado.phet.common.piccolophet.nodes.toolbox.DragEvent;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;

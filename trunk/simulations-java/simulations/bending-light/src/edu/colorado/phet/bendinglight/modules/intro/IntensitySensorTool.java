@@ -6,12 +6,16 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.bendinglight.model.IntensityMeter;
-import edu.colorado.phet.bendinglight.view.*;
+import edu.colorado.phet.bendinglight.view.BendingLightCanvas;
+import edu.colorado.phet.bendinglight.view.IntensityMeterNode;
+import edu.colorado.phet.bendinglight.view.ToolboxNode;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.ToolNode;
+import edu.colorado.phet.common.piccolophet.nodes.toolbox.NodeFactory;
+import edu.colorado.phet.common.piccolophet.nodes.toolbox.ToolIconNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**

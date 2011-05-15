@@ -15,6 +15,8 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.ToolNode;
+import edu.colorado.phet.common.piccolophet.nodes.toolbox.CanvasBoundedDragHandler;
+import edu.colorado.phet.common.piccolophet.nodes.toolbox.DragEvent;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
