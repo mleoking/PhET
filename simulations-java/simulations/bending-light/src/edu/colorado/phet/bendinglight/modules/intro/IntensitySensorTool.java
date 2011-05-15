@@ -19,7 +19,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  *
  * @author Sam Reid
  */
-public class IntensitySensorTool extends ToolIconNode {
+public class IntensitySensorTool extends ToolIconNode<BendingLightCanvas> {
     public IntensitySensorTool( final BendingLightCanvas canvas,
                                 final ModelViewTransform transform,
                                 final IntensityMeter intensityMeter,
@@ -51,7 +51,8 @@ public class IntensitySensorTool extends ToolIconNode {
                    public Rectangle2D apply() {
                        return parent.getGlobalFullBounds();
                    }
-               } );
+               }
+        );
     }
 
     //Intensity sensor must go behind the light so the light goes in front for an interception

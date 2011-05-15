@@ -38,7 +38,7 @@ import static java.awt.image.BufferedImage.TYPE_INT_RGB;
  *
  * @author Sam Reid
  */
-public class BendingLightCanvas<T extends BendingLightModel> extends PhetPCanvas {
+public class BendingLightCanvas<T extends BendingLightModel> extends PhetPCanvas implements ToolboxCanvas {
     public static final PhetFont labelFont = new PhetFont( 16 );//Font for labels in controls
     private PNode rootNode;
     public final BooleanProperty showNormal;
