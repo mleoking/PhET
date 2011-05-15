@@ -4,6 +4,7 @@ package edu.colorado.phet.sugarandsaltsolutions.common.view;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
@@ -19,6 +20,7 @@ import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -31,6 +33,8 @@ import edu.colorado.phet.common.piccolophet.nodes.toolbox.ToolboxCanvas;
 import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsConfig;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.*;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -114,6 +118,24 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements ToolboxC
             model.conductivityTester.visible.addObserver( new VoidFunction1<Boolean>() {
                 public void apply( Boolean visible ) {
                     setVisible( visible );
+                }
+            } );
+            //Make it possible to drag the light bulb, which translates all parts of the conductivity tester (including probes)
+            lightBulbNode.addInputEventListener( new CursorHandler() );
+            lightBulbNode.addInputEventListener( new PBasicInputEventHandler() {
+                @Override public void mouseDragged( PInputEvent event ) {
+
+                    //The bulb and battery drag in view coordinates
+                    PDimension delta = event.getDeltaRelativeTo( getRootNode() );
+                    model.conductivityTester.setLocation( model.conductivityTester.getLocationReference().getX() + delta.getWidth(),
+                                                          model.conductivityTester.getLocationReference().getY() + delta.getHeight() );
+
+                    //The probes drag in model coordinates
+                    Dimension2D modelDelta = transform.viewToModelDelta( delta );
+                    model.conductivityTester.setNegativeProbeLocation( model.conductivityTester.getNegativeProbeLocationReference().getX() + modelDelta.getWidth(),
+                                                                       model.conductivityTester.getNegativeProbeLocationReference().getY() + modelDelta.getHeight() );
+                    model.conductivityTester.setPositiveProbeLocation( model.conductivityTester.getPositiveProbeLocationReference().getX() + modelDelta.getWidth(),
+                                                                       model.conductivityTester.getPositiveProbeLocationReference().getY() + modelDelta.getHeight() );
                 }
             } );
         }};
