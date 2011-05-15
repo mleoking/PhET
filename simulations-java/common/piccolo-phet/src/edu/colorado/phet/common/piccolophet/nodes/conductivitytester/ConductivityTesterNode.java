@@ -78,7 +78,7 @@ public class ConductivityTesterNode extends PhetPNode {
     private final Color positiveProbeFillColor, negativeProbeFillColor;
     private final Color positiveWireColor, negativeWireColor;
 
-    private final LightBulbNode lightBulbNode;
+    protected final LightBulbNode lightBulbNode;//Protected so that subclasses can add listeners if necessary, such as in Sugar and Salt Solutions
     private final LightRaysNode lightRaysNode;
     private final BatteryNode batteryNode;
     private final ProbeNode positiveProbeNode, negativeProbeNode;
@@ -269,9 +269,9 @@ public class ConductivityTesterNode extends PhetPNode {
     }
 
     /*
-    * Light bulb, origin at bottom center.
+    * Light bulb, origin at bottom center.  Protected so that subclasses can listen to drag events on the light bulb, such as in Sugar and Salt Solutions.
     */
-    private static class LightBulbNode extends PComposite {
+    protected static class LightBulbNode extends PComposite {
 
         private final PImage glassNode;
 
