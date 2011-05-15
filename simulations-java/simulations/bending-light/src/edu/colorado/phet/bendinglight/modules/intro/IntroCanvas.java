@@ -25,6 +25,8 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.SimSpeedControlPNode;
 import edu.colorado.phet.common.piccolophet.nodes.ToolNode;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.FloatingClockControlNode;
+import edu.colorado.phet.common.piccolophet.nodes.toolbox.NodeFactory;
+import edu.colorado.phet.common.piccolophet.nodes.toolbox.ToolIconNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
