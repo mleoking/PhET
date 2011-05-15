@@ -36,6 +36,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 import static edu.colorado.phet.common.phetcommon.model.property.Not.not;
+import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createRectangleInvertedYMapping;
 import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.multiScaleToWidth;
 import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.toBufferedImage;
 import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType.SALT;
@@ -87,12 +88,12 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements ToolboxC
         //Gets the ModelViewTransform used to go between model coordinates (SI) and stage coordinates (roughly pixels)
         //Create the transform from model (SI) to view (stage) coordinates
         double modelScale = 0.75;//Scale the model down so there will be room for control panels.
-        transform = ModelViewTransform.createRectangleInvertedYMapping( model.visibleRegion.toRectangle2D(),
-                                                                        //Manually tuned so that the model part shows up in the left side of the canvas,
-                                                                        // leaving enough room for controls, labels, and positioning it so it appears near the bottom
-                                                                        new Rectangle2D.Double( 20,
-                                                                                                135,//increasing this number moves down the beaker
-                                                                                                canvasSize.width * modelScale, canvasSize.height * modelScale ) );
+        transform = createRectangleInvertedYMapping( model.visibleRegion.toRectangle2D(),
+                                                     //Manually tuned so that the model part shows up in the left side of the canvas,
+                                                     // leaving enough room for controls, labels, and positioning it so it appears near the bottom
+                                                     new Rectangle2D.Double( 20,
+                                                                             135,//increasing this number moves down the beaker
+                                                                             canvasSize.width * modelScale, canvasSize.height * modelScale ) );
 
         // Root of our scene graph
         rootNode = new PNode();
