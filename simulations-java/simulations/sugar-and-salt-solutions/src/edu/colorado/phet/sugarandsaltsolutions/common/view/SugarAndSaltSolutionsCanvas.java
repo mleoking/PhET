@@ -141,9 +141,11 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements ToolboxC
             //Factory that creates the ConductivityTesterToolNode and positions it where the mouse is
             NodeFactory conductivityNodeMaker = new NodeFactory() {
                 public ToolNode createNode( final ModelViewTransform transform, Property<Boolean> visible, final Point2D location ) {
+                    //Move the conductivity tester in the model so it will match up with the mouse location
                     setConductivityTesterLocation( transform, location, model.conductivityTester );
-                    ConductivityTesterToolNode conductivityTesterToolNode = new ConductivityTesterToolNode( transform, conductivityTesterNode, model.conductivityTester );
-                    return conductivityTesterToolNode;
+
+                    //Create and return the tool node, which reuses the same conductivityTesterNode
+                    return new ConductivityTesterToolNode( transform, conductivityTesterNode, model.conductivityTester );
                 }
             };
 
