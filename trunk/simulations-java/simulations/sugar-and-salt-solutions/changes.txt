@@ -1,3 +1,4 @@
+Added a draggable toolbox for the conductivity tester
 Hid the red stage outline
 Made it so you can’t let all the water flow out through output faucet, only up to faucet level
 Fixed: When you let go of the faucet slider, it should snap back (even if the beaker is full or empty)

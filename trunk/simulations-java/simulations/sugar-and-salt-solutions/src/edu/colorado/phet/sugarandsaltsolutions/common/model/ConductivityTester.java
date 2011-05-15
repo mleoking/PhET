@@ -22,11 +22,12 @@ public class ConductivityTester implements IConductivityTester {
     private static final double PROBE_Y = BEAKER_HEIGHT;
     private static final double NEGATIVE_PROBE_X = -BEAKER_WIDTH / 3;
     private static final double POSITIVE_PROBE_X = +BEAKER_WIDTH / 3;
-    private static final Point2D.Double location = new Point2D.Double( 0, PROBE_Y );
+    private static final Point2D.Double DEFAULT_LOCATION = new Point2D.Double( 0, PROBE_Y );
 
     //Position of the probes, in model coordinates
     private Point2D.Double negativeProbeLocation = new Point2D.Double( NEGATIVE_PROBE_X, PROBE_Y );
     private Point2D.Double positiveProbeLocation = new Point2D.Double( POSITIVE_PROBE_X, PROBE_Y );
+    private Point2D.Double location = new Point2D.Double( DEFAULT_LOCATION.getX(), DEFAULT_LOCATION.getY() );
 
     //Listeners
     private final ArrayList<ConductivityTesterChangeListener> conductivityTesterListeners = new ArrayList<ConductivityTesterChangeListener>();
@@ -103,5 +104,13 @@ public class ConductivityTester implements IConductivityTester {
         //Reset the location of the probes
         setNegativeProbeLocation( NEGATIVE_PROBE_X, PROBE_Y );
         setPositiveProbeLocation( POSITIVE_PROBE_X, PROBE_Y );
+    }
+
+    //Sets the location of the unit (battery + bulb) and notifies listeners
+    public void setLocation( double x, double y ) {
+        location.setLocation( x, y );
+        for ( ConductivityTesterChangeListener listener : conductivityTesterListeners ) {
+            listener.locationChanged();
+        }
     }
 }
