@@ -67,10 +67,13 @@ public interface IConductivityTester {
 
     public interface ConductivityTesterChangeListener extends EventListener {
 
-        public void brightnessChanged();
+        void brightnessChanged();
 
-        public void positiveProbeLocationChanged();
+        void positiveProbeLocationChanged();
 
-        public void negativeProbeLocationChanged();
+        void negativeProbeLocationChanged();
+
+        //Called when the location of the unit (light bulb + battery) changes
+        void locationChanged();
     }
 }

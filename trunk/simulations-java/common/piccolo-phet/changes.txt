@@ -1,3 +1,4 @@
+5/14/11 Added listeners for the location of the ConductivityTester's bulb and battery, see #2876
 5/11/11 fixed probe locations to account for offset of the parent node, see #2876
 5/11/11 synchronize ConductivityTesterNode brightness value on init in case it was non-zero
 generalized conductivitytesternode to allow non-default colors for use against a black background, see #2864

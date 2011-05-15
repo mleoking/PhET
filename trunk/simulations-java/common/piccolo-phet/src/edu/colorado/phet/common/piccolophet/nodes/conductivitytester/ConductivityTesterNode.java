@@ -202,6 +202,10 @@ public class ConductivityTesterNode extends PhetPNode {
                 updateNegativeProbeLocation();
             }
 
+            public void locationChanged() {
+                updateLocation();
+            }
+
             public void brightnessChanged() {
                 updateBrightness();
             }
@@ -209,6 +213,17 @@ public class ConductivityTesterNode extends PhetPNode {
 
         //Synchronize with any state in case it was non-default
         updateBrightness();
+        updatePositiveProbeLocation();
+        updateNegativeProbeLocation();
+    }
+
+    //Update the location of the light bulb and battery of the conductivity tester
+    private void updateLocation() {
+        setOffset( tester.getLocationReference() );
+
+        //After updating the entire offset, we have to update the probes again
+        //Since they have to subtract out the parent offset (i.e. their locations are absolute, not
+        //Relative to the parent
         updatePositiveProbeLocation();
         updateNegativeProbeLocation();
     }
