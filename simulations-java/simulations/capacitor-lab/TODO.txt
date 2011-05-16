@@ -7,8 +7,16 @@ DESIGN ISSUES
 - do interviews with mockups of circuit construction feature, due to cost and potential issues
 - what happens when meters are in the way while building circuits?
 
+MULTIPLE CAPACITORS REQUIREMENTS
+- simplified capacitors with fixed area and variable capacitance, separation changes with capacitance
+- min/max of capacitance slider varies capacitance by 3x (choose min/max to look good)
+- capacitance meter shows total capacitance for the circuit (label "Total Capacitance"?)
+- charge meter shows total charge stored for the circuit (label "Total Charge Stored"?)
+- no dielectric (air)
+- show charge on plates
+- show E-field lines
+
 HIGH PRIORITY
-- #2850, E-Field bug with battery disconnected, introduced in 1.00.01
 - rewrite BatteryCapacitorCircuit using "nested circuits" design
 - add Multiple Capacitors module
 - more general way to create Wire model elements, subclasses like TopWire and BottomWire are not scalable
