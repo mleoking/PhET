@@ -253,7 +253,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
         A_air.setValue( capacitor.getAirContactArea() );
         // capacitance
         C_air.setValue( capacitor.getAirCapacitance() );
-        C_dielectric.setValue( capacitor.getDieletricCapacitance() );
+        C_dielectric.setValue( capacitor.getDielectricCapacitance() );
         C.setValue( capacitor.getTotalCapacitance() );
         // voltage
         V_plates.setValue( capacitor.getPlatesVoltage() );
@@ -267,7 +267,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
         sigma_air.setValue( capacitor.getAirSurfaceChargeDensity() );
         sigma_dielectric.setValue( capacitor.getDielectricSurfaceChargeDensity() );
         // E-field
-        E_effective.setValue( capacitor.getEffectiveEfield() );
+        E_effective.setValue( capacitor.getEffectiveEField() );
         E_plates_air.setValue( capacitor.getPlatesAirEField() );
         E_plates_diectric.setValue( capacitor.getPlatesDielectricEField() );
         E_air.setValue( capacitor.getAirEField() );

@@ -382,7 +382,7 @@ public class ComplexCapacitor implements ICapacitor {
      * @return capacitance, in Farads
      */
     public double getTotalCapacitance() {
-        return getAirCapacitance() + getDieletricCapacitance();
+        return getAirCapacitance() + getDielectricCapacitance();
     }
 
     /**
@@ -401,7 +401,7 @@ public class ComplexCapacitor implements ICapacitor {
      *
      * @return capacitance, in Farads
      */
-    public double getDieletricCapacitance() {
+    public double getDielectricCapacitance() {
         return getCapacitance( getDielectricConstant(), getDielectricContactArea(), getPlateSeparation() );
     }
 
@@ -508,7 +508,7 @@ public class ComplexCapacitor implements ICapacitor {
      * @return charge, in Coulombs
      */
     public double getDielectricPlateCharge() {
-        return getDieletricCapacitance() * getPlatesVoltage();
+        return getDielectricCapacitance() * getPlatesVoltage();
     }
 
     /**
@@ -538,7 +538,7 @@ public class ComplexCapacitor implements ICapacitor {
      * @return excess charge, in Coulombs
      */
     public double getExcessDielectricPlateCharge() {
-        return getExcessPlateCharge( getDielectricConstant(), getDieletricCapacitance(), getPlatesVoltage() );
+        return getExcessPlateCharge( getDielectricConstant(), getDielectricCapacitance(), getPlatesVoltage() );
     }
 
     /*
@@ -606,7 +606,7 @@ public class ComplexCapacitor implements ICapacitor {
      *
      * @return Volts/meter
      */
-    public double getEffectiveEfield() {
+    public double getEffectiveEField() {
         return getPlatesVoltage() / getPlateSeparation();
     }
 
@@ -652,7 +652,7 @@ public class ComplexCapacitor implements ICapacitor {
      * @return E-field, in Volts/meter
      */
     public double getAirEField() {
-        return getPlatesAirEField() - getEffectiveEfield();
+        return getPlatesAirEField() - getEffectiveEField();
     }
 
     /**
@@ -662,7 +662,7 @@ public class ComplexCapacitor implements ICapacitor {
      * @return E-field, in Volts/meter
      */
     public double getDielectricEField() {
-        return getPlatesDielectricEField() - getEffectiveEfield();
+        return getPlatesDielectricEField() - getEffectiveEField();
     }
 
     //----------------------------------------------------------------------------------

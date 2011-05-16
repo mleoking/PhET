@@ -71,7 +71,7 @@ public class EFieldNode extends PhetPNode {
         parentNode.removeAllChildren();
 
         // compute density (spacing) of field lines
-        double effectiveEField = capacitor.getEffectiveEfield();
+        double effectiveEField = capacitor.getEffectiveEField();
         double lineSpacing = getLineSpacing( effectiveEField );
 
         if ( lineSpacing > 0 ) {
