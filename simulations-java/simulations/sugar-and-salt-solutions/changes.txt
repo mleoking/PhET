@@ -1,3 +1,4 @@
+Show the conductivity tester probes as being submerged underwater
 Removed concentration bar chart vertical axis, ticks and labels
 Removed evaporation control from "microscopic" tab
 Removed conductivity tester from "microscopic" tab

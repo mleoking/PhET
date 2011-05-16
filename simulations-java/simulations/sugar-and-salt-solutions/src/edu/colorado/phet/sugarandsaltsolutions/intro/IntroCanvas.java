@@ -65,7 +65,7 @@ public class IntroCanvas extends SugarAndSaltSolutionsCanvas {
         behindShakerNode.addChild( concentrationBarChart );
 
         //Toolbox from which the conductivity tester can be dragged
-        addChild( new ConductivityTesterToolboxNode( model, this ) {{
+        conductivityToolboxLayer.addChild( new ConductivityTesterToolboxNode( model, this ) {{
             //Set the location of the control panel
             setOffset( stageSize.getWidth() - getFullBounds().getWidth(), soluteControlPanelNode.getFullBounds().getMaxY() + INSET );
         }} );

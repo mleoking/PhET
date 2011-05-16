@@ -34,6 +34,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 
 import static edu.colorado.phet.common.phetcommon.model.property.Not.not;
 import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createRectangleInvertedYMapping;
+import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsApplication.WATER_COLOR;
 import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType.SALT;
 import static edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel.MIN_DRAIN_VOLUME;
 
@@ -66,6 +67,12 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements ToolboxC
     //Other content that should go behind the shakers
     protected PNode behindShakerNode;
     private boolean debug = false;
+
+    //For nodes that should look like they go into the water, such as the conductivity tester probes
+    protected final PNode submergedInWaterNode = new PNode();
+
+    //Separate layer for the conductivity toolbox to make sure the conductivity node shows as submerged in the water, but still goes behind the shaker
+    protected final PNode conductivityToolboxLayer = new PNode();
 
     public SugarAndSaltSolutionsCanvas( final SugarAndSaltSolutionModel model, final ObservableProperty<Boolean> removeSaltSugarButtonVisible, final SugarAndSaltSolutionsConfig config ) {
 
@@ -154,16 +161,27 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements ToolboxC
         addChild( behindShakerNode );
 
         //add the salt and sugar dispenser nodes, which should always be in front of everything
-        addChild( new SaltShakerNode( transform, model.saltShaker ) );
-        addChild( new SugarDispenserNode( transform, model.sugarDispenser ) );
+        submergedInWaterNode.addChild( new SaltShakerNode( transform, model.saltShaker ) );
+        submergedInWaterNode.addChild( new SugarDispenserNode( transform, model.sugarDispenser ) );
 
         //Show the crystal layer behind the water and beaker so the crystals look like they go into the water instead of in front of it.
-        addChild( crystalLayer );
+        submergedInWaterNode.addChild( crystalLayer );
 
         //Add beaker and water nodes and an indicator for the water volume
         final BeakerNode beakerNode = new BeakerNode( transform, model.beaker );
         addChild( beakerNode );
-        addChild( new WaterNode( transform, model.water ) );
+
+        //Show the full water node at the correct color, then overlay a partially transparent one on top, so that some objects (such as the conductivity tester) will look submerged
+        addChild( new WaterNode( transform, model.water, WATER_COLOR ) );
+
+        //Node that shows things that get submerged such as the conductivity tester
+        addChild( conductivityToolboxLayer );
+        addChild( submergedInWaterNode );
+
+        //Overlay node that renders as partially transparent in front of submerged objects, such as the conductivity tester
+        addChild( new WaterNode( transform, model.water, new Color( WATER_COLOR.getRed(), WATER_COLOR.getGreen(), WATER_COLOR.getBlue(), 200 ) ) );
+
+        //Readout the volume of the water in Liters
         addChild( new VolumeIndicatorNode( transform, model.water ) );
 
         //Add a button that allows the user to remove all solutes
