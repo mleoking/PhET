@@ -24,8 +24,8 @@ import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.common.piccolophet.nodes.toolbox.ToolboxCanvas;
 import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsConfig;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType;
-import edu.colorado.phet.sugarandsaltsolutions.common.model.Salt;
-import edu.colorado.phet.sugarandsaltsolutions.common.model.Sugar;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.MacroSalt;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.MacroSugar;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -143,15 +143,15 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements ToolboxC
         }} );
 
         //Add salt crystals graphics when salt crystals are added to the model
-        model.saltAdded.addListener( new CrystalMaker<Salt>( transform, crystalLayer, new Function1<Salt, PNode>() {
-            public PNode apply( Salt salt ) {
+        model.saltAdded.addListener( new CrystalMaker<MacroSalt>( transform, crystalLayer, new Function1<MacroSalt, PNode>() {
+            public PNode apply( MacroSalt salt ) {
                 return new SaltNode( transform, salt, config.saltColor );
             }
         } ) );
 
         //Add sugar crystals graphics when sugar crystals are added to the model
-        model.sugarAdded.addListener( new CrystalMaker<Sugar>( transform, crystalLayer, new Function1<Sugar, PNode>() {
-            public PNode apply( Sugar sugar ) {
+        model.sugarAdded.addListener( new CrystalMaker<MacroSugar>( transform, crystalLayer, new Function1<MacroSugar, PNode>() {
+            public PNode apply( MacroSugar sugar ) {
                 return new SugarNode( transform, sugar, config.saltColor );
             }
         } ) );

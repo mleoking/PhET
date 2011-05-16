@@ -4,17 +4,17 @@ package edu.colorado.phet.sugarandsaltsolutions.common.model;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 
 /**
- * Salt crystal
+ * Sugar crystal
  *
  * @author Sam Reid
  */
-public class Salt extends Crystal {
-    //Create a salt crystal with 1E-6 moles of salt
-    public Salt( ImmutableVector2D position ) {
+public class MacroSugar extends Crystal {
+    //Create a sugar crystal with 1E-6 moles of sugar
+    public MacroSugar( ImmutableVector2D position ) {
         this( position, 1E-6 );
     }
 
-    public Salt( ImmutableVector2D position, double moles ) {
+    public MacroSugar( ImmutableVector2D position, double moles ) {
         super( position, moles );
     }
 }
