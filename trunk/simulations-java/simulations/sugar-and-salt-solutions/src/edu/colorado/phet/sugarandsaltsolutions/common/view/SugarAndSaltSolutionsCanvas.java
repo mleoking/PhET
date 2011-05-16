@@ -181,8 +181,8 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements ToolboxC
         //Overlay node that renders as partially transparent in front of submerged objects, such as the conductivity tester
         addChild( new WaterNode( transform, model.water, new Color( WATER_COLOR.getRed(), WATER_COLOR.getGreen(), WATER_COLOR.getBlue(), 200 ) ) );
 
-        //Readout the volume of the water in Liters
-        addChild( new VolumeIndicatorNode( transform, model.water ) );
+        //Readout the volume of the water in Liters, only visible if the user opted to show values (in the concentration bar chart)
+        addChild( new VolumeIndicatorNode( transform, model.water, model.showConcentrationValues ) );
 
         //Add a button that allows the user to remove all solutes
         addChild( new ButtonNode( "Remove salt/sugar" ) {{
