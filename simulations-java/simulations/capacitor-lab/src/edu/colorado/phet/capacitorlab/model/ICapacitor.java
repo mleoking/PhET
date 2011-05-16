@@ -1,10 +1,9 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.capacitorlab.model.multicaps;
+package edu.colorado.phet.capacitorlab.model;
 
 import java.awt.*;
 import java.util.EventListener;
 
-import edu.colorado.phet.capacitorlab.model.DielectricMaterial;
 import edu.colorado.phet.capacitorlab.shapes.CapacitorShapeFactory;
 import edu.colorado.phet.common.phetcommon.math.Dimension3D;
 import edu.colorado.phet.common.phetcommon.math.Point3D;

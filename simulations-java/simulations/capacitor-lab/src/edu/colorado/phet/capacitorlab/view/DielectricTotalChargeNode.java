@@ -3,9 +3,9 @@
 package edu.colorado.phet.capacitorlab.view;
 
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
+import edu.colorado.phet.capacitorlab.model.ICapacitor;
+import edu.colorado.phet.capacitorlab.model.ICapacitor.CapacitorChangeListener;
 import edu.colorado.phet.capacitorlab.model.Polarity;
-import edu.colorado.phet.capacitorlab.model.multicaps.ICapacitor;
-import edu.colorado.phet.capacitorlab.model.multicaps.ICapacitor.CapacitorChangeListener;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.PNode;
