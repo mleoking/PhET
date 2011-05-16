@@ -1,3 +1,4 @@
+# 0.00.10 (51984) May 16, 2011
 Fixed: if you press "reset all" when the tester is in the play area, it disappears from the sim
 Made it so you can drag the battery to move the conductivity tester
 Fixed: if you let go once the electrode is fully immersed, you can't drag it back up (except if you move the bulb)
