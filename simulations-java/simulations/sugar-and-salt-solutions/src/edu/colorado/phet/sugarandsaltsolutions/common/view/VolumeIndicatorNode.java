@@ -4,6 +4,7 @@ package edu.colorado.phet.sugarandsaltsolutions.common.view;
 import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
 
+import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -20,7 +21,12 @@ import static edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSo
  * @author Sam Reid
  */
 public class VolumeIndicatorNode extends PNode {
-    public VolumeIndicatorNode( final ModelViewTransform transform, final Water water ) {
+    public VolumeIndicatorNode( final ModelViewTransform transform, final Water water, ObservableProperty<Boolean> visible ) {
+        visible.addObserver( new VoidFunction1<Boolean>() {
+            public void apply( Boolean visible ) {
+                setVisible( visible );
+            }
+        } );
         addChild( new PText() {{
             water.volume.addObserver( new VoidFunction1<Double>() {
                 public void apply( Double volumeInSI ) {
