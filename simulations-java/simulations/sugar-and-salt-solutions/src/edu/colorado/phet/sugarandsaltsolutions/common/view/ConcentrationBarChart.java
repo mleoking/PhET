@@ -45,7 +45,7 @@ public class ConcentrationBarChart extends PNode {
                                   ObservableProperty<Double> sugarConcentration,
                                   SettableProperty<Boolean> showValues,
                                   final SettableProperty<Boolean> visible ) {
-        final double totalWidth = 250;
+        final double totalWidth = 200;
         final PNode background = new PhetPPath( new Rectangle2D.Double( 0, 0, totalWidth, CHART_HEIGHT ),
                                                 WATER_COLOR, new BasicStroke( 1f ), Color.BLACK );
         addChild( background );
@@ -80,10 +80,12 @@ public class ConcentrationBarChart extends PNode {
                        background.getFullBounds().getMaxY() - getFullBounds().getHeight() - 1 );
         }} );
 
+        //Commented out because we are considering removing it as of 5/15/2011
+        //If this gets re-enabled, the totalWidth should be increased (around 250)
         //Add a vertical axis with labeled tick marks
-        addChild( new VerticalAxis( verticalAxisScale ) {{
-            setOffset( background.getFullBounds().getMaxX() - 50, abscissaY );
-        }} );
+//        addChild( new VerticalAxis( verticalAxisScale ) {{
+//            setOffset( background.getFullBounds().getMaxX() - 50, abscissaY );
+//        }} );
 
         //Add a minimize button that hides the bar chart (replaced with a "+" button which can be used to restore it
         addChild( new PImage( PhetCommonResources.getMinimizeButtonImage() ) {{

@@ -1,3 +1,4 @@
+Removed concentration bar chart vertical axis, ticks and labels
 Made the evaporation control only available in the intro tab
 Made the conductivity tester only available in the intro tab
 # 0.00.08 (51939) May 15, 2011
