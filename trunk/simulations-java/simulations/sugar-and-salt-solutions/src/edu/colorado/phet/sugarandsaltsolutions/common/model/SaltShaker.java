@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.math.MathUtil;
 
 import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.parseAngleAndMagnitude;
 
@@ -32,11 +31,7 @@ public class SaltShaker extends Dispenser {
 
     //Translate the dispenser by the specified delta in model coordinates
     public void translate( Dimension2D delta ) {
-
-        //Translate the center, but make sure it doesn't go out of bounds
-        ImmutableVector2D proposedPoint = center.get().plus( delta );
-        double y = MathUtil.clamp( beaker.getTopY(), proposedPoint.getY(), Double.POSITIVE_INFINITY );
-        center.set( new ImmutableVector2D( proposedPoint.getX(), y ) );
+        super.translate( delta );
 
         //Add the new position to the list, but keep the list short so there is no memory leak
         positions.add( center.get() );
