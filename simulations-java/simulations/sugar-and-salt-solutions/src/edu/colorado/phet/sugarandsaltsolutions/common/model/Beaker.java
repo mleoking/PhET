@@ -19,7 +19,7 @@ public class Beaker {
     private final double width;
     private final double height;
     private final double depth;//dimension of the beaker in the z-direction (into the screen)
-    private final float wallWidth = 0.01f;
+    private final float wallWidth = 0.0025f;
 
     public Beaker( double x, double y, double width, double height, double depth ) {
         this.x = x;
