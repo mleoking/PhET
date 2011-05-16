@@ -9,7 +9,7 @@ import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.sugarandsaltsolutions.common.model.Crystal;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.MacroCrystal;
 import edu.umd.cs.piccolo.PNode;
 
 import static java.awt.Color.white;
@@ -20,7 +20,7 @@ import static java.awt.Color.white;
  * @author Sam Reid
  */
 public class CrystalNode extends PNode {
-    public CrystalNode( final ModelViewTransform transform, final Crystal crystal, final ObservableProperty<Color> color ) {
+    public CrystalNode( final ModelViewTransform transform, final MacroCrystal crystal, final ObservableProperty<Color> color ) {
         //Draw the shape of the salt crystal at its location
         addChild( new PhetPPath( white ) {{
             crystal.position.addObserver( new VoidFunction1<ImmutableVector2D>() {

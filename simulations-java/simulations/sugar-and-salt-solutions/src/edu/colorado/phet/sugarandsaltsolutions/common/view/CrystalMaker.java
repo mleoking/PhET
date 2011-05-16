@@ -5,7 +5,7 @@ import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
-import edu.colorado.phet.sugarandsaltsolutions.common.model.Crystal;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.MacroCrystal;
 import edu.umd.cs.piccolo.PNode;
 
 import static javax.swing.SwingUtilities.invokeLater;
@@ -13,7 +13,7 @@ import static javax.swing.SwingUtilities.invokeLater;
 /**
  * @author Sam Reid
  */
-public class CrystalMaker<T extends Crystal> implements VoidFunction1<T> {
+public class CrystalMaker<T extends MacroCrystal> implements VoidFunction1<T> {
     private final ModelViewTransform transform;
     private final PNode layer;
     private final Function1<T, PNode> createNode;

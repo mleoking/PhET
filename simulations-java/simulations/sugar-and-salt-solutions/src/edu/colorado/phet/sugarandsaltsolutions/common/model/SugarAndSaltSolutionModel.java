@@ -232,9 +232,9 @@ public abstract class SugarAndSaltSolutionModel implements ResetModel {
     }
 
     //Propagate the sugar and salt crystals, and absorb them if they hit the water
-    private void updateCrystals( double dt, final ArrayList<? extends Crystal> crystalList ) {
-        ArrayList<Crystal> hitTheWater = new ArrayList<Crystal>();
-        for ( Crystal crystal : crystalList ) {
+    private void updateCrystals( double dt, final ArrayList<? extends MacroCrystal> crystalList ) {
+        ArrayList<MacroCrystal> hitTheWater = new ArrayList<MacroCrystal>();
+        for ( MacroCrystal crystal : crystalList ) {
             //slow the motion down a little bit or it moves too fast
             crystal.stepInTime( gravity.times( crystal.mass ), dt / 10 );
 
@@ -247,14 +247,14 @@ public abstract class SugarAndSaltSolutionModel implements ResetModel {
         removeCrystals( crystalList, hitTheWater );
 
         //increase concentration in the water for crystals that hit
-        for ( Crystal crystal : hitTheWater ) {
+        for ( MacroCrystal crystal : hitTheWater ) {
             crystalAbsorbed( crystal );
         }
     }
 
     //Remove the specified crystals.  Note that the toRemove
-    private void removeCrystals( ArrayList<? extends Crystal> crystalList, ArrayList<? extends Crystal> toRemove ) {
-        for ( Crystal crystal : new ArrayList<Crystal>( toRemove ) ) {
+    private void removeCrystals( ArrayList<? extends MacroCrystal> crystalList, ArrayList<? extends MacroCrystal> toRemove ) {
+        for ( MacroCrystal crystal : new ArrayList<MacroCrystal>( toRemove ) ) {
             crystal.remove();
             crystalList.remove( crystal );
         }
@@ -262,7 +262,7 @@ public abstract class SugarAndSaltSolutionModel implements ResetModel {
 
     //Called when a crystal is absorbed by the water.
     // For instance, in the first tab it computes the resulting concentration change
-    protected void crystalAbsorbed( Crystal crystal ) {
+    protected void crystalAbsorbed( MacroCrystal crystal ) {
         removeSaltAndSugar();
     }
 

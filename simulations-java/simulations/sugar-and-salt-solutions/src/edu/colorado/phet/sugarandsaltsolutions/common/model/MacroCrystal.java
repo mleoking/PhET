@@ -12,7 +12,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
  *
  * @author Sam Reid
  */
-public class Crystal {
+public class MacroCrystal {
     public final double mass = 1E-6;//kg
     public Property<ImmutableVector2D> position;
     public Property<ImmutableVector2D> velocity = new Property<ImmutableVector2D>( new ImmutableVector2D( 0, 0 ) );
@@ -21,7 +21,7 @@ public class Crystal {
 
     private double moles;//The number of moles of the crystal.  We couldn't just count the number of atoms since it would overflow Long
 
-    public Crystal( ImmutableVector2D position, double moles ) {
+    public MacroCrystal( ImmutableVector2D position, double moles ) {
         this.position = new Property<ImmutableVector2D>( position );
         this.moles = moles;
     }
