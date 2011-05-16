@@ -1,14 +1,5 @@
 // Copyright 2002-2011, University of Colorado
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author:samreid $
- * Revision : $Revision:14677 $
- * Date modified : $Date:2007-04-17 03:40:29 -0500 (Tue, 17 Apr 2007) $
- */
-
 package edu.colorado.phet.common.phetcommon.math;
 
 import java.awt.geom.Ellipse2D;
@@ -666,50 +657,6 @@ public class MathUtil {
         Vector2D proj = new Vector2D( v2 ).normalize();
         proj = proj.scale( v1.dot( proj ) );
         return proj;
-    }
-
-    /**
-     * Factorial
-     *
-     * @param n
-     * @return n!
-     * @throws IllegalArgumentException if n < 0
-     */
-    public static int factorial( final int n ) {
-        if ( n < 0 ) {
-            throw new IllegalArgumentException( "factorial is undefined for negative integers: " + n );
-        }
-        int nFactorial = 1; // 0!=1, 1!=1
-        if ( n > 1 ) {
-            for ( int i = n; i > 1; i-- ) {
-                nFactorial *= i;
-            }
-        }
-        return nFactorial;
-    }
-
-    public static double getMachineEpsilonFloat() {
-        int iterations = 0;
-        for ( float epsilon = 1.0f; epsilon >= 0.0; epsilon /= 2 ) {
-            if ( 1.0f + epsilon / 2 == 1.0f ) {
-                System.out.println( "solution found in iterations=" + iterations );
-                return epsilon;
-            }
-            iterations++;
-        }
-        throw new RuntimeException( "No machine epsilon found" );
-    }
-
-    public static double getMachineEpsilonDouble() {
-        int iterations = 0;
-        for ( double epsilon = 1.0; epsilon >= 0.0; epsilon /= 2 ) {
-            if ( 1.0 + epsilon / 2 == 1.0 ) {
-                System.out.println( "solution found in iterations=" + iterations );
-                return epsilon;
-            }
-            iterations++;
-        }
-        throw new RuntimeException( "No machine epsilon found" );
     }
 
     public static long daysToMilliseconds( long days ) {
