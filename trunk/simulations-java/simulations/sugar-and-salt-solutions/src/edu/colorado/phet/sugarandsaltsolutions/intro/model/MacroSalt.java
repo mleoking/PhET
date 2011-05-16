@@ -11,10 +11,6 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 public class MacroSalt extends MacroCrystal {
     //Create a salt crystal with 1E-6 moles of salt
     public MacroSalt( ImmutableVector2D position ) {
-        this( position, 1E-6 );
-    }
-
-    public MacroSalt( ImmutableVector2D position, double moles ) {
-        super( position, moles );
+        super( position );
     }
 }

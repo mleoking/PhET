@@ -1,3 +1,4 @@
+Changed each crystal grain from 1E-6 moles to 1E-2 moles
 Changed units to mol/L instead of M in concentration bar chart
 Made the concentration bar chart visible by default
 # 0.00.09 (51947) May 15, 2011

@@ -39,7 +39,7 @@ public class ConcentrationBarChart extends PNode {
     private final double CHART_HEIGHT = 225;
     protected final int INSET = 5;
     //Convert from model units (Mols) to stage units
-    private final int verticalAxisScale = 160;
+    private final double verticalAxisScale = 160 * 1E-4;
 
     public ConcentrationBarChart( ObservableProperty<Double> saltConcentration,
                                   ObservableProperty<Double> sugarConcentration,
@@ -147,7 +147,7 @@ public class ConcentrationBarChart extends PNode {
                         double molesPerLiter = molesPerMeterCubed / litersPerCubicMeter;
 
                         //Update the text
-                        setText( new DecimalFormat( "0.00000" ).format( molesPerLiter ) + " mol/L" );
+                        setText( new DecimalFormat( "0.00" ).format( molesPerLiter ) + " mol/L" );
 
                         //Show the label centered above the bar, even if bar is zero height
                         setOffset( bar.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2,
@@ -189,7 +189,7 @@ public class ConcentrationBarChart extends PNode {
 
                 //If an even number, show the tick mark
                 if ( even ) {
-                    PText label = new PText( new DecimalFormat( "0.00000" ).format( tickMark / 1000.0 ) );
+                    PText label = new PText( new DecimalFormat( "0.00" ).format( tickMark / 1000.0 ) );
                     label.setOffset( tick.getFullBounds().getMaxX(), tick.getFullBounds().getCenterY() - label.getFullBounds().getHeight() / 2 );
                     addChild( label );
                 }
