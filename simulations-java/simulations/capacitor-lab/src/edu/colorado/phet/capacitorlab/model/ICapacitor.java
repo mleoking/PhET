@@ -97,12 +97,6 @@ public interface ICapacitor {
     // Q_exess_air
     double getExcessAirPlateCharge();
 
-    // sigma_air
-    double getAirSurfaceChargeDensity();
-
-    // sigma_dielectric
-    double getDielectricSurfaceChargeDensity();
-
     // E_effective
     double getEffectiveEField();
 

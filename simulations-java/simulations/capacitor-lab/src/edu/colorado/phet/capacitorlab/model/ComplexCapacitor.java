@@ -557,45 +557,6 @@ public class ComplexCapacitor implements ICapacitor {
     }
 
     //----------------------------------------------------------------------------------
-    // Surface Charge Density (sigma)
-    //----------------------------------------------------------------------------------
-
-    /**
-     * Gets the surface density charge between the plates and air.
-     * (design doc symbol: sigma_air)
-     *
-     * @return Coulombs/meters^2
-     */
-    public double getAirSurfaceChargeDensity() {
-        return getSurfaceChargeDensity( EPSILON_AIR, getPlatesVoltage(), getPlateSeparation() );
-    }
-
-    /**
-     * Gets the surface density charge between the plates and the dielectric.
-     * (design doc symbol: sigma_dielectric)
-     *
-     * @return Coulombs/meters^2
-     */
-    public double getDielectricSurfaceChargeDensity() {
-        return getSurfaceChargeDensity( getDielectricConstant(), getPlatesVoltage(), getPlateSeparation() );
-    }
-
-    /*
-     * General computation of surface charge density.
-     *
-     * @param epsilon_r dielectric constant, dimensionless
-     * @param V_plate plate voltage, in volts
-     * @param d plate separation, meters
-     * @return Coulombs/meters^2
-     */
-    private static double getSurfaceChargeDensity( double epsilon_r, double V_plate, double d ) {
-        if ( !( d > 0 ) ) {
-            throw new IllegalArgumentException( "model requires d (plate separation) > 0 : " + d );
-        }
-        return epsilon_r * EPSILON_0 * V_plate / d;
-    }
-
-    //----------------------------------------------------------------------------------
     // E-Field (E)
     //----------------------------------------------------------------------------------
 
