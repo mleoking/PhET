@@ -26,7 +26,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 /**
  * Panel that displays all "raw" model values for the DielectricModel.
  * This is intended for developer use and is not internationalized.
- * Variable names correspond to the variables in the design specification,
+ * Variable names correspond to the variables in the design document,
  * and therefore violation Java naming conventions.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
@@ -50,7 +50,6 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
     private final ValueDisplay C_air, C_dielectric, C;
     private final ValueDisplay V_plates;
     private final ValueDisplay Q_air, Q_dielectric, Q_total, Q_excess_air, Q_excess_dielectric;
-    private final ValueDisplay sigma_air, sigma_dielectric;
     private final ValueDisplay E_effective, E_plates_air, E_plates_diectric, E_air, E_dielectric;
     private final ValueDisplay U;
 
@@ -150,14 +149,6 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
         Q_excess_dielectric = new ValueDisplay( "Q_excess_dielectric", "C", "0.000E00" );
         Q_excess_dielectric.setToolTipText( "excess charge due to dielectric" );
         derivedPanel.add( Q_excess_dielectric );
-        // surface charge density
-        derivedPanel.add( new JSeparator() );
-        sigma_air = new ValueDisplay( CLStrings.SIGMA + "_air", "C/m^2", "0.000E00" );
-        sigma_air.setToolTipText( "surface charge density due to air" );
-        derivedPanel.add( sigma_air );
-        sigma_dielectric = new ValueDisplay( CLStrings.SIGMA + "_dielectric", "C/m^2", "0.000E00" );
-        sigma_dielectric.setToolTipText( "surface charge density due to dielectric" );
-        derivedPanel.add( sigma_dielectric );
         // E-field
         derivedPanel.add( new JSeparator() );
         E_effective = new ValueDisplay( "E_effective", "V/m", "0.000E00" );
@@ -263,9 +254,6 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
         Q_total.setValue( capacitor.getTotalPlateCharge() );
         Q_excess_air.setValue( capacitor.getExcessAirPlateCharge() );
         Q_excess_dielectric.setValue( capacitor.getExcessDielectricPlateCharge() );
-        // surface charge density
-        sigma_air.setValue( capacitor.getAirSurfaceChargeDensity() );
-        sigma_dielectric.setValue( capacitor.getDielectricSurfaceChargeDensity() );
         // E-field
         E_effective.setValue( capacitor.getEffectiveEField() );
         E_plates_air.setValue( capacitor.getPlatesAirEField() );

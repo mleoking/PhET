@@ -1,3 +1,4 @@
+5/16/11 delete surface charge density (sigma) from the model implementation, it is shown in the design doc but not used in the model
 5/16/11 Remove several setters from ICircuit, since these are specific to a capacitor whose geometry can be directly manipulated
 5/16/11 factored out ICapacitor, common interface for all capacitor model elements
 5/16/11 SimpleCapacitor, a simplified capacitor model for use in Multiple Capacitors tab
