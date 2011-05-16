@@ -2,6 +2,7 @@
 package edu.colorado.phet.sugarandsaltsolutions.intro;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -11,6 +12,7 @@ import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsConfig;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.ConcentrationBarChart;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.ConductivityTesterToolboxNode;
+import edu.colorado.phet.sugarandsaltsolutions.common.view.EvaporationSlider;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -67,5 +69,11 @@ public class IntroCanvas extends SugarAndSaltSolutionsCanvas {
         }} );
 
         soluteControlPanelNode.setOffset( concentrationBarChart.getFullBounds().getX() - soluteControlPanelNode.getFullBounds().getWidth() - INSET, concentrationBarChart.getFullBounds().getY() );
+
+        //Add an evaporation rate slider below the beaker
+        addChild( new EvaporationSlider( model.evaporationRate ) {{
+            Point2D point = IntroCanvas.this.transform.modelToView( 0, -model.beaker.getWallWidth() / 2 );
+            setOffset( point.getX() - getFullBounds().getWidth() / 2, point.getY() + INSET );
+        }} );
     }
 }

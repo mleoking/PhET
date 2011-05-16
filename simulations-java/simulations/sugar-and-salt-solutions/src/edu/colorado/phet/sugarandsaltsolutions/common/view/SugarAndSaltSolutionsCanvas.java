@@ -57,7 +57,7 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements ToolboxC
     protected final ControlPanelNode soluteControlPanelNode;
 
     protected final PDimension stageSize;
-    private final ModelViewTransform transform;
+    protected final ModelViewTransform transform;
 
     //Actual size of the canvas coming up on windows from the IDE (with tabs) is java.awt.Dimension[width=1008,height=676].
     //This field is public so the model can use the same aspect ratio (to simplify layout and minimize blank regions)
@@ -181,12 +181,6 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements ToolboxC
                     setVisible( visible );
                 }
             } );
-        }} );
-
-        //Add an evaporation rate slider below the beaker
-        addChild( new EvaporationSlider( model.evaporationRate ) {{
-            Point2D point = transform.modelToView( 0, -model.beaker.getWallWidth() / 2 );
-            setOffset( point.getX() - getFullBounds().getWidth() / 2, point.getY() + INSET );
         }} );
 
         //Debug for showing stage
