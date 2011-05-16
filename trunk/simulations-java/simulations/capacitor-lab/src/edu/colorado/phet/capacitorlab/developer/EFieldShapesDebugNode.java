@@ -5,7 +5,7 @@ package edu.colorado.phet.capacitorlab.developer;
 import java.awt.*;
 
 import edu.colorado.phet.capacitorlab.CLPaints;
-import edu.colorado.phet.capacitorlab.model.multicaps.ICapacitor;
+import edu.colorado.phet.capacitorlab.model.ICapacitor;
 import edu.colorado.phet.capacitorlab.module.dielectric.DielectricModel;
 import edu.colorado.phet.capacitorlab.shapes.CapacitorShapeFactory;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;

@@ -4,8 +4,8 @@ package edu.colorado.phet.capacitorlab.view;
 
 import edu.colorado.phet.capacitorlab.CLPaints;
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
+import edu.colorado.phet.capacitorlab.model.ICapacitor;
 import edu.colorado.phet.capacitorlab.model.Polarity;
-import edu.colorado.phet.capacitorlab.model.multicaps.ICapacitor;
 import edu.colorado.phet.capacitorlab.view.PlateChargeNode.AirPlateChargeNode;
 import edu.colorado.phet.capacitorlab.view.PlateChargeNode.DielectricPlateChargeNode;
 

@@ -5,7 +5,7 @@ package edu.colorado.phet.capacitorlab.drag;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
-import edu.colorado.phet.capacitorlab.model.multicaps.ICapacitor;
+import edu.colorado.phet.capacitorlab.model.ICapacitor;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragSequenceEventHandler;
