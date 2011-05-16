@@ -162,7 +162,7 @@ public class DielectricModel {
                                                            CLConstants.PLATE_SEPARATION_RANGE.getMin(), material, CLConstants.DIELECTRIC_OFFSET_RANGE.getMin(), mvt );
         BatteryCapacitorCircuit circuit = new BatteryCapacitorCircuit( new CLClock(), battery, capacitor, false /* batteryConnected */, mvt );
         circuit.setDisconnectedPlateCharge( getMaxPlateCharge() );
-        return capacitor.getEffectiveEfield();
+        return capacitor.getEffectiveEField();
     }
 
     /**

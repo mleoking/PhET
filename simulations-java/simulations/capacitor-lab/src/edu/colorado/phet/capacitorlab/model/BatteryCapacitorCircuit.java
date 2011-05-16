@@ -255,7 +255,7 @@ public class BatteryCapacitorCircuit extends AbstractCircuit {
     public double getEffectiveEFieldAt( Point3D location ) {
         double eField = 0;
         if ( capacitor.isBetweenPlatesShape( location ) ) {
-            eField = capacitor.getEffectiveEfield();
+            eField = capacitor.getEffectiveEField();
         }
         return eField;
     }

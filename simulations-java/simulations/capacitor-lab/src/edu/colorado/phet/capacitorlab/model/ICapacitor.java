@@ -80,7 +80,7 @@ public interface ICapacitor {
     double getAirCapacitance();
 
     // C_dielectric
-    double getDieletricCapacitance();
+    double getDielectricCapacitance();
 
     // Q_total
     double getTotalPlateCharge();
@@ -104,7 +104,7 @@ public interface ICapacitor {
     double getDielectricSurfaceChargeDensity();
 
     // E_effective
-    double getEffectiveEfield();
+    double getEffectiveEField();
 
     // E_dielectric
     double getDielectricEField();
