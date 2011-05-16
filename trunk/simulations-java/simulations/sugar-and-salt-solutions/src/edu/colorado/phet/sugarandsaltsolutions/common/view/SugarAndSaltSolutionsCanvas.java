@@ -187,8 +187,8 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements ToolboxC
         //Add a button that allows the user to remove all solutes
         addChild( new ButtonNode( "Remove salt/sugar" ) {{
             //Button should be inside the beaker
-            setOffset( beakerNode.getFullBounds().getMaxX() - getFullBounds().getWidth() - INSET,
-                       beakerNode.getFullBounds().getMaxY() - getFullBounds().getHeight() - INSET );
+            setOffset( transform.modelToViewX( model.beaker.getMaxX() ) - getFullBounds().getWidth() - INSET,
+                       transform.modelToViewY( model.beaker.getY() ) - getFullBounds().getHeight() - INSET );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     model.removeSaltAndSugar();
