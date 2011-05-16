@@ -22,6 +22,8 @@ import edu.umd.cs.piccolo.nodes.PText;
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsApplication.WATER_COLOR;
 
 /**
+ * Canvas for the "intro" tab of sugar and salt solutions
+ *
  * @author Sam Reid
  */
 public class IntroCanvas extends SugarAndSaltSolutionsCanvas {
