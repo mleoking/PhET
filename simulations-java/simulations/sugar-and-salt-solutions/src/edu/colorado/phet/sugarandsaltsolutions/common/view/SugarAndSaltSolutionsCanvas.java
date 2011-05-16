@@ -8,10 +8,8 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
-import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.Option.None;
 import edu.colorado.phet.common.phetcommon.util.Option.Some;
-import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
@@ -22,10 +20,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.common.piccolophet.nodes.ToolNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
-import edu.colorado.phet.common.piccolophet.nodes.toolbox.NodeFactory;
-import edu.colorado.phet.common.piccolophet.nodes.toolbox.ToolIconNode;
 import edu.colorado.phet.common.piccolophet.nodes.toolbox.ToolboxCanvas;
 import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsConfig;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType;
@@ -39,8 +34,6 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 
 import static edu.colorado.phet.common.phetcommon.model.property.Not.not;
 import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createRectangleInvertedYMapping;
-import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.multiScaleToWidth;
-import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.toBufferedImage;
 import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType.SALT;
 import static edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel.MIN_DRAIN_VOLUME;
 
@@ -63,9 +56,6 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements ToolboxC
 
     protected final ControlPanelNode soluteControlPanelNode;
 
-    //Toolbox where the conductivity tester can be dragged out of (and back into)
-    private final ControlPanelNode conductivityTesterToolbox;
-    private final SugarAndSaltSolutionModel model;
     protected final PDimension stageSize;
     private final ModelViewTransform transform;
 
@@ -78,7 +68,6 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements ToolboxC
     private boolean debug = false;
 
     public SugarAndSaltSolutionsCanvas( final SugarAndSaltSolutionModel model, final ObservableProperty<Boolean> removeSaltSugarButtonVisible, final SugarAndSaltSolutionsConfig config ) {
-        this.model = model;
 
         //Set the stage size according to the same aspect ratio as used in the model
         stageSize = new PDimension( canvasSize.width,
@@ -120,43 +109,6 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements ToolboxC
             setOffset( stageSize.getWidth() - getFullBounds().getWidth() - INSET, 150 );
         }};
         addChild( soluteControlPanelNode );
-
-        //Toolbox from which the conductivity tester can be dragged
-        conductivityTesterToolbox = new ControlPanelNode( new VBox() {{
-            //Add title and a spacer below it
-            addChild( new PText( "Conductivity Tester" ) {{setFont( TITLE_FONT );}} );
-
-            //Factory that creates the ConductivityTesterToolNode and positions it where the mouse is
-            NodeFactory conductivityNodeMaker = new NodeFactory() {
-                public ToolNode createNode( final ModelViewTransform transform, Property<Boolean> visible, final Point2D location ) {
-                    //Create and return the tool node, which reuses the same conductivityTesterNode
-                    return new ConductivityTesterToolNode( new SugarAndSaltSolutionsConductivityTesterNode( model.conductivityTester, transform, getRootNode(), getToolboxBounds, location ) );
-                }
-            };
-
-            //Create a thumbnail to be shown in the toolbox
-            Image thumbnail = new SugarAndSaltSolutionsConductivityTesterNode( model.conductivityTester, transform, getRootNode(), getToolboxBounds, new Point2D.Double( 0, 0 ) ).createImage();
-
-            //Add the tool icon node, which can be dragged out of the toolbox to create the full-sized conductivity tester node
-            addChild( new ToolIconNode<SugarAndSaltSolutionsCanvas>(
-                    multiScaleToWidth( toBufferedImage( thumbnail ), 130 ), model.conductivityTester.visible, transform, SugarAndSaltSolutionsCanvas.this,
-                    conductivityNodeMaker, model, getToolboxBounds ) {
-
-                //Override addChild so that the created node will go behind the salt shaker, since the salt shaker should always be in front
-                @Override protected void addChild( SugarAndSaltSolutionsCanvas canvas, ToolNode node ) {
-                    canvas.behindShakerNode.addChild( node );
-                }
-
-                //Remove created tools from their parent node
-                @Override protected void removeChild( SugarAndSaltSolutionsCanvas canvas, ToolNode node ) {
-                    canvas.behindShakerNode.removeChild( node );
-                }
-            } );
-        }} ) {{
-            //Set the location of the control panel
-            setOffset( stageSize.getWidth() - getFullBounds().getWidth(), soluteControlPanelNode.getFullBounds().getMaxY() + INSET );
-        }};
-        addChild( conductivityTesterToolbox );
 
         //Add the reset all button
         addChild( new ButtonNode( "Reset All", Color.yellow ) {{
@@ -255,11 +207,7 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements ToolboxC
         return rootNode;
     }
 
-    //Function for determining whether the conductivity node should get dropped back in the toolbox.
-    //This is used by both the drag handler from the toolbox and by the node itself (after being dropped once, it gets a new drag handler)
-    private Function0<Rectangle2D> getToolboxBounds = new Function0<Rectangle2D>() {
-        public Rectangle2D apply() {
-            return conductivityTesterToolbox.getGlobalFullBounds();
-        }
-    };
+    public ModelViewTransform getModelViewTransform() {
+        return transform;
+    }
 }
