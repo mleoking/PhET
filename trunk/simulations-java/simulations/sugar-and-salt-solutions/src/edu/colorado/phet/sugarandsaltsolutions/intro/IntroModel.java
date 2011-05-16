@@ -20,6 +20,10 @@ import static java.lang.Double.isNaN;
  * @author Sam Reid
  */
 public class IntroModel extends SugarAndSaltSolutionModel {
+
+    private static final double saltSaturationPoint = 6.14;//moles per liter
+    private static final double sugarSaturationPoint = 5.85;//moles per liter
+
     //Salt moles and concentration
     private final DoubleProperty molesOfSalt = new DoubleProperty( 0.0 );
     public final DividedBy saltConcentration = molesOfSalt.dividedBy( water.volume );
