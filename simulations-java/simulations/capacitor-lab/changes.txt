@@ -1,3 +1,4 @@
+# 1.00.04 (51951) May 16, 2011
 5/16/11 fix: #2850, with battery disconnected, user is controlling charge and capacitance, so compute plate voltages when charge or capacitance changes
 5/11/11 fix: add missing notification in circuit.setBatteryConnected
 5/11/11 fix use of addObserver(ChangeObserver) in Capacitor, add explicit initialization because there's no callback on registration
