@@ -49,7 +49,7 @@ public class SugarDispenser extends Dispenser {
 
         //Add the new position to the list, but keep the list short so there is no memory leak.  The list size also determines the lag time for when the shaker rotates down and up
         positions.add( center.get() );
-        while ( positions.size() > 18 ) {
+        while ( positions.size() > 8 ) {
             positions.remove( 0 );
         }
 
@@ -76,11 +76,12 @@ public class SugarDispenser extends Dispenser {
         double tiltedUpAngle = 1.2;
         double targetAngle = translating ? tiltedDownAngle : tiltedUpAngle;
         double delta = 0;
+        double deltaMagnitude = 0.25;
         if ( targetAngle > angle.get() ) {
-            delta = 0.15;
+            delta = deltaMagnitude;
         }
         else if ( targetAngle < angle.get() ) {
-            delta = -0.15;
+            delta = -deltaMagnitude;
         }
 
         //Make sure it doesn't go past the final angles or it will stutter
