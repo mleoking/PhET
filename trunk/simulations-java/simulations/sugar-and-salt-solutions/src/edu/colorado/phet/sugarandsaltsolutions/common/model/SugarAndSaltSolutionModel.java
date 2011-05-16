@@ -56,12 +56,12 @@ public abstract class SugarAndSaltSolutionModel implements ResetModel {
     public final ConstantDtClock clock;
 
     //Sugar and its listeners
-    public final ArrayList<Sugar> sugarList = new ArrayList<Sugar>();//The sugar crystals that haven't been dissolved
-    public final Notifier<Sugar> sugarAdded = new Notifier<Sugar>();//Listeners for when sugar crystals are added
+    public final ArrayList<MacroSugar> sugarList = new ArrayList<MacroSugar>();//The sugar crystals that haven't been dissolved
+    public final Notifier<MacroSugar> sugarAdded = new Notifier<MacroSugar>();//Listeners for when sugar crystals are added
 
     //Salt and its listeners
-    public final ArrayList<Salt> saltList = new ArrayList<Salt>();//The salt crystals that haven't been dissolved
-    public final Notifier<Salt> saltAdded = new Notifier<Salt>();//Listeners for when salt crystals are added
+    public final ArrayList<MacroSalt> saltList = new ArrayList<MacroSalt>();//The salt crystals that haven't been dissolved
+    public final Notifier<MacroSalt> saltAdded = new Notifier<MacroSalt>();//Listeners for when salt crystals are added
 
     private final ImmutableVector2D gravity = new ImmutableVector2D( 0, -9.8 );//Force due to gravity near the surface of the earth
 
@@ -158,13 +158,13 @@ public abstract class SugarAndSaltSolutionModel implements ResetModel {
     public abstract double getSaltConcentration();
 
     //Adds the specified Sugar crystal to the model
-    public void addSugar( final Sugar sugar ) {
+    public void addMacroSugar( final MacroSugar sugar ) {
         sugarList.add( sugar );
         sugarAdded.updateListeners( sugar );
     }
 
     //Adds the specified salt crystal to the model
-    public void addSalt( Salt salt ) {
+    public void addMacroSalt( MacroSalt salt ) {
         this.saltList.add( salt );
         saltAdded.updateListeners( salt );
     }

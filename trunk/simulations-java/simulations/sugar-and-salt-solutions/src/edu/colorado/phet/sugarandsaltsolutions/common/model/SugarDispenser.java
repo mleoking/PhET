@@ -98,7 +98,7 @@ public class SugarDispenser extends Dispenser {
                 final ImmutableVector2D outputPoint = center.get().plus( ImmutableVector2D.parseAngleAndMagnitude( 0.03, angle.get() + Math.PI / 2 * 1.23 ) );//Hand tuned to match up with the image, will need to be re-tuned if the image changes
 
                 //Add the sugar, with some randomness in the velocity
-                sugarAndSaltSolutionModel.addSugar( new Sugar( outputPoint ) {{
+                sugarAndSaltSolutionModel.addMacroSugar( new MacroSugar( outputPoint ) {{
                     velocity.set( getCrystalVelocity( outputPoint ).plus( ( random.nextDouble() - 0.5 ) * 0.05, ( random.nextDouble() - 0.5 ) * 0.05 ) );
                 }} );
             }

@@ -7,8 +7,8 @@ import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.Divided
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.Crystal;
-import edu.colorado.phet.sugarandsaltsolutions.common.model.Salt;
-import edu.colorado.phet.sugarandsaltsolutions.common.model.Sugar;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.MacroSalt;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.MacroSugar;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel;
 
 import static java.lang.Double.isInfinite;
@@ -50,10 +50,10 @@ public class IntroModel extends SugarAndSaltSolutionModel {
 
     //When a crystal is absorbed by the water, increase the number of moles in solution
     protected void crystalAbsorbed( Crystal crystal ) {
-        if ( crystal instanceof Salt ) {
+        if ( crystal instanceof MacroSalt ) {
             molesOfSalt.set( molesOfSalt.get() + crystal.getMoles() );
         }
-        else if ( crystal instanceof Sugar ) {
+        else if ( crystal instanceof MacroSugar ) {
             molesOfSugar.set( molesOfSugar.get() + crystal.getMoles() );
         }
     }
