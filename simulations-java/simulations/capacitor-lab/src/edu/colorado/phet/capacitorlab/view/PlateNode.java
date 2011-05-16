@@ -47,8 +47,4 @@ public abstract class PlateNode extends BoxNode {
         dielectricPlateChargeNode.setVisible( visible );
         airPlateChargeNode.setVisible( visible );
     }
-
-    public boolean isChargeVisible() {
-        return dielectricPlateChargeNode.getVisible();
-    }
 }
