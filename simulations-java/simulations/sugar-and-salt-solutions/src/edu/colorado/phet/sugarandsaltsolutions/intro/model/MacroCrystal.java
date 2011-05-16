@@ -21,10 +21,6 @@ public class MacroCrystal {
 
     private double moles;//The number of moles of the crystal.  We couldn't just count the number of atoms since it would overflow Long
 
-    public MacroCrystal( ImmutableVector2D position ) {
-        this( position, 1E-2 );
-    }
-
     public MacroCrystal( ImmutableVector2D position, double moles ) {
         this.position = new Property<ImmutableVector2D>( position );
         this.moles = moles;
