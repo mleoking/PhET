@@ -10,7 +10,8 @@ import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 
 /**
- * A simplified capacitor model, for use in the Multiple Capacitors tab.
+ * Capacitor model used in the Multiple Capacitors tab, where the user
+ * cannot directly manipulate the capacitor's geometry.
  * </p>
  * The user can change capacitance (via a slider) and voltage (via the battery).
  * The plate area is fixed, and separation varies with the inverse of capacitance.

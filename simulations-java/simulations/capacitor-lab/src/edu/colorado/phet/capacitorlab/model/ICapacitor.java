@@ -28,13 +28,7 @@ public interface ICapacitor {
     double getZ();
 
     // d
-    void setPlateSeparation( double plateSeparation );
-
-    // d
     double getPlateSeparation();
-
-    // L
-    void setPlateWidth( double plateWidth );
 
     // L
     double getPlateWidth();
@@ -60,8 +54,6 @@ public interface ICapacitor {
     // V
     double getPlatesVoltage();
 
-    void setDielectricMaterial( DielectricMaterial dielectricMaterial );
-
     DielectricMaterial getDielectricMaterial();
 
     Dimension3D getDielectricSize();
@@ -71,9 +63,6 @@ public interface ICapacitor {
     double getDielectricHeight();
 
     double getDielectricDepth();
-
-    // offset
-    void setDielectricOffset( double dielectricOffset );
 
     // offset
     double getDielectricOffset();

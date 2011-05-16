@@ -6,7 +6,7 @@ import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
-import edu.colorado.phet.capacitorlab.model.Capacitor;
+import edu.colorado.phet.capacitorlab.model.ComplexCapacitor;
 import edu.colorado.phet.common.phetcommon.math.Dimension3D;
 import edu.colorado.phet.common.phetcommon.view.util.ShapeUtils;
 
@@ -21,10 +21,10 @@ import edu.colorado.phet.common.phetcommon.view.util.ShapeUtils;
  */
 public class CapacitorShapeFactory {
 
-    private final Capacitor capacitor;
+    private final ComplexCapacitor capacitor;
     private final BoxShapeFactory boxShapeFactory;
 
-    public CapacitorShapeFactory( Capacitor capacitor, CLModelViewTransform3D mvt ) {
+    public CapacitorShapeFactory( ComplexCapacitor capacitor, CLModelViewTransform3D mvt ) {
         this.capacitor = capacitor;
         this.boxShapeFactory = new BoxShapeFactory( mvt );
     }

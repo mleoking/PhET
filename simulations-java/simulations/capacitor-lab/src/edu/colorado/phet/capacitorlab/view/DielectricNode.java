@@ -2,16 +2,11 @@
 
 package edu.colorado.phet.capacitorlab.view;
 
-import java.awt.*;
-
-import edu.colorado.phet.capacitorlab.drag.DielectricOffsetDragHandler;
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.colorado.phet.capacitorlab.model.DielectricChargeView;
 import edu.colorado.phet.capacitorlab.model.ICapacitor;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 
 /**
  * Visual pseudo-3D representation of a capacitor dielectric.
@@ -24,16 +19,12 @@ public class DielectricNode extends BoxNode {
 
     private final ICapacitor capacitor;
 
-    public DielectricNode( final ICapacitor capacitor, CLModelViewTransform3D mvt, DoubleRange valueRange,
+    public DielectricNode( final ICapacitor capacitor, CLModelViewTransform3D mvt,
                            final Property<DielectricChargeView> dielectricChargeView,
                            double maxExcessDielectricPlateCharge, double maxDielectricEField ) {
         super( mvt, capacitor.getDielectricMaterial().getColor(), capacitor.getDielectricSize() );
 
         this.capacitor = capacitor;
-
-        // dielectric is directly draggable
-        addInputEventListener( new CursorHandler( Cursor.E_RESIZE_CURSOR ) );
-        addInputEventListener( new DielectricOffsetDragHandler( this, capacitor, mvt, valueRange ) );
 
         final DielectricTotalChargeNode totalChargeNode = new DielectricTotalChargeNode( capacitor, mvt, maxDielectricEField );
         addChild( totalChargeNode );

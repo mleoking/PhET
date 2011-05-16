@@ -2,7 +2,6 @@
 
 package edu.colorado.phet.capacitorlab.view;
 
-import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.colorado.phet.capacitorlab.model.DielectricChargeView;
 import edu.colorado.phet.capacitorlab.model.ICapacitor;
@@ -36,7 +35,7 @@ public class CapacitorNode extends PhetPNode {
         // child nodes
         topPlateNode = new TopPlateNode( capacitor, mvt, maxPlateCharge );
         bottomPlateNode = new BottomPlateNode( capacitor, mvt, maxPlateCharge );
-        dielectricNode = new DielectricNode( capacitor, mvt, CLConstants.DIELECTRIC_OFFSET_RANGE, dielectricChargeView, maxExcessDielectricPlateCharge, maxDielectricEField );
+        dielectricNode = new DielectricNode( capacitor, mvt, dielectricChargeView, maxExcessDielectricPlateCharge, maxDielectricEField );
         eFieldNode = new EFieldNode( capacitor, mvt, maxEffectiveEfield );
 
         // rendering order
