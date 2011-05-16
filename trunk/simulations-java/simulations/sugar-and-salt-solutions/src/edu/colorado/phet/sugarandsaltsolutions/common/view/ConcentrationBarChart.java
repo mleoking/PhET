@@ -45,7 +45,7 @@ public class ConcentrationBarChart extends PNode {
                                   ObservableProperty<Double> sugarConcentration,
                                   SettableProperty<Boolean> showValues,
                                   final SettableProperty<Boolean> visible ) {
-        final double totalWidth = 200;
+        final double totalWidth = 220;
         final PNode background = new PhetPPath( new Rectangle2D.Double( 0, 0, totalWidth, CHART_HEIGHT ),
                                                 WATER_COLOR, new BasicStroke( 1f ), Color.BLACK );
         addChild( background );
@@ -53,18 +53,18 @@ public class ConcentrationBarChart extends PNode {
         final double abscissaY = CHART_HEIGHT - 65;
         addChild( new PhetPPath( new Line2D.Double( INSET, abscissaY, totalWidth - INSET, abscissaY ), new BasicStroke( 2 ), Color.black ) );
 
-        //Add a Sugar concentration bar
+        //Add a Salt concentration bar
         addChild( new Bar( white, "Salt", saltConcentration, showValues, verticalAxisScale ) {{
             setOffset( totalWidth / 2 - getFullBoundsReference().width / 2 - Bar.WIDTH, abscissaY );
         }} );
 
-        //Add a Salt concentration bar
+        //Add a Sugar concentration bar
         addChild( new Bar( white, "Sugar", sugarConcentration, showValues, verticalAxisScale ) {{
-            setOffset( totalWidth / 2 - getFullBoundsReference().width / 2 + Bar.WIDTH, abscissaY );
+            setOffset( totalWidth / 2 - getFullBoundsReference().width / 2 + Bar.WIDTH + 25, abscissaY );
         }} );
 
         //Show the title
-        addChild( new PText( "Concentration (M)" ) {{
+        addChild( new PText( "Concentration (mol/L)" ) {{
             setFont( new PhetFont( 16 ) );
             setOffset( ConcentrationBarChart.this.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, INSET );
         }} );
@@ -147,7 +147,7 @@ public class ConcentrationBarChart extends PNode {
                         double molesPerLiter = molesPerMeterCubed / litersPerCubicMeter;
 
                         //Update the text
-                        setText( new DecimalFormat( "0.00000" ).format( molesPerLiter ) + " M" );
+                        setText( new DecimalFormat( "0.00000" ).format( molesPerLiter ) + " mol/L" );
 
                         //Show the label centered above the bar, even if bar is zero height
                         setOffset( bar.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2,
