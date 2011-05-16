@@ -80,7 +80,7 @@ public class ConductivityTesterNode extends PhetPNode {
 
     protected final LightBulbNode lightBulbNode;//Protected so that subclasses can add listeners if necessary, such as in Sugar and Salt Solutions
     private final LightRaysNode lightRaysNode;
-    private final BatteryNode batteryNode;
+    protected final BatteryNode batteryNode;
     private final ProbeNode positiveProbeNode, negativeProbeNode;
     private final CubicWireNode positiveWireNode, negativeWireNode;
     private final ValueNode valueNode;
@@ -304,7 +304,7 @@ public class ConductivityTesterNode extends PhetPNode {
     /*
     * Battery, origin at left center.
     */
-    private static class BatteryNode extends PComposite {
+    protected static class BatteryNode extends PComposite {
         public BatteryNode() {
             PImage imageNode = new PImage( BATTERY );
             addChild( imageNode );

@@ -36,15 +36,23 @@ public class SugarAndSaltSolutionsConductivityTesterNode extends ConductivityTes
                 setVisible( visible );
             }
         } );
+
         //Make it possible to drag the light bulb, which translates all parts of the conductivity tester (including probes)
         lightBulbNode.addInputEventListener( new CursorHandler() );
         lightBulbNode.addInputEventListener( new PBasicInputEventHandler() {
             @Override public void mouseDragged( PInputEvent event ) {
-
-                //The bulb and battery drag in view coordinates
                 dragAll( event.getDeltaRelativeTo( rootNode ) );
             }
         } );
+
+        //Drag the entire component by the battery
+        batteryNode.addInputEventListener( new CursorHandler() );
+        batteryNode.addInputEventListener( new PBasicInputEventHandler() {
+            @Override public void mouseDragged( PInputEvent event ) {
+                dragAll( event.getDeltaRelativeTo( rootNode ) );
+            }
+        } );
+
         //initialize the probe locations so that relative locations will be equivalent to those when it is dragged out of the toolbox (same code used)
 
         //Update the location of the body and probes for the conductivity tester, called on initialization
@@ -81,6 +89,6 @@ public class SugarAndSaltSolutionsConductivityTesterNode extends ConductivityTes
 
     //Only the bulb can be dropped back in the toolbox since it is the only part that translates the unit
     public PNode[] getDroppableComponents() {
-        return new PNode[] { lightBulbNode };
+        return new PNode[] { lightBulbNode, batteryNode };
     }
 }
