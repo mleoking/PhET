@@ -1,3 +1,4 @@
+Decreased beaker thickness
 Only show labels (and tick marks) for 0 L, 1 L, and 2 L, and tick marks for 0.5 L and 1.5 L
 Changed each crystal grain from 1E-6 moles to 1E-2 moles
 Changed units to mol/L instead of M in concentration bar chart
