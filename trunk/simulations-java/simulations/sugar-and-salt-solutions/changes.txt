@@ -1,3 +1,4 @@
+Refactored sugar and salt shakers to share the same code
 Changed grain amounts to 0.05 mol for salt and 0.01 mol for sugar
 Fixed: If you only put a little water (less than the height of the lower pipe) crystals fall past without getting absorbed
 # 0.00.10 (51984) May 16, 2011
