@@ -1,3 +1,4 @@
+Made it so you can drag the battery to move the conductivity tester
 Fixed: if you let go once the electrode is fully immersed, you can't drag it back up (except if you move the bulb)
 Made the sugar dispenser more responsive (less lag)
 Only show the volume indicator readout when "show values" is selected in the concentration bar chart
