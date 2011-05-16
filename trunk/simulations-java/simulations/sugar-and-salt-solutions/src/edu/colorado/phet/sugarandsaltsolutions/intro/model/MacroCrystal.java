@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.sugarandsaltsolutions.common.model;
+package edu.colorado.phet.sugarandsaltsolutions.intro.model;
 
 import java.util.ArrayList;
 

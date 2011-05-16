@@ -5,7 +5,7 @@ import java.awt.*;
 
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
-import edu.colorado.phet.sugarandsaltsolutions.common.model.MacroCrystal;
+import edu.colorado.phet.sugarandsaltsolutions.intro.model.MacroCrystal;
 
 /**
  * Graphical representation of a salt crystal
