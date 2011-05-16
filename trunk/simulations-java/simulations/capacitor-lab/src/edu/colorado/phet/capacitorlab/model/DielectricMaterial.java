@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.capacitorlab.model;
 
-import java.awt.Color;
+import java.awt.*;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLPaints;
@@ -80,6 +80,12 @@ public abstract class DielectricMaterial {
         }
     }
 
+    public static class Air extends DielectricMaterial {
+        public Air() {
+            super( "air", CLConstants.EPSILON_AIR, CLPaints.AIR );
+        }
+    }
+
     /**
      * A custom dielectric material with mutable dielectric constant.
      */
@@ -91,6 +97,7 @@ public abstract class DielectricMaterial {
 
         /**
          * Dielectric constant is mutable for custom materials, so make this method public.
+         *
          * @param dielectricConstant
          */
         public void setDielectricConstant( double dielectricConstant ) {

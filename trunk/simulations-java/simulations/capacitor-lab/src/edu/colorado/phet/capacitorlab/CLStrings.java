@@ -16,6 +16,7 @@ public class CLStrings {
     }
 
     // simple strings
+    public static final String AIR = getString( "air" );
     public static final String CAPACITANCE = getString( "capacitance" );
     public static final String CIRCUITS = getString( "circuits" );
     public static final String COMBINATION_1 = getString( "combination1" );
