@@ -2,23 +2,20 @@
 
 package edu.colorado.phet.capacitorlab.developer;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Font;
+import java.awt.*;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
-import javax.swing.Box;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JSeparator;
+import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLStrings;
-import edu.colorado.phet.capacitorlab.model.*;
+import edu.colorado.phet.capacitorlab.model.Battery;
+import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit;
+import edu.colorado.phet.capacitorlab.model.DielectricMaterial;
 import edu.colorado.phet.capacitorlab.model.ICircuit.CircuitChangeListener;
+import edu.colorado.phet.capacitorlab.model.multicaps.ICapacitor;
 import edu.colorado.phet.capacitorlab.module.dielectric.DielectricModel;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.GridPanel;
@@ -75,7 +72,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
         // constants panel
         JPanel constantsPanel = new VerticalPanel();
         constantsPanel.setBorder( new TitledBorder( "Constants" ) );
-        ValueDisplay epsilon0 = new ValueDisplay( CLStrings.EPSILON + "_0", "F/m", "0.000E00", CLConstants.EPSILON_0  );
+        ValueDisplay epsilon0 = new ValueDisplay( CLStrings.EPSILON + "_0", "F/m", "0.000E00", CLConstants.EPSILON_0 );
         epsilon0.setToolTipText( "vacuum permittivity" );
         constantsPanel.add( epsilon0 );
         ValueDisplay epsilonAir = new ValueDisplay( CLStrings.EPSILON + "_air", "", "0.00000000", CLConstants.EPSILON_AIR );
@@ -239,7 +236,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
         BatteryCapacitorCircuit circuit = model.getCircuit();
         Battery battery = circuit.getBattery();
-        Capacitor capacitor = circuit.getCapacitor();
+        ICapacitor capacitor = circuit.getCapacitor();
 
         /* user settings */
         V_battery.setValue( battery.getVoltage() );
@@ -310,8 +307,8 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
         }
 
         public void setValue( double value ) {
-            String valueString = ( value == 0 ) ? "0" : format.format( value  );
-            setText( label + " = " +  valueString + " " + units );
+            String valueString = ( value == 0 ) ? "0" : format.format( value );
+            setText( label + " = " + valueString + " " + units );
         }
     }
 

@@ -6,8 +6,8 @@ import java.awt.*;
 
 import edu.colorado.phet.capacitorlab.drag.DielectricOffsetDragHandler;
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
-import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.capacitorlab.model.DielectricChargeView;
+import edu.colorado.phet.capacitorlab.model.multicaps.ICapacitor;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -22,9 +22,9 @@ public class DielectricNode extends BoxNode {
 
     private final static float TRANSPARENCY = 0.75f;
 
-    private final Capacitor capacitor;
+    private final ICapacitor capacitor;
 
-    public DielectricNode( final Capacitor capacitor, CLModelViewTransform3D mvt, DoubleRange valueRange,
+    public DielectricNode( final ICapacitor capacitor, CLModelViewTransform3D mvt, DoubleRange valueRange,
                            final Property<DielectricChargeView> dielectricChargeView,
                            double maxExcessDielectricPlateCharge, double maxDielectricEField ) {
         super( mvt, capacitor.getDielectricMaterial().getColor(), capacitor.getDielectricSize() );

@@ -3,9 +3,9 @@
 package edu.colorado.phet.capacitorlab.view;
 
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
-import edu.colorado.phet.capacitorlab.model.Capacitor;
-import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeListener;
 import edu.colorado.phet.capacitorlab.model.Polarity;
+import edu.colorado.phet.capacitorlab.model.multicaps.ICapacitor;
+import edu.colorado.phet.capacitorlab.model.multicaps.ICapacitor.CapacitorChangeListener;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.PNode;
@@ -16,7 +16,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  * Spacing of positive and negative charges remains constant, and they appear in positive/negative pairs.
  * The spacing between the positive/negative pairs changes proportional to E_dielectric.
  * Outside the capacitor, the spacing between the pairs is at a minimum to represent no charge.
- * <p>
+ * <p/>
  * All model coordinates are relative to the dielectric's local coordinate frame,
  * where the origin is at the 3D geometric center of the dielectric.
  *
@@ -26,14 +26,14 @@ public class DielectricTotalChargeNode extends PhetPNode {
 
     private static final int SPACING_BETWEEN_PAIRS = 45; // view coordinates
     private static final DoubleRange NEGATIVE_CHARGE_OFFSET = new DoubleRange( 0, SPACING_BETWEEN_PAIRS / 2 ); // view coordinates
-    private static final double SPACING_BETWEEN_CHARGES_EXPONENT = 1/4d;
+    private static final double SPACING_BETWEEN_CHARGES_EXPONENT = 1 / 4d;
 
-    private final Capacitor capacitor;
+    private final ICapacitor capacitor;
     private final CLModelViewTransform3D mvt;
     private final PNode parentNode; // parent node for charges
     private final double maxDielectricEField;
 
-    public DielectricTotalChargeNode( Capacitor capacitor, CLModelViewTransform3D mvt, double maxDielectricEField ) {
+    public DielectricTotalChargeNode( ICapacitor capacitor, CLModelViewTransform3D mvt, double maxDielectricEField ) {
 
         this.capacitor = capacitor;
         this.mvt = mvt;
@@ -79,9 +79,9 @@ public class DielectricTotalChargeNode extends PhetPNode {
         final double spacingBetweenPairs = mvt.viewToModelDelta( SPACING_BETWEEN_PAIRS, 0 ).getX();
 
         // rows and columns
-        final double dielectricWidth = capacitor.getDielectricSize().getWidth();
-        final double dielectricHeight = capacitor.getDielectricSize().getHeight();
-        final double dielectricDepth = capacitor.getDielectricSize().getDepth();
+        final double dielectricWidth = capacitor.getDielectricWidth();
+        final double dielectricHeight = capacitor.getDielectricHeight();
+        final double dielectricDepth = capacitor.getDielectricDepth();
         final int rows = (int) ( dielectricHeight / spacingBetweenPairs );
         final int columns = (int) ( dielectricWidth / spacingBetweenPairs );
 

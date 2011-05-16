@@ -7,7 +7,7 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLStrings;
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
-import edu.colorado.phet.capacitorlab.model.Capacitor;
+import edu.colorado.phet.capacitorlab.model.multicaps.ICapacitor;
 import edu.colorado.phet.capacitorlab.util.UnitsUtils;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -31,11 +31,11 @@ public class DielectricOffsetDragHandleNode extends PhetPNode {
     private static final Point2D LINE_START_LOCATION = new Point2D.Double( 0, 0 );
     private static final Point2D LINE_END_LOCATION = new Point2D.Double( LINE_LENGTH, 0 );
 
-    private final Capacitor capacitor;
+    private final ICapacitor capacitor;
     private final CLModelViewTransform3D mvt;
     private final DragHandleValueNode valueNode;
 
-    public DielectricOffsetDragHandleNode( final Capacitor capacitor, CLModelViewTransform3D mvt, DoubleRange valueRange ) {
+    public DielectricOffsetDragHandleNode( final ICapacitor capacitor, CLModelViewTransform3D mvt, DoubleRange valueRange ) {
 
         this.capacitor = capacitor;
         this.mvt = mvt;
@@ -89,8 +89,8 @@ public class DielectricOffsetDragHandleNode extends PhetPNode {
 
     // Attach drag handle to center of dielectric's right face.
     private void updateOffset() {
-        double x = capacitor.getLocationReference().getX() + ( capacitor.getPlateWidth() / 2 ) + capacitor.getDielectricOffset();
-        double y = capacitor.getLocationReference().getY();
+        double x = capacitor.getX() + ( capacitor.getPlateWidth() / 2 ) + capacitor.getDielectricOffset();
+        double y = capacitor.getY();
         double z = 0;
         Point2D handleLocation = mvt.modelToView( x, y, z );
         setOffset( handleLocation );

@@ -4,8 +4,8 @@ package edu.colorado.phet.capacitorlab.view;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
-import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.capacitorlab.model.DielectricChargeView;
+import edu.colorado.phet.capacitorlab.model.multicaps.ICapacitor;
 import edu.colorado.phet.capacitorlab.view.PlateNode.BottomPlateNode;
 import edu.colorado.phet.capacitorlab.view.PlateNode.TopPlateNode;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -19,13 +19,13 @@ import edu.colorado.phet.common.piccolophet.PhetPNode;
  */
 public class CapacitorNode extends PhetPNode {
 
-    private final Capacitor capacitor;
+    private final ICapacitor capacitor;
     private final CLModelViewTransform3D mvt;
     private final PlateNode topPlateNode, bottomPlateNode;
     private final DielectricNode dielectricNode;
     private final EFieldNode eFieldNode;
 
-    public CapacitorNode( Capacitor capacitor, CLModelViewTransform3D mvt,
+    public CapacitorNode( ICapacitor capacitor, CLModelViewTransform3D mvt,
                           final Property<Boolean> plateChargeVisible, final Property<Boolean> eFieldVisible,
                           Property<DielectricChargeView> dielectricChargeView,
                           double maxPlateCharge, double maxExcessDielectricPlateCharge, double maxEffectiveEfield, double maxDielectricEField ) {
@@ -93,7 +93,7 @@ public class CapacitorNode extends PhetPNode {
 
         // layout nodes with zero dielectric offset
         double x = 0;
-        double y = -( capacitor.getPlateSeparation() / 2 ) - capacitor.getPlateSize().getHeight();
+        double y = -( capacitor.getPlateSeparation() / 2 ) - capacitor.getPlateHeight();
         double z = 0;
         topPlateNode.setOffset( mvt.modelToViewDelta( x, y, z ) );
         y = -capacitor.getDielectricSize().getHeight() / 2;

@@ -9,10 +9,10 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLStrings;
-import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.capacitorlab.model.DielectricChargeView;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial.CustomDielectricMaterial;
+import edu.colorado.phet.capacitorlab.model.multicaps.ICapacitor;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.ColoredSeparator.BlackSeparator;
@@ -28,7 +28,7 @@ import edu.colorado.phet.common.phetcommon.view.util.GridPanel.Fill;
  */
 public class DielectricPropertiesControlPanel extends PhetTitledPanel {
 
-    private final Capacitor capacitor;
+    private final ICapacitor capacitor;
     private final SimpleObserver dielectricConstantObserver;
     private final DielectricMaterialControl materialControl;
     private final DielectricConstantControl constantControl;
@@ -36,7 +36,7 @@ public class DielectricPropertiesControlPanel extends PhetTitledPanel {
 
     private DielectricMaterial material;
 
-    public DielectricPropertiesControlPanel( final Capacitor capacitor, DielectricMaterial[] dielectricMaterials, Property<DielectricChargeView> dielectricChargeView ) {
+    public DielectricPropertiesControlPanel( final ICapacitor capacitor, DielectricMaterial[] dielectricMaterials, Property<DielectricChargeView> dielectricChargeView ) {
         super( CLStrings.DIELECTRIC );
 
         this.capacitor = capacitor;

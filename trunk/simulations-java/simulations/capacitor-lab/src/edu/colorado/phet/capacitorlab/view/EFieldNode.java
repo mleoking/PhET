@@ -2,16 +2,15 @@
 
 package edu.colorado.phet.capacitorlab.view;
 
-import java.awt.BasicStroke;
-import java.awt.Stroke;
+import java.awt.*;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLPaints;
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
-import edu.colorado.phet.capacitorlab.model.Capacitor;
-import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeListener;
+import edu.colorado.phet.capacitorlab.model.multicaps.ICapacitor;
+import edu.colorado.phet.capacitorlab.model.multicaps.ICapacitor.CapacitorChangeListener;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -25,14 +24,16 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 public class EFieldNode extends PhetPNode {
 
-    public static enum Direction { UP, DOWN };
+    public static enum Direction {UP, DOWN}
 
-    private final Capacitor capacitor;
+    ;
+
+    private final ICapacitor capacitor;
     private final CLModelViewTransform3D mvt;
     private final PNode parentNode; // parent for all the field lines
     private final double maxEffectiveEfield;
 
-    public EFieldNode( Capacitor capacitor, CLModelViewTransform3D mvt, double maxEffectiveEfield ) {
+    public EFieldNode( ICapacitor capacitor, CLModelViewTransform3D mvt, double maxEffectiveEfield ) {
         this.capacitor = capacitor;
         this.mvt = mvt;
         this.maxEffectiveEfield = maxEffectiveEfield;
@@ -133,7 +134,7 @@ public class EFieldNode extends PhetPNode {
      */
     private int getNumberOfLines( double effectiveEField ) {
         double absEField = Math.abs( effectiveEField );
-        int numberOfLines = (int)( CLConstants.NUMBER_OF_EFIELD_LINES.getMax() * absEField / maxEffectiveEfield );
+        int numberOfLines = (int) ( CLConstants.NUMBER_OF_EFIELD_LINES.getMax() * absEField / maxEffectiveEfield );
         if ( absEField > 0 && numberOfLines < CLConstants.NUMBER_OF_EFIELD_LINES.getMin() ) {
             numberOfLines = CLConstants.NUMBER_OF_EFIELD_LINES.getMin();
         }
@@ -149,7 +150,7 @@ public class EFieldNode extends PhetPNode {
         public static final Stroke LINE_STROKE = new BasicStroke( 2f );
 
         /**
-         * @param length length of the line in view coordinates
+         * @param length    length of the line in view coordinates
          * @param direction
          */
         public EFieldLineNode( double length, Direction direction ) {

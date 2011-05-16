@@ -4,8 +4,8 @@ package edu.colorado.phet.capacitorlab.view;
 
 import edu.colorado.phet.capacitorlab.CLPaints;
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
-import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.capacitorlab.model.Polarity;
+import edu.colorado.phet.capacitorlab.model.multicaps.ICapacitor;
 import edu.colorado.phet.capacitorlab.view.PlateChargeNode.AirPlateChargeNode;
 import edu.colorado.phet.capacitorlab.view.PlateChargeNode.DielectricPlateChargeNode;
 
@@ -22,18 +22,18 @@ public abstract class PlateNode extends BoxNode {
     private final PlateChargeNode airPlateChargeNode; // shows charge on the portion of the plate that contacts air
 
     public static class TopPlateNode extends PlateNode {
-        public TopPlateNode( Capacitor capacitor, CLModelViewTransform3D mvt, double maxPlateCharge ) {
+        public TopPlateNode( ICapacitor capacitor, CLModelViewTransform3D mvt, double maxPlateCharge ) {
             super( capacitor, mvt, Polarity.POSITIVE, maxPlateCharge );
         }
     }
 
     public static class BottomPlateNode extends PlateNode {
-        public BottomPlateNode( Capacitor capacitor, CLModelViewTransform3D mvt, double maxPlateCharge ) {
+        public BottomPlateNode( ICapacitor capacitor, CLModelViewTransform3D mvt, double maxPlateCharge ) {
             super( capacitor, mvt, Polarity.NEGATIVE, maxPlateCharge );
         }
     }
 
-    public PlateNode( Capacitor capacitor, CLModelViewTransform3D mvt, Polarity polarity, double maxPlateCharge ) {
+    public PlateNode( ICapacitor capacitor, CLModelViewTransform3D mvt, Polarity polarity, double maxPlateCharge ) {
         super( mvt, CLPaints.PLATE, capacitor.getPlateSize() );
 
         this.dielectricPlateChargeNode = new DielectricPlateChargeNode( capacitor, mvt, polarity, maxPlateCharge );
