@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.common.model;
 
+import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
@@ -237,11 +238,15 @@ public abstract class SugarAndSaltSolutionModel implements ResetModel {
     private void updateCrystals( double dt, final ArrayList<? extends MacroCrystal> crystalList ) {
         ArrayList<MacroCrystal> hitTheWater = new ArrayList<MacroCrystal>();
         for ( MacroCrystal crystal : crystalList ) {
+            //Store the initial location so we can use the (final - start) line to check for collision with water, so it can't jump over the water rectangle
+            ImmutableVector2D initialLocation = crystal.position.get();
+
             //slow the motion down a little bit or it moves too fast
             crystal.stepInTime( gravity.times( crystal.mass ), dt / 10 );
 
-            //If the salt hits the water, absorb it
-            if ( water.getShape().getBounds2D().contains( crystal.position.get().toPoint2D() ) ) {
+            //If the salt hits the water during any point of its initial -> final trajectory, absorb it.
+            //This is necessary because if the water layer is too thin, the crystal could have jumped over it completely
+            if ( new Line2D.Double( initialLocation.toPoint2D(), crystal.position.get().toPoint2D() ).intersects( water.getShape().getBounds2D() ) ) {
                 hitTheWater.add( crystal );
             }
         }
