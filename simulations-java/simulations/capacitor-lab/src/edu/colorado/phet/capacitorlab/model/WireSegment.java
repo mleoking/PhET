@@ -4,6 +4,7 @@ package edu.colorado.phet.capacitorlab.model;
 
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.capacitorlab.model.multicaps.ICapacitor;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
@@ -61,7 +62,7 @@ public class WireSegment {
      */
     public static class CapacitorTopWireSegment extends WireSegment {
 
-        public CapacitorTopWireSegment( Point2D startPoint, final Capacitor capacitor ) {
+        public CapacitorTopWireSegment( Point2D startPoint, final ICapacitor capacitor ) {
             super( startPoint, new Point2D.Double( capacitor.getTopPlateCenter().getX(), capacitor.getTopPlateCenter().getY() ) );
             capacitor.addPlateSeparationObserver( new SimpleObserver() {
                 public void update() {
@@ -76,7 +77,7 @@ public class WireSegment {
      */
     public static class CapacitorBottomWireSegment extends WireSegment {
 
-        public CapacitorBottomWireSegment( Point2D startPoint, final Capacitor capacitor ) {
+        public CapacitorBottomWireSegment( Point2D startPoint, final ICapacitor capacitor ) {
             super( startPoint, new Point2D.Double( capacitor.getBottomPlateCenter().getX(), capacitor.getBottomPlateCenter().getY() ) );
             capacitor.addPlateSeparationObserver( new SimpleObserver() {
                 public void update() {

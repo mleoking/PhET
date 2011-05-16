@@ -3,11 +3,11 @@
 package edu.colorado.phet.capacitorlab.model;
 
 import java.awt.*;
-import java.util.EventListener;
 
 import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
+import edu.colorado.phet.capacitorlab.model.multicaps.ICapacitor;
 import edu.colorado.phet.capacitorlab.shapes.CapacitorShapeFactory;
 import edu.colorado.phet.common.phetcommon.math.Dimension3D;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
@@ -31,7 +31,7 @@ import edu.colorado.phet.common.phetcommon.view.util.ShapeUtils;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class Capacitor {
+public class Capacitor implements ICapacitor {
 
     private static final double EPSILON_0 = CLConstants.EPSILON_0;
     private static final double EPSILON_AIR = CLConstants.EPSILON_AIR;
@@ -123,8 +123,8 @@ public class Capacitor {
      *
      * @return location, in meters relative to (0,0,0)
      */
-    public Point3D getLocationReference() {
-        return location;
+    public Point3D getLocation() {
+        return new Point3D.Double( location );
     }
 
     public double getX() {
@@ -166,7 +166,7 @@ public class Capacitor {
         if ( !( plateWidth > 0 ) ) {
             throw new IllegalArgumentException( "plateWidth must be > 0: " + plateWidth );
         }
-        plateSizeProperty.set( new Dimension3D( plateWidth, plateSizeProperty.get().getHeight(), plateWidth ) );
+        plateSizeProperty.set( new Dimension3D( plateWidth, getPlateHeight(), plateWidth ) );
     }
 
     /**
@@ -299,13 +299,21 @@ public class Capacitor {
         return getDielectricMaterial().getDielectricConstant();
     }
 
-    /**
-     * Convenience method for getting dielectric size.
-     *
-     * @return
-     */
+    // Convenience methods for getting dielectric size.
     public Dimension3D getDielectricSize() {
-        return new Dimension3D( getPlateWidth(), getPlateSeparation(), getPlateDepth() );
+        return new Dimension3D( getDielectricWidth(), getDielectricHeight(), getDielectricDepth() );
+    }
+
+    public double getDielectricWidth() {
+        return getPlateWidth();
+    }
+
+    public double getDielectricHeight() {
+        return getPlateSeparation();
+    }
+
+    public double getDielectricDepth() {
+        return getPlateDepth();
     }
 
     /**
@@ -660,11 +668,6 @@ public class Capacitor {
     //----------------------------------------------------------------------------------
     // CapacitorChangeListeners
     //----------------------------------------------------------------------------------
-
-    // Notified when derived properties change.
-    public interface CapacitorChangeListener extends EventListener {
-        public void capacitorChanged();
-    }
 
     public void addCapacitorChangeListener( CapacitorChangeListener listener ) {
         listeners.add( CapacitorChangeListener.class, listener );

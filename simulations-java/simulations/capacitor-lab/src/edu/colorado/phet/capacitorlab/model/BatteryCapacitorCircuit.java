@@ -8,9 +8,10 @@ import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLStrings;
-import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeListener;
 import edu.colorado.phet.capacitorlab.model.Wire.BottomWire;
 import edu.colorado.phet.capacitorlab.model.Wire.TopWire;
+import edu.colorado.phet.capacitorlab.model.multicaps.ICapacitor;
+import edu.colorado.phet.capacitorlab.model.multicaps.ICapacitor.CapacitorChangeListener;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
@@ -30,7 +31,7 @@ public class BatteryCapacitorCircuit extends AbstractCircuit {
 
     // immutable instance data
     private final Battery battery;
-    private final Capacitor capacitor;
+    private final ICapacitor capacitor;
     private final Wire topWire, bottomWire;
     private final IClock clock;
     private final EventListenerList listeners;
@@ -52,7 +53,7 @@ public class BatteryCapacitorCircuit extends AbstractCircuit {
      * @param batteryConnected
      * @param mvt
      */
-    public BatteryCapacitorCircuit( IClock clock, final Battery battery, final Capacitor capacitor, boolean batteryConnected, CLModelViewTransform3D mvt ) {
+    public BatteryCapacitorCircuit( IClock clock, final Battery battery, final ICapacitor capacitor, boolean batteryConnected, CLModelViewTransform3D mvt ) {
         super( CLStrings.SINGLE );
 
         this.clock = clock;
@@ -107,7 +108,7 @@ public class BatteryCapacitorCircuit extends AbstractCircuit {
         return battery;
     }
 
-    public Capacitor getCapacitor() {
+    public ICapacitor getCapacitor() {
         return capacitor;
     }
 

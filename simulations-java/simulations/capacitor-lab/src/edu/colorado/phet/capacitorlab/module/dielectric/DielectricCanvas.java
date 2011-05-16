@@ -150,7 +150,7 @@ public class DielectricCanvas extends CLCanvas {
             batteryNode.setOffset( pView );
 
             // capacitor
-            pView = mvt.modelToView( model.getCapacitor().getLocationReference() );
+            pView = mvt.modelToView( model.getCapacitor().getLocation() );
             capacitorNode.setOffset( pView );
 
             // top current indicator

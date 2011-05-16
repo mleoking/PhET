@@ -7,7 +7,7 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLStrings;
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
-import edu.colorado.phet.capacitorlab.model.Capacitor;
+import edu.colorado.phet.capacitorlab.model.multicaps.ICapacitor;
 import edu.colorado.phet.capacitorlab.util.UnitsUtils;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -31,11 +31,11 @@ public class PlateAreaDragHandleNode extends PhetPNode {
     private static final Point2D LINE_START_LOCATION = new Point2D.Double( 0, 0 );
     private static final Point2D LINE_END_LOCATION = new Point2D.Double( 0, LINE_LENGTH );
 
-    private final Capacitor capacitor;
+    private final ICapacitor capacitor;
     private final CLModelViewTransform3D mvt;
     private final DragHandleValueNode valueNode;
 
-    public PlateAreaDragHandleNode( final Capacitor capacitor, CLModelViewTransform3D mvt, DoubleRange valueRange ) {
+    public PlateAreaDragHandleNode( final ICapacitor capacitor, CLModelViewTransform3D mvt, DoubleRange valueRange ) {
 
         this.capacitor = capacitor;
         this.mvt = mvt;
@@ -93,9 +93,9 @@ public class PlateAreaDragHandleNode extends PhetPNode {
 
     // Attach drag handle to capacitor's top plate, at front-left corner of top face.
     private void updateOffset() {
-        double x = capacitor.getLocationReference().getX() - ( capacitor.getPlateWidth() / 2 );
-        double y = capacitor.getLocationReference().getY() - ( capacitor.getPlateSeparation() / 2 ) - capacitor.getPlateHeight();
-        double z = capacitor.getLocationReference().getZ() - ( capacitor.getPlateDepth() / 2 );
+        double x = capacitor.getX() - ( capacitor.getPlateWidth() / 2 );
+        double y = capacitor.getY() - ( capacitor.getPlateSeparation() / 2 ) - capacitor.getPlateHeight();
+        double z = capacitor.getZ() - ( capacitor.getPlateDepth() / 2 );
         Point2D handleLocation = mvt.modelToView( x, y, z );
         setOffset( handleLocation );
     }

@@ -11,6 +11,7 @@ import edu.colorado.phet.capacitorlab.model.WireSegment.BatteryBottomWireSegment
 import edu.colorado.phet.capacitorlab.model.WireSegment.BatteryTopWireSegment;
 import edu.colorado.phet.capacitorlab.model.WireSegment.CapacitorBottomWireSegment;
 import edu.colorado.phet.capacitorlab.model.WireSegment.CapacitorTopWireSegment;
+import edu.colorado.phet.capacitorlab.model.multicaps.ICapacitor;
 import edu.colorado.phet.capacitorlab.shapes.WireShapeFactory;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -118,11 +119,11 @@ public class Wire {
      */
     public static class TopWire extends Wire {
 
-        public TopWire( final Battery battery, final Capacitor capacitor, double thickness, CLModelViewTransform3D mvt ) {
+        public TopWire( final Battery battery, final ICapacitor capacitor, double thickness, CLModelViewTransform3D mvt ) {
             super( createSegments( battery, capacitor, thickness ), thickness, mvt );
         }
 
-        private static ArrayList<WireSegment> createSegments( final Battery battery, final Capacitor capacitor, double thickness ) {
+        private static ArrayList<WireSegment> createSegments( final Battery battery, final ICapacitor capacitor, double thickness ) {
             final Point2D.Double leftCorner = new Point2D.Double( battery.getX(), battery.getY() - CLConstants.WIRE_EXTENT );
             final Point2D.Double rightCorner = new Point2D.Double( capacitor.getX(), leftCorner.getY() );
             final double t = ( thickness / 2 ); // for proper connection at corners with CAP_BUTT wire stroke
@@ -141,9 +142,9 @@ public class Wire {
     public static class BottomWire extends Wire {
 
         private final Battery battery;
-        private final Capacitor capacitor;
+        private final ICapacitor capacitor;
 
-        public BottomWire( final Battery battery, final Capacitor capacitor, double thickness, CLModelViewTransform3D mvt ) {
+        public BottomWire( final Battery battery, final ICapacitor capacitor, double thickness, CLModelViewTransform3D mvt ) {
             super( createSegments( battery, capacitor, thickness ), thickness, mvt );
 
             this.battery = battery;
@@ -159,7 +160,7 @@ public class Wire {
             capacitor.addPlateSeparationObserver( o );
         }
 
-        private static ArrayList<WireSegment> createSegments( final Battery battery, final Capacitor capacitor, double thickness ) {
+        private static ArrayList<WireSegment> createSegments( final Battery battery, final ICapacitor capacitor, double thickness ) {
             final Point2D.Double leftCorner = new Point2D.Double( battery.getX(), battery.getY() + CLConstants.WIRE_EXTENT );
             final Point2D.Double rightCorner = new Point2D.Double( capacitor.getX(), leftCorner.getY() );
             final double t = ( thickness / 2 ); // for proper connection at corners with CAP_BUTT wire stroke
