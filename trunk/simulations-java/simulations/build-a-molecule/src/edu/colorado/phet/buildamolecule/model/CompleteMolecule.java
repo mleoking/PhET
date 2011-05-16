@@ -62,11 +62,11 @@ public class CompleteMolecule {
         atomWrappers = new AtomWrapper[atomCount];
         for ( int i = 0; i < atomCount; i++ ) {
             String symbol = t.nextToken();
-            double x2d = Double.parseDouble( t.nextToken() );
-            double y2d = Double.parseDouble( t.nextToken() );
-            double x3d = Double.parseDouble( t.nextToken() );
-            double y3d = Double.parseDouble( t.nextToken() );
-            double z3d = Double.parseDouble( t.nextToken() );
+            float x2d = Float.parseFloat( t.nextToken() );
+            float y2d = Float.parseFloat( t.nextToken() );
+            float x3d = Float.parseFloat( t.nextToken() );
+            float y3d = Float.parseFloat( t.nextToken() );
+            float z3d = Float.parseFloat( t.nextToken() );
             Atom atom = AtomModel.createAtomBySymbol( symbol );
             moleculeStructure.addAtom( atom );
             atomWrappers[i] = new AtomWrapper( x2d, y2d, x3d, y3d, z3d, atom );
@@ -203,7 +203,7 @@ public class CompleteMolecule {
             // sort by Z-depth in 3D
             Collections.sort( wrappers, new Comparator<AtomWrapper>() {
                 public int compare( AtomWrapper a, AtomWrapper b ) {
-                    return ( new Double( a.z3d ) ).compareTo( b.z3d );
+                    return ( new Float( a.z3d ) ).compareTo( b.z3d );
                 }
             } );
 
@@ -217,18 +217,18 @@ public class CompleteMolecule {
 
     private static class AtomWrapper {
         // 2d coordinates
-        public final double x2d;
-        public final double y2d;
+        public final float x2d;
+        public final float y2d;
 
         // 3d coordinates
-        public final double x3d;
-        public final double y3d;
-        public final double z3d;
+        public final float x3d;
+        public final float y3d;
+        public final float z3d;
 
         // our atom
         public final Atom atom;
 
-        private AtomWrapper( double x2d, double y2d, double x3d, double y3d, double z3d, Atom atom ) {
+        private AtomWrapper( float x2d, float y2d, float x3d, float y3d, float z3d, Atom atom ) {
             this.x2d = x2d;
             this.y2d = y2d;
             this.x3d = x3d;
