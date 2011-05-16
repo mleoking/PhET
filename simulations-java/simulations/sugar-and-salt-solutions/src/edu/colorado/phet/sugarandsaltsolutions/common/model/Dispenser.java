@@ -1,7 +1,10 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.common.model;
 
+import java.awt.geom.Dimension2D;
+
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
 
@@ -25,6 +28,15 @@ public class Dispenser {
         this.beaker = beaker;
         this.angle = new DoubleProperty( angle );
         center = new Property<ImmutableVector2D>( new ImmutableVector2D( x, y ) );
+    }
+
+    //Translate the dispenser by the specified delta in model coordinates
+    public void translate( Dimension2D delta ) {
+
+        //Translate the center, but make sure it doesn't go out of bounds
+        ImmutableVector2D proposedPoint = center.get().plus( delta );
+        double y = MathUtil.clamp( beaker.getTopY(), proposedPoint.getY(), Double.POSITIVE_INFINITY );
+        center.set( new ImmutableVector2D( proposedPoint.getX(), y ) );
     }
 
     public void rotate( double v ) {

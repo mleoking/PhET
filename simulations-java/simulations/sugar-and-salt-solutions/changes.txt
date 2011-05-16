@@ -1,3 +1,4 @@
+Made it so the sugar dispenser translates when dragged and rotates to pour out sugar to match the user interface of the salt shaker more closely while still allowing both to move about the screen
 Show the conductivity tester probes as being submerged underwater
 Removed concentration bar chart vertical axis, ticks and labels
 Removed evaporation control from "microscopic" tab

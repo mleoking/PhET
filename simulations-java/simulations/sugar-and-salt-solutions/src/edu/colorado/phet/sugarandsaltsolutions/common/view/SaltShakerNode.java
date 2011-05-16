@@ -28,6 +28,7 @@ import static java.lang.Double.POSITIVE_INFINITY;
 
 /**
  * Sugar dispenser which can be rotated to pour out an endless supply of sugar.
+ * TODO: coalesce SaltShakerNode and SugarDispenserNode when the behavior is determined
  *
  * @author Sam Reid
  */
