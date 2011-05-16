@@ -87,6 +87,9 @@ public class BatteryCapacitorCircuit extends AbstractCircuit {
         // observe capacitor
         capacitor.addCapacitorChangeListener( new CapacitorChangeListener() {
             public void capacitorChanged() {
+                if ( !isBatteryConnected() ) {
+                    updateVoltages();
+                }
                 fireCircuitChanged();
             }
         } );
