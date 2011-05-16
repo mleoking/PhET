@@ -17,9 +17,6 @@ import edu.colorado.phet.sugarandsaltsolutions.intro.model.MacroSugar;
  * @author Sam Reid
  */
 public class SugarDispenser extends Dispenser {
-    //True if the user has chosen to use sugar
-    public final Property<Boolean> enabled = new Property<Boolean>( false );
-
     //True if the flap on the top of the dispenser is open and sugar can flow out
     public final Property<Boolean> open = new Property<Boolean>( false );
 
