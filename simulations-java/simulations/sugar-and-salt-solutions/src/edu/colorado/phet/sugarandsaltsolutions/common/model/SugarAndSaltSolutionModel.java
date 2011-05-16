@@ -76,7 +76,6 @@ public abstract class SugarAndSaltSolutionModel implements ResetModel {
 
     //Convenience composite properties for determining whether the beaker is full or empty so we can shut off the faucets when necessary
     public final ObservableProperty<Boolean> beakerFull = water.volume.valueEquals( beaker.getMaxFluidVolume() );
-    public final ObservableProperty<Boolean> beakerEmpty = water.volume.valueEquals( 0.0 );
 
     public final ConductivityTester conductivityTester = new ConductivityTester();
 
@@ -155,7 +154,7 @@ public abstract class SugarAndSaltSolutionModel implements ResetModel {
                                       waterBounds.contains( conductivityTester.getNegativeProbeLocationReference() );
 
         //Set the brightness to be a linear function of the salt concentration (but keeping it bounded between 0 and 1 which are the limits of the conductivity tester brightness
-        conductivityTester.brightness.set( bothProbesSubmerged ? MathUtil.clamp( 0, getSaltConcentration() * 2, 1 ) : 0.0 );
+        conductivityTester.brightness.set( bothProbesSubmerged ? MathUtil.clamp( 0, getSaltConcentration() * 2 * 1E-4, 1 ) : 0.0 );
     }
 
     public abstract double getSaltConcentration();

@@ -100,6 +100,8 @@ public class ConductivityTester implements IConductivityTester {
     }
 
     public void reset() {
+        visible.reset();
+        brightness.reset();
 
         //Reset the location of the probes
         setNegativeProbeLocation( NEGATIVE_PROBE_X, PROBE_Y );
