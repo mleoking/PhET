@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.capacitorlab;
 
-import java.awt.Color;
+import java.awt.*;
 
 /**
  * Paint constants.
@@ -12,18 +12,20 @@ import java.awt.Color;
 public class CLPaints {
 
     /* not intended for instantiation */
-    private CLPaints() {}
+    private CLPaints() {
+    }
 
     public static final Color CANVAS_BACKGROUND = new Color( 167, 222, 243 );
 
     // capacitor plates
-    public static final Color PLATE =  new Color( 245, 245, 245 );
+    public static final Color PLATE = new Color( 245, 245, 245 );
 
     // dielectric materials
     public static final Color CUSTOM_DIELECTRIC = new Color( 255, 255, 125 ); // pale yellow
     public static final Color GLASS = new Color( 100, 100, 100, 64 ); // transparent gray
     public static final Color PAPER = new Color( 255, 255, 225 ); // off white
     public static final Color TEFLON = new Color( 0, 225, 255 ); // light blue
+    public static final Color AIR = Color.RED; // should never be displayed, so pick something obviously wrong
 
     // charges
     public static final Color POSITIVE_CHARGE = Color.RED;
