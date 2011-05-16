@@ -16,7 +16,8 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.ShapeUtils;
 
 /**
- * Model of a capacitor.
+ * Model of a capacitor, used in the Introduction and Dielectric tabs, where we have a
+ * single capacitor whose geometry can be directly manipulated by the user.
  * <p/>
  * A capacitor consists of 2 parallel, square plates, with a dielectric material between the plates.
  * When the dielectric can be partially inserted, the capacitor must be modeled as 2 parallel capacitors,
@@ -30,7 +31,7 @@ import edu.colorado.phet.common.phetcommon.view.util.ShapeUtils;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class Capacitor implements ICapacitor {
+public class ComplexCapacitor implements ICapacitor {
 
     private static final double EPSILON_0 = CLConstants.EPSILON_0;
     private static final double EPSILON_AIR = CLConstants.EPSILON_AIR;
@@ -62,7 +63,7 @@ public class Capacitor implements ICapacitor {
      * @param dielectricOffset
      * @param mvt
      */
-    public Capacitor( Point3D location, double plateWidth, double plateSeparation, DielectricMaterial dielectricMaterial, double dielectricOffset, CLModelViewTransform3D mvt ) {
+    public ComplexCapacitor( Point3D location, double plateWidth, double plateSeparation, DielectricMaterial dielectricMaterial, double dielectricOffset, CLModelViewTransform3D mvt ) {
 
         this.mvt = mvt;
         this.shapeFactory = new CapacitorShapeFactory( this, mvt );

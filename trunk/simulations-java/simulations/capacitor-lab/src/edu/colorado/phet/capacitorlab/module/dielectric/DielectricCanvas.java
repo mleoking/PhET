@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.capacitorlab.module.dielectric;
 
+import java.awt.*;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 
@@ -12,6 +13,7 @@ import edu.colorado.phet.capacitorlab.control.PlateChargeControlNode;
 import edu.colorado.phet.capacitorlab.developer.EFieldShapesDebugNode;
 import edu.colorado.phet.capacitorlab.developer.VoltageShapesDebugNode;
 import edu.colorado.phet.capacitorlab.drag.DielectricOffsetDragHandleNode;
+import edu.colorado.phet.capacitorlab.drag.DielectricOffsetDragHandler;
 import edu.colorado.phet.capacitorlab.drag.PlateAreaDragHandleNode;
 import edu.colorado.phet.capacitorlab.drag.PlateSeparationDragHandleNode;
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
@@ -31,6 +33,7 @@ import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -73,7 +76,7 @@ public class DielectricCanvas extends CLCanvas {
     // controls
     private final PlateChargeControlNode plateChargeControNode;
 
-    public DielectricCanvas( final DielectricModel model, CLModelViewTransform3D mvt, final CLGlobalProperties globalProperties ) {
+    public DielectricCanvas( final DielectricModel model, final CLModelViewTransform3D mvt, final CLGlobalProperties globalProperties ) {
 
         this.model = model;
         this.mvt = mvt;
@@ -86,8 +89,13 @@ public class DielectricCanvas extends CLCanvas {
         final double eFieldVectorReferenceMagnitude = DielectricModel.getMaxPlatesDielectricEFieldWithBattery();
 
         batteryNode = new BatteryNode( model.getBattery(), CLConstants.BATTERY_VOLTAGE_RANGE );
-        capacitorNode = new CapacitorNode( model.getCircuit().getCapacitor(), mvt, plateChargesVisible, eFieldVisible, dielectricChargeView,
-                                           maxPlateCharge, maxExcessDielectricPlateCharge, maxEffectiveEfield, maxDielectricEField );
+        capacitorNode = new CapacitorNode( model.getCapacitor(), mvt, plateChargesVisible, eFieldVisible, dielectricChargeView,
+                                           maxPlateCharge, maxExcessDielectricPlateCharge, maxEffectiveEfield, maxDielectricEField ) {{
+            // make dielectric directly draggable
+            getDielectricNode().addInputEventListener( new CursorHandler( Cursor.E_RESIZE_CURSOR ) );
+            getDielectricNode().addInputEventListener( new DielectricOffsetDragHandler( this, model.getCapacitor(), mvt, CLConstants.DIELECTRIC_OFFSET_RANGE ) );
+
+        }};
         topWireNode = new WireNode( model.getTopWire(), mvt );
         bottomWireNode = new WireNode( model.getBottomWire(), mvt );
 
