@@ -8,7 +8,7 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
  *
  * @author Sam Reid
  */
-public class MacroSugar extends Crystal {
+public class MacroSugar extends MacroCrystal {
     //Create a sugar crystal with 1E-6 moles of sugar
     public MacroSugar( ImmutableVector2D position ) {
         this( position, 1E-6 );
