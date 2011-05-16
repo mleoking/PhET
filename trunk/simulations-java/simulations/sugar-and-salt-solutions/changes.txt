@@ -1,3 +1,4 @@
+Made the conductivity tester only available in the intro tab
 # 0.00.08 (51939) May 15, 2011
 Added a vertical axis with tick marks and labels for the concentration bar chart
 Moved conductivity tester tool behind the shakers
