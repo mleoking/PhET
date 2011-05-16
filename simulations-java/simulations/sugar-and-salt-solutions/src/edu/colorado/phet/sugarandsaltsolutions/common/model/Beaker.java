@@ -104,4 +104,8 @@ public class Beaker {
     public double getWallWidth() {
         return wallWidth;
     }
+
+    public double getMaxX() {
+        return x + width;
+    }
 }
