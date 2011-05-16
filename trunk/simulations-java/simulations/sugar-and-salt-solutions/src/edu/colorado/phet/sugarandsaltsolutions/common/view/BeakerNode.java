@@ -24,8 +24,10 @@ public class BeakerNode extends PNode {
         //Add Tick marks and labels
         double viewX = transform.modelToViewX( beaker.getX() - beaker.getWallWidth() / 2 );
 
-        //Show the minor ticks (behind the major ticks since we just draw over them).  Show one tick every 0.1L
-        double dMinorTick = 0.0001;
+        //only show labels (and tick marks) for 0 L, 1 L, and 2 L, and tick marks for 0.5 L and 1.5 L
+
+        //Show the minor ticks (behind the major ticks since we just draw over them).  Show one tick every 0.5L
+        double dMinorTick = 0.0005;
         for ( double minorTick = 0;
               minorTick <= 0.002;//Go up to the max fluid volume of 2L
               minorTick += dMinorTick ) {
@@ -40,7 +42,7 @@ public class BeakerNode extends PNode {
         }
 
         //Show the major tick marks, using formatting that suppresses the decimal point for round numbers, like 0.5L, 1L, etc.
-        for ( Value tick : new Value[] { new Value( 0, "0" ), new Value( 0.0005, "0.0" ), new Value( 0.001, "0" ), new Value( 0.0015, "0.0" ), new Value( 0.002, "0" ) } ) {
+        for ( Value tick : new Value[] { new Value( 0, "0" ), new Value( 0.001, "0" ), new Value( 0.002, "0" ) } ) {
             //Width of the tick mark line in stage coordinates
             double lineWidth = 10.0;
 
