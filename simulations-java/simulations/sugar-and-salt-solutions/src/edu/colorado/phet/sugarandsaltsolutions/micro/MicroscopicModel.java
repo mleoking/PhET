@@ -4,10 +4,10 @@ package edu.colorado.phet.sugarandsaltsolutions.micro;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DividedBy;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
-import edu.colorado.phet.sugarandsaltsolutions.common.model.MacroCrystal;
-import edu.colorado.phet.sugarandsaltsolutions.common.model.MacroSalt;
-import edu.colorado.phet.sugarandsaltsolutions.common.model.MacroSugar;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel;
+import edu.colorado.phet.sugarandsaltsolutions.intro.model.MacroCrystal;
+import edu.colorado.phet.sugarandsaltsolutions.intro.model.MacroSalt;
+import edu.colorado.phet.sugarandsaltsolutions.intro.model.MacroSugar;
 
 import static java.lang.Double.isInfinite;
 import static java.lang.Double.isNaN;

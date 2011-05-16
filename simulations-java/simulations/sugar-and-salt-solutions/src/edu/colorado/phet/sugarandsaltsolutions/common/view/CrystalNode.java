@@ -9,7 +9,7 @@ import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.sugarandsaltsolutions.common.model.MacroCrystal;
+import edu.colorado.phet.sugarandsaltsolutions.intro.model.MacroCrystal;
 import edu.umd.cs.piccolo.PNode;
 
 import static java.awt.Color.white;
