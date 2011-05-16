@@ -158,6 +158,18 @@ public interface ICapacitor {
     // Resets the capacitor to it's initial state.
     void reset();
 
+    /**
+     * Listener for capacitor change notifications.
+     * Any change to the capacitor fires the capacitorChanged callback, with
+     * no information about what has changed.  This may seem wasteful, but in
+     * practice most things need to be changed when anything changes.  So this
+     * simplifies the programming at the expense of some unneeded computation.
+     * No performance problems have been noted, but this would be a prime place
+     * to start optimizing if performance becomes an issue.
+     * </p>
+     * For view and control elements that are strictly interested in geometry
+     * of the capacitor, see the various add*Observer methods.
+     */
     public interface CapacitorChangeListener extends EventListener {
         void capacitorChanged();
     }

@@ -91,7 +91,7 @@ public interface ICircuit {
      * no information about what has changed.  This may seem wasteful, but in
      * practice most things need to be changed when anything changes.  So this
      * simplifies the programming at the expense of some unneeded computation.
-     * No performance problems have been noted, but this would be the first place
+     * No performance problems have been noted, but this would be a prime place
      * to start optimizing if performance becomes an issue.
      */
     public interface CircuitChangeListener extends EventListener {
