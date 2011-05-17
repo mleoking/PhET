@@ -3,6 +3,7 @@ package edu.colorado.phet.buildamolecule.model;
 
 import java.util.*;
 
+import edu.colorado.phet.buildamolecule.model.MoleculeStructure.Bond;
 import edu.colorado.phet.chemistry.model.Atom;
 import edu.colorado.phet.chemistry.model.Element;
 
@@ -15,12 +16,13 @@ public class StrippedMolecule {
     private final Map<Atom, Integer> hydrogenCount = new HashMap<Atom, Integer>();
 
     public StrippedMolecule( MoleculeStructure original ) {
-        stripped = new MoleculeStructure();
+        List<Atom> atomsToAdd = new ArrayList<Atom>();
+        List<Bond> bondsToAdd = new ArrayList<Bond>();
 
         // copy non-hydrogens
         for ( Atom atom : original.getAtoms() ) {
             if ( !atom.isHydrogen() ) {
-                stripped.addAtom( atom );
+                atomsToAdd.add( atom );
 
                 // initialize bonded hydrogen count to 0
                 hydrogenCount.put( atom, 0 );
@@ -46,9 +48,18 @@ public class StrippedMolecule {
                 }
                 else {
                     // bond doesn't involve hydrogen, so we add it to our stripped version
-                    stripped.addBond( bond );
+                    bondsToAdd.add( bond );
                 }
             }
+        }
+
+        // construct the stripped structure
+        stripped = new MoleculeStructure( atomsToAdd.size(), bondsToAdd.size() );
+        for ( Atom atom : atomsToAdd ) {
+            stripped.addAtom( atom );
+        }
+        for ( Bond bond : bondsToAdd ) {
+            stripped.addBond( bond );
         }
     }
 

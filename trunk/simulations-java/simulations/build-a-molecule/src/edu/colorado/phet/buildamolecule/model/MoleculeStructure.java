@@ -13,18 +13,20 @@ import edu.colorado.phet.chemistry.utils.ChemUtils;
  * TODO: consider using generics to specify atom type, with MoleculeStructure<T extends Atom>
  */
 public class MoleculeStructure {
-    private Set<Atom> atoms = new HashSet<Atom>();
-    private Set<Bond> bonds = new HashSet<Bond>();
+    private final ArrayList<Atom> atoms;
+    private final ArrayList<Bond> bonds;
 
     private static int nextMoleculeId = 0;
-    private int moleculeId; // used for molecule identification and ordering for optimization
+    private final int moleculeId; // used for molecule identification and ordering for optimization
 
-    /**
-     * Map of atom => all bonds that contain that atom TODO: consider removing permanently. removed temporarily due to memory concerns
-     */
-//    private Map<Atom, Set<Bond>> bondMap = new HashMap<Atom, Set<Bond>>();
     public MoleculeStructure() {
+        this( 12, 12 );
+    }
+
+    public MoleculeStructure( int numAtoms, int numBonds ) {
         moleculeId = nextMoleculeId++;
+        atoms = new ArrayList<Atom>( numAtoms );
+        bonds = new ArrayList<Bond>( numBonds );
     }
 
     /**
@@ -34,7 +36,6 @@ public class MoleculeStructure {
     public Atom addAtom( Atom atom ) {
         assert ( !atoms.contains( atom ) );
         atoms.add( atom );
-//        bondMap.put( atom, new HashSet<Bond>() );
         return atom;
     }
 
@@ -42,8 +43,6 @@ public class MoleculeStructure {
         assert ( atoms.contains( bond.a ) );
         assert ( atoms.contains( bond.b ) );
         bonds.add( bond );
-//        bondMap.get( bond.a ).add( bond );
-//        bondMap.get( bond.b ).add( bond );
     }
 
     public void addBond( Atom a, Atom b ) {
@@ -209,11 +208,11 @@ public class MoleculeStructure {
         return value;
     }
 
-    public Set<Atom> getAtoms() {
+    public Collection<Atom> getAtoms() {
         return atoms;
     }
 
-    public Set<Bond> getBonds() {
+    public Collection<Bond> getBonds() {
         return bonds;
     }
 
@@ -222,7 +221,7 @@ public class MoleculeStructure {
      * @return All neighboring atoms that are connected by bonds to the passed in atom
      */
     public List<Atom> getNeighbors( Atom atom ) {
-        List<Atom> ret = new LinkedList<Atom>();
+        List<Atom> ret = new ArrayList<Atom>();
         for ( Bond bond : getBondsInvolving( atom ) ) {
             ret.add( bond.getOtherAtom( atom ) );
         }
@@ -429,10 +428,10 @@ public class MoleculeStructure {
      * @return Molecule structure
      */
     public static MoleculeStructure fromSerial( String str ) {
-        MoleculeStructure structure = new MoleculeStructure();
         StringTokenizer t = new StringTokenizer( str, "|" );
         int atomCount = Integer.parseInt( t.nextToken() );
         int bondCount = Integer.parseInt( t.nextToken() );
+        MoleculeStructure structure = new MoleculeStructure( atomCount, bondCount );
         Atom[] atoms = new Atom[atomCount];
 
         for ( int i = 0; i < atomCount; i++ ) {
@@ -521,7 +520,7 @@ public class MoleculeStructure {
     }
 
     public MoleculeStructure getCopy() {
-        MoleculeStructure ret = new MoleculeStructure();
+        MoleculeStructure ret = new MoleculeStructure( atoms.size(), bonds.size() );
         for ( Atom atom : atoms ) {
             ret.addAtom( atom );
         }
@@ -532,7 +531,7 @@ public class MoleculeStructure {
     }
 
     public MoleculeStructure getCopyWithAtomRemoved( Atom atomToRemove ) {
-        MoleculeStructure ret = new MoleculeStructure();
+        MoleculeStructure ret = new MoleculeStructure( atoms.size() - 1, 12 ); // default to 12 bonds, probably more?
         for ( Atom atom : atoms ) {
             if ( atom != atomToRemove ) {
                 ret.addAtom( atom );

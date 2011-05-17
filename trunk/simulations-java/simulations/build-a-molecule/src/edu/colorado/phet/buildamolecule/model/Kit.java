@@ -4,7 +4,6 @@ package edu.colorado.phet.buildamolecule.model;
 import java.awt.geom.Point2D;
 import java.util.*;
 
-import edu.colorado.phet.buildamolecule.BuildAMoleculeApplication;
 import edu.colorado.phet.buildamolecule.model.LewisDotModel.Direction;
 import edu.colorado.phet.chemistry.model.Atom;
 import edu.colorado.phet.chemistry.model.Element;
