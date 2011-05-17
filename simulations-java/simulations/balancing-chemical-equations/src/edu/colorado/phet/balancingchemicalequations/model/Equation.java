@@ -179,7 +179,7 @@ public abstract class Equation {
                 boolean found = false;
                 for ( AtomCount count : atomCounts ) {
                     // add to an existing count
-                    if ( count.getAtom().getClass().equals( atom.getClass() ) ) {
+                    if ( count.getAtom().equals( atom ) ) {
                         if ( isReactants ) {
                             count.setReactantsCount( count.getReactantsCount() + term.getUserCoefficient() );
                         }
