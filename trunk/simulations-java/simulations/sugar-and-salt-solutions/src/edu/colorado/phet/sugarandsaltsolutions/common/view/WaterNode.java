@@ -3,21 +3,22 @@ package edu.colorado.phet.sugarandsaltsolutions.common.view;
 
 import java.awt.*;
 
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.sugarandsaltsolutions.common.model.Water;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.Beaker;
 import edu.umd.cs.piccolo.PNode;
 
 /**
  * @author Sam Reid
  */
 public class WaterNode extends PNode {
-    public WaterNode( final ModelViewTransform transform, final Water water, Color color ) {
+    public WaterNode( final ModelViewTransform transform, final ObservableProperty<Double> displacedWaterVolume, final Beaker beaker, Color color ) {
         addChild( new PhetPPath( color ) {{
-            water.volume.addObserver( new SimpleObserver() {
-                public void update() {
-                    setPathTo( transform.modelToView( water.getShape() ) );
+            displacedWaterVolume.addObserver( new VoidFunction1<Double>() {
+                public void apply( Double displacedVolume ) {
+                    setPathTo( transform.modelToView( beaker.getFluidShape( displacedVolume ) ) );
                 }
             } );
         }} );

@@ -34,7 +34,6 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 
 import static edu.colorado.phet.common.phetcommon.model.property.Not.not;
 import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createRectangleInvertedYMapping;
-import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsApplication.WATER_COLOR;
 import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType.SALT;
 import static edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel.MIN_DRAIN_VOLUME;
 
@@ -170,42 +169,6 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements ToolboxC
         //Add beaker and water nodes and an indicator for the water volume
         final BeakerNode beakerNode = new BeakerNode( transform, model.beaker );
         addChild( beakerNode );
-
-        //Show the full water node at the correct color, then overlay a partially transparent one on top, so that some objects (such as the conductivity tester) will look submerged
-        addChild( new WaterNode( transform, model.water, WATER_COLOR ) );
-
-        //Node that shows things that get submerged such as the conductivity tester
-        addChild( conductivityToolboxLayer );
-        addChild( submergedInWaterNode );
-
-        //Overlay node that renders as partially transparent in front of submerged objects, such as the conductivity tester.
-        //When changing the transparency here make sure it looks good for precipitate as well as submerged probes
-        addChild( new WaterNode( transform, model.water, new Color( WATER_COLOR.getRed(), WATER_COLOR.getGreen(), WATER_COLOR.getBlue(), 128 ) ) {{
-
-            //Make it so the mouse events pass through the front water layer so it is still possible to pick and move the conductivity tester probes
-            setPickable( false );
-            setChildrenPickable( false );
-        }} );
-
-        //Readout the volume of the water in Liters, only visible if the user opted to show values (in the concentration bar chart)
-        addChild( new VolumeIndicatorNode( transform, model.water, model.showConcentrationValues ) );
-
-        //Add a button that allows the user to remove all solutes
-        addChild( new ButtonNode( "Remove salt/sugar" ) {{
-            //Button should be inside the beaker
-            setOffset( transform.modelToViewX( model.beaker.getMaxX() ) - getFullBounds().getWidth() - INSET,
-                       transform.modelToViewY( model.beaker.getY() ) - getFullBounds().getHeight() - INSET );
-            addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    model.removeSaltAndSugar();
-                }
-            } );
-            removeSaltSugarButtonVisible.addObserver( new VoidFunction1<Boolean>() {
-                public void apply( Boolean visible ) {
-                    setVisible( visible );
-                }
-            } );
-        }} );
 
         //Debug for showing stage
         if ( debug ) {

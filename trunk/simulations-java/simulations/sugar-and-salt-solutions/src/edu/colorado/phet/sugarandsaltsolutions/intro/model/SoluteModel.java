@@ -1,9 +1,10 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.intro.model;
 
-import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
-import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.*;
+import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.CompositeDoubleProperty;
+import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
+import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.Max;
+import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.Min;
 
 /**
  * Model of the amount in moles, concentration, amount dissolved, amount precipitated, for sugar and salt in the intro tab.
@@ -16,23 +17,28 @@ public class SoluteModel {
     public final DoubleProperty moles;
 
     //The concentration in the liquid in moles / m^3
-    public final DividedBy concentration;
+    public final CompositeDoubleProperty concentration;
 
     //The amount that precipitated (solidified)
-    public final CompositeProperty<Double> molesPrecipitated;
+    public final CompositeDoubleProperty molesPrecipitated;
 
     //The amount that is dissolved is solution
-    public final CompositeProperty<Double> molesDissolved;
+    public final CompositeDoubleProperty molesDissolved;
 
     //The amount of moles necessary to fully saturate the solution, past this, the solute will start to precipitate.
-    public final Times saturationPointMoles;
+    public final CompositeDoubleProperty saturationPointMoles;
 
-    public SoluteModel( DoubleProperty waterVolume, double saltSaturationPoint ) {
+    //The volume (in SI) of the amount of solid
+    //Solid precipitate should push up the water level, so that every mole of salt takes up 0.02699 L, and every mole of sugar takes up 0.2157 L
+    public final CompositeDoubleProperty solidVolume;
+
+    public SoluteModel( DoubleProperty waterVolume, double saltSaturationPoint, double volumePerSolidMole ) {
         //Salt moles and concentration
         moles = new DoubleProperty( 0.0 );
         saturationPointMoles = waterVolume.times( saltSaturationPoint );
         molesDissolved = new Min( moles, saturationPointMoles );
-        molesPrecipitated = new Max( new Minus( moles, molesDissolved ), new Property<Double>( 0.0 ) );
-        concentration = new DividedBy( molesDissolved, waterVolume );
+        molesPrecipitated = new Max( moles.minus( molesDissolved ), 0.0 );
+        concentration = molesDissolved.dividedBy( waterVolume );
+        solidVolume = molesPrecipitated.times( volumePerSolidMole );
     }
 }
