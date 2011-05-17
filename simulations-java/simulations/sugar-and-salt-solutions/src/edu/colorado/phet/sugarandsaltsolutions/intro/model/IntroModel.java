@@ -38,6 +38,12 @@ public class IntroModel extends SugarAndSaltSolutionModel {
                 updateConductivityTesterBrightness();
             }
         } );
+
+        ( salt.solidVolume.plus( sugar.solidVolume ) ).addObserver( new VoidFunction1<Double>() {
+            public void apply( Double value ) {
+                m_solidPrecipitateDisplacedVolume.set( value );
+            }
+        } );
     }
 
     @Override protected void updateModel( double dt ) {

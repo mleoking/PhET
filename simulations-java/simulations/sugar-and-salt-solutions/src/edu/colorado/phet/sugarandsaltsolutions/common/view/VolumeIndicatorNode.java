@@ -37,7 +37,7 @@ public class VolumeIndicatorNode extends PNode {
                     double liters = volumeInSI * 1000;
 
                     //Update the readout
-                    setText( decimalFormat.format( liters ) + "L" );
+                    setText( decimalFormat.format( liters ) + "L water" );
                 }
             } );
 
