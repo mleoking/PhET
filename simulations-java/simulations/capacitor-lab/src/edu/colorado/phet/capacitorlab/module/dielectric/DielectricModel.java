@@ -33,10 +33,8 @@ public class DielectricModel {
 
         this.dielectricMaterials = dielectricMaterials;
 
-        Battery battery = new Battery( CLConstants.BATTERY_LOCATION, CLConstants.BATTERY_VOLTAGE_RANGE.getDefault(), mvt );
-        Capacitor capacitor = new Capacitor( CLConstants.CAPACITOR_LOCATION, CLConstants.PLATE_WIDTH_RANGE.getDefault(), CLConstants.PLATE_SEPARATION_RANGE.getDefault(),
-                                             dielectricMaterials[0], dielectricOffset, mvt );
-        circuit = new BatteryCapacitorCircuit( clock, battery, capacitor, CLConstants.BATTERY_CONNECTED, mvt );
+        circuit = new BatteryCapacitorCircuit( clock, CLConstants.PLATE_WIDTH_RANGE.getDefault(), CLConstants.PLATE_SEPARATION_RANGE.getDefault(),
+                                               dielectricMaterials[0], dielectricOffset, CLConstants.BATTERY_CONNECTED, mvt );
 
         capacitanceMeter = new CapacitanceMeter( circuit, worldBounds, CLConstants.CAPACITANCE_METER_LOCATION, CLConstants.CAPACITANCE_METER_VISIBLE );
         plateChargeMeter = new PlateChargeMeter( circuit, worldBounds, CLConstants.PLATE_CHARGE_METER_LOCATION, CLConstants.PLATE_CHARGE_METER_VISIBLE );
@@ -100,8 +98,6 @@ public class DielectricModel {
     }
 
     public void reset() {
-        getBattery().reset();
-        getCapacitor().reset();
         for ( DielectricMaterial material : dielectricMaterials ) {
             material.reset();
         }
@@ -110,7 +106,6 @@ public class DielectricModel {
         storedEnergyMeter.reset();
         eFieldDetector.reset();
         voltmeter.reset();
-        circuit.setBatteryConnected( CLConstants.BATTERY_CONNECTED ); //XXX replace with getCircuit().reset()
         circuit.reset();
     }
 
@@ -151,15 +146,17 @@ public class DielectricModel {
      *
      * @return
      */
-    public static double getMaxEffectiveEfield() {
+    public static double getMaxEffectiveEField() {
         CLModelViewTransform3D mvt = new CLModelViewTransform3D();
-        Battery battery = new Battery( new Point3D.Double(), 0, mvt );
         DielectricMaterial material = new CustomDielectricMaterial( CLConstants.DIELECTRIC_CONSTANT_RANGE.getMin() );
-        Capacitor capacitor = new Capacitor( new Point3D.Double(), CLConstants.PLATE_WIDTH_RANGE.getMin(),
-                                             CLConstants.PLATE_SEPARATION_RANGE.getMin(), material, CLConstants.DIELECTRIC_OFFSET_RANGE.getMin(), mvt );
-        BatteryCapacitorCircuit circuit = new BatteryCapacitorCircuit( new CLClock(), battery, capacitor, false /* batteryConnected */, mvt );
+        BatteryCapacitorCircuit circuit = new BatteryCapacitorCircuit( new CLClock(),
+                                                                       CLConstants.PLATE_WIDTH_RANGE.getMin(),
+                                                                       CLConstants.PLATE_SEPARATION_RANGE.getMin(),
+                                                                       material, CLConstants.DIELECTRIC_OFFSET_RANGE.getMin(),
+                                                                       false /* batteryConnected */,
+                                                                       mvt );
         circuit.setDisconnectedPlateCharge( getMaxPlateCharge() );
-        return capacitor.getEffectiveEField();
+        return circuit.getCapacitor().getEffectiveEField();
     }
 
     /**
@@ -169,13 +166,16 @@ public class DielectricModel {
      */
     public static double getMaxDielectricEField() {
         CLModelViewTransform3D mvt = new CLModelViewTransform3D();
-        Battery battery = new Battery( new Point3D.Double(), 0, mvt );
         DielectricMaterial material = new CustomDielectricMaterial( CLConstants.DIELECTRIC_CONSTANT_RANGE.getMax() );
-        Capacitor capacitor = new Capacitor( new Point3D.Double(), CLConstants.PLATE_WIDTH_RANGE.getMin(),
-                                             CLConstants.PLATE_SEPARATION_RANGE.getMin(), material, CLConstants.DIELECTRIC_OFFSET_RANGE.getMax(), mvt );
-        BatteryCapacitorCircuit circuit = new BatteryCapacitorCircuit( new CLClock(), battery, capacitor, false /* batteryConnected */, mvt );
+        BatteryCapacitorCircuit circuit = new BatteryCapacitorCircuit( new CLClock(),
+                                                                       CLConstants.PLATE_WIDTH_RANGE.getMin(),
+                                                                       CLConstants.PLATE_SEPARATION_RANGE.getMin(),
+                                                                       material,
+                                                                       CLConstants.DIELECTRIC_OFFSET_RANGE.getMax(),
+                                                                       false /* batteryConnected */,
+                                                                       mvt );
         circuit.setDisconnectedPlateCharge( getMaxPlateCharge() );
-        return capacitor.getDielectricEField();
+        return circuit.getCapacitor().getDielectricEField();
     }
 
     /**

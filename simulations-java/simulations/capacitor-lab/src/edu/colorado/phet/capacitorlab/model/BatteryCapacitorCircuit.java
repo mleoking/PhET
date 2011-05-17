@@ -39,27 +39,18 @@ public class BatteryCapacitorCircuit extends AbstractCircuit {
     private Property<Double> currentAmplitudeProperty; // dV/dt, rate of voltage change
 
     // mutable instance data
-    private boolean batteryConnected; // is the battery connected to the circuit?
+    private Property<Boolean> batteryConnectedProperty; // is the battery connected to the circuit?
     private double disconnectedPlateCharge; // charge set manually by the user, used when battery is disconnected
     private double previousTotalCharge; // total charge the previous time the clock ticked, used to compute current amplitude
 
-    /**
-     * Constructor
-     *
-     * @param clock
-     * @param battery
-     * @param capacitor
-     * @param batteryConnected
-     * @param mvt
-     */
-    public BatteryCapacitorCircuit( IClock clock, final Battery battery, final Capacitor capacitor, boolean batteryConnected, CLModelViewTransform3D mvt ) {
+    public BatteryCapacitorCircuit( IClock clock, double plateWidth, double plateSeparation, DielectricMaterial dielectricMaterial, double dielectricOffset, boolean batteryConnected, CLModelViewTransform3D mvt ) {
         super( CLStrings.SINGLE );
 
         this.clock = clock;
         this.listeners = new EventListenerList();
-        this.battery = battery;
-        this.capacitor = capacitor;
-        this.batteryConnected = batteryConnected;
+        this.battery = new Battery( CLConstants.BATTERY_LOCATION, CLConstants.BATTERY_VOLTAGE_RANGE.getDefault(), mvt );
+        this.capacitor = new Capacitor( CLConstants.CAPACITOR_LOCATION, plateWidth, plateSeparation, dielectricMaterial, dielectricOffset, mvt );
+        this.batteryConnectedProperty = new Property<Boolean>( batteryConnected );
         this.disconnectedPlateCharge = getTotalCharge();
         this.previousTotalCharge = getTotalCharge();
         this.currentAmplitudeProperty = new Property<Double>( 0d );
@@ -96,7 +87,9 @@ public class BatteryCapacitorCircuit extends AbstractCircuit {
     }
 
     public void reset() {
-        //TODO reset any properties?
+        battery.reset();
+        capacitor.reset();
+        batteryConnectedProperty.reset();
     }
 
     //----------------------------------------------------------------------------------
@@ -129,7 +122,7 @@ public class BatteryCapacitorCircuit extends AbstractCircuit {
      * @return
      */
     public boolean isBatteryConnected() {
-        return batteryConnected;
+        return batteryConnectedProperty.get();
     }
 
     /**
@@ -138,15 +131,16 @@ public class BatteryCapacitorCircuit extends AbstractCircuit {
      * @param batteryConnected
      */
     public void setBatteryConnected( boolean batteryConnected ) {
-        if ( batteryConnected != this.batteryConnected ) {
+        if ( batteryConnected != isBatteryConnected() ) {
             /*
              * When disconnecting the battery, set the disconnected plate charge to
              * whatever the total plate charge was with the battery connected.
+             * Need to do this before changing the property value.
              */
             if ( !batteryConnected ) {
                 disconnectedPlateCharge = getTotalCharge();
             }
-            this.batteryConnected = batteryConnected;
+            batteryConnectedProperty.set( batteryConnected );
             updateVoltages();
             fireCircuitChanged();
         }
@@ -157,7 +151,7 @@ public class BatteryCapacitorCircuit extends AbstractCircuit {
      */
     private void updateVoltages() {
         double V = battery.getVoltage();
-        if ( !batteryConnected ) {
+        if ( !isBatteryConnected() ) {
             V = disconnectedPlateCharge / capacitor.getTotalCapacitance(); // V = Q/C
         }
         //TODO:
