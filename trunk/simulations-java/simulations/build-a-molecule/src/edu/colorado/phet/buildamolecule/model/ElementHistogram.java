@@ -25,9 +25,17 @@ public class ElementHistogram {
         }
     }};
 
+    /**
+     * Empty histogram
+     */
     public ElementHistogram() {
     }
 
+    /**
+     * Histogram containing information about the molecule
+     *
+     * @param molecule A molecule
+     */
     public ElementHistogram( MoleculeStructure molecule ) {
         add( molecule );
     }
@@ -40,12 +48,21 @@ public class ElementHistogram {
         quantities.put( element.getSymbol(), quantities.get( element.getSymbol() ) + 1 );
     }
 
+    /**
+     * Add all atoms from the molecule to the histogram
+     *
+     * @param molecule A molecule
+     */
     public void add( MoleculeStructure molecule ) {
         for ( Atom atom : molecule.getAtoms() ) {
             add( atom.getElement() );
         }
     }
 
+    /**
+     * @param otherHistogram Another histogram
+     * @return Whether otherHistogram is a subset of this histogram (i.e. for all elements e, this.count( e ) >= other.count( e )
+     */
     public boolean containsAsSubset( ElementHistogram otherHistogram ) {
         for ( String symbol : ALLOWED_CHEMICAL_SYMBOLS ) {
             if ( quantities.get( symbol ) < otherHistogram.quantities.get( symbol ) ) {
@@ -55,6 +72,9 @@ public class ElementHistogram {
         return true;
     }
 
+    /**
+     * @return A hash string that should be unique for each unique histogram, and the same for each equivalent histogram
+     */
     public String getHashString() {
         String hashString = "";
         for ( String symbol : ALLOWED_CHEMICAL_SYMBOLS ) {
