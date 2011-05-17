@@ -4,6 +4,7 @@ package edu.colorado.phet.buildamolecule;
 
 import java.awt.*;
 
+import edu.colorado.phet.chemistry.model.Element;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -49,4 +50,12 @@ public class BuildAMoleculeConstants {
     public static final String IMAGE_3D_ICON = "3d.png";
     public static final String IMAGE_SCISSORS_ICON = "scissors.png";
     public static final String IMAGE_SCISSORS_CLOSED_ICON = "scissors-closed.png";
+
+    /*---------------------------------------------------------------------------*
+    * misc
+    *----------------------------------------------------------------------------*/
+
+    public static final Element[] SUPPORTED_ELEMENTS = new Element[] {
+            Element.B, Element.Br, Element.C, Element.Cl, Element.F, Element.H, Element.I, Element.N, Element.O, Element.P, Element.S, Element.Si
+    };
 }
