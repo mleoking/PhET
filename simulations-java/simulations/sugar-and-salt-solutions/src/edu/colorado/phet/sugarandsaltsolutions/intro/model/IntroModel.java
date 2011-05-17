@@ -1,14 +1,11 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.sugarandsaltsolutions.intro;
+package edu.colorado.phet.sugarandsaltsolutions.intro.model;
 
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel;
-import edu.colorado.phet.sugarandsaltsolutions.intro.model.MacroCrystal;
-import edu.colorado.phet.sugarandsaltsolutions.intro.model.MacroSalt;
-import edu.colorado.phet.sugarandsaltsolutions.intro.model.MacroSugar;
 
 /**
  * Introductory model that keeps track of moles of solute dissolved in the liquid.

@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.sugarandsaltsolutions.intro;
+package edu.colorado.phet.sugarandsaltsolutions.intro.view;
 
 import java.awt.*;
 import java.awt.geom.Area;
