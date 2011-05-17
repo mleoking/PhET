@@ -223,7 +223,10 @@ public abstract class SugarAndSaltSolutionModel implements ResetModel {
         water.volume.set( newVolume );
 
         //Notify listeners that some water (with solutes) exited the system, so they can decrease the amounts of solute (mols, not molarity) in the system
-        waterDrained( drainedWater );
+        //Only call when draining, would have the wrong behavior for evaporation
+        if ( drainedWater > 0 ) {
+            waterDrained( drainedWater );
+        }
 
         //Move about the sugar and salt crystals
         updateCrystals( dt, saltList );
@@ -270,7 +273,6 @@ public abstract class SugarAndSaltSolutionModel implements ResetModel {
     //Called when a crystal is absorbed by the water.
     // For instance, in the first tab it computes the resulting concentration change
     protected void crystalAbsorbed( MacroCrystal crystal ) {
-        removeSaltAndSugar();
     }
 
     //Called when the user presses a button to clear the solutes, removes all solutes from the sim

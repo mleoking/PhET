@@ -3,8 +3,6 @@ package edu.colorado.phet.sugarandsaltsolutions.intro;
 
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DividedBy;
-import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel;
 import edu.colorado.phet.sugarandsaltsolutions.intro.model.MacroCrystal;
@@ -24,20 +22,16 @@ public class IntroModel extends SugarAndSaltSolutionModel {
     private static final double saltSaturationPoint = 6.14;//moles per liter
     private static final double sugarSaturationPoint = 5.85;//moles per liter
 
-    //Salt moles and concentration
-    private final DoubleProperty molesOfSalt = new DoubleProperty( 0.0 );
-    public final DividedBy saltConcentration = molesOfSalt.dividedBy( water.volume );
-
-    //Sugar moles and concentration
-    private final DoubleProperty molesOfSugar = new DoubleProperty( 0.0 );
-    public final DividedBy sugarConcentration = molesOfSugar.dividedBy( water.volume );
+    //Model moles, concentration, amount dissolved, amount precipitated, etc. for salt and sugar
+    public final SoluteModel salt = new SoluteModel( water.volume, saltSaturationPoint );
+    public final SoluteModel sugar = new SoluteModel( water.volume, sugarSaturationPoint );
 
     //Determine if there are any solutes (i.e., if moles of salt or moles of sugar is greater than zero).  This is used to show/hide the "remove solutes" button
-    public final ObservableProperty<Boolean> anySolutes = molesOfSalt.greaterThan( 0 ).or( molesOfSugar.greaterThan( 0 ) );
+    public final ObservableProperty<Boolean> anySolutes = salt.moles.greaterThan( 0 ).or( sugar.moles.greaterThan( 0 ) );
     public final Property<Boolean> showConcentrationBarChart = new Property<Boolean>( true );
 
     public IntroModel() {
-        saltConcentration.addObserver( new VoidFunction1<Double>() {
+        salt.concentration.addObserver( new VoidFunction1<Double>() {
             public void apply( Double concentration ) {
 //                System.out.println( "moles of salt = " + molesOfSalt + ", water volume = " + water.volume + ", => conc = " + concentration );
 
@@ -48,25 +42,25 @@ public class IntroModel extends SugarAndSaltSolutionModel {
     }
 
     @Override public double getSaltConcentration() {
-        if ( saltConcentration == null ) { return 0.0; }//this is called during super call before saltConcentration is set, so is null, so just return 0 in that case.  TODO: fix
-        return saltConcentration.get();
+        if ( salt == null ) { return 0.0; }//this is called during super call before saltConcentration is set, so is null, so just return 0 in that case.  TODO: fix
+        return salt.concentration.get();
     }
 
     //When a crystal is absorbed by the water, increase the number of moles in solution
     protected void crystalAbsorbed( MacroCrystal crystal ) {
         if ( crystal instanceof MacroSalt ) {
-            molesOfSalt.set( molesOfSalt.get() + crystal.getMoles() );
+            salt.moles.set( salt.moles.get() + crystal.getMoles() );
         }
         else if ( crystal instanceof MacroSugar ) {
-            molesOfSugar.set( molesOfSugar.get() + crystal.getMoles() );
+            sugar.moles.set( sugar.moles.get() + crystal.getMoles() );
         }
     }
 
     //Removes all sugar and salt from the liquid
     @Override public void removeSaltAndSugar() {
         super.removeSaltAndSugar();
-        molesOfSalt.set( 0.0 );
-        molesOfSugar.set( 0.0 );
+        salt.moles.set( 0.0 );
+        sugar.moles.set( 0.0 );
     }
 
     //Have some moles of salt and sugar flow out so that the concentration remains unchanged
@@ -74,8 +68,8 @@ public class IntroModel extends SugarAndSaltSolutionModel {
         super.waterDrained( outVolume );
 
         //Make sure to keep the concentration the same when water flowing out
-        updateConcentration( outVolume, molesOfSalt );
-        updateConcentration( outVolume, molesOfSugar );
+        updateConcentration( outVolume, salt.moles );
+        updateConcentration( outVolume, sugar.moles );
     }
 
     //Make sure to keep the concentration the same when water flowing out

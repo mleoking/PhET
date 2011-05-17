@@ -178,8 +178,9 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements ToolboxC
         addChild( conductivityToolboxLayer );
         addChild( submergedInWaterNode );
 
-        //Overlay node that renders as partially transparent in front of submerged objects, such as the conductivity tester
-        addChild( new WaterNode( transform, model.water, new Color( WATER_COLOR.getRed(), WATER_COLOR.getGreen(), WATER_COLOR.getBlue(), 200 ) ) {{
+        //Overlay node that renders as partially transparent in front of submerged objects, such as the conductivity tester.
+        //When changing the transparency here make sure it looks good for precipitate as well as submerged probes
+        addChild( new WaterNode( transform, model.water, new Color( WATER_COLOR.getRed(), WATER_COLOR.getGreen(), WATER_COLOR.getBlue(), 128 ) ) {{
 
             //Make it so the mouse events pass through the front water layer so it is still possible to pick and move the conductivity tester probes
             setPickable( false );
