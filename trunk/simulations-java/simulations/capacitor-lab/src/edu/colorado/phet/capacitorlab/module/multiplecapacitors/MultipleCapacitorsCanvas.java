@@ -3,21 +3,21 @@
 package edu.colorado.phet.capacitorlab.module.multiplecapacitors;
 
 import java.awt.geom.Dimension2D;
-import java.awt.geom.Point2D;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLGlobalProperties;
-import edu.colorado.phet.capacitorlab.control.CapacitanceControlNode;
-import edu.colorado.phet.capacitorlab.model.*;
+import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
+import edu.colorado.phet.capacitorlab.model.DielectricChargeView;
+import edu.colorado.phet.capacitorlab.model.ICircuit;
+import edu.colorado.phet.capacitorlab.model.SingleCircuit;
 import edu.colorado.phet.capacitorlab.module.CLCanvas;
 import edu.colorado.phet.capacitorlab.module.dielectric.DielectricModel;
-import edu.colorado.phet.capacitorlab.view.BatteryNode;
-import edu.colorado.phet.capacitorlab.view.CapacitorNode;
 import edu.colorado.phet.capacitorlab.view.meters.BarMeterNode.CapacitanceMeterNode;
 import edu.colorado.phet.capacitorlab.view.meters.BarMeterNode.PlateChargeMeterNode;
 import edu.colorado.phet.capacitorlab.view.meters.BarMeterNode.StoredEnergyMeterNode;
 import edu.colorado.phet.capacitorlab.view.meters.EFieldDetectorView;
 import edu.colorado.phet.capacitorlab.view.meters.VoltmeterView;
+import edu.colorado.phet.capacitorlab.view.multicaps.SingleCircuitNode;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -107,41 +107,17 @@ public class MultipleCapacitorsCanvas extends CLCanvas {
         circuitParentNode.addChild( createCircuit( model.currentCircuit.get() ) );
     }
 
+    //TODO revisit this after things are working
+    // factory method for creating circuit nodes
     private PNode createCircuit( ICircuit circuit ) {
-
-        PNode parentNode = new PNode();
-        Point2D pView = null;
-        double x, y = 0;
-
-        Battery battery = circuit.getBattery();
-        if ( battery != null ) {
-            PNode batteryNode = new BatteryNode( circuit.getBattery(), CLConstants.BATTERY_VOLTAGE_RANGE );
-            parentNode.addChild( batteryNode );
-            // battery at model location
-            pView = mvt.modelToView( circuit.getBattery().getLocationReference() );
-            batteryNode.setOffset( pView );
+        if ( circuit instanceof SingleCircuit ) {
+            return new SingleCircuitNode( (SingleCircuit) circuit, mvt,
+                                          plateChargesVisible, eFieldVisible, dielectricChargeView,
+                                          maxPlateCharge, maxExcessDielectricPlateCharge, maxEffectiveEField, maxDielectricEField );
         }
-
-        Capacitor capacitor = circuit.getCapacitor();
-        if ( capacitor != null ) {
-
-            CapacitorNode capacitorNode = new CapacitorNode( capacitor, mvt, plateChargesVisible, eFieldVisible, dielectricChargeView,
-                                                             maxPlateCharge, maxExcessDielectricPlateCharge, maxEffectiveEField, maxDielectricEField );
-            capacitorNode.getDielectricNode().setVisible( false );
-            parentNode.addChild( capacitorNode );
-            // capacitor at model location
-            pView = mvt.modelToView( capacitor.getLocation() );
-            capacitorNode.setOffset( pView );
-
-            CapacitanceControlNode capacitanceControlNode = new CapacitanceControlNode( capacitor,
-                                                                                        MultipleCapacitorsModel.CAPACITANCE_RANGE, MultipleCapacitorsModel.CAPACITANCE_DISPLAY_EXPONENT );
-            parentNode.addChild( capacitanceControlNode );
-            // control to left of capacitor
-            capacitanceControlNode.setOffset( capacitorNode.getFullBoundsReference().getX() - capacitanceControlNode.getFullBoundsReference().getWidth() - 10,
-                                              capacitorNode.getYOffset() - ( capacitanceControlNode.getFullBoundsReference().getHeight() / 2 ) );
+        else {
+            return new PNode();
         }
-
-        return parentNode;
     }
 
 
