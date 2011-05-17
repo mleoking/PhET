@@ -5,7 +5,6 @@ Scissors bug on Mac?
 Bucket phetcommon cleanup
 Icon improvement
 Weird 3d structures?
-Add in "molecule data loading"?
 Size improvement on structures.txt (and serialized format)
 Jmol loading speed is slow - speed up
 Experiment with true 2d structure and loops!
