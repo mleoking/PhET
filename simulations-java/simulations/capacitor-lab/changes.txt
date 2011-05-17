@@ -1,3 +1,4 @@
+5/17/11 tweak plate size and capacitor spacing so that 3 series and parallel capacitors fit in the play area
 5/17/11 add parallel circuits
 5/17/11 populate series circuit with capacitors
 5/17/11 first pass at Series circuits (not populated with capacitors yet)
