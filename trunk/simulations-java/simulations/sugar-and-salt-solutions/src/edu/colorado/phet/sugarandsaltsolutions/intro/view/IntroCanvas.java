@@ -10,7 +10,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
-import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsConfig;
+import edu.colorado.phet.sugarandsaltsolutions.common.SugarAndSaltSolutionsColorScheme;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.ConcentrationBarChart;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.ConductivityTesterToolboxNode;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.EvaporationSlider;
@@ -29,7 +29,7 @@ import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsAppli
  * @author Sam Reid
  */
 public class IntroCanvas extends SugarAndSaltSolutionsCanvas {
-    public IntroCanvas( final IntroModel model, SugarAndSaltSolutionsConfig config ) {
+    public IntroCanvas( final IntroModel model, SugarAndSaltSolutionsColorScheme config ) {
         super( model, model.anySolutes, config );
 
         //Button that maximizes the bar chart

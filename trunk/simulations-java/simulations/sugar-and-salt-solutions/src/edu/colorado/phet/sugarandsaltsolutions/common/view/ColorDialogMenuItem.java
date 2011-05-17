@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.sugarandsaltsolutions;
+package edu.colorado.phet.sugarandsaltsolutions.common.view;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
