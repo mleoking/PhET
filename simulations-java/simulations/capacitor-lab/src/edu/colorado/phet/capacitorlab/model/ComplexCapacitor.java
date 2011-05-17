@@ -33,10 +33,6 @@ import edu.colorado.phet.common.phetcommon.view.util.ShapeUtils;
  */
 public class ComplexCapacitor implements ICapacitor {
 
-    private static final double EPSILON_0 = CLConstants.EPSILON_0;
-    private static final double EPSILON_AIR = CLConstants.EPSILON_AIR;
-    private static final double EPSILON_VACUUM = CLConstants.EPSILON_VACUUM;
-
     private final CLModelViewTransform3D mvt;
     private final CapacitorShapeFactory shapeFactory;
     private final SimpleObserver propertiesObserver;
@@ -528,7 +524,7 @@ public class ComplexCapacitor implements ICapacitor {
      * @return excess charge, in Coulombs
      */
     public double getExcessAirPlateCharge() {
-        return getExcessPlateCharge( EPSILON_AIR, getAirCapacitance(), getPlatesVoltage() );
+        return getExcessPlateCharge( CLConstants.EPSILON_AIR, getAirCapacitance(), getPlatesVoltage() );
     }
 
     /**
@@ -553,7 +549,7 @@ public class ComplexCapacitor implements ICapacitor {
         if ( !( epsilon_r > 0 ) ) {
             throw new IllegalArgumentException( "model requires epsilon_r > 0 : " + epsilon_r );
         }
-        return ( ( epsilon_r - EPSILON_VACUUM ) / epsilon_r ) * C * V_plates; // Coulombs (1C = 1F * 1V)
+        return ( ( epsilon_r - CLConstants.EPSILON_VACUUM ) / epsilon_r ) * C * V_plates; // Coulombs (1C = 1F * 1V)
     }
 
     //----------------------------------------------------------------------------------
@@ -578,7 +574,7 @@ public class ComplexCapacitor implements ICapacitor {
      * @return E-field, in Volts/meter
      */
     public double getPlatesAirEField() {
-        return getPlatesEField( EPSILON_AIR, getPlatesVoltage(), getPlateSeparation() );
+        return getPlatesEField( CLConstants.EPSILON_AIR, getPlatesVoltage(), getPlateSeparation() );
     }
 
     /**
