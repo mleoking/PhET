@@ -1,3 +1,6 @@
+5/17/11 first pass at Series circuits (not populated with capacitors yet)
+5/17/11 create NullCircuit and NullCircuitNode, placeholders for circuits that haven't been implemented yet
+5/17/11 create base class for circuit nodes, AbstractCircuitNode
 5/17/11 move lots of stuff to AbstractCircuit
 5/17/11 add ICircuit.getCapacitors, create skeleton of SeriesCircuit, identify things to move to AbstractCircuit
 5/17/11 move battery and listeners to AbstractCircuit

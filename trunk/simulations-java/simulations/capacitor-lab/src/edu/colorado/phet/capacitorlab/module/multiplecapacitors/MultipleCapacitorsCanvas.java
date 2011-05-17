@@ -6,10 +6,7 @@ import java.awt.geom.Dimension2D;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLGlobalProperties;
-import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
-import edu.colorado.phet.capacitorlab.model.DielectricChargeView;
-import edu.colorado.phet.capacitorlab.model.ICircuit;
-import edu.colorado.phet.capacitorlab.model.SingleCircuit;
+import edu.colorado.phet.capacitorlab.model.*;
 import edu.colorado.phet.capacitorlab.module.CLCanvas;
 import edu.colorado.phet.capacitorlab.module.dielectric.DielectricModel;
 import edu.colorado.phet.capacitorlab.view.meters.BarMeterNode.CapacitanceMeterNode;
@@ -17,6 +14,8 @@ import edu.colorado.phet.capacitorlab.view.meters.BarMeterNode.PlateChargeMeterN
 import edu.colorado.phet.capacitorlab.view.meters.BarMeterNode.StoredEnergyMeterNode;
 import edu.colorado.phet.capacitorlab.view.meters.EFieldDetectorView;
 import edu.colorado.phet.capacitorlab.view.meters.VoltmeterView;
+import edu.colorado.phet.capacitorlab.view.multicaps.NullCircuitNode;
+import edu.colorado.phet.capacitorlab.view.multicaps.SeriesCircuitNode;
 import edu.colorado.phet.capacitorlab.view.multicaps.SingleCircuitNode;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -110,14 +109,25 @@ public class MultipleCapacitorsCanvas extends CLCanvas {
     //TODO revisit this after things are working
     // factory method for creating circuit nodes
     private PNode createCircuit( ICircuit circuit ) {
+        PNode circuitNode = null;
         if ( circuit instanceof SingleCircuit ) {
-            return new SingleCircuitNode( (SingleCircuit) circuit, mvt,
-                                          plateChargesVisible, eFieldVisible, dielectricChargeView,
-                                          maxPlateCharge, maxExcessDielectricPlateCharge, maxEffectiveEField, maxDielectricEField );
+            circuitNode = new SingleCircuitNode( (SingleCircuit) circuit, mvt,
+                                                 plateChargesVisible, eFieldVisible, dielectricChargeView,
+                                                 maxPlateCharge, maxExcessDielectricPlateCharge, maxEffectiveEField, maxDielectricEField );
+        }
+        else if ( circuit instanceof SeriesCircuit ) {
+            circuitNode = new SeriesCircuitNode( (SeriesCircuit) circuit, mvt,
+                                                 plateChargesVisible, eFieldVisible, dielectricChargeView,
+                                                 maxPlateCharge, maxExcessDielectricPlateCharge, maxEffectiveEField, maxDielectricEField );
+        }
+        else if ( circuit instanceof NullCircuit ) {
+            circuitNode = new NullCircuitNode( (NullCircuit) circuit, mvt );
         }
         else {
-            return new PNode();
+            circuitNode = new PNode();
         }
+        System.out.println( "MultipleCapacitorsCanvas.createCircuit return=" + circuitNode.getClass().getName() );//XXX
+        return circuitNode;
     }
 
 

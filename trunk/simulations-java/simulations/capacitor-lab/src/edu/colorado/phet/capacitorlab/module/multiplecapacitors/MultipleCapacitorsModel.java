@@ -2,15 +2,14 @@
 
 package edu.colorado.phet.capacitorlab.module.multiplecapacitors;
 
-import java.awt.*;
 import java.util.ArrayList;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLStrings;
-import edu.colorado.phet.capacitorlab.model.*;
 import edu.colorado.phet.capacitorlab.model.BarMeter.CapacitanceMeter;
 import edu.colorado.phet.capacitorlab.model.BarMeter.PlateChargeMeter;
 import edu.colorado.phet.capacitorlab.model.BarMeter.StoredEnergyMeter;
+import edu.colorado.phet.capacitorlab.model.*;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial.Air;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
@@ -48,12 +47,12 @@ public class MultipleCapacitorsModel {
         // create circuits
         circuits = new ArrayList<ICircuit>() {{
             add( new SingleCircuit( clock, mvt, BATTERY_LOCATION, SINGLE_CAPACITOR_LOCATION, PLATE_WIDTH, PLATE_SEPARATION, DIELECTRIC_MATERIAL, DIELECTRIC_OFFSET ) );
-            add( new DummyCircuit( CLStrings.TWO_IN_SERIES, mvt ) );
-            add( new DummyCircuit( CLStrings.THREE_IN_SERIES, mvt ) );
-            add( new DummyCircuit( CLStrings.TWO_IN_PARALLEL, mvt ) );
-            add( new DummyCircuit( CLStrings.THREE_IN_PARALLEL, mvt ) );
-            add( new DummyCircuit( CLStrings.COMBINATION_1, mvt ) );
-            add( new DummyCircuit( CLStrings.COMBINATION_2, mvt ) );
+            add( new SeriesCircuit( CLStrings.TWO_IN_SERIES, clock, mvt, BATTERY_LOCATION, 2, PLATE_WIDTH, PLATE_SEPARATION, DIELECTRIC_MATERIAL, DIELECTRIC_OFFSET ) );
+            add( new SeriesCircuit( CLStrings.THREE_IN_SERIES, clock, mvt, BATTERY_LOCATION, 3, PLATE_WIDTH, PLATE_SEPARATION, DIELECTRIC_MATERIAL, DIELECTRIC_OFFSET ) );
+            add( new NullCircuit( CLStrings.TWO_IN_PARALLEL, mvt, BATTERY_LOCATION ) );
+            add( new NullCircuit( CLStrings.THREE_IN_PARALLEL, mvt, BATTERY_LOCATION ) );
+            add( new NullCircuit( CLStrings.COMBINATION_1, mvt, BATTERY_LOCATION ) );
+            add( new NullCircuit( CLStrings.COMBINATION_2, mvt, BATTERY_LOCATION ) );
         }};
 
         currentCircuit = new Property<ICircuit>( circuits.get( 0 ) );
@@ -126,30 +125,5 @@ public class MultipleCapacitorsModel {
 
     public Voltmeter getVoltmeter() {
         return voltmeter;
-    }
-
-    //TODO delete this when all circuits are implemented
-    // This circuit does nothing.
-    private static class DummyCircuit extends AbstractCircuit {
-
-        public DummyCircuit( String displayName, CLModelViewTransform3D mvt ) {
-            super( displayName, mvt, new Point3D.Double() );
-        }
-
-        public ArrayList<Capacitor> getCapacitors() {
-            return new ArrayList<Capacitor>();
-        }
-
-        public double getTotalCapacitance() {
-            return 0;
-        }
-
-        public double getTotalCharge() {
-            return 0;
-        }
-
-        public double getVoltageAt( Shape shape ) {
-            return 0;
-        }
     }
 }
