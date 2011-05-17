@@ -18,6 +18,11 @@ import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 
+/**
+ * Model for the "Multiple Capacitors" module.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class MultipleCapacitorsModel {
 
     //TODO decide whether these should live here
@@ -71,13 +76,10 @@ public class MultipleCapacitorsModel {
                                    CLConstants.VOLTMETER_BODY_LOCATION, CLConstants.VOLTMETER_POSITIVE_PROBE_LOCATION, CLConstants.VOLTMETER_NEGATIVE_PROBE_LOCATION,
                                    CLConstants.VOLTMETER_VISIBLE );
 
-
         // when the circuit changes...
         currentCircuit.addObserver( new SimpleObserver() {
             public void update() {
                 ICircuit circuit = currentCircuit.get();
-                System.out.println( "MultipleCapacitorsModel$SimpleObserver.update circuit=" + circuit.getDisplayName() );//XXX
-                //TODO change circuit based on selection
                 capacitanceMeter.setCircuit( circuit );
                 plateChargeMeter.setCircuit( circuit );
                 storedEnergyMeter.setCircuit( circuit );
