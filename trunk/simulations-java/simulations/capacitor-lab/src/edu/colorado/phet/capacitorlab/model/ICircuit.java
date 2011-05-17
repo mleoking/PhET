@@ -51,6 +51,9 @@ public interface ICircuit {
      */
     double getStoredEnergy();
 
+
+    double getTotalVoltage();
+
     /**
      * Gets the voltage between 2 Shapes. The shapes are in world coordinates.
      *
@@ -59,6 +62,14 @@ public interface ICircuit {
      * @return voltage, Double.NaN if the 2 Shape are not both connected to the circuit
      */
     double getVoltageBetween( Shape positiveShape, Shape negativeShape );
+
+    /**
+     * Gets the voltage at a shape, with respect to ground.
+     *
+     * @param shape
+     * @return voltage, Double.NaN if the Shape is not connected to the circuit
+     */
+    double getVoltageAt( Shape shape );
 
     /**
      * Gets the effective E-field at a specified location.

@@ -41,15 +41,18 @@ public class SingleCircuit extends AbstractCircuit {
     private double disconnectedPlateCharge; // charge set manually by the user, used when battery is disconnected
     private double previousTotalCharge; // total charge the previous time the clock ticked, used to compute current amplitude
 
-    public SingleCircuit( IClock clock, CLModelViewTransform3D mvt, double plateWidth, double plateSeparation, DielectricMaterial dielectricMaterial, double dielectricOffset ) {
-        this( clock, mvt, plateWidth, plateSeparation, dielectricMaterial, dielectricOffset, true /* batteryConnected */ );
+    public SingleCircuit( IClock clock, CLModelViewTransform3D mvt, Point3D batteryLocation, Point3D capacitorLocation,
+                          double plateWidth, double plateSeparation, DielectricMaterial dielectricMaterial, double dielectricOffset ) {
+        this( clock, mvt, batteryLocation, capacitorLocation, plateWidth, plateSeparation, dielectricMaterial, dielectricOffset, true /* batteryConnected */ );
     }
 
-    public SingleCircuit( IClock clock, CLModelViewTransform3D mvt, double plateWidth, double plateSeparation, DielectricMaterial dielectricMaterial, double dielectricOffset, boolean batteryConnected ) {
-        super( CLStrings.SINGLE, mvt );
+    public SingleCircuit( IClock clock, CLModelViewTransform3D mvt, Point3D batteryLocation, Point3D capacitorLocation,
+                          double plateWidth, double plateSeparation, DielectricMaterial dielectricMaterial, double dielectricOffset,
+                          boolean batteryConnected ) {
+        super( CLStrings.SINGLE, mvt, batteryLocation );
 
         this.clock = clock;
-        this.capacitor = new Capacitor( CLConstants.CAPACITOR_LOCATION, plateWidth, plateSeparation, dielectricMaterial, dielectricOffset, mvt );
+        this.capacitor = new Capacitor( capacitorLocation, plateWidth, plateSeparation, dielectricMaterial, dielectricOffset, mvt );
         this.batteryConnectedProperty = new Property<Boolean>( batteryConnected );
         this.disconnectedPlateCharge = getTotalCharge();
         this.previousTotalCharge = getTotalCharge();
@@ -169,17 +172,17 @@ public class SingleCircuit extends AbstractCircuit {
     // Plate voltage (V)
     //----------------------------------------------------------------------------------
 
-    // @see ICircuit.getVoltageBetween
-    public double getVoltageBetween( Shape positiveShape, Shape negativeShape ) {
-        return getVoltage( positiveShape ) - getVoltage( negativeShape );
+    public double getTotalVoltage() {
+        if ( isBatteryConnected() ) {
+            return super.getTotalVoltage();
+        }
+        else {
+            return capacitor.getPlatesVoltage();
+        }
     }
 
-    /*
-     * Gets the voltage at a Shape.
-     * @param p
-     * @return
-     */
-    private double getVoltage( Shape s ) {
+    // @see ICircuit.getVoltageAt
+    public double getVoltageAt( Shape s ) {
         double voltage = Double.NaN;
         if ( isBatteryConnected() && topWire.intersects( s ) ) {
             voltage = topWire.getVoltage();
@@ -241,54 +244,6 @@ public class SingleCircuit extends AbstractCircuit {
     // @see ICircuit.getTotalCharge
     public double getTotalCharge() {
         return capacitor.getTotalPlateCharge();
-    }
-
-    //----------------------------------------------------------------------------------
-    // E-Field (E)
-    //----------------------------------------------------------------------------------
-
-    // @see ICircuit.getEffectiveEFieldAt
-    public double getEffectiveEFieldAt( Point3D location ) {
-        double eField = 0;
-        if ( capacitor.isBetweenPlatesShape( location ) ) {
-            eField = capacitor.getEffectiveEField();
-        }
-        return eField;
-    }
-
-    // @see ICircuit.getPlatesDielectricEFieldAt
-    public double getPlatesDielectricEFieldAt( Point3D location ) {
-        double eField = 0;
-        if ( capacitor.isInsideDielectricBetweenPlatesShape( location ) ) {
-            eField = capacitor.getPlatesDielectricEField();
-        }
-        else if ( capacitor.isInsideAirBetweenPlatesShape( location ) ) {
-            eField = capacitor.getPlatesAirEField();
-        }
-        return eField;
-    }
-
-    // @see ICircuit.getDielectricEFieldAt
-    public double getDielectricEFieldAt( Point3D location ) {
-        double eField = 0;
-        if ( capacitor.isInsideDielectricBetweenPlatesShape( location ) ) {
-            eField = capacitor.getDielectricEField();
-        }
-        else if ( capacitor.isInsideAirBetweenPlatesShape( location ) ) {
-            eField = capacitor.getAirEField();
-        }
-        return eField;
-    }
-
-    //----------------------------------------------------------------------------------
-    // Stored Energy (U)
-    //----------------------------------------------------------------------------------
-
-    // @see ICircuit.getStoredEnergy
-    public double getStoredEnergy() {
-        double C_total = capacitor.getTotalCapacitance(); // F
-        double V_plates = capacitor.getPlatesVoltage(); // V
-        return 0.5 * C_total * V_plates * V_plates; // Joules (J)
     }
 
     //----------------------------------------------------------------------------------

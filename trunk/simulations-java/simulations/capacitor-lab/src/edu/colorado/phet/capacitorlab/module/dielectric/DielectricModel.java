@@ -33,7 +33,8 @@ public class DielectricModel {
 
         this.dielectricMaterials = dielectricMaterials;
 
-        circuit = new SingleCircuit( clock, mvt, CLConstants.PLATE_WIDTH_RANGE.getDefault(), CLConstants.PLATE_SEPARATION_RANGE.getDefault(),
+        circuit = new SingleCircuit( clock, mvt, CLConstants.BATTERY_LOCATION, CLConstants.CAPACITOR_LOCATION,
+                                     CLConstants.PLATE_WIDTH_RANGE.getDefault(), CLConstants.PLATE_SEPARATION_RANGE.getDefault(),
                                      dielectricMaterials[0], dielectricOffset, CLConstants.BATTERY_CONNECTED );
 
         capacitanceMeter = new CapacitanceMeter( circuit, worldBounds, CLConstants.CAPACITANCE_METER_LOCATION, CLConstants.CAPACITANCE_METER_VISIBLE );
@@ -150,7 +151,10 @@ public class DielectricModel {
         CLModelViewTransform3D mvt = new CLModelViewTransform3D();
         DielectricMaterial material = new CustomDielectricMaterial( CLConstants.DIELECTRIC_CONSTANT_RANGE.getMin() );
         SingleCircuit circuit = new SingleCircuit( new CLClock(),
-                                                   mvt, CLConstants.PLATE_WIDTH_RANGE.getMin(),
+                                                   mvt,
+                                                   CLConstants.BATTERY_LOCATION,
+                                                   CLConstants.CAPACITOR_LOCATION,
+                                                   CLConstants.PLATE_WIDTH_RANGE.getMin(),
                                                    CLConstants.PLATE_SEPARATION_RANGE.getMin(),
                                                    material, CLConstants.DIELECTRIC_OFFSET_RANGE.getMin(),
                                                    false /* batteryConnected */
@@ -168,7 +172,10 @@ public class DielectricModel {
         CLModelViewTransform3D mvt = new CLModelViewTransform3D();
         DielectricMaterial material = new CustomDielectricMaterial( CLConstants.DIELECTRIC_CONSTANT_RANGE.getMax() );
         SingleCircuit circuit = new SingleCircuit( new CLClock(),
-                                                   mvt, CLConstants.PLATE_WIDTH_RANGE.getMin(),
+                                                   mvt,
+                                                   CLConstants.BATTERY_LOCATION,
+                                                   CLConstants.CAPACITOR_LOCATION,
+                                                   CLConstants.PLATE_WIDTH_RANGE.getMin(),
                                                    CLConstants.PLATE_SEPARATION_RANGE.getMin(),
                                                    material,
                                                    CLConstants.DIELECTRIC_OFFSET_RANGE.getMax(),
