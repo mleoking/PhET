@@ -29,6 +29,8 @@ import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType
 import static edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas.canvasSize;
 
 /**
+ * Base class model for Sugar and Salt Solutions, which keeps track of the physical model as well as the MVC model for view components (such as whether certain components are enabled).
+ *
  * @author Sam Reid
  */
 public abstract class SugarAndSaltSolutionModel implements ResetModel {
