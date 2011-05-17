@@ -555,7 +555,7 @@ public class Kit {
         MoleculeStructure struc = getMoleculeStructure( a );
         if ( struc.getAtoms().size() > 2 ) {
             for ( MoleculeStructure.Bond bond : struc.getBonds() ) {
-                if ( bond.a.isSameElement( bond.b ) && bond.a.getSymbol().equals( "H" ) ) {
+                if ( bond.a.hasSameElement( bond.b ) && bond.a.getSymbol().equals( "H" ) ) {
                     System.out.println( "WARNING: Hydrogen bonded to another hydrogen in a molecule which is not diatomic hydrogen" );
                 }
             }

@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.chemistry.molecules;
 
-import edu.colorado.phet.chemistry.model.Atomic;
+import edu.colorado.phet.chemistry.model.Element;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.piccolophet.nodes.ShadedSphereNode;
 
@@ -31,7 +31,7 @@ public class AtomNode extends ShadedSphereNode {
         }
     };
 
-    public AtomNode( Atomic atom ) {
-        super( 2 * RADIUS_SCALING_FUNCTION.apply( atom.getRadius() ), atom.getColor() );
+    public AtomNode( Element element ) {
+        super( 2 * RADIUS_SCALING_FUNCTION.apply( element.getRadius() ), element.getColor() );
     }
 }
