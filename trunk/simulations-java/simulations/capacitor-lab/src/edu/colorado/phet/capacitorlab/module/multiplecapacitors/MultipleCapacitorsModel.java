@@ -26,14 +26,17 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 public class MultipleCapacitorsModel {
 
     //TODO decide whether these should live here
-    public static final Point3D BATTERY_LOCATION = new Point3D.Double( 0.005, 0.034, 0 ); // meters
+    public static final Point3D BATTERY_LOCATION = new Point3D.Double( 0.005, 0.028, 0 ); // meters
     public static final Point3D SINGLE_CAPACITOR_LOCATION = new Point3D.Double( BATTERY_LOCATION.getX() + 0.025, BATTERY_LOCATION.getY(), 0 ); // meters
-    public static final DoubleRange CAPACITANCE_RANGE = new DoubleRange( 1E-13, 4E-13 ); // Farads
+    public static final DoubleRange CAPACITANCE_RANGE = new DoubleRange( 2E-13, 5E-13 ); // Farads
     public static final int CAPACITANCE_DISPLAY_EXPONENT = -13;
     public static final DielectricMaterial DIELECTRIC_MATERIAL = new Air();
     public static final double DIELECTRIC_OFFSET = 0;
     public static final double PLATE_WIDTH = 0.01; // meters
     public static final double PLATE_SEPARATION = Capacitor.getPlateSeparation( DIELECTRIC_MATERIAL.getDielectricConstant(), PLATE_WIDTH, CAPACITANCE_RANGE.getMin() );
+    public static final double CAPACITOR_X_SPACING = 0.025;  // meters
+    public static final double CAPACITOR_Y_SPACING = 0.015; // meters
+
 
     private final ArrayList<ICircuit> circuits; // the set of circuits to choose from
 
