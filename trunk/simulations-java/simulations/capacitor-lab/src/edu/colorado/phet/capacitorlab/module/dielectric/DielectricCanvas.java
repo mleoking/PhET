@@ -85,13 +85,13 @@ public class DielectricCanvas extends CLCanvas {
         // maximums
         final double maxPlateCharge = DielectricModel.getMaxPlateCharge();
         final double maxExcessDielectricPlateCharge = DielectricModel.getMaxExcessDielectricPlateCharge();
-        final double maxEffectiveEfield = DielectricModel.getMaxEffectiveEfield();
+        final double maxEffectiveEField = DielectricModel.getMaxEffectiveEField();
         final double maxDielectricEField = DielectricModel.getMaxDielectricEField();
         final double eFieldVectorReferenceMagnitude = DielectricModel.getMaxPlatesDielectricEFieldWithBattery();
 
         batteryNode = new BatteryNode( model.getBattery(), CLConstants.BATTERY_VOLTAGE_RANGE );
         capacitorNode = new CapacitorNode( model.getCapacitor(), mvt, plateChargesVisible, eFieldVisible, dielectricChargeView,
-                                           maxPlateCharge, maxExcessDielectricPlateCharge, maxEffectiveEfield, maxDielectricEField ) {{
+                                           maxPlateCharge, maxExcessDielectricPlateCharge, maxEffectiveEField, maxDielectricEField ) {{
             if ( dielectricVisible ) {
                 // make dielectric directly draggable
                 getDielectricNode().addInputEventListener( new CursorHandler( Cursor.E_RESIZE_CURSOR ) );
