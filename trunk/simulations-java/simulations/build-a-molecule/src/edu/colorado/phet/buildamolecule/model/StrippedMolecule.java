@@ -77,14 +77,7 @@ public class StrippedMolecule {
             // same instance
             return true;
         }
-//        if ( this.original.getAtoms().size() != other.original.getAtoms().size() ) {
-//            // must have same number of atoms
-//            return false;
-//        }
-//        if ( !this.original.getHistogram().equals( other.original.getHistogram() ) ) {
-//            // different molecular formula
-//            return false;
-//        }
+
         if ( this.stripped.getAtoms().size() == 0 && other.stripped.getAtoms().size() == 0 ) {
             return true;
         }
@@ -105,12 +98,7 @@ public class StrippedMolecule {
             // same instance
             return true;
         }
-//        if ( this.original.getAtoms().size() < other.original.getAtoms().size() ) {
-//            return false;
-//        }
-//        if ( !this.original.getHistogram().containsAsSubset( other.original.getHistogram() ) ) {
-//            return false;
-//        }
+
         if ( stripped.getAtoms().size() == 0 ) {
             // if we have no heavy atoms
             return other.stripped.getAtoms().size() == 0;
