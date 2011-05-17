@@ -125,8 +125,13 @@ public class EFieldNode extends PhetPNode {
      * @return spacing, in model coordinates
      */
     private double getLineSpacing( double effectiveEField ) {
-        final int numberOfLines = getNumberOfLines( effectiveEField );
-        return CLConstants.PLATE_WIDTH_RANGE.getMin() / Math.sqrt( numberOfLines ); // assumes a square plate!;
+        if ( effectiveEField == 0 ) {
+            return 0;
+        }
+        else {
+            final int numberOfLines = getNumberOfLines( effectiveEField );
+            return CLConstants.PLATE_WIDTH_RANGE.getMin() / Math.sqrt( numberOfLines ); // assumes a square plate!;
+        }
     }
 
     /*

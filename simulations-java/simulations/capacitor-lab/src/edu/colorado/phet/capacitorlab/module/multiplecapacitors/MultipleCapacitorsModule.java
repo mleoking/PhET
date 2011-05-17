@@ -28,7 +28,7 @@ public class MultipleCapacitorsModule extends CLModule {
         canvas = new MultipleCapacitorsCanvas( model, mvt, globalProperties );
         setSimulationPanel( canvas );
 
-        controlPanel = new MultipleCapacitorsControlPanel( this, model, globalProperties );
+        controlPanel = new MultipleCapacitorsControlPanel( this, model, canvas, globalProperties );
         setControlPanel( controlPanel );
     }
 
