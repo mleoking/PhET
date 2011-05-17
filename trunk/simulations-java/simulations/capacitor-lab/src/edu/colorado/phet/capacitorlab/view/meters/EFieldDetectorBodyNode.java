@@ -79,7 +79,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
     private final Point2D connectionOffset; // offset for connection point of wire that attaches probe to body
     private final ZoomPanel zoomPanel;
 
-    public EFieldDetectorBodyNode( final EFieldDetector detector, final CLModelViewTransform3D mvt, double vectorReferenceMagnitude ) {
+    public EFieldDetectorBodyNode( final EFieldDetector detector, final CLModelViewTransform3D mvt, double vectorReferenceMagnitude, boolean simplified ) {
 
         // title that appears at the top
         PText titleNode = new PText( CLStrings.ELECTRIC_FIELD ) {{
@@ -109,9 +109,11 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 
         // display area for vectors and values
         viewportNode = new ViewportNode( detector, vectorReferenceMagnitude, zoomPanel.zoomInEnabledProperty, zoomPanel.zoomOutEnabledProperty );
+        viewportNode.setSimplified( simplified );
 
         // Vector controls
         showVectorsPSwing = new PSwing( new ShowVectorsPanel( detector ) );
+        showVectorsPSwing.setVisible( !simplified );
 
         // Show Values check box
         PSwing showValuesPSwing = new PSwing( new DetectorCheckBox( CLStrings.SHOW_VALUES, detector.valuesVisibleProperty, CONTROL_COLOR ) );
@@ -178,17 +180,6 @@ import edu.umd.cs.piccolox.pswing.PSwing;
                 setOffset( mvt.modelToView( detector.bodyLocationProperty.get() ) );
             }
         } );
-    }
-
-    /**
-     * Calling this with true provides a simplified E-Field detector,
-     * with fewer controls and fewer visible vectors.
-     *
-     * @param simplified
-     */
-    public void setSimplified( boolean simplified ) {
-        showVectorsPSwing.setVisible( !simplified );
-        viewportNode.setSimplified( simplified );
     }
 
     public Point2D getConnectionOffset() {

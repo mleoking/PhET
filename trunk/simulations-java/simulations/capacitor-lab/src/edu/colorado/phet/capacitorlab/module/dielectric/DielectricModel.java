@@ -8,9 +8,6 @@ import edu.colorado.phet.capacitorlab.model.BarMeter.PlateChargeMeter;
 import edu.colorado.phet.capacitorlab.model.BarMeter.StoredEnergyMeter;
 import edu.colorado.phet.capacitorlab.model.*;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial.CustomDielectricMaterial;
-import edu.colorado.phet.capacitorlab.model.DielectricMaterial.Glass;
-import edu.colorado.phet.capacitorlab.model.DielectricMaterial.Paper;
-import edu.colorado.phet.capacitorlab.model.DielectricMaterial.Teflon;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 
@@ -22,7 +19,6 @@ import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 public class DielectricModel {
 
     private final WorldBounds worldBounds;
-    private final CustomDielectricMaterial customDielectricMaterial;
     private final DielectricMaterial[] dielectricMaterials;
     private final BatteryCapacitorCircuit circuit;
     private final CapacitanceMeter capacitanceMeter;
@@ -31,16 +27,15 @@ public class DielectricModel {
     private final EFieldDetector eFieldDetector;
     private final Voltmeter voltmeter;
 
-    public DielectricModel( IClock clock, CLModelViewTransform3D mvt ) {
+    public DielectricModel( IClock clock, CLModelViewTransform3D mvt, double dielectricOffset, DielectricMaterial[] dielectricMaterials ) {
 
         worldBounds = new WorldBounds();
 
-        customDielectricMaterial = new CustomDielectricMaterial( CLConstants.DIELECTRIC_CONSTANT_RANGE.getDefault() );
-        dielectricMaterials = new DielectricMaterial[] { customDielectricMaterial, new Teflon(), new Paper(), new Glass() };
+        this.dielectricMaterials = dielectricMaterials;
 
         Battery battery = new Battery( CLConstants.BATTERY_LOCATION, CLConstants.BATTERY_VOLTAGE_RANGE.getDefault(), mvt );
         ComplexCapacitor capacitor = new ComplexCapacitor( CLConstants.CAPACITOR_LOCATION, CLConstants.PLATE_WIDTH_RANGE.getDefault(), CLConstants.PLATE_SEPARATION_RANGE.getDefault(),
-                                                           customDielectricMaterial, CLConstants.PLATE_WIDTH_RANGE.getDefault() /* dielectricOffset */, mvt );
+                                                           dielectricMaterials[0], dielectricOffset, mvt );
         circuit = new BatteryCapacitorCircuit( clock, battery, capacitor, CLConstants.BATTERY_CONNECTED, mvt );
 
         capacitanceMeter = new CapacitanceMeter( circuit, worldBounds, CLConstants.CAPACITANCE_METER_LOCATION, CLConstants.CAPACITANCE_METER_VISIBLE );
@@ -107,7 +102,9 @@ public class DielectricModel {
     public void reset() {
         getBattery().reset();
         getCapacitor().reset();
-        customDielectricMaterial.reset();
+        for ( DielectricMaterial material : dielectricMaterials ) {
+            material.reset();
+        }
         capacitanceMeter.reset();
         plateChargeMeter.reset();
         storedEnergyMeter.reset();

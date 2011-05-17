@@ -26,7 +26,6 @@ HIGH PRIORITY
 
 MEDUIUM PRIORITY
 - add "air" dielectric, figure out how to make it the dielectric in Intro tab
-- redesign "IntroductionModule extends DielectricModule"
 - convert DielectricMaterialControl to use PropertyRadioButton and Property<DielectricMaterial> dielectricMaterial
 - convert DielectricConstantControl to use Property<Double> dielectricConstant
 - convert VoltageSliderNode to use Property<Double> voltage
@@ -37,6 +36,7 @@ MEDUIUM PRIORITY
 - add setCircuit methods to all persistent controls
 
 LOW PRIORITY
+- would it be OK to have the dielectric fully inserted (offset=0) in the Intro tab?
 - Win: need some space between dielectric material combo box and separator below it
 - add circuit construction to Multiple Capacitors tab?
 - small (100mm^2) capacitor plates look like they are at a 46-degree yaw, instead of 45-degree

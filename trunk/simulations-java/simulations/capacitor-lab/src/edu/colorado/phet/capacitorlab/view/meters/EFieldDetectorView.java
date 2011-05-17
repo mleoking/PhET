@@ -27,8 +27,8 @@ public class EFieldDetectorView {
     private final EFieldDetectorProbeNode probeNode;
     private final ProbeWireNode wireNode;
 
-    public EFieldDetectorView( final EFieldDetector detector, CLModelViewTransform3D mvt, double vectorReferenceMagnitude, boolean dev ) {
-        bodyNode = new EFieldDetectorBodyNode( detector, mvt, vectorReferenceMagnitude );
+    public EFieldDetectorView( final EFieldDetector detector, CLModelViewTransform3D mvt, double vectorReferenceMagnitude, boolean dev, boolean simplified ) {
+        bodyNode = new EFieldDetectorBodyNode( detector, mvt, vectorReferenceMagnitude, simplified );
         probeNode = new EFieldDetectorProbeNode( detector, mvt, dev );
         wireNode = new ProbeWireNode( bodyNode, probeNode, BODY_CONTROL_POINT_OFFSET, PROBE_CONTROL_POINT_OFFSET,
                                       bodyNode.getConnectionOffset(), probeNode.getConnectionOffset(), CLPaints.EFIELD_DETECTOR_WIRE );
@@ -56,9 +56,5 @@ public class EFieldDetectorView {
 
     public PNode getWireNode() {
         return wireNode;
-    }
-
-    public void setSimplified( boolean simplified ) {
-        bodyNode.setSimplified( simplified );
     }
 }
