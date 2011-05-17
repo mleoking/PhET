@@ -155,7 +155,8 @@ public abstract class SugarAndSaltSolutionModel implements ResetModel {
                                       waterBounds.contains( conductivityTester.getNegativeProbeLocationReference() );
 
         //Set the brightness to be a linear function of the salt concentration (but keeping it bounded between 0 and 1 which are the limits of the conductivity tester brightness
-        conductivityTester.brightness.set( bothProbesSubmerged ? MathUtil.clamp( 0, getSaltConcentration() * 2 * 1E-4, 1 ) : 0.0 );
+        //Use a scale factor that matches up with the
+        conductivityTester.brightness.set( bothProbesSubmerged ? MathUtil.clamp( 0, getSaltConcentration() * 1.62E-4, 1 ) : 0.0 );
     }
 
     public abstract double getSaltConcentration();
