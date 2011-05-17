@@ -2,13 +2,10 @@
 
 package edu.colorado.phet.capacitorlab.view;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Paint;
-import java.awt.Stroke;
+import java.awt.*;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit;
+import edu.colorado.phet.capacitorlab.model.SingleCircuit;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
@@ -23,7 +20,7 @@ import edu.umd.cs.piccolo.activities.PActivity.PActivityDelegate;
  * Visibility of this node is handled via its transparency.
  * The node appears while current is flowing.
  * When current stops flowing, the node fades out over a period of time.
- * <p>
+ * <p/>
  * By default, the arrow points to the left.
  * Origin is at the geometric center, so that this node can be easily
  * rotated when current changes direction.
@@ -55,7 +52,7 @@ public class CurrentIndicatorNode extends PhetPNode {
     private static final long FADEOUT_DURATION = 500; // ms
     private static final long FADEOUT_STEP_RATE = 10; // ms
 
-    private final BatteryCapacitorCircuit circuit;
+    private final SingleCircuit circuit;
     private final double positiveOrientation;
     private PActivity fadeOutActivity;
 
@@ -64,10 +61,10 @@ public class CurrentIndicatorNode extends PhetPNode {
      * Rotation angles should be set such that +dV/dt indicates
      * current flow towards the positive terminal of the battery.
      *
-     * @param circuit circuit model
+     * @param circuit             circuit model
      * @param positiveOrientation rotation angle for +dV/dt (radians)
      */
-    public CurrentIndicatorNode( BatteryCapacitorCircuit circuit, double positiveOrientation ) {
+    public CurrentIndicatorNode( SingleCircuit circuit, double positiveOrientation ) {
 
         this.circuit = circuit;
         this.positiveOrientation = positiveOrientation;
@@ -141,10 +138,12 @@ public class CurrentIndicatorNode extends PhetPNode {
                         fadeOutActivity = null;
                     }
 
-                    public void activityStarted( PActivity activity ) {}
+                    public void activityStarted( PActivity activity ) {
+                    }
 
-                    public void activityStepped( PActivity activity ) {}
-                });
+                    public void activityStepped( PActivity activity ) {
+                    }
+                } );
                 getRoot().addActivity( fadeOutActivity ); // schedule the activity
             }
         }

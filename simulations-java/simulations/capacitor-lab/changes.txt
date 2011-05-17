@@ -1,3 +1,4 @@
+5/17/11 rename BatteryCapacitorCircuit to SingleCircuit
 5/17/11 attach charge and E-field visibility properties to control panel
 5/17/11 fix EFieldNode.getLineSpacing for effectiveEField=0
 5/17/11 consolidate model constants in MultipleCapacitorsModel for now
