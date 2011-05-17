@@ -151,14 +151,14 @@ public abstract class SugarAndSaltSolutionModel implements ResetModel {
     //Update the conductivity tester brightness when the probes come into contact with (or stop contacting) the fluid
     protected void updateConductivityTesterBrightness() {
 
-        //Check for a collision with the probes
+        //Check for a collision with the probe, using the full region of each probe (so if any part intersects, there is still an electrical connection).
         Rectangle2D waterBounds = water.getShape().getBounds2D();
-        boolean bothProbesSubmerged = waterBounds.contains( conductivityTester.getPositiveProbeLocationReference() ) &&
-                                      waterBounds.contains( conductivityTester.getNegativeProbeLocationReference() );
+        boolean bothProbesTouching = waterBounds.intersects( conductivityTester.getPositiveProbeRegion().toRectangle2D() ) &&
+                                     waterBounds.intersects( conductivityTester.getNegativeProbeRegion().toRectangle2D() );
 
         //Set the brightness to be a linear function of the salt concentration (but keeping it bounded between 0 and 1 which are the limits of the conductivity tester brightness
-        //Use a scale factor that matches up with the
-        conductivityTester.brightness.set( bothProbesSubmerged ? MathUtil.clamp( 0, getSaltConcentration() * 1.62E-4, 1 ) : 0.0 );
+        //Use a scale factor that matches up with the limits on saturation (manually sampled at runtime)
+        conductivityTester.brightness.set( bothProbesTouching ? MathUtil.clamp( 0, getSaltConcentration() * 1.62E-4, 1 ) : 0.0 );
     }
 
     public abstract double getSaltConcentration();
