@@ -1,3 +1,4 @@
+Fixed: light rays intercept mouse events, making it difficult to use the upper faucet slider
 Made so that any part of the conductivity tester probe conducts instead of just the very center of the tip
 # 0.00.12 (52008) May 16, 2011
 Changed brightness range so that it can accommodate the entire salinity range, up to saturation

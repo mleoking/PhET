@@ -43,7 +43,6 @@ import edu.umd.cs.piccolox.nodes.PComposite;
     /**
      * Sole constructor.
      *
-     * @param component  the parent Component
      * @param bulbRadius the radius of the lightbulb
      */
     public LightRaysNode( double bulbRadius ) {
@@ -61,6 +60,9 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 
         update();
 
+        //Make it so the light bulb rays don't intercept mouse events.  I added this since the light rays were getting in the way of the faucet slider in "sugar and salt solutions"
+        setPickable( false );
+        setChildrenPickable( false );
     }
 
     public void setIntensity( double intensity ) {
