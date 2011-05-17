@@ -4,6 +4,7 @@ package edu.colorado.phet.sugarandsaltsolutions.intro;
 import java.awt.*;
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.Plus;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -59,7 +60,7 @@ public class IntroCanvas extends SugarAndSaltSolutionsCanvas {
         behindShakerNode.addChild( showBarChartPanel );
 
         //The bar chart itself (when toggled to be visible)
-        ConcentrationBarChart concentrationBarChart = new ConcentrationBarChart( model.saltConcentration, model.sugarConcentration, model.showConcentrationValues, model.showConcentrationBarChart ) {{
+        ConcentrationBarChart concentrationBarChart = new ConcentrationBarChart( model.salt.concentration, model.sugar.concentration, model.showConcentrationValues, model.showConcentrationBarChart ) {{
             setOffset( stageSize.getWidth() - getFullBoundsReference().width - INSET, INSET );
         }};
         behindShakerNode.addChild( concentrationBarChart );
@@ -77,5 +78,8 @@ public class IntroCanvas extends SugarAndSaltSolutionsCanvas {
             Point2D point = IntroCanvas.this.transform.modelToView( 0, -model.beaker.getWallWidth() / 2 );
             setOffset( point.getX() - getFullBounds().getWidth() / 2, point.getY() + INSET );
         }} );
+
+        //Show the precipitate as the sum of salt and sugar
+        submergedInWaterNode.addChild( new PrecipitateNode( transform, new Plus( model.salt.molesPrecipitated, model.sugar.molesPrecipitated ), model.beaker ) );
     }
 }

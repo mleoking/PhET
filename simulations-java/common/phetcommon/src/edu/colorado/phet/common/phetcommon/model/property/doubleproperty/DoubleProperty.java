@@ -30,4 +30,8 @@ public class DoubleProperty extends Property<Double> {
     public void add( double v ) {
         set( get() + v );
     }
+
+    public Times times( double b ) {
+        return new Times( this, new Property<Double>( b ) );
+    }
 }
