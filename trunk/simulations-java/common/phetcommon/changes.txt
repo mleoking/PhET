@@ -1,3 +1,4 @@
+5/17/11 Added CompositeDoubleProperty and reimplemented classes such as Plus, Times, Max, Min, Times using it to provide composition methods on the result
 5/16/11 Removed unused methods from MathUtil
 5/13/11 ImmutableRectangle2D: made final fields public and added a toRectangle2D method
 5/7/11 Fixed: NullPointerException when calling Module.setSimulationPanel(null), resolves #2812
