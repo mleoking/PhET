@@ -56,7 +56,7 @@ public class KitCollectionModel {
                     boolean wasDroppedInCollectionBox = false;
 
                     // don't drop an atom from the kit to the collection box directly
-                    if ( kit.isAtomInPlay( atom.getAtom() ) ) {
+                    if ( kit.isAtomInPlay( atom ) ) {
                         MoleculeStructure moleculeStructure = kit.getMoleculeStructure( atom );
 
                         // check to see if we are trying to drop it in a collection box.

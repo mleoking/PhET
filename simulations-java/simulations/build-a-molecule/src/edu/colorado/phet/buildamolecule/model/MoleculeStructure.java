@@ -10,6 +10,7 @@ import edu.colorado.phet.chemistry.utils.ChemUtils;
 /**
  * Represents a general molecular structure (without position or instance information).
  * <p/>
+ * TODO: consider using generics to specify atom type, with MoleculeStructure<T extends Atom>
  */
 public class MoleculeStructure {
     private Set<Atom> atoms = new HashSet<Atom>();
@@ -443,7 +444,7 @@ public class MoleculeStructure {
         Atom[] atoms = new Atom[atomCount];
 
         for ( int i = 0; i < atomCount; i++ ) {
-            atoms[i] = AtomModel.createAtomFromSymbol( t.nextToken() );
+            atoms[i] = Atom.createAtomFromSymbol( t.nextToken() );
             structure.addAtom( atoms[i] );
         }
 

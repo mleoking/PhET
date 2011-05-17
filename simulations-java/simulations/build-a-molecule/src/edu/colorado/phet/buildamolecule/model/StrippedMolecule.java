@@ -4,6 +4,7 @@ package edu.colorado.phet.buildamolecule.model;
 import java.util.*;
 
 import edu.colorado.phet.chemistry.model.Atom;
+import edu.colorado.phet.chemistry.model.Element;
 
 /**
  * Molecule structure with the hydrogens stripped out (but with the hydrogen count of an atom saved)
@@ -59,7 +60,7 @@ public class StrippedMolecule {
         for ( Atom atom : hydrogenCount.keySet() ) {
             int count = hydrogenCount.get( atom );
             for ( int i = 0; i < count; i++ ) {
-                Atom hydrogenAtom = AtomModel.HYDROGEN_FACTORY.apply();
+                Atom hydrogenAtom = new Atom( Element.H );
                 result.addAtom( hydrogenAtom );
                 result.addBond( atom, hydrogenAtom );
             }

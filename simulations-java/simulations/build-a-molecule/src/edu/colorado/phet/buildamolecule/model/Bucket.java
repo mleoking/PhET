@@ -7,42 +7,38 @@ import java.util.List;
 
 import edu.colorado.phet.buildamolecule.BuildAMoleculeStrings;
 import edu.colorado.phet.buildamolecule.module.AbstractBuildAMoleculeModule;
-import edu.colorado.phet.chemistry.model.Atom;
 import edu.colorado.phet.chemistry.model.Element;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.SphereBucket;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
-import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * A bucket for atoms
  */
 public class Bucket extends SphereBucket<AtomModel> {
-    private final Element atomType;
+    private final Element element;
 
-    public Bucket( IClock clock, Function0<Atom> atomFactory, int quantity ) {
+    public Bucket( IClock clock, Element element, int quantity ) {
         // automatically compute the desired width with a height of 200;
-        this( new PDimension( AbstractBuildAMoleculeModule.calculateIdealBucketWidth( atomFactory.apply().getRadius(), quantity ), 200 ), clock, atomFactory, quantity );
-    }
-
-    public Bucket( Dimension2D size, IClock clock, Function0<Atom> atomFactory, int quantity ) {
-        this( size, 1, 0, clock, atomFactory, quantity );
+        this( new PDimension( AbstractBuildAMoleculeModule.calculateIdealBucketWidth( element.getRadius(), quantity ), 200 ), clock, element, quantity );
     }
 
     /**
      * Constructor.  The dimensions used are just numbers, i.e. they are not
      * meant to be any specific size (such as meters).  This enabled
      * reusability in any 2D model.
+     *
+     * @param size     Physical size of the bucket (model space)
+     * @param element  The element of the atoms in the bucket
+     * @param quantity The number of atoms starting in the bucket
      */
-    public Bucket( Dimension2D size, double usableWidthProportion, double yOffset, IClock clock, Function0<Atom> atomFactory, int quantity ) {
-        // TODO: improve the getAtomName call
-        // TODO: improve passing of the element. possibly don't pass the actual factory?
-        super( new Point2D.Double(), size, atomFactory.apply().getColor(), BuildAMoleculeStrings.getAtomName( atomFactory.apply().getElement() ), atomFactory.apply().getRadius() );
-        this.atomType = atomFactory.apply().getElement();
+    public Bucket( Dimension2D size, IClock clock, Element element, int quantity ) {
+        super( new Point2D.Double(), size, element.getColor(), BuildAMoleculeStrings.getAtomName( element ), element.getRadius() );
+        this.element = element;
 
         for ( int i = 0; i < quantity; i++ ) {
-            super.addParticleFirstOpen( new AtomModel( atomFactory.apply(), clock ), true );
+            super.addParticleFirstOpen( new AtomModel( element, clock ), true );
         }
     }
 
@@ -76,7 +72,7 @@ public class Bucket extends SphereBucket<AtomModel> {
     }
 
     public Element getElement() {
-        return atomType;
+        return element;
     }
 
 }

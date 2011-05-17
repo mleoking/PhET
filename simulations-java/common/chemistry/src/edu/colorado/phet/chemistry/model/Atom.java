@@ -14,6 +14,10 @@ public class Atom extends AbstractAtom {
         this.element = element;
     }
 
+    public static Atom createAtomFromSymbol( String symbol ) {
+        return new Atom( Element.getElementBySymbol( symbol ) );
+    }
+
     public String getSymbol() {
         return element.getSymbol();
     }
@@ -36,5 +40,9 @@ public class Atom extends AbstractAtom {
 
     public Element getElement() {
         return element;
+    }
+
+    public double getDiameter() {
+        return getRadius() * 2;
     }
 }

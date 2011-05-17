@@ -52,7 +52,7 @@ public class KitView {
 
             for ( final AtomModel atom : bucket.getAtoms() ) {
                 final AtomNode atomNode = new AtomNode( mvt, atom );
-                atomNodeMap.put( atom.getAtom(), atomNode );
+                atomNodeMap.put( atom, atomNode );
                 atomLayer.addChild( atomNode );
 
                 // Add a drag listener that will move the model element when the user

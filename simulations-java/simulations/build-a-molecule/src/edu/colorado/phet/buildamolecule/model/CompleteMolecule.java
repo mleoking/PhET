@@ -67,7 +67,7 @@ public class CompleteMolecule {
             float x3d = Float.parseFloat( t.nextToken() );
             float y3d = Float.parseFloat( t.nextToken() );
             float z3d = Float.parseFloat( t.nextToken() );
-            Atom atom = AtomModel.createAtomFromSymbol( symbol );
+            Atom atom = Atom.createAtomFromSymbol( symbol );
             moleculeStructure.addAtom( atom );
             atomWrappers[i] = new AtomWrapper( x2d, y2d, x3d, y3d, z3d, atom );
         }

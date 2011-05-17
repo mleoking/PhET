@@ -9,7 +9,6 @@ import edu.colorado.phet.buildamolecule.view.BuildAMoleculeCanvas;
 import edu.colorado.phet.chemistry.model.Atom;
 import edu.colorado.phet.chemistry.model.Element;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -96,7 +95,7 @@ public abstract class AbstractBuildAMoleculeModule extends PiccoloModule {
             MoleculeStructure molecule = molecules.get( 0 );
 
             // get the set of atoms that we need
-            Set<String> atomSymbols = new HashSet<String>();
+            Set<String> atomSymbols = new HashSet<String>(); // TODO: use set of elements instead
             for ( Atom atom : molecule.getAtoms() ) {
                 atomSymbols.add( atom.getSymbol() );
             }
@@ -124,7 +123,7 @@ public abstract class AbstractBuildAMoleculeModule extends PiccoloModule {
                     }
                 }
 
-                Function0<Atom> atomFactory = AtomModel.getAtomFactoryByElement( Element.getElementBySymbol( symbol ) );
+                Element element = Element.getElementBySymbol( symbol );
 
                 // create a multiple of the required number of atoms, so they can construct 'atomMultiple' molecules with this
                 int atomCount = requiredAtomCount * atomMultiple;
@@ -134,14 +133,12 @@ public abstract class AbstractBuildAMoleculeModule extends PiccoloModule {
                     atomCount += random.nextInt( 2 );
                 }
 
-                double atomRadius = atomFactory.apply().getRadius();
-
                 // funky math part. sqrt scales it so that we can get two layers of atoms if the atom count is above 2
-                int bucketWidth = calculateIdealBucketWidth( atomRadius, atomCount );
+                int bucketWidth = calculateIdealBucketWidth( element.getRadius(), atomCount );
                 System.out.println( bucketWidth );
                 //int bucketWidth = ( (int) ( 2 * atomRadius * Math.pow( atomCount + 1, 0.4 ) ) ) + 200;
 
-                buckets.add( new Bucket( new PDimension( bucketWidth, 200 ), getClock(), atomFactory, atomCount ) );
+                buckets.add( new Bucket( new PDimension( bucketWidth, 200 ), getClock(), element, atomCount ) );
             }
 
             // add the kit
