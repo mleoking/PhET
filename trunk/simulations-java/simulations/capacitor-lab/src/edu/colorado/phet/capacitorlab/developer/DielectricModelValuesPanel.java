@@ -12,10 +12,10 @@ import javax.swing.border.TitledBorder;
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLStrings;
 import edu.colorado.phet.capacitorlab.model.Battery;
-import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial;
 import edu.colorado.phet.capacitorlab.model.ICapacitor;
 import edu.colorado.phet.capacitorlab.model.ICircuit.CircuitChangeListener;
+import edu.colorado.phet.capacitorlab.model.SingleCircuit;
 import edu.colorado.phet.capacitorlab.module.dielectric.DielectricModel;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.GridPanel;
@@ -225,7 +225,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
      */
     private void updateValues() {
 
-        BatteryCapacitorCircuit circuit = model.getCircuit();
+        SingleCircuit circuit = model.getCircuit();
         Battery battery = circuit.getBattery();
         ICapacitor capacitor = circuit.getCapacitor();
 

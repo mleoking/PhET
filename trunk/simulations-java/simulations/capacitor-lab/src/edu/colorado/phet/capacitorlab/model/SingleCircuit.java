@@ -19,14 +19,15 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
- * Model of a circuit with a battery connected to a capacitor.
+ * Model of a circuit with a battery connected to a single capacitor.
+ * This circuit is used in all 3 modules.
  * <p/>
  * Variable names used in this implementation where chosen to match the specification
  * in the design document, and therefore violate Java naming conventions.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class BatteryCapacitorCircuit extends AbstractCircuit {
+public class SingleCircuit extends AbstractCircuit {
 
     // immutable instance data
     private final Battery battery;
@@ -43,11 +44,11 @@ public class BatteryCapacitorCircuit extends AbstractCircuit {
     private double disconnectedPlateCharge; // charge set manually by the user, used when battery is disconnected
     private double previousTotalCharge; // total charge the previous time the clock ticked, used to compute current amplitude
 
-    public BatteryCapacitorCircuit( IClock clock, CLModelViewTransform3D mvt, double plateWidth, double plateSeparation, DielectricMaterial dielectricMaterial, double dielectricOffset ) {
+    public SingleCircuit( IClock clock, CLModelViewTransform3D mvt, double plateWidth, double plateSeparation, DielectricMaterial dielectricMaterial, double dielectricOffset ) {
         this( clock, mvt, plateWidth, plateSeparation, dielectricMaterial, dielectricOffset, true /* batteryConnected */ );
     }
 
-    public BatteryCapacitorCircuit( IClock clock, CLModelViewTransform3D mvt, double plateWidth, double plateSeparation, DielectricMaterial dielectricMaterial, double dielectricOffset, boolean batteryConnected ) {
+    public SingleCircuit( IClock clock, CLModelViewTransform3D mvt, double plateWidth, double plateSeparation, DielectricMaterial dielectricMaterial, double dielectricOffset, boolean batteryConnected ) {
         super( CLStrings.SINGLE );
 
         this.clock = clock;

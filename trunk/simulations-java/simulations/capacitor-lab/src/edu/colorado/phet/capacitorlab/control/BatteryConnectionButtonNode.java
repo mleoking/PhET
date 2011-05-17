@@ -5,12 +5,12 @@ package edu.colorado.phet.capacitorlab.control;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
+import javax.swing.*;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLStrings;
-import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit;
 import edu.colorado.phet.capacitorlab.model.ICircuit.CircuitChangeListener;
+import edu.colorado.phet.capacitorlab.model.SingleCircuit;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -22,7 +22,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  */
 public class BatteryConnectionButtonNode extends PhetPNode {
 
-    public BatteryConnectionButtonNode( final BatteryCapacitorCircuit circuit ) {
+    public BatteryConnectionButtonNode( final SingleCircuit circuit ) {
 
         final JButton button = new JButton( getText( circuit.isBatteryConnected() ) );
         addChild( new PSwing( button ) );
@@ -33,7 +33,7 @@ public class BatteryConnectionButtonNode extends PhetPNode {
             public void actionPerformed( ActionEvent e ) {
                 circuit.setBatteryConnected( !circuit.isBatteryConnected() );
             }
-        });
+        } );
 
         // change button text to match battery state
         circuit.addCircuitChangeListener( new CircuitChangeListener() {

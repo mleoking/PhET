@@ -38,7 +38,7 @@ public class VoltageShapesDebugNode extends PComposite {
         // battery
         {
             final Battery battery = model.getBattery();
-            final BatteryCapacitorCircuit circuit = model.getCircuit();
+            final SingleCircuit circuit = model.getCircuit();
             final BatteryShapeFactory shapeFactory = battery.getShapeFactory();
 
             final PPath bodyNode = new PhetPPath( shapeFactory.createBodyShape(), STROKE, STROKE_COLOR );
@@ -90,7 +90,7 @@ public class VoltageShapesDebugNode extends PComposite {
 
         // wires
         {
-            final BatteryCapacitorCircuit circuit = model.getCircuit();
+            final SingleCircuit circuit = model.getCircuit();
 
             final Wire topWire = model.getTopWire();
             final PPath topWireNode = new PhetPPath( topWire.getShape(), STROKE, STROKE_COLOR );

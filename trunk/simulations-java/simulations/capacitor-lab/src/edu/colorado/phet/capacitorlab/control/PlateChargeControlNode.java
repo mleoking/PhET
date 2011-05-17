@@ -2,22 +2,19 @@
 
 package edu.colorado.phet.capacitorlab.control;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Stroke;
+import java.awt.*;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-import javax.swing.JPanel;
+import javax.swing.*;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLPaints;
 import edu.colorado.phet.capacitorlab.CLStrings;
-import edu.colorado.phet.capacitorlab.model.BatteryCapacitorCircuit;
 import edu.colorado.phet.capacitorlab.model.ICircuit.CircuitChangeListener;
+import edu.colorado.phet.capacitorlab.model.SingleCircuit;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
@@ -75,14 +72,14 @@ public class PlateChargeControlNode extends PhetPNode {
     private static final Font TITLE_FONT = new PhetFont( Font.BOLD, 16 );
     private static final Color TITLE_COLOR = Color.BLACK;
 
-    private final BatteryCapacitorCircuit circuit;
+    private final SingleCircuit circuit;
 
     private final TrackNode trackNode;
     private final KnobNode knobNode;
     private final TitleNode titleNode;
     private final DoubleRange range;
 
-    public PlateChargeControlNode( final BatteryCapacitorCircuit circuit, DoubleRange range ) {
+    public PlateChargeControlNode( final SingleCircuit circuit, DoubleRange range ) {
 
         this.range = range;
 
@@ -211,7 +208,7 @@ public class PlateChargeControlNode extends PhetPNode {
             @Override
             protected void drag( PInputEvent event ) {
                 super.drag( event );
-                updateVoltage( event, true /* isDragging */);
+                updateVoltage( event, true /* isDragging */ );
             }
 
             @Override

@@ -45,7 +45,7 @@ public class MultipleCapacitorsModel {
 
         // create circuits
         circuits = new ArrayList<ICircuit>() {{
-            add( new BatteryCapacitorCircuit( clock, mvt, CAPACITOR_PLATE_WIDTH, CAPACITOR_PLATE_SEPARATION, DIELECTRIC_MATERIAL, DIELECTRIC_OFFSET ) );
+            add( new SingleCircuit( clock, mvt, CAPACITOR_PLATE_WIDTH, CAPACITOR_PLATE_SEPARATION, DIELECTRIC_MATERIAL, DIELECTRIC_OFFSET ) );
             add( new DummyCircuit( CLStrings.TWO_IN_SERIES ) );
             add( new DummyCircuit( CLStrings.THREE_IN_SERIES ) );
             add( new DummyCircuit( CLStrings.TWO_IN_PARALLEL ) );
