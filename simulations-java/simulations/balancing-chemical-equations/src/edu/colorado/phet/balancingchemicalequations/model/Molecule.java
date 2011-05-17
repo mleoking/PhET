@@ -4,13 +4,13 @@ package edu.colorado.phet.balancingchemicalequations.model;
 
 import java.awt.*;
 
-import edu.colorado.phet.chemistry.model.Atom;
+import edu.colorado.phet.chemistry.model.Element;
 import edu.colorado.phet.chemistry.molecules.*;
 import edu.colorado.phet.chemistry.molecules.HorizontalMoleculeNode.*;
 import edu.colorado.phet.chemistry.utils.ChemUtils;
 import edu.umd.cs.piccolo.PNode;
 
-import static edu.colorado.phet.chemistry.model.Atom.*;
+import static edu.colorado.phet.chemistry.model.Element.*;
 
 /**
  * Base class for molecules.
@@ -21,7 +21,7 @@ import static edu.colorado.phet.chemistry.model.Atom.*;
 public abstract class Molecule {
 
     private final Image image;
-    private final Atom[] atoms;
+    private final Element[] atoms;
     private final String symbol;
 
     /**
@@ -33,13 +33,13 @@ public abstract class Molecule {
      * @param image
      * @param atoms
      */
-    public Molecule( Image image, Atom... atoms ) {
+    public Molecule( Image image, Element... atoms ) {
         this.image = image;
         this.atoms = atoms;
         this.symbol = ChemUtils.createSymbol( atoms );
     }
 
-    protected Molecule( PNode node, Atom... atoms ) {
+    protected Molecule( PNode node, Element... atoms ) {
         this( node.toImage(), atoms );
     }
 
@@ -51,7 +51,7 @@ public abstract class Molecule {
         return image;
     }
 
-    public Atom[] getAtoms() {
+    public Element[] getAtoms() {
         return atoms;
     }
 

@@ -3,8 +3,8 @@ package edu.colorado.phet.buildamolecule.model;
 
 import java.util.*;
 
-import edu.colorado.phet.chemistry.model.Atom;
 import edu.colorado.phet.chemistry.model.Atomic;
+import edu.colorado.phet.chemistry.model.Element;
 import edu.colorado.phet.chemistry.utils.ChemUtils;
 
 /**
@@ -92,8 +92,8 @@ public class MoleculeStructure {
      * @return Text which is the molecular formula
      */
     public String getGeneralFormula() {
-        boolean containsCarbon = containsAtomOfType( Atom.C );
-        boolean containsHydrogen = containsAtomOfType( Atom.H );
+        boolean containsCarbon = containsAtomOfType( Element.C );
+        boolean containsHydrogen = containsAtomOfType( Element.H );
 
         boolean organic = containsCarbon && containsHydrogen;
 
@@ -467,7 +467,7 @@ public class MoleculeStructure {
 
     private boolean containsAtomOfType( Atomic referenceAtom ) {
         for ( Atomic atom : atoms ) {
-            if ( atom.isSameTypeOfAtom( referenceAtom ) ) {
+            if ( atom.isSameElement( referenceAtom ) ) {
                 return true;
             }
         }
@@ -610,7 +610,7 @@ public class MoleculeStructure {
     }
 
     private boolean checkEquivalency( MoleculeStructure other, Set<Atomic> myVisited, Set<Atomic> otherVisited, Atomic myAtom, Atomic otherAtom ) {
-        if ( !myAtom.isSameTypeOfAtom( otherAtom ) ) {
+        if ( !myAtom.isSameElement( otherAtom ) ) {
             // if the atoms are of different types, bail. subtrees can't possibly be equivalent
             return false;
         }

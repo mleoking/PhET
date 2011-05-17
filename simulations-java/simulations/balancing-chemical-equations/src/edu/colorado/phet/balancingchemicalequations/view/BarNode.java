@@ -15,7 +15,7 @@ import javax.swing.WindowConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.chemistry.model.Atom;
+import edu.colorado.phet.chemistry.model.Element;
 import edu.colorado.phet.chemistry.molecules.AtomNode;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
@@ -46,10 +46,10 @@ import edu.umd.cs.piccolox.pswing.PSwing;
     private static final Stroke STROKE = new BasicStroke( 1.5f );
     private static final Color STROKE_COLOR = Color.BLACK;
 
-    private final Atom atom;
+    private final Element atom;
     private int numberOfAtoms;
 
-    public BarNode( Atom atom, int numberOfAtoms ) {
+    public BarNode( Element atom, int numberOfAtoms ) {
         this.atom = atom;
         this.numberOfAtoms = numberOfAtoms;
         update();
@@ -157,7 +157,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
         final int numberOfAtoms = 0;
 
         // bar
-        final BarNode barNode = new BarNode( Atom.N, numberOfAtoms );
+        final BarNode barNode = new BarNode( Element.N, numberOfAtoms );
         barNode.setOffset( 100, 200 );
 
         // control

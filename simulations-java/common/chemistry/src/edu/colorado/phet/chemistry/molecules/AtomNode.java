@@ -6,7 +6,7 @@ import edu.colorado.phet.chemistry.model.Atomic;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.piccolophet.nodes.ShadedSphereNode;
 
-import static edu.colorado.phet.chemistry.model.Atom.P;
+import static edu.colorado.phet.chemistry.model.Element.P;
 
 /**
  * Atoms look like shaded spheres.

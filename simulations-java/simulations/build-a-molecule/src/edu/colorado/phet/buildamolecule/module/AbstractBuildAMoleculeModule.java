@@ -6,8 +6,8 @@ import java.util.List;
 
 import edu.colorado.phet.buildamolecule.model.*;
 import edu.colorado.phet.buildamolecule.view.BuildAMoleculeCanvas;
-import edu.colorado.phet.chemistry.model.Atom;
 import edu.colorado.phet.chemistry.model.Atomic;
+import edu.colorado.phet.chemistry.model.Element;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
@@ -71,7 +71,7 @@ public abstract class AbstractBuildAMoleculeModule extends PiccoloModule {
             int numberInBox = allowMultipleMolecules ? random.nextInt( MAX_IN_BOX ) + 1 : 1;
 
             // restrict the number of carbon that we can have
-            int carbonCount = molecule.getMoleculeStructure().getHistogram().getQuantity( Atom.C );
+            int carbonCount = molecule.getMoleculeStructure().getHistogram().getQuantity( Element.C );
             if ( carbonCount > 1 ) {
                 numberInBox = Math.min( 2, numberInBox );
             }

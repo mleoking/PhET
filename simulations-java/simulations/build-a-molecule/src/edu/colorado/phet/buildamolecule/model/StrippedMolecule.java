@@ -128,7 +128,7 @@ public class StrippedMolecule {
 
     // TODO: separate out common behavior?
     private boolean checkEquivalency( StrippedMolecule other, Set<Atomic> myVisited, Set<Atomic> otherVisited, Atomic myAtom, Atomic otherAtom, boolean subCheck ) {
-        if ( !myAtom.isSameTypeOfAtom( otherAtom ) ) {
+        if ( !myAtom.isSameElement( otherAtom ) ) {
             // if the atoms are of different types, bail. subtrees can't possibly be equivalent
             return false;
         }

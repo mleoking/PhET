@@ -141,7 +141,7 @@ public class Kit {
 
     public Bucket getBucketForAtomType( Atomic atom ) {
         for ( Bucket bucket : buckets ) {
-            if ( bucket.getAtomType().isSameTypeOfAtom( atom ) ) {
+            if ( bucket.getAtomType().isSameElement( atom ) ) {
                 return bucket;
             }
         }
@@ -557,7 +557,7 @@ public class Kit {
         MoleculeStructure struc = getMoleculeStructure( a );
         if ( struc.getAtoms().size() > 2 ) {
             for ( MoleculeStructure.Bond bond : struc.getBonds() ) {
-                if ( bond.a.isSameTypeOfAtom( bond.b ) && bond.a.getSymbol().equals( "H" ) ) {
+                if ( bond.a.isSameElement( bond.b ) && bond.a.getSymbol().equals( "H" ) ) {
                     System.out.println( "WARNING: Hydrogen bonded to another hydrogen in a molecule which is not diatomic hydrogen" );
                 }
             }

@@ -35,7 +35,7 @@ public class ChemUtils {
                 // first atom is treated differently
                 b.append( atoms[i].getSymbol() );
             }
-            else if ( atoms[i].isSameTypeOfAtom( atoms[i - 1] ) ) {
+            else if ( atoms[i].isSameElement( atoms[i - 1] ) ) {
                 // this atom is the same as the previous atom
                 atomCount++;
             }

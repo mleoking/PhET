@@ -41,7 +41,7 @@ public interface Atomic {
      * @param atom Another atom
      * @return Whether these atoms are the same type (have the same symbol)
      */
-    public boolean isSameTypeOfAtom( Atomic atom );
+    public boolean isSameElement( Atomic atom );
 
     public boolean isHydrogen();
 
