@@ -13,7 +13,7 @@ import edu.colorado.phet.sugarandsaltsolutions.common.model.Beaker;
 import edu.umd.cs.piccolo.PNode;
 
 /**
- * If you're not part of the solution, you're part of the precipitate.  This node draws the crystal that has come out of solution (because of passing the saturation point)
+ * If you're not part of the solution, you're part of the precipitate.  This node draws the clump of crystals that has come out of solution (because of passing the saturation point)
  *
  * @author Sam Reid
  */
@@ -41,5 +41,9 @@ public class PrecipitateNode extends PNode {
                 }
             } );
         }} );
+
+        //Make it not intercept mouse events so the user can still retrieve a probe that is buried in the precipitate
+        setPickable( false );
+        setChildrenPickable( false );
     }
 }
