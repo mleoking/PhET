@@ -1,3 +1,4 @@
+5/17/11 move lots of stuff to AbstractCircuit
 5/17/11 add ICircuit.getCapacitors, create skeleton of SeriesCircuit, identify things to move to AbstractCircuit
 5/17/11 move battery and listeners to AbstractCircuit
 5/17/11 create SingleCircuitNode, add factory method for creating circuit nodes

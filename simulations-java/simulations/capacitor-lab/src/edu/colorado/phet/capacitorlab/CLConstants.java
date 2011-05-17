@@ -38,6 +38,8 @@ public class CLConstants {
     // Model
     //----------------------------------------------------------------------------
 
+    //TODO many of these are specific to Dielectric module, move them elsewhere
+
     public static final double EPSILON_0 = 8.854E-12; // vacuum permittivity, aka electric constant (Farads/meter)
 
     // world

@@ -22,12 +22,14 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 public class MultipleCapacitorsModel {
 
     //TODO decide whether these should live here
+    public static final Point3D BATTERY_LOCATION = new Point3D.Double( 0.005, 0.034, 0 ); // meters
+    public static final Point3D SINGLE_CAPACITOR_LOCATION = new Point3D.Double( BATTERY_LOCATION.getX() + 0.025, BATTERY_LOCATION.getY(), 0 ); // meters
     public static final DoubleRange CAPACITANCE_RANGE = new DoubleRange( 1E-13, 4E-13 ); // Farads
     public static final int CAPACITANCE_DISPLAY_EXPONENT = -13;
-    public static final double CAPACITOR_PLATE_WIDTH = 0.01; // meters
     public static final DielectricMaterial DIELECTRIC_MATERIAL = new Air();
     public static final double DIELECTRIC_OFFSET = 0;
-    public static final double CAPACITOR_PLATE_SEPARATION = Capacitor.getPlateSeparation( DIELECTRIC_MATERIAL.getDielectricConstant(), CAPACITOR_PLATE_WIDTH, CAPACITANCE_RANGE.getMin() );
+    public static final double PLATE_WIDTH = 0.01; // meters
+    public static final double PLATE_SEPARATION = Capacitor.getPlateSeparation( DIELECTRIC_MATERIAL.getDielectricConstant(), PLATE_WIDTH, CAPACITANCE_RANGE.getMin() );
 
     private final ArrayList<ICircuit> circuits; // the set of circuits to choose from
 
@@ -45,7 +47,7 @@ public class MultipleCapacitorsModel {
 
         // create circuits
         circuits = new ArrayList<ICircuit>() {{
-            add( new SingleCircuit( clock, mvt, CAPACITOR_PLATE_WIDTH, CAPACITOR_PLATE_SEPARATION, DIELECTRIC_MATERIAL, DIELECTRIC_OFFSET ) );
+            add( new SingleCircuit( clock, mvt, BATTERY_LOCATION, SINGLE_CAPACITOR_LOCATION, PLATE_WIDTH, PLATE_SEPARATION, DIELECTRIC_MATERIAL, DIELECTRIC_OFFSET ) );
             add( new DummyCircuit( CLStrings.TWO_IN_SERIES, mvt ) );
             add( new DummyCircuit( CLStrings.THREE_IN_SERIES, mvt ) );
             add( new DummyCircuit( CLStrings.TWO_IN_PARALLEL, mvt ) );
@@ -127,13 +129,11 @@ public class MultipleCapacitorsModel {
     }
 
     //TODO delete this when all circuits are implemented
-    /*
-     * This circuit does nothing.
-     */
+    // This circuit does nothing.
     private static class DummyCircuit extends AbstractCircuit {
 
         public DummyCircuit( String displayName, CLModelViewTransform3D mvt ) {
-            super( displayName, mvt );
+            super( displayName, mvt, new Point3D.Double() );
         }
 
         public ArrayList<Capacitor> getCapacitors() {
@@ -148,23 +148,7 @@ public class MultipleCapacitorsModel {
             return 0;
         }
 
-        public double getStoredEnergy() {
-            return 0;
-        }
-
-        public double getVoltageBetween( Shape positiveShape, Shape negativeShape ) {
-            return 0;
-        }
-
-        public double getEffectiveEFieldAt( Point3D location ) {
-            return 0;
-        }
-
-        public double getPlatesDielectricEFieldAt( Point3D location ) {
-            return 0;
-        }
-
-        public double getDielectricEFieldAt( Point3D location ) {
+        public double getVoltageAt( Shape shape ) {
             return 0;
         }
     }
