@@ -19,7 +19,7 @@ import edu.colorado.phet.common.phetcommon.view.util.GridPanel;
  */
 public class CircuitChoiceControl extends PhetTitledPanel {
 
-    public CircuitChoiceControl( ArrayList<ICircuit> circuits, Property<ICircuit> currentCircuit ) {
+    public CircuitChoiceControl( ArrayList<ICircuit> circuits, Property<ICircuit> currentCircuitProperty ) {
         super( CLStrings.CIRCUITS );
 
         GridPanel innerPanel = new GridPanel();
@@ -28,7 +28,7 @@ public class CircuitChoiceControl extends PhetTitledPanel {
 
         // add a radio button for each circuit choice
         for ( ICircuit circuit : circuits ) {
-            innerPanel.add( new PropertyRadioButton<ICircuit>( circuit.getDisplayName(), currentCircuit, circuit ) );
+            innerPanel.add( new PropertyRadioButton<ICircuit>( circuit.getDisplayName(), currentCircuitProperty, circuit ) );
         }
 
         // make everything left justify when put in the main control panel

@@ -17,9 +17,9 @@ import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 public class MultipleCapacitorsControlPanel extends ControlPanel {
 
     public MultipleCapacitorsControlPanel( Resettable resettable, MultipleCapacitorsModel model, MultipleCapacitorsCanvas canvas, CLGlobalProperties globalProperties ) {
-        addControlFullWidth( new ViewControlPanel( canvas.plateChargesVisible, canvas.eFieldVisible ) );
+        addControlFullWidth( new ViewControlPanel( canvas.plateChargesVisibleProperty, canvas.eFieldVisibleProperty ) );
         addControlFullWidth( new MetersControlPanel( model.getCapacitanceMeter(), model.getPlateChargeMeter(), model.getStoredEnergyMeter(), model.getVoltmeter(), model.getEFieldDetector() ) );
-        addControlFullWidth( new CircuitChoiceControl( model.getCircuits(), model.currentCircuit ) );
+        addControlFullWidth( new CircuitChoiceControl( model.getCircuits(), model.currentCircuitProperty ) );
         addResetAllButton( resettable );
     }
 }

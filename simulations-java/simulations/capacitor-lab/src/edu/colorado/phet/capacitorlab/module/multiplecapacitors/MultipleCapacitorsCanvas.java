@@ -30,9 +30,9 @@ import edu.umd.cs.piccolo.PNode;
 public class MultipleCapacitorsCanvas extends CLCanvas {
 
     // global view properties, directly observable
-    public final Property<Boolean> plateChargesVisible = new Property<Boolean>( CLConstants.PLATE_CHARGES_VISIBLE );
-    public final Property<Boolean> eFieldVisible = new Property<Boolean>( CLConstants.EFIELD_VISIBLE );
-    public final Property<DielectricChargeView> dielectricChargeView = new Property<DielectricChargeView>( CLConstants.DIELECTRIC_CHARGE_VIEW );
+    public final Property<Boolean> plateChargesVisibleProperty = new Property<Boolean>( CLConstants.PLATE_CHARGES_VISIBLE );
+    public final Property<Boolean> eFieldVisibleProperty = new Property<Boolean>( CLConstants.EFIELD_VISIBLE );
+    public final Property<DielectricChargeView> dielectricChargeViewProperty = new Property<DielectricChargeView>( CLConstants.DIELECTRIC_CHARGE_VIEW );
 
     private final MultipleCapacitorsModel model;
     private final CLModelViewTransform3D mvt;
@@ -83,7 +83,7 @@ public class MultipleCapacitorsCanvas extends CLCanvas {
         addChild( voltmeter.getNegativeProbeNode() );
         addChild( voltmeter.getNegativeWireNode() );
 
-        model.currentCircuit.addObserver( new SimpleObserver() {
+        model.currentCircuitProperty.addObserver( new SimpleObserver() {
             public void update() {
                 updateCircuit();
             }
@@ -92,9 +92,9 @@ public class MultipleCapacitorsCanvas extends CLCanvas {
 
     public void reset() {
         // global properties of the view
-        plateChargesVisible.reset();
-        eFieldVisible.reset();
-        dielectricChargeView.reset();
+        plateChargesVisibleProperty.reset();
+        eFieldVisibleProperty.reset();
+        dielectricChargeViewProperty.reset();
         // zoom level of bar meters
         capacitanceMeterNode.reset();
         plateChargeMeterNode.reset();
@@ -103,7 +103,7 @@ public class MultipleCapacitorsCanvas extends CLCanvas {
 
     private void updateCircuit() {
         circuitParentNode.removeAllChildren();
-        circuitParentNode.addChild( createCircuit( model.currentCircuit.get() ) );
+        circuitParentNode.addChild( createCircuit( model.currentCircuitProperty.get() ) );
     }
 
     //TODO revisit this after things are working
@@ -112,18 +112,18 @@ public class MultipleCapacitorsCanvas extends CLCanvas {
         PNode circuitNode = null;
         if ( circuit instanceof SingleCircuit ) {
             circuitNode = new SingleCircuitNode( (SingleCircuit) circuit, mvt,
-                                                 plateChargesVisible, eFieldVisible, dielectricChargeView,
+                                                 plateChargesVisibleProperty, eFieldVisibleProperty, dielectricChargeViewProperty,
                                                  maxPlateCharge, maxExcessDielectricPlateCharge, maxEffectiveEField, maxDielectricEField );
         }
         else if ( circuit instanceof SeriesCircuit ) {
             circuitNode = new SeriesCircuitNode( (SeriesCircuit) circuit, mvt,
-                                                 plateChargesVisible, eFieldVisible, dielectricChargeView,
+                                                 plateChargesVisibleProperty, eFieldVisibleProperty, dielectricChargeViewProperty,
                                                  maxPlateCharge, maxExcessDielectricPlateCharge, maxEffectiveEField, maxDielectricEField );
         }
         else {
             circuitNode = new NullCircuitNode( circuit, mvt );
         }
-        System.out.println( "MultipleCapacitorsCanvas.createCircuit return=" + circuitNode.getClass().getName() );//XXX
+        System.out.println( "MultipleCapacitorsCanvas.createCircuit " + circuitNode.getClass().getName() );//XXX
         return circuitNode;
     }
 
