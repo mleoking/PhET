@@ -33,8 +33,8 @@ public class DielectricModel {
 
         this.dielectricMaterials = dielectricMaterials;
 
-        circuit = new BatteryCapacitorCircuit( clock, CLConstants.PLATE_WIDTH_RANGE.getDefault(), CLConstants.PLATE_SEPARATION_RANGE.getDefault(),
-                                               dielectricMaterials[0], dielectricOffset, CLConstants.BATTERY_CONNECTED, mvt );
+        circuit = new BatteryCapacitorCircuit( clock, mvt, CLConstants.PLATE_WIDTH_RANGE.getDefault(), CLConstants.PLATE_SEPARATION_RANGE.getDefault(),
+                                               dielectricMaterials[0], dielectricOffset, CLConstants.BATTERY_CONNECTED );
 
         capacitanceMeter = new CapacitanceMeter( circuit, worldBounds, CLConstants.CAPACITANCE_METER_LOCATION, CLConstants.CAPACITANCE_METER_VISIBLE );
         plateChargeMeter = new PlateChargeMeter( circuit, worldBounds, CLConstants.PLATE_CHARGE_METER_LOCATION, CLConstants.PLATE_CHARGE_METER_VISIBLE );
@@ -150,11 +150,11 @@ public class DielectricModel {
         CLModelViewTransform3D mvt = new CLModelViewTransform3D();
         DielectricMaterial material = new CustomDielectricMaterial( CLConstants.DIELECTRIC_CONSTANT_RANGE.getMin() );
         BatteryCapacitorCircuit circuit = new BatteryCapacitorCircuit( new CLClock(),
-                                                                       CLConstants.PLATE_WIDTH_RANGE.getMin(),
+                                                                       mvt, CLConstants.PLATE_WIDTH_RANGE.getMin(),
                                                                        CLConstants.PLATE_SEPARATION_RANGE.getMin(),
                                                                        material, CLConstants.DIELECTRIC_OFFSET_RANGE.getMin(),
-                                                                       false /* batteryConnected */,
-                                                                       mvt );
+                                                                       false /* batteryConnected */
+        );
         circuit.setDisconnectedPlateCharge( getMaxPlateCharge() );
         return circuit.getCapacitor().getEffectiveEField();
     }
@@ -168,12 +168,12 @@ public class DielectricModel {
         CLModelViewTransform3D mvt = new CLModelViewTransform3D();
         DielectricMaterial material = new CustomDielectricMaterial( CLConstants.DIELECTRIC_CONSTANT_RANGE.getMax() );
         BatteryCapacitorCircuit circuit = new BatteryCapacitorCircuit( new CLClock(),
-                                                                       CLConstants.PLATE_WIDTH_RANGE.getMin(),
+                                                                       mvt, CLConstants.PLATE_WIDTH_RANGE.getMin(),
                                                                        CLConstants.PLATE_SEPARATION_RANGE.getMin(),
                                                                        material,
                                                                        CLConstants.DIELECTRIC_OFFSET_RANGE.getMax(),
-                                                                       false /* batteryConnected */,
-                                                                       mvt );
+                                                                       false /* batteryConnected */
+        );
         circuit.setDisconnectedPlateCharge( getMaxPlateCharge() );
         return circuit.getCapacitor().getDielectricEField();
     }
