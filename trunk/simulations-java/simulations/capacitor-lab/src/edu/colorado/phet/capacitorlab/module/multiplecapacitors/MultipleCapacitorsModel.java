@@ -32,8 +32,6 @@ public class MultipleCapacitorsModel {
     private final ArrayList<ICircuit> circuits; // the set of circuits to choose from
 
     // directly observable properties
-    public final Property<Boolean> plateChargesVisible = new Property<Boolean>( CLConstants.PLATE_CHARGES_VISIBLE );
-    public final Property<Boolean> eFieldVisible = new Property<Boolean>( CLConstants.EFIELD_VISIBLE );
     public final Property<ICircuit> currentCircuit;
 
     private final WorldBounds worldBounds;
@@ -89,9 +87,6 @@ public class MultipleCapacitorsModel {
     }
 
     public void reset() {
-        plateChargesVisible.reset();
-        eFieldVisible.reset();
-        currentCircuit.reset();
         capacitanceMeter.reset();
         plateChargeMeter.reset();
         storedEnergyMeter.reset();
@@ -100,6 +95,7 @@ public class MultipleCapacitorsModel {
         for ( ICircuit circuit : circuits ) {
             circuit.reset();
         }
+        currentCircuit.reset();
     }
 
     public WorldBounds getWorldBounds() {

@@ -1,3 +1,5 @@
+5/17/11 attach charge and E-field visibility properties to control panel
+5/17/11 fix EFieldNode.getLineSpacing for effectiveEField=0
 5/17/11 consolidate model constants in MultipleCapacitorsModel for now
 5/17/11 add capacitance control (reuse plate charge slider and bar meter value display)
 5/16/11 reuse BatteryCapacitorCircuit as "single" circuit in Multi Capacitors tab, display battery and capacitor (no wires or capacitance control yet)
