@@ -3,6 +3,8 @@ package edu.colorado.phet.sugarandsaltsolutions.intro;
 
 import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsConfig;
 import edu.colorado.phet.sugarandsaltsolutions.common.SugarAndSaltSolutionsModule;
+import edu.colorado.phet.sugarandsaltsolutions.intro.model.IntroModel;
+import edu.colorado.phet.sugarandsaltsolutions.intro.view.IntroCanvas;
 
 /**
  * Intro module for sugar and salt solutions

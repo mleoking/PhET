@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.sugarandsaltsolutions.intro;
+package edu.colorado.phet.sugarandsaltsolutions.intro.view;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -15,6 +15,7 @@ import edu.colorado.phet.sugarandsaltsolutions.common.view.ConcentrationBarChart
 import edu.colorado.phet.sugarandsaltsolutions.common.view.ConductivityTesterToolboxNode;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.EvaporationSlider;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas;
+import edu.colorado.phet.sugarandsaltsolutions.intro.model.IntroModel;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
