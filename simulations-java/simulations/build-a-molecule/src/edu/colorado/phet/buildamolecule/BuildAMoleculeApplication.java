@@ -34,11 +34,6 @@ import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 public class BuildAMoleculeApplication extends PiccoloPhetApplication {
 
     /**
-     * If true, resetting a kit doesn't pull atoms from the collection box, but instead creates new ones to fill the buckets
-     */
-    public static final Property<Boolean> resetKitIgnoresCollectionBoxes = new Property<Boolean>( false );
-
-    /**
      * Shows a cursor that indicates a bond will be split when the mouse is over, and on a click it will break the bond
      */
     public static final Property<Boolean> allowBondBreaking = new Property<Boolean>( true );
@@ -115,7 +110,6 @@ public class BuildAMoleculeApplication extends PiccoloPhetApplication {
                 }
             } );
         }} );
-        developerMenu.add( new PropertyCheckBoxMenuItem( "Reset kit leaves collection box alone (any molecule left in box will be permanent)", resetKitIgnoresCollectionBoxes ) );
         developerMenu.add( new PropertyCheckBoxMenuItem( "Enable bond breaking", allowBondBreaking ) );
         developerMenu.add( new JMenuItem( "Change Filled Collection Box Color" ) {{
             addActionListener( new ActionListener() {
