@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.balancingchemicalequations.model;
 
-import edu.colorado.phet.chemistry.model.Atom;
+import edu.colorado.phet.chemistry.model.Element;
 
 /**
  * Data structure for describing how many times an atom appears in an equation.
@@ -13,16 +13,16 @@ import edu.colorado.phet.chemistry.model.Atom;
  */
 public class AtomCount {
 
-    private final Atom atom;
+    private final Element atom;
     private int reactantsCount, productsCount;
 
-    public AtomCount( Atom atom, int reactantsCount, int productsCount ) {
+    public AtomCount( Element atom, int reactantsCount, int productsCount ) {
         this.atom = atom;
         this.reactantsCount = reactantsCount;
         this.productsCount = productsCount;
     }
 
-    public Atom getAtom() {
+    public Element getAtom() {
         return atom;
     }
 

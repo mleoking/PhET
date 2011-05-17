@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.balancingchemicalequations.view;
 
-import edu.colorado.phet.chemistry.model.Atom;
+import edu.colorado.phet.chemistry.model.Element;
 import edu.colorado.phet.chemistry.molecules.AtomNode;
 
 import java.awt.BasicStroke;
@@ -39,7 +39,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
     private static final int NUMBER_OF_TILT_ANGLES = 6;
     private static final int ATOMS_IN_PILE_BASE = 5; // number of atoms along the base of each pile
 
-    private final Atom atom;
+    private final Element atom;
     private int leftNumberOfAtoms, rightNumberOfAtoms;
     private final BeamNode beamNode;
     private final PNode atomPilesParentNode;
@@ -51,7 +51,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
      * @param rightNumberOfAtoms
      * @param highlighted whether the beam is highlighted (used to indicate whether the scale is balanaced)
      */
-    public BalanceScaleNode( Atom atom, int leftNumberOfAtoms, int rightNumberOfAtoms, boolean highlighted ) {
+    public BalanceScaleNode( Element atom, int leftNumberOfAtoms, int rightNumberOfAtoms, boolean highlighted ) {
 
         this.atom = atom;
         this.leftNumberOfAtoms = leftNumberOfAtoms;
@@ -138,7 +138,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
      * Atoms are populated one row at a time, starting from the base of the triangle and working up.
      * Origin is at the lower-left corner of the pile.
      */
-    private static PNode createAtomPile( int numberOfAtoms, Atom atom ) {
+    private static PNode createAtomPile( int numberOfAtoms, Element atom ) {
         PComposite parent = new PComposite();
         int atomsInRow = ATOMS_IN_PILE_BASE;
         int row = 0;
@@ -213,7 +213,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 
         private static final Paint FILL_PAINT = new GradientPaint( new Point2D.Double( 0, 0 ), Color.WHITE, new Point2D.Double( 0, FULCRUM_SIZE.getHeight() ), Color.LIGHT_GRAY );
 
-        public FulcrumNode( Atom atom ) {
+        public FulcrumNode( Element atom ) {
 
             GeneralPath path = new GeneralPath();
             path.moveTo( 0f, 0f );

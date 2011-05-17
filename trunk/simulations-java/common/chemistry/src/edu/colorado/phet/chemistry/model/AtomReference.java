@@ -9,9 +9,9 @@ import java.awt.*;
  * TODO: consider renaming to Atom
  */
 public class AtomReference extends AbstractAtom {
-    public final Atom atom;
+    public final Element atom;
 
-    public AtomReference( Atom atom ) {
+    public AtomReference( Element atom ) {
         this.atom = atom;
     }
 

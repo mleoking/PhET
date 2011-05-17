@@ -5,8 +5,8 @@ package edu.colorado.phet.chemistry.molecules;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
-import static edu.colorado.phet.chemistry.model.Atom.C;
-import static edu.colorado.phet.chemistry.model.Atom.H;
+import static edu.colorado.phet.chemistry.model.Element.C;
+import static edu.colorado.phet.chemistry.model.Element.H;
 
 /**
  * C2H2 molecule

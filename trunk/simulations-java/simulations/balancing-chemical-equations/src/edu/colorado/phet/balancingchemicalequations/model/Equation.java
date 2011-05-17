@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.balancingchemicalequations.model;
 
-import edu.colorado.phet.chemistry.model.Atom;
+import edu.colorado.phet.chemistry.model.Element;
 
 import java.util.ArrayList;
 
@@ -175,7 +175,7 @@ public abstract class Equation {
      */
     private static void setAtomCounts(  ArrayList<AtomCount> atomCounts, EquationTerm[] terms, boolean isReactants ) {
         for ( EquationTerm term : terms ) {
-            for ( Atom atom : term.getMolecule().getAtoms() ) {
+            for ( Element atom : term.getMolecule().getAtoms() ) {
                 boolean found = false;
                 for ( AtomCount count : atomCounts ) {
                     // add to an existing count

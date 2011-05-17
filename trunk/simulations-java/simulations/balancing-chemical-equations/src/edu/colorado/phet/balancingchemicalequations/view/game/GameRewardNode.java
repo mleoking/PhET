@@ -18,7 +18,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.balancingchemicalequations.BCEConstants;
-import static edu.colorado.phet.chemistry.model.Atom.*;
+import static edu.colorado.phet.chemistry.model.Element.*;
 
 import edu.colorado.phet.chemistry.molecules.HorizontalMoleculeNode.CNode;
 import edu.colorado.phet.chemistry.molecules.HorizontalMoleculeNode.CO2Node;

@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 import edu.colorado.phet.buildamolecule.BuildAMoleculeStrings;
-import edu.colorado.phet.chemistry.model.Atom;
 import edu.colorado.phet.chemistry.model.AtomReference;
 import edu.colorado.phet.chemistry.model.Atomic;
+import edu.colorado.phet.chemistry.model.Element;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.IBucketSphere;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
@@ -248,73 +248,73 @@ public class AtomModel implements IBucketSphere<AtomModel> {
 
     public static final Function0<Atomic> HYDROGEN_FACTORY = new Function0<Atomic>() {
         public Atomic apply() {
-            return new AtomReference( Atom.H );
+            return new AtomReference( Element.H );
         }
     };
 
     public static final Function0<Atomic> OXYGEN_FACTORY = new Function0<Atomic>() {
         public Atomic apply() {
-            return new AtomReference( Atom.O );
+            return new AtomReference( Element.O );
         }
     };
 
     public static final Function0<Atomic> CARBON_FACTORY = new Function0<Atomic>() {
         public Atomic apply() {
-            return new AtomReference( Atom.C );
+            return new AtomReference( Element.C );
         }
     };
 
     public static final Function0<Atomic> NITROGEN_FACTORY = new Function0<Atomic>() {
         public Atomic apply() {
-            return new AtomReference( Atom.N );
+            return new AtomReference( Element.N );
         }
     };
 
     public static final Function0<Atomic> FLUORINE_FACTORY = new Function0<Atomic>() {
         public Atomic apply() {
-            return new AtomReference( Atom.F );
+            return new AtomReference( Element.F );
         }
     };
 
     public static final Function0<Atomic> CHLORINE_FACTORY = new Function0<Atomic>() {
         public Atomic apply() {
-            return new AtomReference( Atom.Cl );
+            return new AtomReference( Element.Cl );
         }
     };
 
     public static final Function0<Atomic> BORON_FACTORY = new Function0<Atomic>() {
         public Atomic apply() {
-            return new AtomReference( Atom.B );
+            return new AtomReference( Element.B );
         }
     };
 
     public static final Function0<Atomic> SULPHUR_FACTORY = new Function0<Atomic>() {
         public Atomic apply() {
-            return new AtomReference( Atom.S );
+            return new AtomReference( Element.S );
         }
     };
 
     public static final Function0<Atomic> SILICON_FACTORY = new Function0<Atomic>() {
         public Atomic apply() {
-            return new AtomReference( Atom.Si );
+            return new AtomReference( Element.Si );
         }
     };
 
     public static final Function0<Atomic> BROMINE_FACTORY = new Function0<Atomic>() {
         public Atomic apply() {
-            return new AtomReference( Atom.Br );
+            return new AtomReference( Element.Br );
         }
     };
 
     public static final Function0<Atomic> IODINE_FACTORY = new Function0<Atomic>() {
         public Atomic apply() {
-            return new AtomReference( Atom.I );
+            return new AtomReference( Element.I );
         }
     };
 
     public static final Function0<Atomic> PHOSPHORUS_FACTORY = new Function0<Atomic>() {
         public Atomic apply() {
-            return new AtomReference( Atom.P );
+            return new AtomReference( Element.P );
         }
     };
 

@@ -6,20 +6,20 @@ package edu.colorado.phet.chemistry.model;
  */
 public abstract class AbstractAtom implements Atomic {
 
-    public boolean isSameTypeOfAtom( Atomic atom ) {
+    public boolean isSameElement( Atomic atom ) {
         return atom.getSymbol().equals( this.getSymbol() );
     }
 
     public boolean isHydrogen() {
-        return isSameTypeOfAtom( Atom.H );
+        return isSameElement( Element.H );
     }
 
     public boolean isCarbon() {
-        return isSameTypeOfAtom( Atom.C );
+        return isSameElement( Element.C );
     }
 
     public boolean isOxygen() {
-        return isSameTypeOfAtom( Atom.O );
+        return isSameElement( Element.O );
     }
 
     @Override

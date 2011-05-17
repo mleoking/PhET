@@ -5,7 +5,7 @@ package edu.colorado.phet.chemistry.molecules;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
-import static edu.colorado.phet.chemistry.model.Atom.*;
+import static edu.colorado.phet.chemistry.model.Element.*;
 
 /**
  * C2H5OH molecule.

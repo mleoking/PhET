@@ -2,12 +2,12 @@
 
 package edu.colorado.phet.chemistry.molecules;
 
-import edu.colorado.phet.chemistry.model.Atom;
+import edu.colorado.phet.chemistry.model.Element;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
-import static edu.colorado.phet.chemistry.model.Atom.*;
+import static edu.colorado.phet.chemistry.model.Element.*;
 
 /**
  * Base class for molecules with N atoms aligned on the horizontal axis, for N > 0.
@@ -20,7 +20,7 @@ import static edu.colorado.phet.chemistry.model.Atom.*;
  */
 public abstract class HorizontalMoleculeNode extends PComposite {
 
-    public HorizontalMoleculeNode( Atom... atoms ) {
+    public HorizontalMoleculeNode( Element... atoms ) {
 
         PComposite parentNode = new PComposite();
         addChild( parentNode );
@@ -28,7 +28,7 @@ public abstract class HorizontalMoleculeNode extends PComposite {
         // add each node from left to right, overlapping consistently
         double x = 0;
         PNode previousNode = null;
-        for ( Atom atom : atoms ) {
+        for ( Element atom : atoms ) {
             AtomNode currentNode = new AtomNode( atom );
             parentNode.addChild( currentNode );
             if ( previousNode != null ) {
