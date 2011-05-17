@@ -7,6 +7,8 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
+import edu.colorado.phet.sugarandsaltsolutions.common.SugarAndSaltSolutionsColorScheme;
+import edu.colorado.phet.sugarandsaltsolutions.common.view.ColorDialogMenuItem;
 import edu.colorado.phet.sugarandsaltsolutions.intro.IntroModule;
 import edu.colorado.phet.sugarandsaltsolutions.micro.MicroscopicModule;
 
@@ -24,7 +26,7 @@ public class SugarAndSaltSolutionsApplication extends PiccoloPhetApplication {
         super( config );
 
         //Create a shared configuration for changing colors in all tabs
-        final SugarAndSaltSolutionsConfig configuration = new SugarAndSaltSolutionsConfig();
+        final SugarAndSaltSolutionsColorScheme configuration = new SugarAndSaltSolutionsColorScheme();
 
         //Create the modules
         addModule( new IntroModule( configuration ) );

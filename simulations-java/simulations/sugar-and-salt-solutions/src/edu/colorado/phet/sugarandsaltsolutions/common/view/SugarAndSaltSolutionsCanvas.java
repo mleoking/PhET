@@ -22,7 +22,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.common.piccolophet.nodes.toolbox.ToolboxCanvas;
-import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsConfig;
+import edu.colorado.phet.sugarandsaltsolutions.common.SugarAndSaltSolutionsColorScheme;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel;
 import edu.colorado.phet.sugarandsaltsolutions.intro.model.MacroSalt;
@@ -74,7 +74,7 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements ToolboxC
     //Separate layer for the conductivity toolbox to make sure the conductivity node shows as submerged in the water, but still goes behind the shaker
     protected final PNode conductivityToolboxLayer = new PNode();
 
-    public SugarAndSaltSolutionsCanvas( final SugarAndSaltSolutionModel model, final ObservableProperty<Boolean> removeSaltSugarButtonVisible, final SugarAndSaltSolutionsConfig config ) {
+    public SugarAndSaltSolutionsCanvas( final SugarAndSaltSolutionModel model, final ObservableProperty<Boolean> removeSaltSugarButtonVisible, final SugarAndSaltSolutionsColorScheme config ) {
 
         //Set the stage size according to the same aspect ratio as used in the model
         stageSize = new PDimension( canvasSize.width,

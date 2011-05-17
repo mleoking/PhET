@@ -1,7 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.intro;
 
-import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsConfig;
+import edu.colorado.phet.sugarandsaltsolutions.common.SugarAndSaltSolutionsColorScheme;
 import edu.colorado.phet.sugarandsaltsolutions.common.SugarAndSaltSolutionsModule;
 import edu.colorado.phet.sugarandsaltsolutions.intro.model.IntroModel;
 import edu.colorado.phet.sugarandsaltsolutions.intro.view.IntroCanvas;
@@ -14,11 +14,11 @@ import edu.colorado.phet.sugarandsaltsolutions.intro.view.IntroCanvas;
 public class IntroModule extends SugarAndSaltSolutionsModule {
     private final IntroModel model;
 
-    public IntroModule( SugarAndSaltSolutionsConfig backgroundColor ) {
+    public IntroModule( SugarAndSaltSolutionsColorScheme backgroundColor ) {
         this( new IntroModel(), backgroundColor );
     }
 
-    public IntroModule( IntroModel model, SugarAndSaltSolutionsConfig config ) {
+    public IntroModule( IntroModel model, SugarAndSaltSolutionsColorScheme config ) {
         super( "Intro", model.clock );
         this.model = model;
         setSimulationPanel( new IntroCanvas( this.model, config ) );
