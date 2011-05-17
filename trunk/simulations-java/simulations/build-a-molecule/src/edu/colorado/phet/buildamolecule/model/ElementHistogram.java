@@ -5,26 +5,19 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import edu.colorado.phet.buildamolecule.BuildAMoleculeConstants;
 import edu.colorado.phet.chemistry.model.Atom;
 import edu.colorado.phet.chemistry.model.Element;
 
 /**
- * Count of each atom type, and allows fast comparison
+ * Histogram of each element in a molecule, and allows fast comparison
  */
 public class ElementHistogram {
     public static Set<String> ALLOWED_CHEMICAL_SYMBOLS = new HashSet<String>() {{
-        add( "B" ); // TODO: use elements instead of just their symbols! less error-prone
-        add( "Br" );
-        add( "C" );
-        add( "Cl" );
-        add( "F" );
-        add( "H" );
-        add( "I" );
-        add( "N" );
-        add( "O" );
-        add( "P" );
-        add( "S" );
-        add( "Si" );
+        // add in the symbols from our supported elements
+        for ( Element element : BuildAMoleculeConstants.SUPPORTED_ELEMENTS ) {
+            add( element.getSymbol() );
+        }
     }};
     public final Map<String, Integer> quantities = new HashMap<String, Integer>() {{
         for ( String symbol : ALLOWED_CHEMICAL_SYMBOLS ) {
