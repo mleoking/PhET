@@ -68,4 +68,17 @@ public class Element extends AbstractAtom {
     public static final Element S = new Element( "S", 103, 2.58, 32.066, new Color( 212, 181, 59 ) );
     public static final Element Si = new Element( "Si", 118, 1.90, 28.0855, new Color( 240, 200, 160 ) ); // tan, Jmol coloring listed from https://secure.wikimedia.org/wikipedia/en/wiki/CPK_coloring
 
+    private static final Element[] ELEMENTS = new Element[] {
+            B, Br, C, Cl, F, H, I, N, O, P, S, Si
+    };
+
+    public static Element getElementBySymbol( String symbol ) {
+        // TODO: if we really need this for efficiency in BAM startup (profile!!), consider testing hashmap
+        for ( Element element : ELEMENTS ) {
+            if ( element.getSymbol().equals( symbol ) ) {
+                return element;
+            }
+        }
+        throw new RuntimeException( "Element not found with symbol: " + symbol );
+    }
 }

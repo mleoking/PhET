@@ -2,6 +2,7 @@ package edu.colorado.phet.chemistry.utils;
 
 import java.util.*;
 
+import edu.colorado.phet.chemistry.model.Atom;
 import edu.colorado.phet.chemistry.model.Atomic;
 
 /**
@@ -94,7 +95,7 @@ public class ChemUtils {
      * @return The molecular formula of the molecule in the Hill system. Returned as an HTML fragment. See
      *         http://en.wikipedia.org/wiki/Hill_system for more information.
      */
-    public static String hillOrderedSymbol( Collection<Atomic> atoms ) {
+    public static String hillOrderedSymbol( Collection<Atom> atoms ) {
         boolean containsCarbon = false;
         for ( Atomic atom : atoms ) {
             if ( atom.isCarbon() ) {

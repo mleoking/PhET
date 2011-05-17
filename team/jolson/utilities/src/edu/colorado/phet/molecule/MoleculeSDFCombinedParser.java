@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.*;
 
-import edu.colorado.phet.buildamolecule.model.AtomHistogram;
+import edu.colorado.phet.buildamolecule.model.ElementHistogram;
 import edu.colorado.phet.buildamolecule.model.CompleteMolecule;
 import edu.colorado.phet.buildtools.util.FileUtils;
 import edu.colorado.phet.common.phetcommon.util.Pair;
@@ -104,7 +104,7 @@ public class MoleculeSDFCombinedParser {
                     if ( symbol.equals( "C" ) ) {
                         numCarbon++;
                     }
-                    if ( !AtomHistogram.ALLOWED_CHEMICAL_SYMBOLS.contains( symbol ) ) {
+                    if ( !ElementHistogram.ALLOWED_CHEMICAL_SYMBOLS.contains( symbol ) ) {
                         // has something like lead that we are not allowing
                         atomCountsOk = false;
                     }
