@@ -91,6 +91,10 @@ public abstract class DielectricMaterial {
      */
     public static class CustomDielectricMaterial extends DielectricMaterial {
 
+        public CustomDielectricMaterial() {
+            this( CLConstants.DIELECTRIC_CONSTANT_RANGE.getDefault() );
+        }
+
         public CustomDielectricMaterial( double dielectricConstant ) {
             super( CLStrings.CUSTOM, dielectricConstant, CLPaints.CUSTOM_DIELECTRIC );
         }

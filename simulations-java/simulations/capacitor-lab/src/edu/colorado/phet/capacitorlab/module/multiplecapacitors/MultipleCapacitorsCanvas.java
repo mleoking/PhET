@@ -43,7 +43,7 @@ public class MultipleCapacitorsCanvas extends CLCanvas {
         plateChargeMeterNode = new PlateChargeMeterNode( model.getPlateChargeMeter(), mvt );
         storedEnergyMeterNode = new StoredEnergyMeterNode( model.getStoredEnergyMeter(), mvt );
         voltmeter = new VoltmeterView( model.getVoltmeter(), mvt );
-        eFieldDetector = new EFieldDetectorView( model.getEFieldDetector(), mvt, eFieldVectorReferenceMagnitude, globalProperties.dev );
+        eFieldDetector = new EFieldDetectorView( model.getEFieldDetector(), mvt, eFieldVectorReferenceMagnitude, globalProperties.dev, true /* eFieldDetectorSimplified */ );
 
         // rendering order
         addChild( capacitanceMeterNode );

@@ -76,7 +76,8 @@ public class DielectricCanvas extends CLCanvas {
     // controls
     private final PlateChargeControlNode plateChargeControNode;
 
-    public DielectricCanvas( final DielectricModel model, final CLModelViewTransform3D mvt, final CLGlobalProperties globalProperties ) {
+    public DielectricCanvas( final DielectricModel model, final CLModelViewTransform3D mvt, final CLGlobalProperties globalProperties,
+                             boolean eFieldDetectorSimplified, final boolean dielectricVisible ) {
 
         this.model = model;
         this.mvt = mvt;
@@ -91,10 +92,14 @@ public class DielectricCanvas extends CLCanvas {
         batteryNode = new BatteryNode( model.getBattery(), CLConstants.BATTERY_VOLTAGE_RANGE );
         capacitorNode = new CapacitorNode( model.getCapacitor(), mvt, plateChargesVisible, eFieldVisible, dielectricChargeView,
                                            maxPlateCharge, maxExcessDielectricPlateCharge, maxEffectiveEfield, maxDielectricEField ) {{
-            // make dielectric directly draggable
-            getDielectricNode().addInputEventListener( new CursorHandler( Cursor.E_RESIZE_CURSOR ) );
-            getDielectricNode().addInputEventListener( new DielectricOffsetDragHandler( this, model.getCapacitor(), mvt, CLConstants.DIELECTRIC_OFFSET_RANGE ) );
-
+            if ( dielectricVisible ) {
+                // make dielectric directly draggable
+                getDielectricNode().addInputEventListener( new CursorHandler( Cursor.E_RESIZE_CURSOR ) );
+                getDielectricNode().addInputEventListener( new DielectricOffsetDragHandler( this, model.getCapacitor(), mvt, CLConstants.DIELECTRIC_OFFSET_RANGE ) );
+            }
+            else {
+                getDielectricNode().setVisible( false );
+            }
         }};
         topWireNode = new WireNode( model.getTopWire(), mvt );
         bottomWireNode = new WireNode( model.getBottomWire(), mvt );
@@ -109,7 +114,7 @@ public class DielectricCanvas extends CLCanvas {
         plateChargeMeterNode = new PlateChargeMeterNode( model.getPlateChargeMeter(), mvt );
         storedEnergyMeterNode = new StoredEnergyMeterNode( model.getStoredEnergyMeter(), mvt );
         voltmeter = new VoltmeterView( model.getVoltmeter(), mvt );
-        eFieldDetector = new EFieldDetectorView( model.getEFieldDetector(), mvt, eFieldVectorReferenceMagnitude, globalProperties.dev );
+        eFieldDetector = new EFieldDetectorView( model.getEFieldDetector(), mvt, eFieldVectorReferenceMagnitude, globalProperties.dev, eFieldDetectorSimplified );
 
         plateChargeControNode = new PlateChargeControlNode( model.getCircuit(), new DoubleRange( -maxPlateCharge, maxPlateCharge ) );
 
@@ -129,7 +134,9 @@ public class DielectricCanvas extends CLCanvas {
         addChild( topWireNode );
         addChild( topCurrentIndicatorNode );
         addChild( bottomCurrentIndicatorNode );
-        addChild( dielectricOffsetDragHandleNode );
+        if ( dielectricVisible ) {
+            addChild( dielectricOffsetDragHandleNode );
+        }
         addChild( plateSeparationDragHandleNode );
         addChild( plateAreaDragHandleNode );
         addChild( batteryConnectionButtonNode );
@@ -232,15 +239,6 @@ public class DielectricCanvas extends CLCanvas {
         capacitanceMeterNode.reset();
         plateChargeMeterNode.reset();
         storedEnergyMeterNode.reset();
-    }
-
-    public void setEFieldDetectorSimplified( boolean simplified ) {
-        eFieldDetector.setSimplified( simplified );
-    }
-
-    public void setDielectricVisible( boolean visible ) {
-        capacitorNode.setDielectricVisible( visible );
-        dielectricOffsetDragHandleNode.setVisible( visible );
     }
 
     private void updateBatteryConnectivity() {
