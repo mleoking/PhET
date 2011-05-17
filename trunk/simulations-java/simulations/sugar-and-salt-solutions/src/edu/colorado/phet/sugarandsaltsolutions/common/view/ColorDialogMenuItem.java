@@ -18,7 +18,7 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
  * @author Sam Reid
  */
 public class ColorDialogMenuItem extends JMenuItem {
-    ColorDialogMenuItem( Component parent, String title, final Property<Color> colorProperty ) {
+    public ColorDialogMenuItem( Component parent, String title, final Property<Color> colorProperty ) {
         super( title );
 
         //Adapter to pass information from the ColorChooserFactory.Listener to the Property<Color>
