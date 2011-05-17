@@ -34,7 +34,7 @@ public class MultipleCapacitorsModel {
     public static final double DIELECTRIC_OFFSET = 0;
     public static final double PLATE_WIDTH = 0.01; // meters
     public static final double PLATE_SEPARATION = Capacitor.getPlateSeparation( DIELECTRIC_MATERIAL.getDielectricConstant(), PLATE_WIDTH, CAPACITANCE_RANGE.getMin() );
-    public static final double CAPACITOR_X_SPACING = 0.025;  // meters
+    public static final double CAPACITOR_X_SPACING = 0.020; // meters
     public static final double CAPACITOR_Y_SPACING = 0.015; // meters
 
 
@@ -57,8 +57,8 @@ public class MultipleCapacitorsModel {
             add( new SingleCircuit( clock, mvt, BATTERY_LOCATION, SINGLE_CAPACITOR_LOCATION, PLATE_WIDTH, PLATE_SEPARATION, DIELECTRIC_MATERIAL, DIELECTRIC_OFFSET ) );
             add( new SeriesCircuit( CLStrings.TWO_IN_SERIES, clock, mvt, BATTERY_LOCATION, 2, PLATE_WIDTH, PLATE_SEPARATION, DIELECTRIC_MATERIAL, DIELECTRIC_OFFSET ) );
             add( new SeriesCircuit( CLStrings.THREE_IN_SERIES, clock, mvt, BATTERY_LOCATION, 3, PLATE_WIDTH, PLATE_SEPARATION, DIELECTRIC_MATERIAL, DIELECTRIC_OFFSET ) );
-            add( new NullCircuit( CLStrings.TWO_IN_PARALLEL, mvt, BATTERY_LOCATION ) );
-            add( new NullCircuit( CLStrings.THREE_IN_PARALLEL, mvt, BATTERY_LOCATION ) );
+            add( new ParallelCircuit( CLStrings.TWO_IN_PARALLEL, clock, mvt, BATTERY_LOCATION, 2, PLATE_WIDTH, PLATE_SEPARATION, DIELECTRIC_MATERIAL, DIELECTRIC_OFFSET ) );
+            add( new ParallelCircuit( CLStrings.THREE_IN_PARALLEL, clock, mvt, BATTERY_LOCATION, 3, PLATE_WIDTH, PLATE_SEPARATION, DIELECTRIC_MATERIAL, DIELECTRIC_OFFSET ) );
             add( new NullCircuit( CLStrings.COMBINATION_1, mvt, BATTERY_LOCATION ) );
             add( new NullCircuit( CLStrings.COMBINATION_2, mvt, BATTERY_LOCATION ) );
         }};
