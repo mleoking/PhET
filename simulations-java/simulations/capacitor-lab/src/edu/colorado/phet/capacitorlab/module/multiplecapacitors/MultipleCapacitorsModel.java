@@ -33,11 +33,11 @@ public class MultipleCapacitorsModel {
     private final EFieldDetector eFieldDetector;
     private final Voltmeter voltmeter;
 
-    public MultipleCapacitorsModel( IClock clock, CLModelViewTransform3D mvt ) {
+    public MultipleCapacitorsModel( final IClock clock, final CLModelViewTransform3D mvt ) {
 
         // create circuits
         circuits = new ArrayList<ICircuit>() {{
-            add( new DummyCircuit( CLStrings.SINGLE ) );
+            add( new BatteryCapacitorCircuit( clock, mvt ) );
             add( new DummyCircuit( CLStrings.TWO_IN_SERIES ) );
             add( new DummyCircuit( CLStrings.THREE_IN_SERIES ) );
             add( new DummyCircuit( CLStrings.TWO_IN_PARALLEL ) );
@@ -127,6 +127,14 @@ public class MultipleCapacitorsModel {
 
         public DummyCircuit( String displayName ) {
             super( displayName );
+        }
+
+        public Battery getBattery() {
+            return null;
+        }
+
+        public Capacitor getCapacitor() {
+            return null;
         }
 
         public double getTotalCapacitance() {

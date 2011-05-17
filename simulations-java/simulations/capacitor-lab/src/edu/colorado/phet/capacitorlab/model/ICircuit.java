@@ -14,13 +14,18 @@ import edu.colorado.phet.common.phetcommon.math.Point3D;
  */
 public interface ICircuit {
 
+    Battery getBattery();
+
+    //TODO return a collection of capacitors, or nested circuits
+    Capacitor getCapacitor();
+
     /**
      * Gets the name of the circuit that is visible to the user.
      * This string should be localized.
      *
      * @return
      */
-    public String getDisplayName();
+    String getDisplayName();
 
     /**
      * Gets the total capacitance of the circuit.
@@ -28,7 +33,7 @@ public interface ICircuit {
      *
      * @return capacitance, in Farads
      */
-    public double getTotalCapacitance();
+    double getTotalCapacitance();
 
     /**
      * Gets the total charge in the circuit.
@@ -36,7 +41,7 @@ public interface ICircuit {
      *
      * @return charge, in Coulombs
      */
-    public double getTotalCharge();
+    double getTotalCharge();
 
     /**
      * Gets the energy stored in the circuit.
@@ -44,7 +49,7 @@ public interface ICircuit {
      *
      * @return energy, in Joules (J)
      */
-    public double getStoredEnergy();
+    double getStoredEnergy();
 
     /**
      * Gets the voltage between 2 Shapes. The shapes are in world coordinates.
@@ -53,7 +58,7 @@ public interface ICircuit {
      * @param negativeShape
      * @return voltage, Double.NaN if the 2 Shape are not both connected to the circuit
      */
-    public double getVoltageBetween( Shape positiveShape, Shape negativeShape );
+    double getVoltageBetween( Shape positiveShape, Shape negativeShape );
 
     /**
      * Gets the effective E-field at a specified location.
@@ -63,7 +68,7 @@ public interface ICircuit {
      * @param location
      * @return E-Field, in Volts/meter
      */
-    public double getEffectiveEFieldAt( Point3D location );
+    double getEffectiveEFieldAt( Point3D location );
 
     /**
      * Field due to the plate, at a specific location.
@@ -73,7 +78,7 @@ public interface ICircuit {
      * @param location
      * @return E-Field, in Volts/meter
      */
-    public double getPlatesDielectricEFieldAt( Point3D location );
+    double getPlatesDielectricEFieldAt( Point3D location );
 
     /**
      * Gets the field due to dielectric polarization, at a specific location.
@@ -83,7 +88,7 @@ public interface ICircuit {
      * @param location
      * @return E-Field, in Volts/meter
      */
-    public double getDielectricEFieldAt( Point3D location );
+    double getDielectricEFieldAt( Point3D location );
 
     /**
      * Listener for circuit change notifications.
@@ -94,13 +99,13 @@ public interface ICircuit {
      * No performance problems have been noted, but this would be a prime place
      * to start optimizing if performance becomes an issue.
      */
-    public interface CircuitChangeListener extends EventListener {
+    interface CircuitChangeListener extends EventListener {
         public void circuitChanged();
     }
 
-    public void addCircuitChangeListener( CircuitChangeListener listener );
+    void addCircuitChangeListener( CircuitChangeListener listener );
 
-    public void removeCircuitChangeListener( CircuitChangeListener listener );
+    void removeCircuitChangeListener( CircuitChangeListener listener );
 
-    public void reset();
+    void reset();
 }
