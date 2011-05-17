@@ -242,7 +242,7 @@ public class SingleCircuit extends AbstractCircuit {
     }
 
     // @see ICircuit.getTotalCharge
-    public double getTotalCharge() {
+    @Override public double getTotalCharge() {
         return capacitor.getTotalPlateCharge();
     }
 

@@ -15,6 +15,7 @@ import edu.colorado.phet.capacitorlab.view.meters.BarMeterNode.StoredEnergyMeter
 import edu.colorado.phet.capacitorlab.view.meters.EFieldDetectorView;
 import edu.colorado.phet.capacitorlab.view.meters.VoltmeterView;
 import edu.colorado.phet.capacitorlab.view.multicaps.NullCircuitNode;
+import edu.colorado.phet.capacitorlab.view.multicaps.ParallelCircuitNode;
 import edu.colorado.phet.capacitorlab.view.multicaps.SeriesCircuitNode;
 import edu.colorado.phet.capacitorlab.view.multicaps.SingleCircuitNode;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
@@ -119,6 +120,11 @@ public class MultipleCapacitorsCanvas extends CLCanvas {
             circuitNode = new SeriesCircuitNode( (SeriesCircuit) circuit, mvt,
                                                  plateChargesVisibleProperty, eFieldVisibleProperty, dielectricChargeViewProperty,
                                                  maxPlateCharge, maxExcessDielectricPlateCharge, maxEffectiveEField, maxDielectricEField );
+        }
+        else if ( circuit instanceof ParallelCircuit ) {
+            circuitNode = new ParallelCircuitNode( (ParallelCircuit) circuit, mvt,
+                                                   plateChargesVisibleProperty, eFieldVisibleProperty, dielectricChargeViewProperty,
+                                                   maxPlateCharge, maxExcessDielectricPlateCharge, maxEffectiveEField, maxDielectricEField );
         }
         else {
             circuitNode = new NullCircuitNode( circuit, mvt );

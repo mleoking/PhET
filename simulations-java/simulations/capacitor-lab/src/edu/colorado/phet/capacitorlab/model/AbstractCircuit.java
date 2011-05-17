@@ -26,6 +26,10 @@ public abstract class AbstractCircuit implements ICircuit {
         this.listeners = new EventListenerList();
     }
 
+    public void reset() {
+        battery.reset();
+    }
+
     public String getDisplayName() {
         return displayName;
     }
@@ -34,12 +38,13 @@ public abstract class AbstractCircuit implements ICircuit {
         return battery;
     }
 
-    public double getTotalVoltage() {
-        return battery.getVoltage();
+    // Q_total = V_total * C_total
+    public double getTotalCharge() {
+        return getBattery().getVoltage() * getTotalCapacitance();
     }
 
-    public void reset() {
-        battery.reset();
+    public double getTotalVoltage() {
+        return battery.getVoltage();
     }
 
     // @see ICircuit.getVoltageBetween
