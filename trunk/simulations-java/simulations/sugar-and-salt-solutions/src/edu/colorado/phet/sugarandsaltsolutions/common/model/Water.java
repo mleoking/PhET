@@ -3,6 +3,8 @@ package edu.colorado.phet.sugarandsaltsolutions.common.model;
 
 import java.awt.*;
 
+import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.CompositeDoubleProperty;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
 
 /**
@@ -14,14 +16,16 @@ public class Water {
     //volume in SI (m^3).  Start at 1 L (halfway up the 2L beaker).  Note that 0.001 cubic meters = 1L
     public final DoubleProperty volume = new DoubleProperty( 0.001 );
     private final Beaker beaker;
+    public final CompositeDoubleProperty displacedVolume;
 
-    public Water( Beaker beaker ) {
+    public Water( Beaker beaker, Property<Double> solidPrecipitateDisplacedVolume ) {
         this.beaker = beaker;
+        displacedVolume = volume.plus( solidPrecipitateDisplacedVolume );
     }
 
     //Get the shape this water takes in its containing beaker
     public Shape getShape() {
-        return beaker.getFluidShape( volume.get() );
+        return beaker.getFluidShape( displacedVolume.get() );
     }
 
     public void reset() {

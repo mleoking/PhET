@@ -16,6 +16,7 @@ import edu.colorado.phet.common.phetcommon.model.event.Notifier;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
+import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -52,7 +53,8 @@ public abstract class SugarAndSaltSolutionModel implements ResetModel {
 
     //Beaker and water models
     public final Beaker beaker = new Beaker( BEAKER_X, 0, BEAKER_WIDTH, BEAKER_HEIGHT, BEAKER_DEPTH );//The beaker into which you can add water, salt and sugar.
-    public final Water water = new Water( beaker );
+    protected Property<Double> m_solidPrecipitateDisplacedVolume = new DoubleProperty( 0.0 );
+    public final Water water = new Water( beaker, m_solidPrecipitateDisplacedVolume );
 
     //Model for input and output flows
     public final Property<Double> inputFlowRate = new Property<Double>( 0.0 );//rate that water flows into the beaker in m^3/s
@@ -78,7 +80,7 @@ public abstract class SugarAndSaltSolutionModel implements ResetModel {
     private ArrayList<VoidFunction0> resetListeners = new ArrayList<VoidFunction0>();
 
     //Convenience composite properties for determining whether the beaker is full or empty so we can shut off the faucets when necessary
-    public final ObservableProperty<Boolean> beakerFull = water.volume.valueEquals( beaker.getMaxFluidVolume() );
+    public final ObservableProperty<Boolean> beakerFull = water.displacedVolume.greaterThanOrEqualTo( beaker.getMaxFluidVolume() );
 
     public final ConductivityTester conductivityTester = new ConductivityTester();
 
@@ -124,7 +126,7 @@ public abstract class SugarAndSaltSolutionModel implements ResetModel {
         } );
 
         //Update the conductivity tester when the water level changes, since it might move up to touch a probe (or move out from underneath a submerged probe)
-        water.volume.addObserver( new SimpleObserver() {
+        water.displacedVolume.addObserver( new SimpleObserver() {
             public void update() {
                 updateConductivityTesterBrightness();
             }
@@ -231,7 +233,7 @@ public abstract class SugarAndSaltSolutionModel implements ResetModel {
             waterDrained( drainedWater );
         }
 
-        //Move about the sugar and salt crystals
+        //Move about the sugar and salt crystals, and maybe absorb them
         updateCrystals( dt, saltList );
         updateCrystals( dt, sugarList );
     }

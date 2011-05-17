@@ -1,3 +1,4 @@
+Fixed: Crystals don't dissolve at the true top of the water (accounting for solid precipitate displacement)
 Fixed: Solid precipitate should push up the water level, so that every mole of salt takes up 0.02699 L, and every mole of sugar takes up 0.2157 L
 # 0.00.13 (52028) May 17, 2011
 Fixed: probes get buried in precipitated clump of salt and can't be retrieved
