@@ -11,6 +11,7 @@ import edu.colorado.phet.capacitorlab.view.BatteryNode;
 import edu.colorado.phet.capacitorlab.view.CapacitorNode;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -48,8 +49,9 @@ public class SingleCircuitNode extends PhetPNode {
                                                                                         MultipleCapacitorsModel.CAPACITANCE_RANGE, MultipleCapacitorsModel.CAPACITANCE_DISPLAY_EXPONENT );
             addChild( capacitanceControlNode );
             // control to left of capacitor
-            capacitanceControlNode.setOffset( capacitorNode.getFullBoundsReference().getX() - capacitanceControlNode.getFullBoundsReference().getWidth() - 10,
-                                              capacitorNode.getYOffset() - ( capacitanceControlNode.getFullBoundsReference().getHeight() / 2 ) );
+            double x = capacitorNode.getFullBoundsReference().getMinX() - capacitanceControlNode.getFullBoundsReference().getWidth() - PNodeLayoutUtils.getOriginXOffset( capacitanceControlNode ) - 5;
+            double y = capacitorNode.getYOffset() - ( capacitanceControlNode.getFullBoundsReference().getHeight() / 2 );
+            capacitanceControlNode.setOffset( x, y );
         }
     }
 }
