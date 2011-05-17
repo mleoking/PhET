@@ -8,6 +8,7 @@ import java.util.List;
 
 import edu.colorado.phet.buildamolecule.BuildAMoleculeConstants;
 import edu.colorado.phet.buildamolecule.model.CollectionBox;
+import edu.colorado.phet.buildamolecule.model.CollectionBox.Adapter;
 import edu.colorado.phet.buildamolecule.model.MoleculeStructure;
 import edu.colorado.phet.buildamolecule.view.BuildAMoleculeCanvas;
 import edu.colorado.phet.buildamolecule.view.view3d.JmolDialogProperty;
@@ -34,13 +35,14 @@ public class CollectionBoxNode extends SwingLayoutNode {
 
     // show 3d elements
     private final JmolDialogProperty dialog = new JmolDialogProperty();
-    private final PNode show3dButton;
 
     // stores nodes for each molecule
     private final Map<MoleculeStructure, PNode> moleculeNodeMap = new HashMap<MoleculeStructure, PNode>();
 
     private static final double MOLECULE_PADDING = 5;
+    private static final double BLACK_BOX_PADDING_FOR_3D = 10;
     private Timer blinkTimer = null;
+    private double button3dWidth;
 
     private GridBagConstraints headerConstraints = new GridBagConstraints() {{
         gridx = 0;
@@ -84,32 +86,38 @@ public class CollectionBoxNode extends SwingLayoutNode {
                     box.setDropBounds( canvas.getModelViewTransform().viewToModel( viewBounds ).getBounds2D() );
                 }
             } );
+
+            // create our show 3D button, and have it change visibility based on the box quantity
+            PNode show3dButton = new ShowMolecule3DButtonNode( parentFrame, dialog, box.getMoleculeType() ) {{
+                box.addListener( new Adapter() {
+                    {
+                        // update initial visibility
+                        updateVisibility();
+                    }
+
+                    private void updateVisibility() {
+                        setVisible( box.quantity.get() > 0 );
+                    }
+
+                    @Override public void onAddedMolecule( MoleculeStructure moleculeStructure ) {
+                        updateVisibility();
+                    }
+
+                    @Override public void onRemovedMolecule( MoleculeStructure moleculeStructure ) {
+                        updateVisibility();
+                    }
+                } );
+            }};
+            addChild( show3dButton );
+            show3dButton.centerFullBoundsOnPoint(
+                    getFullBounds().getWidth() - BLACK_BOX_PADDING_FOR_3D - show3dButton.getFullBounds().getWidth() / 2,
+                    getFullBounds().getHeight() / 2
+            );
+            button3dWidth = show3dButton.getFullBounds().getWidth();
         }};
         boxNode.addChild( blackBox );
         boxNode.addChild( moleculeLayer );
         addChild( boxNode, c );
-
-        // create our show 3D button, and have it change visibility based on the box quantity
-        show3dButton = new ShowMolecule3DButtonNode( parentFrame, dialog, box.getMoleculeType() ) {{
-//            box.addListener( new Adapter() {
-//                {
-//                    // update initial visibility
-//                    updateVisibility();
-//                }
-//
-//                private void updateVisibility() {
-//                    setVisible( box.quantity.get() > 0 );
-//                }
-//
-//                @Override public void onAddedMolecule( MoleculeStructure moleculeStructure ) {
-//                    updateVisibility();
-//                }
-//
-//                @Override public void onRemovedMolecule( MoleculeStructure moleculeStructure ) {
-//                    updateVisibility();
-//                }
-//            } );
-        }};
 
         updateBoxGraphics();
 
@@ -133,10 +141,6 @@ public class CollectionBoxNode extends SwingLayoutNode {
                 updateBoxGraphics();
             }
         } );
-    }
-
-    protected PNode getShow3dButton() {
-        return show3dButton;
     }
 
     protected void addHeaderNode( PNode headerNode ) {
@@ -250,18 +254,31 @@ public class CollectionBoxNode extends SwingLayoutNode {
         }
     }
 
-    private void centerMoleculesInBlackBox() {
+    /**
+     * Excludes the area in the black box where the 3D button needs to go
+     */
+    private PBounds getMoleculeAreaInBlackBox() {
         PBounds blackBoxFullBounds = blackBox.getFullBounds();
+        return new PBounds(
+                blackBoxFullBounds.getX(),
+                blackBoxFullBounds.getY(),
+                blackBoxFullBounds.getWidth() - BLACK_BOX_PADDING_FOR_3D - button3dWidth, // leave room for 3d button on RHS
+                blackBoxFullBounds.getHeight()
+        );
+    }
+
+    private void centerMoleculesInBlackBox() {
+        PBounds moleculeArea = getMoleculeAreaInBlackBox();
 
         // for now, we scale the molecules up and down depending on their size
         moleculeLayer.setScale( 1 );
-        double xScale = ( blackBoxFullBounds.getWidth() - 25 ) / moleculeLayer.getFullBounds().getWidth();
-        double yScale = ( blackBoxFullBounds.getHeight() - 25 ) / moleculeLayer.getFullBounds().getHeight();
+        double xScale = ( moleculeArea.getWidth() - 25 ) / moleculeLayer.getFullBounds().getWidth();
+        double yScale = ( moleculeArea.getHeight() - 25 ) / moleculeLayer.getFullBounds().getHeight();
         moleculeLayer.setScale( Math.min( xScale, yScale ) );
 
         moleculeLayer.centerFullBoundsOnPoint(
-                blackBoxFullBounds.getCenterX() - blackBoxFullBounds.getX(),
-                blackBoxFullBounds.getCenterY() - blackBoxFullBounds.getY() );
+                moleculeArea.getCenterX() - moleculeArea.getX(),
+                moleculeArea.getCenterY() - moleculeArea.getY() );
     }
 
     private void updateBoxGraphics() {

@@ -1,6 +1,6 @@
-Put box 3d button in upper-right of black box? (smaller?)
 Check filtering of duplicates: acetylene and propane issues? -- SVN issues?
 I18nize text bubble
+BCE Element/Atom work
 Color change on "break molecule" button - blue
 Scissors bug on Mac?
 Bucket phetcommon cleanup

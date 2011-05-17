@@ -24,10 +24,6 @@ public class MultipleCollectionBoxNode extends CollectionBoxNode {
                 setFont( new PhetFont( 16, true ) );
             }};
             addChild( goalNode );
-
-            PNode show3dButton = getShow3dButton();
-            show3dButton.setOffset( goalNode.getFullBounds().getWidth() + 10, ( goalNode.getFullBounds().getHeight() - show3dButton.getFullBounds().getHeight() ) / 4 ); // note, not vertically centered
-            addChild( show3dButton );
         }} );
         addHeaderNode( new HTMLNode() {{
             // TODO: figure out a possible better way to assure that we don't see a "bumping" size change due to increase of string height with subscripts:
