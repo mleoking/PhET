@@ -5,15 +5,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Rectangle2D;
 
+import edu.colorado.phet.buildamolecule.BuildAMoleculeConstants;
 import edu.colorado.phet.buildamolecule.BuildAMoleculeStrings;
 import edu.colorado.phet.buildamolecule.model.KitCollectionModel;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.FaceNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.swing.SwingLayoutNode;
 
 /**
@@ -24,13 +27,24 @@ public class AllFilledDialogNode extends PNode {
         PNode background = new PNode();
         addChild( background );
         addChild( new SwingLayoutNode( new GridBagLayout() ) {{
+            // smiley face
+            addChild( new FaceNode( 120 ) {{
+                          smile();
+                      }},
+                      new GridBagConstraints() {{
+                          gridx = 0;
+                          gridy = 0;
+                      }}
+            );
+
             // text explaining all collection boxes are filled
             addChild( new HTMLNode( BuildAMoleculeStrings.COLLECTION_ALL_FILLED ) {{
                           setFont( new PhetFont( 20, true ) );
                       }},
                       new GridBagConstraints() {{
                           gridx = 0;
-                          gridy = 0;
+                          gridy = 1;
+                          insets = new Insets( 10, 0, 0, 0 );
                       }}
             );
 
@@ -44,7 +58,7 @@ public class AllFilledDialogNode extends PNode {
                       }},
                       new GridBagConstraints() {{
                           gridx = 0;
-                          gridy = 1;
+                          gridy = 2;
                           insets = new Insets( 10, 0, 0, 0 );
                       }}
             );
@@ -52,7 +66,9 @@ public class AllFilledDialogNode extends PNode {
 
         float padding = 10;
 
-        background.addChild( PhetPPath.createRectangle( (float) getFullBounds().getX() - padding, (float) getFullBounds().getY() - padding, (float) getFullBounds().getWidth() + 2 * padding, (float) getFullBounds().getHeight() + 2 * padding ) );
+        PPath backgroundNode = PhetPPath.createRectangle( (float) getFullBounds().getX() - padding, (float) getFullBounds().getY() - padding, (float) getFullBounds().getWidth() + 2 * padding, (float) getFullBounds().getHeight() + 2 * padding );
+        backgroundNode.setPaint( BuildAMoleculeConstants.COMPLETE_BACKGROUND_COLOR );
+        background.addChild( backgroundNode );
 
         Rectangle2D playAreaViewBounds = mvt.modelToView( model.getAvailablePlayAreaBounds() ).getBounds2D();
         centerFullBoundsOnPoint( playAreaViewBounds.getCenterX(), playAreaViewBounds.getCenterY() );
