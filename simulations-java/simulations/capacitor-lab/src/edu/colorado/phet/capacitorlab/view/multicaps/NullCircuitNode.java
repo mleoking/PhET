@@ -2,7 +2,7 @@
 package edu.colorado.phet.capacitorlab.view.multicaps;
 
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
-import edu.colorado.phet.capacitorlab.model.NullCircuit;
+import edu.colorado.phet.capacitorlab.model.ICircuit;
 
 //TODO delete this when all circuits are implemented
 
@@ -13,7 +13,7 @@ import edu.colorado.phet.capacitorlab.model.NullCircuit;
  */
 public class NullCircuitNode extends AbstractCircuitNode {
 
-    public NullCircuitNode( NullCircuit circuit, CLModelViewTransform3D mvt ) {
+    public NullCircuitNode( ICircuit circuit, CLModelViewTransform3D mvt ) {
         super( circuit, mvt );
     }
 }

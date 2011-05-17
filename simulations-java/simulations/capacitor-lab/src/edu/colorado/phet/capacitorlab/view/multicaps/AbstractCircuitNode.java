@@ -5,9 +5,9 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
-import edu.colorado.phet.capacitorlab.model.AbstractCircuit;
 import edu.colorado.phet.capacitorlab.model.Battery;
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
+import edu.colorado.phet.capacitorlab.model.ICircuit;
 import edu.colorado.phet.capacitorlab.view.BatteryNode;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -23,7 +23,7 @@ public class AbstractCircuitNode extends PhetPNode {
 
     private final BatteryNode batteryNode;
 
-    public AbstractCircuitNode( AbstractCircuit circuit, CLModelViewTransform3D mvt ) {
+    public AbstractCircuitNode( ICircuit circuit, CLModelViewTransform3D mvt ) {
 
         // dev: show the circuit name in the upper-left corner
         if ( PhetApplication.getInstance().isDeveloperControlsEnabled() ) {

@@ -120,11 +120,8 @@ public class MultipleCapacitorsCanvas extends CLCanvas {
                                                  plateChargesVisible, eFieldVisible, dielectricChargeView,
                                                  maxPlateCharge, maxExcessDielectricPlateCharge, maxEffectiveEField, maxDielectricEField );
         }
-        else if ( circuit instanceof NullCircuit ) {
-            circuitNode = new NullCircuitNode( (NullCircuit) circuit, mvt );
-        }
         else {
-            circuitNode = new PNode();
+            circuitNode = new NullCircuitNode( circuit, mvt );
         }
         System.out.println( "MultipleCapacitorsCanvas.createCircuit return=" + circuitNode.getClass().getName() );//XXX
         return circuitNode;
