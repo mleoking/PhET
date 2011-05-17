@@ -59,8 +59,8 @@ public class MultipleCapacitorsModel {
             add( new SeriesCircuit( CLStrings.THREE_IN_SERIES, clock, mvt, BATTERY_LOCATION, 3, PLATE_WIDTH, PLATE_SEPARATION, DIELECTRIC_MATERIAL, DIELECTRIC_OFFSET ) );
             add( new ParallelCircuit( CLStrings.TWO_IN_PARALLEL, clock, mvt, BATTERY_LOCATION, 2, PLATE_WIDTH, PLATE_SEPARATION, DIELECTRIC_MATERIAL, DIELECTRIC_OFFSET ) );
             add( new ParallelCircuit( CLStrings.THREE_IN_PARALLEL, clock, mvt, BATTERY_LOCATION, 3, PLATE_WIDTH, PLATE_SEPARATION, DIELECTRIC_MATERIAL, DIELECTRIC_OFFSET ) );
-            add( new NullCircuit( CLStrings.COMBINATION_1, mvt, BATTERY_LOCATION ) );
-            add( new NullCircuit( CLStrings.COMBINATION_2, mvt, BATTERY_LOCATION ) );
+            add( new Combination1Circuit( clock, mvt, BATTERY_LOCATION, PLATE_WIDTH, PLATE_SEPARATION, DIELECTRIC_MATERIAL, DIELECTRIC_OFFSET ) );
+            add( new Combination2Circuit( clock, mvt, BATTERY_LOCATION, PLATE_WIDTH, PLATE_SEPARATION, DIELECTRIC_MATERIAL, DIELECTRIC_OFFSET ) );
         }};
 
         currentCircuitProperty = new Property<ICircuit>( circuits.get( 0 ) );

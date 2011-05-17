@@ -14,10 +14,7 @@ import edu.colorado.phet.capacitorlab.view.meters.BarMeterNode.PlateChargeMeterN
 import edu.colorado.phet.capacitorlab.view.meters.BarMeterNode.StoredEnergyMeterNode;
 import edu.colorado.phet.capacitorlab.view.meters.EFieldDetectorView;
 import edu.colorado.phet.capacitorlab.view.meters.VoltmeterView;
-import edu.colorado.phet.capacitorlab.view.multicaps.NullCircuitNode;
-import edu.colorado.phet.capacitorlab.view.multicaps.ParallelCircuitNode;
-import edu.colorado.phet.capacitorlab.view.multicaps.SeriesCircuitNode;
-import edu.colorado.phet.capacitorlab.view.multicaps.SingleCircuitNode;
+import edu.colorado.phet.capacitorlab.view.multicaps.*;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -125,6 +122,16 @@ public class MultipleCapacitorsCanvas extends CLCanvas {
             circuitNode = new ParallelCircuitNode( (ParallelCircuit) circuit, mvt,
                                                    plateChargesVisibleProperty, eFieldVisibleProperty, dielectricChargeViewProperty,
                                                    maxPlateCharge, maxExcessDielectricPlateCharge, maxEffectiveEField, maxDielectricEField );
+        }
+        else if ( circuit instanceof Combination1Circuit ) {
+            circuitNode = new Combination1CircuitNode( (Combination1Circuit) circuit, mvt,
+                                                       plateChargesVisibleProperty, eFieldVisibleProperty, dielectricChargeViewProperty,
+                                                       maxPlateCharge, maxExcessDielectricPlateCharge, maxEffectiveEField, maxDielectricEField );
+        }
+        else if ( circuit instanceof Combination2Circuit ) {
+            circuitNode = new Combination2CircuitNode( (Combination2Circuit) circuit, mvt,
+                                                       plateChargesVisibleProperty, eFieldVisibleProperty, dielectricChargeViewProperty,
+                                                       maxPlateCharge, maxExcessDielectricPlateCharge, maxEffectiveEField, maxDielectricEField );
         }
         else {
             circuitNode = new NullCircuitNode( circuit, mvt );
