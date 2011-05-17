@@ -3,6 +3,7 @@
 package edu.colorado.phet.capacitorlab.model;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLStrings;
@@ -97,6 +98,12 @@ public class SingleCircuit extends AbstractCircuit {
 
     public Capacitor getCapacitor() {
         return capacitor;
+    }
+
+    public ArrayList<Capacitor> getCapacitors() {
+        return new ArrayList<Capacitor>() {{
+            add( capacitor );
+        }};
     }
 
     public Wire getTopWire() {
