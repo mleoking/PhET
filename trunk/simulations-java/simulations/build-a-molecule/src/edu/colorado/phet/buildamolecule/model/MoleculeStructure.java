@@ -13,8 +13,8 @@ import edu.colorado.phet.chemistry.utils.ChemUtils;
  * TODO: consider using generics to specify atom type, with MoleculeStructure<T extends Atom>
  */
 public class MoleculeStructure {
-    private final ArrayList<Atom> atoms;
-    private final ArrayList<Bond> bonds;
+    private final ArrayList<Atom> atoms; // NOTE: don't mess with the order
+    private final ArrayList<Bond> bonds; // NOTE: don't mess with the order
 
     private static int nextMoleculeId = 0;
     private final int moleculeId; // used for molecule identification and ordering for optimization
@@ -35,7 +35,7 @@ public class MoleculeStructure {
      */
     public Atom addAtom( Atom atom ) {
         assert ( !atoms.contains( atom ) );
-        atoms.add( atom );
+        atoms.add( atom ); // NOTE: don't mess with the order
         return atom;
     }
 
@@ -208,11 +208,11 @@ public class MoleculeStructure {
         return value;
     }
 
-    public Collection<Atom> getAtoms() {
+    public List<Atom> getAtoms() {
         return atoms;
     }
 
-    public Collection<Bond> getBonds() {
+    public List<Bond> getBonds() {
         return bonds;
     }
 

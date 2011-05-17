@@ -13,7 +13,11 @@ import edu.colorado.phet.chemistry.model.Element;
  */
 public class StrippedMolecule {
     public final MoleculeStructure stripped;
-    private final Map<Atom, Integer> hydrogenCount = new HashMap<Atom, Integer>();
+
+    /**
+     * Array indexed the same way as stripped.getAtoms() for efficiency. It's essentially immutable, so this works
+     */
+    private final int[] hydrogenCount;
 
     public StrippedMolecule( MoleculeStructure original ) {
         List<Atom> atomsToAdd = new ArrayList<Atom>();
@@ -23,11 +27,10 @@ public class StrippedMolecule {
         for ( Atom atom : original.getAtoms() ) {
             if ( !atom.isHydrogen() ) {
                 atomsToAdd.add( atom );
-
-                // initialize bonded hydrogen count to 0
-                hydrogenCount.put( atom, 0 );
             }
         }
+
+        hydrogenCount = new int[atomsToAdd.size()];
 
         // copy non-hydrogen honds, and mark hydrogen bonds
         for ( MoleculeStructure.Bond bond : original.getBonds() ) {
@@ -39,12 +42,7 @@ public class StrippedMolecule {
 
                 if ( aIsHydrogen || bIsHydrogen ) {
                     // increment hydrogen count of either A or B, if the bond contains hydrogen
-                    if ( aIsHydrogen ) {
-                        hydrogenCount.put( bond.b, hydrogenCount.get( bond.b ) + 1 );
-                    }
-                    else {
-                        hydrogenCount.put( bond.a, hydrogenCount.get( bond.a ) + 1 );
-                    }
+                    hydrogenCount[atomsToAdd.indexOf( aIsHydrogen ? bond.b : bond.a )]++;
                 }
                 else {
                     // bond doesn't involve hydrogen, so we add it to our stripped version
@@ -68,8 +66,8 @@ public class StrippedMolecule {
      */
     public MoleculeStructure toMoleculeStructure() {
         MoleculeStructure result = stripped.getCopy();
-        for ( Atom atom : hydrogenCount.keySet() ) {
-            int count = hydrogenCount.get( atom );
+        for ( Atom atom : stripped.getAtoms() ) {
+            int count = getHydrogenCount( atom );
             for ( int i = 0; i < count; i++ ) {
                 Atom hydrogenAtom = new Atom( Element.H );
                 result.addAtom( hydrogenAtom );
@@ -79,8 +77,14 @@ public class StrippedMolecule {
         return result;
     }
 
+    private int getIndex( Atom atom ) {
+        int index = stripped.getAtoms().indexOf( atom );
+        assert ( index != -1 );
+        return index;
+    }
+
     public int getHydrogenCount( Atom atom ) {
-        return hydrogenCount.get( atom );
+        return hydrogenCount[getIndex( atom )];
     }
 
     public boolean isEquivalent( StrippedMolecule other ) {
@@ -187,7 +191,7 @@ public class StrippedMolecule {
     public StrippedMolecule getCopyWithAtomRemoved( Atom atom ) {
         StrippedMolecule result = new StrippedMolecule( stripped.getCopyWithAtomRemoved( atom ) );
         for ( Atom resultAtom : result.stripped.getAtoms() ) {
-            result.hydrogenCount.put( resultAtom, hydrogenCount.get( resultAtom ) );
+            result.hydrogenCount[result.getIndex( resultAtom )] = getHydrogenCount( resultAtom );
         }
         return result;
     }
