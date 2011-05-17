@@ -11,7 +11,19 @@ import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
- * Model of a circuit with a battery and N capacitors in series.
+ * Model of a circuit with a battery (B) and N capacitors (ci) in series.
+ * <p/>
+ * <code>
+ * |-----|
+ * |     |
+ * |    c1
+ * |     |
+ * B    c2
+ * |     |
+ * |    c3
+ * |     |
+ * |-----|
+ * </code>
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
