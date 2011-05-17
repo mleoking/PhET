@@ -7,6 +7,7 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLGlobalProperties;
+import edu.colorado.phet.capacitorlab.control.CapacitanceControlNode;
 import edu.colorado.phet.capacitorlab.model.*;
 import edu.colorado.phet.capacitorlab.module.CLCanvas;
 import edu.colorado.phet.capacitorlab.module.dielectric.DielectricModel;
@@ -115,19 +116,29 @@ public class MultipleCapacitorsCanvas extends CLCanvas {
         Battery battery = circuit.getBattery();
         if ( battery != null ) {
             PNode batteryNode = new BatteryNode( circuit.getBattery(), CLConstants.BATTERY_VOLTAGE_RANGE );
+            parentNode.addChild( batteryNode );
+            // battery at model location
             pView = mvt.modelToView( circuit.getBattery().getLocationReference() );
             batteryNode.setOffset( pView );
-            parentNode.addChild( batteryNode );
         }
 
         Capacitor capacitor = circuit.getCapacitor();
         if ( capacitor != null ) {
+
             CapacitorNode capacitorNode = new CapacitorNode( capacitor, mvt, plateChargesVisible, eFieldVisible, dielectricChargeView,
                                                              maxPlateCharge, maxExcessDielectricPlateCharge, maxEffectiveEField, maxDielectricEField );
             capacitorNode.getDielectricNode().setVisible( false );
+            parentNode.addChild( capacitorNode );
+            // capacitor at model location
             pView = mvt.modelToView( capacitor.getLocation() );
             capacitorNode.setOffset( pView );
-            parentNode.addChild( capacitorNode );
+
+            CapacitanceControlNode capacitanceControlNode = new CapacitanceControlNode( capacitor,
+                                                                                        MultipleCapacitorsModel.CAPACITANCE_RANGE, MultipleCapacitorsModel.CAPACITANCE_DISPLAY_EXPONENT );
+            parentNode.addChild( capacitanceControlNode );
+            // control to left of capacitor
+            capacitanceControlNode.setOffset( capacitorNode.getFullBoundsReference().getX() - capacitanceControlNode.getFullBoundsReference().getWidth() - 10,
+                                              capacitorNode.getYOffset() - ( capacitanceControlNode.getFullBoundsReference().getHeight() / 2 ) );
         }
 
         return parentNode;

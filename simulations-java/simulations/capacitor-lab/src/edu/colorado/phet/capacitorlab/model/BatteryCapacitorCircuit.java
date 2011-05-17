@@ -8,7 +8,6 @@ import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLStrings;
-import edu.colorado.phet.capacitorlab.model.DielectricMaterial.Air;
 import edu.colorado.phet.capacitorlab.model.ICapacitor.CapacitorChangeListener;
 import edu.colorado.phet.capacitorlab.model.Wire.BottomWire;
 import edu.colorado.phet.capacitorlab.model.Wire.TopWire;
@@ -44,8 +43,8 @@ public class BatteryCapacitorCircuit extends AbstractCircuit {
     private double disconnectedPlateCharge; // charge set manually by the user, used when battery is disconnected
     private double previousTotalCharge; // total charge the previous time the clock ticked, used to compute current amplitude
 
-    public BatteryCapacitorCircuit( IClock clock, CLModelViewTransform3D mvt ) {
-        this( clock, mvt, 0.01 /* plateWidth */, 0.005 /* plateSeparation */, new Air(), 0 /* dielectricOffset */, true /* batteryConnected */ );
+    public BatteryCapacitorCircuit( IClock clock, CLModelViewTransform3D mvt, double plateWidth, double plateSeparation, DielectricMaterial dielectricMaterial, double dielectricOffset ) {
+        this( clock, mvt, plateWidth, plateSeparation, dielectricMaterial, dielectricOffset, true /* batteryConnected */ );
     }
 
     public BatteryCapacitorCircuit( IClock clock, CLModelViewTransform3D mvt, double plateWidth, double plateSeparation, DielectricMaterial dielectricMaterial, double dielectricOffset, boolean batteryConnected ) {
