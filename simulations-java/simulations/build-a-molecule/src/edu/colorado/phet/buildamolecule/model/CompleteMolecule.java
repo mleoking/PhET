@@ -56,7 +56,7 @@ public class CompleteMolecule {
 
         // # of bonds
         int bondCount = Integer.parseInt( t.nextToken() );
-        moleculeStructure = new MoleculeStructure();
+        moleculeStructure = new MoleculeStructure( atomCount, bondCount );
 
         // for each atom, read its symbol, then 2d coordinates, then 3d coordinates (total of 6 fields)
         atomWrappers = new AtomWrapper[atomCount];
