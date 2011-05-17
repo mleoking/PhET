@@ -26,10 +26,6 @@ public class SingleCollectionBoxNode extends CollectionBoxNode {
                 setFont( new PhetFont( 16, true ) );
             }};
             addChild( nameAndFormula );
-
-            PNode show3dButton = getShow3dButton();
-            show3dButton.setOffset( nameAndFormula.getFullBounds().getWidth() + 10, ( nameAndFormula.getFullBounds().getHeight() - show3dButton.getFullBounds().getHeight() ) / 4 ); // note, not vertically centered
-            addChild( show3dButton );
         }} );
     }
 }
