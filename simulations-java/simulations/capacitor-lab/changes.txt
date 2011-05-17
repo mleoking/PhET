@@ -1,3 +1,4 @@
+5/17/11 move battery and listeners to AbstractCircuit
 5/17/11 create SingleCircuitNode, add factory method for creating circuit nodes
 5/17/11 rename BatteryCapacitorCircuit to SingleCircuit
 5/17/11 attach charge and E-field visibility properties to control panel
