@@ -44,9 +44,9 @@ import edu.umd.cs.piccolo.PNode;
 public class DielectricCanvas extends CLCanvas {
 
     // global view properties, directly observable
-    public final Property<Boolean> plateChargesVisible = new Property<Boolean>( CLConstants.PLATE_CHARGES_VISIBLE );
-    public final Property<Boolean> eFieldVisible = new Property<Boolean>( CLConstants.EFIELD_VISIBLE );
-    public final Property<DielectricChargeView> dielectricChargeView = new Property<DielectricChargeView>( CLConstants.DIELECTRIC_CHARGE_VIEW );
+    public final Property<Boolean> plateChargesVisibleProperty = new Property<Boolean>( CLConstants.PLATE_CHARGES_VISIBLE );
+    public final Property<Boolean> eFieldVisibleProperty = new Property<Boolean>( CLConstants.EFIELD_VISIBLE );
+    public final Property<DielectricChargeView> dielectricChargeViewProperty = new Property<DielectricChargeView>( CLConstants.DIELECTRIC_CHARGE_VIEW );
 
     private final DielectricModel model;
     private final CLModelViewTransform3D mvt;
@@ -90,7 +90,7 @@ public class DielectricCanvas extends CLCanvas {
         final double eFieldVectorReferenceMagnitude = DielectricModel.getMaxPlatesDielectricEFieldWithBattery();
 
         batteryNode = new BatteryNode( model.getBattery(), CLConstants.BATTERY_VOLTAGE_RANGE );
-        capacitorNode = new CapacitorNode( model.getCapacitor(), mvt, plateChargesVisible, eFieldVisible, dielectricChargeView,
+        capacitorNode = new CapacitorNode( model.getCapacitor(), mvt, plateChargesVisibleProperty, eFieldVisibleProperty, dielectricChargeViewProperty,
                                            maxPlateCharge, maxExcessDielectricPlateCharge, maxEffectiveEField, maxDielectricEField ) {{
             if ( dielectricVisible ) {
                 // make dielectric directly draggable
@@ -201,11 +201,11 @@ public class DielectricCanvas extends CLCanvas {
             // things whose visibility causes the dielectric to become transparent
             SimpleObserver o = new SimpleObserver() {
                 public void update() {
-                    boolean transparent = eFieldVisible.get() || model.getVoltmeter().isVisible() || model.getEFieldDetector().visibleProperty.get();
+                    boolean transparent = eFieldVisibleProperty.get() || model.getVoltmeter().isVisible() || model.getEFieldDetector().visibleProperty.get();
                     capacitorNode.getDielectricNode().setOpaque( !transparent );
                 }
             };
-            eFieldVisible.addObserver( o );
+            eFieldVisibleProperty.addObserver( o );
             model.getVoltmeter().visibleProperty.addObserver( o );
             model.getEFieldDetector().visibleProperty.addObserver( o );
 
@@ -230,9 +230,9 @@ public class DielectricCanvas extends CLCanvas {
 
     public void reset() {
         // global properties of the view
-        plateChargesVisible.reset();
-        eFieldVisible.reset();
-        dielectricChargeView.reset();
+        plateChargesVisibleProperty.reset();
+        eFieldVisibleProperty.reset();
+        dielectricChargeViewProperty.reset();
         // battery connectivity
         updateBatteryConnectivity();
         // zoom level of bar meters

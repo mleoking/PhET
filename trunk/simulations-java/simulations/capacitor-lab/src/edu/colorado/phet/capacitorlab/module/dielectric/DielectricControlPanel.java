@@ -18,9 +18,9 @@ import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 public class DielectricControlPanel extends ControlPanel {
 
     public DielectricControlPanel( Resettable resettable, DielectricModel model, DielectricCanvas canvas, CLGlobalProperties globalProperties ) {
-        addControlFullWidth( new ViewControlPanel( canvas.plateChargesVisible, canvas.eFieldVisible ) );
+        addControlFullWidth( new ViewControlPanel( canvas.plateChargesVisibleProperty, canvas.eFieldVisibleProperty ) );
         addControlFullWidth( new MetersControlPanel( model.getCapacitanceMeter(), model.getPlateChargeMeter(), model.getStoredEnergyMeter(), model.getVoltmeter(), model.getEFieldDetector() ) );
-        addControlFullWidth( new DielectricPropertiesControlPanel( model.getCapacitor(), model.getDielectricMaterials(), canvas.dielectricChargeView ) );
+        addControlFullWidth( new DielectricPropertiesControlPanel( model.getCapacitor(), model.getDielectricMaterials(), canvas.dielectricChargeViewProperty ) );
         if ( globalProperties.dev ) {
             addControlFullWidth( new DeveloperControlPanel( globalProperties.frame, model ) );
         }
