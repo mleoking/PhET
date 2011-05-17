@@ -18,6 +18,7 @@ MULTIPLE CAPACITORS REQUIREMENTS
 - current indicators near battery poles (like in other tabs)
 
 HIGH PRIORITY
+- delete ICapacitor, if Capacitor reuse in Multi-Cap works out
 - rewrite BatteryCapacitorCircuit using "nested circuits" design
 - add Multiple Capacitors module
 - more general way to create Wire model elements, subclasses like TopWire and BottomWire are not scalable
