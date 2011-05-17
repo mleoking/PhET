@@ -2,10 +2,11 @@
 
 package edu.colorado.phet.chemistry.molecules;
 
-import edu.colorado.phet.chemistry.model.Atom.Cl;
-import edu.colorado.phet.chemistry.model.Atom.H;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolox.nodes.PComposite;
+
+import static edu.colorado.phet.chemistry.model.Atom.Cl;
+import static edu.colorado.phet.chemistry.model.Atom.H;
 
 /**
  * HCl molecule.
@@ -17,8 +18,8 @@ public class HClNode extends PComposite {
     public HClNode() {
 
         // atom nodes
-        AtomNode leftNode = new AtomNode( new H() );
-        AtomNode rightNode = new AtomNode( new Cl() );
+        AtomNode leftNode = new AtomNode( H );
+        AtomNode rightNode = new AtomNode( Cl );
 
         // rendering order
         PComposite parentNode = new PComposite();

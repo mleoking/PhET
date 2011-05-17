@@ -2,10 +2,11 @@
 
 package edu.colorado.phet.chemistry.molecules;
 
-import edu.colorado.phet.chemistry.model.Atom.N;
-import edu.colorado.phet.chemistry.model.Atom.O;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolox.nodes.PComposite;
+
+import static edu.colorado.phet.chemistry.model.Atom.N;
+import static edu.colorado.phet.chemistry.model.Atom.O;
 
 /**
  * NO2 molecule.
@@ -17,9 +18,9 @@ public class NO2Node extends PComposite {
     public NO2Node() {
 
         // atom nodes
-        AtomNode centerNode = new AtomNode( new N() );
-        AtomNode leftNode = new AtomNode( new O() );
-        AtomNode rightNode = new AtomNode( new O() );
+        AtomNode centerNode = new AtomNode( N );
+        AtomNode leftNode = new AtomNode( O );
+        AtomNode rightNode = new AtomNode( O );
 
         // rendering order
         PComposite parentNode = new PComposite();

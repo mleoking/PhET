@@ -2,10 +2,11 @@
 
 package edu.colorado.phet.chemistry.molecules;
 
-import edu.colorado.phet.chemistry.model.Atom.F;
-import edu.colorado.phet.chemistry.model.Atom.O;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolox.nodes.PComposite;
+
+import static edu.colorado.phet.chemistry.model.Atom.F;
+import static edu.colorado.phet.chemistry.model.Atom.O;
 
 /**
  * OF2 molecule.
@@ -17,9 +18,9 @@ public class OF2Node extends PComposite {
     public OF2Node() {
 
         // atom nodes
-        AtomNode centerNode = new AtomNode( new O() );
-        AtomNode leftNode = new AtomNode( new F() );
-        AtomNode rightNode = new AtomNode( new F() );
+        AtomNode centerNode = new AtomNode( O );
+        AtomNode leftNode = new AtomNode( F );
+        AtomNode rightNode = new AtomNode( F );
 
         // rendering order
         PComposite parentNode = new PComposite();

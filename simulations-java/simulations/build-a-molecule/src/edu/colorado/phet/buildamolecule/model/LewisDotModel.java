@@ -7,7 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import edu.colorado.phet.chemistry.model.Atom;
+import edu.colorado.phet.chemistry.model.Atomic;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.Option;
 
@@ -16,7 +16,7 @@ import edu.colorado.phet.common.phetcommon.util.Option;
  * enough to handle other situations
  */
 public class LewisDotModel {
-    private Map<Atom, LewisDotAtom> atomMap = new HashMap<Atom, LewisDotAtom>();
+    private Map<Atomic, LewisDotAtom> atomMap = new HashMap<Atomic, LewisDotAtom>();
 
     /*---------------------------------------------------------------------------*
     * directions
@@ -61,12 +61,12 @@ public class LewisDotModel {
     * public methods
     *----------------------------------------------------------------------------*/
 
-    public void addAtom( Atom atom ) {
+    public void addAtom( Atomic atom ) {
         LewisDotAtom dotAtom = new LewisDotAtom( atom );
         atomMap.put( atom, dotAtom );
     }
 
-    public void breakBondsOfAtom( Atom atom ) {
+    public void breakBondsOfAtom( Atomic atom ) {
         LewisDotAtom dotAtom = getLewisDotAtom( atom );
 
         // disconnect all of its bonds
@@ -84,7 +84,7 @@ public class LewisDotModel {
      * @param a A
      * @param b B
      */
-    public void breakBond( Atom a, Atom b ) {
+    public void breakBond( Atomic a, Atomic b ) {
         LewisDotAtom dotA = getLewisDotAtom( a );
         LewisDotAtom dotB = getLewisDotAtom( b );
         Direction direction = getBondDirection( a, b );
@@ -99,7 +99,7 @@ public class LewisDotModel {
      * @param dirAtoB The direction from A to B. So if A is to the left, B is on the right, the direction would be East
      * @param b       B
      */
-    public void bond( Atom a, Direction dirAtoB, Atom b ) {
+    public void bond( Atomic a, Direction dirAtoB, Atomic b ) {
         LewisDotAtom dotA = getLewisDotAtom( a );
         LewisDotAtom dotB = getLewisDotAtom( b );
         dotA.connect( dirAtoB, dotB );
@@ -110,7 +110,7 @@ public class LewisDotModel {
      * @param atom An atom
      * @return All of the directions that are open (not bonded to another) on the atom
      */
-    public List<Direction> getOpenDirections( Atom atom ) {
+    public List<Direction> getOpenDirections( Atomic atom ) {
         List<Direction> ret = new LinkedList<Direction>();
         LewisDotAtom dotAtom = getLewisDotAtom( atom );
         for ( Direction direction : Direction.values() ) {
@@ -126,7 +126,7 @@ public class LewisDotModel {
      * @param b B
      * @return The bond direction from A to B. If it doesn't exist, an exception is thrown
      */
-    public Direction getBondDirection( Atom a, Atom b ) {
+    public Direction getBondDirection( Atomic a, Atomic b ) {
         LewisDotAtom dotA = getLewisDotAtom( a );
         for ( Direction direction : Direction.values() ) {
             if ( dotA.hasConnection( direction ) && dotA.getLewisDotAtom( direction ).atom == b ) {
@@ -145,7 +145,7 @@ public class LewisDotModel {
      * @param b         B
      * @return Whether this bond is considered acceptable
      */
-    public boolean willAllowBond( Atom a, Direction direction, Atom b ) {
+    public boolean willAllowBond( Atomic a, Direction direction, Atomic b ) {
 
         /*---------------------------------------------------------------------------*
         * We need to verify that if we bind these two together that no overlaps occur.
@@ -154,7 +154,7 @@ public class LewisDotModel {
         * hydrogen.
         *----------------------------------------------------------------------------*/
 
-        Map<Point2D, Atom> coordinateMap = new HashMap<Point2D, Atom>();
+        Map<Point2D, Atomic> coordinateMap = new HashMap<Point2D, Atomic>();
 
         // map the molecule on the A side, from the origin
         boolean success = mapMolecule( new ImmutableVector2D(), a, null, coordinateMap );
@@ -180,7 +180,7 @@ public class LewisDotModel {
      * @param coordinateMap Coordinate map to which we add the atoms to
      * @return Success. Will return false if any heavy atom overlaps on another atom. If it returns false, the coordinate map may be inconsistent
      */
-    private boolean mapMolecule( ImmutableVector2D coordinates, Atom atom, Atom excludedAtom, Map<Point2D, Atom> coordinateMap ) {
+    private boolean mapMolecule( ImmutableVector2D coordinates, Atomic atom, Atomic excludedAtom, Map<Point2D, Atomic> coordinateMap ) {
         LewisDotAtom dotAtom = getLewisDotAtom( atom );
 
         // for sanity and equality (negative zero equals zero, so don't worry about that)
@@ -221,15 +221,15 @@ public class LewisDotModel {
         return success;
     }
 
-    private LewisDotAtom getLewisDotAtom( Atom atom ) {
+    private LewisDotAtom getLewisDotAtom( Atomic atom ) {
         return atomMap.get( atom );
     }
 
     private static class LewisDotAtom {
-        private Atom atom;
+        private Atomic atom;
         private Map<Direction, Option<LewisDotAtom>> connections = new HashMap<Direction, Option<LewisDotAtom>>();
 
-        public LewisDotAtom( Atom atom ) {
+        public LewisDotAtom( Atomic atom ) {
             this.atom = atom;
             for ( Direction direction : Direction.values() ) {
                 connections.put( direction, new Option.None<LewisDotAtom>() );
@@ -252,7 +252,7 @@ public class LewisDotModel {
             connections.put( direction, new Option.None<LewisDotAtom>() );
         }
 
-        public Atom getAtom() {
+        public Atomic getAtom() {
             return atom;
         }
     }

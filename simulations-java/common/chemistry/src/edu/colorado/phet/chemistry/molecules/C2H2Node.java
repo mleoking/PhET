@@ -2,10 +2,11 @@
 
 package edu.colorado.phet.chemistry.molecules;
 
-import edu.colorado.phet.chemistry.model.Atom.C;
-import edu.colorado.phet.chemistry.model.Atom.H;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolox.nodes.PComposite;
+
+import static edu.colorado.phet.chemistry.model.Atom.C;
+import static edu.colorado.phet.chemistry.model.Atom.H;
 
 /**
  * C2H2 molecule
@@ -16,10 +17,10 @@ public class C2H2Node extends PComposite {
 
     public C2H2Node() {
 
-        AtomNode bigLeftNode = new AtomNode( new C() );
-        AtomNode bigRightNode = new AtomNode( new C() );
-        AtomNode smallLeftNode = new AtomNode( new H() );
-        AtomNode smallRightNode = new AtomNode( new H() );
+        AtomNode bigLeftNode = new AtomNode( C );
+        AtomNode bigRightNode = new AtomNode( C );
+        AtomNode smallLeftNode = new AtomNode( H );
+        AtomNode smallRightNode = new AtomNode( H );
 
         // rendering order
         PComposite parentNode = new PComposite();

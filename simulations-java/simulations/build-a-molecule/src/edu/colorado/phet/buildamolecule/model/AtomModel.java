@@ -7,6 +7,8 @@ import java.util.HashSet;
 
 import edu.colorado.phet.buildamolecule.BuildAMoleculeStrings;
 import edu.colorado.phet.chemistry.model.Atom;
+import edu.colorado.phet.chemistry.model.AtomReference;
+import edu.colorado.phet.chemistry.model.Atomic;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.IBucketSphere;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
@@ -37,7 +39,7 @@ public class AtomModel implements IBucketSphere<AtomModel> {
     // Instance Data
     // ------------------------------------------------------------------------
 
-    private final Atom atom;
+    private final Atomic atom;
     private final String name;
     public final Property<ImmutableVector2D> position;
     private final Property<Boolean> userControlled = new Property<Boolean>( false );//True if the particle is being dragged by the user
@@ -57,7 +59,7 @@ public class AtomModel implements IBucketSphere<AtomModel> {
     // Reference to the clock.
     private final IClock clock;
 
-    public AtomModel( Atom atom, IClock clock ) {
+    public AtomModel( Atomic atom, IClock clock ) {
         this.clock = clock;
         this.name = BuildAMoleculeStrings.getAtomName( atom );
         this.atom = atom;
@@ -157,7 +159,7 @@ public class AtomModel implements IBucketSphere<AtomModel> {
         return getRadius() * 2;
     }
 
-    public Atom getAtomInfo() {
+    public Atomic getAtomInfo() {
         return atom;
     }
 
@@ -244,79 +246,79 @@ public class AtomModel implements IBucketSphere<AtomModel> {
     * atom factories
     *----------------------------------------------------------------------------*/
 
-    public static final Function0<Atom> HYDROGEN_FACTORY = new Function0<Atom>() {
-        public Atom apply() {
-            return new Atom.H();
+    public static final Function0<Atomic> HYDROGEN_FACTORY = new Function0<Atomic>() {
+        public Atomic apply() {
+            return new AtomReference( Atom.H );
         }
     };
 
-    public static final Function0<Atom> OXYGEN_FACTORY = new Function0<Atom>() {
-        public Atom apply() {
-            return new Atom.O();
+    public static final Function0<Atomic> OXYGEN_FACTORY = new Function0<Atomic>() {
+        public Atomic apply() {
+            return new AtomReference( Atom.O );
         }
     };
 
-    public static final Function0<Atom> CARBON_FACTORY = new Function0<Atom>() {
-        public Atom apply() {
-            return new Atom.C();
+    public static final Function0<Atomic> CARBON_FACTORY = new Function0<Atomic>() {
+        public Atomic apply() {
+            return new AtomReference( Atom.C );
         }
     };
 
-    public static final Function0<Atom> NITROGEN_FACTORY = new Function0<Atom>() {
-        public Atom apply() {
-            return new Atom.N();
+    public static final Function0<Atomic> NITROGEN_FACTORY = new Function0<Atomic>() {
+        public Atomic apply() {
+            return new AtomReference( Atom.N );
         }
     };
 
-    public static final Function0<Atom> FLUORINE_FACTORY = new Function0<Atom>() {
-        public Atom apply() {
-            return new Atom.F();
+    public static final Function0<Atomic> FLUORINE_FACTORY = new Function0<Atomic>() {
+        public Atomic apply() {
+            return new AtomReference( Atom.F );
         }
     };
 
-    public static final Function0<Atom> CHLORINE_FACTORY = new Function0<Atom>() {
-        public Atom apply() {
-            return new Atom.Cl();
+    public static final Function0<Atomic> CHLORINE_FACTORY = new Function0<Atomic>() {
+        public Atomic apply() {
+            return new AtomReference( Atom.Cl );
         }
     };
 
-    public static final Function0<Atom> BORON_FACTORY = new Function0<Atom>() {
-        public Atom apply() {
-            return new Atom.B();
+    public static final Function0<Atomic> BORON_FACTORY = new Function0<Atomic>() {
+        public Atomic apply() {
+            return new AtomReference( Atom.B );
         }
     };
 
-    public static final Function0<Atom> SULPHUR_FACTORY = new Function0<Atom>() {
-        public Atom apply() {
-            return new Atom.S();
+    public static final Function0<Atomic> SULPHUR_FACTORY = new Function0<Atomic>() {
+        public Atomic apply() {
+            return new AtomReference( Atom.S );
         }
     };
 
-    public static final Function0<Atom> SILICON_FACTORY = new Function0<Atom>() {
-        public Atom apply() {
-            return new Atom.Si();
+    public static final Function0<Atomic> SILICON_FACTORY = new Function0<Atomic>() {
+        public Atomic apply() {
+            return new AtomReference( Atom.Si );
         }
     };
 
-    public static final Function0<Atom> BROMINE_FACTORY = new Function0<Atom>() {
-        public Atom apply() {
-            return new Atom.Br();
+    public static final Function0<Atomic> BROMINE_FACTORY = new Function0<Atomic>() {
+        public Atomic apply() {
+            return new AtomReference( Atom.Br );
         }
     };
 
-    public static final Function0<Atom> IODINE_FACTORY = new Function0<Atom>() {
-        public Atom apply() {
-            return new Atom.I();
+    public static final Function0<Atomic> IODINE_FACTORY = new Function0<Atomic>() {
+        public Atomic apply() {
+            return new AtomReference( Atom.I );
         }
     };
 
-    public static final Function0<Atom> PHOSPHORUS_FACTORY = new Function0<Atom>() {
-        public Atom apply() {
-            return new Atom.P();
+    public static final Function0<Atomic> PHOSPHORUS_FACTORY = new Function0<Atomic>() {
+        public Atomic apply() {
+            return new AtomReference( Atom.P );
         }
     };
 
-    public static Function0<Atom> getAtomFactoryBySymbol( String symbol ) {
+    public static Function0<Atomic> getAtomFactoryBySymbol( String symbol ) {
         if ( symbol.equals( "O" ) ) {
             return OXYGEN_FACTORY;
         }
@@ -356,7 +358,7 @@ public class AtomModel implements IBucketSphere<AtomModel> {
         throw new RuntimeException( "Tried to create unknown atom with symbol: " + symbol );
     }
 
-    public static Atom createAtomBySymbol( String symbol ) {
+    public static Atomic createAtomBySymbol( String symbol ) {
         return getAtomFactoryBySymbol( symbol ).apply();
     }
 }

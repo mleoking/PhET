@@ -2,7 +2,7 @@ package edu.colorado.phet.chemistry.utils;
 
 import java.util.*;
 
-import edu.colorado.phet.chemistry.model.Atom;
+import edu.colorado.phet.chemistry.model.Atomic;
 
 /**
  * Miscellaneous chemistry utils, mostly related to chemical formulas
@@ -16,7 +16,7 @@ public class ChemUtils {
     *    [C,C,H,H,H,H] becomes "C<sub>2</sub>H<sub>4</sub>"
     *    [H,H,O] becomes "H<sub>2</sub>O"
     */
-    public static String createSymbol( Atom[] atoms ) {
+    public static String createSymbol( Atomic[] atoms ) {
         return toSubscript( createSymbolWithoutSubscripts( atoms ) );
     }
 
@@ -27,7 +27,7 @@ public class ChemUtils {
     *    [C,C,H,H,H,H] becomes "C2H4"
     *    [H,H,O] becomes "H2O"
     */
-    public static String createSymbolWithoutSubscripts( Atom[] atoms ) {
+    public static String createSymbolWithoutSubscripts( Atomic[] atoms ) {
         StringBuffer b = new StringBuffer();
         int atomCount = 1;
         for ( int i = 0; i < atoms.length; i++ ) {
@@ -35,7 +35,7 @@ public class ChemUtils {
                 // first atom is treated differently
                 b.append( atoms[i].getSymbol() );
             }
-            else if ( atoms[i].getClass().equals( atoms[i - 1].getClass() ) ) {
+            else if ( atoms[i].isSameTypeOfAtom( atoms[i - 1] ) ) {
                 // this atom is the same as the previous atom
                 atomCount++;
             }
@@ -64,7 +64,7 @@ public class ChemUtils {
      * @param atom An atom
      * @return Value for sorting
      */
-    private static int nonCarbonHillSortValue( Atom atom ) {
+    private static int nonCarbonHillSortValue( Atomic atom ) {
         int value = 1000 * ( (int) atom.getSymbol().charAt( 0 ) );
         if ( atom.getSymbol().length() > 1 ) {
             value += (int) atom.getSymbol().charAt( 1 );
@@ -79,7 +79,7 @@ public class ChemUtils {
      * @param atom An atom
      * @return Value for sorting (lowest is first)
      */
-    private static int carbonHillSortValue( Atom atom ) {
+    private static int carbonHillSortValue( Atomic atom ) {
         if ( atom.isCarbon() ) {
             return 0;
         }
@@ -94,32 +94,32 @@ public class ChemUtils {
      * @return The molecular formula of the molecule in the Hill system. Returned as an HTML fragment. See
      *         http://en.wikipedia.org/wiki/Hill_system for more information.
      */
-    public static String hillOrderedSymbol( Collection<Atom> atoms ) {
+    public static String hillOrderedSymbol( Collection<Atomic> atoms ) {
         boolean containsCarbon = false;
-        for ( Atom atom : atoms ) {
+        for ( Atomic atom : atoms ) {
             if ( atom.isCarbon() ) {
                 containsCarbon = true;
                 break;
             }
         }
-        List<Atom> sortedAtoms = new LinkedList<Atom>( atoms );
+        List<Atomic> sortedAtoms = new LinkedList<Atomic>( atoms );
         if ( containsCarbon ) {
             // carbon first, then hydrogen, then others alphabetically
-            Collections.sort( sortedAtoms, new Comparator<Atom>() {
-                public int compare( Atom a, Atom b ) {
+            Collections.sort( sortedAtoms, new Comparator<Atomic>() {
+                public int compare( Atomic a, Atomic b ) {
                     return new Integer( carbonHillSortValue( a ) ).compareTo( carbonHillSortValue( b ) );
                 }
             } );
         }
         else {
             // compare alphabetically since there is no carbon
-            Collections.sort( sortedAtoms, new Comparator<Atom>() {
-                public int compare( Atom a, Atom b ) {
+            Collections.sort( sortedAtoms, new Comparator<Atomic>() {
+                public int compare( Atomic a, Atomic b ) {
                     return new Integer( nonCarbonHillSortValue( a ) ).compareTo( nonCarbonHillSortValue( b ) );
                 }
             } );
         }
-        return createSymbol( sortedAtoms.toArray( new Atom[sortedAtoms.size()] ) );
+        return createSymbol( sortedAtoms.toArray( new Atomic[sortedAtoms.size()] ) );
     }
 
     /*

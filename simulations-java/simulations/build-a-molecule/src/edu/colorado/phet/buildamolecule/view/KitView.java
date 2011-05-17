@@ -10,7 +10,7 @@ import edu.colorado.phet.buildamolecule.model.AtomModel;
 import edu.colorado.phet.buildamolecule.model.Bucket;
 import edu.colorado.phet.buildamolecule.model.Kit;
 import edu.colorado.phet.buildamolecule.model.MoleculeStructure;
-import edu.colorado.phet.chemistry.model.Atom;
+import edu.colorado.phet.chemistry.model.Atomic;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -37,7 +37,7 @@ public class KitView {
     private Map<MoleculeStructure, MoleculeBondContainerNode> bondMap = new HashMap<MoleculeStructure, MoleculeBondContainerNode>();
 
     // store the node-atom relationships
-    private Map<Atom, AtomNode> atomNodeMap = new HashMap<Atom, AtomNode>();
+    private Map<Atomic, AtomNode> atomNodeMap = new HashMap<Atomic, AtomNode>();
 
     public KitView( final Frame parentFrame, final Kit kit, final ModelViewTransform mvt, BuildAMoleculeCanvas canvas ) {
         this.kit = kit;
@@ -66,7 +66,7 @@ public class KitView {
                         // move the atom (and its entire molecule) to the front when it starts being dragged
                         MoleculeStructure molecule = kit.getMoleculeStructure( atom );
                         if ( molecule != null ) {
-                            for ( Atom moleculeAtom : molecule.getAtoms() ) {
+                            for ( Atomic moleculeAtom : molecule.getAtoms() ) {
                                 atomNodeMap.get( moleculeAtom ).moveToFront();
                             }
                         }

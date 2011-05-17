@@ -2,10 +2,11 @@
 
 package edu.colorado.phet.chemistry.molecules;
 
-import edu.colorado.phet.chemistry.model.Atom.H;
-import edu.colorado.phet.chemistry.model.Atom.N;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolox.nodes.PComposite;
+
+import static edu.colorado.phet.chemistry.model.Atom.H;
+import static edu.colorado.phet.chemistry.model.Atom.N;
 
 /**
  * NH3 molecule.
@@ -17,10 +18,10 @@ public class NH3Node extends PComposite {
     public NH3Node() {
 
         // atom nodes
-        AtomNode bigNode = new AtomNode( new N() );
-        AtomNode smallLeftNode = new AtomNode( new H() );
-        AtomNode smallRightNode = new AtomNode( new H() );
-        AtomNode smallBottomNode = new AtomNode( new H() );
+        AtomNode bigNode = new AtomNode( N );
+        AtomNode smallLeftNode = new AtomNode( H );
+        AtomNode smallRightNode = new AtomNode( H );
+        AtomNode smallBottomNode = new AtomNode( H );
 
         // rendering order
         PComposite parentNode = new PComposite();

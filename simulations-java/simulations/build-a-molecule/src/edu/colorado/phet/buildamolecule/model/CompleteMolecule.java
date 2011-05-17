@@ -9,7 +9,7 @@ import java.util.List;
 import org.jmol.api.JmolViewer;
 
 import edu.colorado.phet.buildamolecule.BuildAMoleculeResources;
-import edu.colorado.phet.chemistry.model.Atom;
+import edu.colorado.phet.chemistry.model.Atomic;
 import edu.colorado.phet.chemistry.molecules.*;
 import edu.umd.cs.piccolo.PNode;
 
@@ -67,7 +67,7 @@ public class CompleteMolecule {
             float x3d = Float.parseFloat( t.nextToken() );
             float y3d = Float.parseFloat( t.nextToken() );
             float z3d = Float.parseFloat( t.nextToken() );
-            Atom atom = AtomModel.createAtomBySymbol( symbol );
+            Atomic atom = AtomModel.createAtomBySymbol( symbol );
             moleculeStructure.addAtom( atom );
             atomWrappers[i] = new AtomWrapper( x2d, y2d, x3d, y3d, z3d, atom );
         }
@@ -226,9 +226,9 @@ public class CompleteMolecule {
         public final float z3d;
 
         // our atom
-        public final Atom atom;
+        public final Atomic atom;
 
-        private AtomWrapper( float x2d, float y2d, float x3d, float y3d, float z3d, Atom atom ) {
+        private AtomWrapper( float x2d, float y2d, float x3d, float y3d, float z3d, Atomic atom ) {
             this.x2d = x2d;
             this.y2d = y2d;
             this.x3d = x3d;

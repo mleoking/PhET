@@ -5,7 +5,7 @@ package edu.colorado.phet.buildamolecule;
 import java.util.HashMap;
 import java.util.Map;
 
-import edu.colorado.phet.chemistry.model.Atom;
+import edu.colorado.phet.chemistry.model.Atomic;
 
 /**
  * A collection of localized strings used by this simulations.
@@ -66,7 +66,7 @@ public class BuildAMoleculeStrings {
         atomStringMap.put( "Br", ATOM_BROMINE );
     }
 
-    public static String getAtomName( Atom atom ) {
+    public static String getAtomName( Atomic atom ) {
         return atomStringMap.get( atom.getSymbol() );
     }
 }

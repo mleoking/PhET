@@ -2,10 +2,11 @@
 
 package edu.colorado.phet.chemistry.molecules;
 
-import edu.colorado.phet.chemistry.model.Atom.Cl;
-import edu.colorado.phet.chemistry.model.Atom.P;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolox.nodes.PComposite;
+
+import static edu.colorado.phet.chemistry.model.Atom.Cl;
+import static edu.colorado.phet.chemistry.model.Atom.P;
 
 /**
  * PCl3 molecule.
@@ -17,10 +18,10 @@ public class PCl3Node extends PComposite {
     public PCl3Node() {
 
         // atom nodes
-        AtomNode centerNode = new AtomNode( new P() );
-        AtomNode leftNode = new AtomNode( new Cl() );
-        AtomNode rightNode = new AtomNode( new Cl() );
-        AtomNode bottomNode = new AtomNode( new Cl() );
+        AtomNode centerNode = new AtomNode( P );
+        AtomNode leftNode = new AtomNode( Cl );
+        AtomNode rightNode = new AtomNode( Cl );
+        AtomNode bottomNode = new AtomNode( Cl );
 
         // rendering order
         PComposite parentNode = new PComposite();

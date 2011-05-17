@@ -2,10 +2,11 @@
 
 package edu.colorado.phet.chemistry.molecules;
 
-import edu.colorado.phet.chemistry.model.Atom.C;
-import edu.colorado.phet.chemistry.model.Atom.H;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolox.nodes.PComposite;
+
+import static edu.colorado.phet.chemistry.model.Atom.C;
+import static edu.colorado.phet.chemistry.model.Atom.H;
 
 /**
  * CH4 molecule.
@@ -17,11 +18,11 @@ public class CH4Node extends PComposite {
     public CH4Node() {
 
         // atom nodes
-        AtomNode bigNode = new AtomNode( new C() );
-        AtomNode smallTopLeftNode = new AtomNode( new H() );
-        AtomNode smallTopRightNode = new AtomNode( new H() );
-        AtomNode smallBottomLeftNode = new AtomNode( new H() );
-        AtomNode smallBottomRightNode = new AtomNode( new H() );
+        AtomNode bigNode = new AtomNode( C );
+        AtomNode smallTopLeftNode = new AtomNode( H );
+        AtomNode smallTopRightNode = new AtomNode( H );
+        AtomNode smallBottomLeftNode = new AtomNode( H );
+        AtomNode smallBottomRightNode = new AtomNode( H );
 
         // rendering order
         PComposite parentNode = new PComposite();

@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import edu.colorado.phet.chemistry.model.Atom;
+import edu.colorado.phet.chemistry.model.Atomic;
 
 /**
  * Count of each atom type, and allows fast comparison
@@ -38,16 +38,16 @@ public class AtomHistogram {
         add( molecule );
     }
 
-    public int getQuantity( Atom atom ) {
+    public int getQuantity( Atomic atom ) {
         return quantities.get( atom.getSymbol() );
     }
 
-    public void add( Atom atom ) {
+    public void add( Atomic atom ) {
         quantities.put( atom.getSymbol(), quantities.get( atom.getSymbol() ) + 1 );
     }
 
     public void add( MoleculeStructure molecule ) {
-        for ( Atom atom : molecule.getAtoms() ) {
+        for ( Atomic atom : molecule.getAtoms() ) {
             add( atom );
         }
     }

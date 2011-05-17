@@ -2,11 +2,10 @@
 
 package edu.colorado.phet.chemistry.molecules;
 
-import edu.colorado.phet.chemistry.model.Atom.C;
-import edu.colorado.phet.chemistry.model.Atom.H;
-import edu.colorado.phet.chemistry.model.Atom.O;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolox.nodes.PComposite;
+
+import static edu.colorado.phet.chemistry.model.Atom.*;
 
 /**
  * CH2O molecule.
@@ -18,10 +17,10 @@ public class CH2ONode extends PComposite {
     public CH2ONode() {
 
         // atom nodes
-        AtomNode leftNode = new AtomNode( new C() );
-        AtomNode smallTopNode = new AtomNode( new H() );
-        AtomNode smallBottomNode = new AtomNode( new H() );
-        AtomNode rightNode = new AtomNode( new O() );
+        AtomNode leftNode = new AtomNode( C );
+        AtomNode smallTopNode = new AtomNode( H );
+        AtomNode smallBottomNode = new AtomNode( H );
+        AtomNode rightNode = new AtomNode( O );
 
         // rendering order
         PComposite parentNode = new PComposite();

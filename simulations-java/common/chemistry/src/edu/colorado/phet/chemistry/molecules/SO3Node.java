@@ -2,10 +2,11 @@
 
 package edu.colorado.phet.chemistry.molecules;
 
-import edu.colorado.phet.chemistry.model.Atom.O;
-import edu.colorado.phet.chemistry.model.Atom.S;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolox.nodes.PComposite;
+
+import static edu.colorado.phet.chemistry.model.Atom.O;
+import static edu.colorado.phet.chemistry.model.Atom.S;
 
 /**
  * SO3 molecule.
@@ -17,10 +18,10 @@ public class SO3Node extends PComposite {
     public SO3Node() {
 
         // atom nodes
-        AtomNode centerNode = new AtomNode( new S() );
-        AtomNode leftNode = new AtomNode( new O() );
-        AtomNode rightNode = new AtomNode( new O() );
-        AtomNode topNode = new AtomNode( new O() );
+        AtomNode centerNode = new AtomNode( S );
+        AtomNode leftNode = new AtomNode( O );
+        AtomNode rightNode = new AtomNode( O );
+        AtomNode topNode = new AtomNode( O );
 
         // rendering order
         PComposite parentNode = new PComposite();

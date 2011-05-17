@@ -6,7 +6,7 @@ import edu.colorado.phet.buildamolecule.model.CompleteMolecule;
 import edu.colorado.phet.buildamolecule.model.MoleculeList;
 import edu.colorado.phet.buildamolecule.model.MoleculeStructure;
 import edu.colorado.phet.buildamolecule.model.StrippedMolecule;
-import edu.colorado.phet.chemistry.model.Atom;
+import edu.colorado.phet.chemistry.model.Atomic;
 
 /**
  * Check for duplicate molecules
@@ -27,8 +27,8 @@ public class MoleculeEquivalencyTests {
         System.out.println( structureCopy.toSerial() );
         System.out.println( "equal: " + structure.isEquivalent( structureCopy ) );
 
-        Atom atom = null;
-        for ( Atom possibleAtom : structure.getAtoms() ) {
+        Atomic atom = null;
+        for ( Atomic possibleAtom : structure.getAtoms() ) {
             if ( !possibleAtom.isHydrogen() ) {
                 atom = possibleAtom;
             }

@@ -2,10 +2,11 @@
 
 package edu.colorado.phet.chemistry.molecules;
 
-import edu.colorado.phet.chemistry.model.Atom;
-import edu.colorado.phet.chemistry.model.Atom.P;
+import edu.colorado.phet.chemistry.model.Atomic;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.piccolophet.nodes.ShadedSphereNode;
+
+import static edu.colorado.phet.chemistry.model.Atom.P;
 
 /**
  * Atoms look like shaded spheres.
@@ -16,7 +17,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ShadedSphereNode;
 public class AtomNode extends ShadedSphereNode {
 
     private static final double RATE_OF_CHANGE = 0.75; // >0 and <1, increase this to make small atoms appear smaller
-    private static final double MAX_RADIUS = new P().getRadius();
+    private static final double MAX_RADIUS = P.getRadius();
     private static final double MODEL_TO_VIEW_SCALE = 0.11;
 
     /*
@@ -30,7 +31,7 @@ public class AtomNode extends ShadedSphereNode {
         }
     };
 
-    public AtomNode( Atom atom ) {
+    public AtomNode( Atomic atom ) {
         super( 2 * RADIUS_SCALING_FUNCTION.apply( atom.getRadius() ), atom.getColor() );
     }
 }

@@ -2,11 +2,10 @@
 
 package edu.colorado.phet.chemistry.molecules;
 
-import edu.colorado.phet.chemistry.model.Atom.C;
-import edu.colorado.phet.chemistry.model.Atom.Cl;
-import edu.colorado.phet.chemistry.model.Atom.H;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolox.nodes.PComposite;
+
+import static edu.colorado.phet.chemistry.model.Atom.*;
 
 /**
  * C2H5Cl molecule.
@@ -19,14 +18,14 @@ public class C2H5ClNode extends PComposite {
     public C2H5ClNode() {
 
         // atom nodes
-        AtomNode leftNode = new AtomNode( new C() );
-        AtomNode centerNode = new AtomNode( new C() );
-        AtomNode smallTopLeftNode = new AtomNode( new H() );
-        AtomNode smallBottomLeftNode = new AtomNode( new H() );
-        AtomNode smallLeftNode = new AtomNode( new H() );
-        AtomNode smallTopRightNode = new AtomNode( new H() );
-        AtomNode smallBottomRightNode = new AtomNode( new H() );
-        AtomNode rightNode = new AtomNode( new Cl() );
+        AtomNode leftNode = new AtomNode( C );
+        AtomNode centerNode = new AtomNode( C );
+        AtomNode smallTopLeftNode = new AtomNode( H );
+        AtomNode smallBottomLeftNode = new AtomNode( H );
+        AtomNode smallLeftNode = new AtomNode( H );
+        AtomNode smallTopRightNode = new AtomNode( H );
+        AtomNode smallBottomRightNode = new AtomNode( H );
+        AtomNode rightNode = new AtomNode( Cl );
 
         // rendering order
         PComposite parentNode = new PComposite();
