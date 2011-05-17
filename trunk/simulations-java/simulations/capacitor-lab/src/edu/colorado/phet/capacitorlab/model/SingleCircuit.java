@@ -4,8 +4,6 @@ package edu.colorado.phet.capacitorlab.model;
 
 import java.awt.*;
 
-import javax.swing.event.EventListenerList;
-
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLStrings;
 import edu.colorado.phet.capacitorlab.model.ICapacitor.CapacitorChangeListener;
@@ -30,11 +28,9 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 public class SingleCircuit extends AbstractCircuit {
 
     // immutable instance data
-    private final Battery battery;
     private final Capacitor capacitor;
     private final Wire topWire, bottomWire;
     private final IClock clock;
-    private final EventListenerList listeners;
 
     // observable properties
     private Property<Double> currentAmplitudeProperty; // dV/dt, rate of voltage change
@@ -49,11 +45,9 @@ public class SingleCircuit extends AbstractCircuit {
     }
 
     public SingleCircuit( IClock clock, CLModelViewTransform3D mvt, double plateWidth, double plateSeparation, DielectricMaterial dielectricMaterial, double dielectricOffset, boolean batteryConnected ) {
-        super( CLStrings.SINGLE );
+        super( CLStrings.SINGLE, mvt );
 
         this.clock = clock;
-        this.listeners = new EventListenerList();
-        this.battery = new Battery( CLConstants.BATTERY_LOCATION, CLConstants.BATTERY_VOLTAGE_RANGE.getDefault(), mvt );
         this.capacitor = new Capacitor( CLConstants.CAPACITOR_LOCATION, plateWidth, plateSeparation, dielectricMaterial, dielectricOffset, mvt );
         this.batteryConnectedProperty = new Property<Boolean>( batteryConnected );
         this.disconnectedPlateCharge = getTotalCharge();
@@ -68,11 +62,11 @@ public class SingleCircuit extends AbstractCircuit {
         } );
 
         // Create the wires
-        topWire = new TopWire( battery, capacitor, CLConstants.WIRE_THICKNESS, mvt );
-        bottomWire = new BottomWire( battery, capacitor, CLConstants.WIRE_THICKNESS, mvt );
+        topWire = new TopWire( getBattery(), capacitor, CLConstants.WIRE_THICKNESS, mvt );
+        bottomWire = new BottomWire( getBattery(), capacitor, CLConstants.WIRE_THICKNESS, mvt );
 
         // observe battery
-        battery.addVoltageObserver( new SimpleObserver() {
+        getBattery().addVoltageObserver( new SimpleObserver() {
             public void update() {
                 if ( isBatteryConnected() ) {
                     updateVoltages();
@@ -91,8 +85,8 @@ public class SingleCircuit extends AbstractCircuit {
         } );
     }
 
-    public void reset() {
-        battery.reset();
+    @Override public void reset() {
+        super.reset();
         capacitor.reset();
         batteryConnectedProperty.reset();
     }
@@ -100,10 +94,6 @@ public class SingleCircuit extends AbstractCircuit {
     //----------------------------------------------------------------------------------
     // Circuit components
     //----------------------------------------------------------------------------------
-
-    public Battery getBattery() {
-        return battery;
-    }
 
     public Capacitor getCapacitor() {
         return capacitor;
@@ -155,7 +145,7 @@ public class SingleCircuit extends AbstractCircuit {
      * Updates the capacitor and wire voltages, depending on whether the battery is connected.
      */
     private void updateVoltages() {
-        double V = battery.getVoltage();
+        double V = getBattery().getVoltage();
         if ( !isBatteryConnected() ) {
             V = disconnectedPlateCharge / capacitor.getTotalCapacitance(); // V = Q/C
         }
@@ -190,8 +180,8 @@ public class SingleCircuit extends AbstractCircuit {
         else if ( isBatteryConnected() && bottomWire.intersects( s ) ) {
             voltage = bottomWire.getVoltage();
         }
-        if ( isBatteryConnected() && battery.intersectsTopTerminal( s ) ) {
-            voltage = battery.getVoltage();
+        if ( isBatteryConnected() && getBattery().intersectsTopTerminal( s ) ) {
+            voltage = getBattery().getVoltage();
         }
         else if ( capacitor.intersectsTopPlateShape( s ) ) {
             voltage = capacitor.getPlatesVoltage();
@@ -315,25 +305,5 @@ public class SingleCircuit extends AbstractCircuit {
 
     public void addCurrentAmplitudeObserver( SimpleObserver o ) {
         currentAmplitudeProperty.addObserver( o );
-    }
-
-    //----------------------------------------------------------------------------------
-    // CircuitChangeListeners
-    //----------------------------------------------------------------------------------
-
-    // @see ICircuit.addCircuitChangeListener
-    public void addCircuitChangeListener( CircuitChangeListener listener ) {
-        listeners.add( CircuitChangeListener.class, listener );
-    }
-
-    // @see ICircuit.removeCircuitChangeListener
-    public void removeCircuitChangeListener( CircuitChangeListener listener ) {
-        listeners.remove( CircuitChangeListener.class, listener );
-    }
-
-    public void fireCircuitChanged() {
-        for ( CircuitChangeListener listener : listeners.getListeners( CircuitChangeListener.class ) ) {
-            listener.circuitChanged();
-        }
     }
 }

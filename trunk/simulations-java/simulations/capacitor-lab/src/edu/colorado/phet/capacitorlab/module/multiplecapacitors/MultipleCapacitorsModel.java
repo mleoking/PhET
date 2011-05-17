@@ -46,12 +46,12 @@ public class MultipleCapacitorsModel {
         // create circuits
         circuits = new ArrayList<ICircuit>() {{
             add( new SingleCircuit( clock, mvt, CAPACITOR_PLATE_WIDTH, CAPACITOR_PLATE_SEPARATION, DIELECTRIC_MATERIAL, DIELECTRIC_OFFSET ) );
-            add( new DummyCircuit( CLStrings.TWO_IN_SERIES ) );
-            add( new DummyCircuit( CLStrings.THREE_IN_SERIES ) );
-            add( new DummyCircuit( CLStrings.TWO_IN_PARALLEL ) );
-            add( new DummyCircuit( CLStrings.THREE_IN_PARALLEL ) );
-            add( new DummyCircuit( CLStrings.COMBINATION_1 ) );
-            add( new DummyCircuit( CLStrings.COMBINATION_2 ) );
+            add( new DummyCircuit( CLStrings.TWO_IN_SERIES, mvt ) );
+            add( new DummyCircuit( CLStrings.THREE_IN_SERIES, mvt ) );
+            add( new DummyCircuit( CLStrings.TWO_IN_PARALLEL, mvt ) );
+            add( new DummyCircuit( CLStrings.THREE_IN_PARALLEL, mvt ) );
+            add( new DummyCircuit( CLStrings.COMBINATION_1, mvt ) );
+            add( new DummyCircuit( CLStrings.COMBINATION_2, mvt ) );
         }};
 
         currentCircuit = new Property<ICircuit>( circuits.get( 0 ) );
@@ -126,17 +126,14 @@ public class MultipleCapacitorsModel {
         return voltmeter;
     }
 
+    //TODO delete this when all circuits are implemented
     /*
      * This circuit does nothing.
      */
     private static class DummyCircuit extends AbstractCircuit {
 
-        public DummyCircuit( String displayName ) {
-            super( displayName );
-        }
-
-        public Battery getBattery() {
-            return null;
+        public DummyCircuit( String displayName, CLModelViewTransform3D mvt ) {
+            super( displayName, mvt );
         }
 
         public Capacitor getCapacitor() {
@@ -169,18 +166,6 @@ public class MultipleCapacitorsModel {
 
         public double getDielectricEFieldAt( Point3D location ) {
             return 0;
-        }
-
-        public void addCircuitChangeListener( CircuitChangeListener listener ) {
-            // do nothing
-        }
-
-        public void removeCircuitChangeListener( CircuitChangeListener listener ) {
-            // do nothing
-        }
-
-        public void reset() {
-            // do nothing
         }
     }
 }
