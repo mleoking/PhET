@@ -44,5 +44,7 @@ public class SeriesCircuitNode extends AbstractCircuitNode {
             double y = capacitorNode.getYOffset() - ( capacitanceControlNode.getFullBoundsReference().getHeight() / 2 );
             capacitanceControlNode.setOffset( x, y );
         }
+
+        //TODO add wires
     }
 }

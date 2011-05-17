@@ -47,6 +47,8 @@ public class ParallelCircuit extends AbstractCircuit {
         for ( Capacitor capacitor : capacitors ) {
             capacitor.addCapacitorChangeListener( capacitorChangeListener );
         }
+
+        //TODO add wires
     }
 
     // Creates a row of capacitors, to the right of the battery, vertically centered on the battery.
