@@ -9,7 +9,7 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLStrings;
-import edu.colorado.phet.capacitorlab.model.ComplexCapacitor;
+import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.capacitorlab.model.DielectricChargeView;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial.CustomDielectricMaterial;
@@ -37,7 +37,7 @@ public class DielectricPropertiesControlPanel extends PhetTitledPanel {
 
     private DielectricMaterial material;
 
-    public DielectricPropertiesControlPanel( final ComplexCapacitor capacitor, DielectricMaterial[] dielectricMaterials, Property<DielectricChargeView> dielectricChargeView ) {
+    public DielectricPropertiesControlPanel( final Capacitor capacitor, DielectricMaterial[] dielectricMaterials, Property<DielectricChargeView> dielectricChargeView ) {
         super( CLStrings.DIELECTRIC );
 
         this.capacitor = capacitor;

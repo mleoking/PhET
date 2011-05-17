@@ -31,7 +31,7 @@ import edu.colorado.phet.common.phetcommon.view.util.ShapeUtils;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ComplexCapacitor implements ICapacitor {
+public class Capacitor implements ICapacitor {
 
     private final CLModelViewTransform3D mvt;
     private final CapacitorShapeFactory shapeFactory;
@@ -59,7 +59,7 @@ public class ComplexCapacitor implements ICapacitor {
      * @param dielectricOffset
      * @param mvt
      */
-    public ComplexCapacitor( Point3D location, double plateWidth, double plateSeparation, DielectricMaterial dielectricMaterial, double dielectricOffset, CLModelViewTransform3D mvt ) {
+    public Capacitor( Point3D location, double plateWidth, double plateSeparation, DielectricMaterial dielectricMaterial, double dielectricOffset, CLModelViewTransform3D mvt ) {
 
         this.mvt = mvt;
         this.shapeFactory = new CapacitorShapeFactory( this, mvt );
@@ -368,6 +368,18 @@ public class ComplexCapacitor implements ICapacitor {
     //----------------------------------------------------------------------------------
     // Capacitance (C)
     //----------------------------------------------------------------------------------
+
+    /**
+     * In the "Multiple Capacitors" module, the user has direct control over capacitance,
+     * but no control over the capacitor's geometry or dielectric.
+     * Assume that plate width (and therefore area) is constant, and use capacitance to calculate the plate separation.
+     *
+     * @param capacitance
+     */
+    public void setTotalCapacitance( double capacitance ) {
+        // d =  epsilon * epsilon_0 * A / C
+        setPlateSeparation( getDielectricConstant() * CLConstants.EPSILON_0 * getPlateArea() / capacitance );
+    }
 
     /**
      * Gets the total capacitance.

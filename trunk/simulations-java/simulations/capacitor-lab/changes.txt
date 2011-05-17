@@ -1,3 +1,4 @@
+5/16/11 add Capacitor.setCapacitance, which calculates and sets plate separation
 5/16/11 redesign IntroductionModule: extending DielectricModule was confusing, so just reuse stuff from DielectricModule
 5/16/11 add Air as a dielectric material
 5/16/11 delete surface charge density (sigma) from the model implementation, it is shown in the design doc but not used in the model
