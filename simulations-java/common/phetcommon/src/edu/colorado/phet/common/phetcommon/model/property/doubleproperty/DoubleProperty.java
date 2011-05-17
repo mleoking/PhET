@@ -17,7 +17,7 @@ public class DoubleProperty extends Property<Double> {
         super( value );
     }
 
-    public ObservableProperty<Double> plus( ObservableProperty<Double>... b ) {
+    public Plus plus( ObservableProperty<Double>... b ) {
         ArrayList<ObservableProperty<Double>> all = new ArrayList<ObservableProperty<Double>>();
         all.add( this );
         all.addAll( Arrays.asList( b ) );

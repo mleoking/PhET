@@ -1,3 +1,4 @@
+5/17/11 Added GreaterThanOrEqualTo and added varargs for plus method
 5/17/11 Added CompositeDoubleProperty and reimplemented classes such as Plus, Times, Max, Min, Times using it to provide composition methods on the result
 5/16/11 Removed unused methods from MathUtil
 5/13/11 ImmutableRectangle2D: made final fields public and added a toRectangle2D method
