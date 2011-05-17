@@ -3,16 +3,24 @@
 package edu.colorado.phet.capacitorlab.module.multiplecapacitors;
 
 import java.awt.geom.Dimension2D;
+import java.awt.geom.Point2D;
 
+import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLGlobalProperties;
-import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
+import edu.colorado.phet.capacitorlab.model.*;
 import edu.colorado.phet.capacitorlab.module.CLCanvas;
+import edu.colorado.phet.capacitorlab.module.dielectric.DielectricModel;
+import edu.colorado.phet.capacitorlab.view.BatteryNode;
+import edu.colorado.phet.capacitorlab.view.CapacitorNode;
 import edu.colorado.phet.capacitorlab.view.meters.BarMeterNode.CapacitanceMeterNode;
 import edu.colorado.phet.capacitorlab.view.meters.BarMeterNode.PlateChargeMeterNode;
 import edu.colorado.phet.capacitorlab.view.meters.BarMeterNode.StoredEnergyMeterNode;
 import edu.colorado.phet.capacitorlab.view.meters.EFieldDetectorView;
 import edu.colorado.phet.capacitorlab.view.meters.VoltmeterView;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.umd.cs.piccolo.PNode;
 
 /**
  * Canvas for the "Multiple Capacitors" module.
@@ -21,8 +29,18 @@ import edu.colorado.phet.common.phetcommon.math.Point3D;
  */
 public class MultipleCapacitorsCanvas extends CLCanvas {
 
+    // global view properties, directly observable
+    public final Property<Boolean> plateChargesVisible = new Property<Boolean>( CLConstants.PLATE_CHARGES_VISIBLE );
+    public final Property<Boolean> eFieldVisible = new Property<Boolean>( CLConstants.EFIELD_VISIBLE );
+    public final Property<DielectricChargeView> dielectricChargeView = new Property<DielectricChargeView>( CLConstants.DIELECTRIC_CHARGE_VIEW );
+
     private final MultipleCapacitorsModel model;
     private final CLModelViewTransform3D mvt;
+
+    private final PNode circuitParentNode; // parent of all circuit nodes, so we don't have to mess with rendering order
+
+    // maximums
+    private final double maxPlateCharge, maxExcessDielectricPlateCharge, maxEffectiveEField, maxDielectricEField, eFieldVectorReferenceMagnitude;
 
     // meters
     private final CapacitanceMeterNode capacitanceMeterNode;
@@ -36,9 +54,15 @@ public class MultipleCapacitorsCanvas extends CLCanvas {
         this.model = model;
         this.mvt = mvt;
 
+        //TODO maximums shouldn't be dependent on DielectricModel, and may be different for this module
         // maximums
-        final double eFieldVectorReferenceMagnitude = 1; //XXX
+        maxPlateCharge = DielectricModel.getMaxPlateCharge();
+        maxExcessDielectricPlateCharge = DielectricModel.getMaxExcessDielectricPlateCharge();
+        maxEffectiveEField = DielectricModel.getMaxEffectiveEField();
+        maxDielectricEField = DielectricModel.getMaxDielectricEField();
+        eFieldVectorReferenceMagnitude = DielectricModel.getMaxPlatesDielectricEFieldWithBattery();
 
+        circuitParentNode = new PNode();
         capacitanceMeterNode = new CapacitanceMeterNode( model.getCapacitanceMeter(), mvt );
         plateChargeMeterNode = new PlateChargeMeterNode( model.getPlateChargeMeter(), mvt );
         storedEnergyMeterNode = new StoredEnergyMeterNode( model.getStoredEnergyMeter(), mvt );
@@ -46,6 +70,7 @@ public class MultipleCapacitorsCanvas extends CLCanvas {
         eFieldDetector = new EFieldDetectorView( model.getEFieldDetector(), mvt, eFieldVectorReferenceMagnitude, globalProperties.dev, true /* eFieldDetectorSimplified */ );
 
         // rendering order
+        addChild( circuitParentNode );
         addChild( capacitanceMeterNode );
         addChild( plateChargeMeterNode );
         addChild( storedEnergyMeterNode );
@@ -57,11 +82,57 @@ public class MultipleCapacitorsCanvas extends CLCanvas {
         addChild( voltmeter.getPositiveWireNode() );
         addChild( voltmeter.getNegativeProbeNode() );
         addChild( voltmeter.getNegativeWireNode() );
+
+        model.currentCircuit.addObserver( new SimpleObserver() {
+            public void update() {
+                updateCircuit();
+            }
+        } );
     }
 
     public void reset() {
-        //TODO anything to reset?
+        // global properties of the view
+        plateChargesVisible.reset();
+        eFieldVisible.reset();
+        dielectricChargeView.reset();
+        // zoom level of bar meters
+        capacitanceMeterNode.reset();
+        plateChargeMeterNode.reset();
+        storedEnergyMeterNode.reset();
     }
+
+    private void updateCircuit() {
+        circuitParentNode.removeAllChildren();
+        circuitParentNode.addChild( createCircuit( model.currentCircuit.get() ) );
+    }
+
+    private PNode createCircuit( ICircuit circuit ) {
+
+        PNode parentNode = new PNode();
+        Point2D pView = null;
+        double x, y = 0;
+
+        Battery battery = circuit.getBattery();
+        if ( battery != null ) {
+            PNode batteryNode = new BatteryNode( circuit.getBattery(), CLConstants.BATTERY_VOLTAGE_RANGE );
+            pView = mvt.modelToView( circuit.getBattery().getLocationReference() );
+            batteryNode.setOffset( pView );
+            parentNode.addChild( batteryNode );
+        }
+
+        Capacitor capacitor = circuit.getCapacitor();
+        if ( capacitor != null ) {
+            CapacitorNode capacitorNode = new CapacitorNode( capacitor, mvt, plateChargesVisible, eFieldVisible, dielectricChargeView,
+                                                             maxPlateCharge, maxExcessDielectricPlateCharge, maxEffectiveEField, maxDielectricEField );
+            capacitorNode.getDielectricNode().setVisible( false );
+            pView = mvt.modelToView( capacitor.getLocation() );
+            capacitorNode.setOffset( pView );
+            parentNode.addChild( capacitorNode );
+        }
+
+        return parentNode;
+    }
+
 
     @Override
     protected void updateLayout() {

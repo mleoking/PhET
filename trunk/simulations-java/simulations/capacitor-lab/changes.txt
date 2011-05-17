@@ -1,3 +1,4 @@
+5/16/11 reuse BatteryCapacitorCircuit as "single" circuit in Multi Capacitors tab, display battery and capacitor (no wires or capacitance control yet)
 5/16/11 move creation of battery and capacitor into BatteryCapacitorCircuit, so that this can be our "single capacitor" circuit
 5/16/11 add Capacitor.setCapacitance, which calculates and sets plate separation
 5/16/11 redesign IntroductionModule: extending DielectricModule was confusing, so just reuse stuff from DielectricModule
