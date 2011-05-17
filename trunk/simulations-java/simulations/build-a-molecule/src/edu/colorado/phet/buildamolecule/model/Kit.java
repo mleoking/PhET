@@ -6,7 +6,7 @@ import java.util.*;
 
 import edu.colorado.phet.buildamolecule.BuildAMoleculeApplication;
 import edu.colorado.phet.buildamolecule.model.LewisDotModel.Direction;
-import edu.colorado.phet.chemistry.model.Atom;
+import edu.colorado.phet.chemistry.model.Atomic;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.Pair;
@@ -139,7 +139,7 @@ public class Kit {
         return atoms;
     }
 
-    public Bucket getBucketForAtomType( Atom atom ) {
+    public Bucket getBucketForAtomType( Atomic atom ) {
         for ( Bucket bucket : buckets ) {
             if ( bucket.getAtomType().isSameTypeOfAtom( atom ) ) {
                 return bucket;
@@ -205,7 +205,7 @@ public class Kit {
 
         // move all other atoms in the molecule
         if ( isAtomInPlay( atom.getAtomInfo() ) ) {
-            for ( Atom atomInMolecule : getMoleculeStructure( atom ).getAtoms() ) {
+            for ( Atomic atomInMolecule : getMoleculeStructure( atom ).getAtoms() ) {
                 if ( atom.getAtomInfo() == atomInMolecule ) {
                     continue;
                 }
@@ -225,7 +225,7 @@ public class Kit {
         System.out.println( "You have dropped in a " + box.getMoleculeType().getCommonName() );
         hasMoleculesInBoxes.set( true );
         removeMolecule( molecule );
-        for ( Atom atom : molecule.getAtoms() ) {
+        for ( Atomic atom : molecule.getAtoms() ) {
             AtomModel atomModel = getAtomModel( atom );
             atoms.remove( atomModel );
             atomsInCollectionBox.add( atomModel );
@@ -239,7 +239,7 @@ public class Kit {
      * @param atom An atom
      * @return Is this atom registered in our molecule structures?
      */
-    public boolean isAtomInPlay( Atom atom ) {
+    public boolean isAtomInPlay( Atomic atom ) {
         return getMoleculeStructure( atom ) != null;
     }
 
@@ -247,9 +247,9 @@ public class Kit {
         return getMoleculeStructure( atom.getAtomInfo() );
     }
 
-    public MoleculeStructure getMoleculeStructure( Atom atom ) {
+    public MoleculeStructure getMoleculeStructure( Atomic atom ) {
         for ( MoleculeStructure molecule : molecules ) {
-            for ( Atom otherAtom : molecule.getAtoms() ) {
+            for ( Atomic otherAtom : molecule.getAtoms() ) {
                 if ( otherAtom == atom ) {
                     return molecule;
                 }
@@ -258,7 +258,7 @@ public class Kit {
         return null;
     }
 
-    public AtomModel getAtomModel( Atom atom ) {
+    public AtomModel getAtomModel( Atomic atom ) {
         for ( AtomModel atomModel : atoms ) {
             if ( atomModel.getAtomInfo() == atom ) {
                 return atomModel;
@@ -269,7 +269,7 @@ public class Kit {
 
     public PBounds getMoleculePositionBounds( MoleculeStructure molecule ) {
         PBounds bounds = null;
-        for ( Atom atom : molecule.getAtoms() ) {
+        for ( Atomic atom : molecule.getAtoms() ) {
             AtomModel atomModel = getAtomModel( atom );
             PBounds atomBounds = atomModel.getPositionBounds();
             if ( bounds == null ) {
@@ -284,7 +284,7 @@ public class Kit {
 
     public PBounds getMoleculeDestinationBounds( MoleculeStructure molecule ) {
         PBounds bounds = null;
-        for ( Atom atom : molecule.getAtoms() ) {
+        for ( Atomic atom : molecule.getAtoms() ) {
             AtomModel atomModel = getAtomModel( atom );
             PBounds atomBounds = atomModel.getDestinationBounds();
             if ( bounds == null ) {
@@ -304,7 +304,7 @@ public class Kit {
      */
     public void breakMolecule( MoleculeStructure moleculeStructure ) {
         removeMolecule( moleculeStructure );
-        for ( final Atom atom : moleculeStructure.getAtoms() ) {
+        for ( final Atomic atom : moleculeStructure.getAtoms() ) {
             lewisDotModel.breakBondsOfAtom( atom );
             MoleculeStructure newMolecule = new MoleculeStructure() {{
                 addAtom( atom );
@@ -350,7 +350,7 @@ public class Kit {
         return hasMoleculesInBoxes;
     }
 
-    public LewisDotModel.Direction getBondDirection( Atom a, Atom b ) {
+    public LewisDotModel.Direction getBondDirection( Atomic a, Atomic b ) {
         return lewisDotModel.getBondDirection( a, b );
     }
 
@@ -415,7 +415,7 @@ public class Kit {
      * @param atom    The atom to recycle
      * @param animate Whether we should display animation
      */
-    private void recycleAtomIntoBuckets( Atom atom, boolean animate ) {
+    private void recycleAtomIntoBuckets( Atomic atom, boolean animate ) {
         lewisDotModel.breakBondsOfAtom( atom );
         Bucket bucket = Kit.this.getBucketForAtomType( atom );
         bucket.addParticleNearestOpen( getAtomModel( atom ), !animate );
@@ -427,7 +427,7 @@ public class Kit {
      * @param molecule The molecule to recycle
      */
     private void recycleMoleculeIntoBuckets( MoleculeStructure molecule ) {
-        for ( Atom atom : molecule.getAtoms() ) {
+        for ( Atomic atom : molecule.getAtoms() ) {
             recycleAtomIntoBuckets( atom, true );
         }
         removeMolecule( molecule );
@@ -439,7 +439,7 @@ public class Kit {
     }
 
     private void shiftMoleculeDestination( MoleculeStructure moleculeStructure, ImmutableVector2D delta ) {
-        for ( Atom atom : moleculeStructure.getAtoms() ) {
+        for ( Atomic atom : moleculeStructure.getAtoms() ) {
             AtomModel atomModel = getAtomModel( atom );
             atomModel.setDestination( atomModel.getDestination().getAddedInstance( delta ) );
         }
@@ -583,7 +583,7 @@ public class Kit {
         double bestDistanceFromIdealLocation = Double.POSITIVE_INFINITY;
 
         // for each atom in our molecule, we try to see if it can bond to other atoms
-        for ( Atom ourAtomInfo : moleculeStructure.getAtoms() ) {
+        for ( Atomic ourAtomInfo : moleculeStructure.getAtoms() ) {
             AtomModel ourAtom = getAtomModel( ourAtomInfo );
 
             // all other atoms
@@ -631,7 +631,7 @@ public class Kit {
 
         // cause all atoms in the molecule to move to that location
         ImmutableVector2D delta = bestLocation.getIdealLocation().getSubtractedInstance( bestLocation.b.getPosition() );
-        for ( Atom atomInMolecule : getMoleculeStructure( bestLocation.b ).getAtoms() ) {
+        for ( Atomic atomInMolecule : getMoleculeStructure( bestLocation.b ).getAtoms() ) {
             AtomModel atomModel = getAtomModel( atomInMolecule );
             atomModel.setDestination( atomModel.getPosition().getAddedInstance( delta ) );
         }

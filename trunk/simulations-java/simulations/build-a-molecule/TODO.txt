@@ -1,3 +1,4 @@
+Check filtering of duplicates: acetylene and propane issues? -- SVN issues?
 I18nize text bubble
 Reset kit don't pull from boxes
 Color change on "break molecule" button - blue

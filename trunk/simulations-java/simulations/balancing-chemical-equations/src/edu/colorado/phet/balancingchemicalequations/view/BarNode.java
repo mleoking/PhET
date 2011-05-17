@@ -16,7 +16,6 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.chemistry.model.Atom;
-import edu.colorado.phet.chemistry.model.Atom.N;
 import edu.colorado.phet.chemistry.molecules.AtomNode;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
@@ -158,7 +157,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
         final int numberOfAtoms = 0;
 
         // bar
-        final BarNode barNode = new BarNode( new N(), numberOfAtoms );
+        final BarNode barNode = new BarNode( Atom.N, numberOfAtoms );
         barNode.setOffset( 100, 200 );
 
         // control

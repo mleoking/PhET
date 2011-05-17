@@ -13,7 +13,7 @@ import edu.colorado.phet.buildamolecule.model.Kit;
 import edu.colorado.phet.buildamolecule.model.MoleculeStructure;
 import edu.colorado.phet.buildamolecule.view.view3d.JmolDialogProperty;
 import edu.colorado.phet.buildamolecule.view.view3d.ShowMolecule3DButtonNode;
-import edu.colorado.phet.chemistry.model.Atom;
+import edu.colorado.phet.chemistry.model.Atomic;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -85,7 +85,7 @@ public class MoleculeMetadataNode extends PNode {
             setOffset( currentX.get(), 0 );
         }} );
 
-        for ( Atom atom : moleculeStructure.getAtoms() ) {
+        for ( Atomic atom : moleculeStructure.getAtoms() ) {
             final AtomModel atomModel = kit.getAtomModel( atom );
             atomModel.addPositionListener( new SimpleObserver() {
                 {

@@ -2,10 +2,11 @@
 
 package edu.colorado.phet.chemistry.molecules;
 
-import edu.colorado.phet.chemistry.model.Atom.H;
-import edu.colorado.phet.chemistry.model.Atom.O;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolox.nodes.PComposite;
+
+import static edu.colorado.phet.chemistry.model.Atom.H;
+import static edu.colorado.phet.chemistry.model.Atom.O;
 
 /**
  * H2O molecule.
@@ -17,9 +18,9 @@ public class H2ONode extends PComposite {
     public H2ONode() {
 
         // atom nodes
-        AtomNode smallLeftNode = new AtomNode( new H() );
-        AtomNode smallRightNode = new AtomNode( new H() );
-        AtomNode bigNode = new AtomNode( new O() );
+        AtomNode smallLeftNode = new AtomNode( H );
+        AtomNode smallRightNode = new AtomNode( H );
+        AtomNode bigNode = new AtomNode( O );
 
         // rendering order
         PComposite parentNode = new PComposite();

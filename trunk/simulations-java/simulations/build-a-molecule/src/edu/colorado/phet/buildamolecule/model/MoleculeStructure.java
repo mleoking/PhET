@@ -4,6 +4,7 @@ package edu.colorado.phet.buildamolecule.model;
 import java.util.*;
 
 import edu.colorado.phet.chemistry.model.Atom;
+import edu.colorado.phet.chemistry.model.Atomic;
 import edu.colorado.phet.chemistry.utils.ChemUtils;
 
 /**
@@ -11,7 +12,7 @@ import edu.colorado.phet.chemistry.utils.ChemUtils;
  * <p/>
  */
 public class MoleculeStructure {
-    private Set<Atom> atoms = new HashSet<Atom>();
+    private Set<Atomic> atoms = new HashSet<Atomic>();
     private Set<Bond> bonds = new HashSet<Bond>();
 
     private static int nextMoleculeId = 0;
@@ -21,7 +22,6 @@ public class MoleculeStructure {
      * Map of atom => all bonds that contain that atom TODO: consider removing permanently. removed temporarily due to memory concerns
      */
 //    private Map<Atom, Set<Bond>> bondMap = new HashMap<Atom, Set<Bond>>();
-
     public MoleculeStructure() {
         moleculeId = nextMoleculeId++;
     }
@@ -30,7 +30,7 @@ public class MoleculeStructure {
      * @param atom An atom to add
      * @return The atom that was added
      */
-    public Atom addAtom( Atom atom ) {
+    public Atomic addAtom( Atomic atom ) {
         assert ( !atoms.contains( atom ) );
         atoms.add( atom );
 //        bondMap.put( atom, new HashSet<Bond>() );
@@ -45,11 +45,11 @@ public class MoleculeStructure {
 //        bondMap.get( bond.b ).add( bond );
     }
 
-    public void addBond( Atom a, Atom b ) {
+    public void addBond( Atomic a, Atomic b ) {
         addBond( new Bond( a, b ) );
     }
 
-    public Set<Bond> getBondsInvolving( Atom atom ) {
+    public Set<Bond> getBondsInvolving( Atomic atom ) {
         Set<Bond> result = new HashSet<Bond>();
         for ( Bond bond : bonds ) {
             if ( bond.contains( atom ) ) {
@@ -92,31 +92,31 @@ public class MoleculeStructure {
      * @return Text which is the molecular formula
      */
     public String getGeneralFormula() {
-        boolean containsCarbon = containsAtomOfType( new Atom.C() );
-        boolean containsHydrogen = containsAtomOfType( new Atom.H() );
+        boolean containsCarbon = containsAtomOfType( Atom.C );
+        boolean containsHydrogen = containsAtomOfType( Atom.H );
 
         boolean organic = containsCarbon && containsHydrogen;
 
-        List<Atom> sortedAtoms = new LinkedList<Atom>( atoms );
+        List<Atomic> sortedAtoms = new LinkedList<Atomic>( atoms );
         if ( organic ) {
             // carbon first, then hydrogen, then others alphabetically
-            Collections.sort( sortedAtoms, new Comparator<Atom>() {
-                public int compare( Atom a, Atom b ) {
+            Collections.sort( sortedAtoms, new Comparator<Atomic>() {
+                public int compare( Atomic a, Atomic b ) {
                     return new Double( organicSortValue( a ) ).compareTo( organicSortValue( b ) );
                 }
             } );
         }
         else {
             // sort by increasing electronegativity
-            Collections.sort( sortedAtoms, new Comparator<Atom>() {
-                public int compare( Atom a, Atom b ) {
+            Collections.sort( sortedAtoms, new Comparator<Atomic>() {
+                public int compare( Atomic a, Atomic b ) {
                     return new Double( electronegativeSortValue( a ) ).compareTo( electronegativeSortValue( b ) );
                 }
             } );
         }
 
         // grab our formula out
-        String formula = ChemUtils.createSymbolWithoutSubscripts( sortedAtoms.toArray( new Atom[sortedAtoms.size()] ) );
+        String formula = ChemUtils.createSymbolWithoutSubscripts( sortedAtoms.toArray( new Atomic[sortedAtoms.size()] ) );
 
         // return the formula, unless it is in our exception list (in which case, handle the exception case)
         return formulaExceptions.containsKey( formula ) ? formulaExceptions.get( formula ) : formula;
@@ -135,10 +135,10 @@ public class MoleculeStructure {
 
         // we pull of the alcohols so we can get that molecular formula (and we append the alcohols afterwards)
         MoleculeStructure structureWithoutAlcohols = getCopy();
-        for ( Atom oxygenAtom : atoms ) {
+        for ( Atomic oxygenAtom : atoms ) {
             // only process if it is an oxygen atom
             if ( oxygenAtom.isOxygen() ) {
-                List<Atom> neighbors = getNeighbors( oxygenAtom );
+                List<Atomic> neighbors = getNeighbors( oxygenAtom );
 
                 // for an alcohol subgroup (hydroxyl) we need:
                 if ( neighbors.size() == 2 && // 2 neighbors
@@ -194,11 +194,11 @@ public class MoleculeStructure {
         return str.replace( "<sub", "<font size=\"0\"> </font><sub" );
     }
 
-    private static double electronegativeSortValue( Atom atom ) {
+    private static double electronegativeSortValue( Atomic atom ) {
         return atom.getElectronegativity();
     }
 
-    private static double organicSortValue( Atom atom ) {
+    private static double organicSortValue( Atomic atom ) {
         if ( atom.isCarbon() ) {
             return 0;
         }
@@ -208,7 +208,7 @@ public class MoleculeStructure {
         return alphabeticSortValue( atom );
     }
 
-    private static double alphabeticSortValue( Atom atom ) {
+    private static double alphabeticSortValue( Atomic atom ) {
         int value = 1000 * ( (int) atom.getSymbol().charAt( 0 ) );
         if ( atom.getSymbol().length() > 1 ) {
             value += (int) atom.getSymbol().charAt( 1 );
@@ -216,7 +216,7 @@ public class MoleculeStructure {
         return value;
     }
 
-    public Set<Atom> getAtoms() {
+    public Set<Atomic> getAtoms() {
         return atoms;
     }
 
@@ -228,8 +228,8 @@ public class MoleculeStructure {
      * @param atom An atom
      * @return All neighboring atoms that are connected by bonds to the passed in atom
      */
-    public List<Atom> getNeighbors( Atom atom ) {
-        List<Atom> ret = new LinkedList<Atom>();
+    public List<Atomic> getNeighbors( Atomic atom ) {
+        List<Atomic> ret = new LinkedList<Atomic>();
         for ( Bond bond : getBondsInvolving( atom ) ) {
             ret.add( bond.getOtherAtom( atom ) );
         }
@@ -239,7 +239,7 @@ public class MoleculeStructure {
     public double getApproximateMolecularWeight() {
         // TODO: verify the accuracy of this
         double result = 0;
-        for ( Atom atom : atoms ) {
+        for ( Atomic atom : atoms ) {
             result += atom.getAtomicWeight();
         }
         return result;
@@ -251,7 +251,7 @@ public class MoleculeStructure {
 
     public boolean hasWeirdHydrogenProperties() {
         // check for hydrogens that are bonded to more than 1 atom
-        for ( Atom atom : atoms ) {
+        for ( Atomic atom : atoms ) {
             if ( atom.isHydrogen() ) {
                 if ( getNeighbors( atom ).size() > 1 ) {
                     return true;
@@ -262,19 +262,19 @@ public class MoleculeStructure {
     }
 
     public boolean hasLoopsOrIsDisconnected() {
-        Set<Atom> visitedAtoms = new HashSet<Atom>();
-        Set<Atom> dirtyAtoms = new HashSet<Atom>();
+        Set<Atomic> visitedAtoms = new HashSet<Atomic>();
+        Set<Atomic> dirtyAtoms = new HashSet<Atomic>();
 
         // pull one atom out. doesn't matter which one
         dirtyAtoms.add( atoms.iterator().next() );
 
         while ( !dirtyAtoms.isEmpty() ) {
             // while atoms are dirty, pull one out
-            Atom atom = dirtyAtoms.iterator().next();
+            Atomic atom = dirtyAtoms.iterator().next();
 
             // for each neighbor, make "unvisited" atoms dirty and count "visited" atoms
             int visitedCount = 0;
-            for ( Atom otherAtom : getNeighbors( atom ) ) {
+            for ( Atomic otherAtom : getNeighbors( atom ) ) {
                 if ( visitedAtoms.contains( otherAtom ) ) {
                     visitedCount += 1;
                 }
@@ -306,12 +306,12 @@ public class MoleculeStructure {
      * @param b    Atom B
      * @return A completely new molecule with all atoms in A and B, where atom A is joined to atom B
      */
-    public static MoleculeStructure getCombinedMoleculeFromBond( MoleculeStructure molA, MoleculeStructure molB, Atom a, Atom b ) {
+    public static MoleculeStructure getCombinedMoleculeFromBond( MoleculeStructure molA, MoleculeStructure molB, Atomic a, Atomic b ) {
         MoleculeStructure ret = new MoleculeStructure();
-        for ( Atom atom : molA.getAtoms() ) {
+        for ( Atomic atom : molA.getAtoms() ) {
             ret.addAtom( atom );
         }
-        for ( Atom atom : molB.getAtoms() ) {
+        for ( Atomic atom : molB.getAtoms() ) {
             ret.addAtom( atom );
         }
         for ( Bond bond : molA.getBonds() ) {
@@ -341,24 +341,24 @@ public class MoleculeStructure {
         * TODO: separate out code into a "get connected submolecule" code?
         *----------------------------------------------------------------------------*/
 
-        Set<Atom> atomsInA = new HashSet<Atom>() {{
+        Set<Atomic> atomsInA = new HashSet<Atomic>() {{
             add( bond.a );
         }};
 
         // atoms left after removing atoms
-        Set<Atom> remainingAtoms = new HashSet<Atom>( structure.getAtoms() );
+        Set<Atomic> remainingAtoms = new HashSet<Atomic>( structure.getAtoms() );
         remainingAtoms.remove( bond.a );
-        Set<Atom> dirtyAtoms = new HashSet<Atom>() {{
+        Set<Atomic> dirtyAtoms = new HashSet<Atomic>() {{
             add( bond.a );
         }};
         while ( !dirtyAtoms.isEmpty() ) {
-            Atom atom = dirtyAtoms.iterator().next();
+            Atomic atom = dirtyAtoms.iterator().next();
             dirtyAtoms.remove( atom );
 
             // for all neighbors that don't use our "bond"
             for ( Bond otherBond : structure.bonds ) {
                 if ( otherBond != bond && otherBond.contains( atom ) ) {
-                    Atom neighbor = otherBond.getOtherAtom( atom );
+                    Atomic neighbor = otherBond.getOtherAtom( atom );
 
                     // pick out our neighbor, mark it as in "A", and mark it as dirty so we can process its neighbors
                     if ( remainingAtoms.contains( neighbor ) ) {
@@ -374,7 +374,7 @@ public class MoleculeStructure {
         * construct our two molecules
         *----------------------------------------------------------------------------*/
 
-        for ( Atom atom : structure.getAtoms() ) {
+        for ( Atomic atom : structure.getAtoms() ) {
             if ( atomsInA.contains( atom ) ) {
                 molA.addAtom( atom );
             }
@@ -415,8 +415,8 @@ public class MoleculeStructure {
      */
     public String toSerial() {
         String ret = atoms.size() + "|" + bonds.size();
-        List<Atom> atoms = new LinkedList<Atom>( getAtoms() );
-        for ( Atom atom : atoms ) {
+        List<Atomic> atoms = new LinkedList<Atomic>( getAtoms() );
+        for ( Atomic atom : atoms ) {
             ret += "|" + atom.getSymbol();
         }
 
@@ -440,7 +440,7 @@ public class MoleculeStructure {
         StringTokenizer t = new StringTokenizer( str, "|" );
         int atomCount = Integer.parseInt( t.nextToken() );
         int bondCount = Integer.parseInt( t.nextToken() );
-        Atom[] atoms = new Atom[atomCount];
+        Atomic[] atoms = new Atomic[atomCount];
 
         for ( int i = 0; i < atomCount; i++ ) {
             atoms[i] = AtomModel.createAtomBySymbol( t.nextToken() );
@@ -456,7 +456,7 @@ public class MoleculeStructure {
 
     public String getDebuggingDump() {
         String str = "Molecule\n";
-        for ( Atom atom : atoms ) {
+        for ( Atomic atom : atoms ) {
             str += "atom: " + atom.getSymbol() + " " + atom.hashCode() + "\n";
         }
         for ( Bond bond : bonds ) {
@@ -465,8 +465,8 @@ public class MoleculeStructure {
         return str;
     }
 
-    private boolean containsAtomOfType( Atom referenceAtom ) {
-        for ( Atom atom : atoms ) {
+    private boolean containsAtomOfType( Atomic referenceAtom ) {
+        for ( Atomic atom : atoms ) {
             if ( atom.isSameTypeOfAtom( referenceAtom ) ) {
                 return true;
             }
@@ -474,7 +474,7 @@ public class MoleculeStructure {
         return false;
     }
 
-    public Bond getBond( Atom a, Atom b ) {
+    public Bond getBond( Atomic a, Atomic b ) {
         for ( Bond bond : bonds ) {
             if ( bond.contains( a ) && bond.contains( b ) ) {
                 return bond;
@@ -488,10 +488,10 @@ public class MoleculeStructure {
     }
 
     public static class Bond {
-        public Atom a;
-        public Atom b;
+        public Atomic a;
+        public Atomic b;
 
-        public Bond( Atom a, Atom b ) {
+        public Bond( Atomic a, Atomic b ) {
             this.a = a;
             this.b = b;
             assert ( a != b );
@@ -513,11 +513,11 @@ public class MoleculeStructure {
             }
         }
 
-        public boolean contains( Atom atom ) {
+        public boolean contains( Atomic atom ) {
             return atom == a || atom == b;
         }
 
-        public Atom getOtherAtom( Atom atom ) {
+        public Atomic getOtherAtom( Atomic atom ) {
             assert ( contains( atom ) );
             return ( a == atom ? b : a );
         }
@@ -529,7 +529,7 @@ public class MoleculeStructure {
 
     public MoleculeStructure getCopy() {
         MoleculeStructure ret = new MoleculeStructure();
-        for ( Atom atom : atoms ) {
+        for ( Atomic atom : atoms ) {
             ret.addAtom( atom );
         }
         for ( Bond bond : bonds ) {
@@ -538,9 +538,9 @@ public class MoleculeStructure {
         return ret;
     }
 
-    public MoleculeStructure getCopyWithAtomRemoved( Atom atomToRemove ) {
+    public MoleculeStructure getCopyWithAtomRemoved( Atomic atomToRemove ) {
         MoleculeStructure ret = new MoleculeStructure();
-        for ( Atom atom : atoms ) {
+        for ( Atomic atom : atoms ) {
             if ( atom != atomToRemove ) {
                 ret.addAtom( atom );
             }
@@ -574,10 +574,10 @@ public class MoleculeStructure {
             // different molecular formula
             return false;
         }
-        Set<Atom> myVisited = new HashSet<Atom>();
-        Set<Atom> otherVisited = new HashSet<Atom>();
-        Atom firstAtom = atoms.iterator().next(); // grab the 1st atom
-        for ( Atom otherAtom : other.getAtoms() ) {
+        Set<Atomic> myVisited = new HashSet<Atomic>();
+        Set<Atomic> otherVisited = new HashSet<Atomic>();
+        Atomic firstAtom = atoms.iterator().next(); // grab the 1st atom
+        for ( Atomic otherAtom : other.getAtoms() ) {
             if ( checkEquivalency( other, myVisited, otherVisited, firstAtom, otherAtom ) ) {
                 // we found an isomorphism with firstAtom => otherAtom
                 return true;
@@ -599,9 +599,9 @@ public class MoleculeStructure {
      * @param exclusionSet A set of atoms that should not be in the return value
      * @return All neighboring atoms that are connected by bonds to the passed in atom AND aren't in the exclusionSet
      */
-    public List<Atom> getNeighborsNotInSet( Atom atom, Set<Atom> exclusionSet ) {
-        List<Atom> ret = new LinkedList<Atom>();
-        for ( Atom otherAtom : getNeighbors( atom ) ) {
+    public List<Atomic> getNeighborsNotInSet( Atomic atom, Set<Atomic> exclusionSet ) {
+        List<Atomic> ret = new LinkedList<Atomic>();
+        for ( Atomic otherAtom : getNeighbors( atom ) ) {
             if ( !exclusionSet.contains( otherAtom ) ) {
                 ret.add( otherAtom );
             }
@@ -609,13 +609,13 @@ public class MoleculeStructure {
         return ret;
     }
 
-    private boolean checkEquivalency( MoleculeStructure other, Set<Atom> myVisited, Set<Atom> otherVisited, Atom myAtom, Atom otherAtom ) {
+    private boolean checkEquivalency( MoleculeStructure other, Set<Atomic> myVisited, Set<Atomic> otherVisited, Atomic myAtom, Atomic otherAtom ) {
         if ( !myAtom.isSameTypeOfAtom( otherAtom ) ) {
             // if the atoms are of different types, bail. subtrees can't possibly be equivalent
             return false;
         }
-        List<Atom> myUnvisitedNeighbors = getNeighborsNotInSet( myAtom, myVisited );
-        List<Atom> otherUnvisitedNeighbors = other.getNeighborsNotInSet( otherAtom, otherVisited );
+        List<Atomic> myUnvisitedNeighbors = getNeighborsNotInSet( myAtom, myVisited );
+        List<Atomic> otherUnvisitedNeighbors = other.getNeighborsNotInSet( otherAtom, otherVisited );
         if ( myUnvisitedNeighbors.size() != otherUnvisitedNeighbors.size() ) {
             return false;
         }

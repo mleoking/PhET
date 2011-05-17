@@ -18,14 +18,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.balancingchemicalequations.BCEConstants;
-import edu.colorado.phet.chemistry.model.Atom.C;
-import edu.colorado.phet.chemistry.model.Atom.Cl;
-import edu.colorado.phet.chemistry.model.Atom.F;
-import edu.colorado.phet.chemistry.model.Atom.H;
-import edu.colorado.phet.chemistry.model.Atom.N;
-import edu.colorado.phet.chemistry.model.Atom.O;
-import edu.colorado.phet.chemistry.model.Atom.P;
-import edu.colorado.phet.chemistry.model.Atom.S;
+import static edu.colorado.phet.chemistry.model.Atom.*;
 
 import edu.colorado.phet.chemistry.molecules.HorizontalMoleculeNode.CNode;
 import edu.colorado.phet.chemistry.molecules.HorizontalMoleculeNode.CO2Node;
@@ -129,14 +122,14 @@ public class GameRewardNode extends PhetPNode {
         {
             // atoms
             atomImages = new ArrayList<Image>();
-            atomImages.add( new AtomNode( new C() ).toImage() );
-            atomImages.add( new AtomNode( new Cl() ).toImage() );
-            atomImages.add( new AtomNode( new F() ).toImage() );
-            atomImages.add( new AtomNode( new H() ).toImage() );
-            atomImages.add( new AtomNode( new N() ).toImage() );
-            atomImages.add( new AtomNode( new O() ).toImage() );
-            atomImages.add( new AtomNode( new P() ).toImage() );
-            atomImages.add( new AtomNode( new S() ).toImage() );
+            atomImages.add( new AtomNode( C ).toImage() );
+            atomImages.add( new AtomNode( Cl ).toImage() );
+            atomImages.add( new AtomNode( F ).toImage() );
+            atomImages.add( new AtomNode( H ).toImage() );
+            atomImages.add( new AtomNode( N ).toImage() );
+            atomImages.add( new AtomNode( O ).toImage() );
+            atomImages.add( new AtomNode( P ).toImage() );
+            atomImages.add( new AtomNode( S ).toImage() );
 
             // molecules
             moleculeImages = new ArrayList<Image>();

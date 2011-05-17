@@ -3,10 +3,11 @@
 package edu.colorado.phet.chemistry.molecules;
 
 import edu.colorado.phet.chemistry.model.Atom;
-import edu.colorado.phet.chemistry.model.Atom.*;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.nodes.PComposite;
+
+import static edu.colorado.phet.chemistry.model.Atom.*;
 
 /**
  * Base class for molecules with N atoms aligned on the horizontal axis, for N > 0.
@@ -43,73 +44,73 @@ public abstract class HorizontalMoleculeNode extends PComposite {
 
     public static class CNode extends HorizontalMoleculeNode {
         public CNode() {
-            super( new C() );
+            super( C );
         }
     }
 
     public static class Cl2Node extends HorizontalMoleculeNode {
         public Cl2Node() {
-            super( new Cl(), new Cl() );
+            super( Cl, Cl );
         }
     }
 
     public static class CONode extends HorizontalMoleculeNode {
         public CONode() {
-            super( new C(), new O() );
+            super( C, O );
         }
     }
 
     public static class CO2Node extends HorizontalMoleculeNode {
         public CO2Node() {
-            super( new O(), new C(), new O() );
+            super( O, C, O );
         }
     }
 
     public static class CS2Node extends HorizontalMoleculeNode {
         public CS2Node() {
-            super( new S(), new C(), new S() );
+            super( S, C, S );
         }
     }
 
     public static class F2Node extends HorizontalMoleculeNode {
         public F2Node() {
-            super( new F(), new F() );
+            super( F, F );
         }
     }
 
     public static class H2Node extends HorizontalMoleculeNode {
         public H2Node() {
-            super( new H(), new H() );
+            super( H, H );
         }
     }
 
     public static class N2Node extends HorizontalMoleculeNode {
         public N2Node() {
-            super( new N(), new N() );
+            super( N, N );
         }
     }
 
     public static class NONode extends HorizontalMoleculeNode {
         public NONode() {
-            super( new N(), new O() );
+            super( N, O );
         }
     }
 
     public static class N2ONode extends HorizontalMoleculeNode {
         public N2ONode() {
-            super( new N(), new N(), new O() );
+            super( N, N, O );
         }
     }
 
     public static class O2Node extends HorizontalMoleculeNode {
         public O2Node() {
-            super( new O(), new O() );
+            super( O, O );
         }
     }
 
     public static class SNode extends HorizontalMoleculeNode {
         public SNode() {
-            super( new S() );
+            super( S );
         }
     }
 }

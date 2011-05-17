@@ -2,9 +2,10 @@
 
 package edu.colorado.phet.chemistry.molecules;
 
-import edu.colorado.phet.chemistry.model.Atom.P;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolox.nodes.PComposite;
+
+import static edu.colorado.phet.chemistry.model.Atom.P;
 
 /**
  * P4 molecule.
@@ -17,10 +18,10 @@ public class P4Node extends PComposite {
     public P4Node() {
 
         // atom nodes
-        AtomNode topNode = new AtomNode( new P() );
-        AtomNode bottomLeftNode = new AtomNode( new P() );
-        AtomNode bottomRightNode = new AtomNode( new P() );
-        AtomNode bottomBackNode = new AtomNode( new P() );
+        AtomNode topNode = new AtomNode( P );
+        AtomNode bottomLeftNode = new AtomNode( P );
+        AtomNode bottomRightNode = new AtomNode( P );
+        AtomNode bottomBackNode = new AtomNode( P );
 
         // rendering order
         PComposite parentNode = new PComposite();

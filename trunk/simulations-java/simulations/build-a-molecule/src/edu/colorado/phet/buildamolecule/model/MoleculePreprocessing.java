@@ -6,7 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.*;
 
-import edu.colorado.phet.chemistry.model.Atom;
+import edu.colorado.phet.chemistry.model.Atomic;
 
 public class MoleculePreprocessing {
     // indexed with atom histogram hash for heavy atoms
@@ -39,7 +39,7 @@ public class MoleculePreprocessing {
                 }} );
                 System.out.println( "keys: " + allowedStructures.keySet().size() );
             }
-            for ( Atom atom : strippedMolecule.stripped.getAtoms() ) {
+            for ( Atomic atom : strippedMolecule.stripped.getAtoms() ) {
                 if ( strippedMolecule.stripped.getNeighbors( atom ).size() < 2 && strippedMolecule.stripped.getAtoms().size() >= 2 ) {
                     // we could remove this atom and it wouldn't break apart
                     addMoleculeAndChildren( strippedMolecule.getCopyWithAtomRemoved( atom ) );

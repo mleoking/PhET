@@ -7,7 +7,7 @@ import java.util.List;
 import edu.colorado.phet.buildamolecule.model.*;
 import edu.colorado.phet.buildamolecule.view.BuildAMoleculeCanvas;
 import edu.colorado.phet.chemistry.model.Atom;
-import edu.colorado.phet.chemistry.model.Atom.C;
+import edu.colorado.phet.chemistry.model.Atomic;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
@@ -71,7 +71,7 @@ public abstract class AbstractBuildAMoleculeModule extends PiccoloModule {
             int numberInBox = allowMultipleMolecules ? random.nextInt( MAX_IN_BOX ) + 1 : 1;
 
             // restrict the number of carbon that we can have
-            int carbonCount = molecule.getMoleculeStructure().getHistogram().getQuantity( new C() );
+            int carbonCount = molecule.getMoleculeStructure().getHistogram().getQuantity( Atom.C );
             if ( carbonCount > 1 ) {
                 numberInBox = Math.min( 2, numberInBox );
             }
@@ -97,7 +97,7 @@ public abstract class AbstractBuildAMoleculeModule extends PiccoloModule {
 
             // get the set of atoms that we need
             Set<String> atomSymbols = new HashSet<String>();
-            for ( Atom atom : molecule.getAtoms() ) {
+            for ( Atomic atom : molecule.getAtoms() ) {
                 atomSymbols.add( atom.getSymbol() );
             }
 
@@ -118,13 +118,13 @@ public abstract class AbstractBuildAMoleculeModule extends PiccoloModule {
             for ( String symbol : atomSymbols ) {
                 // find out how many atoms of this type we need
                 int requiredAtomCount = 0;
-                for ( Atom atom : molecule.getAtoms() ) {
+                for ( Atomic atom : molecule.getAtoms() ) {
                     if ( atom.getSymbol().equals( symbol ) ) {
                         requiredAtomCount++;
                     }
                 }
 
-                Function0<Atom> atomFactory = AtomModel.getAtomFactoryBySymbol( symbol );
+                Function0<Atomic> atomFactory = AtomModel.getAtomFactoryBySymbol( symbol );
 
                 // create a multiple of the required number of atoms, so they can construct 'atomMultiple' molecules with this
                 int atomCount = requiredAtomCount * atomMultiple;

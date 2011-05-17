@@ -2,10 +2,11 @@
 
 package edu.colorado.phet.chemistry.molecules;
 
-import edu.colorado.phet.chemistry.model.Atom.F;
-import edu.colorado.phet.chemistry.model.Atom.P;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolox.nodes.PComposite;
+
+import static edu.colorado.phet.chemistry.model.Atom.F;
+import static edu.colorado.phet.chemistry.model.Atom.P;
 
 /**
  * PF3 molecule.
@@ -17,10 +18,10 @@ public class PF3Node extends PComposite {
     public PF3Node() {
 
         // atom nodes
-        AtomNode centerNode = new AtomNode( new P() );
-        AtomNode leftNode = new AtomNode( new F() );
-        AtomNode rightNode = new AtomNode( new F() );
-        AtomNode bottomNode = new AtomNode( new F() );
+        AtomNode centerNode = new AtomNode( P );
+        AtomNode leftNode = new AtomNode( F );
+        AtomNode rightNode = new AtomNode( F );
+        AtomNode bottomNode = new AtomNode( F );
 
         // rendering order
         PComposite parentNode = new PComposite();
