@@ -2,19 +2,19 @@
 package edu.colorado.phet.sugarandsaltsolutions.intro.view;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.Plus;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.sugarandsaltsolutions.common.SugarAndSaltSolutionsColorScheme;
-import edu.colorado.phet.sugarandsaltsolutions.common.view.ConcentrationBarChart;
-import edu.colorado.phet.sugarandsaltsolutions.common.view.ConductivityTesterToolboxNode;
-import edu.colorado.phet.sugarandsaltsolutions.common.view.EvaporationSlider;
-import edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas;
+import edu.colorado.phet.sugarandsaltsolutions.common.view.*;
 import edu.colorado.phet.sugarandsaltsolutions.intro.model.IntroModel;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -31,6 +31,43 @@ import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsAppli
 public class IntroCanvas extends SugarAndSaltSolutionsCanvas {
     public IntroCanvas( final IntroModel model, SugarAndSaltSolutionsColorScheme config ) {
         super( model, model.anySolutes, config );
+
+
+        //Show the full water node at the correct color, then overlay a partially transparent one on top, so that some objects (such as the conductivity tester) will look submerged
+        addChild( new WaterNode( transform, model.displacedWaterVolume, model.beaker, WATER_COLOR ) );
+
+        //Node that shows things that get submerged such as the conductivity tester
+        addChild( conductivityToolboxLayer );
+        addChild( submergedInWaterNode );
+
+        //Overlay node that renders as partially transparent in front of submerged objects, such as the conductivity tester.
+        //When changing the transparency here make sure it looks good for precipitate as well as submerged probes
+        addChild( new WaterNode( transform, model.displacedWaterVolume, model.beaker, new Color( WATER_COLOR.getRed(), WATER_COLOR.getGreen(), WATER_COLOR.getBlue(), 128 ) ) {{
+
+            //Make it so the mouse events pass through the front water layer so it is still possible to pick and move the conductivity tester probes
+            setPickable( false );
+            setChildrenPickable( false );
+        }} );
+
+        //Readout the volume of the water in Liters, only visible if the user opted to show values (in the concentration bar chart)
+        addChild( new VolumeIndicatorNode( transform, model.water, model.showConcentrationValues ) );
+
+        //Add a button that allows the user to remove all solutes
+        addChild( new ButtonNode( "Remove salt/sugar" ) {{
+            //Button should be inside the beaker
+            setOffset( transform.modelToViewX( model.beaker.getMaxX() ) - getFullBounds().getWidth() - INSET,
+                       transform.modelToViewY( model.beaker.getY() ) - getFullBounds().getHeight() - INSET );
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    model.removeSaltAndSugar();
+                }
+            } );
+            model.anySolutes.addObserver( new VoidFunction1<Boolean>() {
+                public void apply( Boolean visible ) {
+                    setVisible( visible );
+                }
+            } );
+        }} );
 
         //Button that maximizes the bar chart
         PImage maximizeButton = new PImage( PhetCommonResources.getMaximizeButtonImage() ) {{

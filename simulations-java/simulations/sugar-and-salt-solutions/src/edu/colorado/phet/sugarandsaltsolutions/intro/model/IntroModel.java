@@ -19,8 +19,8 @@ public class IntroModel extends SugarAndSaltSolutionModel {
     private static final double sugarSaturationPoint = 5.85 * 1000;//5.85 moles per liter, converted to SI
 
     //Model moles, concentration, amount dissolved, amount precipitated, etc. for salt and sugar
-    public final SoluteModel salt = new SoluteModel( water.volume, saltSaturationPoint );
-    public final SoluteModel sugar = new SoluteModel( water.volume, sugarSaturationPoint );
+    public final SoluteModel salt = new SoluteModel( water.volume, saltSaturationPoint, 0.02699 / 1000.0 );
+    public final SoluteModel sugar = new SoluteModel( water.volume, sugarSaturationPoint, 0.2157 / 1000.0 );
 
     //Determine if there are any solutes (i.e., if moles of salt or moles of sugar is greater than zero).  This is used to show/hide the "remove solutes" button
     public final ObservableProperty<Boolean> anySolutes = salt.moles.greaterThan( 0 ).or( sugar.moles.greaterThan( 0 ) );
@@ -28,10 +28,11 @@ public class IntroModel extends SugarAndSaltSolutionModel {
     private double initialSaltConcentration;
     private double initialSugarConcentration;
 
+    public final ObservableProperty<Double> displacedWaterVolume = water.volume.plus( salt.solidVolume, sugar.solidVolume );
+
     public IntroModel() {
         salt.concentration.addObserver( new VoidFunction1<Double>() {
             public void apply( Double concentration ) {
-//                System.out.println( "moles of salt = " + molesOfSalt + ", water volume = " + water.volume + ", => conc = " + concentration );
 
                 //Update the conductivity tester brightness since the brightness is a function of the salt concentration
                 updateConductivityTesterBrightness();
