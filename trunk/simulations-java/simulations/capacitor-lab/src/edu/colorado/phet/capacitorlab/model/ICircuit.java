@@ -3,6 +3,7 @@
 package edu.colorado.phet.capacitorlab.model;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.EventListener;
 
 import edu.colorado.phet.common.phetcommon.math.Point3D;
@@ -16,8 +17,7 @@ public interface ICircuit {
 
     Battery getBattery();
 
-    //TODO return a collection of capacitors, or nested circuits
-    Capacitor getCapacitor();
+    ArrayList<Capacitor> getCapacitors();
 
     /**
      * Gets the name of the circuit that is visible to the user.

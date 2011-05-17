@@ -136,8 +136,8 @@ public class MultipleCapacitorsModel {
             super( displayName, mvt );
         }
 
-        public Capacitor getCapacitor() {
-            return null;
+        public ArrayList<Capacitor> getCapacitors() {
+            return new ArrayList<Capacitor>();
         }
 
         public double getTotalCapacitance() {
