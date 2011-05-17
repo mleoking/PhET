@@ -15,6 +15,7 @@ MULTIPLE CAPACITORS REQUIREMENTS
 - no dielectric (air)
 - show charge on plates
 - show E-field lines
+- current indicators near battery poles (like in other tabs)
 
 HIGH PRIORITY
 - rewrite BatteryCapacitorCircuit using "nested circuits" design
@@ -22,10 +23,8 @@ HIGH PRIORITY
 - more general way to create Wire model elements, subclasses like TopWire and BottomWire are not scalable
 - move shape creation out of Wire and into WireNode (via WireShapeFactory) to be consistent with pattern used elsewhere
 - hack in BottomWire.createShape
-- one current indicator on multi-cap circuits, near battery poles (like in other tabs)
 
 MEDUIUM PRIORITY
-- add "air" dielectric, figure out how to make it the dielectric in Intro tab
 - convert DielectricMaterialControl to use PropertyRadioButton and Property<DielectricMaterial> dielectricMaterial
 - convert DielectricConstantControl to use Property<Double> dielectricConstant
 - convert VoltageSliderNode to use Property<Double> voltage
@@ -41,16 +40,12 @@ LOW PRIORITY
 - add circuit construction to Multiple Capacitors tab?
 - small (100mm^2) capacitor plates look like they are at a 46-degree yaw, instead of 45-degree
 - only update things that are visible, do this in the model wherever possible by observing visibleProperty
-- add explicit properties for capacitance, charge, E-field (if performance becomes an issue)
 - add meter body bounds to model so we can keep entire meter body constrained to world bounds when dragging
 - use of Polarity enum is a little incorrect, it's not really polarity
 - remove unused model code?
 
 LOWEST PRIORITY
 - don't allow meters to be dragged by buttons, this prevents ability to roll off buttons
-- round the ends of wires
-- gradient paint on plate top surfaces (not on edges)
-- use a gradient paint for wires to give them a 3D look
 
 GENERAL BUGS
 - #2521, dragging HTMLNode leaves artifacts
