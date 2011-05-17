@@ -81,7 +81,7 @@ public class Element {
     }
 
     /*---------------------------------------------------------------------------*
-    * atoms
+    * elements
     *----------------------------------------------------------------------------*/
 
     public static final Element B = new Element( "B", 85, 2.04, 10.811, new Color( 255, 170, 119 ) ); // peach/salmon colored, CPK coloring
