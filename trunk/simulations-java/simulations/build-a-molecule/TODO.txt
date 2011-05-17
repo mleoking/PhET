@@ -1,6 +1,5 @@
 Check filtering of duplicates: acetylene and propane issues? -- SVN issues?
 I18nize text bubble
-Reset kit don't pull from boxes
 Color change on "break molecule" button - blue
 Put box 3d button in upper-right of black box? (smaller?)
 Scissors bug on Mac?

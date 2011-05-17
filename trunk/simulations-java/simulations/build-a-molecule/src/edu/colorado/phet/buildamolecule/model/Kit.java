@@ -48,11 +48,9 @@ public class Kit {
         hasMoleculesInBoxes.reset();
 
         // take molecules back from the collection boxes
-        if ( !BuildAMoleculeApplication.resetKitIgnoresCollectionBoxes.get() ) {
-            for ( Pair<MoleculeStructure, CollectionBox> removedMolecule : removedMolecules ) {
-                removedMolecule._2.removeMolecule( removedMolecule._1 );
-            }
-        }
+//            for ( Pair<MoleculeStructure, CollectionBox> removedMolecule : removedMolecules ) {
+//                removedMolecule._2.removeMolecule( removedMolecule._1 );
+//            }
 
         // send out notifications for all removed molecules
         for ( MoleculeStructure molecule : new ArrayList<MoleculeStructure>( molecules ) ) {
@@ -70,9 +68,7 @@ public class Kit {
         }
 
         // if reset kit ignores collection boxes, add in other atoms that are equivalent to how the bucket started
-        if ( BuildAMoleculeApplication.resetKitIgnoresCollectionBoxes.get() ) {
-            // TODO
-        }
+        // TODO: right now, the actual atom models move back to the buckets even though the virtual "molecule" says in the box. consider moving it!
 
         // wipe our internal state
         atoms.clear();
