@@ -43,7 +43,7 @@ public class BatteryCapacitorCircuit extends AbstractCircuit {
     private double disconnectedPlateCharge; // charge set manually by the user, used when battery is disconnected
     private double previousTotalCharge; // total charge the previous time the clock ticked, used to compute current amplitude
 
-    public BatteryCapacitorCircuit( IClock clock, double plateWidth, double plateSeparation, DielectricMaterial dielectricMaterial, double dielectricOffset, boolean batteryConnected, CLModelViewTransform3D mvt ) {
+    public BatteryCapacitorCircuit( IClock clock, CLModelViewTransform3D mvt, double plateWidth, double plateSeparation, DielectricMaterial dielectricMaterial, double dielectricOffset, boolean batteryConnected ) {
         super( CLStrings.SINGLE );
 
         this.clock = clock;
