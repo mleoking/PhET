@@ -136,7 +136,6 @@ public class MultipleCapacitorsCanvas extends CLCanvas {
         else {
             circuitNode = new NullCircuitNode( circuit, mvt );
         }
-        System.out.println( "MultipleCapacitorsCanvas.createCircuit " + circuitNode.getClass().getName() );//XXX
         return circuitNode;
     }
 
