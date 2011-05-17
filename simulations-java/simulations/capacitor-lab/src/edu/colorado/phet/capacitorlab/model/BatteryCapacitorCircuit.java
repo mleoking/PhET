@@ -30,7 +30,7 @@ public class BatteryCapacitorCircuit extends AbstractCircuit {
 
     // immutable instance data
     private final Battery battery;
-    private final ComplexCapacitor capacitor;
+    private final Capacitor capacitor;
     private final Wire topWire, bottomWire;
     private final IClock clock;
     private final EventListenerList listeners;
@@ -52,7 +52,7 @@ public class BatteryCapacitorCircuit extends AbstractCircuit {
      * @param batteryConnected
      * @param mvt
      */
-    public BatteryCapacitorCircuit( IClock clock, final Battery battery, final ComplexCapacitor capacitor, boolean batteryConnected, CLModelViewTransform3D mvt ) {
+    public BatteryCapacitorCircuit( IClock clock, final Battery battery, final Capacitor capacitor, boolean batteryConnected, CLModelViewTransform3D mvt ) {
         super( CLStrings.SINGLE );
 
         this.clock = clock;
@@ -107,7 +107,7 @@ public class BatteryCapacitorCircuit extends AbstractCircuit {
         return battery;
     }
 
-    public ComplexCapacitor getCapacitor() {
+    public Capacitor getCapacitor() {
         return capacitor;
     }
 
