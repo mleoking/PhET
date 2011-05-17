@@ -3,7 +3,7 @@ package edu.colorado.phet.buildamolecule.model;
 
 import java.util.*;
 
-import edu.colorado.phet.chemistry.model.Atomic;
+import edu.colorado.phet.chemistry.model.Atom;
 
 /**
  * Molecule structure with the hydrogens stripped out (but with the hydrogen count of an atom saved)
@@ -11,13 +11,13 @@ import edu.colorado.phet.chemistry.model.Atomic;
  */
 public class StrippedMolecule {
     public final MoleculeStructure stripped;
-    private final Map<Atomic, Integer> hydrogenCount = new HashMap<Atomic, Integer>();
+    private final Map<Atom, Integer> hydrogenCount = new HashMap<Atom, Integer>();
 
     public StrippedMolecule( MoleculeStructure original ) {
         stripped = new MoleculeStructure();
 
         // copy non-hydrogens
-        for ( Atomic atom : original.getAtoms() ) {
+        for ( Atom atom : original.getAtoms() ) {
             if ( !atom.isHydrogen() ) {
                 stripped.addAtom( atom );
 
@@ -56,10 +56,10 @@ public class StrippedMolecule {
      */
     public MoleculeStructure toMoleculeStructure() {
         MoleculeStructure result = stripped.getCopy();
-        for ( Atomic atom : hydrogenCount.keySet() ) {
+        for ( Atom atom : hydrogenCount.keySet() ) {
             int count = hydrogenCount.get( atom );
             for ( int i = 0; i < count; i++ ) {
-                Atomic hydrogenAtom = AtomModel.HYDROGEN_FACTORY.apply();
+                Atom hydrogenAtom = AtomModel.HYDROGEN_FACTORY.apply();
                 result.addAtom( hydrogenAtom );
                 result.addBond( atom, hydrogenAtom );
             }
@@ -67,7 +67,7 @@ public class StrippedMolecule {
         return result;
     }
 
-    public int getHydrogenCount( Atomic atom ) {
+    public int getHydrogenCount( Atom atom ) {
         return hydrogenCount.get( atom );
     }
 
@@ -87,10 +87,10 @@ public class StrippedMolecule {
         if ( this.stripped.getAtoms().size() == 0 && other.stripped.getAtoms().size() == 0 ) {
             return true;
         }
-        Set<Atomic> myVisited = new HashSet<Atomic>();
-        Set<Atomic> otherVisited = new HashSet<Atomic>();
-        Atomic firstAtom = stripped.getAtoms().iterator().next(); // grab the 1st atom
-        for ( Atomic otherAtom : other.stripped.getAtoms() ) {
+        Set<Atom> myVisited = new HashSet<Atom>();
+        Set<Atom> otherVisited = new HashSet<Atom>();
+        Atom firstAtom = stripped.getAtoms().iterator().next(); // grab the 1st atom
+        for ( Atom otherAtom : other.stripped.getAtoms() ) {
             if ( checkEquivalency( other, myVisited, otherVisited, firstAtom, otherAtom, false ) ) {
                 // we found an isomorphism with firstAtom => otherAtom
                 return true;
@@ -114,10 +114,10 @@ public class StrippedMolecule {
             // if we have no heavy atoms
             return other.stripped.getAtoms().size() == 0;
         }
-        Set<Atomic> myVisited = new HashSet<Atomic>();
-        Set<Atomic> otherVisited = new HashSet<Atomic>();
-        Atomic firstAtom = stripped.getAtoms().iterator().next(); // grab the 1st atom
-        for ( Atomic otherAtom : other.stripped.getAtoms() ) {
+        Set<Atom> myVisited = new HashSet<Atom>();
+        Set<Atom> otherVisited = new HashSet<Atom>();
+        Atom firstAtom = stripped.getAtoms().iterator().next(); // grab the 1st atom
+        for ( Atom otherAtom : other.stripped.getAtoms() ) {
             if ( checkEquivalency( other, myVisited, otherVisited, firstAtom, otherAtom, true ) ) {
                 // we found an isomorphism with firstAtom => otherAtom
                 return true;
@@ -127,7 +127,7 @@ public class StrippedMolecule {
     }
 
     // TODO: separate out common behavior?
-    private boolean checkEquivalency( StrippedMolecule other, Set<Atomic> myVisited, Set<Atomic> otherVisited, Atomic myAtom, Atomic otherAtom, boolean subCheck ) {
+    private boolean checkEquivalency( StrippedMolecule other, Set<Atom> myVisited, Set<Atom> otherVisited, Atom myAtom, Atom otherAtom, boolean subCheck ) {
         if ( !myAtom.isSameElement( otherAtom ) ) {
             // if the atoms are of different types, bail. subtrees can't possibly be equivalent
             return false;
@@ -144,8 +144,8 @@ public class StrippedMolecule {
                 return false;
             }
         }
-        List<Atomic> myUnvisitedNeighbors = stripped.getNeighborsNotInSet( myAtom, myVisited );
-        List<Atomic> otherUnvisitedNeighbors = other.stripped.getNeighborsNotInSet( otherAtom, otherVisited );
+        List<Atom> myUnvisitedNeighbors = stripped.getNeighborsNotInSet( myAtom, myVisited );
+        List<Atom> otherUnvisitedNeighbors = other.stripped.getNeighborsNotInSet( otherAtom, otherVisited );
         if ( myUnvisitedNeighbors.size() != otherUnvisitedNeighbors.size() ) {
             return false;
         }
@@ -184,9 +184,9 @@ public class StrippedMolecule {
         return MoleculeStructure.checkEquivalencyMatrix( equivalences, 0, availableIndices );
     }
 
-    public StrippedMolecule getCopyWithAtomRemoved( Atomic atom ) {
+    public StrippedMolecule getCopyWithAtomRemoved( Atom atom ) {
         StrippedMolecule result = new StrippedMolecule( stripped.getCopyWithAtomRemoved( atom ) );
-        for ( Atomic resultAtom : result.stripped.getAtoms() ) {
+        for ( Atom resultAtom : result.stripped.getAtoms() ) {
             result.hydrogenCount.put( resultAtom, hydrogenCount.get( resultAtom ) );
         }
         return result;

@@ -15,7 +15,7 @@ import edu.colorado.phet.buildamolecule.module.LargerMoleculesModule;
 import edu.colorado.phet.buildtools.util.FileUtils;
 
 public class MoleculeKitFilterer {
-    public static final List<AtomHistogram> availableKitHistograms = new LinkedList<AtomHistogram>();
+    public static final List<ElementHistogram> availableKitHistograms = new LinkedList<ElementHistogram>();
 
     public static void main( String[] args ) throws IOException {
         File outFile = new File( args[0] );
@@ -25,7 +25,7 @@ public class MoleculeKitFilterer {
         *----------------------------------------------------------------------------*/
 
         for ( CompleteMolecule molecule : MoleculeList.COLLECTION_BOX_MOLECULES ) {
-            AtomHistogram histogram = new AtomHistogram();
+            ElementHistogram histogram = new ElementHistogram();
 
             // allow twice each collection box molecule
             histogram.add( molecule.getMoleculeStructure() );
@@ -42,12 +42,12 @@ public class MoleculeKitFilterer {
                 for ( Kit kit : model.getKits() ) {
 
                     // for each kit, make a histogram
-                    AtomHistogram histogram = new AtomHistogram();
+                    ElementHistogram histogram = new ElementHistogram();
 
                     for ( Bucket bucket : kit.getBuckets() ) {
                         // add in the # of atoms for each bucket
                         for ( int i = 0; i < bucket.getAtoms().size(); i++ ) {
-                            histogram.add( bucket.getAtomType() );
+                            histogram.add( bucket.getElement() );
                         }
                     }
 
@@ -82,9 +82,9 @@ public class MoleculeKitFilterer {
     }
 
     public static boolean isMoleculeSupported( CompleteMolecule molecule ) {
-        AtomHistogram histogram = new AtomHistogram();
+        ElementHistogram histogram = new ElementHistogram();
         histogram.add( molecule.getMoleculeStructure() );
-        for ( AtomHistogram kitHistogram : availableKitHistograms ) {
+        for ( ElementHistogram kitHistogram : availableKitHistograms ) {
             // filter out ones that won't fit within our kits, OR contains $l^
             if ( kitHistogram.containsAsSubset( histogram ) && !molecule.getCommonName().contains( "$l^" ) ) {
                 return true;

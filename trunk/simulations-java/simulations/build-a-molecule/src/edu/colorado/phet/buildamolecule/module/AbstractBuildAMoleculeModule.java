@@ -6,7 +6,7 @@ import java.util.List;
 
 import edu.colorado.phet.buildamolecule.model.*;
 import edu.colorado.phet.buildamolecule.view.BuildAMoleculeCanvas;
-import edu.colorado.phet.chemistry.model.Atomic;
+import edu.colorado.phet.chemistry.model.Atom;
 import edu.colorado.phet.chemistry.model.Element;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
@@ -97,7 +97,7 @@ public abstract class AbstractBuildAMoleculeModule extends PiccoloModule {
 
             // get the set of atoms that we need
             Set<String> atomSymbols = new HashSet<String>();
-            for ( Atomic atom : molecule.getAtoms() ) {
+            for ( Atom atom : molecule.getAtoms() ) {
                 atomSymbols.add( atom.getSymbol() );
             }
 
@@ -118,13 +118,13 @@ public abstract class AbstractBuildAMoleculeModule extends PiccoloModule {
             for ( String symbol : atomSymbols ) {
                 // find out how many atoms of this type we need
                 int requiredAtomCount = 0;
-                for ( Atomic atom : molecule.getAtoms() ) {
+                for ( Atom atom : molecule.getAtoms() ) {
                     if ( atom.getSymbol().equals( symbol ) ) {
                         requiredAtomCount++;
                     }
                 }
 
-                Function0<Atomic> atomFactory = AtomModel.getAtomFactoryBySymbol( symbol );
+                Function0<Atom> atomFactory = AtomModel.getAtomFactoryByElement( Element.getElementBySymbol( symbol ) );
 
                 // create a multiple of the required number of atoms, so they can construct 'atomMultiple' molecules with this
                 int atomCount = requiredAtomCount * atomMultiple;

@@ -5,14 +5,15 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import edu.colorado.phet.chemistry.model.Atomic;
+import edu.colorado.phet.chemistry.model.Atom;
+import edu.colorado.phet.chemistry.model.Element;
 
 /**
  * Count of each atom type, and allows fast comparison
  */
-public class AtomHistogram {
+public class ElementHistogram {
     public static Set<String> ALLOWED_CHEMICAL_SYMBOLS = new HashSet<String>() {{
-        add( "B" );
+        add( "B" ); // TODO: use elements instead of just their symbols! less error-prone
         add( "Br" );
         add( "C" );
         add( "Cl" );
@@ -31,28 +32,28 @@ public class AtomHistogram {
         }
     }};
 
-    public AtomHistogram() {
+    public ElementHistogram() {
     }
 
-    public AtomHistogram( MoleculeStructure molecule ) {
+    public ElementHistogram( MoleculeStructure molecule ) {
         add( molecule );
     }
 
-    public int getQuantity( Atomic atom ) {
-        return quantities.get( atom.getSymbol() );
+    public int getQuantity( Element element ) {
+        return quantities.get( element.getSymbol() );
     }
 
-    public void add( Atomic atom ) {
-        quantities.put( atom.getSymbol(), quantities.get( atom.getSymbol() ) + 1 );
+    public void add( Element element ) {
+        quantities.put( element.getSymbol(), quantities.get( element.getSymbol() ) + 1 );
     }
 
     public void add( MoleculeStructure molecule ) {
-        for ( Atomic atom : molecule.getAtoms() ) {
-            add( atom );
+        for ( Atom atom : molecule.getAtoms() ) {
+            add( atom.getElement() );
         }
     }
 
-    public boolean containsAsSubset( AtomHistogram otherHistogram ) {
+    public boolean containsAsSubset( ElementHistogram otherHistogram ) {
         for ( String symbol : ALLOWED_CHEMICAL_SYMBOLS ) {
             if ( quantities.get( symbol ) < otherHistogram.quantities.get( symbol ) ) {
                 return false;
@@ -76,8 +77,8 @@ public class AtomHistogram {
 
     @Override
     public boolean equals( Object obj ) {
-        if ( obj instanceof AtomHistogram ) {
-            AtomHistogram otherHistogram = (AtomHistogram) obj;
+        if ( obj instanceof ElementHistogram ) {
+            ElementHistogram otherHistogram = (ElementHistogram) obj;
             for ( String symbol : ALLOWED_CHEMICAL_SYMBOLS ) {
                 if ( !quantities.get( symbol ).equals( otherHistogram.quantities.get( symbol ) ) ) {
                     return false;

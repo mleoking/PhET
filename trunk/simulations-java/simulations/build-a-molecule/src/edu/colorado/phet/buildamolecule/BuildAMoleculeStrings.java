@@ -5,7 +5,7 @@ package edu.colorado.phet.buildamolecule;
 import java.util.HashMap;
 import java.util.Map;
 
-import edu.colorado.phet.chemistry.model.Atomic;
+import edu.colorado.phet.chemistry.model.Element;
 
 /**
  * A collection of localized strings used by this simulations.
@@ -49,24 +49,24 @@ public class BuildAMoleculeStrings {
     public static final String COLLECTION_MULTIPLE_QUANTITY_FORMAT = BuildAMoleculeResources.getString( "collection.multiple.quantityFormat" );
     public static final String COLLECTION_MULTIPLE_QUANTITY_EMPTY = BuildAMoleculeResources.getString( "collection.multiple.quantityEmpty" );
 
-    private static final Map<String, String> atomStringMap = new HashMap<String, String>();
+    private static final Map<String, String> elementStringMap = new HashMap<String, String>();
 
     static {
-        atomStringMap.put( "H", ATOM_HYDROGEN );
-        atomStringMap.put( "O", ATOM_OXYGEN );
-        atomStringMap.put( "C", ATOM_CARBON );
-        atomStringMap.put( "N", ATOM_NITROGEN );
-        atomStringMap.put( "F", ATOM_FLUORINE );
-        atomStringMap.put( "Cl", ATOM_CHLORINE );
-        atomStringMap.put( "B", ATOM_BORON );
-        atomStringMap.put( "S", ATOM_SULPHUR );
-        atomStringMap.put( "Si", ATOM_SILICON );
-        atomStringMap.put( "P", ATOM_PHOSPHORUS );
-        atomStringMap.put( "I", ATOM_IODINE );
-        atomStringMap.put( "Br", ATOM_BROMINE );
+        elementStringMap.put( "H", ATOM_HYDROGEN );
+        elementStringMap.put( "O", ATOM_OXYGEN );
+        elementStringMap.put( "C", ATOM_CARBON );
+        elementStringMap.put( "N", ATOM_NITROGEN );
+        elementStringMap.put( "F", ATOM_FLUORINE );
+        elementStringMap.put( "Cl", ATOM_CHLORINE );
+        elementStringMap.put( "B", ATOM_BORON );
+        elementStringMap.put( "S", ATOM_SULPHUR );
+        elementStringMap.put( "Si", ATOM_SILICON );
+        elementStringMap.put( "P", ATOM_PHOSPHORUS );
+        elementStringMap.put( "I", ATOM_IODINE );
+        elementStringMap.put( "Br", ATOM_BROMINE );
     }
 
-    public static String getAtomName( Atomic atom ) {
-        return atomStringMap.get( atom.getSymbol() );
+    public static String getAtomName( Element element ) {
+        return elementStringMap.get( element.getSymbol() );
     }
 }
