@@ -15,7 +15,7 @@ public class SoluteModel {
     //The amount of the solute in moles
     public final DoubleProperty moles;
 
-    //The concentration in the liquid
+    //The concentration in the liquid in moles / m^3
     public final DividedBy concentration;
 
     //The amount that precipitated (solidified)
@@ -30,7 +30,7 @@ public class SoluteModel {
     public SoluteModel( DoubleProperty waterVolume, double saltSaturationPoint ) {
         //Salt moles and concentration
         moles = new DoubleProperty( 0.0 );
-        saturationPointMoles = waterVolume.times( saltSaturationPoint * 1000 );
+        saturationPointMoles = waterVolume.times( saltSaturationPoint );
         molesDissolved = new Min( moles, saturationPointMoles );
         molesPrecipitated = new Max( new Minus( moles, molesDissolved ), new Property<Double>( 0.0 ) );
         concentration = new DividedBy( molesDissolved, waterVolume );

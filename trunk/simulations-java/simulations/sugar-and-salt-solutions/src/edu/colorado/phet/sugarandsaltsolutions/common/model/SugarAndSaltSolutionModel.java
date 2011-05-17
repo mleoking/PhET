@@ -173,7 +173,7 @@ public abstract class SugarAndSaltSolutionModel implements ResetModel {
     }
 
     //Update the model when the clock ticks
-    private void updateModel( double dt ) {
+    protected void updateModel( double dt ) {
         //Add any new crystals from the salt & sugar dispensers
         sugarDispenser.updateModel( this );
         saltShaker.updateModel( this );
