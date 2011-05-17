@@ -4,6 +4,7 @@ package edu.colorado.phet.sugarandsaltsolutions.common.model;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.nodes.conductivitytester.IConductivityTester;
@@ -61,6 +62,16 @@ public class ConductivityTester implements IConductivityTester {
     //Determine the size of the probes in meters
     public PDimension getProbeSizeReference() {
         return new PDimension( 0.0125, 0.025 );
+    }
+
+    //Returns the region in space occupied by the positive probe, used for hit detection with the entire probe region
+    public ImmutableRectangle2D getPositiveProbeRegion() {
+        return new ImmutableRectangle2D( positiveProbeLocation.getX() - getProbeSizeReference().getWidth() / 2, positiveProbeLocation.getY(), getProbeSizeReference().getWidth(), getProbeSizeReference().getHeight() );
+    }
+
+    //Returns the region in space occupied by the negative probe, used for hit detection with the entire probe region
+    public ImmutableRectangle2D getNegativeProbeRegion() {
+        return new ImmutableRectangle2D( negativeProbeLocation.getX() - getProbeSizeReference().getWidth() / 2, negativeProbeLocation.getY(), getProbeSizeReference().getWidth(), getProbeSizeReference().getHeight() );
     }
 
     //Determine the location of the positive probe
