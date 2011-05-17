@@ -5,7 +5,7 @@ import java.awt.*;
 
 /**
  * Interface that represents something like an atom
- * TODO: consider rename to IAtom
+ * TODO: consider rename to IAtom, or remove completely? (probably remove)
  */
 public interface Atomic {
     /**

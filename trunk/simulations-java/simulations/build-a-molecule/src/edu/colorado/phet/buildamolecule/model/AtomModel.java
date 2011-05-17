@@ -1,7 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.buildamolecule.model;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -15,7 +14,6 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.umd.cs.piccolo.util.PBounds;
 
 /**
@@ -26,7 +24,7 @@ import edu.umd.cs.piccolo.util.PBounds;
  * @author Sam Reid
  * @author John Blanco
  */
-public class AtomModel implements IBucketSphere<AtomModel> {
+public class AtomModel extends Atom implements IBucketSphere<AtomModel> {
 
     // ------------------------------------------------------------------------
     // Class Data
@@ -38,7 +36,6 @@ public class AtomModel implements IBucketSphere<AtomModel> {
     // Instance Data
     // ------------------------------------------------------------------------
 
-    private final Atom atom; // TODO: refactor this into our base class, instead of composition
     private final String name;
     public final Property<ImmutableVector2D> position;
     private final Property<Boolean> userControlled = new Property<Boolean>( false );//True if the particle is being dragged by the user
@@ -58,10 +55,10 @@ public class AtomModel implements IBucketSphere<AtomModel> {
     // Reference to the clock.
     private final IClock clock;
 
-    public AtomModel( Atom atom, IClock clock ) {
+    public AtomModel( Element element, IClock clock ) {
+        super( element );
         this.clock = clock;
-        this.name = BuildAMoleculeStrings.getAtomName( atom.getElement() );
-        this.atom = atom;
+        this.name = BuildAMoleculeStrings.getAtomName( element );
         position = new Property<ImmutableVector2D>( new ImmutableVector2D() );
         destination = position.get();
         addedToModel(); // Assume that this is initially an active part of the model.
@@ -154,22 +151,6 @@ public class AtomModel implements IBucketSphere<AtomModel> {
         setDestination( point );
     }
 
-    public double getDiameter() {
-        return getRadius() * 2;
-    }
-
-    public Atom getAtom() { // TODO: factor out into base class. much convenience
-        return atom;
-    }
-
-    public double getRadius() {
-        return atom.getRadius();
-    }
-
-    public Color getColor() {
-        return atom.getColor();
-    }
-
     public String getName() {
         return name;
     }
@@ -241,123 +222,4 @@ public class AtomModel implements IBucketSphere<AtomModel> {
     public static class Adapter extends IBucketSphere.Adapter<AtomModel> implements Listener {
     }
 
-    /*---------------------------------------------------------------------------*
-    * atom factories
-    *----------------------------------------------------------------------------*/
-
-    public static final Function0<Atom> HYDROGEN_FACTORY = new Function0<Atom>() {
-        public Atom apply() {
-            return new Atom( Element.H );
-        }
-    };
-
-    public static final Function0<Atom> OXYGEN_FACTORY = new Function0<Atom>() {
-        public Atom apply() {
-            return new Atom( Element.O );
-        }
-    };
-
-    public static final Function0<Atom> CARBON_FACTORY = new Function0<Atom>() {
-        public Atom apply() {
-            return new Atom( Element.C );
-        }
-    };
-
-    public static final Function0<Atom> NITROGEN_FACTORY = new Function0<Atom>() {
-        public Atom apply() {
-            return new Atom( Element.N );
-        }
-    };
-
-    public static final Function0<Atom> FLUORINE_FACTORY = new Function0<Atom>() {
-        public Atom apply() {
-            return new Atom( Element.F );
-        }
-    };
-
-    public static final Function0<Atom> CHLORINE_FACTORY = new Function0<Atom>() {
-        public Atom apply() {
-            return new Atom( Element.Cl );
-        }
-    };
-
-    public static final Function0<Atom> BORON_FACTORY = new Function0<Atom>() {
-        public Atom apply() {
-            return new Atom( Element.B );
-        }
-    };
-
-    public static final Function0<Atom> SULPHUR_FACTORY = new Function0<Atom>() {
-        public Atom apply() {
-            return new Atom( Element.S );
-        }
-    };
-
-    public static final Function0<Atom> SILICON_FACTORY = new Function0<Atom>() {
-        public Atom apply() {
-            return new Atom( Element.Si );
-        }
-    };
-
-    public static final Function0<Atom> BROMINE_FACTORY = new Function0<Atom>() {
-        public Atom apply() {
-            return new Atom( Element.Br );
-        }
-    };
-
-    public static final Function0<Atom> IODINE_FACTORY = new Function0<Atom>() {
-        public Atom apply() {
-            return new Atom( Element.I );
-        }
-    };
-
-    public static final Function0<Atom> PHOSPHORUS_FACTORY = new Function0<Atom>() {
-        public Atom apply() {
-            return new Atom( Element.P );
-        }
-    };
-
-    public static Function0<Atom> getAtomFactoryByElement( Element element ) {
-        if ( element.equals( Element.O ) ) {
-            return OXYGEN_FACTORY;
-        }
-        else if ( element.equals( Element.H ) ) {
-            return HYDROGEN_FACTORY;
-        }
-        else if ( element.equals( Element.C ) ) {
-            return CARBON_FACTORY;
-        }
-        else if ( element.equals( Element.N ) ) {
-            return NITROGEN_FACTORY;
-        }
-        else if ( element.equals( Element.F ) ) {
-            return FLUORINE_FACTORY;
-        }
-        else if ( element.equals( Element.Cl ) ) {
-            return CHLORINE_FACTORY;
-        }
-        else if ( element.equals( Element.B ) ) {
-            return BORON_FACTORY;
-        }
-        else if ( element.equals( Element.S ) ) {
-            return SULPHUR_FACTORY;
-        }
-        else if ( element.equals( Element.Si ) ) {
-            return SILICON_FACTORY;
-        }
-        else if ( element.equals( Element.Br ) ) {
-            return BROMINE_FACTORY;
-        }
-        else if ( element.equals( Element.I ) ) {
-            return IODINE_FACTORY;
-        }
-        else if ( element.equals( Element.P ) ) {
-            return PHOSPHORUS_FACTORY;
-        }
-        throw new RuntimeException( "Tried to create unknown atom with element: " + element );
-    }
-
-    public static Atom createAtomFromSymbol( String symbol ) {
-        return getAtomFactoryByElement( Element.getElementBySymbol( symbol ) ).apply();
-    }
 }

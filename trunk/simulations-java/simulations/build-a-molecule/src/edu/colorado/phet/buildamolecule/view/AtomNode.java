@@ -30,7 +30,7 @@ public class AtomNode extends PNode {
 
         // Create, scale, and add the label
         PText labelNode = new PText() {{
-            setText( atom.getAtom().getSymbol() );
+            setText( atom.getSymbol() );
             setFont( new PhetFont( 10, true ) );
             setScale( sphericalNode.getFullBoundsReference().width * 0.65 / getFullBoundsReference().width );
             if ( 0.30 * atom.getColor().getRed() + 0.59 * atom.getColor().getGreen() + 0.11 * atom.getColor().getBlue() < 125 ) {

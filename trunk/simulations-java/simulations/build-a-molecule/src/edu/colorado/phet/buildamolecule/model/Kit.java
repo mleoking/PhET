@@ -66,7 +66,7 @@ public class Kit {
             atom.reset();
 
             // THEN place it so we overwrite its "bad" position and destination info
-            getBucketForElement( atom.getAtom().getElement() ).placeAtom( getAtomModel( atom.getAtom() ) );
+            getBucketForElement( atom.getElement() ).placeAtom( getAtomModel( atom ) );
         }
 
         // if reset kit ignores collection boxes, add in other atoms that are equivalent to how the bucket started
@@ -86,7 +86,7 @@ public class Kit {
             atoms.addAll( bucket.getAtoms() );
 
             for ( AtomModel atom : bucket.getAtoms() ) {
-                lewisDotModel.addAtom( atom.getAtom() );
+                lewisDotModel.addAtom( atom );
             }
         }
     }
@@ -175,16 +175,16 @@ public class Kit {
     public void atomDropped( AtomModel atom ) {
         // dropped on kit, put it in a bucket
         if ( getAvailableKitBounds().contains( atom.getPosition().toPoint2D() ) ) {
-            if ( isAtomInPlay( atom.getAtom() ) ) {
+            if ( isAtomInPlay( atom ) ) {
                 recycleMoleculeIntoBuckets( getMoleculeStructure( atom ) );
             }
             else {
-                recycleAtomIntoBuckets( atom.getAtom(), true ); // animate
+                recycleAtomIntoBuckets( atom, true ); // animate
             }
         }
         else {
             // dropped in play area
-            if ( isAtomInPlay( atom.getAtom() ) ) {
+            if ( isAtomInPlay( atom ) ) {
                 attemptToBondMolecule( getMoleculeStructure( atom ) );
                 separateMoleculeDestinations();
             }
@@ -205,9 +205,9 @@ public class Kit {
         atom.setPositionAndDestination( atom.getPosition().getAddedInstance( delta ) );
 
         // move all other atoms in the molecule
-        if ( isAtomInPlay( atom.getAtom() ) ) {
+        if ( isAtomInPlay( atom ) ) {
             for ( Atom atomInMolecule : getMoleculeStructure( atom ).getAtoms() ) {
-                if ( atom.getAtom() == atomInMolecule ) {
+                if ( atom == atomInMolecule ) {
                     continue;
                 }
                 AtomModel atomModel = getAtomModel( atomInMolecule );
@@ -244,10 +244,6 @@ public class Kit {
         return getMoleculeStructure( atom ) != null;
     }
 
-    public MoleculeStructure getMoleculeStructure( AtomModel atom ) {
-        return getMoleculeStructure( atom.getAtom() );
-    }
-
     public MoleculeStructure getMoleculeStructure( Atom atom ) {
         for ( MoleculeStructure molecule : molecules ) {
             for ( Atom otherAtom : molecule.getAtoms() ) {
@@ -260,8 +256,9 @@ public class Kit {
     }
 
     public AtomModel getAtomModel( Atom atom ) {
+        // TODO: remove this if we can? generally used with molecule structures, so use generics with molecule structures?
         for ( AtomModel atomModel : atoms ) {
-            if ( atomModel.getAtom() == atom ) {
+            if ( atomModel == atom ) {
                 return atomModel;
             }
         }
@@ -324,10 +321,10 @@ public class Kit {
     public void breakBond( AtomModel a, AtomModel b ) {
         // get our old and new molecule structures
         MoleculeStructure oldMolecule = getMoleculeStructure( a );
-        List<MoleculeStructure> newMolecules = MoleculeStructure.getMoleculesFromBrokenBond( oldMolecule, oldMolecule.getBond( a.getAtom(), b.getAtom() ) );
+        List<MoleculeStructure> newMolecules = MoleculeStructure.getMoleculesFromBrokenBond( oldMolecule, oldMolecule.getBond( a, b ) );
 
         // break the bond in our lewis dot model
-        lewisDotModel.breakBond( a.getAtom(), b.getAtom() );
+        lewisDotModel.breakBond( a, b );
 
         // remove the old one, add the new ones (firing listeners)
         removeMolecule( oldMolecule );
@@ -400,7 +397,7 @@ public class Kit {
     private void addAtomToPlay( final AtomModel atom ) {
         // add the atoms to our models
         MoleculeStructure moleculeStructure = new MoleculeStructure() {{
-            addAtom( atom.getAtom() );
+            addAtom( atom );
         }};
         addMolecule( moleculeStructure );
 
@@ -519,20 +516,20 @@ public class Kit {
      * @param b       An atom B
      */
     private void bond( AtomModel a, LewisDotModel.Direction dirAtoB, AtomModel b ) {
-        lewisDotModel.bond( a.getAtom(), dirAtoB, b.getAtom() );
+        lewisDotModel.bond( a, dirAtoB, b );
         MoleculeStructure molA = getMoleculeStructure( a );
         MoleculeStructure molB = getMoleculeStructure( b );
         if ( molA == molB ) {
             throw new RuntimeException( "WARNING: loop or other invalid structure detected in a molecule" );
         }
 
-        MoleculeStructure newMolecule = MoleculeStructure.getCombinedMoleculeFromBond( molA, molB, a.getAtom(), b.getAtom() );
+        MoleculeStructure newMolecule = MoleculeStructure.getCombinedMoleculeFromBond( molA, molB, a, b );
 
         // sanity check and debugging information
         if ( !newMolecule.isValid() ) {
             System.out.println( "invalid molecule!" );
-            System.out.println( "bonding: " + a.getAtom().getSymbol() + "(" + a.getAtom().hashCode() + "), " + dirAtoB + " "
-                                + b.getAtom().getSymbol() + " (" + b.getAtom().hashCode() + ")" );
+            System.out.println( "bonding: " + a.getSymbol() + "(" + a.hashCode() + "), " + dirAtoB + " "
+                                + b.getSymbol() + " (" + b.hashCode() + ")" );
             System.out.println( "A" );
             System.out.println( molA.getDebuggingDump() );
             System.out.println( "B" );
@@ -572,7 +569,7 @@ public class Kit {
         MoleculeStructure molB = getMoleculeStructure( b );
         assert ( molA != molB );
 
-        return MoleculeStructure.getCombinedMoleculeFromBond( molA, molB, a.getAtom(), b.getAtom() );
+        return MoleculeStructure.getCombinedMoleculeFromBond( molA, molB, a, b );
     }
 
     /**
@@ -602,7 +599,7 @@ public class Kit {
                         continue;
                     }
 
-                    for ( LewisDotModel.Direction otherDirection : lewisDotModel.getOpenDirections( otherAtom.getAtom() ) ) {
+                    for ( LewisDotModel.Direction otherDirection : lewisDotModel.getOpenDirections( otherAtom ) ) {
                         Direction direction = Direction.opposite( otherDirection );
                         if ( !lewisDotModel.getOpenDirections( ourAtomInfo ).contains( direction ) ) {
                             // the spot on otherAtom was open, but the corresponding spot on our main atom was not
@@ -610,7 +607,7 @@ public class Kit {
                         }
 
                         // check the lewis dot model to make sure we wouldn't have two "overlapping" atoms that aren't both hydrogen
-                        if ( !lewisDotModel.willAllowBond( ourAtomInfo, direction, otherAtom.getAtom() ) ) {
+                        if ( !lewisDotModel.willAllowBond( ourAtomInfo, direction, otherAtom ) ) {
                             continue;
                         }
 

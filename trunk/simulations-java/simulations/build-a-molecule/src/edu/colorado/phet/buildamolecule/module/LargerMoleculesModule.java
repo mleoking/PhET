@@ -11,7 +11,7 @@ import edu.colorado.phet.buildamolecule.model.KitCollectionModel;
 import edu.colorado.phet.buildamolecule.view.BuildAMoleculeCanvas;
 import edu.umd.cs.piccolo.util.PDimension;
 
-import static edu.colorado.phet.buildamolecule.model.AtomModel.*;
+import static edu.colorado.phet.chemistry.model.Element.*;
 
 /**
  * Module for the 3rd tab. Shows kits below as normal, but without collection boxes. Instead, the user is presented with an option of a "3d" view
@@ -28,52 +28,52 @@ public class LargerMoleculesModule extends AbstractBuildAMoleculeModule {
         final KitCollectionModel initialModel = new KitCollectionModel( bounds ) {{
             // general kit
             addKit( new Kit( bounds,
-                             new Bucket( getClock(), HYDROGEN_FACTORY, 13 ),
-                             new Bucket( getClock(), OXYGEN_FACTORY, 3 ),
-                             new Bucket( getClock(), CARBON_FACTORY, 3 ),
-                             new Bucket( getClock(), NITROGEN_FACTORY, 3 ),
-                             new Bucket( getClock(), CHLORINE_FACTORY, 2 )
+                             new Bucket( getClock(), H, 13 ),
+                             new Bucket( getClock(), O, 3 ),
+                             new Bucket( getClock(), C, 3 ),
+                             new Bucket( getClock(), N, 3 ),
+                             new Bucket( getClock(), Cl, 2 )
             ) );
 
             // organics kit
             addKit( new Kit( bounds,
-                             new Bucket( new PDimension( 700, 200 ), getClock(), HYDROGEN_FACTORY, 21 ),
-                             new Bucket( getClock(), OXYGEN_FACTORY, 4 ),
-                             new Bucket( getClock(), CARBON_FACTORY, 4 ),
-                             new Bucket( getClock(), NITROGEN_FACTORY, 4 )
+                             new Bucket( new PDimension( 700, 200 ), getClock(), H, 21 ),
+                             new Bucket( getClock(), O, 4 ),
+                             new Bucket( getClock(), C, 4 ),
+                             new Bucket( getClock(), N, 4 )
             ) );
 
             // chlorine / fluorine
             addKit( new Kit( bounds,
-                             new Bucket( new PDimension( 700, 200 ), getClock(), HYDROGEN_FACTORY, 21 ),
-                             new Bucket( getClock(), CARBON_FACTORY, 4 ),
-                             new Bucket( getClock(), CHLORINE_FACTORY, 4 ),
-                             new Bucket( getClock(), FLUORINE_FACTORY, 4 )
+                             new Bucket( new PDimension( 700, 200 ), getClock(), H, 21 ),
+                             new Bucket( getClock(), C, 4 ),
+                             new Bucket( getClock(), Cl, 4 ),
+                             new Bucket( getClock(), F, 4 )
             ) );
 
             // boron / silicon
             addKit( new Kit( bounds,
-                             new Bucket( new PDimension( 700, 200 ), getClock(), HYDROGEN_FACTORY, 21 ),
-                             new Bucket( getClock(), CARBON_FACTORY, 3 ),
-                             new Bucket( getClock(), BORON_FACTORY, 2 ),
-                             new Bucket( getClock(), SILICON_FACTORY, 2 )
+                             new Bucket( new PDimension( 700, 200 ), getClock(), H, 21 ),
+                             new Bucket( getClock(), C, 3 ),
+                             new Bucket( getClock(), B, 2 ),
+                             new Bucket( getClock(), Si, 2 )
             ) );
 
             // sulphur / oxygen
             addKit( new Kit( bounds,
-                             new Bucket( new PDimension( 700, 200 ), getClock(), HYDROGEN_FACTORY, 21 ),
-                             new Bucket( getClock(), BORON_FACTORY, 1 ),
-                             new Bucket( getClock(), SULPHUR_FACTORY, 2 ),
-                             new Bucket( getClock(), SILICON_FACTORY, 1 ),
-                             new Bucket( getClock(), PHOSPHORUS_FACTORY, 1 )
+                             new Bucket( new PDimension( 700, 200 ), getClock(), H, 21 ),
+                             new Bucket( getClock(), B, 1 ),
+                             new Bucket( getClock(), S, 2 ),
+                             new Bucket( getClock(), Si, 1 ),
+                             new Bucket( getClock(), P, 1 )
             ) );
 
             // phosphorus
             addKit( new Kit( bounds,
-                             new Bucket( new PDimension( 700, 200 ), getClock(), HYDROGEN_FACTORY, 21 ),
-                             new Bucket( getClock(), CARBON_FACTORY, 4 ),
-                             new Bucket( getClock(), OXYGEN_FACTORY, 2 ),
-                             new Bucket( getClock(), PHOSPHORUS_FACTORY, 2 )
+                             new Bucket( new PDimension( 700, 200 ), getClock(), H, 21 ),
+                             new Bucket( getClock(), C, 4 ),
+                             new Bucket( getClock(), O, 2 ),
+                             new Bucket( getClock(), P, 2 )
             ) );
 
             // iodine
@@ -87,10 +87,10 @@ public class LargerMoleculesModule extends AbstractBuildAMoleculeModule {
 
             // bromine kit?
             addKit( new Kit( bounds,
-                             new Bucket( new PDimension( 700, 200 ), getClock(), HYDROGEN_FACTORY, 21 ),
-                             new Bucket( getClock(), BROMINE_FACTORY, 2 ),
-                             new Bucket( getClock(), NITROGEN_FACTORY, 3 ),
-                             new Bucket( getClock(), CARBON_FACTORY, 3 )
+                             new Bucket( new PDimension( 700, 200 ), getClock(), H, 21 ),
+                             new Bucket( getClock(), Br, 2 ),
+                             new Bucket( getClock(), N, 3 ),
+                             new Bucket( getClock(), C, 3 )
             ) );
         }};
 

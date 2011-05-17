@@ -41,7 +41,7 @@ public class MoleculeBondNode extends PNode {
         b = kit.getAtomModel( bond.b );
 
         // use the lewis dot model to get our bond direction
-        LewisDotModel.Direction bondDirection = kit.getBondDirection( a.getAtom(), b.getAtom() );
+        LewisDotModel.Direction bondDirection = kit.getBondDirection( a, b );
         final boolean isHorizontal = bondDirection == LewisDotModel.Direction.West || bondDirection == LewisDotModel.Direction.East;
 
         // construct our scissors node

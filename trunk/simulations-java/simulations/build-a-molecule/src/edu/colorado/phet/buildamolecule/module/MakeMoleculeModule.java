@@ -11,7 +11,7 @@ import edu.colorado.phet.buildamolecule.view.MoleculeCollectingCanvas;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.umd.cs.piccolo.util.PDimension;
 
-import static edu.colorado.phet.buildamolecule.model.AtomModel.*;
+import static edu.colorado.phet.chemistry.model.Element.*;
 
 /**
  * Module for the 1st tab: collection boxes only take 1 molecule, and our 1st kit collection is always the same
@@ -27,17 +27,17 @@ public class MakeMoleculeModule extends AbstractBuildAMoleculeModule {
 
         final KitCollectionModel initialModel = new KitCollectionModel( bounds ) {{
             addKit( new Kit( bounds,
-                             new Bucket( new PDimension( 400, 200 ), getClock(), HYDROGEN_FACTORY, 2 ),
-                             new Bucket( new PDimension( 350, 200 ), getClock(), OXYGEN_FACTORY, 1 )
+                             new Bucket( new PDimension( 400, 200 ), getClock(), H, 2 ),
+                             new Bucket( new PDimension( 350, 200 ), getClock(), O, 1 )
             ) );
             addKit( new Kit( bounds,
-                             new Bucket( new PDimension( 400, 200 ), getClock(), HYDROGEN_FACTORY, 2 ),
-                             new Bucket( new PDimension( 450, 200 ), getClock(), OXYGEN_FACTORY, 2 )
+                             new Bucket( new PDimension( 400, 200 ), getClock(), H, 2 ),
+                             new Bucket( new PDimension( 450, 200 ), getClock(), O, 2 )
             ) );
             addKit( new Kit( bounds,
-                             new Bucket( new PDimension( 350, 200 ), getClock(), CARBON_FACTORY, 1 ),
-                             new Bucket( new PDimension( 450, 200 ), getClock(), OXYGEN_FACTORY, 2 ),
-                             new Bucket( new PDimension( 500, 200 ), getClock(), NITROGEN_FACTORY, 2 )
+                             new Bucket( new PDimension( 350, 200 ), getClock(), C, 1 ),
+                             new Bucket( new PDimension( 450, 200 ), getClock(), O, 2 ),
+                             new Bucket( new PDimension( 500, 200 ), getClock(), N, 2 )
             ) );
             addCollectionBox( new CollectionBox( MoleculeList.H2O, 1 ) );
             addCollectionBox( new CollectionBox( MoleculeList.O2, 1 ) );

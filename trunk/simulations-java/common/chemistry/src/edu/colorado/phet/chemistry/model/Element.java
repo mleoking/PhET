@@ -11,6 +11,9 @@ import java.awt.*;
  * Reference for atom radii:
  * Chemistry: The Molecular Nature of Matter and Change, 5th Edition, Silberberg.
  * <p/>
+ * <p/>
+ * Due to only static instances being available, reference equality checks should be suitable
+ * for verifying element equality
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @author Jonathan Olson
