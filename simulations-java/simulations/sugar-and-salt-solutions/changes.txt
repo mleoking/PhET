@@ -1,3 +1,4 @@
+Fixed: probes get buried in precipitated clump of salt and can't be retrieved
 Fixed: light rays intercept mouse events, making it difficult to use the upper faucet slider
 Made so that any part of the conductivity tester probe conducts instead of just the very center of the tip
 # 0.00.12 (52008) May 16, 2011
