@@ -1,3 +1,4 @@
+# 0.00.12 (52008) May 16, 2011
 Changed brightness range so that it can accommodate the entire salinity range, up to saturation
 Fixed: precipitate dissolves when draining liquid
 # 0.00.11 (52005) May 16, 2011
