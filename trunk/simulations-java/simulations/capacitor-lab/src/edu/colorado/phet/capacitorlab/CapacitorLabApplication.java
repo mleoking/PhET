@@ -45,7 +45,7 @@ public class CapacitorLabApplication extends PiccoloPhetApplication {
 
         // start with a specific module for development
         if ( globalProperties.dev ) {
-            setStartModule( getModule( 1 ) );
+            setStartModule( getModule( 2 ) );
         }
     }
 

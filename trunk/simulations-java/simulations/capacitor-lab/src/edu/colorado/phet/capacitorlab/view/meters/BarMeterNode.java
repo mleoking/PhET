@@ -10,7 +10,6 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
 import java.text.MessageFormat;
-import java.text.NumberFormat;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLImages;
@@ -111,7 +110,7 @@ public abstract class BarMeterNode extends PhetPNode {
     private final TrackNode trackNode;
     private final BarNode barNode;
     private final TitleNode titleNode;
-    private final ValueNode valueNode;
+    private final TimesTenValueNode valueNode;
     private final PowerOfTenRangeLabelNode maxLabelNode;
     private final RangeLabelNode minLabelNode;
     private final OverloadIndicatorNode overloadIndicatorNode;
@@ -179,7 +178,7 @@ public abstract class BarMeterNode extends PhetPNode {
         addChild( overloadIndicatorNode );
 
         // value
-        valueNode = new ValueNode( new DecimalFormat( valueMantissaPattern ), exponent, units, value );
+        valueNode = new TimesTenValueNode( new DecimalFormat( valueMantissaPattern ), exponent, units, value, VALUE_FONT, VALUE_COLOR );
         addChild( valueNode );
 
         // close button
@@ -542,53 +541,6 @@ public abstract class BarMeterNode extends PhetPNode {
 
         private void update() {
             setVisible( value > maxValue );
-        }
-    }
-
-    /*
-     * Value display that corresponds to the bar height.
-     * Origin is at upper-left corner of bounding box.
-     */
-    private static class ValueNode extends HTMLNode {
-
-        private static final String PATTERN_VALUE = "<html>{0}x10<sup>{1}</sup></html>";
-
-        private final NumberFormat mantissaFormat;
-        private int exponent;
-        private final String units;
-        private double value;
-
-        public ValueNode( NumberFormat mantissaFormat, int exponent, String units, double value ) {
-            setFont( VALUE_FONT );
-            setHTMLColor( VALUE_COLOR );
-            this.mantissaFormat = mantissaFormat;
-            this.exponent = exponent;
-            this.units = units;
-            this.value = value;
-            update();
-        }
-
-        public void setValue( double value ) {
-            if ( value != this.value ) {
-                this.value = value;
-                update();
-            }
-        }
-
-        public void setExponent( int maxExponent ) {
-            if ( maxExponent != this.exponent ) {
-                this.exponent = maxExponent;
-                update();
-            }
-        }
-
-        private void update() {
-            String mantissaString = "0";
-            if ( value != 0 ) {
-                double mantissa = value / Math.pow( 10, exponent );
-                mantissaString = MessageFormat.format( PATTERN_VALUE, mantissaFormat.format( mantissa ), exponent );
-            }
-            setHTML( MessageFormat.format( CLStrings.PATTERN_VALUE_UNITS, mantissaString, units ) );
         }
     }
 }

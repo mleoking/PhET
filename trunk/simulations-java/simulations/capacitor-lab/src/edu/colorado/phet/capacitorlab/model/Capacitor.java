@@ -377,8 +377,12 @@ public class Capacitor implements ICapacitor {
      * @param capacitance
      */
     public void setTotalCapacitance( double capacitance ) {
-        // d =  epsilon * epsilon_0 * A / C
-        setPlateSeparation( getDielectricConstant() * CLConstants.EPSILON_0 * getPlateArea() / capacitance );
+        setPlateSeparation( getPlateSeparation( getDielectricConstant(), getPlateWidth(), capacitance ) );
+    }
+
+    // d =  epsilon * epsilon_0 * A / C
+    public static double getPlateSeparation( double dielectricConstant, double plateWidth, double capacitance ) {
+        return dielectricConstant * CLConstants.EPSILON_0 * plateWidth * plateWidth / capacitance;
     }
 
     /**

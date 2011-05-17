@@ -11,13 +11,23 @@ import edu.colorado.phet.capacitorlab.model.*;
 import edu.colorado.phet.capacitorlab.model.BarMeter.CapacitanceMeter;
 import edu.colorado.phet.capacitorlab.model.BarMeter.PlateChargeMeter;
 import edu.colorado.phet.capacitorlab.model.BarMeter.StoredEnergyMeter;
+import edu.colorado.phet.capacitorlab.model.DielectricMaterial.Air;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 
 public class MultipleCapacitorsModel {
+
+    //TODO decide whether these should live here
+    public static final DoubleRange CAPACITANCE_RANGE = new DoubleRange( 1E-13, 4E-13 ); // Farads
+    public static final int CAPACITANCE_DISPLAY_EXPONENT = -13;
+    public static final double CAPACITOR_PLATE_WIDTH = 0.01; // meters
+    public static final DielectricMaterial DIELECTRIC_MATERIAL = new Air();
+    public static final double DIELECTRIC_OFFSET = 0;
+    public static final double CAPACITOR_PLATE_SEPARATION = Capacitor.getPlateSeparation( DIELECTRIC_MATERIAL.getDielectricConstant(), CAPACITOR_PLATE_WIDTH, CAPACITANCE_RANGE.getMin() );
 
     private final ArrayList<ICircuit> circuits; // the set of circuits to choose from
 
@@ -37,7 +47,7 @@ public class MultipleCapacitorsModel {
 
         // create circuits
         circuits = new ArrayList<ICircuit>() {{
-            add( new BatteryCapacitorCircuit( clock, mvt ) );
+            add( new BatteryCapacitorCircuit( clock, mvt, CAPACITOR_PLATE_WIDTH, CAPACITOR_PLATE_SEPARATION, DIELECTRIC_MATERIAL, DIELECTRIC_OFFSET ) );
             add( new DummyCircuit( CLStrings.TWO_IN_SERIES ) );
             add( new DummyCircuit( CLStrings.THREE_IN_SERIES ) );
             add( new DummyCircuit( CLStrings.TWO_IN_PARALLEL ) );

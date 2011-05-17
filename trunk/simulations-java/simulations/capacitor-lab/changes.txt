@@ -1,3 +1,5 @@
+5/17/11 consolidate model constants in MultipleCapacitorsModel for now
+5/17/11 add capacitance control (reuse plate charge slider and bar meter value display)
 5/16/11 reuse BatteryCapacitorCircuit as "single" circuit in Multi Capacitors tab, display battery and capacitor (no wires or capacitance control yet)
 5/16/11 move creation of battery and capacitor into BatteryCapacitorCircuit, so that this can be our "single capacitor" circuit
 5/16/11 add Capacitor.setCapacitance, which calculates and sets plate separation
@@ -36,7 +38,7 @@
 4/27/11 convert to using global properties for things controlled from the menu bar
 4/27/11 big simplification of VoltmeterProbeNode hierarchy
 4/27/11 simplify WorldLocationDragHandler by operating directly on a WorldLocationProperty
-4/27/11 change visibility of some view object subcomponents to "package private"
+4/27/11 change visibility of some view object subcomponents to "package private"                  n
 4/27/11 cleanup BarMeterNode class hierarchy
 4/18/11 Wire: make some properties final public to simplify
 4/18/11 World: make some properties final public to simplify
