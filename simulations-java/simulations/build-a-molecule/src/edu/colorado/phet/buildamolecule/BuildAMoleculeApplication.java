@@ -132,6 +132,13 @@ public class BuildAMoleculeApplication extends PiccoloPhetApplication {
                 }
             } );
         }} );
+        developerMenu.add( new JMenuItem( "Trigger complete dialog" ) {{
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    ( (AbstractBuildAMoleculeModule) getActiveModule() ).getCanvas().getModel().allCollectionBoxesFilled.set( true );
+                }
+            } );
+        }} );
     }
 
     //----------------------------------------------------------------------------

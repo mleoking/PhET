@@ -47,6 +47,10 @@ public abstract class AbstractBuildAMoleculeModule extends PiccoloModule {
         }
     }
 
+    public BuildAMoleculeCanvas getCanvas() {
+        return canvas;
+    }
+
     /**
      * Generate a group of collection boxes and kits such that the boxes can be filled.
      *

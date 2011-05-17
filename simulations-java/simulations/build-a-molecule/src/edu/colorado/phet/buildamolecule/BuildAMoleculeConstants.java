@@ -41,6 +41,8 @@ public class BuildAMoleculeConstants {
     public static final Color KIT_ARROW_BACKGROUND_ENABLED = Color.YELLOW; // kit next/prev arrow background
     public static final Color KIT_ARROW_BORDER_ENABLED = Color.BLACK; // kit next/prev arrow border
 
+    public static final Color COMPLETE_BACKGROUND_COLOR = MOLECULE_COLLECTION_BACKGROUND;
+
     /*---------------------------------------------------------------------------*
     * images
     *----------------------------------------------------------------------------*/

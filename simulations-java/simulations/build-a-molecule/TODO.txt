@@ -4,7 +4,6 @@ BCE Element/Atom work
 Scissors bug on Mac?
 Bucket phetcommon cleanup
 Icon improvement
-Smiley face on collection boxes completion? - above "try new molecules" and text
 Weird 3d structures?
 Add in "molecule data loading"?
 Size improvement on structures.txt (and serialized format)
