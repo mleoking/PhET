@@ -69,14 +69,11 @@ public class MoleculeStructure {
 
     public boolean isAllowedStructure() {
         // shortcut, since we always allow single atoms!
-        if ( getAtoms().size() < 2 ) {
-            return true;
-        }
-        return MoleculeList.getMasterInstance().isAllowedStructure( this );
+        return getAtoms().size() < 2 || MoleculeList.getMasterInstance().isAllowedStructure( this );
     }
 
     public String getHillSystemFormulaFragment() {
-        return ChemUtils.hillOrderedSymbol( atoms );
+        return ChemUtils.hillOrderedSymbol( getElementList() );
     }
 
     private static final Map<String, String> formulaExceptions = new HashMap<String, String>();
@@ -98,26 +95,26 @@ public class MoleculeStructure {
 
         boolean organic = containsCarbon && containsHydrogen;
 
-        List<Atom> sortedAtoms = new LinkedList<Atom>( atoms );
+        List<Element> sortedElements = getElementList();
         if ( organic ) {
             // carbon first, then hydrogen, then others alphabetically
-            Collections.sort( sortedAtoms, new Comparator<Atom>() {
-                public int compare( Atom a, Atom b ) {
+            Collections.sort( sortedElements, new Comparator<Element>() {
+                public int compare( Element a, Element b ) {
                     return new Double( organicSortValue( a ) ).compareTo( organicSortValue( b ) );
                 }
             } );
         }
         else {
             // sort by increasing electronegativity
-            Collections.sort( sortedAtoms, new Comparator<Atom>() {
-                public int compare( Atom a, Atom b ) {
+            Collections.sort( sortedElements, new Comparator<Element>() {
+                public int compare( Element a, Element b ) {
                     return new Double( electronegativeSortValue( a ) ).compareTo( electronegativeSortValue( b ) );
                 }
             } );
         }
 
         // grab our formula out
-        String formula = ChemUtils.createSymbolWithoutSubscripts( sortedAtoms.toArray( new Atom[sortedAtoms.size()] ) );
+        String formula = ChemUtils.createSymbolWithoutSubscripts( sortedElements.toArray( new Element[sortedElements.size()] ) );
 
         // return the formula, unless it is in our exception list (in which case, handle the exception case)
         return formulaExceptions.containsKey( formula ) ? formulaExceptions.get( formula ) : formula;
@@ -190,29 +187,24 @@ public class MoleculeStructure {
         return ChemUtils.toSubscript( getStructuralFormula() );
     }
 
-    private static String uglyHackAddSpaceBeforeSubscripts( String str ) {
-        // this adds just a touch of space before the subscripts so it isn't so cramped
-        return str.replace( "<sub", "<font size=\"0\"> </font><sub" );
+    private static double electronegativeSortValue( Element element ) {
+        return element.getElectronegativity();
     }
 
-    private static double electronegativeSortValue( Atom atom ) {
-        return atom.getElectronegativity();
-    }
-
-    private static double organicSortValue( Atom atom ) {
-        if ( atom.isCarbon() ) {
+    private static double organicSortValue( Element element ) {
+        if ( element.isCarbon() ) {
             return 0;
         }
-        if ( atom.isHydrogen() ) {
+        if ( element.isHydrogen() ) {
             return 1;
         }
-        return alphabeticSortValue( atom );
+        return alphabeticSortValue( element );
     }
 
-    private static double alphabeticSortValue( Atom atom ) {
-        int value = 1000 * ( (int) atom.getSymbol().charAt( 0 ) );
-        if ( atom.getSymbol().length() > 1 ) {
-            value += (int) atom.getSymbol().charAt( 1 );
+    private static double alphabeticSortValue( Element element ) {
+        int value = 1000 * ( (int) element.getSymbol().charAt( 0 ) );
+        if ( element.getSymbol().length() > 1 ) {
+            value += (int) element.getSymbol().charAt( 1 );
         }
         return value;
     }
@@ -468,7 +460,7 @@ public class MoleculeStructure {
 
     private boolean containsElement( Element element ) {
         for ( Atom atom : atoms ) {
-            if ( atom.isSameElement( element ) ) {
+            if ( atom.getElement().equals( element ) ) {
                 return true;
             }
         }
@@ -611,7 +603,7 @@ public class MoleculeStructure {
     }
 
     private boolean checkEquivalency( MoleculeStructure other, Set<Atom> myVisited, Set<Atom> otherVisited, Atom myAtom, Atom otherAtom ) {
-        if ( !myAtom.isSameElement( otherAtom ) ) {
+        if ( !myAtom.hasSameElement( otherAtom ) ) {
             // if the atoms are of different types, bail. subtrees can't possibly be equivalent
             return false;
         }
@@ -684,6 +676,15 @@ public class MoleculeStructure {
             }
         }
         return false;
+    }
+
+    private List<Element> getElementList() {
+        // return defensive copy. if that is changed, examine all usages
+        return new LinkedList<Element>() {{
+            for ( Atom atom : atoms ) {
+                add( atom.getElement() );
+            }
+        }};
     }
 
 }

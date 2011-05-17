@@ -2,8 +2,7 @@ package edu.colorado.phet.chemistry.utils;
 
 import java.util.*;
 
-import edu.colorado.phet.chemistry.model.Atom;
-import edu.colorado.phet.chemistry.model.Atomic;
+import edu.colorado.phet.chemistry.model.Element;
 
 /**
  * Miscellaneous chemistry utils, mostly related to chemical formulas
@@ -17,8 +16,8 @@ public class ChemUtils {
     *    [C,C,H,H,H,H] becomes "C<sub>2</sub>H<sub>4</sub>"
     *    [H,H,O] becomes "H<sub>2</sub>O"
     */
-    public static String createSymbol( Atomic[] atoms ) {
-        return toSubscript( createSymbolWithoutSubscripts( atoms ) );
+    public static String createSymbol( Element[] elements ) {
+        return toSubscript( createSymbolWithoutSubscripts( elements ) );
     }
 
     /*
@@ -28,15 +27,15 @@ public class ChemUtils {
     *    [C,C,H,H,H,H] becomes "C2H4"
     *    [H,H,O] becomes "H2O"
     */
-    public static String createSymbolWithoutSubscripts( Atomic[] atoms ) {
+    public static String createSymbolWithoutSubscripts( Element[] elements ) {
         StringBuffer b = new StringBuffer();
         int atomCount = 1;
-        for ( int i = 0; i < atoms.length; i++ ) {
+        for ( int i = 0; i < elements.length; i++ ) {
             if ( i == 0 ) {
                 // first atom is treated differently
-                b.append( atoms[i].getSymbol() );
+                b.append( elements[i].getSymbol() );
             }
-            else if ( atoms[i].isSameElement( atoms[i - 1] ) ) {
+            else if ( elements[i].equals( elements[i - 1] ) ) {
                 // this atom is the same as the previous atom
                 atomCount++;
             }
@@ -47,7 +46,7 @@ public class ChemUtils {
                     b.append( String.valueOf( atomCount ) );
                 }
                 atomCount = 1;
-                b.append( atoms[i].getSymbol() );
+                b.append( elements[i].getSymbol() );
             }
         }
         if ( atomCount > 1 ) {
@@ -62,13 +61,13 @@ public class ChemUtils {
      * symbols that should go first. Two-letter symbols will come after a one-letter symbol with the same first
      * character (Br after B). See http://en.wikipedia.org/wiki/Hill_system, for without carbon
      *
-     * @param atom An atom
+     * @param element An element
      * @return Value for sorting
      */
-    private static int nonCarbonHillSortValue( Atomic atom ) {
-        int value = 1000 * ( (int) atom.getSymbol().charAt( 0 ) );
-        if ( atom.getSymbol().length() > 1 ) {
-            value += (int) atom.getSymbol().charAt( 1 );
+    private static int nonCarbonHillSortValue( Element element ) {
+        int value = 1000 * ( (int) element.getSymbol().charAt( 0 ) );
+        if ( element.getSymbol().length() > 1 ) {
+            value += (int) element.getSymbol().charAt( 1 );
         }
         return value;
     }
@@ -77,17 +76,17 @@ public class ChemUtils {
      * Returns an integer that can be used for sorting atom symbols for the Hill system when the molecule contains
      * carbon. See http://en.wikipedia.org/wiki/Hill_system
      *
-     * @param atom An atom
+     * @param element An element
      * @return Value for sorting (lowest is first)
      */
-    private static int carbonHillSortValue( Atomic atom ) {
-        if ( atom.isCarbon() ) {
+    private static int carbonHillSortValue( Element element ) {
+        if ( element.isCarbon() ) {
             return 0;
         }
-        if ( atom.isHydrogen() ) {
+        if ( element.isHydrogen() ) {
             return 1;
         }
-        return nonCarbonHillSortValue( atom );
+        return nonCarbonHillSortValue( element );
     }
 
     /**
@@ -95,32 +94,32 @@ public class ChemUtils {
      * @return The molecular formula of the molecule in the Hill system. Returned as an HTML fragment. See
      *         http://en.wikipedia.org/wiki/Hill_system for more information.
      */
-    public static String hillOrderedSymbol( Collection<Atom> atoms ) {
+    public static String hillOrderedSymbol( Collection<Element> atoms ) {
         boolean containsCarbon = false;
-        for ( Atomic atom : atoms ) {
+        for ( Element atom : atoms ) {
             if ( atom.isCarbon() ) {
                 containsCarbon = true;
                 break;
             }
         }
-        List<Atomic> sortedAtoms = new LinkedList<Atomic>( atoms );
+        List<Element> sortedAtoms = new LinkedList<Element>( atoms );
         if ( containsCarbon ) {
             // carbon first, then hydrogen, then others alphabetically
-            Collections.sort( sortedAtoms, new Comparator<Atomic>() {
-                public int compare( Atomic a, Atomic b ) {
+            Collections.sort( sortedAtoms, new Comparator<Element>() {
+                public int compare( Element a, Element b ) {
                     return new Integer( carbonHillSortValue( a ) ).compareTo( carbonHillSortValue( b ) );
                 }
             } );
         }
         else {
             // compare alphabetically since there is no carbon
-            Collections.sort( sortedAtoms, new Comparator<Atomic>() {
-                public int compare( Atomic a, Atomic b ) {
+            Collections.sort( sortedAtoms, new Comparator<Element>() {
+                public int compare( Element a, Element b ) {
                     return new Integer( nonCarbonHillSortValue( a ) ).compareTo( nonCarbonHillSortValue( b ) );
                 }
             } );
         }
-        return createSymbol( sortedAtoms.toArray( new Atomic[sortedAtoms.size()] ) );
+        return createSymbol( sortedAtoms.toArray( new Element[sortedAtoms.size()] ) );
     }
 
     /*

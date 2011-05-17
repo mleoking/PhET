@@ -4,10 +4,9 @@ package edu.colorado.phet.chemistry.model;
 import java.awt.*;
 
 /**
- * Represents a single atom of a certain element type
- * <p/>
+ * Represents a single atom of a certain element type.
  */
-public class Atom extends AbstractAtom {
+public class Atom {
     public final Element element;
 
     public Atom( Element element ) {
@@ -17,6 +16,14 @@ public class Atom extends AbstractAtom {
     public static Atom createAtomFromSymbol( String symbol ) {
         return new Atom( Element.getElementBySymbol( symbol ) );
     }
+
+    public Element getElement() {
+        return element;
+    }
+
+    /*---------------------------------------------------------------------------*
+    * convenience methods
+    *----------------------------------------------------------------------------*/
 
     public String getSymbol() {
         return element.getSymbol();
@@ -38,11 +45,28 @@ public class Atom extends AbstractAtom {
         return element.getColor();
     }
 
-    public Element getElement() {
-        return element;
-    }
-
     public double getDiameter() {
         return getRadius() * 2;
+    }
+
+    public boolean hasSameElement( Atom atom ) {
+        return getElement().isSameElement( atom.getElement() );
+    }
+
+    public boolean isHydrogen() {
+        return getElement().isSameElement( Element.H );
+    }
+
+    public boolean isCarbon() {
+        return getElement().isSameElement( Element.C );
+    }
+
+    public boolean isOxygen() {
+        return getElement().isSameElement( Element.O );
+    }
+
+    @Override
+    public String toString() {
+        return getSymbol();
     }
 }

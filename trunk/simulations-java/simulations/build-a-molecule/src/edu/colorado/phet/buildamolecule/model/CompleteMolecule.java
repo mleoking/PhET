@@ -208,7 +208,7 @@ public class CompleteMolecule {
             } );
 
             for ( final AtomWrapper atomWrapper : wrappers ) {
-                addChild( new AtomNode( atomWrapper.atom ) {{
+                addChild( new AtomNode( atomWrapper.atom.getElement() ) {{
                     setOffset( atomWrapper.x2d * 15, atomWrapper.y2d * 15 ); // custom scale for now.
                 }} );
             }

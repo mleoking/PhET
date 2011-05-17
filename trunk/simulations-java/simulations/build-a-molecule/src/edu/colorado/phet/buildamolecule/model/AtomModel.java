@@ -17,12 +17,11 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.umd.cs.piccolo.util.PBounds;
 
 /**
- * Abstract base class from which spherical particles, which can be anything
- * from a proton to an atom (or a round rock, for that matter) extend.
- * <p/>
+ * An atom, extended with position/destination information that is animated
  *
  * @author Sam Reid
  * @author John Blanco
+ * @author Jonathan Olson
  */
 public class AtomModel extends Atom implements IBucketSphere<AtomModel> {
 

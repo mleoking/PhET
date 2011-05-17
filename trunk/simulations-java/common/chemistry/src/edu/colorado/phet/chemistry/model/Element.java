@@ -18,7 +18,7 @@ import java.awt.*;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @author Jonathan Olson
  */
-public class Element extends AbstractAtom {
+public class Element {
 
     private final String symbol;
     private final double radius; // picometers
@@ -52,6 +52,32 @@ public class Element extends AbstractAtom {
 
     public Color getColor() {
         return color;
+    }
+
+    /*---------------------------------------------------------------------------*
+    * convenience methods
+    *----------------------------------------------------------------------------*/
+
+    public boolean isSameElement( Element element ) {
+        // like equals, but is more type-safe
+        return element.getSymbol().equals( this.getSymbol() );
+    }
+
+    public boolean isHydrogen() {
+        return isSameElement( Element.H );
+    }
+
+    public boolean isCarbon() {
+        return isSameElement( Element.C );
+    }
+
+    public boolean isOxygen() {
+        return isSameElement( Element.O );
+    }
+
+    @Override
+    public String toString() {
+        return getSymbol();
     }
 
     /*---------------------------------------------------------------------------*
