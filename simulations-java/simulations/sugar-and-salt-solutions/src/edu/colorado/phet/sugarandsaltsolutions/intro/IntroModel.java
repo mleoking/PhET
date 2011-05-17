@@ -19,6 +19,7 @@ import static java.lang.Double.isNaN;
  */
 public class IntroModel extends SugarAndSaltSolutionModel {
 
+    //Saturation points for salt and sugar assume 25 degrees C
     private static final double saltSaturationPoint = 6.14;//moles per liter
     private static final double sugarSaturationPoint = 5.85;//moles per liter
 
