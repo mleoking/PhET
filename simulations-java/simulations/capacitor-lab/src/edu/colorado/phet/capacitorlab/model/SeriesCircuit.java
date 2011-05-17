@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.capacitorlab.model.ICapacitor.CapacitorChangeListener;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
@@ -17,7 +18,8 @@ public class SeriesCircuit extends AbstractCircuit {
 
     private final ArrayList<Capacitor> capacitors;
 
-    public SeriesCircuit( String displayName, CLModelViewTransform3D mvt, Point3D batteryLocation ) {
+    public SeriesCircuit( String displayName, IClock clock, CLModelViewTransform3D mvt, Point3D batteryLocation, int numberOfCapacitors,
+                          double plateWidth, double plateSeparation, DielectricMaterial dielectricMaterial, double dielectricOffset ) {
         super( displayName, mvt, batteryLocation );
         capacitors = new ArrayList<Capacitor>(); //TODO populate
 
