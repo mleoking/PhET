@@ -65,7 +65,7 @@ public class MoleculePreprocessing {
         for ( CompleteMolecule completeMolecule : completeMolecules ) {
             num++;
             System.out.println( "processing molecule and children: " + completeMolecule.getCommonName() + "  (" + num + " of " + completeMolecules.size() + ")" );
-            StrippedMolecule<Atom> strippedMolecule = new StrippedMolecule<Atom>( completeMolecule.getStructure() );
+            StrippedMolecule<Atom> strippedMolecule = new StrippedMolecule<Atom>( completeMolecule.getStructure().getAtomCopy() );
             addMoleculeAndChildren( strippedMolecule );
         }
         long b = System.currentTimeMillis();
