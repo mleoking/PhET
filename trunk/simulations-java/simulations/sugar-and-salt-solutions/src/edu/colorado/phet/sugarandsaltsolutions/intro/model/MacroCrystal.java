@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.intro.model;
 
+import java.awt.geom.Line2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
@@ -27,10 +28,25 @@ public class MacroCrystal {
     }
 
     //propagate the crystal according to the specified applied forces, using euler integration
-    public void stepInTime( ImmutableVector2D appliedForce, double dt ) {
+    public void stepInTime( ImmutableVector2D appliedForce, double dt, Line2D.Double leftBeakerWall, Line2D.Double rightBeakerWall ) {
+        ImmutableVector2D originalPosition = position.get();
+
         acceleration.set( appliedForce.times( 1.0 / mass ) );
         velocity.set( velocity.get().plus( acceleration.get().times( dt ) ) );
         position.set( position.get().plus( velocity.get().times( dt ) ) );
+
+        //Path that the particle took from previous time to current time, for purpose of collision detection with walls
+        Line2D.Double path = new Line2D.Double( originalPosition.toPoint2D(), position.get().toPoint2D() );
+
+        //if the particle bounced off a wall, then reverse its velocity
+        if ( path.intersectsLine( leftBeakerWall ) ||
+             path.intersectsLine( rightBeakerWall ) ) {
+            velocity.set( new ImmutableVector2D( Math.abs( velocity.get().getX() ), velocity.get().getY() ) );
+
+            //Rollback the previous update, and go the other way
+            position.set( originalPosition );
+            position.set( position.get().plus( velocity.get().times( dt ) ) );
+        }
     }
 
     //Add a listener which will be notified when this crystal is removed from the model

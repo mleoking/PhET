@@ -315,8 +315,8 @@ public class SugarAndSaltSolutionModel implements ResetModel {
             //Store the initial location so we can use the (final - start) line to check for collision with water, so it can't jump over the water rectangle
             ImmutableVector2D initialLocation = crystal.position.get();
 
-            //slow the motion down a little bit or it moves too fast
-            crystal.stepInTime( gravity.times( crystal.mass ), dt / 10 );
+            //slow the motion down a little bit or it moves too fast//TODO: can this be fixed?
+            crystal.stepInTime( gravity.times( crystal.mass ), dt / 10, beaker.getLeftWall(), beaker.getRightWall() );
 
             //If the salt hits the water during any point of its initial -> final trajectory, absorb it.
             //This is necessary because if the water layer is too thin, the crystal could have jumped over it completely
