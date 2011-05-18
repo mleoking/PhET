@@ -11,6 +11,8 @@ import edu.colorado.phet.sugarandsaltsolutions.common.model.Beaker;
 import edu.umd.cs.piccolo.PNode;
 
 /**
+ * Piccolo graphic that shows the water in the beaker.  It may be displaced upward by solid precipitate.
+ *
  * @author Sam Reid
  */
 public class WaterNode extends PNode {
