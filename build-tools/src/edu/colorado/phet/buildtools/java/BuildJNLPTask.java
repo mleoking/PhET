@@ -13,6 +13,7 @@ import edu.colorado.phet.buildtools.BuildToolsPaths;
 import edu.colorado.phet.buildtools.PhetProject;
 import edu.colorado.phet.buildtools.Simulation;
 import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
+import edu.colorado.phet.common.phetcommon.util.FileUtils;
 
 /*
  * Do not change this task without changing the WebsiteTranslationDeployPublisher, which makes
@@ -27,7 +28,7 @@ public class BuildJNLPTask {
     protected void buildJNLP( JavaProject project, String simulationName, Locale locale, boolean dev, String codebase, String suffix ) throws Exception {
         Simulation simulation = project.getSimulation( simulationName, locale );
         File JNLP_TEMPLATE = new File( project.getTrunk(), BuildToolsPaths.WEBSTART_TEMPLATE );
-        edu.colorado.phet.common.phetcommon.util.FileUtils.filter( JNLP_TEMPLATE, getDestFile( project, simulationName, locale, suffix ), createJNLPFilterMap( simulation, project, simulationName, locale, codebase, dev, suffix ), "UTF-16" );
+        FileUtils.filter( JNLP_TEMPLATE, getDestFile( project, simulationName, locale, suffix ), createJNLPFilterMap( simulation, project, simulationName, locale, codebase, dev, suffix ), "UTF-16" );
     }
 
     private String getJNLPFileName( String simulationName, Locale locale, String suffix ) {

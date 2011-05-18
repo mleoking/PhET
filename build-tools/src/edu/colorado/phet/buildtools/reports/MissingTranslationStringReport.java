@@ -10,6 +10,7 @@ import edu.colorado.phet.buildtools.flash.FlashSimulationProject;
 import edu.colorado.phet.buildtools.flex.FlexSimulationProject;
 import edu.colorado.phet.buildtools.java.projects.JavaSimulationProject;
 import edu.colorado.phet.buildtools.translate.Translation;
+import edu.colorado.phet.common.phetcommon.util.FileUtils;
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 
 /**
@@ -158,7 +159,7 @@ public class MissingTranslationStringReport {
         builder.append( "</body></html>" );
 
         try {
-            edu.colorado.phet.common.phetcommon.util.FileUtils.writeString( new File( trunk, "build-tools/deploy/missing-translation-string-report.html" ), builder.toString() );
+            FileUtils.writeString( new File( trunk, "build-tools/deploy/missing-translation-string-report.html" ), builder.toString() );
         }
         catch ( IOException e ) {
             e.printStackTrace();

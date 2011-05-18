@@ -7,6 +7,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.buildtools.BuildToolsPaths;
 import edu.colorado.phet.buildtools.util.SVNDependencyProject;
+import edu.colorado.phet.common.phetcommon.util.FileUtils;
 
 /**
  * Not meant for building purposes, just currently for:
@@ -28,7 +29,7 @@ public class FlashCommonProject extends SVNDependencyProject {
         }
 
         try {
-            String text = edu.colorado.phet.common.phetcommon.util.FileUtils.loadFileAsString( softwareAgreementFile );
+            String text = FileUtils.loadFileAsString( softwareAgreementFile );
 
             // strip newlines out of the HTML, since Flash's HTML fields incorrectly add them in as equivalent to <br>s
             text = text.replaceAll( "\n", "" );
@@ -50,10 +51,10 @@ public class FlashCommonProject extends SVNDependencyProject {
 
             File actionScriptSoftwareAgreementFile = new File( trunk, BuildToolsPaths.FLASH_SOFTWARE_AGREEMENT_ACTIONSCRIPT );
 
-            edu.colorado.phet.common.phetcommon.util.FileUtils.writeString( actionScriptSoftwareAgreementFile, aString );
+            FileUtils.writeString( actionScriptSoftwareAgreementFile, aString );
 
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
     }

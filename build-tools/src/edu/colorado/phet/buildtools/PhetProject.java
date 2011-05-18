@@ -769,7 +769,7 @@ public abstract class PhetProject {
                 LicenseInfo info = licenseInfo[i];
                 File licenseFile = info.getLicenseFile();
                 if ( licenseFile != null && licenseFile.exists() ) {
-                    edu.colorado.phet.common.phetcommon.util.FileUtils.copyTo( licenseFile, new File( contribLicensesDir, "" + info.getID() + "-" + licenseFile.getName() ) );
+                    FileUtils.copyTo( licenseFile, new File( contribLicensesDir, "" + info.getID() + "-" + licenseFile.getName() ) );
                 }
             }
         }
@@ -797,7 +797,7 @@ public abstract class PhetProject {
                 System.out.println( getName() + " missing credits.txt" );
             }
             else {
-                String text = edu.colorado.phet.common.phetcommon.util.FileUtils.loadFileAsString( creditsFile );
+                String text = FileUtils.loadFileAsString( creditsFile );
                 AnnotationParser.Annotation[] a = AnnotationParser.getAnnotations( text );
                 for ( int i = 0; i < a.length; i++ ) {
                     AnnotationParser.Annotation annotation = a[i];
@@ -897,7 +897,7 @@ public abstract class PhetProject {
     }
 
     public void copyChangesFileToDeployDir() throws IOException {
-        edu.colorado.phet.common.phetcommon.util.FileUtils.copyToDir( getChangesFile(), getDeployDir() );
+        FileUtils.copyToDir( getChangesFile(), getDeployDir() );
     }
 
     public boolean requestAllPermissions() {
@@ -960,7 +960,7 @@ public abstract class PhetProject {
             str += "</simulations>\n" +
                    "</project>";
 
-            edu.colorado.phet.common.phetcommon.util.FileUtils.writeString( getMetaXMLFile(), str );
+            FileUtils.writeString( getMetaXMLFile(), str );
         }
         catch ( UnsupportedEncodingException e ) {
             e.printStackTrace();
