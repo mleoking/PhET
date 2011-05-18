@@ -49,6 +49,8 @@ public class BuildAMoleculeStrings {
     public static final String COLLECTION_MULTIPLE_QUANTITY_FORMAT = BuildAMoleculeResources.getString( "collection.multiple.quantityFormat" );
     public static final String COLLECTION_MULTIPLE_QUANTITY_EMPTY = BuildAMoleculeResources.getString( "collection.multiple.quantityEmpty" );
 
+    public static final String COLLECTION_HINT = BuildAMoleculeResources.getString( "collection.hint" );
+
     private static final Map<String, String> elementStringMap = new HashMap<String, String>();
 
     static {

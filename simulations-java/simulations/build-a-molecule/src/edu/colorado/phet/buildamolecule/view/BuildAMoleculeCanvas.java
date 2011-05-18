@@ -111,7 +111,7 @@ public class BuildAMoleculeCanvas extends PhetPCanvas {
 
                     // if a hint doesn't exist AND we have a target box, add it
                     if ( collectionBoxHintNode == null && targetBox != null ) {
-                        collectionBoxHintNode = new CollectionBoxHintNode( mvt, molecule.getDestinationBounds(), targetBox );
+                        collectionBoxHintNode = new CollectionBoxHintNode( mvt, molecule, targetBox );
                         addWorldChild( collectionBoxHintNode );
                     }
                     else if ( collectionBoxHintNode != null ) {
