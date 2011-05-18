@@ -1,10 +1,14 @@
 // Copyright 2002-2011, University of Colorado
 
-package edu.colorado.phet.capacitorlab.model;
+package edu.colorado.phet.capacitorlab.model.meter;
 
 import java.awt.geom.Dimension2D;
 
-import edu.colorado.phet.capacitorlab.model.ICircuit.CircuitChangeListener;
+import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
+import edu.colorado.phet.capacitorlab.model.WorldBounds;
+import edu.colorado.phet.capacitorlab.model.WorldLocationProperty;
+import edu.colorado.phet.capacitorlab.model.circuit.ICircuit;
+import edu.colorado.phet.capacitorlab.model.circuit.ICircuit.CircuitChangeListener;
 import edu.colorado.phet.capacitorlab.shapes.VoltmeterShapeFactory;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;

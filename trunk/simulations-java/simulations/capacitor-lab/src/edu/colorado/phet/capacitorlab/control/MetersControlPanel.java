@@ -7,11 +7,11 @@ import java.awt.*;
 import javax.swing.*;
 
 import edu.colorado.phet.capacitorlab.CLStrings;
-import edu.colorado.phet.capacitorlab.model.BarMeter.CapacitanceMeter;
-import edu.colorado.phet.capacitorlab.model.BarMeter.PlateChargeMeter;
-import edu.colorado.phet.capacitorlab.model.BarMeter.StoredEnergyMeter;
-import edu.colorado.phet.capacitorlab.model.EFieldDetector;
-import edu.colorado.phet.capacitorlab.model.Voltmeter;
+import edu.colorado.phet.capacitorlab.model.meter.BarMeter.CapacitanceMeter;
+import edu.colorado.phet.capacitorlab.model.meter.BarMeter.PlateChargeMeter;
+import edu.colorado.phet.capacitorlab.model.meter.BarMeter.StoredEnergyMeter;
+import edu.colorado.phet.capacitorlab.model.meter.EFieldDetector;
+import edu.colorado.phet.capacitorlab.model.meter.Voltmeter;
 import edu.colorado.phet.common.phetcommon.view.PhetTitledPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.phetcommon.view.util.GridPanel;

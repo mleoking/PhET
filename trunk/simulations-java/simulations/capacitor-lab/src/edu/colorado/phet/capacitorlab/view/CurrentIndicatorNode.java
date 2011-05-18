@@ -5,7 +5,7 @@ package edu.colorado.phet.capacitorlab.view;
 import java.awt.*;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.capacitorlab.model.SingleCircuit;
+import edu.colorado.phet.capacitorlab.model.circuit.SingleCircuit;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
 import edu.colorado.phet.common.piccolophet.PhetPNode;

@@ -6,7 +6,7 @@ import java.awt.*;
 import java.util.ArrayList;
 
 import edu.colorado.phet.capacitorlab.CLStrings;
-import edu.colorado.phet.capacitorlab.model.ICircuit;
+import edu.colorado.phet.capacitorlab.model.circuit.ICircuit;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.PhetTitledPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
