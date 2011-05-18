@@ -207,19 +207,22 @@ public abstract class SugarAndSaltSolutionModel implements ResetModel {
         //Set the true value of the new volume based on clamped inputs and outputs
         newVolume = water.volume.get() + inputWater - drainedWater - evaporatedWater;
 
+        //Have to use the new total displaced volume for determining whether the beaker is full or empty
+        double newDisplacedVolume = newVolume + water.getSolidSoluteDisplacementVolume();
+
         //Turn off the input flow if the beaker would overflow
-        if ( newVolume >= beaker.getMaxFluidVolume() ) {
+        if ( newDisplacedVolume >= beaker.getMaxFluidVolume() ) {
             inputFlowRate.set( 0.0 );
             //TODO: make the cursor drop the slider?
         }
         //Turn off the output flow if the beaker is empty
-        if ( newVolume <= MIN_DRAIN_VOLUME ) {
+        if ( newDisplacedVolume <= MIN_DRAIN_VOLUME ) {
             outputFlowRate.set( 0.0 );
             //TODO: make the cursor drop the slider?
         }
 
         //Turn off evaporation if beaker is empty of water
-        if ( newVolume <= 0 ) {
+        if ( newDisplacedVolume <= 0 ) {
             evaporationRate.set( 0 );
             //TODO: make the cursor drop the slider?
         }
