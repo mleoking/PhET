@@ -84,7 +84,7 @@ public abstract class AbstractBuildAMoleculeModule extends PiccoloModule {
 
             // add in that many molecules
             for ( int j = 0; j < box.getCapacity(); j++ ) {
-                molecules.add( molecule.getStructure().getCopy() );
+                molecules.add( molecule.getStructure().getAtomCopy() );
             }
         }
 
