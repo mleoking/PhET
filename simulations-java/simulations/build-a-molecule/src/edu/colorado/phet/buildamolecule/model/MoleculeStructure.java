@@ -10,7 +10,7 @@ import edu.colorado.phet.chemistry.utils.ChemUtils;
 /**
  * Represents a general molecular structure (without position or instance information).
  * <p/>
- * TODO: consider using generics to specify atom type, with MoleculeStructure<T extends Atom>
+ * TODO: consider using generics to specify bond type, with MoleculeStructure<AtomT extends Atom, BondT extends Bond>
  */
 public class MoleculeStructure<AtomT extends Atom> {
     private final ArrayList<AtomT> atoms; // NOTE: don't mess with the order

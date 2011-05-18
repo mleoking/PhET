@@ -16,7 +16,7 @@ public class MoleculeEquivalencyTests {
         List<CompleteMolecule> molecules = MoleculeList.getMasterInstance().getAllCompleteMolecules();
         for ( CompleteMolecule a : molecules ) {
             for ( CompleteMolecule b : molecules ) {
-                if ( a != b && a.getStructure().isEquivalent( b.getStructure() ) ) {
+                if ( a != b && a.isEquivalent( b ) ) {
                     System.out.println( a.getCommonName() + " ==? " + b.getCommonName() );
                 }
             }

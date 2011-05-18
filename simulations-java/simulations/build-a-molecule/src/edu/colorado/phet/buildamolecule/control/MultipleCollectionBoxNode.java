@@ -20,7 +20,7 @@ public class MultipleCollectionBoxNode extends CollectionBoxNode {
         super( parentFrame, canvas, box, 2 );
 
         addHeaderNode( new PNode() {{
-            HTMLNode goalNode = new HTMLNode( MessageFormat.format( BuildAMoleculeStrings.COLLECTION_MULTIPLE_GOAL_FORMAT, box.getCapacity(), box.getMoleculeType().getStructure().getGeneralFormulaFragment() ) ) {{
+            HTMLNode goalNode = new HTMLNode( MessageFormat.format( BuildAMoleculeStrings.COLLECTION_MULTIPLE_GOAL_FORMAT, box.getCapacity(), box.getMoleculeType().getGeneralFormulaFragment() ) ) {{
                 setFont( new PhetFont( 16, true ) );
             }};
             addChild( goalNode );
@@ -38,7 +38,7 @@ public class MultipleCollectionBoxNode extends CollectionBoxNode {
                         setHTML( subscriptFix + BuildAMoleculeStrings.COLLECTION_MULTIPLE_QUANTITY_EMPTY + subscriptFix );
                     }
                     else {
-                        setHTML( MessageFormat.format( subscriptFix + BuildAMoleculeStrings.COLLECTION_MULTIPLE_QUANTITY_FORMAT + subscriptFix, box.quantity.get(), box.getMoleculeType().getStructure().getGeneralFormulaFragment() ) );
+                        setHTML( MessageFormat.format( subscriptFix + BuildAMoleculeStrings.COLLECTION_MULTIPLE_QUANTITY_FORMAT + subscriptFix, box.quantity.get(), box.getMoleculeType().getGeneralFormulaFragment() ) );
                     }
                 }
             } );

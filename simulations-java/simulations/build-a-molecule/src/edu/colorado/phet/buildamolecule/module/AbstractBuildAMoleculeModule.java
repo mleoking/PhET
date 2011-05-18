@@ -74,7 +74,7 @@ public abstract class AbstractBuildAMoleculeModule extends PiccoloModule {
             int numberInBox = allowMultipleMolecules ? random.nextInt( MAX_IN_BOX ) + 1 : 1;
 
             // restrict the number of carbon that we can have
-            int carbonCount = molecule.getStructure().getHistogram().getQuantity( Element.C );
+            int carbonCount = molecule.getHistogram().getQuantity( Element.C );
             if ( carbonCount > 1 ) {
                 numberInBox = Math.min( 2, numberInBox );
             }
@@ -84,7 +84,7 @@ public abstract class AbstractBuildAMoleculeModule extends PiccoloModule {
 
             // add in that many molecules
             for ( int j = 0; j < box.getCapacity(); j++ ) {
-                molecules.add( molecule.getStructure().getAtomCopy() );
+                molecules.add( molecule.getAtomCopy() );
             }
         }
 

@@ -6,8 +6,8 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.*;
 
-import edu.colorado.phet.buildamolecule.model.ElementHistogram;
 import edu.colorado.phet.buildamolecule.model.CompleteMolecule;
+import edu.colorado.phet.buildamolecule.model.ElementHistogram;
 import edu.colorado.phet.buildtools.util.FileUtils;
 import edu.colorado.phet.common.phetcommon.util.Pair;
 
@@ -19,7 +19,7 @@ public class MoleculeSDFCombinedParser {
 
     private static final String SEPARATOR = "|";
 
-    private static String[] desiredProperties = new String[]{
+    private static String[] desiredProperties = new String[] {
             "PUBCHEM_IUPAC_TRADITIONAL_NAME",
             "PUBCHEM_MOLECULAR_FORMULA", "PUBCHEM_PHARMACOPHORE_FEATURES"
 
@@ -205,7 +205,7 @@ public class MoleculeSDFCombinedParser {
             }
 
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
 
@@ -230,15 +230,15 @@ public class MoleculeSDFCombinedParser {
         Map<String, List<String>> formulaMap = new HashMap<String, List<String>>(); // map of formula => list of molecule lines
 
         for ( final String aString : molecules.toArray( new String[molecules.size()] ) ) {
-            final CompleteMolecule completeMolecule = new CompleteMolecule( aString.trim() );
-            if ( completeMolecule.getStructure().hasLoopsOrIsDisconnected() ) {
+            final CompleteMolecule completeMolecule = CompleteMolecule.fromString( aString.trim() );
+            if ( completeMolecule.hasLoopsOrIsDisconnected() ) {
                 // bad molecule, remove it from consideration!
                 molecules.remove( aString );
                 System.out.println( "ignoring molecule with loops or disconnected parts: " + completeMolecule.getCommonName() );
             }
             else {
                 // good molecule. store it in the map so we can scan for duplicates
-                String hillFormula = completeMolecule.getStructure().getHillSystemFormulaFragment();
+                String hillFormula = completeMolecule.getHillSystemFormulaFragment();
                 if ( formulaMap.containsKey( hillFormula ) ) {
                     formulaMap.get( hillFormula ).add( aString );
                 }
@@ -260,13 +260,13 @@ public class MoleculeSDFCombinedParser {
 
             // pick two of them (not the most efficient)
             for ( String aString : moleculesWithSameFormula ) {
-                CompleteMolecule aMol = new CompleteMolecule( aString.trim() );
+                CompleteMolecule aMol = CompleteMolecule.fromString( aString.trim() );
                 for ( String bString : moleculesWithSameFormula ) {
                     if ( !aString.equals( bString ) ) {
-                        CompleteMolecule bMol = new CompleteMolecule( bString.trim() );
+                        CompleteMolecule bMol = CompleteMolecule.fromString( bString.trim() );
 
                         // if they are equivalent, axe the one with the longer name
-                        if ( aMol.getStructure().isEquivalent( bMol.getStructure() ) ) {
+                        if ( aMol.isEquivalent( bMol ) ) {
                             if ( bMol.getCommonName().length() < aMol.getCommonName().length() ) {
                                 molecules.remove( aString );
                                 System.out.println( "tossing duplicate " + aMol.getCommonName() );
@@ -289,7 +289,7 @@ public class MoleculeSDFCombinedParser {
             }
             FileUtils.writeString( outfile, mainBuilder.toString() );
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
     }

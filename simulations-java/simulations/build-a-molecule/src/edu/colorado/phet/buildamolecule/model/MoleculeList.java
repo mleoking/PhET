@@ -93,7 +93,7 @@ public class MoleculeList {
 
             // if our molecule was included in the initial lookup, use that initial version instead so we can have instance equality preserved
             CompleteMolecule initialListLookup = initialList.moleculeNameMap.get( molecule.getCommonName() );
-            if ( initialListLookup != null && molecule.getStructure().isEquivalent( initialListLookup.getStructure() ) ) {
+            if ( initialListLookup != null && molecule.isEquivalent( initialListLookup ) ) {
                 molecule = initialListLookup;
             }
 
@@ -149,7 +149,7 @@ public class MoleculeList {
      */
     public <AtomT extends Atom> CompleteMolecule findMatchingCompleteMolecule( MoleculeStructure<AtomT> moleculeStructure ) {
         for ( CompleteMolecule completeMolecule : completeMolecules ) {
-            if ( moleculeStructure.isEquivalent( completeMolecule.getStructure() ) ) {
+            if ( moleculeStructure.isEquivalent( completeMolecule ) ) {
                 return completeMolecule;
             }
         }
@@ -244,14 +244,14 @@ public class MoleculeList {
             try {
                 while ( moleculeReader.ready() ) {
                     String line = moleculeReader.readLine();
-                    CompleteMolecule molecule = new CompleteMolecule( line );
+                    CompleteMolecule molecule = CompleteMolecule.fromString( line );
 
                     // sanity checks
-                    if ( molecule.getStructure().hasLoopsOrIsDisconnected() ) {
+                    if ( molecule.hasLoopsOrIsDisconnected() ) {
                         System.out.println( "ignoring molecule: " + molecule.getCommonName() );
                         continue;
                     }
-                    if ( molecule.getStructure().hasWeirdHydrogenProperties() ) {
+                    if ( molecule.hasWeirdHydrogenProperties() ) {
                         System.out.println( "weird hydrogen pattern in: " + molecule.getCommonName() );
                         continue;
                     }
