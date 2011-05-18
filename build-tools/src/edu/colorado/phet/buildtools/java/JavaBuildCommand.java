@@ -21,7 +21,6 @@ import org.apache.tools.ant.types.Path;
 import edu.colorado.phet.buildtools.*;
 import edu.colorado.phet.buildtools.proguard.PhetProguardConfigBuilder;
 import edu.colorado.phet.buildtools.proguard.ProguardCommand;
-import edu.colorado.phet.buildtools.util.FileUtils;
 import edu.colorado.phet.buildtools.util.PhetBuildUtils;
 import edu.colorado.phet.buildtools.util.PhetJarSigner;
 import edu.colorado.phet.common.phetcommon.application.JARLauncher;
@@ -87,7 +86,7 @@ public class JavaBuildCommand {
     public void copySoftwareAgreement() {
         File src = new File( project.getTrunk(), BuildToolsPaths.SOFTWARE_AGREEMENT_PATH );
         try {
-            FileUtils.copyRecursive( src, getSoftwareAgreementDir() );
+            edu.colorado.phet.common.phetcommon.util.FileUtils.copyRecursive( src, getSoftwareAgreementDir() );
 //            SetSVNIgnoreToDeployDirectories.setIgnorePatternsOnDir( getSoftwareAgreementDir().getParentFile(), new String[]{getSoftwareAgreementDir().getName()} );
         }
         catch( IOException e ) {

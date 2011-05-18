@@ -17,7 +17,6 @@ import edu.colorado.phet.buildtools.PhetProject;
 import edu.colorado.phet.buildtools.flash.FlashSimulationProject;
 import edu.colorado.phet.buildtools.flex.FlexSimulationProject;
 import edu.colorado.phet.buildtools.java.projects.JavaSimulationProject;
-import edu.colorado.phet.buildtools.util.FileUtils;
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 import edu.colorado.phet.flashlauncher.util.XMLUtils;
 
@@ -223,7 +222,7 @@ public class Translation {
                 }
             }
             else if ( getType().equals( TRANSLATION_FLASH ) ) {
-                Document document = XMLUtils.toDocument( FileUtils.loadFileAsString( getFile() ) );
+                Document document = XMLUtils.toDocument( edu.colorado.phet.common.phetcommon.util.FileUtils.loadFileAsString( getFile() ) );
                 NodeList strings = document.getElementsByTagName( "string" );
 
                 for ( int i = 0; i < strings.getLength(); i++ ) {

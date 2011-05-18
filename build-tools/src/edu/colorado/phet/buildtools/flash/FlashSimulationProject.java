@@ -13,7 +13,6 @@ import org.apache.tools.ant.taskdefs.Manifest;
 import edu.colorado.phet.buildtools.*;
 import edu.colorado.phet.buildtools.flex.FlexSimulationProject;
 import edu.colorado.phet.buildtools.java.JavaProject;
-import edu.colorado.phet.buildtools.util.FileUtils;
 import edu.colorado.phet.buildtools.util.PhetJarSigner;
 import edu.colorado.phet.common.phetcommon.application.JARLauncher;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
@@ -148,7 +147,7 @@ public class FlashSimulationProject extends PhetProject implements SimulationPhe
     }
 
     private void copyProperties() throws IOException {
-        FileUtils.copyToDir( new File( getDataDirectory(), getName() + ".properties" ), getDeployDir() );
+        edu.colorado.phet.common.phetcommon.util.FileUtils.copyToDir( new File( getDataDirectory(), getName() + ".properties" ), getDeployDir() );
     }
 
     private void cleanSWFs() {
@@ -217,11 +216,11 @@ public class FlashSimulationProject extends PhetProject implements SimulationPhe
     private void buildOfflineJAR( String simulationName, Locale locale, FlashLauncherProject launcherProject ) {
         System.out.println( "Working in " + getOfflineJARContentsDir().getAbsolutePath() );
 
-        FileUtils.delete( getOfflineJARContentsDir(), true );
+        edu.colorado.phet.common.phetcommon.util.FileUtils.delete( getOfflineJARContentsDir(), true );
         getOfflineJARContentsDir().mkdirs();
         try {
             // copy class files for FlashLauncher
-            FileUtils.unzip( launcherProject.getDefaultDeployJar(), getOfflineJARContentsDir() );
+            edu.colorado.phet.common.phetcommon.util.FileUtils.unzip( launcherProject.getDefaultDeployJar(), getOfflineJARContentsDir() );
 
             // The FlashLauncherProject came with a jar-launcher.properties, which should be deleted for
             // embedding in this new project, see #1292
@@ -230,40 +229,40 @@ public class FlashSimulationProject extends PhetProject implements SimulationPhe
             System.out.println( "Attempt to delete file, deleted=" + deleted + ": " + jarLauncherPropertiesFile.getAbsolutePath() );
 
             // copy SWF File
-            FileUtils.copyToDir( getSWFFile( simulationName ), getOfflineJARContentsDir() );
+            edu.colorado.phet.common.phetcommon.util.FileUtils.copyToDir( getSWFFile( simulationName ), getOfflineJARContentsDir() );
 
             // copy sim XML localization Files
             copyLocalizationFiles( new File( getDataDirectory(), "localization" ) );
 
             // copy common XML to en for flash-common-strings
             if ( getName().equals( "flash-common-strings" ) ) {
-                FileUtils.copyTo( new File( getCommonLocalizationDir(), "common-strings_en.xml" ), new File( getOfflineJARContentsDir(), "flash-common-strings-strings_en.xml" ) );
+                edu.colorado.phet.common.phetcommon.util.FileUtils.copyTo( new File( getCommonLocalizationDir(), "common-strings_en.xml" ), new File( getOfflineJARContentsDir(), "flash-common-strings-strings_en.xml" ) );
             }
 
             // copy common XML localization Files
             copyLocalizationFiles( getCommonLocalizationDir() );
 
             // copy HTML template
-            FileUtils.copyToDir( new File( getTrunk(), BuildToolsPaths.FLASH_HTML_TEMPLATE ), getOfflineJARContentsDir() );
+            edu.colorado.phet.common.phetcommon.util.FileUtils.copyToDir( new File( getTrunk(), BuildToolsPaths.FLASH_HTML_TEMPLATE ), getOfflineJARContentsDir() );
 
             // copy HTML extras like get_flash.jpg
             copyExtrasTo( getOfflineJARContentsDir() );
 
             // copy agreement properties
-            FileUtils.copyToDir( getAgreementPropertiesFile(), getOfflineJARContentsDir() );
+            edu.colorado.phet.common.phetcommon.util.FileUtils.copyToDir( getAgreementPropertiesFile(), getOfflineJARContentsDir() );
 
             // copy agreement text so there is an HTML copy at the top level of the JAR, adds about 20kb to JAR
             // see similar code in JavaBuildCommand
             File src = new File( getTrunk(), BuildToolsPaths.SOFTWARE_AGREEMENT_PATH );
             try {
-                FileUtils.copyRecursive( src, getOfflineJARContentsDir() );
+                edu.colorado.phet.common.phetcommon.util.FileUtils.copyRecursive( src, getOfflineJARContentsDir() );
             }
             catch ( IOException e ) {
                 e.printStackTrace();
             }
 
             // copy credits file
-            FileUtils.copyToDir( getCreditsFile(), getOfflineJARContentsDir() );
+            edu.colorado.phet.common.phetcommon.util.FileUtils.copyToDir( getCreditsFile(), getOfflineJARContentsDir() );
 
             //create simulation properties file
             SimulationProperties simulationProperities = new SimulationProperties( getName(), simulationName, locale, getType() );
@@ -272,7 +271,7 @@ public class FlashSimulationProject extends PhetProject implements SimulationPhe
             simOutputStream.close();
 
             //copy project properties file
-            FileUtils.copyToDir( new File( getDataDirectory(), getName() + ".properties" ), getOfflineJARContentsDir() );
+            edu.colorado.phet.common.phetcommon.util.FileUtils.copyToDir( new File( getDataDirectory(), getName() + ".properties" ), getOfflineJARContentsDir() );
 
             Jar jar = new Jar();
             jar.setBasedir( getOfflineJARContentsDir() );
@@ -326,7 +325,7 @@ public class FlashSimulationProject extends PhetProject implements SimulationPhe
             }
         } );
         for ( int i = 0; i < localizationFiles.length; i++ ) {
-            FileUtils.copyToDir( localizationFiles[i], getOfflineJARContentsDir() );
+            edu.colorado.phet.common.phetcommon.util.FileUtils.copyToDir( localizationFiles[i], getOfflineJARContentsDir() );
         }
     }
 
@@ -390,9 +389,9 @@ public class FlashSimulationProject extends PhetProject implements SimulationPhe
         Properties agreementProperties = getAgreementProperties();
 
         String agreementVersion = agreementProperties.getProperty( "version" );
-        String agreementContent = FileUtils.loadFileAsString( getAgreementHTMLFile() );
+        String agreementContent = edu.colorado.phet.common.phetcommon.util.FileUtils.loadFileAsString( getAgreementHTMLFile() );
 
-        String creditsString = FileUtils.loadFileAsString( getCreditsFile() );
+        String creditsString = edu.colorado.phet.common.phetcommon.util.FileUtils.loadFileAsString( getCreditsFile() );
 
         String encodedAgreement = FlashHTML.encodeXML( agreementContent );
 
@@ -419,7 +418,7 @@ public class FlashSimulationProject extends PhetProject implements SimulationPhe
                                               getFlashHTMLTemplate().getAbsolutePath(),
                                               agreementVersion, encodedAgreement, creditsString, titleString );
 
-        FileUtils.writeString( HTMLFile, html );
+        edu.colorado.phet.common.phetcommon.util.FileUtils.writeString( HTMLFile, html );
     }
 
     private void buildHTMLs() {
@@ -456,7 +455,7 @@ public class FlashSimulationProject extends PhetProject implements SimulationPhe
             File destination = new File( destinationDir, source.getName() );
 
             try {
-                FileUtils.copyTo( source, destination );
+                edu.colorado.phet.common.phetcommon.util.FileUtils.copyTo( source, destination );
             }
             catch ( IOException e ) {
                 e.printStackTrace();

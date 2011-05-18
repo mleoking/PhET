@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 
 import edu.colorado.phet.buildtools.java.projects.JavaSimulationProject;
-import edu.colorado.phet.buildtools.util.FileUtils;
 
 /**
  * This utility is responsible for exporting a sim and all its dependencies to an external directory.
@@ -25,7 +24,7 @@ public class ExportSim {
         for ( int i = 0; i < s.length; i++ ) {
             File file = s[i];
             System.out.println( "file = " + file );
-            FileUtils.copyRecursive( file, new File( dest, "" + file.getParentFile().getName() + "-src" ) );
+            edu.colorado.phet.common.phetcommon.util.FileUtils.copyRecursive( file, new File( dest, "" + file.getParentFile().getName() + "-src" ) );
         }
         File[] k = p.getAllJarFiles();
         for ( int i = 0; i < k.length; i++ ) {
@@ -33,13 +32,13 @@ public class ExportSim {
             System.out.println( "k=" + file );
             File dest1 = new File( dest, "lib/" + file.getName() );
             dest1.getParentFile().mkdirs();
-            FileUtils.copyTo( file, dest1 );
+            edu.colorado.phet.common.phetcommon.util.FileUtils.copyTo( file, dest1 );
         }
         File[] r = p.getAllDataDirectories();
         for ( int i = 0; i < r.length; i++ ) {
             File file = r[i];
             System.out.println( "file = " + file );
-            FileUtils.copyRecursive( file, new File( dest, "" + file.getParentFile().getName() + "-data" ) );
+            edu.colorado.phet.common.phetcommon.util.FileUtils.copyRecursive( file, new File( dest, "" + file.getParentFile().getName() + "-data" ) );
         }
     }
 }

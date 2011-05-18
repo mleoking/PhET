@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.util.StringTokenizer;
 
 import edu.colorado.phet.buildtools.*;
-import edu.colorado.phet.buildtools.util.FileUtils;
 import edu.colorado.phet.buildtools.util.ProcessOutputReader;
 import edu.colorado.phet.buildtools.util.ScpTo;
 import edu.colorado.phet.buildtools.util.SshUtils;
@@ -121,7 +120,7 @@ public class StatisticsDeployCommand {
      * @throws IOException
      */
     private void writeRevisionFile() throws IOException {
-        FileUtils.writeString( new File( getStatisticsDir(), "db-revision.php" ), "<?php $serverVersion = \"" + getSVNVersion() + "\"; ?>\n" );
+        edu.colorado.phet.common.phetcommon.util.FileUtils.writeString( new File( getStatisticsDir(), "db-revision.php" ), "<?php $serverVersion = \"" + getSVNVersion() + "\"; ?>\n" );
     }
 
     private File getTrunkDir() {

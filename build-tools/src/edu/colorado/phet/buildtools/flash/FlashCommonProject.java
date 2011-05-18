@@ -6,7 +6,6 @@ import java.io.IOException;
 import javax.swing.*;
 
 import edu.colorado.phet.buildtools.BuildToolsPaths;
-import edu.colorado.phet.buildtools.util.FileUtils;
 import edu.colorado.phet.buildtools.util.SVNDependencyProject;
 
 /**
@@ -29,7 +28,7 @@ public class FlashCommonProject extends SVNDependencyProject {
         }
 
         try {
-            String text = FileUtils.loadFileAsString( softwareAgreementFile );
+            String text = edu.colorado.phet.common.phetcommon.util.FileUtils.loadFileAsString( softwareAgreementFile );
 
             // strip newlines out of the HTML, since Flash's HTML fields incorrectly add them in as equivalent to <br>s
             text = text.replaceAll( "\n", "" );
@@ -51,7 +50,7 @@ public class FlashCommonProject extends SVNDependencyProject {
 
             File actionScriptSoftwareAgreementFile = new File( trunk, BuildToolsPaths.FLASH_SOFTWARE_AGREEMENT_ACTIONSCRIPT );
 
-            FileUtils.writeString( actionScriptSoftwareAgreementFile, aString );
+            edu.colorado.phet.common.phetcommon.util.FileUtils.writeString( actionScriptSoftwareAgreementFile, aString );
 
         }
         catch( IOException e ) {

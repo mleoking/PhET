@@ -8,7 +8,6 @@ import java.util.*;
 
 import edu.colorado.phet.buildamolecule.model.CompleteMolecule;
 import edu.colorado.phet.buildamolecule.model.ElementHistogram;
-import edu.colorado.phet.buildtools.util.FileUtils;
 import edu.colorado.phet.common.phetcommon.util.Pair;
 
 /**
@@ -320,7 +319,7 @@ public class MoleculeSDFCombinedParser {
             for ( String molecule : molecules ) {
                 mainBuilder.append( molecule );
             }
-            FileUtils.writeString( outfile, mainBuilder.toString() );
+            edu.colorado.phet.common.phetcommon.util.FileUtils.writeString( outfile, mainBuilder.toString() );
         }
         catch( IOException e ) {
             e.printStackTrace();

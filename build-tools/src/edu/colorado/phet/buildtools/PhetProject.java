@@ -13,8 +13,7 @@ import edu.colorado.phet.buildtools.util.*;
 import edu.colorado.phet.common.phetcommon.resources.PhetProperties;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
-import edu.colorado.phet.common.phetcommon.util.AnnotationParser;
-import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
+import edu.colorado.phet.common.phetcommon.util.*;
 
 /**
  * Author: Sam Reid
@@ -770,7 +769,7 @@ public abstract class PhetProject {
                 LicenseInfo info = licenseInfo[i];
                 File licenseFile = info.getLicenseFile();
                 if ( licenseFile != null && licenseFile.exists() ) {
-                    FileUtils.copyTo( licenseFile, new File( contribLicensesDir, "" + info.getID() + "-" + licenseFile.getName() ) );
+                    edu.colorado.phet.common.phetcommon.util.FileUtils.copyTo( licenseFile, new File( contribLicensesDir, "" + info.getID() + "-" + licenseFile.getName() ) );
                 }
             }
         }
@@ -798,7 +797,7 @@ public abstract class PhetProject {
                 System.out.println( getName() + " missing credits.txt" );
             }
             else {
-                String text = FileUtils.loadFileAsString( creditsFile );
+                String text = edu.colorado.phet.common.phetcommon.util.FileUtils.loadFileAsString( creditsFile );
                 AnnotationParser.Annotation[] a = AnnotationParser.getAnnotations( text );
                 for ( int i = 0; i < a.length; i++ ) {
                     AnnotationParser.Annotation annotation = a[i];
@@ -898,7 +897,7 @@ public abstract class PhetProject {
     }
 
     public void copyChangesFileToDeployDir() throws IOException {
-        FileUtils.copyToDir( getChangesFile(), getDeployDir() );
+        edu.colorado.phet.common.phetcommon.util.FileUtils.copyToDir( getChangesFile(), getDeployDir() );
     }
 
     public boolean requestAllPermissions() {
@@ -961,7 +960,7 @@ public abstract class PhetProject {
             str += "</simulations>\n" +
                    "</project>";
 
-            FileUtils.writeString( getMetaXMLFile(), str );
+            edu.colorado.phet.common.phetcommon.util.FileUtils.writeString( getMetaXMLFile(), str );
         }
         catch ( UnsupportedEncodingException e ) {
             e.printStackTrace();

@@ -10,7 +10,6 @@ import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 
-import edu.colorado.phet.buildtools.util.FileUtils;
 import edu.colorado.phet.buildtools.util.PhetJarSigner;
 import edu.colorado.phet.common.phetcommon.application.JARLauncher;
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
@@ -62,7 +61,7 @@ public class JARGenerator {
     private void generateOfflineJAR( File jar, String flavor, Locale locale, String pathToJARUtility, BuildLocalProperties buildLocalProperties ) throws IOException, InterruptedException {
         File newJar = new File( jar.getParentFile(), flavor + "_" + locale + ".jar" );
         logger.fine( "Writing to: " + newJar.getAbsolutePath() );
-        FileUtils.copyTo( jar, newJar );
+        edu.colorado.phet.common.phetcommon.util.FileUtils.copyTo( jar, newJar );
 
         Properties properties = getJarLauncherProperties( jar );
         properties.put( JARLauncher.FLAVOR_KEY, flavor );
