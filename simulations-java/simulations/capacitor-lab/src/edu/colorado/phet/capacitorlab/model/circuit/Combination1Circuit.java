@@ -87,8 +87,8 @@ public class Combination1Circuit extends AbstractCircuit {
     }
 
     private void updateVoltages() {
-        // series
         double Q_total = getTotalCharge();
+        // series
         c1.setPlatesVoltage( Q_total / c1.getTotalCapacitance() );
         c2.setPlatesVoltage( Q_total / c2.getTotalCapacitance() );
         // parallel
@@ -108,7 +108,20 @@ public class Combination1Circuit extends AbstractCircuit {
     }
 
     public double getVoltageAt( Shape s ) {
-        return 0; //TODO
+        double voltage = Double.NaN;
+        if ( getBattery().intersectsTopTerminal( s ) || c1.intersectsTopPlateShape( s ) || c3.intersectsTopPlateShape( s ) ) {
+            voltage = getTotalVoltage();
+        }
+        else if ( getBattery().intersectsBottomTerminal( s ) || c2.intersectsBottomPlateShape( s ) || c3.intersectsBottomPlateShape( s ) ) {
+            voltage = 0;
+        }
+        else if ( c1.intersectsBottomPlateShape( s ) || c2.intersectsTopPlateShape( s ) ) {
+            voltage = c2.getPlatesVoltage();
+        }
+        else {
+            //TODO check wires
+        }
+        return voltage;
     }
 
     public void reset() {

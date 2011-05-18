@@ -109,7 +109,20 @@ public class Combination2Circuit extends AbstractCircuit {
     }
 
     public double getVoltageAt( Shape s ) {
-        return 0; //TODO
+        double voltage = Double.NaN;
+        if ( getBattery().intersectsTopTerminal( s ) || c1.intersectsTopPlateShape( s ) ) {
+            voltage = getTotalVoltage();
+        }
+        else if ( getBattery().intersectsBottomTerminal( s ) || c2.intersectsBottomPlateShape( s ) || c3.intersectsBottomPlateShape( s ) ) {
+            voltage = 0;
+        }
+        else if ( c1.intersectsBottomPlateShape( s ) || c2.intersectsTopPlateShape( s ) || c3.intersectsTopPlateShape( s ) ) {
+            voltage = c2.getPlatesVoltage();
+        }
+        else {
+            //TODO check wires
+        }
+        return voltage;
     }
 
     public void reset() {
