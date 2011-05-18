@@ -24,6 +24,7 @@ import edu.colorado.phet.buildtools.proguard.ProguardCommand;
 import edu.colorado.phet.buildtools.util.PhetBuildUtils;
 import edu.colorado.phet.buildtools.util.PhetJarSigner;
 import edu.colorado.phet.common.phetcommon.application.JARLauncher;
+import edu.colorado.phet.common.phetcommon.util.FileUtils;
 
 /**
  * This command builds a PhET project, together with any dependencies.
@@ -86,7 +87,7 @@ public class JavaBuildCommand {
     public void copySoftwareAgreement() {
         File src = new File( project.getTrunk(), BuildToolsPaths.SOFTWARE_AGREEMENT_PATH );
         try {
-            edu.colorado.phet.common.phetcommon.util.FileUtils.copyRecursive( src, getSoftwareAgreementDir() );
+            FileUtils.copyRecursive( src, getSoftwareAgreementDir() );
 //            SetSVNIgnoreToDeployDirectories.setIgnorePatternsOnDir( getSoftwareAgreementDir().getParentFile(), new String[]{getSoftwareAgreementDir().getName()} );
         }
         catch( IOException e ) {

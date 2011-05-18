@@ -12,6 +12,7 @@ import javax.imageio.ImageWriteParam;
 import javax.imageio.ImageWriter;
 import javax.imageio.stream.FileImageOutputStream;
 
+import edu.colorado.phet.common.phetcommon.util.FileUtils;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 
 /**
@@ -32,7 +33,7 @@ public class ScreenshotProcessor {
             File animatedScreenshot = project.getAnimatedScreenshot( sim );
             if ( animatedScreenshot.exists() ) {
                 File file = new File( project.getDeployDir(), animatedScreenshot.getName() );
-                edu.colorado.phet.common.phetcommon.util.FileUtils.copyTo( animatedScreenshot, file );
+                FileUtils.copyTo( animatedScreenshot, file );
                 System.out.println( "Copied animated screenshot to: " + file.getAbsolutePath() );
             }
 

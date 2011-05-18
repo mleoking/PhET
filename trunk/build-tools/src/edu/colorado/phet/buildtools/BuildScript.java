@@ -13,7 +13,11 @@ import javax.swing.*;
 import edu.colorado.phet.buildtools.flash.FlashSimulationProject;
 import edu.colorado.phet.buildtools.java.JavaProject;
 import edu.colorado.phet.buildtools.java.projects.BuildToolsProject;
-import edu.colorado.phet.buildtools.util.*;
+import edu.colorado.phet.buildtools.util.ProcessOutputReader;
+import edu.colorado.phet.buildtools.util.ScpTo;
+import edu.colorado.phet.buildtools.util.SshUtils;
+import edu.colorado.phet.buildtools.util.SvnUtils;
+import edu.colorado.phet.common.phetcommon.util.FileUtils;
 
 import com.jcraft.jsch.JSchException;
 
@@ -104,7 +108,7 @@ public class BuildScript {
         try {
             new PhetCleanCommand( project, new MyAntTaskRunner() ).execute();
         }
-        catch( Exception e ) {
+        catch ( Exception e ) {
             e.printStackTrace();
         }
     }
@@ -290,7 +294,7 @@ public class BuildScript {
                 // TODO: possibly roll back .properties file and changes
                 return false;
             }
-            success = SvnUtils.verifyRevision( newRevision, new String[]{project.getProjectPropertiesFile().getAbsolutePath()} );
+            success = SvnUtils.verifyRevision( newRevision, new String[] { project.getProjectPropertiesFile().getAbsolutePath() } );
             if ( !success ) {
                 notifyError( project, "Commit of version and change file did not result with the expected revision number. Stopping (see console)" );
                 return false;
@@ -314,7 +318,7 @@ public class BuildScript {
         try {
             project.copyChangesFileToDeployDir();
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
             // TODO: why are we not failing on this? is there a project where this is unimportant?
         }
@@ -330,7 +334,7 @@ public class BuildScript {
         try {
             new ScreenshotProcessor().copyScreenshotsToDeployDir( project );
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
     }
@@ -373,10 +377,10 @@ public class BuildScript {
         File versionFile = project.getVersionFile();
         try {
             File dest = new File( project.getDeployDir(), versionFile.getName() );
-            edu.colorado.phet.common.phetcommon.util.FileUtils.copyTo( versionFile, dest );
+            FileUtils.copyTo( versionFile, dest );
             System.out.println( "Copied version file to " + dest.getAbsolutePath() );
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
     }
@@ -408,11 +412,11 @@ public class BuildScript {
                 try {
                     ScpTo.uploadFile( fileToUpload, authenticationInfo.getUsername(), host, remotePathDir + "/" + fileToUpload.getName(), authenticationInfo.getPassword() );
                 }
-                catch( JSchException e ) {
+                catch ( JSchException e ) {
                     e.printStackTrace();
                     return false;
                 }
-                catch( IOException e ) {
+                catch ( IOException e ) {
                     e.printStackTrace();
                     return false;
                 }
@@ -428,7 +432,7 @@ public class BuildScript {
         if ( !readmeFile.exists() ) {
             throw new RuntimeException( "Readme file doesn't exist, need to get version info some other way" );
         }
-        String[] args = new String[]{"svn", "status", "-u", "--non-interactive", "--username", auth.getUsername(), "--password", auth.getPassword(), readmeFile.getAbsolutePath()};
+        String[] args = new String[] { "svn", "status", "-u", "--non-interactive", "--username", auth.getUsername(), "--password", auth.getPassword(), readmeFile.getAbsolutePath() };
         ProcessOutputReader.ProcessExecResult output = ProcessOutputReader.exec( args );
         StringTokenizer st = new StringTokenizer( output.getOut(), "\n" );
         while ( st.hasMoreTokens() ) {
@@ -441,7 +445,7 @@ public class BuildScript {
         }
         String cmd = "";
         for ( String arg : args ) {
-            cmd +=" "+arg;
+            cmd += " " + arg;
         }
 //        System.out.println("Failed on command: "+cmd.trim());
         throw new RuntimeException( "No svn version information found: " + output.getOut() );
@@ -453,7 +457,7 @@ public class BuildScript {
             System.out.println( "**** Finished BuildScript.build" );
             return success;
         }
-        catch( Exception e ) {
+        catch ( Exception e ) {
             e.printStackTrace();
             return false;
         }
@@ -461,9 +465,9 @@ public class BuildScript {
 
     public void createHeader( boolean dev ) {
         try {
-            edu.colorado.phet.common.phetcommon.util.FileUtils.filter( new File( trunk, "build-tools/templates/header-template.html" ), project.getDeployHeaderFile(), createHeaderFilterMap( dev ), "UTF-8" );
+            FileUtils.filter( new File( trunk, "build-tools/templates/header-template.html" ), project.getDeployHeaderFile(), createHeaderFilterMap( dev ), "UTF-8" );
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
     }
@@ -533,19 +537,20 @@ public class BuildScript {
 
     public void deployDev( final AuthenticationInfo devAuth, final boolean generateOfflineJARs ) {
         deploy( new Task() {
-            public boolean invoke() {
-                //generate files for dev
-                //sendCopyToDev( PhetWebsite.FIGARO.getServerAuthenticationInfo( buildLocalProperties ), OldPhetServer.FIGARO_DEV );
-                return true;
-            }
-        }, OldPhetServer.DEFAULT_DEVELOPMENT_SERVER, devAuth, new VersionIncrement.UpdateDev(), new Task() {
+                    public boolean invoke() {
+                        //generate files for dev
+                        //sendCopyToDev( PhetWebsite.FIGARO.getServerAuthenticationInfo( buildLocalProperties ), OldPhetServer.FIGARO_DEV );
+                        return true;
+                    }
+                }, OldPhetServer.DEFAULT_DEVELOPMENT_SERVER, devAuth, new VersionIncrement.UpdateDev(), new Task() {
             public boolean invoke() {
                 if ( generateOfflineJARs ) {
                     generateOfflineJars( project, OldPhetServer.DEFAULT_DEVELOPMENT_SERVER, devAuth );
                 }
                 return true;
             }
-        } );
+        }
+        );
     }
 
     public void deployToDevelopmentAndProductionServers( final AuthenticationInfo devAuth,
@@ -562,20 +567,21 @@ public class BuildScript {
                         return prepareStagingArea( productionSite );
                     }
                 }, productionSite.getOldProductionServer(), prodAuth, versionIncrement, new Task() {
-                    public boolean invoke() {
-                        System.out.println( "Executing website post-upload deployment process" );
+            public boolean invoke() {
+                System.out.println( "Executing website post-upload deployment process" );
 
-                        boolean genjars = project instanceof JavaProject && ( (JavaProject) project ).getSignJar() && generateJARs;
-                        SshUtils.executeCommand( productionSite, "chmod -R a+rw " + productionSite.getSimsStagingPath() + "/" + project.getName() );
-                        if ( project.isSimulationProject() ) {
-                            // this is a LOCAL connection that we are executing the curl from. TODO: move this to PhetWebsite
-                            String deployCommand = "curl '" + productionSite.getWebBaseURL() + "/admin/deploy?project=" + project.getName() + "&generate-jars=" + genjars + "'";
-                            SshUtils.executeCommand( productionSite, deployCommand );
-                        }
+                boolean genjars = project instanceof JavaProject && ( (JavaProject) project ).getSignJar() && generateJARs;
+                SshUtils.executeCommand( productionSite, "chmod -R a+rw " + productionSite.getSimsStagingPath() + "/" + project.getName() );
+                if ( project.isSimulationProject() ) {
+                    // this is a LOCAL connection that we are executing the curl from. TODO: move this to PhetWebsite
+                    String deployCommand = "curl '" + productionSite.getWebBaseURL() + "/admin/deploy?project=" + project.getName() + "&generate-jars=" + genjars + "'";
+                    SshUtils.executeCommand( productionSite, deployCommand );
+                }
 
-                        return true;
-                    }
-                } );
+                return true;
+            }
+        }
+        );
     }
 
     public void deployProd( PhetWebsite productionWebsite, final AuthenticationInfo devAuth, final AuthenticationInfo prodAuth ) {
@@ -586,7 +592,7 @@ public class BuildScript {
 
     private boolean prepareStagingArea( PhetWebsite website ) {
         assert project.getName().length() >= 2;//reduce probability of a scary rm
-        return SshUtils.executeCommands( website, new String[]{
+        return SshUtils.executeCommands( website, new String[] {
                 "mkdir -p -m 775 " + website.getSimsStagingPath() + "/" + project.getName(),
                 "rm -f " + website.getSimsStagingPath() + "/" + project.getName() + "/*"
         } );
@@ -619,7 +625,7 @@ public class BuildScript {
             try {
                 SshUtils.executeCommand( getJARGenerationCommand( (JavaProject) project, server ), server.getHost(), authenticationInfo );
             }
-            catch( IOException e ) {
+            catch ( IOException e ) {
                 e.printStackTrace();
             }
         }

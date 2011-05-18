@@ -8,6 +8,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.buildtools.BuildLocalProperties;
 import edu.colorado.phet.buildtools.BuildToolsPaths;
+import edu.colorado.phet.common.phetcommon.util.FileUtils;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 
 /**
@@ -62,7 +63,7 @@ public class FlashBuildCommand {
         }
 
         // run the JSFL
-        build( new String[]{sim}, trunk );
+        build( new String[] { sim }, trunk );
         long timeout = 1000 * 60 * 5;
         long startTime = System.currentTimeMillis();
         System.out.print( "Building the SWF, please wait" );
@@ -71,7 +72,7 @@ public class FlashBuildCommand {
                 Thread.sleep( 2000 );
                 System.out.print( '.' );
             }
-            catch( InterruptedException e ) {
+            catch ( InterruptedException e ) {
                 e.printStackTrace();
             }
         }
@@ -80,7 +81,7 @@ public class FlashBuildCommand {
             // found an output file, thus the build (either success or failure) has completed
 
             // outputString should contain any error reports
-            String outputString = edu.colorado.phet.common.phetcommon.util.FileUtils.loadFileAsString( outputFile );
+            String outputString = FileUtils.loadFileAsString( outputFile );
 
             if ( outputString.indexOf( "Error" ) == -1 ) {
                 System.out.println( "Successful build of SWF" );
@@ -108,7 +109,7 @@ public class FlashBuildCommand {
             success = false;
         }
 
-        edu.colorado.phet.common.phetcommon.util.FileUtils.delete( new File( trunk, BUILD_OUTPUT_TEMP ), true );
+        FileUtils.delete( new File( trunk, BUILD_OUTPUT_TEMP ), true );
 
         return success;
     }
@@ -122,7 +123,7 @@ public class FlashBuildCommand {
      * @throws IOException
      */
     public static void build( String[] sims, File trunk ) throws IOException {
-        String template = edu.colorado.phet.common.phetcommon.util.FileUtils.loadFileAsString( new File( trunk, BuildToolsPaths.FLASH_BUILD_TEMPLATE ) );
+        String template = FileUtils.loadFileAsString( new File( trunk, BuildToolsPaths.FLASH_BUILD_TEMPLATE ) );
         String out = template;
 
         String trunkPipe;
@@ -136,19 +137,19 @@ public class FlashBuildCommand {
             trunkPipe = trunk.getAbsolutePath().replace( ':', '|' ).replace( '\\', '/' );
         }
 
-        out = edu.colorado.phet.common.phetcommon.util.FileUtils.replaceAll( out, "@TRUNK@", trunkPipe );
-        out = edu.colorado.phet.common.phetcommon.util.FileUtils.replaceAll( out, "@SIMS@", toSimsString( sims ) );
-        out = edu.colorado.phet.common.phetcommon.util.FileUtils.replaceAll( out, "@CLOSE_IDE@", Boolean.toString( closeIDE ) );
-        out = edu.colorado.phet.common.phetcommon.util.FileUtils.replaceAll( out, "@CLOSE_FLA@", Boolean.toString( closeFLA ) );
+        out = FileUtils.replaceAll( out, "@TRUNK@", trunkPipe );
+        out = FileUtils.replaceAll( out, "@SIMS@", toSimsString( sims ) );
+        out = FileUtils.replaceAll( out, "@CLOSE_IDE@", Boolean.toString( closeIDE ) );
+        out = FileUtils.replaceAll( out, "@CLOSE_FLA@", Boolean.toString( closeFLA ) );
 
         String outputSuffix = BUILD_OUTPUT_TEMP + "/build.jsfl";
         File outputFile = new File( trunk, outputSuffix );
-        edu.colorado.phet.common.phetcommon.util.FileUtils.writeString( outputFile, out );
+        FileUtils.writeString( outputFile, out );
 
 
         Process p;
         if ( useWine ) {
-            p = Runtime.getRuntime().exec( new String[]{
+            p = Runtime.getRuntime().exec( new String[] {
                     "wine",
                     BuildLocalProperties.getInstance().getFlash(),
                     BuildLocalProperties.getInstance().getWineTrunk() + "\\" + outputSuffix.replace( '/', '\\' )
@@ -160,14 +161,14 @@ public class FlashBuildCommand {
                 String flashName = BuildLocalProperties.getInstance().getMacFlashName();
                 String volume = BuildLocalProperties.getInstance().getMacTrunkVolume();
                 String macPath = unixToMacPath( outputFile.getAbsolutePath() );
-                Object[] args = {flashName, volume, macPath};
+                Object[] args = { flashName, volume, macPath };
                 String pattern = "tell application \"{0}\" to open alias \"{1}:{2}\"";
                 String actionScript = MessageFormat.format( pattern, args );
-                p = Runtime.getRuntime().exec( new String[]{"osascript", "-e", actionScript} );
+                p = Runtime.getRuntime().exec( new String[] { "osascript", "-e", actionScript } );
             }
             else {
                 String cmd = BuildLocalProperties.getInstance().getFlash();
-                p = Runtime.getRuntime().exec( new String[]{cmd, outputFile.getAbsolutePath()} );
+                p = Runtime.getRuntime().exec( new String[] { cmd, outputFile.getAbsolutePath() } );
             }
         }
     }

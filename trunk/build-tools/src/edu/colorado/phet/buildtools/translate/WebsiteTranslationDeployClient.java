@@ -15,6 +15,7 @@ import edu.colorado.phet.buildtools.util.ScpTo;
 import edu.colorado.phet.buildtools.util.SshUtils;
 import edu.colorado.phet.common.phetcommon.application.VersionInfoQuery;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
+import edu.colorado.phet.common.phetcommon.util.FileUtils;
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 
 import com.jcraft.jsch.JSchException;
@@ -139,7 +140,7 @@ public class WebsiteTranslationDeployClient {
             try {
                 PhetProject project = translation.getProject( trunk );
                 project.writeMetaXML();
-                edu.colorado.phet.common.phetcommon.util.FileUtils.copyToDir( project.getMetaXMLFile(), dir );
+                FileUtils.copyToDir( project.getMetaXMLFile(), dir );
             }
             catch( IOException e ) {
                 e.printStackTrace();

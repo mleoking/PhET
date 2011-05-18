@@ -7,6 +7,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 
+import edu.colorado.phet.common.phetcommon.util.FileUtils;
+
 /*
 
 Format of a Mac OS X Application Bundle
@@ -77,11 +79,11 @@ public class OSXBundleCommand {
     }
 
     private void copyJar() throws IOException {
-        edu.colorado.phet.common.phetcommon.util.FileUtils.copyTo( jarFile, new File( javaDir, jarFile.getName() ) );
+        FileUtils.copyTo( jarFile, new File( javaDir, jarFile.getName() ) );
     }
 
     private void copyIcon() throws IOException {
-        edu.colorado.phet.common.phetcommon.util.FileUtils.copyTo( iconFile, new File( resourcesDir, iconFile.getName() ) );
+        FileUtils.copyTo( iconFile, new File( resourcesDir, iconFile.getName() ) );
     }
 
     public void execute() throws Exception {
@@ -105,6 +107,6 @@ public class OSXBundleCommand {
 
         File infoPlist = new File( contentsDir, "Info.plist" );
 
-        edu.colorado.phet.common.phetcommon.util.FileUtils.filter( template, infoPlist, new HashMap() );
+        FileUtils.filter( template, infoPlist, new HashMap() );
     }
 }

@@ -14,6 +14,7 @@ import edu.colorado.phet.buildtools.resource.ResourceDeployUtils;
 import edu.colorado.phet.buildtools.resource.WebsiteResourceDeployClient;
 import edu.colorado.phet.common.phetcommon.application.VersionInfoQuery;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
+import edu.colorado.phet.common.phetcommon.util.FileUtils;
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 
 import com.jcraft.jsch.JSchException;
@@ -86,7 +87,7 @@ public class WebsiteCommonTranslationDeployClient {
                 propertiesString += "resourceDestination=" + BuildToolsPaths.FLASH_JAR_LOCALIZATION + "\n";
                 propertiesString += "mode=flash\n";
             }
-            edu.colorado.phet.common.phetcommon.util.FileUtils.writeString( propertiesFile, propertiesString );
+            FileUtils.writeString( propertiesFile, propertiesString );
 
             // initialize the client
 

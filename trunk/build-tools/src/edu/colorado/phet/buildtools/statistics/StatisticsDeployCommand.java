@@ -9,6 +9,7 @@ import edu.colorado.phet.buildtools.*;
 import edu.colorado.phet.buildtools.util.ProcessOutputReader;
 import edu.colorado.phet.buildtools.util.ScpTo;
 import edu.colorado.phet.buildtools.util.SshUtils;
+import edu.colorado.phet.common.phetcommon.util.FileUtils;
 
 import com.jcraft.jsch.JSchException;
 
@@ -120,7 +121,7 @@ public class StatisticsDeployCommand {
      * @throws IOException
      */
     private void writeRevisionFile() throws IOException {
-        edu.colorado.phet.common.phetcommon.util.FileUtils.writeString( new File( getStatisticsDir(), "db-revision.php" ), "<?php $serverVersion = \"" + getSVNVersion() + "\"; ?>\n" );
+        FileUtils.writeString( new File( getStatisticsDir(), "db-revision.php" ), "<?php $serverVersion = \"" + getSVNVersion() + "\"; ?>\n" );
     }
 
     private File getTrunkDir() {

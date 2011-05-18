@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import edu.colorado.phet.buildtools.AntTaskRunner;
+import edu.colorado.phet.common.phetcommon.util.FileUtils;
 
 /**
  * This command runs the ProGuard task given the ProGuard configuration and an
@@ -98,7 +99,7 @@ public class ProguardCommand {
                 bufferedWriter.write( "-dontshrink" + newline );
             }
 
-            String text = edu.colorado.phet.common.phetcommon.util.FileUtils.loadFileAsString( config.getProguardTemplate() );
+            String text = FileUtils.loadFileAsString( config.getProguardTemplate() );
             bufferedWriter.write( text );
 
         }

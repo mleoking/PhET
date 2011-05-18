@@ -20,6 +20,7 @@ import edu.colorado.phet.buildtools.util.BuildPropertiesFile;
 import edu.colorado.phet.buildtools.util.PhetBuildUtils;
 import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.util.FileUtils;
 import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 
 public abstract class JavaProject extends PhetProject {
@@ -113,7 +114,7 @@ public abstract class JavaProject extends PhetProject {
         System.out.println( "Launching task, output will be printed after finish." );
         new MyAntTaskRunner().runTask( java );
         try {
-            String text = edu.colorado.phet.common.phetcommon.util.FileUtils.loadFileAsString( file );
+            String text = FileUtils.loadFileAsString( file );
             System.out.println( "Process finished:\n" + text );
         }
         catch ( IOException e ) {
