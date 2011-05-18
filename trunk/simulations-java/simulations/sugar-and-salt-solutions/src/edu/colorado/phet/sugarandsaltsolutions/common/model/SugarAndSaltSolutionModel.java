@@ -105,9 +105,14 @@ public class SugarAndSaltSolutionModel implements ResetModel {
     //Total volume of the water plus any solid precipitate submerged under the water (and hence pushing it up)
     public final CompositeDoubleProperty displacedWaterVolume = water.volume.plus( salt.solidVolume, sugar.solidVolume );
 
+    //Keep track of how many moles of crystal are in the air, since we need to prevent user from adding more than 10 moles to the system
+    //This shuts off salt/sugar when there is salt/sugar in the air that could get added to the solution
+    private final CompositeDoubleProperty airborneSaltMoles = new AirborneCrystalMoles( saltList );
+    private final CompositeDoubleProperty airborneSugarMoles = new AirborneCrystalMoles( sugarList );
+
     //Properties to indicate if the user is allowed to add more of the solute.  If not allowed the dispenser is shown as empty.
-    private ObservableProperty<Boolean> moreSaltAllowed = salt.moles.lessThan( 10 );
-    private ObservableProperty<Boolean> moreSugarAllowed = sugar.moles.lessThan( 10 );
+    private ObservableProperty<Boolean> moreSaltAllowed = salt.moles.plus( airborneSaltMoles ).lessThan( 10 );
+    private ObservableProperty<Boolean> moreSugarAllowed = sugar.moles.plus( airborneSugarMoles ).lessThan( 10 );
 
     //Convenience composite properties for determining whether the beaker is full or empty so we can shut off the faucets when necessary
     public final ObservableProperty<Boolean> beakerFull = displacedWaterVolume.greaterThanOrEqualTo( beaker.getMaxFluidVolume() );
@@ -326,6 +331,11 @@ public class SugarAndSaltSolutionModel implements ResetModel {
         for ( MacroCrystal crystal : hitTheWater ) {
             crystalAbsorbed( crystal );
         }
+
+        //Update the properties representing how many crystals are in the air, to make sure we stop pouring out crystals if we have reached the limit
+        // (even if poured out crystals didn't get dissolved yet)
+        airborneSaltMoles.notifyIfChanged();
+        airborneSugarMoles.notifyIfChanged();
     }
 
     //Remove the specified crystals.  Note that the toRemove
