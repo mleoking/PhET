@@ -2,11 +2,9 @@
 
 package edu.colorado.phet.balancingchemicalequations.model;
 
-import edu.colorado.phet.chemistry.model.Atom;
-import edu.colorado.phet.chemistry.model.Element;
-
 import java.util.ArrayList;
 
+import edu.colorado.phet.chemistry.model.Atom;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
@@ -14,7 +12,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  * Base class for all chemical equations.
  * A chemical equation has 2 sets of terms, reactants and products.
  * During the chemical reaction represented by the equation, reactants are transformed into products.
- * <p>
+ * <p/>
  * An equation is "balanced" when each term's user coefficient is an integer multiple N of
  * the balanced coefficient, N is the same for all terms in the equation, and N >= 1.
  * An equation is "balanced and simplified" when it is balanced and N=1.
@@ -29,6 +27,7 @@ public abstract class Equation {
 
     /**
      * Constructor.
+     *
      * @param reactants
      * @param products
      */
@@ -98,6 +97,7 @@ public abstract class Equation {
      * Gets the display name for the equation.
      * By default, this is an HTML representation of the equation formula.
      * Subclasses may override this to provide a more user-friendly name, eg "make water".
+     *
      * @return
      */
     public String getName() {
@@ -106,6 +106,7 @@ public abstract class Equation {
 
     /**
      * Gets the reactants, the terms on the left side of the equation.
+     *
      * @return
      */
     public EquationTerm[] getReactants() {
@@ -114,6 +115,7 @@ public abstract class Equation {
 
     /**
      * Gets the products, the terms on the left side of the equation.
+     *
      * @return
      */
     public EquationTerm[] getProducts() {
@@ -147,7 +149,7 @@ public abstract class Equation {
 
     /**
      * Returns a count of each type of atom, based on the user coefficients.
-     * <p>
+     * <p/>
      * The order of atoms will be the same order that they are encountered in the reactant terms.
      * For example, if the left-hand side of the equation is CH4 + O2, then the order of atoms
      * will be [C,H,O].
@@ -174,7 +176,7 @@ public abstract class Equation {
      * @param terms
      * @param isReactants true if the terms are the reactants, false if they are the products
      */
-    private static void setAtomCounts(  ArrayList<AtomCount> atomCounts, EquationTerm[] terms, boolean isReactants ) {
+    private static void setAtomCounts( ArrayList<AtomCount> atomCounts, EquationTerm[] terms, boolean isReactants ) {
         for ( EquationTerm term : terms ) {
             for ( Atom atom : term.getMolecule().getAtoms() ) {
                 boolean found = false;
@@ -231,6 +233,7 @@ public abstract class Equation {
     /**
      * Does this equation contain at least one "big" molecule?
      * This affects degree of difficulty in the Game.
+     *
      * @return
      */
     public boolean hasBigMolecule() {
@@ -257,7 +260,7 @@ public abstract class Equation {
             b.append( reactants[i].getBalancedCoefficient() );
             b.append( " " );
             b.append( reactants[i].getMolecule().getSymbol() );
-            if ( i <  reactants.length - 1 ) {
+            if ( i < reactants.length - 1 ) {
                 b.append( " + " );
             }
         }
@@ -266,7 +269,7 @@ public abstract class Equation {
             b.append( products[i].getBalancedCoefficient() );
             b.append( " " );
             b.append( products[i].getMolecule().getSymbol() );
-            if ( i <  products.length - 1 ) {
+            if ( i < products.length - 1 ) {
                 b.append( " + " );
             }
         }
