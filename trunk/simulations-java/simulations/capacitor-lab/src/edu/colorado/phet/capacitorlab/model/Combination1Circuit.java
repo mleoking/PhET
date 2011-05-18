@@ -17,11 +17,11 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  * <code>
  * |-----|------|
  * |     |      |
- * |    c3      |
- * |     |      |
- * B     |      c2
- * |     |      |
  * |     c1     |
+ * |     |      |
+ * B     |      c3
+ * |     |      |
+ * |     c2     |
  * |     |      |
  * |-----|------|
  * </code>
