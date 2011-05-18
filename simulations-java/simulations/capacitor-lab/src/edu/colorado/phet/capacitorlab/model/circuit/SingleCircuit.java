@@ -176,7 +176,7 @@ public class SingleCircuit extends AbstractCircuit {
     // Plate voltage (V)
     //----------------------------------------------------------------------------------
 
-    public double getTotalVoltage() {
+    @Override public double getTotalVoltage() {
         if ( isBatteryConnected() ) {
             return super.getTotalVoltage();
         }
