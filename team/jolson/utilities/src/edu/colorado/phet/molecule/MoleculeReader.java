@@ -27,6 +27,7 @@ public class MoleculeReader {
 
     private boolean atStartOfMolecule = true;
     private int cid = 0;
+    private boolean exclusionOverride = false; // allow certain CIDs to be included no matter what filtering is above
 
     // flags
     private boolean ok = true;
@@ -51,6 +52,18 @@ public class MoleculeReader {
         } );
     }
 
+    private boolean isOk() {
+        return ok || exclusionOverride;
+    }
+
+    private void resetMarkerState() {
+        atStartOfMolecule = true;
+        isotopeMarker = false;
+        heavyMarker = false;
+        componentMarker = false;
+        chargeMarker = false;
+    }
+
     public MoleculeFile nextMoleculeFile() {
         try {
             // implicitly loop through all possible files if necessary to find the next molecule file
@@ -73,7 +86,7 @@ public class MoleculeReader {
                     if ( atStartOfMolecule ) {
                         atStartOfMolecule = false;
                         cid = Integer.parseInt( line );
-//                System.out.println( "Reading: #" + cid );
+                        exclusionOverride = MoleculeSDFCombinedParser.EXCLUSION_OVERRIDE_CIDS.contains( cid );
                     }
 
                     // every molecule in the archive ends with this
@@ -81,15 +94,12 @@ public class MoleculeReader {
                         // separator
 
                         // reset state so that we can start reading again without problems
-                        atStartOfMolecule = true;
-                        isotopeMarker = false;
-                        heavyMarker = false;
-                        componentMarker = false;
-                        chargeMarker = false;
+                        resetMarkerState();
 
-                        if ( ok ) {
+                        if ( isOk() ) {
                             debug( cid, "OK" );
                             countInFile++;
+                            exclusionOverride = false;
                             StringBuilder builder = new StringBuilder();
                             for ( String allLine : lines ) {
                                 builder.append( allLine ).append( "\n" );
@@ -104,7 +114,7 @@ public class MoleculeReader {
                         }
                     }
                     else {
-                        if ( ok ) {
+                        if ( isOk() ) {
                             lines.add( line );
                             if ( isotopeMarker ) {
                                 isotopeMarker = false;
@@ -188,6 +198,7 @@ public class MoleculeReader {
             heavyMarker = false;
             componentMarker = false;
             chargeMarker = false;
+            exclusionOverride = false;
         }
         else {
             // we reached the end
