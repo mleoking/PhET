@@ -16,6 +16,7 @@ import edu.colorado.phet.common.phetcommon.model.event.Notifier;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
+import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.CompositeDoubleProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -71,20 +72,23 @@ public class SugarAndSaltSolutionModel implements ResetModel {
     public final ArrayList<MacroSalt> saltList = new ArrayList<MacroSalt>();//The salt crystals that haven't been dissolved
     public final Notifier<MacroSalt> saltAdded = new Notifier<MacroSalt>();//Listeners for when salt crystals are added
 
-    private final ImmutableVector2D gravity = new ImmutableVector2D( 0, -9.8 );//Force due to gravity near the surface of the earth
+    //Force due to gravity near the surface of the earth
+    private final ImmutableVector2D gravity = new ImmutableVector2D( 0, -9.8 );
 
-    private static final double FLOW_SCALE = 0.0005;//Flow controls vary between 0 and 1, this scales it down to a good model value
-    public final Property<DispenserType> dispenserType = new Property<DispenserType>( SALT );//Which dispenser the user has selected
+    //Flow controls vary between 0 and 1, this scales it down to a good model value
+    private static final double FLOW_SCALE = 0.0005;
+
+    //Which dispenser the user has selected
+    public final Property<DispenserType> dispenserType = new Property<DispenserType>( SALT );
 
     //Listeners which are notified when the sim is reset.
     private ArrayList<VoidFunction0> resetListeners = new ArrayList<VoidFunction0>();
 
-    //Convenience composite properties for determining whether the beaker is full or empty so we can shut off the faucets when necessary
-    public final ObservableProperty<Boolean> beakerFull = water.displacedVolume.greaterThanOrEqualTo( beaker.getMaxFluidVolume() );
-
+    //Model for the conductivity tester
     public final ConductivityTester conductivityTester = new ConductivityTester();
 
-    public final Property<Boolean> showConcentrationValues = new Property<Boolean>( false );//True if the values should be shown
+    //True if the values should be shown in the user interface
+    public final Property<Boolean> showConcentrationValues = new Property<Boolean>( false );
 
     //Saturation points for salt and sugar assume 25 degrees C
     private static final double saltSaturationPoint = 6.14 * 1000;//6.14 moles per liter, converted to SI
@@ -98,9 +102,15 @@ public class SugarAndSaltSolutionModel implements ResetModel {
     public final ObservableProperty<Boolean> anySolutes = salt.moles.greaterThan( 0 ).or( sugar.moles.greaterThan( 0 ) );
     public final Property<Boolean> showConcentrationBarChart = new Property<Boolean>( true );
 
-    public final ObservableProperty<Double> displacedWaterVolume = water.volume.plus( salt.solidVolume, sugar.solidVolume );
+    //Total volume of the water plus any solid precipitate submerged under the water (and hence pushing it up)
+    public final CompositeDoubleProperty displacedWaterVolume = water.volume.plus( salt.solidVolume, sugar.solidVolume );
+
+    //Properties to indicate if the user is allowed to add more of the solute.  If not allowed the dispenser is shown as empty.
     private ObservableProperty<Boolean> moreSaltAllowed = salt.moles.lessThan( 10 );
     private ObservableProperty<Boolean> moreSugarAllowed = sugar.moles.lessThan( 10 );
+
+    //Convenience composite properties for determining whether the beaker is full or empty so we can shut off the faucets when necessary
+    public final ObservableProperty<Boolean> beakerFull = displacedWaterVolume.greaterThanOrEqualTo( beaker.getMaxFluidVolume() );
 
     //When a crystal is absorbed by the water, increase the number of moles in solution
     protected void crystalAbsorbed( MacroCrystal crystal ) {
@@ -175,7 +185,7 @@ public class SugarAndSaltSolutionModel implements ResetModel {
         } );
 
         //Update the conductivity tester when the water level changes, since it might move up to touch a probe (or move out from underneath a submerged probe)
-        water.displacedVolume.addObserver( new SimpleObserver() {
+        displacedWaterVolume.addObserver( new SimpleObserver() {
             public void update() {
                 updateConductivityTesterBrightness();
             }
@@ -203,7 +213,7 @@ public class SugarAndSaltSolutionModel implements ResetModel {
     protected void updateConductivityTesterBrightness() {
 
         //Check for a collision with the probe, using the full region of each probe (so if any part intersects, there is still an electrical connection).
-        Rectangle2D waterBounds = water.getShape().getBounds2D();
+        Rectangle2D waterBounds = water.getShape( displacedWaterVolume.get() ).getBounds2D();
         boolean bothProbesTouching = waterBounds.intersects( conductivityTester.getPositiveProbeRegion().toRectangle2D() ) &&
                                      waterBounds.intersects( conductivityTester.getNegativeProbeRegion().toRectangle2D() );
 
@@ -260,7 +270,7 @@ public class SugarAndSaltSolutionModel implements ResetModel {
         newVolume = water.volume.get() + inputWater - drainedWater - evaporatedWater;
 
         //Have to use the new total displaced volume for determining whether the beaker is full or empty
-        double newDisplacedVolume = newVolume + water.getSolidSoluteDisplacementVolume();
+        double newDisplacedVolume = newVolume + displacedWaterVolume.get();
 
         //Turn off the input flow if the beaker would overflow
         if ( newDisplacedVolume >= beaker.getMaxFluidVolume() ) {
@@ -305,7 +315,7 @@ public class SugarAndSaltSolutionModel implements ResetModel {
 
             //If the salt hits the water during any point of its initial -> final trajectory, absorb it.
             //This is necessary because if the water layer is too thin, the crystal could have jumped over it completely
-            if ( new Line2D.Double( initialLocation.toPoint2D(), crystal.position.get().toPoint2D() ).intersects( water.getShape().getBounds2D() ) ) {
+            if ( new Line2D.Double( initialLocation.toPoint2D(), crystal.position.get().toPoint2D() ).intersects( water.getShape( displacedWaterVolume.get() ).getBounds2D() ) ) {
                 hitTheWater.add( crystal );
             }
         }

@@ -133,7 +133,7 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements ToolboxC
                                   new Point2D.Double( 0, 10 ) ) );
 
         //Add a faucet that drains the beaker
-        addChild( new FaucetNode( transform, model.outputFlowRate, new None<Double>(), model.water.displacedVolume.greaterThan( MIN_DRAIN_VOLUME ), new Point2D.Double( 0, 0 ) ) {{
+        addChild( new FaucetNode( transform, model.outputFlowRate, new None<Double>(), model.displacedWaterVolume.greaterThan( MIN_DRAIN_VOLUME ), new Point2D.Double( 0, 0 ) ) {{
             Point2D beakerBottomRight = model.beaker.getOutputFaucetAttachmentPoint();
             Point2D beakerBottomRightView = transform.modelToView( beakerBottomRight );
             //Move it up by the height of the faucet image, otherwise it sticks out underneath the beaker
