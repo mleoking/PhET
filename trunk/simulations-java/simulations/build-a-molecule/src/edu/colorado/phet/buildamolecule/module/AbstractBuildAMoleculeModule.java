@@ -65,7 +65,7 @@ public abstract class AbstractBuildAMoleculeModule extends PiccoloModule {
         List<Kit> kits = new LinkedList<Kit>();
         List<CollectionBox> boxes = new LinkedList<CollectionBox>();
 
-        List<MoleculeStructure> molecules = new LinkedList<MoleculeStructure>(); // store all the molecules that will need to be created
+        List<MoleculeStructure<Atom>> molecules = new LinkedList<MoleculeStructure<Atom>>(); // store all the molecules that will need to be created
 
         for ( int i = 0; i < numBoxes; i++ ) {
             CompleteMolecule molecule = pickRandomMoleculeNotIn( usedMolecules );
@@ -74,7 +74,7 @@ public abstract class AbstractBuildAMoleculeModule extends PiccoloModule {
             int numberInBox = allowMultipleMolecules ? random.nextInt( MAX_IN_BOX ) + 1 : 1;
 
             // restrict the number of carbon that we can have
-            int carbonCount = molecule.getMoleculeStructure().getHistogram().getQuantity( Element.C );
+            int carbonCount = molecule.getStructure().getHistogram().getQuantity( Element.C );
             if ( carbonCount > 1 ) {
                 numberInBox = Math.min( 2, numberInBox );
             }
@@ -84,7 +84,7 @@ public abstract class AbstractBuildAMoleculeModule extends PiccoloModule {
 
             // add in that many molecules
             for ( int j = 0; j < box.getCapacity(); j++ ) {
-                molecules.add( molecule.getMoleculeStructure().getCopy() );
+                molecules.add( molecule.getStructure().getCopy() );
             }
         }
 
@@ -96,7 +96,7 @@ public abstract class AbstractBuildAMoleculeModule extends PiccoloModule {
             List<Bucket> buckets = new LinkedList<Bucket>();
 
             // pull off the 1st molecule
-            MoleculeStructure molecule = molecules.get( 0 );
+            MoleculeStructure<Atom> molecule = molecules.get( 0 );
 
             // get the set of atoms that we need
             Set<String> atomSymbols = new HashSet<String>(); // TODO: use set of elements instead
@@ -107,7 +107,7 @@ public abstract class AbstractBuildAMoleculeModule extends PiccoloModule {
             // TODO: potentially add another type of atom?
 
             int equivalentMoleculesRemaining = 0;
-            for ( MoleculeStructure moleculeStructure : molecules ) {
+            for ( MoleculeStructure<Atom> moleculeStructure : molecules ) {
                 if ( moleculeStructure.getHillSystemFormulaFragment().equals( molecule.getHillSystemFormulaFragment() ) ) {
                     equivalentMoleculesRemaining++;
                 }

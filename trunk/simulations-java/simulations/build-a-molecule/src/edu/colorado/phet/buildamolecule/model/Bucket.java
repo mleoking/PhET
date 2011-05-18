@@ -16,7 +16,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 /**
  * A bucket for atoms
  */
-public class Bucket extends SphereBucket<AtomModel> {
+public class Bucket extends SphereBucket<Atom2D> {
     private final Element element;
 
     public Bucket( IClock clock, Element element, int quantity ) {
@@ -38,20 +38,20 @@ public class Bucket extends SphereBucket<AtomModel> {
         this.element = element;
 
         for ( int i = 0; i < quantity; i++ ) {
-            super.addParticleFirstOpen( new AtomModel( element, clock ), true );
+            super.addParticleFirstOpen( new Atom2D( element, clock ), true );
         }
     }
 
     @Override public void setPosition( Point2D point ) {
         // when we move the bucket, we must also move our contained atoms
         ImmutableVector2D delta = new ImmutableVector2D( point ).minus( new ImmutableVector2D( getPosition() ) );
-        for ( AtomModel atom : getAtoms() ) {
+        for ( Atom2D atom : getAtoms() ) {
             atom.setPositionAndDestination( atom.getPosition().getAddedInstance( delta ) );
         }
         super.setPosition( point );
     }
 
-    public List<AtomModel> getAtoms() {
+    public List<Atom2D> getAtoms() {
         return getParticleList();
     }
 
@@ -60,7 +60,7 @@ public class Bucket extends SphereBucket<AtomModel> {
      *
      * @param atom The atom
      */
-    public void placeAtom( final AtomModel atom ) {
+    public void placeAtom( final Atom2D atom ) {
         if ( containsParticle( atom ) ) {
             removeParticle( atom );
         }

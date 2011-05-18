@@ -44,30 +44,25 @@ public class KitCollectionModel {
         }
         kits.add( kit );
 
-        for ( AtomModel atomModel : kit.getAtoms() ) {
-            atomModel.addListener( new AtomModel.Adapter() {
+        for ( Atom2D atomModel : kit.getAtoms() ) {
+            atomModel.addListener( new Atom2D.Adapter() {
                 @Override
-                public void grabbedByUser( AtomModel atom ) {
-                    kit.atomGrabbed( atom );
-                }
-
-                @Override
-                public void droppedByUser( AtomModel atom ) {
+                public void droppedByUser( Atom2D atom ) {
                     boolean wasDroppedInCollectionBox = false;
 
                     // don't drop an atom from the kit to the collection box directly
                     if ( kit.isAtomInPlay( atom ) ) {
-                        MoleculeStructure moleculeStructure = kit.getMoleculeStructure( atom );
+                        Molecule molecule = kit.getMolecule( atom );
 
                         // check to see if we are trying to drop it in a collection box.
                         for ( CollectionBox box : boxes ) {
 
                             // permissive, so that if the box bounds and molecule bounds intersect, we call it a "hit"
-                            if ( box.getDropBounds().intersects( kit.getMoleculePositionBounds( moleculeStructure ) ) ) {
+                            if ( box.getDropBounds().intersects( molecule.getPositionBounds() ) ) {
 
                                 // if our box takes this type of molecule
-                                if ( box.willAllowMoleculeDrop( moleculeStructure ) ) {
-                                    kit.moleculePutInCollectionBox( moleculeStructure, box );
+                                if ( box.willAllowMoleculeDrop( molecule ) ) {
+                                    kit.moleculePutInCollectionBox( molecule, box );
                                     wasDroppedInCollectionBox = true;
                                     break;
                                 }
@@ -84,19 +79,19 @@ public class KitCollectionModel {
 
         kit.addMoleculeListener( new Kit.MoleculeAdapter() {
             @Override
-            public void addedMolecule( MoleculeStructure moleculeStructure ) {
+            public void addedMolecule( Molecule molecule ) {
                 for ( CollectionBox box : getCollectionBoxes() ) {
-                    if ( box.willAllowMoleculeDrop( moleculeStructure ) ) {
-                        box.onAcceptedMoleculeCreation( moleculeStructure );
+                    if ( box.willAllowMoleculeDrop( molecule ) ) {
+                        box.onAcceptedMoleculeCreation( molecule );
                     }
                 }
             }
         } );
     }
 
-    public CollectionBox getFirstTargetBox( MoleculeStructure structure ) {
+    public CollectionBox getFirstTargetBox( Molecule molecule ) {
         for ( CollectionBox box : boxes ) {
-            if ( box.willAllowMoleculeDrop( structure ) ) {
+            if ( box.willAllowMoleculeDrop( molecule ) ) {
                 return box;
             }
         }
@@ -160,13 +155,13 @@ public class KitCollectionModel {
         return getCurrentKitIndex() - 1 >= 0;
     }
 
-    public void nextKit() {
+    public void goToNextKit() {
         if ( hasNextKit() ) {
             currentKit.set( kits.get( getCurrentKitIndex() + 1 ) );
         }
     }
 
-    public void previousKit() {
+    public void goToPreviousKit() {
         if ( hasPreviousKit() ) {
             currentKit.set( kits.get( getCurrentKitIndex() - 1 ) );
         }

@@ -231,14 +231,14 @@ public class MoleculeSDFCombinedParser {
 
         for ( final String aString : molecules.toArray( new String[molecules.size()] ) ) {
             final CompleteMolecule completeMolecule = new CompleteMolecule( aString.trim() );
-            if ( completeMolecule.getMoleculeStructure().hasLoopsOrIsDisconnected() ) {
+            if ( completeMolecule.getStructure().hasLoopsOrIsDisconnected() ) {
                 // bad molecule, remove it from consideration!
                 molecules.remove( aString );
                 System.out.println( "ignoring molecule with loops or disconnected parts: " + completeMolecule.getCommonName() );
             }
             else {
                 // good molecule. store it in the map so we can scan for duplicates
-                String hillFormula = completeMolecule.getMoleculeStructure().getHillSystemFormulaFragment();
+                String hillFormula = completeMolecule.getStructure().getHillSystemFormulaFragment();
                 if ( formulaMap.containsKey( hillFormula ) ) {
                     formulaMap.get( hillFormula ).add( aString );
                 }
@@ -266,7 +266,7 @@ public class MoleculeSDFCombinedParser {
                         CompleteMolecule bMol = new CompleteMolecule( bString.trim() );
 
                         // if they are equivalent, axe the one with the longer name
-                        if ( aMol.getMoleculeStructure().isEquivalent( bMol.getMoleculeStructure() ) ) {
+                        if ( aMol.getStructure().isEquivalent( bMol.getStructure() ) ) {
                             if ( bMol.getCommonName().length() < aMol.getCommonName().length() ) {
                                 molecules.remove( aString );
                                 System.out.println( "tossing duplicate " + aMol.getCommonName() );

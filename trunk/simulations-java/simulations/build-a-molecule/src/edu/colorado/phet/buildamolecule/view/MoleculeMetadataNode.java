@@ -7,13 +7,12 @@ import java.util.Map;
 
 import edu.colorado.phet.buildamolecule.BuildAMoleculeConstants;
 import edu.colorado.phet.buildamolecule.BuildAMoleculeResources;
-import edu.colorado.phet.buildamolecule.model.AtomModel;
+import edu.colorado.phet.buildamolecule.model.Atom2D;
 import edu.colorado.phet.buildamolecule.model.CompleteMolecule;
 import edu.colorado.phet.buildamolecule.model.Kit;
-import edu.colorado.phet.buildamolecule.model.MoleculeStructure;
+import edu.colorado.phet.buildamolecule.model.Molecule;
 import edu.colorado.phet.buildamolecule.view.view3d.JmolDialogProperty;
 import edu.colorado.phet.buildamolecule.view.view3d.ShowMolecule3DButtonNode;
-import edu.colorado.phet.chemistry.model.Atom;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -30,26 +29,26 @@ import edu.umd.cs.piccolo.util.PBounds;
  */
 public class MoleculeMetadataNode extends PNode {
     private Kit kit;
-    private MoleculeStructure moleculeStructure;
+    private Molecule molecule;
     private ModelViewTransform mvt;
     private final JmolDialogProperty dialog = new JmolDialogProperty();
 
-    private Map<AtomModel, SimpleObserver> observerMap = new HashMap<AtomModel, SimpleObserver>();
+    private Map<Atom2D, SimpleObserver> observerMap = new HashMap<Atom2D, SimpleObserver>();
 
     private static final double PADDING_BETWEEN_NODE_AND_ATOM = 5;
 
-    public MoleculeMetadataNode( final Frame parentFrame, final Kit kit, final MoleculeStructure moleculeStructure, ModelViewTransform mvt ) {
+    public MoleculeMetadataNode( final Frame parentFrame, final Kit kit, final Molecule molecule, ModelViewTransform mvt ) {
         // SwingLayoutNode was doing some funky stuff (and wasn't centering), so we're rolling back to manual positioning
         this.kit = kit;
-        this.moleculeStructure = moleculeStructure;
+        this.molecule = molecule;
         this.mvt = mvt;
 
-        if ( moleculeStructure.getAtoms().size() < 2 ) {
+        if ( molecule.getAtoms().size() < 2 ) {
             // we don't need anything at all if it is not a "molecule"
             return;
         }
 
-        final CompleteMolecule completeMolecule = moleculeStructure.getMatchingCompleteMolecule();
+        final CompleteMolecule completeMolecule = molecule.getMatchingCompleteMolecule();
 
         final Property<Double> currentX = new Property<Double>( 0.0 );
 
@@ -79,17 +78,16 @@ public class MoleculeMetadataNode extends PNode {
             addInputEventListener( new CursorHandler() {
                 @Override
                 public void mouseClicked( PInputEvent event ) {
-                    kit.breakMolecule( moleculeStructure );
+                    kit.breakMolecule( molecule );
                 }
             } );
             setOffset( currentX.get(), 0 );
         }} );
 
-        for ( Atom atom : moleculeStructure.getAtoms() ) {
-            final AtomModel atomModel = kit.getAtomModel( atom );
-            atomModel.addPositionListener( new SimpleObserver() {
+        for ( final Atom2D atom : molecule.getAtoms() ) {
+            atom.addPositionListener( new SimpleObserver() {
                 {
-                    observerMap.put( atomModel, this );
+                    observerMap.put( atom, this );
                 }
 
                 public void update() {
@@ -111,14 +109,14 @@ public class MoleculeMetadataNode extends PNode {
     }
 
     public void destruct() {
-        for ( AtomModel atomModel : observerMap.keySet() ) {
+        for ( Atom2D atomModel : observerMap.keySet() ) {
             atomModel.removePositionListener( observerMap.get( atomModel ) );
         }
         dialog.hideDialogIfShown();
     }
 
     public void updatePosition() {
-        PBounds modelPositionBounds = kit.getMoleculePositionBounds( moleculeStructure );
+        PBounds modelPositionBounds = molecule.getPositionBounds();
         Rectangle2D moleculeViewBounds = mvt.modelToView( modelPositionBounds ).getBounds2D();
 
         setOffset( moleculeViewBounds.getCenterX() - getFullBounds().getWidth() / 2, // horizontally center

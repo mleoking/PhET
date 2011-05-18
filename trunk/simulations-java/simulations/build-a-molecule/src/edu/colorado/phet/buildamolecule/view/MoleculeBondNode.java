@@ -5,10 +5,10 @@ import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 
-import edu.colorado.phet.buildamolecule.model.AtomModel;
+import edu.colorado.phet.buildamolecule.model.Atom2D;
+import edu.colorado.phet.buildamolecule.model.Bond;
 import edu.colorado.phet.buildamolecule.model.Kit;
 import edu.colorado.phet.buildamolecule.model.LewisDotModel;
-import edu.colorado.phet.buildamolecule.model.MoleculeStructure;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -32,13 +32,13 @@ public class MoleculeBondNode extends PNode {
     private RichSimpleObserver positionObserver;
 
     // our two atoms
-    private AtomModel a;
-    private AtomModel b;
+    private Atom2D a;
+    private Atom2D b;
 
-    public MoleculeBondNode( MoleculeStructure.Bond bond, final Kit kit, final BuildAMoleculeCanvas canvas, final ModelViewTransform mvt ) {
+    public MoleculeBondNode( final Bond<Atom2D> bond, final Kit kit, final BuildAMoleculeCanvas canvas, final ModelViewTransform mvt ) {
         this.canvas = canvas;
-        a = kit.getAtomModel( bond.a );
-        b = kit.getAtomModel( bond.b );
+        a = bond.a;
+        b = bond.b;
 
         // use the lewis dot model to get our bond direction
         LewisDotModel.Direction bondDirection = kit.getBondDirection( a, b );

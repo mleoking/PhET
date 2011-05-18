@@ -9,7 +9,7 @@ import java.util.List;
 import edu.colorado.phet.buildamolecule.BuildAMoleculeConstants;
 import edu.colorado.phet.buildamolecule.model.CollectionBox;
 import edu.colorado.phet.buildamolecule.model.CollectionBox.Adapter;
-import edu.colorado.phet.buildamolecule.model.MoleculeStructure;
+import edu.colorado.phet.buildamolecule.model.Molecule;
 import edu.colorado.phet.buildamolecule.view.BuildAMoleculeCanvas;
 import edu.colorado.phet.buildamolecule.view.view3d.JmolDialogProperty;
 import edu.colorado.phet.buildamolecule.view.view3d.ShowMolecule3DButtonNode;
@@ -37,7 +37,7 @@ public class CollectionBoxNode extends SwingLayoutNode {
     private final JmolDialogProperty dialog = new JmolDialogProperty();
 
     // stores nodes for each molecule
-    private final Map<MoleculeStructure, PNode> moleculeNodeMap = new HashMap<MoleculeStructure, PNode>();
+    private final Map<Molecule, PNode> moleculeNodeMap = new HashMap<Molecule, PNode>();
 
     private static final double MOLECULE_PADDING = 5;
     private static final double BLACK_BOX_PADDING_FOR_3D = 10;
@@ -99,11 +99,11 @@ public class CollectionBoxNode extends SwingLayoutNode {
                         setVisible( box.quantity.get() > 0 );
                     }
 
-                    @Override public void onAddedMolecule( MoleculeStructure moleculeStructure ) {
+                    @Override public void onAddedMolecule( Molecule molecule ) {
                         updateVisibility();
                     }
 
-                    @Override public void onRemovedMolecule( MoleculeStructure moleculeStructure ) {
+                    @Override public void onRemovedMolecule( Molecule molecule ) {
                         updateVisibility();
                     }
                 } );
@@ -122,15 +122,15 @@ public class CollectionBoxNode extends SwingLayoutNode {
         updateBoxGraphics();
 
         box.addListener( new CollectionBox.Listener() {
-            public void onAddedMolecule( MoleculeStructure moleculeStructure ) {
-                addMolecule( moleculeStructure );
+            public void onAddedMolecule( Molecule molecule ) {
+                addMolecule( molecule );
             }
 
-            public void onRemovedMolecule( MoleculeStructure moleculeStructure ) {
-                removeMolecule( moleculeStructure );
+            public void onRemovedMolecule( Molecule molecule ) {
+                removeMolecule( molecule );
             }
 
-            public void onAcceptedMoleculeCreation( MoleculeStructure moleculeStructure ) {
+            public void onAcceptedMoleculeCreation( Molecule molecule ) {
                 blink();
             }
         } );
@@ -148,29 +148,29 @@ public class CollectionBoxNode extends SwingLayoutNode {
         headerConstraints.gridy += 1;
     }
 
-    private void addMolecule( MoleculeStructure moleculeStructure ) {
+    private void addMolecule( Molecule molecule ) {
         cancelBlinksInProgress();
         updateBoxGraphics();
 
-        PNode pseudo3DNode = moleculeStructure.getMatchingCompleteMolecule().createPseudo3DNode();
+        PNode pseudo3DNode = molecule.getMatchingCompleteMolecule().createPseudo3DNode();
         //pseudo3DNode.setOffset( moleculeNodes.size() * ( pseudo3DNode.getFullBounds().getWidth() + MOLECULE_PADDING ) - pseudo3DNode.getFullBounds().getX(), 0 ); // add it to the right
         moleculeLayer.addChild( pseudo3DNode );
         moleculeNodes.add( pseudo3DNode );
-        moleculeNodeMap.put( moleculeStructure, pseudo3DNode );
+        moleculeNodeMap.put( molecule, pseudo3DNode );
 
         updateMoleculeLayout();
 
         centerMoleculesInBlackBox();
     }
 
-    private void removeMolecule( MoleculeStructure moleculeStructure ) {
+    private void removeMolecule( Molecule molecule ) {
         cancelBlinksInProgress();
         updateBoxGraphics();
 
-        PNode lastMoleculeNode = moleculeNodeMap.get( moleculeStructure );
+        PNode lastMoleculeNode = moleculeNodeMap.get( molecule );
         moleculeLayer.removeChild( lastMoleculeNode );
         moleculeNodes.remove( lastMoleculeNode );
-        moleculeNodeMap.remove( moleculeStructure );
+        moleculeNodeMap.remove( molecule );
 
         updateMoleculeLayout();
 
@@ -255,7 +255,7 @@ public class CollectionBoxNode extends SwingLayoutNode {
     }
 
     /**
-     * Excludes the area in the black box where the 3D button needs to go
+     * @return Molecule area. Excludes the area in the black box where the 3D button needs to go
      */
     private PBounds getMoleculeAreaInBlackBox() {
         PBounds blackBoxFullBounds = blackBox.getFullBounds();

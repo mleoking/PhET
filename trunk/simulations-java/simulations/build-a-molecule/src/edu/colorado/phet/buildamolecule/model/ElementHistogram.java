@@ -36,7 +36,7 @@ public class ElementHistogram {
      *
      * @param molecule A molecule
      */
-    public ElementHistogram( MoleculeStructure molecule ) {
+    public ElementHistogram( MoleculeStructure<? extends Atom> molecule ) {
         add( molecule );
     }
 
@@ -53,7 +53,7 @@ public class ElementHistogram {
      *
      * @param molecule A molecule
      */
-    public void add( MoleculeStructure molecule ) {
+    public <T extends Atom> void add( MoleculeStructure<T> molecule ) {
         for ( Atom atom : molecule.getAtoms() ) {
             add( atom.getElement() );
         }

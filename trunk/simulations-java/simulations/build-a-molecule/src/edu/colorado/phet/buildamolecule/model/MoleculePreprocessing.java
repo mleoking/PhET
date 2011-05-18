@@ -10,14 +10,14 @@ import edu.colorado.phet.chemistry.model.Atom;
 
 public class MoleculePreprocessing {
     // indexed with atom histogram hash for heavy atoms
-    private static final Map<String, List<StrippedMolecule>> allowedStructures = new HashMap<String, List<StrippedMolecule>>();
+    private static final Map<String, List<StrippedMolecule<Atom>>> allowedStructures = new HashMap<String, List<StrippedMolecule<Atom>>>();
 
-    private static boolean isStructureInAllowedStructures( StrippedMolecule moleculeStructure ) {
-        List<StrippedMolecule> structuresWithSameFormula = allowedStructures.get( moleculeStructure.stripped.getHistogram().getHashString() );
+    private static boolean isStructureInAllowedStructures( StrippedMolecule<Atom> moleculeStructure ) {
+        List<StrippedMolecule<Atom>> structuresWithSameFormula = allowedStructures.get( moleculeStructure.stripped.getHistogram().getHashString() );
         if ( structuresWithSameFormula == null ) {
             return false;
         }
-        for ( StrippedMolecule allowedStructure : structuresWithSameFormula ) {
+        for ( StrippedMolecule<Atom> allowedStructure : structuresWithSameFormula ) {
             if ( allowedStructure.isHydrogenSubmolecule( moleculeStructure ) ) {
                 return true;
             }
@@ -25,16 +25,16 @@ public class MoleculePreprocessing {
         return false;
     }
 
-    private static void addMoleculeAndChildren( final StrippedMolecule strippedMolecule ) {
+    private static void addMoleculeAndChildren( final StrippedMolecule<Atom> strippedMolecule ) {
         if ( !isStructureInAllowedStructures( strippedMolecule ) ) {
             // NOTE: only handles tree-based structures here
             String hashString = strippedMolecule.stripped.getHistogram().getHashString();
-            List<StrippedMolecule> structuresWithSameFormula = allowedStructures.get( hashString );
+            List<StrippedMolecule<Atom>> structuresWithSameFormula = allowedStructures.get( hashString );
             if ( structuresWithSameFormula != null ) {
                 structuresWithSameFormula.add( strippedMolecule );
             }
             else {
-                allowedStructures.put( hashString, new LinkedList<StrippedMolecule>() {{
+                allowedStructures.put( hashString, new LinkedList<StrippedMolecule<Atom>>() {{
                     add( strippedMolecule );
                 }} );
                 System.out.println( "keys: " + allowedStructures.keySet().size() );
@@ -65,12 +65,12 @@ public class MoleculePreprocessing {
         for ( CompleteMolecule completeMolecule : completeMolecules ) {
             num++;
             System.out.println( "processing molecule and children: " + completeMolecule.getCommonName() + "  (" + num + " of " + completeMolecules.size() + ")" );
-            StrippedMolecule strippedMolecule = new StrippedMolecule( completeMolecule.getMoleculeStructure() );
+            StrippedMolecule<Atom> strippedMolecule = new StrippedMolecule<Atom>( completeMolecule.getStructure() );
             addMoleculeAndChildren( strippedMolecule );
         }
         long b = System.currentTimeMillis();
         System.out.println( "Built allowed molecule structures in " + ( b - a ) + "ms" );
-        for ( List<StrippedMolecule> allowedStrippedMolecules : allowedStructures.values() ) {
+        for ( List<StrippedMolecule<Atom>> allowedStrippedMolecules : allowedStructures.values() ) {
             for ( StrippedMolecule strippedMolecule : allowedStrippedMolecules ) {
                 serializedStructures.add( strippedMolecule.toMoleculeStructure().toSerial() );
             }
