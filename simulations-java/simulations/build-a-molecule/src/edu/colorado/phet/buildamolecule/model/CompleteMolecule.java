@@ -21,10 +21,10 @@ import static edu.colorado.phet.chemistry.molecules.HorizontalMoleculeNode.*;
 public class CompleteMolecule {
     private String commonName; // as said by pubchem (or overridden)
     private String molecularFormula; // as said by pubchem
-    private MoleculeStructure moleculeStructure;
+    private MoleculeStructure<Atom> moleculeStructure;
 
     // more advanced molecule support. primarily for 3d display
-    private AtomWrapper[] atomWrappers;
+    private AtomWrapper[] atomWrappers; // TODO: possibly doesn't need the atom wrapper if we can subclass the atom to contain this info?
     private BondWrapper[] bondWrappers;
 
     public final int cid;
@@ -56,7 +56,7 @@ public class CompleteMolecule {
 
         // # of bonds
         int bondCount = Integer.parseInt( t.nextToken() );
-        moleculeStructure = new MoleculeStructure( atomCount, bondCount );
+        moleculeStructure = new MoleculeStructure<Atom>( atomCount, bondCount );
 
         // for each atom, read its symbol, then 2d coordinates, then 3d coordinates (total of 6 fields)
         atomWrappers = new AtomWrapper[atomCount];
@@ -78,7 +78,8 @@ public class CompleteMolecule {
             int a = Integer.parseInt( t.nextToken() );
             int b = Integer.parseInt( t.nextToken() );
             int order = Integer.parseInt( t.nextToken() );
-            MoleculeStructure.Bond bond = new MoleculeStructure.Bond( atomWrappers[a - 1].atom, atomWrappers[b - 1].atom ); // -1 since our format is 1-based
+            // TODO: subclass bond instead of using wrapper?
+            Bond<Atom> bond = new Bond<Atom>( atomWrappers[a - 1].atom, atomWrappers[b - 1].atom ); // -1 since our format is 1-based
             moleculeStructure.addBond( bond );
             bondWrappers[i] = new BondWrapper( a, b, bond, order );
         }
@@ -131,7 +132,7 @@ public class CompleteMolecule {
         return String.valueOf( characters );
     }
 
-    public MoleculeStructure getMoleculeStructure() {
+    public MoleculeStructure<Atom> getStructure() {
         return moleculeStructure;
     }
 
@@ -241,10 +242,10 @@ public class CompleteMolecule {
     private static class BondWrapper {
         public int a;
         public int b;
-        public final MoleculeStructure.Bond bond;
+        public final Bond bond;
         public final int order;
 
-        private BondWrapper( int a, int b, MoleculeStructure.Bond bond, int order ) {
+        private BondWrapper( int a, int b, Bond bond, int order ) {
             this.a = a;
             this.b = b;
             this.bond = bond;

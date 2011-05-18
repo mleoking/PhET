@@ -21,7 +21,7 @@ public class SingleCollectionBoxNode extends CollectionBoxNode {
 
         addHeaderNode( new PNode() {{
             final HTMLNode nameAndFormula = new HTMLNode( MessageFormat.format( BuildAMoleculeStrings.COLLECTION_SINGLE_FORMAT,
-                                                                                box.getMoleculeType().getMoleculeStructure().getGeneralFormulaFragment(),
+                                                                                box.getMoleculeType().getStructure().getGeneralFormulaFragment(),
                                                                                 box.getMoleculeType().getDisplayName() ) ) {{
                 setFont( new PhetFont( 16, true ) );
             }};

@@ -28,8 +28,8 @@ public class MoleculeKitFilterer {
             ElementHistogram histogram = new ElementHistogram();
 
             // allow twice each collection box molecule
-            histogram.add( molecule.getMoleculeStructure() );
-            histogram.add( molecule.getMoleculeStructure() );
+            histogram.add( molecule.getStructure() );
+            histogram.add( molecule.getStructure() );
 
             availableKitHistograms.add( histogram );
         }
@@ -83,7 +83,7 @@ public class MoleculeKitFilterer {
 
     public static boolean isMoleculeSupported( CompleteMolecule molecule ) {
         ElementHistogram histogram = new ElementHistogram();
-        histogram.add( molecule.getMoleculeStructure() );
+        histogram.add( molecule.getStructure() );
         for ( ElementHistogram kitHistogram : availableKitHistograms ) {
             // filter out ones that won't fit within our kits, OR contains $l^
             if ( kitHistogram.containsAsSubset( histogram ) && !molecule.getCommonName().contains( "$l^" ) ) {

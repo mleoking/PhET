@@ -15,7 +15,7 @@ import edu.colorado.phet.buildamolecule.control.KitPanel;
 import edu.colorado.phet.buildamolecule.model.CollectionBox;
 import edu.colorado.phet.buildamolecule.model.Kit;
 import edu.colorado.phet.buildamolecule.model.KitCollectionModel;
-import edu.colorado.phet.buildamolecule.model.MoleculeStructure;
+import edu.colorado.phet.buildamolecule.model.Molecule;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -106,12 +106,12 @@ public class BuildAMoleculeCanvas extends PhetPCanvas {
 
         for ( final Kit kit : model.getKits() ) {
             kit.addMoleculeListener( new Kit.MoleculeAdapter() {
-                @Override public void addedMolecule( MoleculeStructure moleculeStructure ) {
-                    CollectionBox targetBox = model.getFirstTargetBox( moleculeStructure );
+                @Override public void addedMolecule( Molecule molecule ) {
+                    CollectionBox targetBox = model.getFirstTargetBox( molecule );
 
                     // if a hint doesn't exist AND we have a target box, add it
                     if ( collectionBoxHintNode == null && targetBox != null ) {
-                        collectionBoxHintNode = new CollectionBoxHintNode( mvt, kit.getMoleculeDestinationBounds( moleculeStructure ), targetBox );
+                        collectionBoxHintNode = new CollectionBoxHintNode( mvt, molecule.getDestinationBounds(), targetBox );
                         addWorldChild( collectionBoxHintNode );
                     }
                     else if ( collectionBoxHintNode != null ) {
@@ -120,7 +120,7 @@ public class BuildAMoleculeCanvas extends PhetPCanvas {
                     }
                 }
 
-                @Override public void removedMolecule( MoleculeStructure moleculeStructure ) {
+                @Override public void removedMolecule( Molecule molecule ) {
                     // clear any existing hint node on molecule removal
                     if ( collectionBoxHintNode != null ) {
                         collectionBoxHintNode.disperse();

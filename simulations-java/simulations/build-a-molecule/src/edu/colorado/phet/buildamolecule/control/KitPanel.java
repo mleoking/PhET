@@ -11,7 +11,7 @@ import edu.colorado.phet.buildamolecule.BuildAMoleculeConstants;
 import edu.colorado.phet.buildamolecule.BuildAMoleculeStrings;
 import edu.colorado.phet.buildamolecule.model.Kit;
 import edu.colorado.phet.buildamolecule.model.KitCollectionModel;
-import edu.colorado.phet.buildamolecule.model.MoleculeStructure;
+import edu.colorado.phet.buildamolecule.model.Molecule;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
@@ -64,7 +64,7 @@ public class KitPanel extends PNode {
                 @Override
                 public void mouseClicked( PInputEvent event ) {
                     if ( kitCollectionModel.hasNextKit() ) {
-                        kitCollectionModel.nextKit();
+                        kitCollectionModel.goToNextKit();
                     }
                 }
             } );
@@ -110,7 +110,7 @@ public class KitPanel extends PNode {
                 @Override
                 public void mouseClicked( PInputEvent event ) {
                     if ( kitCollectionModel.hasPreviousKit() ) {
-                        kitCollectionModel.previousKit();
+                        kitCollectionModel.goToPreviousKit();
                     }
                 }
             } );
@@ -143,11 +143,11 @@ public class KitPanel extends PNode {
                 };
                 for ( Kit kit : kitCollectionModel.getKits() ) {
                     kit.addMoleculeListener( new Kit.MoleculeListener() {
-                        public void addedMolecule( MoleculeStructure moleculeStructure ) {
+                        public void addedMolecule( Molecule molecule ) {
                             observer.update();
                         }
 
-                        public void removedMolecule( MoleculeStructure moleculeStructure ) {
+                        public void removedMolecule( Molecule molecule ) {
                             observer.update();
                         }
                     } );

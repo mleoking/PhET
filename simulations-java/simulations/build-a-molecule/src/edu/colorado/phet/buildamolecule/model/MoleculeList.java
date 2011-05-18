@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.util.*;
 
 import edu.colorado.phet.buildamolecule.BuildAMoleculeResources;
+import edu.colorado.phet.chemistry.model.Atom;
 
 /**
  * Has functions relating to lists of molecules (e.g. is a molecule or submolecule allowed?) Uses static initialization to load in a small fraction
@@ -23,7 +24,7 @@ public class MoleculeList {
     /*---------------------------------------------------------------------------*
     * allowed structure data structures
     *----------------------------------------------------------------------------*/
-    private Map<String, List<StrippedMolecule>> allowedStructureFormulaMap = new HashMap<String, List<StrippedMolecule>>(); // formula => allowed stripped molecules
+    private Map<String, List<StrippedMolecule<Atom>>> allowedStructureFormulaMap = new HashMap<String, List<StrippedMolecule<Atom>>>(); // formula => allowed stripped molecules
 
     /*---------------------------------------------------------------------------*
     * statics
@@ -92,15 +93,15 @@ public class MoleculeList {
 
             // if our molecule was included in the initial lookup, use that initial version instead so we can have instance equality preserved
             CompleteMolecule initialListLookup = initialList.moleculeNameMap.get( molecule.getCommonName() );
-            if ( initialListLookup != null && molecule.getMoleculeStructure().isEquivalent( initialListLookup.getMoleculeStructure() ) ) {
+            if ( initialListLookup != null && molecule.getStructure().isEquivalent( initialListLookup.getStructure() ) ) {
                 molecule = initialListLookup;
             }
 
             addCompleteMolecule( molecule );
         }
 
-        List<MoleculeStructure> mainStructures = readMoleculeStructuresFromFilename( "structures.txt" );
-        for ( MoleculeStructure structure : mainStructures ) {
+        List<MoleculeStructure<Atom>> mainStructures = readMoleculeStructuresFromFilename( "structures.txt" );
+        for ( MoleculeStructure<Atom> structure : mainStructures ) {
             addAllowedStructure( structure );
         }
     }
@@ -112,8 +113,8 @@ public class MoleculeList {
      * @param moleculeStructure Molecule to check
      * @return True if it is allowed
      */
-    public boolean isAllowedStructure( MoleculeStructure moleculeStructure ) {
-        StrippedMolecule strippedMolecule = new StrippedMolecule( moleculeStructure );
+    public <AtomT extends Atom> boolean isAllowedStructure( MoleculeStructure<AtomT> moleculeStructure ) {
+        StrippedMolecule<AtomT> strippedMolecule = new StrippedMolecule<AtomT>( moleculeStructure );
         String hashString = strippedMolecule.stripped.getHistogram().getHashString();
 
         // if the molecule contained only 1 or 2 hydrogen, it is ok
@@ -128,9 +129,9 @@ public class MoleculeList {
 
         // use the allowed structure map as an acceleration feature
         if ( allowedStructureFormulaMap.containsKey( hashString ) ) {
-            List<StrippedMolecule> moleculeStructures = allowedStructureFormulaMap.get( hashString );
+            List<StrippedMolecule<Atom>> moleculeStructures = allowedStructureFormulaMap.get( hashString );
             if ( moleculeStructures != null ) {
-                for ( StrippedMolecule structure : moleculeStructures ) {
+                for ( StrippedMolecule<Atom> structure : moleculeStructures ) {
                     if ( structure.isHydrogenSubmolecule( strippedMolecule ) ) {
                         return true;
                     }
@@ -146,9 +147,9 @@ public class MoleculeList {
      * @param moleculeStructure Molecule structure to match
      * @return Either a matching CompleteMolecule, or null if none is found
      */
-    public CompleteMolecule findMatchingCompleteMolecule( MoleculeStructure moleculeStructure ) {
+    public <AtomT extends Atom> CompleteMolecule findMatchingCompleteMolecule( MoleculeStructure<AtomT> moleculeStructure ) {
         for ( CompleteMolecule completeMolecule : completeMolecules ) {
-            if ( moleculeStructure.isEquivalent( completeMolecule.getMoleculeStructure() ) ) {
+            if ( moleculeStructure.isEquivalent( completeMolecule.getStructure() ) ) {
                 return completeMolecule;
             }
         }
@@ -168,14 +169,14 @@ public class MoleculeList {
         moleculeNameMap.put( molecule.getCommonName(), molecule );
     }
 
-    private void addAllowedStructure( final MoleculeStructure structure ) {
-        final StrippedMolecule strippedMolecule = new StrippedMolecule( structure );
+    private void addAllowedStructure( final MoleculeStructure<Atom> structure ) {
+        final StrippedMolecule<Atom> strippedMolecule = new StrippedMolecule<Atom>( structure );
         String hashString = strippedMolecule.stripped.getHistogram().getHashString();
         if ( allowedStructureFormulaMap.containsKey( hashString ) ) {
             allowedStructureFormulaMap.get( hashString ).add( strippedMolecule );
         }
         else {
-            allowedStructureFormulaMap.put( hashString, new LinkedList<StrippedMolecule>() {{
+            allowedStructureFormulaMap.put( hashString, new LinkedList<StrippedMolecule<Atom>>() {{
                 add( strippedMolecule );
             }} );
         }
@@ -246,11 +247,11 @@ public class MoleculeList {
                     CompleteMolecule molecule = new CompleteMolecule( line );
 
                     // sanity checks
-                    if ( molecule.getMoleculeStructure().hasLoopsOrIsDisconnected() ) {
+                    if ( molecule.getStructure().hasLoopsOrIsDisconnected() ) {
                         System.out.println( "ignoring molecule: " + molecule.getCommonName() );
                         continue;
                     }
-                    if ( molecule.getMoleculeStructure().hasWeirdHydrogenProperties() ) {
+                    if ( molecule.getStructure().hasWeirdHydrogenProperties() ) {
                         System.out.println( "weird hydrogen pattern in: " + molecule.getCommonName() );
                         continue;
                     }
@@ -274,8 +275,8 @@ public class MoleculeList {
      * @param filename File name relative to the sim's data directory
      * @return A list of molecule structures
      */
-    public static List<MoleculeStructure> readMoleculeStructuresFromFilename( String filename ) {
-        List<MoleculeStructure> result = new ArrayList<MoleculeStructure>();
+    public static List<MoleculeStructure<Atom>> readMoleculeStructuresFromFilename( String filename ) {
+        List<MoleculeStructure<Atom>> result = new ArrayList<MoleculeStructure<Atom>>();
         try {
             long startTime = System.currentTimeMillis();
 
@@ -283,7 +284,7 @@ public class MoleculeList {
             try {
                 while ( structureReader.ready() ) {
                     String line = structureReader.readLine();
-                    MoleculeStructure structure = MoleculeStructure.fromSerial( line );
+                    MoleculeStructure<Atom> structure = MoleculeStructure.fromSerial( line );
 
                     // sanity checks
                     if ( structure.hasWeirdHydrogenProperties() ) {

@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import edu.colorado.phet.buildamolecule.BuildAMoleculeApplication;
+import edu.colorado.phet.chemistry.model.Atom;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 
 /**
@@ -24,7 +25,7 @@ public class CollectionBox {
         this.capacity = capacity;
 
         addListener( new Adapter() {
-            @Override public void onAddedMolecule( MoleculeStructure moleculeStructure ) {
+            @Override public void onAddedMolecule( Molecule molecule ) {
                 if ( quantity.get() == capacity ) {
                     BuildAMoleculeApplication.playCollectionBoxFilledSound();
                 }
@@ -62,14 +63,14 @@ public class CollectionBox {
      * @param moleculeStructure The molecule's structure
      * @return Whether it can be dropped in
      */
-    public boolean willAllowMoleculeDrop( MoleculeStructure moleculeStructure ) {
-        boolean equivalent = getMoleculeType().getMoleculeStructure().isEquivalent( moleculeStructure );
+    public <U extends Atom> boolean willAllowMoleculeDrop( MoleculeStructure<U> moleculeStructure ) {
+        boolean equivalent = getMoleculeType().getStructure().isEquivalent( moleculeStructure );
 
         // whether the structure is acceptable
         return equivalent && quantity.get() < capacity;
     }
 
-    public void addMolecule( MoleculeStructure molecule ) {
+    public void addMolecule( Molecule molecule ) {
         quantity.set( quantity.get() + 1 );
 
         // notify our listeners
@@ -78,7 +79,7 @@ public class CollectionBox {
         }
     }
 
-    public void removeMolecule( MoleculeStructure molecule ) {
+    public void removeMolecule( Molecule molecule ) {
         quantity.set( quantity.get() - 1 );
 
         // notify our listeners
@@ -90,11 +91,11 @@ public class CollectionBox {
     /**
      * Called when a molecule that can fit in this box is created
      *
-     * @param moleculeStructure The molecule structure that was created
+     * @param molecule The molecule that was created
      */
-    public void onAcceptedMoleculeCreation( MoleculeStructure moleculeStructure ) {
+    public void onAcceptedMoleculeCreation( Molecule molecule ) {
         for ( Listener listener : listeners ) {
-            listener.onAcceptedMoleculeCreation( moleculeStructure );
+            listener.onAcceptedMoleculeCreation( molecule );
         }
     }
 
@@ -107,21 +108,21 @@ public class CollectionBox {
     }
 
     public static interface Listener {
-        public void onAddedMolecule( MoleculeStructure moleculeStructure );
+        public void onAddedMolecule( Molecule molecule );
 
-        public void onRemovedMolecule( MoleculeStructure moleculeStructure );
+        public void onRemovedMolecule( Molecule molecule );
 
-        public void onAcceptedMoleculeCreation( MoleculeStructure moleculeStructure );
+        public void onAcceptedMoleculeCreation( Molecule molecule );
     }
 
     public static class Adapter implements Listener {
-        public void onAddedMolecule( MoleculeStructure moleculeStructure ) {
+        public void onAddedMolecule( Molecule molecule ) {
         }
 
-        public void onRemovedMolecule( MoleculeStructure moleculeStructure ) {
+        public void onRemovedMolecule( Molecule molecule ) {
         }
 
-        public void onAcceptedMoleculeCreation( MoleculeStructure moleculeStructure ) {
+        public void onAcceptedMoleculeCreation( Molecule molecule ) {
         }
     }
 

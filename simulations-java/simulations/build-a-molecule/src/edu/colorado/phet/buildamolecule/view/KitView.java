@@ -6,10 +6,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import edu.colorado.phet.buildamolecule.BuildAMoleculeApplication;
-import edu.colorado.phet.buildamolecule.model.AtomModel;
+import edu.colorado.phet.buildamolecule.model.Atom2D;
 import edu.colorado.phet.buildamolecule.model.Bucket;
 import edu.colorado.phet.buildamolecule.model.Kit;
-import edu.colorado.phet.buildamolecule.model.MoleculeStructure;
+import edu.colorado.phet.buildamolecule.model.Molecule;
 import edu.colorado.phet.chemistry.model.Atom;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -33,8 +33,8 @@ public class KitView {
     private final ModelViewTransform mvt;
     private final BuildAMoleculeCanvas canvas;
 
-    private Map<MoleculeStructure, MoleculeMetadataNode> metadataMap = new HashMap<MoleculeStructure, MoleculeMetadataNode>();
-    private Map<MoleculeStructure, MoleculeBondContainerNode> bondMap = new HashMap<MoleculeStructure, MoleculeBondContainerNode>();
+    private Map<Molecule, MoleculeMetadataNode> metadataMap = new HashMap<Molecule, MoleculeMetadataNode>();
+    private Map<Molecule, MoleculeBondContainerNode> bondMap = new HashMap<Molecule, MoleculeBondContainerNode>();
 
     // store the node-atom relationships
     private Map<Atom, AtomNode> atomNodeMap = new HashMap<Atom, AtomNode>();
@@ -50,7 +50,7 @@ public class KitView {
             topLayer.addChild( bucketView.getFrontNode() );
             bottomLayer.addChild( bucketView.getHoleNode() );
 
-            for ( final AtomModel atom : bucket.getAtoms() ) {
+            for ( final Atom2D atom : bucket.getAtoms() ) {
                 final AtomNode atomNode = new AtomNode( mvt, atom );
                 atomNodeMap.put( atom, atomNode );
                 atomLayer.addChild( atomNode );
@@ -64,7 +64,7 @@ public class KitView {
                         atom.setUserControlled( true );
 
                         // move the atom (and its entire molecule) to the front when it starts being dragged
-                        MoleculeStructure molecule = kit.getMoleculeStructure( atom );
+                        Molecule molecule = kit.getMolecule( atom );
                         if ( molecule != null ) {
                             for ( Atom moleculeAtom : molecule.getAtoms() ) {
                                 atomNodeMap.get( moleculeAtom ).moveToFront();
@@ -94,25 +94,25 @@ public class KitView {
         // handle molecule creation and destruction
         kit.addMoleculeListener( new Kit.MoleculeAdapter() {
             @Override
-            public void addedMolecule( MoleculeStructure moleculeStructure ) {
-                MoleculeMetadataNode moleculeMetadataNode = new MoleculeMetadataNode( parentFrame, kit, moleculeStructure, mvt );
+            public void addedMolecule( Molecule molecule ) {
+                MoleculeMetadataNode moleculeMetadataNode = new MoleculeMetadataNode( parentFrame, kit, molecule, mvt );
                 metadataLayer.addChild( moleculeMetadataNode );
-                metadataMap.put( moleculeStructure, moleculeMetadataNode );
+                metadataMap.put( molecule, moleculeMetadataNode );
 
                 if ( BuildAMoleculeApplication.allowBondBreaking.get() ) {
-                    addMoleculeBondNodes( moleculeStructure );
+                    addMoleculeBondNodes( molecule );
                 }
             }
 
             @Override
-            public void removedMolecule( MoleculeStructure moleculeStructure ) {
-                MoleculeMetadataNode moleculeMetadataNode = metadataMap.get( moleculeStructure );
+            public void removedMolecule( Molecule molecule ) {
+                MoleculeMetadataNode moleculeMetadataNode = metadataMap.get( molecule );
                 moleculeMetadataNode.destruct();
                 metadataLayer.removeChild( moleculeMetadataNode );
-                metadataMap.remove( moleculeStructure );
+                metadataMap.remove( molecule );
 
                 if ( BuildAMoleculeApplication.allowBondBreaking.get() ) {
-                    removeMoleculeBondNodes( moleculeStructure );
+                    removeMoleculeBondNodes( molecule );
                 }
             }
         } );
@@ -122,14 +122,14 @@ public class KitView {
             public void update() {
                 if ( BuildAMoleculeApplication.allowBondBreaking.get() ) {
                     // enabled, so add in bond nodes
-                    for ( MoleculeStructure moleculeStructure : metadataMap.keySet() ) {
-                        addMoleculeBondNodes( moleculeStructure );
+                    for ( Molecule molecule : metadataMap.keySet() ) {
+                        addMoleculeBondNodes( molecule );
                     }
                 }
                 else {
                     // disabled, so remove bond nodes
-                    for ( MoleculeStructure moleculeStructure : bondMap.keySet() ) {
-                        removeMoleculeBondNodes( moleculeStructure );
+                    for ( Molecule molecule : bondMap.keySet() ) {
+                        removeMoleculeBondNodes( molecule );
                     }
                 }
             }
@@ -147,17 +147,17 @@ public class KitView {
         } );
     }
 
-    public void addMoleculeBondNodes( MoleculeStructure moleculeStructure ) {
-        MoleculeBondContainerNode moleculeBondContainerNode = new MoleculeBondContainerNode( kit, moleculeStructure, mvt, canvas );
+    public void addMoleculeBondNodes( Molecule molecule ) {
+        MoleculeBondContainerNode moleculeBondContainerNode = new MoleculeBondContainerNode( kit, molecule, mvt, canvas );
         metadataLayer.addChild( moleculeBondContainerNode );
-        bondMap.put( moleculeStructure, moleculeBondContainerNode );
+        bondMap.put( molecule, moleculeBondContainerNode );
     }
 
-    public void removeMoleculeBondNodes( MoleculeStructure moleculeStructure ) {
-        MoleculeBondContainerNode moleculeBondContainerNode = bondMap.get( moleculeStructure );
+    public void removeMoleculeBondNodes( Molecule molecule ) {
+        MoleculeBondContainerNode moleculeBondContainerNode = bondMap.get( molecule );
         moleculeBondContainerNode.destruct();
         metadataLayer.removeChild( moleculeBondContainerNode );
-        bondMap.remove( moleculeStructure );
+        bondMap.remove( molecule );
     }
 
     public PNode getTopLayer() {

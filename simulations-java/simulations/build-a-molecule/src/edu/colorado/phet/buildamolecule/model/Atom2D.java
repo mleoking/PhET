@@ -23,7 +23,7 @@ import edu.umd.cs.piccolo.util.PBounds;
  * @author John Blanco
  * @author Jonathan Olson
  */
-public class AtomModel extends Atom implements IBucketSphere<AtomModel> {
+public class Atom2D extends Atom implements IBucketSphere<Atom2D> {
 
     // ------------------------------------------------------------------------
     // Class Data
@@ -38,7 +38,7 @@ public class AtomModel extends Atom implements IBucketSphere<AtomModel> {
     private final String name;
     public final Property<ImmutableVector2D> position;
     private final Property<Boolean> userControlled = new Property<Boolean>( false );//True if the particle is being dragged by the user
-    private final HashSet<IBucketSphere.Listener<AtomModel>> listeners = new HashSet<IBucketSphere.Listener<AtomModel>>();
+    private final HashSet<IBucketSphere.Listener<Atom2D>> listeners = new HashSet<IBucketSphere.Listener<Atom2D>>();
     private ImmutableVector2D destination = new ImmutableVector2D();
 
     public final Property<Boolean> visible = new Property<Boolean>( true ); // invisible for instance when in a collection box
@@ -54,7 +54,7 @@ public class AtomModel extends Atom implements IBucketSphere<AtomModel> {
     // Reference to the clock.
     private final IClock clock;
 
-    public AtomModel( Element element, IClock clock ) {
+    public Atom2D( Element element, IClock clock ) {
         super( element );
         this.clock = clock;
         this.name = BuildAMoleculeStrings.getAtomName( element );
@@ -63,15 +63,15 @@ public class AtomModel extends Atom implements IBucketSphere<AtomModel> {
         addedToModel(); // Assume that this is initially an active part of the model.
         userControlled.addObserver( new SimpleObserver() {
             public void update() {
-                ArrayList<IBucketSphere.Listener<AtomModel>> copy = new ArrayList<IBucketSphere.Listener<AtomModel>>( listeners );//ConcurrentModificationException if listener removed while iterating, so use a copy
+                ArrayList<IBucketSphere.Listener<Atom2D>> copy = new ArrayList<IBucketSphere.Listener<Atom2D>>( listeners );//ConcurrentModificationException if listener removed while iterating, so use a copy
                 if ( userControlled.get() ) {
-                    for ( IBucketSphere.Listener<AtomModel> listener : copy ) {
-                        listener.grabbedByUser( AtomModel.this );
+                    for ( IBucketSphere.Listener<Atom2D> listener : copy ) {
+                        listener.grabbedByUser( Atom2D.this );
                     }
                 }
                 else {
-                    for ( IBucketSphere.Listener<AtomModel> listener : copy ) {
-                        listener.droppedByUser( AtomModel.this );
+                    for ( IBucketSphere.Listener<Atom2D> listener : copy ) {
+                        listener.droppedByUser( Atom2D.this );
                     }
                 }
             }
@@ -82,11 +82,11 @@ public class AtomModel extends Atom implements IBucketSphere<AtomModel> {
     // Methods
     // ------------------------------------------------------------------------
 
-    public void addListener( IBucketSphere.Listener<AtomModel> listener ) {
+    public void addListener( IBucketSphere.Listener<Atom2D> listener ) {
         listeners.add( listener );
     }
 
-    public void removeListener( IBucketSphere.Listener<AtomModel> listener ) {
+    public void removeListener( IBucketSphere.Listener<Atom2D> listener ) {
         listeners.remove( listener );
     }
 
@@ -187,8 +187,8 @@ public class AtomModel extends Atom implements IBucketSphere<AtomModel> {
         if ( clock != null ) {
             clock.removeClockListener( clockListener );
         }
-        ArrayList<IBucketSphere.Listener<AtomModel>> copyOfListeners = new ArrayList<IBucketSphere.Listener<AtomModel>>( listeners );
-        for ( IBucketSphere.Listener<AtomModel> listener : copyOfListeners ) {
+        ArrayList<IBucketSphere.Listener<Atom2D>> copyOfListeners = new ArrayList<IBucketSphere.Listener<Atom2D>>( listeners );
+        for ( IBucketSphere.Listener<Atom2D> listener : copyOfListeners ) {
             listener.removedFromModel( this );
         }
     }
@@ -215,10 +215,10 @@ public class AtomModel extends Atom implements IBucketSphere<AtomModel> {
     // Inner Classes and Interfaces
     //------------------------------------------------------------------------
 
-    public static interface Listener extends IBucketSphere.Listener<AtomModel> {
+    public static interface Listener extends IBucketSphere.Listener<Atom2D> {
     }
 
-    public static class Adapter extends IBucketSphere.Adapter<AtomModel> implements Listener {
+    public static class Adapter extends IBucketSphere.Adapter<Atom2D> implements Listener {
     }
 
 }

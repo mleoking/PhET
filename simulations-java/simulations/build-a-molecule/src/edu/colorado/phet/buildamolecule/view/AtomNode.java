@@ -3,7 +3,7 @@ package edu.colorado.phet.buildamolecule.view;
 
 import java.awt.*;
 
-import edu.colorado.phet.buildamolecule.model.AtomModel;
+import edu.colorado.phet.buildamolecule.model.Atom2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -22,7 +22,7 @@ public class AtomNode extends PNode {
 
     private final ShadedSphereNode sphericalNode;
 
-    public AtomNode( final ModelViewTransform mvt, final AtomModel atom ) {
+    public AtomNode( final ModelViewTransform mvt, final Atom2D atom ) {
 
         double transformedRadius = mvt.modelToViewDeltaX( atom.getRadius() );
         sphericalNode = new ShadedSphereNode( 2 * transformedRadius, atom.getColor() );
@@ -59,9 +59,9 @@ public class AtomNode extends PNode {
         } );
 
         // and if we remove the atom from play, we will get rid of this node
-        atom.addListener( new AtomModel.Adapter() {
+        atom.addListener( new Atom2D.Adapter() {
             @Override
-            public void removedFromModel( AtomModel atom ) {
+            public void removedFromModel( Atom2D atom ) {
                 getParent().removeChild( AtomNode.this );
             }
         } );
