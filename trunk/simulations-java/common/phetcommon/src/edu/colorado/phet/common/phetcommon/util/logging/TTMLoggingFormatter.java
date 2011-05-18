@@ -37,7 +37,7 @@ import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
  * Additional documentation, from http://javablog.co.uk/2008/07/12/logging-with-javautillogging/
  * You'll need to change package names here.
  * </p>
- * In the logging.properties file, you can specify “handlers” which direct the logs to different places (console, file or database), filters at many different points (so you only see logs of a certain priority), formatters (to customise the output) and you can even specify these options on a per-package or per-class basis! An example file looks something like this
+ * In the logging.properties file, you can specify "handlers" which direct the logs to different places (console, file or database), filters at many different points (so you only see logs of a certain priority), formatters (to customise the output) and you can even specify these options on a per-package or per-class basis! An example file looks something like this
  * <code>
  * # the handlers are a comma separated list of outputs, you can add a file or database output
  * handlers = java.util.logging.ConsoleHandler
@@ -76,7 +76,7 @@ import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
  *
  * @author Samuel Halliday
  */
-public class ThinkTankMathLoggingFormatter extends Formatter implements IProguardKeepClass {
+public class TTMLoggingFormatter extends Formatter implements IProguardKeepClass {
 
     private static final String DEFAULT_FORMAT = "%L: %m [%c.%M %t]";
 
@@ -85,7 +85,7 @@ public class ThinkTankMathLoggingFormatter extends Formatter implements IProguar
     private final DateFormat dateFormat = new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss Z" );
 
     /** */
-    public ThinkTankMathLoggingFormatter() {
+    public TTMLoggingFormatter() {
         super();
 
         // load the format from logging.properties
