@@ -1,3 +1,4 @@
+# 0.00.22 (52080) May 17, 2011
 Potential scissors/mouse flickering fix
 Collection hint arrow: changed tip/tail locations and text position. Invisible on movement
 Added smiley face to the complete dialog
