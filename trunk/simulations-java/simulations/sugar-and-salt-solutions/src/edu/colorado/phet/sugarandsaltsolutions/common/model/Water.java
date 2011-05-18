@@ -16,12 +16,11 @@ public class Water {
     //volume in SI (m^3).  Start at 1 L (halfway up the 2L beaker).  Note that 0.001 cubic meters = 1L
     public final DoubleProperty volume = new DoubleProperty( 0.001 );
     private final Beaker beaker;
-    private final Property<Double> solidPrecipitateDisplacedVolume;
+    private final Property<Double> solidPrecipitateDisplacedVolume = new Property<Double>( 0.0 );
     public final CompositeDoubleProperty displacedVolume;
 
-    public Water( Beaker beaker, Property<Double> solidPrecipitateDisplacedVolume ) {
+    public Water( Beaker beaker ) {
         this.beaker = beaker;
-        this.solidPrecipitateDisplacedVolume = solidPrecipitateDisplacedVolume;
         displacedVolume = volume.plus( solidPrecipitateDisplacedVolume );
     }
 
