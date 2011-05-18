@@ -44,4 +44,8 @@ public class CompositeDoubleProperty extends CompositeProperty<Double> {
     public GreaterThanOrEqualTo greaterThanOrEqualTo( double b ) {
         return new GreaterThanOrEqualTo( this, b );
     }
+
+    public LessThan lessThan( double b ) {
+        return new LessThan( this, b );
+    }
 }

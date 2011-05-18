@@ -18,16 +18,18 @@ import edu.umd.cs.piccolo.PNode;
  * @author Sam Reid
  */
 public class PrecipitateNode extends PNode {
-    public PrecipitateNode( final ModelViewTransform transform, final ObservableProperty<Double> molesOfPrecipitate, final Beaker beaker ) {
+    public PrecipitateNode( final ModelViewTransform transform, final ObservableProperty<Double> precipitateVolume, final Beaker beaker ) {
 
         //Show as white, but it renders between the water layers so it looks like it is in the water (unless it passes the top of the water)
         addChild( new PhetPPath( Color.white ) {{
-            molesOfPrecipitate.addObserver( new VoidFunction1<Double>() {
-                public void apply( Double moles ) {
+            precipitateVolume.addObserver( new VoidFunction1<Double>() {
+                public void apply( Double precipitateVolume ) {
+                    //Scale up the precipitate volume to convert from meters cubed to stage coordinates, manually tuned
+                    double scaledValue = precipitateVolume * 350000;
 
                     //Make it a wide and short ellipse
-                    double width = moles * 20;
-                    double height = moles * 5;
+                    double width = scaledValue * 4;
+                    double height = scaledValue;
                     double centerX = transform.modelToViewX( beaker.getCenterX() );
                     double y = transform.modelToViewY( beaker.getY() ) - height / 2.5;//Just show the top part of the ellipse
 

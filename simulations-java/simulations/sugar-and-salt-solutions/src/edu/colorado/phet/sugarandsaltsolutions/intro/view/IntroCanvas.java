@@ -6,7 +6,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.Plus;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -118,6 +117,6 @@ public class IntroCanvas extends SugarAndSaltSolutionsCanvas {
         }} );
 
         //Show the precipitate as the sum of salt and sugar
-        submergedInWaterNode.addChild( new PrecipitateNode( transform, new Plus( model.salt.molesPrecipitated, model.sugar.molesPrecipitated ), model.beaker ) );
+        submergedInWaterNode.addChild( new PrecipitateNode( transform, model.salt.solidVolume.plus( model.sugar.solidVolume ), model.beaker ) );
     }
 }

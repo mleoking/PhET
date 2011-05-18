@@ -32,10 +32,10 @@ public class SoluteModel {
     //Solid precipitate should push up the water level, so that every mole of salt takes up 0.02699 L, and every mole of sugar takes up 0.2157 L
     public final CompositeDoubleProperty solidVolume;
 
-    public SoluteModel( DoubleProperty waterVolume, double saltSaturationPoint, double volumePerSolidMole ) {
+    public SoluteModel( DoubleProperty waterVolume, double saturationPoint, double volumePerSolidMole ) {
         //Salt moles and concentration
         moles = new DoubleProperty( 0.0 );
-        saturationPointMoles = waterVolume.times( saltSaturationPoint );
+        saturationPointMoles = waterVolume.times( saturationPoint );
         molesDissolved = new Min( moles, saturationPointMoles );
         molesPrecipitated = new Max( moles.minus( molesDissolved ), 0.0 );
         concentration = molesDissolved.dividedBy( waterVolume );

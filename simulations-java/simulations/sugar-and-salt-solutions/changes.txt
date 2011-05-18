@@ -1,3 +1,5 @@
+Made the clump grow faster so it matches with the displaced volume look as a linear function of the L/mole precipitate so sugar grows faster than salt (per mole)
+Keep track of how many moles of crystal are in the air, since we need to prevent user from adding more than 10 moles to the system
 Fixed: displaced volume isn't used for collision testing
 Fixed: incorrect image for sugar dispenser when sugar is depleted
 Show empty dispensers when user has already used the max amount of solute
