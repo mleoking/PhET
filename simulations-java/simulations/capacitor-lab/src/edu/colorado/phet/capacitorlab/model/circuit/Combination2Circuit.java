@@ -45,19 +45,17 @@ public class Combination2Circuit extends AbstractCircuit {
 
         // create capacitors
         {
+            // Series
             double x = batteryLocation.getX() + X_SPACING;
-            double y = batteryLocation.getY() + ( 0.5 * Y_SPACING );
+            double y = batteryLocation.getY() - ( 0.5 * Y_SPACING );
             final double z = batteryLocation.getZ();
+            c1 = new Capacitor( new Point3D.Double( x, y, z ), plateWidth, plateSeparation, dielectricMaterial, dielectricOffset, mvt );
 
             // Parallel
+            y += Y_SPACING;
             c2 = new Capacitor( new Point3D.Double( x, y, z ), plateWidth, plateSeparation, dielectricMaterial, dielectricOffset, mvt );
             x += X_SPACING;
             c3 = new Capacitor( new Point3D.Double( x, y, z ), plateWidth, plateSeparation, dielectricMaterial, dielectricOffset, mvt );
-
-            // Series
-            x -= X_SPACING;
-            y -= Y_SPACING;
-            c1 = new Capacitor( new Point3D.Double( x, y, z ), plateWidth, plateSeparation, dielectricMaterial, dielectricOffset, mvt );
 
             capacitors = new ArrayList<Capacitor>();
             capacitors.add( c1 );

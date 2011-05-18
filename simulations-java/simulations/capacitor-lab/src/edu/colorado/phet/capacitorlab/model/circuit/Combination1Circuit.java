@@ -45,11 +45,10 @@ public class Combination1Circuit extends AbstractCircuit {
 
         // create capacitors
         {
+            // Series
             double x = batteryLocation.getX() + X_SPACING;
             double y = batteryLocation.getY() - ( 0.5 * Y_SPACING );
             final double z = batteryLocation.getZ();
-
-            // Series
             c1 = new Capacitor( new Point3D.Double( x, y, z ), plateWidth, plateSeparation, dielectricMaterial, dielectricOffset, mvt );
             y += Y_SPACING;
             c2 = new Capacitor( new Point3D.Double( x, y, z ), plateWidth, plateSeparation, dielectricMaterial, dielectricOffset, mvt );
