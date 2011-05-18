@@ -50,7 +50,7 @@ public class IntroCanvas extends SugarAndSaltSolutionsCanvas {
         }} );
 
         //Readout the volume of the water in Liters, only visible if the user opted to show values (in the concentration bar chart)
-        addChild( new VolumeIndicatorNode( transform, model.water, model.showConcentrationValues ) );
+        addChild( new VolumeIndicatorNode( transform, model.water, model.showConcentrationValues, model.displacedWaterVolume ) );
 
         //Add a button that allows the user to remove all solutes
         addChild( new ButtonNode( "Remove salt/sugar" ) {{

@@ -1,3 +1,4 @@
+Fixed: displaced volume isn't used for collision testing
 Fixed: incorrect image for sugar dispenser when sugar is depleted
 Show empty dispensers when user has already used the max amount of solute
 Fixed: When a solute has 10 moles in the system, its dispenser shouldn't emit any more solute

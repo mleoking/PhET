@@ -21,7 +21,7 @@ import static edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSo
  * @author Sam Reid
  */
 public class VolumeIndicatorNode extends PNode {
-    public VolumeIndicatorNode( final ModelViewTransform transform, final Water water, ObservableProperty<Boolean> visible ) {
+    public VolumeIndicatorNode( final ModelViewTransform transform, final Water water, ObservableProperty<Boolean> visible, final ObservableProperty<Double> displacedWaterVolume ) {
         visible.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean visible ) {
                 setVisible( visible );
@@ -46,9 +46,9 @@ public class VolumeIndicatorNode extends PNode {
         }} );
 
         //Update the location so it remains in the top left of the fluid
-        water.volume.addObserver( new SimpleObserver() {
+        displacedWaterVolume.addObserver( new SimpleObserver() {
             public void update() {
-                Rectangle2D waterViewBounds = transform.modelToView( water.getShape() ).getBounds2D();
+                Rectangle2D waterViewBounds = transform.modelToView( water.getShape( displacedWaterVolume.get() ) ).getBounds2D();
                 setOffset( waterViewBounds.getX() + INSET, waterViewBounds.getY() + INSET );
             }
         } );
