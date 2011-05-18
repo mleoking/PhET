@@ -120,7 +120,52 @@ public class SeriesCircuit extends AbstractCircuit {
     }
 
     public double getVoltageAt( Shape s ) {
-        return 0; //TODO
+        double voltage = Double.NaN;
+
+        // battery
+        if ( getBattery().intersectsTopTerminal( s ) ) {
+            voltage = getTotalVoltage();
+        }
+        else if ( getBattery().intersectsBottomTerminal( s ) ) {
+            voltage = 0;
+        }
+        else {
+            // plates
+            voltage = intersectsSomePlate( s );
+
+            // wires
+            if ( voltage == Double.NaN ) {
+                //TODO check wires
+            }
+        }
+
+        return voltage;
+    }
+
+    /*
+     * If shape intersects a plate, returns the voltage between that plate and ground.
+     * If no intersection, returns Double.NaN.
+     */
+    private double intersectsSomePlate( Shape s ) {
+        double voltage = Double.NaN;
+        ArrayList<Capacitor> capacitors = getCapacitors();
+        for ( int i = 0; i < capacitors.size(); i++ ) {
+            if ( capacitors.get( i ).intersectsTopPlateShape( s ) ) {
+                // sum voltage of this capacitor and all capacitors below it.
+                voltage = 0;
+                for ( int j = i; j < capacitors.size(); j++ ) {
+                    voltage += capacitors.get( j ).getPlatesVoltage();
+                }
+            }
+            else if ( capacitors.get( i ).intersectsBottomPlateShape( s ) ) {
+                // sum voltage of all capacitors below this one.
+                voltage = 0;
+                for ( int j = i + 1; j < capacitors.size(); j++ ) {
+                    voltage += capacitors.get( j ).getPlatesVoltage();
+                }
+            }
+        }
+        return voltage;
     }
 
     public void reset() {
