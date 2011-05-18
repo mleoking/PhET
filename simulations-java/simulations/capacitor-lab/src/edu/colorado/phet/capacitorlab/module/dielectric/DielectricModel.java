@@ -3,11 +3,14 @@
 package edu.colorado.phet.capacitorlab.module.dielectric;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
-import edu.colorado.phet.capacitorlab.model.BarMeter.CapacitanceMeter;
-import edu.colorado.phet.capacitorlab.model.BarMeter.PlateChargeMeter;
-import edu.colorado.phet.capacitorlab.model.BarMeter.StoredEnergyMeter;
 import edu.colorado.phet.capacitorlab.model.*;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial.CustomDielectricMaterial;
+import edu.colorado.phet.capacitorlab.model.circuit.SingleCircuit;
+import edu.colorado.phet.capacitorlab.model.meter.BarMeter.CapacitanceMeter;
+import edu.colorado.phet.capacitorlab.model.meter.BarMeter.PlateChargeMeter;
+import edu.colorado.phet.capacitorlab.model.meter.BarMeter.StoredEnergyMeter;
+import edu.colorado.phet.capacitorlab.model.meter.EFieldDetector;
+import edu.colorado.phet.capacitorlab.model.meter.Voltmeter;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 

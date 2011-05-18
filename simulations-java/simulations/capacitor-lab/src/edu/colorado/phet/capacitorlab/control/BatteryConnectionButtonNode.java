@@ -9,8 +9,8 @@ import javax.swing.*;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLStrings;
-import edu.colorado.phet.capacitorlab.model.ICircuit.CircuitChangeListener;
-import edu.colorado.phet.capacitorlab.model.SingleCircuit;
+import edu.colorado.phet.capacitorlab.model.circuit.ICircuit.CircuitChangeListener;
+import edu.colorado.phet.capacitorlab.model.circuit.SingleCircuit;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.umd.cs.piccolox.pswing.PSwing;

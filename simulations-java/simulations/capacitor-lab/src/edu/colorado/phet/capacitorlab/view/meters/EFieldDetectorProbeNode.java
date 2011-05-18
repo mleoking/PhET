@@ -9,7 +9,7 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.capacitorlab.CLImages;
 import edu.colorado.phet.capacitorlab.drag.WorldLocationDragHandler;
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
-import edu.colorado.phet.capacitorlab.model.EFieldDetector;
+import edu.colorado.phet.capacitorlab.model.meter.EFieldDetector;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;

@@ -1,3 +1,4 @@
+5/18/11 partition model into subpackages
 5/17/11 attempt to show circuit layouts in javadoc
 5/17/11 add circuits for series-parallel combinations
 5/17/11 tweak plate size and capacitor spacing so that 3 series and parallel capacitors fit in the play area

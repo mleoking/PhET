@@ -19,7 +19,7 @@ import edu.colorado.phet.capacitorlab.CLPaints;
 import edu.colorado.phet.capacitorlab.CLStrings;
 import edu.colorado.phet.capacitorlab.drag.WorldLocationDragHandler;
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
-import edu.colorado.phet.capacitorlab.model.EFieldDetector;
+import edu.colorado.phet.capacitorlab.model.meter.EFieldDetector;
 import edu.colorado.phet.capacitorlab.view.meters.ZoomButton.ZoomInButton;
 import edu.colorado.phet.capacitorlab.view.meters.ZoomButton.ZoomOutButton;
 import edu.colorado.phet.common.phetcommon.model.property.Property;

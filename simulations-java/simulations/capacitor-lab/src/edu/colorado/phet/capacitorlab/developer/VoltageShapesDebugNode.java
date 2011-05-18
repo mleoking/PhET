@@ -5,8 +5,12 @@ package edu.colorado.phet.capacitorlab.developer;
 import java.awt.*;
 
 import edu.colorado.phet.capacitorlab.CLPaints;
-import edu.colorado.phet.capacitorlab.model.*;
-import edu.colorado.phet.capacitorlab.model.ICircuit.CircuitChangeListener;
+import edu.colorado.phet.capacitorlab.model.Battery;
+import edu.colorado.phet.capacitorlab.model.ICapacitor;
+import edu.colorado.phet.capacitorlab.model.Wire;
+import edu.colorado.phet.capacitorlab.model.circuit.ICircuit.CircuitChangeListener;
+import edu.colorado.phet.capacitorlab.model.circuit.SingleCircuit;
+import edu.colorado.phet.capacitorlab.model.meter.Voltmeter;
 import edu.colorado.phet.capacitorlab.module.dielectric.DielectricModel;
 import edu.colorado.phet.capacitorlab.shapes.BatteryShapeFactory;
 import edu.colorado.phet.capacitorlab.shapes.CapacitorShapeFactory;

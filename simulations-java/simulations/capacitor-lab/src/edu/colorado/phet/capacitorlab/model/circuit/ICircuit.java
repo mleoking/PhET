@@ -1,11 +1,13 @@
 // Copyright 2002-2011, University of Colorado
 
-package edu.colorado.phet.capacitorlab.model;
+package edu.colorado.phet.capacitorlab.model.circuit;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.EventListener;
 
+import edu.colorado.phet.capacitorlab.model.Battery;
+import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 
 /**

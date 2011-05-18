@@ -6,7 +6,7 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.capacitorlab.CLPaints;
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
-import edu.colorado.phet.capacitorlab.model.Voltmeter;
+import edu.colorado.phet.capacitorlab.model.meter.Voltmeter;
 import edu.colorado.phet.capacitorlab.view.meters.VoltmeterProbeNode.NegativeVoltmeterProbeNode;
 import edu.colorado.phet.capacitorlab.view.meters.VoltmeterProbeNode.PositiveVoltmeterProbeNode;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;

@@ -2,7 +2,7 @@
 package edu.colorado.phet.capacitorlab.view.multicaps;
 
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
-import edu.colorado.phet.capacitorlab.model.ICircuit;
+import edu.colorado.phet.capacitorlab.model.circuit.ICircuit;
 
 //TODO delete this when all circuits are implemented
 
