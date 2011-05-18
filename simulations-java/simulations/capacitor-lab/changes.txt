@@ -1,3 +1,4 @@
+5/18/11 implement SeriesCircuit.getVoltageAt for battery and plates
 5/18/11 fix: rewire CircuitChangeListener in EFieldDetector.setCircuit and BarMeter.setCircuit
 5/18/11 implement ParallelCircuit.getVoltageAt for battery and plates
 5/18/11 fix: rewire CircuitChangeListener in Voltmeter.setCircuit
