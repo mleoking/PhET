@@ -3,6 +3,7 @@ package edu.colorado.phet.sugarandsaltsolutions.common.model;
 
 import java.awt.*;
 import java.awt.geom.Area;
+import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
@@ -107,5 +108,13 @@ public class Beaker {
 
     public double getMaxX() {
         return x + width;
+    }
+
+    public Line2D.Double getLeftWall() {
+        return new Line2D.Double( x, y, x, y + height );
+    }
+
+    public Line2D.Double getRightWall() {
+        return new Line2D.Double( getMaxX(), y, getMaxX(), y + height );
     }
 }
