@@ -5,6 +5,7 @@ import java.awt.geom.Dimension2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
 
@@ -23,9 +24,12 @@ public class Dispenser {
     //True if the user has selected this dispenser type
     public final Property<Boolean> enabled = new Property<Boolean>( false );
     protected final Beaker beaker;
+    //True if the user is allowed to add more solute, false if the limit has been reached (10 moles per solute).
+    protected final ObservableProperty<Boolean> moreAllowed;
 
-    public Dispenser( double x, double y, double angle, Beaker beaker ) {
+    public Dispenser( double x, double y, double angle, Beaker beaker, ObservableProperty<Boolean> moreAllowed ) {
         this.beaker = beaker;
+        this.moreAllowed = moreAllowed;
         this.angle = new DoubleProperty( angle );
         center = new Property<ImmutableVector2D>( new ImmutableVector2D( x, y ) );
     }

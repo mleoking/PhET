@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.sugarandsaltsolutions.intro.model.MacroSalt;
 
 import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.parseAngleAndMagnitude;
@@ -26,8 +27,8 @@ public class SaltShaker extends Dispenser {
     //Keep track of recorded positions when the shaker is translated so we can compute accelerations, which are responsible for shaking out the salt
     private ArrayList<ImmutableVector2D> positions = new ArrayList<ImmutableVector2D>();
 
-    public SaltShaker( double x, double y, Beaker beaker ) {
-        super( x, y, Math.PI * 3 / 4, beaker );
+    public SaltShaker( double x, double y, Beaker beaker, ObservableProperty<Boolean> moreAllowed ) {
+        super( x, y, Math.PI * 3 / 4, beaker, moreAllowed );
     }
 
     //Translate the dispenser by the specified delta in model coordinates
@@ -65,7 +66,7 @@ public class SaltShaker extends Dispenser {
     //Called when the model steps in time, and adds any salt crystals to the sim if the dispenser is pouring
     public void updateModel( SugarAndSaltSolutionModel model ) {
         //Check to see if we should be emitting salt crystals-- if the shaker was shaken enough
-        if ( enabled.get() && shakeAmount > 0 ) {
+        if ( enabled.get() && shakeAmount > 0 && moreAllowed.get() ) {
             int numCrystals = (int) ( random.nextInt( 2 ) + Math.min( shakeAmount * 4000, 4 ) );
             for ( int i = 0; i < numCrystals; i++ ) {
                 //Determine where the salt should come out

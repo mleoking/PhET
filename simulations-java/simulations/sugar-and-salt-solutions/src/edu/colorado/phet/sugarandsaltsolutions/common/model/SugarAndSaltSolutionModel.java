@@ -16,7 +16,6 @@ import edu.colorado.phet.common.phetcommon.model.event.Notifier;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
-import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -24,6 +23,7 @@ import edu.colorado.phet.common.piccolophet.nodes.conductivitytester.IConductivi
 import edu.colorado.phet.sugarandsaltsolutions.intro.model.MacroCrystal;
 import edu.colorado.phet.sugarandsaltsolutions.intro.model.MacroSalt;
 import edu.colorado.phet.sugarandsaltsolutions.intro.model.MacroSugar;
+import edu.colorado.phet.sugarandsaltsolutions.intro.model.SoluteModel;
 
 import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType.SALT;
 import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType.SUGAR;
@@ -34,7 +34,7 @@ import static edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSo
  *
  * @author Sam Reid
  */
-public abstract class SugarAndSaltSolutionModel implements ResetModel {
+public class SugarAndSaltSolutionModel implements ResetModel {
     //Beaker dimensions and location in meters, public so other classes can use them for layout
     public static final double BEAKER_WIDTH = 0.2;
     public static final double BEAKER_X = -BEAKER_WIDTH / 2;
@@ -53,8 +53,8 @@ public abstract class SugarAndSaltSolutionModel implements ResetModel {
 
     //Beaker and water models
     public final Beaker beaker = new Beaker( BEAKER_X, 0, BEAKER_WIDTH, BEAKER_HEIGHT, BEAKER_DEPTH );//The beaker into which you can add water, salt and sugar.
-    protected Property<Double> m_solidPrecipitateDisplacedVolume = new DoubleProperty( 0.0 );
-    public final Water water = new Water( beaker, m_solidPrecipitateDisplacedVolume );
+
+    public final Water water = new Water( beaker );
 
     //Model for input and output flows
     public final Property<Double> inputFlowRate = new Property<Double>( 0.0 );//rate that water flows into the beaker in m^3/s
@@ -86,8 +86,57 @@ public abstract class SugarAndSaltSolutionModel implements ResetModel {
 
     public final Property<Boolean> showConcentrationValues = new Property<Boolean>( false );//True if the values should be shown
 
+    //Saturation points for salt and sugar assume 25 degrees C
+    private static final double saltSaturationPoint = 6.14 * 1000;//6.14 moles per liter, converted to SI
+    private static final double sugarSaturationPoint = 5.85 * 1000;//5.85 moles per liter, converted to SI
+
+    //Model moles, concentration, amount dissolved, amount precipitated, etc. for salt and sugar
+    public final SoluteModel salt = new SoluteModel( water.volume, saltSaturationPoint, 0.02699 / 1000.0 );
+    public final SoluteModel sugar = new SoluteModel( water.volume, sugarSaturationPoint, 0.2157 / 1000.0 );
+
+    //Determine if there are any solutes (i.e., if moles of salt or moles of sugar is greater than zero).  This is used to show/hide the "remove solutes" button
+    public final ObservableProperty<Boolean> anySolutes = salt.moles.greaterThan( 0 ).or( sugar.moles.greaterThan( 0 ) );
+    public final Property<Boolean> showConcentrationBarChart = new Property<Boolean>( true );
+
+    public final ObservableProperty<Double> displacedWaterVolume = water.volume.plus( salt.solidVolume, sugar.solidVolume );
+    private ObservableProperty<Boolean> moreSugarAllowed = sugar.moles.lessThan( 10 );
+    private ObservableProperty<Boolean> moreSaltAllowed = salt.moles.lessThan( 10 );
+
+    //When a crystal is absorbed by the water, increase the number of moles in solution
+    protected void crystalAbsorbed( MacroCrystal crystal ) {
+        if ( crystal instanceof MacroSalt ) {
+            salt.moles.set( salt.moles.get() + crystal.getMoles() );
+        }
+        else if ( crystal instanceof MacroSugar ) {
+            sugar.moles.set( sugar.moles.get() + crystal.getMoles() );
+        }
+    }
+
+    //Called when the user presses a button to clear the solutes, removes all solutes from the sim
+    public void removeSaltAndSugar() {
+        removeCrystals( sugarList, sugarList );
+        removeCrystals( saltList, saltList );
+        salt.moles.set( 0.0 );
+        sugar.moles.set( 0.0 );
+    }
+
+    //Called when water (with dissolved solutes) flows out of the beaker, so that subclasses can update concentrations if necessary.
+    //Have some moles of salt and sugar flow out so that the concentration remains unchanged
+    protected void waterDrained( double outVolume, double initialSaltConcentration, double initialSugarConcentration ) {
+
+        //Make sure to keep the concentration the same when water flowing out.  Use the values recorded before the model stepped to ensure conservation of solute moles
+        updateConcentration( outVolume, initialSaltConcentration, salt.moles );
+        updateConcentration( outVolume, initialSugarConcentration, sugar.moles );
+    }
+
+    //Make sure to keep the concentration the same when water flowing out
+    private void updateConcentration( double outVolume, double concentration, SettableProperty<Double> moles ) {
+        double molesOfSoluteLeaving = concentration * outVolume;
+        moles.set( moles.get() - molesOfSoluteLeaving );
+    }
+
     //Model for the sugar dispenser
-    public final SugarDispenser sugarDispenser = new SugarDispenser( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker ) {{
+    public final SugarDispenser sugarDispenser = new SugarDispenser( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSugarAllowed ) {{
         //Wire up the SugarDispenser so it is enabled when the model has the SUGAR type dispenser selected
         dispenserType.addObserver( new VoidFunction1<DispenserType>() {
             public void apply( DispenserType dispenserType ) {
@@ -97,7 +146,7 @@ public abstract class SugarAndSaltSolutionModel implements ResetModel {
     }};
 
     //Model for the salt shaker
-    public SaltShaker saltShaker = new SaltShaker( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker ) {{
+    public SaltShaker saltShaker = new SaltShaker( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSaltAllowed ) {{
         //Wire up the SugarDispenser so it is enabled when the model has the SALT type dispenser selected
         dispenserType.addObserver( new VoidFunction1<DispenserType>() {
             public void apply( DispenserType dispenserType ) {
@@ -160,10 +209,8 @@ public abstract class SugarAndSaltSolutionModel implements ResetModel {
 
         //Set the brightness to be a linear function of the salt concentration (but keeping it bounded between 0 and 1 which are the limits of the conductivity tester brightness
         //Use a scale factor that matches up with the limits on saturation (manually sampled at runtime)
-        conductivityTester.brightness.set( bothProbesTouching ? MathUtil.clamp( 0, getSaltConcentration() * 1.62E-4, 1 ) : 0.0 );
+        conductivityTester.brightness.set( bothProbesTouching ? MathUtil.clamp( 0, salt.concentration.get() * 1.62E-4, 1 ) : 0.0 );
     }
-
-    public abstract double getSaltConcentration();
 
     //Adds the specified Sugar crystal to the model
     public void addMacroSugar( final MacroSugar sugar ) {
@@ -179,6 +226,11 @@ public abstract class SugarAndSaltSolutionModel implements ResetModel {
 
     //Update the model when the clock ticks
     protected void updateModel( double dt ) {
+
+        //Have to record the concentrations before the model updates since the concentrations change if water is added or removed.
+        double initialSaltConcentration = salt.concentration.get();
+        double initialSugarConcentration = sugar.concentration.get();
+
         //Add any new crystals from the salt & sugar dispensers
         sugarDispenser.updateModel( this );
         saltShaker.updateModel( this );
@@ -233,16 +285,12 @@ public abstract class SugarAndSaltSolutionModel implements ResetModel {
         //Notify listeners that some water (with solutes) exited the system, so they can decrease the amounts of solute (mols, not molarity) in the system
         //Only call when draining, would have the wrong behavior for evaporation
         if ( drainedWater > 0 ) {
-            waterDrained( drainedWater );
+            waterDrained( drainedWater, initialSaltConcentration, initialSugarConcentration );
         }
 
         //Move about the sugar and salt crystals, and maybe absorb them
         updateCrystals( dt, saltList );
         updateCrystals( dt, sugarList );
-    }
-
-    //Called when water (with dissolved solutes) flows out of the beaker, so that subclasses can update concentrations if necessary.
-    protected void waterDrained( double outVolume ) {
     }
 
     //Propagate the sugar and salt crystals, and absorb them if they hit the water
@@ -276,17 +324,6 @@ public abstract class SugarAndSaltSolutionModel implements ResetModel {
             crystal.remove();
             crystalList.remove( crystal );
         }
-    }
-
-    //Called when a crystal is absorbed by the water.
-    // For instance, in the first tab it computes the resulting concentration change
-    protected void crystalAbsorbed( MacroCrystal crystal ) {
-    }
-
-    //Called when the user presses a button to clear the solutes, removes all solutes from the sim
-    public void removeSaltAndSugar() {
-        removeCrystals( sugarList, sugarList );
-        removeCrystals( saltList, saltList );
     }
 
     public void reset() {
