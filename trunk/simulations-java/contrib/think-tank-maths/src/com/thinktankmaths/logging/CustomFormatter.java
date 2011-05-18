@@ -1,4 +1,3 @@
-// Copyright 2002-2011, University of Colorado
 package com.thinktankmaths.logging;
 
 // source: http://javablog.co.uk/2008/07/12/logging-with-javautillogging/
