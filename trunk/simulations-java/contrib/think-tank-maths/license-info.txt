@@ -1,1 +1,1 @@
-think-tank-maths license=LGPL licensefile=license-LGPL-3.txt name=ThinkTank Maths Limited description=a custom logging formatter copyright=ThinkTank Maths Limited website=http://thinktankmaths.com
+think-tank-maths license=LGPL licensefile=license-LGPL-3.txt name=ThinkTank Maths Limited description=a custom logging formatter copyright=2008 ThinkTank Maths Limited website=http://thinktankmaths.com
