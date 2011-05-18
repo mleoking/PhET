@@ -65,6 +65,11 @@
     <methods>;
 }
 
+-keep class com.thinktankmaths.logging.CustomFormatter{
+    <fields>;
+    <methods>;
+}
+
 #
 ##############
 

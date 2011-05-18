@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.common.phetcommon.util.logging;
+package com.thinktankmaths.logging;
 
 // source: http://javablog.co.uk/2008/07/12/logging-with-javautillogging/
 /*
@@ -29,34 +29,6 @@ import java.util.logging.Formatter;
 import java.util.logging.LogManager;
 import java.util.logging.LogRecord;
 
-import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
-
-/*
- * Original package and name of this class was com.thinktankmaths.logging.CustomFormatter.
- * <p>
- * Additional documentation, from http://javablog.co.uk/2008/07/12/logging-with-javautillogging/
- * You'll need to change package names here.
- * </p>
- * In the logging.properties file, you can specify "handlers" which direct the logs to different places (console, file or database),
- * filters at many different points (so you only see logs of a certain priority), formatters (to customise the output)
- * and you can even specify these options on a per-package or per-class basis! An example file looks something like this
- * <code>
- * # the handlers are a comma separated list of outputs, you can add a file or database output
- * handlers = java.util.logging.ConsoleHandler
- * # you can filter by level on individual handlers, but let's just print everything
- * java.util.logging.ConsoleHandler.level = ALL
- * # this tells the handler to use our custom formatter
- * java.util.logging.ConsoleHandler.formatter = com.thinktankmaths.logging.CustomFormatter
- * # you don't need to specify the next line, which demonstrates a very terse log format
- * com.thinktankmaths.logging.CustomFormatter.format = %L: %m [%C.%M]
- * # because you name your loggers, you can easily limit the Level of logs that are output
- * # this logs all messages for anything in your classes, but only "INFO" and above
- * # for everything else
- * .level = INFO
- * com.thinktankmaths.com.level = ALL
- * your_package_namespace_here.level = ALL
- */
-
 /**
  * A {@link Formatter} that may be customised in a {@code logging.properties}
  * file. The syntax of the property
@@ -78,7 +50,31 @@ import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
  *
  * @author Samuel Halliday
  */
-public class TTMLoggingFormatter extends Formatter implements IProguardKeepClass {
+/*
+ * Additional usage documentation, added by PhET,
+ * copied from http://javablog.co.uk/2008/07/12/logging-with-javautillogging/
+ * </p>
+ * In the logging.properties file, you can specify "handlers" which direct the logs to different places (console, file or database),
+ * filters at many different points (so you only see logs of a certain priority), formatters (to customise the output)
+ * and you can even specify these options on a per-package or per-class basis! An example file looks something like this
+ * <code>
+ * # the handlers are a comma separated list of outputs, you can add a file or database output
+ * handlers = java.util.logging.ConsoleHandler
+ * # you can filter by level on individual handlers, but let's just print everything
+ * java.util.logging.ConsoleHandler.level = ALL
+ * # this tells the handler to use our custom formatter
+ * java.util.logging.ConsoleHandler.formatter = com.thinktankmaths.logging.CustomFormatter
+ * # you don't need to specify the next line, which demonstrates a very terse log format
+ * com.thinktankmaths.logging.CustomFormatter.format = %L: %m [%C.%M]
+ * # because you name your loggers, you can easily limit the Level of logs that are output
+ * # this logs all messages for anything in your classes, but only "INFO" and above
+ * # for everything else
+ * .level = INFO
+ * com.thinktankmaths.com.level = ALL
+ * your_package_namespace_here.level = ALL
+ * </code>
+ */
+public class CustomFormatter extends Formatter {
 
     private static final String DEFAULT_FORMAT = "%L: %m [%c.%M %t]";
 
@@ -87,7 +83,7 @@ public class TTMLoggingFormatter extends Formatter implements IProguardKeepClass
     private final DateFormat dateFormat = new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss Z" );
 
     /** */
-    public TTMLoggingFormatter() {
+    public CustomFormatter() {
         super();
 
         // load the format from logging.properties
