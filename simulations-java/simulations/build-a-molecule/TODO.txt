@@ -1,5 +1,4 @@
 I18nize text bubble
-BCE Element/Atom work
 Scissors bug on Mac?
 Bucket phetcommon cleanup
 Icon improvement
