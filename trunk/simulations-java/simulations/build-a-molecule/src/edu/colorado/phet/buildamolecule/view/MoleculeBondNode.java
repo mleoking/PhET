@@ -2,6 +2,7 @@
 package edu.colorado.phet.buildamolecule.view;
 
 import java.awt.*;
+import java.awt.event.InputEvent;
 import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 
@@ -73,6 +74,8 @@ public class MoleculeBondNode extends PNode {
                 // hit target is invisible
                 setTransparency( 0.0f );
 
+                final int mouseMask = InputEvent.BUTTON1_DOWN_MASK;
+
                 addInputEventListener( new CursorHandler( createEmptyCursor() ) {
                     @Override public void mouseClicked( PInputEvent event ) {
                         // actually snip and break the bond
@@ -84,6 +87,10 @@ public class MoleculeBondNode extends PNode {
 
                     @Override public void mouseEntered( PInputEvent event ) {
                         super.mouseEntered( event );
+                        if ( ( event.getModifiersEx() & mouseMask ) == mouseMask ) {
+                            // if the mouse is down on entry, we BAIL! flickering was occurring due to enter events during regular drag
+                            return;
+                        }
 
                         // mark the mouse as over our hit zone
                         isOver = true;
