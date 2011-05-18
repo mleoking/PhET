@@ -43,7 +43,7 @@ public abstract class AbstractCircuit implements ICircuit {
 
     // Q_total = V_total * C_total
     public double getTotalCharge() {
-        return getBattery().getVoltage() * getTotalCapacitance();
+        return getTotalVoltage() * getTotalCapacitance();
     }
 
     public double getTotalVoltage() {
