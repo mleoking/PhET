@@ -98,7 +98,7 @@ public class BarChartsNode extends PComposite {
         ArrayList<AtomCount> atomCounts = equation.getAtomCounts();
         for ( AtomCount atomCount : atomCounts ) {
             int count = ( isReactants ? atomCount.getReactantsCount() : atomCount.getProductsCount() );
-            BarNode barNode = new BarNode( atomCount.getAtom(), count );
+            BarNode barNode = new BarNode( atomCount.getElement(), count );
             barNode.setOffset( x, 0 );
             parent.addChild( barNode );
             x = barNode.getFullBoundsReference().getMaxX() + 90;

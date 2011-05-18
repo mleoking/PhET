@@ -4,6 +4,7 @@ package edu.colorado.phet.balancingchemicalequations.model;
 
 import java.awt.*;
 
+import edu.colorado.phet.chemistry.model.Atom;
 import edu.colorado.phet.chemistry.model.Element;
 import edu.colorado.phet.chemistry.molecules.*;
 import edu.colorado.phet.chemistry.molecules.HorizontalMoleculeNode.*;
@@ -21,7 +22,7 @@ import static edu.colorado.phet.chemistry.model.Element.*;
 public abstract class Molecule {
 
     private final Image image;
-    private final Element[] atoms;
+    private final Atom[] atoms;
     private final String symbol;
 
     /**
@@ -31,16 +32,19 @@ public abstract class Molecule {
      * creating a visual representation based on a list of atoms.
      *
      * @param image
-     * @param atoms
+     * @param elements
      */
-    public Molecule( Image image, Element... atoms ) {
+    public Molecule( Image image, Element... elements ) {
         this.image = image;
-        this.atoms = atoms;
-        this.symbol = ChemUtils.createSymbol( atoms );
+        this.symbol = ChemUtils.createSymbol( elements );
+        atoms = new Atom[elements.length];
+        for ( int i = 0; i < atoms.length; i++ ) {
+            atoms[i] = new Atom( elements[i] );
+        }
     }
 
-    protected Molecule( PNode node, Element... atoms ) {
-        this( node.toImage(), atoms );
+    protected Molecule( PNode node, Element... elements ) {
+        this( node.toImage(), elements );
     }
 
     public String getSymbol() {
@@ -51,7 +55,7 @@ public abstract class Molecule {
         return image;
     }
 
-    public Element[] getAtoms() {
+    public Atom[] getAtoms() {
         return atoms;
     }
 

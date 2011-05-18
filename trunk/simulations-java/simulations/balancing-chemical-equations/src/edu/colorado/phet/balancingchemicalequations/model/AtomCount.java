@@ -13,17 +13,17 @@ import edu.colorado.phet.chemistry.model.Element;
  */
 public class AtomCount {
 
-    private final Element atom;
+    private final Element element;
     private int reactantsCount, productsCount;
 
-    public AtomCount( Element atom, int reactantsCount, int productsCount ) {
-        this.atom = atom;
+    public AtomCount( Element element, int reactantsCount, int productsCount ) {
+        this.element = element;
         this.reactantsCount = reactantsCount;
         this.productsCount = productsCount;
     }
 
-    public Element getAtom() {
-        return atom;
+    public Element getElement() {
+        return element;
     }
 
     public int getReactantsCount() {
