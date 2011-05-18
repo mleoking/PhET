@@ -11,15 +11,19 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  */
 public interface IBucketSphere<U extends IBucketSphere> {
 
-    /*---------------------------------------------------------------------------*
-    * TODO: document the following methods, convert to or augment with abstract class
-    *----------------------------------------------------------------------------*/
-
     double getRadius();
+
+    /*---------------------------------------------------------------------------*
+    * current position
+    *----------------------------------------------------------------------------*/
 
     ImmutableVector2D getPosition();
 
     void setPosition( ImmutableVector2D position );
+
+    /*---------------------------------------------------------------------------*
+    * destination (where the IBucketSphere will end up)
+    *----------------------------------------------------------------------------*/
 
     ImmutableVector2D getDestination();
 
@@ -27,13 +31,21 @@ public interface IBucketSphere<U extends IBucketSphere> {
 
     void setPositionAndDestination( ImmutableVector2D position );
 
-    void addListener( Listener<U> listener );
-
-    void removeListener( Listener<U> listener );
+    /*---------------------------------------------------------------------------*
+    * position events. should fire if the IBucketSphere moves
+    *----------------------------------------------------------------------------*/
 
     void addPositionListener( SimpleObserver observer );
 
     void removePositionListener( SimpleObserver observer );
+
+    /*---------------------------------------------------------------------------*
+    * general events (grabbed, dropped, removed) that the bucket needs to know
+    *----------------------------------------------------------------------------*/
+
+    void addListener( Listener<U> listener );
+
+    void removeListener( Listener<U> listener );
 
     public static interface Listener<T extends IBucketSphere> {
         void grabbedByUser( T particle );
@@ -53,4 +65,5 @@ public interface IBucketSphere<U extends IBucketSphere> {
         public void removedFromModel( T particle ) {
         }
     }
+
 }
