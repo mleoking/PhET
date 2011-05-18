@@ -145,7 +145,7 @@ public abstract class ObservableProperty<T> implements Cloneable {
     public void trace( final String text ) {
         addObserver( new VoidFunction1<T>() {
             public void apply( T t ) {
-                LOGGER.info( text + "=" + t );
+                LOGGER.info( text + ": " + t );
             }
         } );
     }
