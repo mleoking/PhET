@@ -39,7 +39,6 @@ public class SugarDispenser extends Dispenser {
     private void setTranslating( boolean translating ) {
         this.translating = translating;
         open.set( translating );
-//        angle.set( translating ? 2.0 : 1.2 );
     }
 
     //Called when the model steps in time, and adds any sugar crystals to the sim if the dispenser is pouring

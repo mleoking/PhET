@@ -21,8 +21,8 @@ public class SugarDispenserNode extends DispenserNode<SugarDispenser> {
     private static final BufferedImage openFull = multiScaleToHeight( RESOURCES.getImage( "sugar_open.png" ), 250 );
     private static final BufferedImage closedFull = multiScaleToHeight( RESOURCES.getImage( "sugar_closed.png" ), 250 );
 
-    private static final BufferedImage openEmpty = multiScaleToHeight( RESOURCES.getImage( "sugar_open.png" ), 250 );
-    private static final BufferedImage closedEmpty = multiScaleToHeight( RESOURCES.getImage( "sugar_closed.png" ), 250 );
+    private static final BufferedImage openEmpty = multiScaleToHeight( RESOURCES.getImage( "sugar_empty_open.png" ), 250 );
+    private static final BufferedImage closedEmpty = multiScaleToHeight( RESOURCES.getImage( "sugar_empty_closed.png" ), 250 );
 
     public SugarDispenserNode( final ModelViewTransform transform, final SugarDispenser model ) {
         super( transform, model );
@@ -35,13 +35,7 @@ public class SugarDispenserNode extends DispenserNode<SugarDispenser> {
         } );
 
         //Choose the image based on the angle.  If it is tipped sideways the opening should flip open.
-        model.open.addObserver( new VoidFunction1<Boolean>() {
-            public void apply( Boolean open ) {
-                imageNode.setImage( open ? openFull : closedFull );
-            }
-        } );
-
-        //Update the image when the the dispenser opens/closes and empties/fills.
+        //Also update the image when the the dispenser opens/closes and empties/fills.
         new RichSimpleObserver() {
             @Override public void update() {
                 imageNode.setImage(
