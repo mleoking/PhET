@@ -64,7 +64,7 @@ public class CollectionBox {
      * @return Whether it can be dropped in
      */
     public <U extends Atom> boolean willAllowMoleculeDrop( MoleculeStructure<U> moleculeStructure ) {
-        boolean equivalent = getMoleculeType().getStructure().isEquivalent( moleculeStructure );
+        boolean equivalent = getMoleculeType().isEquivalent( moleculeStructure );
 
         // whether the structure is acceptable
         return equivalent && quantity.get() < capacity;

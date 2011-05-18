@@ -9,6 +9,7 @@ import java.util.List;
 import org.jmol.api.JmolViewer;
 
 import edu.colorado.phet.buildamolecule.BuildAMoleculeResources;
+import edu.colorado.phet.buildamolecule.model.CompleteMolecule.PubChemAtom;
 import edu.colorado.phet.chemistry.model.Atom;
 import edu.colorado.phet.chemistry.model.Element;
 import edu.colorado.phet.chemistry.molecules.*;
@@ -17,14 +18,14 @@ import edu.umd.cs.piccolo.PNode;
 import static edu.colorado.phet.chemistry.molecules.HorizontalMoleculeNode.*;
 
 /**
- * Represents a complete (stable) molecule with a name and structure. Includes 2d and 3d representations, and can generate visuals of both types.
+ * Represents a complete (stable) molecule with a name and structure. Includes 2d and 3d representations,
+ * and can generate visuals of both types.
  */
-public class CompleteMolecule {
+public class CompleteMolecule extends MoleculeStructure<PubChemAtom> {
     private String commonName; // as said by pubchem (or overridden)
     private String molecularFormula; // as said by pubchem
-    private MoleculeStructure<PubChemAtom> moleculeStructure;
 
-    public final int cid;
+    public int cid; // TODO: if we can, make this final - need to read CID before construction?
 
     // nodes listed so we can construct them with reflection TODO: auto-construction of nodes like the default case, but tuned?
     private static final Class[] nodeClasses = new Class[] {
@@ -34,26 +35,33 @@ public class CompleteMolecule {
             PCl3Node.class, PCl5Node.class, PF3Node.class, PH3Node.class, SO2Node.class, SO3Node.class
     };
 
+    private CompleteMolecule( String commonName, String molecularFormula, int atomCount, int bondCount ) {
+        super( atomCount, bondCount );
+        this.commonName = commonName;
+        this.molecularFormula = molecularFormula;
+    }
+
     /**
      * Construct a molecule out of a pipe-separated line.
      *
      * @param line A string that is essentially a serialized molecule
+     * @return A CompleteMolecule that is properly constructed
      */
-    public CompleteMolecule( String line ) {
+    public static CompleteMolecule fromString( String line ) {
         StringTokenizer t = new StringTokenizer( line, "|" );
 
         // read common name first
-        commonName = t.nextToken();
+        String commonName = t.nextToken();
 
         // molecular formula
-        molecularFormula = t.nextToken();
+        String molecularFormula = t.nextToken();
 
         // # of atoms
         int atomCount = Integer.parseInt( t.nextToken() );
 
         // # of bonds
         int bondCount = Integer.parseInt( t.nextToken() );
-        moleculeStructure = new MoleculeStructure<PubChemAtom>( atomCount, bondCount );
+        CompleteMolecule completeMolecule = new CompleteMolecule( commonName, molecularFormula, atomCount, bondCount );
 
         // for each atom, read its symbol, then 2d coordinates, then 3d coordinates (total of 6 fields)
         for ( int i = 0; i < atomCount; i++ ) {
@@ -64,7 +72,7 @@ public class CompleteMolecule {
             float y3d = Float.parseFloat( t.nextToken() );
             float z3d = Float.parseFloat( t.nextToken() );
             PubChemAtom atom = new PubChemAtom( Element.getElementBySymbol( symbol ), x2d, y2d, x3d, y3d, z3d );
-            moleculeStructure.addAtom( atom );
+            completeMolecule.addAtom( atom );
         }
 
         // for each bond, read atom indices (2 of them, which are 1-indexed), and then the order of the bond (single, double, triple, etc.)
@@ -72,12 +80,13 @@ public class CompleteMolecule {
             int a = Integer.parseInt( t.nextToken() );
             int b = Integer.parseInt( t.nextToken() );
             int order = Integer.parseInt( t.nextToken() );
-            // TODO: subclass bond instead of using wrapper?
-            PubChemBond bond = new PubChemBond( moleculeStructure.getAtoms().get( a - 1 ), moleculeStructure.getAtoms().get( b - 1 ), order ); // -1 since our format is 1-based
-            moleculeStructure.addBond( bond );
+            PubChemBond bond = new PubChemBond( completeMolecule.getAtoms().get( a - 1 ), completeMolecule.getAtoms().get( b - 1 ), order ); // -1 since our format is 1-based
+            completeMolecule.addBond( bond );
         }
 
-        cid = Integer.parseInt( t.nextToken() );
+        completeMolecule.cid = Integer.parseInt( t.nextToken() );
+
+        return completeMolecule;
     }
 
     public String getCommonName() {
@@ -125,10 +134,6 @@ public class CompleteMolecule {
         return String.valueOf( characters );
     }
 
-    public MoleculeStructure<PubChemAtom> getStructure() {
-        return moleculeStructure;
-    }
-
     /**
      * @return An XML CML string for our 3D representation
      */
@@ -137,16 +142,16 @@ public class CompleteMolecule {
                      "<molecule id=\"" + commonName + "\" xmlns=\"http://www.xml-cml.org/schema\">";
         ret += "<name>" + commonName + "</name>";
         ret += "<atomArray>";
-        for ( int i = 0; i < getStructure().getAtoms().size(); i++ ) {
-            PubChemAtom atom = getStructure().getAtoms().get( i );
+        for ( int i = 0; i < this.getAtoms().size(); i++ ) {
+            PubChemAtom atom = this.getAtoms().get( i );
             // TODO: include the formal charge possibly later, if Jmol can show it?
             ret += "<atom id=\"a" + i + "\" elementType=\"" + atom.getSymbol() + "\" x3=\"" + atom.x3d + "\" y3=\"" + atom.y3d + "\" z3=\"" + atom.z3d + "\"/>";
         }
         ret += "</atomArray>";
         ret += "<bondArray>";
-        for ( Bond<PubChemAtom> bond : getStructure().getBonds() ) {
+        for ( Bond<PubChemAtom> bond : this.getBonds() ) {
             PubChemBond bondWrapper = (PubChemBond) bond;
-            ret += "<bond atomRefs2=\"a" + getStructure().getAtoms().indexOf( bondWrapper.a ) + " a" + getStructure().getAtoms().indexOf( bondWrapper.b ) + "\" order=\"" + bondWrapper.order + "\"/>";
+            ret += "<bond atomRefs2=\"a" + this.getAtoms().indexOf( bondWrapper.a ) + " a" + this.getAtoms().indexOf( bondWrapper.b ) + "\" order=\"" + bondWrapper.order + "\"/>";
         }
         ret += "</bondArray>";
         ret += "</molecule>";
@@ -159,8 +164,8 @@ public class CompleteMolecule {
      * @param viewer Jmol viewer with molecule initialized from getCmlData()
      */
     public void fixJmolColors( JmolViewer viewer ) {
-        for ( int i = 0; i < getStructure().getAtoms().size(); i++ ) {
-            Color color = getStructure().getAtoms().get( i ).getColor();
+        for ( int i = 0; i < this.getAtoms().size(); i++ ) {
+            Color color = this.getAtoms().get( i ).getColor();
 
             viewer.script( "select a" + i + ";  color [" + color.getRed() + "," + color.getGreen() + "," + color.getBlue() + "];" );
         }
@@ -193,7 +198,7 @@ public class CompleteMolecule {
 
         // otherwise, use our 2d positions to construct a version. we get the correct back-to-front rendering
         return new PNode() {{
-            List<PubChemAtom> wrappers = new ArrayList<PubChemAtom>( getStructure().getAtoms() );
+            List<PubChemAtom> wrappers = new ArrayList<PubChemAtom>( CompleteMolecule.this.getAtoms() );
 
             // sort by Z-depth in 3D
             Collections.sort( wrappers, new Comparator<PubChemAtom>() {
@@ -210,7 +215,7 @@ public class CompleteMolecule {
         }};
     }
 
-    private static class PubChemAtom extends Atom {
+    public static class PubChemAtom extends Atom {
         // 2d coordinates
         public final float x2d;
         public final float y2d;
@@ -230,7 +235,7 @@ public class CompleteMolecule {
         }
     }
 
-    private static class PubChemBond extends Bond<PubChemAtom> {
+    public static class PubChemBond extends Bond<PubChemAtom> {
         public final int order;
 
         private PubChemBond( PubChemAtom a, PubChemAtom b, int order ) {

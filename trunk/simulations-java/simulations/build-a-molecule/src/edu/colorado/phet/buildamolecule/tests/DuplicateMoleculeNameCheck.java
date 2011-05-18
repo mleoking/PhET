@@ -14,8 +14,8 @@ public class DuplicateMoleculeNameCheck {
             for ( CompleteMolecule b : molecules ) {
                 if ( a.cid < b.cid && a.getCommonName().equals( b.getCommonName() ) ) {
                     System.out.println( "duplicate name: " + a.getCommonName() + " -- " + a.cid + "," + b.cid );
-                    System.out.println( a.cid + ": " + a.getStructure().getGeneralFormula() );
-                    System.out.println( b.cid + ": " + b.getStructure().getGeneralFormula() );
+                    System.out.println( a.cid + ": " + a.getGeneralFormula() );
+                    System.out.println( b.cid + ": " + b.getGeneralFormula() );
                 }
             }
         }

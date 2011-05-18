@@ -28,9 +28,9 @@ public class MoleculeTableDialog extends JDialog {
         final List<CompleteMolecule> list = new ArrayList<CompleteMolecule>( MoleculeList.getMasterInstance().getAllCompleteMolecules() );
         Collections.sort( list, new Comparator<CompleteMolecule>() {
             public int compare( CompleteMolecule o1, CompleteMolecule o2 ) {
-                int sizeCompare = Double.compare( o1.getStructure().getAtoms().size(), o2.getStructure().getAtoms().size() );
+                int sizeCompare = Double.compare( o1.getAtoms().size(), o2.getAtoms().size() );
                 if ( sizeCompare == 0 ) {
-                    return o1.getStructure().getGeneralFormula().compareToIgnoreCase( o2.getStructure().getGeneralFormula() );
+                    return o1.getGeneralFormula().compareToIgnoreCase( o2.getGeneralFormula() );
                 }
                 return sizeCompare;
             }
@@ -89,7 +89,7 @@ public class MoleculeTableDialog extends JDialog {
                     case 0:
                         return list.get( rowIndex ).getDisplayName();
                     case 1:
-                        return "<html>" + list.get( rowIndex ).getStructure().getGeneralFormulaFragment() + "</html>";
+                        return "<html>" + list.get( rowIndex ).getGeneralFormulaFragment() + "</html>";
                     case 2:
                         return list.get( rowIndex );
                     case 3:

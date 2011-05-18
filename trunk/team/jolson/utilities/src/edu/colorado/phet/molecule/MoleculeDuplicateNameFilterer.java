@@ -66,7 +66,7 @@ public class MoleculeDuplicateNameFilterer {
 
         private Entry( String line ) {
             this.line = line;
-            molecule = new CompleteMolecule( line );
+            molecule = CompleteMolecule.fromString( line );
         }
     }
 }
