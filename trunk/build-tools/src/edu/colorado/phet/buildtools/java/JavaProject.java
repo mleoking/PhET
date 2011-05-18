@@ -17,7 +17,6 @@ import org.apache.tools.ant.types.Path;
 import edu.colorado.phet.buildtools.*;
 import edu.colorado.phet.buildtools.java.projects.JavaSimulationProject;
 import edu.colorado.phet.buildtools.util.BuildPropertiesFile;
-import edu.colorado.phet.buildtools.util.FileUtils;
 import edu.colorado.phet.buildtools.util.PhetBuildUtils;
 import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
@@ -114,7 +113,7 @@ public abstract class JavaProject extends PhetProject {
         System.out.println( "Launching task, output will be printed after finish." );
         new MyAntTaskRunner().runTask( java );
         try {
-            String text = FileUtils.loadFileAsString( file );
+            String text = edu.colorado.phet.common.phetcommon.util.FileUtils.loadFileAsString( file );
             System.out.println( "Process finished:\n" + text );
         }
         catch ( IOException e ) {

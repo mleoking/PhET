@@ -11,7 +11,6 @@ import org.mozilla.javascript.tools.ToolErrorReporter;
 
 import edu.colorado.phet.buildtools.AntTaskRunner;
 import edu.colorado.phet.buildtools.java.projects.WebsiteProject;
-import edu.colorado.phet.buildtools.util.FileUtils;
 
 import com.yahoo.platform.yui.compressor.CssCompressor;
 import com.yahoo.platform.yui.compressor.JavaScriptCompressor;
@@ -36,7 +35,7 @@ public class WebsiteBuildCommand extends JavaBuildCommand {
         super.execute();
 
         // copy the finished WAR into the deployment directory
-        FileUtils.copyToDir( project.getJarFile(), project.getDeployDir() );
+        edu.colorado.phet.common.phetcommon.util.FileUtils.copyToDir( project.getJarFile(), project.getDeployDir() );
     }
 
     @Override
@@ -50,16 +49,16 @@ public class WebsiteBuildCommand extends JavaBuildCommand {
             libDir.mkdirs();
 
             // copy the classes over
-            FileUtils.copyRecursive( project.getClassesDirectory(), classesDir );
+            edu.colorado.phet.common.phetcommon.util.FileUtils.copyRecursive( project.getClassesDirectory(), classesDir );
 
             // copy all of the data we need over
             for ( File file : project.getAllDataDirectories() ) {
                 if ( file.getName().equals( "root" ) && file.getParentFile().getName().equals( project.getName() ) ) {
                     // root directory, dump it in the root
-                    FileUtils.copyRecursive( file, baseDir );
+                    edu.colorado.phet.common.phetcommon.util.FileUtils.copyRecursive( file, baseDir );
                 }
                 else {
-                    FileUtils.copyRecursive( file, classesDir );
+                    edu.colorado.phet.common.phetcommon.util.FileUtils.copyRecursive( file, classesDir );
                 }
             }
 
@@ -69,7 +68,7 @@ public class WebsiteBuildCommand extends JavaBuildCommand {
 //                    continue;
 //                }
                 System.out.println( "Adding (or overwriting) lib with: " + file.getAbsolutePath() );
-                FileUtils.copyToDir( file, libDir );
+                edu.colorado.phet.common.phetcommon.util.FileUtils.copyToDir( file, libDir );
             }
 
             // we then need to copy the other files in the source root that are depended on.
@@ -117,14 +116,14 @@ public class WebsiteBuildCommand extends JavaBuildCommand {
                         return !name.startsWith( "preview" ) && !name.startsWith( "ie" ) && name.endsWith( ".css" );
                     }
                 } ) ) {
-                    cssBuilder.append( FileUtils.loadFileAsString( cssFile ) ).append( "\n" );
+                    cssBuilder.append( edu.colorado.phet.common.phetcommon.util.FileUtils.loadFileAsString( cssFile ) ).append( "\n" );
                 }
 
                 System.out.println( "compressing css" );
                 CssCompressor cssCompressor = new CssCompressor( new StringReader( cssBuilder.toString() ) );
                 StringWriter cssWriter = new StringWriter();
                 cssCompressor.compress( cssWriter, 500 );
-                FileUtils.writeString( new File( cssDir, cssName ), cssWriter.toString() );
+                edu.colorado.phet.common.phetcommon.util.FileUtils.writeString( new File( cssDir, cssName ), cssWriter.toString() );
                 System.out.println( "css finished" );
 
                 /*---------------------------------------------------------------------------*
@@ -132,19 +131,19 @@ public class WebsiteBuildCommand extends JavaBuildCommand {
                 *----------------------------------------------------------------------------*/
 
                 StringBuilder jsBuilder = new StringBuilder();
-                jsBuilder.append( FileUtils.loadFileAsString( new File( jsDir, "autoTracking_phet.js" ) ) ).append( "\n" );
-                jsBuilder.append( FileUtils.loadFileAsString( new File( jsDir, "jquery-1.4.4.min.js" ) ) ).append( "\n" );
-                jsBuilder.append( FileUtils.loadFileAsString( new File( jsDir, "jquery.autocomplete.js" ) ) ).append( "\n" );
-                jsBuilder.append( FileUtils.loadFileAsString( new File( jsDir, "contribution-browse.js" ) ) ).append( "\n" );
-                jsBuilder.append( FileUtils.loadFileAsString( new File( jsDir, "phet-autocomplete.js" ) ) ).append( "\n" );
-                jsBuilder.append( FileUtils.loadFileAsString( new File( jsDir, "phet-misc.js" ) ) ).append( "\n" );
+                jsBuilder.append( edu.colorado.phet.common.phetcommon.util.FileUtils.loadFileAsString( new File( jsDir, "autoTracking_phet.js" ) ) ).append( "\n" );
+                jsBuilder.append( edu.colorado.phet.common.phetcommon.util.FileUtils.loadFileAsString( new File( jsDir, "jquery-1.4.4.min.js" ) ) ).append( "\n" );
+                jsBuilder.append( edu.colorado.phet.common.phetcommon.util.FileUtils.loadFileAsString( new File( jsDir, "jquery.autocomplete.js" ) ) ).append( "\n" );
+                jsBuilder.append( edu.colorado.phet.common.phetcommon.util.FileUtils.loadFileAsString( new File( jsDir, "contribution-browse.js" ) ) ).append( "\n" );
+                jsBuilder.append( edu.colorado.phet.common.phetcommon.util.FileUtils.loadFileAsString( new File( jsDir, "phet-autocomplete.js" ) ) ).append( "\n" );
+                jsBuilder.append( edu.colorado.phet.common.phetcommon.util.FileUtils.loadFileAsString( new File( jsDir, "phet-misc.js" ) ) ).append( "\n" );
 
                 System.out.println( "compressing js" );
                 ToolErrorReporter reporter = new ToolErrorReporter( false );
                 JavaScriptCompressor jsCompressor = new JavaScriptCompressor( new StringReader( jsBuilder.toString() ), reporter );
                 StringWriter jsWriter = new StringWriter();
                 jsCompressor.compress( jsWriter, 500, true, false, false, false );
-                FileUtils.writeString( new File( jsDir, jsName ), jsWriter.toString() );
+                edu.colorado.phet.common.phetcommon.util.FileUtils.writeString( new File( jsDir, jsName ), jsWriter.toString() );
                 System.out.println( "js finished" );
             }
             catch( Exception e ) {

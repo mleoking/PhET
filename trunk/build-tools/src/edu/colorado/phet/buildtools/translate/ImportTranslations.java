@@ -7,7 +7,6 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.buildtools.BuildToolsPaths;
 import edu.colorado.phet.buildtools.PhetProject;
-import edu.colorado.phet.buildtools.util.FileUtils;
 
 /**
  * Still under development.
@@ -72,7 +71,7 @@ public class ImportTranslations {
                     destination = new File( localizationDir, file.getName() );
                 }
 
-                FileUtils.copyTo( file, destination );
+                edu.colorado.phet.common.phetcommon.util.FileUtils.copyTo( file, destination );
                 if ( DO_SVN_ADD ) {
                     /* 
                      * This adds the file to the SVN repository if it didn't already exist.

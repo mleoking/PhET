@@ -11,7 +11,6 @@ import javax.swing.*;
 
 import edu.colorado.phet.buildtools.*;
 import edu.colorado.phet.buildtools.flash.FlashSimulationProject;
-import edu.colorado.phet.buildtools.util.FileUtils;
 import edu.colorado.phet.buildtools.util.ScpTo;
 import edu.colorado.phet.buildtools.util.SshUtils;
 import edu.colorado.phet.common.phetcommon.application.VersionInfoQuery;
@@ -140,7 +139,7 @@ public class WebsiteTranslationDeployClient {
             try {
                 PhetProject project = translation.getProject( trunk );
                 project.writeMetaXML();
-                FileUtils.copyToDir( project.getMetaXMLFile(), dir );
+                edu.colorado.phet.common.phetcommon.util.FileUtils.copyToDir( project.getMetaXMLFile(), dir );
             }
             catch( IOException e ) {
                 e.printStackTrace();

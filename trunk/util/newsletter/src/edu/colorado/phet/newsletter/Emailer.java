@@ -14,7 +14,6 @@ import javax.mail.BodyPart;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeBodyPart;
 
-import edu.colorado.phet.buildtools.util.FileUtils;
 import edu.colorado.phet.website.util.EmailUtils;
 
 /**
@@ -33,10 +32,10 @@ public class Emailer {
 
         Properties properties = new Properties();
         properties.load( new FileInputStream( new File( "newsletter-args.properties" ) ) );//TODO: assumes run from the root of the newsletter directory.
-        String body = FileUtils.loadFileAsString( new File( properties.getProperty( "bodyFile" ) ) );//TODO: do we have to specify encoding other than UTF-8?
+        String body = edu.colorado.phet.common.phetcommon.util.FileUtils.loadFileAsString( new File( properties.getProperty( "bodyFile" ) ) );//TODO: do we have to specify encoding other than UTF-8?
 
         ArrayList<String> allEmails = new ArrayList<String>();
-        StringTokenizer st = new StringTokenizer( FileUtils.loadFileAsString( new File( properties.getProperty( "toAddressFile" ) ) ), "\n" );
+        StringTokenizer st = new StringTokenizer( edu.colorado.phet.common.phetcommon.util.FileUtils.loadFileAsString( new File( properties.getProperty( "toAddressFile" ) ) ), "\n" );
         while ( st.hasMoreTokens() ) {
             allEmails.add( st.nextToken().trim() );
         }

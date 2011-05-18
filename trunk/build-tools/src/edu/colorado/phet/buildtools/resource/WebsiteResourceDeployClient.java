@@ -7,7 +7,6 @@ import java.util.Date;
 import edu.colorado.phet.buildtools.AuthenticationInfo;
 import edu.colorado.phet.buildtools.BuildLocalProperties;
 import edu.colorado.phet.buildtools.PhetWebsite;
-import edu.colorado.phet.buildtools.util.FileUtils;
 import edu.colorado.phet.buildtools.util.ScpTo;
 import edu.colorado.phet.buildtools.util.SshUtils;
 
@@ -225,7 +224,7 @@ public class WebsiteResourceDeployClient {
         propertiesString += "sims=" + simList + "\n";
         propertiesString += "resourceDestination=" + resourceDestination + "\n";
         propertiesString += "mode=" + mode + "\n";
-        FileUtils.writeString( propertiesFile, propertiesString );
+        edu.colorado.phet.common.phetcommon.util.FileUtils.writeString( propertiesFile, propertiesString );
 
         WebsiteResourceDeployClient client = new WebsiteResourceDeployClient( website, resourceFile, propertiesFile );
         System.out.println( "****** Uploading resource file and properties" );

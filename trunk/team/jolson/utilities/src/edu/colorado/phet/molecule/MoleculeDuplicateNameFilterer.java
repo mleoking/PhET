@@ -6,15 +6,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-
-import javax.swing.*;
 
 import edu.colorado.phet.buildamolecule.BuildAMoleculeResources;
 import edu.colorado.phet.buildamolecule.model.*;
-import edu.colorado.phet.buildamolecule.module.LargerMoleculesModule;
-import edu.colorado.phet.buildtools.util.FileUtils;
 
 /**
  * Filters out molecules that have duplicate names AND a lower CID value
@@ -57,7 +51,7 @@ public class MoleculeDuplicateNameFilterer {
             builder.append( entry.line ).append( "\n" );
         }
 
-        FileUtils.writeString( outFile, builder.toString() );
+        edu.colorado.phet.common.phetcommon.util.FileUtils.writeString( outFile, builder.toString() );
     }
 
     private static class Entry {

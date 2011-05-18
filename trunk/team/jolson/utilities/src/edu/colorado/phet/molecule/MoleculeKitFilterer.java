@@ -12,7 +12,6 @@ import javax.swing.*;
 import edu.colorado.phet.buildamolecule.BuildAMoleculeResources;
 import edu.colorado.phet.buildamolecule.model.*;
 import edu.colorado.phet.buildamolecule.module.LargerMoleculesModule;
-import edu.colorado.phet.buildtools.util.FileUtils;
 
 public class MoleculeKitFilterer {
     public static final List<ElementHistogram> availableKitHistograms = new LinkedList<ElementHistogram>();
@@ -74,7 +73,7 @@ public class MoleculeKitFilterer {
                     System.out.println( "skipping: " + line );
                 }
             }
-            FileUtils.writeString( outFile, builder.toString() );
+            edu.colorado.phet.common.phetcommon.util.FileUtils.writeString( outFile, builder.toString() );
         }
         finally {
             moleculeReader.close();

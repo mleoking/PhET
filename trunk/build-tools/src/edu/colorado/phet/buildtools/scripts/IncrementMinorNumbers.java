@@ -6,8 +6,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
 
-import edu.colorado.phet.buildtools.util.FileUtils;
-
 /**
  * Author: Sam Reid
  * Jul 27, 2007, 12:54:47 PM
@@ -28,7 +26,7 @@ public class IncrementMinorNumbers {
 
     private static void updateVersionNumbers( String name, File propertyFile ) {
         try {
-            String string = FileUtils.loadFileAsString( propertyFile );
+            String string = edu.colorado.phet.common.phetcommon.util.FileUtils.loadFileAsString( propertyFile );
             System.out.println( "string = \n" + string );
             Properties properties = new Properties();
             properties.load( new FileInputStream( propertyFile ) );

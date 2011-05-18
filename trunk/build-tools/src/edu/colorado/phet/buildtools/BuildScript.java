@@ -373,7 +373,7 @@ public class BuildScript {
         File versionFile = project.getVersionFile();
         try {
             File dest = new File( project.getDeployDir(), versionFile.getName() );
-            FileUtils.copyTo( versionFile, dest );
+            edu.colorado.phet.common.phetcommon.util.FileUtils.copyTo( versionFile, dest );
             System.out.println( "Copied version file to " + dest.getAbsolutePath() );
         }
         catch( IOException e ) {
@@ -461,7 +461,7 @@ public class BuildScript {
 
     public void createHeader( boolean dev ) {
         try {
-            FileUtils.filter( new File( trunk, "build-tools/templates/header-template.html" ), project.getDeployHeaderFile(), createHeaderFilterMap( dev ), "UTF-8" );
+            edu.colorado.phet.common.phetcommon.util.FileUtils.filter( new File( trunk, "build-tools/templates/header-template.html" ), project.getDeployHeaderFile(), createHeaderFilterMap( dev ), "UTF-8" );
         }
         catch( IOException e ) {
             e.printStackTrace();

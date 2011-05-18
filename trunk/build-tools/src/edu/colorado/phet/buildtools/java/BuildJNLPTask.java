@@ -12,7 +12,6 @@ import org.apache.commons.lang.StringEscapeUtils;
 import edu.colorado.phet.buildtools.BuildToolsPaths;
 import edu.colorado.phet.buildtools.PhetProject;
 import edu.colorado.phet.buildtools.Simulation;
-import edu.colorado.phet.buildtools.util.FileUtils;
 import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
 
 /*
@@ -28,7 +27,7 @@ public class BuildJNLPTask {
     protected void buildJNLP( JavaProject project, String simulationName, Locale locale, boolean dev, String codebase, String suffix ) throws Exception {
         Simulation simulation = project.getSimulation( simulationName, locale );
         File JNLP_TEMPLATE = new File( project.getTrunk(), BuildToolsPaths.WEBSTART_TEMPLATE );
-        FileUtils.filter( JNLP_TEMPLATE, getDestFile( project, simulationName, locale, suffix ), createJNLPFilterMap( simulation, project, simulationName, locale, codebase, dev, suffix ), "UTF-16" );
+        edu.colorado.phet.common.phetcommon.util.FileUtils.filter( JNLP_TEMPLATE, getDestFile( project, simulationName, locale, suffix ), createJNLPFilterMap( simulation, project, simulationName, locale, codebase, dev, suffix ), "UTF-16" );
     }
 
     private String getJNLPFileName( String simulationName, Locale locale, String suffix ) {

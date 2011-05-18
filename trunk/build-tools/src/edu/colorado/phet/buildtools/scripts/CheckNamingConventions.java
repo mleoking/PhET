@@ -5,7 +5,6 @@ import java.io.IOException;
 
 import edu.colorado.phet.buildtools.PhetProject;
 import edu.colorado.phet.buildtools.Simulation;
-import edu.colorado.phet.buildtools.util.FileUtils;
 
 /**
  * Created by: Sam
@@ -39,7 +38,7 @@ public class CheckNamingConventions {
         //optionally make sure each source path appears in IML file (IntelliJ Idea only)
         final File file = new File( basedir, "intellij-idea-all.iml" );
         if ( file.exists() ) {
-            String s = FileUtils.loadFileAsString( file );
+            String s = edu.colorado.phet.common.phetcommon.util.FileUtils.loadFileAsString( file );
             int index = s.indexOf( "" + project.getName() + "/src" );
             if ( index < 0 ) {
                 System.out.println( "Missing source: " + project.getName() );
