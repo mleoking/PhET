@@ -39,25 +39,25 @@ import edu.umd.cs.piccolox.nodes.PComposite;
     private static final int NUMBER_OF_TILT_ANGLES = 6;
     private static final int ATOMS_IN_PILE_BASE = 5; // number of atoms along the base of each pile
 
-    private final Element atom;
+    private final Element element;
     private int leftNumberOfAtoms, rightNumberOfAtoms;
     private final BeamNode beamNode;
     private final PNode atomPilesParentNode;
 
     /**
      * Constructor.
-     * @param atom the atom that we're displaying on the scale
+     * @param element the atom that we're displaying on the scale
      * @param leftNumberOfAtoms
      * @param rightNumberOfAtoms
      * @param highlighted whether the beam is highlighted (used to indicate whether the scale is balanaced)
      */
-    public BalanceScaleNode( Element atom, int leftNumberOfAtoms, int rightNumberOfAtoms, boolean highlighted ) {
+    public BalanceScaleNode( Element element, int leftNumberOfAtoms, int rightNumberOfAtoms, boolean highlighted ) {
 
-        this.atom = atom;
+        this.element = element;
         this.leftNumberOfAtoms = leftNumberOfAtoms;
         this.rightNumberOfAtoms = rightNumberOfAtoms;
 
-        final FulcrumNode fulcrumNode = new FulcrumNode( atom );
+        final FulcrumNode fulcrumNode = new FulcrumNode( element );
         addChild( fulcrumNode );
 
         beamNode = new BeamNode();
@@ -93,12 +93,12 @@ import edu.umd.cs.piccolox.nodes.PComposite;
         atomPilesParentNode.removeAllChildren();
 
         // left pile of atoms, centered on left-half of beam
-        PNode leftPileNode = createAtomPile( leftNumberOfAtoms, atom );
+        PNode leftPileNode = createAtomPile( leftNumberOfAtoms, element );
         leftPileNode.setOffset( -( 0.25 * BEAM_LENGTH ) - ( leftPileNode.getFullBoundsReference().getWidth() / 2 ), 0 );
         atomPilesParentNode.addChild( leftPileNode );
 
         // right pile of atoms, centered on right-half of beam
-        PNode rightPileNode = createAtomPile( rightNumberOfAtoms, atom );
+        PNode rightPileNode = createAtomPile( rightNumberOfAtoms, element );
         rightPileNode.setOffset( ( 0.25 * BEAM_LENGTH ) - ( rightPileNode.getFullBoundsReference().getWidth() / 2 ), 0 );
         atomPilesParentNode.addChild( rightPileNode );
 
@@ -138,7 +138,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
      * Atoms are populated one row at a time, starting from the base of the triangle and working up.
      * Origin is at the lower-left corner of the pile.
      */
-    private static PNode createAtomPile( int numberOfAtoms, Element atom ) {
+    private static PNode createAtomPile( int numberOfAtoms, Element element ) {
         PComposite parent = new PComposite();
         int atomsInRow = ATOMS_IN_PILE_BASE;
         int row = 0;
@@ -147,7 +147,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
         double y = 0;
         for ( int i = 0; i < numberOfAtoms; i++ ) {
 
-            PNode atomNode = new AtomNode( atom );
+            PNode atomNode = new AtomNode( element );
             parent.addChild( atomNode );
 
             atomNode.setOffset( x + ( atomNode.getFullBoundsReference().getWidth() / 2 ), y - ( atomNode.getFullBoundsReference().getHeight() / 2 ) );

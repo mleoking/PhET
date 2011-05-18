@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.balancingchemicalequations.model;
 
+import edu.colorado.phet.chemistry.model.Atom;
 import edu.colorado.phet.chemistry.model.Element;
 
 import java.util.ArrayList;
@@ -175,11 +176,11 @@ public abstract class Equation {
      */
     private static void setAtomCounts(  ArrayList<AtomCount> atomCounts, EquationTerm[] terms, boolean isReactants ) {
         for ( EquationTerm term : terms ) {
-            for ( Element atom : term.getMolecule().getAtoms() ) {
+            for ( Atom atom : term.getMolecule().getAtoms() ) {
                 boolean found = false;
                 for ( AtomCount count : atomCounts ) {
                     // add to an existing count
-                    if ( count.getAtom().equals( atom ) ) {
+                    if ( count.getElement().equals( atom.getElement() ) ) {
                         if ( isReactants ) {
                             count.setReactantsCount( count.getReactantsCount() + term.getUserCoefficient() );
                         }
@@ -193,10 +194,10 @@ public abstract class Equation {
                 // if no existing count was found, create one.
                 if ( !found ) {
                     if ( isReactants ) {
-                        atomCounts.add( new AtomCount( atom, term.getUserCoefficient(), 0 ) );
+                        atomCounts.add( new AtomCount( atom.getElement(), term.getUserCoefficient(), 0 ) );
                     }
                     else {
-                        atomCounts.add( new AtomCount( atom, 0, term.getUserCoefficient() ) );
+                        atomCounts.add( new AtomCount( atom.getElement(), 0, term.getUserCoefficient() ) );
                     }
                 }
             }

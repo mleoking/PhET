@@ -46,11 +46,11 @@ import edu.umd.cs.piccolox.pswing.PSwing;
     private static final Stroke STROKE = new BasicStroke( 1.5f );
     private static final Color STROKE_COLOR = Color.BLACK;
 
-    private final Element atom;
+    private final Element element;
     private int numberOfAtoms;
 
-    public BarNode( Element atom, int numberOfAtoms ) {
-        this.atom = atom;
+    public BarNode( Element element, int numberOfAtoms ) {
+        this.element = element;
         this.numberOfAtoms = numberOfAtoms;
         update();
     }
@@ -76,7 +76,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
         addChild( barNode );
         barNode.setStroke( STROKE );
         barNode.setStrokePaint( STROKE_COLOR );
-        barNode.setPaint( atom.getColor() );
+        barNode.setPaint( element.getColor() );
         if ( numberOfAtoms <= MAX_NUMBER_OF_ATOMS ) {
             // standard bar
             double height = MAX_BAR_SIZE.getHeight() * ( (double) numberOfAtoms / MAX_NUMBER_OF_ATOMS );
@@ -101,11 +101,11 @@ import edu.umd.cs.piccolox.pswing.PSwing;
         barNode.setVisible( numberOfAtoms > 0 );
 
         // icon
-        PNode iconNode = new AtomNode( atom );
+        PNode iconNode = new AtomNode( element );
         addChild( iconNode );
 
         // symbol
-        HTMLNode symbolNode = new HTMLNode( atom.getSymbol() );
+        HTMLNode symbolNode = new HTMLNode( element.getSymbol() );
         symbolNode.setFont( new PhetFont( 24 ) );
         addChild( symbolNode );
 
