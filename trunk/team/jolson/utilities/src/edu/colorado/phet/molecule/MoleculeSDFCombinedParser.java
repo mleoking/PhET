@@ -19,15 +19,48 @@ public class MoleculeSDFCombinedParser {
 
     private static final String SEPARATOR = "|";
 
-    private static String[] desiredProperties = new String[] {
+    private static String[] desiredProperties = new String[]{
             "PUBCHEM_IUPAC_TRADITIONAL_NAME",
             "PUBCHEM_MOLECULAR_FORMULA", "PUBCHEM_PHARMACOPHORE_FEATURES"
 
             , "PUBCHEM_IUPAC_OPENEYE_NAME", "PUBCHEM_IUPAC_CAS_NAME", "PUBCHEM_IUPAC_NAME", "PUBCHEM_IUPAC_SYSTEMATIC_NAME"
     };
 
-    private static int maxHeavy = 12; // hard-count of 12
-    private static int maxCarbon = 4;
+    public static final Set<Integer> EXCLUSION_OVERRIDE_CIDS = new HashSet<Integer>() {{
+        add( 3609161 ); // nitrogen dioxide (ion)
+    }};
+
+    public static final Set<Integer> COLLECTION_BOX_CIDS = new HashSet<Integer>() {{
+        add( 6326 ); // acetylene
+        add( 222 ); // ammonia
+        add( 6331 ); // borane
+        add( 280 ); // CO2
+        add( 281 ); // CO
+        add( 6327 ); // chloromethane
+        add( 6325 ); // ethylene
+        add( 11638 ); // fluoromethane
+        add( 712 ); // formaldehyde
+        add( 768 ); // hydrogen cyanide
+        add( 784 ); // hydrogen peroxide
+        add( 402 ); // hydrogen sulfide
+        add( 297 ); // methane
+        add( 24526 ); // molecular chlorine
+        add( 24524 ); // molecular fluorine
+        add( 783 ); // molecular hydrogen
+        add( 947 ); // molecular nitrogen
+        add( 977 ); // molecular oxygen
+        add( 145068 ); // nitric oxide
+        add( 948 ); // nitrous oxide
+        add( 24823 ); // ozone
+        add( 24404 ); // phosphine
+        add( 23953 ); // silane
+        add( 1119 ); // sulfur dioxide
+        add( 6356 ); // trifluoroborane
+        add( 962 ); // water
+    }};
+
+    private static final int MAX_NUM_HEAVY_ATOMS = 12; // hard-count of 12
+    private static final int MAX_NUM_CARBON = 4;
 
     public static void main( String[] args ) {
         File dir2d = new File( args[0] );
@@ -47,7 +80,7 @@ public class MoleculeSDFCombinedParser {
 
         List<String> molecules = new LinkedList<String>();
 
-        FilteredMoleculeIterator moleculeIterator = new FilteredMoleculeIterator( new MoleculeReader( dir2d, maxHeavy ), new MoleculeReader( dir3d, maxHeavy ) );
+        FilteredMoleculeIterator moleculeIterator = new FilteredMoleculeIterator( new MoleculeReader( dir2d, MAX_NUM_HEAVY_ATOMS ), new MoleculeReader( dir3d, MAX_NUM_HEAVY_ATOMS ) );
 
         try {
 
@@ -128,7 +161,7 @@ public class MoleculeSDFCombinedParser {
                     atoms[i] = new AtomInfo( x2d, y2d, x3d, y3d, z3d, symbol );
                 }
 
-                atomCountsOk = atomCountsOk && numCarbon <= maxCarbon;
+                atomCountsOk = atomCountsOk && numCarbon <= MAX_NUM_CARBON;
 
                 if ( atomCountsOk ) {
 
@@ -205,7 +238,7 @@ public class MoleculeSDFCombinedParser {
             }
 
         }
-        catch ( IOException e ) {
+        catch( IOException e ) {
             e.printStackTrace();
         }
 
@@ -289,7 +322,7 @@ public class MoleculeSDFCombinedParser {
             }
             FileUtils.writeString( outfile, mainBuilder.toString() );
         }
-        catch ( IOException e ) {
+        catch( IOException e ) {
             e.printStackTrace();
         }
     }
