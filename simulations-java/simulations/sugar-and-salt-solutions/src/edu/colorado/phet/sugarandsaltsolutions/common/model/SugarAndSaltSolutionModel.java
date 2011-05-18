@@ -99,8 +99,8 @@ public class SugarAndSaltSolutionModel implements ResetModel {
     public final Property<Boolean> showConcentrationBarChart = new Property<Boolean>( true );
 
     public final ObservableProperty<Double> displacedWaterVolume = water.volume.plus( salt.solidVolume, sugar.solidVolume );
-    private ObservableProperty<Boolean> moreSugarAllowed = sugar.moles.lessThan( 10 );
     private ObservableProperty<Boolean> moreSaltAllowed = salt.moles.lessThan( 10 );
+    private ObservableProperty<Boolean> moreSugarAllowed = sugar.moles.lessThan( 10 );
 
     //When a crystal is absorbed by the water, increase the number of moles in solution
     protected void crystalAbsorbed( MacroCrystal crystal ) {
@@ -135,22 +135,22 @@ public class SugarAndSaltSolutionModel implements ResetModel {
         moles.set( moles.get() - molesOfSoluteLeaving );
     }
 
-    //Model for the sugar dispenser
-    public final SugarDispenser sugarDispenser = new SugarDispenser( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSugarAllowed ) {{
-        //Wire up the SugarDispenser so it is enabled when the model has the SUGAR type dispenser selected
-        dispenserType.addObserver( new VoidFunction1<DispenserType>() {
-            public void apply( DispenserType dispenserType ) {
-                enabled.set( dispenserType == SUGAR );
-            }
-        } );
-    }};
-
     //Model for the salt shaker
     public SaltShaker saltShaker = new SaltShaker( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSaltAllowed ) {{
         //Wire up the SugarDispenser so it is enabled when the model has the SALT type dispenser selected
         dispenserType.addObserver( new VoidFunction1<DispenserType>() {
             public void apply( DispenserType dispenserType ) {
                 enabled.set( dispenserType == SALT );
+            }
+        } );
+    }};
+
+    //Model for the sugar dispenser
+    public final SugarDispenser sugarDispenser = new SugarDispenser( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSugarAllowed ) {{
+        //Wire up the SugarDispenser so it is enabled when the model has the SUGAR type dispenser selected
+        dispenserType.addObserver( new VoidFunction1<DispenserType>() {
+            public void apply( DispenserType dispenserType ) {
+                enabled.set( dispenserType == SUGAR );
             }
         } );
     }};
