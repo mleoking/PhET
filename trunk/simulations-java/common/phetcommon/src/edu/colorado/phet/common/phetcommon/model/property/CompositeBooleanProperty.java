@@ -4,6 +4,9 @@ package edu.colorado.phet.common.phetcommon.model.property;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 
 /**
+ * This class should be used when implementing a composite property with type boolean (such as GreaterThan).
+ * It adds convenience methods like 'or' and 'and' for further composition.
+ *
  * @author Sam Reid
  */
 public class CompositeBooleanProperty extends CompositeProperty<Boolean> {
