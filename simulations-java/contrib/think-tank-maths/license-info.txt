@@ -1,0 +1,1 @@
+think-tank-maths license=ThinkTank Maths Limited license  licensefile=license-think-tank-maths.txt name=ThinkTank Maths Limitied description=custom logging formatter copyright=ThinkTank Maths Limited website=http://thinktankmaths.com
