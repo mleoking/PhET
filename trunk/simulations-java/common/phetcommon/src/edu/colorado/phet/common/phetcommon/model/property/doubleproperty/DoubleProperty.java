@@ -8,7 +8,7 @@ import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 
 /**
- * Convenience subclass that adds methods such as plus(), times(), divide(), etc.
+ * Subclass that adds convenience methods such as plus(), times(), divide(), etc.
  *
  * @author Sam Reid
  */
@@ -45,5 +45,9 @@ public class DoubleProperty extends Property<Double> {
 
     public ObservableProperty<Double> minus( CompositeDoubleProperty b ) {
         return new Minus( this, b );
+    }
+
+    public ObservableProperty<Boolean> lessThan( double b ) {
+        return new LessThan( this, b );
     }
 }
