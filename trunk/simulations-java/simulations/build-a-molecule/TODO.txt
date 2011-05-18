@@ -1,6 +1,5 @@
 I18nize text bubble
 Scissors bug on Mac?
-Bucket phetcommon cleanup
 Icon improvement
 Weird 3d structures?
 Size improvement on structures.txt (and serialized format)
