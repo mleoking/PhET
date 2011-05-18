@@ -35,6 +35,8 @@ public class MoleculeList {
     public static Random random = new Random( System.currentTimeMillis() );
     private static final MoleculeList initialList = new MoleculeList() {{
         loadInitialData();
+
+        // TODO: just use the master instance, but initialize it with this. then we can segregate the molecule data into "collection-molecules.txt" and "other-molecules.txt"
     }};
 
     public static synchronized void startInitialization() {
