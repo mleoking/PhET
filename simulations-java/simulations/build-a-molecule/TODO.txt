@@ -1,4 +1,3 @@
-Scissors bug on Mac?
 Weird 3d structures?
 Size improvement on structures.txt (and serialized format)
 Jmol loading speed is slow - speed up
