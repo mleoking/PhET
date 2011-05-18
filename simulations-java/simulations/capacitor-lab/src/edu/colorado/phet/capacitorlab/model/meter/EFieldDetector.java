@@ -27,8 +27,8 @@ public class EFieldDetector {
     private final Property<Double> dielectricVectorProperty; // field due to dielectric polarization (E_dielectric or E_air, depending on probe location)
     private final Property<Double> sumVectorProperty; // effective (net) field between the plates (E_effective)
 
-    // mutable fields
     private ICircuit circuit;
+    private final CircuitChangeListener circuitChangeListener;
 
     public EFieldDetector( ICircuit circuit, final WorldBounds worldBounds, Point3D bodyLocation, Point3D probeLocation,
                            boolean visible, boolean plateVisible, boolean dielectricVisible, boolean sumVisible, boolean valuesVisible ) {
@@ -51,11 +51,12 @@ public class EFieldDetector {
         // observers
         {
             // update vectors when the circuit changes
-            circuit.addCircuitChangeListener( new CircuitChangeListener() {
+            circuitChangeListener = new CircuitChangeListener() {
                 public void circuitChanged() {
                     updateVectors();
                 }
-            } );
+            };
+            circuit.addCircuitChangeListener( circuitChangeListener );
 
             // update vectors when the probe moves
             probeLocationProperty.addObserver( new SimpleObserver() {
@@ -79,7 +80,9 @@ public class EFieldDetector {
 
     public void setCircuit( ICircuit circuit ) {
         if ( circuit != this.circuit ) {
+            this.circuit.removeCircuitChangeListener( circuitChangeListener );
             this.circuit = circuit;
+            this.circuit.addCircuitChangeListener( circuitChangeListener );
             updateVectors();
         }
     }

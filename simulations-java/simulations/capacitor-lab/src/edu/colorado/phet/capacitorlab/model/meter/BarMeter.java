@@ -61,8 +61,8 @@ public abstract class BarMeter {
     // immutable fields
     private final Function1<ICircuit, Double> valueFunction;
 
-    // mutable fields
     private ICircuit circuit;
+    private CircuitChangeListener circuitChangeListener;
 
     public BarMeter( ICircuit circuit, WorldBounds worldBounds, Point3D location, boolean visible, final Function1<ICircuit, Double> valueFunction ) {
 
@@ -73,11 +73,12 @@ public abstract class BarMeter {
         this.valueFunction = valueFunction;
 
         // change the value when the circuit changes
-        circuit.addCircuitChangeListener( new CircuitChangeListener() {
+        circuitChangeListener = new CircuitChangeListener() {
             public void circuitChanged() {
                 updateValue();
             }
-        } );
+        };
+        circuit.addCircuitChangeListener( circuitChangeListener );
     }
 
     public void reset() {
@@ -88,7 +89,9 @@ public abstract class BarMeter {
 
     public void setCircuit( ICircuit circuit ) {
         if ( circuit != this.circuit ) {
+            this.circuit.removeCircuitChangeListener( circuitChangeListener );
             this.circuit = circuit;
+            this.circuit.addCircuitChangeListener( circuitChangeListener );
             updateValue();
         }
     }
