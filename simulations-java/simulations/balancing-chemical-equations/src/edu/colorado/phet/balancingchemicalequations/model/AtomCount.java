@@ -13,7 +13,7 @@ import edu.colorado.phet.chemistry.model.Element;
  */
 public class AtomCount {
 
-    private final Element element;
+    private final Element element; // the element that describes the atom's chemical properties
     private int reactantsCount, productsCount;
 
     public AtomCount( Element element, int reactantsCount, int productsCount ) {
