@@ -107,11 +107,14 @@ public class ParallelCircuit extends AbstractCircuit {
         else if ( getBattery().intersectsBottomTerminal( s ) || intersectsSomeBottomPlateShape( s ) ) {
             voltage = 0;
         }
+        else {
+            //TODO check wires
+        }
         return voltage;
     }
 
     // True if the shape intersects any capacitor's top plate.
-    public boolean intersectsSomeTopPlateShape( Shape s ) {
+    private boolean intersectsSomeTopPlateShape( Shape s ) {
         boolean intersects = false;
         for ( Capacitor capacitor : getCapacitors() ) {
             if ( capacitor.intersectsTopPlateShape( s ) ) {
@@ -123,7 +126,7 @@ public class ParallelCircuit extends AbstractCircuit {
     }
 
     // True if the shape intersects any capacitor's bottom plate.
-    public boolean intersectsSomeBottomPlateShape( Shape s ) {
+    private boolean intersectsSomeBottomPlateShape( Shape s ) {
         boolean intersects = false;
         for ( Capacitor capacitor : getCapacitors() ) {
             if ( capacitor.intersectsBottomPlateShape( s ) ) {
