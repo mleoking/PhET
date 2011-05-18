@@ -36,17 +36,19 @@ public class Voltmeter {
     private final Property<Double> valueProperty;
 
     private ICircuit circuit;
+    private final CircuitChangeListener circuitChangeListener;
 
 
     public Voltmeter( ICircuit circuit, final WorldBounds worldBounds, CLModelViewTransform3D mvt,
                       Point3D bodyLocation, Point3D positiveProbeLocation, Point3D negativeProbeLocation, boolean visible ) {
 
         this.circuit = circuit;
-        circuit.addCircuitChangeListener( new CircuitChangeListener() {
+        circuitChangeListener = new CircuitChangeListener() {
             public void circuitChanged() {
                 updateValue();
             }
-        } );
+        };
+        circuit.addCircuitChangeListener( circuitChangeListener );
 
         this.shapeFactory = new VoltmeterShapeFactory( this, mvt );
         this.visibleProperty = new Property<Boolean>( visible );
@@ -83,12 +85,14 @@ public class Voltmeter {
         bodyLocationProperty.reset();
         positiveProbeLocationProperty.reset();
         negativeProbeLocationProperty.reset();
-        // value property updates other properties are reset
+        // valueProperty updates when other properties are reset
     }
 
     public void setCircuit( ICircuit circuit ) {
         if ( circuit != this.circuit ) {
+            this.circuit.removeCircuitChangeListener( circuitChangeListener );
             this.circuit = circuit;
+            this.circuit.addCircuitChangeListener( circuitChangeListener );
             updateValue();
         }
     }

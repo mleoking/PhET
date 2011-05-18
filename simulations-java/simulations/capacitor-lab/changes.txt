@@ -1,3 +1,7 @@
+5/18/11 implement ParallelCircuit.getVoltageAt for battery and plates
+5/18/11 fix: rewire CircuitChangeListener in Voltmeter.setCircuit
+5/18/11 simplify SingleCircuit.getVoltageAt
+5/18/11 add Battery.intersectsBottomTerminal
 5/18/11 partition model into subpackages
 5/17/11 attempt to show circuit layouts in javadoc
 5/17/11 add circuits for series-parallel combinations
