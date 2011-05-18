@@ -1,3 +1,4 @@
+Collection hint arrow: changed tip/tail locations and text position. Invisible on movement
 Added smiley face to the complete dialog
 Break molecule button changed to blue
 Moved "3d" collection box button to inside of the black box, appears only when molecules are in the box.
