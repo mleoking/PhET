@@ -1,6 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.common.view;
 
+import java.awt.image.BufferedImage;
+
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SaltShaker;
@@ -15,7 +17,9 @@ import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsAppli
  */
 public class SaltShakerNode extends DispenserNode<SaltShaker> {
     public SaltShakerNode( final ModelViewTransform transform, final SaltShaker model ) {
-        super( transform, model, multiScaleToHeight( RESOURCES.getImage( "salt_1.png" ), 200 ) );
+        super( transform, model );
+        final BufferedImage fullImage = multiScaleToHeight( RESOURCES.getImage( "salt_1.png" ), 200 );
+        final BufferedImage emptyImage = multiScaleToHeight( RESOURCES.getImage( "salt_empty.png" ), 200 );
 
         //Hide the sugar dispenser if it is not enabled (selected by the user)
         model.enabled.addObserver( new VoidFunction1<Boolean>() {
@@ -23,5 +27,14 @@ public class SaltShakerNode extends DispenserNode<SaltShaker> {
                 setVisible( enabled );
             }
         } );
+
+        model.moreAllowed.addObserver( new VoidFunction1<Boolean>() {
+            public void apply( Boolean moreAllowed ) {
+                imageNode.setImage( moreAllowed ? fullImage : emptyImage );
+            }
+        } );
+
+        //Have to update the transform once after the image size changes (since it goes from null to non-null) in the auto-callback above
+        updateTransform();
     }
 }

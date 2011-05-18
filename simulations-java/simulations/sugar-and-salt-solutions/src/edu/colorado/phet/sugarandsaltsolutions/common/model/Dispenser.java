@@ -24,8 +24,9 @@ public class Dispenser {
     //True if the user has selected this dispenser type
     public final Property<Boolean> enabled = new Property<Boolean>( false );
     protected final Beaker beaker;
+
     //True if the user is allowed to add more solute, false if the limit has been reached (10 moles per solute).
-    protected final ObservableProperty<Boolean> moreAllowed;
+    public final ObservableProperty<Boolean> moreAllowed;
 
     public Dispenser( double x, double y, double angle, Beaker beaker, ObservableProperty<Boolean> moreAllowed ) {
         this.beaker = beaker;

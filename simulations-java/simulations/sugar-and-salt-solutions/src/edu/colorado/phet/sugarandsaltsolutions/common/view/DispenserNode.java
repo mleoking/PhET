@@ -5,7 +5,6 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
@@ -29,26 +28,20 @@ import static java.lang.Double.POSITIVE_INFINITY;
 public class DispenserNode<T extends Dispenser> extends PNode {
     private final boolean debug = false;
     protected PImage imageNode;
+    private final ModelViewTransform transform;
+    private final T model;
 
-    public DispenserNode( final ModelViewTransform transform, final T model, BufferedImage image ) {
+    public DispenserNode( final ModelViewTransform transform, final T model ) {
+        this.transform = transform;
+        this.model = model;
         //Show the image of the shaker
-        imageNode = new PImage( image );
+        imageNode = new PImage();
         addChild( imageNode );
 
         //Update the AffineTransform for the image when the model changes
         new RichSimpleObserver() {
             @Override public void update() {
-                //Clear the transform to start over
-                imageNode.setTransform( new AffineTransform() );
-
-                //Find the view coordinates of the rotation point of the model (its center)
-                Point2D.Double viewPoint = transform.modelToView( model.center.get() ).toPoint2D();
-
-                //Rotate by the correct angle: Note: This angle doesn't get mapped into the right coordinate frame, so could be backwards
-                imageNode.rotate( -model.angle.get() );
-
-                //Center on the view point
-                imageNode.centerFullBoundsOnPoint( viewPoint.x, viewPoint.y );
+                updateTransform();
             }
         }.observe( model.center, model.angle );
 
@@ -80,5 +73,19 @@ public class DispenserNode<T extends Dispenser> extends PNode {
 
         //Show a hand cursor when over the dispenser
         addInputEventListener( new CursorHandler() );
+    }
+
+    protected void updateTransform() {
+        //Clear the transform to start over
+        imageNode.setTransform( new AffineTransform() );
+
+        //Find the view coordinates of the rotation point of the model (its center)
+        Point2D.Double viewPoint = transform.modelToView( model.center.get() ).toPoint2D();
+
+        //Rotate by the correct angle: Note: This angle doesn't get mapped into the right coordinate frame, so could be backwards
+        imageNode.rotate( -model.angle.get() );
+
+        //Center on the view point
+        imageNode.centerFullBoundsOnPoint( viewPoint.x, viewPoint.y );
     }
 }
