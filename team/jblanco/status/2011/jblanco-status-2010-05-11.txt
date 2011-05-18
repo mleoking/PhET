@@ -1,0 +1,80 @@
+PhET Weekly Progress Report
+John Blanco
+May 11th, 2011
+
+Time period covered: May 5th through May 11th
+
+Isotopes and Atomic Mass – 3.0 hrs
+
+•	Discussed whether this sim is ready for publication with the chemistry group, and concluded that it is.
+•	Published a release candidate.
+•	Fixed an issue with reset of the neutron bucket.
+•	Started publication process, but ran into issues.  See "Common Code" section of this report for details.
+
+Gene Machine II: Protein Synthesis - 3.0 hrs
+
+•	Sent current version of slides to Sam R and Ingrid for additional input, discussed subsequent feedback with them via email.
+•	Continued working on the design.
+
+Sugar and Salt Solutions - 4.0 hrs
+
+•	Implemented initial version of the bar chart (in collaboration with Sam R).
+•	Worked on the way in which concentration is calculated in the model (in collaboration with Sam R).
+•	Met with the Chemistry Team to discuss several questions about the simulation design, wrote up notes and sent out to group.
+
+Common Code - 5.0 hrs 
+
+•	Tested recent changed to ButtonNode.
+•	Published a version of Neuron that demonstrates results of recent changes to ButtonNode, reviewed with original designer to make sure changes were acceptable.
+•	Worked on making the bucket code common (in collaboration with Jonathan O).
+•	Met with other developers (over Skype) to discuss changes to ObservableProperty.
+•	Fixed an issue with ObservableProperty that could cause infinite recursion when redundantly setting a property value (in collaboration with Chris M).
+
+Installer - 3.5 hrs
+
+•	Researched usage rate of Win 98 and discussed with Kathy P and the developers.  It was decided that it was best to start bundling Java 6 with the installer instead of Java 5, see #2844.
+•	Updated version of Java bundled with windows installer, see #2844.
+•	Prototyped a version that includes activities, see #182.
+•	Discussed test process for installer version with activities with Oliver N.
+
+Build a Molecule - 1.0 hrs
+
+•	Tested stacking behavior, found that restacking wasn't working, and talked with Jonathan O about reusing the code from Isotopes and BAA.
+
+Customer Support - 1.0 hrs
+
+•	Followed up on an issue concerning usage of the Linux installer on 64-bit Linux, see #2871.
+
+Grant Investigation - 0.5
+
+•	Wrote up notes from meeting with Mike Klymkowsky, sent to Kathy P.
+
+Interviews - 0.5
+
+•	Wrote up notes from recent interview for post-doc position and sent to Kathy.
+
+Environment - 4.5 hr
+
+•	Verified that SVN mirror running on phet-server is still operational and is continuing to be updated.
+•	Met with other developers (over Skype) to discuss several issues, including how to share IML files for IntelliJ.
+•	Wrote up thoughts on Scala and sent to Kathy.
+•	Started setup of new computer.
+
+Meetings, Email, and Other Administrative Overhead - 6.0 hrs
+
+•	Weekly PhET status meeting.
+•	Weekly status report.
+•	Logging of vacation and hours.
+•	Review and updating of Unfuddle issues.
+•	Normal email and administrative overhead.
+
+Vacation, Holiday, and Sick Leave - 8.0 hrs
+
+•	Took Monday, May 9th, as a vacation day.
+
+What’s Next
+
+•	Publish Isotopes simulation to production server.
+•	Continue working on Protein Synthesis simulation.
+•	Set up new PC.
+•	Switch to IntelliJ as an IDE.
