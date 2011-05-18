@@ -4,6 +4,7 @@ Jmol loading speed is slow - speed up
 Experiment with true 2d structure and loops!
 Image cleanup
 Note about dragging?
+Naming
 
 detection of molecules with those weird things like in 6432310, and check if it removes the name duplication issues earlier noted:
     2.0000    0.7500    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
