@@ -188,19 +188,10 @@ public class SingleCircuit extends AbstractCircuit {
     // @see ICircuit.getVoltageAt
     public double getVoltageAt( Shape s ) {
         double voltage = Double.NaN;
-        if ( isBatteryConnected() && topWire.intersects( s ) ) {
-            voltage = topWire.getVoltage();
+        if ( ( isBatteryConnected() && ( topWire.intersects( s ) || getBattery().intersectsTopTerminal( s ) ) ) || capacitor.intersectsTopPlateShape( s ) ) {
+            voltage = getTotalVoltage();
         }
-        else if ( isBatteryConnected() && bottomWire.intersects( s ) ) {
-            voltage = bottomWire.getVoltage();
-        }
-        if ( isBatteryConnected() && getBattery().intersectsTopTerminal( s ) ) {
-            voltage = getBattery().getVoltage();
-        }
-        else if ( capacitor.intersectsTopPlateShape( s ) ) {
-            voltage = capacitor.getPlatesVoltage();
-        }
-        else if ( capacitor.intersectsBottomPlateShape( s ) ) {
+        else if ( ( isBatteryConnected() && ( bottomWire.intersects( s ) || getBattery().intersectsBottomTerminal( s ) ) ) || capacitor.intersectsBottomPlateShape( s ) ) {
             voltage = 0;
         }
         return voltage;

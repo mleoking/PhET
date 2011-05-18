@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.capacitorlab.model;
 
-import java.awt.Shape;
+import java.awt.*;
 import java.awt.geom.Dimension2D;
 
 import edu.colorado.phet.capacitorlab.shapes.BatteryShapeFactory;
@@ -122,6 +122,10 @@ public class Battery {
         return ShapeUtils.intersects( shapeFactory.createTopTerminalShape(), shape );
     }
 
+    public boolean intersectsBottomTerminal( Shape shape ) {
+        return false; // bottom terminal is not visible
+    }
+
     public BatteryShapeFactory getShapeFactory() {
         return shapeFactory;
     }
@@ -145,6 +149,7 @@ public class Battery {
     /**
      * Gets the offset of the top terminal from the battery's origin, in model coordinates (meters).
      * This offset depends on the polarity.
+     *
      * @return
      */
     public double getTopTerminalYOffset() {
@@ -159,6 +164,7 @@ public class Battery {
     /**
      * Gets the offset of the bottom terminal from the battery's origin, in model coordinates (meters).
      * We don't need to account for the polarity since the bottom terminal is never visible.
+     *
      * @return
      */
     public double getBottomTerminalYOffset() {

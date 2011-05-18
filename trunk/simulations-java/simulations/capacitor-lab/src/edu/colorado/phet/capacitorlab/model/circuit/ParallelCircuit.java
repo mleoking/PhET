@@ -100,7 +100,38 @@ public class ParallelCircuit extends AbstractCircuit {
     }
 
     public double getVoltageAt( Shape s ) {
-        return 0; //TODO
+        double voltage = Double.NaN;
+        if ( getBattery().intersectsTopTerminal( s ) || intersectsSomeTopPlateShape( s ) ) {
+            voltage = getTotalVoltage();
+        }
+        else if ( getBattery().intersectsBottomTerminal( s ) || intersectsSomeBottomPlateShape( s ) ) {
+            voltage = 0;
+        }
+        return voltage;
+    }
+
+    // True if the shape intersects any capacitor's top plate.
+    public boolean intersectsSomeTopPlateShape( Shape s ) {
+        boolean intersects = false;
+        for ( Capacitor capacitor : getCapacitors() ) {
+            if ( capacitor.intersectsTopPlateShape( s ) ) {
+                intersects = true;
+                break;
+            }
+        }
+        return intersects;
+    }
+
+    // True if the shape intersects any capacitor's bottom plate.
+    public boolean intersectsSomeBottomPlateShape( Shape s ) {
+        boolean intersects = false;
+        for ( Capacitor capacitor : getCapacitors() ) {
+            if ( capacitor.intersectsBottomPlateShape( s ) ) {
+                intersects = true;
+                break;
+            }
+        }
+        return intersects;
     }
 
     public void reset() {
