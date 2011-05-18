@@ -1,4 +1,3 @@
-Check filtering of duplicates: acetylene and propane issues? -- SVN issues?
 I18nize text bubble
 BCE Element/Atom work
 Scissors bug on Mac?
