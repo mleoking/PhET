@@ -3,6 +3,7 @@ package edu.colorado.phet.buildamolecule.view;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.RoundRectangle2D;
 
 import edu.colorado.phet.buildamolecule.BuildAMoleculeStrings;
 import edu.colorado.phet.buildamolecule.model.Atom2D;
@@ -13,6 +14,7 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
@@ -29,10 +31,18 @@ public class CollectionBoxHintNode extends PNode {
         final Rectangle2D boxViewBounds = mvt.modelToView( box.getDropBounds() ).getBounds2D();
 
         PNode labelNode = new PNode() {{
-            addChild( new PText( BuildAMoleculeStrings.COLLECTION_HINT ) {{
+            PText textNode = new PText( BuildAMoleculeStrings.COLLECTION_HINT ) {{
                 setFont( new PhetFont( 16, true ) );
                 setTextPaint( Color.BLACK );
+            }};
+            double verticalPad = 5;
+            double horizontalPad = 5;
+            PBounds textBounds = textNode.getFullBounds();
+            addChild( new PhetPPath( new RoundRectangle2D.Double( textBounds.x - horizontalPad, textBounds.y - verticalPad, textBounds.getWidth() + horizontalPad * 2, textBounds.getHeight() + verticalPad * 2, 15, 15 ) ) {{
+                setPaint( Color.WHITE );
+                setStrokePaint( Color.BLACK );
             }} );
+            addChild( textNode );
             centerFullBoundsOnPoint( moleculeViewBounds.getCenterX(), moleculeViewBounds.getMaxY() + 5 + getFullBounds().getHeight() / 2 );
         }};
         addChild( labelNode );
