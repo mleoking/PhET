@@ -1,3 +1,4 @@
+Use a scaled cartoon size for the grains, since actual grain sizes would be much too large
 Salt crystals immediately precipitate when put into an empty beaker, when they hit the bottom or land on other precipitate
 Compute sugar and salt grain sizes based on size per solid precipitate
 Made sugar and salt grains smaller weight, closer to physical grain sizes

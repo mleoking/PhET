@@ -26,7 +26,10 @@ public class CrystalNode extends PNode {
             crystal.position.addObserver( new VoidFunction1<ImmutableVector2D>() {
                 public void apply( ImmutableVector2D modelPosition ) {
                     ImmutableVector2D viewPosition = transform.modelToView( modelPosition );
-                    setPathTo( new Rectangle2D.Double( viewPosition.getX() - size / 2, viewPosition.getY() - size / 2, size, size ) );
+
+                    //Use a scaled cartoon size for the grains, since actual grain sizes would be much to large
+                    double cartoonSize = size / 5;
+                    setPathTo( new Rectangle2D.Double( viewPosition.getX() - cartoonSize / 2, viewPosition.getY() - cartoonSize / 2, cartoonSize, cartoonSize ) );
                 }
             } );
             //Synchronize the color with the specified color, which can be changed by the user in the color chooser dialog
