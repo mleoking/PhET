@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.common.model;
 
+import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
@@ -49,6 +50,10 @@ public class ConductivityTester implements IConductivityTester {
             }
         } );
     }};
+
+    //Model shapes corresponding to where the battery and bulb are
+    private Shape batteryRegion;
+    private Shape bulbRegion;
 
     //Determine if the conductivity tester is visible
     public boolean isVisible() {
@@ -126,5 +131,24 @@ public class ConductivityTester implements IConductivityTester {
         for ( ConductivityTesterChangeListener listener : conductivityTesterListeners ) {
             listener.locationChanged();
         }
+    }
+
+
+    //Setters and getters for the battery region, set by the view since bulb and battery are primarily view components. Used to determine if the circuit should short out.
+    public void setBatteryRegion( Shape shape ) {
+        this.batteryRegion = shape;
+    }
+
+    public Shape getBatteryRegion() {
+        return batteryRegion;
+    }
+
+    //Setters and getters for the bulb region, set by the view since bulb and battery are primarily view components.  Used to determine if the circuit should short out.
+    public void setBulbRegion( Shape shape ) {
+        this.bulbRegion = shape;
+    }
+
+    public Shape getBulbRegion() {
+        return bulbRegion;
     }
 }

@@ -11,6 +11,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.conductivitytester.ConductivityTesterNode;
+import edu.colorado.phet.common.piccolophet.nodes.conductivitytester.IConductivityTester.ConductivityTesterChangeListener;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.ConductivityTester;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -64,6 +65,29 @@ public class SugarAndSaltSolutionsConductivityTesterNode extends ConductivityTes
         double offsetY = 0.03;
         conductivityTester.setNegativeProbeLocation( location.getX() - 0.03, location.getY() - offsetY );
         conductivityTester.setPositiveProbeLocation( location.getX() + 0.07, location.getY() - offsetY );
+
+        //When the location changes, tell the model the location and occupied regions of the bulb and battery
+        //In order to test for a short circuit when computing the bulb brightness
+        conductivityTester.addConductivityTesterChangeListener( new ConductivityTesterChangeListener() {
+            public void brightnessChanged() {
+            }
+
+            public void positiveProbeLocationChanged() {
+            }
+
+            public void negativeProbeLocationChanged() {
+            }
+
+            public void locationChanged() {
+                Rectangle2D batteryBounds = batteryNode.getGlobalFullBounds();
+                batteryBounds = rootNode.globalToLocal( batteryBounds );
+                conductivityTester.setBatteryRegion( transform.viewToModel( batteryBounds ) );
+
+                Rectangle2D bulbBounds = lightBulbNode.getGlobalFullBounds();
+                bulbBounds = rootNode.globalToLocal( bulbBounds );
+                conductivityTester.setBulbRegion( transform.viewToModel( bulbBounds ) );
+            }
+        } );
     }
 
     //Used to create a thumbnail icon for use in the toolbox.
