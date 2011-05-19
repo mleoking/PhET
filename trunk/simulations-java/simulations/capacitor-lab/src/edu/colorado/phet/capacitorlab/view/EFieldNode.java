@@ -26,17 +26,15 @@ public class EFieldNode extends PhetPNode {
 
     public static enum Direction {UP, DOWN}
 
-    ;
-
     private final ICapacitor capacitor;
     private final CLModelViewTransform3D mvt;
     private final PNode parentNode; // parent for all the field lines
-    private final double maxEffectiveEfield;
+    private final double maxEffectiveEField;
 
-    public EFieldNode( ICapacitor capacitor, CLModelViewTransform3D mvt, double maxEffectiveEfield ) {
+    public EFieldNode( ICapacitor capacitor, CLModelViewTransform3D mvt, double maxEffectiveEField ) {
         this.capacitor = capacitor;
         this.mvt = mvt;
-        this.maxEffectiveEfield = maxEffectiveEfield;
+        this.maxEffectiveEField = maxEffectiveEField;
 
         capacitor.addCapacitorChangeListener( new CapacitorChangeListener() {
             public void capacitorChanged() {
@@ -139,7 +137,7 @@ public class EFieldNode extends PhetPNode {
      */
     private int getNumberOfLines( double effectiveEField ) {
         double absEField = Math.abs( effectiveEField );
-        int numberOfLines = (int) ( CLConstants.NUMBER_OF_EFIELD_LINES.getMax() * absEField / maxEffectiveEfield );
+        int numberOfLines = (int) ( CLConstants.NUMBER_OF_EFIELD_LINES.getMax() * absEField / maxEffectiveEField );
         if ( absEField > 0 && numberOfLines < CLConstants.NUMBER_OF_EFIELD_LINES.getMin() ) {
             numberOfLines = CLConstants.NUMBER_OF_EFIELD_LINES.getMin();
         }
