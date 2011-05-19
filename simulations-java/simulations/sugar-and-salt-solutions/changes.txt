@@ -1,3 +1,4 @@
+Fixed: salt crystals should land on top of the white rectangle if it exists and there is no water
 Fixed: Drain faucet doesn't handle solution properly when precipitate is present
 Fixed: too many crystals particles can get added when falling onto the floor of the beaker
 Salt particles land on the bottom (no stacking or bumping into each other), then when any water enters the system, go to clump form.

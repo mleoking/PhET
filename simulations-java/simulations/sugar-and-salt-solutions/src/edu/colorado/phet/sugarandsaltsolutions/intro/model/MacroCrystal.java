@@ -31,7 +31,7 @@ public class MacroCrystal {
     }
 
     //propagate the crystal according to the specified applied forces, using euler integration
-    public void stepInTime( ImmutableVector2D appliedForce, double dt, Line2D.Double leftBeakerWall, Line2D.Double rightBeakerWall, Line2D.Double beakerFloor ) {
+    public void stepInTime( ImmutableVector2D appliedForce, double dt, Line2D.Double leftBeakerWall, Line2D.Double rightBeakerWall, Line2D.Double beakerFloor, Line2D.Double topOfSolid ) {
         if ( !landed ) {
             ImmutableVector2D originalPosition = position.get();
 
@@ -54,8 +54,16 @@ public class MacroCrystal {
 
             //Compute the new path after accounting for bouncing off walls
             Line2D.Double newPath = new Line2D.Double( originalPosition.toPoint2D(), position.get().toPoint2D() );
+
+            //See if it should land on the floor of the beaker
             if ( newPath.intersectsLine( beakerFloor ) ) {
                 position.set( new ImmutableVector2D( position.get().getX(), 0 ) );
+                landed = true;
+            }
+
+            //See if it should land on top of any precipitated solid in the beaker
+            else if ( newPath.intersectsLine( topOfSolid ) ) {
+                position.set( new ImmutableVector2D( position.get().getX(), topOfSolid.getY1() ) );
                 landed = true;
             }
         }
