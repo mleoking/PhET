@@ -1,4 +1,4 @@
-package edu.colorado.phet.molecule;
+package edu.colorado.phet.buildamolecule.model.data;
 
 import java.io.BufferedReader;
 import java.io.File;

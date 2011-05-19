@@ -1,5 +1,5 @@
 //  Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.molecule;
+package edu.colorado.phet.buildamolecule.model.data;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -8,7 +8,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import edu.colorado.phet.buildamolecule.BuildAMoleculeResources;
-import edu.colorado.phet.buildamolecule.model.*;
+import edu.colorado.phet.buildamolecule.model.CompleteMolecule;
 
 /**
  * Filters out molecules that have duplicate names AND a lower CID value
