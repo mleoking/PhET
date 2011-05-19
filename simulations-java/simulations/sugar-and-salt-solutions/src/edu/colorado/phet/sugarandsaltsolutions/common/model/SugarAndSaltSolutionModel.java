@@ -241,6 +241,8 @@ public class SugarAndSaltSolutionModel implements ResetModel {
             }
 
             public void locationChanged() {
+                //Have to callback here too since the battery or bulb could get sumberged and short the circuit
+                updateConductivityTesterBrightness();
             }
         } );
     }
@@ -253,9 +255,14 @@ public class SugarAndSaltSolutionModel implements ResetModel {
         boolean bothProbesTouching = waterBounds.intersects( conductivityTester.getPositiveProbeRegion().toRectangle2D() ) &&
                                      waterBounds.intersects( conductivityTester.getNegativeProbeRegion().toRectangle2D() );
 
+        //Check to see if the circuit is shorted out (if light bulb or battery is submerged).
+        //Null checks are necessary since those regions are computed from view components and may not have been computed yet (but will be non-null if the user dragged out the conductivity tester from the toolbox)
+        boolean batterySubmerged = conductivityTester.getBatteryRegion() != null && waterBounds.intersects( conductivityTester.getBatteryRegion().getBounds2D() );
+        boolean bulbSubmerged = conductivityTester.getBulbRegion() != null && waterBounds.intersects( conductivityTester.getBulbRegion().getBounds2D() );
+
         //Set the brightness to be a linear function of the salt concentration (but keeping it bounded between 0 and 1 which are the limits of the conductivity tester brightness
         //Use a scale factor that matches up with the limits on saturation (manually sampled at runtime)
-        conductivityTester.brightness.set( bothProbesTouching ? MathUtil.clamp( 0, saltConcentration.get() * 1.62E-4, 1 ) : 0.0 );
+        conductivityTester.brightness.set( bothProbesTouching && !batterySubmerged && !bulbSubmerged ? MathUtil.clamp( 0, saltConcentration.get() * 1.62E-4, 1 ) : 0.0 );
     }
 
     //Adds the specified Sugar crystal to the model
