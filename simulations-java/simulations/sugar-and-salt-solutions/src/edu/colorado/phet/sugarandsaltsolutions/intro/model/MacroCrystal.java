@@ -102,4 +102,12 @@ public class MacroCrystal {
     public double getMoles() {
         return moles;
     }
+
+    //Test to compute the length of a side of one gram of salt cube
+    public static void main( String[] args ) {
+        double liters = 1.0 / 2165;
+        double metersCubed = liters * 0.001;
+        double lengthOfASide = Math.pow( metersCubed, 1.0 / 3.0 );
+        System.out.println( "lengthOfASide = " + lengthOfASide );
+    }
 }
