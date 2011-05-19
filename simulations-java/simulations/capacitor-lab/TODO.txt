@@ -28,8 +28,7 @@ HIGH PRIORITY
 - create a PNode subclass for all circuit-related nodes in DielectricCanvas
 - remove voltage from Wire model?
 
-MEDUIUM PRIORITY
-- round corners of wires?
+MEDIUM PRIORITY
 - horizontal top wire in Combination1Circuit is too low, should look like Combination2Circuit
 - cleanup methods needed where anonymous observers/listeners are added in constructors
 - convert DielectricMaterialControl to use PropertyRadioButton and Property<DielectricMaterial> dielectricMaterial
@@ -43,6 +42,8 @@ MEDUIUM PRIORITY
 - add editable mantissa textfield to capacitance control
 
 LOW PRIORITY
+- delete empty packages
+- round corners of wires?
 - would it be OK to have the dielectric fully inserted (offset=0) in the Intro tab?
 - Win: need some space between dielectric material combo box and separator below it
 - add circuit construction to Multiple Capacitors tab?
