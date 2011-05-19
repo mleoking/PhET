@@ -136,7 +136,9 @@ public class MultipleCapacitorsCanvas extends CLCanvas {
                                                        maxPlateCharge, maxExcessDielectricPlateCharge, maxEffectiveEField, maxDielectricEField );
         }
         else {
-            circuitNode = new NullCircuitNode( circuit, mvt );
+            circuitNode = new NullCircuitNode( circuit, mvt,
+                                               plateChargesVisibleProperty, eFieldVisibleProperty, dielectricChargeViewProperty,
+                                               maxPlateCharge, maxExcessDielectricPlateCharge, maxEffectiveEField, maxDielectricEField );
         }
         return circuitNode;
     }
