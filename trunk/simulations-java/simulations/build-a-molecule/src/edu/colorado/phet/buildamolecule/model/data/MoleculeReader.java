@@ -1,4 +1,4 @@
-package edu.colorado.phet.molecule;
+package edu.colorado.phet.buildamolecule.model.data;
 
 import java.io.*;
 import java.util.*;
@@ -207,20 +207,6 @@ public class MoleculeReader {
 
     public static void debug( int cid, String mess ) {
 //        System.out.println( mess + ": " + cid );
-    }
-
-    public static void main( String[] args ) {
-
-        File dirFile2d = new File( args[0] );
-        File dirFile3d = new File( args[1] );
-
-        MoleculeReader reader2d = new MoleculeReader( dirFile2d, 4 );
-
-        for ( int i = 0; i < 10000; i++ ) {
-            MoleculeFile molFile = reader2d.nextMoleculeFile();
-            System.out.println( "received molecule file: #" + molFile.cid );
-        }
-
     }
 
 }
