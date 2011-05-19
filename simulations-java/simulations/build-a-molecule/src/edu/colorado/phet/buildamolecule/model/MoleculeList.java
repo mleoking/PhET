@@ -73,6 +73,12 @@ public class MoleculeList {
         return masterInstance;
     }
 
+    public static void testLoadingForProfiling() {
+        new MoleculeList(){{
+            loadMasterData();
+        }};
+    }
+
     public static synchronized CompleteMolecule getMoleculeByName( String name ) {
         CompleteMolecule ret = initialList.moleculeNameMap.get( name );
         if ( ret == null ) {
