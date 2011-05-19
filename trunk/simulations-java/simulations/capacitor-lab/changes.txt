@@ -1,3 +1,4 @@
+5/19/11 add varargs versions of wire constructors, to improve usage readability
 # 1.00.05 (52159) May 18, 2011
 5/18/11 demonstrate progress on Multiple Capacitors tab
 5/18/11 tweak capacitance range for Multiple Capacitors tab

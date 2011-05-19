@@ -13,7 +13,7 @@ import edu.colorado.phet.capacitorlab.model.ICapacitor.CapacitorChangeListener;
 import edu.colorado.phet.capacitorlab.model.wire.Wire;
 import edu.colorado.phet.capacitorlab.model.wire.WireBatteryBottomToCapacitorBottoms;
 import edu.colorado.phet.capacitorlab.model.wire.WireBatteryTopToCapacitorTops;
-import edu.colorado.phet.capacitorlab.model.wire.WireCapacitorBottomToCapacitorTop;
+import edu.colorado.phet.capacitorlab.model.wire.WireCapacitorBottomToCapacitorTops;
 import edu.colorado.phet.capacitorlab.module.multiplecapacitors.MultipleCapacitorsModel;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
@@ -109,7 +109,7 @@ public class SeriesCircuit extends AbstractCircuit {
         ArrayList<Wire> wires = new ArrayList<Wire>();
         wires.add( new WireBatteryTopToCapacitorTops( mvt, thickness, battery, capacitors.get( 0 ) ) );
         for ( int i = 0; i < capacitors.size() - 1; i++ ) {
-            wires.add( new WireCapacitorBottomToCapacitorTop( mvt, thickness, capacitors.get( i ), capacitors.get( i + 1 ) ) );
+            wires.add( new WireCapacitorBottomToCapacitorTops( mvt, thickness, capacitors.get( i ), capacitors.get( i + 1 ) ) );
         }
         wires.add( new WireBatteryBottomToCapacitorBottoms( mvt, thickness, battery, capacitors.get( capacitors.size() - 1 ) ) );
         assert ( wires.size() == capacitors.size() + 1 );
