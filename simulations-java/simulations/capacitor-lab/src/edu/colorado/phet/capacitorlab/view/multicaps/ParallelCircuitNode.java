@@ -63,7 +63,7 @@ public class ParallelCircuitNode extends AbstractCircuitNode {
         bottomWireNode.moveToBack();
 
         //TODO this code is similar in all circuit nodes
-        // Center the current indicators on the wires that are connected to the battery.
+        // current indicators
         {
             double x, y;
 

@@ -29,6 +29,7 @@ public class Combination2CircuitNode extends AbstractCircuitNode {
                                     double maxPlateCharge, double maxExcessDielectricPlateCharge, double maxEffectiveEField, double maxDielectricEField ) {
         super( circuit, mvt );
 
+        // capacitors
         for ( Capacitor capacitor : circuit.getCapacitors() ) {
 
             // capacitor node, at its model location
@@ -49,6 +50,7 @@ public class Combination2CircuitNode extends AbstractCircuitNode {
             capacitanceControlNode.setOffset( x, y );
         }
 
+        // wires
         ArrayList<Wire> wires = circuit.getWires();
         PNode topWireNode = null;
         PNode bottomWireNode = null;
@@ -65,7 +67,7 @@ public class Combination2CircuitNode extends AbstractCircuitNode {
         }
 
         //TODO this code is similar in all circuit nodes
-        // Center the current indicators on the wires that are connected to the battery.
+        // current indicators
         {
             double x, y;
 
