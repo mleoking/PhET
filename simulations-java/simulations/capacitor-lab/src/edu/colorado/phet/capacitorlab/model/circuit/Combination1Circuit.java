@@ -9,6 +9,7 @@ import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial;
 import edu.colorado.phet.capacitorlab.model.ICapacitor.CapacitorChangeListener;
+import edu.colorado.phet.capacitorlab.model.wire.Wire;
 import edu.colorado.phet.capacitorlab.module.multiplecapacitors.MultipleCapacitorsModel;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
@@ -38,6 +39,7 @@ public class Combination1Circuit extends AbstractCircuit {
 
     private final ArrayList<Capacitor> capacitors;
     private final Capacitor c1, c2, c3;
+    private final ArrayList<Wire> wires;
 
     public Combination1Circuit( IClock clock, CLModelViewTransform3D mvt, Point3D batteryLocation,
                                 double plateWidth, double plateSeparation, DielectricMaterial dielectricMaterial, double dielectricOffset ) {
@@ -82,7 +84,7 @@ public class Combination1Circuit extends AbstractCircuit {
             capacitor.addCapacitorChangeListener( capacitorChangeListener );
         }
 
-        //TODO add wires
+        wires = new ArrayList<Wire>(); //TODO add wires
     }
 
     private void updateVoltages() {
@@ -96,6 +98,10 @@ public class Combination1Circuit extends AbstractCircuit {
 
     public ArrayList<Capacitor> getCapacitors() {
         return capacitors;
+    }
+
+    public ArrayList<Wire> getWires() {
+        return wires;
     }
 
     // C_total = ( 1 / ( 1/C1 + 1/C2 ) ) + C3

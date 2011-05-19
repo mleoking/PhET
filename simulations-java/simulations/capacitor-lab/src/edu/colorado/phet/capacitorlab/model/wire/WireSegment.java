@@ -91,4 +91,27 @@ public class WireSegment {
             } );
         }
     }
+
+    /**
+     * Wire segment that connects the bottom plate of one capacitor to the top plate of another capacitor.
+     * Adjusts the start and end points when the plate separations change.
+     */
+    public static class CapacitorToCapacitorWireSegment extends WireSegment {
+        public CapacitorToCapacitorWireSegment( final ICapacitor topCapacitor, final ICapacitor bottomCapacitor ) {
+            super( new Point2D.Double( topCapacitor.getBottomPlateCenter().getX(), topCapacitor.getBottomPlateCenter().getY() ),
+                   new Point2D.Double( bottomCapacitor.getTopPlateCenter().getX(), bottomCapacitor.getTopPlateCenter().getY() ) );
+
+            topCapacitor.addPlateSeparationObserver( new SimpleObserver() {
+                public void update() {
+                    startPointProperty.set( new Point2D.Double( topCapacitor.getBottomPlateCenter().getX(), topCapacitor.getBottomPlateCenter().getY() ) );
+                }
+            } );
+
+            bottomCapacitor.addPlateSeparationObserver( new SimpleObserver() {
+                public void update() {
+                    endPointProperty.set( new Point2D.Double( bottomCapacitor.getTopPlateCenter().getX(), bottomCapacitor.getTopPlateCenter().getY() ) );
+                }
+            } );
+        }
+    }
 }

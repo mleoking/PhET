@@ -4,10 +4,16 @@ package edu.colorado.phet.capacitorlab.model.circuit;
 import java.awt.*;
 import java.util.ArrayList;
 
+import edu.colorado.phet.capacitorlab.CLConstants;
+import edu.colorado.phet.capacitorlab.model.Battery;
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial;
 import edu.colorado.phet.capacitorlab.model.ICapacitor.CapacitorChangeListener;
+import edu.colorado.phet.capacitorlab.model.wire.Wire;
+import edu.colorado.phet.capacitorlab.model.wire.WireBatteryBottomToCapacitorBottom;
+import edu.colorado.phet.capacitorlab.model.wire.WireBatteryTopToCapacitorTop;
+import edu.colorado.phet.capacitorlab.model.wire.WireCapacitorBottomToCapacitorTop;
 import edu.colorado.phet.capacitorlab.module.multiplecapacitors.MultipleCapacitorsModel;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
@@ -35,7 +41,8 @@ public class SeriesCircuit extends AbstractCircuit {
     private static final double X_SPACING = MultipleCapacitorsModel.CAPACITOR_X_SPACING;
     private static final double Y_SPACING = MultipleCapacitorsModel.CAPACITOR_Y_SPACING;
 
-    private final ArrayList<Capacitor> capacitors;
+    private final ArrayList<Capacitor> capacitors; // ordered clockwise from battery's top terminal
+    private final ArrayList<Wire> wires; // ordered clockwise from battery's top terminal
 
     public SeriesCircuit( String displayName, IClock clock, CLModelViewTransform3D mvt, Point3D batteryLocation, int numberOfCapacitors,
                           double plateWidth, double plateSeparation, DielectricMaterial dielectricMaterial, double dielectricOffset ) {
@@ -45,6 +52,8 @@ public class SeriesCircuit extends AbstractCircuit {
 
         capacitors = createCapacitors( mvt, batteryLocation, numberOfCapacitors,
                                        plateWidth, plateSeparation, dielectricMaterial, dielectricOffset );
+
+        wires = createWires( mvt, CLConstants.WIRE_THICKNESS, getBattery(), capacitors );
 
         // observe battery
         getBattery().addVoltageObserver( new SimpleObserver() {
@@ -95,6 +104,18 @@ public class SeriesCircuit extends AbstractCircuit {
         return capacitors;
     }
 
+    // Creates the wires, starting at the battery's top terminal and working clockwise.
+    private ArrayList<Wire> createWires( CLModelViewTransform3D mvt, double thickness, Battery battery, ArrayList<Capacitor> capacitors ) {
+        ArrayList<Wire> wires = new ArrayList<Wire>();
+        wires.add( new WireBatteryTopToCapacitorTop( mvt, thickness, battery, capacitors.get( 0 ) ) );
+        for ( int i = 0; i < capacitors.size() - 1; i++ ) {
+            wires.add( new WireCapacitorBottomToCapacitorTop( mvt, thickness, capacitors.get( i ), capacitors.get( i + 1 ) ) );
+        }
+        wires.add( new WireBatteryBottomToCapacitorBottom( mvt, thickness, battery, capacitors.get( capacitors.size() - 1 ) ) );
+        assert ( wires.size() == capacitors.size() + 1 );
+        return wires;
+    }
+
     private void updateVoltages() {
         double Q_total = getTotalCharge();
         for ( Capacitor capacitor : getCapacitors() ) {
@@ -106,6 +127,10 @@ public class SeriesCircuit extends AbstractCircuit {
 
     public ArrayList<Capacitor> getCapacitors() {
         return capacitors;
+    }
+
+    public ArrayList<Wire> getWires() {
+        return wires;
     }
 
     // C_total = 1 / ( 1/C1 + 1/C2 + ... + 1/Cn)
