@@ -122,6 +122,11 @@ public class SugarAndSaltSolutionModel implements ResetModel {
     //Create the solution, which sits atop the solid precipitate (if any)
     public final Solution solution = new Solution( waterVolume, beaker, solutionY, salt.molesDissolved.times( litersPerMoleDissolvedSalt ), sugar.molesDissolved.times( litersPerMoleDissolvedSugar ) );
 
+    //The concentration in the liquid in moles / m^3
+    //These have to be defined here instead of in SoluteModel because they depend on the total volume of the solution (which in turn depends on the amount of solute dissolved in the solvent).
+    public final CompositeDoubleProperty saltConcentration = salt.molesDissolved.dividedBy( solution.volume );
+    public final CompositeDoubleProperty sugarConcentration = sugar.molesDissolved.dividedBy( solution.volume );
+
     //Determine if there are any solutes (i.e., if moles of salt or moles of sugar is greater than zero).  This is used to show/hide the "remove solutes" button
     public final ObservableProperty<Boolean> anySolutes = salt.moles.greaterThan( 0 ).or( sugar.moles.greaterThan( 0 ) );
     public final Property<Boolean> showConcentrationBarChart = new Property<Boolean>( true );
@@ -220,7 +225,7 @@ public class SugarAndSaltSolutionModel implements ResetModel {
             @Override public void update() {
                 updateConductivityTesterBrightness();
             }
-        }.observe( salt.concentration, solution.shape );
+        }.observe( saltConcentration, solution.shape );
 
         //When the conductivity tester probe locations change, also update the conductivity tester brightness since they may come into contact (or leave contact) with the fluid
         conductivityTester.addConductivityTesterChangeListener( new ConductivityTesterChangeListener() {
@@ -250,7 +255,7 @@ public class SugarAndSaltSolutionModel implements ResetModel {
 
         //Set the brightness to be a linear function of the salt concentration (but keeping it bounded between 0 and 1 which are the limits of the conductivity tester brightness
         //Use a scale factor that matches up with the limits on saturation (manually sampled at runtime)
-        conductivityTester.brightness.set( bothProbesTouching ? MathUtil.clamp( 0, salt.concentration.get() * 1.62E-4, 1 ) : 0.0 );
+        conductivityTester.brightness.set( bothProbesTouching ? MathUtil.clamp( 0, saltConcentration.get() * 1.62E-4, 1 ) : 0.0 );
     }
 
     //Adds the specified Sugar crystal to the model
@@ -269,8 +274,8 @@ public class SugarAndSaltSolutionModel implements ResetModel {
     protected void updateModel( double dt ) {
 
         //Have to record the concentrations before the model updates since the concentrations change if water is added or removed.
-        double initialSaltConcentration = salt.concentration.get();
-        double initialSugarConcentration = sugar.concentration.get();
+        double initialSaltConcentration = saltConcentration.get();
+        double initialSugarConcentration = sugarConcentration.get();
 
         //Add any new crystals from the salt & sugar dispensers
         sugarDispenser.updateModel( this );

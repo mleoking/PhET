@@ -16,9 +16,6 @@ public class SoluteModel {
     //The amount of the solute in moles
     public final DoubleProperty moles;
 
-    //The concentration in the liquid in moles / m^3
-    public final CompositeDoubleProperty concentration;
-
     //The amount that precipitated (solidified)
     public final CompositeDoubleProperty molesPrecipitated;
 
@@ -49,7 +46,6 @@ public class SoluteModel {
         saturationPointMoles = waterVolume.times( saturationPoint );
         molesDissolved = new Min( moles, saturationPointMoles );
         molesPrecipitated = new Max( moles.minus( molesDissolved ), 0.0 );
-        concentration = molesDissolved.dividedBy( waterVolume );
         solidVolume = molesPrecipitated.times( volumePerSolidMole );
         grams = moles.times( gramsPerMole );
     }
