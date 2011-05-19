@@ -9,6 +9,7 @@ import java.util.EventListener;
 import edu.colorado.phet.capacitorlab.model.Battery;
 import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
  * Interface implemented by all circuits.
@@ -102,6 +103,15 @@ public interface ICircuit {
      * @return E-Field, in Volts/meter
      */
     double getDielectricEFieldAt( Point3D location );
+
+    void addCurrentAmplitudeObserver( SimpleObserver o );
+
+    /**
+     * Gets the current amplitude, a number that is proportional to dQ/dt, the change in total charge over time.
+     *
+     * @return
+     */
+    double getCurrentAmplitude();
 
     /**
      * Listener for circuit change notifications.

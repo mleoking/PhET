@@ -5,7 +5,7 @@ package edu.colorado.phet.capacitorlab.view;
 import java.awt.*;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.capacitorlab.model.circuit.SingleCircuit;
+import edu.colorado.phet.capacitorlab.model.circuit.ICircuit;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
@@ -52,7 +52,7 @@ public class CurrentIndicatorNode extends PhetPNode {
     private static final long FADEOUT_DURATION = 500; // ms
     private static final long FADEOUT_STEP_RATE = 10; // ms
 
-    private final SingleCircuit circuit;
+    private final ICircuit circuit;
     private final double positiveOrientation;
     private PActivity fadeOutActivity;
 
@@ -64,7 +64,7 @@ public class CurrentIndicatorNode extends PhetPNode {
      * @param circuit             circuit model
      * @param positiveOrientation rotation angle for +dV/dt (radians)
      */
-    public CurrentIndicatorNode( SingleCircuit circuit, double positiveOrientation ) {
+    public CurrentIndicatorNode( ICircuit circuit, double positiveOrientation ) {
 
         this.circuit = circuit;
         this.positiveOrientation = positiveOrientation;
