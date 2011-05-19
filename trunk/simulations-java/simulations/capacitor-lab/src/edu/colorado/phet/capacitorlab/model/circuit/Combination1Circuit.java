@@ -61,7 +61,6 @@ public class Combination1Circuit extends AbstractCircuit {
 
             // Parallel
             x += X_SPACING;
-            y = batteryLocation.getY();
             c3 = new Capacitor( new Point3D.Double( x, y, z ), plateWidth, plateSeparation, dielectricMaterial, dielectricOffset, mvt );
 
             capacitors = new ArrayList<Capacitor>();
