@@ -1,3 +1,4 @@
+# 0.00.16 (52192) May 19, 2011
 Removed background from evaporation slider
 Use a scaled cartoon size for the grains, since actual grain sizes would be much too large
 Salt crystals immediately precipitate when put into an empty beaker, when they hit the bottom or land on other precipitate
