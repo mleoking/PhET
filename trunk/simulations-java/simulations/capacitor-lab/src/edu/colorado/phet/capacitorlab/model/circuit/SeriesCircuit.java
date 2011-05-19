@@ -11,8 +11,8 @@ import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial;
 import edu.colorado.phet.capacitorlab.model.ICapacitor.CapacitorChangeListener;
 import edu.colorado.phet.capacitorlab.model.wire.Wire;
-import edu.colorado.phet.capacitorlab.model.wire.WireBatteryBottomToCapacitorBottom;
-import edu.colorado.phet.capacitorlab.model.wire.WireBatteryTopToCapacitorTop;
+import edu.colorado.phet.capacitorlab.model.wire.WireBatteryBottomToCapacitorBottoms;
+import edu.colorado.phet.capacitorlab.model.wire.WireBatteryTopToCapacitorTops;
 import edu.colorado.phet.capacitorlab.model.wire.WireCapacitorBottomToCapacitorTop;
 import edu.colorado.phet.capacitorlab.module.multiplecapacitors.MultipleCapacitorsModel;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
@@ -107,11 +107,11 @@ public class SeriesCircuit extends AbstractCircuit {
     // Creates the wires, starting at the battery's top terminal and working clockwise.
     private ArrayList<Wire> createWires( CLModelViewTransform3D mvt, double thickness, Battery battery, ArrayList<Capacitor> capacitors ) {
         ArrayList<Wire> wires = new ArrayList<Wire>();
-        wires.add( new WireBatteryTopToCapacitorTop( mvt, thickness, battery, capacitors.get( 0 ) ) );
+        wires.add( new WireBatteryTopToCapacitorTops( mvt, thickness, battery, capacitors.get( 0 ) ) );
         for ( int i = 0; i < capacitors.size() - 1; i++ ) {
             wires.add( new WireCapacitorBottomToCapacitorTop( mvt, thickness, capacitors.get( i ), capacitors.get( i + 1 ) ) );
         }
-        wires.add( new WireBatteryBottomToCapacitorBottom( mvt, thickness, battery, capacitors.get( capacitors.size() - 1 ) ) );
+        wires.add( new WireBatteryBottomToCapacitorBottoms( mvt, thickness, battery, capacitors.get( capacitors.size() - 1 ) ) );
         assert ( wires.size() == capacitors.size() + 1 );
         return wires;
     }
