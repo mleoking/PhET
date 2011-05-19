@@ -7,6 +7,7 @@ import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.sugarandsaltsolutions.intro.model.MacroSalt;
 
 import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.parseAngleAndMagnitude;
@@ -29,6 +30,14 @@ public class SaltShaker extends Dispenser {
 
     public SaltShaker( double x, double y, Beaker beaker, ObservableProperty<Boolean> moreAllowed ) {
         super( x, y, Math.PI * 3 / 4, beaker, moreAllowed );
+        moreAllowed.addObserver( new VoidFunction1<Boolean>() {
+            public void apply( Boolean allowed ) {
+                //If the shaker is emptied, prevent spurious grains from coming out the next time it is refilled by setting the shake amount to 0.0
+                if ( !allowed ) {
+                    shakeAmount = 0;
+                }
+            }
+        } );
     }
 
     //Translate the dispenser by the specified delta in model coordinates
