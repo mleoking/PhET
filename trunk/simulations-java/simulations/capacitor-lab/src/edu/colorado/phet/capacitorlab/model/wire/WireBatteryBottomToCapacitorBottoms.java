@@ -16,7 +16,12 @@ import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.view.util.ShapeUtils;
 
 /**
- * Wire that connects the bottom of a battery to the bottoms of N parallel capacitors.
+ * Wire that connects the bottom of a battery (B) to the bottoms of N parallel capacitors (c1,c2,...,cn).
+ * <code>
+ * B     c1    c2       cn
+ * |     |      |       |
+ * |-----|------|--...--|
+ * </code>
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

@@ -54,11 +54,11 @@ public class ParallelCircuitNode extends AbstractCircuitNode {
         ArrayList<Wire> wires = circuit.getWires();
         assert ( wires.size() == 2 );
 
-        PNode topWireNode = new WireNode( wires.get( 0 ), mvt );
+        PNode topWireNode = new WireNode( wires.get( 0 ) );
         addChild( topWireNode );
         topWireNode.moveToFront();
 
-        PNode bottomWireNode = new WireNode( wires.get( 1 ), mvt );
+        PNode bottomWireNode = new WireNode( wires.get( 1 ) );
         addChild( bottomWireNode );
         bottomWireNode.moveToBack();
 

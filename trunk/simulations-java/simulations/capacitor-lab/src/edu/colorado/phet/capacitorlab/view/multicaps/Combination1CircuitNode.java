@@ -53,7 +53,7 @@ public class Combination1CircuitNode extends AbstractCircuitNode {
         PNode topWireNode = null;
         PNode bottomWireNode = null;
         for ( int i = 0; i < wires.size(); i++ ) {
-            WireNode wireNode = new WireNode( wires.get( i ), mvt );
+            WireNode wireNode = new WireNode( wires.get( i ) );
             addChild( wireNode );
 
             if ( i == 0 ) {
