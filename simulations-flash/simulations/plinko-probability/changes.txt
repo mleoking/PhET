@@ -1,3 +1,5 @@
+# 2.01.02 (50241) Mar 30, 2011
+3/30/11 Version with blue distribution histogram and distribution mean removed
 # 2.01.00 (37320) Dec 11, 2009
 12/11/09 > Common interface fixes, improvements, and Khmer support.
 # 2.00.00 (30671) Apr 21, 2009
