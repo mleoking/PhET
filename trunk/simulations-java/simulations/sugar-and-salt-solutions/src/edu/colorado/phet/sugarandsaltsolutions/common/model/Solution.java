@@ -6,6 +6,7 @@ import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
+import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 
 /**
@@ -15,12 +16,12 @@ import edu.colorado.phet.common.phetcommon.util.function.Function0;
  */
 public class Solution {
     //Volume of the solution (water plus dissolved solutes)
-    public final ObservableProperty<Double> volume;
+    public final DoubleProperty volume;
 
     //Get the shape this water takes in its containing beaker
     public final ObservableProperty<Shape> shape;
 
-    public Solution( ObservableProperty<Double> waterVolume,
+    public Solution( DoubleProperty waterVolume,
                      final Beaker beaker,
                      //The y-location of the base of the solution (0 if sitting on the base of the beaker, or >0 if sitting on a solid precipitate).
                      final ObservableProperty<Double> y,

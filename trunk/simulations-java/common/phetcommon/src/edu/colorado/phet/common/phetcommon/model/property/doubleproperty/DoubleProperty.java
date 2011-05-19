@@ -50,4 +50,8 @@ public class DoubleProperty extends Property<Double> {
     public ObservableProperty<Boolean> lessThan( double b ) {
         return new LessThan( this, b );
     }
+
+    public ObservableProperty<Boolean> greaterThanOrEqualTo( double b ) {
+        return new GreaterThanOrEqualTo( this, b );
+    }
 }
