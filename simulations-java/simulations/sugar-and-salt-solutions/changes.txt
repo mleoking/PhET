@@ -1,3 +1,5 @@
+Compute sugar and salt grain sizes based on size per solid precipitate
+Made sugar and salt grains smaller weight, closer to physical grain sizes
 Made the beaker stick up an additional 0.3 cm to accommodate expanded fluid volume due to dissolved solutes, so it won't overflow
 Changed from 5g to 1g per grain of salt/sugar
 # 0.00.15 (52161) May 18, 2011
