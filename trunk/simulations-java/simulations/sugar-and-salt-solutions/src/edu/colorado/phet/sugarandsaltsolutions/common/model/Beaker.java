@@ -16,12 +16,24 @@ import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
  * @author Sam Reid
  */
 public class Beaker {
+    //Left side of the inner part of the beaker
     private final double x;
-    private final double y;//the y-location of the base of the beaker
+    //the y-location of the inner part of the base of the beaker
+    private final double y;
+
+    //Dimensions of the inner part of the beaker
     private final double width;
     private final double height;
-    private final double depth;//dimension of the beaker in the z-direction (into the screen)
+
+    //dimension of the beaker in the z-direction (into the screen)
+    private final double depth;
+
+    //Width of the beaker
     private final float wallWidth = 0.0025f;
+
+    //Move the top of the beaker sides up since with 2L of water and expanded volume from dissolved solutes, the beaker would overflow
+    //This value was sampled by trial and error at runtime
+    private final double topExtension = 0.003;
 
     public Beaker( double x, double y, double width, double height, double depth ) {
         this.x = x;
@@ -42,10 +54,10 @@ public class Beaker {
         BasicStroke wallStroke = new BasicStroke( wallWidth );
 
         //Create a GeneralPath representing the walls as a U-shape, starting from the top left
-        Shape wallShape = wallStroke.createStrokedShape( new DoubleGeneralPath( x, y + height ) {{
+        Shape wallShape = wallStroke.createStrokedShape( new DoubleGeneralPath( x, y + height + topExtension ) {{
             lineTo( x, y );
             lineTo( x + width, y );
-            lineTo( x + width, y + height );
+            lineTo( x + width, y + height + topExtension );
         }}.getGeneralPath() );
 
         //Since the stroke goes on both sides of the line, subtract out the main area so that the water won't overlap with the edges
@@ -54,7 +66,7 @@ public class Beaker {
 
     //Returns a rectangle of the bounds of the beaker
     private Rectangle2D.Double toRectangle() {
-        return new Rectangle2D.Double( x, y, width, height );
+        return new Rectangle2D.Double( x, y, width, height + topExtension );
     }
 
     // Rearrange the equation "Volume = width * height * depth"  To solve for height, assumes a square tank like a fish tank
@@ -90,11 +102,6 @@ public class Beaker {
     //Gets the leftmost x component of the water-containing part of the beake
     public double getX() {
         return x;
-    }
-
-    //Gets the vertical center of the beaker
-    public double getCenterY() {
-        return toRectangle().getCenterY();
     }
 
     //Gets the width of the walls (edges) of the container

@@ -1,3 +1,4 @@
+Made the beaker stick up an additional 0.3 cm to accommodate expanded fluid volume due to dissolved solutes, so it won't overflow
 Changed from 5g to 1g per grain of salt/sugar
 # 0.00.15 (52161) May 18, 2011
 Fixed: Underwater light bulb shouldn't light up (shorted out)
