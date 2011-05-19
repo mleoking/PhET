@@ -108,12 +108,14 @@ public class SugarAndSaltSolutionModel implements ResetModel {
     //Total volume of the water plus any solid precipitate submerged under the water (and hence pushing it up)
     public final CompositeDoubleProperty solidVolume = salt.solidVolume.plus( sugar.solidVolume );
 
-    //Create the solution, which sits atop the solid precipitate (if any)
+    //The y value where the solution will sit, it moves up and down with any solid that has precipitated
     public final CompositeDoubleProperty solutionY = new CompositeDoubleProperty( new Function0<Double>() {
         public Double apply() {
             return beaker.getHeightForVolume( solidVolume.get() );
         }
     }, solidVolume );
+
+    //Create the solution, which sits atop the solid precipitate (if any)
     public final Solution solution = new Solution( waterVolume, beaker, solutionY, salt.molesDissolved, sugar.molesDissolved );
 
     //Determine if there are any solutes (i.e., if moles of salt or moles of sugar is greater than zero).  This is used to show/hide the "remove solutes" button
@@ -334,7 +336,8 @@ public class SugarAndSaltSolutionModel implements ResetModel {
             ImmutableVector2D initialLocation = crystal.position.get();
 
             //slow the motion down a little bit or it moves too fast//TODO: can this be fixed?
-            crystal.stepInTime( gravity.times( crystal.mass ), dt / 10, beaker.getLeftWall(), beaker.getRightWall(), beaker.getFloor() );
+            crystal.stepInTime( gravity.times( crystal.mass ), dt / 10, beaker.getLeftWall(), beaker.getRightWall(), beaker.getFloor(),
+                                new Line2D.Double( beaker.getFloor().getX1(), solutionY.get(), beaker.getFloor().getX2(), solutionY.get() ) );
 
             //If the salt hits the water during any point of its initial -> final trajectory, absorb it.
             //This is necessary because if the water layer is too thin, the crystal could have jumped over it completely
