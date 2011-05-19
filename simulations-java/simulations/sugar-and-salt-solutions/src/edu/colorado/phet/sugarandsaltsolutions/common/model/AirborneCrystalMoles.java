@@ -21,7 +21,7 @@ public class AirborneCrystalMoles extends CompositeDoubleProperty {
                 //Sum up the total amount of moles of crystals that are in the air
                 double sum = 0;
                 for ( MacroCrystal crystal : list ) {
-                    if ( crystal.position.get().getY() > 0 ) {
+                    if ( crystal.position.get().getY() >= 0 ) {//Allow zero values to count toward the sum since "landed" particles could be sitting at 0 and should still count toward the amount in the play area since they could get added to the solution
                         sum += crystal.getMoles();
                     }
                 }
