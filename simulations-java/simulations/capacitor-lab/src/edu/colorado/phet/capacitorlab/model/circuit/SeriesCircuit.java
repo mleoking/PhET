@@ -8,8 +8,8 @@ import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.model.Battery;
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.colorado.phet.capacitorlab.model.Capacitor;
+import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeListener;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial;
-import edu.colorado.phet.capacitorlab.model.ICapacitor.CapacitorChangeListener;
 import edu.colorado.phet.capacitorlab.model.wire.Wire;
 import edu.colorado.phet.capacitorlab.model.wire.WireBatteryBottomToCapacitorBottoms;
 import edu.colorado.phet.capacitorlab.model.wire.WireBatteryTopToCapacitorTops;
@@ -72,8 +72,6 @@ public class SeriesCircuit extends AbstractCircuit {
         for ( Capacitor capacitor : capacitors ) {
             capacitor.addCapacitorChangeListener( capacitorChangeListener );
         }
-
-        //TODO add wires
     }
 
     // Creates a column of capacitors, to the right of the battery, vertically centered on the battery.

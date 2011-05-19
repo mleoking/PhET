@@ -6,8 +6,8 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
-import edu.colorado.phet.capacitorlab.model.ICapacitor;
-import edu.colorado.phet.capacitorlab.model.ICapacitor.CapacitorChangeListener;
+import edu.colorado.phet.capacitorlab.model.Capacitor;
+import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeListener;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.nodes.PComposite;
@@ -25,12 +25,12 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 public class DielectricExcessChargeNode extends PhetPNode {
 
-    private final ICapacitor capacitor;
+    private final Capacitor capacitor;
     private final CLModelViewTransform3D mvt;
     private final PNode parentNode; // parent node for charges
     private final double maxExcessDielectricPlateCharge;
 
-    public DielectricExcessChargeNode( ICapacitor capacitor, CLModelViewTransform3D mvt, double maxExcessDielectricPlateCharge ) {
+    public DielectricExcessChargeNode( Capacitor capacitor, CLModelViewTransform3D mvt, double maxExcessDielectricPlateCharge ) {
 
         this.capacitor = capacitor;
         this.mvt = mvt;

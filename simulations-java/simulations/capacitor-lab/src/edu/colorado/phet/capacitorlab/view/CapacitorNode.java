@@ -3,8 +3,8 @@
 package edu.colorado.phet.capacitorlab.view;
 
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
+import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.capacitorlab.model.DielectricChargeView;
-import edu.colorado.phet.capacitorlab.model.ICapacitor;
 import edu.colorado.phet.capacitorlab.view.PlateNode.BottomPlateNode;
 import edu.colorado.phet.capacitorlab.view.PlateNode.TopPlateNode;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -18,13 +18,13 @@ import edu.colorado.phet.common.piccolophet.PhetPNode;
  */
 public class CapacitorNode extends PhetPNode {
 
-    private final ICapacitor capacitor;
+    private final Capacitor capacitor;
     private final CLModelViewTransform3D mvt;
     private final PlateNode topPlateNode, bottomPlateNode;
     private final DielectricNode dielectricNode;
     private final EFieldNode eFieldNode;
 
-    public CapacitorNode( ICapacitor capacitor, CLModelViewTransform3D mvt,
+    public CapacitorNode( Capacitor capacitor, CLModelViewTransform3D mvt,
                           final Property<Boolean> plateChargeVisible, final Property<Boolean> eFieldVisible,
                           Property<DielectricChargeView> dielectricChargeView,
                           double maxPlateCharge, double maxExcessDielectricPlateCharge, double maxEffectiveEField, double maxDielectricEField ) {

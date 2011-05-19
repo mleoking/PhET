@@ -3,6 +3,7 @@
 package edu.colorado.phet.capacitorlab.model;
 
 import java.awt.*;
+import java.util.EventListener;
 
 import javax.swing.event.EventListenerList;
 
@@ -31,7 +32,7 @@ import edu.colorado.phet.common.phetcommon.view.util.ShapeUtils;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class Capacitor implements ICapacitor {
+public class Capacitor {
 
     private final CLModelViewTransform3D mvt;
     private final CapacitorShapeFactory shapeFactory;
@@ -639,8 +640,24 @@ public class Capacitor implements ICapacitor {
     }
 
     //----------------------------------------------------------------------------------
-    // CapacitorChangeListeners
+    // CapacitorChangeListener
     //----------------------------------------------------------------------------------
+
+    /**
+     * Listener for capacitor change notifications.
+     * Any change to the capacitor fires the capacitorChanged callback, with
+     * no information about what has changed.  This may seem wasteful, but in
+     * practice most things need to be changed when anything changes.  So this
+     * simplifies the programming at the expense of some unneeded computation.
+     * No performance problems have been noted, but this would be a prime place
+     * to start optimizing if performance becomes an issue.
+     * </p>
+     * For view and control elements that are strictly interested in geometry
+     * of the capacitor, see the various add*Observer methods.
+     */
+    public interface CapacitorChangeListener extends EventListener {
+        void capacitorChanged();
+    }
 
     public void addCapacitorChangeListener( CapacitorChangeListener listener ) {
         listeners.add( CapacitorChangeListener.class, listener );

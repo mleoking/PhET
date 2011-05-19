@@ -9,8 +9,8 @@ import java.awt.geom.Line2D;
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLPaints;
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
-import edu.colorado.phet.capacitorlab.model.ICapacitor;
-import edu.colorado.phet.capacitorlab.model.ICapacitor.CapacitorChangeListener;
+import edu.colorado.phet.capacitorlab.model.Capacitor;
+import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeListener;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -26,12 +26,12 @@ public class EFieldNode extends PhetPNode {
 
     public static enum Direction {UP, DOWN}
 
-    private final ICapacitor capacitor;
+    private final Capacitor capacitor;
     private final CLModelViewTransform3D mvt;
     private final PNode parentNode; // parent for all the field lines
     private final double maxEffectiveEField;
 
-    public EFieldNode( ICapacitor capacitor, CLModelViewTransform3D mvt, double maxEffectiveEField ) {
+    public EFieldNode( Capacitor capacitor, CLModelViewTransform3D mvt, double maxEffectiveEField ) {
         this.capacitor = capacitor;
         this.mvt = mvt;
         this.maxEffectiveEField = maxEffectiveEField;

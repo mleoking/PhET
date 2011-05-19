@@ -20,7 +20,6 @@ MULTIPLE CAPACITORS REQUIREMENTS
 HIGH PRIORITY
 - plate voltage doesn't make sense for C2 in Combination1Circuit
 - add support for wires in getVoltageAt for all AbstractCircuit subclasses
-- delete ICapacitor, if Capacitor reuse in Multi-Cap works out
 - E-Field and Voltage shape creation
 - move shape creation out of Wire and into WireNode (via WireShapeFactory) to be consistent with pattern used elsewhere
 - hack in createShape of some wire subclasses
