@@ -49,7 +49,7 @@ public class CapacitanceControlNode extends PhetPNode {
 
     // background
     private static final double BACKGROUND_X_MARGIN = 3;
-    private static final double BACKGROUND_Y_MARGIN = ( KNOB_SIZE.getHeight() / 2 ) + 3;
+    private static final double BACKGROUND_Y_MARGIN = ( KNOB_SIZE.getHeight() / 2 ) + 4;
     private static final Stroke BACKGROUND_STROKE = new BasicStroke( 1f );
     private static final Color BACKGROUND_STROKE_COLOR = Color.BLACK;
     private static final Color BACKGROUND_FILL_COLOR = new JPanel().getBackground();
