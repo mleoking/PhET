@@ -1,3 +1,4 @@
+# 1.06.02 (52207) May 19, 2011
 # 1.06.01 (48212) Jan 24, 2011
 1/24/11 #2683, i18n of "Ksp" in control panel for "Design a Salt" tab
 1/24/11 #2681, move Options menu items to Developer menu, delete associated strings from English strings file
