@@ -1,3 +1,4 @@
+Limit to 100 grams of each solute
 # 0.00.18 (52197) May 19, 2011
 Increased font for "none" and "lots"
 # 0.00.17 (52195) May 19, 2011
