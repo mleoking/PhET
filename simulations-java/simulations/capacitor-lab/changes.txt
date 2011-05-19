@@ -1,3 +1,4 @@
+5/18/11 tweak capacitance range for Multiple Capacitors tab
 5/18/11 add wires to combo circuits 2 (model and view)
 5/18/11 add wires to combo circuits 1 (model and view)
 5/18/11 generalize wires for connecting battery to parallel capacitors
