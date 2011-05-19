@@ -6,8 +6,8 @@ import java.awt.*;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
-import edu.colorado.phet.capacitorlab.model.ICapacitor;
-import edu.colorado.phet.capacitorlab.model.ICapacitor.CapacitorChangeListener;
+import edu.colorado.phet.capacitorlab.model.Capacitor;
+import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeListener;
 import edu.colorado.phet.capacitorlab.model.Polarity;
 import edu.colorado.phet.capacitorlab.view.IPlateChargeGridSizeStrategy.GridSizeStrategyFactory;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
@@ -27,14 +27,14 @@ public abstract class PlateChargeNode extends PhetPNode {
 
     private static final boolean DEBUG_OUTPUT_ENABLED = false;
 
-    private final ICapacitor capacitor;
+    private final Capacitor capacitor;
     private final CLModelViewTransform3D mvt;
     private final Polarity polarity;
     private final PNode parentNode; // parent node for charges
     private final IPlateChargeGridSizeStrategy gridSizeStrategy;
     private final double maxPlateCharge;
 
-    public PlateChargeNode( ICapacitor capacitor, CLModelViewTransform3D mvt, Polarity polarity, double maxPlateCharge ) {
+    public PlateChargeNode( Capacitor capacitor, CLModelViewTransform3D mvt, Polarity polarity, double maxPlateCharge ) {
 
         this.capacitor = capacitor;
         this.mvt = mvt;
@@ -73,7 +73,7 @@ public abstract class PlateChargeNode extends PhetPNode {
      */
     protected abstract double getContactWidth();
 
-    protected ICapacitor getCapacitor() {
+    protected Capacitor getCapacitor() {
         return capacitor;
     }
 
@@ -168,7 +168,7 @@ public abstract class PlateChargeNode extends PhetPNode {
      */
     public static class DielectricPlateChargeNode extends PlateChargeNode {
 
-        public DielectricPlateChargeNode( ICapacitor capacitor, CLModelViewTransform3D mvt, Polarity polarity, double maxPlateCharge ) {
+        public DielectricPlateChargeNode( Capacitor capacitor, CLModelViewTransform3D mvt, Polarity polarity, double maxPlateCharge ) {
             super( capacitor, mvt, polarity, maxPlateCharge );
         }
 
@@ -194,7 +194,7 @@ public abstract class PlateChargeNode extends PhetPNode {
      */
     public static class AirPlateChargeNode extends PlateChargeNode {
 
-        public AirPlateChargeNode( ICapacitor capacitor, CLModelViewTransform3D mvt, Polarity polarity, double maxPlateCharge ) {
+        public AirPlateChargeNode( Capacitor capacitor, CLModelViewTransform3D mvt, Polarity polarity, double maxPlateCharge ) {
             super( capacitor, mvt, polarity, maxPlateCharge );
         }
 

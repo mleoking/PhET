@@ -5,7 +5,7 @@ package edu.colorado.phet.capacitorlab.model.wire;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.capacitorlab.model.Battery;
-import edu.colorado.phet.capacitorlab.model.ICapacitor;
+import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
@@ -66,7 +66,7 @@ public class WireSegment {
      */
     public static class CapacitorTopWireSegment extends WireSegment {
 
-        public CapacitorTopWireSegment( Point2D startPoint, final ICapacitor capacitor ) {
+        public CapacitorTopWireSegment( Point2D startPoint, final Capacitor capacitor ) {
             super( startPoint, new Point2D.Double( capacitor.getTopPlateCenter().getX(), capacitor.getTopPlateCenter().getY() ) );
             capacitor.addPlateSeparationObserver( new SimpleObserver() {
                 public void update() {
@@ -82,7 +82,7 @@ public class WireSegment {
      */
     public static class CapacitorBottomWireSegment extends WireSegment {
 
-        public CapacitorBottomWireSegment( Point2D startPoint, final ICapacitor capacitor ) {
+        public CapacitorBottomWireSegment( Point2D startPoint, final Capacitor capacitor ) {
             super( startPoint, new Point2D.Double( capacitor.getBottomPlateCenter().getX(), capacitor.getBottomPlateCenter().getY() ) );
             capacitor.addPlateSeparationObserver( new SimpleObserver() {
                 public void update() {
@@ -97,7 +97,7 @@ public class WireSegment {
      * Adjusts the start and end points when the plate separations change.
      */
     public static class CapacitorToCapacitorWireSegment extends WireSegment {
-        public CapacitorToCapacitorWireSegment( final ICapacitor topCapacitor, final ICapacitor bottomCapacitor ) {
+        public CapacitorToCapacitorWireSegment( final Capacitor topCapacitor, final Capacitor bottomCapacitor ) {
             super( new Point2D.Double( topCapacitor.getBottomPlateCenter().getX(), topCapacitor.getBottomPlateCenter().getY() ),
                    new Point2D.Double( bottomCapacitor.getTopPlateCenter().getX(), bottomCapacitor.getTopPlateCenter().getY() ) );
 

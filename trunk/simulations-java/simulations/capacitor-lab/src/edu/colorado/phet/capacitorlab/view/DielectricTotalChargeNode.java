@@ -3,8 +3,8 @@
 package edu.colorado.phet.capacitorlab.view;
 
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
-import edu.colorado.phet.capacitorlab.model.ICapacitor;
-import edu.colorado.phet.capacitorlab.model.ICapacitor.CapacitorChangeListener;
+import edu.colorado.phet.capacitorlab.model.Capacitor;
+import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeListener;
 import edu.colorado.phet.capacitorlab.model.Polarity;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
@@ -28,12 +28,12 @@ public class DielectricTotalChargeNode extends PhetPNode {
     private static final DoubleRange NEGATIVE_CHARGE_OFFSET = new DoubleRange( 0, SPACING_BETWEEN_PAIRS / 2 ); // view coordinates
     private static final double SPACING_BETWEEN_CHARGES_EXPONENT = 1 / 4d;
 
-    private final ICapacitor capacitor;
+    private final Capacitor capacitor;
     private final CLModelViewTransform3D mvt;
     private final PNode parentNode; // parent node for charges
     private final double maxDielectricEField;
 
-    public DielectricTotalChargeNode( ICapacitor capacitor, CLModelViewTransform3D mvt, double maxDielectricEField ) {
+    public DielectricTotalChargeNode( Capacitor capacitor, CLModelViewTransform3D mvt, double maxDielectricEField ) {
 
         this.capacitor = capacitor;
         this.mvt = mvt;

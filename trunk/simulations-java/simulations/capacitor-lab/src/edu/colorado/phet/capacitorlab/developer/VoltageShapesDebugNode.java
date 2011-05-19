@@ -6,7 +6,7 @@ import java.awt.*;
 
 import edu.colorado.phet.capacitorlab.CLPaints;
 import edu.colorado.phet.capacitorlab.model.Battery;
-import edu.colorado.phet.capacitorlab.model.ICapacitor;
+import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.capacitorlab.model.circuit.ICircuit.CircuitChangeListener;
 import edu.colorado.phet.capacitorlab.model.circuit.SingleCircuit;
 import edu.colorado.phet.capacitorlab.model.meter.Voltmeter;
@@ -71,7 +71,7 @@ public class VoltageShapesDebugNode extends PComposite {
 
         // capacitor
         {
-            final ICapacitor capacitor = model.getCapacitor();
+            final Capacitor capacitor = model.getCapacitor();
             final CapacitorShapeFactory shapeFactory = capacitor.getShapeFactory();
 
             final PPath topPlateNode = new PhetPPath( shapeFactory.createTopPlateShapeOccluded(), STROKE, STROKE_COLOR );
