@@ -1,10 +1,11 @@
 // Copyright 2002-2011, University of Colorado
 
-package edu.colorado.phet.capacitorlab.model;
+package edu.colorado.phet.capacitorlab.model.wire;
 
 import java.awt.*;
 import java.util.ArrayList;
 
+import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.colorado.phet.capacitorlab.shapes.WireShapeFactory;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;

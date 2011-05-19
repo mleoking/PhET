@@ -1,3 +1,4 @@
+5/18/11 create model.wire package and factor out some reusable wires
 5/18/11 center current indicators on wires in "single" circuit
 5/18/11 display wires in "single" circuit
 5/18/11 add Wire constructor that has a Function0 arg for creating wire segments
