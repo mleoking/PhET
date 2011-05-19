@@ -7,8 +7,8 @@ import java.awt.geom.Area;
 import java.awt.geom.Line2D;
 
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
-import edu.colorado.phet.capacitorlab.model.Wire;
-import edu.colorado.phet.capacitorlab.model.WireSegment;
+import edu.colorado.phet.capacitorlab.model.wire.Wire;
+import edu.colorado.phet.capacitorlab.model.wire.WireSegment;
 
 /**
  * Creates the 2D shape for a wire.

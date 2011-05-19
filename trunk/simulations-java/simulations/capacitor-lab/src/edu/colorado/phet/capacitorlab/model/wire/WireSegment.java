@@ -1,9 +1,11 @@
 // Copyright 2002-2011, University of Colorado
 
-package edu.colorado.phet.capacitorlab.model;
+package edu.colorado.phet.capacitorlab.model.wire;
 
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.capacitorlab.model.Battery;
+import edu.colorado.phet.capacitorlab.model.ICapacitor;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
@@ -28,6 +30,7 @@ public class WireSegment {
 
     /**
      * Wire segment whose start point is connected to the top terminal of a battery.
+     * Adjusts the start point when the battery's polarity changes.
      */
     public static class BatteryTopWireSegment extends WireSegment {
 
@@ -43,6 +46,7 @@ public class WireSegment {
 
     /**
      * Wire segment whose start point is connected to the bottom terminal of a battery.
+     * Adjusts the start point when the battery's polarity changes.
      */
     public static class BatteryBottomWireSegment extends WireSegment {
 
@@ -58,6 +62,7 @@ public class WireSegment {
 
     /**
      * Wire segment whose end point is connected to the top plate of a capacitor.
+     * Adjusts the end point when the plate separation changes.
      */
     public static class CapacitorTopWireSegment extends WireSegment {
 
@@ -73,6 +78,7 @@ public class WireSegment {
 
     /**
      * Wire segment whose end point is connected to the bottom plate of a capacitor.
+     * Adjusts the end point when the plate separation changes.
      */
     public static class CapacitorBottomWireSegment extends WireSegment {
 
