@@ -77,6 +77,11 @@ public class MacroCrystal {
         }
     }
 
+    //Determine if the crystal landed on the bottom of the beaker or on any precipitate for purposes of determining whether it should turn into solid
+    public boolean isLanded() {
+        return landed;
+    }
+
     //Add a listener which will be notified when this crystal is removed from the model
     public void addRemovalListener( VoidFunction0 removalListener ) {
         removalListeners.add( removalListener );
