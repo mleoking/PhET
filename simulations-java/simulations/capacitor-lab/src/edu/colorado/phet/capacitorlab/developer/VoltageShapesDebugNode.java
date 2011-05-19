@@ -31,7 +31,7 @@ public class VoltageShapesDebugNode extends PComposite {
     private static final boolean SHOW_BATTERY_BODY = false;
 
     private static final Stroke STROKE = new BasicStroke( 2f );
-    private static final Color STROKE_COLOR = CLPaints.VOLTAGE_SHAPES;
+    private static final Color STROKE_COLOR = CLPaints.VOLTAGE_DEBUG_SHAPES;
 
     public VoltageShapesDebugNode( final DielectricModel model ) {
 

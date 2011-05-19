@@ -22,7 +22,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 public class EFieldShapesDebugNode extends PComposite {
 
     private static final Stroke STROKE = new BasicStroke( 2f );
-    private static final Color STROKE_COLOR = CLPaints.EFIELD_SHAPES;
+    private static final Color STROKE_COLOR = CLPaints.EFIELD_DEBUG_SHAPES;
 
     public EFieldShapesDebugNode( final DielectricModel model ) {
 
