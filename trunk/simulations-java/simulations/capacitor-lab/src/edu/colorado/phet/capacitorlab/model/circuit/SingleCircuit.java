@@ -3,21 +3,23 @@
 package edu.colorado.phet.capacitorlab.model.circuit;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLStrings;
-import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
-import edu.colorado.phet.capacitorlab.model.Capacitor;
-import edu.colorado.phet.capacitorlab.model.DielectricMaterial;
+import edu.colorado.phet.capacitorlab.model.*;
 import edu.colorado.phet.capacitorlab.model.ICapacitor.CapacitorChangeListener;
-import edu.colorado.phet.capacitorlab.model.Wire;
-import edu.colorado.phet.capacitorlab.model.Wire.BottomWire;
-import edu.colorado.phet.capacitorlab.model.Wire.TopWire;
+import edu.colorado.phet.capacitorlab.model.WireSegment.BatteryBottomWireSegment;
+import edu.colorado.phet.capacitorlab.model.WireSegment.BatteryTopWireSegment;
+import edu.colorado.phet.capacitorlab.model.WireSegment.CapacitorBottomWireSegment;
+import edu.colorado.phet.capacitorlab.model.WireSegment.CapacitorTopWireSegment;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.Function0;
+import edu.colorado.phet.common.phetcommon.view.util.ShapeUtils;
 
 /**
  * Model of a circuit with a battery connected to a single capacitor.
@@ -55,8 +57,8 @@ public class SingleCircuit extends AbstractCircuit {
         this.disconnectedPlateCharge = getTotalCharge();
 
         // Create the wires
-        topWire = new TopWire( getBattery(), capacitor, CLConstants.WIRE_THICKNESS, mvt );
-        bottomWire = new BottomWire( getBattery(), capacitor, CLConstants.WIRE_THICKNESS, mvt );
+        topWire = new TopWire( mvt, CLConstants.WIRE_THICKNESS, getBattery(), capacitor );
+        bottomWire = new BottomWire( mvt, CLConstants.WIRE_THICKNESS, getBattery(), capacitor );
 
         // observe battery
         getBattery().addVoltageObserver( new SimpleObserver() {
@@ -224,5 +226,74 @@ public class SingleCircuit extends AbstractCircuit {
     // @see ICircuit.getTotalCharge
     @Override public double getTotalCharge() {
         return capacitor.getTotalPlateCharge();
+    }
+
+    //----------------------------------------------------------------------------------
+    // Wires
+    //----------------------------------------------------------------------------------
+
+    //  Wire that connects the top of the battery to the top of the capacitor.
+    public static class TopWire extends Wire {
+
+        public TopWire( final CLModelViewTransform3D mvt, final double thickness, final Battery battery, final ICapacitor capacitor ) {
+            super( mvt, thickness, new Function0<ArrayList<WireSegment>>() {
+                public ArrayList<WireSegment> apply() {
+                    final Point2D.Double leftCorner = new Point2D.Double( battery.getX(), battery.getY() - CLConstants.WIRE_EXTENT );
+                    final Point2D.Double rightCorner = new Point2D.Double( capacitor.getX(), leftCorner.getY() );
+                    final double t = ( thickness / 2 ); // for proper connection at corners with CAP_BUTT wire stroke
+                    ArrayList<WireSegment> segments = new ArrayList<WireSegment>() {{
+                        add( new BatteryTopWireSegment( battery, leftCorner ) );
+                        add( new WireSegment( leftCorner.getX() - t, leftCorner.getY() + t, rightCorner.getX() + t, rightCorner.getY() + t ) );
+                        add( new CapacitorTopWireSegment( rightCorner, capacitor ) );
+                    }};
+                    return segments;
+                }
+            } );
+        }
+    }
+
+    // Wire that connects the bottom of the battery to the bottom of the capacitor.
+    public static class BottomWire extends Wire {
+
+        private final Battery battery;
+        private final ICapacitor capacitor;
+
+        public BottomWire( CLModelViewTransform3D mvt, final double thickness, final Battery battery, final ICapacitor capacitor ) {
+            super( mvt, thickness, new Function0<ArrayList<WireSegment>>() {
+                public ArrayList<WireSegment> apply() {
+                    final Point2D.Double leftCorner = new Point2D.Double( battery.getX(), battery.getY() + CLConstants.WIRE_EXTENT );
+                    final Point2D.Double rightCorner = new Point2D.Double( capacitor.getX(), leftCorner.getY() );
+                    final double t = ( thickness / 2 ); // for proper connection at corners with CAP_BUTT wire stroke
+                    ArrayList<WireSegment> segments = new ArrayList<WireSegment>() {{
+                        add( new BatteryBottomWireSegment( battery, leftCorner ) );
+                        add( new WireSegment( leftCorner.getX() - t, leftCorner.getY() + t, rightCorner.getX() + t, rightCorner.getY() + t ) );
+                        add( new CapacitorBottomWireSegment( rightCorner, capacitor ) );
+                    }};
+                    return segments;
+                }
+            } );
+
+            this.battery = battery;
+            this.capacitor = capacitor;
+
+            // adjust when dimensions of capacitor change
+            SimpleObserver o = new SimpleObserver() {
+                public void update() {
+                    setShape( createShape() );
+                }
+            };
+            capacitor.addPlateSizeObserver( o );
+            capacitor.addPlateSeparationObserver( o );
+        }
+
+        // Subtract any part of the wire that is occluded by the battery or bottom plate.
+        @Override protected Shape createShape() {
+            Shape wireShape = super.createShape();
+            // HACK: null check required because createShape is called in the superclass constructor.
+            if ( battery != null && capacitor != null ) {
+                wireShape = ShapeUtils.subtract( wireShape, battery.getShapeFactory().createBodyShape(), capacitor.getShapeFactory().createBottomPlateShape() );
+            }
+            return wireShape;
+        }
     }
 }

@@ -4,7 +4,6 @@ package edu.colorado.phet.capacitorlab.module.dielectric;
 
 import java.awt.*;
 import java.awt.geom.Dimension2D;
-import java.awt.geom.Point2D;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLGlobalProperties;
@@ -158,16 +157,17 @@ public class DielectricCanvas extends CLCanvas {
 
         // static layout
         {
-            Point2D pView = null;
             double x, y = 0;
 
+            // wires shapes are in model coordinate frame, so the nodes live at (0,0)
+            topWireNode.setOffset( 0, 0 );
+            bottomWireNode.setOffset( 0, 0 );
+
             // battery
-            pView = mvt.modelToView( model.getBattery().getLocationReference() );
-            batteryNode.setOffset( pView );
+            batteryNode.setOffset( mvt.modelToView( model.getBattery().getLocationReference() ) );
 
             // capacitor
-            pView = mvt.modelToView( model.getCapacitor().getLocation() );
-            capacitorNode.setOffset( pView );
+            capacitorNode.setOffset( mvt.modelToView( model.getCapacitor().getLocation() ) );
 
             // top current indicator
             double topWireThickness = mvt.modelToViewDelta( model.getTopWire().getThickness(), 0, 0 ).getX();
@@ -187,8 +187,7 @@ public class DielectricCanvas extends CLCanvas {
             batteryConnectionButtonNode.setOffset( x, y );
 
             // Plate Charge control
-            pView = mvt.modelToView( CLConstants.PLATE_CHARGE_CONTROL_LOCATION );
-            plateChargeControNode.setOffset( pView );
+            plateChargeControNode.setOffset( mvt.modelToView( CLConstants.PLATE_CHARGE_CONTROL_LOCATION ) );
         }
 
         // observers
