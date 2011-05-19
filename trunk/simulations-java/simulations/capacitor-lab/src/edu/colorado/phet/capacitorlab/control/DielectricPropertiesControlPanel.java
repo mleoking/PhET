@@ -22,7 +22,7 @@ import edu.colorado.phet.common.phetcommon.view.util.GridPanel.Anchor;
 import edu.colorado.phet.common.phetcommon.view.util.GridPanel.Fill;
 
 /**
- * Controls related to the capacitor's dielectric.
+ * Controls related to the properties of the dielectric.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

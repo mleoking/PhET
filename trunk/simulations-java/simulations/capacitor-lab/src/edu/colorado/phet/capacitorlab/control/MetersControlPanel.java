@@ -18,7 +18,7 @@ import edu.colorado.phet.common.phetcommon.view.util.GridPanel;
 import edu.colorado.phet.common.phetcommon.view.util.GridPanel.Anchor;
 
 /**
- * Control panel for meter settings.
+ * Control panel for choosing which meters are visible.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

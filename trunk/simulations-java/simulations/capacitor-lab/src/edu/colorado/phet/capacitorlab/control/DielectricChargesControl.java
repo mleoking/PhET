@@ -15,7 +15,7 @@ import edu.colorado.phet.common.phetcommon.view.util.GridPanel;
 import edu.colorado.phet.common.phetcommon.view.util.GridPanel.Anchor;
 
 /**
- * Controls related to the dielectric's charges.
+ * Control for choosing the visual representation of dielectric charges.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
