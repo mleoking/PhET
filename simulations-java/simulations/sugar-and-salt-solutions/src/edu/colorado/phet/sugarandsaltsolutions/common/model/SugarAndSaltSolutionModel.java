@@ -59,7 +59,7 @@ public class SugarAndSaltSolutionModel implements ResetModel {
     public final Beaker beaker = new Beaker( BEAKER_X, 0, BEAKER_WIDTH, BEAKER_HEIGHT, BEAKER_DEPTH );//The beaker into which you can add water, salt and sugar.
 
     //Set a max amount of water that the user can add to the system so they can't overflow it
-    private final double MAX_WATER = beaker.getMaxFluidVolume() * 0.75;
+    private final double MAX_WATER = beaker.getMaxFluidVolume();
 
     //Model for input and output flows
     public final Property<Double> inputFlowRate = new Property<Double>( 0.0 );//rate that water flows into the beaker in m^3/s
