@@ -12,8 +12,8 @@ import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial;
 import edu.colorado.phet.capacitorlab.model.ICapacitor.CapacitorChangeListener;
 import edu.colorado.phet.capacitorlab.model.wire.Wire;
-import edu.colorado.phet.capacitorlab.model.wire.WireBatteryBottomToCapacitorBottom;
-import edu.colorado.phet.capacitorlab.model.wire.WireBatteryTopToCapacitorTop;
+import edu.colorado.phet.capacitorlab.model.wire.WireBatteryBottomToCapacitorBottoms;
+import edu.colorado.phet.capacitorlab.model.wire.WireBatteryTopToCapacitorTops;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -55,8 +55,8 @@ public class SingleCircuit extends AbstractCircuit {
         this.disconnectedPlateCharge = getTotalCharge();
 
         // Create the wires
-        topWire = new WireBatteryTopToCapacitorTop( mvt, CLConstants.WIRE_THICKNESS, getBattery(), capacitor );
-        bottomWire = new WireBatteryBottomToCapacitorBottom( mvt, CLConstants.WIRE_THICKNESS, getBattery(), capacitor );
+        topWire = new WireBatteryTopToCapacitorTops( mvt, CLConstants.WIRE_THICKNESS, getBattery(), capacitor );
+        bottomWire = new WireBatteryBottomToCapacitorBottoms( mvt, CLConstants.WIRE_THICKNESS, getBattery(), capacitor );
 
         // observe battery
         getBattery().addVoltageObserver( new SimpleObserver() {

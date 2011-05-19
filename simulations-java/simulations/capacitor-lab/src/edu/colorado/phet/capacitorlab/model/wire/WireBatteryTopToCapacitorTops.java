@@ -17,9 +17,13 @@ import edu.colorado.phet.common.phetcommon.util.function.Function0;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class WireBatteryTopToNCapacitorTops extends Wire {
+public class WireBatteryTopToCapacitorTops extends Wire {
 
-    public WireBatteryTopToNCapacitorTops( final CLModelViewTransform3D mvt, final double thickness, final Battery battery, final ArrayList<Capacitor> capacitors ) {
+    public WireBatteryTopToCapacitorTops( CLModelViewTransform3D mvt, double thickness, Battery battery, final Capacitor capacitor ) {
+        this( mvt, thickness, battery, new ArrayList<Capacitor>() {{ add( capacitor ); }} );
+    }
+
+    public WireBatteryTopToCapacitorTops( final CLModelViewTransform3D mvt, final double thickness, final Battery battery, final ArrayList<Capacitor> capacitors ) {
         super( mvt, thickness, new Function0<ArrayList<WireSegment>>() {
             public ArrayList<WireSegment> apply() {
 

@@ -16,16 +16,20 @@ import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.view.util.ShapeUtils;
 
 /**
- * Wire that connects the bottom of a battery to the bottom of a capacitor.
+ * Wire that connects the bottom of a battery to the bottoms of N parallel capacitors.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class WireBatteryBottomToNCapacitorBottoms extends Wire {
+public class WireBatteryBottomToCapacitorBottoms extends Wire {
 
     private final Battery battery;
     private final ArrayList<Capacitor> capacitors;
 
-    public WireBatteryBottomToNCapacitorBottoms( CLModelViewTransform3D mvt, final double thickness, final Battery battery, final ArrayList<Capacitor> capacitors ) {
+    public WireBatteryBottomToCapacitorBottoms( CLModelViewTransform3D mvt, double thickness, Battery battery, final Capacitor capacitor ) {
+        this( mvt, thickness, battery, new ArrayList<Capacitor>() {{ add( capacitor ); }} );
+    }
+
+    public WireBatteryBottomToCapacitorBottoms( CLModelViewTransform3D mvt, final double thickness, final Battery battery, final ArrayList<Capacitor> capacitors ) {
         super( mvt, thickness, new Function0<ArrayList<WireSegment>>() {
             public ArrayList<WireSegment> apply() {
 
