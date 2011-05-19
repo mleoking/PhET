@@ -137,8 +137,8 @@ public class SugarAndSaltSolutionModel implements ResetModel {
     private final CompositeDoubleProperty airborneSugarGrams = new AirborneCrystalMoles( sugarList ).times( sugar.gramsPerMole );
 
     //Properties to indicate if the user is allowed to add more of the solute.  If not allowed the dispenser is shown as empty.
-    private ObservableProperty<Boolean> moreSaltAllowed = salt.grams.plus( airborneSaltGrams ).lessThan( 500 );
-    private ObservableProperty<Boolean> moreSugarAllowed = sugar.grams.plus( airborneSugarGrams ).lessThan( 500 );
+    private ObservableProperty<Boolean> moreSaltAllowed = salt.grams.plus( airborneSaltGrams ).lessThan( 100 );
+    private ObservableProperty<Boolean> moreSugarAllowed = sugar.grams.plus( airborneSugarGrams ).lessThan( 100 );
 
     //Convenience composite properties for determining whether the beaker is full or empty so we can shut off the faucets when necessary
     public final ObservableProperty<Boolean> beakerFull = solution.volume.greaterThanOrEqualTo( MAX_WATER );
