@@ -727,6 +727,23 @@ public class MoleculeStructure<AtomT extends Atom> {
         return fromSerial2( line, new DefaultMoleculeGenerator(), new DefaultAtomParser(), new DefaultBondParser() );
     }
 
+    /**
+     * @return A new equivalent structure using simple atoms and bonds
+     */
+    public MoleculeStructure<Atom> toSimple() {
+        MoleculeStructure<Atom> ret = new MoleculeStructure<Atom>( atoms.size(), bonds.size() );
+        Map<Atom, Atom> newMap = new HashMap<Atom, Atom>();
+        for ( AtomT atom : atoms ) {
+            Atom newAtom = new Atom( atom.getElement() );
+            ret.addAtom( newAtom );
+            newMap.put( atom, newAtom );
+        }
+        for ( Bond<AtomT> bond : bonds ) {
+            ret.addBond( new Bond<Atom>( newMap.get( bond.a ), newMap.get( bond.b ) ) );
+        }
+        return ret;
+    }
+
     /*---------------------------------------------------------------------------*
     * parser classes and default implementations
     *----------------------------------------------------------------------------*/

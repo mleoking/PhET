@@ -1,3 +1,4 @@
+Fixed weird 3d structure bug
 # 0.00.24 (52167) May 18, 2011
 Re-added border/background around "Drag your molecule here"
 # 0.00.23 (52081) May 17, 2011

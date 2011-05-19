@@ -90,7 +90,13 @@ public class MoleculeList {
     }
 
     protected void loadMasterData() {
-        List<CompleteMolecule> mainMolecules = readCompleteMoleculesFromFilename( "molecules.txt" );
+        // load in our collection molecules first
+        for ( CompleteMolecule molecule : initialList.getAllCompleteMolecules() ) {
+            addCompleteMolecule( molecule );
+        }
+
+        // then load other molecules
+        List<CompleteMolecule> mainMolecules = readCompleteMoleculesFromFilename( "other-molecules.txt" );
         for ( CompleteMolecule molecule : mainMolecules ) {
 
             // if our molecule was included in the initial lookup, use that initial version instead so we can have instance equality preserved
@@ -246,7 +252,7 @@ public class MoleculeList {
             try {
                 while ( moleculeReader.ready() ) {
                     String line = moleculeReader.readLine();
-                    CompleteMolecule molecule = CompleteMolecule.fromString( line );
+                    CompleteMolecule molecule = CompleteMolecule.fromSerial2( line );
 
                     // sanity checks
                     if ( molecule.hasLoopsOrIsDisconnected() ) {
@@ -286,7 +292,7 @@ public class MoleculeList {
             try {
                 while ( structureReader.ready() ) {
                     String line = structureReader.readLine();
-                    MoleculeStructure<Atom> structure = MoleculeStructure.fromSerial( line );
+                    MoleculeStructure<Atom> structure = MoleculeStructure.fromSerial2Basic( line );
 
                     // sanity checks
                     if ( structure.hasWeirdHydrogenProperties() ) {
