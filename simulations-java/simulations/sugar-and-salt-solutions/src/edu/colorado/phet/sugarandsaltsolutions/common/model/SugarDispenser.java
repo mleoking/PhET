@@ -103,4 +103,11 @@ public class SugarDispenser extends Dispenser {
             }
         }
     }
+
+    @Override public void reset() {
+        super.reset();
+        //Additionally reset the user drag events so the user has to drag it again to create sugar
+        translating = false;
+        positions.clear();
+    }
 }
