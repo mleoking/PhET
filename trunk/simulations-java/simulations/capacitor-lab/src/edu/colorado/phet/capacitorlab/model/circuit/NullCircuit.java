@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 
 //TODO delete this when all circuits are implemented
 
@@ -17,8 +18,8 @@ import edu.colorado.phet.common.phetcommon.math.Point3D;
  */
 public class NullCircuit extends AbstractCircuit {
 
-    public NullCircuit( String displayName, CLModelViewTransform3D mvt, Point3D batteryLocation ) {
-        super( displayName, mvt, batteryLocation );
+    public NullCircuit( String displayName, IClock clock, CLModelViewTransform3D mvt, Point3D batteryLocation ) {
+        super( displayName, clock, mvt, batteryLocation );
     }
 
     public ArrayList<Capacitor> getCapacitors() {

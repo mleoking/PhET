@@ -11,6 +11,11 @@ import edu.colorado.phet.capacitorlab.model.Battery;
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
  * Base class for all circuits.
@@ -20,13 +25,30 @@ import edu.colorado.phet.common.phetcommon.math.Point3D;
 public abstract class AbstractCircuit implements ICircuit {
 
     private final String displayName;
+    private final IClock clock;
     private final Battery battery;
     private final EventListenerList listeners;
+    private Property<Double> currentAmplitudeProperty; // dV/dt, rate of voltage change
+    private double previousTotalCharge; // total charge the previous time the clock ticked, used to compute current amplitude
 
-    protected AbstractCircuit( String displayName, CLModelViewTransform3D mvt, Point3D batteryLocation ) {
+    protected AbstractCircuit( String displayName, IClock clock, CLModelViewTransform3D mvt, Point3D batteryLocation ) {
         this.displayName = displayName;
+        this.clock = clock;
         this.battery = new Battery( batteryLocation, CLConstants.BATTERY_VOLTAGE_RANGE.getDefault(), mvt );
         this.listeners = new EventListenerList();
+        this.currentAmplitudeProperty = new Property<Double>( 0d );
+        this.previousTotalCharge = -1; // no value
+
+        // update current amplitude on each clock tick
+        clock.addClockListener( new ClockAdapter() {
+            public void simulationTimeChanged( ClockEvent clockEvent ) {
+                updateCurrentAmplitude();
+            }
+        } );
+    }
+
+    public void cleanup() {
+        //TODO remove ClockListener
     }
 
     public void reset() {
@@ -104,6 +126,26 @@ public abstract class AbstractCircuit implements ICircuit {
             }
         }
         return eField;
+    }
+
+    public double getCurrentAmplitude() {
+        return currentAmplitudeProperty.get();
+    }
+
+    // Current amplitude is proportional to dQ/dt, the change in charge (Q_total) over time.
+    private void updateCurrentAmplitude() {
+        double Q = getTotalCharge();
+        if ( previousTotalCharge != -1 ) {
+            double dQ = Q - previousTotalCharge;
+            double dt = clock.getSimulationTimeChange();
+            double amplitude = dQ / dt;
+            currentAmplitudeProperty.set( amplitude );
+        }
+        previousTotalCharge = Q;
+    }
+
+    public void addCurrentAmplitudeObserver( SimpleObserver o ) {
+        currentAmplitudeProperty.addObserver( o );
     }
 
     // @see ICircuit.addCircuitChangeListener

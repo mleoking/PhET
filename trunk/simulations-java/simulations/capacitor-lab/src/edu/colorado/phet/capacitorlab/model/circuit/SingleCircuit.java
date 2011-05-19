@@ -15,8 +15,6 @@ import edu.colorado.phet.capacitorlab.model.Wire;
 import edu.colorado.phet.capacitorlab.model.Wire.BottomWire;
 import edu.colorado.phet.capacitorlab.model.Wire.TopWire;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
-import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
-import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -33,17 +31,13 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 public class SingleCircuit extends AbstractCircuit {
 
     // immutable instance data
+    private final IClock clock;
     private final Capacitor capacitor;
     private final Wire topWire, bottomWire;
-    private final IClock clock;
-
-    // observable properties
-    private Property<Double> currentAmplitudeProperty; // dV/dt, rate of voltage change
 
     // mutable instance data
     private Property<Boolean> batteryConnectedProperty; // is the battery connected to the circuit?
     private double disconnectedPlateCharge; // charge set manually by the user, used when battery is disconnected
-    private double previousTotalCharge; // total charge the previous time the clock ticked, used to compute current amplitude
 
     public SingleCircuit( IClock clock, CLModelViewTransform3D mvt, Point3D batteryLocation, Point3D capacitorLocation,
                           double plateWidth, double plateSeparation, DielectricMaterial dielectricMaterial, double dielectricOffset ) {
@@ -53,21 +47,12 @@ public class SingleCircuit extends AbstractCircuit {
     public SingleCircuit( IClock clock, CLModelViewTransform3D mvt, Point3D batteryLocation, Point3D capacitorLocation,
                           double plateWidth, double plateSeparation, DielectricMaterial dielectricMaterial, double dielectricOffset,
                           boolean batteryConnected ) {
-        super( CLStrings.SINGLE, mvt, batteryLocation );
+        super( CLStrings.SINGLE, clock, mvt, batteryLocation );
 
         this.clock = clock;
         this.capacitor = new Capacitor( capacitorLocation, plateWidth, plateSeparation, dielectricMaterial, dielectricOffset, mvt );
         this.batteryConnectedProperty = new Property<Boolean>( batteryConnected );
         this.disconnectedPlateCharge = getTotalCharge();
-        this.previousTotalCharge = getTotalCharge();
-        this.currentAmplitudeProperty = new Property<Double>( 0d );
-
-        // update current amplitude on each clock tick
-        clock.addClockListener( new ClockAdapter() {
-            public void simulationTimeChanged( ClockEvent clockEvent ) {
-                updateCurrentAmplitude();
-            }
-        } );
 
         // Create the wires
         topWire = new TopWire( getBattery(), capacitor, CLConstants.WIRE_THICKNESS, mvt );
@@ -239,28 +224,5 @@ public class SingleCircuit extends AbstractCircuit {
     // @see ICircuit.getTotalCharge
     @Override public double getTotalCharge() {
         return capacitor.getTotalPlateCharge();
-    }
-
-    //----------------------------------------------------------------------------------
-    // Current
-    //----------------------------------------------------------------------------------
-
-    public double getCurrentAmplitude() {
-        return currentAmplitudeProperty.get();
-    }
-
-    /*
-     * Current amplitude is proportional to dQ/dt, the change in charge (Q_total) over time.
-     */
-    private void updateCurrentAmplitude() {
-        double Q = getTotalCharge();
-        double dQ = Q - previousTotalCharge;
-        double dt = clock.getSimulationTimeChange();
-        previousTotalCharge = Q;
-        currentAmplitudeProperty.set( dQ / dt );
-    }
-
-    public void addCurrentAmplitudeObserver( SimpleObserver o ) {
-        currentAmplitudeProperty.addObserver( o );
     }
 }
