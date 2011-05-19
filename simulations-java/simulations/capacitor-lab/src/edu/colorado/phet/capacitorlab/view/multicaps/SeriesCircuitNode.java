@@ -79,16 +79,17 @@ public class SeriesCircuitNode extends AbstractCircuitNode {
         {
             double x, y;
 
-            // top current indicator centered on top wire
+            // top current indicator centered on top wire, between battery and first capacitor to the right of the battery
             double topWireThickness = mvt.modelToViewDelta( wires.get( 0 ).getThickness(), 0, 0 ).getX();
-            x = topWireNode.getFullBoundsReference().getCenterX();
+            double xModel = circuit.getBattery().getX() + ( ( circuit.getCapacitors().get( 0 ).getX() - circuit.getBattery().getX() ) / 2 );
+            x = mvt.modelToViewDelta( xModel, 0, 0 ).getX();
             y = topWireNode.getFullBoundsReference().getMinY() + ( topWireThickness / 2 );
             getTopCurrentIndicatorNode().setOffset( x, y );
             getTopCurrentIndicatorNode().moveToFront();
 
             // bottom current indicator centered on bottom wire
             double bottomWireThickness = mvt.modelToViewDelta( wires.get( wires.size() - 1 ).getThickness(), 0, 0 ).getX();
-            x = bottomWireNode.getFullBoundsReference().getCenterX();
+            x = getTopCurrentIndicatorNode().getXOffset();
             y = bottomWireNode.getFullBoundsReference().getMaxY() - ( bottomWireThickness / 2 );
             getBottomCurrentIndicatorNode().setOffset( x, y );
             getBottomCurrentIndicatorNode().moveToFront();

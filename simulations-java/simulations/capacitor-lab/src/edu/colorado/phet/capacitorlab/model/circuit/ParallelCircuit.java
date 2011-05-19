@@ -4,11 +4,15 @@ package edu.colorado.phet.capacitorlab.model.circuit;
 import java.awt.*;
 import java.util.ArrayList;
 
+import edu.colorado.phet.capacitorlab.CLConstants;
+import edu.colorado.phet.capacitorlab.model.Battery;
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial;
 import edu.colorado.phet.capacitorlab.model.ICapacitor.CapacitorChangeListener;
 import edu.colorado.phet.capacitorlab.model.wire.Wire;
+import edu.colorado.phet.capacitorlab.model.wire.WireBatteryBottomToNCapacitorBottoms;
+import edu.colorado.phet.capacitorlab.model.wire.WireBatteryTopToNCapacitorTops;
 import edu.colorado.phet.capacitorlab.module.multiplecapacitors.MultipleCapacitorsModel;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
@@ -43,6 +47,8 @@ public class ParallelCircuit extends AbstractCircuit {
         capacitors = createCapacitors( mvt, batteryLocation, numberOfCapacitors,
                                        plateWidth, plateSeparation, dielectricMaterial, dielectricOffset );
 
+        wires = createWires( mvt, CLConstants.WIRE_THICKNESS, getBattery(), capacitors );
+
         // observe battery
         getBattery().addVoltageObserver( new SimpleObserver() {
             public void update() {
@@ -60,8 +66,6 @@ public class ParallelCircuit extends AbstractCircuit {
         for ( Capacitor capacitor : capacitors ) {
             capacitor.addCapacitorChangeListener( capacitorChangeListener );
         }
-
-        wires = new ArrayList<Wire>(); //TODO add wires
     }
 
     // Creates a row of capacitors, to the right of the battery, vertically centered on the battery.
@@ -80,6 +84,14 @@ public class ParallelCircuit extends AbstractCircuit {
             x += X_SPACING;
         }
         return capacitors;
+    }
+
+    // Creates the wires, starting at the battery's top terminal and working clockwise.
+    private ArrayList<Wire> createWires( CLModelViewTransform3D mvt, double thickness, Battery battery, ArrayList<Capacitor> capacitors ) {
+        ArrayList<Wire> wires = new ArrayList<Wire>();
+        wires.add( new WireBatteryTopToNCapacitorTops( mvt, thickness, battery, capacitors ) );
+        wires.add( new WireBatteryBottomToNCapacitorBottoms( mvt, thickness, battery, capacitors ) );
+        return wires;
     }
 
     private void updateVoltages() {
