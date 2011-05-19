@@ -20,13 +20,12 @@ import static java.awt.Color.white;
  * @author Sam Reid
  */
 public class CrystalNode extends PNode {
-    public CrystalNode( final ModelViewTransform transform, final MacroCrystal crystal, final ObservableProperty<Color> color ) {
+    public CrystalNode( final ModelViewTransform transform, final MacroCrystal crystal, final ObservableProperty<Color> color, final double size ) {
         //Draw the shape of the salt crystal at its location
         addChild( new PhetPPath( white ) {{
             crystal.position.addObserver( new VoidFunction1<ImmutableVector2D>() {
                 public void apply( ImmutableVector2D modelPosition ) {
                     ImmutableVector2D viewPosition = transform.modelToView( modelPosition );
-                    double size = 6;
                     setPathTo( new Rectangle2D.Double( viewPosition.getX() - size / 2, viewPosition.getY() - size / 2, size, size ) );
                 }
             } );
