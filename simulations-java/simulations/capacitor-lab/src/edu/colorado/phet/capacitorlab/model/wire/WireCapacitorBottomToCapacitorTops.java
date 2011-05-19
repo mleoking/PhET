@@ -4,6 +4,7 @@ package edu.colorado.phet.capacitorlab.model.wire;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.colorado.phet.capacitorlab.model.Capacitor;
@@ -25,15 +26,15 @@ import edu.colorado.phet.common.phetcommon.view.util.ShapeUtils;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class WireCapacitorBottomToCapacitorTop extends Wire {
+public class WireCapacitorBottomToCapacitorTops extends Wire {
 
     private final Capacitor topCapacitor;
 
-    public WireCapacitorBottomToCapacitorTop( CLModelViewTransform3D mvt, final double thickness, final Capacitor topCapacitor, final Capacitor bottomCapacitor ) {
-        this( mvt, thickness, topCapacitor, new ArrayList<Capacitor>() {{ add( bottomCapacitor ); }} );
+    public WireCapacitorBottomToCapacitorTops( CLModelViewTransform3D mvt, final double thickness, final Capacitor topCapacitor, final Capacitor... bottomCapacitors ) {
+        this( mvt, thickness, topCapacitor, new ArrayList<Capacitor>( Arrays.asList( bottomCapacitors ) ) );
     }
 
-    public WireCapacitorBottomToCapacitorTop( CLModelViewTransform3D mvt, final double thickness, final Capacitor topCapacitor, final ArrayList<Capacitor> bottomCapacitors ) {
+    public WireCapacitorBottomToCapacitorTops( CLModelViewTransform3D mvt, final double thickness, final Capacitor topCapacitor, final ArrayList<Capacitor> bottomCapacitors ) {
         super( mvt, thickness, new Function0<ArrayList<WireSegment>>() {
             public ArrayList<WireSegment> apply() {
 

@@ -3,6 +3,7 @@ package edu.colorado.phet.capacitorlab.model.wire;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.model.Battery;
@@ -24,8 +25,8 @@ import edu.colorado.phet.common.phetcommon.util.function.Function0;
  */
 public class WireBatteryTopToCapacitorTops extends Wire {
 
-    public WireBatteryTopToCapacitorTops( CLModelViewTransform3D mvt, double thickness, Battery battery, final Capacitor capacitor ) {
-        this( mvt, thickness, battery, new ArrayList<Capacitor>() {{ add( capacitor ); }} );
+    public WireBatteryTopToCapacitorTops( CLModelViewTransform3D mvt, double thickness, Battery battery, final Capacitor... capacitors ) {
+        this( mvt, thickness, battery, new ArrayList<Capacitor>( Arrays.asList( capacitors ) ) );
     }
 
     public WireBatteryTopToCapacitorTops( final CLModelViewTransform3D mvt, final double thickness, final Battery battery, final ArrayList<Capacitor> capacitors ) {

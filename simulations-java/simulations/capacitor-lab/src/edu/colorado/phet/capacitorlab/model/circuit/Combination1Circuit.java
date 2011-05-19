@@ -13,7 +13,7 @@ import edu.colorado.phet.capacitorlab.model.ICapacitor.CapacitorChangeListener;
 import edu.colorado.phet.capacitorlab.model.wire.Wire;
 import edu.colorado.phet.capacitorlab.model.wire.WireBatteryBottomToCapacitorBottoms;
 import edu.colorado.phet.capacitorlab.model.wire.WireBatteryTopToCapacitorTops;
-import edu.colorado.phet.capacitorlab.model.wire.WireCapacitorBottomToCapacitorTop;
+import edu.colorado.phet.capacitorlab.model.wire.WireCapacitorBottomToCapacitorTops;
 import edu.colorado.phet.capacitorlab.module.multiplecapacitors.MultipleCapacitorsModel;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
@@ -72,17 +72,9 @@ public class Combination1Circuit extends AbstractCircuit {
         // wires
         {
             wires = new ArrayList<Wire>();
-            wires.add( new WireBatteryTopToCapacitorTops( mvt, CLConstants.WIRE_THICKNESS, getBattery(),
-                                                          new ArrayList<Capacitor>() {{
-                                                              add( c1 );
-                                                              add( c3 );
-                                                          }} ) );
-            wires.add( new WireCapacitorBottomToCapacitorTop( mvt, CLConstants.WIRE_THICKNESS, c1, c2 ) );
-            wires.add( new WireBatteryBottomToCapacitorBottoms( mvt, CLConstants.WIRE_THICKNESS, getBattery(),
-                                                                new ArrayList<Capacitor>() {{
-                                                                    add( c2 );
-                                                                    add( c3 );
-                                                                }} ) );
+            wires.add( new WireBatteryTopToCapacitorTops( mvt, CLConstants.WIRE_THICKNESS, getBattery(), c1, c3 ) );
+            wires.add( new WireCapacitorBottomToCapacitorTops( mvt, CLConstants.WIRE_THICKNESS, c1, c2 ) );
+            wires.add( new WireBatteryBottomToCapacitorBottoms( mvt, CLConstants.WIRE_THICKNESS, getBattery(), c2, c3 ) );
         }
 
         // observe battery
