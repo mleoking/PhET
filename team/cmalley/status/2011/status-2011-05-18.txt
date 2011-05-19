@@ -1,0 +1,44 @@
+--
+Chris Malley (PixelZoom, Inc.) - Status Report
+
+PERIOD: May 12-18, 2011
+
+ACCOMPLISHMENTS:
+
+Balancing Chemical Equations
+- #2879, suggested changes motivated by JO's changes to chemistry package
+
+Capacitor Lab
+- #2850, fixed E-field bug introduced in 1.00.01 (waiting for verification)
+- generalized model for wires and wire segments
+- implemented all multiple-capacitor circuits
+- published 1.00.04, 1.00.05
+
+Administrative
+- weekly status meeting
+- weekly reports
+- misc developer discussions via email
+
+Common
+- minor game package changes, with JO
+- #2879, reviewed JO's changes to chemistry package
+- #2882, identified and integrated 3rd-party custom logging format, from ThinkTank Maths
+
+WHAT'S NEXT:
+
+- Capacitor Lab: continue working on version 2.00
+- Hydrogen Atom: #2803, "excite me" button
+- KSU: #2783, republish all sims
+
+ISSUES:
+
+- none
+
+DATES UNAVAILABLE:
+
+- May 22-25
+- June 13-24
+- August 22 - September 2
+- October 19-29
+
+--
