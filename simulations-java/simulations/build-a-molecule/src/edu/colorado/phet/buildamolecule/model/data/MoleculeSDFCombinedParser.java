@@ -147,7 +147,7 @@ public class MoleculeSDFCombinedParser {
 
                     Element element = Element.getElementBySymbol( symbol );
 
-                    // TODO: read the bonding information from the 3d version if available (for now) until we do isomorphism finding
+                    // TODO: isomorphism finding
                     if ( has3d ) {
                         StringTokenizer t3d = new StringTokenizer( reader3d.readLine(), " " );
                         float x3d = Float.parseFloat( t3d.nextToken() );
@@ -173,10 +173,15 @@ public class MoleculeSDFCombinedParser {
 
                 if ( atomCountsOk ) {
 
+                    // we want to read our bonding data out of 3d if possible
+                    BufferedReader primaryReader = has3d ? reader3d : reader2d;
+                    BufferedReader otherReader = has3d ? reader2d : reader3d;
+
+                    // read in bonds
                     for ( int i = 0; i < bondCount; i++ ) {
-                        StringTokenizer t2d = new StringTokenizer( reader2d.readLine(), " " );
-                        if ( has3d ) {
-                            reader3d.readLine();
+                        StringTokenizer t2d = new StringTokenizer( primaryReader.readLine(), " " );
+                        if ( otherReader != null ) {
+                            otherReader.readLine();
                         }
 
                         int a = Integer.parseInt( t2d.nextToken() );
@@ -226,6 +231,7 @@ public class MoleculeSDFCombinedParser {
                         // actually store it for now
                         if ( COLLECTION_BOX_CIDS.contains( cid ) ) {
                             collectionMolecules.add( molecule );
+                            System.out.println( molecule.toSerial2() );
                         }
                         else {
                             otherMolecules.add( molecule );
