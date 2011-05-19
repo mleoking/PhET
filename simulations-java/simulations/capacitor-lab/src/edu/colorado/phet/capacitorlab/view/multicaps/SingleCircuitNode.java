@@ -45,6 +45,8 @@ public class SingleCircuitNode extends AbstractCircuitNode {
         addChild( capacitorNode );
         addChild( capacitanceControlNode );
         addChild( topWireNode );
+        getTopCurrentIndicatorNode().moveToFront();
+        getBottomCurrentIndicatorNode().moveToFront();
 
         // layout
         {
@@ -59,6 +61,18 @@ public class SingleCircuitNode extends AbstractCircuitNode {
             // wires shapes are in model coordinate frame, so the nodes live at (0,0)
             topWireNode.setOffset( 0, 0 );
             bottomWireNode.setOffset( 0, 0 );
+
+            // top current indicator centered on top wire
+            double topWireThickness = mvt.modelToViewDelta( circuit.getTopWire().getThickness(), 0, 0 ).getX();
+            x = topWireNode.getFullBoundsReference().getCenterX();
+            y = topWireNode.getFullBoundsReference().getMinY() + ( topWireThickness / 2 );
+            getTopCurrentIndicatorNode().setOffset( x, y );
+
+            // bottom current indicator centered on bottom wire
+            double bottomWireThickness = mvt.modelToViewDelta( circuit.getBottomWire().getThickness(), 0, 0 ).getX();
+            x = bottomWireNode.getFullBoundsReference().getCenterX();
+            y = bottomWireNode.getFullBoundsReference().getMaxY() - ( bottomWireThickness / 2 );
+            getBottomCurrentIndicatorNode().setOffset( x, y );
         }
     }
 }
