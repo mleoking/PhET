@@ -23,7 +23,7 @@ import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
  */
 public class MultipleCapacitorsCircuitNode extends PhetPNode {
 
-    public MultipleCapacitorsCircuitNode( ICircuit circuit, CLModelViewTransform3D mvt,
+    public MultipleCapacitorsCircuitNode( ICircuit circuit, CLModelViewTransform3D mvt, boolean dielectricVisible,
                                           Property<Boolean> plateChargeVisible, final Property<Boolean> eFieldVisible, Property<DielectricChargeView> dielectricChargeView,
                                           double maxPlateCharge, double maxExcessDielectricPlateCharge, double maxEffectiveEField, double maxDielectricEField ) {
 
@@ -37,7 +37,7 @@ public class MultipleCapacitorsCircuitNode extends PhetPNode {
         for ( Capacitor capacitor : circuit.getCapacitors() ) {
 
             // capacitor
-            CapacitorNode capacitorNode = new CapacitorNode( capacitor, mvt,
+            CapacitorNode capacitorNode = new CapacitorNode( capacitor, mvt, dielectricVisible,
                                                              plateChargeVisible, eFieldVisible, dielectricChargeView,
                                                              maxPlateCharge, maxExcessDielectricPlateCharge, maxEffectiveEField, maxDielectricEField );
             capacitorNode.getDielectricNode().setVisible( false );

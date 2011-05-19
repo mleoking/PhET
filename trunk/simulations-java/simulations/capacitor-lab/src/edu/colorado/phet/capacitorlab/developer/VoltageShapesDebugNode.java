@@ -11,7 +11,6 @@ import edu.colorado.phet.capacitorlab.model.circuit.ICircuit.CircuitChangeListen
 import edu.colorado.phet.capacitorlab.model.circuit.SingleCircuit;
 import edu.colorado.phet.capacitorlab.model.meter.Voltmeter;
 import edu.colorado.phet.capacitorlab.model.wire.Wire;
-import edu.colorado.phet.capacitorlab.module.dielectric.DielectricModel;
 import edu.colorado.phet.capacitorlab.shapes.BatteryShapeFactory;
 import edu.colorado.phet.capacitorlab.shapes.CapacitorShapeFactory;
 import edu.colorado.phet.capacitorlab.shapes.VoltmeterShapeFactory;
@@ -33,7 +32,7 @@ public class VoltageShapesDebugNode extends PComposite {
     private static final Stroke STROKE = new BasicStroke( 2f );
     private static final Color STROKE_COLOR = CLPaints.VOLTAGE_DEBUG_SHAPES;
 
-    public VoltageShapesDebugNode( final DielectricModel model ) {
+    public VoltageShapesDebugNode( final SingleCircuit circuit, final Voltmeter voltmeter ) {
 
         // nothing interactive here
         setPickable( false );
@@ -41,8 +40,7 @@ public class VoltageShapesDebugNode extends PComposite {
 
         // battery
         {
-            final Battery battery = model.getBattery();
-            final SingleCircuit circuit = model.getCircuit();
+            final Battery battery = circuit.getBattery();
             final BatteryShapeFactory shapeFactory = battery.getShapeFactory();
 
             final PPath bodyNode = new PhetPPath( shapeFactory.createBodyShape(), STROKE, STROKE_COLOR );
@@ -71,7 +69,7 @@ public class VoltageShapesDebugNode extends PComposite {
 
         // capacitor
         {
-            final Capacitor capacitor = model.getCapacitor();
+            final Capacitor capacitor = circuit.getCapacitor();
             final CapacitorShapeFactory shapeFactory = capacitor.getShapeFactory();
 
             final PPath topPlateNode = new PhetPPath( shapeFactory.createTopPlateShapeOccluded(), STROKE, STROKE_COLOR );
@@ -94,14 +92,12 @@ public class VoltageShapesDebugNode extends PComposite {
 
         // wires
         {
-            final SingleCircuit circuit = model.getCircuit();
-
-            final Wire topWire = model.getTopWire();
+            final Wire topWire = circuit.getTopWire();
             final PPath topWireNode = new PhetPPath( topWire.getShape(), STROKE, STROKE_COLOR );
             addChild( topWireNode );
             topWireNode.setVisible( circuit.isBatteryConnected() );
 
-            final Wire bottomWire = model.getBottomWire();
+            final Wire bottomWire = circuit.getBottomWire();
             final PPath bottomWireNode = new PhetPPath( bottomWire.getShape(), STROKE, STROKE_COLOR );
             addChild( bottomWireNode );
             bottomWireNode.setVisible( circuit.isBatteryConnected() );
@@ -128,7 +124,6 @@ public class VoltageShapesDebugNode extends PComposite {
 
         // voltmeter
         {
-            final Voltmeter voltmeter = model.getVoltmeter();
             final VoltmeterShapeFactory shapeFactory = voltmeter.getShapeFactory();
 
             final PPath positiveTipNode = new PhetPPath( shapeFactory.getPositiveProbeTipShape(), STROKE, STROKE_COLOR );

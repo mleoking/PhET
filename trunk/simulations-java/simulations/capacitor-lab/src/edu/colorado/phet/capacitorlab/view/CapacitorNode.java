@@ -2,6 +2,10 @@
 
 package edu.colorado.phet.capacitorlab.view;
 
+import java.awt.*;
+
+import edu.colorado.phet.capacitorlab.CLConstants;
+import edu.colorado.phet.capacitorlab.drag.DielectricOffsetDragHandler;
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.capacitorlab.model.DielectricChargeView;
@@ -10,6 +14,7 @@ import edu.colorado.phet.capacitorlab.view.PlateNode.TopPlateNode;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 
 /**
  * Visual representation of a capacitor.
@@ -24,7 +29,7 @@ public class CapacitorNode extends PhetPNode {
     private final DielectricNode dielectricNode;
     private final EFieldNode eFieldNode;
 
-    public CapacitorNode( Capacitor capacitor, CLModelViewTransform3D mvt,
+    public CapacitorNode( Capacitor capacitor, CLModelViewTransform3D mvt, boolean dielectricVisible,
                           final Property<Boolean> plateChargeVisible, final Property<Boolean> eFieldVisible,
                           Property<DielectricChargeView> dielectricChargeView,
                           double maxPlateCharge, double maxExcessDielectricPlateCharge, double maxEffectiveEField, double maxDielectricEField ) {
@@ -43,6 +48,13 @@ public class CapacitorNode extends PhetPNode {
         addChild( eFieldNode );
         addChild( dielectricNode ); // dielectric between the plates
         addChild( topPlateNode );
+
+        dielectricNode.setVisible( dielectricVisible );
+        if ( dielectricVisible ) {
+            // make dielectric directly draggable if it's visible
+            dielectricNode.addInputEventListener( new CursorHandler( Cursor.E_RESIZE_CURSOR ) );
+            dielectricNode.addInputEventListener( new DielectricOffsetDragHandler( this, capacitor, mvt, CLConstants.DIELECTRIC_OFFSET_RANGE ) );
+        }
 
         // observers
         {
