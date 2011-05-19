@@ -20,6 +20,7 @@ import static edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltS
  */
 public class ConductivityTester implements IConductivityTester {
     //Locations are in model coordinates (meters).
+    //Note that in the typical usage scenario (dragged out of a toolbox), these values are overriden with other values in SugarAndSaltSolutionsConductivityTesterNode
     private static final double PROBE_Y = BEAKER_HEIGHT;
     private static final double NEGATIVE_PROBE_X = -BEAKER_WIDTH / 3;
     private static final double POSITIVE_PROBE_X = +BEAKER_WIDTH / 3;
