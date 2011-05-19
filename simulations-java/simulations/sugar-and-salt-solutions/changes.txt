@@ -1,3 +1,4 @@
+Changed from 5g to 1g per grain of salt/sugar
 # 0.00.15 (52161) May 18, 2011
 Fixed: Underwater light bulb shouldn't light up (shorted out)
 Moved "show values" button to a new control panel instead of in the concentration bar chart

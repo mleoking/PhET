@@ -11,7 +11,8 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 public class MacroSugar extends MacroCrystal {
     //Create a sugar crystal with the specified amount
     public static double molarMass = 342.23134;// g/mol
-    private static double molesIn5Grams = 5 / molarMass;
+    private static final double gramsPerGrain = 1;
+    private static double molesIn5Grams = gramsPerGrain / molarMass;
 
     public MacroSugar( ImmutableVector2D position ) {
         super( position, molesIn5Grams );
