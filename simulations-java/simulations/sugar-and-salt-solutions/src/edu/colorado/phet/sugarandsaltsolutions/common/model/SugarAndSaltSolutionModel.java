@@ -98,8 +98,8 @@ public class SugarAndSaltSolutionModel implements ResetModel {
     public final DoubleProperty waterVolume = new DoubleProperty( 0.001 );
 
     //Model moles, concentration, amount dissolved, amount precipitated, etc. for salt and sugar
-    public final SoluteModel salt = new SoluteModel( waterVolume, saltSaturationPoint, 0.02699 / 1000.0 );
-    public final SoluteModel sugar = new SoluteModel( waterVolume, sugarSaturationPoint, 0.2157 / 1000.0 );
+    public final SoluteModel salt = new SoluteModel( waterVolume, saltSaturationPoint, 0.02699 / 1000.0, MacroSalt.molarMass );
+    public final SoluteModel sugar = new SoluteModel( waterVolume, sugarSaturationPoint, 0.2157 / 1000.0, MacroSugar.molarMass );
 
     //Total volume of the water plus any solid precipitate submerged under the water (and hence pushing it up)
     public final CompositeDoubleProperty solidVolume = salt.solidVolume.plus( sugar.solidVolume );
@@ -118,12 +118,12 @@ public class SugarAndSaltSolutionModel implements ResetModel {
 
     //Keep track of how many moles of crystal are in the air, since we need to prevent user from adding more than 10 moles to the system
     //This shuts off salt/sugar when there is salt/sugar in the air that could get added to the solution
-    private final CompositeDoubleProperty airborneSaltMoles = new AirborneCrystalMoles( saltList );
-    private final CompositeDoubleProperty airborneSugarMoles = new AirborneCrystalMoles( sugarList );
+    private final CompositeDoubleProperty airborneSaltGrams = new AirborneCrystalMoles( saltList ).times( salt.gramsPerMole );
+    private final CompositeDoubleProperty airborneSugarGrams = new AirborneCrystalMoles( sugarList ).times( sugar.gramsPerMole );
 
     //Properties to indicate if the user is allowed to add more of the solute.  If not allowed the dispenser is shown as empty.
-    private ObservableProperty<Boolean> moreSaltAllowed = salt.moles.plus( airborneSaltMoles ).lessThan( 10 );
-    private ObservableProperty<Boolean> moreSugarAllowed = sugar.moles.plus( airborneSugarMoles ).lessThan( 10 );
+    private ObservableProperty<Boolean> moreSaltAllowed = salt.grams.plus( airborneSaltGrams ).lessThan( 500 );
+    private ObservableProperty<Boolean> moreSugarAllowed = sugar.grams.plus( airborneSugarGrams ).lessThan( 500 );
 
     //Convenience composite properties for determining whether the beaker is full or empty so we can shut off the faucets when necessary
     public final ObservableProperty<Boolean> beakerFull = solidVolume.plus( solution.volume ).greaterThanOrEqualTo( beaker.getMaxFluidVolume() );
@@ -343,8 +343,8 @@ public class SugarAndSaltSolutionModel implements ResetModel {
 
         //Update the properties representing how many crystals are in the air, to make sure we stop pouring out crystals if we have reached the limit
         // (even if poured out crystals didn't get dissolved yet)
-        airborneSaltMoles.notifyIfChanged();
-        airborneSugarMoles.notifyIfChanged();
+        airborneSaltGrams.notifyIfChanged();
+        airborneSugarGrams.notifyIfChanged();
     }
 
     //Remove the specified crystals.  Note that the toRemove
