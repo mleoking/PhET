@@ -4,12 +4,16 @@ package edu.colorado.phet.capacitorlab.model.circuit;
 import java.awt.*;
 import java.util.ArrayList;
 
+import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLStrings;
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial;
 import edu.colorado.phet.capacitorlab.model.ICapacitor.CapacitorChangeListener;
 import edu.colorado.phet.capacitorlab.model.wire.Wire;
+import edu.colorado.phet.capacitorlab.model.wire.WireBatteryBottomToCapacitorBottoms;
+import edu.colorado.phet.capacitorlab.model.wire.WireBatteryTopToCapacitorTops;
+import edu.colorado.phet.capacitorlab.model.wire.WireCapacitorBottomToCapacitorTop;
 import edu.colorado.phet.capacitorlab.module.multiplecapacitors.MultipleCapacitorsModel;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
@@ -45,7 +49,7 @@ public class Combination1Circuit extends AbstractCircuit {
                                 double plateWidth, double plateSeparation, DielectricMaterial dielectricMaterial, double dielectricOffset ) {
         super( CLStrings.COMBINATION_1, clock, mvt, batteryLocation );
 
-        // create capacitors
+        // capacitors
         {
             // Series
             double x = batteryLocation.getX() + X_SPACING;
@@ -66,6 +70,22 @@ public class Combination1Circuit extends AbstractCircuit {
             capacitors.add( c3 );
         }
 
+        // wires
+        {
+            wires = new ArrayList<Wire>();
+            wires.add( new WireBatteryTopToCapacitorTops( mvt, CLConstants.WIRE_THICKNESS, getBattery(),
+                                                          new ArrayList<Capacitor>() {{
+                                                              add( c1 );
+                                                              add( c3 );
+                                                          }} ) );
+            wires.add( new WireCapacitorBottomToCapacitorTop( mvt, CLConstants.WIRE_THICKNESS, c1, c2 ) );
+            wires.add( new WireBatteryBottomToCapacitorBottoms( mvt, CLConstants.WIRE_THICKNESS, getBattery(),
+                                                                new ArrayList<Capacitor>() {{
+                                                                    add( c2 );
+                                                                    add( c3 );
+                                                                }} ) );
+        }
+
         // observe battery
         getBattery().addVoltageObserver( new SimpleObserver() {
             public void update() {
@@ -83,8 +103,6 @@ public class Combination1Circuit extends AbstractCircuit {
         for ( Capacitor capacitor : capacitors ) {
             capacitor.addCapacitorChangeListener( capacitorChangeListener );
         }
-
-        wires = new ArrayList<Wire>(); //TODO add wires
     }
 
     private void updateVoltages() {
