@@ -1,3 +1,4 @@
+# 2.01.01 (52204) May 19, 2011
 Fixed a bug that caused by [45038] (made Observable<T> automatically with observers when they are added) that made the application fail to start
 # 2.01.00 (44461) Sep 28, 2010
 # 2.00.02 (44082) Sep 14, 2010
