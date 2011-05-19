@@ -205,11 +205,6 @@ public class SugarAndSaltSolutionModel implements ResetModel {
     public final SettableProperty<Integer> evaporationRate = new Property<Integer>( 0 );//Between 0 and 100
     private static final double EVAPORATION_SCALE = FLOW_SCALE / 100.0;//Scaled down by 100 since the evaporation rate is 100 times bigger than flow scales
 
-    //Make it so that when the water level is below the drain faucet, then no more water can flow through that pipe.
-    //This value was hand-tuned based on the graphical location of the lower part of the pipe in the view
-    //If the view changes, this value will need to change
-    public static final double MIN_DRAIN_VOLUME = 0.00025;
-
     public SugarAndSaltSolutionModel() {
         clock = new ConstantDtClock( 30 );
 
@@ -358,6 +353,10 @@ public class SugarAndSaltSolutionModel implements ResetModel {
             //If the salt hits the water during any point of its initial -> final trajectory, absorb it.
             //This is necessary because if the water layer is too thin, the crystal could have jumped over it completely
             if ( new Line2D.Double( initialLocation.toPoint2D(), crystal.position.get().toPoint2D() ).intersects( solution.shape.get().getBounds2D() ) ) {
+                hitTheWater.add( crystal );
+            }
+            //Any crystals that landed on the beaker base or on top of precipitate should immediately precipitate into solid so that they take up the right volume and are consistent with our other representations
+            else if ( crystal.isLanded() ) {
                 hitTheWater.add( crystal );
             }
         }
