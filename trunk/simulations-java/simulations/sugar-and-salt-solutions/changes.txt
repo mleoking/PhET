@@ -1,3 +1,4 @@
+# 0.00.18 (52197) May 19, 2011
 Increased font for "none" and "lots"
 # 0.00.17 (52195) May 19, 2011
 Changed grain sizes to 0.1 gram
