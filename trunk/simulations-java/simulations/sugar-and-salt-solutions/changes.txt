@@ -1,3 +1,4 @@
+Moved the conductivity tester probes down a bit to encourage the user to dip them in the water without dipping the light bulb in the water too
 Added credits
 Fixed: Can't evaporate all the water
 Limited salt and sugar amounts to 500g each

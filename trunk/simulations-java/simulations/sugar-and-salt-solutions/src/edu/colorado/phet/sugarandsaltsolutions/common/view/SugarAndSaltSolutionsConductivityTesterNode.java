@@ -59,8 +59,11 @@ public class SugarAndSaltSolutionsConductivityTesterNode extends ConductivityTes
         // (to make sure icon looks consistent) and when dragged out of the toolbox
         Point2D viewLocation = transform.modelToView( location );
         conductivityTester.setLocation( viewLocation.getX(), viewLocation.getY() );
-        conductivityTester.setNegativeProbeLocation( location.getX() - 0.03, location.getY() );
-        conductivityTester.setPositiveProbeLocation( location.getX() + 0.07, location.getY() );
+
+        //Move the probes down to encourage the user to dip them in the water without dipping the light bulb in the water too
+        double offsetY = 0.03;
+        conductivityTester.setNegativeProbeLocation( location.getX() - 0.03, location.getY() - offsetY );
+        conductivityTester.setPositiveProbeLocation( location.getX() + 0.07, location.getY() - offsetY );
     }
 
     //Used to create a thumbnail icon for use in the toolbox.
