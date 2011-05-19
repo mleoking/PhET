@@ -50,6 +50,10 @@ public class MoleculeReader {
                 return a.getName().compareTo( b.getName() );
             }
         } );
+
+//        while ( archiveFiles.size() > 10 ) {
+//            archiveFiles.remove( 7 );
+//        }
     }
 
     private boolean isOk() {
@@ -172,7 +176,7 @@ public class MoleculeReader {
                 reader = null;
             }
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             throw new RuntimeException( "molecule reader failure", e );
         }
     }
