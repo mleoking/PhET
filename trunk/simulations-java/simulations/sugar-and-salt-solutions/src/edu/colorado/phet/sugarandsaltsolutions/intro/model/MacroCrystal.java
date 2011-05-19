@@ -22,30 +22,42 @@ public class MacroCrystal {
 
     private double moles;//The number of moles of the crystal.  We couldn't just count the number of atoms since it would overflow Long
 
+    //True of the salt has landed on the floor of the beaker.  In this case it won't move anymore and will dissolve when liquid hits
+    private boolean landed = false;
+
     public MacroCrystal( ImmutableVector2D position, double moles ) {
         this.position = new Property<ImmutableVector2D>( position );
         this.moles = moles;
     }
 
     //propagate the crystal according to the specified applied forces, using euler integration
-    public void stepInTime( ImmutableVector2D appliedForce, double dt, Line2D.Double leftBeakerWall, Line2D.Double rightBeakerWall ) {
-        ImmutableVector2D originalPosition = position.get();
+    public void stepInTime( ImmutableVector2D appliedForce, double dt, Line2D.Double leftBeakerWall, Line2D.Double rightBeakerWall, Line2D.Double beakerFloor ) {
+        if ( !landed ) {
+            ImmutableVector2D originalPosition = position.get();
 
-        acceleration.set( appliedForce.times( 1.0 / mass ) );
-        velocity.set( velocity.get().plus( acceleration.get().times( dt ) ) );
-        position.set( position.get().plus( velocity.get().times( dt ) ) );
-
-        //Path that the particle took from previous time to current time, for purpose of collision detection with walls
-        Line2D.Double path = new Line2D.Double( originalPosition.toPoint2D(), position.get().toPoint2D() );
-
-        //if the particle bounced off a wall, then reverse its velocity
-        if ( path.intersectsLine( leftBeakerWall ) ||
-             path.intersectsLine( rightBeakerWall ) ) {
-            velocity.set( new ImmutableVector2D( Math.abs( velocity.get().getX() ), velocity.get().getY() ) );
-
-            //Rollback the previous update, and go the other way
-            position.set( originalPosition );
+            acceleration.set( appliedForce.times( 1.0 / mass ) );
+            velocity.set( velocity.get().plus( acceleration.get().times( dt ) ) );
             position.set( position.get().plus( velocity.get().times( dt ) ) );
+
+            //Path that the particle took from previous time to current time, for purpose of collision detection with walls
+            Line2D.Double path = new Line2D.Double( originalPosition.toPoint2D(), position.get().toPoint2D() );
+
+            //if the particle bounced off a wall, then reverse its velocity
+            if ( path.intersectsLine( leftBeakerWall ) ||
+                 path.intersectsLine( rightBeakerWall ) ) {
+                velocity.set( new ImmutableVector2D( Math.abs( velocity.get().getX() ), velocity.get().getY() ) );
+
+                //Rollback the previous update, and go the other way
+                position.set( originalPosition );
+                position.set( position.get().plus( velocity.get().times( dt ) ) );
+            }
+
+            //Compute the new path after accounting for bouncing off walls
+            Line2D.Double newPath = new Line2D.Double( originalPosition.toPoint2D(), position.get().toPoint2D() );
+            if ( newPath.intersectsLine( beakerFloor ) ) {
+                position.set( new ImmutableVector2D( position.get().getX(), 0 ) );
+                landed = true;
+            }
         }
     }
 

@@ -1,3 +1,4 @@
+Salt particles land on the bottom (no stacking or bumping into each other), then when any water enters the system, go to clump form.
 Fixed: If you empty out some solution or remove the solute after you reach the limit, and the salt shaker refills, it adds more salt to the solution on its own.
 Limited the amount of water that can be added to the system to be 1.5L
 Fixed: the top faucet is not showing a continuous stream of water as you move the slider to the right
