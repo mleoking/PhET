@@ -38,7 +38,11 @@ public class SoluteModel {
     //The molar mass, the mass (in grams) per mole
     public final double gramsPerMole;
 
+    //Volume in meters cubed per solid mole
+    public final double volumePerSolidMole;
+
     public SoluteModel( DoubleProperty waterVolume, double saturationPoint, double volumePerSolidMole, double gramsPerMole ) {
+        this.volumePerSolidMole = volumePerSolidMole;
         this.gramsPerMole = gramsPerMole;
         //Salt moles and concentration
         moles = new DoubleProperty( 0.0 );
