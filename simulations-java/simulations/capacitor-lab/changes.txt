@@ -1,3 +1,5 @@
+5/18/11 display wires in "single" circuit
+5/18/11 add Wire constructor that has a Function0 arg for creating wire segments
 5/18/11 add current indicators to circuit view base class
 5/18/11 move current amplitude to circuit model base class
 5/18/11 implement Combination1Circuit and Combination2Circuit.getVoltageAt for battery and plates
