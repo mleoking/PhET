@@ -56,11 +56,6 @@ public class Beaker {
         return new Rectangle2D.Double( x, y, width, height );
     }
 
-    //Get the Shape of the fluid given the volume
-    public Shape getFluidShape( double volume ) {
-        return new Rectangle2D.Double( x, y, width, getHeightForVolume( volume ) );
-    }
-
     // Rearrange the equation "Volume = width * height * depth"  To solve for height, assumes a square tank like a fish tank
     public double getHeightForVolume( double volume ) {
         return volume / width / depth;
@@ -116,5 +111,9 @@ public class Beaker {
 
     public Line2D.Double getRightWall() {
         return new Line2D.Double( getMaxX(), y, getMaxX(), y + height );
+    }
+
+    public double getWidth() {
+        return width;
     }
 }

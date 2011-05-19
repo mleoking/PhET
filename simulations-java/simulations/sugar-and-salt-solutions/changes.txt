@@ -1,3 +1,4 @@
+Started modeling Solution instead of Water
 # 0.00.14 (52087) May 18, 2011
 Added collisions between the crystals and the beaker side walls
 Made the clump grow faster so it matches with the displaced volume look as a linear function of the L/mole precipitate so sugar grows faster than salt (per mole)

@@ -31,9 +31,8 @@ public class IntroCanvas extends SugarAndSaltSolutionsCanvas {
     public IntroCanvas( final IntroModel model, SugarAndSaltSolutionsColorScheme config ) {
         super( model, model.anySolutes, config );
 
-
         //Show the full water node at the correct color, then overlay a partially transparent one on top, so that some objects (such as the conductivity tester) will look submerged
-        addChild( new WaterNode( transform, model.displacedWaterVolume, model.beaker, WATER_COLOR ) );
+        addChild( new SolutionNode( transform, model.solution, WATER_COLOR ) );
 
         //Node that shows things that get submerged such as the conductivity tester
         addChild( conductivityToolboxLayer );
@@ -41,7 +40,7 @@ public class IntroCanvas extends SugarAndSaltSolutionsCanvas {
 
         //Overlay node that renders as partially transparent in front of submerged objects, such as the conductivity tester.
         //When changing the transparency here make sure it looks good for precipitate as well as submerged probes
-        addChild( new WaterNode( transform, model.displacedWaterVolume, model.beaker, new Color( WATER_COLOR.getRed(), WATER_COLOR.getGreen(), WATER_COLOR.getBlue(), 128 ) ) {{
+        addChild( new SolutionNode( transform, model.solution, new Color( WATER_COLOR.getRed(), WATER_COLOR.getGreen(), WATER_COLOR.getBlue(), 128 ) ) {{
 
             //Make it so the mouse events pass through the front water layer so it is still possible to pick and move the conductivity tester probes
             setPickable( false );
@@ -49,7 +48,7 @@ public class IntroCanvas extends SugarAndSaltSolutionsCanvas {
         }} );
 
         //Readout the volume of the water in Liters, only visible if the user opted to show values (in the concentration bar chart)
-        addChild( new VolumeIndicatorNode( transform, model.water, model.showConcentrationValues, model.displacedWaterVolume ) );
+        addChild( new VolumeIndicatorNode( transform, model.solution, model.showConcentrationValues, model.solidVolume ) );
 
         //Add a button that allows the user to remove all solutes
         addChild( new ButtonNode( "Remove salt/sugar" ) {{
