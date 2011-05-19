@@ -18,12 +18,13 @@ MULTIPLE CAPACITORS REQUIREMENTS
 - current indicators near battery poles (like in other tabs)
 
 HIGH PRIORITY
+- plate voltage doesn't make sense for Combination1Circuit.C2
 - delete ICapacitor, if Capacitor reuse in Multi-Cap works out
-- rewrite BatteryCapacitorCircuit using "nested circuits" design
-- add Multiple Capacitors module
 - more general way to create Wire model elements, subclasses like TopWire and BottomWire are not scalable
 - move shape creation out of Wire and into WireNode (via WireShapeFactory) to be consistent with pattern used elsewhere
 - hack in BottomWire.createShape
+- change meter and check box labels in Multiple Capacitors tab
+- remove voltage from Wire model?
 
 MEDUIUM PRIORITY
 - convert DielectricMaterialControl to use PropertyRadioButton and Property<DielectricMaterial> dielectricMaterial
