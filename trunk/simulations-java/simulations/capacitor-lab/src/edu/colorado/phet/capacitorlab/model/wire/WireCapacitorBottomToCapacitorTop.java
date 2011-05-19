@@ -44,9 +44,10 @@ public class WireCapacitorBottomToCapacitorTop extends Wire {
 
                 if ( bottomCapacitors.size() > 1 ) {
                     // horizontal wire above leftmost to rightmost capacitor
-                    final double xStart = topCapacitor.getX();
-                    final double xEnd = bottomCapacitors.get( bottomCapacitors.size() - 1 ).getX();
-                    final double y = topCapacitor.getY() + ( bottomCapacitors.get( 0 ).getY() - topCapacitor.getY() / 2 );
+                    final double t = ( thickness / 2 ); // for proper connection at corners with CAP_BUTT wire stroke
+                    final double xStart = topCapacitor.getX() - t;
+                    final double xEnd = bottomCapacitors.get( bottomCapacitors.size() - 1 ).getX() + t;
+                    final double y = topCapacitor.getY() + ( ( bottomCapacitors.get( 0 ).getY() - topCapacitor.getY() ) / 2 );
                     segments.add( new WireSegment( xStart, y, xEnd, y ) );
 
                     // vertical wires from horizontal wire down to each bottom capacitor
@@ -76,7 +77,7 @@ public class WireCapacitorBottomToCapacitorTop extends Wire {
         }
     }
 
-    // Subtract any part of the wire that is occluded by the bottom plate.
+    // Subtract any part of the wire that is occluded by the top capacitor's bottom plate.
     @Override protected Shape createShape() {
         Shape wireShape = super.createShape();
         // HACK: null check required because createShape is called in the superclass constructor.
