@@ -18,16 +18,16 @@ MULTIPLE CAPACITORS REQUIREMENTS
 - current indicators near battery poles (like in other tabs)
 
 HIGH PRIORITY
-- plate voltage doesn't make sense for C2 in Combination1Circuit
 - add support for wires in getVoltageAt for all AbstractCircuit subclasses
+- plate voltage is wrong for C2 in Combination1Circuit
 - E-Field and Voltage shape creation
-- move shape creation out of Wire and into WireNode (via WireShapeFactory) to be consistent with pattern used elsewhere
-- hack in createShape of some wire subclasses
-- duplicate code in AbstractCircuit subclasses
-- change meter and check box labels in Multiple Capacitors tab
-- remove voltage from Wire model?
 
 MEDIUM PRIORITY
+- move shape creation out of Wire and into WireNode (via WireShapeFactory) to be consistent with pattern used elsewhere
+- hack in createShape of some wire subclasses
+- lots of duplicate code in AbstractCircuit subclasses
+- change meter and check box labels in Multiple Capacitors tab
+- remove voltage from Wire model?
 - add base class for Model? all models have the same set of meters, 1 or more circuits, etc.
 - horizontal top wire in Combination1Circuit is too low, should look like Combination2Circuit
 - cleanup methods needed where anonymous observers/listeners are added in constructors
@@ -37,21 +37,20 @@ MEDIUM PRIORITY
 - convert PlateChargeControlNode to use Property<Double> disconnectedPlateCharge
 - convert BatteryConnectionButtonNode to use Property<Boolean> batteryConnected
 - convert CurrentIndicatorNode to observer of Property<Double> currentAmplitude
-- merge MultipleCapacitorsModule/Model/Canvas/ControlPanel into DielectricModule/Model/Canvas/ControlPanel
-- add setCircuit methods to all persistent controls
-- add editable mantissa textfield to capacitance control
+- merge MultipleCapacitorsModule/Model/Canvas/ControlPanel into DielectricModule/Model/Canvas/ControlPanel?
+- add editable mantissa text field to capacitance control
 
 LOW PRIORITY
+- make capacitance slider thumbs point to the right
 - delete empty packages
 - round corners of wires?
 - would it be OK to have the dielectric fully inserted (offset=0) in the Intro tab?
 - Win: need some space between dielectric material combo box and separator below it
-- add circuit construction to Multiple Capacitors tab?
+- add circuit construction to Multiple Capacitors tab? (3.00)
 - small (100mm^2) capacitor plates look like they are at a 46-degree yaw, instead of 45-degree
-- only update things that are visible, do this in the model wherever possible by observing visibleProperty
 - add meter body bounds to model so we can keep entire meter body constrained to world bounds when dragging
 - use of Polarity enum is a little incorrect, it's not really polarity
-- remove unused model code?
+- remove unused code
 
 LOWEST PRIORITY
 - don't allow meters to be dragged by buttons, this prevents ability to roll off buttons
@@ -61,5 +60,6 @@ GENERAL BUGS
 - #2557, dragging is broken for PSwing nodes on Mac
 
 MIGRATE TO PHETCOMMON
+- VisibleBoundsNode (used anywhere?)
 
 --
