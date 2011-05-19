@@ -1,3 +1,4 @@
+# 1.03.31 (52209) May 19, 2011
 > Set initial frame size to be 1024x768 instead of MAX_EXTENT
 # 1.03.30 (33920) Aug 5, 2009
 # 1.03.29 (33918) Aug 5, 2009
@@ -164,10 +165,10 @@ New in 0.22
 .	Changing objects on the 1st panel also changes coeff. of friction.
 		We mention the coeff in the object name as multi-line.
 .	Earth should be lighter green (to make the dark fonts on it more visible).
-.	“Playback” is better than “play” on the playback panel.
+.	ï¿½Playbackï¿½ is better than ï¿½playï¿½ on the playback panel.
 .	delete record button.  (Go/Pause is better than record)
 .	Crate should have a higher coeff than the file cabinet.
-.	Use “friction coefficient” not “friction” where applicable.
+.	Use ï¿½friction coefficientï¿½ not ï¿½frictionï¿½ where applicable.
 .	Bugfix: overheated button shows up in wrong spot (low resolution).
 .	Add subscripts: F<sub>gravity, F<sub>friction, W<sub>applied, not for Energies, though.
 .	Test 2 columns for in-plot readouts.
@@ -183,11 +184,11 @@ New in 0.22
 .	Reset should reset everything (including heat, object, time, graphs, controls, friction, frictionless checkbox).
 		>>Fixed this for plot & bar graph states, and the frictionless checkbox.
 .	Improve the drawing order of the graph lines (applied on top).
-		>>I’ve simply increased the stroke size for the applied force plot.  Looks ok.
+		>>Iï¿½ve simply increased the stroke size for the applied force plot.  Looks ok.
 .	Bugfix: After 30 seconds, you can still press record, but nothing records.
 .	Bugfix: On playback, sometimes the block jumps around (wrong surface data?)
-.	Friction arrows aren’t updating after time runs out.
-		>>I can’t reproduce this.
+.	Friction arrows arenï¿½t updating after time runs out.
+		>>I canï¿½t reproduce this.
 
 
 New in 0.21
@@ -208,13 +209,13 @@ New in theramp 0.20
 .	Added Go Pause Clear buttons to the control panel (near the position & angle controls)
 
 New in theramp 0.19 on 10-9-2005
-·	Bugfix: the ramp no longer mistakenly starts overheated on replay.
-·	Wall force color has been changed to avoid clashing with the normal force color.
-·	Colors no longer combine on the graphs, the more important lines overlap the others.
-·	The ramp starts at a slight angle.
-·	There is a checkbox to enable the draggable zero-point potential graphic, now only available in the advanced panel.
-·	The graph vertical axes are now labeled.
-·	The Advanced function of showing multiple forces now adds labels to each entry (for disambiguation).
-·	The man no longer screams.
-·	Labels and numbers no longer cover graph area.
+ï¿½	Bugfix: the ramp no longer mistakenly starts overheated on replay.
+ï¿½	Wall force color has been changed to avoid clashing with the normal force color.
+ï¿½	Colors no longer combine on the graphs, the more important lines overlap the others.
+ï¿½	The ramp starts at a slight angle.
+ï¿½	There is a checkbox to enable the draggable zero-point potential graphic, now only available in the advanced panel.
+ï¿½	The graph vertical axes are now labeled.
+ï¿½	The Advanced function of showing multiple forces now adds labels to each entry (for disambiguation).
+ï¿½	The man no longer screams.
+ï¿½	Labels and numbers no longer cover graph area.
 .	Added a mute button.
