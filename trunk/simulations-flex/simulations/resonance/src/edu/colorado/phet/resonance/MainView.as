@@ -68,9 +68,9 @@ public class MainView extends Canvas {
     }
 
     public function initializeAll(): void {
-        this.setNbrResonators( 2 );
-        this.myControlPanel.setNbrResonatorsExternally( 2 );
-        this.myControlPanel.setResonatorIndex(2);
+        this.setNbrResonators( 1 );
+        this.myControlPanel.setNbrResonatorsExternally( 1 );
+        this.myControlPanel.setResonatorIndex(1);
         this.myControlPanel.setPresetComboBoxExternally( 3 );
         this.myControlPanel.setGravityExternally( false );
         this.myControlPanel.setDampingExternally( 1 );   //max is 5

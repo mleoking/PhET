@@ -17,7 +17,7 @@ public class NiceButton2 extends Sprite {
     private var tFormat: TextFormat;
     private var buttonFunction: Function;
 
-    public function NiceButton2( myButtonWidth: Number, myButtonHeight: Number, labelText: String, buttonFunction: Function ) {
+    public function NiceButton2( myButtonWidth: Number, myButtonHeight: Number, labelText: String, buttonFunction: Function, bodyColor:Number = 0x00ff00 ) {
         //this.buttonBody = buttonBody;
         this.buttonBody = new Sprite();
         this.label_txt = new TextField();
@@ -28,7 +28,7 @@ public class NiceButton2 extends Sprite {
         this.myButtonWidth = myButtonWidth;
         this.myButtonHeight = myButtonHeight;
         this.buttonFunction = buttonFunction;
-        this.bodyColor = 0x00ff00;  //default body color is green
+        this.bodyColor = bodyColor;  //default body color is green
         this.tFormat = new TextFormat();
         this.setTFormat();
 
@@ -45,7 +45,17 @@ public class NiceButton2 extends Sprite {
     //can we modify this function so that buttonWidth resizes to account for label text length?
     public function setLabel( label: String ): void {
         this.label_txt.text = label;
+        this.setTFormat();  //must reformat when text is altered
+        //resize width of button body so that text fits, then redraw buttonBody
+        this.myButtonWidth =   this.label_txt.width + 20;
+        trace("ControlPanel.setLabel buttonWidth = "+this.myButtonWidth );
+        this.drawButtonBody();
         //TextFieldUtils.resizeText( this.buttonBody.label_txt, TextFieldAutoSize.CENTER);
+    }
+
+    public function setBodyColor( color:Number ):void{
+        this.bodyColor = color;
+        this.drawButtonBody();
     }
 
 //        public function changeLabel(label:String):void{
@@ -94,7 +104,6 @@ public class NiceButton2 extends Sprite {
         this.buttonBody.addEventListener( MouseEvent.MOUSE_OVER, buttonBehave );
         this.buttonBody.addEventListener( MouseEvent.MOUSE_OUT, buttonBehave );
         this.buttonBody.addEventListener( MouseEvent.MOUSE_UP, buttonBehave );
-        //this.buttonBody.buttonMode = true;
         var localRef: Object = this;
 
         function buttonBehave( evt: MouseEvent ): void {

@@ -91,7 +91,7 @@ public class HorizontalSlider extends Sprite {
         gR.lineStyle( 1.5, 0x333333, 1, true );
         gR.moveTo( 0, 0 );
         gR.beginFill( 0xbbbbbb );
-        gR.drawRect( 0, -2, this.lengthInPix, 4 );
+        gR.drawRoundRect( 0, -2, this.lengthInPix, 3, 3 );
         gR.endFill();
         //draw knob
         var gK: Graphics = this.knob.graphics;
