@@ -30,6 +30,7 @@ HIGH PRIORITY
 - remove voltage from Wire model?
 
 MEDUIUM PRIORITY
+- horizontal top wire in Combination1Circuit is too low, should look like Combination2Circuit
 - cleanup methods needed where anonymous observers/listeners are added in constructors
 - convert DielectricMaterialControl to use PropertyRadioButton and Property<DielectricMaterial> dielectricMaterial
 - convert DielectricConstantControl to use Property<Double> dielectricConstant
