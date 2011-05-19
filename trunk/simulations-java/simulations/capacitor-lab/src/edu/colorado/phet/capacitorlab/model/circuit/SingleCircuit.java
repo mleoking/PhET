@@ -98,6 +98,13 @@ public class SingleCircuit extends AbstractCircuit {
         }};
     }
 
+    public ArrayList<Wire> getWires() {
+        return new ArrayList<Wire>() {{
+            add( topWire );
+            add( bottomWire );
+        }};
+    }
+
     public Wire getTopWire() {
         return topWire;
     }

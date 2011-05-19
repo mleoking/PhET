@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.colorado.phet.capacitorlab.model.Capacitor;
+import edu.colorado.phet.capacitorlab.model.wire.Wire;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 
@@ -24,6 +25,10 @@ public class NullCircuit extends AbstractCircuit {
 
     public ArrayList<Capacitor> getCapacitors() {
         return new ArrayList<Capacitor>();
+    }
+
+    public ArrayList<Wire> getWires() {
+        return new ArrayList<Wire>();
     }
 
     public double getTotalCapacitance() {

@@ -36,6 +36,10 @@ public class Wire {
         this( mvt, thickness, createWireSegments.apply() );
     }
 
+    public Wire( CLModelViewTransform3D mvt, double thickness, final WireSegment segment ) {
+        this( mvt, thickness, new ArrayList<WireSegment>() {{ add( segment ); }} );
+    }
+
     public Wire( CLModelViewTransform3D mvt, double thickness, ArrayList<WireSegment> segments ) {
         assert ( segments != null && segments.size() > 0 );
         assert ( thickness > 0 );

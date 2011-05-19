@@ -18,10 +18,12 @@ import edu.colorado.phet.common.phetcommon.util.function.Function0;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class WireBatteryTopToCapacitorTop extends Wire {
+
     public WireBatteryTopToCapacitorTop( final CLModelViewTransform3D mvt, final double thickness, final Battery battery, final ICapacitor capacitor ) {
         super( mvt, thickness, new Function0<ArrayList<WireSegment>>() {
             public ArrayList<WireSegment> apply() {
-                final Point2D.Double leftCorner = new Point2D.Double( battery.getX(), battery.getY() - CLConstants.WIRE_EXTENT );
+                final double y = Math.min( battery.getY() - CLConstants.WIRE_EXTENT, capacitor.getLocation().getY() - 0.01 );//TODO clean this up
+                final Point2D.Double leftCorner = new Point2D.Double( battery.getX(), y );
                 final Point2D.Double rightCorner = new Point2D.Double( capacitor.getX(), leftCorner.getY() );
                 final double t = ( thickness / 2 ); // for proper connection at corners with CAP_BUTT wire stroke
                 ArrayList<WireSegment> segments = new ArrayList<WireSegment>() {{

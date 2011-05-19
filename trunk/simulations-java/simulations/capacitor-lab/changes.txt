@@ -1,3 +1,5 @@
+5/18/11 add wires to series circuit (model and view)
+5/18/11 create general capacitor-to-capacitor wire
 5/18/11 create model.wire package and factor out some reusable wires
 5/18/11 center current indicators on wires in "single" circuit
 5/18/11 display wires in "single" circuit

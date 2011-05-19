@@ -8,6 +8,7 @@ import java.util.EventListener;
 
 import edu.colorado.phet.capacitorlab.model.Battery;
 import edu.colorado.phet.capacitorlab.model.Capacitor;
+import edu.colorado.phet.capacitorlab.model.wire.Wire;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
@@ -21,6 +22,8 @@ public interface ICircuit {
     Battery getBattery();
 
     ArrayList<Capacitor> getCapacitors();
+
+    ArrayList<Wire> getWires();
 
     /**
      * Gets the name of the circuit that is visible to the user.
