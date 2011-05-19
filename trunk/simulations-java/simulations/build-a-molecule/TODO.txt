@@ -1,3 +1,4 @@
+What about if you re-drag a molecule part just after combining?
 Weird 3d structures?
 Size improvement on structures.txt (and serialized format)
 Jmol loading speed is slow - speed up
