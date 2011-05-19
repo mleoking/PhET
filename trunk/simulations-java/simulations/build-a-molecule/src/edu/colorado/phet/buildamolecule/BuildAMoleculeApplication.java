@@ -139,6 +139,13 @@ public class BuildAMoleculeApplication extends PiccoloPhetApplication {
                 }
             } );
         }} );
+        developerMenu.add( new JMenuItem( "Load additional data for profiling" ) {{
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    MoleculeList.testLoadingForProfiling();
+                }
+            } );
+        }} );
     }
 
     //----------------------------------------------------------------------------
