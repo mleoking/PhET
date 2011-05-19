@@ -41,4 +41,8 @@ public class Bond<T extends Atom> {
         assert ( contains( atom ) );
         return ( a == atom ? b : a );
     }
+
+    public String toSerial2( int index ) {
+        return String.valueOf( index );
+    }
 }

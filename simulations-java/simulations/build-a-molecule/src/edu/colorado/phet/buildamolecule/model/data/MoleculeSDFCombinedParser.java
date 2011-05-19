@@ -8,6 +8,8 @@ import java.util.*;
 
 import edu.colorado.phet.buildamolecule.model.CompleteMolecule;
 import edu.colorado.phet.buildamolecule.model.ElementHistogram;
+import edu.colorado.phet.chemistry.model.Element;
+import edu.colorado.phet.common.phetcommon.util.FileUtils;
 import edu.colorado.phet.common.phetcommon.util.Pair;
 
 /**
@@ -64,20 +66,20 @@ public class MoleculeSDFCombinedParser {
     public static void main( String[] args ) {
         File dir2d = new File( args[0] );
         File dir3d = new File( args[1] );
-        File outfile = new File( args[2] );
+        File outDir = new File( args[2] );
 
         assert ( dir2d.exists() );
         assert ( dir3d.exists() );
-        assert ( outfile.getParentFile().exists() );
+        assert ( outDir.exists() );
 
-        Set<String> symbols = new HashSet<String>();
         Set<String> propertiesNotOnEveryMolecule = new HashSet<String>();
         Set<String> propertiesUsed = new HashSet<String>();
 
         int uniqueAcceptedAtoms = 0;
         Set<String> names = new HashSet<String>();
 
-        List<String> molecules = new LinkedList<String>();
+        List<String> otherMolecules = new LinkedList<String>();
+        List<String> collectionMolecules = new LinkedList<String>();
 
         FilteredMoleculeIterator moleculeIterator = new FilteredMoleculeIterator( new MoleculeReader( dir2d, MAX_NUM_HEAVY_ATOMS ), new MoleculeReader( dir3d, MAX_NUM_HEAVY_ATOMS ) );
 
@@ -86,6 +88,8 @@ public class MoleculeSDFCombinedParser {
             while ( moleculeIterator.hasNext() ) {
                 Pair<MoleculeFile, MoleculeFile> pair = moleculeIterator.next();
                 int cid = pair._1.cid;
+
+                boolean include2d = COLLECTION_BOX_CIDS.contains( cid );
 
                 BufferedReader reader2d = new BufferedReader( new StringReader( pair._1.content ) );
                 BufferedReader reader3d = null;
@@ -116,8 +120,8 @@ public class MoleculeSDFCombinedParser {
                 int atomCount = Integer.parseInt( infoTokenizer.nextToken() );
                 int bondCount = Integer.parseInt( infoTokenizer.nextToken() );
 
-                AtomInfo[] atoms = new AtomInfo[atomCount];
-                BondInfo[] bonds = new BondInfo[bondCount];
+                CompleteMolecule molecule = new CompleteMolecule( "fake common name", "fake molecular formula", atomCount, bondCount, include2d, has3d );
+
                 Properties moleculeProperties = new Properties();
                 boolean hasRings;
                 boolean hasName;
@@ -127,11 +131,10 @@ public class MoleculeSDFCombinedParser {
 
                 for ( int i = 0; i < atomCount; i++ ) {
                     StringTokenizer t2d = new StringTokenizer( reader2d.readLine(), " " );
-                    double x2d = Double.parseDouble( t2d.nextToken() );
-                    double y2d = Double.parseDouble( t2d.nextToken() );
-                    t2d.nextToken(); // burn it
+                    float x2d = Float.parseFloat( t2d.nextToken() );
+                    float y2d = Float.parseFloat( t2d.nextToken() );
+                    t2d.nextToken(); // burn it (z coordinate for 2d is always 0)
                     String symbol = t2d.nextToken();
-                    symbols.add( symbol );
 
                     if ( symbol.equals( "C" ) ) {
                         numCarbon++;
@@ -139,25 +142,31 @@ public class MoleculeSDFCombinedParser {
                     if ( !ElementHistogram.ALLOWED_CHEMICAL_SYMBOLS.contains( symbol ) ) {
                         // has something like lead that we are not allowing
                         atomCountsOk = false;
+                        break; // don't try the element lookup
                     }
 
-                    double x3d;
-                    double y3d;
-                    double z3d;
+                    Element element = Element.getElementBySymbol( symbol );
 
+                    // TODO: read the bonding information from the 3d version if available (for now) until we do isomorphism finding
                     if ( has3d ) {
                         StringTokenizer t3d = new StringTokenizer( reader3d.readLine(), " " );
-                        x3d = Double.parseDouble( t3d.nextToken() );
-                        y3d = Double.parseDouble( t3d.nextToken() );
-                        z3d = Double.parseDouble( t3d.nextToken() );
+                        float x3d = Float.parseFloat( t3d.nextToken() );
+                        float y3d = Float.parseFloat( t3d.nextToken() );
+                        float z3d = Float.parseFloat( t3d.nextToken() );
+
+                        if ( include2d ) {
+                            // like a collection box molecule
+                            molecule.addAtom( new CompleteMolecule.PubChemAtomFull( element, x2d, y2d, x3d, y3d, z3d ) );
+                        }
+                        else {
+                            // not in collection box, so only provide 3d
+                            molecule.addAtom( new CompleteMolecule.PubChemAtom3d( element, x3d, y3d, z3d ) );
+                        }
                     }
                     else {
-                        // should be planar, so just transfer over the coordinates
-                        x3d = x2d;
-                        y3d = y2d;
-                        z3d = 0;
+                        // only 2d. we will (for now) fake 3d if necessary
+                        molecule.addAtom( new CompleteMolecule.PubChemAtom2d( element, x2d, y2d ) );
                     }
-                    atoms[i] = new AtomInfo( x2d, y2d, x3d, y3d, z3d, symbol );
                 }
 
                 atomCountsOk = atomCountsOk && numCarbon <= MAX_NUM_CARBON;
@@ -174,7 +183,7 @@ public class MoleculeSDFCombinedParser {
                         int b = Integer.parseInt( t2d.nextToken() );
                         int order = Integer.parseInt( t2d.nextToken() );
 
-                        bonds[i] = new BondInfo( a, b, order );
+                        molecule.addBond( new CompleteMolecule.PubChemBond( molecule.getAtoms().get( a - 1 ), molecule.getAtoms().get( b - 1 ), order ) );
                     }
 
                     // don't read charges or other stuff for now
@@ -204,6 +213,9 @@ public class MoleculeSDFCombinedParser {
                         // we will accept it
                         String name = moleculeProperties.getProperty( "PUBCHEM_IUPAC_TRADITIONAL_NAME" );
                         String formula = moleculeProperties.getProperty( "PUBCHEM_MOLECULAR_FORMULA" );
+                        molecule.setCommonName( name );
+                        molecule.setMolecularFormula( formula );
+                        molecule.cid = cid;
                         if ( names.contains( name ) ) {
                             System.out.println( "duplicate name: " + name );
                         }
@@ -211,20 +223,16 @@ public class MoleculeSDFCombinedParser {
                         uniqueAcceptedAtoms++;
                         names.add( name );
 
-                        StringBuilder moleculeString = new StringBuilder();
-                        moleculeString.append( name + SEPARATOR + formula + SEPARATOR + atomCount + SEPARATOR + bondCount );
-                        for ( AtomInfo atom : atoms ) {
-                            moleculeString.append( SEPARATOR );
-                            moleculeString.append( atom.toString() );
+                        String moleculeLine = molecule.toSerial2();
+                        if ( COLLECTION_BOX_CIDS.contains( cid ) ) {
+                            collectionMolecules.add( moleculeLine );
                         }
-                        for ( BondInfo bond : bonds ) {
-                            moleculeString.append( SEPARATOR );
-                            moleculeString.append( bond.toString() );
+                        else {
+                            otherMolecules.add( moleculeLine );
                         }
-                        moleculeString.append( SEPARATOR ).append( cid ); // add the CID on to the end (just for now)
-                        moleculeString.append( "\n" );
-                        String moleculeResult = moleculeString.toString();
-                        molecules.add( moleculeResult );
+
+//                        System.out.println( moleculeLine );
+//                        System.out.println( CompleteMolecule.fromSerial2( moleculeLine ).toSerial2() );
 
 //                        System.out.print( moleculeResult );
                     }
@@ -241,9 +249,6 @@ public class MoleculeSDFCombinedParser {
             e.printStackTrace();
         }
 
-        for ( String symbol : symbols ) {
-            System.out.println( "Used symbol: " + symbol );
-        }
         for ( String key : propertiesNotOnEveryMolecule ) {
             System.out.println( "At least one missed property: " + key );
         }
@@ -261,11 +266,11 @@ public class MoleculeSDFCombinedParser {
 
         Map<String, List<String>> formulaMap = new HashMap<String, List<String>>(); // map of formula => list of molecule lines
 
-        for ( final String aString : molecules.toArray( new String[molecules.size()] ) ) {
-            final CompleteMolecule completeMolecule = CompleteMolecule.fromString( aString.trim() );
+        for ( final String aString : otherMolecules.toArray( new String[otherMolecules.size()] ) ) {
+            final CompleteMolecule completeMolecule = CompleteMolecule.fromSerial2( aString.trim() );
             if ( completeMolecule.hasLoopsOrIsDisconnected() ) {
                 // bad molecule, remove it from consideration!
-                molecules.remove( aString );
+                otherMolecules.remove( aString );
                 System.out.println( "ignoring molecule with loops or disconnected parts: " + completeMolecule.getCommonName() );
             }
             else {
@@ -292,19 +297,19 @@ public class MoleculeSDFCombinedParser {
 
             // pick two of them (not the most efficient)
             for ( String aString : moleculesWithSameFormula ) {
-                CompleteMolecule aMol = CompleteMolecule.fromString( aString.trim() );
+                CompleteMolecule aMol = CompleteMolecule.fromSerial2( aString.trim() );
                 for ( String bString : moleculesWithSameFormula ) {
                     if ( !aString.equals( bString ) ) {
-                        CompleteMolecule bMol = CompleteMolecule.fromString( bString.trim() );
+                        CompleteMolecule bMol = CompleteMolecule.fromSerial2( bString.trim() );
 
                         // if they are equivalent, axe the one with the longer name
                         if ( aMol.isEquivalent( bMol ) ) {
                             if ( bMol.getCommonName().length() < aMol.getCommonName().length() ) {
-                                molecules.remove( aString );
+                                otherMolecules.remove( aString );
                                 System.out.println( "tossing duplicate " + aMol.getCommonName() );
                             }
                             else {
-                                molecules.remove( bString );
+                                otherMolecules.remove( bString );
                                 System.out.println( "tossing duplicate " + bMol.getCommonName() );
                             }
                         }
@@ -313,16 +318,27 @@ public class MoleculeSDFCombinedParser {
             }
         }
 
+        /*---------------------------------------------------------------------------*
+        * output files
+        *----------------------------------------------------------------------------*/
+
+        writeMoleculesToFile( collectionMolecules, new File( outDir, "collection-molecules.txt" ) );
+        writeMoleculesToFile( otherMolecules, new File( outDir, "other-molecules.txt" ) );
+
+    }
+
+    public static void writeMoleculesToFile( List<String> molecules, File file ) {
         try {
-            StringBuilder mainBuilder = new StringBuilder();
+            StringBuilder builder = new StringBuilder();
             Collections.sort( molecules );
             for ( String molecule : molecules ) {
-                mainBuilder.append( molecule );
+                builder.append( molecule + "\n" );
             }
-            edu.colorado.phet.common.phetcommon.util.FileUtils.writeString( outfile, mainBuilder.toString() );
+            System.out.println( "writing molecules to: " + file.getAbsolutePath() );
+            FileUtils.writeString( file, builder.toString() );
         }
         catch( IOException e ) {
-            e.printStackTrace();
+            throw new RuntimeException( e );
         }
     }
 
@@ -350,46 +366,6 @@ public class MoleculeSDFCombinedParser {
                     value += line;
                 }
             }
-        }
-    }
-
-    private static class AtomInfo {
-        public final double x2d;
-        public final double y2d;
-        public final double x3d;
-        public final double y3d;
-        public final double z3d;
-        public final String symbol;
-
-        private AtomInfo( double x2d, double y2d, double x3d, double y3d, double z3d, String symbol ) {
-            this.x2d = x2d;
-            this.y2d = y2d;
-            this.x3d = x3d;
-            this.y3d = y3d;
-            this.z3d = z3d;
-            this.symbol = symbol;
-        }
-
-        @Override
-        public String toString() {
-            return symbol + SEPARATOR + x2d + SEPARATOR + y2d + SEPARATOR + x3d + SEPARATOR + y3d + SEPARATOR + z3d;
-        }
-    }
-
-    private static class BondInfo {
-        public final int a;
-        public final int b;
-        public final int order;
-
-        private BondInfo( int a, int b, int order ) {
-            this.a = a;
-            this.b = b;
-            this.order = order;
-        }
-
-        @Override
-        public String toString() {
-            return a + SEPARATOR + b + SEPARATOR + order;
         }
     }
 }

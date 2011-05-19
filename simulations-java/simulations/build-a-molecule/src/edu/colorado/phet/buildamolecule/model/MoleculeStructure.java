@@ -389,54 +389,6 @@ public class MoleculeStructure<AtomT extends Atom> {
         }};
     }
 
-    /**
-     * @return A serialized form of this structure. It is |-separated tokens, with the format:
-     *         atom quantity
-     *         bond quantity
-     *         for each atom, it's symbol
-     *         for each bond, two zero-indexed indices of atoms above
-     */
-    public String toSerial() {
-        String ret = atoms.size() + "|" + bonds.size();
-        List<AtomT> atoms = new LinkedList<AtomT>( getAtoms() );
-        for ( AtomT atom : atoms ) {
-            ret += "|" + atom.getSymbol();
-        }
-
-        for ( Bond<AtomT> bond : bonds ) {
-            int a = atoms.indexOf( bond.a );
-            int b = atoms.indexOf( bond.b );
-            ret += "|" + a + "|" + b;
-        }
-
-        return ret;
-    }
-
-    /**
-     * Reads in the serialized form produced above
-     *
-     * @param str Serialized form of a structure
-     * @return Molecule structure
-     */
-    public static MoleculeStructure<Atom> fromSerial( String str ) {
-        StringTokenizer t = new StringTokenizer( str, "|" );
-        int atomCount = Integer.parseInt( t.nextToken() );
-        int bondCount = Integer.parseInt( t.nextToken() );
-        MoleculeStructure<Atom> structure = new MoleculeStructure<Atom>( atomCount, bondCount );
-        Atom[] atoms = new Atom[atomCount];
-
-        for ( int i = 0; i < atomCount; i++ ) {
-            atoms[i] = Atom.createAtomFromSymbol( t.nextToken() );
-            structure.addAtom( atoms[i] );
-        }
-
-        for ( int i = 0; i < bondCount; i++ ) {
-            structure.addBond( atoms[Integer.parseInt( t.nextToken() )], atoms[Integer.parseInt( t.nextToken() )] );
-        }
-
-        return structure;
-    }
-
     public String getDebuggingDump() {
         String str = "Molecule\n";
         for ( AtomT atom : atoms ) {
@@ -653,6 +605,162 @@ public class MoleculeStructure<AtomT extends Atom> {
                 add( atom.getElement() );
             }
         }};
+    }
+
+    /*---------------------------------------------------------------------------*
+    * serialization and parsing
+    *----------------------------------------------------------------------------*/
+
+    /**
+     * @return A serialized form of this structure. It is |-separated tokens, with the format:
+     *         atom quantity
+     *         bond quantity
+     *         for each atom, it's symbol
+     *         for each bond, two zero-indexed indices of atoms above
+     */
+    public String toSerial() {
+        String ret = atoms.size() + "|" + bonds.size();
+        List<AtomT> atoms = new LinkedList<AtomT>( getAtoms() );
+        for ( AtomT atom : atoms ) {
+            ret += "|" + atom.getSymbol();
+        }
+
+        for ( Bond<AtomT> bond : bonds ) {
+            int a = atoms.indexOf( bond.a );
+            int b = atoms.indexOf( bond.b );
+            ret += "|" + a + "|" + b;
+        }
+
+        return ret;
+    }
+
+    /**
+     * Reads in the serialized form produced above
+     *
+     * @param str Serialized form of a structure
+     * @return Molecule structure
+     */
+    public static MoleculeStructure<Atom> fromSerial( String str ) {
+        StringTokenizer t = new StringTokenizer( str, "|" );
+        int atomCount = Integer.parseInt( t.nextToken() );
+        int bondCount = Integer.parseInt( t.nextToken() );
+        MoleculeStructure<Atom> structure = new MoleculeStructure<Atom>( atomCount, bondCount );
+        Atom[] atoms = new Atom[atomCount];
+
+        for ( int i = 0; i < atomCount; i++ ) {
+            atoms[i] = Atom.createAtomFromSymbol( t.nextToken() );
+            structure.addAtom( atoms[i] );
+        }
+
+        for ( int i = 0; i < bondCount; i++ ) {
+            structure.addBond( atoms[Integer.parseInt( t.nextToken() )], atoms[Integer.parseInt( t.nextToken() )] );
+        }
+
+        return structure;
+    }
+
+    /**
+     * Format description, '\' is literal
+     * <p/>
+     * line = numAtoms|numBonds(|atomBondSpec)*
+     * atomBondSpec = atomSpec(,bondSpec)*
+     * atomSpec --- determined by implementation of atom. does not contain '|' or ','
+     * bondSpec --- determined by implementation of bond. does not contain '|' or ','
+     *
+     * @return
+     */
+    public String toSerial2() {
+        StringBuilder builder = new StringBuilder();
+
+        // write header: # of atoms
+        builder.append( getAtoms().size() + "|" + getBonds().size() );
+        for ( int i = 0; i < getAtoms().size(); i++ ) {
+            AtomT atom = getAtoms().get( i );
+            builder.append( "|" + atom.toString() );
+            for ( Bond<AtomT> bond : bonds ) {
+                if ( bond.contains( atom ) ) {
+                    AtomT otherAtom = bond.getOtherAtom( atom );
+                    int index = getAtoms().indexOf( otherAtom );
+                    if ( index < i ) {
+                        builder.append( "," + bond.toSerial2( index ) );
+                    }
+                }
+            }
+        }
+        return builder.toString();
+    }
+
+    /**
+     * Deserialize a molecule structure
+     *
+     * @param line              The data (string) to deserialize
+     * @param moleculeGenerator Creates a molecule with properties that we can fill with atoms/bonds
+     * @param atomParser        Creates an atom from a string representing an atom
+     * @param bondParser        Creates a bond from a string representing a bond
+     * @param <U>               Atom type
+     * @param <B>               Bond type
+     * @param <M>               Molecule type
+     * @return A constructed molecule
+     */
+    public static <U extends Atom, B extends Bond<U>, M extends MoleculeStructure<U>> M fromSerial2( String line, MoleculeGenerator<U, M> moleculeGenerator, AtomParser<U> atomParser, BondParser<U, B> bondParser ) {
+        StringTokenizer t = new StringTokenizer( line, "|" );
+        int atomCount = Integer.parseInt( t.nextToken() );
+        int bondCount = Integer.parseInt( t.nextToken() );
+
+        M molecule = moleculeGenerator.createMolecule( atomCount, bondCount );
+        for ( int i = 0; i < atomCount; i++ ) {
+            String atomBondString = t.nextToken();
+            StringTokenizer subT = new StringTokenizer( atomBondString, "," );
+            U atom = atomParser.parseAtom( subT.nextToken() );
+            molecule.addAtom( atom );
+            while ( subT.hasMoreTokens() ) {
+                B bond = bondParser.parseBond( subT.nextToken(), atom, molecule );
+                molecule.addBond( bond );
+            }
+        }
+
+        return molecule;
+    }
+
+    public static MoleculeStructure<Atom> fromSerial2Basic( String line ) {
+        // assumes atom base class (just symbol) and simple bonds (just connectivity)
+        return fromSerial2( line, new DefaultMoleculeGenerator(), new DefaultAtomParser(), new DefaultBondParser() );
+    }
+
+    /*---------------------------------------------------------------------------*
+    * parser classes and default implementations
+    *----------------------------------------------------------------------------*/
+
+    public static interface MoleculeGenerator<U extends Atom, M> {
+        public M createMolecule( int atomCount, int bondCount );
+    }
+
+    public static interface AtomParser<U extends Atom> {
+        public U parseAtom( String atomString );
+    }
+
+    public static interface BondParser<U extends Atom, B> {
+        public B parseBond( String bondString, U connectedAtom, MoleculeStructure<U> moleculeStructure );
+    }
+
+    public static class DefaultMoleculeGenerator implements MoleculeGenerator<Atom, MoleculeStructure<Atom>> {
+        public MoleculeStructure<Atom> createMolecule( int atomCount, int bondCount ) {
+            return new MoleculeStructure<Atom>( atomCount, bondCount );
+        }
+    }
+
+    public static class DefaultAtomParser implements AtomParser<Atom> {
+        public Atom parseAtom( String atomString ) {
+            // atomString is element symbol
+            return new Atom( Element.getElementBySymbol( atomString ) );
+        }
+    }
+
+    public static class DefaultBondParser implements BondParser<Atom, Bond<Atom>> {
+        public Bond<Atom> parseBond( String bondString, Atom connectedAtom, MoleculeStructure<Atom> moleculeStructure ) {
+            // bondString is index of other atom to bond
+            return new Bond<Atom>( connectedAtom, moleculeStructure.getAtoms().get( Integer.parseInt( bondString ) ) );
+        }
     }
 
 }
