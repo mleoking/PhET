@@ -115,8 +115,12 @@ public class SugarAndSaltSolutionModel implements ResetModel {
         }
     }, solidVolume );
 
+    //Rule of thumb for how much volume is occupied by a dissolved solute
+    private double litersPerMoleDissolvedSalt = salt.volumePerSolidMole * 0.15;
+    private double litersPerMoleDissolvedSugar = sugar.volumePerSolidMole * 0.15;
+
     //Create the solution, which sits atop the solid precipitate (if any)
-    public final Solution solution = new Solution( waterVolume, beaker, solutionY, salt.molesDissolved, sugar.molesDissolved );
+    public final Solution solution = new Solution( waterVolume, beaker, solutionY, salt.molesDissolved.times( litersPerMoleDissolvedSalt ), sugar.molesDissolved.times( litersPerMoleDissolvedSugar ) );
 
     //Determine if there are any solutes (i.e., if moles of salt or moles of sugar is greater than zero).  This is used to show/hide the "remove solutes" button
     public final ObservableProperty<Boolean> anySolutes = salt.moles.greaterThan( 0 ).or( sugar.moles.greaterThan( 0 ) );
