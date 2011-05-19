@@ -20,7 +20,7 @@ public class MoleculeSDFCombinedParser {
 
     private static final String SEPARATOR = "|";
 
-    private static String[] desiredProperties = new String[]{
+    private static String[] desiredProperties = new String[] {
             "PUBCHEM_IUPAC_TRADITIONAL_NAME",
             "PUBCHEM_MOLECULAR_FORMULA", "PUBCHEM_PHARMACOPHORE_FEATURES"
 
@@ -78,8 +78,8 @@ public class MoleculeSDFCombinedParser {
         int uniqueAcceptedAtoms = 0;
         Set<String> names = new HashSet<String>();
 
-        List<String> otherMolecules = new LinkedList<String>();
-        List<String> collectionMolecules = new LinkedList<String>();
+        List<CompleteMolecule> otherMolecules = new LinkedList<CompleteMolecule>();
+        List<CompleteMolecule> collectionMolecules = new LinkedList<CompleteMolecule>();
 
         FilteredMoleculeIterator moleculeIterator = new FilteredMoleculeIterator( new MoleculeReader( dir2d, MAX_NUM_HEAVY_ATOMS ), new MoleculeReader( dir3d, MAX_NUM_HEAVY_ATOMS ) );
 
@@ -223,18 +223,13 @@ public class MoleculeSDFCombinedParser {
                         uniqueAcceptedAtoms++;
                         names.add( name );
 
-                        String moleculeLine = molecule.toSerial2();
+                        // actually store it for now
                         if ( COLLECTION_BOX_CIDS.contains( cid ) ) {
-                            collectionMolecules.add( moleculeLine );
+                            collectionMolecules.add( molecule );
                         }
                         else {
-                            otherMolecules.add( moleculeLine );
+                            otherMolecules.add( molecule );
                         }
-
-//                        System.out.println( moleculeLine );
-//                        System.out.println( CompleteMolecule.fromSerial2( moleculeLine ).toSerial2() );
-
-//                        System.out.print( moleculeResult );
                     }
                 }
 
@@ -245,7 +240,7 @@ public class MoleculeSDFCombinedParser {
             }
 
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
 
@@ -264,24 +259,23 @@ public class MoleculeSDFCombinedParser {
         * filter molecules by validity, and group together isomers so we can filter out duplicates later
         *----------------------------------------------------------------------------*/
 
-        Map<String, List<String>> formulaMap = new HashMap<String, List<String>>(); // map of formula => list of molecule lines
+        Map<String, List<CompleteMolecule>> formulaMap = new HashMap<String, List<CompleteMolecule>>(); // map of formula => list of molecule lines
 
-        for ( final String aString : otherMolecules.toArray( new String[otherMolecules.size()] ) ) {
-            final CompleteMolecule completeMolecule = CompleteMolecule.fromSerial2( aString.trim() );
+        for ( final CompleteMolecule completeMolecule : otherMolecules.toArray( new CompleteMolecule[otherMolecules.size()] ) ) {
             if ( completeMolecule.hasLoopsOrIsDisconnected() ) {
                 // bad molecule, remove it from consideration!
-                otherMolecules.remove( aString );
+                otherMolecules.remove( completeMolecule );
                 System.out.println( "ignoring molecule with loops or disconnected parts: " + completeMolecule.getCommonName() );
             }
             else {
                 // good molecule. store it in the map so we can scan for duplicates
                 String hillFormula = completeMolecule.getHillSystemFormulaFragment();
                 if ( formulaMap.containsKey( hillFormula ) ) {
-                    formulaMap.get( hillFormula ).add( aString );
+                    formulaMap.get( hillFormula ).add( completeMolecule );
                 }
                 else {
-                    formulaMap.put( hillFormula, new LinkedList<String>() {{
-                        add( aString );
+                    formulaMap.put( hillFormula, new LinkedList<CompleteMolecule>() {{
+                        add( completeMolecule );
                     }} );
                 }
             }
@@ -293,23 +287,21 @@ public class MoleculeSDFCombinedParser {
 
         // for each set of molecules with the same formula
         for ( String hillFormula : formulaMap.keySet() ) {
-            List<String> moleculesWithSameFormula = formulaMap.get( hillFormula );
+            List<CompleteMolecule> moleculesWithSameFormula = formulaMap.get( hillFormula );
 
             // pick two of them (not the most efficient)
-            for ( String aString : moleculesWithSameFormula ) {
-                CompleteMolecule aMol = CompleteMolecule.fromSerial2( aString.trim() );
-                for ( String bString : moleculesWithSameFormula ) {
-                    if ( !aString.equals( bString ) ) {
-                        CompleteMolecule bMol = CompleteMolecule.fromSerial2( bString.trim() );
+            for ( CompleteMolecule aMol : moleculesWithSameFormula ) {
+                for ( CompleteMolecule bMol : moleculesWithSameFormula ) {
+                    if ( !aMol.equals( bMol ) ) {
 
                         // if they are equivalent, axe the one with the longer name
                         if ( aMol.isEquivalent( bMol ) ) {
                             if ( bMol.getCommonName().length() < aMol.getCommonName().length() ) {
-                                otherMolecules.remove( aString );
+                                otherMolecules.remove( aMol );
                                 System.out.println( "tossing duplicate " + aMol.getCommonName() );
                             }
                             else {
-                                otherMolecules.remove( bString );
+                                otherMolecules.remove( bMol );
                                 System.out.println( "tossing duplicate " + bMol.getCommonName() );
                             }
                         }
@@ -327,17 +319,21 @@ public class MoleculeSDFCombinedParser {
 
     }
 
-    public static void writeMoleculesToFile( List<String> molecules, File file ) {
+    public static void writeMoleculesToFile( List<CompleteMolecule> molecules, File file ) {
         try {
+            List<String> moleculeStrings = new ArrayList<String>( molecules.size() );
+            for ( CompleteMolecule molecule : molecules ) {
+                moleculeStrings.add( molecule.toSerial2() );
+            }
             StringBuilder builder = new StringBuilder();
-            Collections.sort( molecules );
-            for ( String molecule : molecules ) {
-                builder.append( molecule + "\n" );
+            Collections.sort( moleculeStrings );
+            for ( String molecule : moleculeStrings ) {
+                builder.append( molecule ).append( "\n" );
             }
             System.out.println( "writing molecules to: " + file.getAbsolutePath() );
             FileUtils.writeString( file, builder.toString() );
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             throw new RuntimeException( e );
         }
     }
