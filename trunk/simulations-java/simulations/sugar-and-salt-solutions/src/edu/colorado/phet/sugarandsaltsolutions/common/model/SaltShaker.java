@@ -92,6 +92,12 @@ public class SaltShaker extends Dispenser {
         }
     }
 
+    @Override public void reset() {
+        super.reset();
+        //Additionally make it so it won't emit salt right after reset
+        shakeAmount = 0.;
+    }
+
     private ImmutableVector2D getSecondDerivative( int i ) {
         ImmutableVector2D x0 = positions.get( positions.size() - 1 - i );
         ImmutableVector2D x1 = positions.get( positions.size() - 2 - i );
