@@ -1,3 +1,4 @@
+Fixed: Can't evaporate all the water
 Limited salt and sugar amounts to 500g each
 Made salt and sugar grains each mass of 5g
 Made salt grains smaller than sugar grains
