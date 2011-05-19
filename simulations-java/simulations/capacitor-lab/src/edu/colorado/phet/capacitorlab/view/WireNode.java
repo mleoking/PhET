@@ -21,7 +21,11 @@ public class WireNode extends PComposite {
     private static final Color WIRE_STROKE_COLOR = Color.BLACK;
     private static final Color WIRE_FILL_COLOR = Color.LIGHT_GRAY;
 
+    private final Wire wire;
+
     public WireNode( final Wire wire ) {
+
+        this.wire = wire;
 
         final PPath pathNode = new PhetPPath( wire.getShape(), WIRE_FILL_COLOR, WIRE_STROKE, WIRE_STROKE_COLOR );
         addChild( pathNode );
@@ -31,5 +35,9 @@ public class WireNode extends PComposite {
                 pathNode.setPathTo( wire.getShape() );
             }
         } );
+    }
+
+    public Wire getWire() {
+        return wire;
     }
 }
