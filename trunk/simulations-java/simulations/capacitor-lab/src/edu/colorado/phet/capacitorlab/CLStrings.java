@@ -79,7 +79,6 @@ public class CLStrings {
 
     // Greek letters, i18n not required
     public static final String EPSILON = "\u0190";
-    public static final String SIGMA = "\u03C3";
 
     private static final String getString( String key ) {
         return CLResources.getString( key );
