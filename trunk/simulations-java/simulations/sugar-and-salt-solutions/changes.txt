@@ -1,3 +1,4 @@
+Changed grain sizes to 0.1 gram
 # 0.00.16 (52192) May 19, 2011
 Removed background from evaporation slider
 Use a scaled cartoon size for the grains, since actual grain sizes would be much too large
