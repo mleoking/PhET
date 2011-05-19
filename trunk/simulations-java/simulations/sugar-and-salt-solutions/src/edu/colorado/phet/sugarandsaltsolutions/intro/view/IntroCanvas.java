@@ -8,10 +8,13 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
+import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.sugarandsaltsolutions.common.SugarAndSaltSolutionsColorScheme;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.*;
 import edu.colorado.phet.sugarandsaltsolutions.intro.model.IntroModel;
@@ -19,6 +22,7 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsApplication.WATER_COLOR;
 
@@ -105,6 +109,17 @@ public class IntroCanvas extends SugarAndSaltSolutionsCanvas {
         conductivityToolboxLayer.addChild( new ConductivityTesterToolboxNode( model, this ) {{
             //Set the location of the control panel
             setOffset( stageSize.getWidth() - getFullBounds().getWidth(), soluteControlPanelNode.getFullBounds().getMaxY() + INSET );
+        }} );
+
+        //Add a checkbox that lets the user toggle on and off whether actual values are shown
+        //This is in a full control panel + VBox in case we need to add other controls later
+        addChild( new ControlPanelNode( new VBox() {{
+            addChild( new PSwing( new PropertyCheckBox( "Show values", model.showConcentrationValues ) {{
+                setFont( CONTROL_FONT );
+                SwingUtils.setBackgroundDeep( this, WATER_COLOR );
+            }} ) );
+        }} ) {{
+            setOffset( conductivityToolboxLayer.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, conductivityToolboxLayer.getFullBounds().getY() - getFullBounds().getHeight() - INSET );
         }} );
 
         soluteControlPanelNode.setOffset( concentrationBarChart.getFullBounds().getX() - soluteControlPanelNode.getFullBounds().getWidth() - INSET, concentrationBarChart.getFullBounds().getY() );
