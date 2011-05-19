@@ -12,9 +12,9 @@ public class MacroSugar extends MacroCrystal {
     //Create a sugar crystal with the specified amount
     public static double molarMass = 342.23134;// g/mol
 
-    private static final double gramsPerGrain = 1;
+//    private static final double gramsPerGrain = 1;
 
-//    private static final double gramsPerGrain = 0.01;//SR Guess
+    private static final double gramsPerGrain = 0.1;//SR Guess
 
 //        private static final double gramsPerGrain = 0.2E-3;//http://wiki.answers.com/Q/What_is_the_weight_of_a_grain_of_sugar
 

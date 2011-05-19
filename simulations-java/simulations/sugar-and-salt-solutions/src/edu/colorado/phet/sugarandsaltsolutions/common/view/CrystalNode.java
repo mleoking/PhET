@@ -28,7 +28,7 @@ public class CrystalNode extends PNode {
                     ImmutableVector2D viewPosition = transform.modelToView( modelPosition );
 
                     //Use a scaled cartoon size for the grains, since actual grain sizes would be much to large
-                    double cartoonSize = size / 5;
+                    double cartoonSize = size / 5 * 2;
                     setPathTo( new Rectangle2D.Double( viewPosition.getX() - cartoonSize / 2, viewPosition.getY() - cartoonSize / 2, cartoonSize, cartoonSize ) );
                 }
             } );
