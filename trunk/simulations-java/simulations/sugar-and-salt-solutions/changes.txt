@@ -1,3 +1,4 @@
+Fixed: concentration should be moles divided by solution volume, not water volume
 Made it so that dissolved solutes take up some volume proportionate to their volume per solid mole
 Fixed: salt crystals should land on top of the white rectangle if it exists and there is no water
 Fixed: Drain faucet doesn't handle solution properly when precipitate is present

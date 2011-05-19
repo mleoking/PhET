@@ -96,7 +96,7 @@ public class IntroCanvas extends SugarAndSaltSolutionsCanvas {
         behindShakerNode.addChild( showBarChartPanel );
 
         //The bar chart itself (when toggled to be visible)
-        ConcentrationBarChart concentrationBarChart = new ConcentrationBarChart( model.salt.concentration, model.sugar.concentration, model.showConcentrationValues, model.showConcentrationBarChart ) {{
+        ConcentrationBarChart concentrationBarChart = new ConcentrationBarChart( model.saltConcentration, model.sugarConcentration, model.showConcentrationValues, model.showConcentrationBarChart ) {{
             setOffset( stageSize.getWidth() - getFullBoundsReference().width - INSET, INSET );
         }};
         behindShakerNode.addChild( concentrationBarChart );
