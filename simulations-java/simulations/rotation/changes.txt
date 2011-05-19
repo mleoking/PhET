@@ -1,3 +1,4 @@
+# 1.09.03 (52205) May 19, 2011
 Moved static clamp method from rotation's MathUtil to the usage class, and deleted rotation's MathUtil to avoid name clash with phetcommon's MathUtil
 Fixed: RotationRulerNode was broken after base class RulerNode received bugfixes, see #2678
 # 1.09.02 (39831) Apr 12, 2010
@@ -153,8 +154,8 @@ Test for obfuscated proguard post
 Fixed: Draggable arrow should exactly match the shade of the corresponding data series
 Added "Show Platform graphs" check boxes in same place as beetle control.
 Fixed: If time is stopped, update theta for bugs if they are moved by hand
-Fixed: Reset all doesn’t reset the axis for the graphs if you’ve zoomed 
-Fixed: Reset all doesn’t hide the symbol key if it’s been opened.
+Fixed: Reset all doesnï¿½t reset the axis for the graphs if youï¿½ve zoomed 
+Fixed: Reset all doesnï¿½t hide the symbol key if itï¿½s been opened.
 Improved layout for in-graph readouts
 Fixed: The symbol key shows up in the wrong location.
 Fixed: Some buttons look fuzzy in 1.6
@@ -238,9 +239,9 @@ Added condition to avoid the expense of circular regression if possible
 0.00.31 (7-18-2007)
 Added units to in-graph readouts
 Calibrated time scale slider
-“Show symbol key” button switches to “Hide symbol key” if symbol key is showing.
+ï¿½Show symbol keyï¿½ button switches to ï¿½Hide symbol keyï¿½ if symbol key is showing.
 On Position, V and A graphs, removed "X" from title label.
-Changed the checkboxes to read e.g. “Show X-position” instead of just "X-Position"
+Changed the checkboxes to read e.g. ï¿½Show X-positionï¿½ instead of just "X-Position"
 Switched from 3 subtick marks on ruler to 4 so they would be at 1.2, 1.4, 1.6, 1.8
 Added "Reset All" button
 Improved layout for in-graph readouts for one and two-character cases
@@ -282,7 +283,7 @@ Fixed: Web version has centripetal acceleration arrow missing the center on user
 Fixed: When Second Bug is added to the platform, charts should show series data for it.
 Fixed: Check boxes (like in Force1D) for adding/removing series (applies to both characters)
     -Only show one checkbox for both characters, and have it apply to both characters; 
-Fixed: Second Bug’s data series should be dotted lines
+Fixed: Second Bugï¿½s data series should be dotted lines
 Fixed: Checkbox to remove/add second bug's dashed line data in graph. Bug itself should remain visible.
 Fixed: During playback, sometimes off-platform character spins in place (looks like on-platform vs. off-platform state is not being recorded and restored properly)
     -character orientation is now saved and restored
