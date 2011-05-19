@@ -39,6 +39,7 @@ MEDUIUM PRIORITY
 - convert CurrentIndicatorNode to observer of Property<Double> currentAmplitude
 - merge MultipleCapacitorsModule/Model/Canvas/ControlPanel into DielectricModule/Model/Canvas/ControlPanel
 - add setCircuit methods to all persistent controls
+- add editable mantissa to capacitance control
 
 LOW PRIORITY
 - would it be OK to have the dielectric fully inserted (offset=0) in the Intro tab?
