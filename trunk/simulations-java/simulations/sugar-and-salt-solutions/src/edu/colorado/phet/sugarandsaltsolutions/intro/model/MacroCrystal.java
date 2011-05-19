@@ -25,9 +25,16 @@ public class MacroCrystal {
     //True of the salt has landed on the floor of the beaker.  In this case it won't move anymore and will dissolve when liquid hits
     private boolean landed = false;
 
-    public MacroCrystal( ImmutableVector2D position, double moles ) {
+    //Length in m^3 of one side of the crystal, assuming it is perfectly cubic
+    public final double length;
+
+    public MacroCrystal( ImmutableVector2D position, double moles, double volumePerMole ) {
         this.position = new Property<ImmutableVector2D>( position );
         this.moles = moles;
+
+        //Compute the length of a side
+        double volume = volumePerMole * moles;
+        length = Math.pow( volume, 1.0 / 3.0 );
     }
 
     //propagate the crystal according to the specified applied forces, using euler integration

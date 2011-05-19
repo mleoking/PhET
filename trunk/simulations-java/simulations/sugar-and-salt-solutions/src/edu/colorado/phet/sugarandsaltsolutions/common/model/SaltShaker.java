@@ -83,7 +83,7 @@ public class SaltShaker extends Dispenser {
                 final ImmutableVector2D outputPoint = center.get().plus( parseAngleAndMagnitude( 0.027, angle.get() + Math.PI / 2 + randUniform * Math.PI / 32 * 1.2 ) );//Hand tuned to match up with the image, will need to be re-tuned if the image changes
 
                 //Add the salt
-                model.addMacroSalt( new MacroSalt( outputPoint ) {{
+                model.addMacroSalt( new MacroSalt( outputPoint, model.salt.volumePerSolidMole ) {{
                     //Give the salt an appropriate velocity when it comes out so it arcs
                     velocity.set( getCrystalVelocity( outputPoint ) );
                 }} );

@@ -13,9 +13,7 @@ import edu.colorado.phet.sugarandsaltsolutions.intro.model.MacroSugar;
  * @author Sam Reid
  */
 public class SugarNode extends CrystalNode {
-    public static final double SIZE = 6;
-
     public SugarNode( final ModelViewTransform transform, final MacroSugar sugar, ObservableProperty<Color> color ) {
-        super( transform, sugar, color, SIZE );
+        super( transform, sugar, color, transform.modelToViewDeltaX( sugar.length ) );
     }
 }
