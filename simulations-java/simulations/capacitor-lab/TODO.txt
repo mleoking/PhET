@@ -29,6 +29,7 @@ HIGH PRIORITY
 - remove voltage from Wire model?
 
 MEDIUM PRIORITY
+- add base class for Model? all models have the same set of meters, 1 or more circuits, etc.
 - horizontal top wire in Combination1Circuit is too low, should look like Combination2Circuit
 - cleanup methods needed where anonymous observers/listeners are added in constructors
 - convert DielectricMaterialControl to use PropertyRadioButton and Property<DielectricMaterial> dielectricMaterial
