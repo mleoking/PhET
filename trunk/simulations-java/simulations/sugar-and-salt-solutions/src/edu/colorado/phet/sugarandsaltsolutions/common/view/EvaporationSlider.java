@@ -39,9 +39,11 @@ public class EvaporationSlider extends HBox {
             setLabelTable( new Hashtable() {{
                 put( 0, new JLabel( "none" ) {{
                     setForeground( Color.white );
+                    setFont( CONTROL_FONT );
                 }} );
                 put( 100, new JLabel( "lots" ) {{
                     setForeground( Color.white );
+                    setFont( CONTROL_FONT );
                 }} );
             }} );
             addMouseListener( new MouseAdapter() {
