@@ -18,15 +18,19 @@ MULTIPLE CAPACITORS REQUIREMENTS
 - current indicators near battery poles (like in other tabs)
 
 HIGH PRIORITY
-- plate voltage doesn't make sense for Combination1Circuit.C2
+- plate voltage doesn't make sense for C2 in Combination1Circuit
+- add support for wires in getVoltageAt for all AbstractCircuit subclasses
 - delete ICapacitor, if Capacitor reuse in Multi-Cap works out
-- more general way to create Wire model elements, subclasses like TopWire and BottomWire are not scalable
+- E-Field and Voltage shape creation
 - move shape creation out of Wire and into WireNode (via WireShapeFactory) to be consistent with pattern used elsewhere
-- hack in BottomWire.createShape
+- hack in createShape of some wire subclasses
+- duplicate code in AbstractCircuit subclasses
 - change meter and check box labels in Multiple Capacitors tab
+- create a PNode subclass for all circuit-related nodes in DielectricCanvas
 - remove voltage from Wire model?
 
 MEDUIUM PRIORITY
+- cleanup methods needed where anonymous observers/listeners are added in constructors
 - convert DielectricMaterialControl to use PropertyRadioButton and Property<DielectricMaterial> dielectricMaterial
 - convert DielectricConstantControl to use Property<Double> dielectricConstant
 - convert VoltageSliderNode to use Property<Double> voltage
