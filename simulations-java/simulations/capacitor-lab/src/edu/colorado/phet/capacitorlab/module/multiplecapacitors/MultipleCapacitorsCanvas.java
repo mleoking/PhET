@@ -38,9 +38,6 @@ public class MultipleCapacitorsCanvas extends CLCanvas {
 
     private final PNode circuitParentNode; // parent of all circuit nodes, so we don't have to mess with rendering order
 
-    // maximums
-    private final double maxPlateCharge, maxExcessDielectricPlateCharge, maxEffectiveEField, maxDielectricEField, eFieldVectorReferenceMagnitude;
-
     // meters
     private final CapacitanceMeterNode capacitanceMeterNode;
     private final PlateChargeMeterNode plateChargeMeterNode;
@@ -48,20 +45,22 @@ public class MultipleCapacitorsCanvas extends CLCanvas {
     private final VoltmeterView voltmeter;
     private final EFieldDetectorView eFieldDetector;
 
-    public MultipleCapacitorsCanvas( MultipleCapacitorsModel model, CLModelViewTransform3D mvt, CLGlobalProperties globalProperties ) {
+    public MultipleCapacitorsCanvas( final MultipleCapacitorsModel model, final CLModelViewTransform3D mvt, CLGlobalProperties globalProperties ) {
 
         this.model = model;
         this.mvt = mvt;
 
         //TODO maximums shouldn't be dependent on DielectricModel, and may be different for this module
         // maximums
-        maxPlateCharge = DielectricModel.getMaxPlateCharge();
-        maxExcessDielectricPlateCharge = DielectricModel.getMaxExcessDielectricPlateCharge();
-        maxEffectiveEField = DielectricModel.getMaxEffectiveEField();
-        maxDielectricEField = DielectricModel.getMaxDielectricEField();
-        eFieldVectorReferenceMagnitude = DielectricModel.getMaxPlatesDielectricEFieldWithBattery();
+        final double maxPlateCharge = DielectricModel.getMaxPlateCharge();
+        final double maxExcessDielectricPlateCharge = DielectricModel.getMaxExcessDielectricPlateCharge();
+        final double maxEffectiveEField = DielectricModel.getMaxEffectiveEField();
+        final double maxDielectricEField = DielectricModel.getMaxDielectricEField();
+        final double eFieldVectorReferenceMagnitude = DielectricModel.getMaxPlatesDielectricEFieldWithBattery();
 
         circuitParentNode = new PNode();
+
+        // meters
         capacitanceMeterNode = new CapacitanceMeterNode( model.getCapacitanceMeter(), mvt );
         plateChargeMeterNode = new PlateChargeMeterNode( model.getPlateChargeMeter(), mvt );
         storedEnergyMeterNode = new StoredEnergyMeterNode( model.getStoredEnergyMeter(), mvt );
@@ -84,7 +83,10 @@ public class MultipleCapacitorsCanvas extends CLCanvas {
 
         model.currentCircuitProperty.addObserver( new SimpleObserver() {
             public void update() {
-                updateCircuit();
+                circuitParentNode.removeAllChildren();
+                circuitParentNode.addChild( new MultipleCapacitorsCircuitNode( model.currentCircuitProperty.get(), mvt, false /* dielectricVisible */,
+                                                                               plateChargesVisibleProperty, eFieldVisibleProperty, dielectricChargeViewProperty,
+                                                                               maxPlateCharge, maxExcessDielectricPlateCharge, maxEffectiveEField, maxDielectricEField ) );
             }
         } );
     }
@@ -98,13 +100,6 @@ public class MultipleCapacitorsCanvas extends CLCanvas {
         capacitanceMeterNode.reset();
         plateChargeMeterNode.reset();
         storedEnergyMeterNode.reset();
-    }
-
-    private void updateCircuit() {
-        circuitParentNode.removeAllChildren();
-        circuitParentNode.addChild( new MultipleCapacitorsCircuitNode( model.currentCircuitProperty.get(), mvt,
-                                                                       plateChargesVisibleProperty, eFieldVisibleProperty, dielectricChargeViewProperty,
-                                                                       maxPlateCharge, maxExcessDielectricPlateCharge, maxEffectiveEField, maxDielectricEField ) );
     }
 
     @Override

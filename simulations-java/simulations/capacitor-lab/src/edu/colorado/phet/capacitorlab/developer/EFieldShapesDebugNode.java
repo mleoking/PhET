@@ -6,7 +6,7 @@ import java.awt.*;
 
 import edu.colorado.phet.capacitorlab.CLPaints;
 import edu.colorado.phet.capacitorlab.model.Capacitor;
-import edu.colorado.phet.capacitorlab.module.dielectric.DielectricModel;
+import edu.colorado.phet.capacitorlab.model.circuit.SingleCircuit;
 import edu.colorado.phet.capacitorlab.shapes.CapacitorShapeFactory;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -24,7 +24,7 @@ public class EFieldShapesDebugNode extends PComposite {
     private static final Stroke STROKE = new BasicStroke( 2f );
     private static final Color STROKE_COLOR = CLPaints.EFIELD_DEBUG_SHAPES;
 
-    public EFieldShapesDebugNode( final DielectricModel model ) {
+    public EFieldShapesDebugNode( final SingleCircuit circuit ) {
 
         // nothing interactive here
         setPickable( false );
@@ -32,7 +32,7 @@ public class EFieldShapesDebugNode extends PComposite {
 
         // capacitor
         {
-            final Capacitor capacitor = model.getCapacitor();
+            final Capacitor capacitor = circuit.getCapacitor();
             final CapacitorShapeFactory shapeFactory = capacitor.getShapeFactory();
 
             final PPath dielectricBetweenPlatesNode = new PhetPPath( shapeFactory.createDielectricBetweenPlatesShapeOccluded(), STROKE, STROKE_COLOR );

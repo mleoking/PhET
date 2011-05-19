@@ -25,7 +25,6 @@ HIGH PRIORITY
 - hack in createShape of some wire subclasses
 - duplicate code in AbstractCircuit subclasses
 - change meter and check box labels in Multiple Capacitors tab
-- create a PNode subclass for all circuit-related nodes in DielectricCanvas
 - remove voltage from Wire model?
 
 MEDIUM PRIORITY
