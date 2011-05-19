@@ -38,7 +38,7 @@ public class SeriesCircuitNode extends AbstractCircuitNode {
         PNode bottomWireNode = null;
         for ( int i = wires.size() - 1; i >= 0; i-- ) {
 
-            WireNode wireNode = new WireNode( wires.get( i ), mvt );
+            WireNode wireNode = new WireNode( wires.get( i ) );
             addChild( wireNode );
 
             if ( i == wires.size() - 1 ) {

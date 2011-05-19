@@ -37,8 +37,8 @@ public class SingleCircuitNode extends AbstractCircuitNode {
                                                                                     MultipleCapacitorsModel.CAPACITANCE_RANGE, MultipleCapacitorsModel.CAPACITANCE_DISPLAY_EXPONENT );
 
         // top and bottom wires
-        WireNode topWireNode = new WireNode( circuit.getTopWire(), mvt );
-        WireNode bottomWireNode = new WireNode( circuit.getBottomWire(), mvt );
+        WireNode topWireNode = new WireNode( circuit.getTopWire() );
+        WireNode bottomWireNode = new WireNode( circuit.getBottomWire() );
 
         // rendering order
         addChild( bottomWireNode );

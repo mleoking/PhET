@@ -4,7 +4,6 @@ package edu.colorado.phet.capacitorlab.view;
 
 import java.awt.*;
 
-import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.colorado.phet.capacitorlab.model.wire.Wire;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -22,7 +21,7 @@ public class WireNode extends PComposite {
     private static final Color WIRE_STROKE_COLOR = Color.BLACK;
     private static final Color WIRE_FILL_COLOR = Color.LIGHT_GRAY;
 
-    public WireNode( final Wire wire, final CLModelViewTransform3D mvt ) {
+    public WireNode( final Wire wire ) {
 
         final PPath pathNode = new PhetPPath( wire.getShape(), WIRE_FILL_COLOR, WIRE_STROKE, WIRE_STROKE_COLOR );
         addChild( pathNode );

@@ -101,8 +101,8 @@ public class DielectricCanvas extends CLCanvas {
                 getDielectricNode().setVisible( false );
             }
         }};
-        topWireNode = new WireNode( model.getTopWire(), mvt );
-        bottomWireNode = new WireNode( model.getBottomWire(), mvt );
+        topWireNode = new WireNode( model.getTopWire() );
+        bottomWireNode = new WireNode( model.getBottomWire() );
 
         batteryConnectionButtonNode = new BatteryConnectionButtonNode( model.getCircuit() );
 
