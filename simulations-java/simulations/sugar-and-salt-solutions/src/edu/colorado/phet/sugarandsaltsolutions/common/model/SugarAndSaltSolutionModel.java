@@ -57,6 +57,9 @@ public class SugarAndSaltSolutionModel implements ResetModel {
     //Beaker and water models
     public final Beaker beaker = new Beaker( BEAKER_X, 0, BEAKER_WIDTH, BEAKER_HEIGHT, BEAKER_DEPTH );//The beaker into which you can add water, salt and sugar.
 
+    //Set a max amount of water that the user can add to the system so they can't overflow it
+    private final double MAX_WATER = beaker.getMaxFluidVolume() * 0.75;
+
     //Model for input and output flows
     public final Property<Double> inputFlowRate = new Property<Double>( 0.0 );//rate that water flows into the beaker in m^3/s
     public final Property<Double> outputFlowRate = new Property<Double>( 0.0 );//rate that water flows out of the beaker in m^3/s
@@ -126,7 +129,7 @@ public class SugarAndSaltSolutionModel implements ResetModel {
     private ObservableProperty<Boolean> moreSugarAllowed = sugar.grams.plus( airborneSugarGrams ).lessThan( 500 );
 
     //Convenience composite properties for determining whether the beaker is full or empty so we can shut off the faucets when necessary
-    public final ObservableProperty<Boolean> beakerFull = solidVolume.plus( solution.volume ).greaterThanOrEqualTo( beaker.getMaxFluidVolume() );
+    public final ObservableProperty<Boolean> beakerFull = solution.volume.greaterThanOrEqualTo( MAX_WATER );
 
     //When a crystal is absorbed by the water, increase the number of moles in solution
     protected void crystalAbsorbed( MacroCrystal crystal ) {
@@ -269,8 +272,8 @@ public class SugarAndSaltSolutionModel implements ResetModel {
         //Compute the new water volume, but making sure it doesn't overflow or underflow
         //TODO: use the solution volume here?
         double newVolume = waterVolume.get() + inputWater - drainedWater - evaporatedWater;
-        if ( newVolume > beaker.getMaxFluidVolume() ) {
-            inputWater = beaker.getMaxFluidVolume() + drainedWater + evaporatedWater - waterVolume.get();
+        if ( newVolume > MAX_WATER ) {
+            inputWater = MAX_WATER + drainedWater + evaporatedWater - waterVolume.get();
         }
         //Only allow drain to use up all the water if user is draining the liquid
         else if ( newVolume < 0 && outputFlowRate.get() > 0 ) {
@@ -287,7 +290,7 @@ public class SugarAndSaltSolutionModel implements ResetModel {
         newVolume = waterVolume.get() + inputWater - drainedWater - evaporatedWater;
 
         //Turn off the input flow if the beaker would overflow
-        if ( newVolume >= beaker.getMaxFluidVolume() * 0.75 ) {
+        if ( newVolume >= MAX_WATER ) {
             inputFlowRate.set( 0.0 );
             //TODO: make the cursor drop the slider?
         }

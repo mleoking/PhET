@@ -1,3 +1,5 @@
+Limited the amount of water that can be added to the system to be 1.5L
+Fixed: the top faucet is not showing a continuous stream of water as you move the slider to the right
 Moved the conductivity tester probes down a bit to encourage the user to dip them in the water without dipping the light bulb in the water too
 Added credits
 Fixed: Can't evaporate all the water
