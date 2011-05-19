@@ -63,7 +63,8 @@ public class MacroCrystal {
 
             //See if it should land on top of any precipitated solid in the beaker
             else if ( newPath.intersectsLine( topOfSolid ) ) {
-                position.set( new ImmutableVector2D( position.get().getX(), topOfSolid.getY1() ) );
+                //Move the crystal down a tiny bit so that it will be intercepted by the water on top of the solid precipitate when water is added
+                position.set( new ImmutableVector2D( position.get().getX(), topOfSolid.getY1() - 1E-6 ) );
                 landed = true;
             }
         }
