@@ -94,15 +94,19 @@
     // needed for either the PhET installers or customized for a specific
     // customer.  So far, that generally means getting it for a particular language.
     define("PHET_RIPPER_FILTER_PHET",
-        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, ARABIC_LOCALE_STRING.'/*').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'files/activities/*').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'workshops/*').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'installer/*').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/get-phet/*').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/for-teachers/submit-activity').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/for-teachers/manage-activities'));
+    define("PHET_RIPPER_FILTER_PHET_WITH_ACTIVITIES",
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'workshops/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'installer/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/get-phet/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/for-teachers/submit-activity').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/for-teachers/manage-activities'));
     define("PHET_RIPPER_FILTER_YF",
-        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, ARABIC_LOCALE_STRING.'/*').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'files/activities/*').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'workshops/*').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'installer/*').' '.
@@ -223,7 +227,7 @@
 
     // Command-line args for the ripper.
     define("RIPPER_OPTIONS", " -j %q0 -%e0 -r10 -s0 -A10000000000 --disable-security-limits ");
-    define("RIPPER_ARGS_PHET", '"'.PHET_ROOT_URL.'" "'.PHET_SPONSOR_LIST_URL.'" -O "'.RIPPED_WEBSITE_ROOT.'" '.PHET_RIPPER_FILTER_PHET." -F ".RIPPER_USER_AGENT_PHET.RIPPER_OPTIONS);
+    define("RIPPER_ARGS_PHET", '"'.PHET_ROOT_URL.'" "'.PHET_SPONSOR_LIST_URL.'" -O "'.RIPPED_WEBSITE_ROOT.'" '.PHET_RIPPER_FILTER_PHET_WITH_ACTIVITIES." -F ".RIPPER_USER_AGENT_PHET.RIPPER_OPTIONS);
     define("RIPPER_ARGS_YF", '"'.PHET_ROOT_URL.'" "'.PHET_SPONSOR_LIST_URL.'" -O "'.RIPPED_WEBSITE_ROOT.'" '.PHET_RIPPER_FILTER_YF." -F ".RIPPER_USER_AGENT_YF.RIPPER_OPTIONS);
     define("RIPPER_ARGS_KSU_LOCAL_INSTALLER", '"'.PHET_ARABIC_WEBSITE_URL.'" "'.PHET_SPONSOR_LIST_URL.'" -O "'.RIPPED_WEBSITE_ROOT.'" '.PHET_RIPPER_FILTER_KSU_LOCAL_INSTALLER." -F ".RIPPER_USER_AGENT_KSU_LOCAL.RIPPER_OPTIONS);
     define("RIPPER_ARGS_KSU_WEB_INSTALLER", '"'.PHET_ARABIC_WEBSITE_URL.'" "'.PHET_SPONSOR_LIST_URL.'" -O "'.RIPPED_WEBSITE_ROOT.'" '.PHET_RIPPER_FILTER_KSU_WEB_INSTALLER." -F ".RIPPER_USER_AGENT_KSU_WEB.RIPPER_OPTIONS);
