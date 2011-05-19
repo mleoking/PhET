@@ -1,3 +1,4 @@
+Moved "show values" button to a new control panel instead of in the concentration bar chart
 Fixed: Crystals sitting on precipitate don’t get dissolved by water when water is added
 Fixed: concentration should be moles divided by solution volume, not water volume
 Made it so that dissolved solutes take up some volume proportionate to their volume per solid mole

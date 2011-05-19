@@ -11,9 +11,7 @@ import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
@@ -22,10 +20,8 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
-import edu.umd.cs.piccolox.pswing.PSwing;
 
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsApplication.WATER_COLOR;
-import static edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas.CONTROL_FONT;
 import static java.awt.Color.white;
 
 /**
@@ -36,7 +32,7 @@ import static java.awt.Color.white;
  */
 public class ConcentrationBarChart extends PNode {
 
-    private final double CHART_HEIGHT = 225;
+    private final double CHART_HEIGHT = 200;
     protected final int INSET = 5;
     //Convert from model units (Mols) to stage units
     private final double verticalAxisScale = 160 * 1E-4;
@@ -50,7 +46,7 @@ public class ConcentrationBarChart extends PNode {
                                                 WATER_COLOR, new BasicStroke( 1f ), Color.BLACK );
         addChild( background );
 
-        final double abscissaY = CHART_HEIGHT - 65;
+        final double abscissaY = CHART_HEIGHT - 30;
         addChild( new PhetPPath( new Line2D.Double( INSET, abscissaY, totalWidth - INSET, abscissaY ), new BasicStroke( 2 ), Color.black ) );
 
         //Add a Salt concentration bar
@@ -67,17 +63,6 @@ public class ConcentrationBarChart extends PNode {
         addChild( new PText( "Concentration (mol/L)" ) {{
             setFont( new PhetFont( 16 ) );
             setOffset( ConcentrationBarChart.this.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, INSET );
-        }} );
-
-        //Add a checkbox that lets the user toggle on and off whether actual values are shown
-        addChild( new PSwing( new PropertyCheckBox( "Show values", showValues ) {{
-            setFont( CONTROL_FONT );
-            SwingUtils.setBackgroundDeep( this, WATER_COLOR );
-        }} ) {{
-
-            //Center it horizontally in the bottom of the box, move up one pixel so it doesn't overlap the border stroke
-            setOffset( background.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2,
-                       background.getFullBounds().getMaxY() - getFullBounds().getHeight() - 1 );
         }} );
 
         //Commented out because we are considering removing it as of 5/15/2011
