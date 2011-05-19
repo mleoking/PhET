@@ -89,7 +89,7 @@ public class DielectricCanvas extends CLCanvas {
         final double maxDielectricEField = DielectricModel.getMaxDielectricEField();
         final double eFieldVectorReferenceMagnitude = DielectricModel.getMaxPlatesDielectricEFieldWithBattery();
 
-        //TODO encapsulate all of the circuit stuff in a node class
+        //TODO encapsulate all of the circuit stuff in a DielectricCircuitNode class
         batteryNode = new BatteryNode( model.getBattery(), CLConstants.BATTERY_VOLTAGE_RANGE );
         capacitorNode = new CapacitorNode( model.getCapacitor(), mvt, plateChargesVisibleProperty, eFieldVisibleProperty, dielectricChargeViewProperty,
                                            maxPlateCharge, maxExcessDielectricPlateCharge, maxEffectiveEField, maxDielectricEField ) {{
