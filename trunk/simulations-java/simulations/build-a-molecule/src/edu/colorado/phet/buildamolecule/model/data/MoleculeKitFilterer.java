@@ -2,22 +2,23 @@ package edu.colorado.phet.buildamolecule.model.data;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.*;
 
-import edu.colorado.phet.buildamolecule.BuildAMoleculeResources;
 import edu.colorado.phet.buildamolecule.model.*;
 import edu.colorado.phet.buildamolecule.module.LargerMoleculesModule;
+import edu.colorado.phet.common.phetcommon.util.FileUtils;
 
 public class MoleculeKitFilterer {
     public static final List<ElementHistogram> availableKitHistograms = new LinkedList<ElementHistogram>();
 
     public static void main( String[] args ) throws IOException {
-        File outFile = new File( args[0] );
+        File inFile = new File( args[0] );
+        File outFile = new File( args[1] );
 
         /*---------------------------------------------------------------------------*
         * allowed kit histograms (atom counts)
@@ -59,12 +60,12 @@ public class MoleculeKitFilterer {
         * do the filtering
         *----------------------------------------------------------------------------*/
 
-        BufferedReader moleculeReader = new BufferedReader( new InputStreamReader( BuildAMoleculeResources.getResourceLoader().getResourceAsStream( "molecules.txt" ) ) );
+        BufferedReader moleculeReader = new BufferedReader( new FileReader( inFile ) );
         try {
             StringBuilder builder = new StringBuilder();
             while ( moleculeReader.ready() ) {
                 String line = moleculeReader.readLine();
-                CompleteMolecule molecule = CompleteMolecule.fromString( line );
+                CompleteMolecule molecule = CompleteMolecule.fromSerial2( line );
 
                 if ( isMoleculeSupported( molecule ) ) {
                     builder.append( line ).append( "\n" );
@@ -73,7 +74,7 @@ public class MoleculeKitFilterer {
                     System.out.println( "skipping: " + line );
                 }
             }
-            edu.colorado.phet.common.phetcommon.util.FileUtils.writeString( outFile, builder.toString() );
+            FileUtils.writeString( outFile, builder.toString() );
         }
         finally {
             moleculeReader.close();
