@@ -1,3 +1,4 @@
+5/19/11 collapsed circuit node type hierarchy into a single general node that handles all circuit types
 5/19/11 move creation of capacitor nodes to circuit node base class
 5/19/11 simplify implementation of SeriesCircuitNode, rendering order is not important because wire shapes account for occlusion
 5/19/11 add varargs versions of wire constructors, to improve usage readability

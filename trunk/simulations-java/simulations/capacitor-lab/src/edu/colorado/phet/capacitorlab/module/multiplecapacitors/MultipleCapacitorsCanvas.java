@@ -8,15 +8,14 @@ import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLGlobalProperties;
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.colorado.phet.capacitorlab.model.DielectricChargeView;
-import edu.colorado.phet.capacitorlab.model.circuit.*;
 import edu.colorado.phet.capacitorlab.module.CLCanvas;
 import edu.colorado.phet.capacitorlab.module.dielectric.DielectricModel;
+import edu.colorado.phet.capacitorlab.view.MultipleCapacitorsCircuitNode;
 import edu.colorado.phet.capacitorlab.view.meters.BarMeterNode.CapacitanceMeterNode;
 import edu.colorado.phet.capacitorlab.view.meters.BarMeterNode.PlateChargeMeterNode;
 import edu.colorado.phet.capacitorlab.view.meters.BarMeterNode.StoredEnergyMeterNode;
 import edu.colorado.phet.capacitorlab.view.meters.EFieldDetectorView;
 import edu.colorado.phet.capacitorlab.view.meters.VoltmeterView;
-import edu.colorado.phet.capacitorlab.view.multicaps.*;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -103,46 +102,10 @@ public class MultipleCapacitorsCanvas extends CLCanvas {
 
     private void updateCircuit() {
         circuitParentNode.removeAllChildren();
-        circuitParentNode.addChild( createCircuit( model.currentCircuitProperty.get() ) );
+        circuitParentNode.addChild( new MultipleCapacitorsCircuitNode( model.currentCircuitProperty.get(), mvt,
+                                                                       plateChargesVisibleProperty, eFieldVisibleProperty, dielectricChargeViewProperty,
+                                                                       maxPlateCharge, maxExcessDielectricPlateCharge, maxEffectiveEField, maxDielectricEField ) );
     }
-
-    //TODO revisit this after things are working
-    // factory method for creating circuit nodes
-    private PNode createCircuit( ICircuit circuit ) {
-        PNode circuitNode = null;
-        if ( circuit instanceof SingleCircuit ) {
-            circuitNode = new SingleCircuitNode( (SingleCircuit) circuit, mvt,
-                                                 plateChargesVisibleProperty, eFieldVisibleProperty, dielectricChargeViewProperty,
-                                                 maxPlateCharge, maxExcessDielectricPlateCharge, maxEffectiveEField, maxDielectricEField );
-        }
-        else if ( circuit instanceof SeriesCircuit ) {
-            circuitNode = new SeriesCircuitNode( (SeriesCircuit) circuit, mvt,
-                                                 plateChargesVisibleProperty, eFieldVisibleProperty, dielectricChargeViewProperty,
-                                                 maxPlateCharge, maxExcessDielectricPlateCharge, maxEffectiveEField, maxDielectricEField );
-        }
-        else if ( circuit instanceof ParallelCircuit ) {
-            circuitNode = new ParallelCircuitNode( (ParallelCircuit) circuit, mvt,
-                                                   plateChargesVisibleProperty, eFieldVisibleProperty, dielectricChargeViewProperty,
-                                                   maxPlateCharge, maxExcessDielectricPlateCharge, maxEffectiveEField, maxDielectricEField );
-        }
-        else if ( circuit instanceof Combination1Circuit ) {
-            circuitNode = new Combination1CircuitNode( (Combination1Circuit) circuit, mvt,
-                                                       plateChargesVisibleProperty, eFieldVisibleProperty, dielectricChargeViewProperty,
-                                                       maxPlateCharge, maxExcessDielectricPlateCharge, maxEffectiveEField, maxDielectricEField );
-        }
-        else if ( circuit instanceof Combination2Circuit ) {
-            circuitNode = new Combination2CircuitNode( (Combination2Circuit) circuit, mvt,
-                                                       plateChargesVisibleProperty, eFieldVisibleProperty, dielectricChargeViewProperty,
-                                                       maxPlateCharge, maxExcessDielectricPlateCharge, maxEffectiveEField, maxDielectricEField );
-        }
-        else {
-            circuitNode = new NullCircuitNode( circuit, mvt,
-                                               plateChargesVisibleProperty, eFieldVisibleProperty, dielectricChargeViewProperty,
-                                               maxPlateCharge, maxExcessDielectricPlateCharge, maxEffectiveEField, maxDielectricEField );
-        }
-        return circuitNode;
-    }
-
 
     @Override
     protected void updateLayout() {
