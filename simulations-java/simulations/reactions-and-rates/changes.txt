@@ -1,3 +1,4 @@
+# 1.05.01 (52208) May 19, 2011
 # 1.05.00 (38025) Jan 11, 2010
 1/11/10 public version for milestone "full redeploy, 2010 Q1"
 # 1.04.01 (37375) Dec 11, 2009
@@ -56,5 +57,5 @@ Batch deploy for alpha Simulation Tests, svn 28773
 7-26-2007: Fixed: When starting a second experiment, the simulation correctly pauses for 1 second (instead of 10+)
 7-26-2007: Fixed: The Strip chart is not working when you Begin an experiment.
 7-19-2007: Fixed a bug that caused an exception when changing molecules.  This was causing the following bug report:
-            1.	The shooter doesn’t work if you change the type of reaction until you hit Pause then Play, but the particle is given a relative amount of energy based on how much you moved the mouse.
+            1.	The shooter doesnï¿½t work if you change the type of reaction until you hit Pause then Play, but the particle is given a relative amount of energy based on how much you moved the mouse.
             
