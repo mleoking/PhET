@@ -28,6 +28,8 @@ import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolution
 import edu.colorado.phet.sugarandsaltsolutions.intro.model.MacroSalt;
 import edu.colorado.phet.sugarandsaltsolutions.intro.model.MacroSugar;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -35,7 +37,6 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 import static edu.colorado.phet.common.phetcommon.model.property.Not.not;
 import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createRectangleInvertedYMapping;
 import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType.SALT;
-import static edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel.MIN_DRAIN_VOLUME;
 
 /**
  * Canvas for the introductory (first) tab in the Sugar and Salt Solutions Sim
@@ -133,8 +134,7 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements ToolboxC
                                   new Point2D.Double( 0, 10 ) ) );
 
         //Add a faucet that drains the beaker
-        //TODO: the condition for being able to drain needs to be fixed after switching to use Solution instead of Water
-        addChild( new FaucetNode( transform, model.outputFlowRate, new None<Double>(), model.waterVolume.greaterThan( MIN_DRAIN_VOLUME ), new Point2D.Double( 0, 0 ) ) {{
+        addChild( new FaucetNode( transform, model.outputFlowRate, new None<Double>(), model.lowerFaucetCanDrain, new Point2D.Double( 0, 0 ) ) {{
             Point2D beakerBottomRight = model.beaker.getOutputFaucetAttachmentPoint();
             Point2D beakerBottomRightView = transform.modelToView( beakerBottomRight );
             //Move it up by the height of the faucet image, otherwise it sticks out underneath the beaker
@@ -174,6 +174,13 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements ToolboxC
         //Debug for showing stage
         if ( debug ) {
             addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, stageSize.getWidth(), stageSize.getHeight() ), new BasicStroke( 2 ), Color.red ) );
+
+            //Show the model coordinates for clicked points, this can help us come up with good model coordinates for graphics that are mainly positioned in the view, such as faucet connector points
+            addInputEventListener( new PBasicInputEventHandler() {
+                @Override public void mousePressed( PInputEvent event ) {
+                    System.out.println( "modelPoint = " + transform.viewToModel( event.getPositionRelativeTo( rootNode ) ) );
+                }
+            } );
         }
     }
 

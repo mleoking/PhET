@@ -1,3 +1,4 @@
+Fixed: Drain faucet doesn't handle solution properly when precipitate is present
 Fixed: too many crystals particles can get added when falling onto the floor of the beaker
 Salt particles land on the bottom (no stacking or bumping into each other), then when any water enters the system, go to clump form.
 Fixed: If you empty out some solution or remove the solute after you reach the limit, and the salt shaker refills, it adds more salt to the solution on its own.

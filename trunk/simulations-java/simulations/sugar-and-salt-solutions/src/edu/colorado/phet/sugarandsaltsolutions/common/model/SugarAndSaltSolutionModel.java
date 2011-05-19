@@ -23,6 +23,7 @@ import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.nodes.conductivitytester.IConductivityTester.ConductivityTesterChangeListener;
+import edu.colorado.phet.sugarandsaltsolutions.common.view.VerticalRangeContains;
 import edu.colorado.phet.sugarandsaltsolutions.intro.model.MacroCrystal;
 import edu.colorado.phet.sugarandsaltsolutions.intro.model.MacroSalt;
 import edu.colorado.phet.sugarandsaltsolutions.intro.model.MacroSugar;
@@ -130,6 +131,11 @@ public class SugarAndSaltSolutionModel implements ResetModel {
 
     //Convenience composite properties for determining whether the beaker is full or empty so we can shut off the faucets when necessary
     public final ObservableProperty<Boolean> beakerFull = solution.volume.greaterThanOrEqualTo( MAX_WATER );
+
+    //Determine if the lower faucet is allowed to let fluid flow out.  It can if any part of the fluid overlaps any part of the pipe range.
+    //These values were sampled from the model with debug mode.
+    //This logic is used in the model update step to determine if water can flow out, as well as in the user interface to determine if the user can turn on the output faucet
+    public final VerticalRangeContains lowerFaucetCanDrain = new VerticalRangeContains( solution.shape, 0.011746031746031754, 0.026349206349206344 );
 
     //When a crystal is absorbed by the water, increase the number of moles in solution
     protected void crystalAbsorbed( MacroCrystal crystal ) {
@@ -294,10 +300,10 @@ public class SugarAndSaltSolutionModel implements ResetModel {
             inputFlowRate.set( 0.0 );
             //TODO: make the cursor drop the slider?
         }
-        //Turn off the output flow if the beaker is empty
-        if ( newVolume <= MIN_DRAIN_VOLUME ) {
+
+        //Turn off the output flow if no water is adjacent to it
+        if ( !lowerFaucetCanDrain.get() ) {
             outputFlowRate.set( 0.0 );
-            //TODO: make the cursor drop the slider?
         }
 
         //Turn off evaporation if beaker is empty of water
