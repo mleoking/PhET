@@ -1,3 +1,4 @@
+5/18/11 move current amplitude to circuit base class
 5/18/11 implement Combination1Circuit and Combination2Circuit.getVoltageAt for battery and plates
 5/18/11 implement SeriesCircuit.getVoltageAt for battery and plates
 5/18/11 fix: rewire CircuitChangeListener in EFieldDetector.setCircuit and BarMeter.setCircuit

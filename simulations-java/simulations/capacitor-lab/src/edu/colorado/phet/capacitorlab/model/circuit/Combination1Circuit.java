@@ -41,7 +41,7 @@ public class Combination1Circuit extends AbstractCircuit {
 
     public Combination1Circuit( IClock clock, CLModelViewTransform3D mvt, Point3D batteryLocation,
                                 double plateWidth, double plateSeparation, DielectricMaterial dielectricMaterial, double dielectricOffset ) {
-        super( CLStrings.COMBINATION_1, mvt, batteryLocation );
+        super( CLStrings.COMBINATION_1, clock, mvt, batteryLocation );
 
         // create capacitors
         {

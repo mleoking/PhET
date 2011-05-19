@@ -39,7 +39,7 @@ public class SeriesCircuit extends AbstractCircuit {
 
     public SeriesCircuit( String displayName, IClock clock, CLModelViewTransform3D mvt, Point3D batteryLocation, int numberOfCapacitors,
                           double plateWidth, double plateSeparation, DielectricMaterial dielectricMaterial, double dielectricOffset ) {
-        super( displayName, mvt, batteryLocation );
+        super( displayName, clock, mvt, batteryLocation );
 
         assert ( numberOfCapacitors > 0 );
 
