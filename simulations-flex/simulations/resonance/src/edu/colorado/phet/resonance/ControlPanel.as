@@ -36,9 +36,11 @@ public class ControlPanel extends Canvas {
     private var resonatorNbr_lbl: Label;
     private var mSlider: HorizontalSlider;  //NumericSlider;
     private var kSlider: HorizontalSlider;  //HSlider;
+    private var nbrResonators_lbl:Label;
     private var freq_lbl: Label;
     private var showRulerCheckBox: CheckBox;
-    private var resetAllButton: Button;
+    //private var resetAllButton: Button;
+    private var resetAllButton: NiceButton2;
     private var selectedResonatorNbr: int;	//index number of currently selected resonator
 
     //private var massProperty: NumericProperty
@@ -135,7 +137,7 @@ public class ControlPanel extends Canvas {
         with ( this.nbrResonatorsSlider ) {
             minimum = 1;
             maximum = 10;
-            //labels = ["", this.numberOfResonators_str, ""];
+            labels = ["", this.numberOfResonators_str, ""];
             snapInterval = 1;
             tickInterval = 1;
         }
@@ -170,6 +172,7 @@ public class ControlPanel extends Canvas {
 
         this.gravityOnOff_rbg.addEventListener( Event.CHANGE, clickGravity );
 
+        this.nbrResonators_lbl = new Label();
         this.resonatorNbr_lbl = new Label();
 
         with ( this.resonatorNbr_lbl ) {
@@ -179,6 +182,20 @@ public class ControlPanel extends Canvas {
             setStyle( "color", 0x000000 );
             percentWidth = 90;
             setStyle( "textAlign", "center" );
+        }
+
+        setText( this.nbrResonators_lbl, this.numberOfResonators_str ) ;
+        setText( this.resonatorNbr_lbl, this.resonator_str ) ;
+
+        function setText( myLabel_lbl:Label,  text_str:String ):void{
+             with ( myLabel_lbl ) {
+                text = text_str;
+                setStyle( "fontFamily", "Arial" );
+                setStyle( "fontSize", 14 );
+                setStyle( "color", 0x000000 );
+                percentWidth = 90;
+                setStyle( "textAlign", "center" );
+            }
         }
 
 
@@ -225,17 +242,21 @@ public class ControlPanel extends Canvas {
         this.showRulerCheckBox.label = ruler_str;
         this.showRulerCheckBox.addEventListener( Event.CHANGE, clickRuler );
 
-        this.resetAllButton = new Button();
-        with ( this.resetAllButton ) {
-            label = this.resetAll_str;
-            buttonMode = true;
-        }
-        this.resetAllButton.addEventListener( MouseEvent.MOUSE_UP, resetAll );
+        //NiceButton2( myButtonWidth: Number, myButtonHeight: Number, labelText: String, buttonFunction: Function, bodyColor:Number = 0x00ff00 )
+        this.resetAllButton = new NiceButton2( 100, 25, this.resetAll_str, resetAll );
+        this.resetAllButton.setBodyColor(0xff3333);
+        this.resetAllButton.setLabel("Very Very Very Long Button Label");
+//        with ( this.resetAllButton ) {
+//            label = this.resetAll_str;
+//            buttonMode = true;
+//        }
+//        this.resetAllButton.addEventListener( MouseEvent.MOUSE_UP, resetAll );
 
         this.addChild( this.background );
 
         this.background.addChild(presets_cbx);
         this.background.addChild( nbrResonatorsSlider );
+        this.background.addChild( nbrResonators_lbl );
         this.background.addChild( new SpriteUIComponent(dampingSlider, true) );
 
         this.innerBckgrnd.addChild( this.resonatorNbr_lbl );
@@ -249,12 +270,12 @@ public class ControlPanel extends Canvas {
         this.radioButtonBox.addChild( rb2 );
 
         this.background.addChild( this.showRulerCheckBox );
-        this.background.addChild( this.resetAllButton );
+        this.background.addChild( new SpriteUIComponent(this.resetAllButton, true) );
 
     } //end of init()
 
     private function initializeStrings(): void {
-        numberOfResonators_str = "Number of Resonators";
+        numberOfResonators_str = " Number of Resonators ";
         damping_str = "damping constant b";
         dampingUnits_str = "N/(m/s)";
         gravity_str = "Gravity";
@@ -418,17 +439,21 @@ public class ControlPanel extends Canvas {
         //trace("ControlPanel.setK() k = "+ k);
     }
 
-    private function resetResonators( evt: MouseEvent ): void {
+    private function resetResonators(): void {
         this.shakerModel.resetInitialResonatorArray();
         //this.setResonatorIndex( this.selectedResonatorNbr );
         //trace("ControlPanel.resetResonators() called.");
 
     }
 
-    private function resetAll( evt: MouseEvent ): void {
-        this.resetResonators( evt );
+    private function resetAll():void{
+        this.resetResonators();
         this.myMainView.initializeAll();
     }
+//    private function resetAll( evt: MouseEvent ): void {
+//        this.resetResonators( evt );
+//        this.myMainView.initializeAll();
+//    }
 
 }//end of class
 
