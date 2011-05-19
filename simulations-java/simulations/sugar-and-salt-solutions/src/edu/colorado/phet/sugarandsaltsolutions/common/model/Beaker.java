@@ -4,6 +4,7 @@ package edu.colorado.phet.sugarandsaltsolutions.common.model;
 import java.awt.*;
 import java.awt.geom.Area;
 import java.awt.geom.Line2D;
+import java.awt.geom.Line2D.Double;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
@@ -115,5 +116,9 @@ public class Beaker {
 
     public double getWidth() {
         return width;
+    }
+
+    public Line2D.Double getFloor() {
+        return new Double( x, y, x + width, y );
     }
 }
