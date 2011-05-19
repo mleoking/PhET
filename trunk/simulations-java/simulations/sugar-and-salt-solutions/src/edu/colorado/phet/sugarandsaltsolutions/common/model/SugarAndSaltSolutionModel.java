@@ -17,7 +17,9 @@ import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.CompositeDoubleProperty;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
+import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.nodes.conductivitytester.IConductivityTester.ConductivityTesterChangeListener;
@@ -54,8 +56,6 @@ public class SugarAndSaltSolutionModel implements ResetModel {
 
     //Beaker and water models
     public final Beaker beaker = new Beaker( BEAKER_X, 0, BEAKER_WIDTH, BEAKER_HEIGHT, BEAKER_DEPTH );//The beaker into which you can add water, salt and sugar.
-
-    public final Water water = new Water( beaker );
 
     //Model for input and output flows
     public final Property<Double> inputFlowRate = new Property<Double>( 0.0 );//rate that water flows into the beaker in m^3/s
@@ -94,16 +94,27 @@ public class SugarAndSaltSolutionModel implements ResetModel {
     private static final double saltSaturationPoint = 6.14 * 1000;//6.14 moles per liter, converted to SI
     private static final double sugarSaturationPoint = 5.85 * 1000;//5.85 moles per liter, converted to SI
 
+    //volume in SI (m^3).  Start at 1 L (halfway up the 2L beaker).  Note that 0.001 cubic meters = 1L
+    public final DoubleProperty waterVolume = new DoubleProperty( 0.001 );
+
     //Model moles, concentration, amount dissolved, amount precipitated, etc. for salt and sugar
-    public final SoluteModel salt = new SoluteModel( water.volume, saltSaturationPoint, 0.02699 / 1000.0 );
-    public final SoluteModel sugar = new SoluteModel( water.volume, sugarSaturationPoint, 0.2157 / 1000.0 );
+    public final SoluteModel salt = new SoluteModel( waterVolume, saltSaturationPoint, 0.02699 / 1000.0 );
+    public final SoluteModel sugar = new SoluteModel( waterVolume, sugarSaturationPoint, 0.2157 / 1000.0 );
+
+    //Total volume of the water plus any solid precipitate submerged under the water (and hence pushing it up)
+    public final CompositeDoubleProperty solidVolume = salt.solidVolume.plus( sugar.solidVolume );
+
+    //Create the solution, which sits atop the solid precipitate (if any)
+    public final CompositeDoubleProperty solutionY = new CompositeDoubleProperty( new Function0<Double>() {
+        public Double apply() {
+            return beaker.getHeightForVolume( solidVolume.get() );
+        }
+    }, solidVolume );
+    public final Solution solution = new Solution( waterVolume, beaker, solutionY, salt.molesDissolved, sugar.molesDissolved );
 
     //Determine if there are any solutes (i.e., if moles of salt or moles of sugar is greater than zero).  This is used to show/hide the "remove solutes" button
     public final ObservableProperty<Boolean> anySolutes = salt.moles.greaterThan( 0 ).or( sugar.moles.greaterThan( 0 ) );
     public final Property<Boolean> showConcentrationBarChart = new Property<Boolean>( true );
-
-    //Total volume of the water plus any solid precipitate submerged under the water (and hence pushing it up)
-    public final CompositeDoubleProperty displacedWaterVolume = water.volume.plus( salt.solidVolume, sugar.solidVolume );
 
     //Keep track of how many moles of crystal are in the air, since we need to prevent user from adding more than 10 moles to the system
     //This shuts off salt/sugar when there is salt/sugar in the air that could get added to the solution
@@ -115,7 +126,7 @@ public class SugarAndSaltSolutionModel implements ResetModel {
     private ObservableProperty<Boolean> moreSugarAllowed = sugar.moles.plus( airborneSugarMoles ).lessThan( 10 );
 
     //Convenience composite properties for determining whether the beaker is full or empty so we can shut off the faucets when necessary
-    public final ObservableProperty<Boolean> beakerFull = displacedWaterVolume.greaterThanOrEqualTo( beaker.getMaxFluidVolume() );
+    public final ObservableProperty<Boolean> beakerFull = solidVolume.plus( solution.volume ).greaterThanOrEqualTo( beaker.getMaxFluidVolume() );
 
     //When a crystal is absorbed by the water, increase the number of moles in solution
     protected void crystalAbsorbed( MacroCrystal crystal ) {
@@ -190,11 +201,11 @@ public class SugarAndSaltSolutionModel implements ResetModel {
         } );
 
         //Update the conductivity tester when the water level changes, since it might move up to touch a probe (or move out from underneath a submerged probe)
-        displacedWaterVolume.addObserver( new SimpleObserver() {
-            public void update() {
+        new RichSimpleObserver() {
+            @Override public void update() {
                 updateConductivityTesterBrightness();
             }
-        } );
+        }.observe( salt.concentration, solution.shape );
 
         //When the conductivity tester probe locations change, also update the conductivity tester brightness since they may come into contact (or leave contact) with the fluid
         conductivityTester.addConductivityTesterChangeListener( new ConductivityTesterChangeListener() {
@@ -218,7 +229,7 @@ public class SugarAndSaltSolutionModel implements ResetModel {
     protected void updateConductivityTesterBrightness() {
 
         //Check for a collision with the probe, using the full region of each probe (so if any part intersects, there is still an electrical connection).
-        Rectangle2D waterBounds = water.getShape( displacedWaterVolume.get() ).getBounds2D();
+        Rectangle2D waterBounds = solution.shape.get().getBounds2D();
         boolean bothProbesTouching = waterBounds.intersects( conductivityTester.getPositiveProbeRegion().toRectangle2D() ) &&
                                      waterBounds.intersects( conductivityTester.getNegativeProbeRegion().toRectangle2D() );
 
@@ -256,46 +267,44 @@ public class SugarAndSaltSolutionModel implements ResetModel {
         double evaporatedWater = dt * evaporationRate.get() * EVAPORATION_SCALE;
 
         //Compute the new water volume, but making sure it doesn't overflow or underflow
-        double newVolume = water.volume.get() + inputWater - drainedWater - evaporatedWater;
+        //TODO: use the solution volume here?
+        double newVolume = waterVolume.get() + inputWater - drainedWater - evaporatedWater;
         if ( newVolume > beaker.getMaxFluidVolume() ) {
-            inputWater = beaker.getMaxFluidVolume() + drainedWater + evaporatedWater - water.volume.get();
+            inputWater = beaker.getMaxFluidVolume() + drainedWater + evaporatedWater - waterVolume.get();
         }
         //Only allow drain to use up all the water if user is draining the liquid
         else if ( newVolume < 0 && outputFlowRate.get() > 0 ) {
-            drainedWater = inputWater + water.volume.get();
+            drainedWater = inputWater + waterVolume.get();
         }
         //Conversely, only allow evaporated water to use up all remaining water if the user is evaporating anything
         else if ( newVolume < 0 && evaporationRate.get() > 0 ) {
-            evaporatedWater = inputWater + water.volume.get();
+            evaporatedWater = inputWater + waterVolume.get();
         }
         //Note that the user can't be both evaporating and draining fluid at the same time, since the controls are one-at-a-time controls.
         //This simplifies the logic here.
 
         //Set the true value of the new volume based on clamped inputs and outputs
-        newVolume = water.volume.get() + inputWater - drainedWater - evaporatedWater;
-
-        //Have to use the new total displaced volume for determining whether the beaker is full or empty
-        double newDisplacedVolume = newVolume + displacedWaterVolume.get();
+        newVolume = waterVolume.get() + inputWater - drainedWater - evaporatedWater;
 
         //Turn off the input flow if the beaker would overflow
-        if ( newDisplacedVolume >= beaker.getMaxFluidVolume() ) {
+        if ( newVolume >= beaker.getMaxFluidVolume() * 0.75 ) {
             inputFlowRate.set( 0.0 );
             //TODO: make the cursor drop the slider?
         }
         //Turn off the output flow if the beaker is empty
-        if ( newDisplacedVolume <= MIN_DRAIN_VOLUME ) {
+        if ( newVolume <= MIN_DRAIN_VOLUME ) {
             outputFlowRate.set( 0.0 );
             //TODO: make the cursor drop the slider?
         }
 
         //Turn off evaporation if beaker is empty of water
-        if ( newDisplacedVolume <= 0 ) {
+        if ( newVolume <= 0 ) {
             evaporationRate.set( 0 );
             //TODO: make the cursor drop the slider?
         }
 
         //Update the water volume
-        water.volume.set( newVolume );
+        waterVolume.set( newVolume );
 
         //Notify listeners that some water (with solutes) exited the system, so they can decrease the amounts of solute (mols, not molarity) in the system
         //Only call when draining, would have the wrong behavior for evaporation
@@ -320,7 +329,7 @@ public class SugarAndSaltSolutionModel implements ResetModel {
 
             //If the salt hits the water during any point of its initial -> final trajectory, absorb it.
             //This is necessary because if the water layer is too thin, the crystal could have jumped over it completely
-            if ( new Line2D.Double( initialLocation.toPoint2D(), crystal.position.get().toPoint2D() ).intersects( water.getShape( displacedWaterVolume.get() ).getBounds2D() ) ) {
+            if ( new Line2D.Double( initialLocation.toPoint2D(), crystal.position.get().toPoint2D() ).intersects( solution.shape.get().getBounds2D() ) ) {
                 hitTheWater.add( crystal );
             }
         }
@@ -349,7 +358,7 @@ public class SugarAndSaltSolutionModel implements ResetModel {
     public void reset() {
         //Reset the model state
         removeSaltAndSugar();
-        water.reset();
+        waterVolume.reset();
         inputFlowRate.reset();
         outputFlowRate.reset();
         sugarDispenser.reset();

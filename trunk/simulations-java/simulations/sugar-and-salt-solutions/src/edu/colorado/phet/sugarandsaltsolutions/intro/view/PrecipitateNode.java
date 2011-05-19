@@ -2,8 +2,7 @@
 package edu.colorado.phet.sugarandsaltsolutions.intro.view;
 
 import java.awt.*;
-import java.awt.geom.Area;
-import java.awt.geom.Ellipse2D;
+import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -25,21 +24,9 @@ public class PrecipitateNode extends PNode {
             precipitateVolume.addObserver( new VoidFunction1<Double>() {
                 public void apply( Double precipitateVolume ) {
                     //Scale up the precipitate volume to convert from meters cubed to stage coordinates, manually tuned
-                    double scaledValue = precipitateVolume * 350000;
-
-                    //Make it a wide and short ellipse
-                    double width = scaledValue * 4;
-                    double height = scaledValue;
-                    double centerX = transform.modelToViewX( beaker.getCenterX() );
-                    double y = transform.modelToViewY( beaker.getY() ) - height / 2.5;//Just show the top part of the ellipse
-
-                    //Crop off any parts that would go outside of the beaker (but okay to go up past the beaker)
-                    setPathTo( new Area( new Ellipse2D.Double( centerX - width / 2, y, width, height ) ) {{
-
-                        //Find the clipping region, where the precipitate is allowed to be.  To compute this, just find the shape the water would take if there were 10000 m^3 of water
-                        Shape allowedArea = beaker.getFluidShape( 10000 );
-                        intersect( new Area( transform.modelToView( allowedArea ) ) );
-                    }} );
+                    //We tried showing as a wide and short ellipse (a clump centered in the beaker), but that creates complications when it comes to showing the water level
+                    //Note, this assumes that the beaker (and precipitate) are rectangular
+                    setPathTo( transform.modelToView( new Rectangle2D.Double( beaker.getX(), beaker.getY(), beaker.getWidth(), beaker.getHeightForVolume( precipitateVolume ) ) ) );
                 }
             } );
         }} );
