@@ -96,12 +96,10 @@ public class HorizontalSlider extends Sprite {
         //draw knob
         var gK: Graphics = this.knob.graphics;
         gK.clear();
-
         var kW: Number = 8; //knob width
         var kH: Number = 15; //knob height
         //gK.drawRoundRect(-kW/2, -kH/2, kW, kH, 3);
         with(gK){
-
             lineStyle( 1, 0x0000ff, 1, true, LineScaleMode.NONE, CapsStyle.ROUND, JointStyle.BEVEL );
             beginFill(0x00ff00);
             drawRect(-0.5*kW, -0.5*kH, kW, kH );
@@ -114,7 +112,6 @@ public class HorizontalSlider extends Sprite {
             endFill();
             //lineStyle( 1.0, 0x000000, 1, true, LineScaleMode.NONE, CapsStyle.ROUND, JointStyle.ROUND );
             //moveTo(0,-0.4*kH);
-            //
             // lineTo(0,0.4*kH);
             //lineStyle( 1, 0xffff00, 1, false, LineScaleMode.NONE, CapsStyle.ROUND, JointStyle.ROUND );
             //moveTo(-0.5, -0.1*kH);
@@ -174,7 +171,7 @@ public class HorizontalSlider extends Sprite {
         this.units_txt.type =  TextFieldType.DYNAMIC;   //user cannot edit
         this.readout_txt.border = true;
         this.readout_txt.background = true;
-        this.readout_txt.backgroundColor = 0xffffff;
+        this.readout_txt.backgroundColor = 0xffffff;     //white background
         this.readout_txt.autoSize = TextFieldAutoSize.RIGHT;
         this.units_txt.autoSize = TextFieldAutoSize.LEFT;
         //this.readout_txt.restrict = "0-9.";
@@ -194,16 +191,25 @@ public class HorizontalSlider extends Sprite {
         this.units_txt.y = -1.5 * this.units_txt.height;
         this.addChild( this.readout_txt );
         this.addChild( this.units_txt );
-        this.readout_txt.addEventListener( Event.CHANGE, onTextChange );
+        //this.readout_txt.addEventListener( Event.CHANGE, onTextChange );
+        this.readout_txt.addEventListener( KeyboardEvent.KEY_DOWN, onTextChange );
     }//end createReadoutfield()
 
-    private function onTextChange( evt: Event ): void {
+    private function onTextChange( keyEvt: KeyboardEvent ):void{      //evt: Event ): void {
         //trace("HorizontalSlider.onTextChange called. text = "+this.evtTextToNumber(evt));
         this.manualUpdating = true;
-        this.setVal( this.evtTextToNumber( evt )/this.scale );
+        trace("HorizontalSlider.onTextChange"+ keyEvt.keyCode );
+        if(keyEvt.keyCode == 13){
+           this.setVal( this.evtTextToNumber( evt )/this.scale );
+        }
+        //this.setVal( this.evtTextToNumber( evt )/this.scale );
         this.manualUpdating = false;
     }
 
+
+    private function enterTextInput():void{
+
+    }
     //unnecessary if text is not selectable
     private function evtTextToNumber( evt: Event ): Number {
         var inputText = evt.target.text;
