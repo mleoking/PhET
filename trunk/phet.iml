@@ -1732,6 +1732,26 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/simulations-java/contrib/jbox2d/core.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/simulations-java/contrib/jbox2d/jbox2d-2.0.1-library-only.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="file://$MODULE_DIR$/simulations-java/contrib/jbox2d/src" />
+        </SOURCES>
+      </library>
+    </orderEntry>
   </component>
 </module>
 

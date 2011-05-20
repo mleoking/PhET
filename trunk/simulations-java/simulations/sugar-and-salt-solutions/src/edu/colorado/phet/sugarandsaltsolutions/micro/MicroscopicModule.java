@@ -1,10 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.micro;
 
-import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.sugarandsaltsolutions.common.SugarAndSaltSolutionsColorScheme;
 import edu.colorado.phet.sugarandsaltsolutions.common.SugarAndSaltSolutionsModule;
-import edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas;
 
 /**
  * Module for "microscopic" tab of sugar and salt solutions module
@@ -21,6 +19,6 @@ public class MicroscopicModule extends SugarAndSaltSolutionsModule {
     public MicroscopicModule( final MicroscopicModel model, SugarAndSaltSolutionsColorScheme config ) {
         super( "Microscopic", model.clock );
         this.model = model;
-        setSimulationPanel( new SugarAndSaltSolutionsCanvas( this.model, new Property<Boolean>( true ), config ) );
+        setSimulationPanel( new MicroscopicCanvas( model ) );
     }
 }
