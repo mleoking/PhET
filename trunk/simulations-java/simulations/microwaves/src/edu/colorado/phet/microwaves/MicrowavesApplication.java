@@ -24,15 +24,18 @@ public class MicrowavesApplication extends PiccoloPhetApplication {
         Module singleLineOfMoleculesModule2 = new SingleLineOfMoleculesModule2();
         Module manyMoleculesModule = new ManyMoleculesModule();
         Module coffeeModule = new CoffeeModule();
-        Module[] modules = new Module[]{
+        Module[] modules = new Module[] {
                 oneMoleculesModule,
                 singleLineOfMoleculesModule2,
                 manyMoleculesModule,
                 coffeeModule
         };
         addModules( modules );
+
+        // Start on "Single Line" tab, so that tabs show a natural progression in order of increasing complexity,
+        // but starting the user in the non-trivial and more exciting scenario of many molecules.
         setStartModule( singleLineOfMoleculesModule2 );
-        
+
         // menus
         getPhetFrame().addMenu( new MicrowaveModule.ControlMenu() );
     }
