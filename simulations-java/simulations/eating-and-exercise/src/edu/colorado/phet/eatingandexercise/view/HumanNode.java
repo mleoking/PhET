@@ -14,6 +14,7 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
@@ -66,7 +67,7 @@ public class HumanNode extends PNode {
             }
         } );
 
-        infoButton = new ButtonNode( EatingAndExerciseResources.getString( "question.mark" ), 12, Color.red );
+        infoButton = new ButtonNode( EatingAndExerciseResources.getString( "question.mark" ), new PhetFont( Font.BOLD, 12 ), Color.red );
         infoButton.setScale( 0.007 );
         infoButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
