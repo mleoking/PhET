@@ -127,18 +127,29 @@ public class ButtonNode extends PhetPNode {
 
     // Convenience constructor
     public ButtonNode( String text, int fontSize, Color background ) {
+        this( text, new PhetFont( DEFAULT_FONT_STYLE, fontSize ), background );
+    }
+
+    // Convenience constructor
+    public ButtonNode( String text, PhetFont font, Color background ) {
         this( text );
-        setFont( new PhetFont( DEFAULT_FONT_STYLE, fontSize ) );
+        setFont( font );
         setBackground( background );
     }
 
     // Convenience constructor
     public ButtonNode( String text, int fontSize, Color foreground, Color background ) {
+        this( text, new PhetFont( DEFAULT_FONT_STYLE, fontSize ), foreground, background );
+    }
+
+    // Convenience constructor
+    public ButtonNode( String text, PhetFont font, Color foreground, Color background ) {
         this( text );
-        setFont( new PhetFont( DEFAULT_FONT_STYLE, fontSize ) );
+        setFont( font );
         setForeground( foreground );
         setBackground( background );
     }
+
 
     //------------------------------------------------------------------------
     // Scenegraph creation

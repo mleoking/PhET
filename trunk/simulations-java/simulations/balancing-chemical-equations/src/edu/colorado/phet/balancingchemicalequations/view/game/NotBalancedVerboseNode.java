@@ -2,13 +2,11 @@
 
 package edu.colorado.phet.balancingchemicalequations.view.game;
 
-import java.awt.Color;
-import java.awt.Dimension;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JFrame;
-import javax.swing.WindowConstants;
+import javax.swing.*;
 
 import edu.colorado.phet.balancingchemicalequations.BCEConstants;
 import edu.colorado.phet.balancingchemicalequations.BCEGlobalProperties;
@@ -48,9 +46,9 @@ public class NotBalancedVerboseNode extends GamePopupNode {
     /**
      * Convenience constructor.
      */
-    public NotBalancedVerboseNode( final Equation equation, BCEGlobalProperties globalProperties, final ActionListener whyButtonListener, final BalancedRepresentation balancedRepresentation,  final HorizontalAligner aligner ) {
+    public NotBalancedVerboseNode( final Equation equation, BCEGlobalProperties globalProperties, final ActionListener whyButtonListener, final BalancedRepresentation balancedRepresentation, final HorizontalAligner aligner ) {
         this( equation, globalProperties.popupsCloseButtonVisible.get(), globalProperties.popupsTitleBarVisible.get(),
-                globalProperties.popupsWhyButtonVisible.get(), whyButtonListener, balancedRepresentation, aligner );
+              globalProperties.popupsWhyButtonVisible.get(), whyButtonListener, balancedRepresentation, aligner );
     }
 
     /*
@@ -63,7 +61,7 @@ public class NotBalancedVerboseNode extends GamePopupNode {
      * @param aligner specifies horizontal layout, for aligning with other user-interface components
      */
     private NotBalancedVerboseNode( final Equation equation, boolean closeButtonVisible, boolean titleBarVisible, final boolean whyButtonVisible,
-            final ActionListener whyButtonListener, final BalancedRepresentation balancedRepresentation, final HorizontalAligner aligner ) {
+                                    final ActionListener whyButtonListener, final BalancedRepresentation balancedRepresentation, final HorizontalAligner aligner ) {
         super( false /* smile */, closeButtonVisible, titleBarVisible, new Function1<PhetFont, PNode>() {
             public PNode apply( PhetFont font ) {
                 PNode parentNode = new PNode();
@@ -80,7 +78,7 @@ public class NotBalancedVerboseNode extends GamePopupNode {
                 // "Hide Why" button
                 ButtonNode hideWhyButton = null;
                 if ( whyButtonVisible ) {
-                    hideWhyButton = new ButtonNode( BCEStrings.HIDE_WHY, 18, Color.WHITE );
+                    hideWhyButton = new ButtonNode( BCEStrings.HIDE_WHY, new PhetFont( Font.BOLD, 18 ), Color.WHITE );
                     hideWhyButton.addActionListener( whyButtonListener );
                 }
 
@@ -145,14 +143,14 @@ public class NotBalancedVerboseNode extends GamePopupNode {
             }
         };
         NotBalancedVerboseNode node = new NotBalancedVerboseNode( equation, false, false, true, whyButtonListener,
-                BalancedRepresentation.BAR_CHARTS, new HorizontalAligner( new Dimension( 475, 400 ), 90 ) );
+                                                                  BalancedRepresentation.BAR_CHARTS, new HorizontalAligner( new Dimension( 475, 400 ), 90 ) );
         node.setOffset( 20, 200 );
         canvas.addWorldChild( node );
 
         JFrame frame = new JFrame();
         frame.setContentPane( canvas );
         frame.pack();
-        frame.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
         frame.setVisible( true );
     }
 }

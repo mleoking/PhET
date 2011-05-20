@@ -22,6 +22,7 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -133,7 +134,7 @@ public class ChartNode extends PNode {
             }
         } );
 
-        MinimizableControlGraph[] graphs = {weightChart, calorieChart};
+        MinimizableControlGraph[] graphs = { weightChart, calorieChart };
         weightChart.setAlignedLayout( graphs );
         calorieChart.setAlignedLayout( graphs );
         graphSuiteSet.addGraphSuite( graphs );
@@ -288,7 +289,7 @@ public class ChartNode extends PNode {
 
         public EatingAndExerciseControlGraph( PhetPCanvas canvas, ControlGraphSeries series, String title, int minY, int maxY, TimeSeriesModel timeSeriesModel ) {
             super( canvas, series, title, minY, maxY, timeSeriesModel );
-            gradientButtonNode = new ButtonNode( EatingAndExerciseResources.getString( "time.reset" ), 12, Color.green );
+            gradientButtonNode = new ButtonNode( EatingAndExerciseResources.getString( "time.reset" ), new PhetFont( Font.BOLD, 12 ), Color.green );
             gradientButtonNode.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     resetChartArea();

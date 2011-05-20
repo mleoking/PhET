@@ -2,15 +2,14 @@
 
 package edu.colorado.phet.balancingchemicalequations.module.game;
 
-import java.awt.Color;
-import java.awt.Dimension;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Dimension2D;
 import java.text.DecimalFormat;
 import java.text.MessageFormat;
 
-import javax.swing.SwingConstants;
+import javax.swing.*;
 
 import edu.colorado.phet.balancingchemicalequations.BCEConstants;
 import edu.colorado.phet.balancingchemicalequations.BCEGlobalProperties;
@@ -19,9 +18,12 @@ import edu.colorado.phet.balancingchemicalequations.model.Equation;
 import edu.colorado.phet.balancingchemicalequations.module.game.GameModel.GameState;
 import edu.colorado.phet.balancingchemicalequations.view.*;
 import edu.colorado.phet.balancingchemicalequations.view.game.*;
-import edu.colorado.phet.common.games.*;
+import edu.colorado.phet.common.games.GameAudioPlayer;
+import edu.colorado.phet.common.games.GameOverNode;
 import edu.colorado.phet.common.games.GameOverNode.GameOverListener;
+import edu.colorado.phet.common.games.GameScoreboardNode;
 import edu.colorado.phet.common.games.GameScoreboardNode.GameScoreboardListener;
+import edu.colorado.phet.common.games.GameSettingsPanel;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -43,7 +45,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
     private static final Dimension BOX_SIZE = new Dimension( 475, 400 );
     private static final double BOX_SEPARATION = 90; // horizontal spacing between boxes
     private static final Color BUTTONS_COLOR = Color.YELLOW;
-    private static final int BUTTONS_FONT_SIZE = 30;
+    private static final PhetFont BUTTONS_FONT = new PhetFont( Font.BOLD, 30 );
 
     private final GameModel model;
     private final BCEGlobalProperties globalProperties;
@@ -69,6 +71,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 
     /**
      * Constructor
+     *
      * @param model
      * @param globalProperties global properties, many of which are accessed via the menu bar
      */
@@ -105,26 +108,26 @@ import edu.umd.cs.piccolox.pswing.PSwing;
         boxesNode = new BoxesNode( model.currentEquation, model.getCoefficientsRange(), aligner, globalProperties.boxColor, globalProperties.moleculesVisible );
 
         // buttons
-        checkButton = new ButtonNode( BCEStrings.CHECK, BUTTONS_FONT_SIZE, BUTTONS_COLOR );
+        checkButton = new ButtonNode( BCEStrings.CHECK, BUTTONS_FONT, BUTTONS_COLOR );
         checkButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 playGuessAudio();
                 model.check();
             }
         } );
-        tryAgainButton = new ButtonNode( BCEStrings.TRY_AGAIN, BUTTONS_FONT_SIZE, BUTTONS_COLOR );
+        tryAgainButton = new ButtonNode( BCEStrings.TRY_AGAIN, BUTTONS_FONT, BUTTONS_COLOR );
         tryAgainButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 model.tryAgain();
             }
         } );
-        showAnswerButton = new ButtonNode( BCEStrings.SHOW_ANSWER, BUTTONS_FONT_SIZE, BUTTONS_COLOR );
+        showAnswerButton = new ButtonNode( BCEStrings.SHOW_ANSWER, BUTTONS_FONT, BUTTONS_COLOR );
         showAnswerButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 model.showAnswer();
             }
         } );
-        nextButton = new ButtonNode( BCEStrings.NEXT, BUTTONS_FONT_SIZE, BUTTONS_COLOR );
+        nextButton = new ButtonNode( BCEStrings.NEXT, BUTTONS_FONT, BUTTONS_COLOR );
         nextButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 model.next();
@@ -545,7 +548,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
         // add a new node
         int level = model.settings.level.get();
         gameOverNode = new GameOverNode( level, model.points.get(), model.getPerfectScore(), new DecimalFormat( "0" ),
-                model.timer.time.get(), model.getBestTime( level ), model.isNewBestTime(), model.settings.timerEnabled.get() );
+                                         model.timer.time.get(), model.getBestTime( level ), model.isNewBestTime(), model.settings.timerEnabled.get() );
         gameOverNode.scale( BCEConstants.SWING_SCALE );
         addWorldChild( gameOverNode );
 
