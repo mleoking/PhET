@@ -4,6 +4,7 @@ package edu.colorado.phet.common.phetcommon.view.graphics.transforms;
 import java.awt.*;
 import java.awt.geom.*;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 
 /**
@@ -239,6 +240,10 @@ public class ModelViewTransform {
     @Override
     public int hashCode() {
         return transform.hashCode();
+    }
+
+    public ImmutableRectangle2D modelToView( ImmutableRectangle2D modelRect ) {
+        return new ImmutableRectangle2D( modelToView( modelRect.toRectangle2D() ) );
     }
 
     /**

@@ -1,3 +1,4 @@
+5/20/11 Added ModelViewTransform.modelToView(ImmutableRectangle2D)
 5/18/11 Changed ObservableProperty.trace() to use System.out instead of java.util.logging, resolves #2882
 5/17/11 Made RichSimpleObserver observe ObservableProperty instances instead of Property instances
 5/17/11 Added LessThan and extended CompositeBooleanProperty for GreaterThan, LessThan and GreaterThanOrEqualTo
