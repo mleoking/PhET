@@ -14,7 +14,6 @@ import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.sugarandsaltsolutions.common.SugarAndSaltSolutionsColorScheme;
 import edu.colorado.phet.sugarandsaltsolutions.micro.MicroscopicModel.Barrier;
-import edu.colorado.phet.sugarandsaltsolutions.micro.MicroscopicModel.WaterMolecule;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -42,7 +41,7 @@ public class MicroscopicCanvas extends PhetPCanvas {
 
         //Gets the ModelViewTransform used to go between model coordinates (SI) and stage coordinates (roughly pixels)
         //Create the transform from model (SI) to view (stage) coordinates
-        final ModelViewTransform transform = ModelViewTransform.createRectangleMapping( new Rectangle( -100, -100, 200, 200 ), new Rectangle2D.Double( 0, 0, canvasSize.getHeight(), canvasSize.getHeight() ) );
+        final ModelViewTransform transform = ModelViewTransform.createRectangleInvertedYMapping( new Rectangle2D.Double( -10E-10, -1E-10, 20E-10, 20E-10 ), new Rectangle2D.Double( 0, 0, canvasSize.getHeight(), canvasSize.getHeight() ) );
 
         // Root of our scene graph
         rootNode = new PNode();

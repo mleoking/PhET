@@ -1,11 +1,11 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.micro;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
 
 import org.jbox2d.collision.AABB;
-import org.jbox2d.collision.CircleDef;
 import org.jbox2d.collision.PolygonDef;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
@@ -15,6 +15,7 @@ import org.jbox2d.dynamics.World;
 import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel;
 
 /**
@@ -41,6 +42,14 @@ public class MicroscopicModel extends SugarAndSaltSolutionModel {
     public final Barrier rightWall;
     public final Barrier leftWall;
 
+    //units for water molecules are in SI
+
+
+    //Beaker floor should be about 40 angstroms, to accommodate about 20 water molecules side-to-side
+    //But keep box2d within -10..10 (i.e. 20 boxes wide), so scale factor is about
+    double scaleFactor = 20 / 40E-10;
+    private final ModelViewTransform modelToBox2D = ModelViewTransform.createSinglePointScaleMapping( new Point(), new Point(), scaleFactor );
+
     public MicroscopicModel() {
         //Set the bounds of the physics engine.  The docs say things should be mostly between 0.1 and 10 units
         AABB worldAABB = new AABB();
@@ -48,17 +57,17 @@ public class MicroscopicModel extends SugarAndSaltSolutionModel {
         worldAABB.upperBound = new Vec2( 200, 200 );
 
         //Create the world
-        world = new World( worldAABB, new Vec2( 0, 1 ), true );
+        world = new World( worldAABB, new Vec2( 0, -9.8f ), true );
 
         //Add water particles
         addWaterParticles( System.currentTimeMillis() );
 
         //Create beaker floor
-        floor = createBarrier( 0, 99, 100, 2 );
+        floor = createBarrier( -10E-10, 0, 20E-10, 1E-10 );
 
         //Create sides
-        rightWall = createBarrier( 99, 0, 2, 100 );
-        leftWall = createBarrier( -99, 0, 2, 100 );
+        rightWall = createBarrier( -10E-10, 0, 1E-10, 10E-10 );
+        leftWall = createBarrier( 10E-10, 0, 1E-10, 10E-10 );
 
         //Move to a stable state on startup
         //Commented out because it takes too long
@@ -71,8 +80,15 @@ public class MicroscopicModel extends SugarAndSaltSolutionModel {
 
     private void addWaterParticles( long seed ) {
         Random random = new Random( seed );
-        for ( int i = 0; i < 200; i++ ) {
-            WaterMolecule water = createWater( random.nextFloat() * 200 - 100, random.nextFloat() * 200 - 100, 0, 0, (float) ( random.nextFloat() * Math.PI * 2 ) );
+        for ( int i = 0; i < 100; i++ ) {
+            float float1 = (float) ( ( random.nextFloat() - 0.5 ) * 2 );
+            float float2 = (float) ( ( random.nextFloat() - 0.5 ) * 2 );
+//            WaterMolecule water = createWater( float1 * 200 - 100, random.nextFloat() * 200 - 100, 0, 0, (float) ( random.nextFloat() * Math.PI * 2 ) );
+            WaterMolecule water = new WaterMolecule( world, modelToBox2D, float1 * 10E-10, float2 * 10E-10, 0, 0, (float) ( random.nextFloat() * Math.PI * 2 ), new VoidFunction1<VoidFunction0>() {
+                public void apply( VoidFunction0 waterMolecule ) {
+                    addFrameListener( waterMolecule );
+                }
+            } );
             waterList.add( water );
             for ( VoidFunction1<WaterMolecule> waterAddedListener : waterAddedListeners ) {
                 waterAddedListener.apply( water );
@@ -81,94 +97,25 @@ public class MicroscopicModel extends SugarAndSaltSolutionModel {
     }
 
     //Creates a rectangular barrier
-    private Barrier createBarrier( final float x, final float y, final float width, final float height ) {
+    private Barrier createBarrier( final double x, final double y, final double width, final double height ) {
+        ImmutableRectangle2D modelRect = new ImmutableRectangle2D( x, y, width, height );
+        final ImmutableRectangle2D box2DRect = modelToBox2D.modelToView( modelRect );
         PolygonDef shape = new PolygonDef() {{
             restitution = 0.2f;
-            setAsBox( width, height );
+            setAsBox( (float) box2DRect.width, (float) box2DRect.height );
         }};
         BodyDef bd = new BodyDef() {{
-            position = new Vec2( x, y );
+            position = new Vec2( (float) box2DRect.x, (float) box2DRect.y );
         }};
         Body body = world.createBody( bd );
         body.createShape( shape );
         body.setMassFromShapes();
 
-        return new Barrier( body, new ImmutableRectangle2D( x, y, width, height ) );
+        return new Barrier( body, modelRect );
     }
 
     public void addWaterAddedListener( VoidFunction1<WaterMolecule> waterAddedListener ) {
         waterAddedListeners.add( waterAddedListener );
-    }
-
-    //Wrapper class which contains Body and shape
-    public static class WaterMolecule {
-        public Body body;
-        public CircleDef oxygen;
-        public CircleDef h1;
-        public CircleDef h2;
-        private ArrayList<VoidFunction0> removalListeners = new ArrayList<VoidFunction0>();
-
-        WaterMolecule( Body body, CircleDef oxygen, CircleDef h1, CircleDef h2 ) {
-            this.body = body;
-            this.oxygen = oxygen;
-            this.h1 = h1;
-            this.h2 = h2;
-        }
-
-        //Add a listener that will be notified when this water leaves the model
-        public void addRemovalListener( VoidFunction0 removalListener ) {
-            removalListeners.add( removalListener );
-        }
-
-        //Notify listeners that this water molecule has left the model
-        public void notifyRemoved() {
-            for ( VoidFunction0 removalListener : removalListeners ) {
-                removalListener.apply();
-            }
-        }
-    }
-
-    //Adds a circular body at the specified location with the given velocity
-    private WaterMolecule createWater( float x, float y, float vx, float vy, float angle ) {
-
-        //First create the body def at the right location
-        BodyDef bodyDef = new BodyDef();
-        bodyDef.position = new Vec2( x, y );
-        bodyDef.angle = angle;
-
-        //Now create the body
-        Body body = world.createBody( bodyDef );
-
-        //Make it a bouncy circle
-        CircleDef oxygen = new CircleDef() {{
-            restitution = 0.4f;
-            density = 1;
-            radius = 4;
-        }};
-        body.createShape( oxygen );
-
-        CircleDef h1 = new CircleDef() {{
-            restitution = 0.4f;
-            localPosition = new Vec2( 3, 3 );
-            radius = 2;
-            density = 1;
-        }};
-        body.createShape( h1 );
-
-        CircleDef h2 = new CircleDef() {{
-            restitution = 0.4f;
-            localPosition = new Vec2( -3, 3 );
-            radius = 2;
-            density = 1;
-        }};
-        body.createShape( h2 );
-        body.setMassFromShapes();
-
-        //Set the velocity
-        body.setLinearVelocity( new Vec2( vx, vy ) );
-
-        //Add the body to the list
-        return new WaterMolecule( body, oxygen, h1, h2 );
     }
 
     @Override protected void updateModel( double dt ) {
@@ -178,7 +125,7 @@ public class MicroscopicModel extends SugarAndSaltSolutionModel {
         for ( WaterMolecule waterMolecule : waterList ) {
             //Apply a random force so the system doesn't settle down
             float rand1 = ( random.nextFloat() - 0.5f ) * 2;
-            waterMolecule.body.applyForce( new Vec2( rand1 * 1000, random.nextFloat() ), waterMolecule.body.getPosition() );
+//            waterMolecule.body.applyForce( new Vec2( rand1 * 1000, random.nextFloat() ), waterMolecule.body.getPosition() );
 
             //Setting random velocity looks funny
 //            double randomAngle = random.nextDouble() * Math.PI * 2;
@@ -186,7 +133,7 @@ public class MicroscopicModel extends SugarAndSaltSolutionModel {
 //            Vec2 linearVelocity = waterMolecule.body.getLinearVelocity();
 //            waterMolecule.body.setLinearVelocity( new Vec2( linearVelocity.x + (float) v.getX(), linearVelocity.y + (float) v.getY() ) );
         }
-        world.step( (float) dt * 5, 10 );
+        world.step( (float) dt, 10 );
 
         //Notify listeners that the model changed
         for ( VoidFunction0 frameListener : frameListeners ) {
