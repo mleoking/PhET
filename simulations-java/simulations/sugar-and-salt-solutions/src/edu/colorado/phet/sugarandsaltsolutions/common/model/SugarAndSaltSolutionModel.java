@@ -120,6 +120,7 @@ public class SugarAndSaltSolutionModel implements ResetModel {
     private double litersPerMoleDissolvedSugar = sugar.volumePerSolidMole * 0.15;
 
     //Create the solution, which sits atop the solid precipitate (if any)
+    //TODO: are units correct on this line?
     public final Solution solution = new Solution( waterVolume, beaker, solutionY, salt.molesDissolved.times( litersPerMoleDissolvedSalt ), sugar.molesDissolved.times( litersPerMoleDissolvedSugar ) );
 
     //The concentration in the liquid in moles / m^3
