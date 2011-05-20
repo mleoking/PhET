@@ -1,3 +1,5 @@
+# 1.05.00 (52261) May 20, 2011
+5/20/11 > added new translation credits features
 # 1.04.02 (52246) May 20, 2011
 5/20/11 > minor bug fixes
 5/20/11 #2885 fix: frequency and amplitude aren't resettable after you've turned on the microwave
