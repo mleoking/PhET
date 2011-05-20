@@ -47,7 +47,7 @@ public class WaterMolecule {
         //First create the body def at the right location
         BodyDef bodyDef = new BodyDef() {{
             position = new Vec2( (float) box2DLocation.getX(), (float) box2DLocation.getY() );
-            System.out.println( "position = " + position );
+//            System.out.println( "position = " + position );
             this.angle = (float) theta;
         }};
 
