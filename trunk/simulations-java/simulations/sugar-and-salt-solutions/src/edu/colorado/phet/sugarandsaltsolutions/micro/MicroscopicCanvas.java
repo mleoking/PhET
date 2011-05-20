@@ -11,7 +11,9 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.sugarandsaltsolutions.common.SugarAndSaltSolutionsColorScheme;
+import edu.colorado.phet.sugarandsaltsolutions.micro.MicroscopicModel.Barrier;
 import edu.colorado.phet.sugarandsaltsolutions.micro.MicroscopicModel.WaterMolecule;
 import edu.umd.cs.piccolo.PNode;
 
@@ -77,6 +79,9 @@ public class MicroscopicCanvas extends PhetPCanvas {
         //Listen for subsequent additions of water molecules
         model.addWaterAddedListener( createWaterNode );
 
+        addChild( new BarrierNode( transform, model.floor ) );
+        addChild( new BarrierNode( transform, model.leftWall ) );
+        addChild( new BarrierNode( transform, model.rightWall ) );
 
         //Add a reset all button that resets this tab
         addChild( new ButtonNode( "Reset All" ) {{
@@ -90,5 +95,12 @@ public class MicroscopicCanvas extends PhetPCanvas {
 
     private void addChild( PNode node ) {
         rootNode.addChild( node );
+    }
+
+    //Graphic to show a barrier such as the beaker floor
+    private class BarrierNode extends PNode {
+        public BarrierNode( ModelViewTransform transform, Barrier floor ) {
+            addChild( new PhetPPath( transform.modelToView( floor.shape.toRectangle2D() ), Color.lightGray ) );
+        }
     }
 }

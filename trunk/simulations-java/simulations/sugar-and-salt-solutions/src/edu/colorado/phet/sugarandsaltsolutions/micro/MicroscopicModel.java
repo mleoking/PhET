@@ -12,6 +12,7 @@ import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.World;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel;
@@ -36,9 +37,12 @@ public class MicroscopicModel extends SugarAndSaltSolutionModel {
     private ArrayList<VoidFunction1<WaterMolecule>> waterAddedListeners = new ArrayList<VoidFunction1<WaterMolecule>>();
 
     private Random random = new Random();
+    public final Barrier floor;
+    public final Barrier rightWall;
+    public final Barrier leftWall;
 
     public MicroscopicModel() {
-        //Set the bounds of the physics engine
+        //Set the bounds of the physics engine.  The docs say things should be mostly between 0.1 and 10 units
         AABB worldAABB = new AABB();
         worldAABB.lowerBound = new Vec2( -200, -200 );
         worldAABB.upperBound = new Vec2( 200, 200 );
@@ -50,11 +54,11 @@ public class MicroscopicModel extends SugarAndSaltSolutionModel {
         addWaterParticles( System.currentTimeMillis() );
 
         //Create beaker floor
-        createBarrier( 0, 99, 100, 2 );
+        floor = createBarrier( 0, 99, 100, 2 );
 
         //Create sides
-        createBarrier( 99, 0, 2, 100 );
-        createBarrier( -99, 0, 2, 100 );
+        rightWall = createBarrier( 99, 0, 2, 100 );
+        leftWall = createBarrier( -99, 0, 2, 100 );
 
         //Move to a stable state on startup
         //Commented out because it takes too long
@@ -77,16 +81,19 @@ public class MicroscopicModel extends SugarAndSaltSolutionModel {
     }
 
     //Creates a rectangular barrier
-    private void createBarrier( float x, float y, float width, float height ) {
-        PolygonDef floor = new PolygonDef();
-        floor.setAsBox( width, height );
-        BodyDef bd = new BodyDef();
-        floor.restitution = 0.2f;
-        bd.position = new Vec2( x, y );
+    private Barrier createBarrier( final float x, final float y, final float width, final float height ) {
+        PolygonDef shape = new PolygonDef() {{
+            restitution = 0.2f;
+            setAsBox( width, height );
+        }};
+        BodyDef bd = new BodyDef() {{
+            position = new Vec2( x, y );
+        }};
         Body body = world.createBody( bd );
-
-        body.createShape( floor );
+        body.createShape( shape );
         body.setMassFromShapes();
+
+        return new Barrier( body, new ImmutableRectangle2D( x, y, width, height ) );
     }
 
     public void addWaterAddedListener( VoidFunction1<WaterMolecule> waterAddedListener ) {
@@ -210,5 +217,16 @@ public class MicroscopicModel extends SugarAndSaltSolutionModel {
             waterMolecule.notifyRemoved();
         }
         waterList.clear();
+    }
+
+    //Model object representing a barrier, such as the beaker floor or wall which particles shouldn't pass through
+    public static class Barrier {
+        public final Body body;
+        public final ImmutableRectangle2D shape;
+
+        public Barrier( Body body, ImmutableRectangle2D shape ) {
+            this.body = body;
+            this.shape = shape;
+        }
     }
 }
