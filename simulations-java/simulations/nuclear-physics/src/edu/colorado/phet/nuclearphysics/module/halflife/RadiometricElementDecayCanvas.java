@@ -13,6 +13,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.*;
 
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
@@ -172,7 +173,7 @@ public class RadiometricElementDecayCanvas extends PhetPCanvas implements Autopr
         // Add the button that allows the user to add multiple nuclei at once.
         // Position it just under the bucket and scale it so that its size is
         // proportionate to the bucket.
-        _addTenButtonNode = new ButtonNode( NuclearPhysicsStrings.ADD_TEN, 12, CANVAS_BUTTON_COLOR );
+        _addTenButtonNode = new ButtonNode( NuclearPhysicsStrings.ADD_TEN, new PhetFont( Font.BOLD, 12 ), CANVAS_BUTTON_COLOR );
         double addTenButtonScale = ( _bucketRect.getWidth() / _addTenButtonNode.getFullBoundsReference().width ) * 0.4;
         _addTenButtonNode.scale( addTenButtonScale );
         _addTenButtonNode.setOffset( _bucketRect.getCenterX() - _addTenButtonNode.getFullBoundsReference().width / 2,

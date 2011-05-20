@@ -47,7 +47,7 @@ public class ButtonNode extends PhetPNode {
     }
 
     private static final double COLOR_SCALING_FACTOR = 0.5; // scaling factor for creating brighter colors
-    private static final int DEFAULT_FONT_STYLE = Font.BOLD; //TODO using bold as the default style is a bad practice
+    private static final int DEFAULT_FONT_STYLE = Font.PLAIN; // #2846, using plain as the default style, add bold/italic emphasis explicitly
 
     private final PNode parentNode; // intermediate parent for all nodes created herein
     private final ArrayList<ActionListener> actionListeners;
@@ -149,7 +149,6 @@ public class ButtonNode extends PhetPNode {
         setForeground( foreground );
         setBackground( background );
     }
-
 
     //------------------------------------------------------------------------
     // Scenegraph creation

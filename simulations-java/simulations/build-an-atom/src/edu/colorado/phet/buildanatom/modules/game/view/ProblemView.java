@@ -1,8 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.buildanatom.modules.game.view;
 
-import java.awt.Color;
-import java.awt.Point;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
@@ -71,7 +70,7 @@ public abstract class ProblemView extends StateView {
                 getModel().processGuess( getGuess() );
                 final FaceNode faceNode = new FaceNode( 400, FACE_COLOR, new Color( 180, 180, 180, 120 ), new Color( 180, 180, 180, 120 ) );
                 faceNode.setOffset( BuildAnAtomDefaults.STAGE_SIZE.getWidth() / 2 - faceNode.getFullBounds().getWidth() / 2,
-                        BuildAnAtomDefaults.STAGE_SIZE.getHeight() / 2 - faceNode.getFullBounds().getHeight() / 2 );
+                                    BuildAnAtomDefaults.STAGE_SIZE.getHeight() / 2 - faceNode.getFullBounds().getHeight() / 2 );
                 resultNode.addChild( faceNode );
 
                 if ( problem.isSolvedCorrectly() ) {
@@ -200,7 +199,7 @@ public abstract class ProblemView extends StateView {
          * @param listener       callback when the button is pressed
          */
         public GameButtonNode( String label, Point2D centerLocation, ActionListener listener ) {
-            super( label, BuildAnAtomGameCanvas.BUTTONS_FONT_SIZE, BuildAnAtomGameCanvas.BUTTONS_COLOR );
+            super( label, new PhetFont( Font.BOLD, BuildAnAtomGameCanvas.BUTTONS_FONT_SIZE ), BuildAnAtomGameCanvas.BUTTONS_COLOR );
             addActionListener( listener );
             centerFullBoundsOnPoint( centerLocation.getX(), centerLocation.getY() );
         }

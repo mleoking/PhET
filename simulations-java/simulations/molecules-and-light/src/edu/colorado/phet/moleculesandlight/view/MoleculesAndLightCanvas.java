@@ -2,9 +2,7 @@
 
 package edu.colorado.phet.moleculesandlight.view;
 
-import java.awt.Color;
-import java.awt.Frame;
-import java.awt.Point;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
@@ -13,6 +11,7 @@ import java.util.HashMap;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.photonabsorption.model.Molecule;
 import edu.colorado.phet.common.photonabsorption.model.Photon;
 import edu.colorado.phet.common.photonabsorption.model.PhotonAbsorptionModel;
@@ -80,10 +79,10 @@ public class MoleculesAndLightCanvas extends PhetPCanvas {
     };
 
     // Button for displaying EM specturm.
-    private final ButtonNode showSpectrumButton = new ButtonNode( MoleculesAndLightResources.getString( "SpectrumWindow.buttonCaption" ), 24, new Color( 185, 178, 95 ) );
+    private final ButtonNode showSpectrumButton = new ButtonNode( MoleculesAndLightResources.getString( "SpectrumWindow.buttonCaption" ), new PhetFont( Font.BOLD, 24 ), new Color( 185, 178, 95 ) );
 
     // Window that displays the EM spectrum upon request.
-    private final SpectrumWindow spectrumWindow = new SpectrumWindow(){{ setVisible( false ); }};
+    private final SpectrumWindow spectrumWindow = new SpectrumWindow() {{ setVisible( false ); }};
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -91,7 +90,8 @@ public class MoleculesAndLightCanvas extends PhetPCanvas {
 
     /**
      * Constructor.
-     * @param parentFrame TODO
+     *
+     * @param parentFrame           TODO
      * @param photonAbsorptionModel - Model that is being portrayed on this canvas.
      */
     public MoleculesAndLightCanvas( final Frame parentFrame, final MoleculesAndLightModule module, final PhotonAbsorptionModel photonAbsorptionModel ) {
@@ -115,9 +115,9 @@ public class MoleculesAndLightCanvas extends PhetPCanvas {
         mvt = new ModelViewTransform2D(
                 new Point2D.Double( 0, 0 ),
                 new Point( (int) Math.round( INTERMEDIATE_RENDERING_SIZE.width * 0.65 ),
-                (int) Math.round( INTERMEDIATE_RENDERING_SIZE.height * 0.35 ) ),
+                           (int) Math.round( INTERMEDIATE_RENDERING_SIZE.height * 0.35 ) ),
                 0.18, // Scale factor - smaller numbers "zoom out", bigger ones "zoom in".
-        true );
+                true );
 
         // Listen to the model for notifications that we care about.
         photonAbsorptionModel.addListener( new PhotonAbsorptionModel.Adapter() {
@@ -180,15 +180,15 @@ public class MoleculesAndLightCanvas extends PhetPCanvas {
 
         // Create the rod that connects the emitter to the control panel.
         PNode connectingRod = new VerticalRodNode( 30,
-                Math.abs( photonEmitterNode.getFullBoundsReference().getCenterY() - photonEmissionControlPanel.getFullBoundsReference().getCenterY() ),
-                new Color( 205, 198, 115 ) );
+                                                   Math.abs( photonEmitterNode.getFullBoundsReference().getCenterY() - photonEmissionControlPanel.getFullBoundsReference().getCenterY() ),
+                                                   new Color( 205, 198, 115 ) );
 
         connectingRod.setOffset(
                 photonEmitterNode.getFullBoundsReference().getCenterX() - connectingRod.getFullBoundsReference().width / 2,
                 photonEmitterNode.getFullBoundsReference().getCenterY() );
 
         // Add the button for restoring molecules that break apart.
-        restoreMoleculeButtonNode = new ButtonNode( MoleculesAndLightResources.getString( "ButtonNode.ReturnMolecule" ), 24, new Color( 255, 144, 0 ) );
+        restoreMoleculeButtonNode = new ButtonNode( MoleculesAndLightResources.getString( "ButtonNode.ReturnMolecule" ), new PhetFont( Font.BOLD, 24 ), new Color( 255, 144, 0 ) );
         restoreMoleculeButtonNode.setOffset( INTERMEDIATE_RENDERING_SIZE.width - restoreMoleculeButtonNode.getFullBounds().getWidth(), 50 );
         restoreMoleculeButtonNode.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -211,15 +211,15 @@ public class MoleculesAndLightCanvas extends PhetPCanvas {
         // Add the button for displaying the EM spectrum.
         myWorldNode.addChild( showSpectrumButton );
         showSpectrumButton.setOffset( 0, 700 );
-        showSpectrumButton.addActionListener( new ActionListener(){
-            public void actionPerformed(ActionEvent event){
+        showSpectrumButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent event ) {
                 // If the spectrum window is currently invisible
                 // maximized, un-maximize it.
                 if ( !spectrumWindow.isVisible() && ( spectrumWindow.getExtendedState() & Frame.MAXIMIZED_BOTH ) == Frame.MAXIMIZED_BOTH ) {
                     spectrumWindow.setExtendedState( spectrumWindow.getExtendedState() & ~Frame.MAXIMIZED_BOTH );
                 }
                 // If the spectrum window is currently minimized, restore it.
-                if ( spectrumWindow.getState() == Frame.ICONIFIED ){
+                if ( spectrumWindow.getState() == Frame.ICONIFIED ) {
                     spectrumWindow.setState( Frame.NORMAL );
                 }
 
@@ -227,7 +227,7 @@ public class MoleculesAndLightCanvas extends PhetPCanvas {
                 // to the front if it is behind the main sim window.
                 spectrumWindow.setVisible( true );
             }
-        });
+        } );
 
         // Update the layout.
         updateLayout();
