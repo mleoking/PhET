@@ -8,6 +8,7 @@ import java.awt.Point;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
+import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel3;
 import edu.colorado.phet.faraday.FaradayConstants;
 import edu.colorado.phet.faraday.FaradayStrings;
 import edu.colorado.phet.faraday.control.FaradayControlPanel;
@@ -182,7 +183,8 @@ public class TransformerModule extends FaradayModule {
         //----------------------------------------------------------------------------
 
         // Apparatus Panel
-        ApparatusPanel2 apparatusPanel = new ApparatusPanel2( getClock() );
+        // Use ApparatusPanel 3 to improve support for low resolution screens.  The size was sampled at runtime by using ApparatusPanel2 with TransformManager.DEBUG_OUTPUT_ENABLED=true on large screen size
+        ApparatusPanel2 apparatusPanel = new ApparatusPanel3( getClock(), 766, 630 );
         apparatusPanel.setBackground( APPARATUS_BACKGROUND );
         this.setApparatusPanel( apparatusPanel );
         
