@@ -1,3 +1,4 @@
+> Ported faraday to use ApparatusPanel3 to address canvas problems on low resolution screens, see #2860
 # 2.06.00 (51790) May 11, 2011
 > added new translation credits features
 # 2.05.04 (51719) May 9, 2011
