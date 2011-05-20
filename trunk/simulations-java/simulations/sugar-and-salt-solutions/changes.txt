@@ -1,3 +1,4 @@
+Added hydrogen and oxygen atoms to prototype
 Started prototype for microscopic model
 # 0.00.19 (52199) May 19, 2011
 Limit to 100 grams of each solute
