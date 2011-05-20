@@ -16,6 +16,8 @@ import edu.colorado.phet.sugarandsaltsolutions.common.SugarAndSaltSolutionsColor
 import edu.colorado.phet.sugarandsaltsolutions.micro.MicroscopicModel.Barrier;
 import edu.umd.cs.piccolo.PNode;
 
+import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createRectangleInvertedYMapping;
+
 /**
  * Canvas for the Microscopic tab
  *
@@ -41,7 +43,7 @@ public class MicroscopicCanvas extends PhetPCanvas {
 
         //Gets the ModelViewTransform used to go between model coordinates (SI) and stage coordinates (roughly pixels)
         //Create the transform from model (SI) to view (stage) coordinates
-        final ModelViewTransform transform = ModelViewTransform.createRectangleInvertedYMapping( new Rectangle2D.Double( -10E-10, -1E-10, 20E-10, 20E-10 ), new Rectangle2D.Double( 0, 0, canvasSize.getHeight(), canvasSize.getHeight() ) );
+        final ModelViewTransform transform = createRectangleInvertedYMapping( new Rectangle2D.Double( -model.beakerWidth / 2, -1E-10, model.beakerWidth, model.beakerWidth ), new Rectangle2D.Double( 0, 0, canvasSize.getHeight(), canvasSize.getHeight() ) );
 
         // Root of our scene graph
         rootNode = new PNode();

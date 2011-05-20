@@ -2,6 +2,7 @@
 package edu.colorado.phet.sugarandsaltsolutions;
 
 import java.awt.*;
+import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
@@ -20,6 +21,7 @@ public class SugarAndSaltSolutionsApplication extends PiccoloPhetApplication {
     private static final String NAME = "sugar-and-salt-solutions";
     public static final PhetResources RESOURCES = new PhetResources( NAME );
     public static final Color WATER_COLOR = new Color( 179, 239, 243 );
+    public static Random random = new Random();
 
     public SugarAndSaltSolutionsApplication( PhetApplicationConfig config ) {
         super( config );
