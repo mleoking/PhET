@@ -1,3 +1,4 @@
+Added graphics for the beaker floor and walls
 Added a reset button
 Added random motion so water molecules continue moving
 # 0.00.21 (52234) May 20, 2011

@@ -9,7 +9,6 @@ import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.sugarandsaltsolutions.common.SugarAndSaltSolutionsColorScheme;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.ColorDialogMenuItem;
-import edu.colorado.phet.sugarandsaltsolutions.intro.IntroModule;
 import edu.colorado.phet.sugarandsaltsolutions.micro.MicroscopicModule;
 
 /**
@@ -29,7 +28,7 @@ public class SugarAndSaltSolutionsApplication extends PiccoloPhetApplication {
         final SugarAndSaltSolutionsColorScheme configuration = new SugarAndSaltSolutionsColorScheme();
 
         //Create the modules
-        addModule( new IntroModule( configuration ) );
+//        addModule( new IntroModule( configuration ) );
         addModule( new MicroscopicModule( configuration ) );
 
         //Add developer menus for changing the color of background and salt
@@ -40,5 +39,4 @@ public class SugarAndSaltSolutionsApplication extends PiccoloPhetApplication {
     public static void main( String[] args ) {
         new PhetApplicationLauncher().launchSim( args, NAME, SugarAndSaltSolutionsApplication.class );
     }
-
 }
