@@ -2,12 +2,15 @@
 package edu.colorado.phet.sugarandsaltsolutions.micro;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
 import edu.colorado.phet.sugarandsaltsolutions.common.SugarAndSaltSolutionsColorScheme;
 import edu.colorado.phet.sugarandsaltsolutions.micro.MicroscopicModel.WaterMolecule;
 import edu.umd.cs.piccolo.PNode;
@@ -43,13 +46,49 @@ public class MicroscopicCanvas extends PhetPCanvas {
         rootNode = new PNode();
         addWorldChild( rootNode );
 
-        //Show the circles in the model
-        for ( final WaterMolecule waterMolecule : model.getBodyList() ) {
-            rootNode.addChild( new WaterMoleculeNode( transform, waterMolecule, new VoidFunction1<VoidFunction0>() {
-                public void apply( VoidFunction0 listener ) {
-                    model.addFrameListener( listener );
-                }
-            } ) );
+        //Function which creates water nodes on initialization and when they are added to the model
+        VoidFunction1<WaterMolecule> createWaterNode = new VoidFunction1<WaterMolecule>() {
+            public void apply( WaterMolecule waterMolecule ) {
+
+                //Create the node
+                final WaterMoleculeNode node = new WaterMoleculeNode( transform, waterMolecule, new VoidFunction1<VoidFunction0>() {
+                    public void apply( VoidFunction0 listener ) {
+                        model.addFrameListener( listener );
+                    }
+                } );
+
+                //Remove the node when it leaves the model
+                waterMolecule.addRemovalListener( new VoidFunction0() {
+                    public void apply() {
+                        rootNode.removeChild( node );
+                    }
+                } );
+
+                //Add the node to the scene graph
+                rootNode.addChild( node );
+            }
+        };
+
+        //Show the circles already in the model on startup
+        for ( final WaterMolecule waterMolecule : model.getWaterList() ) {
+            createWaterNode.apply( waterMolecule );
         }
+
+        //Listen for subsequent additions of water molecules
+        model.addWaterAddedListener( createWaterNode );
+
+
+        //Add a reset all button that resets this tab
+        addChild( new ButtonNode( "Reset All" ) {{
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    model.reset();
+                }
+            } );
+        }} );
+    }
+
+    private void addChild( PNode node ) {
+        rootNode.addChild( node );
     }
 }
