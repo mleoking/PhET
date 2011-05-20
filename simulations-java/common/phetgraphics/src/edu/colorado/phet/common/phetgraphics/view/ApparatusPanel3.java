@@ -5,8 +5,8 @@ import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 
 /**
  * This class is a workaround for sims that have a problem resizing, see #2860.
- * The strategy is to sample the canvas size by using ApparatusPanel2 and printing out the reference size set in the TransformManager.
- * Then that value is provided as width x height for this constructor, and that values is used for the reference size.
+ * The strategy is to sample the canvas size to ApparatusPanel2 and print out the reference size set by the TransformManager.
+ * Then that reference size is provided as width x height for this constructor, and that value is used for the reference size.
  *
  * @author Sam Reid
  */
