@@ -2,13 +2,11 @@
 
 package edu.colorado.phet.balancingchemicalequations.view.game;
 
-import java.awt.Color;
-import java.awt.Dimension;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JFrame;
-import javax.swing.WindowConstants;
+import javax.swing.*;
 
 import edu.colorado.phet.balancingchemicalequations.BCEConstants;
 import edu.colorado.phet.balancingchemicalequations.BCEGlobalProperties;
@@ -38,6 +36,7 @@ public class NotBalancedTerseNode extends GamePopupNode {
 
     /**
      * Convenience constructor.
+     *
      * @param equation
      * @param globalProperties
      * @param whyButtonListener
@@ -70,7 +69,7 @@ public class NotBalancedTerseNode extends GamePopupNode {
                 // "Show Why" button
                 ButtonNode showWhyButton = null;
                 if ( whyButtonVisible ) {
-                    showWhyButton = new ButtonNode( BCEStrings.SHOW_WHY, 18, Color.WHITE );
+                    showWhyButton = new ButtonNode( BCEStrings.SHOW_WHY, new PhetFont( Font.BOLD, 18 ), Color.WHITE );
                     showWhyButton.addActionListener( whyButtonListener );
                 }
 
@@ -112,7 +111,7 @@ public class NotBalancedTerseNode extends GamePopupNode {
         JFrame frame = new JFrame();
         frame.setContentPane( canvas );
         frame.pack();
-        frame.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
         frame.setVisible( true );
     }
 }

@@ -11,6 +11,7 @@ import javax.swing.*;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.ResetAllDelegate;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.umd.cs.piccolo.PCanvas;
 
 /**
@@ -43,7 +44,7 @@ public class ResetAllButtonNode extends ButtonNode {
      * @param backgroundColor
      */
     public ResetAllButtonNode( final Resettable[] resettables, final Component parent, int fontSize, Color textColor, Color backgroundColor ) {
-        super( PhetCommonResources.getString( PhetCommonResources.STRING_RESET_ALL ), fontSize, textColor, backgroundColor );
+        super( PhetCommonResources.getString( PhetCommonResources.STRING_RESET_ALL ), new PhetFont( fontSize ), textColor, backgroundColor );
         this.delegate = new ResetAllDelegate( resettables, parent );
         addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
