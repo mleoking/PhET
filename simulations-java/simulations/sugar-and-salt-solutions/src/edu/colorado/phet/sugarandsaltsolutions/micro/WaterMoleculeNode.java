@@ -34,10 +34,16 @@ public class WaterMoleculeNode extends PNode {
         //Update the graphics for the updated model objects
         VoidFunction0 update = new VoidFunction0() {
             public void apply() {
+                //Compute angle and position of the molecule
                 double angle = waterMolecule.body.getAngle();
-                oxygen.setOffset( transform.modelToView( toImmutableVector2D( waterMolecule.body.getPosition() ) ).toPoint2D() );
-                h1.setOffset( transform.modelToView( toImmutableVector2D( waterMolecule.body.getPosition().add( waterMolecule.h1.localPosition ) ) ).toPoint2D() );
-                h2.setOffset( transform.modelToView( toImmutableVector2D( waterMolecule.body.getPosition().add( waterMolecule.h2.localPosition ) ) ).toPoint2D() );
+                ImmutableVector2D oxygenPosition = toImmutableVector2D( waterMolecule.body.getPosition() );
+
+                //Set the location of the oxygen atom
+                oxygen.setOffset( transform.modelToView( oxygenPosition ).toPoint2D() );
+
+                //Set the location of the hydrogens
+                h1.setOffset( transform.modelToView( toImmutableVector2D( waterMolecule.h1.localPosition ).getRotatedInstance( angle ).plus( oxygenPosition ) ).toPoint2D() );
+                h2.setOffset( transform.modelToView( toImmutableVector2D( waterMolecule.h2.localPosition ).getRotatedInstance( angle ).plus( oxygenPosition ) ).toPoint2D() );
             }
         };
         addListener.apply( update );
