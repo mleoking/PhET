@@ -24,8 +24,8 @@ public class MicrowavesModel extends BaseModel {
     private ArrayList polarBodies = new ArrayList();
     private FiniteWaveMedium waveMedium = new FiniteWaveMedium( new Point2D.Double( 100, 100 ), 500, 400 );
     private ArrayList microwaves = new ArrayList();
-    private double frequency = MicrowavesConfig.MAX_FREQUENCY / 2;
-    private double amplitude = MicrowavesConfig.MAX_AMPLITUDE / 2;
+    private double frequency = MicrowavesConfig.INIT_FREQUENCY;
+    private double amplitude = MicrowavesConfig.INIT_AMPLITUDE;
     private Box2D oven;
     private Microwave mw;
     private final String name;
@@ -132,6 +132,8 @@ public class MicrowavesModel extends BaseModel {
     }
 
     public void clear() {
+        frequency = MicrowavesConfig.INIT_FREQUENCY;
+        amplitude = MicrowavesConfig.INIT_AMPLITUDE;
         this.polarBodies.clear();
         this.waveMedium.clear();
         this.microwaves.clear();

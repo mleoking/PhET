@@ -1,3 +1,4 @@
+5/20/11 #2885 fix: frequency and amplitude aren't resettable after you've turned on the microwave
 5/20/11 #2885 fix: default selection of field view control should be "curve" in "Coffee" tab
 5/20/11 #2885 document why this sim starts on second tab
 # 1.04.01 (52200) May 19, 2011
