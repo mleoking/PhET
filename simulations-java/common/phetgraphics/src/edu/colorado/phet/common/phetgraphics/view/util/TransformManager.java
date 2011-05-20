@@ -44,6 +44,9 @@ public class TransformManager {
     public void setReferenceSize() {
         referenceSizeSet = true;
         referenceBounds = component.getBounds();
+        if ( DEBUG_OUTPUT_ENABLED ) {
+            System.out.println( "Reference size set in TransformManager = " + referenceBounds.width + ", " + referenceBounds.height );
+        }
         //this should probably be new Rectangle(0,0,dim);
     }
 
