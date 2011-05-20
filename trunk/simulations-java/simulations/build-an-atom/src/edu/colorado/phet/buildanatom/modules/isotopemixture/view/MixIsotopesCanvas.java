@@ -2,15 +2,14 @@
 
 package edu.colorado.phet.buildanatom.modules.isotopemixture.view;
 
-import java.awt.Color;
-import java.awt.Point;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.swing.JPanel;
+import javax.swing.*;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
@@ -19,9 +18,9 @@ import edu.colorado.phet.buildanatom.model.MonoIsotopeParticleBucket;
 import edu.colorado.phet.buildanatom.model.SphericalParticle;
 import edu.colorado.phet.buildanatom.modules.interactiveisotope.view.IsotopeSliderNode;
 import edu.colorado.phet.buildanatom.modules.isotopemixture.model.MixIsotopesModel;
-import edu.colorado.phet.buildanatom.modules.isotopemixture.model.MovableAtom;
 import edu.colorado.phet.buildanatom.modules.isotopemixture.model.MixIsotopesModel.InteractivityMode;
 import edu.colorado.phet.buildanatom.modules.isotopemixture.model.MixIsotopesModel.NumericalIsotopeQuantityControl;
+import edu.colorado.phet.buildanatom.modules.isotopemixture.model.MovableAtom;
 import edu.colorado.phet.buildanatom.view.MaximizeControlNode;
 import edu.colorado.phet.buildanatom.view.PeriodicTableControlNode;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
@@ -52,7 +51,7 @@ public class MixIsotopesCanvas extends PhetPCanvas implements Resettable {
 
     public static final Color BACKGROUND_COLOR = BuildAnAtomConstants.CANVAS_BACKGROUND;
     public static final double DISTANCE_BUTTON_CENTER_FROM_BOTTOM = 30;
-    public static final int BUTTON_FONT_SIZE = 18;
+    public static final PhetFont BUTTON_FONT = new PhetFont( Font.BOLD, 18 );
 
     //----------------------------------------------------------------------------
     // Instance Data
@@ -124,7 +123,7 @@ public class MixIsotopesCanvas extends PhetPCanvas implements Resettable {
                 particleLayer.addChild( isotopeNode );
                 atom.addListener( new SphericalParticle.Adapter() {
                     @Override
-                    public void removedFromModel( SphericalParticle particle ){
+                    public void removedFromModel( SphericalParticle particle ) {
                         particleLayer.removeChild( isotopeNode );
                     }
                 } );
@@ -134,6 +133,7 @@ public class MixIsotopesCanvas extends PhetPCanvas implements Resettable {
                 isotopeNode.setPickable( interactiveParticles );
                 isotopeNode.setChildrenPickable( interactiveParticles );
             }
+
             @Override
             public void isotopeBucketAdded( final MonoIsotopeParticleBucket bucket ) {
                 final BucketView bucketView = new BucketView( bucket, mvt );
@@ -141,26 +141,28 @@ public class MixIsotopesCanvas extends PhetPCanvas implements Resettable {
                 bucketFrontLayer.addChild( bucketView.getFrontNode() );
                 mapBucketToView.put( bucket, bucketView );
             }
+
             @Override
             public void isotopeBucketRemoved( final MonoIsotopeParticleBucket bucket ) {
                 // Remove the representation of the bucket when the bucket
                 // itself is removed from the model.
-                if ( mapBucketToView.containsKey( bucket )){
+                if ( mapBucketToView.containsKey( bucket ) ) {
                     bucketFrontLayer.removeChild( mapBucketToView.get( bucket ).getFrontNode() );
-                    bucketHoleLayer.removeChild(  mapBucketToView.get( bucket ).getHoleNode() );
+                    bucketHoleLayer.removeChild( mapBucketToView.get( bucket ).getHoleNode() );
                     mapBucketToView.remove( bucket );
                 }
-                else{
-                    System.out.println(getClass().getName() + "Warning: Attempt to remove bucket with no view component.");
+                else {
+                    System.out.println( getClass().getName() + "Warning: Attempt to remove bucket with no view component." );
                 }
             }
+
             @Override
             public void isotopeNumericalControllerAdded( final NumericalIsotopeQuantityControl controller ) {
                 final IsotopeSliderNode controllerNode = new IsotopeSliderNode( controller, mvt );
                 controlsLayer.addChild( controllerNode );
                 controller.getPartOfModelProperty().addObserver( new SimpleObserver() {
                     public void update() {
-                        if ( !controller.getPartOfModelProperty().get() ){
+                        if ( !controller.getPartOfModelProperty().get() ) {
                             // Remove the representation of the bucket when the bucket
                             // itself is removed from the model.
                             controlsLayer.removeChild( controllerNode );
@@ -168,19 +170,19 @@ public class MixIsotopesCanvas extends PhetPCanvas implements Resettable {
                     }
                 }, false );
             }
-        });
+        } );
 
         // Add the test chamber into and out of which the individual isotopes
         // will be moved. As with all elements in this model, the shape and
         // position are considered to be two separate things.
-        final PhetPPath testChamberNode = new PhetPPath( Color.BLACK ){{
+        final PhetPPath testChamberNode = new PhetPPath( Color.BLACK ) {{
             setPathTo( mvt.modelToView( model.getIsotopeTestChamber().getTestChamberRect() ) );
         }};
         chamberLayer.addChild( testChamberNode );
 
         // Add the periodic table node that will allow the user to set the
         // current isotope.
-        final PNode periodicTableNode = new PeriodicTableControlNode( model, 18, BACKGROUND_COLOR ){{
+        final PNode periodicTableNode = new PeriodicTableControlNode( model, 18, BACKGROUND_COLOR ) {{
             setOffset( testChamberNode.getFullBoundsReference().getMaxX() + 15, testChamberNode.getFullBoundsReference().getMinY() );
             setScale( 1.1 ); // Empirically determined.
         }};
@@ -190,7 +192,7 @@ public class MixIsotopesCanvas extends PhetPCanvas implements Resettable {
         final double indicatorWindowX = periodicTableNode.getFullBoundsReference().getX();
         final PNode pieChart = new IsotopeProprotionsPieChart( model );
         pieChart.setOffset( 200, 90 ); // Empirically determined, tweak as needed.
-        pieChartWindow = new MaximizeControlNode( BuildAnAtomStrings.PERCENT_COMPOSITION, new PDimension( 400, 155 ), pieChart, true ){{
+        pieChartWindow = new MaximizeControlNode( BuildAnAtomStrings.PERCENT_COMPOSITION, new PDimension( 400, 155 ), pieChart, true ) {{
             setOffset( indicatorWindowX, periodicTableNode.getFullBoundsReference().getMaxY() + 25 );
             addChild( pieChart );
         }};
@@ -198,7 +200,7 @@ public class MixIsotopesCanvas extends PhetPCanvas implements Resettable {
 
         // Add the average atomic mass indicator to the canvas.
         final PNode averageAtomicMassIndicator = new AverageAtomicMassIndicator( model );
-        averageAtomicMassWindow = new MaximizeControlNode( BuildAnAtomStrings.AVERAGE_ATOMIC_MASS, new PDimension( 400, 120 ), averageAtomicMassIndicator, true ){{
+        averageAtomicMassWindow = new MaximizeControlNode( BuildAnAtomStrings.AVERAGE_ATOMIC_MASS, new PDimension( 400, 120 ), averageAtomicMassIndicator, true ) {{
             setOffset( indicatorWindowX, testChamberNode.getFullBoundsReference().getMaxY() - getFullBoundsReference().height );
             addChild( averageAtomicMassIndicator );
         }};
@@ -209,43 +211,43 @@ public class MixIsotopesCanvas extends PhetPCanvas implements Resettable {
 
         // Add the radio buttons that allow the user to choose between their
         // mix and nature's mix.
-        final PropertyRadioButton<Boolean> usersMixRadioButton = new PropertyRadioButton<Boolean>( BuildAnAtomStrings.MY_MIX_OF_ISOTOPES, model.getShowingNaturesMixProperty(), false ){{
+        final PropertyRadioButton<Boolean> usersMixRadioButton = new PropertyRadioButton<Boolean>( BuildAnAtomStrings.MY_MIX_OF_ISOTOPES, model.getShowingNaturesMixProperty(), false ) {{
             setFont( new PhetFont( 20 ) );
         }};
-        final PropertyRadioButton<Boolean> naturesMixRadioButton = new PropertyRadioButton<Boolean>( BuildAnAtomStrings.NATURES_MIX_OF_ISOTOPES, model.getShowingNaturesMixProperty(), true ){{
+        final PropertyRadioButton<Boolean> naturesMixRadioButton = new PropertyRadioButton<Boolean>( BuildAnAtomStrings.NATURES_MIX_OF_ISOTOPES, model.getShowingNaturesMixProperty(), true ) {{
             setFont( new PhetFont( 20 ) );
         }};
-        JPanel radioButtonPanel = new VerticalLayoutPanel(){{
+        JPanel radioButtonPanel = new VerticalLayoutPanel() {{
             add( usersMixRadioButton );
             add( naturesMixRadioButton );
             SwingUtils.setBackgroundDeep( this, BACKGROUND_COLOR );
         }};
-        controlsLayer.addChild( new PSwing( radioButtonPanel ){{
+        controlsLayer.addChild( new PSwing( radioButtonPanel ) {{
             setOffset(
-                testChamberNode.getFullBoundsReference().getMaxX() + 140,
-                averageAtomicMassWindow.getFullBoundsReference().getMaxY() + 20 );
+                    testChamberNode.getFullBoundsReference().getMaxX() + 140,
+                    averageAtomicMassWindow.getFullBoundsReference().getMaxY() + 20 );
         }} );
 
         // Add the button that allows the user to select between the smaller
         // and larger atoms.
         final Point2D moreLessButtonLocation = new Point2D.Double( testChamberNode.getFullBoundsReference().getCenterX(),
-                BuildAnAtomDefaults.STAGE_SIZE.height - DISTANCE_BUTTON_CENTER_FROM_BOTTOM );
-        final ButtonNode moreAtomsButton = new ButtonNode( BuildAnAtomStrings.MORE, BUTTON_FONT_SIZE, new Color( 0, 198, 158 ) ){{
+                                                                   BuildAnAtomDefaults.STAGE_SIZE.height - DISTANCE_BUTTON_CENTER_FROM_BOTTOM );
+        final ButtonNode moreAtomsButton = new ButtonNode( BuildAnAtomStrings.MORE, BUTTON_FONT, new Color( 0, 198, 158 ) ) {{
             centerFullBoundsOnPoint( moreLessButtonLocation.getX(), moreLessButtonLocation.getY() );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     model.getInteractivityModeProperty().set( InteractivityMode.SLIDERS_AND_SMALL_ATOMS );
                 }
-            });
+            } );
         }};
         controlsLayer.addChild( moreAtomsButton );
-        final ButtonNode lessAtomsButton = new ButtonNode( BuildAnAtomStrings.LESS, BUTTON_FONT_SIZE, new Color( 159, 182, 205 ) ){{
+        final ButtonNode lessAtomsButton = new ButtonNode( BuildAnAtomStrings.LESS, BUTTON_FONT, new Color( 159, 182, 205 ) ) {{
             centerFullBoundsOnPoint( moreLessButtonLocation.getX(), moreLessButtonLocation.getY() );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     model.getInteractivityModeProperty().set( InteractivityMode.BUCKETS_AND_LARGE_ATOMS );
                 }
-            });
+            } );
         }};
         controlsLayer.addChild( lessAtomsButton );
 
@@ -262,14 +264,14 @@ public class MixIsotopesCanvas extends PhetPCanvas implements Resettable {
         model.getShowingNaturesMixProperty().addObserver( moreLessButtonVizUpdater );
 
         // Add the button that clears the test chamber.
-        final ButtonNode clearTestChamberButton = new ButtonNode( BuildAnAtomStrings.CLEAR_BOX, BUTTON_FONT_SIZE, new Color( 255, 153, 0 ) ){{
+        final ButtonNode clearTestChamberButton = new ButtonNode( BuildAnAtomStrings.CLEAR_BOX, BUTTON_FONT, new Color( 255, 153, 0 ) ) {{
             centerFullBoundsOnPoint( averageAtomicMassWindow.getFullBoundsReference().getMinX() + 80,
-                    BuildAnAtomDefaults.STAGE_SIZE.height - DISTANCE_BUTTON_CENTER_FROM_BOTTOM );
+                                     BuildAnAtomDefaults.STAGE_SIZE.height - DISTANCE_BUTTON_CENTER_FROM_BOTTOM );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     model.clearTestChamber();
                 }
-            });
+            } );
         }};
         controlsLayer.addChild( clearTestChamberButton );
 
@@ -284,11 +286,11 @@ public class MixIsotopesCanvas extends PhetPCanvas implements Resettable {
         model.getIsotopeTestChamber().addTotalCountChangeObserver( clearBoxButtonVizUpdater );
 
         // Add the "Reset All" button.
-        ResetAllButtonNode resetButtonNode = new ResetAllButtonNode( this, this, BUTTON_FONT_SIZE, Color.BLACK,
-                new Color( 255, 153, 0 ) ){{
+        ResetAllButtonNode resetButtonNode = new ResetAllButtonNode( this, this, BUTTON_FONT.getSize(), Color.BLACK,
+                                                                     new Color( 255, 153, 0 ) ) {{
             setConfirmationEnabled( false );
             centerFullBoundsOnPoint( averageAtomicMassWindow.getFullBoundsReference().getMaxX() - 80,
-                    BuildAnAtomDefaults.STAGE_SIZE.height - DISTANCE_BUTTON_CENTER_FROM_BOTTOM );
+                                     BuildAnAtomDefaults.STAGE_SIZE.height - DISTANCE_BUTTON_CENTER_FROM_BOTTOM );
         }};
         controlsLayer.addChild( resetButtonNode );
     }

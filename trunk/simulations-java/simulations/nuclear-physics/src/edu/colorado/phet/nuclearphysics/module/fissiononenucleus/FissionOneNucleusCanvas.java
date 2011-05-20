@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.nuclearphysics.module.fissiononenucleus;
 
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
@@ -10,8 +11,9 @@ import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
-import javax.swing.Timer;
+import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
@@ -46,7 +48,7 @@ public class FissionOneNucleusCanvas extends PhetPCanvas {
     private final double SCALE = 0.8;
 
     // Timer for delaying the appearance of the reset button.
-	private static final int BUTTON_DELAY_TIME = 1750; // In milliseconds.
+    private static final int BUTTON_DELAY_TIME = 1750; // In milliseconds.
     private static final Timer BUTTON_DELAY_TIMER = new Timer( BUTTON_DELAY_TIME, null );
 
     //----------------------------------------------------------------------------
@@ -65,71 +67,71 @@ public class FissionOneNucleusCanvas extends PhetPCanvas {
     // Constructor
     //----------------------------------------------------------------------------
 
-    public FissionOneNucleusCanvas(FissionOneNucleusModel fissionOneNucleusModel) {
+    public FissionOneNucleusCanvas( FissionOneNucleusModel fissionOneNucleusModel ) {
 
         // Set up the transform strategy so that the scale is in femtometers
         // and so that the center of the screen above the chart is at
         // coordinate location (0,0).
-        setWorldTransformStrategy( new RenderingSizeStrategy(this, new PDimension(150.0d * SCALE, 115.0d * SCALE) ){
+        setWorldTransformStrategy( new RenderingSizeStrategy( this, new PDimension( 150.0d * SCALE, 115.0d * SCALE ) ) {
             @Override
-            protected AffineTransform getPreprocessedTransform(){
-                return AffineTransform.getTranslateInstance( getWidth()/2, getHeight()/4 );
+            protected AffineTransform getPreprocessedTransform() {
+                return AffineTransform.getTranslateInstance( getWidth() / 2, getHeight() / 4 );
             }
-        });
+        } );
 
         // Set the background color.
         setBackground( NuclearPhysicsConstants.CANVAS_BACKGROUND );
 
         // Register as a listener to the model.
         _fissionOneNucleusModel = fissionOneNucleusModel;
-        _fissionOneNucleusModel.addListener( new FissionOneNucleusModel.Listener(){
-            public void nucleonRemoved(Nucleon nucleon){
+        _fissionOneNucleusModel.addListener( new FissionOneNucleusModel.Listener() {
+            public void nucleonRemoved( Nucleon nucleon ) {
                 // Remove the nucleon from the canvas and from our records.
-                PNode nucleonNode = (PNode)_particleToNodeMap.get( nucleon );
-                if (nucleonNode != null){
-                   if ( _nucleusParticlesLayerNode.removeChild( nucleonNode ) == null){
-                       System.err.println("Error: Unable to locate node for given nucleon.");
-                   }
-                   _particleToNodeMap.remove( nucleon );
+                PNode nucleonNode = (PNode) _particleToNodeMap.get( nucleon );
+                if ( nucleonNode != null ) {
+                    if ( _nucleusParticlesLayerNode.removeChild( nucleonNode ) == null ) {
+                        System.err.println( "Error: Unable to locate node for given nucleon." );
+                    }
+                    _particleToNodeMap.remove( nucleon );
                 }
-                else{
-                    System.err.println("Error: Unable to locate particle in particle-to-node map.");
+                else {
+                    System.err.println( "Error: Unable to locate particle in particle-to-node map." );
                 }
             }
-        });
+        } );
 
         // Register as a listener to the one nucleus that exists within the
         // model so that we know when decay has occurred.
-        _fissionOneNucleusModel.getAtomicNucleus().addListener( new AtomicNucleus.Adapter(){
+        _fissionOneNucleusModel.getAtomicNucleus().addListener( new AtomicNucleus.Adapter() {
 
             @Override
-            public void nucleusChangeEvent(AtomicNucleus atomicNucleus, int numProtons, int numNeutrons,
-                    ArrayList byProducts){
-            	if (byProducts != null){
-            		// This was a decay event, so start the timer that will
-            		// cause the button to be shown after some delay.
-            		BUTTON_DELAY_TIMER.restart();
-            	}
-            	else{
-            		// This must have been a reset event, so hide the button
-            		// that allows the user to reset the nucleus.
-            		_resetButtonNode.setVisible(false);
-            	}
+            public void nucleusChangeEvent( AtomicNucleus atomicNucleus, int numProtons, int numNeutrons,
+                                            ArrayList byProducts ) {
+                if ( byProducts != null ) {
+                    // This was a decay event, so start the timer that will
+                    // cause the button to be shown after some delay.
+                    BUTTON_DELAY_TIMER.restart();
+                }
+                else {
+                    // This must have been a reset event, so hide the button
+                    // that allows the user to reset the nucleus.
+                    _resetButtonNode.setVisible( false );
+                }
             }
-        });
+        } );
 
         // Create a parent node where we will display the nucleus particles.
         // This is being done so that a label can be placed over the top of
         // and so that new particles can be added to the world and not end up
         // appearing over other important nodes.
         _nucleusParticlesLayerNode = new PNode();
-        addWorldChild(_nucleusParticlesLayerNode);
+        addWorldChild( _nucleusParticlesLayerNode );
 
         // Create a parent node where the nodes that create the labels will
         // appear.  Again, this is done to retain the desired "layering"
         // effect.
         _nucleusLabelsLayerNode = new PNode();
-        addWorldChild(_nucleusLabelsLayerNode);
+        addWorldChild( _nucleusLabelsLayerNode );
 
         // Get the nucleus from the model and then get the constituents
         // and create a visible node for each.
@@ -137,21 +139,21 @@ public class FissionOneNucleusCanvas extends PhetPCanvas {
         ArrayList nucleusConstituents = atomicNucleus.getConstituents();
 
         // Add a node for each particle that comprises the nucleus.
-        _particleToNodeMap = new Hashtable(nucleusConstituents.size());
-        for (int i = 0; i < nucleusConstituents.size(); i++){
+        _particleToNodeMap = new Hashtable( nucleusConstituents.size() );
+        for ( int i = 0; i < nucleusConstituents.size(); i++ ) {
 
             Object constituent = nucleusConstituents.get( i );
 
-            if (constituent instanceof AlphaParticle){
+            if ( constituent instanceof AlphaParticle ) {
                 // Add a visible representation of the alpha particle to the canvas.
-                AlphaParticleModelNode alphaNode = new AlphaParticleModelNode((AlphaParticle)constituent);
+                AlphaParticleModelNode alphaNode = new AlphaParticleModelNode( (AlphaParticle) constituent );
                 _nucleusParticlesLayerNode.addChild( alphaNode );
                 _particleToNodeMap.put( constituent, alphaNode );
             }
-            else if (constituent instanceof Nucleon){
+            else if ( constituent instanceof Nucleon ) {
                 // Add a visible representation of the nucleon to the canvas.
-            	NucleonNode nucleonNode = new NucleonNode((Nucleon)constituent);
-            	_nucleusParticlesLayerNode.addChild(nucleonNode);
+                NucleonNode nucleonNode = new NucleonNode( (Nucleon) constituent );
+                _nucleusParticlesLayerNode.addChild( nucleonNode );
                 _particleToNodeMap.put( constituent, nucleonNode );
             }
             else {
@@ -164,55 +166,55 @@ public class FissionOneNucleusCanvas extends PhetPCanvas {
 
         // Add the nucleus node to the canvas.  Since the constituents are
         // handled individually, this just shows the label.
-        _atomicNucleusNode = new LabeledExplodingAtomicNucleusNode(fissionOneNucleusModel.getAtomicNucleus());
+        _atomicNucleusNode = new LabeledExplodingAtomicNucleusNode( fissionOneNucleusModel.getAtomicNucleus() );
         _nucleusLabelsLayerNode.addChild( _atomicNucleusNode );
 
         // Add the neutron source to the canvas.
-        _neutronSourceNode = new NeutronSourceNode(fissionOneNucleusModel.getNeutronSource(), 26);
-        _neutronSourceNode.setRotationEnabled(false);
+        _neutronSourceNode = new NeutronSourceNode( fissionOneNucleusModel.getNeutronSource(), 26 );
+        _neutronSourceNode.setRotationEnabled( false );
         addWorldChild( _neutronSourceNode );
 
         // Register as a listener with the neutron source so that we will know
         // when new neutrons have been produced.
-        fissionOneNucleusModel.getNeutronSource().addListener( new NeutronSource.Adapter (){
+        fissionOneNucleusModel.getNeutronSource().addListener( new NeutronSource.Adapter() {
             @Override
-            public void neutronGenerated(Nucleon neutron){
+            public void neutronGenerated( Nucleon neutron ) {
                 // Add this new neutron to the canvas.
-            	NucleonNode neutronNode = new NucleonNode(neutron);
+                NucleonNode neutronNode = new NucleonNode( neutron );
                 _nucleusParticlesLayerNode.addChild( neutronNode );
                 _particleToNodeMap.put( neutron, neutronNode );
             }
-        });
+        } );
 
         // Add the button for resetting the nucleus to the canvas.
-        _resetButtonNode = new ButtonNode(NuclearPhysicsStrings.RESET_NUCLEUS, 16,
-        		NuclearPhysicsConstants.CANVAS_RESET_BUTTON_COLOR);
+        _resetButtonNode = new ButtonNode( NuclearPhysicsStrings.RESET_NUCLEUS, new PhetFont( Font.BOLD, 16 ),
+                                           NuclearPhysicsConstants.CANVAS_RESET_BUTTON_COLOR );
         double desiredResetButtonWidth = _neutronSourceNode.getFullBoundsReference().width;
-        _resetButtonNode.setScale(desiredResetButtonWidth / _resetButtonNode.getFullBoundsReference().width);
-        _resetButtonNode.setOffset(_neutronSourceNode.getFullBoundsReference().x,
-        		_neutronSourceNode.getFullBoundsReference().y - _resetButtonNode.getFullBoundsReference().height * 2);
-        addWorldChild(_resetButtonNode);
-        _resetButtonNode.setVisible(false);  // Initially invisible, becomes visible when nucleus decays.
+        _resetButtonNode.setScale( desiredResetButtonWidth / _resetButtonNode.getFullBoundsReference().width );
+        _resetButtonNode.setOffset( _neutronSourceNode.getFullBoundsReference().x,
+                                    _neutronSourceNode.getFullBoundsReference().y - _resetButtonNode.getFullBoundsReference().height * 2 );
+        addWorldChild( _resetButtonNode );
+        _resetButtonNode.setVisible( false );  // Initially invisible, becomes visible when nucleus decays.
 
         // Register to receive button pushes.
-        _resetButtonNode.addActionListener( new ActionListener(){
-            public void actionPerformed(ActionEvent event){
+        _resetButtonNode.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent event ) {
                 _fissionOneNucleusModel.getClock().resetSimulationTime();
             }
-        });
+        } );
 
         // Set up the button delay timer that will make the reset button
         // appear some time after the decay has occurred.
-		BUTTON_DELAY_TIMER.addActionListener( new ActionListener() {
+        BUTTON_DELAY_TIMER.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-            	// Show the button.
-            	_resetButtonNode.setVisible(true);
-            	BUTTON_DELAY_TIMER.stop();
+                // Show the button.
+                _resetButtonNode.setVisible( true );
+                BUTTON_DELAY_TIMER.stop();
             }
         } );
 
         // Add to the canvas the chart that will depict the energy of the nucleus.
-        _fissionEnergyChart = new FissionEnergyChart(_fissionOneNucleusModel, this);
+        _fissionEnergyChart = new FissionEnergyChart( _fissionOneNucleusModel, this );
         addScreenChild( _fissionEnergyChart );
 
         // Add a listener for when the canvas is resized.

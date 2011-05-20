@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
 
 /**
@@ -32,7 +33,7 @@ public class AutoPressButtonNode extends ButtonNode {
      * Constructor.
      */
     public AutoPressButtonNode( String label, int fontSize, Color buttonColor ) {
-        super( label, fontSize, buttonColor );
+        super( label, new PhetFont( Font.BOLD, fontSize ), buttonColor );
 
         PRE_PRESS_HIGHLIGHT_TIMER.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {

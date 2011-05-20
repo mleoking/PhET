@@ -29,8 +29,8 @@ public class AllFilledDialogNode extends PNode {
         addChild( new SwingLayoutNode( new GridBagLayout() ) {{
             // smiley face
             addChild( new FaceNode( 120 ) {{
-                          smile();
-                      }},
+                smile();
+            }},
                       new GridBagConstraints() {{
                           gridx = 0;
                           gridy = 0;
@@ -39,8 +39,8 @@ public class AllFilledDialogNode extends PNode {
 
             // text explaining all collection boxes are filled
             addChild( new HTMLNode( BuildAMoleculeStrings.COLLECTION_ALL_FILLED ) {{
-                          setFont( new PhetFont( 20, true ) );
-                      }},
+                setFont( new PhetFont( 20, true ) );
+            }},
                       new GridBagConstraints() {{
                           gridx = 0;
                           gridy = 1;
@@ -49,13 +49,13 @@ public class AllFilledDialogNode extends PNode {
             );
 
             // button to generate a new kit/collection
-            addChild( new ButtonNode( BuildAMoleculeStrings.COLLECTION_TRY_WITH_DIFFERENT_MOLECULES, 18, Color.ORANGE ) {{
-                          addActionListener( new ActionListener() {
-                              public void actionPerformed( ActionEvent e ) {
-                                  regenerateCallback.apply();
-                              }
-                          } );
-                      }},
+            addChild( new ButtonNode( BuildAMoleculeStrings.COLLECTION_TRY_WITH_DIFFERENT_MOLECULES, new PhetFont( Font.BOLD, 18 ), Color.ORANGE ) {{
+                addActionListener( new ActionListener() {
+                    public void actionPerformed( ActionEvent e ) {
+                        regenerateCallback.apply();
+                    }
+                } );
+            }},
                       new GridBagConstraints() {{
                           gridx = 0;
                           gridy = 2;
