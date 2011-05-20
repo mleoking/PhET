@@ -23,7 +23,7 @@ import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolution
 public class MicroscopicModel extends SugarAndSaltSolutionModel {
 
     //List of all model objects objects
-    private ArrayList<CircleBody> bodyList = new ArrayList<CircleBody>();
+    private ArrayList<WaterMolecule> bodyList = new ArrayList<WaterMolecule>();
 
     //Listeners who are called back when the physics updates
     private ArrayList<VoidFunction0> frameListeners = new ArrayList<VoidFunction0>();
@@ -34,8 +34,8 @@ public class MicroscopicModel extends SugarAndSaltSolutionModel {
     public MicroscopicModel() {
         //Set the bounds of the physics engine
         AABB worldAABB = new AABB();
-        worldAABB.lowerBound = new Vec2( -100, -100 );
-        worldAABB.upperBound = new Vec2( 100, 100 );
+        worldAABB.lowerBound = new Vec2( -200, -200 );
+        worldAABB.upperBound = new Vec2( 200, 200 );
 
         //Create the world
         world = new World( worldAABB, new Vec2( 0, 1 ), true );
@@ -68,13 +68,17 @@ public class MicroscopicModel extends SugarAndSaltSolutionModel {
     }
 
     //Wrapper class which contains Body and shape
-    public static class CircleBody {
-        Body body;
-        CircleDef circleDef;
+    public static class WaterMolecule {
+        public Body body;
+        public CircleDef oxygen;
+        public CircleDef h1;
+        public CircleDef h2;
 
-        CircleBody( Body body, CircleDef circleDef ) {
+        WaterMolecule( Body body, CircleDef oxygen, CircleDef h1, CircleDef h2 ) {
             this.body = body;
-            this.circleDef = circleDef;
+            this.oxygen = oxygen;
+            this.h1 = h1;
+            this.h2 = h2;
         }
     }
 
@@ -89,20 +93,33 @@ public class MicroscopicModel extends SugarAndSaltSolutionModel {
         Body body = world.createBody( bodyDef );
 
         //Make it a bouncy circle
-        CircleDef shapeDef = new CircleDef();
-        shapeDef.restitution = 0.8f;
-        shapeDef.density = 1;
-        shapeDef.radius = 4;
+        CircleDef oxygen = new CircleDef() {{
+            restitution = 0.8f;
+            density = 1;
+            radius = 4;
+        }};
+        body.createShape( oxygen );
 
-        //Update the shape
-        body.createShape( shapeDef );
+        CircleDef h1 = new CircleDef() {{
+            localPosition = new Vec2( 3, 3 );
+            radius = 2;
+            density = 1;
+        }};
+        body.createShape( h1 );
+
+        CircleDef h2 = new CircleDef() {{
+            localPosition = new Vec2( -3, 3 );
+            radius = 2;
+            density = 1;
+        }};
+        body.createShape( h1 );
         body.setMassFromShapes();
 
         //Set the velocity
         body.setLinearVelocity( new Vec2( vx, vy ) );
 
         //Add the body to the list
-        bodyList.add( new CircleBody( body, shapeDef ) );
+        bodyList.add( new WaterMolecule( body, oxygen, h1, h2 ) );
     }
 
 
@@ -118,7 +135,7 @@ public class MicroscopicModel extends SugarAndSaltSolutionModel {
     }
 
     //Get all bodies in the model
-    public ArrayList<CircleBody> getBodyList() {
+    public ArrayList<WaterMolecule> getBodyList() {
         return bodyList;
     }
 
