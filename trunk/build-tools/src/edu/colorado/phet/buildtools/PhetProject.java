@@ -512,7 +512,7 @@ public abstract class PhetProject {
     }
 
     private static boolean isSimulation( File simulation ) {
-        return simulation.isDirectory() && !simulation.getName().equalsIgnoreCase( "all-sims" ) && !simulation.getName().equalsIgnoreCase( ".svn" ) && BuildPropertiesFile.getBuildPropertiesFile( simulation ).exists();
+        return simulation.isDirectory() && !simulation.getName().equalsIgnoreCase( ".svn" ) && BuildPropertiesFile.getBuildPropertiesFile( simulation ).exists();
     }
 
     public static PhetProject[] getAllSimulationProjects( File trunk ) {
