@@ -23,6 +23,7 @@ public class NiceButton2 extends Sprite {
         this.label_txt = new TextField();
         this.label_txt.text = labelText;
         this.label_txt.selectable = false;
+        this.label_txt.autoSize = TextFieldAutoSize.CENTER;
         //this.label_txt.border = true;  //for testing only
         this.addChild( this.buttonBody );
         this.myButtonWidth = myButtonWidth;
@@ -42,13 +43,13 @@ public class NiceButton2 extends Sprite {
         trace( "NiceButton2.testFunction called." );
     }
 
-    //can we modify this function so that buttonWidth resizes to account for label text length?
+    //resizes enclosing button when string is too long
     public function setLabel( label: String ): void {
         this.label_txt.text = label;
         this.setTFormat();  //must reformat when text is altered
         //resize width of button body so that text fits, then redraw buttonBody
-        this.myButtonWidth =   this.label_txt.width + 20;
-        trace("ControlPanel.setLabel buttonWidth = "+this.myButtonWidth );
+        this.myButtonWidth =   this.label_txt.textWidth + 30;
+        //trace("label = "+label+"   ControlPanel.setLabel buttonWidth = "+this.myButtonWidth );
         this.drawButtonBody();
         //TextFieldUtils.resizeText( this.buttonBody.label_txt, TextFieldAutoSize.CENTER);
     }
@@ -71,6 +72,7 @@ public class NiceButton2 extends Sprite {
         this.tFormat.font = "Arial";
         this.tFormat.size = 15;
         this.label_txt.setTextFormat( this.tFormat );
+        //trace("ControlPanel.setTFormat buttonWidth = "+this.myButtonWidth );
     }
 
     private function drawButtonBody(): void {

@@ -243,9 +243,9 @@ public class ControlPanel extends Canvas {
         this.showRulerCheckBox.addEventListener( Event.CHANGE, clickRuler );
 
         //NiceButton2( myButtonWidth: Number, myButtonHeight: Number, labelText: String, buttonFunction: Function, bodyColor:Number = 0x00ff00 )
-        this.resetAllButton = new NiceButton2( 100, 25, this.resetAll_str, resetAll );
+        this.resetAllButton = new NiceButton2( 100, 28, this.resetAll_str, resetAll );
         this.resetAllButton.setBodyColor(0xff3333);
-        this.resetAllButton.setLabel("Very Very Very Long Button Label");
+        this.resetAllButton.setLabel( this.resetAll_str );
 //        with ( this.resetAllButton ) {
 //            label = this.resetAll_str;
 //            buttonMode = true;
@@ -289,7 +289,7 @@ public class ControlPanel extends Canvas {
         frequencyEquals_str = "frequency = ";
         hz_str = "Hz";
         ruler_str = "Ruler  ";
-        resetAll_str = "Reset All  ";
+        resetAll_str = "Reset All";
         choose_str = "Choose..";
         sameMass_str = "same mass";
         sameSpring_str = "same spring";
