@@ -1,8 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.micro;
 
-import java.awt.geom.Point2D;
-
 import org.jbox2d.common.Vec2;
 
 import edu.colorado.phet.chemistry.molecules.AtomNode;
@@ -52,7 +50,7 @@ public class WaterMoleculeNode extends PNode {
                 ImmutableVector2D oxygenPosition = waterMolecule.oxygenPosition.get();
 
                 //Set the location of the oxygen atom
-                Point2D.Double viewPosition = transform.modelToView( oxygenPosition ).toPoint2D();
+                ImmutableVector2D viewPosition = transform.modelToView( oxygenPosition );
                 oxygen.setOffset( viewPosition.getX() - oxygen.getFullBounds().getWidth() / 2, viewPosition.getY() - oxygen.getFullBounds().getHeight() / 2 );
 
                 //Set the location of the hydrogens

@@ -21,7 +21,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
  *
  * @author Sam Reid
  */
-public class WaterMolecule {
+public class WaterMolecule implements Removable {
     public Body body;
     public CircleDef oxygen;
     public CircleDef h1;

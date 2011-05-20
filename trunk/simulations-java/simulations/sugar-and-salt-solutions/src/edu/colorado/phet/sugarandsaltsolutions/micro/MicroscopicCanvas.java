@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Rectangle2D;
 
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -49,36 +50,36 @@ public class MicroscopicCanvas extends PhetPCanvas {
         rootNode = new PNode();
         addWorldChild( rootNode );
 
-        //Function which creates water nodes on initialization and when they are added to the model
-        VoidFunction1<WaterMolecule> createWaterNode = new VoidFunction1<WaterMolecule>() {
-            public void apply( WaterMolecule waterMolecule ) {
-
-                //Create the node
-                final WaterMoleculeNode node = new WaterMoleculeNode( transform, waterMolecule, new VoidFunction1<VoidFunction0>() {
-                    public void apply( VoidFunction0 listener ) {
-                        model.addFrameListener( listener );
-                    }
-                } );
-
-                //Remove the node when it leaves the model
-                waterMolecule.addRemovalListener( new VoidFunction0() {
-                    public void apply() {
-                        rootNode.removeChild( node );
-                    }
-                } );
-
-                //Add the node to the scene graph
-                rootNode.addChild( node );
+        //Adapter method for wiring up components to listen to when the model updates
+        final VoidFunction1<VoidFunction0> addFrameListener = new VoidFunction1<VoidFunction0>() {
+            public void apply( VoidFunction0 listener ) {
+                model.addFrameListener( listener );
             }
         };
 
-        //Show the circles already in the model on startup
-        for ( final WaterMolecule waterMolecule : model.getWaterList() ) {
-            createWaterNode.apply( waterMolecule );
+        //Provide graphics for WaterMolecules
+        new GraphicAdapter<WaterMolecule>( rootNode, new Function1<WaterMolecule, PNode>() {
+            public PNode apply( WaterMolecule waterMolecule ) {
+                return new WaterMoleculeNode( transform, waterMolecule, addFrameListener );
+            }
+        }, model.getWaterList(), new VoidFunction1<VoidFunction1<WaterMolecule>>() {
+            public void apply( VoidFunction1<WaterMolecule> createNode ) {
+                model.addWaterAddedListener( createNode );
+            }
         }
+        );
 
-        //Listen for subsequent additions of water molecules
-        model.addWaterAddedListener( createWaterNode );
+        //Provide graphics for SodiumIons
+        new GraphicAdapter<SodiumIon>( rootNode, new Function1<SodiumIon, PNode>() {
+            public PNode apply( SodiumIon sodiumIon ) {
+                return new SodiumIonNode( transform, sodiumIon, addFrameListener );
+            }
+        }, model.getSodiumIonList(), new VoidFunction1<VoidFunction1<SodiumIon>>() {
+            public void apply( VoidFunction1<SodiumIon> createNode ) {
+                model.addSodiumIonAddedListener( createNode );
+            }
+        }
+        );
 
         addChild( new BarrierNode( transform, model.floor ) );
         addChild( new BarrierNode( transform, model.leftWall ) );
