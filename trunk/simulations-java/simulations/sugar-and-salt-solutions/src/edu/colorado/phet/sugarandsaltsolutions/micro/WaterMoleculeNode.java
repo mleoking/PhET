@@ -10,6 +10,7 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsApplication;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
@@ -68,9 +69,17 @@ public class WaterMoleculeNode extends PNode {
         update.apply();
 
         //Add the children in staggered layers so it looks 3d
-        addChild( h1 );
-        addChild( oxygen );
-        addChild( h2 );
+        //Z-Flip about half of them so they don't all look like 2d rotated versions of each other
+        if ( SugarAndSaltSolutionsApplication.random.nextBoolean() ) {
+            addChild( h1 );
+            addChild( oxygen );
+            addChild( h2 );
+        }
+        else {
+            addChild( h2 );
+            addChild( oxygen );
+            addChild( h1 );
+        }
     }
 
     public static ImmutableVector2D toImmutableVector2D( Vec2 from ) {

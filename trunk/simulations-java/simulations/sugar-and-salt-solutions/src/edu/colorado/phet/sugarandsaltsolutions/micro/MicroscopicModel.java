@@ -42,12 +42,15 @@ public class MicroscopicModel extends SugarAndSaltSolutionModel {
     public final Barrier rightWall;
     public final Barrier leftWall;
 
-    //units for water molecules are in SI
+    public final double beakerWidth = 40E-10;
+    public final double beakerHeight = beakerWidth * 0.6;
+    private final double box2DWidth = 20;
 
+    //units for water molecules are in SI
 
     //Beaker floor should be about 40 angstroms, to accommodate about 20 water molecules side-to-side
     //But keep box2d within -10..10 (i.e. 20 boxes wide), so scale factor is about
-    double scaleFactor = 20 / 40E-10;
+    double scaleFactor = box2DWidth / beakerWidth;
     private final ModelViewTransform modelToBox2D = ModelViewTransform.createSinglePointScaleMapping( new Point(), new Point(), scaleFactor );
 
     public MicroscopicModel() {
@@ -57,17 +60,19 @@ public class MicroscopicModel extends SugarAndSaltSolutionModel {
         worldAABB.upperBound = new Vec2( 200, 200 );
 
         //Create the world
+        //TODO: fix units for gravity, should be in box2d coordinate frame, not SI
         world = new World( worldAABB, new Vec2( 0, -9.8f ), true );
 
         //Add water particles
         addWaterParticles( System.currentTimeMillis() );
 
         //Create beaker floor
-        floor = createBarrier( -10E-10, 0, 20E-10, 1E-10 );
+        double glassThickness = 1E-10;
+        floor = createBarrier( -beakerWidth / 2, 0, beakerWidth, glassThickness );
 
         //Create sides
-        rightWall = createBarrier( -10E-10, 0, 1E-10, 10E-10 );
-        leftWall = createBarrier( 10E-10, 0, 1E-10, 10E-10 );
+        rightWall = createBarrier( -beakerWidth / 2, 0, glassThickness, beakerHeight );
+        leftWall = createBarrier( beakerWidth / 2, 0, glassThickness, beakerHeight );
 
         //Move to a stable state on startup
         //Commented out because it takes too long
@@ -80,11 +85,9 @@ public class MicroscopicModel extends SugarAndSaltSolutionModel {
 
     private void addWaterParticles( long seed ) {
         Random random = new Random( seed );
-        for ( int i = 0; i < 100; i++ ) {
+        for ( int i = 0; i < 200; i++ ) {
             float float1 = (float) ( ( random.nextFloat() - 0.5 ) * 2 );
-            float float2 = (float) ( ( random.nextFloat() - 0.5 ) * 2 );
-//            WaterMolecule water = createWater( float1 * 200 - 100, random.nextFloat() * 200 - 100, 0, 0, (float) ( random.nextFloat() * Math.PI * 2 ) );
-            WaterMolecule water = new WaterMolecule( world, modelToBox2D, float1 * 10E-10, float2 * 10E-10, 0, 0, (float) ( random.nextFloat() * Math.PI * 2 ), new VoidFunction1<VoidFunction0>() {
+            WaterMolecule water = new WaterMolecule( world, modelToBox2D, float1 * beakerWidth / 2, random.nextFloat() * beakerHeight, 0, 0, (float) ( random.nextFloat() * Math.PI * 2 ), new VoidFunction1<VoidFunction0>() {
                 public void apply( VoidFunction0 waterMolecule ) {
                     addFrameListener( waterMolecule );
                 }
@@ -125,7 +128,7 @@ public class MicroscopicModel extends SugarAndSaltSolutionModel {
         for ( WaterMolecule waterMolecule : waterList ) {
             //Apply a random force so the system doesn't settle down
             float rand1 = ( random.nextFloat() - 0.5f ) * 2;
-//            waterMolecule.body.applyForce( new Vec2( rand1 * 1000, random.nextFloat() ), waterMolecule.body.getPosition() );
+            waterMolecule.body.applyForce( new Vec2( rand1 * 10, random.nextFloat() ), waterMolecule.body.getPosition() );
 
             //Setting random velocity looks funny
 //            double randomAngle = random.nextDouble() * Math.PI * 2;
