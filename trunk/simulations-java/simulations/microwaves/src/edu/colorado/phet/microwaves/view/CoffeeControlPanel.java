@@ -8,10 +8,7 @@
  */
 package edu.colorado.phet.microwaves.view;
 
-import java.awt.AWTException;
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -89,7 +86,7 @@ public class CoffeeControlPanel extends JPanel {
             SwingUtils.addGridBagComponent( powerBtnPane, pct25RB, 0, rowIdx3++, 1, 1,
                                             GridBagConstraints.HORIZONTAL, GridBagConstraints.CENTER );
         }
-        catch( AWTException e ) {
+        catch ( AWTException e ) {
             e.printStackTrace();
         }
         powerBtnPane.setBorder( BorderFactory.createTitledBorder( MicrowavesResources.getString( "CoffeeControlPanel.PowerBorderTitle" ) ) );
@@ -123,7 +120,7 @@ public class CoffeeControlPanel extends JPanel {
             SwingUtils.addGridBagComponent( fieldViewRBPane, noFieldViewRB, 0, rowIdx2++, 1, 1,
                                             GridBagConstraints.HORIZONTAL, GridBagConstraints.CENTER );
         }
-        catch( AWTException e ) {
+        catch ( AWTException e ) {
             e.printStackTrace();
         }
         fieldViewRBPane.setBorder( BorderFactory.createTitledBorder( MicrowavesResources.getString( "CoffeeControlPanel.FieldViewBorderTitle" ) ) );
@@ -161,15 +158,12 @@ public class CoffeeControlPanel extends JPanel {
                                             GridBagConstraints.NONE,
                                             GridBagConstraints.CENTER );
         }
-        catch( AWTException e ) {
+        catch ( AWTException e ) {
             e.printStackTrace();
         }
 
         // Set initial conditions
-        fullViewRB.setSelected( true );
-        setFieldView();
-        pct100RB.setSelected( true );
-        setPowerLevel();
+        reset();
     }
 
     private ActionListener fieldViewActionListener = new ActionListener() {
@@ -219,7 +213,7 @@ public class CoffeeControlPanel extends JPanel {
     }
 
     public void reset() {
-        fullViewRB.setSelected( true );
+        splineViewRB.setSelected( true );
         setFieldView();
         pct100RB.setSelected( true );
         setPowerLevel();
