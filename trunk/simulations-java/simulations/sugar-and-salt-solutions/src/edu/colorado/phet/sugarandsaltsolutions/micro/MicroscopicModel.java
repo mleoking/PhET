@@ -43,7 +43,7 @@ public class MicroscopicModel extends SugarAndSaltSolutionModel {
         //Add water particles
         Random random = new Random();
         for ( int i = 0; i < 200; i++ ) {
-            addBody( random.nextFloat() * 100, random.nextFloat() * 100, random.nextFloat(), random.nextFloat() );
+            addBody( random.nextFloat() * 200 - 100, random.nextFloat() * 200 - 100, 0, 0, (float) ( random.nextFloat() * Math.PI * 2 ) );
         }
 
         //Create beaker floor
@@ -59,7 +59,7 @@ public class MicroscopicModel extends SugarAndSaltSolutionModel {
         PolygonDef floor = new PolygonDef();
         floor.setAsBox( width, height );
         BodyDef bd = new BodyDef();
-        floor.restitution = 0.4f;
+        floor.restitution = 0.2f;
         bd.position = new Vec2( x, y );
         Body body = world.createBody( bd );
 
@@ -83,24 +83,26 @@ public class MicroscopicModel extends SugarAndSaltSolutionModel {
     }
 
     //Adds a circular body at the specified location with the given velocity
-    private void addBody( float x, float y, float vx, float vy ) {
+    private void addBody( float x, float y, float vx, float vy, float angle ) {
 
         //First create the body def at the right location
         BodyDef bodyDef = new BodyDef();
         bodyDef.position = new Vec2( x, y );
+        bodyDef.angle = angle;
 
         //Now create the body
         Body body = world.createBody( bodyDef );
 
         //Make it a bouncy circle
         CircleDef oxygen = new CircleDef() {{
-            restitution = 0.8f;
+            restitution = 0.4f;
             density = 1;
             radius = 4;
         }};
         body.createShape( oxygen );
 
         CircleDef h1 = new CircleDef() {{
+            restitution = 0.4f;
             localPosition = new Vec2( 3, 3 );
             radius = 2;
             density = 1;
@@ -108,11 +110,12 @@ public class MicroscopicModel extends SugarAndSaltSolutionModel {
         body.createShape( h1 );
 
         CircleDef h2 = new CircleDef() {{
+            restitution = 0.4f;
             localPosition = new Vec2( -3, 3 );
             radius = 2;
             density = 1;
         }};
-        body.createShape( h1 );
+        body.createShape( h2 );
         body.setMassFromShapes();
 
         //Set the velocity
@@ -122,11 +125,10 @@ public class MicroscopicModel extends SugarAndSaltSolutionModel {
         bodyList.add( new WaterMolecule( body, oxygen, h1, h2 ) );
     }
 
-
     @Override protected void updateModel( double dt ) {
         //Ignore super update for now
 //        super.updateModel( dt );
-        world.step( (float) dt * 10, 1 );
+        world.step( (float) dt * 5, 10 );
 
         //Notify listeners that the model changed
         for ( VoidFunction0 frameListener : frameListeners ) {
