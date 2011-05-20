@@ -1,3 +1,4 @@
+Started prototype for microscopic model
 # 0.00.19 (52199) May 19, 2011
 Limit to 100 grams of each solute
 # 0.00.18 (52197) May 19, 2011
