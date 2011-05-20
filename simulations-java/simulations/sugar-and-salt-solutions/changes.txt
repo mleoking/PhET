@@ -1,3 +1,4 @@
+Added sodium ions
 Added SI coordinates and a transform to box2d coordinate frame
 Added graphics for the beaker floor and walls
 Added a reset button

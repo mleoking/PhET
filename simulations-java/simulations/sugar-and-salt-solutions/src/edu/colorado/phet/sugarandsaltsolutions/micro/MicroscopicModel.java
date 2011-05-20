@@ -28,6 +28,9 @@ public class MicroscopicModel extends SugarAndSaltSolutionModel {
     //List of all model objects objects
     private ArrayList<WaterMolecule> waterList = new ArrayList<WaterMolecule>();
 
+    //List of all Sodium ions
+    private ArrayList<SodiumIon> sodiumList = new ArrayList<SodiumIon>();
+
     //Listeners who are called back when the physics updates
     private ArrayList<VoidFunction0> frameListeners = new ArrayList<VoidFunction0>();
 
@@ -36,6 +39,8 @@ public class MicroscopicModel extends SugarAndSaltSolutionModel {
 
     //Listeners that are notified when a water molecule enters the model.  Removal listeners are added to the water molecule
     private ArrayList<VoidFunction1<WaterMolecule>> waterAddedListeners = new ArrayList<VoidFunction1<WaterMolecule>>();
+
+    private ArrayList<VoidFunction1<SodiumIon>> sodiumAddedListeners = new ArrayList<VoidFunction1<SodiumIon>>();
 
     private Random random = new Random();
     public final Barrier floor;
@@ -65,6 +70,7 @@ public class MicroscopicModel extends SugarAndSaltSolutionModel {
 
         //Add water particles
         addWaterParticles( System.currentTimeMillis() );
+        addSodiumParticles( System.currentTimeMillis() );
 
         //Create beaker floor
         double glassThickness = 1E-10;
@@ -81,6 +87,22 @@ public class MicroscopicModel extends SugarAndSaltSolutionModel {
 //            world.step( (float) ( clock.getDt() * 10 ), 1 );
 //        }
 //        System.out.println( "stable start time: " + ( System.currentTimeMillis() - startTime ) );
+    }
+
+    private void addSodiumParticles( long seed ) {
+        Random random = new Random( seed );
+        for ( int i = 0; i < 10; i++ ) {
+            float float1 = (float) ( ( random.nextFloat() - 0.5 ) * 2 );
+            SodiumIon sodiumIon = new SodiumIon( world, modelToBox2D, float1 * beakerWidth / 2, random.nextFloat() * beakerHeight, 0, 0, (float) ( random.nextFloat() * Math.PI * 2 ), new VoidFunction1<VoidFunction0>() {
+                public void apply( VoidFunction0 sodiumMolecule ) {
+                    addFrameListener( sodiumMolecule );
+                }
+            } );
+            sodiumList.add( sodiumIon );
+            for ( VoidFunction1<SodiumIon> sodiumAddedListener : sodiumAddedListeners ) {
+                sodiumAddedListener.apply( sodiumIon );
+            }
+        }
     }
 
     private void addWaterParticles( long seed ) {
@@ -167,6 +189,14 @@ public class MicroscopicModel extends SugarAndSaltSolutionModel {
             waterMolecule.notifyRemoved();
         }
         waterList.clear();
+    }
+
+    public ArrayList<SodiumIon> getSodiumIonList() {
+        return sodiumList;
+    }
+
+    public void addSodiumIonAddedListener( VoidFunction1<SodiumIon> listener ) {
+        sodiumAddedListeners.add( listener );
     }
 
     //Model object representing a barrier, such as the beaker floor or wall which particles shouldn't pass through
