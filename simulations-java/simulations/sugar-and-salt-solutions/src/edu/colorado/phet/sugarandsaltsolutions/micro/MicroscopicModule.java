@@ -19,6 +19,6 @@ public class MicroscopicModule extends SugarAndSaltSolutionsModule {
     public MicroscopicModule( final MicroscopicModel model, SugarAndSaltSolutionsColorScheme config ) {
         super( "Microscopic", model.clock );
         this.model = model;
-        setSimulationPanel( new MicroscopicCanvas( model ) );
+        setSimulationPanel( new MicroscopicCanvas( model, config ) );
     }
 }
