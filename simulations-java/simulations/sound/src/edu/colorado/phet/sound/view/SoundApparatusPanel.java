@@ -12,9 +12,11 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
+import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel3;
 import edu.colorado.phet.sound.model.SoundModel;
 
-public class SoundApparatusPanel extends ApparatusPanel2 {
+//Use ApparatusPanel3 to improve scaling for low res screens, see #2860
+public class SoundApparatusPanel extends ApparatusPanel3 {
     private int audioSource = SPEAKER_SOURCE;
     private double frequency = 0;
     private double amplitude = 0;
@@ -33,6 +35,6 @@ public class SoundApparatusPanel extends ApparatusPanel2 {
     private SoundModel model;
 
     public SoundApparatusPanel( SoundModel model, IClock clock ) {
-        super( model, clock );
+        super( clock ,769, 568);
     }
 }
