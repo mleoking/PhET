@@ -1,3 +1,5 @@
+# 2.02.00 (52287) May 21, 2011
+5/21/11 > added new translation credits features
 # 2.01.02 (52220) May 19, 2011
 # 2.01.01 (48785) Feb 9, 2011
 2/9/11 Deploying to dev in order to test KSU credits feature.
