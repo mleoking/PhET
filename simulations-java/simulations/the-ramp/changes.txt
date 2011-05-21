@@ -1,3 +1,5 @@
+# 1.04.00 (52282) May 21, 2011
+5/21/11 > added new translation credits features
 # 1.03.31 (52209) May 19, 2011
 > Set initial frame size to be 1024x768 instead of MAX_EXTENT
 # 1.03.30 (33920) Aug 5, 2009
