@@ -1,3 +1,4 @@
+> Improved graphics scaling on low resolution screens, see #2860
 # 4.08.00 (52262) May 20, 2011
 5/20/11 > added new translation credits features
 # 4.07.06 (52201) May 19, 2011
