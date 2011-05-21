@@ -1,3 +1,5 @@
+# 1.10.00 (52272) May 21, 2011
+5/21/11 > added new translation credits features
 # 1.09.03 (52205) May 19, 2011
 Moved static clamp method from rotation's MathUtil to the usage class, and deleted rotation's MathUtil to avoid name clash with phetcommon's MathUtil
 Fixed: RotationRulerNode was broken after base class RulerNode received bugfixes, see #2678
