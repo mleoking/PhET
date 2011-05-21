@@ -1,10 +1,12 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.micro;
 
+import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import org.jbox2d.collision.CircleDef;
+import org.jbox2d.collision.MassData;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
@@ -21,24 +23,30 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
  *
  * @author Sam Reid
  */
-public class SodiumIon implements Removable {
+public class DefaultParticle implements Removable, Particle {
     public Body body;
     public CircleDef circleDef;
     private ArrayList<VoidFunction0> removalListeners = new ArrayList<VoidFunction0>();
-    public final double radius = 1.3E-10;
+    public static final double radius = 1.3E-10;
     public final Property<ImmutableVector2D> position;
+    private final ModelViewTransform transform;
+    private double charge;
+    private BodyDef bodyDef;
+    private boolean grabbed;
 
-    public SodiumIon( World world, final ModelViewTransform transform, double x, double y, double vx, double vy, final double theta, VoidFunction1<VoidFunction0> addUpdateListener ) {
+    public DefaultParticle( World world, final ModelViewTransform transform, final double x, final double y, double vx, double vy, final double theta, VoidFunction1<VoidFunction0> addUpdateListener, double charge ) {
+        this.transform = transform;
+        this.charge = charge;
 
         //Model state in SI
         position = new Property<ImmutableVector2D>( new ImmutableVector2D( x, y ) );
 
         //Find the box2d coordinates
-        final Point2D box2DLocation = transform.modelToView( x, y );
         Point2D box2DVelocity = transform.modelToView( vx, vy );
 
         //First create the body def at the right location
-        BodyDef bodyDef = new BodyDef() {{
+        bodyDef = new BodyDef() {{
+            final Point2D box2DLocation = transform.modelToView( x, y );
             position = new Vec2( (float) box2DLocation.getX(), (float) box2DLocation.getY() );
 //            System.out.println( "position = " + position );
             this.angle = (float) theta;
@@ -51,7 +59,7 @@ public class SodiumIon implements Removable {
         circleDef = new CircleDef() {{
             restitution = 0.4f;
             density = 1;
-            radius = (float) transform.modelToViewDeltaX( SodiumIon.this.radius );
+            radius = (float) transform.modelToViewDeltaX( DefaultParticle.this.radius );
         }};
         body.createShape( circleDef );
         body.setMassFromShapes();
@@ -59,6 +67,7 @@ public class SodiumIon implements Removable {
         //Set the velocity
         body.setLinearVelocity( new Vec2( (float) box2DVelocity.getX(), (float) box2DVelocity.getY() ) );
 
+        //Update the model when box2d updates
         addUpdateListener.apply( new VoidFunction0() {
             public void apply() {
                 position.set( new ImmutableVector2D( transform.viewToModel( body.getPosition().x, body.getPosition().y ) ) );
@@ -76,5 +85,28 @@ public class SodiumIon implements Removable {
         for ( VoidFunction0 removalListener : removalListeners ) {
             removalListener.apply();
         }
+    }
+
+    public Vec2 getPosition() {
+        return body.getPosition();
+    }
+
+    public double getCharge() {
+        return charge;
+    }
+
+    //Translate when the user drags the particle
+    public void translate( Dimension2D delta ) {
+        position.set( position.get().getAddedInstance( delta ) );
+        final Point2D box2DLocation = transform.modelToView( position.get().getX(), position.get().getY() );
+        body.setXForm( new Vec2( (float) box2DLocation.getX(), (float) box2DLocation.getY() ), 0 );
+        body.setLinearVelocity( new Vec2() );
+    }
+
+    //Turn off physics updates when grabbed by the user by turning the mass to zero
+    public void setGrabbed( boolean b ) {
+        grabbed = b;
+        if ( grabbed ) { body.setMass( new MassData() ); }
+        else { body.setMassFromShapes(); }
     }
 }

@@ -6,13 +6,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Rectangle2D;
 
+import edu.colorado.phet.chemistry.model.Element;
+import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
+import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsApplication;
 import edu.colorado.phet.sugarandsaltsolutions.common.SugarAndSaltSolutionsColorScheme;
 import edu.colorado.phet.sugarandsaltsolutions.micro.MicroscopicModel.Barrier;
 import edu.umd.cs.piccolo.PNode;
@@ -70,13 +75,25 @@ public class MicroscopicCanvas extends PhetPCanvas {
         );
 
         //Provide graphics for SodiumIons
-        new GraphicAdapter<SodiumIon>( rootNode, new Function1<SodiumIon, PNode>() {
-            public PNode apply( SodiumIon sodiumIon ) {
-                return new SodiumIonNode( transform, sodiumIon, addFrameListener );
+        new GraphicAdapter<DefaultParticle>( rootNode, new Function1<DefaultParticle, PNode>() {
+            public PNode apply( DefaultParticle sodiumIon ) {
+                return new DefaultParticleNode( transform, sodiumIon, addFrameListener, Element.N );//TODO: no sodium element yet, so it will have to be added
             }
-        }, model.getSodiumIonList(), new VoidFunction1<VoidFunction1<SodiumIon>>() {
-            public void apply( VoidFunction1<SodiumIon> createNode ) {
+        }, model.getSodiumIonList(), new VoidFunction1<VoidFunction1<DefaultParticle>>() {
+            public void apply( VoidFunction1<DefaultParticle> createNode ) {
                 model.addSodiumIonAddedListener( createNode );
+            }
+        }
+        );
+
+        //Provide graphics for Chlorine Ions
+        new GraphicAdapter<DefaultParticle>( rootNode, new Function1<DefaultParticle, PNode>() {
+            public PNode apply( DefaultParticle sodiumIon ) {
+                return new DefaultParticleNode( transform, sodiumIon, addFrameListener, Element.Cl );
+            }
+        }, model.getChlorineIonList(), new VoidFunction1<VoidFunction1<DefaultParticle>>() {
+            public void apply( VoidFunction1<DefaultParticle> createNode ) {
+                model.addChlorineIonAddedListener( createNode );
             }
         }
         );
@@ -85,14 +102,55 @@ public class MicroscopicCanvas extends PhetPCanvas {
         addChild( new BarrierNode( transform, model.leftWall ) );
         addChild( new BarrierNode( transform, model.rightWall ) );
 
-        //Add a reset all button that resets this tab
-        addChild( new ButtonNode( "Reset All" ) {{
-            addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    model.reset();
-                }
-            } );
-        }} );
+        final Function0<Float> getX = new Function0<Float>() {
+            public Float apply() {
+                return (float) ( SugarAndSaltSolutionsApplication.random.nextFloat() * model.beakerWidth - model.beakerWidth / 2 );
+            }
+        };
+
+        //Control panel
+        addChild( new ControlPanelNode( new VBox(
+                //Add a reset all button that resets this tab
+                new ButtonNode( "Reset All" ) {{
+                    addActionListener( new ActionListener() {
+                        public void actionPerformed( ActionEvent e ) {
+                            model.reset();
+                        }
+                    } );
+                }},
+                //Button to add a single sodium ion
+                new ButtonNode( "Add Sodium Ion" ) {{
+                    addActionListener( new ActionListener() {
+                        public void actionPerformed( ActionEvent e ) {
+                            model.addSodiumIon( getX.apply(), model.beakerHeight, 0 );
+                        }
+                    } );
+                }},
+                //Button to add a chlorine icon
+                new ButtonNode( "Add Chlorine Ion" ) {{
+                    addActionListener( new ActionListener() {
+                        public void actionPerformed( ActionEvent e ) {
+                            model.addChlorineIon( getX.apply(), model.beakerHeight, 0 );
+                        }
+                    } );
+                }},
+                //button to add a water
+                new ButtonNode( "Add Water" ) {{
+                    addActionListener( new ActionListener() {
+                        public void actionPerformed( ActionEvent e ) {
+                            model.addWater( getX.apply(), model.beakerHeight, 0 );
+                        }
+                    } );
+                }},
+                //button to add a water
+                new ButtonNode( "Add NaCl" ) {{
+                    addActionListener( new ActionListener() {
+                        public void actionPerformed( ActionEvent e ) {
+                            model.addSalt( getX.apply(), model.beakerHeight );
+                        }
+                    } );
+                }}
+        ) ) );
     }
 
     private void addChild( PNode node ) {

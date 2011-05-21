@@ -29,7 +29,10 @@ public class MicroscopicModel extends SugarAndSaltSolutionModel {
     private ArrayList<WaterMolecule> waterList = new ArrayList<WaterMolecule>();
 
     //List of all Sodium ions
-    private ArrayList<SodiumIon> sodiumList = new ArrayList<SodiumIon>();
+    private ArrayList<DefaultParticle> sodiumList = new ArrayList<DefaultParticle>();
+
+    //List of all Chlorine ions
+    private ArrayList<DefaultParticle> chlorineList = new ArrayList<DefaultParticle>();
 
     //Listeners who are called back when the physics updates
     private ArrayList<VoidFunction0> frameListeners = new ArrayList<VoidFunction0>();
@@ -37,10 +40,10 @@ public class MicroscopicModel extends SugarAndSaltSolutionModel {
     //Box2d world which updates the physics
     private World world;
 
-    //Listeners that are notified when a water molecule enters the model.  Removal listeners are added to the water molecule
+    //Listeners that are notified when something enters the model.  Removal listeners are added to the particle itself
     private ArrayList<VoidFunction1<WaterMolecule>> waterAddedListeners = new ArrayList<VoidFunction1<WaterMolecule>>();
-
-    private ArrayList<VoidFunction1<SodiumIon>> sodiumAddedListeners = new ArrayList<VoidFunction1<SodiumIon>>();
+    private ArrayList<VoidFunction1<DefaultParticle>> sodiumAddedListeners = new ArrayList<VoidFunction1<DefaultParticle>>();
+    private ArrayList<VoidFunction1<DefaultParticle>> chlorineAddedListeners = new ArrayList<VoidFunction1<DefaultParticle>>();
 
     private Random random = new Random();
     public final Barrier floor;
@@ -89,35 +92,71 @@ public class MicroscopicModel extends SugarAndSaltSolutionModel {
 //        System.out.println( "stable start time: " + ( System.currentTimeMillis() - startTime ) );
     }
 
+    //Adds a NaCl molecule by adding a nearby sodium and chlorine, electrostatic forces are responsible for keeping them together
+    public void addSalt( double x, double y ) {
+        addSodiumIon( x, y, 0 );
+        addChlorineIon( x + DefaultParticle.radius, y, 0 );
+    }
+
+    //Adds some random sodium particles
     private void addSodiumParticles( long seed ) {
         Random random = new Random( seed );
         for ( int i = 0; i < 10; i++ ) {
             float float1 = (float) ( ( random.nextFloat() - 0.5 ) * 2 );
-            SodiumIon sodiumIon = new SodiumIon( world, modelToBox2D, float1 * beakerWidth / 2, random.nextFloat() * beakerHeight, 0, 0, (float) ( random.nextFloat() * Math.PI * 2 ), new VoidFunction1<VoidFunction0>() {
-                public void apply( VoidFunction0 sodiumMolecule ) {
-                    addFrameListener( sodiumMolecule );
-                }
-            } );
-            sodiumList.add( sodiumIon );
-            for ( VoidFunction1<SodiumIon> sodiumAddedListener : sodiumAddedListeners ) {
-                sodiumAddedListener.apply( sodiumIon );
-            }
+            final double x = float1 * beakerWidth / 2;
+            final double y = random.nextFloat() * beakerHeight;
+            final float angle = (float) ( random.nextFloat() * Math.PI * 2 );
+            addSodiumIon( x, y, angle );
         }
     }
 
+    //Adds a chlorine ion
+    public void addChlorineIon( double x, double y, float angle ) {
+        DefaultParticle chlorineIon = new DefaultParticle( world, modelToBox2D, x, y, 0, 0, angle, new VoidFunction1<VoidFunction0>() {
+            public void apply( VoidFunction0 chlorineMolecule ) {
+                addFrameListener( chlorineMolecule );
+            }
+        }, -1 );
+        chlorineList.add( chlorineIon );
+        for ( VoidFunction1<DefaultParticle> chlorineAddedListener : chlorineAddedListeners ) {
+            chlorineAddedListener.apply( chlorineIon );
+        }
+    }
+
+    public void addSodiumIon( double x, double y, float angle ) {
+        DefaultParticle sodiumIon = new DefaultParticle( world, modelToBox2D, x, y, 0, 0, angle, new VoidFunction1<VoidFunction0>() {
+            public void apply( VoidFunction0 sodiumMolecule ) {
+                addFrameListener( sodiumMolecule );
+            }
+        }, 1 );
+        sodiumList.add( sodiumIon );
+        for ( VoidFunction1<DefaultParticle> sodiumAddedListener : sodiumAddedListeners ) {
+            sodiumAddedListener.apply( sodiumIon );
+        }
+    }
+
+    //Adds default water particles
     private void addWaterParticles( long seed ) {
         Random random = new Random( seed );
-        for ( int i = 0; i < 200; i++ ) {
+        for ( int i = 0; i < 20; i++ ) {
             float float1 = (float) ( ( random.nextFloat() - 0.5 ) * 2 );
-            WaterMolecule water = new WaterMolecule( world, modelToBox2D, float1 * beakerWidth / 2, random.nextFloat() * beakerHeight, 0, 0, (float) ( random.nextFloat() * Math.PI * 2 ), new VoidFunction1<VoidFunction0>() {
-                public void apply( VoidFunction0 waterMolecule ) {
-                    addFrameListener( waterMolecule );
-                }
-            } );
-            waterList.add( water );
-            for ( VoidFunction1<WaterMolecule> waterAddedListener : waterAddedListeners ) {
-                waterAddedListener.apply( water );
+            final double x = float1 * beakerWidth / 2;
+            final double y = random.nextFloat() * beakerHeight;
+            final float angle = (float) ( random.nextFloat() * Math.PI * 2 );
+            addWater( x, y, angle );
+        }
+    }
+
+    //Adds a single water molecule
+    public void addWater( double x, double y, float angle ) {
+        WaterMolecule water = new WaterMolecule( world, modelToBox2D, x, y, 0, 0, angle, new VoidFunction1<VoidFunction0>() {
+            public void apply( VoidFunction0 waterMolecule ) {
+                addFrameListener( waterMolecule );
             }
+        } );
+        waterList.add( water );
+        for ( VoidFunction1<WaterMolecule> waterAddedListener : waterAddedListeners ) {
+            waterAddedListener.apply( water );
         }
     }
 
@@ -150,7 +189,7 @@ public class MicroscopicModel extends SugarAndSaltSolutionModel {
         for ( WaterMolecule waterMolecule : waterList ) {
             //Apply a random force so the system doesn't settle down
             float rand1 = ( random.nextFloat() - 0.5f ) * 2;
-            waterMolecule.body.applyForce( new Vec2( rand1 * 10, random.nextFloat() ), waterMolecule.body.getPosition() );
+//            waterMolecule.body.applyForce( new Vec2( rand1 * 50, random.nextFloat() ), waterMolecule.body.getPosition() );
 
             //Setting random velocity looks funny
 //            double randomAngle = random.nextDouble() * Math.PI * 2;
@@ -158,12 +197,61 @@ public class MicroscopicModel extends SugarAndSaltSolutionModel {
 //            Vec2 linearVelocity = waterMolecule.body.getLinearVelocity();
 //            waterMolecule.body.setLinearVelocity( new Vec2( linearVelocity.x + (float) v.getX(), linearVelocity.y + (float) v.getY() ) );
         }
+
+        //Apply coulomb forces between all pairs of particles
+        for ( WaterMolecule waterMolecule : waterList ) {
+            final Vec2 coulombForce = getCoulombForce( waterMolecule.getOxygenParticle() );
+//            System.out.println( "coulombForce = " + coulombForce );
+            waterMolecule.body.applyForce( coulombForce, waterMolecule.body.getPosition() );
+            waterMolecule.body.applyForce( getCoulombForce( waterMolecule.getH1Particle() ), waterMolecule.getH1Particle().getPosition() );
+            waterMolecule.body.applyForce( getCoulombForce( waterMolecule.getH2Particle() ), waterMolecule.getH2Particle().getPosition() );
+        }
+        for ( DefaultParticle sodiumIon : sodiumList ) {
+            sodiumIon.body.applyForce( getCoulombForce( sodiumIon ), sodiumIon.body.getPosition() );
+        }
+        for ( DefaultParticle chlorineIon : chlorineList ) {
+            chlorineIon.body.applyForce( getCoulombForce( chlorineIon ), chlorineIon.body.getPosition() );
+        }
         world.step( (float) dt, 10 );
 
         //Notify listeners that the model changed
         for ( VoidFunction0 frameListener : frameListeners ) {
             frameListener.apply();
         }
+    }
+
+    //Gets the force on a single particle
+    private Vec2 getCoulombForce( Particle target ) {
+        Vec2 sumForces = new Vec2();
+        for ( DefaultParticle ion : sodiumList ) {
+            sumForces = sumForces.add( getCoulombForce( ion, target ) );
+        }
+        for ( WaterMolecule water : waterList ) {
+            sumForces = sumForces.add( getCoulombForce( water.getOxygenParticle(), target ) );
+            sumForces = sumForces.add( getCoulombForce( water.getH1Particle(), target ) );
+            sumForces = sumForces.add( getCoulombForce( water.getH2Particle(), target ) );
+        }
+        return sumForces;
+    }
+
+    //So we don't have to reallocate zeros all the time
+    private final Vec2 zero = new Vec2();
+
+    //Get the contribution to the total coulomb force from a single source
+    private Vec2 getCoulombForce( Particle source, Particle target ) {
+        if ( source == target ||
+             ( source.getPosition().x == target.getPosition().x && source.getPosition().y == target.getPosition().y ) ) {
+            return zero;
+        }
+        Vec2 r = target.getPosition().sub( source.getPosition() );
+        double distance = r.length();
+
+        double k = 20;
+        double q1 = source.getCharge();
+        double q2 = target.getCharge();
+        double magnitude = k * q1 * q2 / ( distance * distance * distance );
+        r.normalize();
+        return r.mul( (float) magnitude );
     }
 
     //Get all bodies in the model
@@ -191,12 +279,20 @@ public class MicroscopicModel extends SugarAndSaltSolutionModel {
         waterList.clear();
     }
 
-    public ArrayList<SodiumIon> getSodiumIonList() {
+    public ArrayList<DefaultParticle> getSodiumIonList() {
         return sodiumList;
     }
 
-    public void addSodiumIonAddedListener( VoidFunction1<SodiumIon> listener ) {
+    public void addSodiumIonAddedListener( VoidFunction1<DefaultParticle> listener ) {
         sodiumAddedListeners.add( listener );
+    }
+
+    public ArrayList<DefaultParticle> getChlorineIonList() {
+        return chlorineList;
+    }
+
+    public void addChlorineIonAddedListener( VoidFunction1<DefaultParticle> createNode ) {
+        chlorineAddedListeners.add( createNode );
     }
 
     //Model object representing a barrier, such as the beaker floor or wall which particles shouldn't pass through
