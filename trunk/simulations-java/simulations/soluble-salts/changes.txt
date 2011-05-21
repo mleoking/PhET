@@ -1,3 +1,5 @@
+# 1.07.00 (52278) May 21, 2011
+5/21/11 > added new translation credits features
 # 1.06.02 (52207) May 19, 2011
 # 1.06.01 (48212) Jan 24, 2011
 1/24/11 #2683, i18n of "Ksp" in control panel for "Design a Salt" tab
