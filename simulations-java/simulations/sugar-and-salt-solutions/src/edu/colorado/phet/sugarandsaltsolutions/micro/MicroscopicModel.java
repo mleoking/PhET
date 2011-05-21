@@ -13,6 +13,7 @@ import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.World;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -72,8 +73,8 @@ public class MicroscopicModel extends SugarAndSaltSolutionModel {
         world = new World( worldAABB, new Vec2( 0, -9.8f ), true );
 
         //Add water particles
-        addWaterParticles( System.currentTimeMillis() );
-        addSodiumParticles( System.currentTimeMillis() );
+//        addWaterParticles( System.currentTimeMillis() );
+//        addSodiumParticles( System.currentTimeMillis() );
 
         //Create beaker floor
         double glassThickness = 1E-10;
@@ -138,7 +139,7 @@ public class MicroscopicModel extends SugarAndSaltSolutionModel {
     //Adds default water particles
     private void addWaterParticles( long seed ) {
         Random random = new Random( seed );
-        for ( int i = 0; i < 20; i++ ) {
+        for ( int i = 0; i < 50; i++ ) {
             float float1 = (float) ( ( random.nextFloat() - 0.5 ) * 2 );
             final double x = float1 * beakerWidth / 2;
             final double y = random.nextFloat() * beakerHeight;
@@ -189,7 +190,8 @@ public class MicroscopicModel extends SugarAndSaltSolutionModel {
         for ( WaterMolecule waterMolecule : waterList ) {
             //Apply a random force so the system doesn't settle down
             float rand1 = ( random.nextFloat() - 0.5f ) * 2;
-//            waterMolecule.body.applyForce( new Vec2( rand1 * 50, random.nextFloat() ), waterMolecule.body.getPosition() );
+            float rand2 = ( random.nextFloat() - 0.5f ) * 2;
+            waterMolecule.body.applyForce( new Vec2( rand1 * randomness.get(), rand2 * randomness.get() ), waterMolecule.body.getPosition() );
 
             //Setting random velocity looks funny
 //            double randomAngle = random.nextDouble() * Math.PI * 2;
@@ -212,7 +214,7 @@ public class MicroscopicModel extends SugarAndSaltSolutionModel {
         for ( DefaultParticle chlorineIon : chlorineList ) {
             chlorineIon.body.applyForce( getCoulombForce( chlorineIon ), chlorineIon.body.getPosition() );
         }
-        world.step( (float) dt, 10 );
+        world.step( (float) dt, 1000 );
 
         //Notify listeners that the model changed
         for ( VoidFunction0 frameListener : frameListeners ) {
@@ -226,6 +228,9 @@ public class MicroscopicModel extends SugarAndSaltSolutionModel {
         for ( DefaultParticle ion : sodiumList ) {
             sumForces = sumForces.add( getCoulombForce( ion, target ) );
         }
+        for ( DefaultParticle ion : chlorineList ) {
+            sumForces = sumForces.add( getCoulombForce( ion, target ) );
+        }
         for ( WaterMolecule water : waterList ) {
             sumForces = sumForces.add( getCoulombForce( water.getOxygenParticle(), target ) );
             sumForces = sumForces.add( getCoulombForce( water.getH1Particle(), target ) );
@@ -237,6 +242,11 @@ public class MicroscopicModel extends SugarAndSaltSolutionModel {
     //So we don't have to reallocate zeros all the time
     private final Vec2 zero = new Vec2();
 
+    //Properties for developer controls
+    public final Property<Integer> k = new Property<Integer>( 100 );
+    public final Property<Integer> pow = new Property<Integer>( 3 );
+    public final Property<Integer> randomness = new Property<Integer>( 3 );
+
     //Get the contribution to the total coulomb force from a single source
     private Vec2 getCoulombForce( Particle source, Particle target ) {
         if ( source == target ||
@@ -246,10 +256,25 @@ public class MicroscopicModel extends SugarAndSaltSolutionModel {
         Vec2 r = target.getPosition().sub( source.getPosition() );
         double distance = r.length();
 
-        double k = 20;
         double q1 = source.getCharge();
         double q2 = target.getCharge();
-        double magnitude = k * q1 * q2 / ( distance * distance * distance );
+
+        //Use a gaussian so that NaCl has a strong affinity
+        double x0 = 1.29499;
+        double distanceFunction = Math.exp( -Math.pow( distance - x0, 2 ) );
+        double magnitude = k.get() * q1 * q2 * distanceFunction;
+//        System.out.println( "distance = " + distance + ", mag = " + magnitude );
+//        System.out.println( distance + "\t" + magnitude );
+
+//        double MAX = 1000;
+//        double MIN = 1E-3;
+//        if ( Math.abs( mag ) > MAX && q1 * q2 > 0 ) {
+//            magnitude = MAX;
+//        }
+//        else if ( magnitude < MIN ) {
+//            return zero;
+//        }
+//        System.out.println( magnitude );
         r.normalize();
         return r.mul( (float) magnitude );
     }

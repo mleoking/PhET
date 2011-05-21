@@ -19,8 +19,10 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsApplication;
 import edu.colorado.phet.sugarandsaltsolutions.common.SugarAndSaltSolutionsColorScheme;
+import edu.colorado.phet.sugarandsaltsolutions.common.view.PropertySlider;
 import edu.colorado.phet.sugarandsaltsolutions.micro.MicroscopicModel.Barrier;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createRectangleInvertedYMapping;
 
@@ -149,7 +151,12 @@ public class MicroscopicCanvas extends PhetPCanvas {
                             model.addSalt( getX.apply(), model.beakerHeight );
                         }
                     } );
-                }}
+                }},
+
+                //Developer controls for physics settings
+                new PSwing( new PropertySlider( 0, 100, model.k ) ),
+                new PSwing( new PropertySlider( 0, 10, model.pow ) ),
+                new PSwing( new PropertySlider( 0, 100, model.randomness ) )
         ) ) );
     }
 
