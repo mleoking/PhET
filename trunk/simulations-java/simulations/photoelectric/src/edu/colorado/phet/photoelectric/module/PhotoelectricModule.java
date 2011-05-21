@@ -28,6 +28,7 @@ import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
+import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel3;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
@@ -114,7 +115,9 @@ public class PhotoelectricModule extends BaseLaserModule {
 
         // Set up the basic stuff
         IClock clock = getClock();
-        ApparatusPanel2 apparatusPanel = new ApparatusPanel2( clock );
+
+        //Use ApparatusPanel3 to improve graphics scaling on low resolution screens, see #2860
+        ApparatusPanel2 apparatusPanel = new ApparatusPanel3( clock, 746, 552 );
         apparatusPanel.setPaintStrategy( ApparatusPanel2.OFFSCREEN_BUFFER_STRATEGY );
         apparatusPanel.setBackground( Color.white );
         setApparatusPanel( apparatusPanel );
