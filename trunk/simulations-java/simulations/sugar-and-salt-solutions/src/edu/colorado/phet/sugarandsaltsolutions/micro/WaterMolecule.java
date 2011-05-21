@@ -32,8 +32,13 @@ public class WaterMolecule implements Removable {
     public final Property<ImmutableVector2D> oxygenPosition;
     public final Property<ImmutableVector2D> hydrogen1Position;
     public final Property<ImmutableVector2D> hydrogen2Position;
+    private final ModelViewTransform transform;
+    private Particle oxygenParticle;
+    private Particle h1Particle;
+    private Particle h2Particle;
 
     public WaterMolecule( World world, final ModelViewTransform transform, double x, double y, double vx, double vy, final double theta, VoidFunction1<VoidFunction0> addUpdateListener ) {
+        this.transform = transform;
 
         //Model state in SI
         oxygenPosition = new Property<ImmutableVector2D>( new ImmutableVector2D( x, y ) );
@@ -95,6 +100,41 @@ public class WaterMolecule implements Removable {
                 hydrogen2Position.set( h2ModelOffset.getRotatedInstance( body.getAngle() ).plus( oxygenPosition.get() ) );
             }
         } );
+
+
+        //Particle interface for coulomb updates
+        oxygenParticle = new Particle() {
+            public Vec2 getPosition() {
+                return body.getPosition();
+            }
+
+            public double getCharge() {
+                return -2;
+            }
+        };
+
+        h1Particle = new Particle() {
+            public Vec2 getPosition() {
+                ImmutableVector2D x = transform.modelToView( hydrogen1Position.get() );
+                return new Vec2( (float) x.getX(), (float) x.getY() );
+            }
+
+            public double getCharge() {
+                return +1;
+            }
+        };
+
+        h2Particle = new Particle() {
+            public Vec2 getPosition() {
+                ImmutableVector2D x = transform.modelToView( hydrogen2Position.get() );
+                return new Vec2( (float) x.getX(), (float) x.getY() );
+            }
+
+            public double getCharge() {
+                return +1;
+            }
+        };
+
     }
 
     //Add a listener that will be notified when this water leaves the model
@@ -107,5 +147,17 @@ public class WaterMolecule implements Removable {
         for ( VoidFunction0 removalListener : removalListeners ) {
             removalListener.apply();
         }
+    }
+
+    public Particle getOxygenParticle() {
+        return oxygenParticle;
+    }
+
+    public Particle getH1Particle() {
+        return h1Particle;
+    }
+
+    public Particle getH2Particle() {
+        return h2Particle;
     }
 }
