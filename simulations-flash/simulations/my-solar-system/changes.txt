@@ -1,3 +1,5 @@
+# 2.03.00 (52285) May 21, 2011
+5/21/11 > added new translation credits features
 # 2.02.01 (52218) May 19, 2011
 # 2.02.00 (37313) Dec 11, 2009
 12/11/09 > Common interface fixes, improvements, and Khmer support.
