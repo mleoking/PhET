@@ -1,3 +1,4 @@
+Use an ApparatusPanel3 to fix scaling problems on low resolution screens, see #2860
 # 1.11.00 (48298) Jan 27, 2011
 > localization fixes
 1/27/11 #2710, i18n of "# of levels"

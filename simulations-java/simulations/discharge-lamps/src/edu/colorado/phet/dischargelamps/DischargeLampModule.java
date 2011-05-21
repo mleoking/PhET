@@ -29,6 +29,7 @@ import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.common.phetgraphics.application.PhetGraphicsModule;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
+import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel3;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.quantum.model.*;
 import edu.colorado.phet.dischargelamps.control.AtomTypeChooser;
@@ -104,7 +105,9 @@ public class DischargeLampModule extends PhetGraphicsModule {
         super( name, clock );
 
         // Set up the basic stuff
-        ApparatusPanel2 apparatusPanel = new ApparatusPanel2( clock );
+        // Use an ApparatusPanel3 to fix scaling problems on low resolution screens, see #2860
+        // The size was sampled at runtime on a large res screen, and averaged between 1st and 2nd tabs (which were similar but not identical)
+        ApparatusPanel2 apparatusPanel = new ApparatusPanel3( clock, 709, 607 );
         apparatusPanel.setPaintStrategy( ApparatusPanel2.OFFSCREEN_BUFFER_STRATEGY );
         apparatusPanel.setBackground( Color.white );
         setApparatusPanel( apparatusPanel );
