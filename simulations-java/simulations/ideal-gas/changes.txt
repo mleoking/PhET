@@ -1,3 +1,4 @@
+> Improved graphics on low resolution screens
 > change thermometer to a shade of red that is visible to people with red/green colorblindness
 # 3.14.00 (51133) Apr 25, 2011
 > added new translation credits features

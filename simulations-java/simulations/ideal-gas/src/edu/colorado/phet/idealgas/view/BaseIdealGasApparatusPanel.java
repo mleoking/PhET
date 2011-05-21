@@ -11,7 +11,7 @@ package edu.colorado.phet.idealgas.view;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.clock.Clock;
-import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
+import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel3;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.idealgas.GasPropertiesApplication;
@@ -28,9 +28,9 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 /**
- *
+ * Use ApparatusPanel3 to improve graphics scaling on low resolution screens, see #2860
  */
-public class BaseIdealGasApparatusPanel extends ApparatusPanel2 {
+public class BaseIdealGasApparatusPanel extends ApparatusPanel3 {
 
     private static boolean toolTipsSet = false;
 
@@ -44,7 +44,7 @@ public class BaseIdealGasApparatusPanel extends ApparatusPanel2 {
      *
      */
     public BaseIdealGasApparatusPanel( IdealGasModule module, Clock clock, Box2D box ) {
-        super( clock );
+        super( clock, 710, 540 );
         init( module, box );
         setUseOffscreenBuffer( true );
 //        setUseOffscreenBuffer( false);
