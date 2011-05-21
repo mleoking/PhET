@@ -25,6 +25,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2.ChangeEvent;
+import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel3;
 import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.FourierResources;
 import edu.colorado.phet.fourier.control.DiscreteControlPanel;
@@ -71,19 +72,19 @@ public class DiscreteModule extends FourierAbstractModule implements ApparatusPa
     private static final Point PERIOD_TOOL_LOCATION = WAVELENGTH_TOOL_LOCATION;
     private static final Point PERIOD_DISPLAY_LOCATION = new Point( 655, 355 );
     private static final Point WIGGLE_ME_LOCATION = new Point( 115, 153 );
-    
+
     // Colors
     private static final Color APPARATUS_PANEL_BACKGROUND = new Color( 240, 255, 255 );
     private static final Color WIGGLE_ME_COLOR = Color.RED;
-    
+
     // Fourier Components
     private static final double FUNDAMENTAL_FREQUENCY = 440.0; // Hz
     private static final int NUMBER_OF_HARMONICS = FourierConstants.MAX_HARMONICS;
-  
+
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
-    
+
     private FourierSeries _fourierSeries;
     private DiscreteAmplitudesView _amplitudesView;
     private DiscreteHarmonicsView _harmonicsView;
@@ -97,16 +98,16 @@ public class DiscreteModule extends FourierAbstractModule implements ApparatusPa
     private AnimationCycleController _animationCycleController;
     private Dimension _canvasSize;
     private boolean _soundEnabled;
-    
+
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
-    
+
     /**
      * Sole constructor.
      */
     public DiscreteModule() {
-        
+
         super( FourierResources.getString( "DiscreteModule.title" ) );
 
         //----------------------------------------------------------------------------
@@ -116,92 +117,93 @@ public class DiscreteModule extends FourierAbstractModule implements ApparatusPa
         // Module model
         BaseModel model = new BaseModel();
         this.setModel( model );
-        
+
         // Fourier Series
         _fourierSeries = new FourierSeries( NUMBER_OF_HARMONICS, FUNDAMENTAL_FREQUENCY );
-        
+
         //----------------------------------------------------------------------------
         // View
         //----------------------------------------------------------------------------
 
         // Apparatus Panel
-        ApparatusPanel2 apparatusPanel = new ApparatusPanel2( getClock() );
+        // Use ApparatusPanel 3 to improve support for low resolution screens.  The size was sampled at runtime by using ApparatusPanel2 with TransformManager.DEBUG_OUTPUT_ENABLED=true on large screen size, see #2860
+        ApparatusPanel2 apparatusPanel = new ApparatusPanel3( getClock(), 710, 630 );
         _canvasSize = apparatusPanel.getSize();
         apparatusPanel.setBackground( APPARATUS_PANEL_BACKGROUND );
         setApparatusPanel( apparatusPanel );
         apparatusPanel.addChangeListener( this );
-        
+
         // Amplitudes view
         _amplitudesView = new DiscreteAmplitudesView( apparatusPanel, _fourierSeries );
         _amplitudesView.setLocation( 0, 0 );
         apparatusPanel.addGraphic( _amplitudesView, AMPLITUDES_LAYER );
-        
+
         // Harmonics view
         _harmonicsView = new DiscreteHarmonicsView( apparatusPanel, _fourierSeries );
         apparatusPanel.addGraphic( _harmonicsView, HARMONICS_LAYER );
-        
+
         // Harmonics view (minimized)
         _harmonicsMinimizedView = new MinimizedView( apparatusPanel, FourierResources.getString( "DiscreteHarmonicsView.title" ) );
         apparatusPanel.addGraphic( _harmonicsMinimizedView, HARMONICS_CLOSED_LAYER );
-        
+
         // Sum view
         _sumView = new DiscreteSumView( apparatusPanel, _fourierSeries );
         apparatusPanel.addGraphic( _sumView, SUM_LAYER );
-        
+
         // Sum view (minimized)
         _sumMinimizedView = new MinimizedView( apparatusPanel, FourierResources.getString( "DiscreteSumView.title" ) );
         apparatusPanel.addGraphic( _sumMinimizedView, SUM_CLOSED_LAYER );
-        
+
         // Wavelength Tool
         _wavelengthTool = new HarmonicWavelengthTool( apparatusPanel,
                 _fourierSeries.getHarmonic(0), _harmonicsView.getChart() );
         apparatusPanel.addGraphic( _wavelengthTool, TOOLS_LAYER );
         apparatusPanel.addChangeListener( _wavelengthTool );
-        
+
         // Period Tool
         _periodTool = new HarmonicPeriodTool( apparatusPanel,
                 _fourierSeries.getHarmonic(0), _harmonicsView.getChart() );
         apparatusPanel.addGraphic( _periodTool, TOOLS_LAYER );
         apparatusPanel.addChangeListener( _periodTool );
-        
+
         // Period Display
         _periodDisplay = new HarmonicPeriodDisplay( apparatusPanel, _fourierSeries.getHarmonic(0) );
         apparatusPanel.addGraphic( _periodDisplay, TOOLS_LAYER );
         apparatusPanel.addChangeListener( _periodDisplay );
-        
+
         // Animation controller
         _animationCycleController = new AnimationCycleController( FourierConstants.ANIMATION_STEPS_PER_CYCLE );
         getClock().addClockListener( _animationCycleController );
         _animationCycleController.addAnimationCycleListener( _harmonicsView );
         _animationCycleController.addAnimationCycleListener( _sumView );
         _animationCycleController.addAnimationCycleListener( _periodDisplay );
-        
+
         //----------------------------------------------------------------------------
         // Control
         //----------------------------------------------------------------------------
-        
+
         // Control Panel
-        _controlPanel = new DiscreteControlPanel( this, 
-                _fourierSeries, _harmonicsView, _sumView, 
+        _controlPanel = new DiscreteControlPanel( this,
+                _fourierSeries, _harmonicsView, _sumView,
                 _wavelengthTool, _periodTool, _periodDisplay,
                 _animationCycleController );
         _controlPanel.addVerticalSpace( 5 );
         _controlPanel.addResetAllButton( this );
         setControlPanel( _controlPanel );
-        
+
         // Link horizontal zoom controls
         _harmonicsView.getHorizontalZoomControl().addZoomListener( _sumView );
         _sumView.getHorizontalZoomControl().addZoomListener( _harmonicsView );
-        
+
         // Harmonic hightlighting
         _amplitudesView.addHarmonicFocusListener( _harmonicsView );
         _wavelengthTool.addHarmonicFocusListener( _harmonicsView );
         _periodTool.addHarmonicFocusListener( _harmonicsView );
         _periodDisplay.addHarmonicFocusListener( _harmonicsView );
-        
+
         // Slider movement by the user
         _amplitudesView.addChangeListener( _controlPanel );
-        
+
         // Minimize/maximize buttons on views
         {
             // Harmonics minimize
@@ -212,7 +214,7 @@ public class DiscreteModule extends FourierAbstractModule implements ApparatusPa
                     layoutViews();
                 }
              } );
-            
+
             // Harmonics maximize
             _harmonicsMinimizedView.getMaximizeButton().addMouseInputListener( new MouseInputAdapter() {
                 public void mouseReleased( MouseEvent event ) {
@@ -223,7 +225,7 @@ public class DiscreteModule extends FourierAbstractModule implements ApparatusPa
                     setWaitCursorEnabled( false );
                 }
              } );
-            
+
             // Sum minimize
             _sumView.getMinimizeButton().addMouseInputListener( new MouseInputAdapter() {
                 public void mouseReleased( MouseEvent event ) {
@@ -232,7 +234,7 @@ public class DiscreteModule extends FourierAbstractModule implements ApparatusPa
                     layoutViews();
                 }
              } );
-            
+
             // Sum maximize
             _sumMinimizedView.getMaximizeButton().addMouseInputListener( new MouseInputAdapter() {
                 public void mouseReleased( MouseEvent event ) {
@@ -244,111 +246,111 @@ public class DiscreteModule extends FourierAbstractModule implements ApparatusPa
                 }
              } );
         }
-        
+
         //----------------------------------------------------------------------------
         // Help
         //----------------------------------------------------------------------------
-        
+
         // Wiggle Me
         ThisWiggleMeGraphic wiggleMe = new ThisWiggleMeGraphic( apparatusPanel, getClock() );
         wiggleMe.setLocation( WIGGLE_ME_LOCATION );
         apparatusPanel.addGraphic( wiggleMe, HELP_LAYER );
         wiggleMe.setEnabled( true );
-        
+
         // Help Items
         HelpBubble slidersToolHelp = new HelpBubble( apparatusPanel, FourierResources.getString( "DiscreteModule.help.sliders" ) );
         slidersToolHelp.pointAt( new Point( 94, 117 ), HelpBubble.TOP_LEFT, 30 );
         addHelpItem( slidersToolHelp );
-        
+
         HelpBubble textfieldsToolHelp = new HelpBubble( apparatusPanel, FourierResources.getString( "DiscreteModule.help.textfields" ) );
         textfieldsToolHelp.pointAt( new Point( 94, 44 ), HelpBubble.TOP_LEFT, 15 );
         addHelpItem( textfieldsToolHelp );
-        
+
         HelpBubble harmonicsMinimizeButtonHelp = new HelpBubble( apparatusPanel, FourierResources.getString( "DiscreteModule.help.minimize" ) );
         harmonicsMinimizeButtonHelp.pointAt( _harmonicsView.getMinimizeButton(), HelpBubble.LEFT_CENTER, 15 );
         addHelpItem( harmonicsMinimizeButtonHelp );
-        
+
         HelpBubble wavelengthToolHelp = new HelpBubble( apparatusPanel, FourierResources.getString( "DiscreteModule.help.wavelengthTool" ) );
         wavelengthToolHelp.pointAt( _wavelengthTool, HelpBubble.TOP_CENTER, 15 );
         wavelengthToolHelp.setVisible( false );
         addHelpItem( wavelengthToolHelp );
-          
+
         HelpBubble periodToolHelp = new HelpBubble( apparatusPanel, FourierResources.getString( "DiscreteModule.help.periodTool" ) );
         periodToolHelp.pointAt( _periodTool, HelpBubble.TOP_CENTER, 15 );
         periodToolHelp.setVisible( false );
         addHelpItem( periodToolHelp );
-        
+
         HelpBubble periodDisplayHelp = new HelpBubble( apparatusPanel, FourierResources.getString( "DiscreteModule.help.periodDisplay" ) );
         periodDisplayHelp.pointAt( _periodDisplay, HelpBubble.RIGHT_CENTER, 15 );
         periodDisplayHelp.setVisible( false );
         addHelpItem( periodDisplayHelp );
-        
+
         //----------------------------------------------------------------------------
         // Initialze the module state
         //----------------------------------------------------------------------------
-        
+
         reset();
-        
+
         // Add the wiggle me observer after everything has been initialized.
         _fourierSeries.addObserver( wiggleMe );
     }
-    
+
     //----------------------------------------------------------------------------
     // FourierModule implementation
     //----------------------------------------------------------------------------
-    
+
     /**
      * Resets everything to the initial state.
      */
     public void reset() {
-        
+
         _controlPanel.setSoundEnabled( false );
-        
+
         _fourierSeries.setNumberOfHarmonics( NUMBER_OF_HARMONICS );
         _fourierSeries.setFundamentalFrequency( FUNDAMENTAL_FREQUENCY );
         _fourierSeries.setPreset( Preset.SINE_COSINE );
         _fourierSeries.setWaveType( WaveType.SINES );
-        
+
         _amplitudesView.reset();
         _harmonicsView.reset();
         _sumView.reset();
-        
+
         _harmonicsView.setVisible( true );
         _harmonicsMinimizedView.setVisible( !_harmonicsView.isVisible() );
         _sumView.setVisible( true );
-        _sumMinimizedView.setVisible( !_sumView.isVisible() ); 
+        _sumMinimizedView.setVisible( !_sumView.isVisible() );
         layoutViews();
-        
+
         _wavelengthTool.setVisible( false );
         _wavelengthTool.setLocation( WAVELENGTH_TOOL_LOCATION );
-        
+
         _periodTool.setVisible( false );
         _periodTool.setLocation( PERIOD_TOOL_LOCATION );
-        
+
         _periodDisplay.setVisible( false );
         _periodDisplay.setLocation( PERIOD_DISPLAY_LOCATION );
-        
+
         _controlPanel.reset();
         _soundEnabled = _controlPanel.isSoundEnabled();
     }
-   
+
     //----------------------------------------------------------------------------
     // EventHandling
     //----------------------------------------------------------------------------
-    
+
     /*
      * Resizes and repositions the views based on which ones are visible.
-     * 
+     *
      * @param event
      */
     private void layoutViews() {
 
         int canvasHeight = _canvasSize.height;
         int availableHeight = canvasHeight - _amplitudesView.getHeight();
-        
+
         _harmonicsMinimizedView.setVisible( !_harmonicsView.isVisible() );
         _sumMinimizedView.setVisible( !_sumView.isVisible() );
-        
+
         if ( _harmonicsView.isVisible() && _sumView.isVisible() ) {
             // Both maximized
             _harmonicsView.setHeight( availableHeight/2 );
@@ -374,11 +376,11 @@ public class DiscreteModule extends FourierAbstractModule implements ApparatusPa
             _sumMinimizedView.setLocation( _amplitudesView.getX(), _harmonicsMinimizedView.getY() + _harmonicsMinimizedView.getHeight() );
         }
     }
-    
+
     //----------------------------------------------------------------------------
     // ApparatusPanel2.ChangeListener implementation
     //----------------------------------------------------------------------------
-    
+
     /**
      * Redoes the layout whenever the apparatus panel's canvas size changes.
      */
@@ -386,11 +388,11 @@ public class DiscreteModule extends FourierAbstractModule implements ApparatusPa
         _canvasSize.setSize( event.getCanvasSize() );
         layoutViews();
     }
-    
+
     //----------------------------------------------------------------------------
     // Module overrides
     //----------------------------------------------------------------------------
-    
+
     /**
      * Restore the state of sound when switching to this module.
      */
@@ -398,7 +400,7 @@ public class DiscreteModule extends FourierAbstractModule implements ApparatusPa
         super.activate();
         _controlPanel.setSoundEnabled( _soundEnabled );
     }
-    
+
     /**
      * Mute the sound when switching to another module.
      */
@@ -411,16 +413,16 @@ public class DiscreteModule extends FourierAbstractModule implements ApparatusPa
     //----------------------------------------------------------------------------
     // Save & Load configurations
     //----------------------------------------------------------------------------
-    
+
     /**
      * Saves the module's configuration.
-     * 
+     *
      * @return
      */
     public FourierConfig.DiscreteConfig save() {
-        
+
         FourierConfig.DiscreteConfig config = new FourierConfig.DiscreteConfig();
-        
+
         // Save control panel config
         config.setPresetName( _controlPanel.getPreset().getName() );
         config.setShowInfiniteEnabled( _controlPanel.isShowInfiniteEnabled() );
@@ -433,11 +435,11 @@ public class DiscreteModule extends FourierAbstractModule implements ApparatusPa
         config.setExpandSumEnabled( _controlPanel.isExpandSumEnabled() );
         config.setSoundEnabled( _controlPanel.isSoundEnabled() );
         config.setSoundVolume( _controlPanel.getSoundVolume() );
-        
+
         // Save view config
         config.setHarmonicsViewMaximized( _harmonicsView.isVisible() );
         config.setSumViewMaximized( _sumView.isVisible() );
-        
+
         // Save Fourier series config
         config.setNumberOfHarmonics( _fourierSeries.getNumberOfHarmonics() );
         double[] amplitudes = new double[ _fourierSeries.getNumberOfHarmonics() ];
@@ -445,17 +447,17 @@ public class DiscreteModule extends FourierAbstractModule implements ApparatusPa
             amplitudes[i] = _fourierSeries.getHarmonic(i).getAmplitude();
         }
         config.setAmplitudes( amplitudes );
-        
+
         return config;
     }
-    
+
     /**
      * Loads the module's configuration.
-     * 
+     *
      * @param config
      */
     public void load( FourierConfig.DiscreteConfig config ) {
-        
+
         // Load control panel config
         _controlPanel.setPreset( Preset.getByName( config.getPresetName() ) );
         _controlPanel.setNumberOfHarmonics( config.getNumberOfHarmonics() );
@@ -469,12 +471,12 @@ public class DiscreteModule extends FourierAbstractModule implements ApparatusPa
         _controlPanel.setExpandSumEnabled( config.isExpandSumEnabled() );
         _controlPanel.setSoundEnabled( config.isSoundEnabled() );
         _controlPanel.setSoundVolume( config.getSoundVolume() );
-        
+
         // Load view config
         _harmonicsView.setVisible( config.isHarmonicsViewMaximized() );
         _sumView.setVisible( config.isSumViewMaximized() );
         layoutViews();
-        
+
         // Load Fourier series config
         _fourierSeries.setNumberOfHarmonics( config.getNumberOfHarmonics() );
         double[] amplitudes = config.getAmplitudes();
@@ -482,21 +484,21 @@ public class DiscreteModule extends FourierAbstractModule implements ApparatusPa
             _fourierSeries.getHarmonic(i).setAmplitude( amplitudes[i] );
         }
     }
-    
+
     //----------------------------------------------------------------------------
     // Inner classes
     //----------------------------------------------------------------------------
-    
+
     /**
      * ThisWiggleMeGraphic is the wiggle me for this module.
      */
     private static class ThisWiggleMeGraphic extends WiggleMeGraphic implements SimpleObserver {
 
         private MouseInputAdapter _mouseListener;
-        
+
         /**
          * Sole constructor.
-         * 
+         *
          * @param component
          * @param model
          */

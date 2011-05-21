@@ -22,6 +22,7 @@ import javax.swing.event.MouseInputAdapter;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2.ChangeEvent;
+import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel3;
 import edu.colorado.phet.fourier.FourierResources;
 import edu.colorado.phet.fourier.control.D2CControlPanel;
 import edu.colorado.phet.fourier.enums.Domain;
@@ -114,7 +115,8 @@ public class D2CModule extends FourierAbstractModule implements ApparatusPanel2.
         //----------------------------------------------------------------------------
 
         // Apparatus Panel
-        ApparatusPanel2 apparatusPanel = new ApparatusPanel2( getClock() );
+        // Use ApparatusPanel 3 to improve support for low resolution screens.  The size was sampled at runtime by using ApparatusPanel2 with TransformManager.DEBUG_OUTPUT_ENABLED=true on large screen size, see #2860
+        ApparatusPanel2 apparatusPanel = new ApparatusPanel3( getClock(), 727, 630 );
         _canvasSize = apparatusPanel.getSize();
         apparatusPanel.setBackground( APPARATUS_BACKGROUND );
         setApparatusPanel( apparatusPanel );
