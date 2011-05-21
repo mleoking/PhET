@@ -27,6 +27,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
+import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel3;
 import edu.colorado.phet.common.phetgraphics.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.HTMLGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
@@ -115,7 +116,8 @@ public class OQCModule extends AbstractModule implements ActionListener {
         //----------------------------------------------------------------------------
 
         // Apparatus Panel
-        ApparatusPanel2 apparatusPanel = new ApparatusPanel2( getClock() );
+        // Use ApparatusPanel3 to avoid scaling problems on low resolution screens, see #2860
+        ApparatusPanel2 apparatusPanel = new ApparatusPanel3( getClock(), 1008, 699 );
         apparatusPanel.setBackground( APPARATUS_BACKGROUND );
         setApparatusPanel( apparatusPanel );
         
