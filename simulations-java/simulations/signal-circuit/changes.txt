@@ -1,3 +1,5 @@
+# 1.05.00 (52273) May 21, 2011
+5/21/11 > added new translation credits features
 # 1.04.02 (52206) May 19, 2011
 2/27/2011 #2757 Fixed ambiguous reference to class Painter
 # 1.04.01 (48783) Feb 9, 2011
