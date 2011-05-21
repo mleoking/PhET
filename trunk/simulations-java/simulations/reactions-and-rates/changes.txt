@@ -1,3 +1,5 @@
+# 1.06.00 (52280) May 21, 2011
+5/21/11 > added new translation credits features
 # 1.05.01 (52208) May 19, 2011
 # 1.05.00 (38025) Jan 11, 2010
 1/11/10 public version for milestone "full redeploy, 2010 Q1"
