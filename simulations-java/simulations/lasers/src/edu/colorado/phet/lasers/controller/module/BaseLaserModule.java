@@ -26,6 +26,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetgraphics.application.PhetGraphicsModule;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
+import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel3;
 import edu.colorado.phet.common.phetgraphics.view.help.HelpManager;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.quantum.QuantumConfig;
@@ -99,7 +100,8 @@ public class BaseLaserModule extends PhetGraphicsModule {
         laserModel.setBounds( new Rectangle2D.Double( 0, 0, 800, 600 ) );
 
         // Create the apparatus panel
-        final ApparatusPanel2 apparatusPanel = new ApparatusPanel2( getClock() );
+        //Use ApparatusPanel3 to fix graphics scaling problems on low res screens, see #2860
+        final ApparatusPanel2 apparatusPanel = new ApparatusPanel3( getClock(), 678, 589 );
         apparatusPanel.setUseOffscreenBuffer( true );
         setApparatusPanel( apparatusPanel );
         apparatusPanel.setBackground( Color.white );
