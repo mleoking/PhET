@@ -1,3 +1,4 @@
+Improved translations for plural strings "One Speaker/Two Speakers" and "One Light/Two Lights", see #2880
 Refactored measuring tape to facilitate resetting
 # 1.09.00 (40820) May 17, 2010
 # 1.09.00 (40819) May 17, 2010

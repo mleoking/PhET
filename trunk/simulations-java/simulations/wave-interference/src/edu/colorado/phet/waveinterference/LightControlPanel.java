@@ -30,7 +30,7 @@ public class LightControlPanel extends WaveInterferenceControlPanel {
         addControl( new WaveRotateControl3D( lightModule.getWaveInterferenceModel(), lightModule.getRotationWaveGraphic() ) );
         addVerticalSpace();
 
-        multiOscillatorControlPanel = new MultiOscillatorControlPanel( lightModule.getMultiOscillator(), WIStrings.getString( "module.light" ), lightModule.getScreenUnits() );
+        multiOscillatorControlPanel = new MultiOscillatorControlPanel( lightModule.getMultiOscillator(), WIStrings.getString( "controls.one-light" ),WIStrings.getString( "controls.two-lights" ), lightModule.getScreenUnits() );
         addControl( multiOscillatorControlPanel );
         addVerticalSpace();
 

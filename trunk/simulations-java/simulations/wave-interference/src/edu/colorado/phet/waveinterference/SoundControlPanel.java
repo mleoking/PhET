@@ -40,7 +40,7 @@ public class SoundControlPanel extends WaveInterferenceControlPanel {
         addControl( new ShowMarkersControl( soundModule.getSoundWaveGraphic(), soundModule.getSoundWaveGraphic().getPressureWaveGraphic() ) );
         addControlFullWidth( new VerticalSeparator( PAD_FOR_RESET_BUTTON ) );
 
-        multiOscillatorControlPanel = new MultiOscillatorControlPanel( soundModule.getMultiOscillator(), WIStrings.getString( "sound.speaker" ), soundModule.getScreenUnits() );
+        multiOscillatorControlPanel = new MultiOscillatorControlPanel( soundModule.getMultiOscillator(), WIStrings.getString( "controls.one-speaker" ), WIStrings.getString( "controls.two-speakers" ),soundModule.getScreenUnits() );
         addControl( multiOscillatorControlPanel );
         addControl( new SoundAudioControlPanel( soundModule.getAudioSubsystem() ) );
 //        addVerticalSpace();
