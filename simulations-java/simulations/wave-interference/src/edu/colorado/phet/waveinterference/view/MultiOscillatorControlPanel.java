@@ -27,19 +27,19 @@ public class MultiOscillatorControlPanel extends VerticalLayoutPanelWithDisable 
     private JRadioButton oneDrip;
     private JRadioButton twoDrips;
 
-    public MultiOscillatorControlPanel( final MultiOscillator multiOscillator, String name, WaveInterferenceScreenUnits units ) {
+    public MultiOscillatorControlPanel( final MultiOscillator multiOscillator, String oneSourceName,String twoSourceName, WaveInterferenceScreenUnits units ) {
         this.multiOscillator = multiOscillator;
         this.units = units;
         setBorder( BorderFactory.createEtchedBorder() );
 //        oneDrip = new JRadioButton( WIStrings.getString( "one.0" ) + name, multiOscillator.isOneSource() );
-        oneDrip = new JRadioButton( MessageFormat.format( WIStrings.getString( "controls.one" ), new Object[]{name} ), multiOscillator.isOneSource() );
+        oneDrip = new JRadioButton( oneSourceName, multiOscillator.isOneSource() );
         oneDrip.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 multiOscillator.setOneDrip();
                 updateSpacingSlider();
             }
         } );
-        twoDrips = new JRadioButton( MessageFormat.format( WIStrings.getString( "controls.two" ), new Object[]{name} ), multiOscillator.isTwoSource() );
+        twoDrips = new JRadioButton( twoSourceName, multiOscillator.isTwoSource() );
         twoDrips.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 multiOscillator.setTwoDrips();
