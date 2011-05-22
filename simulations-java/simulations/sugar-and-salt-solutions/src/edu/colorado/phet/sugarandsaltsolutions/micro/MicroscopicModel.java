@@ -95,8 +95,8 @@ public class MicroscopicModel extends SugarAndSaltSolutionModel {
 
     //Adds a NaCl molecule by adding a nearby sodium and chlorine, electrostatic forces are responsible for keeping them together
     public void addSalt( double x, double y ) {
-        addSodiumIon( x, y, 0 );
-        addChlorineIon( x + DefaultParticle.radius, y, 0 );
+        addSodiumIon( x, y );
+        addChlorineIon( x + DefaultParticle.radius, y );
     }
 
     //Adds some random sodium particles
@@ -106,14 +106,13 @@ public class MicroscopicModel extends SugarAndSaltSolutionModel {
             float float1 = (float) ( ( random.nextFloat() - 0.5 ) * 2 );
             final double x = float1 * beakerWidth / 2;
             final double y = random.nextFloat() * beakerHeight;
-            final float angle = (float) ( random.nextFloat() * Math.PI * 2 );
-            addSodiumIon( x, y, angle );
+            addSodiumIon( x, y );
         }
     }
 
     //Adds a chlorine ion
-    public void addChlorineIon( double x, double y, float angle ) {
-        DefaultParticle chlorineIon = new DefaultParticle( world, modelToBox2D, x, y, 0, 0, angle, new VoidFunction1<VoidFunction0>() {
+    public void addChlorineIon( double x, double y ) {
+        DefaultParticle chlorineIon = new DefaultParticle( world, modelToBox2D, x, y, 0, 0, 0, new VoidFunction1<VoidFunction0>() {
             public void apply( VoidFunction0 chlorineMolecule ) {
                 addFrameListener( chlorineMolecule );
             }
@@ -124,12 +123,12 @@ public class MicroscopicModel extends SugarAndSaltSolutionModel {
         }
     }
 
-    public void addSodiumIon( double x, double y, float angle ) {
-        DefaultParticle sodiumIon = new DefaultParticle( world, modelToBox2D, x, y, 0, 0, angle, new VoidFunction1<VoidFunction0>() {
+    public void addSodiumIon( double x, double y ) {
+        DefaultParticle sodiumIon = new DefaultParticle( world, modelToBox2D, x, y, 0, 0, 0, new VoidFunction1<VoidFunction0>() {
             public void apply( VoidFunction0 sodiumMolecule ) {
                 addFrameListener( sodiumMolecule );
             }
-        }, 1 );
+        }, +1 );
         sodiumList.add( sodiumIon );
         for ( VoidFunction1<DefaultParticle> sodiumAddedListener : sodiumAddedListeners ) {
             sodiumAddedListener.apply( sodiumIon );
@@ -202,9 +201,7 @@ public class MicroscopicModel extends SugarAndSaltSolutionModel {
 
         //Apply coulomb forces between all pairs of particles
         for ( WaterMolecule waterMolecule : waterList ) {
-            final Vec2 coulombForce = getCoulombForce( waterMolecule.getOxygenParticle() );
-//            System.out.println( "coulombForce = " + coulombForce );
-            waterMolecule.body.applyForce( coulombForce, waterMolecule.body.getPosition() );
+            waterMolecule.body.applyForce( getCoulombForce( waterMolecule.getOxygenParticle() ), waterMolecule.body.getPosition() );
             waterMolecule.body.applyForce( getCoulombForce( waterMolecule.getH1Particle() ), waterMolecule.getH1Particle().getPosition() );
             waterMolecule.body.applyForce( getCoulombForce( waterMolecule.getH2Particle() ), waterMolecule.getH2Particle().getPosition() );
         }
@@ -214,7 +211,7 @@ public class MicroscopicModel extends SugarAndSaltSolutionModel {
         for ( DefaultParticle chlorineIon : chlorineList ) {
             chlorineIon.body.applyForce( getCoulombForce( chlorineIon ), chlorineIon.body.getPosition() );
         }
-        world.step( (float) dt, 1000 );
+        world.step( (float) dt, 50 );
 
         //Notify listeners that the model changed
         for ( VoidFunction0 frameListener : frameListeners ) {
@@ -225,11 +222,11 @@ public class MicroscopicModel extends SugarAndSaltSolutionModel {
     //Gets the force on a single particle
     private Vec2 getCoulombForce( Particle target ) {
         Vec2 sumForces = new Vec2();
-        for ( DefaultParticle ion : sodiumList ) {
-            sumForces = sumForces.add( getCoulombForce( ion, target ) );
+        for ( DefaultParticle source : sodiumList ) {
+            sumForces = sumForces.add( getCoulombForce( source, target ) );
         }
-        for ( DefaultParticle ion : chlorineList ) {
-            sumForces = sumForces.add( getCoulombForce( ion, target ) );
+        for ( DefaultParticle source : chlorineList ) {
+            sumForces = sumForces.add( getCoulombForce( source, target ) );
         }
         for ( WaterMolecule water : waterList ) {
             sumForces = sumForces.add( getCoulombForce( water.getOxygenParticle(), target ) );
@@ -244,8 +241,8 @@ public class MicroscopicModel extends SugarAndSaltSolutionModel {
 
     //Properties for developer controls
     public final Property<Integer> k = new Property<Integer>( 100 );
-    public final Property<Integer> pow = new Property<Integer>( 3 );
-    public final Property<Integer> randomness = new Property<Integer>( 3 );
+    public final Property<Integer> pow = new Property<Integer>( 2 );
+    public final Property<Integer> randomness = new Property<Integer>( 44 );
 
     //Get the contribution to the total coulomb force from a single source
     private Vec2 getCoulombForce( Particle source, Particle target ) {
@@ -253,16 +250,24 @@ public class MicroscopicModel extends SugarAndSaltSolutionModel {
              ( source.getPosition().x == target.getPosition().x && source.getPosition().y == target.getPosition().y ) ) {
             return zero;
         }
-        Vec2 r = target.getPosition().sub( source.getPosition() );
+        Vec2 r = source.getPosition().sub( target.getPosition() );
         double distance = r.length();
+//        System.out.println( "distance = " + distance );
+
+        //Optimize forces for the distance between a sodium and chlorine so it is the strongest bond.
+        //Units are box2d units
+        if ( distance < 1.2 ) { distance = 1.2; }
 
         double q1 = source.getCharge();
         double q2 = target.getCharge();
 
         //Use a gaussian so that NaCl has a strong affinity
-        double x0 = 1.29499;
-        double distanceFunction = Math.exp( -Math.pow( distance - x0, 2 ) );
-        double magnitude = k.get() * q1 * q2 * distanceFunction;
+//        double x0 = 1.29499;
+//        double distanceFunction = Math.exp( -Math.pow( distance - x0, 2 ) );
+
+        double distanceFunction = 1 / Math.pow( distance, pow.get() );
+        double magnitude = -k.get() * q1 * q2 * distanceFunction;
+
 //        System.out.println( "distance = " + distance + ", mag = " + magnitude );
 //        System.out.println( distance + "\t" + magnitude );
 

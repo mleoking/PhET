@@ -6,6 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Rectangle2D;
 
+import javax.swing.*;
+
 import edu.colorado.phet.chemistry.model.Element;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
@@ -124,7 +126,7 @@ public class MicroscopicCanvas extends PhetPCanvas {
                 new ButtonNode( "Add Sodium Ion" ) {{
                     addActionListener( new ActionListener() {
                         public void actionPerformed( ActionEvent e ) {
-                            model.addSodiumIon( getX.apply(), model.beakerHeight, 0 );
+                            model.addSodiumIon( getX.apply(), model.beakerHeight );
                         }
                     } );
                 }},
@@ -132,7 +134,7 @@ public class MicroscopicCanvas extends PhetPCanvas {
                 new ButtonNode( "Add Chlorine Ion" ) {{
                     addActionListener( new ActionListener() {
                         public void actionPerformed( ActionEvent e ) {
-                            model.addChlorineIon( getX.apply(), model.beakerHeight, 0 );
+                            model.addChlorineIon( getX.apply(), model.beakerHeight );
                         }
                     } );
                 }},
@@ -154,10 +156,22 @@ public class MicroscopicCanvas extends PhetPCanvas {
                 }},
 
                 //Developer controls for physics settings
-                new PSwing( new PropertySlider( 0, 100, model.k ) ),
-                new PSwing( new PropertySlider( 0, 10, model.pow ) ),
-                new PSwing( new PropertySlider( 0, 100, model.randomness ) )
+                new PSwing( new JPanel() {{
+                    add( new JLabel( "k" ) );
+                    add( new PropertySlider( 0, 1000, model.k ) );
+                }} ),
+                new PSwing( new JPanel() {{
+                    add( new JLabel( "pow" ) );
+                    add( new PropertySlider( 0, 10, model.pow ) );
+                }} ),
+                new PSwing( new JPanel() {{
+                    add( new JLabel( "rand" ) );
+                    add( new PropertySlider( 0, 100, model.randomness ) );
+                }} )
         ) ) );
+        model.k.trace( "k" );
+        model.pow.trace( "pow" );
+        model.randomness.trace( "randomness" );
     }
 
     private void addChild( PNode node ) {

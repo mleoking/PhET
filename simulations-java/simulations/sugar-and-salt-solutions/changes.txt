@@ -1,3 +1,4 @@
+Added developer controls
 Added coulomb forces
 Added sodium ions
 Added SI coordinates and a transform to box2d coordinate frame
