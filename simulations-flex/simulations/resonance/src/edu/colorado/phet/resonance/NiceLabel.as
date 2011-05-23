@@ -31,7 +31,7 @@ public class NiceLabel extends Sprite {
 
 
     public function setTextFormat(): void {
-        this.tFormat.align = TextFormatAlign.CENTER;
+        this.tFormat.align = TextFormatAlign.LEFT;
         this.tFormat.font = "Arial";
         this.tFormat.color = this.fontColor;
         this.tFormat.size = this.fontSize;
@@ -41,7 +41,7 @@ public class NiceLabel extends Sprite {
 
     private function setLabel(): void {
         this.label_txt.selectable = false;
-        this.label_txt.autoSize = TextFieldAutoSize.CENTER;
+        this.label_txt.autoSize = TextFieldAutoSize.LEFT;
         //this.label_txt.text = "Label";
         this.label_txt.setTextFormat( this.tFormat );
         //this.label_txt.x = 0;// -0.5*this.label_txt.width;
@@ -51,7 +51,7 @@ public class NiceLabel extends Sprite {
     }//end createLabel()
 
     public function setText(labelText_str:String):void{
-        //this.label_txt.text = labelText_str;
+        this.label_txt.text = labelText_str;
         //this.setLabel();
         this.label_txt.setTextFormat( this.tFormat );
 
@@ -80,7 +80,7 @@ public class NiceLabel extends Sprite {
       g.clear();
       g.lineStyle(1, 0x000000, 0);
       //g.clear();
-      g.beginFill(0xffff00);
+      g.beginFill(0xff0000);
       g.drawRect(0, 0, w, h);
       g.endFill();
       //trace("NiceLabel.drawBounds this.width = "+this.width);
