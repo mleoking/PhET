@@ -21,7 +21,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
  *
  * @author Sam Reid
  */
-public class WaterMolecule implements Removable {
+public class WaterMolecule implements Removable, Particle {
     public Body body;
     public CircleDef oxygen;
     public CircleDef h1;
@@ -104,17 +104,26 @@ public class WaterMolecule implements Removable {
 
         //Particle interface for coulomb updates
         oxygenParticle = new Particle() {
-            public Vec2 getPosition() {
+            public Vec2 getBox2DPosition() {
                 return body.getPosition();
             }
 
             public double getCharge() {
                 return -2;
             }
+
+            public ImmutableVector2D getModelPosition() {
+                return transform.viewToModel( new ImmutableVector2D( getBox2DPosition().x, getBox2DPosition().y ) );
+            }
+
+            public void setModelPosition( ImmutableVector2D immutableVector2D ) {
+                ImmutableVector2D box2d = transform.modelToView( immutableVector2D );
+                body.setXForm( new Vec2( (float) box2d.getX(), (float) box2d.getY() ), 0 );
+            }
         };
 
         h1Particle = new Particle() {
-            public Vec2 getPosition() {
+            public Vec2 getBox2DPosition() {
                 ImmutableVector2D x = transform.modelToView( hydrogen1Position.get() );
                 return new Vec2( (float) x.getX(), (float) x.getY() );
             }
@@ -122,16 +131,32 @@ public class WaterMolecule implements Removable {
             public double getCharge() {
                 return +1;
             }
+
+            public ImmutableVector2D getModelPosition() {
+                return transform.viewToModel( new ImmutableVector2D( getBox2DPosition().x, getBox2DPosition().y ) );
+            }
+
+            //Not implemented since the oxygen sets the reference point for this water
+            public void setModelPosition( ImmutableVector2D immutableVector2D ) {
+            }
         };
 
         h2Particle = new Particle() {
-            public Vec2 getPosition() {
+            public Vec2 getBox2DPosition() {
                 ImmutableVector2D x = transform.modelToView( hydrogen2Position.get() );
                 return new Vec2( (float) x.getX(), (float) x.getY() );
             }
 
             public double getCharge() {
                 return +1;
+            }
+
+            public ImmutableVector2D getModelPosition() {
+                return transform.viewToModel( new ImmutableVector2D( getBox2DPosition().x, getBox2DPosition().y ) );
+            }
+
+            //Not implemented since the oxygen sets the reference point for this water
+            public void setModelPosition( ImmutableVector2D immutableVector2D ) {
             }
         };
 
@@ -159,5 +184,21 @@ public class WaterMolecule implements Removable {
 
     public Particle getH2Particle() {
         return h2Particle;
+    }
+
+    public Vec2 getBox2DPosition() {
+        return oxygenParticle.getBox2DPosition();
+    }
+
+    public double getCharge() {
+        return 0;
+    }
+
+    public ImmutableVector2D getModelPosition() {
+        return oxygenParticle.getModelPosition();
+    }
+
+    public void setModelPosition( ImmutableVector2D immutableVector2D ) {
+        oxygenParticle.setModelPosition( immutableVector2D );
     }
 }

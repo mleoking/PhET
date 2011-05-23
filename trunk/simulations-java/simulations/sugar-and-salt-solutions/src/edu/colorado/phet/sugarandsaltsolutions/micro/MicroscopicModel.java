@@ -13,6 +13,7 @@ import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.World;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -47,9 +48,11 @@ public class MicroscopicModel extends SugarAndSaltSolutionModel {
     private ArrayList<VoidFunction1<DefaultParticle>> chlorineAddedListeners = new ArrayList<VoidFunction1<DefaultParticle>>();
 
     private Random random = new Random();
-    public final Barrier floor;
-    public final Barrier rightWall;
-    public final Barrier leftWall;
+
+    //Barriers are commented out while we evaluate periodic boundary conditions
+//    public final Barrier bottomWall;
+//    public final Barrier rightWall;
+//    public final Barrier leftWall;
 
     public final double beakerWidth = 40E-10;
     public final double beakerHeight = beakerWidth * 0.6;
@@ -62,6 +65,13 @@ public class MicroscopicModel extends SugarAndSaltSolutionModel {
     double scaleFactor = box2DWidth / beakerWidth;
     private final ModelViewTransform modelToBox2D = ModelViewTransform.createSinglePointScaleMapping( new Point(), new Point(), scaleFactor );
 
+    //Shapes for boundaries, used in periodic boundary conditions
+    private ImmutableRectangle2D bottomWallShape;
+    private ImmutableRectangle2D rightWallShape;
+    private ImmutableRectangle2D leftWallShape;
+    private ImmutableRectangle2D topWallShape;
+    private int DEFAULT_NUM_WATERS = 100;
+
     public MicroscopicModel() {
         //Set the bounds of the physics engine.  The docs say things should be mostly between 0.1 and 10 units
         AABB worldAABB = new AABB();
@@ -69,20 +79,30 @@ public class MicroscopicModel extends SugarAndSaltSolutionModel {
         worldAABB.upperBound = new Vec2( 200, 200 );
 
         //Create the world
-        //TODO: fix units for gravity, should be in box2d coordinate frame, not SI
-        world = new World( worldAABB, new Vec2( 0, -9.8f ), true );
+        //No gravity
+        world = new World( worldAABB, new Vec2( 0, 0 ), true );
+
+        //Commented out while we evaluate periodic boundary conditions
+//        world = new World( worldAABB, new Vec2( 0, -9.8f ), true );
 
         //Add water particles
-//        addWaterParticles( System.currentTimeMillis() );
+        addWaterParticles( System.currentTimeMillis(), DEFAULT_NUM_WATERS );
 //        addSodiumParticles( System.currentTimeMillis() );
 
         //Create beaker floor
         double glassThickness = 1E-10;
-        floor = createBarrier( -beakerWidth / 2, 0, beakerWidth, glassThickness );
+        bottomWallShape = new ImmutableRectangle2D( -beakerWidth / 2, 0, beakerWidth, glassThickness );
+        topWallShape = new ImmutableRectangle2D( -beakerWidth / 2, beakerHeight, beakerWidth, glassThickness + beakerHeight );
 
         //Create sides
-        rightWall = createBarrier( -beakerWidth / 2, 0, glassThickness, beakerHeight );
-        leftWall = createBarrier( beakerWidth / 2, 0, glassThickness, beakerHeight );
+        rightWallShape = new ImmutableRectangle2D( beakerWidth / 2, 0, glassThickness, beakerHeight );
+        leftWallShape = new ImmutableRectangle2D( -beakerWidth / 2, 0, glassThickness, beakerHeight );
+
+        //Box2d barriers are commented out while we evaluate periodic boundary conditions
+        //        leftWall = createBarrier( leftWallShape );
+        //        bottomWall = createBarrier( bottomWallShape );
+//        bottomWall = createBarrier( bottomWallShape );
+//        rightWall = createBarrier( rightWallShape );
 
         //Move to a stable state on startup
         //Commented out because it takes too long
@@ -136,9 +156,9 @@ public class MicroscopicModel extends SugarAndSaltSolutionModel {
     }
 
     //Adds default water particles
-    private void addWaterParticles( long seed ) {
+    private void addWaterParticles( long seed, int numParticles ) {
         Random random = new Random( seed );
-        for ( int i = 0; i < 50; i++ ) {
+        for ( int i = 0; i < numParticles; i++ ) {
             float float1 = (float) ( ( random.nextFloat() - 0.5 ) * 2 );
             final double x = float1 * beakerWidth / 2;
             final double y = random.nextFloat() * beakerHeight;
@@ -161,8 +181,7 @@ public class MicroscopicModel extends SugarAndSaltSolutionModel {
     }
 
     //Creates a rectangular barrier
-    private Barrier createBarrier( final double x, final double y, final double width, final double height ) {
-        ImmutableRectangle2D modelRect = new ImmutableRectangle2D( x, y, width, height );
+    private Barrier createBarrier( ImmutableRectangle2D modelRect ) {
         final ImmutableRectangle2D box2DRect = modelToBox2D.modelToView( modelRect );
         PolygonDef shape = new PolygonDef() {{
             restitution = 0.2f;
@@ -202,8 +221,8 @@ public class MicroscopicModel extends SugarAndSaltSolutionModel {
         //Apply coulomb forces between all pairs of particles
         for ( WaterMolecule waterMolecule : waterList ) {
             waterMolecule.body.applyForce( getCoulombForce( waterMolecule.getOxygenParticle() ), waterMolecule.body.getPosition() );
-            waterMolecule.body.applyForce( getCoulombForce( waterMolecule.getH1Particle() ), waterMolecule.getH1Particle().getPosition() );
-            waterMolecule.body.applyForce( getCoulombForce( waterMolecule.getH2Particle() ), waterMolecule.getH2Particle().getPosition() );
+            waterMolecule.body.applyForce( getCoulombForce( waterMolecule.getH1Particle() ), waterMolecule.getH1Particle().getBox2DPosition() );
+            waterMolecule.body.applyForce( getCoulombForce( waterMolecule.getH2Particle() ), waterMolecule.getH2Particle().getBox2DPosition() );
         }
         for ( DefaultParticle sodiumIon : sodiumList ) {
             sodiumIon.body.applyForce( getCoulombForce( sodiumIon ), sodiumIon.body.getPosition() );
@@ -211,11 +230,34 @@ public class MicroscopicModel extends SugarAndSaltSolutionModel {
         for ( DefaultParticle chlorineIon : chlorineList ) {
             chlorineIon.body.applyForce( getCoulombForce( chlorineIon ), chlorineIon.body.getPosition() );
         }
-        world.step( (float) dt, 50 );
+        world.step( (float) dt / 2, 50 );
+
+        //Apply periodic boundary conditions
+        applyPeriodicBoundaryConditions( sodiumList );
+        applyPeriodicBoundaryConditions( chlorineList );
+        applyPeriodicBoundaryConditions( waterList );
 
         //Notify listeners that the model changed
         for ( VoidFunction0 frameListener : frameListeners ) {
             frameListener.apply();
+        }
+    }
+
+    //Move particles from one side of the screen to the other if they went out of bounds
+    private void applyPeriodicBoundaryConditions( ArrayList<? extends Particle> ionList ) {
+        for ( Particle sodium : ionList ) {
+            if ( sodium.getModelPosition().getX() > rightWallShape.x ) {
+                sodium.setModelPosition( new ImmutableVector2D( leftWallShape.getMaxX(), sodium.getModelPosition().getY() ) );
+            }
+            if ( sodium.getModelPosition().getX() < leftWallShape.getMaxX() ) {
+                sodium.setModelPosition( new ImmutableVector2D( rightWallShape.x, sodium.getModelPosition().getY() ) );
+            }
+            if ( sodium.getModelPosition().getY() < bottomWallShape.getMaxY() ) {
+                sodium.setModelPosition( new ImmutableVector2D( sodium.getModelPosition().getX(), topWallShape.y ) );
+            }
+            if ( sodium.getModelPosition().getY() > topWallShape.y ) {
+                sodium.setModelPosition( new ImmutableVector2D( sodium.getModelPosition().getX(), bottomWallShape.getMaxY() ) );
+            }
         }
     }
 
@@ -240,17 +282,17 @@ public class MicroscopicModel extends SugarAndSaltSolutionModel {
     private final Vec2 zero = new Vec2();
 
     //Properties for developer controls
-    public final Property<Integer> k = new Property<Integer>( 100 );
+    public final Property<Integer> k = new Property<Integer>( 500 );
     public final Property<Integer> pow = new Property<Integer>( 2 );
-    public final Property<Integer> randomness = new Property<Integer>( 44 );
+    public final Property<Integer> randomness = new Property<Integer>( 10 );
 
     //Get the contribution to the total coulomb force from a single source
     private Vec2 getCoulombForce( Particle source, Particle target ) {
         if ( source == target ||
-             ( source.getPosition().x == target.getPosition().x && source.getPosition().y == target.getPosition().y ) ) {
+             ( source.getBox2DPosition().x == target.getBox2DPosition().x && source.getBox2DPosition().y == target.getBox2DPosition().y ) ) {
             return zero;
         }
-        Vec2 r = source.getPosition().sub( target.getPosition() );
+        Vec2 r = source.getBox2DPosition().sub( target.getBox2DPosition() );
         double distance = r.length();
 //        System.out.println( "distance = " + distance );
 
@@ -297,7 +339,7 @@ public class MicroscopicModel extends SugarAndSaltSolutionModel {
     //Resets the model, clearing water molecules and starting over
     @Override public void reset() {
         clearWater();
-        addWaterParticles( System.currentTimeMillis() );
+        addWaterParticles( System.currentTimeMillis(), DEFAULT_NUM_WATERS );
     }
 
     //Removes all water from the model
