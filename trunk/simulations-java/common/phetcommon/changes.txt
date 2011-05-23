@@ -1,3 +1,4 @@
+5/23/11 Added getMax() functions to ImmutableRectangle2D
 5/23/11 Removed AdvancedPanel constructor that used untranslated strings
 5/20/11 Added ModelViewTransform.modelToView(ImmutableRectangle2D)
 5/18/11 Changed ObservableProperty.trace() to use System.out instead of java.util.logging, resolves #2882
