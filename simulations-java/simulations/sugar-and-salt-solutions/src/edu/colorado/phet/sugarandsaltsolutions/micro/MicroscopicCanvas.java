@@ -53,7 +53,9 @@ public class MicroscopicCanvas extends PhetPCanvas {
 
         //Gets the ModelViewTransform used to go between model coordinates (SI) and stage coordinates (roughly pixels)
         //Create the transform from model (SI) to view (stage) coordinates
-        final ModelViewTransform transform = createRectangleInvertedYMapping( new Rectangle2D.Double( -model.beakerWidth / 2, -1E-10, model.beakerWidth, model.beakerWidth ), new Rectangle2D.Double( 0, 0, canvasSize.getHeight(), canvasSize.getHeight() ) );
+        double inset = 40;
+        final ModelViewTransform transform = createRectangleInvertedYMapping( new Rectangle2D.Double( -model.beakerWidth / 2, 0, model.beakerWidth, model.beakerHeight ),
+                                                                              new Rectangle2D.Double( -inset, -inset, canvasSize.getWidth() + inset * 2, canvasSize.getHeight() + inset * 2 ) );
 
         // Root of our scene graph
         rootNode = new PNode();
@@ -102,13 +104,21 @@ public class MicroscopicCanvas extends PhetPCanvas {
         }
         );
 
-        addChild( new BarrierNode( transform, model.floor ) );
-        addChild( new BarrierNode( transform, model.leftWall ) );
-        addChild( new BarrierNode( transform, model.rightWall ) );
+//        addChild( new BarrierNode( transform, model.bottomWall ) );
+//        addChild( new BarrierNode( transform, model.leftWall ) );
+//        addChild( new BarrierNode( transform, model.rightWall ) );
 
-        final Function0<Float> getX = new Function0<Float>() {
+        //Gets a random number within the horizontal range of the beaker
+        final Function0<Float> randomX = new Function0<Float>() {
             public Float apply() {
                 return (float) ( SugarAndSaltSolutionsApplication.random.nextFloat() * model.beakerWidth - model.beakerWidth / 2 );
+            }
+        };
+
+        //Gets a random number within the vertical range of the beaker
+        final Function0<Float> randomY = new Function0<Float>() {
+            public Float apply() {
+                return (float) ( SugarAndSaltSolutionsApplication.random.nextFloat() * model.beakerHeight );
             }
         };
 
@@ -126,7 +136,7 @@ public class MicroscopicCanvas extends PhetPCanvas {
                 new ButtonNode( "Add Sodium Ion" ) {{
                     addActionListener( new ActionListener() {
                         public void actionPerformed( ActionEvent e ) {
-                            model.addSodiumIon( getX.apply(), model.beakerHeight );
+                            model.addSodiumIon( randomX.apply(), model.beakerHeight );
                         }
                     } );
                 }},
@@ -134,7 +144,7 @@ public class MicroscopicCanvas extends PhetPCanvas {
                 new ButtonNode( "Add Chlorine Ion" ) {{
                     addActionListener( new ActionListener() {
                         public void actionPerformed( ActionEvent e ) {
-                            model.addChlorineIon( getX.apply(), model.beakerHeight );
+                            model.addChlorineIon( randomX.apply(), model.beakerHeight );
                         }
                     } );
                 }},
@@ -142,7 +152,7 @@ public class MicroscopicCanvas extends PhetPCanvas {
                 new ButtonNode( "Add Water" ) {{
                     addActionListener( new ActionListener() {
                         public void actionPerformed( ActionEvent e ) {
-                            model.addWater( getX.apply(), model.beakerHeight, 0 );
+                            model.addWater( randomX.apply(), randomY.apply(), 0 );
                         }
                     } );
                 }},
@@ -150,7 +160,7 @@ public class MicroscopicCanvas extends PhetPCanvas {
                 new ButtonNode( "Add NaCl" ) {{
                     addActionListener( new ActionListener() {
                         public void actionPerformed( ActionEvent e ) {
-                            model.addSalt( getX.apply(), model.beakerHeight );
+                            model.addSalt( randomX.apply(), randomY.apply() );
                         }
                     } );
                 }},

@@ -28,7 +28,10 @@ public class DefaultParticle implements Removable, Particle {
     public CircleDef circleDef;
     private ArrayList<VoidFunction0> removalListeners = new ArrayList<VoidFunction0>();
     public static final double radius = 1.3E-10;
+
+    //The model position in SI
     public final Property<ImmutableVector2D> position;
+
     private final ModelViewTransform transform;
     private double charge;
     private BodyDef bodyDef;
@@ -87,12 +90,17 @@ public class DefaultParticle implements Removable, Particle {
         }
     }
 
-    public Vec2 getPosition() {
+    //Box2D position
+    public Vec2 getBox2DPosition() {
         return body.getPosition();
     }
 
     public double getCharge() {
         return charge;
+    }
+
+    public ImmutableVector2D getModelPosition() {
+        return position.get();
     }
 
     //Translate when the user drags the particle
@@ -108,5 +116,15 @@ public class DefaultParticle implements Removable, Particle {
         grabbed = b;
         if ( grabbed ) { body.setMass( new MassData() ); }
         else { body.setMassFromShapes(); }
+    }
+
+    //Sets the model position and updates the box2D Position
+    public void setModelPosition( ImmutableVector2D position ) {
+        this.position.set( position );
+
+        final Point2D box2DLocation = transform.modelToView( position.getX(), position.getY() );
+        Vec2 v = new Vec2( (float) box2DLocation.getX(), (float) box2DLocation.getY() );
+
+        body.setXForm( v, body.getAngle() );
     }
 }
