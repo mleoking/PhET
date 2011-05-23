@@ -2,8 +2,7 @@
 package edu.colorado.phet.buildamolecule.model;
 
 import java.awt.geom.Rectangle2D;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 import edu.colorado.phet.buildamolecule.BuildAMoleculeApplication;
 import edu.colorado.phet.chemistry.model.Atom;
@@ -19,6 +18,8 @@ public class CollectionBox {
     private Rectangle2D dropBounds; // calculated by the view
 
     private List<Listener> listeners = new LinkedList<Listener>();
+
+    private Set<Molecule> molecules = new HashSet<Molecule>();
 
     public CollectionBox( CompleteMolecule moleculeType, final int capacity ) {
         this.moleculeType = moleculeType;
@@ -72,6 +73,7 @@ public class CollectionBox {
 
     public void addMolecule( Molecule molecule ) {
         quantity.set( quantity.get() + 1 );
+        molecules.add( molecule );
 
         // notify our listeners
         for ( Listener listener : listeners ) {
@@ -81,6 +83,7 @@ public class CollectionBox {
 
     public void removeMolecule( Molecule molecule ) {
         quantity.set( quantity.get() - 1 );
+        molecules.remove( molecule );
 
         // notify our listeners
         for ( Listener listener : listeners ) {
@@ -105,6 +108,12 @@ public class CollectionBox {
 
     public void removeListener( Listener listener ) {
         listeners.remove( listener );
+    }
+
+    public void clear() {
+        for ( Molecule molecule : new ArrayList<Molecule>( molecules ) ) {
+            removeMolecule( molecule );
+        }
     }
 
     public static interface Listener {

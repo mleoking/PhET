@@ -23,7 +23,7 @@ public class SingleCollectionBoxNode extends CollectionBoxNode {
             final HTMLNode nameAndFormula = new HTMLNode( MessageFormat.format( BuildAMoleculeStrings.COLLECTION_SINGLE_FORMAT,
                                                                                 box.getMoleculeType().getGeneralFormulaFragment(),
                                                                                 box.getMoleculeType().getDisplayName() ) ) {{
-                setFont( new PhetFont( 16, true ) );
+                setFont( new PhetFont( 15, true ) );
             }};
             addChild( nameAndFormula );
         }} );

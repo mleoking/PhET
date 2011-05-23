@@ -21,7 +21,7 @@ public class MultipleCollectionBoxNode extends CollectionBoxNode {
 
         addHeaderNode( new PNode() {{
             HTMLNode goalNode = new HTMLNode( MessageFormat.format( BuildAMoleculeStrings.COLLECTION_MULTIPLE_GOAL_FORMAT, box.getCapacity(), box.getMoleculeType().getGeneralFormulaFragment() ) ) {{
-                setFont( new PhetFont( 16, true ) );
+                setFont( new PhetFont( 15, true ) );
             }};
             addChild( goalNode );
         }} );
@@ -29,7 +29,7 @@ public class MultipleCollectionBoxNode extends CollectionBoxNode {
             // TODO: figure out a possible better way to assure that we don't see a "bumping" size change due to increase of string height with subscripts:
             final String subscriptFix = "<sub> </sub>";
 
-            setFont( new PhetFont( 16 ) );
+            setFont( new PhetFont( 14 ) );
 
             // update when the quantity changes
             box.quantity.addObserver( new SimpleObserver() {

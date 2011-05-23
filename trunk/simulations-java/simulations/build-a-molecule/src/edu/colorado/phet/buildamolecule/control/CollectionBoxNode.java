@@ -62,7 +62,7 @@ public class CollectionBoxNode extends SwingLayoutNode {
 
         c.insets = new Insets( 3, 0, 0, 0 ); // some padding between the black box
 
-        blackBox = new PhetPPath( new Rectangle2D.Double( 0, 0, 160, 50 ), BuildAMoleculeConstants.MOLECULE_COLLECTION_BOX_BACKGROUND ) {{
+        blackBox = new PhetPPath( new Rectangle2D.Double( 0, 0, 160, 40 ), BuildAMoleculeConstants.MOLECULE_COLLECTION_BOX_BACKGROUND ) {{
             canvas.addFullyLayedOutObserver( new SimpleObserver() {
                 public void update() {
                     // we need to pass the collection box model coordinates, but here we have relative piccolo coordinates

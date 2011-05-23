@@ -2,13 +2,19 @@
 package edu.colorado.phet.buildamolecule.control;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.beans.PropertyChangeListener;
 
 import edu.colorado.phet.buildamolecule.BuildAMoleculeConstants;
 import edu.colorado.phet.buildamolecule.BuildAMoleculeStrings;
 import edu.colorado.phet.buildamolecule.model.CollectionBox;
+import edu.colorado.phet.buildamolecule.model.Kit;
 import edu.colorado.phet.buildamolecule.model.KitCollectionModel;
 import edu.colorado.phet.buildamolecule.view.BuildAMoleculeCanvas;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -30,7 +36,7 @@ public class CollectionAreaNode extends PNode {
      * @param model                Our model
      * @param singleCollectionMode Whether we should use single or multiple molecule collection boxes
      */
-    public CollectionAreaNode( Frame parentFrame, BuildAMoleculeCanvas canvas, KitCollectionModel model, boolean singleCollectionMode ) {
+    public CollectionAreaNode( Frame parentFrame, BuildAMoleculeCanvas canvas, final KitCollectionModel model, boolean singleCollectionMode ) {
         layoutNode = new SwingLayoutNode( new GridBagLayout() );
 
         GridBagConstraints c = new GridBagConstraints();
@@ -56,6 +62,46 @@ public class CollectionAreaNode extends PNode {
                 layoutNode.addChild( new MultipleCollectionBoxNode( parentFrame, canvas, collectionBox ), c );
             }
         }
+
+        c.gridy++;
+        layoutNode.addChild( new ButtonNode( "Reset Collection", Color.ORANGE ) {
+                                 {
+                                     // when clicked, empty collection boxes
+                                     addActionListener( new ActionListener() {
+                                         public void actionPerformed( ActionEvent e ) {
+                                             for ( CollectionBox box : model.getCollectionBoxes() ) {
+                                                 box.clear();
+                                             }
+                                             for ( Kit kit : model.getKits() ) {
+                                                 kit.resetKit();
+                                             }
+                                         }
+                                     } );
+
+                                     // when any collection box quantity changes, re-update our visibility
+                                     for ( CollectionBox box : model.getCollectionBoxes() ) {
+                                         box.quantity.addObserver( new SimpleObserver() {
+                                             public void update() {
+                                                 updateEnabled();
+                                             }
+                                         } );
+                                     }
+                                 }
+
+                                 public void updateEnabled() {
+                                     boolean enabled = false;
+                                     for ( CollectionBox box : model.getCollectionBoxes() ) {
+                                         if ( box.quantity.get() > 0 ) {
+                                             enabled = true;
+                                         }
+                                     }
+                                     setEnabled( enabled );
+                                 }
+
+                                 @Override public void addPropertyChangeListener( PropertyChangeListener listener ) {
+                                     // TODO can we get rid of this hack?
+                                 }
+                             }, c );
 
         c.insets = new Insets( 0, 0, 0, 0 );
         c.gridy++;
