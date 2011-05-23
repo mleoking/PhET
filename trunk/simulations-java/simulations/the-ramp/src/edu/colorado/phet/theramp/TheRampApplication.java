@@ -3,7 +3,9 @@
 /*  */
 package edu.colorado.phet.theramp;
 
-import edu.colorado.phet.common.phetcommon.application.*;
+import edu.colorado.phet.common.phetcommon.application.Module;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
@@ -15,7 +17,7 @@ import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
  */
 
 public class TheRampApplication extends PiccoloPhetApplication {
-    
+
     private final RampModule simpleRampModule;
     private final RampModule advancedFeatureModule;
 
@@ -23,7 +25,7 @@ public class TheRampApplication extends PiccoloPhetApplication {
         super( config );
         simpleRampModule = new SimpleRampModule( getPhetFrame(), createClock() );
         advancedFeatureModule = new RampModule( getPhetFrame(), createClock() );
-        setModules( new Module[]{simpleRampModule, advancedFeatureModule} );
+        setModules( new Module[] { simpleRampModule, advancedFeatureModule } );
     }
 
     private IClock createClock() {
@@ -35,18 +37,8 @@ public class TheRampApplication extends PiccoloPhetApplication {
         simpleRampModule.getPhetPCanvas().requestFocus();
         simpleRampModule.applicationStarted();
     }
-    
-    public static void main( final String[] args ) {
-        
-        ApplicationConstructor appConstructor = new ApplicationConstructor() {
-            public PhetApplication getApplication( PhetApplicationConfig config ) {
-                return new TheRampApplication( config );
-            }
-        };
-        
-        PhetApplicationConfig appConfig = new PhetApplicationConfig( args, TheRampConstants.PROJECT_NAME );
-        appConfig.setFrameSetup( TheRampConstants.FRAME_SETUP );
-        new PhetApplicationLauncher().launchSim( appConfig, appConstructor );
-    }
 
+    public static void main( final String[] args ) {
+        new PhetApplicationLauncher().launchSim( args, TheRampConstants.PROJECT_NAME, TheRampApplication.class );
+    }
 }
