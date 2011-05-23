@@ -63,4 +63,12 @@ public class ImmutableRectangle2D {
     public Rectangle2D toRectangle2D() {
         return new Rectangle2D.Double( x, y, width, height );
     }
+
+    public double getMaxX() {
+        return x + width;
+    }
+
+    public double getMaxY() {
+        return y + height;
+    }
 }
