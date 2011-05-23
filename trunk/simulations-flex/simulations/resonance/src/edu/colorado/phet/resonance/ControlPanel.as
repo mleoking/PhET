@@ -4,6 +4,7 @@ import edu.colorado.phet.flexcommon.model.NumericProperty;
 import edu.colorado.phet.resonance.HorizontalSlider;
 
 import flash.display.*;
+import flash.display.DisplayObject;
 import flash.events.Event;
 import flash.events.MouseEvent;
 
@@ -17,6 +18,7 @@ import mx.controls.HSlider;
 import mx.controls.Label;
 import mx.controls.RadioButton;
 import mx.controls.RadioButtonGroup;
+import mx.core.UIComponent;
 import mx.events.ListEvent;
 
 public class ControlPanel extends Canvas {
@@ -38,6 +40,7 @@ public class ControlPanel extends Canvas {
     private var kSlider: HorizontalSlider;  //HSlider;
    // private var nbrResonators_lbl:Label;
     private var freqLabel: NiceLabel;
+    private var freqLabelIndex:int;
     private var showRulerCheckBox: CheckBox;
     //private var resetAllButton: Button;
     private var resetAllButton: NiceButton2;
@@ -264,7 +267,9 @@ public class ControlPanel extends Canvas {
         this.innerBckgrnd.addChild( this.resonatorNbr_lbl );
         this.innerBckgrnd.addChild( new SpriteUIComponent(this.mSlider, true) );
         this.innerBckgrnd.addChild( new SpriteUIComponent(this.kSlider, true) );
-        this.innerBckgrnd.addChild( new SpriteUIComponent(this.freqLabel, true) );
+        var freqLabelHolder:SpriteUIComponent =  new SpriteUIComponent(this.freqLabel, true)
+        this.innerBckgrnd.addChild( freqLabelHolder );
+        this.freqLabelIndex = this.innerBckgrnd.getChildIndex(freqLabelHolder);
         this.background.addChild( innerBckgrnd );
         this.background.addChild( radioButtonBox );
         this.radioButtonBox.addChild( gravity_lbl );
@@ -334,7 +339,9 @@ public class ControlPanel extends Canvas {
         var resFreq: Number = this.shakerModel.resonatorModel_arr[rNbr - 1].getF0();
         //var resFreq: Number = this.shakerModel.resonatorModel_arr[rNbr - 1].getFRes();
         var resFreq_str: String = resFreq.toFixed( 3 );
+        this.innerBckgrnd.removeChildAt(this.freqLabelIndex);
         this.freqLabel.setText(this.frequencyEquals_str + resFreq_str + " " + hz_str);
+        this.innerBckgrnd.addChild( new SpriteUIComponent(this.freqLabel, true) );
     }
 
 //    public function setDamping( evt: Event ): void {
