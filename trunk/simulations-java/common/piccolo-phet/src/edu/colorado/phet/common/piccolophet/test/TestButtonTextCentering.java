@@ -8,18 +8,15 @@ import java.awt.geom.Dimension2D;
 
 import javax.swing.*;
 
-import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
-import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDebug;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Class for testing the centering of text in the ButtonNode class, see #2780.
- *
+ * <p/>
  * Author: John Blanco
  */
 public class TestButtonTextCentering {
@@ -45,7 +42,7 @@ public class TestButtonTextCentering {
 
         JFrame frame = new JFrame( ButtonNode.class.getName() );
         frame.setContentPane( canvas );
-        frame.setSize( (int)STAGE_SIZE.getWidth(), (int)STAGE_SIZE.getHeight() );
+        frame.setSize( (int) STAGE_SIZE.getWidth(), (int) STAGE_SIZE.getHeight() );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         frame.setVisible( true );
     }
