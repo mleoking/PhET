@@ -1,6 +1,7 @@
 package edu.colorado.phet.resonance {
 
 import edu.colorado.phet.flexcommon.model.NumericProperty;
+import edu.colorado.phet.resonance.HorizontalSlider;
 
 import flash.display.*;
 import flash.events.Event;
@@ -25,9 +26,8 @@ public class ControlPanel extends Canvas {
     private var background: VBox;
     private var radioButtonBox: HBox;
     private var innerBckgrnd: VBox;
-    //private var dampingSlider: HSlider;
     private var dampingSlider: HorizontalSlider;
-    private var nbrResonatorsSlider: HSlider;
+    private var nbrResonatorsSlider: HorizontalSlider;
     private var presets_cbx:ComboBox;
     private var gravityOnOff_rbg: RadioButtonGroup;
 
@@ -36,8 +36,8 @@ public class ControlPanel extends Canvas {
     private var resonatorNbr_lbl: Label;
     private var mSlider: HorizontalSlider;  //NumericSlider;
     private var kSlider: HorizontalSlider;  //HSlider;
-    private var nbrResonators_lbl:Label;
-    private var freq_lbl: Label;
+   // private var nbrResonators_lbl:Label;
+    private var freqLabel: NiceLabel;
     private var showRulerCheckBox: CheckBox;
     //private var resetAllButton: Button;
     private var resetAllButton: NiceButton2;
@@ -119,6 +119,8 @@ public class ControlPanel extends Canvas {
 
 
         //HorizontalSlider(action:Function, lengthInPix:int, minVal:Number, maxVal:Number, textEditable:Boolean = false, detented:Boolean = false, nbrTics:int = 0)
+        this.nbrResonatorsSlider = new HorizontalSlider( setNbrResonators, 150, 1, 10, false, true, 10, false );
+        this.nbrResonatorsSlider.setLabelText( this.numberOfResonators_str );
         this.dampingSlider = new HorizontalSlider( setDamping, 150, 0.05, 5, true ); //new HSlider();
         this.dampingSlider.setLabelText( damping_str );
         this.dampingSlider.setUnitsText( dampingUnits_str );
@@ -132,17 +134,17 @@ public class ControlPanel extends Canvas {
 //
 //        this.dampingSlider.addEventListener( Event.CHANGE, setDamping );
 
-        this.nbrResonatorsSlider = new HSlider();
-        this.formatSlider( this.nbrResonatorsSlider );
-        with ( this.nbrResonatorsSlider ) {
-            minimum = 1;
-            maximum = 10;
-            labels = ["", this.numberOfResonators_str, ""];
-            snapInterval = 1;
-            tickInterval = 1;
-        }
+//        this.nbrResonatorsSlider = new HSlider();
+//        this.formatSlider( this.nbrResonatorsSlider );
+//        with ( this.nbrResonatorsSlider ) {
+//            minimum = 1;
+//            maximum = 10;
+//            labels = ["", this.numberOfResonators_str, ""];
+//            snapInterval = 1;
+//            tickInterval = 1;
+//        }
 
-        this.nbrResonatorsSlider.addEventListener( Event.CHANGE, onChangeNbrResonators );
+        //this.nbrResonatorsSlider.addEventListener( Event.CHANGE, onChangeNbrResonators );
 
         this.presets_cbx = new ComboBox();
         this.presets_cbx.dataProvider = [choose_str , sameSpring_str , sameMass_str , mixedMAndK_str , sameF_str];
@@ -172,7 +174,7 @@ public class ControlPanel extends Canvas {
 
         this.gravityOnOff_rbg.addEventListener( Event.CHANGE, clickGravity );
 
-        this.nbrResonators_lbl = new Label();
+        //this.nbrResonators_lbl = new Label();
         this.resonatorNbr_lbl = new Label();
 
         with ( this.resonatorNbr_lbl ) {
@@ -184,8 +186,8 @@ public class ControlPanel extends Canvas {
             setStyle( "textAlign", "center" );
         }
 
-        setText( this.nbrResonators_lbl, this.numberOfResonators_str ) ;
-        setText( this.resonatorNbr_lbl, this.resonator_str ) ;
+        //setText( this.nbrResonators_lbl, this.numberOfResonators_str ) ;
+        //setText( this.resonatorNbr_lbl, this.resonator_str ) ;
 
         function setText( myLabel_lbl:Label,  text_str:String ):void{
              with ( myLabel_lbl ) {
@@ -229,14 +231,15 @@ public class ControlPanel extends Canvas {
 
         this.kSlider.addEventListener( Event.CHANGE, onChangeK );
 
-        this.freq_lbl = new Label();
-        with ( this.freq_lbl ) {
-            text = this.frequencyEquals_str;
-            setStyle( "fontFamily", "Arial" );
-            setStyle( "fontSize", 14 );
-            percentWidth = 90;
-            setStyle( "textAlign", "center" );
-        }
+        this.freqLabel = new NiceLabel();
+        this.freqLabel.setFontSize(13);
+//        with ( this.freq_lbl ) {
+//            text = this.frequencyEquals_str;
+//            setStyle( "fontFamily", "Arial" );
+//            setStyle( "fontSize", 14 );
+//            percentWidth = 90;
+//            setStyle( "textAlign", "center" );
+//        }
 
         this.showRulerCheckBox = new CheckBox();
         this.showRulerCheckBox.label = ruler_str;
@@ -255,14 +258,13 @@ public class ControlPanel extends Canvas {
         this.addChild( this.background );
 
         this.background.addChild(presets_cbx);
-        this.background.addChild( nbrResonatorsSlider );
-        this.background.addChild( nbrResonators_lbl );
+        this.background.addChild( new SpriteUIComponent( nbrResonatorsSlider, true ));
         this.background.addChild( new SpriteUIComponent(dampingSlider, true) );
 
         this.innerBckgrnd.addChild( this.resonatorNbr_lbl );
         this.innerBckgrnd.addChild( new SpriteUIComponent(this.mSlider, true) );
         this.innerBckgrnd.addChild( new SpriteUIComponent(this.kSlider, true) );
-        this.innerBckgrnd.addChild( this.freq_lbl );
+        this.innerBckgrnd.addChild( new SpriteUIComponent(this.freqLabel, true) );
         this.background.addChild( innerBckgrnd );
         this.background.addChild( radioButtonBox );
         this.radioButtonBox.addChild( gravity_lbl );
@@ -276,7 +278,7 @@ public class ControlPanel extends Canvas {
 
     private function initializeStrings(): void {
         numberOfResonators_str = " Number of Resonators ";
-        damping_str = "damping constant b";
+        damping_str = "damping constant";
         dampingUnits_str = "N/(m/s)";
         gravity_str = "Gravity";
         on_str = "on";
@@ -310,16 +312,7 @@ public class ControlPanel extends Canvas {
     }
     
 
-    function formatSlider( mySlider: HSlider ): void {
-        mySlider.buttonMode = true;
-        mySlider.liveDragging = true;
-        mySlider.percentWidth = 100;
-        mySlider.showDataTip = false;
-        //mySlider.setStyle( "labelOffset", 25 );
-        setStyle( "invertThumbDirection", true );
-        //setStyle( "dataTipOffset", -50 );  //this does not work.  Why not?
-        setStyle( "fontFamily", "Arial" );
-    }
+
 
     public function setResonatorIndex( rNbr: int ): void {
         this.selectedResonatorNbr = rNbr;
@@ -341,7 +334,7 @@ public class ControlPanel extends Canvas {
         var resFreq: Number = this.shakerModel.resonatorModel_arr[rNbr - 1].getF0();
         //var resFreq: Number = this.shakerModel.resonatorModel_arr[rNbr - 1].getFRes();
         var resFreq_str: String = resFreq.toFixed( 3 );
-        this.freq_lbl.text = this.frequencyEquals_str + resFreq_str + " " + hz_str;
+        this.freqLabel.setText(this.frequencyEquals_str + resFreq_str + " " + hz_str);
     }
 
 //    public function setDamping( evt: Event ): void {
@@ -358,15 +351,15 @@ public class ControlPanel extends Canvas {
          this.presets_cbx.selectedIndex = idx;
     }
 
-    private function onChangeNbrResonators( evt: Event ): void {
-        var nbrR: int = this.nbrResonatorsSlider.value;
-        if ( nbrR < this.selectedResonatorNbr ) {
-            this.setResonatorIndex( nbrR );
-        }
-        //trace("ControlPanel.setNbrResonators called. nbrR = " + nbrR);
-        //this.setNbrResonators( nbrR );
-        this.myMainView.setNbrResonators( nbrR );
-    }
+//    private function onChangeNbrResonators( evt: Event ): void {
+//        var nbrR: int = this.nbrResonatorsSlider.value;
+//        if ( nbrR < this.selectedResonatorNbr ) {
+//            this.setResonatorIndex( nbrR );
+//        }
+//        //trace("ControlPanel.setNbrResonators called. nbrR = " + nbrR);
+//        //this.setNbrResonators( nbrR );
+//        this.myMainView.setNbrResonators( nbrR );
+//    }
 
     private function selectPreset(evt: Event ){
          var itemNbr: int = evt.target.selectedIndex;
@@ -375,8 +368,8 @@ public class ControlPanel extends Canvas {
     }
 
     public function setNbrResonatorsExternally( nbrR: int ): void {
-        this.nbrResonatorsSlider.value = nbrR;
-        this.setNbrResonators( nbrR );
+        this.nbrResonatorsSlider.setVal( nbrR );
+        this.myMainView.setNbrResonators( nbrR );
     }
 
     private function clickGravity( evt: Event ): void {
@@ -414,8 +407,9 @@ public class ControlPanel extends Canvas {
         this.shakerModel.view.ruler.initializePositions();
     }
 
-    //who is calling this?  I want to delete it.
-    public function setNbrResonators( nbrR: int ): void {
+    //called from Slider
+    public function setNbrResonators( ): void {
+        var nbrR:Number = this.nbrResonatorsSlider.getVal();
         this.myMainView.setNbrResonators( nbrR );
     }
 
@@ -453,6 +447,17 @@ public class ControlPanel extends Canvas {
 //    private function resetAll( evt: MouseEvent ): void {
 //        this.resetResonators( evt );
 //        this.myMainView.initializeAll();
+//    }
+
+//        function formatSlider( mySlider: HSlider ): void {
+//        mySlider.buttonMode = true;
+//        mySlider.liveDragging = true;
+//        mySlider.percentWidth = 100;
+//        mySlider.showDataTip = false;
+//        //mySlider.setStyle( "labelOffset", 25 );
+//        setStyle( "invertThumbDirection", true );
+//        //setStyle( "dataTipOffset", -50 );  //this does not work.  Why not?
+//        setStyle( "fontFamily", "Arial" );
 //    }
 
 }//end of class

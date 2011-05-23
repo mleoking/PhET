@@ -16,30 +16,32 @@ public class HorizontalSlider extends Sprite {
     private var textEditable: Boolean; //true if readout is user editable
     private var detented: Boolean;	//false if slider continuous
     private var nbrTics: int;		//number of tick marks, if detented
+    private var readoutShown:Boolean;  //false if readout not shown
     private var rail: Sprite;		//rail along which knob slides
     private var knob: Sprite;		//grabbable knob on slider
-    private var outputValue: Number;
+    private var outputValue: Number;    //readout = scale * outputValue; scale is often 1.0, but you might want outputVal in meters and readoutVal in cm
     private var label_txt: TextField;	//static label
     private var readout_txt: TextField; //dynamic readout
     private var units_txt:TextField;    //units displayed next to readout
     private var tFormat1: TextFormat;	//format of label
     private var tFormat2: TextFormat;	//format of readout
     private var units_str:String;       //units on readout
-    private var scale: Number;			//readout = scale * sliderValue
+    private var scale: Number;			//readout = scale * outputValue; scale is usually 1.0
     private var decimalPlaces: int;		//number of figures past decimal point in readout
     private var manualUpdating: Boolean;	//true if user is manually entering text in readout textfield
 
-    public function HorizontalSlider( action: Function, lengthInPix: int, minVal: Number, maxVal: Number, textEditable:Boolean = false, detented: Boolean = false, nbrTics: int = 0 ) {
+    public function HorizontalSlider( action: Function, lengthInPix: int, minVal: Number, maxVal: Number, textEditable:Boolean = false, detented: Boolean = false, nbrTics: int = 0 , readoutShown:Boolean = true ) {
         //this.owner = owner;
         this.action = action;
         this.lengthInPix = lengthInPix;
         this.minVal = minVal;
         this.maxVal = maxVal;
-        this.scale = 1;		//default is that slider value = readout value
+        this.scale = 1;		//default is that slider outputValue = readout value
         this.decimalPlaces = 1;
         this.textEditable = textEditable;
         this.detented = detented;
         this.nbrTics = nbrTics;
+        this.readoutShown = readoutShown;
         this.rail = new Sprite();
         this.knob = new Sprite();
         this.drawSlider();
@@ -47,7 +49,7 @@ public class HorizontalSlider extends Sprite {
         this.addChild( this.knob );
         this.knob.x = this.knob.width;
         this.createLabel();
-        this.createReadoutFields();
+        this.createReadoutFields()
         this.makeKnobGrabbable();
         //this.drawBorder();  //for testing only
     }//end of constructor
@@ -71,9 +73,7 @@ public class HorizontalSlider extends Sprite {
 				this.knob.x = 0;
 			}
         this.action();
-        if ( !manualUpdating ) {
-            this.updateReadout();
-        }
+        this.updateReadout();
     }//end setVal
 
     public function setScale( scale: Number ): void {
@@ -81,7 +81,7 @@ public class HorizontalSlider extends Sprite {
     }
 
     public function setReadoutPrecision( nbrOfPlaces: int ): void {
-        this.decimalPlaces = nbrOfPlaces;
+        this.decimalPlaces = nbrOfPlaces;     //nbr of places displayed past the decimal point
     }
 
     private function drawSlider(): void {
@@ -174,7 +174,7 @@ public class HorizontalSlider extends Sprite {
         this.readout_txt.backgroundColor = 0xffffff;     //white background
         this.readout_txt.autoSize = TextFieldAutoSize.RIGHT;
         this.units_txt.autoSize = TextFieldAutoSize.LEFT;
-        //this.readout_txt.restrict = "0-9.";
+        this.readout_txt.restrict = "0-9.\\-";   //allow any number, positive or negative
 
         this.tFormat2 = new TextFormat();	//format of label
         this.tFormat2.font = "Arial";
@@ -189,54 +189,29 @@ public class HorizontalSlider extends Sprite {
         this.readout_txt.y = -1.5 * this.readout_txt.height;
         this.units_txt.x = this.rail.width / 2 ;
         this.units_txt.y = -1.5 * this.units_txt.height;
-        this.addChild( this.readout_txt );
-        this.addChild( this.units_txt );
+        if(this.readoutShown){
+            this.addChild( this.readout_txt );
+            this.addChild( this.units_txt );
+        }
         //this.readout_txt.addEventListener( Event.CHANGE, onTextChange );
-        this.readout_txt.addEventListener( KeyboardEvent.KEY_DOWN, onTextChange );
+        this.readout_txt.addEventListener( KeyboardEvent.KEY_DOWN, onHitEnter );
     }//end createReadoutfield()
 
-    private function onTextChange( keyEvt: KeyboardEvent ):void{      //evt: Event ): void {
-        //trace("HorizontalSlider.onTextChange called. text = "+this.evtTextToNumber(evt));
+    private function onHitEnter( keyEvt: KeyboardEvent ):void{
         this.manualUpdating = true;
-        trace("HorizontalSlider.onTextChange"+ keyEvt.keyCode );
-        if(keyEvt.keyCode == 13){
-           this.setVal( this.evtTextToNumber( evt )/this.scale );
+        if(keyEvt.keyCode == 13){       //13 is keyCode for Enter key
+           var inputText:String  = this.readout_txt.text;
+           var inputNumber:Number = Number(inputText);
+           this.setVal( inputNumber / this.scale );
         }
-        //this.setVal( this.evtTextToNumber( evt )/this.scale );
         this.manualUpdating = false;
     }
 
 
-    private function enterTextInput():void{
-
-    }
-    //unnecessary if text is not selectable
-    private function evtTextToNumber( evt: Event ): Number {
-        var inputText = evt.target.text;
-        var outputNumber: Number;
-        if ( inputText == "." ) {
-            evt.target.text = "0.";
-            evt.target.setSelection( 2, 2 ); //sets cursor at end of line
-            outputNumber = 0;
-        } else if ( inputText == "-" ) {
-            outputNumber = 0;
-        } else if ( inputText == "-." ) {
-            evt.target.text = "-0.";
-            evt.target.setSelection( 3, 3 ); //sets cursor at end of line
-            outputNumber = 0;
-        } else if ( isNaN( Number( inputText ) ) ) {
-            evt.target.text = "0";
-            outputNumber = 0;
-        }
-        else {
-            outputNumber = Number( inputText );
-        }
-        return outputNumber;
-    }//end textToNumber
-
     private function updateReadout(): void {
         var readout: Number = this.scale * this.outputValue;
-        // displays default precision if readout is slider-selected, but displays higher precision if user has hand-entered number 
+        // displays default precision if readout is slider-selected,
+        // if readout is hand-entered, displays between default precision and upto 4 decimal places
         var roundedReadout:Number = Math.floor( readout );
         var decimalPortion:Number = readout - roundedReadout;
         var factor:Number = 1000000;
@@ -247,10 +222,13 @@ public class HorizontalSlider extends Sprite {
         var readoutPlaces = this.decimalPlaces;
         if(nbrDecimalPlaces > this.decimalPlaces){
             readoutPlaces = nbrDecimalPlaces;
-            if(nbrDecimalPlaces > 4){
-                readoutPlaces = 4;   //limits display to 5 places past decimal point
+            if(nbrDecimalPlaces > 5){
+                readoutPlaces = 5;   //limits display to 5 places past decimal point
             }
+        } else if(nbrDecimalPlaces < this.decimalPlaces){
+            readoutPlaces = this.decimalPlaces;
         }
+        trace("HorizontalSlider.updateReadout readoutPlaces is "+readoutPlaces);
         this.readout_txt.text = readout.toFixed( readoutPlaces );
     }//end updateReadout()
 
@@ -327,6 +305,30 @@ public class HorizontalSlider extends Sprite {
 //        g.lineTo(0,0);
 
     }
+
+    //obsolete function
+    private function evtTextToNumber1( evt: Event ): Number {
+        var inputText = evt.target.text;
+        var outputNumber: Number;
+        if ( inputText == "." ) {
+            evt.target.text = "0.";
+            evt.target.setSelection( 2, 2 ); //sets cursor at end of line
+            outputNumber = 0;
+        } else if ( inputText == "-" ) {
+            outputNumber = 0;
+        } else if ( inputText == "-." ) {
+            evt.target.text = "-0.";
+            evt.target.setSelection( 3, 3 ); //sets cursor at end of line
+            outputNumber = 0;
+        } else if ( isNaN( Number( inputText ) ) ) {
+            evt.target.text = "0";
+            outputNumber = 0;
+        }
+        else {
+            outputNumber = Number( inputText );
+        }
+        return outputNumber;
+    }//end textToNumber
 
 }//end of class
 }//end of package
