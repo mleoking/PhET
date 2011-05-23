@@ -1,3 +1,4 @@
+> 5/23/11 Internationalized force panel strings, and renamed from "Advanced >>"/"Hide <<" to "Forces >>"/"Forces <<", resolves #2855
 5/23/11 Removed custom FrameSetup (same as phetcommon default)
 5/23/11 Rewrote main to use standardized PhetApplicationLauncher initialization method
 # 1.04.00 (52282) May 21, 2011

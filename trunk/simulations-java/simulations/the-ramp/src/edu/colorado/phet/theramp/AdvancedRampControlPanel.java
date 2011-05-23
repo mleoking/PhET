@@ -142,7 +142,8 @@ public class AdvancedRampControlPanel extends RampControlPanel {
         forcePanel.add( showGravity );
         forcePanel.add( showNormal );
 
-        AdvancedPanel advancedPanel = new AdvancedPanel();
+        //Shows a button "Forces >>" that expands into a control panel that shows all available forces for selection by the user
+        AdvancedPanel advancedPanel = new AdvancedPanel( TheRampStrings.getString( "controls.forces.maximize" ), TheRampStrings.getString( "controls.forces.minimize" ) );
         advancedPanel.addControlFullWidth( coordinatePanel );
         advancedPanel.addControlFullWidth( forcePanel );
         addControlFullWidth( advancedPanel );
