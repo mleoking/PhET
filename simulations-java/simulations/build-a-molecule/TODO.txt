@@ -1,11 +1,13 @@
+Add < level 2 > like things to the top of the collection boxes, so we can scroll through collections
+Reset all in a menu drop-down?
 What about if you re-drag a molecule part just after combining?
 Jmol loading speed is slow - speed up
 Experiment with true 2d structure and loops!
 Image cleanup
 Note about dragging?
 Naming
-Remember include NO2 - nitrogen dioxide - 3609161
 Text issues - buttonnode in panel
+Potential collection area in 3rd tab?
 
 TARGET - END OF JUNE
 
