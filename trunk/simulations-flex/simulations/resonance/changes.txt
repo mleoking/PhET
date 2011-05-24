@@ -1,3 +1,5 @@
+# 0.00.09 (52356) May 24, 2011
+5/24/11 Control panel now uses Dubson-built components.
 # 0.00.08 (50291) Apr 1, 2011
 4/1/11 Fixed typo in control panel.
 # 0.00.07 (50250) Mar 31, 2011
