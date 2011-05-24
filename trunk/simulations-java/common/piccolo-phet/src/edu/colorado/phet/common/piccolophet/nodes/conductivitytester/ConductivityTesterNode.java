@@ -274,7 +274,7 @@ public class ConductivityTesterNode extends PhetPNode {
     /*
     * Light bulb, origin at bottom center.  Protected so that subclasses can listen to drag events on the light bulb, such as in Sugar and Salt Solutions.
     */
-    protected static class LightBulbNode extends PComposite {
+    private static class LightBulbNode extends PComposite {
 
         private final PImage glassNode;
 
@@ -307,7 +307,7 @@ public class ConductivityTesterNode extends PhetPNode {
     /*
     * Battery, origin at left center.
     */
-    protected static class BatteryNode extends PComposite {
+    private static class BatteryNode extends PComposite {
         public BatteryNode() {
             PImage imageNode = new PImage( BATTERY );
             addChild( imageNode );
