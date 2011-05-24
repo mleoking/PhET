@@ -15,7 +15,7 @@ import edu.colorado.phet.balancingchemicalequations.BCEStrings;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -67,9 +67,9 @@ public class NotBalancedTerseNode extends GamePopupNode {
                 iconAndTextNode.addChild( textNode );
 
                 // "Show Why" button
-                ButtonNode showWhyButton = null;
+                HTMLImageButtonNode showWhyButton = null;
                 if ( whyButtonVisible ) {
-                    showWhyButton = new ButtonNode( BCEStrings.SHOW_WHY, new PhetFont( Font.BOLD, 18 ), Color.WHITE );
+                    showWhyButton = new HTMLImageButtonNode( BCEStrings.SHOW_WHY, new PhetFont( Font.BOLD, 18 ), Color.WHITE );
                     showWhyButton.addActionListener( whyButtonListener );
                 }
 

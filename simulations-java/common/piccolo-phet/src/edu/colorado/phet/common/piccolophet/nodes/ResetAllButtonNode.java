@@ -21,7 +21,7 @@ import edu.umd.cs.piccolo.PCanvas;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ResetAllButtonNode extends ButtonNode {
+public class ResetAllButtonNode extends HTMLImageButtonNode {
 
     private final ResetAllDelegate delegate; // delegate that implements Reset All behavior
 

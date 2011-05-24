@@ -15,7 +15,7 @@ import edu.colorado.phet.buildamolecule.model.Molecule;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -82,7 +82,7 @@ public class KitPanel extends PNode {
         * reset kit
         *----------------------------------------------------------------------------*/
 
-        addChild( new ButtonNode( BuildAMoleculeStrings.KIT_RESET, new PhetFont( Font.BOLD, 12 ), Color.ORANGE ) {
+        addChild( new HTMLImageButtonNode( BuildAMoleculeStrings.KIT_RESET, new PhetFont( Font.BOLD, 12 ), Color.ORANGE ) {
             private SimpleObserver observer; // makes sure that we are enabled or disabled whenever the current kit is
 
             {

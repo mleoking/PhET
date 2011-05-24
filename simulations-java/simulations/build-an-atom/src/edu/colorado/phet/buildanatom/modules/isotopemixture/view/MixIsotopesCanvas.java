@@ -32,7 +32,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.BucketView;
-import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.umd.cs.piccolo.PNode;
@@ -232,7 +232,7 @@ public class MixIsotopesCanvas extends PhetPCanvas implements Resettable {
         // and larger atoms.
         final Point2D moreLessButtonLocation = new Point2D.Double( testChamberNode.getFullBoundsReference().getCenterX(),
                                                                    BuildAnAtomDefaults.STAGE_SIZE.height - DISTANCE_BUTTON_CENTER_FROM_BOTTOM );
-        final ButtonNode moreAtomsButton = new ButtonNode( BuildAnAtomStrings.MORE, BUTTON_FONT, new Color( 0, 198, 158 ) ) {{
+        final HTMLImageButtonNode moreAtomsButton = new HTMLImageButtonNode( BuildAnAtomStrings.MORE, BUTTON_FONT, new Color( 0, 198, 158 ) ) {{
             centerFullBoundsOnPoint( moreLessButtonLocation.getX(), moreLessButtonLocation.getY() );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -241,7 +241,7 @@ public class MixIsotopesCanvas extends PhetPCanvas implements Resettable {
             } );
         }};
         controlsLayer.addChild( moreAtomsButton );
-        final ButtonNode lessAtomsButton = new ButtonNode( BuildAnAtomStrings.LESS, BUTTON_FONT, new Color( 159, 182, 205 ) ) {{
+        final HTMLImageButtonNode lessAtomsButton = new HTMLImageButtonNode( BuildAnAtomStrings.LESS, BUTTON_FONT, new Color( 159, 182, 205 ) ) {{
             centerFullBoundsOnPoint( moreLessButtonLocation.getX(), moreLessButtonLocation.getY() );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -264,7 +264,7 @@ public class MixIsotopesCanvas extends PhetPCanvas implements Resettable {
         model.getShowingNaturesMixProperty().addObserver( moreLessButtonVizUpdater );
 
         // Add the button that clears the test chamber.
-        final ButtonNode clearTestChamberButton = new ButtonNode( BuildAnAtomStrings.CLEAR_BOX, BUTTON_FONT, new Color( 255, 153, 0 ) ) {{
+        final HTMLImageButtonNode clearTestChamberButton = new HTMLImageButtonNode( BuildAnAtomStrings.CLEAR_BOX, BUTTON_FONT, new Color( 255, 153, 0 ) ) {{
             centerFullBoundsOnPoint( averageAtomicMassWindow.getFullBoundsReference().getMinX() + 80,
                                      BuildAnAtomDefaults.STAGE_SIZE.height - DISTANCE_BUTTON_CENTER_FROM_BOTTOM );
             addActionListener( new ActionListener() {

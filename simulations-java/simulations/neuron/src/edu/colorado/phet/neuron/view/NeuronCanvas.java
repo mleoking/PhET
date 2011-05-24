@@ -17,7 +17,7 @@ import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetRootPNode;
-import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.neuron.NeuronConstants;
 import edu.colorado.phet.neuron.NeuronStrings;
@@ -86,7 +86,7 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
     private MembranePotentialChart membranePotentialChart;
 
     // Button for stimulating the neuron.
-    ButtonNode stimulateNeuronButton;
+    HTMLImageButtonNode stimulateNeuronButton;
 
     // Concentration readouts.
     PText sodiumInteriorConcentrationReadout;
@@ -189,7 +189,7 @@ public class NeuronCanvas extends PhetPCanvas implements IZoomable {
         addScreenChild( chartLayer );
 
         // Add the button for stimulating the neuron.
-        stimulateNeuronButton = new ButtonNode( NeuronStrings.STIMULATE_BUTTON_CAPTION, new PhetFont( Font.BOLD, 12 ),
+        stimulateNeuronButton = new HTMLImageButtonNode( NeuronStrings.STIMULATE_BUTTON_CAPTION, new PhetFont( Font.BOLD, 12 ),
                                                 CANVAS_BUTTON_COLOR );
         stimulateNeuronButton.scale( 2 );
         stimulateNeuronButton.setOffset( 10, 10 );

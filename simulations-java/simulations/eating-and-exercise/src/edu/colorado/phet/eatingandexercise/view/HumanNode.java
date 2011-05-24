@@ -17,7 +17,7 @@ import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValu
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.eatingandexercise.EatingAndExerciseResources;
 import edu.colorado.phet.eatingandexercise.model.Human;
@@ -37,7 +37,7 @@ public class HumanNode extends PNode {
     private PImage heartNode;
     private BasicStroke stroke = new BasicStroke( 0.02f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER );
     private PhetPPath areaNode = new PhetPPath( Color.white, stroke, Color.black );
-    private ButtonNode infoButton;
+    private HTMLImageButtonNode infoButton;
     private ArrayList listeners = new ArrayList();
 
     public HumanNode( Human human ) {
@@ -67,7 +67,7 @@ public class HumanNode extends PNode {
             }
         } );
 
-        infoButton = new ButtonNode( EatingAndExerciseResources.getString( "question.mark" ), new PhetFont( Font.BOLD, 12 ), Color.red );
+        infoButton = new HTMLImageButtonNode( EatingAndExerciseResources.getString( "question.mark" ), new PhetFont( Font.BOLD, 12 ), Color.red );
         infoButton.setScale( 0.007 );
         infoButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {

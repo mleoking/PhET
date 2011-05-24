@@ -8,7 +8,7 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 
 /**
  * This class extends ButtonNode in order to add the capability of
@@ -17,7 +17,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
  *
  * @author John Blanco
  */
-public class AutoPressButtonNode extends ButtonNode {
+public class AutoPressButtonNode extends HTMLImageButtonNode {
 
     private static final int HIGHLIGHT_TIME = 250; // In milliseconds.
     private static final int PRESS_TIME = 500; // In milliseconds.

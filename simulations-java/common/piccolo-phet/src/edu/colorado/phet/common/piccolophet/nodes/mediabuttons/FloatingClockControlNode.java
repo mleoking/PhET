@@ -15,7 +15,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
@@ -128,7 +128,7 @@ public class FloatingClockControlNode extends PNode {
                 } );
             }};
             addChild( readoutNode );
-            addChild( new ButtonNode( clearString ) {{
+            addChild( new HTMLImageButtonNode( clearString ) {{
                 setOffset( readoutNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, readoutNode.getFullBounds().getMaxY() );
                 addActionListener( new ActionListener() {
                     public void actionPerformed( ActionEvent e ) {

@@ -39,7 +39,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @author John Blanco (previous text-only version of ButtonNode)
  */
-public class ButtonNode extends PhetPNode {
+public class HTMLImageButtonNode extends PhetPNode {
 
     // position of text relative to image
     public static enum TextPosition {
@@ -74,19 +74,19 @@ public class ButtonNode extends PhetPNode {
     // Constructors
     //------------------------------------------------------------------------
 
-    public ButtonNode() {
+    public HTMLImageButtonNode() {
         this( (String) null, (BufferedImage) null );
     }
 
-    public ButtonNode( String text ) {
+    public HTMLImageButtonNode( String text ) {
         this( text, (BufferedImage) null );
     }
 
-    public ButtonNode( BufferedImage image ) {
+    public HTMLImageButtonNode( BufferedImage image ) {
         this( null, image );
     }
 
-    public ButtonNode( String text, BufferedImage image ) {
+    public HTMLImageButtonNode( String text, BufferedImage image ) {
 
         this.text = text;
         this.image = image;
@@ -120,30 +120,30 @@ public class ButtonNode extends PhetPNode {
     }
 
     // Convenience constructor
-    public ButtonNode( String text, Color background ) {
+    public HTMLImageButtonNode( String text, Color background ) {
         this( text );
         setBackground( background );
     }
 
     // Convenience constructor
-    public ButtonNode( String text, int fontSize, Color background ) {
+    public HTMLImageButtonNode( String text, int fontSize, Color background ) {
         this( text, new PhetFont( DEFAULT_FONT_STYLE, fontSize ), background );
     }
 
     // Convenience constructor
-    public ButtonNode( String text, PhetFont font, Color background ) {
+    public HTMLImageButtonNode( String text, PhetFont font, Color background ) {
         this( text );
         setFont( font );
         setBackground( background );
     }
 
     // Convenience constructor
-    public ButtonNode( String text, int fontSize, Color foreground, Color background ) {
+    public HTMLImageButtonNode( String text, int fontSize, Color foreground, Color background ) {
         this( text, new PhetFont( DEFAULT_FONT_STYLE, fontSize ), foreground, background );
     }
 
     // Convenience constructor
-    public ButtonNode( String text, PhetFont font, Color foreground, Color background ) {
+    public HTMLImageButtonNode( String text, PhetFont font, Color foreground, Color background ) {
         this( text );
         setFont( font );
         setForeground( foreground );
@@ -253,11 +253,11 @@ public class ButtonNode extends PhetPNode {
         handler.addButtonEventListener( new ButtonEventListener() {
 
             public void setFocus( boolean focus ) {
-                ButtonNode.this.setFocus( focus );
+                HTMLImageButtonNode.this.setFocus( focus );
             }
 
             public void setArmed( boolean armed ) {
-                ButtonNode.this.setArmed( armed );
+                HTMLImageButtonNode.this.setArmed( armed );
             }
 
             public void fire() {
@@ -691,7 +691,7 @@ public class ButtonNode extends PhetPNode {
             }
         };
 
-        ButtonNode button1 = new ButtonNode( image ) {{
+        HTMLImageButtonNode button1 = new HTMLImageButtonNode( image ) {{
             setCornerRadius( 20 );
             setImageTextGap( 20 );
             setMargin( 20, 10, 20, 10 );
@@ -701,7 +701,7 @@ public class ButtonNode extends PhetPNode {
         button1.setOffset( 5, 5 );
         button1.addActionListener( listener );
 
-        ButtonNode button2 = new ButtonNode( "<html>2. Test <br> Me Too</html>", image ) {{
+        HTMLImageButtonNode button2 = new HTMLImageButtonNode( "<html>2. Test <br> Me Too</html>", image ) {{
             setTextPosition( TextPosition.BELOW );
             setFont( new PhetFont( 24 ) );
             setBackground( new Color( 0x99cccc ) );
@@ -709,30 +709,30 @@ public class ButtonNode extends PhetPNode {
         button2.setOffset( 200, 5 );
         button2.addActionListener( listener );
 
-        ButtonNode button3 = new ButtonNode( "<html><center>3. Default Color<br>and Font<center></html>" );
+        HTMLImageButtonNode button3 = new HTMLImageButtonNode( "<html><center>3. Default Color<br>and Font<center></html>" );
         button3.setOffset( 5, 200 );
         button3.addActionListener( listener );
 
-        ButtonNode button4 = new ButtonNode( "4. Default Font Size" ) {{
+        HTMLImageButtonNode button4 = new HTMLImageButtonNode( "4. Default Font Size" ) {{
             setBackground( new Color( 0xcc3366 ) );
         }};
         button4.setOffset( 200, 200 );
         button4.addActionListener( listener );
 
-        ButtonNode button5 = new ButtonNode( "5. Transparent" ) {{
+        HTMLImageButtonNode button5 = new HTMLImageButtonNode( "5. Transparent" ) {{
             setBackground( new Color( 255, 0, 0, 100 ) );
         }};
         button5.setOffset( 200, 125 );
         button5.addActionListener( listener );
 
-        final ButtonNode button6 = new ButtonNode( "6. Test Enabled", image ) {{
+        final HTMLImageButtonNode button6 = new HTMLImageButtonNode( "6. Test Enabled", image ) {{
             setBackground( new Color( 0, 200, 200 ) );
             setTextPosition( TextPosition.ABOVE );
         }};
         button6.setOffset( 230, 300 );
         button6.addActionListener( listener );
 
-        ButtonNode button7 = new ButtonNode( "7. Toggle Enabled ->" ) {{
+        HTMLImageButtonNode button7 = new HTMLImageButtonNode( "7. Toggle Enabled ->" ) {{
             setFont( new PhetFont( Font.ITALIC, 16 ) );
             setForeground( Color.RED );
             setBackground( new Color( 200, 200, 0 ) );
@@ -755,7 +755,7 @@ public class ButtonNode extends PhetPNode {
         canvas.addScreenChild( button6 );
         canvas.addScreenChild( button7 );
 
-        JFrame frame = new JFrame( ButtonNode.class.getName() );
+        JFrame frame = new JFrame( HTMLImageButtonNode.class.getName() );
         frame.setContentPane( canvas );
         frame.setSize( 475, 425 );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );

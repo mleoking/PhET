@@ -28,7 +28,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
-import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -64,7 +64,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
     private final PText equationLabelNode; // labels the equation, eg, "Equation 2 of 5"
     private final EquationNode equationNode;
     private final BoxesNode boxesNode;
-    private final ButtonNode checkButton, tryAgainButton, showAnswerButton, nextButton;
+    private final HTMLImageButtonNode checkButton, tryAgainButton, showAnswerButton, nextButton;
     private final GameScoreboardNode scoreboardNode;
 
     private final ActionListener showWhyButtonListener, hideWhyButtonListener; // listeners for buttons in "Not Balanced" popups
@@ -108,26 +108,26 @@ import edu.umd.cs.piccolox.pswing.PSwing;
         boxesNode = new BoxesNode( model.currentEquation, model.getCoefficientsRange(), aligner, globalProperties.boxColor, globalProperties.moleculesVisible );
 
         // buttons
-        checkButton = new ButtonNode( BCEStrings.CHECK, BUTTONS_FONT, BUTTONS_COLOR );
+        checkButton = new HTMLImageButtonNode( BCEStrings.CHECK, BUTTONS_FONT, BUTTONS_COLOR );
         checkButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 playGuessAudio();
                 model.check();
             }
         } );
-        tryAgainButton = new ButtonNode( BCEStrings.TRY_AGAIN, BUTTONS_FONT, BUTTONS_COLOR );
+        tryAgainButton = new HTMLImageButtonNode( BCEStrings.TRY_AGAIN, BUTTONS_FONT, BUTTONS_COLOR );
         tryAgainButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 model.tryAgain();
             }
         } );
-        showAnswerButton = new ButtonNode( BCEStrings.SHOW_ANSWER, BUTTONS_FONT, BUTTONS_COLOR );
+        showAnswerButton = new HTMLImageButtonNode( BCEStrings.SHOW_ANSWER, BUTTONS_FONT, BUTTONS_COLOR );
         showAnswerButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 model.showAnswer();
             }
         } );
-        nextButton = new ButtonNode( BCEStrings.NEXT, BUTTONS_FONT, BUTTONS_COLOR );
+        nextButton = new HTMLImageButtonNode( BCEStrings.NEXT, BUTTONS_FONT, BUTTONS_COLOR );
         nextButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 model.next();
@@ -425,7 +425,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
      * Make one of the buttons visible.
      * Visibility of the buttons is mutually exclusive.
      */
-    private void setButtonNodeVisible( ButtonNode buttonNode ) {
+    private void setButtonNodeVisible( HTMLImageButtonNode buttonNode ) {
         // hide all button nodes
         checkButton.setVisible( false );
         tryAgainButton.setVisible( false );

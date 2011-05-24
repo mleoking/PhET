@@ -13,7 +13,7 @@ import edu.colorado.phet.buildamolecule.model.Kit;
 import edu.colorado.phet.buildamolecule.model.KitCollection;
 import edu.colorado.phet.buildamolecule.view.BuildAMoleculeCanvas;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.swing.SwingLayoutNode;
 
@@ -51,7 +51,7 @@ public class CollectionAreaNode extends PNode {
         }
 
         // TODO: i18n
-        layoutNode.addChild( new ButtonNode( "Reset Collection", Color.ORANGE ) {
+        layoutNode.addChild( new HTMLImageButtonNode( "Reset Collection", Color.ORANGE ) {
                                  {
                                      // when clicked, empty collection boxes
                                      addActionListener( new ActionListener() {

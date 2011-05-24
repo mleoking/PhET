@@ -20,7 +20,7 @@ import edu.colorado.phet.common.photonabsorption.view.PhotonEmitterNode;
 import edu.colorado.phet.common.photonabsorption.view.PhotonNode;
 import edu.colorado.phet.common.photonabsorption.view.VerticalRodNode;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.moleculesandlight.MoleculesAndLightModule;
 import edu.colorado.phet.moleculesandlight.MoleculesAndLightResources;
 import edu.umd.cs.piccolo.PNode;
@@ -67,7 +67,7 @@ public class MoleculesAndLightCanvas extends PhetPCanvas {
     private final HashMap<Molecule, MoleculeNode> moleculeMap = new HashMap<Molecule, MoleculeNode>();
 
     // Button for restoring molecules that break apart.
-    private final ButtonNode restoreMoleculeButtonNode;
+    private final HTMLImageButtonNode restoreMoleculeButtonNode;
 
     // Listener for watching molecules and updating the restore button
     // visibility.
@@ -79,7 +79,7 @@ public class MoleculesAndLightCanvas extends PhetPCanvas {
     };
 
     // Button for displaying EM specturm.
-    private final ButtonNode showSpectrumButton = new ButtonNode( MoleculesAndLightResources.getString( "SpectrumWindow.buttonCaption" ), new PhetFont( Font.BOLD, 24 ), new Color( 185, 178, 95 ) );
+    private final HTMLImageButtonNode showSpectrumButton = new HTMLImageButtonNode( MoleculesAndLightResources.getString( "SpectrumWindow.buttonCaption" ), new PhetFont( Font.BOLD, 24 ), new Color( 185, 178, 95 ) );
 
     // Window that displays the EM spectrum upon request.
     private final SpectrumWindow spectrumWindow = new SpectrumWindow() {{ setVisible( false ); }};
@@ -188,7 +188,7 @@ public class MoleculesAndLightCanvas extends PhetPCanvas {
                 photonEmitterNode.getFullBoundsReference().getCenterY() );
 
         // Add the button for restoring molecules that break apart.
-        restoreMoleculeButtonNode = new ButtonNode( MoleculesAndLightResources.getString( "ButtonNode.ReturnMolecule" ), new PhetFont( Font.BOLD, 24 ), new Color( 255, 144, 0 ) );
+        restoreMoleculeButtonNode = new HTMLImageButtonNode( MoleculesAndLightResources.getString( "ButtonNode.ReturnMolecule" ), new PhetFont( Font.BOLD, 24 ), new Color( 255, 144, 0 ) );
         restoreMoleculeButtonNode.setOffset( INTERMEDIATE_RENDERING_SIZE.width - restoreMoleculeButtonNode.getFullBounds().getWidth(), 50 );
         restoreMoleculeButtonNode.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {

@@ -17,7 +17,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsResources;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
@@ -79,9 +79,9 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
     private NuclearDecayProportionChart _proportionsChart;
     private RadiometricDatingMeterNode _meterNode;
     private IdentityHashMap<DatableItem, PNode> _mapModelElementsToNodes = new IdentityHashMap<DatableItem, PNode>();
-    private ButtonNode _startOperationButtonNode;
-    private ButtonNode _forceClosureButtonNode;
-    private ButtonNode _resetButtonNode;
+    private HTMLImageButtonNode _startOperationButtonNode;
+    private HTMLImageButtonNode _forceClosureButtonNode;
+    private HTMLImageButtonNode _resetButtonNode;
     private PPath _probeDragBounds = new PPath();
     private TimeDisplayNode _timeDisplay;
 
@@ -401,11 +401,11 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
             switch( _model.getSimulationMode() ) {
 
                 case TREE:
-                    _startOperationButtonNode = new ButtonNode( NuclearPhysicsStrings.PLANT_TREE,
+                    _startOperationButtonNode = new HTMLImageButtonNode( NuclearPhysicsStrings.PLANT_TREE,
                                                                 PLAY_AREA_BUTTON_FONT, START_OPERATION_BUTTON_COLOR );
                     break;
                 case ROCK:
-                    _startOperationButtonNode = new ButtonNode( NuclearPhysicsStrings.ERUPT_VOLCANO,
+                    _startOperationButtonNode = new HTMLImageButtonNode( NuclearPhysicsStrings.ERUPT_VOLCANO,
                                                                 PLAY_AREA_BUTTON_FONT, START_OPERATION_BUTTON_COLOR );
             }
 
@@ -429,11 +429,11 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
                 switch( _model.getSimulationMode() ) {
 
                     case TREE:
-                        _forceClosureButtonNode = new ButtonNode( NuclearPhysicsStrings.KILL_TREE,
+                        _forceClosureButtonNode = new HTMLImageButtonNode( NuclearPhysicsStrings.KILL_TREE,
                                                                   PLAY_AREA_BUTTON_FONT, FORCE_CLOSURE_BUTTON_COLOR );
                         break;
                     case ROCK:
-                        _forceClosureButtonNode = new ButtonNode( NuclearPhysicsStrings.COOL_ROCK,
+                        _forceClosureButtonNode = new HTMLImageButtonNode( NuclearPhysicsStrings.COOL_ROCK,
                                                                   PLAY_AREA_BUTTON_FONT, FORCE_CLOSURE_BUTTON_COLOR );
                         break;
                 }
@@ -454,7 +454,7 @@ public class RadiometricMeasurementCanvas extends PhetPCanvas {
             else if ( _model.getRadiometricClosureState() == RadiometricClosureState.CLOSED ) {
                 // The clock is running and closure has occurred.  Put up the
                 // reset button.
-                _resetButtonNode = new ButtonNode( NuclearPhysicsStrings.RESET_BUTTON_LABEL,
+                _resetButtonNode = new HTMLImageButtonNode( NuclearPhysicsStrings.RESET_BUTTON_LABEL,
                                                    PLAY_AREA_BUTTON_FONT, NuclearPhysicsConstants.CANVAS_RESET_BUTTON_COLOR );
                 _resetButtonNode.setOffset(
                         INITIAL_INTERMEDIATE_COORD_WIDTH - _resetButtonNode.getFullBoundsReference().width,

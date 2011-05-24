@@ -29,7 +29,7 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.phetcommon.view.util.SpectrumImageFactory.ExponentialGrowthSpectrumImageFactory;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
-import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.moleculesandlight.MoleculesAndLightResources;
@@ -70,7 +70,7 @@ public class SpectrumWindow extends JFrame {
         canvas.addWorldChild( spectrumDiagram );
 
         // Add the close button.
-        ButtonNode closeButton = new ButtonNode( MoleculesAndLightResources.getCommonString( "Common.choice.close" ), Color.ORANGE );
+        HTMLImageButtonNode closeButton = new HTMLImageButtonNode( MoleculesAndLightResources.getCommonString( "Common.choice.close" ), Color.ORANGE );
         closeButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
                 // Post an event in the system queue that indicates a close.

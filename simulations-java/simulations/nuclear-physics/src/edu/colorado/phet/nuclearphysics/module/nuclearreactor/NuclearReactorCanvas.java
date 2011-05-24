@@ -12,7 +12,7 @@ import javax.swing.*;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.dialog.ReactorPictureDialog;
@@ -49,8 +49,8 @@ public class NuclearReactorCanvas extends PhetPCanvas {
 
     private NuclearReactorModel _nuclearReactorModel;
     private NuclearReactorNode _nuclearReactorNode;
-    private ButtonNode _resetNucleiButtonNode;
-    private ButtonNode _showReactorImageButtonNode;
+    private HTMLImageButtonNode _resetNucleiButtonNode;
+    private HTMLImageButtonNode _showReactorImageButtonNode;
     private Frame _parentFrame;
 
     //----------------------------------------------------------------------------
@@ -103,7 +103,7 @@ public class NuclearReactorCanvas extends PhetPCanvas {
 
         // Add the button for resetting the reactor.  This won't be visible
         // until the reaction has been started.
-        _resetNucleiButtonNode = new ButtonNode( NuclearPhysicsStrings.RESET_NUCLEI, new PhetFont( Font.BOLD, 16 ),
+        _resetNucleiButtonNode = new HTMLImageButtonNode( NuclearPhysicsStrings.RESET_NUCLEI, new PhetFont( Font.BOLD, 16 ),
                                                  NuclearPhysicsConstants.CANVAS_RESET_BUTTON_COLOR );
         addWorldChild( _resetNucleiButtonNode );
         _resetNucleiButtonNode.setOffset( _nuclearReactorNode.getFullBounds().getMinX(),
@@ -117,7 +117,7 @@ public class NuclearReactorCanvas extends PhetPCanvas {
         } );
 
         // Add the button for showing the reactor photo.
-        _showReactorImageButtonNode = new ButtonNode( NuclearPhysicsStrings.SHOW_REACTOR_IMAGE, new PhetFont( Font.BOLD, 16 ),
+        _showReactorImageButtonNode = new HTMLImageButtonNode( NuclearPhysicsStrings.SHOW_REACTOR_IMAGE, new PhetFont( Font.BOLD, 16 ),
                                                       NuclearPhysicsConstants.CANVAS_RESET_BUTTON_COLOR );
         addWorldChild( _showReactorImageButtonNode );
         _showReactorImageButtonNode.setOffset( -( CANVAS_WIDTH / 2 ), CANVAS_HEIGHT / 2 );

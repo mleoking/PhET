@@ -15,7 +15,7 @@ import java.util.*;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
@@ -80,7 +80,7 @@ public class MultiNucleusBetaDecayCanvas extends PhetPCanvas implements Autopres
 
     private MultiNucleusDecayLinearTimeChart _decayTimeChart;
     private AutoPressButtonNode _resetButtonNode;
-    private ButtonNode _addTenButtonNode;
+    private HTMLImageButtonNode _addTenButtonNode;
     private MultiNucleusBetaDecayModel _model;
     private Rectangle2D _bucketRect;
     private BucketOfNucleiNode _bucketNode;
@@ -179,7 +179,7 @@ public class MultiNucleusBetaDecayCanvas extends PhetPCanvas implements Autopres
         // Add the button that allows the user to add multiple nuclei at once.
         // Position it just under the bucket and scale it so that its size is
         // proportionate to the bucket.
-        _addTenButtonNode = new ButtonNode( NuclearPhysicsStrings.ADD_TEN, new PhetFont( Font.BOLD, 12 ), BUCKET_AND_BUTTON_COLOR );
+        _addTenButtonNode = new HTMLImageButtonNode( NuclearPhysicsStrings.ADD_TEN, new PhetFont( Font.BOLD, 12 ), BUCKET_AND_BUTTON_COLOR );
         double addTenButtonScale = ( _bucketRect.getWidth() / _addTenButtonNode.getFullBoundsReference().width ) * 0.4;
         _addTenButtonNode.scale( addTenButtonScale );
         _addTenButtonNode.setOffset( _bucketRect.getCenterX() - _addTenButtonNode.getFullBoundsReference().width / 2,
