@@ -75,9 +75,9 @@ public class ConductivityTesterNode extends PhetPNode {
     private final ModelViewTransform transform;
     private final IConductivityTester tester;
 
-    protected final LightBulbNode lightBulbNode;//Protected so that subclasses can add listeners if necessary, such as in Sugar and Salt Solutions
+    private final LightBulbNode lightBulbNode;
     private final LightRaysNode lightRaysNode;
-    protected final BatteryNode batteryNode;
+    private final BatteryNode batteryNode;
     private final ProbeNode positiveProbeNode, negativeProbeNode;
     private final CubicWireNode positiveWireNode, negativeWireNode;
     private final ValueNode valueNode;
@@ -208,6 +208,16 @@ public class ConductivityTesterNode extends PhetPNode {
         updateBrightness();
         updatePositiveProbeLocation();
         updateNegativeProbeLocation();
+    }
+
+    // for subclasses that need to attached node listeners
+    protected PNode getLightBulbNode() {
+        return lightBulbNode;
+    }
+
+    // for subclasses that need to attached node listeners
+    protected PNode getBatteryNode() {
+        return batteryNode;
     }
 
     //Update the location of the light bulb and battery of the conductivity tester

@@ -39,16 +39,16 @@ public class SugarAndSaltSolutionsConductivityTesterNode extends ConductivityTes
         } );
 
         //Make it possible to drag the light bulb, which translates all parts of the conductivity tester (including probes)
-        lightBulbNode.addInputEventListener( new CursorHandler() );
-        lightBulbNode.addInputEventListener( new PBasicInputEventHandler() {
+        getLightBulbNode().addInputEventListener( new CursorHandler() );
+        getLightBulbNode().addInputEventListener( new PBasicInputEventHandler() {
             @Override public void mouseDragged( PInputEvent event ) {
                 dragAll( event.getDeltaRelativeTo( rootNode ) );
             }
         } );
 
         //Drag the entire component by the battery
-        batteryNode.addInputEventListener( new CursorHandler() );
-        batteryNode.addInputEventListener( new PBasicInputEventHandler() {
+        getBatteryNode().addInputEventListener( new CursorHandler() );
+        getBatteryNode().addInputEventListener( new PBasicInputEventHandler() {
             @Override public void mouseDragged( PInputEvent event ) {
                 dragAll( event.getDeltaRelativeTo( rootNode ) );
             }
@@ -79,11 +79,11 @@ public class SugarAndSaltSolutionsConductivityTesterNode extends ConductivityTes
             }
 
             public void locationChanged() {
-                Rectangle2D batteryBounds = batteryNode.getGlobalFullBounds();
+                Rectangle2D batteryBounds = getBatteryNode().getGlobalFullBounds();
                 batteryBounds = rootNode.globalToLocal( batteryBounds );
                 conductivityTester.setBatteryRegion( transform.viewToModel( batteryBounds ) );
 
-                Rectangle2D bulbBounds = lightBulbNode.getGlobalFullBounds();
+                Rectangle2D bulbBounds = getLightBulbNode().getGlobalFullBounds();
                 bulbBounds = rootNode.globalToLocal( bulbBounds );
                 conductivityTester.setBulbRegion( transform.viewToModel( bulbBounds ) );
             }
@@ -116,6 +116,6 @@ public class SugarAndSaltSolutionsConductivityTesterNode extends ConductivityTes
 
     //Only the bulb can be dropped back in the toolbox since it is the only part that translates the unit
     public PNode[] getDroppableComponents() {
-        return new PNode[] { lightBulbNode, batteryNode };
+        return new PNode[] { getLightBulbNode(), getBatteryNode() };
     }
 }
