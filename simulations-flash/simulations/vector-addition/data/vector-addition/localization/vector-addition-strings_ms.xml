@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--vector-addition-strings_ms.xml created Tue May 24 21:18:25 SGT 2011 using: vector-addition 2.02.00 (52287), translation-utility 2.10.00 (48775) Feb 9, 2011-->
+<SimStrings>
+<string key="showSum" value="Tunjukkan Jumlah"/>
+<string key="translation.credits" value="&lt;html&gt;&#10;Nur Ismalina Haris&lt;br&gt;&#10;Politeknik Tuanku Syed Sirajuddin&lt;br&gt;&#10;www.ptss.edu.my&#10;&lt;/html&gt;"/>
+<string key="simTitle" value="Vektor Tambahan"/>
+<string key="grabOne" value="Ambil satu"/>
+<string key="clearAll" value="Padam Semua"/>
+<string key="componentDisplay" value="Paparan Komponen"/>
+<string key="y" value="y"/>
+<string key="style3" value="Gaya 3"/>
+<string key="none" value="Tiada"/>
+<string key="showGrid" value="Paparkan Grid"/>
+<string key="style2" value="Gaya 2"/>
+<string key="x" value="x"/>
+<string key="style1" value="Gaya 1"/>
+</SimStrings>
