@@ -8,17 +8,18 @@
     define("OS_WINDOWS", "WINNT");
     define("OS_WIN32",   "WIN32");
     define("OS_AIX",     "AIX");
-    define("OS_MAC",     "Darwin");
+    define("OS_MAC",     "Mac");
     define("OS_LINUX",   "Linux");
     define("OS_SUN",     "SunOS");
 
     define("WEBSITE_PAGES_PATTERN", '*.htm*, *.php');
 
-    define("ROOT_DIR",                  file_cleanup_local_filename(dirname(dirname(__FILE__))."/"));
-    define("TEMP_DIR",                  file_cleanup_local_filename(ROOT_DIR."temp/"));
-    define("OUTPUT_DIR",                file_cleanup_local_filename(TEMP_DIR."installer-output/"));
-    define("DEPLOY_DIR",                "/data/web/htdocs/phetsims/installer/");
-    define("TRANSLATED_JAR_TEMP_DIR",   file_cleanup_local_filename(TEMP_DIR."translated-jar-tmp/"));
+    define("ROOT_DIR",                       file_cleanup_local_filename(dirname(dirname(__FILE__))."/"));
+    define("TEMP_DIR",                       file_cleanup_local_filename(ROOT_DIR."temp/"));
+    define("OUTPUT_DIR",                     file_cleanup_local_filename(TEMP_DIR."installer-output/"));
+    define("INSTALLERS_WITH_ACTIVITES_DIR",  file_cleanup_local_filename(OUTPUT_DIR."installers-with-activities/"));
+    define("DEPLOY_DIR",                     "/data/web/htdocs/phetsims/installer/");
+    define("TRANSLATED_JAR_TEMP_DIR",        file_cleanup_local_filename(TEMP_DIR."translated-jar-tmp/"));
 
     function GET_OS_BOUND_REL_PATH($constantPrefix) {
         return file_cleanup_local_filename(ROOT_DIR."${constantPrefix}/".PHP_OS."/");
@@ -54,14 +55,11 @@
     // *****************************************************************************
     // CD-ROM Configuration
 
-    define("AUTORUN_FILENAME",     'autorun.inf');
+    define("AUTORUN_FILE_NAME",    'autorun.inf');
     define("AUTORUN_ICON_NAME",    'phet-icon.ico');
     define("AUTORUN_ICON_SRC",     file_cleanup_local_filename(ROOT_DIR."Installer-Resources/Install-Path/".AUTORUN_ICON_NAME));
-    define("AUTORUN_ICON_DEST",    file_cleanup_local_filename(OUTPUT_DIR.AUTORUN_ICON_NAME));
-    define("AUTORUN_FILE_DEST",    file_cleanup_local_filename(OUTPUT_DIR.AUTORUN_FILENAME));
 
     define("CDROM_FILE_NAME",      "PhET-Installer_cdrom.zip");
-    define("CDROM_FILE_DEST",      OUTPUT_DIR.CDROM_FILE_NAME);
 
     // *****************************************************************************
     // Website Ripper Configuration
@@ -75,7 +73,7 @@
     // The ripper executables per OS:
     define("RIPPER_EXE_Linux",   "httrack");
     define("RIPPER_EXE_WINNT",   "httrack.exe");
-    define("RIPPER_EXE_Darwin",  "httrack");
+    define("RIPPER_EXE_Mac",     "httrack");
 
     // The location of the httrack executable.
     define("RIPPER_DIR",  file_cleanup_local_filename("/usr/local/httrack/bin/"));
@@ -271,7 +269,7 @@
     define("BITROCK_EXE_DIR",           file_cleanup_local_filename(BITROCK_DIR."bin/"));
     define("BITROCK_EXE_Linux",         "builder");
     define("BITROCK_EXE_WINNT",         "builder.exe");
-    define("BITROCK_EXE_Darwin",        "builder");
+    define("BITROCK_EXE_Mac",           "builder");
     define("BITROCK_EXE",               GET_OS_BOUND_NAME("BITROCK_EXE"));
 
     define("BITROCK_DIST_DIR",          file_cleanup_local_filename(BITROCK_DIR."output/"));
@@ -280,15 +278,15 @@
 
     define("BITROCK_DISTNAME_WINNT",      BITROCK_DIST_PREFIX.BITROCK_PLATFORM_WINDOWS.BITROCK_PLATFORM_EXEC_SUFFIX_WINDOWS);
     define("BITROCK_DISTNAME_Linux",      BITROCK_DIST_PREFIX.BITROCK_PLATFORM_LINUX.BITROCK_PLATFORM_EXEC_SUFFIX_LINUX);
-    define("BITROCK_DISTNAME_Darwin",     BITROCK_DIST_PREFIX.BITROCK_PLATFORM_OSX.BITROCK_PLATFORM_EXEC_SUFFIX_OSX);
+    define("BITROCK_DISTNAME_Mac",        BITROCK_DIST_PREFIX.BITROCK_PLATFORM_OSX.BITROCK_PLATFORM_EXEC_SUFFIX_OSX);
 
     define("BITROCK_DIST_SRC_WINNT",      file_cleanup_local_filename(BITROCK_DIST_DIR.BITROCK_DISTNAME_WINNT));
     define("BITROCK_DIST_SRC_Linux",      file_cleanup_local_filename(BITROCK_DIST_DIR.BITROCK_DISTNAME_Linux));
-    define("BITROCK_DIST_SRC_Darwin",     file_cleanup_local_filename(BITROCK_DIST_DIR.BITROCK_DISTNAME_Darwin));
+    define("BITROCK_DIST_SRC_Mac",        file_cleanup_local_filename(BITROCK_DIST_DIR.BITROCK_DISTNAME_Mac));
 
-    define("BITROCK_DIST_DEST_WINNT",      file_cleanup_local_filename(OUTPUT_DIR.BITROCK_DISTNAME_WINNT));
-    define("BITROCK_DIST_DEST_Linux",      file_cleanup_local_filename(OUTPUT_DIR.BITROCK_DISTNAME_Linux));
-    define("BITROCK_DIST_DEST_Darwin",     file_cleanup_local_filename(OUTPUT_DIR.BITROCK_DISTNAME_Darwin));
+    define("BITROCK_DIST_DEST_WINNT",     file_cleanup_local_filename(OUTPUT_DIR.BITROCK_DISTNAME_WINNT));
+    define("BITROCK_DIST_DEST_Linux",     file_cleanup_local_filename(OUTPUT_DIR.BITROCK_DISTNAME_Linux));
+    define("BITROCK_DIST_DEST_Mac",       file_cleanup_local_filename(OUTPUT_DIR.BITROCK_DISTNAME_Mac));
 
     define("BITROCK_PRE_ARGS",            " build ");
 
@@ -297,7 +295,7 @@
     $g_bitrock_dists = array(
         BITROCK_PLATFORM_WINDOWS => BITROCK_DIST_SRC_WINNT,
         BITROCK_PLATFORM_LINUX      => BITROCK_DIST_SRC_Linux,
-        BITROCK_PLATFORM_OSX      => BITROCK_DIST_SRC_Darwin
+        BITROCK_PLATFORM_OSX      => BITROCK_DIST_SRC_Mac
     );
 
     // *****************************************************************************

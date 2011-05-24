@@ -2,7 +2,7 @@
 
 	define('FILE_SEPARATOR_WINNT',  '\\');
 	define('FILE_SEPARATOR_Linux',  '/');
-	define('FILE_SEPARATOR_Darwin', '/');
+	define('FILE_SEPARATOR_Mac', '/');
 	
 	define('FILE_SEPARATOR', PHP_OS == 'WINNT' ? FILE_SEPARATOR_WINNT : FILE_SEPARATOR_Linux);
 

@@ -55,12 +55,11 @@
 
         // Rip the web site.
         ripper_rip_website("PHET");
-        //ripper_rip_website_subset();
         ripper_download_sims();
 
         // Log the time at which the rip completed.
         $rip_finish_time = exec("date");
-        flushing_echo("Rip completed at time $start_time");
+        flushing_echo("Rip without activities completed at time $start_time");
 
         // Make sure permissions of the ripped website are correct.
         file_chmod_recursive( RIPPED_WEBSITE_ROOT, 0775, 0775 );
@@ -79,7 +78,11 @@
 
         // Build the local installers, meaning installers that can be used to
         // install a local mirror of the PhET web site.
-        installer_build_local_mirror_installers(BITROCK_PHET_LOCAL_MIRROR_BUILDFILE);
+        installer_build_local_mirror_installers(BITROCK_PHET_LOCAL_MIRROR_BUILDFILE, OUTPUT_DIR);
+
+        // Build the CD-ROM distribution, which contains all of the
+        // installers and is suitable for burning on CD.
+        installer_build_rommable_distribution(OUTPUT_DIR, OUTPUT_DIR.CDROM_FILE_NAME);
 
         // If specified, deploy the sims to the production web site.
         if ($deploy){
