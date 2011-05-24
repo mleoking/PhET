@@ -7,7 +7,6 @@ import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.util.Option.None;
 import edu.colorado.phet.common.phetcommon.util.Option.Some;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
@@ -73,7 +72,7 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements ToolboxC
     //Separate layer for the conductivity toolbox to make sure the conductivity node shows as submerged in the water, but still goes behind the shaker
     protected final PNode conductivityToolboxLayer = new PNode();
 
-    public SugarAndSaltSolutionsCanvas( final SugarAndSaltSolutionModel model, final ObservableProperty<Boolean> removeSaltSugarButtonVisible, final SugarAndSaltSolutionsColorScheme config ) {
+    public SugarAndSaltSolutionsCanvas( final SugarAndSaltSolutionModel model, final SugarAndSaltSolutionsColorScheme config ) {
 
         //Set the stage size according to the same aspect ratio as used in the model
         stageSize = new PDimension( canvasSize.width,

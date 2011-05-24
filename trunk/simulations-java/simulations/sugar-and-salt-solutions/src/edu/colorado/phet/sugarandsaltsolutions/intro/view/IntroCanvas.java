@@ -2,21 +2,20 @@
 package edu.colorado.phet.sugarandsaltsolutions.intro.view;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
-import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.sugarandsaltsolutions.common.SugarAndSaltSolutionsColorScheme;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.*;
 import edu.colorado.phet.sugarandsaltsolutions.intro.model.IntroModel;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -31,8 +30,11 @@ import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsAppli
  * @author Sam Reid
  */
 public class IntroCanvas extends SugarAndSaltSolutionsCanvas {
-    public IntroCanvas( final IntroModel model, SugarAndSaltSolutionsColorScheme config ) {
-        super( model, model.anySolutes, config );
+    public IntroCanvas( final IntroModel model, SugarAndSaltSolutionsColorScheme config,
+
+                        //Function that creates a piccolo control to remove solutes, either a combined RemoveSaltSugarButton or a SeparateRemoveSaltSugarButtons
+                        Function1<IntroModel, PNode> newRemoveSolutesControl ) {
+        super( model, config );
 
         //Show the full water node at the correct color, then overlay a partially transparent one on top, so that some objects (such as the conductivity tester) will look submerged
         addChild( new SolutionNode( transform, model.solution, WATER_COLOR ) );
@@ -54,21 +56,11 @@ public class IntroCanvas extends SugarAndSaltSolutionsCanvas {
         addChild( new VolumeIndicatorNode( transform, model.solution, model.showConcentrationValues, model.solidVolume ) );
 
         //Add a button that allows the user to remove all solutes
-        addChild( new HTMLImageButtonNode( "Remove salt/sugar", Color.yellow ) {{
-            //Button should be inside the beaker
-            setOffset( transform.modelToViewX( model.beaker.getMaxX() ) - getFullBounds().getWidth() - INSET,
-                       transform.modelToViewY( model.beaker.getY() ) - getFullBounds().getHeight() - INSET );
-            addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    model.removeSaltAndSugar();
-                }
-            } );
-            model.anySolutes.addObserver( new VoidFunction1<Boolean>() {
-                public void apply( Boolean visible ) {
-                    setVisible( visible );
-                }
-            } );
-        }} );
+        final PNode removeSolutesButton = newRemoveSolutesControl.apply( model );
+        //Button should be inside the beaker
+        removeSolutesButton.setOffset( transform.modelToViewX( model.beaker.getMaxX() ) - removeSolutesButton.getFullBounds().getWidth() - INSET,
+                                       transform.modelToViewY( model.beaker.getY() ) - removeSolutesButton.getFullBounds().getHeight() - INSET );
+        addChild( removeSolutesButton );
 
         //Button that maximizes the bar chart
         PImage maximizeButton = new PImage( PhetCommonResources.getMaximizeButtonImage() ) {{

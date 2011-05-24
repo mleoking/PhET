@@ -161,9 +161,19 @@ public class SugarAndSaltSolutionModel implements ResetModel {
 
     //Called when the user presses a button to clear the solutes, removes all solutes from the sim
     public void removeSaltAndSugar() {
-        removeCrystals( sugarList, sugarList );
+        removeSalt();
+        removeSugar();
+    }
+
+    //Called when the user presses a button to clear the salt, removes all salt (dissolved and crystals) from the sim
+    public void removeSalt() {
         removeCrystals( saltList, saltList );
         salt.moles.set( 0.0 );
+    }
+
+    //Called when the user presses a button to clear the sugar, removes all sugar (dissolved and crystals) from the sim
+    public void removeSugar() {
+        removeCrystals( sugarList, sugarList );
         sugar.moles.set( 0.0 );
     }
 
