@@ -36,14 +36,14 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 public class ConductivityTesterNode extends PhetPNode {
 
     //Strings to be shown on the probes
-    public static final String PLUS = "+";
-    public static final String MINUS = "-";
+    private static final String PLUS = "+";
+    private static final String MINUS = "-";
 
     //Images used here
-    public static final BufferedImage BATTERY = getBufferedImage( "battery.png" );
-    public static final BufferedImage LIGHT_BULB_BASE = getBufferedImage( "lightBulbBase.png" );
-    public static final BufferedImage LIGHT_BULB_GLASS = getBufferedImage( "lightBulbGlass.png" );
-    public static final BufferedImage LIGHT_BULB_GLASS_MASK = getBufferedImage( "lightBulbGlassMask.png" );
+    private static final BufferedImage BATTERY = getBufferedImage( "battery.png" );
+    private static final BufferedImage LIGHT_BULB_BASE = getBufferedImage( "lightBulbBase.png" );
+    private static final BufferedImage LIGHT_BULB_GLASS = getBufferedImage( "lightBulbGlass.png" );
+    private static final BufferedImage LIGHT_BULB_GLASS_MASK = getBufferedImage( "lightBulbGlassMask.png" );
 
     //Utility method for loading the images used in this tester node
     private static BufferedImage getBufferedImage( String image ) {
