@@ -18,6 +18,8 @@ public class SugarAndSaltSolutionsApplicationCombinedButton extends SugarAndSalt
         super( config );
     }
 
+    //Use the consolidated RemoveSaltSugarButton instead of separate buttons for each solute
+    //This feature is implemented as an override so that we can still use reflection in PhetApplicationLauncher.launchSim
     protected Function1<IntroModel, PNode> getRemoveSolutesControl() {
         return new Function1<IntroModel, PNode>() {
             public PNode apply( IntroModel model ) {

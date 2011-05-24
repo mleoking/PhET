@@ -43,6 +43,8 @@ public class SugarAndSaltSolutionsApplication extends PiccoloPhetApplication {
         getPhetFrame().getDeveloperMenu().add( new ColorDialogMenuItem( getPhetFrame(), "Salt Color...", configuration.saltColor ) );
     }
 
+    //Use the separate buttons to remove sugar and salt
+    //This feature is implemented as an override so that we can still use reflection in PhetApplicationLauncher.launchSim
     protected Function1<IntroModel, PNode> getRemoveSolutesControl() {
         return new Function1<IntroModel, PNode>() {
             public PNode apply( IntroModel model ) {
