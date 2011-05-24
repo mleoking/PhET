@@ -56,7 +56,7 @@ public class BeakerNode extends PNode {
             //Create and add a tick mark label to the left of the tick mark, like "0.5L"
             addChild( new PText( tick.formatLiters() + "L" ) {{
                 setTextPaint( Color.white );
-                setFont( new PhetFont( 24 ) );
+                setFont( new PhetFont( 26, true ) );
                 setOffset( tickMark.getFullBounds().getX() - getFullBounds().getWidth(), tickMark.getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
             }} );
         }
