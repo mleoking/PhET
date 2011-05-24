@@ -1,3 +1,4 @@
+Changed probe + and - labels from white to black
 Made the volume labels bigger and bolder
 Added a new flavor so separate/combined "remove solute" buttons can be tested
 # 0.00.25 (52329) May 23, 2011

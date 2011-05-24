@@ -59,10 +59,14 @@ public class ConductivityTesterNode extends PhetPNode {
     private static final Color PROBE_STROKE_COLOR = Color.BLACK;
     private static final Stroke PROBE_STROKE = new BasicStroke( 1f );
     private static final Font PROBE_LABEL_FONT = new PhetFont( Font.BOLD, 24 );
+
     private static final String POSITIVE_PROBE_LABEL = PLUS;
-    private static final Color POSITIVE_PROBE_LABEL_COLOR = Color.WHITE;
+    private static final Color DEFAULT_POSITIVE_PROBE_LABEL_COLOR = Color.WHITE;
+    private final Color positiveProbeLabelColor;
+
     private static final String NEGATIVE_PROBE_LABEL = MINUS;
-    private static final Color NEGATIVE_PROBE_LABEL_COLOR = Color.WHITE;
+    private static final Color DEFAULT_NEGATIVE_PROBE_LABEL_COLOR = Color.WHITE;
+    private final Color negativeProbeLabelColor;
 
     // wire properties
     private static final double BULB_TO_BATTERY_WIRE_LENGTH = 50;
@@ -87,10 +91,11 @@ public class ConductivityTesterNode extends PhetPNode {
 
     // Convenience constructor, uses the same color for all wires.
     public ConductivityTesterNode( final IConductivityTester tester, ModelViewTransform transform, Color wireColor, Color positiveProbeFillColor, Color negativeProbeFillColor, boolean dev ) {
-        this( tester, transform, wireColor, wireColor, wireColor, positiveProbeFillColor, negativeProbeFillColor, dev );
+        this( tester, transform, wireColor, wireColor, wireColor, positiveProbeFillColor, negativeProbeFillColor, DEFAULT_NEGATIVE_PROBE_LABEL_COLOR, DEFAULT_POSITIVE_PROBE_LABEL_COLOR, dev );
     }
 
-    public ConductivityTesterNode( final IConductivityTester tester, final ModelViewTransform transform, Color positiveWireColor, Color negativeWireColor, Color connectorWireColor, Color positiveProbeFillColor, Color negativeProbeFillColor, boolean dev ) {
+    public ConductivityTesterNode( final IConductivityTester tester, final ModelViewTransform transform, Color positiveWireColor, Color negativeWireColor, Color connectorWireColor,
+                                   Color positiveProbeFillColor, Color negativeProbeFillColor, Color negativeProbeLabelColor, Color positiveProbeLabelColor, boolean dev ) {
         this.transform = transform;
         this.tester = tester;
         this.positiveWireColor = positiveWireColor;
@@ -98,6 +103,8 @@ public class ConductivityTesterNode extends PhetPNode {
         this.connectorWireColor = connectorWireColor;
         this.positiveProbeFillColor = positiveProbeFillColor;
         this.negativeProbeFillColor = negativeProbeFillColor;
+        this.negativeProbeLabelColor = negativeProbeLabelColor;
+        this.positiveProbeLabelColor = positiveProbeFillColor;
 
         // light bulb
         lightBulbNode = new LightBulbNode();
@@ -117,7 +124,7 @@ public class ConductivityTesterNode extends PhetPNode {
         connectorWireNode.setEndPoints( lightBulbConnectionPoint, batteryConnectionPoint );
 
         // positive probe
-        positiveProbeNode = new ProbeNode( transform.modelToViewSize( tester.getProbeSizeReference() ), this.positiveProbeFillColor, POSITIVE_PROBE_LABEL, POSITIVE_PROBE_LABEL_COLOR );
+        positiveProbeNode = new ProbeNode( transform.modelToViewSize( tester.getProbeSizeReference() ), this.positiveProbeFillColor, POSITIVE_PROBE_LABEL, positiveProbeLabelColor );
         positiveProbeNode.addInputEventListener( new CursorHandler( Cursor.N_RESIZE_CURSOR ) );
         positiveProbeNode.addInputEventListener(
                 new ProbeDragHandler( transform, positiveProbeNode,
@@ -134,7 +141,7 @@ public class ConductivityTesterNode extends PhetPNode {
                 ) );
 
         // negative probe
-        negativeProbeNode = new ProbeNode( transform.modelToViewSize( tester.getProbeSizeReference() ), this.negativeProbeFillColor, NEGATIVE_PROBE_LABEL, NEGATIVE_PROBE_LABEL_COLOR );
+        negativeProbeNode = new ProbeNode( transform.modelToViewSize( tester.getProbeSizeReference() ), this.negativeProbeFillColor, NEGATIVE_PROBE_LABEL, negativeProbeLabelColor );
         negativeProbeNode.addInputEventListener( new CursorHandler( Cursor.N_RESIZE_CURSOR ) );
         negativeProbeNode.addInputEventListener(
                 new ProbeDragHandler( transform, negativeProbeNode,
