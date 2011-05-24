@@ -99,7 +99,7 @@ public class IntroCanvas extends SugarAndSaltSolutionsCanvas {
         //Toolbox from which the conductivity tester can be dragged
         conductivityToolboxLayer.addChild( new ConductivityTesterToolboxNode( model, this ) {{
             //Set the location of the control panel
-            setOffset( stageSize.getWidth() - getFullBounds().getWidth(), soluteControlPanelNode.getFullBounds().getMaxY() + INSET );
+            setOffset( stageSize.getWidth() - getFullBounds().getWidth() - INSET, soluteControlPanelNode.getFullBounds().getMaxY() + INSET );
         }} );
 
         //Add a checkbox that lets the user toggle on and off whether actual values are shown
@@ -110,7 +110,7 @@ public class IntroCanvas extends SugarAndSaltSolutionsCanvas {
                 SwingUtils.setBackgroundDeep( this, WATER_COLOR );
             }} ) );
         }} ) {{
-            setOffset( conductivityToolboxLayer.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, conductivityToolboxLayer.getFullBounds().getY() - getFullBounds().getHeight() - INSET );
+            setOffset( stageSize.getWidth() - getFullBoundsReference().width - INSET, conductivityToolboxLayer.getFullBounds().getY() - getFullBounds().getHeight() - INSET );
         }} );
 
         soluteControlPanelNode.setOffset( concentrationBarChart.getFullBounds().getX() - soluteControlPanelNode.getFullBounds().getWidth() - INSET, concentrationBarChart.getFullBounds().getY() );

@@ -1,3 +1,4 @@
+Right aligned all control boxes
 Fixed: Reset all button goes offscreen
 Fixed: Salt shaker still emits spurious crystals sometimes when it refills
 Reverted to 2L beaker since we do not account for dissolved solute volume
