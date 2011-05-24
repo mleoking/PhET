@@ -2,6 +2,7 @@
 package edu.colorado.phet.buildamolecule.control;
 
 import java.awt.*;
+import java.beans.PropertyChangeListener;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -51,15 +52,40 @@ public class CollectionPanel extends PNode {
                              }}
         );
 
+        ;
+
+
         // "Collection X" with arrows
-        layoutNode.addChild( new PText() {{
+        layoutNode.addChild( new NextPreviousNavigationNode( new PText() {{
                                  collectionList.currentCollection.addObserver( new SimpleObserver() {
                                      public void update() {
-                                         setFont( new PhetFont( 14, true ) );
+                                         setFont( new PhetFont( 16, true ) );
                                          setText( "Collection " + ( collectionList.getCurrentIndex() + 1 ) );
                                      }
                                  } );
-                             }},
+                             }}, Color.YELLOW, Color.BLACK, 14, 18 ) {
+                                 {
+                                     collectionList.currentCollection.addObserver( new SimpleObserver() {
+                                         public void update() {
+                                             hasNext.set( collectionList.hasNextCollection() );
+                                             hasPrevious.set( collectionList.hasPreviousCollection() );
+                                         }
+                                     } );
+                                 }
+
+                                 @Override protected void next() {
+                                     collectionList.switchToNextCollection();
+                                 }
+
+                                 @Override protected void previous() {
+                                     collectionList.switchToPreviousCollection();
+                                 }
+
+                                 @Override public void addPropertyChangeListener( PropertyChangeListener listener ) {
+                                     // TODO can we get rid of this hack ?
+                                 }
+
+                             },
                              new GridBagConstraints() {{
                                  gridx = 0;
                                  gridy = GridBagConstraints.RELATIVE;

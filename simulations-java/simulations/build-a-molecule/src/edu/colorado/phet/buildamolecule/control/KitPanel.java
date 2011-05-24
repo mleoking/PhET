@@ -14,13 +14,9 @@ import edu.colorado.phet.buildamolecule.model.KitCollection;
 import edu.colorado.phet.buildamolecule.model.Molecule;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
-import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
-import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
@@ -49,80 +45,38 @@ public class KitPanel extends PNode {
         addChild( background );
 
         /*---------------------------------------------------------------------------*
-        * next kit
+        * label and next/previous
         *----------------------------------------------------------------------------*/
 
-        final PhetPPath nextKitNode = new PhetPPath( new DoubleGeneralPath() {{
-            // triangle pointing to the right
-            moveTo( 17, 12 );
-            lineTo( 0, 0 );
-            lineTo( 0, 24 );
-            closePath();
-        }}.getGeneralPath() ) {{
-            setPaint( BuildAMoleculeConstants.KIT_ARROW_BACKGROUND_ENABLED );
-            setStrokePaint( BuildAMoleculeConstants.KIT_ARROW_BORDER_ENABLED );
-            addInputEventListener( new CursorHandler() {
-                @Override
-                public void mouseClicked( PInputEvent event ) {
-                    if ( kitCollectionModel.hasNextKit() ) {
-                        kitCollectionModel.goToNextKit();
-                    }
-                }
-            } );
-            setOffset( kitViewBounds.getMaxX() - getFullBounds().getWidth() - 5, kitViewBounds.getY() + KIT_ARROW_Y_OFFSET );
-            kitCollectionModel.getCurrentKitProperty().addObserver( new SimpleObserver() {
-                public void update() {
-                    setVisible( kitCollectionModel.hasNextKit() );
-                }
-            } );
-        }};
-        addChild( nextKitNode );
-
-        /*---------------------------------------------------------------------------*
-        * kit number label
-        *----------------------------------------------------------------------------*/
-
-        // label the kit with the kit number
-        final PText kitLabel = new PText() {{
+        addChild( new NextPreviousNavigationNode( new PText() {{
+            // this is our label
             setFont( new PhetFont( 18, true ) );
             kitCollectionModel.getCurrentKitProperty().addObserver( new SimpleObserver() {
                 public void update() {
                     setText( MessageFormat.format( BuildAMoleculeStrings.KIT_LABEL, kitCollectionModel.getCurrentKitIndex() + 1 ) );
                 }
             } );
-            setOffset( nextKitNode.getFullBounds().getX() - getFullBounds().getWidth() - KIT_LABEL_ARROW_PADDING, kitViewBounds.getY() + KIT_LABEL_Y_OFFSET );
-        }};
-        addChild( kitLabel );
-
-        /*---------------------------------------------------------------------------*
-        * previous kit
-        *----------------------------------------------------------------------------*/
-
-        final PhetPPath previousKitNode = new PhetPPath( new DoubleGeneralPath() {{
-            // triangle pointing to the left
-            moveTo( 0, 12 );
-            lineTo( 17, 0 );
-            lineTo( 17, 24 );
-            closePath();
-        }}.getGeneralPath() ) {{
-            setPaint( BuildAMoleculeConstants.KIT_ARROW_BACKGROUND_ENABLED );
-            setStrokePaint( BuildAMoleculeConstants.KIT_ARROW_BORDER_ENABLED );
-            addInputEventListener( new CursorHandler() {
-                @Override
-                public void mouseClicked( PInputEvent event ) {
-                    if ( kitCollectionModel.hasPreviousKit() ) {
-                        kitCollectionModel.goToPreviousKit();
+        }}, BuildAMoleculeConstants.KIT_ARROW_BACKGROUND_ENABLED, BuildAMoleculeConstants.KIT_ARROW_BORDER_ENABLED, 17, 24 ) {
+            {
+                // hook up listeners
+                kitCollectionModel.getCurrentKitProperty().addObserver( new SimpleObserver() {
+                    public void update() {
+                        hasNext.set( kitCollectionModel.hasNextKit() );
+                        hasPrevious.set( kitCollectionModel.hasPreviousKit() );
                     }
-                }
-            } );
-            setOffset( kitLabel.getFullBounds().getX() - getFullBounds().getWidth() - KIT_LABEL_ARROW_PADDING, kitViewBounds.getY() + KIT_LABEL_Y_OFFSET );
-            kitCollectionModel.getCurrentKitProperty().addObserver( new SimpleObserver() {
-                public void update() {
-                    setVisible( kitCollectionModel.hasPreviousKit() );
-                }
-            } );
-        }};
-        addChild( previousKitNode );
+                } );
+
+                setOffset( kitViewBounds.getMaxX() - getFullBounds().getWidth() - 5, kitViewBounds.getY() + KIT_ARROW_Y_OFFSET );
+            }
+
+            @Override protected void next() {
+                kitCollectionModel.goToNextKit();
+            }
+
+            @Override protected void previous() {
+                kitCollectionModel.goToPreviousKit();
+            }
+        } );
 
         /*---------------------------------------------------------------------------*
         * reset kit
