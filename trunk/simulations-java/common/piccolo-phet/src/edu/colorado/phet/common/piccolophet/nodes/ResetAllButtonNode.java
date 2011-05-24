@@ -21,7 +21,7 @@ import edu.umd.cs.piccolo.PCanvas;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class ResetAllButtonNode extends HTMLImageButtonNode {
+public class ResetAllButtonNode extends TextButtonNode {
 
     private final ResetAllDelegate delegate; // delegate that implements Reset All behavior
 
@@ -44,7 +44,9 @@ public class ResetAllButtonNode extends HTMLImageButtonNode {
      * @param backgroundColor
      */
     public ResetAllButtonNode( final Resettable[] resettables, final Component parent, int fontSize, Color textColor, Color backgroundColor ) {
-        super( PhetCommonResources.getString( PhetCommonResources.STRING_RESET_ALL ), new PhetFont( fontSize ), textColor, backgroundColor );
+        super( PhetCommonResources.getString( PhetCommonResources.STRING_RESET_ALL ), new PhetFont( fontSize ) );
+        setForeground( textColor );
+        setBackground( backgroundColor );
         this.delegate = new ResetAllDelegate( resettables, parent );
         addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {

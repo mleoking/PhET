@@ -50,7 +50,7 @@ public class HTMLImageButtonNode extends ButtonNode {
     //------------------------------------------------------------------------
 
     public HTMLImageButtonNode() {
-        this( (String) null, (BufferedImage) null );
+        this( null, (BufferedImage) null );
     }
 
     public HTMLImageButtonNode( String text ) {
@@ -73,7 +73,11 @@ public class HTMLImageButtonNode extends ButtonNode {
         textPosition = TextPosition.RIGHT;
         imageTextGap = 5;
 
-        //Create and set the content for enabled/disabled
+        updateContent();
+    }
+
+    //Create and set the content for enabled/disabled states
+    private void updateContent() {
         setContentNode( createContentNode( text, font, getForeground(), getDisabledForeground(), true, image, image, textPosition, imageTextGap ) );
         setDisabledContentNode( createContentNode( text, font, getForeground(), getDisabledForeground(), false, image, image, textPosition, imageTextGap ) );
     }
@@ -110,21 +114,13 @@ public class HTMLImageButtonNode extends ButtonNode {
     }
 
     //------------------------------------------------------------------------
-    // Scenegraph creation
-    //------------------------------------------------------------------------
-
-    //----------------------------------------------------------------------------------------
-    // Button state control - exposed for subclasses who want to implemented "auto press".
-    //----------------------------------------------------------------------------------------
-
-    //------------------------------------------------------------------------
     // Setters and getters
     //------------------------------------------------------------------------
 
     public void setText( String text ) {
         if ( text == null || !text.equals( this.text ) ) {
             this.text = text;
-            update();
+            updateContent();
         }
     }
 
@@ -135,7 +131,7 @@ public class HTMLImageButtonNode extends ButtonNode {
     public void setImage( BufferedImage image ) {
         if ( image == null || !image.equals( this.image ) ) {
             this.image = image;
-            update();
+            updateContent();
         }
     }
 
@@ -154,7 +150,7 @@ public class HTMLImageButtonNode extends ButtonNode {
     public void setDisabledImage( BufferedImage disabledImage ) {
         if ( disabledImage == null || !disabledImage.equals( this.disabledImage ) ) {
             this.disabledImage = disabledImage;
-            update();
+            updateContent();
         }
     }
 
@@ -165,7 +161,7 @@ public class HTMLImageButtonNode extends ButtonNode {
     public void setFont( Font font ) {
         if ( !font.equals( this.font ) ) {
             this.font = font;
-            update();
+            updateContent();
         }
     }
 
@@ -177,7 +173,7 @@ public class HTMLImageButtonNode extends ButtonNode {
     public void setTextPosition( TextPosition textPosition ) {
         if ( textPosition != this.textPosition ) {
             this.textPosition = textPosition;
-            update();
+            updateContent();
         }
     }
 
@@ -188,7 +184,7 @@ public class HTMLImageButtonNode extends ButtonNode {
     public void setImageTextGap( int imageTextGap ) {
         if ( imageTextGap != this.imageTextGap ) {
             this.imageTextGap = imageTextGap;
-            update();
+            updateContent();
         }
     }
 
