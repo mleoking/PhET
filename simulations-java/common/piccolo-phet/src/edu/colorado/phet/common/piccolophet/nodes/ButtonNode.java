@@ -5,7 +5,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.RoundRectangle2D;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
@@ -21,40 +20,45 @@ import edu.umd.cs.piccolo.nodes.PPath;
  * @author Sam Reid
  */
 public class ButtonNode extends PhetPNode {
-    protected static final double COLOR_SCALING_FACTOR = 0.5; // scaling factor for creating brighter colors
-    protected static final int DEFAULT_FONT_STYLE = Font.PLAIN; // #2846, using plain as the default style, add bold/italic emphasis explicitly
-    protected final PNode parentNode; // intermediate parent for all nodes created herein
-    protected final ArrayList<ActionListener> actionListeners;
-    protected BufferedImage disabledImage;
-    protected Color foreground;
-    protected Color background;
-    protected Color shadowColor;
-    protected Color strokeColor;
-    protected Color disabledForeground;
-    protected Color disabledBackground;
-    protected Color disabledShadowColor;
-    protected Color disabledStrokeColor;
-    protected boolean enabled;
-    protected Insets margin;
-    protected int cornerRadius; // radius on the corners of the button and shadow
-    protected int shadowOffset; // horizontal and vertical offset of the shadow
-    protected String toolTipText;
+    public static final double COLOR_SCALING_FACTOR = 0.5; // scaling factor for creating brighter colors
+    public static final int DEFAULT_FONT_STYLE = Font.PLAIN; // #2846, using plain as the default style, add bold/italic emphasis explicitly
+    private final PNode parentNode; // intermediate parent for all nodes created herein
+    private final ArrayList<ActionListener> actionListeners;
+    private Color foreground;
+    private Color background;
+    private Color shadowColor;
+    private Color strokeColor;
+    private Color disabledForeground;
+    private Color disabledBackground;
+    private Color disabledShadowColor;
+    private Color disabledStrokeColor;
+    private boolean enabled;
+    private Insets margin;
+    private int cornerRadius; // radius on the corners of the button and shadow
+    private int shadowOffset; // horizontal and vertical offset of the shadow
+    private String toolTipText;
     private PPath backgroundNode;
     private boolean focus;
     private boolean armed; // semantics defined in ButtonEventListener javadoc
     private Paint mouseNotOverGradient;
     private Paint mouseOverGradient;
     private Paint armedGradient;
-    protected PNode content;
+
+    //Content that is displayed when the node is enabled
+    private PNode contentNode;
+
+    //Content that is displayed when the node is disabled
+    private PNode disabledContentNode;
 
     //The action command String that is sent out to ActionListeners when the button is pressed, typically this is the text of a button (if it has a text label)
     private final String actionCommand;
 
-    public ButtonNode( String actionCommand ) {
+    public ButtonNode( String actionCommand, PNode contentNode, PNode disabledContentNode ) {
+        this.contentNode = contentNode;
+        this.disabledContentNode = disabledContentNode;
         //Use the specified string as the action command, or the empty string if the action command was null
         this.actionCommand = actionCommand == null ? "" : actionCommand;
 
-        disabledImage = null;
         disabledShadowColor = new Color( 0, 0, 0, 0 ); // invisible
         disabledStrokeColor = new Color( 190, 190, 190 );
         strokeColor = Color.BLACK;
@@ -70,6 +74,9 @@ public class ButtonNode extends PhetPNode {
         toolTipText = null;
         foreground = Color.BLACK;
         shadowColor = new Color( 0f, 0f, 0f, 0.2f ); // translucent black
+
+        // parent of all nodes created herein
+        addChild( parentNode );
     }
 
     /*
@@ -79,9 +86,12 @@ public class ButtonNode extends PhetPNode {
     * and write code that update only the affected nodes. But such code would
     * be more complicated and more difficult to debug, maintain and test.
     */
-    protected void update() {
+    protected final void update() {
         // All parts of the button are parented to this node, so that we don't blow away additional children that clients might add.
         parentNode.removeAllChildren();
+
+        //Show the enabled or disabled content based on whether the button is enabled or disabled
+        PNode content = isEnabled() ? this.contentNode : disabledContentNode;
 
         // button shape
         double backgroundWidth = content.getFullBoundsReference().getWidth() + margin.left + margin.right;
@@ -402,7 +412,6 @@ public class ButtonNode extends PhetPNode {
         return !PhetUtilities.isMacintosh();
     }
 
-
     //------------------------------------------------------------------------
     // Gradient creation utilities
     //------------------------------------------------------------------------
@@ -416,4 +425,23 @@ public class ButtonNode extends PhetPNode {
         return new Color( red, green, blue, alpha );
     }
 
+    /**
+     * Sets the content that will be displayed in an enabled ButtonNode
+     *
+     * @param contentNode must be non-null
+     */
+    public void setContentNode( PNode contentNode ) {
+        this.contentNode = contentNode;
+        update();
+    }
+
+    /**
+     * Sets the content that will be displayed in an disabled ButtonNode
+     *
+     * @param disabledContentNode must be non-null
+     */
+    public void setDisabledContentNode( PNode disabledContentNode ) {
+        this.disabledContentNode = disabledContentNode;
+        update();
+    }
 }

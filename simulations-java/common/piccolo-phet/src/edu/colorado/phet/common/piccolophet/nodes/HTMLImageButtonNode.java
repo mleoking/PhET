@@ -43,6 +43,7 @@ public class HTMLImageButtonNode extends ButtonNode {
     private Font font;
     private TextPosition textPosition;
     private int imageTextGap; // space between image and text
+    private BufferedImage disabledImage;
 
     //------------------------------------------------------------------------
     // Constructors
@@ -61,7 +62,8 @@ public class HTMLImageButtonNode extends ButtonNode {
     }
 
     public HTMLImageButtonNode( String text, BufferedImage image ) {
-        super( text );
+        //Initialize with empty content so we don't have to duplicate content creation code, the content is set at the end of the constructor
+        super( text, new PNode(), new PNode() );
 
         this.text = text;
         this.image = image;
@@ -71,10 +73,9 @@ public class HTMLImageButtonNode extends ButtonNode {
         textPosition = TextPosition.RIGHT;
         imageTextGap = 5;
 
-        // parent of all nodes created herein
-        addChild( parentNode );
-
-        update();
+        //Create and set the content for enabled/disabled
+        setContentNode( createContentNode( text, font, getForeground(), getDisabledForeground(), true, image, image, textPosition, imageTextGap ) );
+        setDisabledContentNode( createContentNode( text, font, getForeground(), getDisabledForeground(), false, image, image, textPosition, imageTextGap ) );
     }
 
     // Convenience constructor
@@ -248,11 +249,11 @@ public class HTMLImageButtonNode extends ButtonNode {
         return op.filter( colorImage, null );
     }
 
-    @Override protected void update() {
-        // text and image, with an intermediate parent
+    // text and image, with an intermediate parent
+    private static PNode createContentNode( String text, Font font, Color foreground, Color disabledForeground, boolean enabled, BufferedImage image, BufferedImage disabledImage, TextPosition textPosition, double imageTextGap ) {
         PNode textNode = createTextNode( text, font, foreground, disabledForeground, enabled );
         PNode imageNode = createImageNode( image, disabledImage, enabled );
-        content = new PComposite();
+        PComposite content = new PComposite();
         content.addChild( textNode );
         content.addChild( imageNode );
 
@@ -290,10 +291,9 @@ public class HTMLImageButtonNode extends ButtonNode {
         }
         textNode.setOffset( textX, textY );
         imageNode.setOffset( imageX, imageY );
-
-        super.update();
+        return content;
     }
-//------------------------------------------------------------------------
+    //------------------------------------------------------------------------
     // Test Harness
     //------------------------------------------------------------------------
 
