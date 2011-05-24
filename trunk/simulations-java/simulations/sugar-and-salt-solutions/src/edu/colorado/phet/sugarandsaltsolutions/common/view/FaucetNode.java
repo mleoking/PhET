@@ -8,6 +8,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -34,6 +35,8 @@ import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsAppli
  * @author Sam Reid
  */
 public class FaucetNode extends PNode {
+    //Listeners for the shape of the water that flows out of the faucet
+    private ArrayList<VoidFunction1<Rectangle2D>> listeners = new ArrayList<VoidFunction1<Rectangle2D>>();
 
     public FaucetNode( ModelViewTransform transform,
                        final Property<Double> faucetFlowLevel,
@@ -99,11 +102,24 @@ public class FaucetNode extends PNode {
                     double bottomY = flowPoint.getOrElse( 1000.0 );//Compute the bottom of the water (e.g. if it collides with the beaker)
                     double topY = imageHeight;
                     double height = bottomY - topY - offset.getY();
-                    setPathTo( new Rectangle2D.Double( imageWidth - width / 2 - pipeWidth / 2, imageHeight, width, height ) );
+                    final Rectangle2D.Double waterShape = new Rectangle2D.Double( imageWidth - width / 2 - pipeWidth / 2, imageHeight, width, height );
+                    notifyWaterShapeChanged( waterShape );
+                    setPathTo( waterShape );
                 }
             } );
         }} );
         addChild( imageNode );
-//        setOffset( 0, 0 );
+    }
+
+    //Add a listener that will be notified about the shape of the water
+    public void addListener( VoidFunction1<Rectangle2D> listener ) {
+        listeners.add( listener );
+    }
+
+    //Notify listeners that the shape of the output water changed
+    private void notifyWaterShapeChanged( Rectangle2D.Double waterShape ) {
+        for ( VoidFunction1<Rectangle2D> listener : listeners ) {
+            listener.apply( waterShape );
+        }
     }
 }

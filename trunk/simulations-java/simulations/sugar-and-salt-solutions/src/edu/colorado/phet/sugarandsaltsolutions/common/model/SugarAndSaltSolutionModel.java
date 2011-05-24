@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.common.model;
 
+import java.awt.*;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
@@ -150,6 +151,9 @@ public class SugarAndSaltSolutionModel implements ResetModel {
     //This logic is used in the model update step to determine if water can flow out, as well as in the user interface to determine if the user can turn on the output faucet
     public final VerticalRangeContains lowerFaucetCanDrain = new VerticalRangeContains( solution.shape, 0.011746031746031754, 0.026349206349206344 );
 
+    //Shape of the water draining out the output faucet, needed for purposes of determining whether there is an electrical connection for the conductivity tester
+    private Rectangle2D outFlowShape = new Rectangle();
+
     //When a crystal is absorbed by the water, increase the number of moles in solution
     protected void crystalAbsorbed( MacroCrystal crystal ) {
         if ( crystal instanceof MacroSalt ) {
@@ -254,13 +258,22 @@ public class SugarAndSaltSolutionModel implements ResetModel {
         } );
     }
 
+    //Determine if a conductivity tester probe is touching water in the beaker, or water flowing out of the beaker (which would have the same concentration as the water in the beaker)
+    private boolean isProbeTouchingWaterThatMightHaveSalt( ImmutableRectangle2D region ) {
+        Rectangle2D waterBounds = solution.shape.get().getBounds2D();
+
+        final Rectangle2D regionBounds = region.toRectangle2D();
+        return waterBounds.intersects( region.toRectangle2D() ) || outFlowShape.intersects( regionBounds );
+    }
+
     //Update the conductivity tester brightness when the probes come into contact with (or stop contacting) the fluid
     protected void updateConductivityTesterBrightness() {
 
         //Check for a collision with the probe, using the full region of each probe (so if any part intersects, there is still an electrical connection).
         Rectangle2D waterBounds = solution.shape.get().getBounds2D();
-        boolean bothProbesTouching = waterBounds.intersects( conductivityTester.getPositiveProbeRegion().toRectangle2D() ) &&
-                                     waterBounds.intersects( conductivityTester.getNegativeProbeRegion().toRectangle2D() );
+
+        //See if both probes are touching water that might have salt in it
+        boolean bothProbesTouching = isProbeTouchingWaterThatMightHaveSalt( conductivityTester.getPositiveProbeRegion() ) && isProbeTouchingWaterThatMightHaveSalt( conductivityTester.getNegativeProbeRegion() );
 
         //Check to see if the circuit is shorted out (if light bulb or battery is submerged).
         //Null checks are necessary since those regions are computed from view components and may not have been computed yet (but will be non-null if the user dragged out the conductivity tester from the toolbox)
@@ -415,5 +428,11 @@ public class SugarAndSaltSolutionModel implements ResetModel {
     //Adds a listener that will be notified when the model is reset
     public void addResetListener( VoidFunction0 listener ) {
         resetListeners.add( listener );
+    }
+
+    //Sets the shape of the water flowing out of the beaker, for purpose of determining conductivity (since outflow water can conduct)
+    public void setOutflowShape( Rectangle2D outFlowShape ) {
+        this.outFlowShape = outFlowShape;
+        updateConductivityTesterBrightness();
     }
 }
