@@ -25,7 +25,7 @@ public class CollectMultipleModule extends AbstractBuildAMoleculeModule {
         * initial model
         *----------------------------------------------------------------------------*/
 
-        final KitCollectionModel initialModel = new KitCollectionModel( bounds ) {{
+        final KitCollection initialCollection = new KitCollection() {{
             addKit( new Kit( bounds,
                              new Bucket( new PDimension( 400, 200 ), getClock(), H, 2 ),
                              new Bucket( new PDimension( 450, 200 ), getClock(), O, 2 )
@@ -47,18 +47,18 @@ public class CollectMultipleModule extends AbstractBuildAMoleculeModule {
             addCollectionBox( new CollectionBox( MoleculeList.NH3, 2 ) );
         }};
 
-        setModel( initialModel );
+        setInitialCollection( initialCollection );
     }
 
-    @Override protected BuildAMoleculeCanvas buildCanvas( KitCollectionModel model ) {
-        return new MoleculeCollectingCanvas( parentFrame, model, false, new VoidFunction0() {
+    @Override protected BuildAMoleculeCanvas buildCanvas( CollectionList collectionList ) {
+        return new MoleculeCollectingCanvas( parentFrame, collectionList, false, new VoidFunction0() {
             public void apply() {
-                setModel( generateModel() );
+                addGeneratedCollection();
             }
         } );
     }
 
-    @Override protected KitCollectionModel generateModel() {
+    @Override protected KitCollection generateModel() {
         return generateModel( true, 4 );
     }
 }

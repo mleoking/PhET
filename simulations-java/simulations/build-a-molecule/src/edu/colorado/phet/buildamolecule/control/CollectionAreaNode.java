@@ -5,81 +5,68 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeListener;
+import java.util.LinkedList;
+import java.util.List;
 
-import edu.colorado.phet.buildamolecule.BuildAMoleculeConstants;
-import edu.colorado.phet.buildamolecule.BuildAMoleculeStrings;
 import edu.colorado.phet.buildamolecule.model.CollectionBox;
 import edu.colorado.phet.buildamolecule.model.Kit;
-import edu.colorado.phet.buildamolecule.model.KitCollectionModel;
+import edu.colorado.phet.buildamolecule.model.KitCollection;
 import edu.colorado.phet.buildamolecule.view.BuildAMoleculeCanvas;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
-import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.swing.SwingLayoutNode;
 
 /**
- * Area that shows all of the collection boxes
+ * Area that shows all of the collection boxes and a reset collection button
  */
 public class CollectionAreaNode extends PNode {
-    private SwingLayoutNode layoutNode;
 
-    public static final int CONTAINER_PADDING = 15;
+    private List<CollectionBoxNode> collectionBoxNodes = new LinkedList<CollectionBoxNode>();
 
     /**
      * Creates a collection area (with collection boxes)
      *
      * @param parentFrame
      * @param canvas               The main canvas (the boxes need references to hook view => model coordinates)
-     * @param model                Our model
+     * @param collection           Our model
      * @param singleCollectionMode Whether we should use single or multiple molecule collection boxes
      */
-    public CollectionAreaNode( Frame parentFrame, BuildAMoleculeCanvas canvas, final KitCollectionModel model, boolean singleCollectionMode ) {
-        layoutNode = new SwingLayoutNode( new GridBagLayout() );
+    public CollectionAreaNode( Frame parentFrame, BuildAMoleculeCanvas canvas, final KitCollection collection, boolean singleCollectionMode ) {
+        SwingLayoutNode layoutNode = new SwingLayoutNode( new GridBagLayout() );
 
         GridBagConstraints c = new GridBagConstraints();
         c.gridx = 0;
         c.gridy = 0;
-        c.insets = new Insets( 0, 0, 20, 0 );
-
-        layoutNode.addChild( new HTMLNode( BuildAMoleculeStrings.COLLECTION_AREA_YOUR_MOLECULE_COLLECTION ) {{
-                                 setFont( new PhetFont( 22 ) );
-                             }}, c );
-
         c.insets = new Insets( 0, 0, 15, 0 );
 
-        layoutNode.translate( CONTAINER_PADDING, CONTAINER_PADDING );
-
         // add nodes for all of our collection boxes.
-        for ( CollectionBox collectionBox : model.getCollectionBoxes() ) {
+        for ( CollectionBox collectionBox : collection.getCollectionBoxes() ) {
+            CollectionBoxNode collectionBoxNode = singleCollectionMode
+                                                  ? new SingleCollectionBoxNode( parentFrame, canvas, collectionBox )
+                                                  : new MultipleCollectionBoxNode( parentFrame, canvas, collectionBox );
+            layoutNode.addChild( collectionBoxNode, c );
+            collectionBoxNodes.add( collectionBoxNode );
             c.gridy += 1;
-            if ( singleCollectionMode ) {
-                layoutNode.addChild( new SingleCollectionBoxNode( parentFrame, canvas, collectionBox ), c );
-            }
-            else {
-                layoutNode.addChild( new MultipleCollectionBoxNode( parentFrame, canvas, collectionBox ), c );
-            }
         }
 
-        c.gridy++;
+        // TODO: i18n
         layoutNode.addChild( new ButtonNode( "Reset Collection", Color.ORANGE ) {
                                  {
                                      // when clicked, empty collection boxes
                                      addActionListener( new ActionListener() {
                                          public void actionPerformed( ActionEvent e ) {
-                                             for ( CollectionBox box : model.getCollectionBoxes() ) {
+                                             for ( CollectionBox box : collection.getCollectionBoxes() ) {
                                                  box.clear();
                                              }
-                                             for ( Kit kit : model.getKits() ) {
+                                             for ( Kit kit : collection.getKits() ) {
                                                  kit.resetKit();
                                              }
                                          }
                                      } );
 
                                      // when any collection box quantity changes, re-update our visibility
-                                     for ( CollectionBox box : model.getCollectionBoxes() ) {
+                                     for ( CollectionBox box : collection.getCollectionBoxes() ) {
                                          box.quantity.addObserver( new SimpleObserver() {
                                              public void update() {
                                                  updateEnabled();
@@ -90,7 +77,7 @@ public class CollectionAreaNode extends PNode {
 
                                  public void updateEnabled() {
                                      boolean enabled = false;
-                                     for ( CollectionBox box : model.getCollectionBoxes() ) {
+                                     for ( CollectionBox box : collection.getCollectionBoxes() ) {
                                          if ( box.quantity.get() > 0 ) {
                                              enabled = true;
                                          }
@@ -99,30 +86,17 @@ public class CollectionAreaNode extends PNode {
                                  }
 
                                  @Override public void addPropertyChangeListener( PropertyChangeListener listener ) {
-                                     // TODO can we get rid of this hack?
+                                     // TODO can we get rid of this hack ?
                                  }
                              }, c );
-
-        c.insets = new Insets( 0, 0, 0, 0 );
-        c.gridy++;
-        layoutNode.addChild( new SoundOnOffNode(), c );
-
-        PPath background = PPath.createRectangle( 0, 0, (float) getPlacementWidth(), (float) getPlacementHeight() );
-
-        background.setPaint( BuildAMoleculeConstants.MOLECULE_COLLECTION_BACKGROUND );
-        background.setStrokePaint( BuildAMoleculeConstants.MOLECULE_COLLECTION_BORDER );
-
-        addChild( background );
 
         addChild( layoutNode );
 
     }
 
-    public double getPlacementWidth() {
-        return layoutNode.getContainer().getPreferredSize().getWidth() + CONTAINER_PADDING * 2;
-    }
-
-    public double getPlacementHeight() {
-        return layoutNode.getContainer().getPreferredSize().getHeight() + CONTAINER_PADDING * 2;
+    public void updateCollectionBoxLocations() {
+        for ( CollectionBoxNode collectionBoxNode : collectionBoxNodes ) {
+            collectionBoxNode.updateLocation();
+        }
     }
 }

@@ -6,8 +6,9 @@ import java.awt.*;
 
 import edu.colorado.phet.buildamolecule.BuildAMoleculeStrings;
 import edu.colorado.phet.buildamolecule.model.Bucket;
+import edu.colorado.phet.buildamolecule.model.CollectionList;
 import edu.colorado.phet.buildamolecule.model.Kit;
-import edu.colorado.phet.buildamolecule.model.KitCollectionModel;
+import edu.colorado.phet.buildamolecule.model.KitCollection;
 import edu.colorado.phet.buildamolecule.view.BuildAMoleculeCanvas;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -25,7 +26,7 @@ public class LargerMoleculesModule extends AbstractBuildAMoleculeModule {
         * initial model
         *----------------------------------------------------------------------------*/
 
-        final KitCollectionModel initialModel = new KitCollectionModel( bounds ) {{
+        final KitCollection initialCollection = new KitCollection() {{
             // general kit
             addKit( new Kit( bounds,
                              new Bucket( getClock(), H, 13 ),
@@ -94,11 +95,11 @@ public class LargerMoleculesModule extends AbstractBuildAMoleculeModule {
             ) );
         }};
 
-        setModel( initialModel );
+        setInitialCollection( initialCollection );
     }
 
     @Override
-    protected BuildAMoleculeCanvas buildCanvas( KitCollectionModel model ) {
-        return new BuildAMoleculeCanvas( parentFrame, model );
+    protected BuildAMoleculeCanvas buildCanvas( CollectionList collectionList ) {
+        return new BuildAMoleculeCanvas( parentFrame, collectionList );
     }
 }

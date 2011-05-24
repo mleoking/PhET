@@ -10,7 +10,7 @@ import java.text.MessageFormat;
 import edu.colorado.phet.buildamolecule.BuildAMoleculeConstants;
 import edu.colorado.phet.buildamolecule.BuildAMoleculeStrings;
 import edu.colorado.phet.buildamolecule.model.Kit;
-import edu.colorado.phet.buildamolecule.model.KitCollectionModel;
+import edu.colorado.phet.buildamolecule.model.KitCollection;
 import edu.colorado.phet.buildamolecule.model.Molecule;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -23,6 +23,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolo.util.PBounds;
 
 /**
  * Contains the kit background and controls for switching between kits
@@ -33,10 +34,10 @@ public class KitPanel extends PNode {
     private static final double KIT_LABEL_Y_OFFSET = 5;
     private static final double KIT_ARROW_Y_OFFSET = 5;
 
-    public KitPanel( final KitCollectionModel kitCollectionModel, ModelViewTransform mvt ) {
+    public KitPanel( final KitCollection kitCollectionModel, PBounds availableKitBounds, ModelViewTransform mvt ) {
         assert ( mvt.getTransform().getScaleY() < 0 ); // we assume this and correct for it
 
-        final Rectangle2D kitViewBounds = mvt.modelToViewRectangle( kitCollectionModel.getAvailableKitBounds() );
+        final Rectangle2D kitViewBounds = mvt.modelToViewRectangle( availableKitBounds );
         PPath background = PPath.createRectangle(
                 (float) kitViewBounds.getX(),
                 (float) kitViewBounds.getY(),
@@ -52,7 +53,7 @@ public class KitPanel extends PNode {
         *----------------------------------------------------------------------------*/
 
         final PhetPPath nextKitNode = new PhetPPath( new DoubleGeneralPath() {{
-            // triangle pointing to the left
+            // triangle pointing to the right
             moveTo( 17, 12 );
             lineTo( 0, 0 );
             lineTo( 0, 24 );

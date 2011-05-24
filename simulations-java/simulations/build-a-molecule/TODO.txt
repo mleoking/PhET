@@ -1,4 +1,7 @@
+If they complete one collection the 2nd time (after reset), do we instead take them to the very last collection when they press the button, or do not show the dialog at all?
+
 Add < level 2 > like things to the top of the collection boxes, so we can scroll through collections
+I18n and other TODOs
 Reset all in a menu drop-down?
 What about if you re-drag a molecule part just after combining?
 Jmol loading speed is slow - speed up
