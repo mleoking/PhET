@@ -61,7 +61,7 @@ public class ConcentrationBarChart extends PNode {
 
         //Show the title
         addChild( new PText( "Concentration (mol/L)" ) {{
-            setFont( new PhetFont( 16 ) );
+            setFont( new PhetFont( 16, true ) );
             setOffset( ConcentrationBarChart.this.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, INSET );
         }} );
 
@@ -117,7 +117,7 @@ public class ConcentrationBarChart extends PNode {
             } );
             // Create and add the caption.
             PText captionNode = new PText( caption ) {{
-                setFont( new PhetFont( 16 ) );
+                setFont( new PhetFont( 16, true ) );
                 // Position so that it is centered under the bar.
                 setOffset( WIDTH / 2 - getFullBoundsReference().width / 2, 5 );
             }};

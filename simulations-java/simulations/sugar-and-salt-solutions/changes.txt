@@ -1,3 +1,4 @@
+Increased font sizes and bolded the fonts to improve readability
 Made the "remove sugar/salt" button yellow like the reset all button
 Made control panel backgrounds white
 Restored background to evaporation slider control
