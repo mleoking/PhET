@@ -154,7 +154,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
 
         //Reset mode button
         final Color buttonForegroundColor = BLACK;
-        final ButtonNode resetModeButton = new ButtonNode( RESET, new PhetFont( Font.BOLD, (int) ( CONTROL_FONT.getSize() * 1.3 ) ), buttonForegroundColor, buttonBackgroundColor ) {{
+        final HTMLImageButtonNode resetModeButton = new HTMLImageButtonNode( RESET, new PhetFont( Font.BOLD, (int) ( CONTROL_FONT.getSize() * 1.3 ) ), buttonForegroundColor, buttonBackgroundColor ) {{
             setOffset( controlPanelNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, controlPanelNode.getFullBounds().getMaxY() + 5 );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -218,7 +218,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
 
         //If any body is out of bounds, show a "return object" button
         final MultiwayOr anythingReturnable = new MultiwayOr( returnable );
-        addChild( new ButtonNode( RETURN_OBJECT, buttonBackgroundColor ) {{
+        addChild( new HTMLImageButtonNode( RETURN_OBJECT, buttonBackgroundColor ) {{
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     model.returnBodies();

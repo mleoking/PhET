@@ -13,7 +13,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.help.DefaultWiggleMe;
 import edu.colorado.phet.common.piccolophet.help.MotionHelpBalloon;
-import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.statesofmatter.StatesOfMatterConstants;
 import edu.colorado.phet.statesofmatter.StatesOfMatterStrings;
@@ -88,7 +88,7 @@ public class AtomicInteractionsCanvas extends PhetPCanvas {
     private boolean m_showAttractiveForces;
     private boolean m_showRepulsiveForces;
     private boolean m_showTotalForces;
-    private ButtonNode m_retrieveAtomButtonNode;
+    private HTMLImageButtonNode m_retrieveAtomButtonNode;
     private DefaultWiggleMe m_wiggleMe;
     private boolean m_wiggleMeShown;
     private PushpinNode m_pushPinNode;
@@ -185,7 +185,7 @@ public class AtomicInteractionsCanvas extends PhetPCanvas {
         addWorldChild( m_interactionPotentialDiagram );
 
         // Add the button for retrieving the atom to the canvas. 
-        m_retrieveAtomButtonNode = new ButtonNode( StatesOfMatterStrings.RETRIEVE_ATOM, new PhetFont( Font.BOLD, 16 ), new Color( 0xffcc66 ) );
+        m_retrieveAtomButtonNode = new HTMLImageButtonNode( StatesOfMatterStrings.RETRIEVE_ATOM, new PhetFont( Font.BOLD, 16 ), new Color( 0xffcc66 ) );
         m_retrieveAtomButtonNode.scale( BUTTON_HEIGHT / m_retrieveAtomButtonNode.getFullBoundsReference().height );
         m_retrieveAtomButtonNode.setVisible( false );
         addWorldChild( m_retrieveAtomButtonNode );

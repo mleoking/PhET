@@ -8,7 +8,7 @@ import java.text.DecimalFormat;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
-import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.eatingandexercise.EatingAndExerciseResources;
 import edu.colorado.phet.eatingandexercise.model.Human;
 
@@ -16,7 +16,7 @@ import edu.colorado.phet.eatingandexercise.model.Human;
  * Created by: Sam
  * May 4, 2008 at 11:16:09 PM
  */
-public class BMIHelpButtonNode extends ButtonNode {
+public class BMIHelpButtonNode extends HTMLImageButtonNode {
     private Human human;
 
     public BMIHelpButtonNode( final Component parentComponent, final Human human ) {

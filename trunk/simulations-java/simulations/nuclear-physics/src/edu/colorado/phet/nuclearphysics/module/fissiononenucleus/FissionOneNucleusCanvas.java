@@ -15,7 +15,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsConstants;
 import edu.colorado.phet.nuclearphysics.NuclearPhysicsStrings;
 import edu.colorado.phet.nuclearphysics.common.model.AtomicNucleus;
@@ -61,7 +61,7 @@ public class FissionOneNucleusCanvas extends PhetPCanvas {
     private final NeutronSourceNode _neutronSourceNode;
     private final FissionEnergyChart _fissionEnergyChart;
     private final Hashtable _particleToNodeMap;
-    private final ButtonNode _resetButtonNode;
+    private final HTMLImageButtonNode _resetButtonNode;
 
     //----------------------------------------------------------------------------
     // Constructor
@@ -187,7 +187,7 @@ public class FissionOneNucleusCanvas extends PhetPCanvas {
         } );
 
         // Add the button for resetting the nucleus to the canvas.
-        _resetButtonNode = new ButtonNode( NuclearPhysicsStrings.RESET_NUCLEUS, new PhetFont( Font.BOLD, 16 ),
+        _resetButtonNode = new HTMLImageButtonNode( NuclearPhysicsStrings.RESET_NUCLEUS, new PhetFont( Font.BOLD, 16 ),
                                            NuclearPhysicsConstants.CANVAS_RESET_BUTTON_COLOR );
         double desiredResetButtonWidth = _neutronSourceNode.getFullBoundsReference().width;
         _resetButtonNode.setScale( desiredResetButtonWidth / _resetButtonNode.getFullBoundsReference().width );

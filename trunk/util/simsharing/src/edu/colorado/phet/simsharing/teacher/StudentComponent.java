@@ -8,7 +8,7 @@ import java.awt.image.BufferedImage;
 import java.text.DecimalFormat;
 
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
-import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.simsharing.SessionID;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -27,7 +27,7 @@ public class StudentComponent extends PNode {
         this.sessionID = sessionID;
         final PText namePText = new PText( sessionID.getName() );
         addChild( namePText );
-        final ButtonNode buttonNode = new ButtonNode( "Watch" ) {{
+        final HTMLImageButtonNode buttonNode = new HTMLImageButtonNode( "Watch" ) {{
             setOffset( 100, 0 );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {

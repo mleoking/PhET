@@ -15,7 +15,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
@@ -125,7 +125,7 @@ public class MicroscopicCanvas extends PhetPCanvas {
         //Control panel
         addChild( new ControlPanelNode( new VBox(
                 //Add a reset all button that resets this tab
-                new ButtonNode( "Reset All" ) {{
+                new HTMLImageButtonNode( "Reset All" ) {{
                     addActionListener( new ActionListener() {
                         public void actionPerformed( ActionEvent e ) {
                             model.reset();
@@ -133,7 +133,7 @@ public class MicroscopicCanvas extends PhetPCanvas {
                     } );
                 }},
                 //Button to add a single sodium ion
-                new ButtonNode( "Add Sodium Ion" ) {{
+                new HTMLImageButtonNode( "Add Sodium Ion" ) {{
                     addActionListener( new ActionListener() {
                         public void actionPerformed( ActionEvent e ) {
                             model.addSodiumIon( randomX.apply(), model.beakerHeight );
@@ -141,7 +141,7 @@ public class MicroscopicCanvas extends PhetPCanvas {
                     } );
                 }},
                 //Button to add a chlorine icon
-                new ButtonNode( "Add Chlorine Ion" ) {{
+                new HTMLImageButtonNode( "Add Chlorine Ion" ) {{
                     addActionListener( new ActionListener() {
                         public void actionPerformed( ActionEvent e ) {
                             model.addChlorineIon( randomX.apply(), model.beakerHeight );
@@ -149,7 +149,7 @@ public class MicroscopicCanvas extends PhetPCanvas {
                     } );
                 }},
                 //button to add a water
-                new ButtonNode( "Add Water" ) {{
+                new HTMLImageButtonNode( "Add Water" ) {{
                     addActionListener( new ActionListener() {
                         public void actionPerformed( ActionEvent e ) {
                             model.addWater( randomX.apply(), randomY.apply(), 0 );
@@ -157,7 +157,7 @@ public class MicroscopicCanvas extends PhetPCanvas {
                     } );
                 }},
                 //button to add a water
-                new ButtonNode( "Add NaCl" ) {{
+                new HTMLImageButtonNode( "Add NaCl" ) {{
                     addActionListener( new ActionListener() {
                         public void actionPerformed( ActionEvent e ) {
                             model.addSalt( randomX.apply(), randomY.apply() );

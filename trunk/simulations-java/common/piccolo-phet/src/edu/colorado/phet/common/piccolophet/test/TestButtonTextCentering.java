@@ -6,13 +6,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
-import java.awt.geom.Rectangle2D.*;
 
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -37,7 +36,7 @@ public class TestButtonTextCentering {
             }
         };
 
-        ButtonNode button1 = new ButtonNode( "xxx", new PhetFont( Font.BOLD, 18 ), Color.ORANGE );
+        HTMLImageButtonNode button1 = new HTMLImageButtonNode( "xxx", new PhetFont( Font.BOLD, 18 ), Color.ORANGE );
         button1.setOffset( 500, 500 );
         button1.addActionListener( listener );
 
@@ -45,7 +44,7 @@ public class TestButtonTextCentering {
         canvas.setWorldTransformStrategy( new PhetPCanvas.CenteredStage( canvas, STAGE_SIZE ) );
         canvas.addWorldChild( button1 );
 
-        JFrame frame = new JFrame( ButtonNode.class.getName() );
+        JFrame frame = new JFrame( HTMLImageButtonNode.class.getName() );
         frame.setContentPane( canvas );
         frame.setSize( (int) STAGE_SIZE.getWidth(), (int) STAGE_SIZE.getHeight() );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
@@ -53,7 +52,7 @@ public class TestButtonTextCentering {
     }
 
     public static void test2() {
-        JFrame frame = new JFrame( ButtonNode.class.getName() );
+        JFrame frame = new JFrame( HTMLImageButtonNode.class.getName() );
         frame.setContentPane( new JPanel(){
             @Override protected void paintComponent( Graphics g ) {
                 super.paintComponent( g );
@@ -87,12 +86,12 @@ public class TestButtonTextCentering {
         }};
         canvas.getLayer().addChild( textNode );
 
-        ButtonNode button1 = new ButtonNode( "xxx", new PhetFont( Font.BOLD, 18 ), Color.ORANGE );
+        HTMLImageButtonNode button1 = new HTMLImageButtonNode( "xxx", new PhetFont( Font.BOLD, 18 ), Color.ORANGE );
         button1.setOffset( 100, 200 );
         canvas.getLayer().addChild( button1 );
 
 
-        JFrame frame = new JFrame( ButtonNode.class.getName() );
+        JFrame frame = new JFrame( HTMLImageButtonNode.class.getName() );
         frame.setContentPane( canvas );
         frame.setSize( (int) STAGE_SIZE.getWidth(), (int) STAGE_SIZE.getHeight() );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );

@@ -19,7 +19,7 @@ import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
-import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -62,7 +62,7 @@ public class GameScoreboardNode extends PhetPNode {
     private final NumberFormat pointsFormat;
     private final PText scoreNode, levelNode, timerValue;
     private final PImage timerIcon;
-    private final ButtonNode newGameButton;
+    private final HTMLImageButtonNode newGameButton;
     private final PPath backgroundNode;
     private final Rectangle2D backgroundShape;
     private final EventListenerList listeners;
@@ -100,7 +100,7 @@ public class GameScoreboardNode extends PhetPNode {
         setTime( 0 ); // start with this, so we have a reasonable size for layout
 
         // New Game button
-        newGameButton = new ButtonNode( BUTTON_NEW_GAME, BUTTON_FONT, BUTTON_COLOR );
+        newGameButton = new HTMLImageButtonNode( BUTTON_NEW_GAME, BUTTON_FONT, BUTTON_COLOR );
         newGameButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 handleNewGame();

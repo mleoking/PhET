@@ -23,7 +23,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -76,9 +76,9 @@ public class NotBalancedVerboseNode extends GamePopupNode {
                 iconAndTextNode.addChild( textNode );
 
                 // "Hide Why" button
-                ButtonNode hideWhyButton = null;
+                HTMLImageButtonNode hideWhyButton = null;
                 if ( whyButtonVisible ) {
-                    hideWhyButton = new ButtonNode( BCEStrings.HIDE_WHY, new PhetFont( Font.BOLD, 18 ), Color.WHITE );
+                    hideWhyButton = new HTMLImageButtonNode( BCEStrings.HIDE_WHY, new PhetFont( Font.BOLD, 18 ), Color.WHITE );
                     hideWhyButton.addActionListener( whyButtonListener );
                 }
 
