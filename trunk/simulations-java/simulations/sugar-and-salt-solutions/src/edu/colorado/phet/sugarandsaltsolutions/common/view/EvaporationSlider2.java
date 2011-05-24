@@ -8,7 +8,6 @@ import java.util.Hashtable;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
-import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -18,7 +17,7 @@ import static edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSo
 /**
  * @author Sam Reid
  */
-public class EvaporationSlider2 extends ControlPanelNode {
+public class EvaporationSlider2 extends WhiteControlPanelNode {
     public EvaporationSlider2( final SettableProperty<Integer> evaporationRate ) {
         super( new HBox(
                 //Add a label

@@ -12,7 +12,6 @@ import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
-import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.sugarandsaltsolutions.common.SugarAndSaltSolutionsColorScheme;
@@ -89,7 +88,7 @@ public class IntroCanvas extends SugarAndSaltSolutionsCanvas {
         );
 
         //Panel that says "concentration" and has a "+" button to expand the concentration bar chart
-        ControlPanelNode showBarChartPanel = new ControlPanelNode( contentPane, WATER_COLOR, new BasicStroke( 1 ), Color.black ) {{
+        edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode showBarChartPanel = new edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode( contentPane, WATER_COLOR, new BasicStroke( 1 ), Color.black ) {{
             setOffset( stageSize.getWidth() - getFullBoundsReference().width - INSET, INSET );
             model.showConcentrationBarChart.addObserver( new VoidFunction1<Boolean>() {
                 public void apply( Boolean chartVisible ) {
@@ -113,7 +112,7 @@ public class IntroCanvas extends SugarAndSaltSolutionsCanvas {
 
         //Add a checkbox that lets the user toggle on and off whether actual values are shown
         //This is in a full control panel + VBox in case we need to add other controls later
-        addChild( new ControlPanelNode( new VBox() {{
+        addChild( new WhiteControlPanelNode( new VBox() {{
             addChild( new PSwing( new PropertyCheckBox( "Show values", model.showConcentrationValues ) {{
                 setFont( CONTROL_FONT );
                 SwingUtils.setBackgroundDeep( this, WATER_COLOR );
