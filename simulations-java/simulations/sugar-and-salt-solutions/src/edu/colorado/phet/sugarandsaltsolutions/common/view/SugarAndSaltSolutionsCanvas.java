@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
 import edu.colorado.phet.common.phetcommon.util.Option.None;
 import edu.colorado.phet.common.phetcommon.util.Option.Some;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
@@ -141,6 +142,15 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements ToolboxC
             //Move it up by the height of the faucet image, otherwise it sticks out underneath the beaker
             setOffset( beakerBottomRightView.getX() - getFullBounds().getWidth() * 0.4, //Hand tuned so it doesn't overlap the reset button in English
                        beakerBottomRightView.getY() - getFullBounds().getHeight() );
+
+            //When the shape of the flowing-out water changes, update the model so we can account for conductivity of the water while it is draining
+            addListener( new VoidFunction1<Rectangle2D>() {
+                public void apply( Rectangle2D outFlowShape ) {
+                    ImmutableRectangle2D r = new ImmutableRectangle2D( outFlowShape );
+                    Rectangle2D transformed = localToGlobal( r.toRectangle2D() );
+                    model.setOutflowShape( transform.viewToModel( transformed ).getBounds2D() );
+                }
+            } );
         }} );
 
         //Add salt crystals graphics when salt crystals are added to the model
