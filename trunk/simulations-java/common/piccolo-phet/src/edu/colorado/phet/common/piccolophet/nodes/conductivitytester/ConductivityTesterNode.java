@@ -210,12 +210,12 @@ public class ConductivityTesterNode extends PhetPNode {
         updateNegativeProbeLocation();
     }
 
-    // for subclasses that need to attached node listeners
+    // for subclasses that need to attach node listeners
     protected PNode getLightBulbNode() {
         return lightBulbNode;
     }
 
-    // for subclasses that need to attached node listeners
+    // for subclasses that need to attach node listeners
     protected PNode getBatteryNode() {
         return batteryNode;
     }
