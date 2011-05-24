@@ -74,7 +74,7 @@ public class MoleculeList {
     }
 
     public static void testLoadingForProfiling() {
-        new MoleculeList(){{
+        new MoleculeList() {{
             loadMasterData();
         }};
     }

@@ -5,18 +5,11 @@ package edu.colorado.phet.buildamolecule.view;
 import java.awt.*;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
-import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
 
 import edu.colorado.phet.buildamolecule.BuildAMoleculeConstants;
-import edu.colorado.phet.buildamolecule.control.KitPanel;
-import edu.colorado.phet.buildamolecule.model.CollectionBox;
-import edu.colorado.phet.buildamolecule.model.Kit;
-import edu.colorado.phet.buildamolecule.model.KitCollectionModel;
-import edu.colorado.phet.buildamolecule.model.Molecule;
-import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.buildamolecule.model.*;
+import edu.colorado.phet.buildamolecule.model.CollectionList.Listener;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -31,42 +24,33 @@ public class BuildAMoleculeCanvas extends PhetPCanvas {
     // Instance data
     //----------------------------------------------------------------------------
 
-    private Frame parentFrame;
-
-    // Model
-    private final Property<KitCollectionModel> modelProperty;
-    private Map<Kit, KitView> kitMap = new HashMap<Kit, KitView>(); // so we can pull our kit view for a particular kit
-
     // View
     private final PNode _rootNode;
 
     // Model-View transform.
     private final ModelViewTransform mvt;
 
-    private final PNode bottomLayer = new PNode();
-    private final PNode metadataLayer = new PNode();
-    private final PNode atomLayer = new PNode();
-    private final PNode topLayer = new PNode();
-
-    private List<SimpleObserver> fullyLayedOutObservers = new LinkedList<SimpleObserver>();
-
     private CollectionBoxHintNode collectionBoxHintNode = null;
 
+    // used for notifying others of the collection area attachment. TODO consider changing class initialization so this can be moved to MoleculeCollectingCanvas
+    protected java.util.List<SimpleObserver> collectionAttachmentListeners = new LinkedList<SimpleObserver>();
+
+    private Frame parentFrame;
+    public final CollectionList collectionList;
     protected boolean singleCollectionMode; // TODO: find solution for LargerMoleculesCanvas so that we don't need this boolean and the separate constructor
 
     protected void addChildren( Frame parentFrame ) {
 
     }
 
-    public BuildAMoleculeCanvas( Frame parentFrame, KitCollectionModel model ) {
-        this( parentFrame, model, true );
+    public BuildAMoleculeCanvas( Frame parentFrame, CollectionList collectionList ) {
+        this( parentFrame, collectionList, true );
     }
 
-    public BuildAMoleculeCanvas( Frame parentFrame, final KitCollectionModel model, boolean singleCollectionMode ) {
-        this.singleCollectionMode = singleCollectionMode;
+    public BuildAMoleculeCanvas( Frame parentFrame, CollectionList collectionList, boolean singleCollectionMode ) {
         this.parentFrame = parentFrame;
-
-        modelProperty = new Property<KitCollectionModel>( model );
+        this.collectionList = collectionList;
+        this.singleCollectionMode = singleCollectionMode;
 
         // Set up the canvas-screen transform.
         setWorldTransformStrategy( new PhetPCanvas.CenteredStage( this, BuildAMoleculeConstants.STAGE_SIZE ) );
@@ -85,29 +69,28 @@ public class BuildAMoleculeCanvas extends PhetPCanvas {
 
         addChildren( parentFrame );
 
-        addWorldChild( bottomLayer );
-        addWorldChild( atomLayer );
-        addWorldChild( metadataLayer );
-        addWorldChild( topLayer );
-
         // Root of our scene graph
         _rootNode = new PNode();
         addWorldChild( _rootNode );
 
-        buildFromModel();
+        final KitCollection firstCollection = collectionList.currentCollection.get();
 
-        for ( SimpleObserver observer : fullyLayedOutObservers ) {
-            observer.update();
-        }
+        addCollection( firstCollection );
+
+        collectionList.addListener( new Listener() {
+            public void addedCollection( KitCollection collection ) {
+                addCollection( collection );
+            }
+        } );
 
         /*---------------------------------------------------------------------------*
-        * collection box hint arrow
+        * collection box hint arrow. add this only to the 1st collection
         *----------------------------------------------------------------------------*/
 
-        for ( final Kit kit : model.getKits() ) {
+        for ( final Kit kit : firstCollection.getKits() ) {
             kit.addMoleculeListener( new Kit.MoleculeAdapter() {
                 @Override public void addedMolecule( Molecule molecule ) {
-                    CollectionBox targetBox = model.getFirstTargetBox( molecule );
+                    CollectionBox targetBox = firstCollection.getFirstTargetBox( molecule );
 
                     // if a hint doesn't exist AND we have a target box, add it
                     if ( collectionBoxHintNode == null && targetBox != null ) {
@@ -140,30 +123,20 @@ public class BuildAMoleculeCanvas extends PhetPCanvas {
         }
     }
 
-    protected void buildFromModel() {
-        // bottom-most layer is our kit panel
-        bottomLayer.addChild( new KitPanel( getModel(), mvt ) );
+    public KitCollectionNode addCollection( KitCollection collection ) {
+        KitCollectionNode result = new KitCollectionNode( parentFrame, collectionList, collection, mvt, this );
+        addWorldChild( result );
 
-        for ( final Kit kit : getModel().getKits() ) {
-            KitView kitView = new KitView( parentFrame, kit, mvt, this );
-            kitMap.put( kit, kitView );
-            bottomLayer.addChild( kitView.getBottomLayer() );
-            atomLayer.addChild( kitView.getAtomLayer() );
-            metadataLayer.addChild( kitView.getMetadataLayer() );
-            topLayer.addChild( kitView.getTopLayer() );
-        }
+        // return this so we can manipulate it in an override
+        return result;
     }
 
-    public KitCollectionModel getModel() {
-        return modelProperty.get();
+    public KitCollection getCurrentCollection() {
+        return collectionList.currentCollection.get();
     }
 
     public ModelViewTransform getModelViewTransform() {
         return mvt;
-    }
-
-    public void addFullyLayedOutObserver( SimpleObserver observer ) {
-        fullyLayedOutObservers.add( observer );
     }
 
     /*

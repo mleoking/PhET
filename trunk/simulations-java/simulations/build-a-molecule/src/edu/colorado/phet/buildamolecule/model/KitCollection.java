@@ -7,23 +7,20 @@ import java.util.List;
 import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.umd.cs.piccolo.util.PBounds;
 
 /**
  * Represents a main running model for the 1st two tabs. Contains a collection of kits and boxes. Kits are responsible
  * for their buckets and atoms.
  */
-public class KitCollectionModel {
+public class KitCollection {
     private List<Kit> kits = new LinkedList<Kit>();
     private List<CollectionBox> boxes = new LinkedList<CollectionBox>();
 
-    private LayoutBounds layoutBounds;//picometers
     private Property<Kit> currentKit;
 
     public final Property<Boolean> allCollectionBoxesFilled = new Property<Boolean>( false ); // this will remain false if we have no collection boxes
 
-    public KitCollectionModel( LayoutBounds layoutBounds ) {
-        this.layoutBounds = layoutBounds;
+    public KitCollection() {
     }
 
     public void addKit( final Kit kit ) {
@@ -121,14 +118,6 @@ public class KitCollectionModel {
 
     public List<CollectionBox> getCollectionBoxes() {
         return boxes;
-    }
-
-    public PBounds getAvailableKitBounds() {
-        return layoutBounds.getAvailableKitBounds();
-    }
-
-    public PBounds getAvailablePlayAreaBounds() {
-        return layoutBounds.getAvailablePlayAreaBounds();
     }
 
     public Kit getCurrentKit() {

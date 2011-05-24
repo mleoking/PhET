@@ -255,12 +255,12 @@ public class CompleteMolecule extends MoleculeStructure<PubChemAtom> {
         AtomParser<PubChemAtom> atomParser = has3d ? ( has2dAnd3d ? PubChemAtomFull.getAtomParser() : PubChemAtom3d.getAtomParser() ) : PubChemAtom2d.getAtomParser();
 
         return MoleculeStructure.fromSerial2( line.substring( burnedLength ), new MoleculeGenerator<PubChemAtom, CompleteMolecule>() {
-            public CompleteMolecule createMolecule( int atomCount, int bondCount ) {
-                CompleteMolecule molecule = new CompleteMolecule( commonName, molecularFormula, atomCount, bondCount, has2d, has3d );
-                molecule.cid = cid;
-                return molecule;
-            }
-        }, atomParser, PubChemBond.getBondParser() );
+                                                  public CompleteMolecule createMolecule( int atomCount, int bondCount ) {
+                                                      CompleteMolecule molecule = new CompleteMolecule( commonName, molecularFormula, atomCount, bondCount, has2d, has3d );
+                                                      molecule.cid = cid;
+                                                      return molecule;
+                                                  }
+                                              }, atomParser, PubChemBond.getBondParser() );
     }
 
     /*---------------------------------------------------------------------------*

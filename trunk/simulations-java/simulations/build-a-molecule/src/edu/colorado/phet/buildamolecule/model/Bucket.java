@@ -6,7 +6,6 @@ import java.awt.geom.Point2D;
 import java.util.List;
 
 import edu.colorado.phet.buildamolecule.BuildAMoleculeStrings;
-import edu.colorado.phet.buildamolecule.module.AbstractBuildAMoleculeModule;
 import edu.colorado.phet.chemistry.model.Element;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.SphereBucket;
@@ -21,7 +20,7 @@ public class Bucket extends SphereBucket<Atom2D> {
 
     public Bucket( IClock clock, Element element, int quantity ) {
         // automatically compute the desired width with a height of 200;
-        this( new PDimension( AbstractBuildAMoleculeModule.calculateIdealBucketWidth( element.getRadius(), quantity ), 200 ), clock, element, quantity );
+        this( new PDimension( calculateIdealBucketWidth( element.getRadius(), quantity ), 200 ), clock, element, quantity );
     }
 
     /**
@@ -40,6 +39,24 @@ public class Bucket extends SphereBucket<Atom2D> {
         for ( int i = 0; i < quantity; i++ ) {
             super.addParticleFirstOpen( new Atom2D( element, clock ), true );
         }
+    }
+
+    /**
+     * Make sure we can fit all of our atoms in just two rows
+     *
+     * @param radius   Atomic radius (picometers)
+     * @param quantity Quantity of atoms in bucket
+     * @return Width of bucket
+     */
+    public static int calculateIdealBucketWidth( double radius, int quantity ) {
+        // calculate atoms to go on the bottom row
+        int numOnBottomRow = ( quantity <= 2 ) ? quantity : ( quantity / 2 + 1 );
+
+        // figure out our width, accounting for radius-padding on each side
+        double width = 2 * radius * ( numOnBottomRow + 1 );
+
+        // add a bit, and make sure we don't go under 350
+        return (int) Math.max( 350, width + 1 );
     }
 
     @Override public void setPosition( Point2D point ) {

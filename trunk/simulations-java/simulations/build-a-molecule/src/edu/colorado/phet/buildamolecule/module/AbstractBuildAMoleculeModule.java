@@ -19,6 +19,7 @@ public abstract class AbstractBuildAMoleculeModule extends PiccoloModule {
     protected final LayoutBounds bounds;
     protected BuildAMoleculeCanvas canvas;
     protected Frame parentFrame;
+    private CollectionList collectionList;
 
     private static Random random = new Random( System.currentTimeMillis() );
 
@@ -29,21 +30,22 @@ public abstract class AbstractBuildAMoleculeModule extends PiccoloModule {
         bounds = new LayoutBounds( wide );
     }
 
-    protected abstract BuildAMoleculeCanvas buildCanvas( KitCollectionModel model );
+    protected abstract BuildAMoleculeCanvas buildCanvas( CollectionList collectionList );
 
-    protected void setModel( KitCollectionModel model ) {
-        canvas = buildCanvas( model );
+    protected void setInitialCollection( KitCollection collection ) {
+        this.collectionList = new CollectionList( collection, bounds );
+        canvas = buildCanvas( collectionList );
         setSimulationPanel( canvas );
     }
 
-    protected KitCollectionModel generateModel() {
+    protected KitCollection generateModel() {
         return null;
     }
 
-    public void regenerateModelIfPossible() {
-        KitCollectionModel model = generateModel();
-        if ( model != null ) {
-            setModel( model );
+    public void addGeneratedCollection() {
+        KitCollection collection = generateModel();
+        if ( collection != null ) {
+            collectionList.addCollection( collection );
         }
     }
 
@@ -58,7 +60,7 @@ public abstract class AbstractBuildAMoleculeModule extends PiccoloModule {
      * @param numBoxes               Number of collection boxes
      * @return A consistent model
      */
-    protected KitCollectionModel generateModel( boolean allowMultipleMolecules, int numBoxes ) {
+    protected KitCollection generateModel( boolean allowMultipleMolecules, int numBoxes ) {
         final int MAX_IN_BOX = 3;
 
         Set<CompleteMolecule> usedMolecules = new HashSet<CompleteMolecule>();
@@ -138,7 +140,7 @@ public abstract class AbstractBuildAMoleculeModule extends PiccoloModule {
                 }
 
                 // funky math part. sqrt scales it so that we can get two layers of atoms if the atom count is above 2
-                int bucketWidth = calculateIdealBucketWidth( element.getRadius(), atomCount );
+                int bucketWidth = Bucket.calculateIdealBucketWidth( element.getRadius(), atomCount );
                 System.out.println( bucketWidth );
                 //int bucketWidth = ( (int) ( 2 * atomRadius * Math.pow( atomCount + 1, 0.4 ) ) ) + 200;
 
@@ -166,32 +168,14 @@ public abstract class AbstractBuildAMoleculeModule extends PiccoloModule {
             }
         }
 
-        KitCollectionModel model = new KitCollectionModel( bounds );
+        KitCollection collection = new KitCollection();
         for ( Kit kit : kits ) {
-            model.addKit( kit );
+            collection.addKit( kit );
         }
         for ( CollectionBox box : boxes ) {
-            model.addCollectionBox( box );
+            collection.addCollectionBox( box );
         }
-        return model;
-    }
-
-    /**
-     * Make sure we can fit all of our atoms in just two rows
-     *
-     * @param radius   Atomic radius (picometers)
-     * @param quantity Quantity of atoms in bucket
-     * @return Width of bucket
-     */
-    public static int calculateIdealBucketWidth( double radius, int quantity ) {
-        // calculate atoms to go on the bottom row
-        int numOnBottomRow = ( quantity <= 2 ) ? quantity : ( quantity / 2 + 1 );
-
-        // figure out our width, accounting for radius-padding on each side
-        double width = 2 * radius * ( numOnBottomRow + 1 );
-
-        // add a bit, and make sure we don't go under 350
-        return (int) Math.max( 350, width + 1 );
+        return collection;
     }
 
     private CompleteMolecule pickRandomMoleculeNotIn( Set<CompleteMolecule> molecules ) {

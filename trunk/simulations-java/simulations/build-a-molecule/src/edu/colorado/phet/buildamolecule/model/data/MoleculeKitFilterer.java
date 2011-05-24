@@ -37,9 +37,9 @@ public class MoleculeKitFilterer {
         // TODO: better way of grabbing this info
         new LargerMoleculesModule( new JFrame() ) {
             @Override
-            protected void setModel( KitCollectionModel model ) {
+            protected void setInitialCollection( KitCollection collection ) {
                 // this gives us access to the created larger molecules kits
-                for ( Kit kit : model.getKits() ) {
+                for ( Kit kit : collection.getKits() ) {
 
                     // for each kit, make a histogram
                     ElementHistogram histogram = new ElementHistogram();

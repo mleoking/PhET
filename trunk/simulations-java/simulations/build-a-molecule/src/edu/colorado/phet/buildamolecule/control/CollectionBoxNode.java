@@ -44,6 +44,8 @@ public class CollectionBoxNode extends SwingLayoutNode {
     private Timer blinkTimer = null;
     private double button3dWidth;
 
+    private SimpleObserver locationUpdateObserver;
+
     private GridBagConstraints headerConstraints = new GridBagConstraints() {{
         gridx = 0;
         gridy = 0;
@@ -63,7 +65,7 @@ public class CollectionBoxNode extends SwingLayoutNode {
         c.insets = new Insets( 3, 0, 0, 0 ); // some padding between the black box
 
         blackBox = new PhetPPath( new Rectangle2D.Double( 0, 0, 160, 40 ), BuildAMoleculeConstants.MOLECULE_COLLECTION_BOX_BACKGROUND ) {{
-            canvas.addFullyLayedOutObserver( new SimpleObserver() {
+            locationUpdateObserver = new SimpleObserver() {
                 public void update() {
                     // we need to pass the collection box model coordinates, but here we have relative piccolo coordinates
                     // this requires getting local => global => view => model coordinates
@@ -85,7 +87,7 @@ public class CollectionBoxNode extends SwingLayoutNode {
                     // pass it the model bounds
                     box.setDropBounds( canvas.getModelViewTransform().viewToModel( viewBounds ).getBounds2D() );
                 }
-            } );
+            };
 
             // create our show 3D button, and have it change visibility based on the box quantity
             PNode show3dButton = new ShowMolecule3DButtonNode( parentFrame, dialog, box.getMoleculeType() ) {{
@@ -289,5 +291,12 @@ public class CollectionBoxNode extends SwingLayoutNode {
         else {
             blackBox.setStrokePaint( BuildAMoleculeConstants.MOLECULE_COLLECTION_BACKGROUND );
         }
+    }
+
+    /**
+     * Allows us to set the model position of the collection boxes according to how they are laid out
+     */
+    public void updateLocation() {
+        locationUpdateObserver.update();
     }
 }
