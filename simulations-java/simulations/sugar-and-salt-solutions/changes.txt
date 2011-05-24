@@ -1,3 +1,4 @@
+Restored background to evaporation slider control
 # 0.00.24 (52313) May 23, 2011
 # 0.00.23 (52311) May 23, 2011
 Removed gravity
