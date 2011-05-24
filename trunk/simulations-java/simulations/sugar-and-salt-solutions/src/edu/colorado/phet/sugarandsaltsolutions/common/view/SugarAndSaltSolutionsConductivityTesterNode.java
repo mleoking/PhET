@@ -29,7 +29,7 @@ public class SugarAndSaltSolutionsConductivityTesterNode extends ConductivityTes
     private final ModelViewTransform transform;
 
     public SugarAndSaltSolutionsConductivityTesterNode( final ConductivityTester conductivityTester, final ModelViewTransform transform, final PNode rootNode, final Function0<Rectangle2D> getToolboxBounds, Point2D location ) {
-        super( conductivityTester, transform, Color.lightGray, Color.red, Color.green, false );
+        super( conductivityTester, transform, Color.lightGray, Color.lightGray, Color.lightGray, Color.red, Color.green, Color.black, Color.black, false );
         this.conductivityTester = conductivityTester;
         this.transform = transform;
         conductivityTester.visible.addObserver( new VoidFunction1<Boolean>() {
