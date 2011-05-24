@@ -18,6 +18,7 @@ MULTIPLE CAPACITORS REQUIREMENTS
 - current indicators near battery poles (like in other tabs)
 
 HIGH PRIORITY
+- #2903, E-field default scale and autoscaling
 - add support for wires in getVoltageAt for all AbstractCircuit subclasses
 - plate voltage is wrong for C2 in Combination1Circuit
 - E-Field and Voltage shape creation
