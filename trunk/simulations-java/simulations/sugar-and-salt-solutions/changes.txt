@@ -1,3 +1,4 @@
+Made the "remove sugar/salt" button yellow like the reset all button
 Made control panel backgrounds white
 Restored background to evaporation slider control
 # 0.00.24 (52313) May 23, 2011

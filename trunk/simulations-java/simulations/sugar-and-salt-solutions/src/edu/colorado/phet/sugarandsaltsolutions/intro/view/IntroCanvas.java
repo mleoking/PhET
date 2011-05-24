@@ -54,7 +54,7 @@ public class IntroCanvas extends SugarAndSaltSolutionsCanvas {
         addChild( new VolumeIndicatorNode( transform, model.solution, model.showConcentrationValues, model.solidVolume ) );
 
         //Add a button that allows the user to remove all solutes
-        addChild( new ButtonNode( "Remove salt/sugar" ) {{
+        addChild( new ButtonNode( "Remove salt/sugar", Color.yellow ) {{
             //Button should be inside the beaker
             setOffset( transform.modelToViewX( model.beaker.getMaxX() ) - getFullBounds().getWidth() - INSET,
                        transform.modelToViewY( model.beaker.getY() ) - getFullBounds().getHeight() - INSET );
