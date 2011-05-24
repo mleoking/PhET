@@ -50,8 +50,8 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements ToolboxC
     public static final int INSET = 5;
 
     //Fonts
-    public static Font CONTROL_FONT = new PhetFont( 16 );
-    public static Font TITLE_FONT = new PhetFont( 16, true );
+    public static Font CONTROL_FONT = new PhetFont( 16, true );
+    public static Font TITLE_FONT = new PhetFont( 18, true );
     private final PNode crystalLayer = new PNode();//Layer that holds the sugar and salt crystals
 
     protected final WhiteControlPanelNode soluteControlPanelNode;

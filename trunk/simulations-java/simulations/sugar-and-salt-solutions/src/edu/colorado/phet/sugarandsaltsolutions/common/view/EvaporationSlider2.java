@@ -31,8 +31,8 @@ public class EvaporationSlider2 extends WhiteControlPanelNode {
                     //Show none and lots labels at the extrema
                     setPaintLabels( true );
                     setLabelTable( new Hashtable() {{
-                        put( 0, new JLabel( "none" ) );
-                        put( 100, new JLabel( "lots" ) );
+                        put( 0, new JLabel( "none" ) {{setFont( CONTROL_FONT );}} );
+                        put( 100, new JLabel( "lots" ) {{setFont( CONTROL_FONT );}} );
                     }} );
                     addMouseListener( new MouseAdapter() {
                         @Override public void mouseReleased( MouseEvent e ) {
