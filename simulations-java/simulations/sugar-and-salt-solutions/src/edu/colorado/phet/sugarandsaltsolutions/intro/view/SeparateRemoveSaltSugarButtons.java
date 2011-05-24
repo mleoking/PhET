@@ -1,7 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.intro.view;
 
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -21,7 +20,7 @@ public class SeparateRemoveSaltSugarButtons extends PNode {
 
         //Button to remove salt, only shown if there is any salt
         TextButtonNode saltButton = new TextButtonNode( "Remove salt" ) {{
-            setBackground( Color.yellow );
+            setBackground( SugarAndSaltSolutionsCanvas.BUTTON_COLOR );
             model.salt.moles.greaterThan( 0 ).addObserver( new VoidFunction1<Boolean>() {
                 public void apply( Boolean visible ) {
                     setVisible( visible );
@@ -37,7 +36,7 @@ public class SeparateRemoveSaltSugarButtons extends PNode {
 
         //Button to remove sugar, only shown if there is any sugar
         TextButtonNode sugarButton = new TextButtonNode( "Remove sugar" ) {{
-            setBackground( Color.yellow );
+            setBackground( SugarAndSaltSolutionsCanvas.BUTTON_COLOR );
             model.sugar.moles.greaterThan( 0 ).addObserver( new VoidFunction1<Boolean>() {
                 public void apply( Boolean visible ) {
                     setVisible( visible );

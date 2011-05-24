@@ -1,12 +1,12 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.intro.view;
 
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
+import edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas;
 import edu.colorado.phet.sugarandsaltsolutions.intro.model.IntroModel;
 
 /**
@@ -16,7 +16,7 @@ import edu.colorado.phet.sugarandsaltsolutions.intro.model.IntroModel;
  */
 public class RemoveSaltSugarButton extends HTMLImageButtonNode {
     public RemoveSaltSugarButton( final IntroModel model ) {
-        super( "Remove salt/sugar", Color.yellow );
+        super( "Remove salt/sugar", SugarAndSaltSolutionsCanvas.BUTTON_COLOR );
 
         //Remove all solutes from the model when pressed
         addActionListener( new ActionListener() {

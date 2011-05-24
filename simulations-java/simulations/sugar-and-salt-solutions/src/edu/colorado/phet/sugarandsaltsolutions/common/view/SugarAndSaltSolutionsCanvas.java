@@ -72,6 +72,9 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements ToolboxC
     //Separate layer for the conductivity toolbox to make sure the conductivity node shows as submerged in the water, but still goes behind the shaker
     protected final PNode conductivityToolboxLayer = new PNode();
 
+    //Color for reset and remove buttons
+    public static final Color BUTTON_COLOR = new Color( 255, 153, 0 );
+
     public SugarAndSaltSolutionsCanvas( final SugarAndSaltSolutionModel model, final SugarAndSaltSolutionsColorScheme config ) {
 
         //Set the stage size according to the same aspect ratio as used in the model
@@ -116,7 +119,7 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements ToolboxC
         addChild( soluteControlPanelNode );
 
         //Add the reset all button
-        addChild( new HTMLImageButtonNode( "Reset All", Color.yellow ) {{
+        addChild( new HTMLImageButtonNode( "Reset All", BUTTON_COLOR ) {{
             setOffset( stageSize.width - getFullBounds().getWidth() - INSET, stageSize.height - getFullBounds().getHeight() - INSET );
             setFont( CONTROL_FONT );
             addActionListener( new ActionListener() {

@@ -1,3 +1,4 @@
+Made the reset buttons the same orange color as in build an atom
 Changed probe + and - labels from white to black
 Made the volume labels bigger and bolder
 Added a new flavor so separate/combined "remove solute" buttons can be tested
