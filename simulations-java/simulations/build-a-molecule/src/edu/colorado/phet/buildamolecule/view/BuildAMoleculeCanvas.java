@@ -9,6 +9,7 @@ import java.util.LinkedList;
 
 import edu.colorado.phet.buildamolecule.BuildAMoleculeConstants;
 import edu.colorado.phet.buildamolecule.model.*;
+import edu.colorado.phet.buildamolecule.model.CollectionList.Adapter;
 import edu.colorado.phet.buildamolecule.model.CollectionList.Listener;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -77,7 +78,7 @@ public class BuildAMoleculeCanvas extends PhetPCanvas {
 
         addCollection( firstCollection );
 
-        collectionList.addListener( new Listener() {
+        collectionList.addListener( new Adapter() {
             public void addedCollection( KitCollection collection ) {
                 addCollection( collection );
             }

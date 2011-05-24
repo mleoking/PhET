@@ -155,4 +155,16 @@ public class KitCollection {
             currentKit.set( kits.get( getCurrentKitIndex() - 1 ) );
         }
     }
+
+    public void resetAll() {
+        for ( CollectionBox box : boxes ) {
+            box.clear();
+        }
+        for ( Kit kit : kits ) {
+            kit.resetKit();
+        }
+        while ( hasPreviousKit() ) {
+            goToPreviousKit();
+        }
+    }
 }

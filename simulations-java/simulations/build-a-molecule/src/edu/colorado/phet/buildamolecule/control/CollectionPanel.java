@@ -9,6 +9,7 @@ import java.util.Map;
 import edu.colorado.phet.buildamolecule.BuildAMoleculeConstants;
 import edu.colorado.phet.buildamolecule.BuildAMoleculeStrings;
 import edu.colorado.phet.buildamolecule.model.CollectionList;
+import edu.colorado.phet.buildamolecule.model.CollectionList.Adapter;
 import edu.colorado.phet.buildamolecule.model.CollectionList.Listener;
 import edu.colorado.phet.buildamolecule.model.KitCollection;
 import edu.colorado.phet.buildamolecule.view.MoleculeCollectingCanvas;
@@ -65,10 +66,22 @@ public class CollectionPanel extends PNode {
                                  } );
                              }}, Color.YELLOW, Color.BLACK, 14, 18 ) {
                                  {
-                                     collectionList.currentCollection.addObserver( new SimpleObserver() {
+
+                                     // update when the collection stuff might change. TODO simplify this
+                                     final SimpleObserver updater = new SimpleObserver() {
                                          public void update() {
                                              hasNext.set( collectionList.hasNextCollection() );
                                              hasPrevious.set( collectionList.hasPreviousCollection() );
+                                         }
+                                     };
+                                     collectionList.currentCollection.addObserver( updater );
+                                     collectionList.addListener( new Listener() {
+                                         public void addedCollection( KitCollection collection ) {
+                                             updater.update();
+                                         }
+
+                                         public void removedCollection( KitCollection collection ) {
+                                             updater.update();
                                          }
                                      } );
                                  }
@@ -126,7 +139,7 @@ public class CollectionPanel extends PNode {
         }
 
         // if a new collection is added, create one for it
-        collectionList.addListener( new Listener() {
+        collectionList.addListener( new Adapter() {
             public void addedCollection( KitCollection collection ) {
                 createCollectionNode.apply( collection );
             }
