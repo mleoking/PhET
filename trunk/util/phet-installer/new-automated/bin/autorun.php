@@ -3,7 +3,7 @@
 	require_once("file-util.php");
 	require_once("string-util.php");
 
-	function autorun_create_autorun_file($file_to_open) {
+	function autorun_create_autorun_file($dest_dir, $file_to_open) {
 	    /*
 	     [autorun]
 	     open=InstData\Windows\VM\install.exe
@@ -11,9 +11,9 @@
 	    */
     
 	    // Copy the icon file to the distribution directory:
-	    copy(AUTORUN_ICON_SRC, AUTORUN_ICON_DEST);
+	    copy(AUTORUN_ICON_SRC, $dest_dir.AUTORUN_ICON_NAME);
     
-	    if (($wh = fopen(AUTORUN_FILE_DEST, 'wt')) !== false) {
+	    if (($wh = fopen($dest_dir.AUTORUN_FILE_NAME, 'wt')) !== false) {
 	        fwrite($wh, "[autorun]\r\n");
 	        fwrite($wh, "open=".file_with_separator("$file_to_open",   FILE_SEPARATOR_WINNT)."\r\n");
 	        fwrite($wh, "icon=".file_with_separator(AUTORUN_ICON_NAME, FILE_SEPARATOR_WINNT)."\r\n");
@@ -22,9 +22,9 @@
 	    }
 	}
 	
-	function autorun_cleanup_files() {
-		unlink(AUTORUN_ICON_DEST);
-		unlink(AUTORUN_FILE_DEST);
+	function autorun_cleanup_files($directory) {
+		unlink($directory.AUTORUN_ICON_NAME);
+		unlink($directory.AUTORUN_FILE_NAME);
 	}
 
 ?>

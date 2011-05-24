@@ -23,24 +23,15 @@
     // installer that can be used to host a web site) for all of the supported
     // platforms.
     //--------------------------------------------------------------------------
-    function installer_build_local_mirror_installers($buildfile_name) {
+    function installer_build_local_mirror_installers($buildfile_name, $output_dir) {
 
         flushing_echo("Building all local mirror installers...");
 
         // Create output directory:
-        file_mkdirs(OUTPUT_DIR);
+        file_mkdirs($output_dir);
 
-        // Make the autorun file for Windows CD-ROM (this copies installer stuff):
-        autorun_create_autorun_file(basename(BITROCK_DIST_SRC_WINNT));
-
-        // Build Windows, Linux, Mac installers:
-        installer_build_installers($buildfile_name, "all");
-
-        // Build CD-ROM distribution:
-        installer_build_cd_rom_distribution();
-
-        // Clean up autorun files:
-        autorun_cleanup_files();
+        // Build Windows, Linux, Mac installers
+        installer_build_installers($buildfile_name, $output_dir, "all");
     }
 
     //--------------------------------------------------------------------------
@@ -293,7 +284,7 @@
         return file_remove_extension($distfile).".zip";
     }
 
-    function installer_build_installers($buildfile_name, $dist, $macro_map = array()) {
+    function installer_build_installers($buildfile_name, $output_dir, $dist, $macro_map = array()) {
         global $g_bitrock_dists;
 
         $build_prefix  = installer_get_full_dist_name($dist);
@@ -353,10 +344,10 @@
 
         chdir($cwd);
 
-        flushing_echo("Copying installers to ".OUTPUT_DIR);
+        flushing_echo("Copying installers to ".$output_dir);
 
-        // Now move everything in the BitRock directory to the output directory:
-        file_dircopy(BITROCK_DIST_DIR, OUTPUT_DIR, true);
+        // Now move everything in the BitRock directory to the output directory.
+        file_dircopy(BITROCK_DIST_DIR, $output_dir, true);
 
         return true;
     }
@@ -511,20 +502,32 @@
         return true;
     }
 
-    function installer_build_cd_rom_distribution() {
-        flushing_echo("Creating CD-ROM distribution ".CDROM_FILE_DEST);
+    
+    //--------------------------------------------------------------------------
+    // Build the rommable distribution, which is a file that contains all of the
+    // platform-specific installers plus the appropriate autorun files.
+    //--------------------------------------------------------------------------
+    function installer_build_rommable_distribution($source_dir, $output_file_dest) {
+        flushing_echo("Creating rommable distribution ".$output_file_dest);
 
-        // Now make CD-ROM bundle:
+        // Make the autorun file for Windows
+        autorun_create_autorun_file($output_file_dest, basename(BITROCK_DIST_SRC_WINNT));
+
+        // Now make ROM bundle:
         file_native_zip(
             array(
-                BITROCK_DIST_DEST_WINNT,
-                installer_get_zipped_mac_bundle_name(BITROCK_DIST_DEST_Darwin),
-                BITROCK_DIST_DEST_Linux,
-                AUTORUN_ICON_DEST,
-                AUTORUN_FILE_DEST
+                $source_dir.BITROCK_DISTNAME_WINNT,
+                installer_get_zipped_mac_bundle_name($source_dir.BITROCK_DISTNAME_Mac),
+                $source_dir.BITROCK_DISTNAME_Linux,
+                $source_dir.AUTORUN_ICON_NAME,
+                $source_dir.AUTORUN_FILE_NAME
             ),
-            CDROM_FILE_DEST
+            $output_file_dest
         );
-        flushing_echo("Done");
+
+        // Clean up autorun files
+        autorun_cleanup_files($output_file_dest);
+
+        flushing_echo("Done building rommable distribution.");
     }
 ?>
