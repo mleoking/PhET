@@ -1,3 +1,4 @@
+5/24/11 Continued refactoring ButtonNode into subclasses, see #2902
 5/24/11 Improved support for the action command, see #2902
 5/24/11 Renamed ButtonNode to HTMLImageButtonNode before factoring out a more abstract ButtonNode parent class, see #2902
 5/17/11 Made it so the light bulb rays don't intercept mouse events.  I added this since the light rays were getting in the way of the faucet slider in "sugar and salt solutions"
