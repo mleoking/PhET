@@ -21,7 +21,7 @@ HIGH PRIORITY
 - #2903, E-field default scale and autoscaling
 - add support for wires in getVoltageAt for all AbstractCircuit subclasses
 - plate voltage is wrong for C2 in Combination1Circuit
-- E-Field and Voltage shape creation
+- creation of debug shapes for E-Field and Voltage
 
 MEDIUM PRIORITY
 - move shape creation out of Wire and into WireNode (via WireShapeFactory) to be consistent with pattern used elsewhere
