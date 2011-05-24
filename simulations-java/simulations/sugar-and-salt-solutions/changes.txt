@@ -1,3 +1,4 @@
+Renamed "Conductivity Tester" to "Conductivity"
 # 0.00.26 (52358) May 24, 2011
 Made it so water flowing out the drain faucet can conduct
 Removed effect of volume of dissolved solutes, was causing implementation and user interface difficulties

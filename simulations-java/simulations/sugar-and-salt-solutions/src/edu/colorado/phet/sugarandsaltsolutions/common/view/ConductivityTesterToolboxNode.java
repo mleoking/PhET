@@ -36,7 +36,7 @@ public class ConductivityTesterToolboxNode extends WhiteControlPanelNode {
                 }
             };
             //Add title and a spacer below it
-            addChild( new PText( "Conductivity Tester" ) {{setFont( TITLE_FONT );}} );
+            addChild( new PText( "Conductivity" ) {{setFont( TITLE_FONT );}} );
 
             //Factory that creates the ConductivityTesterToolNode and positions it where the mouse is
             NodeFactory conductivityNodeMaker = new NodeFactory() {
