@@ -59,14 +59,10 @@ public class ConductivityTesterNode extends PhetPNode {
     private static final Color PROBE_STROKE_COLOR = Color.BLACK;
     private static final Stroke PROBE_STROKE = new BasicStroke( 1f );
     private static final Font PROBE_LABEL_FONT = new PhetFont( Font.BOLD, 24 );
-
     private static final String POSITIVE_PROBE_LABEL = PLUS;
     private static final Color DEFAULT_POSITIVE_PROBE_LABEL_COLOR = Color.WHITE;
-    private final Color positiveProbeLabelColor;
-
     private static final String NEGATIVE_PROBE_LABEL = MINUS;
     private static final Color DEFAULT_NEGATIVE_PROBE_LABEL_COLOR = Color.WHITE;
-    private final Color negativeProbeLabelColor;
 
     // wire properties
     private static final double BULB_TO_BATTERY_WIRE_LENGTH = 50;
@@ -78,9 +74,6 @@ public class ConductivityTesterNode extends PhetPNode {
 
     private final ModelViewTransform transform;
     private final IConductivityTester tester;
-    private final Color connectorWireColor;
-    private final Color positiveProbeFillColor, negativeProbeFillColor;
-    private final Color positiveWireColor, negativeWireColor;
 
     protected final LightBulbNode lightBulbNode;//Protected so that subclasses can add listeners if necessary, such as in Sugar and Salt Solutions
     private final LightRaysNode lightRaysNode;
@@ -98,13 +91,6 @@ public class ConductivityTesterNode extends PhetPNode {
                                    Color positiveProbeFillColor, Color negativeProbeFillColor, Color negativeProbeLabelColor, Color positiveProbeLabelColor, boolean dev ) {
         this.transform = transform;
         this.tester = tester;
-        this.positiveWireColor = positiveWireColor;
-        this.negativeWireColor = negativeWireColor;
-        this.connectorWireColor = connectorWireColor;
-        this.positiveProbeFillColor = positiveProbeFillColor;
-        this.negativeProbeFillColor = negativeProbeFillColor;
-        this.negativeProbeLabelColor = negativeProbeLabelColor;
-        this.positiveProbeLabelColor = positiveProbeFillColor;
 
         // light bulb
         lightBulbNode = new LightBulbNode();
@@ -118,13 +104,13 @@ public class ConductivityTesterNode extends PhetPNode {
         batteryNode = new BatteryNode();
 
         // wire that connects the light bulb to the battery
-        StraightWireNode connectorWireNode = new StraightWireNode( this.connectorWireColor );
+        StraightWireNode connectorWireNode = new StraightWireNode( connectorWireColor );
         Point2D lightBulbConnectionPoint = new Point2D.Double( 0, 0 );
         Point2D batteryConnectionPoint = new Point2D.Double( 0, BULB_TO_BATTERY_WIRE_LENGTH );
         connectorWireNode.setEndPoints( lightBulbConnectionPoint, batteryConnectionPoint );
 
         // positive probe
-        positiveProbeNode = new ProbeNode( transform.modelToViewSize( tester.getProbeSizeReference() ), this.positiveProbeFillColor, POSITIVE_PROBE_LABEL, positiveProbeLabelColor );
+        positiveProbeNode = new ProbeNode( transform.modelToViewSize( tester.getProbeSizeReference() ), positiveProbeFillColor, POSITIVE_PROBE_LABEL, positiveProbeLabelColor );
         positiveProbeNode.addInputEventListener( new CursorHandler( Cursor.N_RESIZE_CURSOR ) );
         positiveProbeNode.addInputEventListener(
                 new ProbeDragHandler( transform, positiveProbeNode,
@@ -141,7 +127,7 @@ public class ConductivityTesterNode extends PhetPNode {
                 ) );
 
         // negative probe
-        negativeProbeNode = new ProbeNode( transform.modelToViewSize( tester.getProbeSizeReference() ), this.negativeProbeFillColor, NEGATIVE_PROBE_LABEL, negativeProbeLabelColor );
+        negativeProbeNode = new ProbeNode( transform.modelToViewSize( tester.getProbeSizeReference() ), negativeProbeFillColor, NEGATIVE_PROBE_LABEL, negativeProbeLabelColor );
         negativeProbeNode.addInputEventListener( new CursorHandler( Cursor.N_RESIZE_CURSOR ) );
         negativeProbeNode.addInputEventListener(
                 new ProbeDragHandler( transform, negativeProbeNode,
@@ -158,10 +144,10 @@ public class ConductivityTesterNode extends PhetPNode {
                 ) );
 
         // positive wire
-        positiveWireNode = new CubicWireNode( this.positiveWireColor, POSITIVE_WIRE_CONTROL_POINT_DX, POSITIVE_WIRE_CONTROL_POINT_DY );
+        positiveWireNode = new CubicWireNode( positiveWireColor, POSITIVE_WIRE_CONTROL_POINT_DX, POSITIVE_WIRE_CONTROL_POINT_DY );
 
         // negative wire
-        negativeWireNode = new CubicWireNode( this.negativeWireColor, NEGATIVE_WIRE_CONTROL_POINT_DX, NEGATIVE_WIRE_CONTROL_POINT_DY );
+        negativeWireNode = new CubicWireNode( negativeWireColor, NEGATIVE_WIRE_CONTROL_POINT_DX, NEGATIVE_WIRE_CONTROL_POINT_DY );
 
         // brightness value, for debugging
         valueNode = new ValueNode();
