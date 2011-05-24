@@ -27,22 +27,19 @@ public class ControlPanel extends Canvas {
     private var shakerModel: ShakerModel;
     private var background: VBox;
     private var radioButtonBox: HBox;
+    private var rulerCheckBoxBox: HBox;
     private var innerBckgrnd: VBox;
     private var dampingSlider: HorizontalSlider;
     private var nbrResonatorsSlider: HorizontalSlider;
     private var presets_cbx:ComboBox;
     private var gravityOnOff_rbg: RadioButtonGroup;
-
-    private var gravity_lbl: Label;
-    private var ruler_lbl: Label;
+    private var gravityLabel: NiceLabel;
+    private var rulerLabel: NiceLabel;
     private var resonatorNbr_lbl: Label;
     private var mSlider: HorizontalSlider;  //NumericSlider;
     private var kSlider: HorizontalSlider;  //HSlider;
-   // private var nbrResonators_lbl:Label;
     private var freqLabel: NiceLabel;
-    private var freqLabelIndex:int;
     private var showRulerCheckBox: CheckBox;
-    //private var resetAllButton: Button;
     private var resetAllButton: NiceButton2;
     private var selectedResonatorNbr: int;	//index number of currently selected resonator
 
@@ -128,36 +125,16 @@ public class ControlPanel extends Canvas {
         this.dampingSlider.setLabelText( damping_str );
         this.dampingSlider.setUnitsText( dampingUnits_str );
 
-//        this.formatSlider( this.dampingSlider );
-//        with ( this.dampingSlider ) {
-//            minimum = 0.05;
-//            maximum = 5;
-//            //labels = ["", this.damping_str, ""];
-//        }
-//
-//        this.dampingSlider.addEventListener( Event.CHANGE, setDamping );
-
-//        this.nbrResonatorsSlider = new HSlider();
-//        this.formatSlider( this.nbrResonatorsSlider );
-//        with ( this.nbrResonatorsSlider ) {
-//            minimum = 1;
-//            maximum = 10;
-//            labels = ["", this.numberOfResonators_str, ""];
-//            snapInterval = 1;
-//            tickInterval = 1;
-//        }
-
-        //this.nbrResonatorsSlider.addEventListener( Event.CHANGE, onChangeNbrResonators );
-
         this.presets_cbx = new ComboBox();
         this.presets_cbx.dataProvider = [choose_str , sameSpring_str , sameMass_str , mixedMAndK_str , sameF_str];
         this.presets_cbx.addEventListener( ListEvent.CHANGE, selectPreset );
 
         this.radioButtonBox = new HBox();
+        this.rulerCheckBoxBox = new HBox();
 
-        this.gravity_lbl = new Label();
-        this.gravity_lbl.text = this.gravity_str;
-        this.gravity_lbl.setStyle( "fontSize", 14 );
+        this.gravityLabel = new NiceLabel();
+        this.gravityLabel.setFontSize( 14 );
+        this.gravityLabel.setText(this.gravity_str);
 
         this.gravityOnOff_rbg = new RadioButtonGroup();
         var rb1: RadioButton = new RadioButton();
@@ -208,55 +185,27 @@ public class ControlPanel extends Canvas {
         this.mSlider = new HorizontalSlider( setMass, 120, 0.1, 5.0, true );//NumericSlider(massProperty);
         this.mSlider.setLabelText( mass_str );
         this.mSlider.setUnitsText( massUnits_str );
-        //this.mSlider.percentWidth = 100;
-        //this.formatSlider( this.mSlider );
-//        with ( this.mSlider ) {
-//            minimum = 0.1;
-//            maximum = 5.0;
-//            labels = ["", this.mass_str, ""];
-//            // This doesn't work: setStyle("labelPlacement", "bottom");
-//        }
-        //this.mSlider.addEventListener( Event.CHANGE, onChangeM );
-//        massProperty.addListener( function():void{
-//            setMass();
-//        });
 
         this.kSlider = new HorizontalSlider( setK, 120, 10, 1200, true );//HSlider();
         this.kSlider.setLabelText( springConstant_str );
         this.kSlider.setUnitsText( springConstantUnits_str );
         this.kSlider.setReadoutPrecision( 0 );
-        //this.formatSlider( this.kSlider );
-//        with ( this.kSlider ) {
-//            minimum = 10;
-//            maximum = 1200;
-//            labels = ["", this.springConstant_str, ""];
-//        }
 
         this.kSlider.addEventListener( Event.CHANGE, onChangeK );
 
         this.freqLabel = new NiceLabel();
-        this.freqLabel.setFontSize(13);
-//        with ( this.freq_lbl ) {
-//            text = this.frequencyEquals_str;
-//            setStyle( "fontFamily", "Arial" );
-//            setStyle( "fontSize", 14 );
-//            percentWidth = 90;
-//            setStyle( "textAlign", "center" );
-//        }
+        this.freqLabel.setFontSize(12);
+        this.freqLabel.setText(this.frequencyEquals_str + "     " + " " + hz_str + "    ");    //don't know why the extra space right end needed to force layout
 
         this.showRulerCheckBox = new CheckBox();
-        this.showRulerCheckBox.label = ruler_str;
         this.showRulerCheckBox.addEventListener( Event.CHANGE, clickRuler );
 
-        //NiceButton2( myButtonWidth: Number, myButtonHeight: Number, labelText: String, buttonFunction: Function, bodyColor:Number = 0x00ff00 )
-        this.resetAllButton = new NiceButton2( 100, 28, this.resetAll_str, resetAll );
-        this.resetAllButton.setBodyColor(0xff3333);
+        this.rulerLabel = new NiceLabel();
+        this.rulerLabel.setText(this.ruler_str);
+
+        //NiceButton2( myButtonWidth: Number, myButtonHeight: Number, labelText: String, buttonFunction: Function, bodyColor:Number = 0x00ff00, fontColor:Number = 0x000000 )
+        this.resetAllButton = new NiceButton2( 100, 28, this.resetAll_str, resetAll, 0xff0000, 0xffffff );
         this.resetAllButton.setLabel( this.resetAll_str );
-//        with ( this.resetAllButton ) {
-//            label = this.resetAll_str;
-//            buttonMode = true;
-//        }
-//        this.resetAllButton.addEventListener( MouseEvent.MOUSE_UP, resetAll );
 
         this.addChild( this.background );
 
@@ -267,16 +216,22 @@ public class ControlPanel extends Canvas {
         this.innerBckgrnd.addChild( this.resonatorNbr_lbl );
         this.innerBckgrnd.addChild( new SpriteUIComponent(this.mSlider, true) );
         this.innerBckgrnd.addChild( new SpriteUIComponent(this.kSlider, true) );
-        var freqLabelHolder:SpriteUIComponent =  new SpriteUIComponent(this.freqLabel, true)
-        this.innerBckgrnd.addChild( freqLabelHolder );
-        this.freqLabelIndex = this.innerBckgrnd.getChildIndex(freqLabelHolder);
+        this.innerBckgrnd.addChild( new SpriteUIComponent(this.freqLabel, true) );
         this.background.addChild( innerBckgrnd );
         this.background.addChild( radioButtonBox );
-        this.radioButtonBox.addChild( gravity_lbl );
+
+        this.radioButtonBox.addChild( new SpriteUIComponent(this.gravityLabel,true ));
         this.radioButtonBox.addChild( rb1 );
         this.radioButtonBox.addChild( rb2 );
+        this.gravityLabel.y = 3;   //tweek position of label relative to radio buttons.
+        this.gravityLabel.x = 5;
 
-        this.background.addChild( this.showRulerCheckBox );
+        this.background.addChild( rulerCheckBoxBox );
+        this.rulerCheckBoxBox.addChild( this.showRulerCheckBox );
+        this.rulerCheckBoxBox.addChild( new SpriteUIComponent(this.rulerLabel) );
+        this.rulerLabel.y = -2;  //tweek position of label relative to checkbox
+        this.rulerLabel.x = -4;
+
         this.background.addChild( new SpriteUIComponent(this.resetAllButton, true) );
 
     } //end of init()
@@ -285,7 +240,7 @@ public class ControlPanel extends Canvas {
         numberOfResonators_str = " Number of Resonators ";
         damping_str = "damping constant";
         dampingUnits_str = "N/(m/s)";
-        gravity_str = "Gravity";
+        gravity_str = "Gravity:";
         on_str = "on";
         off_str = "off";
         resonator_str = "Resonator";
@@ -295,7 +250,7 @@ public class ControlPanel extends Canvas {
         springConstantUnits_str = "N/m ";
         frequencyEquals_str = "frequency = ";
         hz_str = "Hz";
-        ruler_str = "Ruler  ";
+        ruler_str = "Ruler";
         resetAll_str = "Reset All";
         choose_str = "Choose..";
         sameMass_str = "same mass";
@@ -317,8 +272,6 @@ public class ControlPanel extends Canvas {
     }
     
 
-
-
     public function setResonatorIndex( rNbr: int ): void {
         this.selectedResonatorNbr = rNbr;
         var rNbr_str: String = rNbr.toFixed( 0 );
@@ -339,34 +292,16 @@ public class ControlPanel extends Canvas {
         var resFreq: Number = this.shakerModel.resonatorModel_arr[rNbr - 1].getF0();
         //var resFreq: Number = this.shakerModel.resonatorModel_arr[rNbr - 1].getFRes();
         var resFreq_str: String = resFreq.toFixed( 3 );
-        this.innerBckgrnd.removeChildAt(this.freqLabelIndex);
+        //this.innerBckgrnd.removeChildAt(this.freqLabelIndex);
         this.freqLabel.setText(this.frequencyEquals_str + resFreq_str + " " + hz_str);
-        this.innerBckgrnd.addChild( new SpriteUIComponent(this.freqLabel, true) );
+        //this.innerBckgrnd.addChild( new SpriteUIComponent(this.freqLabel, true) );
     }
 
-//    public function setDamping( evt: Event ): void {
-//        var b: Number = this.dampingSlider.value;
-//        this.shakerModel.setB( b );
-//    }
-
-//    public function setDampingExternally( b: Number ) {
-//        this.shakerModel.setB( b );
-//        this.dampingSlider.value = b;
-//    }
 
     public function setPresetComboBoxExternally( idx: int):void{
          this.presets_cbx.selectedIndex = idx;
     }
 
-//    private function onChangeNbrResonators( evt: Event ): void {
-//        var nbrR: int = this.nbrResonatorsSlider.value;
-//        if ( nbrR < this.selectedResonatorNbr ) {
-//            this.setResonatorIndex( nbrR );
-//        }
-//        //trace("ControlPanel.setNbrResonators called. nbrR = " + nbrR);
-//        //this.setNbrResonators( nbrR );
-//        this.myMainView.setNbrResonators( nbrR );
-//    }
 
     private function selectPreset(evt: Event ){
          var itemNbr: int = evt.target.selectedIndex;

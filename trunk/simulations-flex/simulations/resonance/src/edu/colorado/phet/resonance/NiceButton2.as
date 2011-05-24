@@ -10,6 +10,7 @@ import flash.text.*;
 public class NiceButton2 extends Sprite {
     private var buttonBody: Sprite;
     private var bodyColor:Number;
+    private var fontColor: Number;
     private var label_txt: TextField;
     private var myButtonWidth: Number;
     private var myButtonHeight: Number;
@@ -17,7 +18,7 @@ public class NiceButton2 extends Sprite {
     private var tFormat: TextFormat;
     private var buttonFunction: Function;
 
-    public function NiceButton2( myButtonWidth: Number, myButtonHeight: Number, labelText: String, buttonFunction: Function, bodyColor:Number = 0x00ff00 ) {
+    public function NiceButton2( myButtonWidth: Number, myButtonHeight: Number, labelText: String, buttonFunction: Function, bodyColor:Number = 0x00ff00 , fontColor:Number = 0x000000) {
         //this.buttonBody = buttonBody;
         this.buttonBody = new Sprite();
         this.label_txt = new TextField();
@@ -30,6 +31,7 @@ public class NiceButton2 extends Sprite {
         this.myButtonHeight = myButtonHeight;
         this.buttonFunction = buttonFunction;
         this.bodyColor = bodyColor;  //default body color is green
+        this.fontColor = fontColor;  //default font color is black
         this.tFormat = new TextFormat();
         this.setTFormat();
 
@@ -59,6 +61,10 @@ public class NiceButton2 extends Sprite {
         this.drawButtonBody();
     }
 
+    public function setFontColor( color:Number ):void{
+        this.fontColor = color;
+    }
+
 //        public function changeLabel(label:String):void{
 //            buttonBody.label_txt.text = label;
 //        }
@@ -71,6 +77,7 @@ public class NiceButton2 extends Sprite {
         this.tFormat.align = TextFormatAlign.CENTER;
         this.tFormat.font = "Arial";
         this.tFormat.size = 15;
+        this.tFormat.color = this.fontColor;
         this.label_txt.setTextFormat( this.tFormat );
         //trace("ControlPanel.setTFormat buttonWidth = "+this.myButtonWidth );
     }
