@@ -35,6 +35,7 @@ public class SaltShaker extends Dispenser {
                 //If the shaker is emptied, prevent spurious grains from coming out the next time it is refilled by setting the shake amount to 0.0
                 if ( !allowed ) {
                     shakeAmount = 0;
+                    positions.clear();
                 }
             }
         } );
@@ -88,6 +89,7 @@ public class SaltShaker extends Dispenser {
                     velocity.set( getCrystalVelocity( outputPoint ) );
                 }} );
                 shakeAmount = 0.0;
+                //don't clear the position array here since the user may still be shaking the shaker
             }
         }
     }
@@ -95,7 +97,8 @@ public class SaltShaker extends Dispenser {
     @Override public void reset() {
         super.reset();
         //Additionally make it so it won't emit salt right after reset
-        shakeAmount = 0.;
+        shakeAmount = 0.0;
+        positions.clear();
     }
 
     private ImmutableVector2D getSecondDerivative( int i ) {
