@@ -95,12 +95,6 @@ public class ShakerView extends Sprite {
         this.addChild( this.ruler );
         this.ruler.x = - barPixPerResonator*maxNbrResonators/2 - this.ruler.ruler.width; //-this.base.width/2;
         this.ruler.y = -this.ruler.height;
-//        this.addChild( this.horizLine1 );
-//        this.addChild( this.horizLine2 );
-//        this.horizLine1.x =  - barPixPerResonator*maxNbrResonators/2;
-//        this.horizLine1.y = -300;
-//        this.horizLine2.x =  - barPixPerResonator*maxNbrResonators/2;
-//        this.horizLine2.y = -100;
 
         this.base.addChild( this.label_txt );
         this.base.addChild( this.onOffButton );
@@ -111,10 +105,6 @@ public class ShakerView extends Sprite {
         this.createResonatorArray();
         this.displayResonatorViews();
         this.initializeShakerControls();
-        //this.startResonators();
-        //this.spring.x = 0;//stageW/2;
-        //this.spring.y = 0;//stageH/2;
-        //trace("MassSpringView.initialize() called. stageW = "+this.stageW);
     }//end of initialize()
 
     private function initializeStrings(): void {

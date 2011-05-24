@@ -162,7 +162,8 @@ public class RotaryKnob extends Sprite {
         this.readout_txt.backgroundColor = 0xffffff;
         //this.readout_txt.autoSize = TextFieldAutoSize.CENTER;
         this.readout_txt.restrict = "0-9.";
-        this.readout_txt.addEventListener( Event.CHANGE, onTextChange );
+        //this.readout_txt.addEventListener( Event.CHANGE, onTextChange );
+        this.readout_txt.addEventListener( KeyboardEvent.KEY_DOWN, onHitEnter );
 
         this.units_txt = new TextField();   //units displayed next to readout field
         this.addChild( this.units_txt );
@@ -190,12 +191,23 @@ public class RotaryKnob extends Sprite {
 
     }//end createReadoutfield()
 
-    private function onTextChange( evt: Event ): void {
-        //trace("HorizontalSlider.onTextChange called. text = "+this.evtTextToNumber(evt));
+    private function onHitEnter( keyEvt: KeyboardEvent ):void{
         this.manualUpdating = true;
-        this.setVal( this.evtTextToNumber( evt )/this.scale );
+        if(keyEvt.keyCode == 13){       //13 is keyCode for Enter key
+           var inputText:String  = this.readout_txt.text;
+           var inputNumber:Number = Number(inputText);
+           this.setVal( inputNumber / this.scale );
+        }
         this.manualUpdating = false;
     }
+
+    //obsolete code
+//    private function onTextChange( evt: Event ): void {
+//        //trace("HorizontalSlider.onTextChange called. text = "+this.evtTextToNumber(evt));
+//        this.manualUpdating = true;
+//        this.setVal( this.evtTextToNumber( evt )/this.scale );
+//        this.manualUpdating = false;
+//    }
 
     private function evtTextToNumber( evt: Event ): Number {
         var inputText = evt.target.text;
