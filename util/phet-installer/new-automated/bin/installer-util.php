@@ -528,6 +528,6 @@
         // Clean up autorun files
         autorun_cleanup_files($output_file_dest);
 
-        flushing_echo("Done building rommable distribution.");
+        flushing_echo("\nDone building rommable distribution.");
     }
 ?>
