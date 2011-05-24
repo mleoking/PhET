@@ -46,9 +46,14 @@ public class ButtonNode extends PhetPNode {
     private Paint mouseOverGradient;
     private Paint armedGradient;
     protected PNode content;
-    private String actionCommand = "TODO";//TODO
 
-    public ButtonNode() {
+    //The action command String that is sent out to ActionListeners when the button is pressed, typically this is the text of a button (if it has a text label)
+    private final String actionCommand;
+
+    public ButtonNode( String actionCommand ) {
+        //Use the specified string as the action command, or the empty string if the action command was null
+        this.actionCommand = actionCommand == null ? "" : actionCommand;
+
         disabledImage = null;
         disabledShadowColor = new Color( 0, 0, 0, 0 ); // invisible
         disabledStrokeColor = new Color( 190, 190, 190 );
