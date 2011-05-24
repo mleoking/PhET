@@ -20,6 +20,11 @@ public class MainView extends Canvas {
     var stageH: Number;
     var stageW: Number;
 
+    //Internalized strings are located at:
+    //ShakerView.initializeStrings();
+    //PlayPauseButtons.initializeStrings();
+    //ControlPanel.initializeStrings();
+
     public function MainView( myShakerModel: ShakerModel, stageW: Number, stageH: Number ) {
         percentWidth = 100;
         percentHeight = 100;
@@ -35,10 +40,6 @@ public class MainView extends Canvas {
 
         this.myPlayPauseButtons.x = this.myShakerView.x;
         this.myPlayPauseButtons.y = 0.9 * stageH; //this.myShakerView.y + this.myPlayPauseButtons.height;
-
-        //this.ruler = new VerticalRuler( this, this.myShakerView );
-        //this.ruler.x = 100;
-        //this.ruler.y = 100;
 
         this.myControlPanel = new ControlPanel( this, myShakerModel );
 
