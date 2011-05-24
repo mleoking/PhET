@@ -19,7 +19,7 @@ public class SeparateRemoveSaltSugarButtons extends PNode {
     public SeparateRemoveSaltSugarButtons( final IntroModel model ) {
 
         //Button to remove salt, only shown if there is any salt
-        TextButtonNode saltButton = new TextButtonNode( "Remove salt" ) {{
+        TextButtonNode saltButton = new TextButtonNode( "Remove salt", SugarAndSaltSolutionsCanvas.CONTROL_FONT ) {{
             setBackground( SugarAndSaltSolutionsCanvas.BUTTON_COLOR );
             model.salt.moles.greaterThan( 0 ).addObserver( new VoidFunction1<Boolean>() {
                 public void apply( Boolean visible ) {
@@ -35,7 +35,7 @@ public class SeparateRemoveSaltSugarButtons extends PNode {
         addChild( saltButton );
 
         //Button to remove sugar, only shown if there is any sugar
-        TextButtonNode sugarButton = new TextButtonNode( "Remove sugar" ) {{
+        TextButtonNode sugarButton = new TextButtonNode( "Remove sugar", SugarAndSaltSolutionsCanvas.CONTROL_FONT ) {{
             setBackground( SugarAndSaltSolutionsCanvas.BUTTON_COLOR );
             model.sugar.moles.greaterThan( 0 ).addObserver( new VoidFunction1<Boolean>() {
                 public void apply( Boolean visible ) {
@@ -51,6 +51,6 @@ public class SeparateRemoveSaltSugarButtons extends PNode {
         addChild( sugarButton );
 
         //Put the buttons next to each other, leaving the origin at (0,0) so it can be positioned easily by the client
-        saltButton.setOffset( sugarButton.getFullBounds().getMaxX() + SugarAndSaltSolutionsCanvas.INSET, 0 );
+        sugarButton.setOffset( saltButton.getFullBounds().getMaxX() + SugarAndSaltSolutionsCanvas.INSET, 0 );
     }
 }
