@@ -18,3 +18,7 @@ class SolutionState{
 }
 
 But right now we will avoid the hassle.
+
+Trish said:
+In terms of the inclusion of the solute effects on concentration, since you are making notes, you might want to keep track of the idea that if we use moles of solute/liter of solvent instead of moles of solute/liter of solution, the concentrations would be independent of one another. The readout on the volume in the beaker would be liters of water. The concentration name could be changed to molality or moles/liter of solvent. This is much more wordy, but note worthy in case we get complaints later.  I am not recommending this change, just suggesting that we keep track of what we decided.
+-Trish Loeblein
