@@ -18,7 +18,6 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
-import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.common.piccolophet.nodes.toolbox.ToolboxCanvas;
@@ -55,7 +54,7 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements ToolboxC
     public static Font TITLE_FONT = new PhetFont( 16, true );
     private final PNode crystalLayer = new PNode();//Layer that holds the sugar and salt crystals
 
-    protected final ControlPanelNode soluteControlPanelNode;
+    protected final WhiteControlPanelNode soluteControlPanelNode;
 
     protected final PDimension stageSize;
     protected final ModelViewTransform transform;
@@ -105,7 +104,7 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements ToolboxC
         setWorldTransformStrategy( new CenteredStage( this, stageSize ) );
 
         //Create the control panel for choosing sugar vs salt
-        soluteControlPanelNode = new ControlPanelNode( new VBox() {{
+        soluteControlPanelNode = new WhiteControlPanelNode( new VBox() {{
             addChild( new PText( "Solute" ) {{setFont( TITLE_FONT );}} );
             addChild( new PhetPPath( new Rectangle( 0, 0, 0, 0 ), new Color( 0, 0, 0, 0 ) ) );//spacer
             addChild( new PSwing( new VerticalLayoutPanel() {{

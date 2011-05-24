@@ -8,7 +8,6 @@ import java.awt.geom.Rectangle2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
-import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.ToolNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.common.piccolophet.nodes.toolbox.NodeFactory;
@@ -25,7 +24,7 @@ import static edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSo
  *
  * @author Sam Reid
  */
-public class ConductivityTesterToolboxNode extends ControlPanelNode {
+public class ConductivityTesterToolboxNode extends WhiteControlPanelNode {
     public ConductivityTesterToolboxNode( final SugarAndSaltSolutionModel model, final SugarAndSaltSolutionsCanvas canvas ) {
         super( new VBox() {{
 
