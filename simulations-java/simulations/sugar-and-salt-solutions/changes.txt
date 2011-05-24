@@ -1,3 +1,4 @@
+Added a new flavor so separate/combined "remove solute" buttons can be tested
 # 0.00.25 (52329) May 23, 2011
 Changed background to blue like geometric optics which reportedly worked well on Trish's projector
 Increased font sizes and bolded the fonts to improve readability
