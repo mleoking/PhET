@@ -2,7 +2,6 @@ If they complete one collection the 2nd time (after reset), do we instead take t
 Resize bug on AllFilledDialogNode
 Make collection area not look so bad on switching
 I18n and other TODOs
-Reset all in a menu drop-down?
 What about if you re-drag a molecule part just after combining?
 Jmol loading speed is slow - speed up
 Experiment with true 2d structure and loops!

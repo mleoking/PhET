@@ -186,4 +186,8 @@ public abstract class AbstractBuildAMoleculeModule extends PiccoloModule {
             }
         }
     }
+
+    @Override public void reset() {
+        collectionList.reset();
+    }
 }
