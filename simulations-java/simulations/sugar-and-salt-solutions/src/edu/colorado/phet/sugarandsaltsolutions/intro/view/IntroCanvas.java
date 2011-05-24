@@ -58,7 +58,7 @@ public class IntroCanvas extends SugarAndSaltSolutionsCanvas {
         //Add a button that allows the user to remove all solutes
         final PNode removeSolutesButton = newRemoveSolutesControl.apply( model );
         //Button should be inside the beaker
-        removeSolutesButton.setOffset( transform.modelToViewX( model.beaker.getMaxX() ) - removeSolutesButton.getFullBounds().getWidth() - INSET,
+        removeSolutesButton.setOffset( transform.modelToViewX( model.beaker.getX() ) + INSET,
                                        transform.modelToViewY( model.beaker.getY() ) - removeSolutesButton.getFullBounds().getHeight() - INSET );
         addChild( removeSolutesButton );
 

@@ -1,3 +1,5 @@
+Moved remove solute buttons to the left side of the beaker
+Increased the font for the remove solute buttons
 Right aligned all control boxes
 Fixed: Reset all button goes offscreen
 Fixed: Salt shaker still emits spurious crystals sometimes when it refills
