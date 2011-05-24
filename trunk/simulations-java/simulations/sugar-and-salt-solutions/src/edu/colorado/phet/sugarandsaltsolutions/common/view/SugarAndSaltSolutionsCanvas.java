@@ -121,8 +121,10 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements ToolboxC
 
         //Add the reset all button
         addChild( new HTMLImageButtonNode( "Reset All", BUTTON_COLOR ) {{
-            setOffset( stageSize.width - getFullBounds().getWidth() - INSET, stageSize.height - getFullBounds().getHeight() - INSET );
             setFont( CONTROL_FONT );
+
+            //Have to set the offset after changing the font since it changes the size of the node
+            setOffset( stageSize.width - getFullBounds().getWidth() - INSET, stageSize.height - getFullBounds().getHeight() - INSET );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     model.reset();
