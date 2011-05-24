@@ -1,3 +1,4 @@
+Removed effect of volume of dissolved solutes, was causing implementation and user interface difficulties
 Made the reset buttons the same orange color as in build an atom
 Changed probe + and - labels from white to black
 Made the volume labels bigger and bolder

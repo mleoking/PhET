@@ -124,7 +124,8 @@ public class SugarAndSaltSolutionModel implements ResetModel {
     public final Solution solution = new Solution( waterVolume, beaker, solutionY, salt.molesDissolved.times( litersPerMoleDissolvedSalt ), sugar.molesDissolved.times( litersPerMoleDissolvedSugar ) );
 
     //The concentration in the liquid in moles / m^3
-    //These have to be defined here instead of in SoluteModel because they depend on the total volume of the solution (which in turn depends on the amount of solute dissolved in the solvent).
+    //When we were accounting for volume effects of dissolved solutes, the concentrations had to be defined here instead of in SoluteModel because they depend on the total volume of the solution (which in turn depends on the amount of solute dissolved in the solvent).
+    //But now the solution.volume = waterVolume so we could move these declarations to sugar and salt SoluteModels
     public final CompositeDoubleProperty saltConcentration = salt.molesDissolved.dividedBy( solution.volume );
     public final CompositeDoubleProperty sugarConcentration = sugar.molesDissolved.dividedBy( solution.volume );
 
