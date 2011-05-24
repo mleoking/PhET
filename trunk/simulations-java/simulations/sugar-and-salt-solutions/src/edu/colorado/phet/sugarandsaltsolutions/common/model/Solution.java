@@ -7,7 +7,6 @@ import java.awt.geom.Rectangle2D;
 import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
-import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.Plus;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 
 /**
@@ -17,7 +16,7 @@ import edu.colorado.phet.common.phetcommon.util.function.Function0;
  */
 public class Solution {
     //Volume of the solution (water plus dissolved solutes)
-    public final Plus volume;
+    public final DoubleProperty volume;
 
     //Get the shape this water takes in its containing beaker
     public final ObservableProperty<Shape> shape;
@@ -29,7 +28,11 @@ public class Solution {
                      ObservableProperty<Double> dissolvedSaltVolume,
                      ObservableProperty<Double> dissolvedSugarVolume ) {
 
-        this.volume = waterVolume.plus( dissolvedSaltVolume, dissolvedSugarVolume );
+        //This line would add to the volume based on how many solutes are dissolved
+//        this.volume = waterVolume.plus( dissolvedSaltVolume, dissolvedSugarVolume );
+
+        //To simplify the model and make it less confusing for students (since adding salt could change sugar concentration), we have switched back to using just the water volume for concentration computations
+        this.volume = waterVolume;
         shape = new CompositeProperty<Shape>( new Function0<Shape>() {
             public Shape apply() {
                 //Assumes the beaker is rectangular
