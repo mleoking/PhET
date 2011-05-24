@@ -53,7 +53,7 @@ public class AllFilledDialogNode extends PNode {
                           addActionListener( new ActionListener() {
                               public void actionPerformed( ActionEvent e ) {
                                   regenerateCallback.apply();
-                                  setVisible( false );
+                                  AllFilledDialogNode.this.setVisible( false );
                               }
                           } );
                       }},
