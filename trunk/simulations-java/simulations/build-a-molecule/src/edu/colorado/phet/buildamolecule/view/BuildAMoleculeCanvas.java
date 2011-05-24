@@ -10,7 +10,6 @@ import java.util.LinkedList;
 import edu.colorado.phet.buildamolecule.BuildAMoleculeConstants;
 import edu.colorado.phet.buildamolecule.model.*;
 import edu.colorado.phet.buildamolecule.model.CollectionList.Adapter;
-import edu.colorado.phet.buildamolecule.model.CollectionList.Listener;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
