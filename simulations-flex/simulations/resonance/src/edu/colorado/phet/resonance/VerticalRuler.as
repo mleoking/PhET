@@ -48,10 +48,10 @@ public class VerticalRuler extends Sprite{
     }
 
     public function initializePositions():void{
-        this.horizLine1.x = this.ruler.width;
+        this.horizLine1.x = 0.7*this.ruler.width;
         this.horizLine1.y = 0.15*this.pixPerMeter;
-        this.horizLine2.x = this.ruler.width;
-        this.horizLine2.y = 0.40*this.pixPerMeter;
+        this.horizLine2.x = 0.7*this.ruler.width;
+        this.horizLine2.y = 0.29*this.pixPerMeter;
         //HorizontalReferenceLine is a sprite, which contains a sprite called backGround; following lines reposition backGround sprite within 
         this.horizLine1.initializePosition();
         this.horizLine2.initializePosition();
