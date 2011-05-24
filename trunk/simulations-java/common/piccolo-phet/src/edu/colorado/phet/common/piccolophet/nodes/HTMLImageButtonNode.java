@@ -6,25 +6,16 @@ import java.awt.*;
 import java.awt.color.ColorSpace;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorConvertOp;
-import java.util.ArrayList;
 
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
-import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.PhetPNode;
-import edu.colorado.phet.common.piccolophet.event.ButtonEventHandler;
-import edu.colorado.phet.common.piccolophet.event.ButtonEventHandler.ButtonEventListener;
-import edu.colorado.phet.common.piccolophet.event.CursorHandler;
-import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
-import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
@@ -39,36 +30,19 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @author John Blanco (previous text-only version of ButtonNode)
  */
-public class HTMLImageButtonNode extends PhetPNode {
+public class HTMLImageButtonNode extends ButtonNode {
 
     // position of text relative to image
     public static enum TextPosition {
         ABOVE, BELOW, LEFT, RIGHT
     }
 
-    private static final double COLOR_SCALING_FACTOR = 0.5; // scaling factor for creating brighter colors
-    private static final int DEFAULT_FONT_STYLE = Font.PLAIN; // #2846, using plain as the default style, add bold/italic emphasis explicitly
-
-    private final PNode parentNode; // intermediate parent for all nodes created herein
-    private final ArrayList<ActionListener> actionListeners;
-
     // settable properties
     private String text;
-    private BufferedImage image, disabledImage;
+    protected BufferedImage image;
     private Font font;
-    private Color foreground, background, shadowColor, strokeColor;
-    private Color disabledForeground, disabledBackground, disabledShadowColor, disabledStrokeColor;
     private TextPosition textPosition;
-    private boolean enabled;
-    private Insets margin;
     private int imageTextGap; // space between image and text
-    private int cornerRadius; // radius on the corners of the button and shadow
-    private int shadowOffset; // horizontal and vertical offset of the shadow
-    private String toolTipText;
-
-    private PPath backgroundNode;
-    private boolean focus, armed; // semantics defined in ButtonEventListener javadoc
-    private Paint mouseNotOverGradient, mouseOverGradient, armedGradient;
 
     //------------------------------------------------------------------------
     // Constructors
@@ -87,34 +61,18 @@ public class HTMLImageButtonNode extends PhetPNode {
     }
 
     public HTMLImageButtonNode( String text, BufferedImage image ) {
+        super();
 
         this.text = text;
         this.image = image;
 
         // default settings
-        disabledImage = null;
         font = new PhetFont( DEFAULT_FONT_STYLE, 14 );
-        foreground = Color.BLACK;
-        background = Color.GRAY;
-        shadowColor = new Color( 0f, 0f, 0f, 0.2f ); // translucent black
-        strokeColor = Color.BLACK;
-        disabledForeground = new Color( 180, 180, 180 ); // medium gray
-        disabledBackground = new Color( 210, 210, 210 ); // light gray
-        disabledShadowColor = new Color( 0, 0, 0, 0 ); // invisible
-        disabledStrokeColor = new Color( 190, 190, 190 );
         textPosition = TextPosition.RIGHT;
-        enabled = true;
-        margin = new Insets( 3, 10, 3, 10 );
         imageTextGap = 5;
-        cornerRadius = 8;
-        shadowOffset = 3;
-        toolTipText = null;
 
         // parent of all nodes created herein
-        parentNode = new PNode();
         addChild( parentNode );
-
-        actionListeners = new ArrayList<ActionListener>();
 
         update();
     }
@@ -154,172 +112,9 @@ public class HTMLImageButtonNode extends PhetPNode {
     // Scenegraph creation
     //------------------------------------------------------------------------
 
-    /*
-     * Completely rebuilds the button when any property changes.
-     * This is not as bad as it sounds, since there are only 4 nodes involved.
-     * Yes, we could figure out which nodes are dependent on which properties,
-     * and write code that update only the affected nodes. But such code would
-     * be more complicated and more difficult to debug, maintain and test.
-     */
-    private void update() {
-
-        // All parts of the button are parented to this node, so that we don't blow away additional children that clients might add.
-        parentNode.removeAllChildren();
-
-        // text and image, with an intermediate parent
-        PNode textNode = createTextNode( text, font, foreground, disabledForeground, enabled );
-        PNode imageNode = createImageNode( image, disabledImage, enabled );
-        PNode textImageParent = new PComposite();
-        textImageParent.addChild( textNode );
-        textImageParent.addChild( imageNode );
-
-        // layout text and image
-        double textX, imageX = 0;
-        double textY, imageY = 0;
-        PBounds tb = textNode.getFullBoundsReference();
-        PBounds ib = imageNode.getFullBoundsReference();
-        if ( textPosition == TextPosition.ABOVE ) {
-            textX = 0;
-            imageX = tb.getCenterX() - ( ib.getWidth() / 2 );
-            textY = 0;
-            imageY = tb.getMaxY() + imageTextGap;
-        }
-        else if ( textPosition == TextPosition.BELOW ) {
-            imageX = 0;
-            textX = ib.getCenterX() - ( tb.getWidth() / 2 );
-            imageY = 0;
-            textY = ib.getMaxY() + imageTextGap;
-        }
-        else if ( textPosition == TextPosition.LEFT ) {
-            textX = 0;
-            imageX = tb.getMaxX() + imageTextGap;
-            textY = 0;
-            imageY = tb.getCenterY() - ( ib.getHeight() / 2 );
-        }
-        else if ( textPosition == TextPosition.RIGHT ) {
-            imageX = 0;
-            textX = ib.getMaxX() + imageTextGap;
-            imageY = 0;
-            textY = ib.getCenterY() - ( tb.getHeight() / 2 );
-        }
-        else {
-            throw new UnsupportedOperationException( "unsupported text position: " + textPosition );
-        }
-        textNode.setOffset( textX, textY );
-        imageNode.setOffset( imageX, imageY );
-
-        // button shape
-        double backgroundWidth = textImageParent.getFullBoundsReference().getWidth() + margin.left + margin.right;
-        double backgroundHeight = textImageParent.getFullBoundsReference().getHeight() + margin.top + margin.bottom;
-        RoundRectangle2D buttonShape = new RoundRectangle2D.Double( 0, 0, backgroundWidth, backgroundHeight, cornerRadius, cornerRadius );
-
-        // gradients, used in button handler to indicate state changes
-        mouseNotOverGradient = createMouseNotOverGradient( backgroundWidth, backgroundHeight );
-        mouseOverGradient = createMouseOverGradient( backgroundWidth, backgroundHeight );
-        armedGradient = createArmedGradient( backgroundWidth, backgroundHeight );
-
-        // background
-        backgroundNode = new PPath( buttonShape );
-        backgroundNode.addInputEventListener( new CursorHandler() );
-        if ( enabled ) {
-            backgroundNode.setPaint( mouseNotOverGradient );
-            backgroundNode.setStrokePaint( strokeColor );
-        }
-        else {
-            backgroundNode.setPaint( createDisabledGradient( backgroundWidth, backgroundHeight ) );
-            backgroundNode.setStrokePaint( disabledStrokeColor );
-        }
-
-        // shadow
-        PPath shadowNode = new PPath( buttonShape );
-        shadowNode.setPickable( false );
-        shadowNode.setOffset( shadowOffset, shadowOffset );
-        shadowNode.setStroke( null );
-        shadowNode.setPaint( enabled ? shadowColor : disabledShadowColor );
-
-        // text and image are children of background, to simplify interactivity
-        backgroundNode.addChild( textImageParent );
-        double x = margin.left - PNodeLayoutUtils.getOriginXOffset( textImageParent );
-        double y = margin.top - PNodeLayoutUtils.getOriginYOffset( textImageParent );
-        textImageParent.setOffset( x, y );
-
-        // shadow behind background
-        parentNode.addChild( shadowNode );
-        parentNode.addChild( backgroundNode );
-
-        // Register a handler to watch for button state changes.
-        ButtonEventHandler handler = new ButtonEventHandler();
-        backgroundNode.addInputEventListener( handler );
-        handler.addButtonEventListener( new ButtonEventListener() {
-
-            public void setFocus( boolean focus ) {
-                HTMLImageButtonNode.this.setFocus( focus );
-            }
-
-            public void setArmed( boolean armed ) {
-                HTMLImageButtonNode.this.setArmed( armed );
-            }
-
-            public void fire() {
-                notifyActionPerformed();
-            }
-        } );
-
-        // tool tip
-        if ( toolTipText != null ) {
-            parentNode.addChild( new ToolTipNode( toolTipText, this ) );
-        }
-
-        // ignore events when disabled
-        setPickable( enabled );
-        setChildrenPickable( enabled );
-    }
-
     //----------------------------------------------------------------------------------------
     // Button state control - exposed for subclasses who want to implemented "auto press".
     //----------------------------------------------------------------------------------------
-
-    /**
-     * Determines whether the button looks like it has focus (ie, is highlighted).
-     *
-     * @param focus
-     */
-    protected void setFocus( boolean focus ) {
-        if ( focus != this.focus ) {
-            this.focus = focus;
-            updateAppearance();
-        }
-    }
-
-    /**
-     * Determines whether the button looks like it is armed (ie, is pressed).
-     *
-     * @param armed
-     */
-    protected void setArmed( boolean armed ) {
-        if ( armed != this.armed ) {
-            this.armed = armed;
-            updateAppearance();
-        }
-    }
-
-    // Updates appearance (gradient and offset) based on armed and focus state if enabled
-    private void updateAppearance() {
-        /*
-            Only update with this type of "pressed"/"unpressed" appearance if we are enabled.
-            This will prevent the button with an "enabled/unpressed" background if it is set to disabled before it is unarmed.
-         */
-        if ( enabled ) {
-            if ( armed ) {
-                backgroundNode.setPaint( armedGradient );
-                backgroundNode.setOffset( shadowOffset, shadowOffset );
-            }
-            else {
-                backgroundNode.setPaint( focus ? mouseOverGradient : mouseNotOverGradient );
-                backgroundNode.setOffset( 0, 0 );
-            }
-        }
-    }
 
     //------------------------------------------------------------------------
     // Setters and getters
@@ -377,105 +172,6 @@ public class HTMLImageButtonNode extends PhetPNode {
         return font;
     }
 
-    public void setBackground( Color background ) {
-        if ( !background.equals( this.background ) ) {
-            this.background = background;
-            update();
-        }
-    }
-
-    public Color getBackground() {
-        return background;
-    }
-
-    public void setForeground( Color foreground ) {
-        if ( !foreground.equals( this.foreground ) ) {
-            this.foreground = foreground;
-            update();
-        }
-    }
-
-    public Color getForeground() {
-        return foreground;
-    }
-
-    public void setShadowColor( Color shadowColor ) {
-        if ( !shadowColor.equals( this.shadowColor ) ) {
-            this.shadowColor = shadowColor;
-            update();
-        }
-    }
-
-    public Color getShadowColor() {
-        return shadowColor;
-    }
-
-    public void setStrokeColor( Color strokeColor ) {
-        if ( !strokeColor.equals( this.strokeColor ) ) {
-            this.strokeColor = strokeColor;
-            update();
-        }
-    }
-
-    public Color getStrokeColor() {
-        return strokeColor;
-    }
-
-    public void setDisabledBackground( Color disabledBackground ) {
-        if ( !disabledBackground.equals( this.disabledBackground ) ) {
-            this.disabledBackground = disabledBackground;
-            update();
-        }
-    }
-
-    public Color getDisabledBackground() {
-        return disabledBackground;
-    }
-
-    public void setDisabledForeground( Color disabledForeground ) {
-        if ( !disabledForeground.equals( this.disabledForeground ) ) {
-            this.disabledForeground = disabledForeground;
-            update();
-        }
-    }
-
-    public Color getDisabledForeground() {
-        return disabledForeground;
-    }
-
-    public void setDisabledShadowColor( Color disabledShadowColor ) {
-        if ( !disabledShadowColor.equals( this.disabledShadowColor ) ) {
-            this.disabledShadowColor = disabledShadowColor;
-            update();
-        }
-    }
-
-    public Color getDisabledShadowColor() {
-        return disabledShadowColor;
-    }
-
-
-    public void setDisabledStrokeColor( Color disabledStrokeColor ) {
-        if ( !disabledStrokeColor.equals( this.disabledStrokeColor ) ) {
-            this.disabledStrokeColor = disabledStrokeColor;
-            update();
-        }
-    }
-
-    public Color getDisabledStrokeColor() {
-        return disabledStrokeColor;
-    }
-
-    public void setEnabled( boolean enabled ) {
-        if ( enabled != this.enabled ) {
-            this.enabled = enabled;
-            update();
-        }
-    }
-
-    public boolean isEnabled() {
-        return enabled;
-    }
 
     public void setTextPosition( TextPosition textPosition ) {
         if ( textPosition != this.textPosition ) {
@@ -486,22 +182,6 @@ public class HTMLImageButtonNode extends PhetPNode {
 
     public TextPosition getTextPosition() {
         return textPosition;
-    }
-
-    public void setMargin( Insets margin ) {
-        if ( !margin.equals( this.margin ) ) {
-            this.margin = new Insets( margin.top, margin.left, margin.bottom, margin.right );
-            update();
-        }
-    }
-
-    // Convenience method
-    public void setMargin( int top, int left, int bottom, int right ) {
-        setMargin( new Insets( top, left, bottom, right ) );
-    }
-
-    public Insets getMargin() {
-        return new Insets( margin.top, margin.left, margin.bottom, margin.right );
     }
 
     public void setImageTextGap( int imageTextGap ) {
@@ -515,63 +195,9 @@ public class HTMLImageButtonNode extends PhetPNode {
         return imageTextGap;
     }
 
-    /**
-     * Provides very basic, default tool tip behavior.
-     * If you want more control over tool tips, use ToolTipNode directly.
-     *
-     * @param toolTipText
-     */
-    public void setToolTipText( String toolTipText ) {
-        if ( toolTipText == null || !toolTipText.equals( this.toolTipText ) ) {
-            this.toolTipText = toolTipText;
-            update();
-        }
-    }
-
-    public String getToolTipText() {
-        return toolTipText;
-    }
-
-    public void setCornerRadius( int cornerRadius ) {
-        if ( cornerRadius != this.cornerRadius ) {
-            this.cornerRadius = cornerRadius;
-            update();
-        }
-    }
-
-    public int getCornerRadius() {
-        return cornerRadius;
-    }
-
-    public void setShadowOffset( int shadowOffset ) {
-        if ( shadowOffset != this.shadowOffset ) {
-            this.shadowOffset = shadowOffset;
-            update();
-        }
-    }
-
-    public int getShadowOffset() {
-        return shadowOffset;
-    }
-
     //------------------------------------------------------------------------
     // Listeners
     //------------------------------------------------------------------------
-
-    public void addActionListener( ActionListener listener ) {
-        actionListeners.add( listener );
-    }
-
-    public void removeActionListener( ActionListener listener ) {
-        actionListeners.remove( listener );
-    }
-
-    private void notifyActionPerformed() {
-        ActionEvent event = new ActionEvent( this, ActionEvent.ACTION_PERFORMED, text ); // use Swing convention from AbstractButton.fireActionPerformed
-        for ( ActionListener actionListener : new ArrayList<ActionListener>( actionListeners ) ) {
-            actionListener.actionPerformed( event );
-        }
-    }
 
     //------------------------------------------------------------------------
     // Node creation utilities
@@ -622,61 +248,52 @@ public class HTMLImageButtonNode extends PhetPNode {
         return op.filter( colorImage, null );
     }
 
-    //------------------------------------------------------------------------
-    // Gradient creation utilities
-    //------------------------------------------------------------------------
+    @Override protected void update() {
+        // text and image, with an intermediate parent
+        PNode textNode = createTextNode( text, font, foreground, disabledForeground, enabled );
+        PNode imageNode = createImageNode( image, disabledImage, enabled );
+        content = new PComposite();
+        content.addChild( textNode );
+        content.addChild( imageNode );
 
-    // When the mouse is not over the node, its specified background color is used.
-    protected Paint createMouseNotOverGradient( double width, double height ) {
-        return createGradient( createBrighterColor( background ), background, width, height );
-    }
-
-    // When the mouse is over the node but not pressed, the button gets brighter.
-    protected Paint createMouseOverGradient( double width, double height ) {
-        return createGradient( createBrighterColor( createBrighterColor( background ) ), createBrighterColor( background ), width, height );
-    }
-
-    // When the button is armed (pressed), the color is similar to mouse-not-over, but the button is brighter at the bottom.
-    protected Paint createArmedGradient( double width, double height ) {
-        return createGradient( background, createBrighterColor( background ), width, height );
-    }
-
-    // When the button is disabled, we use a different color to indicate disabled.
-    private Paint createDisabledGradient( double width, double height ) {
-        return createGradient( createBrighterColor( disabledBackground ), disabledBackground, width, height );
-    }
-
-    /*
-    * Creates a gradient that vertically goes from topColor to bottomColor.
-    * @param topColor
-    * @param bottomColor
-    * @return Paint
-    */
-    private Paint createGradient( Color topColor, Color bottomColor, double width, double height ) {
-        if ( useGradient() ) {
-            return new GradientPaint( (float) width / 2f, 0f, topColor, (float) width * 0.5f, (float) height, bottomColor );
+        // layout text and image
+        double textX, imageX = 0;
+        double textY, imageY = 0;
+        PBounds tb = textNode.getFullBoundsReference();
+        PBounds ib = imageNode.getFullBoundsReference();
+        if ( textPosition == TextPosition.ABOVE ) {
+            textX = 0;
+            imageX = tb.getCenterX() - ( ib.getWidth() / 2 );
+            textY = 0;
+            imageY = tb.getMaxY() + imageTextGap;
+        }
+        else if ( textPosition == TextPosition.BELOW ) {
+            imageX = 0;
+            textX = ib.getCenterX() - ( tb.getWidth() / 2 );
+            imageY = 0;
+            textY = ib.getMaxY() + imageTextGap;
+        }
+        else if ( textPosition == TextPosition.LEFT ) {
+            textX = 0;
+            imageX = tb.getMaxX() + imageTextGap;
+            textY = 0;
+            imageY = tb.getCenterY() - ( ib.getHeight() / 2 );
+        }
+        else if ( textPosition == TextPosition.RIGHT ) {
+            imageX = 0;
+            textX = ib.getMaxX() + imageTextGap;
+            imageY = 0;
+            textY = ib.getCenterY() - ( tb.getHeight() / 2 );
         }
         else {
-            return bottomColor;
+            throw new UnsupportedOperationException( "unsupported text position: " + textPosition );
         }
-    }
+        textNode.setOffset( textX, textY );
+        imageNode.setOffset( imageX, imageY );
 
-    // See Unfuddle Ticket #553, GradientPaint crashes on Mac OS.
-    //TODO GradientPaint crashes only for some versions of Mac OS. Return false only for those versions?
-    private boolean useGradient() {
-        return !PhetUtilities.isMacintosh();
+        super.update();
     }
-
-    // Creates a brighter color. Unlike Color.brighter, this algorithm preserves transparency.
-    private static Color createBrighterColor( Color origColor ) {
-        int red = origColor.getRed() + (int) Math.round( ( 255 - origColor.getRed() ) * COLOR_SCALING_FACTOR );
-        int green = origColor.getGreen() + (int) Math.round( ( 255 - origColor.getGreen() ) * COLOR_SCALING_FACTOR );
-        int blue = origColor.getBlue() + (int) Math.round( ( 255 - origColor.getBlue() ) * COLOR_SCALING_FACTOR );
-        int alpha = origColor.getAlpha(); // preserve transparency of original color, see #2123
-        return new Color( red, green, blue, alpha );
-    }
-
-    //------------------------------------------------------------------------
+//------------------------------------------------------------------------
     // Test Harness
     //------------------------------------------------------------------------
 
