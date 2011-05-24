@@ -125,7 +125,7 @@ public class IntroCanvas extends SugarAndSaltSolutionsCanvas {
         soluteControlPanelNode.setOffset( concentrationBarChart.getFullBounds().getX() - soluteControlPanelNode.getFullBounds().getWidth() - INSET, concentrationBarChart.getFullBounds().getY() );
 
         //Add an evaporation rate slider below the beaker
-        addChild( new EvaporationSlider( model.evaporationRate ) {{
+        addChild( new EvaporationSlider2( model.evaporationRate ) {{
             Point2D point = IntroCanvas.this.transform.modelToView( 0, -model.beaker.getWallWidth() / 2 );
             setOffset( point.getX() - getFullBounds().getWidth() / 2, point.getY() + INSET );
         }} );
