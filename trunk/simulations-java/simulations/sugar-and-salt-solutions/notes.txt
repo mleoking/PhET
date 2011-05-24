@@ -1,0 +1,20 @@
+We implemented, but decided to remove the effect that solution volume increases as solutes are added.  The tricky part of implementing this would be that molesDissolved = f(moles, volume) and volume = f(molesDissolved).
+
+The system can be solved analytically:
+
+molesDissolved = min( moles, v x C )
+v = a + b * molesDissolved
+v = a + b * (min (moles, v * C))
+molesDissolved = min(moles, (a+b*molesDissolved) * C)
+I: molesDissolved = (a+b*molesDissolved) * C
+II: moles
+molesDissolved = a / (1/c - b) = a*c*(1-b*c)
+
+and using a design like this:
+class SolutionState{
+    double volume;
+    double dissolvedMolesOfSugar;
+    double dissolvedMolesOfSalt;
+}
+
+But right now we will avoid the hassle.
