@@ -33,7 +33,10 @@ public class Beaker {
 
     //Move the top of the beaker sides up since with 2L of water and expanded volume from dissolved solutes, the beaker would overflow
     //This value was sampled by trial and error at runtime
-    private final double topExtension = 0.003;
+//    private final double topExtension = 0.003;
+
+    //Since we decided not to have solutes take up volume, we have no extension
+    private final double topExtension = 0.0;
 
     public Beaker( double x, double y, double width, double height, double depth ) {
         this.x = x;
