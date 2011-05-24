@@ -61,7 +61,7 @@ public class HTMLImageButtonNode extends ButtonNode {
     }
 
     public HTMLImageButtonNode( String text, BufferedImage image ) {
-        super();
+        super( text );
 
         this.text = text;
         this.image = image;
