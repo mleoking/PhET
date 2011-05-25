@@ -2,6 +2,7 @@
 package edu.colorado.phet.fluidpressureandflow.watertower.view;
 
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.model.property.And;
@@ -10,6 +11,8 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.background.GroundNode;
+import edu.colorado.phet.common.piccolophet.nodes.background.SkyNode;
 import edu.colorado.phet.fluidpressureandflow.common.model.PressureSensor;
 import edu.colorado.phet.fluidpressureandflow.common.view.*;
 import edu.colorado.phet.fluidpressureandflow.fluidpressure.view.FluidPressureCanvas;
@@ -30,10 +33,10 @@ public class WaterTowerCanvas extends FluidPressureAndFlowCanvas {
     public WaterTowerCanvas( final WaterTowerModule module ) {
         super( ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( STAGE_SIZE.width * 0.25, STAGE_SIZE.height * 0.75 ), scale ), module.getFluidPressureAndFlowModel().visibleModelBounds );
 
-        addChild( new SkyNode( transform ) );
+        addChild( new SkyNode( transform, new Rectangle2D.Double( -1000, 0, 2000, 2000 ), 20 ) );
         addChild( new WaterTowerNode( transform, module.getFluidPressureAndFlowModel().getWaterTower(), module.getFluidPressureAndFlowModel().liquidDensity ) );
         addChild( waterDropLayer );
-        addChild( new GroundNode( transform ) );
+        addChild( new GroundNode( transform, new Rectangle2D.Double( -1000, -2000, 2000, 2000 ), 5 ) );
         addChild( new FaucetNode( transform, module.getFluidPressureAndFlowModel().getFaucetFlowLevel() ) );
 
         module.getFluidPressureAndFlowModel().addDropAddedListener( new VoidFunction1<WaterDrop>() {

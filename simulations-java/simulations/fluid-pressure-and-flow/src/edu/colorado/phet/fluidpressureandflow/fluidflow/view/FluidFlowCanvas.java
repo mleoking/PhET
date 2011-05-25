@@ -13,6 +13,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.background.OutsideBackgroundNode;
 import edu.colorado.phet.fluidpressureandflow.common.model.PressureSensor;
 import edu.colorado.phet.fluidpressureandflow.common.view.*;
 import edu.colorado.phet.fluidpressureandflow.fluidflow.FluidFlowModule;
@@ -41,8 +42,7 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas {
     public FluidFlowCanvas( final FluidFlowModule module ) {
         super( ModelViewTransform.createRectangleInvertedYMapping( new Rectangle2D.Double( -modelWidth / 2, -modelHeight / 2 + pipeCenterY + 0.75, modelWidth, modelHeight ), new Rectangle2D.Double( 0, 0, STAGE_SIZE.width, STAGE_SIZE.height ) ), module.getFluidPressureAndFlowModel().visibleModelBounds );
 
-        addChild( new GroundNode( transform ) );
-        addChild( new SkyNode( transform ) );
+        addChild( new OutsideBackgroundNode( transform, 3, 1 ) );
 
         addChild( new PipeBackNode( transform, module.getFluidFlowModel().getPipe(), module.getFluidFlowModel().liquidDensity ) );
         particleLayer = new PNode();
