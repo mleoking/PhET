@@ -48,15 +48,15 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 public abstract class BarMeterNode extends PhetPNode {
 
     public static class CapacitanceMeterNode extends BarMeterNode {
-        public CapacitanceMeterNode( CapacitanceMeter meter, CLModelViewTransform3D mvt ) {
-            super( meter, mvt, CLPaints.CAPACITANCE, CLStrings.CAPACITANCE, "0.00", CLConstants.CAPACITANCE_METER_VALUE_EXPONENT, CLStrings.FARADS );
+        public CapacitanceMeterNode( CapacitanceMeter meter, CLModelViewTransform3D mvt, String label ) {
+            super( meter, mvt, CLPaints.CAPACITANCE, label, "0.00", CLConstants.CAPACITANCE_METER_VALUE_EXPONENT, CLStrings.FARADS );
         }
     }
 
     public static class PlateChargeMeterNode extends BarMeterNode {
 
-        public PlateChargeMeterNode( PlateChargeMeter meter, CLModelViewTransform3D mvt ) {
-            super( meter, mvt, CLPaints.POSITIVE_CHARGE, CLStrings.PLATE_CHARGE_TOP, "0.00", CLConstants.PLATE_CHARGE_METER_VALUE_EXPONENT, CLStrings.COULOMBS );
+        public PlateChargeMeterNode( PlateChargeMeter meter, CLModelViewTransform3D mvt, String label ) {
+            super( meter, mvt, CLPaints.POSITIVE_CHARGE, label, "0.00", CLConstants.PLATE_CHARGE_METER_VALUE_EXPONENT, CLStrings.COULOMBS );
         }
 
         // This meter displays absolute value, and changes color to indicate positive or negative charge.

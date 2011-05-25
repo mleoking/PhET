@@ -6,6 +6,7 @@ import java.awt.geom.Dimension2D;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLGlobalProperties;
+import edu.colorado.phet.capacitorlab.CLStrings;
 import edu.colorado.phet.capacitorlab.developer.EFieldShapesDebugNode;
 import edu.colorado.phet.capacitorlab.developer.VoltageShapesDebugNode;
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
@@ -69,8 +70,8 @@ public class MultipleCapacitorsCanvas extends CLCanvas {
         circuitParentNode = new PNode();
 
         // meters
-        capacitanceMeterNode = new CapacitanceMeterNode( model.getCapacitanceMeter(), mvt );
-        plateChargeMeterNode = new PlateChargeMeterNode( model.getPlateChargeMeter(), mvt );
+        capacitanceMeterNode = new CapacitanceMeterNode( model.getCapacitanceMeter(), mvt, CLStrings.CAPACITANCE_TOTAL );
+        plateChargeMeterNode = new PlateChargeMeterNode( model.getPlateChargeMeter(), mvt, CLStrings.PLATE_CHARGE_TOTAL );
         storedEnergyMeterNode = new StoredEnergyMeterNode( model.getStoredEnergyMeter(), mvt );
         voltmeter = new VoltmeterView( model.getVoltmeter(), mvt );
         eFieldDetector = new EFieldDetectorView( model.getEFieldDetector(), mvt, eFieldVectorReferenceMagnitude, globalProperties.dev, true /* eFieldDetectorSimplified */ );
