@@ -5,10 +5,12 @@ import java.awt.*;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.background.OutsideBackgroundNode;
 import edu.colorado.phet.torque.teetertotter.model.TeeterTotterTorqueModel;
+import edu.colorado.phet.torque.teetertotter.model.Weight;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -39,10 +41,29 @@ public class TeeterTotterTorqueCanvas extends PhetPCanvas {
                 100 ); // "Zoom factor" - smaller zooms out, larger zooms in.
 
         // Set up a root node for our scene graph.
-        PNode rootNode = new PNode();
+        final PNode rootNode = new PNode();
         addWorldChild( rootNode );
 
         // Add the background that consists of the ground and sky.
         rootNode.addChild( new OutsideBackgroundNode( mvt, 3, 1 ) );
+
+        //Function for adding graphics for the weights to the canvas
+        final VoidFunction1<Weight> addWeightNode = new VoidFunction1<Weight>() {
+            public void apply( Weight weight ) {
+                rootNode.addChild( new WeightNode( mvt, weight ) );
+            }
+        };
+
+        // Add WeightNodes for any weights already in the model on startup
+        for ( Weight weight : model.getWeights() ) {
+            addWeightNode.apply( weight );
+        }
+
+        // Whenever a weight is added to the model, create a graphic for it
+        model.addWeightAddedListener( addWeightNode );
+
+        //Add graphics for the fulcrum and plank
+        rootNode.addChild( new FulcrumNode( mvt, model.getFulcrum() ) );
+        rootNode.addChild( new ModelObjectNode( mvt, model.getPlank(), Color.yellow ) );
     }
 }
