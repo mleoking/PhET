@@ -1,3 +1,4 @@
+Improved color and size for Sodium and Chlorine icons
 # 0.00.27 (52375) May 24, 2011
 Fixed: Salt shaker still emits spurious crystals sometimes when it refills
 Increased font in concentration bar chart readouts

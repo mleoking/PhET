@@ -20,6 +20,9 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel;
 
+import static edu.colorado.phet.sugarandsaltsolutions.micro.S3Element.CHLORINE_RADIUS;
+import static edu.colorado.phet.sugarandsaltsolutions.micro.S3Element.SODIUM_RADIUS;
+
 /**
  * Model for "micro" tab for sugar and salt solutions.
  *
@@ -116,7 +119,7 @@ public class MicroscopicModel extends SugarAndSaltSolutionModel {
     //Adds a NaCl molecule by adding a nearby sodium and chlorine, electrostatic forces are responsible for keeping them together
     public void addSalt( double x, double y ) {
         addSodiumIon( x, y );
-        addChlorineIon( x + DefaultParticle.radius, y );
+        addChlorineIon( x + SODIUM_RADIUS, y );
     }
 
     //Adds some random sodium particles
@@ -136,7 +139,7 @@ public class MicroscopicModel extends SugarAndSaltSolutionModel {
             public void apply( VoidFunction0 chlorineMolecule ) {
                 addFrameListener( chlorineMolecule );
             }
-        }, -1 );
+        }, -1, CHLORINE_RADIUS );
         chlorineList.add( chlorineIon );
         for ( VoidFunction1<DefaultParticle> chlorineAddedListener : chlorineAddedListeners ) {
             chlorineAddedListener.apply( chlorineIon );
@@ -148,7 +151,7 @@ public class MicroscopicModel extends SugarAndSaltSolutionModel {
             public void apply( VoidFunction0 sodiumMolecule ) {
                 addFrameListener( sodiumMolecule );
             }
-        }, +1 );
+        }, +1, SODIUM_RADIUS );
         sodiumList.add( sodiumIon );
         for ( VoidFunction1<DefaultParticle> sodiumAddedListener : sodiumAddedListeners ) {
             sodiumAddedListener.apply( sodiumIon );

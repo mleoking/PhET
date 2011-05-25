@@ -1,7 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.micro;
 
-import edu.colorado.phet.chemistry.model.Element;
 import edu.colorado.phet.chemistry.molecules.AtomNode;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
@@ -24,13 +23,13 @@ import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.t
  */
 public class DefaultParticleNode extends PNode {
 
-    public DefaultParticleNode( final ModelViewTransform transform, final DefaultParticle particle, VoidFunction1<VoidFunction0> addListener, Element element ) {
+    public DefaultParticleNode( final ModelViewTransform transform, final DefaultParticle particle, VoidFunction1<VoidFunction0> addListener, S3Element element ) {
 
         //Get the diameters in view coordinates
         double diameter = transform.modelToViewDeltaX( particle.radius * 2 );
 
         //Use images from chemistry since they look shaded and good colors
-        final PImage image = new PImage( multiScaleToWidth( toBufferedImage( new AtomNode( element ).toImage() ), (int) diameter ) );
+        final PImage image = new PImage( multiScaleToWidth( toBufferedImage( new AtomNode( element.getRadius(), element.getColor() ).toImage() ), (int) diameter ) );
 
         //Update the graphics for the updated model objects
         VoidFunction0 update = new VoidFunction0() {

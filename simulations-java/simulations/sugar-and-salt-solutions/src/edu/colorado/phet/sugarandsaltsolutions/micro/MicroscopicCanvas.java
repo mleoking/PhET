@@ -8,15 +8,14 @@ import java.awt.geom.Rectangle2D;
 
 import javax.swing.*;
 
-import edu.colorado.phet.chemistry.model.Element;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsApplication;
@@ -83,7 +82,7 @@ public class MicroscopicCanvas extends PhetPCanvas {
         //Provide graphics for SodiumIons
         new GraphicAdapter<DefaultParticle>( rootNode, new Function1<DefaultParticle, PNode>() {
             public PNode apply( DefaultParticle sodiumIon ) {
-                return new DefaultParticleNode( transform, sodiumIon, addFrameListener, Element.N );//TODO: no sodium element yet, so it will have to be added
+                return new DefaultParticleNode( transform, sodiumIon, addFrameListener, S3Element.NaIon );
             }
         }, model.getSodiumIonList(), new VoidFunction1<VoidFunction1<DefaultParticle>>() {
             public void apply( VoidFunction1<DefaultParticle> createNode ) {
@@ -95,7 +94,7 @@ public class MicroscopicCanvas extends PhetPCanvas {
         //Provide graphics for Chlorine Ions
         new GraphicAdapter<DefaultParticle>( rootNode, new Function1<DefaultParticle, PNode>() {
             public PNode apply( DefaultParticle sodiumIon ) {
-                return new DefaultParticleNode( transform, sodiumIon, addFrameListener, Element.Cl );
+                return new DefaultParticleNode( transform, sodiumIon, addFrameListener, S3Element.ClIon );
             }
         }, model.getChlorineIonList(), new VoidFunction1<VoidFunction1<DefaultParticle>>() {
             public void apply( VoidFunction1<DefaultParticle> createNode ) {

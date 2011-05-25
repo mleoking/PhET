@@ -27,7 +27,7 @@ public class DefaultParticle implements Removable, Particle {
     public Body body;
     public CircleDef circleDef;
     private ArrayList<VoidFunction0> removalListeners = new ArrayList<VoidFunction0>();
-    public static final double radius = 1.3E-10;
+    public final double radius;
 
     //The model position in SI
     public final Property<ImmutableVector2D> position;
@@ -37,7 +37,8 @@ public class DefaultParticle implements Removable, Particle {
     private BodyDef bodyDef;
     private boolean grabbed;
 
-    public DefaultParticle( World world, final ModelViewTransform transform, final double x, final double y, double vx, double vy, final double theta, VoidFunction1<VoidFunction0> addUpdateListener, double charge ) {
+    public DefaultParticle( World world, final ModelViewTransform transform, final double x, final double y, double vx, double vy, final double theta, VoidFunction1<VoidFunction0> addUpdateListener, double charge, double radius ) {
+        this.radius = radius;
         this.transform = transform;
         this.charge = charge;
 
