@@ -2,6 +2,8 @@
 
 package edu.colorado.phet.chemistry.molecules;
 
+import java.awt.*;
+
 import edu.colorado.phet.chemistry.model.Atom;
 import edu.colorado.phet.chemistry.model.Element;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
@@ -33,10 +35,20 @@ public class AtomNode extends ShadedSphereNode {
     };
 
     public AtomNode( Element element ) {
-        super( 2 * RADIUS_SCALING_FUNCTION.apply( element.getRadius() ), element.getColor() );
+        this( element.getRadius(), element.getColor() );
     }
 
     public AtomNode( Atom atom ) {
-        super( 2 * RADIUS_SCALING_FUNCTION.apply( atom.getRadius() ), atom.getColor() );
+        super( atom.getRadius(), atom.getColor() );
+    }
+
+    /**
+     * Creates an atom node with the specified radius and color.  The radius is mapped through a scaling function to put all radii within a good range.
+     *
+     * @param radius the radius of the atom in picometers
+     * @param color  the base color of the atom, will be used as the basis for a gradient
+     */
+    public AtomNode( double radius, Color color ) {
+        super( 2 * RADIUS_SCALING_FUNCTION.apply( radius ), color );
     }
 }
