@@ -11,16 +11,21 @@ import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
+import static edu.colorado.phet.common.phetcommon.view.util.SwingUtils.setBackgroundDeep;
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsApplication.WATER_COLOR;
+import static edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas.CONTROL_FONT;
 import static java.awt.Color.white;
 
 /**
@@ -31,21 +36,21 @@ import static java.awt.Color.white;
  */
 public class ConcentrationBarChart extends PNode {
 
-    private final double CHART_HEIGHT = 200;
+    private final double CHART_HEIGHT = 234;
     protected final int INSET = 5;
     //Convert from model units (Mols) to stage units
     private final double verticalAxisScale = 160 * 1E-4;
 
     public ConcentrationBarChart( ObservableProperty<Double> saltConcentration,
                                   ObservableProperty<Double> sugarConcentration,
-                                  SettableProperty<Boolean> showValues,
+                                  final SettableProperty<Boolean> showValues,
                                   final SettableProperty<Boolean> visible ) {
         final double totalWidth = 220;
         final PNode background = new PhetPPath( new Rectangle2D.Double( 0, 0, totalWidth, CHART_HEIGHT ),
                                                 WATER_COLOR, new BasicStroke( 1f ), Color.BLACK );
         addChild( background );
 
-        final double abscissaY = CHART_HEIGHT - 30;
+        final double abscissaY = CHART_HEIGHT - 60;
         addChild( new PhetPPath( new Line2D.Double( INSET, abscissaY, totalWidth - INSET, abscissaY ), new BasicStroke( 2 ), Color.black ) );
 
         //Add a Salt concentration bar
@@ -89,8 +94,17 @@ public class ConcentrationBarChart extends PNode {
                 setVisible( visible );
             }
         } );
-    }
 
+        //Add a checkbox that lets the user toggle on and off whether actual values are shown
+        //This is in a VBox in case we need to add other controls later
+        addChild( new VBox() {{
+            addChild( new PSwing( new PropertyCheckBox( "Show values", showValues ) {{
+                setFont( CONTROL_FONT );
+                setBackgroundDeep( this, WATER_COLOR );
+            }} ) );
+            setOffset( background.getFullBounds().getWidth() / 2 - getFullBoundsReference().width / 2, background.getHeight() - getFullBounds().getHeight() - INSET );
+        }} );
+    }
 
     // This class represents the bars on the bar chart.  They grow upwards in
     // the Y direction from a baseline offset of y=0.
@@ -116,7 +130,7 @@ public class ConcentrationBarChart extends PNode {
             } );
             // Create and add the caption.
             PText captionNode = new PText( caption ) {{
-                setFont( SugarAndSaltSolutionsCanvas.CONTROL_FONT );
+                setFont( CONTROL_FONT );
                 // Position so that it is centered under the bar.
                 setOffset( WIDTH / 2 - getFullBoundsReference().width / 2, 5 );
             }};
@@ -124,7 +138,7 @@ public class ConcentrationBarChart extends PNode {
 
             //Optionally show the readout of the exact value above the bar itself
             PText valueReadout = new PText() {{
-                setFont( SugarAndSaltSolutionsCanvas.CONTROL_FONT );
+                setFont( CONTROL_FONT );
                 value.addObserver( new VoidFunction1<Double>() {
                     public void apply( Double molesPerMeterCubed ) {
                         //Convert to Moles per Liter from SI
