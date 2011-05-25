@@ -55,7 +55,7 @@ public class VerticalRuler extends Sprite{
         //HorizontalReferenceLine is a sprite, which contains a sprite called backGround; following lines reposition backGround sprite within 
         this.horizLine1.initializePosition();
         this.horizLine2.initializePosition();
-        this.ruler.x = 0;
+        this.ruler.x = 0.08*this.pixPerMeter;
         this.ruler.y = 0;
     }
 

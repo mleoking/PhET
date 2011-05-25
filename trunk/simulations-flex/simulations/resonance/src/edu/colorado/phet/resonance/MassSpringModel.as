@@ -57,6 +57,7 @@ public class MassSpringModel {
     }//end of initialize()
 
     public function resetToZeroPositionAndSpeed():void{
+        this.g = 0;
         this.y0 = 0;
         this.y = y0 + L0 - (m * g / k);  //start with mass hanging in equilibrium position
         this.v = 0;
