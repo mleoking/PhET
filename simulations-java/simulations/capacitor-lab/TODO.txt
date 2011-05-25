@@ -36,6 +36,7 @@ MEDIUM PRIORITY
 - merge MultipleCapacitorsModule/Model/Canvas/ControlPanel into DielectricModule/Model/Canvas/ControlPanel?
 
 LOW PRIORITY
+- Should capacitors be labeled (C1, C2,...) so that teachers can refer to them in class, homework assignments, etc?
 - delete empty packages
 - round corners of wires?
 - would it be OK to have the dielectric fully inserted (offset=0) in the Intro tab?
