@@ -19,7 +19,6 @@ MULTIPLE CAPACITORS REQUIREMENTS
 
 HIGH PRIORITY
 - #2903, E-field default scale and autoscaling
-- plate voltage is wrong for C2 in Combination1Circuit
 - lots of duplicate code in AbstractCircuit subclasses
 - add editable mantissa text field to capacitance control?
 - change meter and check box labels in Multiple Capacitors tab

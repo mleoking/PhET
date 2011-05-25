@@ -97,10 +97,9 @@ public class Combination1Circuit extends AbstractCircuit {
     }
 
     private void updatePlateVoltages() {
-        double Q_total = getTotalCharge();
         // series
-        c1.setPlatesVoltage( Q_total / c1.getTotalCapacitance() );
-        c2.setPlatesVoltage( Q_total / c2.getTotalCapacitance() );
+        c1.setPlatesVoltage( getTotalVoltage() * c1.getTotalCapacitance() / ( c1.getTotalCapacitance() + c2.getTotalCapacitance() ) );
+        c2.setPlatesVoltage( getTotalVoltage() * c2.getTotalCapacitance() / ( c1.getTotalCapacitance() + c2.getTotalCapacitance() ) );
         // parallel
         c3.setPlatesVoltage( getTotalVoltage() );
     }
