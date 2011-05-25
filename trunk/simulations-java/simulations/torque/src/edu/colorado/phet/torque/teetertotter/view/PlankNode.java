@@ -11,8 +11,8 @@ import edu.colorado.phet.torque.teetertotter.model.ModelObject;
  *
  * @author Sam Reid
  */
-public class FulcrumNode extends ModelObjectNode {
-    public FulcrumNode( final ModelViewTransform mvt, final ModelObject modelObject ) {
-        super( mvt, modelObject, new Color( 214, 164, 119 ) );
+public class PlankNode extends ModelObjectNode {
+    public PlankNode( final ModelViewTransform mvt, final ModelObject plank ) {
+        super( mvt, plank, new Color( 243, 203, 127 ) );
     }
 }
