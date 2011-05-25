@@ -44,6 +44,6 @@ public class ColoredSeparator extends JSeparator {
 
     public ColoredSeparator( Color color, int orientation ) {
         super( orientation );
-        setForeground( Color.BLACK );
+        setForeground( color );
     }
 }
