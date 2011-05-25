@@ -108,6 +108,16 @@ public class ParallelCircuit extends AbstractCircuit {
         return wires;
     }
 
+    // Gets the wire connected to the battery's top terminal.
+    private Wire getTopWire() {
+        return wires.get( 0 );
+    }
+
+    // Gets the wire connected to the battery's bottom terminal.
+    private Wire getBottomWire() {
+        return wires.get( wires.size() - 1 );
+    }
+
     // C_total = C1 + C2 + ... + Cn
     public double getTotalCapacitance() {
         double sum = 0;
@@ -119,20 +129,17 @@ public class ParallelCircuit extends AbstractCircuit {
 
     public double getVoltageAt( Shape s ) {
         double voltage = Double.NaN;
-        if ( getBattery().intersectsTopTerminal( s ) || intersectsSomeTopPlateShape( s ) ) {
+        if ( getBattery().intersectsTopTerminal( s ) || intersectsSomeTopPlate( s ) || getTopWire().intersects( s ) ) {
             voltage = getTotalVoltage();
         }
-        else if ( getBattery().intersectsBottomTerminal( s ) || intersectsSomeBottomPlateShape( s ) ) {
+        else if ( getBattery().intersectsBottomTerminal( s ) || intersectsSomeBottomPlate( s ) || getBottomWire().intersects( s ) ) {
             voltage = 0;
-        }
-        else {
-            //TODO check wires
         }
         return voltage;
     }
 
     // True if the shape intersects any capacitor's top plate.
-    private boolean intersectsSomeTopPlateShape( Shape s ) {
+    private boolean intersectsSomeTopPlate( Shape s ) {
         boolean intersects = false;
         for ( Capacitor capacitor : getCapacitors() ) {
             if ( capacitor.intersectsTopPlateShape( s ) ) {
@@ -144,7 +151,7 @@ public class ParallelCircuit extends AbstractCircuit {
     }
 
     // True if the shape intersects any capacitor's bottom plate.
-    private boolean intersectsSomeBottomPlateShape( Shape s ) {
+    private boolean intersectsSomeBottomPlate( Shape s ) {
         boolean intersects = false;
         for ( Capacitor capacitor : getCapacitors() ) {
             if ( capacitor.intersectsBottomPlateShape( s ) ) {
