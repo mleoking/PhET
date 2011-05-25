@@ -60,7 +60,8 @@ import edu.umd.cs.piccolox.pswing.PSwing;
     private static final int BODY_X_SPACING = 2;
     private static final int BODY_Y_SPACING = 4;
 
-    private static final PDimension VIEWPORT_SIZE = new PDimension( 200, 200 );
+    private static final PDimension VIEWPORT_SIZE = new PDimension( 175, 200 );
+    private static final PDimension COMPACT_VIEWPORT_SIZE = new PDimension( 85, 200 );
     private static final Color VIEWPORT_BACKGROUND = Color.WHITE;
 
     private static final double VECTOR_REFERENCE_LENGTH = 3 * VIEWPORT_SIZE.getHeight();
@@ -108,7 +109,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
         PSwing zoomPSwing = new PSwing( zoomPanel );
 
         // display area for vectors and values
-        viewportNode = new ViewportNode( detector, vectorReferenceMagnitude, zoomPanel.zoomInEnabledProperty, zoomPanel.zoomOutEnabledProperty );
+        viewportNode = new ViewportNode( detector, vectorReferenceMagnitude, zoomPanel.zoomInEnabledProperty, zoomPanel.zoomOutEnabledProperty, simplified );
         viewportNode.setSimplified( simplified );
 
         // Vector controls
@@ -230,9 +231,10 @@ import edu.umd.cs.piccolox.pswing.PSwing;
         private double vectorsScale;
         private boolean simplified;
 
-        public ViewportNode( final EFieldDetector detector, double vectorReferenceMagnitude, Property<Boolean> zoomInEnabled, Property<Boolean> zoomOutEnabled ) {
+        public ViewportNode( final EFieldDetector detector, double vectorReferenceMagnitude, Property<Boolean> zoomInEnabled, Property<Boolean> zoomOutEnabled, boolean simplified ) {
 
-            setPathTo( new Rectangle2D.Double( 0, 0, VIEWPORT_SIZE.getWidth(), VIEWPORT_SIZE.getHeight() ) );
+            PDimension size = ( simplified ? COMPACT_VIEWPORT_SIZE : VIEWPORT_SIZE );
+            setPathTo( new Rectangle2D.Double( 0, 0, size.getWidth(), size.getHeight() ) );
             setPaint( VIEWPORT_BACKGROUND );
             setStroke( null );
 
