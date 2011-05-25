@@ -34,7 +34,7 @@ public class SaltShaker extends Dispenser {
             public void apply( Boolean allowed ) {
                 //If the shaker is emptied, prevent spurious grains from coming out the next time it is refilled by setting the shake amount to 0.0 and clearing the sampled positions
                 if ( !allowed ) {
-                    System.out.println( "SaltShaker.apply. cleared" );
+//                    System.out.println( "SaltShaker.apply. cleared" );
                     shakeAmount = 0;
                     positions.clear();
                 }
@@ -72,7 +72,7 @@ public class SaltShaker extends Dispenser {
                 //only add to the shake amount if it was vigorous enough
                 if ( dist > 1E-4 ) {
                     shakeAmount += dist;
-                    System.out.println( "shakeAmount = " + shakeAmount );
+//                    System.out.println( "shakeAmount = " + shakeAmount );
                 }
             }
         }
@@ -82,7 +82,7 @@ public class SaltShaker extends Dispenser {
     public void updateModel( SugarAndSaltSolutionModel model ) {
         //Check to see if we should be emitting salt crystals-- if the shaker was shaken enough
         if ( enabled.get() && shakeAmount > 0 && moreAllowed.get() ) {
-            System.out.println( "Emitted salt, shake amount = " + shakeAmount + ", moreAllowed = " + moreAllowed.get() );
+//            System.out.println( "Emitted salt, shake amount = " + shakeAmount + ", moreAllowed = " + moreAllowed.get() );
             int numCrystals = (int) ( random.nextInt( 2 ) + Math.min( shakeAmount * 4000, 4 ) );
             for ( int i = 0; i < numCrystals; i++ ) {
                 //Determine where the salt should come out
