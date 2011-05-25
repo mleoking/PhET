@@ -17,7 +17,7 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class ModelObjectNode extends PNode {
     public ModelObjectNode( final ModelViewTransform mvt, final ModelObject modelObject, Color color ) {
-        addChild( new PhetPPath( color ) {{
+        addChild( new PhetPPath( color, new BasicStroke( 1 ), Color.BLACK ) {{
             modelObject.shape.addObserver( new VoidFunction1<Shape>() {
                 public void apply( Shape shape ) {
                     setPathTo( mvt.modelToView( shape ) );

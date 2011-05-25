@@ -11,7 +11,7 @@ import java.awt.geom.Rectangle2D;
 public class Plank extends ModelObject {
 
     public static final double length = 4;//meters
-    public static final double height = 0.01; //meters
+    public static final double height = 0.02; //meters
 
     public Plank( double y ) {
         super( new Rectangle2D.Double( -length / 2, y, length, height ) );

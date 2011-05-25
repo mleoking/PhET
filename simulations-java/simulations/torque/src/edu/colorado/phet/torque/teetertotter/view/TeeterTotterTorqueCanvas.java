@@ -64,6 +64,6 @@ public class TeeterTotterTorqueCanvas extends PhetPCanvas {
 
         //Add graphics for the fulcrum and plank
         rootNode.addChild( new FulcrumNode( mvt, model.getFulcrum() ) );
-        rootNode.addChild( new ModelObjectNode( mvt, model.getPlank(), Color.yellow ) );
+        rootNode.addChild( new PlankNode( mvt, model.getPlank() ) );
     }
 }
