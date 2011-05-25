@@ -3,12 +3,13 @@
 package edu.colorado.phet.capacitorlab.developer;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 import edu.colorado.phet.capacitorlab.CLPaints;
 import edu.colorado.phet.capacitorlab.model.Battery;
 import edu.colorado.phet.capacitorlab.model.Capacitor;
+import edu.colorado.phet.capacitorlab.model.circuit.ICircuit;
 import edu.colorado.phet.capacitorlab.model.circuit.ICircuit.CircuitChangeListener;
-import edu.colorado.phet.capacitorlab.model.circuit.SingleCircuit;
 import edu.colorado.phet.capacitorlab.model.meter.Voltmeter;
 import edu.colorado.phet.capacitorlab.model.wire.Wire;
 import edu.colorado.phet.capacitorlab.shapes.BatteryShapeFactory;
@@ -32,7 +33,7 @@ public class VoltageShapesDebugNode extends PComposite {
     private static final Stroke STROKE = new BasicStroke( 2f );
     private static final Color STROKE_COLOR = CLPaints.VOLTAGE_DEBUG_SHAPES;
 
-    public VoltageShapesDebugNode( final SingleCircuit circuit, final Voltmeter voltmeter ) {
+    public VoltageShapesDebugNode( final ICircuit circuit, final Voltmeter voltmeter ) {
 
         // nothing interactive here
         setPickable( false );
@@ -67,11 +68,9 @@ public class VoltageShapesDebugNode extends PComposite {
             } );
         }
 
-        // capacitor
-        {
-            final Capacitor capacitor = circuit.getCapacitor();
+        // capacitors
+        for ( Capacitor capacitor : circuit.getCapacitors() ) {
             final CapacitorShapeFactory shapeFactory = capacitor.getShapeFactory();
-
             final PPath topPlateNode = new PhetPPath( shapeFactory.createTopPlateShapeOccluded(), STROKE, STROKE_COLOR );
             addChild( topPlateNode );
 
@@ -91,35 +90,28 @@ public class VoltageShapesDebugNode extends PComposite {
         }
 
         // wires
-        {
-            final Wire topWire = circuit.getTopWire();
-            final PPath topWireNode = new PhetPPath( topWire.getShape(), STROKE, STROKE_COLOR );
-            addChild( topWireNode );
-            topWireNode.setVisible( circuit.isBatteryConnected() );
+        ArrayList<Wire> wires = circuit.getWires();
+        for ( int i = 0; i < wires.size(); i++ ) {
 
-            final Wire bottomWire = circuit.getBottomWire();
-            final PPath bottomWireNode = new PhetPPath( bottomWire.getShape(), STROKE, STROKE_COLOR );
-            addChild( bottomWireNode );
-            bottomWireNode.setVisible( circuit.isBatteryConnected() );
+            final Wire wire = wires.get( i );
 
-            topWire.addShapeObserver( new SimpleObserver() {
+            final PPath wireNode = new PhetPPath( wire.getShape(), STROKE, STROKE_COLOR );
+            addChild( wireNode );
+            wireNode.setVisible( circuit.isBatteryConnected() );
+
+            wire.addShapeObserver( new SimpleObserver() {
                 public void update() {
-                    topWireNode.setPathTo( topWire.getShape() );
+                    wireNode.setPathTo( wire.getShape() );
                 }
             } );
 
-            bottomWire.addShapeObserver( new SimpleObserver() {
-                public void update() {
-                    bottomWireNode.setPathTo( bottomWire.getShape() );
-                }
-            } );
-
-            circuit.addCircuitChangeListener( new CircuitChangeListener() {
-                public void circuitChanged() {
-                    topWireNode.setVisible( circuit.isBatteryConnected() );
-                    bottomWireNode.setVisible( circuit.isBatteryConnected() );
-                }
-            } );
+            if ( i == 0 || i == wires.size() - 1 ) {
+                circuit.addCircuitChangeListener( new CircuitChangeListener() {
+                    public void circuitChanged() {
+                        wireNode.setVisible( circuit.isBatteryConnected() );
+                    }
+                } );
+            }
         }
 
         // voltmeter
@@ -155,5 +147,4 @@ public class VoltageShapesDebugNode extends PComposite {
             } );
         }
     }
-
 }

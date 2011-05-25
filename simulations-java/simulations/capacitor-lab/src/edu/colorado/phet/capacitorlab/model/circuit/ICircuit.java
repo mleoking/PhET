@@ -21,6 +21,8 @@ public interface ICircuit {
 
     Battery getBattery();
 
+    boolean isBatteryConnected();
+
     ArrayList<Capacitor> getCapacitors();
 
     ArrayList<Wire> getWires();
