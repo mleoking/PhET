@@ -63,6 +63,10 @@ public abstract class AbstractCircuit implements ICircuit {
         return battery;
     }
 
+    public boolean isBatteryConnected() {
+        return true;
+    }
+
     // Q_total = V_total * C_total
     public double getTotalCharge() {
         return getTotalVoltage() * getTotalCapacitance();
