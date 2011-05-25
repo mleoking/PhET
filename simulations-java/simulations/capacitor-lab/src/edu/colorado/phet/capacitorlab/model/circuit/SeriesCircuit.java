@@ -142,58 +142,52 @@ public class SeriesCircuit extends AbstractCircuit {
         return 1 / sum;
     }
 
-    public double getVoltageAt( Shape s ) {
+    public double getVoltageAt( Shape shape ) {
+
         double voltage = Double.NaN;
 
         // battery
-        if ( getBattery().intersectsTopTerminal( s ) ) {
+        if ( getBattery().intersectsTopTerminal( shape ) ) {
             voltage = getTotalVoltage();
         }
-        else if ( getBattery().intersectsBottomTerminal( s ) ) {
+        else if ( getBattery().intersectsBottomTerminal( shape ) ) {
             voltage = 0;
         }
         else {
-            // plates
-            voltage = intersectsSomePlate( s );
-
-            // wires
-            if ( voltage == Double.NaN ) {
-                //TODO check wires
+            // plates & wires
+            ArrayList<Capacitor> capacitors = getCapacitors();
+            ArrayList<Wire> wires = getWires();
+            for ( int i = 0; i < capacitors.size(); i++ ) {
+                Capacitor capacitor = capacitors.get( i );
+                Wire topWire = wires.get( i );
+                Wire bottomWire = wires.get( i + 1 );
+                if ( capacitor.intersectsTopPlateShape( shape ) || topWire.intersects( shape ) ) {
+                    // intersects top plate or wire, sum voltage of this capacitor and all capacitors below it.
+                    voltage = sumPlateVoltages( i );
+                }
+                else if ( capacitor.intersectsBottomPlateShape( shape ) || bottomWire.intersects( shape ) ) {
+                    // intersects bottom plate or wire, sum voltage of all capacitors below this one.
+                    voltage = sumPlateVoltages( i + 1 );
+                }
             }
         }
 
         return voltage;
     }
 
-    /*
-     * If shape intersects a plate, returns the voltage between that plate and ground.
-     * If no intersection, returns Double.NaN.
-     */
-    private double intersectsSomePlate( Shape s ) {
-        double voltage = Double.NaN;
+    // Sums the plate voltages for all capacitors between some top plate and ground.
+    private double sumPlateVoltages( int topPlateIndex ) {
+        double voltage = 0;
         ArrayList<Capacitor> capacitors = getCapacitors();
-        for ( int i = 0; i < capacitors.size(); i++ ) {
-            if ( capacitors.get( i ).intersectsTopPlateShape( s ) ) {
-                // sum voltage of this capacitor and all capacitors below it.
-                voltage = 0;
-                for ( int j = i; j < capacitors.size(); j++ ) {
-                    voltage += capacitors.get( j ).getPlatesVoltage();
-                }
-            }
-            else if ( capacitors.get( i ).intersectsBottomPlateShape( s ) ) {
-                // sum voltage of all capacitors below this one.
-                voltage = 0;
-                for ( int j = i + 1; j < capacitors.size(); j++ ) {
-                    voltage += capacitors.get( j ).getPlatesVoltage();
-                }
-            }
+        for ( int i = topPlateIndex; i < capacitors.size(); i++ ) {
+            voltage += capacitors.get( i ).getPlatesVoltage();
         }
         return voltage;
     }
 
     public void reset() {
         super.reset();
-        for ( Capacitor capacitor : capacitors ) {
+        for ( Capacitor capacitor : getCapacitors() ) {
             capacitor.reset();
         }
     }
