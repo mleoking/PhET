@@ -13,18 +13,19 @@ public class RotaryKnob extends Sprite {
     private var knobRadius: int;
     private var knobColor: Number;
     private var outputAngle: Number;	//angle turned in degrees
-    private var outputTurns: Number; //angle turned in revs
-    private var maxTurns: Number;	//maximum allowed angle in revs
-    private var minTurns: Number;	//minimum allowed angle in revs
+    private var outputTurns: Number;    //angle turned in revs
+    private var maxTurns: Number;	    //maximum allowed angle in revs
+    private var minTurns: Number;	    //minimum allowed angle in revs
     private var label_txt: TextField;	//static label
     private var tFormat1: TextFormat;	//format of label
     private var tFormat2: TextFormat;	//format of readout
     //private var label_str:String;	//label string
-    private var units_str:String;   //units on the readout
+    private var units_str:String;       //units on the readout
     private var readout_txt: TextField; //dynamic readout
-    private var units_txt: TextField;  //textField to display units
-    private var scale: Number;		//readout = scale * turnNbr
-    private var manualUpdating;
+    private var units_txt: TextField;   //textField to display units
+    private var scale: Number;		    //readout = scale * turnNbr
+    private var decimalPlaces: int;		//number of figures past decimal point in readout
+    private var manualUpdating;         //true if user entering value in textField by keyboard
 
 
     public function RotaryKnob( action: Function, knobDiameter: Number, knobColor: Number, minTurns: Number, maxTurns: Number ) {
@@ -41,6 +42,7 @@ public class RotaryKnob extends Sprite {
         this.maxTurns = maxTurns; //5;
         this.minTurns = minTurns; //0;
         this.scale = 1;
+        this.decimalPlaces = 2;
         this.manualUpdating = false;
         this.drawShadow();
         this.drawKnob();
@@ -89,9 +91,7 @@ public class RotaryKnob extends Sprite {
 				this.knobGraphic.rotation = this.minTurns*360;
 			}
         this.action();
-        if ( !manualUpdating ) {
-            this.updateReadout();
-        }
+        this.updateReadout();
     }//end setVal
 
     private function drawShadow():void{
@@ -114,6 +114,7 @@ public class RotaryKnob extends Sprite {
             g.lineTo(rO*Math.cos(rads), rO*Math.sin(rads));
         }
     }
+
     private function drawKnob(): void {
         var g: Graphics = this.knobGraphic.graphics;
         g.clear();
@@ -161,6 +162,7 @@ public class RotaryKnob extends Sprite {
         this.readout_txt.background = true;
         this.readout_txt.backgroundColor = 0xffffff;
         //this.readout_txt.autoSize = TextFieldAutoSize.CENTER;
+        this.readout_txt.autoSize = TextFieldAutoSize.RIGHT;
         this.readout_txt.restrict = "0-9.";
         //this.readout_txt.addEventListener( Event.CHANGE, onTextChange );
         this.readout_txt.addEventListener( KeyboardEvent.KEY_DOWN, onHitEnter );
@@ -188,7 +190,6 @@ public class RotaryKnob extends Sprite {
         this.units_txt.x = this.readout_txt.width / 2;
         this.readout_txt.y = -1.5 * this.knobRadius - this.readout_txt.height;
         this.units_txt.y = -1.5 * this.knobRadius - this.units_txt.height;
-
     }//end createReadoutfield()
 
     private function onHitEnter( keyEvt: KeyboardEvent ):void{
@@ -209,32 +210,51 @@ public class RotaryKnob extends Sprite {
 //        this.manualUpdating = false;
 //    }
 
-    private function evtTextToNumber( evt: Event ): Number {
-        var inputText = evt.target.text;
-        var outputNumber: Number;
-        if ( inputText == "." ) {
-            evt.target.text = "0.";
-            evt.target.setSelection( 2, 2 ); //sets cursor at end of line
-            outputNumber = 0;
-        } else if ( inputText == "-" ) {
-            outputNumber = 0;
-        } else if ( inputText == "-." ) {
-            evt.target.text = "-0.";
-            evt.target.setSelection( 3, 3 ); //sets cursor at end of line
-            outputNumber = 0;
-        } else if ( isNaN( Number( inputText ) ) ) {
-            evt.target.text = "0";
-            outputNumber = 0;
-        }
-        else {
-            outputNumber = Number( inputText );
-        }
-        return outputNumber;
-    }//end textToNumber
+    //obsolete code
+//    private function evtTextToNumber( evt: Event ): Number {
+//        var inputText = evt.target.text;
+//        var outputNumber: Number;
+//        if ( inputText == "." ) {
+//            evt.target.text = "0.";
+//            evt.target.setSelection( 2, 2 ); //sets cursor at end of line
+//            outputNumber = 0;
+//        } else if ( inputText == "-" ) {
+//            outputNumber = 0;
+//        } else if ( inputText == "-." ) {
+//            evt.target.text = "-0.";
+//            evt.target.setSelection( 3, 3 ); //sets cursor at end of line
+//            outputNumber = 0;
+//        } else if ( isNaN( Number( inputText ) ) ) {
+//            evt.target.text = "0";
+//            outputNumber = 0;
+//        }
+//        else {
+//            outputNumber = Number( inputText );
+//        }
+//        return outputNumber;
+//    }//end textToNumber
 
     private function updateReadout(): void {
         var readout: Number = this.scale * this.outputTurns;
-        this.readout_txt.text = " " + readout.toFixed( 2 );
+        // displays default precision if readout is slider-selected,
+        // if readout is hand-entered, displays between default precision and upto 4 decimal places
+        var roundedReadout:Number = Math.floor( readout );
+        var decimalPortion:Number = readout - roundedReadout;
+        var factor:Number = 1000000;
+        var decimalPortion = Math.round(decimalPortion * factor)/factor;   //necessary because of bug in AS3 arithmetic. Example: 1.16 - 1 = 0.160000000000019
+        var decimal_str:String = decimalPortion.toString();
+        var nbrDecimalPlaces:Number = decimal_str.length - 2;
+        var readoutPlaces = this.decimalPlaces;
+        //trace("RotaryKnob.updateReadout(), readoutPlaces = " + readoutPlaces);
+        if(nbrDecimalPlaces > this.decimalPlaces){
+            readoutPlaces = nbrDecimalPlaces;
+            if(nbrDecimalPlaces > 4){
+                readoutPlaces = 4;   //limits display to 5 places past decimal point
+            }
+        } else if(nbrDecimalPlaces < this.decimalPlaces){
+            readoutPlaces = this.decimalPlaces;
+        }
+        this.readout_txt.text = " " + readout.toFixed( readoutPlaces );
     }//end updateReadout()
 
     private function makeKnobTurnable(): void {
@@ -286,6 +306,9 @@ public class RotaryKnob extends Sprite {
                 thisObject.knobGraphic.rotation = thisObject.outputAngle;
             }
             thisObject.outputTurns = thisObject.outputAngle / 360;
+            //round output value so that readout value is exact, according to decimal precision set by decimalPlaces
+            var factor:Number = thisObject.scale * Math.pow( 10, thisObject.decimalPlaces );
+            thisObject.outputTurns = Math.round( thisObject.outputTurns*factor )/factor;
             thisObject.updateReadout();
             initAngle = angle;
             thisObject.action();

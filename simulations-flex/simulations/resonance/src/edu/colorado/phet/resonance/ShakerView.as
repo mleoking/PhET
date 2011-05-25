@@ -134,6 +134,8 @@ public class ShakerView extends Sprite {
     public function initializeShakerControls(): void {
         //trace("initializeShakerControls() called");
         this.shakerOff();
+        this.model.setY0( 0 );
+        this.update();
         this.ASlider.setVal( 0.25 * this.maxAmplitude );
         this.fKnob.setTurns( 1.0 );
     }

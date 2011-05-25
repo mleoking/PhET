@@ -121,6 +121,9 @@ public class ShakerModel {
 
     public function resetInitialResonatorArray(): void {
         this.setResonatorArray( 3 );
+        for ( var i: int = 0; i < this.maxNbrResonators; i++ ) {
+            this.resonatorModel_arr[i].resetToZeroPositionAndSpeed();
+        }
     }//end function
 
     public function setB( b: Number ): void {
