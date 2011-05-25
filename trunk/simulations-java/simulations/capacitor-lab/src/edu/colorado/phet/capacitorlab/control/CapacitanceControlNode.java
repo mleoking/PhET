@@ -112,7 +112,7 @@ public class CapacitanceControlNode extends PhetPNode {
             x = backgroundNode.getFullBoundsReference().getCenterX() - ( trackNode.getFullBoundsReference().getWidth() / 2 );
             y = backgroundNode.getFullBoundsReference().getCenterY() - ( trackNode.getFullBoundsReference().getHeight() / 2 );
             trackNode.setOffset( x, y );
-            x = backgroundNode.getFullBoundsReference().getCenterX() - ( knobNode.getFullBoundsReference().getWidth() / 2 );
+            x = backgroundNode.getFullBoundsReference().getCenterX() + ( knobNode.getFullBoundsReference().getWidth() / 2 );
             y = backgroundNode.getFullBoundsReference().getCenterY();
             knobNode.setOffset( x, y );
             x = backgroundNode.getFullBoundsReference().getCenterX() - ( titleNode.getFullBoundsReference().getWidth() / 2 );
@@ -218,7 +218,7 @@ public class CapacitanceControlNode extends PhetPNode {
     }
 
     /*
-     * The slider knob, points to the left.
+     * The slider knob, points to the right.
      * Origin is at the knob's tip.
      */
     private static class KnobNode extends PPath {
@@ -228,10 +228,10 @@ public class CapacitanceControlNode extends PhetPNode {
             float h = (float) KNOB_SIZE.getHeight();
             GeneralPath path = new GeneralPath();
             path.moveTo( 0f, 0f );
-            path.lineTo( 0.35f * w, h / 2f );
-            path.lineTo( w, h / 2f );
-            path.lineTo( w, -h / 2f );
-            path.lineTo( 0.35f * w, -h / 2f );
+            path.lineTo( 0.35f * -w, h / 2f );
+            path.lineTo( -w, h / 2f );
+            path.lineTo( -w, -h / 2f );
+            path.lineTo( 0.35f * -w, -h / 2f );
             path.closePath();
 
             setPathTo( path );

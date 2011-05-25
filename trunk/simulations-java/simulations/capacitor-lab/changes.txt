@@ -1,3 +1,4 @@
+5/25/11 change request: make capacitance slider thumb point to the right
 5/25/11 remove voltage attribute from wire model
 5/25/11 implement voltage computation for wires in Combination2 circuit
 5/25/11 implement voltage computation for wires in Combination1 circuit
