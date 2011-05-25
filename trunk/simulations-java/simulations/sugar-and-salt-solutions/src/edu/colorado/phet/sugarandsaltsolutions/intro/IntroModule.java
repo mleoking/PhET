@@ -20,7 +20,7 @@ public class IntroModule extends SugarAndSaltSolutionsModule {
         this( new IntroModel(), backgroundColor, removeSolutesControl );
     }
 
-    public IntroModule( IntroModel model, SugarAndSaltSolutionsColorScheme config, Function1<IntroModel, PNode> removeSolutesControl ) {
+    private IntroModule( IntroModel model, SugarAndSaltSolutionsColorScheme config, Function1<IntroModel, PNode> removeSolutesControl ) {
         super( "Intro", model.clock );
         this.model = model;
         setSimulationPanel( new IntroCanvas( this.model, config, removeSolutesControl ) );
