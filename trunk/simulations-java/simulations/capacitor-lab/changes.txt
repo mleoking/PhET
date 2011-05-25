@@ -1,3 +1,4 @@
+5/25/11 use ArrayList<Wire> in "Single" circuit, so that it's like the other circuits and can be more easily refactored
 5/25/11 add debug shapes to Multiple Capacitors tab
 5/25/11 generalize EFieldShapesDebugNode to work with any ICircuit
 5/25/11 generalize VoltageShapesDebugNode to work with any ICircuit
