@@ -10,6 +10,7 @@ import java.awt.geom.Rectangle2D;
  * ModelViewTransform provides the transforms between model and view coordinate systems.
  *
  * @author John Blanco
+ * @deprecated please use edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform
  */
 public class ModelViewTransform {
 

@@ -5,6 +5,7 @@
  * Package: edu.colorado.phet.common.view.graphics
  * Author: Another Guy
  * Date: Aug 29, 2003
+ * @deprecated please use edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform
  */
 package edu.colorado.phet.microwaves.common.graphics;
 
