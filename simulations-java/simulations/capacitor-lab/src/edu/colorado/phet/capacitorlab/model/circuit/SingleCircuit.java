@@ -33,7 +33,7 @@ public class SingleCircuit extends AbstractCircuit {
     // immutable instance data
     private final IClock clock;
     private final Capacitor capacitor;
-    private final Wire topWire, bottomWire;
+    private final ArrayList<Wire> wires;
 
     // mutable instance data
     private Property<Boolean> batteryConnectedProperty; // is the battery connected to the circuit?
@@ -44,7 +44,7 @@ public class SingleCircuit extends AbstractCircuit {
         this( clock, mvt, batteryLocation, capacitorLocation, plateWidth, plateSeparation, dielectricMaterial, dielectricOffset, true /* batteryConnected */ );
     }
 
-    public SingleCircuit( IClock clock, CLModelViewTransform3D mvt, Point3D batteryLocation, Point3D capacitorLocation,
+    public SingleCircuit( IClock clock, final CLModelViewTransform3D mvt, Point3D batteryLocation, Point3D capacitorLocation,
                           double plateWidth, double plateSeparation, DielectricMaterial dielectricMaterial, double dielectricOffset,
                           boolean batteryConnected ) {
         super( CLStrings.SINGLE, clock, mvt, batteryLocation );
@@ -55,8 +55,10 @@ public class SingleCircuit extends AbstractCircuit {
         this.disconnectedPlateCharge = getTotalCharge();
 
         // Create the wires
-        topWire = new WireBatteryTopToCapacitorTops( mvt, CLConstants.WIRE_THICKNESS, getBattery(), capacitor );
-        bottomWire = new WireBatteryBottomToCapacitorBottoms( mvt, CLConstants.WIRE_THICKNESS, getBattery(), capacitor );
+        wires = new ArrayList<Wire>() {{
+            add( new WireBatteryTopToCapacitorTops( mvt, CLConstants.WIRE_THICKNESS, getBattery(), capacitor ) );
+            add( new WireBatteryBottomToCapacitorBottoms( mvt, CLConstants.WIRE_THICKNESS, getBattery(), capacitor ) );
+        }};
 
         // observe battery
         getBattery().addVoltageObserver( new SimpleObserver() {
@@ -99,18 +101,15 @@ public class SingleCircuit extends AbstractCircuit {
     }
 
     public ArrayList<Wire> getWires() {
-        return new ArrayList<Wire>() {{
-            add( topWire );
-            add( bottomWire );
-        }};
+        return wires;
     }
 
     public Wire getTopWire() {
-        return topWire;
+        return wires.get( 0 );
     }
 
     public Wire getBottomWire() {
-        return bottomWire;
+        return wires.get( wires.size() - 1 );
     }
 
     //----------------------------------------------------------------------------------
@@ -159,8 +158,8 @@ public class SingleCircuit extends AbstractCircuit {
         // There's an order dependency here. Voltmeter is listening for a circuitChanged notification,
         // so if we set the plate voltage first and a probe is on a wire, then the meter will be
         // reading a stale wire voltage.
-        bottomWire.setVoltage( 0 );
-        topWire.setVoltage( V );
+        getBottomWire().setVoltage( 0 );
+        getTopWire().setVoltage( V );
         capacitor.setPlatesVoltage( V );
     }
 
@@ -180,10 +179,10 @@ public class SingleCircuit extends AbstractCircuit {
     // @see ICircuit.getVoltageAt
     public double getVoltageAt( Shape s ) {
         double voltage = Double.NaN;
-        if ( ( isBatteryConnected() && ( topWire.intersects( s ) || getBattery().intersectsTopTerminal( s ) ) ) || capacitor.intersectsTopPlateShape( s ) ) {
+        if ( ( isBatteryConnected() && ( getTopWire().intersects( s ) || getBattery().intersectsTopTerminal( s ) ) ) || capacitor.intersectsTopPlateShape( s ) ) {
             voltage = getTotalVoltage();
         }
-        else if ( ( isBatteryConnected() && ( bottomWire.intersects( s ) || getBattery().intersectsBottomTerminal( s ) ) ) || capacitor.intersectsBottomPlateShape( s ) ) {
+        else if ( ( isBatteryConnected() && ( getBottomWire().intersects( s ) || getBattery().intersectsBottomTerminal( s ) ) ) || capacitor.intersectsBottomPlateShape( s ) ) {
             voltage = 0;
         }
         return voltage;
