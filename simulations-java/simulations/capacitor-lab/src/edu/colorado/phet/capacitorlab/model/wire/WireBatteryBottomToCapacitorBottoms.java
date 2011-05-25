@@ -39,10 +39,15 @@ public class WireBatteryBottomToCapacitorBottoms extends Wire {
         super( mvt, thickness, new Function0<ArrayList<WireSegment>>() {
             public ArrayList<WireSegment> apply() {
 
+                // find max Y
+                double maxY = battery.getY() + CLConstants.WIRE_EXTENT;
+                for ( Capacitor capacitor : capacitors ) {
+                    maxY = Math.max( maxY, capacitor.getLocation().getY() + 0.01 ); //TODO clean this up
+                }
+
                 // connect battery to the rightmost capacitor
                 final Capacitor rightmostCapacitor = capacitors.get( capacitors.size() - 1 );
-                final double y = Math.max( battery.getY() + CLConstants.WIRE_EXTENT, rightmostCapacitor.getLocation().getY() + 0.01 );//TODO clean this up
-                final Point2D.Double leftCorner = new Point2D.Double( battery.getX(), y );
+                final Point2D.Double leftCorner = new Point2D.Double( battery.getX(), maxY );
                 final Point2D.Double rightCorner = new Point2D.Double( rightmostCapacitor.getX(), leftCorner.getY() );
                 final double t = ( thickness / 2 ); // for proper connection at corners with CAP_BUTT wire stroke
                 ArrayList<WireSegment> segments = new ArrayList<WireSegment>() {{
@@ -54,7 +59,7 @@ public class WireBatteryBottomToCapacitorBottoms extends Wire {
                 // add segments for all capacitors in between the battery and rightmost capacitor
                 for ( int i = 0; i < capacitors.size() - 1; i++ ) {
                     Capacitor capacitor = capacitors.get( i );
-                    Point2D.Double startPoint = new Point2D.Double( capacitor.getX(), y );
+                    Point2D.Double startPoint = new Point2D.Double( capacitor.getX(), maxY );
                     segments.add( new CapacitorBottomWireSegment( startPoint, capacitor ) );
                 }
 

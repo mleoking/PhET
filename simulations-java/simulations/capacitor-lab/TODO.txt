@@ -21,8 +21,6 @@ HIGH PRIORITY
 - #2903, E-field default scale and autoscaling
 - lots of duplicate code in AbstractCircuit subclasses
 - add editable mantissa text field to capacitance control?
-- change meter and check box labels in Multiple Capacitors tab
-- horizontal top wire in Combination1Circuit is too low, should look like Combination2Circuit
 
 MEDIUM PRIORITY
 - should voltage of all batteries be synchronized in Multiple Capacitors tab? would make comparison easier...
