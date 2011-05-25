@@ -1,3 +1,4 @@
+# 0.00.28 (52384) May 25, 2011
 Moved the "show values" checkbox back into the concentration bar chart panel
 Removed separate flavor for the combined "remove salt/sugar" button
 Improved color and size for Sodium and Chlorine icons
