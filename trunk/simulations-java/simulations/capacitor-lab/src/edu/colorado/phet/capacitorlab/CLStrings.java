@@ -18,6 +18,7 @@ public class CLStrings {
     // simple strings
     public static final String AIR = getString( "air" );
     public static final String CAPACITANCE = getString( "capacitance" );
+    public static final String CAPACITANCE_TOTAL = getString( "capacitanceTotal" );
     public static final String CIRCUITS = getString( "circuits" );
     public static final String COMBINATION_1 = getString( "combination1" );
     public static final String COMBINATION_2 = getString( "combination2" );
@@ -51,6 +52,7 @@ public class CLStrings {
     public static final String PLATE_CHARGE = getString( "plateCharge" );
     public static final String PLATE_CHARGES = getString( "plateCharges" );
     public static final String PLATE_CHARGE_TOP = getString( "plateChargeTop" );
+    public static final String PLATE_CHARGE_TOTAL = getString( "plateChargeTotal" );
     public static final String SEPARATION = getString( "separation" );
     public static final String SHOW_ALL_CHARGES = getString( "showAllCharges" );
     public static final String SHOW_EXCESS_CHARGES = getString( "showExcessCharges" );

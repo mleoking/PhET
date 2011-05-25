@@ -10,8 +10,8 @@ DESIGN ISSUES
 MULTIPLE CAPACITORS REQUIREMENTS
 - simplified capacitors with fixed area and variable capacitance, separation changes with capacitance
 - min/max of capacitance slider varies capacitance by 3x (choose min/max to look good)
-- capacitance meter shows total capacitance for the circuit (label "Total Capacitance"?)
-- charge meter shows total charge stored for the circuit (label "Total Charge Stored"?)
+- capacitance meter shows total capacitance for the circuit (label "Capacitance (total)"?)
+- charge meter shows total plate charge for the circuit (label "Plate Charge (total)"?)
 - no dielectric (air)
 - show charge on plates
 - show E-field lines
