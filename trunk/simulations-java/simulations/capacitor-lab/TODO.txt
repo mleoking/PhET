@@ -20,14 +20,16 @@ MULTIPLE CAPACITORS REQUIREMENTS
 HIGH PRIORITY
 - #2903, E-field default scale and autoscaling
 - plate voltage is wrong for C2 in Combination1Circuit
+- lots of duplicate code in AbstractCircuit subclasses
+- add editable mantissa text field to capacitance control?
+- change meter and check box labels in Multiple Capacitors tab
+- horizontal top wire in Combination1Circuit is too low, should look like Combination2Circuit
 
 MEDIUM PRIORITY
+- should voltage of all batteries be synchronized in Multiple Capacitors tab? would make comparison easier...
 - move shape creation out of Wire and into WireNode (via WireShapeFactory) to be consistent with pattern used elsewhere
 - hack in createShape of some wire subclasses
-- lots of duplicate code in AbstractCircuit subclasses
-- change meter and check box labels in Multiple Capacitors tab
 - add base class for Model? all models have the same set of meters, 1 or more circuits, etc.
-- horizontal top wire in Combination1Circuit is too low, should look like Combination2Circuit
 - cleanup methods needed where anonymous observers/listeners are added in constructors
 - convert DielectricMaterialControl to use PropertyRadioButton and Property<DielectricMaterial> dielectricMaterial
 - convert DielectricConstantControl to use Property<Double> dielectricConstant
@@ -36,7 +38,6 @@ MEDIUM PRIORITY
 - convert BatteryConnectionButtonNode to use Property<Boolean> batteryConnected
 - convert CurrentIndicatorNode to observer of Property<Double> currentAmplitude
 - merge MultipleCapacitorsModule/Model/Canvas/ControlPanel into DielectricModule/Model/Canvas/ControlPanel?
-- add editable mantissa text field to capacitance control
 
 LOW PRIORITY
 - delete empty packages
