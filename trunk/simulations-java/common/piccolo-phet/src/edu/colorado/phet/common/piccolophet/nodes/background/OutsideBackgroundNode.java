@@ -16,7 +16,27 @@ import edu.umd.cs.piccolo.PNode;
  * @author Sam Reid
  */
 public class OutsideBackgroundNode extends PNode {
-    public OutsideBackgroundNode( ModelViewTransform mvt, Rectangle2D modelBounds, double skyGradientTopY, double groundGradientBottomY ) {
+
+    /**
+     * Convenience constructor that assumes some typical values for the overall size of the earth and sky.
+     *
+     * @param mvt
+     * @param skyGradientTopY       top of the gradient in model coordinates.
+     * @param groundGradientBottomY bottom of the gradient in model coordinates.
+     */
+    public OutsideBackgroundNode( ModelViewTransform mvt, double skyGradientTopY, double groundGradientBottomY ) {
+        this( mvt, skyGradientTopY, groundGradientBottomY, new Rectangle2D.Double( -1000, -2000, 2000, 4000 ) );
+    }
+
+    /**
+     * Primary constructor.
+     *
+     * @param mvt
+     * @param skyGradientTopY
+     * @param skyGradientTopY       top of the gradient in model coordinates.
+     * @param groundGradientBottomY bottom of the gradient in model coordinates.
+     */
+    public OutsideBackgroundNode( ModelViewTransform mvt, double skyGradientTopY, double groundGradientBottomY, Rectangle2D modelBounds ) {
         if ( modelBounds.getMinY() < 0 ) {
             // Add the ground first, because we're earthy people.
             addChild( new GroundNode( mvt, new Rectangle2D.Double( modelBounds.getX(), modelBounds.getMinY(), modelBounds.getWidth(), -modelBounds.getMinY() ), groundGradientBottomY ) );
