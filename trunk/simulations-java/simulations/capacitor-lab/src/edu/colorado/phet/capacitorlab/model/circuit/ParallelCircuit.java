@@ -127,12 +127,12 @@ public class ParallelCircuit extends AbstractCircuit {
         return sum;
     }
 
-    public double getVoltageAt( Shape s ) {
+    public double getVoltageAt( Shape shape ) {
         double voltage = Double.NaN;
-        if ( getBattery().intersectsTopTerminal( s ) || intersectsSomeTopPlate( s ) || getTopWire().intersects( s ) ) {
+        if ( getBattery().intersectsTopTerminal( shape ) || intersectsSomeTopPlate( shape ) || getTopWire().intersects( shape ) ) {
             voltage = getTotalVoltage();
         }
-        else if ( getBattery().intersectsBottomTerminal( s ) || intersectsSomeBottomPlate( s ) || getBottomWire().intersects( s ) ) {
+        else if ( getBattery().intersectsBottomTerminal( shape ) || intersectsSomeBottomPlate( shape ) || getBottomWire().intersects( shape ) ) {
             voltage = 0;
         }
         return voltage;
