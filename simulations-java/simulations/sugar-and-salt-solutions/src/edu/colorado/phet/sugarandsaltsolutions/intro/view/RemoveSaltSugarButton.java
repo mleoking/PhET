@@ -11,6 +11,7 @@ import edu.colorado.phet.sugarandsaltsolutions.intro.model.IntroModel;
 
 /**
  * Button that shows "Remove salt/sugar" as a single button, even if there is no sugar in the sim.  Shown only if there is anything to be removed.
+ * Kelly decided on May 24 to delete this variant since the separate buttons are better, but I'm keeping this around in case she is overriden or we change our minds
  *
  * @author Sam Reid
  */

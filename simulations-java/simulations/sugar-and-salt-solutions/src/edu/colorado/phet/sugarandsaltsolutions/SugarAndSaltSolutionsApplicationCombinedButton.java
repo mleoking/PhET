@@ -10,6 +10,7 @@ import edu.umd.cs.piccolo.PNode;
 
 /**
  * Main application for PhET's "Sugar and Salt Solutions" simulation but using a combined remove salt sugar button instead of separate, for testing purposes.
+ * Kelly decided on May 24 to delete this variant since the separate buttons are better, but I'm keeping this around in case she is overriden or we change our minds
  *
  * @author Sam Reid
  */
