@@ -64,7 +64,7 @@ public class SingleCircuit extends AbstractCircuit {
         getBattery().addVoltageObserver( new SimpleObserver() {
             public void update() {
                 if ( isBatteryConnected() ) {
-                    updateVoltages();
+                    updatePlateVoltages();
                 }
             }
         } );
@@ -73,7 +73,7 @@ public class SingleCircuit extends AbstractCircuit {
         capacitor.addCapacitorChangeListener( new CapacitorChangeListener() {
             public void capacitorChanged() {
                 if ( !isBatteryConnected() ) {
-                    updateVoltages();
+                    updatePlateVoltages();
                 }
                 fireCircuitChanged();
             }
@@ -141,25 +141,17 @@ public class SingleCircuit extends AbstractCircuit {
                 disconnectedPlateCharge = getTotalCharge();
             }
             batteryConnectedProperty.set( batteryConnected );
-            updateVoltages();
+            updatePlateVoltages();
             fireCircuitChanged();
         }
     }
 
-    /*
-     * Updates the capacitor and wire voltages, depending on whether the battery is connected.
-     */
-    private void updateVoltages() {
+    // Updates the plate voltage, depending on whether the battery is connected.
+    private void updatePlateVoltages() {
         double V = getBattery().getVoltage();
         if ( !isBatteryConnected() ) {
             V = disconnectedPlateCharge / capacitor.getTotalCapacitance(); // V = Q/C
         }
-        //TODO:
-        // There's an order dependency here. Voltmeter is listening for a circuitChanged notification,
-        // so if we set the plate voltage first and a probe is on a wire, then the meter will be
-        // reading a stale wire voltage.
-        getBottomWire().setVoltage( 0 );
-        getTopWire().setVoltage( V );
         capacitor.setPlatesVoltage( V );
     }
 
@@ -211,7 +203,7 @@ public class SingleCircuit extends AbstractCircuit {
         if ( disconnectedPlateCharge != this.disconnectedPlateCharge ) {
             this.disconnectedPlateCharge = disconnectedPlateCharge;
             if ( !isBatteryConnected() ) {
-                updateVoltages();
+                updatePlateVoltages();
                 fireCircuitChanged();
             }
         }
