@@ -1,6 +1,5 @@
 package edu.colorado.phet.motionseries.graphics
 
-import edu.colorado.phet.common.piccolophet.nodes.{PhetPPath, ButtonNode}
 import java.awt.geom.{Rectangle2D, Point2D}
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
@@ -16,6 +15,7 @@ import edu.colorado.phet.motionseries.{StageContainerArea, MotionSeriesResources
 import edu.colorado.phet.common.piccolophet.event.CursorHandler
 import java.awt.{BasicStroke, Color}
 import MotionSeriesDefaults.freeBodyDiagramWidth
+import edu.colorado.phet.common.piccolophet.nodes.{HTMLImageButtonNode, PhetPPath}
 
 /**
  * This is the base canvas for the "Ramp" and "Forces and Motion" sims
@@ -159,13 +159,18 @@ abstract class MotionSeriesCanvas(model: MotionSeriesModel,
   addStageNode(returnObjectButton)
 }
 
-class ReturnObjectButton(model: MotionSeriesModel) extends ButtonNode("controls.return-object".translate, Color.orange) {
-  def updateVisibility() = setVisible(model.motionSeriesObjectInModelViewportRange || model.motionSeriesObject.isCrashed)
+class ReturnObjectButton(model: MotionSeriesModel) extends HTMLImageButtonNode("controls.return-object".translate, Color.orange) {
+  def updateVisibility() {
+    setVisible(model.motionSeriesObjectInModelViewportRange || model.motionSeriesObject.isCrashed)
+  }
+
   updateVisibility()
   model.addListener(updateVisibility)
 
   addActionListener(new ActionListener() {
-    def actionPerformed(e: ActionEvent) = model.returnMotionSeriesObject()
+    def actionPerformed(e: ActionEvent) {
+      model.returnMotionSeriesObject()
+    }
   })
 }
 
