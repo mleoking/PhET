@@ -32,8 +32,9 @@ public class SaltShaker extends Dispenser {
         super( x, y, Math.PI * 3 / 4, beaker, moreAllowed );
         moreAllowed.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean allowed ) {
-                //If the shaker is emptied, prevent spurious grains from coming out the next time it is refilled by setting the shake amount to 0.0
+                //If the shaker is emptied, prevent spurious grains from coming out the next time it is refilled by setting the shake amount to 0.0 and clearing the sampled positions
                 if ( !allowed ) {
+                    System.out.println( "SaltShaker.apply. cleared" );
                     shakeAmount = 0;
                     positions.clear();
                 }
@@ -45,30 +46,34 @@ public class SaltShaker extends Dispenser {
     public void translate( Dimension2D delta ) {
         super.translate( delta );
 
-        //Add the new position to the list, but keep the list short so there is no memory leak
-        positions.add( center.get() );
-        while ( positions.size() > 50 ) {
-            positions.remove( 0 );
-        }
-
-        //Make sure we have enough data, then compute accelerations of the shaker in the direction of its axis
-        //to determine how much to shake out
-        if ( positions.size() >= 20 ) {
-
-            //Average the second derivatives
-            ImmutableVector2D sum = new ImmutableVector2D();
-            int numIterations = 10;
-            for ( int i = 0; i < numIterations; i++ ) {
-                sum = sum.plus( getSecondDerivative( i ) );
+        //Only increment the shake amount if the shaker is non-empty, otherwise when it refills it might automatically emit salt even though the user isn't controlling it
+        if ( moreAllowed.get() ) {
+            //Add the new position to the list, but keep the list short so there is no memory leak
+            positions.add( center.get() );
+            while ( positions.size() > 50 ) {
+                positions.remove( 0 );
             }
-            sum = sum.times( 1.0 / numIterations );
 
-            //But only take the component along the axis
-            double dist = Math.abs( sum.dot( parseAngleAndMagnitude( 1, angle.get() + Math.PI / 2 ) ) );//Have to rotate by 90 degrees since for positions 0 degrees is to the right, but for the shaker 0 degrees is up
+            //Make sure we have enough data, then compute accelerations of the shaker in the direction of its axis
+            //to determine how much to shake out
+            if ( positions.size() >= 20 ) {
 
-            //only add to the shake amount if it was vigorous enough
-            if ( dist > 1E-4 ) {
-                shakeAmount += dist;
+                //Average the second derivatives
+                ImmutableVector2D sum = new ImmutableVector2D();
+                int numIterations = 10;
+                for ( int i = 0; i < numIterations; i++ ) {
+                    sum = sum.plus( getSecondDerivative( i ) );
+                }
+                sum = sum.times( 1.0 / numIterations );
+
+                //But only take the component along the axis
+                double dist = Math.abs( sum.dot( parseAngleAndMagnitude( 1, angle.get() + Math.PI / 2 ) ) );//Have to rotate by 90 degrees since for positions 0 degrees is to the right, but for the shaker 0 degrees is up
+
+                //only add to the shake amount if it was vigorous enough
+                if ( dist > 1E-4 ) {
+                    shakeAmount += dist;
+                    System.out.println( "shakeAmount = " + shakeAmount );
+                }
             }
         }
     }
@@ -77,6 +82,7 @@ public class SaltShaker extends Dispenser {
     public void updateModel( SugarAndSaltSolutionModel model ) {
         //Check to see if we should be emitting salt crystals-- if the shaker was shaken enough
         if ( enabled.get() && shakeAmount > 0 && moreAllowed.get() ) {
+            System.out.println( "Emitted salt, shake amount = " + shakeAmount + ", moreAllowed = " + moreAllowed.get() );
             int numCrystals = (int) ( random.nextInt( 2 ) + Math.min( shakeAmount * 4000, 4 ) );
             for ( int i = 0; i < numCrystals; i++ ) {
                 //Determine where the salt should come out
@@ -89,6 +95,7 @@ public class SaltShaker extends Dispenser {
                     velocity.set( getCrystalVelocity( outputPoint ) );
                 }} );
                 shakeAmount = 0.0;
+
                 //don't clear the position array here since the user may still be shaking the shaker
             }
         }
