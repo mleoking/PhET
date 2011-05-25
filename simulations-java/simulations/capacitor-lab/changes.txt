@@ -1,3 +1,4 @@
+5/25/11 add debug shapes to Multiple Capacitors tab
 5/25/11 generalize EFieldShapesDebugNode to work with any ICircuit
 5/25/11 generalize VoltageShapesDebugNode to work with any ICircuit
 5/19/11 create a circuit node (DielectricCircuitNode) for the circuit in "Dielectric" tab

@@ -6,6 +6,8 @@ import java.awt.geom.Dimension2D;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLGlobalProperties;
+import edu.colorado.phet.capacitorlab.developer.EFieldShapesDebugNode;
+import edu.colorado.phet.capacitorlab.developer.VoltageShapesDebugNode;
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.colorado.phet.capacitorlab.model.DielectricChargeView;
 import edu.colorado.phet.capacitorlab.module.CLCanvas;
@@ -20,6 +22,7 @@ import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * Canvas for the "Multiple Capacitors" module.
@@ -33,6 +36,7 @@ public class MultipleCapacitorsCanvas extends CLCanvas {
     public final Property<Boolean> eFieldVisibleProperty = new Property<Boolean>( CLConstants.EFIELD_VISIBLE );
     public final Property<DielectricChargeView> dielectricChargeViewProperty = new Property<DielectricChargeView>( CLConstants.DIELECTRIC_CHARGE_VIEW );
 
+    private final CLGlobalProperties globalProperties;
     private final MultipleCapacitorsModel model;
     private final CLModelViewTransform3D mvt;
 
@@ -45,10 +49,14 @@ public class MultipleCapacitorsCanvas extends CLCanvas {
     private final VoltmeterView voltmeter;
     private final EFieldDetectorView eFieldDetector;
 
+    // debug
+    private final PNode shapesDebugParentNode;
+
     public MultipleCapacitorsCanvas( final MultipleCapacitorsModel model, final CLModelViewTransform3D mvt, CLGlobalProperties globalProperties ) {
 
         this.model = model;
         this.mvt = mvt;
+        this.globalProperties = globalProperties;
 
         //TODO maximums shouldn't be dependent on DielectricModel, and may be different for this module
         // maximums
@@ -67,6 +75,9 @@ public class MultipleCapacitorsCanvas extends CLCanvas {
         voltmeter = new VoltmeterView( model.getVoltmeter(), mvt );
         eFieldDetector = new EFieldDetectorView( model.getEFieldDetector(), mvt, eFieldVectorReferenceMagnitude, globalProperties.dev, true /* eFieldDetectorSimplified */ );
 
+        // debug
+        shapesDebugParentNode = new PComposite();
+
         // rendering order
         addChild( circuitParentNode );
         addChild( capacitanceMeterNode );
@@ -80,6 +91,7 @@ public class MultipleCapacitorsCanvas extends CLCanvas {
         addChild( voltmeter.getPositiveWireNode() );
         addChild( voltmeter.getNegativeProbeNode() );
         addChild( voltmeter.getNegativeWireNode() );
+        addChild( shapesDebugParentNode );
 
         model.currentCircuitProperty.addObserver( new SimpleObserver() {
             public void update() {
@@ -87,8 +99,18 @@ public class MultipleCapacitorsCanvas extends CLCanvas {
                 circuitParentNode.addChild( new MultipleCapacitorsCircuitNode( model.currentCircuitProperty.get(), mvt, false /* dielectricVisible */,
                                                                                plateChargesVisibleProperty, eFieldVisibleProperty, dielectricChargeViewProperty,
                                                                                maxPlateCharge, maxExcessDielectricPlateCharge, maxEffectiveEField, maxDielectricEField ) );
+                updateShapesDebugNodes();
             }
         } );
+
+        // change visibility of debug shapes
+        SimpleObserver shapesVisibilityObserver = new SimpleObserver() {
+            public void update() {
+                updateShapesDebugNodes();
+            }
+        };
+        globalProperties.eFieldShapesVisibleProperty.addObserver( shapesVisibilityObserver );
+        globalProperties.voltageShapesVisibleProperty.addObserver( shapesVisibilityObserver );
     }
 
     public void reset() {
@@ -100,6 +122,18 @@ public class MultipleCapacitorsCanvas extends CLCanvas {
         capacitanceMeterNode.reset();
         plateChargeMeterNode.reset();
         storedEnergyMeterNode.reset();
+    }
+
+    private void updateShapesDebugNodes() {
+        shapesDebugParentNode.removeAllChildren();
+
+        PNode voltageShapesDebugNode = new VoltageShapesDebugNode( model.currentCircuitProperty.get(), model.getVoltmeter() );
+        shapesDebugParentNode.addChild( voltageShapesDebugNode );
+        voltageShapesDebugNode.setVisible( globalProperties.voltageShapesVisibleProperty.get() );
+
+        PNode eFieldShapesDebugNode = new EFieldShapesDebugNode( model.currentCircuitProperty.get() );
+        shapesDebugParentNode.addChild( eFieldShapesDebugNode );
+        eFieldShapesDebugNode.setVisible( globalProperties.eFieldShapesVisibleProperty.get() );
     }
 
     @Override
