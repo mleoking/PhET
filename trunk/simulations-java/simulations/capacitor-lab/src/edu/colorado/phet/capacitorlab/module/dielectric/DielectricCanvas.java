@@ -76,10 +76,10 @@ public class DielectricCanvas extends CLCanvas {
         eFieldDetector = new EFieldDetectorView( model.getEFieldDetector(), mvt, eFieldVectorReferenceMagnitude, globalProperties.dev, eFieldDetectorSimplified );
 
         voltageShapesDebugNode = new VoltageShapesDebugNode( model.getCircuit(), model.getVoltmeter() );
-        voltageShapesDebugNode.setVisible( false );
+        voltageShapesDebugNode.setVisible( globalProperties.voltageShapesVisibleProperty.get() );
 
         eFieldShapesDebugNode = new EFieldShapesDebugNode( model.getCircuit() );
-        eFieldShapesDebugNode.setVisible( false );
+        eFieldShapesDebugNode.setVisible( globalProperties.eFieldShapesVisibleProperty.get() );
 
         // rendering order
         addChild( circuitNode );
