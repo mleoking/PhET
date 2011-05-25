@@ -30,7 +30,6 @@ public class Wire {
 
     // observable properties
     private final Property<Shape> shapeProperty; // Shape in view coordinates!
-    private final Property<Double> voltageProperty;
 
     public Wire( CLModelViewTransform3D mvt, double thickness, Function0<ArrayList<WireSegment>> createWireSegments ) {
         this( mvt, thickness, createWireSegments.apply() );
@@ -49,7 +48,7 @@ public class Wire {
         this.shapeFactory = new WireShapeFactory( this, mvt );
 
         this.shapeProperty = new Property<Shape>( createShape() );
-        this.voltageProperty = new Property<Double>( 0.0 );
+//        this.voltageProperty = new Property<Double>( 0.0 );
 
         // when any segment changes, update the shape property
         {
@@ -87,14 +86,6 @@ public class Wire {
 
     public ArrayList<WireSegment> getSegmentsReference() {
         return segments;
-    }
-
-    public double getVoltage() {
-        return voltageProperty.get();
-    }
-
-    public void setVoltage( double voltage ) {
-        voltageProperty.set( voltage );
     }
 
     public void addShapeObserver( SimpleObserver o ) {
