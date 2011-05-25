@@ -23,8 +23,20 @@ public interface ICircuit {
 
     boolean isBatteryConnected();
 
+    /**
+     * Gets an ordered list of capacitors in the circuit.
+     * The capacitors are ordered starting at the battery's top terminal, and proceeding clockwise.
+     *
+     * @return
+     */
     ArrayList<Capacitor> getCapacitors();
 
+    /**
+     * Gets an ordered list of wires in the circuit.
+     * The wires are ordered starting at the battery's top terminal, and proceeding clockwise.
+     *
+     * @return
+     */
     ArrayList<Wire> getWires();
 
     /**
