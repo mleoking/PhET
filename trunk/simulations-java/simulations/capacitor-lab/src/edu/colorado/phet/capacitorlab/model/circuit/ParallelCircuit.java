@@ -52,14 +52,14 @@ public class ParallelCircuit extends AbstractCircuit {
         // observe battery
         getBattery().addVoltageObserver( new SimpleObserver() {
             public void update() {
-                updateVoltages();
+                updatePlateVoltages();
             }
         } );
 
         // observe capacitor
         CapacitorChangeListener capacitorChangeListener = new CapacitorChangeListener() {
             public void capacitorChanged() {
-                updateVoltages();
+                updatePlateVoltages();
                 fireCircuitChanged();
             }
         };
@@ -94,7 +94,7 @@ public class ParallelCircuit extends AbstractCircuit {
         return wires;
     }
 
-    private void updateVoltages() {
+    private void updatePlateVoltages() {
         for ( Capacitor capacitor : getCapacitors() ) {
             capacitor.setPlatesVoltage( getTotalVoltage() ); // voltage across all capacitors is the same
         }

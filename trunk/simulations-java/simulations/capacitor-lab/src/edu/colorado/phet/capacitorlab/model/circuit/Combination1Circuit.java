@@ -80,14 +80,14 @@ public class Combination1Circuit extends AbstractCircuit {
         // observe battery
         getBattery().addVoltageObserver( new SimpleObserver() {
             public void update() {
-                updateVoltages();
+                updatePlateVoltages();
             }
         } );
 
         // observe capacitor
         CapacitorChangeListener capacitorChangeListener = new CapacitorChangeListener() {
             public void capacitorChanged() {
-                updateVoltages();
+                updatePlateVoltages();
                 fireCircuitChanged();
             }
         };
@@ -96,7 +96,7 @@ public class Combination1Circuit extends AbstractCircuit {
         }
     }
 
-    private void updateVoltages() {
+    private void updatePlateVoltages() {
         double Q_total = getTotalCharge();
         // series
         c1.setPlatesVoltage( Q_total / c1.getTotalCapacitance() );
@@ -113,6 +113,21 @@ public class Combination1Circuit extends AbstractCircuit {
         return wires;
     }
 
+    // Gets the wire connected to the battery's top terminal.
+    private Wire getTopWire() {
+        return wires.get( 0 );
+    }
+
+    // Gets the wire connected to the battery's bottom terminal.
+    private Wire getBottomWire() {
+        return wires.get( wires.size() - 1 );
+    }
+
+    // Gets the wire between the 2 capacitors.
+    private Wire getMiddleWire() {
+        return wires.get( 1 );
+    }
+
     // C_total = ( 1 / ( 1/C1 + 1/C2 ) ) + C3
     public double getTotalCapacitance() {
         double C1 = c1.getTotalCapacitance();
@@ -121,19 +136,16 @@ public class Combination1Circuit extends AbstractCircuit {
         return ( 1 / ( 1 / C1 + 1 / C2 ) ) + C3;
     }
 
-    public double getVoltageAt( Shape s ) {
+    public double getVoltageAt( Shape shape ) {
         double voltage = Double.NaN;
-        if ( getBattery().intersectsTopTerminal( s ) || c1.intersectsTopPlateShape( s ) || c3.intersectsTopPlateShape( s ) ) {
+        if ( getBattery().intersectsTopTerminal( shape ) || c1.intersectsTopPlateShape( shape ) || c3.intersectsTopPlateShape( shape ) || getTopWire().intersects( shape ) ) {
             voltage = getTotalVoltage();
         }
-        else if ( getBattery().intersectsBottomTerminal( s ) || c2.intersectsBottomPlateShape( s ) || c3.intersectsBottomPlateShape( s ) ) {
+        else if ( getBattery().intersectsBottomTerminal( shape ) || c2.intersectsBottomPlateShape( shape ) || c3.intersectsBottomPlateShape( shape ) || getBottomWire().intersects( shape ) ) {
             voltage = 0;
         }
-        else if ( c1.intersectsBottomPlateShape( s ) || c2.intersectsTopPlateShape( s ) ) {
+        else if ( c1.intersectsBottomPlateShape( shape ) || c2.intersectsTopPlateShape( shape ) || getMiddleWire().intersects( shape ) ) {
             voltage = c2.getPlatesVoltage();
-        }
-        else {
-            //TODO check wires
         }
         return voltage;
     }

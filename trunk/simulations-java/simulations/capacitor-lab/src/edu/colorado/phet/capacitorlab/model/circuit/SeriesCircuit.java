@@ -58,14 +58,14 @@ public class SeriesCircuit extends AbstractCircuit {
         // observe battery
         getBattery().addVoltageObserver( new SimpleObserver() {
             public void update() {
-                updateVoltages();
+                updatePlateVoltages();
             }
         } );
 
         // observe capacitor
         CapacitorChangeListener capacitorChangeListener = new CapacitorChangeListener() {
             public void capacitorChanged() {
-                updateVoltages();
+                updatePlateVoltages();
                 fireCircuitChanged();
             }
         };
@@ -114,7 +114,7 @@ public class SeriesCircuit extends AbstractCircuit {
         return wires;
     }
 
-    private void updateVoltages() {
+    private void updatePlateVoltages() {
         double Q_total = getTotalCharge();
         for ( Capacitor capacitor : getCapacitors() ) {
             double Ci = capacitor.getTotalCapacitance();
