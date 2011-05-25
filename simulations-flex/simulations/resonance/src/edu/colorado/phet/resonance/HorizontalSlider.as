@@ -76,6 +76,23 @@ public class HorizontalSlider extends Sprite {
         this.updateReadout();
     }//end setVal
 
+    public function setSliderWithoutAction(val:Number):void{
+         var xVal: Number = val;  /// this.scale;
+        //trace("HorizSlider.setVal val = "+val);
+        if ( xVal >= this.minVal && xVal <= this.maxVal ) {
+            this.outputValue = xVal;
+            this.knob.x = this.lengthInPix * (xVal - this.minVal) / (this.maxVal - this.minVal);
+        }else if(xVal > this.maxVal){
+				this.outputValue = this.maxVal;
+				this.knob.x = this.lengthInPix;
+				this.updateReadout();
+			}else if(xVal < this.minVal){
+				this.outputValue = this.minVal;
+				this.knob.x = 0;
+			}
+        this.updateReadout();
+    }//end setSliderWithoutAction()
+
     public function setScale( scale: Number ): void {
         this.scale = scale;
     }
@@ -241,7 +258,6 @@ public class HorizontalSlider extends Sprite {
         var delPix: Number = this.lengthInPix / (this.nbrTics - 1);
 
         function grabKnob( evt: MouseEvent ): void {
-            ;
             stage.addEventListener( MouseEvent.MOUSE_UP, releaseKnob );
             stage.addEventListener( MouseEvent.MOUSE_MOVE, moveKnob );
         }
