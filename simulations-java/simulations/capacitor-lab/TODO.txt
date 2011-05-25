@@ -39,7 +39,6 @@ MEDIUM PRIORITY
 - add editable mantissa text field to capacitance control
 
 LOW PRIORITY
-- make capacitance slider thumbs point to the right
 - delete empty packages
 - round corners of wires?
 - would it be OK to have the dielectric fully inserted (offset=0) in the Intro tab?
