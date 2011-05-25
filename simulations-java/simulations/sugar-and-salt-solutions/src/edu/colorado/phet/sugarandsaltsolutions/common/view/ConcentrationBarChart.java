@@ -11,7 +11,6 @@ import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
@@ -117,7 +116,7 @@ public class ConcentrationBarChart extends PNode {
             } );
             // Create and add the caption.
             PText captionNode = new PText( caption ) {{
-                setFont( new PhetFont( 16, true ) );
+                setFont( SugarAndSaltSolutionsCanvas.CONTROL_FONT );
                 // Position so that it is centered under the bar.
                 setOffset( WIDTH / 2 - getFullBoundsReference().width / 2, 5 );
             }};
@@ -125,6 +124,7 @@ public class ConcentrationBarChart extends PNode {
 
             //Optionally show the readout of the exact value above the bar itself
             PText valueReadout = new PText() {{
+                setFont( SugarAndSaltSolutionsCanvas.CONTROL_FONT );
                 value.addObserver( new VoidFunction1<Double>() {
                     public void apply( Double molesPerMeterCubed ) {
                         //Convert to Moles per Liter from SI

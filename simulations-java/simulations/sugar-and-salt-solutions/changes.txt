@@ -1,3 +1,4 @@
+Increased font in concentration bar chart readouts
 Remove (mol/L) from the title of the concentration box
 In the concentration box title, use the same font size as the other box titles
 Use the same insets in the collapsed as the expanded bar chart so the +/- button doesn't move around
