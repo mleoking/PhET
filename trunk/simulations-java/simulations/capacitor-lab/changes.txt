@@ -1,3 +1,4 @@
+5/25/11 fix: horizontal top wire in Combination1 circuit is too low, should look like Combination2 circuit
 5/25/11 change labels on capacitance and plate charge meters in Multiple Capacitors tab
 5/25/11 fix plate voltage in Combination 1 circuit
 5/25/11 change request: make capacitance slider thumb point to the right
