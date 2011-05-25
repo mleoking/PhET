@@ -35,7 +35,8 @@ public class ControlPanel extends Canvas {
     private var gravityOnOff_rbg: RadioButtonGroup;
     private var gravityLabel: NiceLabel;
     private var rulerLabel: NiceLabel;
-    private var resonatorNbr_lbl: Label;
+    private var resonatorNbrLabel: NiceLabel;
+    //private var resonatorNbr_lbl: Label;
     private var mSlider: HorizontalSlider;  //NumericSlider;
     private var kSlider: HorizontalSlider;  //HSlider;
     private var freqLabel: NiceLabel;
@@ -155,43 +156,44 @@ public class ControlPanel extends Canvas {
         this.gravityOnOff_rbg.addEventListener( Event.CHANGE, clickGravity );
 
         //this.nbrResonators_lbl = new Label();
-        this.resonatorNbr_lbl = new Label();
+        //this.resonatorNbr_lbl = new Label();
 
-        with ( this.resonatorNbr_lbl ) {
-            text = this.resonator_str;
-            setStyle( "fontFamily", "Arial" );
-            setStyle( "fontSize", 14 );
-            setStyle( "color", 0x000000 );
-            percentWidth = 90;
-            setStyle( "textAlign", "center" );
-        }
+
+//        with ( this.resonatorNbr_lbl ) {
+//            text = this.resonator_str;
+//            setStyle( "fontFamily", "Arial" );
+//            setStyle( "fontSize", 14 );
+//            setStyle( "color", 0x000000 );
+//            percentWidth = 90;
+//            setStyle( "textAlign", "center" );
+//        }
 
         //setText( this.nbrResonators_lbl, this.numberOfResonators_str ) ;
         //setText( this.resonatorNbr_lbl, this.resonator_str ) ;
 
-        function setText( myLabel_lbl:Label,  text_str:String ):void{
-             with ( myLabel_lbl ) {
-                text = text_str;
-                setStyle( "fontFamily", "Arial" );
-                setStyle( "fontSize", 14 );
-                setStyle( "color", 0x000000 );
-                percentWidth = 90;
-                setStyle( "textAlign", "center" );
-            }
-        }
+//        function setText( myLabel_lbl:Label,  text_str:String ):void{
+//             with ( myLabel_lbl ) {
+//                text = text_str;
+//                setStyle( "fontFamily", "Arial" );
+//                setStyle( "fontSize", 14 );
+//                setStyle( "color", 0x000000 );
+//                percentWidth = 90;
+//                setStyle( "textAlign", "center" );
+//            }
+//        }
 
+        this.resonatorNbrLabel = new NiceLabel();
+        this.resonatorNbrLabel.setText(  this.resonator_str + " 1"  );  //need text immediately to set size of Label, so flex framework properly positions label
+        this.resonatorNbrLabel.setBold(true);
 
-        //massProperty = new NumericProperty("mass", "kg", 1);
-        this.mSlider = new HorizontalSlider( setMass, 120, 0.1, 5.0, true );//NumericSlider(massProperty);
+        this.mSlider = new HorizontalSlider( setMass, 120, 0.1, 5.0, true );
         this.mSlider.setLabelText( mass_str );
         this.mSlider.setUnitsText( massUnits_str );
 
-        this.kSlider = new HorizontalSlider( setK, 120, 10, 1200, true );//HSlider();
+        this.kSlider = new HorizontalSlider( setK, 120, 10, 1200, true );
         this.kSlider.setLabelText( springConstant_str );
         this.kSlider.setUnitsText( springConstantUnits_str );
         this.kSlider.setReadoutPrecision( 0 );
-
-        this.kSlider.addEventListener( Event.CHANGE, onChangeK );
 
         this.freqLabel = new NiceLabel();
         this.freqLabel.setFontSize(12);
@@ -213,7 +215,7 @@ public class ControlPanel extends Canvas {
         this.background.addChild( new SpriteUIComponent( nbrResonatorsSlider, true ));
         this.background.addChild( new SpriteUIComponent(dampingSlider, true) );
 
-        this.innerBckgrnd.addChild( this.resonatorNbr_lbl );
+        this.innerBckgrnd.addChild( new SpriteUIComponent( this.resonatorNbrLabel, true ));//resonatorNbr_lbl );
         this.innerBckgrnd.addChild( new SpriteUIComponent(this.mSlider, true) );
         this.innerBckgrnd.addChild( new SpriteUIComponent(this.kSlider, true) );
         this.innerBckgrnd.addChild( new SpriteUIComponent(this.freqLabel, true) );
@@ -275,7 +277,8 @@ public class ControlPanel extends Canvas {
     public function setResonatorIndex( rNbr: int ): void {
         this.selectedResonatorNbr = rNbr;
         var rNbr_str: String = rNbr.toFixed( 0 );
-        this.resonatorNbr_lbl.text = this.resonator_str + " " + rNbr_str;
+        //this.resonatorNbr_lbl.text = this.resonator_str + " " + rNbr_str;
+        this.resonatorNbrLabel.setText( this.resonator_str + " " + rNbr_str ) ;
         var m: Number = this.shakerModel.resonatorModel_arr[rNbr - 1].getM();
         //trace("ControlPanel.setResonatorIndex. m = "+m);
         this.mSlider.setVal( m ); // massProperty.value = m;
@@ -299,7 +302,7 @@ public class ControlPanel extends Canvas {
 
 
     public function setPresetComboBoxExternally( idx: int):void{
-         this.presets_cbx.selectedIndex = idx;
+         this.presets_cbx.selectedIndex = idx;   //1st choice is idx = 0, 2nd choice is idx = 1, etc.
     }
 
 
@@ -360,18 +363,21 @@ public class ControlPanel extends Canvas {
         var m: Number = this.mSlider.getVal(); //massProperty.value;
         this.shakerModel.resonatorModel_arr[indx].setM( m );
         this.setFreqLabel();
+        this.setPresetComboBoxExternally(0);  //Set to ComboBox to "Choose.." whenever mass changed
         //trace("ControlPanel.setMass() mass = "+ m);
     }
 
-    private function onChangeK( evt: Event ): void {
-        this.setK();
-    }
+    //obsolete code
+//    private function onChangeK( evt: Event ): void {
+//        this.setK();
+//    }
 
     public function setK(): void {
         var indx: int = this.selectedResonatorNbr - 1;
         var k: Number = this.kSlider.getVal(); //value;
         this.shakerModel.resonatorModel_arr[indx].setK( k );
         this.setFreqLabel();
+        this.setPresetComboBoxExternally(0);  //Set to ComboBox to "Choose.." whenever spring constant changed
         //trace("ControlPanel.setK() k = "+ k);
     }
 

@@ -37,6 +37,11 @@ public class NiceLabel extends Sprite {
         this.tFormat.size = this.fontSize;
     }
 
+    public function setBold( tOrF:Boolean ):void{
+        this.tFormat.bold = tOrF;
+        this.label_txt.setTextFormat( this.tFormat );
+    }
+
     private function setLabel(): void {
         this.label_txt.selectable = false;
         this.label_txt.autoSize = TextFieldAutoSize.LEFT;

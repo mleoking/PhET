@@ -197,6 +197,7 @@ public class HorizontalSlider extends Sprite {
         this.readout_txt.addEventListener( KeyboardEvent.KEY_DOWN, onHitEnter );
     }//end createReadoutfield()
 
+    //update readout when user hits Enter
     private function onHitEnter( keyEvt: KeyboardEvent ):void{
         this.manualUpdating = true;
         if(keyEvt.keyCode == 13){       //13 is keyCode for Enter key
@@ -211,7 +212,7 @@ public class HorizontalSlider extends Sprite {
     private function updateReadout(): void {
         var readout: Number = this.scale * this.outputValue;
         // displays default precision if readout is slider-selected,
-        // if readout is hand-entered, displays between default precision and upto 4 decimal places
+        // if readout is hand-entered, displays between default precision and upto 5 decimal places
         var roundedReadout:Number = Math.floor( readout );
         var decimalPortion:Number = readout - roundedReadout;
         var factor:Number = 1000000;
@@ -222,13 +223,13 @@ public class HorizontalSlider extends Sprite {
         var readoutPlaces = this.decimalPlaces;
         if(nbrDecimalPlaces > this.decimalPlaces){
             readoutPlaces = nbrDecimalPlaces;
-            if(nbrDecimalPlaces > 5){
-                readoutPlaces = 5;   //limits display to 5 places past decimal point
+            if(nbrDecimalPlaces > 4){
+                readoutPlaces = 4;   //limits display to 4 places past decimal point
             }
         } else if(nbrDecimalPlaces < this.decimalPlaces){
             readoutPlaces = this.decimalPlaces;
         }
-        trace("HorizontalSlider.updateReadout readoutPlaces is "+readoutPlaces);
+        //trace("HorizontalSlider.updateReadout readoutPlaces is "+readoutPlaces);
         this.readout_txt.text = readout.toFixed( readoutPlaces );
     }//end updateReadout()
 

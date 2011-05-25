@@ -54,8 +54,13 @@ public class MassSpringModel {
         this.msTimer = new Timer( this.dt * 1000 );
         this.msTimer.addEventListener( TimerEvent.TIMER, stepForward );
         this.stopMotion();
-
     }//end of initialize()
+
+    public function resetToZeroPositionAndSpeed():void{
+        this.y0 = 0;
+        this.y = y0 + L0 - (m * g / k);  //start with mass hanging in equilibrium position
+        this.v = 0;
+    }
 
     public function registerView( view: MassSpringView ): void {
         this.view = view;
