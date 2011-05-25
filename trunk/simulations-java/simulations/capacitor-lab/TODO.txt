@@ -19,16 +19,13 @@ MULTIPLE CAPACITORS REQUIREMENTS
 
 HIGH PRIORITY
 - #2903, E-field default scale and autoscaling
-- add support for wires in getVoltageAt for all AbstractCircuit subclasses
 - plate voltage is wrong for C2 in Combination1Circuit
-- creation of debug shapes for E-Field and Voltage
 
 MEDIUM PRIORITY
 - move shape creation out of Wire and into WireNode (via WireShapeFactory) to be consistent with pattern used elsewhere
 - hack in createShape of some wire subclasses
 - lots of duplicate code in AbstractCircuit subclasses
 - change meter and check box labels in Multiple Capacitors tab
-- remove voltage from Wire model?
 - add base class for Model? all models have the same set of meters, 1 or more circuits, etc.
 - horizontal top wire in Combination1Circuit is too low, should look like Combination2Circuit
 - cleanup methods needed where anonymous observers/listeners are added in constructors
