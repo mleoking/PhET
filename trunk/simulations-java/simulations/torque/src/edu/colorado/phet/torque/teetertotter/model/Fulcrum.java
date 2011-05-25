@@ -10,7 +10,7 @@ import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
  */
 public class Fulcrum extends ModelObject {
     //Distance from the base of the fulcrum to its top
-    public static final double HEIGHT = 1;
+    public static final double HEIGHT = 0.6;
 
     //Length of the base of the triangle
     private static final double WIDTH = 0.5;
