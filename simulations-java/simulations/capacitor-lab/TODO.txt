@@ -5,6 +5,8 @@ DEADLINES
 DESIGN ISSUES
 - do interviews with mockups of circuit construction feature, due to cost and potential issues
 - what happens when meters are in the way in Multiple Capacitors tab?
+- should voltage of all batteries be synchronized in Multiple Capacitors tab? would make comparison easier...
+- Should capacitors be labeled (C1, C2,...) so that teachers can refer to them in class, homework assignments, etc?
 
 MULTIPLE CAPACITORS REQUIREMENTS
 - simplified capacitors with fixed area and variable capacitance, separation changes with capacitance
@@ -22,7 +24,6 @@ HIGH PRIORITY
 - add editable mantissa text field to capacitance control?
 
 MEDIUM PRIORITY
-- should voltage of all batteries be synchronized in Multiple Capacitors tab? would make comparison easier...
 - move shape creation out of Wire and into WireNode (via WireShapeFactory) to be consistent with pattern used elsewhere
 - hack in createShape of some wire subclasses
 - add base class for Model? all models have the same set of meters, 1 or more circuits, etc.
@@ -36,7 +37,6 @@ MEDIUM PRIORITY
 - merge MultipleCapacitorsModule/Model/Canvas/ControlPanel into DielectricModule/Model/Canvas/ControlPanel?
 
 LOW PRIORITY
-- Should capacitors be labeled (C1, C2,...) so that teachers can refer to them in class, homework assignments, etc?
 - delete empty packages
 - round corners of wires?
 - would it be OK to have the dielectric fully inserted (offset=0) in the Intro tab?
