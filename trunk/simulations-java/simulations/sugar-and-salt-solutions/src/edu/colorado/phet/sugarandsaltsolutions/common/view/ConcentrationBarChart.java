@@ -60,8 +60,8 @@ public class ConcentrationBarChart extends PNode {
         }} );
 
         //Show the title
-        addChild( new PText( "Concentration (mol/L)" ) {{
-            setFont( new PhetFont( 16, true ) );
+        addChild( new PText( "Concentration" ) {{
+            setFont( SugarAndSaltSolutionsCanvas.TITLE_FONT );
             setOffset( ConcentrationBarChart.this.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, INSET );
         }} );
 

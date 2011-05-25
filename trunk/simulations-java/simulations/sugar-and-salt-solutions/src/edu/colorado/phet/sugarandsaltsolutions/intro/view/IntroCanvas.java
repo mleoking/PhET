@@ -74,13 +74,13 @@ public class IntroCanvas extends SugarAndSaltSolutionsCanvas {
         //Layout maximize button next to "concentration" label
         HBox contentPane = new HBox(
                 new PText( "Concentration" ) {{
-                    setFont( CONTROL_FONT );
+                    setFont( TITLE_FONT );
                 }},
                 maximizeButton
         );
 
         //Panel that says "concentration" and has a "+" button to expand the concentration bar chart
-        edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode showBarChartPanel = new edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode( contentPane, WATER_COLOR, new BasicStroke( 1 ), Color.black ) {{
+        edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode showBarChartPanel = new edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode( contentPane, WATER_COLOR, new BasicStroke( 1 ), Color.black, 3, 0, false ) {{
             setOffset( stageSize.getWidth() - getFullBoundsReference().width - INSET, INSET );
             model.showConcentrationBarChart.addObserver( new VoidFunction1<Boolean>() {
                 public void apply( Boolean chartVisible ) {
