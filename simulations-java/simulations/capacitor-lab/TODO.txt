@@ -34,13 +34,8 @@ LOW PRIORITY
 - delete empty packages
 - would it be OK to have the dielectric fully inserted (offset=0) in the Intro tab?
 - Win: need some space between dielectric material combo box and separator below it
-- add circuit construction to Multiple Capacitors tab? (3.00)
 - small (100mm^2) capacitor plates look like they are at a 46-degree yaw, instead of 45-degree
-- add meter body bounds to model so we can keep entire meter body constrained to world bounds when dragging
 - remove unused code
-
-LOWEST PRIORITY
-- don't allow meters to be dragged by buttons, this prevents ability to roll off buttons
 
 GENERAL BUGS
 - #2521, dragging HTMLNode leaves artifacts
