@@ -27,12 +27,11 @@ public class CollectionAreaNode extends PNode {
     /**
      * Creates a collection area (with collection boxes)
      *
-     * @param parentFrame
      * @param canvas               The main canvas (the boxes need references to hook view => model coordinates)
      * @param collection           Our model
      * @param singleCollectionMode Whether we should use single or multiple molecule collection boxes
      */
-    public CollectionAreaNode( Frame parentFrame, BuildAMoleculeCanvas canvas, final KitCollection collection, boolean singleCollectionMode ) {
+    public CollectionAreaNode( BuildAMoleculeCanvas canvas, final KitCollection collection, boolean singleCollectionMode ) {
         SwingLayoutNode layoutNode = new SwingLayoutNode( new GridBagLayout() );
 
         GridBagConstraints c = new GridBagConstraints();
@@ -43,8 +42,8 @@ public class CollectionAreaNode extends PNode {
         // add nodes for all of our collection boxes.
         for ( CollectionBox collectionBox : collection.getCollectionBoxes() ) {
             CollectionBoxNode collectionBoxNode = singleCollectionMode
-                                                  ? new SingleCollectionBoxNode( parentFrame, canvas, collectionBox )
-                                                  : new MultipleCollectionBoxNode( parentFrame, canvas, collectionBox );
+                                                  ? new SingleCollectionBoxNode( canvas, collectionBox )
+                                                  : new MultipleCollectionBoxNode( canvas, collectionBox );
             layoutNode.addChild( collectionBoxNode, c );
             collectionBoxNodes.add( collectionBoxNode );
             c.gridy += 1;

@@ -1,6 +1,5 @@
 package edu.colorado.phet.buildamolecule.view;
 
-import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.util.HashMap;
 import java.util.Map;
@@ -37,7 +36,7 @@ public class MoleculeMetadataNode extends PNode {
 
     private static final double PADDING_BETWEEN_NODE_AND_ATOM = 5;
 
-    public MoleculeMetadataNode( final Frame parentFrame, final Kit kit, final Molecule molecule, ModelViewTransform mvt ) {
+    public MoleculeMetadataNode( final Kit kit, final Molecule molecule, ModelViewTransform mvt ) {
         // SwingLayoutNode was doing some funky stuff (and wasn't centering), so we're rolling back to manual positioning
         this.kit = kit;
         this.molecule = molecule;
@@ -64,7 +63,7 @@ public class MoleculeMetadataNode extends PNode {
             /*---------------------------------------------------------------------------*
             * show 3d button
             *----------------------------------------------------------------------------*/
-            addChild( new ShowMolecule3DButtonNode( parentFrame, dialog, completeMolecule ) {{
+            addChild( new ShowMolecule3DButtonNode( dialog, completeMolecule ) {{
                 setOffset( currentX.get(), 0 );
                 currentX.set( currentX.get() + getFullBounds().getWidth() + 5 );
             }} );

@@ -50,7 +50,7 @@ public class MakeMoleculeModule extends AbstractBuildAMoleculeModule {
     }
 
     @Override protected BuildAMoleculeCanvas buildCanvas( CollectionList collectionList ) {
-        return new MoleculeCollectingCanvas( parentFrame, collectionList, true, new VoidFunction0() {
+        return new MoleculeCollectingCanvas( collectionList, true, new VoidFunction0() {
             public void apply() {
                 addGeneratedCollection();
             }

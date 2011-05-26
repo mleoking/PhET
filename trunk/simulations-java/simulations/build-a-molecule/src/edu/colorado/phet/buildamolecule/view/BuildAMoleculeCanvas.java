@@ -35,20 +35,18 @@ public class BuildAMoleculeCanvas extends PhetPCanvas {
     // used for notifying others of the collection area attachment. TODO consider changing class initialization so this can be moved to MoleculeCollectingCanvas
     protected java.util.List<SimpleObserver> collectionAttachmentListeners = new LinkedList<SimpleObserver>();
 
-    private Frame parentFrame;
     public final CollectionList collectionList;
     protected boolean singleCollectionMode; // TODO: find solution for LargerMoleculesCanvas so that we don't need this boolean and the separate constructor
 
-    protected void addChildren( Frame parentFrame ) {
+    protected void addChildren() {
 
     }
 
-    public BuildAMoleculeCanvas( Frame parentFrame, CollectionList collectionList ) {
-        this( parentFrame, collectionList, true );
+    public BuildAMoleculeCanvas( CollectionList collectionList ) {
+        this( collectionList, true );
     }
 
-    public BuildAMoleculeCanvas( Frame parentFrame, CollectionList collectionList, boolean singleCollectionMode ) {
-        this.parentFrame = parentFrame;
+    public BuildAMoleculeCanvas( CollectionList collectionList, boolean singleCollectionMode ) {
         this.collectionList = collectionList;
         this.singleCollectionMode = singleCollectionMode;
 
@@ -67,7 +65,7 @@ public class BuildAMoleculeCanvas extends PhetPCanvas {
 
         setBackground( BuildAMoleculeConstants.CANVAS_BACKGROUND_COLOR );
 
-        addChildren( parentFrame );
+        addChildren();
 
         // Root of our scene graph
         _rootNode = new PNode();
@@ -124,7 +122,7 @@ public class BuildAMoleculeCanvas extends PhetPCanvas {
     }
 
     public KitCollectionNode addCollection( KitCollection collection ) {
-        KitCollectionNode result = new KitCollectionNode( parentFrame, collectionList, collection, mvt, this );
+        KitCollectionNode result = new KitCollectionNode( collectionList, collection, mvt, this );
         addWorldChild( result );
 
         // return this so we can manipulate it in an override

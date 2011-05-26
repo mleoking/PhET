@@ -1,7 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.buildamolecule.control;
 
-import java.awt.*;
 import java.text.MessageFormat;
 
 import edu.colorado.phet.buildamolecule.BuildAMoleculeStrings;
@@ -15,8 +14,8 @@ import edu.umd.cs.piccolo.PNode;
  * Allows the collection of a single molecule
  */
 public class SingleCollectionBoxNode extends CollectionBoxNode {
-    public SingleCollectionBoxNode( final Frame parentFrame, final BuildAMoleculeCanvas canvas, final CollectionBox box ) {
-        super( parentFrame, canvas, box, 1 );
+    public SingleCollectionBoxNode( final BuildAMoleculeCanvas canvas, final CollectionBox box ) {
+        super( canvas, box, 1 );
         assert ( box.getCapacity() == 1 );
 
         addHeaderNode( new PNode() {{

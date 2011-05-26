@@ -52,7 +52,7 @@ public class CollectionBoxNode extends SwingLayoutNode {
         insets = new Insets( 0, 0, -3, 0 );
     }};
 
-    public CollectionBoxNode( final Frame parentFrame, final BuildAMoleculeCanvas canvas, final CollectionBox box, final int headerQuantity ) {
+    public CollectionBoxNode( final BuildAMoleculeCanvas canvas, final CollectionBox box, final int headerQuantity ) {
         super( new GridBagLayout() );
         this.box = box;
 
@@ -64,7 +64,7 @@ public class CollectionBoxNode extends SwingLayoutNode {
 
         c.insets = new Insets( 3, 0, 0, 0 ); // some padding between the black box
 
-        blackBox = new PhetPPath( new Rectangle2D.Double( 0, 0, 160, 40 ), BuildAMoleculeConstants.MOLECULE_COLLECTION_BOX_BACKGROUND ) {{
+        blackBox = new PhetPPath( new Rectangle2D.Double( 0, 0, 160, 50 ), BuildAMoleculeConstants.MOLECULE_COLLECTION_BOX_BACKGROUND ) {{
             locationUpdateObserver = new SimpleObserver() {
                 public void update() {
                     // we need to pass the collection box model coordinates, but here we have relative piccolo coordinates
@@ -90,7 +90,7 @@ public class CollectionBoxNode extends SwingLayoutNode {
             };
 
             // create our show 3D button, and have it change visibility based on the box quantity
-            PNode show3dButton = new ShowMolecule3DButtonNode( parentFrame, dialog, box.getMoleculeType() ) {{
+            PNode show3dButton = new ShowMolecule3DButtonNode( dialog, box.getMoleculeType() ) {{
                 box.addListener( new Adapter() {
                     {
                         // update initial visibility

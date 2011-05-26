@@ -1,6 +1,5 @@
 package edu.colorado.phet.buildamolecule.control;
 
-import java.awt.*;
 import java.text.MessageFormat;
 
 import edu.colorado.phet.buildamolecule.BuildAMoleculeStrings;
@@ -16,8 +15,8 @@ import edu.umd.cs.piccolo.PNode;
  * quantity present in the box.
  */
 public class MultipleCollectionBoxNode extends CollectionBoxNode {
-    public MultipleCollectionBoxNode( Frame parentFrame, final BuildAMoleculeCanvas canvas, final CollectionBox box ) {
-        super( parentFrame, canvas, box, 2 );
+    public MultipleCollectionBoxNode( final BuildAMoleculeCanvas canvas, final CollectionBox box ) {
+        super( canvas, box, 2 );
 
         addHeaderNode( new PNode() {{
             HTMLNode goalNode = new HTMLNode( MessageFormat.format( BuildAMoleculeStrings.COLLECTION_MULTIPLE_GOAL_FORMAT, box.getCapacity(), box.getMoleculeType().getGeneralFormulaFragment() ) ) {{
