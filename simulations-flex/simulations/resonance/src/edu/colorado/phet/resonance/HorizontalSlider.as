@@ -76,6 +76,8 @@ public class HorizontalSlider extends Sprite {
         this.updateReadout();
     }//end setVal
 
+ //****PUBLIC FUNCTIONS****
+
     public function setSliderWithoutAction(val:Number):void{
          var xVal: Number = val;  /// this.scale;
         //trace("HorizSlider.setVal val = "+val);
@@ -99,6 +101,31 @@ public class HorizontalSlider extends Sprite {
 
     public function setReadoutPrecision( nbrOfPlaces: int ): void {
         this.decimalPlaces = nbrOfPlaces;     //nbr of places displayed past the decimal point
+    }
+
+    public function switchLabelAndReadoutPositions():void{
+       //this.label_txt.y = 0.4 * this.knob.height;
+       //this.readout_txt.y = -1.5 * this.readout_txt.height;
+       //this.units_txt.y = -1.5 * this.units_txt.height;
+       this.label_txt.y = -0.4 * this.knob.height - this.label_txt.height;
+       this.readout_txt.y = 1.5 * this.readout_txt.height;
+       this.units_txt.y = 1.5 * this.units_txt.height;
+    }
+
+
+    public function setLabelText( label_str: String ): void {
+        this.label_txt.text = label_str;
+        this.label_txt.setTextFormat( this.tFormat1 );
+        this.label_txt.x = this.rail.width / 2 - 0.5 * this.label_txt.width;
+    }
+
+    public function setUnitsText( str:String ):void{
+        this.units_str = str;
+        this.units_txt.text = " " + this.units_str;
+    }
+
+    public function restrictInput( allowedCharacters:String ):void{
+        this.readout_txt.restrict = allowedCharacters;
     }
 
     private function drawSlider(): void {
@@ -163,21 +190,6 @@ public class HorizontalSlider extends Sprite {
         this.addChild( this.label_txt );
         //this.label_txt.border = true;      //for testing only
     }//end createLabel()
-
-    public function setLabelText( label_str: String ): void {
-        this.label_txt.text = label_str;
-        this.label_txt.setTextFormat( this.tFormat1 );
-        this.label_txt.x = this.rail.width / 2 - 0.5 * this.label_txt.width;
-    }
-
-    public function setUnitsText( str:String ):void{
-        this.units_str = str;
-        this.units_txt.text = " " + this.units_str;
-    }
-
-    public function restrictInput( allowedCharacters:String ):void{
-        this.readout_txt.restrict = allowedCharacters;
-    }
 
     private function createReadoutFields(): void {
         this.readout_txt = new TextField();	//readout field

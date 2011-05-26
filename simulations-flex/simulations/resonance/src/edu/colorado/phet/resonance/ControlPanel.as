@@ -36,9 +36,8 @@ public class ControlPanel extends Canvas {
     private var gravityLabel: NiceLabel;
     private var rulerLabel: NiceLabel;
     private var resonatorNbrLabel: NiceLabel;
-    //private var resonatorNbr_lbl: Label;
-    private var mSlider: HorizontalSlider;  //NumericSlider;
-    private var kSlider: HorizontalSlider;  //HSlider;
+    private var mSlider: HorizontalSlider;
+    private var kSlider: HorizontalSlider;
     private var freqLabel: NiceLabel;
     private var showRulerCheckBox: CheckBox;
     private var resetAllButton: NiceButton2;
@@ -85,19 +84,17 @@ public class ControlPanel extends Canvas {
         this.initializeStrings();
 
         this.background = new VBox();
-        this.background.setStyle( "backgroundColor", 0x66ff66 );
-        //this.background.percentWidth = 100;
-        //this.background.percentHeight = 100;
-        this.background.setStyle( "borderStyle", "solid" )
-        this.background.setStyle( "borderColor", 0x009900 );
-        this.background.setStyle( "cornerRadius", 15 );
-        this.background.setStyle( "borderThickness", 8 );
-        this.background.setStyle( "paddingTop", 20 );
-        this.background.setStyle( "paddingBottom", 20 );
-        this.background.setStyle( "paddingRight", 7 );
-        this.background.setStyle( "paddingLeft", 7 );
-        this.background.setStyle( "verticalGap", 10 );
         with ( this.background ) {
+            setStyle( "backgroundColor", 0x66ff66 );
+            setStyle( "borderStyle", "solid" )
+            setStyle( "borderColor", 0x009900 );
+            setStyle( "cornerRadius", 15 );
+            setStyle( "borderThickness", 8 );
+            setStyle( "paddingTop", 20 );
+            setStyle( "paddingBottom", 20 );
+            setStyle( "paddingRight", 10 );
+            setStyle( "paddingLeft", 10 );
+            setStyle( "verticalGap", 15 );
             setStyle( "horizontalAlign", "center" );
         }
 
@@ -112,16 +109,18 @@ public class ControlPanel extends Canvas {
             setStyle( "borderThickness", 3 );
             setStyle( "paddingTop", 5 );
             setStyle( "paddingBottom", 5 );
-            setStyle( "paddingRight", 5 );
-            setStyle( "paddingLeft", 5 );
+            setStyle( "paddingRight", 8 );
+            setStyle( "paddingLeft", 8 );
             setStyle( "verticalGap", 10 );
             setStyle("horizontalAlign" , "center");
         }
 
 
-        //HorizontalSlider(action:Function, lengthInPix:int, minVal:Number, maxVal:Number, textEditable:Boolean = false, detented:Boolean = false, nbrTics:int = 0)
+        //HorizontalSlider(action:Function, lengthInPix:int, minVal:Number, maxVal:Number, textEditable:Boolean = false, detented:Boolean = false, nbrTics:int = 0, readoutShown:Boolean = true)
         this.nbrResonatorsSlider = new HorizontalSlider( setNbrResonators, 150, 1, 10, false, true, 10, false );
         this.nbrResonatorsSlider.setLabelText( this.numberOfResonators_str );
+        this.nbrResonatorsSlider.switchLabelAndReadoutPositions();
+
         this.dampingSlider = new HorizontalSlider( setDamping, 150, 0.05, 5, true ); //new HSlider();
         this.dampingSlider.setLabelText( damping_str );
         this.dampingSlider.setUnitsText( dampingUnits_str );
@@ -236,7 +235,6 @@ public class ControlPanel extends Canvas {
 
     private function setDamping():void{
         var b: Number = this.dampingSlider.getVal();
-        //trace("ShakerView.changeA() amplitude is   " + amplitude);
         this.shakerModel.setB( b );
         this.setFreqLabel();
     }
@@ -253,12 +251,9 @@ public class ControlPanel extends Canvas {
         this.resonatorNbrLabel.setText( this.resonator_str + " " + rNbr_str ) ;
         var m: Number = this.shakerModel.resonatorModel_arr[rNbr - 1].getM();
         //trace("ControlPanel.setResonatorIndex. m = "+m);
-        //this.mSlider.setVal( m );
         this.mSlider.setSliderWithoutAction( m );
-        //this.mSlider.value = m;
         var k: Number = this.shakerModel.resonatorModel_arr[rNbr - 1].getK();
         //trace("ControlPanel.setResonatorIndex. k = "+k);
-        //this.kSlider.setVal( k );
         this.kSlider.setSliderWithoutAction( k );
         this.setFreqLabel();
         this.shakerModel.view.setResonatorLabelColor( rNbr, 0xffff00 );
@@ -267,11 +262,8 @@ public class ControlPanel extends Canvas {
     private function setFreqLabel(): void {
         var rNbr: int = this.selectedResonatorNbr;
         var resFreq: Number = this.shakerModel.resonatorModel_arr[rNbr - 1].getF0();
-        //var resFreq: Number = this.shakerModel.resonatorModel_arr[rNbr - 1].getFRes();
         var resFreq_str: String = resFreq.toFixed( 3 );
-        //this.innerBckgrnd.removeChildAt(this.freqLabelIndex);
-        this.freqLabel.setText(this.frequencyEquals_str + resFreq_str + " " + hz_str);
-        //this.innerBckgrnd.addChild( new SpriteUIComponent(this.freqLabel, true) );
+        this.freqLabel.setText(this.frequencyEquals_str + resFreq_str + " " + hz_str);;
     }
 
 
@@ -307,7 +299,6 @@ public class ControlPanel extends Canvas {
         var shown: Boolean = this.showRulerCheckBox.selected;
         this.shakerModel.view.ruler.makeVisible( shown );
         //trace( "ControlPanel.clickRuler = " + val);
-
     }
 
     public function setGravityExternally(onOrOff:Boolean):void{
@@ -346,10 +337,6 @@ public class ControlPanel extends Canvas {
         //trace("ControlPanel.setMass() mass = "+ m);
     }
 
-    //obsolete code
-//    private function onChangeK( evt: Event ): void {
-//        this.setK();
-//    }
 
     private function setKWithSlider():void{
         this.setK();
@@ -366,15 +353,14 @@ public class ControlPanel extends Canvas {
 
     private function resetResonators(): void {
         this.shakerModel.resetInitialResonatorArray();
-        //this.setResonatorIndex( this.selectedResonatorNbr );
         //trace("ControlPanel.resetResonators() called.");
-
     }
 
     private function resetAll():void{
         this.resetResonators();
         this.myMainView.initializeAll();
     }
+
 //    private function resetAll( evt: MouseEvent ): void {
 //        this.resetResonators( evt );
 //        this.myMainView.initializeAll();
