@@ -26,12 +26,14 @@ public abstract class AbstractCircuit implements ICircuit {
 
     private final String displayName;
     private final IClock clock;
+    private final ClockAdapter clockListener;
     private final Battery battery;
     private final EventListenerList listeners;
     private Property<Double> currentAmplitudeProperty; // dV/dt, rate of voltage change
     private double previousTotalCharge; // total charge the previous time the clock ticked, used to compute current amplitude
 
     protected AbstractCircuit( String displayName, IClock clock, CLModelViewTransform3D mvt, Point3D batteryLocation ) {
+
         this.displayName = displayName;
         this.clock = clock;
         this.battery = new Battery( batteryLocation, CLConstants.BATTERY_VOLTAGE_RANGE.getDefault(), mvt );
@@ -40,15 +42,16 @@ public abstract class AbstractCircuit implements ICircuit {
         this.previousTotalCharge = -1; // no value
 
         // update current amplitude on each clock tick
-        clock.addClockListener( new ClockAdapter() {
+        clockListener = new ClockAdapter() {
             public void simulationTimeChanged( ClockEvent clockEvent ) {
                 updateCurrentAmplitude();
             }
-        } );
+        };
+        clock.addClockListener( clockListener );
     }
 
     public void cleanup() {
-        //TODO remove ClockListener
+        clock.removeClockListener( clockListener );
     }
 
     public void reset() {
