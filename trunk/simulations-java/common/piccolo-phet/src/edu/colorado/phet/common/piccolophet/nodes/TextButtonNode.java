@@ -41,6 +41,8 @@ public class TextButtonNode extends ButtonNode {
         super( text, new ContentNode( text, font, Color.black ), new ContentNode( text, font, Color.gray ) );
         this.text = text;
         this.font = font;
+        setContentNode( new ContentNode( this.text, this.font, enabledTextColor ) );
+        setDisabledContentNode( new ContentNode( text, font, disabledTextColor ) );
     }
 
     //Inner class used for creating the text content to show in the button
