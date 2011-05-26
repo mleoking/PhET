@@ -62,6 +62,12 @@ public class Wire {
         }
     }
 
+    public void cleanup() {
+        for ( WireSegment segment : segments ) {
+            segment.cleanup();
+        }
+    }
+
     public double getThickness() {
         return thickness;
     }

@@ -10,7 +10,6 @@ import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.capacitorlab.model.wire.WireSegment.CapacitorToCapacitorWireSegment;
 import edu.colorado.phet.capacitorlab.model.wire.WireSegment.CapacitorTopWireSegment;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.view.util.ShapeUtils;
 
@@ -63,19 +62,7 @@ public class WireCapacitorBottomToCapacitorTops extends Wire {
         } );
 
         this.topCapacitor = topCapacitor;
-
-        // adjust when dimensions of any capacitor change
-        SimpleObserver o = new SimpleObserver() {
-            public void update() {
-                setShape( createShape() );
-            }
-        };
-        topCapacitor.addPlateSizeObserver( o );
-        topCapacitor.addPlateSeparationObserver( o );
-        for ( Capacitor bottomCapacitor : bottomCapacitors ) {
-            bottomCapacitor.addPlateSeparationObserver( o );
-            bottomCapacitor.addPlateSizeObserver( o );
-        }
+        setShape( createShape() );
     }
 
     // Subtract any part of the wire that is occluded by the top capacitor's bottom plate.

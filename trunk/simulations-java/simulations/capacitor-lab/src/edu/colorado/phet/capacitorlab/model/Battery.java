@@ -118,6 +118,10 @@ public class Battery {
         polarityProperty.addObserver( o );
     }
 
+    public void removePolarityObserver( SimpleObserver o ) {
+        polarityProperty.removeObserver( o );
+    }
+
     public boolean intersectsTopTerminal( Shape shape ) {
         return ShapeUtils.intersects( shapeFactory.createTopTerminalShape(), shape );
     }
